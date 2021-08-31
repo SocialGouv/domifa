@@ -78,68 +78,53 @@ export class StatsController {
 
   @Get("public-stats/:regionId?")
   public async getPublicStats(@Param("regionId") regionId: string) {
-    // TODO: si région: récupérer les départements
-    let totalUsagers = 0;
-    let usagers = 0;
-    let ayantsDroits = 0;
-    let structuresCount = 0;
-    let usersCount = 0;
-    let interactionsCount = 0;
+    const publicStats: PublicStats = {
+      courrierOutCount: 0,
+      usagersCount: 0,
+      usersCount: 0,
+      structuresCount: 0,
+      interactionsCount: 0,
+    };
 
-    /// Select structures in region
+    // Si aucune region
+    let structures = null;
+
     if (regionId) {
-      const structuresId = await this.structuresService.findStructuresInRegion(
+      structures = await this.structuresService.findStructuresInRegion(
         regionId
       );
-      console.log(structuresId.length);
-      console.log(structuresId);
 
-      ayantsDroits = await usagerRepository.countAyantsDroits();
-      interactionsCount = await this.dashboardService.totalInteractions(
-        "courrierOut"
-      );
-      structuresCount = structuresId.length;
-      // usagers = await usagerRepository.count(structuresId);
-      usersCount = await this.dashboardService.countUsers(structuresId);
+      publicStats.structuresCountByDepartement =
+        await this.dashboardService.getStructuresCountByDepartement(regionId);
+
+      publicStats.structuresCount = structures.length;
     } else {
-      usagers = await usagerRepository.count();
-      ayantsDroits = await usagerRepository.countAyantsDroits();
-      interactionsCount = await this.dashboardService.totalInteractions(
-        "courrierOut"
-      );
-      structuresCount = await this.dashboardService.countStructures();
-      usersCount = await this.dashboardService.countUsers();
+      publicStats.structuresCount =
+        await this.dashboardService.countStructures();
+
+      publicStats.structuresCountByRegion =
+        await this.dashboardService.getStructuresCountByRegion();
     }
 
-    totalUsagers = usagers + ayantsDroits;
+    // Usagers
+    const usagers = await usagerRepository.countUsagers(structures);
+    const ayantsDroits = await usagerRepository.countAyantsDroits(structures);
 
-    const structuresCountByRegion =
-      await this.dashboardService.getStructuresCountByRegion();
+    publicStats.usagersCount = usagers + ayantsDroits;
 
-    const structuresCountByTypeMap =
-      await this.dashboardService.getStructuresCountByTypeMap();
+    publicStats.usersCount = await this.dashboardService.countUsers(structures);
 
-    const courrierOutCount = await this.dashboardService.totalInteractions(
-      "courrierOut"
-    );
+    publicStats.interactionsCount =
+      await this.dashboardService.totalInteractions("courrierOut", structures);
 
-    const usagersCountByMonth =
-      await this.dashboardService.countUsagersByMonth();
+    publicStats.structuresCountByTypeMap =
+      await this.dashboardService.getStructuresCountByTypeMap(regionId);
 
-    const interactionsCountByMonth =
+    publicStats.interactionsCountByMonth =
       await this.dashboardService.countInteractionsByMonth(regionId);
 
-    const publicStats: PublicStats = {
-      courrierOutCount,
-      usagersCount: totalUsagers,
-      usersCount,
-      interactionsCount,
-      interactionsCountByMonth,
-      usagersCountByMonth,
-      structuresCountByTypeMap,
-      structuresCountByRegion,
-      structuresCount,
-    };
+    publicStats.usagersCountByMonth =
+      await this.dashboardService.countUsagersByMonth(regionId);
 
     return publicStats;
   }
