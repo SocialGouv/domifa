@@ -1,8 +1,15 @@
 import { APP_BASE_HREF } from "@angular/common";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
-import { UsagersModule } from "src/app/modules/usagers/usagers.module";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { RouterTestingModule } from "@angular/router/testing";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
+import { ToastrModule } from "ngx-toastr";
+
+import { SharedModule } from "../../../shared/shared.module";
 import { EntretienComponent } from "./entretien.component";
 
 describe("EntretienComponent", () => {
@@ -12,23 +19,18 @@ describe("EntretienComponent", () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [],
-        imports: [UsagersModule],
-        providers: [
-          {
-            provide: MatomoInjector,
-            useValue: {
-              init: jest.fn(),
-            },
-          },
-          {
-            provide: MatomoTracker,
-            useValue: {
-              setUserId: jest.fn(),
-            },
-          },
-          { provide: APP_BASE_HREF, useValue: "/" },
+        declarations: [EntretienComponent],
+        imports: [
+          NgbModule,
+          HttpClientTestingModule,
+          RouterTestingModule,
+          BrowserAnimationsModule,
+          ToastrModule.forRoot(),
+          SharedModule,
+          ReactiveFormsModule,
+          FormsModule,
         ],
+        providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
     })
@@ -37,8 +39,6 @@ describe("EntretienComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EntretienComponent);
     component = fixture.debugElement.componentInstance;
-    // const usager = USAGER_ACTIF_MOCK;
-    // component.usager = usager;
   });
 
   it("should create", () => {

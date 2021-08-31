@@ -16,40 +16,42 @@ describe("StructuresConfirmComponent", () => {
   let fixture: ComponentFixture<StructuresConfirmComponent>;
   let activatedRoute: ActivatedRoute;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [StructuresConfirmComponent],
-      imports: [
-        NgbModule,
-        ReactiveFormsModule,
-        FormsModule,
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [StructuresConfirmComponent],
+        imports: [
+          NgbModule,
+          ReactiveFormsModule,
+          FormsModule,
 
-        HttpClientTestingModule,
-        RouterTestingModule,
-        ToastrModule.forRoot(),
-      ],
-      providers: [
-        { provide: APP_BASE_HREF, useValue: "/" },
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              params: { token: "ojopkopkpok" },
-              url: [
-                new UrlSegment("structures", {}),
-                new UrlSegment("confirm", {}),
-                new UrlSegment("1", {}),
-                new UrlSegment("qzzjjdizdizjdijzijd", {}),
-                new UrlSegment("1OOPKPOk", {}),
-              ],
+          HttpClientTestingModule,
+          RouterTestingModule,
+          ToastrModule.forRoot(),
+        ],
+        providers: [
+          { provide: APP_BASE_HREF, useValue: "/" },
+          {
+            provide: ActivatedRoute,
+            useValue: {
+              snapshot: {
+                params: { token: "ojopkopkpok" },
+                url: [
+                  new UrlSegment("structures", {}),
+                  new UrlSegment("confirm", {}),
+                  new UrlSegment("1", {}),
+                  new UrlSegment("qzzjjdizdizjdijzijd", {}),
+                  new UrlSegment("1OOPKPOk", {}),
+                ],
+              },
             },
           },
-        },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    });
-    activatedRoute = TestBed.inject(ActivatedRoute);
-  }));
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      });
+      activatedRoute = TestBed.inject(ActivatedRoute);
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StructuresConfirmComponent);

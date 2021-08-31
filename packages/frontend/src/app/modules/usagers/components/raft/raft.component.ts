@@ -11,7 +11,6 @@ import { UsagerDecisionMotif } from "../../../../../_common/model/usager/UsagerD
 import { UsagerService } from "../../services/usager.service";
 import { UsagerFormModel } from "../form/UsagerFormModel";
 @Component({
-  providers: [UsagerService, AuthService],
   selector: "app-raft",
   styleUrls: ["./raft.component.css"],
   templateUrl: "./raft.component.html",
@@ -68,14 +67,14 @@ export class RaftComponent implements OnInit {
         motif: this.usager.decision.motif as UsagerDecisionMotif,
         motifDetails: this.usager.decision.motifDetails,
       })
-      .subscribe(
-        (usager: UsagerLight) => {
+      .subscribe({
+        next: (usager: UsagerLight) => {
           this.notifService.success("Radiation enregistrée avec succès ! ");
           this.router.navigate(["profil/general/" + usager.ref]);
         },
-        () => {
+        error: () => {
           this.notifService.error("Une erreur est survenue");
-        }
-      );
+        },
+      });
   }
 }
