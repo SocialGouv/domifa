@@ -7,7 +7,7 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoModule } from "ngx-matomo";
+import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
 import { StructuresModule } from "src/app/modules/structures/structures.module";
 import { StatsComponent } from "./structure-stats.component";
 
@@ -30,7 +30,21 @@ describe("StatsComponent", () => {
           FormsModule,
           RouterTestingModule,
         ],
-        providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+        providers: [
+          {
+            provide: MatomoInjector,
+            useValue: {
+              init: jest.fn(),
+            },
+          },
+          {
+            provide: MatomoTracker,
+            useValue: {
+              setUserId: jest.fn(),
+            },
+          },
+          { provide: APP_BASE_HREF, useValue: "/" },
+        ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
     })
