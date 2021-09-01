@@ -161,7 +161,7 @@ jobs:
   ##############################################################################
   ## BUILD AND REGISTER FRONTEND IMAGE
   ##############################################################################
-  register-backend:
+  register-frontend:
     name: Build & Register frontend
     runs-on: ubuntu-latest
     steps:
