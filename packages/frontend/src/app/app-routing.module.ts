@@ -166,7 +166,6 @@ export const routes: Routes = [
         (m) => m.AdminDomifaModule
       ),
   },
-
   {
     path: "profil",
     loadChildren: () =>

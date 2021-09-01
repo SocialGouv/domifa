@@ -53,7 +53,6 @@ if (environment.production) {
     ReactiveFormsModule,
     FontAwesomeModule,
     GeneralModule,
-    StatsModule,
     MatomoModule,
     NgbModule,
     SharedModule,

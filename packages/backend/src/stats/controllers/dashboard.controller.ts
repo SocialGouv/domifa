@@ -91,6 +91,7 @@ export class DashboardController {
 
   @Get()
   public async dashboardStats(): Promise<DashboardStats> {
+    console.log("DASH");
     const stats = await this.dashboardService.getStatsDomifaAdminDashboard();
     return stats;
   }

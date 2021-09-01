@@ -45,15 +45,9 @@ import { UsagerService } from "./services/usager.service";
     MenuComponent,
     ImportComponent,
     ProfilHistoriqueSmsComponent,
-
     RaftComponent,
   ],
-  exports: [
-    DecisionComponent,
-    UsagersFormComponent,
-    DocumentsFormComponent,
-    ManageUsagersComponent,
-  ],
+  exports: [DecisionComponent, UsagersFormComponent, DocumentsFormComponent],
   imports: [
     CommonModule,
     FontAwesomeModule,
