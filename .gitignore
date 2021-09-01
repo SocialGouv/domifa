@@ -18,3 +18,4 @@ optional/e2e/runners/puppeteer/output
 .pnp.*
 .yarn
 ~$*.xlsx
+scripts.sh

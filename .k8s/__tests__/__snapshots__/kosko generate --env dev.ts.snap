@@ -2,43 +2,25 @@
 
 exports[`kosko generate --dev 1`] = `
 "---
-apiVersion: v1
-kind: Namespace
-metadata:
-  annotations:
-    field.cattle.io/creatorId: gitlab
-    field.cattle.io/projectId: c-bd7z2:p-p4xn6
-    git/branch: alpha
-    git/remote: >-
-      https://gitlab-ci-token:[MASKED]@gitlab.factory.social.gouv.fr/SocialGouv/domifa.git
-    app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
-  labels:
-    azure-pg-admin-user: domifa
-    application: alpha-dev2-domifa
-    owner: domifa
-    team: domifa
-    cert: wildcard
-  name: domifa-64-alpha-dev2
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
-    app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
   labels:
     app: backend
-    application: alpha-dev2-domifa
+    application: domifa
     owner: domifa
     team: domifa
     cert: wildcard
   name: backend
-  namespace: domifa-64-alpha-dev2
+  namespace: domifa-mybranch
 spec:
   replicas: 1
   selector:
@@ -49,12 +31,14 @@ spec:
       annotations:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
-        app.gitlab.com/app: socialgouv-domifa
-        app.gitlab.com/env: alpha-dev2
-        app.gitlab.com/env.name: alpha-dev2
+        app.github.com/job: '5678'
+        app.github.com/ref: refs/heads/mybranch
+        app.github.com/repo: socialgouv/domifa
+        app.github.com/run: '1234'
+        app.github.com/sha: '0123456'
       labels:
         app: backend
-        application: alpha-dev2-domifa
+        application: domifa
         owner: domifa
         team: domifa
         cert: wildcard
@@ -99,10 +83,10 @@ spec:
             initialDelaySeconds: 30
           volumeMounts:
             - mountPath: /mnt/files
-              name: domifa-volume
+              name: files
           envFrom:
             - secretRef:
-                name: azure-pg-user-9e3027bc
+                name: azure-pg-user-0123456
             - secretRef:
                 name: backend-sealed-secret
             - configMapRef:
@@ -117,17 +101,19 @@ spec:
             - name: POSTGRES_DATABASE
               value: $(PGDATABASE)
             - name: DOMIFA_BACKEND_URL
-              value: >-
-                https://domifa-api-alpha-dev2-domifa.dev2.fabrique.social.gouv.fr
+              value: https://domifa-api-domifa-mybranch.dev2.fabrique.social.gouv.fr
             - name: DOMIFA_FRONTEND_URL
-              value: https://alpha-dev2-domifa.dev2.fabrique.social.gouv.fr
+              value: https://domifa-mybranch.dev2.fabrique.social.gouv.fr
+      volumes:
+        - name: files
+          emptyDir: {}
       initContainers:
         - env:
             - name: WAIT_FOR_RETRIES
               value: '24'
           envFrom:
             - secretRef:
-                name: azure-pg-user-9e3027bc
+                name: azure-pg-user-0123456
           image: ghcr.io/socialgouv/docker/wait-for-postgres:6.26.2
           imagePullPolicy: Always
           name: wait-for-postgres
@@ -138,9 +124,6 @@ spec:
             requests:
               cpu: 5m
               memory: 16Mi
-      volumes:
-        - name: domifa-volume
-          emptyDir: {}
 ---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
@@ -149,56 +132,62 @@ metadata:
     sealedsecrets.bitnami.com/cluster-wide: 'true'
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
-    app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
   name: backend-sealed-secret
-  namespace: domifa-64-alpha-dev2
+  namespace: domifa-mybranch
   labels:
-    application: alpha-dev2-domifa
+    application: domifa
     owner: domifa
     team: domifa
     cert: wildcard
 spec:
   encryptedData:
     DOMIFA_SECURITY_JWT_SECRET: >-
-      AgCTV6VkK48RgYNvcORtCMOquZKThQB5HCh3gT/K6B39+ggP4PhvC99ysI7fiBWrLgElIuwmJTyUnTX5LIpoAi6ELo3zZG+L88+/Krj4BACJv27oETccz2iQiYmGwymjTnFWoqkCkYpEjwWLEIcbrcS4d0ShOSawNtcTRaj3SOZ9yrTybpHh9WuAFibe4MCSoAC5pSzWgTYAvWsgKZs6dHTqxBPfcn8FYZ9VqzS9zBudENRVsed9YvTwtvXntDUMPpuIQZUEQ54eXrQ5yhwkt11bfTLWqPPP8TREgR3oygUXn9D4Bs4//CNrzBmXOwz7XtLdnbE58B500YJtc50xcbzy722lwVf/PUrtzhJb2nJEmvevCwE2qczBOw3+J4UJddnPeTsp+q6/ZangcqiKmodXn8UXVmtNegpXiuk3ACKxjZLFW1juqDousmzwY8XpbBTguga9hCm8vmdoO6M/OoEaydKdgT3sYj0ap+IfisGyju2H8eLk1G+jEwfCemDMV3uLhjC1h9w7JgCGEp6oDfqzEQ0sU3L/y8c1cAzd3P8Qozp72LaBTAAYpX4mgZYTZ5zst8rcrFcgd2Os4xNGK7R1LANDR4Hwv7ecKSPujMBn2rfOsAQnOzoHI7pzPZzQqX790yamUK0UdXieQ4+1WMCrISCSL40HqRKjoSUCmPzenW/x+OlvGUsvG+tGQ2xMxwZyVpVCsWE85eJLZ0Z7ku4YaAhL9rQZk70qEtUNGUOSpmXwLbK56ymOH3TF48+rezKXISAr48dgxMZfD3fEBsqr6No4so8Ws+aFTnENwC0jGmAGlV3UEgD940Q9mG4m3HnvCKa4vS4OxyxADURpSXx2jusSKyDQ0C4tmMQ0ASV5hnclJAMSVtmb9/zEs06YsvzlAb+PUYu90O9f2DN98p35b4uLErmreC3cdrsyD8lHokMu/qQ5leomyuk=
-    FILES_PRIVATE: >-
-      AgAWOKRiqYaucREOjHfWyWNvEQ4r9A243s59i1czdgy9xsiIm0KHHplQYB+Ov8cj8aoY/zVRDD8x6fauyqaRdaLvc/Q/zcf9RdMHIm1qlfVfVp6f1uk8rmPiNdFETQgNmel3Xc1Y6hwg3EAY2i8e1T3I9dMs/Ew65Z5WCksvBYJqz/f5TwEmz38pxch7KKcNz1B+PpQ2q0kyh2YsS4NJoC5TMjOG8XPhUAYzoZYpXsNEiFqpoxVht/1QKIN2uJa6t05oDbNMd5Lj1PA+gq8OGfBXhFxWX382PKhvHguPTW26BwLSAuANcy3ECqhHzACvs4HH7J8VIiiHHhDn9nF3YRdFMPWAvVmvWhIu84N3Tw0FhE9DWp9NrY9fDcFNieqX5H4qhqh69jB6CEwPwSlEt2Bx6dU6jCCaH4+BhLIX0SLWUf9M/4/vURzsVS1CiaI3RkdT5U4cMVEuxaTeJVVF6CpQl/Ml+Aaibt/aO99rzrO4gOgOR+Te2DzgD+L9f5qXMh8fHzQd3+iTFlD91Hf2MzEaNoTaLxkH/FsBM4HrgHsjmryDelR1uVQ3LOPZp7Cc1zmaGn9aGadKNUV5B2E6oQmRBICGZamrq9UrWXM9T92JfG30QR9nI0sBx9dqjXkJq4sdVnt7g3kE6uLZ3u374E9Df94i8Ga6I6gtTwYbXmWNg4ICkS/DnmA1L+2HIWRaCKo3Ld9X9rg8NwpB8YOtpBaGx2uI1BDTKag5DLsRmSCHVA==
-    FILES_IV: >-
-      AgBg238YLDGsD2XoChSpajVHfilB0WzxaJLsYYtiNBsLn9m5welghKEpTmb3tLXf6Wh815iYH50xudeNDwAyxle7f8y+UQdjF1rv18u6zm2OcpBc5NSQDS9mQiJv0VJHtNWNr79DkVlZyZrXrZYvHsonNP5J7ew6JzBvdIb79xgCPBlHALmIg2VQG1WbG8uBZWh6hsCxSDtB0I/RNWzCqfqA0x9gw211R/dzOVIwEgl1Vp5OFWqG/6AZZIitFg6tGjrKdLf26cEbCqjF0MTbRWbsilz3ChPonrvjf0bVWxJKAAlgjyz0aqoHkBCaqxD38LWJVit6OJC9XQBJqDuy0NQPFROi1ZMwW0bCveMFqT2OZaaz3o8RIedviI+xL3iZJvbdwYfEiNFCQNWkMMeYkiEWdO0kEawtjb65I+qkw3djUoHRfE/mWNvtYr5LKy2104qpxMo/+GL5RyvR3qE4an9zBubET0vfS+0QuomPKt9Ajm3BTVHgEBjEa2HPOOz55V9+ZGva1OnmJxvhHsKct7MzPY5S3r6mvqIDRUtKwK2+Xdoi55TYrSiVk+vsTkM9QDKTFZubKw5yszin2vMQFr+yayZ/MY75VmSRjLz0sevtzAhVGkfC4UmZ7Yb9vowCg3m+rfGILzlLm1iGtLkm4SAYytuuq9MdseqiImMqr23NYFzL2nZnTa/2ecwRwyDaLLVlWGYYiPXiMLM6y4BBXfBM
+      AgAS9+czzoJ8Srab21D6kq0rnv3fejKN5/UeSVhvSSvnwmsBpuHBACbRZS9mGVpChZDQsf4mLJBDWNsQ5o5p8KIkp8fZ6MNr9W8xoIesmpt4oYTK65dEHFU3nvvcsKQ7zB1y/JgL7SQDWh2HArOYlcPE/3XGuhmZgbMQzSUITsEDKHf4bralo0jSoaMNJCxuZgdxAqRN6f8qtdiLZgbjs1JjX1PvDC6Uf+G79l+85HeX7sjQLjmjtT10xwW6LzCh1oTMc8SxRG2nA564Je6GYxmJNs/O1FNLlcjKxbdOsH6ZISk7n91UMibckYHzzWR+8UvVbi/Vr5pgPxxx5rjhsIpR5ywLeSjfzDM7fntMfXv+ZEVWstZcIxJwoupBsxiPVnkCHIhmRivK+bvDvosrsVILPEF1wsbBJUt5BUYetCA7xeD9BS8c7PP9H5duc3Psb2s+VXX4LzxEI8KwdZsBnfe+Lv2pD1mXYO/+Mhp/1zwJs7SUEZFUS68xoPsd8gvEO8oFTn+82Qesitdg/UHuaDs3QYZvk2Tcr6mduSsFRc514VHpg2xh7VPUD09LVETvqIQs2Fbk1TnjTm8tURnDx6DGFFXwZ8HgdwWl1irtVIRzwjXT2bqLIK26q3Pf+Xz5JWF2vbfZZT9BUpzYEE3j6sxg5XFmFlym32MrDkBSprIB/B0QbiDDVH77LxBSuczKh5moNJTi+mdBDpmqkpEcZBL8pF/tfOtupsswJhqwb1yQeWh45iifdljvngEzWihfS5k87mVbIEryzflwJUJxZQTATyFi4kYJs6A/4LgKzYaF/K8lYV36vyS5K6rgExBQ5yvgT2VAgaHNV89+a4xorGCbCVT+wLEYR4nT6bGaReiddU2Wspz9OQETHldHvQ0tQv1xxigpBKiYXeR67LnFYs4FWWAsKvqcQ/D7UIxfhxPzbEk7XfPhnG4vXk8=
+    DOMIFA_SECURITY_FILES_PRIVATE: >-
+      AgCX8fKNhEGDDjizFnXoiLXtMJ30HIc7svSc3H1i7WrVSM3GIGj0J3/lFdIK88QjP9vIG3AJSozbZ0Gp+JQVIvN9OmEZmM2gTVTc1Q0aq/51CYbphevlgacGdWJYSnmGWkdl+nfwqLEamX0zF12eLfW5wIBnm2RBzRT4wFU8aYX330MldF5qE/4MZOurQL48RTGXZ1GlX+1Dzsoa+bKPoJNuga4Cog1JspmKdf6nhob+HM4KvM8K/+gXh/PYZqG/wHoEa3kS8qOIQw0766u4nkCZ8Vu479pa24zQiUc4NAoqa2yT+aTRJKiNgPgiR1C7MiBWYK2SauO2J6FhqMyjbnvuhwZiDd7JGcA9rf9DAt9qpjPuCEe7crlrqFjRd1OfxuhOAp0GYd0bfihJtHXaJ+cHQ709zVjX2aU4wTItvH8UpC8OuqGHuGz7G+CSBuAYZANpFIMNZk7uq4CH2/E81GHt3JhKOXc9EMrUKyBKr+6nqOgJM5q9K7KW66lfup6hNnligDB+JAXNVFuWKK0QmGWInSxk9b7h3+0HSevtnHjIAH+mld8vr34+mLO6qLGZhjzrIzB+/1dOyQ7X1d7HiuG6cV60FPfKrTzEbwr+D+vay7DrOSJiS7dEX1YRAE6fH7lvP9VZZX8hur02mk/dG4D3rNFdu+DUp8k0N5ljnrKuNp4yTQMmk/xwQLC/Fu7Mi/Hjm3+y+ir8EvOwKnmjZwcUUt2hHpgauWwCxcy5UpiS5A==
+    DOMIFA_SECURITY_FILES_IV: >-
+      AgDTjOtxCkz8QFrP970VE2VZU3RnT2R4k4Tz+p88tVoFQ9Op/UkwK1QcSzd1E4Mlj6qaBErbyzlb6/Ij9DoIlmkbOl4nCycZzXu8mTdPY8ZJK8qotGiZuJhjy67DzTXp7ICC4l6Ox2jL3jr+YF3AeQypEn0qxWaNCl2tXoCjid4g5K/kct2qKkYZdnYgFDXlGqE3ULPTonc3QJ8Cy6kUEBuIumjc+xjbr6HEnWgAnaAK2HUIwQ3DRGzYSSSiNaiy0PmqHU0OJ4zF9i+BjYEYSReQEl5OSHDc+jpTph24m1AS8PcO+n4rag4fg0BiZ2vxRB4XgQcXQkNARSpYP42YJoouumkXXN8ltOQNkLxxOdT3wLJsOW20ZLDqK1R8gwmeXwEBQZ2KRSjMrTNjIVbzPLb3YTtgVI9kzWcZefjqpQXy6t/de2zP5C5Y7dElpSJ4C0d/yzCwQ7yGTa4tsFQGjgEiTeCSFpjT2h2osrz5bZFQRm2SkoRxhvY+daG8x/vIz9SxPzem2lSE5ORhVjsmg+iPHntR5x1/CZ2aZ5ElZBwFIkFSrhHBROjRyWkMeF+hDGQTgeKqpU87ZEfkrrE7GKF8fV5EoWoT1h4Dh71WisTxfffkXVW2JzdvQGRvc+xWh8b6VTCN42gUfZddcyC/Idf/pGiVT7wqHQXEjjHI3HZPf8PdAA8HsPm9Bg7gkjifeh6H37FYUmCkxqveKWnJZUhy
     DOMIFA_MAIL_SMTP_TIPIMAIL_HOST: >-
-      AgAXTaMdbRHAzitvJ6iRKDh6sM7myqJj4u4Xk/UaHxcX70jwqYgEhuT2IrsM2wSD/Gu6liwP2wO8lo13G8zXsnpbky0l4poOtiA6CybW7taC36vVJPn+sOjmWwABtS9l58Rqa9j1bh8qTqz5Z0krzDVtwK0hHTmFP7OfPJReyCEe6O8vgrroUoZ4TYhAHgZi4nAOxQI9bbhMBxT9XM9gRQUWAnEZNmFiRNr9qYf8yJCkCnXomldgzEgFq/xkacrJaliKIzJ9usfHeEcp3MUFKBb2RIuouXfl68B+kMKYhFMoD8k98h9UjAm4BEmFgpBxIWew8xj4Ta5AcynttI6zCUnxuqoJh6nqEJ4BJf54lNf3EHBhcKv1lydt5HQ7HXdGwvxHPM3PQXn9bimKSlp0R0yJL4JN8+GufgkQbr8rikPHK8T4TaEyjhGd0bQvWOKkvVGWbjHxub408yf2Ta5oN8BDJYG1fupjcQ9B184NsHbuecFCEsrYL7AOpss/sTerlvnodDuXOjbAIOOVgbKxVsq0Q1yhjHeYj4dt9lMLofLE2+E8RLuFsfUK+cmwUFQcMjQhO4Sw9chZDyfkHHxS50vqK29SvlbBZvXx1gvHieIdSx8EmFe6fXrhyCWtJO2jS9wrvTZX99ztlpMNrCNHQ4wd4B16s2baKsNwzpXoE/wCKNx8HDlTyz24nnGRaMrHQnXEu6OwZ2QqBv63EMCghozYaQ==
+      AgAWtRKQjIGJzsEnpC025AtzBe/l7cHUnogzyg/BlZPTUFQhKKojvrg/ib++rf9jwVd68k89iPYq8DHMwgoA9c2N7UKfjDiidlMPghWDE1L4ZGNhY9qP4CPzqoBrDHPwhyb8oUUBS23mGsu9DKOx3WCxLsjGYP5FUZBgBn8Lw394OL+boRntDZRvBVb9U7tlm98OeJien46DFsT3zz1LZFh0pP1BeP6ZPNgeXTZz29GRPi5hq885KTAUkd4kL47DcM/wZtWnElcr2lKq0anqdnvTO4N/mvQHD98sPB64+m4G/PbY0DtSZfTi7qqFk9KaqERLIExaRBKs+EEpgVRs5htfq5Szqcp1LuWHVl5eqyA2Mcp7XJwQhD6j6zDmuaCLe+J1IhQldLdrjEX/r1aarDruKUqYK+T5AyrW6hPV5l58IESw5bDxfreKOxqK1sPXrpHADRo60fsbmaKDHfbRuLJqRa7wGSOn4rgHNxsA7/KKLoXFVAfmUH/0VwbxR0OjicLJnDDzc1nKVb1f6Y+R2jvlFgTnBsT+tKo5GJ3MhzW3Gyw/++RSfk/B1F78RhVwS2cPCPC9ehS2Ra88wezLRIWtCVKc2u1/Zq/eO4YHPmfSZUD547bIb003D2N2Ba2hMGgvX/f1wsAUpF3RiziZ/5LdKfQwXGdcWctrMGx2NXQOuecp9l/zMTEvkgelBVlZwjKHU1i9oDHlq9vknyJMkBDzdw==
     DOMIFA_MAIL_SMTP_TIPIMAIL_PORT: >-
-      AgAV6Rc5L9chaLnpcHaeegkBoPmGYTq1SeyRCXE8+wvAJxIuMlAcDWJdUVCyqbK1QpjIltdk45kD+EynDgFyAhk42yjxKNZ9f3dqNY33R7Yj/xKanoDUclntpbelaNJyi/SWa2TmnI7Is/nCKjfYbv/+9WteHd9HLIsjXCHqvRy5QTKQzE7zmA6d8ftNFFbRoGHKT0BGQ8XYb9766CRIK1M1AFdUoBcZuLlDWG4m7vibAr0TDuxi+ca2TAbtFEhkoHmg2AMlEAci0eyGQzZLZT2Pf1ow7yI8sGrUHroC2jOqj2vBI4f6j95FY5Jx+DCWfY4zB8LfrdCnsMXuQZ4FNwqcLb33IqTPlqHmerDJ3/R36pRo5GvvH0JNor1pMZJXgF0Y+NYP6hrkqBMnSlKqcbIbC8S+ZM347bzyt7QFvDBmzS/eqc0s/3Xjawt3uKbt6uIxevl3ybqMq5NV8AHU89dDBJuqylXxY9MQWKUE+r+HRvJUEgEFfrkcEsQq6O2hGk2EiU0dYAHuY8jlAPG7fX/RFGaDc5V82kiGDCtiMgeIU7DPrCf0oAUVfHFDyRERG5Tluqs8lVNdBPpnf7YELp+30TvqG+/N5WUAD8ud8+9ike9dvNUT7BdVtZAU+5eQprSp/9+g8dAPXz1a0yz5+/ywpwU+xYtuNhVS9stl1HIRI5o41xi/G95pu5oiiAPQx2eTc+c=
+      AgDPN7g4dxvDPuPzUJ3Khcwu31oEOTq0sgDFceXt8kzoIEXqSJVAD9G2OhYaUTEteQe8HFIvZg2PBPBejf4aOmOUPJM2UwI3r77SR3/MBKSbmqD6z2KJ1AAONwa/P6cosGM4qyhRTHcSUnqfmBDPvPYYd+rZZQKfw3Zz/mqrO0zleWxogRqXgXAZ5WVY2unQeWAzhQp0+EdVKpUpodBkFzLd662UYK0sz/Luvxmfg5pygZq4eEuYw7AqOrhAA7cSQtX4j48dfQ71HdZMEUjxFKnFXKy28ZcbakT4XYLVnQ74RgJ7ujn+jJCa40iDk38y6gv1TNEy16MfnYS5ifi3qKB44U3ryfH141l+VOr8fFll4BZlaRd90/sDlWW69aU0ywbrtG4KplcmQj0wkphbe5qfI99mRANRnFO9GZ0AlnOkk6a6pcUcACvBexd9Dmr21Ia2TukCGryp8g7BJrCVEyalXOIo5zm3JQNfBoF+SaKzDJvHLKPRS01lsCCqdePcFMmx6jQH9qoGoYxNzM2Pb6oh0FC02EfhCGQhLZ3KCIozJJDM5h4TfTYhGrBOubgfE6AkKiZ+APg/A2Lr0iYXwg8lTfn2JDDG0mcYjQ0fUZpovRE7/FIurfM6MjeSB9jnWw9KZhFyhIjsweFYu+/mz+Dhva2L3YoF2bS+OLPdxRToMSosZAs7U2/twyZt2FHSfcFCceA=
     DOMIFA_MAIL_SMTP_TIPIMAIL_USER: >-
-      AgC6/XorKraSTAisuL3HJmfjLGIp++m0/SooA8jcy+gIkB7K8fze8driNK929orXMOXBJXmglKV9lI315Qsj+xHom/obFUMb/ygcDYa0VsTMq592eWJeCL8Mlmy1Uz6pbEExy2knyIDu4iguKSTtK/dhpLPXRdsuna1mdPF4MgkO0f/YAkbWjzHQOzsIJJKjORBO10/FynFhOL/1z4l8ktJ8dSID+GzHixt/SmW4NQqtACKBrZNCxP4oJC+tMOz52JD6RC039Z58zJnF49+PKXoKj7ucSqe82mpUiXU13mr5doTF/k9VkiF+OLpJa6kqRzbeVJGHZOQx4Q/E5Y8khqNu02gFbSaORMt3qf7bGNcIgFQP+Lu/VM0OLQjVhkf60LpT9CM0rs0bnrIGFRlEGIj3EXvcjYTkORhOekPKG6eiDLsEc1gj4iUilSZAGnW17XELIByDfmb14iUuDV9j1+/hJNnRmnGtkuibyxdZJGPYtscI3jZ7wmX3kgUzynAQVt71BnGAqOCY9HOI4BuNw0EdsgYuX5SPJ+Z4o/KKPAKtV+wjBUaHBznXSEdV96nQFGVmfxzv7zLCN1VPIQ0iTiw9aTg96HOpwiUJHx4JBHqupAkBE75eaDu3zmFFMe0Hu8++up/oWWOW7YEWradwPpfmq7TYdXrJmKeBuDuxRqgZiRx1CRZXaICjNHkMvmAN2iOO1Iq8wXgIC+rHWiq/shSCZOtFlUDwyLrGeZENBmAaIg==
+      AgC50XdpTvnpy7XLhDt6AqJDtpV5iKhg4pRnrQ3upidyOAyD4nLIxIExsuUCbAssC+SYg90qYtQWJ08cN6LeukOz2xOE8WDyzxOqK/B/XW9n2GnT66T8xaniuKfqkmKqFHolaxUCl6byYWjZlVwz8IbHb93CkwbVEAMe/3ZndDHzFikkvJJIA78NtFtAcOv/vuA/aR1qD/PfSCssxonfjqLmExhNCEKyKZrAOTuu91jzbOU3LqzOS0XAl2aPqyjqQzpAKnHINvJbaqbPLEqgS8nFenKjSTFjdHQVrHW8KL+mNHkw7Vcfn0yu3Az0QZxz/qoUWr85F6hz5f0B9s2nSYMvEORDh9hOahfQ432TnApbcuD9oKAK9k8OZD4uxVHtEhH/0NWYEXJf3eds7HICfiKDW3OuFq/FxzEHvJEeX2k9EyL5qhedDXdKM55/wAyWmM2wCx3Uvj4NxZrzajFy6Ssrq2YpsfDE4XWYkvzaMMXfzRCYEE1XWty+BdFlibwfPSMj2RoTKu2RxN6frIksbWDLNwGiRg+CW+FDQszszZO0WEBTvMLQ5/s/foselRxR3Z+T5qbd3w+WvtBJSQ/+JZZJ/VnzwJDvg3WdBD7EDGxjkgGsRp8B/KE2aaYpW3Rp5n6439zTHSMDVJFoqtaYK16ZsPIP51mZU5UHlpzy7d4is72YCRKu8ahq8iDXfB12V8HfNskGYX4H0tei4AFgqLWK36RA3Agc617KCTDDnLvb4Q==
     DOMIFA_MAIL_SMTP_TIPIMAIL_PASSWORD: >-
-      AgC9JpIc82wsDAyQpqT9TTSkn7vfSmPxBibhPPZpzOa9N4bBXzHJFRp3BraeXNFeWr9jKewC2DABBVORjWQrznPtDRFLcTwOgqeX+uDDm2AwSuSN3BcqmZMY4kRfouwQWBzDhkjiEy1j+1ijjEO7ti/Dfzi2kiEMnMIi0QDAj60Np8EoczK0MmryCPqgeIR3iJBCxzO+/Gq7k+MoGYy1Etfcf3VQF/JDc1SKDWorDqB15pNx6SSsUvEyQmx8oVZlPNzZwJv/qHdemirMNjWhq8DPqfBTD2qmyhYYvGvp3rIYZDEQRqMz0Bmj8BOZ8Xj7YxzqN4Y/PT9iJMSZEnLUvTAHDg3ofrdyuRov6jfBEB3DrDjiBKze/Loa8IgjzFljREQ4Gxb/QDF//00pyOIdAfVVUwRQGQ1E1D4qm3A7fKaaqDMkbXlh1HlRKzjove+ag7FtkhkLoE5dWWT5UCQUGD4TQxyzAYFJw3r/AWDy3VyMSlbg1yeOjdl/cTQCUKoJKdg6Um9bwxYgvBVdup1FEAr0GIvlohXQllnIx2Rgp0Kr17i8EOEEU6qrjGXLXql8mpeBxl9PbonJIBHS2zYU+DUHVvpNmV2JeY0G5/vZqiHh5YBw/hpBM2oicEonTX0STrlH0WHxV53/ZfmC4IoMyV3xpDejf8susFyUK/ywVgol3zKf12+CEJKxKhdTUpPf9eiqft7zGakppJS6UYGXUZ0gSFDiA6zKh9oTw8He56takA==
+      AgCOEMAy7lOhKeJMJKao9I4Hlhg74dz3gzVhUNC6LOmn0Ig98od20trYk73om+nWnfe2pN0414hmF4Dh4J1wFBrZS+fEOIgt7sWUbNb4J2vuTLheyGF/5n7b7eTVcdpbf60rxBKoK3Z/p1epoAIHk6k+0a+A2wHy9UvOWo2y7bFH3mrnffQmm8z46Ds7tMssJA1QeQtvFemg2BeamR9myWhzmI4VAPlCeWAqEigB5ngswYTNmgrgtO2yoCcf6z8zf9TX/nJn90LnkYxnA7GKqpN2VhqaqmzcVmjAIphZDFCVKuJr/oL+kUcHU6SjhAXvota2g1LBpcWalyUQAVIa0n3hsbjdxZjtRu0msU54d6uD4ENGnzL2klxn9Ju/IZL6hHDTLN0FKgUzDcbGnKvxF6TLvduAy+wKyw36l8UGDkh43r0PwNiZ2QDoV5pihP1dyY3I1a2UImsSv9f6PyNigYpcUhPeJiEuqI61qZF2rvYjre6GcLifjJCYTJ0GRQo/EvX2UkMC5f28GPC2KqT8/or9kykyU+jyzLXDPBuGfCUVERe7AhQq9H0jR95KASy2taeBQjKnVqA8xEc2rnpMOVpvhmlYbXQTHxMAFx+6ecdx45GmvwUYtaBUP3jM16iGNicpTI6X+fTMPf4OrG6qjJ3jpBmD6WZxwycSyYyeD0Cvgq4jCgzhcP6MVMA0E8jECBkkVbpfNCcabSK5Q7lbLBqkybuZufk3UznJT4Plml+fWg==
     DOMIFA_ERROR_REPORT_EMAILS: >-
-      AgB45mewWQyjJXYj4PPKQDWrSORuFGuTtKisX6CYhdvqRYG+HlbWCn3sN0RKM30dWA1Z4ebbC+0Kj9z9iDYYM+cPZmQRQeedECMh1h/Y6ZlELOrV6SZCyR2LuqGu8eZjuuLzl6GzG/DI/hPJU4BjxEZW1TQMI7yRaqSrYhYuqxZCeP+q4Ht2J2QnQPncwBRJ85l5yJJlmSwUC0zqF59nha90fDZAl4gijtNDZimMtavTbdm3gtyOvUrEBozJ46w35A7ZTzkctfwcUHoSHlD8SDolQBSMSeV7lQFcx8cDGnGM7GA4mqTOzZ4N/ywrfJ6JqFv0mvYaB1oKS6tTQ6gckKsUhFkqDWtkD/vMdSwplG9I/Zml4K3Xofc2054QPb8rIEWLjSBFazfANx9TSj71Vqi+UPwC3h5JnMttTMZbQhpqji1m6UHrPH73kuP75xBlmeddE+6lCObVIGgvozDxcPtHvrj1lkY6FTYMU746qYr8qAXxLY93ALI1xybGqAme9dzKBA4OuheLOdDypL5xJ5PMsgmv60OPyGD065eMw2TpB9Qlrm4BVM/hP+LIvJnofMB5+Ynw8FW01FPtFtXq8ogrcczO0vEjHUWcblVmw8XNoQFdY0OFVc79f0/XDLUK6pe09+EBxmNZsaTM0r7ysLYEgP2ePb6qr6QYzSpBaAqk2tPxnRhpUyg5i2yMwroLHS+gFJ9EHAIIwOoZE6GMOpBCuU4dreoKbFA86fbAJepeltJZiy37xp65g+t+fo9KzZjoibn0tQfOYDi1+s9kunpYPLM9aZxNb4VU3f9ZTX7N
-    DOMIFA_SENTRY_DNS: >-
-      AgAZ8hkFobL23UnDKNVqURaOSsMTheCH3YhIIvQvoeSSSTNKI43pWa6Wy4xvrjIl8WV/2uTJDrHfg6wELPy+uW4Z6OCFUH24K3NXAfC8w4mWXc/nPWv77WwDZLaxs6kEA0IJqNk7nKHN95/A4Le77+CcxaM1BmZh+1hG0oXszdHb2Hd9t2jMmb06AE8gu71k5xOMnwkEzaGzHRGoDhhMY7RH1fOTtg2R1u6mTioCoFcJUxEomF/hYwUvUgxMF5BXmG8Z50BVk30bDqgSjwf5tqxZxGoD6yZYlL4S96+G2wzRHWJEnWH2MVpN1DoF1azIeFSiQ52RI3nQJxVSlU3FCGIXvJRsMgGGr+gg55V9u0J0/vRnT+OboHOBgHDCiLO/C8J9Uvfgv0AfxpBtZabepU3uB/5YSYfjuSA7KXcEy6vE8Z8G6RatbLBJOlWs/rcVAhsMf/Pw/CEwqJhHbg5gf+gIYchZ6caN/OHRTdfkJ35AS0EobQJxFfGEyTZXJPhBqT24RiyF1eWIc1HuXfX+GY1BsU2/SejINCuzrxEL1T6h5SlIXU810xjfnm9X3Rlr1i1VIanvfCiVIbUHu06M2fB5zpDE7mtFwee8pD/4mUU81kkgaYM3gdI6zq1LcxnqiTjtpRHij39VXSHK6V6v5ZnPTV5od7jJEHB9KUWoGzqB2s38QI15YZ69yDTRi9iDBGLdI/+GFuPAMSdUeX5CRFMp/evws607hsURC6uX8mHisGpoffCpCBIC3+F+0y+c60bJ9LbOqxdE/0B0l82DV7QE97w9y1dBHsVHgQ==
+      AgADo5TMo89GwHMF9sL+3bjrDbtkwHLzRpsGUgfaA+Qhj3Pf0tiwVzF3LIadjeD382jMpUwHOKYFCZ2TFZjwLpVAU3zF7q/bDiwNicxo2spdtzLTuJNExYcAKfN0CoPZPOomFxNTDpF77NzSkC6ajaZDnbg5xxVyVoWPunfSZsv8osrSrKVfFFxsLKJ4h9Lq9eYhvORkbmT9hXxMbI73WFvRwD0vPURDWAc2ueQe7S9o5tHJmY9tmwru3j6p94RqLmRCJT1WceONLNUx4kIVjjAaAHC0KkuZsnj6L5pUirkJ5fTElD88HkI13frjTyB7ASEQzds83nXSwSF2bM/5c9hLBCihikQzL9FmXlFtkCtgWtU08seyyER9PiqfHxzSoEjNWmHw8YuUXlSSQejkeDdR5E6XbND+0D35uZ0uSyX3aeqE21YmoHGaHJYO23x6hXDKvbs6uGqaqEHaMzeAQV9F6vPGtGqznK5pHiL3wUurXEuS8yxLYlrmqelabW4E3PD9q1X9eNuOWdUc9jWOZNk+LyTJeF3FyWLhRlu9DcptZeB2pBNuSto2UcEBytaK02K4r30A7gpPuhIsXgZQU6ojbF7z0vKvtow1xH1u0bl0O3DVm2ynQdsvZccYTFZBara9GRTcXZmUwD86oshSTEwCPL++dr44Tvwnr79zTzN0y/WuPJe5052sodRVKiwFbR4aOnyDzqIZmUCtK2paQ8Wca40//0JsvH8sM+oOLD0nJYtv94xXCwZoExZ8VUBtFJkPEJmYLrgrr/gDp+a7vVNS5uCOYT2Z3ZoBHqcCbMCD
+    SENTRY_DSN: >-
+      AgBQmkwLTTscyUsdSvN4oM9EdbHpE0gwIdeyqD6xbwkOti26Z1+9r2O5a0J8anflSv9QEnh5XMY00lEvy42IKwCvg7AAxoLR8TamS1F4v/1kMxZyeHrrGB9eU6QFlRVpvUiF9GVlwMFLr3LdtEP+3Llg6UPdFhJvKrWquM8+FERbOXZNCv0kWTCws7vLG64+M8jAMxQvLNWxXu49fEZQgzn0BJItg+D1dWeSS4nMl/V4qEa0y1eSqvs8pfExCyoJDyv1JwB5B/b5wA0fuyLJS0CKOkeEVTHAf4WPVNzaykx8r7zwMProC5JBP7IL4tf9Pt5rqWkXxXvhN38xN7CuitRfVuDfsayEc3PsWwaKwqzzHHl2A55qfIHvnRhp60vtgzxRFnEMnTM0TMNp1ye1WpuhHwCLTgpvb2ivfHUgOuxwl/td2kx/tVSiPWk7nyuQkMIOCcsNBKWXnKSISCOvFc031h5FW82kz1Q8oFDwCVY0KJxZ0z1K77HwMLpUlnbdyTI+2qVrogbD01/ykzHWT9ZzPGgnjmWqH3zlWFcEPyfAt/B/22M2GkhuYzgSX0M1WcBGg3Uvl8MCFx3B5Is89lmViEvw4fys+npq323rZ/IwFbDHw18glbdG08Ne25+gLP2wtKttxZefeLbP5cmC+oamu2rJ87L+tzAAQ4p1QN+kppjutu8FP9KlBRAluhBpQvY4g3WWaAW4mGQinYC40Na8eHP6+IYFuQkhXl/dUxcJDIQVNMrdCU5iYHLIrC17GHN8J0RbZVYIR9A49ULH837ONJmjmnyaSAi+Cg==
     DOMIFA_MAILJET_FROM_EMAIL: >-
-      AgCJ1JRwdDyG2oF8NxIXrrd6x6XKws/A7Qw5mEM+3IouWtCPcDfDgTjA2erUEIIy/O4H4qmeUBHr+8C1O2W5Ja6c/IT5Qyn2c0vqLlsQCtbm1MwIyoFavLNCHmCNrfPbmGgBne1Wk0+9lCNMTVwU5mTQEeAOHaZeoNpdakQImPZZMGsWke/Ma5WC6WMSQCwnzcXBrmNHR9OhycvZ3/gcEdWsuu1Ng75Whh5D+2ZiONkjafHGX/rfmD7Cw0U/wGCmT2FZlD2ekMuhlUkONrXnsVFiNsAUQVbVZLiQsz5TTjEug2u5SzzbuJjBGvCjAIFoG4FrB1tfmdBqj1Iuptgqz/eaWxe3jc7GJpNNwjzdAl6X5Fzvg40A2HxUcP7f+kKhwUHGHKllp2b5OXnhl/Tmoe2C9hrK882hrsZ3Dc472ZjjfT1ZF3jYrynBUBKFO9MfH8iMRA6kRzfTjwKTysc0N8jVAMKrrgoKCugM+/fHddZhRV/zDCu8/+2Dou4w0YyOHNC/pCe9jRXw4z9WZ/IZD8JIW/AfwxCYbJrOHUSzG8kCljM6+Qul/g24BGzB0rnDmvt2pA+72iV9HKbLBEBCbhzM47Ev6NsO8ka+Dr17ZzoDxrw9xReW0mkrv2/E/5KBZp1s9ZsfXxjmq7Z34tBZMsWVHAtFykNOg1CBxXw7D6T29L7ohcNZ1nl8XhLUfHfPzJ0cupDIxTt+BMrZMA13DNZmseEMryM5IfgdLg6T5+GKV7LOo/IFkA==
+      AgBGZmxHHxGfUJDiwCUs6FbjmbAy/lTaTjVqokwDVgmHzx2UUK1ZYy6M8wjAcu/4SmBesotFChHRd4UZyuF9EQFhSqHqk3w2+CQmfTrEMn9ZTCj5l5FnHEqFdT6kNZfS0b1BBK3dmQLZvqYdMXC5lZaeVTpea2jM0ie7eKho0Yz5Hu314W7dJ7fq+7dl3T8OiW37H1ySqaX15Av1lxnkxUXZ3JfVj9mLSidsCL15Y9w/yIUXETwoG9hjqVdlN0aqnJQig5DyteGqRsr/qPXJFzU63+7xvS32vMtOAPqIC5mAy8n4mqSouwzFpokJwb3JIRQ3GTCM7m81Pw8qTdq627ujsFo0zhSZxTQx5bKiHUX7tScLIxfbq5Ngj2aMHKic8Th8YrMvbhbPpndokbHwcDAxUGksK1gLRH3GOXbissFpNLl1FzqtJ4VpAtGTpV0/Txp4SOXhuD2XZh0YSDOKPKyhuVHtxQPpUHIoChjfS24ayLmZ5avw+o5gMwf2kyJkQJfVwAZL2xiIcTASg+ubO08537CvGZwmsWtwrZZcf8HfjYxBU+mQ+zFjMa+Io1X2atbZEXY9GaxTZqaIL31G+U5lBeKBuW9LcXYuDiOM+j+t6CJcv2lp6IyLMZgPPuuqIgOTH/MMj9f9vzbeT/tD8g1cNaFaG0ZoTcTyy4SW57MgvbkNjrk5W8+HwKHNb5Kxj2o7WEmlRn4W30SaRKVKoLDQJk6J6br56opUK4JhoRoQBrzRuq/gQg==
     DOMIFA_TIPIMAIL_FROM_EMAIL: >-
-      AgAHFvl4ZBAmd21FHWsxGB9U2yjDq3uamzgzBtX5y1D2SiL/IDCeR4d0qFsha/A9shY88U9Flo4A8k0LK/Rr2oF9SAkQBTf+kTyX/r7+ZJqTLWaEmwqfjiLgFRJbU9iF412BCwK8BSzebCoTRne0qdyStzmD4zKnGtsTo4q3d3FTv4uTOe3aD4k7HQaXLrKqnpQeCth4bY/9T1arpltt/T6nhxTPKSJLq0UOERAMP1AjnHsWTUd6gnRLfSgw1Oh+Jo9pKRMyfs3hvUH+IAoHgg+PMW2lZbmkryvWaKkkksjp9OZ6ylUq3v7gmBdOWC4oiF8Ry+z+ngxiihlOkEes8dp4fWqhv+3mOcJ0SaZAOttl6n4jwCeiYW/e6YSHxtzW5a/aUCzHe/WMVhSjJkVlBwc4AzkqEcADH3qgbUApvV0zIAEkkcJTxulvDBi6pZky/GhRjm8f7K+UD1TAT0Na3r7T0gqPc4afMfQiJ5EKDVffiGlb36OVIncCTb9lbyflner8ua/AInNarEpZX8gWKqamHMhombXutm3VBAuer9hoMnlyUkDYZQxrZAC5XCqQp2Yb0t2FA7gubpZ2yzdsY9BY/elstkVkeboO0FnFMPITySBS1khgOWI4L0sXg6Pt0kdhkpJ7MrrKWRs1pDWrDLNJR8fEgsiqNIppPHnieM6IUq3afY3GpL5GyxWvtJG8956aepeVH26910ObWk4ltaE1jdU7V8Kf5aI3tx1sF8ehE/lvL+xP9p4=
+      AgCD0XSSgrhKyphxS22r6rkXzOn7XtM6dGZjbDjlxO9GMSw8TrxFLHZNq3KFUlXgt8AbkLNIBSKQXkaMqSMKuZXxMsysvCNHG08WfJmxzpP5QcnakdwGY3m6EVGtwjeb8M58MS4dBkM3qWSjrGVivColySRmwmmv5qXSAh8UnLfzucTCHuvqOquu+9qXVQabDHApsuucCq7rvoPtig5gGt+/olWwq3UnXDqRYsmEAnHWuGhhccCOIFg4u/uqYCHeP+E0rpCC3vJtANvQ1hO9zhXpFmkWQ2HfUyIaAN9l6FoH1xWFlAuiz6N9f444UPBns0EpN0oDDHocB1Zp7v55QU+CV3mucnwI6LoiZqlPcZOqvMW5qOb7hEvzkKC5nBaVVH23sje3Tf2y1OodVaQYZSRyFclMYe4WzoPBpqA4TbQs79wA2I4aBHpJdt0C47ZLIJsugON9gX4CslOMU90+Vaa+mOSWBBgLI4ljC70WXrqBuIHi7FWU09xUek+wDacD9GAE4l1YBDoGl8aOXsMRKwa62AC8XISK08FjmVWPiHSWkF2az++xaOPHZK2e9N6KsiwtQ9i18vnJC5qMMsmN/zBBWLj55dj8/L30RyQSUFYDvHaItDCKzvISWrpkow5ASaxxcNMz77pzYH28IKCSzMHP9WLQQRjzOwnqZqL5I8RgAmXQvz5xqIkNibUW5urJF3w4m7YnNnB6Z5AFIzwd4P1DEmPhZCHSWNgxbq/RzBz+bxGG/kQqpr0=
     DOMIFA_ADMIN_EMAIL: >-
-      AgBjzwTbp161cmA8ru/NjV/vkiCne6KCtN6lOFXW/T+JHziM+kX1JuEyc12h5K1AjlA96ne0/iCAH40xEn0PwgXmzSQjRhQicvSdNoqZRZodtBG3JKcK6Oslot7ioMZc809E4Nf5mUVrIAjx2YkzyLA5k11yM9xbSKkjYMjKj4trC4oYvkA4MgM7K7cHbRii05FZ8AIy2C0QBfqZQsYRyYp666Qe+CFxow3AQvvtdEb2fNc9dt2WzOi3dv3v90n86J8NFwanVR2iENUy9GL3m4DUlhub5bsw9hf9eiJbQMaxUYG8zOSl/A/gVCrccgsbalQuV0FgAXLR4ace5tZvRLFdTMs8Q1svBYYg00fjbVpSFkJMnPldVWD90q+3TBA0NJ3/wtfOq9IiqkrPahMc5DfFW4kWCAqsry6K9iGLGVuFW3ngO8q4UbCOXOr7ft3amwwh6w0eA+KhTu2DsCkIPbMpX8y6+k1l0JuyUWFDc9s3PFC4XGSRmy5oR4zMSrws4NBa29oyoIm52J+pEtwkXSlaL8aJ+IjArwoNgdkZi74AbIbliZ9WhLMGT3qvZKC532wVLNB6pOqXLfVkrn1I3GZFYIxIuhUWVMmx7VhHydCNEl1d6p3GPBgrleqnZBQ5u/qVhbERvVqcqNB66mTMESD0MmbqoMvZxPiGBABcr3HzAIzOQODGnsmgJYJ1DNRHYDN4HNcOTfPGzEf1Olcdzii38odaKQ0jr1By5wd8j4hGEeAID2iwLQ==
+      AgC2Zz0AhqqWqCEXO7A92IJNQf0RSrvBmG+2YfzhbzgARTHl2dOv0eKglfFQApNqq6lim/00ZtXUYe78A7b6y/p399yMOTLTTe9oGFnbuNifwFiHAInBEBn/hu3EBNfO9usgsuzLXr70wiz5DTqLz+invN9vGZk74IaSlim4CuYL0j7TTyMoFraEh2cfU1ehrNAGRn14gH9JL7a/98SS8/y6buUPsLwKg+5w5TQxomD1sNCfNAv6YvC6wzF1L+hB36vu4vmzfq2HNQGc8ojsYjXJ2KZhSoPHIdfWvV1dw12pFdyOtK4W2Q2Cxfhvg/nEGOibBzUBcDyVHXgqWI8RI3Dw/XBKTJn5Aid01I0OxNdrhFsMfv6dK5maX6n+vx/nNh6FaQJXsfftMZM0A0EC+gHWVQwYREp1b5wBQ0xU1WIO4Q7zC2tNiKGxFkUDHJMrgeRa249fw4xVoZzRDda9PoAFtDAxq3zaqqA04w9YzAr3o64KOqDj/Wh/Jdxqzm2Gx4B5dfMk7MIYm20gVAn+IIpd2ogWw2tCDheRDTXX/D8OCJT+tL71FjkvIVoRhUekbQUx9veiRzy/vW5BbGJfNpJNRk+q0UaQSkcr/UHywDsqPL2uJNWneURXZ6Io58NlEr/vATlEsbGAmgc8lOj2bMD4sJBJXevMsAarjuhijkIPs8Zc/bIH7IJLWZPYETZV/ICWmYaGIB9ryfUB+j8FlSSTHNI8RWMzmh+g7Z4f+uEeNSwC/MhVFg==
     DOMIFA_EMAIL_ADDRESS_REDIRECT_ALL_TO: >-
-      AgBOMPmHmHLj+BfA5bsRBY2tDQDogaIo4PWuf1gTk8CgcI8bcNe0uFc4h6DNOF5LZx73OTeMeKJYkD6uZ3Jb/kxG4o5FeR4AIHivavfTcljl/6lmG1Aa94ImA/oMA62OF+TAeT8Aplda+I24bQj1VxhtLDmbnaRnZIqzs0dZSk6nN+xCYLYVAkRdmdbEmhalXHpf9DDUHm9uilFCdEwAyb3H3HPuV0z2hq4pZAdJmxfpVNYDNcw81xCpqf3/F1gmFQk4vIhicikDSNXakq/lJACKrzqiNQvrThfDQyaiF8WYhGgiBtaaMRbuHbNnF7ua1+12vAGwECj8qeB1WcKIfO+OAExxMPfL42UOM3Vjt+9V9wrtm6UGeNlpi2HIEQ3c7AI7be73mtiqZ2R9mCny+wex5PznBlCS3A52VCTJdmUZvMF9zJ4N5hjc8jJJWma9khbAMhLcxLr8PjwW1jJ+lCyyVbclTd75cJB6DchvVBVB5QSUhY+XNzbLd2v/3cwMh8JYBttCYR5POy48ya77ptfCOcVQwuDg81LGfe1G5/8euAaqrPuBIAl2QA4857FxfHNo6Ed2PoIIFKhGZcPjluYiKrhdYTxd9B7YGYzaUFIGzmWExG/EhRrrt/A1iMeyWEYLunD/AFnqCDB8EFJmMqxQBE4xGzslVaI+MDOqQmlvUNpr2u3tCJoTyrPh8C//oeWzhvfAfKgdhkNK/EDil7x29el8MVpvuBLPoJQ9HFlq9LLbx5q6PA==
+      AgBuZjgOsuc6Zbe6Zwhz6BPbW1efF674MS7zNPUD559wO1ZXxvWV4zdSZD8zIw6/fduk1T6VUYMn0+qicI1M51U0xI2jyTZdMeB6iBx2aOXkzYVVSKBRxKJIk/Cu0XSWw2lClqUJyZ1OUlVUaZmkGQO6fXR8YRBHyObiW/DC0EkZyk8Va4sBXh98Ot+rAHFGRcbCv9rMhYhPabytZZS4kUVsmkl1UA7awBWk3djOL6tqZm7LR2SMGVWDF55FBfBlsx/Q7qgAdL+r4H7PZbgDBsctTtqhS+q/ArA6G2cbylUcCxIHa591OYtackgvMWJk2gHMtbUAjSzI/QorKRr0U6jG/QLBzL4Vd8c2yB6A0Mez9OaZ+Fs1GOWGpy3qnlJiSgJvyE/fzCpPLvfw6e8mbwjhsTlUS2xXe3v1fAMo92MChrb29wTOuyUgqcxOd90teKPSFUCR7Ts9Pr9vKuidc8FL9pKsv/dWwiOtD7Ee+81mGihncvSMHVnrJ4iy+3cnheusNu1Yt8aDvMEA+Q4F/yMgMxBPoW0jp9hTRmalmE/U/cDh8GKBrGqRPFxlUm3SQQXy73Kx/qKtdn2tF3/d+WfJBNIc/jooq4EsLGmX4NwhILzmZHWkc0V86obaXSawjXdgUYbjhZpYg42s7ZEx5BOT41fZYBfBn0GU1O6xl9rFlXFsWhinfOIDODF/rsb73VApu6cQJoXVbTc2SrTQm0jVqqGOGgkjIstb+GkqU/EL3+9z2iDqZg==
+    DOMIFA_SMS_API_KEY: >-
+      AgB/YosmPprFTFf8R+8ec7RX39d2haOfgjBcLP41jUxYgS5u8zRpVD+F5gLEdDePSxp+1d0BHArJNrTKp2/SJUdiNJr8saTFJ/uBT/KV4fNruKWQFQSMeiP7oqZZiYcxlp52LZXGSDeCWkskGCKhLwfuDZWcgPWAWy4KyI3dsxO9buaosBVycb0Fv2JuPZyphLgV6Xli7AFYaJXXud8tx+0MFi9uAPlSIaEX8oSi6kCCaumvxUoAJ4Sy5S/Ze8bIVUm8Zvp6KQ3IRb9PUs/udB0QzfXvAedDKytR2UAiKWHNBzVGGKjH7noCmIpZ68ovOj4ntJcQy41j7tjvBelEMH2xsgX55eOvG/HHj06rjJWO7UyMFfxUhekYBO0J2w/+/o2LVZKyoe7rqJuevgvrKbk+UBYJb6T3vIGni2P2OtiMEeKsfFbRPiHymfsATZgX+mzbFX++ttPG7QOOXyKOuZfqlH8614F2PTYw98BnZOkTBSbzgpayJs/1BdCBkJ+pQIE7Gc7LfZaxda2mZyOiABR3r60jSz3VRx/wfugmZKcsuknRytbkeOLIkaU4/cwxf64+JYL0E6toUaYOkHp/qoWdGdRj9JBGM3qwEU524yaSsgHAxB06rJRgn52RTeHn7zLc1cgaay23un2era38cSKRbuRnw2Qfrmi9uXUPjHvRGikxaSLZytvQmc1BYhsU4r1sOUc43HtlP92k0YC3QzzeVLfOAdbYgA==
   template:
     metadata:
       annotations:
         sealedsecrets.bitnami.com/cluster-wide: 'true'
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
-        app.gitlab.com/app: socialgouv-domifa
-        app.gitlab.com/env: alpha-dev2
-        app.gitlab.com/env.name: alpha-dev2
+        app.github.com/job: '5678'
+        app.github.com/ref: refs/heads/mybranch
+        app.github.com/repo: socialgouv/domifa
+        app.github.com/run: '1234'
+        app.github.com/sha: '0123456'
       name: backend-sealed-secret
       labels:
-        application: alpha-dev2-domifa
+        application: domifa
         owner: domifa
         team: domifa
         cert: wildcard
@@ -211,15 +200,17 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
-    app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
   labels:
-    application: alpha-dev2-domifa
+    application: domifa
     owner: domifa
     team: domifa
     cert: wildcard
-  namespace: domifa-64-alpha-dev2
+  namespace: domifa-mybranch
 data:
   DOMIFA_ENV_ID: k8s-dev
   DOMIFA_ENV_PRESET: dist.preset.env
@@ -229,13 +220,14 @@ data:
   DOMIFA_TYPEORM_CREATE_DATABASE: 'true'
   DOMIFA_EMAILS_ENABLE: 'true'
   DOMIFA_SMS_ENABLED: 'false'
+  POSTGRES_LOGGING: schema,migration
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     app: backend
-    application: alpha-dev2-domifa
+    application: domifa
     owner: domifa
     team: domifa
     cert: wildcard
@@ -243,10 +235,12 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
-    app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
-  namespace: domifa-64-alpha-dev2
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  namespace: domifa-mybranch
 spec:
   ports:
     - name: http
@@ -263,20 +257,22 @@ metadata:
     kubernetes.io/ingress.class: nginx
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
-    app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
   labels:
     app: backend
-    application: alpha-dev2-domifa
+    application: domifa
     owner: domifa
     team: domifa
     cert: wildcard
   name: backend
-  namespace: domifa-64-alpha-dev2
+  namespace: domifa-mybranch
 spec:
   rules:
-    - host: domifa-api-alpha-dev2-domifa.dev2.fabrique.social.gouv.fr
+    - host: domifa-api-domifa-mybranch.dev2.fabrique.social.gouv.fr
       http:
         paths:
           - backend:
@@ -285,7 +281,7 @@ spec:
             path: /
   tls:
     - hosts:
-        - domifa-api-alpha-dev2-domifa.dev2.fabrique.social.gouv.fr
+        - domifa-api-domifa-mybranch.dev2.fabrique.social.gouv.fr
       secretName: wildcard-crt
 ---
 apiVersion: apps/v1
@@ -294,18 +290,20 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
-    app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
   labels:
     app: frontend
-    application: alpha-dev2-domifa
+    application: domifa
     owner: domifa
     team: domifa
     cert: wildcard
     component: nginx
   name: frontend
-  namespace: domifa-64-alpha-dev2
+  namespace: domifa-mybranch
 spec:
   replicas: 1
   selector:
@@ -316,12 +314,14 @@ spec:
       annotations:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
-        app.gitlab.com/app: socialgouv-domifa
-        app.gitlab.com/env: alpha-dev2
-        app.gitlab.com/env.name: alpha-dev2
+        app.github.com/job: '5678'
+        app.github.com/ref: refs/heads/mybranch
+        app.github.com/repo: socialgouv/domifa
+        app.github.com/run: '1234'
+        app.github.com/sha: '0123456'
       labels:
         app: frontend
-        application: alpha-dev2-domifa
+        application: domifa
         owner: domifa
         team: domifa
         cert: wildcard
@@ -366,15 +366,14 @@ spec:
             periodSeconds: 5
           env:
             - name: DOMIFA_BACKEND_URL
-              value: >-
-                https://domifa-api-alpha-dev2-domifa.dev2.fabrique.social.gouv.fr/
+              value: https://domifa-api-domifa-mybranch.dev2.fabrique.social.gouv.fr/
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     app: frontend
-    application: alpha-dev2-domifa
+    application: domifa
     owner: domifa
     team: domifa
     cert: wildcard
@@ -382,10 +381,12 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
-    app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
-  namespace: domifa-64-alpha-dev2
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  namespace: domifa-mybranch
 spec:
   ports:
     - name: http
@@ -402,20 +403,22 @@ metadata:
     kubernetes.io/ingress.class: nginx
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
-    app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
   labels:
     app: frontend
-    application: alpha-dev2-domifa
+    application: domifa
     owner: domifa
     team: domifa
     cert: wildcard
   name: frontend
-  namespace: domifa-64-alpha-dev2
+  namespace: domifa-mybranch
 spec:
   rules:
-    - host: alpha-dev2-domifa.dev2.fabrique.social.gouv.fr
+    - host: domifa-mybranch.dev2.fabrique.social.gouv.fr
       http:
         paths:
           - backend:
@@ -424,7 +427,7 @@ spec:
             path: /
   tls:
     - hosts:
-        - alpha-dev2-domifa.dev2.fabrique.social.gouv.fr
+        - domifa-mybranch.dev2.fabrique.social.gouv.fr
       secretName: wildcard-crt
 ---
 apiVersion: batch/v1
@@ -438,11 +441,11 @@ spec:
             - create-db-user
           env:
             - name: NEW_DB_NAME
-              value: autodevops_9e3027bc
+              value: autodevops_0123456
             - name: NEW_USER
-              value: user_9e3027bc
+              value: user_0123456
             - name: NEW_PASSWORD
-              value: password_9e3027bc
+              value: password_0123456
             - name: NEW_DB_EXTENSIONS
               value: hstore pgcrypto citext uuid-ossp
           envFrom:
@@ -461,91 +464,61 @@ spec:
       restartPolicy: Never
     metadata:
       annotations:
-        app.gitlab.com/app: socialgouv-domifa
-        app.gitlab.com/env: alpha-dev2
-        app.gitlab.com/env.name: alpha-dev2
+        app.github.com/job: '5678'
+        app.github.com/ref: refs/heads/mybranch
+        app.github.com/repo: socialgouv/domifa
+        app.github.com/run: '1234'
+        app.github.com/sha: '0123456'
       labels:
-        application: alpha-dev2-domifa
+        application: domifa
         owner: domifa
         team: domifa
         cert: wildcard
   ttlSecondsAfterFinished: 86400
 metadata:
   annotations:
-    app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
   labels:
-    application: alpha-dev2-domifa
+    application: domifa
     owner: domifa
     team: domifa
     cert: wildcard
-  name: create-db-job-9e3027bc
-  namespace: domifa-64-alpha-dev2
+  name: create-db-job-0123456
+  namespace: domifa-mybranch
 ---
 apiVersion: v1
 kind: Secret
 stringData:
   DATABASE_URL: >-
-    postgresql://user_9e3027bc%40domifadevserver.postgres.database.azure.com:password_9e3027bc@domifadevserver.postgres.database.azure.com/autodevops_9e3027bc?sslmode=require
+    postgresql://user_0123456%40domifadevserver.postgres.database.azure.com:password_0123456@domifadevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
   DB_URI: >-
-    postgresql://user_9e3027bc%40domifadevserver.postgres.database.azure.com:password_9e3027bc@domifadevserver.postgres.database.azure.com/autodevops_9e3027bc?sslmode=require
+    postgresql://user_0123456%40domifadevserver.postgres.database.azure.com:password_0123456@domifadevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
   HASURA_GRAPHQL_DATABASE_URL: >-
-    postgresql://user_9e3027bc%40domifadevserver.postgres.database.azure.com:password_9e3027bc@domifadevserver.postgres.database.azure.com/autodevops_9e3027bc?sslmode=require
-  PGDATABASE: autodevops_9e3027bc
+    postgresql://user_0123456%40domifadevserver.postgres.database.azure.com:password_0123456@domifadevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
+  PGDATABASE: autodevops_0123456
   PGHOST: domifadevserver.postgres.database.azure.com
-  PGPASSWORD: password_9e3027bc
+  PGPASSWORD: password_0123456
   PGRST_DB_URI: >-
-    postgresql://user_9e3027bc%40domifadevserver.postgres.database.azure.com:password_9e3027bc@domifadevserver.postgres.database.azure.com/autodevops_9e3027bc?sslmode=require
+    postgresql://user_0123456%40domifadevserver.postgres.database.azure.com:password_0123456@domifadevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
   PGSSLMODE: require
-  PGUSER: user_9e3027bc@domifadevserver.postgres.database.azure.com
+  PGUSER: user_0123456@domifadevserver.postgres.database.azure.com
 metadata:
   annotations:
-    app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
   labels:
-    application: alpha-dev2-domifa
+    application: domifa
     owner: domifa
     team: domifa
     cert: wildcard
-  name: azure-pg-user-9e3027bc
-  namespace: domifa-64-alpha-dev2
----
-apiVersion: bitnami.com/v1alpha1
-kind: SealedSecret
-metadata:
-  annotations:
-    sealedsecrets.bitnami.com/cluster-wide: 'true'
-    app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
-  name: azure-storage
-  namespace: domifa-64-alpha-dev2
-  labels:
-    application: alpha-dev2-domifa
-    owner: domifa
-    team: domifa
-    cert: wildcard
-spec:
-  encryptedData:
-    azurestorageaccountname: >-
-      AgDE4pWuwcEp8ITzcuVae5j/NMnuIPvTbMujWDUmiwYQPM90apjZsEgzQWxKN+GaW/8nGAUNXCGvoy14vPfHHDm4ge2OfRgnRmu8/agKehcb2ljieZEXqbg0grNe+VydahSeqoOuJR4kQtCVgOwvsGkAeLtbVClXZ9JWmCMFMA+4WVDpREI7AjNto4lacMwIPc505y4NFwqMr8iLlDJAbk30BLqX3bx8qcemDqVcc0I/QO4MmElBefAh4tc++euDVj/NKLClTwMo6fnqVwGNf8KYtuTCR3E/am1riAt3LorwOcBZNt5mjH1L+egvPSrDAslmrPqg+o5zrof3V7ZctGZTjjnV3Nm1xj1lt175hrsqjaFayo4U0/t+Ye+7L4TVhDXr6xvoZtmN/044DKVtgSJe8xmIq/93WJDgzONXICF+sJvAzzW9cldO/nPPYUL+prt26aZnmxcvx165keW+Ps6vvFvq6EZ8lGzdS97vI+nGKsjcntllByNOeCsULEfxhq6hNIHYTllJGtdE5FnQKFljZ2Yyysuc5FCqlVQmSPhKDFRFpKl0ZXEsqSmb6UODuZG8vhp+ZooOdNrNnVnLTMXvexAXbHPR4wbSY7xbDYRLIZ+JjjiItkqJGrnPV5kh280AwWssabVYffsAsrjnbV6b2gqpzf87R37iZF1dM0Be2eRLm3/Z+qMc6r89y4LIJJEPjCHPyf/1+gM=
-    azurestorageaccountkey: >-
-      AgAZd+nBtOoqY7/1rTUEzcw4NdarvqEgaKELaJyjFcHK8An58zaXVJ/Z6mU2gxd7f/ZW+nKhmepH6EnRogrIHRKJB6mzX6G+crC8CUgy4GXmIV257PiPDf52W/iz7yVbz/hYc/wPcZq3ctpXx1UwBnVV/71aKpEmEujetL3MUyEA1OZMiT8Z0Hulv8VmJrnPBHZUOyuGLfcq7zLF6yvvEMS27NAmvijSuK0UoVKTf3EbLyj9GZYPogrZuqgewyl5Et3WfDB4wM7fwvL+h/Pcu/AEvVfAtEwMxR7kDg/SUqwgnW0aECByOL4VCgEfPu9nJ/dD6xQz95HprHCEcmfBjStVImwom/WvJ/p81uWqQlduB4sQETQoO/tU6TJFbJfcGfvZApijGYep/eK3aFByYWsx+yMEQNF5S5LaZj9UxRScFSfIhZn4Huo+pRX6BrJqw0bpWKroWfMfidqOLK9vwibLuSsZNh/k2HT3l5GonvTiugyKILSE0JtkBtq5fq7L/wQ41avQXuXOolXKt+gvZXBqnO+zNP3I0ctA1NUGVbbEis86EvRQb1CtSNUkAPn55XhXQkJ+jnb/k5jN93hv8B1U/5qlXd6mDtrN/5fd6daYGIS+I9N25uOLmlnMmcfLqH5oTxuSf9Lfgqei3UZIih+Kc77vvmNKaqL/YVGnfyJROsSsUButko4EWJd5/FL0PRZ0bpCrnyn59U785gLGTtR9Bj4Qb1WcDE/M9Z1ddKrMz9t29axQKxQYO4y5hR3j6l0tw7ZxqxdzydbL7FQ0TzSwVyS+aTo0PujCMYVxD1z0PlhrlTprb29N
-  template:
-    metadata:
-      annotations:
-        sealedsecrets.bitnami.com/cluster-wide: 'true'
-        app.gitlab.com/app: socialgouv-domifa
-        app.gitlab.com/env: alpha-dev2
-        app.gitlab.com/env.name: alpha-dev2
-      name: azure-storage
-      labels:
-        application: alpha-dev2-domifa
-        owner: domifa
-        team: domifa
-        cert: wildcard
-    type: Opaque
+  name: azure-pg-user-0123456
+  namespace: domifa-mybranch
 "
 `;
