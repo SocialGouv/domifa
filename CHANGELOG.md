@@ -1,9 +1,30 @@
-## [2.16.1](https://github.com/SocialGouv/domifa/compare/v2.16.0...v2.16.1) (2021-09-06)
+## [2.16.1-alpha.4](https://github.com/SocialGouv/domifa/compare/v2.16.1-alpha.3...v2.16.1-alpha.4) (2021-09-06)
 
 
 ### Bug Fixes
 
-* unit tests max pg connections ([#1660](https://github.com/SocialGouv/domifa/issues/1660)) ([7e2b023](https://github.com/SocialGouv/domifa/commit/7e2b023522efa770aaaa0ce31b1cf868e1e8c5b5))
+* Use autodevops k8s-manifests action. ([e7ffcb1](https://github.com/SocialGouv/domifa/commit/e7ffcb1e811efb0489403a81a9b447af7b2817d8))
+
+## [2.16.1-alpha.3](https://github.com/SocialGouv/domifa/compare/v2.16.1-alpha.2...v2.16.1-alpha.3) (2021-09-01)
+
+
+### Bug Fixes
+
+* Point docker files. ([87e3725](https://github.com/SocialGouv/domifa/commit/87e3725df8bd996d6859d32473200dfda00eb8fe))
+
+## [2.16.1-alpha.2](https://github.com/SocialGouv/domifa/compare/v2.16.1-alpha.1...v2.16.1-alpha.2) (2021-09-01)
+
+
+### Bug Fixes
+
+* Action name. ([8ed74d2](https://github.com/SocialGouv/domifa/commit/8ed74d291298a44a466f2f6408210fa0dd90dfe7))
+
+## [2.16.1-alpha.1](https://github.com/SocialGouv/domifa/compare/v2.16.0...v2.16.1-alpha.1) (2021-09-01)
+
+
+### Bug Fixes
+
+* Use autodevops actions. ([04d0bdf](https://github.com/SocialGouv/domifa/commit/04d0bdf988e60ab3213b495acb1d95436af16d6c))
 
 # [2.16.0](https://github.com/SocialGouv/domifa/compare/v2.15.11...v2.16.0) (2021-08-31)
 
