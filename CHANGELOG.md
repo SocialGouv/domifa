@@ -1,3 +1,10 @@
+## [2.16.1-alpha.2](https://github.com/SocialGouv/domifa/compare/v2.16.1-alpha.1...v2.16.1-alpha.2) (2021-09-01)
+
+
+### Bug Fixes
+
+* Action name. ([8ed74d2](https://github.com/SocialGouv/domifa/commit/8ed74d291298a44a466f2f6408210fa0dd90dfe7))
+
 ## [2.16.1-alpha.1](https://github.com/SocialGouv/domifa/compare/v2.16.0...v2.16.1-alpha.1) (2021-09-01)
 
 
