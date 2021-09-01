@@ -10,58 +10,85 @@
 
 ### Bug Fixes
 
-* refresh after logout ([38b28a0](https://github.com/SocialGouv/domifa/commit/38b28a098eb800ab00676f764063aec3fff8d1f1))
+* Remove comments. ([e0d69d7](https://github.com/SocialGouv/domifa/commit/e0d69d7a589cd9e0ed0b6c0b89f0220ef5490e1b))
 
-## [2.17.3](https://github.com/SocialGouv/domifa/compare/v2.17.2...v2.17.3) (2021-09-07)
-
-
-### Bug Fixes
-
-* tests unitaires et affichage DOM-TOM ([d2f0374](https://github.com/SocialGouv/domifa/commit/d2f0374f8180eb2f34c6482a18797b8f33ef718c))
-* **stats:** ajout des stats départementales ([7e29242](https://github.com/SocialGouv/domifa/commit/7e292423b06280a6e26cd9a4a72fafa54168d019))
-
-## [2.17.2](https://github.com/SocialGouv/domifa/compare/v2.17.1...v2.17.2) (2021-09-07)
+# [2.17.0-alpha.2](https://github.com/SocialGouv/domifa/compare/v2.17.0-alpha.1...v2.17.0-alpha.2) (2021-09-06)
 
 
 ### Bug Fixes
 
-* **sms:** correction d'un bug entainant la désactivation de sms ([b1cf1c7](https://github.com/SocialGouv/domifa/commit/b1cf1c73c18b34a93a536f2d2bb29d0ee895ccb9))
+* Use SOCIALGOUV_KUBE_CONFIG_DEV2. ([7d68717](https://github.com/SocialGouv/domifa/commit/7d6871775bfa85132acc0db0201fdc04c9c5ef54))
 
-## [2.17.1](https://github.com/SocialGouv/domifa/compare/v2.17.0...v2.17.1) (2021-09-06)
-
-
-### Bug Fixes
-
-* **general:** menu dédié à Domifa ([f975e78](https://github.com/SocialGouv/domifa/commit/f975e78ba8c16cf00bf93a8232b64715821c21f4))
-
-# [2.17.0](https://github.com/SocialGouv/domifa/compare/v2.16.1...v2.17.0) (2021-09-06)
+# [2.17.0-alpha.1](https://github.com/SocialGouv/domifa/compare/v2.16.2-alpha.3...v2.17.0-alpha.1) (2021-09-06)
 
 
 ### Bug Fixes
 
-* ajout d'un panneau interdisant l'accès ([c4220d9](https://github.com/SocialGouv/domifa/commit/c4220d9cea5be0a95fa015caa33a2067746a08c4))
-* **ci:** correction de la migration de création ([475553d](https://github.com/SocialGouv/domifa/commit/475553d920c0a742ef8769b2744db9dae6fb0c89))
-* **stats:** ajout de stats régionales ([50c7091](https://github.com/SocialGouv/domifa/commit/50c70916c6b6f1b946d4cb71301ada409770a301))
-* **tests:** derniers tests frontend à revoir ([1b5d164](https://github.com/SocialGouv/domifa/commit/1b5d1647a76f2192fc393064519290b0e4867c8c))
-* **usagers:** npai ([441c314](https://github.com/SocialGouv/domifa/commit/441c314219ba620d9be57f1297283db17f324a94))
-* ajout des régions ([48cd0ac](https://github.com/SocialGouv/domifa/commit/48cd0ace38df1034f700d1534939976b0d38bd6a))
-* build frontend ([1f1498e](https://github.com/SocialGouv/domifa/commit/1f1498ec87c9ba2c0c31fa2771dc0913e31f80af))
+* ajout d'un panneau interdisant l'accès ([bf3d6df](https://github.com/SocialGouv/domifa/commit/bf3d6df569f4e3e6c8c0e9cf627de3dc88db1f8c))
+* **ci:** correction de la migration de création ([d252715](https://github.com/SocialGouv/domifa/commit/d2527155c70b24b955a48a110b80293c426ab790))
+* **stats:** ajout de stats régionales ([5d097e7](https://github.com/SocialGouv/domifa/commit/5d097e77d6459f47f56c8e57afada228316eb751))
+* **tests:** derniers tests frontend à revoir ([55cf18c](https://github.com/SocialGouv/domifa/commit/55cf18c380466872a524aa228d73e7a01f6bcd54))
+* **usagers:** npai ([01d77f9](https://github.com/SocialGouv/domifa/commit/01d77f903fd9f006702ee7279cd7ffa22b307ac1))
+* ajout des régions ([e3bc2e2](https://github.com/SocialGouv/domifa/commit/e3bc2e2025e08c3a660d9e6e9abeaf4a23a41539))
+* build frontend ([b7ed746](https://github.com/SocialGouv/domifa/commit/b7ed746956e2ab257941952ff152b52bf2dd10ee))
 
 
 ### Features
 
-* **font:** Intégration de la police Marianne ([05f1c0f](https://github.com/SocialGouv/domifa/commit/05f1c0f274cf52db0bdb07118b00a12227bf2a32))
-* **maps:** fin de la map ([a961e72](https://github.com/SocialGouv/domifa/commit/a961e72a144e21e345ff01188eac8dd3bada4260))
-* **stats:** ajout de la région au survol dans la map ([f596506](https://github.com/SocialGouv/domifa/commit/f59650650a0d1e6c2c529a713676192244589e9a))
-* fin de l'ajout des stats publiques ([45c27c4](https://github.com/SocialGouv/domifa/commit/45c27c4fbf06a7def25d2617391ab22df90137b3))
-* **stats:** ajout des stats mensuelles ([95fd98c](https://github.com/SocialGouv/domifa/commit/95fd98c84689dd072408f445f793ee8d2b4f2c27))
+* **font:** Intégration de la police Marianne ([b331185](https://github.com/SocialGouv/domifa/commit/b3311855432662619dbbcb374509381387393ddb))
+* **maps:** fin de la map ([7fed136](https://github.com/SocialGouv/domifa/commit/7fed136e84281452e79acdb9f8619db3612c38a6))
+* **stats:** ajout de la région au survol dans la map ([71fbeae](https://github.com/SocialGouv/domifa/commit/71fbeae22c06f2304f1cd65a44ae4ce672044e6b))
+* fin de l'ajout des stats publiques ([05457f0](https://github.com/SocialGouv/domifa/commit/05457f03b93241240263ab6e44a965fc3b604380))
+* **stats:** ajout des stats mensuelles ([893530b](https://github.com/SocialGouv/domifa/commit/893530b9fc4621a1f2ac446dc0ab8dc782b90fb5))
 
-## [2.16.1](https://github.com/SocialGouv/domifa/compare/v2.16.0...v2.16.1) (2021-09-06)
+## [2.16.2-alpha.3](https://github.com/SocialGouv/domifa/compare/v2.16.2-alpha.2...v2.16.2-alpha.3) (2021-09-06)
 
 
 ### Bug Fixes
 
-* unit tests max pg connections ([#1660](https://github.com/SocialGouv/domifa/issues/1660)) ([7e2b023](https://github.com/SocialGouv/domifa/commit/7e2b023522efa770aaaa0ce31b1cf868e1e8c5b5))
+* Production workflow. ([3470e2b](https://github.com/SocialGouv/domifa/commit/3470e2b90ae940aba9067cb5ce8e5ae53c1b962d))
+
+## [2.16.2-alpha.2](https://github.com/SocialGouv/domifa/compare/v2.16.2-alpha.1...v2.16.2-alpha.2) (2021-09-06)
+
+
+### Bug Fixes
+
+* Use autodevops actions within production workflow. ([6dcf8e7](https://github.com/SocialGouv/domifa/commit/6dcf8e7df4a6e2832a1bc62b98d0a9199686fcff))
+
+## [2.16.2-alpha.1](https://github.com/SocialGouv/domifa/compare/v2.16.1...v2.16.2-alpha.1) (2021-09-06)
+
+
+### Bug Fixes
+
+* Use autodevops actions. ([98b7206](https://github.com/SocialGouv/domifa/commit/98b7206f30ca6fd299c127f0564ccd992a613189))
+
+## [2.16.1-alpha.4](https://github.com/SocialGouv/domifa/compare/v2.16.1-alpha.3...v2.16.1-alpha.4) (2021-09-06)
+
+
+### Bug Fixes
+
+* Use autodevops k8s-manifests action. ([e7ffcb1](https://github.com/SocialGouv/domifa/commit/e7ffcb1e811efb0489403a81a9b447af7b2817d8))
+
+## [2.16.1-alpha.3](https://github.com/SocialGouv/domifa/compare/v2.16.1-alpha.2...v2.16.1-alpha.3) (2021-09-01)
+
+
+### Bug Fixes
+
+* Point docker files. ([87e3725](https://github.com/SocialGouv/domifa/commit/87e3725df8bd996d6859d32473200dfda00eb8fe))
+
+## [2.16.1-alpha.2](https://github.com/SocialGouv/domifa/compare/v2.16.1-alpha.1...v2.16.1-alpha.2) (2021-09-01)
+
+
+### Bug Fixes
+
+* Action name. ([8ed74d2](https://github.com/SocialGouv/domifa/commit/8ed74d291298a44a466f2f6408210fa0dd90dfe7))
+
+## [2.16.1-alpha.1](https://github.com/SocialGouv/domifa/compare/v2.16.0...v2.16.1-alpha.1) (2021-09-01)
+
+
+### Bug Fixes
+
+* Use autodevops actions. ([04d0bdf](https://github.com/SocialGouv/domifa/commit/04d0bdf988e60ab3213b495acb1d95436af16d6c))
 
 # [2.16.0](https://github.com/SocialGouv/domifa/compare/v2.15.11...v2.16.0) (2021-08-31)
 

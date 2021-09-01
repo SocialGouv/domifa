@@ -213,9 +213,15 @@
     tslib "^2.2.0"
 
 "@angular/cdk@^12.2.2":
+<<<<<<< HEAD
   version "12.2.4"
   resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-12.2.4.tgz#2d744413d847030f0562c568054db780473c3ef1"
   integrity sha512-XvdMWz2iJgcSD0fMM9I29i9/XV4/1MTqSPN+c5EIESLXhjhh4o6VFOsKcj4BfrJxO6tadqA0AdGA0AJfP+de/w==
+=======
+  version "12.2.2"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-12.2.2.tgz#9c804be21e4b1a4c1d4b04ae2f9f09926a057e94"
+  integrity sha512-aF8pfzJYfTeMpc+71nXcSaHOOjAdk+XEKTbTSmOO++OLoOevUoQU0ap0g+H3pfKyO5QCx28IZQxtQHV134QrqA==
+>>>>>>> 3dc0b2c5 (fix: Use autodevops actions.)
   dependencies:
     tslib "^2.2.0"
   optionalDependencies:
@@ -2895,9 +2901,15 @@
   integrity sha512-O3uyB/JbkAEMZaP3YqyHH7TMnex7tWyCbCI4EfJdOCoN6HIhqdJBWTM6aCCiWQ/5f5wxjgU735QAIpJbjDvmzg==
 
 "@swimlane/ngx-charts@^19.0.0":
+<<<<<<< HEAD
   version "19.0.1"
   resolved "https://registry.yarnpkg.com/@swimlane/ngx-charts/-/ngx-charts-19.0.1.tgz#c16e89e701ad72fcd7028c5f6bed6ab86368c226"
   integrity sha512-r5g/JoW7J5S7K90hNhJTq9/4WzZuJe/PPd9W+Vj2E1kVV6sVJjQBi+iJQCDen1TFG2ka00Nlo988pAwQKfejBA==
+=======
+  version "19.0.0"
+  resolved "https://registry.yarnpkg.com/@swimlane/ngx-charts/-/ngx-charts-19.0.0.tgz#574bcea4ec0dad0e119dfec5ae60f869b9ff9bfb"
+  integrity sha512-W+GvEtd7e2T4I6BRQMkcP3GFZSQZF3dcXcXUnE9RGdF+2gtgcF85QSvkv68l4lF8VIjU5BaJ0NDqU6D9b14geA==
+>>>>>>> 3dc0b2c5 (fix: Use autodevops actions.)
   dependencies:
     "@types/d3-shape" "^2.0.0"
     d3-array "^2.9.1"

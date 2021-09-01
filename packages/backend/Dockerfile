@@ -5,13 +5,12 @@ ENV TZ Europe/Paris
 RUN cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
 RUN apt-get update && apt-get install -y pdftk
 
-COPY ./packages/backend/package.json ./yarn.lock /app/
+COPY ./packages/backend /app
 
 WORKDIR /app
 
-RUN yarn --production --frozen-lockfile && yarn cache clean
+# TODO: Sort dependencies and add "--production" install flag
+RUN yarn --frozen-lockfile && yarn cache clean
+RUN yarn build
 
-COPY ./packages/backend/dist /app/dist
-COPY ./packages/backend/.env.preset /app/.env.preset
-
-ENTRYPOINT [ "yarn", "start:prod"]
+ENTRYPOINT ["yarn", "start:prod"]
