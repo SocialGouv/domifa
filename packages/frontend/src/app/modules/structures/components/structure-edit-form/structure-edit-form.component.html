@@ -24,15 +24,19 @@
             Le nom de la structure est requis
           </div>
         </div>
-        <div class="font-italic small mt-1" [ngClass]="{
-          'color-danger': isInvalidStructureName(f.nom.value)
-        }">
+        <div
+          class="font-italic small mt-1"
+          [ngClass]="{
+            'color-danger': isInvalidStructureName(f.nom.value)
+          }"
+        >
           <!-- // note: on ne bloque par l'inscription si invalide, mais on affiche le message en rouge -->
-          <b>Préciser le nom</b> de votre ville / de votre unité locale en cas de réseau / de votre association.
-          Ex : CCAS du Havre / Croix Rouge de Paris / Association Aurore
+          <b>Préciser le nom</b> de votre ville / de votre unité locale en cas
+          de réseau / de votre association. Ex : CCAS du Havre / Croix Rouge de
+          Paris / Association Aurore
         </div>
       </div>
-      
+
       <div class="col-md-12 form-group required">
         <label for="adresse">Adresse de l'organisme domiciliataire</label>
         <input
@@ -115,7 +119,8 @@
               id="adresseCourrier"
             />
             <label class="form-check-label" for="adresseCourrier">
-              L'adresse de réception du courrier est différente de celle de l'organisme domiciliataire ?
+              L'adresse de réception du courrier est différente de celle de
+              l'organisme domiciliataire ?
             </label>
           </div>
         </div>
@@ -391,9 +396,8 @@
 
   <br />
 
-  <div class="col-md-12">
-    <h4>Paramètres de la structure</h4>
-  </div>
+  <h4>Paramètres de la structure</h4>
+
   <div class="list-group-item" formGroupName="options">
     <div class="row">
       <div class="col-9">
