@@ -15,8 +15,8 @@ import { SharedModule } from "../shared/shared.module";
   declarations: [DashboardComponent],
   imports: [
     CommonModule,
-    AdminDomifaRoutingModule,
     NgbModule,
+    AdminDomifaRoutingModule,
     SharedModule,
     FontAwesomeModule,
     ToastrModule.forRoot(),

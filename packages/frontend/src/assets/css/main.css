@@ -3,7 +3,8 @@ body {
   height: 100%;
 }
 
-body {
+html {
+  font-size: 95%;
   font-family: "Marianne";
 }
 
@@ -253,7 +254,7 @@ table .active {
   background-color: #fff;
   border: 1px solid var(--blue);
   color: var(--blue);
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   text-align: center;
 }
 
@@ -261,7 +262,7 @@ table .active {
   word-break: break-word;
   display: block;
   padding-top: 12px;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   line-height: 1.1rem;
   position: absolute;
   text-align: center;
@@ -450,7 +451,7 @@ table .active {
 
 .label-statut span {
   display: block;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 400;
 }
 

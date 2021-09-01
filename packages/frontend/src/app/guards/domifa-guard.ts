@@ -28,4 +28,5 @@ export class DomifaGuard implements CanActivate {
       })
     );
   }
+  xR;
 }

@@ -58,7 +58,6 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
           "createdAt" timestamptz NOT NULL DEFAULT now(),
           "updatedAt" timestamptz NOT NULL DEFAULT now(),
           "version" int4 NOT NULL,
-
           "dateInteraction" timestamptz NOT NULL,
           "nbCourrier" int4 NOT NULL,
           "structureId" int4 NOT NULL,
@@ -70,7 +69,7 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
           "usagerUUID" uuid NOT NULL,
           "event" text NOT NULL DEFAULT 'create'::text,
           "previousValue" jsonb NULL,
-          CONSTRAINT "PK_9cf825bde3ff3a979664feb460f" PRIMARY KEY (uuid, id)
+          CONSTRAINT "PK_9cf825bde3ff3a979664feb460f" PRIMARY KEY (uuid)
         );
       `
     );

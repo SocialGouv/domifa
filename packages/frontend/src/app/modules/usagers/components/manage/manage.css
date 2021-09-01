@@ -134,7 +134,7 @@ button.dropdown-toggle {
   width: 300px;
   line-height: 100%;
   color: var(--primary);
-  font-size: 1.1rem;
+  font-size: 1.05rem;
 }
 
 #filters .btn fa-icon {
@@ -153,7 +153,7 @@ button.dropdown-toggle {
 .cross {
   border-radius: 4px;
   padding: 2px 6px;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   line-height: 100%;
   background-color: var(--primary);
   color: white;
