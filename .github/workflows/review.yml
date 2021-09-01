@@ -90,6 +90,7 @@ jobs:
         project: ${{ env.project }}
         token: ${{ secrets.GITHUB_TOKEN }}
         imageName: ${{ env.project }}/backend
+        dockerfile: packages/backend/Dockerfile
 
   # register-backend:
   #   name: Register backend
@@ -176,6 +177,7 @@ jobs:
         project: ${{ env.project }}
         token: ${{ secrets.GITHUB_TOKEN }}
         imageName: ${{ env.project }}/frontend
+        dockerfile: packages/frontend/Dockerfile
 
         # register-frontend:
   #   name: Register front-end
@@ -256,7 +258,7 @@ jobs:
 
       - name: Load review environment variables
         run: |
-          cat ".github/review.env" >> $GITHUB_ENV
+          cat ".github/dev.env" >> $GITHUB_ENV
 
       - name: Yarn cache setup
         uses: c-hive/gha-yarn-cache@v2
