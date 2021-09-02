@@ -61,7 +61,9 @@
 }
 
 .dropdown-item .ng-fa-icon {
-  margin-right: 10px;
+  width: 30px;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 @media (min-width: 576px) {

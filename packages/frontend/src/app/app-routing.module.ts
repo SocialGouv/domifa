@@ -167,6 +167,7 @@ export const routes: Routes = [
       ),
   },
   {
+    canActivate: [AuthGuard],
     path: "profil",
     loadChildren: () =>
       import("./modules/usager-profil/usager-profil.module").then(

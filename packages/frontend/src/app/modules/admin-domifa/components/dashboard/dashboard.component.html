@@ -56,7 +56,10 @@
             class="stats-chiffres"
             [ngClass]="statutClass['ATTENTE_DECISION']"
           >
-            {{ stats.usagersCountByStatutMap["ATTENTE_DECISION"] }}
+            {{
+              stats.usagersCountByStatutMap["ATTENTE_DECISION"]
+                | formatBigNumber
+            }}
           </span>
           <span class="stats-labels">{{
             DASHBOARD_STATUS_LABELS["ATTENTE_DECISION"]
@@ -65,7 +68,7 @@
 
         <div>
           <span class="stats-chiffres" [ngClass]="statutClass['REFUS']">
-            {{ stats.usagersCountByStatutMap["REFUS"] }}
+            {{ stats.usagersCountByStatutMap["REFUS"] | formatBigNumber }}
           </span>
           <span class="stats-labels">{{
             DASHBOARD_STATUS_LABELS["REFUS"]
@@ -74,7 +77,7 @@
 
         <div>
           <span class="stats-chiffres" [ngClass]="statutClass['RADIE']">
-            {{ stats.usagersCountByStatutMap["RADIE"] }}
+            {{ stats.usagersCountByStatutMap["RADIE"] | formatBigNumber }}
           </span>
           <span class="stats-labels">{{
             DASHBOARD_STATUS_LABELS["RADIE"]
@@ -83,7 +86,9 @@
 
         <div>
           <span class="stats-chiffres" [ngClass]="statutClass['TOUS']">
-            {{ stats.usagersCountByStatutMap["AYANTS_DROITS"] }}
+            {{
+              stats.usagersCountByStatutMap["AYANTS_DROITS"] | formatBigNumber
+            }}
           </span>
           <span class="stats-labels">Ayants-droit</span>
         </div>
@@ -106,7 +111,7 @@
           <div *ngIf="structure.key !== 'total'">
             <span class="stats-chiffres">{{ structure.value }}</span>
             <span class="stats-labels">
-              {{ STRUCTURE_TYPE_LABELS[structure.key] }}
+              {{ STRUCTURE_TYPE_LABELS[structure.key] | formatBigNumber }}
             </span>
           </div>
         </ng-container>
@@ -134,7 +139,7 @@
           <div class="stats-blocks">
             <div>
               <span class="stats-chiffres">{{
-                stats.usagersDocumentsCount
+                stats.usagersDocumentsCount | formatBigNumber
               }}</span>
               <span class="stats-labels">DOCUMENTS UPLOADÉS</span>
             </div>
@@ -165,7 +170,9 @@
             let interaction of stats.interactionsCountByTypeMap | keyvalue
           "
         >
-          <span class="stats-chiffres">{{ interaction.value }}</span>
+          <span class="stats-chiffres">{{
+            interaction.value | formatBigNumber
+          }}</span>
           <span class="stats-labels">
             {{ INTERACTIONS_LABELS_PLURIEL[interaction.key] }}
           </span>

@@ -1,16 +1,41 @@
+<div class="breadcrumb py-4 m-0" *ngIf="regionId">
+  <div class="container">
+    <a routerLink="/" title="S'inscrire"> Accueil </a>
+    >
+    <a routerLink="/stats" title="S'inscrire">
+      Statistiques et mesure d’impact
+    </a>
+    > {{ regions[REGIONS_SEO_URL_TO_REGION_ID_MAP[regionId]] }}
+  </div>
+</div>
+
 <div class="home-header-content bg-primary py-4 text-white text-bold">
   <div class="container px-2 py-3 py-sm-4 d-flex align-items-center">
-    <div class="text-left flex-sm-grow-1">
-      <h1>
-        <div class="font-bold">Statistiques et mesure d’impact</div>
-        <div class="font-weight-normal home-header-subtitle">
+    <div class="text-left flex-sm-grow-1 pr-5">
+      <ng-container *ngIf="!regionId">
+        <h1 class="font-bold">Statistiques et mesure d’impact</h1>
+        <h3 class="font-weight-normal home-header-subtitle">
           Domifa simplifie la domiciliation et la distribution de courrier pour
           les personnes sans domicile stable
-        </div>
-      </h1>
+        </h3>
+      </ng-container>
+      <ng-container *ngIf="regionId">
+        <h1 class="font-bold">
+          Statistiques régionales :
+          {{ regions[REGIONS_SEO_URL_TO_REGION_ID_MAP[regionId]] }}
+        </h1>
+        <h3 class="font-weight-normal home-header-subtitle">
+          Domifa simplifie la domiciliation et la distribution de courrier pour
+          les personnes sans domicile stable dans la région
+          {{ regions[REGIONS_SEO_URL_TO_REGION_ID_MAP[regionId]] }}
+        </h3>
+      </ng-container>
     </div>
 
-    <div class="flex-sm-grow-0 flex-lg-grow-0 text-center" aria-hidden="true">
+    <div
+      class="pl-3 flex-sm-grow-0 flex-lg-grow-0 text-center"
+      aria-hidden="true"
+    >
       <div class="w-full text-center">
         <img
           src="../assets/images/stats/stats-head.svg"
@@ -137,7 +162,7 @@
             *ngFor="let structure of stats.structuresCountByRegion"
           >
             <a
-              [routerLink]="['/stats/' + regionsUrls[structure.region]]"
+              [routerLink]="['/stats/region/' + regionsUrls[structure.region]]"
               class="region-name"
             >
               {{

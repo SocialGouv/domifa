@@ -4,7 +4,7 @@ body {
 }
 
 html {
-  font-size: 95%;
+  font-size: 90%;
   font-family: "Marianne";
 }
 
@@ -336,7 +336,7 @@ table .active {
   background-color: var(--primary);
   width: 100%;
   min-height: 90px;
-  padding-top: 40px;
+  padding-top: 30px;
 }
 
 .head-page .title {
