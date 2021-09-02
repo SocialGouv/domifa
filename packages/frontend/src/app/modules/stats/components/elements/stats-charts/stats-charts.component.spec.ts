@@ -7,6 +7,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { DEFAULT_PUBLIC_STATS } from "../../../../../../_common/model/stats/DEFAULT_PUBLIC_STATS.const";
 
 describe("StatsChartsComponent", () => {
   let component: StatsChartsComponent;
@@ -29,6 +30,8 @@ describe("StatsChartsComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StatsChartsComponent);
     component = fixture.componentInstance;
+    component.publicStats = DEFAULT_PUBLIC_STATS;
+
     fixture.detectChanges();
   });
 

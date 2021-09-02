@@ -19,6 +19,7 @@ import { StatsRoutingModule } from "./stats-routing.module";
 import { StatsChartsComponent } from "./components/elements/stats-charts/stats-charts.component";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { StatsMapComponent } from "./components/elements/stats-map/stats-map.component";
+import { UsersModule } from "../users/users.module";
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { StatsMapComponent } from "./components/elements/stats-map/stats-map.com
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    UsersModule,
     StatsRoutingModule,
   ],
   providers: [StatsService],

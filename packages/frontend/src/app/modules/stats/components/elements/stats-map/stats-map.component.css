@@ -23,11 +23,12 @@ g path:hover {
 }
 
 foreignObject:hover .map-number {
-  transform: scale(1.35, 1.35);
+  transform: scale(1.15, 1.15);
   box-shadow: 2px 2px 4px 1px rgba(215, 210, 210, 0.8);
 }
 
 foreignObject {
+  overflow: visible;
   cursor: pointer;
 }
 
@@ -36,15 +37,31 @@ foreignObject {
   font-weight: bold;
   border-radius: 100%;
   padding: 4px;
-  font-size: 0.8rem;
   text-align: center;
-  width: 30px;
-  height: 30px;
-  margin: 10% auto;
+  width: 32px;
+  height: 32px;
+  line-height: 1.6rem;
+  font-size: 0.9rem;
+  margin: 8% auto;
   cursor: pointer;
   color: white;
   transition: all 0.3s ease;
 }
 
-.map-number:hover {
+.map-tooltip {
+  font-size: 0.9rem;
+  word-break: break-all;
+  display: inline-block;
+  text-align: left;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #dbe1ff;
+  box-shadow: 0 1px 8px rgba(72, 93, 183, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.06);
+  border-radius: 2px;
+  padding: 10px 12px;
+}
+
+.map-tooltip span {
+  font-weight: 600;
 }

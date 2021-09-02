@@ -1,5 +1,4 @@
 import { UsagerSharedModule } from "./../usager-shared/usager-shared.module";
-import { UsagerProfilService } from "./services/usager-profil.service";
 
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";

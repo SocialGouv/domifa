@@ -11,7 +11,6 @@ import {
 } from "../../../../shared";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-public-stats",
@@ -21,26 +20,26 @@ import { ToastrService } from "ngx-toastr";
 export class PublicStatsComponent implements OnInit {
   public STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
   public stats: PublicStats;
-  public regions: RegionsLabels;
-  public regionsUrls: RegionsLabels;
+  public regions: RegionsLabels = REGIONS_LABELS_MAP;
+  public REGIONS_SEO_URL_TO_REGION_ID_MAP: RegionsLabels =
+    REGIONS_SEO_URL_TO_REGION_ID_MAP;
+  public regionsUrls: RegionsLabels = REGIONS_SEO_URL_MAP;
   public regionId: string;
 
   constructor(
-    public statsService: StatsService,
+    private statsService: StatsService,
     private route: ActivatedRoute,
     private router: Router,
 
     private titleService: Title
   ) {
-    this.stats = DEFAULT_PUBLIC_STATS;
-    this.regions = REGIONS_LABELS_MAP;
-    this.regionsUrls = REGIONS_SEO_URL_MAP;
     this.regionId = null;
   }
 
   public ngOnInit(): void {
     if (this.route.snapshot.params.region) {
       const region = this.route.snapshot.params.region as string;
+
       if (typeof REGIONS_SEO_URL_TO_REGION_ID_MAP[region] !== "undefined") {
         this.titleService.setTitle("Stats régionnales");
         this.regionId = region;

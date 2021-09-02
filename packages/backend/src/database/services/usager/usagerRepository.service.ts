@@ -39,7 +39,12 @@ async function countDocuments() {
 
 async function countUsagersByMonth(regionId?: string) {
   const startDate = postgresQueryBuilder.formatPostgresDate(
-    moment().subtract(1, "year").add(1, "month").startOf("month").toDate()
+    moment()
+      .utc()
+      .subtract(2, "month")
+      .subtract(1, "year")
+      .endOf("month")
+      .toDate()
   );
 
   const where = [startDate];

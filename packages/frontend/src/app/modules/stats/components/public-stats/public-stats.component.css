@@ -1,8 +1,3 @@
-h1 .home-header-subtitle {
-  font-size: 1.5rem;
-  line-height: 3rem;
-}
-
 .stats-counter {
   font-weight: bold;
   color: var(--primary);
@@ -39,4 +34,8 @@ li a {
 
 .region-name {
   width: 270px;
+}
+
+.breadcrumb {
+  background: #f6f7ff;
 }

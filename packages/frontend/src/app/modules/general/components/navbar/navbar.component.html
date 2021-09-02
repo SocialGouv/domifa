@@ -97,14 +97,26 @@
                 Mon compte
               </button>
               <div ngbDropdownMenu aria-labelledby="dropdownAuthenticatedMenu">
+                <a
+                  *ngIf="me.role === 'admin' || me.structureId === 1"
+                  ngbDropdownItem
+                  routerLink="/admin-domifa"
+                >
+                  <fa-icon
+                    aria-hidden="true"
+                    title="Admin Domifa"
+                    icon="user-shield"
+                  ></fa-icon>
+                  Admin Domifa
+                </a>
                 <a ngbDropdownItem routerLink="/mon-compte">
                   <fa-icon
                     aria-hidden="true"
                     title="Compte"
                     icon="user"
                   ></fa-icon>
-                  Compte</a
-                >
+                  Compte
+                </a>
                 <a
                   ngbDropdownItem
                   *ngIf="me.role === 'admin' || me.role === 'responsable'"
