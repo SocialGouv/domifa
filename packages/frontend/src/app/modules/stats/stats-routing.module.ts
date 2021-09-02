@@ -11,7 +11,7 @@ export const statsRoutes: Routes = [
     component: PublicStatsComponent,
   },
   {
-    path: ":region",
+    path: "region/:region",
     component: PublicStatsComponent,
   },
   {

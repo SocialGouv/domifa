@@ -173,7 +173,12 @@ async function countInteractionsByMonth(
   interactionType: InteractionType = "courrierOut"
 ) {
   const startDate = postgresQueryBuilder.formatPostgresDate(
-    moment().subtract(1, "year").add(1, "month").startOf("month").toDate()
+    moment()
+      .utc()
+      .subtract(2, "month")
+      .subtract(1, "year")
+      .endOf("month")
+      .toDate()
   );
 
   const where: string[] = [startDate, interactionType];
@@ -181,7 +186,7 @@ async function countInteractionsByMonth(
   let query = `select date_trunc('month', "dateInteraction") as date,
     SUM("nbCourrier") as count
     FROM interactions i
-    WHERE "dateInteraction" > $1 AND "type" = $2`;
+    WHERE "createdAt" > $1 AND "type" = $2`;
 
   if (regionId) {
     query =

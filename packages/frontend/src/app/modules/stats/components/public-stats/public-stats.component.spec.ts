@@ -6,6 +6,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { PublicStatsComponent } from "./public-stats.component";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { DEFAULT_PUBLIC_STATS } from "../../../../../_common/model/stats/DEFAULT_PUBLIC_STATS.const";
 
 describe("PublicStatsComponent", () => {
   let component: PublicStatsComponent;
@@ -27,6 +28,7 @@ describe("PublicStatsComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PublicStatsComponent);
     component = fixture.componentInstance;
+    component.stats = DEFAULT_PUBLIC_STATS;
     fixture.detectChanges();
   });
 
