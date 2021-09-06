@@ -36,6 +36,7 @@ export class HomeComponent implements OnInit {
       "Domifa, faciliter la vie des organismes domiciliataires"
     );
 
+    // TODO: typeit
     this.homeService.getHomeStats().subscribe((stats: any) => {
       this.stats = stats;
     });
