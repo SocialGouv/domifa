@@ -1,3 +1,10 @@
+## [2.16.1-alpha.3](https://github.com/SocialGouv/domifa/compare/v2.16.1-alpha.2...v2.16.1-alpha.3) (2021-09-01)
+
+
+### Bug Fixes
+
+* Point docker files. ([87e3725](https://github.com/SocialGouv/domifa/commit/87e3725df8bd996d6859d32473200dfda00eb8fe))
+
 ## [2.16.1-alpha.2](https://github.com/SocialGouv/domifa/compare/v2.16.1-alpha.1...v2.16.1-alpha.2) (2021-09-01)
 
 
