@@ -1,3 +1,10 @@
+## [2.16.1-alpha.4](https://github.com/SocialGouv/domifa/compare/v2.16.1-alpha.3...v2.16.1-alpha.4) (2021-09-06)
+
+
+### Bug Fixes
+
+* Use autodevops k8s-manifests action. ([e7ffcb1](https://github.com/SocialGouv/domifa/commit/e7ffcb1e811efb0489403a81a9b447af7b2817d8))
+
 ## [2.16.1-alpha.3](https://github.com/SocialGouv/domifa/compare/v2.16.1-alpha.2...v2.16.1-alpha.3) (2021-09-01)
 
 
