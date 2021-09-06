@@ -288,7 +288,7 @@ jobs:
   ## DEPLOY BACKEND & FRONT-END TO PREPRODUCTION
   ##############################################################################
   deploy-preprod:
-    name: Deploy application
+    name: Deploy preproduction
     runs-on: ubuntu-latest
     needs: [register-backend, register-frontend, manifests]
     environment:
@@ -301,7 +301,7 @@ jobs:
       with:
         environment: "preprod"
         token: ${{ secrets.GITHUB_TOKEN }}
-        kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV }}
+        kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }}
 
   # deploy-preproduction:
   #   name: Deploy application
