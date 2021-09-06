@@ -34,10 +34,9 @@ export class AuthController {
       });
 
       const accessToken = await this.authService.login(user);
-
       return res.status(HttpStatus.OK).json(accessToken);
     } catch (err) {
-      return res.status(HttpStatus.FORBIDDEN).json({ message: err.message });
+      return res.status(HttpStatus.UNAUTHORIZED).json({ message: err.message });
     }
   }
 

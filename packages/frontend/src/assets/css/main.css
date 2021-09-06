@@ -262,7 +262,7 @@ table .active {
   word-break: break-word;
   display: block;
   padding-top: 12px;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   line-height: 1.1rem;
   position: absolute;
   text-align: center;
@@ -451,7 +451,7 @@ table .active {
 
 .label-statut span {
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 400;
 }
 
@@ -484,7 +484,7 @@ table .active {
 }
 
 .label-info div {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-style: normal;
   font-weight: normal;
 }
@@ -538,14 +538,14 @@ table .active {
 }
 
 .label-info div {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-style: normal;
   font-weight: normal;
 }
 
 .label-info span {
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
 }
 
 .label-danger {

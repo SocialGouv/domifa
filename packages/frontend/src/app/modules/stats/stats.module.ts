@@ -41,7 +41,7 @@ import { UsersModule } from "../users/users.module";
     UsersModule,
     StatsRoutingModule,
   ],
-  providers: [StatsService],
+  providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class StatsModule {}

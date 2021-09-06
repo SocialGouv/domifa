@@ -17,23 +17,23 @@
 .step_number {
   cursor: pointer;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   margin: 0 auto;
   display: block;
-  padding: 4px 0;
+  text-align: center;
+  padding: 6px 0;
   background-color: #fff;
   border: 1px solid var(--blue);
   color: var(--blue);
-  font-size: 1.05rem;
-  text-align: center;
+  font-size: 1.2rem;
 }
 
 .step_text {
   word-break: break-word;
   display: block;
   padding-top: 12px;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   line-height: 1.1rem;
   position: absolute;
   text-align: center;

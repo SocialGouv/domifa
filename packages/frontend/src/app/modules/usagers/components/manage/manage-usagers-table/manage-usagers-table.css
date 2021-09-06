@@ -157,14 +157,14 @@ th {
 }
 
 .list-icon-label {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   padding: 0 4px;
 }
 
 .distribution-tooltip {
   opacity: 1;
   min-width: 240px;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
 }
 
 .distribution-tooltip .list-icon {

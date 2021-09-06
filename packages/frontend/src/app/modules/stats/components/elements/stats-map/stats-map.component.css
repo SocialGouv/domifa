@@ -17,7 +17,7 @@ svg {
   overflow-x: auto;
 }
 
-g path:hover {
+.region-hover {
   fill: #f2f2f2;
   cursor: pointer;
 }

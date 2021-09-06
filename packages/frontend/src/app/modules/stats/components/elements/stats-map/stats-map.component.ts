@@ -23,19 +23,22 @@ export class StatsMapComponent implements OnInit, AfterViewInit {
   public regions: RegionsLabels = REGIONS_LABELS_MAP;
   public regionsUrls: RegionsLabels = REGIONS_SEO_URL_MAP;
 
-  public hoverToDisplay: string;
+  public selectedRegion: string;
+
   @Input() public publicStats: PublicStats;
 
   public statsByRegion: StatsByRegion;
 
   constructor() {
-    this.hoverToDisplay = null;
+    this.selectedRegion = null;
   }
 
   ngOnInit(): void {}
 
   public selectRegion(regionId: string) {
-    this.hoverToDisplay = regionId;
+    if (this.selectedRegion !== regionId) {
+      this.selectedRegion = regionId;
+    }
   }
 
   public ngAfterViewInit(): void {

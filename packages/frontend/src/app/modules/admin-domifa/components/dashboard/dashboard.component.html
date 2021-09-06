@@ -1,6 +1,4 @@
-<br />
-<br />
-<div id="stats" *ngIf="stats">
+<div id="stats" class="my-5" *ngIf="stats">
   <div class="row">
     <div class="col-md-8">
       <div class="stats-export-btn">
@@ -126,7 +124,9 @@
           </div>
           <div class="stats-blocks">
             <div>
-              <span class="stats-chiffres">{{ stats.usersCount }}</span>
+              <span class="stats-chiffres">{{
+                stats.usersCount | formatBigNumber
+              }}</span>
               <span class="stats-labels"> UTILISATEURS </span>
             </div>
           </div>
@@ -184,7 +184,9 @@
       <span class="stats-titre">LANGUES</span>
       <div class="stats-blocks">
         <div *ngFor="let usagersLanguageCount of stats.usagersCountByLanguage">
-          <span class="stats-chiffres">{{ usagersLanguageCount.count }}</span>
+          <span class="stats-chiffres">{{
+            usagersLanguageCount.count | formatBigNumber
+          }}</span>
           <span
             class="stats-labels"
             *ngIf="usagersLanguageCount.langue !== 'NON_RENSEIGNE'"
@@ -214,7 +216,7 @@
                   : structure.region
               }}
             </td>
-            <td>{{ structure.count }}</td>
+            <td>{{ structure.count | formatBigNumber }}</td>
           </tr>
         </tbody>
       </table>
