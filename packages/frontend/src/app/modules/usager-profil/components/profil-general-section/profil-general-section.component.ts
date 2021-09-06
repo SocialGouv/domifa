@@ -38,7 +38,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
   public interactions: Interaction[];
 
   public actions: {
-    [key: string]: any;
+    [key: string]: string;
   };
 
   public motifsRadiation: { [key: string]: string };
@@ -87,6 +87,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
       DELETE: "Suppression",
       CREATION: "Création",
     };
+
     this.today = new Date();
   }
 
@@ -123,38 +124,35 @@ export class ProfilGeneralSectionComponent implements OnInit {
     this.usager = new UsagerFormModel(usager);
   }
 
-  public setSingleInteraction(
-    usager: UsagerFormModel,
-    type: InteractionType
-  ): void {
+  public setSingleInteraction(usagerRef: number, type: InteractionType): void {
     const interaction: InteractionForApi = {
       type,
       nbCourrier: 1,
     };
 
-    this.interactionService.setInteraction(usager, [interaction]).subscribe(
-      (newUsager: UsagerLight) => {
-        usager = new UsagerFormModel(newUsager);
+    this.interactionService.setInteraction(usagerRef, [interaction]).subscribe({
+      next: (newUsager: UsagerLight) => {
+        this.usager = new UsagerFormModel(newUsager);
         this.notifService.success(INTERACTIONS_LABELS_SINGULIER[type]);
         this.updateInteractions();
       },
-      () => {
+      error: () => {
         this.notifService.error("Impossible d'enregistrer cette interaction");
-      }
-    );
+      },
+    });
   }
 
   public stopCourrier() {
-    this.usagerProfilService.stopCourrier(this.usager.ref).subscribe(
-      (newUsager: UsagerLight) => {
+    this.usagerProfilService.stopCourrier(this.usager.ref).subscribe({
+      next: (newUsager: UsagerLight) => {
         this.notifService.success("Le courrier ne sera plus enregistré ");
         this.usager = new UsagerFormModel(newUsager);
         this.updateInteractions();
       },
-      () => {
+      error: () => {
         this.notifService.error("Impossible d'enregistrer cette interaction");
-      }
-    );
+      },
+    });
   }
 
   public updateInteractions() {

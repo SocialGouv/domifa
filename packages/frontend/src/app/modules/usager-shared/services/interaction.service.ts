@@ -20,11 +20,11 @@ export class InteractionService {
   constructor(private http: HttpClient) {}
 
   public setInteraction(
-    usager: UsagerLight | UsagerFormModel,
+    usagerRef: number,
     interactions: InteractionForApi[]
   ): Observable<UsagerLight> {
     return this.http
-      .post<UsagerLight>(`${this.endPoint}${usager.ref}`, interactions)
+      .post<UsagerLight>(`${this.endPoint}${usagerRef}`, interactions)
       .pipe(
         tap((newUsager: UsagerLight) => {
           usagersSearchCache.updateUsager(newUsager);
