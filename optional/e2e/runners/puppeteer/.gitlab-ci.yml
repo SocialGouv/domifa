@@ -23,7 +23,7 @@ Launch e2e tests:
 
 E2E Test @optional/e2e.runner.puppeteer:
   stage: Code Quality
-  image: ghcr.io/socialgouv/docker/puppeteer:6.47.2
+  image: ghcr.io/socialgouv/docker/puppeteer:6.47.5
   variables:
     CODECEPT_BASEURL: "https://master-code-travail.dev.fabrique.social.gouv.fr/"
   artifacts:
