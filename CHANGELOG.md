@@ -1,3 +1,10 @@
+# [2.17.0-alpha.2](https://github.com/SocialGouv/domifa/compare/v2.17.0-alpha.1...v2.17.0-alpha.2) (2021-09-06)
+
+
+### Bug Fixes
+
+* Use SOCIALGOUV_KUBE_CONFIG_DEV2. ([7d68717](https://github.com/SocialGouv/domifa/commit/7d6871775bfa85132acc0db0201fdc04c9c5ef54))
+
 # [2.17.0-alpha.1](https://github.com/SocialGouv/domifa/compare/v2.16.2-alpha.3...v2.17.0-alpha.1) (2021-09-06)
 
 
