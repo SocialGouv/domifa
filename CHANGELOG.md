@@ -1,3 +1,10 @@
+## [2.16.1-alpha.5](https://github.com/SocialGouv/domifa/compare/v2.16.1-alpha.4...v2.16.1-alpha.5) (2021-09-06)
+
+
+### Bug Fixes
+
+* Add proper deactivate workflow. ([4128513](https://github.com/SocialGouv/domifa/commit/41285133525e4d0617b0b01797f317b73543b0ab))
+
 ## [2.16.1-alpha.4](https://github.com/SocialGouv/domifa/compare/v2.16.1-alpha.3...v2.16.1-alpha.4) (2021-09-06)
 
 
