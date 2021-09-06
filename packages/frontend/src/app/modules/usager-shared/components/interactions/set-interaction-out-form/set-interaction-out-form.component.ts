@@ -162,17 +162,17 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
     }
 
     this.interactionService
-      .setInteraction(this.usager, interactionsToSave)
-      .subscribe(
-        () => {
+      .setInteraction(this.usager.ref, interactionsToSave)
+      .subscribe({
+        next: () => {
           this.updateInteractions.emit();
           this.notifService.success("Distribution effectuée avec succès");
           this.refreshUsager();
         },
-        () => {
+        error: () => {
           this.notifService.error("Impossible d'enregistrer cette interaction");
-        }
-      );
+        },
+      });
   }
 
   // Actualiser les données de l'usager

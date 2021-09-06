@@ -86,16 +86,16 @@ export class SetInteractionInFormComponent implements OnInit {
     }
 
     this.interactionService
-      .setInteraction(this.usager, interactionsToSave)
-      .subscribe(
-        () => {
+      .setInteraction(this.usager.ref, interactionsToSave)
+      .subscribe({
+        next: () => {
           this.notifService.success("Réception enregistrée avec succès");
           this.refreshUsager();
         },
-        () => {
+        error: () => {
           this.notifService.error("Impossible d'enregistrer cette interaction");
-        }
-      );
+        },
+      });
   }
 
   // Actualiser les données de l'usager

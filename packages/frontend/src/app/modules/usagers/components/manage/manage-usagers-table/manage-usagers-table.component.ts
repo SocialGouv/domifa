@@ -115,16 +115,18 @@ export class ManageUsagersTableComponent implements OnInit {
       nbCourrier: 1,
     };
     this.matomo.trackEvent("interactions", "manage", type, 1);
-    this.interactionService.setInteraction(usager, [interaction]).subscribe(
-      (newUsager: UsagerLight) => {
-        usager = new UsagerFormModel(newUsager);
-        this.updateUsager.emit(usager);
-        this.notifService.success(INTERACTIONS_LABELS_SINGULIER[type]);
-      },
-      () => {
-        this.notifService.error("Impossible d'enregistrer cette interaction");
-      }
-    );
+    this.interactionService
+      .setInteraction(usager.ref, [interaction])
+      .subscribe({
+        next: (newUsager: UsagerLight) => {
+          usager = new UsagerFormModel(newUsager);
+          this.updateUsager.emit(usager);
+          this.notifService.success(INTERACTIONS_LABELS_SINGULIER[type]);
+        },
+        error: () => {
+          this.notifService.error("Impossible d'enregistrer cette interaction");
+        },
+      });
   }
 
   public openInteractionInModal(usager: UsagerFormModel) {
