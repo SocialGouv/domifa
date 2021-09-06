@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Router, RouterStateSnapshot } from "@angular/router";
 import * as Sentry from "@sentry/browser";
 import jwtDecode from "jwt-decode";
+import { ToastrService } from "ngx-toastr";
 import { BehaviorSubject, Observable, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
@@ -17,7 +18,11 @@ export class AuthService {
 
   private endPoint = environment.apiUrl + "auth";
 
-  constructor(public http: HttpClient, public router: Router) {
+  constructor(
+    public http: HttpClient,
+    private toastr: ToastrService,
+    public router: Router
+  ) {
     this.currentUserSubject = new BehaviorSubject<AppUser | null>(
       JSON.parse(localStorage.getItem("currentUser") || null)
     );
@@ -114,5 +119,13 @@ export class AuthService {
     } else {
       this.router.navigate(["/connexion"]);
     }
+  }
+
+  public notAuthorized() {
+    this.toastr.error(
+      "Vous n'êtes pas autorisé à accéder à cette page",
+      "Action interdite"
+    );
+    this.router.navigate(["/"]);
   }
 }
