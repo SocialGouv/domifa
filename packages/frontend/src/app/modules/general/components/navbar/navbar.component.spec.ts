@@ -7,6 +7,7 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { ToastrModule } from "ngx-toastr";
 import { SharedModule } from "../../../shared/shared.module";
 
 import { NavbarComponent } from "./navbar.component";
@@ -24,7 +25,7 @@ describe("NavbarComponent", () => {
           SharedModule,
           FontAwesomeModule,
           RouterTestingModule,
-
+          ToastrModule.forRoot(),
           HttpClientTestingModule,
         ],
         providers: [

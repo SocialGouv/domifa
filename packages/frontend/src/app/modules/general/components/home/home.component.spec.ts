@@ -13,6 +13,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { ToastrModule } from "ngx-toastr";
 
 describe("HomeComponent", () => {
   let component: HomeComponent;
@@ -25,6 +26,7 @@ describe("HomeComponent", () => {
         imports: [
           CommonModule,
           SharedModule,
+          ToastrModule.forRoot(),
           FontAwesomeModule,
           RouterTestingModule,
           CountUpModule,

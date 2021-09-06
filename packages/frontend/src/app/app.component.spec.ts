@@ -15,7 +15,6 @@ describe("AppComponent", () => {
           HttpClientTestingModule,
           MatomoModule,
           ToastrModule.forRoot(),
-
           RouterTestingModule,
         ],
         providers: [
