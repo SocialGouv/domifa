@@ -32,9 +32,9 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
     this.getInteractions();
   }
 
-  public deleteInteraction(idInteraction: number) {
+  public deleteInteraction(interactionUuid: string) {
     this.matomo.trackEvent("profil", "interactions", "delete", 1);
-    this.interactionService.delete(this.usager.ref, idInteraction).subscribe({
+    this.interactionService.delete(this.usager.ref, interactionUuid).subscribe({
       next: (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
         this.notifService.success("Interactionn supprimée avec succès");

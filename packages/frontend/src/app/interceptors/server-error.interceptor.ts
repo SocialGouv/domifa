@@ -9,12 +9,13 @@ import { Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
+import { AuthService } from "../modules/shared/services/auth.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class ServerErrorInterceptor implements HttpInterceptor {
-  constructor(public notifService: ToastrService) {}
+  constructor(private toastr: ToastrService, public authService: AuthService) {}
 
   public intercept(
     request: HttpRequest<any>,
@@ -22,27 +23,35 @@ export class ServerErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (!navigator.onLine) {
-          this.notifService.error(
-            "Vous êtes actuellement hors-ligne. Veuillez vérifier votre connexion internet"
-          );
-        } else {
-          let errorMessage = {};
-          if (error.error instanceof ErrorEvent) {
-            errorMessage = {
-              ...error,
-              message: `Error: ${error.error.message}`,
-            };
-          } else {
-            const message =
-              typeof error.error.message !== "undefined"
-                ? error.error.message
-                : error.message;
-            errorMessage = { ...error, status: error.status, message };
+        // Erreur côté navigateur
+        if (error.error instanceof ErrorEvent) {
+          if (!navigator.onLine) {
+            this.toastr.error(
+              "Vous êtes actuellement hors-ligne. Veuillez vérifier votre connexion internet"
+            );
+            return throwError(() => "NAVIGATOR_OFFLINE");
           }
-          return throwError(errorMessage);
+          // Erreur inconnue côté front
+          return throwError(() => error.error);
         }
-        return throwError(error);
+
+        // Erreur issue de l'API
+        if (error instanceof HttpErrorResponse) {
+          switch (error.status) {
+            case 401:
+              this.toastr.warning(
+                "Votre session a expiré, merci de vous reconnecter"
+              );
+              this.authService.logoutAndRedirect();
+              break;
+            case 403:
+              this.authService.notAuthorized();
+              break;
+            default:
+              break;
+          }
+        }
+        return throwError(() => error);
       })
     );
   }
