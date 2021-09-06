@@ -1,3 +1,25 @@
+# [2.17.0](https://github.com/SocialGouv/domifa/compare/v2.16.1...v2.17.0) (2021-09-06)
+
+
+### Bug Fixes
+
+* ajout d'un panneau interdisant l'accès ([c4220d9](https://github.com/SocialGouv/domifa/commit/c4220d9cea5be0a95fa015caa33a2067746a08c4))
+* **ci:** correction de la migration de création ([475553d](https://github.com/SocialGouv/domifa/commit/475553d920c0a742ef8769b2744db9dae6fb0c89))
+* **stats:** ajout de stats régionales ([50c7091](https://github.com/SocialGouv/domifa/commit/50c70916c6b6f1b946d4cb71301ada409770a301))
+* **tests:** derniers tests frontend à revoir ([1b5d164](https://github.com/SocialGouv/domifa/commit/1b5d1647a76f2192fc393064519290b0e4867c8c))
+* **usagers:** npai ([441c314](https://github.com/SocialGouv/domifa/commit/441c314219ba620d9be57f1297283db17f324a94))
+* ajout des régions ([48cd0ac](https://github.com/SocialGouv/domifa/commit/48cd0ace38df1034f700d1534939976b0d38bd6a))
+* build frontend ([1f1498e](https://github.com/SocialGouv/domifa/commit/1f1498ec87c9ba2c0c31fa2771dc0913e31f80af))
+
+
+### Features
+
+* **font:** Intégration de la police Marianne ([05f1c0f](https://github.com/SocialGouv/domifa/commit/05f1c0f274cf52db0bdb07118b00a12227bf2a32))
+* **maps:** fin de la map ([a961e72](https://github.com/SocialGouv/domifa/commit/a961e72a144e21e345ff01188eac8dd3bada4260))
+* **stats:** ajout de la région au survol dans la map ([f596506](https://github.com/SocialGouv/domifa/commit/f59650650a0d1e6c2c529a713676192244589e9a))
+* fin de l'ajout des stats publiques ([45c27c4](https://github.com/SocialGouv/domifa/commit/45c27c4fbf06a7def25d2617391ab22df90137b3))
+* **stats:** ajout des stats mensuelles ([95fd98c](https://github.com/SocialGouv/domifa/commit/95fd98c84689dd072408f445f793ee8d2b4f2c27))
+
 ## [2.16.1](https://github.com/SocialGouv/domifa/compare/v2.16.0...v2.16.1) (2021-09-06)
 
 
