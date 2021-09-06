@@ -1,3 +1,10 @@
+## [2.16.1](https://github.com/SocialGouv/domifa/compare/v2.16.0...v2.16.1) (2021-09-06)
+
+
+### Bug Fixes
+
+* unit tests max pg connections ([#1660](https://github.com/SocialGouv/domifa/issues/1660)) ([7e2b023](https://github.com/SocialGouv/domifa/commit/7e2b023522efa770aaaa0ce31b1cf868e1e8c5b5))
+
 # [2.16.0](https://github.com/SocialGouv/domifa/compare/v2.15.11...v2.16.0) (2021-08-31)
 
 
