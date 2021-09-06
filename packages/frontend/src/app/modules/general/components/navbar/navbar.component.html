@@ -98,7 +98,7 @@
               </button>
               <div ngbDropdownMenu aria-labelledby="dropdownAuthenticatedMenu">
                 <a
-                  *ngIf="me.role === 'admin' || me.structureId === 1"
+                  *ngIf="me.role === 'admin' && me.structureId === 1"
                   ngbDropdownItem
                   routerLink="/admin-domifa"
                 >
