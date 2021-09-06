@@ -1,3 +1,4 @@
+import { ToastrModule } from "ngx-toastr";
 import { inject, TestBed } from "@angular/core/testing";
 
 import { AuthService } from "./auth.service";
@@ -13,6 +14,7 @@ describe("AuthService", () => {
         HttpClientTestingModule,
         RouterTestingModule,
         RouterTestingModule,
+        ToastrModule.forRoot(),
       ],
       providers: [AuthService, { provide: APP_BASE_HREF, useValue: "/" }],
     });

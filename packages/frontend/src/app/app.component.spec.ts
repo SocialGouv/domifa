@@ -3,6 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { TestBed, waitForAsync } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
+import { ToastrModule } from "ngx-toastr";
 import { AppComponent } from "./app.component";
 
 describe("AppComponent", () => {
@@ -10,7 +11,13 @@ describe("AppComponent", () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [AppComponent],
-        imports: [HttpClientTestingModule, MatomoModule, RouterTestingModule],
+        imports: [
+          HttpClientTestingModule,
+          MatomoModule,
+          ToastrModule.forRoot(),
+
+          RouterTestingModule,
+        ],
         providers: [
           {
             provide: MatomoInjector,
