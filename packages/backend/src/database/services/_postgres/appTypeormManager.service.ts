@@ -6,7 +6,7 @@ import {
   Migration,
 } from "typeorm";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
-import { domifaConfig } from "../../../config";
+import { domifaConfig, DomifaConfigPostgres } from "../../../config";
 import { appLogger } from "../../../util";
 
 export const appTypeormManager = {
@@ -53,10 +53,20 @@ async function revertLastMigration(connection: Connection): Promise<void> {
 }
 
 async function connect(
-  { reuseConnexion }: { reuseConnexion: boolean } = { reuseConnexion: false }
+  {
+    reuseConnexion,
+    overrideConfig = {},
+  }: {
+    reuseConnexion: boolean;
+    overrideConfig?: Partial<DomifaConfigPostgres>;
+  } = { reuseConnexion: false }
 ) {
-  const pgConfig = domifaConfig().postgres;
-  if (reuseConnexion && connectionHolder.connection) {
+  const pgConfig = { ...domifaConfig().postgres, ...overrideConfig };
+  if (
+    reuseConnexion &&
+    connectionHolder.connection &&
+    connectionHolder.connection.isConnected
+  ) {
     appLogger.warn(
       `[appTypeormManager] Reuse postgres database connection to "${pgConfig.database}" at ${pgConfig.host}:${pgConfig.port}`
     );
@@ -106,6 +116,11 @@ async function connect(
     };
   }
   const connectOptions: PostgresConnectionOptions = {
+    // name: `test-${Math.random()}`,
+    applicationName: "domifa-api",
+    poolErrorHandler: (err: Error) => {
+      appLogger.error("PG pool error:", { error: err, sentry: true });
+    },
     type: "postgres",
     host: pgConfig.host,
     port: pgConfig.port,
@@ -119,6 +134,7 @@ async function connect(
   };
   try {
     connectionHolder.connection = await createConnection(connectOptions);
+
     appLogger.debug(`[appTypeormManager] postgres connection success`);
     return connectionHolder.connection;
   } catch (err) {

@@ -10,7 +10,7 @@ describe("usesRepository", () => {
   });
 
   afterAll(async () => {
-    AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
+    await AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
   });
 
   it("count returns users count", async () => {
