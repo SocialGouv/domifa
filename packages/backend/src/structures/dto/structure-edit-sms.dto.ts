@@ -1,8 +1,13 @@
-import { IsBoolean, IsNotEmpty, IsOptional, MaxLength } from "class-validator";
+import {
+  IsBoolean,
+  IsEmpty,
+  IsNotEmpty,
+  IsOptional,
+  MaxLength,
+} from "class-validator";
 
 export class StructureEditSmsDto {
-  @IsOptional()
-  @IsBoolean()
+  @IsEmpty()
   enabledByDomifa: boolean;
 
   @IsNotEmpty()

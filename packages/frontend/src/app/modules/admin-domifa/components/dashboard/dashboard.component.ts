@@ -301,23 +301,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   public deleteStructure(id: string): void {
-    this.adminDomifaService.deleteStructure(id).subscribe(
-      () => {
+    this.adminDomifaService.deleteStructure(id).subscribe({
+      next: () => {
         this.notifService.success(
           "Vous venez de recevoir un email vous permettant de supprimer la structure"
         );
       },
-      () => {
+      error: () => {
         this.notifService.error(
           "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
         );
-      }
-    );
+      },
+    });
   }
 
   public enableSms(structure: Structure): void {
-    this.adminDomifaService.enableSms(structure.id).subscribe(
-      () => {
+    this.adminDomifaService.enableSms(structure.id).subscribe({
+      next: () => {
         structure.sms.enabledByDomifa = !structure.sms.enabledByDomifa;
 
         let message = structure.sms.enabledByDomifa
@@ -326,11 +326,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
         message = message + " pour la structure : " + structure.nom;
         this.notifService.success(message);
       },
-      () => {
+      error: () => {
         this.notifService.error(
           "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
         );
-      }
-    );
+      },
+    });
   }
 }

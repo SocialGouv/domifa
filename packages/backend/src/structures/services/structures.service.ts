@@ -46,16 +46,11 @@ export class StructuresService {
 
   public async patchSmsParams(
     structureSmsDto: StructureEditSmsDto,
-    user: Pick<AppUser, "structureId">
+    user: Pick<AppUser, "structureId" | "structure">
   ): Promise<StructureCommon> {
     return structureCommonRepository.updateOne(
       { id: user.structureId },
-      {
-        sms: {
-          enabledByDomifa: true,
-          ...structureSmsDto,
-        },
-      }
+      { sms: structureSmsDto }
     );
   }
 

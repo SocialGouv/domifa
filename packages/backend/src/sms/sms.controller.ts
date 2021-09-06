@@ -21,9 +21,17 @@ export class SmsController {
   @Get("enable/:structureId")
   public async enableByDomifa(@Param("structureId") structureId: number) {
     const structure = await this.structureService.findOneFull(structureId);
-    const smsParams = structure.sms;
-    smsParams.enabledByDomifa = !smsParams.enabledByDomifa;
-    return this.messageSmsService.changeStatutByDomifa(structureId, smsParams);
+
+    structure.sms.enabledByDomifa = !structure.sms.enabledByDomifa;
+
+    if (!structure.sms.enabledByDomifa) {
+      structure.sms.enabledByStructure = false;
+    }
+
+    return this.messageSmsService.changeStatutByDomifa(
+      structureId,
+      structure.sms
+    );
   }
 
   @ApiBearerAuth()

@@ -129,13 +129,14 @@ export class StructuresController {
     @Body() structureSmsDto: StructureEditSmsDto,
     @CurrentUser() user: AppAuthUser
   ) {
-    const actuelsParams = user.structure.sms;
-    if (!actuelsParams.enabledByDomifa) {
+    if (!user.structure.sms.enabledByDomifa) {
       throw new HttpException(
         "SMS_NOT_ENABLED_BY_DOMIFA",
         HttpStatus.BAD_REQUEST
       );
     }
+
+    structureSmsDto.enabledByDomifa = user.structure.sms.enabledByDomifa;
     return this.structureService.patchSmsParams(structureSmsDto, user);
   }
 
