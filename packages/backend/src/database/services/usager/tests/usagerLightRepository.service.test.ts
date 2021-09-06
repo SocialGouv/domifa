@@ -9,7 +9,7 @@ describe("usagerLightRepository", () => {
     postgresTypeormConnection = await AppTestHelper.bootstrapTestConnection();
   });
   afterAll(async () => {
-    AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
+    await AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
   });
 
   it("findDoublons found", async () => {

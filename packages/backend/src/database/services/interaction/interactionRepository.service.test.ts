@@ -9,7 +9,7 @@ describe("interactionRepository", () => {
     postgresTypeormConnection = await AppTestHelper.bootstrapTestConnection();
   });
   afterAll(async () => {
-    AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
+    await AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
   });
 
   it("get all interactions", async () => {

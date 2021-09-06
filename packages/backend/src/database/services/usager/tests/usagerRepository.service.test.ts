@@ -9,7 +9,7 @@ describe("usagerRepository", () => {
     postgresTypeormConnection = await AppTestHelper.bootstrapTestConnection();
   });
   afterAll(async () => {
-    AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
+    await AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
   });
 
   it("countDocuments", async () => {

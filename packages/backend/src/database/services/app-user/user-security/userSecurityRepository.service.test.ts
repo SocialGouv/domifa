@@ -9,6 +9,9 @@ describe("userSecurityRepository", () => {
   beforeAll(async () => {
     postgresTypeormConnection = await AppTestHelper.bootstrapTestConnection();
   });
+  afterAll(async () => {
+    await AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
+  });
 
   it("findOneByTokenAttribute returns matching user", async () => {
     const { user, userSecurity } =

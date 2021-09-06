@@ -9,7 +9,7 @@ describe("structureRepository", () => {
     postgresTypeormConnection = await AppTestHelper.bootstrapTestConnection();
   });
   afterAll(async () => {
-    AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
+    await AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
   });
 
   it("checkHardResetToken", async () => {
