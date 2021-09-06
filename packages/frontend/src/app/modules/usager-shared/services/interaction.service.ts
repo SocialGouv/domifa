@@ -54,8 +54,8 @@ export class InteractionService {
       );
   }
 
-  public delete(usagerRef: number, interactionId: number) {
-    return this.http.delete(`${this.endPoint}${usagerRef}/${interactionId}`);
+  public delete(usagerRef: number, interactionUuid: string) {
+    return this.http.delete(`${this.endPoint}${usagerRef}/${interactionUuid}`);
   }
 
   // Courrier entrant

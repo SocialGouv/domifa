@@ -60,20 +60,20 @@ export class ResetPasswordComponent implements OnInit {
     if (this.route.snapshot.params.token) {
       const token = this.route.snapshot.params.token;
       const userId = this.route.snapshot.params.userId;
-      this.userService.checkPasswordToken({ userId, token }).subscribe(
-        (response) => {
+      this.userService.checkPasswordToken({ userId, token }).subscribe({
+        next: () => {
           this.token = token;
           this.userId = userId;
           this.initPasswordForm();
         },
-        (error) => {
+        error: (error) => {
           const errorMessage =
             this.errorLabels[error.message] !== undefined
               ? this.errorLabels[error.message]
               : "Le lien est incorrect, veuillez recommencer la procédure";
           this.notifService.error(errorMessage);
-        }
-      );
+        },
+      });
     }
     this.initEmailForm();
   }
