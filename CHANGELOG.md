@@ -1,3 +1,10 @@
+## [2.17.1](https://github.com/SocialGouv/domifa/compare/v2.17.0...v2.17.1) (2021-09-06)
+
+
+### Bug Fixes
+
+* **general:** menu dédié à Domifa ([f975e78](https://github.com/SocialGouv/domifa/commit/f975e78ba8c16cf00bf93a8232b64715821c21f4))
+
 # [2.17.0](https://github.com/SocialGouv/domifa/compare/v2.16.1...v2.17.0) (2021-09-06)
 
 
