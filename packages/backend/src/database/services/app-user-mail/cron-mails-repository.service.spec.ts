@@ -10,7 +10,7 @@ describe("cronMailsRepository", () => {
     postgresTypeormConnection = await AppTestHelper.bootstrapTestConnection();
   });
   afterAll(async () => {
-    AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
+    await AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
   });
 
   it("findNextUserToSendCronMail returns next user to send guide mail", async () => {

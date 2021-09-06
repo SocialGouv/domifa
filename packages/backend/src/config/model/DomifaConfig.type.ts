@@ -1,6 +1,6 @@
 import SMTPTransport = require("nodemailer/lib/smtp-transport");
-import { LoggerOptions } from "typeorm/logger/LoggerOptions";
 import { DomifaConfigDelay } from "./DomifaConfigDelay.type";
+import { DomifaConfigPostgres } from "./DomifaConfigPostgres.type";
 import { DomifaEnvId } from "./DomifaEnvId.type";
 
 export type DomifaConfigSecurity = {
@@ -25,15 +25,7 @@ export type DomifaConfig = {
     frontendUrlFromBackend: string; // DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND
   };
   security: DomifaConfigSecurity;
-  postgres: {
-    host: string; // POSTGRES_HOST
-    port: number; // POSTGRES_PORT
-    username: string; // POSTGRES_USERNAME
-    password: string; // POSTGRES_PASSWORD
-    database: string; // POSTGRES_DATABASE
-    logging: LoggerOptions; // POSTGRES_LOGGING
-    poolMaxConnections: number; // POSTGRES_POOL_MAX_CONNEXIONS
-  };
+  postgres: DomifaConfigPostgres;
   typeorm: {
     runOnStartup: boolean; // DOMIFA_TYPEORM_RUN_ON_STARTUP
     createDatabase: boolean; // DOMIFA_TYPEORM_CREATE_DATABASE

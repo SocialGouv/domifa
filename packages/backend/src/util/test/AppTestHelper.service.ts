@@ -32,6 +32,9 @@ async function tearDownTestApp({
 async function bootstrapTestConnection(): Promise<Connection> {
   const postgresTypeormConnection = await appTypeormManager.connect({
     reuseConnexion: true,
+    overrideConfig: {
+      poolMaxConnections: 1,
+    },
   });
   return postgresTypeormConnection;
 }
@@ -39,8 +42,8 @@ async function bootstrapTestConnection(): Promise<Connection> {
 async function tearDownTestConnection({
   postgresTypeormConnection,
 }: Pick<AppTestContext, "postgresTypeormConnection">): Promise<void> {
-  if (postgresTypeormConnection) {
-    postgresTypeormConnection.close();
+  if (postgresTypeormConnection && !process.env.DISABLE_TYPEORM_CLOSE) {
+    await postgresTypeormConnection.close();
   } else {
     appLogger.error("Can not close missing postgres connexion");
   }

@@ -37,7 +37,8 @@ jobs:
         run: docker-compose -f ./docker-compose.tests.yml up --build --detach
 
       - name: Run backend tests
-        run: yarn workspace @domifa/backend jest --coverage --detectOpenHandles --forceExit --runInBand
+        # run: yarn workspace @domifa/backend jest --coverage --detectOpenHandles --forceExit --runInBand
+        run: DISABLE_TYPEORM_CLOSE=1 yarn workspace @domifa/backend jest --coverage --detectOpenHandles --forceExit --runInBand
 
       - name: Archive code coverage
         uses: actions/upload-artifact@v2
