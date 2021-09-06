@@ -1,3 +1,10 @@
+## [2.16.2-alpha.2](https://github.com/SocialGouv/domifa/compare/v2.16.2-alpha.1...v2.16.2-alpha.2) (2021-09-06)
+
+
+### Bug Fixes
+
+* Use autodevops actions within production workflow. ([6dcf8e7](https://github.com/SocialGouv/domifa/commit/6dcf8e7df4a6e2832a1bc62b98d0a9199686fcff))
+
 ## [2.16.2-alpha.1](https://github.com/SocialGouv/domifa/compare/v2.16.1...v2.16.2-alpha.1) (2021-09-06)
 
 
