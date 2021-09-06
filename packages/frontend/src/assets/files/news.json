@@ -1,4 +1,8 @@
 [
+      {
+    "date": "2021-09-06",
+    "description": "La nouvelle fiche domicilié est disponible ! Elle a été séparée en différentes sections pour une meilleure lisibilité. Une nouvelle version avec la suite des améliorations passera en production prochainement."
+  },
   {
     "date": "2021-08-26",
     "description": "Les notifications SMS sont de nouveau disponibles ! Les SMS n’ayant pas pu être envoyés le 25/08 seront envoyées le 26/08 à 19h avec ceux du jour."
