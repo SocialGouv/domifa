@@ -96,8 +96,7 @@
   background-image: url("data:image/svg+xml,%3Csvg width='7' height='12' viewBox='0 0 7 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M1.38467 11L6 5.99896L1.38467 1L1 1.41689L5.23031 5.99972L1 10.5839L1.38467 11Z' fill='%23333333' stroke='%23333333'/%3E%3C/svg%3E%0A");
 }
 
-.list-icon,
-.icon-ban {
+.list-icon {
   box-sizing: border-box;
   background-color: white;
   -webkit-mask-size: 100%;
@@ -107,4 +106,9 @@
   vertical-align: top;
   display: inline-block;
   width: 24px;
+}
+
+.icon-note {
+  -webkit-mask: url("../icones/note.svg") no-repeat center;
+  mask: url("../icones/note.svg") no-repeat center;
 }

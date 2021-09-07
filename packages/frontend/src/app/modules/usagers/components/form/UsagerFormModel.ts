@@ -1,20 +1,18 @@
-import { UsagerImport } from "./../../../../../_common/model/usager/UsagerImport.type";
 import {
   UsagerDoc,
   UsagerLight,
+  UsagerNote,
   UsagerSexe,
   UsagerTypeDom,
 } from "../../../../../_common/model";
-
+import { INTERACTIONS_IN_AVAILABLE } from "../../../../../_common/model/interaction/constants";
 import {
   ETAPE_ETAT_CIVIL,
-  USAGER_DECISION_STATUT_LABELS,
   USAGER_DECISION_STATUT_COLORS,
+  USAGER_DECISION_STATUT_LABELS,
 } from "../../../../../_common/model/usager/constants";
-
 import { UsagerAyantDroit } from "../../../../../_common/model/usager/UsagerAyantDroit.type";
 import { UsagerDecision } from "../../../../../_common/model/usager/UsagerDecision.type";
-
 import { regexp } from "../../../../shared/validators";
 import { Decision } from "../../interfaces/decision";
 import { Doc } from "../../interfaces/doc";
@@ -24,7 +22,7 @@ import { getUrlUsagerProfil } from "../../interfaces/getUrlUsagerProfil.service"
 import { Options } from "../../interfaces/options";
 import { Rdv } from "../../interfaces/rdv";
 import { usagersFilter, UsagersFilterCriteria } from "../manage/usager-filter";
-import { INTERACTIONS_IN_AVAILABLE } from "../../../../../_common/model/interaction/constants";
+import { UsagerImport } from "./../../../../../_common/model/usager/UsagerImport.type";
 
 export class UsagerFormModel implements UsagerLight {
   public ref: number;
@@ -57,6 +55,7 @@ export class UsagerFormModel implements UsagerLight {
   public docs: UsagerDoc[];
   public entretien: Entretien;
   public rdv: Rdv;
+  public notes: UsagerNote[];
 
   // Ayants-droits
   public ayantsDroitsExist: boolean;
@@ -107,6 +106,7 @@ export class UsagerFormModel implements UsagerLight {
     usager?: Partial<UsagerLight>,
     filterCriteria?: UsagersFilterCriteria
   ) {
+    this.notes = (usager && usager.notes) || [];
     this.ref = (usager && usager.ref) || 0;
     this.customRef = (usager && usager.customRef) || null;
 

@@ -2,6 +2,7 @@ import { UsagerLight } from "../model";
 import { ETAPE_DOSSIER_COMPLET } from "../model/usager/constants";
 
 export const USAGER_ACTIF_MOCK: UsagerLight = {
+  notes: [],
   decision: {
     orientationDetails: null,
     statut: "VALIDE",

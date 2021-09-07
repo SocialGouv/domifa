@@ -29,4 +29,5 @@ export type UsagerLight = AppEntity &
     | "langue"
     | "preference"
     | "datePremiereDom"
+    | "notes"
   >;

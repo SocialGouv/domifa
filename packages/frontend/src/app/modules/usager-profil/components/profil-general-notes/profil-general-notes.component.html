@@ -1,0 +1,56 @@
+<div *ngIf="usager">
+  <div
+    *ngIf="!filteredNotes || filteredNotes.length === 0"
+    class="alert alert-info"
+  >
+    Aucune note enregistrée
+  </div>
+
+  <div *ngFor="let note of filteredNotes; let i = index">
+    <div class="d-flex align-items-top">
+      <div>
+        <div class="number">
+          <div class="icon-note"></div>
+        </div>
+        <div class="note-separator"></div>
+      </div>
+      <div class="d-block">
+        <div class="d-flex">
+          <div class="ml-3">
+            <div class="note-date">
+              {{ note.createdAt | date: "dd/MM/yyyy à HH:mm" }} -
+              {{ note.createdBy.userName }}
+            </div>
+            <div class="font-bold">"{{ note.message }}"</div>
+          </div>
+          <div
+            *ngIf="displayConfirmArchiveMessageNoteId !== note.id"
+            class="ml-3"
+          >
+            <button
+              (click)="this.displayConfirmArchiveMessageNoteId = note.id"
+              class="btn btn-outline-primary"
+            >
+              <fa-icon icon="trash"></fa-icon>
+            </button>
+          </div>
+        </div>
+        <div
+          class="ml-3"
+          *ngIf="displayConfirmArchiveMessageNoteId === note.id"
+        >
+          Êtes-vous sûr de vouloir archiver cette note?
+          <button
+            class="btn btn-danger ml-2"
+            (click)="confirmArchiveNote(note)"
+          >
+            Oui
+          </button>
+          <button class="btn btn-dark ml-2" (click)="cancelArchiveNote()">
+            Non
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

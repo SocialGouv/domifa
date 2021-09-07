@@ -50,8 +50,17 @@
           <h4>Historique des envois de SMS</h4>
 
           <app-profil-historique-sms
-            [usaager]="usager"
+            [usager]="usager"
           ></app-profil-historique-sms>
+        </div>
+      </div>
+      <div class="row" *ngIf="usager?.notes">
+        <div class="col-md-12">
+          <h4>Historique des notes</h4>
+
+          <app-profil-historique-notes
+            [usager]="usager"
+          ></app-profil-historique-notes>
         </div>
       </div>
     </div>

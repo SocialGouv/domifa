@@ -1,32 +1,25 @@
-import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
+import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NgbDateStruct, NgbModal } from "@ng-bootstrap/ng-bootstrap";
-
 import { ToastrService } from "ngx-toastr";
-import { AppUser, UserRole, UsagerLight } from "../../../../../_common/model";
+import { AppUser, UsagerLight, UserRole } from "../../../../../_common/model";
 import {
   InteractionForApi,
   InteractionType,
 } from "../../../../../_common/model/interaction";
-
-import {
-  minDateNaissance,
-  formatDateToNgb,
-} from "../../../../shared/bootstrap-util";
-
-import { AuthService } from "../../../shared/services/auth.service";
-
-import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
-
-import { Interaction } from "../../../usagers/interfaces/interaction";
-
-import { UsagerProfilService } from "../../services/usager-profil.service";
-import { InteractionService } from "../../../usager-shared/services/interaction.service";
-
-import { INTERACTIONS_LABELS_SINGULIER } from "../../../../shared/constants/INTERACTIONS_LABELS.const";
-import { ProfilGeneralHistoriqueCourriersComponent } from "../profil-general-historique-courriers/profil-general-historique-courriers.component";
 import { USAGER_DECISION_STATUT_LABELS } from "../../../../../_common/model/usager/constants";
+import {
+  formatDateToNgb,
+  minDateNaissance,
+} from "../../../../shared/bootstrap-util";
+import { INTERACTIONS_LABELS_SINGULIER } from "../../../../shared/constants/INTERACTIONS_LABELS.const";
+import { AuthService } from "../../../shared/services/auth.service";
+import { InteractionService } from "../../../usager-shared/services/interaction.service";
+import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
+import { Interaction } from "../../../usagers/interfaces/interaction";
+import { UsagerProfilService } from "../../services/usager-profil.service";
+import { ProfilGeneralHistoriqueCourriersComponent } from "../profil-general-historique-courriers/profil-general-historique-courriers.component";
 
 @Component({
   selector: "app-profil-general-section",
@@ -55,6 +48,9 @@ export class ProfilGeneralSectionComponent implements OnInit {
 
   @ViewChild("distributionConfirm", { static: true })
   public distributionConfirm!: TemplateRef<any>;
+
+  @ViewChild("addNoteInModal", { static: true })
+  public addNoteInModal!: TemplateRef<any>;
 
   @ViewChild("setInteractionInModal", { static: true })
   public setInteractionInModal!: TemplateRef<any>;
@@ -121,6 +117,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
   }
 
   public onUsagerChanges(usager: UsagerLight) {
+    console.log("xxx onUsagerChanges:", usager);
     this.usager = new UsagerFormModel(usager);
   }
 
@@ -161,6 +158,10 @@ export class ProfilGeneralSectionComponent implements OnInit {
 
   public closeModals() {
     this.modalService.dismissAll();
+  }
+
+  public openAddNoteInModal() {
+    this.modalService.open(this.addNoteInModal);
   }
 
   public openInteractionInModal() {
