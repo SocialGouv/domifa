@@ -99,14 +99,17 @@ export class AuthService {
   }
 
   public logout() {
+    this.currentUserSubject.next(null);
     localStorage.removeItem("currentUser");
     localStorage.removeItem("filters");
-    this.currentUserSubject.next(null);
-
     // Ajout d'infos pour Sentry
     Sentry.configureScope((scope) => {
       scope.setTag("structure", "none");
       scope.setUser({});
+    });
+
+    this.router.navigate(["/connexion"]).then(() => {
+      window.location.reload();
     });
   }
 
