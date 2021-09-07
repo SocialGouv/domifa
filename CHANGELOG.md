@@ -1,3 +1,10 @@
+## [2.17.2](https://github.com/SocialGouv/domifa/compare/v2.17.1...v2.17.2) (2021-09-07)
+
+
+### Bug Fixes
+
+* **sms:** correction d'un bug entainant la désactivation de sms ([b1cf1c7](https://github.com/SocialGouv/domifa/commit/b1cf1c73c18b34a93a536f2d2bb29d0ee895ccb9))
+
 ## [2.17.1](https://github.com/SocialGouv/domifa/compare/v2.17.0...v2.17.1) (2021-09-06)
 
 
