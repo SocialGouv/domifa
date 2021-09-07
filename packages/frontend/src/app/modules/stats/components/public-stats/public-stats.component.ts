@@ -39,11 +39,12 @@ export class PublicStatsComponent implements OnInit {
   public REGIONS_SEO_URL_TO_REGION_ID_MAP: RegionsLabels =
     REGIONS_SEO_URL_TO_REGION_ID_MAP;
 
+  public STATS_REGIONS_DOM_TOM = ["01", "02", "03", "04", "06"];
+
   constructor(
     private statsService: StatsService,
     private route: ActivatedRoute,
     private router: Router,
-
     private titleService: Title
   ) {
     this.regionId = null;

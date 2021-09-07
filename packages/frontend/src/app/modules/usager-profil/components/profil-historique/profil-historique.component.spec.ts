@@ -14,6 +14,7 @@ import { ProfilHistoriqueComponent } from "./profil-historique.component";
 
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
+import { userMock } from "../../../../../_common/mocks/user.mock";
 
 describe("ProfilHistoriqueComponent", () => {
   let component: ProfilHistoriqueComponent;
@@ -56,6 +57,7 @@ describe("ProfilHistoriqueComponent", () => {
     fixture = TestBed.createComponent(ProfilHistoriqueComponent);
     component = fixture.componentInstance;
     component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+    component.me = userMock;
     fixture.detectChanges();
   });
 
