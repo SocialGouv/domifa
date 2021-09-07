@@ -113,4 +113,4 @@ jobs:
       with:
         environment: "prod"
         token: ${{ secrets.GITHUB_TOKEN }}
-        kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_PROD }}
+        kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_PROD2 }}
