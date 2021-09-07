@@ -1,3 +1,10 @@
+## [2.17.5-alpha.3](https://github.com/SocialGouv/domifa/compare/v2.17.5-alpha.2...v2.17.5-alpha.3) (2021-09-07)
+
+
+### Bug Fixes
+
+* Use SOCIALGOUV_KUBE_CONFIG_PROD2 on prod deployment. ([c8a0830](https://github.com/SocialGouv/domifa/commit/c8a0830a878ffa89bc8393c0495287e4546ad039))
+
 ## [2.17.5-alpha.2](https://github.com/SocialGouv/domifa/compare/v2.17.5-alpha.1...v2.17.5-alpha.2) (2021-09-07)
 
 
