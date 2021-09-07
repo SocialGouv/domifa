@@ -1,3 +1,13 @@
+## [2.17.6-alpha.1](https://github.com/SocialGouv/domifa/compare/v2.17.5...v2.17.6-alpha.1) (2021-09-07)
+
+
+### Bug Fixes
+
+* Concurrency groups to avoid overlaps. ([016e1c2](https://github.com/SocialGouv/domifa/commit/016e1c2a58e1880dfb2aa725083dd7725bacde7c))
+* Update yarn lock. ([e245ac8](https://github.com/SocialGouv/domifa/commit/e245ac8ffd540a436c7ecc5c53c280f6d5677229))
+* Use autodevops actions. ([a224ef9](https://github.com/SocialGouv/domifa/commit/a224ef92cff8ba0ffbf0f86e2cff75b929dc16c0))
+* Use SOCIALGOUV_KUBE_CONFIG_PROD2 on prod deployment. ([62fb43d](https://github.com/SocialGouv/domifa/commit/62fb43d2ae895181d2520110210a9066978d2907))
+
 ## [2.17.5](https://github.com/SocialGouv/domifa/compare/v2.17.4...v2.17.5) (2021-09-07)
 
 
