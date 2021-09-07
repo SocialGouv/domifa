@@ -1,3 +1,10 @@
+## [2.17.5-alpha.2](https://github.com/SocialGouv/domifa/compare/v2.17.5-alpha.1...v2.17.5-alpha.2) (2021-09-07)
+
+
+### Bug Fixes
+
+* Update yarn lock. ([81f29e6](https://github.com/SocialGouv/domifa/commit/81f29e687789894f3e77c49f7f499663be052b6f))
+
 ## [2.17.5-alpha.1](https://github.com/SocialGouv/domifa/compare/v2.17.4...v2.17.5-alpha.1) (2021-09-07)
 
 
