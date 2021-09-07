@@ -1,3 +1,10 @@
+## [2.17.5](https://github.com/SocialGouv/domifa/compare/v2.17.4...v2.17.5) (2021-09-07)
+
+
+### Bug Fixes
+
+* **usagers:** correction des droits du facteur ([d76aa14](https://github.com/SocialGouv/domifa/commit/d76aa14642042ec070f692fbf11d94ce812d218c))
+
 ## [2.17.4](https://github.com/SocialGouv/domifa/compare/v2.17.3...v2.17.4) (2021-09-07)
 
 
