@@ -1,3 +1,10 @@
+## [2.17.5-alpha.1](https://github.com/SocialGouv/domifa/compare/v2.17.4...v2.17.5-alpha.1) (2021-09-07)
+
+
+### Bug Fixes
+
+* Use autodevops actions. ([4cbd6b6](https://github.com/SocialGouv/domifa/commit/4cbd6b620bac72f322e38734aeb022fd069d26d6))
+
 # [2.17.0-alpha.3](https://github.com/SocialGouv/domifa/compare/v2.17.0-alpha.2...v2.17.0-alpha.3) (2021-09-07)
 
 
