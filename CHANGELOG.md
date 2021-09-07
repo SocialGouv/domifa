@@ -1,3 +1,10 @@
+## [2.17.5-alpha.4](https://github.com/SocialGouv/domifa/compare/v2.17.5-alpha.3...v2.17.5-alpha.4) (2021-09-07)
+
+
+### Bug Fixes
+
+* Concurrency groups to avoid overlaps. ([4a94d25](https://github.com/SocialGouv/domifa/commit/4a94d2570b7fdb23a983511a50608c987a3b8706))
+
 ## [2.17.5-alpha.3](https://github.com/SocialGouv/domifa/compare/v2.17.5-alpha.2...v2.17.5-alpha.3) (2021-09-07)
 
 
