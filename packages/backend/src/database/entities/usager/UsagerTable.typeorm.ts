@@ -1,4 +1,3 @@
-import { UsagerImport } from "./../../../_common/model/usager/UsagerImport.type";
 import { Column, Entity, Index, JoinColumn, ManyToOne, Unique } from "typeorm";
 import {
   Usager,
@@ -10,11 +9,13 @@ import {
   UsagerSexe,
   UsagerTypeDom,
 } from "../../../_common/model";
+import { UsagerEntretien } from "../../../_common/model/usager/entretien";
 import { UsagerAyantDroit } from "../../../_common/model/usager/UsagerAyantDroit.type";
 import { UsagerDecision } from "../../../_common/model/usager/UsagerDecision.type";
+import { UsagerNote } from "../../../_common/model/usager/UsagerNote.type";
 import { StructureTable } from "../structure/StructureTable.typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
-import { UsagerEntretien } from "../../../_common/model/usager/entretien";
+import { UsagerImport } from "./../../../_common/model/usager/UsagerImport.type";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "usager" })
@@ -124,6 +125,9 @@ export class UsagerTable
 
   @Column({ type: "jsonb", nullable: true })
   public rdv: UsagerRdv;
+
+  @Column({ type: "jsonb", default: () => "'[]'" })
+  public notes: UsagerNote[];
 
   @Column({
     type: "jsonb",

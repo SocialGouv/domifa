@@ -1,0 +1,27 @@
+<table
+  *ngIf="usager.historique.length > 0"
+  class="profil-table table table-light table-hover"
+>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Message</th>
+      <th>Supression</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let note of usager.notes">
+      <td>
+        {{ note.createdAt | date: "dd/MM/yyyy à HH:mm" }} -
+        {{ note.createdBy.userName }}
+      </td>
+      <td>{{ note.message }}</td>
+      <td>
+        <ng-container *ngIf="note.archivedAt">
+          {{ note.archivedAt | date: "dd/MM/yyyy à HH:mm" }} -
+          {{ note.archivedBy.userName }}</ng-container
+        >
+      </td>
+    </tr>
+  </tbody>
+</table>

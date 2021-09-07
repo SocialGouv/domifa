@@ -6,12 +6,11 @@ import {
   Injectable,
 } from "@nestjs/common";
 import { usagerLightRepository } from "../../database";
-import { UsagersService } from "../../usagers/services/usagers.service";
 import { appLogger } from "../../util";
 
 @Injectable()
 export class UsagerAccessGuard implements CanActivate {
-  constructor(private readonly usagersService: UsagersService) {}
+  constructor() {}
 
   public async canActivate(context: ExecutionContext) {
     const r = context.switchToHttp().getRequest();

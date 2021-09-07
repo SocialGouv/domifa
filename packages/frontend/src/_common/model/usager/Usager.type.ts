@@ -1,15 +1,16 @@
-import { UsagerImport } from "./UsagerImport.type";
 import { AppEntity } from "../../../_common/model";
+import { UsagerEntretien } from "./entretien";
 import { UsagerAyantDroit } from "./UsagerAyantDroit.type";
 import { UsagerDecision } from "./UsagerDecision.type";
 import { UsagerDoc } from "./UsagerDoc.type";
+import { UsagerImport } from "./UsagerImport.type";
 import { UsagerLastInteractions } from "./UsagerLastInteractions.type";
+import { UsagerNote } from "./UsagerNote.type";
 import { UsagerOptions } from "./UsagerOptions.type";
 import { UsagerPreferenceContact } from "./UsagerPreferenceContact.type";
 import { UsagerRdv } from "./UsagerRdv.type";
 import { UsagerSexe } from "./UsagerSexe.type";
 import { UsagerTypeDom } from "./UsagerTypeDom.type";
-import { UsagerEntretien } from "./entretien";
 
 export type Usager = AppEntity & {
   ref: number; // unique par structure
@@ -64,4 +65,6 @@ export type Usager = AppEntity & {
   // Variables de front
   dateToDisplay?: Date | null;
   usagerProfilUrl?: string;
+
+  notes: UsagerNote[];
 };

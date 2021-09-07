@@ -1,0 +1,7 @@
+textarea {
+  background: #f9f9fc;
+  border: 1px solid #cfcfd9;
+  box-sizing: border-box;
+  border-radius: 5px;
+  min-height: 100px;
+}

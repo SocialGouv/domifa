@@ -354,9 +354,19 @@
 
         <div class="col-md-6">
           <h4>Notes</h4>
-          <div class="alert alert-info">
-            Vous pourrez prochainement ajouter des notes internes
-          </div>
+          <app-profil-general-notes
+            [(usager)]="usager"
+            [me]="me"
+            (onUsagerChanges)="onUsagerChanges($event)"
+          ></app-profil-general-notes>
+
+          <button
+            class="mt-4 btn btn-outline-primary mr-2"
+            (click)="openAddNoteInModal()"
+          >
+            <fa-icon icon="plus" class="mr-2"></fa-icon>
+            <span>Ajouter une note</span>
+          </button>
         </div>
       </div>
     </div>
@@ -366,6 +376,14 @@
     ></app-delete-usager-menu>
   </div>
 </div>
+
+<ng-template #addNoteInModal let-modal>
+  <app-profil-add-note-form
+    [(usager)]="usager"
+    (confirm)="onUsagerChanges($event); closeModals()"
+    (cancel)="closeModals()"
+  ></app-profil-add-note-form>
+</ng-template>
 
 <ng-template #setInteractionInModal let-modal>
   <app-set-interaction-in-form

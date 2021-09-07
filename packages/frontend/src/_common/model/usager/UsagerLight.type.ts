@@ -31,4 +31,5 @@ export type UsagerLight = AppEntity &
     | "dateToDisplay"
     | "usagerProfilUrl"
     | "datePremiereDom"
+    | "notes"
   >;

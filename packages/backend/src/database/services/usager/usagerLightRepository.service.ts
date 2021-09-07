@@ -27,6 +27,7 @@ const USAGER_LIGHT_ATTRIBUTES: (keyof UsagerTable)[] = [
   "phone",
   "langue",
   "preference",
+  "notes",
 ];
 const baseRepository = pgRepository.get<UsagerTable, UsagerLight>(UsagerTable, {
   defaultSelect: USAGER_LIGHT_ATTRIBUTES,

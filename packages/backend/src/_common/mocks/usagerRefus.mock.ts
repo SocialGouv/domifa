@@ -1,6 +1,7 @@
 import { ETAPE_DOSSIER_COMPLET, UsagerLight } from "../model";
 
 export const usagerRefusMock: UsagerLight = {
+  notes: [],
   decision: {
     orientationDetails: null,
     statut: "REFUS",
