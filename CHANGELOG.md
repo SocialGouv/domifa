@@ -1,3 +1,11 @@
+## [2.17.3](https://github.com/SocialGouv/domifa/compare/v2.17.2...v2.17.3) (2021-09-07)
+
+
+### Bug Fixes
+
+* tests unitaires et affichage DOM-TOM ([d2f0374](https://github.com/SocialGouv/domifa/commit/d2f0374f8180eb2f34c6482a18797b8f33ef718c))
+* **stats:** ajout des stats départementales ([7e29242](https://github.com/SocialGouv/domifa/commit/7e292423b06280a6e26cd9a4a72fafa54168d019))
+
 ## [2.17.2](https://github.com/SocialGouv/domifa/compare/v2.17.1...v2.17.2) (2021-09-07)
 
 
