@@ -1,11 +1,21 @@
+import { AppUser } from "./../model/app-user/AppUser.type";
 import { StructureType } from "./../model/structure/StructureType.type";
 import { UserRole } from "./../model/app-user/UserRole.type";
-export const userMock = {
+
+export const userMock: AppUser = {
   password: "xxx",
   email: "ccastest@yopmail.com",
+  mail: {
+    guide: false,
+    import: false,
+  },
+
   id: 1,
   nom: "TEST",
   prenom: "TEST",
+  lastLogin: new Date(),
+  passwordLastUpdate: new Date(),
+  verified: true,
   role: "admin" as UserRole,
   structure: {
     id: 100,

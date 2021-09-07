@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { AfterViewInit, Component, Input, OnInit } from "@angular/core";
 import { AppUser } from "../../../../../_common/model";
 import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../_common/model/interaction/constants";
 
@@ -12,7 +12,7 @@ import { UsagerService } from "../../../usagers/services/usager.service";
   templateUrl: "./profil-historique-sms.component.html",
   styleUrls: ["./profil-historique-sms.component.css"],
 })
-export class ProfilHistoriqueSmsComponent implements OnInit {
+export class ProfilHistoriqueSmsComponent implements OnInit, AfterViewInit {
   @Input() public usager: UsagerFormModel;
   @Input() public me: AppUser;
 
@@ -27,6 +27,10 @@ export class ProfilHistoriqueSmsComponent implements OnInit {
 
   public ngOnInit(): void {
     // this.getMySms();
+  }
+
+  public ngAfterViewInit(): void {
+    this.getMySms();
   }
 
   public getMySms() {
