@@ -1,3 +1,10 @@
+## [2.17.4](https://github.com/SocialGouv/domifa/compare/v2.17.3...v2.17.4) (2021-09-07)
+
+
+### Bug Fixes
+
+* refresh after logout ([38b28a0](https://github.com/SocialGouv/domifa/commit/38b28a098eb800ab00676f764063aec3fff8d1f1))
+
 ## [2.17.3](https://github.com/SocialGouv/domifa/compare/v2.17.2...v2.17.3) (2021-09-07)
 
 
