@@ -18,12 +18,11 @@
         </span>
       </div>
 
-      <div class="px-0 mx-0 text-right">
+      <div class="px-0 mx-0 text-right" *ngIf="!isRole('facteur')">
         <ng-container
           *ngIf="
             usager.decision.statut === 'INSTRUCTION' &&
-            usager.typeDom === 'RENOUVELLEMENT' &&
-            !isRole('facteur')
+            usager.typeDom === 'RENOUVELLEMENT'
           "
         >
           <a
@@ -36,11 +35,7 @@
         </ng-container>
 
         <ng-container *ngIf="usager.decision.statut === 'REFUS'">
-          <button
-            *ngIf="!isRole('facteur')"
-            (click)="openRenewModal()"
-            class="btn btn-white-primary ml-2"
-          >
+          <button (click)="openRenewModal()" class="btn btn-white-primary ml-2">
             <fa-icon icon="redo" class="mr-2"></fa-icon>
             Créer une nouvelle demande
           </button>
@@ -101,6 +96,7 @@
 
       <a
         class="col"
+        *ngIf="!isRole('facteur')"
         [class]="{ 'selected-section': section === 'documents' }"
         [routerLink]="['/profil/documents/' + usager.ref]"
         ><span class="statut-label"> Documents</span></a
