@@ -4,6 +4,7 @@ import { StatsService } from "./../../services/stats.service";
 import { Component, OnInit } from "@angular/core";
 import { STRUCTURE_TYPE_LABELS } from "../../../../../_common/model/usager/constants/STRUCTURE_TYPE_LABELS.const";
 import {
+  DEPARTEMENTS_MAP,
   RegionsLabels,
   REGIONS_LABELS_MAP,
   REGIONS_SEO_URL_MAP,
@@ -20,11 +21,23 @@ import { ActivatedRoute, Router } from "@angular/router";
 export class PublicStatsComponent implements OnInit {
   public STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
   public stats: PublicStats;
+
+  public regionId: string;
+
+  public regionsUrls: RegionsLabels = REGIONS_SEO_URL_MAP;
   public regions: RegionsLabels = REGIONS_LABELS_MAP;
+
+  public departements: {
+    [key: string]: {
+      departmentName: string;
+      regionCode: string;
+      regionName: string;
+      regionId: string;
+    };
+  } = DEPARTEMENTS_MAP;
+
   public REGIONS_SEO_URL_TO_REGION_ID_MAP: RegionsLabels =
     REGIONS_SEO_URL_TO_REGION_ID_MAP;
-  public regionsUrls: RegionsLabels = REGIONS_SEO_URL_MAP;
-  public regionId: string;
 
   constructor(
     private statsService: StatsService,

@@ -27,7 +27,6 @@ import { ImportComponent } from "./components/import/import.component";
 import { ManageUsagersTableComponent } from "./components/manage/manage-usagers-table/manage-usagers-table.component";
 
 import { ManageUsagersComponent } from "./components/manage/manage.component";
-import { ProfilHistoriqueSmsComponent } from "../usager-profil/components/profil-historique-sms/profil-historique-sms.component";
 
 import { RaftComponent } from "./components/raft/raft.component";
 
@@ -44,7 +43,7 @@ import { UsagerService } from "./services/usager.service";
     ManageUsagersTableComponent,
     MenuComponent,
     ImportComponent,
-    ProfilHistoriqueSmsComponent,
+
     RaftComponent,
   ],
   exports: [DecisionComponent, UsagersFormComponent, DocumentsFormComponent],
