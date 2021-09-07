@@ -1,3 +1,10 @@
+# [2.17.0-alpha.4](https://github.com/SocialGouv/domifa/compare/v2.17.0-alpha.3...v2.17.0-alpha.4) (2021-09-07)
+
+
+### Bug Fixes
+
+* Update .k8s tests. ([fb24569](https://github.com/SocialGouv/domifa/commit/fb24569375320cf060869472adf0b03595135c54))
+
 # [2.17.0-alpha.3](https://github.com/SocialGouv/domifa/compare/v2.17.0-alpha.2...v2.17.0-alpha.3) (2021-09-07)
 
 
