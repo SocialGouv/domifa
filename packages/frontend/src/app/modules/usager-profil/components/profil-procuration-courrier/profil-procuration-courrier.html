@@ -60,18 +60,6 @@
         usager.options.procuration.dateFin | date: 'dd/MM/yyyy' }}
       </span>
     </div>
-
-    <div class="col-12 text-center">
-      <br />
-      <button
-        *ngIf="usager.options.procuration.actif && !isFormVisible && usager.decision.statut !== 'REFUS'"
-        (click)="showForm()"
-        class="btn btn-outline-primary"
-      >
-        <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
-        Modifier la procuration
-      </button>
-    </div>
   </div>
 
   <form
