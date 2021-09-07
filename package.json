@@ -6,10 +6,11 @@
     "build": "lerna run build --stream",
     "dev": "lerna run dev --parallel --stream",
     "e2e": "yarn --cwd optional/e2e/runners/puppeteer test",
+    "k8s": "yarn --silent --cwd .k8s",
     "lint": "lerna run lint --parallel --stream",
+    "seal-secrets": "sre-secrets --from=./.secrets.yaml --to=./.k8s",
     "start": "lerna run start --parallel --stream",
-    "test": "lerna run test --parallel --stream",
-    "seal-secrets": "sre-secrets --from=./.secrets.yaml --to=./.k8s"
+    "test": "lerna run test --parallel --stream"
   },
   "devDependencies": {
     "@socialgouv/sre-secrets": "^1.4.0",
