@@ -34,6 +34,7 @@ import { ProfilGeneralSectionComponent } from "./components/profil-general-secti
 import { UsersModule } from "../users/users.module";
 import { GeneralModule } from "../general/general.module";
 import { ProfilEtatCivilFormComponent } from "./components/profil-etat-civil-form/profil-etat-civil-form.component";
+import { ProfilHistoriqueSmsComponent } from "./components/profil-historique-sms/profil-historique-sms.component";
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { ProfilEtatCivilFormComponent } from "./components/profil-etat-civil-for
     ProfilHeadComponent,
     ProfilDossierComponent,
     ProfilHistoriqueComponent,
+    ProfilHistoriqueSmsComponent,
     // Parts
     UsagersProfilTransfertCourrierComponent,
     UsagersProfilProcurationCourrierComponent,

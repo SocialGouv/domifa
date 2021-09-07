@@ -65,3 +65,6 @@ foreignObject {
 .map-tooltip span {
   font-weight: 600;
 }
+.map-tooltip div {
+  color: black !important;
+}

@@ -10,6 +10,7 @@
     <g class="regions">
       <ng-container *ngFor="let stat of statsByRegion">
         <path
+          [routerLink]="['/stats/region/' + regionsUrls[stat.region]]"
           [ngClass]="stat.region === selectedRegion ? 'region-hover' : ''"
           [attr.d]="STATS_REGIONS_FOR_MAP[stat.region].path"
           (mouseover)="selectRegion(stat.region)"
@@ -30,18 +31,20 @@
           @fadeInOut
           class="text-center"
         >
-          <div class="map-tooltip">
-            <div>
-              {{ regions[stat.region] ? regions[stat.region] : stat.region }}
-            </div>
+          <a [routerLink]="['/stats/region/' + regionsUrls[stat.region]]">
+            <div class="map-tooltip">
+              <div class="text-black">
+                {{ regions[stat.region] ? regions[stat.region] : stat.region }}
+              </div>
 
-            <a
-              [routerLink]="['/stats/region/' + regionsUrls[stat.region]]"
-              class="region-name font-weight-bold"
-            >
-              Voir le détail
-            </a>
-          </div>
+              <a
+                [routerLink]="['/stats/region/' + regionsUrls[stat.region]]"
+                class="region-name font-weight-bold"
+              >
+                Voir le détail
+              </a>
+            </div>
+          </a>
         </foreignObject>
         <foreignObject
           (mouseover)="selectRegion(stat.region)"
@@ -94,18 +97,19 @@
           @fadeInOut
           class="text-center"
         >
-          <div class="map-tooltip">
-            <div>
-              {{ regions[stat.region] ? regions[stat.region] : stat.region }}
+          <a [routerLink]="['/stats/region/' + regionsUrls[stat.region]]">
+            <div class="map-tooltip">
+              <div>
+                {{ regions[stat.region] ? regions[stat.region] : stat.region }}
+              </div>
+              <a
+                [routerLink]="['/stats/region/' + regionsUrls[stat.region]]"
+                class="region-name font-weight-bold"
+              >
+                Voir le détail
+              </a>
             </div>
-
-            <a
-              [routerLink]="['/stats/region/' + regionsUrls[stat.region]]"
-              class="region-name font-weight-bold"
-            >
-              Voir le détail
-            </a>
-          </div>
+          </a>
         </foreignObject>
         <foreignObject
           @fadeInOut
@@ -119,8 +123,9 @@
           <a
             [routerLink]="['/stats/region/' + regionsUrls[stat.region]]"
             class="region-name font-weight-bold"
+            @fadeInOut
           >
-            <div class="map-number" @fadeInOut>{{ stat.count }}</div>
+            <div class="map-number">{{ stat.count }}</div>
           </a>
         </foreignObject>
       </ng-container>
