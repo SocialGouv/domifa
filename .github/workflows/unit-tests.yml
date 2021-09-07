@@ -7,7 +7,7 @@ on:
 
 concurrency:
   cancel-in-progress: true
-  group: ${{ github.ref }}
+  group: unit-tests-${{ github.ref }}
 
 jobs:
   backend:
