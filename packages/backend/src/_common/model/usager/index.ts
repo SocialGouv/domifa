@@ -10,6 +10,7 @@ export * from "./UsagerDoc.type";
 export * from "./UsagerImport.type";
 export * from "./UsagerLastInteractions.type";
 export * from "./UsagerLight.type";
+export * from "./UsagerNote.type";
 export * from "./UsagerOptions.type";
 export * from "./UsagerOptionsHistorique.type";
 export * from "./UsagerOptionsProcuration.type";

@@ -1,17 +1,15 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-
 import { Observable } from "rxjs";
 import { filter, map, startWith, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
+import { UsagerNote } from "../../../../_common/model";
 import { MessageSms } from "../../../../_common/model/message-sms";
 import { UsagerDecisionForm } from "../../../../_common/model/usager/UsagerDecisionForm.type";
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
 import { usagersSearchCache } from "../../../shared/store";
-
 import { UsagerFormModel } from "../components/form/UsagerFormModel";
 import { ImportPreviewTable } from "../components/import/preview";
-import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
 
 export type UsagersImportMode = "preview" | "confirm";
@@ -43,6 +41,41 @@ export class UsagerService {
           );
 
     return response;
+  }
+
+  public createNote({
+    note,
+    usagerRef,
+  }: {
+    note: Pick<UsagerNote, "message">;
+    usagerRef: number;
+  }): Observable<UsagerLight> {
+    return this.http
+      .post<UsagerLight>(`${environment.apiUrl}note/${usagerRef}`, note)
+      .pipe(
+        tap((usager: UsagerLight) => {
+          usagersSearchCache.updateUsager(usager);
+        })
+      );
+  }
+
+  public archiveNote({
+    noteId,
+    usagerRef,
+  }: {
+    noteId: string;
+    usagerRef: number;
+  }): Observable<UsagerLight> {
+    return this.http
+      .put<UsagerLight>(
+        `${environment.apiUrl}note/${usagerRef}/archive/${noteId}`,
+        {}
+      )
+      .pipe(
+        tap((usager: UsagerLight) => {
+          usagersSearchCache.updateUsager(usager);
+        })
+      );
   }
 
   // RDV maintenant : on passe l'étape du formulaire

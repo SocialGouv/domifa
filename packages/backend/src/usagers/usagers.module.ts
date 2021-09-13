@@ -1,3 +1,4 @@
+import { HttpModule } from "@nestjs/axios";
 import { forwardRef, Module } from "@nestjs/common";
 import { InteractionsModule } from "../interactions/interactions.module";
 import { MailsModule } from "../mails/mails.module";
@@ -8,18 +9,19 @@ import { AgendaController } from "./controllers/agenda.controller";
 import { DocsController } from "./controllers/docs.controller";
 import { ExportStructureUsagersController } from "./controllers/export-structure-usagers.controller";
 import { ImportController } from "./controllers/import/import.controller";
+import { UsagerNoteController } from "./controllers/usager-note.controller";
 import { UsagerStructureDocsController } from "./controllers/usager-structure-docs.controller";
 import { UsagersController } from "./controllers/usagers.controller";
 import { CerfaService } from "./services/cerfa.service";
 import { DocumentsService } from "./services/documents.service";
 import { UsagersService } from "./services/usagers.service";
-import { HttpModule } from "@nestjs/axios";
 
 @Module({
   controllers: [
     UsagersController,
     ImportController,
     AgendaController,
+    UsagerNoteController,
     UsagerStructureDocsController,
     DocsController,
     ExportStructureUsagersController,

@@ -1,0 +1,33 @@
+<div class="modal-header">
+  <h4 class="px-1 py-1">
+    Nouvelle note concernant
+    <span class="text-primary">{{ usager.nom }} {{ usager.prenom }}  </span>
+  </h4>
+</div>
+<div class="modal-body text-center">
+  <form [formGroup]="addNoteForm" (ngSubmit)="submit()">
+    <div class="form-group">
+      <label class="label text-left" for="message"> Message </label>
+      <textarea
+        class="form-control"
+        formControlName="message"
+        id="message"
+        maxlength="1000"
+      ></textarea>
+    </div>
+    <app-rgpd-warning></app-rgpd-warning>
+
+    <div class="text-left py-1 mt-2 mb-1">
+      <button
+        type="submit"
+        class="btn btn-lg btn-primary mx-1"
+        [disabled]="!this.addNoteForm.valid"
+      >
+        Valider
+      </button>
+      <button class="btn btn-outline-dark btn-lg mr-2" (click)="cancel.emit()">
+        Annuler
+      </button>
+    </div>
+  </form>
+</div>

@@ -8,6 +8,7 @@ import {
 
 describe("ATTESTATION POSTALE", () => {
   const usagerActif: UsagerLight = {
+    notes: [],
     uuid: "ee7ef219-b101-422c-8ad4-4d5aedf9caad",
     ref: 6,
     customRef: "6",
@@ -99,6 +100,7 @@ describe("ATTESTATION POSTALE", () => {
 
 describe("ATTESTATION RADIATION", () => {
   const usagerRadie: UsagerLight = {
+    notes: [],
     uuid: "ebee4605-6262-472d-82e3-d56935830764",
     ref: 10,
     customRef: "10",
