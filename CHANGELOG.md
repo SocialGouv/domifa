@@ -1,3 +1,10 @@
+# [2.18.0](https://github.com/SocialGouv/domifa/compare/v2.17.5...v2.18.0) (2021-09-13)
+
+
+### Features
+
+* **MAQUETTE_DESIGN:** ajout système de notes internes [#1264](https://github.com/SocialGouv/domifa/issues/1264) ([#1675](https://github.com/SocialGouv/domifa/issues/1675)) ([d6f9fda](https://github.com/SocialGouv/domifa/commit/d6f9fda0e561b4f67149b32d6c1697e2092d0754))
+
 ## [2.17.5](https://github.com/SocialGouv/domifa/compare/v2.17.4...v2.17.5) (2021-09-07)
 
 
