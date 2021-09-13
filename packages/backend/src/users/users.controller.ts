@@ -15,20 +15,13 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { AxiosError } from "axios";
 import { CurrentUser } from "../auth/current-user.decorator";
-import { AdminGuard } from "../auth/guards/admin.guard";
-import { ResponsableGuard } from "../auth/guards/responsable.guard";
+import { AllowUserStructureRoles, AppUserGuard } from "../auth/guards";
 import {
   userSecurityPasswordUpdater,
-  userSecurityResetPasswordInitiator,
-  userSecurityResetPasswordUpdater,
   userStructureRepository,
 } from "../database";
-import {
-  userAccountActivatedEmailSender,
-  userResetPasswordEmailSender,
-} from "../mails/services/templates-renderers";
+import { userAccountActivatedEmailSender } from "../mails/services/templates-renderers";
 import { userAccountCreatedByAdminEmailSender } from "../mails/services/templates-renderers/user-account-created-by-admin";
-import { StructuresService } from "../structures/services/structures.service";
 import { appLogger } from "../util";
 import { ExpressResponse } from "../util/express";
 import {
@@ -38,18 +31,17 @@ import {
   UserStructureRole,
 } from "../_common/model";
 import { EditPasswordDto } from "./dto/edit-password.dto";
-import { EmailDto } from "./dto/email.dto";
 import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
-import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserEditDto } from "./dto/user-edit.dto";
 import { usersCreator, usersDeletor } from "./services";
 
 @Controller("users")
 @ApiTags("users")
+@UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class UsersController {
-  constructor(private structureService: StructuresService) {}
+  constructor() {}
 
-  @UseGuards(AuthGuard("jwt"), ResponsableGuard)
+  @AllowUserStructureRoles("responsable", "admin")
   @ApiBearerAuth()
   @ApiOperation({ summary: "Liste des utilisateurs" })
   @Get("")
@@ -62,7 +54,7 @@ export class UsersController {
     });
   }
 
-  @UseGuards(AuthGuard("jwt"))
+  @AllowUserStructureRoles()
   @ApiOperation({ summary: "Edition du mot de passe depuis le compte user" })
   @Get("last-password-update")
   public async getLastPasswordUpdate(
@@ -79,7 +71,7 @@ export class UsersController {
   @Get("to-confirm")
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Liste des utilisateurs à confirmer" })
-  @UseGuards(AuthGuard("jwt"), AdminGuard)
+  @AllowUserStructureRoles("admin")
   public getUsersToConfirm(
     @CurrentUser() user: UserStructureAuthenticated
   ): Promise<UserStructureProfile[]> {
@@ -89,7 +81,7 @@ export class UsersController {
     });
   }
 
-  @UseGuards(AuthGuard("jwt"), AdminGuard)
+  @AllowUserStructureRoles("admin")
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Confirmer une création de compte" })
   @Get("confirm/:id")
@@ -127,7 +119,7 @@ export class UsersController {
     }
   }
 
-  @UseGuards(AuthGuard("jwt"), AdminGuard)
+  @AllowUserStructureRoles("admin")
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Editer le rôle d'un utilisateur" })
   @Get("update-role/:id/:role")
@@ -160,7 +152,7 @@ export class UsersController {
     );
   }
 
-  @UseGuards(AuthGuard("jwt"), AdminGuard)
+  @AllowUserStructureRoles("admin")
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Supprimer un utilisateur" })
   @Delete(":id")
@@ -188,7 +180,7 @@ export class UsersController {
     return res.status(HttpStatus.OK).json({ success: true, message: retour });
   }
 
-  @UseGuards(AuthGuard("jwt"))
+  @AllowUserStructureRoles()
   @Patch()
   public async patch(
     @CurrentUser() user: UserStructureAuthenticated,
@@ -211,80 +203,9 @@ export class UsersController {
     return res.status(HttpStatus.OK).json(userToUpdate);
   }
 
-  @Post("validate-email")
-  public async validateEmail(
-    @Body() emailDto: EmailDto,
-    @Res() res: ExpressResponse
-  ) {
-    const existUser = await userStructureRepository.findOne({
-      email: emailDto.email.toLowerCase(),
-    });
-
-    const emailExist = existUser !== undefined;
-
-    return res.status(HttpStatus.OK).json(emailExist);
-  }
-
-  @Get("check-password-token/:userId/:token")
-  public async checkPasswordToken(
-    @Param("userId") userId: string,
-    @Param("token") token: string,
-    @Res() res: ExpressResponse
-  ) {
-    try {
-      await userSecurityResetPasswordUpdater.checkResetPasswordToken({
-        token,
-        userId: parseInt(userId, 10),
-      });
-      return res.status(HttpStatus.OK).json({ message: "OK" });
-    } catch (err) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "TOKEN_EXPIRED" });
-    }
-  }
-
-  @Post("reset-password")
-  public async resetPassword(
-    @Body() resetPasswordDto: ResetPasswordDto,
-    @Res() res: ExpressResponse
-  ) {
-    try {
-      await userSecurityResetPasswordUpdater.confirmResetPassword({
-        newPassword: resetPasswordDto.password,
-        token: resetPasswordDto.token,
-        userId: resetPasswordDto.userId,
-      });
-      return res.status(HttpStatus.OK).json({ message: "OK" });
-    } catch (err) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "TOKEN_EXPIRED" });
-    }
-  }
-
-  @ApiOperation({ summary: "Reset du mot de passe : envoi du lien par mail" })
-  @Post("get-password-token")
-  public async generatePasswordToken(
-    @Body() emailDto: EmailDto,
-    @Res() res: ExpressResponse
-  ) {
-    try {
-      const { user, userSecurity } =
-        await userSecurityResetPasswordInitiator.generateResetPasswordToken({
-          email: emailDto.email,
-        });
-      await userResetPasswordEmailSender.sendMail({
-        user,
-        token: userSecurity.temporaryTokens.token,
-      });
-    } catch (err) {}
-    return res.status(HttpStatus.OK).json({ message: "OK" });
-  }
-
   // Ajout d'utilisateur par un admin
   @Post("register")
-  @UseGuards(AuthGuard("jwt"), AdminGuard)
+  @AllowUserStructureRoles("admin")
   @ApiOperation({ summary: "Ajout d'un utilisateur par un admin" })
   public async registerUser(
     @CurrentUser() user: UserStructureAuthenticated,
@@ -327,7 +248,7 @@ export class UsersController {
 
   // Edition d'un mot de passe quand on est déjà connecté
   @Post("edit-password")
-  @UseGuards(AuthGuard("jwt"))
+  @AllowUserStructureRoles()
   @ApiOperation({ summary: "Edition du mot de passe depuis le compte user" })
   public async editPassword(
     @CurrentUser() user: UserStructureAuthenticated,

@@ -22,7 +22,7 @@ import { diskStorage } from "multer";
 import * as path from "path";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
-import { FacteurGuard } from "../../auth/guards/facteur.guard";
+import { AllowUserStructureRoles, AppUserGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
 import { usagerRepository } from "../../database";
@@ -37,7 +37,7 @@ import {
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
 
-@UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
+@UseGuards(AuthGuard("jwt"), UsagerAccessGuard, AppUserGuard)
 @ApiTags("docs")
 @ApiBearerAuth()
 @Controller("docs")
@@ -49,6 +49,7 @@ export class DocsController {
 
   @ApiOperation({ summary: "Upload de pièces-jointes" })
   @Post(":usagerRef")
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   @UseInterceptors(
     FileInterceptor("file", {
       fileFilter: (req: any, file: Express.Multer.File, cb: any) => {
@@ -128,6 +129,7 @@ export class DocsController {
   }
 
   @Delete(":usagerRef/:index")
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   public async deleteDocument(
     @Param("usagerRef") usagerRef: number,
     @Param("index") index: number,
@@ -183,6 +185,7 @@ export class DocsController {
   }
 
   @Get(":usagerRef/:index")
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getDocument(
     @Param("usagerRef") usagerRef: number,
     @Param("index") index: number,

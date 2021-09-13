@@ -1,5 +1,6 @@
-import { ModuleMetadata } from "@nestjs/common";
+import { HttpStatus, INestApplication, ModuleMetadata } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
+import * as request from "supertest";
 import { Connection } from "typeorm";
 import { appTypeormManager } from "../../database";
 import { appLogger } from "../AppLogger.service";
@@ -10,15 +11,22 @@ export const AppTestHelper = {
   tearDownTestApp,
   bootstrapTestConnection,
   tearDownTestConnection,
+  authenticateStructure,
 };
 
 async function bootstrapTestApp(
-  metadata: ModuleMetadata
+  metadata: ModuleMetadata,
+  initApp: { initApp?: boolean } = { initApp: false }
 ): Promise<AppTestContext> {
   // re-use shared connection created in jest.setup.ts
   const postgresTypeormConnection = await bootstrapTestConnection();
   const module = await Test.createTestingModule(metadata).compile();
-  return { module, postgresTypeormConnection };
+  const context: AppTestContext = { module, postgresTypeormConnection };
+  if (initApp) {
+    context.app = module.createNestApplication();
+    await context.app.init();
+  }
+  return context;
 }
 
 async function tearDownTestApp({
@@ -46,5 +54,26 @@ async function tearDownTestConnection({
     await postgresTypeormConnection.close();
   } else {
     appLogger.error("Can not close missing postgres connexion");
+  }
+}
+
+async function authenticateStructure(
+  authInfo,
+  { context }: { context: AppTestContext }
+) {
+  const { app } = context;
+  expectAppToBeDefined(app);
+  const response = await request(app.getHttpServer())
+    .post("/auth/login")
+    .send(authInfo);
+  expect(response.status).toBe(HttpStatus.OK);
+  context.authToken = response.body.access_token;
+}
+
+function expectAppToBeDefined(app: INestApplication) {
+  if (!app) {
+    throw new Error(
+      "App is not initialized: call `bootstrapTestApp` with { initApp: true }"
+    );
   }
 }
