@@ -5,5 +5,6 @@ export * from "./structure";
 export * from "./structure-doc";
 export * from "./structure-stats";
 export * from "./usager";
+export * from "./user";
 export * from "./user-structure";
 export * from "./_core";

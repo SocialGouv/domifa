@@ -5,15 +5,15 @@ import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { DashboardService } from "../services/dashboard.service";
-import { StatsController } from "./stats.controller";
+import { StatsPublicController } from "./stats.public.controller";
 
-describe("Stats Controller", () => {
-  let controller: StatsController;
+describe("Stats Public Controller", () => {
+  let controller: StatsPublicController;
 
   let context: AppTestContext;
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
-      controllers: [StatsController],
+      controllers: [StatsPublicController],
       imports: [
         forwardRef(() => UsersModule),
         forwardRef(() => StructuresModule),
@@ -22,7 +22,9 @@ describe("Stats Controller", () => {
       ],
       providers: [DashboardService],
     });
-    controller = context.module.get<StatsController>(StatsController);
+    controller = context.module.get<StatsPublicController>(
+      StatsPublicController
+    );
   });
   afterAll(async () => {
     await AppTestHelper.tearDownTestApp(context);

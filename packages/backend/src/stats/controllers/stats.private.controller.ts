@@ -1,67 +1,43 @@
 import {
   Body,
   Controller,
-  Get,
   HttpException,
   HttpStatus,
-  Param,
   Post,
   Res,
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { CurrentUser } from "../../auth/current-user.decorator";
+import { AllowUserStructureRoles, AppUserGuard } from "../../auth/guards";
 import { isDomifaAdmin } from "../../auth/guards/domifa.guard";
-import { FacteurGuard } from "../../auth/guards/facteur.guard";
-import { structureRepository, usagerRepository } from "../../database";
 import { structureStatsExporter } from "../../excel/export-structure-stats";
 import { expressResponseExcelRenderer } from "../../util";
 import {
-  PublicStats,
   StructureStatsFull,
   UserStructureAuthenticated,
 } from "../../_common/model";
 import { StatsDto } from "../dto/stats.dto";
 import { structureStatsInPeriodGenerator } from "../services";
-import { DashboardService } from "../services/dashboard.service";
 import { statsQuestionsCoreBuilder } from "../services/statsQuestionsCoreBuilder.service";
-import { StructuresService } from "./../../structures/services/structures.service";
 
 import moment = require("moment");
 
 @Controller("stats")
 @ApiTags("stats")
-export class StatsController {
+@UseGuards(AuthGuard("jwt"), AppUserGuard)
+export class StatsPrivateController {
   public sheet: {
     [key: string]: {};
   }[];
 
-  constructor(
-    private readonly dashboardService: DashboardService,
-    private readonly structuresService: StructuresService
-  ) {
+  constructor() {
     this.sheet = [];
   }
 
-  @Get("home-stats")
-  public async home() {
-    const usagers = await usagerRepository.count();
-    const ayantsDroits = await usagerRepository.countAyantsDroits();
-
-    const totalUsagers = usagers + ayantsDroits;
-
-    const statsHome = {
-      structures: await structureRepository.count(),
-      interactions: await this.dashboardService.totalInteractions("courrierIn"),
-      usagers: totalUsagers,
-    };
-    return statsHome;
-  }
-
-  @UseGuards(AuthGuard("jwt"), FacteurGuard)
-  @ApiBearerAuth()
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Post("")
   public async getByDate(
     @CurrentUser() user: UserStructureAuthenticated,
@@ -76,60 +52,7 @@ export class StatsController {
     });
   }
 
-  @Get("public-stats/:regionId?")
-  public async getPublicStats(@Param("regionId") regionId: string) {
-    const publicStats: PublicStats = {
-      courrierOutCount: 0,
-      usagersCount: 0,
-      usersCount: 0,
-      structuresCount: 0,
-      interactionsCount: 0,
-    };
-
-    // Si aucune region
-    let structures = null;
-
-    if (regionId) {
-      structures = await this.structuresService.findStructuresInRegion(
-        regionId
-      );
-
-      publicStats.structuresCountByDepartement =
-        await this.dashboardService.getStructuresCountByDepartement(regionId);
-
-      publicStats.structuresCount = structures.length;
-    } else {
-      publicStats.structuresCount =
-        await this.dashboardService.countStructures();
-
-      publicStats.structuresCountByRegion =
-        await this.dashboardService.getStructuresCountByRegion();
-    }
-
-    // Usagers
-    const usagers = await usagerRepository.countUsagers(structures);
-    const ayantsDroits = await usagerRepository.countAyantsDroits(structures);
-
-    publicStats.usagersCount = usagers + ayantsDroits;
-
-    publicStats.usersCount = await this.dashboardService.countUsers(structures);
-
-    publicStats.interactionsCount =
-      await this.dashboardService.totalInteractions("courrierOut", structures);
-
-    publicStats.structuresCountByTypeMap =
-      await this.dashboardService.getStructuresCountByTypeMap(regionId);
-
-    publicStats.interactionsCountByMonth =
-      await this.dashboardService.countInteractionsByMonth(regionId);
-
-    publicStats.usagersCountByMonth =
-      await this.dashboardService.countUsagersByMonth(regionId);
-
-    return publicStats;
-  }
-
-  @UseGuards(AuthGuard("jwt"), FacteurGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Post("export")
   public async exportByDate(
     @CurrentUser() user: UserStructureAuthenticated,

@@ -1,6 +1,5 @@
-import { forwardRef, Module } from "@nestjs/common";
 import { HttpModule } from "@nestjs/axios";
-
+import { forwardRef, Module } from "@nestjs/common";
 import { InteractionsModule } from "../interactions/interactions.module";
 import { MailsModule } from "../mails/mails.module";
 import { StatsModule } from "../stats/stats.module";
@@ -8,13 +7,18 @@ import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
 import { StructureDocController } from "./controllers/structure-doc.controller";
 import { StructuresController } from "./controllers/structures.controller";
+import { StructuresPublicController } from "./controllers/structures.public.controller";
 import { StructureDocService } from "./services/structure-doc.service";
 import { StructureCreatorService } from "./services/structureCreator.service";
 import { StructureHardResetService } from "./services/structureHardReset.service";
 import { StructuresService } from "./services/structures.service";
 
 @Module({
-  controllers: [StructuresController, StructureDocController],
+  controllers: [
+    StructuresController,
+    StructuresPublicController,
+    StructureDocController,
+  ],
   exports: [
     StructuresService,
     StructureCreatorService,

@@ -17,7 +17,7 @@ import { diskStorage } from "multer";
 import * as os from "os";
 import * as path from "path";
 import { CurrentUser } from "../../../auth/current-user.decorator";
-import { FacteurGuard } from "../../../auth/guards/facteur.guard";
+import { AllowUserStructureRoles, AppUserGuard } from "../../../auth/guards";
 import { structureCommonRepository } from "../../../database";
 import { appLogger } from "../../../util";
 import { ExpressResponse } from "../../../util/express";
@@ -71,7 +71,7 @@ const UsagersImportFileInterceptor = FileInterceptor("file", {
 
 type UsagersImportMode = "preview" | "confirm";
 
-@UseGuards(AuthGuard("jwt"), FacteurGuard)
+@UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("import")
 @ApiBearerAuth()
 @Controller("import")
@@ -79,6 +79,7 @@ export class ImportController {
   constructor(private readonly usagersService: UsagersService) {}
 
   @Post(":mode")
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   @UseInterceptors(UsagersImportFileInterceptor)
   public async importExcel(
     @Param("mode") importMode: UsagersImportMode,

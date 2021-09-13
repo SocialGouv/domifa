@@ -11,7 +11,7 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
-import { FacteurGuard } from "../../auth/guards/facteur.guard";
+import { AllowUserStructureRoles, AppUserGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { UsagerLight, UserStructure } from "../../_common/model";
 import {
@@ -20,7 +20,7 @@ import {
   generateCustomDoc,
 } from "../custom-docs";
 
-@UseGuards(AuthGuard("jwt"), FacteurGuard)
+@UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("usagers-structure-docs")
 @ApiBearerAuth()
 @Controller("usagers-structure-docs")
@@ -28,7 +28,8 @@ export class UsagerStructureDocsController {
   constructor() {}
 
   @Get(":usagerRef/:docType")
-  @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
+  @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, AppUserGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getDocument(
     @Param("docType") docType: string,
     @CurrentUsager() usager: UsagerLight,

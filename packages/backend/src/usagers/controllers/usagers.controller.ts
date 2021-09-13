@@ -16,11 +16,9 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
-import { FacteurGuard } from "../../auth/guards/facteur.guard";
-import { ResponsableGuard } from "../../auth/guards/responsable.guard";
+import { AllowUserStructureRoles, AppUserGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { usagerLightRepository, usagerRepository } from "../../database";
-import { InteractionsService } from "../../interactions/services";
 import {
   ETAPE_DOCUMENTS,
   ETAPE_ETAT_CIVIL,
@@ -42,16 +40,16 @@ import { UsagersService } from "../services/usagers.service";
 
 @Controller("usagers")
 @ApiTags("usagers")
-@UseGuards(AuthGuard("jwt"))
+@UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiBearerAuth()
 export class UsagersController {
   constructor(
     private readonly usagersService: UsagersService,
-    private readonly interactionsService: InteractionsService,
     private readonly cerfaService: CerfaService
   ) {}
 
   @Get()
+  @AllowUserStructureRoles()
   public async findAllByStructure(
     @CurrentUser() user: UserStructureAuthenticated
   ) {
@@ -64,7 +62,7 @@ export class UsagersController {
   }
 
   /* FORMULAIRE INFOS */
-  @UseGuards(FacteurGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Post()
   public postUsager(
     @Body() usagerDto: CreateUsagerDto,
@@ -73,7 +71,8 @@ export class UsagersController {
     return this.usagersService.create(usagerDto, user);
   }
 
-  @UseGuards(UsagerAccessGuard, FacteurGuard)
+  @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Patch(":usagerRef")
   public async patchUsager(
     @Body() usagerDto: EditUsagerDto,
@@ -109,7 +108,8 @@ export class UsagersController {
     return usager;
   }
 
-  @UseGuards(UsagerAccessGuard, FacteurGuard)
+  @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Post("entretien/:usagerRef")
   public async setEntretien(
     @Body() entretien: EntretienDto,
@@ -136,7 +136,8 @@ export class UsagersController {
     return usager;
   }
 
-  @UseGuards(UsagerAccessGuard, FacteurGuard)
+  @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Get("next-step/:usagerRef/:etapeDemande")
   public async nextStep(
     @Param("etapeDemande") etapeDemande: number,
@@ -146,6 +147,7 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles()
   @Get("stop-courrier/:usagerRef")
   public async stopCourrier(@CurrentUsager() currentUsager: UsagerLight) {
     const usager = await usagerRepository.findOne({
@@ -165,7 +167,8 @@ export class UsagersController {
     );
   }
 
-  @UseGuards(UsagerAccessGuard, FacteurGuard)
+  @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Get("renouvellement/:usagerRef")
   public async renouvellement(
     @CurrentUser() user: UserStructureAuthenticated,
@@ -174,7 +177,8 @@ export class UsagersController {
     return this.usagersService.renouvellement(usager, user);
   }
 
-  @UseGuards(UsagerAccessGuard, FacteurGuard)
+  @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Post("decision/:usagerRef")
   public async setDecision(
     @Body() decision: DecisionDto,
@@ -186,7 +190,7 @@ export class UsagersController {
     return this.usagersService.setDecision({ uuid: usager.uuid }, decision);
   }
 
-  @UseGuards(FacteurGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Get("doublon/:nom/:prenom/:usagerRef")
   public async isDoublon(
     @Param("nom") nom: string,
@@ -203,7 +207,8 @@ export class UsagersController {
     return doublons;
   }
 
-  @UseGuards(ResponsableGuard, UsagerAccessGuard)
+  @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
+  @AllowUserStructureRoles("responsable", "admin")
   @Delete(":usagerRef")
   public async delete(
     @CurrentUser() user: UserStructureAuthenticated,
@@ -218,7 +223,8 @@ export class UsagersController {
     return res.status(HttpStatus.OK).json({ message: "DELETE_SUCCESS" });
   }
 
-  @UseGuards(UsagerAccessGuard, FacteurGuard)
+  @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Post("transfert/:usagerRef")
   public async editTransfert(
     @Body() transfertDto: TransfertDto,
@@ -250,7 +256,8 @@ export class UsagersController {
     );
   }
 
-  @UseGuards(UsagerAccessGuard, FacteurGuard)
+  @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Post("preference/:usagerRef")
   public async editPreference(
     @Body() preferenceDto: PreferenceContactDto,
@@ -268,7 +275,8 @@ export class UsagersController {
     );
   }
 
-  @UseGuards(UsagerAccessGuard, FacteurGuard)
+  @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Delete("renouvellement/:usagerRef")
   public async deleteRenew(
     @Res() res: Response,
@@ -314,7 +322,8 @@ export class UsagersController {
     }
   }
 
-  @UseGuards(UsagerAccessGuard, FacteurGuard)
+  @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Delete("transfert/:usagerRef")
   public async deleteTransfert(
     @CurrentUser() user: UserStructureAuthenticated,
@@ -341,7 +350,8 @@ export class UsagersController {
     );
   }
 
-  @UseGuards(UsagerAccessGuard, FacteurGuard)
+  @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Post("procuration/:usagerRef")
   public async editProcuration(
     @Body() procurationDto: ProcurationDto,
@@ -372,7 +382,8 @@ export class UsagersController {
     );
   }
 
-  @UseGuards(UsagerAccessGuard, FacteurGuard)
+  @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Delete("procuration/:usagerRef")
   public async deleteProcuration(
     @CurrentUser() user: UserStructureAuthenticated,
@@ -401,6 +412,7 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles()
   @Get("attestation/:usagerRef")
   public async getAttestation(
     @Res() res: Response,
@@ -427,6 +439,7 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles()
   @Get(":usagerRef")
   public async findOne(@CurrentUsager() usager: UsagerLight) {
     return usager;

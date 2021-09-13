@@ -23,6 +23,7 @@ async function checkPassword({
       select: "ALL",
     }
   );
+
   const userSecurity = await userSecurityRepository.findOne(
     {
       userId: user.id,

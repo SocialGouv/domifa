@@ -1,9 +1,9 @@
-import { Controller, Get, Param, Res, UseGuards } from "@nestjs/common";
+import { Controller, Get, Res, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { CurrentUser } from "../../auth/current-user.decorator";
-import { ResponsableGuard } from "../../auth/guards/responsable.guard";
+import { AllowUserStructureRoles, AppUserGuard } from "../../auth/guards";
 import {
   structureUsagersExporter,
   StructureUsagersExportModel,
@@ -14,13 +14,12 @@ import {
   UsagerLight,
   UserStructure,
   UserStructureAuthenticated,
-  UserStructureRole,
 } from "../../_common/model";
 import { UsagersService } from "../services/usagers.service";
 
 import moment = require("moment");
 
-@UseGuards(AuthGuard("jwt"), ResponsableGuard)
+@UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("export")
 @ApiBearerAuth()
 @Controller("export")
@@ -31,9 +30,8 @@ export class ExportStructureUsagersController {
   ) {}
 
   @Get("")
+  @AllowUserStructureRoles("responsable", "admin")
   public async export(
-    @Param("id") id: number,
-    @Param("role") role: UserStructureRole,
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {

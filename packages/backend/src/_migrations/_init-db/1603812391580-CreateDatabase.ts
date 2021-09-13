@@ -10,10 +10,32 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
 
     await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
 
-    appLogger.warn("> app_user");
-    await queryRunner.query(
-      `
-      CREATE TABLE public.app_user (
+    await createTables(queryRunner);
+    await createSequences(queryRunner);
+  }
+
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    // pas nécessaire de maintenir le down ici
+  }
+}
+async function createSequences(queryRunner: QueryRunner) {
+  await queryRunner.query(
+    `CREATE SEQUENCE public.app_user_id_seq NO MINVALUE NO MAXVALUE`
+  );
+  await queryRunner.query(
+    `CREATE SEQUENCE public.interactions_id_seq NO MINVALUE NO MAXVALUE`
+  );
+  await queryRunner.query(
+    `CREATE SEQUENCE public.structure_doc_id_seq NO MINVALUE NO MAXVALUE`
+  );
+  await queryRunner.query(
+    `CREATE SEQUENCE public.structure_id_seq NO MINVALUE NO MAXVALUE`
+  );
+}
+async function createTables(queryRunner: QueryRunner) {
+  appLogger.warn("> app_user");
+  await queryRunner.query(
+    `CREATE TABLE public.app_user (
         uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
         "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
         "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
@@ -32,11 +54,11 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
         verified boolean DEFAULT false NOT NULL
         );
       `
-    );
+  );
 
-    appLogger.warn("> app_user_security");
-    await queryRunner.query(
-      `
+  appLogger.warn("> app_user_security");
+  await queryRunner.query(
+    `
       CREATE TABLE public.app_user_security (
         uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
         "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
@@ -48,11 +70,11 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
         "eventsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL
         );
       `
-    );
+  );
 
-    appLogger.warn("> interactions");
-    await queryRunner.query(
-      `
+  appLogger.warn("> interactions");
+  await queryRunner.query(
+    `
         CREATE TABLE public.interactions (
           uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
           "createdAt" timestamptz NOT NULL DEFAULT now(),
@@ -72,11 +94,11 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
           CONSTRAINT "PK_9cf825bde3ff3a979664feb460f" PRIMARY KEY (uuid)
         );
       `
-    );
+  );
 
-    appLogger.warn("> message_email");
-    await queryRunner.query(
-      `
+  appLogger.warn("> message_email");
+  await queryRunner.query(
+    `
       CREATE TABLE public.message_email (
         uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
         "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
@@ -94,11 +116,11 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
         attachments bytea
         );
       `
-    );
+  );
 
-    appLogger.warn("> message_sms");
-    await queryRunner.query(
-      `
+  appLogger.warn("> message_sms");
+  await queryRunner.query(
+    `
       CREATE TABLE public.message_sms (
         uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
         "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
@@ -122,11 +144,11 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
         "senderName" text NOT NULL
       );
         `
-    );
+  );
 
-    appLogger.warn("> monitor_batch_process");
-    await queryRunner.query(
-      `
+  appLogger.warn("> monitor_batch_process");
+  await queryRunner.query(
+    `
       CREATE TABLE public.monitor_batch_process (
         uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
         "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
@@ -142,11 +164,11 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
         "alertMailSent" boolean DEFAULT false NOT NULL
       );
       `
-    );
+  );
 
-    appLogger.warn("> structure");
-    await queryRunner.query(
-      `
+  appLogger.warn("> structure");
+  await queryRunner.query(
+    `
       CREATE TABLE public.structure (
         uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
         "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
@@ -178,11 +200,11 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
         ville text,
         sms jsonb DEFAULT '{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}'::jsonb NOT NULL
       ); `
-    );
+  );
 
-    appLogger.warn("> structure_doc");
-    await queryRunner.query(
-      `CREATE TABLE public.structure_doc (
+  appLogger.warn("> structure_doc");
+  await queryRunner.query(
+    `CREATE TABLE public.structure_doc (
         uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
         "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
         "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
@@ -196,11 +218,11 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
         "structureId" integer NOT NULL,
         path text NOT NULL
       );`
-    );
+  );
 
-    appLogger.warn("> usager");
-    await queryRunner.query(
-      `CREATE TABLE public.usager (
+  appLogger.warn("> usager");
+  await queryRunner.query(
+    `CREATE TABLE public.usager (
         uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
         "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
         "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
@@ -232,11 +254,11 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
         options jsonb NOT NULL,
         import jsonb
       );`
-    );
+  );
 
-    appLogger.warn("> usager_history");
-    await queryRunner.query(
-      `CREATE TABLE public.usager_history (
+  appLogger.warn("> usager_history");
+  await queryRunner.query(
+    `CREATE TABLE public.usager_history (
         uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
         "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
         "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
@@ -247,58 +269,5 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
         import jsonb,
         states jsonb NOT NULL
       );`
-    );
-  }
-
-  public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `ALTER TABLE "structure_doc" DROP CONSTRAINT "FK_d79d466c870df0b58864836899d"`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "app_user_security" DROP CONSTRAINT "FK_4950bb2d2181b91b9219f9039c9"`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "app_user_security" DROP CONSTRAINT "FK_cec1c2a0820383d2a4045b5f902"`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "app_user" DROP CONSTRAINT "FK_64204d3f209764ef8d08f334bd7"`
-    );
-
-    await queryRunner.query(
-      `ALTER TABLE "interactions" DROP CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335"`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "interactions" DROP CONSTRAINT "FK_1953f5ad67157bada8774f7e245"`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "usager" DROP CONSTRAINT "FK_a44d882d224e368efdee8eb8c80"`
-    );
-    await queryRunner.query(`DROP INDEX "IDX_d79d466c870df0b58864836899"`);
-    await queryRunner.query(`DROP INDEX "IDX_b1dfa7ef1934657b38072e749e"`);
-    await queryRunner.query(`DROP TABLE "structure_doc"`);
-    await queryRunner.query(`DROP TABLE "message_sms"`);
-    await queryRunner.query(`DROP INDEX "IDX_4950bb2d2181b91b9219f9039c"`);
-    await queryRunner.query(`DROP INDEX "IDX_cec1c2a0820383d2a4045b5f90"`);
-    await queryRunner.query(`DROP TABLE "app_user_security"`);
-    await queryRunner.query(`DROP INDEX "IDX_64204d3f209764ef8d08f334bd"`);
-    await queryRunner.query(`DROP INDEX "IDX_22a5c4a3d9b2fb8e4e73fc4ada"`);
-    await queryRunner.query(`DROP INDEX "IDX_3fa909d0e37c531ebc23770339"`);
-    await queryRunner.query(`DROP TABLE "app_user"`);
-    await queryRunner.query(`DROP INDEX "IDX_32881a91eaf51f28d3f9cf0958"`);
-
-    await queryRunner.query(`DROP TABLE "monitor_batch_process"`);
-    await queryRunner.query(`DROP TABLE "message_email"`);
-    await queryRunner.query(`DROP INDEX "IDX_9992157cbe54583ff7002ae4c0"`);
-    await queryRunner.query(`DROP INDEX "IDX_f9c3ee379ce68d4acfe4199a33"`);
-    await queryRunner.query(`DROP INDEX "IDX_0c5d7e9585c77ff002d4072c3c"`);
-    await queryRunner.query(`DROP INDEX "IDX_1953f5ad67157bada8774f7e24"`);
-    await queryRunner.query(`DROP TABLE "interactions"`);
-    await queryRunner.query(`DROP INDEX "IDX_a44d882d224e368efdee8eb8c8"`);
-    await queryRunner.query(`DROP INDEX "IDX_8198a25ae40584a38bce1dd4d2"`);
-    await queryRunner.query(`DROP TABLE "usager"`);
-    await queryRunner.query(`DROP INDEX "IDX_7356ee08f3ac6e3e1c6fe08bd8"`);
-    await queryRunner.query(`DROP TABLE "usager_history"`);
-    await queryRunner.query(`DROP INDEX "IDX_90ac7986e769d602d218075215"`);
-    await queryRunner.query(`DROP TABLE "structure"`);
-  }
+  );
 }

@@ -13,7 +13,7 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import * as ics from "ics";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
-import { FacteurGuard } from "../../auth/guards/facteur.guard";
+import { AllowUserStructureRoles, AppUserGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
 import {
@@ -34,12 +34,13 @@ import { UsagersService } from "../services/usagers.service";
 @ApiTags("agenda")
 @ApiBearerAuth()
 @Controller("agenda")
-@UseGuards(AuthGuard("jwt"))
+@UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class AgendaController {
   constructor(private usagersService: UsagersService) {}
 
   @Post(":usagerRef")
-  @UseGuards(FacteurGuard, UsagerAccessGuard)
+  @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   public async postRdv(
     @Body() rdvDto: RdvDto,
     @CurrentUser() currentUser: UserStructureAuthenticated,
@@ -143,7 +144,7 @@ export class AgendaController {
   }
 
   @Get("users")
-  @UseGuards(FacteurGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   public getUsersMeeting(
     @CurrentUser() user: UserStructureAuthenticated
   ): Promise<UserStructureProfile[]> {
@@ -154,7 +155,7 @@ export class AgendaController {
   }
 
   @Get("")
-  @UseGuards(FacteurGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getAll(@CurrentUser() user: UserStructureAuthenticated) {
     const userId = user.id;
     return usagerLightRepository.findNextRendezVous({ userId });
