@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, UseGuards } from "@nestjs/common";
+import { Controller, Get, Param, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { CurrentUsager } from "../auth/current-usager.decorator";
@@ -6,7 +6,7 @@ import { CurrentUser } from "../auth/current-user.decorator";
 import { DomifaGuard } from "../auth/guards/domifa.guard";
 import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
 import { StructuresService } from "../structures/services/structures.service";
-import { AppAuthUser, UsagerLight } from "../_common/model";
+import { UsagerLight, UserStructureAuthenticated } from "../_common/model";
 import { MessageSmsService } from "./services/message-sms.service";
 
 @Controller("sms")
@@ -39,7 +39,7 @@ export class SmsController {
   @Get("usager/:usagerRef")
   // Liste des SMS d'un usager
   public async getUsagerSms(
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
     // 0. On récupère les sms

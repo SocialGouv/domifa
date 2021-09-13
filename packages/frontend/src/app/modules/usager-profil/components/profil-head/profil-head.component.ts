@@ -8,10 +8,12 @@ import {
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
-import { AppUser, UsagerLight, UserRole } from "../../../../../_common/model";
-
+import {
+  UsagerLight,
+  UserStructure,
+  UserStructureRole,
+} from "../../../../../_common/model";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
-
 import { UsagerProfilService } from "../../services/usager-profil.service";
 
 @Component({
@@ -21,7 +23,7 @@ import { UsagerProfilService } from "../../services/usager-profil.service";
 })
 export class ProfilHeadComponent implements OnInit {
   @Input() public usager: UsagerFormModel;
-  @Input() public me: AppUser;
+  @Input() public me: UserStructure;
 
   @Input() public section: string;
 
@@ -47,7 +49,7 @@ export class ProfilHeadComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  public isRole(role: UserRole) {
+  public isRole(role: UserStructureRole) {
     return this.me.role === role;
   }
 

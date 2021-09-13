@@ -17,13 +17,13 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import * as fs from "fs";
-import * as path from "path";
 import { diskStorage } from "multer";
+import * as path from "path";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { domifaConfig } from "../../config";
 import { deleteFile, randomName, validateUpload } from "../../util/FileManager";
-import { AppAuthUser } from "../../_common/model";
+import { UserStructureAuthenticated } from "../../_common/model";
 import { StructureDoc } from "../../_common/model/structure-doc";
 import { StructureDocDto } from "../dto/structure-doc.dto";
 import { StructureDocService } from "../services/structure-doc.service";
@@ -38,7 +38,7 @@ export class StructureDocController {
   @Get(":id")
   public async getStructureDoc(
     @Param("id") structureDocId: number,
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
     const doc = await this.structureDocService.findOne(
@@ -101,7 +101,7 @@ export class StructureDocController {
   public async uploadStructureDoc(
     @UploadedFile() file: Express.Multer.File,
     @Body() structureDocDto: StructureDocDto,
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
     // Check tags
@@ -133,14 +133,16 @@ export class StructureDocController {
   }
 
   @Get("")
-  public async getStructureDocs(@CurrentUser() user: AppAuthUser) {
+  public async getStructureDocs(
+    @CurrentUser() user: UserStructureAuthenticated
+  ) {
     return this.structureDocService.findAll(user.structureId);
   }
 
   @Delete(":id")
   public async deleteDocument(
     @Param("id") structureDocId: number,
-    @CurrentUser() user: AppAuthUser
+    @CurrentUser() user: UserStructureAuthenticated
   ) {
     const doc = await this.structureDocService.findOne(
       user.structureId,

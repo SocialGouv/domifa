@@ -1,6 +1,6 @@
 import { Structure } from "./Structure.type";
 
-// Structure: attributs publics (retournés au frontend via AppAuthUser)
+// Structure: attributs publics (retournés au frontend via UserStructureAuthenticated)
 export type StructureCommon = Pick<
   Structure,
   | "id"

@@ -21,6 +21,6 @@ export type UsagerDecision = {
   orientation?: UsagerDecisionOrientation;
   orientationDetails?: string;
 
-  userId: number; // AppUser.id
-  userName: string; // AppUser.nom / prenom
+  userId: number; // UserStructure.id
+  userName: string; // UserStructure.nom / prenom
 };

@@ -47,9 +47,9 @@ export class InteractionsTable
   public userId: number;
 
   // NOTE: pas de FK car les users peuvent être supprimés (si on ajoute la FK, il faudra rendre nullable les userId)
-  // @ManyToOne(() => AppUserTable, { lazy: true })
+  // @ManyToOne(() => UserStructureTable, { lazy: true })
   // @JoinColumn({ name: "userId", referencedColumnName: "id" })
-  // userFk?: Promise<AppUserTable>;
+  // userFk?: Promise<UserStructureTable>;
 
   @Column({ type: "text" })
   public userName: string;

@@ -2,9 +2,8 @@ import { Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { AppUser } from "../../../../../../../_common/model";
+import { UserStructure } from "../../../../../../../_common/model";
 import { ETAPES_DEMANDE_URL } from "../../../../../../../_common/model/usager/constants";
-
 import { UsagerFormModel } from "../../UsagerFormModel";
 
 @Component({
@@ -26,7 +25,7 @@ export class MenuComponent implements OnInit {
 
   public etapesUrl = ETAPES_DEMANDE_URL;
 
-  public me: AppUser;
+  public me: UserStructure;
 
   constructor(
     private authService: AuthService,
@@ -35,7 +34,7 @@ export class MenuComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
 

@@ -13,7 +13,7 @@ import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import { AppUser, UsagerLight } from "../../_common/model";
+import { UsagerLight, UserStructure } from "../../_common/model";
 import {
   buildCustomDoc,
   customDocTemplateLoader,
@@ -32,7 +32,7 @@ export class UsagerStructureDocsController {
   public async getDocument(
     @Param("docType") docType: string,
     @CurrentUsager() usager: UsagerLight,
-    @CurrentUser() user: AppUser,
+    @CurrentUser() user: UserStructure,
     @Res() res: Response
   ) {
     if (docType !== "attestation_postale" && docType !== "courrier_radiation") {

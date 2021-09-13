@@ -7,7 +7,7 @@ import {
   Output,
 } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
-import { AppUser, UsagerNote } from "../../../../../_common/model";
+import { UsagerNote, UserStructure } from "../../../../../_common/model";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 import { UsagerService } from "../../../usagers/services/usager.service";
 
@@ -18,7 +18,7 @@ import { UsagerService } from "../../../usagers/services/usager.service";
 })
 export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
   @Input() public usager: UsagerFormModel;
-  @Input() public me: AppUser;
+  @Input() public me: UserStructure;
 
   public displayConfirmArchiveMessageNoteId: string;
 

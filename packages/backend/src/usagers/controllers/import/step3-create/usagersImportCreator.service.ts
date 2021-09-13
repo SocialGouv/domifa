@@ -1,7 +1,7 @@
 import { usagerLightRepository, UsagerTable } from "../../../../database";
 import { usagerHistoryRepository } from "../../../../database/services/usager/usagerHistoryRepository.service";
 import { uuidGenerator } from "../../../../database/services/uuid";
-import { AppUser } from "../../../../_common/model";
+import { UserStructure } from "../../../../_common/model";
 import { usagerHistoryStateManager } from "../../../services/usagerHistoryStateManager.service";
 import { usagersCreator } from "../../../services/usagersCreator.service";
 import { ImportProcessTracker } from "../ImportProcessTracker.type";
@@ -18,7 +18,7 @@ async function createFromImport({
   processTracker,
 }: {
   usagersRows: UsagersImportUsager[];
-  user: Pick<AppUser, "id" | "structureId" | "prenom" | "nom">;
+  user: Pick<UserStructure, "id" | "structureId" | "prenom" | "nom">;
   processTracker: ImportProcessTracker;
 }) {
   const usagers = usagersImportBuilder.buildUsagers({

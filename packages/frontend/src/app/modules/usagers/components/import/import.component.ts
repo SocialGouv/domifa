@@ -4,8 +4,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-
-import { AppUser } from "../../../../../_common/model";
+import { UserStructure } from "../../../../../_common/model";
 import { LoadingService } from "../../../loading/loading.service";
 import { AuthService } from "../../../shared/services/auth.service";
 import {
@@ -41,7 +40,7 @@ export class ImportComponent implements OnInit {
 
   public etapeImport: "select-file" | "preview-import";
 
-  public me: AppUser;
+  public me: UserStructure;
 
   public CUSTOM_ID = 0;
   public CIVILITE = 1;
@@ -122,7 +121,7 @@ export class ImportComponent implements OnInit {
   public ngOnInit() {
     this.titleService.setTitle("Importer vos domiciliés sur Domifa");
 
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
 

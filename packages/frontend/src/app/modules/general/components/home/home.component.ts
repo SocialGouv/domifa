@@ -3,7 +3,7 @@ import { Title } from "@angular/platform-browser";
 import { CountUpOptions } from "countup.js";
 import { MatomoTracker } from "ngx-matomo";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { AppUser } from "../../../../../_common/model";
+import { UserStructure } from "../../../../../_common/model";
 import { HomeService } from "./home.service";
 
 @Component({
@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
   public stats: any;
   public countOptions: CountUpOptions;
 
-  public user: AppUser | null;
+  public user: UserStructure | null;
 
   constructor(
     private titleService: Title,

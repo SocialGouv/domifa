@@ -3,7 +3,7 @@ import { usagerRepository } from "../database";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
-import { AppAuthUser, UsagerLight } from "../_common/model";
+import { UsagerLight, UserStructureAuthenticated } from "../_common/model";
 import { SmsModule } from "./../sms/sms.module";
 import { InteractionsController } from "./interactions.controller";
 import { InteractionDto } from "./interactions.dto";
@@ -14,7 +14,7 @@ describe("Interactions Controller", () => {
   let authService: AuthService;
 
   let context: AppTestContext;
-  let user: AppAuthUser;
+  let user: UserStructureAuthenticated;
   let usager: UsagerLight;
 
   beforeAll(async () => {

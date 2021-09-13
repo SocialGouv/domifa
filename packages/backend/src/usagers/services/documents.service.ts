@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { usagerRepository } from "../../database";
-import { AppUser, Usager } from "../../_common/model";
+import { Usager, UserStructure } from "../../_common/model";
 
 @Injectable()
 export class DocumentsService {
@@ -9,7 +9,7 @@ export class DocumentsService {
   public async deleteDocument(
     usagerRef: number,
     index: number,
-    user: Pick<AppUser, "structureId">
+    user: Pick<UserStructure, "structureId">
   ): Promise<Usager> {
     const usager = await usagerRepository.findOne({
       ref: usagerRef,

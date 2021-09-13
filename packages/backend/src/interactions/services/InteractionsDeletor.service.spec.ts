@@ -1,13 +1,13 @@
 import {
   structureRepository,
   usagerRepository,
-  usersRepository,
+  userStructureRepository,
 } from "../../database";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
-import { AppUser, Structure, Usager } from "../../_common/model";
+import { Structure, Usager, UserStructure } from "../../_common/model";
 import { InteractionDto } from "../interactions.dto";
 import { InteractionsModule } from "../interactions.module";
 import { InteractionsService } from "./interactions.service";
@@ -20,7 +20,7 @@ describe("InteractionsDeletor", () => {
   let interactionsDeletor: InteractionsDeletor;
   let interactionsService: InteractionsService;
 
-  let user: AppUser;
+  let user: UserStructure;
   let usager: Usager;
   let structure: Structure;
 
@@ -39,7 +39,7 @@ describe("InteractionsDeletor", () => {
 
     interactionsService =
       context.module.get<InteractionsService>(InteractionsService);
-    user = await usersRepository.findOne({ id: 1 });
+    user = await userStructureRepository.findOne({ id: 1 });
     usager = await usagerRepository.findOne({
       ref: 2,
       structureId: 1,

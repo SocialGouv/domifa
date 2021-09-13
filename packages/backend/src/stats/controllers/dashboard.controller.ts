@@ -4,9 +4,9 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { DomifaGuard } from "../../auth/guards/domifa.guard";
 import {
-  AppUserTable,
   structureRepository,
-  usersRepository,
+  userStructureRepository,
+  UserStructureTable,
 } from "../../database";
 import {
   statsDeploiementExporter,
@@ -32,7 +32,7 @@ export class DashboardController {
       await this.dashboardService.getStatsDeploiement();
 
     const USER_STATS_ATTRIBUTES: (keyof StatsExportUser &
-      keyof AppUserTable)[] = [
+      keyof UserStructureTable)[] = [
       "id",
       "email",
       "nom",
@@ -41,7 +41,7 @@ export class DashboardController {
       "verified",
       "structureId",
     ];
-    const users = await usersRepository.findMany<
+    const users = await userStructureRepository.findMany<
       Omit<StatsExportUser, "structure">
     >(undefined, {
       select: USER_STATS_ATTRIBUTES,

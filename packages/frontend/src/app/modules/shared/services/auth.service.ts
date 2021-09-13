@@ -7,14 +7,14 @@ import { ToastrService } from "ngx-toastr";
 import { BehaviorSubject, Observable, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
-import { AppUser } from "../../../../_common/model";
-import { appUserBuilder } from "../../users/services";
+import { UserStructure } from "../../../../_common/model";
+import { userStructureBuilder } from "../../users/services";
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
-  public currentUserSubject: BehaviorSubject<AppUser>;
+  public currentUserSubject: BehaviorSubject<UserStructure>;
 
   private endPoint = environment.apiUrl + "auth";
 
@@ -23,12 +23,12 @@ export class AuthService {
     private toastr: ToastrService,
     public router: Router
   ) {
-    this.currentUserSubject = new BehaviorSubject<AppUser | null>(
+    this.currentUserSubject = new BehaviorSubject<UserStructure | null>(
       JSON.parse(localStorage.getItem("currentUser") || null)
     );
   }
 
-  public get currentUserValue(): AppUser | null {
+  public get currentUserValue(): UserStructure | null {
     return this.currentUserSubject.value;
   }
 
@@ -40,7 +40,7 @@ export class AuthService {
       })
       .pipe(
         map((token: { access_token: string }) => {
-          const user = appUserBuilder.buildAppUser(
+          const user = userStructureBuilder.buildUserStructure(
             jwtDecode(token.access_token)
           );
           user.access_token = token.access_token;
@@ -60,9 +60,9 @@ export class AuthService {
       return of(false);
     }
 
-    return this.http.get<AppUser>(`${this.endPoint}/me`).pipe(
-      map((apiUser: AppUser) => {
-        const user = appUserBuilder.buildAppUser(apiUser);
+    return this.http.get<UserStructure>(`${this.endPoint}/me`).pipe(
+      map((apiUser: UserStructure) => {
+        const user = userStructureBuilder.buildUserStructure(apiUser);
         user.access_token = this.currentUserValue.access_token;
 
         localStorage.setItem("currentUser", JSON.stringify(user));

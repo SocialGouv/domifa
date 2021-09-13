@@ -1,11 +1,11 @@
-import { generateMotifLabel } from "./generateMotifLabel.service";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import * as fs from "fs";
 import * as path from "path";
 import { appLogger } from "../../util";
-import { AppAuthUser, Usager } from "../../_common/model";
+import { Usager, UserStructureAuthenticated } from "../../_common/model";
 import { UsagerCerfaFields } from "../../_common/model/usager/UsagerCerfaFields.type";
 import { DateCerfa } from "../interfaces/date-cerfa";
+import { generateMotifLabel } from "./generateMotifLabel.service";
 import moment = require("moment");
 
 // tslint:disable-next-line: no-var-requires
@@ -15,7 +15,7 @@ const pdftk = require("node-pdftk");
 export class CerfaService {
   constructor() {}
 
-  public async attestation(usager: Usager, user: AppAuthUser) {
+  public async attestation(usager: Usager, user: UserStructureAuthenticated) {
     const pdfForm =
       usager.decision.statut === "VALIDE"
         ? "../../_static/static-docs/attestation.pdf"

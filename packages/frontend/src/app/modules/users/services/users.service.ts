@@ -4,13 +4,13 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import {
-  AppUser,
   UsagerLight,
-  UserProfile,
-  UserRole,
+  UserStructure,
+  UserStructureEditProfile,
+  UserStructureProfile,
+  UserStructureRole,
 } from "../../../../_common/model";
-import { UserEditProfile } from "../../../../_common/model/app-user/UserEditProfile.type";
-import { appUserBuilder } from "./app-user-builder.service";
+import { userStructureBuilder } from "./userStructureBuilder.service";
 
 @Injectable({
   providedIn: "root",
@@ -26,7 +26,7 @@ export class UsersService {
   public getUser(id: number) {
     return this.http.get(`${this.endPoint}/${id}`).pipe(
       map((response) => {
-        return appUserBuilder.buildAppUser(response);
+        return userStructureBuilder.buildUserStructure(response);
       })
     );
   }
@@ -39,56 +39,65 @@ export class UsersService {
     );
   }
 
-  public patch(userInfos: UserEditProfile) {
+  public patch(userInfos: UserStructureEditProfile) {
     return this.http.patch(`${this.endPoint}`, userInfos).pipe(
       map((response) => {
-        return appUserBuilder.buildAppUser(response);
+        return userStructureBuilder.buildUserStructure(response);
       })
     );
   }
 
-  public getUsers(): Observable<UserProfile[]> {
+  public getUsers(): Observable<UserStructureProfile[]> {
     return this.http.get(`${this.endPoint}`).pipe(
       map((response) => {
         return Array.isArray(response)
-          ? response.map((item) => appUserBuilder.buildAppUser(item))
-          : [appUserBuilder.buildAppUser(response)];
+          ? response.map((item) =>
+              userStructureBuilder.buildUserStructure(item)
+            )
+          : [userStructureBuilder.buildUserStructure(response)];
       })
     );
   }
 
-  public getUsersMeeting(): Observable<AppUser[]> {
+  public getUsersMeeting(): Observable<UserStructure[]> {
     return this.http.get(environment.apiUrl + "agenda/users").pipe(
       map((response) => {
         return Array.isArray(response)
-          ? response.map((item) => appUserBuilder.buildAppUser(item))
-          : [appUserBuilder.buildAppUser(response)];
+          ? response.map((item) =>
+              userStructureBuilder.buildUserStructure(item)
+            )
+          : [userStructureBuilder.buildUserStructure(response)];
       })
     );
   }
 
-  public getNewUsers(): Observable<UserProfile[]> {
+  public getNewUsers(): Observable<UserStructureProfile[]> {
     return this.http.get(`${this.endPoint}/to-confirm`).pipe(
       map((response) => {
         return Array.isArray(response)
-          ? response.map((item) => appUserBuilder.buildAppUser(item))
-          : [appUserBuilder.buildAppUser(response)];
+          ? response.map((item) =>
+              userStructureBuilder.buildUserStructure(item)
+            )
+          : [userStructureBuilder.buildUserStructure(response)];
       })
     );
   }
 
-  public confirmUser(id: number): Observable<UserProfile> {
+  public confirmUser(id: number): Observable<UserStructureProfile> {
     return this.http.get(`${this.endPoint}/confirm/${id}`).pipe(
       map((response) => {
-        return appUserBuilder.buildAppUser(response);
+        return userStructureBuilder.buildUserStructure(response);
       })
     );
   }
 
-  public updateRole(id: number, role: UserRole): Observable<UserProfile> {
+  public updateRole(
+    id: number,
+    role: UserStructureRole
+  ): Observable<UserStructureProfile> {
     return this.http.get(`${this.endPoint}/update-role/${id}/${role}`).pipe(
       map((response) => {
-        return appUserBuilder.buildAppUser(response);
+        return userStructureBuilder.buildUserStructure(response);
       })
     );
   }

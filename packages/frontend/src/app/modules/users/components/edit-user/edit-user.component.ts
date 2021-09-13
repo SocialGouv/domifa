@@ -6,14 +6,13 @@ import {
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-
 import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { regexp } from "src/app/shared/validators";
-import { AppUser, UsagerLight } from "../../../../../_common/model";
-import { appUserBuilder } from "../../services";
+import { UsagerLight, UserStructure } from "../../../../../_common/model";
+import { userStructureBuilder } from "../../services";
 import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
 
@@ -23,7 +22,7 @@ import { UsersService } from "../../services/users.service";
   styleUrls: ["./edit-user.component.css"],
 })
 export class EditUserComponent implements OnInit {
-  public me: AppUser | null;
+  public me: UserStructure | null;
   public usagers: UsagerLight[];
 
   public submitted: boolean;
@@ -73,7 +72,7 @@ export class EditUserComponent implements OnInit {
   public ngOnInit(): void {
     this.titleService.setTitle("Editer mes informations");
 
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       if (user !== null) {
         this.userService.getLastPasswordUpdate().subscribe((retour: Date) => {
           this.lastPasswordUpdate = retour;
@@ -152,8 +151,8 @@ export class EditUserComponent implements OnInit {
       );
     } else {
       this.userService.patch(this.userForm.value).subscribe(
-        (user: AppUser) => {
-          this.me = appUserBuilder.buildAppUser(user);
+        (user: UserStructure) => {
+          this.me = userStructureBuilder.buildUserStructure(user);
           this.editUser = false;
           this.notifService.success(
             "Vos informations ont été modifiées avec succès",

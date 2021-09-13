@@ -13,7 +13,7 @@ import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { Observable } from "rxjs";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { environment } from "../environments/environment";
-import { AppUser } from "../_common/model";
+import { UserStructure } from "../_common/model";
 import {
   HealthCheckInfo,
   HealthCheckService,
@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
   public apiVersion: string;
 
   public modalOptions: NgbModalOptions;
-  public me: AppUser;
+  public me: UserStructure;
 
   @ViewChild("newsCenter", { static: true })
   public newsCenter!: TemplateRef<any>;
@@ -91,7 +91,7 @@ export class AppComponent implements OnInit {
 
     // REFRESH TOKEN
     this.authService.isAuth().subscribe();
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
 

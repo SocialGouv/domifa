@@ -1,6 +1,10 @@
 import moment = require("moment");
-import { FindConditions, In, LessThan, MoreThan, Not } from "typeorm";
-import { AppAuthUser, AppUser, Usager } from "../../../_common/model";
+import { FindConditions, In, LessThan, MoreThan } from "typeorm";
+import {
+  Usager,
+  UserStructure,
+  UserStructureAuthenticated,
+} from "../../../_common/model";
 import {
   InteractionEvent,
   Interactions,
@@ -41,7 +45,7 @@ async function findLastInteraction({
   usagerRef: number;
   dateInteraction: Date;
   typeInteraction: InteractionType;
-  user: Pick<AppUser, "structureId">;
+  user: Pick<UserStructure, "structureId">;
   isIn: string;
   event: InteractionEvent;
 }): Promise<Interactions | null> {
@@ -63,7 +67,7 @@ async function findLastInteractionOk({
   usager,
   event,
 }: {
-  user: Pick<AppAuthUser, "structureId">;
+  user: Pick<UserStructureAuthenticated, "structureId">;
   usager: Pick<Usager, "ref">;
   event: InteractionEvent;
 }): Promise<Interactions> {
@@ -89,7 +93,7 @@ async function findLastInteractionInWithContent({
   usager,
   oppositeType,
 }: {
-  user: Pick<AppAuthUser, "structureId">;
+  user: Pick<UserStructureAuthenticated, "structureId">;
   usager: Pick<Usager, "ref">;
   oppositeType: InteractionType;
 }): Promise<Interactions> {

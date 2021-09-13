@@ -9,7 +9,7 @@ import {
   typeOrmSearch,
   usagerRepository,
   UsagerTable,
-  usersRepository,
+  userStructureRepository,
 } from "../../database";
 import { StatsDeploiementExportModel } from "../../excel/export-stats-deploiement";
 import { StatsDeploiementStructureExportModel } from "../../excel/export-stats-deploiement/StatsDeploiementStructureExportModel.type";
@@ -83,7 +83,7 @@ export class DashboardService {
         structure as unknown as StructureAdmin & {
           usersCount?: number; // dashboard only
         }
-      ).usersCount = await usersRepository.count({
+      ).usersCount = await userStructureRepository.count({
         where: {
           structureId: structure.id,
         },
@@ -191,13 +191,13 @@ export class DashboardService {
 
   public async countUsers(structuresId?: number[]): Promise<number> {
     if (structuresId) {
-      return usersRepository.count({
+      return userStructureRepository.count({
         where: typeOrmSearch<UsagerTable>('"structureId" IN(:...ids)'),
         params: { ids: structuresId },
       });
     }
 
-    return usersRepository.count();
+    return userStructureRepository.count();
   }
 
   public async countStructures(): Promise<number> {
@@ -301,7 +301,7 @@ export class DashboardService {
     const structuresCountByRegion = await this.getStructuresCountByRegion();
 
     const structuresCountByType = await this.getStructuresCountByTypeMap();
-    const usersCount = await usersRepository.count();
+    const usersCount = await userStructureRepository.count();
     const docsCount = await usagerRepository.countDocuments();
 
     const interactionsCountByStatut =
@@ -336,7 +336,7 @@ export class DashboardService {
     const structuresModels: StatsDeploiementStructureExportModel[] = [];
 
     for (const structure of structures) {
-      const usersCount = await usersRepository.count({
+      const usersCount = await userStructureRepository.count({
         where: {
           structureId: structure.id,
         },

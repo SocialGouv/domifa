@@ -19,7 +19,10 @@ import { ToastrService } from "ngx-toastr";
 import { Subscription } from "rxjs";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
-import { AppUser, StructureStatsFull } from "../../../../../_common/model";
+import {
+  StructureStatsFull,
+  UserStructure,
+} from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { StatsService } from "../../services/stats.service";
 @Component({
@@ -54,7 +57,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
   private defaultStartDate: Date;
   private defaultEndDate: Date;
 
-  private me: AppUser;
+  private me: UserStructure;
 
   private subscriptions = new Subscription();
 
@@ -90,7 +93,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
       date.getDate()
     );
     this.subscriptions.add(
-      this.authService.currentUserSubject.subscribe((user: AppUser) => {
+      this.authService.currentUserSubject.subscribe((user: UserStructure) => {
         this.me = user;
       })
     );
