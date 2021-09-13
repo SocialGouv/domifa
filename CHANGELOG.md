@@ -1,3 +1,10 @@
+## [2.18.1-alpha.1](https://github.com/SocialGouv/domifa/compare/v2.18.0...v2.18.1-alpha.1) (2021-09-13)
+
+
+### Bug Fixes
+
+* Use autodevops actions. ([5caa61d](https://github.com/SocialGouv/domifa/commit/5caa61d8d49cddedbf6daee9282576e3634bd1b7))
+
 # [2.18.0](https://github.com/SocialGouv/domifa/compare/v2.17.5...v2.18.0) (2021-09-13)
 
 
