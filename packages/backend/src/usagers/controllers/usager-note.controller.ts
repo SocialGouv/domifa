@@ -17,10 +17,10 @@ import { usagerRepository } from "../../database";
 import { uuidGenerator } from "../../database/services/uuid";
 import { ExpressResponse } from "../../util/express";
 import {
-  AppAuthUser,
-  AppUserResume,
   UsagerLight,
   UsagerNote,
+  UserStructureAuthenticated,
+  UserStructureResume,
 } from "../../_common/model";
 import { CreateNoteDto } from "../dto/create-note.dto";
 
@@ -35,11 +35,11 @@ export class UsagerNoteController {
   @UseGuards(UsagerAccessGuard)
   public async createNote(
     @Body() createNoteDto: CreateNoteDto,
-    @CurrentUser() currentUser: AppAuthUser,
+    @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: UsagerLight,
     @Response() res: ExpressResponse
   ) {
-    const createdBy: AppUserResume = {
+    const createdBy: UserStructureResume = {
       userId: currentUser.id,
       userName: currentUser.prenom + " " + currentUser.nom,
     };
@@ -74,7 +74,7 @@ export class UsagerNoteController {
   @UseGuards(UsagerAccessGuard)
   public async archiveNote(
     @Param("noteId") noteId: string,
-    @CurrentUser() currentUser: AppAuthUser,
+    @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: UsagerLight,
     @Response() res: ExpressResponse
   ) {
@@ -83,7 +83,7 @@ export class UsagerNoteController {
       structureId: currentUser.structureId,
     });
 
-    const archivedBy: AppUserResume = {
+    const archivedBy: UserStructureResume = {
       userId: currentUser.id,
       userName: currentUser.prenom + " " + currentUser.nom,
     };

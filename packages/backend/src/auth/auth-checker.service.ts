@@ -1,13 +1,13 @@
 import { appLogger } from "../util";
-import { AppUser, UserRole } from "../_common/model";
+import { UserStructure, UserStructureRole } from "../_common/model";
 
 export const authChecker = {
   checkRole,
 };
 
 function checkRole(
-  user: Pick<AppUser, "id" | "role">,
-  ...expectedRoles: UserRole[]
+  user: Pick<UserStructure, "id" | "role">,
+  ...expectedRoles: UserStructureRole[]
 ) {
   const isValidRole = user && expectedRoles.includes(user.role);
   if (user && !isValidRole) {

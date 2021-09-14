@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { FindConditions, LessThan, MoreThan } from "typeorm";
 import { interactionRepository, InteractionsTable } from "../../database";
-import { AppUser } from "../../_common/model";
+import { UserStructure } from "../../_common/model";
 import { Interactions, InteractionType } from "../../_common/model/interaction";
 
 @Injectable()
@@ -11,7 +11,7 @@ export class InteractionsService {
   public async findOne(
     usagerRef: number,
     interactionUuid: string,
-    user: Pick<AppUser, "structureId">
+    user: Pick<UserStructure, "structureId">
   ): Promise<Interactions | null> {
     return interactionRepository.findOne({
       uuid: interactionUuid,
@@ -24,7 +24,7 @@ export class InteractionsService {
     usagerRef: number,
     dateInteraction: Date,
     typeInteraction: InteractionType,
-    user: Pick<AppUser, "structureId">,
+    user: Pick<UserStructure, "structureId">,
     isIn: string
   ): Promise<Interactions | null> {
     const dateQuery =

@@ -1,6 +1,6 @@
-import { AppUserResume } from "../../app-user/AppUserResume.type";
+import { UserStructureResume } from "../../user-structure/UserStructureResume.type";
 
 export type UsagerHistoryImport = {
   createdAt: Date;
-  createdBy: AppUserResume;
+  createdBy: UserStructureResume;
 };

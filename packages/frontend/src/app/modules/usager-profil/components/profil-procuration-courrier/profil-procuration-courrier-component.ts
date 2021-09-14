@@ -14,9 +14,12 @@ import {
   minDateToday,
 } from "src/app/shared/bootstrap-util";
 import { endDateAfterBeginDateValidator } from "src/app/shared/validators";
-import { AppUser, UsagerLight, UserRole } from "../../../../../_common/model";
+import {
+  UsagerLight,
+  UserStructure,
+  UserStructureRole,
+} from "../../../../../_common/model";
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";
-import { UsagerService } from "../../../usagers/services/usager.service";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 import { UsagerProfilService } from "../../services/usager-profil.service";
 
@@ -32,7 +35,7 @@ import { UsagerProfilService } from "../../services/usager-profil.service";
 })
 export class UsagersProfilProcurationCourrierComponent implements OnInit {
   @Input() public usager: UsagerFormModel;
-  @Input() public me: AppUser;
+  @Input() public me: UserStructure;
 
   @Output() usagerChanges = new EventEmitter<UsagerLight>();
 
@@ -64,7 +67,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     this.maxDateNaissance = formatDateToNgb(new Date());
   }
 
-  public isRole(role: UserRole) {
+  public isRole(role: UserStructureRole) {
     return this.me.role === role;
   }
 

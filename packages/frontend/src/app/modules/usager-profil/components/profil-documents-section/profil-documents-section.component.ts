@@ -1,13 +1,12 @@
-import { DocumentService } from "./../../../usager-shared/services/document.service";
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { AppUser, UsagerLight } from "../../../../../_common/model";
+import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
-import { UsagerService } from "../../../usagers/services/usager.service";
 import { UsagerProfilService } from "../../services/usager-profil.service";
+import { DocumentService } from "./../../../usager-shared/services/document.service";
 
 @Component({
   selector: "app-profil-documents-section",
@@ -15,7 +14,7 @@ import { UsagerProfilService } from "../../services/usager-profil.service";
   styleUrls: ["./profil-documents-section.component.css"],
 })
 export class ProfilDocumentsSectionComponent implements OnInit {
-  public me: AppUser;
+  public me: UserStructure;
   public usager: UsagerFormModel;
 
   constructor(
@@ -34,7 +33,7 @@ export class ProfilDocumentsSectionComponent implements OnInit {
     this.titleService.setTitle("Fiche d'un domicilié");
     //
 
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
 

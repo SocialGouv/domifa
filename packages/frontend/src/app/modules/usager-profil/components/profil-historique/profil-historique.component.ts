@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { AppUser, UsagerLight } from "../../../../../_common/model";
+import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { DECISION_LABELS } from "../../../../shared/constants/USAGER_LABELS.const";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
@@ -14,7 +14,7 @@ import { UsagerService } from "../../../usagers/services/usager.service";
   styleUrls: ["./profil-historique.component.css"],
 })
 export class ProfilHistoriqueComponent implements OnInit {
-  public me: AppUser;
+  public me: UserStructure;
   public usager: UsagerFormModel;
 
   public DECISION_LABELS = DECISION_LABELS;
@@ -34,7 +34,7 @@ export class ProfilHistoriqueComponent implements OnInit {
     this.titleService.setTitle("Courrier du domicilié");
     //
 
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
 

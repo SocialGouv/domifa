@@ -1,16 +1,14 @@
 import moment = require("moment");
 import { uuidGenerator } from "../../../../database/services/uuid";
 import {
-  AppUser,
   Usager,
   UsagerAyantDroit,
   UsagerDecision,
+  UserStructure,
 } from "../../../../_common/model";
 import { UsagerEntretien } from "../../../../_common/model/usager/entretien";
-
 import { ETAPE_DOSSIER_COMPLET } from "../../../../_common/model/usager/ETAPES_DEMANDE.const";
 import { UsagerDecisionMotif } from "../../../../_common/model/usager/UsagerDecisionMotif.type";
-
 import { UsagersImportUsager } from "../step2-validate-row/schema";
 
 export const usagersImportBuilder = {
@@ -22,7 +20,7 @@ function buildUsagers({
   user,
 }: {
   usagersRows: UsagersImportUsager[];
-  user: Pick<AppUser, "id" | "structureId" | "prenom" | "nom">;
+  user: Pick<UserStructure, "id" | "structureId" | "prenom" | "nom">;
 }): Partial<Usager>[] {
   const now = moment().toDate();
   const agent = user.prenom + " " + user.nom;
@@ -46,7 +44,7 @@ function buildUsager({
   usagerRow: UsagersImportUsager;
   now: Date;
   agent: string;
-  user: Pick<AppUser, "id" | "structureId">;
+  user: Pick<UserStructure, "id" | "structureId">;
 }) {
   const sexe = usagerRow.civilite === "H" ? "homme" : "femme";
   let motif: UsagerDecisionMotif;

@@ -7,7 +7,7 @@ import {
   MaxLength,
   MinLength,
 } from "class-validator";
-import { UserRole } from "../../_common/model";
+import { UserStructureRole } from "../../_common/model";
 
 export class RegisterUserAdminDto {
   @ApiProperty({
@@ -51,7 +51,7 @@ export class RegisterUserAdminDto {
   })
   @IsNotEmpty()
   @IsIn(["admin", "simple", "facteur", "responsable"])
-  public readonly role!: UserRole;
+  public readonly role!: UserStructureRole;
 
   @IsEmpty()
   public structureId!: number;

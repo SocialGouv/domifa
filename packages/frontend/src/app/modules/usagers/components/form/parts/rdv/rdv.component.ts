@@ -15,7 +15,7 @@ import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { UsersService } from "src/app/modules/users/services/users.service";
 import { fadeInOut } from "src/app/shared/animations";
 import { minDateToday } from "src/app/shared/bootstrap-util";
-import { AppUser, UsagerLight } from "../../../../../../../_common/model";
+import { UsagerLight, UserStructure } from "../../../../../../../_common/model";
 import { DocumentService } from "../../../../../usager-shared/services/document.service";
 import { UsagerFormModel } from "../../UsagerFormModel";
 
@@ -36,8 +36,8 @@ export class RdvComponent implements OnInit {
   public usager!: UsagerFormModel;
   public editRdv!: boolean;
 
-  public me: AppUser;
-  public agents: AppUser[] = [];
+  public me: UserStructure;
+  public agents: UserStructure[] = [];
 
   /* Config datepickers */
   public dToday = new Date();
@@ -75,7 +75,7 @@ export class RdvComponent implements OnInit {
   public ngOnInit() {
     this.titleService.setTitle("Rendez-vous de l'usager");
 
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
 
@@ -111,7 +111,7 @@ export class RdvComponent implements OnInit {
 
     this.editRdv = this.usager.rdv.dateRdv === null;
 
-    this.userService.getUsersMeeting().subscribe((users: AppUser[]) => {
+    this.userService.getUsersMeeting().subscribe((users: UserStructure[]) => {
       this.agents = users;
 
       const userIdRdv =

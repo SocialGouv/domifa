@@ -1,15 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { AppUser, UsagerLight } from "../../../../../_common/model";
+import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { MOTIFS_RADIATION_LABELS } from "../../../../../_common/model/usager/constants/MOTIFS_RADIATION_LABELS.const";
-
 import { UsagerDecisionMotif } from "../../../../../_common/model/usager/UsagerDecisionMotif.type";
 import { UsagerService } from "../../services/usager.service";
 import { UsagerFormModel } from "../form/UsagerFormModel";
+
 @Component({
   selector: "app-raft",
   styleUrls: ["./raft.component.css"],
@@ -17,7 +16,7 @@ import { UsagerFormModel } from "../form/UsagerFormModel";
 })
 export class RaftComponent implements OnInit {
   public usager: UsagerFormModel;
-  public user: AppUser;
+  public user: UserStructure;
 
   public MOTIFS_RADIATION_LABELS = MOTIFS_RADIATION_LABELS;
 
@@ -31,7 +30,7 @@ export class RaftComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.user = user;
     });
 

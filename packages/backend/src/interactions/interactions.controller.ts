@@ -17,7 +17,11 @@ import { CurrentUser } from "../auth/current-user.decorator";
 import { InteractionsGuard } from "../auth/guards/interactions.guard";
 import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
 import { interactionRepository } from "../database";
-import { AppAuthUser, Interactions, UsagerLight } from "../_common/model";
+import {
+  Interactions,
+  UsagerLight,
+  UserStructureAuthenticated,
+} from "../_common/model";
 import { InteractionDto } from "./interactions.dto";
 import { interactionsCreator, InteractionsDeletor } from "./services";
 import { InteractionsSmsManager } from "./services/InteractionsSmsManager.service";
@@ -35,7 +39,7 @@ export class InteractionsController {
   public async postInteractions(
     @Body(new ParseArrayPipe({ items: InteractionDto }))
     interactions: InteractionDto[],
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
     // Parcours des demandes
@@ -60,7 +64,7 @@ export class InteractionsController {
   public async getInteractions(
     @Query("filter") filterString: string,
     @Query("maxResults") maxResultsString: string,
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
     // check query parameters
@@ -79,7 +83,7 @@ export class InteractionsController {
   @Delete(":usagerRef/:interactionUuid")
   public async deleteInteraction(
     @Param("interactionUuid") interactionUuid: string,
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight,
     @CurrentInteraction() interaction: Interactions
   ) {

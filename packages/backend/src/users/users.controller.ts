@@ -21,24 +21,27 @@ import {
   userSecurityPasswordUpdater,
   userSecurityResetPasswordInitiator,
   userSecurityResetPasswordUpdater,
-  usersRepository,
+  userStructureRepository,
 } from "../database";
 import {
   userAccountActivatedEmailSender,
   userResetPasswordEmailSender,
 } from "../mails/services/templates-renderers";
-
 import { userAccountCreatedByAdminEmailSender } from "../mails/services/templates-renderers/user-account-created-by-admin";
 import { StructuresService } from "../structures/services/structures.service";
 import { appLogger } from "../util";
 import { ExpressResponse } from "../util/express";
-import { AppAuthUser, AppUser, UserProfile, UserRole } from "../_common/model";
+import {
+  UserStructure,
+  UserStructureAuthenticated,
+  UserStructureProfile,
+  UserStructureRole,
+} from "../_common/model";
 import { EditPasswordDto } from "./dto/edit-password.dto";
 import { EmailDto } from "./dto/email.dto";
 import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserEditDto } from "./dto/user-edit.dto";
-
 import { usersCreator, usersDeletor } from "./services";
 
 @Controller("users")
@@ -50,8 +53,10 @@ export class UsersController {
   @ApiBearerAuth()
   @ApiOperation({ summary: "Liste des utilisateurs" })
   @Get("")
-  public getUsers(@CurrentUser() user: AppAuthUser): Promise<UserProfile[]> {
-    return usersRepository.findMany({
+  public getUsers(
+    @CurrentUser() user: UserStructureAuthenticated
+  ): Promise<UserStructureProfile[]> {
+    return userStructureRepository.findMany({
       structureId: user.structureId,
       verified: true,
     });
@@ -61,10 +66,10 @@ export class UsersController {
   @ApiOperation({ summary: "Edition du mot de passe depuis le compte user" })
   @Get("last-password-update")
   public async getLastPasswordUpdate(
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: ExpressResponse
   ) {
-    const newUser = await usersRepository.findOne<AppUser>(
+    const newUser = await userStructureRepository.findOne<UserStructure>(
       { id: user.id },
       { select: "ALL" }
     );
@@ -76,9 +81,9 @@ export class UsersController {
   @ApiOperation({ summary: "Liste des utilisateurs à confirmer" })
   @UseGuards(AuthGuard("jwt"), AdminGuard)
   public getUsersToConfirm(
-    @CurrentUser() user: AppAuthUser
-  ): Promise<UserProfile[]> {
-    return usersRepository.findMany({
+    @CurrentUser() user: UserStructureAuthenticated
+  ): Promise<UserStructureProfile[]> {
+    return userStructureRepository.findMany({
       structureId: user.structureId,
       verified: false,
     });
@@ -90,10 +95,10 @@ export class UsersController {
   @Get("confirm/:id")
   public async confirmUser(
     @Param("id") id: number,
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: ExpressResponse
   ) {
-    const confirmerUser = await usersRepository.updateOne(
+    const confirmerUser = await userStructureRepository.updateOne(
       { id, structureId: user.structureId },
       { verified: true }
     );
@@ -128,9 +133,9 @@ export class UsersController {
   @Get("update-role/:id/:role")
   public async updateRole(
     @Param("id") id: number,
-    @Param("role") role: UserRole,
-    @CurrentUser() user: AppAuthUser
-  ): Promise<UserProfile> {
+    @Param("role") role: UserStructureRole,
+    @CurrentUser() user: UserStructureAuthenticated
+  ): Promise<UserStructureProfile> {
     if (
       role !== "simple" &&
       role !== "admin" &&
@@ -144,7 +149,7 @@ export class UsersController {
       throw new HttpException("BAD_REQUEST", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    return usersRepository.updateOne(
+    return userStructureRepository.updateOne(
       {
         id,
         structureId: user.structureId,
@@ -161,10 +166,10 @@ export class UsersController {
   @Delete(":id")
   public async delete(
     @Param("id") id: number,
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: ExpressResponse
   ) {
-    const userToDelete = await usersRepository.findOne({
+    const userToDelete = await userStructureRepository.findOne({
       id,
       structureId: user.structureId,
     });
@@ -186,11 +191,11 @@ export class UsersController {
   @UseGuards(AuthGuard("jwt"))
   @Patch()
   public async patch(
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @Body() userDto: UserEditDto,
     @Res() res: ExpressResponse
   ) {
-    const userToUpdate = await usersRepository.updateOne(
+    const userToUpdate = await userStructureRepository.updateOne(
       {
         id: user.id,
         structureId: user.structureId,
@@ -211,7 +216,7 @@ export class UsersController {
     @Body() emailDto: EmailDto,
     @Res() res: ExpressResponse
   ) {
-    const existUser = await usersRepository.findOne({
+    const existUser = await userStructureRepository.findOne({
       email: emailDto.email.toLowerCase(),
     });
 
@@ -282,11 +287,11 @@ export class UsersController {
   @UseGuards(AuthGuard("jwt"), AdminGuard)
   @ApiOperation({ summary: "Ajout d'un utilisateur par un admin" })
   public async registerUser(
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: ExpressResponse,
     @Body() registerUserDto: RegisterUserAdminDto
   ): Promise<any> {
-    const userExist = await usersRepository.findOne({
+    const userExist = await userStructureRepository.findOne({
       email: registerUserDto.email.toLowerCase(),
     });
     if (userExist) {
@@ -325,7 +330,7 @@ export class UsersController {
   @UseGuards(AuthGuard("jwt"))
   @ApiOperation({ summary: "Edition du mot de passe depuis le compte user" })
   public async editPassword(
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: ExpressResponse,
     @Body() editPasswordDto: EditPasswordDto
   ) {

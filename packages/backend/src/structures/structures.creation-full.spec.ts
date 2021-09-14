@@ -1,5 +1,5 @@
 import { HttpStatus } from "@nestjs/common";
-import { structureRepository, usersRepository } from "../database";
+import { structureRepository, userStructureRepository } from "../database";
 import { InteractionsModule } from "../interactions/interactions.module";
 import { MailsModule } from "../mails/mails.module";
 import { StatsModule } from "../stats/stats.module";
@@ -9,7 +9,7 @@ import { UsersController } from "../users/users.controller";
 import { UsersModule } from "../users/users.module";
 import { ExpressResponse } from "../util/express";
 import { AppTestContext, AppTestHelper } from "../util/test";
-import { AppUser } from "../_common/model";
+import { UserStructure } from "../_common/model";
 import { StructuresController } from "./controllers/structures.controller";
 import { StructureWithUserDto } from "./dto/structure-with-user.dto";
 import { StructureDto } from "./dto/structure.dto";
@@ -125,7 +125,7 @@ describe("Stuctures creation full", () => {
     );
     expect(structureId).toBeDefined();
     expect(userId).toBeDefined();
-    const structure = await structureRepository.findOne<AppUser>(
+    const structure = await structureRepository.findOne<UserStructure>(
       {
         id: structureId,
       },
@@ -136,7 +136,7 @@ describe("Stuctures creation full", () => {
     expect(structure.lastLogin).toBeNull();
     expect(structure.verified).toBeFalsy();
 
-    const user = await usersRepository.findOne<AppUser>(
+    const user = await userStructureRepository.findOne<UserStructure>(
       {
         id: userId,
       },
@@ -190,7 +190,7 @@ describe("Stuctures creation full", () => {
     expect(res.status).toHaveBeenCalledWith(HttpStatus.OK);
     expect(res.json).toHaveBeenCalledTimes(1);
 
-    const userConfirmed = await usersRepository.findOne({
+    const userConfirmed = await userStructureRepository.findOne({
       id: userId,
     });
     expect(userConfirmed).toBeDefined();

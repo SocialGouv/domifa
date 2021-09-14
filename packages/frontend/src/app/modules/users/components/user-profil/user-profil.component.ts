@@ -5,10 +5,10 @@ import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { StructureService } from "src/app/modules/structures/services/structure.service";
 import {
-  AppUser,
   StructureCommon,
-  UserProfile,
-  UserRole,
+  UserStructure,
+  UserStructureProfile,
+  UserStructureRole,
 } from "../../../../../_common/model";
 import { UsersService } from "../../services/users.service";
 
@@ -18,10 +18,10 @@ import { UsersService } from "../../services/users.service";
   templateUrl: "./user-profil.component.html",
 })
 export class UserProfilComponent implements OnInit {
-  public users: UserProfile[];
-  public me: AppUser;
+  public users: UserStructureProfile[];
+  public me: UserStructure;
   public structure: StructureCommon;
-  public newUsers: UserProfile[];
+  public newUsers: UserStructureProfile[];
 
   public selectedUser: number;
   public usersInfos: boolean;
@@ -45,7 +45,7 @@ export class UserProfilComponent implements OnInit {
   public ngOnInit() {
     this.titleService.setTitle("Compte Domifa");
 
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       if (user !== null) {
         this.me = user;
 
@@ -62,7 +62,7 @@ export class UserProfilComponent implements OnInit {
 
   public confirmUser(id: number) {
     this.userService.confirmUser(id).subscribe(
-      (user: UserProfile) => {
+      (user: UserStructureProfile) => {
         this.getUsers();
         this.notifService.success(
           "Le compte de " +
@@ -78,9 +78,9 @@ export class UserProfilComponent implements OnInit {
     );
   }
 
-  public updateRole(id: number, role: UserRole) {
+  public updateRole(id: number, role: UserStructureRole) {
     this.userService.updateRole(id, role).subscribe(
-      (user: UserProfile) => {
+      (user: UserStructureProfile) => {
         this.getUsers();
         this.notifService.success(
           "Les droits de " +
@@ -121,11 +121,13 @@ export class UserProfilComponent implements OnInit {
 
   private getUsers() {
     if (this.me.role === "admin") {
-      this.userService.getNewUsers().subscribe((users: UserProfile[]) => {
-        this.newUsers = users;
-      });
+      this.userService
+        .getNewUsers()
+        .subscribe((users: UserStructureProfile[]) => {
+          this.newUsers = users;
+        });
     }
-    this.userService.getUsers().subscribe((users: UserProfile[]) => {
+    this.userService.getUsers().subscribe((users: UserStructureProfile[]) => {
       this.users = users;
     });
   }

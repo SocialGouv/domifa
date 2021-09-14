@@ -7,7 +7,7 @@ import {
 import * as Sentry from "@sentry/node";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
-import { AppAuthUser } from "../../_common/model";
+import { UserStructureAuthenticated } from "../../_common/model";
 
 @Injectable()
 export class AppSentryInterceptor implements NestInterceptor {
@@ -67,7 +67,7 @@ function parseRequest(context: ExecutionContext, scope: Sentry.Scope) {
     });
     const req = data.request;
 
-    const user = expressRequest.user as AppAuthUser;
+    const user = expressRequest.user as UserStructureAuthenticated;
 
     return {
       req,
@@ -103,7 +103,7 @@ function logSentryUser({
   user,
   scope,
 }: {
-  user: AppAuthUser;
+  user: UserStructureAuthenticated;
   scope: Sentry.Scope;
 }) {
   if (user) {

@@ -1,4 +1,3 @@
-import { StructuresService } from "./../../structures/services/structures.service";
 import {
   Body,
   Controller,
@@ -20,14 +19,15 @@ import { structureRepository, usagerRepository } from "../../database";
 import { structureStatsExporter } from "../../excel/export-structure-stats";
 import { expressResponseExcelRenderer } from "../../util";
 import {
-  AppAuthUser,
   PublicStats,
   StructureStatsFull,
+  UserStructureAuthenticated,
 } from "../../_common/model";
 import { StatsDto } from "../dto/stats.dto";
 import { structureStatsInPeriodGenerator } from "../services";
 import { DashboardService } from "../services/dashboard.service";
 import { statsQuestionsCoreBuilder } from "../services/statsQuestionsCoreBuilder.service";
+import { StructuresService } from "./../../structures/services/structures.service";
 
 import moment = require("moment");
 
@@ -64,7 +64,7 @@ export class StatsController {
   @ApiBearerAuth()
   @Post("")
   public async getByDate(
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @Body() statsDto: StatsDto
   ) {
     if (statsDto.structureId !== user.structureId && !isDomifaAdmin(user)) {
@@ -132,7 +132,7 @@ export class StatsController {
   @UseGuards(AuthGuard("jwt"), FacteurGuard)
   @Post("export")
   public async exportByDate(
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @Body() statsDto: StatsDto,
     @Res() res: Response
   ) {

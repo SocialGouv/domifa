@@ -2,10 +2,9 @@ import { Component, Input, OnInit, TemplateRef } from "@angular/core";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
-import { AppUser, UsagerLight } from "../../../../../_common/model";
+import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsagerProfilService } from "../../../usager-profil/services/usager-profil.service";
-import { UsagerService } from "../../../usagers/services/usager.service";
 
 @Component({
   selector: "app-delete-usager-menu",
@@ -13,7 +12,7 @@ import { UsagerService } from "../../../usagers/services/usager.service";
 })
 export class DeleteUsagerMenuComponent implements OnInit {
   @Input() public usager!: UsagerLight;
-  public me: AppUser;
+  public me: UserStructure;
 
   constructor(
     private router: Router,
@@ -24,7 +23,7 @@ export class DeleteUsagerMenuComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
   }

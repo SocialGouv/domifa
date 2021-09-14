@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { appLogger } from "../../util";
-import { AppAuthUser } from "../../_common/model";
+import { UserStructureAuthenticated } from "../../_common/model";
 
 @Injectable()
 export class DomifaGuard implements CanActivate {
@@ -10,7 +10,7 @@ export class DomifaGuard implements CanActivate {
   public canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
 
-    const user = request.user as AppAuthUser;
+    const user = request.user as UserStructureAuthenticated;
 
     const isValidRole = isDomifaAdmin(user);
     if (user && !isValidRole) {
@@ -26,6 +26,8 @@ export class DomifaGuard implements CanActivate {
   }
 }
 
-export function isDomifaAdmin(user: Pick<AppAuthUser, "role" | "structureId">) {
+export function isDomifaAdmin(
+  user: Pick<UserStructureAuthenticated, "role" | "structureId">
+) {
   return !!user && user.role === "admin" && user.structureId === 1;
 }

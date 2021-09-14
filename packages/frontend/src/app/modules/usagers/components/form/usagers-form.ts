@@ -17,14 +17,18 @@ import {
   minDateNaissance,
   minDateToday,
 } from "src/app/shared/bootstrap-util";
-import { AppUser, Usager, UsagerLight } from "../../../../../_common/model";
+import {
+  Usager,
+  UsagerLight,
+  UserStructure,
+} from "../../../../../_common/model";
 import { LIEN_PARENTE_LABELS } from "../../../../../_common/model/usager/constants/LIEN_PARENTE_LABELS.const";
 import { languagesAutocomplete } from "../../../../shared";
 import { fadeInOut } from "../../../../shared/animations";
 import { regexp } from "../../../../shared/validators";
+import { DocumentService } from "../../../usager-shared/services/document.service";
 import { AyantDroit } from "../../interfaces/ayant-droit";
 import { UsagerFormModel } from "./UsagerFormModel";
-import { DocumentService } from "../../../usager-shared/services/document.service";
 
 @Component({
   animations: [fadeInOut],
@@ -66,7 +70,7 @@ export class UsagersFormComponent implements OnInit {
     maxResults: 10,
   });
 
-  public me: AppUser;
+  public me: UserStructure;
 
   get f() {
     return this.usagerForm.controls;
@@ -97,7 +101,7 @@ export class UsagersFormComponent implements OnInit {
   public ngOnInit() {
     this.titleService.setTitle("État-civil du demandeur");
 
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
 

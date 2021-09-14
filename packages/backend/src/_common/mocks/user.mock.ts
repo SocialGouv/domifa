@@ -1,12 +1,11 @@
-import { StructureType } from "./../model/structure/StructureType.type";
-import { UserRole } from "./../model/app-user/UserRole.type";
+import { StructureType, UserStructureRole } from "./../model";
 export const userMock = {
   password: "xxx",
   email: "ccastest@yopmail.com",
   id: 1,
   nom: "TEST",
   prenom: "TEST",
-  role: "admin" as UserRole,
+  role: "admin" as UserStructureRole,
   structure: {
     id: 100,
     adresse: "3 place olympe de gouges",

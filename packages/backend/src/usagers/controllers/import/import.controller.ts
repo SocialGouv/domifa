@@ -12,19 +12,17 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { diskStorage } from "multer";
-
 import * as fs from "fs";
+import { diskStorage } from "multer";
 import * as os from "os";
 import * as path from "path";
-
 import { CurrentUser } from "../../../auth/current-user.decorator";
 import { FacteurGuard } from "../../../auth/guards/facteur.guard";
 import { structureCommonRepository } from "../../../database";
 import { appLogger } from "../../../util";
 import { ExpressResponse } from "../../../util/express";
 import { randomName, validateUpload } from "../../../util/FileManager";
-import { AppAuthUser } from "../../../_common/model";
+import { UserStructureAuthenticated } from "../../../_common/model";
 import { UsagersService } from "../../services/usagers.service";
 import { ImportProcessTracker } from "./ImportProcessTracker.type";
 import {
@@ -86,7 +84,7 @@ export class ImportController {
     @Param("mode") importMode: UsagersImportMode,
     @Res() res: ExpressResponse,
     @UploadedFile() file: Express.Multer.File,
-    @CurrentUser() user: AppAuthUser
+    @CurrentUser() user: UserStructureAuthenticated
   ) {
     const processTracker: ImportProcessTracker = {
       start: new Date(),

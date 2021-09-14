@@ -1,10 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-
 import { ToastrService } from "ngx-toastr";
-import { AppUser, StructureCommon } from "../../../../../_common/model";
-
+import { StructureCommon, UserStructure } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { generateSender } from "../../services/generateSender.service";
 import { StructureService } from "../../services/structure.service";
@@ -15,7 +13,7 @@ import { StructureService } from "../../services/structure.service";
   styleUrls: ["./structures-sms-form.component.css"],
 })
 export class StructuresSmsFormComponent implements OnInit {
-  public me: AppUser;
+  public me: UserStructure;
   public structure: StructureCommon;
 
   public submitted: boolean;
@@ -38,7 +36,7 @@ export class StructuresSmsFormComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
 

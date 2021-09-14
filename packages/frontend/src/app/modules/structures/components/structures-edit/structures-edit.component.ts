@@ -5,7 +5,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { saveAs } from "file-saver";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { AppUser, StructureCommon } from "../../../../../_common/model";
+import { StructureCommon, UserStructure } from "../../../../../_common/model";
 import { StructureService } from "../../services/structure.service";
 
 @Component({
@@ -14,7 +14,7 @@ import { StructureService } from "../../services/structure.service";
   templateUrl: "./structures-edit.component.html",
 })
 export class StructuresEditComponent implements OnInit {
-  public me: AppUser;
+  public me: UserStructure;
   public structure: StructureCommon;
 
   public exportLoading: boolean;
@@ -40,7 +40,7 @@ export class StructuresEditComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
 

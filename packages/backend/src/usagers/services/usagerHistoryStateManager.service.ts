@@ -3,10 +3,10 @@ import { UsagerHistoryTable } from "../../database/entities/usager/UsagerHistory
 import { usagerHistoryRepository } from "../../database/services/usager/usagerHistoryRepository.service";
 import { uuidGenerator } from "../../database/services/uuid";
 import {
-  AppUserResume,
   Usager,
   UsagerHistory,
   UsagerHistoryState,
+  UserStructureResume,
 } from "../../_common/model";
 import { UsagerHistoryStateCreationEvent } from "../../_common/model/usager/history/UsagerHistoryStateCreationEvent.type";
 
@@ -144,7 +144,7 @@ function buildHistoryFromNewDecision({
   if (!decision.dateDebut) {
     decision.dateDebut = decision.dateDecision;
   }
-  const createdBy: AppUserResume = {
+  const createdBy: UserStructureResume = {
     userId: decision.userId,
     userName: decision.userName,
   };
@@ -206,7 +206,7 @@ async function updateHistoryStateWithoutDecision({
     | "etapeDemande"
     | "rdv"
   >;
-  createdBy: AppUserResume;
+  createdBy: UserStructureResume;
   createdAt?: Date;
   createdEvent: UsagerHistoryStateCreationEvent;
   historyBeginDate?: Date;
@@ -246,7 +246,7 @@ async function removeLastDecisionFromHistory({
     | "etapeDemande"
     | "rdv"
   >;
-  createdBy: AppUserResume;
+  createdBy: UserStructureResume;
   createdAt?: Date;
   historyBeginDate?: Date;
   removedDecisionUUID: string;
@@ -293,7 +293,7 @@ function buildHistoryState({
   >;
   usagerHistory: UsagerHistory;
   createdAt: Date;
-  createdBy: AppUserResume;
+  createdBy: UserStructureResume;
   createdEvent: UsagerHistoryStateCreationEvent;
   historyBeginDate: Date;
 }): UsagerHistoryState {

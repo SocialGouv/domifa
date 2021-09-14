@@ -2,10 +2,10 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { structureCommonRepository, structureRepository } from "../../database";
 import { structureLightRepository } from "../../database/services/structure/structureLightRepository.service";
 import {
-  AppUser,
   Structure,
   StructureCommon,
   StructureLight,
+  UserStructure,
 } from "../../_common/model";
 import { departementHelper } from "../departement-helper.service";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
@@ -29,7 +29,7 @@ export class StructuresService {
 
   public async patch(
     structureDto: StructureEditDto,
-    user: Pick<AppUser, "structureId">
+    user: Pick<UserStructure, "structureId">
   ): Promise<StructureCommon> {
     structureDto.departement = departementHelper.getDepartementFromCodePostal(
       structureDto.codePostal
@@ -46,7 +46,7 @@ export class StructuresService {
 
   public async patchSmsParams(
     structureSmsDto: StructureEditSmsDto,
-    user: Pick<AppUser, "structureId" | "structure">
+    user: Pick<UserStructure, "structureId" | "structure">
   ): Promise<StructureCommon> {
     return structureCommonRepository.updateOne(
       { id: user.structureId },

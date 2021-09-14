@@ -1,8 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
-
-import { AppUser } from "../../../../../_common/model";
+import { UserStructure } from "../../../../../_common/model";
 import { InteractionType } from "../../../../../_common/model/interaction";
-
 import { InteractionService } from "../../../usager-shared/services/interaction.service";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 import { Interaction } from "../../../usagers/interfaces/interaction";
@@ -14,7 +12,7 @@ import { Interaction } from "../../../usagers/interfaces/interaction";
 })
 export class ProfilGeneralHistoriqueCourriersComponent implements OnInit {
   @Input() public usager: UsagerFormModel;
-  @Input() public me: AppUser;
+  @Input() public me: UserStructure;
 
   public typeInteraction: InteractionType;
   public interactions: Interaction[];

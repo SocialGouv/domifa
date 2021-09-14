@@ -1,22 +1,21 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { ConnectableObservable } from "rxjs";
 import {
-  AppUserTable,
   structureCommonRepository,
-  usersRepository,
+  userStructureRepository,
+  UserStructureTable,
 } from "../database";
 import { StructuresService } from "../structures/services/structures.service";
 import { appLogger } from "../util";
 import {
-  AppAuthUser,
-  AppUser,
-  AppUserPublic,
   StructureCommon,
+  UserStructure,
+  UserStructureAuthenticated,
+  UserStructurePublic,
 } from "../_common/model";
 import { JwtPayload } from "./jwt-payload.interface";
 
-export const APP_USER_PUBLIC_ATTRIBUTES: (keyof AppUserPublic)[] = [
+export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
   "id",
   "prenom",
   "nom",
@@ -34,7 +33,7 @@ export class AuthService {
     private readonly structuresService: StructuresService
   ) {}
 
-  public async login(user: AppUser) {
+  public async login(user: UserStructure) {
     const payload = {
       email: user.email,
       id: user.id,
@@ -49,7 +48,9 @@ export class AuthService {
     };
   }
 
-  public async validateUser(payload: JwtPayload): Promise<false | AppAuthUser> {
+  public async validateUser(
+    payload: JwtPayload
+  ): Promise<false | UserStructureAuthenticated> {
     const authUser = await this.findAuthUser({ id: payload.id });
 
     if (!authUser || authUser === null) {
@@ -58,7 +59,7 @@ export class AuthService {
 
     // update structure & user last login date
     await this.structuresService.updateLastLogin(authUser.structureId);
-    await usersRepository.updateOne(
+    await userStructureRepository.updateOne(
       {
         id: authUser.id,
         structureId: authUser.structureId,
@@ -71,11 +72,14 @@ export class AuthService {
     return authUser;
   }
   public async findAuthUser(
-    criteria: Partial<AppUserTable>
-  ): Promise<AppAuthUser> {
-    const user = await usersRepository.findOne<AppUserPublic>(criteria, {
-      select: APP_USER_PUBLIC_ATTRIBUTES,
-    });
+    criteria: Partial<UserStructureTable>
+  ): Promise<UserStructureAuthenticated> {
+    const user = await userStructureRepository.findOne<UserStructurePublic>(
+      criteria,
+      {
+        select: APP_USER_PUBLIC_ATTRIBUTES,
+      }
+    );
 
     if (typeof user.structureId === "undefined") {
       appLogger.debug("[TRACK BUG] " + JSON.stringify(user));

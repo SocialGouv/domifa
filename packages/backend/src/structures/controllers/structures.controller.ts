@@ -16,7 +16,7 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { AdminGuard } from "../../auth/guards/admin.guard";
 import { DomifaGuard } from "../../auth/guards/domifa.guard";
-import { structureRepository, usersRepository } from "../../database";
+import { structureRepository, userStructureRepository } from "../../database";
 import { structureLightRepository } from "../../database/services/structure/structureLightRepository.service";
 import {
   deleteStructureEmailSender,
@@ -24,7 +24,7 @@ import {
   userAccountActivatedEmailSender,
 } from "../../mails/services/templates-renderers";
 import { EmailDto } from "../../users/dto/email.dto";
-import { AppAuthUser } from "../../_common/model";
+import { UserStructureAuthenticated } from "../../_common/model";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
 import { StructureEditDto } from "../dto/structure-edit.dto";
 import { StructureWithUserDto } from "../dto/structure-with-user.dto";
@@ -94,12 +94,12 @@ export class StructuresController {
         HttpStatus.BAD_REQUEST
       );
     } else {
-      const admin = await usersRepository.findOne({
+      const admin = await userStructureRepository.findOne({
         role: "admin",
         structureId: structure.id,
       });
 
-      const updatedAdmin = await usersRepository.updateOne(
+      const updatedAdmin = await userStructureRepository.updateOne(
         {
           id: admin.id,
           structureId: structure.id,
@@ -117,7 +117,7 @@ export class StructuresController {
   @Patch()
   public async patchStructure(
     @Body() structureDto: StructureEditDto,
-    @CurrentUser() user: AppAuthUser
+    @CurrentUser() user: UserStructureAuthenticated
   ) {
     return this.structureService.patch(structureDto, user);
   }
@@ -127,7 +127,7 @@ export class StructuresController {
   @Patch("sms")
   public async patchSmsParams(
     @Body() structureSmsDto: StructureEditSmsDto,
-    @CurrentUser() user: AppAuthUser
+    @CurrentUser() user: UserStructureAuthenticated
   ) {
     if (!user.structure.sms.enabledByDomifa) {
       throw new HttpException(
@@ -143,7 +143,7 @@ export class StructuresController {
   @UseGuards(AuthGuard("jwt"))
   @ApiBearerAuth()
   @Get("ma-structure")
-  public async getMyStructure(@CurrentUser() user: AppAuthUser) {
+  public async getMyStructure(@CurrentUser() user: UserStructureAuthenticated) {
     return user.structure;
   }
 
@@ -152,7 +152,7 @@ export class StructuresController {
   @Get("hard-reset")
   public async hardReset(
     @Response() res: any,
-    @CurrentUser() user: AppAuthUser
+    @CurrentUser() user: UserStructureAuthenticated
   ) {
     const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     const expireAt = new Date();
@@ -188,7 +188,7 @@ export class StructuresController {
   public async hardResetConfirm(
     @Response() res: any,
     @Param("token") token: string,
-    @CurrentUser() user: AppAuthUser
+    @CurrentUser() user: UserStructureAuthenticated
   ) {
     const structure = await structureRepository.checkHardResetToken({
       userId: user.id,

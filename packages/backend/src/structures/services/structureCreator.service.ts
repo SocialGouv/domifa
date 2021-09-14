@@ -4,7 +4,7 @@ import {
   structureCommonRepository,
   structureRepository,
   StructureTable,
-  usersRepository,
+  userStructureRepository,
 } from "../../database";
 import { newStructureEmailSender } from "../../mails/services/templates-renderers";
 import { UserDto } from "../../users/dto/user.dto";
@@ -40,7 +40,7 @@ export class StructureCreatorService {
     structureDto: StructureDto,
     userDto: UserDto
   ): Promise<{ structureId: number; userId: number }> {
-    const existingUser = await usersRepository.findOne({
+    const existingUser = await userStructureRepository.findOne({
       email: userDto.email,
     });
 

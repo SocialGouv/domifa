@@ -29,10 +29,10 @@ import { usagerRepository } from "../../database";
 import { appLogger } from "../../util";
 import { deleteFile, randomName, validateUpload } from "../../util/FileManager";
 import {
-  AppAuthUser,
   Usager,
   UsagerDoc,
   UsagerLight,
+  UserStructureAuthenticated,
 } from "../../_common/model";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
@@ -80,7 +80,7 @@ export class DocsController {
     @Param("usagerRef") usagerRef: number,
     @UploadedFile() file: any,
     @Body() postData: any,
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: UsagerLight,
     @Res() res: Response
   ) {
@@ -131,7 +131,7 @@ export class DocsController {
   public async deleteDocument(
     @Param("usagerRef") usagerRef: number,
     @Param("index") index: number,
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: UsagerLight,
     @Res() res: Response
   ) {

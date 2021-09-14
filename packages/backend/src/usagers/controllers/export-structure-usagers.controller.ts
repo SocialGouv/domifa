@@ -11,10 +11,10 @@ import {
 import { InteractionsService } from "../../interactions/services";
 import { expressResponseExcelRenderer } from "../../util";
 import {
-  AppAuthUser,
-  AppUser,
   UsagerLight,
-  UserRole,
+  UserStructure,
+  UserStructureAuthenticated,
+  UserStructureRole,
 } from "../../_common/model";
 import { UsagersService } from "../services/usagers.service";
 
@@ -33,8 +33,8 @@ export class ExportStructureUsagersController {
   @Get("")
   public async export(
     @Param("id") id: number,
-    @Param("role") role: UserRole,
-    @CurrentUser() user: AppAuthUser,
+    @Param("role") role: UserStructureRole,
+    @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
     const model: StructureUsagersExportModel = await this.buildExportModel(
@@ -53,7 +53,7 @@ export class ExportStructureUsagersController {
     });
   }
 
-  private async buildExportModel(user: Pick<AppUser, "structureId">) {
+  private async buildExportModel(user: Pick<UserStructure, "structureId">) {
     const usagers = await this.usagersService.export(user.structureId);
 
     const usagersInteractionsCountByType: {

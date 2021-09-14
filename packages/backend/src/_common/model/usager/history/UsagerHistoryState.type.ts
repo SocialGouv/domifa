@@ -1,4 +1,4 @@
-import { AppUserResume } from "../../app-user/AppUserResume.type";
+import { UserStructureResume } from "../../user-structure/UserStructureResume.type";
 import { Usager } from "../Usager.type";
 import { UsagerHistoryStateCreationEvent } from "./UsagerHistoryStateCreationEvent.type";
 
@@ -10,7 +10,7 @@ export type UsagerHistoryState = Pick<
 > & {
   uuid: string;
   createdAt: Date;
-  createdBy: AppUserResume;
+  createdBy: UserStructureResume;
   createdEvent: UsagerHistoryStateCreationEvent;
   historyBeginDate: Date; // début de la période historisée, correspond à l'attribut "historyEndDate" du UsagerHistoryState précédent si il existe (sans rapport avec decision.dateDebut)
   historyEndDate?: Date; // fin de la période historisée, correspond à l'attribut "historyBeginDate" du UsagerHistoryState suivant

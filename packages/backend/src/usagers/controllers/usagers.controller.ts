@@ -14,7 +14,6 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-import { UsingJoinColumnOnlyOnOneSideAllowedError } from "typeorm";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
@@ -23,11 +22,11 @@ import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { usagerLightRepository, usagerRepository } from "../../database";
 import { InteractionsService } from "../../interactions/services";
 import {
-  AppAuthUser,
   ETAPE_DOCUMENTS,
   ETAPE_ETAT_CIVIL,
   ETAPE_RENDEZ_VOUS,
   UsagerLight,
+  UserStructureAuthenticated,
 } from "../../_common/model";
 import { CreateUsagerDto } from "../dto/create-usager.dto";
 import { DecisionDto } from "../dto/decision.dto";
@@ -53,7 +52,9 @@ export class UsagersController {
   ) {}
 
   @Get()
-  public async findAllByStructure(@CurrentUser() user: AppAuthUser) {
+  public async findAllByStructure(
+    @CurrentUser() user: UserStructureAuthenticated
+  ) {
     return usagerLightRepository.findMany(
       {
         structureId: user.structureId,
@@ -67,7 +68,7 @@ export class UsagersController {
   @Post()
   public postUsager(
     @Body() usagerDto: CreateUsagerDto,
-    @CurrentUser() user: AppAuthUser
+    @CurrentUser() user: UserStructureAuthenticated
   ) {
     return this.usagersService.create(usagerDto, user);
   }
@@ -76,7 +77,7 @@ export class UsagersController {
   @Patch(":usagerRef")
   public async patchUsager(
     @Body() usagerDto: EditUsagerDto,
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
     if (
@@ -112,7 +113,7 @@ export class UsagersController {
   @Post("entretien/:usagerRef")
   public async setEntretien(
     @Body() entretien: EntretienDto,
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: UsagerLight
   ) {
     const usager = await usagerLightRepository.updateOne(
@@ -167,7 +168,7 @@ export class UsagersController {
   @UseGuards(UsagerAccessGuard, FacteurGuard)
   @Get("renouvellement/:usagerRef")
   public async renouvellement(
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
     return this.usagersService.renouvellement(usager, user);
@@ -177,7 +178,7 @@ export class UsagersController {
   @Post("decision/:usagerRef")
   public async setDecision(
     @Body() decision: DecisionDto,
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
     decision.userName = user.prenom + " " + user.nom;
@@ -191,7 +192,7 @@ export class UsagersController {
     @Param("nom") nom: string,
     @Param("prenom") prenom: string,
     @Param("usagerRef") ref: number,
-    @CurrentUser() user: AppAuthUser
+    @CurrentUser() user: UserStructureAuthenticated
   ): Promise<UsagerLight[]> {
     const doublons = await usagerLightRepository.findDoublons({
       nom,
@@ -205,7 +206,7 @@ export class UsagersController {
   @UseGuards(ResponsableGuard, UsagerAccessGuard)
   @Delete(":usagerRef")
   public async delete(
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight,
     @Res() res: Response
   ) {
@@ -221,7 +222,7 @@ export class UsagersController {
   @Post("transfert/:usagerRef")
   public async editTransfert(
     @Body() transfertDto: TransfertDto,
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
     const action = usager.options.transfert.actif ? "EDIT" : "CREATION";
@@ -271,7 +272,7 @@ export class UsagersController {
   @Delete("renouvellement/:usagerRef")
   public async deleteRenew(
     @Res() res: Response,
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
     if (usager.typeDom === "RENOUVELLEMENT") {
@@ -316,7 +317,7 @@ export class UsagersController {
   @UseGuards(UsagerAccessGuard, FacteurGuard)
   @Delete("transfert/:usagerRef")
   public async deleteTransfert(
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
     usager.options.transfert = {
@@ -344,7 +345,7 @@ export class UsagersController {
   @Post("procuration/:usagerRef")
   public async editProcuration(
     @Body() procurationDto: ProcurationDto,
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
     const action = usager.options.procuration.actif ? "EDIT" : "CREATION";
@@ -374,7 +375,7 @@ export class UsagersController {
   @UseGuards(UsagerAccessGuard, FacteurGuard)
   @Delete("procuration/:usagerRef")
   public async deleteProcuration(
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
     usager.options.procuration = {
@@ -403,7 +404,7 @@ export class UsagersController {
   @Get("attestation/:usagerRef")
   public async getAttestation(
     @Res() res: Response,
-    @CurrentUser() user: AppAuthUser,
+    @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: UsagerLight
   ) {
     const usager = await usagerRepository.findOne({ uuid: currentUsager.uuid });

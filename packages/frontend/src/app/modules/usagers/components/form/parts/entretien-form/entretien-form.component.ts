@@ -1,10 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-import { AppUser, UsagerLight } from "../../../../../../../_common/model";
+import { UsagerLight, UserStructure } from "../../../../../../../_common/model";
 
 @Component({
   selector: "app-entretien-form",
@@ -12,7 +11,7 @@ import { AppUser, UsagerLight } from "../../../../../../../_common/model";
 })
 export class EntretienFormComponent implements OnInit {
   public usager: UsagerLight;
-  public me: AppUser;
+  public me: UserStructure;
 
   constructor(
     private usagerService: UsagerService,
@@ -25,7 +24,7 @@ export class EntretienFormComponent implements OnInit {
   public ngOnInit() {
     this.titleService.setTitle("Entretien avec l'usager");
 
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
 

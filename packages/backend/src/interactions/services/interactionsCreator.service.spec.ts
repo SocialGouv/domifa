@@ -2,13 +2,13 @@ import moment = require("moment");
 import {
   structureRepository,
   usagerRepository,
-  usersRepository,
+  userStructureRepository,
 } from "../../database";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
-import { AppUser, Usager } from "../../_common/model";
+import { Usager, UserStructure } from "../../_common/model";
 import { InteractionDto } from "../interactions.dto";
 import { InteractionsModule } from "../interactions.module";
 import { InteractionsService } from "./interactions.service";
@@ -20,7 +20,7 @@ describe("interactionsCreator", () => {
 
   let interactionsDeletor: InteractionsDeletor;
 
-  let user: AppUser;
+  let user: UserStructure;
   let usager: Usager;
   let structure;
 
@@ -38,7 +38,7 @@ describe("interactionsCreator", () => {
     interactionsDeletor =
       context.module.get<InteractionsDeletor>(InteractionsDeletor);
 
-    user = await usersRepository.findOne({ id: 1 });
+    user = await userStructureRepository.findOne({ id: 1 });
 
     usager = await usagerRepository.findOne({
       ref: 2,

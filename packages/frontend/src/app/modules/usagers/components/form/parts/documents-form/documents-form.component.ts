@@ -3,7 +3,7 @@ import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-import { AppUser, UsagerLight } from "../../../../../../../_common/model";
+import { UsagerLight, UserStructure } from "../../../../../../../_common/model";
 
 @Component({
   selector: "app-documents-form",
@@ -12,7 +12,7 @@ import { AppUser, UsagerLight } from "../../../../../../../_common/model";
 export class DocumentsFormComponent implements OnInit {
   public usager: UsagerLight;
 
-  public me: AppUser;
+  public me: UserStructure;
 
   constructor(
     private usagerService: UsagerService,
@@ -22,7 +22,7 @@ export class DocumentsFormComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
   public ngOnInit() {
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
 

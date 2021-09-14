@@ -1,11 +1,11 @@
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Component, Input, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import {
-  AppUser,
-  UserRole,
-  UsagerPreferenceContact,
   UsagerLight,
+  UsagerPreferenceContact,
+  UserStructure,
+  UserStructureRole,
 } from "../../../../../_common/model";
 import { regexp } from "../../../../shared/validators";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
@@ -18,7 +18,7 @@ import { UsagerProfilService } from "../../services/usager-profil.service";
 })
 export class ProfilEditPreferenceComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
-  @Input() public me: AppUser;
+  @Input() public me: UserStructure;
 
   public submitted: boolean;
   public preferenceForm: FormGroup;
@@ -64,7 +64,7 @@ export class ProfilEditPreferenceComponent implements OnInit {
     return this.preferenceForm.controls;
   }
 
-  public isRole(role: UserRole) {
+  public isRole(role: UserStructureRole) {
     return this.me?.role === role;
   }
 

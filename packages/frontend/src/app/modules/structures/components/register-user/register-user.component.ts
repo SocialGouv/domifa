@@ -10,10 +10,10 @@ import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { StructureService } from "src/app/modules/structures/services/structure.service";
-import { AppUser, StructureCommon } from "../../../../../_common/model";
+import { StructureCommon, UserStructure } from "../../../../../_common/model";
 import { fadeInOut } from "../../../../shared/animations";
 import { regexp } from "../../../../shared/validators";
-import { appUserBuilder } from "../../../users/services";
+import { userStructureBuilder } from "../../../users/services";
 import { PasswordValidator } from "../../../users/services/password-validator.service";
 import { UsersService } from "../../../users/services/users.service";
 
@@ -24,7 +24,7 @@ import { UsersService } from "../../../users/services/users.service";
   templateUrl: "./register-user.component.html",
 })
 export class RegisterUserComponent implements OnInit {
-  public user: AppUser;
+  public user: UserStructure;
   public userForm: FormGroup;
 
   public submitted: boolean;
@@ -51,7 +51,7 @@ export class RegisterUserComponent implements OnInit {
     private notifService: ToastrService,
     private titleService: Title
   ) {
-    this.user = appUserBuilder.buildAppUser({});
+    this.user = userStructureBuilder.buildUserStructure({});
     this.hidePassword = true;
     this.hidePasswordConfirm = true;
     this.submitted = false;

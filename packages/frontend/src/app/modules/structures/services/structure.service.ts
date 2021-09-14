@@ -5,7 +5,11 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { regexp } from "src/app/shared/validators";
 import { environment } from "src/environments/environment";
-import { AppUser, Structure, StructureCommon } from "../../../../_common/model";
+import {
+  Structure,
+  StructureCommon,
+  UserStructure,
+} from "../../../../_common/model";
 import { MessageSms } from "./../../../../_common/model/message-sms/MessageSms.type";
 import { departementHelper } from "./departement-helper.service";
 import { StructureCommonWeb } from "./StructureCommonWeb.type";
@@ -45,7 +49,7 @@ export class StructureService {
 
   public create(dto: {
     structure: Partial<Structure>;
-    user: Partial<AppUser>;
+    user: Partial<UserStructure>;
   }): Observable<StructureCommon> {
     return this.http.post(`${this.endPoint}`, dto).pipe(
       map((response) => {

@@ -31,7 +31,7 @@ import {
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
-import { AppUser, UsagerLight } from "../../../../../_common/model";
+import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { getDateToDisplay } from "../../interfaces/getDateToDisplay.service";
 import { getUrlUsagerProfil } from "../../interfaces/getUrlUsagerProfil.service";
 import { UsagerFormModel } from "../form/UsagerFormModel";
@@ -62,7 +62,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   public allUsagersByStatus$ = new ReplaySubject<UsagersByStatus>(1);
   public allUsagersByStatus: UsagersByStatus;
   public usagers: UsagerLight[] = [];
-  public me: AppUser;
+  public me: UserStructure;
 
   public labelsDernierPassage: {
     [key in UsagersFilterCriteriaDernierPassage]: string;
@@ -110,7 +110,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
 
     this.filters = new UsagersFilterCriteria(this.getFilters());
 
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
 
