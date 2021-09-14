@@ -39,7 +39,6 @@ import { UsagerService } from "./services/usager.service";
     ManageUsagersTableComponent,
     MenuComponent,
     ImportComponent,
-
     RaftComponent,
   ],
   exports: [DecisionComponent, UsagersFormComponent, DocumentsFormComponent],
