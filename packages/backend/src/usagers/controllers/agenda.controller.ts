@@ -19,11 +19,15 @@ import { domifaConfig } from "../../config";
 import {
   MessageEmailIcalEvent,
   usagerLightRepository,
-  usersRepository,
+  userStructureRepository,
 } from "../../database";
 import { usagerAppointmentCreatedEmailSender } from "../../mails/services/templates-renderers";
 import { ExpressResponse } from "../../util/express";
-import { AppAuthUser, UsagerLight, UserProfile } from "../../_common/model";
+import {
+  UsagerLight,
+  UserStructureAuthenticated,
+  UserStructureProfile,
+} from "../../_common/model";
 import { RdvDto } from "../dto/rdv.dto";
 import { UsagersService } from "../services/usagers.service";
 
@@ -38,11 +42,11 @@ export class AgendaController {
   @UseGuards(FacteurGuard, UsagerAccessGuard)
   public async postRdv(
     @Body() rdvDto: RdvDto,
-    @CurrentUser() currentUser: AppAuthUser,
+    @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight,
     @Response() res: ExpressResponse
   ) {
-    const user = await usersRepository.findOne({
+    const user = await userStructureRepository.findOne({
       id: rdvDto.userId,
       structureId: currentUser.structureId,
     });
@@ -141,9 +145,9 @@ export class AgendaController {
   @Get("users")
   @UseGuards(FacteurGuard)
   public getUsersMeeting(
-    @CurrentUser() user: AppAuthUser
-  ): Promise<UserProfile[]> {
-    return usersRepository.findVerifiedStructureUsersByRoles({
+    @CurrentUser() user: UserStructureAuthenticated
+  ): Promise<UserStructureProfile[]> {
+    return userStructureRepository.findVerifiedStructureUsersByRoles({
       structureId: user.structureId,
       roles: ["admin", "simple", "responsable"],
     });
@@ -151,7 +155,7 @@ export class AgendaController {
 
   @Get("")
   @UseGuards(FacteurGuard)
-  public async getAll(@CurrentUser() user: AppAuthUser) {
+  public async getAll(@CurrentUser() user: UserStructureAuthenticated) {
     const userId = user.id;
     return usagerLightRepository.findNextRendezVous({ userId });
   }

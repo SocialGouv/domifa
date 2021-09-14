@@ -1,1 +1,1 @@
-export * from "./app-user-builder.service";
+export * from "./userStructureBuilder.service";

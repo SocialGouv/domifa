@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { MatomoTracker } from "ngx-matomo";
-import { AppUser } from "../../../../../_common/model";
+import { UserStructure } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 
 @Component({
@@ -11,7 +11,7 @@ import { AuthService } from "../../../shared/services/auth.service";
 })
 export class NavbarComponent implements OnInit {
   public isNavbarCollapsed: boolean;
-  public me: AppUser;
+  public me: UserStructure;
 
   constructor(
     private authService: AuthService,
@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
   }

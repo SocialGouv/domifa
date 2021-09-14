@@ -1,12 +1,12 @@
-import { StructureSmsParams } from "./../../../../_common/model/structure/StructureSmsParams.type";
 import {
   StructureAddresseCourrier,
   StructureCommon,
   StructureResponsable,
   StructureType,
 } from "../../../../_common/model";
+import { StructureSmsParams } from "./../../../../_common/model/structure/StructureSmsParams.type";
 
-// Structure: attributs publics (retournés au frontend via AppAuthUser)
+// Structure: attributs publics (retournés au frontend via UserStructureAuthenticated)
 export class StructureCommonWeb implements StructureCommon {
   id: number;
   adresse: string;

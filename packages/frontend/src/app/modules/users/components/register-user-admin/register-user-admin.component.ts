@@ -6,15 +6,15 @@ import {
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
+import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
-import { AppUser } from "../../../../../_common/model";
+import { UserStructure } from "../../../../../_common/model";
 import { fadeInOut } from "../../../../shared/animations";
 import { regexp } from "../../../../shared/validators";
-import { appUserBuilder } from "../../services";
+import { userStructureBuilder } from "../../services";
 import { UsersService } from "../../services/users.service";
-import { MatomoTracker } from "ngx-matomo";
 
 @Component({
   animations: [fadeInOut],
@@ -23,7 +23,7 @@ import { MatomoTracker } from "ngx-matomo";
   templateUrl: "./register-user-admin.component.html",
 })
 export class RegisterUserAdminComponent implements OnInit {
-  public user: AppUser;
+  public user: UserStructure;
   public userForm: FormGroup;
 
   public submitted: boolean;
@@ -44,7 +44,7 @@ export class RegisterUserAdminComponent implements OnInit {
     private titleService: Title,
     private matomo: MatomoTracker
   ) {
-    this.user = appUserBuilder.buildAppUser({});
+    this.user = userStructureBuilder.buildUserStructure({});
     this.submitted = false;
   }
 

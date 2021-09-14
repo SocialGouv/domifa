@@ -5,13 +5,12 @@ import * as path from "path";
 import { domifaConfig } from "../../config";
 import {
   interactionRepository,
-  pgRepository,
   structureDocRepository,
   structureRepository,
   usagerHistoryRepository,
   usagerRepository,
   userSecurityRepository,
-  usersRepository,
+  userStructureRepository,
 } from "../../database";
 import { messageSmsRepository } from "../../database/services/message-sms";
 
@@ -68,7 +67,7 @@ async function deleteStructure({
       structureId: structure.id,
     });
 
-    await usersRepository.deleteByCriteria({
+    await userStructureRepository.deleteByCriteria({
       structureId: structure.id,
     });
 

@@ -14,9 +14,8 @@ import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
-import { AppUser } from "../../../../../../../_common/model";
+import { UserStructure } from "../../../../../../../_common/model";
 import { MOTIFS_REFUS_LABELS } from "../../../../../../../_common/model/usager/constants/MOTIFS_REFUS_LABELS.const";
-
 import { UsagerDecisionForm } from "../../../../../../../_common/model/usager/UsagerDecisionForm.type";
 import { UsagerLight } from "../../../../../../../_common/model/usager/UsagerLight.type";
 import { formatDateToNgb } from "../../../../../../shared/bootstrap-util";
@@ -47,7 +46,7 @@ export class DecisionComponent implements OnInit {
   public usager: UsagerLight;
   public isAdmin!: boolean;
 
-  public me: AppUser;
+  public me: UserStructure;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -81,7 +80,7 @@ export class DecisionComponent implements OnInit {
 
   public ngOnInit() {
     this.titleService.setTitle("Décision sur la domiciliation");
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       if (user !== null) {
         this.me = user;
         this.isAdmin =

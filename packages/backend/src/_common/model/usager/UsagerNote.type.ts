@@ -1,11 +1,11 @@
-import { AppUserResume } from "../app-user/AppUserResume.type";
+import { UserStructureResume } from "../user-structure/UserStructureResume.type";
 
 export type UsagerNote = {
   id: string;
   message: string;
   createdAt: Date;
-  createdBy: AppUserResume;
+  createdBy: UserStructureResume;
   archived: boolean;
   archivedAt?: Date;
-  archivedBy?: AppUserResume;
+  archivedBy?: UserStructureResume;
 };

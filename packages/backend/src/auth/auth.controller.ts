@@ -14,7 +14,7 @@ import { Response } from "express";
 import { userSecurityPasswordChecker } from "../database";
 import { LoginDto } from "../users/dto/login.dto";
 import { ExpressResponse } from "../util/express";
-import { AppAuthUser } from "../_common/model";
+import { UserStructureAuthenticated } from "../_common/model";
 import { AuthService } from "./auth.service";
 import { CurrentUser } from "./current-user.decorator";
 import { DomifaGuard } from "./guards/domifa.guard";
@@ -50,7 +50,10 @@ export class AuthController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard("jwt"))
   @Get("me")
-  public me(@Res() res: Response, @CurrentUser() user: AppAuthUser) {
+  public me(
+    @Res() res: Response,
+    @CurrentUser() user: UserStructureAuthenticated
+  ) {
     if (!user || user === null) {
       return res.status(HttpStatus.UNAUTHORIZED).json();
     }

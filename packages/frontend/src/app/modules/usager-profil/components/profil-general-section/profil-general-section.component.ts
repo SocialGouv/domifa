@@ -3,7 +3,11 @@ import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NgbDateStruct, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
-import { AppUser, UsagerLight, UserRole } from "../../../../../_common/model";
+import {
+  UsagerLight,
+  UserStructure,
+  UserStructureRole,
+} from "../../../../../_common/model";
 import {
   InteractionForApi,
   InteractionType,
@@ -41,7 +45,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
   public notifInputs: { [key: string]: any };
 
   public today: Date;
-  public me: AppUser;
+  public me: UserStructure;
 
   public minDateNaissance: NgbDateStruct;
   public maxDateNaissance: NgbDateStruct;
@@ -87,7 +91,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
     this.today = new Date();
   }
 
-  public isRole(role: UserRole) {
+  public isRole(role: UserStructureRole) {
     return this.me.role === role;
   }
 
@@ -95,7 +99,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
     this.titleService.setTitle("Fiche d'un domicilié");
     //
 
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
 

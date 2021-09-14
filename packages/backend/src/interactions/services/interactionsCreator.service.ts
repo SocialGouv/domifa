@@ -4,8 +4,11 @@ import {
   InteractionsTable,
   usagerLightRepository,
 } from "../../database";
-
-import { AppAuthUser, Usager, UsagerLight } from "../../_common/model";
+import {
+  Usager,
+  UsagerLight,
+  UserStructureAuthenticated,
+} from "../../_common/model";
 import { Interactions } from "../../_common/model/interaction";
 import { InteractionDto } from "../interactions.dto";
 
@@ -20,7 +23,10 @@ async function createInteraction({
 }: {
   interaction: InteractionDto;
   usager: UsagerLight;
-  user: Pick<AppAuthUser, "id" | "structureId" | "nom" | "prenom">;
+  user: Pick<
+    UserStructureAuthenticated,
+    "id" | "structureId" | "nom" | "prenom"
+  >;
 }): Promise<{
   usager: UsagerLight;
   interaction: Interactions;
@@ -51,7 +57,10 @@ async function buildNewInteraction({
 }: {
   interaction: InteractionDto;
   usager: Pick<Usager, "ref" | "uuid" | "lastInteraction" | "options">;
-  user: Pick<AppAuthUser, "id" | "structureId" | "nom" | "prenom">;
+  user: Pick<
+    UserStructureAuthenticated,
+    "id" | "structureId" | "nom" | "prenom"
+  >;
 }): Promise<{
   usager: Pick<Usager, "lastInteraction">;
   newInteraction: Interactions;

@@ -12,22 +12,19 @@ import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import {
-  AppUser,
   UsagerLight,
   UsagerOptionsProcuration,
   UsagerOptionsTransfert,
+  UserStructure,
 } from "../../../../../../_common/model";
 import {
   InteractionForApi,
   InteractionType,
 } from "../../../../../../_common/model/interaction";
-
 import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../../_common/model/interaction/constants";
-
+import { InteractionService } from "../../../../usager-shared/services/interaction.service";
 import { isProcurationActifMaintenant } from "../../../services";
 import { isTransfertActifMaintenant } from "../../../services/transfert.service";
-import { InteractionService } from "../../../../usager-shared/services/interaction.service";
-
 import { UsagerFormModel } from "../../form/UsagerFormModel";
 import {
   UsagersFilterCriteria,
@@ -43,7 +40,7 @@ import {
 })
 export class ManageUsagersTableComponent implements OnInit {
   @Input()
-  public me: AppUser;
+  public me: UserStructure;
 
   @Input()
   public usagers: UsagerFormModel[];

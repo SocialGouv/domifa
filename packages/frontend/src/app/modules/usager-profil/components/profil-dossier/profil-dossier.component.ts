@@ -2,7 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { AppUser, UsagerLight, UserRole } from "../../../../../_common/model";
+import {
+  UsagerLight,
+  UserStructure,
+  UserStructureRole,
+} from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 import { UsagerService } from "../../../usagers/services/usager.service";
@@ -13,7 +17,7 @@ import { UsagerService } from "../../../usagers/services/usager.service";
   styleUrls: ["./profil-dossier.component.css"],
 })
 export class ProfilDossierComponent implements OnInit {
-  public me: AppUser;
+  public me: UserStructure;
   public usager: UsagerFormModel;
 
   public editInfos: boolean;
@@ -35,7 +39,7 @@ export class ProfilDossierComponent implements OnInit {
   public ngOnInit(): void {
     this.titleService.setTitle("Dossier du domicilié");
 
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
 
@@ -54,7 +58,7 @@ export class ProfilDossierComponent implements OnInit {
     this.editEntretien = !this.editEntretien;
   }
 
-  public isRole(role: UserRole) {
+  public isRole(role: UserStructureRole) {
     return this.me.role === role;
   }
 

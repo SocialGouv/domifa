@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { AppUser } from "../../../../../_common/model";
+import { UserStructure } from "../../../../../_common/model";
 import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
 
@@ -114,7 +114,7 @@ export class ResetPasswordComponent implements OnInit {
     this.submitted = true;
     if (!this.emailForm.invalid) {
       this.userService.getPasswordToken(this.emailForm.value).subscribe(
-        (user: AppUser) => {
+        (user: UserStructure) => {
           this.success = true;
         },
         (error: any) => {

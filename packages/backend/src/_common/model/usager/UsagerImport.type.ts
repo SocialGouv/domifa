@@ -1,5 +1,5 @@
 export type UsagerImport = {
   date: Date;
-  userId: number; // AppUser
-  userName: string; // AppUser
+  userId: number; // UserStructure
+  userName: string; // UserStructure
 };

@@ -2,7 +2,7 @@ import { Connection } from "typeorm";
 import { userSecurityRepository } from "../../database";
 import { passwordGenerator } from "../../util/encoding/passwordGenerator.service";
 import { AppTestHelper } from "../../util/test";
-import { UserRole } from "../../_common/model";
+import { UserStructureRole } from "../../_common/model";
 import { RegisterUserAdminDto } from "../dto/register-user-admin.dto";
 import { UserDto } from "../dto/user.dto";
 import { usersCreator } from "./users-creator.service";
@@ -20,7 +20,7 @@ describe("UsersCreator", () => {
 
   it("createUserWithPassword", async () => {
     const structureId = 2;
-    const role: UserRole = "facteur";
+    const role: UserStructureRole = "facteur";
     const password = "?p@sw$rd!";
     const userAttributes: UserDto = {
       email: "newUser1@test.com",
@@ -61,7 +61,7 @@ describe("UsersCreator", () => {
 
   it("createUserWithTmpToken", async () => {
     const structureId = 2;
-    const role: UserRole = "facteur";
+    const role: UserStructureRole = "facteur";
     const userAttributes: RegisterUserAdminDto = {
       email: "newUser2@test.com",
       nom: "Smith",

@@ -1,5 +1,5 @@
 import { MessageEmailContent } from "../../../../database";
-import { AppUser } from "../../../../_common/model";
+import { UserStructure } from "../../../../_common/model";
 import {
   DOMIFA_DEFAULT_MAIL_CONFIG,
   mailRecipientsFilter,
@@ -13,7 +13,7 @@ async function sendMail({
   user,
   confirmationCode,
 }: {
-  user: Pick<AppUser, "email" | "nom" | "prenom">;
+  user: Pick<UserStructure, "email" | "nom" | "prenom">;
   confirmationCode: string;
 }): Promise<void> {
   const to = [

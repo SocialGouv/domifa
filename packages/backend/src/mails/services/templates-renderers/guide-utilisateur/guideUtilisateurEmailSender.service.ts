@@ -1,6 +1,6 @@
 import { domifaConfig } from "../../../../config";
 import { MessageEmailContent } from "../../../../database";
-import { AppUser } from "../../../../_common/model";
+import { UserStructure } from "../../../../_common/model";
 import {
   DOMIFA_DEFAULT_MAIL_CONFIG,
   mailRecipientsFilter,
@@ -13,7 +13,7 @@ export const guideUtilisateurEmailSender = { sendMail };
 async function sendMail({
   user,
 }: {
-  user: Pick<AppUser, "email" | "nom" | "prenom">;
+  user: Pick<UserStructure, "email" | "nom" | "prenom">;
 }): Promise<void> {
   const frontendUrl = domifaConfig().apps.frontendUrl;
   const lienGuide = frontendUrl + "assets/files/guide_utilisateur_domifa.pdf";

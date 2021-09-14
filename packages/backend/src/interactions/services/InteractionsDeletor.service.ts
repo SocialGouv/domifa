@@ -1,9 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { interactionRepository } from "../../database";
 import { MessageSmsService } from "../../sms/services/message-sms.service";
-
 import { UsagersService } from "../../usagers/services/usagers.service";
-import { AppUser, Structure, Usager, UsagerLight } from "../../_common/model";
+import { Structure, UsagerLight, UserStructure } from "../../_common/model";
 import {
   InteractionDirection,
   InteractionEvent,
@@ -29,7 +28,7 @@ export class InteractionsDeletor {
   }: {
     interaction: Interactions;
     usager: UsagerLight;
-    user: Pick<AppUser, "id" | "structureId" | "nom" | "prenom">;
+    user: Pick<UserStructure, "id" | "structureId" | "nom" | "prenom">;
     structure: Pick<Structure, "id" | "sms">;
   }): Promise<UsagerLight> {
     const newEvent: InteractionEvent =
@@ -133,7 +132,7 @@ export class InteractionsDeletor {
     interaction,
     newEvent,
   }: {
-    user: Pick<AppUser, "id" | "structureId" | "nom" | "prenom">;
+    user: Pick<UserStructure, "id" | "structureId" | "nom" | "prenom">;
     interaction: Interactions;
     newEvent: InteractionEvent;
   }) {
@@ -155,7 +154,7 @@ export class InteractionsDeletor {
     interaction,
     direction,
   }: {
-    user: Pick<AppUser, "id" | "structureId" | "nom" | "prenom">;
+    user: Pick<UserStructure, "id" | "structureId" | "nom" | "prenom">;
     usager: UsagerLight;
     interaction: Interactions;
     direction: InteractionDirection;

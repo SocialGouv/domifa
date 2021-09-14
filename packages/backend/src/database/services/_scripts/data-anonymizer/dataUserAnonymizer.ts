@@ -1,9 +1,9 @@
 import { INestApplication } from "@nestjs/common";
 import * as bcrypt from "bcryptjs";
-import { AppUserTable, userSecurityRepository } from "../../..";
+import { userSecurityRepository, UserStructureTable } from "../../..";
 import { domifaConfig } from "../../../../config";
 import { appLogger } from "../../../../util";
-import { usersRepository } from "../../app-user";
+import { userStructureRepository } from "../../user-structure";
 import { dataEmailAnonymizer } from "./dataEmailAnonymizer";
 import { dataGenerator } from "./dataGenerator.service";
 import { dataStructureAnonymizer } from "./dataStructureAnonymizer";
@@ -12,10 +12,13 @@ export const dataUserAnonymizer = {
   anonymizeUsers,
 };
 
-type PartialUser = Pick<AppUserTable, "id" | "structureId" | "email" | "role">;
+type PartialUser = Pick<
+  UserStructureTable,
+  "id" | "structureId" | "email" | "role"
+>;
 
 async function anonymizeUsers({ app }: { app: INestApplication }) {
-  const users = await usersRepository.findMany<PartialUser>(
+  const users = await userStructureRepository.findMany<PartialUser>(
     {},
     {
       select: ["id", "structureId", "email", "role"],
@@ -33,7 +36,7 @@ async function anonymizeUsers({ app }: { app: INestApplication }) {
   }
 }
 function isUserToAnonymise(
-  user: Pick<AppUserTable, "id" | "structureId" | "email">
+  user: Pick<UserStructureTable, "id" | "structureId" | "email">
 ): unknown {
   return dataStructureAnonymizer.isStructureToAnonymise({
     id: user.structureId,
@@ -51,7 +54,7 @@ async function _anonymizeUser(
     ? await bcrypt.hash(passwordNonEncrypted, 10)
     : "";
 
-  const attributesToUpdate: Partial<AppUserTable> = {
+  const attributesToUpdate: Partial<UserStructureTable> = {
     nom: dataGenerator.lastName().toUpperCase(),
     prenom: dataGenerator.firstName(),
     password,
@@ -87,7 +90,7 @@ async function _anonymizeUser(
     }
   );
 
-  return usersRepository.updateOne(
+  return userStructureRepository.updateOne(
     {
       id: user.id,
     },

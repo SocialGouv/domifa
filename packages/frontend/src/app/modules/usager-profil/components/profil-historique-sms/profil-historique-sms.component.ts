@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, Input, OnInit } from "@angular/core";
-import { AppUser } from "../../../../../_common/model";
+import { UserStructure } from "../../../../../_common/model";
 import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../_common/model/interaction/constants";
-
 import { MessageSms } from "../../../../../_common/model/message-sms";
 import { MESSAGE_SMS_STATUS } from "../../../../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
@@ -14,7 +13,7 @@ import { UsagerService } from "../../../usagers/services/usager.service";
 })
 export class ProfilHistoriqueSmsComponent implements OnInit, AfterViewInit {
   @Input() public usager: UsagerFormModel;
-  @Input() public me: AppUser;
+  @Input() public me: UserStructure;
 
   public INTERACTIONS_LABELS_SINGULIER = INTERACTIONS_LABELS_SINGULIER;
   public MESSAGE_SMS_STATUS = MESSAGE_SMS_STATUS;

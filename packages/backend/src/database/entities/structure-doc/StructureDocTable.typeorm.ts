@@ -6,9 +6,9 @@ import {
   JoinColumn,
   ManyToOne,
 } from "typeorm";
-import { StructureTable } from "..";
-import { AppUserCreatedBy } from "../../../_common/model/app-user/AppUserCreatedBy.type";
 import { StructureDoc } from "../../../_common/model/structure-doc";
+import { UserStructureCreatedBy } from "../../../_common/model/user-structure/UserStructureCreatedBy.type";
+import { StructureTable } from "../structure/StructureTable.typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
@@ -26,7 +26,7 @@ export class StructureDocTable
   label: string;
 
   @Column({ type: "jsonb", nullable: false })
-  createdBy: AppUserCreatedBy;
+  createdBy: UserStructureCreatedBy;
 
   @Column({ type: "jsonb", nullable: true })
   tags: {

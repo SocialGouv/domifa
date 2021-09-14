@@ -1,14 +1,11 @@
 import { Component, Input, OnInit } from "@angular/core";
-
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
-import { AppUser, UsagerLight } from "../../../../../_common/model";
+import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { InteractionType } from "../../../../../_common/model/interaction";
-
-import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
-
-import { Interaction } from "../../../usagers/interfaces/interaction";
 import { InteractionService } from "../../../usager-shared/services/interaction.service";
+import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
+import { Interaction } from "../../../usagers/interfaces/interaction";
 
 @Component({
   selector: "app-profil-historique-courriers",
@@ -17,7 +14,7 @@ import { InteractionService } from "../../../usager-shared/services/interaction.
 })
 export class ProfilHistoriqueCourriersComponent implements OnInit {
   @Input() public usager: UsagerFormModel;
-  @Input() public me: AppUser;
+  @Input() public me: UserStructure;
 
   public typeInteraction: InteractionType;
   public interactions: Interaction[];

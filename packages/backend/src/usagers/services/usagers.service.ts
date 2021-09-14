@@ -7,7 +7,6 @@ import {
 import { usagerHistoryRepository } from "../../database/services/usager/usagerHistoryRepository.service";
 import { uuidGenerator } from "../../database/services/uuid";
 import {
-  AppUser,
   ETAPE_DECISION,
   ETAPE_DOSSIER_COMPLET,
   ETAPE_ENTRETIEN,
@@ -16,7 +15,8 @@ import {
   Usager,
   UsagerDecision,
   UsagerLight,
-  UserProfile,
+  UserStructure,
+  UserStructureProfile,
 } from "../../_common/model";
 import { CreateUsagerDto } from "../dto/create-usager.dto";
 import { RdvDto } from "../dto/rdv.dto";
@@ -31,7 +31,7 @@ export class UsagersService {
 
   public async create(
     usagerDto: CreateUsagerDto,
-    user: UserProfile
+    user: UserStructureProfile
   ): Promise<UsagerLight> {
     const usager = new UsagerTable(usagerDto);
 
@@ -82,7 +82,7 @@ export class UsagersService {
 
   public async renouvellement(
     usager: UsagerLight,
-    user: Pick<AppUser, "id" | "nom" | "prenom">
+    user: Pick<UserStructure, "id" | "nom" | "prenom">
   ): Promise<UsagerLight> {
     usager.decision = {
       uuid: uuidGenerator.random(),
@@ -212,7 +212,7 @@ export class UsagersService {
   public async setRdv(
     { uuid }: { uuid: string },
     rdv: RdvDto,
-    user: UserProfile
+    user: UserStructureProfile
   ): Promise<UsagerLight> {
     let usager = await usagerRepository.findOne({
       uuid,

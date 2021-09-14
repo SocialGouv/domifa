@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { saveAs } from "file-saver";
 import { ToastrService } from "ngx-toastr";
-import { AppUser } from "../../../../../_common/model";
+import { UserStructure } from "../../../../../_common/model";
 import { StructureDoc } from "../../../../../_common/model/structure-doc";
 import {
   UploadResponseType,
@@ -24,7 +24,7 @@ export class StructuresUploadDocsComponent implements OnInit {
 
   public structureDocs: StructureDoc[];
 
-  @Input() public me: AppUser;
+  @Input() public me: UserStructure;
 
   constructor(
     private formBuilder: FormBuilder,

@@ -2,7 +2,7 @@ import {
   MessageEmailContent,
   userSecurityResetPasswordInitiator,
 } from "../../../../database";
-import { AppUser } from "../../../../_common/model";
+import { UserStructure } from "../../../../_common/model";
 import {
   DOMIFA_DEFAULT_MAIL_CONFIG,
   mailRecipientsFilter,
@@ -18,7 +18,7 @@ async function sendMail({
   user,
   token,
 }: {
-  user: Pick<AppUser, "id" | "email" | "nom" | "prenom">;
+  user: Pick<UserStructure, "id" | "email" | "nom" | "prenom">;
   token: string;
 }): Promise<void> {
   const lien = userSecurityResetPasswordInitiator.buildResetPasswordLink({

@@ -25,8 +25,8 @@ export class Decision implements UsagerDecision {
   public orientation?: UsagerDecisionOrientation;
   public orientationDetails?: string;
 
-  public userId: number; // AppUser.id
-  public userName: string; // AppUser.nom / prenom
+  public userId: number; // UserStructure.id
+  public userName: string; // UserStructure.nom / prenom
 
   constructor(decision?: any) {
     this.uuid = decision?.uuid;
