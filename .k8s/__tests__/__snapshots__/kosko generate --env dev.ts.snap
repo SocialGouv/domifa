@@ -16,6 +16,7 @@ metadata:
   labels:
     app: backend
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
     cert: wildcard
@@ -39,6 +40,7 @@ spec:
       labels:
         app: backend
         application: domifa
+        component: domifa
         owner: domifa
         team: domifa
         cert: wildcard
@@ -86,7 +88,7 @@ spec:
               name: files
           envFrom:
             - secretRef:
-                name: azure-pg-user-0123456
+                name: azure-pg-user-mybranch
             - secretRef:
                 name: backend-sealed-secret
             - configMapRef:
@@ -113,8 +115,8 @@ spec:
               value: '24'
           envFrom:
             - secretRef:
-                name: azure-pg-user-0123456
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.26.2
+                name: azure-pg-user-mybranch
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.45.0
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -141,6 +143,7 @@ metadata:
   namespace: domifa-mybranch
   labels:
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
     cert: wildcard
@@ -188,6 +191,7 @@ spec:
       name: backend-sealed-secret
       labels:
         application: domifa
+        component: domifa
         owner: domifa
         team: domifa
         cert: wildcard
@@ -207,6 +211,7 @@ metadata:
     app.github.com/sha: '0123456'
   labels:
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
     cert: wildcard
@@ -228,6 +233,7 @@ metadata:
   labels:
     app: backend
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
     cert: wildcard
@@ -250,7 +256,7 @@ spec:
     app: backend
   type: ClusterIP
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
@@ -265,6 +271,7 @@ metadata:
   labels:
     app: backend
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
     cert: wildcard
@@ -276,9 +283,12 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: backend
-              servicePort: 80
+              service:
+                name: backend
+                port:
+                  name: http
             path: /
+            pathType: Prefix
   tls:
     - hosts:
         - domifa-api-domifa-mybranch.dev2.fabrique.social.gouv.fr
@@ -298,10 +308,10 @@ metadata:
   labels:
     app: frontend
     application: domifa
+    component: nginx
     owner: domifa
     team: domifa
     cert: wildcard
-    component: nginx
   name: frontend
   namespace: domifa-mybranch
 spec:
@@ -322,10 +332,10 @@ spec:
       labels:
         app: frontend
         application: domifa
+        component: nginx
         owner: domifa
         team: domifa
         cert: wildcard
-        component: nginx
     spec:
       containers:
         - image: >-
@@ -374,6 +384,7 @@ metadata:
   labels:
     app: frontend
     application: domifa
+    component: nginx
     owner: domifa
     team: domifa
     cert: wildcard
@@ -396,7 +407,7 @@ spec:
     app: frontend
   type: ClusterIP
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
@@ -411,6 +422,7 @@ metadata:
   labels:
     app: frontend
     application: domifa
+    component: nginx
     owner: domifa
     team: domifa
     cert: wildcard
@@ -422,9 +434,12 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: frontend
-              servicePort: 80
+              service:
+                name: frontend
+                port:
+                  name: http
             path: /
+            pathType: Prefix
   tls:
     - hosts:
         - domifa-mybranch.dev2.fabrique.social.gouv.fr
@@ -441,17 +456,17 @@ spec:
             - create-db-user
           env:
             - name: NEW_DB_NAME
-              value: autodevops_0123456
+              value: autodevops_mybranch
             - name: NEW_USER
-              value: user_0123456
+              value: user_mybranch
             - name: NEW_PASSWORD
-              value: password_0123456
+              value: password_mybranch
             - name: NEW_DB_EXTENSIONS
               value: hstore pgcrypto citext uuid-ossp
           envFrom:
             - secretRef:
                 name: azure-pg-admin-user
-          image: ghcr.io/socialgouv/docker/azure-db:6.26.2
+          image: ghcr.io/socialgouv/docker/azure-db:6.45.0
           imagePullPolicy: IfNotPresent
           name: create-db-user
           resources:
@@ -462,21 +477,10 @@ spec:
               cpu: 100m
               memory: 64Mi
       restartPolicy: Never
-    metadata:
-      annotations:
-        app.github.com/job: '5678'
-        app.github.com/ref: refs/heads/mybranch
-        app.github.com/repo: socialgouv/domifa
-        app.github.com/run: '1234'
-        app.github.com/sha: '0123456'
-      labels:
-        application: domifa
-        owner: domifa
-        team: domifa
-        cert: wildcard
   ttlSecondsAfterFinished: 86400
 metadata:
   annotations:
+    kapp.k14s.io/update-strategy: skip
     app.github.com/job: '5678'
     app.github.com/ref: refs/heads/mybranch
     app.github.com/repo: socialgouv/domifa
@@ -484,30 +488,32 @@ metadata:
     app.github.com/sha: '0123456'
   labels:
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
     cert: wildcard
-  name: create-db-job-0123456
+  name: create-db-job-mybranch
   namespace: domifa-mybranch
 ---
 apiVersion: v1
 kind: Secret
 stringData:
   DATABASE_URL: >-
-    postgresql://user_0123456%40domifadevserver.postgres.database.azure.com:password_0123456@domifadevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
+    postgresql://user_mybranch%40domifadevserver.postgres.database.azure.com:password_mybranch@domifadevserver.postgres.database.azure.com/autodevops_mybranch?sslmode=require
   DB_URI: >-
-    postgresql://user_0123456%40domifadevserver.postgres.database.azure.com:password_0123456@domifadevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
+    postgresql://user_mybranch%40domifadevserver.postgres.database.azure.com:password_mybranch@domifadevserver.postgres.database.azure.com/autodevops_mybranch?sslmode=require
   HASURA_GRAPHQL_DATABASE_URL: >-
-    postgresql://user_0123456%40domifadevserver.postgres.database.azure.com:password_0123456@domifadevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
-  PGDATABASE: autodevops_0123456
+    postgresql://user_mybranch%40domifadevserver.postgres.database.azure.com:password_mybranch@domifadevserver.postgres.database.azure.com/autodevops_mybranch?sslmode=require
+  PGDATABASE: autodevops_mybranch
   PGHOST: domifadevserver.postgres.database.azure.com
-  PGPASSWORD: password_0123456
+  PGPASSWORD: password_mybranch
   PGRST_DB_URI: >-
-    postgresql://user_0123456%40domifadevserver.postgres.database.azure.com:password_0123456@domifadevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
+    postgresql://user_mybranch%40domifadevserver.postgres.database.azure.com:password_mybranch@domifadevserver.postgres.database.azure.com/autodevops_mybranch?sslmode=require
   PGSSLMODE: require
-  PGUSER: user_0123456@domifadevserver.postgres.database.azure.com
+  PGUSER: user_mybranch@domifadevserver.postgres.database.azure.com
 metadata:
   annotations:
+    kapp.k14s.io/update-strategy: skip
     app.github.com/job: '5678'
     app.github.com/ref: refs/heads/mybranch
     app.github.com/repo: socialgouv/domifa
@@ -515,10 +521,11 @@ metadata:
     app.github.com/sha: '0123456'
   labels:
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
     cert: wildcard
-  name: azure-pg-user-0123456
+  name: azure-pg-user-mybranch
   namespace: domifa-mybranch
 "
 `;

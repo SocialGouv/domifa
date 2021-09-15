@@ -16,6 +16,7 @@ metadata:
   labels:
     app: backend
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
     cert: wildcard
@@ -39,6 +40,7 @@ spec:
       labels:
         app: backend
         application: domifa
+        component: domifa
         owner: domifa
         team: domifa
         cert: wildcard
@@ -115,7 +117,7 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-user
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.26.2
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.45.0
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -142,6 +144,7 @@ metadata:
   namespace: domifa-preprod
   labels:
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
     cert: wildcard
@@ -189,6 +192,7 @@ spec:
       name: backend-sealed-secret
       labels:
         application: domifa
+        component: domifa
         owner: domifa
         team: domifa
         cert: wildcard
@@ -208,6 +212,7 @@ metadata:
     app.github.com/sha: '0123456'
   labels:
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
     cert: wildcard
@@ -229,6 +234,7 @@ metadata:
   labels:
     app: backend
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
     cert: wildcard
@@ -251,7 +257,7 @@ spec:
     app: backend
   type: ClusterIP
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
@@ -266,6 +272,7 @@ metadata:
   labels:
     app: backend
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
     cert: wildcard
@@ -277,9 +284,12 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: backend
-              servicePort: 80
+              service:
+                name: backend
+                port:
+                  name: http
             path: /
+            pathType: Prefix
   tls:
     - hosts:
         - domifa-api-domifa-preprod.dev2.fabrique.social.gouv.fr
@@ -297,6 +307,7 @@ metadata:
     app.github.com/sha: '0123456'
   labels:
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
     cert: wildcard
@@ -318,6 +329,7 @@ metadata:
   labels:
     usage: domifa-files
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
     cert: wildcard
@@ -355,10 +367,10 @@ metadata:
   labels:
     app: frontend
     application: domifa
+    component: nginx
     owner: domifa
     team: domifa
     cert: wildcard
-    component: nginx
   name: frontend
   namespace: domifa-preprod
 spec:
@@ -379,10 +391,10 @@ spec:
       labels:
         app: frontend
         application: domifa
+        component: nginx
         owner: domifa
         team: domifa
         cert: wildcard
-        component: nginx
     spec:
       containers:
         - image: >-
@@ -431,6 +443,7 @@ metadata:
   labels:
     app: frontend
     application: domifa
+    component: nginx
     owner: domifa
     team: domifa
     cert: wildcard
@@ -453,7 +466,7 @@ spec:
     app: frontend
   type: ClusterIP
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
@@ -468,6 +481,7 @@ metadata:
   labels:
     app: frontend
     application: domifa
+    component: nginx
     owner: domifa
     team: domifa
     cert: wildcard
@@ -479,9 +493,12 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: frontend
-              servicePort: 80
+              service:
+                name: frontend
+                port:
+                  name: http
             path: /
+            pathType: Prefix
   tls:
     - hosts:
         - domifa-preprod.dev2.fabrique.social.gouv.fr
@@ -501,6 +518,7 @@ metadata:
   namespace: domifa-preprod
   labels:
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
     cert: wildcard
@@ -528,6 +546,7 @@ spec:
       name: azure-pg-user
       labels:
         application: domifa
+        component: domifa
         owner: domifa
         team: domifa
         cert: wildcard
@@ -547,6 +566,7 @@ metadata:
   namespace: domifa-preprod
   labels:
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
     cert: wildcard
@@ -568,6 +588,7 @@ spec:
       name: azure-domifa-volume
       labels:
         application: domifa
+        component: domifa
         owner: domifa
         team: domifa
         cert: wildcard
