@@ -16,6 +16,7 @@ metadata:
   labels:
     app: backend
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
   name: backend
@@ -38,6 +39,7 @@ spec:
       labels:
         app: backend
         application: domifa
+        component: domifa
         owner: domifa
         team: domifa
     spec:
@@ -113,7 +115,7 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-user
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.26.2
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.45.0
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -139,6 +141,7 @@ metadata:
   namespace: domifa
   labels:
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
 spec:
@@ -184,6 +187,7 @@ spec:
       name: backend-sealed-secret
       labels:
         application: domifa
+        component: domifa
         owner: domifa
         team: domifa
     type: Opaque
@@ -202,6 +206,7 @@ metadata:
     app.github.com/sha: '0123456'
   labels:
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
   namespace: domifa
@@ -221,6 +226,7 @@ metadata:
   labels:
     app: backend
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
   name: backend
@@ -242,12 +248,12 @@ spec:
     app: backend
   type: ClusterIP
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     kubernetes.io/tls-acme: 'true'
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
@@ -259,6 +265,7 @@ metadata:
   labels:
     app: backend
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
   name: backend
@@ -269,9 +276,12 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: backend
-              servicePort: 80
+              service:
+                name: backend
+                port:
+                  name: http
             path: /
+            pathType: Prefix
   tls:
     - hosts:
         - fake-domifa-api.fabrique.social.gouv.fr
@@ -289,6 +299,7 @@ metadata:
     app.github.com/sha: '0123456'
   labels:
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
   namespace: domifa
@@ -309,6 +320,7 @@ metadata:
   labels:
     usage: domifa-files
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
   name: domifa-files
@@ -345,9 +357,9 @@ metadata:
   labels:
     app: frontend
     application: domifa
+    component: nginx
     owner: domifa
     team: domifa
-    component: nginx
   name: frontend
   namespace: domifa
 spec:
@@ -368,9 +380,9 @@ spec:
       labels:
         app: frontend
         application: domifa
+        component: nginx
         owner: domifa
         team: domifa
-        component: nginx
     spec:
       containers:
         - image: >-
@@ -419,6 +431,7 @@ metadata:
   labels:
     app: frontend
     application: domifa
+    component: nginx
     owner: domifa
     team: domifa
   name: frontend
@@ -440,12 +453,12 @@ spec:
     app: frontend
   type: ClusterIP
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     kubernetes.io/tls-acme: 'true'
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
@@ -457,6 +470,7 @@ metadata:
   labels:
     app: frontend
     application: domifa
+    component: nginx
     owner: domifa
     team: domifa
   name: frontend
@@ -467,9 +481,12 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: frontend
-              servicePort: 80
+              service:
+                name: frontend
+                port:
+                  name: http
             path: /
+            pathType: Prefix
   tls:
     - hosts:
         - fake-domifa.fabrique.social.gouv.fr
@@ -488,6 +505,7 @@ metadata:
   namespace: domifa
   labels:
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
 spec:
@@ -513,6 +531,7 @@ spec:
       name: azure-pg-user
       labels:
         application: domifa
+        component: domifa
         owner: domifa
         team: domifa
     type: Opaque
@@ -530,6 +549,7 @@ metadata:
   namespace: domifa
   labels:
     application: domifa
+    component: domifa
     owner: domifa
     team: domifa
 spec:
@@ -549,6 +569,7 @@ spec:
       name: azure-domifa-volume
       labels:
         application: domifa
+        component: domifa
         owner: domifa
         team: domifa
     type: Opaque
