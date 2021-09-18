@@ -10,8 +10,6 @@ export const getEcheanceInfos = (
     dayBeforeEnd: 365,
   };
 
-  console.log(usagerInfos);
-
   if (usager?.decision) {
     usagerInfos.dateToDisplay = new Date(usager.decision.dateDecision);
 

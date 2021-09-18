@@ -26,7 +26,6 @@ describe("getEcheanceInfos", () => {
       isActif: false,
       dateToDisplay: null,
       dayBeforeEnd: 365,
-      color: "d-none",
     });
   });
 });
