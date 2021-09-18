@@ -1,5 +1,7 @@
-import { AppEntity } from "../../../_common/model";
 import { UsagerEntretien } from "./entretien";
+import { UsagerRdvInfos } from "./UsagerRdvInfos.type";
+
+import { AppEntity, UsagerEcheanceInfos } from "../../../_common/model";
 import { UsagerAyantDroit } from "./UsagerAyantDroit.type";
 import { UsagerDecision } from "./UsagerDecision.type";
 import { UsagerDoc } from "./UsagerDoc.type";
@@ -63,7 +65,8 @@ export type Usager = AppEntity & {
   options: UsagerOptions;
 
   // Variables de front
-  dateToDisplay?: Date | null;
+  echeanceInfos?: UsagerEcheanceInfos;
+  rdvInfos?: UsagerRdvInfos;
   usagerProfilUrl?: string;
 
   notes: UsagerNote[];

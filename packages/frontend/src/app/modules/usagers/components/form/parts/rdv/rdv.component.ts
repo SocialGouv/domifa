@@ -34,7 +34,7 @@ export class RdvComponent implements OnInit {
   public rdvForm!: FormGroup;
 
   public usager!: UsagerFormModel;
-  public editRdv!: boolean;
+  public editRdv: boolean;
 
   public me: UserStructure;
   public agents: UserStructure[] = [];
@@ -82,16 +82,16 @@ export class RdvComponent implements OnInit {
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
 
-      this.usagerService.findOne(id).subscribe(
-        (usager: UsagerLight) => {
+      this.usagerService.findOne(id).subscribe({
+        next: (usager: UsagerLight) => {
           this.usager = new UsagerFormModel(usager);
 
           this.initForm();
         },
-        () => {
+        error: () => {
           this.router.navigate(["404"]);
-        }
-      );
+        },
+      });
     } else {
       this.router.navigate(["404"]);
     }
@@ -175,15 +175,15 @@ export class RdvComponent implements OnInit {
       userId: this.rdvForm.controls.userId.value,
     };
 
-    this.usagerService.setRdv(rdvFormValue, this.usager.ref).subscribe(
-      (usager: UsagerLight) => {
+    this.usagerService.setRdv(rdvFormValue, this.usager.ref).subscribe({
+      next: (usager: UsagerLight) => {
         this.notifService.success("Rendez-vous enregistré");
         this.usager = new UsagerFormModel(usager);
         this.editRdv = false;
       },
-      () => {
+      error: () => {
         this.notifService.error("Impossible d'enregistrer le rendez-vous");
-      }
-    );
+      },
+    });
   }
 }

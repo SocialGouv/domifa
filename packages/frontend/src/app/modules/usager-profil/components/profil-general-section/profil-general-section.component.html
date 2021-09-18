@@ -32,7 +32,8 @@
           </div>
 
           <div
-            class="alert alert-warning"
+            class="alert"
+            [ngClass]="usager.rdvInfos.class ? 'alert-danger' : 'alert-warning'"
             *ngIf="
               usager.decision.statut === 'INSTRUCTION' &&
               usager.typeDom === 'RENOUVELLEMENT' &&
@@ -40,8 +41,12 @@
             "
           >
             <div class="svg-icon icon-calendar"></div>
-            <span>
+            <span [class]="usager.rdvInfos.class">
               Demande de renouvellement actuellement en cours
+              {{
+                usager.rdvInfos.display ? ": " + usager.rdvInfos.content : ""
+              }}
+
               <a
                 [routerLink]="['/usager/' + usager.ref + '/edit']"
                 class="ml-2"
@@ -79,26 +84,32 @@
           <div
             class="alert"
             [ngClass]="{
-              'alert-danger': usager.dayBeforeEnd <= 15,
-              'alert-warning': usager.dayBeforeEnd > 15
+              'alert-danger': usager.echeanceInfos.dayBeforeEnd <= 15,
+              'alert-warning': usager.echeanceInfos.dayBeforeEnd > 15
             }"
-            *ngIf="usager.dayBeforeEnd > 0 && usager.dayBeforeEnd < 60"
+            *ngIf="
+              usager.echeanceInfos.dayBeforeEnd > 0 &&
+              usager.echeanceInfos.dayBeforeEnd < 60
+            "
           >
             <div class="svg-icon icon-distribution"></div>
             <span>
               La domiciliation expire le
               <b>
-                {{ usager.dateToDisplay | date: "dd/MM/yyyy" }}
+                {{ usager.echeanceInfos.dateToDisplay | date: "dd/MM/yyyy" }}
               </b>
             </span>
           </div>
-          <div class="alert alert-danger" *ngIf="usager.dayBeforeEnd < 0">
+          <div
+            class="alert alert-danger"
+            *ngIf="usager.echeanceInfos.dayBeforeEnd < 0"
+          >
             <div class="svg-icon icon-danger"></div>
             <div>
               Domiciliation expirée depuis le
               <b>
-                {{ usager.dateToDisplay | date: "dd/MM/yyyy" }}, il y a
-                {{ usager.dayBeforeEnd * -1 }} jours
+                {{ usager.echeanceInfos.dateToDisplay | date: "dd/MM/yyyy" }},
+                il y a {{ usager.echeanceInfos.dayBeforeEnd * -1 }} jours
               </b>
             </div>
           </div>
@@ -228,7 +239,7 @@
 
             <div class="col-6 my-1"><span class="label">Échéance</span></div>
             <div class="col-6 my-1">
-              {{ usager.dateToDisplay | date: "dd/MM/yyyy" }}
+              {{ usager.echeanceInfos.dateToDisplay | date: "dd/MM/yyyy" }}
             </div>
             <div class="col-6 my-1">
               <span class="label">Dernier passage</span>
