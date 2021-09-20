@@ -2,8 +2,9 @@ import { Controller, Get, Res, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-import { CurrentUser } from "../../auth/current-user.decorator";
-import { AllowUserStructureRoles, AppUserGuard } from "../../auth/guards";
+import { CurrentUser } from "../../auth/decorators/current-user.decorator";
+import { AppUserGuard } from "../../auth/guards";
+import { AllowUserStructureRoles } from "../../auth/decorators";
 import {
   structureUsagersExporter,
   StructureUsagersExportModel,

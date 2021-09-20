@@ -15,9 +15,11 @@ import { userSecurityPasswordChecker } from "../database";
 import { LoginDto } from "../users/dto/login.dto";
 import { ExpressResponse } from "../util/express";
 import { UserStructureAuthenticated } from "../_common/model";
-import { AuthService } from "./auth.service";
-import { CurrentUser } from "./current-user.decorator";
-import { AllowUserProfiles, AppUserGuard } from "./guards";
+import { AuthService } from "./services/auth.service";
+
+import { AppUserGuard } from "./guards";
+import { CurrentUser } from "./decorators/current-user.decorator";
+import { AllowUserProfiles } from "./decorators";
 
 @Controller("auth")
 @ApiTags("auth")
@@ -36,7 +38,9 @@ export class AuthController {
       const accessToken = await this.authService.login(user);
       return res.status(HttpStatus.OK).json(accessToken);
     } catch (err) {
-      return res.status(HttpStatus.UNAUTHORIZED).json({ message: err.message });
+      return res
+        .status(HttpStatus.UNAUTHORIZED)
+        .json({ message: "WRONG_CREDENTIALS" });
     }
   }
 

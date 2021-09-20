@@ -14,9 +14,10 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-import { CurrentUsager } from "../../auth/current-usager.decorator";
-import { CurrentUser } from "../../auth/current-user.decorator";
-import { AllowUserStructureRoles, AppUserGuard } from "../../auth/guards";
+import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
+import { CurrentUser } from "../../auth/decorators/current-user.decorator";
+import { AppUserGuard } from "../../auth/guards";
+import { AllowUserStructureRoles } from "../../auth/decorators";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { usagerLightRepository, usagerRepository } from "../../database";
 import {

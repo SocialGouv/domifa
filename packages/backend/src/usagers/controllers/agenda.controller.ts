@@ -9,11 +9,12 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import * as ics from "ics";
-import { CurrentUsager } from "../../auth/current-usager.decorator";
-import { CurrentUser } from "../../auth/current-user.decorator";
-import { AllowUserStructureRoles, AppUserGuard } from "../../auth/guards";
+import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
+import { CurrentUser } from "../../auth/decorators/current-user.decorator";
+import { AppUserGuard } from "../../auth/guards";
+import { AllowUserStructureRoles } from "../../auth/decorators";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
 import {
@@ -144,8 +145,9 @@ export class AgendaController {
   }
 
   @Get("users")
+  @ApiOperation({ summary: "Liste des utilisateurs pour l'agenda" })
   @AllowUserStructureRoles("simple", "responsable", "admin")
-  public getUsersMeeting(
+  public getAllUsersForAgenda(
     @CurrentUser() user: UserStructureAuthenticated
   ): Promise<UserStructureProfile[]> {
     return userStructureRepository.findVerifiedStructureUsersByRoles({
@@ -155,6 +157,7 @@ export class AgendaController {
   }
 
   @Get("")
+  @ApiOperation({ summary: "Liste des rendez-vous à venir" })
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getAll(@CurrentUser() user: UserStructureAuthenticated) {
     const userId = user.id;

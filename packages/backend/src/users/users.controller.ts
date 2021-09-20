@@ -14,8 +14,11 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { AxiosError } from "axios";
-import { CurrentUser } from "../auth/current-user.decorator";
-import { AllowUserStructureRoles, AppUserGuard } from "../auth/guards";
+import { AllowUserStructureRoles } from "../auth/decorators";
+import { CurrentChosenUserStructure } from "../auth/decorators/current-chosen-user-structure.decorator";
+import { CurrentUser } from "../auth/decorators/current-user.decorator";
+import { AppUserGuard } from "../auth/guards";
+import { CanGetUserStructureGuard } from "../auth/guards/CanGetUserStructure.guard";
 import {
   userSecurityPasswordUpdater,
   userStructureRepository,
@@ -28,11 +31,11 @@ import {
   UserStructure,
   UserStructureAuthenticated,
   UserStructureProfile,
-  UserStructureRole,
   USER_STRUCTURE_ROLE_ALL,
 } from "../_common/model";
 import { EditPasswordDto } from "./dto/edit-password.dto";
 import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
+import { UpdateRoleDto } from "./dto/update-role.dto";
 import { UserEditDto } from "./dto/user-edit.dto";
 import { usersCreator, usersDeletor } from "./services";
 
@@ -85,14 +88,19 @@ export class UsersController {
   @AllowUserStructureRoles("admin")
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Confirmer une création de compte" })
-  @Get("confirm/:id")
-  public async confirmUser(
-    @Param("id") id: number,
-    @CurrentUser() user: UserStructureAuthenticated,
+  @Patch("confirm/:userId")
+  @UseGuards(CanGetUserStructureGuard)
+  public async confirmUserFromAdmin(
+    @Param("userId") userId: number,
+    @CurrentChosenUserStructure() chosenUserStructure: UserStructure,
+    @CurrentUser() userStructureAuth: UserStructureAuthenticated,
     @Res() res: ExpressResponse
   ) {
     const confirmerUser = await userStructureRepository.updateOne(
-      { id, structureId: user.structureId },
+      {
+        uuid: chosenUserStructure.uuid,
+        structureId: userStructureAuth.structureId,
+      },
       { verified: true }
     );
 
@@ -113,69 +121,43 @@ export class UsersController {
           }
         );
     } else {
-      throw new HttpException(
-        "INVALID_CONFIRM_TOKEN",
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
+      return res.status(HttpStatus.BAD_REQUEST).json("INVALID_CONFIRM_TOKEN");
     }
   }
 
   @AllowUserStructureRoles("admin")
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Editer le rôle d'un utilisateur" })
-  @Get("update-role/:id/:role")
+  @UseGuards(CanGetUserStructureGuard)
+  @Patch("update-role/:userId")
   public async updateRole(
-    @Param("id") id: number,
-    @Param("role") role: UserStructureRole,
-    @CurrentUser() user: UserStructureAuthenticated
+    @Body() updateRoleDto: UpdateRoleDto,
+    @CurrentUser() userStructureAuth: UserStructureAuthenticated,
+    @CurrentChosenUserStructure() chosenUserStructure: UserStructure
   ): Promise<UserStructureProfile> {
-    if (
-      role !== "simple" &&
-      role !== "admin" &&
-      role !== "facteur" &&
-      role !== "responsable"
-    ) {
-      throw new HttpException("BAD_REQUEST", HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    if (id === user.id) {
-      throw new HttpException("BAD_REQUEST", HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
     return userStructureRepository.updateOne(
       {
-        id,
-        structureId: user.structureId,
+        uuid: chosenUserStructure.uuid,
+        structureId: userStructureAuth.structureId,
       },
-      {
-        role,
-      }
+      { role: updateRoleDto.role }
     );
   }
 
   @AllowUserStructureRoles("admin")
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Supprimer un utilisateur" })
-  @Delete(":id")
+  @UseGuards(CanGetUserStructureGuard)
+  @Delete(":userId")
   public async delete(
-    @Param("id") id: number,
-    @CurrentUser() user: UserStructureAuthenticated,
+    @Param("userId") userId: number,
+    @CurrentUser() userStructureAuth: UserStructureAuthenticated,
+    @CurrentChosenUserStructure() chosenUserStructure: UserStructure,
     @Res() res: ExpressResponse
   ) {
-    const userToDelete = await userStructureRepository.findOne({
-      id,
-      structureId: user.structureId,
-    });
-
-    if (!userToDelete) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "BAD_REQUEST" });
-    }
-
     const retour = await usersDeletor.deleteUser({
-      userId: userToDelete.id,
-      structureId: user.structureId,
+      userId,
+      structureId: userStructureAuth.structureId,
     });
 
     return res.status(HttpStatus.OK).json({ success: true, message: retour });

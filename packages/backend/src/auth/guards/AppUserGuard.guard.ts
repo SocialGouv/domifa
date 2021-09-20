@@ -5,7 +5,7 @@ import {
   UserStructureAuthenticated,
   UserStructureRole,
 } from "../../_common/model";
-import { authChecker } from "../auth-checker.service";
+import { authChecker } from "../services/auth-checker.service";
 
 @Injectable()
 export class AppUserGuard implements CanActivate {

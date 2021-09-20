@@ -10,9 +10,10 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-import { authChecker } from "../../auth/auth-checker.service";
-import { CurrentUser } from "../../auth/current-user.decorator";
-import { AllowUserStructureRoles, AppUserGuard } from "../../auth/guards";
+import { authChecker } from "../../auth/services/auth-checker.service";
+import { CurrentUser } from "../../auth/decorators/current-user.decorator";
+import { AppUserGuard } from "../../auth/guards";
+import { AllowUserStructureRoles } from "../../auth/decorators";
 import { structureStatsExporter } from "../../excel/export-structure-stats";
 import { expressResponseExcelRenderer } from "../../util";
 import {

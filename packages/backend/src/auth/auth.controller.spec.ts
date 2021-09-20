@@ -3,7 +3,7 @@ import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
 import { AuthController } from "./auth.controller";
-import { AuthService } from "./auth.service";
+import { AuthService } from "./services/auth.service";
 
 describe("Auth Controller", () => {
   let context: AppTestContext;
@@ -20,7 +20,6 @@ describe("Auth Controller", () => {
 
   it("should be defined", async () => {
     const controller = context.module.get<AuthController>(AuthController);
-
     expect(controller).toBeDefined();
   });
 });

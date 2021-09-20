@@ -29,7 +29,7 @@ export const AgendaControllerSecurityTests: AppTestHttpClientSecurityTestDef[] =
       }),
     },
     {
-      label: `${CONTROLLER}.getUsersMeeting`,
+      label: `${CONTROLLER}.getAllUsersForAgenda`,
       query: async (context: AppTestContext) => ({
         response: await AppTestHttpClient.get("/agenda/users", {
           context,

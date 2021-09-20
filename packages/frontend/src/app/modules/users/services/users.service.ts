@@ -59,7 +59,7 @@ export class UsersService {
     );
   }
 
-  public getUsersMeeting(): Observable<UserStructure[]> {
+  public getAllUsersForAgenda(): Observable<UserStructure[]> {
     return this.http.get(environment.apiUrl + "agenda/users").pipe(
       map((response) => {
         return Array.isArray(response)
@@ -83,8 +83,8 @@ export class UsersService {
     );
   }
 
-  public confirmUser(id: number): Observable<UserStructureProfile> {
-    return this.http.get(`${this.endPoint}/confirm/${id}`).pipe(
+  public confirmUserFromAdmin(id: number): Observable<UserStructureProfile> {
+    return this.http.patch(`${this.endPoint}/confirm/${id}`, {}).pipe(
       map((response) => {
         return userStructureBuilder.buildUserStructure(response);
       })
@@ -95,11 +95,15 @@ export class UsersService {
     id: number,
     role: UserStructureRole
   ): Observable<UserStructureProfile> {
-    return this.http.get(`${this.endPoint}/update-role/${id}/${role}`).pipe(
-      map((response) => {
-        return userStructureBuilder.buildUserStructure(response);
+    return this.http
+      .patch(`${this.endPoint}/update-role/${id}`, {
+        role,
       })
-    );
+      .pipe(
+        map((response) => {
+          return userStructureBuilder.buildUserStructure(response);
+        })
+      );
   }
 
   public deleteUser(id: number): Observable<any> {
@@ -139,14 +143,6 @@ export class UsersService {
   }
 
   public agenda(): Observable<UsagerLight[] | []> {
-    return this.http.get(`${environment.apiUrl}agenda`).pipe(
-      map((response) => {
-        return Array.isArray(response) ? response : [response];
-      })
-    );
-  }
-
-  public getIcs(): Observable<UsagerLight[] | []> {
     return this.http.get(`${environment.apiUrl}agenda`).pipe(
       map((response) => {
         return Array.isArray(response) ? response : [response];

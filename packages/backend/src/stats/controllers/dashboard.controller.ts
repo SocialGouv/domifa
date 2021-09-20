@@ -2,7 +2,7 @@ import { Controller, Get, Res, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-import { AllowUserProfiles, AppUserGuard } from "../../auth/guards";
+import { AppUserGuard } from "../../auth/guards";
 import {
   structureRepository,
   userStructureRepository,
@@ -18,6 +18,7 @@ import { dataCompare } from "../../util/dataCompare.service";
 import { DashboardStats, Structure } from "../../_common/model";
 import { DashboardService } from "../services/dashboard.service";
 import moment = require("moment");
+import { AllowUserProfiles } from "../../auth/decorators";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("dashboard")
