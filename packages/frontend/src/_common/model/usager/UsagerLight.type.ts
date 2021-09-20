@@ -28,8 +28,9 @@ export type UsagerLight = AppEntity &
     | "langue"
     | "preference"
     | "import"
-    | "dateToDisplay"
     | "usagerProfilUrl"
+    | "echeanceInfos"
+    | "rdvInfos"
     | "datePremiereDom"
     | "notes"
   >;

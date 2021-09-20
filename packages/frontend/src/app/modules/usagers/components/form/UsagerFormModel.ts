@@ -1,7 +1,10 @@
+import { getRdvInfos } from "./../../interfaces/getRdvInfos.service";
+import { UsagerEcheanceInfos } from "./../../../../../_common/model/usager/UsagerEcheanceInfos.type";
 import {
   UsagerDoc,
-  UsagerLight,
   UsagerNote,
+  UsagerLight,
+  UsagerRdvInfos,
   UsagerSexe,
   UsagerTypeDom,
 } from "../../../../../_common/model";
@@ -17,7 +20,7 @@ import { regexp } from "../../../../shared/validators";
 import { Decision } from "../../interfaces/decision";
 import { Doc } from "../../interfaces/doc";
 import { Entretien } from "../../interfaces/entretien";
-import { getDateToDisplay } from "../../interfaces/getDateToDisplay.service";
+import { getEcheanceInfos } from "../../interfaces/getEcheanceInfos.service";
 import { getUrlUsagerProfil } from "../../interfaces/getUrlUsagerProfil.service";
 import { Options } from "../../interfaces/options";
 import { Rdv } from "../../interfaces/rdv";
@@ -84,18 +87,17 @@ export class UsagerFormModel implements UsagerLight {
    VARIABLES UTILES AU FRONT UNIQUEMENT
    Recherche : si la requête fait remonté un ayant-droit
   **/
+  public isActif: boolean;
   public isAyantDroit: boolean;
-  public echeance: Date | null; // Echéance pour le tri
-  public isActif: boolean; // Dossier actuellement actif
-  public dayBeforeEnd: number;
+
+  public echeanceInfos: UsagerEcheanceInfos;
+  public rdvInfos: UsagerRdvInfos;
 
   public totalInteractionsEnAttente: number;
 
   // Dates à afficher sur le manage, couleur selon le statut
-  public dateToDisplay: Date;
-  public usagerProfilUrl: string;
 
-  public echeanceColor: "d-none" | "bg-warning" | "bg-danger";
+  public usagerProfilUrl: string;
 
   public statusInfos: {
     text: string;
@@ -130,6 +132,16 @@ export class UsagerFormModel implements UsagerLight {
     this.structureId = (usager && usager.structureId) || null;
     this.etapeDemande = (usager && usager.etapeDemande) || ETAPE_ETAT_CIVIL;
 
+    this.ayantsDroits = (usager && usager.ayantsDroits) || [];
+    this.ayantsDroitsExist = this.ayantsDroits && this.ayantsDroits.length > 0;
+
+    this.typeDom = (usager && usager.typeDom) || "PREMIERE_DOM";
+    this.import = (usager && usager.import) || null;
+
+    if (usager && usager.datePremiereDom !== null) {
+      this.datePremiereDom = new Date(usager.datePremiereDom);
+    }
+
     this.historique = [];
 
     if (usager && usager.historique) {
@@ -142,8 +154,6 @@ export class UsagerFormModel implements UsagerLight {
         return b.dateDecision.getTime() - a.dateDecision.getTime();
       });
     }
-
-    this.rdv = (usager && new Rdv(usager.rdv)) || new Rdv();
 
     this.lastInteraction = {
       dateInteraction: null,
@@ -163,9 +173,6 @@ export class UsagerFormModel implements UsagerLight {
       };
     }
 
-    this.entretien =
-      (usager && new Entretien(usager.entretien)) || new Entretien({});
-
     this.docs = [];
 
     if (usager && usager.docs) {
@@ -173,9 +180,6 @@ export class UsagerFormModel implements UsagerLight {
         this.docs.push(new Doc(doc));
       });
     }
-
-    this.ayantsDroits = (usager && usager.ayantsDroits) || [];
-    this.ayantsDroitsExist = this.ayantsDroits && this.ayantsDroits.length > 0;
 
     this.preference = (usager && usager.preference) || {
       email: false,
@@ -185,52 +189,34 @@ export class UsagerFormModel implements UsagerLight {
         : "",
     };
 
+    this.rdv = (usager && new Rdv(usager.rdv)) || new Rdv();
+
+    this.entretien =
+      (usager && new Entretien(usager.entretien)) || new Entretien();
+
     this.options = (usager && new Options(usager.options)) || new Options();
     this.decision = (usager && new Decision(usager.decision)) || new Decision();
-
-    this.typeDom = (usager && usager.typeDom) || "PREMIERE_DOM";
-    this.import = (usager && usager.import) || null;
-
-    if (usager && usager.datePremiereDom !== null) {
-      this.datePremiereDom = new Date(usager.datePremiereDom);
-    }
 
     //
     //
     // FRONTEND VARIABLES
     //
-    this.totalInteractionsEnAttente = 0;
-    this.isActif = false;
-    this.dateToDisplay = null;
-    this.dayBeforeEnd = 365;
 
+    // Affichage du statut
     this.statusInfos = {
       text: USAGER_DECISION_STATUT_LABELS[this.decision.statut],
       color: USAGER_DECISION_STATUT_COLORS[this.decision.statut],
     };
 
-    const { isActif, dateToDisplay } = getDateToDisplay(usager);
+    this.echeanceInfos = getEcheanceInfos(usager);
+    this.isActif = this.echeanceInfos.isActif;
 
-    this.isActif = isActif;
-    this.dateToDisplay = dateToDisplay;
+    this.rdvInfos = getRdvInfos(usager);
+
+    // Url vers laquelle rediriger
     this.usagerProfilUrl = getUrlUsagerProfil(usager);
 
-    if (this.isActif) {
-      const today = new Date();
-      const msPerDay: number = 1000 * 60 * 60 * 24;
-      const start: number = today.getTime();
-      const end: number = this.dateToDisplay.getTime();
-
-      this.dayBeforeEnd = Math.ceil((end - start) / msPerDay);
-
-      this.echeanceColor = "d-none";
-      if (this.dayBeforeEnd < 15) {
-        this.echeanceColor = "bg-danger";
-      } else if (this.dayBeforeEnd > 15 && this.dayBeforeEnd < 60) {
-        this.echeanceColor = "bg-warning";
-      }
-    }
-
+    this.totalInteractionsEnAttente = 0;
     INTERACTIONS_IN_AVAILABLE.forEach((interaction) => {
       this.totalInteractionsEnAttente += this.lastInteraction[interaction];
     });

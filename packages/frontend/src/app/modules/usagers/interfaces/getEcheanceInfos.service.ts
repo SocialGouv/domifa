@@ -1,17 +1,16 @@
+import { UsagerEcheanceInfos } from "./../../../../_common/model/usager/UsagerEcheanceInfos.type";
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
 
-export const getDateToDisplay = (
+export const getEcheanceInfos = (
   usager: Partial<UsagerLight>
-): {
-  isActif: boolean;
-  dateToDisplay: Date;
-} => {
-  const usagerInfos = {
+): UsagerEcheanceInfos => {
+  const usagerInfos: UsagerEcheanceInfos = {
     isActif: false,
     dateToDisplay: null,
+    dayBeforeEnd: 365,
   };
 
-  if (usager && usager?.decision) {
+  if (usager?.decision) {
     usagerInfos.dateToDisplay = new Date(usager.decision.dateDecision);
 
     if (usager.typeDom === "RENOUVELLEMENT") {
@@ -37,6 +36,17 @@ export const getDateToDisplay = (
         ? new Date(usager.decision.dateFin)
         : new Date(usager.decision.dateDebut);
     }
+  }
+
+  if (usagerInfos.isActif) {
+    const today = new Date();
+    const msPerDay: number = 1000 * 60 * 60 * 24;
+    const start: number = today.getTime();
+    const end: number = usagerInfos.dateToDisplay.getTime();
+
+    const dayBeforeEnd = Math.ceil((end - start) / msPerDay);
+
+    usagerInfos.dayBeforeEnd = dayBeforeEnd;
   }
 
   return usagerInfos;

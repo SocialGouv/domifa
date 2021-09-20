@@ -68,7 +68,7 @@ function sortBy(
         } else if (sortKey === "ECHEANCE") {
           sortAttributes.push(
             {
-              value: usager.dateToDisplay,
+              value: usager.echeanceInfos.dateToDisplay,
               asc,
             },
             {

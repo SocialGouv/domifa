@@ -58,8 +58,16 @@
       <td
         *ngIf="filters.statut ==='ATTENTE_DECISION' || filters.statut ==='INSTRUCTION'"
       >
+        <ng-template #rdvInfosTooltip class="p-3 text-center">
+          <div class="distribution-tooltip">
+            <div class="text-center" [class]="usager.rdvInfos.class">
+              {{ usager.rdvInfos.content }}
+            </div>
+          </div>
+        </ng-template>
         <a [routerLink]="usager.usagerProfilUrl">
           <div
+            [ngbTooltip]="usager.rdvInfos.display ? rdvInfosTooltip : ''"
             *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
             class="label-statut orange-status"
           >
@@ -67,6 +75,7 @@
           </div>
 
           <div
+            [ngbTooltip]="usager.rdvInfos.display ? rdvInfosTooltip : ''"
             *ngIf="usager.typeDom === 'PREMIERE_DOM'"
             class="label-statut grey-status"
           >
@@ -177,10 +186,12 @@
           <span
             *ngIf="usager.isActif"
             class="statut-signal"
-            [class]="usager.echeanceColor"
+            [class]="usager.echeanceInfos.color"
           ></span>
-          <span [ngClass]="usager.echeanceColor ? 'font-weight-bold' : ''">
-            {{ usager.dateToDisplay | date: "dd/MM/yyyy" }}</span
+          <span
+            [ngClass]="usager.echeanceInfos.color ? 'font-weight-bold' : ''"
+          >
+            {{ usager.echeanceInfos.dateToDisplay | date: "dd/MM/yyyy" }}</span
           >
         </a>
       </td>

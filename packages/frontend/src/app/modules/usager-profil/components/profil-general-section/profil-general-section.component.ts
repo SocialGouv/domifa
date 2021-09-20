@@ -121,7 +121,6 @@ export class ProfilGeneralSectionComponent implements OnInit {
   }
 
   public onUsagerChanges(usager: UsagerLight) {
-    console.log("xxx onUsagerChanges:", usager);
     this.usager = new UsagerFormModel(usager);
   }
 

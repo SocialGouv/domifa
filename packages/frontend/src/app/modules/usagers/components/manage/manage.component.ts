@@ -1,3 +1,4 @@
+import { getRdvInfos } from "./../../interfaces/getRdvInfos.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import {
   Component,
@@ -32,7 +33,8 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
-import { getDateToDisplay } from "../../interfaces/getDateToDisplay.service";
+
+import { getEcheanceInfos } from "../../interfaces/getEcheanceInfos.service";
 import { getUrlUsagerProfil } from "../../interfaces/getUrlUsagerProfil.service";
 import { UsagerFormModel } from "../form/UsagerFormModel";
 import {
@@ -150,7 +152,9 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
         .subscribe((allUsagers: UsagerLight[]) => {
           this.loading = false;
           const usagers = allUsagers.map((usager) => {
-            usager.dateToDisplay = getDateToDisplay(usager).dateToDisplay;
+            usager.echeanceInfos = getEcheanceInfos(usager);
+            usager.rdvInfos = getRdvInfos(usager);
+
             usager.usagerProfilUrl = getUrlUsagerProfil(usager);
             this.updateSortLabel();
             return usager;
