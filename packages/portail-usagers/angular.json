@@ -23,7 +23,15 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/assets"],
-
+            "styles": [
+              "src/assets/css/bootstrap-custom.css",
+              "src/assets/css/fonts.css",
+              "src/assets/css/main.css",
+              "src/assets/css/print.css",
+              "src/assets/css/icons.css",
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+            ],
             "scripts": []
           },
           "configurations": {
