@@ -70,6 +70,6 @@ describe("Auth Controller", () => {
         },
         "super-admin-domifa"
       )
-    ).toBeTruthy();
+    ).toBeFalsy();
   });
 });

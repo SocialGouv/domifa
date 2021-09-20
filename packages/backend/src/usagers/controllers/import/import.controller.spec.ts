@@ -3,8 +3,11 @@ import * as fs from "fs";
 import * as path from "path";
 import { StructuresModule } from "../../../structures/structure.module";
 import { UsersModule } from "../../../users/users.module";
-import { AppTestContext, AppTestHelper } from "../../../util/test";
-import { AppTestHttpClient } from "../../../util/test/AppTestHttpClient.service";
+import {
+  AppTestContext,
+  AppTestHelper,
+  AppTestHttpClient,
+} from "../../../util/test";
 import { TESTS_USERS_STRUCTURE } from "../../../_tests";
 import { CerfaService } from "../../services/cerfa.service";
 import { DocumentsService } from "../../services/documents.service";

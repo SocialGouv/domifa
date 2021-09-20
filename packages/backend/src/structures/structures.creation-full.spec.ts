@@ -11,6 +11,7 @@ import { ExpressResponse } from "../util/express";
 import { AppTestContext, AppTestHelper } from "../util/test";
 import { UserStructure } from "../_common/model";
 import { StructuresController } from "./controllers/structures.controller";
+import { StructuresPublicController } from "./controllers/structures.public.controller";
 import { StructureWithUserDto } from "./dto/structure-with-user.dto";
 import { StructureDto } from "./dto/structure.dto";
 import { structureDeletorService } from "./services/structureDeletor.service";
@@ -39,6 +40,7 @@ const structureDto: StructureDto = {
 describe("Stuctures creation full", () => {
   let context: AppTestContext;
   let structureController: StructuresController;
+  let structurePublicController: StructuresPublicController;
   let userController: UsersController;
 
   beforeAll(async () => {
@@ -56,6 +58,9 @@ describe("Stuctures creation full", () => {
     });
     structureController =
       context.module.get<StructuresController>(StructuresController);
+    structurePublicController = context.module.get<StructuresPublicController>(
+      StructuresPublicController
+    );
     userController = context.module.get<UsersController>(UsersController);
   });
   afterAll(async () => {
@@ -63,6 +68,7 @@ describe("Stuctures creation full", () => {
   });
 
   it("should be defined", async () => {
+    expect(structurePublicController).toBeDefined();
     expect(structureController).toBeDefined();
     expect(userController).toBeDefined();
   });
@@ -120,9 +126,8 @@ describe("Stuctures creation full", () => {
       user: userDto,
       structure: structureDto,
     };
-    const { structureId, userId } = await structureController.postStructure(
-      structureWithUser
-    );
+    const { structureId, userId } =
+      await structurePublicController.postStructure(structureWithUser);
     expect(structureId).toBeDefined();
     expect(userId).toBeDefined();
     const structure = await structureRepository.findOne<UserStructure>(
@@ -155,7 +160,7 @@ describe("Stuctures creation full", () => {
 
   async function testPreCreateStructure() {
     const prePostStructure: StructureDto =
-      await structureController.prePostStructure(structureDto);
+      await structurePublicController.prePostStructure(structureDto);
     expect(prePostStructure).toBeDefined();
     expect(prePostStructure.email).toEqual(structureDto.email);
     expect(prePostStructure.adresseCourrier.adresse).toEqual(
@@ -181,7 +186,7 @@ describe("Stuctures creation full", () => {
       status: jest.fn().mockReturnThis(),
       json: jest.fn().mockReturnThis(),
     } as unknown as ExpressResponse;
-    await structureController.confirmStructureCreation(
+    await structurePublicController.confirmStructureCreation(
       structure.token,
       `${structure.id}`,
       res

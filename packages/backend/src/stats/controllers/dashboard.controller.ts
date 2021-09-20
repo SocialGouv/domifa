@@ -2,7 +2,7 @@ import { Controller, Get, Res, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-import { DomifaGuard } from "../../auth/guards/domifa.guard";
+import { AllowUserProfiles, AppUserGuard } from "../../auth/guards";
 import {
   structureRepository,
   userStructureRepository,
@@ -19,7 +19,7 @@ import { DashboardStats, Structure } from "../../_common/model";
 import { DashboardService } from "../services/dashboard.service";
 import moment = require("moment");
 
-@UseGuards(AuthGuard("jwt"), DomifaGuard)
+@UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("dashboard")
 @ApiTags("dashboard")
 @ApiBearerAuth()
@@ -27,6 +27,7 @@ export class DashboardController {
   constructor(private readonly dashboardService: DashboardService) {}
 
   @Get("export")
+  @AllowUserProfiles("super-admin-domifa")
   public async export(@Res() res: Response) {
     const stats: StatsDeploiementExportModel =
       await this.dashboardService.getStatsDeploiement();
@@ -90,6 +91,7 @@ export class DashboardController {
   }
 
   @Get()
+  @AllowUserProfiles("super-admin-domifa")
   public async dashboardStats(): Promise<DashboardStats> {
     const stats = await this.dashboardService.getStatsDomifaAdminDashboard();
     return stats;

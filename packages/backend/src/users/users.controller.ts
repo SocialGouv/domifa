@@ -29,6 +29,7 @@ import {
   UserStructureAuthenticated,
   UserStructureProfile,
   UserStructureRole,
+  USER_STRUCTURE_ROLE_ALL,
 } from "../_common/model";
 import { EditPasswordDto } from "./dto/edit-password.dto";
 import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
@@ -54,7 +55,7 @@ export class UsersController {
     });
   }
 
-  @AllowUserStructureRoles()
+  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @ApiOperation({ summary: "Edition du mot de passe depuis le compte user" })
   @Get("last-password-update")
   public async getLastPasswordUpdate(
@@ -180,7 +181,7 @@ export class UsersController {
     return res.status(HttpStatus.OK).json({ success: true, message: retour });
   }
 
-  @AllowUserStructureRoles()
+  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @Patch()
   public async patch(
     @CurrentUser() user: UserStructureAuthenticated,
@@ -248,7 +249,7 @@ export class UsersController {
 
   // Edition d'un mot de passe quand on est déjà connecté
   @Post("edit-password")
-  @AllowUserStructureRoles()
+  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @ApiOperation({ summary: "Edition du mot de passe depuis le compte user" })
   public async editPassword(
     @CurrentUser() user: UserStructureAuthenticated,
