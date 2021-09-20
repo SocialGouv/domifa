@@ -3,6 +3,10 @@ import { Test } from "@nestjs/testing";
 import * as request from "supertest";
 import { Connection } from "typeorm";
 import { appTypeormManager } from "../../database";
+import {
+  AppTestHttpClientSecurityTestDef,
+  TestUserStructure,
+} from "../../_tests";
 import { appLogger } from "../AppLogger.service";
 import { AppTestContext } from "./AppTestContext.type";
 
@@ -12,6 +16,8 @@ export const AppTestHelper = {
   bootstrapTestConnection,
   tearDownTestConnection,
   authenticateStructure,
+  authenticateSuperAdminDomifa,
+  filterSecurityTests,
 };
 
 async function bootstrapTestApp(
@@ -58,7 +64,8 @@ async function tearDownTestConnection({
 }
 
 async function authenticateStructure(
-  authInfo,
+  authInfo: TestUserStructure,
+
   { context }: { context: AppTestContext }
 ) {
   const { app } = context;
@@ -68,6 +75,29 @@ async function authenticateStructure(
     .send(authInfo);
   expect(response.status).toBe(HttpStatus.OK);
   context.authToken = response.body.access_token;
+  context.user = {
+    profile: "structure",
+    structureRole: authInfo.role,
+    structureId: authInfo.structureId,
+  };
+}
+async function authenticateSuperAdminDomifa(
+  authInfo: TestUserStructure,
+
+  { context }: { context: AppTestContext }
+) {
+  const { app } = context;
+  expectAppToBeDefined(app);
+  expect(authInfo.structureId).toEqual(1); // hack: super admin is role "admin" + structure 1
+  expect(authInfo.role).toEqual("admin");
+  const response = await request(app.getHttpServer())
+    .post("/auth/login")
+    .send(authInfo);
+  expect(response.status).toBe(HttpStatus.OK);
+  context.authToken = response.body.access_token;
+  context.user = {
+    profile: "super-admin-domifa",
+  };
 }
 
 function expectAppToBeDefined(app: INestApplication) {
@@ -76,4 +106,15 @@ function expectAppToBeDefined(app: INestApplication) {
       "App is not initialized: call `bootstrapTestApp` with { initApp: true }"
     );
   }
+}
+
+function filterSecurityTests(
+  testsDefs: AppTestHttpClientSecurityTestDef[]
+): AppTestHttpClientSecurityTestDef[] {
+  const DOMIFA_FILTER_SEC_TEST = process.env["DOMIFA_FILTER_SEC_TEST"];
+  const FILTERED_TESTS =
+    DOMIFA_FILTER_SEC_TEST?.length > 0
+      ? testsDefs.filter((x) => x.label.includes(DOMIFA_FILTER_SEC_TEST))
+      : testsDefs;
+  return FILTERED_TESTS;
 }

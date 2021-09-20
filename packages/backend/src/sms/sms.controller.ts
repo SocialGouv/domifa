@@ -1,15 +1,15 @@
-import { Controller, Get, Param, UseGuards } from "@nestjs/common";
+import { Controller, Get, Param, Put, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { CurrentUsager } from "../auth/current-usager.decorator";
 import { CurrentUser } from "../auth/current-user.decorator";
-import { DomifaGuard } from "../auth/guards/domifa.guard";
+import { AllowUserProfiles, AppUserGuard } from "../auth/guards";
 import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
 import { StructuresService } from "../structures/services/structures.service";
 import { UsagerLight, UserStructureAuthenticated } from "../_common/model";
 import { MessageSmsService } from "./services/message-sms.service";
-
 @Controller("sms")
+@UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("sms")
 export class SmsController {
   constructor(
@@ -17,8 +17,8 @@ export class SmsController {
     private readonly structureService: StructuresService
   ) {}
 
-  @UseGuards(AuthGuard("jwt"), DomifaGuard)
-  @Get("enable/:structureId")
+  @AllowUserProfiles("super-admin-domifa")
+  @Put("enable/:structureId")
   public async enableByDomifa(@Param("structureId") structureId: number) {
     const structure = await this.structureService.findOneFull(structureId);
 
@@ -35,7 +35,8 @@ export class SmsController {
   }
 
   @ApiBearerAuth()
-  @UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
+  @AllowUserProfiles("structure")
+  @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
   @Get("usager/:usagerRef")
   // Liste des SMS d'un usager
   public async getUsagerSms(

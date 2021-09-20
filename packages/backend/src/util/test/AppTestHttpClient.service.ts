@@ -1,10 +1,13 @@
 import { INestApplication } from "@nestjs/common";
-import * as request from "supertest";
+import * as supertest from "supertest";
 import { AppTestContext } from "./AppTestContext.type";
 
 export const AppTestHttpClient = {
   get,
-  post,
+  delete: query("delete"),
+  put: query("put"),
+  post: query("post"),
+  patch: query("patch"),
 };
 
 function get(
@@ -13,52 +16,62 @@ function get(
     authenticate = true,
     context,
   }: { authenticate?: boolean; context: AppTestContext }
-): request.Test {
+): supertest.Test {
   const { app } = context;
   expectAppToBeDefined(app);
-  const req = request(app.getHttpServer()).get(url);
+  const req = supertest(app.getHttpServer()).get(url);
   if (authenticate && context.authToken) {
     return req.set("Authorization", `Bearer ${context.authToken}`);
   }
   return req;
 }
-function post(
-  url: string,
-  {
-    authenticate = true,
-    body,
-    headers,
-    context,
-    attachments,
-  }: {
-    authenticate?: boolean;
-    body?: string | object;
-    headers?: { [name: string]: string };
-    context: AppTestContext;
-    attachments?: { [name: string]: string };
-  }
-): request.Test {
-  const { app } = context;
-  expectAppToBeDefined(app);
-  let req = request(app.getHttpServer()).post(url);
-  if (body) {
-    req = req.send(body);
-  }
-  if (headers) {
-    Object.keys(headers).forEach((key) => {
-      req = req.set(key, headers[key]);
-    });
-  }
-  if (attachments) {
-    Object.keys(attachments).forEach((key) => {
-      req = req.attach(key, attachments[key]);
-    });
-  }
+function query(method: "post" | "put" | "patch" | "delete") {
+  return function (
+    url: string,
+    {
+      authenticate = true,
+      body,
+      headers,
+      context,
+      attachments,
+    }: {
+      authenticate?: boolean;
+      body?: string | object;
+      headers?: { [name: string]: string };
+      context: AppTestContext;
+      attachments?: { [name: string]: string };
+    }
+  ): supertest.Test {
+    const { app } = context;
+    expectAppToBeDefined(app);
+    const client = supertest(app.getHttpServer());
+    let req =
+      method === "post"
+        ? client.post(url)
+        : method === "put"
+        ? client.put(url)
+        : method === "patch"
+        ? client.patch(url)
+        : client.delete(url);
+    if (body) {
+      req = req.send(body);
+    }
+    if (headers) {
+      Object.keys(headers).forEach((key) => {
+        req = req.set(key, headers[key]);
+      });
+    }
+    if (attachments) {
+      Object.keys(attachments).forEach((key) => {
+        req = req.attach(key, attachments[key]);
+      });
+    }
 
-  if (authenticate && context.authToken) {
-    return req.set("Authorization", `Bearer ${context.authToken}`);
-  }
-  return req;
+    if (authenticate && context.authToken) {
+      return req.set("Authorization", `Bearer ${context.authToken}`);
+    }
+    return req;
+  };
 }
 
 function expectAppToBeDefined(app: INestApplication) {

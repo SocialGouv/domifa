@@ -8,6 +8,7 @@ import {
 export const authChecker = {
   checkRole,
   checkProfile,
+  isDomifaAdmin,
 };
 
 function checkRole(
@@ -61,7 +62,9 @@ function getUserProfile(
     const isSuperAdminDomifa = isDomifaAdmin(user);
     if (isSuperAdminDomifa) {
       return "super-admin-domifa";
-    } else return "structure";
+    } else {
+      return "structure";
+    }
   }
 }
 

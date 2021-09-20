@@ -25,6 +25,7 @@ import {
   ETAPE_RENDEZ_VOUS,
   UsagerLight,
   UserStructureAuthenticated,
+  USER_STRUCTURE_ROLE_ALL,
 } from "../../_common/model";
 import { CreateUsagerDto } from "../dto/create-usager.dto";
 import { DecisionDto } from "../dto/decision.dto";
@@ -49,7 +50,7 @@ export class UsagersController {
   ) {}
 
   @Get()
-  @AllowUserStructureRoles()
+  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   public async findAllByStructure(
     @CurrentUser() user: UserStructureAuthenticated
   ) {
@@ -147,7 +148,7 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles()
+  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @Get("stop-courrier/:usagerRef")
   public async stopCourrier(@CurrentUsager() currentUsager: UsagerLight) {
     const usager = await usagerRepository.findOne({
@@ -412,7 +413,7 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles()
+  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @Get("attestation/:usagerRef")
   public async getAttestation(
     @Res() res: Response,
@@ -439,7 +440,7 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles()
+  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @Get(":usagerRef")
   public async findOne(@CurrentUsager() usager: UsagerLight) {
     return usager;

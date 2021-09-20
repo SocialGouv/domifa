@@ -17,7 +17,7 @@ import { ExpressResponse } from "../util/express";
 import { UserStructureAuthenticated } from "../_common/model";
 import { AuthService } from "./auth.service";
 import { CurrentUser } from "./current-user.decorator";
-import { DomifaGuard } from "./guards/domifa.guard";
+import { AllowUserProfiles, AppUserGuard } from "./guards";
 
 @Controller("auth")
 @ApiTags("auth")
@@ -40,7 +40,8 @@ export class AuthController {
     }
   }
 
-  @UseGuards(AuthGuard("jwt"), DomifaGuard)
+  @UseGuards(AuthGuard("jwt"), AppUserGuard)
+  @AllowUserProfiles("super-admin-domifa")
   @ApiBearerAuth()
   @Get("domifa")
   public authDomifa(@Res() res: ExpressResponse) {

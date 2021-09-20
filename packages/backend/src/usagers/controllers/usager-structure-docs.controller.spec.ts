@@ -7,7 +7,7 @@ import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
 import { UsagerStructureDocsController } from "./usager-structure-docs.controller";
 
-describe("Document Controller", () => {
+describe("UsagerStructureDocs Controller", () => {
   let controller: UsagerStructureDocsController;
 
   let context: AppTestContext;

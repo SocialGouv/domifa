@@ -10,9 +10,9 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
+import { authChecker } from "../../auth/auth-checker.service";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { AllowUserStructureRoles, AppUserGuard } from "../../auth/guards";
-import { isDomifaAdmin } from "../../auth/guards/domifa.guard";
 import { structureStatsExporter } from "../../excel/export-structure-stats";
 import { expressResponseExcelRenderer } from "../../util";
 import {
@@ -43,7 +43,10 @@ export class StatsPrivateController {
     @CurrentUser() user: UserStructureAuthenticated,
     @Body() statsDto: StatsDto
   ) {
-    if (statsDto.structureId !== user.structureId && !isDomifaAdmin(user)) {
+    if (
+      statsDto.structureId !== user.structureId &&
+      !authChecker.isDomifaAdmin(user)
+    ) {
       throw new HttpException("Invalid structureId", HttpStatus.FORBIDDEN);
     }
     return this.buildStatsInPeriod({
@@ -59,7 +62,10 @@ export class StatsPrivateController {
     @Body() statsDto: StatsDto,
     @Res() res: Response
   ) {
-    if (statsDto.structureId !== user.structureId && !isDomifaAdmin(user)) {
+    if (
+      statsDto.structureId !== user.structureId &&
+      !authChecker.isDomifaAdmin(user)
+    ) {
       throw new HttpException("Invalid structureId", HttpStatus.FORBIDDEN);
     }
     const stats = await this.buildStatsInPeriod({

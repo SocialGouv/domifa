@@ -1,1 +1,1 @@
-export * from "./TESTS_USERS_STRUCTURE.type";
+export * from "./_core";

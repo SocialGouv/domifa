@@ -1,6 +1,6 @@
-import { UserStructure, UserStructureRole } from "../_common/model";
+import { UserStructure, UserStructureRole } from "../../_common/model";
 
-type TestUserStructure = Pick<
+export type TestUserStructure = Pick<
   UserStructure,
   "uuid" | "structureId" | "email" | "role" | "password"
 >;

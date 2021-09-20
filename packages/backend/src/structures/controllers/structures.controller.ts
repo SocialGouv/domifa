@@ -13,15 +13,21 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { CurrentUser } from "../../auth/current-user.decorator";
-import { AllowUserStructureRoles, AppUserGuard } from "../../auth/guards";
-import { AllowUserProfiles } from "../../auth/guards/AllowUserStructureRoles.decorator.1";
+import {
+  AllowUserProfiles,
+  AllowUserStructureRoles,
+  AppUserGuard,
+} from "../../auth/guards";
 import { structureRepository } from "../../database";
 import { structureLightRepository } from "../../database/services/structure/structureLightRepository.service";
 import {
   deleteStructureEmailSender,
   hardResetEmailSender,
 } from "../../mails/services/templates-renderers";
-import { UserStructureAuthenticated } from "../../_common/model";
+import {
+  UserStructureAuthenticated,
+  USER_STRUCTURE_ROLE_ALL,
+} from "../../_common/model";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
 import { StructureEditDto } from "../dto/structure-edit.dto";
 import { structureDeletorService } from "../services/structureDeletor.service";
@@ -65,7 +71,7 @@ export class StructuresController {
     return this.structureService.patchSmsParams(structureSmsDto, user);
   }
 
-  @AllowUserStructureRoles()
+  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @ApiBearerAuth()
   @Get("ma-structure")
   public async getMyStructure(@CurrentUser() user: UserStructureAuthenticated) {

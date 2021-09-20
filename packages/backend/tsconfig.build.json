@@ -4,6 +4,7 @@
     "node_modules",
     "src/uploads",
     "test",
+    "**/*security-tests.ts",
     "**/*spec.ts",
     "./src/_archive_migrations"
   ]

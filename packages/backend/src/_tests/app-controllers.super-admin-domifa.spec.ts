@@ -14,9 +14,9 @@ import { TESTS_USERS_STRUCTURE } from "./_core";
 
 // NOTE: pour n'exécuter que certains tests de sécurité, renseigner la variable d'environnement DOMIFA_FILTER_SEC_TEST, exemple:
 //
-// `DOMIFA_FILTER_SEC_TEST=Agenda ENV_FILE=tests-local npx jest -- app-controllers.structure-admin.spec.ts`
+// `DOMIFA_FILTER_SEC_TEST=Agenda ENV_FILE=tests-local npx jest -- app-controllers.super-admin-domifa.spec.ts`
 
-const TEST_BASENAME = "Structure admin";
+const TEST_BASENAME = "Super admin domifa";
 
 describe(`App controllers security - ${TEST_BASENAME}`, () => {
   let context: AppTestContext;
@@ -36,10 +36,8 @@ describe(`App controllers security - ${TEST_BASENAME}`, () => {
       { initApp: true }
     );
 
-    // NOTE: ne pas utiliser "ccastest@yopmail.com" car il est aussi admin domifa (car il est sur la structure 1: c'est un hack)
-    const authInfo =
-      TESTS_USERS_STRUCTURE.BY_EMAIL["roseline.parmentier@yopmail.com"];
-    await AppTestHelper.authenticateStructure(authInfo, { context });
+    const authInfo = TESTS_USERS_STRUCTURE.BY_EMAIL["ccastest@yopmail.com"];
+    await AppTestHelper.authenticateSuperAdminDomifa(authInfo, { context });
   });
 
   afterAll(async () => {

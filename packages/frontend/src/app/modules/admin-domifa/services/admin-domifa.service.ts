@@ -29,7 +29,7 @@ export class AdminDomifaService {
   }
 
   public enableSms(structureId: number) {
-    return this.http.get(this.epSms + "enable/" + structureId.toString());
+    return this.http.put(this.epSms + "enable/" + structureId.toString(),{});
   }
 
   public export(structureId: number, start: Date, end: Date) {
