@@ -55,6 +55,13 @@ const ALL: TestUserStructure[] = [
     password: "Azerty012345",
     role: "facteur",
   },
+  {
+    uuid: "4e049e3d-bb65-48e5-8661-b1ccdc9db985",
+    structureId: 3,
+    email: "simple-testeur@yopmail.com",
+    password: "Azerty012345",
+    role: "simple",
+  },
 ];
 
 const BY_EMAIL = ALL.reduce((acc, user) => {

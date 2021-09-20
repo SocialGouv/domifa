@@ -111,16 +111,18 @@ export class RdvComponent implements OnInit {
 
     this.editRdv = this.usager.rdv.dateRdv === null;
 
-    this.userService.getUsersMeeting().subscribe((users: UserStructure[]) => {
-      this.agents = users;
+    this.userService
+      .getAllUsersForAgenda()
+      .subscribe((users: UserStructure[]) => {
+        this.agents = users;
 
-      const userIdRdv =
-        this.usager.rdv.userId === null ? this.me.id : this.usager.rdv.userId;
+        const userIdRdv =
+          this.usager.rdv.userId === null ? this.me.id : this.usager.rdv.userId;
 
-      this.rdvForm.controls.userId.setValue(userIdRdv, {
-        onlySelf: true,
+        this.rdvForm.controls.userId.setValue(userIdRdv, {
+          onlySelf: true,
+        });
       });
-    });
   }
 
   public setValueRdv(value: boolean): void {

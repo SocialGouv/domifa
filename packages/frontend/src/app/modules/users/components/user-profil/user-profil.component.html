@@ -18,7 +18,7 @@
             <div class="col text-right">
               <button
                 *ngIf="me.role === 'admin' && !user.verified"
-                (click)="confirmUser(user.id)"
+                (click)="confirmUserFromAdmin(user.id)"
                 class="btn btn-secondary"
               >
                 <fa-icon icon="check" class="mr-2"></fa-icon>

@@ -16,8 +16,8 @@ import * as fs from "fs";
 import { diskStorage } from "multer";
 import * as os from "os";
 import * as path from "path";
-import { CurrentUser } from "../../../auth/current-user.decorator";
-import { AllowUserStructureRoles, AppUserGuard } from "../../../auth/guards";
+import { CurrentUser } from "../../../auth/decorators/current-user.decorator";
+import { AppUserGuard } from "../../../auth/guards";
 import { structureCommonRepository } from "../../../database";
 import { appLogger } from "../../../util";
 import { ExpressResponse } from "../../../util/express";
@@ -40,6 +40,7 @@ import {
 import { usagersImportCreator } from "./step3-create";
 
 import moment = require("moment");
+import { AllowUserStructureRoles } from "../../../auth/decorators";
 
 const USAGERS_IMPORT_DIR = path.join(os.tmpdir(), "domifa", "usagers-imports");
 

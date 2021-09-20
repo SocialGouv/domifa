@@ -1,9 +1,10 @@
 import { Controller, Get, Param, Put, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { CurrentUsager } from "../auth/current-usager.decorator";
-import { CurrentUser } from "../auth/current-user.decorator";
-import { AllowUserProfiles, AppUserGuard } from "../auth/guards";
+import { AllowUserProfiles } from "../auth/decorators";
+import { CurrentUsager } from "../auth/decorators/current-usager.decorator";
+import { CurrentUser } from "../auth/decorators/current-user.decorator";
+import { AppUserGuard } from "../auth/guards";
 import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
 import { StructuresService } from "../structures/services/structures.service";
 import { UsagerLight, UserStructureAuthenticated } from "../_common/model";

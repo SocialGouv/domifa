@@ -1,9 +1,9 @@
-import { appLogger } from "../util";
+import { appLogger } from "../../util";
 import {
-  UserProfile,
   UserStructure,
   UserStructureRole,
-} from "../_common/model";
+  UserProfile,
+} from "../../_common/model";
 
 export const authChecker = {
   checkRole,

@@ -65,7 +65,6 @@ async function tearDownTestConnection({
 
 async function authenticateStructure(
   authInfo: TestUserStructure,
-
   { context }: { context: AppTestContext }
 ) {
   const { app } = context;
@@ -80,6 +79,7 @@ async function authenticateStructure(
     structureRole: authInfo.role,
     structureId: authInfo.structureId,
   };
+  console.log(response.body);
 }
 async function authenticateSuperAdminDomifa(
   authInfo: TestUserStructure,
@@ -112,6 +112,7 @@ function filterSecurityTests(
   testsDefs: AppTestHttpClientSecurityTestDef[]
 ): AppTestHttpClientSecurityTestDef[] {
   const DOMIFA_FILTER_SEC_TEST = process.env["DOMIFA_FILTER_SEC_TEST"];
+
   const FILTERED_TESTS =
     DOMIFA_FILTER_SEC_TEST?.length > 0
       ? testsDefs.filter((x) => x.label.includes(DOMIFA_FILTER_SEC_TEST))

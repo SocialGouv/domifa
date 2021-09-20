@@ -37,7 +37,7 @@ export class UserProfilComponent implements OnInit {
   ) {
     this.users = [];
     this.newUsers = [];
-    this.selectedUser = 0;
+    this.selectedUser = null;
     this.usersInfos = false;
     this.exportLoading = false;
   }
@@ -60,9 +60,9 @@ export class UserProfilComponent implements OnInit {
     });
   }
 
-  public confirmUser(id: number) {
-    this.userService.confirmUser(id).subscribe(
-      (user: UserStructureProfile) => {
+  public confirmUserFromAdmin(id: number) {
+    this.userService.confirmUserFromAdmin(id).subscribe({
+      next: (user: UserStructureProfile) => {
         this.getUsers();
         this.notifService.success(
           "Le compte de " +
@@ -72,15 +72,15 @@ export class UserProfilComponent implements OnInit {
             " est désormais actif"
         );
       },
-      () => {
+      error: () => {
         this.notifService.error("Impossible de confirmer l'utilisateur");
-      }
-    );
+      },
+    });
   }
 
   public updateRole(id: number, role: UserStructureRole) {
-    this.userService.updateRole(id, role).subscribe(
-      (user: UserStructureProfile) => {
+    this.userService.updateRole(id, role).subscribe({
+      next: (user: UserStructureProfile) => {
         this.getUsers();
         this.notifService.success(
           "Les droits de " +
@@ -90,25 +90,25 @@ export class UserProfilComponent implements OnInit {
             " ont été mis à jour avec succès"
         );
       },
-      () => {
+      error: () => {
         this.notifService.error(
           "Impossible de mettre à jour le rôle de l'utilisateur"
         );
-      }
-    );
+      },
+    });
   }
 
   public deleteUser() {
-    this.userService.deleteUser(this.selectedUser).subscribe(
-      () => {
+    this.userService.deleteUser(this.selectedUser).subscribe({
+      next: () => {
         this.getUsers();
         this.modalService.dismissAll();
         this.notifService.success("Utilisateur supprimé avec succès");
       },
-      () => {
+      error: () => {
         this.notifService.error("Impossible de supprimer l'utilisateur");
-      }
-    );
+      },
+    });
   }
 
   public open(content: TemplateRef<any>) {

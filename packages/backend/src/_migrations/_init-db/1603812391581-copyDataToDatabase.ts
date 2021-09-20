@@ -18,6 +18,7 @@ export class copyDataToDatabase1603812391581 implements MigrationInterface {
       INSERT INTO public.app_user VALUES ('d81c5566-94f9-4ee4-ab57-a604a654f79b', '2020-11-17 13:32:22.193933+00', '2020-11-17 13:39:14.015103+00', 1, 'roseline.parmentier@yopmail.com', NULL, nextval('app_user_id_seq'), '2020-11-17 13:39:13.796+00', 'Roseline', '$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u', 'Parmentier', 'admin', 3, '{"guide": false, "import": false}', '2020-11-17 13:39:14.013+00', true);
       INSERT INTO public.app_user VALUES ('59c846d8-0592-4790-a5e2-1daae9b8776e', '2020-11-14 13:18:27.658736+00', '2020-11-14 13:18:27.658736+00', 1, 'structure-1.facteur-1@yopmail.com', NULL, nextval('app_user_id_seq'), '2021-06-28 13:27:26.095+00', 'Dupuis', '$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u', 'Facteur 1', 'facteur', , '{"guide": true, "import": true}', NULL, true);
       INSERT INTO public.app_user VALUES ('44f1cfe8-eae9-49d5-aedb-76dda856c413', '2021-02-01 16:12:30.90825+00', '2021-02-01 16:13:04.64034+00', 1, 'test.import@yopmail.com', 'Testeur', nextval('app_user_id_seq'), NULL, 'Test', '$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u', 'Import', 'admin', 4, '{"guide": false, "import": false}', NULL, true);
+      INSERT INTO public.app_user VALUES  ('4e049e3d-bb65-48e5-8661-b1ccdc9db985' , '2021-09-21 00:03:26.186917+02','2021-09-21 00:03:26.186917+02', 2, 'simple-testeur@yopmail.com', 'Simple testeur', nextval('app_user_id_seq'), NULL, 'Jacquet','$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u', 'Aimé', 'simple' , 3, '{"guide": false, "import": false}' , NULL, true);
     `);
 
     appLogger.warn("> app_user_security");
@@ -29,6 +30,7 @@ export class copyDataToDatabase1603812391581 implements MigrationInterface {
       INSERT INTO public.app_user_security VALUES (uuid_generate_v4(), '2021-03-15 15:53:55.740856+00', '2021-03-15 15:53:55.740856+00', 1, 4, 1, NULL, '[]');
       INSERT INTO public.app_user_security VALUES (uuid_generate_v4(), '2021-03-15 15:53:55.740856+00', '2021-03-15 15:53:55.740856+00', 1, 5, 3, NULL, '[]');
       INSERT INTO public.app_user_security VALUES (uuid_generate_v4(), '2021-03-15 15:53:55.740856+00', '2021-03-15 15:53:55.740856+00', 1, 7, 4, NULL, '[]');
+      INSERT INTO public.app_user_security VALUES (uuid_generate_v4(), '2021-03-16 15:53:55.740856+00', '2021-03-16 15:53:55.740856+00', 1, 8, 3, NULL, '[]');
       `);
 
     appLogger.warn("> interactions");

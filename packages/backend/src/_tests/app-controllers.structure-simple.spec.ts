@@ -36,7 +36,9 @@ describe(`App controllers security - ${TEST_BASENAME}`, () => {
       { initApp: true }
     );
 
-    const authInfo = TESTS_USERS_STRUCTURE.BY_EMAIL["peter.smith@yopmail.com"];
+    const authInfo =
+      TESTS_USERS_STRUCTURE.BY_EMAIL["simple-testeur@yopmail.com"];
+
     await AppTestHelper.authenticateStructure(authInfo, { context });
   });
 
@@ -49,7 +51,6 @@ describe(`App controllers security - ${TEST_BASENAME}`, () => {
   )) {
     it(`[API SECURITY TEST][${TEST_BASENAME}] ${testDef.label}`, async () => {
       const { response, expectedStatus } = await testDef.query(context);
-
       expect(response.status).toBe(expectedStatus);
     });
   }

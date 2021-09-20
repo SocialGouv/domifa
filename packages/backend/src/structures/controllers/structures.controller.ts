@@ -12,12 +12,12 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { CurrentUser } from "../../auth/current-user.decorator";
 import {
-  AllowUserProfiles,
   AllowUserStructureRoles,
-  AppUserGuard,
-} from "../../auth/guards";
+  AllowUserProfiles,
+} from "../../auth/decorators";
+import { CurrentUser } from "../../auth/decorators/current-user.decorator";
+import { AppUserGuard } from "../../auth/guards";
 import { structureRepository } from "../../database";
 import { structureLightRepository } from "../../database/services/structure/structureLightRepository.service";
 import {

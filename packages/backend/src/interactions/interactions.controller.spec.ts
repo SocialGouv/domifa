@@ -1,4 +1,4 @@
-import { AuthService } from "../auth/auth.service";
+import { AuthService } from "../auth/services/auth.service";
 import { usagerRepository } from "../database";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";

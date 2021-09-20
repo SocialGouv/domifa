@@ -1,8 +1,8 @@
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
-import { StructuresModule } from "../structures/structure.module";
-import { UsersModule } from "../users/users.module";
-import { AppTestContext, AppTestHelper } from "../util/test";
+import { StructuresModule } from "../../structures/structure.module";
+import { UsersModule } from "../../users/users.module";
+import { AppTestContext, AppTestHelper } from "../../util/test";
 import { AuthService } from "./auth.service";
 
 describe("AuthService", () => {

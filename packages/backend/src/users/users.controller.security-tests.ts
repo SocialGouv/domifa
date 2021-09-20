@@ -27,4 +27,51 @@ export const UserControllerSecurityTests: AppTestHttpClientSecurityTestDef[] = [
       ),
     }),
   },
+  {
+    label: `${CONTROLLER}.getUsersToConfirm`,
+    query: async (context: AppTestContext) => ({
+      response: await AppTestHttpClient.get("/users/to-confirm", {
+        context,
+      }),
+      expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+        context.user,
+        {
+          roles: ["admin"],
+        }
+      ),
+    }),
+  },
+  {
+    label: `${CONTROLLER}.confirmUserFromAdmin`,
+
+    query: async (context: AppTestContext) => ({
+      response: await AppTestHttpClient.patch("/users/confirm/1", {
+        context,
+        body: {},
+      }),
+      expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+        context.user,
+        {
+          roles: ["admin"],
+        }
+      ),
+    }),
+  },
+  {
+    label: `${CONTROLLER}.updateRole`,
+    query: async (context: AppTestContext) => ({
+      response: await AppTestHttpClient.patch("/users/update-role/13", {
+        context,
+        body: {
+          role: "simple",
+        },
+      }),
+      expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+        context.user,
+        {
+          roles: ["admin"],
+        }
+      ),
+    }),
+  },
 ];
