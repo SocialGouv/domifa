@@ -1,3 +1,10 @@
+# [2.19.0](https://github.com/SocialGouv/domifa/compare/v2.18.1...v2.19.0) (2021-09-20)
+
+
+### Features
+
+* **manage:** ajout d'un bandeau concernant les rendez-vous ([#1697](https://github.com/SocialGouv/domifa/issues/1697)) ([6aa9707](https://github.com/SocialGouv/domifa/commit/6aa97075f099a616ceb6b080956e7d76897f562d))
+
 ## [2.18.1](https://github.com/SocialGouv/domifa/compare/v2.18.0...v2.18.1) (2021-09-14)
 
 
