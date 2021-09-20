@@ -6,11 +6,9 @@ import { stringCleaner } from "../../../shared/string-cleaner.service";
 export class CleanStrDirective {
   regexStr =
     "^[a-zA-ZÀÁÂÃÄÅàáâãäåÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž 0-9\\'\\-]*$";
-  @Input() isAlphaNumeric: boolean;
-
   constructor(private el: ElementRef) {}
 
-  @HostListener("keypress", ["$event"]) onKeyPress(event: any) {
+  @HostListener("keypress", ["$event"]) onKeyPress(event: KeyboardEvent) {
     return new RegExp(this.regexStr).test(event.key);
   }
 
@@ -18,7 +16,7 @@ export class CleanStrDirective {
     this.validateFields(event);
   }
 
-  validateFields(event) {
+  validateFields(event: KeyboardEvent) {
     setTimeout(() => {
       this.el.nativeElement.value = stringCleaner.cleanString(
         this.el.nativeElement.value

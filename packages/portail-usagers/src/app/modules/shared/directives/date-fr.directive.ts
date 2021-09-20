@@ -81,10 +81,12 @@ export class DateFrDirective {
   @HostListener("drop", ["$event"])
   public onDrop(event: DragEvent) {
     event.preventDefault();
-    const textData = event.dataTransfer
-      .getData("text")
-      .replace(/[^0-9/-]+/g, "");
-    this.inputElement.focus();
-    document.execCommand("insertText", false, textData);
+    if (event.dataTransfer) {
+      const textData = event.dataTransfer
+        .getData("text")
+        .replace(/[^0-9/-]+/g, "");
+      this.inputElement.focus();
+      document.execCommand("insertText", false, textData);
+    }
   }
 }

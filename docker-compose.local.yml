@@ -74,3 +74,24 @@ services:
       - ./.env
     environment:
       TZ: Europe/Paris
+
+  portail-usagers:
+    container_name: domifa-portail-usagers
+    hostname: domifa-portail-usagers
+    build:
+      context: _scripts/dev
+      dockerfile: local-node.dockerfile
+    command: tail -f /dev/null
+    working_dir: /app/packages/portail-usagers
+    volumes:
+      - $APP_DIR:/app:delegated
+      - $HOME/.ssh:/home/node/.ssh:ro
+      - $HOME/.gitconfig:/home/node/.gitconfig:ro
+      - $HOME/.gitignore:/home/node/.gitignore:ro
+      - $HOME/.npm:/home/node/.npm:delegated
+    ports:
+      - 4201:4201
+    env_file:
+      - ./.env
+    environment:
+      TZ: Europe/Paris
