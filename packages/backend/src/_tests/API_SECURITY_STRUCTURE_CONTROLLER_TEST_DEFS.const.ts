@@ -27,7 +27,7 @@ export const API_SECURITY_STRUCTURE_CONTROLLER_TEST_DEFS: AppTestHttpClientSecur
     ...StructureDocControllerSecurityTests,
     ...StructuresControllerSecurityTests,
     ...UsagersControllerSecurityTests,
+    ...UsagersStructureDocsControllerSecurityTests,
     ...UserControllerSecurityTests,
     ...UserPublicControllerSecurityTests,
-    ...UsagersStructureDocsControllerSecurityTests,
   ];
