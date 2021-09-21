@@ -12,7 +12,6 @@ concurrency:
   group: review-${{ github.ref }}
 
 jobs:
-
   ##############################################################################
   ## BUILD AND REGISTER BACKEND IMAGE
   ##############################################################################
@@ -20,18 +19,17 @@ jobs:
     name: Build & Register backend
     runs-on: ubuntu-latest
     steps:
+      - name: Get project name
+        run: |
+          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
-    - name: Get project name
-      run: |
-        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-
-    - name: Use autodevops build and register
-      uses: SocialGouv/actions/autodevops-build-register@master
-      with:
-        project: ${{ env.project }}
-        token: ${{ secrets.GITHUB_TOKEN }}
-        imageName: ${{ env.project }}/backend
-        dockerfile: packages/backend/Dockerfile
+      - name: Use autodevops build and register
+        uses: SocialGouv/actions/autodevops-build-register@master
+        with:
+          project: ${{ env.project }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          imageName: ${{ env.project }}/backend
+          dockerfile: packages/backend/Dockerfile
 
   ##############################################################################
   ## BUILD AND REGISTER FRONTEND IMAGE
@@ -40,18 +38,36 @@ jobs:
     name: Build & Register frontend
     runs-on: ubuntu-latest
     steps:
+      - name: Get project name
+        run: |
+          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
-    - name: Get project name
-      run: |
-        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+      - name: Use autodevops build and register
+        uses: SocialGouv/actions/autodevops-build-register@master
+        with:
+          project: ${{ env.project }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          imageName: ${{ env.project }}/frontend
+          dockerfile: packages/frontend/Dockerfile
 
-    - name: Use autodevops build and register
-      uses: SocialGouv/actions/autodevops-build-register@master
-      with:
-        project: ${{ env.project }}
-        token: ${{ secrets.GITHUB_TOKEN }}
-        imageName: ${{ env.project }}/frontend
-        dockerfile: packages/frontend/Dockerfile
+  ##############################################################################
+  ## BUILD AND REGISTER PORTAIL USAGERS IMAGE
+  ##############################################################################
+  register-portail-usagers:
+    name: Build & Register portail-usagers
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get project name
+        run: |
+          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
+      - name: Use autodevops build and register
+        uses: SocialGouv/actions/autodevops-build-register@master
+        with:
+          project: ${{ env.project }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          imageName: ${{ env.project }}/portail-usagers
+          dockerfile: packages/portail-usagers/Dockerfile
 
   ##############################################################################
   ## GENERATE KUBERNETES MANIFESTS
@@ -60,11 +76,10 @@ jobs:
     name: Generate k8s manifests
     runs-on: ubuntu-latest
     steps:
-
-    - name: Use autodevops manifests generation
-      uses: SocialGouv/actions/k8s-manifests@master
-      with:
-        environment: "dev"
+      - name: Use autodevops manifests generation
+        uses: SocialGouv/actions/k8s-manifests@master
+        with:
+          environment: "dev"
 
   ##############################################################################
   ## DEPLOY BACKEND & FRONT-END
@@ -74,10 +89,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [register-backend, register-frontend, manifests]
     steps:
-
-    - name: Use autodevops deployment
-      uses: SocialGouv/actions/autodevops-deploy@master
-      with:
-        environment: "dev"
-        token: ${{ secrets.GITHUB_TOKEN }}
-        kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }}
+      - name: Use autodevops deployment
+        uses: SocialGouv/actions/autodevops-deploy@master
+        with:
+          environment: "dev"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }}

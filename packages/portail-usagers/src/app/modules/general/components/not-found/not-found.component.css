@@ -1,0 +1,25 @@
+.notfound {
+  width: 700px;
+  max-width: 96%;
+  margin: 50px auto;
+  text-align: center;
+}
+
+.notfound h1 {
+  font-size: 12rem;
+  font-weight: 200;
+  margin: 0;
+  background: linear-gradient(119deg, var(--primary), var(--secondary));
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-transform: uppercase;
+}
+
+.notfound h2 {
+  font-size: 3rem;
+  font-weight: 100;
+  text-transform: uppercase;
+  margin-top: 0;
+  letter-spacing: 1px;
+}

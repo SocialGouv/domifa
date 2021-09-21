@@ -8,6 +8,9 @@ coverage:
       backend:
         target: 42%
         flags: backend
+      portail-usagers:
+        target: 42%
+        flags: portail-usagers
 
 flags:
   backend:
@@ -16,3 +19,6 @@ flags:
   frontend:
     paths:
       - packages/frontend
+  portail-usagers:
+    paths:
+      - packages/portail-usagers

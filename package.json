@@ -20,6 +20,7 @@
       "packages/*"
     ],
     "nohoist": [
+      "**/bootstrap",
       "**/@angular/*",
       "**/@angular/*/**",
       "**/@angular/compiler-cli/*",
