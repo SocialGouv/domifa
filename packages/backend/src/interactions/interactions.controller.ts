@@ -11,9 +11,9 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags } from "@nestjs/swagger";
-import { CurrentInteraction } from "../auth/current-interaction.decorator";
-import { CurrentUsager } from "../auth/current-usager.decorator";
-import { CurrentUser } from "../auth/current-user.decorator";
+import { CurrentInteraction } from "../auth/decorators/current-interaction.decorator";
+import { CurrentUsager } from "../auth/decorators/current-usager.decorator";
+import { CurrentUser } from "../auth/decorators/current-user.decorator";
 import { InteractionsGuard } from "../auth/guards/interactions.guard";
 import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
 import { interactionRepository } from "../database";

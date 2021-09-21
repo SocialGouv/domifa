@@ -1,5 +1,6 @@
 import { Connection } from "typeorm";
 import { AppTestHelper } from "../../../util/test";
+import { TESTS_USERS_STRUCTURE } from "../../../_tests";
 import { userStructureRepository } from "./userStructureRepository.service";
 
 describe("userStructureRepository", () => {
@@ -20,7 +21,9 @@ describe("userStructureRepository", () => {
       },
     });
     // be sure the count is ok
-    expect(count1).toEqual(4);
+    expect(count1).toEqual(
+      TESTS_USERS_STRUCTURE.BY_STRUCTURE_ID[1]?.length ?? 0
+    );
 
     const count2 = await userStructureRepository.count({
       where: {
@@ -28,11 +31,13 @@ describe("userStructureRepository", () => {
       },
     });
     // be sure the count is ok
-    expect(count2).toEqual(0);
+    expect(count2).toEqual(
+      TESTS_USERS_STRUCTURE.BY_STRUCTURE_ID[2]?.length ?? 0
+    );
 
     const countTotal = await userStructureRepository.count();
     // be sure the count is ok
-    expect(countTotal).toBeGreaterThan(4);
+    expect(countTotal).toEqual(TESTS_USERS_STRUCTURE.ALL.length);
   });
   it("findVerifiedStructureUsersByRoles returns matching users", async () => {
     const users =
@@ -45,15 +50,7 @@ describe("userStructureRepository", () => {
     // be sure the count is ok
     expect(users.length).toEqual(3);
   });
-  it("findAll returns matching user", async () => {
-    const users = await userStructureRepository.findMany({
-      structureId: 1,
-    });
-    expect(users).toBeDefined();
 
-    // be sure the count is ok
-    expect(users.length).toEqual(4);
-  });
   it("findOne returns matching user", async () => {
     const user1 = await userStructureRepository.findOne({
       id: 1,

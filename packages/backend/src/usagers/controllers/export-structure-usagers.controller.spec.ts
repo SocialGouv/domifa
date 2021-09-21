@@ -29,8 +29,4 @@ describe("Export Controller", () => {
   it("should be defined", () => {
     expect(controller).toBeDefined();
   });
-
-  /*it("Date functions : ", () => {
-    expect(controller).toBeDefined();
-  });*/
 });

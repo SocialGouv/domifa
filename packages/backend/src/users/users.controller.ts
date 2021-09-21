@@ -14,42 +14,38 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { AxiosError } from "axios";
-import { CurrentUser } from "../auth/current-user.decorator";
-import { AdminGuard } from "../auth/guards/admin.guard";
-import { ResponsableGuard } from "../auth/guards/responsable.guard";
+import { AllowUserStructureRoles } from "../auth/decorators";
+import { CurrentChosenUserStructure } from "../auth/decorators/current-chosen-user-structure.decorator";
+import { CurrentUser } from "../auth/decorators/current-user.decorator";
+import { AppUserGuard } from "../auth/guards";
+import { CanGetUserStructureGuard } from "../auth/guards/CanGetUserStructure.guard";
 import {
   userSecurityPasswordUpdater,
-  userSecurityResetPasswordInitiator,
-  userSecurityResetPasswordUpdater,
   userStructureRepository,
 } from "../database";
-import {
-  userAccountActivatedEmailSender,
-  userResetPasswordEmailSender,
-} from "../mails/services/templates-renderers";
+import { userAccountActivatedEmailSender } from "../mails/services/templates-renderers";
 import { userAccountCreatedByAdminEmailSender } from "../mails/services/templates-renderers/user-account-created-by-admin";
-import { StructuresService } from "../structures/services/structures.service";
 import { appLogger } from "../util";
 import { ExpressResponse } from "../util/express";
 import {
   UserStructure,
   UserStructureAuthenticated,
   UserStructureProfile,
-  UserStructureRole,
+  USER_STRUCTURE_ROLE_ALL,
 } from "../_common/model";
 import { EditPasswordDto } from "./dto/edit-password.dto";
-import { EmailDto } from "./dto/email.dto";
 import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
-import { ResetPasswordDto } from "./dto/reset-password.dto";
+import { UpdateRoleDto } from "./dto/update-role.dto";
 import { UserEditDto } from "./dto/user-edit.dto";
 import { usersCreator, usersDeletor } from "./services";
 
 @Controller("users")
 @ApiTags("users")
+@UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class UsersController {
-  constructor(private structureService: StructuresService) {}
+  constructor() {}
 
-  @UseGuards(AuthGuard("jwt"), ResponsableGuard)
+  @AllowUserStructureRoles("responsable", "admin")
   @ApiBearerAuth()
   @ApiOperation({ summary: "Liste des utilisateurs" })
   @Get("")
@@ -62,7 +58,7 @@ export class UsersController {
     });
   }
 
-  @UseGuards(AuthGuard("jwt"))
+  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @ApiOperation({ summary: "Edition du mot de passe depuis le compte user" })
   @Get("last-password-update")
   public async getLastPasswordUpdate(
@@ -79,7 +75,7 @@ export class UsersController {
   @Get("to-confirm")
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Liste des utilisateurs à confirmer" })
-  @UseGuards(AuthGuard("jwt"), AdminGuard)
+  @AllowUserStructureRoles("admin")
   public getUsersToConfirm(
     @CurrentUser() user: UserStructureAuthenticated
   ): Promise<UserStructureProfile[]> {
@@ -89,17 +85,22 @@ export class UsersController {
     });
   }
 
-  @UseGuards(AuthGuard("jwt"), AdminGuard)
+  @AllowUserStructureRoles("admin")
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Confirmer une création de compte" })
-  @Get("confirm/:id")
-  public async confirmUser(
-    @Param("id") id: number,
-    @CurrentUser() user: UserStructureAuthenticated,
+  @Patch("confirm/:userId")
+  @UseGuards(CanGetUserStructureGuard)
+  public async confirmUserFromAdmin(
+    @Param("userId") userId: number,
+    @CurrentChosenUserStructure() chosenUserStructure: UserStructure,
+    @CurrentUser() userStructureAuth: UserStructureAuthenticated,
     @Res() res: ExpressResponse
   ) {
     const confirmerUser = await userStructureRepository.updateOne(
-      { id, structureId: user.structureId },
+      {
+        uuid: chosenUserStructure.uuid,
+        structureId: userStructureAuth.structureId,
+      },
       { verified: true }
     );
 
@@ -120,75 +121,49 @@ export class UsersController {
           }
         );
     } else {
-      throw new HttpException(
-        "INVALID_CONFIRM_TOKEN",
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
+      return res.status(HttpStatus.BAD_REQUEST).json("INVALID_CONFIRM_TOKEN");
     }
   }
 
-  @UseGuards(AuthGuard("jwt"), AdminGuard)
+  @AllowUserStructureRoles("admin")
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Editer le rôle d'un utilisateur" })
-  @Get("update-role/:id/:role")
+  @UseGuards(CanGetUserStructureGuard)
+  @Patch("update-role/:userId")
   public async updateRole(
-    @Param("id") id: number,
-    @Param("role") role: UserStructureRole,
-    @CurrentUser() user: UserStructureAuthenticated
+    @Body() updateRoleDto: UpdateRoleDto,
+    @CurrentUser() userStructureAuth: UserStructureAuthenticated,
+    @CurrentChosenUserStructure() chosenUserStructure: UserStructure
   ): Promise<UserStructureProfile> {
-    if (
-      role !== "simple" &&
-      role !== "admin" &&
-      role !== "facteur" &&
-      role !== "responsable"
-    ) {
-      throw new HttpException("BAD_REQUEST", HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    if (id === user.id) {
-      throw new HttpException("BAD_REQUEST", HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
     return userStructureRepository.updateOne(
       {
-        id,
-        structureId: user.structureId,
+        uuid: chosenUserStructure.uuid,
+        structureId: userStructureAuth.structureId,
       },
-      {
-        role,
-      }
+      { role: updateRoleDto.role }
     );
   }
 
-  @UseGuards(AuthGuard("jwt"), AdminGuard)
+  @AllowUserStructureRoles("admin")
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Supprimer un utilisateur" })
-  @Delete(":id")
+  @UseGuards(CanGetUserStructureGuard)
+  @Delete(":userId")
   public async delete(
-    @Param("id") id: number,
-    @CurrentUser() user: UserStructureAuthenticated,
+    @Param("userId") userId: number,
+    @CurrentUser() userStructureAuth: UserStructureAuthenticated,
+    @CurrentChosenUserStructure() chosenUserStructure: UserStructure,
     @Res() res: ExpressResponse
   ) {
-    const userToDelete = await userStructureRepository.findOne({
-      id,
-      structureId: user.structureId,
-    });
-
-    if (!userToDelete) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "BAD_REQUEST" });
-    }
-
     const retour = await usersDeletor.deleteUser({
-      userId: userToDelete.id,
-      structureId: user.structureId,
+      userId,
+      structureId: userStructureAuth.structureId,
     });
 
     return res.status(HttpStatus.OK).json({ success: true, message: retour });
   }
 
-  @UseGuards(AuthGuard("jwt"))
+  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @Patch()
   public async patch(
     @CurrentUser() user: UserStructureAuthenticated,
@@ -211,80 +186,9 @@ export class UsersController {
     return res.status(HttpStatus.OK).json(userToUpdate);
   }
 
-  @Post("validate-email")
-  public async validateEmail(
-    @Body() emailDto: EmailDto,
-    @Res() res: ExpressResponse
-  ) {
-    const existUser = await userStructureRepository.findOne({
-      email: emailDto.email.toLowerCase(),
-    });
-
-    const emailExist = existUser !== undefined;
-
-    return res.status(HttpStatus.OK).json(emailExist);
-  }
-
-  @Get("check-password-token/:userId/:token")
-  public async checkPasswordToken(
-    @Param("userId") userId: string,
-    @Param("token") token: string,
-    @Res() res: ExpressResponse
-  ) {
-    try {
-      await userSecurityResetPasswordUpdater.checkResetPasswordToken({
-        token,
-        userId: parseInt(userId, 10),
-      });
-      return res.status(HttpStatus.OK).json({ message: "OK" });
-    } catch (err) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "TOKEN_EXPIRED" });
-    }
-  }
-
-  @Post("reset-password")
-  public async resetPassword(
-    @Body() resetPasswordDto: ResetPasswordDto,
-    @Res() res: ExpressResponse
-  ) {
-    try {
-      await userSecurityResetPasswordUpdater.confirmResetPassword({
-        newPassword: resetPasswordDto.password,
-        token: resetPasswordDto.token,
-        userId: resetPasswordDto.userId,
-      });
-      return res.status(HttpStatus.OK).json({ message: "OK" });
-    } catch (err) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "TOKEN_EXPIRED" });
-    }
-  }
-
-  @ApiOperation({ summary: "Reset du mot de passe : envoi du lien par mail" })
-  @Post("get-password-token")
-  public async generatePasswordToken(
-    @Body() emailDto: EmailDto,
-    @Res() res: ExpressResponse
-  ) {
-    try {
-      const { user, userSecurity } =
-        await userSecurityResetPasswordInitiator.generateResetPasswordToken({
-          email: emailDto.email,
-        });
-      await userResetPasswordEmailSender.sendMail({
-        user,
-        token: userSecurity.temporaryTokens.token,
-      });
-    } catch (err) {}
-    return res.status(HttpStatus.OK).json({ message: "OK" });
-  }
-
   // Ajout d'utilisateur par un admin
   @Post("register")
-  @UseGuards(AuthGuard("jwt"), AdminGuard)
+  @AllowUserStructureRoles("admin")
   @ApiOperation({ summary: "Ajout d'un utilisateur par un admin" })
   public async registerUser(
     @CurrentUser() user: UserStructureAuthenticated,
@@ -327,7 +231,7 @@ export class UsersController {
 
   // Edition d'un mot de passe quand on est déjà connecté
   @Post("edit-password")
-  @UseGuards(AuthGuard("jwt"))
+  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @ApiOperation({ summary: "Edition du mot de passe depuis le compte user" })
   public async editPassword(
     @CurrentUser() user: UserStructureAuthenticated,

@@ -10,8 +10,8 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { CurrentUsager } from "../../auth/current-usager.decorator";
-import { CurrentUser } from "../../auth/current-user.decorator";
+import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
+import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { usagerRepository } from "../../database";
 import { uuidGenerator } from "../../database/services/uuid";

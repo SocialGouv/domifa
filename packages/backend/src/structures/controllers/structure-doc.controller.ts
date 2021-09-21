@@ -19,8 +19,9 @@ import { Response } from "express";
 import * as fs from "fs";
 import { diskStorage } from "multer";
 import * as path from "path";
-import { CurrentUser } from "../../auth/current-user.decorator";
-import { FacteurGuard } from "../../auth/guards/facteur.guard";
+import { CurrentUser } from "../../auth/decorators/current-user.decorator";
+import { AppUserGuard } from "../../auth/guards";
+import { AllowUserStructureRoles } from "../../auth/decorators";
 import { domifaConfig } from "../../config";
 import { deleteFile, randomName, validateUpload } from "../../util/FileManager";
 import { UserStructureAuthenticated } from "../../_common/model";
@@ -30,12 +31,13 @@ import { StructureDocService } from "../services/structure-doc.service";
 
 @ApiTags("structure-docs")
 @ApiBearerAuth()
-@UseGuards(AuthGuard("jwt"), FacteurGuard)
+@UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("structure-docs")
 export class StructureDocController {
   constructor(private structureDocService: StructureDocService) {}
 
   @Get(":id")
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getStructureDoc(
     @Param("id") structureDocId: number,
     @CurrentUser() user: UserStructureAuthenticated,
@@ -57,6 +59,7 @@ export class StructureDocController {
 
   @ApiOperation({ summary: "Upload de documents personnalisables" })
   @Post("")
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   @UseInterceptors(
     FileInterceptor("file", {
       limits: {
@@ -133,6 +136,7 @@ export class StructureDocController {
   }
 
   @Get("")
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getStructureDocs(
     @CurrentUser() user: UserStructureAuthenticated
   ) {
@@ -140,6 +144,7 @@ export class StructureDocController {
   }
 
   @Delete(":id")
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   public async deleteDocument(
     @Param("id") structureDocId: number,
     @CurrentUser() user: UserStructureAuthenticated

@@ -1,7 +1,12 @@
-import { ModuleMetadata } from "@nestjs/common";
+import { HttpStatus, INestApplication, ModuleMetadata } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
+import * as request from "supertest";
 import { Connection } from "typeorm";
 import { appTypeormManager } from "../../database";
+import {
+  AppTestHttpClientSecurityTestDef,
+  TestUserStructure,
+} from "../../_tests";
 import { appLogger } from "../AppLogger.service";
 import { AppTestContext } from "./AppTestContext.type";
 
@@ -10,15 +15,24 @@ export const AppTestHelper = {
   tearDownTestApp,
   bootstrapTestConnection,
   tearDownTestConnection,
+  authenticateStructure,
+  authenticateSuperAdminDomifa,
+  filterSecurityTests,
 };
 
 async function bootstrapTestApp(
-  metadata: ModuleMetadata
+  metadata: ModuleMetadata,
+  initApp: { initApp?: boolean } = { initApp: false }
 ): Promise<AppTestContext> {
   // re-use shared connection created in jest.setup.ts
   const postgresTypeormConnection = await bootstrapTestConnection();
   const module = await Test.createTestingModule(metadata).compile();
-  return { module, postgresTypeormConnection };
+  const context: AppTestContext = { module, postgresTypeormConnection };
+  if (initApp) {
+    context.app = module.createNestApplication();
+    await context.app.init();
+  }
+  return context;
 }
 
 async function tearDownTestApp({
@@ -47,4 +61,65 @@ async function tearDownTestConnection({
   } else {
     appLogger.error("Can not close missing postgres connexion");
   }
+}
+
+async function authenticateStructure(
+  authInfo: TestUserStructure,
+  { context }: { context: AppTestContext }
+) {
+  const { app } = context;
+  expectAppToBeDefined(app);
+  const response = await request(app.getHttpServer())
+    .post("/auth/login")
+    .send(authInfo);
+  expect(response.status).toBe(HttpStatus.OK);
+  context.authToken = response.body.access_token;
+  context.user = {
+    profile: "structure",
+    structureRole: authInfo.role,
+    structureId: authInfo.structureId,
+    userId: authInfo.id,
+    userUUID: authInfo.uuid,
+  };
+  console.log(response.body);
+}
+async function authenticateSuperAdminDomifa(
+  authInfo: TestUserStructure,
+
+  { context }: { context: AppTestContext }
+) {
+  const { app } = context;
+  expectAppToBeDefined(app);
+  expect(authInfo.structureId).toEqual(1); // hack: super admin is role "admin" + structure 1
+  expect(authInfo.role).toEqual("admin");
+  const response = await request(app.getHttpServer())
+    .post("/auth/login")
+    .send(authInfo);
+  expect(response.status).toBe(HttpStatus.OK);
+  context.authToken = response.body.access_token;
+  context.user = {
+    profile: "super-admin-domifa",
+    userId: authInfo.id,
+    userUUID: authInfo.uuid,
+  };
+}
+
+function expectAppToBeDefined(app: INestApplication) {
+  if (!app) {
+    throw new Error(
+      "App is not initialized: call `bootstrapTestApp` with { initApp: true }"
+    );
+  }
+}
+
+function filterSecurityTests(
+  testsDefs: AppTestHttpClientSecurityTestDef[]
+): AppTestHttpClientSecurityTestDef[] {
+  const DOMIFA_FILTER_SEC_TEST = process.env["DOMIFA_FILTER_SEC_TEST"];
+
+  const FILTERED_TESTS =
+    DOMIFA_FILTER_SEC_TEST?.length > 0
+      ? testsDefs.filter((x) => x.label.includes(DOMIFA_FILTER_SEC_TEST))
+      : testsDefs;
+  return FILTERED_TESTS;
 }

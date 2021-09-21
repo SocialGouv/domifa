@@ -7,113 +7,44 @@ import {
   HttpStatus,
   Param,
   Patch,
-  Post,
   Response,
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { CurrentUser } from "../../auth/current-user.decorator";
-import { AdminGuard } from "../../auth/guards/admin.guard";
-import { DomifaGuard } from "../../auth/guards/domifa.guard";
-import { structureRepository, userStructureRepository } from "../../database";
+import {
+  AllowUserStructureRoles,
+  AllowUserProfiles,
+} from "../../auth/decorators";
+import { CurrentUser } from "../../auth/decorators/current-user.decorator";
+import { AppUserGuard } from "../../auth/guards";
+import { structureRepository } from "../../database";
 import { structureLightRepository } from "../../database/services/structure/structureLightRepository.service";
 import {
   deleteStructureEmailSender,
   hardResetEmailSender,
-  userAccountActivatedEmailSender,
 } from "../../mails/services/templates-renderers";
-import { EmailDto } from "../../users/dto/email.dto";
-import { UserStructureAuthenticated } from "../../_common/model";
+import {
+  UserStructureAuthenticated,
+  USER_STRUCTURE_ROLE_ALL,
+} from "../../_common/model";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
 import { StructureEditDto } from "../dto/structure-edit.dto";
-import { StructureWithUserDto } from "../dto/structure-with-user.dto";
-import { StructureDto } from "../dto/structure.dto";
-import { StructureCreatorService } from "../services/structureCreator.service";
 import { structureDeletorService } from "../services/structureDeletor.service";
 import { StructureHardResetService } from "../services/structureHardReset.service";
 import { StructuresService } from "../services/structures.service";
 
 @Controller("structures")
+@UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("structures")
 export class StructuresController {
   constructor(
-    private structureCreatorService: StructureCreatorService,
     private structureHardResetService: StructureHardResetService,
     private structureService: StructuresService
   ) {}
 
-  @Post()
-  public async postStructure(
-    @Body() structureWithUserDto: StructureWithUserDto
-  ) {
-    const structure =
-      await this.structureCreatorService.createStructureWithAdminUser(
-        structureWithUserDto.structure,
-        structureWithUserDto.user
-      );
-    return structure;
-  }
-
-  @Post("pre-post")
-  public async prePostStructure(@Body() structureDto: StructureDto) {
-    return this.structureCreatorService.checkStructureCreateArgs(structureDto);
-  }
-
-  @Post("validate-email")
-  public async validateEmail(@Body() emailDto: EmailDto, @Response() res: any) {
-    const exist = await structureLightRepository.findOne({
-      email: emailDto.email.toLowerCase(),
-    });
-    return res.status(HttpStatus.OK).json(!!exist);
-  }
-
-  @Get("code-postal/:codePostal")
-  public async getByCity(@Param("codePostal") codePostal: string) {
-    return this.structureService.findAllLight(codePostal);
-  }
-
-  @Get("confirm/:id/:token")
-  public async confirmStructureCreation(
-    @Param("token") token: string,
-    @Param("id") id: string,
-    @Response() res: any
-  ): Promise<any> {
-    if (token === "") {
-      throw new HttpException("STRUCTURE_TOKEN_EMPTY", HttpStatus.BAD_REQUEST);
-    }
-
-    const structure = await this.structureCreatorService.checkCreationToken({
-      token,
-      structureId: parseInt(id, 10),
-    });
-
-    if (!structure) {
-      throw new HttpException(
-        "STRUCTURE_TOKEN_INVALID",
-        HttpStatus.BAD_REQUEST
-      );
-    } else {
-      const admin = await userStructureRepository.findOne({
-        role: "admin",
-        structureId: structure.id,
-      });
-
-      const updatedAdmin = await userStructureRepository.updateOne(
-        {
-          id: admin.id,
-          structureId: structure.id,
-        },
-        { verified: true }
-      );
-
-      await userAccountActivatedEmailSender.sendMail({ user: updatedAdmin });
-      return res.status(HttpStatus.OK).json({ message: "OK" });
-    }
-  }
-
   @ApiBearerAuth()
-  @UseGuards(AuthGuard("jwt"), AdminGuard)
+  @AllowUserStructureRoles("admin")
   @Patch()
   public async patchStructure(
     @Body() structureDto: StructureEditDto,
@@ -123,7 +54,7 @@ export class StructuresController {
   }
 
   @ApiBearerAuth()
-  @UseGuards(AuthGuard("jwt"), AdminGuard)
+  @AllowUserStructureRoles("admin")
   @Patch("sms")
   public async patchSmsParams(
     @Body() structureSmsDto: StructureEditSmsDto,
@@ -140,14 +71,14 @@ export class StructuresController {
     return this.structureService.patchSmsParams(structureSmsDto, user);
   }
 
-  @UseGuards(AuthGuard("jwt"))
+  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @ApiBearerAuth()
   @Get("ma-structure")
   public async getMyStructure(@CurrentUser() user: UserStructureAuthenticated) {
     return user.structure;
   }
 
-  @UseGuards(AuthGuard("jwt"), AdminGuard)
+  @AllowUserStructureRoles("admin")
   @ApiBearerAuth()
   @Get("hard-reset")
   public async hardReset(
@@ -182,7 +113,7 @@ export class StructuresController {
     }
   }
 
-  @UseGuards(AuthGuard("jwt"), AdminGuard)
+  @AllowUserStructureRoles("admin")
   @ApiBearerAuth()
   @Get("hard-reset-confirm/:token")
   public async hardResetConfirm(
@@ -219,12 +150,7 @@ export class StructuresController {
     return res.status(HttpStatus.OK).json({ message: "success" });
   }
 
-  @Get(":id")
-  public async getStructure(@Param("id") id: number) {
-    return structureLightRepository.findOne({ id });
-  }
-
-  @UseGuards(AuthGuard("jwt"), DomifaGuard)
+  @AllowUserProfiles("super-admin-domifa")
   @ApiBearerAuth()
   @Delete("confirm/:id/:token/:nom")
   public async deleteOne(
@@ -239,7 +165,7 @@ export class StructuresController {
     });
   }
 
-  @UseGuards(AuthGuard("jwt"), DomifaGuard)
+  @AllowUserProfiles("super-admin-domifa")
   @ApiBearerAuth()
   @Delete("check/:id/:token")
   public async checkDelete(
@@ -259,7 +185,7 @@ export class StructuresController {
     return structure;
   }
 
-  @UseGuards(AuthGuard("jwt"), DomifaGuard)
+  @AllowUserProfiles("super-admin-domifa")
   @ApiBearerAuth()
   @Delete(":id")
   public async sendMailConfirmDeleteStructure(

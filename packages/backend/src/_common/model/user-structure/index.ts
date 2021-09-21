@@ -10,3 +10,4 @@ export * from "./UserStructureSecurityEvent.type";
 export * from "./UserStructureSecurityEventType.type";
 export * from "./UserStructureTokens.type";
 export * from "./UserStructureTokenType.type";
+export * from "./USER_STRUCTURE_ROLE_ALL.const";

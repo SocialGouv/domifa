@@ -4,11 +4,16 @@ import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
 import { DashboardController } from "./controllers/dashboard.controller";
-import { StatsController } from "./controllers/stats.controller";
+import { StatsPrivateController } from "./controllers/stats.private.controller";
+import { StatsPublicController } from "./controllers/stats.public.controller";
 import { DashboardService } from "./services/dashboard.service";
 
 @Module({
-  controllers: [StatsController, DashboardController],
+  controllers: [
+    StatsPublicController,
+    StatsPrivateController,
+    DashboardController,
+  ],
   exports: [DashboardService],
   imports: [
     forwardRef(() => UsersModule),

@@ -1,19 +1,19 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import {
-  structureCommonRepository,
   userStructureRepository,
   UserStructureTable,
-} from "../database";
-import { StructuresService } from "../structures/services/structures.service";
-import { appLogger } from "../util";
+  structureCommonRepository,
+} from "../../database";
+import { StructuresService } from "../../structures/services/structures.service";
+import { appLogger } from "../../util";
 import {
-  StructureCommon,
+  UserStructurePublic,
   UserStructure,
   UserStructureAuthenticated,
-  UserStructurePublic,
-} from "../_common/model";
-import { JwtPayload } from "./jwt-payload.interface";
+  StructureCommon,
+} from "../../_common/model";
+import { JwtPayload } from "../jwt-payload.interface";
 
 export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
   "id",

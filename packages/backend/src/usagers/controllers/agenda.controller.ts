@@ -9,11 +9,12 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import * as ics from "ics";
-import { CurrentUsager } from "../../auth/current-usager.decorator";
-import { CurrentUser } from "../../auth/current-user.decorator";
-import { FacteurGuard } from "../../auth/guards/facteur.guard";
+import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
+import { CurrentUser } from "../../auth/decorators/current-user.decorator";
+import { AppUserGuard } from "../../auth/guards";
+import { AllowUserStructureRoles } from "../../auth/decorators";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
 import {
@@ -34,12 +35,13 @@ import { UsagersService } from "../services/usagers.service";
 @ApiTags("agenda")
 @ApiBearerAuth()
 @Controller("agenda")
-@UseGuards(AuthGuard("jwt"))
+@UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class AgendaController {
   constructor(private usagersService: UsagersService) {}
 
   @Post(":usagerRef")
-  @UseGuards(FacteurGuard, UsagerAccessGuard)
+  @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   public async postRdv(
     @Body() rdvDto: RdvDto,
     @CurrentUser() currentUser: UserStructureAuthenticated,
@@ -143,8 +145,9 @@ export class AgendaController {
   }
 
   @Get("users")
-  @UseGuards(FacteurGuard)
-  public getUsersMeeting(
+  @ApiOperation({ summary: "Liste des utilisateurs pour l'agenda" })
+  @AllowUserStructureRoles("simple", "responsable", "admin")
+  public getAllUsersForAgenda(
     @CurrentUser() user: UserStructureAuthenticated
   ): Promise<UserStructureProfile[]> {
     return userStructureRepository.findVerifiedStructureUsersByRoles({
@@ -154,7 +157,8 @@ export class AgendaController {
   }
 
   @Get("")
-  @UseGuards(FacteurGuard)
+  @ApiOperation({ summary: "Liste des rendez-vous à venir" })
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getAll(@CurrentUser() user: UserStructureAuthenticated) {
     const userId = user.id;
     return usagerLightRepository.findNextRendezVous({ userId });
