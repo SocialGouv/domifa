@@ -1,3 +1,10 @@
+## [2.19.4](https://github.com/SocialGouv/domifa/compare/v2.19.3...v2.19.4) (2021-09-21)
+
+
+### Bug Fixes
+
+* working notes internes [#1264](https://github.com/SocialGouv/domifa/issues/1264) ([#1708](https://github.com/SocialGouv/domifa/issues/1708)) ([650cc42](https://github.com/SocialGouv/domifa/commit/650cc42ddec40c16b6592c15bfd5f8ea29e07165))
+
 ## [2.19.3](https://github.com/SocialGouv/domifa/compare/v2.19.2...v2.19.3) (2021-09-21)
 
 
