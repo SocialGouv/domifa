@@ -75,6 +75,35 @@ jobs:
           name: frontend-coverage
           path: packages/frontend/coverage
 
+  portail-usagers:
+    name: Portail Usagers unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Set up Node.js v14
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Set up Yarn cache
+        uses: c-hive/gha-yarn-cache@v2
+
+      - name: Install dependencies
+        run: yarn workspace @domifa/portail-usagers install --frozen-lockfile --prefer-offline
+
+      - name: Run front-end tests
+        run: yarn workspace @domifa/portail-usagers test --coverage --detectOpenHandles --forceExit
+
+      - name: Archive code coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: portail-usagers-coverage
+          path: packages/portail-usagers/coverage
+
   codecov:
     name: Publish code coverage
     runs-on: ubuntu-18.04
