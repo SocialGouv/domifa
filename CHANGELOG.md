@@ -1,3 +1,10 @@
+## [2.19.2](https://github.com/SocialGouv/domifa/compare/v2.19.1...v2.19.2) (2021-09-21)
+
+
+### Bug Fixes
+
+* Push to Harbor registry. ([#1706](https://github.com/SocialGouv/domifa/issues/1706)) ([b59aefc](https://github.com/SocialGouv/domifa/commit/b59aefccf2bf50ee061338fff43ed2f7d9f74b1e))
+
 ## [2.19.1](https://github.com/SocialGouv/domifa/compare/v2.19.0...v2.19.1) (2021-09-21)
 
 
