@@ -1,3 +1,10 @@
+## [2.19.5](https://github.com/SocialGouv/domifa/compare/v2.19.4...v2.19.5) (2021-09-21)
+
+
+### Bug Fixes
+
+* update deploy script ([#1709](https://github.com/SocialGouv/domifa/issues/1709)) ([fec3d23](https://github.com/SocialGouv/domifa/commit/fec3d235c29ca45a26e2f9b1580f9b08a5587587))
+
 ## [2.19.4](https://github.com/SocialGouv/domifa/compare/v2.19.3...v2.19.4) (2021-09-21)
 
 
