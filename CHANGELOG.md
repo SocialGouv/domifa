@@ -1,3 +1,10 @@
+## [2.19.3](https://github.com/SocialGouv/domifa/compare/v2.19.2...v2.19.3) (2021-09-21)
+
+
+### Bug Fixes
+
+* update docker registry ([#1707](https://github.com/SocialGouv/domifa/issues/1707)) ([2f33af3](https://github.com/SocialGouv/domifa/commit/2f33af305fd3bf4245eddc77dbe475443bd08a32))
+
 ## [2.19.2](https://github.com/SocialGouv/domifa/compare/v2.19.1...v2.19.2) (2021-09-21)
 
 
