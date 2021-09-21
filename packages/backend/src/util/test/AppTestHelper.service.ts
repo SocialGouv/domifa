@@ -78,6 +78,8 @@ async function authenticateStructure(
     profile: "structure",
     structureRole: authInfo.role,
     structureId: authInfo.structureId,
+    userId: authInfo.id,
+    userUUID: authInfo.uuid,
   };
   console.log(response.body);
 }
@@ -97,6 +99,8 @@ async function authenticateSuperAdminDomifa(
   context.authToken = response.body.access_token;
   context.user = {
     profile: "super-admin-domifa",
+    userId: authInfo.id,
+    userUUID: authInfo.uuid,
   };
 }
 

@@ -1,3 +1,4 @@
+import { HttpStatus } from "@nestjs/common";
 import { AppTestContext, AppTestHttpClient } from "../../util/test";
 import {
   AppTestHttpClientSecurityTestDef,
@@ -24,6 +25,7 @@ export const UsagersStructureDocsControllerSecurityTests: AppTestHttpClientSecur
           context.user,
           {
             roles: ["simple", "responsable", "admin"],
+            validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
           }
         ),
       }),

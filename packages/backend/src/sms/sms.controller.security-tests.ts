@@ -3,6 +3,7 @@ import { USER_STRUCTURE_ROLE_ALL } from "../_common/model";
 import {
   AppTestHttpClientSecurityTestDef,
   expectedResponseStatusBuilder,
+  securityTestDataBuilder,
 } from "../_tests";
 
 ////////////////// IMPORTANT //////////////////
@@ -17,7 +18,7 @@ export const SmsControllerSecurityTests: AppTestHttpClientSecurityTestDef[] = [
   {
     label: `${CONTROLLER}.enableByDomifa`,
     query: async (context: AppTestContext) => {
-      const structureId = context.user?.structureId ?? 1; // user structureId (default to "1" if anonymous)
+      const structureId = securityTestDataBuilder.getUserStructureId(context);
       return {
         response: await AppTestHttpClient.put(`/sms/enable/${structureId}`, {
           context,

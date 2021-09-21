@@ -4,4 +4,6 @@ export type AppTestAuthProfile = {
   profile: UserProfile;
   structureRole?: UserStructureRole;
   structureId?: number;
+  userId?: number;
+  userUUID?: string;
 };

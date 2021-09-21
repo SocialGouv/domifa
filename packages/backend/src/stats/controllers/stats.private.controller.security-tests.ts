@@ -3,6 +3,7 @@ import { AppTestContext, AppTestHttpClient } from "../../util/test";
 import {
   AppTestHttpClientSecurityTestDef,
   expectedResponseStatusBuilder,
+  securityTestDataBuilder,
 } from "../../_tests";
 
 ////////////////// IMPORTANT //////////////////
@@ -17,42 +18,48 @@ export const StatsPrivateControllerSecurityTests: AppTestHttpClientSecurityTestD
   [
     {
       label: `${CONTROLLER}.exportByDate`,
-      query: async (context: AppTestContext) => ({
-        response: await AppTestHttpClient.post("/stats/export", {
-          context,
-          body: {
-            start: new Date("2021-03-31T14:32:22Z"),
-            end: new Date("2021-04-31T14:32:22Z"),
-            structureId: context.user?.structureId ?? 1, // user structureId (default to "1" if anonymous)
-          },
-        }),
-        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
-          context.user,
-          {
-            roles: ["simple", "responsable", "admin"],
-            validExpectedResponseStatus: HttpStatus.CREATED,
-          }
-        ),
-      }),
+      query: async (context: AppTestContext) => {
+        const structureId = securityTestDataBuilder.getUserStructureId(context);
+        return {
+          response: await AppTestHttpClient.post("/stats/export", {
+            context,
+            body: {
+              start: new Date("2021-03-31T14:32:22Z"),
+              end: new Date("2021-04-31T14:32:22Z"),
+              structureId,
+            },
+          }),
+          expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+            context.user,
+            {
+              roles: ["simple", "responsable", "admin"],
+              validExpectedResponseStatus: HttpStatus.CREATED,
+            }
+          ),
+        };
+      },
     },
     {
       label: `${CONTROLLER}.getByDate`,
-      query: async (context: AppTestContext) => ({
-        response: await AppTestHttpClient.post("/stats/export", {
-          context,
-          body: {
-            start: new Date("2021-03-31T14:32:22Z"),
-            end: new Date("2021-04-31T14:32:22Z"),
-            structureId: context.user?.structureId ?? 1, // user structureId (default to "1" if anonymous)
-          },
-        }),
-        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
-          context.user,
-          {
-            roles: ["simple", "responsable", "admin"],
-            validExpectedResponseStatus: HttpStatus.CREATED,
-          }
-        ),
-      }),
+      query: async (context: AppTestContext) => {
+        const structureId = securityTestDataBuilder.getUserStructureId(context);
+        return {
+          response: await AppTestHttpClient.post("/stats/export", {
+            context,
+            body: {
+              start: new Date("2021-03-31T14:32:22Z"),
+              end: new Date("2021-04-31T14:32:22Z"),
+              structureId,
+            },
+          }),
+          expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+            context.user,
+            {
+              roles: ["simple", "responsable", "admin"],
+              validExpectedResponseStatus: HttpStatus.CREATED,
+            }
+          ),
+        };
+      },
     },
   ];
