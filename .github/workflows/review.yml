@@ -19,9 +19,10 @@ jobs:
     name: Build & Register backend
     runs-on: ubuntu-latest
     steps:
-      - name: Get project name
-        run: |
-          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
+    - name: Get project name
+      run: |
+        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
     - name: Get project name
       run: |
@@ -42,9 +43,10 @@ jobs:
     name: Build & Register frontend
     runs-on: ubuntu-latest
     steps:
-      - name: Get project name
-        run: |
-          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
+    - name: Get project name
+      run: |
+        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
     - name: Use autodevops build and register
       uses: SocialGouv/actions/harbor-build-register@master
@@ -61,17 +63,18 @@ jobs:
     name: Build & Register portail-usagers
     runs-on: ubuntu-latest
     steps:
-      - name: Get project name
-        run: |
-          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
-      - name: Use autodevops build and register
-        uses: SocialGouv/actions/harbor-build-register@master
-        with:
-          imageName: ${{ env.project }}/portail-usagers
-          dockerfile: packages/portail-usagers/Dockerfile
-          harborUsername: ${{ secrets.HARBOR_USERNAME }}
-          harborPassword: ${{ secrets.HARBOR_PASSWORD }}
+    - name: Get project name
+      run: |
+        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
+    - name: Use autodevops build and register
+      uses: SocialGouv/actions/harbor-build-register@master
+      with:
+        imageName: ${{ env.project }}/portail-usagers
+        dockerfile: packages/portail-usagers/Dockerfile
+        harborUsername: ${{ secrets.HARBOR_USERNAME }}
+        harborPassword: ${{ secrets.HARBOR_PASSWORD }}
 
   ##############################################################################
   ## GENERATE KUBERNETES MANIFESTS

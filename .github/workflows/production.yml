@@ -23,13 +23,6 @@ jobs:
       run: |
         echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
-    # - name: Use autodevops build and register
-    #   uses: SocialGouv/actions/autodevops-build-register@master
-    #   with:
-    #     project: ${{ env.project }}
-    #     token: ${{ secrets.GITHUB_TOKEN }}
-    #     imageName: ${{ env.project }}/backend
-    #     dockerfile: packages/backend/Dockerfile
     - name: Use autodevops build and register
       uses: SocialGouv/actions/harbor-build-register@master
       with:
@@ -50,13 +43,6 @@ jobs:
       run: |
         echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
-    # - name: Use autodevops build and register
-    #   uses: SocialGouv/actions/autodevops-build-register@master
-    #   with:
-    #     project: ${{ env.project }}
-    #     token: ${{ secrets.GITHUB_TOKEN }}
-    #     imageName: ${{ env.project }}/frontend
-    #     dockerfile: packages/frontend/Dockerfile
     - name: Use autodevops build and register
       uses: SocialGouv/actions/harbor-build-register@master
       with:
