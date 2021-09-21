@@ -29,7 +29,7 @@ services:
   backend:
     env_file:
       - ./.env
-    image: ghcr.io/socialgouv/domifa/backend:${DOMIFA_DOCKER_IMAGE_VERSION}
+    image: harbor.fabrique.social.gouv.fr/domifa/backend:${DOMIFA_DOCKER_IMAGE_VERSION}
     restart: always
     depends_on:
       - "postgres"
@@ -41,7 +41,7 @@ services:
       TZ: Europe/Paris
 
   frontend:
-    image: ghcr.io/socialgouv/domifa/frontend:${DOMIFA_DOCKER_IMAGE_VERSION}
+    image: harbor.fabrique.social.gouv.fr/domifa/frontend:${DOMIFA_DOCKER_IMAGE_VERSION}
     restart: always
     ports:
       - "${DOCKER_LOCAL_PORT_FRONTEND}:80"
