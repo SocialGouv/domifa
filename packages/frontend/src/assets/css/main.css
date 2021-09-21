@@ -92,15 +92,7 @@ table .active {
   font-weight: 600;
 }
 
-.capitalize {
-  text-transform: capitalize;
-}
-
-.text-warning2 {
-  color: #e08b01;
-}
-
-.step_form .card {
+orm .card {
   margin: 15px auto;
   width: 90%;
 }
@@ -371,21 +363,6 @@ table .active {
   box-shadow: 0 0 5px rgba(50, 66, 124, 0.1);
 }
 
-.label-danger {
-  background-color: #ffe5dd;
-  color: #b51515;
-}
-
-.label-green {
-  background-color: #d4f4ed;
-  color: #486346;
-}
-
-.label-yellow {
-  background-color: #feedd1;
-  color: #282828;
-}
-
 .danger-status .statut-date,
 .warning-status .statut-date {
   font-weight: bold;
@@ -546,19 +523,4 @@ table .active {
 .label-info span {
   display: block;
   font-size: 0.85rem;
-}
-
-.label-danger {
-  background-color: #ffe5dd;
-  color: #b51515;
-}
-
-.label-green {
-  background-color: #d4f4ed;
-  color: #486346;
-}
-
-.label-yellow {
-  background-color: #feedd1;
-  color: #282828;
 }

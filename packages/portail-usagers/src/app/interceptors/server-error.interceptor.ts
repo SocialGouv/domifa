@@ -9,13 +9,16 @@ import { Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
-import { AuthService } from "../modules/shared/services/auth.service";
+import { UsagerAuthService } from "../modules/usager-auth/services/usager-auth.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class ServerErrorInterceptor implements HttpInterceptor {
-  constructor(private toastr: ToastrService, public authService: AuthService) {}
+  constructor(
+    private toastr: ToastrService,
+    public authService: UsagerAuthService
+  ) {}
 
   public intercept(
     request: HttpRequest<any>,
