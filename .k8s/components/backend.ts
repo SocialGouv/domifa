@@ -87,7 +87,8 @@ export const getManifests = async () => {
       subDomainPrefix: ciEnv.isProduction ? `fake-` : `${subdomain}-`,
     },
     deployment: {
-      image: `ghcr.io/socialgouv/domifa/backend:sha-${tag}`,
+      // image: `ghcr.io/socialgouv/domifa/backend:sha-${tag}`,
+      image: `harbor.fabrique.social.gouv.fr/domifa/backend:sha-${tag}`,
       volumes: [isDev ? emptyDir : uploadsVolume],
       container: {
         volumeMounts: [uploadsVolumeMount],

@@ -24,12 +24,12 @@ jobs:
         echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
     - name: Use autodevops build and register
-      uses: SocialGouv/actions/autodevops-build-register@master
+      uses: SocialGouv/actions/harbor-build-register@master
       with:
-        project: ${{ env.project }}
-        token: ${{ secrets.GITHUB_TOKEN }}
         imageName: ${{ env.project }}/backend
         dockerfile: packages/backend/Dockerfile
+        harborUsername: ${{ secrets.HARBOR_USERNAME }}
+        harborPassword: ${{ secrets.HARBOR_PASSWORD }}
 
   ##############################################################################
   ## BUILD AND REGISTER FRONTEND IMAGE
@@ -44,12 +44,13 @@ jobs:
         echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
     - name: Use autodevops build and register
-      uses: SocialGouv/actions/autodevops-build-register@master
+      uses: SocialGouv/actions/harbor-build-register@master
       with:
-        project: ${{ env.project }}
-        token: ${{ secrets.GITHUB_TOKEN }}
         imageName: ${{ env.project }}/frontend
         dockerfile: packages/frontend/Dockerfile
+        harborUsername: ${{ secrets.HARBOR_USERNAME }}
+        harborPassword: ${{ secrets.HARBOR_PASSWORD }}
+
 
   ##############################################################################
   ## GENERATE PREPROD KUBERNETES MANIFESTS

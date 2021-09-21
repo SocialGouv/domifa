@@ -19,17 +19,22 @@ jobs:
     name: Build & Register backend
     runs-on: ubuntu-latest
     steps:
-      - name: Get project name
-        run: |
-          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
-      - name: Use autodevops build and register
-        uses: SocialGouv/actions/autodevops-build-register@master
-        with:
-          project: ${{ env.project }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          imageName: ${{ env.project }}/backend
-          dockerfile: packages/backend/Dockerfile
+    - name: Get project name
+      run: |
+        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
+    - name: Get project name
+      run: |
+        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
+    - name: Use autodevops build and register
+      uses: SocialGouv/actions/harbor-build-register@master
+      with:
+        imageName: ${{ env.project }}/backend
+        dockerfile: packages/backend/Dockerfile
+        harborUsername: ${{ secrets.HARBOR_USERNAME }}
+        harborPassword: ${{ secrets.HARBOR_PASSWORD }}
 
   ##############################################################################
   ## BUILD AND REGISTER FRONTEND IMAGE
@@ -38,17 +43,18 @@ jobs:
     name: Build & Register frontend
     runs-on: ubuntu-latest
     steps:
-      - name: Get project name
-        run: |
-          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
-      - name: Use autodevops build and register
-        uses: SocialGouv/actions/autodevops-build-register@master
-        with:
-          project: ${{ env.project }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          imageName: ${{ env.project }}/frontend
-          dockerfile: packages/frontend/Dockerfile
+    - name: Get project name
+      run: |
+        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
+    - name: Use autodevops build and register
+      uses: SocialGouv/actions/harbor-build-register@master
+      with:
+        imageName: ${{ env.project }}/frontend
+        dockerfile: packages/frontend/Dockerfile
+        harborUsername: ${{ secrets.HARBOR_USERNAME }}
+        harborPassword: ${{ secrets.HARBOR_PASSWORD }}
 
   ##############################################################################
   ## BUILD AND REGISTER PORTAIL USAGERS IMAGE
@@ -57,17 +63,18 @@ jobs:
     name: Build & Register portail-usagers
     runs-on: ubuntu-latest
     steps:
-      - name: Get project name
-        run: |
-          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
-      - name: Use autodevops build and register
-        uses: SocialGouv/actions/autodevops-build-register@master
-        with:
-          project: ${{ env.project }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          imageName: ${{ env.project }}/portail-usagers
-          dockerfile: packages/portail-usagers/Dockerfile
+    - name: Get project name
+      run: |
+        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
+    - name: Use autodevops build and register
+      uses: SocialGouv/actions/harbor-build-register@master
+      with:
+        imageName: ${{ env.project }}/portail-usagers
+        dockerfile: packages/portail-usagers/Dockerfile
+        harborUsername: ${{ secrets.HARBOR_USERNAME }}
+        harborPassword: ${{ secrets.HARBOR_PASSWORD }}
 
   ##############################################################################
   ## GENERATE KUBERNETES MANIFESTS
