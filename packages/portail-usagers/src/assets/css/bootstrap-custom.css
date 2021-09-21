@@ -38,3 +38,67 @@
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
 }
+
+.alert-warning .svg-icon {
+  background-color: #f0870c;
+}
+
+.alert-danger .svg-icon {
+  background-color: #f00c0c;
+}
+
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.alert-success hr {
+  border-top-color: #b1dfbb;
+}
+
+.alert-success .alert-link {
+  color: #0b2e13;
+}
+
+.alert-info {
+  color: #000000;
+  background-color: #e1ecff;
+  border-color: #a4c7ff;
+}
+
+.alert-info hr {
+  border-color: #a4c7ff;
+}
+
+.alert-info .alert-link {
+  color: #062c33;
+}
+
+.alert-warning {
+  color: black;
+  background-color: #fff9f4;
+  border-color: #ffe1c6;
+}
+
+.alert-warning hr {
+  border-top-color: #ffe1c6;
+}
+
+.alert-warning .alert-link {
+  color: #533f03;
+}
+
+.alert-danger {
+  color: black;
+  background-color: #fff4f5;
+  border-color: #ffcccf;
+}
+
+.alert-danger hr {
+  border-top-color: #f1b0b7;
+}
+
+.alert-danger .alert-link {
+  color: #491217;
+}

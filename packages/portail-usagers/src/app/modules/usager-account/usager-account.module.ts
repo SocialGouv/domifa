@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { UsagerAccountRoutingModule } from './usager-account-routing.module';
 import { HomeUsagerComponent } from './home-usager/home-usager.component';
+import { SectionInfosComponent } from './section-infos/section-infos.component';
 
 
 @NgModule({
   declarations: [
-    HomeUsagerComponent
+    HomeUsagerComponent,
+    SectionInfosComponent
   ],
   imports: [
     CommonModule,
