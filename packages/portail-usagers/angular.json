@@ -22,7 +22,9 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
-            "assets": ["src/assets"],
+            "assets": [
+              "src/assets"
+            ],
             "styles": [
               "src/assets/css/bootstrap-custom.css",
               "src/assets/css/fonts.css",
@@ -30,11 +32,16 @@
               "src/assets/css/print.css",
               "src/assets/css/icons.css",
               "node_modules/ngx-toastr/toastr.css",
-              "../../node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": []
           },
           "configurations": {
+            "analyze": {
+              "sourceMap": true,
+              "namedChunks": true,
+              "outputHashing": "all"
+            },
             "production": {
               "budgets": [
                 {
@@ -91,8 +98,13 @@
         "lint": {
           "builder": "@angular-eslint/schematics",
           "options": {
-            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
+            "tsConfig": [
+              "src/tsconfig.app.json",
+              "src/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }

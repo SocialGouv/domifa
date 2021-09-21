@@ -2,10 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router, RouterStateSnapshot } from "@angular/router";
 import * as Sentry from "@sentry/browser";
-import jwtDecode from "jwt-decode";
 import { ToastrService } from "ngx-toastr";
-import { BehaviorSubject, Observable, of } from "rxjs";
-import { catchError, map } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
 
 @Injectable({
