@@ -52,8 +52,8 @@ Si il s'agit d'une branche que l'on a déjà déployé (par exemple `master`), r
 ```bash
 DOMIFA_DOCKER_IMAGE_VERSION=1.17.0 # pour un tag
 DOMIFA_DOCKER_IMAGE_VERSION=master # pour la branche 'master'
-sudo docker pull harbor.fabrique.social.gouv.fr/domifa/backend:${DOMIFA_DOCKER_IMAGE_VERSION}
-sudo docker pull harbor.fabrique.social.gouv.fr/domifa/frontend:${DOMIFA_DOCKER_IMAGE_VERSION}
+sudo docker pull ghcr.io/socialgouv/domifa/backend:${DOMIFA_DOCKER_IMAGE_VERSION}
+sudo docker pull ghcr.io/socialgouv/domifa/frontend:${DOMIFA_DOCKER_IMAGE_VERSION}
 ```
 
 Enfin, déployer:

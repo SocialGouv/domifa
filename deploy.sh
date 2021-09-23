@@ -57,7 +57,7 @@ else
   echo ""
   echo "----------------------------------------------------------------------------"
   echo "Pull docker backend image '$DOMIFA_DOCKER_IMAGE_VERSION'"
-  (set -x && sudo docker pull harbor.fabrique.social.gouv.fr/domifa/backend:${DOMIFA_DOCKER_IMAGE_VERSION})
+  (set -x && sudo docker pull ghcr.io/socialgouv/domifa/backend:${DOMIFA_DOCKER_IMAGE_VERSION})
   if [ $? -eq 1 ]; then
       echo "[ERROR] exit"
       exit 3
@@ -65,7 +65,7 @@ else
   echo ""
   echo "----------------------------------------------------------------------------"
   echo "Pull docker frontend image '$DOMIFA_DOCKER_IMAGE_VERSION'"
-  (set -x && sudo docker pull harbor.fabrique.social.gouv.fr/domifa/frontend:${DOMIFA_DOCKER_IMAGE_VERSION})
+  (set -x && sudo docker pull ghcr.io/socialgouv/domifa/frontend:${DOMIFA_DOCKER_IMAGE_VERSION})
   if [ $? -eq 1 ]; then
       echo "[ERROR] exit"
       exit 3
