@@ -9,17 +9,22 @@
     (ngSubmit)="login()"
   >
     <div class="col form-group required">
-      <label for="email">Adresse email</label>
+      <label for="usagerAuthId">Votre identifiant</label>
       <input
         type="text"
-        formControlName="email"
+        formControlName="usagerAuthId"
         autocomplete="username"
-        placeholder="Adresse email"
+        placeholder="Votre identifiant"
         class="form-control"
-        [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+        [ngClass]="{
+          'is-invalid': f.usagerAuthId.dirty && f.usagerAuthId.errors
+        }"
       />
-      <div *ngIf="f.email.dirty && f.email.errors" class="invalid-feedback">
-        Veuillez vérifier l'adresse email
+      <div
+        *ngIf="f.usagerAuthId.dirty && f.usagerAuthId.errors"
+        class="invalid-feedback"
+      >
+        Veuillez vérifier l'identifiant
       </div>
     </div>
     <div class="col form-group required passwordInput">

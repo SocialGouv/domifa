@@ -28,7 +28,3 @@ export class JwtInterceptor implements HttpInterceptor {
     return next.handle(request);
   }
 }
-
-export const JWT_INTERCEPTORS = [
-  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-];

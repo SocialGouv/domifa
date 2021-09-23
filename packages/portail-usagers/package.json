@@ -1,6 +1,6 @@
 {
   "name": "@domifa/portail-usagers",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "main": "index.js",
   "author": "Incubateur des Ministères Sociaux <dsi-incubateur@sg.social.gouv.fr> (https://incubateur.social.gouv.fr)",
   "license": "Apache-2.0",
@@ -31,7 +31,9 @@
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
+    "@sentry/angular": "^6.13.2",
     "@sentry/browser": "^6.12.0",
+    "@sentry/tracing": "^6.13.2",
     "bootstrap": "4.6.0",
     "ngx-matomo": "^0.1.4",
     "ngx-toastr": "^14.1.3",

@@ -4,9 +4,6 @@ import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 
-import { regexp } from "../../../shared/utils/validators";
-
-import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { UsagerAuthService } from "../services/usager-auth.service";
 import { AuthLoginForm } from "../../../../_common/auth/AuthLoginForm.type";
 
@@ -19,7 +16,6 @@ export class UsagerLoginComponent implements OnInit {
   public loginForm!: FormGroup;
   public userForm!: FormGroup;
 
-  public returnUrl: string;
   public hidePassword: boolean;
   public loading: boolean;
 
@@ -33,19 +29,16 @@ export class UsagerLoginComponent implements OnInit {
   ) {
     this.hidePassword = true;
     this.loading = false;
-    this.returnUrl = "/";
   }
 
   public ngOnInit() {
-    this.returnUrl = this.route.snapshot.queryParams.returnUrl || "/";
-
     this.titleService.setTitle("Connexion à DomiFa");
     this.initForm();
   }
 
   public initForm() {
     this.loginForm = this.formBuilder.group({
-      email: ["", [Validators.pattern(regexp.email), Validators.required]],
+      usagerAuthId: ["", [Validators.required]],
       password: ["", Validators.required],
     });
   }
@@ -66,10 +59,7 @@ export class UsagerLoginComponent implements OnInit {
     this.authService.login(loginForm).subscribe({
       next: () => {
         this.loading = false;
-
-        return this.returnUrl !== "/"
-          ? this.router.navigateByUrl(this.returnUrl)
-          : this.router.navigate(["/manage"]);
+        this.router.navigate(["/"]);
       },
       error: () => {
         this.loading = false;
