@@ -1,5 +1,5 @@
 <table
-  *ngIf="usager.historique.length > 0"
+  *ngIf="usager.notes.length > 0"
   class="profil-table table table-light table-hover"
 >
   <thead>
@@ -25,3 +25,6 @@
     </tr>
   </tbody>
 </table>
+<div *ngIf="usager.notes.length === 0" class="alert alert-info">
+  Aucune note enregistrée actuellement
+</div>
