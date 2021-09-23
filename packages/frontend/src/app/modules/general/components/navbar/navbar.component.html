@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg">
   <div class="container px-2">
     <div class="row d-flex align-items-center">
-      <a routerLink="'/'">
+      <a [routerLink]="['/']">
         <img
           class="home-header-image"
           (click)="matomo.trackEvent('HEADER', 'Header_Logo_DomiFa', 'null', 1)"
@@ -11,7 +11,7 @@
         />
       </a>
 
-      <a class="navbar-brand ml-5 d-none d-sm-block" routerLink="'/'">
+      <a class="navbar-brand ml-5 d-none d-sm-block" [routerLink]="['/']">
         <img
           class="domifa-logo"
           src="../assets/images/logo.svg"

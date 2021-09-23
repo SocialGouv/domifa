@@ -1,4 +1,4 @@
-<table class="table" *ngIf="messagesList">
+<table class="table" *ngIf="messagesList.length > 0">
   <thead>
     <tr>
       <th>Date</th>
@@ -26,3 +26,7 @@
     </tr>
   </tbody>
 </table>
+
+<div *ngIf="messagesList.length === 0" class="alert alert-info">
+  Aucun sms enregistré actuellement
+</div>

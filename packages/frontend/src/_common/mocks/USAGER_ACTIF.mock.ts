@@ -4,13 +4,12 @@ import { ETAPE_DOSSIER_COMPLET } from "../model/usager/constants";
 export const USAGER_ACTIF_MOCK: UsagerLight = {
   notes: [],
   decision: {
-    orientationDetails: null,
     statut: "VALIDE",
     dateDebut: new Date("2020-02-12T00:00:00.000Z"),
     dateDecision: new Date("2020-02-12T00:00:00.000Z"),
     dateFin: new Date("2021-02-12T00:00:00.000Z"),
     motif: undefined,
-    typeDom: undefined,
+    typeDom: "PREMIERE_DOM",
     motifDetails: "",
     userId: 30,
     userName: "Testeur Robin",
@@ -90,7 +89,6 @@ export const USAGER_ACTIF_MOCK: UsagerLight = {
     userName: "Testeur Robin",
   },
   typeDom: "RENOUVELLEMENT",
-
   customRef: "5",
   dateNaissance: new Date("1998-08-07T00:00:00.000Z"),
   nom: "Martine",

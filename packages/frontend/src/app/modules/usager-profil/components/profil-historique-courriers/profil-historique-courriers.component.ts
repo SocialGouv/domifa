@@ -27,6 +27,7 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
 
   public ngOnInit(): void {
     this.getInteractions();
+    this.interactions = [];
   }
 
   public deleteInteraction(interactionUuid: string) {
