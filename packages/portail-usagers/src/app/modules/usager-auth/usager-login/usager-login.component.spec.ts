@@ -1,16 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { UsagerLoginComponent } from './usager-login.component';
+import { UsagerLoginComponent } from "./usager-login.component";
 
-describe('UsagerLoginComponent', () => {
+describe("UsagerLoginComponent", () => {
   let component: UsagerLoginComponent;
   let fixture: ComponentFixture<UsagerLoginComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UsagerLoginComponent ]
-    })
-    .compileComponents();
+      declarations: [UsagerLoginComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +18,14 @@ describe('UsagerLoginComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
+  });
+
+  it("submitting a form emits a user", () => {
+    expect(component.loginForm.valid).toBeFalsy();
+    component.loginForm.controls["email"].setValue("test@test.com");
+    component.loginForm.controls["password"].setValue("123456789");
+    expect(component.loginForm.valid).toBeTruthy();
   });
 });

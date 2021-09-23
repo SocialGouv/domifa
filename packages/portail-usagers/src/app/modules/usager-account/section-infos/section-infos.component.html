@@ -1,1 +1,30 @@
-<p>section-infos works!</p>
+<ng-container *ngIf="usager">
+  <h2>Votre domiciliation</h2>
+
+  <div class="section-content" id="usager-dossier">
+    <h4 class="section-title">Votre dossier</h4>
+
+    <div class="col-12 my-1">
+      <div>
+        <span class="label">Statut</span>
+
+        <span class="label-statut">
+          {{ USAGER_DECISION_STATUT_LABELS[usager.decision.statut] }}
+        </span>
+      </div>
+      <div>
+        <span>Echeance</span>
+        <span>12/12/2021</span>
+      </div>
+      <div>
+        <span class="label">Dernier passage</span>
+        {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yyyy" }}
+      </div>
+    </div>
+  </div>
+  <div class="section-content" id="usager-infos">
+    <span>{{ usager.nom }} {{ usager.prenom }}</span>
+    <span>{{ usager.phone }}</span>
+    <span>{{ usager.email }}</span>
+  </div>
+</ng-container>
