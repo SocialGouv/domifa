@@ -1,3 +1,11 @@
+## [2.19.6-alpha.2](https://github.com/SocialGouv/domifa/compare/v2.19.6-alpha.1...v2.19.6-alpha.2) (2021-09-23)
+
+
+### Bug Fixes
+
+* Update references to images registry ([4096e16](https://github.com/SocialGouv/domifa/commit/4096e16b8b5261a52989f9d2d69ee0349f6e4e71))
+* Various fixes ([9500ddc](https://github.com/SocialGouv/domifa/commit/9500ddc9c912b10b51dbfb3bb036bcf83639991b))
+
 ## [2.19.6-alpha.1](https://github.com/SocialGouv/domifa/compare/v2.19.5...v2.19.6-alpha.1) (2021-09-23)
 
 
