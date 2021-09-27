@@ -1,129 +1,151 @@
-<div class="container my-5" *ngIf="me && structureSmsForm">
-  <div class="row">
-    <div class="my-2 col-md-8">
-      <h2>Paramètres d'envoi de SMS pour votre structure</h2>
-      <div>
-        Une fois que la fonctionnalité d'envoi de SMS au sein de votre structure
-        est activée, il vous faudra la valider sur chacune des fiches des
-        domiciliés lorsqu'ils vous en ont fait la demande
-      </div>
+<div *ngIf="me" class="head-page">
+  <div class="container">
+    <div class="pb-4 px-0">
+      <span class="title">
+        Paramètres d'envoi de SMS pour votre structure
+      </span>
     </div>
   </div>
+</div>
 
-  <div class="row my-4">
-    <div class="col-md-8">
-      <div class="card p-4">
-        <form
-          *ngIf="structure"
-          id="structureForm"
-          [formGroup]="structureSmsForm"
-          (ngSubmit)="submitStructureSmsForm()"
-        >
-          <div class="row">
-            <div class="col-md-9 form-group required">
-              Activer l'envoi de SMS pour vos domiciliés
-            </div>
-            <div class="col-3 text-right">
-              <div
-                formControlName="enabledByStructure"
-                class="btn-group btn-group-toggle"
-                ngbRadioGroup
-              >
-                <label
-                  ngbButtonLabel
-                  [ngClass]="
-                    form.enabledByStructure.value === true
-                      ? 'btn-primary'
-                      : 'btn-outline-primary'
-                  "
-                >
-                  <input ngbButton type="radio" [value]="true" />
-                  Oui
-                </label>
-                <label
-                  ngbButtonLabel
-                  [ngClass]="
-                    form.enabledByStructure.value === false
-                      ? 'btn-danger'
-                      : 'btn-outline-danger'
-                  "
-                >
-                  <input ngbButton type="radio" [value]="false" />
-                  Non
-                </label>
-              </div>
-            </div>
+<div class="content py-3" *ngIf="me && structureSmsForm">
+  <div class="container py-3">
+    <div class="page-content p-4">
+      <div>
+        <p>
+          <b>Information importante : </b> afin que vos domiciliés recoivent des
+          SMS à la réception de nouveaux courriers, colis ou avis de passage,
+          veuillez compléter les 3 étapes ci-dessous:
+        </p>
 
-            <div class="col-md-12 form-group required">
-              <label for="senderName">Expéditeur</label>
-              <input
-                type="text"
-                class="form-control"
-                id="senderName"
-                formControlName="senderName"
-                placeholder="Nom affiché en haut en tant qu'expediteur du message"
-                maxLength="11"
-                [ngClass]="{
-                  'is-invalid': submitted && form.senderName.errors
-                }"
-                required
-              />
-              <small>11 caractères maximum</small>
-              <div
-                *ngIf="submitted && form.senderName.errors"
-                class="invalid-feedback"
-              >
-                L'expediteur est obligatoire (maximum 11 caractères)
-              </div>
-            </div>
-
-            <div class="col-md-12 form-group required">
-              <label for="senderDetails">Signature du message</label>
-              <input
-                id="senderDetails"
-                type="text"
-                class="form-control"
-                maxLength="30"
-                formControlName="senderDetails"
-                [ngClass]="{
-                  'is-invalid': submitted && form.senderDetails.errors
-                }"
-                placeholder="Cet intitulé apparaitra en signature du SMS"
-              />
-              <small>30 caractères maximum</small>
-              <div
-                *ngIf="submitted && form.senderDetails.errors"
-                class="invalid-feedback"
-              >
-                La signature du message est obligatoire (maximum 30 caractères)
-              </div>
-            </div>
-
-            <div class="col-md-12 my-2 text-center">
-              <button class="btn btn-primary">
-                Enregistrer les modifications
-              </button>
-            </div>
-            <br />
-          </div>
-        </form>
+        <ul>
+          <li>1. Activez les SMS via le formulaire ci-dessous</li>
+          <li>2. Complétez le nom de l'expéditeur et la signature des SMS</li>
+          <li>
+            3. Dans la section <b>courriers</b> des fiches domiciliés, ajoutez
+            un numéro de portable à chaque domicilié
+          </li>
+        </ul>
       </div>
-    </div>
-    <div class="col-md-4">
-      <div id="sms-preview">
-        <div class="sms-header">
-          <span class="left">Messages</span>
-          <div id="sms-contact">{{ form.senderName.value }}</div>
+      <div class="row my-4">
+        <div class="col-md-8">
+          <div class="card p-4">
+            <form
+              *ngIf="structure"
+              id="structureForm"
+              [formGroup]="structureSmsForm"
+              (ngSubmit)="submitStructureSmsForm()"
+            >
+              <div class="row">
+                <div class="col-md-9 form-group">
+                  <span class="required label">
+                    Activer l'envoi de SMS pour vos domiciliés
+                  </span>
+                </div>
+                <div class="col-3 text-right">
+                  <div
+                    formControlName="enabledByStructure"
+                    class="btn-group btn-group-toggle"
+                    ngbRadioGroup
+                  >
+                    <label
+                      ngbButtonLabel
+                      [ngClass]="
+                        form.enabledByStructure.value === true
+                          ? 'btn-primary'
+                          : 'btn-outline-primary'
+                      "
+                    >
+                      <input ngbButton type="radio" [value]="true" />
+                      Oui
+                    </label>
+                    <label
+                      ngbButtonLabel
+                      [ngClass]="
+                        form.enabledByStructure.value === false
+                          ? 'btn-danger'
+                          : 'btn-outline-danger'
+                      "
+                    >
+                      <input ngbButton type="radio" [value]="false" />
+                      Non
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-md-6 form-group required">
+                  <label for="senderName">Expéditeur</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="senderName"
+                    formControlName="senderName"
+                    placeholder="Nom affiché en haut en tant qu'expediteur du message"
+                    maxLength="11"
+                    [ngClass]="{
+                      'is-invalid': submitted && form.senderName.errors
+                    }"
+                    required
+                  />
+                  <small>11 caractères maximum</small>
+                  <div
+                    *ngIf="submitted && form.senderName.errors"
+                    class="invalid-feedback"
+                  >
+                    L'expediteur est obligatoire (maximum 11 caractères)
+                  </div>
+                </div>
+
+                <div class="col-md-6 form-group required">
+                  <label for="senderDetails">Signature du message</label>
+                  <input
+                    id="senderDetails"
+                    type="text"
+                    class="form-control"
+                    maxLength="30"
+                    formControlName="senderDetails"
+                    [ngClass]="{
+                      'is-invalid': submitted && form.senderDetails.errors
+                    }"
+                    placeholder="Cet intitulé apparaitra en signature du SMS"
+                  />
+                  <small>30 caractères maximum</small>
+                  <div
+                    *ngIf="submitted && form.senderDetails.errors"
+                    class="invalid-feedback"
+                  >
+                    La signature du message est obligatoire (maximum 30
+                    caractères)
+                  </div>
+                </div>
+
+                <div class="col-md-12 my-2 text-center">
+                  <button class="btn btn-primary">
+                    Enregistrer les modifications
+                  </button>
+                </div>
+                <br />
+              </div>
+            </form>
+          </div>
         </div>
-        <div class="messages-wrapper">
-          <div class="message from">
-            Bonjour,
-            <br />
-            <br />
-            Vous avez reçu 5 nouveaux courriers
-            <br />
-            <br />
-            <b>{{ form.senderDetails.value }}</b>
+        <div class="col-md-4">
+          <div id="sms-preview">
+            <div class="sms-header">
+              <span class="left">Messages</span>
+              <div id="sms-contact">{{ form.senderName.value }}</div>
+            </div>
+            <div class="messages-wrapper">
+              <div class="message from">
+                Bonjour,
+                <br />
+                <br />
+                Vous avez reçu 5 nouveaux courriers
+                <br />
+                <br />
+                <b>{{ form.senderDetails.value }}</b>
+              </div>
+            </div>
           </div>
         </div>
       </div>

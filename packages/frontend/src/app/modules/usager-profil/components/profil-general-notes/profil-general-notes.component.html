@@ -6,7 +6,10 @@
     Aucune note enregistrée
   </div>
 
-  <div *ngFor="let note of filteredNotes; let i = index">
+  <div
+    *ngFor="let note of filteredNotes; let i = index"
+    class="note-historique"
+  >
     <div class="d-flex align-items-top">
       <div>
         <div class="number">

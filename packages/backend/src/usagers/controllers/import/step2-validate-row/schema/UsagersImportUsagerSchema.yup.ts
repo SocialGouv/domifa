@@ -51,7 +51,7 @@ export const UsagersImportUsagerSchema = yup
       .min(yup.ref("$minDate"))
       .max(yup.ref("$today"))
       .when("statutDom", {
-        is: (statutDom) => !["REFUS", "RADIE"].includes(statutDom), // = VALIDE
+        is: (statutDom) => !["RADIE"].includes(statutDom), // = VALIDE
         then: dateUtcSchema()
           .min(yup.ref("dateDebutDom"))
           .max(yup.ref("$nextYear"))

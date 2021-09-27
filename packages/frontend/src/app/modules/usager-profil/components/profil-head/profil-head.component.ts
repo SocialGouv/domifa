@@ -33,40 +33,38 @@ export class ProfilHeadComponent implements OnInit {
   public renewModal!: TemplateRef<any>;
 
   constructor(
-    private modalService: NgbModal,
-    private notifService: ToastrService,
-
-    private router: Router,
-
-    private usagerProfilService: UsagerProfilService
+    private readonly modalService: NgbModal,
+    private readonly notifService: ToastrService,
+    private readonly router: Router,
+    private readonly usagerProfilService: UsagerProfilService
   ) {
     this.today = new Date();
   }
 
   public ngOnInit(): void {}
 
-  public closeModals() {
+  public closeModals(): void {
     this.modalService.dismissAll();
   }
 
-  public isRole(role: UserStructureRole) {
+  public isRole(role: UserStructureRole): boolean {
     return this.me.role === role;
   }
 
-  public renouvellement() {
-    this.usagerProfilService.renouvellement(this.usager.ref).subscribe(
-      (usager: UsagerLight) => {
+  public renouvellement(): void {
+    this.usagerProfilService.renouvellement(this.usager.ref).subscribe({
+      next: (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
-        this.modalService.dismissAll();
-        this.router.navigate(["usager/" + usager.ref + "/edit"]);
+        this.closeModals();
         this.notifService.success(
           "Votre demande a été enregistrée. Merci de remplir l'ensemble du dossier"
         );
+        this.router.navigate(["usager/" + usager.ref + "/edit"]);
       },
-      (error) => {
+      error: () => {
         this.notifService.error("Impossible d'enregistrer cette interaction");
-      }
-    );
+      },
+    });
   }
 
   public openRenewModal() {

@@ -64,7 +64,7 @@ tbody td:last-child {
 }
 
 tbody tr {
-  transition: all 50ms;
+  transition: all 1s;
   animation-timing-function: cubic-bezier(Ease Out);
   background: #ffffff;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
@@ -131,12 +131,7 @@ th {
   box-sizing: border-box;
   border-radius: 3px;
   margin: 3px;
-  padding: 1px 2px;
   position: relative;
-}
-
-.interaction-btn * {
-  transition: all 0.2s;
 }
 
 .interaction-btn:hover {
@@ -149,11 +144,11 @@ th {
 }
 
 .list-icon {
-  padding: 15px;
+  padding: 16px;
   box-sizing: border-box;
   background-color: #4164f5;
-  -webkit-mask-size: 80%;
-  mask-size: 80%;
+  -webkit-mask-size: 75%;
+  mask-size: 75%;
 }
 
 .list-icon-label {
