@@ -1,3 +1,10 @@
+## [2.19.9-alpha.1](https://github.com/SocialGouv/domifa/compare/v2.19.8...v2.19.9-alpha.1) (2021-09-27)
+
+
+### Bug Fixes
+
+* **workflows:** Use secrets instead of env variables ([11c9056](https://github.com/SocialGouv/domifa/commit/11c90568b5e302c28a65b786d634da801e7c913e))
+
 ## [2.19.8](https://github.com/SocialGouv/domifa/compare/v2.19.7...v2.19.8) (2021-09-27)
 
 
