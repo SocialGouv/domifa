@@ -11,7 +11,7 @@ export const getEcheanceInfos = (
     color: "d-none",
   };
 
-  if (typeof usager.decision === "undefined") {
+  if (!usager || typeof usager?.decision === "undefined") {
     return usagerInfos;
   }
 
