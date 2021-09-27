@@ -15,6 +15,5 @@ set -e
 ${CURRENT_DIR}/convert-postgres-tables-to-unlogged-docker.sh --db=test
 # export new dump
 ${CURRENT_DIR}/make-dump-database-docker.sh --db=test
-# export new data dump (n'est plus utilisé, remplacé par "1603812391581-copyDataToDatabase.ts")
-
-# ${CURRENT_DIR}/make-dump-data-only-docker.sh --db=test
+# export new data dump
+${CURRENT_DIR}/make-dump-data-only-docker.sh --db=test
