@@ -4,7 +4,7 @@ import { ETAPE_RENDEZ_VOUS } from "../../../../_common/model/usager/constants/ET
 import { USAGER_ACTIF_MOCK } from "../../../../_common/mocks/USAGER_ACTIF.mock";
 import { getRdvInfos } from "./getRdvInfos.service";
 
-describe("getEcheanceInfos", () => {
+describe("Création des rendez-vous", () => {
   beforeAll(() => {
     // Date de réféce : 20 Décembre 2020
     jest.useFakeTimers("modern");

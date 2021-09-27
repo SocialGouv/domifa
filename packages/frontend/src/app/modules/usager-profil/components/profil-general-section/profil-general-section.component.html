@@ -15,7 +15,7 @@
 
             <div>
               Cette personne a été radiée le
-              {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}
+              {{ usager.decision.dateFin | date: "dd/MM/yyyy" }}
               : {{ usager.decision.motifString }}
             </div>
           </div>
@@ -26,7 +26,7 @@
             <div class="svg-icon icon-danger"></div>
             <div class="text-danger">
               Demande refusée le
-              {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}
+              {{ usager.decision.dateFin | date: "dd/MM/yyyy" }}
               : {{ usager.decision.motifString }}
             </div>
           </div>
@@ -107,10 +107,9 @@
             <div class="svg-icon icon-danger"></div>
             <div>
               Domiciliation expirée depuis le
-              <b>
-                {{ usager.echeanceInfos.dateToDisplay | date: "dd/MM/yyyy" }},
-                il y a {{ usager.echeanceInfos.dayBeforeEnd * -1 }} jours
-              </b>
+
+              {{ usager.echeanceInfos.dateToDisplay | date: "dd/MM/yyyy" }}, il
+              y a {{ usager.echeanceInfos.dayBeforeEnd * -1 }} jours
             </div>
           </div>
         </div>
@@ -163,9 +162,9 @@
 
             <span>
               Une procuration au nom de
-              <b
+              <u
                 >{{ usager.options.procuration.nom }}
-                {{ usager.options.procuration.prenom }}</b
+                {{ usager.options.procuration.prenom }}</u
               >
               est active et valable jusqu'au
               {{ usager.options.procuration.dateFin | date: "dd/MM/yyyy" }}
@@ -181,8 +180,11 @@
           >
             <span class="svg-icon icon-calendar"></span>
             <span>
-              La procuration au nom de {{ usager.options.procuration.nom
-              }}{{ usager.options.procuration.prenom }}
+              La procuration au nom de
+              <u
+                >{{ usager.options.procuration.nom
+                }}{{ usager.options.procuration.prenom }}</u
+              >
               <b
                 >a expiré le
                 {{ usager.options.procuration.dateFin | date: "dd/MM/yyyy" }}</b

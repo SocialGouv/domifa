@@ -1,9 +1,10 @@
 #sms-preview {
   background: none repeat scroll 0 0 #fff;
   color: #ffffff;
-  line-height: 26px;
+
   width: 100%;
-  min-height: 400px;
+  min-height: 200px;
+  border-radius: 6px;
   margin: 0 auto;
   overflow-x: hidden;
   position: relative;
