@@ -1,3 +1,10 @@
+## [2.19.6](https://github.com/SocialGouv/domifa/compare/v2.19.5...v2.19.6) (2021-09-27)
+
+
+### Bug Fixes
+
+* env test data ([#1720](https://github.com/SocialGouv/domifa/issues/1720)) ([0790b30](https://github.com/SocialGouv/domifa/commit/0790b30d731c927fef0d40ac267883479708f776))
+
 ## [2.19.5](https://github.com/SocialGouv/domifa/compare/v2.19.4...v2.19.5) (2021-09-21)
 
 
