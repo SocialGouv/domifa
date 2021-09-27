@@ -12,8 +12,9 @@ import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
 } from "@ng-bootstrap/ng-bootstrap";
+import { format } from "date-fns";
 import { saveAs } from "file-saver";
-import moment from "moment";
+
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { Subscription } from "rxjs";
@@ -250,7 +251,8 @@ export function buildExportStructureStatsFileName({
   endDateUTC: Date;
   structureId: number;
 }) {
-  return `${moment(startDateUTC).format("yyyy-MM-DD")}_${moment(
-    endDateUTC
-  ).format("yyyy-MM-DD")}_export-structure-${structureId}-stats.xlsx`;
+  return `${format(startDateUTC, "yyyy-MM-dd")}_${format(
+    endDateUTC,
+    "yyyy-MM-dd"
+  )}_export-structure-${structureId}-stats.xlsx`;
 }

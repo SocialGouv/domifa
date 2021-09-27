@@ -1,4 +1,5 @@
-import moment from "moment";
+import { format } from "date-fns";
+
 import { UsagerLight, UsagerRdvInfos } from "../../../../_common/model";
 import { ETAPE_ENTRETIEN } from "../../../../_common/model/usager/constants";
 
@@ -23,9 +24,9 @@ export const getRdvInfos = (usager: Partial<UsagerLight>): UsagerRdvInfos => {
 
   rdvDisplay.content =
     "RDV le " +
-    moment(dateRdv).locale("fr").format("L") +
+    format(dateRdv, "dd/MM/yyyy") +
     " à " +
-    moment(dateRdv).locale("fr").format("LT");
+    format(dateRdv, "HH:mm");
 
   // Rdv à venir
   if (dateRdv > new Date()) {

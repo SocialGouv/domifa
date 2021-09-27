@@ -1,4 +1,5 @@
-import moment from "moment";
+import { subMonths, startOfDay, subDays } from "date-fns";
+
 import { UsagerLight } from "../../../../../../../../_common/model";
 import { UsagersFilterCriteria } from "../../UsagersFilterCriteria";
 
@@ -18,11 +19,8 @@ function check({
     if (usager.decision?.statut !== "VALIDE" || !usager.decision?.dateFin) {
       return false;
     }
-    const todayTime = moment(refDateNow)
-      .utc()
-      .startOf("day")
-      .toDate()
-      .getTime();
+    const todayTime = startOfDay(new Date()).getTime();
+
     switch (echeance) {
       case "DEPASSEE": {
         const maxDateTime = todayTime;
@@ -31,27 +29,18 @@ function check({
       }
       case "DEUX_MOIS": {
         const minDateTime = todayTime;
-        const maxDateTime = moment(refDateNow)
-          .startOf("day")
-          .add(2, "months")
-          .toDate()
-          .getTime();
+        const maxDateTime = subMonths(startOfDay(refDateNow), 2).getTime();
+
         const dateFinTime = new Date(usager.decision.dateFin).getTime();
         return dateFinTime <= maxDateTime && dateFinTime >= minDateTime;
       }
       case "DEUX_SEMAINES": {
         const minDateTime = todayTime;
-        const maxDateTime = moment(refDateNow)
-          .utc()
-          .startOf("day")
-          .add(14, "days")
-          .toDate()
-          .getTime();
+        const maxDateTime = subDays(startOfDay(refDateNow), 14).getTime();
         const dateFinTime = new Date(usager.decision.dateFin).getTime();
         return dateFinTime <= maxDateTime && dateFinTime >= minDateTime;
       }
       default:
-        console.error('Invalid valid for filter "passage"');
         return true;
     }
   }

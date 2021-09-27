@@ -8,7 +8,7 @@ import {
   NgbDateStruct,
   NgbModal,
 } from "@ng-bootstrap/ng-bootstrap";
-import moment from "moment";
+import { addYears, subDays } from "date-fns";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
@@ -107,7 +107,7 @@ export class DecisionComponent implements OnInit {
 
   public initForm() {
     this.usager.decision.dateDebut = new Date();
-    this.usager.decision.dateFin = moment.utc().add(1, "year").toDate();
+    this.usager.decision.dateFin = addYears(new Date(), 1);
 
     this.valideForm = this.formBuilder.group({
       dateDebut: [
@@ -142,11 +142,10 @@ export class DecisionComponent implements OnInit {
 
     this.valideForm.get("dateDebut").valueChanges.subscribe((value) => {
       if (value !== null && this.nbgDate.isValid(value)) {
-        const newDateFin = moment
-          .utc(this.nbgDate.formatEn(value))
-          .add(1, "year")
-          .subtract(1, "day")
-          .toDate();
+        const newDateFin = subDays(
+          addYears(new Date(this.nbgDate.formatEn(value)), 1),
+          1
+        );
 
         this.valideForm.controls.dateFin.setValue(formatDateToNgb(newDateFin));
       }
