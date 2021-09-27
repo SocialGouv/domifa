@@ -1,4 +1,5 @@
-import moment from "moment";
+import { startOfDay, subMonths } from "date-fns";
+
 import { UsagerLight } from "../../../../../../../../_common/model";
 import { UsagersFilterCriteria } from "../../UsagersFilterCriteria";
 
@@ -24,23 +25,12 @@ function check({
     let maxDateTime: number;
     switch (passage) {
       case "DEUX_MOIS":
-        maxDateTime = moment(refDateNow)
-          .utc()
-          .startOf("day")
-          .subtract(2, "months")
-          .toDate()
-          .getTime();
+        maxDateTime = subMonths(startOfDay(refDateNow), 2).getTime();
         break;
       case "TROIS_MOIS":
-        maxDateTime = moment(refDateNow)
-          .utc()
-          .startOf("day")
-          .subtract(3, "months")
-          .toDate()
-          .getTime();
+        maxDateTime = subMonths(startOfDay(refDateNow), 3).getTime();
         break;
       default:
-        console.error('Invalid valid for filter "passage"');
         return true;
     }
     return (
