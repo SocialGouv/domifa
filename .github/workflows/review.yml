@@ -80,6 +80,8 @@ jobs:
         uses: SocialGouv/actions/k8s-manifests@v1
         with:
           environment: "dev"
+          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+          socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
 
   ##############################################################################
   ## DEPLOY BACKEND & FRONT-END
@@ -95,3 +97,4 @@ jobs:
           environment: "dev"
           token: ${{ secrets.GITHUB_TOKEN }}
           kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }}
+          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
