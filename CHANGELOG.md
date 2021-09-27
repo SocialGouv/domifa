@@ -1,3 +1,11 @@
+## [2.19.9-beta.1](https://github.com/SocialGouv/domifa/compare/v2.19.8...v2.19.9-beta.1) (2021-09-27)
+
+
+### Bug Fixes
+
+* **workflows:** Generate prod manifests within production env ([d608a27](https://github.com/SocialGouv/domifa/commit/d608a2703971eb27ae568cee3073c1f3b2dca251))
+* **workflows:** Use secrets instead of env variables ([11c9056](https://github.com/SocialGouv/domifa/commit/11c90568b5e302c28a65b786d634da801e7c913e))
+
 ## [2.19.9-alpha.1](https://github.com/SocialGouv/domifa/compare/v2.19.8...v2.19.9-alpha.1) (2021-09-27)
 
 
