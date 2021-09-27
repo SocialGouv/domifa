@@ -11,15 +11,18 @@ export class copyDataToDatabase1603812391581 implements MigrationInterface {
     appLogger.warn("> app_user");
     // uuid createdAt updatedAt version email fonction id lastLogin nom password prenom role structureId mails passwordLastUpdate verified
     await queryRunner.query(`
-      INSERT INTO public.app_user VALUES ('da01f451-9c4f-4f6c-98bb-c635277e33e7', '2020-11-17 13:18:47.658346+00', '2021-06-28 13:27:26.09598+00', 1, 'ccastest@yopmail.com', NULL, nextval('app_user_id_seq'), '2021-06-28 13:27:26.095+00', 'Roméro', '$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u', 'Patrick', 'admin', 1, '{"guide": false, "import": false}', NULL, true);
-      INSERT INTO public.app_user VALUES ('663b9baa-2880-406c-a93a-32fe65528037', '2020-11-17 13:18:47.658346+00', '2020-11-17 13:18:47.658346+00', 1, 'justeisabelle@yopmail.com', NULL, nextval('app_user_id_seq'), NULL, 'Juste', '$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u', 'Isabelle', 'simple', 1, '{"guide": false, "import": false}', NULL, true);
-      INSERT INTO public.app_user VALUES ('b0140303-79e3-436c-9c41-1eaefeeaed6e', '2020-11-17 13:23:20.248011+00', '2020-11-17 13:23:20.257747+00', 1, 'peter.smith@yopmail.com', NULL, nextval('app_user_id_seq'), NULL, 'Smith', '$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u', 'Peter', 'responsable', 1, '{"guide": false, "import": false}', NULL, true);
-      INSERT INTO public.app_user VALUES ('d19ece1f-d32b-498c-9427-eb12b1251163', '2020-11-17 13:26:29.482634+00', '2020-11-17 13:26:29.490297+00', 1, 'facteur.test@yopmail.com', NULL, nextval('app_user_id_seq'), NULL, 'Test', '$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u', 'Facteur', 'facteur', 1, '{"guide": false, "import": false}', NULL, false);
-      INSERT INTO public.app_user VALUES ('d81c5566-94f9-4ee4-ab57-a604a654f79b', '2020-11-17 13:32:22.193933+00', '2020-11-17 13:39:14.015103+00', 1, 'roseline.parmentier@yopmail.com', NULL, nextval('app_user_id_seq'), '2020-11-17 13:39:13.796+00', 'Roseline', '$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u', 'Parmentier', 'admin', 3, '{"guide": false, "import": false}', '2020-11-17 13:39:14.013+00', true);
-      INSERT INTO public.app_user VALUES ('59c846d8-0592-4790-a5e2-1daae9b8776e', '2020-11-14 13:18:27.658736+00', '2020-11-14 13:18:27.658736+00', 1, 'structure-1.facteur-1@yopmail.com', NULL, nextval('app_user_id_seq'), '2021-06-28 13:27:26.095+00', 'Dupuis', '$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u', 'Facteur 1', 'facteur', , '{"guide": true, "import": true}', NULL, true);
-      INSERT INTO public.app_user VALUES ('44f1cfe8-eae9-49d5-aedb-76dda856c413', '2021-02-01 16:12:30.90825+00', '2021-02-01 16:13:04.64034+00', 1, 'test.import@yopmail.com', 'Testeur', nextval('app_user_id_seq'), NULL, 'Test', '$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u', 'Import', 'admin', 4, '{"guide": false, "import": false}', NULL, true);
-      INSERT INTO public.app_user VALUES  ('4e049e3d-bb65-48e5-8661-b1ccdc9db985' , '2021-09-21 00:03:26.186917+02','2021-09-21 00:03:26.186917+02', 2, 'simple-testeur@yopmail.com', 'Simple testeur', nextval('app_user_id_seq'), NULL, 'Jacquet','$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u', 'Aimé', 'simple' , 3, '{"guide": false, "import": false}' , NULL, true);
+      INSERT INTO public.app_user VALUES ('da01f451-9c4f-4f6c-98bb-c635277e33e7', '2020-11-17 13:18:47.658346+00', '2021-06-28 13:27:26.09598+00', 1, 'ccastest@yopmail.com', NULL, 1, '2021-06-28 13:27:26.095+00', 'Roméro', '$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u', 'Patrick', 'admin', 1, '{"guide": false, "import": false}', NULL, true);
+      INSERT INTO public.app_user VALUES ('663b9baa-2880-406c-a93a-32fe65528037', '2020-11-17 13:18:47.658346+00', '2020-11-17 13:18:47.658346+00', 1, 'justeisabelle@yopmail.com', NULL, 2, NULL, 'Juste', '$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u', 'Isabelle', 'simple', 1, '{"guide": false, "import": false}', NULL, true);
+      INSERT INTO public.app_user VALUES ('b0140303-79e3-436c-9c41-1eaefeeaed6e', '2020-11-17 13:23:20.248011+00', '2020-11-17 13:23:20.257747+00', 1, 'peter.smith@yopmail.com', NULL, 3, NULL, 'Smith', '$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u', 'Peter', 'responsable', 1, '{"guide": false, "import": false}', NULL, true);
+      INSERT INTO public.app_user VALUES ('d19ece1f-d32b-498c-9427-eb12b1251163', '2020-11-17 13:26:29.482634+00', '2020-11-17 13:26:29.490297+00', 1, 'facteur.test@yopmail.com', NULL, 4, NULL, 'Test', '$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u', 'Facteur', 'facteur', 1, '{"guide": false, "import": false}', NULL, false);
+      INSERT INTO public.app_user VALUES ('d81c5566-94f9-4ee4-ab57-a604a654f79b', '2020-11-17 13:32:22.193933+00', '2020-11-17 13:39:14.015103+00', 1, 'roseline.parmentier@yopmail.com', NULL, 5, '2020-11-17 13:39:13.796+00', 'Roseline', '$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u', 'Parmentier', 'admin', 3, '{"guide": false, "import": false}', '2020-11-17 13:39:14.013+00', true);
+      INSERT INTO public.app_user VALUES ('59c846d8-0592-4790-a5e2-1daae9b8776e', '2020-11-14 13:18:27.658736+00', '2020-11-14 13:18:27.658736+00', 1, 'structure-1.facteur-1@yopmail.com', NULL, 6, '2021-06-28 13:27:26.095+00', 'Dupuis', '$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u', 'Facteur 1', 'facteur', 1, '{"guide": true, "import": true}', NULL, true);
+      INSERT INTO public.app_user VALUES ('44f1cfe8-eae9-49d5-aedb-76dda856c413', '2021-02-01 16:12:30.90825+00', '2021-02-01 16:13:04.64034+00', 1, 'test.import@yopmail.com', 'Testeur', 7, NULL, 'Test', '$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u', 'Import', 'admin', 4, '{"guide": false, "import": false}', NULL, true);
+      INSERT INTO public.app_user VALUES  ('4e049e3d-bb65-48e5-8661-b1ccdc9db985' , '2021-09-21 00:03:26.186917+02','2021-09-21 00:03:26.186917+02', 2, 'simple-testeur@yopmail.com', 'Simple testeur', 8, NULL, 'Jacquet','$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u', 'Aimé', 'simple' , 3, '{"guide": false, "import": false}' , NULL, true);
     `);
+    await queryRunner.query(
+      `SELECT setval('app_user_id_seq', (SELECT MAX(id) FROM app_user))`
+    );
 
     appLogger.warn("> app_user_security");
     // uuid createdAt updatedAt version userId structureId temporaryTokens eventsHistory
@@ -29,9 +32,10 @@ export class copyDataToDatabase1603812391581 implements MigrationInterface {
       INSERT INTO public.app_user_security VALUES (uuid_generate_v4(), '2021-03-15 15:53:55.740856+00', '2021-03-15 15:53:55.740856+00', 1, 3, 1, NULL, '[]');
       INSERT INTO public.app_user_security VALUES (uuid_generate_v4(), '2021-03-15 15:53:55.740856+00', '2021-03-15 15:53:55.740856+00', 1, 4, 1, NULL, '[]');
       INSERT INTO public.app_user_security VALUES (uuid_generate_v4(), '2021-03-15 15:53:55.740856+00', '2021-03-15 15:53:55.740856+00', 1, 5, 3, NULL, '[]');
+      INSERT INTO public.app_user_security VALUES (uuid_generate_v4(), '2021-03-15 15:53:55.740856+00', '2021-03-15 15:53:55.740856+00', 1, 6, 4, NULL, '[]');
       INSERT INTO public.app_user_security VALUES (uuid_generate_v4(), '2021-03-15 15:53:55.740856+00', '2021-03-15 15:53:55.740856+00', 1, 7, 4, NULL, '[]');
       INSERT INTO public.app_user_security VALUES (uuid_generate_v4(), '2021-03-16 15:53:55.740856+00', '2021-03-16 15:53:55.740856+00', 1, 8, 3, NULL, '[]');
-      `);
+    `);
 
     appLogger.warn("> interactions");
     await queryRunner.query(
