@@ -1,3 +1,11 @@
+## [2.19.8](https://github.com/SocialGouv/domifa/compare/v2.19.7...v2.19.8) (2021-09-27)
+
+
+### Bug Fixes
+
+* eslint ([1933c9a](https://github.com/SocialGouv/domifa/commit/1933c9a9adc9ae0dafb00ba2c42c1d619fcdf45b))
+* sms & stats ([512d30f](https://github.com/SocialGouv/domifa/commit/512d30f7350b3e5ceae8485b83785e208ae3d427))
+
 ## [2.19.7](https://github.com/SocialGouv/domifa/compare/v2.19.6...v2.19.7) (2021-09-27)
 
 
