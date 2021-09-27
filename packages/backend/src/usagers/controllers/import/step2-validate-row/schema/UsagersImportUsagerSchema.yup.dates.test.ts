@@ -44,23 +44,7 @@ describe("UsagersImportCiviliteSchema dates", () => {
     );
   });
 
-  it("statutDom=REFUS dateDebutDom > today", async () => {
-    await expect(
-      UsagersImportUsagerSchema.validate(
-        {
-          ...TEST_VALID_IMPORT_USAGER,
-          statutDom: "REFUS",
-          dateDebutDom: "05/01/2021", // > today
-          dateFinDom: "02/01/2020",
-        },
-        { context }
-      )
-    ).rejects.toThrowError(
-      "dateDebutDom field must be at earlier than 2021-01-01T00:00:00.000Z"
-    );
-  });
-
-  it("statutDom=REFUS dateFinDom > today", async () => {
+  it("statutDom=REFUS dateFinDom > nextYear", async () => {
     await expect(
       UsagersImportUsagerSchema.validate(
         {
@@ -72,7 +56,7 @@ describe("UsagersImportCiviliteSchema dates", () => {
         { context }
       )
     ).rejects.toThrowError(
-      "dateFinDom field must be at earlier than 2021-01-01T00:00:00.000Z"
+      "dateFinDom field must be at earlier than 2022-01-01T00:00:00.000Z"
     );
   });
 
@@ -89,22 +73,6 @@ describe("UsagersImportCiviliteSchema dates", () => {
       )
     ).rejects.toThrowError(
       "dateDebutDom field must be later than 1900-01-01T00:00:00.000Z"
-    );
-  });
-
-  it("statutDom=REFUS dateFinDom < today", async () => {
-    await expect(
-      UsagersImportUsagerSchema.validate(
-        {
-          ...TEST_VALID_IMPORT_USAGER,
-          statutDom: "REFUS",
-          dateDebutDom: "05/01/2020", // < minDate
-          dateFinDom: "05/10/2022",
-        },
-        { context }
-      )
-    ).rejects.toThrowError(
-      "dateFinDom field must be at earlier than 2021-01-01T00:00:00.000Z"
     );
   });
 
