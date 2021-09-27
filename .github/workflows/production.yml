@@ -87,11 +87,15 @@ jobs:
         rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
 
   ##############################################################################
-  ## GENERATE PROD KUBERNETES MANIFESTS
+  ## DEPLOY BACKEND & FRONT-END TO PRODUCTION
   ##############################################################################
-  manifests-prod:
-    name: Production manifests
+  deploy-prod:
+    name: Deploy production
     runs-on: ubuntu-latest
+    needs: [deploy-preprod]
+    environment:
+      name: production
+      url: https://${{ env.namespace }}.${{ env.SOCIALGOUV_BASE_DOMAIN }}
     steps:
 
     - name: Use autodevops manifests generation
@@ -100,19 +104,6 @@ jobs:
         environment: "prod"
         rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
         socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
-        
-
-  ##############################################################################
-  ## DEPLOY BACKEND & FRONT-END TO PRODUCTION
-  ##############################################################################
-  deploy-prod:
-    name: Deploy production
-    runs-on: ubuntu-latest
-    needs: [deploy-preprod, manifests-prod]
-    environment:
-      name: production
-      url: https://${{ env.namespace }}.${{ env.SOCIALGOUV_BASE_DOMAIN }}
-    steps:
 
     - name: Use autodevops deployment
       uses: SocialGouv/actions/autodevops-deploy@v1
