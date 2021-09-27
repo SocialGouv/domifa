@@ -24,7 +24,7 @@ jobs:
           echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
       - name: Use autodevops build and register
-        uses: SocialGouv/actions/autodevops-build-register@v1
+        uses: SocialGouv/actions/autodevops-build-register@local-cache
         with:
           project: ${{ env.project }}
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -43,7 +43,7 @@ jobs:
           echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
       - name: Use autodevops build and register
-        uses: SocialGouv/actions/autodevops-build-register@v1
+        uses: SocialGouv/actions/autodevops-build-register@local-cache
         with:
           project: ${{ env.project }}
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -62,7 +62,7 @@ jobs:
           echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
       - name: Use autodevops build and register
-        uses: SocialGouv/actions/autodevops-build-register@v1
+        uses: SocialGouv/actions/autodevops-build-register@local-cache
         with:
           project: ${{ env.project }}
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -80,6 +80,8 @@ jobs:
         uses: SocialGouv/actions/k8s-manifests@v1
         with:
           environment: "dev"
+          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+          socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
 
   ##############################################################################
   ## DEPLOY BACKEND & FRONT-END
@@ -95,3 +97,4 @@ jobs:
           environment: "dev"
           token: ${{ secrets.GITHUB_TOKEN }}
           kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }}
+          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}

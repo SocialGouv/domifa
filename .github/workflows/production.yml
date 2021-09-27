@@ -24,7 +24,7 @@ jobs:
         echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
     - name: Use autodevops build and register
-      uses: SocialGouv/actions/autodevops-build-register@v1
+      uses: SocialGouv/actions/autodevops-build-register@local-cache
       with:
         project: ${{ env.project }}
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -44,7 +44,7 @@ jobs:
         echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
     - name: Use autodevops build and register
-      uses: SocialGouv/actions/autodevops-build-register@v1
+      uses: SocialGouv/actions/autodevops-build-register@local-cache
       with:
         project: ${{ env.project }}
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -63,6 +63,8 @@ jobs:
       uses: SocialGouv/actions/k8s-manifests@v1
       with:
         environment: "preprod"
+        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+        socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
 
   ##############################################################################
   ## DEPLOY BACKEND & FRONT-END TO PREPRODUCTION
@@ -73,28 +75,17 @@ jobs:
     needs: [register-backend, register-frontend, manifests]
     environment:
       name: preproduction
-      url: https://${{ env.namespace }}.${{ env.SOCIALGOUV_BASE_DOMAIN }}
+      url: ${{ steps.deploy.outputs.url }}
     steps:
   
     - name: Use autodevops deployment
       uses: SocialGouv/actions/autodevops-deploy@v1
+      id: deploy
       with:
         environment: "preprod"
         token: ${{ secrets.GITHUB_TOKEN }}
         kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }}
-
-  ##############################################################################
-  ## GENERATE PROD KUBERNETES MANIFESTS
-  ##############################################################################
-  manifests-prod:
-    name: Production manifests
-    runs-on: ubuntu-latest
-    steps:
-
-    - name: Use autodevops manifests generation
-      uses: SocialGouv/actions/k8s-manifests@v1
-      with:
-        environment: "prod"
+        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
 
   ##############################################################################
   ## DEPLOY BACKEND & FRONT-END TO PRODUCTION
@@ -102,15 +93,24 @@ jobs:
   deploy-prod:
     name: Deploy production
     runs-on: ubuntu-latest
-    needs: [deploy-preprod, manifests-prod]
+    needs: [deploy-preprod]
     environment:
       name: production
-      url: https://${{ env.namespace }}.${{ env.SOCIALGOUV_BASE_DOMAIN }}
+      url: ${{ steps.deploy.outputs.url }}
     steps:
+
+    - name: Use autodevops manifests generation
+      uses: SocialGouv/actions/k8s-manifests@v1
+      with:
+        environment: "prod"
+        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+        socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
 
     - name: Use autodevops deployment
       uses: SocialGouv/actions/autodevops-deploy@v1
+      id: deploy
       with:
         environment: "prod"
         token: ${{ secrets.GITHUB_TOKEN }}
         kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_PROD2 }}
+        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
