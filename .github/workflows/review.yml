@@ -95,3 +95,11 @@ jobs:
           environment: "dev"
           token: ${{ secrets.GITHUB_TOKEN }}
           kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }}
+
+  seed:
+    name: Seed database
+    steps:
+      - name: Run restore-db
+        run: |
+          kubectl delete -f restore-db.yml --namespace ${{ env.namespace }} || true
+          kubectl apply -f restore-db.yml --namespace ${{ env.namespace }}
