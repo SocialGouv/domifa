@@ -9849,15 +9849,6 @@ jest-preset-angular@^10.0.0:
     pretty-format "^27.0.0"
     ts-jest "^27.0.0"
 
-jest-preset-angular@^9.0.6:
-  version "9.0.7"
-  resolved "https://registry.yarnpkg.com/jest-preset-angular/-/jest-preset-angular-9.0.7.tgz#16c006158d32d9d66bf4f86efd136d943308ba78"
-  integrity sha512-yK4TdbNBwO5Nq55nYq8uJqs8+xKWVXjBVv3glndm/gx4EjVMmxJO2FB5q7JJ8M5Uf/jxANSu0PjS65opti2DXA==
-  dependencies:
-    jest-environment-jsdom "^27.0.0"
-    pretty-format "^27.0.0"
-    ts-jest "^27.0.0"
-
 jest-regex-util@^27.0.6:
   version "27.0.6"
   resolved "https://registry.yarnpkg.com/jest-regex-util/-/jest-regex-util-27.0.6.tgz#02e112082935ae949ce5d13b2675db3d8c87d9c5"
