@@ -1,11 +1,8 @@
-// require("jest-preset-angular/ngcc-jest-processor");
+require("jest-preset-angular/ngcc-jest-processor");
 
 module.exports = {
   globals: {
     "ts-jest": {
-      diagnostics: {
-        ignoreCodes: ["TS151001"],
-      },
       stringifyContentPathRegex: "\\.html$",
       tsconfig: "<rootDir>/src/tsconfig.spec.json",
     },

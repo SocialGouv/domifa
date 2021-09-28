@@ -1,4 +1,10 @@
-import { ErrorHandler, NgModule } from "@angular/core";
+import { SharedModule } from "src/app/modules/shared/shared.module";
+import {
+  CUSTOM_ELEMENTS_SCHEMA,
+  ErrorHandler,
+  NgModule,
+  NO_ERRORS_SCHEMA,
+} from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
@@ -21,17 +27,19 @@ import { HealthCheckService } from "./modules/shared/services/health-check";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
+  bootstrap: [AppComponent],
   declarations: [AppComponent],
   imports: [
-    BrowserModule,
+    AppRoutingModule,
     BrowserAnimationsModule,
+    BrowserModule,
     FontAwesomeModule,
+    FormsModule,
+    HttpClientModule,
     MatomoModule,
     NgbModule,
-    AppRoutingModule,
-    FormsModule,
+    SharedModule,
     ReactiveFormsModule,
-    HttpClientModule,
     ToastrModule.forRoot({
       enableHtml: true,
       positionClass: "toast-top-right",
@@ -42,17 +50,13 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     }),
   ],
   providers: [
-    HealthCheckService,
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+   
     {
-      deps: [Router],
-      multi: true,
-      provide: HTTP_INTERCEPTORS,
-      useClass: ServerErrorInterceptor,
+      provide: ErrorHandler,
+      useClass: SentryErrorHandler,
     },
-    { provide: ErrorHandler, useClass: SentryErrorHandler },
   ],
-  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class AppModule {
   constructor(library: FaIconLibrary) {

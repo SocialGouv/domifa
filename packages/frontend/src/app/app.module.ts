@@ -1,4 +1,3 @@
-import { StatsModule } from "./modules/stats/stats.module";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import {
   CUSTOM_ELEMENTS_SCHEMA,
