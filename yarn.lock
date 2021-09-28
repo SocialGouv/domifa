@@ -2818,12 +2818,12 @@
     npmlog "^4.1.2"
     write-file-atomic "^3.0.3"
 
-"@nestjs/axios@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@nestjs/axios/-/axios-0.0.1.tgz#c32a1c11e25765a69f3f9012ea5b8f49915db7cb"
-  integrity sha512-6H06VmDp5mmjjjLgglEdtzwtmli5pz5UdcY7E9v5SPoz5KeM4uLQvOF5ZJ1S/R4wub0WAqXUQL8mwuXxdjKIQQ==
+"@nestjs/axios@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@nestjs/axios/-/axios-0.0.2.tgz#ef3e6432e74678815b7bd32a5ac0208b243742e7"
+  integrity sha512-T0EKw91tJ+/XhmDYsr4DrRJ+grn0VEOZ6zAkuJfKM4ltBqwI5dTM8T8BumGqVZ3iGe5YTo/PMb/o8oilJaajwg==
   dependencies:
-    axios "0.21.1"
+    axios "0.21.4"
 
 "@nestjs/cli@^8.1.1":
   version "8.1.1"
@@ -4735,6 +4735,13 @@ axios@0.21.1:
   integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
   dependencies:
     follow-redirects "^1.10.0"
+
+axios@0.21.4:
+  version "0.21.4"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
+  integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
+  dependencies:
+    follow-redirects "^1.14.0"
 
 axobject-query@2.0.2:
   version "2.0.2"
@@ -7845,6 +7852,11 @@ follow-redirects@^1.0.0, follow-redirects@^1.10.0:
   version "1.14.3"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.3.tgz#6ada78118d8d24caee595595accdc0ac6abd022e"
   integrity sha512-3MkHxknWMUtb23apkgz/83fDoe+y+qr0TdgacGIA7bew+QLBo3vdgEN2xEsuXNivpFy4CyDhBBZnNZOtalmenw==
+
+follow-redirects@^1.14.0:
+  version "1.14.4"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.4.tgz#838fdf48a8bbdd79e52ee51fb1c94e3ed98b9379"
+  integrity sha512-zwGkiSXC1MUJG/qmeIFH2HBJx9u0V46QGUe3YR1fXG8bXQxq7fLj0RjLZQ5nubr9qNJUZrH+xUcwXEoXNpfS+g==
 
 for-in@^1.0.2:
   version "1.0.2"
