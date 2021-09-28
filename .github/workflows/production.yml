@@ -84,8 +84,8 @@ jobs:
       with:
         environment: "preprod"
         token: ${{ secrets.GITHUB_TOKEN }}
-        kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }}
         rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+        kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }}
 
   ##############################################################################
   ## DEPLOY BACKEND & FRONT-END TO PRODUCTION
@@ -112,5 +112,5 @@ jobs:
       with:
         environment: "prod"
         token: ${{ secrets.GITHUB_TOKEN }}
-        kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_PROD2 }}
         rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+        kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_PROD2 }}
