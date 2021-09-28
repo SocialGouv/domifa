@@ -2,9 +2,8 @@ import { getDevDatabaseParameters } from "@socialgouv/kosko-charts/components/az
 import { Job } from "kubernetes-models/batch/v1";
 import environments from "@socialgouv/kosko-charts/environments";
 
-const suffix = (process.env.GITHUB_SHA || "").slice(0, 7);
-const pgParams = getDevDatabaseParameters({ suffix });
 const ciEnv = environments(process.env);
+const pgParams = getDevDatabaseParameters({ suffix: ciEnv.branchSlug });
 
 const job = new Job({
   metadata: {
