@@ -1,17 +1,14 @@
-import { AuthLoginForm } from "./../../../../_common/auth/AuthLoginForm.type";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, BehaviorSubject, catchError, map, of } from "rxjs";
-import { environment } from "../../../../environments/environment";
-
 import { Router, RouterStateSnapshot } from "@angular/router";
-
 import { ToastrService } from "ngx-toastr";
-import { UsagerPublic } from "../../../../_common/usager";
-
-import * as Sentry from "@sentry/browser";
-import { DEFAULT_USAGER } from "../../../../_common/mocks/DEFAULT_USAGER.const";
+import { BehaviorSubject, Observable, of, map, catchError } from "rxjs";
+import { environment } from "../../../../environments/environment";
 import { AuthApiResponse } from "../../../../_common/auth/AuthApiResponse.type";
+import { AuthLoginForm } from "../../../../_common/auth/AuthLoginForm.type";
+import { DEFAULT_USAGER } from "../../../../_common/mocks/DEFAULT_USAGER.const";
+import { UsagerPublic } from "../../../../_common/usager";
+import * as Sentry from "@sentry/browser";
 
 const END_POINT_AUTH = environment.apiUrl + "usager-auth";
 
@@ -25,9 +22,9 @@ export class UsagerAuthService {
   public currentUsagerSubject: BehaviorSubject<UsagerPublic | null>;
 
   constructor(
-    private http: HttpClient,
-    private router: Router,
-    private toastr: ToastrService
+    private readonly http: HttpClient,
+    private readonly router: Router,
+    private readonly toastr: ToastrService
   ) {
     this.currentUsagerSubject = new BehaviorSubject<UsagerPublic | null>(
       DEFAULT_USAGER
@@ -41,7 +38,7 @@ export class UsagerAuthService {
   }
 
   public isAuth(): Observable<boolean> {
-    if (!!this.getToken()) {
+    if (this.getToken()) {
       return of(false);
     }
 
@@ -60,7 +57,7 @@ export class UsagerAuthService {
   }
 
   public get currentUserValue(): UsagerPublic | null {
-    return this.currentUsagerSubject?.value || null;
+    return this.currentUsagerSubject.value || null;
   }
 
   public logout() {

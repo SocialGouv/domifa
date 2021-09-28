@@ -136,23 +136,29 @@
         </div>
       </div>
       <div class="row">
-        <div class="col form-group required passwordInput">
+        <div class="col form-group required">
           <label for="password">Mot de passe</label>
-          <input
-            class="form-control"
-            [type]="!hidePassword ? 'text' : 'password'"
-            [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
-            id="password"
-            autocomplete="new-password"
-            formControlName="password"
-            required
-          />
-          <span class="eye" *ngIf="hidePassword" (click)="hidePassword = false">
-            <fa-icon icon="eye"></fa-icon>
-          </span>
-          <span class="eye" *ngIf="!hidePassword" (click)="hidePassword = true">
-            <fa-icon icon="eye-slash"></fa-icon>
-          </span>
+          <div class="input-group">
+            <input
+              type="password"
+              formControlName="password"
+              [type]="!hidePassword ? 'text' : 'password'"
+              class="form-control"
+              id="password"
+              [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+              placeholder="Mot de passe"
+              autocomplete="new-password"
+              required
+              [ngClass]="{
+                'is-invalid': f.password.dirty && f.password.errors
+              }"
+            />
+            <div class="input-group-append">
+              <span class="input-group-text" (click)="togglePassword()">
+                <fa-icon [icon]="hidePassword ? 'eye' : 'eye-slash'"></fa-icon>
+              </span>
+            </div>
+          </div>
           <div class="row indications">
             <div
               class="col-md-12"
@@ -213,7 +219,7 @@
             </div>
           </div>
         </div>
-        <div class="col form-group required passwordInput" id="confirmPassword">
+        <div class="col form-group required" id="confirmPassword">
           <label for="confirmPasswordInput">Confirmer votre mot de passe</label>
           <input
             class="form-control"

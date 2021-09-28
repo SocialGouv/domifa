@@ -92,6 +92,10 @@ export class RegisterUserComponent implements OnInit {
     );
   }
 
+  public togglePassword(): void {
+    this.hidePassword = !this.hidePassword;
+  }
+
   public submitUser() {
     this.submitted = true;
     if (this.userForm.invalid) {

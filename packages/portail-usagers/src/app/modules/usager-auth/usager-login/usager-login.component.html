@@ -1,5 +1,4 @@
-<p>usager-login works!</p>
-<div class="step_form my-5">
+<div class="step_form my-3">
   <div class="text-center">
     <h5 class="title">Connexion à Domifa</h5>
   </div>
@@ -8,7 +7,7 @@
     class="col-md-8 offset-md-2"
     (ngSubmit)="login()"
   >
-    <div class="col form-group required">
+    <div class="form-group required">
       <label for="usagerAuthId">Votre identifiant</label>
       <input
         type="text"
@@ -27,7 +26,8 @@
         Veuillez vérifier l'identifiant
       </div>
     </div>
-    <div class="col form-group required passwordInput">
+
+    <div class="form-group required">
       <label for="password">Mot de passe</label>
       <input
         type="password"
@@ -38,12 +38,9 @@
         autocomplete="current-password"
         [ngClass]="{ 'is-invalid': f.password.dirty && f.password.errors }"
       />
-      <span class="eye" *ngIf="hidePassword" (click)="hidePassword = false">
-        <fa-icon icon="eye"></fa-icon>
-      </span>
-      <span class="eye" *ngIf="!hidePassword" (click)="hidePassword = true">
-        <fa-icon icon="eye-slash"></fa-icon>
-      </span>
+      <div class="input-group-append">
+        <fa-icon icon="eye" (click)="toggleShowPassword()"></fa-icon>
+      </div>
       <div
         *ngIf="f.password.dirty && f.password.errors"
         class="invalid-feedback"
@@ -60,7 +57,6 @@
         class="btn btn-primary"
       >
         <span *ngIf="!loading"> Connexion </span>
-
         <span *ngIf="loading"
           ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon> Connexion en
           cours...</span

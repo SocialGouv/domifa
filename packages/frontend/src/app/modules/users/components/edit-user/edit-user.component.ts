@@ -189,6 +189,18 @@ export class EditUserComponent implements OnInit {
     }
   }
 
+  public togglePassword(): void {
+    this.hidePassword = !this.hidePassword;
+  }
+
+  public togglePasswordConfirmation(): void {
+    this.hideConfirmPassword = !this.hideConfirmPassword;
+  }
+
+  public toggleOldPassword(): void {
+    this.hideOldPassword = !this.hideOldPassword;
+  }
+
   public validateEmailNotTaken(control: AbstractControl) {
     if (control.value === this.me.email) {
       return of(null);

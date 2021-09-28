@@ -182,48 +182,50 @@
       >
         <div class="col-md-4 form-group required">
           <label for="password">Ancien mot de passe</label>
-          <input
-            class="form-control"
-            [type]="!hideOldPassword ? 'text' : 'password'"
-            [ngClass]="{
-              'is-invalid': p.oldPassword.dirty && p.oldPassword.errors
-            }"
-            id="password"
-            formControlName="oldPassword"
-            autocomplete="off"
-            required
-          />
-          <span
-            class="eye"
-            *ngIf="hideOldPassword"
-            (click)="hideOldPassword = false"
-          >
-            <fa-icon icon="eye"></fa-icon>
-          </span>
-          <span
-            class="eye"
-            *ngIf="!hideOldPassword"
-            (click)="hideOldPassword = true"
-          >
-            <fa-icon icon="eye-slash"></fa-icon>
-          </span>
+          <div class="input-group">
+            <input
+              class="form-control"
+              [type]="!hideOldPassword ? 'text' : 'password'"
+              [ngClass]="{
+                'is-invalid': p.oldPassword.dirty && p.oldPassword.errors
+              }"
+              id="password"
+              formControlName="oldPassword"
+              autocomplete="off"
+              required
+            />
+            <div class="input-group-append">
+              <span class="input-group-text" (click)="toggleOldPassword()">
+                <fa-icon
+                  [icon]="hideOldPassword ? 'eye' : 'eye-slash'"
+                ></fa-icon>
+              </span>
+            </div>
+          </div>
         </div>
-        <div class="col-md-4 form-group required passwordInput">
+        <div class="col-md-4 form-group required">
           <label for="new-password">Nouveau mot de passe</label>
-          <input
-            class="form-control"
-            [type]="!hidePassword ? 'text' : 'password'"
-            [ngClass]="{ 'is-invalid': p.password.dirty && p.password.errors }"
-            id="new-password"
-            formControlName="password"
-            required
-          />
-          <span class="eye" *ngIf="hidePassword" (click)="hidePassword = false">
-            <fa-icon icon="eye"></fa-icon>
-          </span>
-          <span class="eye" *ngIf="!hidePassword" (click)="hidePassword = true">
-            <fa-icon icon="eye-slash"></fa-icon>
-          </span>
+          <div class="input-group">
+            <input
+              type="password"
+              formControlName="password"
+              [type]="!hidePassword ? 'text' : 'password'"
+              class="form-control"
+              id="new-password"
+              [ngClass]="{
+                'is-invalid': p.password.dirty && p.password.errors
+              }"
+              placeholder="Mot de passe"
+              autocomplete="new-password"
+              required
+            />
+            <div class="input-group-append">
+              <span class="input-group-text" (click)="togglePassword()">
+                <fa-icon [icon]="hidePassword ? 'eye' : 'eye-slash'"></fa-icon>
+              </span>
+            </div>
+          </div>
+
           <div class="row indications">
             <div
               class="col-md-12"
@@ -284,36 +286,33 @@
             </div>
           </div>
         </div>
-        <div
-          class="col-md-4 form-group required passwordInput"
-          id="confirmPassword"
-        >
+        <div class="col-md-4 form-group required" id="confirmPassword">
           <label for="confirmPasswordInput">Confirmer votre mot de passe</label>
-          <input
-            class="form-control"
-            [type]="!hideConfirmPassword ? 'text' : 'password'"
-            [ngClass]="{
-              'is-invalid': p.confirmPassword.dirty && p.confirmPassword.errors
-            }"
-            id="confirmPasswordInput"
-            autocomplete="new-password"
-            formControlName="confirmPassword"
-            required
-          />
-          <span
-            class="eye"
-            *ngIf="hideConfirmPassword"
-            (click)="hideConfirmPassword = false"
-          >
-            <fa-icon icon="eye"></fa-icon>
-          </span>
-          <span
-            class="eye"
-            *ngIf="!hideConfirmPassword"
-            (click)="hideConfirmPassword = true"
-          >
-            <fa-icon icon="eye-slash"></fa-icon>
-          </span>
+          <div class="input-group">
+            <input
+              class="form-control"
+              [type]="!hideConfirmPassword ? 'text' : 'password'"
+              [ngClass]="{
+                'is-invalid':
+                  p.confirmPassword.dirty && p.confirmPassword.errors
+              }"
+              id="confirmPasswordInput"
+              autocomplete="new-password"
+              formControlName="confirmPassword"
+              required
+            />
+
+            <div class="input-group-append">
+              <span
+                class="input-group-text"
+                (click)="togglePasswordConfirmation()"
+              >
+                <fa-icon
+                  [icon]="hideConfirmPassword ? 'eye' : 'eye-slash'"
+                ></fa-icon>
+              </span>
+            </div>
+          </div>
 
           <div class="row indications">
             <div

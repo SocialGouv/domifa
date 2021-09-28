@@ -1,13 +1,16 @@
 import { ErrorHandler, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
+import { far } from "@fortawesome/free-regular-svg-icons";
+import { fas } from "@fortawesome/free-solid-svg-icons";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { JwtInterceptor } from "./interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "./interceptors/server-error.interceptor";
 import { MatomoModule } from "ngx-matomo";
@@ -21,11 +24,13 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FontAwesomeModule,
     MatomoModule,
     NgbModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     ToastrModule.forRoot({
       enableHtml: true,
@@ -47,11 +52,10 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     },
     { provide: ErrorHandler, useClass: SentryErrorHandler },
   ],
-
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructo(library: FaIconLibrary) {
-    library.addIcons(faEye);
+  constructor(library: FaIconLibrary) {
+    library.addIconPacks(fas, far);
   }
 }

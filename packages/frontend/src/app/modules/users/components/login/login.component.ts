@@ -51,6 +51,10 @@ export class LoginComponent implements OnInit {
     return this.loginForm.controls;
   }
 
+  public togglePassword(): void {
+    this.hidePassword = !this.hidePassword;
+  }
+
   public login() {
     if (this.loginForm.invalid) {
       this.notifService.error("Veuillez vérifier les champs du formulaire");

@@ -41,9 +41,11 @@ export const getEcheanceInfos = (
       usagerInfos.dateToDisplay =
         usager.historique[usager.historique.length - indexOfDate]?.dateFin ??
         usager.decision.dateDecision;
+
+      usagerInfos.dateToDisplay = new Date(usagerInfos.dateToDisplay);
     } else {
       usagerInfos.isActif = false;
-      usagerInfos.dateToDisplay = usager.decision.dateDecision;
+      usagerInfos.dateToDisplay = new Date(usager.decision.dateDecision);
     }
   }
 

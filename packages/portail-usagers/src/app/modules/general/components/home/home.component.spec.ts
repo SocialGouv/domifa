@@ -1,18 +1,18 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { HomeComponent } from './home.component';
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import { CommonModule, APP_BASE_HREF } from '@angular/common';
+import { HomeComponent } from "./home.component";
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
+import { CommonModule, APP_BASE_HREF } from "@angular/common";
 
-import { SharedModule } from 'src/app/modules/shared/shared.module';
+import { SharedModule } from "src/app/modules/shared/shared.module";
 
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { RouterTestingModule } from "@angular/router/testing";
 
-import { MatomoInjector, MatomoTracker } from 'ngx-matomo';
-import { ToastrModule } from 'ngx-toastr';
+import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { ToastrModule } from "ngx-toastr";
 
-describe('HomeComponent', () => {
+describe("HomeComponent", () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
 
@@ -24,13 +24,11 @@ describe('HomeComponent', () => {
           CommonModule,
           SharedModule,
           ToastrModule.forRoot(),
-
           RouterTestingModule,
-
           HttpClientTestingModule,
         ],
         providers: [
-          { provide: APP_BASE_HREF, useValue: '/' },
+          { provide: APP_BASE_HREF, useValue: "/" },
           {
             provide: MatomoInjector,
             useValue: {
@@ -56,7 +54,7 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

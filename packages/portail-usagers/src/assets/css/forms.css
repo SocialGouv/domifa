@@ -30,18 +30,6 @@ form label {
   color: #dc3545;
 }
 
-.indications div {
-  padding-top: 5px;
-}
-
-.indications {
-  padding: 5px;
-}
-
-.indications .ng-fa-icon {
-  margin-right: 5px;
-}
-
 .modal-body .form-check {
   padding: 0 0 0 1.75rem;
   cursor: pointer;
@@ -55,25 +43,6 @@ form label {
 
 .input-group-append .btn .ng-fa-icon {
   margin: 0 !important;
-}
-
-#structureForm div.btn {
-  margin: 10px 15px;
-  padding: 0;
-}
-
-#structureForm input[type="radio"]:checked + label {
-  color: white !important;
-}
-
-#structureForm .btn label {
-  color: var(--blue);
-  margin: 0;
-  padding: 12px 22px;
-}
-
-#structureForm .btn label:hover {
-  color: white !important;
 }
 
 .btn-white-primary {
