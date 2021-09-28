@@ -1,3 +1,10 @@
+## [2.19.9-beta.2](https://github.com/SocialGouv/domifa/compare/v2.19.9-beta.1...v2.19.9-beta.2) (2021-09-28)
+
+
+### Bug Fixes
+
+* Use autodevops-build-register@local-cache ([8e6899b](https://github.com/SocialGouv/domifa/commit/8e6899b9b0e96cabc71463a83915b3c5ed89e188))
+
 ## [2.19.9-beta.1](https://github.com/SocialGouv/domifa/compare/v2.19.8...v2.19.9-beta.1) (2021-09-27)
 
 
