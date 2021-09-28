@@ -1,3 +1,10 @@
+## [2.19.9](https://github.com/SocialGouv/domifa/compare/v2.19.8...v2.19.9) (2021-09-28)
+
+
+### Bug Fixes
+
+* **import:** Ajout d'une restriction pour les refus ([5e6eb7b](https://github.com/SocialGouv/domifa/commit/5e6eb7b9657a336933b64937b62c06f8b5558268))
+
 ## [2.19.8](https://github.com/SocialGouv/domifa/compare/v2.19.7...v2.19.8) (2021-09-27)
 
 
