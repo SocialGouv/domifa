@@ -87,7 +87,12 @@ jobs:
   deploy:
     name: Deploy review branch
     runs-on: ubuntu-latest
-    needs: [register-backend, register-frontend, manifests]
+    needs: [
+      register-backend,
+      register-frontend,
+      register-portail-usagers,
+      manifests
+    ]
     steps:
       - name: Use autodevops deployment
         uses: SocialGouv/actions/autodevops-deploy@v1
