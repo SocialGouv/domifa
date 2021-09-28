@@ -110,14 +110,22 @@ export class ResetPasswordComponent implements OnInit {
     );
   }
 
+  public togglePassword(): void {
+    this.hidePassword = !this.hidePassword;
+  }
+
+  public togglePasswordConfirmation(): void {
+    this.hidePasswordConfirm = !this.hidePasswordConfirm;
+  }
+
   public submitEmailForm() {
     this.submitted = true;
     if (!this.emailForm.invalid) {
       this.userService.getPasswordToken(this.emailForm.value).subscribe(
-        (user: UserStructure) => {
+        () => {
           this.success = true;
         },
-        (error: any) => {
+        () => {
           this.notifService.error("Veuillez vérifier l'adresse email");
         }
       );

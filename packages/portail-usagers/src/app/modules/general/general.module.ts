@@ -26,7 +26,6 @@ import { ToastrModule } from "ngx-toastr";
     HomeComponent,
     MentionsLegalesComponent,
     NotFoundComponent,
-
     CguComponent,
     PolitiqueComponent,
   ],

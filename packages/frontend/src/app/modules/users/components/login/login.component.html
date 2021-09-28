@@ -21,23 +21,24 @@
         Veuillez vérifier l'adresse email
       </div>
     </div>
-    <div class="col form-group required passwordInput">
+    <div class="col form-group required">
       <label for="password">Mot de passe</label>
-      <input
-        type="password"
-        formControlName="password"
-        [type]="!hidePassword ? 'text' : 'password'"
-        class="form-control"
-        placeholder="Mot de passe"
-        autocomplete="current-password"
-        [ngClass]="{ 'is-invalid': f.password.dirty && f.password.errors }"
-      />
-      <span class="eye" *ngIf="hidePassword" (click)="hidePassword = false">
-        <fa-icon icon="eye"></fa-icon>
-      </span>
-      <span class="eye" *ngIf="!hidePassword" (click)="hidePassword = true">
-        <fa-icon icon="eye-slash"></fa-icon>
-      </span>
+      <div class="input-group">
+        <input
+          type="password"
+          formControlName="password"
+          [type]="!hidePassword ? 'text' : 'password'"
+          class="form-control"
+          placeholder="Mot de passe"
+          autocomplete="current-password"
+          [ngClass]="{ 'is-invalid': f.password.dirty && f.password.errors }"
+        />
+        <div class="input-group-append">
+          <span class="input-group-text" (click)="togglePassword()">
+            <fa-icon [icon]="hidePassword ? 'eye' : 'eye-slash'"></fa-icon>
+          </span>
+        </div>
+      </div>
       <div
         *ngIf="f.password.dirty && f.password.errors"
         class="invalid-feedback"

@@ -154,7 +154,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
           const usagers = allUsagers.map((usager) => {
             usager.echeanceInfos = getEcheanceInfos(usager);
             usager.rdvInfos = getRdvInfos(usager);
-
             usager.usagerProfilUrl = getUrlUsagerProfil(usager);
             this.updateSortLabel();
             return usager;
