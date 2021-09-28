@@ -1,3 +1,10 @@
+## [2.19.9-beta.4](https://github.com/SocialGouv/domifa/compare/v2.19.9-beta.3...v2.19.9-beta.4) (2021-09-28)
+
+
+### Bug Fixes
+
+* Use SOCIALGOUV_KUBE_CONFIG on preprod and prod ([381128f](https://github.com/SocialGouv/domifa/commit/381128f9bcdf879cc5b567bf31b94360efe94697))
+
 ## [2.19.9-beta.3](https://github.com/SocialGouv/domifa/compare/v2.19.9-beta.2...v2.19.9-beta.3) (2021-09-28)
 
 
