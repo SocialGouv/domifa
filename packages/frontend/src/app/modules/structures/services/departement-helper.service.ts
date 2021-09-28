@@ -41,7 +41,7 @@ function getRegionCodeFromDepartement(departement: string): string {
     return region.regionCode;
   } else {
     const errorMessage = `Invalid departement ${departement} (no region found)`;
-    // tslint:disable-next-line: no-console
+    // eslint-disable-next-line no-console
     console.error(errorMessage);
     throw new Error(errorMessage);
   }
@@ -50,7 +50,7 @@ function getRegionCodeFromDepartement(departement: string): string {
 function getDepartementFromCodePostal(codePostal: string): string {
   if (codePostal.length !== 5) {
     const errorMessage = `Invalid postal code ${codePostal} (cause: ${codePostal.length} characters)`;
-    // tslint:disable-next-line: no-console
+    // eslint-disable-next-line no-console
     console.error(errorMessage);
     throw new Error(errorMessage);
   }
@@ -69,7 +69,7 @@ function getDepartementFromCodePostal(codePostal: string): string {
       return "2B";
     }
     const errorMessage = `Invalid postal code ${codePostal} for "Corse"`;
-    // tslint:disable-next-line: no-console
+    // eslint-disable-next-line no-console
     console.error(errorMessage);
     throw new Error(errorMessage);
   }

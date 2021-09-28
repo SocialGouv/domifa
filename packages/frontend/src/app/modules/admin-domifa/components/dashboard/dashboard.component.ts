@@ -258,7 +258,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private getRegionLabel(structure: Pick<Structure, "region">): string {
     const regionLabel = this.regions[structure.region];
     if (!regionLabel && structure.region) {
-      // tslint:disable-next-line: no-console
+      // eslint-disable-next-line no-console
       console.warn(
         `[DashboardTableStructure] region ${structure.region} not found.`
       );
@@ -271,7 +271,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ): string {
     const departementLabel = this.departements[structure.departement];
     if (!departementLabel && structure.departement) {
-      // tslint:disable-next-line: no-console
+      // eslint-disable-next-line no-console
       console.warn(
         `[DashboardTableStructure] departement ${structure.departement} not found.`
       );

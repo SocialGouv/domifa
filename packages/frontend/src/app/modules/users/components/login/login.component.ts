@@ -65,19 +65,18 @@ export class LoginComponent implements OnInit {
 
     this.authService
       .login(this.f.email.value, this.f.password.value)
-      .pipe(first())
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.loading = false;
 
           return this.returnUrl !== "/"
             ? this.router.navigateByUrl(this.returnUrl)
             : this.router.navigate(["/manage"]);
         },
-        () => {
+        error: () => {
           this.loading = false;
           this.notifService.error("Email et / ou mot de passe incorrect");
-        }
-      );
+        },
+      });
   }
 }

@@ -135,7 +135,7 @@ export class StructureService {
             departementHelper.getDepartementFromCodePostal(postalCode);
           departementHelper.getRegionCodeFromDepartement(departement);
         } catch (err) {
-          // tslint:disable-next-line: no-console
+          // eslint-disable-next-line no-console
           console.error(`Validation error for postalCode "${postalCode}"`, err);
           return { codepostal: false };
         }

@@ -1,4 +1,3 @@
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { TestBed, waitForAsync } from "@angular/core/testing";
