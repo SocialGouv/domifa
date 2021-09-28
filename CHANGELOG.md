@@ -1,3 +1,18 @@
+# [2.20.0](https://github.com/SocialGouv/domifa/compare/v2.19.10...v2.20.0) (2021-09-28)
+
+
+### Bug Fixes
+
+* Affichage des dates d'échéances sur la liste ([8c07894](https://github.com/SocialGouv/domifa/commit/8c078948c447d27d5a101d97d0021e9038818513))
+* portail tests ([75a7058](https://github.com/SocialGouv/domifa/commit/75a7058520014b02fd022d95c2eac52402ab5ebb))
+* tests unitaires sur le login ([2347656](https://github.com/SocialGouv/domifa/commit/234765605915a07a16dd9cc63432f1aa0f77fe9c))
+
+
+### Features
+
+* **general:** ajout des logos et types ([06e8d80](https://github.com/SocialGouv/domifa/commit/06e8d80b42a04ca2ff48649a8e81c85c958cd24d))
+* création des types et des données par défaut ([5c7936d](https://github.com/SocialGouv/domifa/commit/5c7936df46763ce3b8792ca986da740de640a3f9))
+
 ## [2.19.10](https://github.com/SocialGouv/domifa/compare/v2.19.9...v2.19.10) (2021-09-28)
 
 
