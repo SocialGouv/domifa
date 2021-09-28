@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "app-root",
@@ -6,5 +7,17 @@ import { Component } from "@angular/core";
   styleUrls: ["./app.component.css"],
 })
 export class AppComponent {
-  title = "Bienvenue sur le portail usager de Domifa";
+  public title: string;
+  public apiVersion: string | null;
+
+  constructor(private titleService: Title) {
+    this.apiVersion = null;
+    this.title = "Bienvenue sur le portail usager de Domifa";
+  }
+  public ngOnInit() {
+    this.titleService.setTitle(
+      "Domifa, l'outil qui facilite la gestion des structures domiciliatirices"
+    );
+  }
+  private runHealthCheckAndAutoReload() {}
 }
