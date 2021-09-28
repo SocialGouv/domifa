@@ -96,10 +96,25 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }}
 
-  seed:
-    name: Seed database
+  ##############################################################################
+  ## RESTORE DATABASE
+  ##############################################################################
+  restore-db:
+    name: Restore database
+    runs-on: ubuntu-latest
+    needs: deploy
     steps:
-      - name: Run restore-db
-        run: |
-          kubectl delete -f restore-db.yml --namespace ${{ env.namespace }} || true
-          kubectl apply -f restore-db.yml --namespace ${{ env.namespace }}
+
+    - uses: SocialGouv/actions/k8s-restore-db@v1
+      with:
+        kubeconfig: ${{ secrets.KUBECONFIG }}
+        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+        socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
+
+  # seed:
+  #   name: Seed database
+  #   steps:
+  #     - name: Run restore-db
+  #       run: |
+  #         kubectl delete -f restore-db.yml --namespace ${{ env.namespace }} || true
+  #         kubectl apply -f restore-db.yml --namespace ${{ env.namespace }}
