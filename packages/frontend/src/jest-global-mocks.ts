@@ -28,11 +28,11 @@ Object.defineProperty(window, "ClipboardEvent", {
 });
 
 Object.defineProperty(window, "DragEvent", {
-  // tslint:disable-next-line: max-classes-per-file
+  // eslint-disable-next-line max-classes-per-file
   value: class DragEvent {},
 });
 
-// tslint:disable-next-line:no-empty
+// eslint-disable-next-line no-empty, no-empty-function, @typescript-eslint/no-empty-function
 const noop = () => {};
 Object.defineProperty(window, "scrollTo", { value: noop, writable: true });
 

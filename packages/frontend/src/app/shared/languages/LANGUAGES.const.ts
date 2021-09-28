@@ -29,7 +29,7 @@ export const LANGUAGES_MAP: { [attr: string]: AppLanguage } = LANGUAGES.reduce(
   (acc, l) => {
     acc[l.isoCode] = l;
     return acc;
-    // tslint:disable-next-line: no-object-literal-type-assertion
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   },
   {} as { [attr: string]: AppLanguage }
 );

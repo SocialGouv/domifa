@@ -29,17 +29,21 @@
 
     <div class="form-group required">
       <label for="password">Mot de passe</label>
-      <input
-        type="password"
-        formControlName="password"
-        [type]="!hidePassword ? 'text' : 'password'"
-        class="form-control"
-        placeholder="Mot de passe"
-        autocomplete="current-password"
-        [ngClass]="{ 'is-invalid': f.password.dirty && f.password.errors }"
-      />
-      <div class="input-group-append">
-        <fa-icon icon="eye" (click)="toggleShowPassword()"></fa-icon>
+      <div class="input-group">
+        <input
+          type="password"
+          formControlName="password"
+          [type]="!hidePassword ? 'text' : 'password'"
+          class="form-control"
+          placeholder="Mot de passe"
+          autocomplete="current-password"
+          [ngClass]="{ 'is-invalid': f.password.dirty && f.password.errors }"
+        />
+        <div class="input-group-append">
+          <span class="input-group-text" (click)="toggleShowPassword()">
+            <fa-icon [icon]="hidePassword ? 'eye' : 'eye-slash'"></fa-icon>
+          </span>
+        </div>
       </div>
       <div
         *ngIf="f.password.dirty && f.password.errors"
