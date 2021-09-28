@@ -1,4 +1,4 @@
-import { subMonths, startOfDay, subDays } from "date-fns";
+import { startOfDay, setHours, addMonths, addDays } from "date-fns";
 
 import { UsagerLight } from "../../../../../../../../_common/model";
 import { UsagersFilterCriteria } from "../../UsagersFilterCriteria";
@@ -19,7 +19,7 @@ function check({
     if (usager.decision?.statut !== "VALIDE" || !usager.decision?.dateFin) {
       return false;
     }
-    const todayTime = startOfDay(new Date()).getTime();
+    const todayTime = startOfDay(refDateNow).getTime();
 
     switch (echeance) {
       case "DEPASSEE": {
@@ -29,14 +29,17 @@ function check({
       }
       case "DEUX_MOIS": {
         const minDateTime = todayTime;
-        const maxDateTime = subMonths(startOfDay(refDateNow), 2).getTime();
+        const maxDateTime = setHours(
+          addMonths(startOfDay(refDateNow), 2),
+          0
+        ).getTime();
 
         const dateFinTime = new Date(usager.decision.dateFin).getTime();
         return dateFinTime <= maxDateTime && dateFinTime >= minDateTime;
       }
       case "DEUX_SEMAINES": {
         const minDateTime = todayTime;
-        const maxDateTime = subDays(startOfDay(refDateNow), 14).getTime();
+        const maxDateTime = addDays(startOfDay(refDateNow), 14).getTime();
         const dateFinTime = new Date(usager.decision.dateFin).getTime();
         return dateFinTime <= maxDateTime && dateFinTime >= minDateTime;
       }

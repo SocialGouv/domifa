@@ -17,6 +17,7 @@ it("usagerEcheanceChecker DEPASSEE", () => {
       refDateNow,
     })
   ).toBeTruthy();
+
   expect(
     usagerEcheanceChecker.check({
       usager: {
@@ -29,6 +30,7 @@ it("usagerEcheanceChecker DEPASSEE", () => {
       refDateNow,
     })
   ).toBeFalsy();
+
   expect(
     usagerEcheanceChecker.check({
       usager: {
