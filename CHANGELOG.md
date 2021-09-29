@@ -1,3 +1,10 @@
+## [2.21.1-beta.2](https://github.com/SocialGouv/domifa/compare/v2.21.1-beta.1...v2.21.1-beta.2) (2021-09-29)
+
+
+### Bug Fixes
+
+* Use local cache on register-portail-usagers step ([e91e5b1](https://github.com/SocialGouv/domifa/commit/e91e5b1929e86406ee373899fa6851257d804fa5))
+
 ## [2.21.1-beta.1](https://github.com/SocialGouv/domifa/compare/v2.21.0...v2.21.1-beta.1) (2021-09-29)
 
 
