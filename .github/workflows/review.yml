@@ -53,21 +53,21 @@ jobs:
   ##############################################################################
   ## BUILD AND REGISTER PORTAIL USAGERS IMAGE
   ##############################################################################
-  register-portail-usagers:
-    name: Build & Register portail-usagers
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get project name
-        run: |
-          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+  # register-portail-usagers:
+  #   name: Build & Register portail-usagers
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Get project name
+  #       run: |
+  #         echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
-      - name: Use autodevops build and register
-        uses: SocialGouv/actions/autodevops-build-register@v1
-        with:
-          project: ${{ env.project }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          imageName: ${{ env.project }}/portail-usagers
-          dockerfile: packages/portail-usagers/Dockerfile
+  #     - name: Use autodevops build and register
+  #       uses: SocialGouv/actions/autodevops-build-register@v1
+  #       with:
+  #         project: ${{ env.project }}
+  #         token: ${{ secrets.GITHUB_TOKEN }}
+  #         imageName: ${{ env.project }}/portail-usagers
+  #         dockerfile: packages/portail-usagers/Dockerfile
 
   ##############################################################################
   ## GENERATE KUBERNETES MANIFESTS
