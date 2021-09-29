@@ -1,4 +1,4 @@
-<div class="carte">
+<div class="carte" *ngIf="statsByRegion">
   <svg
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
@@ -66,7 +66,7 @@
   </svg>
 </div>
 
-<div class="carte">
+<div class="carte" *ngIf="statsByRegion">
   <g class="regions dom-tom">
     <svg
       version="1.1"

@@ -64,7 +64,7 @@ export class SetInteractionInFormComponent implements OnInit {
 
   public ngOnInit(): void {}
 
-  public setInteractionForm() {
+  public setInteractionForm(): void {
     const interactionsToSave = INTERACTIONS_IN_AVAILABLE.reduce(
       (filtered, interaction) => {
         if (this.interactionFormData[interaction].nbCourrier > 0) {
@@ -99,7 +99,7 @@ export class SetInteractionInFormComponent implements OnInit {
   }
 
   // Actualiser les données de l'usager
-  public refreshUsager() {
+  public refreshUsager(): void {
     this.usagerService
       .findOne(this.usager.ref)
       .subscribe((usager: UsagerLight) => {
@@ -109,20 +109,20 @@ export class SetInteractionInFormComponent implements OnInit {
       });
   }
 
-  public increment(value: InteractionIn) {
+  public increment(value: InteractionIn): void {
     this.interactionFormData[value].nbCourrier = this.interactionFormData[
       value
     ].nbCourrier = this.interactionFormData[value].nbCourrier + 1;
   }
 
-  public decrement(value: InteractionIn) {
+  public decrement(value: InteractionIn): void {
     this.interactionFormData[value].nbCourrier = this.interactionFormData[
       value
     ].nbCourrier = this.interactionFormData[value].nbCourrier - 1;
   }
 
   @HostListener("document:keypress", ["$event"])
-  keyEvent(event: KeyboardEvent) {
+  keyEvent(event: KeyboardEvent): void {
     if (event.key === "Enter") {
       event.preventDefault();
       this.setInteractionForm();

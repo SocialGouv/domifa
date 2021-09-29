@@ -46,10 +46,6 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
 
   public procuration: boolean; // Mandataire = true / domicilié = false
 
-  public displayProcuration() {
-    return isProcurationActifMaintenant(this.usager.options.procuration);
-  }
-
   private subscription: Subscription;
 
   constructor(
@@ -135,13 +131,18 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
     this.getInteractions();
   }
 
-  public toggleSelect(type: "courrierOut" | "recommandeOut" | "colisOut") {
+  public displayProcuration(): boolean {
+    return isProcurationActifMaintenant(this.usager.options.procuration);
+  }
+  public toggleSelect(
+    type: "courrierOut" | "recommandeOut" | "colisOut"
+  ): void {
     this.interactionFormData[type].selected =
       !this.interactionFormData[type].selected;
     this.interactionFormData$.next(this.interactionFormData);
   }
 
-  public setInteractionForm() {
+  public setInteractionForm(): void {
     const interactionsToSave = INTERACTIONS_OUT_AVAILABLE.reduce(
       (filtered, interaction) => {
         if (this.interactionFormData[interaction].selected) {
@@ -176,7 +177,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   }
 
   // Actualiser les données de l'usager
-  public refreshUsager() {
+  public refreshUsager(): void {
     this.usagerService
       .findOne(this.usager.ref)
       .subscribe((usager: UsagerLight) => {
@@ -185,19 +186,19 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
       });
   }
 
+  @HostListener("document:keypress", ["$event"])
+  keyEvent(event: KeyboardEvent): void {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      this.setInteractionForm();
+    }
+  }
+
   private getInteractions() {
     this.interactionService
       .getInteractions({ usagerRef: this.usager.ref, filter: "distribution" })
       .subscribe((interactions: Interaction[]) => {
         this.interactions$.next(interactions);
       });
-  }
-
-  @HostListener("document:keypress", ["$event"])
-  keyEvent(event: KeyboardEvent) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      this.setInteractionForm();
-    }
   }
 }

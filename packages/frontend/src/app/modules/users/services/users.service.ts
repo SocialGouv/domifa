@@ -23,7 +23,7 @@ export class UsersService {
     this.http = http;
   }
 
-  public getUser(id: number) {
+  public getUser(id: number): Observable<UserStructure> {
     return this.http.get(`${this.endPoint}/${id}`).pipe(
       map((response) => {
         return userStructureBuilder.buildUserStructure(response);
@@ -39,7 +39,7 @@ export class UsersService {
     );
   }
 
-  public patch(userInfos: UserStructureEditProfile) {
+  public patch(userInfos: UserStructureEditProfile): Observable<UserStructure> {
     return this.http.patch(`${this.endPoint}`, userInfos).pipe(
       map((response) => {
         return userStructureBuilder.buildUserStructure(response);

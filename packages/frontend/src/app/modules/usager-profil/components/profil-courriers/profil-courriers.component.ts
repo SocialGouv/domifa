@@ -40,14 +40,14 @@ export class ProfilCourriersComponent implements OnInit {
       (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
       },
-      (error) => {
+      () => {
         this.notifService.error("Le dossier recherché n'existe pas");
         this.router.navigate(["404"]);
       }
     );
   }
 
-  public onUsagerChanges(usager: UsagerLight) {
+  public onUsagerChanges(usager: UsagerLight): void {
     this.usager = new UsagerFormModel(usager);
   }
 }

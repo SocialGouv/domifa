@@ -47,22 +47,22 @@ export class ProfilDossierComponent implements OnInit {
       (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
       },
-      (error) => {
+      () => {
         this.notifService.error("Le dossier recherché n'existe pas");
         this.router.navigate(["404"]);
       }
     );
   }
 
-  public openEntretien() {
+  public openEntretien(): void {
     this.editEntretien = !this.editEntretien;
   }
 
-  public isRole(role: UserStructureRole) {
+  public isRole(role: UserStructureRole): boolean {
     return this.me.role === role;
   }
 
-  public onUsagerChanges(usager: UsagerLight) {
+  public onUsagerChanges(usager: UsagerLight): void {
     this.usager = new UsagerFormModel(usager);
   }
 }

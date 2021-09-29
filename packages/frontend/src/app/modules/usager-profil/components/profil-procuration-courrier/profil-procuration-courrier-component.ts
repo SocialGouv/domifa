@@ -67,7 +67,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     this.maxDateNaissance = formatDateToNgb(new Date());
   }
 
-  public isRole(role: UserStructureRole) {
+  public isRole(role: UserStructureRole): boolean {
     return this.me.role === role;
   }
 
@@ -75,12 +75,12 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     this.initForm();
   }
 
-  public showForm() {
+  public showForm(): void {
     this.isFormVisible = true;
     this.initForm();
   }
 
-  public hideForm() {
+  public hideForm(): void {
     this.isFormVisible = false;
   }
 
@@ -88,7 +88,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     return this.procurationForm.controls;
   }
 
-  public initForm() {
+  public initForm(): void {
     this.procurationForm = this.formBuilder.group(
       {
         nom: [this.usager.options.procuration.nom, [Validators.required]],
@@ -119,7 +119,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     );
   }
 
-  public editProcuration() {
+  public editProcuration(): void {
     const formValue = {
       ...this.procurationForm.value,
       dateFin: this.nbgDate.formatEn(
@@ -135,21 +135,21 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
 
     this.usagerProfilService
       .editProcuration(formValue, this.usager.ref)
-      .subscribe(
-        (usager: UsagerLight) => {
+      .subscribe({
+        next: (usager: UsagerLight) => {
           this.hideForm();
           this.usagerChanges.emit(usager);
           this.usager = new UsagerFormModel(usager);
           this.notifService.success("Procuration ajoutée avec succès");
           this.matomo.trackEvent("profil", "actions", "edit_procuration", 1);
         },
-        (error) => {
+        error: (error) => {
           this.notifService.error("Impossible d'ajouter la procuration'");
-        }
-      );
+        },
+      });
   }
 
-  public deleteProcuration() {
+  public deleteProcuration(): void {
     if (!this.usager.options.procuration.actif) {
       this.hideForm();
       return;

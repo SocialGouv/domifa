@@ -42,7 +42,7 @@ export class ProfilHistoriqueComponent implements OnInit {
       (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
       },
-      (error) => {
+      () => {
         this.notifService.error("Le dossier recherché n'existe pas");
         this.router.navigate(["404"]);
       }

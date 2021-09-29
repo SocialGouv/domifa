@@ -25,15 +25,13 @@ export class ProfilHistoriqueSmsComponent implements OnInit, AfterViewInit {
     this.messagesList = [];
   }
 
-  public ngOnInit(): void {
-    // this.getMySms();
-  }
+  public ngOnInit(): void {}
 
   public ngAfterViewInit(): void {
     this.getMySms();
   }
 
-  public getMySms() {
+  public getMySms(): void {
     this.usagerService.findMySms(this.usager).subscribe({
       next: (messages: MessageSms[]) => (this.messagesList = messages),
     });

@@ -33,9 +33,9 @@ export class StatsMapComponent implements OnInit, AfterViewInit {
     this.selectedRegion = null;
   }
 
-  ngOnInit(): void {}
+  public ngOnInit(): void {}
 
-  public selectRegion(regionId: string) {
+  public selectRegion(regionId: string): void {
     if (this.selectedRegion !== regionId) {
       this.selectedRegion = regionId;
     }

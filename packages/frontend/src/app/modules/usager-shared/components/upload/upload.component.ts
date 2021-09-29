@@ -42,7 +42,7 @@ export class UploadComponent implements OnInit {
     });
   }
 
-  public onFileChange(event: Event) {
+  public onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
 
     if (!input.files?.length) {
@@ -65,7 +65,7 @@ export class UploadComponent implements OnInit {
     }));
   }
 
-  public submitFile() {
+  public submitFile(): void {
     this.submitted = true;
 
     if (this.uploadForm.invalid) {
@@ -93,7 +93,7 @@ export class UploadComponent implements OnInit {
           this.rebuildDocStates();
         }
       },
-      (err) => {
+      () => {
         this.notifService.error("Impossible d'uploader le fichier");
       }
     );

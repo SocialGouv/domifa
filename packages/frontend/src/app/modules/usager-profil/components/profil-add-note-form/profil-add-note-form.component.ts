@@ -34,7 +34,7 @@ export class ProfilAddNoteFormComponent implements OnInit {
     });
   }
 
-  public submit() {
+  public submit(): void {
     if (this.addNoteForm.valid) {
       this.usagerService
         .createNote({
