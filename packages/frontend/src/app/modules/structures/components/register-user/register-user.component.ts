@@ -33,7 +33,7 @@ export class RegisterUserComponent implements OnInit {
   public hidePassword: boolean;
   public hidePasswordConfirm: boolean;
 
-  public emailExist: boolean = false;
+  public emailExist = false;
 
   @Input() public structureRegisterInfos!: {
     etapeInscription: number;
@@ -58,7 +58,7 @@ export class RegisterUserComponent implements OnInit {
     this.success = false;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle("Inscription sur Domifa : étape 2");
 
     this.userForm = this.formBuilder.group(
@@ -94,6 +94,10 @@ export class RegisterUserComponent implements OnInit {
 
   public togglePassword(): void {
     this.hidePassword = !this.hidePassword;
+  }
+
+  public togglePasswordConfirmation(): void {
+    this.hidePasswordConfirm = !this.hidePasswordConfirm;
   }
 
   public submitUser() {

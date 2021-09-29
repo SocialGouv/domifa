@@ -8,7 +8,7 @@ import { Title } from "@angular/platform-browser";
 })
 export class CguComponent implements OnInit {
   constructor(private titleService: Title) {}
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle("Conditions générales d'utilisation");
   }
 }

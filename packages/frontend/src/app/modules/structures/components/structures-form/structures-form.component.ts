@@ -11,7 +11,7 @@ import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { regexp } from "src/app/shared/validators";
 import { StructureCommon } from "../../../../../_common/model";
-import { departements } from "../../../../shared";
+import { departements, DepartementsLabels } from "../../../../shared";
 import { StructureService } from "../../services/structure.service";
 import { StructureCommonWeb } from "../../services/StructureCommonWeb.type";
 import { structureNameChecker } from "../structure-edit-form/structureNameChecker.service";
@@ -22,11 +22,11 @@ import { structureNameChecker } from "../structure-edit-form/structureNameChecke
   templateUrl: "./structures-form.component.html",
 })
 export class StructuresFormComponent implements OnInit {
-  public success: boolean = false;
+  public success = false;
   public structureForm!: FormGroup;
   public structure: StructureCommon;
-  public departements: any;
-  public submitted: boolean = false;
+  public departements: DepartementsLabels;
+  public submitted = false;
 
   public etapeInscription: number;
   public etapes = [
@@ -66,7 +66,7 @@ export class StructuresFormComponent implements OnInit {
     return this.structureForm.controls;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle("Inscrivez votre structure sur Domifa");
 
     this.structureForm = this.formBuilder.group({
@@ -158,7 +158,7 @@ export class StructuresFormComponent implements OnInit {
       });
   }
 
-  public submitStrucutre() {
+  public submitStrucutre(): void {
     this.submitted = true;
 
     if (this.structureForm.invalid) {
@@ -173,7 +173,7 @@ export class StructuresFormComponent implements OnInit {
 
           this.structureRegisterInfos.structure = structure;
         },
-        (error) => {
+        () => {
           this.notifService.error("Veuillez vérifier les champs du formulaire");
         }
       );
@@ -191,7 +191,7 @@ export class StructuresFormComponent implements OnInit {
       : of(null);
   }
 
-  isInvalidStructureName(structureName: string) {
+  public isInvalidStructureName(structureName: string): boolean {
     return structureNameChecker.isInvalidStructureName(structureName);
   }
 }

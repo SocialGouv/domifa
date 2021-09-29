@@ -6,7 +6,7 @@ import { DashboardComponent } from "./components/dashboard/dashboard.component";
 
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { SharedModule } from "../shared/shared.module";
@@ -18,7 +18,7 @@ import { UsersModule } from "../users/users.module";
     CommonModule,
     NgbModule,
     SharedModule,
-    FontAwesomeModule,
+
     ToastrModule.forRoot(),
     HttpClientModule,
     FormsModule,

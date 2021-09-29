@@ -32,7 +32,7 @@ export class DocumentsComponent implements OnInit, OnChanges {
     }));
   }
 
-  public ngOnInit() {}
+  public ngOnInit(): void {}
 
   public getDocument(i: number) {
     this.usager.docs[i].loadingDownload = true;

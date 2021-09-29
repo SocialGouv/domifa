@@ -23,17 +23,18 @@ export class MenuComponent implements OnInit {
     "Décision finale",
   ];
 
-  public etapesUrl = ETAPES_DEMANDE_URL;
-
+  public etapesUrl: string[];
   public me: UserStructure;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private notifService: ToastrService
-  ) {}
+  ) {
+    this.etapesUrl = ETAPES_DEMANDE_URL;
+  }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
@@ -47,7 +48,7 @@ export class MenuComponent implements OnInit {
     }
   }
 
-  public goToStep(step: number) {
+  public goToStep(step: number): void {
     if (this.usager.decision.statut === "ATTENTE_DECISION") {
       this.notifService.warning(
         "Vous ne pouvez pas revenir en arrière quand le dossier est en attente de décision"

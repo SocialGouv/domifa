@@ -90,7 +90,7 @@ export class ManageUsagersTableComponent implements OnInit {
     private matomo: MatomoTracker
   ) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.selectedUsager = {} as UsagerFormModel;
     this.today = new Date();
   }

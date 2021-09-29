@@ -9,10 +9,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { Router } from "@angular/router";
-import {
-  FaIconLibrary,
-  FontAwesomeModule,
-} from "@fortawesome/angular-fontawesome";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import * as Sentry from "@sentry/browser";
 import { CountUpModule } from "ngx-countup";
@@ -34,49 +32,6 @@ import { UsagersModule } from "./modules/usagers/usagers.module";
 import { UsersModule } from "./modules/users/users.module";
 import { UsagerSharedModule } from "./modules/usager-shared/usager-shared.module";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
-import {
-  faArrowAltCircleRight,
-  faChartBar,
-  faClock,
-  faEdit,
-  faEye,
-  faEyeSlash,
-  faFileWord,
-  faQuestionCircle,
-} from "@fortawesome/free-regular-svg-icons";
-import {
-  faAngleRight,
-  faCalendar,
-  faBan,
-  faUser,
-  faUsers,
-  faBars,
-  faCheck,
-  faCircleNotch,
-  faDownload,
-  faExclamationTriangle,
-  faHome,
-  faInfoCircle,
-  faPencilAlt,
-  faPlus,
-  faPrint,
-  faQuestion,
-  faRedo,
-  faSearch,
-  faShare,
-  faSignOutAlt,
-  faSms,
-  faSort,
-  faSortAmountDown,
-  faSortAmountUp,
-  faSync,
-  faTimes,
-  faTrash,
-  faUserShield,
-  faUpload,
-  faAngleLeft,
-  faArrowDown,
-} from "@fortawesome/free-solid-svg-icons";
 
 if (environment.production) {
   Sentry.init({
@@ -129,50 +84,4 @@ if (environment.production) {
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
-export class AppModule {
-  constructor(library: FaIconLibrary) {
-    library.addIcons(
-      faAngleRight,
-      faBan,
-      faBars,
-      faCalendar,
-      faChartBar,
-      faCheck,
-      faCircleNotch,
-      faClock,
-      faDownload,
-      faEdit,
-      faExclamationTriangle,
-      faEye,
-      faEyeSlash,
-      faFileWord,
-      faHome,
-      faInfoCircle,
-      faPencilAlt,
-      faPlus,
-      faPrint,
-      faQuestion,
-      faQuestionCircle,
-      faRedo,
-      faSearch,
-      faShare,
-      faSignOutAlt,
-      faSms,
-      faSort,
-      faSortAmountDown,
-      faSortAmountUp,
-      faSync,
-      faTimes,
-      faTrash,
-      faUser,
-      faUsers,
-      faUserShield,
-      faUpload,
-      faArrowDown,
-      faArrowAltCircleRight,
-      faDownload,
-      faAngleLeft,
-      faTimes
-    );
-  }
-}
+export class AppModule {}

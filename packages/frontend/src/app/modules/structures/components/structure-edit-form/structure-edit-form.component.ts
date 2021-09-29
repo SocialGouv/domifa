@@ -42,7 +42,7 @@ export class StructureEditFormComponent implements OnInit {
     return this.structureForm.controls;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     const adresseRequired =
       this.structure.adresseCourrier.actif === true
         ? [Validators.required]

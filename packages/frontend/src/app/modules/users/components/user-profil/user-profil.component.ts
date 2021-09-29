@@ -42,7 +42,7 @@ export class UserProfilComponent implements OnInit {
     this.exportLoading = false;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle("Compte Domifa");
 
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {

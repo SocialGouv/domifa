@@ -37,7 +37,7 @@ export class StructuresConfirmComponent implements OnInit {
     this.nom = null;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle("Inscription sur Domifa");
     const id = this.route.snapshot.url[2].path;
     const token = this.route.snapshot.url[3].path;

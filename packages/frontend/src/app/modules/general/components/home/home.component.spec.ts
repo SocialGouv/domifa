@@ -6,7 +6,6 @@ import { CommonModule, APP_BASE_HREF } from "@angular/common";
 
 import { SharedModule } from "src/app/modules/shared/shared.module";
 
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { CountUpModule } from "ngx-countup";
 
 import { HttpClientTestingModule } from "@angular/common/http/testing";
@@ -27,7 +26,7 @@ describe("HomeComponent", () => {
           CommonModule,
           SharedModule,
           ToastrModule.forRoot(),
-          FontAwesomeModule,
+
           RouterTestingModule,
           CountUpModule,
           HttpClientTestingModule,

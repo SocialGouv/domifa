@@ -72,7 +72,7 @@ export class RdvComponent implements OnInit {
     return this.rdvForm.controls;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle("Rendez-vous de l'usager");
 
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {

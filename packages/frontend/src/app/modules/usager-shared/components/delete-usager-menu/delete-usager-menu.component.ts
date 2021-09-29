@@ -22,7 +22,7 @@ export class DeleteUsagerMenuComponent implements OnInit {
     private notifService: ToastrService
   ) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
@@ -32,15 +32,15 @@ export class DeleteUsagerMenuComponent implements OnInit {
     return this.usager.historique[1].statut;
   }
 
-  public open(content: TemplateRef<any>) {
+  public open(content: TemplateRef<any>): void {
     this.modalService.open(content);
   }
 
-  public closeModals() {
+  public closeModals(): void {
     this.modalService.dismissAll();
   }
 
-  public deleteUsager() {
+  public deleteUsager(): void {
     this.usagerProfilService.delete(this.usager.ref).subscribe(
       () => {
         this.modalService.dismissAll();
@@ -53,7 +53,7 @@ export class DeleteUsagerMenuComponent implements OnInit {
     );
   }
 
-  public deleteRenew() {
+  public deleteRenew(): void {
     this.usagerProfilService.deleteRenew(this.usager.ref).subscribe(
       () => {
         this.modalService.dismissAll();

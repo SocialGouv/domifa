@@ -3,7 +3,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { GeneralModule } from "../general/general.module";
@@ -33,7 +33,7 @@ import { UploadComponent } from "./components/upload/upload.component";
   ],
   imports: [
     CommonModule,
-    FontAwesomeModule,
+
     HttpClientModule,
     NgbModule,
     FormsModule,

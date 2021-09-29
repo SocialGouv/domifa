@@ -89,7 +89,7 @@ export class EditUserComponent implements OnInit {
     });
   }
 
-  public initUserForm() {
+  public initUserForm(): void {
     this.editUser = true;
 
     this.userForm = this.formBuilder.group({
@@ -103,7 +103,7 @@ export class EditUserComponent implements OnInit {
     });
   }
 
-  public initPasswordForm() {
+  public initPasswordForm(): void {
     this.editPassword = true;
 
     this.passwordForm = this.formBuilder.group(
@@ -142,7 +142,7 @@ export class EditUserComponent implements OnInit {
     );
   }
 
-  public updateUser() {
+  public updateUser(): void {
     this.submitted = true;
     if (this.userForm.invalid) {
       this.notifService.error(
@@ -169,7 +169,7 @@ export class EditUserComponent implements OnInit {
     }
   }
 
-  public updatePassword() {
+  public updatePassword(): void {
     if (!this.passwordForm.invalid) {
       this.userService.updatePassword(this.passwordForm.value).subscribe(
         () => {

@@ -3,7 +3,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
@@ -44,7 +44,7 @@ import { UsagerService } from "./services/usager.service";
   exports: [DecisionComponent, UsagersFormComponent, DocumentsFormComponent],
   imports: [
     CommonModule,
-    FontAwesomeModule,
+
     FormsModule,
     GeneralModule,
     UsagerSharedModule,

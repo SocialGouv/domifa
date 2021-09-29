@@ -98,7 +98,7 @@ export class UsagersFormComponent implements OnInit {
     this.maxDateNaissance = formatDateToNgb(new Date());
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle("État-civil du demandeur");
 
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {

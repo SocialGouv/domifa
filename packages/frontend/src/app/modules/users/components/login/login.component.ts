@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     this.returnUrl = "/";
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || "/";
 
     this.titleService.setTitle("Connexion à DomiFa");

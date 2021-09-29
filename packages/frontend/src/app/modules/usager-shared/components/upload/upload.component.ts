@@ -34,7 +34,7 @@ export class UploadComponent implements OnInit {
     return this.uploadForm.controls;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.uploadForm = this.formBuilder.group({
       fileSource: ["", [Validators.required, validateUpload("USAGER_DOC")]],
       file: ["", [Validators.required]],

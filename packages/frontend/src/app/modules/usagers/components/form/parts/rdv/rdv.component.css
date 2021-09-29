@@ -3,12 +3,13 @@
 }
 
 .card_not_selected {
-  opacity: 0.5;
+  opacity: 0.7;
 }
 
 .card {
   cursor: pointer;
 }
+
 .card_selected,
 .card:hover,
 .card:focus {

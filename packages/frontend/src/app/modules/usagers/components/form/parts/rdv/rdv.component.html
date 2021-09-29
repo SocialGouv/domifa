@@ -48,9 +48,9 @@
       <br />
     </div>
     <form [formGroup]="rdvForm" (ngSubmit)="submitRdv()">
-      <div class="row text-center">
+      <div class="text-center">
         <div
-          class="card"
+          class="card my-2"
           [ngClass]="{
             card_selected: r.isNow.value === true,
             card_not_selected: r.isNow.value === false
@@ -83,10 +83,8 @@
           </div>
         </div>
 
-        <div class="w-100"></div>
-
         <div
-          class="card"
+          class="card my-4"
           [ngClass]="{
             card_selected: r.isNow.value === false,
             card_not_selected: r.isNow.value === true

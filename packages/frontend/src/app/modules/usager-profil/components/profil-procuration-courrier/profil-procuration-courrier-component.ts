@@ -71,7 +71,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     return this.me.role === role;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.initForm();
   }
 

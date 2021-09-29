@@ -4,7 +4,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { RouterModule } from "@angular/router";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ToastrModule } from "ngx-toastr";
@@ -36,7 +36,6 @@ import { SharedModule } from "../shared/shared.module";
   imports: [
     CommonModule,
     SharedModule,
-    FontAwesomeModule,
     RouterModule.forChild([]),
     ToastrModule.forRoot({}),
     HttpClientModule,

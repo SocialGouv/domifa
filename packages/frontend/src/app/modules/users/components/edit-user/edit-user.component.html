@@ -241,12 +241,13 @@
               "
             >
               <fa-icon
-                [icon]="
+                [icon]="[
+                  'fas',
                   p.password.hasError('required') ||
                   p.password.hasError('minlength')
                     ? 'times-circle'
                     : 'check-circle'
-                "
+                ]"
               ></fa-icon>
               Au moins 12 caractères
             </div>
@@ -260,12 +261,13 @@
               "
             >
               <fa-icon
-                [icon]="
+                [icon]="[
+                  'fas',
                   p.password.hasError('required') ||
                   p.password.hasError('hasNumber')
                     ? 'times-circle'
                     : 'check-circle'
-                "
+                ]"
               ></fa-icon>
               Au moins 1 chiffre
             </div>
@@ -279,12 +281,13 @@
               "
             >
               <fa-icon
-                [icon]="
+                [icon]="[
+                  'fas',
                   p.password.hasError('required') ||
                   p.password.hasError('hasCapitalCase')
                     ? 'times-circle'
                     : 'check-circle'
-                "
+                ]"
               ></fa-icon>
               Au moins une lettre en majuscule
             </div>

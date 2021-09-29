@@ -15,11 +15,11 @@ export class StatsChartsComponent implements OnInit, AfterViewInit {
   public gradient = false;
 
   // options for the chart
-  public showXAxis: boolean = true;
-  public showYAxis: boolean = true;
+  public showXAxis = true;
+  public showYAxis = true;
 
-  public showLegend: boolean = false;
-  public barPadding: number = 35;
+  public showLegend = false;
+  public barPadding = 35;
   public colorScheme = {
     domain: ["#4164f5"],
   };

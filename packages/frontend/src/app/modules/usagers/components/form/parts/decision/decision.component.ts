@@ -78,7 +78,7 @@ export class DecisionComponent implements OnInit {
     return this.valideForm.controls;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle("Décision sur la domiciliation");
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       if (user !== null) {

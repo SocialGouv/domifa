@@ -29,7 +29,7 @@ export class RaftComponent implements OnInit {
     private notifService: ToastrService
   ) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.user = user;
     });

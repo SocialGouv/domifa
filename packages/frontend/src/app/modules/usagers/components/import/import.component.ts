@@ -118,7 +118,7 @@ export class ImportComponent implements OnInit {
     this.form.nativeElement.reset();
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle("Importer vos domiciliés sur Domifa");
 
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
