@@ -21,7 +21,7 @@
                 (click)="confirmUserFromAdmin(user.id)"
                 class="btn btn-secondary"
               >
-                <fa-icon icon="check" class="mr-2"></fa-icon>
+                <fa-icon [icon]="['fas', 'check']" class="mr-2"></fa-icon>
                 Valider
               </button>
               &nbsp;
@@ -30,7 +30,7 @@
                 (click)="open(deleteUserConfirmation); selectedUser = user.id"
                 class="btn btn-danger"
               >
-                <fa-icon icon="trash" class="mr-2"></fa-icon>
+                <fa-icon [icon]="['fas', 'trash']" class="mr-2"></fa-icon>
                 Supprimer
               </button>
             </div>
@@ -104,7 +104,7 @@
                 (click)="open(deleteUserConfirmation); selectedUser = user.id"
                 class="btn btn-outline-danger"
               >
-                <fa-icon icon="trash"></fa-icon>
+                <fa-icon [icon]="['fas', 'trash']"></fa-icon>
               </button>
             </div>
           </div>
@@ -115,7 +115,7 @@
         class="btn btn-outline-primary"
         (click)="usersInfos = !usersInfos"
       >
-        <fa-icon icon="question"></fa-icon>
+        <fa-icon [icon]="['far', 'question']"></fa-icon>
         &nbsp; En savoir plus sur les rôles utilisateurs
       </button>
       <br />
@@ -137,7 +137,7 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -145,10 +145,10 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -157,7 +157,7 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -166,7 +166,7 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -175,7 +175,7 @@
               <td></td>
               <td>* Téléchargement seulement</td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -184,7 +184,7 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -196,7 +196,7 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -204,36 +204,36 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
               <td>Page statistiques de la structure</td>
               <td></td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
               <td>Cr&eacute;ation du dossier d&rsquo;un domicili&eacute;</td>
               <td></td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -243,10 +243,10 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -264,84 +264,84 @@
               </td>
               <td>* Lecture des informations seulement</td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
               <td>Ajout/suppression de notes internes</td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
               <td>Gestion de la r&eacute;ception des courriers/colis/avis</td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
               <td>D&eacute;claration d&rsquo;un passage/appel&nbsp;</td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
               <td>Radiation du dossier d&rsquo;un domicili&eacute;</td>
               <td></td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
               <td>Renouvellement du dossier d&rsquo;un domicili&eacute;</td>
               <td></td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -351,13 +351,13 @@
               </td>
               <td></td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -365,10 +365,10 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon icon="check"></fa-icon>
+                <fa-icon [icon]="['far', 'check']"></fa-icon>
               </td>
             </tr>
           </tbody>

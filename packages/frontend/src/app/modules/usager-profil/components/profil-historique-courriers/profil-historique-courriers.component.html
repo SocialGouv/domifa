@@ -83,7 +83,7 @@
               <span (click)="interaction.delete = true" title="Supprimer">
                 <fa-icon
                   *ngIf="interaction.event === 'create'"
-                  icon="trash-alt"
+                  [icon]="['fas', 'trash']"
                   class="delete"
                 ></fa-icon>
                 <fa-icon
@@ -94,7 +94,7 @@
                 ></fa-icon>
               </span>
               <span *ngIf="false" (click)="interaction.delete = false">
-                <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
+                <fa-icon [icon]="['far', 'pencil-alt']" class="mr-2"></fa-icon>
               </span>
             </ng-container>
           </td>

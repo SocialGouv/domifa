@@ -35,7 +35,9 @@
         />
         <div class="input-group-append">
           <span class="input-group-text" (click)="togglePassword()">
-            <fa-icon [icon]="hidePassword ? 'eye' : 'eye-slash'"></fa-icon>
+            <fa-icon
+              [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
+            ></fa-icon>
           </span>
         </div>
       </div>
@@ -57,8 +59,8 @@
         <span *ngIf="!loading"> Connexion </span>
 
         <span *ngIf="loading"
-          ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon> Connexion en
-          cours...</span
+          ><fa-icon [icon]="['far', 'circle-notch']" [spin]="true"> </fa-icon>
+          Connexion en cours...</span
         >
       </button>
     </div>

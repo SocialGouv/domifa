@@ -14,7 +14,7 @@
     </div>
 
     <div *ngIf="successDelete">
-      <fa-icon class="fa-4x text-success" icon="trash"></fa-icon>
+      <fa-icon class="fa-4x text-success" [icon]="['fas', 'trash']"></fa-icon>
       <br />
       <br />
       <h3 class="text-success">Structure supprimée avec succès</h3>
@@ -22,7 +22,10 @@
     </div>
 
     <div *ngIf="confirmDelete">
-      <fa-icon class="text-warning fa-4x" icon="exclamation-triangle"></fa-icon>
+      <fa-icon
+        class="text-warning fa-4x"
+        [icon]="['fas', 'exclamation-triangle']"
+      ></fa-icon>
 
       <h4 class="text-warning">
         Vous souhaitez supprimer définitivement la structure suivante :

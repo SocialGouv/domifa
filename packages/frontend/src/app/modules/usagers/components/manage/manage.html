@@ -32,7 +32,7 @@
           routerLink="/nouveau"
           class="btn btn-white-primary"
         >
-          <fa-icon icon="plus" class="mr-2"></fa-icon>
+          <fa-icon [icon]="['fas', 'plus']" class="mr-2"></fa-icon>
           Créer une demande
         </a>
       </div>
@@ -122,7 +122,7 @@
               (click)="updateFilters({element: 'passage', value: null})"
             >
               {{ labelsDernierPassage[filters.passage] }}
-              <fa-icon icon="times" class="cross"></fa-icon>
+              <fa-icon [icon]="['far', 'times']" class="cross"></fa-icon>
             </button>
           </div>
 
@@ -168,7 +168,7 @@
               (click)="updateFilters({element: 'echeance',value: null})"
             >
               {{ labelsEcheance[filters.echeance] }}
-              <fa-icon icon="times" class="cross"></fa-icon>
+              <fa-icon [icon]="['far', 'times']" class="cross"></fa-icon>
             </button>
           </div>
           <div
@@ -217,7 +217,7 @@
               (click)="updateFilters({element: 'interactionType',value: null})"
             >
               Courrier à récupérer
-              <fa-icon icon="times" class="cross"></fa-icon>
+              <fa-icon [icon]="['far', 'times']" class="cross"></fa-icon>
             </button>
           </div>
           <div
@@ -265,12 +265,12 @@
 
             <fa-icon
               *ngIf="filters.sortValue === 'ascending'"
-              icon="sort-amount-up"
+              [icon]="['far', 'sort-amount-up']"
             ></fa-icon>
 
             <fa-icon
               *ngIf="filters.sortValue === 'descending'"
-              icon="sort-amount-down"
+              [icon]="['far', 'sort-amount-down']"
             ></fa-icon>
           </div>
           <div
@@ -286,14 +286,14 @@
                 ngbDropdownItem
               >
                 Trier par dernier passage
-                <fa-icon icon="sort-amount-up"></fa-icon>
+                <fa-icon [icon]="['far', 'sort-amount-up']"></fa-icon>
               </button>
               <button
                 (click)="updateFilters({element: 'sortKey', value: 'PASSAGE', sortValue:'descending'})"
                 ngbDropdownItem
               >
                 Trier par dernier passage
-                <fa-icon icon="sort-amount-down"></fa-icon>
+                <fa-icon [icon]="['far', 'sort-amount-down']"></fa-icon>
               </button>
             </ng-container>
             <button
@@ -301,38 +301,42 @@
               ngbDropdownItem
             >
               Trier par {{ getEcheanceLabel() }}
-              <fa-icon icon="sort-amount-up"></fa-icon>
+              <fa-icon [icon]="['far', 'sort-amount-up']"></fa-icon>
             </button>
             <button
               (click)="updateFilters({element: 'sortKey', value: 'ECHEANCE', sortValue:'descending'})"
               ngbDropdownItem
             >
               Trier par {{ getEcheanceLabel() }}
-              <fa-icon icon="sort-amount-down"></fa-icon>
+              <fa-icon [icon]="['far', 'sort-amount-down']"></fa-icon>
             </button>
             <button
               (click)="updateFilters({element: 'sortKey', value: 'NAME', sortValue:'ascending'})"
               ngbDropdownItem
             >
-              Trier par nom <fa-icon icon="sort-amount-up"></fa-icon>
+              Trier par nom
+              <fa-icon [icon]="['far', 'sort-amount-up']"></fa-icon>
             </button>
             <button
               (click)="updateFilters({element: 'sortKey', value: 'NAME', sortValue:'descending'})"
               ngbDropdownItem
             >
-              Trier par nom <fa-icon icon="sort-amount-down"></fa-icon>
+              Trier par nom
+              <fa-icon [icon]="['far', 'sort-amount-down']"></fa-icon>
             </button>
             <button
               (click)="updateFilters({element: 'sortKey', value: 'ID', sortValue:'ascending'})"
               ngbDropdownItem
             >
-              Trier par ID <fa-icon icon="sort-amount-up"></fa-icon>
+              Trier par ID
+              <fa-icon [icon]="['far', 'sort-amount-up']"></fa-icon>
             </button>
             <button
               (click)="updateFilters({element: 'sortKey', value: 'ID', sortValue:'descending'})"
               ngbDropdownItem
             >
-              Trier par ID <fa-icon icon="sort-amount-down"></fa-icon>
+              Trier par ID
+              <fa-icon [icon]="['far', 'sort-amount-down']"></fa-icon>
             </button>
           </div>
         </div>

@@ -66,7 +66,7 @@
               class="d-inline-block d-xs-none d-sm-none"
             >
               <button class="btn" ngbDropdownToggle>
-                <fa-icon icon="bars"></fa-icon>
+                <fa-icon [icon]="['fas', 'bars']"></fa-icon>
               </button>
               <div
                 ngbDropdownMenu
@@ -105,7 +105,7 @@
                   <fa-icon
                     aria-hidden="true"
                     title="Admin Domifa"
-                    icon="user-shield"
+                    [icon]="['fas', 'user-shield']"
                   ></fa-icon>
                   Admin Domifa
                 </a>
@@ -113,7 +113,7 @@
                   <fa-icon
                     aria-hidden="true"
                     title="Compte"
-                    icon="user"
+                    [icon]="['fas', 'user']"
                   ></fa-icon>
                   Compte
                 </a>
@@ -125,7 +125,7 @@
                   <fa-icon
                     aria-hidden="true"
                     title="Administration"
-                    icon="users"
+                    [icon]="['fas', 'users']"
                   >
                   </fa-icon>
                   Utilisateurs</a
@@ -139,7 +139,7 @@
                   <fa-icon
                     aria-hidden="true"
                     title="Importer"
-                    icon="upload"
+                    [icon]="['fas', 'upload']"
                   ></fa-icon>
                   Importer
                 </a>
@@ -148,7 +148,11 @@
                   *ngIf="me.role === 'admin' || me.role === 'responsable'"
                   routerLink="/structure-edit"
                 >
-                  <fa-icon aria-hidden="true" title="Structure" icon="home">
+                  <fa-icon
+                    aria-hidden="true"
+                    title="Structure"
+                    [icon]="['fas', 'home']"
+                  >
                   </fa-icon>
                   Structure
                 </a>
@@ -162,7 +166,7 @@
                   <fa-icon
                     aria-hidden="true"
                     title="Notifications"
-                    icon="sms"
+                    [icon]="['fas', 'sms']"
                   ></fa-icon>
                   Notifications
                 </a>
@@ -178,7 +182,7 @@
                   <fa-icon
                     aria-hidden="true"
                     title="Statistiques"
-                    icon="chart-bar"
+                    [icon]="['far', 'chart-bar']"
                   >
                   </fa-icon>
                   Statistiques
@@ -187,7 +191,7 @@
                   <fa-icon
                     aria-hidden="true"
                     title="Statistiques"
-                    icon="sign-out-alt"
+                    [icon]="['fas', 'sign-out-alt']"
                   >
                   </fa-icon>
                   Déconnexion

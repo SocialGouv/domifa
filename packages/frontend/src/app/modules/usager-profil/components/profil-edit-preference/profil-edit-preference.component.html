@@ -8,7 +8,7 @@
       *ngIf="!editPreferences"
       (click)="editPreferences = true"
     >
-      <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
+      <fa-icon [icon]="['far', 'pencil-alt']" class="mr-2"></fa-icon>
       Modifier les préférences
     </button>
     <button
@@ -16,7 +16,7 @@
       *ngIf="editPreferences"
       (click)="editPreferences = false"
     >
-      <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
+      <fa-icon [icon]="['far', 'pencil-alt']" class="mr-2"></fa-icon>
       Annuler les modifications
     </button>
   </div>

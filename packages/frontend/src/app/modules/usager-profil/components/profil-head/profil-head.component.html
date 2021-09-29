@@ -29,25 +29,25 @@
             [routerLink]="['/usager/' + usager.ref + '/edit']"
             class="btn btn-white-primary ml-2"
           >
-            <fa-icon icon="redo" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['fas', 'redo']" class="mr-2"></fa-icon>
             Compléter la demande
           </a>
         </ng-container>
 
         <ng-container *ngIf="usager.decision.statut === 'REFUS'">
           <button (click)="openRenewModal()" class="btn btn-white-primary ml-2">
-            <fa-icon icon="redo" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['fas', 'redo']" class="mr-2"></fa-icon>
             Créer une nouvelle demande
           </button>
           <button class="btn btn-white-primary ml-2">
-            <fa-icon icon="download"></fa-icon>
+            <fa-icon [icon]="['far', 'download']"></fa-icon>
             Télécharger le CERFA
           </button>
         </ng-container>
 
         <ng-container *ngIf="usager.decision.statut === 'RADIE'">
           <button class="btn btn-white-primary ml-2" (click)="openRenewModal()">
-            <fa-icon icon="redo" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['fas', 'redo']" class="mr-2"></fa-icon>
             Créer une nouvelle demande
           </button>
         </ng-container>
@@ -57,7 +57,7 @@
             class="ml-2 btn btn-white-primary ml-2"
             (click)="openRenewModal()"
           >
-            <fa-icon icon="redo" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['fas', 'redo']" class="mr-2"></fa-icon>
             Demande de renouvellement
           </button>
           <a
@@ -65,7 +65,7 @@
             routerLinkActive="router-link-active"
             class="ml-2 btn btn-white-primary"
           >
-            <fa-icon icon="times" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
             Radier le domicilié
           </a>
         </ng-container>

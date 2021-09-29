@@ -9,7 +9,7 @@
         *ngIf="!isFormVisible "
         class="btn btn-outline-dark ml-2"
       >
-        <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
+        <fa-icon [icon]="['far', 'pencil-alt']" class="mr-2"></fa-icon>
         Modifier la procuration
       </button>
       <button
@@ -17,7 +17,7 @@
         (click)="hideForm()"
         class="btn btn-outline-dark ml-2"
       >
-        <fa-icon icon="times" class="mr-2"></fa-icon>
+        <fa-icon [icon]="['far', 'times']" class="mr-2"></fa-icon>
         Annuler les modifications
       </button>
     </div>
@@ -123,7 +123,7 @@
           />
           <div class="input-group-append">
             <span class="btn btn-outline-primary" (click)="d.toggle()">
-              <fa-icon icon="calendar"></fa-icon>
+              <fa-icon [icon]="['far', 'calendar']"></fa-icon>
             </span>
           </div>
 
@@ -157,7 +157,7 @@
               class="btn btn-outline-primary"
               (click)="dateDebutPro.toggle()"
             >
-              <fa-icon icon="calendar"></fa-icon>
+              <fa-icon [icon]="['far', 'calendar']"></fa-icon>
             </span>
           </div>
 
@@ -193,7 +193,7 @@
               class="btn btn-outline-primary"
               (click)="dateFinProcu.toggle()"
             >
-              <fa-icon icon="calendar"></fa-icon>
+              <fa-icon [icon]="['far', 'calendar']"></fa-icon>
             </span>
           </div>
 
@@ -214,7 +214,7 @@
           (click)="deleteProcuration()"
           class="btn btn-block btn-danger mr-2"
         >
-          <fa-icon icon="trash" class="trash"></fa-icon>
+          <fa-icon [icon]="['fas', 'trash']" class="trash"></fa-icon>
           Supprimer la procuration
         </span>
       </div>
