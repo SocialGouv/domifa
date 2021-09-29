@@ -1,3 +1,10 @@
+# [2.21.0](https://github.com/SocialGouv/domifa/compare/v2.20.1...v2.21.0) (2021-09-29)
+
+
+### Features
+
+* **ci:** seed data using sql dump ([#1727](https://github.com/SocialGouv/domifa/issues/1727)) ([e7d7ee6](https://github.com/SocialGouv/domifa/commit/e7d7ee624707ea885120f22dccb14a12e0422f98))
+
 ## [2.20.1](https://github.com/SocialGouv/domifa/compare/v2.20.0...v2.20.1) (2021-09-29)
 
 
