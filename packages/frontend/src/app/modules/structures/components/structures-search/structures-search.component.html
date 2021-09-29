@@ -67,7 +67,10 @@
         routerLinkActive="router-link-active"
       >
         J'inscris ma structure
-        <fa-icon icon="arrow-alt-circle-right" class="mr-2"></fa-icon>
+        <fa-icon
+          [icon]="['fas', 'arrow-alt-circle-right']"
+          class="mr-2"
+        ></fa-icon>
       </a>
     </div>
     <div class="text-center" *ngIf="structures.length > 0">

@@ -86,15 +86,15 @@
                   [icon]="['fas', 'trash']"
                   class="delete"
                 ></fa-icon>
+
                 <fa-icon
                   *ngIf="interaction.event === 'delete'"
-                  icon="exclamation-triangle"
-                  class="delete"
-                  title="Restaurer"
+                  [icon]="['fas', 'exclamation-triangle']"
+                  title="Restaurer l'interaction"
                 ></fa-icon>
               </span>
               <span *ngIf="false" (click)="interaction.delete = false">
-                <fa-icon [icon]="['far', 'pencil-alt']" class="mr-2"></fa-icon>
+                <fa-icon [icon]="['fas', 'pencil-alt']" class="mr-2"></fa-icon>
               </span>
             </ng-container>
           </td>

@@ -8,7 +8,7 @@
           class="btn btn-primary"
         >
           <span *ngIf="!exportLoading">
-            <fa-icon [icon]="['far', 'download']" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['fas', 'download']" class="mr-2"></fa-icon>
             Exporter les statistiques
           </span>
           <span *ngIf="exportLoading">
@@ -342,7 +342,7 @@
                   <div>Stats</div>
                   <div>2020</div>
                 </div>
-                <fa-icon [icon]="['far', 'download']"></fa-icon>
+                <fa-icon [icon]="['fas', 'download']"></fa-icon>
               </button>
               <button
                 (click)="enableSms(structure)"
