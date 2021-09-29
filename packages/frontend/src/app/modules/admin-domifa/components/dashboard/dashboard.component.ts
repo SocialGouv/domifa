@@ -112,7 +112,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.interactions = [];
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle("Dashboard de suivi");
 
     // Liste des structures
@@ -279,7 +279,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return departementLabel;
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 

@@ -105,7 +105,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.needToPrint = false;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.usagers = [];
     this.searching = true;
     this.nbResults = 0;
@@ -222,7 +222,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     );
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 

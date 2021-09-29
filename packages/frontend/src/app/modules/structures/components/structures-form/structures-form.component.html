@@ -12,8 +12,8 @@
         <span
           *ngIf="etapeInscription <= i"
           [ngClass]="{
-            step_active: etapeInscription == i,
-            step_inactive: i > 0 && etapeInscription != i
+            step_active: etapeInscription === i,
+            step_inactive: i > 0 && etapeInscription !== i
           }"
           class="step_number"
         >
@@ -21,8 +21,8 @@
         </span>
         <span
           [ngClass]="{
-            step_text_active: etapeInscription == i,
-            step_text_inactive: i > 0 && etapeInscription != i
+            step_text_active: etapeInscription === i,
+            step_text_inactive: i > 0 && etapeInscription !== i
           }"
           class="step_text"
         >
@@ -147,9 +147,12 @@
             }"
           >
             <!-- // note: on ne bloque par l'inscription si invalide, mais on affiche le message en rouge -->
-            <b>Préciser le nom</b> de votre ville / de votre unité locale en cas
-            de réseau / de votre association. Ex : CCAS du Havre / Croix Rouge
-            de Paris / Association Aurore
+            <b
+              >Préciser le nom de votre ville / de votre unité locale en cas de
+              réseau / de votre association.</b
+            >
+            <br />
+            Ex : CCAS du Havre / Croix Rouge de Paris / Association Aurore
           </div>
         </div>
 
@@ -515,7 +518,7 @@
     </form>
   </div>
 
-  <div *ngIf="structureRegisterInfos.etapeInscription == 1">
+  <div *ngIf="structureRegisterInfos.etapeInscription === 1">
     <app-register-user
       [structureRegisterInfos]="structureRegisterInfos"
     ></app-register-user>

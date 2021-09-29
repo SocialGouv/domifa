@@ -66,7 +66,7 @@ export class EntretienComponent implements OnInit {
     return this.entretienForm.controls;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.entretienForm = this.formBuilder.group({
       accompagnement: [
         this.usager.entretien.accompagnement,

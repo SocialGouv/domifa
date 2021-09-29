@@ -59,7 +59,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
     this.me = null;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.initForm();
   }
 

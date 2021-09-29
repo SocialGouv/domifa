@@ -11,14 +11,14 @@ import { LoadingService } from "./loading.service";
   templateUrl: "./loading.component.html",
 })
 export class LoadingComponent implements OnInit, OnDestroy {
-  public loading: boolean = false;
+  public loading = false;
   public loadingSubscription: Subscription;
 
   constructor(private loadingService: LoadingService) {
     this.loadingSubscription = new Subscription();
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.loadingSubscription = this.loadingService.loadingStatus
       .pipe(debounceTime(200))
       .subscribe((value) => {
@@ -26,7 +26,7 @@ export class LoadingComponent implements OnInit, OnDestroy {
       });
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.loadingSubscription.unsubscribe();
   }
 }

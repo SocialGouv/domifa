@@ -21,7 +21,8 @@ export class DocumentsFormComponent implements OnInit {
     private titleService: Title,
     private route: ActivatedRoute
   ) {}
-  public ngOnInit() {
+
+  public ngOnInit(): void {
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
@@ -31,20 +32,20 @@ export class DocumentsFormComponent implements OnInit {
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
 
-      this.usagerService.findOne(id).subscribe(
-        (usager: UsagerLight) => {
+      this.usagerService.findOne(id).subscribe({
+        next: (usager: UsagerLight) => {
           this.usager = usager;
         },
-        () => {
+        error: () => {
           this.router.navigate(["404"]);
-        }
-      );
+        },
+      });
     } else {
       this.router.navigate(["404"]);
     }
   }
 
-  public nextStep(step: number) {
+  public nextStep(step: number): void {
     this.usagerService
       .nextStep(this.usager.ref, step)
       .subscribe((usager: UsagerLight) => {

@@ -84,7 +84,7 @@ export class AppComponent implements OnInit {
     window.location.reload();
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle(
       "Domifa, l'outil qui facilite la gestion des structures domiciliatirices"
     );

@@ -21,7 +21,7 @@ export class EntretienFormComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle("Entretien avec l'usager");
 
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {

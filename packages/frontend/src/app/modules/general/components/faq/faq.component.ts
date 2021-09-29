@@ -17,7 +17,7 @@ export class FaqComponent implements OnInit {
     private notifService: ToastrService
   ) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle("Foire aux question de Domifa");
 
     this.meta.updateTag({

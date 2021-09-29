@@ -140,18 +140,13 @@
           <label for="password">Mot de passe</label>
           <div class="input-group">
             <input
-              type="password"
-              formControlName="password"
-              [type]="!hidePassword ? 'text' : 'password'"
               class="form-control"
-              id="password"
+              [type]="!hidePassword ? 'text' : 'password'"
               [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
-              placeholder="Mot de passe"
+              id="password"
               autocomplete="new-password"
+              formControlName="password"
               required
-              [ngClass]="{
-                'is-invalid': f.password.dirty && f.password.errors
-              }"
             />
             <div class="input-group-append">
               <span class="input-group-text" (click)="togglePassword()">
@@ -172,12 +167,13 @@
               "
             >
               <fa-icon
-                [icon]="
+                [icon]="[
+                  'fas',
                   f.password.hasError('required') ||
                   f.password.hasError('minlength')
                     ? 'times-circle'
                     : 'check-circle'
-                "
+                ]"
               ></fa-icon>
               Au moins 12 caractères
             </div>
@@ -191,12 +187,13 @@
               "
             >
               <fa-icon
-                [icon]="
+                [icon]="[
+                  'fas',
                   f.password.hasError('required') ||
                   f.password.hasError('hasNumber')
                     ? 'times-circle'
                     : 'check-circle'
-                "
+                ]"
               ></fa-icon>
               Au moins 1 chiffre
             </div>
@@ -210,12 +207,13 @@
               "
             >
               <fa-icon
-                [icon]="
+                [icon]="[
+                  'fas',
                   f.password.hasError('required') ||
                   f.password.hasError('hasCapitalCase')
                     ? 'times-circle'
                     : 'check-circle'
-                "
+                ]"
               ></fa-icon>
               Au moins une lettre en majuscule
             </div>
@@ -223,55 +221,29 @@
         </div>
         <div class="col form-group required" id="confirmPassword">
           <label for="confirmPasswordInput">Confirmer votre mot de passe</label>
-          <input
-            class="form-control"
-            [type]="!hidePasswordConfirm ? 'text' : 'password'"
-            [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }"
-            id="confirmPasswordInput"
-            autocomplete="new-password"
-            formControlName="confirmPassword"
-            required
-          />
-          <span
-            class="eye"
-            *ngIf="hidePasswordConfirm"
-            (click)="hidePasswordConfirm = false"
-          >
-            <fa-icon [icon]="['far', 'eye']"></fa-icon>
-          </span>
-          <span
-            class="eye"
-            *ngIf="!hidePasswordConfirm"
-            (click)="hidePasswordConfirm = true"
-          >
-            <fa-icon [icon]="['far', 'eye-slash']"></fa-icon>
-          </span>
-
-          <div class="row indications">
-            <div
-              class="text-danger col-md-12"
-              *ngIf="submitted && f.confirmPassword.hasError('required')"
-            >
-              La confirmation du mot de passe est obligatoire
-            </div>
-            <div
-              class="col-md-12"
-              [ngClass]="
-                f.confirmPassword.dirty &&
-                !f.confirmPassword.hasError('NoPassswordMatch')
-                  ? 'text-success'
-                  : 'text-danger'
-              "
-            >
-              <fa-icon
-                [icon]="
-                  f.confirmPassword.dirty &&
-                  !f.confirmPassword.hasError('NoPassswordMatch')
-                    ? 'check-circle'
-                    : 'times-circle'
-                "
-              ></fa-icon>
-              Les mots de passe doivent être identiques
+          <div class="input-group">
+            <input
+              class="form-control"
+              [type]="!hidePasswordConfirm ? 'text' : 'password'"
+              [ngClass]="{
+                'is-invalid': submitted && f.confirmPassword.errors
+              }"
+              id="confirmPasswordInput"
+              autocomplete="new-password"
+              formControlName="confirmPassword"
+              required
+            />
+            <div class="input-group-append">
+              <span
+                class="input-group-text"
+                (click)="togglePasswordConfirmation()"
+              >
+                <fa-icon
+                  [icon]="
+                    hidePasswordConfirm ? ['far', 'eye'] : ['far', 'eye-slash']
+                  "
+                ></fa-icon>
+              </span>
             </div>
           </div>
         </div>

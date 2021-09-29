@@ -4,7 +4,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { RouterModule } from "@angular/router";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { SharedModule } from "../shared/shared.module";
@@ -42,7 +42,7 @@ import { StructureService } from "./services/structure.service";
     UsersModule,
     CommonModule,
     SharedModule,
-    FontAwesomeModule,
+
     RouterModule.forRoot([], { relativeLinkResolution: "legacy" }),
     ToastrModule.forRoot({}),
     HttpClientModule,

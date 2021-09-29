@@ -22,9 +22,10 @@ import { HomeService } from "./components/home/home.service";
 
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { RouterModule } from "@angular/router";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+
 import { CountUpModule } from "ngx-countup";
 import { ToastrModule } from "ngx-toastr";
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -43,7 +44,7 @@ import { ToastrModule } from "ngx-toastr";
     CommonModule,
     HttpClientModule,
     NgbModule,
-    FontAwesomeModule,
+    SharedModule,
     CountUpModule,
     RouterModule.forChild([]),
     ToastrModule.forRoot(),

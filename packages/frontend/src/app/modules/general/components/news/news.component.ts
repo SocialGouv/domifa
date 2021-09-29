@@ -12,11 +12,13 @@ export class NewsComponent implements OnInit {
   public domifaNews: any;
   public newsLabels: any;
   public newsCenter!: TemplateRef<any>;
-  private newsJson = "assets/files/news.json";
+  private newsJson: string;
 
-  public constructor(private http: HttpClient, private titleService: Title) {}
+  public constructor(private http: HttpClient, private titleService: Title) {
+    this.newsJson = "assets/files/news.json";
+  }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle("Les dernières mises à jour de Domifa");
 
     this.newsLabels = {

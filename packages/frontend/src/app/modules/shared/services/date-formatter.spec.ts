@@ -3,11 +3,9 @@ import {
   isDefined,
   isInteger,
   isNumber,
-  isString,
   isToday,
   padNumber,
   toInteger,
-  toString,
 } from "../../../shared/bootstrap-util";
 
 import { NgbDateCustomParserFormatter } from "./date-formatter";
@@ -40,8 +38,6 @@ describe("NgbDateCustomParserFormatter", () => {
       expect(isInteger("A")).toBeFalsy();
       expect(isNumber("A")).toBeFalsy();
       expect(isNumber(1)).toBeTruthy();
-      expect(isString(1)).toBeFalsy();
-      expect(isString("CHAINE")).toBeTruthy();
       expect(padNumber(1)).toEqual("01");
 
       expect(isToday()).toBeFalsy();
@@ -49,7 +45,6 @@ describe("NgbDateCustomParserFormatter", () => {
       expect(isToday(new Date("2018-10-10"))).toBeFalsy();
 
       expect(toInteger("10")).toEqual(10);
-      expect(toString(12)).toEqual("12");
     }
   ));
 

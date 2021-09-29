@@ -54,7 +54,7 @@ export class ResetPasswordComponent implements OnInit {
     };
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle("Mot de passe oublié ?");
 
     if (this.route.snapshot.params.token) {

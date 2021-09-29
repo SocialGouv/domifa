@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
     this.user = this.authenticationService.currentUserValue;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle(
       "Domifa, faciliter la vie des organismes domiciliataires"
     );

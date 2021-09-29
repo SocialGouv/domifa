@@ -32,7 +32,7 @@ export class StructuresSearchComponent implements OnInit {
     return this.codePostalForm.controls;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle("Inscrivez-vous sur Domifa");
     this.codePostalForm = this.formBuilder.group({
       codePostal: [

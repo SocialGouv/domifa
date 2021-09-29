@@ -21,7 +21,7 @@ export class ProfilStructureDocsComponent implements OnInit {
     this.loadingDownload = false;
   }
 
-  public ngOnInit() {}
+  public ngOnInit(): void {}
 
   // Documents définis par Domifa
   public getStructureDocument(docType: StructureDocTypesAvailable) {

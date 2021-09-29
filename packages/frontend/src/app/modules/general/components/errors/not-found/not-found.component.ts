@@ -8,7 +8,7 @@ import { Title } from "@angular/platform-browser";
 })
 export class NotFoundComponent implements OnInit {
   constructor(private titleService: Title) {}
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle("La page que vous recherchez n'éxiste pas");
   }
 }

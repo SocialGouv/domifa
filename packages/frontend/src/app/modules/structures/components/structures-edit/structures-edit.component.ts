@@ -39,7 +39,7 @@ export class StructuresEditComponent implements OnInit {
     return this.hardResetForm.controls;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });

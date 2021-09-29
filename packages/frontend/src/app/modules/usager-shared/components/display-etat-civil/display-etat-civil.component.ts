@@ -11,6 +11,6 @@ export class DisplayEtatCivilComponent implements OnInit {
 
   public languagesAutocomplete = languagesAutocomplete;
 
-  public ngOnInit() {}
+  public ngOnInit(): void {}
   constructor() {}
 }

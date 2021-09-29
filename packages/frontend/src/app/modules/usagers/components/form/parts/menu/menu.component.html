@@ -12,7 +12,7 @@
         <span
           *ngIf="currentStep <= i"
           [ngClass]="{
-            step_active: currentStep == i,
+            step_active: currentStep === i,
             step_inactive:
               (usager.ref === 0 || i > usager.etapeDemande) && i > 0
           }"
@@ -22,7 +22,7 @@
         </span>
         <span
           [ngClass]="{
-            step_text_active: currentStep == i,
+            step_text_active: currentStep === i,
             step_text_inactive:
               (usager.ref === 0 || i > usager.etapeDemande) && i > 0
           }"
@@ -37,7 +37,7 @@
           class="separateur"
           [ngClass]="{
             separateur_inactive:
-              (usager.ref == 0 || i > usager.etapeDemande) && i > 0
+              (usager.ref === 0 || i > usager.etapeDemande) && i > 0
           }"
         ></span>
       </div>

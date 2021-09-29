@@ -12,7 +12,7 @@
             Exporter les statistiques
           </span>
           <span *ngIf="exportLoading">
-            <fa-icon [icon]="['far', 'circle-notch']" [spin]="true"> </fa-icon>
+            <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
             Export en cours, veuillez patienter...
           </span>
         </button>
@@ -231,43 +231,43 @@
           <th (click)="sortDashboard('id')">#</th>
           <th (click)="sortDashboard('nom')">
             Nom
-            <fa-icon [icon]="['far', 'sort']"></fa-icon>
+            <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('structureTypeLabel')">
             Type
-            <fa-icon [icon]="['far', 'sort']"></fa-icon>
+            <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('createdAt', 'desc')">
-            Date inscription <fa-icon [icon]="['far', 'sort']"></fa-icon>
+            Date inscription <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('import', 'desc')">
             Importé ?
-            <fa-icon [icon]="['far', 'sort']"></fa-icon>
+            <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('importDate', 'desc')">
             Date import
-            <fa-icon [icon]="['far', 'sort']"></fa-icon>
+            <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('usersCount', 'desc')">
-            Comptes <fa-icon [icon]="['far', 'sort']"></fa-icon>
+            Comptes <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('usagersAllCount', 'desc')">
-            Domiciliés <fa-icon [icon]="['far', 'sort']"></fa-icon>
+            Domiciliés <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('usagersAyantsDroitsCount', 'desc')">
-            Ayants-droits <fa-icon [icon]="['far', 'sort']"></fa-icon>
+            Ayants-droits <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('usagersValideCount', 'desc')">
-            Actifs <fa-icon [icon]="['far', 'sort']"></fa-icon>
+            Actifs <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('lastLogin', 'desc')">
-            Dernière connexion <fa-icon [icon]="['far', 'sort']"></fa-icon>
+            Dernière connexion <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('regionLabel')">
-            Région <fa-icon [icon]="['far', 'sort']"></fa-icon>
+            Région <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('departementLabel')">
-            Département <fa-icon [icon]="['far', 'sort']"></fa-icon>
+            Département <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
           <th>Email</th>
           <th colspan="2"></th>
@@ -282,7 +282,7 @@
               structure.structureType === "ccas" ? " - " + structure.ville : ""
             }}
             <span
-              *ngIf="structure.verified == false"
+              *ngIf="structure.verified === false"
               class="badge badge-warning"
             >
               Non validée

@@ -71,11 +71,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
     private cdRef: ChangeDetectorRef,
     private matomo: MatomoTracker,
     private authService: AuthService
-  ) {}
-
-  public ngOnInit() {
-    this.titleService.setTitle("Rapport d'activité de votre structure");
-
+  ) {
     const date = new Date("2020-01-01");
     this.defaultStartDate = date;
     this.minDateDebut = new NgbDate(
@@ -93,6 +89,11 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
       date.getMonth() + 1,
       date.getDate()
     );
+  }
+
+  public ngOnInit(): void {
+    this.titleService.setTitle("Rapport d'activité de votre structure");
+
     this.subscriptions.add(
       this.authService.currentUserSubject.subscribe((user: UserStructure) => {
         this.me = user;
@@ -100,11 +101,11 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
 
@@ -178,8 +179,8 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
       );
     }
     const structureId = this.me.structureId;
-    this.statsService.export(structureId, period.start, period.end).subscribe(
-      (x: any) => {
+    this.statsService.export(structureId, period.start, period.end).subscribe({
+      next: (x: any) => {
         const newBlob = new Blob([x], {
           type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         });
@@ -196,13 +197,13 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.exportLoading = false;
         }, 500);
       },
-      (error: any) => {
+      error: () => {
         this.notifService.error(
           "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
         );
         this.exportLoading = false;
-      }
-    );
+      },
+    });
   }
 
   public statDate(date: Date) {

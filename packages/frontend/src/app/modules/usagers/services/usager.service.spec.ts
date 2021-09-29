@@ -1,3 +1,4 @@
+import { SharedModule } from "src/app/modules/shared/shared.module";
 import { APP_BASE_HREF, CommonModule } from "@angular/common";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
@@ -5,7 +6,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 
 import { RouterTestingModule } from "@angular/router/testing";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
 import { JwtInterceptor } from "src/app/interceptors/jwt.interceptor";
@@ -26,7 +27,7 @@ describe("UsagerService", () => {
       imports: [
         HttpClientTestingModule,
         CommonModule,
-        FontAwesomeModule,
+        SharedModule,
         RouterTestingModule,
         ToastrModule.forRoot(),
       ],

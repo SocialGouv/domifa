@@ -28,7 +28,7 @@ export class RegisterUserAdminComponent implements OnInit {
 
   public submitted: boolean;
 
-  public emailExist: boolean = false;
+  public emailExist = false;
 
   @ViewChild("form", { static: true })
   public form!: ElementRef<any>;
@@ -48,7 +48,7 @@ export class RegisterUserAdminComponent implements OnInit {
     this.submitted = false;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle("Inscription sur Domifa");
 
     this.userForm = this.formBuilder.group({
