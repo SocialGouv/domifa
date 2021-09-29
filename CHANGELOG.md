@@ -1,3 +1,17 @@
+## [2.21.1-beta.2](https://github.com/SocialGouv/domifa/compare/v2.21.1-beta.1...v2.21.1-beta.2) (2021-09-29)
+
+
+### Bug Fixes
+
+* Use local cache on register-portail-usagers step ([e91e5b1](https://github.com/SocialGouv/domifa/commit/e91e5b1929e86406ee373899fa6851257d804fa5))
+
+## [2.21.1-beta.1](https://github.com/SocialGouv/domifa/compare/v2.21.0...v2.21.1-beta.1) (2021-09-29)
+
+
+### Bug Fixes
+
+* **workflows:** Use secrets instead of env variables ([9eaa7d7](https://github.com/SocialGouv/domifa/commit/9eaa7d724d0d764fab39632b20b3a4456ddd2955))
+
 # [2.21.0](https://github.com/SocialGouv/domifa/compare/v2.20.1...v2.21.0) (2021-09-29)
 
 
