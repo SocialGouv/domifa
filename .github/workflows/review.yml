@@ -87,7 +87,8 @@ jobs:
   deploy:
     name: Deploy review branch
     runs-on: ubuntu-latest
-    needs: [register-backend, register-frontend, manifests]
+    needs:
+      [register-backend, register-frontend, register-portail-usagers, manifests]
     steps:
       - name: Use autodevops deployment
         uses: SocialGouv/actions/autodevops-deploy@v1
@@ -95,3 +96,17 @@ jobs:
           environment: "dev"
           token: ${{ secrets.GITHUB_TOKEN }}
           kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }}
+
+  ##############################################################################
+  ## RESTORE DATABASE
+  ##############################################################################
+  restore-db:
+    name: Restore database
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - uses: SocialGouv/actions/k8s-restore-db@v1
+        with:
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+          socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}

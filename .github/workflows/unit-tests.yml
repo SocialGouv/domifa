@@ -107,7 +107,7 @@ jobs:
   codecov:
     name: Publish code coverage
     runs-on: ubuntu-18.04
-    needs: [backend, frontend]
+    needs: [backend, frontend, portail-usagers]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -126,6 +126,12 @@ jobs:
           name: frontend-coverage
           path: packages/frontend/coverage
 
+      # - name: Download portail-usagers coverage
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: portail-usagers
+      #     path: packages/portail-usagers/coverage
+
       - name: Publish backend code coverage
         uses: codecov/codecov-action@v2
         with:
@@ -139,3 +145,10 @@ jobs:
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: packages/frontend/coverage
+
+      # - name: Publish portail-usagers code coverage
+      #   uses: codecov/codecov-action@v2
+      #   with:
+      #     fail_ci_if_error: true
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     directory: packages/portail-usagers/coverage
