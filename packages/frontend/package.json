@@ -67,7 +67,6 @@
     "@angular/compiler-cli": "^12.2.2",
     "@angular/language-service": "^12.2.2",
     "@schematics/update": "^0.1102.12",
-    "@socialgouv/tslint-config-recommended": "^0.35.0",
     "@types/file-saver": "^2.0.2",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.6.2",
