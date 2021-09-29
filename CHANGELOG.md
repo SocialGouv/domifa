@@ -1,3 +1,12 @@
+## [2.21.2](https://github.com/SocialGouv/domifa/compare/v2.21.1...v2.21.2) (2021-09-29)
+
+
+### Bug Fixes
+
+* linters & tests ([681569a](https://github.com/SocialGouv/domifa/commit/681569ace73fb3d7674662e834109eac3f8dc248))
+* remove unused package ([7447f2d](https://github.com/SocialGouv/domifa/commit/7447f2d31cfe94ca27733a5078e3595568d7def9))
+* **fonts:** correction des icones ([9e389f7](https://github.com/SocialGouv/domifa/commit/9e389f74380e5e5af343715cfd094dadfd3e43de))
+
 ## [2.21.1](https://github.com/SocialGouv/domifa/compare/v2.21.0...v2.21.1) (2021-09-29)
 
 
