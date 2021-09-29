@@ -16,13 +16,15 @@
           <div class="row d-flex align-items-center">
             <div class="col-md-8">
               <b>
-                <fa-icon icon="info-circle"></fa-icon>
+                <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+
                 Les statistiques du rapport d’activité 2020 sont disponibles
               </b>
             </div>
             <div class="col-md-4 text-right">
               <button class="btn btn-primary" (click)="export(2020)">
-                <fa-icon icon="download"> </fa-icon> Télécharger le rapport 2020
+                <fa-icon [icon]="['far', 'download']"> </fa-icon> Télécharger le
+                rapport 2020
               </button>
             </div>
           </div>
@@ -59,7 +61,7 @@
           />
           <div class="input-group-append">
             <span class="btn btn-outline-primary" (click)="dDebut.toggle()">
-              <fa-icon icon="calendar"></fa-icon>
+              <fa-icon [icon]="['far', 'calendar']"></fa-icon>
             </span>
           </div>
         </div>
@@ -95,7 +97,7 @@
           />
           <div class="input-group-append">
             <span class="btn btn-outline-primary" (click)="dFin.toggle()">
-              <fa-icon icon="calendar"></fa-icon>
+              <fa-icon [icon]="['far', 'calendar']"></fa-icon>
             </span>
           </div>
         </div>
@@ -112,7 +114,8 @@
           [disabled]="ca.status === 'INVALID' || cb.status === 'INVALID'"
           (click)="compare()"
         >
-          <fa-icon icon="sync-alt" class="mr-1"></fa-icon>
+          <fa-icon [icon]="['fas', 'sync']" class="mr-1"></fa-icon>
+
           Actualiser les statistiques
         </button>
       </div>
@@ -124,12 +127,12 @@
         class="btn btn-primary"
       >
         <span *ngIf="!exportLoading">
-          <fa-icon icon="download" class="mr-1"></fa-icon>
+          <fa-icon [icon]="['far', 'download']" class="mr-1"></fa-icon>
           Exporter les statistiques
         </span>
         <span *ngIf="exportLoading">
-          <fa-icon icon="circle-notch" [spin]="true"> </fa-icon> Export en
-          cours, veuillez patienter...
+          <fa-icon [icon]="['far', 'circle-notch']" [spin]="true"> </fa-icon>
+          Export en cours, veuillez patienter...
         </span>
       </button>
     </div>

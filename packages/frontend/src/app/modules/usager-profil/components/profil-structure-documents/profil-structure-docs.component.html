@@ -4,8 +4,8 @@
     class="mr-2 btn btn-primary"
     (click)="getStructureDocument('attestation_postale')"
   >
-    <fa-icon icon="file-word" class="mr-2"></fa-icon> Télécharger l'attestation
-    postale
+    <fa-icon [icon]="['far', 'file-word']" class="mr-2"></fa-icon> Télécharger
+    l'attestation postale
   </button>
 
   <button
@@ -13,7 +13,7 @@
     class="mr-2 btn btn-primary"
     (click)="getStructureDocument('courrier_radiation')"
   >
-    <fa-icon icon="file-word" class="mr-2"></fa-icon> Télécharger le courrier de
-    radiation
+    <fa-icon [icon]="['far', 'file-word']" class="mr-2"></fa-icon> Télécharger
+    le courrier de radiation
   </button>
 </ng-container>

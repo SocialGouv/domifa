@@ -17,7 +17,7 @@
           class="step_number step_check"
           (click)="backToEtapeSelectFile()"
         >
-          <fa-icon icon="check"></fa-icon>
+          <fa-icon [icon]="['far', 'check']"></fa-icon>
         </span>
         <span
           [ngClass]="{
@@ -100,7 +100,7 @@
         id="upload-zone"
         [className]="uploadError ? 'upload-error' : 'upload-ok'"
       >
-        <fa-icon icon="download"></fa-icon>
+        <fa-icon [icon]="['far', 'download']"></fa-icon>
         <span>
           <b>Cliquez ici</b>
           pour importer le fichier complété

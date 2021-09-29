@@ -7,7 +7,7 @@
     >
       <div (click)="submitted = false">
         <span *ngIf="etapeInscription > i" class="step_number step_check">
-          <fa-icon icon="check"></fa-icon>
+          <fa-icon [icon]="['far', 'check']"></fa-icon>
         </span>
         <span
           *ngIf="etapeInscription <= i"

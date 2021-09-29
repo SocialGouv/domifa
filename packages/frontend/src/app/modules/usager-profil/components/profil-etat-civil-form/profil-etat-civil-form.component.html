@@ -78,7 +78,7 @@
         />
         <div class="input-group-append">
           <span class="btn btn-outline-primary" (click)="d.toggle()">
-            <fa-icon icon="calendar"></fa-icon>
+            <fa-icon [icon]="['far', 'calendar']"></fa-icon>
           </span>
         </div>
 
@@ -185,7 +185,7 @@
         </div>
         <div>
           <span (click)="addAyantDroit()" class="btn btn-outline-primary">
-            <fa-icon icon="plus" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['fas', 'plus']" class="mr-2"></fa-icon>
             Ajouter des ayants droits
           </span>
         </div>
@@ -268,7 +268,7 @@
           />
           <div class="input-group-append">
             <span class="btn btn-outline-primary" (click)="d.toggle()">
-              <fa-icon icon="calendar"></fa-icon>
+              <fa-icon [icon]="['far', 'calendar']"></fa-icon>
             </span>
           </div>
           <div
@@ -310,7 +310,7 @@
         <label for class="text-white"> c </label>
         <div>
           <span (click)="deleteAyantDroit(i)" class="btn btn-danger">
-            <fa-icon icon="trash"></fa-icon>
+            <fa-icon [icon]="['fas', 'trash']"></fa-icon>
           </span>
         </div>
       </div>

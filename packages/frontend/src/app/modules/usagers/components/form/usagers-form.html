@@ -143,7 +143,7 @@
             />
             <div class="input-group-append">
               <span class="btn btn-outline-primary" (click)="d.toggle()">
-                <fa-icon icon="calendar"></fa-icon>
+                <fa-icon [icon]="['far', 'calendar']"></fa-icon>
               </span>
             </div>
 
@@ -325,7 +325,7 @@
                     class="btn btn-outline-primary"
                     (click)="dateAyantDroit.toggle()"
                   >
-                    <fa-icon icon="calendar"></fa-icon>
+                    <fa-icon [icon]="['far', 'calendar']"></fa-icon>
                   </span>
                 </div>
               </div>
@@ -363,14 +363,14 @@
               <label for class="text-white"> c </label>
               <div>
                 <span (click)="deleteAyantDroit(i)" class="btn btn-danger">
-                  <fa-icon icon="trash"></fa-icon>
+                  <fa-icon [icon]="['fas', 'trash']"></fa-icon>
                 </span>
               </div>
             </div>
           </div>
         </div>
         <span (click)="addAyantDroit()" class="btn btn-primary">
-          <fa-icon icon="plus"></fa-icon>
+          <fa-icon [icon]="['fas', 'plus']"></fa-icon>
           Ajouter des ayants droits
         </span>
         <br />
@@ -443,7 +443,7 @@
       <div class="col-md-4 offset-md-4 text-center">
         <button type="submit" class="btn btn-primary btn-block">
           Suivant &nbsp;
-          <fa-icon icon="angle-right"></fa-icon>
+          <fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
         </button>
       </div>
     </form>

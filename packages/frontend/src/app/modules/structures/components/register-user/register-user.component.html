@@ -22,7 +22,7 @@
     <br />
     <span>
       <b class="text-primary">
-        <fa-icon icon="plus"></fa-icon>
+        <fa-icon [icon]="['fas', 'plus']"></fa-icon>
         &nbsp;
       </b>
       domicilier de nouvelles personnes
@@ -31,7 +31,7 @@
     <br />
     <span>
       <b class="text-primary">
-        <fa-icon icon="user-plus"></fa-icon>
+        <fa-icon [icon]="['fas', 'user-plus']"></fa-icon>
         &nbsp;
       </b>
       créer des comptes pour vos collaborateurs
@@ -155,7 +155,9 @@
             />
             <div class="input-group-append">
               <span class="input-group-text" (click)="togglePassword()">
-                <fa-icon [icon]="hidePassword ? 'eye' : 'eye-slash'"></fa-icon>
+                <fa-icon
+                  [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
+                ></fa-icon>
               </span>
             </div>
           </div>
@@ -235,14 +237,14 @@
             *ngIf="hidePasswordConfirm"
             (click)="hidePasswordConfirm = false"
           >
-            <fa-icon icon="eye"></fa-icon>
+            <fa-icon [icon]="['far', 'eye']"></fa-icon>
           </span>
           <span
             class="eye"
             *ngIf="!hidePasswordConfirm"
             (click)="hidePasswordConfirm = true"
           >
-            <fa-icon icon="eye-slash"></fa-icon>
+            <fa-icon [icon]="['far', 'eye-slash']"></fa-icon>
           </span>
 
           <div class="row indications">

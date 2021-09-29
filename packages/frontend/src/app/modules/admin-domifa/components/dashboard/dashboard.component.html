@@ -8,12 +8,12 @@
           class="btn btn-primary"
         >
           <span *ngIf="!exportLoading">
-            <fa-icon icon="download" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['far', 'download']" class="mr-2"></fa-icon>
             Exporter les statistiques
           </span>
           <span *ngIf="exportLoading">
-            <fa-icon icon="circle-notch" [spin]="true"> </fa-icon> Export en
-            cours, veuillez patienter...
+            <fa-icon [icon]="['far', 'circle-notch']" [spin]="true"> </fa-icon>
+            Export en cours, veuillez patienter...
           </span>
         </button>
       </div>
@@ -149,12 +149,11 @@
           <div>
             <span class="stats-titre">Notifications SMS</span>
           </div>
-          <div
-            class="stats-blocks"
-            *ngFor="let statSms of stats.structuresCountBySmsEnabled"
-          >
+          <div class="stats-blocks">
             <div>
-              <span class="stats-chiffres">{{ statSms.count }}</span>
+              <span class="stats-chiffres">{{
+                stats.structuresCountBySmsEnabled[0].count
+              }}</span>
               <span class="stats-labels">STRUCTURES ACTIVÉES</span>
             </div>
           </div>
@@ -232,43 +231,43 @@
           <th (click)="sortDashboard('id')">#</th>
           <th (click)="sortDashboard('nom')">
             Nom
-            <fa-icon icon="sort"></fa-icon>
+            <fa-icon [icon]="['far', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('structureTypeLabel')">
             Type
-            <fa-icon icon="sort"></fa-icon>
+            <fa-icon [icon]="['far', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('createdAt', 'desc')">
-            Date inscription <fa-icon icon="sort"></fa-icon>
+            Date inscription <fa-icon [icon]="['far', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('import', 'desc')">
             Importé ?
-            <fa-icon icon="sort"></fa-icon>
+            <fa-icon [icon]="['far', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('importDate', 'desc')">
             Date import
-            <fa-icon icon="sort"></fa-icon>
+            <fa-icon [icon]="['far', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('usersCount', 'desc')">
-            Comptes <fa-icon icon="sort"></fa-icon>
+            Comptes <fa-icon [icon]="['far', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('usagersAllCount', 'desc')">
-            Domiciliés <fa-icon icon="sort"></fa-icon>
+            Domiciliés <fa-icon [icon]="['far', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('usagersAyantsDroitsCount', 'desc')">
-            Ayants-droits <fa-icon icon="sort"></fa-icon>
+            Ayants-droits <fa-icon [icon]="['far', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('usagersValideCount', 'desc')">
-            Actifs <fa-icon icon="sort"></fa-icon>
+            Actifs <fa-icon [icon]="['far', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('lastLogin', 'desc')">
-            Dernière connexion <fa-icon icon="sort"></fa-icon>
+            Dernière connexion <fa-icon [icon]="['far', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('regionLabel')">
-            Région <fa-icon icon="sort"></fa-icon>
+            Région <fa-icon [icon]="['far', 'sort']"></fa-icon>
           </th>
           <th (click)="sortDashboard('departementLabel')">
-            Département <fa-icon icon="sort"></fa-icon>
+            Département <fa-icon [icon]="['far', 'sort']"></fa-icon>
           </th>
           <th>Email</th>
           <th colspan="2"></th>
@@ -325,7 +324,7 @@
                 class="ml-2 mr-2 btn btn-danger"
                 (click)="deleteStructure(structure.id)"
               >
-                <fa-icon icon="trash"></fa-icon>
+                <fa-icon [icon]="['fas', 'trash']"></fa-icon>
               </button>
               <button
                 class="ml-2 mr-2 btn btn-primary"
@@ -343,7 +342,7 @@
                   <div>Stats</div>
                   <div>2020</div>
                 </div>
-                <fa-icon icon="download"></fa-icon>
+                <fa-icon [icon]="['far', 'download']"></fa-icon>
               </button>
               <button
                 (click)="enableSms(structure)"
@@ -357,11 +356,11 @@
                 SMS
                 <fa-icon
                   *ngIf="structure.sms.enabledByDomifa"
-                  icon="check"
+                  [icon]="['fas', 'check']"
                 ></fa-icon>
                 <fa-icon
                   *ngIf="!structure.sms.enabledByDomifa"
-                  icon="times"
+                  [icon]="['fas', 'times']"
                 ></fa-icon>
               </button>
             </div>

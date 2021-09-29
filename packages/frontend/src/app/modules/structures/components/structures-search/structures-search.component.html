@@ -32,7 +32,10 @@
               required
             />
             <div *ngIf="f.codePostal.errors" class="invalid-feedback">
-              <fa-icon icon="exclamation-triangle" class="mr-2"></fa-icon>
+              <fa-icon
+                [icon]="['fas', 'exclamation-triangle']"
+                class="mr-2"
+              ></fa-icon>
               Code-postal incorrect
             </div>
             <br />
@@ -41,7 +44,7 @@
               [disabled]="f.codePostal.invalid"
               class="btn btn-block btn-primary"
             >
-              <fa-icon icon="search" class="mr-2"></fa-icon>
+              <fa-icon [icon]="['fas', 'search']" class="mr-2"></fa-icon>
               Rechercher
             </button>
           </div>

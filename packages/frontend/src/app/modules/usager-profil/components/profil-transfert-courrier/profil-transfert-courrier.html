@@ -9,7 +9,7 @@
         (click)="showForm()"
         class="btn btn-outline-dark ml-2"
       >
-        <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
+        <fa-icon [icon]="['far', 'pencil-alt']" class="mr-2"></fa-icon>
         Modifier le transfert
       </button>
 
@@ -18,7 +18,7 @@
         (click)="hideForm()"
         class="btn btn-outline-dark ml-2"
       >
-        <fa-icon icon="times" class="mr-2"></fa-icon>
+        <fa-icon [icon]="['far', 'times']" class="mr-2"></fa-icon>
         Annuler les modifications
       </button>
     </div>
@@ -132,7 +132,7 @@
               class="btn btn-outline-primary"
               (click)="dateDebutTransfert.toggle()"
             >
-              <fa-icon icon="calendar"></fa-icon>
+              <fa-icon [icon]="['far', 'calendar']"></fa-icon>
             </span>
           </div>
 
@@ -166,7 +166,7 @@
               class="btn btn-outline-primary"
               (click)="dateFinTransfert.toggle()"
             >
-              <fa-icon icon="calendar"></fa-icon>
+              <fa-icon [icon]="['far', 'calendar']"></fa-icon>
             </span>
           </div>
 
@@ -187,7 +187,7 @@
           (click)="deleteTransfert()"
           class="btn btn-block btn-danger"
         >
-          <fa-icon icon="trash" class="trash"></fa-icon>
+          <fa-icon [icon]="['fas', 'trash']" class="trash"></fa-icon>
           Supprimer le transfert
         </span>
       </div>
