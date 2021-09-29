@@ -1,3 +1,10 @@
+## [2.20.1](https://github.com/SocialGouv/domifa/compare/v2.20.0...v2.20.1) (2021-09-29)
+
+
+### Bug Fixes
+
+* portail usagers bundle quota ([#1728](https://github.com/SocialGouv/domifa/issues/1728)) ([062aebf](https://github.com/SocialGouv/domifa/commit/062aebf4c4656120aee28f40689a60e634ef6e65))
+
 # [2.20.0](https://github.com/SocialGouv/domifa/compare/v2.19.10...v2.20.0) (2021-09-28)
 
 
