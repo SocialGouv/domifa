@@ -63,26 +63,26 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
     this.initForm();
   }
 
-  public showForm() {
+  get f() {
+    return this.transfertForm.controls;
+  }
+
+  public showForm(): void {
     this.isFormVisible = true;
     this.initForm();
     this.transfertForm.reset(this.transfertForm.value);
   }
 
-  public hideForm() {
+  public hideForm(): void {
     this.isFormVisible = false;
     this.transfertForm.reset(this.transfertForm.value);
   }
 
-  get f() {
-    return this.transfertForm.controls;
-  }
-
-  public isRole(role: UserStructureRole) {
+  public isRole(role: UserStructureRole): boolean {
     return this.me.role === role;
   }
 
-  public initForm() {
+  public initForm(): void {
     this.transfertForm = this.formBuilder.group(
       {
         nom: [this.usager.options.transfert.nom, [Validators.required]],
@@ -108,7 +108,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
     );
   }
 
-  public editTransfert() {
+  public editTransfert(): void {
     const formValue = {
       ...this.transfertForm.value,
       dateFin: this.nbgDate.formatEn(this.transfertForm.controls.dateFin.value),
@@ -134,7 +134,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
       );
   }
 
-  public deleteTransfert() {
+  public deleteTransfert(): void {
     if (!this.usager.options.transfert.actif) {
       this.hideForm();
       return;

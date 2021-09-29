@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import { FormGroup } from "@angular/forms";
 import { parseDateFromNgb } from "./bootstrap-util";
 

@@ -27,7 +27,7 @@ export class AuthGuard implements CanActivate {
         }
         return true;
       }),
-      catchError((err: any) => {
+      catchError(() => {
         this.authService.logoutAndRedirect(state);
         return of(false);
       })

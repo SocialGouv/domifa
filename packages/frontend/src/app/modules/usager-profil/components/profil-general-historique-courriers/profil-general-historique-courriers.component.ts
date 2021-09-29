@@ -23,7 +23,7 @@ export class ProfilGeneralHistoriqueCourriersComponent implements OnInit {
     this.getInteractions();
   }
 
-  public getInteractions() {
+  public getInteractions(): void {
     this.interactionService
       .getInteractions({
         usagerRef: this.usager.ref,

@@ -25,8 +25,8 @@ import {
 import { INTERACTIONS_LABELS_PLURIEL } from "../../../../../_common/model/interaction/constants";
 import { DASHBOARD_STATUS_LABELS } from "../../../../../_common/model/usager/constants/DASHBOARD_STATUS_LABELS.const";
 import { STRUCTURE_TYPE_LABELS } from "../../../../../_common/model/usager/constants/STRUCTURE_TYPE_LABELS.const";
-import { buildExportStructureStatsFileName } from "../../../stats/components/structure-stats/structure-stats.component";
 import { AdminDomifaService } from "../../services/admin-domifa.service";
+import { buildExportStructureStatsFileName } from "../../services/buildExportStructureStatsFileName";
 
 export type DashboardTableStructure = StructureAdmin & {
   structureTypeLabel: string;
@@ -132,7 +132,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
 
-  public exportDashboard() {
+  public exportDashboard(): void {
     this.exportLoading = true;
     this.adminDomifaService.exportDashboard().subscribe(
       (x: any) => {
@@ -144,7 +144,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.exportLoading = false;
         }, 500);
       },
-      (error: any) => {
+      () => {
         this.notifService.error(
           "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
         );
@@ -163,8 +163,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.adminDomifaService
       .export(structureId, period.start, period.end)
-      .subscribe(
-        (x: any) => {
+      .subscribe({
+        next: (x: any) => {
           const newBlob = new Blob([x], {
             type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
           });
@@ -181,13 +181,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.exportLoading = false;
           }, 500);
         },
-        (error: any) => {
+        error: (error: any) => {
           this.notifService.error(
             "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
           );
           this.exportLoading = false;
-        }
-      );
+        },
+      });
   }
 
   private buildSortedTableStructures() {
@@ -286,7 +286,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public sortDashboard(
     name: DashboardTableSortAttribute,
     defaultSort: "asc" | "desc" = "asc"
-  ) {
+  ): void {
     if (name !== this.sortAttribute$.value.name) {
       this.sortAttribute$.next({
         name,

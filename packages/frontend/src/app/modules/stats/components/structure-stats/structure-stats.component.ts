@@ -12,7 +12,7 @@ import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
 } from "@ng-bootstrap/ng-bootstrap";
-import { format } from "date-fns";
+
 import { saveAs } from "file-saver";
 
 import { MatomoTracker } from "ngx-matomo";
@@ -24,6 +24,7 @@ import {
   StructureStatsFull,
   UserStructure,
 } from "../../../../../_common/model";
+import { buildExportStructureStatsFileName } from "../../../admin-domifa/services/buildExportStructureStatsFileName";
 import { AuthService } from "../../../shared/services/auth.service";
 import { StatsService } from "../../services/stats.service";
 @Component({
@@ -139,7 +140,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cdRef.detectChanges();
   }
 
-  public changeStart(newDate: NgbDate) {
+  public changeStart(newDate: NgbDate): void {
     this.minDateFin = newDate;
   }
 
@@ -206,12 +207,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  public statDate(date: Date) {
-    const ret = new Date(date).getDate() - 1;
-    return new Date(date).setDate(ret);
-  }
-
-  public compare() {
+  public compare(): void {
     this.start = new Date(this.formatter.formatEn(this.fromDate));
     this.end =
       this.toDate !== null
@@ -241,19 +237,4 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.stats = statsResult;
       });
   }
-}
-
-export function buildExportStructureStatsFileName({
-  startDateUTC,
-  endDateUTC,
-  structureId,
-}: {
-  startDateUTC: Date;
-  endDateUTC: Date;
-  structureId: number;
-}) {
-  return `${format(startDateUTC, "yyyy-MM-dd")}_${format(
-    endDateUTC,
-    "yyyy-MM-dd"
-  )}_export-structure-${structureId}-stats.xlsx`;
 }

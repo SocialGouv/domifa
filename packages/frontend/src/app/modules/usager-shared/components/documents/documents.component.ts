@@ -20,7 +20,7 @@ export class DocumentsComponent implements OnInit, OnChanges {
     private matomo: MatomoTracker
   ) {}
 
-  public ngOnChanges() {
+  public ngOnChanges(): void {
     this.rebuildDocStates();
   }
 

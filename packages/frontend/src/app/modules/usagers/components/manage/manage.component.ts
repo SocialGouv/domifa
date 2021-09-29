@@ -177,7 +177,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
           map((filter: string) => (!filter ? filter : filter.trim())),
           distinctUntilChanged()
         )
-        .subscribe((text: any) => {
+        .subscribe((text: string) => {
           this.filters.searchString = text;
           this.filters.page = 0;
           this.filters$.next(this.filters);
@@ -204,14 +204,14 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     );
   }
 
-  public goToPrint() {
+  public goToPrint(): void {
     this.pageSize = 20000;
     this.filters.page = 0;
     this.needToPrint = true;
     this.filters$.next(this.filters);
   }
 
-  public updateUsager(usager: UsagerFormModel) {
+  public updateUsager(usager: UsagerFormModel): void {
     this.allUsagers$.next(
       this.allUsagers$.value.map((x) => {
         if (x.ref === usager.ref) {
@@ -226,19 +226,19 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  public resetSearchBar() {
+  public resetSearchBar(): void {
     this.searchInput.nativeElement.value = "";
     this.filters.searchString = "";
     this.filters$.next(this.filters);
   }
 
-  public resetFilters() {
+  public resetFilters(): void {
     this.filters = new UsagersFilterCriteria();
     this.searchString = null;
     this.filters$.next(this.filters);
   }
 
-  getEcheanceLabel() {
+  public getEcheanceLabel(): "radiation" | "refus" | "échéance" {
     if (this.filters.statut === "RADIE") {
       return "radiation";
     } else if (this.filters.statut === "REFUS") {
@@ -273,7 +273,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     element: T;
     value: UsagersFilterCriteria[T] | null;
     sortValue?: UsagersFilterCriteriaSortValues;
-  }) {
+  }): void {
     if (
       element === "interactionType" ||
       element === "passage" ||
@@ -342,7 +342,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   }: {
     filters: UsagersFilterCriteria;
     allUsagersByStatus: UsagersByStatus;
-  }) {
+  }): void {
     this.searching = true;
 
     localStorage.setItem("filters", JSON.stringify(filters));
@@ -390,7 +390,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   }
 
   @HostListener("window:scroll", ["$event"])
-  onScroll($event: Event): void {
+  onScroll(): void {
     const pos =
       (document.documentElement.scrollTop || document.body.scrollTop) +
       document.documentElement.offsetHeight;

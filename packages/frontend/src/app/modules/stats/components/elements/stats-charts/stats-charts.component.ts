@@ -1,6 +1,7 @@
 import { PublicStats } from "./../../../../../../_common/model/stats/PublicStats.type";
 import { AfterViewInit, Component, Input, OnInit } from "@angular/core";
 import { StatsService } from "../../../services/stats.service";
+import { StatsByMonth } from "../../../../../../_common/model";
 
 @Component({
   selector: "app-stats-charts",
@@ -8,9 +9,7 @@ import { StatsService } from "../../../services/stats.service";
   styleUrls: ["./stats-charts.component.css"],
 })
 export class StatsChartsComponent implements OnInit, AfterViewInit {
-  public multi: any[];
-
-  public view: any[] = [700, 400];
+  public view: number[] = [700, 400];
 
   public gradient = false;
 
@@ -29,7 +28,7 @@ export class StatsChartsComponent implements OnInit, AfterViewInit {
   public yAxisLabel = "";
   public showLabels = true;
 
-  public statsInCharts: any[];
+  public statsInCharts: StatsByMonth;
   public selectedCharts: "courriers" | "usagers";
 
   @Input() public publicStats: PublicStats;
@@ -46,7 +45,7 @@ export class StatsChartsComponent implements OnInit, AfterViewInit {
     this.statsInCharts = this.publicStats.interactionsCountByMonth;
   }
 
-  public selectChart(value: "courriers" | "usagers") {
+  public selectChart(value: "courriers" | "usagers"): void {
     this.selectedCharts = value;
     this.statsInCharts =
       value === "usagers"
