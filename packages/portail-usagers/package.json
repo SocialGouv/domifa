@@ -10,8 +10,8 @@
     "start:tests-ci": "ng serve -o --host 0.0.0.0 --port 4201 --configuration=gitlab-ci",
     "build": "ng build --configuration=production",
     "build:gitlab-ci": "ng build --configuration=gitlab-ci",
-    "build:analyze": "ng build --configuration=analyze",
-    "analyze": "npx source-map-explorer dist/**/*.js",
+    "analyze:build": "ng build --stats-json --configuration=analyze",
+    "analyze:open": "npx source-map-explorer dist/**/*.js",
     "test": "jest",
     "lint": "ng lint --format stylish",
     "e2e": "ng e2e"
@@ -38,7 +38,6 @@
     "ngx-matomo": "^0.1.4",
     "ngx-toastr": "^14.1.3",
     "rxjs": "^7.3.0",
-    "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
@@ -61,6 +60,8 @@
     "jest-preset-angular": "^10.0.1",
     "prettier": "^2.4.1",
     "source-map-explorer": "^2.5.2",
-    "typescript": "~4.3.5"
+    "tslib": "^2.3.0",
+    "typescript": "~4.3.5",
+    "webpack-bundle-analyzer": "^4.4.2"
   }
 }
