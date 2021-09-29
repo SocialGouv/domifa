@@ -35,16 +35,18 @@ import { UsersModule } from "./modules/users/users.module";
 import { UsagerSharedModule } from "./modules/usager-shared/usager-shared.module";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import {
-  faCalendar,
+  faArrowAltCircleRight,
   faChartBar,
   faClock,
   faEdit,
   faEye,
   faEyeSlash,
   faFileWord,
+  faQuestionCircle,
 } from "@fortawesome/free-regular-svg-icons";
 import {
   faAngleRight,
+  faCalendar,
   faBan,
   faUser,
   faUsers,
@@ -73,6 +75,7 @@ import {
   faUserShield,
   faUpload,
   faAngleLeft,
+  faArrowDown,
 } from "@fortawesome/free-solid-svg-icons";
 
 if (environment.production) {
@@ -149,6 +152,7 @@ export class AppModule {
       faPlus,
       faPrint,
       faQuestion,
+      faQuestionCircle,
       faRedo,
       faSearch,
       faShare,
@@ -164,8 +168,11 @@ export class AppModule {
       faUsers,
       faUserShield,
       faUpload,
+      faArrowDown,
+      faArrowAltCircleRight,
       faDownload,
-      faAngleLeft
+      faAngleLeft,
+      faTimes
     );
   }
 }

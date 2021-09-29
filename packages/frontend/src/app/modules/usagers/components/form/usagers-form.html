@@ -143,7 +143,7 @@
             />
             <div class="input-group-append">
               <span class="btn btn-outline-primary" (click)="d.toggle()">
-                <fa-icon [icon]="['far', 'calendar']"></fa-icon>
+                <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
               </span>
             </div>
 
@@ -223,7 +223,7 @@
           <label class="form-check-label">
             Le demandeur a-t-il des ayant-droits ?
             <fa-icon
-              icon="question-circle"
+              [icon]="['fas', 'question-circle']"
               placement="top"
               placement="right"
               ngbTooltip="Autres personnes à la charge du demandeur"
@@ -325,7 +325,7 @@
                     class="btn btn-outline-primary"
                     (click)="dateAyantDroit.toggle()"
                   >
-                    <fa-icon [icon]="['far', 'calendar']"></fa-icon>
+                    <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
                   </span>
                 </div>
               </div>

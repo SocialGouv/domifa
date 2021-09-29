@@ -21,7 +21,7 @@
                 *ngIf="!editInfos"
                 (click)="editInfos = true"
               >
-                <fa-icon [icon]="['far', 'pencil-alt']" class="mr-2"></fa-icon>
+                <fa-icon [icon]="['fas', 'pencil-alt']" class="mr-2"></fa-icon>
                 Modifier les informations
               </button>
 
@@ -30,7 +30,7 @@
                 *ngIf="editInfos"
                 (click)="editInfos = false"
               >
-                <fa-icon [icon]="['far', 'times']" class="mr-2"></fa-icon>
+                <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
                 Annuler les modifications
               </button>
             </div>
@@ -62,7 +62,7 @@
                 *ngIf="!editEntretien"
                 (click)="openEntretien()"
               >
-                <fa-icon [icon]="['far', 'pencil-alt']" class="mr-2"></fa-icon>
+                <fa-icon [icon]="['fas', 'pencil-alt']" class="mr-2"></fa-icon>
                 Modifier l'entretien sociale
               </button>
               <button
@@ -70,7 +70,7 @@
                 *ngIf="editEntretien"
                 (click)="editEntretien = false"
               >
-                <fa-icon [icon]="['far', 'times']" class="mr-2"></fa-icon>
+                <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
                 Annuler les changements
               </button>
             </div>
