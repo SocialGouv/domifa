@@ -1,3 +1,11 @@
+## [2.21.3](https://github.com/SocialGouv/domifa/compare/v2.21.2...v2.21.3) (2021-10-04)
+
+
+### Bug Fixes
+
+* **deps:** update all minor dependencies ([#1735](https://github.com/SocialGouv/domifa/issues/1735)) ([7a0ac17](https://github.com/SocialGouv/domifa/commit/7a0ac1793999b1225468435886c8eb267bccfcdf))
+* **deps:** update dependency typeorm to v0.2.38 ([#1737](https://github.com/SocialGouv/domifa/issues/1737)) ([81c0a89](https://github.com/SocialGouv/domifa/commit/81c0a89bc0a8f25d558fa54c4fe09068f17e6c81))
+
 ## [2.21.2](https://github.com/SocialGouv/domifa/compare/v2.21.1...v2.21.2) (2021-09-29)
 
 
