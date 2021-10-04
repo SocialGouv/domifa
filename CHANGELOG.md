@@ -1,3 +1,10 @@
+## [2.21.4](https://github.com/SocialGouv/domifa/compare/v2.21.3...v2.21.4) (2021-10-04)
+
+
+### Bug Fixes
+
+* **export:** l'export plante sur les grosses structures [#1739](https://github.com/SocialGouv/domifa/issues/1739) ([#1740](https://github.com/SocialGouv/domifa/issues/1740)) ([e14ca9e](https://github.com/SocialGouv/domifa/commit/e14ca9e0466b4f393447d3bd34b188fd364adbbb))
+
 ## [2.21.3](https://github.com/SocialGouv/domifa/compare/v2.21.2...v2.21.3) (2021-10-04)
 
 
