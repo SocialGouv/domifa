@@ -123,7 +123,7 @@ export class UsagersFormComponent implements OnInit {
     }
   }
 
-  public initForm() {
+  public initForm(): void {
     this.usagerForm = this.formBuilder.group({
       ayantsDroits: this.formBuilder.array([]),
       langue: [this.usager.langue, languagesAutocomplete.validator("langue")],
@@ -175,7 +175,7 @@ export class UsagersFormComponent implements OnInit {
       });
   }
 
-  public isDoublon() {
+  public isDoublon(): boolean {
     if (
       this.usagerForm.controls.nom.value !== "" &&
       this.usagerForm.controls.prenom.value !== "" &&
@@ -235,11 +235,11 @@ export class UsagersFormComponent implements OnInit {
     });
   }
 
-  public getAttestation() {
+  public getAttestation(): void {
     return this.documentService.attestation(this.usager.ref);
   }
 
-  public submitInfos() {
+  public submitInfos(): void {
     this.submitted = true;
 
     if (this.usagerForm.invalid) {

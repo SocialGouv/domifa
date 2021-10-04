@@ -13,6 +13,7 @@ import {
   UserStructure,
   UserStructureRole,
 } from "../../../../../_common/model";
+import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 import { UsagerProfilService } from "../../services/usager-profil.service";
 
@@ -36,7 +37,8 @@ export class ProfilHeadComponent implements OnInit {
     private readonly modalService: NgbModal,
     private readonly notifService: ToastrService,
     private readonly router: Router,
-    private readonly usagerProfilService: UsagerProfilService
+    private readonly usagerProfilService: UsagerProfilService,
+    private readonly documentService: DocumentService
   ) {
     this.today = new Date();
   }
@@ -67,7 +69,11 @@ export class ProfilHeadComponent implements OnInit {
     });
   }
 
-  public openRenewModal() {
+  public openRenewModal(): void {
     this.modalService.open(this.renewModal);
+  }
+
+  public getAttestation(): void {
+    return this.documentService.attestation(this.usager.ref);
   }
 }

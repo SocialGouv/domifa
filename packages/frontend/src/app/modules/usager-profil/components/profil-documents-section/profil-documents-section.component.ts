@@ -47,14 +47,14 @@ export class ProfilDocumentsSectionComponent implements OnInit {
       (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
       },
-      (error) => {
+      () => {
         this.notifService.error("Le dossier recherché n'existe pas");
         this.router.navigate(["404"]);
       }
     );
   }
 
-  public getAttestation() {
+  public getAttestation(): void {
     return this.documentService.attestation(this.usager.ref);
   }
 }
