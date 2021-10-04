@@ -27,7 +27,10 @@ export class RaftComponent implements OnInit {
     private router: Router,
     private titleService: Title,
     private notifService: ToastrService
-  ) {}
+  ) {
+    this.usager = null;
+    this.user = null;
+  }
 
   public ngOnInit(): void {
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
@@ -59,7 +62,7 @@ export class RaftComponent implements OnInit {
     }
   }
 
-  public setRadiation() {
+  public setRadiation(): void {
     this.usagerService
       .setDecision(this.usager.ref, {
         statut: "RADIE",
