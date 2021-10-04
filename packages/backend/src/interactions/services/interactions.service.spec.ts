@@ -31,13 +31,4 @@ describe("InteractionsService", () => {
   it("should be defined", () => {
     expect(interactionsService).toBeDefined();
   });
-
-  it("should return results", async () => {
-    // NOTE: on ne peut pas vérifier précisément les données de ce test tant qu'on isole pas les données de chaque test
-    const results =
-      await interactionsService.totalInteractionAllUsagersStructure({
-        structureId: 1,
-      });
-    expect(results).toBeDefined();
-  });
 });
