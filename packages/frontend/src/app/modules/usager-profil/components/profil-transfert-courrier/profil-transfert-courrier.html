@@ -181,16 +181,13 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-3 offset-3">
-        <span
-          type="button"
-          (click)="deleteTransfert()"
-          class="btn btn-block btn-danger"
-        >
-          <fa-icon [icon]="['fas', 'trash']" class="trash"></fa-icon>
+      <div class="col-3 offset-3 text-center">
+        <span (click)="deleteTransfert()" class="btn btn-block btn-danger mr-2">
+          <fa-icon [icon]="['fas', 'trash']"></fa-icon>
           Supprimer le transfert
         </span>
       </div>
+
       <div class="col-3">
         <button
           class="btn btn-block btn-primary"

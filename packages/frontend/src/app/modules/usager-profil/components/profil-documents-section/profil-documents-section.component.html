@@ -1,10 +1,7 @@
-<app-profil-head
-  *ngIf="usager"
-  [usager]="usager"
-  [section]="'documents'"
-  [me]="me"
->
-</app-profil-head>
+<div *ngIf="usager && me">
+  <app-profil-head [usager]="usager" [section]="'documents'" [me]="me">
+  </app-profil-head>
+</div>
 
 <div class="content" *ngIf="usager && me">
   <div class="container p-0">
