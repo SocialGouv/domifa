@@ -2,9 +2,9 @@ import { Controller, Get, Res, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
+import { AllowUserStructureRoles } from "../../auth/decorators";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
-import { AllowUserStructureRoles } from "../../auth/decorators";
 import {
   structureUsagersExporter,
   StructureUsagersExportModel,
@@ -59,51 +59,40 @@ export class ExportStructureUsagersController {
       [usagerRef: number]: { [interactionType: string]: number };
     } = {};
 
+    const interactionsByUsagerMap =
+      await this.interactionsService.totalInteractionAllUsagersStructure({
+        structureId: user.structureId,
+      });
+
     for (let i = 0; i < usagers.length; i++) {
       const usager: UsagerLight = usagers[i];
 
-      usagersInteractionsCountByType[usager.ref] = {
-        courrierIn: await this.interactionsService.totalInteraction(
-          user.structureId,
-          usager.ref,
-          "courrierIn"
-        ),
-        courrierOut: await this.interactionsService.totalInteraction(
-          user.structureId,
-          usager.ref,
-          "courrierOut"
-        ),
-        recommandeIn: await this.interactionsService.totalInteraction(
-          user.structureId,
-          usager.ref,
-          "recommandeIn"
-        ),
-        recommandeOut: await this.interactionsService.totalInteraction(
-          user.structureId,
-          usager.ref,
-          "recommandeOut"
-        ),
-        colisIn: await this.interactionsService.totalInteraction(
-          user.structureId,
-          usager.ref,
-          "colisIn"
-        ),
-        colisOut: await this.interactionsService.totalInteraction(
-          user.structureId,
-          usager.ref,
-          "colisOut"
-        ),
-        appel: await this.interactionsService.totalInteraction(
-          user.structureId,
-          usager.ref,
-          "appel"
-        ),
-        visite: await this.interactionsService.totalInteraction(
-          user.structureId,
-          usager.ref,
-          "visite"
-        ),
-      };
+      const data = interactionsByUsagerMap.find(
+        (x) => x.usagerRef === usager.ref
+      );
+      if (data) {
+        usagersInteractionsCountByType[usager.ref] = {
+          courrierIn: data.courrierIn,
+          courrierOut: data.courrierOut,
+          recommandeIn: data.recommandeIn,
+          recommandeOut: data.recommandeOut,
+          colisIn: data.colisIn,
+          colisOut: data.colisOut,
+          appel: data.appel,
+          visite: data.visite,
+        };
+      } else {
+        usagersInteractionsCountByType[usager.ref] = {
+          courrierIn: 0,
+          courrierOut: 0,
+          recommandeIn: 0,
+          recommandeOut: 0,
+          colisIn: 0,
+          colisOut: 0,
+          appel: 0,
+          visite: 0,
+        };
+      }
     }
 
     const model: StructureUsagersExportModel = {
