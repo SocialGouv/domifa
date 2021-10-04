@@ -1,3 +1,11 @@
+## [2.21.5](https://github.com/SocialGouv/domifa/compare/v2.21.4...v2.21.5) (2021-10-04)
+
+
+### Bug Fixes
+
+* affichage d'un bouton ([de04b99](https://github.com/SocialGouv/domifa/commit/de04b995b923deb3f51dc9ae5df0960b9b254770))
+* **icons:** ajout d'un icône manquant ([d0119ea](https://github.com/SocialGouv/domifa/commit/d0119eab9de0511f80700e2edc8b017428d9f905))
+
 ## [2.21.4](https://github.com/SocialGouv/domifa/compare/v2.21.3...v2.21.4) (2021-10-04)
 
 
