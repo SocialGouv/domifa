@@ -1,3 +1,10 @@
+# [2.22.0](https://github.com/SocialGouv/domifa/compare/v2.21.5...v2.22.0) (2021-10-05)
+
+
+### Features
+
+* **MATOMO:** add new trackers ([091f59e](https://github.com/SocialGouv/domifa/commit/091f59e2dca46e27ed2c4cd56f8d87c89f417ee0))
+
 ## [2.21.5](https://github.com/SocialGouv/domifa/compare/v2.21.4...v2.21.5) (2021-10-04)
 
 
