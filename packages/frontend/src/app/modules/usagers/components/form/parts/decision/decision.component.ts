@@ -31,6 +31,13 @@ import { UsagerService } from "../../../../services/usager.service";
   selector: "app-decision",
   styleUrls: ["./decision.component.css"],
   templateUrl: "./decision.component.html",
+  styles: [
+    `
+      .toto .alert-info {
+        background-color: blue !important;
+      }
+    `,
+  ],
 })
 export class DecisionComponent implements OnInit {
   public MOTIFS_REFUS_LABELS = MOTIFS_REFUS_LABELS;
