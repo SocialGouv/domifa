@@ -22,10 +22,13 @@
               "src/assets"
             ],
             "styles": [
+              "src/assets/css/tailwind/tailwind-letter-spacing.css",
               "src/assets/css/tailwind/tailwind-font-size.css",
               "src/assets/css/tailwind/tailwind-font-weight.css",
               "src/assets/css/tailwind/tailwind-cursor.css",
               "src/assets/css/tailwind/tailwind-width-partial.css",
+              "src/assets/css/tailwind/tailwind-table.css",
+              "src/assets/css/tailwind/tailwind-whitespace.css",
               "src/assets/css/util.css",
               "src/assets/css/bootstrap.css",
               "src/assets/css/forms.css",

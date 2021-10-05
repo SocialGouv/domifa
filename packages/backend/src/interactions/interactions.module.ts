@@ -1,5 +1,6 @@
-import { forwardRef, Module } from "@nestjs/common";
 import { HttpModule } from "@nestjs/axios";
+import { forwardRef, Module } from "@nestjs/common";
+import { AuthModule } from "../auth/auth.module";
 import { MessageSmsService } from "../sms/services/message-sms.service";
 import { SmsModule } from "../sms/sms.module";
 import { StructuresModule } from "../structures/structure.module";
@@ -18,6 +19,7 @@ import { InteractionsSmsManager } from "./services/InteractionsSmsManager.servic
     forwardRef(() => UsagersModule),
     forwardRef(() => StructuresModule),
     forwardRef(() => SmsModule),
+    forwardRef(() => AuthModule),
   ],
   providers: [
     InteractionsSmsManager,

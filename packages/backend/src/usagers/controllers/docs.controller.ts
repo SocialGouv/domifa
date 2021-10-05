@@ -20,10 +20,10 @@ import { Response } from "express";
 import * as fs from "fs";
 import { diskStorage } from "multer";
 import * as path from "path";
+import { AllowUserStructureRoles } from "../../auth/decorators";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
-import { AllowUserStructureRoles } from "../../auth/decorators";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
 import { usagerRepository } from "../../database";
@@ -38,7 +38,7 @@ import {
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
 
-@UseGuards(AuthGuard("jwt"), UsagerAccessGuard, AppUserGuard)
+@UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
 @ApiTags("docs")
 @ApiBearerAuth()
 @Controller("docs")

@@ -8,7 +8,7 @@ import {
 } from "../../database";
 import { newStructureEmailSender } from "../../mails/services/templates-renderers";
 import { UserDto } from "../../users/dto/user.dto";
-import { usersCreator } from "../../users/services";
+import { userStructureCreator } from "../../users/services/user-structure-creator.service";
 import { appLogger } from "../../util/AppLogger.service";
 import { StructureCommon } from "../../_common/model";
 import { departementHelper } from "../departement-helper.service";
@@ -50,10 +50,13 @@ export class StructureCreatorService {
 
     const structure = await this.createStructure(structureDto);
 
-    const { user } = await usersCreator.createUserWithPassword(userDto, {
-      structureId: structure.id,
-      role: "admin",
-    });
+    const { user } = await userStructureCreator.createUserWithPassword(
+      userDto,
+      {
+        structureId: structure.id,
+        role: "admin",
+      }
+    );
 
     if (!user || !structure) {
       throw new HttpException(

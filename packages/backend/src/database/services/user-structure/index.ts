@@ -1,2 +1,2 @@
-export * from "./user-security";
+export * from "./user-structure-security";
 export * from "./userStructureRepository.service";

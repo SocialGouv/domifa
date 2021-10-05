@@ -9,8 +9,8 @@ import {
   structureRepository,
   usagerHistoryRepository,
   usagerRepository,
-  userSecurityRepository,
   userStructureRepository,
+  userStructureSecurityRepository,
 } from "../../database";
 import { messageSmsRepository } from "../../database/services/message-sms";
 
@@ -63,7 +63,7 @@ async function deleteStructure({
   });
 
   if (!!structure) {
-    await userSecurityRepository.deleteByCriteria({
+    await userStructureSecurityRepository.deleteByCriteria({
       structureId: structure.id,
     });
 

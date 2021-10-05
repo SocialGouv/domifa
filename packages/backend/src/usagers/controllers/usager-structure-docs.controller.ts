@@ -9,10 +9,10 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
+import { AllowUserStructureRoles } from "../../auth/decorators";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
-import { AllowUserStructureRoles } from "../../auth/decorators";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { UsagerLight, UserStructure } from "../../_common/model";
 import {
@@ -29,7 +29,7 @@ export class UsagerStructureDocsController {
   constructor() {}
 
   @Get(":usagerRef/:docType")
-  @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, AppUserGuard)
+  @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getDocument(
     @Param("docType") docType: string,

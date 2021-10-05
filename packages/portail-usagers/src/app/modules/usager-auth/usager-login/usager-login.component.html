@@ -8,21 +8,18 @@
     (ngSubmit)="login()"
   >
     <div class="form-group required">
-      <label for="usagerAuthId">Votre identifiant</label>
+      <label for="login">Votre identifiant</label>
       <input
         type="text"
-        formControlName="usagerAuthId"
+        formControlName="login"
         autocomplete="username"
         placeholder="Votre identifiant"
         class="form-control"
         [ngClass]="{
-          'is-invalid': f.usagerAuthId.dirty && f.usagerAuthId.errors
+          'is-invalid': f.login.dirty && f.login.errors
         }"
       />
-      <div
-        *ngIf="f.usagerAuthId.dirty && f.usagerAuthId.errors"
-        class="invalid-feedback"
-      >
+      <div *ngIf="f.login.dirty && f.login.errors" class="invalid-feedback">
         Veuillez vérifier l'identifiant
       </div>
     </div>

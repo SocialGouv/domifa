@@ -1,6 +1,7 @@
 import { Column, Entity, Generated, Index } from "typeorm";
 import {
   Structure,
+  StructurePortailUsagerParams,
   StructureResponsable,
   StructureType,
 } from "../../../_common/model";
@@ -104,6 +105,12 @@ export class StructureTable
     default: `{ "enabledByDomifa": false, "enabledByStructure": false, "senderName": null, "senderDetails": null }`,
   })
   sms: StructureSmsParams;
+
+  @Column({
+    type: "jsonb",
+    default: `{ "enabledByDomifa": false, "enabledByStructure": false }`,
+  })
+  portailUsager: StructurePortailUsagerParams;
 
   public constructor(entity?: Partial<StructureTable>) {
     super(entity);

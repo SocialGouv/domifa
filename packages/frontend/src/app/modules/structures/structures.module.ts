@@ -2,7 +2,6 @@ import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-
 import { RouterModule } from "@angular/router";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -14,10 +13,10 @@ import { StructureEditFormComponent } from "./components/structure-edit-form/str
 import { StructuresConfirmComponent } from "./components/structures-confirm/structures-confirm.component";
 import { StructuresEditComponent } from "./components/structures-edit/structures-edit.component";
 import { StructuresFormComponent } from "./components/structures-form/structures-form.component";
+import { StructuresPortailUsagerFormComponent } from "./components/structures-portail-usager-form/structures-portail-usager-form.component";
 import { StructuresSearchComponent } from "./components/structures-search/structures-search.component";
 import { StructuresSmsFormComponent } from "./components/structures-sms-form/structures-sms-form.component";
 import { StructuresUploadDocsComponent } from "./components/structures-upload-docs/structures-upload-docs.component";
-
 import { StructureDocService } from "./services/structure-doc.service";
 import { StructureService } from "./services/structure.service";
 
@@ -31,6 +30,7 @@ import { StructureService } from "./services/structure.service";
     StructuresUploadDocsComponent,
     StructuresConfirmComponent,
     StructuresSmsFormComponent,
+    StructuresPortailUsagerFormComponent,
     RegisterUserComponent,
   ],
   exports: [

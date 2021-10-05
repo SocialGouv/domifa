@@ -176,6 +176,21 @@
                 <a
                   ngbDropdownItem
                   *ngIf="
+                    me.role === 'admin' &&
+                    me.structure?.portailUsager?.enabledByDomifa
+                  "
+                  routerLink="/structures/portail-usager"
+                >
+                  <fa-icon
+                    aria-hidden="true"
+                    title="Portail Usager"
+                    icon="user-secret"
+                  ></fa-icon>
+                  Portail Usager
+                </a>
+                <a
+                  ngbDropdownItem
+                  *ngIf="
                     me.role === 'admin' ||
                     me.role === 'responsable' ||
                     me.role === 'simple'

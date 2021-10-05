@@ -21,6 +21,7 @@ export type StructureAdmin = Pick<
   | "options"
   | "adresseCourrier"
   | "sms"
+  | "portailUsager"
   | "verified"
   | "import"
   | "importDate"

@@ -9,13 +9,15 @@ import {
   faFileWord,
 } from "@fortawesome/free-regular-svg-icons";
 import {
-  faCheckCircle,
   faAngleLeft,
   faAngleRight,
   faArrowDown,
   faBan,
+  faBars,
   faCalendar,
   faCheck,
+  faCheckCircle,
+  faCircle,
   faCircleNotch,
   faDownload,
   faExclamationTriangle,
@@ -41,8 +43,8 @@ import {
   faUpload,
   faUser,
   faUsers,
+  faUserSecret,
   faUserShield,
-  faCircle,
   faQuestionCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -52,6 +54,7 @@ export const FA_ICONS: IconDefinition[] = [
   faArrowAltCircleRight,
   faArrowDown,
   faBan,
+  faBars,
   faCalendar,
   faChartBar,
   faCheck,
@@ -88,6 +91,7 @@ export const FA_ICONS: IconDefinition[] = [
   faUpload,
   faUser,
   faUsers,
+  faUserSecret,
   faUserShield,
   faQuestionCircle,
 ];

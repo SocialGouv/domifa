@@ -18,7 +18,8 @@ import { ProfilAddNoteFormComponent } from "./components/profil-add-note-form/pr
 import { ProfilCourriersComponent } from "./components/profil-courriers/profil-courriers.component";
 import { ProfilDocumentsSectionComponent } from "./components/profil-documents-section/profil-documents-section.component";
 import { ProfilDossierComponent } from "./components/profil-dossier/profil-dossier.component";
-import { ProfilEditPreferenceComponent } from "./components/profil-edit-preference/profil-edit-preference.component";
+import { ProfilEditPortailUsagerPreferenceComponent } from "./components/profil-edit-portail-usager-preference/profil-edit-portail-usager-preference.component";
+import { ProfilEditSmsPreferenceComponent } from "./components/profil-edit-sms-preference/profil-edit-sms-preference.component";
 import { ProfilEtatCivilFormComponent } from "./components/profil-etat-civil-form/profil-etat-civil-form.component";
 import { ProfilGeneralHistoriqueCourriersComponent } from "./components/profil-general-historique-courriers/profil-general-historique-courriers.component";
 import { ProfilGeneralNotesComponent } from "./components/profil-general-notes/profil-general-notes.component";
@@ -50,7 +51,8 @@ import { UsagerProfilRoutingModule } from "./usager-profil-routing.module";
     UsagersProfilProcurationCourrierComponent,
     ProfilHistoriqueCourriersComponent,
     ProfilStructureDocsComponent,
-    ProfilEditPreferenceComponent,
+    ProfilEditSmsPreferenceComponent,
+    ProfilEditPortailUsagerPreferenceComponent,
     ProfilEtatCivilFormComponent,
 
     ProfilDocumentsSectionComponent,

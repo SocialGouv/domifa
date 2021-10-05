@@ -1,3 +1,5 @@
+import { StructuresAuthControllerSecurityTests } from "../auth/structures-auth.controller.security-tests";
+import { InteractionsControllerSecurityTests } from "../interactions/interactions.controller.security-tests";
 import { SmsControllerSecurityTests } from "../sms/sms.controller.security-tests";
 import { DashboardControllerSecurityTests } from "../stats/controllers/dashboard.controller.security-tests";
 import { StatsPrivateControllerSecurityTests } from "../stats/controllers/stats.private.controller.security-tests";
@@ -30,4 +32,6 @@ export const API_SECURITY_STRUCTURE_CONTROLLER_TEST_DEFS: AppTestHttpClientSecur
     ...UserControllerSecurityTests,
     ...UserPublicControllerSecurityTests,
     ...UsagersStructureDocsControllerSecurityTests,
+    ...InteractionsControllerSecurityTests,
+    ...StructuresAuthControllerSecurityTests,
   ];

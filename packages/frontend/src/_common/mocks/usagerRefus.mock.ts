@@ -27,6 +27,7 @@ export const usagerRefusMock: UsagerLight = {
     procuration: { actif: false },
     transfert: { actif: false, adresse: null, nom: null },
     historique: { transfert: [], procuration: [] },
+    portailUsagerEnabled: false,
   },
   preference: { email: false, phone: false, phoneNumber: "0606060606" },
   rdv: { dateRdv: null, userId: 0, userName: "" },

@@ -1,17 +1,20 @@
-import { AuthService } from "../auth/services/auth.service";
+import { forwardRef } from "@nestjs/common";
+import { AuthModule } from "../auth/auth.module";
+import { StructuresAuthService } from "../auth/services";
 import { usagerRepository } from "../database";
+import { SmsModule } from "../sms/sms.module";
+import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
 import { UsagerLight, UserStructureAuthenticated } from "../_common/model";
-import { SmsModule } from "./../sms/sms.module";
 import { InteractionsController } from "./interactions.controller";
 import { InteractionDto } from "./interactions.dto";
 import { InteractionsModule } from "./interactions.module";
 
 describe("Interactions Controller", () => {
   let controller: InteractionsController;
-  let authService: AuthService;
+  let structureAuthService: StructuresAuthService;
 
   let context: AppTestContext;
   let user: UserStructureAuthenticated;
@@ -19,17 +22,29 @@ describe("Interactions Controller", () => {
 
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
-      controllers: [InteractionsController],
-      imports: [UsersModule, UsagersModule, SmsModule, InteractionsModule],
+      controllers: [],
+      imports: [
+        InteractionsModule,
+        forwardRef(() => UsersModule),
+        forwardRef(() => UsagersModule),
+        forwardRef(() => StructuresModule),
+        forwardRef(() => SmsModule),
+        forwardRef(() => AuthModule),
+      ],
       providers: [],
     });
 
     controller = context.module.get<InteractionsController>(
       InteractionsController
     );
-    authService = context.module.get<AuthService>(AuthService);
+    structureAuthService = context.module.get<StructuresAuthService>(
+      StructuresAuthService
+    );
 
-    user = await authService.findAuthUser({ id: 2, structureId: 1 });
+    user = await structureAuthService.findAuthUser({
+      _userId: 2,
+      _userProfile: "structure",
+    });
 
     usager = await usagerRepository.findOne({
       ref: 1,

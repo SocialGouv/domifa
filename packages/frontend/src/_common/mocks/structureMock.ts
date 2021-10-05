@@ -28,4 +28,8 @@ export const structureMock: StructureCommon = {
     senderDetails: "",
     senderName: "",
   },
+  portailUsager: {
+    enabledByDomifa: false,
+    enabledByStructure: false,
+  },
 };

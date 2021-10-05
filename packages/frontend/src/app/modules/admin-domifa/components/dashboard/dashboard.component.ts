@@ -48,7 +48,9 @@ type DashboardTableSortAttribute =
   | "usagersValideCount"
   | "lastLogin"
   | "regionLabel"
-  | "departementLabel";
+  | "departementLabel"
+  | "smsEnabled"
+  | "portailUsagerEnabled";
 
 @Component({
   selector: "app-dashboard",
@@ -234,6 +236,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
             sortKey = this.stats.usagersAllCountByStructureMap[ts.id];
           } else if (sortAttribute.name === "usagersAyantsDroitsCount") {
             sortKey = this.stats.usagersAyantsDroitsCountByStructureMap[ts.id];
+          } else if (sortAttribute.name === "smsEnabled") {
+            sortKey = ts.sms.enabledByDomifa;
+          } else if (sortAttribute.name === "portailUsagerEnabled") {
+            sortKey = ts.portailUsager.enabledByDomifa;
           } else {
             sortKey = ts[sortAttribute.name];
           }
@@ -320,9 +326,28 @@ export class DashboardComponent implements OnInit, OnDestroy {
       next: () => {
         structure.sms.enabledByDomifa = !structure.sms.enabledByDomifa;
 
-        let message = structure.sms.enabledByDomifa
+        let message = structure.portailUsager.enabledByDomifa
           ? "SMS activés"
           : "SMS désactivés";
+        message = message + " pour la structure : " + structure.nom;
+        this.notifService.success(message);
+      },
+      error: () => {
+        this.notifService.error(
+          "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+        );
+      },
+    });
+  }
+  public enablePortailUsager(structure: Structure): void {
+    this.adminDomifaService.enablePortailUsager(structure.id).subscribe({
+      next: () => {
+        structure.portailUsager.enabledByDomifa =
+          !structure.portailUsager.enabledByDomifa;
+
+        let message = structure.sms.enabledByDomifa
+          ? "Portail usager activé"
+          : "Portail usager désactivé";
         message = message + " pour la structure : " + structure.nom;
         this.notifService.success(message);
       },

@@ -30,9 +30,8 @@ describe("Auth Controller", () => {
     expect(
       authChecker.checkProfile(
         {
-          id: 1,
-          structureId: 100,
-          role: "admin",
+          _userId: 1,
+          _userProfile: "structure",
         },
         "structure"
       )
@@ -40,33 +39,20 @@ describe("Auth Controller", () => {
     expect(
       authChecker.checkProfile(
         {
-          id: 1,
-          structureId: 1,
-          role: "admin",
+          _userId: 1,
+          _userProfile: "super-admin-domifa",
         },
         "super-admin-domifa"
       )
     ).toBeTruthy();
   });
-  it("authChecker.checkProfile admin domifa ok", async () => {
-    expect(
-      authChecker.checkProfile(
-        {
-          id: 1,
-          structureId: 1,
-          role: "admin",
-        },
-        "super-admin-domifa"
-      )
-    ).toBeTruthy();
-  });
+
   it("authChecker.checkProfile admin domifa ko", async () => {
     expect(
       authChecker.checkProfile(
         {
-          id: 1,
-          structureId: 100,
-          role: "admin",
+          _userId: 1,
+          _userProfile: "structure",
         },
         "super-admin-domifa"
       )

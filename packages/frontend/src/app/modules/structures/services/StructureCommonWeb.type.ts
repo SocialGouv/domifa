@@ -1,10 +1,11 @@
 import {
   StructureAddresseCourrier,
   StructureCommon,
+  StructurePortailUsagerParams,
   StructureResponsable,
+  StructureSmsParams,
   StructureType,
 } from "../../../../_common/model";
-import { StructureSmsParams } from "./../../../../_common/model/structure/StructureSmsParams.type";
 
 // Structure: attributs publics (retournés au frontend via UserStructureAuthenticated)
 export class StructureCommonWeb implements StructureCommon {
@@ -25,6 +26,7 @@ export class StructureCommonWeb implements StructureCommon {
   options: { numeroBoite: boolean };
   adresseCourrier: StructureAddresseCourrier;
   sms: StructureSmsParams;
+  portailUsager: StructurePortailUsagerParams;
 
   constructor(structure?: Partial<StructureCommon>) {
     this.id = (structure && structure.id) || 0;
@@ -68,6 +70,10 @@ export class StructureCommonWeb implements StructureCommon {
       enabledByStructure: false,
       senderName: null,
       senderDetails: null,
+    };
+    this.portailUsager = (structure && structure.portailUsager) || {
+      enabledByDomifa: false,
+      enabledByStructure: false,
     };
   }
 }

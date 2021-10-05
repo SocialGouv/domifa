@@ -1,0 +1,1 @@
+export const CURRENT_JWT_PAYLOAD_VERSION = 1;

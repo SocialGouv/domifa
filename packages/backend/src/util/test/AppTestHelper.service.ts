@@ -6,6 +6,7 @@ import { appTypeormManager } from "../../database";
 import {
   AppTestHttpClientSecurityTestDef,
   TestUserStructure,
+  TestUserUsager,
 } from "../../_tests";
 import { appLogger } from "../AppLogger.service";
 import { AppTestContext } from "./AppTestContext.type";
@@ -15,6 +16,7 @@ export const AppTestHelper = {
   tearDownTestApp,
   bootstrapTestConnection,
   tearDownTestConnection,
+  authenticateUsager,
   authenticateStructure,
   authenticateSuperAdminDomifa,
   filterSecurityTests,
@@ -70,7 +72,7 @@ async function authenticateStructure(
   const { app } = context;
   expectAppToBeDefined(app);
   const response = await request(app.getHttpServer())
-    .post("/auth/login")
+    .post("/structures/auth/login")
     .send(authInfo);
   expect(response.status).toBe(HttpStatus.OK);
   context.authToken = response.body.access_token;
@@ -79,6 +81,24 @@ async function authenticateStructure(
     structureRole: authInfo.role,
     structureId: authInfo.structureId,
     userId: authInfo.id,
+    userUUID: authInfo.uuid,
+  };
+  console.log(response.body);
+}
+async function authenticateUsager(
+  authInfo: TestUserUsager,
+  { context }: { context: AppTestContext }
+) {
+  const { app } = context;
+  expectAppToBeDefined(app);
+  const response = await request(app.getHttpServer())
+    .post("/usagers/auth/login")
+    .send(authInfo);
+  expect(response.status).toBe(HttpStatus.OK);
+  context.authToken = response.body.access_token;
+  context.user = {
+    profile: "usager",
+    structureId: authInfo.structureId,
     userUUID: authInfo.uuid,
   };
   console.log(response.body);
@@ -93,7 +113,7 @@ async function authenticateSuperAdminDomifa(
   expect(authInfo.structureId).toEqual(1); // hack: super admin is role "admin" + structure 1
   expect(authInfo.role).toEqual("admin");
   const response = await request(app.getHttpServer())
-    .post("/auth/login")
+    .post("/structures/auth/login")
     .send(authInfo);
   expect(response.status).toBe(HttpStatus.OK);
   context.authToken = response.body.access_token;

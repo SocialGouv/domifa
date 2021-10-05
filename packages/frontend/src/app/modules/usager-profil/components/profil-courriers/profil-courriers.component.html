@@ -10,15 +10,30 @@
         <div
           class="col-md-12 my-4"
           *ngIf="
+            me.structure.portailUsager.enabledByDomifa &&
+            me.structure.portailUsager.enabledByStructure &&
+            usager
+          "
+        >
+          <app-profil-edit-portail-usager-preference
+            [usager]="usager"
+            (usagerChanges)="onUsagerChanges($event)"
+            [me]="me"
+          ></app-profil-edit-portail-usager-preference>
+        </div>
+
+        <div
+          class="col-md-12 my-4"
+          *ngIf="
             me.structure.sms.enabledByDomifa &&
             me.structure.sms.enabledByStructure
           "
         >
-          <app-profil-edit-preference
+          <app-profil-edit-sms-preference
             [usager]="usager"
             (usagerChanges)="onUsagerChanges($event)"
             [me]="me"
-          ></app-profil-edit-preference>
+          ></app-profil-edit-sms-preference>
         </div>
 
         <div class="col-md-12 my-4">

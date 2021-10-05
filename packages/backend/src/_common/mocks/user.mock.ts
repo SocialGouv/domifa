@@ -34,6 +34,10 @@ export const userMock = {
       enabledByDomifa: true,
       enabledByStructure: false,
     },
+    portailUsager: {
+      enabledByDomifa: false,
+      enabledByStructure: false,
+    },
   },
   structureId: 100,
 };

@@ -54,13 +54,6 @@ export class StructuresService {
     );
   }
 
-  public async updateLastLogin(structureId: number): Promise<StructureCommon> {
-    return structureCommonRepository.updateOne(
-      { id: structureId },
-      { lastLogin: new Date() }
-    );
-  }
-
   public async findOneFull(structureId: number): Promise<Structure> {
     const structure = await structureRepository.findOne({
       id: structureId,

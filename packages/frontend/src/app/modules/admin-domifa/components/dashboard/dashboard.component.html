@@ -225,10 +225,10 @@
   <br />
 
   <div id="dashboard">
-    <table class="table table-hover" style="overflow-x: visible">
+    <table class="table table-hover table-fixed" style="overflow-x: visible">
       <thead>
         <tr>
-          <th (click)="sortDashboard('id')">#</th>
+          <th (click)="sortDashboard('id')" class="col-w-50">#</th>
           <th (click)="sortDashboard('nom')">
             Nom
             <fa-icon [icon]="['fas', 'sort']"></fa-icon>
@@ -237,46 +237,81 @@
             Type
             <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
-          <th (click)="sortDashboard('createdAt', 'desc')">
-            Date inscription <fa-icon [icon]="['fas', 'sort']"></fa-icon>
+          <th
+            (click)="sortDashboard('createdAt', 'desc')"
+            class="whitespace-nowrap col-font-xs"
+          >
+            Date<br />inscription <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
-          <th (click)="sortDashboard('import', 'desc')">
-            Importé ?
+          <th
+            (click)="sortDashboard('import', 'desc')"
+            class="whitespace-nowrap col-font-xs d-none d-lg-table-cell"
+          >
+            Import ?
             <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
-          <th (click)="sortDashboard('importDate', 'desc')">
+          <th
+            (click)="sortDashboard('importDate', 'desc')"
+            class="whitespace-nowrap col-font-xs d-none d-lg-table-cell"
+          >
             Date import
             <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
-          <th (click)="sortDashboard('usersCount', 'desc')">
+          <th
+            (click)="sortDashboard('usersCount', 'desc')"
+            class="whitespace-nowrap col-font-xs"
+          >
             Comptes <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
-          <th (click)="sortDashboard('usagersAllCount', 'desc')">
+          <th
+            (click)="sortDashboard('usagersAllCount', 'desc')"
+            class="whitespace-nowrap col-font-xs"
+          >
             Domiciliés <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
-          <th (click)="sortDashboard('usagersAyantsDroitsCount', 'desc')">
-            Ayants-droits <fa-icon [icon]="['fas', 'sort']"></fa-icon>
+          <th
+            (click)="sortDashboard('usagersAyantsDroitsCount', 'desc')"
+            class="col-font-xs"
+          >
+            Ayants<br />droits <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
-          <th (click)="sortDashboard('usagersValideCount', 'desc')">
+          <th
+            (click)="sortDashboard('usagersValideCount', 'desc')"
+            class="whitespace-nowrap col-font-xs"
+          >
             Actifs <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
-          <th (click)="sortDashboard('lastLogin', 'desc')">
-            Dernière connexion <fa-icon [icon]="['fas', 'sort']"></fa-icon>
+          <th (click)="sortDashboard('lastLogin', 'desc')" class="col-font-xs">
+            Dernière<br />connexion <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
-          <th (click)="sortDashboard('regionLabel')">
+          <th (click)="sortDashboard('regionLabel')" class="col-font-xs">
             Région <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
-          <th (click)="sortDashboard('departementLabel')">
+          <th (click)="sortDashboard('departementLabel')" class="col-font-xs">
             Département <fa-icon [icon]="['fas', 'sort']"></fa-icon>
           </th>
-          <th>Email</th>
-          <th colspan="2"></th>
+          <th class="col-font-xs">Email</th>
+          <th
+            (click)="sortDashboard('smsEnabled', 'desc')"
+            class="whitespace-nowrap col-font-xs d-none d-lg-table-cell"
+          >
+            SMS
+            <fa-icon [icon]="['fas', 'sort']"></fa-icon>
+          </th>
+          <th
+            (click)="sortDashboard('portailUsagerEnabled', 'desc')"
+            class="whitespace-nowrap col-font-xs d-none d-lg-table-cell"
+          >
+            Portail<br />usager
+            <fa-icon [icon]="['fas', 'sort']"></fa-icon>
+          </th>
+          <th class="">Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let structure of sortedTableStructures; let i = index">
-          <td>{{ structure.id }}</td>
-          <td>
+          <td class="col-w-50">{{ structure.id }}</td>
+          <td class="col-font-xs">
             {{ structure.nom }}
             {{
               structure.structureType === "ccas" ? " - " + structure.ville : ""
@@ -288,81 +323,141 @@
               Non validée
             </span>
           </td>
-          <td>
+          <td class="col-font-xs">
             {{ structure.structureTypeLabel }}
           </td>
 
-          <td>{{ structure.registrationDate | date: "dd/MM/yyyy" }}</td>
-          <td>
+          <td class="col-font-xs">
+            {{ structure.registrationDate | date: "dd/MM/yyyy" }}
+          </td>
+          <td class="d-none d-lg-table-cell">
             {{ structure.import ? "✅" : "❌" }}
           </td>
-          <td>
+          <td class="col-font-xs d-none d-lg-table-cell">
             {{ structure.importDate | date: "dd/MM/yyyy" || "Info manquante" }}
           </td>
-          <td>{{ structure.usersCount }}</td>
-          <td>{{ stats.usagersAllCountByStructureMap[structure.id] }}</td>
-          <td>
+          <td class="col-font-xs">{{ structure.usersCount }}</td>
+          <td class="col-font-xs">
+            {{ stats.usagersAllCountByStructureMap[structure.id] }}
+          </td>
+          <td class="col-font-xs">
             {{ stats.usagersAyantsDroitsCountByStructureMap[structure.id] }}
           </td>
-          <td>{{ stats.usagersValidCountByStructureMap[structure.id] }}</td>
+          <td class="col-font-xs">
+            {{ stats.usagersValidCountByStructureMap[structure.id] }}
+          </td>
 
-          <td>
+          <td class="col-font-xs">
             {{ structure.lastLogin | date: "dd/MM/yyyy" || "Info manquante" }}
           </td>
-          <td>
+          <td class="col-font-xs">
             {{ structure.regionLabel }}
           </td>
-          <td>
+          <td class="col-font-xs">
             {{ structure.departementLabel }}
           </td>
-          <td>
+          <td class="col-font-xs">
             {{ structure.email }}
           </td>
-          <td colspan="2">
-            <div style="white-space: nowrap">
-              <button
-                class="ml-2 mr-2 btn btn-danger"
-                (click)="deleteStructure(structure.id)"
-              >
-                <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+          <td class="d-none d-lg-table-cell">
+            <a class="cursor-pointer" (click)="enableSms(structure)">
+              <fa-icon
+                class="pr-2"
+                style="color: #17a2b8"
+                *ngIf="structure.sms.enabledByDomifa"
+                [icon]="['fas', 'check']"
+              ></fa-icon>
+              <fa-icon
+                class="pr-2"
+                style="color: #999"
+                *ngIf="!structure.sms.enabledByDomifa"
+                [icon]="['fas', 'times']"
+              ></fa-icon>
+            </a>
+          </td>
+          <td class="d-none d-lg-table-cell">
+            <a class="cursor-pointer" (click)="enablePortailUsager(structure)">
+              <fa-icon
+                class="pr-2"
+                style="color: #17a2b8"
+                *ngIf="structure.portailUsager.enabledByDomifa"
+                [icon]="['fas', 'check']"
+              ></fa-icon>
+              <fa-icon
+                class="pr-2"
+                style="color: #999"
+                *ngIf="!structure.portailUsager.enabledByDomifa"
+                [icon]="['fas', 'times']"
+              ></fa-icon>
+            </a>
+          </td>
+          <td class="">
+            <div
+              ngbDropdown
+              container="body"
+              [id]="'dropdownActionsMenuDashboard_' + structure.id"
+              placement="bottom-right"
+            >
+              <button class="btn" ngbDropdownToggle>
+                <fa-icon [icon]="['fas', 'bars']"></fa-icon>
               </button>
-              <button
-                class="ml-2 mr-2 btn btn-primary"
-                (click)="exportYearStats(structure.id, 2020)"
-              >
-                <div
-                  class="mr-2"
-                  style="
-                    display: inline-block;
-                    vertical-align: middle;
-                    line-height: 0.9em;
-                    font-size: 12px;
-                  "
+              <div ngbDropdownMenu>
+                <a
+                  class="cursor-pointer"
+                  ngbDropdownItem
+                  style="color: #bd2130"
+                  (click)="deleteStructure(structure.id)"
                 >
-                  <div>Stats</div>
-                  <div>2020</div>
-                </div>
-                <fa-icon [icon]="['fas', 'download']"></fa-icon>
-              </button>
-              <button
-                (click)="enableSms(structure)"
-                class="ml-2 mr-2 btn"
-                [ngClass]="
-                  structure.sms.enabledByDomifa
-                    ? 'btn-primary'
-                    : 'btn-outline-primary'
-                "
-              >
-                SMS
-                <fa-icon
-                  *ngIf="structure.sms.enabledByDomifa"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-                <fa-icon
-                  *ngIf="!structure.sms.enabledByDomifa"
-                  [icon]="['fas', 'times']"
-                ></fa-icon>
-              </button>
+                  <fa-icon class="pr-2" [icon]="['fas', 'trash']"></fa-icon>
+                  Supprimer
+                </a>
+                <a
+                  class="cursor-pointer"
+                  ngbDropdownItem
+                  (click)="exportYearStats(structure.id, 2020)"
+                >
+                  <fa-icon class="pr-2" [icon]="['fas', 'download']"></fa-icon>
+                  Stats 2020
+                </a>
+                <a
+                  class="cursor-pointer"
+                  ngbDropdownItem
+                  (click)="enableSms(structure)"
+                >
+                  <fa-icon
+                    class="pr-2"
+                    style="color: #17a2b8"
+                    *ngIf="structure.sms.enabledByDomifa"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                  <fa-icon
+                    class="pr-2"
+                    style="color: #999"
+                    *ngIf="!structure.sms.enabledByDomifa"
+                    [icon]="['fas', 'times']"
+                  ></fa-icon>
+                  SMS
+                </a>
+                <a
+                  class="cursor-pointer"
+                  ngbDropdownItem
+                  (click)="enablePortailUsager(structure)"
+                >
+                  <fa-icon
+                    class="pr-2"
+                    style="color: #17a2b8"
+                    *ngIf="structure.portailUsager.enabledByDomifa"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                  <fa-icon
+                    class="pr-2"
+                    style="color: #999"
+                    *ngIf="!structure.portailUsager.enabledByDomifa"
+                    [icon]="['fas', 'times']"
+                  ></fa-icon>
+                  Portail usager
+                </a>
+              </div>
             </div>
           </td>
         </tr>

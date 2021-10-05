@@ -1,6 +1,5 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-
 import { Observable } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import {
@@ -51,13 +50,34 @@ export class UsagerProfilService {
   }
 
   // Mise à jour des préférence de contact
-  public editPreference(
+  public editSmsPreference(
     preference: UsagerPreferenceContact,
     usagerRef: number
   ): Observable<UsagerLight> {
     return this.http.post<UsagerLight>(
       `${this.endPointUsagers}/preference/${usagerRef}`,
       preference
+    );
+  }
+
+  // Mise à jour des préférence de contact
+  public updatePortailUsagerOptions({
+    usagerRef,
+    options,
+  }: {
+    usagerRef: number;
+    options: {
+      portailUsagerEnabled: boolean;
+      generateNewPassword: boolean;
+    };
+  }): Observable<{
+    usager: UsagerLight;
+    login?: string;
+    temporaryPassword?: string;
+  }> {
+    return this.http.post<any>(
+      `${this.endPointUsagers}/portail-usager/options/${usagerRef}`,
+      options
     );
   }
 

@@ -1,3 +1,4 @@
+import { AuthModule } from "../auth/auth.module";
 import { StatsPrivateController } from "../stats/controllers/stats.private.controller";
 import { StatsPublicController } from "../stats/controllers/stats.public.controller";
 import { StatsModule } from "../stats/stats.module";
@@ -9,6 +10,7 @@ import { DocumentsService } from "../usagers/services/documents.service";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
+import { PortailUsagerModule } from "../_portail-usager";
 import { API_SECURITY_STRUCTURE_CONTROLLER_TEST_DEFS } from "./API_SECURITY_STRUCTURE_CONTROLLER_TEST_DEFS.const";
 import { TESTS_USERS_STRUCTURE } from "./_core";
 
@@ -30,7 +32,13 @@ describe(`App controllers security - ${TEST_BASENAME}`, () => {
           StatsPrivateController,
           StructureDocController,
         ],
-        imports: [UsersModule, StructuresModule, StatsModule],
+        imports: [
+          UsersModule,
+          StructuresModule,
+          StatsModule,
+          PortailUsagerModule,
+          AuthModule,
+        ],
         providers: [CerfaService, UsagersService, DocumentsService],
       },
       { initApp: true }

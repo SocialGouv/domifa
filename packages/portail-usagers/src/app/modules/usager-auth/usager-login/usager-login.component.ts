@@ -1,14 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 import {
-  FormGroup,
-  FormBuilder,
-  Validators,
   AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import type { AuthLoginForm } from "../../../../_common/auth/AuthLoginForm.type";
+import type { PortailUsagerAuthLoginForm } from "../../../../_common";
 import { UsagerAuthService } from "../services/usager-auth.service";
 
 @Component({
@@ -44,7 +44,7 @@ export class UsagerLoginComponent implements OnInit {
   public initForm(): void {
     this.loginForm = this.formBuilder.group({
       password: ["", Validators.required],
-      usagerAuthId: ["", [Validators.required]],
+      login: ["", [Validators.required]],
     });
   }
 
@@ -62,16 +62,16 @@ export class UsagerLoginComponent implements OnInit {
       return;
     }
 
-    const loginForm = this.loginForm.value as AuthLoginForm;
+    const loginForm = this.loginForm.value as PortailUsagerAuthLoginForm;
     this.loading = true;
 
     this.authService.login(loginForm).subscribe({
       complete: () => {
-        console.log("Observer got a complete notification");
+        this.router.navigate(["/account"]);
       },
       error: () => {
         this.loading = false;
-        this.toastr.error("Email et / ou mot de passe incorrect");
+        this.toastr.error("Login et / ou mot de passe incorrect");
       },
       next: () => {
         this.loading = false;

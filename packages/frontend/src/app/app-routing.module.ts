@@ -1,12 +1,12 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { CanEditPortailUsagerGuard } from "./guards";
 import { AdminGuard } from "./guards/admin-guard";
 import { AuthGuard } from "./guards/auth-guard";
 import { CanEditSmsGuard } from "./guards/can-edit-sms.guard";
 import { DomifaGuard } from "./guards/domifa-guard";
 import { FacteurGuard } from "./guards/facteur-guard";
 import { LoggedGuard } from "./guards/logged-guard";
-
 import { CguComponent } from "./modules/general/components/cgu/cgu.component";
 import { NotFoundComponent } from "./modules/general/components/errors/not-found/not-found.component";
 import { FaqComponent } from "./modules/general/components/faq/faq.component";
@@ -14,10 +14,10 @@ import { HomeComponent } from "./modules/general/components/home/home.component"
 import { MentionsLegalesComponent } from "./modules/general/components/mentions/mentions-legales/mentions-legales.component";
 import { NewsComponent } from "./modules/general/components/news/news.component";
 import { PolitiqueComponent } from "./modules/general/components/politique/politique.component";
-
 import { StructuresConfirmComponent } from "./modules/structures/components/structures-confirm/structures-confirm.component";
 import { StructuresEditComponent } from "./modules/structures/components/structures-edit/structures-edit.component";
 import { StructuresFormComponent } from "./modules/structures/components/structures-form/structures-form.component";
+import { StructuresPortailUsagerFormComponent } from "./modules/structures/components/structures-portail-usager-form/structures-portail-usager-form.component";
 import { StructuresSearchComponent } from "./modules/structures/components/structures-search/structures-search.component";
 import { StructuresSmsFormComponent } from "./modules/structures/components/structures-sms-form/structures-sms-form.component";
 import { DecisionComponent } from "./modules/usagers/components/form/parts/decision/decision.component";
@@ -27,7 +27,6 @@ import { RdvComponent } from "./modules/usagers/components/form/parts/rdv/rdv.co
 import { UsagersFormComponent } from "./modules/usagers/components/form/usagers-form";
 import { ImportComponent } from "./modules/usagers/components/import/import.component";
 import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
-
 import { RaftComponent } from "./modules/usagers/components/raft/raft.component";
 import { EditUserComponent } from "./modules/users/components/edit-user/edit-user.component";
 import { LoginComponent } from "./modules/users/components/login/login.component";
@@ -64,6 +63,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard, AdminGuard, CanEditSmsGuard],
     path: "structures/sms",
     component: StructuresSmsFormComponent,
+  },
+  {
+    canActivate: [AuthGuard, AdminGuard, CanEditPortailUsagerGuard],
+    path: "structures/portail-usager",
+    component: StructuresPortailUsagerFormComponent,
   },
   {
     component: StructuresConfirmComponent,

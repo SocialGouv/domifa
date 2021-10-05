@@ -32,6 +32,15 @@ export class AdminDomifaService {
     return this.http.put(this.epSms + "enable/" + structureId.toString(), {});
   }
 
+  public enablePortailUsager(structureId: number) {
+    return this.http.put(
+      environment.apiUrl +
+        "structures/portail-usager/toggle-enable-domifa/" +
+        structureId.toString(),
+      {}
+    );
+  }
+
   public export(structureId: number, start: Date, end: Date) {
     return this.http.post(
       `${this.baseUrl}export/`,
