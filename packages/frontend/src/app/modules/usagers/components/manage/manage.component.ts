@@ -42,6 +42,7 @@ import {
   usagersByStatusBuilder,
   usagersFilter,
   UsagersFilterCriteria,
+  UsagersFilterCriteriaStatut,
   UsagersFilterCriteriaEcheance,
   UsagersFilterCriteriaSortKey,
   UsagersFilterCriteriaSortValues,
@@ -99,7 +100,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private notifService: ToastrService,
     private titleService: Title,
-    private matomo: MatomoTracker
+    public matomo: MatomoTracker
   ) {
     this.pageSize = 40;
     this.needToPrint = false;
@@ -209,6 +210,12 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.filters.page = 0;
     this.needToPrint = true;
     this.filters$.next(this.filters);
+    this.matomo.trackEvent(
+      "MANAGE_USAGERS",
+      "click",
+      "Liste_Icône_Impression",
+      1
+    );
   }
 
   public updateUsager(usager: UsagerFormModel): void {
@@ -274,6 +281,29 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     value: UsagersFilterCriteria[T] | null;
     sortValue?: UsagersFilterCriteriaSortValues;
   }): void {
+    const statusType: { [key: string]: string } = {
+      TOUS: "Liste_Tous",
+      VALIDE: "Liste_Actifs",
+      INSTRUCTION: "Liste_Compléter",
+      ATTENTE_DECISION: "Liste_Attente_Décision",
+      REFUS: "Liste_Refusés",
+      RADIE: "Liste_Radiés",
+    };
+    const eventType: { [key: string]: string } = {
+      passage: "Liste_Filtre_Passage",
+      echeance: "Liste_Filtre_Échéance",
+      interactionType: "Liste_Filtre_Échéance",
+      sortKey: "Liste_Bouton_Tri",
+    };
+    const sortTypeButton: { [key: string]: string } = {
+      ID: "Liste_Colonne_ID",
+      NAME: "Liste_Colonne_Nom_Prénom",
+      PASSAGE: "Liste_Colonne_Passage",
+      ECHEANCE: "Liste_Colonne_Échéance",
+    };
+
+    let event = "";
+
     if (
       element === "interactionType" ||
       element === "passage" ||
@@ -283,7 +313,9 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       this.filters[element] = newValue;
       this.filters.sortKey = "NAME";
       this.filters.sortValue = "ascending";
+      event = eventType[element];
     } else if (element === "statut") {
+      event = statusType[value as UsagersFilterCriteriaStatut];
       if (this.filters[element] === value) {
         return;
       }
@@ -307,6 +339,11 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
         this.filters.sortValue = "ascending";
       }
     } else if (element === "sortKey") {
+      if (!sortValue) {
+        event = sortTypeButton[value as UsagersFilterCriteriaSortKey];
+      } else {
+        event = eventType[element];
+      }
       if (
         this.filters.statut === "TOUS" &&
         (value === "VALIDE" || value === "TOUS")
@@ -332,7 +369,15 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
 
     this.filters.page = 0;
     this.filters$.next(this.filters);
-    this.matomo.trackEvent("filters", element, value as string, 1);
+
+    if (event.length > 0) {
+      this.matomo.trackEvent(
+        "MANAGE_FILTERS",
+        event as string,
+        value as string,
+        1
+      );
+    }
     this.updateSortLabel();
   }
 

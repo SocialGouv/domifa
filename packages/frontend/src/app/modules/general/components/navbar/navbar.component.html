@@ -90,6 +90,9 @@
               <a
                 class="btn btn-outline-primary"
                 [routerLink]="!me ? ['/'] : ['/manage']"
+                (click)="
+                  matomo.trackEvent('NAVBAR', 'click', 'Liste_Domiciliés', 1)
+                "
               >
                 Domiciliés
               </a>
