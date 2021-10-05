@@ -1,3 +1,8 @@
+<div class="head-page d-print-none">
+  <div class="container">
+    <span class="title">Nouvelle inscription</span>
+  </div>
+</div>
 <div class="container" *ngIf="me && usager">
   <app-form-menu [usager]="usager" [currentStep]="4"></app-form-menu>
 
@@ -62,8 +67,8 @@
     </div>
   </div>
 
-  <div class="step_form" id="step_form4" *ngIf="isAdmin">
-    <div class="col text-center">
+  <div class="step_form step-form-actions" id="step_form4">
+    <div class="col text-center" *ngIf="isAdmin">
       <h5>
         Le dossier de
         <b>{{ usager.nom }} {{ usager.prenom }}</b>
@@ -81,21 +86,6 @@
       <p class="d-print-none">Quelle décision souhaitez-vous rendre ?</p>
 
       <div class="d-print-none row text-center">
-        <div class="col" *ngIf="usager.decision.statut !== 'ATTENTE_DECISION'">
-          <button
-            (click)="setDecision('ATTENTE_DECISION')"
-            class="btn btn-block btn-primary"
-          >
-            <fa-icon [icon]="['far', 'clock']" class="mr-2"></fa-icon>
-            SOUMETTRE LA DEMANDE
-          </button>
-        </div>
-        <div class="col">
-          <button class="btn-block btn btn-danger" (click)="open(refus)">
-            <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
-            REFUSER LE DOSSIER
-          </button>
-        </div>
         <div class="col">
           <button
             class="btn-block btn btn-secondary"
@@ -105,12 +95,30 @@
             ACCEPTER LE DOSSIER
           </button>
         </div>
+        <div class="col">
+          <button
+            class="btn-block btn btn-outline-danger"
+            (click)="open(refus)"
+          >
+            <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
+            REFUSER LE DOSSIER
+          </button>
+        </div>
+        <div class="col" *ngIf="usager.decision.statut !== 'ATTENTE_DECISION'">
+          <button
+            (click)="setDecision('ATTENTE_DECISION')"
+            class="btn-block btn btn-link"
+          >
+            <fa-icon [icon]="['far', 'clock']" class="mr-2"></fa-icon>
+            SOUMETTRE LA DEMANDE
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="step_form">
-    <h4>ÉTAT-CIVIL</h4>
+    <h4>État civil</h4>
     <app-display-etat-civil [usager]="usager"></app-display-etat-civil>
 
     <h4>ENTRETIEN</h4>
@@ -120,8 +128,8 @@
     ></app-display-entretien>
     <br />
 
-    <h4>Pièces-jointes</h4>
-    <app-documents [usager]="usager"></app-documents>
+    <h4>Pièces jointes</h4>
+    <app-documents class="toto" [usager]="usager"></app-documents>
     <br />
 
     <div class="row d-print-none">

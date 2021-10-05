@@ -72,6 +72,10 @@ table .active {
   border-radius: 3px;
 }
 
+.step-form-actions {
+  border: none;
+}
+
 .tooltip-inner {
   background: #ffffff;
   border: 1px solid #e6e6e6;

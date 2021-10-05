@@ -10,6 +10,13 @@ import { DocumentService } from "../../services/document.service";
   selector: "app-documents",
   styleUrls: ["./documents.component.css"],
   templateUrl: "./documents.component.html",
+  styles: [
+    `
+      :host {
+        background-color: white;
+      }
+    `,
+  ],
 })
 export class DocumentsComponent implements OnInit, OnChanges {
   @Input() public usager: UsagerLight;
