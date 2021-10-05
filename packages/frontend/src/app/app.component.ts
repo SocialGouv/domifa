@@ -170,6 +170,7 @@ export class AppComponent implements OnInit {
 
   public openModal(content: TemplateRef<any>) {
     this.modalService.open(content);
+    this.matomo.trackEvent("APP", "click", "Pop_Up_Aide", 1);
   }
 
   public closeHelpModal(): void {

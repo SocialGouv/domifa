@@ -16,6 +16,7 @@
             autofocus
             placeholder="Recherche par numéro de domicilié, nom, prénom ou ayant-droit"
             class="form-control"
+            (keyup)="matomo.trackEvent('MANAGE', 'keyUp', 'Liste_Recherche', $event.target.value)"
           />
           <span
             *ngIf="searchInput.value?.trim() !== ''"
@@ -31,6 +32,7 @@
           *ngIf="me.role !== 'facteur'"
           routerLink="/nouveau"
           class="btn btn-white-primary"
+          (click)="matomo.trackEvent('MANAGE', 'click', 'Liste_Création', 1)"
         >
           <fa-icon [icon]="['fas', 'plus']" class="mr-2"></fa-icon>
           Créer une demande

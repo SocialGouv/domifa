@@ -25,14 +25,12 @@
     <th>INFORMATIONS</th>
     <th
       *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS' "
-      (click)="updateFilters.emit({  element: 'sortKey',   value: 'PASSAGE'  })"
+      (click)="updateFilters.emit({element: 'sortKey', value: 'PASSAGE'})"
     >
       PASSAGE
     </th>
 
-    <th
-      (click)="updateFilters.emit({  element: 'sortKey',   value: 'ECHEANCE'  })"
-    >
+    <th (click)="updateFilters.emit({element: 'sortKey', value: 'ECHEANCE'})">
       <span *ngIf="filters.statut !== 'REFUS' && filters.statut !== 'RADIE'"
         >ÉCHÉANCE</span
       >

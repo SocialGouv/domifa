@@ -111,7 +111,12 @@ export class ManageUsagersTableComponent implements OnInit {
       type,
       nbCourrier: 1,
     };
-    this.matomo.trackEvent("interactions", "manage", type, 1);
+    const interactionType: { [key: string]: string } = {
+      visite: "Liste_Icône_Réception",
+      appel: "Liste_Icône_Appel",
+      courrierIn: "Liste_Icône_Courrier",
+    };
+    this.matomo.trackEvent("MANAGE_USAGERS", "click", interactionType[type], 1);
     this.interactionService
       .setInteraction(usager.ref, [interaction])
       .subscribe({
@@ -129,11 +134,23 @@ export class ManageUsagersTableComponent implements OnInit {
   public openInteractionInModal(usager: UsagerFormModel) {
     this.selectedUsager = usager;
     this.modalService.open(this.setInteractionInModal, this.modalOptions);
+    this.matomo.trackEvent(
+      "MANAGE_USAGERS",
+      "click",
+      "Liste_Icône_Réception",
+      1
+    );
   }
 
   public openInteractionOutModal(usager: UsagerFormModel) {
     this.selectedUsager = usager;
     this.modalService.open(this.setInteractionOutModal, this.modalOptions);
+    this.matomo.trackEvent(
+      "MANAGE_USAGERS",
+      "click",
+      "Liste_Icône_Distribution",
+      1
+    );
   }
 
   public cancelReception() {
