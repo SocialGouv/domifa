@@ -1,27 +1,23 @@
 html,
 body {
   height: 100%;
-  background-color: #f2f2f2;
+  background-color: #f9f9fc;
 }
 
 html {
-  font-size: 90%;
+  font-size: 82%;
   font-family: "Marianne";
 }
 
-.content {
-  background-color: #f2f2f2;
-  min-height: 100vh;
-}
-
-.page-content {
-  background-color: white;
-  border-radius: 3px;
-}
-
 #page {
-  min-height: 90vh;
+  min-height: 60vh;
+  background-color: #f9f9fc;
   overflow-x: hidden;
+}
+
+.content {
+  padding-right: 1rem !important;
+  padding-left: 1rem !important;
 }
 
 .container {
@@ -62,14 +58,43 @@ html {
 }
 
 .subtitle {
-  font-weight: 600;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.3rem;
+  line-height: 140%;
+}
+
+.section-icon {
+  width: 40px;
+}
+
+.section-icon img {
+  height: 22px;
+  width: auto;
+}
+
+.section-title {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.4rem;
+  padding: 0.5rem 1rem;
+  color: var(--primary);
+}
+
+.section-subtitle {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.15rem;
+  margin-bottom: 0.25rem;
+  color: var(--primary);
 }
 
 .section-content {
-  border-top: inset 0 2px 0 #4164f5;
+  border-top: 2px solid var(--primary);
   box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.06);
   border-radius: 2px;
-  padding: 1rem 0.5rem;
+  padding: 1rem;
+  background-color: white;
 }
 
 .section-tab {

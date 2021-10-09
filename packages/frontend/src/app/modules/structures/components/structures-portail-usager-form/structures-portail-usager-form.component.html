@@ -1,68 +1,67 @@
-<div class="container my-5" *ngIf="me && structurePortailUsagerForm">
-  <div class="row">
-    <div class="my-2 col-md-8">
-      <h2>Paramètres d'accès au portail usager pour votre structure</h2>
-      <div>
+<div *ngIf="me" class="head-page">
+  <div class="container">
+    <div class="pb-4 px-0">
+      <h1 class="title">
+        Paramètres d'accès au portail usager pour votre structure
+      </h1>
+    </div>
+  </div>
+</div>
+
+<div class="content py-3" *ngIf="me && structurePortailUsagerForm">
+  <div class="container py-3">
+    <div class="page-content p-4">
+      <div class="py-2">
         Une fois que la fonctionnalité d'accès au portail usager au sein de
         votre structure est activée, il vous faudra la valider sur chacune des
         fiches des domiciliés lorsqu'ils vous en ont fait la demande
       </div>
-    </div>
-  </div>
-
-  <div class="row my-4">
-    <div class="col-md-8">
-      <div class="card p-4">
-        <form
-          *ngIf="structure"
-          id="structureForm"
-          [formGroup]="structurePortailUsagerForm"
-          (ngSubmit)="submitStructureSmsForm()"
-        >
-          <div class="row">
-            <div class="col-md-9 form-group required">
-              Activer l'accès au portail usager pour vos domiciliés
-            </div>
-            <div class="col-3 text-right">
-              <div
-                formControlName="enabledByStructure"
-                class="btn-group btn-group-toggle"
-                ngbRadioGroup
-              >
-                <label
-                  ngbButtonLabel
-                  [ngClass]="
-                    form.enabledByStructure.value === true
-                      ? 'btn-primary'
-                      : 'btn-outline-primary'
-                  "
-                >
-                  <input ngbButton type="radio" [value]="true" />
-                  Oui
-                </label>
-                <label
-                  ngbButtonLabel
-                  [ngClass]="
-                    form.enabledByStructure.value === false
-                      ? 'btn-danger'
-                      : 'btn-outline-danger'
-                  "
-                >
-                  <input ngbButton type="radio" [value]="false" />
-                  Non
-                </label>
-              </div>
-            </div>
-
-            <div class="col-md-12 my-2 text-center">
-              <button class="btn btn-primary">
-                Enregistrer les modifications
-              </button>
-            </div>
-            <br />
+      <br />
+      <form
+        *ngIf="structure"
+        id="structureForm"
+        [formGroup]="structurePortailUsagerForm"
+        (ngSubmit)="submitStructureSmsForm()"
+      >
+        <div class="d-flex justify-content-center align-items-center">
+          <div class="form-group required font-bold">
+            Activer l'accès au portail usager pour vos domiciliés
           </div>
-        </form>
-      </div>
+          <div class="form-group ml-3 text-right">
+            <div
+              formControlName="enabledByStructure"
+              class="btn-group btn-group-toggle"
+              ngbRadioGroup
+            >
+              <label
+                ngbButtonLabel
+                [ngClass]="
+                  form.enabledByStructure.value === true
+                    ? 'btn-primary'
+                    : 'btn-outline-primary'
+                "
+              >
+                <input ngbButton type="radio" [value]="true" />
+                Oui
+              </label>
+              <label
+                ngbButtonLabel
+                [ngClass]="
+                  form.enabledByStructure.value === false
+                    ? 'btn-danger'
+                    : 'btn-outline-danger'
+                "
+              >
+                <input ngbButton type="radio" [value]="false" />
+                Non
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 my-2 text-center">
+          <button class="btn btn-primary">Enregistrer les modifications</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

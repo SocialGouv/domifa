@@ -1,5 +1,7 @@
-<h1>Bonjour Saran !</h1>
+<div class="home-message">
+  <h1 class="text-primary font-weight-bold">Bonjour Saran !</h1>
+  <span class="subtitle">Bienvenue dans votre espace de suivi de courrier</span>
+</div>
 
-Bienvenue dans votre espace de suivi de courrier
-
-<app-section-infos></app-section-infos>
+<app-section-courriers [usager]="usagerProfile"></app-section-courriers>
+<app-section-infos [usager]="usagerProfile"></app-section-infos>

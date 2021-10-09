@@ -27,5 +27,13 @@ $font-family-sans-serif: "Marianne", -apple-system, BlinkMacSystemFont,
 $font-family-monospace: "Marianne", SFMono-Regular, Menlo, Monaco, Consolas,
   "Liberation Mono", "Courier New", monospace;
 
+// BUTTONS
+$btn-border-radius: 4rem !default;
+$btn-border-radius-sm: 4rem !default;
+$btn-border-radius-lg: 4rem !default;
+
+$input-btn-padding-y: 0.5rem !default;
+$input-btn-padding-x: 0.9rem !default;
+
 @import "~bootstrap/scss/bootstrap";
 @import "~ngx-toastr/toastr-bs4-alert";

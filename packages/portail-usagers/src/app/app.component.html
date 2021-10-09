@@ -1,4 +1,4 @@
-<nav class="navbar navbar-light bg-light">
+<nav class="navbar bg-white">
   <a class="navbar-brand" href="#">
     <img
       src="../assets/images/logo-mini.svg"
@@ -13,3 +13,17 @@
 <div id="page">
   <router-outlet></router-outlet>
 </div>
+
+<footer class="content my-5">
+  <img src="../assets/images/logo.svg" alt="" />
+  <div>
+    Domifa est la solution gratuite et complète de gestion des domiciliations et
+    de suivi de votre courrier
+  </div>
+
+  <div *ngIf="usagerProfile" class="pt-2 pb-5">
+    <button (click)="logout()" class="btn btn-outline-primary">
+      <fa-icon [icon]="['far', 'comment']"></fa-icon> Me déconnecter
+    </button>
+  </div>
+</footer>
