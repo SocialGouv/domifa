@@ -7,7 +7,6 @@ import {
   faEye,
   faEyeSlash,
   faFileWord,
-  faQuestionCircle,
 } from "@fortawesome/free-regular-svg-icons";
 import {
   faCheckCircle,
@@ -44,6 +43,7 @@ import {
   faUsers,
   faUserShield,
   faCircle,
+  faQuestionCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const FA_ICONS: IconDefinition[] = [
@@ -89,4 +89,5 @@ export const FA_ICONS: IconDefinition[] = [
   faUser,
   faUsers,
   faUserShield,
+  faQuestionCircle,
 ];

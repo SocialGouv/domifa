@@ -16,7 +16,7 @@ export class AppComponent {
   }
   public ngOnInit() {
     this.titleService.setTitle(
-      "Domifa, l'outil qui facilite la gestion des structures domiciliatirices"
+      "Domifa, l'outil qui facilite la gestion des structures domiciliatirices",
     );
   }
   private runHealthCheckAndAutoReload() {}

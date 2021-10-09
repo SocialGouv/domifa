@@ -181,11 +181,6 @@ orm .card {
   font-weight: 700;
 }
 
-.news {
-  margin: 10px 0;
-  display: block;
-}
-
 .ngb-dp-day.disabled,
 .ngb-dp-day.hidden {
   color: #bbbbbb;
@@ -439,17 +434,17 @@ orm .card {
 
 .green-status {
   background-color: #ecf9a2;
-  color: #282828;
+  color: black;
 }
 
 .orange-status {
   background-color: #feedd1;
-  color: #282828;
+  color: black;
 }
 
 .grey-status {
   background-color: #efefef;
-  color: #282828;
+  color: black;
 }
 
 .label-info {
@@ -474,12 +469,12 @@ orm .card {
 
 .label-green {
   background-color: #d4f4ed;
-  color: #486346;
+  color: black;
 }
 
 .label-yellow {
   background-color: #feedd1;
-  color: #282828;
+  color: black;
 }
 .alert .svg-icon {
   display: table-cell;

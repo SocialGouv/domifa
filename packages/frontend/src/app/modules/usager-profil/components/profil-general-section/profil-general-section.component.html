@@ -237,9 +237,19 @@
               </ng-template>
               <div
                 class="label-info label-green"
-                [ngbTooltip]="ayantsDroitsTooltip"
+                [ngbTooltip]="
+                  usager.ayantsDroits.length > 0 ? ayantsDroitsTooltip : null
+                "
               >
-                <div>{{ usager.ayantsDroits.length }} ayants-droit</div>
+                <div *ngIf="usager.ayantsDroits.length > 1">
+                  {{ usager.ayantsDroits.length }} ayants-droit
+                </div>
+                <div *ngIf="usager.ayantsDroits.length === 1">
+                  1 ayant-droit
+                </div>
+                <div *ngIf="usager.ayantsDroits.length === 0">
+                  Aucun ayant-droit
+                </div>
               </div>
             </div>
 

@@ -1,5 +1,26 @@
 [
+  {
+    "date": "2021-10-06",
+    "description": "",
+    "content": [
       {
+        "type": "new",
+        "categorie": "La fonctionnalité de notes internes, tant attendue, est arrivée sur DomiFa !",
+        "message": [
+          "Vous pouvez désormais ajouter des commentaires sur les dossiers domiciliés afin de ne plus oublier aucune information importante ! Ceux-ci seront visibles dans l’onglet « Vue d’ensemble » et devront, bien entendu, être en conformité avec le RGPD 😊"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Export plus rapide et une meilleure lisibilité",
+        "message": [
+          "Réduction du temps d’export de données pour les structures ayant un nombre conséquent de domiciliés",
+          "Ajout d'un contour visuel autour de la barre de recherche pour une meilleure lisibilité"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2021-09-06",
     "description": "La nouvelle fiche domicilié est disponible ! Elle a été séparée en différentes sections pour une meilleure lisibilité. Une nouvelle version avec la suite des améliorations passera en production prochainement."
   },
