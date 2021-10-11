@@ -66,6 +66,7 @@
           "Undefined",
           "undefined"
         ],
+        "@angular-eslint/no-empty-lifecycle-method": "off",
         "import/no-extraneous-dependencies": "off",
         "import/no-internal-modules": "off",
         "indent": "off",

@@ -1,8 +1,8 @@
+import { NEWS_LABELS } from "./../../../../shared/constants/NEWS_LABELS.const";
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit, TemplateRef } from "@angular/core";
-import { Observable } from "rxjs";
-import { Title } from "@angular/platform-browser";
 
+import { Title } from "@angular/platform-browser";
 @Component({
   selector: "app-news",
   styleUrls: ["./news.component.css"],
@@ -10,12 +10,13 @@ import { Title } from "@angular/platform-browser";
 })
 export class NewsComponent implements OnInit {
   public domifaNews: any;
-  public newsLabels: any;
+  public newsLabels = NEWS_LABELS;
   public newsCenter!: TemplateRef<any>;
   private newsJson: string;
 
   public constructor(private http: HttpClient, private titleService: Title) {
     this.newsJson = "assets/files/news.json";
+    this.domifaNews = null;
   }
 
   public ngOnInit(): void {
@@ -26,12 +27,8 @@ export class NewsComponent implements OnInit {
       new: "Nouveauté",
     };
 
-    this.getJSON().subscribe((domifaNews) => {
+    this.http.get(this.newsJson).subscribe((domifaNews) => {
       this.domifaNews = domifaNews;
     });
-  }
-
-  public getJSON(): Observable<any> {
-    return this.http.get(this.newsJson);
   }
 }

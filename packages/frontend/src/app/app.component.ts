@@ -10,7 +10,7 @@ import { Title } from "@angular/platform-browser";
 import { NavigationEnd, Router } from "@angular/router";
 import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
-import { Observable } from "rxjs";
+
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { environment } from "../environments/environment";
 import { UserStructure } from "../_common/model";
@@ -18,7 +18,7 @@ import {
   HealthCheckInfo,
   HealthCheckService,
 } from "./modules/shared/services/health-check";
-import { fadeInOut } from "./shared/animations";
+import { fadeInOut, NEWS_LABELS } from "./shared";
 
 @Component({
   animations: [fadeInOut],
@@ -27,17 +27,14 @@ import { fadeInOut } from "./shared/animations";
   templateUrl: "./app.component.html",
 })
 export class AppComponent implements OnInit {
-  public help: boolean;
-
-  public isAllowed: any;
-
   public domifaNews: any;
-  public newsLabels: any;
+  public newsLabels = NEWS_LABELS;
 
   public matomoInfo: boolean;
   public apiVersion: string;
 
   public modalOptions: NgbModalOptions;
+
   public me: UserStructure;
 
   @ViewChild("newsCenter", { static: true })
@@ -45,6 +42,9 @@ export class AppComponent implements OnInit {
 
   @ViewChild("maintenanceModal", { static: true })
   public maintenanceModal!: TemplateRef<any>;
+
+  @ViewChild("helpCenter", { static: true })
+  public helpCenter!: TemplateRef<any>;
 
   @ViewChild("versionModal", { static: true })
   public versionModal!: TemplateRef<any>;
@@ -60,13 +60,6 @@ export class AppComponent implements OnInit {
     private ngZone: NgZone,
     public matomo: MatomoTracker
   ) {
-    this.help = false;
-
-    this.newsLabels = {
-      bug: "Améliorations",
-      new: "Nouveauté",
-    };
-
     this.domifaNews = null;
     this.matomoInjector.init(environment.matomo.url, environment.matomo.siteId);
     this.apiVersion = null;
@@ -95,21 +88,11 @@ export class AppComponent implements OnInit {
       this.me = user;
     });
 
-    this.getJSON().subscribe((domifaNews) => {
-      this.domifaNews = domifaNews[0];
+    this.initMatomo();
 
-      const lastNews = localStorage.getItem("news");
+    this.displayNews();
 
-      if (
-        !lastNews ||
-        (lastNews && new Date(lastNews) < new Date(domifaNews[0].date))
-      ) {
-        this.modalService.open(this.newsCenter, {
-          backdrop: "static",
-          centered: true,
-        });
-      }
-    });
+    this.runHealthCheckAndAutoReload();
 
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
@@ -121,13 +104,6 @@ export class AppComponent implements OnInit {
         top: 0,
       });
     });
-
-    const matomo = localStorage.getItem("matomo");
-    this.matomoInfo = matomo === "done";
-
-    this.matomo.setUserId("0");
-
-    this.runHealthCheckAndAutoReload();
   }
 
   private runHealthCheckAndAutoReload() {
@@ -164,13 +140,35 @@ export class AppComponent implements OnInit {
     }
   }
 
-  public getJSON(): Observable<any> {
-    return this.http.get("assets/files/news.json");
+  public initMatomo(): void {
+    const matomo = localStorage.getItem("matomo");
+    this.matomoInfo = matomo === "done";
+    this.matomo.setUserId("0");
   }
 
-  public openModal(content: TemplateRef<any>) {
-    this.modalService.open(content);
-    this.matomo.trackEvent("APP", "click", "Pop_Up_Aide", 1);
+  public displayNews(): void {
+    this.http.get("assets/files/news.json").subscribe((domifaNews) => {
+      this.domifaNews = domifaNews[0];
+
+      const lastNews = localStorage.getItem("news");
+
+      if (
+        !lastNews ||
+        (lastNews && new Date(lastNews) < new Date(domifaNews[0].date))
+      ) {
+        this.modalService.open(this.newsCenter, {
+          backdrop: "static",
+          centered: true,
+        });
+      }
+    });
+  }
+
+  public openHelpModal(): void {
+    this.modalService.open(this.helpCenter, {
+      backdrop: "static",
+      centered: true,
+    });
   }
 
   public closeHelpModal(): void {

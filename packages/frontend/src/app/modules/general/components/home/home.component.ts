@@ -2,8 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { CountUpOptions } from "countup.js";
 import { MatomoTracker } from "ngx-matomo";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { UserStructure } from "../../../../../_common/model";
+import { HomeStats } from "./HomeStats.type";
+
 import { HomeService } from "./home.service";
 
 @Component({
@@ -12,15 +12,13 @@ import { HomeService } from "./home.service";
   templateUrl: "./home.component.html",
 })
 export class HomeComponent implements OnInit {
-  public stats: any;
-  public countOptions: CountUpOptions;
+  public stats: HomeStats;
 
-  public user: UserStructure | null;
+  public countOptions: CountUpOptions;
 
   constructor(
     private titleService: Title,
     private homeService: HomeService,
-    private authenticationService: AuthService,
     public matomo: MatomoTracker
   ) {
     this.countOptions = {
@@ -28,7 +26,11 @@ export class HomeComponent implements OnInit {
       separator: " ",
     };
 
-    this.user = this.authenticationService.currentUserValue;
+    this.stats = {
+      structures: 0,
+      usagers: 0,
+      interactions: 0,
+    };
   }
 
   public ngOnInit(): void {
@@ -36,8 +38,7 @@ export class HomeComponent implements OnInit {
       "Domifa, faciliter la vie des organismes domiciliataires"
     );
 
-    // TODO: typeit
-    this.homeService.getHomeStats().subscribe((stats: any) => {
+    this.homeService.getHomeStats().subscribe((stats: HomeStats) => {
       this.stats = stats;
     });
   }

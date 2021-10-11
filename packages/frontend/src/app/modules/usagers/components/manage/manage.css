@@ -66,7 +66,7 @@ button.dropdown-toggle {
 
 #searchbar {
   width: 98%;
-  max-width: 500px;
+  max-width: 480px;
   position: relative;
 }
 
@@ -74,7 +74,7 @@ button.dropdown-toggle {
   padding: 10px 10px 10px 40px;
   height: 46px;
   background: transparent;
-  border: none;
+  border: 1px solid white;
   color: white;
 }
 

@@ -4,7 +4,7 @@
   <router-outlet></router-outlet>
 </div>
 <div class="d-print-none" id="help-button-wrapper" *ngIf="me">
-  <button id="help-button" (click)="openModal(helpCenter)">
+  <button id="help-button" (click)="openHelpModal()">
     <fa-icon [icon]="['fas', 'question']"></fa-icon>
   </button>
 </div>
@@ -65,7 +65,8 @@
 <ng-template #newsCenter let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">
-      🎉 Les dernières nouveautés de Domifa 🎉
+      🎉 Les dernières nouveautés de Domifa :
+      {{ domifaNews.date | date: "dd/MM/yyyy" }} 🎉
     </h4>
     <button
       class="close"
@@ -77,15 +78,15 @@
   </div>
   <div class="modal-body text-center">
     <div class="text-left">
-      <p>
-        <b>
-          {{ domifaNews.date | date: "dd/MM/yyyy" }}
-        </b>
+      <div>
         <span *ngIf="domifaNews.description"
           >- {{ domifaNews.description }}</span
         >
-      </p>
-      <div *ngFor="let content of domifaNews.content" class="text-left news">
+      </div>
+      <div
+        *ngFor="let content of domifaNews.content"
+        class="text-left py-2 d-block"
+      >
         <div>
           <span
             class="badge badge-pill"

@@ -12,12 +12,13 @@ import {
   InteractionForApi,
   InteractionType,
 } from "../../../../../_common/model/interaction";
+import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../_common/model/interaction/constants";
 import { USAGER_DECISION_STATUT_LABELS } from "../../../../../_common/model/usager/constants";
 import {
   formatDateToNgb,
   minDateNaissance,
 } from "../../../../shared/bootstrap-util";
-import { INTERACTIONS_LABELS_SINGULIER } from "../../../../shared/constants/INTERACTIONS_LABELS.const";
+
 import { AuthService } from "../../../shared/services/auth.service";
 import { InteractionService } from "../../../usager-shared/services/interaction.service";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
@@ -91,7 +92,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
     this.today = new Date();
   }
 
-  public isRole(role: UserStructureRole) {
+  public isRole(role: UserStructureRole): boolean {
     return this.me.role === role;
   }
 
@@ -113,14 +114,14 @@ export class ProfilGeneralSectionComponent implements OnInit {
       (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
       },
-      (error) => {
+      () => {
         this.notifService.error("Le dossier recherché n'existe pas");
         this.router.navigate(["404"]);
       }
     );
   }
 
-  public onUsagerChanges(usager: UsagerLight) {
+  public onUsagerChanges(usager: UsagerLight): void {
     this.usager = new UsagerFormModel(usager);
   }
 
@@ -142,7 +143,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
     });
   }
 
-  public stopCourrier() {
+  public stopCourrier(): void {
     this.usagerProfilService.stopCourrier(this.usager.ref).subscribe({
       next: (newUsager: UsagerLight) => {
         this.notifService.success("Le courrier ne sera plus enregistré ");
@@ -155,23 +156,23 @@ export class ProfilGeneralSectionComponent implements OnInit {
     });
   }
 
-  public updateInteractions() {
+  public updateInteractions(): void {
     this.profileComponent.getInteractions();
   }
 
-  public closeModals() {
+  public closeModals(): void {
     this.modalService.dismissAll();
   }
 
-  public openAddNoteInModal() {
+  public openAddNoteInModal(): void {
     this.modalService.open(this.addNoteInModal);
   }
 
-  public openInteractionInModal() {
+  public openInteractionInModal(): void {
     this.modalService.open(this.setInteractionInModal);
   }
 
-  public openInteractionOutModal() {
+  public openInteractionOutModal(): void {
     this.modalService.open(this.setInteractionOutModal);
   }
 }
