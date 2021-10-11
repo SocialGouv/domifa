@@ -1,3 +1,10 @@
+## [2.22.1](https://github.com/SocialGouv/domifa/compare/v2.22.0...v2.22.1) (2021-10-11)
+
+
+### Bug Fixes
+
+* **home:** correction de l'affichage ([#1751](https://github.com/SocialGouv/domifa/issues/1751)) ([a5c50d9](https://github.com/SocialGouv/domifa/commit/a5c50d9b04460f5f1b606ff3ca263145834bd6d4))
+
 # [2.22.0](https://github.com/SocialGouv/domifa/compare/v2.21.5...v2.22.0) (2021-10-05)
 
 
