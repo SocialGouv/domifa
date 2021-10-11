@@ -1,80 +1,78 @@
-<div class="step_form my-3">
-  <div class="text-center">
+<div class="container my-3">
+  <div class="text-center py-2">
     <h5 class="title">Connexion à Domifa</h5>
   </div>
-  <form
-    [formGroup]="loginForm"
-    class="col-md-8 offset-md-2"
-    (ngSubmit)="login()"
-  >
-    <div class="form-group required">
-      <label for="login">Votre identifiant</label>
-      <input
-        type="text"
-        formControlName="login"
-        autocomplete="username"
-        placeholder="Votre identifiant"
-        class="form-control"
-        [ngClass]="{
-          'is-invalid': f.login.dirty && f.login.errors
-        }"
-      />
-      <div *ngIf="f.login.dirty && f.login.errors" class="invalid-feedback">
-        Veuillez vérifier l'identifiant
-      </div>
-    </div>
-
-    <div class="form-group required">
-      <label for="password">Mot de passe</label>
-      <div class="input-group">
+  <div class="row justify-content-center align-items-center">
+    <form
+      [formGroup]="loginForm"
+      class="col-md-6 col-lg-4 col-12"
+      (ngSubmit)="login()"
+    >
+      <div class="form-group required">
+        <label for="login">Votre identifiant</label>
         <input
-          type="password"
-          formControlName="password"
-          [type]="!hidePassword ? 'text' : 'password'"
+          type="text"
+          formControlName="login"
+          autocomplete="username"
+          placeholder="Votre identifiant"
           class="form-control"
-          placeholder="Mot de passe"
-          autocomplete="current-password"
-          [ngClass]="{ 'is-invalid': f.password.dirty && f.password.errors }"
+          [ngClass]="{
+            'is-invalid': f.login.dirty && f.login.errors
+          }"
         />
-        <div class="input-group-append">
-          <span class="input-group-text" (click)="toggleShowPassword()">
-            <fa-icon
-              [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
-            ></fa-icon>
-          </span>
+        <div *ngIf="f.login.dirty && f.login.errors" class="invalid-feedback">
+          Veuillez vérifier l'identifiant
         </div>
       </div>
-      <div
-        *ngIf="f.password.dirty && f.password.errors"
-        class="invalid-feedback"
-      >
-        <div *ngIf="f.password.errors.required">
-          Le mot de passe est obligatoire
+
+      <div class="form-group required">
+        <label for="password">Mot de passe</label>
+        <div class="input-group">
+          <input
+            type="password"
+            formControlName="password"
+            [type]="!hidePassword ? 'text' : 'password'"
+            class="form-control"
+            placeholder="Mot de passe"
+            autocomplete="current-password"
+            [ngClass]="{ 'is-invalid': f.password.dirty && f.password.errors }"
+          />
+          <div class="input-group-append">
+            <span class="input-group-text" (click)="toggleShowPassword()">
+              <fa-icon
+                [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
+              ></fa-icon>
+            </span>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="form-group text-center">
-      <button
-        [disabled]="loading || loginForm.invalid"
-        aria-label="Connexion"
-        class="btn btn-primary"
-      >
-        <span *ngIf="!loading"> Connexion </span>
-        <span *ngIf="loading"
-          ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
-          Connexion en cours...</span
+        <div
+          *ngIf="f.password.dirty && f.password.errors"
+          class="invalid-feedback"
         >
-      </button>
-    </div>
+          <div *ngIf="f.password.errors.required">
+            Le mot de passe est obligatoire
+          </div>
+        </div>
+      </div>
+      <div class="form-group text-center">
+        <button
+          [disabled]="loading || loginForm.invalid"
+          aria-label="Connexion"
+          class="btn btn-primary"
+        >
+          <span *ngIf="!loading"> Connexion </span>
+          <span *ngIf="loading"
+            ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+            Connexion en cours...</span
+          >
+        </button>
+      </div>
 
-    <div class="text-center">
-      <a routerLink="/reset-password" class="btn btn-link">
-        Mot de passe oublié
-      </a>
-    </div>
-  </form>
+      <div class="text-center">
+        <a routerLink="/reset-password" class="btn btn-link">
+          Mot de passe oublié
+        </a>
+      </div>
+    </form>
+  </div>
 </div>
-
-<div>WBTSWKGU</div>
-
-<div>82005381</div>

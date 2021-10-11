@@ -15,15 +15,17 @@
 </div>
 
 <footer class="content my-5">
-  <img src="../assets/images/logo.svg" alt="" />
-  <div>
-    Domifa est la solution gratuite et complète de gestion des domiciliations et
-    de suivi de votre courrier
-  </div>
+  <div class="text-sm-left text-md-center text-lg-center">
+    <img src="../assets/images/logo.svg" alt="" class="my-2" />
+    <div>
+      Domifa est la solution gratuite et complète de gestion des domiciliations
+      et de suivi de votre courrier
+    </div>
 
-  <div *ngIf="usagerProfile" class="pt-2 pb-5">
-    <button (click)="logout()" class="btn btn-outline-primary">
-      <fa-icon [icon]="['far', 'comment']"></fa-icon> Me déconnecter
-    </button>
+    <div *ngIf="usagerProfile" class="pt-2 pb-5">
+      <button (click)="logout()" class="btn btn-outline-primary">
+        <fa-icon [icon]="['far', 'comment']"></fa-icon> Me déconnecter
+      </button>
+    </div>
   </div>
 </footer>

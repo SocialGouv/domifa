@@ -8,13 +8,14 @@ import {
   RouterStateSnapshot,
 } from "@angular/router";
 import { ToastrModule } from "ngx-toastr";
-import { AuthService } from "../modules/shared/services/auth.service";
+import { UsagerAuthService } from "../modules/usager-auth/services/usager-auth.service";
+
 import { AuthGuard } from "./auth-guard";
 
 describe("AuthGuard", () => {
   let authGuard: AuthGuard;
   let router: Router;
-  let authService: AuthService;
+  let authService: UsagerAuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,12 +38,12 @@ describe("AuthGuard", () => {
             params: { url: "/connexion" },
           },
         },
-        AuthService,
+        UsagerAuthService,
         { provide: APP_BASE_HREF, useValue: "/" },
       ],
     });
 
-    authService = TestBed.inject(AuthService);
+    authService = TestBed.inject(UsagerAuthService);
     authGuard = TestBed.inject(AuthGuard);
     router = TestBed.inject(Router);
   });

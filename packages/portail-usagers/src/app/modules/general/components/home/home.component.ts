@@ -3,8 +3,6 @@ import { Title } from "@angular/platform-browser";
 
 import { MatomoTracker } from "ngx-matomo";
 
-import { HomeService } from "./home.service";
-
 @Component({
   selector: "app-home",
   styleUrls: ["./home.component.css"],
@@ -13,13 +11,13 @@ import { HomeService } from "./home.service";
 export class HomeComponent implements OnInit {
   constructor(
     private titleService: Title,
-    private homeService: HomeService,
-    public matomo: MatomoTracker
+
+    public matomo: MatomoTracker,
   ) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle(
-      "Domifa, faciliter la vie des organismes domiciliataires"
+      "Domifa, faciliter la vie des organismes domiciliataires",
     );
   }
 }

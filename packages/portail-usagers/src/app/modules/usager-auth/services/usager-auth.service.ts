@@ -12,7 +12,8 @@ import {
 } from "../../../../_common";
 import { DEFAULT_USAGER_PROFILE } from "../../../../_common/mocks/DEFAULT_USAGER.const";
 
-const END_POINT_AUTH = environment.apiUrl + "usagers/auth";
+const END_POINT_AUTH = environment.apiUrl + "auth";
+const END_POINT_PROFILE = environment.apiUrl + "profile";
 
 const TOKEN_KEY = "usager-auth-token";
 const USER_KEY = "usager-auth-datas";
@@ -32,37 +33,33 @@ export class UsagerAuthService {
       new BehaviorSubject<PortailUsagerProfile | null>(DEFAULT_USAGER_PROFILE);
   }
 
-  public login(loginForm: PortailUsagerAuthLoginForm): Observable<boolean> {
-    return this.http
-      .post<PortailUsagerAuthApiResponse>(`${END_POINT_AUTH}/login`, loginForm)
-      .pipe(
-        map((apiAuthResponse: PortailUsagerAuthApiResponse) => {
-          // SAVE USER
-          this.saveAuthUsager(apiAuthResponse);
-          return true;
-        }),
-        catchError(() => {
-          // DELETE USER
-          return of(false);
-        }),
-      );
+  public login(
+    loginForm: PortailUsagerAuthLoginForm,
+  ): Observable<PortailUsagerAuthApiResponse> {
+    return this.http.post<PortailUsagerAuthApiResponse>(
+      `${END_POINT_AUTH}/login`,
+      loginForm,
+    );
   }
 
   public isAuth(): Observable<boolean> {
-    if (this.getToken()) {
+    if (!this.getToken()) {
       return of(false);
     }
 
     return this.http
-      .get<PortailUsagerAuthApiResponse>(`${END_POINT_AUTH}/me`)
+      .get<PortailUsagerAuthApiResponse>(`${END_POINT_PROFILE}/me`)
       .pipe(
         map((apiAuthResponse: PortailUsagerAuthApiResponse) => {
           // SAVE USER
+          console.info("isAuth Response");
+          console.log(apiAuthResponse);
           this.saveAuthUsager(apiAuthResponse);
           return true;
         }),
         catchError(() => {
           // DELETE USER
+          this.logout();
           return of(false);
         }),
       );
@@ -81,7 +78,7 @@ export class UsagerAuthService {
       scope.setUser({});
     });
 
-    this.router.navigate(["/connexion"]).then(() => {
+    this.router.navigate(["/auth/login"]).then(() => {
       window.location.reload();
     });
   }
@@ -90,14 +87,14 @@ export class UsagerAuthService {
     this.logout();
     if (state) {
       this.router
-        .navigate(["/connexion"], {
+        .navigate(["/auth/login"], {
           queryParams: { returnUrl: state.url },
         })
         .then(() => {
           window.location.reload();
         });
     } else {
-      this.router.navigate(["/connexion"]).then(() => {
+      this.router.navigate(["/auth/login"]).then(() => {
         window.location.reload();
       });
     }

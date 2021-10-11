@@ -1,16 +1,17 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { SectionCourriersComponent } from './section-courriers.component';
+import { SectionCourriersComponent } from "./section-courriers.component";
 
-describe('SectionCourriersComponent', () => {
+describe("SectionCourriersComponent", () => {
   let component: SectionCourriersComponent;
   let fixture: ComponentFixture<SectionCourriersComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SectionCourriersComponent ]
-    })
-    .compileComponents();
+      declarations: [SectionCourriersComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +20,7 @@ describe('SectionCourriersComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

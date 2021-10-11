@@ -17,16 +17,8 @@ async function build({
     uuid: usagerUUID,
   });
 
-  const portailUsagerPublic: PortailUsagerPublic = {
-    uuid: usager.uuid,
-    structureId: usager.structureId,
-    prenom: usager.prenom,
-    nom: usager.nom,
-    // TODO à compléter, puis virer le "as any"
-  } as any;
-
   const portailUsagerProfile: PortailUsagerProfile = {
-    usager: portailUsagerPublic,
+    usager,
   };
   return portailUsagerProfile;
 }

@@ -100,9 +100,9 @@ export class AuthService {
     );
   }
 
-  public logout() {
-    usagersCache.clearCache();
+  public logout(): void {
     this.currentUserSubject.next(null);
+    usagersCache.clearCache();
     localStorage.removeItem("currentUser");
     localStorage.removeItem("filters");
     // Ajout d'infos pour Sentry
@@ -116,7 +116,7 @@ export class AuthService {
     });
   }
 
-  public logoutAndRedirect(state?: RouterStateSnapshot) {
+  public logoutAndRedirect(state?: RouterStateSnapshot): void {
     this.logout();
     if (state) {
       this.router.navigate(["/connexion"], {
@@ -127,7 +127,7 @@ export class AuthService {
     }
   }
 
-  public notAuthorized() {
+  public notAuthorized(): void {
     this.toastr.error(
       "Vous n'êtes pas autorisé à accéder à cette page",
       "Action interdite"

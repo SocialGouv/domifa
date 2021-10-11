@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { PortailUsagerProfile, PortailUsagerPublic } from "../../../../_common";
+import { PortailUsagerPublic } from "../../../../_common";
 import { DEFAULT_USAGER_PROFILE } from "../../../../_common/mocks/DEFAULT_USAGER.const";
 
 @Component({
@@ -8,14 +8,14 @@ import { DEFAULT_USAGER_PROFILE } from "../../../../_common/mocks/DEFAULT_USAGER
   styleUrls: ["./section-courriers.component.css"],
 })
 export class SectionCourriersComponent implements OnInit {
-  @Input() public usagerProfile: PortailUsagerProfile | null;
-
-  public usager: PortailUsagerPublic;
+  @Input() public usager: PortailUsagerPublic;
 
   constructor() {
-    this.usagerProfile = DEFAULT_USAGER_PROFILE;
-    this.usager = this.usagerProfile.usager;
+    this.usager = DEFAULT_USAGER_PROFILE.usager;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log("SectionCourriersComponent this.usager");
+    console.log(this.usager);
+  }
 }

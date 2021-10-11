@@ -7,7 +7,11 @@ import {
   faFileWord,
 } from "@fortawesome/free-regular-svg-icons";
 
-import { faCircleNotch, faDownload } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleNotch,
+  faDownload,
+  faSignInAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 export const FA_ICONS: IconDefinition[] = [
   faDownload,
@@ -17,4 +21,5 @@ export const FA_ICONS: IconDefinition[] = [
   faFileWord,
   faCircleNotch,
   faComment,
+  faSignInAlt,
 ];

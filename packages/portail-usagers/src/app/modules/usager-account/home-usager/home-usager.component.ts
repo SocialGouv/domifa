@@ -16,8 +16,10 @@ export class HomeUsagerComponent implements OnInit {
 
   public ngOnInit(): void {
     this.usagerAuthService.currentUsagerSubject.subscribe(
-      (usager: PortailUsagerProfile | null) => {
-        this.usagerProfile = usager;
+      (apiResponse: PortailUsagerProfile | null) => {
+        console.log("API RES");
+        console.log(this.usagerProfile);
+        this.usagerProfile = apiResponse;
       },
     );
   }
