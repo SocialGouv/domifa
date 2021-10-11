@@ -1,3 +1,10 @@
+## [2.22.2](https://github.com/SocialGouv/domifa/compare/v2.22.1...v2.22.2) (2021-10-11)
+
+
+### Bug Fixes
+
+* Update prod db secrets ([ee52486](https://github.com/SocialGouv/domifa/commit/ee52486f1655d2f6e010435d1c3e9ded4904d3ae))
+
 ## [2.22.1](https://github.com/SocialGouv/domifa/compare/v2.22.0...v2.22.1) (2021-10-11)
 
 
