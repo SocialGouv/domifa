@@ -1,3 +1,10 @@
+## [2.24.11](https://github.com/SocialGouv/domifa/compare/v2.24.10...v2.24.11) (2021-10-12)
+
+
+### Bug Fixes
+
+* **k8s:** un slash vous manque, est tout est dépeuplé ([ede576f](https://github.com/SocialGouv/domifa/commit/ede576f15e3d69045f2f38e626a12fb8d789c1af))
+
 ## [2.24.10](https://github.com/SocialGouv/domifa/compare/v2.24.9...v2.24.10) (2021-10-12)
 
 
