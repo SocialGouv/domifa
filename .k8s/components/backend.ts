@@ -99,12 +99,12 @@ export const getManifests = async () => {
         // ],
         resources: {
           requests: {
-            cpu: "50m",
-            memory: "128Mi",
+            cpu: "100m",
+            memory: "256Mi",
           },
           limits: {
-            cpu: "200m",
-            memory: "256Mi",
+            cpu: "400m",
+            memory: "512Mi",
           },
         },
         ...podProbes,
