@@ -1,3 +1,11 @@
+## [2.24.6](https://github.com/SocialGouv/domifa/compare/v2.24.5...v2.24.6) (2021-10-12)
+
+
+### Bug Fixes
+
+* **k9s:** Ajout des données pour les meta follow ([158908d](https://github.com/SocialGouv/domifa/commit/158908d6b24bf073489f8f62212f23c13f113bd2))
+* **mails:** Envoi des emails aux bons destinataires ([9f9e3f5](https://github.com/SocialGouv/domifa/commit/9f9e3f52c850dcbeb3ae7474991f86bf16496bf4))
+
 ## [2.24.5](https://github.com/SocialGouv/domifa/compare/v2.24.4...v2.24.5) (2021-10-12)
 
 
