@@ -47,22 +47,19 @@ export class UsagerAuthService {
       return of(false);
     }
 
-    return this.http
-      .get<PortailUsagerAuthApiResponse>(`${END_POINT_PROFILE}/me`)
-      .pipe(
-        map((apiAuthResponse: PortailUsagerAuthApiResponse) => {
-          // SAVE USER
-          console.info("isAuth Response");
-          console.log(apiAuthResponse);
-          this.saveAuthUsager(apiAuthResponse);
-          return true;
-        }),
-        catchError(() => {
-          // DELETE USER
-          this.logout();
-          return of(false);
-        }),
-      );
+    return this.http.get<PortailUsagerProfile>(`${END_POINT_PROFILE}/me`).pipe(
+      map((portailUsagerProfile: PortailUsagerProfile) => {
+        // SAVE USER
+        console.info("isAuth Response");
+        this.saveAuthUsager(portailUsagerProfile);
+        return true;
+      }),
+      catchError(() => {
+        // DELETE USER
+        this.logout();
+        return of(false);
+      }),
+    );
   }
 
   public get currentUserValue(): PortailUsagerProfile | null {
@@ -112,12 +109,16 @@ export class UsagerAuthService {
     return window.sessionStorage.getItem(TOKEN_KEY);
   }
 
-  public saveAuthUsager(apiAuthResponse: PortailUsagerAuthApiResponse): void {
-    // Build usager
-    const authUsagerProfile = apiAuthResponse.profile;
+  public saveToken(apiAuthResponse: PortailUsagerAuthApiResponse): void {
     // Enregistrement du token
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.setItem(TOKEN_KEY, apiAuthResponse.token);
+    console.log(apiAuthResponse.profile);
+    // Build usager
+    this.saveAuthUsager(apiAuthResponse.profile);
+  }
+
+  public saveAuthUsager(authUsagerProfile: PortailUsagerProfile): void {
     // Enregistrement de l'utilisateur
     window.sessionStorage.removeItem(USER_KEY);
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(authUsagerProfile));

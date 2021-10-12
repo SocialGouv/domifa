@@ -78,8 +78,8 @@ export class UsagerLoginComponent implements OnInit {
 
         console.log("login");
         console.log(apiAuthResponse);
-        // SAVE USER
-        this.authService.saveAuthUsager(apiAuthResponse);
+        // SAVE USER & Tokenn
+        this.authService.saveToken(apiAuthResponse);
 
         this.loading = false;
         this.router.navigate(["/account"]);

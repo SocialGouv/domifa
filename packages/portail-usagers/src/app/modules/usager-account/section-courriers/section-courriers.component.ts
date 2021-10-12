@@ -8,7 +8,7 @@ import { DEFAULT_USAGER_PROFILE } from "../../../../_common/mocks/DEFAULT_USAGER
   styleUrls: ["./section-courriers.component.css"],
 })
 export class SectionCourriersComponent implements OnInit {
-  @Input() public usager: PortailUsagerPublic;
+  @Input() public usager!: PortailUsagerPublic;
 
   constructor() {
     this.usager = DEFAULT_USAGER_PROFILE.usager;
