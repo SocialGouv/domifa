@@ -226,6 +226,7 @@ data:
   DOMIFA_EMAILS_ENABLE: 'true'
   DOMIFA_SMS_ENABLED: 'false'
   POSTGRES_LOGGING: schema,migration
+  DOMIFA_FRONTEND_META_ROBOTS: noindex,nofollow
 ---
 apiVersion: v1
 kind: Service
@@ -444,8 +445,6 @@ spec:
     - hosts:
         - domifa-mybranch.dev2.fabrique.social.gouv.fr
       secretName: wildcard-crt
----
-{}
 ---
 apiVersion: batch/v1
 kind: Job
