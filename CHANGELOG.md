@@ -1,3 +1,10 @@
+# [2.24.0](https://github.com/SocialGouv/domifa/compare/v2.23.1...v2.24.0) (2021-10-12)
+
+
+### Features
+
+* **k8s:** enable sms & mail to PROD ([c1a10a1](https://github.com/SocialGouv/domifa/commit/c1a10a1f1d9938d5d93532ccf0b74cf83d7425d7))
+
 ## [2.23.1](https://github.com/SocialGouv/domifa/compare/v2.23.0...v2.23.1) (2021-10-12)
 
 
