@@ -1,3 +1,10 @@
+## [2.24.3](https://github.com/SocialGouv/domifa/compare/v2.24.2...v2.24.3) (2021-10-12)
+
+
+### Bug Fixes
+
+* Set production ingress ([#1768](https://github.com/SocialGouv/domifa/issues/1768)) ([c151ab1](https://github.com/SocialGouv/domifa/commit/c151ab1e2da7d78017511718b9ca27fca1570074))
+
 ## [2.24.2](https://github.com/SocialGouv/domifa/compare/v2.24.1...v2.24.2) (2021-10-12)
 
 
