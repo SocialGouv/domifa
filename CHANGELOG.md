@@ -1,3 +1,10 @@
+## [2.24.1](https://github.com/SocialGouv/domifa/compare/v2.24.0...v2.24.1) (2021-10-12)
+
+
+### Bug Fixes
+
+* Change prod volume sealed secrets ([#1765](https://github.com/SocialGouv/domifa/issues/1765)) ([37a23b7](https://github.com/SocialGouv/domifa/commit/37a23b7d8ee5e9df7a76cf82b9201d58b5f96f04))
+
 # [2.24.0](https://github.com/SocialGouv/domifa/compare/v2.23.1...v2.24.0) (2021-10-12)
 
 
