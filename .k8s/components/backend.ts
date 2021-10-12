@@ -61,9 +61,12 @@ export const getManifests = async () => {
     {}
   );
 
-  const [persistentVolumeClaim, persistentVolume] = azureProjectVolume("files", {
-    storage: "5Gi",
-  });
+  const [persistentVolumeClaim, persistentVolume] = azureProjectVolume(
+    "files",
+    {
+      storage: "5Gi",
+    }
+  );
 
   const uploadsVolume = new Volume({
     name: "files",
@@ -107,9 +110,7 @@ export const getManifests = async () => {
   });
 
   return manifests.concat(
-    isDev
-      ? []
-      : [persistentVolumeClaim, persistentVolume]
+    isDev ? [] : [persistentVolumeClaim, persistentVolume]
   );
 };
 
@@ -131,7 +132,7 @@ export default async () => {
       POSTGRES_PASSWORD: "$(PGPASSWORD)",
       POSTGRES_DATABASE: "$(PGDATABASE)",
       DOMIFA_BACKEND_URL: `https://${getIngressHost(manifests)}`,
-      DOMIFA_FRONTEND_URL: `https://${getIngressHost(frontendManifests)}`,
+      DOMIFA_FRONTEND_URL: `https://${getIngressHost(frontendManifests)}/`,
     },
   });
 

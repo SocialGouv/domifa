@@ -3,7 +3,7 @@ apiVersion: v1
 metadata:
   name: backend-configmap
 data:
-  DOMIFA_ENV_ID: k8s-prod
+  DOMIFA_ENV_ID: prod
   DOMIFA_ENV_PRESET: dist-prod.preset.env
   PGSSLMODE: "require"
   NODE_ENV: production
