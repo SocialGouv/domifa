@@ -1,3 +1,10 @@
+## [2.24.7](https://github.com/SocialGouv/domifa/compare/v2.24.6...v2.24.7) (2021-10-12)
+
+
+### Bug Fixes
+
+* **k8s:** changement de l'email admin ([8d097ef](https://github.com/SocialGouv/domifa/commit/8d097ef47821b33f499d8cb5172797c77332ce23))
+
 ## [2.24.6](https://github.com/SocialGouv/domifa/compare/v2.24.5...v2.24.6) (2021-10-12)
 
 
