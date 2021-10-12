@@ -15,3 +15,4 @@ data:
   # 50 connexions en tout à partager entre la preprod + les environnements de dev :
   # https://docs.microsoft.com/fr-fr/azure/postgresql/concepts-limits
   POSTGRES_POOL_MAX_CONNEXIONS: "2"
+  DOMIFA_FRONTEND_META_ROBOTS: noindex,nofollow

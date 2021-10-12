@@ -12,4 +12,4 @@ data:
   DOMIFA_SMS_ENABLED: "true"
   # 50 connexions max : https://docs.microsoft.com/fr-fr/azure/postgresql/concepts-limits
   POSTGRES_POOL_MAX_CONNEXIONS: "20"
-  
+  DOMIFA_FRONTEND_META_ROBOTS: index,follow
