@@ -84,7 +84,7 @@ export const getManifests = async () => {
       ingress: true,
       withPostgres: true,
       containerPort: 3000,
-      subDomainPrefix: ciEnv.isProduction ? `fake-` : `${subdomain}-`,
+      subDomainPrefix: ciEnv.isProduction ? "" : `${subdomain}-`,
     },
     deployment: {
       image: `ghcr.io/socialgouv/domifa/backend:sha-${tag}`,

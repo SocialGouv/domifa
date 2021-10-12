@@ -445,6 +445,8 @@ spec:
         - domifa-mybranch.dev2.fabrique.social.gouv.fr
       secretName: wildcard-crt
 ---
+{}
+---
 apiVersion: batch/v1
 kind: Job
 spec:
