@@ -8,9 +8,10 @@ data:
   PGSSLMODE: "require"
   NODE_ENV: production
   DOMIFA_PRINT_CONFIG: "false"
-  DOMIFA_EMAILS_ENABLE: "false" # TODO: enabled once k8s is released in production
-  DOMIFA_SMS_ENABLED: "false" # TODO: enabled once k8s is released in production
+  DOMIFA_EMAILS_ENABLE: "true"
+  DOMIFA_SMS_ENABLED: "true"
   # 50 connexions max : https://docs.microsoft.com/fr-fr/azure/postgresql/concepts-limits
   POSTGRES_POOL_MAX_CONNEXIONS: "20"
-  # allow robots to index (TODO: enabled once k8s is released in production)
-  # DOMIFA_FRONTEND_META_ROBOTS: noindex,nofollow
+  DOMIFA_EMAIL_ADDRESS_REDIRECT_ALL_TO: "1ufgae6ji@relay.firefox.com"
+  DOMIFA_CRON_SMS_CONSUMER_CRONTIME: "0 */10 * * * *"
+  DOMIFA_PHONE_NUMBER_REDIRECT_ALL_TO: "+33757130733"
