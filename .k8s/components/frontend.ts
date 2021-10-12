@@ -7,14 +7,11 @@ import { ok } from "assert";
 import { Deployment } from "kubernetes-models/apps/v1/Deployment";
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { getManifests as getBackendManifests } from "./backend";
-import environments from "@socialgouv/kosko-charts/environments";
 
 export const getManifests = async () => {
   const probesPath = "/";
   const name = "frontend";
   const subdomain = "domifa";
-
-  const ciEnv = environments(process.env);
 
   const tag = process.env.CI_COMMIT_TAG
     ? process.env.CI_COMMIT_TAG.slice(1)

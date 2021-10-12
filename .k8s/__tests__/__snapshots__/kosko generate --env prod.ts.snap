@@ -69,11 +69,11 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              cpu: 200m
-              memory: 256Mi
+              cpu: 800m
+              memory: 1024Mi
             requests:
-              cpu: 50m
-              memory: 128Mi
+              cpu: 200m
+              memory: 512Mi
           startupProbe:
             failureThreshold: 12
             httpGet:
@@ -219,6 +219,7 @@ data:
   DOMIFA_EMAILS_ENABLE: 'true'
   DOMIFA_SMS_ENABLED: 'true'
   POSTGRES_POOL_MAX_CONNEXIONS: '20'
+  DOMIFA_FRONTEND_META_ROBOTS: index,follow
 ---
 apiVersion: v1
 kind: Service
@@ -491,8 +492,6 @@ spec:
     - hosts:
         - domifa.fabrique.social.gouv.fr
       secretName: frontend-crt
----
-{}
 ---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret

@@ -91,12 +91,6 @@ export const getManifests = async () => {
       volumes: [isDev ? emptyDir : uploadsVolume],
       container: {
         volumeMounts: [uploadsVolumeMount],
-        // volumeMounts: [
-        //   {
-        //     mountPath: "/mnt/files",
-        //     name: "domifa-volume",
-        //   },
-        // ],
         resources: {
           requests: {
             cpu: "200m",
@@ -120,13 +114,6 @@ export const getManifests = async () => {
 };
 
 export default async () => {
-  const { env } = process;
-  // const ciEnv = environments(env);
-  // const { CI_ENVIRONMENT_NAME, PRODUCTION } = env;
-  // const isProductionCluster = Boolean(PRODUCTION);
-  // const isPreProduction = CI_ENVIRONMENT_NAME === "preprod-dev";
-  // const isDev = !isProductionCluster && !isPreProduction;
-
   const manifests = await getManifests();
 
   /* pass dynamic deployment URL as env var to the container */
@@ -147,31 +134,6 @@ export default async () => {
       DOMIFA_FRONTEND_URL: `https://${getIngressHost(frontendManifests)}`,
     },
   });
-
-  // const volumes = [
-  //   ciEnv.isPreProduction || ciEnv.isProduction
-  //     ? {
-  //         name: "domifa-volume",
-  //         azureFile: {
-  //           readOnly: false,
-  //           shareName: "files",
-  //           secretName: "azure-storage",
-  //           secretNamespace: "domifa-preprod",
-  //         },
-  //       } 
-  //     : {
-  //       name: "domifa-volume",
-  //       emptyDir: {},
-  //     }
-  // ];
-
-  // assert.object(deployment.spec);
-  // assert.object(deployment.spec.template.spec);
-
-  // deployment.spec.template.spec.volumes = [
-  //   ...(deployment.spec.template.spec.volumes || []),
-  //   ...volumes,
-  // ];
 
   return manifests;
 };
