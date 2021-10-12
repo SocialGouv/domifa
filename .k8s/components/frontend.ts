@@ -40,7 +40,7 @@ export const getManifests = async () => {
   const manifests = await create(name, {
     env,
     config: {
-      subdomain: ciEnv.isProduction ? `fake-${subdomain}` : subdomain,
+      subdomain,
     },
     deployment: {
       image: `ghcr.io/socialgouv/domifa/frontend:sha-${tag}`,

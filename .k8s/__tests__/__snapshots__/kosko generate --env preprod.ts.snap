@@ -504,6 +504,8 @@ spec:
         - domifa-preprod.dev2.fabrique.social.gouv.fr
       secretName: wildcard-crt
 ---
+{}
+---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
