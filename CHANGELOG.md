@@ -1,3 +1,10 @@
+## [2.23.1](https://github.com/SocialGouv/domifa/compare/v2.23.0...v2.23.1) (2021-10-12)
+
+
+### Bug Fixes
+
+* upd sms api key ([#1764](https://github.com/SocialGouv/domifa/issues/1764)) ([f4506e2](https://github.com/SocialGouv/domifa/commit/f4506e25211ef8fb18c828f3840d956d99b0ba86))
+
 # [2.23.0](https://github.com/SocialGouv/domifa/compare/v2.22.2...v2.23.0) (2021-10-12)
 
 
