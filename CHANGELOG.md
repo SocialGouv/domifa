@@ -1,3 +1,10 @@
+## [2.24.8](https://github.com/SocialGouv/domifa/compare/v2.24.7...v2.24.8) (2021-10-12)
+
+
+### Bug Fixes
+
+* Split preprod and prod workflows ([d1da0ac](https://github.com/SocialGouv/domifa/commit/d1da0acc6c8fcdff4c456aac1b09c4c42a63a6eb))
+
 ## [2.24.7](https://github.com/SocialGouv/domifa/compare/v2.24.6...v2.24.7) (2021-10-12)
 
 
