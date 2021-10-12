@@ -2,8 +2,8 @@ name: Review
 
 on:
   push:
-    branches:
-      - "**"
+    branches-ignore:
+      - master
     tags-ignore:
       - v*
 
@@ -49,6 +49,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           imageName: ${{ env.project }}/frontend
           dockerfile: packages/frontend/Dockerfile
+          dockerbuildargs: |
+            DOMIFA_FRONTEND_META_ROBOTS=noindex,nofollow
 
   ##############################################################################
   ## BUILD AND REGISTER PORTAIL USAGERS IMAGE

@@ -50,6 +50,8 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         imageName: ${{ env.project }}/frontend
         dockerfile: packages/frontend/Dockerfile
+        dockerbuildargs: |
+          DOMIFA_FRONTEND_META_ROBOTS=index,follow
 
   ##############################################################################
   ## BUILD AND REGISTER PORTAIL USAGERS IMAGE
@@ -71,53 +73,16 @@ jobs:
           dockerfile: packages/portail-usagers/Dockerfile
 
   ##############################################################################
-  ## GENERATE PREPROD KUBERNETES MANIFESTS
-  ##############################################################################
-  manifests:
-    name: Preproduction manifests
-    runs-on: ubuntu-latest
-    steps:
-
-    - name: Use autodevops manifests generation
-      uses: SocialGouv/actions/k8s-manifests@v1
-      with:
-        environment: "preprod"
-        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
-        socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
-
-  ##############################################################################
-  ## DEPLOY BACKEND & FRONT-END TO PREPRODUCTION
-  ##############################################################################
-  deploy-preprod:
-    name: Deploy preproduction
-    runs-on: ubuntu-latest
-    needs: [
-      register-backend,
-      register-frontend,
-      register-portail-usagers,
-      manifests
-    ]
-    environment:
-      name: preproduction
-      url: ${{ steps.deploy.outputs.url }}
-    steps:
-  
-    - name: Use autodevops deployment
-      uses: SocialGouv/actions/autodevops-deploy@v1
-      id: deploy
-      with:
-        environment: "preprod"
-        token: ${{ secrets.GITHUB_TOKEN }}
-        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
-        kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }}
-
-  ##############################################################################
   ## DEPLOY BACKEND & FRONT-END TO PRODUCTION
   ##############################################################################
   deploy-prod:
     name: Deploy production
     runs-on: ubuntu-latest
-    needs: [deploy-preprod]
+    needs: [
+      register-backend,
+      register-frontend,
+      register-portail-usagers
+    ]
     environment:
       name: production
       url: ${{ steps.deploy.outputs.url }}
