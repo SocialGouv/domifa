@@ -1,3 +1,10 @@
+# [2.23.0](https://github.com/SocialGouv/domifa/compare/v2.22.2...v2.23.0) (2021-10-12)
+
+
+### Features
+
+* **k8s:** enable sms & mail ([#1760](https://github.com/SocialGouv/domifa/issues/1760)) ([2ff6069](https://github.com/SocialGouv/domifa/commit/2ff60690d223097d99a0bf7675db019c1c982a59))
+
 ## [2.22.2](https://github.com/SocialGouv/domifa/compare/v2.22.1...v2.22.2) (2021-10-11)
 
 
