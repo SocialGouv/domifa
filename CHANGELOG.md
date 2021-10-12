@@ -1,3 +1,11 @@
+## [2.24.9](https://github.com/SocialGouv/domifa/compare/v2.24.8...v2.24.9) (2021-10-12)
+
+
+### Bug Fixes
+
+* Add preprod workflow ([791fded](https://github.com/SocialGouv/domifa/commit/791fded0ca6288aa48949f8790088edb3d2d56ff))
+* Rename preprod workflow ([d827d25](https://github.com/SocialGouv/domifa/commit/d827d25fc019f63f36ad8640a08bdde1bdbb50ba))
+
 ## [2.24.8](https://github.com/SocialGouv/domifa/compare/v2.24.7...v2.24.8) (2021-10-12)
 
 
