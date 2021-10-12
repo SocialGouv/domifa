@@ -1,3 +1,10 @@
+## [2.24.4](https://github.com/SocialGouv/domifa/compare/v2.24.3...v2.24.4) (2021-10-12)
+
+
+### Bug Fixes
+
+* Increase allocated cluster ressources ([ad135be](https://github.com/SocialGouv/domifa/commit/ad135beef5051a1c22cb575d616a4617eea6e9ac))
+
 ## [2.24.3](https://github.com/SocialGouv/domifa/compare/v2.24.2...v2.24.3) (2021-10-12)
 
 
