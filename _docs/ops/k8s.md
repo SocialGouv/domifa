@@ -9,8 +9,11 @@ Pour chiffrer une variable, on peut utiliser l'outil suivant:
 - <https://socialgouv.github.io/sre-tools/>
 
 Choisir:
+
 - "dev" pour les environnements `dev` et `preprod`
-- "prod2" pour l' environnement de `prod`
+- "prod" pour l' environnement de `prod`, avec
+  - **Namespace**: `domifa`
+  - **Secret Name**: `backend-sealed-secret`
 
 ## Environnements automatique K8S sur les branches de PR
 
