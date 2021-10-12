@@ -133,6 +133,7 @@ export default async () => {
       POSTGRES_DATABASE: "$(PGDATABASE)",
       DOMIFA_BACKEND_URL: `https://${getIngressHost(manifests)}`,
       DOMIFA_FRONTEND_URL: `https://${getIngressHost(frontendManifests)}/`,
+      DOMIFA_CORS_URL: `https://${getIngressHost(frontendManifests)}`,
     },
   });
 
