@@ -71,11 +71,11 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              cpu: 200m
-              memory: 256Mi
+              cpu: 800m
+              memory: 1024Mi
             requests:
-              cpu: 50m
-              memory: 128Mi
+              cpu: 200m
+              memory: 512Mi
           startupProbe:
             failureThreshold: 12
             httpGet:
