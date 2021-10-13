@@ -21,6 +21,7 @@ import { UsagerLight } from "../../../../../../../_common/model/usager/UsagerLig
 import { formatDateToNgb } from "../../../../../../shared/bootstrap-util";
 import { DocumentService } from "../../../../../usager-shared/services/document.service";
 import { UsagerService } from "../../../../services/usager.service";
+import { UsagerFormModel } from "../../UsagerFormModel";
 
 @Component({
   providers: [
@@ -31,13 +32,6 @@ import { UsagerService } from "../../../../services/usager.service";
   selector: "app-decision",
   styleUrls: ["./decision.component.css"],
   templateUrl: "./decision.component.html",
-  styles: [
-    `
-      .toto .alert-info {
-        background-color: blue !important;
-      }
-    `,
-  ],
 })
 export class DecisionComponent implements OnInit {
   public MOTIFS_REFUS_LABELS = MOTIFS_REFUS_LABELS;
@@ -54,6 +48,7 @@ export class DecisionComponent implements OnInit {
   public isAdmin!: boolean;
 
   public me: UserStructure;
+  public editInfos: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -70,6 +65,7 @@ export class DecisionComponent implements OnInit {
   ) {
     this.submitted = false;
     this.isAdmin = false;
+    this.editInfos = false;
 
     const dToday = new Date();
     this.minDate = { day: 1, month: 1, year: dToday.getFullYear() - 1 };
@@ -243,5 +239,9 @@ export class DecisionComponent implements OnInit {
       "null",
       1
     );
+  }
+
+  public onUsagerChanges(usager: UsagerLight): void {
+    this.usager = new UsagerFormModel(usager);
   }
 }

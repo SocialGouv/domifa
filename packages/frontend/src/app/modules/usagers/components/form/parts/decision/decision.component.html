@@ -118,19 +118,66 @@
   </div>
 
   <div class="step_form">
+    <div class="row mb-5">
+      <div class="col-md-12">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h4>État-civil</h4>
+          </div>
+          <div>
+            <button
+              class="btn btn-outline-dark"
+              *ngIf="!editInfos"
+              (click)="editInfos = true"
+            >
+              <fa-icon [icon]="['fas', 'pencil-alt']" class="mr-2"></fa-icon>
+              Modifier les informations
+            </button>
+
+            <button
+              class="btn btn-outline-dark"
+              *ngIf="editInfos"
+              (click)="editInfos = false"
+            >
+              <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
+              Annuler les modifications
+            </button>
+          </div>
+        </div>
+
+        <app-display-etat-civil
+          *ngIf="!editInfos"
+          [usager]="usager"
+        ></app-display-etat-civil>
+
+        <app-profil-etat-civil-form
+          *ngIf="editInfos"
+          [usager]="usager"
+          (usagerChanges)="onUsagerChanges($event)"
+          [(editInfos)]="editInfos"
+        ></app-profil-etat-civil-form>
+      </div>
+    </div>
+  </div>
+
+  <div class="step_form">
     <h4>État civil</h4>
     <app-display-etat-civil [usager]="usager"></app-display-etat-civil>
 
-    <h4>ENTRETIEN</h4>
+    <hr />
+
+    <h4>Entretien</h4>
     <app-display-entretien
       [usager]="usager"
       [structure]="me.structure"
     ></app-display-entretien>
-    <br />
+
+    <hr />
 
     <h4>Pièces jointes</h4>
-    <app-documents class="toto" [usager]="usager"></app-documents>
-    <br />
+    <app-documents [usager]="usager"></app-documents>
+
+    <hr />
 
     <div class="row d-print-none">
       <div class="col">
@@ -140,7 +187,10 @@
         </button>
       </div>
       <div class="col">
-        <button (click)="getAttestation()" class="btn-block btn btn-primary">
+        <button
+          (click)="getAttestation()"
+          class="btn-block btn btn-outline-primary"
+        >
           <fa-icon [icon]="['fas', 'download']" class="mr-2"></fa-icon>
           Télécharger l'attestation de demande
         </button>
