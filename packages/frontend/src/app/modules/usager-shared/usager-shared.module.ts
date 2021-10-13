@@ -18,6 +18,7 @@ import { SetInteractionInFormComponent } from "./components/interactions/set-int
 import { SetInteractionOutFormComponent } from "./components/interactions/set-interaction-out-form/set-interaction-out-form.component";
 import { RgpdWarningComponent } from "./components/rgpd-warning/rgpd-warning.component";
 import { UploadComponent } from "./components/upload/upload.component";
+import { ProfilEtatCivilFormComponent } from "./components/profil-etat-civil-form/profil-etat-civil-form.component";
 
 @NgModule({
   declarations: [
@@ -30,10 +31,10 @@ import { UploadComponent } from "./components/upload/upload.component";
     SetInteractionOutFormComponent,
     DisplayEtatCivilComponent,
     DisplayEntretienComponent,
+    ProfilEtatCivilFormComponent,
   ],
   imports: [
     CommonModule,
-
     HttpClientModule,
     NgbModule,
     FormsModule,
@@ -54,6 +55,7 @@ import { UploadComponent } from "./components/upload/upload.component";
     SetInteractionInFormComponent,
     EntretienComponent,
     SetInteractionOutFormComponent,
+    ProfilEtatCivilFormComponent,
   ],
 
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

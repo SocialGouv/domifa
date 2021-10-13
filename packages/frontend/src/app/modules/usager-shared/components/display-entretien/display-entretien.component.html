@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-4 reponses">
-    <span class="question">ORIENTATION</span>
+    <span class="question">Orientation</span>
     <span class="valeur" *ngIf="usager.entretien.orientation !== null">
       {{
         usager.entretien.orientation
@@ -17,7 +17,7 @@
   </div>
 
   <div class="col-md-4 reponses">
-    <span class="question">DOMICILIATION EXISTANTE</span>
+    <span class="question">Domicilation existante</span>
     <span class="valeur" *ngIf="usager.entretien.domiciliation !== null">
       {{ usager.entretien.domiciliation ? "Oui" : "Non" }}
     </span>
@@ -27,7 +27,7 @@
   </div>
 
   <div class="col-md-4 reponses">
-    <span class="question">REVENUS</span>
+    <span class="question">Revenus</span>
     <span class="valeur" *ngIf="usager.entretien.revenus !== null">
       {{
         usager.entretien.revenus
@@ -44,7 +44,7 @@
   </div>
 
   <div class="col-md-4 reponses">
-    <span class="question">LIEN COMMUNE</span>
+    <span class="question">Lien commune</span>
     <span class="valeur" *ngIf="usager.entretien.liencommune === 'AUTRE'">
       Autre : {{ usager.entretien.liencommuneDetail }}
     </span>
@@ -56,7 +56,7 @@
   </div>
 
   <div class="col-md-4 reponses">
-    <span class="question">MOTIF DE LA DEMANDE</span>
+    <span class="question">Motif de la demande</span>
     <span class="valeur" *ngIf="usager.entretien.raison === 'AUTRE'">
       Autre : {{ usager.entretien.raisonDetail }}
     </span>
@@ -66,7 +66,7 @@
   </div>
 
   <div class="col-md-4 reponses">
-    <span class="question">SITUATION RESIDENTIELLE</span>
+    <span class="question">Situation residentielle</span>
     <span class="valeur" *ngIf="usager.entretien.residence === 'AUTRE'">
       Autre : {{ usager.entretien.residenceDetail }}
     </span>
@@ -76,7 +76,7 @@
   </div>
 
   <div class="col-md-4 reponses">
-    <span class="question">COMPOSITION MÉNAGE</span>
+    <span class="question">Composition ménage</span>
     <span class="valeur">
       {{
         ENTRETIEN_TYPE_MENAGE[usager.entretien.typeMenage] || "Non renseigné"
@@ -85,7 +85,7 @@
   </div>
 
   <div class="col-md-4 reponses">
-    <span class="question">CAUSE DE L'INSTABILITÉ LOGEMENT</span>
+    <span class="question">Cause de l'instabilité logement</span>
     <span class="valeur" *ngIf="usager.entretien.cause !== 'AUTRE'">
       {{ ENTRETIEN_CAUSE[usager.entretien.cause] }}
     </span>
@@ -95,7 +95,7 @@
   </div>
 
   <div class="col-md-4 reponses">
-    <span class="question">ACCOMPAGNEMENT SOCIAL ACTUEL</span>
+    <span class="question">Accompagnement social actuel</span>
     <span class="valeur" *ngIf="usager.entretien.accompagnement !== null">
       {{ usager.entretien.accompagnement ? "Oui " : "Non" }}
       <span *ngIf="usager.entretien.accompagnementDetail">
@@ -118,7 +118,7 @@
   </div>
   <br />
   <div class="col-md-12 reponses">
-    <span class="question">NOTES SUPPLÉMENTAIRES</span>
+    <span class="question">Notes supplémentaires</span>
     <span class="valeur">
       {{ usager.entretien.commentaires || "Non renseigné" }}
     </span>

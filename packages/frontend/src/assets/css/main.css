@@ -109,7 +109,6 @@ orm .card {
 
 .reponses .question {
   color: var(--primary);
-  text-transform: uppercase;
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.7px;
@@ -522,4 +521,8 @@ orm .card {
 .label-info span {
   display: block;
   font-size: 0.85rem;
+}
+
+.text-underline {
+  text-decoration: underline;
 }
