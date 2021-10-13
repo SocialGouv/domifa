@@ -12,7 +12,10 @@ export class CreateDatabase1634037134019 implements MigrationInterface {
         where exists (select 1 from interactions i2
         where i1.uuid=i2.uuid and i1.id > i2.id and i1."createdAt"=i2."createdAt");`);
     await queryRunner.query(
-      `ALTER TABLE "interactions" DROP CONSTRAINT "PK_9cf825bde3ff3a979664feb460f"`
+      `ALTER TABLE "interactions" DROP CONSTRAINT IF EXISTS "PK_9cf825bde3ff3a979664feb460f"`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "interactions" DROP CONSTRAINT IF EXISTS "PK_006113a10247f411c459d62a5b3"`
     );
     await queryRunner.query(
       `ALTER TABLE "interactions" ADD CONSTRAINT "PK_006113a10247f411c459d62a5b3" PRIMARY KEY ("uuid")`
@@ -29,32 +32,47 @@ export class CreateDatabase1634037134019 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "user_structure" ALTER COLUMN "id" SET DEFAULT nextval('"user_structure_id_seq"')`
     );
-    await queryRunner.query(`DROP SEQUENCE "app_user_id_seq"`);
+    await queryRunner.query(`DROP SEQUENCE IF EXISTS "app_user_id_seq"`);
 
     // sync typeorm (suite à changement de version?)
     await queryRunner.query(
-      `ALTER TABLE "user_structure" DROP CONSTRAINT "FK_64204d3f209764ef8d08f334bd7"`
+      `ALTER TABLE "user_structure" DROP CONSTRAINT IF EXISTS "FK_64204d3f209764ef8d08f334bd7"`
     );
     await queryRunner.query(
-      `ALTER TABLE "user_structure_security" DROP CONSTRAINT "FK_cec1c2a0820383d2a4045b5f902"`
+      `ALTER TABLE "user_structure_security" DROP CONSTRAINT IF EXISTS "FK_cec1c2a0820383d2a4045b5f902"`
     );
     await queryRunner.query(
-      `ALTER TABLE "user_structure_security" DROP CONSTRAINT "FK_4950bb2d2181b91b9219f9039c9"`
+      `ALTER TABLE "user_structure_security" DROP CONSTRAINT IF EXISTS "FK_4950bb2d2181b91b9219f9039c9"`
     );
     await queryRunner.query(
-      `DROP INDEX "public"."IDX_22a5c4a3d9b2fb8e4e73fc4ada"`
+      `DROP INDEX IF EXISTS "IDX_22a5c4a3d9b2fb8e4e73fc4ada"`
     );
     await queryRunner.query(
-      `DROP INDEX "public"."IDX_3fa909d0e37c531ebc23770339"`
+      `DROP INDEX IF EXISTS "IDX_3fa909d0e37c531ebc23770339"`
     );
     await queryRunner.query(
-      `DROP INDEX "public"."IDX_64204d3f209764ef8d08f334bd"`
+      `DROP INDEX IF EXISTS "IDX_64204d3f209764ef8d08f334bd"`
     );
     await queryRunner.query(
-      `DROP INDEX "public"."IDX_4950bb2d2181b91b9219f9039c"`
+      `DROP INDEX IF EXISTS "IDX_4950bb2d2181b91b9219f9039c"`
     );
     await queryRunner.query(
-      `DROP INDEX "public"."IDX_cec1c2a0820383d2a4045b5f90"`
+      `DROP INDEX IF EXISTS "IDX_cec1c2a0820383d2a4045b5f90"`
+    );
+    await queryRunner.query(
+      `DROP INDEX IF EXISTS "IDX_e2828c51dc4d023377f256c980"`
+    );
+    await queryRunner.query(
+      `DROP INDEX IF EXISTS "IDX_74b1b39487db0e5d3471b370cf"`
+    );
+    await queryRunner.query(
+      `DROP INDEX IF EXISTS "IDX_a52dec7d55b4a81a0af0136148"`
+    );
+    await queryRunner.query(
+      `DROP INDEX IF EXISTS "IDX_0389a8aa8e69b2d17210745d04"`
+    );
+    await queryRunner.query(
+      `DROP INDEX IF EXISTS "IDX_57be1bdd772eb3fea1e201317e"`
     );
     await queryRunner.query(
       `CREATE INDEX "IDX_e2828c51dc4d023377f256c980" ON "user_structure" ("email") `
@@ -72,6 +90,15 @@ export class CreateDatabase1634037134019 implements MigrationInterface {
       `CREATE INDEX "IDX_57be1bdd772eb3fea1e201317e" ON "user_structure_security" ("structureId") `
     );
     await queryRunner.query(
+      `ALTER TABLE "user_structure" DROP CONSTRAINT IF EXISTS "FK_a52dec7d55b4a81a0af01361485"`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user_structure_security" DROP CONSTRAINT IF EXISTS "FK_0389a8aa8e69b2d17210745d040"`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user_structure_security" DROP CONSTRAINT IF EXISTS "FK_57be1bdd772eb3fea1e201317e6"`
+    );
+    await queryRunner.query(
       `ALTER TABLE "user_structure" ADD CONSTRAINT "FK_a52dec7d55b4a81a0af01361485" FOREIGN KEY ("structureId") REFERENCES "structure"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
@@ -84,28 +111,28 @@ export class CreateDatabase1634037134019 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `ALTER TABLE "user_structure_security" DROP CONSTRAINT "FK_57be1bdd772eb3fea1e201317e6"`
+      `ALTER TABLE "user_structure_security" DROP CONSTRAINT IF EXISTS "FK_57be1bdd772eb3fea1e201317e6"`
     );
     await queryRunner.query(
-      `ALTER TABLE "user_structure_security" DROP CONSTRAINT "FK_0389a8aa8e69b2d17210745d040"`
+      `ALTER TABLE "user_structure_security" DROP CONSTRAINT IF EXISTS "FK_0389a8aa8e69b2d17210745d040"`
     );
     await queryRunner.query(
-      `ALTER TABLE "user_structure" DROP CONSTRAINT "FK_a52dec7d55b4a81a0af01361485"`
+      `ALTER TABLE "user_structure" DROP CONSTRAINT IF EXISTS "FK_a52dec7d55b4a81a0af01361485"`
     );
     await queryRunner.query(
-      `DROP INDEX "public"."IDX_57be1bdd772eb3fea1e201317e"`
+      `DROP INDEX IF EXISTS "IDX_57be1bdd772eb3fea1e201317e"`
     );
     await queryRunner.query(
-      `DROP INDEX "public"."IDX_0389a8aa8e69b2d17210745d04"`
+      `DROP INDEX IF EXISTS "IDX_0389a8aa8e69b2d17210745d04"`
     );
     await queryRunner.query(
-      `DROP INDEX "public"."IDX_a52dec7d55b4a81a0af0136148"`
+      `DROP INDEX IF EXISTS "IDX_a52dec7d55b4a81a0af0136148"`
     );
     await queryRunner.query(
-      `DROP INDEX "public"."IDX_74b1b39487db0e5d3471b370cf"`
+      `DROP INDEX IF EXISTS "IDX_74b1b39487db0e5d3471b370cf"`
     );
     await queryRunner.query(
-      `DROP INDEX "public"."IDX_e2828c51dc4d023377f256c980"`
+      `DROP INDEX IF EXISTS "IDX_e2828c51dc4d023377f256c980"`
     );
     await queryRunner.query(
       `CREATE INDEX "IDX_cec1c2a0820383d2a4045b5f90" ON "user_structure_security" ("userId") `
