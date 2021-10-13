@@ -1,3 +1,10 @@
+## [2.25.1](https://github.com/SocialGouv/domifa/compare/v2.25.0...v2.25.1) (2021-10-13)
+
+
+### Bug Fixes
+
+* synchronize orm schema [#1726](https://github.com/SocialGouv/domifa/issues/1726) ([195ad24](https://github.com/SocialGouv/domifa/commit/195ad24ed874243a4fa2138b4fac5b0e833d5b09))
+
 # [2.25.0](https://github.com/SocialGouv/domifa/compare/v2.24.11...v2.25.0) (2021-10-13)
 
 
