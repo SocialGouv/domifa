@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { PortailUsagerPublic } from "../../../../_common";
-import { USAGER_DECISION_STATUT_LABELS } from "../../../../_common/usager/constants";
-import { DEFAULT_USAGER_PROFILE } from "./../../../../_common/mocks/DEFAULT_USAGER.const";
+import { PortailUsagerPublic } from "../../../../../_common";
+import { DEFAULT_USAGER_PROFILE } from "../../../../../_common/mocks/DEFAULT_USAGER.const";
+import { USAGER_DECISION_STATUT_LABELS } from "../../../../../_common/usager/constants";
 
 @Component({
   selector: "app-section-infos",

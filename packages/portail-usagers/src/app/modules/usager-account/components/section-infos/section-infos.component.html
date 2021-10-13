@@ -1,0 +1,57 @@
+<ng-container *ngIf="usager" class="my-2">
+  <h2 class="content section-title">Votre domiciliation</h2>
+
+  <div class="content section-content"></div>
+  <div class="content section-content" id="usager-dossier">
+    <div class="d-flex align-items-top">
+      <div class="section-icon">
+        <img src="/assets/icones/profil/dossier.svg" alt="Votre dossier" />
+      </div>
+      <div>
+        <div class="section-subtitle">Votre dossier</div>
+        <div class="py-1">
+          <div class="py-1">
+            <b>Statut</b>:
+            <span class="label-statut">
+              {{ USAGER_DECISION_STATUT_LABELS[usager.decision.statut] }}
+            </span>
+          </div>
+
+          <div class="py-1">
+            <b>Echeance: </b>
+            <span>12/12/2021</span>
+          </div>
+          <div class="py-1">
+            <b>Dernier passage: </b>
+            {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yyyy" }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-2 d-flex align-items-top">
+      <div class="section-icon">
+        <img src="/assets/icones/profil/informations.svg" alt="Votre dossier" />
+      </div>
+      <div>
+        <div class="section-subtitle">Vos informations</div>
+        <div class="py-1 font-weight-bold">
+          {{ usager.prenom }} {{ usager.nom }}
+        </div>
+        <div class="py-1 font-weight-bold">
+          {{ usager.phone || "Téléphone non renseigné" }}
+        </div>
+        <div class="py-1 font-weight-bold">
+          {{ usager.email || "Email non renseigné" }}
+        </div>
+
+        <div class="py-2">
+          <button class="btn-outline-primary btn">
+            <fa-icon [icon]="['far', 'edit']" class="mr-2"></fa-icon>
+            Mettre à jour
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { PortailUsagerPublic } from "../../../../_common";
-import { DEFAULT_USAGER_PROFILE } from "../../../../_common/mocks/DEFAULT_USAGER.const";
+import { PortailUsagerPublic } from "../../../../../_common";
+import { DEFAULT_USAGER_PROFILE } from "../../../../../_common/mocks/DEFAULT_USAGER.const";
 
 @Component({
   selector: "app-section-courriers",

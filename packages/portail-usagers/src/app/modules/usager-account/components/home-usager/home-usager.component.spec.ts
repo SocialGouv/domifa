@@ -1,8 +1,9 @@
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { UsagerAccountModule } from "../usager-account.module";
+
 import { HomeUsagerComponent } from "./home-usager.component";
+import { UsagerAccountModule } from "../../usager-account.module";
 
 describe("HomeUsagerComponent", () => {
   let component: HomeUsagerComponent;

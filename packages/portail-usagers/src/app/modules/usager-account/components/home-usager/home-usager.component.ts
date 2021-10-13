@@ -1,6 +1,6 @@
-import { UsagerAuthService } from "./../../usager-auth/services/usager-auth.service";
 import { Component, OnInit } from "@angular/core";
-import { PortailUsagerProfile } from "../../../../_common";
+import { PortailUsagerProfile } from "../../../../../_common";
+import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.service";
 
 @Component({
   selector: "app-home-usager",
