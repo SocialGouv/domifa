@@ -1,3 +1,10 @@
+## [2.25.2](https://github.com/SocialGouv/domifa/compare/v2.25.1...v2.25.2) (2021-10-13)
+
+
+### Bug Fixes
+
+* **typeorm:** fix PR deployment [#1778](https://github.com/SocialGouv/domifa/issues/1778) ([#1779](https://github.com/SocialGouv/domifa/issues/1779)) ([15d2f1b](https://github.com/SocialGouv/domifa/commit/15d2f1b78cf2eac1ba6742e513fb445cd841a45e))
+
 ## [2.25.1](https://github.com/SocialGouv/domifa/compare/v2.25.0...v2.25.1) (2021-10-13)
 
 
