@@ -3,10 +3,15 @@ import { appLogger } from "../AppLogger.service";
 import { tokenGenerator } from "./tokenGenerator.service";
 
 export const passwordGenerator = {
+  generateSalt,
   generatePasswordHash,
   generateRandomPasswordHash,
   checkPassword,
 };
+
+function generateSalt({ length }: { length: number }): Promise<string> {
+  return bcrypt.genSalt(length);
+}
 
 async function generateRandomPasswordHash(
   {

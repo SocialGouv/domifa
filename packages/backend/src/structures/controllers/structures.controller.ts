@@ -7,14 +7,15 @@ import {
   HttpStatus,
   Param,
   Patch,
+  Put,
   Response,
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import {
-  AllowUserStructureRoles,
   AllowUserProfiles,
+  AllowUserStructureRoles,
 } from "../../auth/decorators";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
@@ -28,6 +29,7 @@ import {
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
 } from "../../_common/model";
+import { StructureEditPortailUsagerDto } from "../dto";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
 import { StructureEditDto } from "../dto/structure-edit.dto";
 import { structureDeletorService } from "../services/structureDeletor.service";
@@ -42,6 +44,51 @@ export class StructuresController {
     private structureHardResetService: StructureHardResetService,
     private structureService: StructuresService
   ) {}
+
+  @AllowUserProfiles("super-admin-domifa")
+  @Put("portail-usager/toggle-enable-domifa/:structureId")
+  public async toggleEnablePortailUsagerByDomifa(
+    @Param("structureId") structureId: number
+  ) {
+    const structure = await this.structureService.findOneFull(structureId);
+
+    structure.portailUsager.enabledByDomifa =
+      !structure.portailUsager.enabledByDomifa;
+
+    if (!structure.portailUsager.enabledByDomifa) {
+      structure.portailUsager.enabledByStructure = false;
+    }
+
+    return structureRepository.updateOne(
+      { id: structureId },
+      { portailUsager: structure.portailUsager }
+    );
+  }
+  @ApiBearerAuth()
+  @AllowUserStructureRoles("admin")
+  @Patch("portail-usager/configure-structure")
+  public async toggleEnablePortailUsagerByStructure(
+    @CurrentUser() user: UserStructureAuthenticated,
+    @Body() structurePortailUsagerDto: StructureEditPortailUsagerDto
+  ) {
+    const portailUsager = user.structure.portailUsager;
+    if (!portailUsager.enabledByDomifa) {
+      throw new HttpException(
+        "SMS_NOT_ENABLED_BY_DOMIFA",
+        HttpStatus.BAD_REQUEST
+      );
+    }
+
+    return structureRepository.updateOne(
+      { id: user.structureId },
+      {
+        portailUsager: {
+          ...portailUsager,
+          enabledByStructure: structurePortailUsagerDto.enabledByStructure,
+        },
+      }
+    );
+  }
 
   @ApiBearerAuth()
   @AllowUserStructureRoles("admin")

@@ -1,16 +1,18 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router, RouterStateSnapshot } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
-import { BehaviorSubject, Observable, of, map, catchError } from "rxjs";
-import { environment } from "../../../../environments/environment";
-import { AuthApiResponse } from "../../../../_common/auth/AuthApiResponse.type";
-import { AuthLoginForm } from "../../../../_common/auth/AuthLoginForm.type";
-import { DEFAULT_USAGER } from "../../../../_common/mocks/DEFAULT_USAGER.const";
-import { UsagerPublic } from "../../../../_common/usager";
 import * as Sentry from "@sentry/browser";
+import { ToastrService } from "ngx-toastr";
+import { BehaviorSubject, catchError, map, Observable, of } from "rxjs";
+import { environment } from "../../../../environments/environment";
+import {
+  PortailUsagerAuthApiResponse,
+  PortailUsagerAuthLoginForm,
+  PortailUsagerProfile,
+} from "../../../../_common";
+import { DEFAULT_USAGER_PROFILE } from "../../../../_common/mocks/DEFAULT_USAGER.const";
 
-const END_POINT_AUTH = environment.apiUrl + "usager-auth";
+const END_POINT_AUTH = environment.apiUrl + "usagers/auth";
 
 const TOKEN_KEY = "usager-auth-token";
 const USER_KEY = "usager-auth-datas";
@@ -19,21 +21,20 @@ const USER_KEY = "usager-auth-datas";
   providedIn: "root",
 })
 export class UsagerAuthService {
-  public currentUsagerSubject: BehaviorSubject<UsagerPublic | null>;
+  public currentUsagerSubject: BehaviorSubject<PortailUsagerProfile | null>;
 
   constructor(
     private readonly http: HttpClient,
     private readonly router: Router,
     private readonly toastr: ToastrService
   ) {
-    this.currentUsagerSubject = new BehaviorSubject<UsagerPublic | null>(
-      DEFAULT_USAGER
-    );
+    this.currentUsagerSubject =
+      new BehaviorSubject<PortailUsagerProfile | null>(DEFAULT_USAGER_PROFILE);
   }
 
-  public login(loginForm: AuthLoginForm): Observable<any> {
+  public login(loginForm: PortailUsagerAuthLoginForm): Observable<any> {
     return this.http
-      .post<AuthLoginForm>(`${END_POINT_AUTH}/login`, loginForm)
+      .post<PortailUsagerAuthLoginForm>(`${END_POINT_AUTH}/login`, loginForm)
       .pipe();
   }
 
@@ -42,21 +43,23 @@ export class UsagerAuthService {
       return of(false);
     }
 
-    return this.http.get<AuthApiResponse>(`${END_POINT_AUTH}/me`).pipe(
-      map((apiAuthResponse: AuthApiResponse) => {
-        // SAVE USER
-        this.saveAuthUsager(apiAuthResponse);
-        return true;
-      }),
-      catchError(() => {
-        // DELETE USER
+    return this.http
+      .get<PortailUsagerAuthApiResponse>(`${END_POINT_AUTH}/me`)
+      .pipe(
+        map((apiAuthResponse: PortailUsagerAuthApiResponse) => {
+          // SAVE USER
+          this.saveAuthUsager(apiAuthResponse);
+          return true;
+        }),
+        catchError(() => {
+          // DELETE USER
 
-        return of(false);
-      })
-    );
+          return of(false);
+        })
+      );
   }
 
-  public get currentUserValue(): UsagerPublic | null {
+  public get currentUserValue(): PortailUsagerProfile | null {
     return this.currentUsagerSubject.value || null;
   }
 
@@ -94,29 +97,29 @@ export class UsagerAuthService {
     return window.sessionStorage.getItem(TOKEN_KEY);
   }
 
-  public saveAuthUsager(apiAuthResponse: AuthApiResponse): void {
+  public saveAuthUsager(apiAuthResponse: PortailUsagerAuthApiResponse): void {
     // Build usager
-    const authUsager = apiAuthResponse.authUsager;
+    const authUsagerProfile = apiAuthResponse.profile;
     // Enregistrement du token
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.setItem(TOKEN_KEY, apiAuthResponse.token);
     // Enregistrement de l'utilisateur
     window.sessionStorage.removeItem(USER_KEY);
-    window.sessionStorage.setItem(
-      USER_KEY,
-      JSON.stringify(apiAuthResponse.authUsager)
-    );
+    window.sessionStorage.setItem(USER_KEY, JSON.stringify(authUsagerProfile));
 
     // Sentry
     Sentry.configureScope((scope) => {
-      scope.setTag("auth-usager-ref", authUsager.toString());
+      scope.setTag("auth-usager-ref", authUsagerProfile.toString());
       scope.setUser({
         username:
-          "AuthUsager " + authUsager.ref.toString() + " : " + authUsager.prenom,
+          "AuthUsager " +
+          authUsagerProfile.usager.ref.toString() +
+          " : " +
+          authUsagerProfile.usager.prenom,
       });
     });
 
     // Mise à jour de l'observable
-    this.currentUsagerSubject.next(authUsager);
+    this.currentUsagerSubject.next(authUsagerProfile);
   }
 }

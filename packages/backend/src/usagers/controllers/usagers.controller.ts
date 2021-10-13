@@ -14,12 +14,19 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
+import { AllowUserStructureRoles } from "../../auth/decorators";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
-import { AllowUserStructureRoles } from "../../auth/decorators";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import { usagerLightRepository, usagerRepository } from "../../database";
+import {
+  usagerLightRepository,
+  usagerRepository,
+  userUsagerRepository,
+} from "../../database";
+import { userUsagerUpdator } from "../../users/services";
+import { userUsagerCreator } from "../../users/services/user-usager-creator.service";
+import { appLogger } from "../../util";
 import {
   ETAPE_DOCUMENTS,
   ETAPE_ETAT_CIVIL,
@@ -35,6 +42,7 @@ import { EntretienDto } from "../dto/entretien.dto";
 import { PreferenceContactDto } from "../dto/preferenceContact.dto";
 import { ProcurationDto } from "../dto/procuration.dto";
 import { TransfertDto } from "../dto/transfert.dto";
+import { UpdatePortailUsagerOptionsDto } from "../dto/UpdatePortailUsagerOptionsDto";
 import { CerfaService } from "../services/cerfa.service";
 import { usagerDeletor } from "../services/usagerDeletor.service";
 import { usagerHistoryStateManager } from "../services/usagerHistoryStateManager.service";
@@ -275,6 +283,67 @@ export class UsagersController {
       { uuid: usager.uuid },
       { preference: usager.preference }
     );
+  }
+
+  @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
+  @Post("portail-usager/options/:usagerRef")
+  public async editPreupdatePortailUsagerOptionsference(
+    @Res() res: Response,
+    @Body() dto: UpdatePortailUsagerOptionsDto,
+    @CurrentUsager() usager: UsagerLight,
+    @CurrentUser() user: UserStructureAuthenticated
+  ) {
+    try {
+      usager.options.portailUsagerEnabled = dto.portailUsagerEnabled;
+      const updatedUsager = await this.usagersService.patch(
+        { uuid: usager.uuid },
+        { options: usager.options }
+      );
+      if (usager.options.portailUsagerEnabled) {
+        let userUsager = await userUsagerRepository.findOne({
+          usagerUUID: usager.uuid,
+        });
+        if (!userUsager) {
+          const { login, temporaryPassword } =
+            await userUsagerCreator.createUserWithTmpPassword(
+              {
+                usagerUUID: usager.uuid,
+                structureId: usager.structureId,
+              },
+              { creator: user }
+            );
+          return res
+            .status(HttpStatus.CREATED)
+            .json({ usager: updatedUsager, login, temporaryPassword });
+        } else {
+          const generateNewPassword =
+            dto.portailUsagerEnabled && dto.generateNewPassword;
+          const { userUsager, temporaryPassword } =
+            await userUsagerUpdator.enableUser({
+              usagerUUID: usager.uuid,
+              generateNewPassword,
+            });
+          return res.status(HttpStatus.CREATED).json({
+            usager: updatedUsager,
+            login: generateNewPassword ? userUsager.login : undefined,
+            temporaryPassword,
+          });
+        }
+      } else {
+        // disable login
+        await userUsagerUpdator.disableUser({ usagerUUID: usager.uuid });
+      }
+      return res.status(HttpStatus.OK).json({ usager: updatedUsager });
+    } catch (err) {
+      appLogger.error("Error updating usager options", {
+        error: err,
+        sentry: true,
+      });
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "ERROR_UPDATING_OPTIONS" });
+    }
   }
 
   @UseGuards(UsagerAccessGuard)

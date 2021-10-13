@@ -1,6 +1,6 @@
 import {
   MessageEmailContent,
-  userSecurityResetPasswordInitiator,
+  userStructureSecurityResetPasswordInitiator,
 } from "../../../../database";
 import { UserStructure } from "../../../../_common/model";
 import {
@@ -21,10 +21,11 @@ async function sendMail({
   user: Pick<UserStructure, "id" | "email" | "nom" | "prenom">;
   token: string;
 }): Promise<void> {
-  const lien = userSecurityResetPasswordInitiator.buildResetPasswordLink({
-    token,
-    userId: user.id,
-  });
+  const lien =
+    userStructureSecurityResetPasswordInitiator.buildResetPasswordLink({
+      token,
+      userId: user.id,
+    });
 
   const to = [
     {

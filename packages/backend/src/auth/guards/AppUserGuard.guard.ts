@@ -1,6 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import {
+  UserAuthenticated,
   UserProfile,
   UserStructureAuthenticated,
   UserStructureRole,
@@ -13,7 +14,7 @@ export class AppUserGuard implements CanActivate {
 
   public canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
-    const user = request.user as UserStructureAuthenticated;
+    const user = request.user as UserAuthenticated;
 
     const allowUserStructureRoles = this.reflector.get<UserStructureRole[]>(
       "allowUserStructureRoles",
@@ -21,7 +22,13 @@ export class AppUserGuard implements CanActivate {
     );
     if (allowUserStructureRoles?.length) {
       // check structure user roles
-      return authChecker.checkRole(user, ...allowUserStructureRoles);
+      return (
+        authChecker.checkProfile(user, "structure") &&
+        authChecker.checkRole(
+          user as UserStructureAuthenticated,
+          ...allowUserStructureRoles
+        )
+      );
     }
     const allowUserProfiles = this.reflector.get<UserProfile[]>(
       "allowUserProfiles",

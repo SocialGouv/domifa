@@ -11,9 +11,11 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags } from "@nestjs/swagger";
+import { AllowUserProfiles } from "../auth/decorators";
 import { CurrentInteraction } from "../auth/decorators/current-interaction.decorator";
 import { CurrentUsager } from "../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../auth/decorators/current-user.decorator";
+import { AppUserGuard } from "../auth/guards";
 import { InteractionsGuard } from "../auth/guards/interactions.guard";
 import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
 import { interactionRepository } from "../database";
@@ -26,7 +28,7 @@ import { InteractionDto } from "./interactions.dto";
 import { interactionsCreator, InteractionsDeletor } from "./services";
 import { InteractionsSmsManager } from "./services/InteractionsSmsManager.service";
 
-@UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
+@UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
 @ApiTags("interactions")
 @Controller("interactions")
 export class InteractionsController {
@@ -36,6 +38,7 @@ export class InteractionsController {
   ) {}
 
   @Post(":usagerRef")
+  @AllowUserProfiles("structure")
   public async postInteractions(
     @Body(new ParseArrayPipe({ items: InteractionDto }))
     interactions: InteractionDto[],
@@ -61,6 +64,7 @@ export class InteractionsController {
   }
 
   @Get(":usagerRef")
+  @AllowUserProfiles("structure")
   public async getInteractions(
     @Query("filter") filterString: string,
     @Query("maxResults") maxResultsString: string,
@@ -80,6 +84,7 @@ export class InteractionsController {
   }
 
   @UseGuards(InteractionsGuard)
+  @AllowUserProfiles("structure")
   @Delete(":usagerRef/:interactionUuid")
   public async deleteInteraction(
     @Param("interactionUuid") interactionUuid: string,

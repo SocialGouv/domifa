@@ -2,26 +2,28 @@ import { forwardRef, Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 import { domifaConfig } from "../config";
-import { StructuresModule } from "../structures/structure.module";
-import { UsersModule } from "../users/users.module";
-import { AuthController } from "./auth.controller";
-import { AuthService } from "./services/auth.service";
-import { JwtStrategy } from "./jwt.strategy";
+import { JwtStrategy } from "./jwt/jwt.strategy";
+import { AuthJwtService } from "./services/auth-jwt-service";
+import { StructuresAuthService } from "./services/structures-auth.service";
+import { StructuresAuthController } from "./structures-auth.controller";
 
 @Module({
-  controllers: [AuthController],
-  exports: [PassportModule],
+  controllers: [StructuresAuthController],
+  exports: [PassportModule, AuthJwtService],
   imports: [
     PassportModule.register({ defaultStrategy: "jwt" }),
-    JwtModule.register({
-      secret: domifaConfig().security.jwtSecret,
-      signOptions: {
-        expiresIn: 36000,
-      },
-    }),
-    forwardRef(() => UsersModule),
-    forwardRef(() => StructuresModule),
+    forwardRef(() =>
+      JwtModule.register({
+        secret: domifaConfig().security.jwtSecret,
+        signOptions: {
+          expiresIn: 36000,
+        },
+      })
+    ),
+    // forwardRef(() => UsersModule),
+    // forwardRef(() => StructuresModule),
+    // forwardRef(() => UsagersModule),
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [StructuresAuthService, AuthJwtService, JwtStrategy],
 })
 export class AuthModule {}

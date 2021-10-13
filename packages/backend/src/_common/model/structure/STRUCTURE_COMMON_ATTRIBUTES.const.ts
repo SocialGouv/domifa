@@ -1,6 +1,7 @@
 import { StructureCommon } from "./StructureCommon.type";
 
 export const STRUCTURE_COMMON_ATTRIBUTES: (keyof StructureCommon)[] = [
+  "uuid",
   "id",
   "adresse",
   "complementAdresse",
@@ -18,4 +19,5 @@ export const STRUCTURE_COMMON_ATTRIBUTES: (keyof StructureCommon)[] = [
   "options",
   "adresseCourrier",
   "sms",
+  "portailUsager",
 ];

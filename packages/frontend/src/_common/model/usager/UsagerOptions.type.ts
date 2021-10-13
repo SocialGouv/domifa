@@ -13,4 +13,5 @@ export type UsagerOptions = {
     transfert: UsagerOptionsHistorique[];
     procuration: UsagerOptionsHistorique[];
   };
+  portailUsagerEnabled?: boolean;
 };

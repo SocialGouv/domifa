@@ -16,7 +16,7 @@ import { userStructureBuilder } from "../../users/services";
 export class AuthService {
   public currentUserSubject: BehaviorSubject<UserStructure>;
 
-  private endPoint = environment.apiUrl + "auth";
+  private endPoint = environment.apiUrl + "structures/auth";
 
   constructor(
     public http: HttpClient,

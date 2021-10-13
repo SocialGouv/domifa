@@ -9,9 +9,9 @@ import {
 } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import {
-  userSecurityResetPasswordInitiator,
-  userSecurityResetPasswordUpdater,
   userStructureRepository,
+  userStructureSecurityResetPasswordInitiator,
+  userStructureSecurityResetPasswordUpdater,
 } from "../database";
 import { userResetPasswordEmailSender } from "../mails/services/templates-renderers";
 import { ExpressResponse } from "../util/express";
@@ -44,7 +44,7 @@ export class UsersPublicController {
     @Res() res: ExpressResponse
   ) {
     try {
-      await userSecurityResetPasswordUpdater.checkResetPasswordToken({
+      await userStructureSecurityResetPasswordUpdater.checkResetPasswordToken({
         token,
         userId: parseInt(userId, 10),
       });
@@ -62,7 +62,7 @@ export class UsersPublicController {
     @Res() res: ExpressResponse
   ) {
     try {
-      await userSecurityResetPasswordUpdater.confirmResetPassword({
+      await userStructureSecurityResetPasswordUpdater.confirmResetPassword({
         newPassword: resetPasswordDto.password,
         token: resetPasswordDto.token,
         userId: resetPasswordDto.userId,
@@ -83,9 +83,11 @@ export class UsersPublicController {
   ) {
     try {
       const { user, userSecurity } =
-        await userSecurityResetPasswordInitiator.generateResetPasswordToken({
-          email: emailDto.email,
-        });
+        await userStructureSecurityResetPasswordInitiator.generateResetPasswordToken(
+          {
+            email: emailDto.email,
+          }
+        );
       await userResetPasswordEmailSender.sendMail({
         user,
         token: userSecurity.temporaryTokens.token,

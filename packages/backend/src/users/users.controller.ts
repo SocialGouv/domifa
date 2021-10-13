@@ -20,8 +20,8 @@ import { CurrentUser } from "../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../auth/guards";
 import { CanGetUserStructureGuard } from "../auth/guards/CanGetUserStructure.guard";
 import {
-  userSecurityPasswordUpdater,
   userStructureRepository,
+  userStructureSecurityPasswordUpdater,
 } from "../database";
 import { userAccountActivatedEmailSender } from "../mails/services/templates-renderers";
 import { userAccountCreatedByAdminEmailSender } from "../mails/services/templates-renderers/user-account-created-by-admin";
@@ -37,7 +37,8 @@ import { EditPasswordDto } from "./dto/edit-password.dto";
 import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
 import { UpdateRoleDto } from "./dto/update-role.dto";
 import { UserEditDto } from "./dto/user-edit.dto";
-import { usersCreator, usersDeletor } from "./services";
+import { usersDeletor } from "./services";
+import { userStructureCreator } from "./services/user-structure-creator.service";
 
 @Controller("users")
 @ApiTags("users")
@@ -208,7 +209,7 @@ export class UsersController {
     registerUserDto.structure = user.structure;
 
     const { user: newUser, userSecurity } =
-      await usersCreator.createUserWithTmpToken(registerUserDto);
+      await userStructureCreator.createUserWithTmpToken(registerUserDto);
 
     if (newUser) {
       return userAccountCreatedByAdminEmailSender
@@ -239,7 +240,7 @@ export class UsersController {
     @Body() editPasswordDto: EditPasswordDto
   ) {
     try {
-      userSecurityPasswordUpdater.updatePassword({
+      userStructureSecurityPasswordUpdater.updatePassword({
         userId: user.id,
         oldPassword: editPasswordDto.oldPassword,
         newPassword: editPasswordDto.password,

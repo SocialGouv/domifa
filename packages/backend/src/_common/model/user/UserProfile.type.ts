@@ -1,2 +1,1 @@
-export type UserProfile = "structure" | "super-admin-domifa";
-// | "domicilie"
+export type UserProfile = "structure" | "super-admin-domifa" | "usager";

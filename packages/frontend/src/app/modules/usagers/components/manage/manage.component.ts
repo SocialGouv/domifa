@@ -1,4 +1,3 @@
-import { getRdvInfos } from "./../../interfaces/getRdvInfos.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import {
   Component,
@@ -33,8 +32,8 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
-
 import { getEcheanceInfos } from "../../interfaces/getEcheanceInfos.service";
+import { getRdvInfos } from "../../interfaces/getRdvInfos.service";
 import { getUrlUsagerProfil } from "../../interfaces/getUrlUsagerProfil.service";
 import { UsagerFormModel } from "../form/UsagerFormModel";
 import {
@@ -45,9 +44,11 @@ import {
   UsagersFilterCriteriaStatut,
   UsagersFilterCriteriaEcheance,
   UsagersFilterCriteriaSortKey,
-  UsagersFilterCriteriaSortValues,
 } from "./usager-filter";
-import { UsagersFilterCriteriaDernierPassage } from "./usager-filter/UsagersFilterCriteria";
+import {
+  UsagersFilterCriteriaDernierPassage,
+  UsagersFilterCriteriaSortValues,
+} from "./usager-filter/UsagersFilterCriteria";
 
 const AUTO_REFRESH_PERIOD = 3600000; // 1h
 @Component({

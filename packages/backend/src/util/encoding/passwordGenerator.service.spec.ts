@@ -61,4 +61,10 @@ describe("passwordGenerator", () => {
       expect(hash.length).toEqual(60);
     }
   });
+  it("passwordGenerator.generateSalt", async () => {
+    {
+      const salt = await passwordGenerator.generateSalt({ length: 10 });
+      expect(salt.length).toBeDefined();
+    }
+  });
 });

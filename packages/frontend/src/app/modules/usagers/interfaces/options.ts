@@ -8,6 +8,7 @@ import { HistoriqueOptions } from "./historique-options";
 export class Options implements UsagerOptions {
   public transfert: UsagerOptionsTransfert;
   public procuration: UsagerOptionsProcuration;
+  public portailUsagerEnabled: boolean;
 
   public npai: {
     actif: boolean;
@@ -125,5 +126,6 @@ export class Options implements UsagerOptions {
         }
       }
     }
+    this.portailUsagerEnabled = options?.portailUsagerEnabled;
   }
 }

@@ -15,7 +15,7 @@ function build(usagers: UsagerLight[]): UsagersByStatus {
     ATTENTE_DECISION: [],
     TOUS: usagers,
   };
-  return usagers.reduce((acc, usager) => {
+  const byStatus = usagers.reduce((acc, usager) => {
     if (isStatus(usager, "RADIE")) {
       acc.RADIE.push(usager);
     } else if (isStatus(usager, "VALIDE")) {
@@ -29,6 +29,7 @@ function build(usagers: UsagerLight[]): UsagersByStatus {
     }
     return acc;
   }, acc);
+  return byStatus;
 }
 function isStatus(usager: UsagerLight, statut: UsagersFilterCriteriaStatut) {
   return usagerStatutChecker.check({

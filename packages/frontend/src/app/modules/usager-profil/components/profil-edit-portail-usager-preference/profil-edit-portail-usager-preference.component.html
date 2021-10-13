@@ -1,0 +1,108 @@
+<div class="d-flex justify-content-between align-items-center">
+  <div>
+    <h4>Accès au portail usager</h4>
+  </div>
+  <div class="text-right" *ngIf="usager.isActif && !isRole('facteur')">
+    <button
+      class="btn btn-outline-dark"
+      *ngIf="!editionInProgress"
+      (click)="editionInProgress = true"
+    >
+      <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
+      Modifier les préférences
+    </button>
+    <button
+      class="btn btn-outline-dark"
+      *ngIf="editionInProgress"
+      (click)="editionInProgress = false"
+    >
+      <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
+      Annuler les modifications
+    </button>
+  </div>
+</div>
+
+<div class="row" *ngIf="!editionInProgress">
+  <div class="col-md-6 reponses">
+    <span class="question"
+      >Le demandeur souhaite-t-il avoir accès au portail usager ?</span
+    >
+    <span class="valeur">
+      {{ usager.options?.portailUsagerEnabled ? "OUI" : "NON" }}
+    </span>
+  </div>
+  <div *ngIf="loginToDisplay" class="col-md-6 reponses">
+    <span class="question"
+      >Identifants générés (à noter immédiatement, ne seront plus visibles
+      ensuite)</span
+    >
+    <span class="valeur text-xl">
+      Identifiant:
+      <b class="tracking-wider">{{ loginToDisplay.login }}</b> <br />Mot de
+      passe:
+      <b class="tracking-wider">{{ loginToDisplay.temporaryPassword }}</b>
+    </span>
+  </div>
+</div>
+
+<form
+  *ngIf="editionInProgress"
+  [formGroup]="form"
+  (ngSubmit)="submit()"
+  autocomplete="off"
+>
+  <div class="row">
+    <div class="col-md-6">
+      <label for=""
+        >Le demandeur souhaite-t-il avoir accès au portail usager ?</label
+      >
+      <br />
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          formControlName="portailUsagerEnabled"
+          id="sms_oui"
+          [value]="true"
+        />
+        <label class="form-check-label" for="sms_oui"> Oui </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          formControlName="portailUsagerEnabled"
+          id="sms_non"
+          [value]="false"
+        />
+        <label class="form-check-label" for="sms_non"> Non </label>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="form.value['portailUsagerEnabled'] === true">
+    <div class="col-md-12">
+      <div class="form-check form-group">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          formControlName="generateNewPassword"
+          value="true"
+          id="generateNewPassword"
+        />
+        <label class="form-check-label" for="generateNewPassword">
+          Générer un mot de passe temporaire pour le domicilié
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 offset-md-4 text-center">
+    <button
+      type="submit"
+      [disabled]="form.invalid"
+      class="btn btn-primary btn-block"
+    >
+      Enregistrer les préférences
+    </button>
+  </div>
+</form>

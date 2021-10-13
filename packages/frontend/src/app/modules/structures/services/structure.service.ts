@@ -82,6 +82,17 @@ export class StructureService {
     );
   }
 
+  public patchPortailUsagerParams({
+    enabledByStructure,
+  }: {
+    enabledByStructure: boolean;
+  }) {
+    return this.http.patch(
+      environment.apiUrl + "structures/portail-usager/configure-structure",
+      { enabledByStructure }
+    );
+  }
+
   public confirm(id: string, token: string): Observable<any> {
     return this.http.get(`${this.endPoint}/confirm/${id}/${token}`);
   }

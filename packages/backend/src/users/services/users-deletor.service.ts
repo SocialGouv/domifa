@@ -1,6 +1,6 @@
 import {
-  userSecurityRepository,
   userStructureRepository,
+  userStructureSecurityRepository,
 } from "../../database";
 
 export const usersDeletor = {
@@ -13,7 +13,7 @@ async function deleteUser({
   userId: number;
   structureId: number;
 }) {
-  await userSecurityRepository.deleteByCriteria({
+  await userStructureSecurityRepository.deleteByCriteria({
     userId,
     structureId,
   });

@@ -1,7 +1,7 @@
-import { DEFAULT_USAGER } from "./../../../../_common/mocks/DEFAULT_USAGER.const";
-import { UsagerPublic } from "./../../../../_common/usager/UsagerPublic.type";
 import { Component, OnInit } from "@angular/core";
+import { PortailUsagerProfile, PortailUsagerPublic } from "../../../../_common";
 import { USAGER_DECISION_STATUT_LABELS } from "../../../../_common/usager/constants";
+import { DEFAULT_USAGER_PROFILE } from "./../../../../_common/mocks/DEFAULT_USAGER.const";
 
 @Component({
   selector: "app-section-infos",
@@ -9,10 +9,12 @@ import { USAGER_DECISION_STATUT_LABELS } from "../../../../_common/usager/consta
   styleUrls: ["./section-infos.component.css"],
 })
 export class SectionInfosComponent implements OnInit {
-  public usager: UsagerPublic | null;
+  public usagerProfile: PortailUsagerProfile | null;
+  usager: PortailUsagerPublic;
   public USAGER_DECISION_STATUT_LABELS = USAGER_DECISION_STATUT_LABELS;
   constructor() {
-    this.usager = DEFAULT_USAGER;
+    this.usagerProfile = DEFAULT_USAGER_PROFILE;
+    this.usager = this.usagerProfile.usager;
   }
 
   ngOnInit(): void {}

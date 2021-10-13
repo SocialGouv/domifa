@@ -1,5 +1,6 @@
 import { appLogger } from "../../util";
 import {
+  UserAuthenticated,
   UserProfile,
   UserStructure,
   UserStructureRole,
@@ -31,10 +32,10 @@ function checkRole(
 }
 
 function checkProfile(
-  user: Pick<UserStructure, "id" | "structureId" | "role">,
+  user: UserAuthenticated,
   ...exprectedProfiles: UserProfile[]
 ) {
-  const userProfile = getUserProfile(user);
+  const userProfile = user._userProfile;
   const isValidRole =
     user &&
     (exprectedProfiles.includes(userProfile) ||
@@ -43,8 +44,8 @@ function checkProfile(
         exprectedProfiles.includes("structure")));
   if (user && !isValidRole) {
     appLogger.warn(
-      `[authChecker] invalid profile "${user.role}" for user "${
-        user.id
+      `[authChecker] invalid profile "${userProfile}" for user "${
+        user._userId
       }" (expected: ${exprectedProfiles.join(",")})"`,
       {
         sentryBreadcrumb: true,
@@ -53,19 +54,6 @@ function checkProfile(
     appLogger.error(`[authChecker] invalid profile`);
   }
   return isValidRole;
-}
-
-function getUserProfile(
-  user: Pick<UserStructure, "structureId" | "role">
-): UserProfile {
-  if (user) {
-    const isSuperAdminDomifa = isDomifaAdmin(user);
-    if (isSuperAdminDomifa) {
-      return "super-admin-domifa";
-    } else {
-      return "structure";
-    }
-  }
 }
 
 export function isDomifaAdmin(

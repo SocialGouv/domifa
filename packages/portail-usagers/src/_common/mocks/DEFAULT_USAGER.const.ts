@@ -1,6 +1,6 @@
-import { UsagerPublic } from "../usager";
+import { PortailUsagerProfile, PortailUsagerPublic } from "../_portail-usager";
 
-export const DEFAULT_USAGER: UsagerPublic = {
+export const DEFAULT_USAGER: PortailUsagerPublic = {
   ayantsDroits: [
     {
       dateNaissance: new Date("1978-12-20T00:00:00.000Z"),
@@ -66,4 +66,8 @@ export const DEFAULT_USAGER: UsagerPublic = {
   structureId: 1,
   typeDom: "RENOUVELLEMENT",
   villeNaissance: "Bouaké, Côte d'Ivoire",
+};
+
+export const DEFAULT_USAGER_PROFILE: PortailUsagerProfile = {
+  usager: DEFAULT_USAGER,
 };

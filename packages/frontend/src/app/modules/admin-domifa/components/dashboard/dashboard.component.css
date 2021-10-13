@@ -69,22 +69,52 @@
   font-size: 0.77rem;
 }
 
-.structure-card {
-  margin: 20px !important;
-  width: 46%;
-  max-width: 1000px;
-  display: inline-block;
+#dashboard tr th {
+  font-size: 0.7rem;
 }
-
+#dashboard tr th.col-font-xs {
+  font-size: 0.6rem;
+}
+#dashboard tr td {
+  font-size: 0.8rem;
+  overflow: hidden;
+}
+@media (min-width: 992px) {
+  #dashboard tr td.col-font-xs {
+    font-size: 0.7rem;
+    font-size: 0.8rem;
+  }
+  #dashboard tr td {
+    font-size: 0.9rem;
+    word-break: break-all;
+  }
+  #dashboard tr th.col-font-xs {
+    font-size: 0.7rem;
+  }
+  #dashboard tr th {
+    font-size: 0.8rem;
+  }
+}
 #dashboard tr th:not(:first-child),
 #dashboard tr td:not(:first-child) {
-  max-width: 250px;
-  min-width: 150px;
+  max-width: 400px;
+  min-width: 50px;
+}
+#dashboard tr th.col-w-30,
+#dashboard tr td.col-w-30 {
+  min-width: auto;
+  max-width: auto;
+  width: 30px;
+}
+#dashboard tr th.col-w-50,
+#dashboard tr td.col-w-50 {
+  min-width: auto;
+  max-width: auto;
+  width: 50px;
 }
 
 #dashboard tr > th:first-child,
 #dashboard tr > td:first-child {
-  width: 40px;
   font-weight: bold;
 }
 
@@ -95,7 +125,7 @@
 }
 
 #dashboard table {
-  min-width: 2000px;
+  width: 100%;
 }
 
 #dashboard th:hover {

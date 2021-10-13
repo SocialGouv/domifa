@@ -1,5 +1,5 @@
-import { UsagerEcheanceInfos } from "./../../../../_common/model/usager/UsagerEcheanceInfos.type";
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
+import { UsagerEcheanceInfos } from "./../../../../_common/model/usager/UsagerEcheanceInfos.type";
 
 export const getEcheanceInfos = (
   usager: Partial<UsagerLight>
@@ -47,6 +47,9 @@ export const getEcheanceInfos = (
       usagerInfos.isActif = false;
       usagerInfos.dateToDisplay = new Date(usager.decision.dateDecision);
     }
+  }
+  if (usagerInfos.dateToDisplay && !usagerInfos.dateToDisplay.getTime) {
+    usagerInfos.dateToDisplay = new Date(usagerInfos.dateToDisplay);
   }
 
   if (usagerInfos.isActif) {
