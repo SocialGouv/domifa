@@ -1,3 +1,10 @@
+# [2.25.0](https://github.com/SocialGouv/domifa/compare/v2.24.11...v2.25.0) (2021-10-13)
+
+
+### Features
+
+* **domicilies:** auth endpoint ([#1710](https://github.com/SocialGouv/domifa/issues/1710)) ([608a8da](https://github.com/SocialGouv/domifa/commit/608a8da7ed4550bab5b23aa06dc7ac104f24e135))
+
 ## [2.24.11](https://github.com/SocialGouv/domifa/compare/v2.24.10...v2.24.11) (2021-10-12)
 
 
