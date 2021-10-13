@@ -19,6 +19,8 @@ import { SetInteractionOutFormComponent } from "./components/interactions/set-in
 import { RgpdWarningComponent } from "./components/rgpd-warning/rgpd-warning.component";
 import { UploadComponent } from "./components/upload/upload.component";
 import { ProfilEtatCivilFormComponent } from "./components/profil-etat-civil-form/profil-etat-civil-form.component";
+import { ProfilGeneralNotesComponent } from "./components/profil-general-notes/profil-general-notes.component";
+import { ProfilAddNoteFormComponent } from "./components/profil-add-note-form/profil-add-note-form.component";
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { ProfilEtatCivilFormComponent } from "./components/profil-etat-civil-for
     DisplayEtatCivilComponent,
     DisplayEntretienComponent,
     ProfilEtatCivilFormComponent,
+    ProfilGeneralNotesComponent,
+    ProfilAddNoteFormComponent,
   ],
   imports: [
     CommonModule,
@@ -56,6 +60,8 @@ import { ProfilEtatCivilFormComponent } from "./components/profil-etat-civil-for
     EntretienComponent,
     SetInteractionOutFormComponent,
     ProfilEtatCivilFormComponent,
+    ProfilGeneralNotesComponent,
+    ProfilAddNoteFormComponent,
   ],
 
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
