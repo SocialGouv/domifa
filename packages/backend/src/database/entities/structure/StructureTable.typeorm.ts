@@ -102,13 +102,14 @@ export class StructureTable
 
   @Column({
     type: "jsonb",
-    default: `{ "enabledByDomifa": false, "enabledByStructure": false, "senderName": null, "senderDetails": null }`,
+    default: () =>
+      `'{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}'`,
   })
   sms: StructureSmsParams;
 
   @Column({
     type: "jsonb",
-    default: `{ "enabledByDomifa": false, "enabledByStructure": false }`,
+    default: () => `'{"enabledByDomifa": false, "enabledByStructure": false}'`,
   })
   portailUsager: StructurePortailUsagerParams;
 
