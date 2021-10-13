@@ -173,6 +173,7 @@ export class UsagersFormComponent implements OnInit {
           .get("phoneNumber")
           .updateValueAndValidity();
       });
+    console.log(this.usager);
   }
 
   public isDoublon(): boolean {

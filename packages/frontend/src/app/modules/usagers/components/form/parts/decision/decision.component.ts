@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
+import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -49,6 +49,10 @@ export class DecisionComponent implements OnInit {
 
   public me: UserStructure;
   public editInfos: boolean;
+  public editEntretien: boolean;
+  public editPJ: boolean;
+  @ViewChild("addNoteInModal", { static: true })
+  public addNoteInModal!: TemplateRef<any>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -66,6 +70,8 @@ export class DecisionComponent implements OnInit {
     this.submitted = false;
     this.isAdmin = false;
     this.editInfos = false;
+    this.editEntretien = false;
+    this.editPJ = false;
 
     const dToday = new Date();
     this.minDate = { day: 1, month: 1, year: dToday.getFullYear() - 1 };
@@ -243,5 +249,13 @@ export class DecisionComponent implements OnInit {
 
   public onUsagerChanges(usager: UsagerLight): void {
     this.usager = new UsagerFormModel(usager);
+  }
+
+  public openAddNoteInModal(): void {
+    this.modalService.open(this.addNoteInModal);
+  }
+
+  public closeModals(): void {
+    this.modalService.dismissAll();
   }
 }

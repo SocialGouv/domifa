@@ -92,7 +92,7 @@
             (click)="open(confirmation)"
           >
             <fa-icon [icon]="['fas', 'check']" class="mr-2"></fa-icon>
-            ACCEPTER LE DOSSIER
+            Accepter le dossier
           </button>
         </div>
         <div class="col">
@@ -101,7 +101,7 @@
             (click)="open(refus)"
           >
             <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
-            REFUSER LE DOSSIER
+            Refuser le dossier
           </button>
         </div>
         <div class="col" *ngIf="usager.decision.statut !== 'ATTENTE_DECISION'">
@@ -110,7 +110,7 @@
             class="btn-block btn btn-link"
           >
             <fa-icon [icon]="['far', 'clock']" class="mr-2"></fa-icon>
-            SOUMETTRE LA DEMANDE
+            Soumettre la demande
           </button>
         </div>
       </div>
@@ -118,7 +118,21 @@
   </div>
 
   <div class="step_form">
-    <div class="row mb-5">
+    <div class="row">
+      <div class="col">
+        Dossier
+        <span class="text-primary font-weight-bold mr-3">{{
+          usager.customRef
+        }}</span>
+
+        <span class="label-info label-green">{{
+          usager.typeDom === "PREMIERE_DOM"
+            ? "Première domiciliation"
+            : "Renouvellement"
+        }}</span>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-md-12">
         <div class="d-flex justify-content-between align-items-center">
           <div>
@@ -158,28 +172,85 @@
         ></app-profil-etat-civil-form>
       </div>
     </div>
-  </div>
-
-  <div class="step_form">
-    <h4>État civil</h4>
-    <app-display-etat-civil [usager]="usager"></app-display-etat-civil>
 
     <hr />
 
-    <h4>Entretien</h4>
-    <app-display-entretien
-      [usager]="usager"
-      [structure]="me.structure"
-    ></app-display-entretien>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h4>Entretien social</h4>
+          </div>
+          <div>
+            <button
+              class="btn btn-outline-dark"
+              *ngIf="!editEntretien"
+              (click)="editEntretien = true"
+            >
+              <fa-icon [icon]="['fas', 'pencil-alt']" class="mr-2"></fa-icon>
+              Modifier l'entretien sociale
+            </button>
+            <button
+              class="btn btn-outline-dark"
+              *ngIf="editEntretien"
+              (click)="editEntretien = false"
+            >
+              <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
+              Annuler les changements
+            </button>
+          </div>
+        </div>
+        <app-entretien
+          *ngIf="editEntretien"
+          [(editEntretien)]="editEntretien"
+          (usagerChanges)="onUsagerChanges($event)"
+          [(usager)]="usager"
+        ></app-entretien>
+
+        <app-display-entretien
+          *ngIf="!editEntretien"
+          [usager]="usager"
+          [structure]="me.structure"
+        >
+        </app-display-entretien>
+      </div>
+    </div>
 
     <hr />
 
-    <h4>Pièces jointes</h4>
-    <app-documents [usager]="usager"></app-documents>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h4>Pièces jointes</h4>
+          </div>
+          <div>
+            <button
+              class="btn btn-outline-dark"
+              *ngIf="!editPJ"
+              (click)="editPJ = true"
+            >
+              <fa-icon [icon]="['fas', 'pencil-alt']" class="mr-2"></fa-icon>
+              Modifier les pièces jointes
+            </button>
+            <button
+              class="btn btn-outline-dark"
+              *ngIf="editPJ"
+              (click)="editPJ = false"
+            >
+              <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
+              Annuler les changements
+            </button>
+          </div>
+        </div>
+        <app-upload *ngIf="editPJ" [usager]="usager"></app-upload>
+        <app-documents [usager]="usager"></app-documents>
+      </div>
+    </div>
 
     <hr />
 
-    <div class="row d-print-none">
+    <div class="row mb-3 d-print-none">
       <div class="col">
         <button (click)="printPage()" class="btn-block btn btn-primary">
           <fa-icon [icon]="['fas', 'print']" class="mr-2"></fa-icon>
@@ -193,6 +264,29 @@
         >
           <fa-icon [icon]="['fas', 'download']" class="mr-2"></fa-icon>
           Télécharger l'attestation de demande
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="step_form step-form-actions">
+    <h5>Commentaires privés</h5>
+    <div class="row">
+      <div class="col">
+        <app-profil-general-notes
+          [(usager)]="usager"
+          [me]="me"
+          (onUsagerChanges)="onUsagerChanges($event)"
+        ></app-profil-general-notes>
+
+        <button
+          class="mt-4 btn btn-outline-primary mr-2"
+          (click)="openAddNoteInModal()"
+        >
+          <fa-icon [icon]="['fas', 'plus']" class="mr-2"></fa-icon>
+          <span>Ajouter une note</span>
         </button>
       </div>
     </div>
@@ -482,4 +576,12 @@
       Confirmer la domiciliation
     </button>
   </div>
+</ng-template>
+
+<ng-template #addNoteInModal let-modal>
+  <app-profil-add-note-form
+    [(usager)]="usager"
+    (confirm)="onUsagerChanges($event); closeModals()"
+    (cancel)="closeModals()"
+  ></app-profil-add-note-form>
 </ng-template>
