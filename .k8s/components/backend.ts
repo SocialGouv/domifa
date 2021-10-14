@@ -35,16 +35,9 @@ export const getManifests = async () => {
   const name = "backend";
   const probesPath = "/healthz";
   const subdomain = "domifa-api";
-
   const ciEnv = environments(process.env);
-
+  const version = ciEnv.tag || `sha-${ciEnv.sha}`;
   const isDev = !(ciEnv.isPreProduction || ciEnv.isProduction);
-
-  const tag = process.env.CI_COMMIT_TAG
-    ? process.env.CI_COMMIT_TAG.slice(1)
-    : process.env.CI_COMMIT_SHA
-    ? process.env.CI_COMMIT_SHA
-    : process.env.GITHUB_SHA;
 
   const podProbes = ["livenessProbe", "readinessProbe", "startupProbe"].reduce(
     (probes, probe) => ({
@@ -90,7 +83,7 @@ export const getManifests = async () => {
       subDomainPrefix: ciEnv.isProduction ? "" : `${subdomain}-`,
     },
     deployment: {
-      image: `ghcr.io/socialgouv/domifa/backend:sha-${tag}`,
+      image: `ghcr.io/socialgouv/domifa/backend:${version}`,
       volumes: [isDev ? emptyDir : uploadsVolume],
       container: {
         volumeMounts: [uploadsVolumeMount],
@@ -132,8 +125,8 @@ export default async () => {
       POSTGRES_PASSWORD: "$(PGPASSWORD)",
       POSTGRES_DATABASE: "$(PGDATABASE)",
       DOMIFA_BACKEND_URL: `https://${getIngressHost(manifests)}`,
-      DOMIFA_FRONTEND_URL: `https://${getIngressHost(frontendManifests)}/`,
       DOMIFA_CORS_URL: `https://${getIngressHost(frontendManifests)}`,
+      DOMIFA_FRONTEND_URL: `https://${getIngressHost(frontendManifests)}/`,
     },
   });
 

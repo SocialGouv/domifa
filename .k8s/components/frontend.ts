@@ -7,17 +7,14 @@ import { ok } from "assert";
 import { Deployment } from "kubernetes-models/apps/v1/Deployment";
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { getManifests as getBackendManifests } from "./backend";
+import environments from "@socialgouv/kosko-charts/environments";
 
 export const getManifests = async () => {
   const probesPath = "/";
   const name = "frontend";
   const subdomain = "domifa";
-
-  const tag = process.env.CI_COMMIT_TAG
-    ? process.env.CI_COMMIT_TAG.slice(1)
-    : process.env.CI_COMMIT_SHA
-    ? process.env.CI_COMMIT_SHA
-    : process.env.GITHUB_SHA;
+  const ciEnv = environments(process.env);
+  const version = ciEnv.tag || `sha-${ciEnv.sha}`;
 
   const podProbes = ["livenessProbe", "readinessProbe", "startupProbe"].reduce(
     (probes, probe) => ({
@@ -40,7 +37,7 @@ export const getManifests = async () => {
       subdomain,
     },
     deployment: {
-      image: `ghcr.io/socialgouv/domifa/frontend:sha-${tag}`,
+      image: `ghcr.io/socialgouv/domifa/frontend:sha-${version}`,
       ...podProbes,
     },
   });
