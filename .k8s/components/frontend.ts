@@ -37,7 +37,7 @@ export const getManifests = async () => {
       subdomain,
     },
     deployment: {
-      image: `ghcr.io/socialgouv/domifa/frontend:sha-${version}`,
+      image: `ghcr.io/socialgouv/domifa/frontend:${version}`,
       ...podProbes,
     },
   });

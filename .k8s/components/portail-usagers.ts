@@ -39,7 +39,7 @@ export const getManifests = async () => {
       subDomainPrefix: ciEnv.isProduction ? "" : `${subdomain}-`,
     },
     deployment: {
-      image: `ghcr.io/socialgouv/domifa/portail-usagers:sha-${version}`,
+      image: `ghcr.io/socialgouv/domifa/portail-usagers:${version}`,
       ...podProbes,
     },
   });
