@@ -234,7 +234,7 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
+  @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
   @Post("transfert/:usagerRef")
   public async editTransfert(
     @Body() transfertDto: TransfertDto,
@@ -394,7 +394,7 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
+  @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
   @Delete("transfert/:usagerRef")
   public async deleteTransfert(
     @CurrentUser() user: UserStructureAuthenticated,
@@ -422,7 +422,7 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
+  @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
   @Post("procuration/:usagerRef")
   public async editProcuration(
     @Body() procurationDto: ProcurationDto,
@@ -454,7 +454,7 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
+  @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
   @Delete("procuration/:usagerRef")
   public async deleteProcuration(
     @CurrentUser() user: UserStructureAuthenticated,

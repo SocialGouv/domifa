@@ -3,7 +3,7 @@
     <div>
       <h4>Procuration</h4>
     </div>
-    <div *ngIf="!isRole('facteur') && usager.decision.statut !== 'REFUS'">
+    <div *ngIf="usager.decision.statut !== 'REFUS'">
       <button
         (click)="showForm()"
         *ngIf="!isFormVisible "
@@ -63,7 +63,7 @@
   </div>
 
   <form
-    *ngIf="isFormVisible && !isRole('facteur')"
+    *ngIf="isFormVisible"
     [formGroup]="procurationForm"
     (ngSubmit)="editProcuration()"
     autocomplete="off"
