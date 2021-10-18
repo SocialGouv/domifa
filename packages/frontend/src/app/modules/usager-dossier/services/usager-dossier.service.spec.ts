@@ -11,13 +11,14 @@ import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
 import { JwtInterceptor } from "src/app/interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "src/app/interceptors/server-error.interceptor";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { UsagerFormModel } from "../components/form/UsagerFormModel";
-
-import { Doc } from "../interfaces/doc";
-import { Entretien } from "../interfaces/entretien";
-import { Rdv } from "../interfaces/rdv";
-import { UsagerService } from "./usager.service";
+import { AuthService } from "../../shared/services/auth.service";
+import {
+  UsagerFormModel,
+  Entretien,
+  Rdv,
+  Doc,
+} from "../../usager-shared/interfaces";
+import { UsagerService } from "../../usagers/services/usager.service";
 
 describe("UsagerService", () => {
   let service: UsagerService;

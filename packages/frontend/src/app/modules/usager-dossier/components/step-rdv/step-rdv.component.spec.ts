@@ -2,17 +2,15 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-
-import { USAGER_ACTIF_MOCK } from "../../../../../../../_common/mocks/USAGER_ACTIF.mock";
-
-import { UsagerFormModel } from "../../UsagerFormModel";
-import { StepRdvComponent } from "./step-rdv.component";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
-import { SharedModule } from "../../../../../shared/shared.module";
+import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
+import { SharedModule } from "../../../shared/shared.module";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
+import { StepRdvComponent } from "./step-rdv.component";
 
 describe("StepRdvComponent", () => {
   let component: StepRdvComponent;
