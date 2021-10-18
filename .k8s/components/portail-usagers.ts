@@ -11,8 +11,8 @@ import environments from "@socialgouv/kosko-charts/environments";
 
 export const getManifests = async () => {
   const probesPath = "/";
-  const name = "frontend";
-  const subdomain = "domifa";
+  const name = "portail-usagers";
+  const subdomain = "mon-domifa";
   const ciEnv = environments(process.env);
   const version = ciEnv.tag || `sha-${ciEnv.sha}`;
 
@@ -35,9 +35,11 @@ export const getManifests = async () => {
     env,
     config: {
       subdomain,
+      ingress: true,
+      subDomainPrefix: ciEnv.isProduction ? "" : `${subdomain}-`,
     },
     deployment: {
-      image: `ghcr.io/socialgouv/domifa/frontend:${version}`,
+      image: `ghcr.io/socialgouv/domifa/portail-usagers:${version}`,
       ...podProbes,
     },
   });
