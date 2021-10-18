@@ -10,7 +10,7 @@ import {
 import { MOTIFS_RADIATION_LABELS } from "../../../../../_common/model/usager/constants/MOTIFS_RADIATION_LABELS.const";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
-import { UsagerService } from "../../services/usager.service";
+import { UsagerDossierService } from "../../services/usager-dossier.service";
 
 @Component({
   selector: "app-raft",
@@ -24,7 +24,7 @@ export class RaftComponent implements OnInit {
   public MOTIFS_RADIATION_LABELS = MOTIFS_RADIATION_LABELS;
 
   constructor(
-    private usagerService: UsagerService,
+    private usagerDossierService: UsagerDossierService,
     private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
@@ -42,23 +42,25 @@ export class RaftComponent implements OnInit {
 
     this.titleService.setTitle("Radier un domicilié");
     if (this.route.snapshot.params.id) {
-      this.usagerService.findOne(this.route.snapshot.params.id).subscribe({
-        next: (usager: UsagerLight) => {
-          const usagerModel = new UsagerFormModel(usager);
-          if (!usagerModel.isActif) {
-            this.notifService.error("Vous ne pouvez pas radier ce domicilié");
-            this.router.navigate(["profil/general/" + usager.ref]);
-          } else {
-            this.usager = usagerModel;
-          }
-        },
-        error: () => {
-          this.notifService.error(
-            "Le dossier que vous recherchez n'existe pas"
-          );
-          this.router.navigate(["/404"]);
-        },
-      });
+      this.usagerDossierService
+        .findOne(this.route.snapshot.params.id)
+        .subscribe({
+          next: (usager: UsagerLight) => {
+            const usagerModel = new UsagerFormModel(usager);
+            if (!usagerModel.isActif) {
+              this.notifService.error("Vous ne pouvez pas radier ce domicilié");
+              this.router.navigate(["profil/general/" + usager.ref]);
+            } else {
+              this.usager = usagerModel;
+            }
+          },
+          error: () => {
+            this.notifService.error(
+              "Le dossier que vous recherchez n'existe pas"
+            );
+            this.router.navigate(["/404"]);
+          },
+        });
     } else {
       this.notifService.error("Le dossier que vous recherchez n'existe pas");
       this.router.navigate(["/404"]);
@@ -66,7 +68,7 @@ export class RaftComponent implements OnInit {
   }
 
   public setRadiation(): void {
-    this.usagerService
+    this.usagerDossierService
       .setDecision(this.usager.ref, {
         statut: "RADIE",
         motif: this.usager.decision.motif as UsagerDecisionMotif,

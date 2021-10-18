@@ -49,7 +49,7 @@
 .step_text_inactive {
   color: #afafaf;
   border-color: #afafaf;
-  background-color: white;
+  background-color: transparent;
   cursor: not-allowed;
 }
 

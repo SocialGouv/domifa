@@ -17,8 +17,9 @@ import { LIENS_PARENTE } from "../../../../shared/constants/USAGER_LABELS.const"
 import { regexp } from "../../../../shared/validators";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";
-import { UsagerService } from "../../../usagers/services/usager.service";
+
 import { UsagerFormModel, AyantDroit } from "../../interfaces";
+import { EtatCivilService } from "../../services/etat-civil.service";
 
 @Component({
   selector: "app-profil-etat-civil-form",
@@ -62,7 +63,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private nbgDate: NgbDateCustomParserFormatter,
     private notifService: ToastrService,
-    private usagerService: UsagerService
+    private etatCivilService: EtatCivilService
   ) {
     this.submitted = false;
     this.minDateNaissance = minDateNaissance;
@@ -148,7 +149,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
         etapeDemande: this.usager.etapeDemande,
       };
 
-      this.usagerService.patch(formValue).subscribe({
+      this.etatCivilService.patchEtatCivil(formValue).subscribe({
         next: (usager: UsagerLight) => {
           this.submitted = false;
           this.editInfosChange.emit(false);

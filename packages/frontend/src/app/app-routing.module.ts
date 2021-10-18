@@ -23,7 +23,7 @@ import { StructuresSmsFormComponent } from "./modules/structures/components/stru
 
 import { ImportComponent } from "./modules/usagers/components/import/import.component";
 import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
-import { RaftComponent } from "./modules/usagers/components/raft/raft.component";
+import { RaftComponent } from "./modules/usager-dossier/components/raft/raft.component";
 import { EditUserComponent } from "./modules/users/components/edit-user/edit-user.component";
 import { LoginComponent } from "./modules/users/components/login/login.component";
 import { ResetPasswordComponent } from "./modules/users/components/reset-password/reset-password.component";

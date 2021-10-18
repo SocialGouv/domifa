@@ -61,12 +61,6 @@ export class UsagerDossierService {
     );
   }
 
-  public deleteRenew(usagerRef: number): Observable<UsagerLight> {
-    return this.http.delete<UsagerLight>(
-      `${this.endPointUsagers}/renouvellement/${usagerRef}`
-    );
-  }
-
   public setDecision(
     usagerRef: number,
     decision: UsagerDecisionForm

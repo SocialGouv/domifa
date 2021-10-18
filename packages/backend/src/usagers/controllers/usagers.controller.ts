@@ -89,10 +89,7 @@ export class UsagersController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
-    if (
-      usagerDto.typeDom === "RENOUVELLEMENT" ||
-      usagerDto.etapeDemande === ETAPE_ETAT_CIVIL
-    ) {
+    if (usagerDto.etapeDemande === ETAPE_ETAT_CIVIL) {
       usagerDto.etapeDemande = ETAPE_RENDEZ_VOUS;
     }
 

@@ -272,9 +272,8 @@ export class StepEtatCivilComponent implements OnInit {
 
       this.usagerDossierService.create(formValue).subscribe({
         next: (usager: UsagerLight) => {
-          this.notifService.success("Enregistrement réussi");
-          this.router.navigate(["usager/" + usager.ref + "/edit/rendez-vous"]);
-          this.loading = false;
+          this.usager = new UsagerFormModel(usager);
+          this.nextStep();
         },
         error: () => {
           this.loading = false;
@@ -282,5 +281,15 @@ export class StepEtatCivilComponent implements OnInit {
         },
       });
     }
+  }
+
+  private nextStep(): void {
+    this.usagerDossierService
+      .nextStep(this.usager.ref, 2)
+      .subscribe((usager: UsagerLight) => {
+        this.loading = false;
+        this.notifService.success("Enregistrement réussi");
+        this.router.navigate(["usager/" + usager.ref + "/edit/rendez-vous"]);
+      });
   }
 }

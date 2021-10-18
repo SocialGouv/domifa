@@ -281,320 +281,316 @@
     </div>
   </div>
 
-  <div class="container">
-    <h5>Commentaires privés</h5>
-    <div class="row">
-      <div class="col">
+  <div class="container pb-3">
+    <div class="step_form">
+      <h5>Commentaires privés</h5>
+      <div class="py-3">
         <app-profil-general-notes
           [(usager)]="usager"
           [me]="me"
           (onUsagerChanges)="onUsagerChanges($event)"
         ></app-profil-general-notes>
-
-        <button
-          class="mt-4 btn btn-outline-primary mr-2"
-          (click)="openAddNoteInModal()"
-        >
-          <fa-icon [icon]="['fas', 'plus']" class="mr-2"></fa-icon>
-          <span>Ajouter une note</span>
-        </button>
       </div>
+      <button
+        class="my-3 btn btn-outline-primary mr-2"
+        (click)="openAddNoteInModal()"
+      >
+        <fa-icon [icon]="['fas', 'plus']" class="mr-2"></fa-icon>
+        <span>Ajouter une note</span>
+      </button>
     </div>
   </div>
+</div>
 
-  <ng-template #refus let-modal>
-    <div class="modal-body decision-form">
-      <form
-        [formGroup]="refusForm"
-        (ngSubmit)="setDecision('REFUS')"
-        autocomplete="off"
-      >
-        <div class="col-md-12">
-          <h3>Motivez votre refus</h3>
-        </div>
-        <div class="form-group col-md-6">
-          <label for="dateFinRefus">
-            Date du refus
-            <span class="text-danger">*</span>
-          </label>
-          <div class="input-group">
-            <input
-              class="form-control"
-              placeholder="jj/mm/aaaa"
-              [minDate]="minDate"
-              [maxDate]="maxDateRefus"
-              placement="bottom"
-              ngbDatepicker
-              id="dateFinRefus"
-              formControlName="dateFin"
-              #dFin="ngbDatepicker"
-              dateFr
-              value
-              [ngClass]="{
-                'is-invalid': r.dateFin.dirty && r.dateFin.errors
-              }"
-              maxlength="10"
-              required
-            />
-            <div class="input-group-append">
-              <span class="btn btn-outline-primary" (click)="dFin.toggle()">
-                <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
-              </span>
-            </div>
-          </div>
-          <div *ngIf="submitted && r.dateFin.errors" class="invalid-feedback">
-            La date de refus est incorrecte
+<ng-template #refus let-modal>
+  <div class="modal-body decision-form">
+    <form
+      [formGroup]="refusForm"
+      (ngSubmit)="setDecision('REFUS')"
+      autocomplete="off"
+    >
+      <div class="col-md-12">
+        <h3>Motivez votre refus</h3>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="dateFinRefus">
+          Date du refus
+          <span class="text-danger">*</span>
+        </label>
+        <div class="input-group">
+          <input
+            class="form-control"
+            placeholder="jj/mm/aaaa"
+            [minDate]="minDate"
+            [maxDate]="maxDateRefus"
+            placement="bottom"
+            ngbDatepicker
+            id="dateFinRefus"
+            formControlName="dateFin"
+            #dFin="ngbDatepicker"
+            dateFr
+            value
+            [ngClass]="{
+              'is-invalid': r.dateFin.dirty && r.dateFin.errors
+            }"
+            maxlength="10"
+            required
+          />
+          <div class="input-group-append">
+            <span class="btn btn-outline-primary" (click)="dFin.toggle()">
+              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+            </span>
           </div>
         </div>
-
-        <div class="col-md-6"></div>
-        <div class="form-group col-md-12">
-          <b>
-            Pour quel motif ?
-            <span class="text-danger">*</span>
-          </b>
-          <div
-            class="form-row"
-            *ngFor="let motif of MOTIFS_REFUS_LABELS | keyvalue"
-          >
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                id="motif-refus-{{ motif.key }}"
-                formControlName="motif"
-                value="{{ motif.key }}"
-              />
-              <label class="form-check-label" for="motif-refus-{{ motif.key }}">
-                {{ motif.value }}
-              </label>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                id="motif-autre"
-                formControlName="motif"
-                value="AUTRE"
-              />
-              <label class="form-check-label" for="motif-autre">
-                Autre raison
-              </label>
-            </div>
-          </div>
-
-          <div *ngIf="r.motif.value === 'AUTRE'" class="form-row">
-            <label class="form-check-label" for="motifRefusAutre">
-              Autre motif de refus
-              <span class="text-danger">*</span>
-            </label>
-            <input
-              type="text"
-              class="form-control"
-              id="motifRefusAutre"
-              formControlName="motifDetails"
-            />
-          </div>
-          <div *ngIf="submitted && r.motif.errors" class="invalid-feedback">
-            Veuillez choisir un motif de refus (10 caractères minimum)
-          </div>
-          <div
-            *ngIf="submitted && r.motifDetails.errors"
-            class="invalid-feedback"
-          >
-            Veuillez indiquer un autre motif
-          </div>
+        <div *ngIf="submitted && r.dateFin.errors" class="invalid-feedback">
+          La date de refus est incorrecte
         </div>
+      </div>
 
-        <div class="form-group col-md-12">
-          <b>
-            Orientation proposée
-            <span class="text-danger">*</span>
-          </b>
-          <div class="form-row form-check">
+      <div class="col-md-6"></div>
+      <div class="form-group col-md-12">
+        <b>
+          Pour quel motif ?
+          <span class="text-danger">*</span>
+        </b>
+        <div
+          class="form-row"
+          *ngFor="let motif of MOTIFS_REFUS_LABELS | keyvalue"
+        >
+          <div class="form-check">
             <input
               class="form-check-input"
               type="radio"
-              id="orientationRefusCcas"
-              formControlName="orientation"
-              value="ccas"
+              id="motif-refus-{{ motif.key }}"
+              formControlName="motif"
+              value="{{ motif.key }}"
             />
-            <label class="form-check-label" for="orientationRefusCcas">
-              CCAS, CIAS, Commune
+            <label class="form-check-label" for="motif-refus-{{ motif.key }}">
+              {{ motif.value }}
             </label>
           </div>
-          <div class="form-row">
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                id="orientationRefusAsso"
-                formControlName="orientation"
-                value="asso"
-              />
-              <label class="form-check-label" for="orientationRefusAsso">
-                Organisme agréé
-              </label>
-            </div>
-            <div
-              *ngIf="submitted && r.orientation.errors"
-              class="invalid-feedback"
-            >
-              Veuillez proposer une orientation
-            </div>
-          </div>
-          <div class="form-row">
-            <label for="orientationRefusDetails">
-              Précisez
-              <span class="text-danger">*</span>
-            </label>
+        </div>
+
+        <div class="form-row">
+          <div class="form-check">
             <input
-              class="form-control"
-              type="text"
-              formControlName="orientationDetails"
-              id="orientationRefusDetails"
+              class="form-check-input"
+              type="radio"
+              id="motif-autre"
+              formControlName="motif"
+              value="AUTRE"
             />
+            <label class="form-check-label" for="motif-autre">
+              Autre raison
+            </label>
+          </div>
+        </div>
+
+        <div *ngIf="r.motif.value === 'AUTRE'" class="form-row">
+          <label class="form-check-label" for="motifRefusAutre">
+            Autre motif de refus
+            <span class="text-danger">*</span>
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="motifRefusAutre"
+            formControlName="motifDetails"
+          />
+        </div>
+        <div *ngIf="submitted && r.motif.errors" class="invalid-feedback">
+          Veuillez choisir un motif de refus (10 caractères minimum)
+        </div>
+        <div
+          *ngIf="submitted && r.motifDetails.errors"
+          class="invalid-feedback"
+        >
+          Veuillez indiquer un autre motif
+        </div>
+      </div>
+
+      <div class="form-group col-md-12">
+        <b>
+          Orientation proposée
+          <span class="text-danger">*</span>
+        </b>
+        <div class="form-row form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="orientationRefusCcas"
+            formControlName="orientation"
+            value="ccas"
+          />
+          <label class="form-check-label" for="orientationRefusCcas">
+            CCAS, CIAS, Commune
+          </label>
+        </div>
+        <div class="form-row">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="orientationRefusAsso"
+              formControlName="orientation"
+              value="asso"
+            />
+            <label class="form-check-label" for="orientationRefusAsso">
+              Organisme agréé
+            </label>
           </div>
           <div
-            *ngIf="submitted && r.orientationDetails.errors"
+            *ngIf="submitted && r.orientation.errors"
             class="invalid-feedback"
           >
-            Veuillez indiquer vers quel organisme vous souhaitez orienter
+            Veuillez proposer une orientation
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="orientationRefusDetails">
+            Précisez
+            <span class="text-danger">*</span>
+          </label>
+          <input
+            class="form-control"
+            type="text"
+            formControlName="orientationDetails"
+            id="orientationRefusDetails"
+          />
+        </div>
+        <div
+          *ngIf="submitted && r.orientationDetails.errors"
+          class="invalid-feedback"
+        >
+          Veuillez indiquer vers quel organisme vous souhaitez orienter
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-outline-danger" (click)="closeModal()">
+      Annuler
+    </button>
+    <button class="btn btn-danger" (click)="setDecision('REFUS')">
+      Confirmer le refus
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #confirmation let-modal>
+  <div class="modal-body text-center">
+    <div class="col">
+      <h4>Confirmer la décision</h4>
+      Vous êtes sur le point de domicilier
+      <b>{{ usager.nom }} {{ usager.prenom }}.</b>
+      <br />
+      Veuillez indiquer la date de début et de fin de la domiciliation
+      <br />
+      <br />
+      <form
+        [formGroup]="valideForm"
+        (ngSubmit)="setDecision('VALIDE')"
+        autocomplete="off"
+      >
+        <div class="row">
+          <div class="form-group col-md-6 required">
+            <label for="dateDebutValide">Date de début</label>
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="jj/mm/aaaa"
+                [minDate]="minDate"
+                [maxDate]="maxDate"
+                placement="bottom"
+                ngbDatepicker
+                id="dateDebutValide"
+                formControlName="dateDebut"
+                #dDebut="ngbDatepicker"
+                dateFr
+                value
+                [ngClass]="{
+                  'is-invalid': v.dateDebut.dirty && v.dateDebut.errors
+                }"
+                maxlength="10"
+                required
+              />
+              <div class="input-group-append">
+                <span class="btn btn-outline-primary" (click)="dDebut.toggle()">
+                  <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+                </span>
+              </div>
+            </div>
+            <div
+              *ngIf="submitted && v.dateDebut.errors"
+              class="invalid-feedback"
+            >
+              La date de début de domiciliation est incorrecte
+            </div>
+          </div>
+          <div class="form-group col-md-6 required">
+            <label for="dateFinValide">Date de fin</label>
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="jj/mm/aaaa"
+                [minDate]="minDate"
+                [maxDate]="maxDate"
+                placement="bottom"
+                ngbDatepicker
+                formControlName="dateFin"
+                #dFin="ngbDatepicker"
+                dateFr
+                id="dateFinValide"
+                value
+                [ngClass]="{
+                  'is-invalid': v.dateFin.dirty && v.dateFin.errors
+                }"
+                maxlength="10"
+                required
+              />
+              <div class="input-group-append">
+                <span class="btn btn-outline-primary" (click)="dFin.toggle()">
+                  <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="text-center text-danger col-12">
+            <div *ngIf="v.dateDebut.errors">
+              La date de début est incorrecte
+            </div>
+            <div *ngIf="v.dateFin.errors">La date de fin est incorrecte</div>
+            <div
+              class="text-danger"
+              *ngIf="v.dateDebut.value > v.dateFin.value"
+            >
+              La date de fin doit être supérieure à la date de début
+            </div>
           </div>
         </div>
       </form>
     </div>
+  </div>
 
-    <div class="modal-footer">
-      <button class="btn btn-outline-danger" (click)="closeModal()">
-        Annuler
-      </button>
-      <button class="btn btn-danger" (click)="setDecision('REFUS')">
-        Confirmer le refus
-      </button>
-    </div>
-  </ng-template>
+  <div class="modal-footer text-center">
+    <button class="btn btn-outline-primary" (click)="closeModal()">
+      Revenir au formulaire
+    </button>
+    <button
+      class="btn btn-primary"
+      [disabled]="v.dateDebut.value > v.dateFin.value"
+      (click)="setDecision('VALIDE')"
+    >
+      Confirmer la domiciliation
+    </button>
+  </div>
+</ng-template>
 
-  <ng-template #confirmation let-modal>
-    <div class="modal-body text-center">
-      <div class="col">
-        <h4>Confirmer la décision</h4>
-        Vous êtes sur le point de domicilier
-        <b>{{ usager.nom }} {{ usager.prenom }}.</b>
-        <br />
-        Veuillez indiquer la date de début et de fin de la domiciliation
-        <br />
-        <br />
-        <form
-          [formGroup]="valideForm"
-          (ngSubmit)="setDecision('VALIDE')"
-          autocomplete="off"
-        >
-          <div class="row">
-            <div class="form-group col-md-6 required">
-              <label for="dateDebutValide">Date de début</label>
-              <div class="input-group">
-                <input
-                  class="form-control"
-                  placeholder="jj/mm/aaaa"
-                  [minDate]="minDate"
-                  [maxDate]="maxDate"
-                  placement="bottom"
-                  ngbDatepicker
-                  id="dateDebutValide"
-                  formControlName="dateDebut"
-                  #dDebut="ngbDatepicker"
-                  dateFr
-                  value
-                  [ngClass]="{
-                    'is-invalid': v.dateDebut.dirty && v.dateDebut.errors
-                  }"
-                  maxlength="10"
-                  required
-                />
-                <div class="input-group-append">
-                  <span
-                    class="btn btn-outline-primary"
-                    (click)="dDebut.toggle()"
-                  >
-                    <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
-                  </span>
-                </div>
-              </div>
-              <div
-                *ngIf="submitted && v.dateDebut.errors"
-                class="invalid-feedback"
-              >
-                La date de début de domiciliation est incorrecte
-              </div>
-            </div>
-            <div class="form-group col-md-6 required">
-              <label for="dateFinValide">Date de fin</label>
-              <div class="input-group">
-                <input
-                  class="form-control"
-                  placeholder="jj/mm/aaaa"
-                  [minDate]="minDate"
-                  [maxDate]="maxDate"
-                  placement="bottom"
-                  ngbDatepicker
-                  formControlName="dateFin"
-                  #dFin="ngbDatepicker"
-                  dateFr
-                  id="dateFinValide"
-                  value
-                  [ngClass]="{
-                    'is-invalid': v.dateFin.dirty && v.dateFin.errors
-                  }"
-                  maxlength="10"
-                  required
-                />
-                <div class="input-group-append">
-                  <span class="btn btn-outline-primary" (click)="dFin.toggle()">
-                    <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="text-center text-danger col-12">
-              <div *ngIf="v.dateDebut.errors">
-                La date de début est incorrecte
-              </div>
-              <div *ngIf="v.dateFin.errors">La date de fin est incorrecte</div>
-              <div
-                class="text-danger"
-                *ngIf="v.dateDebut.value > v.dateFin.value"
-              >
-                La date de fin doit être supérieure à la date de début
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <div class="modal-footer text-center">
-      <button class="btn btn-outline-primary" (click)="closeModal()">
-        Revenir au formulaire
-      </button>
-      <button
-        class="btn btn-primary"
-        [disabled]="v.dateDebut.value > v.dateFin.value"
-        (click)="setDecision('VALIDE')"
-      >
-        Confirmer la domiciliation
-      </button>
-    </div>
-  </ng-template>
-
-  <ng-template #addNoteInModal let-modal>
-    <app-profil-add-note-form
-      [(usager)]="usager"
-      (confirm)="onUsagerChanges($event); closeModals()"
-      (cancel)="closeModals()"
-    ></app-profil-add-note-form>
-  </ng-template>
-</div>
+<ng-template #addNoteInModal let-modal>
+  <app-profil-add-note-form
+    [(usager)]="usager"
+    (confirm)="onUsagerChanges($event); closeModals()"
+    (cancel)="closeModals()"
+  ></app-profil-add-note-form>
+</ng-template>

@@ -5,7 +5,7 @@ import { filter, map, startWith, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { UsagerNote } from "../../../../_common/model";
 import { MessageSms } from "../../../../_common/model/message-sms";
-import { UsagerDecisionForm } from "../../../../_common/model/usager/UsagerDecisionForm.type";
+
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
 
 import { usagersCache } from "../../../shared/store";
@@ -71,40 +71,7 @@ export class UsagerService {
       );
   }
 
-  public renouvellement(usagerRef: number): Observable<UsagerLight> {
-    return this.http.get<UsagerLight>(
-      `${this.endPointUsagers}/renouvellement/${usagerRef}`
-    );
-  }
-
-  public deleteRenew(usagerRef: number): Observable<UsagerLight> {
-    return this.http.delete<UsagerLight>(
-      `${this.endPointUsagers}/renouvellement/${usagerRef}`
-    );
-  }
-
-  public setDecision(
-    usagerRef: number,
-    decision: UsagerDecisionForm
-  ): Observable<UsagerLight> {
-    return this.http
-      .post<UsagerLight>(
-        `${this.endPointUsagers}/decision/${usagerRef}`,
-        decision
-      )
-      .pipe(
-        tap((usager: UsagerLight) => {
-          usagersCache.updateUsager(usager);
-        })
-      );
-  }
-
-  public findOne(
-    usagerRefNumberOrString: number | string
-  ): Observable<UsagerLight> {
-    // NOTE: usagerRef est une chaîne quand il vient d'un paramètre de l'URL, ce qui est incompatible avec la recherche dans le cache
-    const usagerRef: number = parseInt(`${usagerRefNumberOrString}`, 10);
-
+  public findOne(usagerRef: number): Observable<UsagerLight> {
     return this.http
       .get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`)
       .pipe(
