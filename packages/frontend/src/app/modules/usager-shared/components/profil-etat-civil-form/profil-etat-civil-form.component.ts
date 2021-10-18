@@ -5,24 +5,20 @@ import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
   NgbDateStruct,
-  NgbModal,
 } from "@ng-bootstrap/ng-bootstrap";
-
 import { ToastrService } from "ngx-toastr";
 import { UsagerLight } from "../../../../../_common/model";
 import { languagesAutocomplete } from "../../../../shared";
 import {
-  formatDateToNgb,
   minDateNaissance,
+  formatDateToNgb,
 } from "../../../../shared/bootstrap-util";
 import { LIENS_PARENTE } from "../../../../shared/constants/USAGER_LABELS.const";
 import { regexp } from "../../../../shared/validators";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";
-import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
-import { AyantDroit } from "../../../usagers/interfaces/ayant-droit";
-
 import { UsagerService } from "../../../usagers/services/usager.service";
+import { UsagerFormModel, AyantDroit } from "../../interfaces";
 
 @Component({
   selector: "app-profil-etat-civil-form",
@@ -152,18 +148,18 @@ export class ProfilEtatCivilFormComponent implements OnInit {
         etapeDemande: this.usager.etapeDemande,
       };
 
-      this.usagerService.create(formValue).subscribe(
-        (usager: UsagerLight) => {
+      this.usagerService.patch(formValue).subscribe({
+        next: (usager: UsagerLight) => {
           this.submitted = false;
           this.editInfosChange.emit(false);
           this.notifService.success("Enregistrement réussi");
 
           this.usagerChanges.emit(usager);
         },
-        () => {
+        error: () => {
           this.notifService.error("Veuillez vérifiez les champs du formulaire");
-        }
-      );
+        },
+      });
     }
   }
 }

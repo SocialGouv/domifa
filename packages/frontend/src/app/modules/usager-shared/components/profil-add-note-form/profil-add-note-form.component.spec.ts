@@ -7,7 +7,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
-import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
+import { UsagerFormModel } from "../../interfaces";
+
 import { ProfilAddNoteFormComponent } from "./profil-add-note-form.component";
 
 describe("ProfilAddNoteFormComponent", () => {

@@ -12,9 +12,9 @@ import { ToastrModule } from "ngx-toastr";
 
 import { ProfilHistoriqueComponent } from "./profil-historique.component";
 
-import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { userMock } from "../../../../../_common/mocks/user.mock";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 describe("ProfilHistoriqueComponent", () => {
   let component: ProfilHistoriqueComponent;

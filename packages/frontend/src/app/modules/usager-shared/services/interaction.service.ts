@@ -5,9 +5,10 @@ import { filter, map, startWith, tap } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
 import { UsagerLight } from "../../../../_common/model";
 import { InteractionInForm } from "../../../../_common/model/interaction";
+
+import { Interaction, UsagerFormModel } from "../interfaces";
 import { usagersCache } from "../../../shared/store";
-import { UsagerFormModel } from "../../usagers/components/form/UsagerFormModel";
-import { Interaction } from "../../usagers/interfaces/interaction";
+
 import { InteractionForApi } from "./../../../../_common/model/interaction/InteractionForApi.type";
 
 @Injectable({

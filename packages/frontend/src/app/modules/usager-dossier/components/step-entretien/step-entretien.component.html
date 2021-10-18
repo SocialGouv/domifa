@@ -1,0 +1,22 @@
+<div class="head-page d-print-none">
+  <div class="container">
+    <!-- TODO: Basculer dans un composant partager -->
+    <!-- TODO: Dès que "usager.prenom" existe, indique plutôt "Demande de Mr. XXX XXXX - customRef)" cf Head-page des dossiers  -->
+    <span class="title">Nouvelle inscription</span>
+  </div>
+</div>
+
+<div class="content" *ngIf="me && usager">
+  <div class="container py-3">
+    <app-form-menu [usager]="usager" [currentStep]="2"></app-form-menu>
+
+    <div class="step_form">
+      <app-entretien
+        [(usager)]="usager"
+        (nextStep)="nextStep($event)"
+      ></app-entretien>
+    </div>
+  </div>
+</div>
+
+<app-delete-usager-menu [usager]="usager"></app-delete-usager-menu>

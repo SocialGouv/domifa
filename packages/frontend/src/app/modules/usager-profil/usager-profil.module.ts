@@ -14,6 +14,7 @@ import { CustomDatepickerI18n } from "../shared/services/date-french";
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
 import { UsagerSharedModule } from "./../usager-shared/usager-shared.module";
+import { DisplayEtatCivilComponent } from "./components/display-etat-civil/display-etat-civil.component";
 import { ProfilCourriersComponent } from "./components/profil-courriers/profil-courriers.component";
 import { ProfilDocumentsSectionComponent } from "./components/profil-documents-section/profil-documents-section.component";
 import { ProfilDossierComponent } from "./components/profil-dossier/profil-dossier.component";
@@ -50,6 +51,7 @@ import { UsagerProfilRoutingModule } from "./usager-profil-routing.module";
     ProfilEditPortailUsagerPreferenceComponent,
     ProfilDocumentsSectionComponent,
     ProfilGeneralHistoriqueCourriersComponent,
+    DisplayEtatCivilComponent,
   ],
 
   imports: [

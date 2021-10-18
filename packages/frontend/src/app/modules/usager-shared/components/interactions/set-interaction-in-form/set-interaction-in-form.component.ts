@@ -7,16 +7,16 @@ import {
   Output,
 } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
+import { UsagerLight } from "../../../../../../_common/model";
 import {
   InteractionIn,
   InteractionInForm,
 } from "../../../../../../_common/model/interaction";
 import { INTERACTIONS_IN_AVAILABLE } from "../../../../../../_common/model/interaction/constants";
-import { UsagerLight } from "../../../../../../_common/model/usager/UsagerLight.type";
-import { bounce } from "../../../../../shared/animations";
-import { InteractionService } from "../../../services/interaction.service";
+import { bounce } from "../../../../../shared";
 import { UsagerService } from "../../../../usagers/services/usager.service";
-import { UsagerFormModel } from "../../../../usagers/components/form/UsagerFormModel";
+import { UsagerFormModel } from "../../../interfaces";
+import { InteractionService } from "../../../services/interaction.service";
 
 @Component({
   animations: [bounce],

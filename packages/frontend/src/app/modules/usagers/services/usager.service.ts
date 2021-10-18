@@ -7,10 +7,11 @@ import { UsagerNote } from "../../../../_common/model";
 import { MessageSms } from "../../../../_common/model/message-sms";
 import { UsagerDecisionForm } from "../../../../_common/model/usager/UsagerDecisionForm.type";
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
+
 import { usagersCache } from "../../../shared/store";
-import { UsagerFormModel } from "../components/form/UsagerFormModel";
+import { UsagerFormModel } from "../../usager-shared/interfaces";
+
 import { ImportPreviewTable } from "../components/import/preview";
-import { Rdv } from "../interfaces/rdv";
 
 export type UsagersImportMode = "preview" | "confirm";
 
@@ -22,23 +23,15 @@ export class UsagerService {
 
   constructor(private http: HttpClient) {}
 
-  public create(usager: UsagerFormModel): Observable<UsagerLight> {
-    const response =
-      usager.ref !== 0
-        ? this.http
-            .patch<UsagerLight>(`${this.endPointUsagers}/${usager.ref}`, usager)
-            .pipe(
-              tap((newUsager: UsagerLight) => {
-                usagersCache.updateUsager(newUsager);
-                return newUsager;
-              })
-            )
-        : this.http.post<UsagerLight>(`${this.endPointUsagers}`, usager).pipe(
-            tap((newUsager: UsagerLight) => {
-              usagersCache.createUsager(newUsager);
-              return newUsager;
-            })
-          );
+  public patch(usager: UsagerFormModel): Observable<UsagerLight> {
+    const response = this.http
+      .patch<UsagerLight>(`${this.endPointUsagers}/${usager.ref}`, usager)
+      .pipe(
+        tap((newUsager: UsagerLight) => {
+          usagersCache.updateUsager(newUsager);
+          return newUsager;
+        })
+      );
 
     return response;
   }
@@ -76,26 +69,6 @@ export class UsagerService {
           usagersCache.updateUsager(usager);
         })
       );
-  }
-
-  // RDV maintenant : on passe l'étape du formulaire
-  public setRdv(
-    rdv: Pick<Rdv, "userId" | "dateRdv" | "isNow">,
-    usagerRef: number
-  ): Observable<UsagerLight> {
-    return this.http.post<UsagerLight>(
-      `${environment.apiUrl}agenda/${usagerRef}`,
-      rdv
-    );
-  }
-
-  public nextStep(
-    usagerRef: number,
-    etapeDemande: number
-  ): Observable<UsagerLight> {
-    return this.http.get<UsagerLight>(
-      `${this.endPointUsagers}/next-step/${usagerRef}/${etapeDemande}`
-    );
   }
 
   public renouvellement(usagerRef: number): Observable<UsagerLight> {
@@ -142,12 +115,6 @@ export class UsagerService {
         startWith(usagersCache.getSnapshot().usagersByRefMap[usagerRef]), // try to load value from cache
         filter((x) => !!x) // filter out empty cache value
       );
-  }
-
-  public isDoublon(nom: string, prenom: string, usagerRef: number) {
-    return this.http.get<UsagerLight[]>(
-      `${this.endPointUsagers}/doublon/${nom}/${prenom}/${usagerRef}`
-    );
   }
 
   /* Recherche */

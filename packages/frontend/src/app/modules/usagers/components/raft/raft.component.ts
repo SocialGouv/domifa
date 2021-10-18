@@ -2,12 +2,15 @@ import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { UsagerLight, UserStructure } from "../../../../../_common/model";
+import {
+  UserStructure,
+  UsagerLight,
+  UsagerDecisionMotif,
+} from "../../../../../_common/model";
 import { MOTIFS_RADIATION_LABELS } from "../../../../../_common/model/usager/constants/MOTIFS_RADIATION_LABELS.const";
-import { UsagerDecisionMotif } from "../../../../../_common/model/usager/UsagerDecisionMotif.type";
+import { AuthService } from "../../../shared/services/auth.service";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerService } from "../../services/usager.service";
-import { UsagerFormModel } from "../form/UsagerFormModel";
 
 @Component({
   selector: "app-raft",
@@ -39,8 +42,8 @@ export class RaftComponent implements OnInit {
 
     this.titleService.setTitle("Radier un domicilié");
     if (this.route.snapshot.params.id) {
-      this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
-        (usager: UsagerLight) => {
+      this.usagerService.findOne(this.route.snapshot.params.id).subscribe({
+        next: (usager: UsagerLight) => {
           const usagerModel = new UsagerFormModel(usager);
           if (!usagerModel.isActif) {
             this.notifService.error("Vous ne pouvez pas radier ce domicilié");
@@ -49,13 +52,13 @@ export class RaftComponent implements OnInit {
             this.usager = usagerModel;
           }
         },
-        () => {
+        error: () => {
           this.notifService.error(
             "Le dossier que vous recherchez n'existe pas"
           );
           this.router.navigate(["/404"]);
-        }
-      );
+        },
+      });
     } else {
       this.notifService.error("Le dossier que vous recherchez n'existe pas");
       this.router.navigate(["/404"]);

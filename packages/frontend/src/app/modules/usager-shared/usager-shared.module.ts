@@ -11,7 +11,6 @@ import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
 import { DeleteUsagerMenuComponent } from "./components/delete-usager-menu/delete-usager-menu.component";
 import { DisplayEntretienComponent } from "./components/display-entretien/display-entretien.component";
-import { DisplayEtatCivilComponent } from "./components/display-etat-civil/display-etat-civil.component";
 import { DocumentsComponent } from "./components/documents/documents.component";
 import { EntretienComponent } from "./components/entretien-form/entretien.component";
 import { SetInteractionInFormComponent } from "./components/interactions/set-interaction-in-form/set-interaction-in-form.component";
@@ -31,7 +30,6 @@ import { ProfilAddNoteFormComponent } from "./components/profil-add-note-form/pr
     SetInteractionInFormComponent,
     EntretienComponent,
     SetInteractionOutFormComponent,
-    DisplayEtatCivilComponent,
     DisplayEntretienComponent,
     ProfilEtatCivilFormComponent,
     ProfilGeneralNotesComponent,
@@ -55,7 +53,7 @@ import { ProfilAddNoteFormComponent } from "./components/profil-add-note-form/pr
     DocumentsComponent,
     DisplayEntretienComponent,
     DeleteUsagerMenuComponent,
-    DisplayEtatCivilComponent,
+
     SetInteractionInFormComponent,
     EntretienComponent,
     SetInteractionOutFormComponent,

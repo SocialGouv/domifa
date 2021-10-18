@@ -389,12 +389,25 @@
       <ng-container
         *ngIf="usager.decision.statut === 'INSTRUCTION' && !editEntretien"
       >
-        <button type="submit" class="btn btn-primary btn-block">Suivant</button>
-        <br />
+        <button
+          [disabled]="loading"
+          type="submit"
+          class="my-4 btn btn-primary btn-block"
+        >
+          <span *ngIf="!loading">
+            Suivant <fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
+          </span>
+
+          <span *ngIf="loading"
+            ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+            Veuillez patienter...</span
+          >
+        </button>
+
         <a
           routerLink="/manage"
           routerLinkActive="router-link-active"
-          class="btn btn-block"
+          class="my-3 btn btn-block"
         >
           <u class="mr-2">Continuer plus tard</u>
 

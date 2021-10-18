@@ -8,8 +8,9 @@ import {
 } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { UsagerNote, UserStructure } from "../../../../../_common/model";
-import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
+
 import { UsagerService } from "../../../usagers/services/usager.service";
+import { UsagerFormModel } from "../../interfaces";
 
 @Component({
   selector: "app-profil-general-notes",
@@ -33,16 +34,18 @@ export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
   ) {}
 
   public ngOnInit(): void {}
+
   public ngOnChanges(): void {
     if (this.usager?.notes) {
       this.filteredNotes = this.usager.notes.filter((x) => !x.archived);
     }
   }
 
-  public cancelArchiveNote() {
+  public cancelArchiveNote(): void {
     this.displayConfirmArchiveMessageNoteId = undefined;
   }
-  public confirmArchiveNote(note: UsagerNote) {
+
+  public confirmArchiveNote(note: UsagerNote): void {
     this.displayConfirmArchiveMessageNoteId = undefined;
     this.usagerService
       .archiveNote({

@@ -3,9 +3,9 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
-import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
-import { usagersCache } from "../../../shared/store";
-import { Entretien } from "../../usagers/interfaces/entretien";
+import { UsagerLight } from "../../../../_common/model";
+import { usagersSearchCache } from "../../../shared/store";
+import { Entretien } from "../interfaces";
 
 export type UsagersImportMode = "preview" | "confirm";
 

@@ -150,6 +150,7 @@ export class AgendaController {
   public getAllUsersForAgenda(
     @CurrentUser() user: UserStructureAuthenticated
   ): Promise<UserStructureProfile[]> {
+    console.log("CHIPS");
     return userStructureRepository.findVerifiedStructureUsersByRoles({
       structureId: user.structureId,
       roles: ["admin", "simple", "responsable"],

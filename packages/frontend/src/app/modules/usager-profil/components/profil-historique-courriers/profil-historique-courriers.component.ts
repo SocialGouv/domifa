@@ -3,9 +3,11 @@ import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { InteractionType } from "../../../../../_common/model/interaction";
+import {
+  UsagerFormModel,
+  Interaction,
+} from "../../../usager-shared/interfaces";
 import { InteractionService } from "../../../usager-shared/services/interaction.service";
-import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
-import { Interaction } from "../../../usagers/interfaces/interaction";
 
 @Component({
   selector: "app-profil-historique-courriers",
@@ -36,10 +38,10 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
     this.interactionService.delete(this.usager.ref, interactionUuid).subscribe({
       next: (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
-        this.notifService.success("Interactionn supprimée avec succès");
+        this.notifService.success("Interaction supprimée avec succès");
         this.getInteractions();
       },
-      error: (error) => {
+      error: () => {
         this.notifService.error("Impossible de supprimer l'interaction");
       },
     });

@@ -2,7 +2,8 @@ import { Component, Input, OnInit } from "@angular/core";
 
 import { saveAs } from "file-saver";
 import { StructureDocTypesAvailable } from "../../../../../_common/model/structure-doc";
-import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
+
 import { DocumentService } from "../../../usager-shared/services/document.service";
 
 @Component({

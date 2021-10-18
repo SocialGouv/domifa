@@ -2,7 +2,8 @@ import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { UserStructure, UserStructureRole } from "../../../../../_common/model";
-import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
+
 import { UsagerProfilService } from "../../services/usager-profil.service";
 
 @Component({
@@ -81,7 +82,7 @@ export class ProfilEditPortailUsagerPreferenceComponent implements OnInit {
             this.notifService.success("Enregistrement des préférences réussi");
             this.usager = new UsagerFormModel(usager);
           },
-          (error) => {
+          () => {
             this.notifService.error(
               "Veuillez vérifiez les champs du formulaire"
             );

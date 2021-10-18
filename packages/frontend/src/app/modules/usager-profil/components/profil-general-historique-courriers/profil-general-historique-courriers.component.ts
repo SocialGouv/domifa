@@ -1,9 +1,12 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { UserStructure } from "../../../../../_common/model";
 import { InteractionType } from "../../../../../_common/model/interaction";
+import {
+  UsagerFormModel,
+  Interaction,
+} from "../../../usager-shared/interfaces";
+
 import { InteractionService } from "../../../usager-shared/services/interaction.service";
-import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
-import { Interaction } from "../../../usagers/interfaces/interaction";
 
 @Component({
   selector: "app-profil-general-historique-courriers",

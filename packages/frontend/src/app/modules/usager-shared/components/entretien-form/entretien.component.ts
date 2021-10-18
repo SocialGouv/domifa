@@ -7,19 +7,18 @@ import {
   TemplateRef,
   ViewChild,
 } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
-
 import { UsagerLight } from "../../../../../_common/model";
 import {
-  ENTRETIEN_CAUSE,
   ENTRETIEN_LIEN_COMMUNE,
+  ENTRETIEN_TYPE_MENAGE,
+  ENTRETIEN_CAUSE,
   ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_RESIDENCE,
-  ENTRETIEN_TYPE_MENAGE,
 } from "../../../../../_common/model/usager/constants";
-import { Entretien } from "../../../usagers/interfaces/entretien";
+import { Entretien } from "../../interfaces";
 
 import { EntretienService } from "../../services/entretien.service";
 
@@ -49,7 +48,7 @@ export class EntretienComponent implements OnInit {
   @ViewChild("entretienConfirmation", { static: true })
   public entretienConfirmation!: TemplateRef<any>;
 
-  public dirty: boolean;
+  public loading = false;
 
   public entretienVide: Entretien;
 
@@ -97,26 +96,30 @@ export class EntretienComponent implements OnInit {
   }
 
   public submitEntretien() {
+    this.loading = true;
     if (this.usager.decision.statut === "INSTRUCTION") {
       if (this.isEmptyForm()) {
         this.modalService.open(this.entretienConfirmation);
+        this.loading = false;
         return;
       }
     }
 
     this.entretienService
       .submitEntretien(this.entretienForm.value, this.usager.ref)
-      .subscribe(
-        (usager: UsagerLight) => {
+      .subscribe({
+        next: (usager: UsagerLight) => {
           this.usagerChanges.emit(usager);
           this.editEntretienChange.emit(false);
           this.nextStep.emit(3);
           this.notifService.success("Enregistrement de l'entretien réussi");
+          this.loading = false;
         },
-        (error: any) => {
+        error: () => {
+          this.loading = false;
           this.notifService.error("Impossible d'enregistrer l'entretien");
-        }
-      );
+        },
+      });
   }
 
   private isEmptyForm() {

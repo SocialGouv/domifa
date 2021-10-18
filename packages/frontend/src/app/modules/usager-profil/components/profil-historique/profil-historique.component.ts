@@ -5,7 +5,8 @@ import { ToastrService } from "ngx-toastr";
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { DECISION_LABELS } from "../../../../shared/constants/USAGER_LABELS.const";
 import { AuthService } from "../../../shared/services/auth.service";
-import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
+
 import { UsagerService } from "../../../usagers/services/usager.service";
 
 @Component({
