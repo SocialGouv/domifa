@@ -1,3 +1,10 @@
+# [2.26.0](https://github.com/SocialGouv/domifa/compare/v2.25.2...v2.26.0) (2021-10-18)
+
+
+### Features
+
+* deploy portail usagers ([#1781](https://github.com/SocialGouv/domifa/issues/1781)) ([942b3fa](https://github.com/SocialGouv/domifa/commit/942b3fa8aca7c2400d388b46fcb4d1cc380bfc47))
+
 ## [2.25.2](https://github.com/SocialGouv/domifa/compare/v2.25.1...v2.25.2) (2021-10-13)
 
 
