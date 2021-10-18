@@ -1,4 +1,5 @@
 import { UsagerLight } from "../../../_common/model";
+import { Interaction } from "../../modules/usagers/interfaces/interaction";
 
 export type AppStoreAction =
   | {
@@ -10,10 +11,18 @@ export type AppStoreAction =
       usager: UsagerLight;
     }
   | {
+      type: "update-usager-interactions";
+      usagerRef: number;
+      interactions: Interaction[];
+    }
+  | {
       type: "delete-usager";
-      criteria: Partial<UsagerLight>;
+      criteria: Pick<UsagerLight, "ref">;
     }
   | {
       type: "add-usager";
       usager: UsagerLight;
+    }
+  | {
+      type: "reset";
     };

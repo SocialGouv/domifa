@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, NgZone, OnInit } from "@angular/core";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
@@ -22,12 +22,13 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
   constructor(
     private notifService: ToastrService,
     private matomo: MatomoTracker,
-    private interactionService: InteractionService
+    private interactionService: InteractionService,
+    private ngZone: NgZone
   ) {}
 
   public ngOnInit(): void {
-    this.getInteractions();
     this.interactions = [];
+    this.getInteractions();
   }
 
   public deleteInteraction(interactionUuid: string) {

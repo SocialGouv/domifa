@@ -1,14 +1,13 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { map, tap } from "rxjs/operators";
+import { filter, map, startWith, tap } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
 import { UsagerLight } from "../../../../_common/model";
 import { InteractionInForm } from "../../../../_common/model/interaction";
-import { usagersSearchCache } from "../../../shared/store";
+import { usagersCache } from "../../../shared/store";
 import { UsagerFormModel } from "../../usagers/components/form/UsagerFormModel";
 import { Interaction } from "../../usagers/interfaces/interaction";
-
 import { InteractionForApi } from "./../../../../_common/model/interaction/InteractionForApi.type";
 
 @Injectable({
@@ -27,25 +26,37 @@ export class InteractionService {
       .post<UsagerLight>(`${this.endPoint}${usagerRef}`, interactions)
       .pipe(
         tap((newUsager: UsagerLight) => {
-          usagersSearchCache.updateUsager(newUsager);
+          usagersCache.updateUsager(newUsager);
         })
       );
   }
 
   public getInteractions({
-    usagerRef,
+    usagerRef: usagerRefNumberOrString,
     maxResults,
-    filter,
+    filter: filterSearch,
   }: {
     usagerRef: number;
     maxResults?: number;
     filter?: "distribution";
   }): Observable<Interaction[]> {
+    // NOTE: usagerRef est une chaîne quand il vient d'un paramètre de l'URL, ce qui est incompatible avec la recherche dans le cache
+    const usagerRef: number = parseInt(`${usagerRefNumberOrString}`, 10);
+
     return this.http
-      .get(
-        `${this.endPoint}${usagerRef}?maxResults=${maxResults}&filter=${filter}`
+      .get<Interaction[]>(
+        `${this.endPoint}${usagerRef}?maxResults=${maxResults}&filter=${filterSearch}`
       )
       .pipe(
+        tap((interactions) =>
+          // update cache
+          usagersCache.updateUsagerInteractions({
+            usagerRef,
+            interactions,
+          })
+        ),
+        startWith(usagersCache.getSnapshot().interactionsByRefMap[usagerRef]), // try to load value from cache
+        filter((x) => !!x), // filter out empty cache value
         map((response) => {
           return Array.isArray(response)
             ? response.map((item) => new Interaction(item))

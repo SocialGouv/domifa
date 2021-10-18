@@ -1,12 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
-
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
-import { usagersSearchCache } from "../../../shared/store";
+import { usagersCache } from "../../../shared/store";
 import { Entretien } from "../../usagers/interfaces/entretien";
 
 export type UsagersImportMode = "preview" | "confirm";
@@ -30,7 +28,7 @@ export class EntretienService {
       )
       .pipe(
         tap((newUsager: UsagerLight) => {
-          usagersSearchCache.updateUsager(newUsager);
+          usagersCache.updateUsager(newUsager);
           return newUsager;
         })
       );

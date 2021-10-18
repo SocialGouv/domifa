@@ -1,6 +1,13 @@
 import { createStore } from "redux";
+import { UsagerLight } from "../../../_common/model";
 import { AppStoreAction } from "./AppStoreAction.type";
 import { AppStoreModel } from "./AppStoreModel.type";
+
+const INITIAL_STATE: AppStoreModel = {
+  allUsagers: undefined,
+  usagersByRefMap: {},
+  interactionsByRefMap: {},
+};
 
 const appStoreReducer = (
   state: AppStoreModel,
@@ -10,46 +17,86 @@ const appStoreReducer = (
     case "set-usagers": {
       return {
         ...state,
-        usagers: action.usagers,
+        allUsagers: action.usagers,
+        usagersByRefMap: action.usagers.reduce((acc, u) => {
+          acc[u.ref] = u;
+          return acc;
+        }, {} as { [ref: string]: UsagerLight }),
       };
     }
     case "update-usager": {
       const usager = action.usager;
-      const usagers = state.usagers
-        ? state.usagers.map((u) => {
+      // update "allUsagers" only if defined
+      const allUsagers = state.allUsagers
+        ? state.allUsagers.map((u) => {
             if (u.uuid === usager.uuid) {
               return usager;
             }
             return u;
           })
         : undefined;
+      // always update map
+      const usagersByRefMap = {
+        ...state.usagersByRefMap,
+      };
+
+      usagersByRefMap[usager.ref] = usager;
       return {
         ...state,
-        usagers,
+        allUsagers,
+        usagersByRefMap,
+      };
+    }
+    case "update-usager-interactions": {
+      const { usagerRef, interactions } = action;
+      // update map
+      const interactionsByRefMap = {
+        ...state.interactionsByRefMap,
+      };
+
+      interactionsByRefMap[usagerRef] = interactions;
+      return {
+        ...state,
+        interactionsByRefMap,
       };
     }
     case "delete-usager": {
       const criteria = action.criteria;
       const attributes = Object.keys(criteria);
-      const usagers = state.usagers
-        ? state.usagers.filter((u) =>
+      const allUsagers = state.usagersByRefMap
+        ? state.allUsagers.filter((u) =>
             attributes.some((attr) => criteria[attr] !== u[attr])
           )
         : undefined;
+      const usagersByRefMap = {
+        ...state.usagersByRefMap,
+      };
+
+      if (usagersByRefMap) {
+        delete usagersByRefMap[criteria.ref];
+      }
       return {
         ...state,
-        usagers,
+        allUsagers,
+        usagersByRefMap,
       };
     }
     case "add-usager": {
       const usager = action.usager;
-      const usagers = state.usagers
-        ? state.usagers.concat([usager])
+      const allUsagers = state.allUsagers
+        ? state.allUsagers.concat([usager])
         : undefined;
+      const usagersByRefMap = {
+        ...state.usagersByRefMap,
+      };
+      usagersByRefMap[usager.ref] = usager;
       return {
         ...state,
-        usagers,
+        allUsagers,
       };
+    }
+    case "reset": {
+      return INITIAL_STATE;
     }
   }
   return state;
@@ -60,6 +107,4 @@ export const appStore = createStore<
   AppStoreAction,
   unknown,
   unknown
->(appStoreReducer, {
-  usagers: undefined,
-} as AppStoreModel);
+>(appStoreReducer, INITIAL_STATE as AppStoreModel);
