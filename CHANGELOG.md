@@ -1,3 +1,10 @@
+## [2.27.1](https://github.com/SocialGouv/domifa/compare/v2.27.0...v2.27.1) (2021-10-18)
+
+
+### Bug Fixes
+
+* **perfs:** cache fiche usager [#1766](https://github.com/SocialGouv/domifa/issues/1766) ([30e51c3](https://github.com/SocialGouv/domifa/commit/30e51c38f6a3c6c607e51f5eba94073a682360de))
+
 # [2.27.0](https://github.com/SocialGouv/domifa/compare/v2.26.0...v2.27.0) (2021-10-18)
 
 
