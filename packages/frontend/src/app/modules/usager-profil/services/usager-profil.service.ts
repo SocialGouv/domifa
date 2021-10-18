@@ -1,11 +1,13 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, tap } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import {
   UsagerLight,
   UsagerPreferenceContact,
 } from "../../../../_common/model";
+import { usagersCache } from "../../../shared/store";
+import { UsagerService } from "../../usagers/services/usager.service";
 
 @Injectable({
   providedIn: "root",
@@ -13,16 +15,20 @@ import {
 export class UsagerProfilService {
   public endPointUsagers = environment.apiUrl + "usagers";
 
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient, public usagerService: UsagerService) {
     this.http = http;
   }
 
   public findOne(usagerRef: number): Observable<UsagerLight> {
-    return this.http.get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`);
+    return this.usagerService.findOne(usagerRef);
   }
 
   public delete(usagerRef: number) {
-    return this.http.delete(`${this.endPointUsagers}/${usagerRef}`);
+    return this.http.delete(`${this.endPointUsagers}/${usagerRef}`).pipe(
+      tap(() => {
+        usagersCache.removeUsager({ ref: usagerRef });
+      })
+    );
   }
 
   public renouvellement(usagerRef: number): Observable<UsagerLight> {

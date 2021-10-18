@@ -1,1 +1,1 @@
-export * from "./usagersSearchCache.service";
+export * from "./usagersCache.service";

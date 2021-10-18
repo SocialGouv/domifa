@@ -8,6 +8,7 @@ import { BehaviorSubject, Observable, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { UserStructure } from "../../../../_common/model";
+import { usagersCache } from "../../../shared/store";
 import { userStructureBuilder } from "../../users/services";
 
 @Injectable({
@@ -33,6 +34,7 @@ export class AuthService {
   }
 
   public login(email: string, password: string): Observable<any> {
+    usagersCache.clearCache();
     return this.http
       .post<any>(`${this.endPoint}/login`, {
         email,
@@ -99,6 +101,7 @@ export class AuthService {
   }
 
   public logout() {
+    usagersCache.clearCache();
     this.currentUserSubject.next(null);
     localStorage.removeItem("currentUser");
     localStorage.removeItem("filters");

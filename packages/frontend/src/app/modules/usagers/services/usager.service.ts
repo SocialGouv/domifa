@@ -7,7 +7,7 @@ import { UsagerNote } from "../../../../_common/model";
 import { MessageSms } from "../../../../_common/model/message-sms";
 import { UsagerDecisionForm } from "../../../../_common/model/usager/UsagerDecisionForm.type";
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
-import { usagersSearchCache } from "../../../shared/store";
+import { usagersCache } from "../../../shared/store";
 import { UsagerFormModel } from "../components/form/UsagerFormModel";
 import { ImportPreviewTable } from "../components/import/preview";
 import { Rdv } from "../interfaces/rdv";
@@ -29,13 +29,13 @@ export class UsagerService {
             .patch<UsagerLight>(`${this.endPointUsagers}/${usager.ref}`, usager)
             .pipe(
               tap((newUsager: UsagerLight) => {
-                usagersSearchCache.updateUsager(newUsager);
+                usagersCache.updateUsager(newUsager);
                 return newUsager;
               })
             )
         : this.http.post<UsagerLight>(`${this.endPointUsagers}`, usager).pipe(
             tap((newUsager: UsagerLight) => {
-              usagersSearchCache.createUsager(newUsager);
+              usagersCache.createUsager(newUsager);
               return newUsager;
             })
           );
@@ -54,7 +54,7 @@ export class UsagerService {
       .post<UsagerLight>(`${environment.apiUrl}note/${usagerRef}`, note)
       .pipe(
         tap((usager: UsagerLight) => {
-          usagersSearchCache.updateUsager(usager);
+          usagersCache.updateUsager(usager);
         })
       );
   }
@@ -73,7 +73,7 @@ export class UsagerService {
       )
       .pipe(
         tap((usager: UsagerLight) => {
-          usagersSearchCache.updateUsager(usager);
+          usagersCache.updateUsager(usager);
         })
       );
   }
@@ -121,21 +121,26 @@ export class UsagerService {
       )
       .pipe(
         tap((usager: UsagerLight) => {
-          usagersSearchCache.updateUsager(usager);
+          usagersCache.updateUsager(usager);
         })
       );
   }
 
-  public findOne(usagerRef: number): Observable<UsagerLight> {
+  public findOne(
+    usagerRefNumberOrString: number | string
+  ): Observable<UsagerLight> {
+    // NOTE: usagerRef est une chaîne quand il vient d'un paramètre de l'URL, ce qui est incompatible avec la recherche dans le cache
+    const usagerRef: number = parseInt(`${usagerRefNumberOrString}`, 10);
+
     return this.http
       .get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`)
       .pipe(
-        startWith(
-          usagersSearchCache
-            .getUsagersSnapshot()
-            ?.find((x) => x.ref === usagerRef)
+        tap((x) =>
+          // update cache
+          usagersCache.updateUsager(x)
         ),
-        filter((x) => !!x)
+        startWith(usagersCache.getSnapshot().usagersByRefMap[usagerRef]), // try to load value from cache
+        filter((x) => !!x) // filter out empty cache value
       );
   }
 
@@ -149,9 +154,9 @@ export class UsagerService {
   public getAllUsagers(): Observable<UsagerLight[]> {
     return this.http.get<UsagerLight[]>(`${environment.apiUrl}usagers/`).pipe(
       tap((usagers: UsagerLight[]) => {
-        usagersSearchCache.setUsagers(usagers);
+        usagersCache.setUsagers(usagers);
       }),
-      startWith(usagersSearchCache.getUsagersSnapshot()),
+      startWith(usagersCache.getSnapshot().allUsagers),
       filter((x) => !!x)
     );
   }

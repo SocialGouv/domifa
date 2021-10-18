@@ -1,8 +1,10 @@
 import { UsagerLight } from "../../../_common/model";
+import { Interaction } from "../../modules/usagers/interfaces/interaction";
 import { appStore } from "./appStore.service";
 
-export const usagersSearchCache = {
-  getUsagersSnapshot: () => appStore.getState()?.usagers,
+export const usagersCache = {
+  getSnapshot: () => appStore.getState(),
+  clearCache: () => appStore.dispatch({ type: "reset" }),
   setUsagers: (usagers: UsagerLight[]) => {
     appStore.dispatch({
       type: "set-usagers",
@@ -15,13 +17,26 @@ export const usagersSearchCache = {
       usager,
     });
   },
+  updateUsagerInteractions: ({
+    usagerRef,
+    interactions,
+  }: {
+    usagerRef: number;
+    interactions: Interaction[];
+  }) => {
+    appStore.dispatch({
+      type: "update-usager-interactions",
+      usagerRef,
+      interactions,
+    });
+  },
   createUsager: (usager: UsagerLight) => {
     appStore.dispatch({
       type: "add-usager",
       usager,
     });
   },
-  removeUsagersByCriteria: (criteria: Partial<UsagerLight>) => {
+  removeUsager: (criteria: Pick<UsagerLight, "ref">) => {
     appStore.dispatch({
       type: "delete-usager",
       criteria,
