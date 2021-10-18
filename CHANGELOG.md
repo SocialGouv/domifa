@@ -1,3 +1,10 @@
+# [2.27.0](https://github.com/SocialGouv/domifa/compare/v2.26.0...v2.27.0) (2021-10-18)
+
+
+### Features
+
+* change rights for facteur to allowc edit/del ([c15bb08](https://github.com/SocialGouv/domifa/commit/c15bb08c43d999b307ac68396ecff6ea268927b5))
+
 # [2.26.0](https://github.com/SocialGouv/domifa/compare/v2.25.2...v2.26.0) (2021-10-18)
 
 

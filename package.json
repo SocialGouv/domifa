@@ -1,7 +1,7 @@
 {
   "name": "domifa",
   "private": true,
-  "version": "2.26.0",
+  "version": "2.27.0",
   "scripts": {
     "build": "lerna run build --stream",
     "dev": "lerna run dev --parallel --stream",

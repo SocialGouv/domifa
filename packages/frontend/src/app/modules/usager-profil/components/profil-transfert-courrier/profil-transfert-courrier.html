@@ -3,7 +3,7 @@
     <div>
       <h4>Transfert de courrier</h4>
     </div>
-    <div *ngIf="!isRole('facteur') && usager.decision.statut !== 'REFUS'">
+    <div *ngIf="usager.decision.statut !== 'REFUS'">
       <button
         *ngIf="!isFormVisible"
         (click)="showForm()"
@@ -60,7 +60,7 @@
   </div>
 
   <form
-    *ngIf="isFormVisible && !isRole('facteur')"
+    *ngIf="isFormVisible"
     [formGroup]="transfertForm"
     (ngSubmit)="editTransfert()"
     autocomplete="off"
