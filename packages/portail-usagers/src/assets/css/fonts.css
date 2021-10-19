@@ -38,5 +38,5 @@ h4 {
   margin-top: 1.5rem;
 }
 h1 {
-  font-size: 2rem;
+  font-size: 2rem !important;
 }

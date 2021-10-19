@@ -14,8 +14,5 @@ export class SectionCourriersComponent implements OnInit {
     this.usager = DEFAULT_USAGER_PROFILE.usager;
   }
 
-  ngOnInit(): void {
-    console.log("SectionCourriersComponent this.usager");
-    console.log(this.usager);
-  }
+  ngOnInit(): void {}
 }

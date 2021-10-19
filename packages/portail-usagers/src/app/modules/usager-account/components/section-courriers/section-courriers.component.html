@@ -1,4 +1,4 @@
-<ng-container *ngIf="usager">
+<div *ngIf="usager" class="py-3">
   <div *ngIf="!usager.lastInteraction.enAttente" class="my-2">
     <h2 class="content section-title">Votre courrier</h2>
     <div class="content section-content" id="usager-dossier">
@@ -67,4 +67,4 @@
       </div>
     </div>
   </div>
-</ng-container>
+</div>

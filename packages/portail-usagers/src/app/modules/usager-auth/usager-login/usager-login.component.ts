@@ -46,9 +46,14 @@ export class UsagerLoginComponent implements OnInit {
 
   public initForm(): void {
     this.loginForm = this.formBuilder.group({
-      password: ["86270526", Validators.required],
-      login: ["LMUYYGIT", [Validators.required]],
+      password: ["", Validators.required],
+      login: ["", [Validators.required]],
     });
+
+    // this.loginForm = this.formBuilder.group({
+    //   password: ["03634732", Validators.required],
+    //   login: ["AABBHAAD", [Validators.required]],
+    // });
   }
 
   get f(): Record<string, AbstractControl> {
@@ -76,8 +81,6 @@ export class UsagerLoginComponent implements OnInit {
       next: (apiAuthResponse: PortailUsagerAuthApiResponse) => {
         this.toastr.success("Connexion réussie");
 
-        console.log("login");
-        console.log(apiAuthResponse);
         // SAVE USER & Tokenn
         this.authService.saveToken(apiAuthResponse);
 

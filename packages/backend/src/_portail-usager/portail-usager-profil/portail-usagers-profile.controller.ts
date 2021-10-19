@@ -35,7 +35,6 @@ export class PortailUsagersProfileController {
         usagerUUID: currentUser.usager.uuid,
       });
 
-    console.log(portailUsagerProfile);
     return res.status(HttpStatus.OK).json(portailUsagerProfile);
   }
 }

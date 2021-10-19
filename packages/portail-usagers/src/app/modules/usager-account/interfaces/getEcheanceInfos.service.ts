@@ -39,13 +39,15 @@ export const getEcheanceInfos = (
 
       // Fix: certaines donnnées corompus n'ont pas de dateFinn
       if (indexOfDate && usager.historique) {
-        if (
-          typeof usager.historique[usager.historique.length - indexOfDate]
-            .dateFin !== "undefined"
-        ) {
-          usagerInfos.dateToDisplay = usager.historique[
-            usager.historique.length - indexOfDate
-          ].dateFin as Date;
+        if (usager.historique.length) {
+          if (
+            typeof usager.historique[usager.historique.length - indexOfDate]
+              .dateFin !== "undefined"
+          ) {
+            usagerInfos.dateToDisplay = usager.historique[
+              usager.historique.length - indexOfDate
+            ].dateFin as Date;
+          }
         }
       } else {
         usagerInfos.dateToDisplay = usager.decision.dateDecision;

@@ -113,7 +113,7 @@ export class UsagerAuthService {
     // Enregistrement du token
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.setItem(TOKEN_KEY, apiAuthResponse.token);
-    console.log(apiAuthResponse.profile);
+
     // Build usager
     this.saveAuthUsager(apiAuthResponse.profile);
   }
