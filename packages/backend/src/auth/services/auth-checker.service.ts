@@ -29,6 +29,7 @@ function checkRole(
     );
     appLogger.error(`[authChecker] invalid role`);
   }
+
   return isValidRole;
 }
 
@@ -54,6 +55,7 @@ function checkProfile(
     );
     appLogger.error(`[authChecker] invalid profile`);
   }
+
   return isValidRole;
 }
 

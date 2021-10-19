@@ -3,12 +3,15 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { filter, map, startWith, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
+import { UserStructure } from "../../../../_common/model";
 
 import { UsagerDecisionForm } from "../../../../_common/model/usager/UsagerDecisionForm.type";
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
-import { usagersSearchCache } from "../../../shared/store";
+import { usagersCache } from "../../../shared/store";
+
 import { Rdv } from "../../usager-shared/interfaces/rdv";
 import { UsagerFormModel } from "../../usager-shared/interfaces/UsagerFormModel";
+import { userStructureBuilder } from "../../users/services";
 
 export type UsagersImportMode = "preview" | "confirm";
 
@@ -27,13 +30,13 @@ export class UsagerDossierService {
             .patch<UsagerLight>(`${this.endPointUsagers}/${usager.ref}`, usager)
             .pipe(
               tap((newUsager: UsagerLight) => {
-                usagersSearchCache.updateUsager(newUsager);
+                usagersCache.updateUsager(newUsager);
                 return newUsager;
               })
             )
         : this.http.post<UsagerLight>(`${this.endPointUsagers}`, usager).pipe(
             tap((newUsager: UsagerLight) => {
-              usagersSearchCache.createUsager(newUsager);
+              usagersCache.createUsager(newUsager);
               return newUsager;
             })
           );
@@ -72,7 +75,7 @@ export class UsagerDossierService {
       )
       .pipe(
         tap((usager: UsagerLight) => {
-          usagersSearchCache.updateUsager(usager);
+          usagersCache.updateUsager(usager);
         })
       );
   }
@@ -81,18 +84,26 @@ export class UsagerDossierService {
     return this.http
       .get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`)
       .pipe(
-        startWith(
-          usagersSearchCache
-            .getUsagersSnapshot()
-            ?.find((x) => x.ref === usagerRef)
-        ),
-        filter((x) => !!x)
+        startWith(usagersCache.getSnapshot().usagersByRefMap[usagerRef]), // try to load value from cache
+        filter((x) => !!x) // filter out empty cache value
       );
   }
 
   public isDoublon(nom: string, prenom: string, usagerRef: number) {
     return this.http.get<UsagerLight[]>(
       `${this.endPointUsagers}/doublon/${nom}/${prenom}/${usagerRef}`
+    );
+  }
+
+  public getAllUsersForAgenda(): Observable<UserStructure[]> {
+    return this.http.get(environment.apiUrl + "agenda/users").pipe(
+      map((response) => {
+        return Array.isArray(response)
+          ? response.map((item) =>
+              userStructureBuilder.buildUserStructure(item)
+            )
+          : [userStructureBuilder.buildUserStructure(response)];
+      })
     );
   }
 }

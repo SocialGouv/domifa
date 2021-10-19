@@ -31,6 +31,7 @@ import {
 } from "../../_common/model";
 import { RdvDto } from "../dto/rdv.dto";
 import { UsagersService } from "../services/usagers.service";
+import { ConnectableObservable } from "rxjs";
 
 @ApiTags("agenda")
 @ApiBearerAuth()
@@ -38,6 +39,26 @@ import { UsagersService } from "../services/usagers.service";
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class AgendaController {
   constructor(private usagersService: UsagersService) {}
+
+  @Get("users")
+  @ApiOperation({ summary: "Liste des utilisateurs pour l'agenda" })
+  @AllowUserStructureRoles("facteur", "simple", "responsable", "admin")
+  public getAllUsersForAgenda(
+    @CurrentUser() currentUser: UserStructureAuthenticated
+  ): Promise<UserStructureProfile[]> {
+    return userStructureRepository.findVerifiedStructureUsersByRoles({
+      structureId: currentUser.structureId,
+      roles: ["admin", "simple", "responsable"],
+    });
+  }
+
+  @Get("")
+  @ApiOperation({ summary: "Liste des rendez-vous à venir" })
+  @AllowUserStructureRoles("simple", "responsable", "admin")
+  public async getAll(@CurrentUser() user: UserStructureAuthenticated) {
+    const userId = user.id;
+    return usagerLightRepository.findNextRendezVous({ userId });
+  }
 
   @Post(":usagerRef")
   @UseGuards(UsagerAccessGuard)
@@ -142,25 +163,5 @@ export class AgendaController {
         HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
-  }
-
-  @Get("users")
-  @ApiOperation({ summary: "Liste des utilisateurs pour l'agenda" })
-  @AllowUserStructureRoles("simple", "responsable", "admin")
-  public getAllUsersForAgenda(
-    @CurrentUser() user: UserStructureAuthenticated
-  ): Promise<UserStructureProfile[]> {
-    return userStructureRepository.findVerifiedStructureUsersByRoles({
-      structureId: user.structureId,
-      roles: ["admin", "simple", "responsable"],
-    });
-  }
-
-  @Get("")
-  @ApiOperation({ summary: "Liste des rendez-vous à venir" })
-  @AllowUserStructureRoles("simple", "responsable", "admin")
-  public async getAll(@CurrentUser() user: UserStructureAuthenticated) {
-    const userId = user.id;
-    return usagerLightRepository.findNextRendezVous({ userId });
   }
 }

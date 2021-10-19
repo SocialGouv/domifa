@@ -1,7 +1,5 @@
 <h4>Historique des courriers</h4>
 
-<div>xxx interactions: {{ interactions?.length }}</div>
-
 <div *ngIf="interactions">
   <div class="alert alert-info" *ngIf="interactions.length === 0">
     Aucune interaction enregistrée
@@ -96,7 +94,7 @@
                 ></fa-icon>
               </span>
               <span *ngIf="false" (click)="interaction.delete = false">
-                <fa-icon [icon]="['fas', 'pencil-alt']" class="mr-2"></fa-icon>
+                <fa-icon [icon]="['far', 'edit']" class="mr-2"></fa-icon>
               </span>
             </ng-container>
           </td>

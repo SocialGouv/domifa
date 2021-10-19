@@ -53,7 +53,7 @@ export class StepRdvComponent implements OnInit {
     private documentService: DocumentService,
     private notifService: ToastrService,
     private authService: AuthService,
-    private userService: UsersService,
+
     private nbgDate: NgbDateCustomParserFormatter,
     private router: Router,
     private titleService: Title,
@@ -113,7 +113,7 @@ export class StepRdvComponent implements OnInit {
 
     this.editRdv = this.usager.rdv.dateRdv === null;
 
-    this.userService
+    this.usagerDossierService
       .getAllUsersForAgenda()
       .subscribe((users: UserStructure[]) => {
         this.agents = users;

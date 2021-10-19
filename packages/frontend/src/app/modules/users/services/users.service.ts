@@ -59,18 +59,6 @@ export class UsersService {
     );
   }
 
-  public getAllUsersForAgenda(): Observable<UserStructure[]> {
-    return this.http.get(environment.apiUrl + "agenda/users").pipe(
-      map((response) => {
-        return Array.isArray(response)
-          ? response.map((item) =>
-              userStructureBuilder.buildUserStructure(item)
-            )
-          : [userStructureBuilder.buildUserStructure(response)];
-      })
-    );
-  }
-
   public getNewUsers(): Observable<UserStructureProfile[]> {
     return this.http.get(`${this.endPoint}/to-confirm`).pipe(
       map((response) => {

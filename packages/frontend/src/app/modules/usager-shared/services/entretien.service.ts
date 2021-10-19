@@ -4,7 +4,8 @@ import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { UsagerLight } from "../../../../_common/model";
-import { usagersSearchCache } from "../../../shared/store";
+import { usagersCache } from "../../../shared/store";
+
 import { Entretien } from "../interfaces";
 
 export type UsagersImportMode = "preview" | "confirm";

@@ -140,16 +140,16 @@
         </div>
         <div class="col-3 text-right">
           <button
-            class="btn btn-outline-primary"
+            class="btn btn-outline-primary d-print-none"
             *ngIf="!editInfos"
             (click)="editInfos = true"
           >
-            <fa-icon [icon]="['fas', 'pencil-alt']" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['far', 'edit']" class="mr-2"></fa-icon>
             Modifier
           </button>
 
           <button
-            class="btn btn-outline-primary"
+            class="btn btn-outline-primary d-print-none"
             *ngIf="editInfos"
             (click)="editInfos = false"
           >
@@ -181,15 +181,15 @@
             </div>
             <div>
               <button
-                class="btn btn-outline-primary"
+                class="btn btn-outline-primary d-print-none"
                 *ngIf="!editEntretien"
                 (click)="editEntretien = true"
               >
-                <fa-icon [icon]="['fas', 'pencil-alt']" class="mr-2"></fa-icon>
+                <fa-icon [icon]="['far', 'edit']" class="mr-2"></fa-icon>
                 Modifier
               </button>
               <button
-                class="btn btn-outline-primary"
+                class="btn btn-outline-primary d-print-none"
                 *ngIf="editEntretien"
                 (click)="editEntretien = false"
               >
@@ -220,15 +220,15 @@
         <h4>Pièces jointes</h4>
         <div>
           <button
-            class="btn btn-outline-primary"
+            class="btn btn-outline-primary d-print-none"
             *ngIf="!editPJ"
             (click)="editPJ = true"
           >
-            <fa-icon [icon]="['fas', 'pencil-alt']" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['far', 'edit']" class="mr-2"></fa-icon>
             Modifier
           </button>
           <button
-            class="btn btn-outline-primary"
+            class="btn btn-outline-primary d-print-none"
             *ngIf="editPJ"
             (click)="editPJ = false"
           >
@@ -249,7 +249,6 @@
         ></app-usager-documents>
       </div>
       <hr />
-
       <div
         class="
           d-flex
@@ -259,16 +258,20 @@
           d-print-none
         "
       >
-        <button (click)="printPage()" class="mr-2 btn btn-primary">
-          <fa-icon [icon]="['fas', 'print']" class="mr-2"></fa-icon>
-          Imprimer le récapitulatif
-        </button>
-
-        <button (click)="getAttestation()" class="btn btn-outline-primary mr-2">
+        <button
+          (click)="getAttestation()"
+          class="btn btn-outline-primary d-print-none mr-2"
+        >
           <fa-icon [icon]="['fas', 'download']" class="mr-2"></fa-icon>
           Télécharger l'attestation de demande
         </button>
       </div>
+    </div>
+    <div class="text-center">
+      <button (click)="printPage()" class="d-print-none mr-2 btn btn-primary">
+        <fa-icon [icon]="['fas', 'print']" class="mr-2"></fa-icon>
+        Imprimer le récapitulatif
+      </button>
     </div>
   </div>
 
@@ -283,7 +286,7 @@
         ></app-profil-general-notes>
       </div>
       <button
-        class="my-3 btn btn-outline-primary mr-2"
+        class="my-3 btn btn-outline-primary d-print-none mr-2"
         (click)="openAddNoteInModal()"
       >
         <fa-icon [icon]="['fas', 'plus']" class="mr-2"></fa-icon>
@@ -328,7 +331,10 @@
             required
           />
           <div class="input-group-append">
-            <span class="btn btn-outline-primary" (click)="dFin.toggle()">
+            <span
+              class="btn btn-outline-primary d-print-none"
+              (click)="dFin.toggle()"
+            >
               <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
             </span>
           </div>
@@ -507,7 +513,10 @@
                 required
               />
               <div class="input-group-append">
-                <span class="btn btn-outline-primary" (click)="dDebut.toggle()">
+                <span
+                  class="btn btn-outline-primary d-print-none"
+                  (click)="dDebut.toggle()"
+                >
                   <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
                 </span>
               </div>
@@ -541,7 +550,10 @@
                 required
               />
               <div class="input-group-append">
-                <span class="btn btn-outline-primary" (click)="dFin.toggle()">
+                <span
+                  class="btn btn-outline-primary d-print-none"
+                  (click)="dFin.toggle()"
+                >
                   <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
                 </span>
               </div>
@@ -565,7 +577,7 @@
   </div>
 
   <div class="modal-footer text-center">
-    <button class="btn btn-outline-primary" (click)="closeModal()">
+    <button class="btn btn-outline-primary d-print-none" (click)="closeModal()">
       Revenir au formulaire
     </button>
     <button
