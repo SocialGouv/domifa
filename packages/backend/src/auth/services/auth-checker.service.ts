@@ -17,6 +17,7 @@ function checkRole(
   ...expectedRoles: UserStructureRole[]
 ) {
   const isValidRole = user && expectedRoles.includes(user.role);
+
   if (user && !isValidRole) {
     appLogger.warn(
       `[authChecker] invalid role "${user.role}" for user "${
