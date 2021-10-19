@@ -7,7 +7,7 @@ import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
 
 @Component({
-  selector: "app-entretien-form",
+  selector: "app-usager-dossier-step-entretien",
   templateUrl: "./step-entretien.component.html",
 })
 export class StepEntretienComponent implements OnInit {

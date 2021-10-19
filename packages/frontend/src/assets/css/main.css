@@ -15,6 +15,7 @@ ul {
 .content {
   background-color: #f2f2f2;
   min-height: 100vh;
+  padding-bottom: 4rem;
 }
 
 .page-content {
@@ -106,7 +107,7 @@ orm .card {
 
 .reponses .question {
   color: var(--primary);
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 600;
 }
 
@@ -240,7 +241,7 @@ orm .card {
   background-color: #fff;
   border: 1px solid var(--blue);
   color: var(--blue);
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   text-align: center;
 }
 

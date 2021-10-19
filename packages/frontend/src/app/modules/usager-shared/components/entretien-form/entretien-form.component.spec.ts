@@ -10,16 +10,16 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 
 import { SharedModule } from "../../../shared/shared.module";
-import { EntretienComponent } from "./entretien.component";
+import { EntretienFormComponent } from "./entretien-form.component";
 
-describe("EntretienComponent", () => {
-  let component: EntretienComponent;
-  let fixture: ComponentFixture<EntretienComponent>;
+describe("EntretienFormComponent", () => {
+  let component: EntretienFormComponent;
+  let fixture: ComponentFixture<EntretienFormComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [EntretienComponent],
+        declarations: [EntretienFormComponent],
         imports: [
           NgbModule,
           HttpClientTestingModule,
@@ -37,7 +37,7 @@ describe("EntretienComponent", () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EntretienComponent);
+    fixture = TestBed.createComponent(EntretienFormComponent);
     component = fixture.debugElement.componentInstance;
   });
 

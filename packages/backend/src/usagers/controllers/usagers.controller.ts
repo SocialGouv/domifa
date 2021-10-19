@@ -89,10 +89,6 @@ export class UsagersController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
-    if (usagerDto.etapeDemande === ETAPE_ETAT_CIVIL) {
-      usagerDto.etapeDemande = ETAPE_RENDEZ_VOUS;
-    }
-
     if (!usagerDto.langue || usagerDto.langue === "") {
       usagerDto.langue = null;
     }

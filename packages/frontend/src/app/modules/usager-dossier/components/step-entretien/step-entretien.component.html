@@ -13,10 +13,10 @@
     <app-form-menu [usager]="usager" [currentStep]="2"></app-form-menu>
 
     <div class="step_form">
-      <app-entretien
+      <app-entretien-form
         [(usager)]="usager"
         (nextStep)="nextStep($event)"
-      ></app-entretien>
+      ></app-entretien-form>
     </div>
   </div>
 </div>

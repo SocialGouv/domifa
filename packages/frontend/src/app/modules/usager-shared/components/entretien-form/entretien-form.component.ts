@@ -23,11 +23,11 @@ import { Entretien } from "../../interfaces";
 import { EntretienService } from "../../services/entretien.service";
 
 @Component({
-  selector: "app-entretien",
-  styleUrls: ["./entretien.component.css"],
-  templateUrl: "./entretien.component.html",
+  selector: "app-entretien-form",
+  styleUrls: ["./entretien-form.component.css"],
+  templateUrl: "./entretien-form.component.html",
 })
-export class EntretienComponent implements OnInit {
+export class EntretienFormComponent implements OnInit {
   public ENTRETIEN_LIEN_COMMUNE = ENTRETIEN_LIEN_COMMUNE;
   public ENTRETIEN_TYPE_MENAGE = ENTRETIEN_TYPE_MENAGE;
   public ENTRETIEN_CAUSE = ENTRETIEN_CAUSE;
@@ -96,7 +96,6 @@ export class EntretienComponent implements OnInit {
   }
 
   public submitEntretien() {
-    this.loading = true;
     if (this.usager.decision.statut === "INSTRUCTION") {
       if (this.isEmptyForm()) {
         this.modalService.open(this.entretienConfirmation);
@@ -104,7 +103,7 @@ export class EntretienComponent implements OnInit {
         return;
       }
     }
-
+    this.loading = true;
     this.entretienService
       .submitEntretien(this.entretienForm.value, this.usager.ref)
       .subscribe({
@@ -113,7 +112,6 @@ export class EntretienComponent implements OnInit {
           this.editEntretienChange.emit(false);
           this.nextStep.emit(3);
           this.notifService.success("Enregistrement de l'entretien réussi");
-          this.loading = false;
         },
         error: () => {
           this.loading = false;

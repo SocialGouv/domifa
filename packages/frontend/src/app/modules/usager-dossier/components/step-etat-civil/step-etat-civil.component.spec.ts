@@ -11,8 +11,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
-
-import { StepEtatCivilComponent } from "./step-etat-civil";
+import { StepEtatCivilComponent } from "./step-etat-civil.component";
 
 describe("StepEtatCivilComponent", () => {
   let component: StepEtatCivilComponent;

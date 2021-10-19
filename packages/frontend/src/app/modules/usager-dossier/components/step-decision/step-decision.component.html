@@ -87,18 +87,12 @@
           py-2
         "
       >
-        <button
-          class="btn-lg mr-3 btn btn-primary"
-          (click)="open(confirmation)"
-        >
+        <button class="mr-3 btn btn-primary" (click)="open(confirmation)">
           <fa-icon [icon]="['fas', 'check']" class="mr-2"></fa-icon>
           Accepter le dossier
         </button>
 
-        <button
-          class="btn-lg mr-3 btn btn-outline-danger"
-          (click)="open(refus)"
-        >
+        <button class="mr-3 btn btn-outline-danger" (click)="open(refus)">
           <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
           Refuser le dossier
         </button>
@@ -106,7 +100,7 @@
         <button
           *ngIf="usager.decision.statut !== 'ATTENTE_DECISION'"
           (click)="setDecision('ATTENTE_DECISION')"
-          class="btn-lg mr-3 btn btn-link"
+          class="mr-3 btn btn-link"
         >
           <fa-icon [icon]="['far', 'clock']" class="mr-2"></fa-icon>
           Soumettre la demande
@@ -116,7 +110,7 @@
 
     <div class="step_form">
       <div class="row">
-        <div class="col">
+        <div class="col mb-4">
           Dossier
           <span class="text-primary font-weight-bold mr-3">{{
             usager.customRef
@@ -204,12 +198,12 @@
               </button>
             </div>
           </div>
-          <app-entretien
+          <app-entretien-form
             *ngIf="editEntretien"
             [(editEntretien)]="editEntretien"
             (usagerChanges)="onUsagerChanges($event)"
             [(usager)]="usager"
-          ></app-entretien>
+          ></app-entretien-form>
 
           <app-display-entretien
             *ngIf="!editEntretien"
@@ -265,15 +259,12 @@
           d-print-none
         "
       >
-        <button (click)="printPage()" class="mr-2 btn-lg btn btn-primary">
+        <button (click)="printPage()" class="mr-2 btn btn-primary">
           <fa-icon [icon]="['fas', 'print']" class="mr-2"></fa-icon>
           Imprimer le récapitulatif
         </button>
 
-        <button
-          (click)="getAttestation()"
-          class="btn-lg btn btn-outline-primary mr-2"
-        >
+        <button (click)="getAttestation()" class="btn btn-outline-primary mr-2">
           <fa-icon [icon]="['fas', 'download']" class="mr-2"></fa-icon>
           Télécharger l'attestation de demande
         </button>

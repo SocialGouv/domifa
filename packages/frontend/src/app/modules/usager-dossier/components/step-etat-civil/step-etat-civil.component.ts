@@ -243,13 +243,11 @@ export class StepEtatCivilComponent implements OnInit {
 
   public submitInfos(): void {
     this.submitted = true;
-    this.loading = true;
 
     if (this.usagerForm.invalid) {
       this.notifService.error(
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
-      this.loading = false;
     } else {
       const usagerFormValues = this.usagerForm.value;
       usagerFormValues.ayantsDroits.map((ayantDroit: any) => {
@@ -270,6 +268,7 @@ export class StepEtatCivilComponent implements OnInit {
         formValue.preference.phoneNumber = null;
       }
 
+      this.loading = true;
       this.usagerDossierService.create(formValue).subscribe({
         next: (usager: UsagerLight) => {
           this.usager = new UsagerFormModel(usager);
@@ -287,7 +286,6 @@ export class StepEtatCivilComponent implements OnInit {
     this.usagerDossierService
       .nextStep(this.usager.ref, 2)
       .subscribe((usager: UsagerLight) => {
-        this.loading = false;
         this.notifService.success("Enregistrement réussi");
         this.router.navigate(["usager/" + usager.ref + "/edit/rendez-vous"]);
       });

@@ -12,7 +12,7 @@ import { UsersModule } from "../users/users.module";
 import { DeleteUsagerMenuComponent } from "./components/delete-usager-menu/delete-usager-menu.component";
 import { DisplayEntretienComponent } from "./components/display-entretien/display-entretien.component";
 import { DocumentsComponent } from "./components/documents/documents.component";
-import { EntretienComponent } from "./components/entretien-form/entretien.component";
+import { EntretienFormComponent } from "./components/entretien-form/entretien-form.component";
 import { SetInteractionInFormComponent } from "./components/interactions/set-interaction-in-form/set-interaction-in-form.component";
 import { SetInteractionOutFormComponent } from "./components/interactions/set-interaction-out-form/set-interaction-out-form.component";
 import { RgpdWarningComponent } from "./components/rgpd-warning/rgpd-warning.component";
@@ -28,7 +28,7 @@ import { ProfilAddNoteFormComponent } from "./components/profil-add-note-form/pr
     UploadComponent,
     RgpdWarningComponent,
     SetInteractionInFormComponent,
-    EntretienComponent,
+    EntretienFormComponent,
     SetInteractionOutFormComponent,
     DisplayEntretienComponent,
     ProfilEtatCivilFormComponent,
@@ -53,9 +53,8 @@ import { ProfilAddNoteFormComponent } from "./components/profil-add-note-form/pr
     DocumentsComponent,
     DisplayEntretienComponent,
     DeleteUsagerMenuComponent,
-
     SetInteractionInFormComponent,
-    EntretienComponent,
+    EntretienFormComponent,
     SetInteractionOutFormComponent,
     ProfilEtatCivilFormComponent,
     ProfilGeneralNotesComponent,

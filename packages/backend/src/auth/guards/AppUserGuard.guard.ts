@@ -16,6 +16,7 @@ export class AppUserGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user as UserAuthenticated;
 
+    console.log(user);
     const allowUserStructureRoles = this.reflector.get<UserStructureRole[]>(
       "allowUserStructureRoles",
       context.getHandler()
