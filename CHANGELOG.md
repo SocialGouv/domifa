@@ -1,3 +1,10 @@
+## [2.27.2](https://github.com/SocialGouv/domifa/compare/v2.27.1...v2.27.2) (2021-10-19)
+
+
+### Bug Fixes
+
+* redirect mail on dev & preprod ([15f0dba](https://github.com/SocialGouv/domifa/commit/15f0dba3fab19f1d7a0ee1a30651e3f35eee9c92))
+
 ## [2.27.1](https://github.com/SocialGouv/domifa/compare/v2.27.0...v2.27.1) (2021-10-18)
 
 
