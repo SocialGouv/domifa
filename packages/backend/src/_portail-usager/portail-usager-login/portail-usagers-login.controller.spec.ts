@@ -30,7 +30,7 @@ describe("Usagers Login Controller", () => {
 
   it("should accept login for valid usager login/password", async () => {
     const response = await request(context.app.getHttpServer())
-      .post("/usagers/auth/login")
+      .post("/portail-usagers/auth/login")
       .send({
         login: "WKYJBDXS",
         password: "63635285",
@@ -40,7 +40,7 @@ describe("Usagers Login Controller", () => {
 
   it("should deny login for valid usager login/password", async () => {
     const response = await request(context.app.getHttpServer())
-      .post("/usagers/auth/login")
+      .post("/portail-usagers/auth/login")
       .send({
         login: "WKYJBDXS",
         password: "INVALID-PASS",

@@ -1,7 +1,4 @@
-import {
-  ETAPE_DECISION,
-  ETAPE_RENDEZ_VOUS,
-} from "../../../../_common/usager/constants";
+import { ETAPE_RENDEZ_VOUS } from "../../../../_common/usager/constants";
 import { DEFAULT_USAGER } from "./../../../../_common/mocks/DEFAULT_USAGER.const";
 
 import { getRdvInfos } from "./getRdvInfos.service";

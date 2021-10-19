@@ -92,7 +92,7 @@ async function authenticateUsager(
   const { app } = context;
   expectAppToBeDefined(app);
   const response = await request(app.getHttpServer())
-    .post("/usagers/auth/login")
+    .post("/portail-usagers/auth/login")
     .send(authInfo);
   expect(response.status).toBe(HttpStatus.OK);
   context.authToken = response.body.access_token;
