@@ -42,7 +42,7 @@ export class AgendaController {
 
   @Get("users")
   @ApiOperation({ summary: "Liste des utilisateurs pour l'agenda" })
-  @AllowUserStructureRoles("facteur", "simple", "responsable", "admin")
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   public getAllUsersForAgenda(
     @CurrentUser() currentUser: UserStructureAuthenticated
   ): Promise<UserStructureProfile[]> {
