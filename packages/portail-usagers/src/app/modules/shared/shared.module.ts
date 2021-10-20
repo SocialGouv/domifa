@@ -7,6 +7,8 @@ import { DateFrDirective } from "./directives/date-fr.directive";
 import { DigitOnlyDirective } from "./directives/digit-only.directive";
 import { FormatPhoneNumberPipe } from "./pipes/formatPhoneNumber.pipe";
 import { FormatBigNumberPipe } from "./pipes/formatBigNumber.pipe";
+import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
+import { FA_ICONS } from "./constants/FA_ICONS.const";
 
 @NgModule({
   declarations: [
@@ -27,4 +29,8 @@ import { FormatBigNumberPipe } from "./pipes/formatBigNumber.pipe";
   ],
   imports: [CommonModule],
 })
-export class SharedModule {}
+export class SharedModule {
+  constructor(private library: FaIconLibrary) {
+    library.addIcons(...FA_ICONS);
+  }
+}

@@ -11,7 +11,6 @@ import {
 import { AppEntity } from "../_core";
 
 export type PortailUsagerPublic = AppEntity & {
-  ref: number; // unique par structure
   customRef: string; // valeur par défaut: 'ref'
   structureId: number;
 

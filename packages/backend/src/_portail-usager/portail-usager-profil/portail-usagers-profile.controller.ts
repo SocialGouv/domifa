@@ -17,7 +17,7 @@ import {
 } from "../../_common/model";
 import { portailUsagerProfilBuilder } from "./services/portail-usager-profil-builder.service";
 
-@Controller("usagers/profile")
+@Controller("portail-usagers/profile")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("profile")
 export class PortailUsagersProfileController {
@@ -26,7 +26,7 @@ export class PortailUsagersProfileController {
   @Get("me")
   @AllowUserProfiles("usager")
   @HttpCode(HttpStatus.OK)
-  public async loginUser(
+  public async meUsager(
     @Res() res: ExpressResponse,
     @CurrentUser() currentUser: UserUsagerAuthenticated
   ) {
@@ -34,6 +34,7 @@ export class PortailUsagersProfileController {
       await portailUsagerProfilBuilder.build({
         usagerUUID: currentUser.usager.uuid,
       });
-    return portailUsagerProfile;
+
+    return res.status(HttpStatus.OK).json(portailUsagerProfile);
   }
 }

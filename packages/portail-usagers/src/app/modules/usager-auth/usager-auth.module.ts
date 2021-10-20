@@ -19,6 +19,7 @@ import { UsagerLoginComponent } from "./usager-login/usager-login.component";
     HttpClientModule,
     FormsModule,
     FontAwesomeModule,
+    SharedModule,
     ReactiveFormsModule,
   ],
   providers: [UsagerAuthService],

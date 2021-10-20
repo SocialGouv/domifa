@@ -8,7 +8,10 @@ import {
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import type { PortailUsagerAuthLoginForm } from "../../../../_common";
+import type {
+  PortailUsagerAuthApiResponse,
+  PortailUsagerAuthLoginForm,
+} from "../../../../_common";
 import { UsagerAuthService } from "../services/usager-auth.service";
 
 @Component({
@@ -30,7 +33,7 @@ export class UsagerLoginComponent implements OnInit {
     private router: Router,
     private titleService: Title,
     private authService: UsagerAuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {
     this.hidePassword = true;
     this.loading = false;
@@ -46,6 +49,11 @@ export class UsagerLoginComponent implements OnInit {
       password: ["", Validators.required],
       login: ["", [Validators.required]],
     });
+
+    // this.loginForm = this.formBuilder.group({
+    //   password: ["03634732", Validators.required],
+    //   login: ["AABBHAAD", [Validators.required]],
+    // });
   }
 
   get f(): Record<string, AbstractControl> {
@@ -66,16 +74,18 @@ export class UsagerLoginComponent implements OnInit {
     this.loading = true;
 
     this.authService.login(loginForm).subscribe({
-      complete: () => {
-        this.router.navigate(["/account"]);
-      },
       error: () => {
         this.loading = false;
         this.toastr.error("Login et / ou mot de passe incorrect");
       },
-      next: () => {
+      next: (apiAuthResponse: PortailUsagerAuthApiResponse) => {
+        this.toastr.success("Connexion réussie");
+
+        // SAVE USER & Tokenn
+        this.authService.saveToken(apiAuthResponse);
+
         this.loading = false;
-        this.router.navigate(["/"]);
+        this.router.navigate(["/account"]);
       },
     });
   }

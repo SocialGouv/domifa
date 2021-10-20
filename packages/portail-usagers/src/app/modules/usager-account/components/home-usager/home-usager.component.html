@@ -1,0 +1,16 @@
+<div *ngIf="usagerProfile">
+  <div class="home-message">
+    <h1 class="text-primary font-weight-bold">
+      Bonjour {{ usagerProfile.usager.prenom }} !
+    </h1>
+    <span class="subtitle"
+      >Bienvenue dans votre espace de suivi de courrier</span
+    >
+  </div>
+
+  <app-section-courriers
+    [usager]="usagerProfile.usager"
+  ></app-section-courriers>
+
+  <app-section-infos [usager]="usagerProfile.usager"></app-section-infos>
+</div>

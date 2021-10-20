@@ -1,6 +1,10 @@
+import { ToastrModule } from "ngx-toastr";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { RouterTestingModule } from "@angular/router/testing";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { UsagerAccountModule } from "../usager-account.module";
+
 import { HomeUsagerComponent } from "./home-usager.component";
+import { UsagerAccountModule } from "../../usager-account.module";
 
 describe("HomeUsagerComponent", () => {
   let component: HomeUsagerComponent;
@@ -9,7 +13,12 @@ describe("HomeUsagerComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [HomeUsagerComponent],
-      imports: [UsagerAccountModule],
+      imports: [
+        UsagerAccountModule,
+        RouterTestingModule,
+        ToastrModule.forRoot(),
+        HttpClientTestingModule,
+      ],
     }).compileComponents();
   });
 
