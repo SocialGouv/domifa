@@ -1,5 +1,5 @@
 import { UsagerLight } from "../../../_common/model";
-import { Interaction } from "../../modules/usagers/interfaces/interaction";
+import { Interaction } from "../../modules/usager-shared/interfaces";
 
 export type AppStoreAction =
   | {

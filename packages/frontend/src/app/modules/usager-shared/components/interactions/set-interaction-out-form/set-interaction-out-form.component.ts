@@ -8,17 +8,15 @@ import {
   Output,
 } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
-import { BehaviorSubject, combineLatest, Subscription } from "rxjs";
+import { BehaviorSubject, Subscription, combineLatest } from "rxjs";
 import { UsagerLight } from "../../../../../../_common/model";
 import { InteractionOutForm } from "../../../../../../_common/model/interaction";
 import { INTERACTIONS_OUT_AVAILABLE } from "../../../../../../_common/model/interaction/constants";
-import { bounce } from "../../../../../shared/animations";
-
-import { InteractionService } from "../../../services/interaction.service";
-import { UsagerService } from "../../../../usagers/services/usager.service";
-import { UsagerFormModel } from "../../../../usagers/components/form/UsagerFormModel";
-import { Interaction } from "../../../../usagers/interfaces/interaction";
+import { bounce } from "../../../../../shared";
 import { isProcurationActifMaintenant } from "../../../../usagers/services";
+import { UsagerService } from "../../../../usagers/services/usager.service";
+import { UsagerFormModel, Interaction } from "../../../interfaces";
+import { InteractionService } from "../../../services/interaction.service";
 
 @Component({
   animations: [bounce],

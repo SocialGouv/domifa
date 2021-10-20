@@ -30,6 +30,7 @@ export class AppUserGuard implements CanActivate {
         )
       );
     }
+
     const allowUserProfiles = this.reflector.get<UserProfile[]>(
       "allowUserProfiles",
       context.getHandler()

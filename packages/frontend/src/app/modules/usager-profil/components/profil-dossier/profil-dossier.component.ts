@@ -8,7 +8,8 @@ import {
   UserStructureRole,
 } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
-import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
+import { UsagerFormModel } from "../../../usager-shared/interfaces/UsagerFormModel";
+
 import { UsagerService } from "../../../usagers/services/usager.service";
 
 @Component({

@@ -17,6 +17,7 @@ function checkRole(
   ...expectedRoles: UserStructureRole[]
 ) {
   const isValidRole = user && expectedRoles.includes(user.role);
+
   if (user && !isValidRole) {
     appLogger.warn(
       `[authChecker] invalid role "${user.role}" for user "${
@@ -28,6 +29,7 @@ function checkRole(
     );
     appLogger.error(`[authChecker] invalid role`);
   }
+
   return isValidRole;
 }
 
@@ -53,6 +55,7 @@ function checkProfile(
     );
     appLogger.error(`[authChecker] invalid profile`);
   }
+
   return isValidRole;
 }
 

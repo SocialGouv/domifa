@@ -10,26 +10,28 @@ import {
 import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
-import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import {
+  UserStructure,
   UsagerLight,
   UsagerOptionsProcuration,
   UsagerOptionsTransfert,
-  UserStructure,
 } from "../../../../../../_common/model";
 import {
-  InteractionForApi,
   InteractionType,
+  InteractionForApi,
 } from "../../../../../../_common/model/interaction";
 import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../../_common/model/interaction/constants";
+import { fadeInOutSlow, fadeInOut } from "../../../../../shared";
+import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { InteractionService } from "../../../../usager-shared/services/interaction.service";
-import { isProcurationActifMaintenant } from "../../../services";
-import { isTransfertActifMaintenant } from "../../../services/transfert.service";
-import { UsagerFormModel } from "../../form/UsagerFormModel";
+import {
+  isProcurationActifMaintenant,
+  isTransfertActifMaintenant,
+} from "../../../services";
 import {
   UsagersFilterCriteria,
-  UsagersFilterCriteriaDernierPassage,
   UsagersFilterCriteriaSortValues,
+  UsagersFilterCriteriaDernierPassage,
 } from "../usager-filter";
 
 @Component({

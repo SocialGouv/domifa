@@ -8,9 +8,9 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
-import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 
 import { ProfilGeneralSectionComponent } from "./profil-general-section.component";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 describe("ProfilGeneralSectionComponent", () => {
   let component: ProfilGeneralSectionComponent;

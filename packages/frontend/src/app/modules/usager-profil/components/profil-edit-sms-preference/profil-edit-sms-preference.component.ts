@@ -8,7 +8,8 @@ import {
   UserStructureRole,
 } from "../../../../../_common/model";
 import { regexp } from "../../../../shared/validators";
-import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
+
 import { UsagerProfilService } from "../../services/usager-profil.service";
 
 @Component({

@@ -1,12 +1,12 @@
 import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, waitForAsync, TestBed } from "@angular/core/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
 import { USAGER_ACTIF_MOCK } from "../../../../../../_common/mocks/USAGER_ACTIF.mock";
-import { UsagerFormModel } from "../../../../usagers/components/form/UsagerFormModel";
+import { UsagerFormModel } from "../../../interfaces";
 
 import { SetInteractionOutFormComponent } from "./set-interaction-out-form.component";
 

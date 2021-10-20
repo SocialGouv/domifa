@@ -5,8 +5,7 @@ import {
 import { fakeAsync, inject, TestBed } from "@angular/core/testing";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
-import { UsagerFormModel } from "../../usagers/components/form/UsagerFormModel";
-import { Doc } from "../../usagers/interfaces/doc";
+import { Doc, UsagerFormModel } from "../interfaces";
 
 import { DocumentService } from "./document.service";
 

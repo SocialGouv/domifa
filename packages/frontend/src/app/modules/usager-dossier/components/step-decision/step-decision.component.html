@@ -1,0 +1,599 @@
+<div class="head-page d-print-none">
+  <div class="container">
+    <span class="title">Nouvelle inscription</span>
+  </div>
+</div>
+
+<div class="content" *ngIf="me && usager">
+  <div class="container py-3">
+    <app-form-menu [usager]="usager" [currentStep]="4"></app-form-menu>
+
+    <div *ngIf="usager.decision.statut === 'ATTENTE_DECISION' && !isAdmin">
+      <div class="row">
+        <div class="col text-center">
+          <h5>
+            <b>Demande de domiciliation en cours</b>
+          </h5>
+          <br />
+          La demande d'élection de domicile de
+          <b>{{ usager | usagerNomComplet }}</b>
+          a été envoyée le
+          <b>
+            {{ usager.decision.dateDecision | date: "dd/MM/yyyy à HH:mm" }}.
+          </b>
+          <br />
+          La personne référente dans votre structure est invitée à statuer sur
+          cette demande.
+          <br />
+          <br />
+          <button (click)="getAttestation()" class="btn btn-primary">
+            <fa-icon [icon]="['fas', 'download']"></fa-icon>
+            Télécharger le CERFA de demande
+          </button>
+          <br />
+          <br />
+          <p class="text-center">
+            <a routerLink="/manage" routerLinkActive="router-link-active">
+              Retour à la liste des domiciliés
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!isAdmin && usager.decision.statut === 'INSTRUCTION'">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <h5>
+            Le dossier de
+            <b>{{ usager.nom }} {{ usager.prenom }}</b>
+            est complet
+          </h5>
+        </div>
+        <div class="col-md-6 offset-3">
+          <button
+            (click)="setDecision('ATTENTE_DECISION')"
+            class="btn btn-primary"
+          >
+            <fa-icon [icon]="['far', 'clock']"></fa-icon>
+            SOUMETTRE LA DEMANDE
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container my-4 text-center" *ngIf="isAdmin">
+      <h5>
+        Le dossier de
+        <b>{{ usager.nom }} {{ usager.prenom }}</b>
+        est complet
+      </h5>
+
+      <div class="pb-4" *ngIf="usager.decision.statut === 'ATTENTE_DECISION'">
+        Ce dossier a été mis en attente d'une décision par
+
+        <b>
+          {{ usager.decision.userName }}
+          le {{ usager.decision.dateDecision | date: "dd/MM/yyyy à HH:mm" }}
+        </b>
+      </div>
+
+      <div
+        class="
+          d-print-none d-flex
+          justify-content-center
+          align-items-center
+          text-center
+          py-2
+        "
+      >
+        <button class="mr-3 btn btn-primary" (click)="open(confirmation)">
+          <fa-icon [icon]="['fas', 'check']" class="mr-2"></fa-icon>
+          Accepter le dossier
+        </button>
+
+        <button class="mr-3 btn btn-outline-danger" (click)="open(refus)">
+          <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
+          Refuser le dossier
+        </button>
+
+        <button
+          *ngIf="usager.decision.statut !== 'ATTENTE_DECISION'"
+          (click)="setDecision('ATTENTE_DECISION')"
+          class="mr-3 btn btn-link"
+        >
+          <fa-icon [icon]="['far', 'clock']" class="mr-2"></fa-icon>
+          Soumettre la demande
+        </button>
+      </div>
+    </div>
+
+    <div class="step_form">
+      <div class="row">
+        <div class="col mb-4">
+          Dossier
+          <span class="text-primary font-weight-bold mr-3">{{
+            usager.customRef
+          }}</span>
+
+          <span
+            *ngIf="usager.typeDom === 'PREMIERE_DOM'"
+            class="label-info label-yellow"
+          >
+            Première domiciliation
+          </span>
+          <span
+            *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
+            class="label-info label-green"
+          >
+            Renouvellement
+          </span>
+        </div>
+      </div>
+
+      <div class="row align-items-center">
+        <div class="col-6">
+          <h4>État-civil</h4>
+        </div>
+        <div class="col-3">
+          <h4 *ngIf="!editInfos">Ayants-droits</h4>
+        </div>
+        <div class="col-3 text-right">
+          <button
+            class="btn btn-outline-primary d-print-none"
+            *ngIf="!editInfos"
+            (click)="editInfos = true"
+          >
+            <fa-icon [icon]="['far', 'edit']" class="mr-2"></fa-icon>
+            Modifier
+          </button>
+
+          <button
+            class="btn btn-outline-primary d-print-none"
+            *ngIf="editInfos"
+            (click)="editInfos = false"
+          >
+            <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
+            Annuler
+          </button>
+        </div>
+      </div>
+
+      <app-display-etat-civil-decision
+        *ngIf="!editInfos"
+        [usager]="usager"
+      ></app-display-etat-civil-decision>
+
+      <app-profil-etat-civil-form
+        *ngIf="editInfos"
+        [usager]="usager"
+        (usagerChanges)="onUsagerChanges($event)"
+        [(editInfos)]="editInfos"
+      ></app-profil-etat-civil-form>
+
+      <hr />
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h4>Entretien social</h4>
+            </div>
+            <div>
+              <button
+                class="btn btn-outline-primary d-print-none"
+                *ngIf="!editEntretien"
+                (click)="editEntretien = true"
+              >
+                <fa-icon [icon]="['far', 'edit']" class="mr-2"></fa-icon>
+                Modifier
+              </button>
+              <button
+                class="btn btn-outline-primary d-print-none"
+                *ngIf="editEntretien"
+                (click)="editEntretien = false"
+              >
+                <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
+                Annuler les changements
+              </button>
+            </div>
+          </div>
+          <app-entretien-form
+            *ngIf="editEntretien"
+            [(editEntretien)]="editEntretien"
+            (usagerChanges)="onUsagerChanges($event)"
+            [(usager)]="usager"
+          ></app-entretien-form>
+
+          <app-display-entretien
+            *ngIf="!editEntretien"
+            [usager]="usager"
+            [structure]="me.structure"
+          >
+          </app-display-entretien>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="d-flex justify-content-between align-items-center">
+        <h4>Pièces jointes</h4>
+        <div>
+          <button
+            class="btn btn-outline-primary d-print-none"
+            *ngIf="!editPJ"
+            (click)="editPJ = true"
+          >
+            <fa-icon [icon]="['far', 'edit']" class="mr-2"></fa-icon>
+            Modifier
+          </button>
+          <button
+            class="btn btn-outline-primary d-print-none"
+            *ngIf="editPJ"
+            (click)="editPJ = false"
+          >
+            <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
+            Annuler les changements
+          </button>
+        </div>
+      </div>
+      <app-upload *ngIf="editPJ" [usager]="usager"></app-upload>
+      <div class="mb-5">
+        <div class="font-italic" *ngIf="usager.docs.length === 0">
+          Aucune pièces-jointe enregistrée
+        </div>
+
+        <app-usager-documents
+          *ngIf="usager.docs.length > 0"
+          [usager]="usager"
+        ></app-usager-documents>
+      </div>
+      <hr />
+      <div
+        class="
+          d-flex
+          justify-content-center
+          align-items-center
+          my-4
+          d-print-none
+        "
+      >
+        <button
+          (click)="getAttestation()"
+          class="btn btn-outline-primary d-print-none mr-2"
+        >
+          <fa-icon [icon]="['fas', 'download']" class="mr-2"></fa-icon>
+          Télécharger l'attestation de demande
+        </button>
+      </div>
+    </div>
+    <div class="text-center">
+      <button (click)="printPage()" class="d-print-none mr-2 btn btn-primary">
+        <fa-icon [icon]="['fas', 'print']" class="mr-2"></fa-icon>
+        Imprimer le récapitulatif
+      </button>
+    </div>
+  </div>
+
+  <div class="container pb-3">
+    <div class="step_form">
+      <h5>Commentaires privés</h5>
+      <div class="py-3">
+        <app-profil-general-notes
+          [(usager)]="usager"
+          [me]="me"
+          (onUsagerChanges)="onUsagerChanges($event)"
+        ></app-profil-general-notes>
+      </div>
+      <button
+        class="my-3 btn btn-outline-primary d-print-none mr-2"
+        (click)="openAddNoteInModal()"
+      >
+        <fa-icon [icon]="['fas', 'plus']" class="mr-2"></fa-icon>
+        <span>Ajouter une note</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #refus let-modal>
+  <div class="modal-body decision-form">
+    <form
+      [formGroup]="refusForm"
+      (ngSubmit)="setDecision('REFUS')"
+      autocomplete="off"
+    >
+      <div class="col-md-12">
+        <h3>Motivez votre refus</h3>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="dateFinRefus">
+          Date du refus
+          <span class="text-danger">*</span>
+        </label>
+        <div class="input-group">
+          <input
+            class="form-control"
+            placeholder="jj/mm/aaaa"
+            [minDate]="minDate"
+            [maxDate]="maxDateRefus"
+            placement="bottom"
+            ngbDatepicker
+            id="dateFinRefus"
+            formControlName="dateFin"
+            #dFin="ngbDatepicker"
+            dateFr
+            value
+            [ngClass]="{
+              'is-invalid': r.dateFin.dirty && r.dateFin.errors
+            }"
+            maxlength="10"
+            required
+          />
+          <div class="input-group-append">
+            <span
+              class="btn btn-outline-primary d-print-none"
+              (click)="dFin.toggle()"
+            >
+              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+            </span>
+          </div>
+        </div>
+        <div *ngIf="submitted && r.dateFin.errors" class="invalid-feedback">
+          La date de refus est incorrecte
+        </div>
+      </div>
+
+      <div class="col-md-6"></div>
+      <div class="form-group col-md-12">
+        <b>
+          Pour quel motif ?
+          <span class="text-danger">*</span>
+        </b>
+        <div
+          class="form-row"
+          *ngFor="let motif of MOTIFS_REFUS_LABELS | keyvalue"
+        >
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="motif-refus-{{ motif.key }}"
+              formControlName="motif"
+              value="{{ motif.key }}"
+            />
+            <label class="form-check-label" for="motif-refus-{{ motif.key }}">
+              {{ motif.value }}
+            </label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="motif-autre"
+              formControlName="motif"
+              value="AUTRE"
+            />
+            <label class="form-check-label" for="motif-autre">
+              Autre raison
+            </label>
+          </div>
+        </div>
+
+        <div *ngIf="r.motif.value === 'AUTRE'" class="form-row">
+          <label class="form-check-label" for="motifRefusAutre">
+            Autre motif de refus
+            <span class="text-danger">*</span>
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="motifRefusAutre"
+            formControlName="motifDetails"
+          />
+        </div>
+        <div *ngIf="submitted && r.motif.errors" class="invalid-feedback">
+          Veuillez choisir un motif de refus (10 caractères minimum)
+        </div>
+        <div
+          *ngIf="submitted && r.motifDetails.errors"
+          class="invalid-feedback"
+        >
+          Veuillez indiquer un autre motif
+        </div>
+      </div>
+
+      <div class="form-group col-md-12">
+        <b>
+          Orientation proposée
+          <span class="text-danger">*</span>
+        </b>
+        <div class="form-row form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="orientationRefusCcas"
+            formControlName="orientation"
+            value="ccas"
+          />
+          <label class="form-check-label" for="orientationRefusCcas">
+            CCAS, CIAS, Commune
+          </label>
+        </div>
+        <div class="form-row">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="orientationRefusAsso"
+              formControlName="orientation"
+              value="asso"
+            />
+            <label class="form-check-label" for="orientationRefusAsso">
+              Organisme agréé
+            </label>
+          </div>
+          <div
+            *ngIf="submitted && r.orientation.errors"
+            class="invalid-feedback"
+          >
+            Veuillez proposer une orientation
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="orientationRefusDetails">
+            Précisez
+            <span class="text-danger">*</span>
+          </label>
+          <input
+            class="form-control"
+            type="text"
+            formControlName="orientationDetails"
+            id="orientationRefusDetails"
+          />
+        </div>
+        <div
+          *ngIf="submitted && r.orientationDetails.errors"
+          class="invalid-feedback"
+        >
+          Veuillez indiquer vers quel organisme vous souhaitez orienter
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-outline-danger" (click)="closeModal()">
+      Annuler
+    </button>
+    <button class="btn btn-danger" (click)="setDecision('REFUS')">
+      Confirmer le refus
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #confirmation let-modal>
+  <div class="modal-body text-center">
+    <div class="col">
+      <h4>Confirmer la décision</h4>
+      Vous êtes sur le point de domicilier
+      <b>{{ usager.nom }} {{ usager.prenom }}.</b>
+      <br />
+      Veuillez indiquer la date de début et de fin de la domiciliation
+      <br />
+      <br />
+      <form
+        [formGroup]="valideForm"
+        (ngSubmit)="setDecision('VALIDE')"
+        autocomplete="off"
+      >
+        <div class="row">
+          <div class="form-group col-md-6 required">
+            <label for="dateDebutValide">Date de début</label>
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="jj/mm/aaaa"
+                [minDate]="minDate"
+                [maxDate]="maxDate"
+                placement="bottom"
+                ngbDatepicker
+                id="dateDebutValide"
+                formControlName="dateDebut"
+                #dDebut="ngbDatepicker"
+                dateFr
+                value
+                [ngClass]="{
+                  'is-invalid': v.dateDebut.dirty && v.dateDebut.errors
+                }"
+                maxlength="10"
+                required
+              />
+              <div class="input-group-append">
+                <span
+                  class="btn btn-outline-primary d-print-none"
+                  (click)="dDebut.toggle()"
+                >
+                  <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+                </span>
+              </div>
+            </div>
+            <div
+              *ngIf="submitted && v.dateDebut.errors"
+              class="invalid-feedback"
+            >
+              La date de début de domiciliation est incorrecte
+            </div>
+          </div>
+          <div class="form-group col-md-6 required">
+            <label for="dateFinValide">Date de fin</label>
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="jj/mm/aaaa"
+                [minDate]="minDate"
+                [maxDate]="maxDate"
+                placement="bottom"
+                ngbDatepicker
+                formControlName="dateFin"
+                #dFin="ngbDatepicker"
+                dateFr
+                id="dateFinValide"
+                value
+                [ngClass]="{
+                  'is-invalid': v.dateFin.dirty && v.dateFin.errors
+                }"
+                maxlength="10"
+                required
+              />
+              <div class="input-group-append">
+                <span
+                  class="btn btn-outline-primary d-print-none"
+                  (click)="dFin.toggle()"
+                >
+                  <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="text-center text-danger col-12">
+            <div *ngIf="v.dateDebut.errors">
+              La date de début est incorrecte
+            </div>
+            <div *ngIf="v.dateFin.errors">La date de fin est incorrecte</div>
+            <div
+              class="text-danger"
+              *ngIf="v.dateDebut.value > v.dateFin.value"
+            >
+              La date de fin doit être supérieure à la date de début
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-footer text-center">
+    <button class="btn btn-outline-primary d-print-none" (click)="closeModal()">
+      Revenir au formulaire
+    </button>
+    <button
+      class="btn btn-primary"
+      [disabled]="v.dateDebut.value > v.dateFin.value"
+      (click)="setDecision('VALIDE')"
+    >
+      Confirmer la domiciliation
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #addNoteInModal let-modal>
+  <app-profil-add-note-form
+    [(usager)]="usager"
+    (confirm)="onUsagerChanges($event); closeModals()"
+    (cancel)="closeModals()"
+  ></app-profil-add-note-form>
+</ng-template>

@@ -2,9 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { UsagerLight, UserStructure } from "../../../../../_common/model";
+import { UserStructure, UsagerLight } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
-import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerProfilService } from "../../services/usager-profil.service";
 
 @Component({

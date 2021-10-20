@@ -14,15 +14,13 @@ import { CustomDatepickerI18n } from "../shared/services/date-french";
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
 import { UsagerSharedModule } from "./../usager-shared/usager-shared.module";
-import { ProfilAddNoteFormComponent } from "./components/profil-add-note-form/profil-add-note-form.component";
+import { DisplayEtatCivilComponent } from "./components/display-etat-civil/display-etat-civil.component";
 import { ProfilCourriersComponent } from "./components/profil-courriers/profil-courriers.component";
 import { ProfilDocumentsSectionComponent } from "./components/profil-documents-section/profil-documents-section.component";
 import { ProfilDossierComponent } from "./components/profil-dossier/profil-dossier.component";
 import { ProfilEditPortailUsagerPreferenceComponent } from "./components/profil-edit-portail-usager-preference/profil-edit-portail-usager-preference.component";
 import { ProfilEditSmsPreferenceComponent } from "./components/profil-edit-sms-preference/profil-edit-sms-preference.component";
-import { ProfilEtatCivilFormComponent } from "./components/profil-etat-civil-form/profil-etat-civil-form.component";
 import { ProfilGeneralHistoriqueCourriersComponent } from "./components/profil-general-historique-courriers/profil-general-historique-courriers.component";
-import { ProfilGeneralNotesComponent } from "./components/profil-general-notes/profil-general-notes.component";
 import { ProfilGeneralSectionComponent } from "./components/profil-general-section/profil-general-section.component";
 import { ProfilHeadComponent } from "./components/profil-head/profil-head.component";
 import { ProfilHistoriqueCourriersComponent } from "./components/profil-historique-courriers/profil-historique-courriers.component";
@@ -44,8 +42,6 @@ import { UsagerProfilRoutingModule } from "./usager-profil-routing.module";
     ProfilHistoriqueComponent,
     ProfilHistoriqueNotesComponent,
     ProfilHistoriqueSmsComponent,
-    ProfilGeneralNotesComponent,
-    ProfilAddNoteFormComponent,
     // Parts
     UsagersProfilTransfertCourrierComponent,
     UsagersProfilProcurationCourrierComponent,
@@ -53,15 +49,13 @@ import { UsagerProfilRoutingModule } from "./usager-profil-routing.module";
     ProfilStructureDocsComponent,
     ProfilEditSmsPreferenceComponent,
     ProfilEditPortailUsagerPreferenceComponent,
-    ProfilEtatCivilFormComponent,
-
     ProfilDocumentsSectionComponent,
     ProfilGeneralHistoriqueCourriersComponent,
+    DisplayEtatCivilComponent,
   ],
 
   imports: [
     CommonModule,
-
     UsagerSharedModule,
     FormsModule,
     GeneralModule,

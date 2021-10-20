@@ -7,7 +7,7 @@ import { UsagerLight } from "../../../../../_common/model/usager/UsagerLight.typ
 import { DocumentService } from "../../services/document.service";
 
 @Component({
-  selector: "app-documents",
+  selector: "app-usager-documents",
   styleUrls: ["./documents.component.css"],
   templateUrl: "./documents.component.html",
 })

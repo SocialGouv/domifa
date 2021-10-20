@@ -29,26 +29,26 @@ import {
   tap,
 } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
-import { getEcheanceInfos } from "../../interfaces/getEcheanceInfos.service";
-import { getRdvInfos } from "../../interfaces/getRdvInfos.service";
-import { getUrlUsagerProfil } from "../../interfaces/getUrlUsagerProfil.service";
-import { UsagerFormModel } from "../form/UsagerFormModel";
+import { fadeInOutSlow, fadeInOut } from "../../../../shared";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
+import {
+  getEcheanceInfos,
+  getRdvInfos,
+  getUrlUsagerProfil,
+} from "../../../usager-shared/utils";
+import { UsagerService } from "../../services/usager.service";
 import {
   UsagersByStatus,
-  usagersByStatusBuilder,
-  usagersFilter,
-  UsagersFilterCriteria,
-  UsagersFilterCriteriaStatut,
-  UsagersFilterCriteriaEcheance,
-  UsagersFilterCriteriaSortKey,
-} from "./usager-filter";
-import {
   UsagersFilterCriteriaDernierPassage,
+  UsagersFilterCriteriaEcheance,
+  UsagersFilterCriteria,
+  usagersByStatusBuilder,
   UsagersFilterCriteriaSortValues,
-} from "./usager-filter/UsagersFilterCriteria";
+  UsagersFilterCriteriaStatut,
+  UsagersFilterCriteriaSortKey,
+  usagersFilter,
+} from "./usager-filter";
 
 const AUTO_REFRESH_PERIOD = 3600000; // 1h
 @Component({

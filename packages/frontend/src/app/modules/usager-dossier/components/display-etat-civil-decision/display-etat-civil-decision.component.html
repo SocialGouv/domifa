@@ -1,0 +1,60 @@
+<div class="row">
+  <div class="col-6">
+    <div class="py-1">
+      <span class="font-weight-bold">{{ usager.prenom }} {{ usager.nom }}</span>
+      ({{ usager.sexe | titlecase }})
+    </div>
+    <div class="py-1">
+      Née le
+      <span class="font-weight-bold">{{
+        usager.dateNaissance | date: "dd/MM/yyyy"
+      }}</span>
+      à
+      <span class="font-weight-bold">{{
+        usager.villeNaissance | titlecase
+      }}</span>
+    </div>
+
+    <div class="py-1">
+      Langues parlées:
+      <span class="valeur" *ngIf="usager.langue">{{
+        languagesAutocomplete.formatter(usager.langue)
+      }}</span>
+      <span class="valeur" *ngIf="!usager.langue">Non renseigné</span>
+    </div>
+
+    <div class="my-4">
+      <div class="py-2 text-primary font-weight-bold">Contact</div>
+      <div>
+        Téléphone:
+        <span class="valeur" *ngIf="usager.phone">{{
+          usager.phone | formatPhoneNumber
+        }}</span>
+        <span class="valeur" *ngIf="!usager.phone">Non renseigné</span>
+      </div>
+      <div class="py-2">
+        Email:
+        <span class="text-underline" *ngIf="usager.email">
+          {{ usager.email }}
+        </span>
+        <span *ngIf="!usager.email">Non renseigné</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <div class="font-italic" *ngIf="usager.ayantsDroits.length === 0">
+      Aucun ayant-droit enregistré
+    </div>
+
+    <div class="reponses" *ngFor="let ayantDroit of usager.ayantsDroits">
+      <span class="question"
+        >{{ ayantDroit.nom | uppercase }} {{ ayantDroit.prenom }}</span
+      >
+      <span class="valeur">
+        {{ ayantDroit.dateNaissance | date: "dd/MM/yyyy" }},
+        {{ ayantDroit.lien }}
+      </span>
+    </div>
+  </div>
+</div>

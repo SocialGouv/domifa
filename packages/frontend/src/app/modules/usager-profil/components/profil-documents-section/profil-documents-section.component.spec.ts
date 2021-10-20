@@ -13,10 +13,11 @@ import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
 
 import { ProfilDocumentsSectionComponent } from "./profil-documents-section.component";
-import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
+
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 describe("ProfilDocumentsSectionComponent", () => {
   let component: ProfilDocumentsSectionComponent;

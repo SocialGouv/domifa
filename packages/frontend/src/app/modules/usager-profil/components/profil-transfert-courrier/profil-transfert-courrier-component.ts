@@ -7,16 +7,19 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
-import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
-import { formatDateToNgb, minDateToday } from "src/app/shared/bootstrap-util";
-import { endDateAfterBeginDateValidator } from "src/app/shared/validators";
 import {
-  UsagerLight,
   UserStructure,
+  UsagerLight,
   UserStructureRole,
 } from "../../../../../_common/model";
+import {
+  minDateToday,
+  formatDateToNgb,
+} from "../../../../shared/bootstrap-util";
+import { endDateAfterBeginDateValidator } from "../../../../shared/validators";
+import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";
-import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerProfilService } from "../../services/usager-profil.service";
 
 @Component({

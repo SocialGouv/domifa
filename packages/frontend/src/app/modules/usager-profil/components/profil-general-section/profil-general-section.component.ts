@@ -4,25 +4,26 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { NgbDateStruct, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import {
-  UsagerLight,
   UserStructure,
   UserStructureRole,
+  UsagerLight,
 } from "../../../../../_common/model";
 import {
-  InteractionForApi,
   InteractionType,
+  InteractionForApi,
 } from "../../../../../_common/model/interaction";
 import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../_common/model/interaction/constants";
 import { USAGER_DECISION_STATUT_LABELS } from "../../../../../_common/model/usager/constants";
 import {
-  formatDateToNgb,
   minDateNaissance,
+  formatDateToNgb,
 } from "../../../../shared/bootstrap-util";
-
 import { AuthService } from "../../../shared/services/auth.service";
+import {
+  Interaction,
+  UsagerFormModel,
+} from "../../../usager-shared/interfaces";
 import { InteractionService } from "../../../usager-shared/services/interaction.service";
-import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
-import { Interaction } from "../../../usagers/interfaces/interaction";
 import { UsagerProfilService } from "../../services/usager-profil.service";
 import { ProfilGeneralHistoriqueCourriersComponent } from "../profil-general-historique-courriers/profil-general-historique-courriers.component";
 

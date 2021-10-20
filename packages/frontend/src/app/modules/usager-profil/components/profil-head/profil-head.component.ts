@@ -13,8 +13,9 @@ import {
   UserStructure,
   UserStructureRole,
 } from "../../../../../_common/model";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { DocumentService } from "../../../usager-shared/services/document.service";
-import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
+
 import { UsagerProfilService } from "../../services/usager-profil.service";
 
 @Component({

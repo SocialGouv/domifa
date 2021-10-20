@@ -7,7 +7,8 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
-import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
+
 import { USAGER_ACTIF_MOCK } from "./../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { ProfilHistoriqueNotesComponent } from "./profil-historique-notes.component";
 

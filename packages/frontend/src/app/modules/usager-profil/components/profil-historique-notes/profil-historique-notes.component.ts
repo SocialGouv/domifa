@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 @Component({
   selector: "app-profil-historique-notes",
