@@ -1,5 +1,5 @@
 export const environment = {
-  apiUrl: "http://localhost:3000/",
+  apiUrl: "http://localhost:3000/portail-usagers/",
   production: false,
   env: "dev", // DOMIFA_ENV_ID
   // TODO: update Matomo ID

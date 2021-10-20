@@ -12,7 +12,8 @@ import {
 } from "../../../../_common";
 import { DEFAULT_USAGER_PROFILE } from "../../../../_common/mocks/DEFAULT_USAGER.const";
 
-const END_POINT_AUTH = environment.apiUrl + "usagers/auth";
+const END_POINT_AUTH = environment.apiUrl + "auth";
+const END_POINT_PROFILE = environment.apiUrl + "profile";
 
 const TOKEN_KEY = "usager-auth-token";
 const USER_KEY = "usager-auth-datas";
@@ -26,69 +27,80 @@ export class UsagerAuthService {
   constructor(
     private readonly http: HttpClient,
     private readonly router: Router,
-    private readonly toastr: ToastrService
+    private readonly toastr: ToastrService,
   ) {
     this.currentUsagerSubject =
       new BehaviorSubject<PortailUsagerProfile | null>(DEFAULT_USAGER_PROFILE);
   }
 
-  public login(loginForm: PortailUsagerAuthLoginForm): Observable<any> {
-    return this.http
-      .post<PortailUsagerAuthLoginForm>(`${END_POINT_AUTH}/login`, loginForm)
-      .pipe();
+  public login(
+    loginForm: PortailUsagerAuthLoginForm,
+  ): Observable<PortailUsagerAuthApiResponse> {
+    return this.http.post<PortailUsagerAuthApiResponse>(
+      `${END_POINT_AUTH}/login`,
+      loginForm,
+    );
   }
 
   public isAuth(): Observable<boolean> {
-    if (this.getToken()) {
+    if (!this.getToken()) {
       return of(false);
     }
 
-    return this.http
-      .get<PortailUsagerAuthApiResponse>(`${END_POINT_AUTH}/me`)
-      .pipe(
-        map((apiAuthResponse: PortailUsagerAuthApiResponse) => {
-          // SAVE USER
-          this.saveAuthUsager(apiAuthResponse);
-          return true;
-        }),
-        catchError(() => {
-          // DELETE USER
-
-          return of(false);
-        })
-      );
+    return this.http.get<PortailUsagerProfile>(`${END_POINT_PROFILE}/me`).pipe(
+      map((portailUsagerProfile: PortailUsagerProfile) => {
+        // SAVE USER
+        console.info("isAuth Response");
+        this.saveAuthUsager(portailUsagerProfile);
+        return true;
+      }),
+      catchError(() => {
+        // DELETE USER
+        this.logout();
+        return of(false);
+      }),
+    );
   }
 
   public get currentUserValue(): PortailUsagerProfile | null {
     return this.currentUsagerSubject.value || null;
   }
 
-  public logout() {
+  public logout(): void {
+    window.sessionStorage.removeItem(TOKEN_KEY);
+    window.sessionStorage.removeItem(USER_KEY);
+    this.currentUsagerSubject.next(null);
     Sentry.configureScope((scope) => {
       scope.setTag("profil-usager", "none");
       scope.setUser({});
     });
 
-    this.router.navigate(["/connexion"]).then(() => {
+    this.router.navigate(["/auth/login"]).then(() => {
       window.location.reload();
     });
   }
 
-  public logoutAndRedirect(state?: RouterStateSnapshot) {
+  public logoutAndRedirect(state?: RouterStateSnapshot): void {
     this.logout();
     if (state) {
-      this.router.navigate(["/connexion"], {
-        queryParams: { returnUrl: state.url },
-      });
+      this.router
+        .navigate(["/auth/login"], {
+          queryParams: { returnUrl: state.url },
+        })
+        .then(() => {
+          window.location.reload();
+        });
     } else {
-      this.router.navigate(["/connexion"]);
+      this.router.navigate(["/auth/login"]).then(() => {
+        window.location.reload();
+      });
     }
   }
 
-  public notAuthorized() {
+  public notAuthorized(): void {
     this.toastr.error(
       "Vous n'êtes pas autorisé à accéder à cette page",
-      "Action interdite"
+      "Action interdite",
     );
     this.router.navigate(["/"]);
   }
@@ -97,12 +109,16 @@ export class UsagerAuthService {
     return window.sessionStorage.getItem(TOKEN_KEY);
   }
 
-  public saveAuthUsager(apiAuthResponse: PortailUsagerAuthApiResponse): void {
-    // Build usager
-    const authUsagerProfile = apiAuthResponse.profile;
+  public saveToken(apiAuthResponse: PortailUsagerAuthApiResponse): void {
     // Enregistrement du token
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.setItem(TOKEN_KEY, apiAuthResponse.token);
+
+    // Build usager
+    this.saveAuthUsager(apiAuthResponse.profile);
+  }
+
+  public saveAuthUsager(authUsagerProfile: PortailUsagerProfile): void {
     // Enregistrement de l'utilisateur
     window.sessionStorage.removeItem(USER_KEY);
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(authUsagerProfile));

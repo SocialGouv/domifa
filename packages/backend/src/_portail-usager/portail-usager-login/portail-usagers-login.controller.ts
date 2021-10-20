@@ -17,7 +17,7 @@ import {
 import { portailUsagerProfilBuilder } from "../portail-usager-profil/services/portail-usager-profil-builder.service";
 import { UsagersAuthService } from "./services";
 
-@Controller("usagers/auth")
+@Controller("portail-usagers/auth")
 @ApiTags("auth")
 export class PortailUsagersLoginController {
   constructor(private usagersAuthService: UsagersAuthService) {}

@@ -15,8 +15,6 @@ describe("AuthGuard", () => {
   let authGuard: AuthGuard;
   let router: Router;
   let authService: AuthService;
-  let activatedSnapshot: ActivatedRouteSnapshot;
-  let routerSnapshot: RouterStateSnapshot;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -47,8 +45,6 @@ describe("AuthGuard", () => {
     authService = TestBed.inject(AuthService);
     authGuard = TestBed.inject(AuthGuard);
     router = TestBed.inject(Router);
-    activatedSnapshot = TestBed.inject(ActivatedRouteSnapshot);
-    routerSnapshot = TestBed.inject(RouterStateSnapshot);
   });
 
   it("should be created", inject([AuthGuard], (service: AuthGuard) => {
@@ -57,5 +53,6 @@ describe("AuthGuard", () => {
 
   it("CanActivate", () => {
     authGuard = new AuthGuard(router, authService);
+    expect(authGuard).toBeTruthy();
   });
 });

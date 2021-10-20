@@ -1,3 +1,4 @@
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import {
@@ -15,7 +16,6 @@ import { HomeComponent } from "./components/home/home.component";
 import { MentionsLegalesComponent } from "./components/mentions-legales/mentions-legales.component";
 
 import { PolitiqueComponent } from "./components/politique/politique.component";
-import { HomeService } from "./components/home/home.service";
 
 import { RouterModule } from "@angular/router";
 
@@ -33,12 +33,13 @@ import { ToastrModule } from "ngx-toastr";
   imports: [
     CommonModule,
     HttpClientModule,
+    FontAwesomeModule,
     NgbModule,
     RouterModule.forChild([]),
     ToastrModule.forRoot(),
     NgbModule,
   ],
-  providers: [HomeService],
+  providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class GeneralModule {}
