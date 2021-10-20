@@ -1,6 +1,7 @@
 *.md
 .git
 **/node_modules
+**/packages/backend/dist
 **/packages/frontend/dist
 **/packages/portail-usagers/dist
 **/coverage
