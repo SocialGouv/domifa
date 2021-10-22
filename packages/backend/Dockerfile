@@ -1,4 +1,4 @@
-FROM node:16.11.1
+FROM node:16.12.0
 
 ENV TZ Europe/Paris
 

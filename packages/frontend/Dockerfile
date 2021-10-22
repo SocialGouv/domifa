@@ -1,4 +1,4 @@
-FROM node:16.11.1 as builder
+FROM node:16.12.0 as builder
 
 COPY ./packages/frontend /app
 
