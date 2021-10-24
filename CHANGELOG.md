@@ -1,3 +1,10 @@
+## [2.27.4](https://github.com/SocialGouv/domifa/compare/v2.27.3...v2.27.4) (2021-10-24)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @socialgouv/kosko-charts to v9.6.16 ([7dbf58c](https://github.com/SocialGouv/domifa/commit/7dbf58c43480d4dde013ae1df5811ebd564d8206))
+
 ## [2.27.3](https://github.com/SocialGouv/domifa/compare/v2.27.2...v2.27.3) (2021-10-19)
 
 
