@@ -46,7 +46,7 @@ const job = new Job({
             image: "postgres:10.16",
             command: ["sh", "-c"],
             args: [
-              "psql < /mnt/domifa/_scripts/db/dumps/domifa_test.postgres.data-only.sql",
+              "psql -v ON_ERROR_STOP=1  < /mnt/domifa/_scripts/db/dumps/domifa_test.postgres.data-only.sql",
             ],
             envFrom: [
               {
