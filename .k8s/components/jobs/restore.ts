@@ -10,45 +10,65 @@ const job = new Job({
     name: "restore-db",
     namespace: ciEnv.metadata.namespace.name,
     labels: ciEnv.metadata.labels,
-    annotations: ciEnv.metadata.annotations
+    annotations: ciEnv.metadata.annotations,
   },
   spec: {
     template: {
       metadata: {},
       spec: {
-        volumes: [{
-          name: "restore-db-volume",
-          emptyDir: {}
-        }],
-        initContainers: [{
-          name: "restore-db-init",
-          image: "alpine/git:v2.30.2",
-          command: ["git"],
-          args: ["clone", "https://github.com/SocialGouv/domifa.git", "/mnt/domifa"],
-          volumeMounts: [{
+        volumes: [
+          {
             name: "restore-db-volume",
-            mountPath: "/mnt/domifa"
-          }]
-        }],
-        containers: [{
-          name: "restore-db",
-          image: "postgres:10.16",
-          command: ["sh", "-c"],
-          args: ["psql < /mnt/domifa/_scripts/db/dumps/domifa_test.postgres.data-only.sql"],
-          envFrom: [{
-            secretRef: {
-              name: "azure-pg-admin-user"
-            }
-          }],
-          env: [{
-            name: "PGDATABASE",
-            value: pgParams.database,
-          }],
-          volumeMounts: [{
-            name: "restore-db-volume",
-            mountPath: "/mnt/domifa"
-          }],
-        }],
+            emptyDir: {},
+          },
+        ],
+        initContainers: [
+          {
+            name: "restore-db-init",
+            image: "alpine/git:v2.30.2",
+            command: ["git"],
+            args: [
+              "clone",
+              "https://github.com/SocialGouv/domifa.git",
+              "/mnt/domifa",
+            ],
+            volumeMounts: [
+              {
+                name: "restore-db-volume",
+                mountPath: "/mnt/domifa",
+              },
+            ],
+          },
+        ],
+        containers: [
+          {
+            name: "restore-db",
+            image: "postgres:10.16",
+            command: ["sh", "-c"],
+            args: [
+              "psql < /mnt/domifa/_scripts/db/dumps/domifa_test.postgres.data-only.sql",
+            ],
+            envFrom: [
+              {
+                secretRef: {
+                  name: "azure-pg-admin-user",
+                },
+              },
+            ],
+            env: [
+              {
+                name: "PGDATABASE",
+                value: pgParams.database,
+              },
+            ],
+            volumeMounts: [
+              {
+                name: "restore-db-volume",
+                mountPath: "/mnt/domifa",
+              },
+            ],
+          },
+        ],
         restartPolicy: "OnFailure",
       },
     },

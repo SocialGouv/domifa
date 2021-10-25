@@ -1,3 +1,12 @@
+## [2.28.1](https://github.com/SocialGouv/domifa/compare/v2.28.0...v2.28.1) (2021-10-25)
+
+
+### Bug Fixes
+
+* 3eme essai ([0618c87](https://github.com/SocialGouv/domifa/commit/0618c8735d254bda405950dcf4234001406fb308))
+* Pk duplicated ([a96c829](https://github.com/SocialGouv/domifa/commit/a96c829d6d76a5566a9433d6663c8d38d9d48b98))
+* Pk duplicated ([4cc8448](https://github.com/SocialGouv/domifa/commit/4cc84481c8b8f1368f49c2e51be1d4269db96bbf))
+
 # [2.28.0](https://github.com/SocialGouv/domifa/compare/v2.27.4...v2.28.0) (2021-10-25)
 
 
