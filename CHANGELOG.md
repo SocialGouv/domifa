@@ -1,3 +1,10 @@
+# [2.28.0](https://github.com/SocialGouv/domifa/compare/v2.27.4...v2.28.0) (2021-10-25)
+
+
+### Features
+
+* change template first name and last name ([063c963](https://github.com/SocialGouv/domifa/commit/063c9637e4ea6d5e7966f39bdac7ebdfd3967a54))
+
 ## [2.27.4](https://github.com/SocialGouv/domifa/compare/v2.27.3...v2.27.4) (2021-10-24)
 
 
