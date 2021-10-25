@@ -19,6 +19,7 @@ import {
   HealthCheckService,
 } from "./modules/shared/services/health-check";
 import { fadeInOut, NEWS_LABELS } from "./shared";
+import pkg from "../../package.json";
 
 @Component({
   animations: [fadeInOut],
@@ -32,6 +33,7 @@ export class AppComponent implements OnInit {
 
   public matomoInfo: boolean;
   public apiVersion: string;
+  public frontendVersion: string;
 
   public modalOptions: NgbModalOptions;
 
@@ -63,6 +65,7 @@ export class AppComponent implements OnInit {
     this.domifaNews = null;
     this.matomoInjector.init(environment.matomo.url, environment.matomo.siteId);
     this.apiVersion = null;
+    this.frontendVersion = pkg.version;
 
     this.modalOptions = {
       centered: true,

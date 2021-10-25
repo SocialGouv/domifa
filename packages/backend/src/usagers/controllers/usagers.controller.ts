@@ -19,34 +19,33 @@ import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import {
-  usagerLightRepository,
-  usagerRepository,
-  userUsagerRepository,
-} from "../../database";
-import { userUsagerUpdator } from "../../users/services";
-import { userUsagerCreator } from "../../users/services/user-usager-creator.service";
+import { usagerLightRepository, usagerRepository } from "../../database";
+
 import { appLogger } from "../../util";
+
 import {
   ETAPE_DOCUMENTS,
   ETAPE_ETAT_CIVIL,
-  ETAPE_RENDEZ_VOUS,
   UsagerLight,
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
 } from "../../_common/model";
-import { CreateUsagerDto } from "../dto/create-usager.dto";
-import { DecisionDto } from "../dto/decision.dto";
-import { EditUsagerDto } from "../dto/edit-usager.dto";
-import { EntretienDto } from "../dto/entretien.dto";
-import { PreferenceContactDto } from "../dto/preferenceContact.dto";
-import { ProcurationDto } from "../dto/procuration.dto";
-import { TransfertDto } from "../dto/transfert.dto";
-import { UpdatePortailUsagerOptionsDto } from "../dto/UpdatePortailUsagerOptionsDto";
-import { CerfaService } from "../services/cerfa.service";
-import { usagerDeletor } from "../services/usagerDeletor.service";
-import { usagerHistoryStateManager } from "../services/usagerHistoryStateManager.service";
-import { UsagersService } from "../services/usagers.service";
+import {
+  CreateUsagerDto,
+  EditUsagerDto,
+  EntretienDto,
+  DecisionDto,
+  TransfertDto,
+  PreferenceContactDto,
+  ProcurationDto,
+} from "../dto";
+
+import {
+  UsagersService,
+  CerfaService,
+  usagerHistoryStateManager,
+  usagerDeletor,
+} from "../services";
 
 @Controller("usagers")
 @ApiTags("usagers")
@@ -64,9 +63,7 @@ export class UsagersController {
     @CurrentUser() user: UserStructureAuthenticated
   ) {
     return usagerLightRepository.findMany(
-      {
-        structureId: user.structureId,
-      },
+      { structureId: user.structureId },
       {}
     );
   }
@@ -266,15 +263,14 @@ export class UsagersController {
     @Body() preferenceDto: PreferenceContactDto,
     @CurrentUsager() usager: UsagerLight
   ) {
-    // TODO: check phone
-    usager.preference = preferenceDto;
     // Nettoyage du téléphone
     if (!preferenceDto.phone) {
       preferenceDto.phoneNumber = null;
     }
+
     return this.usagersService.patch(
       { uuid: usager.uuid },
-      { preference: usager.preference }
+      { preference: preferenceDto }
     );
   }
 
