@@ -45,13 +45,9 @@ const job = new Job({
             name: "restore-db",
             image: "postgres:10.16",
             command: ["sh", "-c"],
-            // args: [
-            //   "pg_restore --no-owner --exit-on-error --verbose /mnt/domifa/_scripts/db/dumps/domifa_test.postgres.data-only.sql",
-            // ],
             args: [
-              "psql --username=${POSTGRES_USERNAME} --dbname=${POSTGRES_DATABASE} --file=/mnt/domifa/_scripts/db/dumps/domifa_test.postgres.data-only.sql",
+              "psql < /mnt/domifa/_scripts/db/dumps/domifa_test.postgres.data-only.sql",
             ],
-            // args: ["psql < /mnt/domifa/_scripts/db/dumps/domifa_test.postgres.data-only.sql"],
             envFrom: [
               {
                 secretRef: {
