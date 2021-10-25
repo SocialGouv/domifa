@@ -1,4 +1,3 @@
-TRUNCATE TABLE public.structure RESTART IDENTITY CASCADE;
 TRUNCATE TABLE public.interactions RESTART IDENTITY CASCADE;
 TRUNCATE TABLE public.message_email RESTART IDENTITY CASCADE;
 TRUNCATE TABLE public.message_sms RESTART IDENTITY CASCADE;
@@ -11,27 +10,12 @@ TRUNCATE TABLE public.user_structure RESTART IDENTITY CASCADE;
 TRUNCATE TABLE public.user_structure_security RESTART IDENTITY CASCADE;
 TRUNCATE TABLE public.user_usager RESTART IDENTITY CASCADE;
 TRUNCATE TABLE public.user_usager_security RESTART IDENTITY CASCADE;
---
--- PostgreSQL database dump
---
 
--- Dumped from database version 10.18 (Debian 10.18-1.pgdg90+1)
--- Dumped by pg_dump version 10.18 (Debian 10.18-1.pgdg90+1)
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
 
 --
 -- Data for Name: structure; Type: TABLE DATA; Schema: public; Owner: -
 --
+TRUNCATE TABLE public.structure RESTART IDENTITY CASCADE;
 
 INSERT INTO public.structure (uuid, "createdAt", "updatedAt", version, id, adresse, "adresseCourrier", agrement, capacite, "codePostal", "complementAdresse", departement, region, email, "hardReset", "tokenDelete", import, "registrationDate", "importDate", "lastLogin", nom, options, phone, responsable, "structureType", token, verified, ville, sms, "portailUsager") VALUES ('e159011b-6648-426d-a772-b3ca4f27a6d5', '2021-01-26 07:51:53.846157+00', '2021-01-26 07:51:53.846157+00', 1, 2, '2 rue du test', NULL, NULL, NULL, '33600', NULL, '33', '75', 'cias.test@yopmail.com', NULL, '', false, '2020-11-17 13:32:21.959+00', NULL, '2020-11-17', 'CIAS de Test', '{"numeroBoite": false}', '0102030405', '{"nom": "Anna", "prenom": "Dupond", "fonction": "PDG"}', 'cias', 'b1ca3193633282c675257f1b05771a7605a4aa1c5ba231b3545564bfa33a', false, 'Pessac', '{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}', '{"enabledByDomifa": false, "enabledByStructure": false}');
 INSERT INTO public.structure (uuid, "createdAt", "updatedAt", version, id, adresse, "adresseCourrier", agrement, capacite, "codePostal", "complementAdresse", departement, region, email, "hardReset", "tokenDelete", import, "registrationDate", "importDate", "lastLogin", nom, options, phone, responsable, "structureType", token, verified, ville, sms, "portailUsager") VALUES ('1d1ed6f0-7674-474a-908b-d0bd8c6389cb', '2021-01-26 07:51:53.846157+00', '2021-01-26 07:51:53.846157+00', 1, 3, '1 rue du test de l''organise agréé', NULL, '1234', 80, '44000', NULL, '44', '52', 'organisme.agree@yopmail.com', '{"token": "6V0XR2S", "userId": 3}', '', false, '2020-11-17 13:34:35.821+00', NULL, NULL, 'Organisme agréé de Test', '{"numeroBoite": false}', '0506070809', '{"nom": "Calvez", "prenom": "Simon", "fonction": "Directeur"}', 'asso', 'b8e2e05b767ac984f0f4b8a222062b07268f46265525f98d83e4b518b343', false, 'Nantes', '{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}', '{"enabledByDomifa": false, "enabledByStructure": false}');
