@@ -288,7 +288,16 @@
           Nouveautés
         </a>
         <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
-        <span class="color-gray"> Statistiques (prochainement) </span>
+        <a
+          [routerLink]="['/stats']"
+          routerLinkActive="router-link-active"
+          (click)="matomo.trackEvent('FOOTER', 'Footer_Stats', 'null', 1)"
+        >
+          Statistiques
+        </a>
+        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
+
+        <span class="color-gray">V {{ frontendVersion }} </span>
       </div>
       <div class="my-4 text-xs color-gray">
         Sauf mention contraire, tous les textes de ce site sont sous

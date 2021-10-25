@@ -1,11 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsIn, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
-import {
-  Usager,
-  UsagerAyantDroit,
-  UsagerSexe,
-  UsagerTypeDom,
-} from "../../_common/model";
+import { Usager, UsagerAyantDroit, UsagerSexe } from "../../_common/model";
 
 export class EditUsagerDto implements Partial<Usager> {
   @ApiProperty()
@@ -53,13 +48,7 @@ export class EditUsagerDto implements Partial<Usager> {
   @IsNumber()
   public etapeDemande!: number;
 
-  @ApiProperty()
-  @IsOptional()
-  public preference!: {
-    email: boolean;
-    phone: boolean;
-  };
-
+  // TODO: améliorer le DTO ici
   @ApiProperty()
   @IsOptional()
   public ayantsDroits!: UsagerAyantDroit[];
