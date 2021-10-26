@@ -123,6 +123,25 @@ th {
   align-items: center;
 }
 
+.interaction-btn-disabled {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(122, 122, 122, 1);
+  box-sizing: border-box;
+  border-radius: 3px;
+  margin: 3px;
+  position: relative;
+}
+
+.interaction-btn-disabled .list-icon {
+  display: none;
+}
+
+.interaction-btn .list-icon-disabled {
+  display: none;
+}
+
 .interaction-btn {
   display: flex;
   align-items: center;
@@ -141,6 +160,13 @@ th {
 
 .interaction-btn:hover .list-icon {
   background-color: white;
+}
+
+.list-icon-disabled {
+  padding: 6px 10px;
+  box-sizing: border-box;
+  background-color: #e7e7e7;
+  cursor: progress;
 }
 
 .list-icon {

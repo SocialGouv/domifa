@@ -96,7 +96,7 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
           },
           (error) => {
             this.notifService.error(
-              "Veuillez vérifiez les champs du formulaire"
+              "Veuillez vérifier les champs du formulaire"
             );
           }
         );

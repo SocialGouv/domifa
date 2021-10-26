@@ -39,6 +39,7 @@ export class SetInteractionInFormComponent implements OnInit {
   public interactionFormData: InteractionInForm;
 
   public content: string;
+  public loading = false;
 
   constructor(
     private interactionService: InteractionService,
@@ -81,10 +82,10 @@ export class SetInteractionInFormComponent implements OnInit {
 
     if (interactionsToSave.length === 0) {
       this.cancelReception.emit();
-
       return;
     }
 
+    this.loading = true;
     this.interactionService
       .setInteraction(this.usager.ref, interactionsToSave)
       .subscribe({
@@ -94,6 +95,7 @@ export class SetInteractionInFormComponent implements OnInit {
         },
         error: () => {
           this.notifService.error("Impossible d'enregistrer cette interaction");
+          this.loading = false;
         },
       });
   }
@@ -106,6 +108,7 @@ export class SetInteractionInFormComponent implements OnInit {
         this.usagerChange.emit(new UsagerFormModel(usager));
         this.cancelReception.emit();
         this.updateInteractions.emit();
+        this.loading = false;
       });
   }
 

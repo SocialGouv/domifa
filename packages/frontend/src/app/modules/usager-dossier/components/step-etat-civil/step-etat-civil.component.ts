@@ -11,7 +11,6 @@ import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
-import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import {
   formatDateToNgb,
   minDateNaissance,
@@ -174,7 +173,6 @@ export class StepEtatCivilComponent implements OnInit {
           .get("phoneNumber")
           .updateValueAndValidity();
       });
-    console.log(this.usager);
   }
 
   public isDoublon(): boolean {
@@ -276,7 +274,7 @@ export class StepEtatCivilComponent implements OnInit {
         },
         error: () => {
           this.loading = false;
-          this.notifService.error("Veuillez vérifiez les champs du formulaire");
+          this.notifService.error("Veuillez vérifier les champs du formulaire");
         },
       });
     }

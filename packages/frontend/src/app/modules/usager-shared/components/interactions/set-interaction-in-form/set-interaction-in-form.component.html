@@ -6,7 +6,7 @@
 </div>
 <div class="modal-body text-center">
   <div class="row d-flex align-items-center">
-    <div class="interaction-zone px-1 mr-4 my-2">
+    <div class="interaction-zone p-1 mr-4 my-2">
       <div class="interaction-icon-box">
         <div
           [@bounce]="interactionFormData.courrierIn.nbCourrier"
@@ -33,7 +33,7 @@
       <span class="interaction-label">Courriers</span>
     </div>
 
-    <div class="interaction-zone px-1 mr-4 my-2">
+    <div class="interaction-zone p-1 mr-4 my-2">
       <div class="interaction-icon-box">
         <div
           [@bounce]="interactionFormData.colisIn.nbCourrier"
@@ -60,7 +60,7 @@
       <span class="interaction-label">Colis</span>
     </div>
 
-    <div class="interaction-zone px-1 mr-4 my-2">
+    <div class="interaction-zone p-1 mr-4 my-2">
       <div class="interaction-icon-box">
         <div
           [@bounce]="interactionFormData.recommandeIn.nbCourrier"
@@ -106,12 +106,19 @@
       class="btn btn-lg btn-primary mx-1"
       (click)="setInteractionForm()"
       [disabled]="
-        interactionFormData.courrierIn.nbCourrier === 0 &&
-        interactionFormData.colisIn.nbCourrier === 0 &&
-        interactionFormData.recommandeIn.nbCourrier === 0
+        (interactionFormData.courrierIn.nbCourrier === 0 &&
+          interactionFormData.colisIn.nbCourrier === 0 &&
+          interactionFormData.recommandeIn.nbCourrier === 0) ||
+        loading
       "
+      class="btn btn-lg btn-primary mr-2"
+      (click)="setInteractionForm()"
     >
-      Valider
+      <span *ngIf="!loading">Valider</span>
+      <span *ngIf="loading">
+        <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+        Veuillez patientez...
+      </span>
     </button>
     <button
       class="btn btn-outline-dark btn-lg mr-2"

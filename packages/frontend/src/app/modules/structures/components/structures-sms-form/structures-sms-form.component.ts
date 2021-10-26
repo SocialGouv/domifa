@@ -16,6 +16,7 @@ export class StructuresSmsFormComponent implements OnInit {
   public me: UserStructure;
   public structure: StructureCommon;
 
+  public loading: boolean;
   public submitted: boolean;
   public structureSmsForm!: FormGroup;
 
@@ -28,6 +29,7 @@ export class StructuresSmsFormComponent implements OnInit {
   ) {
     this.me = null;
     this.structure = null;
+    this.loading = false;
     this.submitted = false;
   }
 
@@ -103,22 +105,25 @@ export class StructuresSmsFormComponent implements OnInit {
     if (this.structureSmsForm.invalid) {
       this.notifService.error("Veuillez vérifier le formulaire");
     } else {
+      this.loading = true;
       this.structureService
         .patchSmsParams(this.structureSmsForm.value)
-        .subscribe(
-          (retour: any) => {
+        .subscribe({
+          next: () => {
             this.submitted = false;
             this.notifService.success(
               "Paramètres des SMS mis à jour avec succès"
             );
+            this.loading = false;
           },
-          (error: any) => {
-            this.submitted = false;
+          error: () => {
             this.notifService.error(
               "Impossible de mettre à jour les paramètres"
             );
-          }
-        );
+            this.submitted = false;
+            this.loading = false;
+          },
+        });
     }
   }
 }

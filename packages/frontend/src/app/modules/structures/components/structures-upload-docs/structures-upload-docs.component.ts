@@ -19,6 +19,7 @@ export class StructuresUploadDocsComponent implements OnInit {
   public fileName = "";
   public uploadResponse: UploadResponseType;
 
+  public loading = false;
   public submitted = false;
   public uploadForm!: FormGroup;
 
@@ -113,19 +114,20 @@ export class StructuresUploadDocsComponent implements OnInit {
       this.notifService.error("Le formulaire d'upload comporte des erreurs");
       return;
     }
-
+    this.loading = true;
     const formData = new FormData();
     formData.append("file", this.uploadForm.controls.fileSource.value);
     formData.append("label", this.uploadForm.controls.label.value);
     formData.append("custom", "false");
 
-    this.structureDocService.upload(formData).subscribe(
-      (res: any) => {
+    this.structureDocService.upload(formData).subscribe({
+      next: (res: any) => {
         this.uploadResponse = res;
         if (
           this.uploadResponse.success !== undefined &&
           this.uploadResponse.success
         ) {
+          this.loading = false;
           this.uploadForm.reset();
           this.fileName = "";
           this.getAllStructureDocs();
@@ -133,10 +135,11 @@ export class StructuresUploadDocsComponent implements OnInit {
           this.submitted = false;
         }
       },
-      () => {
+      error: () => {
+        this.loading = false;
         this.submitted = false;
         this.notifService.error("Impossible d'uploader le fichier");
-      }
-    );
+      },
+    });
   }
 }

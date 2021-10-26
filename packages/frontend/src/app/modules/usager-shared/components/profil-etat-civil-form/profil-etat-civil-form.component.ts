@@ -36,6 +36,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
   @Output() public usagerChanges = new EventEmitter<UsagerLight>();
 
   public usagerForm!: FormGroup;
+  public loading: boolean;
   public submitted: boolean;
 
   public languagesAutocomplete = languagesAutocomplete;
@@ -66,6 +67,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
     private etatCivilService: EtatCivilService
   ) {
     this.submitted = false;
+    this.loading = false;
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
     this.usager = new UsagerFormModel();
@@ -133,6 +135,8 @@ export class ProfilEtatCivilFormComponent implements OnInit {
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
     } else {
+      this.loading = true;
+
       const usagerFormValues = this.usagerForm.value;
 
       usagerFormValues.ayantsDroits.map((ayantDroit: any) => {
@@ -151,14 +155,17 @@ export class ProfilEtatCivilFormComponent implements OnInit {
 
       this.etatCivilService.patchEtatCivil(formValue).subscribe({
         next: (usager: UsagerLight) => {
-          this.submitted = false;
           this.editInfosChange.emit(false);
           this.notifService.success("Enregistrement réussi");
 
           this.usagerChanges.emit(usager);
+          this.submitted = false;
+          this.loading = false;
         },
         error: () => {
-          this.notifService.error("Veuillez vérifiez les champs du formulaire");
+          this.loading = false;
+
+          this.notifService.error("Veuillez vérifier les champs du formulaire");
         },
       });
     }

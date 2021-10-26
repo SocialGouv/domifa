@@ -3,6 +3,7 @@
     *ngIf="usager.isActif"
     class="mr-2 btn btn-primary"
     (click)="getStructureDocument('attestation_postale')"
+    [disabled]="loadingDownload === 'attestation_postale'"
   >
     <fa-icon [icon]="['far', 'file-word']" class="mr-2"></fa-icon> Télécharger
     l'attestation postale
@@ -12,6 +13,7 @@
     *ngIf="usager.decision.statut === 'RADIE'"
     class="mr-2 btn btn-primary"
     (click)="getStructureDocument('courrier_radiation')"
+    [disabled]="loadingDownload === 'courrier_radiation'"
   >
     <fa-icon [icon]="['far', 'file-word']" class="mr-2"></fa-icon> Télécharger
     le courrier de radiation

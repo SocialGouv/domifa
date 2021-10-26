@@ -23,7 +23,7 @@ export class StructureEditFormComponent implements OnInit {
   public structureForm: FormGroup;
   public departements: DepartementsLabels;
 
-  public success: boolean;
+  public loading = false;
   public submitted: boolean;
 
   @Input() public structure: StructureCommon;
@@ -34,7 +34,7 @@ export class StructureEditFormComponent implements OnInit {
     private notifService: ToastrService
   ) {
     this.submitted = false;
-    this.success = false;
+    this.loading = false;
     this.departements = departements;
   }
 
@@ -137,17 +137,20 @@ export class StructureEditFormComponent implements OnInit {
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );
     } else {
-      this.structureService.patch(this.structureForm.value).subscribe(
-        (structure: StructureCommon) => {
+      this.loading = true;
+      this.structureService.patch(this.structureForm.value).subscribe({
+        next: (structure: StructureCommon) => {
           this.notifService.success(
             "Les modifications ont bien été prises en compte"
           );
           this.structure = structure;
+          this.loading = false;
         },
-        (error) => {
+        error: () => {
           this.notifService.error("Une erreur est survenue");
-        }
-      );
+          this.loading = false;
+        },
+      });
     }
   }
 

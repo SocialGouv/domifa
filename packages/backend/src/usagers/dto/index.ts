@@ -9,3 +9,4 @@ export * from "./procuration.dto";
 export * from "./rdv.dto";
 export * from "./search.dto";
 export * from "./transfert.dto";
+export * from "./UpdatePortailUsagerOptionsDto";
