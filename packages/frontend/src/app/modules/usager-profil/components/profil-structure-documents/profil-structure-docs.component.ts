@@ -14,29 +14,29 @@ import { DocumentService } from "../../../usager-shared/services/document.servic
 export class ProfilStructureDocsComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
 
-  public loadingDelete: boolean;
-  public loadingDownload: boolean;
-
+  public loadingDelete: string;
+  public loadingDownload: string;
+  string;
   constructor(private documentService: DocumentService) {
-    this.loadingDelete = false;
-    this.loadingDownload = false;
+    this.loadingDelete = null;
+    this.loadingDownload = null;
   }
 
   public ngOnInit(): void {}
 
   // Documents définis par Domifa
   public getStructureDocument(docType: StructureDocTypesAvailable): void {
-    this.loadingDownload = true;
+    this.loadingDownload = docType;
     this.documentService.getStructureDoc(this.usager.ref, docType).subscribe(
       (blob: any) => {
         const newBlob = new Blob([blob], {
           type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         });
         saveAs(newBlob, docType + ".docx");
-        this.loadingDownload = false;
+        this.loadingDownload = null;
       },
       () => {
-        this.loadingDownload = false;
+        this.loadingDownload = null;
       }
     );
   }

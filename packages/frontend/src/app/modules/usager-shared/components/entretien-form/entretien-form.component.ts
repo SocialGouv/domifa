@@ -112,6 +112,7 @@ export class EntretienFormComponent implements OnInit {
           this.editEntretienChange.emit(false);
           this.nextStep.emit(3);
           this.notifService.success("Enregistrement de l'entretien réussi");
+          this.loading = false;
         },
         error: () => {
           this.loading = false;

@@ -209,23 +209,36 @@
         >
           <div
             ngbTooltip="Ajout d'un passage"
-            class="interaction-btn"
+            [ngClass]="loadingButtons.indexOf(usager.ref.toString() + '_visite') !== -1 ? 'interaction-btn-disabled': 'interaction-btn'"
             (click)="setSingleInteraction(usager, 'visite')"
           >
+            <div class="list-icon-disabled">
+              <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+              </fa-icon>
+            </div>
             <div class="icon-passage list-icon"></div>
           </div>
+
           <div
             ngbTooltip="Ajout d'un appel téléphonique"
-            class="interaction-btn"
+            [ngClass]="loadingButtons.indexOf(usager.ref.toString() + '_appel') !== -1 ? 'interaction-btn-disabled': 'interaction-btn'"
             (click)="setSingleInteraction(usager, 'appel')"
           >
+            <div class="list-icon-disabled">
+              <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+              </fa-icon>
+            </div>
             <div class="icon-appel list-icon"></div>
           </div>
           <div
             ngbTooltip="Ajout rapide d'un courrier"
-            class="interaction-btn"
+            [ngClass]="loadingButtons.indexOf(usager.ref.toString() + '_courrierIn') !== -1 ? 'interaction-btn-disabled': 'interaction-btn'"
             (click)="setSingleInteraction(usager, 'courrierIn')"
           >
+            <div class="list-icon-disabled">
+              <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+              </fa-icon>
+            </div>
             <div class="icon-courrier list-icon"></div>
           </div>
           <div

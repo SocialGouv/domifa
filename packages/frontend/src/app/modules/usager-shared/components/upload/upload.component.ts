@@ -16,6 +16,7 @@ import { DocumentService } from "../../services/document.service";
 export class UploadComponent implements OnInit {
   public fileName = "";
   public submitted = false;
+  public loading = false;
   public uploadResponse: UploadResponseType;
 
   public uploadForm!: FormGroup;
@@ -73,6 +74,8 @@ export class UploadComponent implements OnInit {
       return;
     }
 
+    this.loading = true;
+
     const formData = new FormData();
     formData.append("file", this.uploadForm.controls.fileSource.value);
     formData.append("label", this.uploadForm.controls.label.value);
@@ -84,6 +87,7 @@ export class UploadComponent implements OnInit {
           this.uploadResponse.success !== undefined &&
           this.uploadResponse.success
         ) {
+          this.loading = false;
           this.usager.docs = this.uploadResponse.body;
           this.uploadForm.reset();
           this.fileName = "";
@@ -94,6 +98,7 @@ export class UploadComponent implements OnInit {
         }
       },
       () => {
+        this.loading = false;
         this.notifService.error("Impossible d'uploader le fichier");
       }
     );

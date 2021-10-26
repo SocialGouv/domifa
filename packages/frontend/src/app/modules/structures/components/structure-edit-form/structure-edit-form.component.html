@@ -388,12 +388,16 @@
       <br />
     </div>
     <div class="row">
-      <div class="col-md-12 text-center">
-        <br />
-        <button class="btn btn-primary">Enregistrer les modifications</button>
-        <br />
+      <div class="col-md-12 my-2 text-center">
+        <button class="btn btn-primary" [disabled]="loading">
+          <span *ngIf="!loading"> Enregistrer les modifications </span>
+
+          <span *ngIf="loading"
+            ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+            Veuillez patienter...</span
+          >
+        </button>
       </div>
-      <br />
     </div>
   </div>
 
@@ -442,12 +446,16 @@
     <br />
 
     <div class="row">
-      <div class="col-md-12 text-center">
-        <br />
-        <button class="btn btn-primary">Enregistrer les modifications</button>
-        <br />
+      <div class="col-md-12 my-2 text-center">
+        <button class="btn btn-primary" [disabled]="loading">
+          <span *ngIf="!loading"> Enregistrer les modifications </span>
+
+          <span *ngIf="loading"
+            ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+            Veuillez patienter...</span
+          >
+        </button>
       </div>
-      <br />
     </div>
   </div>
 </form>

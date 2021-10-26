@@ -19,7 +19,12 @@ import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import { usagerLightRepository, usagerRepository } from "../../database";
+import {
+  usagerLightRepository,
+  usagerRepository,
+  userUsagerRepository,
+} from "../../database";
+import { userUsagerCreator, userUsagerUpdator } from "../../users/services";
 
 import { appLogger } from "../../util";
 
@@ -38,6 +43,7 @@ import {
   TransfertDto,
   PreferenceContactDto,
   ProcurationDto,
+  UpdatePortailUsagerOptionsDto,
 } from "../dto";
 
 import {
@@ -326,7 +332,7 @@ export class UsagersController {
       return res.status(HttpStatus.OK).json({ usager: updatedUsager });
     } catch (err) {
       appLogger.error("Error updating usager options", {
-        error: err,
+        error: err as any,
         sentry: true,
       });
       return res

@@ -43,6 +43,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   public interactionFormData$: BehaviorSubject<InteractionOutForm>;
 
   public procuration: boolean; // Mandataire = true / domicilié = false
+  public loading = false;
 
   private subscription: Subscription;
 
@@ -132,6 +133,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   public displayProcuration(): boolean {
     return isProcurationActifMaintenant(this.usager.options.procuration);
   }
+
   public toggleSelect(
     type: "courrierOut" | "recommandeOut" | "colisOut"
   ): void {
@@ -160,15 +162,18 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.loading = true;
     this.interactionService
       .setInteraction(this.usager.ref, interactionsToSave)
       .subscribe({
         next: () => {
+          this.loading = false;
           this.updateInteractions.emit();
           this.notifService.success("Distribution effectuée avec succès");
           this.refreshUsager();
         },
         error: () => {
+          this.loading = false;
           this.notifService.error("Impossible d'enregistrer cette interaction");
         },
       });

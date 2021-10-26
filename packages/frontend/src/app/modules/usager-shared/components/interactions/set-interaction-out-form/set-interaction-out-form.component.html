@@ -7,7 +7,7 @@
 <div class="modal-body text-center" *ngIf="usager">
   <div class="row d-flex align-items-top">
     <div
-      class="interaction-zone px-1 mr-3 my-3"
+      class="interaction-zone p-1 mr-3 my-3"
       [ngClass]="{ disabled: interactionFormData.courrierOut.nbCourrier === 0 }"
     >
       <div class="interaction-icon-box">
@@ -39,7 +39,7 @@
     </div>
 
     <div
-      class="interaction-zone px-1 mr-3 my-3"
+      class="interaction-zone p-1 mr-3 my-3"
       [ngClass]="{ disabled: interactionFormData.colisOut.nbCourrier === 0 }"
     >
       <div class="interaction-icon-box">
@@ -71,7 +71,7 @@
     </div>
 
     <div
-      class="interaction-zone px-1 mr-3 my-3"
+      class="interaction-zone p-1 mr-3 my-3"
       [ngClass]="{
         disabled: interactionFormData.recommandeOut.nbCourrier === 0
       }"
@@ -169,14 +169,19 @@
   <div class="text-left py-1 mt-2 mb-1">
     <button
       [disabled]="
-        !interactionFormData.courrierOut.selected &&
-        !interactionFormData.recommandeOut.selected &&
-        !interactionFormData.colisOut.selected
+        (!interactionFormData.courrierOut.selected &&
+          !interactionFormData.recommandeOut.selected &&
+          !interactionFormData.colisOut.selected) ||
+        loading
       "
       class="btn btn-lg btn-primary mr-2"
       (click)="setInteractionForm()"
     >
-      Confirmer la distribution
+      <span *ngIf="!loading">Confirmer la distribution</span>
+      <span *ngIf="loading">
+        <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+        Veuillez patientez...
+      </span>
     </button>
     <button
       class="btn btn-lg btn-outline-dark"

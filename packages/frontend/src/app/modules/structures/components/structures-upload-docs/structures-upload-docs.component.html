@@ -66,17 +66,13 @@
         </div>
         <div class="col-md-2">
           <label class="text-white">+</label>
-          <button
-            class="btn btn-primary btn-block"
-            [disabled]="uploadResponse.status === 'progress'"
-          >
-            <span *ngIf="uploadResponse.status === 'progress'">Ajouter</span>
-
-            <span *ngIf="uploadResponse.status !== 'progress'">
+          <button class="btn btn-primary btn-block" [disabled]="loading">
+            <span *ngIf="!loading">Ajouter</span>
+            <span *ngIf="loading">
               <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
               </fa-icon>
-              Veuillez patienter...</span
-            >
+              Patientez
+            </span>
           </button>
         </div>
         <br />

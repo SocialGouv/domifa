@@ -85,12 +85,16 @@ export class ManageUsagersTableComponent implements OnInit {
   @ViewChild("setInteractionOutModal")
   public setInteractionOutModal!: TemplateRef<any>;
 
+  public loadingButtons: string[];
+
   constructor(
     private interactionService: InteractionService,
     private modalService: NgbModal,
     private notifService: ToastrService,
     private matomo: MatomoTracker
-  ) {}
+  ) {
+    this.loadingButtons = [];
+  }
 
   public ngOnInit(): void {
     this.selectedUsager = {} as UsagerFormModel;
@@ -109,16 +113,29 @@ export class ManageUsagersTableComponent implements OnInit {
     usager: UsagerFormModel,
     type: InteractionType
   ): void {
+    // Ajout du loading du bouton
+    const loadingRef = usager.ref.toString() + "_" + type;
+
+    if (this.loadingButtons.indexOf(loadingRef) !== -1) {
+      this.notifService.warning("Veuillez patienter quelques instants");
+      return;
+    }
+
+    this.loadingButtons.push(loadingRef);
+
     const interaction: InteractionForApi = {
       type,
       nbCourrier: 1,
     };
+
     const interactionType: { [key: string]: string } = {
       visite: "Liste_Icône_Réception",
       appel: "Liste_Icône_Appel",
       courrierIn: "Liste_Icône_Courrier",
     };
+
     this.matomo.trackEvent("MANAGE_USAGERS", "click", interactionType[type], 1);
+
     this.interactionService
       .setInteraction(usager.ref, [interaction])
       .subscribe({
@@ -126,11 +143,20 @@ export class ManageUsagersTableComponent implements OnInit {
           usager = new UsagerFormModel(newUsager);
           this.updateUsager.emit(usager);
           this.notifService.success(INTERACTIONS_LABELS_SINGULIER[type]);
+          this.stopLoading(loadingRef);
         },
         error: () => {
           this.notifService.error("Impossible d'enregistrer cette interaction");
+          this.stopLoading(loadingRef);
         },
       });
+  }
+
+  private stopLoading(loadingRef: string) {
+    var index = this.loadingButtons.indexOf(loadingRef);
+    if (index !== -1) {
+      this.loadingButtons.splice(index, 1);
+    }
   }
 
   public openInteractionInModal(usager: UsagerFormModel) {
