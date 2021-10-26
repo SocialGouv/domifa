@@ -66,6 +66,7 @@ async function updatePassword({
     {
       password: hash,
       passwordLastUpdate: new Date(),
+      verified: true, // Suite à une création de compte, le mot de passe est réinitialisé, on valide le compte
     }
   );
   await userStructureSecurityRepository.logEvent({

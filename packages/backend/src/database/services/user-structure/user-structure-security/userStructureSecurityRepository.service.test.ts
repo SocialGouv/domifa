@@ -17,7 +17,7 @@ describe("userStructureSecurityRepository", () => {
     const { user, userSecurity } =
       await userStructureSecurityResetPasswordInitiator.generateResetPasswordToken(
         {
-          email: "roseline.parmentier@yopmail.com",
+          email: "structure-admin@yopmail.com",
         }
       );
 
