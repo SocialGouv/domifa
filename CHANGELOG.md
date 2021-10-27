@@ -1,3 +1,15 @@
+# [2.29.0](https://github.com/SocialGouv/domifa/compare/v2.28.1...v2.29.0) (2021-10-27)
+
+
+### Bug Fixes
+
+* Correction de l'update des préférences de SMS ([73afd21](https://github.com/SocialGouv/domifa/commit/73afd21a10083fd140cfa840ae9026bd181438c1))
+
+
+### Features
+
+* **perf:** Ajout de loading dans tous les boutons à opération ([ead9e3b](https://github.com/SocialGouv/domifa/commit/ead9e3bdb072b3a92b21ef4ada5a1b55f953102d))
+
 ## [2.28.1](https://github.com/SocialGouv/domifa/compare/v2.28.0...v2.28.1) (2021-10-25)
 
 
