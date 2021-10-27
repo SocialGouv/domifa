@@ -83,7 +83,6 @@ async function authenticateStructure(
     userId: authInfo.id,
     userUUID: authInfo.uuid,
   };
-  console.log(response.body);
 }
 async function authenticateUsager(
   authInfo: TestUserUsager,
@@ -101,7 +100,6 @@ async function authenticateUsager(
     structureId: authInfo.structureId,
     userUUID: authInfo.uuid,
   };
-  console.log(response.body);
 }
 async function authenticateSuperAdminDomifa(
   authInfo: TestUserStructure,

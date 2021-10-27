@@ -34,7 +34,8 @@ describe("Import Controller", () => {
       { initApp: true }
     );
 
-    const authInfo = TESTS_USERS_STRUCTURE.BY_EMAIL["test.import@yopmail.com"];
+    const authInfo =
+      TESTS_USERS_STRUCTURE.BY_EMAIL["structure-admin@yopmail.com"];
 
     await AppTestHelper.authenticateStructure(authInfo, { context });
 

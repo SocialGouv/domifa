@@ -31,10 +31,10 @@ const ALL: TestUserStructure[] = [
     role: "responsable",
   },
   {
-    uuid: "d19ece1f-d32b-498c-9427-eb12b1251163",
-    id: 4,
+    uuid: "59c846d8-0592-4790-a5e2-1daae9b8776e",
+    id: 6,
     structureId: 1,
-    email: "facteur.test@yopmail.com",
+    email: "domifa-facteur@yopmail.com",
     password: "Azerty012345",
     role: "facteur",
   },
@@ -47,20 +47,12 @@ const ALL: TestUserStructure[] = [
     role: "admin",
   },
   {
-    uuid: "59c846d8-0592-4790-a5e2-1daae9b8776e",
-    id: 6,
-    structureId: 1,
-    email: "domifa-facteur@yopmail.com",
+    uuid: "f6b20e00-77e7-46e6-b48d-8cca69161042",
+    id: 10,
+    structureId: 3,
+    email: "structure-responsable@yopmail.com",
     password: "Azerty012345",
-    role: "facteur",
-  },
-  {
-    uuid: "44f1cfe8-eae9-49d5-aedb-76dda856c413",
-    id: 7,
-    structureId: 4,
-    email: "test.import@yopmail.com",
-    password: "Azerty012345",
-    role: "admin",
+    role: "responsable",
   },
   {
     uuid: "4e049e3d-bb65-48e5-8661-b1ccdc9db985",
@@ -69,6 +61,23 @@ const ALL: TestUserStructure[] = [
     email: "structure-simple@yopmail.com",
     password: "Azerty012345",
     role: "simple",
+  },
+  {
+    uuid: "d19ece1f-d32b-498c-9427-eb12b1251163",
+    id: 4,
+    structureId: 3,
+    email: "structure-facteur@yopmail.com",
+    password: "Azerty012345",
+    role: "facteur",
+  },
+
+  {
+    uuid: "44f1cfe8-eae9-49d5-aedb-76dda856c413",
+    id: 7,
+    structureId: 4,
+    email: "structure-admin-2@yopmail.com",
+    password: "Azerty012345",
+    role: "admin",
   },
 ];
 
