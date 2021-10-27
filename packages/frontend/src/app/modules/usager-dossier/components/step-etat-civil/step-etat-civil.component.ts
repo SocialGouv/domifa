@@ -99,7 +99,7 @@ export class StepEtatCivilComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("État-civil du demandeur");
+    this.titleService.setTitle("État civil du demandeur");
 
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
@@ -146,7 +146,7 @@ export class StepEtatCivilComponent implements OnInit {
       prenom: [this.usager.prenom, Validators.required],
       sexe: [this.usager.sexe, Validators.required],
       surnom: [this.usager.surnom, []],
-      typeDom: [this.usager.typeDom],
+      typeDom: [this.usager.ref === 0 ? null : this.usager.typeDom],
       villeNaissance: [this.usager.villeNaissance, [Validators.required]],
     });
 

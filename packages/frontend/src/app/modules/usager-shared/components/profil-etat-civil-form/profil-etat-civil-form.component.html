@@ -52,7 +52,7 @@
   <div class="row">
     <div class="col-md-4 form-group required">
       <label for="sexe">Sexe</label>
-      <select formControlName="sexe" id="sexe" class="custom-select">
+      <select formControlName="sexe" id="sexe" class="form-control">
         <option value="homme">Homme</option>
         <option value="femme">Femme</option>
       </select>
@@ -286,7 +286,7 @@
         <select
           formControlName="lien"
           id="lien_{{ i }}"
-          class="custom-select"
+          class="form-control"
           [ngClass]="{
             'is-invalid':
               submitted && ayantsDroits.controls[i].get('lien').errors

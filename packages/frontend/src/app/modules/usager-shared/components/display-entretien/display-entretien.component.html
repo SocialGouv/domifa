@@ -87,7 +87,7 @@
   <div class="col-md-4 reponses">
     <span class="question">Cause de l'instabilité logement</span>
     <span class="valeur" *ngIf="usager.entretien.cause !== 'AUTRE'">
-      {{ ENTRETIEN_CAUSE[usager.entretien.cause] }}
+      {{ ENTRETIEN_CAUSE[usager.entretien.cause] || "Non renseigné" }}
     </span>
     <span class="valeur" *ngIf="usager.entretien.cause === 'AUTRE'"
       >Autre : {{ usager.entretien.causeDetail || "Non renseigné" }}

@@ -27,7 +27,7 @@
         (ngSubmit)="submitInfos()"
         autocomplete="off"
       >
-        <h5 class="text-center title">État-civil du demandeur</h5>
+        <h5 class="text-center title">État civil du demandeur</h5>
         <br />
 
         <div class="form-group">
@@ -220,49 +220,36 @@
                 placeholder="adresse@mail.com"
                 autocomplete="null"
               />
-              <div *ngIf="f.email.errors" class="invalid-feedback">
-                L'adresse email est incorrecte
-              </div>
+
               <small id="emailHelp" class="form-text text-muted">
                 Optionnel
               </small>
             </div>
           </div>
         </div>
-        <div class="row my-3">
-          <div class="col form-group required">
-            <label for="id">Identifiant personnalisé</label>
-            <input
-              type="text"
-              class="form-control"
-              id="id"
-              cleanStr
-              formControlName="customRef"
-              placeholder="ID personnalisé"
-              [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
-              required
-            />
-            <!-- TODO: @pibouu ajouter les messages d'erreur du formulaire -->
-          </div>
-
-          <div class="col form-group required">
+        <div class="row my-3" *ngIf="!usager.ref">
+          <div class="col-md-6 form-group required">
             <label for="typeDom">Type de domiciliation</label>
             <select
               id="typeDom"
-              class="custom-select"
+              class="form-control"
               formControlName="typeDom"
-              [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
+              [ngClass]="{ 'is-invalid': submitted && f.typeDom.errors }"
               required
             >
+              <option [value]="null"></option>
               <option value="PREMIERE_DOM">Première domiciliation</option>
               <option value="RENOUVELLEMENT">Renouvellement</option>
             </select>
-            <!-- TODO: @pibouu ajouter les messages d'erreur du formulaire -->
+
+            <div *ngIf="f.typeDom.errors" class="invalid-feedback">
+              Le type de domiciliation est obligatoire
+            </div>
           </div>
         </div>
 
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-12 my-3">
             <label class="form-check-label">
               Le demandeur a-t-il des ayant-droits ?
               <fa-icon
@@ -405,7 +392,7 @@
                     'is-invalid':
                       submitted && ayantsDroits.controls[i].get('lien').errors
                   }"
-                  class="custom-select"
+                  class="form-control"
                 >
                   <option
                     *ngFor="let lien of LIEN_PARENTE_LABELS | keyvalue"

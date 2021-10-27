@@ -28,7 +28,7 @@ export class StepDocumentsComponent implements OnInit {
       this.me = user;
     });
 
-    this.titleService.setTitle("Pièces-jointes du dossier");
+    this.titleService.setTitle("Pièces jointes du dossier");
 
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;

@@ -48,7 +48,7 @@ export class DocsController {
     private readonly docsService: DocumentsService
   ) {}
 
-  @ApiOperation({ summary: "Upload de pièces-jointes" })
+  @ApiOperation({ summary: "Upload de pièces jointes" })
   @Post(":usagerRef")
   @AllowUserStructureRoles("simple", "responsable", "admin")
   @UseInterceptors(

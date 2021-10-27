@@ -5,7 +5,7 @@
       ({{ usager.sexe | titlecase }})
     </div>
     <div class="py-1">
-      Née le
+      Né{{ usager.sexe === "homme" ? "" : "e" }} le
       <span class="font-weight-bold">{{
         usager.dateNaissance | date: "dd/MM/yyyy"
       }}</span>
@@ -16,7 +16,7 @@
     </div>
 
     <div class="py-1">
-      Langues parlées:
+      Langue parlée:
       <span class="valeur" *ngIf="usager.langue">{{
         languagesAutocomplete.formatter(usager.langue)
       }}</span>
@@ -33,7 +33,7 @@
         <span class="valeur" *ngIf="!usager.phone">Non renseigné</span>
       </div>
       <div class="py-2">
-        Email:
+        Adresse e-mail:
         <span class="text-underline" *ngIf="usager.email">
           {{ usager.email }}
         </span>

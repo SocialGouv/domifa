@@ -87,12 +87,12 @@
           py-2
         "
       >
-        <button class="mr-3 btn btn-primary" (click)="open(confirmation)">
+        <button class="mr-3 btn btn-success" (click)="open(confirmation)">
           <fa-icon [icon]="['fas', 'check']" class="mr-2"></fa-icon>
           Accepter le dossier
         </button>
 
-        <button class="mr-3 btn btn-outline-danger" (click)="open(refus)">
+        <button class="mr-3 btn btn-danger" (click)="open(refus)">
           <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
           Refuser le dossier
         </button>
@@ -100,7 +100,7 @@
         <button
           *ngIf="usager.decision.statut !== 'ATTENTE_DECISION'"
           (click)="setDecision('ATTENTE_DECISION')"
-          class="mr-3 btn btn-link"
+          class="mr-3 btn btn-outline-primary"
         >
           <fa-icon [icon]="['far', 'clock']" class="mr-2"></fa-icon>
           Soumettre la demande
@@ -133,7 +133,7 @@
 
       <div class="row align-items-center">
         <div class="col-6">
-          <h4>État-civil</h4>
+          <h4>État civil</h4>
         </div>
         <div class="col-3">
           <h4 *ngIf="!editInfos">Ayants-droits</h4>
@@ -240,7 +240,7 @@
       <app-upload *ngIf="editPJ" [usager]="usager"></app-upload>
       <div class="mb-5">
         <div class="font-italic" *ngIf="usager.docs.length === 0">
-          Aucune pièces-jointe enregistrée
+          Aucune pièce jointe enregistrée
         </div>
 
         <app-usager-documents
