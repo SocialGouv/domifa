@@ -42,7 +42,7 @@
               <select
                 id="role_{{ user.id }}"
                 (change)="updateRole(user.id, $event.target.value)"
-                class="custom-select"
+                class="form-control"
               >
                 <option [selected]="user.role === 'admin'" value="admin">
                   Administrateur

@@ -131,7 +131,7 @@
                     *ngIf="agents"
                     id="rdvUser"
                     formControlName="userId"
-                    class="custom-select"
+                    class="form-control"
                   >
                     <option *ngFor="let agent of agents" [ngValue]="agent.id">
                       {{ agent.nom }} {{ agent.prenom }}

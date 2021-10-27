@@ -19,8 +19,10 @@
       <p>
         Vous souhaitez mettre fin à la domiciliation de
         <b>
-          {{ usager | usagerNomComplet }} né le
-          {{ usager.dateNaissance | date: "dd/MM/yyyy" }}.
+          {{ usager | usagerNomComplet }} né{{
+            usager.sexe === "homme" ? "" : "e"
+          }}
+          le {{ usager.dateNaissance | date: "dd/MM/yyyy" }}.
         </b>
         <br />
         <br />

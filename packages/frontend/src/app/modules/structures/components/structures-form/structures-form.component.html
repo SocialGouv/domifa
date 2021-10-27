@@ -384,7 +384,7 @@
             required
             formControlName="departement"
             [ngClass]="{ 'is-invalid': submitted && f.departement.errors }"
-            class="custom-select"
+            class="form-control"
           >
             <option
               *ngFor="let departement of departements | keyvalue"

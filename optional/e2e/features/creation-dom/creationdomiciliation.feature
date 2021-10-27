@@ -11,7 +11,7 @@ Contexte: Connexion utilisateur
   Soit un navigateur web sur le site
   Soit je me connecte sur Domifa
   Quand je clique sur "Créer une demande"
-  Alors je vois "État-civil du demandeur"
+  Alors je vois "État civil du demandeur"
 
 #
 #  #
