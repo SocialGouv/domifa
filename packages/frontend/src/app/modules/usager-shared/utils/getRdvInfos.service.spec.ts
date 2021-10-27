@@ -6,7 +6,7 @@ import { getRdvInfos } from "./getRdvInfos.service";
 
 describe("Création des rendez-vous", () => {
   beforeAll(() => {
-    // Date de réféce : 20 Décembre 2020
+    // Date de référence : 20 Décembre 2020
     jest.useFakeTimers("modern");
     jest.setSystemTime(new Date(2020, 11, 20, 19, 20));
   });
