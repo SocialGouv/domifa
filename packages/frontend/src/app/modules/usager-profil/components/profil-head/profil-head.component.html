@@ -128,9 +128,25 @@
 
 <ng-template #renewModal let-modal>
   <div class="modal-header bg-primary">
-    <h4 class="text-white modal-title" id="modal-title">
+    <h4
+      class="text-white modal-title"
+      id="modal-title"
+      *ngIf="
+        usager.decision.statut !== 'RADIE' && usager.decision.statut !== 'REFUS'
+      "
+    >
       Demande de renouvellement
     </h4>
+    <h4
+      class="text-white modal-title"
+      id="modal-title"
+      *ngIf="
+        usager.decision.statut === 'RADIE' || usager.decision.statut === 'REFUS'
+      "
+    >
+      Nouvelle demande
+    </h4>
+
     <button
       type="button"
       class="close"
@@ -169,8 +185,24 @@
     <button class="btn btn-outline-dark" (click)="closeModals()">
       Revenir au profil
     </button>
+
     <button class="btn btn-primary" (click)="renouvellement()">
-      Demander un renouvellement
+      <span
+        *ngIf="
+          usager.decision.statut !== 'RADIE' &&
+          usager.decision.statut !== 'REFUS'
+        "
+      >
+        Demander un renouvellement
+      </span>
+      <span
+        *ngIf="
+          usager.decision.statut === 'RADIE' ||
+          usager.decision.statut === 'REFUS'
+        "
+      >
+        Créer une nouvelle demande
+      </span>
     </button>
   </div>
 </ng-template>
