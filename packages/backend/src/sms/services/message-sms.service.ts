@@ -1,3 +1,4 @@
+import { generateScheduleSendDate } from "./generators/generateScheduleSendDate";
 import { MESSAGE_SMS_STATUS } from "./../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
 import {
   INDEX_DATE_EMISSION,
@@ -138,26 +139,7 @@ export class MessageSmsService {
     structure: Pick<Structure, "id" | "sms">,
     interaction: InteractionDto
   ) {
-    let scheduledDate = moment()
-      .set({
-        hour: 19,
-        minute: 0,
-        second: 0,
-        millisecond: 0,
-      })
-      .toDate();
-
-    if (new Date() > scheduledDate) {
-      scheduledDate = moment()
-        .add(1, "day")
-        .set({
-          hour: 19,
-          minute: 0,
-          second: 0,
-          millisecond: 0,
-        })
-        .toDate();
-    }
+    let scheduledDate = generateScheduleSendDate(new Date());
 
     const smsReady: MessageSms = await messageSmsRepository.findSmsOnHold({
       usagerRef: usager.ref,
