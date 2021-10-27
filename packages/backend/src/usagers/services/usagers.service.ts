@@ -1,3 +1,4 @@
+import { UsagerTypeDom } from "./../../_common/model/usager/UsagerTypeDom.type";
 import { Injectable } from "@nestjs/common";
 import {
   usagerLightRepository,
@@ -84,6 +85,11 @@ export class UsagersService {
     usager: UsagerLight,
     user: Pick<UserStructure, "id" | "nom" | "prenom">
   ): Promise<UsagerLight> {
+    const typeDom: UsagerTypeDom =
+      usager.decision.statut === "REFUS" || usager.decision.statut === "RADIE"
+        ? "PREMIERE_DOM"
+        : "RENOUVELLEMENT";
+
     usager.decision = {
       uuid: uuidGenerator.random(),
       dateDebut: new Date(),
@@ -91,7 +97,7 @@ export class UsagersService {
       statut: "INSTRUCTION",
       userId: user.id,
       userName: user.prenom + " " + user.nom,
-      typeDom: "RENOUVELLEMENT",
+      typeDom,
     };
 
     // Ajout du précédent état dans l'historique
