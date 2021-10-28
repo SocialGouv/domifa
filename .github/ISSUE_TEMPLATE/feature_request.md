@@ -1,10 +1,9 @@
 ---
 name: Feature request
 about: Nouvelle fonctionnalité
-title: 'feat(): '
-labels: ''
-assignees: ''
-
+title: "feat(): "
+labels: ""
+assignees: ""
 ---
 
 **Situation Actuelle**
@@ -18,9 +17,13 @@ Description du comportement souhaité
 - [ ] action 1
 - [ ] action 2...
 
+**Lien vers l'environnement de test**
+
+Par défaut : https://domifa-preprod.dev.fabrique.social.gouv.fr/
+
 **Recette PO**
 
 - [ ] test 1
 - [ ] test 2...
 
-__aide/documentation tickets github__: <https://github.com/SocialGouv/domifa/tree/master/_docs/github-issues.md>
+**aide/documentation tickets github**: <https://github.com/SocialGouv/domifa/tree/master/_docs/github-issues.md>

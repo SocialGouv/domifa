@@ -1,9 +1,9 @@
 ---
 name: Bug report
 about: Problème à corriger
-title: 'bug(): '
-labels: ''
-assignees: ''
+title: "bug(): "
+labels: ""
+assignees: ""
 ---
 
 **Description du problème**
@@ -28,9 +28,13 @@ Description du comportement souhaité
 
 **Informations complémentaires:**
 
+**Lien vers l'environnement de test**
+
+Par défaut : https://domifa-preprod.dev.fabrique.social.gouv.fr/
+
 **Recette PO**
 
 - [ ] test 1
 - [ ] test 2...
 
-__aide/documentation tickets github__: <https://github.com/SocialGouv/domifa/tree/master/_docs/github-issues.md>
+**aide/documentation tickets github**: <https://github.com/SocialGouv/domifa/tree/master/_docs/github-issues.md>
