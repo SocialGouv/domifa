@@ -1,23 +1,22 @@
 <div *ngIf="me" class="head-page">
-  <div class="container">
-    <div class="pb-5 px-0">
-      <div class="row">
-        <div class="col-6">
-          <span class="title">
-            Paramètres d'envoi de SMS pour votre structure
-          </span>
-        </div>
-        <div class="col-6">
-          <a
-            href="/assets/files/guide_sms.pdf"
-            target="_blank"
-            class="btn btn-white-primary"
-            rel="noopener noreferrer"
-            download
-          >
-            Télécharger le guide SMS
-          </a>
-        </div>
+  <div class="container py-1">
+    <div class="row">
+      <div class="py-3 col-7">
+        <span class="title">
+          Paramètres d'envoi de SMS pour votre structure
+        </span>
+      </div>
+      <div class="py-3 text-right col-5">
+        <a
+          href="/assets/files/guide_sms.pdf"
+          target="_blank"
+          class="btn btn-white-primary"
+          rel="noopener noreferrer"
+          download
+        >
+          <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+          Télécharger le guide SMS
+        </a>
       </div>
     </div>
   </div>
