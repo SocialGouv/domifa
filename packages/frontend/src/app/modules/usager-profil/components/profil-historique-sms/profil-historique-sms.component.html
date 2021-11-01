@@ -9,9 +9,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let sms of messagesList">
-      <td>
-        {{ sms.scheduledDate | date: "dd/MM/yyyy à HH:mm" }}
-      </td>
+      <td>{{ sms.scheduledDate | date: "dd/MM/yyyy" }} à 19h</td>
       <td>
         <span
           [ngbTooltip]="MESSAGE_SMS_STATUS[sms.status].description"

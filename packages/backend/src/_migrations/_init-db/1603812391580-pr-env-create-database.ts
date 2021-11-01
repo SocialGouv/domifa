@@ -11,7 +11,7 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
     await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
 
     await createTables(queryRunner);
-    // await createSequences(queryRunner); // crées automatiquement par typeorm
+    await createSequences(queryRunner); // crées automatiquement par typeorm
 
     appLogger.warn("CREATION DB : SUCCESS");
   }
@@ -35,6 +35,7 @@ async function createSequences(queryRunner: QueryRunner) {
     `CREATE SEQUENCE public.structure_id_seq NO MINVALUE NO MAXVALUE`
   );
 }
+
 async function createTables(queryRunner: QueryRunner) {
   appLogger.warn("> CREATE TABLES");
   await queryRunner.query(
