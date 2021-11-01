@@ -1,0 +1,15 @@
+<div class="head-page d-print-none" *ngIf="usager">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="title">{{ title }}</div>
+
+      <div class="text-light d-flex align-items-center">
+        <div class="icon-note mr-2"></div>
+        Commentaires privés
+        <div class="notif-notes ml-2">
+          {{ filteredNotes }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
