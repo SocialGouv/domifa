@@ -54,8 +54,10 @@ export class MenuComponent implements OnInit {
       );
       return;
     }
+    console.log(step);
+    console.log(this.usager.etapeDemande);
 
-    if (this.usager.ref === 0) {
+    if (!this.usager.ref) {
       this.notifService.warning(
         "Vous devez remplir la première étape avant de passer à la suite"
       );

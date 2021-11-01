@@ -12,7 +12,6 @@ import { fadeInOut } from "src/app/shared/animations";
 export class StepHeaderComponent implements OnInit, OnChanges {
   @Input() public usager!: UsagerFormModel;
 
-  public title: string;
   public filteredNotes: number;
 
   constructor() {
@@ -22,13 +21,6 @@ export class StepHeaderComponent implements OnInit, OnChanges {
   ngOnInit(): void {}
 
   ngOnChanges() {
-    if (!this.usager.ref) {
-      this.title = "Nouvelle domiciliation";
-    } else {
-      const type = !this.usager.isActif ? "Première demande" : "Renouvellement";
-      this.title = `${type} de ${this.usager.nom} ${this.usager.prenom} ${this.usager.customRef}`;
-    }
-
     this.filteredNotes = this.usager.notes.filter(
       (note) => !note.archived
     ).length;
