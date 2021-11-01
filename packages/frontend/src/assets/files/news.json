@@ -1,4 +1,34 @@
 [
+    {
+    "date": "2021-11-01",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "La création d’une demande de domiciliation a été retravaillée, avec nouveau design et ajout de fonctionnalités !",
+        "message": [
+          "Vous pouvez désormais spécifier le type de demande (première ou renouvellement), ajouter des commentaires privés tout le long du processus, modifier le dossier finalisé et télécharger le cerfa d’attestation en amont pour les structures validant les demandes en commision 😊"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Les notifications par SMS de réception de courrier s’enverront désormais les mardis et jeudis à 19h !",
+        "message": [
+          "Afin de pouvoir bientôt vous proposer d’autres notifications SMS (échéance de domiciliation, rappel de rendez-vous etc.), nous baissons la périodicité des notifications d’arrivée de courrier. Un courrier reçu le lundi génèrera une notification le mardi soir par exemple."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Améliorations et corrections diverses ",
+        "message": [
+          "Ajout d’icônes de chargement sur les boutons courrier, passage et appel afin de diminuer les clics en double",
+"Ajout d’un document explicatif sur la mise en place des notifications SMS dans la section “Notifications”, accessible au profil Administrateur”,
+"La procuration et le transfert sont désormais modifiables par le profil Facteur",
+          "Amélioration du courrier de radiation"
+        ]
+      }
+    ]
+  },
   {
     "date": "2021-10-06",
     "description": "",
@@ -11,7 +41,7 @@
         ]
       },
       {
-        "type": "bug",
+        "type": "new",
         "categorie": "Export plus rapide et une meilleure lisibilité",
         "message": [
           "Réduction du temps d’export de données pour les structures ayant un nombre conséquent de domiciliés",
