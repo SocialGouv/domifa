@@ -312,4 +312,8 @@ export class StepEtatCivilComponent implements OnInit {
         this.router.navigate(["usager/" + usager.ref + "/edit/rendez-vous"]);
       });
   }
+
+  public onUsagerChanges(usager: UsagerLight): void {
+    this.usager = new UsagerFormModel(usager);
+  }
 }

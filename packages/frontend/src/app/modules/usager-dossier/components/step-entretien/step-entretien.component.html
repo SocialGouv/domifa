@@ -1,12 +1,20 @@
-<div class="container py-3">
-  <app-form-menu [usager]="usager" [currentStep]="2"></app-form-menu>
+<app-step-header [usager]="usager"></app-step-header>
 
-  <div class="step_form">
-    <app-entretien-form
-      [(usager)]="usager"
-      (nextStep)="nextStep($event)"
-    ></app-entretien-form>
+<div class="content" *ngIf="me && usager">
+  <div class="container py-3">
+    <app-form-menu [usager]="usager" [currentStep]="2"></app-form-menu>
+
+    <div class="step_form">
+      <app-entretien-form
+        [(usager)]="usager"
+        (nextStep)="nextStep($event)"
+      ></app-entretien-form>
+    </div>
   </div>
-</div>
 
-<app-delete-usager-menu [usager]="usager"></app-delete-usager-menu>
+  <app-delete-usager-menu [usager]="usager"></app-delete-usager-menu>
+  <app-step-footer
+    [usager]="usager"
+    (usagerChanges)="onUsagerChanges($event)"
+  ></app-step-footer>
+</div>

@@ -22,7 +22,8 @@ import { StepEntretienComponent } from "./components/step-entretien/step-entreti
 import { StepEtatCivilComponent } from "./components/step-etat-civil/step-etat-civil.component";
 import { StepRdvComponent } from "./components/step-rdv/step-rdv.component";
 import { UsagerDossierRoutingModule } from "./usager-dossier-routing.module";
-import { StepLayoutComponent } from './components/step-layout/step-layout.component';
+import { StepFooterComponent } from "./components/step-footer/step-footer.component";
+import { StepHeaderComponent } from "./components/step-header/step-header.component";
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { StepLayoutComponent } from './components/step-layout/step-layout.compon
     StepEtatCivilComponent,
     MenuComponent,
     DisplayEtatCivilDecisionComponent,
-    StepLayoutComponent,
+    StepFooterComponent,
+    StepHeaderComponent,
   ],
   imports: [
     CommonModule,

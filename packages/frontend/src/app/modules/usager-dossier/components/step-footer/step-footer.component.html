@@ -1,0 +1,27 @@
+<div class="container pb-3" *ngIf="usager">
+  <div class="step_form">
+    <h5>Commentaires privés</h5>
+    <div class="py-3">
+      <app-profil-general-notes
+        [(usager)]="usager"
+        [me]="me"
+        (onUsagerChanges)="onUsagerChanges($event)"
+      ></app-profil-general-notes>
+    </div>
+    <button
+      class="my-3 btn btn-outline-primary d-print-none mr-2"
+      (click)="openAddNoteInModal()"
+    >
+      <fa-icon [icon]="['fas', 'plus']" class="mr-2"></fa-icon>
+      <span>Ajouter une note</span>
+    </button>
+  </div>
+</div>
+
+<ng-template #addNoteInModal let-modal>
+  <app-profil-add-note-form
+    [(usager)]="usager"
+    (confirm)="onUsagerChanges($event); closeModals()"
+    (cancel)="closeModals()"
+  ></app-profil-add-note-form>
+</ng-template>
