@@ -1,3 +1,21 @@
+# [2.35.0](https://github.com/SocialGouv/domifa/compare/v2.34.0...v2.35.0) (2021-11-01)
+
+
+### Bug Fixes
+
+* mise à jour des tests ([2b201fa](https://github.com/SocialGouv/domifa/commit/2b201fac8893af42227f2d8a3caededaa1a2bad1))
+* popup des news ([3a9d8e7](https://github.com/SocialGouv/domifa/commit/3a9d8e76a5b230be54af32375aa32e97135fa622))
+* **profil:** Ajout des loading ([37fe811](https://github.com/SocialGouv/domifa/commit/37fe811d3378dc7e3c6d10dcd34250699ef9a023))
+* double enregistrement des Interactions ([a0aa47a](https://github.com/SocialGouv/domifa/commit/a0aa47a638eddcba6b2f94480ed9b44813b243cd))
+* mise à jour des sms par défaut ([b7f118b](https://github.com/SocialGouv/domifa/commit/b7f118bae78c13a7bd04ef4910c89ed0f9e3e704))
+* Mise à jour suite au rebase ([a0a9a8d](https://github.com/SocialGouv/domifa/commit/a0a9a8d854a9e26d80d4e09691c670af71980ef1))
+
+
+### Features
+
+* change letter radiation template ([05d2b93](https://github.com/SocialGouv/domifa/commit/05d2b934a3bec547b2be952ad068cf4032806d89))
+* refacto add step-layout ([fc6e199](https://github.com/SocialGouv/domifa/commit/fc6e199aed1ea873402c540ec4a508e11852a991))
+
 # [2.34.0](https://github.com/SocialGouv/domifa/compare/v2.33.0...v2.34.0) (2021-11-01)
 
 
