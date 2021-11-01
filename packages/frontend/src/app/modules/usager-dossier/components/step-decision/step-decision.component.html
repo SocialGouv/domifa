@@ -111,10 +111,12 @@
     <div class="step_form">
       <div class="row">
         <div class="col mb-4">
-          Dossier
-          <span class="text-primary font-weight-bold mr-3">{{
-            usager.customRef
-          }}</span>
+          <span *ngIf="usager.typeDom === 'RENOUVELLEMENT'">
+            Dossier
+            <span class="text-primary font-weight-bold mr-3">{{
+              usager.customRef
+            }}</span>
+          </span>
 
           <span
             *ngIf="usager.typeDom === 'PREMIERE_DOM'"

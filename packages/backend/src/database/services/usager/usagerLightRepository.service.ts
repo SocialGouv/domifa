@@ -14,6 +14,7 @@ const USAGER_LIGHT_ATTRIBUTES: (keyof UsagerTable)[] = [
   "dateNaissance",
   "email",
   "decision",
+  "datePremiereDom",
   "typeDom",
   "docs",
   "entretien",
@@ -52,9 +53,9 @@ function findDoublons({
 }): Promise<UsagerLight[]> {
   return baseRepository.findManyWithQuery({
     select: USAGER_LIGHT_ATTRIBUTES,
-    where: `"structureId" = :structureId 
+    where: `"structureId" = :structureId
       and "ref" <> :usagerRef
-      and LOWER("nom") = :nom 
+      and LOWER("nom") = :nom
       and LOWER("prenom") = :prenom`,
     params: {
       usagerRef: ref,
@@ -73,7 +74,7 @@ function findNextRendezVous({
   dateRefNow?: Date;
 }): Promise<Pick<Usager, "nom" | "prenom" | "uuid" | "ref" | "rdv">[]> {
   return baseRepository.findManyWithQuery({
-    where: `rdv->>'userId' = :userId 
+    where: `rdv->>'userId' = :userId
       and (rdv->>'dateRdv')::timestamptz > :dateRefNow`,
     params: {
       userId,
