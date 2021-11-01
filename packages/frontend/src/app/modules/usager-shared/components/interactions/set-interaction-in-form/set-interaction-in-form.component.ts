@@ -87,7 +87,6 @@ export class SetInteractionInFormComponent implements OnInit {
 
     this.loading = true;
 
-    console.log(interactionsToSave);
     this.interactionService
       .setInteraction(this.usager.ref, interactionsToSave)
       .subscribe({
