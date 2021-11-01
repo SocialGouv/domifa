@@ -21,7 +21,6 @@ export class UserProfilComponent implements OnInit {
   public users: UserStructureProfile[];
   public me: UserStructure;
   public structure: StructureCommon;
-  public newUsers: UserStructureProfile[];
 
   public selectedUser: number;
   public usersInfos: boolean;
@@ -36,7 +35,7 @@ export class UserProfilComponent implements OnInit {
     private titleService: Title
   ) {
     this.users = [];
-    this.newUsers = [];
+
     this.selectedUser = null;
     this.usersInfos = false;
     this.exportLoading = false;
@@ -57,24 +56,6 @@ export class UserProfilComponent implements OnInit {
             this.structure = structure;
           });
       }
-    });
-  }
-
-  public confirmUserFromAdmin(id: number) {
-    this.userService.confirmUserFromAdmin(id).subscribe({
-      next: (user: UserStructureProfile) => {
-        this.getUsers();
-        this.notifService.success(
-          "Le compte de " +
-            user.nom +
-            " " +
-            user.prenom +
-            " est désormais actif"
-        );
-      },
-      error: () => {
-        this.notifService.error("Impossible de confirmer l'utilisateur");
-      },
     });
   }
 
@@ -120,13 +101,6 @@ export class UserProfilComponent implements OnInit {
   }
 
   private getUsers() {
-    if (this.me.role === "admin") {
-      this.userService
-        .getNewUsers()
-        .subscribe((users: UserStructureProfile[]) => {
-          this.newUsers = users;
-        });
-    }
     this.userService.getUsers().subscribe((users: UserStructureProfile[]) => {
       this.users = users;
     });

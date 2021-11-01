@@ -13,7 +13,7 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
-import { AxiosError } from "axios";
+
 import { AllowUserStructureRoles } from "../auth/decorators";
 import { CurrentChosenUserStructure } from "../auth/decorators/current-chosen-user-structure.decorator";
 import { CurrentUser } from "../auth/decorators/current-user.decorator";
@@ -23,9 +23,9 @@ import {
   userStructureRepository,
   userStructureSecurityPasswordUpdater,
 } from "../database";
-import { userAccountActivatedEmailSender } from "../mails/services/templates-renderers";
+
 import { userAccountCreatedByAdminEmailSender } from "../mails/services/templates-renderers/user-account-created-by-admin";
-import { appLogger } from "../util";
+
 import { ExpressResponse } from "../util/express";
 import {
   UserStructure,
@@ -71,59 +71,6 @@ export class UsersController {
       { select: "ALL" }
     );
     return res.status(HttpStatus.OK).json(newUser.passwordLastUpdate);
-  }
-
-  @Get("to-confirm")
-  @ApiBearerAuth("Administrateurs")
-  @ApiOperation({ summary: "Liste des utilisateurs à confirmer" })
-  @AllowUserStructureRoles("admin")
-  public getUsersToConfirm(
-    @CurrentUser() user: UserStructureAuthenticated
-  ): Promise<UserStructureProfile[]> {
-    return userStructureRepository.findMany({
-      structureId: user.structureId,
-      verified: false,
-    });
-  }
-
-  @AllowUserStructureRoles("admin")
-  @ApiBearerAuth("Administrateurs")
-  @ApiOperation({ summary: "Confirmer une création de compte" })
-  @Patch("confirm/:userId")
-  @UseGuards(CanGetUserStructureGuard)
-  public async confirmUserFromAdmin(
-    @Param("userId") userId: number,
-    @CurrentChosenUserStructure() chosenUserStructure: UserStructure,
-    @CurrentUser() userStructureAuth: UserStructureAuthenticated,
-    @Res() res: ExpressResponse
-  ) {
-    const confirmerUser = await userStructureRepository.updateOne(
-      {
-        uuid: chosenUserStructure.uuid,
-        structureId: userStructureAuth.structureId,
-      },
-      { verified: true }
-    );
-
-    if (confirmerUser && confirmerUser !== undefined) {
-      return userAccountActivatedEmailSender
-        .sendMail({ user: confirmerUser })
-        .then(
-          () => {
-            return res.status(HttpStatus.OK).json(confirmerUser);
-          },
-          (error: AxiosError) => {
-            appLogger.warn(`[UsersMail] mail user account activated failed`);
-            appLogger.error(JSON.stringify(error.message));
-            throw new HttpException(
-              "USER_ACCOUNT_ACTIVATED",
-              HttpStatus.INTERNAL_SERVER_ERROR
-            );
-          }
-        );
-    } else {
-      return res.status(HttpStatus.BAD_REQUEST).json("INVALID_CONFIRM_TOKEN");
-    }
   }
 
   @AllowUserStructureRoles("admin")

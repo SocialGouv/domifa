@@ -1,44 +1,7 @@
 <div class="container" *ngIf="me">
   <div class="row">
     <div class="col-md-10 offset-1">
-      <br />
-
-      <h4 *ngIf="newUsers && newUsers.length > 0">
-        Nouveaux utilisateurs à confirmer
-        <span id="new-users">{{ newUsers.length }}</span>
-      </h4>
-      <div *ngIf="newUsers" class="list-group">
-        <div class="list-group-item" *ngFor="let user of newUsers">
-          <div class="row">
-            <div class="col text-left">
-              <b>{{ user.nom }} {{ user.prenom }}</b>
-              <br />
-              {{ user.email }}
-            </div>
-            <div class="col text-right">
-              <button
-                *ngIf="me.role === 'admin' && !user.verified"
-                (click)="confirmUserFromAdmin(user.id)"
-                class="btn btn-secondary"
-              >
-                <fa-icon [icon]="['fas', 'check']" class="mr-2"></fa-icon>
-                Valider
-              </button>
-              &nbsp;
-              <button
-                *ngIf="me.role === 'admin' && me.id !== user.id"
-                (click)="open(deleteUserConfirmation); selectedUser = user.id"
-                class="btn btn-danger"
-              >
-                <fa-icon [icon]="['fas', 'trash']" class="mr-2"></fa-icon>
-                Supprimer
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <h4 *ngIf="newUsers">Membres actifs</h4>
+      <h4>Membres actifs</h4>
       <div *ngIf="users" class="list-group">
         <div class="list-group-item" *ngFor="let user of users">
           <div class="row">

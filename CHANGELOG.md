@@ -1,3 +1,17 @@
+## [2.29.1](https://github.com/SocialGouv/domifa/compare/v2.29.0...v2.29.1) (2021-11-01)
+
+
+### Bug Fixes
+
+* mise à jour du dump de test ([4d40638](https://github.com/SocialGouv/domifa/commit/4d4063870f57479cad35aa5ceb2a234e00a469ee))
+* **db:** Mise à jour des jeux de test ([56058bc](https://github.com/SocialGouv/domifa/commit/56058bceac665c90ea81bb57fd0195f63cef4e5f))
+* migration inutile supprimée ([fede8b8](https://github.com/SocialGouv/domifa/commit/fede8b850d6c501a6464adb8476a8dca6877d636))
+
+
+### Performance Improvements
+
+* **db:** Mise a jour du dump de test et de création des env ([a7ee315](https://github.com/SocialGouv/domifa/commit/a7ee315179fbbea9796125e3acf22355dc6d44db))
+
 # [2.29.0](https://github.com/SocialGouv/domifa/compare/v2.28.1...v2.29.0) (2021-10-27)
 
 

@@ -103,7 +103,7 @@ export class StructureTable
   @Column({
     type: "jsonb",
     default: () =>
-      `'{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}'`,
+      `'{"senderName": null, "senderDetails": null, "enabledByDomifa": true, "enabledByStructure": false}'`,
   })
   sms: StructureSmsParams;
 

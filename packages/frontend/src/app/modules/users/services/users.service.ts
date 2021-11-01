@@ -59,26 +59,6 @@ export class UsersService {
     );
   }
 
-  public getNewUsers(): Observable<UserStructureProfile[]> {
-    return this.http.get(`${this.endPoint}/to-confirm`).pipe(
-      map((response) => {
-        return Array.isArray(response)
-          ? response.map((item) =>
-              userStructureBuilder.buildUserStructure(item)
-            )
-          : [userStructureBuilder.buildUserStructure(response)];
-      })
-    );
-  }
-
-  public confirmUserFromAdmin(id: number): Observable<UserStructureProfile> {
-    return this.http.patch(`${this.endPoint}/confirm/${id}`, {}).pipe(
-      map((response) => {
-        return userStructureBuilder.buildUserStructure(response);
-      })
-    );
-  }
-
   public updateRole(
     id: number,
     role: UserStructureRole
