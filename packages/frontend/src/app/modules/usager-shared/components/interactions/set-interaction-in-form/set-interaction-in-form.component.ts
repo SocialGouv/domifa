@@ -86,6 +86,8 @@ export class SetInteractionInFormComponent implements OnInit {
     }
 
     this.loading = true;
+
+    console.log(interactionsToSave);
     this.interactionService
       .setInteraction(this.usager.ref, interactionsToSave)
       .subscribe({
@@ -108,7 +110,6 @@ export class SetInteractionInFormComponent implements OnInit {
         this.usagerChange.emit(new UsagerFormModel(usager));
         this.cancelReception.emit();
         this.updateInteractions.emit();
-        this.loading = false;
       });
   }
 
