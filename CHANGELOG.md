@@ -1,3 +1,10 @@
+# [2.36.0](https://github.com/SocialGouv/domifa/compare/v2.35.0...v2.36.0) (2021-11-01)
+
+
+### Features
+
+* hide id in steps ([7c2cfec](https://github.com/SocialGouv/domifa/commit/7c2cfec801245672c8887f3208ad2871a5cdb042))
+
 # [2.35.0](https://github.com/SocialGouv/domifa/compare/v2.34.0...v2.35.0) (2021-11-01)
 
 
