@@ -8,7 +8,7 @@ WORKDIR /app
 RUN yarn --frozen-lockfile && yarn cache clean
 RUN yarn build
 
-FROM ghcr.io/socialgouv/docker/nginx4spa:6.58.2
+FROM ghcr.io/socialgouv/docker/nginx4spa:6.58.3
 
 ARG DOMIFA_FRONTEND_META_ROBOTS
 ENV DOMIFA_FRONTEND_META_ROBOTS=$DOMIFA_FRONTEND_META_ROBOTS
