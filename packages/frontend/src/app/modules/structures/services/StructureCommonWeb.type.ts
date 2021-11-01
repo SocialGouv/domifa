@@ -66,11 +66,12 @@ export class StructureCommonWeb implements StructureCommon {
     }
 
     this.sms = (structure && structure.sms) || {
-      enabledByDomifa: false,
+      enabledByDomifa: true,
       enabledByStructure: false,
       senderName: null,
       senderDetails: null,
     };
+
     this.portailUsager = (structure && structure.portailUsager) || {
       enabledByDomifa: false,
       enabledByStructure: false,

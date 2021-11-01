@@ -54,8 +54,6 @@ export class MenuComponent implements OnInit {
       );
       return;
     }
-    console.log(step);
-    console.log(this.usager.etapeDemande);
 
     if (!this.usager.ref) {
       this.notifService.warning(
