@@ -1,3 +1,16 @@
+# [2.33.0](https://github.com/SocialGouv/domifa/compare/v2.32.0...v2.33.0) (2021-11-01)
+
+
+### Bug Fixes
+
+* retours PO ([466c9f7](https://github.com/SocialGouv/domifa/commit/466c9f737a8b8bc74f286e90b9bda4be493adb58))
+* retous PO ([2832bd6](https://github.com/SocialGouv/domifa/commit/2832bd6548a40932cf92b7c4086c97d14643efb9))
+
+
+### Features
+
+* **décision:** Ajout des bons titres dans les popup de renouvellement ([33641d5](https://github.com/SocialGouv/domifa/commit/33641d51d0ddc61cc773acaef0f5ef5379f3d713))
+
 # [2.32.0](https://github.com/SocialGouv/domifa/compare/v2.31.0...v2.32.0) (2021-11-01)
 
 
