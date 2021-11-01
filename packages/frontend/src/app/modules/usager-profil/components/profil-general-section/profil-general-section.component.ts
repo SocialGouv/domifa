@@ -140,6 +140,8 @@ export class ProfilGeneralSectionComponent implements OnInit {
       return;
     }
 
+    this.loadingButtons.push(type);
+
     this.interactionService.setInteraction(usagerRef, [interaction]).subscribe({
       next: (newUsager: UsagerLight) => {
         this.usager = new UsagerFormModel(newUsager);
