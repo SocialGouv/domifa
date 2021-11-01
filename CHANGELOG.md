@@ -1,3 +1,10 @@
+# [2.34.0](https://github.com/SocialGouv/domifa/compare/v2.33.0...v2.34.0) (2021-11-01)
+
+
+### Features
+
+* change documentations ([96bd6cf](https://github.com/SocialGouv/domifa/commit/96bd6cfebfd09d473e6c0acf04f3284f1384ec25))
+
 # [2.33.0](https://github.com/SocialGouv/domifa/compare/v2.32.0...v2.33.0) (2021-11-01)
 
 
