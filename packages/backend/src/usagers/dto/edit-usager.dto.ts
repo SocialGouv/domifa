@@ -1,6 +1,17 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsIn, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
-import { Usager, UsagerAyantDroit, UsagerSexe } from "../../_common/model";
+import {
+  IsIn,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  ValidateIf,
+} from "class-validator";
+import {
+  Usager,
+  UsagerAyantDroit,
+  UsagerSexe,
+  UsagerTypeDom,
+} from "../../_common/model";
 
 export class EditUsagerDto implements Partial<Usager> {
   @ApiProperty()
@@ -52,4 +63,14 @@ export class EditUsagerDto implements Partial<Usager> {
   @ApiProperty()
   @IsOptional()
   public ayantsDroits!: UsagerAyantDroit[];
+
+  // TODO: réactiver une fois le point fait sur les impacts d'avoir le choxi du type de DOm
+  // @ApiProperty()
+  // @IsOptional()
+  // @IsIn(["RENOUVELLEMENT", "PREMIERE_DOM"])
+  // public typeDom!: UsagerTypeDom;
+
+  // @ValidateIf((o) => o.typeDom === "RENOUVELLEMENT")
+  // @IsNotEmpty()
+  // public datePremiereDom!: Date;
 }

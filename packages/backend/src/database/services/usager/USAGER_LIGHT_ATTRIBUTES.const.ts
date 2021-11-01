@@ -10,6 +10,7 @@ export const USAGER_LIGHT_ATTRIBUTES: (keyof UsagerLight)[] = [
   "surnom",
   "sexe",
   "dateNaissance",
+  "datePremiereDom",
   "email",
   "decision",
   "typeDom",

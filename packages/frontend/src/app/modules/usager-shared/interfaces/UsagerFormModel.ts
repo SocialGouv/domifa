@@ -35,7 +35,7 @@ export class UsagerFormModel implements UsagerLight {
   public langue: string;
 
   // Naissance
-  public dateNaissance: Date | null;
+  public dateNaissance: Date;
   public villeNaissance: string;
 
   // Infos de contact

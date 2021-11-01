@@ -129,7 +129,7 @@ export class UsagersService {
         options: usager.options,
         historique: usager.historique,
         etapeDemande: usager.etapeDemande,
-        typeDom: usager.typeDom,
+        typeDom,
         rdv: usager.rdv,
       }
     );

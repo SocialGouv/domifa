@@ -1,3 +1,4 @@
+import { UsagerTypeDom } from "./../../../../../_common/model/usager/UsagerTypeDom.type";
 import { Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
@@ -146,13 +147,28 @@ export class StepEtatCivilComponent implements OnInit {
       prenom: [this.usager.prenom, Validators.required],
       sexe: [this.usager.sexe, Validators.required],
       surnom: [this.usager.surnom, []],
-      typeDom: [this.usager.ref === 0 ? null : this.usager.typeDom],
+      // TODO: réactiver une fois que la décision sur le type de demande sera prise
+      // typeDom: [
+      //   this.usager.isActif ? this.usager.typeDom : null,
+      //   [Validators.required],
+      //  ],
+      //  datePremiereDom: [formatDateToNgb(this.usager.datePremiereDom), []],
       villeNaissance: [this.usager.villeNaissance, [Validators.required]],
     });
 
     for (const ayantDroit of this.usager.ayantsDroits) {
       this.addAyantDroit(ayantDroit);
     }
+
+    // this.usagerForm
+    //   .get("typeDom")
+    //   .valueChanges.subscribe((value: UsagerTypeDom | null) => {
+    //     const isRequired =
+    //       value === "RENOUVELLEMENT" ? [Validators.required] : null;
+
+    //     this.usagerForm.get("datePremiereDom").setValidators(isRequired);
+    //     this.usagerForm.get("datePremiereDom").updateValueAndValidity();
+    //   });
 
     this.usagerForm
       .get("preference")
@@ -247,6 +263,8 @@ export class StepEtatCivilComponent implements OnInit {
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
     } else {
+      this.loading = true;
+
       const usagerFormValues = this.usagerForm.value;
       usagerFormValues.ayantsDroits.map((ayantDroit: any) => {
         ayantDroit.dateNaissance = new Date(
@@ -259,6 +277,7 @@ export class StepEtatCivilComponent implements OnInit {
         dateNaissance: this.nbgDate.formatEn(
           this.usagerForm.controls.dateNaissance.value
         ),
+
         etapeDemande: this.usager.etapeDemande,
       };
 
@@ -266,7 +285,12 @@ export class StepEtatCivilComponent implements OnInit {
         formValue.preference.phoneNumber = null;
       }
 
-      this.loading = true;
+      // if (formValue.typeDom === "RENOUVELLEMENT") {
+      //   formValue.datePremiereDom = new Date(
+      //     this.nbgDate.formatEn(this.usagerForm.controls.datePremiereDom.value)
+      //   );
+      //  }
+
       this.usagerDossierService.create(formValue).subscribe({
         next: (usager: UsagerLight) => {
           this.usager = new UsagerFormModel(usager);

@@ -227,7 +227,8 @@
             </div>
           </div>
         </div>
-        <div class="row my-3" *ngIf="!usager.ref">
+        <!--
+        <div class="row my-3" *ngIf="!usager.isActif">
           <div class="col-md-6 form-group required">
             <label for="typeDom">Type de domiciliation</label>
             <select
@@ -246,7 +247,47 @@
               Le type de domiciliation est obligatoire
             </div>
           </div>
+
+          <div
+            class="col form-group required"
+            *ngIf="f.typeDom.value === 'RENOUVELLEMENT'"
+          >
+            <label for="datePremiereDom">Date de première domiciliation</label>
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="jj/mm/aaaa"
+                [maxDate]="maxDateNaissance"
+                placement="bottom"
+                formControlName="datePremiereDom"
+                ngbDatepicker
+                id="datePremiereDom"
+                dateFr
+                value
+                [ngClass]="{
+                  'is-invalid': submitted && f.datePremiereDom.errors
+                }"
+                #dPremiereDom="ngbDatepicker"
+                maxlength="10"
+                required
+              />
+              <div class="input-group-append">
+                <span
+                  class="btn btn-outline-primary"
+                  (click)="dPremiereDom.toggle()"
+                >
+                  <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+                </span>
+              </div>
+
+              <div *ngIf="f.datePremiereDom.invalid" class="invalid-feedback">
+                La date de première domiciliation est obligatoire
+              </div>
+            </div>
+          </div>
         </div>
+
+        -->
 
         <div class="row">
           <div class="col-md-12 my-3">
