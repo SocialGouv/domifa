@@ -22,6 +22,7 @@ import { StepEntretienComponent } from "./components/step-entretien/step-entreti
 import { StepEtatCivilComponent } from "./components/step-etat-civil/step-etat-civil.component";
 import { StepRdvComponent } from "./components/step-rdv/step-rdv.component";
 import { UsagerDossierRoutingModule } from "./usager-dossier-routing.module";
+import { StepLayoutComponent } from './components/step-layout/step-layout.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { UsagerDossierRoutingModule } from "./usager-dossier-routing.module";
     StepEtatCivilComponent,
     MenuComponent,
     DisplayEtatCivilDecisionComponent,
+    StepLayoutComponent,
   ],
   imports: [
     CommonModule,

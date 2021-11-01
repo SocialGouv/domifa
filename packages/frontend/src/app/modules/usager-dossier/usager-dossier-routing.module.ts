@@ -6,42 +6,50 @@ import { StepDocumentsComponent } from "./components/step-documents/step-documen
 import { StepEntretienComponent } from "./components/step-entretien/step-entretien.component";
 import { StepEtatCivilComponent } from "./components/step-etat-civil/step-etat-civil.component";
 import { StepRdvComponent } from "./components/step-rdv/step-rdv.component";
+import { StepLayoutComponent } from "./components/step-layout/step-layout.component";
 
 const routes: Routes = [
   {
     canActivate: [AuthGuard, FacteurGuard],
     path: "nouveau",
-    component: StepEtatCivilComponent,
+    component: StepLayoutComponent,
+    children: [{ path: "", component: StepEtatCivilComponent }],
   },
   {
     canActivate: [AuthGuard, FacteurGuard],
-    component: StepEtatCivilComponent,
     path: ":id/edit",
+    component: StepLayoutComponent,
+    children: [{ path: "", component: StepEtatCivilComponent }],
   },
   {
     canActivate: [AuthGuard, FacteurGuard],
-    component: StepEtatCivilComponent,
     path: ":id/edit/etat-civil",
+    component: StepLayoutComponent,
+    children: [{ path: "", component: StepEtatCivilComponent }],
   },
   {
     canActivate: [AuthGuard, FacteurGuard],
-    component: StepDocumentsComponent,
     path: ":id/edit/documents",
+    component: StepLayoutComponent,
+    children: [{ path: "", component: StepDocumentsComponent }],
   },
   {
     canActivate: [AuthGuard, FacteurGuard],
-    component: StepEntretienComponent,
     path: ":id/edit/entretien",
+    component: StepLayoutComponent,
+    children: [{ path: "", component: StepEntretienComponent }],
   },
   {
     canActivate: [AuthGuard, FacteurGuard],
-    component: StepRdvComponent,
     path: ":id/edit/rendez-vous",
+    component: StepLayoutComponent,
+    children: [{ path: "", component: StepRdvComponent }],
   },
   {
     canActivate: [AuthGuard, FacteurGuard],
-    component: StepDecisionComponent,
     path: ":id/edit/decision",
+    component: StepLayoutComponent,
+    children: [{ path: "", component: StepDecisionComponent }],
   },
 ];
 
