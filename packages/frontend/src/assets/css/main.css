@@ -322,14 +322,12 @@ orm .card {
 .head-page {
   background-color: var(--primary);
   width: 100%;
-  min-height: 90px;
 }
 
 .head-page .title {
   font-style: normal;
   font-weight: bold;
   font-size: 1.8rem;
-  line-height: 2.4rem;
   color: #ffffff;
 }
 
