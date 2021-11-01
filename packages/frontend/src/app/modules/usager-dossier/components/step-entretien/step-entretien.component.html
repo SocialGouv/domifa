@@ -1,19 +1,11 @@
-<div class="head-page d-print-none">
-  <div class="container">
-    <span class="title">Nouvelle inscription</span>
-  </div>
-</div>
+<div class="container py-3">
+  <app-form-menu [usager]="usager" [currentStep]="2"></app-form-menu>
 
-<div class="content" *ngIf="me && usager">
-  <div class="container py-3">
-    <app-form-menu [usager]="usager" [currentStep]="2"></app-form-menu>
-
-    <div class="step_form">
-      <app-entretien-form
-        [(usager)]="usager"
-        (nextStep)="nextStep($event)"
-      ></app-entretien-form>
-    </div>
+  <div class="step_form">
+    <app-entretien-form
+      [(usager)]="usager"
+      (nextStep)="nextStep($event)"
+    ></app-entretien-form>
   </div>
 </div>
 

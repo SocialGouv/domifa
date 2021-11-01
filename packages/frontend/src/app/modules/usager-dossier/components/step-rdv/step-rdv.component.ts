@@ -12,7 +12,6 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 
-import { UsersService } from "src/app/modules/users/services/users.service";
 import { fadeInOut } from "src/app/shared/animations";
 import { minDateToday } from "src/app/shared/bootstrap-util";
 import { UserStructure, UsagerLight } from "../../../../../_common/model";
@@ -53,7 +52,6 @@ export class StepRdvComponent implements OnInit {
     private documentService: DocumentService,
     private notifService: ToastrService,
     private authService: AuthService,
-
     private nbgDate: NgbDateCustomParserFormatter,
     private router: Router,
     private titleService: Title,

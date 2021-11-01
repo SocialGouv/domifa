@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { Component, OnInit, TemplateRef } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -18,7 +18,6 @@ import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { MOTIFS_REFUS_LABELS } from "../../../../../_common/model/usager/constants/MOTIFS_REFUS_LABELS.const";
 import { UsagerDecisionForm } from "../../../../../_common/model/usager/UsagerDecisionForm.type";
 import { formatDateToNgb } from "../../../../shared/bootstrap-util";
-import { UsagerFormModel } from "../../../usager-shared/interfaces/UsagerFormModel";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
 
@@ -51,9 +50,6 @@ export class StepDecisionComponent implements OnInit {
   public editInfos: boolean;
   public editEntretien: boolean;
   public editPJ: boolean;
-
-  @ViewChild("addNoteInModal", { static: true })
-  public addNoteInModal!: TemplateRef<any>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -246,17 +242,5 @@ export class StepDecisionComponent implements OnInit {
       "null",
       1
     );
-  }
-
-  public onUsagerChanges(usager: UsagerLight): void {
-    this.usager = new UsagerFormModel(usager);
-  }
-
-  public openAddNoteInModal(): void {
-    this.modalService.open(this.addNoteInModal);
-  }
-
-  public closeModals(): void {
-    this.modalService.dismissAll();
   }
 }

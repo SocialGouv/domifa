@@ -1,59 +1,52 @@
-<div class="head-page d-print-none">
-  <div class="container">
-    <span class="title">Nouvelle inscription</span>
-  </div>
-</div>
-<div class="content" *ngIf="me && usager">
-  <div class="container py-3">
-    <app-form-menu [usager]="usager" [currentStep]="3"></app-form-menu>
+<div class="container py-3">
+  <app-form-menu [usager]="usager" [currentStep]="3"></app-form-menu>
 
-    <div class="step_form" id="step_form3">
-      <div class="text-center">
-        <h5 class="title">Pièces justificatives complétant le dossier</h5>
-        <br />
-        Cette étape est optionnelle, rien ne vous oblige à enregistrer des
-        pièces justificatives.
-        <br />
-        <br />
-      </div>
+  <div class="step_form" id="step_form3">
+    <div class="text-center">
+      <h5 class="title">Pièces justificatives complétant le dossier</h5>
       <br />
-      <app-upload [usager]="usager"></app-upload>
-
-      <div class="w-100"></div>
+      Cette étape est optionnelle, rien ne vous oblige à enregistrer des pièces
+      justificatives.
       <br />
-      <div class="col-md-4 offset-md-4 text-center">
-        <button
-          [disabled]="loading"
-          class="btn btn-primary btn-block"
-          (click)="nextStep(4)"
-        >
-          <span *ngIf="!loading">
-            Suivant <fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
-          </span>
-
-          <span *ngIf="loading"
-            ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
-            Veuillez patienter...</span
-          >
-        </button>
-
-        <a
-          routerLink="/manage"
-          routerLinkActive="router-link-active"
-          class="btn btn-block"
-        >
-          <u>Continuer plus tard</u>
-          &nbsp;
-          <fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
-        </a>
-      </div>
+      <br />
     </div>
     <br />
+    <app-upload [usager]="usager"></app-upload>
 
-    <div class="p-0 step_form">
-      <app-usager-documents [usager]="usager"></app-usager-documents>
+    <div class="w-100"></div>
+    <br />
+    <div class="col-md-4 offset-md-4 text-center">
+      <button
+        [disabled]="loading"
+        class="btn btn-primary btn-block"
+        (click)="nextStep(4)"
+      >
+        <span *ngIf="!loading">
+          Suivant <fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
+        </span>
+
+        <span *ngIf="loading"
+          ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+          Veuillez patienter...</span
+        >
+      </button>
+
+      <a
+        routerLink="/manage"
+        routerLinkActive="router-link-active"
+        class="btn btn-block"
+      >
+        <u>Continuer plus tard</u>
+        &nbsp;
+        <fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
+      </a>
     </div>
-
-    <app-delete-usager-menu [usager]="usager"></app-delete-usager-menu>
   </div>
+  <br />
+
+  <div class="p-0 step_form">
+    <app-usager-documents [usager]="usager"></app-usager-documents>
+  </div>
+
+  <app-delete-usager-menu [usager]="usager"></app-delete-usager-menu>
 </div>
