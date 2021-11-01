@@ -1,3 +1,10 @@
+# [2.30.0](https://github.com/SocialGouv/domifa/compare/v2.29.1...v2.30.0) (2021-11-01)
+
+
+### Features
+
+* **popup:** Mise à jour des nouveautés ([dba9ce0](https://github.com/SocialGouv/domifa/commit/dba9ce0375f81d1784de2874d9ce0d6dd678abe6))
+
 ## [2.29.1](https://github.com/SocialGouv/domifa/compare/v2.29.0...v2.29.1) (2021-11-01)
 
 
