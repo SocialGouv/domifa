@@ -307,19 +307,42 @@
               (usager.decision.statut === 'RADIE' && !usager.options.npai.actif)
             "
           >
-            <ng-container *ngIf="usager.isActif">
+            <ng-container
+              *ngIf="usager.isActif"
+              class="d-flex align-items-center"
+            >
               <button
                 ngbTooltip="Ajout d'un passage"
-                class="btn btn-primary mr-2"
+                class="mr-2"
+                [ngClass]="
+                  loadingButtons.indexOf('visite') !== -1
+                    ? 'interaction-btn-disabled '
+                    : 'btn btn-primary'
+                "
                 (click)="setSingleInteraction(usager.ref, 'visite')"
               >
-                <div class="list-icon icon-passage"></div>
+                <div class="list-icon-disabled">
+                  <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+                  </fa-icon>
+                </div>
+                <div class="icon-passage list-icon"></div>
               </button>
+
               <button
+                [ngClass]="
+                  loadingButtons.indexOf('appel') !== -1
+                    ? 'interaction-btn-disabled '
+                    : 'btn btn-primary'
+                "
                 ngbTooltip="Ajout d'un appel téléphonique"
-                class="btn btn-primary mr-2"
+                class="mr-2"
                 (click)="setSingleInteraction(usager.ref, 'appel')"
               >
+                <div class="list-icon-disabled">
+                  <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+                  </fa-icon>
+                </div>
+
                 <div class="list-icon icon-appel"></div>
               </button>
             </ng-container>
