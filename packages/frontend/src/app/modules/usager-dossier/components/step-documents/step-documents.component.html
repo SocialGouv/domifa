@@ -51,11 +51,11 @@
       <app-usager-documents [usager]="usager"></app-usager-documents>
     </div>
 
-    <app-delete-usager-menu [usager]="usager"></app-delete-usager-menu>
-
     <app-step-footer
       [usager]="usager"
       (usagerChanges)="onUsagerChanges($event)"
     ></app-step-footer>
+
+    <app-delete-usager-menu [usager]="usager"></app-delete-usager-menu>
   </div>
 </div>

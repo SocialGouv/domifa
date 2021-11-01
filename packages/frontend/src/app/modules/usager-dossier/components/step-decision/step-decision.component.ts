@@ -18,6 +18,7 @@ import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { MOTIFS_REFUS_LABELS } from "../../../../../_common/model/usager/constants/MOTIFS_REFUS_LABELS.const";
 import { UsagerDecisionForm } from "../../../../../_common/model/usager/UsagerDecisionForm.type";
 import { formatDateToNgb } from "../../../../shared/bootstrap-util";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
 
@@ -87,7 +88,7 @@ export class StepDecisionComponent implements OnInit {
   public ngOnInit(): void {
     this.titleService.setTitle("Décision sur la domiciliation");
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      if (user !== null) {
+      if (user) {
         this.me = user;
         this.isAdmin =
           this.me.role === "admin" || this.me.role === "responsable";
@@ -226,7 +227,7 @@ export class StepDecisionComponent implements OnInit {
     this.modalService.open(content);
   }
 
-  public closeModal() {
+  public closeModals() {
     this.modalService.dismissAll();
   }
 
@@ -242,5 +243,9 @@ export class StepDecisionComponent implements OnInit {
       "null",
       1
     );
+  }
+
+  public onUsagerChanges(usager: UsagerLight): void {
+    this.usager = new UsagerFormModel(usager);
   }
 }

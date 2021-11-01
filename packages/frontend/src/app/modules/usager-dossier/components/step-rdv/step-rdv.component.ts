@@ -193,4 +193,8 @@ export class StepRdvComponent implements OnInit {
       },
     });
   }
+
+  public onUsagerChanges(usager: UsagerLight): void {
+    this.usager = new UsagerFormModel(usager);
+  }
 }

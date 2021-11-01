@@ -1,3 +1,4 @@
+import { AuthService } from "./../../../shared/services/auth.service";
 import {
   Component,
   EventEmitter,
@@ -10,7 +11,7 @@ import {
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 import { UsagerFormModel } from "./../../../usager-shared/interfaces/UsagerFormModel";
-import { UsagerLight } from "src/_common/model";
+import { UsagerLight, UserStructure } from "src/_common/model";
 
 @Component({
   selector: "app-step-footer",
@@ -24,9 +25,18 @@ export class StepFooterComponent implements OnInit {
   @ViewChild("addNoteInModal", { static: true })
   public addNoteInModal!: TemplateRef<any>;
 
-  constructor(private modalService: NgbModal) {}
+  public me: UserStructure;
 
-  ngOnInit(): void {}
+  constructor(
+    private modalService: NgbModal,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit(): void {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
+      this.me = user;
+    });
+  }
 
   public onUsagerChanges(usager: UsagerLight): void {
     this.usager = new UsagerFormModel(usager);
