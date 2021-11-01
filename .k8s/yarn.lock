@@ -2334,7 +2334,7 @@ kosko@^1.1.5:
     "@kosko/cli" "1.2.5"
     import-local "^3.0.2"
 
-kubernetes-models@2.0.2, kubernetes-models@^2.0.2:
+kubernetes-models@2.0.2, kubernetes-models@^2.0.0, kubernetes-models@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/kubernetes-models/-/kubernetes-models-2.0.2.tgz#d294d31f00a688a1fd205ee59ff680dbf06efa7b"
   integrity sha512-4tonAim5mF6UFw07wnuEmQSDQ9AaNv54cwsTN32sEVBjrHtItC6RvOUJk36xn3IiFAPLIzwXHpRsjNpnLmbIKw==
