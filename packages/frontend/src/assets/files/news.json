@@ -1,5 +1,5 @@
 [
-    {
+  {
     "date": "2021-11-01",
     "description": "",
     "content": [
@@ -22,8 +22,8 @@
         "categorie": "Améliorations et corrections diverses ",
         "message": [
           "Ajout d’icônes de chargement sur les boutons courrier, passage et appel afin de diminuer les clics en double",
-"Ajout d’un document explicatif sur la mise en place des notifications SMS dans la section “Notifications”, accessible au profil Administrateur”,
-"La procuration et le transfert sont désormais modifiables par le profil Facteur",
+          "Ajout d’un document explicatif sur la mise en place des notifications SMS dans la section “Notifications”, accessible au profil Administrateur",
+          "La procuration et le transfert sont désormais modifiables par le profil Facteur",
           "Amélioration du courrier de radiation"
         ]
       }
