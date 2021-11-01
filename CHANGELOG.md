@@ -1,3 +1,10 @@
+# [2.32.0](https://github.com/SocialGouv/domifa/compare/v2.31.0...v2.32.0) (2021-11-01)
+
+
+### Features
+
+* **profil:** Ajout de loading sur les boutons de la fiche profil ([5da0ccf](https://github.com/SocialGouv/domifa/commit/5da0ccfbb72882a508479099772c659344db509f))
+
 # [2.31.0](https://github.com/SocialGouv/domifa/compare/v2.30.0...v2.31.0) (2021-11-01)
 
 
