@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 @Component({
   selector: "app-usager-dossier-step-entretien",
@@ -55,5 +56,9 @@ export class StepEntretienComponent implements OnInit {
         this.toastr.error("Une erreure innatendue est survenue");
       },
     });
+  }
+
+  public onUsagerChanges(usager: UsagerLight): void {
+    this.usager = new UsagerFormModel(usager);
   }
 }

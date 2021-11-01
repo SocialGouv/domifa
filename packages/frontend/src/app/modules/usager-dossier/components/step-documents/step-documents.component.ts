@@ -3,6 +3,7 @@ import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
 
 @Component({
@@ -54,5 +55,9 @@ export class StepDocumentsComponent implements OnInit {
         this.usager = usager;
         this.router.navigate(["usager/" + usager.ref + "/edit/decision"]);
       });
+  }
+
+  public onUsagerChanges(usager: UsagerLight): void {
+    this.usager = new UsagerFormModel(usager);
   }
 }

@@ -23,12 +23,10 @@ export class StepHeaderComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     if (!this.usager.ref) {
-      this.title = "Nouveau dossier";
+      this.title = "Nouvelle domiciliation";
     } else {
-      const type = !this.usager.isActif ? "Nouvelle demande" : "Renouvellement";
-      this.title = `${type} de ${this.usager.nom} ${this.usager.prenom} ${
-        this.usager.customRef || this.usager.ref
-      }`;
+      const type = !this.usager.isActif ? "Première demande" : "Renouvellement";
+      this.title = `${type} de ${this.usager.nom} ${this.usager.prenom} ${this.usager.customRef}`;
     }
 
     this.filteredNotes = this.usager.notes.filter(
