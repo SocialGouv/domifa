@@ -616,17 +616,7 @@
     is-plain-object "^5.0.0"
     tslib "^2.2.0"
 
-"@kubernetes-models/sealed-secrets@^1.6.3":
-  version "1.6.3"
-  resolved "https://registry.yarnpkg.com/@kubernetes-models/sealed-secrets/-/sealed-secrets-1.6.3.tgz#21aea46a2a8e91ccc3b3eb6310df7bd086fbdf80"
-  integrity sha512-n/QT4Yxtfooo+xthZaO4ewIRP+UXbdh6h+CI6gGmYVsjR0pGSai9eI9D+KDYrexlVOM0FqoZgIm1+DAVsrv5VA==
-  dependencies:
-    "@kubernetes-models/base" "^1.5.5"
-    "@kubernetes-models/validate" "^1.6.0"
-    kubernetes-models "^1.7.1"
-    tslib "^2.2.0"
-
-"@kubernetes-models/sealed-secrets@^2.0.2":
+"@kubernetes-models/sealed-secrets@^2.0.0", "@kubernetes-models/sealed-secrets@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@kubernetes-models/sealed-secrets/-/sealed-secrets-2.0.2.tgz#76fda974c52abc6cf3414b32ab4243819889c005"
   integrity sha512-Nsxc7Hj7hUydp6NYbmpDlr3nhBLCQtrisZ05QF3g8gL9ctKrRh7Djz0QaJlcN+rueDfR0fBdfqM8Nz/EE7RezA==
