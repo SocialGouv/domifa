@@ -2,7 +2,6 @@ import { Component, OnInit, Input, OnChanges } from "@angular/core";
 
 import { UsagerFormModel } from "../../../usager-shared/interfaces/UsagerFormModel";
 import { fadeInOut } from "src/app/shared/animations";
-import { UsagerLight } from "src/_common/model";
 
 @Component({
   animations: [fadeInOut],
@@ -16,18 +15,21 @@ export class StepHeaderComponent implements OnInit, OnChanges {
   public title: string;
   public filteredNotes: number;
 
-  constructor() {}
+  constructor() {
+    this.filteredNotes = 0;
+  }
 
   ngOnInit(): void {}
 
   ngOnChanges() {
-    const typeDomTtile =
-      this.usager.typeDom === "PREMIERE_DOM"
-        ? "Première demande"
-        : "Renouvellement de";
-    this.title = `${typeDomTtile} ${this.usager.nom} ${this.usager.prenom} ${
-      this.usager.customRef || this.usager.ref
-    }`;
+    if (!this.usager.ref) {
+      this.title = "Nouveau dossier";
+    } else {
+      const type = !this.usager.isActif ? "Nouvelle demande" : "Renouvellement";
+      this.title = `${type} de ${this.usager.nom} ${this.usager.prenom} ${
+        this.usager.customRef || this.usager.ref
+      }`;
+    }
 
     this.filteredNotes = this.usager.notes.filter(
       (note) => !note.archived
