@@ -4,17 +4,24 @@
   <div class="container py-3">
     <app-form-menu [usager]="usager" [currentStep]="0"></app-form-menu>
 
-    <div @fadeInOut class="alert-warning alert" *ngIf="doublons.length > 0">
-      Attention, doublon potentiel
-      <ul>
-        <li *ngFor="let doublon of doublons">
-          <a [routerLink]="'/profil/general/' + doublon.ref">
-            <b>{{ doublon.nom | uppercase }}</b>
-            {{ doublon.prenom }}
-          </a>
-          né(e) le {{ doublon.dateNaissance | date: "dd/MM/yyyy" }}
-        </li>
-      </ul>
+    <div
+      @fadeInOut
+      class="d-block text-center mx-auto alert-warning alert"
+      *ngIf="doublons.length > 0"
+    >
+      <div class="d-block">
+        Attention, au moins doublon potentiel a été détecté
+      </div>
+      <div class="d-block">
+        <ul>
+          <li *ngFor="let doublon of doublons">
+            <a [routerLink]="'/profil/general/' + doublon.ref">
+              <b>{{ doublon.nom | uppercase }}</b>
+              {{ doublon.prenom }}</a
+            >, né(e) le {{ doublon.dateNaissance | date: "dd/MM/yyyy" }}
+          </li>
+        </ul>
+      </div>
     </div>
 
     <div class="step_form">

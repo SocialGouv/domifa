@@ -147,6 +147,7 @@ export class StepEtatCivilComponent implements OnInit {
       prenom: [this.usager.prenom, Validators.required],
       sexe: [this.usager.sexe, Validators.required],
       surnom: [this.usager.surnom, []],
+      typeDom: [this.usager.typeDom, []],
       // TODO: réactiver une fois que la décision sur le type de demande sera prise
       // typeDom: [
       //   this.usager.isActif ? this.usager.typeDom : null,

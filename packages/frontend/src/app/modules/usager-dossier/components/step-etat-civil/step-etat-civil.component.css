@@ -16,5 +16,9 @@ label {
 }
 
 .alert {
-  max-width: 800px;
+  max-width: 850px;
+}
+
+ul {
+  list-style-type: none;
 }

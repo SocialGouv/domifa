@@ -1,4 +1,5 @@
 // @index('./*', f => `export * from '${f.path}'`)
+
 export * from "./DASHBOARD_STATUS_LABELS.const";
 export * from "./ENTRETIEN_SECTIONS.const";
 export * from "./ETAPES_DEMANDE_URL.const";

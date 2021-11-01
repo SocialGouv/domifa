@@ -1,5 +1,5 @@
 import { OnInit, Component, Input } from "@angular/core";
-import { UsagerLight } from "../../../../../_common/model";
+import { LIEN_PARENTE_LABELS, UsagerLight } from "../../../../../_common/model";
 import { languagesAutocomplete } from "../../../../shared";
 
 @Component({
@@ -10,6 +10,7 @@ export class DisplayEtatCivilComponent implements OnInit {
   @Input() public usager: UsagerLight;
 
   public languagesAutocomplete = languagesAutocomplete;
+  public LIEN_PARENTE_LABELS = LIEN_PARENTE_LABELS;
 
   constructor() {}
 

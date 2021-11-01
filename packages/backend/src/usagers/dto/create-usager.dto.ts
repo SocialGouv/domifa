@@ -89,9 +89,10 @@ export class CreateUsagerDto {
   @Max(5)
   public etapeDemande!: number;
 
-  // @ApiProperty()
-  // @IsIn(["RENOUVELLEMENT", "PREMIERE_DOM"])
-  // public typeDom!: UsagerTypeDom;
+  @ApiProperty()
+  @IsOptional()
+  @IsIn(["RENOUVELLEMENT", "PREMIERE_DOM"])
+  public typeDom!: UsagerTypeDom;
 
   // @ApiProperty({
   //   type: Date,

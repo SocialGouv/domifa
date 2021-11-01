@@ -84,7 +84,7 @@ export class UsagerTable
   @Column({ type: "timestamptz", nullable: true })
   public datePremiereDom: Date;
 
-  @Column({ type: "text", nullable: true, default: "INSTRUCTION" })
+  @Column({ type: "text", nullable: true, default: "PREMIERE_DOM" })
   public typeDom: UsagerTypeDom;
 
   @Column({ type: "jsonb", nullable: true, default: null })
