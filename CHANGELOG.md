@@ -1,3 +1,10 @@
+## [2.36.1](https://github.com/SocialGouv/domifa/compare/v2.36.0...v2.36.1) (2021-11-01)
+
+
+### Bug Fixes
+
+* **deps:** update all patch dependencies ([d40a6a8](https://github.com/SocialGouv/domifa/commit/d40a6a8a4b2ad465118f315ed8b504a340d6bcf8))
+
 # [2.36.0](https://github.com/SocialGouv/domifa/compare/v2.35.0...v2.36.0) (2021-11-01)
 
 
