@@ -69,6 +69,8 @@ export class ProfilGeneralSectionComponent implements OnInit {
 
   public USAGER_DECISION_STATUT_LABELS = USAGER_DECISION_STATUT_LABELS;
 
+  public loadingButtons: string[];
+
   constructor(
     private authService: AuthService,
     private modalService: NgbModal,
@@ -79,6 +81,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
     private titleService: Title,
     private interactionService: InteractionService
   ) {
+    this.loadingButtons = [];
     this.interactions = [];
 
     this.minDateNaissance = minDateNaissance;
@@ -132,14 +135,23 @@ export class ProfilGeneralSectionComponent implements OnInit {
       nbCourrier: 1,
     };
 
+    if (this.loadingButtons.indexOf(type) !== -1) {
+      this.notifService.warning("Veuillez patienter quelques instants");
+      return;
+    }
+
+    this.loadingButtons.push(type);
+
     this.interactionService.setInteraction(usagerRef, [interaction]).subscribe({
       next: (newUsager: UsagerLight) => {
         this.usager = new UsagerFormModel(newUsager);
         this.notifService.success(INTERACTIONS_LABELS_SINGULIER[type]);
         this.updateInteractions();
+        this.stopLoading(type);
       },
       error: () => {
         this.notifService.error("Impossible d'enregistrer cette interaction");
+        this.stopLoading(type);
       },
     });
   }
@@ -175,5 +187,12 @@ export class ProfilGeneralSectionComponent implements OnInit {
 
   public openInteractionOutModal(): void {
     this.modalService.open(this.setInteractionOutModal);
+  }
+
+  private stopLoading(loadingRef: string) {
+    var index = this.loadingButtons.indexOf(loadingRef);
+    if (index !== -1) {
+      this.loadingButtons.splice(index, 1);
+    }
   }
 }
