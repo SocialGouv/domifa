@@ -1,3 +1,10 @@
+## [2.36.2](https://github.com/SocialGouv/domifa/compare/v2.36.1...v2.36.2) (2021-11-01)
+
+
+### Bug Fixes
+
+* **dossier:** La première dom ne passait plus ([6e6a3ad](https://github.com/SocialGouv/domifa/commit/6e6a3ad61a5b9a5dfe2164fdf552c7bb0080fc6e))
+
 ## [2.36.1](https://github.com/SocialGouv/domifa/compare/v2.36.0...v2.36.1) (2021-11-01)
 
 
