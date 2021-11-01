@@ -1,3 +1,19 @@
+# [2.31.0](https://github.com/SocialGouv/domifa/compare/v2.30.0...v2.31.0) (2021-11-01)
+
+
+### Bug Fixes
+
+* affichage de la bonne horaire ([a706e32](https://github.com/SocialGouv/domifa/commit/a706e32ebef7142207bafa6fd479b7a7c4beed47))
+* **sms:** ajout de la doc ([462fdc7](https://github.com/SocialGouv/domifa/commit/462fdc7dfbe910c4d4575e0076fa71665cd8f484))
+* labels de sms ([d43c6db](https://github.com/SocialGouv/domifa/commit/d43c6dbeda22ddf2deb60326fa4699f9bd32055a))
+* sms guide ([97cf88f](https://github.com/SocialGouv/domifa/commit/97cf88f3bfbd35bf8dd0b7067ad4ded85a6d1c5e))
+
+
+### Features
+
+* **sms:** Ajout de la date d'envoi au Mardi & Jeudi ([df08f85](https://github.com/SocialGouv/domifa/commit/df08f85fb62b28f21660bdacd78833a5bdb1ee3d))
+* **sms:** ajout du guide ([35ef8f4](https://github.com/SocialGouv/domifa/commit/35ef8f403322788938ae667dc0926633b8b08c6a))
+
 # [2.30.0](https://github.com/SocialGouv/domifa/compare/v2.29.1...v2.30.0) (2021-11-01)
 
 
