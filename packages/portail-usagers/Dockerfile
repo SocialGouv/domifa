@@ -1,8 +1,9 @@
 FROM node:16.12.0 as builder
 
-COPY ./packages/portail-usagers /app
-
 WORKDIR /app
+
+COPY ./packages/portail-usagers .
+COPY ./yarn.lock .
 
 RUN yarn --frozen-lockfile && yarn cache clean
 RUN yarn build
