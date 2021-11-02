@@ -122,6 +122,8 @@ async function connect(
       appLogger.error("PG pool error:", { error: err, sentry: true });
     },
     type: "postgres",
+    synchronize: false, // don't synchronise
+    migrationsRun: false, // don't auto-run migrations
     host: pgConfig.host,
     port: pgConfig.port,
     username: pgConfig.username,
