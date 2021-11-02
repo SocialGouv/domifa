@@ -14,7 +14,7 @@ export const getManifests = async () => {
   const name = "portail-usagers";
   const subdomain = "mon-domifa";
   const ciEnv = environments(process.env);
-  const version = ciEnv.tag || `sha-${ciEnv.sha}`;
+  const version = ciEnv.isPreProduction ? `preprod-${ciEnv.sha}` : ciEnv.tag || `sha-${ciEnv.sha}`;
 
   const podProbes = ["livenessProbe", "readinessProbe", "startupProbe"].reduce(
     (probes, probe) => ({

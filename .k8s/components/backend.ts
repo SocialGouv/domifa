@@ -37,8 +37,8 @@ export const getManifests = async () => {
   const probesPath = "/healthz";
   const subdomain = "domifa-api";
   const ciEnv = environments(process.env);
-  const version = ciEnv.tag || `sha-${ciEnv.sha}`;
   const isDev = !(ciEnv.isPreProduction || ciEnv.isProduction);
+  const version = ciEnv.isPreProduction ? `preprod-${ciEnv.sha}` : ciEnv.tag || `sha-${ciEnv.sha}`;
 
   const podProbes = ["livenessProbe", "readinessProbe", "startupProbe"].reduce(
     (probes, probe) => ({
