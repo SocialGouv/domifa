@@ -1,3 +1,10 @@
+## [2.36.3](https://github.com/SocialGouv/domifa/compare/v2.36.2...v2.36.3) (2021-11-02)
+
+
+### Bug Fixes
+
+* hide sensitive logs in dev envs ([#1837](https://github.com/SocialGouv/domifa/issues/1837)) ([5f4bdd5](https://github.com/SocialGouv/domifa/commit/5f4bdd56871ef7e3c4b492a20729c473d91ce986))
+
 ## [2.36.2](https://github.com/SocialGouv/domifa/compare/v2.36.1...v2.36.2) (2021-11-01)
 
 
