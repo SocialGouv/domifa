@@ -331,17 +331,49 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       }),
     },
   };
+  const configWithHiddenSensitiveData = hideSensitiveData(config);
   if (config.dev.printEnv) {
-    printEnv(x, config);
+    printEnv(x, configWithHiddenSensitiveData);
   }
   if (config.dev.printConfig) {
     // tslint:disable-next-line: no-console
     console.log(
       "[domifaConfig] config loaded:",
-      JSON.stringify(config, undefined, 2)
+      JSON.stringify(configWithHiddenSensitiveData, undefined, 2)
     );
   }
   return config;
+}
+function hideSensitiveData(x: DomifaConfig): DomifaConfig {
+  return {
+    ...x,
+    security: {
+      ...x.security,
+      jwtSecret: "***",
+      files: {
+        ...x.security.files,
+        private: "***",
+      },
+    },
+    sms: {
+      ...x.sms,
+      apiKey: "***",
+    },
+    email: {
+      ...x.email,
+      smtp: x.email.smtp
+        ? {
+            ...x.email.smtp,
+            auth: x.email.smtp.auth
+              ? ({
+                  ...x.email.smtp.auth,
+                  pass: "***",
+                } as any)
+              : undefined,
+          }
+        : undefined,
+    },
+  };
 }
 function parseSecurityConfig(
   x: Partial<DomifaEnv>,

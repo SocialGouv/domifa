@@ -2,3 +2,4 @@
 *.dump
 *.custom.gz
 !domifa_test.postgres.custom.gz
+!domifa_test.postgres.truncate-data.sql

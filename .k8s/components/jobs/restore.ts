@@ -1,6 +1,6 @@
 import { getDevDatabaseParameters } from "@socialgouv/kosko-charts/components/azure-pg/params";
-import { Job } from "kubernetes-models/batch/v1";
 import environments from "@socialgouv/kosko-charts/environments";
+import { Job } from "kubernetes-models/batch/v1";
 
 const ciEnv = environments(process.env);
 const pgParams = getDevDatabaseParameters({ suffix: ciEnv.branchSlug });
@@ -46,7 +46,8 @@ const job = new Job({
             image: "postgres:10.16",
             command: ["sh", "-c"],
             args: [
-              "psql < /mnt/domifa/_scripts/db/dumps/domifa_test.postgres.data-only.sql",
+              "psql < /mnt/domifa/_scripts/db/dumps/domifa_test.postgres.truncate-data.sql",
+              "psql < /mnt/domifa/_scripts/db/dumps/domifa_test.postgres.restore-data-only.sql",
             ],
             envFrom: [
               {

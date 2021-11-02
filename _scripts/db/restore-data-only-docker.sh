@@ -76,7 +76,7 @@ echo "--------------------------------------------------------------------------
 echo ""
 
 if [ -z "${POSTGRES_DUMP_PATH}" ]; then
-  POSTGRES_DUMP_PATH="/app/_scripts/db/dumps/domifa_$DUMP_ENV.postgres.data-only.sql"
+  POSTGRES_DUMP_PATH="/app/_scripts/db/dumps/domifa_$DUMP_ENV.postgres.restore-data-only.sql"
 fi
 
 (set -x && docker exec ${POSTGRES_CONTAINER_NAME} bash -c "psql --username=\${POSTGRES_USERNAME} --dbname=${POSTGRES_DATABASE} --file=${POSTGRES_DUMP_PATH}" )

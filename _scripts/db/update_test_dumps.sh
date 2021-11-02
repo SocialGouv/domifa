@@ -1,5 +1,6 @@
 #!/bin/sh
 CURRENT_DIR="$( cd "$( dirname "$0" )" && pwd )"
+DUMPS_DIR="${CURRENT_DIR}/dumps"
 
 set -e
 # restore last dump
