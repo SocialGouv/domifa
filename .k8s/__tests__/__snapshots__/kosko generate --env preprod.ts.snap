@@ -47,7 +47,7 @@ spec:
     spec:
       containers:
         - image: >-
-            ghcr.io/socialgouv/domifa/backend:sha-9e3027bc7c6dab66be874658abdc12c946fd0357
+            ghcr.io/socialgouv/domifa/backend:preprod-0123456789abcdefghijklmnopqrstuvwxyz0123
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -104,8 +104,10 @@ spec:
               value: $(PGDATABASE)
             - name: DOMIFA_BACKEND_URL
               value: https://domifa-api-domifa-preprod.dev2.fabrique.social.gouv.fr
-            - name: DOMIFA_FRONTEND_URL
+            - name: DOMIFA_CORS_URL
               value: https://domifa-preprod.dev2.fabrique.social.gouv.fr
+            - name: DOMIFA_FRONTEND_URL
+              value: https://domifa-preprod.dev2.fabrique.social.gouv.fr/
       volumes:
         - name: files
           persistentVolumeClaim:
@@ -117,7 +119,7 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-user
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.45.0
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.56.1
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -173,9 +175,11 @@ spec:
     DOMIFA_TIPIMAIL_FROM_EMAIL: >-
       AgDFkzUlb0H2gt9ZO0eqqzya21wmsgv3aBPZ4yUtkLTdJnRvxj8k1Er7lA7yTjkwNWPBLP5Je30XDxtICfh9CCYQ45umVejoK/cs6iWgWvXE92kjiCE42AQtrssOK6b8pktASFe0vTKDuh7si2poErh32tOEP9u5ManS7+onqazfJSemg7IXJCE89NYiczDprPkRb98QvTYSufMSSkTH77LcjsfylegWMFYpfcEiAhgLrlbYkC8WBN9i0SJqrh3qisb1a1SKhNNrgdy3rSANZn64+Sbw2MlXSETwyvrjm5oGbslavGYq36zUhbyj2Lur0LyWe1gSsmUc70UFlCATK/zZKzGUxY0llE2KdF5Ftu6JNI/7ocfwJDtrPygkJF5+mQ9Ml1oyqtJ699AEpWyuoUyarYuOG125AniOjD6393hUCO4m+VrweVEDERp59VaJRIZWj46pc1KyXz8n2tJcXRzQc2BVuaOFjpAr2wLiW9e+w/f+pzdpvzNARW8jor/kiPIfuMlSN7WAWHZUuOeXDKt3EB2FXyWojHRDdNlFRmvG06uYCjwqLhIDCShOM1HXdbGV9lJqsYBLQgmPsyQuBTEOwvKY+xvPnCf4ip0+LBzmZcv8tz6uF32JgiPLzP9K71LwMZoUIj6stSB75YA0T3M07uW3ryFaC7v7Ps7FL3dAXL2aduUkNRMYADwKrkWX+pzotpRvtpEKwfLguUH1TXhlhDfq6Zgg5XcyGNItBT6f80IPkMLsNmc=
     DOMIFA_ADMIN_EMAIL: >-
-      AgCiD2RpmB/z+6iYauCLUuvD31Pit57nMnVu3vA3DzGMlc6ahwb/y0vXnjNtku3kbzMsjyWZRi/d5bGho7lEYAfbPjB6jGkwQcDkUaQBkUWOUX5gVCvRHtUDKyOOhkNwOC/5/ZOY+qK8z0vLWnYtAZtZxZdJJv8cgOHrrAg/TPXJqqAxesb0zjWJyn8DEaHeZbz2/OqHq3KP4zrW64TI7LpFVsoVaaTzlztiPNhjUZPy+eKu56Ox2vqhqa1dBGk1y3nZ8sTbV6Kb9OiLUqYt9g1YMxrY5f3ngZIZ+Q+jxrGK2g4fpn4ZPv1Bmg2q98b/H+t/VkPZMejoUbP5M/CpOqxrOTe1SBSPfkZdjcVc1jb04IlHquacAlSRGSentAp3qzzOCLPJhkuKsKDBT9jn8uCfG5Wm9lF+yLw13jiXUyFtdP4dvAW4a2PfTzZzcqds3snp1Dj0ohd8HmXWK0TxXSvXbpglcu3fUYrLK43O6DKZXeiZxjH9vsgaa2Vpi441/bndYDRPaRlBfg81dwQTGgw3Lux5ufbx7U+nm3/nE70rktLD7rBLHS+evNcvVkWlYcOC6QtonQwcDQi4FqyVbcYTgbaZ9r7Tfu9KSHYBPEjl7symSlT7sORkPdxGmp8SxFMS8tNTKYHoMFFsiwdkH/tisywlnfZ67CoX0fWbpsHWW3+4AQMAo2ROGKMZEt+J9WjPHKT/J1aceLUapiutxGyVX+KlcNPo8TNYw0KttknOKlmUkS0LAQ==
+      AgCiD2RpmB/z+6iYauCLUuvD31Pit57nMnVu3vA3DzGMlc6ahwb/y0vXnjNtku3kbzMsjyWZRi/d5bGho7lEYAfbPjB6jGkwQcDkUaQBkUWOUX5gVCvRHtUDKyOOhkNwOC/5/ZOY+qK8z0vLWnYtAZtZxZdJJv8cgOHrrAg/TPXJqqAxesb0zjWJyn8DEaHeZbz2/OqHq3KP4zrW64TI7LpFVsoVaaTzlztiPNhjUZPy+eKu56Ox2vqhqa1dBGk1y3nZ8sTbV6Kb9OiLUqYt9g1YMxrY5f3ngZIZ+Q+jxrGK2g4fpn4ZPv1Bmg2q98b/H+t/VkPZMejoUbP5M/CpOqxrOTe1SBSPfkZdjcVc1jb04IlHquacAlSRGSentAp3qzzOCLPJhkuKsKDBT9jn8uCfG5Wm9lF+yLw13jiXUyFtdP4dvAW4a2PfTzZzcqds3snp1Dj0ohd8HmXWK0TxXSvXbpglcu3fUYrLK43O6DKZXeiZxjH9vsgaa2Vpi441/bndYDRPaRlBfg81dwQTGgw3Lux5ufbx7U+nm3/nE70rktLD7rBLHS+evNcvVkWlYcOC6QtonQwcDQi4FqyVbcYTgbaZ9r7Tfu9KSHYBPEjl7symSlT7sORkPdxGmp8SxFMS8tNTKYHoMFFsiwdkH/tisywlnfZ67CoX0fWbpsHWW3+4AQMAo2ROGKMZEt+J9WjPHKT/J1aceLUapiutxGyVX
     DOMIFA_SMS_API_KEY: >-
       AgBBgA2yNtKHGpIUzFqcxUiWqdFIB99tXZ+HXS+C4mvCzozh9E2QNdtEzJrmhi9FaSmzDawHvXvDeQcOfZCSD/fmkG2SgOG7Y8kXCQdpr6huFZ1IlMAgdEjgqUxA7M2DKOgjTmLUCdARIlTyAxoDU223vvZDzns3Q7KshGiAQAzDIsLtLqwR/lM7J1bSbxKV/ckmtsayYPg2ClwJQ6/TnS6SlepcLXcDoN79yN+URAe4OZD1Jy5tK7QhpUEbFmVWvf9nULiGBCM2fXndiiNpaURDhjzaxBROOpVgZ7wHrMulzzMC56+FGJruodGnu73OEtaK0wVT6qJyYlycrJINoQot/pVxa1HyIS7C6EYsYtNizh1Ur52TV+1RtR6e6zmu2c5ONM7nIIt5xxnFRsw0dB+UTWLjYN5pwAL5feC8tBUenE3w7VcK2peWIgTi3iGQ59Ti0QvdlVBvm4BFOPdaxwhW+DDbHMCqXs1vYDCtnzesiyxq3FVqKdTQ3PoNslHLzwazUZVXgWjALkplTm16BuMmF92hxkwYHRRYzbOn9lehHAK5ZCVZdWBmrzL+OWr+7StKKI+JFLQliq15n5bifL6XjJo6qoP+NWhX+VhQc1cmG49LGw1C6WGA9J1tIaKCrLLcZ4R1kRw4OqW1S6+poDmxJSi/0YBhM57ozlN251A2fSVczSBlm0TM4q7xQDArqLNAJ/oUYx6ErkYBlistk5ODz01XhpyeNQ==
+    DOMIFA_EMAIL_ADDRESS_REDIRECT_ALL_TO: >-
+      AgBTLcHgRK/LvPFO12H5z0V+57z0D/BwVKAjbBswZUI+FQ5gAxe6DPhdhCx/bSl4cABB7C+vyxNuuixNGO5P8CXmmzkGrDD6wCFtUBlEKQbeB4CBs3DI6cfJy2Tr3tCyedggunKbsO0vA09AeCR4Bcw/XDAl55hsZVMvnbQaOwvBpvTyEGjuFqRMbUBzVdrd0tly3qSUdV1aCEGfugQXbtQxSYxUDGgngu4/9X7ozInwGzmS5RUfGqpXhN8VLSYxVaqUsB1uH5tU5gxmKi34wuPMzclmHEzz2tTl+JkNPS7RxiZwj+2+n29BywzMS07Za6Eht8e1bvpBRxexzcb9AFOe4u1g0sX137sZ/UFsy2ll6hJgmaULCuWjkkC6D5zHUNVI3ykY/55GEGn8RBCqQOdnuZCwT+BRtfocGOemPrqNQFgjlW0vPis/08scxuErPNv2asxVmkjaSLE40K0NFolBT2XqfhXtXhFxPhJkAR4/FrtnzTn5Zt/I3yYXMXZOWmb+/TVtrvvFr9sqUHYvzjkF/JAaW8I17LULDjRI92XMdXbsluu3zeX4rL9B10iuZ/JrXaS1YgXZ+BGX841GJUeQ8IZNF+tZFkmAV3L26gFv/YDiEgDcsCm3+mbUjVFNmIqsLgMkq6n9HuA69Q7aqW/GQ793OYTaZqt6ZB57QanTfBSgzx3BY4TWZxwX3ShyJkuVH8oxr5zpr+eJYQ9LJrVeq1/NVpe1WPblvGF8zmiY78ULWd6dFg==
   template:
     metadata:
       annotations:
@@ -216,7 +220,7 @@ metadata:
     cert: wildcard
   namespace: domifa-preprod
 data:
-  DOMIFA_ENV_ID: k8s-preprod
+  DOMIFA_ENV_ID: preprod
   DOMIFA_ENV_PRESET: dist.preset.env
   PGSSLMODE: require
   NODE_ENV: production
@@ -397,7 +401,7 @@ spec:
     spec:
       containers:
         - image: >-
-            ghcr.io/socialgouv/domifa/frontend:sha-9e3027bc7c6dab66be874658abdc12c946fd0357
+            ghcr.io/socialgouv/domifa/frontend:preprod-0123456789abcdefghijklmnopqrstuvwxyz0123
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -550,6 +554,157 @@ spec:
         team: domifa
         cert: wildcard
     type: Opaque
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    app: portail-usagers
+    application: domifa
+    component: nginx
+    owner: domifa
+    team: domifa
+    cert: wildcard
+  name: portail-usagers
+  namespace: domifa-preprod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: portail-usagers
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.github.com/job: '5678'
+        app.github.com/ref: refs/tags/v1.2.3
+        app.github.com/repo: socialgouv/domifa
+        app.github.com/run: '1234'
+        app.github.com/sha: '0123456'
+      labels:
+        app: portail-usagers
+        application: domifa
+        component: nginx
+        owner: domifa
+        team: domifa
+        cert: wildcard
+    spec:
+      containers:
+        - image: >-
+            ghcr.io/socialgouv/domifa/portail-usagers:preprod-0123456789abcdefghijklmnopqrstuvwxyz0123
+          livenessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /index.html
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 5
+          name: portail-usagers
+          ports:
+            - containerPort: 80
+              name: http
+          readinessProbe:
+            failureThreshold: 15
+            httpGet:
+              path: /index.html
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 5m
+              memory: 32Mi
+          startupProbe:
+            failureThreshold: 12
+            httpGet:
+              path: /index.html
+              port: http
+            periodSeconds: 5
+          env:
+            - name: DOMIFA_BACKEND_URL
+              value: https://domifa-api-domifa-preprod.dev2.fabrique.social.gouv.fr/
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: portail-usagers
+    application: domifa
+    component: nginx
+    owner: domifa
+    team: domifa
+    cert: wildcard
+  name: portail-usagers
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  namespace: domifa-preprod
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app: portail-usagers
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    app: portail-usagers
+    application: domifa
+    component: nginx
+    owner: domifa
+    team: domifa
+    cert: wildcard
+  name: portail-usagers
+  namespace: domifa-preprod
+spec:
+  rules:
+    - host: mon-domifa-domifa-preprod.dev2.fabrique.social.gouv.fr
+      http:
+        paths:
+          - backend:
+              service:
+                name: portail-usagers
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - mon-domifa-domifa-preprod.dev2.fabrique.social.gouv.fr
+      secretName: wildcard-crt
 ---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
