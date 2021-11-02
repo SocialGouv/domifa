@@ -17,7 +17,9 @@ import { appLogger } from "./util";
     const { app, postgresTypeormConnection } = await bootstrapApplication();
     try {
       if (domifaConfig().typeorm.runOnStartup) {
+        appLogger.warn(`[Typeorm] RUN MIGRATIONS...`);
         await appTypeormManager.migrateUp(postgresTypeormConnection);
+        appLogger.warn(`[Typeorm] END MIGRATIONS...`);
       }
       // in local env, run cron on app startup (non blocking)
       await runCronJobs(app);

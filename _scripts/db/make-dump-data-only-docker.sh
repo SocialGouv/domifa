@@ -49,7 +49,7 @@ then
 fi
 
 POSTGRES_CONTAINER_NAME=domifa-postgres
-POSTGRES_DUMP_PATH="/app/_scripts/db/dumps/domifa_$DUMP_ENV.postgres.data-only.sql"
+POSTGRES_DUMP_PATH="/app/_scripts/db/dumps/domifa_$DUMP_ENV.postgres.restore-data-only.sql"
 POSTGRES_DUMP_FROM_DATABASE="domifa_${SOURCE_DB_ENV}" # nom de la base d'origine
 
 echo ""

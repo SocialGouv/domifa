@@ -1,19 +1,23 @@
 {
   "name": "default",
   "type": "postgres",
-  "synchronize": true,
+  "synchronize": false,
+  "migrationsRun": false,
   "logging": false,
   "host": "postgres",
   "port": 5432,
   "username": "domifa_user",
   "password": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "database": "domifa_dev",
-  "entities": ["src/database/entities/**/*Table.typeorm.ts"],
-  "migrations": [
-    "src/_migrations/**/*.ts",
-    "src/_migrations_exclude-from-create_db/**/*.ts"
+  "entities": [
+    "src/database/entities/**/*Table.typeorm.ts"
   ],
-  "subscribers": ["src/**/*Subscriber.typeorm.ts"],
+  "migrations": [
+    "src/_migrations/**/*.ts"
+  ],
+  "subscribers": [
+    "src/**/*Subscriber.typeorm.ts"
+  ],
   "cli": {
     "entitiesDir": "src",
     "migrationsDir": "src/_migrations",

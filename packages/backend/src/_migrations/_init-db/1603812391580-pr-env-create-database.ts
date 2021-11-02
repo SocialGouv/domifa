@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { appLogger } from "../../util";
 
-// IMPORTANT: utilisé sur les branches PR pour initialiser la bdd: ne pas supprimer!!!
+// IMPORTANT: utilisé sur les branches PR pour initialiser la bdd au démarrage du serveur avec une base vide
 export class CreateDatabase1603812391580 implements MigrationInterface {
   name = "autoMigration1603812391580";
 
@@ -11,7 +11,8 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
     await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
 
     await createTables(queryRunner);
-    await createSequences(queryRunner); // crées automatiquement par typeorm
+    // NOTE @toub 2021-11-02 : les séquences semblent crées automatiquement par typeorm, même avec "synchronize:false"
+    // TODO: documentation de ce comportement?
 
     appLogger.warn("CREATION DB : SUCCESS");
   }
@@ -19,21 +20,6 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
   public async down(queryRunner: QueryRunner): Promise<void> {
     // pas nécessaire de maintenir le down ici
   }
-}
-async function createSequences(queryRunner: QueryRunner) {
-  appLogger.warn("> CREATE SEQUENCES");
-  await queryRunner.query(
-    `CREATE SEQUENCE public.user_structure_id_seq NO MINVALUE NO MAXVALUE`
-  );
-  await queryRunner.query(
-    `CREATE SEQUENCE public.interactions_id_seq NO MINVALUE NO MAXVALUE`
-  );
-  await queryRunner.query(
-    `CREATE SEQUENCE public.structure_doc_id_seq NO MINVALUE NO MAXVALUE`
-  );
-  await queryRunner.query(
-    `CREATE SEQUENCE public.structure_id_seq NO MINVALUE NO MAXVALUE`
-  );
 }
 
 async function createTables(queryRunner: QueryRunner) {
