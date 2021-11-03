@@ -10,10 +10,9 @@ import {
   PortailUsagerAuthLoginForm,
   PortailUsagerProfile,
 } from "../../../../_common";
-import { DEFAULT_USAGER_PROFILE } from "../../../../_common/mocks/DEFAULT_USAGER.const";
 
 const END_POINT_AUTH = environment.apiUrl + "portail-usagers/auth";
-const END_POINT_PROFILE = environment.apiUrl + "profile";
+const END_POINT_PROFILE = environment.apiUrl + "portail-usagers/profile";
 
 const TOKEN_KEY = "usager-auth-token";
 const USER_KEY = "usager-auth-datas";
