@@ -1,3 +1,11 @@
+## [2.37.1](https://github.com/SocialGouv/domifa/compare/v2.37.0...v2.37.1) (2021-11-03)
+
+
+### Bug Fixes
+
+* remove migration truncate ([b8f1bec](https://github.com/SocialGouv/domifa/commit/b8f1bec1e5b08c675927e4cfe7748d4ac312f02a))
+* remove migration truncate ([5c02464](https://github.com/SocialGouv/domifa/commit/5c0246407f4820ec4bd27b7c30df77e784b7f538))
+
 # [2.37.0](https://github.com/SocialGouv/domifa/compare/v2.36.3...v2.37.0) (2021-11-02)
 
 
