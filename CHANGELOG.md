@@ -1,3 +1,10 @@
+# [2.37.0](https://github.com/SocialGouv/domifa/compare/v2.36.3...v2.37.0) (2021-11-02)
+
+
+### Features
+
+* **export:** ajout d'une colonne pour indiquer les SMS ([5c9bbd8](https://github.com/SocialGouv/domifa/commit/5c9bbd8b527e3c9cebdc5c2293704a399c181191))
+
 ## [2.36.3](https://github.com/SocialGouv/domifa/compare/v2.36.2...v2.36.3) (2021-11-02)
 
 
