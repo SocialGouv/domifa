@@ -46,24 +46,27 @@ export async function bootstrapApplication() {
 
     appHolder.app = app;
     app.useGlobalPipes(new ValidationPipe());
-    const corsUrl = domifaConfig().security.corsUrl;
-    const enableCorsSecurity = !!corsUrl;
-    if (enableCorsSecurity) {
-      appLogger.warn(`Enable CORS from URL "${corsUrl}"`);
+
+    const frontendUrl = domifaConfig().apps.frontendUrl;
+    const portailUsagersUrl = domifaConfig().apps.portailUsagersUrl;
+
+    const whitelist = [
+      frontendUrl.slice(0, -1),
+      portailUsagersUrl.slice(0, -1),
+    ];
+
+    if (["dev", "test"].includes(domifaConfig().envId)) {
       app.enableCors({
-        origin: corsUrl, // https://docs.nestjs.com/techniques/security#cors
+        origin: true, // "Access-Control-Allow-Origin" = request.origin (unsecure): https://docs.nestjs.com/techniques/security#cors
       });
     } else {
-      if (["dev", "test"].includes(domifaConfig().envId)) {
-        app.enableCors({
-          origin: true, // "Access-Control-Allow-Origin" = request.origin (unsecure): https://docs.nestjs.com/techniques/security#cors
-        });
-      } else {
-        appLogger.error(`Disable CORS: configure "DOMIFA_CORS_URL" to enable.`);
-      }
+      app.enableCors({
+        origin: whitelist,
+      });
     }
 
     app.use(compression());
+
     configureSwagger(app);
 
     app.useGlobalPipes(

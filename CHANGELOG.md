@@ -1,3 +1,32 @@
+## [2.37.3](https://github.com/SocialGouv/domifa/compare/v2.37.2...v2.37.3) (2021-11-03)
+
+
+### Performance Improvements
+
+* **pg:** analyse performances pg [#1776](https://github.com/SocialGouv/domifa/issues/1776) ([b4fcf9c](https://github.com/SocialGouv/domifa/commit/b4fcf9c342a62a6e1c3381e9cbf4be60f528b8b7))
+
+## [2.37.2](https://github.com/SocialGouv/domifa/compare/v2.37.1...v2.37.2) (2021-11-03)
+
+
+### Bug Fixes
+
+* tests unitaires config ([a17d9e1](https://github.com/SocialGouv/domifa/commit/a17d9e16c84e427351b71ea567fa35e8fa469640))
+
+## [2.37.1](https://github.com/SocialGouv/domifa/compare/v2.37.0...v2.37.1) (2021-11-03)
+
+
+### Bug Fixes
+
+* remove migration truncate ([b8f1bec](https://github.com/SocialGouv/domifa/commit/b8f1bec1e5b08c675927e4cfe7748d4ac312f02a))
+* remove migration truncate ([5c02464](https://github.com/SocialGouv/domifa/commit/5c0246407f4820ec4bd27b7c30df77e784b7f538))
+
+# [2.37.0](https://github.com/SocialGouv/domifa/compare/v2.36.3...v2.37.0) (2021-11-02)
+
+
+### Features
+
+* **export:** ajout d'une colonne pour indiquer les SMS ([5c9bbd8](https://github.com/SocialGouv/domifa/commit/5c9bbd8b527e3c9cebdc5c2293704a399c181191))
+
 ## [2.36.3](https://github.com/SocialGouv/domifa/compare/v2.36.2...v2.36.3) (2021-11-02)
 
 

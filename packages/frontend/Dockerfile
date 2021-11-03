@@ -1,8 +1,9 @@
 FROM node:16.12.0 as builder
 
-COPY ./packages/frontend /app
-
 WORKDIR /app
+
+COPY ./packages/frontend .
+COPY ./yarn.lock .
 
 # TODO: Sort dependencies and add "--production" install flag
 RUN yarn --frozen-lockfile && yarn cache clean

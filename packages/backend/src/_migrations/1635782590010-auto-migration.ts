@@ -1,9 +1,11 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { appLogger } from "../util";
 
 export class autoMigration1635782590010 implements MigrationInterface {
   name = "autoMigration1635782590010";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
+    appLogger.warn(`[${this.name}] MIGRATION UP...`);
     await queryRunner.query(
       `ALTER TABLE "structure" ALTER COLUMN "sms" SET DEFAULT '{"senderName": null, "senderDetails": null, "enabledByDomifa": true, "enabledByStructure": false}'`
     );

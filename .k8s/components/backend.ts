@@ -7,6 +7,7 @@ import { ok } from "assert";
 import { Deployment } from "kubernetes-models/apps/v1/Deployment";
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { getManifests as getFrontendManifests } from "./frontend";
+import { getManifests as getPortailUsagersManifests } from "./portail-usagers";
 import environments from "@socialgouv/kosko-charts/environments";
 import { azureProjectVolume } from "@socialgouv/kosko-charts/components/azure-storage/azureProjectVolume";
 import { VolumeMount, Volume } from "kubernetes-models/v1";
@@ -116,6 +117,7 @@ export default async () => {
   ok(deployment);
 
   const frontendManifests = await getFrontendManifests();
+  const portailUsagersManifests = await getPortailUsagersManifests();
 
   addEnvs({
     deployment,
@@ -125,8 +127,10 @@ export default async () => {
       POSTGRES_PASSWORD: "$(PGPASSWORD)",
       POSTGRES_DATABASE: "$(PGDATABASE)",
       DOMIFA_BACKEND_URL: `https://${getIngressHost(manifests)}`,
-      DOMIFA_CORS_URL: `https://${getIngressHost(frontendManifests)}`,
       DOMIFA_FRONTEND_URL: `https://${getIngressHost(frontendManifests)}/`,
+      DOMIFA_PORTAIL_USAGERS_URL: `https://${getIngressHost(
+        portailUsagersManifests
+      )}/`,
     },
   });
 

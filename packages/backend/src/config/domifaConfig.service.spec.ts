@@ -26,8 +26,8 @@ describe("loadConfig", () => {
       config.healthz.frontendUrlFromBackend
     );
     expect(config.apps.backendUrl).toBeDefined();
+    expect(config.apps.portailUsagersUrl).toBeDefined();
 
-    expect(config.security.corsUrl).toBeUndefined();
     expect(config.security.files.iv).toBeDefined();
     expect(config.security.files.private).toBeDefined();
 
@@ -64,8 +64,8 @@ describe("loadConfig", () => {
 
     expect(config.apps.frontendUrl).toBeDefined();
     expect(config.apps.backendUrl).toBeDefined();
+    expect(config.apps.portailUsagersUrl).toBeDefined();
 
-    expect(config.security.corsUrl).toBeUndefined();
     expect(config.security.files.iv).toBeDefined();
     expect(config.security.files.private).toBeDefined();
 
@@ -98,6 +98,7 @@ describe("loadConfig", () => {
       FILES_IV: "******************",
       FILES_PRIVATE: "******************",
       DOMIFA_FRONTEND_URL: "https://domifa.xxx",
+      DOMIFA_PORTAIL_USAGERS_URL: "https://domifa.xxx",
       DOMIFA_BACKEND_URL: "https://backend.domifa.xxx",
       DOMIFA_ADMIN_EMAIL: "some@mail.xxx",
       DOMIFA_TIPIMAIL_FROM_EMAIL: "some@mail.xxx",
@@ -118,7 +119,6 @@ describe("loadConfig", () => {
 
     expect(config.envId).toEqual("prod");
 
-    expect(config.security.corsUrl).toEqual(env.DOMIFA_FRONTEND_URL);
     expect(config.security.files.iv).toBeDefined();
     expect(config.security.files.private).toBeDefined();
 
