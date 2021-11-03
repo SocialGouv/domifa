@@ -12,7 +12,7 @@ import {
 } from "../../../../_common";
 import { DEFAULT_USAGER_PROFILE } from "../../../../_common/mocks/DEFAULT_USAGER.const";
 
-const END_POINT_AUTH = environment.apiUrl + "auth";
+const END_POINT_AUTH = environment.apiUrl + "portail-usagers/auth";
 const END_POINT_PROFILE = environment.apiUrl + "profile";
 
 const TOKEN_KEY = "usager-auth-token";
@@ -30,7 +30,7 @@ export class UsagerAuthService {
     private readonly toastr: ToastrService,
   ) {
     this.currentUsagerSubject =
-      new BehaviorSubject<PortailUsagerProfile | null>(DEFAULT_USAGER_PROFILE);
+      new BehaviorSubject<PortailUsagerProfile | null>(null);
   }
 
   public login(
@@ -50,7 +50,6 @@ export class UsagerAuthService {
     return this.http.get<PortailUsagerProfile>(`${END_POINT_PROFILE}/me`).pipe(
       map((portailUsagerProfile: PortailUsagerProfile) => {
         // SAVE USER
-        console.info("isAuth Response");
         this.saveAuthUsager(portailUsagerProfile);
         return true;
       }),
