@@ -1,3 +1,11 @@
+## [2.37.4](https://github.com/SocialGouv/domifa/compare/v2.37.3...v2.37.4) (2021-11-03)
+
+
+### Bug Fixes
+
+* affichage de la home ([a995d4c](https://github.com/SocialGouv/domifa/commit/a995d4cdb69ef687f225c8fa0eb75ba60c482c45))
+* url du /me ([c869a7e](https://github.com/SocialGouv/domifa/commit/c869a7e6e5525222bed5f3eec7b1238e4a057c84))
+
 ## [2.37.3](https://github.com/SocialGouv/domifa/compare/v2.37.2...v2.37.3) (2021-11-03)
 
 
