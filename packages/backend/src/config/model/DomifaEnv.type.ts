@@ -12,9 +12,8 @@ export type DomifaEnv = {
   DOMIFA_SECURITY_FILES_IV: string;
   DOMIFA_SECURITY_FILES_IV_SECOURS: string; // TEMP VALUE : supprimer une fois la réencryption réalisée
   DOMIFA_SECURITY_FILES_PRIVATE: string;
-  DOMIFA_SECURITY_CORS_ENABLED: string;
-  DOMIFA_CORS_URL: string;
   DOMIFA_FRONTEND_URL: string;
+  DOMIFA_PORTAIL_USAGERS_URL: string;
   DOMIFA_BACKEND_URL: string;
   DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND: string;
   /**
