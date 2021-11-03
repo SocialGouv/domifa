@@ -26,6 +26,7 @@ describe("loadConfig", () => {
       config.healthz.frontendUrlFromBackend
     );
     expect(config.apps.backendUrl).toBeDefined();
+    expect(config.apps.portailUsagersUrl).toBeDefined();
 
     expect(config.security.files.iv).toBeDefined();
     expect(config.security.files.private).toBeDefined();
@@ -63,6 +64,7 @@ describe("loadConfig", () => {
 
     expect(config.apps.frontendUrl).toBeDefined();
     expect(config.apps.backendUrl).toBeDefined();
+    expect(config.apps.portailUsagersUrl).toBeDefined();
 
     expect(config.security.files.iv).toBeDefined();
     expect(config.security.files.private).toBeDefined();
