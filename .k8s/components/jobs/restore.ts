@@ -30,6 +30,7 @@ const job = new Job({
             args: [
               "clone",
               `-b ${ciEnv.branch}`,
+              "--single-branch",
               "https://github.com/SocialGouv/domifa.git",
               "/mnt/domifa",
             ],
