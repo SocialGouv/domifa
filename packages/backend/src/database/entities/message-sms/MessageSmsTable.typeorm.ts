@@ -1,13 +1,12 @@
-import { Column, Entity } from "typeorm";
+import { Column, Entity, Index } from "typeorm";
 import {
   MessageSms,
-  MessageSmsStatus,
   MessageSmsId,
-  MessageSmsUpdate,
   MessageSmsInteractionMetas,
   MessageSmsReminderMetas,
+  MessageSmsStatus,
+  MessageSmsUpdate,
 } from "../../../_common/model/message-sms";
-
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
@@ -18,9 +17,11 @@ export class MessageSmsTable
 {
   // Infos usager
   @Column({ type: "integer" })
+  @Index()
   public usagerRef: number;
 
   @Column({ type: "integer" })
+  @Index()
   public structureId: number;
 
   // Contenu du message
@@ -28,6 +29,7 @@ export class MessageSmsTable
   public content: string;
 
   @Column({ type: "text", default: "TO_SEND" })
+  @Index()
   public status: MessageSmsStatus;
 
   @Column({ type: "text" })
