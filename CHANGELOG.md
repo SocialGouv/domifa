@@ -1,3 +1,10 @@
+## [2.37.2](https://github.com/SocialGouv/domifa/compare/v2.37.1...v2.37.2) (2021-11-03)
+
+
+### Bug Fixes
+
+* tests unitaires config ([a17d9e1](https://github.com/SocialGouv/domifa/commit/a17d9e16c84e427351b71ea567fa35e8fa469640))
+
 ## [2.37.1](https://github.com/SocialGouv/domifa/compare/v2.37.0...v2.37.1) (2021-11-03)
 
 
