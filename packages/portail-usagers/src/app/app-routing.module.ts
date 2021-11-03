@@ -8,6 +8,7 @@ import { PolitiqueComponent } from "./modules/general/components/politique/polit
 import { AuthGuard } from "./guards/auth-guard";
 
 const routes: Routes = [
+  { path: "", redirectTo: "/auth/login", pathMatch: "full" },
   {
     path: "auth",
     loadChildren: () =>
@@ -23,7 +24,7 @@ const routes: Routes = [
         (m) => m.UsagerAccountModule,
       ),
   },
-  { path: "", component: HomeComponent },
+
   { path: "mentions-legales", component: MentionsLegalesComponent },
   { path: "confidentialite", component: PolitiqueComponent },
   { path: "cgu", component: CguComponent },
