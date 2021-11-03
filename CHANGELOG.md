@@ -1,3 +1,10 @@
+## [2.37.3](https://github.com/SocialGouv/domifa/compare/v2.37.2...v2.37.3) (2021-11-03)
+
+
+### Performance Improvements
+
+* **pg:** analyse performances pg [#1776](https://github.com/SocialGouv/domifa/issues/1776) ([b4fcf9c](https://github.com/SocialGouv/domifa/commit/b4fcf9c342a62a6e1c3381e9cbf4be60f528b8b7))
+
 ## [2.37.2](https://github.com/SocialGouv/domifa/compare/v2.37.1...v2.37.2) (2021-11-03)
 
 
