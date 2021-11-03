@@ -4,8 +4,6 @@ import { DomifaConfigPostgres } from "./DomifaConfigPostgres.type";
 import { DomifaEnvId } from "./DomifaEnvId.type";
 
 export type DomifaConfigSecurity = {
-  corsEnabled: boolean; // DOMIFA_SECURITY_CORS_ENABLED
-  corsUrl: string; // DOMIFA_CORS_URL
   files: {
     iv: string; // DOMIFA_SECURITY_FILES_IV
     ivSecours: string; // DOMIFA_SECURITY_FILES_IV_SECOURS
@@ -19,6 +17,7 @@ export type DomifaConfig = {
   version: string; // DOMIFA_DOCKER_IMAGE_VERSION (default to process.env.npm_package_version)
   apps: {
     frontendUrl: string; // DOMIFA_FRONTEND_URL
+    portailUsagersUrl: string; // DOMIFA_PORTAIL_USAGERS_URL
     backendUrl: string; // DOMIFA_BACKEND_URL
   };
   healthz: {

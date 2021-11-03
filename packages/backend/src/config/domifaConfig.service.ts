@@ -81,6 +81,10 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
     validValues: DOMIFA_ENV_IDS,
   });
   const frontendUrl = configParser.parseString(x, "DOMIFA_FRONTEND_URL");
+  const portailUsagersUrl = configParser.parseString(
+    x,
+    "DOMIFA_PORTAIL_USAGERS_URL"
+  );
 
   const frontendUrlFromBackend = configParser.parseString(
     x,
@@ -109,6 +113,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       required: false,
     }),
     apps: {
+      portailUsagersUrl,
       frontendUrl,
       backendUrl,
     },
@@ -383,16 +388,7 @@ function parseSecurityConfig(
     frontendUrl: string;
   }
 ): DomifaConfigSecurity {
-  const securityCorsEnabled = configParser.parseBoolean(
-    x,
-    "DOMIFA_SECURITY_CORS_ENABLED"
-  );
   return {
-    corsEnabled: securityCorsEnabled,
-    corsUrl: configParser.parseString(x, "DOMIFA_CORS_URL", {
-      defaultValue: securityCorsEnabled ? frontendUrl : undefined,
-      required: securityCorsEnabled,
-    }),
     files: {
       iv: configParser.parseString(x, "DOMIFA_SECURITY_FILES_IV", {
         deprecatedKey: "FILES_IV",
