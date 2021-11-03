@@ -18,6 +18,7 @@ tools:
   ticketing: https://github.com/SocialGouv/domifa/issues
   sentry (backend): https://sentry.fabrique.social.gouv.fr/incubateur/domifa-backend
   sentry (frontend): https://sentry.fabrique.social.gouv.fr/incubateur/domifa-frontend
+  sentry (frontend): https://sentry.fabrique.social.gouv.fr/incubateur/domifa-portail-usagers
   matomo: https://matomo.fabrique.social.gouv.fr
   mails (prod+dev): https://app.tipimail.com/
   mails (dev): https://mailtrap.io/
@@ -26,7 +27,10 @@ tools:
 # Overall technical stack
 stack:
   frontend:
-    - Angular 11
+    - Angular 12
+    - Typescript
+  portail-usagers:
+    - Angular 12
     - Typescript
   backend:
     - NestJS
@@ -35,6 +39,7 @@ stack:
   tests:
     - e2e: codeceptjs/puppeteer
     - frontend: unit tests
+    - portail-usagers: unit tests
     - backend: unit tests + integration tests
   ci:
     - Gitlab-ci (tests, build, register docker images)
