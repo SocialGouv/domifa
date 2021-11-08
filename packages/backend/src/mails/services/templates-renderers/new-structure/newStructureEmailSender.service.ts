@@ -20,11 +20,10 @@ async function sendMail({
   structure: Structure;
   user: AppUserForAdminEmail;
 }): Promise<void> {
-  const route = structure.id + "/" + structure.token;
-  const frontendUrl = domifaConfig().apps.frontendUrl;
-  const lienConfirmation = frontendUrl + "structures/confirm/" + route;
-
-  const lienSuppression = frontendUrl + "structures/delete/" + route;
+  const parameters = `${structure.id}/${structure.token}`;
+  const portailAdminUrl = domifaConfig().apps.portailAdminUrl;
+  const lienConfirmation = `${portailAdminUrl}/structures-confirm/enable/${parameters}`;
+  const lienSuppression = `${portailAdminUrl}/structures-confirm/delete/${parameters}`;
 
   const to = [
     {
@@ -52,6 +51,10 @@ async function sendMail({
     ...DOMIFA_DEFAULT_MAIL_CONFIG,
     ...renderedTemplate,
     to,
+    meta: {
+      "lien confirmation": lienConfirmation,
+      "lien suppression": lienSuppression,
+    },
   };
 
   messageEmailSender.sendMessageLater(messageContent, {

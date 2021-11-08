@@ -14,7 +14,7 @@ describe("userStructureRepository", () => {
     await AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
   });
 
-  it("count returns users count", async () => {
+  it("count structure users", async () => {
     const count1 = await userStructureRepository.count({
       where: {
         structureId: 1,

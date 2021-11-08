@@ -1,0 +1,14 @@
+<button
+  (click)="exportDashboard()"
+  [disabled]="exportLoading"
+  class="btn btn-outline-primary"
+>
+  <span *ngIf="!exportLoading">
+    <fa-icon [icon]="['fas', 'download']" class="mr-2"></fa-icon>
+    Exporter
+  </span>
+  <span *ngIf="exportLoading">
+    <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+    Export en cours, veuillez patienter...
+  </span>
+</button>

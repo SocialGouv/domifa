@@ -3,14 +3,12 @@ import { HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
-
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
 import { RegisterUserComponent } from "./components/register-user/register-user.component";
 import { StructureEditFormComponent } from "./components/structure-edit-form/structure-edit-form.component";
-import { StructuresConfirmComponent } from "./components/structures-confirm/structures-confirm.component";
 import { StructuresEditComponent } from "./components/structures-edit/structures-edit.component";
 import { StructuresFormComponent } from "./components/structures-form/structures-form.component";
 import { StructuresPortailUsagerFormComponent } from "./components/structures-portail-usager-form/structures-portail-usager-form.component";
@@ -22,22 +20,16 @@ import { StructureService } from "./services/structure.service";
 
 @NgModule({
   declarations: [
-    StructuresConfirmComponent,
     StructuresSearchComponent,
     StructuresFormComponent,
     StructuresEditComponent,
     StructureEditFormComponent,
     StructuresUploadDocsComponent,
-    StructuresConfirmComponent,
     StructuresSmsFormComponent,
     StructuresPortailUsagerFormComponent,
     RegisterUserComponent,
   ],
-  exports: [
-    StructuresConfirmComponent,
-    StructuresSearchComponent,
-    StructuresFormComponent,
-  ],
+  exports: [StructuresSearchComponent, StructuresFormComponent],
   imports: [
     UsersModule,
     CommonModule,

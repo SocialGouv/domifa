@@ -6,7 +6,7 @@ import {
   UserStructureAuthenticated,
   UserStructureRole,
 } from "../../_common/model";
-import { authChecker } from "../services/auth-checker.service";
+import { authChecker } from "../services";
 
 @Injectable()
 export class AppUserGuard implements CanActivate {
@@ -16,29 +16,41 @@ export class AppUserGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user as UserAuthenticated;
 
+    let allowUserProfiles = this.reflector.get<UserProfile[]>(
+      "allowUserProfiles",
+      context.getHandler()
+    );
     const allowUserStructureRoles = this.reflector.get<UserStructureRole[]>(
       "allowUserStructureRoles",
       context.getHandler()
     );
-    if (allowUserStructureRoles?.length) {
-      // check structure user roles
-      return (
-        authChecker.checkProfile(user, "structure") &&
-        authChecker.checkRole(
-          user as UserStructureAuthenticated,
-          ...allowUserStructureRoles
-        )
-      );
+    if (!allowUserProfiles?.length && allowUserStructureRoles?.length) {
+      allowUserProfiles = ["structure"];
     }
-
-    const allowUserProfiles = this.reflector.get<UserProfile[]>(
-      "allowUserProfiles",
-      context.getHandler()
-    );
     if (allowUserProfiles?.length) {
       // check structure user roles
-      return authChecker.checkProfile(user, ...allowUserProfiles);
+      const isValidProfile = authChecker.checkProfile(
+        user,
+        ...allowUserProfiles
+      );
+      if (isValidProfile) {
+        if (
+          user._userProfile === "structure" &&
+          allowUserStructureRoles?.length
+        ) {
+          // check structure user roles
+          return (
+            authChecker.checkProfile(user, "structure") &&
+            authChecker.checkRole(
+              user as UserStructureAuthenticated,
+              ...allowUserStructureRoles
+            )
+          );
+        }
+      }
+      return isValidProfile;
     }
+
     // by default: DENY
     return false;
   }

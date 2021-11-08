@@ -4,7 +4,6 @@ import { CanEditPortailUsagerGuard } from "./guards";
 import { AdminGuard } from "./guards/admin-guard";
 import { AuthGuard } from "./guards/auth-guard";
 import { CanEditSmsGuard } from "./guards/can-edit-sms.guard";
-import { DomifaGuard } from "./guards/domifa-guard";
 import { FacteurGuard } from "./guards/facteur-guard";
 import { LoggedGuard } from "./guards/logged-guard";
 import { CguComponent } from "./modules/general/components/cgu/cgu.component";
@@ -14,13 +13,11 @@ import { HomeComponent } from "./modules/general/components/home/home.component"
 import { MentionsLegalesComponent } from "./modules/general/components/mentions/mentions-legales/mentions-legales.component";
 import { NewsComponent } from "./modules/general/components/news/news.component";
 import { PolitiqueComponent } from "./modules/general/components/politique/politique.component";
-import { StructuresConfirmComponent } from "./modules/structures/components/structures-confirm/structures-confirm.component";
 import { StructuresEditComponent } from "./modules/structures/components/structures-edit/structures-edit.component";
 import { StructuresFormComponent } from "./modules/structures/components/structures-form/structures-form.component";
 import { StructuresPortailUsagerFormComponent } from "./modules/structures/components/structures-portail-usager-form/structures-portail-usager-form.component";
 import { StructuresSearchComponent } from "./modules/structures/components/structures-search/structures-search.component";
 import { StructuresSmsFormComponent } from "./modules/structures/components/structures-sms-form/structures-sms-form.component";
-
 import { ImportComponent } from "./modules/usagers/components/import/import.component";
 import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
 import { EditUserComponent } from "./modules/users/components/edit-user/edit-user.component";
@@ -65,14 +62,6 @@ export const routes: Routes = [
     component: StructuresPortailUsagerFormComponent,
   },
   {
-    component: StructuresConfirmComponent,
-    path: "structures/confirm/:id/:token",
-  },
-  {
-    component: StructuresConfirmComponent,
-    path: "structures/delete/:id/:token",
-  },
-  {
     canActivate: [AuthGuard],
     component: UserProfilComponent,
     path: "admin",
@@ -110,10 +99,6 @@ export const routes: Routes = [
     path: "import",
   },
   {
-    path: "statsdomifa",
-    redirectTo: "/admin-domifa",
-  },
-  {
     path: "rapport-activite",
     redirectTo: "/stats/rapport-activite",
   },
@@ -127,14 +112,6 @@ export const routes: Routes = [
     loadChildren: () =>
       import("./modules/usager-dossier/usager-dossier.module").then(
         (m) => m.UsagerDossierModule
-      ),
-  },
-  {
-    canActivate: [AuthGuard, DomifaGuard],
-    path: "admin-domifa",
-    loadChildren: () =>
-      import("./modules/admin-domifa/admin-domifa.module").then(
-        (m) => m.AdminDomifaModule
       ),
   },
   {

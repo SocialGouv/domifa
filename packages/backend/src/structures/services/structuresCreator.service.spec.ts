@@ -1,28 +1,16 @@
+import { Connection } from "typeorm";
 import { structureRepository } from "../../database";
-import { AppTestContext, AppTestHelper } from "../../util/test";
-import { StructuresModule } from "../structure.module";
-import { StructureCreatorService } from "./structureCreator.service";
+import { AppTestHelper } from "../../util/test";
+import { structureCreatorService } from "./structureCreator.service";
 
 describe("Structure Creator Service", () => {
-  let service: StructureCreatorService;
-
-  let context: AppTestContext;
+  let postgresTypeormConnection: Connection;
 
   beforeAll(async () => {
-    context = await AppTestHelper.bootstrapTestApp({
-      imports: [StructuresModule],
-      providers: [],
-    });
-    service = context.module.get<StructureCreatorService>(
-      StructureCreatorService
-    );
+    postgresTypeormConnection = await AppTestHelper.bootstrapTestConnection();
   });
   afterAll(async () => {
-    await AppTestHelper.tearDownTestApp(context);
-  });
-
-  it("should be defined", () => {
-    expect(service).toBeDefined();
+    await AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
   });
 
   it("check token", async () => {
@@ -35,10 +23,16 @@ describe("Structure Creator Service", () => {
       },
       { token }
     );
-    const structure = await service.checkCreationToken({ structureId, token });
+    const structure = await structureCreatorService.checkCreationToken({
+      structureId,
+      token,
+    });
     expect(structure).toBeDefined();
     expect(structure.id).toEqual(2);
-    const structure2 = await service.checkCreationToken({ structureId, token });
+    const structure2 = await structureCreatorService.checkCreationToken({
+      structureId,
+      token,
+    });
     expect(structure2).toBeUndefined(); // token has been clear
   });
 });

@@ -25,12 +25,17 @@ function allowStructureOnly(
   {
     roles,
     validExpectedResponseStatus = HttpStatus.OK,
-  }: { roles: UserStructureRole[]; validExpectedResponseStatus?: HttpStatus }
+    allowSuperAdminDomifa,
+  }: {
+    roles: UserStructureRole[];
+    validExpectedResponseStatus?: HttpStatus;
+    allowSuperAdminDomifa?: boolean;
+  }
 ): HttpStatus {
   const expectedResponseStatus = !user
     ? HttpStatus.UNAUTHORIZED
-    : user?.profile === "super-admin-domifa" || // le super admin domifa est aussi admin structure, donc il doit avoir accès
-      (user?.profile === "structure" && roles.includes(user?.structureRole))
+    : (user?.profile === "structure" && roles.includes(user?.structureRole)) ||
+      (allowSuperAdminDomifa && user?.profile === "super-admin-domifa")
     ? validExpectedResponseStatus
     : HttpStatus.FORBIDDEN;
   return expectedResponseStatus;

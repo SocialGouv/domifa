@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Put, UseGuards } from "@nestjs/common";
+import { Controller, Get, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AllowUserProfiles } from "../auth/decorators";
@@ -17,23 +17,6 @@ export class SmsController {
     private readonly messageSmsService: MessageSmsService,
     private readonly structureService: StructuresService
   ) {}
-
-  @AllowUserProfiles("super-admin-domifa")
-  @Put("enable/:structureId")
-  public async enableByDomifa(@Param("structureId") structureId: number) {
-    const structure = await this.structureService.findOneFull(structureId);
-
-    structure.sms.enabledByDomifa = !structure.sms.enabledByDomifa;
-
-    if (!structure.sms.enabledByDomifa) {
-      structure.sms.enabledByStructure = false;
-    }
-
-    return this.messageSmsService.changeStatutByDomifa(
-      structureId,
-      structure.sms
-    );
-  }
 
   @ApiBearerAuth()
   @AllowUserProfiles("structure")

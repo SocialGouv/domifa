@@ -6,7 +6,6 @@ import {
   faEyeSlash,
   faFileWord,
 } from "@fortawesome/free-regular-svg-icons";
-
 import {
   faCircleNotch,
   faDownload,

@@ -11,14 +11,14 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-import { userStructureSecurityPasswordChecker } from "../database";
+import { userStructureSecurityPasswordChecker } from "../database/services/user-structure/user-structure-security/userStructureSecurityPasswordChecker.service";
 import { StructureLoginDto } from "../users/dto";
 import { ExpressResponse } from "../util/express";
 import { UserStructureAuthenticated } from "../_common/model";
-import { AllowUserProfiles } from "./decorators";
+import { AllowUserProfiles } from "./decorators/AllowUserProfiles.decorator";
 import { CurrentUser } from "./decorators/current-user.decorator";
-import { AppUserGuard } from "./guards";
-import { StructuresAuthService } from "./services";
+import { AppUserGuard } from "./guards/AppUserGuard.guard";
+import { StructuresAuthService } from "./services/structures-auth.service";
 
 @Controller("structures/auth")
 @ApiTags("auth")
@@ -44,14 +44,6 @@ export class StructuresAuthController {
         .status(HttpStatus.UNAUTHORIZED)
         .json({ message: "WRONG_CREDENTIALS" });
     }
-  }
-
-  @UseGuards(AuthGuard("jwt"), AppUserGuard)
-  @AllowUserProfiles("super-admin-domifa")
-  @ApiBearerAuth()
-  @Get("domifa")
-  public authDomifa(@Res() res: ExpressResponse) {
-    return res.status(HttpStatus.OK).json();
   }
 
   @ApiBearerAuth()

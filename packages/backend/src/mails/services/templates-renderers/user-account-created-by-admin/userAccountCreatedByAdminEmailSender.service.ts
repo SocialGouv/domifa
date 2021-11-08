@@ -49,6 +49,7 @@ async function sendMail({
     ...DOMIFA_DEFAULT_MAIL_CONFIG,
     ...renderedTemplate,
     to,
+    meta: { "lien de connection": lien },
   };
 
   messageEmailSender.sendMessageLater(messageContent, {

@@ -5,6 +5,7 @@ import { Connection } from "typeorm";
 import { appTypeormManager } from "../../database";
 import {
   AppTestHttpClientSecurityTestDef,
+  TestUserAdmin,
   TestUserStructure,
   TestUserUsager,
 } from "../../_tests";
@@ -18,7 +19,7 @@ export const AppTestHelper = {
   tearDownTestConnection,
   authenticateUsager,
   authenticateStructure,
-  authenticateSuperAdminDomifa,
+  authenticateSuperAdmin,
   filterSecurityTests,
 };
 
@@ -73,7 +74,10 @@ async function authenticateStructure(
   expectAppToBeDefined(app);
   const response = await request(app.getHttpServer())
     .post("/structures/auth/login")
-    .send(authInfo);
+    .send({
+      email: authInfo.email,
+      password: authInfo.password,
+    });
   expect(response.status).toBe(HttpStatus.OK);
   context.authToken = response.body.access_token;
   context.user = {
@@ -92,32 +96,34 @@ async function authenticateUsager(
   expectAppToBeDefined(app);
   const response = await request(app.getHttpServer())
     .post("/portail-usagers/auth/login")
-    .send(authInfo);
+    .send({
+      login: authInfo.login,
+      password: authInfo.password,
+    });
   expect(response.status).toBe(HttpStatus.OK);
-  context.authToken = response.body.access_token;
+  context.authToken = response.body.token;
   context.user = {
     profile: "usager",
     structureId: authInfo.structureId,
     userUUID: authInfo.uuid,
   };
 }
-async function authenticateSuperAdminDomifa(
-  authInfo: TestUserStructure,
-
+async function authenticateSuperAdmin(
+  authInfo: TestUserAdmin,
   { context }: { context: AppTestContext }
 ) {
   const { app } = context;
   expectAppToBeDefined(app);
-  expect(authInfo.structureId).toEqual(1); // hack: super admin is role "admin" + structure 1
-  expect(authInfo.role).toEqual("admin");
   const response = await request(app.getHttpServer())
-    .post("/structures/auth/login")
-    .send(authInfo);
+    .post("/portail-admins/auth/login")
+    .send({
+      login: authInfo.email,
+      password: authInfo.password,
+    });
   expect(response.status).toBe(HttpStatus.OK);
-  context.authToken = response.body.access_token;
+  context.authToken = response.body.token;
   context.user = {
     profile: "super-admin-domifa",
-    userId: authInfo.id,
     userUUID: authInfo.uuid,
   };
 }

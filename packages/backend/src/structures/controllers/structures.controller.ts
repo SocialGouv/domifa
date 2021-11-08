@@ -1,30 +1,22 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   HttpException,
   HttpStatus,
   Param,
   Patch,
-  Put,
-  Response,
+  Res,
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import {
-  AllowUserProfiles,
-  AllowUserStructureRoles,
-} from "../../auth/decorators";
+import { AllowUserStructureRoles } from "../../auth/decorators";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { structureRepository } from "../../database";
-import { structureLightRepository } from "../../database/services/structure/structureLightRepository.service";
-import {
-  deleteStructureEmailSender,
-  hardResetEmailSender,
-} from "../../mails/services/templates-renderers";
+import { hardResetEmailSender } from "../../mails/services/templates-renderers";
+import { ExpressResponse } from "../../util/express";
 import {
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
@@ -45,25 +37,6 @@ export class StructuresController {
     private structureService: StructuresService
   ) {}
 
-  @AllowUserProfiles("super-admin-domifa")
-  @Put("portail-usager/toggle-enable-domifa/:structureId")
-  public async toggleEnablePortailUsagerByDomifa(
-    @Param("structureId") structureId: number
-  ) {
-    const structure = await this.structureService.findOneFull(structureId);
-
-    structure.portailUsager.enabledByDomifa =
-      !structure.portailUsager.enabledByDomifa;
-
-    if (!structure.portailUsager.enabledByDomifa) {
-      structure.portailUsager.enabledByStructure = false;
-    }
-
-    return structureRepository.updateOne(
-      { id: structureId },
-      { portailUsager: structure.portailUsager }
-    );
-  }
   @ApiBearerAuth()
   @AllowUserStructureRoles("admin")
   @Patch("portail-usager/configure-structure")
@@ -129,7 +102,7 @@ export class StructuresController {
   @ApiBearerAuth()
   @Get("hard-reset")
   public async hardReset(
-    @Response() res: any,
+    @Res() res: ExpressResponse,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
     const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -164,7 +137,7 @@ export class StructuresController {
   @ApiBearerAuth()
   @Get("hard-reset-confirm/:token")
   public async hardResetConfirm(
-    @Response() res: any,
+    @Res() res: ExpressResponse,
     @Param("token") token: string,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
@@ -195,70 +168,5 @@ export class StructuresController {
     await this.structureHardResetService.hardResetClean(structure.id);
 
     return res.status(HttpStatus.OK).json({ message: "success" });
-  }
-
-  @AllowUserProfiles("super-admin-domifa")
-  @ApiBearerAuth()
-  @Delete("confirm/:id/:token/:nom")
-  public async deleteOne(
-    @Param("id") id: string,
-    @Param("token") token: string,
-    @Param("nom") nom: string
-  ) {
-    return structureDeletorService.deleteStructure({
-      structureId: parseInt(id, 10),
-      token,
-      structureNom: nom,
-    });
-  }
-
-  @AllowUserProfiles("super-admin-domifa")
-  @ApiBearerAuth()
-  @Delete("check/:id/:token")
-  public async checkDelete(
-    @Param("id") id: string,
-    @Param("token") token: string
-  ) {
-    const structure = await structureLightRepository.findOne({
-      token,
-      id: parseInt(id, 10),
-    });
-    if (!structure) {
-      throw new HttpException(
-        "HARD_RESET_INCORRECT_TOKEN",
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
-    }
-    return structure;
-  }
-
-  @AllowUserProfiles("super-admin-domifa")
-  @ApiBearerAuth()
-  @Delete(":id")
-  public async sendMailConfirmDeleteStructure(
-    @Response() res: any,
-    @Param("id") id: string
-  ) {
-    const structure = await structureDeletorService.generateDeleteToken(
-      parseInt(id, 10)
-    );
-
-    if (!!structure) {
-      deleteStructureEmailSender.sendMail({ structure }).then(
-        (result) => {
-          return res.status(HttpStatus.OK).json({ message: "OK" });
-        },
-        (error) => {
-          return res
-            .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .json({ message: "MAIL_DELETE_STRUCTURE_ERROR" });
-        }
-      );
-    } else {
-      return res
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "DELETED_STRUCTURE_NOT_FOUND" });
-    }
-    return true;
   }
 }

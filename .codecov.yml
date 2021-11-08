@@ -11,6 +11,9 @@ coverage:
       portail-usagers:
         target: 42%
         flags: portail-usagers
+      portail-admins:
+        target: 42%
+        flags: portail-usagers
 
 flags:
   backend:
@@ -22,3 +25,6 @@ flags:
   portail-usagers:
     paths:
       - packages/portail-usagers
+  portail-admins:
+    paths:
+      - packages/portail-admins

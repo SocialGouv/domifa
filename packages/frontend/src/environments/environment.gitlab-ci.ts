@@ -1,5 +1,6 @@
 export const environment = {
   apiUrl: "http://localhost:3000/",
+  portailAdminUrl: "http://localhost:4202/",
   production: true,
   env: "test",
   matomo: {

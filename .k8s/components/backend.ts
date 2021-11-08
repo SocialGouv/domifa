@@ -1,16 +1,17 @@
 import env from "@kosko/env";
 import { create } from "@socialgouv/kosko-charts/components/app";
+import { azureProjectVolume } from "@socialgouv/kosko-charts/components/azure-storage/azureProjectVolume";
+import environments from "@socialgouv/kosko-charts/environments";
 import { addEnv } from "@socialgouv/kosko-charts/utils/addEnv";
 import { getIngressHost } from "@socialgouv/kosko-charts/utils/getIngressHost";
 import { getManifestByKind } from "@socialgouv/kosko-charts/utils/getManifestByKind";
 import { ok } from "assert";
 import { Deployment } from "kubernetes-models/apps/v1/Deployment";
+import { Volume, VolumeMount } from "kubernetes-models/v1";
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { getManifests as getFrontendManifests } from "./frontend";
+import { getManifests as getPortailAdminsManifests } from "./portail-admins";
 import { getManifests as getPortailUsagersManifests } from "./portail-usagers";
-import environments from "@socialgouv/kosko-charts/environments";
-import { azureProjectVolume } from "@socialgouv/kosko-charts/components/azure-storage/azureProjectVolume";
-import { VolumeMount, Volume } from "kubernetes-models/v1";
 
 type AnyObject = {
   [any: string]: any;
@@ -38,7 +39,9 @@ export const getManifests = async () => {
   const subdomain = "domifa-api";
   const ciEnv = environments(process.env);
   const isDev = !(ciEnv.isPreProduction || ciEnv.isProduction);
-  const version = ciEnv.isPreProduction ? `preprod-${ciEnv.sha}` : ciEnv.tag || `sha-${ciEnv.sha}`;
+  const version = ciEnv.isPreProduction
+    ? `preprod-${ciEnv.sha}`
+    : ciEnv.tag || `sha-${ciEnv.sha}`;
 
   const podProbes = ["livenessProbe", "readinessProbe", "startupProbe"].reduce(
     (probes, probe) => ({
@@ -118,6 +121,7 @@ export default async () => {
 
   const frontendManifests = await getFrontendManifests();
   const portailUsagersManifests = await getPortailUsagersManifests();
+  const portailAdminsManifests = await getPortailAdminsManifests();
 
   addEnvs({
     deployment,
@@ -130,6 +134,9 @@ export default async () => {
       DOMIFA_FRONTEND_URL: `https://${getIngressHost(frontendManifests)}/`,
       DOMIFA_PORTAIL_USAGERS_URL: `https://${getIngressHost(
         portailUsagersManifests
+      )}/`,
+      DOMIFA_PORTAIL_ADMINS_URL: `https://${getIngressHost(
+        portailAdminsManifests
       )}/`,
     },
   });
