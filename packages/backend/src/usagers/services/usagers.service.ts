@@ -14,7 +14,6 @@ import {
   ETAPE_ETAT_CIVIL,
   ETAPE_RENDEZ_VOUS,
   Usager,
-  UsagerDecision,
   UsagerLight,
   UserStructure,
   UserStructureProfile,
@@ -26,6 +25,7 @@ import { usagersCreator } from "./usagersCreator.service";
 import { usagerVisibleHistoryManager } from "./usagerVisibleHistoryManager.service";
 
 import moment = require("moment");
+import { DecisionDto } from "../dto";
 @Injectable()
 export class UsagersService {
   constructor() {}
@@ -137,7 +137,7 @@ export class UsagersService {
 
   public async setDecision(
     { uuid }: { uuid: string },
-    decision: UsagerDecision
+    decision: DecisionDto
   ): Promise<UsagerLight> {
     decision.dateDecision = new Date();
 
@@ -151,16 +151,22 @@ export class UsagersService {
       usager.etapeDemande = ETAPE_DECISION;
     }
 
-    if (decision.statut === "REFUS") {
+    if (decision.statut === "REFUS" || decision.statut === "RADIE") {
       decision.dateFin =
         decision.dateFin !== undefined && decision.dateFin !== null
           ? new Date(decision.dateFin)
           : new Date();
       decision.dateDebut = decision.dateFin;
-    } else if (decision.statut === "RADIE") {
-      decision.dateDebut = new Date();
-      decision.dateFin = new Date();
-    } else if (decision.statut === "VALIDE") {
+    }
+
+    // Valide
+    if (decision.statut === "VALIDE") {
+      // ID personnalisé
+      if (decision.customRef) {
+        usager.customRef = decision.customRef;
+      }
+
+      // TODO: revoir ceci une fois qu'on pourra ajouter le type de dom
       if (usager.datePremiereDom !== null) {
         usager.typeDom = "RENOUVELLEMENT";
       } else {
@@ -168,16 +174,9 @@ export class UsagersService {
         usager.datePremiereDom = new Date(decision.dateDebut);
       }
 
-      if (decision.dateFin !== undefined && decision.dateFin !== null) {
-        decision.dateFin = new Date(decision.dateFin);
-      } else {
-        decision.dateFin = new Date(
-          new Date().setFullYear(new Date().getFullYear() + 1)
-        );
-      }
-
       decision.dateDebut = new Date(decision.dateDebut);
 
+      // Si la dom est valide après le dernier passage, on le met à jour
       if (
         decision.dateDebut > new Date(usager.lastInteraction.dateInteraction)
       ) {
@@ -204,6 +203,7 @@ export class UsagersService {
     return usagerLightRepository.updateOne(
       { uuid },
       {
+        customRef: usager.customRef,
         entretien: usager.entretien,
         decision: usager.decision,
         options: usager.options,
@@ -254,6 +254,16 @@ export class UsagersService {
     });
 
     return usager;
+  }
+
+  public async getLastFiveCustomRef(
+    structureId: number,
+    usagerRef: number
+  ): Promise<UsagerLight[]> {
+    return usagerLightRepository.findLastFiveCustomRef({
+      structureId,
+      usagerRef,
+    });
   }
 
   public async export(structureId: number): Promise<Usager[]> {

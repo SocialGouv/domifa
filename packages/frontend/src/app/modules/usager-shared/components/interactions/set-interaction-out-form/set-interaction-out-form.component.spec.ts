@@ -1,3 +1,4 @@
+import { SharedModule } from "./../../../../shared/shared.module";
 import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
@@ -18,7 +19,12 @@ describe("SetInteractionOutFormComponent", () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [SetInteractionOutFormComponent],
-        imports: [NgbModule, ToastrModule.forRoot(), HttpClientTestingModule],
+        imports: [
+          NgbModule,
+          ToastrModule.forRoot(),
+          HttpClientTestingModule,
+          SharedModule,
+        ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [
           {

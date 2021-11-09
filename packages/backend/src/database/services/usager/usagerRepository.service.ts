@@ -1,3 +1,4 @@
+import { UsagerLight } from "./../../../_common/model/usager/UsagerLight.type";
 import moment = require("moment");
 import { EntityManager, In } from "typeorm";
 import { Usager } from "../../../_common/model";

@@ -5,6 +5,7 @@ export type UsagerLight = AppEntity &
   Pick<
     Usager,
     | "ref"
+    | "updatedAt"
     | "customRef"
     | "structureId"
     | "nom"

@@ -5,6 +5,7 @@ import { ToastrService } from "ngx-toastr";
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsagerProfilService } from "../../../usager-profil/services/usager-profil.service";
+import { UsagerDecisionService } from "../../services/usager-decision.service";
 
 @Component({
   selector: "app-delete-usager-menu",
@@ -19,6 +20,7 @@ export class DeleteUsagerMenuComponent implements OnInit {
     private authService: AuthService,
     private modalService: NgbModal,
     private usagerProfilService: UsagerProfilService,
+    private usagerDecisionService: UsagerDecisionService,
     private notifService: ToastrService
   ) {}
 
@@ -41,20 +43,20 @@ export class DeleteUsagerMenuComponent implements OnInit {
   }
 
   public deleteUsager(): void {
-    this.usagerProfilService.delete(this.usager.ref).subscribe(
-      () => {
+    this.usagerProfilService.delete(this.usager.ref).subscribe({
+      next: () => {
         this.modalService.dismissAll();
         this.notifService.success("Usager supprimé avec succès");
         this.router.navigate(["/manage"]);
       },
-      () => {
+      error: () => {
         this.notifService.error("Impossible de supprimer la fiche");
-      }
-    );
+      },
+    });
   }
 
   public deleteRenew(): void {
-    this.usagerProfilService.deleteRenew(this.usager.ref).subscribe(
+    this.usagerDecisionService.deleteRenew(this.usager.ref).subscribe(
       () => {
         this.modalService.dismissAll();
         this.notifService.success(

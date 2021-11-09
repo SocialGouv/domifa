@@ -1,7 +1,11 @@
 <div class="modal-header">
   <h4 class="px-1 py-1 my-1">
     Nouveaux courriers pour
-    <span class="text-primary">{{ usager.nom }} {{ usager.prenom }}  </span>
+    <span class="text-primary">
+      {{ usager | usagerNomComplet }} -
+      <span *ngIf="usager.customRef">{{ usager.customRef }}</span>
+      <span *ngIf="!usager.customRef">{{ usager.ref }}</span>
+    </span>
   </h4>
 </div>
 <div class="modal-body text-center">

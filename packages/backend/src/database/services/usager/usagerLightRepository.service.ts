@@ -38,6 +38,7 @@ export const usagerLightRepository = {
   ...baseRepository,
   findDoublons,
   findNextRendezVous,
+  findLastFiveCustomRef,
 };
 
 function findDoublons({
@@ -63,6 +64,27 @@ function findDoublons({
       nom: nom.toLowerCase(),
       prenom: prenom.toLowerCase(),
     },
+  });
+}
+
+function findLastFiveCustomRef({
+  structureId,
+  usagerRef,
+}: {
+  structureId: number;
+  usagerRef: number;
+}): Promise<UsagerLight[]> {
+  return baseRepository.findManyWithQuery({
+    select: ["ref", "customRef", "nom", "sexe", "prenom", "structureId"],
+    where: `"structureId" = :structureId and ref != :usagerRef`,
+    params: {
+      structureId,
+      usagerRef,
+    },
+    order: {
+      ref: "DESC",
+    },
+    maxResults: 5,
   });
 }
 

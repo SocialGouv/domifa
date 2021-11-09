@@ -1,7 +1,7 @@
 import { AppEntity, UsagerEcheanceInfos } from "../../../_common/model";
 import { UsagerEntretien } from "./entretien";
 import { UsagerAyantDroit } from "./UsagerAyantDroit.type";
-import { UsagerDecision } from "./UsagerDecision.type";
+import { UsagerDecision } from "./decision/UsagerDecision.type";
 import { UsagerDoc } from "./UsagerDoc.type";
 import { UsagerImport } from "./UsagerImport.type";
 import { UsagerLastInteractions } from "./UsagerLastInteractions.type";

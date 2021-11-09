@@ -9,6 +9,7 @@ import { ToastrModule } from "ngx-toastr";
 import { USAGER_ACTIF_MOCK } from "../../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { UsagerFormModel } from "../../../interfaces";
 import { SetInteractionInFormComponent } from "./set-interaction-in-form.component";
+import { SharedModule } from "../../../../shared/shared.module";
 
 describe("SetInteractionInFormComponent", () => {
   let component: SetInteractionInFormComponent;
@@ -22,6 +23,7 @@ describe("SetInteractionInFormComponent", () => {
           NgbModule,
           ToastrModule.forRoot(),
           HttpClientTestingModule,
+          SharedModule,
           FormsModule,
         ],
         providers: [

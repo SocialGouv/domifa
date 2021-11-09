@@ -31,7 +31,6 @@ import {
 } from "../../_common/model";
 import { RdvDto } from "../dto/rdv.dto";
 import { UsagersService } from "../services/usagers.service";
-import { ConnectableObservable } from "rxjs";
 
 @ApiTags("agenda")
 @ApiBearerAuth()

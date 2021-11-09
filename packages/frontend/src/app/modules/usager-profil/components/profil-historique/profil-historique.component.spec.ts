@@ -1,6 +1,4 @@
-import { NgbDateCustomParserFormatter } from "./../../../shared/services/date-formatter";
-import { UsagerSharedModule } from "./../../../usager-shared/usager-shared.module";
-import { CommonModule, APP_BASE_HREF } from "@angular/common";
+import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";

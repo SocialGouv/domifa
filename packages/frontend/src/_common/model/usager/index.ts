@@ -2,14 +2,10 @@
 export * from "./AyantDroitLienParente.type";
 export * from "./constants";
 export * from "./entretien";
+export * from "./decision";
 export * from "./Usager.type";
 export * from "./UsagerAyantDroit.type";
-export * from "./UsagerDecision.type";
-export * from "./UsagerDecisionForm.type";
-export * from "./UsagerDecisionMotif.type";
-export * from "./UsagerDecisionOrientation.type";
-export * from "./UsagerDecisionStatusColor.type";
-export * from "./UsagerDecisionStatut.type";
+
 export * from "./UsagerDoc.type";
 export * from "./UsagerEcheanceInfos.type";
 export * from "./UsagerImport.type";

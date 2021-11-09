@@ -31,20 +31,6 @@ export class UsagerProfilService {
     );
   }
 
-  public renouvellement(usagerRef: number): Observable<UsagerLight> {
-    return this.http.get<UsagerLight>(
-      `${this.endPointUsagers}/renouvellement/${usagerRef}`
-    );
-  }
-
-  public deleteRenew(usagerRef: number): Observable<UsagerLight> {
-    return this.http
-      .delete<UsagerLight>(
-        `${this.endPointUsagers}/renouvellement/${usagerRef}`
-      )
-      .pipe();
-  }
-
   public editTransfert(
     transfert: any,
     usagerRef: number

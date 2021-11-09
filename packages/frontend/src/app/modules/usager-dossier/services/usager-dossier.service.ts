@@ -3,10 +3,8 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { filter, map, startWith, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
-import { UserStructure } from "../../../../_common/model";
+import { UsagerLight, UserStructure } from "../../../../_common/model";
 
-import { UsagerDecisionForm } from "../../../../_common/model/usager/UsagerDecisionForm.type";
-import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
 import { usagersCache } from "../../../shared/store";
 
 import { Rdv } from "../../usager-shared/interfaces/rdv";
@@ -62,22 +60,6 @@ export class UsagerDossierService {
     return this.http.get<UsagerLight>(
       `${this.endPointUsagers}/next-step/${usagerRef}/${etapeDemande}`
     );
-  }
-
-  public setDecision(
-    usagerRef: number,
-    decision: UsagerDecisionForm
-  ): Observable<UsagerLight> {
-    return this.http
-      .post<UsagerLight>(
-        `${this.endPointUsagers}/decision/${usagerRef}`,
-        decision
-      )
-      .pipe(
-        tap((usager: UsagerLight) => {
-          usagersCache.updateUsager(usager);
-        })
-      );
   }
 
   public findOne(usagerRef: number): Observable<UsagerLight> {
