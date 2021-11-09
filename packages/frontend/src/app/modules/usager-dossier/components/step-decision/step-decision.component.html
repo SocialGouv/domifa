@@ -280,15 +280,24 @@
 </div>
 
 <ng-template #refus let-modal>
+  <div class="modal-header bg-danger">
+    <h4 class="text-white modal-title" id="modal-title">Motivez votre refus</h4>
+
+    <button
+      type="button"
+      class="close"
+      aria-describedby="modal-title"
+      (click)="closeModals()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
   <div class="modal-body decision-form">
     <form
       [formGroup]="refusForm"
       (ngSubmit)="setDecision('REFUS')"
       autocomplete="off"
     >
-      <div class="col-md-12">
-        <h3>Motivez votre refus</h3>
-      </div>
       <div class="form-group col-md-6">
         <label for="dateFinRefus">
           Date du refus
@@ -449,21 +458,35 @@
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-outline-danger" (click)="closeModals()">
+    <button class="btn btn-lg btn-outline-danger" (click)="closeModals()">
       Annuler
     </button>
-    <button class="btn btn-danger" (click)="setDecision('REFUS')">
+    <button class="btn btn-lg btn-danger" (click)="setDecision('REFUS')">
       Confirmer le refus
     </button>
   </div>
 </ng-template>
 
 <ng-template #confirmation let-modal>
+  <div class="modal-header bg-success">
+    <h4 class="text-white modal-title" id="modal-title">
+      Confirmer la décision
+    </h4>
+
+    <button
+      type="button"
+      class="close"
+      aria-describedby="modal-title"
+      (click)="closeModals()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
   <div class="modal-body text-center">
     <div class="col">
-      <h4>Confirmer la décision</h4>
       Vous êtes sur le point de domicilier
-      <b>{{ usager.nom }} {{ usager.prenom }}.</b>
+      <b>{{ usager | usagerNomComplet }}.</b>
       <br />
       Veuillez indiquer la date de début et de fin de la domiciliation
       <br />
@@ -561,13 +584,13 @@
 
   <div class="modal-footer text-center">
     <button
-      class="btn btn-outline-primary d-print-none"
+      class="btn btn-lg btn-outline-dark d-print-none"
       (click)="closeModals()"
     >
       Revenir au formulaire
     </button>
     <button
-      class="btn btn-primary"
+      class="btn btn-lg btn-success"
       [disabled]="v.dateDebut.value > v.dateFin.value"
       (click)="setDecision('VALIDE')"
     >
