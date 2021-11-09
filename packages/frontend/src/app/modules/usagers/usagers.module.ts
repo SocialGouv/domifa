@@ -20,16 +20,14 @@ import { UsagerSharedModule } from "./../usager-shared/usager-shared.module";
 import { ImportComponent } from "./components/import/import.component";
 import { ManageUsagersTableComponent } from "./components/manage/manage-usagers-table/manage-usagers-table.component";
 import { ManageUsagersComponent } from "./components/manage/manage.component";
-import { RaftComponent } from "../usager-dossier/components/raft/raft.component";
+
 import { UsagerService } from "./services/usager.service";
 
 @NgModule({
   declarations: [
     ManageUsagersComponent,
     ManageUsagersTableComponent,
-
     ImportComponent,
-    RaftComponent,
   ],
   exports: [],
   imports: [

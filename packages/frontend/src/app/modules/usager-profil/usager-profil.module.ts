@@ -30,6 +30,7 @@ import { ProfilHistoriqueComponent } from "./components/profil-historique/profil
 import { UsagersProfilProcurationCourrierComponent } from "./components/profil-procuration-courrier/profil-procuration-courrier-component";
 import { ProfilStructureDocsComponent } from "./components/profil-structure-documents/profil-structure-docs.component";
 import { UsagersProfilTransfertCourrierComponent } from "./components/profil-transfert-courrier/profil-transfert-courrier-component";
+import { RadiationFormComponent } from "./components/radiation-form/radiation-form.component";
 import { UsagerProfilRoutingModule } from "./usager-profil-routing.module";
 
 @NgModule({
@@ -52,6 +53,8 @@ import { UsagerProfilRoutingModule } from "./usager-profil-routing.module";
     ProfilDocumentsSectionComponent,
     ProfilGeneralHistoriqueCourriersComponent,
     DisplayEtatCivilComponent,
+    // Formulaire de radiation
+    RadiationFormComponent,
   ],
 
   imports: [

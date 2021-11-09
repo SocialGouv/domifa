@@ -60,14 +60,13 @@
             <fa-icon [icon]="['fas', 'redo']" class="mr-2"></fa-icon>
             Demande de renouvellement
           </button>
-          <a
-            [routerLink]="['/radiation/' + usager.ref]"
-            routerLinkActive="router-link-active"
+          <button
+            (click)="openRadiationModal()"
             class="ml-2 btn btn-white-primary"
           >
             <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
             Radier le domicilié
-          </a>
+          </button>
         </ng-container>
       </div>
     </div>
@@ -112,18 +111,11 @@
   </div>
 </div>
 
-<ng-template #setInteractionInModal let-modal>
-  <app-set-interaction-in-form
+<ng-template #radiationFormModal let-modal>
+  <app-radiation-form
     [(usager)]="usager"
-    (cancelReception)="closeModals()"
-  ></app-set-interaction-in-form>
-</ng-template>
-
-<ng-template #setInteractionOutModal let-modal>
-  <app-set-interaction-out-form
-    [(usager)]="usager"
-    (cancelReception)="closeModals()"
-  ></app-set-interaction-out-form>
+    (closeModals)="closeModals()"
+  ></app-radiation-form>
 </ng-template>
 
 <ng-template #renewModal let-modal>

@@ -8,20 +8,20 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { RaftComponent } from "./raft.component";
+import { RadiationFormComponent } from "./radiation-form.component";
 
 import { RouterTestingModule } from "@angular/router/testing";
 import { ToastrModule } from "ngx-toastr";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
-describe("RaftComponent", () => {
-  let component: RaftComponent;
-  let fixture: ComponentFixture<RaftComponent>;
+describe("RadiationFormComponent", () => {
+  let component: RadiationFormComponent;
+  let fixture: ComponentFixture<RadiationFormComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [RaftComponent],
+        declarations: [RadiationFormComponent],
         imports: [
           NgbModule,
           HttpClientTestingModule,
@@ -38,7 +38,7 @@ describe("RaftComponent", () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RaftComponent);
+    fixture = TestBed.createComponent(RadiationFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

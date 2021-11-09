@@ -34,6 +34,9 @@ export class ProfilHeadComponent implements OnInit {
   @ViewChild("renewModal", { static: true })
   public renewModal!: TemplateRef<any>;
 
+  @ViewChild("radiationFormModal", { static: true })
+  public radiationFormModal!: TemplateRef<any>;
+
   constructor(
     private readonly modalService: NgbModal,
     private readonly notifService: ToastrService,
@@ -72,6 +75,10 @@ export class ProfilHeadComponent implements OnInit {
 
   public openRenewModal(): void {
     this.modalService.open(this.renewModal);
+  }
+
+  public openRadiationModal(): void {
+    this.modalService.open(this.radiationFormModal);
   }
 
   public getAttestation(): void {
