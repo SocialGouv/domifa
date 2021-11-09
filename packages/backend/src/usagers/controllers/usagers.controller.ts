@@ -30,7 +30,6 @@ import { appLogger } from "../../util";
 
 import {
   ETAPE_DOCUMENTS,
-  ETAPE_ETAT_CIVIL,
   UsagerLight,
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
@@ -39,7 +38,6 @@ import {
   CreateUsagerDto,
   EditUsagerDto,
   EntretienDto,
-  DecisionDto,
   TransfertDto,
   PreferenceContactDto,
   ProcurationDto,
@@ -173,29 +171,6 @@ export class UsagersController {
     );
   }
 
-  @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
-  @Get("renouvellement/:usagerRef")
-  public async renouvellement(
-    @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight
-  ) {
-    return this.usagersService.renouvellement(usager, user);
-  }
-
-  @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
-  @Post("decision/:usagerRef")
-  public async setDecision(
-    @Body() decision: DecisionDto,
-    @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight
-  ) {
-    decision.userName = user.prenom + " " + user.nom;
-    decision.userId = user.id;
-    return this.usagersService.setDecision({ uuid: usager.uuid }, decision);
-  }
-
   @AllowUserStructureRoles("simple", "responsable", "admin")
   @Get("doublon/:nom/:prenom/:usagerRef")
   public async isDoublon(
@@ -262,6 +237,33 @@ export class UsagersController {
     );
   }
 
+  @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
+  @Delete("transfert/:usagerRef")
+  public async deleteTransfert(
+    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentUsager() usager: UsagerLight
+  ) {
+    usager.options.transfert = {
+      actif: false,
+      adresse: "",
+      nom: "",
+      dateDebut: null,
+      dateFin: null,
+    };
+
+    usager.options.historique.transfert.push({
+      user: user.prenom + " " + user.nom,
+      action: "DELETE",
+      date: new Date(),
+      content: {},
+    });
+
+    return this.usagersService.patch(
+      { uuid: usager.uuid },
+      { options: usager.options }
+    );
+  }
   @UseGuards(UsagerAccessGuard)
   @AllowUserStructureRoles("simple", "responsable", "admin")
   @Post("preference/:usagerRef")
@@ -339,81 +341,6 @@ export class UsagersController {
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "ERROR_UPDATING_OPTIONS" });
     }
-  }
-
-  @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
-  @Delete("renouvellement/:usagerRef")
-  public async deleteRenew(
-    @Res() res: Response,
-    @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight
-  ) {
-    if (usager.typeDom === "RENOUVELLEMENT") {
-      usager.etapeDemande = ETAPE_ETAT_CIVIL;
-
-      const [decisionToRollback] = usager.historique.splice(
-        usager.historique.length - 1,
-        1
-      );
-
-      usager.decision = usager.historique[usager.historique.length - 1];
-
-      if (decisionToRollback) {
-        // on garde trace du changement dans l'historique, car il peut y avoir eu aussi d'autres changements entre temps
-        await usagerHistoryStateManager.removeLastDecisionFromHistory({
-          usager,
-          createdBy: {
-            userId: user.id,
-            userName: user.prenom + " " + user.nom,
-          },
-          createdAt: usager.decision.dateDecision,
-          historyBeginDate: usager.decision.dateDebut,
-          removedDecisionUUID: decisionToRollback.uuid,
-        });
-      }
-
-      const result = await usagerLightRepository.updateOne(
-        { uuid: usager.uuid },
-        {
-          etapeDemande: usager.etapeDemande,
-          decision: usager.decision,
-        }
-      );
-      return res.status(HttpStatus.OK).json(result);
-    } else {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "CANNOT_DELETE_DECISION" });
-    }
-  }
-
-  @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
-  @Delete("transfert/:usagerRef")
-  public async deleteTransfert(
-    @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight
-  ) {
-    usager.options.transfert = {
-      actif: false,
-      adresse: "",
-      nom: "",
-      dateDebut: null,
-      dateFin: null,
-    };
-
-    usager.options.historique.transfert.push({
-      user: user.prenom + " " + user.nom,
-      action: "DELETE",
-      date: new Date(),
-      content: {},
-    });
-
-    return this.usagersService.patch(
-      { uuid: usager.uuid },
-      { options: usager.options }
-    );
   }
 
   @UseGuards(UsagerAccessGuard)

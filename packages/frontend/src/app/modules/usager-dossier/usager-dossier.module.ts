@@ -24,6 +24,8 @@ import { StepRdvComponent } from "./components/step-rdv/step-rdv.component";
 import { UsagerDossierRoutingModule } from "./usager-dossier-routing.module";
 import { StepFooterComponent } from "./components/step-footer/step-footer.component";
 import { StepHeaderComponent } from "./components/step-header/step-header.component";
+import { DecisionRefusFormComponent } from "./components/decision-refus-form/decision-refus-form.component";
+import { DecisionValideFormComponent } from "./components/decision-valide-form/decision-valide-form.component";
 
 @NgModule({
   declarations: [
@@ -36,6 +38,9 @@ import { StepHeaderComponent } from "./components/step-header/step-header.compon
     DisplayEtatCivilDecisionComponent,
     StepFooterComponent,
     StepHeaderComponent,
+    // Sous-composants pour les décisions
+    DecisionValideFormComponent,
+    DecisionRefusFormComponent,
   ],
   imports: [
     CommonModule,

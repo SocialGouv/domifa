@@ -426,9 +426,20 @@
 </form>
 
 <ng-template #entretienConfirmation let-modal>
+  <div class="modal-header bg-primary">
+    <h4 class="text-white modal-title" id="modal-title">Attention !</h4>
+
+    <button
+      type="button"
+      class="close"
+      aria-describedby="modal-title"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
   <div class="modal-body">
     <div class="col">
-      <h4 class="text-center">Attention</h4>
       L’entretien préalable
       <b>est obligatoire,</b>
       il est l’occasion d’inscrire la domiciliation dans une démarche
@@ -443,10 +454,13 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-outline-dark" (click)="closeModal()">
+    <button class="btn btn-lg btn-outline-dark" (click)="closeModal()">
       Revenir à l'entretien
     </button>
-    <button class="btn btn-success" (click)="nextStep.emit(3); closeModal()">
+    <button
+      class="btn btn-lg btn-primary"
+      (click)="nextStep.emit(3); closeModal()"
+    >
       Continuer sans entretien
     </button>
   </div>

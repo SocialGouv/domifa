@@ -3,9 +3,9 @@ import {
   UsagerTypeDom,
   UsagerDecisionStatut,
   UsagerDecisionMotif,
+  UsagerDecisionOrientation,
+  USAGER_DECISION_STATUT_LABELS_PROFIL,
 } from "../../../../_common/model";
-import { USAGER_DECISION_STATUT_LABELS_PROFIL } from "../../../../_common/model/usager/constants";
-import { UsagerDecisionOrientation } from "../../../../_common/model/usager/UsagerDecisionOrientation.type";
 import { generateMotifLabel } from "../utils";
 
 export class Decision implements UsagerDecision {

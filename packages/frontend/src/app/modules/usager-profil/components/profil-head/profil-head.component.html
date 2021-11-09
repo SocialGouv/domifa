@@ -114,6 +114,7 @@
 <ng-template #radiationFormModal let-modal>
   <app-radiation-form
     [(usager)]="usager"
+    (usagerChanges)="onUsagerChanges($event)"
     (closeModals)="closeModals()"
   ></app-radiation-form>
 </ng-template>

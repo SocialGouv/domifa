@@ -1,0 +1,159 @@
+<div class="modal-header bg-success">
+  <h4 class="text-white modal-title" id="modal-title">Confirmer la décision</h4>
+
+  <button
+    type="button"
+    class="close"
+    aria-describedby="modal-title"
+    (click)="closeModals.emit()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <div class="col">
+    Vous êtes sur le point de domicilier
+    <b>{{ usager | usagerNomComplet }}.</b>
+    <br />
+    Veuillez indiquer la date de début et de fin de la domiciliation.
+    <br />
+    <br />
+    <form
+      [formGroup]="valideForm"
+      (ngSubmit)="setDecisionValide()"
+      autocomplete="off"
+    >
+      <div class="row">
+        <div class="form-group col-md-6 required">
+          <label for="dateDebutValide">Date de début</label>
+          <div class="input-group">
+            <input
+              class="form-control"
+              placeholder="jj/mm/aaaa"
+              [minDate]="minDate"
+              [maxDate]="maxDate"
+              placement="bottom"
+              ngbDatepicker
+              id="dateDebutValide"
+              formControlName="dateDebut"
+              #dDebut="ngbDatepicker"
+              dateFr
+              value
+              [ngClass]="{
+                'is-invalid': v.dateDebut.dirty && v.dateDebut.errors
+              }"
+              maxlength="10"
+              required
+            />
+            <div class="input-group-append">
+              <span
+                class="btn btn-outline-primary d-print-none"
+                (click)="dDebut.toggle()"
+              >
+                <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+              </span>
+            </div>
+          </div>
+          <div *ngIf="submitted && v.dateDebut.errors" class="invalid-feedback">
+            La date de début de domiciliation est incorrecte
+          </div>
+        </div>
+        <div class="form-group col-md-6 required">
+          <label for="dateFinValide">Date de fin</label>
+          <div class="input-group">
+            <input
+              disabled
+              class="form-control"
+              placeholder="jj/mm/aaaa"
+              [minDate]="minDate"
+              [maxDate]="maxDate"
+              placement="bottom"
+              ngbDatepicker
+              formControlName="dateFin"
+              #dFin="ngbDatepicker"
+              dateFr
+              id="dateFinValide"
+              value
+              [ngClass]="{
+                'is-invalid': v.dateFin.dirty && v.dateFin.errors
+              }"
+              maxlength="10"
+              required
+            />
+            <div class="input-group-append">
+              <span class="btn btn-outline-dark d-print-none">
+                <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="text-center text-danger col-12">
+          <div *ngIf="v.dateDebut.errors">La date de début est incorrecte</div>
+          <div *ngIf="v.dateFin.errors">La date de fin est incorrecte</div>
+          <div class="text-danger" *ngIf="v.dateDebut.value > v.dateFin.value">
+            La date de fin doit être supérieure à la date de début
+          </div>
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="customRef">Identifiant personnalisé</label>
+          <input
+            type="text"
+            class="form-control"
+            id="customRef"
+            maxlength="30"
+            formControlName="customRef"
+            [ngClass]="{ 'is-invalid': v.customRef.errors }"
+            autocomplete="null"
+          />
+          <small id="customRefHelp" class="form-text text-muted">
+            Optionnel
+          </small>
+          <div *ngIf="v.customRef.errors" class="invalid-feedback">
+            L'identifiant est incorrect
+          </div>
+        </div>
+        <div class="col-md-12" *ngIf="usagersRefs.length">
+          <div>
+            Pour votre information, les dernières personnes domiciliées au sein
+            de votre structure ont pour identifiant :
+          </div>
+          <div>
+            <ul>
+              <li *ngFor="let usagerRef of usagersRefs">
+                <b>
+                  {{ usagerRef | usagerNomComplet }}
+                </b>
+                - {{ usagerRef.customRef }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button
+    class="btn btn-lg btn-outline-dark d-print-none"
+    (click)="closeModals.emit()"
+  >
+    Revenir au formulaire
+  </button>
+  <button
+    class="btn btn-lg btn-success"
+    [disabled]="v.dateDebut.value > v.dateFin.value || loading"
+    (click)="setDecisionValide()"
+  >
+    <span *ngIf="!loading">Confirmer la domiciliation</span>
+
+    <span *ngIf="loading"
+      ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+      Veuillez patienter...</span
+    >
+  </button>
+</div>

@@ -1,0 +1,191 @@
+<div class="modal-header bg-danger">
+  <h4 class="text-white modal-title" id="modal-title">Motivez votre refus</h4>
+
+  <button
+    type="button"
+    class="close"
+    aria-describedby="modal-title"
+    (click)="closeModals.emit()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body py-4">
+  <form
+    [formGroup]="refusForm"
+    (ngSubmit)="setDecisionRefus()"
+    autocomplete="off"
+  >
+    <div class="form-group required col-md-6">
+      <label for="dateFinRefus"> Date du refus </label>
+      <div class="input-group">
+        <input
+          class="form-control"
+          placeholder="jj/mm/aaaa"
+          [minDate]="minDate"
+          [maxDate]="maxDateRefus"
+          placement="bottom"
+          ngbDatepicker
+          id="dateFinRefus"
+          formControlName="dateFin"
+          #dFin="ngbDatepicker"
+          dateFr
+          value
+          [ngClass]="{
+            'is-invalid': r.dateFin.dirty && r.dateFin.errors
+          }"
+          maxlength="10"
+          required
+        />
+        <div class="input-group-append">
+          <span
+            class="btn btn-outline-primary d-print-none"
+            (click)="dFin.toggle()"
+          >
+            <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+          </span>
+        </div>
+      </div>
+      <div *ngIf="submitted && r.dateFin.errors" class="invalid-feedback">
+        La date de refus est incorrecte
+      </div>
+    </div>
+
+    <div class="col-md-6"></div>
+    <div class="form-group col-md-12">
+      <b>
+        Pour quel motif ?
+        <span class="text-danger">*</span>
+      </b>
+      <div
+        class="form-row"
+        *ngFor="let motif of MOTIFS_REFUS_LABELS | keyvalue"
+      >
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="motif-refus-{{ motif.key }}"
+            formControlName="motif"
+            [ngClass]="{ 'is-invalid': submitted && r.motif.errors }"
+            value="{{ motif.key }}"
+          />
+          <label class="form-check-label" for="motif-refus-{{ motif.key }}">
+            {{ motif.value }}
+          </label>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="motif-autre"
+            [ngClass]="{ 'is-invalid': submitted && r.motif.errors }"
+            formControlName="motif"
+            value="AUTRE"
+          />
+          <label class="form-check-label" for="motif-autre">
+            Autre raison
+          </label>
+        </div>
+      </div>
+
+      <div *ngIf="r.motif.value === 'AUTRE'" class="form-row">
+        <label class="form-check-label" for="motifRefusAutre">
+          Autre motif de refus
+          <span class="text-danger">*</span>
+        </label>
+        <input
+          type="text"
+          [ngClass]="{ 'is-invalid': submitted && r.motifDetails.errors }"
+          class="form-control"
+          id="motifRefusAutre"
+          formControlName="motifDetails"
+        />
+      </div>
+      <div *ngIf="submitted && r.motif.errors" class="invalid-feedback">
+        Veuillez indiquer un autre motif
+      </div>
+      <div *ngIf="submitted && r.motifDetails.errors" class="invalid-feedback">
+        Veuillez choisir un motif de refus (10 caractères minimum)
+      </div>
+    </div>
+
+    <div class="form-group col-md-12">
+      <b>
+        Orientation proposée
+        <span class="text-danger">*</span>
+      </b>
+      <div class="form-row form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          id="orientationRefusCcas"
+          [ngClass]="{ 'is-invalid': submitted && r.orientation.errors }"
+          formControlName="orientation"
+          value="ccas"
+        />
+        <label class="form-check-label" for="orientationRefusCcas">
+          CCAS, CIAS, Commune
+        </label>
+      </div>
+      <div class="form-row">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            [ngClass]="{ 'is-invalid': submitted && r.orientation.errors }"
+            type="radio"
+            id="orientationRefusAsso"
+            formControlName="orientation"
+            value="asso"
+          />
+          <label class="form-check-label" for="orientationRefusAsso">
+            Organisme agréé
+          </label>
+        </div>
+        <div *ngIf="submitted && r.orientation.errors" class="invalid-feedback">
+          Veuillez proposer une orientation
+        </div>
+      </div>
+      <div class="form-row">
+        <label for="orientationRefusDetails">
+          Précisez
+          <span class="text-danger">*</span>
+        </label>
+        <input
+          class="form-control"
+          type="text"
+          [ngClass]="{ 'is-invalid': submitted && r.orientationDetails.errors }"
+          formControlName="orientationDetails"
+          id="orientationRefusDetails"
+        />
+      </div>
+      <div
+        *ngIf="submitted && r.orientationDetails.errors"
+        class="invalid-feedback"
+      >
+        Veuillez indiquer vers quel organisme vous souhaitez orienter
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-lg btn-outline-danger" (click)="closeModals.emit()">
+    Annuler
+  </button>
+  <button
+    class="btn btn-lg btn-danger"
+    [disabled]="loading"
+    (click)="setDecisionRefus()"
+  >
+    <span *ngIf="!loading">Confirmer le refus</span>
+
+    <span *ngIf="loading"
+      ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+      Veuillez patienter...</span
+    >
+  </button>
+</div>

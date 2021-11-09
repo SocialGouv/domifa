@@ -13,10 +13,10 @@ import {
   UserStructure,
   UserStructureRole,
 } from "../../../../../_common/model";
+import { usagersCache } from "../../../../shared/store";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { DocumentService } from "../../../usager-shared/services/document.service";
-
-import { UsagerProfilService } from "../../services/usager-profil.service";
+import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
 
 @Component({
   selector: "app-profil-head",
@@ -41,7 +41,8 @@ export class ProfilHeadComponent implements OnInit {
     private readonly modalService: NgbModal,
     private readonly notifService: ToastrService,
     private readonly router: Router,
-    private readonly usagerProfilService: UsagerProfilService,
+
+    private readonly usagerDecisionService: UsagerDecisionService,
     private readonly documentService: DocumentService
   ) {
     this.today = new Date();
@@ -57,8 +58,13 @@ export class ProfilHeadComponent implements OnInit {
     return this.me.role === role;
   }
 
+  public onUsagerChanges(usager: UsagerLight): void {
+    this.usager = new UsagerFormModel(usager);
+    usagersCache.updateUsager(this.usager);
+  }
+
   public renouvellement(): void {
-    this.usagerProfilService.renouvellement(this.usager.ref).subscribe({
+    this.usagerDecisionService.renouvellement(this.usager.ref).subscribe({
       next: (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
         this.closeModals();

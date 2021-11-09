@@ -1,107 +1,105 @@
-import { Component, OnInit, EventEmitter, Input, Output } from "@angular/core";
+import { UsagerFormModel } from "./../../../usager-shared/interfaces/UsagerFormModel";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
-
 import { ToastrService } from "ngx-toastr";
 import {
-  MOTIFS_RADIATION_LABELS,
-  UsagerDecisionRadiationForm,
+  MOTIFS_REFUS_LABELS,
+  UsagerDecisionRefusForm,
   UsagerLight,
 } from "../../../../../_common/model";
 import { formatDateToNgb } from "../../../../shared/bootstrap-util";
-import { usagersCache } from "../../../../shared/store";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
-
-import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
 
 @Component({
-  selector: "app-radiation-form",
-  styleUrls: ["./radiation-form.component.css"],
-  templateUrl: "./radiation-form.component.html",
+  selector: "app-decision-refus-form",
+  templateUrl: "./decision-refus-form.component.html",
+  styleUrls: ["./decision-refus-form.component.css"],
 })
-export class RadiationFormComponent implements OnInit {
+export class DecisionRefusFormComponent implements OnInit {
   @Input() public usager: UsagerFormModel;
 
   @Output() public closeModals = new EventEmitter<void>();
 
-  @Output() public usagerChange = new EventEmitter<UsagerLight>();
+  public MOTIFS_REFUS_LABELS = MOTIFS_REFUS_LABELS;
 
   public submitted: boolean;
   public loading: boolean;
-  public radiationForm!: FormGroup;
 
-  public MOTIFS_RADIATION_LABELS = MOTIFS_RADIATION_LABELS;
+  public refusForm!: FormGroup;
 
+  public maxDateRefus: NgbDateStruct;
   public minDate: NgbDateStruct;
-  public maxDate: NgbDateStruct;
 
   constructor(
     private formBuilder: FormBuilder,
-    private nbgDate: NgbDateCustomParserFormatter,
-
     private usagerDecisionService: UsagerDecisionService,
+    private router: Router,
+    private nbgDate: NgbDateCustomParserFormatter,
     private notifService: ToastrService
   ) {
     this.minDate = { day: 1, month: 1, year: new Date().getFullYear() - 1 };
-    this.maxDate = formatDateToNgb(new Date());
+    this.maxDateRefus = formatDateToNgb(new Date());
   }
 
   get r(): any {
-    return this.radiationForm.controls;
+    return this.refusForm.controls;
   }
 
-  public ngOnInit(): void {
-    this.radiationForm = this.formBuilder.group({
+  public ngOnInit() {
+    this.refusForm = this.formBuilder.group({
+      dateFin: [formatDateToNgb(new Date()), [Validators.required]],
       motif: [null, [Validators.required]],
-      dateFin: [null, [Validators.required]],
-      statut: ["RADIE", [Validators.required]],
+      statut: ["REFUS", [Validators.required]],
       motifDetails: [null, []],
+      orientation: [null, [Validators.required]],
+      orientationDetails: [null, [Validators.required]],
     });
 
-    this.radiationForm.get("motif").valueChanges.subscribe((value) => {
+    this.refusForm.get("motif").valueChanges.subscribe((value) => {
       if (value === "AUTRE") {
-        this.radiationForm
+        this.refusForm
           .get("motifDetails")
           .setValidators([Validators.required, Validators.minLength(10)]);
       } else {
-        this.radiationForm.get("motifDetails").setValidators(null);
-        this.radiationForm.get("motifDetails").setValue(null);
+        this.refusForm.get("motifDetails").setValidators(null);
+        this.refusForm.get("motifDetails").setValue(null);
       }
     });
   }
 
-  public setDecisionRadiation() {
+  public setDecisionRefus() {
     this.submitted = true;
-    if (this.radiationForm.invalid) {
+    if (this.refusForm.invalid) {
       this.notifService.error(
         "Le formulaire contient une erreur, veuillez vérifier les champs"
       );
       return;
     }
 
-    const formDatas: UsagerDecisionRadiationForm = {
-      ...this.radiationForm.value,
+    const formDatas: UsagerDecisionRefusForm = {
+      ...this.refusForm.value,
       dateFin: new Date(
-        this.nbgDate.formatEn(this.radiationForm.controls.dateFin.value)
+        this.nbgDate.formatEn(this.refusForm.controls.dateFin.value)
       ),
     };
 
     this.setDecision(formDatas);
   }
 
-  public setDecision(formDatas: UsagerDecisionRadiationForm): void {
+  public setDecision(formDatas: UsagerDecisionRefusForm): void {
     this.loading = true;
     this.usagerDecisionService
       .setDecision(this.usager.ref, formDatas)
       .subscribe({
-        next: (newUsager: UsagerLight) => {
-          this.notifService.success("Radiation enregistrée avec succès ! ");
-          usagersCache.updateUsager(newUsager);
+        next: (usager: UsagerLight) => {
+          this.notifService.success("Décision enregistrée avec succès ! ");
+          this.router.navigate(["profil/general/" + usager.ref]);
           this.closeModals.emit();
-          this.loading = false;
           this.submitted = false;
-          window.location.reload();
+          this.loading = false;
         },
         error: () => {
           this.loading = false;

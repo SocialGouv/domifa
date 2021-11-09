@@ -1,5 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmpty, IsIn, IsNotEmpty, IsOptional } from "class-validator";
+import {
+  IsEmpty,
+  IsIn,
+  IsNotEmpty,
+  IsOptional,
+  MinLength,
+  ValidateIf,
+} from "class-validator";
 import {
   UsagerDecision,
   UsagerDecisionMotif,
@@ -10,36 +17,35 @@ import {
 
 export class DecisionDto implements UsagerDecision {
   @ApiProperty({
+    type: String,
+    required: true,
+    enum: ["VALIDE", "ATTENTE_DECISION", "REFUS", "RADIE"],
+  })
+  @IsIn(["VALIDE", "ATTENTE_DECISION", "REFUS", "RADIE"])
+  @IsNotEmpty()
+  public statut!: UsagerDecisionStatut;
+
+  @ApiProperty({
     type: Date,
   })
-  @IsOptional()
+  @ValidateIf((o) => o.statut === "VALIDE")
+  @IsNotEmpty()
   public dateDebut!: Date;
 
   @ApiProperty({
     type: Date,
   })
-  @IsOptional()
+  @ValidateIf(
+    (o) => o.statut === "VALIDE" || o.statut === "REFUS" || o.statut === "RADIE"
+  )
+  @IsNotEmpty()
   public dateFin!: Date;
 
   @ApiProperty({
-    type: Date,
-  })
-  @IsOptional()
-  public dateDecision!: Date;
-
-  @ApiProperty({
     type: String,
-    required: true,
-    enum: ["INSTRUCTION", "VALIDE", "ATTENTE_DECISION", "REFUS", "RADIE"],
   })
-  @IsIn(["INSTRUCTION", "VALIDE", "ATTENTE_DECISION", "REFUS", "RADIE"])
+  @ValidateIf((o) => o.statut === "REFUS" || o.statut === "RADIE")
   @IsNotEmpty()
-  public statut!: UsagerDecisionStatut;
-
-  @ApiProperty({
-    type: String,
-  })
-  @IsOptional()
   public motif!: UsagerDecisionMotif;
 
   @ApiProperty({
@@ -51,13 +57,17 @@ export class DecisionDto implements UsagerDecision {
   @ApiProperty({
     type: String,
   })
-  @IsOptional()
+  @ValidateIf((o) => o.statut === "REFUS")
+  @IsNotEmpty()
+  @IsIn(["ccas", "asso"])
   public orientation!: UsagerDecisionOrientation;
 
   @ApiProperty({
     type: String,
   })
-  @IsOptional()
+  @ValidateIf((o) => o.typeDom === "REFUS")
+  @IsNotEmpty()
+  @MinLength(10)
   public orientationDetails!: string;
 
   @IsEmpty()
@@ -66,11 +76,10 @@ export class DecisionDto implements UsagerDecision {
   @IsEmpty()
   public userName!: string;
 
-  @ApiProperty({
-    type: String,
-    required: false,
-  })
+  @IsEmpty()
+  public dateDecision!: Date;
+
+  @ApiProperty()
   @IsOptional()
-  @IsIn(["RENOUVELLEMENT", "PREMIERE_DOM"])
-  public typeDom!: UsagerTypeDom;
+  public customRef!: string;
 }

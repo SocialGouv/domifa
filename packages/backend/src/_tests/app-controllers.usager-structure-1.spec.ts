@@ -11,6 +11,7 @@ import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
 import { PortailUsagerModule } from "../_portail-usager";
 import { TESTS_USERS_USAGER } from "./_core";
+import { UsagersDecisionController } from "../usagers/controllers/usagers-decision.controller";
 
 // NOTE: pour n'exécuter que certains tests de sécurité, renseigner la variable d'environnement DOMIFA_FILTER_SEC_TEST, exemple:
 //
@@ -26,6 +27,7 @@ describe(`App controllers security - ${TEST_BASENAME}`, () => {
       {
         controllers: [
           UsagersController,
+          UsagersDecisionController,
           StatsPublicController,
           StatsPrivateController,
         ],

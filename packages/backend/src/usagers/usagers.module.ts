@@ -11,6 +11,7 @@ import { ExportStructureUsagersController } from "./controllers/export-structure
 import { ImportController } from "./controllers/import/import.controller";
 import { UsagerNoteController } from "./controllers/usager-note.controller";
 import { UsagerStructureDocsController } from "./controllers/usager-structure-docs.controller";
+import { UsagersDecisionController } from "./controllers/usagers-decision.controller";
 import { UsagersController } from "./controllers/usagers.controller";
 import { CerfaService } from "./services/cerfa.service";
 import { DocumentsService } from "./services/documents.service";
@@ -22,6 +23,7 @@ import { UsagersService } from "./services/usagers.service";
     ImportController,
     AgendaController,
     UsagerNoteController,
+    UsagersDecisionController,
     UsagerStructureDocsController,
     DocsController,
     ExportStructureUsagersController,
