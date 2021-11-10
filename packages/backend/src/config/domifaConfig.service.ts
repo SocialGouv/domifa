@@ -35,6 +35,13 @@ export function loadEnvWithPreset({
   const presetEnvFileName =
     domifaEnv.DOMIFA_ENV_PRESET ?? process.env.DOMIFA_ENV_PRESET;
 
+  if (!presetEnvFileName) {
+    // tslint:disable-next-line: no-console
+    console.warn(`[configService] DOMIFA_ENV_PRESET not found`);
+    console.warn(`[configService] envFileName:`, envFileName);
+    console.warn(`[configService] domifaEnv:`, domifaEnv);
+  }
+
   let domifaPresetEnv = domifaConfigFileLoader.loadEnvFile(
     path.join(".env.preset", presetEnvFileName)
   );

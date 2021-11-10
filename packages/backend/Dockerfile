@@ -1,17 +1,51 @@
-FROM node:16.12.0
+# ---------------------------------------------------------
+# 1) BUILDER IMAGE
+# ---------------------------------------------------------
+FROM node:16.12-bullseye-slim as builder
 
 ENV TZ Europe/Paris
 
 RUN cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
-RUN apt-get update && apt-get install -y pdftk
+
+# resolve dependencies
+WORKDIR /tmp/app-yarn
+COPY ./packages/backend/package.json /tmp/app-yarn/
+COPY ./yarn.lock /tmp/app-yarn/
+RUN yarn --frozen-lockfile && yarn cache clean
+
+# add source & move dependencies into sources directory
+WORKDIR /app
+COPY ./packages/backend /app
+# NOTE: cp is faster than mv in a docker container
+RUN cp -R /tmp/app-yarn/node_modules  /app/node_modules 
+
+# build app
+RUN yarn build
+
+# ---------------------------------------------------------
+# 2) FINAL IMAGE
+# ---------------------------------------------------------
+FROM node:16.11-bullseye-slim
+
+# install common tools
+ENV CORE_PACKAGES pdftk
+# sudo bash wget vim git bash-completion xsel rubygems build-essential ruby-dev pdftk
+
+# install via APT
+RUN apt-get update && \
+    apt-get install -q -y -o Acquire::Retries=10 $CORE_PACKAGES && \
+# immediately remove temporary files
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+USER node
 
 WORKDIR /app
+COPY ./packages/backend/package.json /app
+COPY ./yarn.lock /app
+RUN yarn --production --frozen-lockfile && yarn cache clean
 
-COPY ./packages/backend .
-COPY ./yarn.lock .
-
-# TODO: Sort dependencies and add "--production" install flag
-RUN yarn --frozen-lockfile && yarn cache clean
-RUN yarn build
+COPY --from=builder /app/dist /app/dist
+COPY --from=builder /app/.env.preset /app/.env.preset
 
 ENTRYPOINT ["yarn", "start:prod"]
