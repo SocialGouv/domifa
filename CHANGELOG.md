@@ -1,3 +1,10 @@
+## [2.37.5](https://github.com/SocialGouv/domifa/compare/v2.37.4...v2.37.5) (2021-11-10)
+
+
+### Bug Fixes
+
+* **backend:** améliorer la sécu sur l'image backend [#1777](https://github.com/SocialGouv/domifa/issues/1777) ([#1869](https://github.com/SocialGouv/domifa/issues/1869)) ([9942d86](https://github.com/SocialGouv/domifa/commit/9942d86d082919a69e25ebf5fd52bf55f10dc76a))
+
 ## [2.37.4](https://github.com/SocialGouv/domifa/compare/v2.37.3...v2.37.4) (2021-11-03)
 
 
