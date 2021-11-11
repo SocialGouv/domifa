@@ -76,7 +76,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.3.0",
     "swagger-ui-express": "^4.1.6",
-    "typeorm": "0.2.38",
+    "typeorm": "0.2.40",
     "uuid": "^8.3.2",
     "xlsx": "^0.17.1",
     "mammoth": "^1.4.17",
