@@ -36,6 +36,9 @@ export class StructureDocTable
   @Column({ type: "boolean", nullable: false, default: false })
   custom: boolean;
 
+  @Column({ type: "boolean", nullable: false, default: false })
+  displayInPortailUsager: boolean;
+
   @Column({ type: "text", nullable: false })
   filetype: string;
 

@@ -115,6 +115,7 @@ export class StructureDocController {
         nom: user.nom,
         prenom: user.prenom,
       },
+      displayInPortailUsager: false,
       filetype: file.mimetype,
       path: file.filename,
       tags: {},

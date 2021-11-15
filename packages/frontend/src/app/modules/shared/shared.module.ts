@@ -11,6 +11,7 @@ import { DigitOnlyDirective } from "./directives/digit-only.directive";
 import { FormatBigNumberPipe } from "./pipes/formatBigNumber.pipe";
 import { FormatPhoneNumberPipe } from "./pipes/formatPhoneNumber.pipe";
 import { UsagerNomCompletPipe } from "./pipes/usager-nom-complet.pipe";
+import { LoadingService } from "./services/loading.service";
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import { UsagerNomCompletPipe } from "./pipes/usager-nom-complet.pipe";
     FontAwesomeModule,
   ],
   imports: [CommonModule, FontAwesomeModule],
-  providers: [],
+  providers: [LoadingService],
 })
 export class SharedModule {
   constructor(private library: FaIconLibrary) {

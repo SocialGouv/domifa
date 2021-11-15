@@ -8,6 +8,7 @@ import {
   UploadResponseType,
   validateUpload,
 } from "../../../../shared/upload-validator";
+import { AuthService } from "../../../shared/services/auth.service";
 import { StructureDocService } from "../../services/structure-doc.service";
 
 @Component({
@@ -29,6 +30,7 @@ export class StructuresUploadDocsComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private authService: AuthService,
     private structureDocService: StructureDocService,
     private notifService: ToastrService
   ) {
@@ -37,13 +39,20 @@ export class StructuresUploadDocsComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
+      this.me = user;
+    });
+
+    this.getAllStructureDocs();
+    this.initForm();
+  }
+
+  public initForm(): void {
     this.uploadForm = this.formBuilder.group({
       fileSource: ["", [Validators.required, validateUpload("STRUCTURE_DOC")]],
       file: ["", [Validators.required]],
       label: ["", Validators.required],
     });
-
-    this.getAllStructureDocs();
   }
 
   get u(): any {
@@ -51,29 +60,29 @@ export class StructuresUploadDocsComponent implements OnInit {
   }
 
   public getAllStructureDocs(): void {
-    this.structureDocService.getAllStructureDocs().subscribe(
-      (structureDocs: StructureDoc[]) => {
+    this.structureDocService.getAllStructureDocs().subscribe({
+      next: (structureDocs: StructureDoc[]) => {
         this.structureDocs = structureDocs;
       },
-      (error: any) => {
+      error: () => {
         this.notifService.error("Impossible d'afficher les documents");
-      }
-    );
+      },
+    });
   }
 
   public deleteStructureDoc(structureDoc: StructureDoc): void {
     structureDoc.loadingDelete = true;
-    this.structureDocService.deleteStructureDoc(structureDoc.id).subscribe(
-      () => {
+    this.structureDocService.deleteStructureDoc(structureDoc.id).subscribe({
+      next: () => {
         structureDoc.loadingDelete = false;
         this.getAllStructureDocs();
         this.notifService.success("Suppression réussie");
       },
-      (error: any) => {
+      error: () => {
         structureDoc.loadingDelete = false;
         this.notifService.error("Impossible de télécharger le fichier");
-      }
-    );
+      },
+    });
   }
 
   public getStructureDoc(structureDoc: StructureDoc): void {

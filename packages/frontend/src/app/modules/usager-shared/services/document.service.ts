@@ -7,7 +7,7 @@ import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { UsagerDoc } from "../../../../_common/model";
 import { StructureDocTypesAvailable } from "../../../../_common/model/structure-doc";
-import { LoadingService } from "../../loading/loading.service";
+import { LoadingService } from "../../shared/services/loading.service";
 
 @Injectable({
   providedIn: "root",

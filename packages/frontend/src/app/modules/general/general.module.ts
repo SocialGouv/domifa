@@ -8,8 +8,7 @@ import {
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { LoadingComponent } from "../loading/loading.component";
-import { LoadingService } from "../loading/loading.service";
+import { LoadingComponent } from "../shared/components/loading/loading.component";
 
 import { CguComponent } from "./components/cgu/cgu.component";
 import { NotFoundComponent } from "./components/errors/not-found/not-found.component";
@@ -50,7 +49,7 @@ import { SharedModule } from "../shared/shared.module";
     ToastrModule.forRoot(),
     NgbModule,
   ],
-  providers: [LoadingService, HomeService],
+  providers: [HomeService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class GeneralModule {}

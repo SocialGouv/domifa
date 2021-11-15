@@ -6,6 +6,7 @@ export type StructureDoc = AppEntity & {
   tags: any;
   label: string;
   custom: boolean;
+  displayInPortailUsager: boolean;
   filetype: string;
   path: string;
   structureId: number;
