@@ -1,3 +1,11 @@
+# [2.38.0](https://github.com/SocialGouv/domifa/compare/v2.37.7...v2.38.0) (2021-11-15)
+
+
+### Features
+
+* **forms:** Séparation des composants de décision, fin de la migration des formulaires, correction de la police dans les Cerfa ([48bde66](https://github.com/SocialGouv/domifa/commit/48bde66d3677ebb9dc84b183b337e49362f5e02a))
+* **Radiation:** Déplacement du module de radiation ([4485de3](https://github.com/SocialGouv/domifa/commit/4485de30f98504dfc930324500623c467331bbe4))
+
 ## [2.37.7](https://github.com/SocialGouv/domifa/compare/v2.37.6...v2.37.7) (2021-11-15)
 
 
