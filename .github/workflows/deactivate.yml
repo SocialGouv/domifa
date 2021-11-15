@@ -5,7 +5,7 @@ on:
     types: [ closed ]
     
 jobs:
-  bury_review_env:
+  bury_review_env_TEST:
     name: Deactivate review branch
     runs-on: ubuntu-latest
     steps:
