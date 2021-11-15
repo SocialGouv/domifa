@@ -1,61 +1,100 @@
 {
-  "enabled": true,
-  "extends": [
-    "config:base",
-    "docker:enableMajor",
-    ":maintainLockFilesMonthly",
-    ":masterIssue",
-    ":preserveSemverRanges",
-    ":prHourlyLimit4",
-    ":semanticCommits",
-    ":timezone(Europe/Paris)"
-  ],
-  "schedule": "every weekend",
-  "separateMinorPatch": true,
-  "masterIssueAutoclose": true,
-  "node": {
-    "supportPolicy": ["lts_latest"]
-  },
-  "packageRules": [
-     {
-        "depTypeList": [
-           "dependencies"
-        ],
-        "updateTypes": [
-           "minor"
-        ],
-        "groupName": "all minor dependencies",
-        "groupSlug": "all-minor"
-     },
-     {
-        "depTypeList": [
-           "dependencies"
-        ],
-        "updateTypes": [
-           "patch"
-        ],
-        "groupName": "all patch dependencies",
-        "groupSlug": "all-patch"
-     },
-     {
-        "depTypeList": [
-           "devDependencies"
-        ],
-        "updateTypes": [
-           "minor"
-        ],
-        "groupName": "all minor devDependencies",
-        "groupSlug": "all-minor-dev-tools"
-     },
-     {
-        "depTypeList": [
-           "devDependencies"
-        ],
-        "updateTypes": [
-           "patch"
-        ],
-        "groupName": "all patch devDependencies",
-        "groupSlug": "all-patch-dev-tools"
-     }
-  ]
+   "enabled": true,
+   "extends": [
+      "config:base",
+      "docker:enableMajor",
+      ":maintainLockFilesMonthly",
+      ":masterIssue",
+      ":preserveSemverRanges",
+      ":prHourlyLimit4",
+      ":semanticCommits",
+      ":timezone(Europe/Paris)"
+   ],
+   "schedule": "every weekend",
+   "separateMinorPatch": true,
+   "masterIssueAutoclose": true,
+   "node": {
+      "supportPolicy": [
+         "lts_latest"
+      ]
+   },
+   "packageRules": [
+      {
+         "matchPackageNames": [
+            "@angular/cdk",
+            "@angular/cli",
+            "@angular/animations",
+            "@angular/cdk",
+            "@angular/common",
+            "@angular/compiler",
+            "@angular/core",
+            "@angular/forms",
+            "@angular/localize",
+            "@angular/platform-browser",
+            "@angular/platform-browser-dynamic",
+            "@angular/router",
+            "@schematics/angular",
+            "@angular-devkit/architect",
+            "@angular-devkit/build-angular",
+            "@angular-devkit/core",
+            "@angular-devkit/schematics",
+            "@angular-eslint/builder",
+            "@angular-eslint/eslint-plugin",
+            "@angular-eslint/eslint-plugin-template",
+            "@angular-eslint/schematics",
+            "@angular-eslint/template-parser",
+            "@angular/cli",
+            "@angular/compiler-cli",
+            "@angular/language-service"
+         ],
+         "matchUpdateTypes": [
+            "major"
+         ],
+         "depTypeList": [
+            "dependencies"
+         ],
+         "groupName": "@angular (major)",
+         "groupSlug": "angular-major"
+      },
+      {
+         "depTypeList": [
+            "dependencies"
+         ],
+         "updateTypes": [
+            "minor"
+         ],
+         "groupName": "all minor dependencies",
+         "groupSlug": "all-minor"
+      },
+      {
+         "depTypeList": [
+            "dependencies"
+         ],
+         "updateTypes": [
+            "patch"
+         ],
+         "groupName": "all patch dependencies",
+         "groupSlug": "all-patch"
+      },
+      {
+         "depTypeList": [
+            "devDependencies"
+         ],
+         "updateTypes": [
+            "minor"
+         ],
+         "groupName": "all minor devDependencies",
+         "groupSlug": "all-minor-dev-tools"
+      },
+      {
+         "depTypeList": [
+            "devDependencies"
+         ],
+         "updateTypes": [
+            "patch"
+         ],
+         "groupName": "all patch devDependencies",
+         "groupSlug": "all-patch-dev-tools"
+      }
+   ]
 }
