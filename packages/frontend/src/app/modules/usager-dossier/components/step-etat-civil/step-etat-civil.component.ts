@@ -29,6 +29,7 @@ import { AyantDroit } from "../../../usager-shared/interfaces/ayant-droit";
 import { UsagerFormModel } from "../../../usager-shared/interfaces/UsagerFormModel";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
+import { CerfaDocType } from "src/_common/model/cerfa";
 
 @Component({
   animations: [fadeInOut],
@@ -252,8 +253,8 @@ export class StepEtatCivilComponent implements OnInit {
     });
   }
 
-  public getAttestation(): void {
-    return this.documentService.attestation(this.usager.ref);
+  public getCerfa(typeCerfa: CerfaDocType): void {
+    return this.documentService.attestation(this.usager.ref, typeCerfa);
   }
 
   public submitInfos(): void {

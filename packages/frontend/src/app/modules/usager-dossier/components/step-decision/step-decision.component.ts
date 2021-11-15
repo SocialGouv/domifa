@@ -14,6 +14,7 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
+import { CerfaDocType } from "src/_common/model/cerfa";
 
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { DocumentService } from "../../../usager-shared/services/document.service";
@@ -108,8 +109,8 @@ export class StepDecisionComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  public getAttestation() {
-    return this.documentService.attestation(this.usager.ref);
+  public getCerfa(typeCerfa: CerfaDocType) {
+    return this.documentService.attestation(this.usager.ref, typeCerfa);
   }
 
   public printPage() {

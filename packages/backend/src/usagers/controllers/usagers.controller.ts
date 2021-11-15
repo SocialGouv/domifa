@@ -10,6 +10,7 @@ import {
   Post,
   Res,
   UseGuards,
+  Query,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
@@ -33,6 +34,7 @@ import {
   UsagerLight,
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
+  CerfaDocType,
 } from "../../_common/model";
 import {
   CreateUsagerDto,
@@ -406,8 +408,9 @@ export class UsagersController {
 
   @UseGuards(UsagerAccessGuard)
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
-  @Get("attestation/:usagerRef")
+  @Get("attestation/:usagerRef/:typeCerfa")
   public async getAttestation(
+    @Param("typeCerfa") typeCerfa: CerfaDocType,
     @Res() res: Response,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: UsagerLight
@@ -415,7 +418,7 @@ export class UsagersController {
     const usager = await usagerRepository.findOne({ uuid: currentUsager.uuid });
 
     return this.cerfaService
-      .attestation(usager, user)
+      .attestation(usager, user, typeCerfa)
       .then((buffer) => {
         res.setHeader("content-type", "application/pdf");
         res.send(buffer);

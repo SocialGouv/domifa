@@ -8,6 +8,7 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 import { UsagerProfilService } from "../../services/usager-profil.service";
 import { DocumentService } from "./../../../usager-shared/services/document.service";
+import { CerfaDocType } from "src/_common/model/cerfa";
 
 @Component({
   selector: "app-profil-documents-section",
@@ -47,6 +48,7 @@ export class ProfilDocumentsSectionComponent implements OnInit {
     this.usagerProfilService.findOne(this.route.snapshot.params.id).subscribe(
       (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
+        console.log(this.usager.isActif);
       },
       () => {
         this.notifService.error("Le dossier recherché n'existe pas");
@@ -55,7 +57,7 @@ export class ProfilDocumentsSectionComponent implements OnInit {
     );
   }
 
-  public getAttestation(): void {
-    return this.documentService.attestation(this.usager.ref);
+  public getCerfa(typeCerfa: CerfaDocType): void {
+    return this.documentService.attestation(this.usager.ref, typeCerfa);
   }
 }

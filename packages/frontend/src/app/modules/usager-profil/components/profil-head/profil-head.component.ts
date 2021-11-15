@@ -17,6 +17,7 @@ import { usagersCache } from "../../../../shared/store";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
+import { CerfaDocType } from "src/_common/model/cerfa";
 
 @Component({
   selector: "app-profil-head",
@@ -87,7 +88,7 @@ export class ProfilHeadComponent implements OnInit {
     this.modalService.open(this.radiationFormModal);
   }
 
-  public getAttestation(): void {
-    return this.documentService.attestation(this.usager.ref);
+  public getCerfa(typeCerfa: CerfaDocType): void {
+    return this.documentService.attestation(this.usager.ref, typeCerfa);
   }
 }

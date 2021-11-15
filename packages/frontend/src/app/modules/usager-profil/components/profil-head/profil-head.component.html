@@ -39,7 +39,10 @@
             <fa-icon [icon]="['fas', 'redo']" class="mr-2"></fa-icon>
             Créer une nouvelle demande
           </button>
-          <button class="btn btn-white-primary ml-2" (click)="getAttestation()">
+          <button
+            class="btn btn-white-primary ml-2"
+            (click)="getCerfa('attestation')"
+          >
             <fa-icon [icon]="['fas', 'download']"></fa-icon>
             Télécharger le CERFA
           </button>

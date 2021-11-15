@@ -51,11 +51,11 @@ export class DocumentService {
   }
 
   /* Attestation */
-  public attestation(usagerRef: number): void {
+  public attestation(usagerRef: number, typeCerfa: string): void {
     this.loadingService.startLoading();
 
     this.http
-      .get(`${this.endPointUsagers}/attestation/${usagerRef}`, {
+      .get(`${this.endPointUsagers}/attestation/${usagerRef}/${typeCerfa}`, {
         responseType: "blob",
       })
       .subscribe(
@@ -63,10 +63,7 @@ export class DocumentService {
           const newBlob = new Blob([x], { type: "application/pdf" });
           const randomNumber = Math.floor(Math.random() * 100) + 1;
 
-          saveAs(
-            newBlob,
-            "attestation_" + usagerRef + "_" + randomNumber + ".pdf"
-          );
+          saveAs(newBlob, `${typeCerfa}_${usagerRef}_${randomNumber}.pdf`);
 
           setTimeout(() => {
             this.loadingService.stopLoading();
