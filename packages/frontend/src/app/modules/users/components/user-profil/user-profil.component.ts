@@ -3,9 +3,8 @@ import { Title } from "@angular/platform-browser";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { StructureService } from "src/app/modules/structures/services/structure.service";
+
 import {
-  StructureCommon,
   UserStructure,
   UserStructureProfile,
   UserStructureRole,
@@ -20,7 +19,6 @@ import { UsersService } from "../../services/users.service";
 export class UserProfilComponent implements OnInit {
   public users: UserStructureProfile[];
   public me: UserStructure;
-  public structure: StructureCommon;
 
   public selectedUser: number;
   public usersInfos: boolean;
@@ -29,7 +27,7 @@ export class UserProfilComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private userService: UsersService,
-    private structureService: StructureService,
+
     private modalService: NgbModal,
     private notifService: ToastrService,
     private titleService: Title
@@ -49,12 +47,6 @@ export class UserProfilComponent implements OnInit {
         this.me = user;
 
         this.getUsers();
-
-        this.structureService
-          .findMyStructure()
-          .subscribe((structure: StructureCommon) => {
-            this.structure = structure;
-          });
       }
     });
   }

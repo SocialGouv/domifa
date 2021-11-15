@@ -61,7 +61,6 @@ import { UsagerProfilRoutingModule } from "./usager-profil-routing.module";
     CommonModule,
     UsagerSharedModule,
     FormsModule,
-    GeneralModule,
     HttpClientModule,
     NgbModule,
     ReactiveFormsModule,

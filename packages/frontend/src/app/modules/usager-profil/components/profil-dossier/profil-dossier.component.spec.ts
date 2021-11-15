@@ -1,3 +1,4 @@
+import { SharedModule } from "src/app/modules/shared/shared.module";
 import { CommonModule, APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
@@ -9,6 +10,7 @@ import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
 
 import { ProfilDossierComponent } from "./profil-dossier.component";
+import { UsagerNomCompletPipe } from "../../../shared/pipes/usager-nom-complet.pipe";
 
 describe("ProfilDossierComponent", () => {
   let component: ProfilDossierComponent;
@@ -24,11 +26,13 @@ describe("ProfilDossierComponent", () => {
           CommonModule,
           ReactiveFormsModule,
           FormsModule,
+          SharedModule,
           HttpClientTestingModule,
           ToastrModule.forRoot(),
           RouterTestingModule,
         ],
         providers: [
+          UsagerNomCompletPipe,
           {
             provide: MatomoInjector,
             useValue: {

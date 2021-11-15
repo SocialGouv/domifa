@@ -133,6 +133,19 @@
                   </fa-icon>
                   Utilisateurs</a
                 >
+                <a
+                  ngbDropdownItem
+                  *ngIf="me.role === 'admin' || me.role === 'responsable'"
+                  routerLink="/structures/documents"
+                >
+                  <fa-icon
+                    aria-hidden="true"
+                    title="Documents de la structure"
+                    [icon]="['far', 'file-word']"
+                  >
+                  </fa-icon>
+                  Documents</a
+                >
 
                 <a
                   ngbDropdownItem
@@ -149,7 +162,7 @@
                 <a
                   ngbDropdownItem
                   *ngIf="me.role === 'admin' || me.role === 'responsable'"
-                  routerLink="/structure-edit"
+                  routerLink="/structures/edit"
                 >
                   <fa-icon
                     aria-hidden="true"

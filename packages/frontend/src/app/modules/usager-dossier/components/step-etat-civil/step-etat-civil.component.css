@@ -1,22 +1,5 @@
-.card_not_selected {
-  opacity: 0.5;
-}
-
-.card_selected,
-.card:hover,
-.card:focus {
-  transition: all 0.15s;
-  border-color: var(--blue);
-  box-shadow: 0 1px 6px 0 rgba(124, 124, 124, 0.15);
-  z-index: 900;
-}
-
 label {
   font-weight: 600;
-}
-
-.alert {
-  max-width: 850px;
 }
 
 ul {

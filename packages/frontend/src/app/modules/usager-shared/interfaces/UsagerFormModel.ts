@@ -1,4 +1,4 @@
-import { Entretien, Rdv, Decision, Options, Doc } from ".";
+import { Entretien, Rdv, Decision, Options } from ".";
 import {
   UsagerLight,
   UsagerSexe,
@@ -105,7 +105,9 @@ export class UsagerFormModel implements UsagerLight {
     usager?: Partial<UsagerLight>,
     filterCriteria?: UsagersFilterCriteria
   ) {
+    this.docs = (usager && usager.docs) || [];
     this.notes = (usager && usager.notes) || [];
+
     this.ref = (usager && usager.ref) || 0;
     this.customRef = (usager && usager.customRef) || null;
 
@@ -168,14 +170,6 @@ export class UsagerFormModel implements UsagerLight {
         recommandeIn: usager.lastInteraction.recommandeIn || 0,
         colisIn: usager.lastInteraction.colisIn || 0,
       };
-    }
-
-    this.docs = [];
-
-    if (usager && usager.docs) {
-      usager.docs.forEach((doc: Doc) => {
-        this.docs.push(new Doc(doc));
-      });
     }
 
     this.preference = (usager && usager.preference) || {

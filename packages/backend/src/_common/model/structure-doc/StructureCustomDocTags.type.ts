@@ -1,4 +1,4 @@
-export type StructureCustomDoc = {
+export type StructureCustomDocTags = {
   // DATES UTILES
   DATE_JOUR: string;
   DATE_JOUR_HEURE: string;

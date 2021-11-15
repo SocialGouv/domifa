@@ -1,43 +1,43 @@
 module.exports = {
-  "root": true,
-  "ignorePatterns": ["dist", "coverage"],
-  "parserOptions": {
-    "ecmaVersion": 2020
+  root: true,
+  ignorePatterns: ["dist", "coverage"],
+  parserOptions: {
+    ecmaVersion: 2020,
   },
-  "overrides": [
+  overrides: [
     {
-      "files": ["*.ts"],
-      "parserOptions": { 
-        "project": ["./tsconfig.json"],
-        "tsconfigRootDir": __dirname,
-        "createDefaultProgram": true
+      files: ["*.ts"],
+      parserOptions: {
+        project: ["./tsconfig.json"],
+        tsconfigRootDir: __dirname,
+        createDefaultProgram: true,
       },
-      "extends": [
+      extends: [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
       ],
 
-      "rules": {
+      rules: {
         "@typescript-eslint/array-type": [
           "error",
           {
-            "default": "array"
-          }
+            default: "array",
+          },
         ],
         "@typescript-eslint/member-delimiter-style": [
           "off",
           {
-            "multiline": {
-              "delimiter": "none",
-              "requireLast": true
+            multiline: {
+              delimiter: "none",
+              requireLast: true,
             },
-            "singleline": {
-              "delimiter": "semi",
-              "requireLast": false
-            }
-          }
+            singleline: {
+              delimiter: "semi",
+              requireLast: false,
+            },
+          },
         ],
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-this-alias": "error",
@@ -46,8 +46,8 @@ module.exports = {
           "off",
           "single",
           {
-            "allowTemplateLiterals": true
-          }
+            allowTemplateLiterals: true,
+          },
         ],
         "@typescript-eslint/semi": ["off", null],
         "@typescript-eslint/type-annotation-spacing": "off",
@@ -65,12 +65,12 @@ module.exports = {
           "Boolean",
           "boolean",
           "Undefined",
-          "undefined"
+          "undefined",
         ],
         "@angular-eslint/no-empty-lifecycle-method": "off",
         "import/no-extraneous-dependencies": "off",
         "import/no-internal-modules": "off",
-        "indent": "off",
+        indent: "off",
         "linebreak-style": "off",
         "max-classes-per-file": ["error", 1],
         "max-len": "off",
@@ -97,23 +97,23 @@ module.exports = {
         "padded-blocks": [
           "off",
           {
-            "blocks": "never"
+            blocks: "never",
           },
           {
-            "allowSingleLineBlocks": true
-          }
+            allowSingleLineBlocks: true,
+          },
         ],
         "prefer-object-spread": "error",
         "quote-props": "off",
-        "semi": "off",
+        semi: "off",
         "space-before-function-paren": "off",
-        "space-in-parens": ["off", "never"]
-      }
+        "space-in-parens": ["off", "never"],
+      },
     },
     {
-      "files": ["*.html"],
-      "extends": ["plugin:@angular-eslint/template/recommended"],
-      "rules": {}
-    }
-  ]
-}
+      files: ["*.html"],
+      extends: ["plugin:@angular-eslint/template/recommended"],
+      rules: {},
+    },
+  ],
+};

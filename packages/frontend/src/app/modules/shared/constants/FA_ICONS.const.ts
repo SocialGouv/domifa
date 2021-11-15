@@ -7,6 +7,9 @@ import {
   faEye,
   faEyeSlash,
   faFileWord,
+  faFileExcel,
+  faFileImage,
+  faFilePdf,
 } from "@fortawesome/free-regular-svg-icons";
 import {
   faAngleLeft,
@@ -68,6 +71,9 @@ export const FA_ICONS: IconDefinition[] = [
   faEye,
   faEyeSlash,
   faFileWord,
+  faFileExcel,
+  faFilePdf,
+  faFileImage,
   faHome,
   faInfoCircle,
   faPencilAlt,

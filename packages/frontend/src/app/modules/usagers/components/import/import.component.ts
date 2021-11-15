@@ -5,7 +5,7 @@ import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { UserStructure } from "../../../../../_common/model";
-import { LoadingService } from "../../../loading/loading.service";
+import { LoadingService } from "../../../shared/services/loading.service";
 import { AuthService } from "../../../shared/services/auth.service";
 import {
   UsagerService,

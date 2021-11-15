@@ -16,7 +16,6 @@ import {
   UsagerFormModel,
   Entretien,
   Rdv,
-  Doc,
 } from "../../usager-shared/interfaces";
 import { UsagerService } from "../../usagers/services/usager.service";
 
@@ -68,12 +67,11 @@ describe("UsagerService", () => {
     const usager = new UsagerFormModel({});
     const entretien = new Entretien({});
     const rdv = new Rdv({});
-    const doc = new Doc({});
+
     const today = new Date();
     today.setSeconds(0);
     today.setMilliseconds(0);
 
-    expect(doc).toBeDefined();
     expect(usager).toBeDefined();
     expect(entretien).toBeDefined();
     expect(rdv).toBeDefined();
@@ -83,14 +81,6 @@ describe("UsagerService", () => {
       userId: 10,
       userName: "Domifa",
     });
-
-    const docFull = new Doc({
-      dateImport: new Date(),
-      label: "A",
-      filetype: "image/jpeg",
-      importBy: "A",
-    });
-    expect(docFull).toEqual(docFull);
 
     expect(rdvFull).toEqual({
       dateRdv: new Date("December 20, 1991 02:12:00"),

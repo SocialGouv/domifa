@@ -7,6 +7,7 @@ import {
   UserStructure,
   UserStructureRole,
 } from "../../../../../_common/model";
+import { UsagerNomCompletPipe } from "../../../shared/pipes/usager-nom-complet.pipe";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsagerFormModel } from "../../../usager-shared/interfaces/UsagerFormModel";
 
@@ -30,7 +31,8 @@ export class ProfilDossierComponent implements OnInit {
     private titleService: Title,
     private notifService: ToastrService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private usagerNomCompletPipe: UsagerNomCompletPipe
   ) {
     this.me = null;
     this.editInfos = false;
@@ -38,21 +40,21 @@ export class ProfilDossierComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Dossier du domicilié");
-
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
 
-    this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
-      (usager: UsagerLight) => {
+    this.usagerService.findOne(this.route.snapshot.params.id).subscribe({
+      next: (usager: UsagerLight) => {
+        const name = this.usagerNomCompletPipe.transform(usager);
         this.usager = new UsagerFormModel(usager);
+        this.titleService.setTitle("Documents de " + name);
       },
-      () => {
+      error: () => {
         this.notifService.error("Le dossier recherché n'existe pas");
         this.router.navigate(["404"]);
-      }
-    );
+      },
+    });
   }
 
   public openEntretien(): void {
