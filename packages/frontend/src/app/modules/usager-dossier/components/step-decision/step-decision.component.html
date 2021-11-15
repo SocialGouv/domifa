@@ -22,7 +22,7 @@
           cette demande.
           <br />
           <br />
-          <button (click)="getAttestation()" class="btn btn-primary">
+          <button (click)="getCerfa('demande')" class="btn btn-primary">
             <fa-icon [icon]="['fas', 'download']"></fa-icon>
             Télécharger le CERFA de demande
           </button>
@@ -243,7 +243,9 @@
           [usager]="usager"
         ></app-usager-documents>
       </div>
+
       <hr />
+
       <div
         class="
           d-flex
@@ -254,11 +256,22 @@
         "
       >
         <button
-          (click)="getAttestation()"
-          class="btn btn-outline-primary d-print-none mr-2"
+          (click)="getCerfa('demande')"
+          class="btn btn-primary d-print-none mr-2"
         >
           <fa-icon [icon]="['fas', 'download']" class="mr-2"></fa-icon>
           Télécharger l'attestation de demande
+        </button>
+        <button
+          (click)="getCerfa('attestation')"
+          class="btn btn-outline-primary d-print-none mr-2"
+          *ngIf="
+            usager.decision.statut !== 'REFUS' &&
+            usager.decision.statut !== 'RADIE'
+          "
+        >
+          <fa-icon [icon]="['fas', 'download']" class="mr-2"></fa-icon>
+          Télécharger un CERFA provisoire
         </button>
       </div>
     </div>

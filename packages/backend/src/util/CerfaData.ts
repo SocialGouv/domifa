@@ -1,0 +1,149 @@
+import moment = require("moment");
+
+import { Usager, UserStructureAuthenticated } from "../_common/model";
+import { DateCerfa } from "../usagers/interfaces/date-cerfa";
+import { generateMotifLabel } from "../usagers/services/generateMotifLabel.service";
+import { UsagerCerfaFields } from "../_common/model/usager/UsagerCerfaFields.type";
+
+const isNil = (value: any): boolean => {
+  return value === null || value === undefined;
+};
+
+const toString = (value: any): string => {
+  return value === undefined || value === null ? "" : value.toString();
+};
+
+export const getUsagerRef = (usager: Usager): string => {
+  let usagerRef = toString(usager.ref);
+  if (!isNil(usagerRef)) {
+    usagerRef = toString(usager.customRef);
+  }
+  return usagerRef;
+};
+
+export const CerfaData = (
+  usager: Usager,
+  user: UserStructureAuthenticated
+): UsagerCerfaFields => {
+  let usagerRef = toString(usager.ref);
+  if (!isNil(usagerRef)) {
+    usagerRef = toString(usager.customRef);
+  }
+
+  if (isNil(usager.rdv)) {
+    usager.rdv = { userId: null, dateRdv: null, userName: null };
+  }
+
+  const entretienAvec = toString(usager.rdv.userName).toUpperCase();
+  const dateNaissance = new DateCerfa(usager.dateNaissance);
+  const dateRdv = new DateCerfa(usager.rdv.dateRdv);
+  const dateDecision = new DateCerfa(usager.decision.dateDecision);
+  const datePremiereDom = new DateCerfa(usager.datePremiereDom);
+  const dateDebut = new DateCerfa(usager.decision.dateDebut);
+  const dateFin = new DateCerfa(usager.decision.dateFin);
+
+  usager.villeNaissance = usager.villeNaissance.toUpperCase();
+  usager.nom = usager.nom.toUpperCase();
+  usager.prenom = usager.prenom.toUpperCase();
+
+  const responsable = `${user.structure.responsable.nom.toUpperCase()}, ${user.structure.responsable.prenom.toUpperCase()}, ${user.structure.responsable.fonction.toUpperCase()}`;
+
+  let adresseStructure = `${user.structure.nom}\n${user.structure.adresse}`;
+  if (!isNil(user.structure.complementAdresse)) {
+    adresseStructure += `\n${user.structure.complementAdresse}`;
+  }
+  adresseStructure += `\n${user.structure.codePostal} - ${user.structure.ville}`;
+
+  let adresseDomicilie = adresseStructure;
+  if (
+    !isNil(user.structure.adresseCourrier) &&
+    user.structure.adresseCourrier.actif
+  ) {
+    adresseDomicilie = `${user.structure.nom}\n${user.structure.adresseCourrier.adresse}\n${user.structure.adresseCourrier.codePostal} - ${user.structure.adresseCourrier.ville}`;
+  }
+
+  if (user.structure.options.numeroBoite === true) {
+    adresseDomicilie = `Boite ${usagerRef}\n${adresseDomicilie}`;
+  }
+
+  const ayantsDroitsTexte = usager.ayantsDroits.reduce(
+    (prev, current) =>
+      `${prev}${current.nom} ${current.prenom} né(e) le ${moment(
+        current.dateNaissance
+      )
+        .locale("fr")
+        .format("L")} - `,
+    ""
+  );
+
+  const sexe = usager.sexe === "femme" ? "1" : "2";
+  const rattachement = toString(usager.entretien.rattachement).toUpperCase();
+  const motif = generateMotifLabel(usager.decision);
+
+  const pdfInfos: UsagerCerfaFields = {
+    adresse: adresseDomicilie,
+    adresseOrga1: adresseStructure,
+    agrement: user.structure.agrement,
+    anneeDebut: dateDebut.annee,
+    anneeDecision1A: dateDecision.annee,
+    anneeDecision1B: dateDecision.annee,
+    anneeDecision2: dateDecision.annee,
+    anneeFin: dateFin.annee,
+    anneeNaissance1: dateNaissance.annee,
+    anneeNaissance2: dateNaissance.annee,
+    anneePremiereDom: datePremiereDom.annee,
+    anneeRdv: dateRdv.annee,
+    ayantsDroits: ayantsDroitsTexte,
+    courriel: usager.email,
+    courrielOrga: user.structure.email,
+    decision: usager.decision.statut === "REFUS" ? "2" : "",
+    entretienAdresse: adresseStructure,
+    entretienAvec,
+    heureRdv: dateRdv.heure,
+    jourDebut: dateDebut.jour,
+    jourDecision1A: dateDecision.jour,
+    jourDecision1B: dateDecision.jour,
+    jourDecision2: dateDecision.jour,
+    jourFin: dateFin.jour,
+    jourNaissance1: dateNaissance.jour,
+    jourNaissance2: dateNaissance.jour,
+    jourPremiereDom: datePremiereDom.jour,
+    jourRdv: dateRdv.jour,
+    lieuNaissance1: usager.villeNaissance,
+    lieuNaissance2: usager.villeNaissance,
+    minutesRdv: dateRdv.minutes,
+    moisDebut: dateDebut.mois,
+    moisDecision1A: dateDecision.mois,
+    moisDecision1B: dateDecision.mois,
+    moisDecision2: dateDecision.mois,
+    moisFin: dateFin.mois,
+    moisNaissance1: dateNaissance.mois,
+    moisNaissance2: dateNaissance.mois,
+    moisPremiereDom: datePremiereDom.mois,
+    moisRdv: dateRdv.mois,
+    motifRefus: motif,
+    nomOrga1: user.structure.nom.toUpperCase(),
+    nomOrga2: user.structure.nom.toUpperCase(),
+    noms1: usager.nom,
+    noms2: usager.nom,
+    numeroUsager: usagerRef,
+    orientation: isNil(usager.decision.orientationDetails)
+      ? ""
+      : usager.decision.orientationDetails,
+    prefecture1: user.structure.departement,
+    prefecture2: user.structure.departement,
+    prenoms1: usager.prenom,
+    prenoms2: usager.prenom,
+    rattachement,
+    responsable,
+    sexe1: sexe,
+    sexe2: sexe,
+    signature1A: user.structure.ville.toUpperCase(),
+    signature1B: user.structure.ville.toUpperCase(),
+    signature2: user.structure.ville.toUpperCase(),
+    telephone: toString(usager.phone),
+    telephoneOrga: toString(user.structure.phone),
+    typeDemande: usager.typeDom === "RENOUVELLEMENT" ? "2" : "1",
+  };
+  return pdfInfos;
+};
