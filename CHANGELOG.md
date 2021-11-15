@@ -1,3 +1,10 @@
+## [2.37.7](https://github.com/SocialGouv/domifa/compare/v2.37.6...v2.37.7) (2021-11-15)
+
+
+### Bug Fixes
+
+* remove nodemailer deprecated dep ([a44bd69](https://github.com/SocialGouv/domifa/commit/a44bd697250fb689694a61ef0c414221acbb60e3))
+
 ## [2.37.6](https://github.com/SocialGouv/domifa/compare/v2.37.5...v2.37.6) (2021-11-15)
 
 
