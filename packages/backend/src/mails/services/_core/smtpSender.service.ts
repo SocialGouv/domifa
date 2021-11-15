@@ -12,10 +12,11 @@ import { appLogger } from "../../../util";
 import { mailRecipientsFilter } from "./mailRecipientsFilter.service";
 import Mail = require("nodemailer/lib/mailer");
 
-const smtpTransport = require("nodemailer-smtp-transport");
 // create reusable transporter object using SMTP transport
 
-const transporter = createTransport(smtpTransport(domifaConfig().email.smtp));
+const smtpConfig = domifaConfig().email.smtp;
+
+const transporter = createTransport(smtpConfig);
 
 export const smtpSender = { sendEmail };
 
