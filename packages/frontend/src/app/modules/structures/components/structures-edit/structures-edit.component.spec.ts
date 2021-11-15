@@ -23,7 +23,6 @@ describe("StructuresEditComponent", () => {
           NgbModule,
           ReactiveFormsModule,
           FormsModule,
-
           HttpClientTestingModule,
           ToastrModule.forRoot(),
           RouterTestingModule,

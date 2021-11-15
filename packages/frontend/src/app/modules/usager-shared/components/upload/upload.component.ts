@@ -14,11 +14,11 @@ import { DocumentService } from "../../services/document.service";
   templateUrl: "./upload.component.html",
 })
 export class UploadComponent implements OnInit {
-  public fileName = "";
+  public fileName = null;
   public submitted = false;
   public loading = false;
-  public uploadResponse: UploadResponseType;
 
+  public uploadResponse: UploadResponseType;
   public uploadForm!: FormGroup;
 
   @Input() public usager!: UsagerLight;
@@ -58,14 +58,6 @@ export class UploadComponent implements OnInit {
     });
   }
 
-  private rebuildDocStates() {
-    this.usager.docs = this.usager.docs.map((d) => ({
-      ...d,
-      loadingDownload: false,
-      loadingDelete: false,
-    }));
-  }
-
   public submitFile(): void {
     this.submitted = true;
 
@@ -80,27 +72,25 @@ export class UploadComponent implements OnInit {
     formData.append("file", this.uploadForm.controls.fileSource.value);
     formData.append("label", this.uploadForm.controls.label.value);
 
-    this.documentService.upload(formData, this.usager.ref).subscribe(
-      (res: any) => {
-        this.uploadResponse = res;
+    this.documentService.upload(formData, this.usager.ref).subscribe({
+      next: (uploadResponse: any) => {
+        this.uploadResponse = uploadResponse;
         if (
           this.uploadResponse.success !== undefined &&
           this.uploadResponse.success
         ) {
-          this.loading = false;
           this.usager.docs = this.uploadResponse.body;
-          this.uploadForm.reset();
           this.fileName = "";
+          this.loading = false;
           this.submitted = false;
+          this.uploadForm.reset();
           this.notifService.success("Fichier uploadé avec succès");
-
-          this.rebuildDocStates();
         }
       },
-      () => {
+      error: () => {
         this.loading = false;
         this.notifService.error("Impossible d'uploader le fichier");
-      }
-    );
+      },
+    });
   }
 }

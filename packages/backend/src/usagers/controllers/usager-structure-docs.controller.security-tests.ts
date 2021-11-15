@@ -16,11 +16,32 @@ const CONTROLLER = "UsagersStructureDocsController";
 export const UsagersStructureDocsControllerSecurityTests: AppTestHttpClientSecurityTestDef[] =
   [
     {
-      label: `${CONTROLLER}.getDocument`,
+      label: `${CONTROLLER}.getStructureCustomDoc`,
       query: async (context: AppTestContext) => ({
-        response: await AppTestHttpClient.get("/usagers-structure-docs/1/xxx", {
-          context,
-        }),
+        response: await AppTestHttpClient.get(
+          "/usagers-structure-docs/structure/1/xxx",
+          {
+            context,
+          }
+        ),
+        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+          context.user,
+          {
+            roles: ["simple", "responsable", "admin"],
+            validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
+          }
+        ),
+      }),
+    },
+    {
+      label: `${CONTROLLER}.getDomifaCustomDoc`,
+      query: async (context: AppTestContext) => ({
+        response: await AppTestHttpClient.get(
+          "/usagers-structure-docs/domifa/1/attestation_postale",
+          {
+            context,
+          }
+        ),
         expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
           context.user,
           {

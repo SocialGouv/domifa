@@ -1,7 +1,11 @@
 import { Component, Input, OnInit } from "@angular/core";
 
 import { saveAs } from "file-saver";
-import { StructureDocTypesAvailable } from "../../../../../_common/model/structure-doc";
+import {
+  StructureDoc,
+  StructureDocTypesAvailable,
+  STRUCTURE_DOC_ICONS,
+} from "../../../../../_common/model/structure-doc";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 import { DocumentService } from "../../../usager-shared/services/document.service";
@@ -14,30 +18,74 @@ import { DocumentService } from "../../../usager-shared/services/document.servic
 export class ProfilStructureDocsComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
 
-  public loadingDelete: string;
-  public loadingDownload: string;
-  string;
+  public customStructureDocs: StructureDoc[];
+  public STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;
+
+  // Frontend variables
+  public loadings: string[];
+
   constructor(private documentService: DocumentService) {
-    this.loadingDelete = null;
-    this.loadingDownload = null;
+    this.customStructureDocs = [];
+    this.loadings = [];
   }
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    this.getAllStructureDocs();
+  }
 
   // Documents définis par Domifa
-  public getStructureDocument(docType: StructureDocTypesAvailable): void {
-    this.loadingDownload = docType;
-    this.documentService.getStructureDoc(this.usager.ref, docType).subscribe(
-      (blob: any) => {
-        const newBlob = new Blob([blob], {
-          type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        });
-        saveAs(newBlob, docType + ".docx");
-        this.loadingDownload = null;
+  public getDomifaCustomDoc(docType: StructureDocTypesAvailable): void {
+    this.loadings.push(docType);
+
+    this.documentService
+      .getDomifaCustomDoc(this.usager.ref, docType)
+      .subscribe({
+        next: (blob: Blob) => {
+          const newBlob = new Blob([blob], {
+            type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          });
+          saveAs(newBlob, docType + ".docx");
+
+          this.stopLoading(docType);
+        },
+        error: () => {
+          this.stopLoading(docType);
+        },
+      });
+  }
+
+  // Documents personnalisables de la structure
+  public getStructureCustomDoc(structureDoc: StructureDoc): void {
+    this.documentService
+      .getStructureCustomDoc(this.usager.ref, structureDoc.uuid)
+      .subscribe({
+        next: (blob: Blob) => {
+          const newBlob = new Blob([blob], {
+            type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          });
+          saveAs(newBlob, structureDoc.label + ".docx");
+          this.stopLoading(structureDoc.uuid);
+        },
+        error: () => {
+          this.stopLoading(structureDoc.uuid);
+        },
+      });
+  }
+
+  public getAllStructureDocs(): void {
+    this.documentService.getAllStructureDocs().subscribe({
+      next: (structureDocs: StructureDoc[]) => {
+        this.customStructureDocs = structureDocs.filter(
+          (structureDoc) => structureDoc.custom
+        );
       },
-      () => {
-        this.loadingDownload = null;
-      }
-    );
+    });
+  }
+
+  private stopLoading(loadingRef: string) {
+    var index = this.loadings.indexOf(loadingRef);
+    if (index !== -1) {
+      this.loadings.splice(index, 1);
+    }
   }
 }

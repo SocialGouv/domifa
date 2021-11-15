@@ -1,6 +1,8 @@
-import { StructureCustomDoc } from "./StructureCustomDoc.type";
+import { StructureCustomDocKeys } from "./StructureCustomDocKeys.type";
 
-export const StructureCustomDocLabels: StructureCustomDoc = {
+export const StructureCustomDocLabels: {
+  [key in StructureCustomDocKeys]: string;
+} = {
   // DATES UTILES
   DATE_JOUR: "Date du jour (ex: 20/12/2020)",
   DATE_JOUR_HEURE: "Date et heure du jour (ex: 20/12/2020 à 10h30)",

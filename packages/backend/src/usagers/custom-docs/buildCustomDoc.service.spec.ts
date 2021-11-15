@@ -1,5 +1,5 @@
-import { StructureCustomDoc, UsagerLight } from "../../_common/model";
-import { buildCustomDoc } from "./buildCustomDoc.service";
+import { buildCustomDoc } from ".";
+import { StructureCustomDocTags, UsagerLight } from "../../_common/model";
 import {
   generatedAttestationMock,
   generatedRadiationMock,
@@ -88,7 +88,7 @@ describe("ATTESTATION POSTALE", () => {
 
   it("Generate data for render", async () => {
     const date = new Date("2020-12-15 14:30:00");
-    const docActif: StructureCustomDoc = buildCustomDoc(
+    const docActif: StructureCustomDocTags = buildCustomDoc(
       usagerActif,
       structureMock,
       date
@@ -177,7 +177,7 @@ describe("ATTESTATION RADIATION", () => {
   };
   it("Generate data for render", async () => {
     const date = new Date("2020-12-15 14:30:00");
-    const docRadiation: StructureCustomDoc = buildCustomDoc(
+    const docRadiation: StructureCustomDocTags = buildCustomDoc(
       usagerRadie,
       structureMock,
       date

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 import { debounceTime } from "rxjs/operators";
 import { fadeInOutSlow } from "src/app/shared/animations";
-import { LoadingService } from "./loading.service";
+import { LoadingService } from "../../services/loading.service";
 
 @Component({
   animations: [fadeInOutSlow],

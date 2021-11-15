@@ -1,0 +1,128 @@
+<div *ngIf="me" class="head-page py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-7">
+        <span class="title">
+          Gestion des documents téléchargeables et personnalisés
+        </span>
+      </div>
+      <div class="text-right col-5">
+        <a
+          href="/assets/files/guide_sms.pdf"
+          target="_blank"
+          class="btn btn-white-primary"
+          rel="noopener noreferrer"
+          download
+        >
+          <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+          Télécharger le guide
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content py-3" *ngIf="me">
+  <div class="container py-3">
+    <div class="page-content p-4">
+      <div>
+        <div class="d-flex justify-content-between align-items-center">
+          <h4>Vos documents pré-remplis</h4>
+          <div>
+            <button
+              class="btn-outline-primary btn"
+              (click)="openUploadCustomDocModal(true)"
+            >
+              <fa-icon
+                aria-hidden="true"
+                title="Importer"
+                [icon]="['fas', 'upload']"
+              ></fa-icon>
+              Importer un document pré-rempli
+            </button>
+          </div>
+        </div>
+        <div class="py-3 mb-3">
+          <p>
+            Ce sont des documents Word (.doc) qui sont automatiquement complétés
+            par des données issues de Domifa. Par défaut, Domifa propose 2
+            documents essentiels au suivi des domiciliés :
+          </p>
+          <ul>
+            <li>
+              <b>Courrier de radiation :</b> modèle de courrier informant
+              l'usager de la fin de domiciliation décidée.
+              <a
+                href="/assets/files/courrier_radiation.docx"
+                title="Télécharger le modèle"
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+              >
+                Télécharger le modèle</a
+              >
+            </li>
+            <li>
+              <b>Attestation postale :</b> modèle de courrier permettant au
+              domicilié de justifier son adresse.
+              <a
+                href="/assets/files/attestation_postale.docx"
+                title="Télécharger le modèle"
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+              >
+                Télécharger le modèle</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <app-structures-custom-docs-table
+          [me]="me"
+          [structureDocs]="customStructureDocs"
+        ></app-structures-custom-docs-table>
+      </div>
+    </div>
+
+    <div class="page-content my-3 p-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <h4>Autres documents</h4>
+        <div>
+          <button
+            class="btn-outline-primary btn"
+            (click)="openUploadCustomDocModal(false)"
+          >
+            <fa-icon
+              aria-hidden="true"
+              title="Importer"
+              [icon]="['fas', 'upload']"
+            ></fa-icon>
+            Importer un document
+          </button>
+        </div>
+      </div>
+      <div class="py-3 mb-3">
+        <p>
+          Dans cet espace, vous pouvez téléverser autant de fichier que vous le
+          souhaitez pour votre gestion des domiciliés : livrets d'accueil,
+          règlement intérieur, fiches de suivi, etc.
+        </p>
+      </div>
+      <div>
+        <app-structures-custom-docs-table
+          [me]="me"
+          [structureDocs]="structureDocs"
+        ></app-structures-custom-docs-table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #uploadCustomDocModal let-modal>
+  <app-structures-upload-docs
+    (cancel)="closeModals()"
+    [(isCustomDoc)]="isCustomDoc"
+    (getAllStructureDocs)="getAllStructureDocs()"
+  ></app-structures-upload-docs>
+</ng-template>

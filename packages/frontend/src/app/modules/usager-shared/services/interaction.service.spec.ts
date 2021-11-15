@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { LoadingService } from "../../loading/loading.service";
+import { LoadingService } from "../../shared/services/loading.service";
 
 import { InteractionService } from "./interaction.service";
 

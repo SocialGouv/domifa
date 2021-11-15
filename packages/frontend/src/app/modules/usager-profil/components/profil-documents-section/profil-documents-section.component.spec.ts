@@ -1,23 +1,19 @@
+import { SharedModule } from "src/app/modules/shared/shared.module";
 import { CommonModule, APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
-import {
-  NgbDateParserFormatter,
-  NgbDatepickerI18n,
-  NgbModule,
-} from "@ng-bootstrap/ng-bootstrap";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
 
 import { ProfilDocumentsSectionComponent } from "./profil-documents-section.component";
 
-import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
-import { CustomDatepickerI18n } from "../../../shared/services/date-french";
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
+import { UsagerNomCompletPipe } from "../../../shared/pipes/usager-nom-complet.pipe";
 
 describe("ProfilDocumentsSectionComponent", () => {
   let component: ProfilDocumentsSectionComponent;
@@ -32,18 +28,13 @@ describe("ProfilDocumentsSectionComponent", () => {
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
+        SharedModule,
         HttpClientTestingModule,
         ToastrModule.forRoot(),
         RouterTestingModule,
       ],
       providers: [
-        NgbDateCustomParserFormatter,
-        { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-        {
-          provide: NgbDateParserFormatter,
-          useClass: NgbDateCustomParserFormatter,
-        },
-
+        UsagerNomCompletPipe,
         {
           provide: MatomoInjector,
           useValue: {

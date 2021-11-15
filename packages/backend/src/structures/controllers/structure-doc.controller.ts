@@ -28,6 +28,7 @@ import { UserStructureAuthenticated } from "../../_common/model";
 import { StructureDoc } from "../../_common/model/structure-doc";
 import { StructureDocDto } from "../dto/structure-doc.dto";
 import { StructureDocService } from "../services/structure-doc.service";
+import { structureDocRepository } from "../../database";
 
 @ApiTags("structure-docs")
 @ApiBearerAuth()
@@ -36,17 +37,14 @@ import { StructureDocService } from "../services/structure-doc.service";
 export class StructureDocController {
   constructor(private structureDocService: StructureDocService) {}
 
-  @Get(":id")
+  @Get(":uuid")
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getStructureDoc(
-    @Param("id") structureDocId: number,
+    @Param("uuid") uuid: string,
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
-    const doc = await this.structureDocService.findOne(
-      user.structureId,
-      structureDocId
-    );
+    const doc = await this.structureDocService.findOne(user.structureId, uuid);
     const output = path.join(
       domifaConfig().upload.basePath,
       `${user.structureId}`,
@@ -107,7 +105,18 @@ export class StructureDocController {
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
-    // Check tags
+    // Si attestation de refus, ou postale, on supprime
+    if (structureDocDto.customDocType) {
+      const doc = await structureDocRepository.findOne({
+        structureId: user.structureId,
+        customDocType: structureDocDto.customDocType,
+      });
+
+      if (doc) {
+        await this.deleteDocument(doc.uuid, user);
+      }
+    }
+
     const newDoc: StructureDoc = {
       createdAt: new Date(),
       createdBy: {
@@ -115,19 +124,17 @@ export class StructureDocController {
         nom: user.nom,
         prenom: user.prenom,
       },
+      displayInPortailUsager: false,
       filetype: file.mimetype,
       path: file.filename,
-      tags: {},
+      tags: null,
       label: structureDocDto.label,
-      custom: false,
+      custom: structureDocDto.custom,
       structureId: user.structureId,
+      customDocType: structureDocDto.customDocType,
     };
 
-    if (structureDocDto.custom) {
-      // TODO: Enregistrement des tags
-      //
-    }
-
+    // Ajout du document
     await this.structureDocService.create(newDoc);
 
     return res
@@ -143,16 +150,13 @@ export class StructureDocController {
     return this.structureDocService.findAll(user.structureId);
   }
 
-  @Delete(":id")
+  @Delete(":uuid")
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async deleteDocument(
-    @Param("id") structureDocId: number,
+    @Param("uuid") uuid: string,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
-    const doc = await this.structureDocService.findOne(
-      user.structureId,
-      structureDocId
-    );
+    const doc = await this.structureDocService.findOne(user.structureId, uuid);
 
     const pathFile = path.join(
       domifaConfig().upload.basePath,
@@ -163,6 +167,8 @@ export class StructureDocController {
 
     await deleteFile(pathFile);
 
-    return this.structureDocService.deleteOne(user.structureId, structureDocId);
+    await this.structureDocService.deleteOne(user.structureId, uuid);
+
+    return this.structureDocService.findAll(user.structureId);
   }
 }

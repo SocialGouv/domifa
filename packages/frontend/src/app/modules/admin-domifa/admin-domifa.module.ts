@@ -18,7 +18,6 @@ import { UsersModule } from "../users/users.module";
     CommonModule,
     NgbModule,
     SharedModule,
-
     ToastrModule.forRoot(),
     HttpClientModule,
     FormsModule,

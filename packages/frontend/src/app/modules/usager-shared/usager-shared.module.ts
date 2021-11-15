@@ -11,7 +11,6 @@ import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
 import { DeleteUsagerMenuComponent } from "./components/delete-usager-menu/delete-usager-menu.component";
 import { DisplayEntretienComponent } from "./components/display-entretien/display-entretien.component";
-import { DocumentsComponent } from "./components/documents/documents.component";
 import { EntretienFormComponent } from "./components/entretien-form/entretien-form.component";
 import { SetInteractionInFormComponent } from "./components/interactions/set-interaction-in-form/set-interaction-in-form.component";
 import { SetInteractionOutFormComponent } from "./components/interactions/set-interaction-out-form/set-interaction-out-form.component";
@@ -20,10 +19,10 @@ import { UploadComponent } from "./components/upload/upload.component";
 import { ProfilEtatCivilFormComponent } from "./components/profil-etat-civil-form/profil-etat-civil-form.component";
 import { ProfilGeneralNotesComponent } from "./components/profil-general-notes/profil-general-notes.component";
 import { ProfilAddNoteFormComponent } from "./components/profil-add-note-form/profil-add-note-form.component";
+import { DisplayUsagerDocsComponent } from "./components/display-usager-docs/display-usager-docs.component";
 
 @NgModule({
   declarations: [
-    DocumentsComponent,
     DeleteUsagerMenuComponent,
     UploadComponent,
     RgpdWarningComponent,
@@ -34,6 +33,7 @@ import { ProfilAddNoteFormComponent } from "./components/profil-add-note-form/pr
     ProfilEtatCivilFormComponent,
     ProfilGeneralNotesComponent,
     ProfilAddNoteFormComponent,
+    DisplayUsagerDocsComponent,
   ],
   imports: [
     CommonModule,
@@ -50,7 +50,6 @@ import { ProfilAddNoteFormComponent } from "./components/profil-add-note-form/pr
   exports: [
     UploadComponent,
     RgpdWarningComponent,
-    DocumentsComponent,
     DisplayEntretienComponent,
     DeleteUsagerMenuComponent,
     SetInteractionInFormComponent,
@@ -59,6 +58,7 @@ import { ProfilAddNoteFormComponent } from "./components/profil-add-note-form/pr
     ProfilEtatCivilFormComponent,
     ProfilGeneralNotesComponent,
     ProfilAddNoteFormComponent,
+    DisplayUsagerDocsComponent,
   ],
 
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

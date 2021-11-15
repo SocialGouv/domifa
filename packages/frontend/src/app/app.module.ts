@@ -27,7 +27,6 @@ import { AuthService } from "./modules/shared/services/auth.service";
 import { HealthCheckService } from "./modules/shared/services/health-check";
 import { SharedModule } from "./modules/shared/shared.module";
 
-import { StructuresModule } from "./modules/structures/structures.module";
 import { UsagersModule } from "./modules/usagers/usagers.module";
 import { UsersModule } from "./modules/users/users.module";
 import { UsagerSharedModule } from "./modules/usager-shared/usager-shared.module";
@@ -55,7 +54,6 @@ if (environment.production) {
     MatomoModule,
     NgbModule,
     NgxChartsModule,
-    StructuresModule,
     SharedModule,
     UsagerSharedModule,
     UsagersModule,

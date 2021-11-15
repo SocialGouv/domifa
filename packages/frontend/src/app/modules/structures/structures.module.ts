@@ -1,11 +1,8 @@
 import { CommonModule } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrModule } from "ngx-toastr";
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
 import { RegisterUserComponent } from "./components/register-user/register-user.component";
@@ -17,8 +14,9 @@ import { StructuresPortailUsagerFormComponent } from "./components/structures-po
 import { StructuresSearchComponent } from "./components/structures-search/structures-search.component";
 import { StructuresSmsFormComponent } from "./components/structures-sms-form/structures-sms-form.component";
 import { StructuresUploadDocsComponent } from "./components/structures-upload-docs/structures-upload-docs.component";
-import { StructureDocService } from "./services/structure-doc.service";
-import { StructureService } from "./services/structure.service";
+import { StructuresRoutingModule } from "./structures-routing.module";
+import { StructuresCustomDocsComponent } from './components/structures-custom-docs/structures-custom-docs.component';
+import { StructuresCustomDocsTableComponent } from './components/structures-custom-docs-table/structures-custom-docs-table.component';
 
 @NgModule({
   declarations: [
@@ -32,25 +30,20 @@ import { StructureService } from "./services/structure.service";
     StructuresSmsFormComponent,
     StructuresPortailUsagerFormComponent,
     RegisterUserComponent,
+    StructuresCustomDocsComponent,
+    StructuresCustomDocsTableComponent,
   ],
-  exports: [
-    StructuresConfirmComponent,
-    StructuresSearchComponent,
-    StructuresFormComponent,
-  ],
+  exports: [],
   imports: [
-    UsersModule,
     CommonModule,
+    UsersModule,
     SharedModule,
-
-    RouterModule.forRoot([], { relativeLinkResolution: "legacy" }),
-    ToastrModule.forRoot({}),
-    HttpClientModule,
+    StructuresRoutingModule,
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [StructureService, StructureDocService],
+  providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class StructuresModule {}
