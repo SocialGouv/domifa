@@ -36,10 +36,10 @@ import { StructureDocService } from "../services/structure-doc.service";
 export class StructureDocController {
   constructor(private structureDocService: StructureDocService) {}
 
-  @Get(":id")
+  @Get(":uuid")
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getStructureDoc(
-    @Param("id") structureDocId: number,
+    @Param("uuid") structureDocId: string,
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
@@ -107,6 +107,7 @@ export class StructureDocController {
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
+    console.log(structureDocDto);
     // Check tags
     const newDoc: StructureDoc = {
       createdAt: new Date(),
@@ -118,15 +119,15 @@ export class StructureDocController {
       displayInPortailUsager: false,
       filetype: file.mimetype,
       path: file.filename,
-      tags: {},
+      tags: null,
       label: structureDocDto.label,
-      custom: false,
+      custom: structureDocDto.custom,
       structureId: user.structureId,
+      customDocType: structureDocDto.customDocType,
     };
 
-    if (structureDocDto.custom) {
-      // TODO: Enregistrement des tags
-      //
+    if (structureDocDto.customDocType) {
+      // TODO: Si attestation de refus, ou postale, supprimer l'ancienne
     }
 
     await this.structureDocService.create(newDoc);

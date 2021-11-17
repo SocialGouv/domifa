@@ -80,8 +80,8 @@ export class UploadComponent implements OnInit {
     formData.append("file", this.uploadForm.controls.fileSource.value);
     formData.append("label", this.uploadForm.controls.label.value);
 
-    this.documentService.upload(formData, this.usager.ref).subscribe(
-      (res: any) => {
+    this.documentService.upload(formData, this.usager.ref).subscribe({
+      next: (res: any) => {
         this.uploadResponse = res;
         if (
           this.uploadResponse.success !== undefined &&
@@ -97,10 +97,10 @@ export class UploadComponent implements OnInit {
           this.rebuildDocStates();
         }
       },
-      () => {
+      error: () => {
         this.loading = false;
         this.notifService.error("Impossible d'uploader le fichier");
-      }
-    );
+      },
+    });
   }
 }

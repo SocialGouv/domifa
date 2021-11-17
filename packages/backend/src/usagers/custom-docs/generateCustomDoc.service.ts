@@ -1,7 +1,8 @@
 import Docxtemplater from "docxtemplater";
 import * as PizZip from "pizzip";
 import { appLogger } from "../../util";
-import { StructureCustomDoc } from "../../_common/model/structure-doc/StructureCustomDoc.type";
+import { StructureCustomDocTags } from "../../_common/model/structure-doc/StructureCustomDocTags.type";
+
 // tslint:disable-next-line: no-var-requires
 const docxTemplater = require("docxtemplater");
 
@@ -10,7 +11,7 @@ const InspectModule = require("docxtemplater/js/inspect-module");
 
 export function generateCustomDoc(
   content: string, // template file content
-  docValues: StructureCustomDoc
+  docValues: StructureCustomDocTags
 ): Buffer {
   const iModule = InspectModule();
 

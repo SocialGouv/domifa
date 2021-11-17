@@ -15,6 +15,7 @@ import { StructuresPortailUsagerFormComponent } from "./components/structures-po
 import { StructuresSearchComponent } from "./components/structures-search/structures-search.component";
 import { StructuresSmsFormComponent } from "./components/structures-sms-form/structures-sms-form.component";
 import { StructuresEditComponent } from "./components/structures-edit/structures-edit.component";
+import { StructuresCustomDocsComponent } from "./components/structures-custom-docs/structures-custom-docs.component";
 
 const routes: Routes = [
   {
@@ -25,7 +26,7 @@ const routes: Routes = [
   {
     canActivate: [AuthGuard, AdminGuard],
     path: "documents",
-    component: StructuresUploadDocsComponent,
+    component: StructuresCustomDocsComponent,
   },
   {
     canActivate: [LoggedGuard],

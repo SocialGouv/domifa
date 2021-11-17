@@ -15,6 +15,8 @@ import { StructuresSearchComponent } from "./components/structures-search/struct
 import { StructuresSmsFormComponent } from "./components/structures-sms-form/structures-sms-form.component";
 import { StructuresUploadDocsComponent } from "./components/structures-upload-docs/structures-upload-docs.component";
 import { StructuresRoutingModule } from "./structures-routing.module";
+import { StructuresCustomDocsComponent } from './components/structures-custom-docs/structures-custom-docs.component';
+import { StructuresCustomDocsTableComponent } from './components/structures-custom-docs-table/structures-custom-docs-table.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { StructuresRoutingModule } from "./structures-routing.module";
     StructuresSmsFormComponent,
     StructuresPortailUsagerFormComponent,
     RegisterUserComponent,
+    StructuresCustomDocsComponent,
+    StructuresCustomDocsTableComponent,
   ],
   exports: [],
   imports: [

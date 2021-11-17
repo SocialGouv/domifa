@@ -31,11 +31,11 @@ export class StructureDocService {
 
   public async findOne(
     structureId: number,
-    structureDocId: number
+    uuid: string
   ): Promise<StructureDoc> {
     return this.structureDocRepository.findOne({
       structureId,
-      id: structureDocId,
+      uuid,
     });
   }
 

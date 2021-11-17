@@ -5,6 +5,10 @@ import { HttpException, HttpStatus } from "@nestjs/common";
 
 // Liste des extensions autorisé selon le contexte
 export const mimeTypes = {
+  STRUCTURE_CUSTOM_DOC: [
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  ],
   STRUCTURE_DOC: [
     "image/jpg",
     "image/jpeg",
@@ -79,7 +83,11 @@ export function randomName(file: Express.Multer.File): string {
 
 // Vérification des mimetype
 export function validateUpload(
-  uploadType: "STRUCTURE_DOC" | "USAGER_DOC" | "IMPORT",
+  uploadType:
+    | "STRUCTURE_CUSTOM_DOC"
+    | "STRUCTURE_DOC"
+    | "USAGER_DOC"
+    | "IMPORT",
   req: any,
   file: Express.Multer.File
 ): boolean {

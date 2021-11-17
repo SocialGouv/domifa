@@ -44,13 +44,13 @@ export class StructureDocService {
     return this.http.get(this.endPoint);
   }
 
-  public getStructureDoc(docId: number) {
-    return this.http.get(this.endPoint + "/" + docId, {
+  public getStructureDoc(docUuid: string) {
+    return this.http.get(this.endPoint + "/" + docUuid, {
       responseType: "blob",
     });
   }
 
-  public deleteStructureDoc(docId: number) {
-    return this.http.delete(this.endPoint + "/" + docId);
+  public deleteStructureDoc(docUuid: string) {
+    return this.http.delete(this.endPoint + "/" + docUuid);
   }
 }

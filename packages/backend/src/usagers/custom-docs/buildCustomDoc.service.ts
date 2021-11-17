@@ -3,14 +3,15 @@ import { generateMotifLabel } from "./../services/generateMotifLabel.service";
 import { UsagerDecision } from "./../../_common/model/usager/UsagerDecision.type";
 import { residence, typeMenage } from "../../stats/usagers.labels";
 import { StructureCommon, UsagerLight } from "../../_common/model";
-import { StructureCustomDoc } from "../../_common/model/structure-doc/StructureCustomDoc.type";
+import { StructureCustomDocTags } from "../../_common/model/structure-doc/StructureCustomDocTags.type";
+
 import moment = require("moment");
 
 export function buildCustomDoc(
   usager: UsagerLight,
   structure: StructureCommon,
   date?: Date
-): StructureCustomDoc {
+): StructureCustomDocTags {
   // Date
   const dateOfDocument = date ? moment(date) : moment();
 

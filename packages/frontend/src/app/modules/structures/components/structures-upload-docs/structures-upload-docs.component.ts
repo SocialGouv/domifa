@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { saveAs } from "file-saver";
+
 import { ToastrService } from "ngx-toastr";
-import { UserStructure } from "../../../../../_common/model";
 import { StructureDoc } from "../../../../../_common/model/structure-doc";
 import {
   UploadResponseType,
@@ -24,9 +24,10 @@ export class StructuresUploadDocsComponent implements OnInit {
   public submitted = false;
   public uploadForm!: FormGroup;
 
-  public structureDocs: StructureDoc[];
+  @Input() public isCustomDoc: boolean;
 
-  @Input() public me: UserStructure;
+  @Output()
+  public cancel = new EventEmitter<void>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,23 +36,27 @@ export class StructuresUploadDocsComponent implements OnInit {
     private notifService: ToastrService
   ) {
     this.uploadResponse = { status: "", message: "", filePath: "" };
-    this.structureDocs = [];
   }
 
   public ngOnInit(): void {
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      this.me = user;
-    });
-
-    this.getAllStructureDocs();
     this.initForm();
   }
 
   public initForm(): void {
     this.uploadForm = this.formBuilder.group({
-      fileSource: ["", [Validators.required, validateUpload("STRUCTURE_DOC")]],
-      file: ["", [Validators.required]],
+      fileSource: [
+        "",
+        [
+          Validators.required,
+          this.isCustomDoc
+            ? validateUpload("STRUCTURE_DOC")
+            : validateUpload("STRUCTURE_CUSTOM_DOC"),
+        ],
+      ],
       label: ["", Validators.required],
+      customDocType: [null],
+      isCustomDoc: [this.isCustomDoc ? "true" : "false"],
+      file: [""],
     });
   }
 
@@ -59,49 +64,7 @@ export class StructuresUploadDocsComponent implements OnInit {
     return this.uploadForm.controls;
   }
 
-  public getAllStructureDocs(): void {
-    this.structureDocService.getAllStructureDocs().subscribe({
-      next: (structureDocs: StructureDoc[]) => {
-        this.structureDocs = structureDocs;
-      },
-      error: () => {
-        this.notifService.error("Impossible d'afficher les documents");
-      },
-    });
-  }
-
-  public deleteStructureDoc(structureDoc: StructureDoc): void {
-    structureDoc.loadingDelete = true;
-    this.structureDocService.deleteStructureDoc(structureDoc.id).subscribe({
-      next: () => {
-        structureDoc.loadingDelete = false;
-        this.getAllStructureDocs();
-        this.notifService.success("Suppression réussie");
-      },
-      error: () => {
-        structureDoc.loadingDelete = false;
-        this.notifService.error("Impossible de télécharger le fichier");
-      },
-    });
-  }
-
-  public getStructureDoc(structureDoc: StructureDoc): void {
-    structureDoc.loadingDownload = true;
-    this.structureDocService.getStructureDoc(structureDoc.id).subscribe(
-      (blob: any) => {
-        const extension = structureDoc.path.split(".")[1];
-        const newBlob = new Blob([blob], { type: structureDoc.filetype });
-        saveAs(newBlob, structureDoc.label + "." + extension);
-        structureDoc.loadingDownload = false;
-      },
-      () => {
-        this.notifService.error("Impossible de télécharger le fichier");
-        structureDoc.loadingDownload = false;
-      }
-    );
-  }
-
-  public onFileChange(event: Event) {
+  public onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
 
     if (!input.files?.length) {
@@ -118,16 +81,25 @@ export class StructuresUploadDocsComponent implements OnInit {
 
   public submitFile() {
     this.submitted = true;
+    console.log("45156156");
+    console.log(this.uploadForm.errors);
 
     if (this.uploadForm.invalid) {
       this.notifService.error("Le formulaire d'upload comporte des erreurs");
       return;
     }
+
     this.loading = true;
+
     const formData = new FormData();
     formData.append("file", this.uploadForm.controls.fileSource.value);
+
     formData.append("label", this.uploadForm.controls.label.value);
-    formData.append("custom", "false");
+    formData.append("custom", this.uploadForm.controls.isCustomDoc.value);
+    formData.append(
+      "customDocType",
+      this.uploadForm.controls.customDocType.value
+    );
 
     this.structureDocService.upload(formData).subscribe({
       next: (res: any) => {
@@ -137,11 +109,10 @@ export class StructuresUploadDocsComponent implements OnInit {
           this.uploadResponse.success
         ) {
           this.loading = false;
+          this.submitted = false;
           this.uploadForm.reset();
           this.fileName = "";
-          this.getAllStructureDocs();
           this.notifService.success("Fichier uploadé avec succès");
-          this.submitted = false;
         }
       },
       error: () => {

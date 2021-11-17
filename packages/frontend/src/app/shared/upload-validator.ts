@@ -9,7 +9,11 @@ export type UploadResponseType = {
   body?: UsagerDoc[];
 };
 
-export const extensionsAvailables = {
+export const mimeTypes = {
+  STRUCTURE_CUSTOM_DOC: [
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  ],
   STRUCTURE_DOC: [
     "image/jpg",
     "image/jpeg",
@@ -37,15 +41,18 @@ export const extensionsAvailables = {
 };
 
 export function validateUpload(
-  uploadType: "STRUCTURE_DOC" | "USAGER_DOC" | "IMPORT"
+  uploadType: "STRUCTURE_DOC" | "STRUCTURE_CUSTOM_DOC" | "USAGER_DOC" | "IMPORT"
 ): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const file = control.value;
     if (file) {
-      const validFileExtensions = extensionsAvailables[uploadType];
+      const validFileExtensions = mimeTypes[uploadType];
 
       const hasGoodSize = file.size < 10000000;
       const hasGoodExtension = validFileExtensions.includes(file.type);
+
+      console.log("hasGoodSize");
+      console.log(file.type);
 
       if (!hasGoodSize || !hasGoodExtension) {
         const errors: {
