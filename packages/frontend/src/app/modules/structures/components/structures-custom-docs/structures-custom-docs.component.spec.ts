@@ -1,16 +1,29 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from "@angular/router/testing";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { NO_ERRORS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrModule } from "ngx-toastr";
+import { SharedModule } from "../../../shared/shared.module";
 
-import { StructuresCustomDocsComponent } from './structures-custom-docs.component';
+import { StructuresCustomDocsComponent } from "./structures-custom-docs.component";
 
-describe('StructuresCustomDocsComponent', () => {
+describe("StructuresCustomDocsComponent", () => {
   let component: StructuresCustomDocsComponent;
   let fixture: ComponentFixture<StructuresCustomDocsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StructuresCustomDocsComponent ]
-    })
-    .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+      imports: [
+        NgbModule,
+        HttpClientTestingModule,
+        ToastrModule.forRoot(),
+        RouterTestingModule,
+        SharedModule,
+      ],
+      declarations: [StructuresCustomDocsComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +32,7 @@ describe('StructuresCustomDocsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
