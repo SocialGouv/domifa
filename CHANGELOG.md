@@ -1,3 +1,15 @@
+# [2.39.0](https://github.com/SocialGouv/domifa/compare/v2.38.0...v2.39.0) (2021-11-18)
+
+
+### Bug Fixes
+
+* correction de tests unitaires ([cdbf582](https://github.com/SocialGouv/domifa/commit/cdbf5826eb1445b65f3475cb249bb465a71c1318))
+
+
+### Features
+
+* add new cerfa type ([4c2cbf0](https://github.com/SocialGouv/domifa/commit/4c2cbf0380b861dd3e2933a6c308a537637294cd))
+
 # [2.38.0](https://github.com/SocialGouv/domifa/compare/v2.37.7...v2.38.0) (2021-11-15)
 
 
