@@ -259,7 +259,12 @@ export class UsagersService {
   public async getLastFiveCustomRef(
     structureId: number,
     usagerRef: number
-  ): Promise<UsagerLight[]> {
+  ): Promise<
+    Pick<
+      Usager,
+      "ref" | "customRef" | "nom" | "sexe" | "prenom" | "structureId"
+    >[]
+  > {
     return usagerLightRepository.findLastFiveCustomRef({
       structureId,
       usagerRef,

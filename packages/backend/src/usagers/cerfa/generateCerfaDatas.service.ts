@@ -1,8 +1,11 @@
 import moment = require("moment");
-import { generateMotifLabel } from ".";
-import { Usager, UserStructureAuthenticated } from "../../_common/model";
-import { UsagerCerfaFields } from "../../_common/model/usager/cerfa/UsagerCerfaFields.type";
-import { DateCerfa } from "../interfaces/date-cerfa";
+import { DateCerfa } from ".";
+import {
+  Usager,
+  UserStructureAuthenticated,
+  UsagerCerfaFields,
+} from "../../_common/model";
+import { generateMotifLabel } from "../services";
 
 const isNil = (value: any): boolean => {
   return value === null || value === undefined;

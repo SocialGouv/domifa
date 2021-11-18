@@ -1,11 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import * as fs from "fs";
 import * as path from "path";
-import { getUsagerRef, generateCerfaDatas } from ".";
 
 import { appLogger } from "../../util";
 import { Usager, UserStructureAuthenticated } from "../../_common/model";
 import { CerfaDocType } from "../../_common/model";
+import { getUsagerRef, generateCerfaDatas } from "../cerfa";
 
 // tslint:disable-next-line: no-var-requires
 const pdftk = require("node-pdftk");
