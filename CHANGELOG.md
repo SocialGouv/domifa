@@ -1,3 +1,10 @@
+# [2.40.0](https://github.com/SocialGouv/domifa/compare/v2.39.1...v2.40.0) (2021-11-18)
+
+
+### Features
+
+* **db:** mise à jour du dump de base ([d320599](https://github.com/SocialGouv/domifa/commit/d320599bedff950870205f7caafecd9b78fe8f56))
+
 ## [2.39.1](https://github.com/SocialGouv/domifa/compare/v2.39.0...v2.39.1) (2021-11-18)
 
 
