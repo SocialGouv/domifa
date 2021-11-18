@@ -1,11 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import * as fs from "fs";
 import * as path from "path";
+import { getUsagerRef, generateCerfaDatas } from ".";
 
 import { appLogger } from "../../util";
 import { Usager, UserStructureAuthenticated } from "../../_common/model";
 import { CerfaDocType } from "../../_common/model";
-import { CerfaData, getUsagerRef } from "../../util/CerfaData";
 
 // tslint:disable-next-line: no-var-requires
 const pdftk = require("node-pdftk");
@@ -24,7 +24,7 @@ export class CerfaService {
         ? "../../_static/static-docs/attestation.pdf"
         : "../../_static/static-docs/demande.pdf";
     const usagerRef = getUsagerRef(usager);
-    const pdfInfos = CerfaData(usager, user);
+    const pdfInfos = generateCerfaDatas(usager, user);
 
     const filePath = path.resolve(__dirname, pdfForm);
     return pdftk

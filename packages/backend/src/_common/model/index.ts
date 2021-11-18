@@ -8,6 +8,6 @@ export * from "./usager";
 export * from "./user";
 export * from "./user-structure";
 export * from "./user-usager";
-export * from "./cerfa";
+export * from "./usager/cerfa";
 export * from "./_core";
 export * from "./_portail-usager";

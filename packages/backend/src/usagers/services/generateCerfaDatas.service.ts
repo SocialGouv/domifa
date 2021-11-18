@@ -1,9 +1,8 @@
 import moment = require("moment");
-
-import { Usager, UserStructureAuthenticated } from "../_common/model";
-import { DateCerfa } from "../usagers/interfaces/date-cerfa";
-import { generateMotifLabel } from "../usagers/services/generateMotifLabel.service";
-import { UsagerCerfaFields } from "../_common/model/usager/UsagerCerfaFields.type";
+import { generateMotifLabel } from ".";
+import { Usager, UserStructureAuthenticated } from "../../_common/model";
+import { UsagerCerfaFields } from "../../_common/model/usager/cerfa/UsagerCerfaFields.type";
+import { DateCerfa } from "../interfaces/date-cerfa";
 
 const isNil = (value: any): boolean => {
   return value === null || value === undefined;
@@ -21,7 +20,7 @@ export const getUsagerRef = (usager: Usager): string => {
   return usagerRef;
 };
 
-export const CerfaData = (
+export const generateCerfaDatas = (
   usager: Usager,
   user: UserStructureAuthenticated
 ): UsagerCerfaFields => {
@@ -48,12 +47,14 @@ export const CerfaData = (
 
   const responsable = `${user.structure.responsable.nom.toUpperCase()}, ${user.structure.responsable.prenom.toUpperCase()}, ${user.structure.responsable.fonction.toUpperCase()}`;
 
+  // Adresse de la structure
   let adresseStructure = `${user.structure.nom}\n${user.structure.adresse}`;
   if (!isNil(user.structure.complementAdresse)) {
     adresseStructure += `\n${user.structure.complementAdresse}`;
   }
   adresseStructure += `\n${user.structure.codePostal} - ${user.structure.ville}`;
 
+  // Adresse de courrier
   let adresseDomicilie = adresseStructure;
   if (
     !isNil(user.structure.adresseCourrier) &&
@@ -62,11 +63,13 @@ export const CerfaData = (
     adresseDomicilie = `${user.structure.nom}\n${user.structure.adresseCourrier.adresse}\n${user.structure.adresseCourrier.codePostal} - ${user.structure.adresseCourrier.ville}`;
   }
 
+  // Numéro de boite
   if (user.structure.options.numeroBoite === true) {
     adresseDomicilie = `Boite ${usagerRef}\n${adresseDomicilie}`;
   }
 
-  const ayantsDroitsTexte = usager.ayantsDroits.reduce(
+  // Ayants-droits
+  let ayantsDroitsTexte = usager.ayantsDroits.reduce(
     (prev, current) =>
       `${prev}${current.nom} ${current.prenom} né(e) le ${moment(
         current.dateNaissance
@@ -76,9 +79,16 @@ export const CerfaData = (
     ""
   );
 
+  if (ayantsDroitsTexte) {
+    ayantsDroitsTexte = ayantsDroitsTexte
+      .substring(0, ayantsDroitsTexte.length - 2)
+      .trim();
+  }
+
   const sexe = usager.sexe === "femme" ? "1" : "2";
   const rattachement = toString(usager.entretien.rattachement).toUpperCase();
   const motif = generateMotifLabel(usager.decision);
+  const courriel = toString(usager.email);
 
   const pdfInfos: UsagerCerfaFields = {
     adresse: adresseDomicilie,
@@ -94,7 +104,7 @@ export const CerfaData = (
     anneePremiereDom: datePremiereDom.annee,
     anneeRdv: dateRdv.annee,
     ayantsDroits: ayantsDroitsTexte,
-    courriel: usager.email,
+    courriel,
     courrielOrga: user.structure.email,
     decision: usager.decision.statut === "REFUS" ? "2" : "",
     entretienAdresse: adresseStructure,
