@@ -73,7 +73,12 @@ function findLastFiveCustomRef({
 }: {
   structureId: number;
   usagerRef: number;
-}): Promise<UsagerLight[]> {
+}): Promise<
+  Pick<
+    Usager,
+    "ref" | "customRef" | "nom" | "sexe" | "prenom" | "structureId"
+  >[]
+> {
   return baseRepository.findManyWithQuery({
     select: ["ref", "customRef", "nom", "sexe", "prenom", "structureId"],
     where: `"structureId" = :structureId and ref != :usagerRef`,
