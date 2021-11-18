@@ -1,16 +1,29 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { APP_BASE_HREF } from "@angular/common";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { RouterTestingModule } from "@angular/router/testing";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrModule } from "ngx-toastr";
 
-import { StructuresCustomDocsTableComponent } from './structures-custom-docs-table.component';
+import { StructuresCustomDocsTableComponent } from "./structures-custom-docs-table.component";
 
-describe('StructuresCustomDocsTableComponent', () => {
+describe("StructuresCustomDocsTableComponent", () => {
   let component: StructuresCustomDocsTableComponent;
   let fixture: ComponentFixture<StructuresCustomDocsTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StructuresCustomDocsTableComponent ]
-    })
-    .compileComponents();
+      declarations: [StructuresCustomDocsTableComponent],
+      imports: [
+        NgbModule,
+        HttpClientTestingModule,
+        ToastrModule.forRoot(),
+        RouterTestingModule,
+      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +32,7 @@ describe('StructuresCustomDocsTableComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
