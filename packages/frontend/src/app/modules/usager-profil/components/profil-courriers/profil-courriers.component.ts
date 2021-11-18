@@ -3,6 +3,7 @@ import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { UserStructure, UsagerLight } from "../../../../../_common/model";
+import { getUsagerNomComplet } from "../../../../shared/getUsagerNomComplet";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerProfilService } from "../../services/usager-profil.service";
@@ -29,9 +30,6 @@ export class ProfilCourriersComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Courrier du domicilié");
-    //
-
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
@@ -39,6 +37,8 @@ export class ProfilCourriersComponent implements OnInit {
     this.usagerProfilService.findOne(this.route.snapshot.params.id).subscribe(
       (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
+        const name = getUsagerNomComplet(usager);
+        this.titleService.setTitle("Courriers de " + name);
       },
       () => {
         this.notifService.error("Le dossier recherché n'existe pas");

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { DECISION_LABELS } from "../../../../shared/constants/USAGER_LABELS.const";
+import { getUsagerNomComplet } from "../../../../shared/getUsagerNomComplet";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
@@ -32,15 +33,14 @@ export class ProfilHistoriqueComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle("Courrier du domicilié");
-    //
-
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
 
     this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
       (usager: UsagerLight) => {
+        const name = getUsagerNomComplet(usager);
+        this.titleService.setTitle("Historique de " + name);
         this.usager = new UsagerFormModel(usager);
       },
       () => {

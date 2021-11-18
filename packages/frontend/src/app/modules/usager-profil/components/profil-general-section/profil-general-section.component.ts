@@ -18,6 +18,7 @@ import {
   minDateNaissance,
   formatDateToNgb,
 } from "../../../../shared/bootstrap-util";
+import { getUsagerNomComplet } from "../../../../shared/getUsagerNomComplet";
 import { AuthService } from "../../../shared/services/auth.service";
 import {
   Interaction,
@@ -101,14 +102,10 @@ export class ProfilGeneralSectionComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Fiche d'un domicilié");
-    //
-
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
 
-    //
     if (!this.route.snapshot.params.id) {
       this.router.navigate(["/404"]);
       return;
@@ -117,6 +114,8 @@ export class ProfilGeneralSectionComponent implements OnInit {
     this.usagerProfilService.findOne(this.route.snapshot.params.id).subscribe(
       (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
+        const name = getUsagerNomComplet(usager);
+        this.titleService.setTitle("Fiche de " + name);
       },
       () => {
         this.notifService.error("Le dossier recherché n'existe pas");
