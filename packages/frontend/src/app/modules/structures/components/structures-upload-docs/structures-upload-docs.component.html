@@ -25,13 +25,25 @@
         </div>
       </div>
 
-      <div class="col-12 form-group" *ngIf="isCustomDoc">
-        <label for="typeDoc">Type de document à enregistrer</label>
-        <select id="typeDoc" formControlName="typeDoc" class="form-control">
-          <option>Attestation postale</option>
-          <option>Courrier de radiation</option>
-          <option>Autre document à pré-remplir</option>
+      <div class="col-12 form-group required" *ngIf="isCustomDoc">
+        <label for="customDocType">Type de document à enregistrer</label>
+        <select
+          id="customDocType"
+          required
+          formControlName="customDocType"
+          class="form-control"
+        >
+          <option value="attestation_postal">Attestation postale</option>
+          <option value="courrier_radiation">Courrier de radiation</option>
+          <option value="autre">Autre document à pré-remplir</option>
         </select>
+
+        <div
+          *ngIf="submitted && u.customDocType.errors"
+          class="invalid-feedback"
+        >
+          Le type de document est obligatoire
+        </div>
       </div>
 
       <div class="col-md-12 form-group required">
