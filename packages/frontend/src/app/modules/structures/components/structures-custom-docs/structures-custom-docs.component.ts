@@ -58,12 +58,11 @@ export class StructuresCustomDocsComponent implements OnInit {
   public getAllStructureDocs(): void {
     this.structureDocService.getAllStructureDocs().subscribe({
       next: (structureDocs: StructureDoc[]) => {
-        this.customStructureDocs = structureDocs.filter(
-          (structureDoc) => structureDoc.custom
-        );
-
         this.structureDocs = structureDocs.filter(
           (structureDoc) => !structureDoc.custom
+        );
+        this.customStructureDocs = structureDocs.filter(
+          (structureDoc) => structureDoc.custom
         );
       },
       error: () => {

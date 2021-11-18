@@ -13,7 +13,6 @@ import { ProfilDocumentsSectionComponent } from "./profil-documents-section.comp
 
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
-import { UsagerNomCompletPipe } from "../../../shared/pipes/usager-nom-complet.pipe";
 
 describe("ProfilDocumentsSectionComponent", () => {
   let component: ProfilDocumentsSectionComponent;
@@ -34,7 +33,6 @@ describe("ProfilDocumentsSectionComponent", () => {
         RouterTestingModule,
       ],
       providers: [
-        UsagerNomCompletPipe,
         {
           provide: MatomoInjector,
           useValue: {

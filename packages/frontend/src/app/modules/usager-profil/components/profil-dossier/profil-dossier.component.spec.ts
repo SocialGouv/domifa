@@ -10,7 +10,6 @@ import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
 
 import { ProfilDossierComponent } from "./profil-dossier.component";
-import { UsagerNomCompletPipe } from "../../../shared/pipes/usager-nom-complet.pipe";
 
 describe("ProfilDossierComponent", () => {
   let component: ProfilDossierComponent;
@@ -32,7 +31,6 @@ describe("ProfilDossierComponent", () => {
           RouterTestingModule,
         ],
         providers: [
-          UsagerNomCompletPipe,
           {
             provide: MatomoInjector,
             useValue: {

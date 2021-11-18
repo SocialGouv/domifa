@@ -9,7 +9,8 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerProfilService } from "../../services/usager-profil.service";
 import { DocumentService } from "./../../../usager-shared/services/document.service";
 import { CerfaDocType } from "src/_common/model/cerfa";
-import { UsagerNomCompletPipe } from "../../../shared/pipes/usager-nom-complet.pipe";
+
+import { getUsagerNomComplet } from "../../../../shared/getUsagerNomComplet";
 
 @Component({
   selector: "app-profil-documents-section",
@@ -28,8 +29,7 @@ export class ProfilDocumentsSectionComponent implements OnInit {
     private titleService: Title,
     private notifService: ToastrService,
     private route: ActivatedRoute,
-    private router: Router,
-    private usagerNomCompletPipe: UsagerNomCompletPipe
+    private router: Router
   ) {
     this.me = null;
   }
@@ -39,7 +39,6 @@ export class ProfilDocumentsSectionComponent implements OnInit {
       this.me = user;
     });
 
-    //
     if (!this.route.snapshot.params.id) {
       this.router.navigate(["/404"]);
       return;
@@ -47,7 +46,7 @@ export class ProfilDocumentsSectionComponent implements OnInit {
 
     this.usagerProfilService.findOne(this.route.snapshot.params.id).subscribe({
       next: (usager: UsagerLight) => {
-        const name = this.usagerNomCompletPipe.transform(usager);
+        const name = getUsagerNomComplet(usager);
         this.titleService.setTitle("Documents de " + name);
         this.usager = new UsagerFormModel(usager);
       },

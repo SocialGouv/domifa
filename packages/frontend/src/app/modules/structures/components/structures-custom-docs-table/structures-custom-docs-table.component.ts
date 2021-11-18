@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import {
   StructureDoc,
@@ -16,6 +16,9 @@ export class StructuresCustomDocsTableComponent implements OnInit {
   public STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;
   @Input() public structureDocs: StructureDoc[];
   @Input() public me: UserStructure;
+
+  @Output()
+  public getAllStructureDocs = new EventEmitter<void>();
 
   // Frontend variables
   public loadings: {
@@ -55,10 +58,9 @@ export class StructuresCustomDocsTableComponent implements OnInit {
     this.loadings.delete.push(structureDoc.uuid);
     this.structureDocService.deleteStructureDoc(structureDoc.uuid).subscribe({
       next: () => {
-        structureDoc = null;
-
         this.stopLoading("delete", structureDoc.uuid);
         this.notifService.success("Suppression réussie");
+        this.getAllStructureDocs.emit();
       },
       error: () => {
         this.stopLoading("delete", structureDoc.uuid);

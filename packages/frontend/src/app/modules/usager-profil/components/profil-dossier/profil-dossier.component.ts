@@ -7,7 +7,7 @@ import {
   UserStructure,
   UserStructureRole,
 } from "../../../../../_common/model";
-import { UsagerNomCompletPipe } from "../../../shared/pipes/usager-nom-complet.pipe";
+import { getUsagerNomComplet } from "../../../../shared/getUsagerNomComplet";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsagerFormModel } from "../../../usager-shared/interfaces/UsagerFormModel";
 
@@ -31,8 +31,7 @@ export class ProfilDossierComponent implements OnInit {
     private titleService: Title,
     private notifService: ToastrService,
     private route: ActivatedRoute,
-    private router: Router,
-    private usagerNomCompletPipe: UsagerNomCompletPipe
+    private router: Router
   ) {
     this.me = null;
     this.editInfos = false;
@@ -46,8 +45,8 @@ export class ProfilDossierComponent implements OnInit {
 
     this.usagerService.findOne(this.route.snapshot.params.id).subscribe({
       next: (usager: UsagerLight) => {
-        const name = this.usagerNomCompletPipe.transform(usager);
         this.usager = new UsagerFormModel(usager);
+        const name = getUsagerNomComplet(usager);
         this.titleService.setTitle("Documents de " + name);
       },
       error: () => {
