@@ -28,6 +28,7 @@ import { UserStructureAuthenticated } from "../../_common/model";
 import { StructureDoc } from "../../_common/model/structure-doc";
 import { StructureDocDto } from "../dto/structure-doc.dto";
 import { StructureDocService } from "../services/structure-doc.service";
+import { structureDocRepository } from "../../database";
 
 @ApiTags("structure-docs")
 @ApiBearerAuth()
@@ -104,7 +105,18 @@ export class StructureDocController {
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
-    // Check tags
+    // Si attestation de refus, ou postale, on supprime
+    if (structureDocDto.customDocType) {
+      const doc = await structureDocRepository.findOne({
+        structureId: user.structureId,
+        customDocType: structureDocDto.customDocType,
+      });
+
+      if (doc) {
+        await this.deleteDocument(doc.uuid, user);
+      }
+    }
+
     const newDoc: StructureDoc = {
       createdAt: new Date(),
       createdBy: {
@@ -122,10 +134,7 @@ export class StructureDocController {
       customDocType: structureDocDto.customDocType,
     };
 
-    if (structureDocDto.customDocType) {
-      // TODO: Si attestation de refus, ou postale, supprimer l'ancienne
-    }
-
+    // Ajout du document
     await this.structureDocService.create(newDoc);
 
     return res
@@ -158,6 +167,8 @@ export class StructureDocController {
 
     await deleteFile(pathFile);
 
-    return this.structureDocService.deleteOne(user.structureId, uuid);
+    await this.structureDocService.deleteOne(user.structureId, uuid);
+
+    return this.structureDocService.findAll(user.structureId);
   }
 }

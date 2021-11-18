@@ -51,7 +51,7 @@ export class StructureDocService {
     });
   }
 
-  public deleteStructureDoc(docUuid: string) {
-    return this.http.delete(this.endPoint + "/" + docUuid);
+  public deleteStructureDoc(docUuid: string): Observable<StructureDoc[]> {
+    return this.http.delete<StructureDoc[]>(this.endPoint + "/" + docUuid);
   }
 }

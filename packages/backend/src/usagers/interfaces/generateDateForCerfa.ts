@@ -47,5 +47,3 @@ export function generateDateForCerfa(date?: Date | string): {
     mois,
   };
 }
-
-// TODO: générer le fichier stats

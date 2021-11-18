@@ -55,6 +55,8 @@ export class StructuresCustomDocsTableComponent implements OnInit {
     this.loadings.delete.push(structureDoc.uuid);
     this.structureDocService.deleteStructureDoc(structureDoc.uuid).subscribe({
       next: () => {
+        structureDoc = null;
+
         this.stopLoading("delete", structureDoc.uuid);
         this.notifService.success("Suppression réussie");
       },
@@ -66,9 +68,11 @@ export class StructuresCustomDocsTableComponent implements OnInit {
   }
 
   private stopLoading(loadingType: "delete" | "download", loadingRef: string) {
-    var index = this.loadings[loadingType].indexOf(loadingRef);
-    if (index !== -1) {
-      this.loadings[loadingType].splice(index, 1);
-    }
+    setTimeout(() => {
+      var index = this.loadings[loadingType].indexOf(loadingRef);
+      if (index !== -1) {
+        this.loadings[loadingType].splice(index, 1);
+      }
+    }, 500);
   }
 }
