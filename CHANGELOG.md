@@ -1,3 +1,10 @@
+## [2.39.1](https://github.com/SocialGouv/domifa/compare/v2.39.0...v2.39.1) (2021-11-18)
+
+
+### Bug Fixes
+
+* Correction de retours PO, ajustement des fichiers liés au Cerfa ([f3a5453](https://github.com/SocialGouv/domifa/commit/f3a5453b99f21705ad0caf6aadeb13fd1aeabb29))
+
 # [2.39.0](https://github.com/SocialGouv/domifa/compare/v2.38.0...v2.39.0) (2021-11-18)
 
 
