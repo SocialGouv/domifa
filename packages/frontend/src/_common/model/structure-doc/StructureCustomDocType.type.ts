@@ -1,4 +1,3 @@
-export type StructureCustomDocType =
-  | "ATTESTATION_POSTALE"
-  | "COURRIER_RADIATION"
-  | "AUTRE";
+import { StructureDocTypesAvailable } from ".";
+
+export type StructureCustomDocType = StructureDocTypesAvailable | "autre";

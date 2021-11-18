@@ -1,10 +1,13 @@
-<table class="table">
+<div class="alert-info alert" *ngIf="!structureDocs.length">
+  Aucun document n'a été ajouté pour le moment
+</div>
+<table class="table upload-table" *ngIf="structureDocs.length">
   <thead>
     <tr>
       <th>Type</th>
       <th>Nom du document</th>
-      <th>Créer par</th>
       <th>Ajouté le</th>
+      <th>Créer par</th>
       <th class="text-right"></th>
     </tr>
   </thead>
@@ -22,17 +25,18 @@
         </span>
       </td>
       <td>{{ document.label }}</td>
-      <td class="align-middle">
-        {{ document.createdAt | date: "dd/MM/yyyy" }}
-      </td>
+
       <td class="align-middle">
         {{ document.createdBy.nom }} {{ document.createdBy.prenom }}
+      </td>
+      <td class="align-middle">
+        {{ document.createdAt | date: "dd/MM/yyyy" }}
       </td>
       <td class="align-middle text-right">
         <button
           (click)="getStructureDoc(document)"
           class="mx-1 my-1 btn btn-primary"
-          [disabled]="document.loadingDownload"
+          [disabled]="loadings.download.indexOf(document.uuid) !== -1"
           aria-label="Voir la pièce jointe"
         >
           <span *ngIf="loadings.download.indexOf(document.uuid) !== -1"
@@ -48,7 +52,7 @@
           *ngIf="me.role === 'admin'"
           (click)="deleteStructureDoc(document)"
           class="mx-1 my-1 btn btn-danger"
-          [disabled]="document.loadingDelete"
+          [disabled]="loadings.delete.indexOf(document.uuid) !== -1"
           aria-label="Voir la pièce jointe"
         >
           <span *ngIf="loadings.delete.indexOf(document.uuid) !== -1"

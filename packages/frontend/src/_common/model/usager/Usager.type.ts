@@ -58,7 +58,6 @@ export type Usager = AppEntity & {
 
   // DOCUMENTS
   docs: UsagerDoc[];
-
   docsPath: string[]; // TODO: fusionner avec docs
 
   options: UsagerOptions;

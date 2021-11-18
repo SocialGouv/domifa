@@ -7,43 +7,33 @@
   <div class="container p-0">
     <div class="page-content px-4 pt-3 pb-5">
       <div class="row mb-5">
-        <h4 class="col-md-12">Documents téléchargeables</h4>
+        <div class="col-md-12">
+          <h4>Documents pré-remplis automatiquement</h4>
 
-        <div class="col-md-12 my-3">
-          <button
-            *ngIf="
-              usager.decision.statut !== 'REFUS' &&
-              usager.decision.statut !== 'RADIE'
-            "
-            (click)="getCerfa('demande')"
-            class="btn mr-2 btn-primary"
-          >
-            <fa-icon [icon]="['fas', 'download']" class="mr-2"></fa-icon>
-            Télécharger l'attestation de demande
-          </button>
-
-          <button
-            (click)="getCerfa('attestation')"
-            class="btn mr-2 btn-outline-primary"
-          >
-            <fa-icon [icon]="['fas', 'download']" class="mr-2"></fa-icon>
-            Télécharger un CERFA provisoire
-          </button>
-
+          <div class="col-md-12 my-3">
+            <button (click)="getAttestation()" class="btn mr-2 btn-primary">
+              <fa-icon [icon]="['fas', 'download']" class="mr-2"></fa-icon>
+              Télécharger le CERFA
+            </button>
+          </div>
           <app-profil-structure-docs
             [usager]="usager"
           ></app-profil-structure-docs>
         </div>
-
-        <h4 class="col-md-12">Documents de l'usager</h4>
-
+      </div>
+      <div class="row mb-5">
         <div class="col-md-12">
+          <h4>Documents de l'usager</h4>
+          <app-display-usager-docs
+            [me]="me"
+            [usager]="usager"
+          ></app-display-usager-docs>
+          <br />
           <app-upload
             *ngIf="usager.isActif || usager.decision.statut === 'RADIE'"
             [usager]="usager"
           >
           </app-upload>
-          <app-usager-documents [usager]="usager"></app-usager-documents>
         </div>
       </div>
     </div>

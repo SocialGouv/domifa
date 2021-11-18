@@ -51,9 +51,6 @@ export function validateUpload(
       const hasGoodSize = file.size < 10000000;
       const hasGoodExtension = validFileExtensions.includes(file.type);
 
-      console.log("hasGoodSize");
-      console.log(file.type);
-
       if (!hasGoodSize || !hasGoodExtension) {
         const errors: {
           fileSize?: boolean;

@@ -1,3 +1,4 @@
+import { StructureDocService } from "./../../structures/services/structure-doc.service";
 import {
   Controller,
   Get,
@@ -14,25 +15,55 @@ import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import { UsagerLight, UserStructure } from "../../_common/model";
+import {
+  StructureDoc,
+  StructureDocTypesAvailable,
+  UsagerLight,
+  UserStructure,
+} from "../../_common/model";
 import {
   buildCustomDoc,
   customDocTemplateLoader,
   generateCustomDoc,
 } from "../custom-docs";
+import path = require("path");
+import { structureDocRepository } from "../../database";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("usagers-structure-docs")
 @ApiBearerAuth()
 @Controller("usagers-structure-docs")
 export class UsagerStructureDocsController {
-  constructor() {}
+  constructor(private structureDocService: StructureDocService) {}
 
-  @Get(":usagerRef/:docType")
+  @Get("structure/:usagerRef/:structureDocUuid")
   @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
   @AllowUserStructureRoles("simple", "responsable", "admin")
-  public async getDocument(
-    @Param("docType") docType: string,
+  public async getStructureCustomDoc(
+    @CurrentUsager() usager: UsagerLight,
+    @CurrentUser() user: UserStructure,
+    @Param("structureDocUuid") structureDocUuid: string,
+    @Res() res: Response
+  ) {
+    const doc: StructureDoc = await this.structureDocService.findOne(
+      user.structureId,
+      structureDocUuid
+    );
+    const content = customDocTemplateLoader.loadCustomDocTemplate({
+      docPath: doc.path,
+      structureId: user.structureId,
+    });
+
+    const docValues = buildCustomDoc(usager, user.structure);
+
+    res.end(generateCustomDoc(content, docValues));
+  }
+
+  @Get("domifa/:usagerRef/:docType")
+  @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
+  public async getDomifaCustomDoc(
+    @Param("docType") docType: StructureDocTypesAvailable,
     @CurrentUsager() usager: UsagerLight,
     @CurrentUser() user: UserStructure,
     @Res() res: Response
@@ -43,10 +74,20 @@ export class UsagerStructureDocsController {
         .json({ message: "INVALID_PARAM_DOCS" });
     }
 
-    const content = customDocTemplateLoader.loadCustomDocTemplate({
-      docType,
+    // La structure a-t-elle uploadé son propre modèle ?
+    const doc: StructureDoc = await structureDocRepository.findOne({
       structureId: user.structureId,
+      customDocType: docType,
     });
+
+    const content = doc
+      ? customDocTemplateLoader.loadCustomDocTemplate({
+          docPath: doc.path,
+          structureId: user.structureId,
+        })
+      : customDocTemplateLoader.loadDefaultDocTemplate({
+          docType,
+        });
 
     const docValues = buildCustomDoc(usager, user.structure);
 

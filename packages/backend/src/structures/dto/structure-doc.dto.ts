@@ -28,6 +28,6 @@ export class StructureDocDto {
     type: Boolean,
   })
   @ValidateIf((o) => o.custom === true)
-  @IsIn(["ATTESTATION_POSTALE", "COURRIER_RADIATION", "AUTRE"])
+  @IsIn(["attestation_postale", "courrier_radiation", "autre"])
   customDocType?: StructureCustomDocType;
 }

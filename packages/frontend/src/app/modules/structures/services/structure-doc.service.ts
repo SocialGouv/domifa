@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
 import { environment } from "src/environments/environment";
+import { StructureDoc } from "../../../../_common/model";
 
 @Injectable({
   providedIn: "root",
@@ -40,8 +41,8 @@ export class StructureDocService {
       );
   }
 
-  public getAllStructureDocs(): Observable<any> {
-    return this.http.get(this.endPoint);
+  public getAllStructureDocs(): Observable<StructureDoc[]> {
+    return this.http.get<StructureDoc[]>(this.endPoint);
   }
 
   public getStructureDoc(docUuid: string) {

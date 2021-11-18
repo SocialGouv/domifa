@@ -27,7 +27,7 @@
     <div class="page-content p-4">
       <div>
         <div class="d-flex justify-content-between align-items-center">
-          <h4>Documents pré-remplis</h4>
+          <h4>Vos documents pré-remplis</h4>
           <div>
             <button
               class="btn-outline-primary btn"
@@ -42,24 +42,40 @@
             </button>
           </div>
         </div>
+        <div class="py-3 mb-3">
+          <p>
+            Ce sont des documents Word (.doc) qui sont automatiquement complété
+            par des données issues de Domifa. Par défaut, Domifa propose 2
+            documents essentiels au suivi des domiciliés :
+          </p>
+          <ul>
+            <li>
+              <b>Courrier de radiation :</b> modèle de courrier informant
+              l'usager de la fin de domiciliation décidée.
+              <a
+                href="/assets/files/custom_docs/attestation_postale.template.docx"
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+              >
+                Télécharger le modèle</a
+              >
+            </li>
+            <li>
+              <b>Attestation postale :</b> modèle de courrier permettant au
+              domicilié de justifier son adresse.
+              <a
+                href="/assets/files/custom_docs/courrier_radiation.template.docx"
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+              >
+                Télécharger le modèle</a
+              >
+            </li>
+          </ul>
+        </div>
 
-        <p>
-          Ce sont des documents Word (.doc) qui sont automatiquement complété
-          par des données issues de Domifa. Par défaut, Domifa propose 2
-          documents essentiels au suivi des domiciliés :
-        </p>
-        <ul>
-          <li>
-            <b>Courrier de radiation :</b> modèle de courrier informant l'usager
-            de la fin de domiciliation décidée.
-          </li>
-          <li>
-            <b>Attestation postale :</b> modèle de courrier permettant au
-            domicilié de justifier son adresse
-          </li>
-        </ul>
-        <br />
-        <br />
         <app-structures-custom-docs-table
           [me]="me"
           [structureDocs]="customStructureDocs"
@@ -84,12 +100,13 @@
           </button>
         </div>
       </div>
-      <p>
-        Dans cet espace, vous pouvez téléverser autant de fichier que vous le
-        souhaitez pour votre gestion des domiciliés : livrets d'accueils,
-        réglement intérieur, annexes, modèles de courrier, etc.
-      </p>
-
+      <div class="py-3 mb-3">
+        <p>
+          Dans cet espace, vous pouvez téléverser autant de fichier que vous le
+          souhaitez pour votre gestion des domiciliés : livrets d'accueils,
+          réglement intérieur, annexes, modèles de courrier, etc.
+        </p>
+      </div>
       <div>
         <app-structures-custom-docs-table
           [me]="me"

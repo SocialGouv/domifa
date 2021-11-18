@@ -27,24 +27,20 @@ export type CustomDocTemplateType =
   | "courrier_radiation";
 
 function loadCustomDocTemplate({
-  docType,
+  docPath,
   structureId,
 }: {
-  docType: CustomDocTemplateType;
+  docPath: string;
   structureId: number;
 }) {
-  try {
-    // Une version customisée par la structure existe-t-elle ?
-    const customTemplatePath = buildCustomDocPath({
-      structureId,
-      docType,
-    });
-    return loadTemplateFromFilePath(customTemplatePath);
-  } catch (err) {
-    // error loading custom path: use default
-    return loadDefaultDocTemplate({ docType });
-  }
+  // Une version customisée par la structure existe-t-elle ?
+  const customTemplatePath = buildCustomDocPath({
+    structureId,
+    docPath,
+  });
+  return loadTemplateFromFilePath(customTemplatePath);
 }
+
 function loadDefaultDocTemplate({
   docType,
 }: {
@@ -60,16 +56,16 @@ function buildDefaultTemplatePath(docType: CustomDocTemplateType) {
 
 function buildCustomDocPath({
   structureId,
-  docType,
+  docPath,
 }: {
   structureId: number;
-  docType: string;
+  docPath: string;
 }) {
   return path.join(
     domifaConfig().upload.basePath,
     `${structureId}`,
     "docs",
-    TEMPLATES_NAMES[docType]
+    docPath
   );
 }
 

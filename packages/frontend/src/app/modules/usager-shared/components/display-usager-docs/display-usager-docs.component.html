@@ -1,0 +1,66 @@
+<div class="alert-info alert" *ngIf="!usager.docs.length">
+  Aucune pièce jointe n'a été ajouté pour le moment
+</div>
+<table class="table upload-table" *ngIf="usager.docs.length">
+  <tbody>
+    <tr>
+      <th>Type</th>
+      <th>Nom du document</th>
+      <th>Ajouté le</th>
+      <th>Ajouté par</th>
+      <th class="d-print-none"></th>
+    </tr>
+
+    <tr *ngFor="let document of usager.docs; let indexDocs = index">
+      <td class="align-middle">
+        <span
+          class="doc-icon"
+          [ngClass]="STRUCTURE_DOC_ICONS[document.filetype]"
+        >
+          <fa-icon
+            [icon]="['far', STRUCTURE_DOC_ICONS[document.filetype]]"
+          ></fa-icon>
+        </span>
+      </td>
+      <td>{{ document.label }}</td>
+      <td>
+        {{ document.createdAt | date: "dd/MM/yyyy" }}
+      </td>
+      <td>{{ document.createdBy }}</td>
+      <td class="text-right d-print-none">
+        <button
+          (click)="getDocument(indexDocs)"
+          class="m-1 btn btn-primary"
+          [disabled]="loadings.download.indexOf(indexDocs) !== -1"
+          aria-label="Voir la pièce jointe"
+        >
+          <span *ngIf="loadings.download.indexOf(indexDocs) !== -1"
+            ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+            Patientez...</span
+          >
+
+          <span *ngIf="loadings.download.indexOf(indexDocs) === -1"
+            ><fa-icon [icon]="['fas', 'download']"></fa-icon> Télécharger</span
+          >
+        </button>
+
+        <button
+          (click)="deleteDocument(indexDocs)"
+          class="m-1 btn btn-danger"
+          [disabled]="loadings.delete.indexOf(indexDocs) !== -1"
+          aria-label="Voir la pièce jointe"
+        >
+          <span *ngIf="loadings.delete.indexOf(indexDocs) !== -1"
+            ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+
+            Patientez...</span
+          >
+          <span *ngIf="loadings.delete.indexOf(indexDocs) === -1"
+            ><fa-icon [icon]="['fas', 'trash']"></fa-icon> &nbsp;
+            Supprimer</span
+          >
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

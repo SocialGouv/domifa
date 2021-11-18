@@ -1,10 +1,12 @@
 import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { Title } from "@angular/platform-browser";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import {
   StructureDoc,
   UserStructure,
   STRUCTURE_DOC_ICONS,
+  DOMIFA_CUSTOM_DOCS,
 } from "../../../../../_common/model";
 
 import { AuthService } from "../../../shared/services/auth.service";
@@ -35,27 +37,17 @@ export class StructuresCustomDocsComponent implements OnInit {
     private authService: AuthService,
     private structureDocService: StructureDocService,
     private notifService: ToastrService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private titleService: Title
   ) {
     this.structureDocs = [];
 
-    this.defaultStructureDocs = [
-      {
-        label: "Attestation postale",
-        createdBy: {
-          id: 0,
-          nom: "Domifa",
-          prenom: "Domifa",
-        },
-        tags: null,
-        custom: true,
-        filetype: "word",
-        structureId: 0,
-      },
-    ];
+    this.defaultStructureDocs = DOMIFA_CUSTOM_DOCS;
   }
 
   public ngOnInit(): void {
+    this.titleService.setTitle("Gestion des documents de la structure");
+
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
@@ -69,45 +61,6 @@ export class StructuresCustomDocsComponent implements OnInit {
         this.customStructureDocs = structureDocs.filter(
           (structureDoc) => structureDoc.custom
         );
-
-        if (
-          !this.customStructureDocs.find(
-            (element) => element.customDocType === "ATTESTATION_POSTALE"
-          )
-        ) {
-          this.customStructureDocs.push({
-            label: "Attestation postale",
-            createdBy: {
-              id: 0,
-              nom: "Domifa",
-              prenom: "Domifa",
-            },
-            tags: null,
-            custom: true,
-            filetype: "application/msword",
-
-            structureId: 0,
-          });
-        }
-        if (
-          !this.customStructureDocs.find(
-            (element) => element.customDocType === "COURRIER_RADIATION"
-          )
-        ) {
-          this.customStructureDocs.push({
-            label: "Courrier de radiation",
-            createdBy: {
-              id: 0,
-              nom: "Domifa",
-              prenom: "Domifa",
-            },
-            tags: null,
-            custom: true,
-            filetype: "application/msword",
-
-            structureId: 0,
-          });
-        }
 
         this.structureDocs = structureDocs.filter(
           (structureDoc) => !structureDoc.custom

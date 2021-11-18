@@ -17,6 +17,7 @@ import { CerfaDocType } from "src/_common/model/cerfa";
 })
 export class ProfilDocumentsSectionComponent implements OnInit {
   public me: UserStructure;
+
   public usager: UsagerFormModel;
 
   constructor(

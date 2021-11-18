@@ -5,7 +5,7 @@ import {
 import { fakeAsync, inject, TestBed } from "@angular/core/testing";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
-import { Doc, UsagerFormModel } from "../interfaces";
+import { UsagerFormModel } from "../interfaces";
 
 import { DocumentService } from "./document.service";
 
@@ -47,18 +47,18 @@ describe("DocumentService", () => {
         const responseObject = new UsagerFormModel({});
 
         responseObject.docs = [
-          new Doc({
-            dateImport: new Date(),
+          {
+            createdAt: new Date(),
             label: "A",
             filetype: "image/jpeg",
-            importBy: "A",
-          }),
-          new Doc({
-            dateImport: new Date(),
+            createdBy: "A",
+          },
+          {
+            createdAt: new Date(),
             label: "B",
             filetype: "applications/pdf",
-            importBy: "B",
-          }),
+            createdBy: "B",
+          },
         ];
 
         ser.deleteDocument(2, 1).subscribe((receivedResponse: any) => {
@@ -82,18 +82,18 @@ describe("DocumentService", () => {
         const responseObject = new UsagerFormModel({});
 
         responseObject.docs = [
-          new Doc({
-            dateImport: new Date(),
+          {
+            createdAt: new Date(),
             label: "A",
             filetype: "image/jpeg",
-            importBy: "A",
-          }),
-          new Doc({
-            dateImport: new Date(),
+            createdBy: "A",
+          },
+          {
+            createdAt: new Date(),
             label: "B",
             filetype: "applications/pdf",
-            importBy: "B",
-          }),
+            createdBy: "B",
+          },
         ];
 
         ser.deleteDocument(2, 1).subscribe((receivedResponse: any) => {

@@ -2,9 +2,8 @@ import { customDocTemplateLoader } from "./customDocTemplateLoader.service";
 
 describe("customDocTemplateLoader", () => {
   it("customDocTemplateLoader render ", async () => {
-    const template = customDocTemplateLoader.loadCustomDocTemplate({
+    const template = customDocTemplateLoader.loadDefaultDocTemplate({
       docType: "attestation_postale",
-      structureId: 55,
     });
     expect(template).toBeDefined();
   });

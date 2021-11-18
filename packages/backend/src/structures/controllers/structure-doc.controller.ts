@@ -39,14 +39,11 @@ export class StructureDocController {
   @Get(":uuid")
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getStructureDoc(
-    @Param("uuid") structureDocId: string,
+    @Param("uuid") uuid: string,
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
-    const doc = await this.structureDocService.findOne(
-      user.structureId,
-      structureDocId
-    );
+    const doc = await this.structureDocService.findOne(user.structureId, uuid);
     const output = path.join(
       domifaConfig().upload.basePath,
       `${user.structureId}`,
@@ -107,7 +104,6 @@ export class StructureDocController {
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
-    console.log(structureDocDto);
     // Check tags
     const newDoc: StructureDoc = {
       createdAt: new Date(),
@@ -145,16 +141,13 @@ export class StructureDocController {
     return this.structureDocService.findAll(user.structureId);
   }
 
-  @Delete(":id")
+  @Delete(":uuid")
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async deleteDocument(
-    @Param("id") structureDocId: number,
+    @Param("uuid") uuid: string,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
-    const doc = await this.structureDocService.findOne(
-      user.structureId,
-      structureDocId
-    );
+    const doc = await this.structureDocService.findOne(user.structureId, uuid);
 
     const pathFile = path.join(
       domifaConfig().upload.basePath,
@@ -165,6 +158,6 @@ export class StructureDocController {
 
     await deleteFile(pathFile);
 
-    return this.structureDocService.deleteOne(user.structureId, structureDocId);
+    return this.structureDocService.deleteOne(user.structureId, uuid);
   }
 }
