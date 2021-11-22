@@ -1,3 +1,10 @@
+## [2.40.3](https://github.com/SocialGouv/domifa/compare/v2.40.2...v2.40.3) (2021-11-22)
+
+
+### Bug Fixes
+
+* Correction des erreurs d'affchage sur les documents ([85483b3](https://github.com/SocialGouv/domifa/commit/85483b3dda134bbd5e1fdb0fff043b17b34649c1))
+
 ## [2.40.2](https://github.com/SocialGouv/domifa/compare/v2.40.1...v2.40.2) (2021-11-22)
 
 
