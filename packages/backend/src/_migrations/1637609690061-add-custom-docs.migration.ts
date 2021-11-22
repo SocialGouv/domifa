@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class autoMigration1637088042910 implements MigrationInterface {
-  name = "addDatasToCustomDocs1637088042910";
+export class autoMigration1637609690061 implements MigrationInterface {
+  name = "adCustomDocMigration1637609690061";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
