@@ -1,3 +1,10 @@
+## [2.40.2](https://github.com/SocialGouv/domifa/compare/v2.40.1...v2.40.2) (2021-11-22)
+
+
+### Reverts
+
+* Revert "fix: test for fixing video in preprod" ([d6e3f5e](https://github.com/SocialGouv/domifa/commit/d6e3f5e9c9fa0c4a1727c80c69e7f3e036ac90b7))
+
 ## [2.40.1](https://github.com/SocialGouv/domifa/compare/v2.40.0...v2.40.1) (2021-11-22)
 
 
