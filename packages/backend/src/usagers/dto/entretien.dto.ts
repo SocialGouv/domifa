@@ -57,6 +57,7 @@ export class EntretienDto implements UsagerEntretien {
       "SANS_ABRI",
     ],
   })
+  @IsOptional()
   @IsIn([
     "AUTRE",
     "DOMICILE_MOBILE",
@@ -65,7 +66,6 @@ export class EntretienDto implements UsagerEntretien {
     "HOTEL",
     "SANS_ABRI",
   ])
-  @IsOptional()
   public residence!: UsagerEntretienResidence;
 
   @ApiProperty({
@@ -80,6 +80,7 @@ export class EntretienDto implements UsagerEntretien {
       "AUTRE",
     ],
   })
+  @IsOptional()
   @IsIn([
     "RESIDENTIEL",
     "PARENTAL",
@@ -88,7 +89,6 @@ export class EntretienDto implements UsagerEntretien {
     "SOCIAL",
     "AUTRE",
   ])
-  @IsOptional()
   public liencommune!: UsagerEntretienLienCommune;
 
   @IsOptional()
@@ -117,6 +117,7 @@ export class EntretienDto implements UsagerEntretien {
       "VIOLENCE",
     ],
   })
+  @IsOptional()
   @IsIn([
     "AUTRE",
     "ERRANCE",
@@ -127,7 +128,6 @@ export class EntretienDto implements UsagerEntretien {
     "SORTIE_STRUCTURE",
     "VIOLENCE",
   ])
-  @IsOptional()
   public cause!: UsagerEntretienCause;
 
   @ApiProperty({
@@ -137,13 +137,13 @@ export class EntretienDto implements UsagerEntretien {
   @IsOptional()
   public causeDetail!: string;
 
-  @IsIn(["EXERCICE_DROITS", "PRESTATIONS_SOCIALES", "AUTRE"])
   @ApiProperty({
     type: String,
     required: false,
     enum: ["EXERCICE_DROITS", "PRESTATIONS_SOCIALES", "AUTRE"],
   })
   @IsOptional()
+  @IsIn(["EXERCICE_DROITS", "PRESTATIONS_SOCIALES", "AUTRE"])
   public raison!: UsagerEntretienRaisonDemande;
 
   @ApiProperty({

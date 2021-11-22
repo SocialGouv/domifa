@@ -81,14 +81,15 @@ function findLastFiveCustomRef({
 > {
   return baseRepository.findManyWithQuery({
     select: ["ref", "customRef", "nom", "sexe", "prenom", "structureId"],
-    where: `"structureId" = :structureId and ref != :usagerRef`,
+    where: `decision->>'statut' = :statut and "structureId" = :structureId and ref != :usagerRef`,
     params: {
+      statut: "VALIDE",
       structureId,
       usagerRef,
     },
     order: {
-      ref: "DESC",
-    },
+      "(decision->>'dateDecision')::timestamptz": "DESC",
+    } as PgRepositoryFindOrder<any>,
     maxResults: 5,
   });
 }

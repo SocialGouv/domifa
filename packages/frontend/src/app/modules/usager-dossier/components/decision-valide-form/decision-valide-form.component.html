@@ -117,20 +117,20 @@
           </div>
         </div>
         <div class="col-md-12" *ngIf="usagersRefs.length">
-          <div>
+          <div class="my-2">
             Pour votre information, les dernières personnes domiciliées au sein
             de votre structure ont pour identifiant :
           </div>
-          <div>
-            <ul>
-              <li *ngFor="let usagerRef of usagersRefs">
-                <b>
-                  {{ usagerRef | usagerNomComplet }}
-                </b>
-                - {{ usagerRef.customRef }}
-              </li>
-            </ul>
-          </div>
+
+          <ul>
+            <li *ngFor="let usagerRef of usagersRefs">
+              <b>
+                {{ usagerRef | usagerNomComplet }}
+              </b>
+              - {{ usagerRef.customRef }}
+            </li>
+          </ul>
+          <br />
         </div>
       </div>
     </form>

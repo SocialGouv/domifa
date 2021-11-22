@@ -56,6 +56,7 @@ export class Entretien implements UsagerEntretien {
     if (entretien && typeof entretien.orientation !== "undefined") {
       this.orientation = entretien.orientation;
     }
+
     this.orientationDetail = (entretien && entretien.orientationDetail) || null;
 
     this.liencommune = (entretien && entretien.liencommune) || null;
