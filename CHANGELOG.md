@@ -1,3 +1,10 @@
+## [2.40.1](https://github.com/SocialGouv/domifa/compare/v2.40.0...v2.40.1) (2021-11-22)
+
+
+### Bug Fixes
+
+* test for fixing video in preprod ([a0a256f](https://github.com/SocialGouv/domifa/commit/a0a256f9fbcb6d80d3953a525d76e8195aa6533f))
+
 # [2.40.0](https://github.com/SocialGouv/domifa/compare/v2.39.1...v2.40.0) (2021-11-18)
 
 
