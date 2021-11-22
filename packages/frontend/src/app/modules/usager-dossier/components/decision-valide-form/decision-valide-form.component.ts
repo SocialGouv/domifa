@@ -58,7 +58,7 @@ export class DecisionValideFormComponent {
     this.valideForm = this.formBuilder.group({
       dateDebut: [formatDateToNgb(new Date()), [Validators.required]],
       dateFin: [
-        formatDateToNgb(addYears(new Date(), 1)),
+        formatDateToNgb(subDays(addYears(new Date(), 1), 1)),
         [Validators.required],
       ],
       statut: ["VALIDE", [Validators.required]],
