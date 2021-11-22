@@ -38,7 +38,7 @@
     autocomplete="on"
   >
     <div class="row">
-      <div class="form-group required col-md-6">
+      <div class="col-md-6 form-group required">
         <label for="dateFin"> Date de la radiation </label>
         <div class="input-group">
           <input
@@ -54,7 +54,7 @@
             dateFr
             value
             [ngClass]="{
-              'is-invalid': r.dateFin.dirty && r.dateFin.errors
+              'is-invalid': submitted && r.dateFin.errors
             }"
             maxlength="10"
             required
@@ -67,13 +67,16 @@
               <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
             </span>
           </div>
-          <div *ngIf="submitted && r.dateFin.errors" class="invalid-feedback">
+          <div *ngIf="submitted && r.dateFin.invalid" class="invalid-feedback">
             La date de radiation est incorrecte
           </div>
         </div>
       </div>
+
       <div class="col-12">
-        <p class="font-weight-bold">Merci d’indiquer le motif :</p>
+        <p class="font-weight-bold">
+          Merci d’indiquer le motif : <span class="text-danger">*</span>
+        </p>
 
         <div
           class="form-row form-check"
@@ -92,6 +95,7 @@
             {{ motif.value }}
           </label>
         </div>
+
         <div class="form-row">
           <div class="form-check">
             <input
@@ -108,11 +112,13 @@
             </label>
           </div>
         </div>
+        <div *ngIf="submitted && r.motif.errors" class="invalid-feedback">
+          Veuillez choisir un motif de radiation
+        </div>
 
-        <div *ngIf="r.motif.value === 'AUTRE'" class="form-row">
+        <div *ngIf="r.motif.value === 'AUTRE'" class="form-group required">
           <label class="form-check-label" for="motifDetails">
             Autre motif de radiation
-            <span class="text-danger">*</span>
           </label>
           <input
             type="text"
@@ -122,31 +128,14 @@
             formControlName="motifDetails"
             required
           />
-        </div>
-        <div *ngIf="usager.decision.motif === 'AUTRE'" class="form-row">
-          <label class="form-check-label" for="motifRadiationAutre">
-            Motif de la radiation
-            <span class="red">*</span>
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            id="motifRadiationAutre"
-            formControlName="motifDetails"
-          />
-          <small id="radiationAutres" class="form-text text-muted">
-            10 caractères minimum
-          </small>
-        </div>
-
-        <div *ngIf="submitted && r.motif.errors" class="invalid-feedback">
-          Veuillez choisir un motif de radiation (10 caractères minimum)
-        </div>
-        <div
-          *ngIf="submitted && r.motifDetails.errors"
-          class="invalid-feedback"
-        >
-          Veuillez indiquer un autre motif
+          <small class="form-text text-muted"> 10 caractères minimum </small>
+          <div
+            *ngIf="submitted && r.motifDetails.errors"
+            class="invalid-feedback"
+          >
+            Veuillez indiquer un autre motif de radiation d'au moins 10
+            caractères
+          </div>
         </div>
       </div>
     </div>

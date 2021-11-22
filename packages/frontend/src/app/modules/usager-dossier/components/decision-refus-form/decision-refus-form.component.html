@@ -32,7 +32,7 @@
           dateFr
           value
           [ngClass]="{
-            'is-invalid': r.dateFin.dirty && r.dateFin.errors
+            'is-invalid': submitted && r.dateFin.invalid
           }"
           maxlength="10"
           required
@@ -46,7 +46,7 @@
           </span>
         </div>
       </div>
-      <div *ngIf="submitted && r.dateFin.errors" class="invalid-feedback">
+      <div *ngIf="submitted && r.dateFin.invalid" class="invalid-feedback">
         La date de refus est incorrecte
       </div>
     </div>
@@ -91,7 +91,9 @@
           </label>
         </div>
       </div>
-
+      <div *ngIf="submitted && r.motif.errors" class="invalid-feedback">
+        Veuillez indiquer un autre motif
+      </div>
       <div *ngIf="r.motif.value === 'AUTRE'" class="form-row">
         <label class="form-check-label" for="motifRefusAutre">
           Autre motif de refus
@@ -104,12 +106,12 @@
           id="motifRefusAutre"
           formControlName="motifDetails"
         />
-      </div>
-      <div *ngIf="submitted && r.motif.errors" class="invalid-feedback">
-        Veuillez indiquer un autre motif
-      </div>
-      <div *ngIf="submitted && r.motifDetails.errors" class="invalid-feedback">
-        Veuillez choisir un motif de refus (10 caractères minimum)
+        <div
+          *ngIf="submitted && r.motifDetails.errors"
+          class="invalid-feedback"
+        >
+          Veuillez choisir un motif de refus (10 caractères minimum)
+        </div>
       </div>
     </div>
 
@@ -149,24 +151,23 @@
           Veuillez proposer une orientation
         </div>
       </div>
-      <div class="form-row">
-        <label for="orientationRefusDetails">
-          Précisez
-          <span class="text-danger">*</span>
-        </label>
+
+      <div class="form-row required">
+        <label for="orientationRefusDetails">Précisez</label>
         <input
           class="form-control"
           type="text"
           [ngClass]="{ 'is-invalid': submitted && r.orientationDetails.errors }"
           formControlName="orientationDetails"
           id="orientationRefusDetails"
+          required
         />
-      </div>
-      <div
-        *ngIf="submitted && r.orientationDetails.errors"
-        class="invalid-feedback"
-      >
-        Veuillez indiquer vers quel organisme vous souhaitez orienter
+        <div
+          *ngIf="submitted && r.orientationDetails.errors"
+          class="invalid-feedback"
+        >
+          Veuillez indiquer vers quel organisme vous souhaitez orienter
+        </div>
       </div>
     </div>
   </form>
