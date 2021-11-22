@@ -49,10 +49,23 @@ export class UsagerStructureDocsController {
       user.structureId,
       structureDocUuid
     );
+
+    if (!doc) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "DOC_NOT_FOUND" });
+    }
+
     const content = customDocTemplateLoader.loadCustomDocTemplate({
       docPath: doc.path,
       structureId: user.structureId,
     });
+
+    if (!content) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "DOC_NOT_FOUND" });
+    }
 
     const docValues = buildCustomDoc(usager, user.structure);
 
@@ -80,6 +93,12 @@ export class UsagerStructureDocsController {
       customDocType: docType,
     });
 
+    if (!doc) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "DOC_DOMIFA_NOT_FOUND" });
+    }
+
     const content = doc
       ? customDocTemplateLoader.loadCustomDocTemplate({
           docPath: doc.path,
@@ -89,6 +108,11 @@ export class UsagerStructureDocsController {
           docType,
         });
 
+    if (!content) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "DOC_DOMIFA_NOT_FOUND" });
+    }
     const docValues = buildCustomDoc(usager, user.structure);
 
     res.end(generateCustomDoc(content, docValues));
