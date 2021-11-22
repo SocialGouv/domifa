@@ -1,3 +1,14 @@
+## [2.40.4](https://github.com/SocialGouv/domifa/compare/v2.40.3...v2.40.4) (2021-11-22)
+
+
+### Bug Fixes
+
+* affichage des erreurs ([1b77277](https://github.com/SocialGouv/domifa/commit/1b772771c53d873db4c5707daf23c0d4d59fdc8c))
+* affichage des id persos ([ae34ed1](https://github.com/SocialGouv/domifa/commit/ae34ed1bccdeb08ad3f700fd908c60a1129d5f0c))
+* migration ([1219699](https://github.com/SocialGouv/domifa/commit/1219699d1c65514414c1eb7d1739af4ea059116b))
+* tests unitaires ([0f0b37d](https://github.com/SocialGouv/domifa/commit/0f0b37d8273fc97a01820dc48177b87d5b32dd18))
+* tests unitaires ([8d33f8e](https://github.com/SocialGouv/domifa/commit/8d33f8ef0ffb2e5b9046b13f609d169b3f21ff3e))
+
 ## [2.40.3](https://github.com/SocialGouv/domifa/compare/v2.40.2...v2.40.3) (2021-11-22)
 
 
