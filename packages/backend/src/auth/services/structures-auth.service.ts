@@ -6,13 +6,13 @@ import {
 } from "../../database";
 import { appLogger } from "../../util";
 import {
+  CURRENT_JWT_PAYLOAD_VERSION,
   StructureCommon,
   UserStructure,
   UserStructureAuthenticated,
+  UserStructureJwtPayload,
   UserStructurePublic,
 } from "../../_common/model";
-import { CURRENT_JWT_PAYLOAD_VERSION } from "../jwt/CURRENT_JWT_PAYLOAD_VERSION.const";
-import { UserStructureJwtPayload } from "../jwt/user-structure-jwt-payload.interface";
 import { isDomifaAdmin } from "./auth-checker.service";
 
 export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
@@ -36,7 +36,7 @@ export class StructuresAuthService {
     const payload: UserStructureJwtPayload = {
       _jwtPayloadVersion: CURRENT_JWT_PAYLOAD_VERSION,
       _userId: user.id,
-      _userProfile: isSuperAdminDomifa ? "super-admin-domifa" : "structure",
+      _userProfile: "structure",
       email: user.email,
       id: user.id,
       lastLogin: user.lastLogin,
@@ -44,6 +44,7 @@ export class StructuresAuthService {
       prenom: user.prenom,
       role: user.role,
       structureId: user.structureId,
+      isSuperAdminDomifa,
     };
 
     return {
@@ -51,9 +52,12 @@ export class StructuresAuthService {
     };
   }
 
-  public async validateUser(
+  public async validateUserStructure(
     payload: UserStructureJwtPayload
   ): Promise<false | UserStructureAuthenticated> {
+    if (payload._userProfile !== "structure") {
+      return false;
+    }
     const authUser = await this.findAuthUser(payload);
 
     if (!authUser || authUser === null) {
@@ -79,7 +83,10 @@ export class StructuresAuthService {
     return authUser;
   }
   public async findAuthUser(
-    payload: Pick<UserStructureJwtPayload, "_userId" | "_userProfile">
+    payload: Pick<
+      UserStructureJwtPayload,
+      "_userId" | "_userProfile" | "isSuperAdminDomifa"
+    >
   ): Promise<UserStructureAuthenticated> {
     const user = await userStructureRepository.findOne<UserStructurePublic>(
       { id: payload._userId },
@@ -101,6 +108,7 @@ export class StructuresAuthService {
       _userProfile: payload._userProfile,
       ...user,
       structure,
+      isSuperAdminDomifa: payload.isSuperAdminDomifa,
     };
   }
 }

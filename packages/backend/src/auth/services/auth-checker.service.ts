@@ -5,6 +5,7 @@ import {
   UserStructure,
   UserStructureRole,
 } from "../../_common/model";
+import { DOMIFA_ADMIN_STRUCTURE_ID } from "./DOMIFA_ADMIN_STRUCTURE_ID.const";
 
 export const authChecker = {
   checkRole,
@@ -38,12 +39,7 @@ function checkProfile(
   ...exprectedProfiles: UserProfile[]
 ) {
   const userProfile = user._userProfile;
-  const isValidRole =
-    user &&
-    (exprectedProfiles.includes(userProfile) ||
-      // hack: pour le moment, l'admin domifa est aussi un user structure
-      (userProfile === "super-admin-domifa" &&
-        exprectedProfiles.includes("structure")));
+  const isValidRole = user && exprectedProfiles.includes(userProfile);
   if (user && !isValidRole) {
     appLogger.warn(
       `[authChecker] invalid profile "${userProfile}" for user "${
@@ -62,5 +58,9 @@ function checkProfile(
 export function isDomifaAdmin(
   user: Pick<UserStructure, "structureId" | "role">
 ) {
-  return !!user && user.role === "admin" && user.structureId === 1;
+  return (
+    !!user &&
+    user.role === "admin" &&
+    user.structureId === DOMIFA_ADMIN_STRUCTURE_ID
+  );
 }

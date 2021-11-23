@@ -37,6 +37,7 @@ const baseRepository = pgRepository.get<
 export const userStructureRepository = {
   ...baseRepository,
   findVerifiedStructureUsersByRoles,
+  countUsersByRegionId,
 };
 
 function findVerifiedStructureUsersByRoles({
@@ -52,4 +53,19 @@ function findVerifiedStructureUsersByRoles({
       role: In(roles),
     })
   );
+}
+
+function countUsersByRegionId({
+  regionId,
+}: {
+  regionId: string;
+}): Promise<number> {
+  return baseRepository.aggregateAsNumber({
+    alias: "u",
+    expression: "COUNT(u.uuid)",
+    resultAlias: "count",
+    configure: (qb) => qb.innerJoin("u.structureFk", "s"),
+    where: "s.region=:regionId",
+    params: { regionId },
+  });
 }

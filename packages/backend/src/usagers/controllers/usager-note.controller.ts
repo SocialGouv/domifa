@@ -5,7 +5,7 @@ import {
   Param,
   Post,
   Put,
-  Response,
+  Res,
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
@@ -37,7 +37,7 @@ export class UsagerNoteController {
     @Body() createNoteDto: CreateNoteDto,
     @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: UsagerLight,
-    @Response() res: ExpressResponse
+    @Res() res: ExpressResponse
   ) {
     const createdBy: UserStructureResume = {
       userId: currentUser.id,
@@ -76,7 +76,7 @@ export class UsagerNoteController {
     @Param("noteId") noteId: string,
     @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: UsagerLight,
-    @Response() res: ExpressResponse
+    @Res() res: ExpressResponse
   ) {
     const usager = await usagerRepository.findOne({
       uuid: currentUsager.uuid,
