@@ -1,0 +1,38 @@
+<div>
+  <div class="home-message">
+    <h1 class="text-primary font-weight-bold">
+      Structures
+      <span *ngIf="!!allStructuresVM && !!filteredStructuresVM"
+        >({{ filteredStructuresVM?.length
+        }}<span *ngIf="allStructuresVM?.length !== filteredStructuresVM?.length"
+          >/{{ allStructuresVM?.length }}</span
+        >)</span
+      >
+    </h1>
+    <div id="searchbar" class="mt-4">
+      <span id="search_icon">
+        <fa-icon [icon]="['fas', 'search']"></fa-icon>
+      </span>
+      <input
+        type="text"
+        autofocus
+        [ngModel]="filters.searchString"
+        placeholder="Recherche par #ID, nom, région, département, email..."
+        class="form-control mt-3"
+        (input)="onSearchChange($event)"
+      />
+      <span
+        *ngIf="filters?.searchString?.trim() !== ''"
+        (click)="updateSearch('')"
+        id="times_icon"
+      >
+        <fa-icon [icon]="['fas', 'times']"></fa-icon>
+      </span>
+    </div>
+    <app-admin-structures-table
+      *ngIf="this.filteredStructuresVM"
+      [structuresVM]="this.filteredStructuresVM"
+      (onSort)="sortDashboard($event)"
+    ></app-admin-structures-table>
+  </div>
+</div>
