@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { MatomoTracker } from "ngx-matomo";
+import { environment } from "../../../../../environments/environment";
 import { UserStructure } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 
@@ -12,6 +13,8 @@ import { AuthService } from "../../../shared/services/auth.service";
 export class NavbarComponent implements OnInit {
   public isNavbarCollapsed: boolean;
   public me: UserStructure;
+
+  public portailAdminUrl = environment.portailAdminUrl;
 
   constructor(
     private authService: AuthService,
