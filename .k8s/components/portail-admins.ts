@@ -8,12 +8,11 @@ import { ok } from "assert";
 import { Deployment } from "kubernetes-models/apps/v1/Deployment";
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { getManifests as getBackendManifests } from "./backend";
-import { getManifests as getPortailAdminsManifests } from "./portail-admins";
 
 export const getManifests = async () => {
   const probesPath = "/";
-  const name = "frontend";
-  const subdomain = "domifa";
+  const name = "portail-admins";
+  const subdomain = "admin";
   const ciEnv = environments(process.env);
   const version = ciEnv.isPreProduction
     ? `preprod-${ciEnv.sha}`
@@ -38,9 +37,11 @@ export const getManifests = async () => {
     env,
     config: {
       subdomain,
+      ingress: true,
+      subDomainPrefix: ciEnv.isProduction ? "" : `${subdomain}-`,
     },
     deployment: {
-      image: `ghcr.io/socialgouv/domifa/frontend:${version}`,
+      image: `ghcr.io/socialgouv/domifa/portail-admins:${version}`,
       ...podProbes,
     },
   });
@@ -57,25 +58,14 @@ export default async () => {
 
   ok(deployment);
 
-  {
-    const backendManifests = await getBackendManifests();
+  const backendManifests = await getBackendManifests();
 
-    const backendUrl = new EnvVar({
-      name: "DOMIFA_BACKEND_URL",
-      value: `https://${getIngressHost(backendManifests)}/`,
-    });
+  const backendUrl = new EnvVar({
+    name: "DOMIFA_BACKEND_URL",
+    value: `https://${getIngressHost(backendManifests)}/`,
+  });
 
-    addEnv({ deployment, data: backendUrl });
-  }
-
-  {
-    const portailAdminsManifests = await getPortailAdminsManifests();
-    const portailAdminUrl = new EnvVar({
-      name: "DOMIFA_PORTAIL_ADMINS_URL",
-      value: `https://${getIngressHost(portailAdminsManifests)}/`,
-    });
-    addEnv({ deployment, data: portailAdminUrl });
-  }
+  addEnv({ deployment, data: backendUrl });
 
   return manifests;
 };
