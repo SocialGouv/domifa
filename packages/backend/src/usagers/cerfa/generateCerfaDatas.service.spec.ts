@@ -176,15 +176,17 @@ describe("Cerfa Data utils", () => {
   it("getUsagerRef() should return customRef if it's not nil", () => {
     usagerValide.customRef = "toto";
     const usagerRef = getUsagerRef(usagerValide);
+
+    expect(usagerRef).toEqual("toto");
   });
 
   it("CerfaData() Dossier valide", async () => {
-    const data = generateCerfaDatas(usagerValide, user);
+    const data = generateCerfaDatas(usagerValide, user, "attestation");
     expect(data).toEqual(mockDataUsagerValide);
   });
 
   it("CerfaData() Dossier refusé", async () => {
-    const data = generateCerfaDatas(usagerRefus, user);
+    const data = generateCerfaDatas(usagerRefus, user, "attestation");
     expect(data).toEqual(mockDataUsagerRefus);
   });
 
@@ -192,7 +194,7 @@ describe("Cerfa Data utils", () => {
     usagerValide.entretien.rattachement = null;
     usagerRefus.phone = null;
     user.structure.phone = undefined;
-    const data = generateCerfaDatas(usagerRefus, user);
+    const data = generateCerfaDatas(usagerRefus, user, "attestation");
     expect(data.rattachement).toEqual("");
     expect(data.telephone).toEqual("");
     expect(data.telephoneOrga).toEqual("");
@@ -200,7 +202,7 @@ describe("Cerfa Data utils", () => {
 
   it("CerfaData() Tests de cas particuliers", async () => {
     user.structure.options.numeroBoite = true;
-    const cerfaDatas = generateCerfaDatas(usagerValide, user);
+    const cerfaDatas = generateCerfaDatas(usagerValide, user, "attestation");
     expect(cerfaDatas.adresse).toEqual(
       "Boite toto\nCCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine"
     );
@@ -212,9 +214,33 @@ describe("Cerfa Data utils", () => {
       actif: true,
     };
 
-    const cerfaDatas2 = generateCerfaDatas(usagerValide, user);
+    const cerfaDatas2 = generateCerfaDatas(usagerValide, user, "attestation");
     expect(cerfaDatas2.adresse).toEqual(
       "Boite toto\nCCAS de Test\nAdresse de courrier\n75010 - Paris 10eme"
     );
+  });
+
+  it("CerfaData() si dossier est en INSTRUCTION alors dateDebut et dateFin doivent être vide", async () => {
+    usagerValide.decision.statut = "INSTRUCTION";
+    const data = generateCerfaDatas(usagerValide, user, "attestation");
+
+    expect(data.jourDebut).toEqual("");
+    expect(data.moisDebut).toEqual("");
+    expect(data.anneeDebut).toEqual("");
+    expect(data.jourFin).toEqual("");
+    expect(data.moisFin).toEqual("");
+    expect(data.anneeFin).toEqual("");
+  });
+
+  it("CerfaData() si dossier est en ATTENTE_DECISION alors dateDebut et dateFin doivent être vide", async () => {
+    usagerValide.decision.statut = "ATTENTE_DECISION";
+    const data = generateCerfaDatas(usagerValide, user, "attestation");
+
+    expect(data.jourDebut).toEqual("");
+    expect(data.moisDebut).toEqual("");
+    expect(data.anneeDebut).toEqual("");
+    expect(data.jourFin).toEqual("");
+    expect(data.moisFin).toEqual("");
+    expect(data.anneeFin).toEqual("");
   });
 });

@@ -41,7 +41,11 @@
           </button>
           <button
             class="btn btn-white-primary ml-2"
-            (click)="getCerfa('attestation')"
+            (click)="
+              getCerfa(
+                usager.decision.statut === 'REFUS' ? 'demande' : 'attestation'
+              )
+            "
           >
             <fa-icon [icon]="['fas', 'download']"></fa-icon>
             Télécharger le CERFA
