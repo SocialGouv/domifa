@@ -103,7 +103,9 @@
                 <a
                   *ngIf="me.role === 'admin' && me.structureId === 1"
                   ngbDropdownItem
-                  routerLink="/admin-domifa"
+                  [href]="portailAdminUrl"
+                  target="_portail_domifa"
+                  rel="noopener noreferrer"
                 >
                   <fa-icon
                     aria-hidden="true"
