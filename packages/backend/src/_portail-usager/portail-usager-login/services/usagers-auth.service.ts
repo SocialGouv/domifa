@@ -1,20 +1,19 @@
 import { Injectable } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+import { structureRepository } from "../../../database/services/structure/structureRepository.service";
+import { usagerRepository } from "../../../database/services/usager/usagerRepository.service";
+import { userUsagerRepository } from "../../../database/services/user-usager/userUsagerRepository.service";
+import { appLogger } from "../../../util";
 import {
   CURRENT_JWT_PAYLOAD_VERSION,
+  UserUsager,
+  UserUsagerAuthenticated,
   UserUsagerJwtPayload,
-} from "../../../auth/jwt";
-import { AuthJwtService } from "../../../auth/services/auth-jwt-service";
-import {
-  structureRepository,
-  usagerRepository,
-  userUsagerRepository,
-} from "../../../database";
-import { appLogger } from "../../../util";
-import { UserUsager, UserUsagerAuthenticated } from "../../../_common/model";
+} from "../../../_common/model";
 
 @Injectable()
 export class UsagersAuthService {
-  constructor(private readonly authJwtService: AuthJwtService) {}
+  constructor(private readonly jwtService: JwtService) {}
 
   public async login(user: UserUsager) {
     const payload: UserUsagerJwtPayload = {
@@ -25,16 +24,20 @@ export class UsagersAuthService {
       usagerUUID: user.usagerUUID,
       structureId: user.structureId,
       lastLogin: user.lastLogin,
+      isSuperAdminDomifa: false,
     };
     return {
-      access_token: this.authJwtService.sign(payload),
+      access_token: this.jwtService.sign(payload),
     };
   }
 
-  public async validateUser(
+  public async validateUserUsager(
     payload: UserUsagerJwtPayload
   ): Promise<false | UserUsagerAuthenticated> {
-    const authUser = await this.findAuthUser(payload);
+    if (payload._userProfile !== "usager") {
+      return false;
+    }
+    const authUser = await this.findAuthUserUsager(payload);
 
     if (!authUser || authUser === null) {
       return false;
@@ -49,7 +52,7 @@ export class UsagersAuthService {
     return authUser;
   }
 
-  public async findAuthUser(
+  public async findAuthUserUsager(
     payload: Pick<UserUsagerJwtPayload, "_userId">
   ): Promise<UserUsagerAuthenticated> {
     const user = await userUsagerRepository.findOne({ id: payload._userId });
@@ -70,6 +73,7 @@ export class UsagersAuthService {
       structure,
       user,
       usager,
+      isSuperAdminDomifa: false,
     };
 
     return auth;

@@ -1,3 +1,3 @@
-export * from "./StatsByMonth.type";
+export * from "./AdminStructureStatsData.type";
 export * from "./PublicStats.type";
-export * from "./DashboardStats.type";
+export * from "./StatsByMonth.type";

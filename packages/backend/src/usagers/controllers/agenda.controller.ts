@@ -5,16 +5,16 @@ import {
   HttpException,
   HttpStatus,
   Post,
-  Response,
+  Res,
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import * as ics from "ics";
+import { AllowUserStructureRoles } from "../../auth/decorators";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
-import { AllowUserStructureRoles } from "../../auth/decorators";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
 import {
@@ -66,7 +66,7 @@ export class AgendaController {
     @Body() rdvDto: RdvDto,
     @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight,
-    @Response() res: ExpressResponse
+    @Res() res: ExpressResponse
   ) {
     const user = await userStructureRepository.findOne({
       id: rdvDto.userId,

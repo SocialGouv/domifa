@@ -11,4 +11,5 @@ export type MessageEmailContent = {
   text: string;
   icalEvent?: MessageEmailIcalEvent;
   attachments?: MessageEmailAttachement[];
+  meta?: { [label: string]: string };
 };

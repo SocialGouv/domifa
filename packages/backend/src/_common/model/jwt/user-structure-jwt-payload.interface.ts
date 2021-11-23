@@ -1,4 +1,4 @@
-import { UserStructureRole } from "../../_common/model";
+import { UserStructureRole } from "../user-structure/UserStructureRole.type";
 import { UseBaseJwtPayload } from "./user-base-jwt-payload.type";
 
 export type UserStructureJwtPayload = UseBaseJwtPayload<

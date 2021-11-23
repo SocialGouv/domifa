@@ -44,6 +44,11 @@ async function sendMail({
     ...DOMIFA_DEFAULT_MAIL_CONFIG,
     ...renderedTemplate,
     to,
+    meta: {
+      "lien import": lienImport,
+      "lien faq": lienFaq,
+      "lien guide": lienGuide,
+    },
   };
 
   messageEmailSender.sendMessageLater(messageContent, {
