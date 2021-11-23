@@ -1,0 +1,153 @@
+<div id="stats" class="my-5" *ngIf="adminProfile && stats">
+  <div class="row">
+    <div class="col-md-8">
+      <div>
+        <span class="stats-titre">CHIFFRES DE LA DOMICILIATION</span>
+      </div>
+
+      <div class="stats-blocks">
+        <div>
+          <span class="stats-chiffres">
+            {{ stats.usagersCount | formatBigNumber }}
+          </span>
+          <span class="stats-labels">Tous</span>
+        </div>
+
+        <ng-container *ngFor="let decisionStatut of stats.usagersCountByStatut">
+          <div>
+            <span
+              class="stats-chiffres"
+              [ngClass]="statutClass[decisionStatut.status]"
+              >{{ decisionStatut.count }}</span
+            >
+            <span class="stats-labels">
+              {{ decisionStatut.label }}
+            </span>
+          </div>
+        </ng-container>
+      </div>
+
+      <br />
+      <br />
+
+      <div>
+        <span class="stats-titre"> STRUCTURES</span>
+      </div>
+      <div class="stats-blocks">
+        <div>
+          <span class="stats-chiffres">{{ stats.structuresCount }}</span>
+          <span class="font-weight-bold stats-labels"> Total </span>
+        </div>
+        <ng-container *ngFor="let structureType of stats.structuresCountByType">
+          <div>
+            <span class="stats-chiffres">{{ structureType.count }}</span>
+            <span class="stats-labels">
+              {{ structureType.label }}
+            </span>
+          </div>
+        </ng-container>
+      </div>
+
+      <br />
+      <br />
+      <div>
+        <div class="stats-blocks-container--inline">
+          <div>
+            <span class="stats-titre"> UTILISATEURS</span>
+          </div>
+          <div class="stats-blocks">
+            <div>
+              <span class="stats-chiffres">{{
+                stats.usersCount | formatBigNumber
+              }}</span>
+              <span class="stats-labels"> UTILISATEURS </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-blocks-container--inline">
+          <div>
+            <span class="stats-titre"> DOCUMENTS</span>
+          </div>
+          <div class="stats-blocks">
+            <div>
+              <span class="stats-chiffres">{{
+                stats.usagersDocumentsCount | formatBigNumber
+              }}</span>
+              <span class="stats-labels">DOCUMENTS UPLOADÉS</span>
+            </div>
+          </div>
+        </div>
+        <div class="stats-blocks-container--inline">
+          <div>
+            <span class="stats-titre">Notifications SMS</span>
+          </div>
+          <div class="stats-blocks">
+            <div>
+              <span class="stats-chiffres">{{
+                stats.structuresCountBySmsEnabled
+              }}</span>
+              <span class="stats-labels">STRUCTURES ACTIVÉES</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br />
+      <br />
+      <span class="stats-titre">INTERACTIONS</span>
+      <div class="stats-blocks">
+        <div *ngFor="let interactionType of stats.interactionsCountByType">
+          <span class="stats-chiffres">{{
+            interactionType.count | formatBigNumber
+          }}</span>
+          <span class="stats-labels">
+            {{ interactionType.label }}
+          </span>
+        </div>
+      </div>
+
+      <br />
+      <br />
+      <span class="stats-titre">LANGUES</span>
+      <div class="stats-blocks">
+        <div *ngFor="let usagersLanguageCount of stats.usagersCountByLanguage">
+          <span class="stats-chiffres">{{
+            usagersLanguageCount.count | formatBigNumber
+          }}</span>
+          <span
+            class="stats-labels"
+            *ngIf="usagersLanguageCount.langue !== 'NON_RENSEIGNE'"
+          >
+            {{ languagesAutocomplete.formatter(usagersLanguageCount.langue) }}
+          </span>
+          <span
+            class="stats-labels"
+            *ngIf="usagersLanguageCount.langue === 'NON_RENSEIGNE'"
+            >Non renseigné</span
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <table class="table table-hover">
+        <thead>
+          <th>Régions</th>
+          <th>Structures</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let structure of stats.structuresCountByRegion">
+            <td>
+              {{
+                REGIONS_LABELS_MAP[structure.region]
+                  ? REGIONS_LABELS_MAP[structure.region]
+                  : structure.region
+              }}
+            </td>
+            <td>{{ structure.count | formatBigNumber }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

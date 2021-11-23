@@ -1,0 +1,8 @@
+/* https://tailwindcss.com/docs/table-layout */
+
+.table-auto {
+  table-layout: auto;
+}
+.table-fixed {
+  table-layout: fixed;
+}
