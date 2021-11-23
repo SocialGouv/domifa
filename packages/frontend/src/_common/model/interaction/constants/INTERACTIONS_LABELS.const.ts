@@ -1,4 +1,4 @@
-import { InteractionType } from "..";
+import { InteractionType } from "../InteractionType.type";
 
 export const INTERACTIONS_LABELS_SINGULIER: {
   [key in InteractionType]: string;
