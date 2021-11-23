@@ -75,6 +75,26 @@ jobs:
           dockerfile: packages/portail-usagers/Dockerfile
 
   ##############################################################################
+  ## BUILD AND REGISTER PORTAIL ADMINS IMAGE
+  ##############################################################################
+  register-portail-admins:
+    name: Build & Register portail-admins
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get project name
+        run: |
+          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
+      - name: Use autodevops build and register
+        uses: SocialGouv/actions/autodevops-build-register@v1
+        with:
+          environment: preprod
+          project: ${{ env.project }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          imageName: ${{ env.project }}/portail-admins
+          dockerfile: packages/portail-admins/Dockerfile
+
+  ##############################################################################
   ## GENERATE PREPROD KUBERNETES MANIFESTS
   ##############################################################################
   manifests:

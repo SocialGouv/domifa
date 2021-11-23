@@ -9,5 +9,10 @@
   "npmClient": "yarn",
   "useWorkspaces": true,
   "version": "0.3.0",
-  "packages": ["@domifa/frontend", "@domifa/backend", "@domifa/portail-usagers"]
+  "packages": [
+    "@domifa/frontend",
+    "@domifa/backend",
+    "@domifa/portail-usagers",
+    "@domifa/portail-admins"
+  ]
 }
