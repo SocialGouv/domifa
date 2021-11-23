@@ -20,6 +20,6 @@ done
 # export new dump
 ${CURRENT_DIR}/make-dump-database-docker.sh --db=test
 # export new data dump
-${CURRENT_DIR}/make-dump-data-only-docker.sh --db=test
+${CURRENT_DIR}/make-dump-data-only-docker.sh --db=test --exclude-table=migrations
 
 cat ${DUMPS_DIR}/domifa_test.postgres.truncate-data.sql ${DUMPS_DIR}/domifa_test.postgres.restore-data-only.sql  > ${DUMPS_DIR}/domifa_test.postgres.truncate-restore-data-only.sql
