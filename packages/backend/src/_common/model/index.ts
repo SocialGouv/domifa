@@ -1,4 +1,5 @@
 export * from "./interaction";
+export * from "./jwt";
 export * from "./message-sms";
 export * from "./stats";
 export * from "./structure";
@@ -10,4 +11,5 @@ export * from "./user-structure";
 export * from "./user-usager";
 export * from "./usager/cerfa";
 export * from "./_core";
+export * from "./_portail-admin";
 export * from "./_portail-usager";

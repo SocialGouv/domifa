@@ -1,11 +1,13 @@
 import { Controller, Get, Param } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { structureRepository, usagerRepository } from "../../database";
+import {
+  structureRepository,
+  usagerRepository,
+  userStructureRepository
+} from "../../database";
 import { PublicStats } from "../../_common/model";
-import { DashboardService } from "../services/dashboard.service";
+import { AdminStructuresService } from "../../_portail-admin/admin-structures/services";
 import { StructuresService } from "./../../structures/services/structures.service";
-
-import moment = require("moment");
 
 @Controller("stats")
 @ApiTags("stats")
@@ -16,7 +18,7 @@ export class StatsPublicController {
   }[];
 
   constructor(
-    private readonly dashboardService: DashboardService,
+    private readonly adminStructuresService: AdminStructuresService,
     private readonly structuresService: StructuresService
   ) {
     this.sheet = [];
@@ -31,7 +33,9 @@ export class StatsPublicController {
 
     const statsHome = {
       structures: await structureRepository.count(),
-      interactions: await this.dashboardService.totalInteractions("courrierIn"),
+      interactions: await this.adminStructuresService.totalInteractions(
+        "courrierIn"
+      ),
       usagers: totalUsagers,
     };
     return statsHome;
@@ -56,15 +60,22 @@ export class StatsPublicController {
       );
 
       publicStats.structuresCountByDepartement =
-        await this.dashboardService.getStructuresCountByDepartement(regionId);
+        await this.adminStructuresService.getStructuresCountByDepartement(
+          regionId
+        );
 
       publicStats.structuresCount = structures.length;
+
+      publicStats.usersCount =
+        await userStructureRepository.countUsersByRegionId({ regionId });
     } else {
       publicStats.structuresCount =
-        await this.dashboardService.countStructures();
+        await this.adminStructuresService.countStructures();
 
       publicStats.structuresCountByRegion =
-        await this.dashboardService.getStructuresCountByRegion();
+        await this.adminStructuresService.getStructuresCountByRegion();
+
+      publicStats.usersCount = await userStructureRepository.count();
     }
 
     // Usagers
@@ -73,19 +84,20 @@ export class StatsPublicController {
 
     publicStats.usagersCount = usagers + ayantsDroits;
 
-    publicStats.usersCount = await this.dashboardService.countUsers(structures);
-
     publicStats.interactionsCount =
-      await this.dashboardService.totalInteractions("courrierOut", structures);
+      await this.adminStructuresService.totalInteractions(
+        "courrierOut",
+        structures
+      );
 
     publicStats.structuresCountByTypeMap =
-      await this.dashboardService.getStructuresCountByTypeMap(regionId);
+      await this.adminStructuresService.getStructuresCountByTypeMap(regionId);
 
     publicStats.interactionsCountByMonth =
-      await this.dashboardService.countInteractionsByMonth(regionId);
+      await this.adminStructuresService.countInteractionsByMonth(regionId);
 
     publicStats.usagersCountByMonth =
-      await this.dashboardService.countUsagersByMonth(regionId);
+      await this.adminStructuresService.countUsagersByMonth(regionId);
 
     return publicStats;
   }

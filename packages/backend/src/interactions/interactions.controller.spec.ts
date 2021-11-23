@@ -44,6 +44,7 @@ describe("Interactions Controller", () => {
     user = await structureAuthService.findAuthUser({
       _userId: 2,
       _userProfile: "structure",
+      isSuperAdminDomifa: false,
     });
 
     usager = await usagerRepository.findOne({
