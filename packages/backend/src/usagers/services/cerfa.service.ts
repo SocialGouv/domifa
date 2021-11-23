@@ -3,8 +3,11 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { appLogger } from "../../util";
-import { Usager, UserStructureAuthenticated } from "../../_common/model";
-import { CerfaDocType } from "../../_common/model";
+import {
+  Usager,
+  UserStructureAuthenticated,
+  CerfaDocType,
+} from "../../_common/model";
 import { getUsagerRef, generateCerfaDatas } from "../cerfa";
 
 // tslint:disable-next-line: no-var-requires
@@ -24,7 +27,7 @@ export class CerfaService {
         ? "../../_static/static-docs/attestation.pdf"
         : "../../_static/static-docs/demande.pdf";
     const usagerRef = getUsagerRef(usager);
-    const pdfInfos = generateCerfaDatas(usager, user);
+    const pdfInfos = generateCerfaDatas(usager, user, typeCerfa);
 
     const filePath = path.resolve(__dirname, pdfForm);
     return pdftk

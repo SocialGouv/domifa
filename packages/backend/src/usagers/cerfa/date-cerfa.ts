@@ -1,3 +1,11 @@
+export type DateCerfaType = {
+  heure: string;
+  minutes: string;
+  jour: string;
+  mois: string;
+  annee: string;
+};
+
 export class DateCerfa {
   public annee: string;
   public heure: string;
