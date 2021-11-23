@@ -1,10 +1,11 @@
 import moment = require("moment");
-import { DateCerfaType, DateCerfa } from ".";
+import { generateDateForCerfa } from ".";
 import {
   Usager,
   UserStructureAuthenticated,
   UsagerCerfaFields,
   CerfaDocType,
+  DateCerfa,
 } from "../../_common/model";
 import { generateMotifLabel } from "../services";
 
@@ -16,7 +17,7 @@ const toString = (value: any): string => {
   return value === undefined || value === null ? "" : value.toString();
 };
 
-const resetDate = (): DateCerfaType => {
+const resetDate = (): DateCerfa => {
   return { annee: "", heure: "", jour: "", minutes: "", mois: "" };
 };
 
@@ -43,12 +44,14 @@ export const generateCerfaDatas = (
   }
 
   const entretienAvec = toString(usager.rdv.userName).toUpperCase();
-  const dateNaissance = new DateCerfa(usager.dateNaissance);
-  const dateRdv = new DateCerfa(usager.rdv.dateRdv);
-  const dateDecision = new DateCerfa(usager.decision.dateDecision);
-  const datePremiereDom = new DateCerfa(usager.datePremiereDom);
-  let dateDebut = new DateCerfa(usager.decision.dateDebut);
-  let dateFin = new DateCerfa(usager.decision.dateFin);
+
+  const dateNaissance = generateDateForCerfa(usager.dateNaissance);
+  const dateRdv = generateDateForCerfa(usager.rdv.dateRdv);
+  const dateDecision = generateDateForCerfa(usager.decision.dateDecision);
+  const datePremiereDom = generateDateForCerfa(usager.datePremiereDom);
+
+  let dateDebut = generateDateForCerfa(usager.decision.dateDebut);
+  let dateFin = generateDateForCerfa(usager.decision.dateFin);
 
   if (
     typeCerfa === "attestation" &&
