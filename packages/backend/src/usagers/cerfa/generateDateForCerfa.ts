@@ -1,10 +1,6 @@
-export function generateDateForCerfa(date?: Date | string): {
-  annee: string;
-  heure: string;
-  jour: string;
-  minutes: string;
-  mois: string;
-} {
+import { DateCerfa } from "../../_common/model";
+
+export function generateDateForCerfa(date?: Date | string): DateCerfa {
   let annee = "";
   let heure = "";
   let jour = "";
