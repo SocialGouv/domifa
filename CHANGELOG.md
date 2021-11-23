@@ -1,3 +1,15 @@
+# [2.41.0](https://github.com/SocialGouv/domifa/compare/v2.40.4...v2.41.0) (2021-11-23)
+
+
+### Bug Fixes
+
+* correction des types ([ec2032d](https://github.com/SocialGouv/domifa/commit/ec2032d783bcb742758a7abb95f040ca2709e086))
+
+
+### Features
+
+* feedbacks CERFA ([4fee185](https://github.com/SocialGouv/domifa/commit/4fee185f2b85d287b55a0168984aafc0f51c2bc7))
+
 ## [2.40.4](https://github.com/SocialGouv/domifa/compare/v2.40.3...v2.40.4) (2021-11-22)
 
 
