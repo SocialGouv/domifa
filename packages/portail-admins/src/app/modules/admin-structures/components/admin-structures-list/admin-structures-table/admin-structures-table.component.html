@@ -1,0 +1,231 @@
+<table
+  *ngIf="structuresVM"
+  id="structures-table"
+  class="table table-hover table-fixed"
+  style="overflow-x: visible"
+>
+  <thead>
+    <tr>
+      <th (click)="sortDashboard('id')" class="col-w-50">#</th>
+      <th (click)="sortDashboard('nom')">
+        Nom
+        <fa-icon [icon]="['fas', 'sort']"></fa-icon>
+      </th>
+      <th (click)="sortDashboard('structureTypeLabel')">
+        Type
+        <fa-icon [icon]="['fas', 'sort']"></fa-icon>
+      </th>
+      <th
+        (click)="sortDashboard('createdAt', 'desc')"
+        class="whitespace-nowrap col-font-xs"
+      >
+        Date<br />inscription <fa-icon [icon]="['fas', 'sort']"></fa-icon>
+      </th>
+      <th
+        (click)="sortDashboard('import', 'desc')"
+        class="whitespace-nowrap col-font-xs d-none d-lg-table-cell"
+      >
+        Import ?
+        <fa-icon [icon]="['fas', 'sort']"></fa-icon>
+      </th>
+      <th
+        (click)="sortDashboard('importDate', 'desc')"
+        class="whitespace-nowrap col-font-xs d-none d-lg-table-cell"
+      >
+        Date import
+        <fa-icon [icon]="['fas', 'sort']"></fa-icon>
+      </th>
+      <th
+        (click)="sortDashboard('usersCount', 'desc')"
+        class="whitespace-nowrap col-font-xs"
+      >
+        Comptes <fa-icon [icon]="['fas', 'sort']"></fa-icon>
+      </th>
+      <th
+        (click)="sortDashboard('usagersAllCount', 'desc')"
+        class="whitespace-nowrap col-font-xs"
+      >
+        Domiciliés <fa-icon [icon]="['fas', 'sort']"></fa-icon>
+      </th>
+      <th
+        (click)="sortDashboard('usagersAyantsDroitsCount', 'desc')"
+        class="col-font-xs"
+      >
+        Ayants<br />droits <fa-icon [icon]="['fas', 'sort']"></fa-icon>
+      </th>
+      <th
+        (click)="sortDashboard('usagersValidCount', 'desc')"
+        class="whitespace-nowrap col-font-xs"
+      >
+        Actifs <fa-icon [icon]="['fas', 'sort']"></fa-icon>
+      </th>
+      <th (click)="sortDashboard('lastLogin', 'desc')" class="col-font-xs">
+        Dernière<br />connexion <fa-icon [icon]="['fas', 'sort']"></fa-icon>
+      </th>
+      <th (click)="sortDashboard('regionLabel')" class="col-font-xs">
+        Région <fa-icon [icon]="['fas', 'sort']"></fa-icon>
+      </th>
+      <th (click)="sortDashboard('departementLabel')" class="col-font-xs">
+        Département <fa-icon [icon]="['fas', 'sort']"></fa-icon>
+      </th>
+      <th class="col-font-xs">Email</th>
+      <th
+        (click)="sortDashboard('smsEnabled', 'desc')"
+        class="whitespace-nowrap col-font-xs d-none d-lg-table-cell"
+      >
+        SMS
+        <fa-icon [icon]="['fas', 'sort']"></fa-icon>
+      </th>
+      <th
+        (click)="sortDashboard('portailUsagerEnabled', 'desc')"
+        class="whitespace-nowrap col-font-xs d-none d-lg-table-cell"
+      >
+        Portail<br />usager
+        <fa-icon [icon]="['fas', 'sort']"></fa-icon>
+      </th>
+      <th class="">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let structure of structuresVM; let i = index">
+      <td class="col-w-50">{{ structure.id }}</td>
+      <td class="col-font-xs">
+        {{ structure.nom }}
+        {{ structure.structureType === "ccas" ? " - " + structure.ville : "" }}
+        <span *ngIf="structure.verified === false" class="badge badge-warning">
+          Non validée
+        </span>
+      </td>
+      <td class="col-font-xs">
+        {{ structure.structureTypeLabel }}
+      </td>
+
+      <td class="col-font-xs">
+        {{ structure.registrationDate | date: "dd/MM/yyyy" }}
+      </td>
+      <td class="d-none d-lg-table-cell">
+        {{ structure.import ? "✅" : "❌" }}
+      </td>
+      <td class="col-font-xs d-none d-lg-table-cell">
+        {{ structure.importDate | date: "dd/MM/yyyy" || "Info manquante" }}
+      </td>
+      <td class="col-font-xs">{{ structure.usersCount }}</td>
+      <td class="col-font-xs">{{ structure.usagersAllCount }}</td>
+      <td class="col-font-xs">{{ structure.usagersAyantsDroitsCount }}</td>
+      <td class="col-font-xs">{{ structure.usagersValidCount }}</td>
+      <td class="col-font-xs">
+        {{ structure.lastLogin | date: "dd/MM/yyyy" || "Info manquante" }}
+      </td>
+      <td class="col-font-xs">
+        {{ structure.regionLabel }}
+      </td>
+      <td class="col-font-xs">
+        {{ structure.departementLabel }}
+      </td>
+      <td class="col-font-xs">
+        {{ structure.email }}
+      </td>
+      <td class="d-none d-lg-table-cell">
+        <a class="cursor-pointer" (click)="enableSms(structure)">
+          <fa-icon
+            class="pr-2"
+            style="color: #17a2b8"
+            *ngIf="structure.sms?.enabledByDomifa"
+            [icon]="['fas', 'check']"
+          ></fa-icon>
+          <fa-icon
+            class="pr-2"
+            style="color: #999"
+            *ngIf="!structure.sms?.enabledByDomifa"
+            [icon]="['fas', 'times']"
+          ></fa-icon>
+        </a>
+      </td>
+      <td class="d-none d-lg-table-cell">
+        <a class="cursor-pointer" (click)="enablePortailUsager(structure)">
+          <fa-icon
+            class="pr-2"
+            style="color: #17a2b8"
+            *ngIf="structure.portailUsager.enabledByDomifa"
+            [icon]="['fas', 'check']"
+          ></fa-icon>
+          <fa-icon
+            class="pr-2"
+            style="color: #999"
+            *ngIf="!structure.portailUsager.enabledByDomifa"
+            [icon]="['fas', 'times']"
+          ></fa-icon>
+        </a>
+      </td>
+      <td class="">
+        <div
+          ngbDropdown
+          container="body"
+          [id]="'dropdownActionsMenuDashboard_' + structure.id"
+          placement="bottom-right"
+        >
+          <button class="btn" ngbDropdownToggle>
+            <fa-icon [icon]="['fas', 'bars']"></fa-icon>
+          </button>
+          <div ngbDropdownMenu>
+            <a
+              class="cursor-pointer"
+              ngbDropdownItem
+              style="color: #bd2130"
+              (click)="deleteStructure(structure.id)"
+            >
+              <fa-icon class="pr-2" [icon]="['fas', 'trash']"></fa-icon>
+              Supprimer
+            </a>
+            <a
+              class="cursor-pointer"
+              ngbDropdownItem
+              (click)="exportYearStats(structure.id, 2020)"
+            >
+              <fa-icon class="pr-2" [icon]="['fas', 'download']"></fa-icon>
+              Stats 2020
+            </a>
+            <a
+              class="cursor-pointer"
+              ngbDropdownItem
+              (click)="enableSms(structure)"
+            >
+              <fa-icon
+                class="pr-2"
+                style="color: #17a2b8"
+                *ngIf="structure.sms.enabledByDomifa"
+                [icon]="['fas', 'check']"
+              ></fa-icon>
+              <fa-icon
+                class="pr-2"
+                style="color: #999"
+                *ngIf="!structure.sms.enabledByDomifa"
+                [icon]="['fas', 'times']"
+              ></fa-icon>
+              SMS
+            </a>
+            <a
+              class="cursor-pointer"
+              ngbDropdownItem
+              (click)="enablePortailUsager(structure)"
+            >
+              <fa-icon
+                class="pr-2"
+                style="color: #17a2b8"
+                *ngIf="structure.portailUsager.enabledByDomifa"
+                [icon]="['fas', 'check']"
+              ></fa-icon>
+              <fa-icon
+                class="pr-2"
+                style="color: #999"
+                *ngIf="!structure.portailUsager.enabledByDomifa"
+                [icon]="['fas', 'times']"
+              ></fa-icon>
+              Portail usager
+            </a>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
