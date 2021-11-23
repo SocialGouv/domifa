@@ -5,6 +5,7 @@ import {
   FindConditions,
   ObjectLiteral,
   OrderByCondition,
+  SelectQueryBuilder,
 } from "typeorm";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { appLogger } from "../../../util";
@@ -67,7 +68,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
       params,
       where,
     }: {
-      where?: Partial<T>;
+      where?: string | Partial<T>;
       sumAttribute: string;
       logSql?: boolean;
       params?: { [attr: string]: any };
@@ -91,7 +92,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
       params,
       where,
     }: {
-      where?: Partial<T>;
+      where?: string | Partial<T>;
       countAttribute?: string;
       logSql?: boolean;
       params?: { [attr: string]: any };
@@ -115,7 +116,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     where,
     alias,
   }: {
-    where?: Partial<T>;
+    where?: string | Partial<T>;
     maxAttribute: string;
     logSql?: boolean;
     params?: { [attr: string]: any };
@@ -138,13 +139,15 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     logSql,
     params,
     alias,
+    configure,
   }: {
     expression: string;
     resultAlias: string;
-    where?: Partial<T>;
+    where?: string | Partial<T>;
     logSql?: boolean;
     params?: { [attr: string]: any };
     alias?: string;
+    configure?: (qb: SelectQueryBuilder<T>) => SelectQueryBuilder<T>;
   }): Promise<number> {
     const typeormRepository = await typeorm();
     let qb = typeormRepository
@@ -153,6 +156,9 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
 
     if (where) {
       qb = qb.where(where, params);
+    }
+    if (configure) {
+      qb = configure(qb);
     }
     if (logSql) {
       appLogger.debug(`[pgRepository.aggregateAsNumber] "${qb.getSql()}"`);
@@ -436,7 +442,6 @@ function _parseCounts<T, CountBy extends keyof T>(
     count: number;
   })[];
 }
-
 function printQueryError<T>(qb) {
   appLogger.warn(
     `[pgRepository] invalid query "${qb.getSql()} - ${

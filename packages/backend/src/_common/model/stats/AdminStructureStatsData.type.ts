@@ -1,11 +1,8 @@
-import { StructureAdmin } from "..";
-
-export type DashboardStats = {
+export type AdminStructureStatsData = {
   usersCount: number;
+  structuresCount: number;
   usagersDocumentsCount: number;
-  structures: (StructureAdmin & {
-    usersCount?: number; // dashboard only
-  })[];
+  // structures: StructureAdminForList[];
   structuresCountByRegion: {
     region: string;
     count: number;

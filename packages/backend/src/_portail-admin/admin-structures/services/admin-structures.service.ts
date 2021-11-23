@@ -5,25 +5,25 @@ import {
   interactionRepository,
   InteractionsTable,
   structureRepository,
-  StructureTable,
   typeOrmSearch,
   usagerRepository,
   UsagerTable,
   userStructureRepository,
-} from "../../database";
-import { StatsDeploiementExportModel } from "../../excel/export-stats-deploiement";
-import { StatsDeploiementStructureExportModel } from "../../excel/export-stats-deploiement/StatsDeploiementStructureExportModel.type";
+} from "../../../database";
+import { StatsDeploiementExportModel } from "../../../excel/export-stats-deploiement";
+import { StatsDeploiementStructureExportModel } from "../../../excel/export-stats-deploiement/StatsDeploiementStructureExportModel.type";
 import {
-  DashboardStats,
+  AdminStructureListData,
+  AdminStructureStatsData,
+  InteractionType,
   StatsByMonth,
+  StructureAdmin,
   StructureType,
   UsagerDecisionStatut,
-} from "../../_common/model";
-import { InteractionType } from "../../_common/model/interaction";
-import { StructureAdmin } from "../../_common/model/structure/StructureAdmin.type";
+} from "../../../_common/model";
 
 @Injectable()
-export class DashboardService {
+export class AdminStructuresService {
   private interactionRepository: Repository<InteractionsTable>;
 
   constructor() {
@@ -31,20 +31,22 @@ export class DashboardService {
       appTypeormManager.getRepository(InteractionsTable);
   }
 
-  public async getStatsDomifaAdminDashboard(): Promise<DashboardStats> {
-    const structures = await this.getStructuresForDashboard();
+  public async getStatsDomifaAdminDashboard(): Promise<AdminStructureStatsData> {
+    const structures = await structureRepository.findMany({});
+
+    const structuresIds = structures.map((s) => s.id);
 
     const {
       usagersValidCountByStructureMap,
       usagersAllCountByStructureMap,
       usagersAyantsDroitsCountByStructureMap,
-    } = await this.getUsagersCountByStructureMaps(structures);
+    } = await this.getUsagersCountByStructureMaps(structuresIds);
 
     const structuresCountByRegion = await this.getStructuresCountByRegion();
 
     const structuresCountByTypeMap = await this.getStructuresCountByTypeMap();
 
-    const usersCount = await this.countUsers();
+    const usersCount = await userStructureRepository.count();
 
     const interactionsCountByTypeMap =
       await this.getInteractionsCountByTypeMap();
@@ -54,8 +56,11 @@ export class DashboardService {
     const usagersCountByLanguage = await this.getUsagersCountByLanguage();
     const structuresCountBySmsEnabled = await this.getStructuresWithSms();
 
-    const stats: DashboardStats = {
-      structures,
+    const structuresCount = await structureRepository.count();
+
+    const stats: AdminStructureStatsData = {
+      // structures,
+      structuresCount,
       usagersValidCountByStructureMap,
       usagersAyantsDroitsCountByStructureMap,
       usagersAllCountByStructureMap,
@@ -71,25 +76,36 @@ export class DashboardService {
 
     return stats;
   }
-
-  private async getStructuresForDashboard(): Promise<
-    (StructureAdmin & {
-      usersCount?: number; // dashboard only
-    })[]
-  > {
+  public async getAdminStructuresListData(): Promise<AdminStructureListData> {
     const structures = await structureRepository.findMany({});
-    for (const structure of structures) {
-      (
-        structure as unknown as StructureAdmin & {
-          usersCount?: number; // dashboard only
-        }
-      ).usersCount = await userStructureRepository.count({
-        where: {
-          structureId: structure.id,
-        },
-      });
-    }
-    return structures;
+
+    const structuresIds = structures.map((s) => s.id);
+
+    const {
+      usagersValidCountByStructureMap,
+      usagersAllCountByStructureMap,
+      usagersAyantsDroitsCountByStructureMap,
+    } = await this.getUsagersCountByStructureMaps(structuresIds);
+
+    const usersStructureCountByStructure =
+      await this.getUsersStructureCountByStructure();
+
+    const usersStructureCountByStructureMap = this.reduceSumResults(
+      structuresIds,
+      usersStructureCountByStructure
+    );
+
+    const data: AdminStructureListData = {
+      structures: structures.map((s) => ({
+        ...s,
+        usersCount: usersStructureCountByStructureMap[s.id],
+        usagersValidCount: usagersValidCountByStructureMap[s.id],
+        usagersAllCount: usagersAllCountByStructureMap[s.id],
+        usagersAyantsDroitsCount: usagersAyantsDroitsCountByStructureMap[s.id],
+      })),
+    };
+
+    return data;
   }
 
   // TODO: ajouter la région
@@ -121,11 +137,10 @@ export class DashboardService {
   }
 
   public async getStructuresWithSms(): Promise<number> {
-    return appTypeormManager
-      .getRepository(StructureTable)
-      .query(
-        `SELECT COUNT(*)  from structure where sms->>'enabledByStructure' = 'true' `
-      );
+    return structureRepository.count({
+      where: `sms->>'enabledByStructure' = 'true'`,
+      logSql: true,
+    });
   }
 
   public async getInteractionsCountByTypeMap(): Promise<{
@@ -160,6 +175,21 @@ export class DashboardService {
     });
   }
 
+  public async getUsersStructureCountByStructure(): Promise<
+    {
+      structureId: number;
+      count: number;
+    }[]
+  > {
+    return userStructureRepository.countBy({
+      countBy: "structureId",
+      order: {
+        count: "DESC",
+        countBy: "ASC",
+      },
+    });
+  }
+
   public async getUsagersAllCountByStructure(): Promise<
     {
       structureId: number;
@@ -179,25 +209,18 @@ export class DashboardService {
   public async getUsagersAyantsDroitsCountByStructure(): Promise<
     {
       structureId: number;
-      sum: string;
+      count: number;
     }[]
   > {
-    return appTypeormManager
+    const results = await appTypeormManager
       .getRepository(UsagerTable)
       .query(
         `select "structureId", sum(jsonb_array_length("ayantsDroits")) as count from usager u group by "structureId" `
       );
-  }
 
-  public async countUsers(structuresId?: number[]): Promise<number> {
-    if (structuresId) {
-      return userStructureRepository.count({
-        where: typeOrmSearch<UsagerTable>('"structureId" IN(:...ids)'),
-        params: { ids: structuresId },
-      });
-    }
-
-    return userStructureRepository.count();
+    return usagerRepository._parseCounts<UsagerTable, "structureId">(results, {
+      label: "count",
+    });
   }
 
   public async countStructures(): Promise<number> {
@@ -284,17 +307,38 @@ export class DashboardService {
     return structures;
   }
 
-  public async getStatsDeploiement() {
-    const structuresModels: StatsDeploiementStructureExportModel[] =
-      await this.getStatsDeploiementStructures();
+  public async getStatsDeploiementForExport() {
+    const structuresAdmin: StructureAdmin[] =
+      await structureRepository.findMany(
+        {},
+        {
+          order: {
+            createdAt: "ASC",
+          },
+        }
+      );
 
-    const structures = await this.getStructuresForDashboard();
+    const structuresIds = structuresAdmin.map((s) => s.id);
+
+    const usersStructureCountByStructure =
+      await this.getUsersStructureCountByStructure();
+
+    const usersStructureCountByStructureMap = this.reduceSumResults(
+      structuresIds,
+      usersStructureCountByStructure
+    );
+
+    const structuresModels: StatsDeploiementStructureExportModel[] =
+      structuresAdmin.map((structure) => ({
+        structure,
+        usersCount: usersStructureCountByStructureMap[structure.id],
+      }));
 
     const {
       usagersValidCountByStructureMap,
       usagersAllCountByStructureMap,
       usagersAyantsDroitsCountByStructureMap,
-    } = await this.getUsagersCountByStructureMaps(structures);
+    } = await this.getUsagersCountByStructureMaps(structuresIds);
 
     const usagersCountByStatut = await this.getUsagersCountByStatutMap();
 
@@ -323,33 +367,6 @@ export class DashboardService {
     return stats;
   }
 
-  private async getStatsDeploiementStructures() {
-    const structures: StructureAdmin[] = await structureRepository.findMany(
-      {},
-      {
-        order: {
-          createdAt: "ASC",
-        },
-      }
-    );
-
-    const structuresModels: StatsDeploiementStructureExportModel[] = [];
-
-    for (const structure of structures) {
-      const usersCount = await userStructureRepository.count({
-        where: {
-          structureId: structure.id,
-        },
-      });
-      const structureModel: StatsDeploiementStructureExportModel = {
-        structure,
-        usersCount,
-      };
-      structuresModels.push(structureModel);
-    }
-    return structuresModels;
-  }
-
   public async totalInteractions(
     interactionType: InteractionType,
     structuresId?: number[]
@@ -361,28 +378,25 @@ export class DashboardService {
           event: "create",
         });
       }
-      const whereCondition: {
-        type: string;
-        event: string;
-        structureId?: any;
-      } = { type: interactionType, event: "create" };
+      const whereCondition: Partial<InteractionsTable> = {
+        type: interactionType,
+        event: "create",
+      };
 
       if (structuresId) {
-        whereCondition.structureId = In(structuresId);
+        whereCondition.structureId = In(structuresId) as any;
       }
 
-      const search = await this.interactionRepository
-        .createQueryBuilder("interactions")
-        .select("SUM(interactions.nbCourrier)", "sum")
-        .where(whereCondition)
-        .groupBy("interactions.type")
-        .getRawOne();
-
-      return typeof search !== "undefined" ? search.sum : 0;
+      return interactionRepository.aggregateAsNumber({
+        alias: "interactions",
+        expression: "SUM(interactions.nbCourrier)",
+        resultAlias: "sum",
+        where: whereCondition,
+      });
     }
   }
 
-  private async getUsagersCountByStructureMaps(structures) {
+  private async getUsagersCountByStructureMaps(structuresIds: number[]) {
     const usagersValidCountByStructure =
       await this.getUsagersValideCountByStructure();
 
@@ -393,17 +407,17 @@ export class DashboardService {
       await this.getUsagersAyantsDroitsCountByStructure();
 
     const usagersValidCountByStructureMap = this.reduceSumResults(
-      structures,
+      structuresIds,
       usagersValidCountByStructure
     );
 
     const usagersAyantsDroitsCountByStructureMap = this.reduceSumResults(
-      structures,
+      structuresIds,
       usagersAyantsDroitsCountByStructure
     );
 
     const usagersAllCountByStructureMap = this.reduceSumResults(
-      structures,
+      structuresIds,
       usagersAllCountByStructure
     );
 
@@ -471,12 +485,20 @@ export class DashboardService {
     return statsByMonth;
   }
 
-  public reduceSumResults(structures, sumToReduce) {
+  public reduceSumResults(
+    structuresIds: number[],
+    sumToReduce: {
+      structureId: number;
+      count: number;
+    }[]
+  ): {
+    [x: string]: number;
+  } {
     const listOfStructures: {
       [key in string]?: number;
-    } = structures.reduce(
-      (acc, x) => {
-        acc[x.id] = 0;
+    } = structuresIds.reduce(
+      (acc, structureId) => {
+        acc[structureId] = 0;
         return acc;
       },
       {} as {
@@ -486,7 +508,7 @@ export class DashboardService {
 
     sumToReduce.reduce(
       (acc, x) => {
-        listOfStructures[x.structureId] = parseInt(x.count, 10);
+        listOfStructures[x.structureId] = x.count;
         return acc;
       },
       {} as {

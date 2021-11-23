@@ -16,10 +16,14 @@ async function sendMail({
 }: {
   structure: Structure;
 }): Promise<void> {
-  const frontendUrl = domifaConfig().apps.frontendUrl;
+  const frontendUrl = domifaConfig().apps.portailAdminUrl;
 
   const lienSuppression =
-    frontendUrl + "structures/delete/" + structure.id + "/" + structure.token;
+    frontendUrl +
+    "structures-confirm/delete/" +
+    structure.id +
+    "/" +
+    structure.token;
 
   const to = [
     {
@@ -43,6 +47,9 @@ async function sendMail({
     ...DOMIFA_DEFAULT_MAIL_CONFIG,
     ...renderedTemplate,
     to,
+    meta: {
+      "lien suppression": lienSuppression,
+    },
   };
 
   messageEmailSender.sendMessageLater(messageContent, {
