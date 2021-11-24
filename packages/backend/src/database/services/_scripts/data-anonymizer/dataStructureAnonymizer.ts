@@ -32,19 +32,18 @@ async function anonymizeStructures() {
 }
 
 async function _anonymizeStructure(structure: Pick<Structure, "id" | "email">) {
-  const attributesToUpdate: Partial<Structure> = {};
-
-  structure.email = dataEmailAnonymizer.anonymizeEmail({
-    prefix: "structure",
-    id: structure.id,
-  });
-
-  if (Object.keys(attributesToUpdate).length === 0) {
-    return structure;
-  }
-
-  attributesToUpdate.sms.enabledByDomifa = false;
-  attributesToUpdate.sms.enabledByStructure = false;
+  const attributesToUpdate: Partial<Structure> = {
+    sms: {
+      enabledByDomifa: false,
+      enabledByStructure: false,
+      senderName: null,
+      senderDetails: null,
+    },
+    email: dataEmailAnonymizer.anonymizeEmail({
+      prefix: "structure",
+      id: structure.id,
+    }),
+  };
 
   return structureRepository.updateOne(
     { id: structure.id },

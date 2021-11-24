@@ -1,12 +1,21 @@
 import { INestApplication } from "@nestjs/common";
 import { appLogger } from "../../../../util";
-import { Usager } from "../../../../_common/model";
+import {
+  Usager,
+  UsagerAyantDroit,
+  UsagerDecision,
+  UsagerEntretien,
+} from "../../../../_common/model";
 import { usagerRepository } from "../../usager/usagerRepository.service";
 import { dataGenerator } from "./dataGenerator.service";
 import { dataStructureAnonymizer } from "./dataStructureAnonymizer";
 
 export const dataUsagerAnonymizer = {
   anonymizeUsagers,
+  anonymizeUsagerEntretien,
+  anonymizeUsagerDecision,
+  anonymizeUsagerHistorique,
+  anonymizeAyantDroits,
 };
 
 async function anonymizeUsagers({ app }: { app: INestApplication }) {
@@ -73,17 +82,15 @@ async function _anonymizeUsager(
     dateNaissance: dataGenerator.date({
       years: { min: 18, max: -90 },
     }),
-    entretien: usager.entretien,
-    ayantsDroits: usager.ayantsDroits
-      ? usager.ayantsDroits.map((x) => ({
-          lien: x.lien,
-          nom: dataGenerator.lastName(),
-          prenom: dataGenerator.firstName(),
-          dateNaissance: dataGenerator.date({
-            years: { min: 0, max: -90 },
-          }),
-        }))
-      : usager.ayantsDroits,
+    villeNaissance: dataGenerator.fromList(["Inconnu", dataGenerator.city()]),
+    entretien: anonymizeUsagerEntretien(usager.entretien),
+    decision: anonymizeUsagerDecision(usager.decision),
+    historique: usager.historique.map((h) => anonymizeUsagerHistorique(h)),
+    ayantsDroits: anonymizeAyantDroits(usager.ayantsDroits),
+    docs: usager.docs.map((d, i) => ({
+      ...d,
+      label: `Document ${i}`,
+    })),
     // datePremiereDom non-anonymisée car ça casse la cohérence des données, il faudrait le faire en tenant compte de l'historique
     // datePremiereDom: dataGenerator.date({
     //   years: { min: 0, max: -30 },
@@ -96,4 +103,46 @@ async function _anonymizeUsager(
   }
 
   return usagerRepository.updateOne({ uuid: usager.uuid }, attributesToUpdate);
+}
+function anonymizeAyantDroits(
+  ayantsDroits: UsagerAyantDroit[]
+): UsagerAyantDroit[] {
+  return (ayantsDroits ?? []).map((x) => ({
+    lien: x.lien,
+    nom: dataGenerator.lastName(),
+    prenom: dataGenerator.firstName(),
+    dateNaissance: dataGenerator.date({
+      years: { min: 0, max: -90 },
+    }),
+  }));
+}
+
+function anonymizeUsagerHistorique(h: UsagerDecision): UsagerDecision {
+  return {
+    ...h,
+    motifDetails: null,
+    orientationDetails: null,
+  };
+}
+
+function anonymizeUsagerDecision(decision: UsagerDecision): UsagerDecision {
+  return {
+    ...decision,
+    motifDetails: null,
+    orientationDetails: null,
+  };
+}
+
+function anonymizeUsagerEntretien(entretien: UsagerEntretien): UsagerEntretien {
+  return {
+    ...entretien,
+    commentaires: null,
+    revenusDetail: null,
+    orientationDetail: null,
+    liencommuneDetail: null,
+    residenceDetail: null,
+    causeDetail: null,
+    raisonDetail: null,
+    accompagnementDetail: null,
+  };
 }
