@@ -1,22 +1,18 @@
 import { appLogger } from "../../../../util";
 import { messageSmsRepository } from "../../message-sms";
 
-export const dataSmsAnonymizer = {
+export const dataMessageSmsAnonymizer = {
   anonymizeSms,
 };
 
 async function anonymizeSms() {
-  const smsToSendToAnonymize = await messageSmsRepository.count({
+  const smsToSendToSkip = await messageSmsRepository.count({
     where: {
       status: "TO_SEND",
     },
   });
 
-  const smsPhoneNumberToAnonymize = await messageSmsRepository.count({});
-
-  appLogger.warn(
-    `[dataSmsAnonymizer] ${smsToSendToAnonymize} SMS to anonymize`
-  );
+  appLogger.warn(`[dataMessageSmsAnonymizer] ${smsToSendToSkip} SMS to skip`);
 
   await messageSmsRepository.updateMany(
     { status: "TO_SEND" },
@@ -25,8 +21,9 @@ async function anonymizeSms() {
     }
   );
 
+  const smsPhoneNumberToAnonymizeCount = await messageSmsRepository.count({});
   appLogger.warn(
-    `[dataSmsAnonymizer] ${smsPhoneNumberToAnonymize} SMS phone number to anonymize`
+    `[dataMessageSmsAnonymizer] ${smsPhoneNumberToAnonymizeCount} SMS phone number to anonymize`
   );
 
   await messageSmsRepository.updateMany(

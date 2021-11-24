@@ -25,6 +25,7 @@ export const dataGenerator = {
   date,
   email,
   buildList,
+  city,
 };
 
 function resetSeed({ seed }: { seed: number } = { seed: 123 }) {
@@ -35,6 +36,9 @@ function resetSeed({ seed }: { seed: number } = { seed: 123 }) {
 
 function firstName() {
   return get().name.firstName();
+}
+function city() {
+  return get().address.city();
 }
 function lastName() {
   return get().name.lastName();
@@ -150,15 +154,24 @@ function date(options: {
     const min = (years.min ? years.min : 0) * 365 * 24 * 60;
     const max = years.max * 365 * 24 * 60;
     const minutesDiff = number({ min, max, precision: 1 });
-    return new Date(refDate.getTime() + minutesDiff * 60 * 1000);
+    return removeTime(refDate.getTime() + minutesDiff * 60 * 1000);
   }
 
   if (days) {
     const min = (days.min ? days.min : 0) * 24 * 60;
     const max = days.max * 24 * 60;
     const minutesDiff = number({ min, max, precision: 1 });
-    return new Date(refDate.getTime() + minutesDiff * 60 * 1000);
+    return removeTime(refDate.getTime() + minutesDiff * 60 * 1000);
   }
 
-  return refDate;
+  return removeTime(refDate);
+}
+
+function removeTime(date: Date | number): Date {
+  date = new Date(date);
+  date.setUTCHours(0);
+  date.setUTCMinutes(0);
+  date.setUTCSeconds(0);
+  date.setUTCMilliseconds(0);
+  return date;
 }
