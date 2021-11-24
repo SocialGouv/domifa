@@ -1,3 +1,10 @@
+# [2.42.0](https://github.com/SocialGouv/domifa/compare/v2.41.0...v2.42.0) (2021-11-24)
+
+
+### Features
+
+* anonymize preprod db ([#1892](https://github.com/SocialGouv/domifa/issues/1892)) ([a046182](https://github.com/SocialGouv/domifa/commit/a0461820e6acc631ae2b5b9284933b45800b787c))
+
 # [2.41.0](https://github.com/SocialGouv/domifa/compare/v2.40.4...v2.41.0) (2021-11-23)
 
 
