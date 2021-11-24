@@ -1,3 +1,4 @@
+*.sql
 *.gz
 *.dump
 *.custom.gz
