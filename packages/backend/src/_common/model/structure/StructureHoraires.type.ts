@@ -5,30 +5,30 @@ export type StructureHoraires = AppEntity & {
   description: { default: null; type: String };
   friday: {
     open: Boolean;
-    timeslot: [DayOpeningHours];
+    openingHours: [DayOpeningHours];
   };
   monday: {
     open: Boolean;
-    timeslot: [DayOpeningHours];
+    openingHours: [DayOpeningHours];
   };
   saturday: {
     open: Boolean;
-    timeslot: [DayOpeningHours];
+    openingHours: [DayOpeningHours];
   };
   sunday: {
     open: Boolean;
-    timeslot: [DayOpeningHours];
+    openingHours: [DayOpeningHours];
   };
   thursday: {
     open: Boolean;
-    timeslot: [DayOpeningHours];
+    openingHours: [DayOpeningHours];
   };
   tuesday: {
     open: Boolean;
-    timeslot: [DayOpeningHours];
+    openingHours: [DayOpeningHours];
   };
   wednesday: {
     open: Boolean;
-    timeslot: [DayOpeningHours];
+    openingHours: [DayOpeningHours];
   };
 };
