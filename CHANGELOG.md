@@ -1,3 +1,10 @@
+## [2.42.1](https://github.com/SocialGouv/domifa/compare/v2.42.0...v2.42.1) (2021-11-26)
+
+
+### Bug Fixes
+
+* correction d'un souci sur customDocType ([fb843f5](https://github.com/SocialGouv/domifa/commit/fb843f552705ff7d354109d00790d5e98675b13c))
+
 # [2.42.0](https://github.com/SocialGouv/domifa/compare/v2.41.0...v2.42.0) (2021-11-24)
 
 
