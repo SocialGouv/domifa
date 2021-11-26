@@ -1,3 +1,10 @@
+## [2.42.2](https://github.com/SocialGouv/domifa/compare/v2.42.1...v2.42.2) (2021-11-26)
+
+
+### Bug Fixes
+
+* ajout des horaires ([025bb8d](https://github.com/SocialGouv/domifa/commit/025bb8d761aa18df7111c0b3e2003acc7117b1af))
+
 ## [2.42.1](https://github.com/SocialGouv/domifa/compare/v2.42.0...v2.42.1) (2021-11-26)
 
 
