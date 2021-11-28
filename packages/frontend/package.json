@@ -78,7 +78,7 @@
     "eslint-plugin-prefer-arrow": "latest",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.0.6",
-    "jest-preset-angular": "^10.0.0",
+    "jest-preset-angular": "^11.0.0",
     "prettier": "^2.4.1",
     "source-map-explorer": "^2.5.2",
     "ts-jest": "^27.0.5",
