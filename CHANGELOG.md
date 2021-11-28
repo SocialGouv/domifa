@@ -1,3 +1,10 @@
+## [2.42.3](https://github.com/SocialGouv/domifa/compare/v2.42.2...v2.42.3) (2021-11-28)
+
+
+### Bug Fixes
+
+* **deps:** update dependency puppeteer to v12 ([1bb32c6](https://github.com/SocialGouv/domifa/commit/1bb32c65222a59099158197859f9dbb2221bee4a))
+
 ## [2.42.2](https://github.com/SocialGouv/domifa/compare/v2.42.1...v2.42.2) (2021-11-26)
 
 
