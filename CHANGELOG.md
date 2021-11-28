@@ -1,3 +1,15 @@
+# [2.43.0](https://github.com/SocialGouv/domifa/compare/v2.42.3...v2.43.0) (2021-11-28)
+
+
+### Bug Fixes
+
+* .gitignore ([755507a](https://github.com/SocialGouv/domifa/commit/755507a783d28b310770886c3bde3d90716ce3da))
+
+
+### Features
+
+* improve data anonymizer ([d60801b](https://github.com/SocialGouv/domifa/commit/d60801bffd5e64e3cc418ecf711830d05249df7a))
+
 ## [2.42.3](https://github.com/SocialGouv/domifa/compare/v2.42.2...v2.42.3) (2021-11-28)
 
 
