@@ -40,7 +40,7 @@
     "core-js": "^3.15.2",
     "date-fns": "^2.24.0",
     "file-saver": "^2.0.5",
-    "file-type": "^16.1.0",
+    "file-type": "^17.0.0",
     "fs": "^0.0.2",
     "jwt-decode": "^3.1.2",
     "ngx-countup": "^7.3.3",
