@@ -93,12 +93,6 @@ export class UsagerStructureDocsController {
       customDocType: docType,
     });
 
-    if (!doc) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "DOC_DOMIFA_NOT_FOUND" });
-    }
-
     const content = doc
       ? customDocTemplateLoader.loadCustomDocTemplate({
           docPath: doc.path,
