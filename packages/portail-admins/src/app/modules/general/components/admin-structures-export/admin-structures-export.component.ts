@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { AdminStructuresApiClient } from "../../../shared/services";
+import * as fileSaver from "file-saver";
 
 @Component({
   selector: "app-admin-structures-export",
@@ -26,7 +27,7 @@ export class AdminStructuresExportComponent implements OnInit, OnDestroy {
         const newBlob = new Blob([x], {
           type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         });
-        saveAs(newBlob, "export_stats_domifa" + ".xlsx");
+        fileSaver.saveAs(newBlob, "export_stats_domifa" + ".xlsx");
         setTimeout(() => {
           this.exportLoading = false;
         }, 500);

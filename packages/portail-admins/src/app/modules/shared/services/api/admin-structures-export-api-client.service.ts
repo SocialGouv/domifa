@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { saveAs } from "file-saver";
 import { delay, Observable, tap } from "rxjs";
 import { environment } from "../../../../../environments/environment";
+import * as fileSaver from "file-saver";
 
 const BASE_URL = environment.apiUrl + "stats";
 
@@ -43,7 +44,7 @@ export class AdminStructuresExportApiClient {
             endDateUTC: period.end,
             structureId,
           });
-          saveAs(newBlob, fileName);
+          fileSaver.saveAs(newBlob, fileName);
         }),
         delay(500)
       );
