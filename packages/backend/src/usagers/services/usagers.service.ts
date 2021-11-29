@@ -96,6 +96,7 @@ export class UsagersService {
       dateDecision: new Date(),
       statut: "INSTRUCTION",
       userId: user.id,
+
       userName: user.prenom + " " + user.nom,
       typeDom,
     };
@@ -122,9 +123,12 @@ export class UsagersService {
       historyBeginDate: usager.decision.dateDebut,
     });
 
+    usager.lastInteraction.dateInteraction = new Date();
+
     return usagerLightRepository.updateOne(
       { uuid: usager.uuid },
       {
+        lastInteraction: usager.lastInteraction,
         decision: usager.decision,
         options: usager.options,
         historique: usager.historique,
@@ -203,6 +207,7 @@ export class UsagersService {
     return usagerLightRepository.updateOne(
       { uuid },
       {
+        lastInteraction: usager.lastInteraction,
         customRef: usager.customRef,
         entretien: usager.entretien,
         decision: usager.decision,
