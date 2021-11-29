@@ -14,7 +14,7 @@ export type DomifaConfigSecurity = {
 
 export type DomifaConfig = {
   envId: DomifaEnvId; // DOMIFA_ENV_ID
-  version: string; // DOMIFA_DOCKER_IMAGE_VERSION (default to process.env.npm_package_version)
+  version: string; // DOMIFA_VERSION (default to process.env.npm_package_version)
   apps: {
     frontendUrl: string; // DOMIFA_FRONTEND_URL
     portailUsagersUrl: string; // DOMIFA_PORTAIL_USAGERS_URL

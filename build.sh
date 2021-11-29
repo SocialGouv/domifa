@@ -27,7 +27,7 @@ fi
 
 # from suglify: https://github.com/gitlabhq/gitlabhq/blob/master/app/assets/javascripts/lib/utils/text_utility.js
 CI_COMMIT_REF_SLUG=$(echo "$branch" | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-zA-Z0-9_.-]/-/g' | sed -e 's/[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜĀÁǍÀĒÉĚÈĪÍǏÌŌÓǑÒŪÚǓÙǕǗǙǛ]/-/g' | sed -e 's/\(\-\)\1\+/\1/g')
-DOMIFA_DOCKER_IMAGE_VERSION=$CI_COMMIT_REF_SLUG
+DOMIFA_VERSION=$CI_COMMIT_REF_SLUG
 
 mkdir -p ${CURRENT_DIR}/node_modules
 
@@ -51,7 +51,7 @@ if [ $? -eq 1 ]; then
 fi
 
 CI_REGISTRY_IMAGE="registry.gitlab.factory.social.gouv.fr/socialgouv/domifa"
-TAG=${DOMIFA_DOCKER_IMAGE_VERSION}
+TAG=${DOMIFA_VERSION}
 CONTEXT="."
 
 # build frontend image

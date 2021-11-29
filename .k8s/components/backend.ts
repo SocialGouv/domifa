@@ -1,16 +1,17 @@
 import env from "@kosko/env";
 import { create } from "@socialgouv/kosko-charts/components/app";
+import { azureProjectVolume } from "@socialgouv/kosko-charts/components/azure-storage/azureProjectVolume";
+import environments from "@socialgouv/kosko-charts/environments";
+import { CIEnv } from "@socialgouv/kosko-charts/types";
 import { addEnv } from "@socialgouv/kosko-charts/utils/addEnv";
 import { getIngressHost } from "@socialgouv/kosko-charts/utils/getIngressHost";
 import { getManifestByKind } from "@socialgouv/kosko-charts/utils/getManifestByKind";
 import { ok } from "assert";
 import { Deployment } from "kubernetes-models/apps/v1/Deployment";
+import { Volume, VolumeMount } from "kubernetes-models/v1";
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { getManifests as getFrontendManifests } from "./frontend";
 import { getManifests as getPortailUsagersManifests } from "./portail-usagers";
-import environments from "@socialgouv/kosko-charts/environments";
-import { azureProjectVolume } from "@socialgouv/kosko-charts/components/azure-storage/azureProjectVolume";
-import { VolumeMount, Volume } from "kubernetes-models/v1";
 
 type AnyObject = {
   [any: string]: any;
@@ -38,7 +39,7 @@ export const getManifests = async () => {
   const subdomain = "domifa-api";
   const ciEnv = environments(process.env);
   const isDev = !(ciEnv.isPreProduction || ciEnv.isProduction);
-  const version = ciEnv.isPreProduction ? `preprod-${ciEnv.sha}` : ciEnv.tag || `sha-${ciEnv.sha}`;
+  const version = getVersion(ciEnv);
 
   const podProbes = ["livenessProbe", "readinessProbe", "startupProbe"].reduce(
     (probes, probe) => ({
@@ -119,6 +120,9 @@ export default async () => {
   const frontendManifests = await getFrontendManifests();
   const portailUsagersManifests = await getPortailUsagersManifests();
 
+  const ciEnv: CIEnv = environments(process.env);
+  const version = getVersion(ciEnv);
+
   addEnvs({
     deployment,
     data: {
@@ -131,8 +135,15 @@ export default async () => {
       DOMIFA_PORTAIL_USAGERS_URL: `https://${getIngressHost(
         portailUsagersManifests
       )}/`,
+      DOMIFA_VERSION: version,
     },
   });
 
   return manifests;
 };
+
+function getVersion(ciEnv: CIEnv): string {
+  return ciEnv.isPreProduction
+    ? `preprod-${ciEnv.sha}`
+    : ciEnv.tag || `sha-${ciEnv.sha}`;
+}
