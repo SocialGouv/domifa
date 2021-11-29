@@ -1,5 +1,43 @@
 [
   {
+    "date": "2021-11-29",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Un cerfa provisoire est désormais disponible lors de la création d’une demande de domiciliation",
+        "message": [
+          "Vous pouvez imprimer un cerfa provisoire avant de valider une demande de domiciliation sur DomiFa. Cette fonctionnalité a été développée pour les structures recourant à des commissions de validation."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Vous pouvez maintenant visualiser les derniers IDs utilisés au sein de votre structure lors de la validation d’une demande de domiciliation",
+        "message": [
+          "Sur la fenêtre de validation d’une demande de domiciliation, vous pouvez visualiser les 5 derniers IDs utilisés par vos collaborateurs afin d’en déduire le suivant"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "La fenêtre de radiation a été retravaillée",
+        "message": [
+          "Vous pouvez désormais choisir votre date de radiation !"
+        ]
+      },{
+        "type": "new",
+        "categorie": "La page FAQ a été enrichie",
+        "message": [
+          "Un nouveau guide utilisateur et de nouvelles vidéos tutos sont en ligne ! 😊"
+        ]
+      },
+{
+        "type": "new",
+        "categorie": "L’export de votre base de domiciliés a été enrichi",
+        "message": [
+          "Une colonne a été ajoutée vous permettant de savoir si les notifications SMS ont été activées ou non"
+        ]
+      },
+  {
     "date": "2021-11-01",
     "description": "",
     "content": [
