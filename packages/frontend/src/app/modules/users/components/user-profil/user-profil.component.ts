@@ -2,13 +2,13 @@ import { Component, OnInit, TemplateRef } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
 
 import {
   UserStructure,
   UserStructureProfile,
   UserStructureRole,
 } from "../../../../../_common/model";
+import { AuthService } from "../../../shared/services/auth.service";
 import { UsersService } from "../../services/users.service";
 
 @Component({
@@ -27,7 +27,6 @@ export class UserProfilComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private userService: UsersService,
-
     private modalService: NgbModal,
     private notifService: ToastrService,
     private titleService: Title

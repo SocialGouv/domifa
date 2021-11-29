@@ -1,7 +1,7 @@
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
+
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { global } from "@angular/compiler/src/util";
+
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -19,8 +19,6 @@ describe("ManageUsagersComponent", () => {
   const spyScrollTo = jest.fn();
 
   beforeAll(async () => {
-    Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
-
     TestBed.configureTestingModule({
       declarations: [ManageUsagersComponent],
       imports: [

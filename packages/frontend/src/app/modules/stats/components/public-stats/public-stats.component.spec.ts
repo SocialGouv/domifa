@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterTestingModule } from "@angular/router/testing";
-import { SharedModule } from "src/app/modules/shared/shared.module";
+import { SharedModule } from "../../../../modules/shared/shared.module";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 

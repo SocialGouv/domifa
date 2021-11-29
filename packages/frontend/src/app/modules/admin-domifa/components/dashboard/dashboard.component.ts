@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { saveAs } from "file-saver";
+import * as fileSaver from "file-saver";
 import { ToastrService } from "ngx-toastr";
 import {
   BehaviorSubject,
@@ -136,23 +136,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   public exportDashboard(): void {
     this.exportLoading = true;
-    this.adminDomifaService.exportDashboard().subscribe(
-      (x: any) => {
+    this.adminDomifaService.exportDashboard().subscribe({
+      next: (x: Blob) => {
         const newBlob = new Blob([x], {
           type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         });
-        saveAs(newBlob, "export_stats_domifa" + ".xlsx");
+        fileSaver.saveAs(newBlob, "export_stats_domifa" + ".xlsx");
         setTimeout(() => {
           this.exportLoading = false;
         }, 500);
       },
-      () => {
+      error: () => {
         this.notifService.error(
           "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
         );
         this.exportLoading = false;
-      }
-    );
+      },
+    });
   }
 
   public exportYearStats(structureId: number, year: number): void {
@@ -171,7 +171,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
           });
 
-          saveAs(
+          fileSaver.saveAs(
             newBlob,
             buildExportStructureStatsFileName({
               startDateUTC: period.start,
@@ -183,7 +183,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.exportLoading = false;
           }, 500);
         },
-        error: (error: any) => {
+        error: () => {
           this.notifService.error(
             "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
           );

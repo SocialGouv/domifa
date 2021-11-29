@@ -1,4 +1,4 @@
-import { SharedModule } from "src/app/modules/shared/shared.module";
+import { SharedModule } from "../../../../modules/shared/shared.module";
 import { CommonModule, APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";

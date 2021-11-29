@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Meta, Title } from "@angular/platform-browser";
-import { saveAs } from "file-saver";
+import * as fileSaver from "file-saver";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 
@@ -27,21 +27,21 @@ export class FaqComponent implements OnInit {
     });
   }
 
-  public download(url: string, nom: string) {
-    saveAs(url, nom + ".mp4");
+  public download(url: string, nom: string): void {
+    fileSaver.saveAs(url, nom + ".mp4");
     setTimeout(() => {
       this.notifService.success("Le téléchargement vient de débuter");
     }, 500);
   }
 
-  public scrollTo(el: HTMLElement) {
+  public scrollTo(el: HTMLElement): void {
     el.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
   }
 
-  public trackVideo(name: string) {
+  public trackVideo(name: string): void {
     this.matomo.trackEvent("vues_videos_faq", name, "null", 1);
   }
 }

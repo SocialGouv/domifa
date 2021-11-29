@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 
-import { saveAs } from "file-saver";
+import * as fileSaver from "file-saver";
 import {
   StructureDoc,
   StructureDocTypesAvailable,
@@ -44,7 +44,7 @@ export class ProfilStructureDocsComponent implements OnInit {
           const newBlob = new Blob([blob], {
             type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
           });
-          saveAs(newBlob, docType + ".docx");
+          fileSaver.saveAs(newBlob, docType + ".docx");
 
           this.stopLoading(docType);
         },
@@ -63,7 +63,7 @@ export class ProfilStructureDocsComponent implements OnInit {
           const newBlob = new Blob([blob], {
             type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
           });
-          saveAs(newBlob, structureDoc.label + ".docx");
+          fileSaver.saveAs(newBlob, structureDoc.label + ".docx");
           this.stopLoading(structureDoc.uuid);
         },
         error: () => {
@@ -83,7 +83,7 @@ export class ProfilStructureDocsComponent implements OnInit {
   }
 
   private stopLoading(loadingRef: string) {
-    var index = this.loadings.indexOf(loadingRef);
+    const index = this.loadings.indexOf(loadingRef);
     if (index !== -1) {
       this.loadings.splice(index, 1);
     }

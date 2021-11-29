@@ -1,7 +1,7 @@
 import { APP_BASE_HREF } from "@angular/common";
 
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { global } from "@angular/compiler/src/util";
+
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule } from "@angular/forms";
@@ -18,8 +18,6 @@ describe("StatsComponent", () => {
 
   beforeEach(
     waitForAsync(() => {
-      Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
-
       TestBed.configureTestingModule({
         declarations: [StatsComponent],
         imports: [

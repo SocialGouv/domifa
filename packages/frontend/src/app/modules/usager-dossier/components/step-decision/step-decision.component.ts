@@ -74,7 +74,7 @@ export class StepDecisionComponent implements OnInit {
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
 
-      next: this.usagerDossierService.findOne(id).subscribe({
+      this.usagerDossierService.findOne(id).subscribe({
         next: (usager: UsagerLight) => {
           this.usager = usager;
         },

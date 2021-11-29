@@ -1,4 +1,3 @@
-import { SharedModule } from "src/app/modules/shared/shared.module";
 import { CommonModule, APP_BASE_HREF } from "@angular/common";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
@@ -6,7 +5,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
 import { JwtInterceptor } from "../../../interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "../../../interceptors/server-error.interceptor";
@@ -23,7 +21,6 @@ describe("UsagerProfilService", () => {
       imports: [
         HttpClientTestingModule,
         CommonModule,
-        SharedModule,
         RouterTestingModule,
         ToastrModule.forRoot(),
       ],
@@ -36,18 +33,6 @@ describe("UsagerProfilService", () => {
           multi: true,
           provide: HTTP_INTERCEPTORS,
           useClass: ServerErrorInterceptor,
-        },
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
-          },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
-          },
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

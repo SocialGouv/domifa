@@ -31,7 +31,7 @@ COPY ./packages/frontend/src /app/packages/frontend/src
 COPY ./packages/backend/jest.config.js /app/packages/backend/jest.config.js
 COPY ./packages/backend/tslint.json /app/packages/backend/tslint.json
 COPY ./packages/frontend/jest.config.js /app/packages/frontend/jest.config.js
-COPY ./packages/frontend/tslint.json /app/packages/frontend/tslint.json
+COPY ./packages/frontend/eslintrc.js /app/packages/frontend/eslintrc.js
 
 COPY ./packages/portail-usagers/jest.config.js /app/packages/portail-usagers/jest.config.js
 COPY ./packages/portail-usagers/.eslintrc.json /app/packages/portail-usagers/.eslintrc.json

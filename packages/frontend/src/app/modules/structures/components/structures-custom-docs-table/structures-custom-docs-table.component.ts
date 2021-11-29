@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
+
+import * as fileSaver from "file-saver";
+
 import {
   StructureDoc,
   STRUCTURE_DOC_ICONS,
@@ -44,7 +47,7 @@ export class StructuresCustomDocsTableComponent implements OnInit {
       next: (blob: any) => {
         const extension = structureDoc.path.split(".")[1];
         const newBlob = new Blob([blob], { type: structureDoc.filetype });
-        saveAs(newBlob, structureDoc.label + "." + extension);
+        fileSaver.saveAs(newBlob, structureDoc.label + "." + extension);
         this.stopLoading("download", structureDoc.uuid);
       },
       error: () => {
@@ -71,7 +74,7 @@ export class StructuresCustomDocsTableComponent implements OnInit {
 
   private stopLoading(loadingType: "delete" | "download", loadingRef: string) {
     setTimeout(() => {
-      var index = this.loadings[loadingType].indexOf(loadingRef);
+      const index = this.loadings[loadingType].indexOf(loadingRef);
       if (index !== -1) {
         this.loadings[loadingType].splice(index, 1);
       }

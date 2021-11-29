@@ -1,4 +1,3 @@
-import { SharedModule } from "src/app/modules/shared/shared.module";
 import {
   CUSTOM_ELEMENTS_SCHEMA,
   ErrorHandler,
@@ -24,6 +23,7 @@ import { SentryErrorHandler } from "./interceptors/sentry.interceptor";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { UsagerAuthService } from "./modules/usager-auth/services/usager-auth.service";
 import { Router } from "@angular/router";
+import { SharedModule } from "./modules/shared/shared.module";
 
 @NgModule({
   bootstrap: [AppComponent],
