@@ -1,3 +1,10 @@
+## [2.43.1](https://github.com/SocialGouv/domifa/compare/v2.43.0...v2.43.1) (2021-11-29)
+
+
+### Bug Fixes
+
+* **maintenance:** rafraichissement automatique de la page après la maintenance [#1783](https://github.com/SocialGouv/domifa/issues/1783) ([b0dc317](https://github.com/SocialGouv/domifa/commit/b0dc3174ae0516d608aed2bfb5f4e7bcce4da4fd))
+
 # [2.43.0](https://github.com/SocialGouv/domifa/compare/v2.42.3...v2.43.0) (2021-11-28)
 
 
