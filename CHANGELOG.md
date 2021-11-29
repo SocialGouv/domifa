@@ -1,3 +1,12 @@
+## [2.43.2](https://github.com/SocialGouv/domifa/compare/v2.43.1...v2.43.2) (2021-11-29)
+
+
+### Bug Fixes
+
+* corrections pré-mise en production ([b51ea03](https://github.com/SocialGouv/domifa/commit/b51ea032fee0486cf8927773a86384f81a1e7b3f))
+* date de dernier passage ([3bf77bb](https://github.com/SocialGouv/domifa/commit/3bf77bbe4efd8bca152a7cde43877dba16b0863c))
+* test unitaire et miniature ([20911e3](https://github.com/SocialGouv/domifa/commit/20911e3bf3f1b1330f3f9c92f3d9203d68bd1652))
+
 ## [2.43.1](https://github.com/SocialGouv/domifa/compare/v2.43.0...v2.43.1) (2021-11-29)
 
 
