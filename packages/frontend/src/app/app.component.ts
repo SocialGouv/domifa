@@ -10,7 +10,6 @@ import { Title } from "@angular/platform-browser";
 import { NavigationEnd, Router } from "@angular/router";
 import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
-
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { environment } from "../environments/environment";
 import { UserStructure } from "../_common/model";
@@ -19,7 +18,6 @@ import {
   HealthCheckService,
 } from "./modules/shared/services/health-check";
 import { fadeInOut, NEWS_LABELS } from "./shared";
-import pkg from "../../package.json";
 
 @Component({
   animations: [fadeInOut],
@@ -33,7 +31,6 @@ export class AppComponent implements OnInit {
 
   public matomoInfo: boolean;
   public apiVersion: string;
-  public frontendVersion: string;
 
   public modalOptions: NgbModalOptions;
 
@@ -65,7 +62,6 @@ export class AppComponent implements OnInit {
     this.domifaNews = null;
     this.matomoInjector.init(environment.matomo.url, environment.matomo.siteId);
     this.apiVersion = null;
-    this.frontendVersion = pkg.version;
 
     this.modalOptions = {
       centered: true,

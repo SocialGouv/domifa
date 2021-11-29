@@ -27,7 +27,7 @@ export type DomifaEnv = {
   UPLOADS_FOLDER: string;
   DOMIFA_UPLOADS_FOLDER: string;
   DOMIFA_ENV_ID: string;
-  DOMIFA_DOCKER_IMAGE_VERSION: string;
+  DOMIFA_VERSION: string;
   DOMIFA_SWAGGER_ENABLE: string;
   DOMIFA_EMAILS_ENABLE: string;
   DOMIFA_ADMIN_EMAIL: string;
