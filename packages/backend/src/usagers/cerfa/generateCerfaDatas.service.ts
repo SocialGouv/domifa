@@ -108,7 +108,10 @@ export const generateCerfaDatas = (
 
   const sexe = usager.sexe === "femme" ? "1" : "2";
   const rattachement = toString(usager.entretien.rattachement).toUpperCase();
-  const motif = generateMotifLabel(usager.decision);
+  const motif =
+    usager.decision.statut === "REFUS"
+      ? generateMotifLabel(usager.decision)
+      : "";
   const courriel = toString(usager.email);
 
   const pdfInfos: UsagerCerfaFields = {

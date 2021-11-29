@@ -14,6 +14,7 @@
             <div>
               <button
                 (click)="getCerfa('demande')"
+                *ngIf="usager.decision.statut !== 'REFUS'"
                 class="btn mr-2 btn-primary"
               >
                 <fa-icon [icon]="['fas', 'download']" class="mr-2"></fa-icon>
@@ -31,11 +32,6 @@
                 "
                 class="btn mr-2 btn-primary"
               >
-                <fa-icon [icon]="['fas', 'download']" class="mr-2"></fa-icon>
-                Télécharger le CERFA
-              </button>
-
-              <button (click)="getCerfa()" class="btn mr-2 btn-primary">
                 <fa-icon [icon]="['fas', 'download']" class="mr-2"></fa-icon>
                 Télécharger le CERFA
               </button>

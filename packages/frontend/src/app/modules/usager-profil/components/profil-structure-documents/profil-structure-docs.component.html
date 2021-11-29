@@ -1,7 +1,4 @@
-<div class="alert-info alert" *ngIf="!customStructureDocs.length">
-  Aucun document n'a été ajouté pour le moment
-</div>
-<table class="table upload-table" *ngIf="customStructureDocs.length">
+<table class="table upload-table">
   <thead>
     <tr>
       <th>Type</th>
@@ -13,7 +10,7 @@
   </thead>
   <tbody>
     <!-- Documents de base de Domifa -->
-    <tr class="font-weight-bold" *ngIf="usager.isActif">
+    <tr *ngIf="usager.isActif">
       <td>
         <span class="doc-icon file-word">
           <fa-icon [icon]="['far', 'file-word']"></fa-icon>
@@ -39,7 +36,7 @@
         </button>
       </td>
     </tr>
-    <tr class="font-weight-bold" *ngIf="usager.decision.statut === 'RADIE'">
+    <tr *ngIf="usager.decision.statut === 'RADIE'">
       <td>
         <span class="doc-icon file-word">
           <fa-icon [icon]="['far', 'file-word']"></fa-icon>
