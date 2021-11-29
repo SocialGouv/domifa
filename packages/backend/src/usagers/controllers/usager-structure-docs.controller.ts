@@ -26,7 +26,7 @@ import {
   customDocTemplateLoader,
   generateCustomDoc,
 } from "../custom-docs";
-import path = require("path");
+
 import { structureDocRepository } from "../../database";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)

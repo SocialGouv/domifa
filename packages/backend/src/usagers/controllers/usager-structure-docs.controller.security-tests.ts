@@ -47,7 +47,7 @@ export const UsagersStructureDocsControllerSecurityTests: AppTestHttpClientSecur
           context.user,
           {
             roles: ["simple", "responsable", "admin"],
-            validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
+            validExpectedResponseStatus: HttpStatus.OK,
           }
         ),
       }),
