@@ -1,4 +1,3 @@
-import { SharedModule } from "src/app/modules/shared/shared.module";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
@@ -8,6 +7,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { MatomoModule } from "ngx-matomo";
 import { StructuresModule } from "src/app/modules/structures/structures.module";
 import { DashboardComponent } from "./dashboard.component";
+import { SharedModule } from "../../../shared/shared.module";
 
 describe("DashboardComponent", () => {
   let component: DashboardComponent;

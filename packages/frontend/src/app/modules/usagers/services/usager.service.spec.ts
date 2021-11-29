@@ -1,4 +1,3 @@
-import { SharedModule } from "src/app/modules/shared/shared.module";
 import { APP_BASE_HREF, CommonModule } from "@angular/common";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
@@ -19,6 +18,7 @@ import {
   Entretien,
   Rdv,
 } from "../../usager-shared/interfaces";
+import { SharedModule } from "../../shared/shared.module";
 
 describe("UsagerService", () => {
   let service: UsagerService;

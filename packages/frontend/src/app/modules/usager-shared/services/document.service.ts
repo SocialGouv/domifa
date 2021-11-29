@@ -2,7 +2,7 @@ import { Observable } from "rxjs";
 import { HttpClient, HttpEvent, HttpEventType } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
-import { saveAs } from "file-saver";
+import * as fileSaver from "file-saver";
 
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
@@ -67,7 +67,10 @@ export class DocumentService {
           const newBlob = new Blob([x], { type: "application/pdf" });
           const randomNumber = Math.floor(Math.random() * 100) + 1;
 
-          saveAs(newBlob, `${typeCerfa}_${usagerRef}_${randomNumber}.pdf`);
+          fileSaver.saveAs(
+            newBlob,
+            `${typeCerfa}_${usagerRef}_${randomNumber}.pdf`
+          );
 
           setTimeout(() => {
             this.loadingService.stopLoading();

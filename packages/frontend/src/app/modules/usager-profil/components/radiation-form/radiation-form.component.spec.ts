@@ -1,5 +1,5 @@
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { SharedModule } from "src/app/modules/shared/shared.module";
+import { SharedModule } from "../../../../modules/shared/shared.module";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { APP_BASE_HREF } from "@angular/common";

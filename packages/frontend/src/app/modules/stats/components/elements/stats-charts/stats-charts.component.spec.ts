@@ -1,4 +1,3 @@
-import { SharedModule } from "src/app/modules/shared/shared.module";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
@@ -8,6 +7,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { DEFAULT_PUBLIC_STATS } from "../../../../../../_common/model/stats/DEFAULT_PUBLIC_STATS.const";
+import { SharedModule } from "../../../../shared/shared.module";
 
 describe("StatsChartsComponent", () => {
   let component: StatsChartsComponent;

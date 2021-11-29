@@ -2,10 +2,11 @@ import { Component, OnInit, TemplateRef } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { saveAs } from "file-saver";
+import * as fileSaver from "file-saver";
 import { ToastrService } from "ngx-toastr";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
+
 import { StructureCommon, UserStructure } from "../../../../../_common/model";
+import { AuthService } from "../../../shared/services/auth.service";
 import { StructureService } from "../../services/structure.service";
 
 @Component({
@@ -105,7 +106,7 @@ export class StructuresEditComponent implements OnInit {
           type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         });
 
-        saveAs(newBlob, "export_domifa" + ".xlsx");
+        fileSaver.saveAs(newBlob, "export_domifa" + ".xlsx");
         setTimeout(() => {
           this.exportLoading = false;
         }, 500);

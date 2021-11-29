@@ -189,7 +189,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
   }
 
   private stopLoading(loadingRef: string) {
-    var index = this.loadingButtons.indexOf(loadingRef);
+    const index = this.loadingButtons.indexOf(loadingRef);
     if (index !== -1) {
       this.loadingButtons.splice(index, 1);
     }

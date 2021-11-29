@@ -13,7 +13,7 @@ import {
   NgbDatepickerI18n,
 } from "@ng-bootstrap/ng-bootstrap";
 
-import { saveAs } from "file-saver";
+import * as fileSaver from "file-saver";
 
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
@@ -186,7 +186,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
           type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         });
 
-        saveAs(
+        fileSaver.saveAs(
           newBlob,
           buildExportStructureStatsFileName({
             startDateUTC: period.start,

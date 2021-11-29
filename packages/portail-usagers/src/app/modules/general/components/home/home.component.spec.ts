@@ -4,13 +4,12 @@ import { HomeComponent } from "./home.component";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { CommonModule, APP_BASE_HREF } from "@angular/common";
 
-import { SharedModule } from "src/app/modules/shared/shared.module";
-
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
+import { SharedModule } from "../../../shared/shared.module";
 
 describe("HomeComponent", () => {
   let component: HomeComponent;
@@ -45,7 +44,7 @@ describe("HomeComponent", () => {
 
         schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

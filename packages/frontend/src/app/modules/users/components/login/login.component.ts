@@ -1,12 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { first } from "rxjs/operators";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { regexp } from "src/app/shared/validators";
 
 import { ToastrService } from "ngx-toastr";
 import { Title } from "@angular/platform-browser";
+import { AuthService } from "../../../shared/services/auth.service";
+import { regexp } from "../../../../shared/validators";
 @Component({
   selector: "app-login",
   styleUrls: ["./login.component.css"],

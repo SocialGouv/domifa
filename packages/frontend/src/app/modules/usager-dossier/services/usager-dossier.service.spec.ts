@@ -1,4 +1,3 @@
-import { SharedModule } from "src/app/modules/shared/shared.module";
 import { APP_BASE_HREF, CommonModule } from "@angular/common";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
@@ -7,11 +6,11 @@ import { TestBed } from "@angular/core/testing";
 
 import { RouterTestingModule } from "@angular/router/testing";
 
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
 import { JwtInterceptor } from "src/app/interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "src/app/interceptors/server-error.interceptor";
 import { AuthService } from "../../shared/services/auth.service";
+
 import {
   UsagerFormModel,
   Entretien,
@@ -27,12 +26,10 @@ describe("UsagerService", () => {
       imports: [
         HttpClientTestingModule,
         CommonModule,
-        SharedModule,
         RouterTestingModule,
         ToastrModule.forRoot(),
       ],
       providers: [
-        UsagerService,
         AuthService,
         { provide: APP_BASE_HREF, useValue: "/" },
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
@@ -40,18 +37,6 @@ describe("UsagerService", () => {
           multi: true,
           provide: HTTP_INTERCEPTORS,
           useClass: ServerErrorInterceptor,
-        },
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
-          },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
-          },
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -4,7 +4,7 @@ import { HomeComponent } from "./home.component";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { CommonModule, APP_BASE_HREF } from "@angular/common";
 
-import { SharedModule } from "src/app/modules/shared/shared.module";
+import { SharedModule } from "../../../../modules/shared/shared.module";
 
 import { CountUpModule } from "ngx-countup";
 
