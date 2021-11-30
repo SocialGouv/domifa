@@ -29,7 +29,6 @@ export class PortailUsagersLoginController {
     @Body() loginDto: UsagerLoginDto
   ) {
     try {
-      console.log("xxx loginDto:", loginDto);
       const user = await userUsagerSecurityPasswordChecker.checkPassword({
         login: loginDto.login,
         password: loginDto.password,

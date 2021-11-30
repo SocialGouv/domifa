@@ -2,7 +2,7 @@ import { StructureType, UserStructure, UserStructureRole } from "./../model";
 
 export const userMock: UserStructure = {
   password: "xxx",
-  email: "ccastest@yopmail.com",
+  email: "s1-admin@yopmail.com",
   mail: {
     guide: false,
     import: false,
@@ -30,7 +30,7 @@ export const userMock: UserStructure = {
     complementAdresse: "BP 48000",
     departement: "95",
     region: "11",
-    email: "ccastest@yopmail.com",
+    email: "s1-admin@yopmail.com",
     nom: "DomiFa Compte Test",
     options: { numeroBoite: false },
     phone: "0134334410",

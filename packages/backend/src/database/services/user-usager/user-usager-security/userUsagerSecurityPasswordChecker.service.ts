@@ -69,7 +69,6 @@ async function checkPassword({
     userSecurity,
     eventType: "login-success",
   });
-  console.log("xxx newPassword:", newPassword);
   if (newPassword) {
     // update password
     await userUsagerSecurityPasswordUpdater.updatePassword({

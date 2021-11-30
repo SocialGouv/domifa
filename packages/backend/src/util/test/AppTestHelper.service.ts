@@ -43,7 +43,10 @@ async function tearDownTestApp({
   postgresTypeormConnection,
 }: AppTestContext): Promise<void> {
   await module.close();
-  await tearDownTestConnection({ postgresTypeormConnection });
+  await setTimeout(
+    async () => await tearDownTestConnection({ postgresTypeormConnection }),
+    100
+  );
 }
 
 async function bootstrapTestConnection(): Promise<Connection> {

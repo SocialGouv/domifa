@@ -18,7 +18,7 @@ describe(`App controllers security - ${TEST_BASENAME}`, () => {
     });
 
     const authInfo =
-      TESTS_USERS_STRUCTURE.BY_EMAIL["structure-simple@yopmail.com"];
+      TESTS_USERS_STRUCTURE.BY_EMAIL["s3-instructeur@yopmail.com"];
 
     await AppTestHelper.authenticateStructure(authInfo, { context });
   });
