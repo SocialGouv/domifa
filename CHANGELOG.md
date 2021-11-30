@@ -1,3 +1,10 @@
+## [2.43.3](https://github.com/SocialGouv/domifa/compare/v2.43.2...v2.43.3) (2021-11-30)
+
+
+### Bug Fixes
+
+* **portail admin:** configure cors ([3a0a056](https://github.com/SocialGouv/domifa/commit/3a0a056b2b69380d61ffdb615a655bd87dd9afc8))
+
 ## [2.43.2](https://github.com/SocialGouv/domifa/compare/v2.43.1...v2.43.2) (2021-11-29)
 
 
