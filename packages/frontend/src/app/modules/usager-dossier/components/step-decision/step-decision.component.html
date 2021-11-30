@@ -1,4 +1,4 @@
-<app-step-header [usager]="usager"></app-step-header>
+<app-step-header *ngIf="usager" [usager]="usager"></app-step-header>
 
 <div class="content" *ngIf="me && usager">
   <div class="container py-3">
@@ -72,13 +72,7 @@
       </div>
 
       <div
-        class="
-          d-print-none d-flex
-          justify-content-center
-          align-items-center
-          text-center
-          py-2
-        "
+        class="d-print-none d-flex justify-content-center align-items-center text-center py-2"
       >
         <button class="mr-3 btn btn-success" (click)="open(confirmation)">
           <fa-icon [icon]="['fas', 'check']" class="mr-2"></fa-icon>
@@ -247,13 +241,7 @@
       <hr />
 
       <div
-        class="
-          d-flex
-          justify-content-center
-          align-items-center
-          my-4
-          d-print-none
-        "
+        class="d-flex justify-content-center align-items-center my-4 d-print-none"
       >
         <button
           (click)="getCerfa('demande')"

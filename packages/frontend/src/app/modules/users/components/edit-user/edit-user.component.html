@@ -344,12 +344,13 @@
               "
             >
               <fa-icon
-                [icon]="
+                [icon]="[
+                  'fas',
                   p.confirmPassword.dirty &&
                   !p.confirmPassword.hasError('NoPassswordMatch')
                     ? 'check-circle'
                     : 'times-circle'
-                "
+                ]"
               ></fa-icon>
               Les mots de passe doivent être identiques
             </div>
