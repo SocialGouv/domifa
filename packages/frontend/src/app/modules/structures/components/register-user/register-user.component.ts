@@ -113,20 +113,20 @@ export class RegisterUserComponent implements OnInit {
           structure: this.structureRegisterInfos.structure,
           user: this.userForm.value,
         })
-        .subscribe(
-          (structure: StructureCommon) => {
+        .subscribe({
+          next: () => {
             this.success = true;
             this.notifService.success(
               "Votre compte a été créé avec succès",
               "Félicitations !"
             );
           },
-          () => {
+          error: () => {
             this.notifService.error(
               "Veuillez vérifier les champs du formulaire"
             );
-          }
-        );
+          },
+        });
     }
   }
 
