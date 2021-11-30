@@ -15,12 +15,13 @@ export class StepHeaderComponent implements OnInit, OnChanges {
   public filteredNotes: number;
 
   constructor() {
+    this.usager = null;
     this.filteredNotes = 0;
   }
 
-  ngOnInit(): void {}
+  public ngOnInit(): void {}
 
-  ngOnChanges() {
+  public ngOnChanges() {
     this.filteredNotes = this.usager.notes.filter(
       (note) => !note.archived
     ).length;

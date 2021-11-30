@@ -1,3 +1,4 @@
+import { CerfaDocType } from "src/_common/model/cerfa";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
@@ -65,6 +66,8 @@ export class StepRdvComponent implements OnInit {
       year: this.dToday.getFullYear() + 2,
     };
 
+    this.usager = null;
+
     this.minDateToday = minDateToday;
   }
 
@@ -97,7 +100,11 @@ export class StepRdvComponent implements OnInit {
     }
   }
 
+<<<<<<< HEAD
   public getCerfa(typeCerfa: string = "attestation") {
+=======
+  public getCerfa(typeCerfa: CerfaDocType = "attestation") {
+>>>>>>> 805f5f54 (fix: corrections minimes suite à la MEP du 29/11)
     return this.documentService.attestation(this.usager.ref, typeCerfa);
   }
 

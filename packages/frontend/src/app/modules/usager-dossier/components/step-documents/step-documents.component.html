@@ -1,4 +1,4 @@
-<app-step-header [usager]="usager"></app-step-header>
+<app-step-header *ngIf="usager" [usager]="usager"></app-step-header>
 
 <div class="content" *ngIf="me && usager">
   <div class="container py-3">
