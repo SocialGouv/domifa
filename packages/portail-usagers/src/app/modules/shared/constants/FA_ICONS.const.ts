@@ -6,11 +6,12 @@ import {
   faEyeSlash,
   faFileWord,
 } from "@fortawesome/free-regular-svg-icons";
-
 import {
+  faCheckCircle,
   faCircleNotch,
   faDownload,
   faSignInAlt,
+  faTimesCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const FA_ICONS: IconDefinition[] = [
@@ -22,4 +23,6 @@ export const FA_ICONS: IconDefinition[] = [
   faCircleNotch,
   faComment,
   faSignInAlt,
+  faTimesCircle,
+  faCheckCircle,
 ];

@@ -29,10 +29,18 @@ export class PortailUsagersLoginController {
     @Body() loginDto: UsagerLoginDto
   ) {
     try {
+      console.log("xxx loginDto:", loginDto);
       const user = await userUsagerSecurityPasswordChecker.checkPassword({
         login: loginDto.login,
         password: loginDto.password,
+        newPassword: loginDto.newPassword,
       });
+
+      if (user.isTemporaryPassword) {
+        return res
+          .status(HttpStatus.UNAUTHORIZED)
+          .json({ message: "CHANGE_PASSWORD_REQUIRED" });
+      }
 
       const { access_token } = await this.usagersAuthService.login(user);
 
