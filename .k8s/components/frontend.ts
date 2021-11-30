@@ -1,5 +1,6 @@
 import env from "@kosko/env";
 import { create } from "@socialgouv/kosko-charts/components/nginx";
+import environments from "@socialgouv/kosko-charts/environments";
 import { addEnv } from "@socialgouv/kosko-charts/utils/addEnv";
 import { getIngressHost } from "@socialgouv/kosko-charts/utils/getIngressHost";
 import { getManifestByKind } from "@socialgouv/kosko-charts/utils/getManifestByKind";
@@ -7,14 +8,16 @@ import { ok } from "assert";
 import { Deployment } from "kubernetes-models/apps/v1/Deployment";
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { getManifests as getBackendManifests } from "./backend";
-import environments from "@socialgouv/kosko-charts/environments";
+import { getManifests as getPortailAdminsManifests } from "./portail-admins";
 
 export const getManifests = async () => {
   const probesPath = "/";
   const name = "frontend";
   const subdomain = "domifa";
   const ciEnv = environments(process.env);
-  const version = ciEnv.isPreProduction ? `preprod-${ciEnv.sha}` : ciEnv.tag || `sha-${ciEnv.sha}`;
+  const version = ciEnv.isPreProduction
+    ? `preprod-${ciEnv.sha}`
+    : ciEnv.tag || `sha-${ciEnv.sha}`;
 
   const podProbes = ["livenessProbe", "readinessProbe", "startupProbe"].reduce(
     (probes, probe) => ({
@@ -54,14 +57,25 @@ export default async () => {
 
   ok(deployment);
 
-  const backendManifests = await getBackendManifests();
+  {
+    const backendManifests = await getBackendManifests();
 
-  const backendUrl = new EnvVar({
-    name: "DOMIFA_BACKEND_URL",
-    value: `https://${getIngressHost(backendManifests)}/`,
-  });
+    const backendUrl = new EnvVar({
+      name: "DOMIFA_BACKEND_URL",
+      value: `https://${getIngressHost(backendManifests)}/`,
+    });
 
-  addEnv({ deployment, data: backendUrl });
+    addEnv({ deployment, data: backendUrl });
+  }
+
+  {
+    const portailAdminsManifests = await getPortailAdminsManifests();
+    const portailAdminUrl = new EnvVar({
+      name: "DOMIFA_PORTAIL_ADMINS_URL",
+      value: `https://${getIngressHost(portailAdminsManifests)}/`,
+    });
+    addEnv({ deployment, data: portailAdminUrl });
+  }
 
   return manifests;
 };

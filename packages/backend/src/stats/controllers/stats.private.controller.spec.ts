@@ -4,7 +4,7 @@ import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
-import { DashboardService } from "../services/dashboard.service";
+import { AdminStructuresModule } from "../../_portail-admin/admin-structures";
 import { StatsPrivateController } from "./stats.private.controller";
 
 describe("Stats Private Controller", () => {
@@ -15,12 +15,13 @@ describe("Stats Private Controller", () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [StatsPrivateController],
       imports: [
+        forwardRef(() => AdminStructuresModule),
         forwardRef(() => UsersModule),
         forwardRef(() => StructuresModule),
         forwardRef(() => UsagersModule),
         forwardRef(() => InteractionsModule),
       ],
-      providers: [DashboardService],
+      providers: [],
     });
     controller = context.module.get<StatsPrivateController>(
       StatsPrivateController

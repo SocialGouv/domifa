@@ -24,9 +24,10 @@ import {
   StructureStatsFull,
   UserStructure,
 } from "../../../../../_common/model";
-import { buildExportStructureStatsFileName } from "../../../admin-domifa/services/buildExportStructureStatsFileName";
 import { AuthService } from "../../../shared/services/auth.service";
 import { StatsService } from "../../services/stats.service";
+import { buildExportStructureStatsFileName } from "./services";
+
 @Component({
   providers: [
     NgbDateCustomParserFormatter,

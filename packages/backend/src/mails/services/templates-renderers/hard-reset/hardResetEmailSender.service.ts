@@ -39,6 +39,9 @@ async function sendMail({
     ...DOMIFA_DEFAULT_MAIL_CONFIG,
     ...renderedTemplate,
     to,
+    meta: {
+      "code confirmation": confirmationCode,
+    },
   };
 
   messageEmailSender.sendMessageLater(messageContent, {

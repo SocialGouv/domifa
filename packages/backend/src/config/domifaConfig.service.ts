@@ -92,6 +92,10 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
     x,
     "DOMIFA_PORTAIL_USAGERS_URL"
   );
+  const portailAdminUrl = configParser.parseString(
+    x,
+    "DOMIFA_PORTAIL_ADMINS_URL"
+  );
 
   const frontendUrlFromBackend = configParser.parseString(
     x,
@@ -121,6 +125,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
     }),
     apps: {
       portailUsagersUrl,
+      portailAdminUrl,
       frontendUrl,
       backendUrl,
     },

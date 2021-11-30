@@ -11,6 +11,7 @@ import { Deployment } from "kubernetes-models/apps/v1/Deployment";
 import { Volume, VolumeMount } from "kubernetes-models/v1";
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { getManifests as getFrontendManifests } from "./frontend";
+import { getManifests as getPortailAdminsManifests } from "./portail-admins";
 import { getManifests as getPortailUsagersManifests } from "./portail-usagers";
 
 type AnyObject = {
@@ -119,6 +120,7 @@ export default async () => {
 
   const frontendManifests = await getFrontendManifests();
   const portailUsagersManifests = await getPortailUsagersManifests();
+  const portailAdminsManifests = await getPortailAdminsManifests();
 
   const ciEnv: CIEnv = environments(process.env);
   const version = getVersion(ciEnv);
@@ -135,7 +137,9 @@ export default async () => {
       DOMIFA_PORTAIL_USAGERS_URL: `https://${getIngressHost(
         portailUsagersManifests
       )}/`,
-      DOMIFA_VERSION: version,
+      DOMIFA_PORTAIL_ADMINS_URL: `https://${getIngressHost(
+        portailAdminsManifests
+      )}/`,
     },
   });
 

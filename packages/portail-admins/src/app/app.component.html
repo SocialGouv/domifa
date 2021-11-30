@@ -1,0 +1,71 @@
+<nav class="navbar bg-white" style="position: sticky; top: 0; z-index: 1000">
+  <a class="navbar-brand" href="#">
+    <img
+      src="../assets/images/logo-mini.svg"
+      width="30"
+      height="30"
+      class="d-inline-block align-top"
+      alt=""
+    />
+    <span class="nav-brand">Domifa</span>
+  </a>
+  <div *ngIf="adminProfile">
+    <span>
+      <app-admin-structures-export></app-admin-structures-export>
+    </span>
+    <a class="ml-2 btn btn-outline-primary" [routerLink]="['/structures']">
+      <fa-icon [icon]="['fas', 'list-alt']" class="mr-2"></fa-icon>
+      Structures
+    </a>
+
+    <div
+      ngbDropdown
+      id="dropdownAuthenticatedMenu"
+      display="dynamic"
+      placement="bottom-right"
+      class="ml-2 d-inline-block bg-white"
+    >
+      <button class="btn btn-outline-primary" ngbDropdownToggle>Menu</button>
+      <div ngbDropdownMenu aria-labelledby="dropdownAuthenticatedMenu">
+        <a ngbDropdownItem [routerLink]="['/structures/stats']">
+          <fa-icon
+            aria-hidden="true"
+            [icon]="['fas', 'chart-bar']"
+            class="mr-2"
+          ></fa-icon>
+          Stats
+        </a>
+
+        <a ngbDropdownItem (click)="logout()" class="cursor-pointer">
+          <fa-icon aria-hidden="true" [icon]="['fas', 'sign-out-alt']">
+          </fa-icon>
+          Déconnexion
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+<div id="page">
+  <router-outlet></router-outlet>
+</div>
+
+<footer class="content my-5">
+  <div class="text-sm-left text-md-center text-lg-center">
+    <img
+      src="../assets/images/logo.svg"
+      alt="Logo Domifa"
+      title="Logo domifa"
+      class="my-2"
+    />
+    <div class="py-1">
+      Domifa est la solution gratuite et complète de gestion des domiciliations
+      et de suivi de votre courrier
+    </div>
+
+    <div *ngIf="adminProfile" class="py-4">
+      <button (click)="logout()" class="btn btn-outline-primary">
+        <fa-icon [icon]="['far', 'comment']"></fa-icon> Me déconnecter
+      </button>
+    </div>
+  </div>
+</footer>

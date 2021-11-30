@@ -18,6 +18,7 @@ export type DomifaConfig = {
   apps: {
     frontendUrl: string; // DOMIFA_FRONTEND_URL
     portailUsagersUrl: string; // DOMIFA_PORTAIL_USAGERS_URL
+    portailAdminUrl: string; // DOMIFA_PORTAIL_ADMINS_URL
     backendUrl: string; // DOMIFA_BACKEND_URL
   };
   healthz: {

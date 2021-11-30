@@ -10,10 +10,13 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-import { authChecker } from "../../auth/services/auth-checker.service";
+import {
+  AllowUserProfiles,
+  AllowUserStructureRoles,
+} from "../../auth/decorators";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
-import { AllowUserStructureRoles } from "../../auth/decorators";
+import { authChecker } from "../../auth/services/auth-checker.service";
 import { structureStatsExporter } from "../../excel/export-structure-stats";
 import { expressResponseExcelRenderer } from "../../util";
 import {
@@ -56,6 +59,7 @@ export class StatsPrivateController {
     });
   }
 
+  @AllowUserProfiles("super-admin-domifa", "structure")
   @AllowUserStructureRoles("simple", "responsable", "admin")
   @Post("export")
   public async exportByDate(
@@ -65,7 +69,7 @@ export class StatsPrivateController {
   ) {
     if (
       statsDto.structureId !== user.structureId &&
-      !authChecker.isDomifaAdmin(user)
+      user._userProfile !== "super-admin-domifa"
     ) {
       throw new HttpException("Invalid structureId", HttpStatus.FORBIDDEN);
     }

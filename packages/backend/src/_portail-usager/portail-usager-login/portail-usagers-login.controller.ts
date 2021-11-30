@@ -15,7 +15,7 @@ import {
   PortailUsagerProfile,
 } from "../../_common/model";
 import { portailUsagerProfilBuilder } from "../portail-usager-profil/services/portail-usager-profil-builder.service";
-import { UsagersAuthService } from "./services";
+import { UsagersAuthService } from "./services/usagers-auth.service";
 
 @Controller("portail-usagers/auth")
 @ApiTags("auth")

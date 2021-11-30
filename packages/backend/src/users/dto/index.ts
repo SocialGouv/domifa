@@ -1,3 +1,4 @@
+export * from "./admin-login.dto";
 export * from "./edit-password.dto";
 export * from "./email.dto";
 export * from "./register-user-admin.dto";

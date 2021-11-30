@@ -10,6 +10,10 @@ import { UsersModule } from "../users/users.module";
 import { ExpressResponse } from "../util/express";
 import { AppTestContext, AppTestHelper } from "../util/test";
 import { UserStructure } from "../_common/model";
+import { AdminStructuresModule } from "../_portail-admin/admin-structures";
+import { AdminStructuresDeleteModule } from "../_portail-admin/admin-structures-delete";
+import { AdminStructuresDeleteController } from "../_portail-admin/admin-structures-delete/controllers/admin-structures-delete.controller";
+import { AdminStructuresController } from "../_portail-admin/admin-structures/controllers/admin-structures.controller";
 import { StructuresController } from "./controllers/structures.controller";
 import { StructuresPublicController } from "./controllers/structures.public.controller";
 import { StructureWithUserDto } from "./dto/structure-with-user.dto";
@@ -41,6 +45,8 @@ describe("Stuctures creation full", () => {
   let context: AppTestContext;
   let structureController: StructuresController;
   let structurePublicController: StructuresPublicController;
+  let adminStructuresController: AdminStructuresController;
+  let adminStructuresDeleteController: AdminStructuresDeleteController;
   let userController: UsersController;
 
   beforeAll(async () => {
@@ -53,6 +59,8 @@ describe("Stuctures creation full", () => {
         InteractionsModule,
         StatsModule,
         StructuresModule,
+        AdminStructuresModule,
+        AdminStructuresDeleteModule,
       ],
       providers: [],
     });
@@ -62,6 +70,13 @@ describe("Stuctures creation full", () => {
       StructuresPublicController
     );
     userController = context.module.get<UsersController>(UsersController);
+    adminStructuresController = context.module.get<AdminStructuresController>(
+      AdminStructuresController
+    );
+    adminStructuresDeleteController =
+      context.module.get<AdminStructuresDeleteController>(
+        AdminStructuresDeleteController
+      );
   });
   afterAll(async () => {
     await AppTestHelper.tearDownTestApp(context);
@@ -105,7 +120,7 @@ describe("Stuctures creation full", () => {
       localCache.structureId
     );
 
-    await structureController.deleteOne(
+    await adminStructuresDeleteController.deleteConfirm(
       "" + structure.id,
       structure.token,
       structure.nom
@@ -186,7 +201,7 @@ describe("Stuctures creation full", () => {
       status: jest.fn().mockReturnThis(),
       json: jest.fn().mockReturnThis(),
     } as unknown as ExpressResponse;
-    await structurePublicController.confirmStructureCreation(
+    await adminStructuresController.confirmStructureCreation(
       structure.token,
       `${structure.id}`,
       res
