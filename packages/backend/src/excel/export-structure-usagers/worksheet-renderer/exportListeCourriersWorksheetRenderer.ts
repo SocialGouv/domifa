@@ -70,7 +70,7 @@ function renderWorksheet({
           prenom: usager.prenom,
           surnom: usager.surnom,
           dateNaissance: usager.dateNaissance,
-          sms: usager.preference.phone ? "OUI" : "NON",
+          sms: usager?.preference?.phone ? "OUI" : "NON",
           courrierIn: usagersInteractionsCounts.courrierIn,
           courrierOut: usagersInteractionsCounts.courrierOut,
           recommandeIn: usagersInteractionsCounts.recommandeIn,
