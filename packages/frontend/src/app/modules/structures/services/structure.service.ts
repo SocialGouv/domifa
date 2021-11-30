@@ -25,8 +25,8 @@ export class StructureService {
     this.http = http;
   }
 
-  public findOne(structureId: number): Observable<any> {
-    return this.http.get(`${this.endPoint}/${structureId}`);
+  public findOne(structureId: number): Observable<StructureCommon> {
+    return this.http.get<StructureCommon>(`${this.endPoint}/${structureId}`);
   }
 
   public findMyStructure(): Observable<StructureCommon> {
@@ -93,6 +93,28 @@ export class StructureService {
     );
   }
 
+<<<<<<< HEAD
+=======
+  public confirm(id: string, token: string): Observable<StructureCommon> {
+    console.log(token);
+    return this.http.get<StructureCommon>(
+      `${this.endPoint}/confirm/${id}/${token}`
+    );
+  }
+
+  public delete(id: string, token: string, name: string): Observable<any> {
+    return this.http.delete(`${this.endPoint}/confirm/${id}/${token}/${name}`);
+  }
+
+  public deleteCheck(id: string, token: string): Observable<any> {
+    return this.http.delete(`${this.endPoint}/check/${id}/${token}`).pipe(
+      map((response) => {
+        return new StructureCommonWeb(response);
+      })
+    );
+  }
+
+>>>>>>> c1902ab7 (fix: correction des bugs sur la confirmation)
   public validateEmail(email: string): Observable<boolean> {
     return this.http.post(`${this.endPoint}/validate-email`, { email }).pipe(
       map((response: boolean) => {

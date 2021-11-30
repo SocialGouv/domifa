@@ -201,7 +201,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: () => {
         this.notifService.error(
-          "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+          "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
         );
         this.exportLoading = false;
       },

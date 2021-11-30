@@ -53,7 +53,7 @@ export class StepEntretienComponent implements OnInit {
         this.router.navigate(["usager/" + usager.ref + "/edit/documents"]);
       },
       error: () => {
-        this.toastr.error("Une erreure innatendue est survenue");
+        this.toastr.error("Une erreure inattendue est survenue");
       },
     });
   }
