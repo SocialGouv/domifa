@@ -25,8 +25,8 @@ export class StructureService {
     this.http = http;
   }
 
-  public findOne(structureId: number): Observable<any> {
-    return this.http.get(`${this.endPoint}/${structureId}`);
+  public findOne(structureId: number): Observable<StructureCommon> {
+    return this.http.get<StructureCommon>(`${this.endPoint}/${structureId}`);
   }
 
   public findMyStructure(): Observable<StructureCommon> {
@@ -93,8 +93,11 @@ export class StructureService {
     );
   }
 
-  public confirm(id: string, token: string): Observable<any> {
-    return this.http.get(`${this.endPoint}/confirm/${id}/${token}`);
+  public confirm(id: string, token: string): Observable<StructureCommon> {
+    console.log(token);
+    return this.http.get<StructureCommon>(
+      `${this.endPoint}/confirm/${id}/${token}`
+    );
   }
 
   public delete(id: string, token: string, name: string): Observable<any> {

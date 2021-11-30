@@ -50,7 +50,7 @@
       <br />
       <div class="row">
         <div class="form-group col-8 offset-2">
-          <label for=""
+          <label for="confirmationDelete"
             >Afin de confirmer la suppression, saisissez le nom de la
             structure</label
           >
@@ -58,7 +58,7 @@
             type="text"
             class="form-control"
             [(ngModel)]="nom"
-            id=""
+            id="confirmationDelete"
             placeholder="Entrez le nom de la structure"
           />
           <br />
@@ -79,7 +79,7 @@
       <p class="text-center">Merci de vérifier le lien reçu par email.</p>
     </div>
     <a
-      routerLink="'/'"
+      routerLink="['/']"
       class="btn btn-outline-primary"
       routerLinkActive="router-link-active"
     >

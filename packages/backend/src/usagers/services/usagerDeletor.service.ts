@@ -27,6 +27,8 @@ async function deleteUsager({
   const pathFile = path.resolve(
     path.join(domifaConfig().upload.basePath, `${structureId}`, `${usagerRef}`)
   );
+
+  // TODO: basculer sur une suppression asynchrone
   deleteUsagerFolder(pathFile);
 
   const usagerToDelete = await usagerRepository.deleteByCriteria({
@@ -59,7 +61,7 @@ function deleteUsagerFolder(pathFile: string) {
             throw new HttpException(
               {
                 message:
-                  "CANNOT_DELETE_FILE: " +
+                  "CANNOT_DELETE_USAGER_FOLDER_FILE: " +
                   file +
                   "\n Err: " +
                   JSON.stringify(error),

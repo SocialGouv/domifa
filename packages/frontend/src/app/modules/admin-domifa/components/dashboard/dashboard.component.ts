@@ -148,7 +148,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       },
       () => {
         this.notifService.error(
-          "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+          "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
         );
         this.exportLoading = false;
       }
@@ -185,7 +185,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         },
         error: (error: any) => {
           this.notifService.error(
-            "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+            "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
           );
           this.exportLoading = false;
         },
@@ -315,7 +315,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       },
       error: () => {
         this.notifService.error(
-          "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+          "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
         );
       },
     });
@@ -334,7 +334,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       },
       error: () => {
         this.notifService.error(
-          "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+          "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
         );
       },
     });
@@ -353,7 +353,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       },
       error: () => {
         this.notifService.error(
-          "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+          "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
         );
       },
     });

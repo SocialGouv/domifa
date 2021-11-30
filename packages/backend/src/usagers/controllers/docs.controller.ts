@@ -167,9 +167,9 @@ export class DocsController {
       )
     );
 
-    deleteFile(pathFile);
+    await deleteFile(pathFile);
 
-    deleteFile(pathFile + ".encrypted");
+    await deleteFile(pathFile + ".encrypted");
 
     const updatedUsager = await this.docsService.deleteDocument(
       usagerRef,
@@ -279,9 +279,9 @@ export class DocsController {
     input
       .pipe(decipher)
       .pipe(output)
-      .on("finish", () => {
+      .on("finish", async () => {
         res.sendFile(output.path as string);
-        deleteFile(pathFile + ".unencrypted");
+        await deleteFile(pathFile + ".unencrypted");
       });
   }
 

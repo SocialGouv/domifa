@@ -112,7 +112,7 @@ export class StructuresEditComponent implements OnInit {
       },
       (error: any) => {
         this.notifService.error(
-          "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+          "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
         );
         this.exportLoading = false;
       }
