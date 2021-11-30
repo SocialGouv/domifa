@@ -158,7 +158,7 @@ export class ImportComponent implements OnInit {
     } catch (err) {
       console.error("Error while uploading file", err);
       this.uploadError = true;
-      this.notifService.error("Erreur innatendue, veuillez réessayer.");
+      this.notifService.error("Erreur inattendue, veuillez réessayer.");
       this.backToEtapeSelectFile();
     }
   }
