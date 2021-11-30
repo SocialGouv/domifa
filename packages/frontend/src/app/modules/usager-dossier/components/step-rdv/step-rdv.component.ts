@@ -100,11 +100,7 @@ export class StepRdvComponent implements OnInit {
     }
   }
 
-<<<<<<< HEAD
-  public getCerfa(typeCerfa: string = "attestation") {
-=======
   public getCerfa(typeCerfa: CerfaDocType = "attestation") {
->>>>>>> 805f5f54 (fix: corrections minimes suite à la MEP du 29/11)
     return this.documentService.attestation(this.usager.ref, typeCerfa);
   }
 
