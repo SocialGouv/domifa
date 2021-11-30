@@ -94,7 +94,6 @@ export class StructureService {
   }
 
   public confirm(id: string, token: string): Observable<StructureCommon> {
-    console.log(token);
     return this.http.get<StructureCommon>(
       `${this.endPoint}/confirm/${id}/${token}`
     );
