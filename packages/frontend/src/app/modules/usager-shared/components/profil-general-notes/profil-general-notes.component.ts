@@ -26,12 +26,15 @@ export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
   public filteredNotes: UsagerNote[];
 
   @Output()
-  public onUsagerChanges = new EventEmitter();
+  public usagerChanges = new EventEmitter();
 
   constructor(
     private usagerService: UsagerService,
     private notifService: ToastrService
-  ) {}
+  ) {
+    this.me = null;
+    this.usager = null;
+  }
 
   public ngOnInit(): void {}
 
@@ -55,7 +58,7 @@ export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
       .subscribe({
         next: (usager) => {
           this.notifService.success("Note archivée avec succès");
-          this.onUsagerChanges.emit(usager);
+          this.usagerChanges.emit(usager);
         },
         error: () => {
           this.notifService.error("Impossible d'archiver cette note");

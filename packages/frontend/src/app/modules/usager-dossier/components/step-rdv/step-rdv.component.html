@@ -1,4 +1,4 @@
-<app-step-header [usager]="usager"></app-step-header>
+<app-step-header *ngIf="usager" [usager]="usager"></app-step-header>
 
 <div class="content" *ngIf="me && usager">
   <div class="container py-3">
@@ -33,7 +33,7 @@
             </span>
             <br />
             <br />
-            <button (click)="getCerfa('attestation')" class="btn btn-primary">
+            <button (click)="getCerfa('demande')" class="btn btn-primary">
               <fa-icon [icon]="['fas', 'download']" class="mr-2"></fa-icon>
               Télécharger l'attestation de Demande
             </button>
