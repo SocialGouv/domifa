@@ -1,17 +1,6 @@
-import { AuthModule } from "../auth/auth.module";
-import { StatsPrivateController } from "../stats/controllers/stats.private.controller";
-import { StatsPublicController } from "../stats/controllers/stats.public.controller";
-import { StatsModule } from "../stats/stats.module";
-import { StructuresModule } from "../structures/structure.module";
-import { UsagersController } from "../usagers/controllers/usagers.controller";
-import { CerfaService } from "../usagers/services/cerfa.service";
-import { DocumentsService } from "../usagers/services/documents.service";
-import { UsagersService } from "../usagers/services/usagers.service";
-import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
-import { PortailUsagerModule } from "../_portail-usager";
+import { SECURITY_TESTS_NEST_MODULE } from "./SECURITY_TESTS_NEST_MODULE.const";
 import { TESTS_USERS_USAGER } from "./_core";
-import { UsagersDecisionController } from "../usagers/controllers/usagers-decision.controller";
 
 // NOTE: pour n'exécuter que certains tests de sécurité, renseigner la variable d'environnement DOMIFA_FILTER_SEC_TEST, exemple:
 //
@@ -23,25 +12,9 @@ describe(`App controllers security - ${TEST_BASENAME}`, () => {
   let context: AppTestContext;
 
   beforeAll(async () => {
-    context = await AppTestHelper.bootstrapTestApp(
-      {
-        controllers: [
-          UsagersController,
-          UsagersDecisionController,
-          StatsPublicController,
-          StatsPrivateController,
-        ],
-        imports: [
-          UsersModule,
-          StructuresModule,
-          StatsModule,
-          PortailUsagerModule,
-          AuthModule,
-        ],
-        providers: [CerfaService, UsagersService, DocumentsService],
-      },
-      { initApp: true }
-    );
+    context = await AppTestHelper.bootstrapTestApp(SECURITY_TESTS_NEST_MODULE, {
+      initApp: true,
+    });
 
     const authInfo =
       TESTS_USERS_USAGER.BY_USAGER_UUID["b2c26e55-ab37-457d-b307-6fe161050a9b"];

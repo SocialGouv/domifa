@@ -17,11 +17,11 @@ const CONTROLLER = "StatsPrivateController";
 export const StatsPrivateControllerSecurityTests: AppTestHttpClientSecurityTestDef[] =
   [
     {
-      label: `${CONTROLLER}.exportByDate`,
+      label: `${CONTROLLER}.getByDate`,
       query: async (context: AppTestContext) => {
         const structureId = securityTestDataBuilder.getUserStructureId(context);
         return {
-          response: await AppTestHttpClient.post("/stats/export", {
+          response: await AppTestHttpClient.post("/stats", {
             context,
             body: {
               start: new Date("2021-03-31T14:32:22Z"),
@@ -40,7 +40,7 @@ export const StatsPrivateControllerSecurityTests: AppTestHttpClientSecurityTestD
       },
     },
     {
-      label: `${CONTROLLER}.getByDate`,
+      label: `${CONTROLLER}.exportByDate`,
       query: async (context: AppTestContext) => {
         const structureId = securityTestDataBuilder.getUserStructureId(context);
         return {
@@ -57,6 +57,7 @@ export const StatsPrivateControllerSecurityTests: AppTestHttpClientSecurityTestD
             {
               roles: ["simple", "responsable", "admin"],
               validExpectedResponseStatus: HttpStatus.CREATED,
+              allowSuperAdminDomifa: true,
             }
           ),
         };

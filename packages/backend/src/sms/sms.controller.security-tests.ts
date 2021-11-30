@@ -3,7 +3,6 @@ import { USER_STRUCTURE_ROLE_ALL } from "../_common/model";
 import {
   AppTestHttpClientSecurityTestDef,
   expectedResponseStatusBuilder,
-  securityTestDataBuilder,
 } from "../_tests";
 
 ////////////////// IMPORTANT //////////////////
@@ -15,20 +14,6 @@ import {
 const CONTROLLER = "SmsController";
 
 export const SmsControllerSecurityTests: AppTestHttpClientSecurityTestDef[] = [
-  {
-    label: `${CONTROLLER}.enableByDomifa`,
-    query: async (context: AppTestContext) => {
-      const structureId = securityTestDataBuilder.getUserStructureId(context);
-      return {
-        response: await AppTestHttpClient.put(`/sms/enable/${structureId}`, {
-          context,
-        }),
-        expectedStatus: expectedResponseStatusBuilder.allowSuperAdminDomifaOnly(
-          context.user
-        ),
-      };
-    },
-  },
   {
     label: `${CONTROLLER}.getUsagerSms`,
     query: async (context: AppTestContext) => {

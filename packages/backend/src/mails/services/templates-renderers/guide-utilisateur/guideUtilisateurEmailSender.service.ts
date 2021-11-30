@@ -40,6 +40,9 @@ async function sendMail({
     ...DOMIFA_DEFAULT_MAIL_CONFIG,
     ...renderedTemplate,
     to,
+    meta: {
+      "lien guide": lienGuide,
+    },
   };
 
   messageEmailSender.sendMessageLater(messageContent, {

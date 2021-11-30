@@ -4,7 +4,7 @@ import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
-import { DashboardService } from "../services/dashboard.service";
+import { AdminStructuresModule } from "../../_portail-admin/admin-structures/admin-structures.module";
 import { StatsPublicController } from "./stats.public.controller";
 
 describe("Stats Public Controller", () => {
@@ -15,12 +15,13 @@ describe("Stats Public Controller", () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [StatsPublicController],
       imports: [
+        forwardRef(() => AdminStructuresModule),
         forwardRef(() => UsersModule),
         forwardRef(() => StructuresModule),
         forwardRef(() => UsagersModule),
         forwardRef(() => InteractionsModule),
       ],
-      providers: [DashboardService],
+      providers: [],
     });
     controller = context.module.get<StatsPublicController>(
       StatsPublicController

@@ -1,21 +1,19 @@
-import { StructuresUploadDocsComponent } from "./components/structures-upload-docs/structures-upload-docs.component";
 import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
+import { RouterModule, Routes } from "@angular/router";
 import {
-  AuthGuard,
   AdminGuard,
-  CanEditSmsGuard,
+  AuthGuard,
   CanEditPortailUsagerGuard,
-  LoggedGuard,
+  CanEditSmsGuard,
   FacteurGuard,
+  LoggedGuard,
 } from "../../guards";
-import { StructuresConfirmComponent } from "./components/structures-confirm/structures-confirm.component";
+import { StructuresCustomDocsComponent } from "./components/structures-custom-docs/structures-custom-docs.component";
+import { StructuresEditComponent } from "./components/structures-edit/structures-edit.component";
 import { StructuresFormComponent } from "./components/structures-form/structures-form.component";
 import { StructuresPortailUsagerFormComponent } from "./components/structures-portail-usager-form/structures-portail-usager-form.component";
 import { StructuresSearchComponent } from "./components/structures-search/structures-search.component";
 import { StructuresSmsFormComponent } from "./components/structures-sms-form/structures-sms-form.component";
-import { StructuresEditComponent } from "./components/structures-edit/structures-edit.component";
-import { StructuresCustomDocsComponent } from "./components/structures-custom-docs/structures-custom-docs.component";
 
 const routes: Routes = [
   {
@@ -47,14 +45,6 @@ const routes: Routes = [
     canActivate: [AuthGuard, AdminGuard, CanEditPortailUsagerGuard],
     path: "portail-usager",
     component: StructuresPortailUsagerFormComponent,
-  },
-  {
-    component: StructuresConfirmComponent,
-    path: "confirm/:id/:token",
-  },
-  {
-    component: StructuresConfirmComponent,
-    path: "delete/:id/:token",
   },
 ];
 

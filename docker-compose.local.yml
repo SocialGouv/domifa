@@ -95,3 +95,24 @@ services:
       - ./.env
     environment:
       TZ: Europe/Paris
+
+  portail-admins:
+    container_name: domifa-portail-admins
+    hostname: domifa-portail-admins
+    build:
+      context: _scripts/dev
+      dockerfile: local-node.dockerfile
+    command: tail -f /dev/null
+    working_dir: /app/packages/portail-admins
+    volumes:
+      - $APP_DIR:/app:delegated
+      - $HOME/.ssh:/home/node/.ssh:ro
+      - $HOME/.gitconfig:/home/node/.gitconfig:ro
+      - $HOME/.gitignore:/home/node/.gitignore:ro
+      - $HOME/.npm:/home/node/.npm:delegated
+    ports:
+      - 4202:4202
+    env_file:
+      - ./.env
+    environment:
+      TZ: Europe/Paris

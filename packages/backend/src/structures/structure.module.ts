@@ -9,7 +9,6 @@ import { StructureDocController } from "./controllers/structure-doc.controller";
 import { StructuresController } from "./controllers/structures.controller";
 import { StructuresPublicController } from "./controllers/structures.public.controller";
 import { StructureDocService } from "./services/structure-doc.service";
-import { StructureCreatorService } from "./services/structureCreator.service";
 import { StructureHardResetService } from "./services/structureHardReset.service";
 import { StructuresService } from "./services/structures.service";
 
@@ -19,12 +18,7 @@ import { StructuresService } from "./services/structures.service";
     StructuresPublicController,
     StructureDocController,
   ],
-  exports: [
-    StructuresService,
-    StructureCreatorService,
-    StructureHardResetService,
-    StructureDocService,
-  ],
+  exports: [StructuresService, StructureHardResetService, StructureDocService],
   imports: [
     HttpModule,
     forwardRef(() => MailsModule),
@@ -35,7 +29,6 @@ import { StructuresService } from "./services/structures.service";
   ],
   providers: [
     StructuresService,
-    StructureCreatorService,
     StructureHardResetService,
     StructureDocService,
   ],
