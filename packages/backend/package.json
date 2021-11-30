@@ -78,7 +78,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.3.0",
     "swagger-ui-express": "^4.1.6",
-    "typeorm": "0.2.40",
+    "typeorm": "0.2.41",
     "uuid": "^8.3.2",
     "xlsx": "^0.17.1",
     "yup": "^0.32.9"
