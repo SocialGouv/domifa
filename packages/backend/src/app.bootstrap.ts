@@ -5,7 +5,6 @@ import {
   SwaggerCustomOptions,
   SwaggerModule,
 } from "@nestjs/swagger";
-
 import * as compression from "compression";
 import { Connection } from "typeorm";
 import { AppModule } from "./app.module";
@@ -49,10 +48,12 @@ export async function bootstrapApplication() {
 
     const frontendUrl = domifaConfig().apps.frontendUrl;
     const portailUsagersUrl = domifaConfig().apps.portailUsagersUrl;
+    const portailAdminUrl = domifaConfig().apps.portailAdminUrl;
 
     const whitelist = [
       frontendUrl.slice(0, -1),
       portailUsagersUrl.slice(0, -1),
+      portailAdminUrl.slice(0, -1),
     ];
 
     if (["dev", "test"].includes(domifaConfig().envId)) {
