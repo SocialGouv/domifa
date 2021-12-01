@@ -111,7 +111,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
 
   const smsEnabled = configParser.parseBoolean(x, "DOMIFA_SMS_ENABLE");
 
-  const sentryDsn = configParser.parseString(x, "DOMIFA_SENTRY_DSN", {
+  const sentryDsn = configParser.parseString(x, "SENTRY_DSN", {
     required: false,
   });
 
@@ -191,7 +191,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           x,
           "DOMIFA_SENTRY_DEBUG_MODE_ENABLED",
           {
-            defaultValue: false,
+            defaultValue: true,
           }
         ),
         sentryDsn,

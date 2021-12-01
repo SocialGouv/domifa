@@ -106,6 +106,8 @@ export const generateCerfaDatas = (
       .trim();
   }
 
+  const prefecture =
+    user.structure.structureType === "asso" ? user.structure.departement : "";
   const sexe = usager.sexe === "femme" ? "1" : "2";
   const rattachement = toString(usager.entretien.rattachement).toUpperCase();
   const motif =
@@ -164,8 +166,8 @@ export const generateCerfaDatas = (
     orientation: isNil(usager.decision.orientationDetails)
       ? ""
       : usager.decision.orientationDetails,
-    prefecture1: user.structure.departement,
-    prefecture2: user.structure.departement,
+    prefecture1: prefecture,
+    prefecture2: prefecture,
     prenoms1: usager.prenom,
     prenoms2: usager.prenom,
     rattachement,
