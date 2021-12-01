@@ -186,7 +186,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           x,
           "DOMIFA_SENTRY_DEBUG_MODE_ENABLED",
           {
-            defaultValue: true,
+            defaultValue: false,
           }
         ),
         sentryDsn,
