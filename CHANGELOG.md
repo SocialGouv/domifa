@@ -1338,6 +1338,21 @@
 
 ### Bug Fixes
 
+* **cerfas:** mise à jour du contenu ([3e2eca8](https://github.com/SocialGouv/domifa/commit/3e2eca8a582d16264aa702930440ac084882d0a3))
+* attestation de Demande + ajout de logs sur Sentry ([1535b5c](https://github.com/SocialGouv/domifa/commit/1535b5cd61d5c31a462634fcfab84349ce389b30))
+* correction d'un icone ([5c03e3a](https://github.com/SocialGouv/domifa/commit/5c03e3ae80104ac862f08d7176e687c1c3d91e4c))
+* correction des bugs sur la confirmation ([3d1a339](https://github.com/SocialGouv/domifa/commit/3d1a339ff30f5e680eba0aef6c5e537955ef6fdf))
+* correction des Cerfas ([e8b9384](https://github.com/SocialGouv/domifa/commit/e8b938464c5ea59a59ef80c5994d94d8ee232224))
+* corrections de la MEP ([67016bc](https://github.com/SocialGouv/domifa/commit/67016bcb530fb8cbad977ac6d58e4b5fa36edfa2))
+* Export ([fd0ce29](https://github.com/SocialGouv/domifa/commit/fd0ce297911e8a17ffc2b074ba0dd6762952966b))
+* lancement de Sentry ([8f4147f](https://github.com/SocialGouv/domifa/commit/8f4147f39863e7c65438dcec686386dbe8bc407f))
+* merge suite à la mep ([18226c0](https://github.com/SocialGouv/domifa/commit/18226c05ef3a46181421e6890a40bdbfa32c6700))
+
+## [2.43.4](https://github.com/SocialGouv/domifa/compare/v2.43.3...v2.43.4) (2021-12-01)
+
+
+### Bug Fixes
+
 * correction d'un icone ([5c03e3a](https://github.com/SocialGouv/domifa/commit/5c03e3ae80104ac862f08d7176e687c1c3d91e4c))
 * correction des bugs sur la confirmation ([3d1a339](https://github.com/SocialGouv/domifa/commit/3d1a339ff30f5e680eba0aef6c5e537955ef6fdf))
 * corrections de la MEP ([67016bc](https://github.com/SocialGouv/domifa/commit/67016bcb530fb8cbad977ac6d58e4b5fa36edfa2))
