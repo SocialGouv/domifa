@@ -58,8 +58,8 @@ const mockDataUsagerValide = {
   noms2: "KARAMOKO",
   numeroUsager: "toto",
   orientation: "",
-  prefecture1: "92",
-  prefecture2: "92",
+  prefecture1: "",
+  prefecture2: "",
   prenoms1: "MAURICE",
   prenoms2: "MAURICE",
   rattachement: "",
@@ -123,8 +123,8 @@ const mockDataUsagerRefus = {
   noms2: "DUPONT",
   numeroUsager: "3",
   orientation: "",
-  prefecture1: "92",
-  prefecture2: "92",
+  prefecture1: "",
+  prefecture2: "",
   prenoms1: "FRED",
   prenoms2: "FRED",
   rattachement: "",
@@ -242,5 +242,14 @@ describe("Cerfa Data utils", () => {
     expect(data.jourFin).toEqual("");
     expect(data.moisFin).toEqual("");
     expect(data.anneeFin).toEqual("");
+  });
+
+  it("CerfaData() si dossier est en ATTENTE_DECISION alors dateDebut et dateFin doivent être vide", async () => {
+    usagerValide.decision.statut = "ATTENTE_DECISION";
+    user.structure.structureType = "asso";
+    const data = generateCerfaDatas(usagerValide, user, "attestation");
+
+    expect(data.prefecture2).toEqual("92");
+    expect(data.prefecture1).toEqual("92");
   });
 });

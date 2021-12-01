@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import Sentry = require("@sentry/node");
 import { HttpException, HttpStatus } from "@nestjs/common";
+import { appLogger } from ".";
 
 // Liste des extensions autorisé selon le contexte
 export const mimeTypes = {
@@ -58,8 +59,11 @@ export async function deleteFile(pathFile: string) {
   if (fs.existsSync(pathFile)) {
     setTimeout(() => {
       try {
+        appLogger.debug("[FILES LOGS] Delete file success " + pathFile);
+
         fs.unlinkSync(pathFile);
       } catch (err) {
+        appLogger.error("[FILES LOGS] [FAIL] Delete file fail " + pathFile);
         Sentry.configureScope((scope) => {
           scope.setTag("file", pathFile);
         });
