@@ -34,10 +34,10 @@ export async function bootstrapApplication() {
         `SENTRY DNS enabled: ${domifaConfig().dev.sentry.sentryDsn}`
       );
       Sentry.captureMessage(
-        "[INFO] [" +
-          domifaConfig().dev.sentry.sentryDsn +
-          "] START API " +
-          format(new Date(), "dd/MM/yyyy - HH:mm")
+        `[API START] [${domifaConfig().envId}] ${format(
+          new Date(),
+          "dd/MM/yyyy - HH:mm"
+        )}`
       );
     }
 
