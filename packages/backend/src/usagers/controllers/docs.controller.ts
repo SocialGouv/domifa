@@ -301,6 +301,7 @@ export class DocsController {
         try {
           fs.unlinkSync(fileName);
         } catch (err) {
+          appLogger.error("[FILES LOGS] CANNOT_ENCRYPT_FILE : " + fileName);
           throw new HttpException(
             {
               message: "CANNOT_ENCRYPT_FILE",

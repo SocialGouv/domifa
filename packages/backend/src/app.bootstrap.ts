@@ -1,3 +1,5 @@
+import Sentry = require("@sentry/node");
+import { format } from "date-fns";
 import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import {
@@ -30,6 +32,12 @@ export async function bootstrapApplication() {
     if (domifaConfig().dev.sentry.enabled) {
       appLogger.debug(
         `SENTRY DNS enabled: ${domifaConfig().dev.sentry.sentryDsn}`
+      );
+      Sentry.captureMessage(
+        `[API START] [${domifaConfig().envId}] ${format(
+          new Date(),
+          "dd/MM/yyyy - HH:mm"
+        )}`
       );
     }
 
