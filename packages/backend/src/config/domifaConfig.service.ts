@@ -277,6 +277,20 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             defaultValue: "0 19 * * TUE,THU",
           }
         ),
+        fetchEndDomCronTim: configParser.parseString(
+          x,
+          "DOMIFA_CRON_FETCH_END_DOM_CRONTIME",
+          {
+            defaultValue: "0 0 18 * * *",
+          }
+        ),
+        sendEndDomCronTim: configParser.parseString(
+          x,
+          "DOMIFA_CRON_SEND_END_DOM_CRONTIME",
+          {
+            defaultValue: "0 0 19 * * *",
+          }
+        ),
         autoRunOnStartup: configParser.parseBoolean(
           x,
           "DOMIFA_CRON_SMS_CONSUMER_AUTO_RUN_STARTUP",
