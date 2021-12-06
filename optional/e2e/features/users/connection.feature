@@ -12,7 +12,7 @@ Scénario:
   Alors je vois "Connexion à Domifa"
   Alors je vois "Adresse email"
   Alors je vois "Mot de passe"
-  Alors je rentre "ccastest@yopmail.com" dans "Adresse email"
+  Alors je rentre "s1-admin@yopmail.com" dans "Adresse email"
   Alors je rentre "Azerty012345" dans "Mot de passe"
   Quand je clique sur "Connexion"
   Alors je suis redirigé vers la page: "/manage"

@@ -13,6 +13,7 @@ import type {
   PortailUsagerAuthLoginForm,
 } from "../../../../_common";
 import { UsagerAuthService } from "../services/usager-auth.service";
+import { PasswordValidator } from "./password-validator.service";
 
 @Component({
   selector: "app-usager-login",
@@ -22,20 +23,22 @@ import { UsagerAuthService } from "../services/usager-auth.service";
 export class UsagerLoginComponent implements OnInit {
   public loginForm!: FormGroup;
 
-  public userForm!: FormGroup;
-
   public hidePassword: boolean;
+  public hidePasswordNew: boolean;
 
   public loading: boolean;
+
+  public mode: "login-only" | "login-change-password" = "login-only";
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private titleService: Title,
     private authService: UsagerAuthService,
-    private toastr: ToastrService,
+    private toastr: ToastrService
   ) {
     this.hidePassword = true;
+    this.hidePasswordNew = false;
     this.loading = false;
   }
 
@@ -45,23 +48,64 @@ export class UsagerLoginComponent implements OnInit {
   }
 
   public initForm(): void {
-    this.loginForm = this.formBuilder.group({
-      password: ["", Validators.required],
-      login: ["", [Validators.required]],
-    });
-
-    // this.loginForm = this.formBuilder.group({
-    //   password: ["03634732", Validators.required],
-    //   login: ["AABBHAAD", [Validators.required]],
-    // });
+    this.loginForm = this.formBuilder.group(
+      {
+        password: ["", Validators.required],
+        login: ["", [Validators.required]],
+        newPassword: [
+          { value: "", disabled: true },
+          Validators.compose([
+            Validators.required,
+            PasswordValidator.patternValidator(/\d/, {
+              hasNumber: true,
+            }),
+            PasswordValidator.patternValidator(/[A-Z]/, {
+              hasCapitalCase: true,
+            }),
+            PasswordValidator.patternValidator(/[a-z]/, {
+              hasLowerCase: true,
+            }),
+            Validators.minLength(8),
+          ]),
+        ],
+        newPasswordConfirm: [
+          { value: "", disabled: true },
+          Validators.compose([Validators.required, Validators.minLength(8)]),
+        ],
+      },
+      {
+        validators: [
+          PasswordValidator.fieldsNotEqualsValidator({
+            ctrl1Name: "password",
+            ctrl2Name: "newPassword",
+            errName: "new-password-same-as-temporary-password",
+          }),
+          PasswordValidator.fieldsEqualsValidator({
+            ctrl1Name: "newPassword",
+            ctrl2Name: "newPasswordConfirm",
+            errName: "new-password-confim-does-not-match",
+          }),
+        ],
+      }
+    );
+  }
+  private switchToChangePasswordMode() {
+    this.mode = "login-change-password";
+    this.loginForm.controls.newPassword.enable();
+    this.loginForm.controls.newPasswordConfirm.enable();
+    this.loginForm.updateValueAndValidity();
+  }
+  public switchToLoginOnly() {
+    this.mode = "login-only";
+    this.loginForm.controls.newPassword.disable();
+    this.loginForm.controls.newPasswordConfirm.disable();
+    this.loginForm.controls.newPassword.setValue("");
+    this.loginForm.controls.newPasswordConfirm.setValue("");
+    this.loginForm.updateValueAndValidity();
   }
 
   get f(): Record<string, AbstractControl> {
     return this.loginForm.controls;
-  }
-
-  public toggleShowPassword(): void {
-    this.hidePassword = !this.hidePassword;
   }
 
   public login(): void {
@@ -74,9 +118,13 @@ export class UsagerLoginComponent implements OnInit {
     this.loading = true;
 
     this.authService.login(loginForm).subscribe({
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.toastr.error("Login et / ou mot de passe incorrect");
+        if (err?.error?.message === "CHANGE_PASSWORD_REQUIRED") {
+          this.switchToChangePasswordMode();
+        } else {
+          this.toastr.error("Login et / ou mot de passe incorrect");
+        }
       },
       next: (apiAuthResponse: PortailUsagerAuthApiResponse) => {
         this.toastr.success("Connexion réussie");

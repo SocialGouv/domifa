@@ -14,7 +14,7 @@ Soit("je me connecte sur Domifa", () => {
   I.see("Connexion à Domifa");
   I.see("Adresse email");
   I.see("Mot de passe");
-  I.fillField("Adresse email", "ccastest@yopmail.com");
+  I.fillField("Adresse email", "s1-admin@yopmail.com");
   I.fillField("Mot de passe", "Azerty012345");
   I.click("Connexion");
   I.waitInUrl("/manage", 4);
