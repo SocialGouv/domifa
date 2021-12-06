@@ -1,9 +1,10 @@
 import { forwardRef, Module } from "@nestjs/common";
 import { HttpModule } from "@nestjs/axios";
+
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { CronSmsInteractionSenderService } from "./services/cron-sms-interaction-sender.service";
-
+import { CronSmsNotificationEndDomService } from "./services/message-sms-last-dom.service";
 import { MessageSmsSenderService } from "./services/message-sms-sender.service";
 import { MessageSmsService } from "./services/message-sms.service";
 import { SmsController } from "./sms.controller";
@@ -13,6 +14,7 @@ import { SmsController } from "./sms.controller";
   exports: [
     MessageSmsService,
     CronSmsInteractionSenderService,
+    CronSmsNotificationEndDomService,
     MessageSmsSenderService,
   ],
   imports: [
@@ -23,6 +25,7 @@ import { SmsController } from "./sms.controller";
   providers: [
     MessageSmsService,
     CronSmsInteractionSenderService,
+    CronSmsNotificationEndDomService,
     MessageSmsSenderService,
   ],
 })

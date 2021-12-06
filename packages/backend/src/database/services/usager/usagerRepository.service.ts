@@ -20,6 +20,7 @@ export const usagerRepository = {
   countDocuments,
   countUsagersByMonth,
   countUsagers,
+  searchUsagersByEndDom,
 };
 
 function countAyantsDroits(structuresId?: number[]): Promise<number> {
@@ -101,4 +102,15 @@ function _advancedCount({
     query.params = { ids: structuresId };
   }
   return usagerCoreRepository.aggregateAsNumber(query);
+}
+
+async function searchUsagersByEndDom() {
+  const query = `select *
+                 from usager
+                 where decision->>'statut' = 'VALIDE'
+                 and date_part('day', (decision->>'dateFin')::timestamptz) = date_part('day', current_date + interval '1 month' * 2)
+                 and date_part('month', (decision->>'dateFin')::timestamptz) = date_part('month', current_date + interval '1 month' * 2)
+                 and date_part('year', (decision->>'dateFin')::timestamptz) = date_part('year', current_date + interval '1 month' * 2)`;
+
+  return appTypeormManager.getRepository(UsagerTable).query(query);
 }

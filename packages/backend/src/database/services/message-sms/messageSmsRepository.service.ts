@@ -1,4 +1,8 @@
-import { InteractionType, MessageSms } from "../../../_common/model";
+import {
+  InteractionType,
+  MessageSms,
+  MessageSmsReminders,
+} from "../../../_common/model";
 import { MessageSmsTable } from "../../entities/message-sms/MessageSmsTable.typeorm";
 import { pgRepository } from "../_postgres";
 
@@ -27,6 +31,8 @@ export const messageSmsRepository = {
   ...baseRepository,
   findSmsOnHold,
   findSmsToSend,
+  upsertEndDom,
+  findSmsEndDomToSend,
 };
 
 async function findSmsOnHold({
@@ -54,6 +60,29 @@ async function findSmsOnHold({
 
 async function findSmsToSend(): Promise<MessageSmsTable[]> {
   return messageSmsRepository.findMany({
+    status: "TO_SEND",
+  });
+}
+
+async function upsertEndDom(sms: MessageSms): Promise<MessageSms> {
+  const message = await messageSmsRepository.findOneWithQuery<MessageSms>({
+    select: SMS_ON_HOLD_INTERACTION,
+    where: `"usagerRef" = :usagerRef
+    and "structureId" = :structureId
+    and "smsId" = 'echeanceDeuxMois'`,
+    params: { usagerRef: sms.usagerRef, structureId: sms.structureId },
+  });
+
+  if (!message) {
+    return await messageSmsRepository.save(sms);
+  }
+
+  return message;
+}
+
+async function findSmsEndDomToSend(): Promise<MessageSmsTable[]> {
+  return messageSmsRepository.findMany({
+    smsId: "echeanceDeuxMois",
     status: "TO_SEND",
   });
 }
