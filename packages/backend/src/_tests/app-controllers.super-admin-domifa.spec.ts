@@ -17,7 +17,7 @@ describe(`App controllers security - ${TEST_BASENAME}`, () => {
       initApp: true,
     });
 
-    const authInfo = TESTS_USERS_ADMIN.BY_EMAIL["ccastest@yopmail.com"];
+    const authInfo = TESTS_USERS_ADMIN.BY_EMAIL["s1-admin@yopmail.com"];
     await AppTestHelper.authenticateSuperAdmin(authInfo, { context });
   });
 

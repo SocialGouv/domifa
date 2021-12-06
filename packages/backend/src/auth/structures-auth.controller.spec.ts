@@ -31,7 +31,7 @@ describe("Structure Auth Controller", () => {
     const response = await request(context.app.getHttpServer())
       .post("/structures/auth/login")
       .send({
-        email: "structure-simple@yopmail.com",
+        email: "s3-instructeur@yopmail.com",
         password: "Azerty012345",
       });
     expect(response.status).toBe(HttpStatus.OK);
@@ -41,7 +41,7 @@ describe("Structure Auth Controller", () => {
     const response = await request(context.app.getHttpServer())
       .post("/structures/auth/login")
       .send({
-        email: "structure-simple@yopmail.com",
+        email: "s3-instructeur@yopmail.com",
         password: "INVALID-PASS",
       });
     expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
