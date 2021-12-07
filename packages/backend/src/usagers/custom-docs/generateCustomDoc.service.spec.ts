@@ -2,10 +2,8 @@ import * as fs from "fs";
 import * as mammoth from "mammoth";
 import * as path from "path";
 import { domifaConfig } from "../../config";
-import {
-  customDocTemplateLoader,
-  CustomDocTemplateType,
-} from "./customDocTemplateLoader.service";
+import { StructureDocTypesAvailable } from "../../_common/model";
+import { customDocTemplateLoader } from "./customDocTemplateLoader.service";
 import { generateCustomDoc } from "./generateCustomDoc.service";
 import { generatedAttestationMock } from "./mocks/generatedAttestationMock";
 
@@ -19,7 +17,11 @@ describe("generateCustomDoc", () => {
   });
 });
 
-async function runDocTypeTest({ docType }: { docType: CustomDocTemplateType }) {
+async function runDocTypeTest({
+  docType,
+}: {
+  docType: StructureDocTypesAvailable;
+}) {
   const content = customDocTemplateLoader.loadDefaultDocTemplate({
     docType,
   });

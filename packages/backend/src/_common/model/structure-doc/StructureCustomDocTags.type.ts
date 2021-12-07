@@ -54,4 +54,9 @@ export type StructureCustomDocTags = {
   ENTRETIEN_CAUSE_INSTABILITE: string;
   ENTRETIEN_RAISON_DEMANDE: string;
   ENTRETIEN_ACCOMPAGNEMENT: string;
+
+  // et aussi, seulement pour le document d'accès à l'espace domicilié
+  ESPACE_DOM_URL?: string;
+  ESPACE_DOM_ID?: string;
+  ESPACE_DOM_MDP?: string;
 };
