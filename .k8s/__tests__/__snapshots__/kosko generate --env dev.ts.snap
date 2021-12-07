@@ -102,12 +102,16 @@ spec:
               value: $(PGPASSWORD)
             - name: POSTGRES_DATABASE
               value: $(PGDATABASE)
+            - name: DOMIFA_VERSION
+              value: sha-0123456789abcdefghijklmnopqrstuvwxyz0123
             - name: DOMIFA_BACKEND_URL
               value: https://domifa-api-domifa-mybranch.dev2.fabrique.social.gouv.fr
-            - name: DOMIFA_CORS_URL
-              value: https://domifa-mybranch.dev2.fabrique.social.gouv.fr
             - name: DOMIFA_FRONTEND_URL
               value: https://domifa-mybranch.dev2.fabrique.social.gouv.fr/
+            - name: DOMIFA_PORTAIL_USAGERS_URL
+              value: https://mon-domifa-domifa-mybranch.dev2.fabrique.social.gouv.fr/
+            - name: DOMIFA_PORTAIL_ADMINS_URL
+              value: https://admin-domifa-mybranch.dev2.fabrique.social.gouv.fr/
       volumes:
         - name: files
           emptyDir: {}
@@ -378,6 +382,8 @@ spec:
           env:
             - name: DOMIFA_BACKEND_URL
               value: https://domifa-api-domifa-mybranch.dev2.fabrique.social.gouv.fr/
+            - name: DOMIFA_PORTAIL_ADMINS_URL
+              value: https://admin-domifa-mybranch.dev2.fabrique.social.gouv.fr/
 ---
 apiVersion: v1
 kind: Service
@@ -445,6 +451,27 @@ spec:
     - hosts:
         - domifa-mybranch.dev2.fabrique.social.gouv.fr
       secretName: wildcard-crt
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: netpol-domifa-mybranch
+  namespace: domifa-mybranch
+spec:
+  ingress:
+    - from:
+        - podSelector: {}
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              network-policy/source: ingress-controller
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              network-policy/source: monitoring
+  podSelector: {}
+  policyTypes:
+    - Ingress
 ---
 apiVersion: batch/v1
 kind: Job
@@ -528,6 +555,157 @@ metadata:
     cert: wildcard
   name: azure-pg-user-mybranch
   namespace: domifa-mybranch
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    app: portail-admins
+    application: domifa
+    component: nginx
+    owner: domifa
+    team: domifa
+    cert: wildcard
+  name: portail-admins
+  namespace: domifa-mybranch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: portail-admins
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.github.com/job: '5678'
+        app.github.com/ref: refs/heads/mybranch
+        app.github.com/repo: socialgouv/domifa
+        app.github.com/run: '1234'
+        app.github.com/sha: '0123456'
+      labels:
+        app: portail-admins
+        application: domifa
+        component: nginx
+        owner: domifa
+        team: domifa
+        cert: wildcard
+    spec:
+      containers:
+        - image: >-
+            ghcr.io/socialgouv/domifa/portail-admins:sha-0123456789abcdefghijklmnopqrstuvwxyz0123
+          livenessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /index.html
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 5
+          name: portail-admins
+          ports:
+            - containerPort: 80
+              name: http
+          readinessProbe:
+            failureThreshold: 15
+            httpGet:
+              path: /index.html
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 5m
+              memory: 32Mi
+          startupProbe:
+            failureThreshold: 12
+            httpGet:
+              path: /index.html
+              port: http
+            periodSeconds: 5
+          env:
+            - name: DOMIFA_BACKEND_URL
+              value: https://domifa-api-domifa-mybranch.dev2.fabrique.social.gouv.fr/
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: portail-admins
+    application: domifa
+    component: nginx
+    owner: domifa
+    team: domifa
+    cert: wildcard
+  name: portail-admins
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  namespace: domifa-mybranch
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app: portail-admins
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    app: portail-admins
+    application: domifa
+    component: nginx
+    owner: domifa
+    team: domifa
+    cert: wildcard
+  name: portail-admins
+  namespace: domifa-mybranch
+spec:
+  rules:
+    - host: admin-domifa-mybranch.dev2.fabrique.social.gouv.fr
+      http:
+        paths:
+          - backend:
+              service:
+                name: portail-admins
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - admin-domifa-mybranch.dev2.fabrique.social.gouv.fr
+      secretName: wildcard-crt
 ---
 apiVersion: apps/v1
 kind: Deployment
