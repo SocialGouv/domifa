@@ -2,8 +2,9 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
-import { addYears, subDays } from "date-fns";
+import { addYears, subDays, format, isBefore } from "date-fns";
 import { ToastrService } from "ngx-toastr";
+
 import {
   UsagerDecisionValideForm,
   UsagerLight,
@@ -30,6 +31,8 @@ export class DecisionValideFormComponent {
 
   public minDate: NgbDateStruct;
   public maxDate: NgbDateStruct;
+  public maxEndDate: NgbDateStruct;
+  public showDurationWarning: boolean;
 
   public usagersRefs: Pick<
     UsagerLight,
@@ -49,9 +52,20 @@ export class DecisionValideFormComponent {
     this.usagersRefs = [];
     this.minDate = { day: 1, month: 1, year: new Date().getFullYear() - 1 };
     this.maxDate = { day: 31, month: 12, year: new Date().getFullYear() + 2 };
+    this.maxEndDate = this.setDate(subDays(addYears(new Date(), 1), 1));
+    this.showDurationWarning = false;
   }
+
   get v(): any {
     return this.valideForm.controls;
+  }
+
+  private setDate(date: Date) {
+    return {
+      day: parseInt(format(date, "d"), 10),
+      month: parseInt(format(date, "M"), 10),
+      year: parseInt(format(date, "y"), 10),
+    };
   }
 
   public ngOnInit() {
@@ -67,11 +81,30 @@ export class DecisionValideFormComponent {
 
     this.valideForm.get("dateDebut").valueChanges.subscribe((value) => {
       if (value !== null && this.nbgDate.isValid(value)) {
-        const newDateFin = subDays(
-          addYears(new Date(this.nbgDate.formatEn(value)), 1),
-          1
-        );
+        const newDateDebut = new Date(this.nbgDate.formatEn(value));
+        const newDateFin = subDays(addYears(newDateDebut, 1), 1);
+
         this.valideForm.controls.dateFin.setValue(formatDateToNgb(newDateFin));
+        this.maxEndDate = this.setDate(subDays(addYears(newDateDebut, 1), 1));
+      }
+    });
+
+    this.valideForm.get("dateFin").valueChanges.subscribe((value) => {
+      const dateDebut = new Date(
+        this.nbgDate.formatEn(this.valideForm.get("dateDebut").value)
+      );
+
+      if (
+        value !== null &&
+        this.nbgDate.isValid(value) &&
+        isBefore(
+          new Date(this.nbgDate.formatEn(value)),
+          subDays(addYears(dateDebut, 1), 1)
+        )
+      ) {
+        this.showDurationWarning = true;
+      } else {
+        this.showDurationWarning = false;
       }
     });
 
