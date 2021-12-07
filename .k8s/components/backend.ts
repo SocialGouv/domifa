@@ -128,6 +128,7 @@ export default async () => {
   addEnvs({
     deployment,
     data: {
+      TZ: "Europe/Paris",
       POSTGRES_HOST: "$(PGHOST)",
       POSTGRES_USERNAME: "$(PGUSER)",
       POSTGRES_PASSWORD: "$(PGPASSWORD)",
