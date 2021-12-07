@@ -32,7 +32,10 @@ spec:
             - git
           args:
             - clone
-            - '-b mybranch'
+            - '-b'
+            - mybranch
+            - '--single-branch'
+            - '--depth=1'
             - https://github.com/SocialGouv/domifa.git
             - /mnt/domifa
           volumeMounts:
@@ -47,7 +50,7 @@ spec:
           args:
             - >-
               psql <
-              /mnt/domifa/_scripts/db/dumps/domifa_test.postgres.data-only.sql
+              /mnt/domifa/_scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
           envFrom:
             - secretRef:
                 name: azure-pg-admin-user

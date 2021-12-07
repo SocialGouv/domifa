@@ -99,12 +99,16 @@ spec:
               value: $(PGPASSWORD)
             - name: POSTGRES_DATABASE
               value: $(PGDATABASE)
+            - name: DOMIFA_VERSION
+              value: 1.2.3
             - name: DOMIFA_BACKEND_URL
               value: https://domifa-api.fabrique.social.gouv.fr
-            - name: DOMIFA_CORS_URL
-              value: https://domifa.fabrique.social.gouv.fr
             - name: DOMIFA_FRONTEND_URL
               value: https://domifa.fabrique.social.gouv.fr/
+            - name: DOMIFA_PORTAIL_USAGERS_URL
+              value: https://mon-domifa.fabrique.social.gouv.fr/
+            - name: DOMIFA_PORTAIL_ADMINS_URL
+              value: https://admin.fabrique.social.gouv.fr/
       volumes:
         - name: files
           persistentVolumeClaim:
@@ -423,6 +427,8 @@ spec:
           env:
             - name: DOMIFA_BACKEND_URL
               value: https://domifa-api.fabrique.social.gouv.fr/
+            - name: DOMIFA_PORTAIL_ADMINS_URL
+              value: https://admin.fabrique.social.gouv.fr/
 ---
 apiVersion: v1
 kind: Service
@@ -534,6 +540,154 @@ spec:
         owner: domifa
         team: domifa
     type: Opaque
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    app: portail-admins
+    application: domifa
+    component: nginx
+    owner: domifa
+    team: domifa
+  name: portail-admins
+  namespace: domifa
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: portail-admins
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.github.com/job: '5678'
+        app.github.com/ref: refs/tags/v1.2.3
+        app.github.com/repo: socialgouv/domifa
+        app.github.com/run: '1234'
+        app.github.com/sha: '0123456'
+      labels:
+        app: portail-admins
+        application: domifa
+        component: nginx
+        owner: domifa
+        team: domifa
+    spec:
+      containers:
+        - image: ghcr.io/socialgouv/domifa/portail-admins:1.2.3
+          livenessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /index.html
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 5
+          name: portail-admins
+          ports:
+            - containerPort: 80
+              name: http
+          readinessProbe:
+            failureThreshold: 15
+            httpGet:
+              path: /index.html
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 5m
+              memory: 32Mi
+          startupProbe:
+            failureThreshold: 12
+            httpGet:
+              path: /index.html
+              port: http
+            periodSeconds: 5
+          env:
+            - name: DOMIFA_BACKEND_URL
+              value: https://domifa-api.fabrique.social.gouv.fr/
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: portail-admins
+    application: domifa
+    component: nginx
+    owner: domifa
+    team: domifa
+  name: portail-admins
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  namespace: domifa
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app: portail-admins
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/tls-acme: 'true'
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    app: portail-admins
+    application: domifa
+    component: nginx
+    owner: domifa
+    team: domifa
+  name: portail-admins
+  namespace: domifa
+spec:
+  rules:
+    - host: admin.fabrique.social.gouv.fr
+      http:
+        paths:
+          - backend:
+              service:
+                name: portail-admins
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - admin.fabrique.social.gouv.fr
+      secretName: portail-admins-crt
 ---
 apiVersion: apps/v1
 kind: Deployment
