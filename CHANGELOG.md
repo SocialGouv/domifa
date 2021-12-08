@@ -1,3 +1,10 @@
+# [2.44.0](https://github.com/SocialGouv/domifa/compare/v2.43.4...v2.44.0) (2021-12-06)
+
+
+### Features
+
+* **INT_DOM:** forcer le changement de mdp à la première connexion [#1755](https://github.com/SocialGouv/domifa/issues/1755) ([#1914](https://github.com/SocialGouv/domifa/issues/1914)) ([cf11d3a](https://github.com/SocialGouv/domifa/commit/cf11d3ae687cfc9639f9199f485e238509a2bc73)), closes [#1894](https://github.com/SocialGouv/domifa/issues/1894)
+
 ## [2.43.4](https://github.com/SocialGouv/domifa/compare/v2.43.3...v2.43.4) (2021-12-06)
 
 

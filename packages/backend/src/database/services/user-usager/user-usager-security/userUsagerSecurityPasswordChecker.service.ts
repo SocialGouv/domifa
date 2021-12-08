@@ -1,3 +1,4 @@
+import { userUsagerSecurityPasswordUpdater } from ".";
 import { userUsagerRepository, userUsagerSecurityRepository } from "..";
 import { passwordGenerator } from "../../../../util/encoding/passwordGenerator.service";
 import { UserUsager } from "../../../../_common/model";
@@ -10,9 +11,11 @@ export const userUsagerSecurityPasswordChecker = {
 async function checkPassword({
   login,
   password,
+  newPassword,
 }: {
   login: string;
   password: string;
+  newPassword: string;
 }): Promise<UserUsager> {
   const user = await userUsagerRepository.findOne<
     Pick<UserUsager, "password" | "salt" | "id" | "enabled">
@@ -66,13 +69,31 @@ async function checkPassword({
     userSecurity,
     eventType: "login-success",
   });
-
-  return userUsagerRepository.updateOne(
-    {
-      id: user.id,
-    },
-    {
-      lastLogin: new Date(),
-    }
-  );
+  if (newPassword) {
+    // update password
+    await userUsagerSecurityPasswordUpdater.updatePassword({
+      userId: user.id,
+      oldPassword: password,
+      newPassword,
+    });
+    return userUsagerRepository.updateOne(
+      {
+        id: user.id,
+      },
+      {
+        lastLogin: new Date(),
+        isTemporaryPassword: false,
+        passwordLastUpdate: new Date(),
+      }
+    );
+  } else {
+    return userUsagerRepository.updateOne(
+      {
+        id: user.id,
+      },
+      {
+        lastLogin: new Date(),
+      }
+    );
+  }
 }

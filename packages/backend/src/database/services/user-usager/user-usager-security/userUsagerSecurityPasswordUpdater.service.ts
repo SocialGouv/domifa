@@ -15,7 +15,7 @@ async function updatePassword({
   userId: number;
   oldPassword: string;
   newPassword: string;
-}): Promise<void> {
+}): Promise<UserUsager> {
   const userSecurity = await userUsagerSecurityRepository.findOne(
     {
       userId,
@@ -59,7 +59,7 @@ async function updatePassword({
     password: newPassword,
   });
 
-  await userUsagerRepository.updateOne(
+  const updatedUser = await userUsagerRepository.updateOne(
     {
       id: userId,
     },
@@ -73,4 +73,5 @@ async function updatePassword({
     userSecurity,
     eventType: "change-password-success",
   });
+  return updatedUser;
 }

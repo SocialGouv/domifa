@@ -53,7 +53,7 @@ describe("Users Public Controller", () => {
 
     await controller.validateEmail(
       {
-        email: "ccastest@yopmail.com",
+        email: "s1-admin@yopmail.com",
       },
       res
     );
