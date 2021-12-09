@@ -14,8 +14,6 @@
         <ng-container *ngIf="this.usager.ref">
           {{ !this.usager.isActif ? "Première demande" : "Renouvellement" }}
           de {{ usager | usagerNomComplet }}
-          <!-- <b *ngIf="usager.customRef">{{ usager.customRef }}</b>
-          <b *ngIf="!usager.customRef">{{ usager.ref }}</b> -->
         </ng-container>
       </div>
 
