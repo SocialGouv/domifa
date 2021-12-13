@@ -1,3 +1,17 @@
+# [2.46.0](https://github.com/SocialGouv/domifa/compare/v2.45.1...v2.46.0) (2021-12-13)
+
+
+### Features
+
+* feedback notif end dom ([84d4ccf](https://github.com/SocialGouv/domifa/commit/84d4ccf647378587f342d2b3851fd9dac85c150d))
+
+## [2.45.1](https://github.com/SocialGouv/domifa/compare/v2.45.0...v2.45.1) (2021-12-13)
+
+
+### Bug Fixes
+
+* **k8s:** fix admin prod domain ([#1942](https://github.com/SocialGouv/domifa/issues/1942)) ([4bb8352](https://github.com/SocialGouv/domifa/commit/4bb835243ab37c1a14629e9533c0b21628f5906a))
+
 # [2.45.0](https://github.com/SocialGouv/domifa/compare/v2.44.1...v2.45.0) (2021-12-13)
 
 

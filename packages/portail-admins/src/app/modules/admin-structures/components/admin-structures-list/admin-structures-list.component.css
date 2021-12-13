@@ -6,106 +6,43 @@
   width: 100%;
   position: relative;
   background: #fff;
+  padding: 2px;
+  border: 1px solid #777;
+  height: 46px;
+}
+#searchbar:focus-within {
+  border: 2px solid #999;
 }
 
 #searchbar input {
-  padding: 5px 10px 10px 40px;
-  height: 46px;
+  width: 100%;
+  height: 100%;
   background: transparent;
-  border: 1px solid #777;
   font-size: 20px;
+  margin-left: 5px;
+  padding: 2px;
+  margin: 0;
+  border: 0;
+  box-shadow: none;
+  transition: none;
+}
+#searchbar input:focus-visible {
+  border: 0;
+  box-shadow: none;
+  transition: none;
 }
 
 #searchbar input::placeholder {
   color: #aaa;
 }
 
-#searchbar span {
-  display: block;
-  position: absolute;
-  font-size: 26px;
-  top: 2px;
-  left: 10px;
+#searchbar span.icon {
+  font-size: 22px;
+  padding: 2px 10px;
   color: #aaa;
   cursor: pointer;
+  width: 45px;
 }
-#searchbar span:hover {
+#searchbar span.icon:hover {
   color: #999;
-}
-
-#search_icon {
-  left: 0;
-  top: 0;
-  min-width: 30px;
-  padding: 9px 16px 9px 10px;
-  color: white;
-  cursor: pointer;
-}
-
-#structures-table tr th {
-  font-size: 0.7rem;
-}
-#structures-table tr th.col-font-xs {
-  font-size: 0.6rem;
-}
-#structures-table tr td {
-  font-size: 0.8rem;
-  overflow: hidden;
-}
-@media (min-width: 992px) {
-  #structures-table tr td.col-font-xs {
-    font-size: 0.7rem;
-    font-size: 0.8rem;
-  }
-  #structures-table tr td {
-    font-size: 0.9rem;
-    word-break: break-all;
-  }
-  #structures-table tr th.col-font-xs {
-    font-size: 0.7rem;
-  }
-  #structures-table tr th {
-    font-size: 0.8rem;
-  }
-}
-#structures-table tr th:not(:first-child),
-#structures-table tr td:not(:first-child) {
-  max-width: 400px;
-  min-width: 50px;
-}
-#structures-table tr th.col-w-30,
-#structures-table tr td.col-w-30 {
-  min-width: auto;
-  max-width: auto;
-  width: 30px;
-}
-#structures-table tr th.col-w-50,
-#structures-table tr td.col-w-50 {
-  min-width: auto;
-  max-width: auto;
-  width: 50px;
-}
-
-#structures-table tr > th:first-child,
-#structures-table tr > td:first-child {
-  font-weight: bold;
-}
-
-#structures-table {
-  margin: 20px auto;
-  overflow-x: scroll;
-  border: 1px solid #dbdbdb;
-}
-
-#structures-table table {
-  width: 100%;
-}
-
-#structures-table th:hover {
-  cursor: pointer;
-  background-color: #f0f0f0;
-}
-
-#structures-table th .ng-fa-icon {
-  float: right;
 }

@@ -19,7 +19,7 @@ function filter(
         `#${structure.id}`,
         structure.nom,
         structure.email,
-        structure.phone,
+        // structure.phone,
         structure.region,
         structure.departement,
         structure.codePostal,

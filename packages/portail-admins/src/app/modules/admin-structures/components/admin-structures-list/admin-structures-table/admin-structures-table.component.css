@@ -2,46 +2,6 @@
   padding: 2rem 1rem;
 }
 
-#searchbar {
-  width: 100%;
-  position: relative;
-  background: #fff;
-}
-
-#searchbar input {
-  padding: 5px 10px 10px 40px;
-  height: 46px;
-  background: transparent;
-  border: 1px solid #777;
-  font-size: 20px;
-}
-
-#searchbar input::placeholder {
-  color: #777;
-}
-
-#searchbar span {
-  display: block;
-  position: absolute;
-  font-size: 26px;
-  top: 2px;
-  left: 10px;
-  color: #aaa;
-  cursor: pointer;
-}
-#searchbar span:hover {
-  color: #999;
-}
-
-#search_icon {
-  left: 0;
-  top: 0;
-  min-width: 30px;
-  padding: 9px 16px 9px 10px;
-  color: white;
-  cursor: pointer;
-}
-
 #structures-table tr th {
   font-size: 0.7rem;
 }
