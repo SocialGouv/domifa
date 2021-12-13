@@ -85,6 +85,9 @@ function renderSection2ActiviteDecisions(context: {
   worksheetRendered.renderCell(i++, "c", {
     value: data.refus.reorientation.asso,
   });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.refus.reorientation.other,
+  });
   i++; // blank line
 
   context.currentRowNumber = i;
