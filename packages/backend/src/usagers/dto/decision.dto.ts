@@ -12,7 +12,6 @@ import {
   UsagerDecisionMotif,
   UsagerDecisionOrientation,
   UsagerDecisionStatut,
-  UsagerTypeDom,
 } from "../../_common/model";
 
 export class DecisionDto implements UsagerDecision {
@@ -59,7 +58,7 @@ export class DecisionDto implements UsagerDecision {
   })
   @ValidateIf((o) => o.statut === "REFUS")
   @IsNotEmpty()
-  @IsIn(["ccas", "asso"])
+  @IsIn(["ccas", "asso", "other"])
   public orientation!: UsagerDecisionOrientation;
 
   @ApiProperty({

@@ -44,7 +44,7 @@ describe("structureStatsInPeriodGenerator", () => {
         },
         refus: {
           motif: { autre: 0, hors_agrement: 0, lien_commune: 0, saturation: 0 },
-          reorientation: { asso: 0, ccas: 0 },
+          reorientation: { asso: 0, ccas: 0, other: 0 },
           total: 0,
         },
         valid: {
