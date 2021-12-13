@@ -1,3 +1,10 @@
+# [2.45.0](https://github.com/SocialGouv/domifa/compare/v2.44.1...v2.45.0) (2021-12-13)
+
+
+### Features
+
+* add new notif end dom ([4b6dcbe](https://github.com/SocialGouv/domifa/commit/4b6dcbea9983710f8babb1fc4c006963eee9a241))
+
 ## [2.44.1](https://github.com/SocialGouv/domifa/compare/v2.44.0...v2.44.1) (2021-12-09)
 
 

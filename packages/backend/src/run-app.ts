@@ -1,4 +1,3 @@
-
 import { bootstrapApplication, tearDownApplication } from "./app.bootstrap";
 import { domifaConfig } from "./config";
 import { appTypeormManager } from "./database";
@@ -9,6 +8,8 @@ import {
 } from "./mails/services";
 import { messageEmailConsummerTrigger } from "./mails/services/_core";
 import { CronSmsInteractionSenderService } from "./sms/services/cron-sms-interaction-sender.service";
+import { CronSmsFetchEndDomService } from "./sms/services/cron-sms-fetch-end-dom.service";
+import { CronSmsEndDomSenderService } from "./sms/services/cron-sms-end-dom-sender.service";
 import { appLogger } from "./util";
 
 (async () => {
@@ -74,6 +75,18 @@ async function runCronJobs(app) {
     const cronSmsInteractionSenderService = await app.get(
       CronSmsInteractionSenderService
     );
-    cronSmsInteractionSenderService.sendSmsImports("startup");
+    cronSmsInteractionSenderService.sendSmsInteraction("startup");
+  }
+
+  if (domifaConfig().cron.smsConsumer.autoRunOnStartup) {
+    const cronSmsFetchEndDomService = await app.get(CronSmsFetchEndDomService);
+    cronSmsFetchEndDomService.fetchUsagerEndDom("cron");
+  }
+
+  if (domifaConfig().cron.smsConsumer.autoRunOnStartup) {
+    const cronSmsEndDomSenderService = await app.get(
+      CronSmsEndDomSenderService
+    );
+    cronSmsEndDomSenderService.sendSmsUsagerEndDom("cron");
   }
 }

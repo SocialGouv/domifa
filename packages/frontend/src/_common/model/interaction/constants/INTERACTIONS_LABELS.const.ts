@@ -1,7 +1,8 @@
+import { MessageSmsReminders } from "../../message-sms/MessageSmsReminders.type";
 import { InteractionType } from "../InteractionType.type";
 
 export const INTERACTIONS_LABELS_SINGULIER: {
-  [key in InteractionType]: string;
+  [key in InteractionType & MessageSmsReminders]: string;
 } = {
   appel: "Appel téléphonique enregistré",
   colisIn: "Colis enregistré",
@@ -12,6 +13,7 @@ export const INTERACTIONS_LABELS_SINGULIER: {
   recommandeOut: "Avis de passage remis",
   visite: "Passage enregistré",
   npai: "Pli non distribuable enregistré",
+  echeanceDeuxMois: "Rappel fin de domiciliation",
 };
 
 export const INTERACTIONS_LABELS_PLURIEL: {
