@@ -17,7 +17,7 @@ describe(`App controllers security - ${TEST_BASENAME}`, () => {
     });
 
     const authInfo =
-      TESTS_USERS_USAGER.BY_USAGER_UUID["b2c26e55-ab37-457d-b307-6fe161050a9b"];
+      TESTS_USERS_USAGER.BY_USAGER_UUID["97b7e840-0e93-4bf4-ba7d-0a406aa898f2"];
     await AppTestHelper.authenticateUsager(authInfo, { context });
   });
 
