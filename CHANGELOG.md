@@ -1,3 +1,10 @@
+## [2.44.1](https://github.com/SocialGouv/domifa/compare/v2.44.0...v2.44.1) (2021-12-09)
+
+
+### Bug Fixes
+
+* **POPUP:** pop-up maintenance ([af35998](https://github.com/SocialGouv/domifa/commit/af359988001ec4a88445262f74ab3361865b63f1))
+
 # [2.44.0](https://github.com/SocialGouv/domifa/compare/v2.43.4...v2.44.0) (2021-12-06)
 
 
