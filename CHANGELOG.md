@@ -1,3 +1,10 @@
+# [2.48.0](https://github.com/SocialGouv/domifa/compare/v2.47.0...v2.48.0) (2021-12-13)
+
+
+### Features
+
+* new option in deny dom modal ([644a006](https://github.com/SocialGouv/domifa/commit/644a00605adc7a73fe902861daf70b4e8e75d462))
+
 # [2.47.0](https://github.com/SocialGouv/domifa/compare/v2.46.0...v2.47.0) (2021-12-13)
 
 
