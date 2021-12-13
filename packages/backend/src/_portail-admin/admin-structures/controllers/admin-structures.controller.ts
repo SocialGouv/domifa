@@ -33,6 +33,7 @@ import {
   AdminStructureListData,
   AdminStructureStatsData,
   Structure,
+  StructureAdmin,
 } from "../../../_common/model";
 import { AdminStructuresService } from "../services";
 import moment = require("moment");
@@ -50,8 +51,13 @@ export class AdminStructuresController {
   @Get("export")
   @AllowUserProfiles("super-admin-domifa")
   public async export(@Res() res: ExpressResponse) {
-    const stats: StatsDeploiementExportModel =
-      await this.adminStructuresService.getStatsDeploiementForExport();
+    const {
+      structures,
+      stats,
+    }: {
+      structures: StructureAdmin[];
+      stats: StatsDeploiementExportModel;
+    } = await this.adminStructuresService.getStatsDeploiementForExport();
 
     const USER_STATS_ATTRIBUTES: (keyof StatsExportUser &
       keyof UserStructureTable)[] = [
@@ -68,9 +74,6 @@ export class AdminStructuresController {
     >(undefined, {
       select: USER_STATS_ATTRIBUTES,
     });
-
-    const structures: Pick<Structure, "id" | "nom">[] =
-      await structureRepository.findMany({}, { select: ["id", "nom"] });
 
     const structuresById = structures.reduce((acc, s) => {
       acc[s.id] = s;
