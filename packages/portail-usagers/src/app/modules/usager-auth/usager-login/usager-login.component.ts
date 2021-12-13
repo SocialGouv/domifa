@@ -38,7 +38,7 @@ export class UsagerLoginComponent implements OnInit {
     private toastr: ToastrService
   ) {
     this.hidePassword = true;
-    this.hidePasswordNew = false;
+    this.hidePasswordNew = true;
     this.loading = false;
   }
 
@@ -109,6 +109,17 @@ export class UsagerLoginComponent implements OnInit {
   }
 
   public login(): void {
+    console.log("xxx this.loginForm", this.loginForm);
+    console.log(
+      "xxx f.newPasswordConfirm?.errors",
+      this.loginForm.controls.newPasswordConfirm?.errors
+    );
+    console.log("xxx this.loginForm.errors", this.loginForm.errors);
+    console.log(
+      "xxx hasError ",
+      this.loginForm?.hasError("new-password-confim-does-not-match")
+    );
+
     if (this.loginForm.invalid) {
       this.toastr.error("Veuillez vérifier les champs du formulaire");
       return;

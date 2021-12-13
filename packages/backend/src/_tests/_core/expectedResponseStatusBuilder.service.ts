@@ -26,19 +26,33 @@ function allowStructureOnly(
     roles,
     validExpectedResponseStatus = HttpStatus.OK,
     allowSuperAdminDomifa,
+    validStructureIds,
+    invalidStructureIdExpectedResponseStatus = HttpStatus.FORBIDDEN,
   }: {
     roles: UserStructureRole[];
     validExpectedResponseStatus?: HttpStatus;
     allowSuperAdminDomifa?: boolean;
+    validStructureIds?: number[];
+    invalidStructureIdExpectedResponseStatus?: HttpStatus;
   }
 ): HttpStatus {
-  const expectedResponseStatus = !user
-    ? HttpStatus.UNAUTHORIZED
-    : (user?.profile === "structure" && roles.includes(user?.structureRole)) ||
-      (allowSuperAdminDomifa && user?.profile === "super-admin-domifa")
-    ? validExpectedResponseStatus
-    : HttpStatus.FORBIDDEN;
-  return expectedResponseStatus;
+  if (!user) {
+    return HttpStatus.UNAUTHORIZED;
+  }
+  if (allowSuperAdminDomifa && user?.profile === "super-admin-domifa") {
+    return validExpectedResponseStatus;
+  }
+  if (user?.profile === "structure" && roles.includes(user?.structureRole)) {
+    if (
+      validStructureIds?.length &&
+      !validStructureIds.includes(user?.structureId)
+    ) {
+      return invalidStructureIdExpectedResponseStatus;
+    }
+    return validExpectedResponseStatus;
+  }
+
+  return HttpStatus.FORBIDDEN;
 }
 function allowAnonymous() {
   return HttpStatus.OK;
