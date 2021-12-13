@@ -32,16 +32,46 @@
     </span>
   </div>
   <div *ngIf="loginToDisplay" class="col-md-6 reponses">
-    <span class="question"
-      >Identifants générés (à noter immédiatement, ne seront plus visibles
-      ensuite)</span
+    <span class="question">Identifants générés</span>
+
+    <p class="mx-1 my-1">
+      <b>IMPORTANT</b> Veuillez télécharger immédiatement le courrier d'accès au
+      portail "Usagers".
+    </p>
+    <!-- <p class="mx-1 my-1">
+      <b>IMPORTANT</b> Veuillez noter immédiatement ces identifiants ou bien
+      télécharger le courrier d'accès au portail "Usagers".
+    </p> -->
+
+    <!-- <div class="mx-1 my-1">
+      <span class="valeur text-xl">
+        Identifiant:
+        <b class="tracking-wider">{{ loginToDisplay.login }}</b> <br />Mot de
+        passe:
+        <b class="tracking-wider">{{ loginToDisplay.temporaryPassword }}</b>
+      </span>
+    </div> -->
+
+    <button
+      (click)="getDomifaCustomDoc()"
+      class="mx-1 my-1 btn btn-primary"
+      [disabled]="loadings.indexOf('acces_espace_domicilie') !== -1"
+      aria-label="Télécharger le courrier d'accès au portail Usagers"
     >
-    <span class="valeur text-xl">
-      Identifiant:
-      <b class="tracking-wider">{{ loginToDisplay.login }}</b> <br />Mot de
-      passe:
-      <b class="tracking-wider">{{ loginToDisplay.temporaryPassword }}</b>
-    </span>
+      <span *ngIf="loadings.indexOf('acces_espace_domicilie') !== -1"
+        ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+        Patientez...</span
+      >
+      <span *ngIf="loadings.indexOf('acces_espace_domicilie') === -1"
+        ><fa-icon [icon]="['fas', 'download']"></fa-icon> Télécharger le
+        courrier d'accès au portail "Usagers"</span
+      >
+    </button>
+
+    <p class="mx-1 my-1">
+      Une fois cette page quittée, il ne sera plus possible de le télécharger
+      sans ré-initialiser le mot de passe.
+    </p>
   </div>
 </div>
 
@@ -90,7 +120,7 @@
           id="generateNewPassword"
         />
         <label class="form-check-label" for="generateNewPassword">
-          Générer un mot de passe temporaire pour le domicilié
+          Ré-initialiser le mot de passe temporaire du domicilié
         </label>
       </div>
     </div>

@@ -1,10 +1,10 @@
 import { HttpStatus } from "@nestjs/common";
+import { v4 as uuidv4 } from "uuid";
 import { AppTestContext, AppTestHttpClient } from "../../util/test";
 import {
   AppTestHttpClientSecurityTestDef,
   expectedResponseStatusBuilder,
 } from "../../_tests";
-import { v4 as uuidv4 } from "uuid";
 
 ////////////////// IMPORTANT //////////////////
 //
@@ -34,22 +34,24 @@ export const UsagersStructureDocsControllerSecurityTests: AppTestHttpClientSecur
         ),
       }),
     },
-    {
-      label: `${CONTROLLER}.getDomifaCustomDoc`,
-      query: async (context: AppTestContext) => ({
-        response: await AppTestHttpClient.get(
-          "/usagers-structure-docs/domifa/1/attestation_postale",
-          {
-            context,
-          }
-        ),
-        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
-          context.user,
-          {
-            roles: ["simple", "responsable", "admin"],
-            validExpectedResponseStatus: HttpStatus.OK,
-          }
-        ),
-      }),
-    },
+    // {
+    //   label: `${CONTROLLER}.getDomifaCustomDoc`,
+    //   query: async (context: AppTestContext) => ({
+    //     response: await AppTestHttpClient.post(
+    //       "/usagers-structure-docs/domifa/7/attestation_postale",
+    //       {
+    //         context,
+    //       }
+    //     ),
+    //     expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+    //       context.user,
+    //       {
+    //         roles: ["simple", "responsable", "admin"],
+    //         validExpectedResponseStatus: HttpStatus.CREATED,
+    //         validStructureIds: [1], // usager 1 only exists in structure 1, else UsagerAccessGuard returns BAD_REQUEST
+    //         invalidStructureIdExpectedResponseStatus: HttpStatus.BAD_REQUEST,
+    //       }
+    //     ),
+    //   }),
+    // },
   ];

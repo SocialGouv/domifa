@@ -1,9 +1,8 @@
-import { Observable } from "rxjs";
 import { HttpClient, HttpEvent, HttpEventType } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
 import * as fileSaver from "file-saver";
-
+import { ToastrService } from "ngx-toastr";
+import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { UsagerDoc } from "../../../../_common/model";
@@ -108,12 +107,20 @@ export class DocumentService {
   }
 
   // Attestation postale et courrier de radiation
-  public getDomifaCustomDoc(
-    usagerId: number,
-    docType: StructureDocTypesAvailable
-  ): Observable<Blob> {
-    return this.http.get(
+  public getDomifaCustomDoc({
+    usagerId,
+    docType,
+    extraUrlParameters = {},
+  }: {
+    usagerId: number;
+    docType: StructureDocTypesAvailable;
+    extraUrlParameters?: { [name: string]: string };
+  }): Observable<Blob> {
+    return this.http.post(
       `${environment.apiUrl}usagers-structure-docs/domifa/${usagerId}/${docType}`,
+      {
+        ...extraUrlParameters,
+      },
       {
         responseType: "blob",
       }

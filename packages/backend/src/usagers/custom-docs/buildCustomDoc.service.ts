@@ -1,17 +1,23 @@
-import { USAGER_DECISION_STATUT_LABELS } from "./../../_common/labels/USAGER_DECISION_STATUT_LABELS.const";
-import { generateMotifLabel } from "./../services/generateMotifLabel.service";
-import { UsagerDecision } from "./../../_common/model/usager/UsagerDecision.type";
 import { residence, typeMenage } from "../../stats/usagers.labels";
 import { StructureCommon, UsagerLight } from "../../_common/model";
 import { StructureCustomDocTags } from "../../_common/model/structure-doc/StructureCustomDocTags.type";
+import { USAGER_DECISION_STATUT_LABELS } from "./../../_common/labels/USAGER_DECISION_STATUT_LABELS.const";
+import { UsagerDecision } from "./../../_common/model/usager/UsagerDecision.type";
+import { generateMotifLabel } from "./../services/generateMotifLabel.service";
 
 import moment = require("moment");
 
-export function buildCustomDoc(
-  usager: UsagerLight,
-  structure: StructureCommon,
-  date?: Date
-): StructureCustomDocTags {
+export function buildCustomDoc({
+  usager,
+  structure,
+  date,
+  extraParameters = {},
+}: {
+  usager: UsagerLight;
+  structure: StructureCommon;
+  date?: Date;
+  extraParameters?: { [name: string]: string };
+}): StructureCustomDocTags {
   // Date
   const dateOfDocument = date ? moment(date) : moment();
 
@@ -167,6 +173,7 @@ export function buildCustomDoc(
       usager.entretien.residence === "AUTRE"
         ? " Autre : " + usager.entretien.residenceDetail
         : residence[usager.entretien.residence],
+    ...extraParameters,
   };
 }
 

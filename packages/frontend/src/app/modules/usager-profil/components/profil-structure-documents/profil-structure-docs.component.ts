@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from "@angular/core";
-
 import * as fileSaver from "file-saver";
 import {
   StructureDoc,
@@ -7,7 +6,6 @@ import {
   STRUCTURE_DOC_ICONS,
 } from "../../../../../_common/model/structure-doc";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
-
 import { DocumentService } from "../../../usager-shared/services/document.service";
 
 @Component({
@@ -38,7 +36,10 @@ export class ProfilStructureDocsComponent implements OnInit {
     this.loadings.push(docType);
 
     this.documentService
-      .getDomifaCustomDoc(this.usager.ref, docType)
+      .getDomifaCustomDoc({
+        usagerId: this.usager.ref,
+        docType,
+      })
       .subscribe({
         next: (blob: Blob) => {
           const newBlob = new Blob([blob], {
