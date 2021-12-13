@@ -1,3 +1,4 @@
+
 import { bootstrapApplication, tearDownApplication } from "./app.bootstrap";
 import { domifaConfig } from "./config";
 import { appTypeormManager } from "./database";
@@ -25,6 +26,7 @@ import { appLogger } from "./util";
       await runCronJobs(app);
       const server = await app.listen(3000);
       server.setTimeout(1000 * 60 * 5); //  5mn - TODO @toub après refactoring de l'import, remettre le timeout par défaut
+
       appLogger.warn(`[${__filename}] Application listening on port 3000`);
     } catch (error) {
       const err = error as Error;

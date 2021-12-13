@@ -14,6 +14,6 @@ Scénario:
   Alors je vois "Mot de passe oublié"
   Quand je clique sur "Mot de passe oublié"
   Alors je vois "Adresse email"
-  Alors je rentre "ccastest@yopmail.com" dans "Adresse email"
+  Alors je rentre "s1-admin@yopmail.com" dans "Adresse email"
   Quand je clique sur "Envoyer"
   Alors j'attends que le texte "Vous venez de recevoir un mail pour réinitialiser votre mot de passe" s'affiche

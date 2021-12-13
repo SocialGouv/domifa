@@ -1,8 +1,15 @@
 import { UserUsager } from "../../_common/model";
 
+// NOTE: les profils de test sont aussi documentés dans le fichier "31_tests-users.md"
+
 export type TestUserUsager = Pick<
   UserUsager,
-  "uuid" | "usagerUUID" | "structureId" | "login" | "password"
+  | "uuid"
+  | "usagerUUID"
+  | "structureId"
+  | "login"
+  | "password"
+  | "isTemporaryPassword"
 >;
 
 const ALL: TestUserUsager[] = [
@@ -11,7 +18,16 @@ const ALL: TestUserUsager[] = [
     usagerUUID: "b2c26e55-ab37-457d-b307-6fe161050a9b",
     structureId: 1,
     login: "WKYJBDXS",
-    password: "63635285",
+    password: "Azerty012345",
+    isTemporaryPassword: true,
+  },
+  {
+    uuid: "a03a9a49-ae31-4160-9879-bab02dc46361",
+    usagerUUID: "97b7e840-0e93-4bf4-ba7d-0a406aa898f2",
+    structureId: 1,
+    login: "LNQIFFBK",
+    password: "Azerty012345",
+    isTemporaryPassword: false,
   },
 ];
 

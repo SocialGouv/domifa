@@ -78,7 +78,7 @@ export class DocumentService {
         },
         error: () => {
           this.notifService.error(
-            "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+            "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
           );
           this.loadingService.stopLoading();
         },

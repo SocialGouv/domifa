@@ -42,6 +42,7 @@ async function enableUser({
     temporaryPassword = tp;
     attributes.salt = salt;
     attributes.password = passwordHash;
+    attributes.isTemporaryPassword = true;
   }
 
   const userUsager = await userUsagerRepository.updateOne(

@@ -32,7 +32,7 @@ describe("Admins Login Controller", () => {
     const response = await request(context.app.getHttpServer())
       .post("/portail-admins/auth/login")
       .send({
-        login: "ccastest@yopmail.com",
+        login: "s1-admin@yopmail.com",
         password: "Azerty012345",
       });
     expect(response.status).toBe(HttpStatus.OK);
@@ -42,7 +42,7 @@ describe("Admins Login Controller", () => {
     const response = await request(context.app.getHttpServer())
       .post("/portail-admins/auth/login")
       .send({
-        login: "ccastest@yopmail.com",
+        login: "s1-admin@yopmail.com",
         password: "INVALID-PASS",
       });
     expect(response.status).toBe(HttpStatus.UNAUTHORIZED);

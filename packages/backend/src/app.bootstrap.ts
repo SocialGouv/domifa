@@ -1,3 +1,4 @@
+import Sentry = require("@sentry/node");
 import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import {
@@ -6,6 +7,7 @@ import {
   SwaggerModule,
 } from "@nestjs/swagger";
 import * as compression from "compression";
+import { format } from "date-fns";
 import { Connection } from "typeorm";
 import { AppModule } from "./app.module";
 import { appHolder } from "./appHolder";
@@ -31,6 +33,14 @@ export async function bootstrapApplication() {
       appLogger.debug(
         `SENTRY DNS enabled: ${domifaConfig().dev.sentry.sentryDsn}`
       );
+      if (domifaConfig().envId === "prod") {
+        Sentry.captureMessage(
+          `[API START] [${domifaConfig().envId}] ${format(
+            new Date(),
+            "dd/MM/yyyy - HH:mm"
+          )}`
+        );
+      }
     }
 
     const postgresTypeormConnection = await appTypeormManager.connect();

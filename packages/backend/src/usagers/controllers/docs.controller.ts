@@ -167,9 +167,9 @@ export class DocsController {
       )
     );
 
-    deleteFile(pathFile);
+    await deleteFile(pathFile);
 
-    deleteFile(pathFile + ".encrypted");
+    await deleteFile(pathFile + ".encrypted");
 
     const updatedUsager = await this.docsService.deleteDocument(
       usagerRef,
@@ -279,9 +279,9 @@ export class DocsController {
     input
       .pipe(decipher)
       .pipe(output)
-      .on("finish", () => {
+      .on("finish", async () => {
         res.sendFile(output.path as string);
-        deleteFile(pathFile + ".unencrypted");
+        await deleteFile(pathFile + ".unencrypted");
       });
   }
 
@@ -301,6 +301,7 @@ export class DocsController {
         try {
           fs.unlinkSync(fileName);
         } catch (err) {
+          appLogger.error("[FILES LOGS] CANNOT_ENCRYPT_FILE : " + fileName);
           throw new HttpException(
             {
               message: "CANNOT_ENCRYPT_FILE",

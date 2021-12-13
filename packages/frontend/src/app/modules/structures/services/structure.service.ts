@@ -25,8 +25,8 @@ export class StructureService {
     this.http = http;
   }
 
-  public findOne(structureId: number): Observable<any> {
-    return this.http.get(`${this.endPoint}/${structureId}`);
+  public findOne(structureId: number): Observable<StructureCommon> {
+    return this.http.get<StructureCommon>(`${this.endPoint}/${structureId}`);
   }
 
   public findMyStructure(): Observable<StructureCommon> {
