@@ -307,18 +307,20 @@ export class AdminStructuresService {
     return structures;
   }
 
-  public async getStatsDeploiementForExport() {
-    const structuresAdmin: StructureAdmin[] =
-      await structureRepository.findMany(
-        {},
-        {
-          order: {
-            createdAt: "ASC",
-          },
-        }
-      );
+  public async getStatsDeploiementForExport(): Promise<{
+    structures: StructureAdmin[];
+    stats: StatsDeploiementExportModel;
+  }> {
+    const structures: StructureAdmin[] = await structureRepository.findMany(
+      {},
+      {
+        order: {
+          createdAt: "ASC",
+        },
+      }
+    );
 
-    const structuresIds = structuresAdmin.map((s) => s.id);
+    const structuresIds = structures.map((s) => s.id);
 
     const usersStructureCountByStructure =
       await this.getUsersStructureCountByStructure();
@@ -329,7 +331,7 @@ export class AdminStructuresService {
     );
 
     const structuresModels: StatsDeploiementStructureExportModel[] =
-      structuresAdmin.map((structure) => ({
+      structures.map((structure) => ({
         structure,
         usersCount: usersStructureCountByStructureMap[structure.id],
       }));
@@ -345,7 +347,9 @@ export class AdminStructuresService {
     const structuresCountByRegion = await this.getStructuresCountByRegion();
 
     const structuresCountByType = await this.getStructuresCountByTypeMap();
+
     const usersCount = await userStructureRepository.count();
+
     const docsCount = await usagerRepository.countDocuments();
 
     const interactionsCountByStatut =
@@ -364,7 +368,7 @@ export class AdminStructuresService {
       docsCount,
       interactionsCountByStatut,
     };
-    return stats;
+    return { structures, stats };
   }
 
   public async totalInteractions(

@@ -52,11 +52,6 @@ export class AdminLoginComponent implements OnInit {
       password: ["", Validators.required],
       login: ["", [Validators.required]],
     });
-
-    // this.loginForm = this.formBuilder.group({
-    //   password: ["03634732", Validators.required],
-    //   login: ["AABBHAAD", [Validators.required]],
-    // });
   }
 
   get f(): Record<string, AbstractControl> {
@@ -88,12 +83,11 @@ export class AdminLoginComponent implements OnInit {
         this.authService.saveToken(apiAuthResponse);
 
         this.loading = false;
-        if (this.route.snapshot.queryParams.redirectToAfterLogin)
-          if (this.redirectToAfterLogin) {
-            this.router.navigateByUrl(this.redirectToAfterLogin);
-          } else {
-            this.router.navigate(["/structures"]);
-          }
+        if (this.redirectToAfterLogin) {
+          this.router.navigateByUrl(this.redirectToAfterLogin);
+        } else {
+          this.router.navigate(["/structures"]);
+        }
       },
     });
   }

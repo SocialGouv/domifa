@@ -9,25 +9,30 @@
         >)</span
       >
     </h1>
-    <div id="searchbar" class="mt-4">
-      <span id="search_icon">
+    <div id="searchbar" class="mt-4 d-flex">
+      <span
+        class="icon"
+        id="search_icon"
+        *ngIf="filters?.searchString?.trim() === ''"
+      >
         <fa-icon [icon]="['fas', 'search']"></fa-icon>
       </span>
+      <span
+        class="icon"
+        id="times_icon"
+        *ngIf="filters?.searchString?.trim() !== ''"
+        (click)="updateSearch('')"
+      >
+        <fa-icon [icon]="['fas', 'times']"></fa-icon>
+      </span>
       <input
+        class="flex-grow-1 form-control"
         type="text"
         autofocus
         [ngModel]="filters.searchString"
         placeholder="Recherche par #ID, nom, région, département, email..."
-        class="form-control mt-3"
         (input)="onSearchChange($event)"
       />
-      <span
-        *ngIf="filters?.searchString?.trim() !== ''"
-        (click)="updateSearch('')"
-        id="times_icon"
-      >
-        <fa-icon [icon]="['fas', 'times']"></fa-icon>
-      </span>
     </div>
     <app-admin-structures-table
       *ngIf="this.filteredStructuresVM"
