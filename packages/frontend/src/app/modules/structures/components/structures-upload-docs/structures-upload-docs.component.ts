@@ -56,6 +56,11 @@ export class StructuresUploadDocsComponent implements OnInit {
       customDocType: [null, this.isCustomDoc ? [Validators.required] : []],
       isCustomDoc: [this.isCustomDoc ? "true" : "false", []],
     });
+
+    this.uploadForm.get("customDocType").valueChanges.subscribe((value) => {
+      this.uploadForm.get("label").setValue(value === "autre" ? "" : value);
+      this.uploadForm.get("label").updateValueAndValidity();
+    });
   }
 
   get f(): { [key: string]: AbstractControl } {
