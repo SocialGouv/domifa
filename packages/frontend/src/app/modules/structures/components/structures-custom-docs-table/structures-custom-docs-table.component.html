@@ -14,13 +14,7 @@
   <tbody>
     <!-- Si Aucun doc personnalisé ne remplace l'attestation postale -->
     <ng-container *ngFor="let document of structureDocs">
-      <tr
-        [ngClass]="{
-          'font-weight-bold':
-            document.customDocType === 'attestation_postale' ||
-            document.customDocType === 'courrier_radiation'
-        }"
-      >
+      <tr>
         <td class="align-middle">
           <span
             class="doc-icon"

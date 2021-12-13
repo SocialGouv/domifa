@@ -15,7 +15,7 @@
           formControlName="customDocType"
           class="form-control"
         >
-          <option value="attestation_postal">Attestation postale</option>
+          <option value="attestation_postale">Attestation postale</option>
           <option value="courrier_radiation">Courrier de radiation</option>
           <option value="autre">Autre document à pré-remplir</option>
         </select>
@@ -28,7 +28,12 @@
         </div>
       </div>
 
-      <div class="col-md-12" *ngIf="f.customDocType.value === 'autre'">
+      <div
+        class="col-md-12"
+        *ngIf="
+          !isCustomDoc || (isCustomDoc && f.customDocType.value === 'autre')
+        "
+      >
         <div class="form-group required">
           <label for="label">Nom du document</label>
           <input
