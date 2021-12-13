@@ -14,6 +14,7 @@ export class StructureDocDto {
     required: true,
   })
   @IsNotEmpty()
+  @ValidateIf((o) => o.custom === true)
   label: string;
 
   @ApiProperty({
@@ -21,7 +22,6 @@ export class StructureDocDto {
     required: true,
   })
   @IsNotEmpty()
-  @IsBooleanString()
   custom: boolean;
 
   @ApiProperty({

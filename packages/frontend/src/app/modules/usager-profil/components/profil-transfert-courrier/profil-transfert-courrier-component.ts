@@ -1,5 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
@@ -66,7 +71,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
     this.initForm();
   }
 
-  get f() {
+  get f(): { [key: string]: AbstractControl } {
     return this.transfertForm.controls;
   }
 

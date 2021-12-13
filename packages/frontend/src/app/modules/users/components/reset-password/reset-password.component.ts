@@ -1,5 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
@@ -30,7 +35,7 @@ export class ResetPasswordComponent implements OnInit {
     return this.emailForm.controls;
   }
 
-  get f() {
+  get f(): { [key: string]: AbstractControl } {
     return this.resetForm.controls;
   }
 

@@ -62,7 +62,7 @@ export class StructuresFormComponent implements OnInit {
     this.accountExist = false;
   }
 
-  get f() {
+  get f(): { [key: string]: AbstractControl } {
     return this.structureForm.controls;
   }
 
