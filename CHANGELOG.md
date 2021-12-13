@@ -1,3 +1,10 @@
+# [2.46.0](https://github.com/SocialGouv/domifa/compare/v2.45.1...v2.46.0) (2021-12-13)
+
+
+### Features
+
+* feedback notif end dom ([84d4ccf](https://github.com/SocialGouv/domifa/commit/84d4ccf647378587f342d2b3851fd9dac85c150d))
+
 ## [2.45.1](https://github.com/SocialGouv/domifa/compare/v2.45.0...v2.45.1) (2021-12-13)
 
 
