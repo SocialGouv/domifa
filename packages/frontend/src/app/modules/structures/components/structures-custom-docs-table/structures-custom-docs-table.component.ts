@@ -63,6 +63,7 @@ export class StructuresCustomDocsTableComponent implements OnInit {
       next: () => {
         this.stopLoading("delete", structureDoc.uuid);
         this.notifService.success("Suppression réussie");
+
         this.getAllStructureDocs.emit();
       },
       error: () => {

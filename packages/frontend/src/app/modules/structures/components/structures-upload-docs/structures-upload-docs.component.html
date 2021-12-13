@@ -7,24 +7,6 @@
 <div class="modal-body">
   <form [formGroup]="uploadForm" (ngSubmit)="submitFile()">
     <div class="row">
-      <div class="col-md-12">
-        <div class="form-group required">
-          <label for="label">Nom du document</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="label"
-            id="label"
-            [ngClass]="{ 'is-invalid': submitted && u.label.errors }"
-            placeholder="Règlement intérieur, etc."
-            required
-          />
-          <div *ngIf="submitted && u.label.errors" class="invalid-feedback">
-            Le nom du document est obligatoire
-          </div>
-        </div>
-      </div>
-
       <div class="col-12 form-group required" *ngIf="isCustomDoc">
         <label for="customDocType">Type de document à enregistrer</label>
         <select
@@ -33,19 +15,41 @@
           formControlName="customDocType"
           class="form-control"
         >
-          <option value="attestation_postal">Attestation postale</option>
+          <option value="attestation_postale">Attestation postale</option>
           <option value="courrier_radiation">Courrier de radiation</option>
           <option value="autre">Autre document à pré-remplir</option>
         </select>
 
         <div
-          *ngIf="submitted && u.customDocType.errors"
+          *ngIf="submitted && f.customDocType.errors"
           class="invalid-feedback"
         >
           Le type de document est obligatoire
         </div>
       </div>
 
+      <div
+        class="col-md-12"
+        *ngIf="
+          !isCustomDoc || (isCustomDoc && f.customDocType.value === 'autre')
+        "
+      >
+        <div class="form-group required">
+          <label for="label">Nom du document</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="label"
+            id="label"
+            [ngClass]="{ 'is-invalid': submitted && f.label.errors }"
+            placeholder="Règlement intérieur, etc."
+            required
+          />
+          <div *ngIf="submitted && f.label.errors" class="invalid-feedback">
+            Le nom du document est obligatoire
+          </div>
+        </div>
+      </div>
       <div class="col-md-12 form-group required">
         <label>Document à enregistrer</label>
 
@@ -56,7 +60,7 @@
             id="file"
             formControlName="file"
             aria-describedby="pjHelp"
-            [ngClass]="{ 'is-invalid': submitted && u.fileSource.errors }"
+            [ngClass]="{ 'is-invalid': submitted && f.fileSource.errors }"
             (change)="onFileChange($event)"
           />
 
@@ -76,16 +80,16 @@
           </label>
 
           <div
-            *ngIf="submitted && u.fileSource.errors"
+            *ngIf="submitted && f.fileSource.errors"
             class="invalid-feedback"
           >
-            <div *ngIf="u.fileSource.errors.required">
+            <div *ngIf="f.fileSource.errors.required">
               Vous devez choisir un fichier
             </div>
-            <div *ngIf="u.fileSource.errors.fileType">
+            <div *ngIf="f.fileSource.errors.fileType">
               Format de fichier invalide
             </div>
-            <div *ngIf="u.fileSource.errors.fileSize">
+            <div *ngIf="f.fileSource.errors.fileSize">
               La taille du fichier est trop grande
             </div>
           </div>

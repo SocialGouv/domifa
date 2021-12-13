@@ -1,6 +1,12 @@
 import { UsagerTypeDom } from "./../../../../../_common/model/usager/UsagerTypeDom.type";
 import { Component, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
@@ -74,7 +80,7 @@ export class StepEtatCivilComponent implements OnInit {
 
   public me: UserStructure;
 
-  get f() {
+  get f(): { [key: string]: AbstractControl } {
     return this.usagerForm.controls;
   }
 

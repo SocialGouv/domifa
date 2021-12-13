@@ -1,3 +1,4 @@
+import { ResponsableGuard } from "./../../guards/responsable-guard";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import {
@@ -22,7 +23,7 @@ const routes: Routes = [
     component: StructuresFormComponent,
   },
   {
-    canActivate: [AuthGuard, AdminGuard],
+    canActivate: [AuthGuard, ResponsableGuard],
     path: "documents",
     component: StructuresCustomDocsComponent,
   },

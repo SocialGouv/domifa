@@ -1,5 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 
 import { ToastrService } from "ngx-toastr";
 import {
@@ -51,9 +56,14 @@ export class StructuresUploadDocsComponent implements OnInit {
       customDocType: [null, this.isCustomDoc ? [Validators.required] : []],
       isCustomDoc: [this.isCustomDoc ? "true" : "false", []],
     });
+
+    this.uploadForm.get("customDocType").valueChanges.subscribe((value) => {
+      this.uploadForm.get("label").setValue(value === "autre" ? "" : value);
+      this.uploadForm.get("label").updateValueAndValidity();
+    });
   }
 
-  get u(): any {
+  get f(): { [key: string]: AbstractControl } {
     return this.uploadForm.controls;
   }
 

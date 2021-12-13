@@ -40,7 +40,7 @@ export class RegisterUserComponent implements OnInit {
     structure: StructureCommon;
   };
 
-  get f() {
+  get f(): { [key: string]: AbstractControl } {
     return this.userForm.controls;
   }
 
