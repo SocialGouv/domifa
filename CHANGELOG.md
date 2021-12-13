@@ -1,3 +1,24 @@
+# [2.49.0](https://github.com/SocialGouv/domifa/compare/v2.48.0...v2.49.0) (2021-12-13)
+
+
+### Features
+
+* **INT_DOM:** Imprimer l'identifiant ([d206f39](https://github.com/SocialGouv/domifa/commit/d206f393d83134860fb34402c336a921d24e6d2a))
+
+# [2.48.0](https://github.com/SocialGouv/domifa/compare/v2.47.0...v2.48.0) (2021-12-13)
+
+
+### Features
+
+* new option in deny dom modal ([644a006](https://github.com/SocialGouv/domifa/commit/644a00605adc7a73fe902861daf70b4e8e75d462))
+
+# [2.47.0](https://github.com/SocialGouv/domifa/compare/v2.46.0...v2.47.0) (2021-12-13)
+
+
+### Features
+
+* change to endDate in dom validation ([e931a87](https://github.com/SocialGouv/domifa/commit/e931a872d4d127690696d2ee4e797700020d67c9))
+
 # [2.46.0](https://github.com/SocialGouv/domifa/compare/v2.45.1...v2.46.0) (2021-12-13)
 
 

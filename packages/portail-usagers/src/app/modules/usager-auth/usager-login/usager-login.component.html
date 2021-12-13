@@ -21,7 +21,10 @@
             'is-invalid': f.login.dirty && f.login.errors
           }"
         />
-        <div *ngIf="f.login.dirty && f.login.errors" class="invalid-feedback">
+        <div
+          *ngIf="f.login.dirty && f.login.errors"
+          class="invalid-feedback-custom"
+        >
           Veuillez vérifier l'identifiant
         </div>
       </div>
@@ -62,7 +65,7 @@
           </div>
           <div
             *ngIf="f.newPassword?.dirty && f.newPassword?.errors"
-            class="invalid-feedback"
+            class="invalid-feedback-custom"
           >
             <div *ngIf="f.newPassword?.errors?.required">
               Le mot de passe est obligatoire
@@ -186,7 +189,11 @@
               autocomplete="new-password"
               [ngClass]="{
                 'is-invalid':
-                  f.newPasswordConfirm?.dirty && f.newPasswordConfirm?.errors
+                  f.newPasswordConfirm?.dirty &&
+                  (f.newPasswordConfirm?.errors ||
+                    this.loginForm?.hasError(
+                      'new-password-confim-does-not-match'
+                    ))
               }"
             />
             <div class="input-group-append">
@@ -203,21 +210,20 @@
             </div>
           </div>
           <div
-            *ngIf="f.newPasswordConfirm?.dirty && f.newPasswordConfirm?.errors"
-            class="invalid-feedback"
+            *ngIf="f.newPasswordConfirm?.errors"
+            class="invalid-feedback-custom"
           >
             <div *ngIf="f.newPasswordConfirm?.errors?.required">
               Veuillez confirmer le mot de passe
             </div>
           </div>
-          <div
-            *ngIf="
-              !f.newPasswordConfirm?.errors &&
-              this.loginForm?.hasError('new-password-confim-does-not-match')
-            "
-            class="invalid-feedback"
-          >
-            <div *ngIf="f.newPasswordConfirm?.errors?.required">
+          <div *ngIf="!f.newPasswordConfirm?.errors?.required">
+            <div
+              *ngIf="
+                this.loginForm?.hasError('new-password-confim-does-not-match')
+              "
+              class="invalid-feedback-custom"
+            >
               La confirmation doit correspondre au nouveau mot de passe
             </div>
           </div>
@@ -255,7 +261,7 @@
         </div>
         <div
           *ngIf="f.password.dirty && f.password.errors"
-          class="invalid-feedback"
+          class="invalid-feedback-custom"
         >
           <div *ngIf="f.password.errors.required">
             Le mot de passe est obligatoire

@@ -63,11 +63,10 @@
           <label for="dateFinValide">Date de fin</label>
           <div class="input-group">
             <input
-              disabled
               class="form-control"
               placeholder="jj/mm/aaaa"
               [minDate]="minDate"
-              [maxDate]="maxDate"
+              [maxDate]="maxEndDate"
               placement="bottom"
               ngbDatepicker
               formControlName="dateFin"
@@ -82,13 +81,23 @@
               required
             />
             <div class="input-group-append">
-              <span class="btn btn-outline-dark d-print-none">
+              <span
+                class="btn btn-outline-primary d-print-none"
+                (click)="dFin.toggle()"
+              >
                 <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
               </span>
             </div>
           </div>
         </div>
         <div class="text-center text-danger col-12">
+          <div class="text-center" *ngIf="showDurationWarning">
+            <b class="text-danger warning-end-dom"
+              ><fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+              D'après la réglementation, une attestation de domiciliation doit
+              être valable pendant un an.</b
+            >
+          </div>
           <div *ngIf="v.dateDebut.errors">La date de début est incorrecte</div>
           <div *ngIf="v.dateFin.errors">La date de fin est incorrecte</div>
           <div class="text-danger" *ngIf="v.dateDebut.value > v.dateFin.value">

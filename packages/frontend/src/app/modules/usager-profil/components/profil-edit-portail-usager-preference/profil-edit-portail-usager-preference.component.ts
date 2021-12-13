@@ -1,9 +1,14 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import fileSaver from "file-saver";
 import { ToastrService } from "ngx-toastr";
-import { UserStructure, UserStructureRole } from "../../../../../_common/model";
+import {
+  StructureDocTypesAvailable,
+  UserStructure,
+  UserStructureRole,
+} from "../../../../../_common/model";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
-
+import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerProfilService } from "../../services/usager-profil.service";
 
 @Component({
@@ -19,6 +24,7 @@ export class ProfilEditPortailUsagerPreferenceComponent implements OnInit {
   public form: FormGroup;
 
   public editionInProgress: boolean;
+  public loadings: string[] = [];
 
   public loginToDisplay?: {
     login: string;
@@ -28,7 +34,8 @@ export class ProfilEditPortailUsagerPreferenceComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private notifService: ToastrService,
-    private usagerProfilService: UsagerProfilService
+    private usagerProfilService: UsagerProfilService,
+    private documentService: DocumentService
   ) {
     this.submitted = false;
     this.me = null;
@@ -46,8 +53,43 @@ export class ProfilEditPortailUsagerPreferenceComponent implements OnInit {
     });
   }
 
+  private stopLoading(loadingRef: string) {
+    const index = this.loadings.indexOf(loadingRef);
+    if (index !== -1) {
+      this.loadings.splice(index, 1);
+    }
+  }
+
   public isRole(role: UserStructureRole) {
     return this.me?.role === role;
+  }
+
+  public getDomifaCustomDoc(): void {
+    const docType: StructureDocTypesAvailable = "acces_espace_domicilie";
+    this.loadings.push(docType);
+
+    this.documentService
+      .getDomifaCustomDoc({
+        usagerId: this.usager.ref,
+        docType,
+        extraUrlParameters: {
+          ESPACE_DOM_ID: this.loginToDisplay.login,
+          ESPACE_DOM_MDP: this.loginToDisplay.temporaryPassword,
+        },
+      })
+      .subscribe({
+        next: (blob: Blob) => {
+          const newBlob = new Blob([blob], {
+            type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          });
+          fileSaver.saveAs(newBlob, docType + ".docx");
+
+          this.stopLoading(docType);
+        },
+        error: () => {
+          this.stopLoading(docType);
+        },
+      });
   }
 
   public submit() {

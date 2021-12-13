@@ -1,9 +1,10 @@
-import { StructureDocService } from "./../../structures/services/structure-doc.service";
 import {
+  Body,
   Controller,
   Get,
   HttpStatus,
   Param,
+  Post,
   Res,
   UseGuards,
 } from "@nestjs/common";
@@ -15,6 +16,8 @@ import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
+import { domifaConfig } from "../../config";
+import { structureDocRepository } from "../../database";
 import {
   StructureDoc,
   StructureDocTypesAvailable,
@@ -26,8 +29,7 @@ import {
   customDocTemplateLoader,
   generateCustomDoc,
 } from "../custom-docs";
-
-import { structureDocRepository } from "../../database";
+import { StructureDocService } from "./../../structures/services/structure-doc.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("usagers-structure-docs")
@@ -67,21 +69,30 @@ export class UsagerStructureDocsController {
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    const docValues = buildCustomDoc(usager, user.structure);
+    const docValues = buildCustomDoc({
+      usager,
+      structure: user.structure,
+    });
 
     res.end(generateCustomDoc(content, docValues));
   }
 
-  @Get("domifa/:usagerRef/:docType")
+  @Post("domifa/:usagerRef/:docType")
   @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getDomifaCustomDoc(
     @Param("docType") docType: StructureDocTypesAvailable,
+    @Body() extraUrlParametersFromClient: { [name: string]: string },
     @CurrentUsager() usager: UsagerLight,
     @CurrentUser() user: UserStructure,
     @Res() res: Response
   ) {
-    if (docType !== "attestation_postale" && docType !== "courrier_radiation") {
+    const availableTypes: StructureDocTypesAvailable[] = [
+      "attestation_postale",
+      "courrier_radiation",
+      "acces_espace_domicilie",
+    ];
+    if (!availableTypes.includes(docType)) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "INVALID_PARAM_DOCS" });
@@ -107,7 +118,20 @@ export class UsagerStructureDocsController {
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "DOC_DOMIFA_NOT_FOUND" });
     }
-    const docValues = buildCustomDoc(usager, user.structure);
+
+    const extraParameters =
+      docType === "acces_espace_domicilie"
+        ? {
+            ESPACE_DOM_URL: domifaConfig().apps.portailUsagersUrl,
+            ESPACE_DOM_ID: extraUrlParametersFromClient?.ESPACE_DOM_ID,
+            ESPACE_DOM_MDP: extraUrlParametersFromClient?.ESPACE_DOM_MDP,
+          }
+        : {};
+    const docValues = buildCustomDoc({
+      usager,
+      structure: user.structure,
+      extraParameters,
+    });
 
     res.end(generateCustomDoc(content, docValues));
   }
