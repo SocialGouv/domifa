@@ -1,3 +1,10 @@
+# [2.49.0](https://github.com/SocialGouv/domifa/compare/v2.48.0...v2.49.0) (2021-12-13)
+
+
+### Features
+
+* **INT_DOM:** Imprimer l'identifiant ([d206f39](https://github.com/SocialGouv/domifa/commit/d206f393d83134860fb34402c336a921d24e6d2a))
+
 # [2.48.0](https://github.com/SocialGouv/domifa/compare/v2.47.0...v2.48.0) (2021-12-13)
 
 
