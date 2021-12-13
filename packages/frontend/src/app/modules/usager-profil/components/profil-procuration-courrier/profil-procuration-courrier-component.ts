@@ -1,5 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
@@ -83,7 +88,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     this.isFormVisible = false;
   }
 
-  get f() {
+  get f(): { [key: string]: AbstractControl } {
     return this.procurationForm.controls;
   }
 
