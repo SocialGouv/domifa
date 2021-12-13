@@ -12,7 +12,7 @@ import { getManifests as getBackendManifests } from "./backend";
 export const getManifests = async () => {
   const probesPath = "/";
   const name = "portail-admins";
-  const subdomain = "admin";
+  const subdomain = env.env === "prod" ? "admin-domifa" : "admin"; // dev and preprod already use a domifa suffix
   const ciEnv = environments(process.env);
   const version = ciEnv.isPreProduction
     ? `preprod-${ciEnv.sha}`
