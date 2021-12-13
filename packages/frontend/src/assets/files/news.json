@@ -1,5 +1,30 @@
 [
   {
+    "date": "2021-12-13",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Une nouvelle notification SMS envoyée 2 mois avant l’échéance d’une domiciliaiton !",
+        "message": [
+          "Si vous activez les notifications SMS au sein de votre structure puis sur les fiches des domiciliés, ceux-ci recevront à la fois des notifications de réception de courrier mais aussi un rappel d’échéance de domiciliation."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Option “Autre” dans l’orientation proposée lors d’un refus de domiciliation",
+        "message": [
+          "Lors d’un refus de demande de domiciliation, vous pouvez désormais sélectionner l’orientation “Autre” avec des précisions."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Message de prévention sous Internet Explorer",
+        "message": [
+          "DomiFa ne s’affiche pas de manière optimale avec le navigateur Internet Explorer, FAQ enrichie à ce sujet."
+        ]
+      },
+  {
     "date": "2021-11-29",
     "description": "",
     "content": [
