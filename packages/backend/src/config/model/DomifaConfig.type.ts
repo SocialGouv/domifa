@@ -65,6 +65,8 @@ export type DomifaConfig = {
     };
     smsConsumer: {
       crontime: string; // DOMIFA_CRON_SMS_CONSUMER_CRONTIME
+      fetchEndDomCronTim: string; // DOMIFA_CRON_FETCH_END_DOM_CRONTIME
+      sendEndDomCronTim: string; // DOMIFA_CRON_SEND_END_DOM_CRONTIME
       autoRunOnStartup: boolean; // DOMIFA_CRON_SMS_CONSUMER_AUTO_RUN_STARTUP
     };
     monitoringCleaner: {

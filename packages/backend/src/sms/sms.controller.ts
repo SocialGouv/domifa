@@ -1,22 +1,20 @@
 import { Controller, Get, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+
 import { AllowUserProfiles } from "../auth/decorators";
 import { CurrentUsager } from "../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../auth/guards";
 import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
-import { StructuresService } from "../structures/services/structures.service";
 import { UsagerLight, UserStructureAuthenticated } from "../_common/model";
 import { MessageSmsService } from "./services/message-sms.service";
+
 @Controller("sms")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("sms")
 export class SmsController {
-  constructor(
-    private readonly messageSmsService: MessageSmsService,
-    private readonly structureService: StructuresService
-  ) {}
+  constructor(private readonly messageSmsService: MessageSmsService) {}
 
   @ApiBearerAuth()
   @AllowUserProfiles("structure")

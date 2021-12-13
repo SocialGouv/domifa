@@ -108,7 +108,7 @@ spec:
             - name: DOMIFA_PORTAIL_USAGERS_URL
               value: https://mon-domifa.fabrique.social.gouv.fr/
             - name: DOMIFA_PORTAIL_ADMINS_URL
-              value: https://admin.fabrique.social.gouv.fr/
+              value: https://admin-domifa.fabrique.social.gouv.fr/
       volumes:
         - name: files
           persistentVolumeClaim:
@@ -428,7 +428,7 @@ spec:
             - name: DOMIFA_BACKEND_URL
               value: https://domifa-api.fabrique.social.gouv.fr/
             - name: DOMIFA_PORTAIL_ADMINS_URL
-              value: https://admin.fabrique.social.gouv.fr/
+              value: https://admin-domifa.fabrique.social.gouv.fr/
 ---
 apiVersion: v1
 kind: Service
@@ -695,7 +695,7 @@ metadata:
   namespace: domifa
 spec:
   rules:
-    - host: admin.fabrique.social.gouv.fr
+    - host: admin-domifa.fabrique.social.gouv.fr
       http:
         paths:
           - backend:
@@ -707,7 +707,7 @@ spec:
             pathType: Prefix
   tls:
     - hosts:
-        - admin.fabrique.social.gouv.fr
+        - admin-domifa.fabrique.social.gouv.fr
       secretName: portail-admins-crt
 ---
 apiVersion: apps/v1

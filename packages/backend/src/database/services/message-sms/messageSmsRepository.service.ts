@@ -26,7 +26,9 @@ export const SMS_ON_HOLD_INTERACTION: (keyof MessageSms)[] = [
 export const messageSmsRepository = {
   ...baseRepository,
   findSmsOnHold,
-  findSmsToSend,
+  findInteractionSmsToSend,
+  upsertEndDom,
+  findSmsEndDomToSend,
 };
 
 async function findSmsOnHold({
@@ -52,8 +54,33 @@ async function findSmsOnHold({
   });
 }
 
-async function findSmsToSend(): Promise<MessageSmsTable[]> {
+async function findInteractionSmsToSend(): Promise<MessageSmsTable[]> {
+  return messageSmsRepository.findManyWithQuery({
+    select: SMS_ON_HOLD_INTERACTION,
+    where: `"status" = 'TO_SEND'
+            and "smsId" = ANY (ARRAY['courrierIn', 'recommandeIn', 'colisIn'])`,
+  });
+}
+
+async function upsertEndDom(sms: MessageSms): Promise<MessageSms> {
+  const message = await messageSmsRepository.findOneWithQuery<MessageSms>({
+    select: SMS_ON_HOLD_INTERACTION,
+    where: `"usagerRef" = :usagerRef
+    and "structureId" = :structureId
+    and "smsId" = 'echeanceDeuxMois'`,
+    params: { usagerRef: sms.usagerRef, structureId: sms.structureId },
+  });
+
+  if (!message) {
+    return await messageSmsRepository.save(sms);
+  }
+
+  return message;
+}
+
+async function findSmsEndDomToSend(): Promise<MessageSmsTable[]> {
   return messageSmsRepository.findMany({
+    smsId: "echeanceDeuxMois",
     status: "TO_SEND",
   });
 }
