@@ -152,8 +152,27 @@
         </div>
       </div>
 
+      <div class="form-row">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            [ngClass]="{ 'is-invalid': submitted && r.orientation.errors }"
+            type="radio"
+            id="otherOrientation"
+            formControlName="orientation"
+            value="other"
+          />
+          <label class="form-check-label" for="otherOrientation">Autre</label>
+        </div>
+        <div *ngIf="submitted && r.orientation.errors" class="invalid-feedback">
+          Veuillez proposer une orientation
+        </div>
+      </div>
+
       <div class="form-row required">
-        <label for="orientationRefusDetails">Précisez</label>
+        <label for="orientationRefusDetails"
+          >Précisez <span class="text-danger">*</span></label
+        >
         <input
           class="form-control"
           type="text"
