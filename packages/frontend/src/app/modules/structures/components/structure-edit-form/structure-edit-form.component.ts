@@ -38,7 +38,7 @@ export class StructureEditFormComponent implements OnInit {
     this.departements = departements;
   }
 
-  get f() {
+  get f(): { [key: string]: AbstractControl } {
     return this.structureForm.controls;
   }
 

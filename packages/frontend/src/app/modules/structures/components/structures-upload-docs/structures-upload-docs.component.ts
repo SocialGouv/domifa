@@ -1,5 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 
 import { ToastrService } from "ngx-toastr";
 import {
@@ -53,7 +58,7 @@ export class StructuresUploadDocsComponent implements OnInit {
     });
   }
 
-  get u(): any {
+  get f(): { [key: string]: AbstractControl } {
     return this.uploadForm.controls;
   }
 

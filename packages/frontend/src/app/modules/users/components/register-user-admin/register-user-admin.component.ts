@@ -33,7 +33,7 @@ export class RegisterUserAdminComponent implements OnInit {
   @ViewChild("form", { static: true })
   public form!: ElementRef<any>;
 
-  get f() {
+  get f(): { [key: string]: AbstractControl } {
     return this.userForm.controls;
   }
 

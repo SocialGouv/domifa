@@ -1,5 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 
 import {
   NgbDateParserFormatter,
@@ -52,7 +58,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
 
   @Output() public editInfosChange = new EventEmitter<boolean>();
 
-  get f() {
+  get f(): { [key: string]: AbstractControl } {
     return this.usagerForm.controls;
   }
 

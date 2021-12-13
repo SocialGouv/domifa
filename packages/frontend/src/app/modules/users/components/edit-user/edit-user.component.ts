@@ -40,7 +40,7 @@ export class EditUserComponent implements OnInit {
 
   public emailExist: boolean;
 
-  get f() {
+  get f(): { [key: string]: AbstractControl } {
     return this.userForm.controls;
   }
 
