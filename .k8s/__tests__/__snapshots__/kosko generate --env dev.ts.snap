@@ -452,6 +452,27 @@ spec:
         - domifa-mybranch.dev2.fabrique.social.gouv.fr
       secretName: wildcard-crt
 ---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: netpol-domifa-mybranch
+  namespace: domifa-mybranch
+spec:
+  ingress:
+    - from:
+        - podSelector: {}
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              network-policy/source: ingress-controller
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              network-policy/source: monitoring
+  podSelector: {}
+  policyTypes:
+    - Ingress
+---
 apiVersion: batch/v1
 kind: Job
 spec:

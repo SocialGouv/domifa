@@ -497,6 +497,27 @@ spec:
         - domifa.fabrique.social.gouv.fr
       secretName: frontend-crt
 ---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: netpol-domifa
+  namespace: domifa
+spec:
+  ingress:
+    - from:
+        - podSelector: {}
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              network-policy/source: ingress-controller
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              network-policy/source: monitoring
+  podSelector: {}
+  policyTypes:
+    - Ingress
+---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
