@@ -1,3 +1,10 @@
+# [2.53.0](https://github.com/SocialGouv/domifa/compare/v2.52.1...v2.53.0) (2021-12-14)
+
+
+### Features
+
+* **RADIE:** afficher seulement les 50 premiers radiés ([1f764c9](https://github.com/SocialGouv/domifa/commit/1f764c9b93094a247a53b3868580dd123d246202))
+
 ## [2.52.1](https://github.com/SocialGouv/domifa/compare/v2.52.0...v2.52.1) (2021-12-14)
 
 
