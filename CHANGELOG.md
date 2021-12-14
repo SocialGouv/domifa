@@ -1,3 +1,10 @@
+## [2.50.1](https://github.com/SocialGouv/domifa/compare/v2.50.0...v2.50.1) (2021-12-14)
+
+
+### Bug Fixes
+
+* ajout d'une info dans la popup ([e29ac16](https://github.com/SocialGouv/domifa/commit/e29ac16ea49bbc19e2dddbc846a7699cdfde49b7))
+
 # [2.50.0](https://github.com/SocialGouv/domifa/compare/v2.49.2...v2.50.0) (2021-12-14)
 
 
