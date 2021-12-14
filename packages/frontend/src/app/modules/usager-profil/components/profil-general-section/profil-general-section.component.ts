@@ -158,7 +158,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
   public stopCourrier(): void {
     this.usagerProfilService.stopCourrier(this.usager.ref).subscribe({
       next: (newUsager: UsagerLight) => {
-        this.notifService.success("Le courrier ne sera plus enregistré ");
+        this.notifService.success("Le courrier ne sera plus enregistré");
         this.usager = new UsagerFormModel(newUsager);
         this.updateInteractions();
       },
