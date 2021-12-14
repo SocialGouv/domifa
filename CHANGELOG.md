@@ -1,3 +1,10 @@
+# [2.52.0](https://github.com/SocialGouv/domifa/compare/v2.51.0...v2.52.0) (2021-12-14)
+
+
+### Features
+
+* add doc accessibilite ([28c9c61](https://github.com/SocialGouv/domifa/commit/28c9c61ff9760f4e5408b5c9e02bf28195b6be6d))
+
 # [2.51.0](https://github.com/SocialGouv/domifa/compare/v2.50.1...v2.51.0) (2021-12-14)
 
 
