@@ -1,3 +1,10 @@
+## [2.49.2](https://github.com/SocialGouv/domifa/compare/v2.49.1...v2.49.2) (2021-12-14)
+
+
+### Bug Fixes
+
+* **secu:** add k8s network policies and update snaps ([#1941](https://github.com/SocialGouv/domifa/issues/1941)) ([d72d476](https://github.com/SocialGouv/domifa/commit/d72d4761db9007e99afbae96839d5f93c23a9cea))
+
 ## [2.49.1](https://github.com/SocialGouv/domifa/compare/v2.49.0...v2.49.1) (2021-12-13)
 
 
