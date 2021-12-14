@@ -6,4 +6,5 @@ export const DASHBOARD_STATUS_LABELS = {
   RADIE: "Radiés",
   REFUS: "Refusés",
   VALIDE: "Actifs",
+  AYANTS_DROITS: "Ayants droit",
 };
