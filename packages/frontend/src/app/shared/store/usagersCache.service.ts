@@ -1,21 +1,29 @@
 import { UsagerLight } from "../../../_common/model";
 import { Interaction } from "../../modules/usager-shared/interfaces";
-
 import { appStore } from "./appStore.service";
+import { SearchPageLoadedUsagersData } from "./AppStoreModel.type";
 
 export const usagersCache = {
   getSnapshot: () => appStore.getState(),
   clearCache: () => appStore.dispatch({ type: "reset" }),
-  setUsagers: (usagers: UsagerLight[]) => {
+  setSearchPageLoadedUsagersData: (
+    searchPageLoadedUsagersData: SearchPageLoadedUsagersData
+  ) => {
     appStore.dispatch({
-      type: "set-usagers",
-      usagers,
+      type: "set-search-page-usagers",
+      searchPageLoadedUsagersData,
     });
   },
   updateUsager: (usager: UsagerLight) => {
     appStore.dispatch({
       type: "update-usager",
       usager,
+    });
+  },
+  updateUsagers: (usagers: UsagerLight[]) => {
+    appStore.dispatch({
+      type: "update-usagers",
+      usagers,
     });
   },
   updateUsagerInteractions: ({

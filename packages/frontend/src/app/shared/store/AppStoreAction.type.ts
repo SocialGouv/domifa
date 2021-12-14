@@ -1,9 +1,14 @@
 import { UsagerLight } from "../../../_common/model";
 import { Interaction } from "../../modules/usager-shared/interfaces";
+import { SearchPageLoadedUsagersData } from "./AppStoreModel.type";
 
 export type AppStoreAction =
   | {
-      type: "set-usagers";
+      type: "set-search-page-usagers";
+      searchPageLoadedUsagersData: SearchPageLoadedUsagersData;
+    }
+  | {
+      type: "update-usagers";
       usagers: UsagerLight[];
     }
   | {
