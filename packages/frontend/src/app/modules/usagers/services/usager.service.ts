@@ -5,12 +5,10 @@ import { filter, map, startWith, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { UsagerNote } from "../../../../_common/model";
 import { MessageSms } from "../../../../_common/model/message-sms";
-
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
-
 import { usagersCache } from "../../../shared/store";
+import { SearchPageLoadedUsagersData } from "../../../shared/store/AppStoreModel.type";
 import { UsagerFormModel } from "../../usager-shared/interfaces";
-
 import { ImportPreviewTable } from "../components/import/preview";
 
 export type UsagersImportMode = "preview" | "confirm";
@@ -85,14 +83,40 @@ export class UsagerService {
   }
 
   /* Recherche */
-  public getAllUsagers(): Observable<UsagerLight[]> {
-    return this.http.get<UsagerLight[]>(`${environment.apiUrl}usagers/`).pipe(
-      tap((usagers: UsagerLight[]) => {
-        usagersCache.setUsagers(usagers);
-      }),
-      startWith(usagersCache.getSnapshot().allUsagers),
-      filter((x) => !!x)
-    );
+  public getSearchPageUsagerData({
+    chargerTousRadies,
+  }: {
+    chargerTousRadies: boolean;
+  }): Observable<SearchPageLoadedUsagersData> {
+    return this.http
+      .get<SearchPageLoadedUsagersData>(
+        `${environment.apiUrl}usagers/?chargerTousRadies=${chargerTousRadies}`
+      )
+      .pipe(
+        tap((searchPageLoadedUsagersData: SearchPageLoadedUsagersData) => {
+          usagersCache.setSearchPageLoadedUsagersData(
+            searchPageLoadedUsagersData
+          );
+        }),
+        startWith(usagersCache.getSnapshot().searchPageLoadedUsagersData),
+        filter((x) => !!x)
+      );
+  }
+
+  public getSearchPageRemoteSearchRadies({
+    searchString,
+  }: {
+    searchString: string;
+  }): Observable<UsagerLight[]> {
+    return this.http
+      .post<UsagerLight[]>(`${environment.apiUrl}usagers/search-radies`, {
+        searchString,
+      })
+      .pipe(
+        tap((usagers: UsagerLight[]) => {
+          usagersCache.updateUsagers(usagers);
+        })
+      );
   }
 
   public import(

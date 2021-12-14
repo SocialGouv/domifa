@@ -46,9 +46,7 @@
         [ngClass]="{'selected-section' : filters.statut === 'TOUS' }"
         (click)="updateFilters({element: 'statut', value:'TOUS'})"
       >
-        <span class="statut-cpt">
-          {{ allUsagersByStatus?.TOUS.length || 0 }}
-        </span>
+        <span class="statut-cpt"> {{ usagersTotalCount || 0 }} </span>
         <span class="statut-label"> Tous</span>
       </div>
       <div
@@ -96,9 +94,7 @@
         [ngClass]="{'selected-section' :filters.statut === 'RADIE' }"
         (click)="updateFilters({element: 'statut', value:'RADIE'})"
       >
-        <span class="statut-cpt">
-          {{ allUsagersByStatus?.RADIE.length || 0 }}
-        </span>
+        <span class="statut-cpt"> {{ usagersRadiesTotalCount || 0 }} </span>
         <span class="statut-label"> Radiés</span>
       </div>
     </div>
@@ -110,7 +106,13 @@
     <div class="row d-flex align-items-center">
       <div class="col-md-9">
         <div *ngIf="nbResults" class="filter-part">
-          Filtrer les <span class="text-primary"> {{nbResults}} </span>résultats
+          Filtrer les <span class="text-primary"> {{nbResults}} </span>
+          <ng-container
+            *ngIf="filters.statut === 'RADIE' && usagersRadiesTotalCount !== usagersRadiesLoadedCount"
+          >
+            premiers
+          </ng-container>
+          résultats
         </div>
         <div *ngIf="!nbResults" class="filter-part">Aucun résultat</div>
 
@@ -386,6 +388,21 @@
         (updateFilters)="updateFilters($event)"
         (goToPrint)="goToPrint()"
       ></app-manage-manage-usagers-table>
+    </div>
+    <div
+      style="background: white"
+      class="container py-3 px-2"
+      *ngIf="(filters.statut === 'TOUS' || filters.statut === 'RADIE') && usagersRadiesTotalCount !== usagersRadiesLoadedCount && !this.chargerTousRadies$.value"
+    >
+      <div class="my-2">
+        <button
+          type="button"
+          class="btn btn-white-primary"
+          (click)="chargerTousRadies()"
+        >
+          Afficher tous les radiés
+        </button>
+      </div>
     </div>
   </div>
 </div>

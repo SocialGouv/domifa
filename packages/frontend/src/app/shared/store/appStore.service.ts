@@ -1,10 +1,13 @@
 import { createStore } from "redux";
 import { UsagerLight } from "../../../_common/model";
 import { AppStoreAction } from "./AppStoreAction.type";
-import { AppStoreModel } from "./AppStoreModel.type";
+import {
+  AppStoreModel,
+  SearchPageLoadedUsagersData,
+} from "./AppStoreModel.type";
 
 const INITIAL_STATE: AppStoreModel = {
-  allUsagers: undefined,
+  searchPageLoadedUsagersData: undefined,
   usagersByRefMap: {},
   interactionsByRefMap: {},
 };
@@ -14,38 +17,88 @@ const appStoreReducer = (
   action: AppStoreAction
 ): AppStoreModel => {
   switch (action.type) {
-    case "set-usagers": {
+    case "set-search-page-usagers": {
       return {
         ...state,
-        allUsagers: action.usagers,
-        usagersByRefMap: action.usagers.reduce((acc, u) => {
-          acc[u.ref] = u;
-          return acc;
-        }, {} as { [ref: string]: UsagerLight }),
+        searchPageLoadedUsagersData: action.searchPageLoadedUsagersData,
+        usagersByRefMap: action.searchPageLoadedUsagersData.usagersNonRadies
+          .concat(action.searchPageLoadedUsagersData.usagersRadiesFirsts)
+          .reduce((acc, u) => {
+            acc[u.ref] = u;
+            return acc;
+          }, {} as { [ref: string]: UsagerLight }),
       };
     }
     case "update-usager": {
       const usager = action.usager;
-      // update "allUsagers" only if defined
-      const allUsagers = state.allUsagers
-        ? state.allUsagers.map((u) => {
-            if (u.uuid === usager.uuid) {
-              return usager;
-            }
-            return u;
-          })
-        : undefined;
+
       // always update map
       const usagersByRefMap = {
         ...state.usagersByRefMap,
       };
 
       usagersByRefMap[usager.ref] = usager;
-      return {
-        ...state,
-        allUsagers,
-        usagersByRefMap,
+
+      if (state.searchPageLoadedUsagersData) {
+        // first delete usager, then add-it, in case decision.status has changed
+        const searchPageLoadedUsagersData = addUsager({
+          initialData: deleteSearchPageLoadedUsagersDataUsager({
+            initialData: state.searchPageLoadedUsagersData,
+            attributes: ["ref"],
+            criteria: { ref: usager.ref },
+          }),
+          usager,
+        });
+
+        return {
+          ...state,
+          usagersByRefMap,
+          searchPageLoadedUsagersData,
+        };
+      } else {
+        return {
+          ...state,
+          usagersByRefMap,
+        };
+      }
+    }
+    case "update-usagers": {
+      const usagers = action.usagers;
+
+      // always update map
+      const usagersByRefMap = {
+        ...state.usagersByRefMap,
       };
+
+      usagers.forEach((usager) => {
+        usagersByRefMap[usager.ref] = usager;
+      });
+
+      if (state.searchPageLoadedUsagersData) {
+        // first delete usager, then add-it, in case decision.status has changed
+        let searchPageLoadedUsagersData = state.searchPageLoadedUsagersData;
+        usagers.forEach((usager) => {
+          searchPageLoadedUsagersData = addUsager({
+            initialData: deleteSearchPageLoadedUsagersDataUsager({
+              initialData: searchPageLoadedUsagersData,
+              attributes: ["ref"],
+              criteria: { ref: usager.ref },
+            }),
+            usager,
+          });
+        });
+
+        return {
+          ...state,
+          usagersByRefMap,
+          searchPageLoadedUsagersData,
+        };
+      } else {
+        return {
+          ...state,
+          usagersByRefMap,
+        };
+      }
     }
     case "update-usager-interactions": {
       const { usagerRef, interactions } = action;
@@ -63,11 +116,7 @@ const appStoreReducer = (
     case "delete-usager": {
       const criteria = action.criteria;
       const attributes = Object.keys(criteria);
-      const allUsagers = state.usagersByRefMap
-        ? state.allUsagers.filter((u) =>
-            attributes.some((attr) => criteria[attr] !== u[attr])
-          )
-        : undefined;
+
       const usagersByRefMap = {
         ...state.usagersByRefMap,
       };
@@ -75,25 +124,51 @@ const appStoreReducer = (
       if (usagersByRefMap) {
         delete usagersByRefMap[criteria.ref];
       }
-      return {
-        ...state,
-        allUsagers,
-        usagersByRefMap,
-      };
+
+      if (state.searchPageLoadedUsagersData) {
+        // list data loaded
+        const searchPageLoadedUsagersData =
+          deleteSearchPageLoadedUsagersDataUsager({
+            initialData: state.searchPageLoadedUsagersData,
+            attributes,
+            criteria,
+          });
+        return {
+          ...state,
+          usagersByRefMap,
+          searchPageLoadedUsagersData,
+        };
+      } else {
+        return {
+          ...state,
+          usagersByRefMap,
+        };
+      }
     }
     case "add-usager": {
       const usager = action.usager;
-      const allUsagers = state.allUsagers
-        ? state.allUsagers.concat([usager])
-        : undefined;
       const usagersByRefMap = {
         ...state.usagersByRefMap,
       };
       usagersByRefMap[usager.ref] = usager;
-      return {
-        ...state,
-        allUsagers,
-      };
+
+      if (state.searchPageLoadedUsagersData) {
+        // list data loaded
+        const searchPageLoadedUsagersData = addUsager({
+          initialData: state.searchPageLoadedUsagersData,
+          usager,
+        });
+        return {
+          ...state,
+          usagersByRefMap,
+          searchPageLoadedUsagersData,
+        };
+      } else {
+        return {
+          ...state,
+          usagersByRefMap,
+        };
+      }
     }
     case "reset": {
       return INITIAL_STATE;
@@ -108,3 +183,63 @@ export const appStore = createStore<
   unknown,
   unknown
 >(appStoreReducer, INITIAL_STATE as AppStoreModel);
+
+function addUsager({
+  initialData,
+  usager,
+}: {
+  initialData: SearchPageLoadedUsagersData;
+  usager: UsagerLight;
+}) {
+  const searchPageLoadedUsagersData = {
+    ...initialData,
+  };
+
+  const isRadie = usager.decision?.statut === "RADIE";
+  searchPageLoadedUsagersData.usagersNonRadies =
+    searchPageLoadedUsagersData.usagersNonRadies
+      ? isRadie
+        ? searchPageLoadedUsagersData.usagersNonRadies
+        : searchPageLoadedUsagersData.usagersNonRadies.concat([usager])
+      : undefined;
+  searchPageLoadedUsagersData.usagersRadiesFirsts =
+    searchPageLoadedUsagersData.usagersRadiesFirsts
+      ? !isRadie
+        ? searchPageLoadedUsagersData.usagersRadiesFirsts
+        : searchPageLoadedUsagersData.usagersRadiesFirsts.concat([usager])
+      : undefined;
+  searchPageLoadedUsagersData.usagersRadiesTotalCount =
+    searchPageLoadedUsagersData.usagersRadiesTotalCount +
+    searchPageLoadedUsagersData.usagersRadiesFirsts.length -
+    initialData.usagersRadiesFirsts.length;
+  return searchPageLoadedUsagersData;
+}
+
+function deleteSearchPageLoadedUsagersDataUsager({
+  initialData,
+  attributes,
+  criteria,
+}: {
+  initialData: SearchPageLoadedUsagersData;
+  attributes: string[];
+  criteria: Pick<UsagerLight, "ref">;
+}): SearchPageLoadedUsagersData {
+  const searchPageLoadedUsagersData = {
+    ...initialData,
+  };
+
+  searchPageLoadedUsagersData.usagersNonRadies =
+    searchPageLoadedUsagersData.usagersNonRadies.filter((u) =>
+      attributes.some((attr) => criteria[attr] !== u[attr])
+    );
+  searchPageLoadedUsagersData.usagersRadiesFirsts =
+    searchPageLoadedUsagersData.usagersRadiesFirsts.filter((u) =>
+      attributes.some((attr) => criteria[attr] !== u[attr])
+    );
+
+  searchPageLoadedUsagersData.usagersRadiesTotalCount +=
+    searchPageLoadedUsagersData.usagersRadiesFirsts.length -
+    initialData.usagersRadiesFirsts.length;
+
+  return searchPageLoadedUsagersData;
+}
