@@ -1,3 +1,10 @@
+## [2.52.1](https://github.com/SocialGouv/domifa/compare/v2.52.0...v2.52.1) (2021-12-14)
+
+
+### Bug Fixes
+
+* label back office ayants-droit ([53562e5](https://github.com/SocialGouv/domifa/commit/53562e5385fda78adeb9cd83219d28ed8fdca578))
+
 # [2.52.0](https://github.com/SocialGouv/domifa/compare/v2.51.0...v2.52.0) (2021-12-14)
 
 
