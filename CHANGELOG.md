@@ -1,3 +1,24 @@
+## [2.52.1](https://github.com/SocialGouv/domifa/compare/v2.52.0...v2.52.1) (2021-12-14)
+
+
+### Bug Fixes
+
+* label back office ayants-droit ([53562e5](https://github.com/SocialGouv/domifa/commit/53562e5385fda78adeb9cd83219d28ed8fdca578))
+
+# [2.52.0](https://github.com/SocialGouv/domifa/compare/v2.51.0...v2.52.0) (2021-12-14)
+
+
+### Features
+
+* add doc accessibilite ([28c9c61](https://github.com/SocialGouv/domifa/commit/28c9c61ff9760f4e5408b5c9e02bf28195b6be6d))
+
+# [2.51.0](https://github.com/SocialGouv/domifa/compare/v2.50.1...v2.51.0) (2021-12-14)
+
+
+### Features
+
+* allow admin to change sms notif ([bf08331](https://github.com/SocialGouv/domifa/commit/bf0833118eee9b937ddeffae3699fe58c42899c6))
+
 ## [2.50.1](https://github.com/SocialGouv/domifa/compare/v2.50.0...v2.50.1) (2021-12-14)
 
 
