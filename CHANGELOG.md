@@ -1,3 +1,10 @@
+# [2.50.0](https://github.com/SocialGouv/domifa/compare/v2.49.2...v2.50.0) (2021-12-14)
+
+
+### Features
+
+* add warning for IE browser ([0563281](https://github.com/SocialGouv/domifa/commit/05632812fb34539c879286b675e67c8389d4ffe7))
+
 ## [2.49.2](https://github.com/SocialGouv/domifa/compare/v2.49.1...v2.49.2) (2021-12-14)
 
 
