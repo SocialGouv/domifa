@@ -1,3 +1,10 @@
+# [2.51.0](https://github.com/SocialGouv/domifa/compare/v2.50.1...v2.51.0) (2021-12-14)
+
+
+### Features
+
+* allow admin to change sms notif ([bf08331](https://github.com/SocialGouv/domifa/commit/bf0833118eee9b937ddeffae3699fe58c42899c6))
+
 ## [2.50.1](https://github.com/SocialGouv/domifa/compare/v2.50.0...v2.50.1) (2021-12-14)
 
 
