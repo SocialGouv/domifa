@@ -1,117 +1,292 @@
 import { UsagerLight } from "../../../_common/model";
+import { SearchPageLoadedUsagersData } from "./AppStoreModel.type";
 import { usagersCache } from "./usagersCache.service";
 
-const initialState: Partial<UsagerLight>[] = [
+const initialStateUsagers: Partial<UsagerLight>[] = [
   {
     uuid: "1",
     ref: 1,
     prenom: "John",
     nom: "Smith",
+    decision: {
+      statut: "ACTIF",
+    } as any,
   },
   {
     uuid: "2",
     ref: 2,
     prenom: "Marie",
     nom: "Smith",
+    decision: {
+      statut: "ACTIF",
+    } as any,
   },
   {
     uuid: "3",
     ref: 3,
     prenom: "Claire",
     nom: "Meunier",
+    decision: {
+      statut: "RADIE",
+    } as any,
   },
 ];
 
+const usagersNonRadies = initialStateUsagers.filter(
+  (x) => x.decision.statut !== "RADIE"
+) as UsagerLight[];
+const usagersRadiesFirsts = initialStateUsagers.filter(
+  (x) => x.decision.statut === "RADIE"
+) as UsagerLight[];
+
+const INITIAL_TOTAL_COUNT = 500;
+
+const initialState: SearchPageLoadedUsagersData = {
+  usagersNonRadies,
+  usagersRadiesFirsts,
+  usagersRadiesTotalCount: INITIAL_TOTAL_COUNT,
+};
+
 it("usagersCache: set initial state", () => {
-  expect(usagersCache.getSnapshot().allUsagers).toBeUndefined();
-  usagersCache.setUsagers(initialState as UsagerLight[]);
-  expect(usagersCache.getSnapshot().allUsagers).toEqual(initialState);
+  expect(
+    usagersCache.getSnapshot().searchPageLoadedUsagersData
+  ).toBeUndefined();
+  usagersCache.setSearchPageLoadedUsagersData(initialState);
+  const data = usagersCache.getSnapshot().searchPageLoadedUsagersData;
+  expect(data.usagersRadiesTotalCount).toEqual(INITIAL_TOTAL_COUNT);
+  expect(data).toEqual(initialState);
 });
 
 it("usagersCache: update", () => {
-  usagersCache.setUsagers(initialState as UsagerLight[]);
+  usagersCache.setSearchPageLoadedUsagersData(initialState);
   usagersCache.updateUsager({
     uuid: "2",
     ref: 2,
     prenom: "Maria",
     nom: "Smith",
+    decision: {
+      statut: "ACTIF",
+    } as any,
   } as UsagerLight);
-  expect(usagersCache.getSnapshot().allUsagers).toEqual([
+  const data = usagersCache.getSnapshot().searchPageLoadedUsagersData;
+  expect(data.usagersRadiesTotalCount).toEqual(INITIAL_TOTAL_COUNT);
+  expect(data.usagersNonRadies.concat(data.usagersRadiesFirsts)).toEqual([
     {
       uuid: "1",
       ref: 1,
       prenom: "John",
       nom: "Smith",
+      decision: {
+        statut: "ACTIF",
+      },
     },
     {
       uuid: "2",
       ref: 2,
       prenom: "Maria",
       nom: "Smith",
+      decision: {
+        statut: "ACTIF",
+      },
     },
     {
       uuid: "3",
       ref: 3,
       prenom: "Claire",
       nom: "Meunier",
+      decision: {
+        statut: "RADIE",
+      },
     },
   ]);
 });
-
-it("usagersCache: create", () => {
-  usagersCache.setUsagers(initialState as UsagerLight[]);
-  usagersCache.createUsager({
-    uuid: "4",
-    ref: 4,
-    prenom: "Jo",
-    nom: "Ker",
+it("usagersCache: update ACTIF => RADIE", () => {
+  usagersCache.setSearchPageLoadedUsagersData(initialState);
+  usagersCache.updateUsager({
+    uuid: "2",
+    ref: 2,
+    prenom: "Marie",
+    nom: "Smith",
+    decision: {
+      statut: "RADIE",
+    } as any,
   } as UsagerLight);
-  expect(usagersCache.getSnapshot().allUsagers).toEqual([
+  const data = usagersCache.getSnapshot().searchPageLoadedUsagersData;
+  expect(data.usagersRadiesTotalCount).toEqual(INITIAL_TOTAL_COUNT + 1); // 1 radié de plus
+  expect(data.usagersNonRadies.concat(data.usagersRadiesFirsts)).toEqual([
     {
       uuid: "1",
       ref: 1,
       prenom: "John",
       nom: "Smith",
+      decision: {
+        statut: "ACTIF",
+      },
+    },
+    {
+      uuid: "3",
+      ref: 3,
+      prenom: "Claire",
+      nom: "Meunier",
+      decision: {
+        statut: "RADIE",
+      },
     },
     {
       uuid: "2",
       ref: 2,
       prenom: "Marie",
       nom: "Smith",
+      decision: {
+        statut: "RADIE",
+      },
+    },
+  ]);
+});
+
+it("usagersCache: update RADIE => ACTIF", () => {
+  usagersCache.setSearchPageLoadedUsagersData(initialState);
+  usagersCache.updateUsager({
+    uuid: "3",
+    ref: 3,
+    prenom: "Claire",
+    nom: "Meunier",
+    decision: {
+      statut: "ACTIF",
+    } as any,
+  } as UsagerLight);
+  const data = usagersCache.getSnapshot().searchPageLoadedUsagersData;
+  expect(data.usagersRadiesTotalCount).toEqual(INITIAL_TOTAL_COUNT - 1); // 1 radié de moins
+  expect(data.usagersNonRadies.concat(data.usagersRadiesFirsts)).toEqual([
+    {
+      uuid: "1",
+      ref: 1,
+      prenom: "John",
+      nom: "Smith",
+      decision: {
+        statut: "ACTIF",
+      },
+    },
+    {
+      uuid: "2",
+      ref: 2,
+      prenom: "Marie",
+      nom: "Smith",
+      decision: {
+        statut: "ACTIF",
+      },
     },
     {
       uuid: "3",
       ref: 3,
       prenom: "Claire",
       nom: "Meunier",
+      decision: {
+        statut: "ACTIF",
+      },
+    },
+  ]);
+});
+
+it("usagersCache: create", () => {
+  usagersCache.setSearchPageLoadedUsagersData(initialState);
+  usagersCache.createUsager({
+    uuid: "4",
+    ref: 4,
+    prenom: "Jo",
+    nom: "Ker",
+    decision: {
+      statut: "RADIE",
+    },
+  } as UsagerLight);
+  const data = usagersCache.getSnapshot().searchPageLoadedUsagersData;
+  expect(data.usagersRadiesTotalCount).toEqual(INITIAL_TOTAL_COUNT + 1);
+  expect(data.usagersNonRadies.concat(data.usagersRadiesFirsts)).toEqual([
+    {
+      uuid: "1",
+      ref: 1,
+      prenom: "John",
+      nom: "Smith",
+      decision: {
+        statut: "ACTIF",
+      },
+    },
+    {
+      uuid: "2",
+      ref: 2,
+      prenom: "Marie",
+      nom: "Smith",
+      decision: {
+        statut: "ACTIF",
+      },
+    },
+    {
+      uuid: "3",
+      ref: 3,
+      prenom: "Claire",
+      nom: "Meunier",
+      decision: {
+        statut: "RADIE",
+      },
     },
     {
       uuid: "4",
       ref: 4,
       prenom: "Jo",
       nom: "Ker",
+      decision: {
+        statut: "RADIE",
+      },
     },
   ]);
 });
 
 it("usagersCache: remove by ref", () => {
-  usagersCache.setUsagers(initialState as UsagerLight[]);
+  usagersCache.setSearchPageLoadedUsagersData(initialState);
 
-  usagersCache.removeUsager({
-    ref: 2,
-  });
-  expect(usagersCache.getSnapshot().allUsagers).toEqual([
-    {
-      uuid: "1",
-      ref: 1,
-      prenom: "John",
-      nom: "Smith",
-    },
-    {
-      uuid: "3",
+  {
+    usagersCache.removeUsager({
+      ref: 2,
+    });
+    const data = usagersCache.getSnapshot().searchPageLoadedUsagersData;
+    expect(data.usagersRadiesTotalCount).toEqual(INITIAL_TOTAL_COUNT); // ce n'est pas un radié que l'on a supprimé
+    expect(data.usagersNonRadies.concat(data.usagersRadiesFirsts)).toEqual([
+      {
+        uuid: "1",
+        ref: 1,
+        prenom: "John",
+        nom: "Smith",
+        decision: {
+          statut: "ACTIF",
+        },
+      },
+      {
+        uuid: "3",
+        ref: 3,
+        prenom: "Claire",
+        nom: "Meunier",
+        decision: {
+          statut: "RADIE",
+        },
+      },
+    ]);
+  }
+  {
+    usagersCache.removeUsager({
       ref: 3,
-      prenom: "Claire",
-      nom: "Meunier",
-    },
-  ]);
+    });
+    const data = usagersCache.getSnapshot().searchPageLoadedUsagersData;
+    expect(data.usagersRadiesTotalCount).toEqual(INITIAL_TOTAL_COUNT - 1); // c'est un radié que l'on a supprimé
+    expect(data.usagersNonRadies.concat(data.usagersRadiesFirsts)).toEqual([
+      {
+        uuid: "1",
+        ref: 1,
+        prenom: "John",
+        nom: "Smith",
+        decision: {
+          statut: "ACTIF",
+        },
+      },
+    ]);
+  }
 });

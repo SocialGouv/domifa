@@ -8,9 +8,9 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Res,
   UseGuards,
-  Query,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
@@ -21,36 +21,35 @@ import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import {
+  PgRepositoryFindOrder,
   usagerLightRepository,
   usagerRepository,
   userUsagerRepository,
 } from "../../database";
+import { USAGER_LIGHT_ATTRIBUTES } from "../../database/services/usager/USAGER_LIGHT_ATTRIBUTES.const";
 import { userUsagerCreator, userUsagerUpdator } from "../../users/services";
-
 import { appLogger } from "../../util";
-
 import {
+  CerfaDocType,
   ETAPE_DOCUMENTS,
   UsagerLight,
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
-  CerfaDocType,
 } from "../../_common/model";
 import {
   CreateUsagerDto,
   EditUsagerDto,
   EntretienDto,
-  TransfertDto,
   PreferenceContactDto,
   ProcurationDto,
+  TransfertDto,
   UpdatePortailUsagerOptionsDto,
 } from "../dto";
-
 import {
-  UsagersService,
   CerfaService,
-  usagerHistoryStateManager,
   usagerDeletor,
+  usagerHistoryStateManager,
+  UsagersService,
 } from "../services";
 
 @Controller("usagers")
@@ -66,12 +65,48 @@ export class UsagersController {
   @Get()
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   public async findAllByStructure(
+    @Query("chargerTousRadies") chargerTousRadiesString: string,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
-    return usagerLightRepository.findMany(
-      { structureId: user.structureId },
-      {}
-    );
+    const chargerTousRadies = chargerTousRadiesString?.toLowerCase() === "true";
+    const usagersNonRadies = await usagerLightRepository.findManyWithQuery({
+      select: USAGER_LIGHT_ATTRIBUTES,
+      where: `"structureId" = :structureId
+        and "decision"->>'statut' <> :statut`,
+      params: {
+        statut: "RADIE",
+        structureId: user.structureId,
+      },
+    });
+    const orderByLastDecisionDesc: PgRepositoryFindOrder<any> = {};
+    orderByLastDecisionDesc[`"decision"->>'dateFin'`] = "DESC";
+    const usagersRadiesFirsts = await usagerLightRepository.findManyWithQuery({
+      select: USAGER_LIGHT_ATTRIBUTES,
+      where: `"structureId" = :structureId
+        and "decision"->>'statut' = :statut`,
+      params: {
+        statut: "RADIE",
+        structureId: user.structureId,
+      },
+      maxResults: chargerTousRadies ? undefined : 50,
+      order: orderByLastDecisionDesc,
+    });
+
+    const usagersRadiesTotalCount = chargerTousRadies
+      ? usagersRadiesFirsts.length
+      : await usagerLightRepository.count({
+          where: `"structureId" = :structureId
+        and "decision"->>'statut' = :statut`,
+          params: {
+            statut: "RADIE",
+            structureId: user.structureId,
+          },
+        });
+    return {
+      usagersNonRadies,
+      usagersRadiesFirsts,
+      usagersRadiesTotalCount,
+    };
   }
 
   /* FORMULAIRE INFOS */
