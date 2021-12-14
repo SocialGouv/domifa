@@ -5,6 +5,13 @@
     "content": [
       {
         "type": "new",
+        "categorie": "Les administrateurs peuvent désormais personnaliser des courriers au sein de la structure :)",
+        "message": [
+          "Une nouvelle section “Documents” est accesible vous permettant de personnaliser votre courrier de radiation, votre attestation postale ou bien d’ajouter d’autres courriers. Lisez bien le guide explicatif !"
+        ]
+      },
+      {
+        "type": "new",
         "categorie": "Une nouvelle notification SMS envoyée 2 mois avant l’échéance d’une domiciliaiton !",
         "message": [
           "Si vous activez les notifications SMS au sein de votre structure puis sur les fiches des domiciliés, ceux-ci recevront à la fois des notifications de réception de courrier mais aussi un rappel d’échéance de domiciliation."
