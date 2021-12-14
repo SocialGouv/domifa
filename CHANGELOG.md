@@ -1,3 +1,14 @@
+## [2.49.1](https://github.com/SocialGouv/domifa/compare/v2.49.0...v2.49.1) (2021-12-13)
+
+
+### Bug Fixes
+
+* ajout de la doc pour les docs personnalisés ([27d9f21](https://github.com/SocialGouv/domifa/commit/27d9f218313044ff4aaf01f9cc248c8119e98b72))
+* ajout du label uniquement pour les docs ([0e7ee2f](https://github.com/SocialGouv/domifa/commit/0e7ee2f59e0c5347ca86b44d640bc0c0affb537a))
+* correction de l'affichage des docs ([93d5fb2](https://github.com/SocialGouv/domifa/commit/93d5fb23d31810e611851d11a0a81b5788ac617b))
+* correction du formulaire d'upload ([2cf6e21](https://github.com/SocialGouv/domifa/commit/2cf6e21394247fe242bdf1e8d162621531c8c18f))
+* inversion de colonnes ([c5d6307](https://github.com/SocialGouv/domifa/commit/c5d6307bc3cd967fdaa479f58b75f9514d1e5f8f))
+
 # [2.49.0](https://github.com/SocialGouv/domifa/compare/v2.48.0...v2.49.0) (2021-12-13)
 
 
