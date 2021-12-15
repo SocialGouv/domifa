@@ -32,6 +32,6 @@ export type MessageSms = AppEntity & {
   statusUpdates?: MessageSmsUpdate[];
 
   //
-  errorCount?: number;
+  errorCount: number;
   errorMessage?: string;
 };

@@ -1,14 +1,13 @@
 import { Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
-
-import { domifaConfig } from "../../config";
+import { domifaConfig } from "../../../config";
 import {
-  monitoringBatchProcessSimpleCountRunner,
   MonitoringBatchProcessTrigger,
-} from "../../database";
-import { messageSmsRepository } from "../../database/services/message-sms";
-import { appLogger } from "../../util";
-import { MessageSmsSenderService } from "./message-sms-sender.service";
+  monitoringBatchProcessSimpleCountRunner,
+} from "../../../database";
+import { messageSmsRepository } from "../../../database/services/message-sms";
+import { appLogger } from "../../../util";
+import { MessageSmsSenderService } from "../message-sms-sender.service";
 
 @Injectable()
 export class CronSmsInteractionSenderService {
@@ -42,9 +41,12 @@ export class CronSmsInteractionSenderService {
             monitorSuccess();
           } catch (err) {
             monitorError(err as Error);
-            appLogger.warn(`[CronSms] ERROR in sending SMS : ${err?.message}`, {
-              sentryBreadcrumb: true,
-            });
+            appLogger.warn(
+              `[CronSms] ERROR in sending SMS : ${JSON.stringify(err)}`,
+              {
+                sentryBreadcrumb: true,
+              }
+            );
           }
         }
       }

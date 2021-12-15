@@ -7,9 +7,11 @@ import {
   CronMailUserGuideSenderService,
 } from "./mails/services";
 import { messageEmailConsummerTrigger } from "./mails/services/_core";
-import { CronSmsInteractionSenderService } from "./sms/services/cron-sms-interaction-sender.service";
 import { CronSmsFetchEndDomService } from "./sms/services/cron-sms-fetch-end-dom.service";
-import { CronSmsEndDomSenderService } from "./sms/services/cron-sms-end-dom-sender.service";
+import {
+  CronSmsInteractionSenderService,
+  CronSmsEndDomSenderService,
+} from "./sms/services/senders";
 import { appLogger } from "./util";
 
 (async () => {
@@ -67,6 +69,7 @@ async function runCronJobs(app) {
   if (domifaConfig().cron.emailConsumer.autoRunOnStartup) {
     await messageEmailConsummerTrigger.triggerNextSending("startup");
   }
+
   if (domifaConfig().cron.monitoringCleaner.autoRunOnStartup) {
     const monitoringCleaner: MonitoringCleaner = app.get(MonitoringCleaner);
     await monitoringCleaner.purgeObsoleteData("startup");
