@@ -77,7 +77,10 @@ export class ProfilStructureDocsComponent implements OnInit {
     this.documentService.getAllStructureDocs().subscribe({
       next: (structureDocs: StructureDoc[]) => {
         this.customStructureDocs = structureDocs.filter(
-          (structureDoc) => structureDoc.custom
+          (structureDoc) =>
+            structureDoc.custom &&
+            structureDoc.customDocType !== "attestation_postale" &&
+            structureDoc.customDocType !== "courrier_radiation"
         );
       },
     });
