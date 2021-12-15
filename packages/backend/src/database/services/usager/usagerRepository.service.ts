@@ -1,3 +1,4 @@
+import { structureCommonRepository } from "./../structure/structureCommonRepository.service";
 import { UsagerLight } from "./../../../_common/model/usager/UsagerLight.type";
 import moment = require("moment");
 import { EntityManager, In } from "typeorm";
@@ -20,7 +21,6 @@ export const usagerRepository = {
   countDocuments,
   countUsagersByMonth,
   countUsagers,
-  searchUsagersByEndDom,
 };
 
 function countAyantsDroits(structuresId?: number[]): Promise<number> {
@@ -102,16 +102,4 @@ function _advancedCount({
     query.params = { ids: structuresId };
   }
   return usagerCoreRepository.aggregateAsNumber(query);
-}
-
-async function searchUsagersByEndDom() {
-  const query = `select s.nom as "nomStructure", s.sms->>'senderDetails' as "senderDetails", u.*
-                 from usager u join "structure" s on "structureId" = s.id
-                 where decision->>'statut' = 'VALIDE'
-                 and (s.sms->>'enabledByDomifa')::boolean is true
-                 and (s.sms->>'enabledByStructure')::boolean is true
-                 and (u.preference->>'phone')::boolean is true
-                 and to_char((decision->>'dateFin')::timestamptz, 'YYYY-MM-DD') = to_char(current_date + interval '1 month' * 2, 'YYYY-MM-DD')`;
-
-  return appTypeormManager.getRepository(UsagerTable).query(query);
 }

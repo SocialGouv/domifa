@@ -100,9 +100,8 @@ export class MessageSmsService {
 
     if (smsOnHold) {
       return messageSmsRepository.deleteByCriteria({ uuid: smsOnHold.uuid });
-    } else if (usager.preference?.phone === true) {
-      appLogger.warn(`SMS Service: Interaction Out not found`);
     }
+    return;
   }
 
   // Suppression d'un SMS si l'interaction a été supprimée
@@ -177,6 +176,7 @@ export class MessageSmsService {
         smsId: interaction.type,
         phoneNumber: usager.preference.phoneNumber,
         scheduledDate,
+        errorCount: 0,
         interactionMetas: {
           nbCourrier: interaction.nbCourrier,
           date: new Date(),
