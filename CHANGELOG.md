@@ -1,3 +1,11 @@
+## [2.53.1](https://github.com/SocialGouv/domifa/compare/v2.53.0...v2.53.1) (2021-12-16)
+
+
+### Bug Fixes
+
+* **docs:** correction de l'affichage des documents personnalisés ([e0497fa](https://github.com/SocialGouv/domifa/commit/e0497fa1192d615136283527068accd33a653956))
+* **sms:** Correction de l'enregistrement des SMS ([8c4aea6](https://github.com/SocialGouv/domifa/commit/8c4aea6ca858b3537b39a5903b1d31a0d48daa48))
+
 # [2.53.0](https://github.com/SocialGouv/domifa/compare/v2.52.1...v2.53.0) (2021-12-14)
 
 
