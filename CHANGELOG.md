@@ -1,3 +1,10 @@
+## [2.53.2](https://github.com/SocialGouv/domifa/compare/v2.53.1...v2.53.2) (2021-12-17)
+
+
+### Bug Fixes
+
+* suppression du mail de toub des logs ([797fd0c](https://github.com/SocialGouv/domifa/commit/797fd0c5f736f2b867aa94663cb2a4065aa97f1d))
+
 ## [2.53.1](https://github.com/SocialGouv/domifa/compare/v2.53.0...v2.53.1) (2021-12-16)
 
 
