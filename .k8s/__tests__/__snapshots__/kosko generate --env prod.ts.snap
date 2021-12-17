@@ -91,6 +91,8 @@ spec:
             - configMapRef:
                 name: backend-configmap
           env:
+            - name: TZ
+              value: Europe/Paris
             - name: POSTGRES_HOST
               value: $(PGHOST)
             - name: POSTGRES_USERNAME
