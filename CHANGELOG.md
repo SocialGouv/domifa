@@ -1,3 +1,10 @@
+## [2.53.3](https://github.com/SocialGouv/domifa/compare/v2.53.2...v2.53.3) (2021-12-20)
+
+
+### Bug Fixes
+
+* bug IE white screen ([46feb29](https://github.com/SocialGouv/domifa/commit/46feb292e771050729de2c9bb861260fc535ca2f))
+
 ## [2.53.2](https://github.com/SocialGouv/domifa/compare/v2.53.1...v2.53.2) (2021-12-17)
 
 
