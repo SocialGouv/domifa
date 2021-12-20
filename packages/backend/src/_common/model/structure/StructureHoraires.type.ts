@@ -2,33 +2,33 @@ import { DayOpeningHours } from ".";
 import { AppEntity } from "..";
 
 export type StructureHoraires = AppEntity & {
-  description: { default: null; type: String };
+  description: { default: null; type: string };
   friday: {
-    open: Boolean;
+    open: boolean;
     openingHours: [DayOpeningHours];
   };
   monday: {
-    open: Boolean;
+    open: boolean;
     openingHours: [DayOpeningHours];
   };
   saturday: {
-    open: Boolean;
+    open: boolean;
     openingHours: [DayOpeningHours];
   };
   sunday: {
-    open: Boolean;
+    open: boolean;
     openingHours: [DayOpeningHours];
   };
   thursday: {
-    open: Boolean;
+    open: boolean;
     openingHours: [DayOpeningHours];
   };
   tuesday: {
-    open: Boolean;
+    open: boolean;
     openingHours: [DayOpeningHours];
   };
   wednesday: {
-    open: Boolean;
+    open: boolean;
     openingHours: [DayOpeningHours];
   };
 };

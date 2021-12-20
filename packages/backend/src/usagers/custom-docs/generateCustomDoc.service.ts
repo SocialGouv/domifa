@@ -3,10 +3,10 @@ import * as PizZip from "pizzip";
 import { appLogger } from "../../util";
 import { StructureCustomDocTags } from "../../_common/model/structure-doc/StructureCustomDocTags.type";
 
-// tslint:disable-next-line: no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const docxTemplater = require("docxtemplater");
 
-// tslint:disable-next-line: no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const InspectModule = require("docxtemplater/js/inspect-module");
 
 export function generateCustomDoc(

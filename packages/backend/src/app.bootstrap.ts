@@ -88,7 +88,7 @@ export async function bootstrapApplication() {
 
     return { app, postgresTypeormConnection };
   } catch (err) {
-    // tslint:disable-next-line: no-console
+    // eslint:disable-next-line: no-console
     console.error("[bootstrapApplication] Error bootstraping application", err);
     appLogger.error("[bootstrapApplication] Error bootstraping application", {
       error: err as Error,

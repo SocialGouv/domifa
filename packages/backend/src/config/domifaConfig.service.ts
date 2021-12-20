@@ -36,7 +36,7 @@ export function loadEnvWithPreset({
     domifaEnv.DOMIFA_ENV_PRESET ?? process.env.DOMIFA_ENV_PRESET;
 
   if (!presetEnvFileName) {
-    // tslint:disable-next-line: no-console
+    // eslint:disable-next-line: no-console
     console.warn(`[configService] DOMIFA_ENV_PRESET not found`);
     console.warn(`[configService] envFileName:`, envFileName);
     console.warn(`[configService] domifaEnv:`, domifaEnv);
@@ -132,9 +132,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
     healthz: {
       frontendUrlFromBackend,
     },
-    security: parseSecurityConfig(x, {
-      frontendUrl,
-    }),
+    security: parseSecurityConfig(x),
     postgres: {
       host: configParser.parseString(x, "POSTGRES_HOST", {
         defaultValue: "postgres",
@@ -367,7 +365,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
     printEnv(x, configWithHiddenSensitiveData);
   }
   if (config.dev.printConfig) {
-    // tslint:disable-next-line: no-console
+    // eslint:disable-next-line: no-console
     console.log(
       "[domifaConfig] config loaded:",
       JSON.stringify(configWithHiddenSensitiveData, undefined, 2)
@@ -406,14 +404,7 @@ function hideSensitiveData(x: DomifaConfig): DomifaConfig {
     },
   };
 }
-function parseSecurityConfig(
-  x: Partial<DomifaEnv>,
-  {
-    frontendUrl,
-  }: {
-    frontendUrl: string;
-  }
-): DomifaConfigSecurity {
+function parseSecurityConfig(x: Partial<DomifaEnv>): DomifaConfigSecurity {
   return {
     files: {
       iv: configParser.parseString(x, "DOMIFA_SECURITY_FILES_IV", {
@@ -492,6 +483,6 @@ function printEnv(x: Partial<DomifaEnv>, config: DomifaConfig) {
     return acc;
   }, {});
 
-  // tslint:disable-next-line: no-console
+  // eslint:disable-next-line: no-console
   console.log("[domifaConfig] env:", JSON.stringify(envToLog, undefined, 2));
 }

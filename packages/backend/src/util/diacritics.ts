@@ -384,10 +384,10 @@ const diacriticsList: {
 ];
 
 const diacriticsMap: any = {};
-// tslint:disable-next-line: prefer-for-of
+// eslint:disable-next-line: prefer-for-of
 for (let i = 0; i < diacriticsList.length; i++) {
   const letters: string[] = diacriticsList[i].letters.split("");
-  // tslint:disable-next-line: prefer-for-of
+  // eslint:disable-next-line: prefer-for-of
   for (let j = 0; j < letters.length; j++) {
     diacriticsMap[letters[j]] = diacriticsList[i].base;
   }

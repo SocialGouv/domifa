@@ -23,7 +23,7 @@ async function createUserWithTmpPassword(
   user: UserUsagerTable;
   userSecurity: UserUsagerSecurity;
 }> {
-  let login: string =
+  const login: string =
     await userUsagerLoginPasswordGenerator.generateUniqueLogin();
 
   const { salt, temporaryPassword, passwordHash } =

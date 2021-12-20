@@ -45,7 +45,7 @@ export class CronMailImportGuideSenderService {
               value: true,
             });
             monitorSuccess();
-          } catch (err) {
+          } catch (err: any) {
             const totalErrors = monitorError(err);
             if (totalErrors > 10) {
               appLogger.warn(

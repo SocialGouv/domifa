@@ -29,6 +29,7 @@
       "**/@ngrx/*/**",
       "**/@nrwl/*",
       "**/@nrwl/*/**",
+      "**/@socialgouv/*/**",
       "**/eslint*/*/**",
       "**/@angular-builders/*",
       "**/@angular-builders/*/**",

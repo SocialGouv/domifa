@@ -10,8 +10,7 @@ import {
 } from "../../_common/model";
 import { getUsagerRef, generateCerfaDatas } from "../cerfa";
 
-// tslint:disable-next-line: no-var-requires
-const pdftk = require("node-pdftk");
+import pdftk = require("node-pdftk");
 
 @Injectable()
 export class CerfaService {

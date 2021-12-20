@@ -20,27 +20,12 @@ describe("configParser", () => {
         }
       )
     ).toEqual("localhost");
-    // expect(
-    //   configParser.parseString(
-    //     { POSTGRES_HOST: "localhost", POSTGRES_PORT: "5432" },
-    //     "POSTGRES_HOST",
-    //     {
-    //       validValues: ["some-host", "other-host"],
-    //     }
-    //   )
-    // ).toThrowError();
 
     expect(
       configParser.parseString({ POSTGRES_PORT: "5432" }, "POSTGRES_HOST", {
         required: false,
       })
     ).toBeUndefined();
-
-    // expect(
-    //   configParser.parseString({ POSTGRES_PORT: "5432" }, "POSTGRES_HOST", {
-    //     required: true,
-    //   })
-    // ).toThrowError();
   });
   it("configParser.get default value", () => {
     expect(
