@@ -1,3 +1,10 @@
+## [2.53.4](https://github.com/SocialGouv/domifa/compare/v2.53.3...v2.53.4) (2021-12-20)
+
+
+### Bug Fixes
+
+* correction du bug sur les interactions non mises à jour ([dd9a992](https://github.com/SocialGouv/domifa/commit/dd9a99279ee0e0ed767d4561ebeefdfa43148195))
+
 ## [2.53.3](https://github.com/SocialGouv/domifa/compare/v2.53.2...v2.53.3) (2021-12-20)
 
 
