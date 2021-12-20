@@ -25,7 +25,7 @@ async function generateExcelDocument(
       }ms`
     );
     return workbook;
-  } catch (err) {
+  } catch (err: any) {
     appLogger.warn(
       `[structureStatsExporter] ERROR - Report NOT created: ${err.message}`,
       {

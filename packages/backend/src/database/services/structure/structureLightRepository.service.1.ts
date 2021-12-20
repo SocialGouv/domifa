@@ -1,4 +1,3 @@
-import moment = require("moment");
 import {
   PortailUsagerStructure,
   STRUCTURE_LIGHT_ATTRIBUTES,

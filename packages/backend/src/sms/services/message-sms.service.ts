@@ -9,7 +9,7 @@ import {
   INDEX_STATUT_DETAILLE,
 } from "./../../_common/model/message-sms/MESSAGE_SMS_SUIVI_INDEX.const";
 import { MessageSmsSuivi } from "./../../_common/model/message-sms/MessageSmsSuivi.type";
-import moment = require("moment");
+
 import { Injectable } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
 
@@ -138,7 +138,7 @@ export class MessageSmsService {
     structure: Pick<Structure, "id" | "sms">,
     interaction: InteractionDto
   ) {
-    let scheduledDate = generateScheduleSendDate(new Date());
+    const scheduledDate = generateScheduleSendDate(new Date());
 
     const smsReady: MessageSms = await messageSmsRepository.findSmsOnHold({
       usagerRef: usager.ref,

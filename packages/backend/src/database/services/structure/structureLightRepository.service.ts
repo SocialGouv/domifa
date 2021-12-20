@@ -1,4 +1,3 @@
-import moment = require("moment");
 import {
   StructureLight,
   STRUCTURE_LIGHT_ATTRIBUTES,

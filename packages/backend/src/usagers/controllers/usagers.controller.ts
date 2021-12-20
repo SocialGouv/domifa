@@ -366,7 +366,7 @@ export class UsagersController {
         { options: usager.options }
       );
       if (usager.options.portailUsagerEnabled) {
-        let userUsager = await userUsagerRepository.findOne({
+        const userUsager = await userUsagerRepository.findOne({
           usagerUUID: usager.uuid,
         });
         if (!userUsager) {

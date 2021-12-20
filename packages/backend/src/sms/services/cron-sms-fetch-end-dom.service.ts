@@ -32,7 +32,7 @@ export class CronSmsFetchEndDomService {
       `[SMS-REMINDER-GEN] ${structuresWithSms.length} structures avec SMS actif`
     );
 
-    for (let structure of structuresWithSms) {
+    for (const structure of structuresWithSms) {
       const usagersWithSms = await usagerLightRepository.findManyWithQuery({
         select: ["structureId", "ref", "preference"],
         where: `decision->>'statut' = 'VALIDE'
