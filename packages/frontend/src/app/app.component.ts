@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
   @ViewChild("versionModal", { static: true })
   public versionModal!: TemplateRef<any>;
 
-  public isIEOrEdge: boolean;
+  public isIE: boolean;
 
   constructor(
     private healthCheckService: HealthCheckService,
@@ -72,9 +72,10 @@ export class AppComponent implements OnInit {
     };
 
     this.me = null;
-    this.isIEOrEdge = /msie\s|trident\/|Edge\//i.test(
-      window.navigator.userAgent
-    );
+
+    const msie = window.navigator.userAgent.indexOf("MSIE ");
+    const trident = window.navigator.userAgent.indexOf("Trident/");
+    this.isIE = msie > -1 || trident > -1;
   }
 
   public refresh(): void {
