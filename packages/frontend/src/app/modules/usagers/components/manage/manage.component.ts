@@ -60,8 +60,8 @@ const AUTO_REFRESH_PERIOD = 3600000; // 1h
   animations: [fadeInOutSlow, fadeInOut],
 
   selector: "app-manage-usagers",
-  styleUrls: ["./manage.css"],
-  templateUrl: "./manage.html",
+  styleUrls: ["./manage.component.css"],
+  templateUrl: "./manage.component.html",
 })
 export class ManageUsagersComponent implements OnInit, OnDestroy {
   public searching: boolean;
@@ -301,15 +301,16 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   }
 
   public updateUsager(usager: UsagerFormModel): void {
-    // rien à faire en théorie, car le cache a été mis à jour par interaction.service
-    //     this.allUsagers$.next(
-    //   this.allUsagers$.value.map((x) => {
-    //     if (x.ref === usager.ref) {
-    //       return usager;
-    //     }
-    //     return x;
-    //   })
-    // );
+    this.searchPageLoadedUsagersData$.next({
+      ...this.searchPageLoadedUsagersData$.value,
+      usagersNonRadies:
+        this.searchPageLoadedUsagersData$.value.usagersNonRadies.map((x) => {
+          if (x.ref === usager.ref) {
+            return usager;
+          }
+          return x;
+        }),
+    });
   }
 
   public ngOnDestroy(): void {
@@ -512,7 +513,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getFilters() {
+  private getFilters(): null | Partial<UsagersFilterCriteria> {
     const filters = localStorage.getItem("filters");
     return filters === null ? {} : JSON.parse(filters);
   }
