@@ -283,13 +283,6 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/animations@~13.0.2":
-  version "13.0.3"
-  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-13.0.3.tgz#3d93f8ff2afe628aa9f6e27f992a97403ed8b6d2"
-  integrity sha512-wGhUzbf8tOHwNx/8JK3RIUisunayENj1j7aSlm8yrBoawvNdgCQVESyZdtfHxHuScRSpzxSIWdMggZ4G4+DuFg==
-  dependencies:
-    tslib "^2.3.0"
-
 "@angular/cdk@^13.0.2":
   version "13.1.1"
   resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-13.1.1.tgz#bfc1050df357a26bda03410d821ae05826dcf88e"
@@ -331,34 +324,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/common@~13.0.2":
-  version "13.0.3"
-  resolved "https://registry.yarnpkg.com/@angular/common/-/common-13.0.3.tgz#b76b82433b765cd61c2b0fd51798eeb5c8b18640"
-  integrity sha512-xxQIQD5rWWHafKRPCgvkWvy53b+QkbJ9yAf3qYTp0gXZJMg/Cx3Ylc8LA2o1kyVJxCI/amXf5k4rr1S9yU7zxw==
-  dependencies:
-    tslib "^2.3.0"
-
 "@angular/compiler-cli@^13.0.2":
   version "13.1.1"
   resolved "https://registry.yarnpkg.com/@angular/compiler-cli/-/compiler-cli-13.1.1.tgz#b01114eb6256085f086e95bdfe832f5c5f447730"
   integrity sha512-ycdXN2urBZepbXn2xx1oxF1i6g0Dq/Rb8ySQeELdL9qr6hiZF9fkvIwd91d8uhFG2PvoM4O8/U/3x4yA2bXzew==
-  dependencies:
-    "@babel/core" "^7.8.6"
-    canonical-path "1.0.0"
-    chokidar "^3.0.0"
-    convert-source-map "^1.5.1"
-    dependency-graph "^0.11.0"
-    magic-string "^0.25.0"
-    reflect-metadata "^0.1.2"
-    semver "^7.0.0"
-    sourcemap-codec "^1.4.8"
-    tslib "^2.3.0"
-    yargs "^17.2.1"
-
-"@angular/compiler-cli@~13.0.2":
-  version "13.0.3"
-  resolved "https://registry.yarnpkg.com/@angular/compiler-cli/-/compiler-cli-13.0.3.tgz#a1f32058741a38db3c9963aee6d0849f206e3d1a"
-  integrity sha512-j3uCk46BwyuRmYLwB39LoUEjARMdhGSI6kSDsQWPop+iHGJkP4ThUUQCrCGClqhXdyGdhkTrq8jqZ/GfXmUkPA==
   dependencies:
     "@babel/core" "^7.8.6"
     canonical-path "1.0.0"
@@ -379,13 +348,6 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/compiler@~13.0.2":
-  version "13.0.3"
-  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-13.0.3.tgz#63f0cdba7158f96aeca6fd11ada17fec890bfdef"
-  integrity sha512-WINfdQk6WojEhTIcNOkvhQu1yDRtq3FUx2saCZyGwS3MbzkfWUr4/x6VKJ5sAYJYnlaf9Goypau4/5lPp4+0tA==
-  dependencies:
-    tslib "^2.3.0"
-
 "@angular/core@^13.0.2":
   version "13.1.1"
   resolved "https://registry.yarnpkg.com/@angular/core/-/core-13.1.1.tgz#bc01b1d7e1d21749a595b0ae8cab5b8f51fb7dbc"
@@ -393,24 +355,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/core@~13.0.2":
-  version "13.0.3"
-  resolved "https://registry.yarnpkg.com/@angular/core/-/core-13.0.3.tgz#6f789e666559a20cad3bc96251967e275b6ff15d"
-  integrity sha512-w8FngZBPrLw9kHftYy824C/wSBtLKCWvGU04qI6V9BCpxedf7cyOIhOzaL+4Pz/rwgvo+0Qn2uM1ssZ2+JUdvQ==
-  dependencies:
-    tslib "^2.3.0"
-
 "@angular/forms@^13.0.2":
   version "13.1.1"
   resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-13.1.1.tgz#d298ea9324929521c5fb7d4f8c0892bdfbe5e4b6"
   integrity sha512-wtYzRHPv4mf1Vsi4GEal5qcI2wjqUW+lu8Fsd2Aoe8NqkwtY3fq+iWEP/4pnvmH0RlC+3QbNNV/01D5UKolvgg==
-  dependencies:
-    tslib "^2.3.0"
-
-"@angular/forms@~13.0.2":
-  version "13.0.3"
-  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-13.0.3.tgz#10df7cbf8a074c59aaf9616fe7f06728929efbfb"
-  integrity sha512-Sxpc9kiCYi59GzKkpvpqgUejXq7P1dt3l1C5mnV3WBdNEpVBDRD63YLlNTya+w4uSMr+WEbtCys41QO8MXNIHQ==
   dependencies:
     tslib "^2.3.0"
 
@@ -435,13 +383,6 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/platform-browser-dynamic@~13.0.2":
-  version "13.0.3"
-  resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-13.0.3.tgz#b0aae69b1095c11186e0571bb78b5bafd27437ec"
-  integrity sha512-+s2o7M/WzRaytjDt6LPqZQ2mmVFpOQBbfiXmq4OwnETc2d6dIpWJzfs00MCAVhu1tR1btzsA3Qa6lA1YqULHrg==
-  dependencies:
-    tslib "^2.3.0"
-
 "@angular/platform-browser@^13.0.2":
   version "13.1.1"
   resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-13.1.1.tgz#d9687beec9c9af63097b1bcb91920bda6d1ea0b2"
@@ -449,24 +390,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/platform-browser@~13.0.2":
-  version "13.0.3"
-  resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-13.0.3.tgz#3de0dea2793851493be868c7e7081f084517a6ce"
-  integrity sha512-XCeCnsD997Erl4XGNFHIqC9cTkO9uSHdaoDvLuNMsF2kr5V1GOeFkh71CYNmCsWrTj4PFqx9q+ziGgvxM4eeOQ==
-  dependencies:
-    tslib "^2.3.0"
-
 "@angular/router@^13.0.2":
   version "13.1.1"
   resolved "https://registry.yarnpkg.com/@angular/router/-/router-13.1.1.tgz#656919d3c186f46310a0825d62bbc712c20890d7"
   integrity sha512-rlz5BBgNX+G2vVu2Gb5avx3LL08i7R/xZO7zPwh0HhXz/Vp8XFlWwaqAGb6Hgat772K2uCxF1/JBLQCUBY2MNQ==
-  dependencies:
-    tslib "^2.3.0"
-
-"@angular/router@~13.0.2":
-  version "13.0.3"
-  resolved "https://registry.yarnpkg.com/@angular/router/-/router-13.0.3.tgz#776781f844492bcb29c3c3c19d3eed3801353771"
-  integrity sha512-NNDrSK32mpkuQiY6CzAjRBvWSiLM+61dC3EOfBUDIyPzIp318fhqZ5ohxY42Fvp07KGnRv5tcqb/1QE8Ukwbyg==
   dependencies:
     tslib "^2.3.0"
 
@@ -1558,7 +1485,7 @@
     lodash.isundefined "^3.0.1"
     lodash.uniq "^4.5.0"
 
-"@fortawesome/angular-fontawesome@0.9", "@fortawesome/angular-fontawesome@0.9.0":
+"@fortawesome/angular-fontawesome@0.9.0":
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/@fortawesome/angular-fontawesome/-/angular-fontawesome-0.9.0.tgz#0fe6219450aae46b3237b8172c281b420d95a6c0"
   integrity sha512-pJNJqxRTJChkUtywbqRuJRpmK/WNwqFqeN/GMmJmy3gHeCnWQ4SG0BwPJqaWqhi4gqII5dADijGts6wqeusxeQ==
@@ -1570,7 +1497,7 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.36.tgz#b44e52db3b6b20523e0c57ef8c42d315532cb903"
   integrity sha512-a/7BiSgobHAgBWeN7N0w+lAhInrGxksn13uK7231n2m8EDPE3BMCl9NZLTGrj9ZXfCmC6LM0QLqXidIizVQ6yg==
 
-"@fortawesome/fontawesome-svg-core@^1.2.35", "@fortawesome/fontawesome-svg-core@^1.2.36":
+"@fortawesome/fontawesome-svg-core@^1.2.35":
   version "1.2.36"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-1.2.36.tgz#4f2ea6f778298e0c47c6524ce2e7fd58eb6930e3"
   integrity sha512-YUcsLQKYb6DmaJjIHdDWpBIGCcyE/W+p/LMGvjQem55Mm2XWVAP5kWTMKWLv9lwpCVjpLxPyOMOyUocP1GxrtA==
@@ -1584,7 +1511,7 @@
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.2.36"
 
-"@fortawesome/free-solid-svg-icons@^5.15.3", "@fortawesome/free-solid-svg-icons@^5.15.4":
+"@fortawesome/free-solid-svg-icons@^5.15.3":
   version "5.15.4"
   resolved "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-5.15.4.tgz#2a68f3fc3ddda12e52645654142b9e4e8fbb6cc5"
   integrity sha512-JLmQfz6tdtwxoihXLg6lT78BorrFyCf59SAwBM6qV/0zXyVeDygJVb3fk+j5Qat+Yvcxp1buLTY5iDh1ZSAQ8w==
