@@ -39,8 +39,8 @@ describe("UsagersImportCiviliteSchema invalid schema", () => {
         { context, abortEarly: false }
       );
       fail("UsagersImportUsagerSchema.validate should have thrown an error");
-    } catch (err) {
-      const errors = err.inner ?? [];
+    } catch (err: any) {
+      const errors = err?.inner ?? [];
       const errorsPaths = errors.map((x) => x.path);
       expect(errorsPaths).toEqual([
         "civilite",
@@ -55,16 +55,12 @@ describe("UsagersImportCiviliteSchema invalid schema", () => {
         "datePremiereDom",
         "dateDernierPassage",
         "orientation",
-        "orientation",
         "domiciliationExistante",
-        "domiciliationExistante",
-        "revenus",
         "revenus",
         "compositionMenage",
         "situationResidentielle",
         "causeInstabilite",
         "raisonDemande",
-        "accompagnement",
         "accompagnement",
       ]);
     }

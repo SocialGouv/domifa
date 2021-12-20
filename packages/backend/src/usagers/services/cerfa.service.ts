@@ -14,8 +14,6 @@ import pdftk = require("node-pdftk");
 
 @Injectable()
 export class CerfaService {
-  constructor() {}
-
   public async attestation(
     usager: Usager,
     user: UserStructureAuthenticated,
