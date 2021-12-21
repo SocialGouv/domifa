@@ -2,18 +2,20 @@ import { interactionsTypeManager } from ".";
 import {
   interactionRepository,
   InteractionsTable,
+  typeOrmSearch,
   usagerLightRepository,
 } from "../../database";
 import {
+  Interactions,
   Usager,
   UsagerLight,
   UserStructureAuthenticated,
 } from "../../_common/model";
-import { Interactions } from "../../_common/model/interaction";
-import { InteractionDto } from "../interactions.dto";
+import { InteractionDto } from "../dto";
 
 export const interactionsCreator = {
   createInteraction,
+  updateUsagerAfterCreation,
 };
 
 async function createInteraction({
@@ -38,15 +40,25 @@ async function createInteraction({
   });
 
   const newInteraction = buildedInteraction.newInteraction;
-  const lastInteraction = buildedInteraction.usager.lastInteraction;
 
-  const news = new InteractionsTable(newInteraction);
-  const interactionCreated = await interactionRepository.save(news);
-
-  const usagerUpdated = await usagerLightRepository.updateOne(
-    { uuid: usager.uuid },
-    { lastInteraction }
+  const interactionCreated = await interactionRepository.save(
+    new InteractionsTable(newInteraction)
   );
+
+  // S'il s'agit d'une distribution, on met à jour toutes les interactions entrantes correspondant
+  if (
+    interactionsTypeManager.getDirection({
+      type: interaction.type,
+    }) === "out"
+  ) {
+    await updateInteractionAfterDistribution(interactionCreated);
+  }
+
+  const usagerUpdated = await updateUsagerAfterCreation({
+    usager: buildedInteraction.usager,
+    user,
+  });
+
   return { usager: usagerUpdated, interaction: interactionCreated };
 }
 
@@ -62,7 +74,7 @@ async function buildNewInteraction({
     "id" | "structureId" | "nom" | "prenom"
   >;
 }): Promise<{
-  usager: Pick<Usager, "lastInteraction">;
+  usager: Pick<Usager, "ref" | "uuid" | "lastInteraction" | "options">;
   newInteraction: Interactions;
 }> {
   interaction.dateInteraction = new Date();
@@ -72,21 +84,15 @@ async function buildNewInteraction({
   });
 
   if (direction === "in") {
-    const count =
-      typeof interaction.nbCourrier !== "undefined"
-        ? interaction.nbCourrier
-        : 1;
-
-    usager.lastInteraction[interaction.type] =
-      usager.lastInteraction[interaction.type] + count;
-    usager.lastInteraction.enAttente = true;
+    if (typeof interaction.nbCourrier === "undefined") {
+      interaction.nbCourrier = 1;
+    }
   } else if (direction === "out") {
     const oppositeType = interactionsTypeManager.getOppositeDirectionalType({
       type: interaction.type,
     });
 
     // On ajoute le dernier contenu
-
     const lastInteraction =
       await interactionRepository.findLastInteractionInWithContent({
         user,
@@ -118,20 +124,19 @@ async function buildNewInteraction({
       }
     }
 
-    interaction.nbCourrier = usager.lastInteraction[oppositeType] || 1;
+    const pendingInteractionsCount =
+      await interactionRepository.countPendingInteraction({
+        structureId: user.structureId,
+        usagerRef: usager.ref,
+        interactionType: oppositeType,
+      });
 
-    usager.lastInteraction[oppositeType] = 0;
-
-    usager.lastInteraction.enAttente =
-      usager.lastInteraction.courrierIn > 0 ||
-      usager.lastInteraction.colisIn > 0 ||
-      usager.lastInteraction.recommandeIn > 0;
+    interaction.nbCourrier = pendingInteractionsCount;
   } else {
+    if (interaction.type === "visite" || interaction.type === "appel") {
+      usager.lastInteraction.dateInteraction = new Date();
+    }
     interaction.nbCourrier = 0;
-  }
-
-  if (interaction.type === "visite" || interaction.type === "appel") {
-    usager.lastInteraction.dateInteraction = new Date();
   }
 
   delete interaction.procuration;
@@ -148,4 +153,55 @@ async function buildNewInteraction({
   };
 
   return { usager, newInteraction };
+}
+
+async function updateInteractionAfterDistribution(interaction: Interactions) {
+  const oppositeType = interactionsTypeManager.getOppositeDirectionalType({
+    type: interaction.type,
+  });
+
+  // Liste des interactions entrantes à mettre à jour
+  const updatedInteractions = await interactionRepository.updateMany(
+    typeOrmSearch<InteractionsTable>({
+      usagerRef: interaction.usagerRef,
+      structureId: interaction.structureId,
+      type: oppositeType,
+      interactionOutUUID: null,
+      event: "create",
+    }),
+    { interactionOutUUID: interaction.uuid }
+  );
+
+  return updatedInteractions;
+}
+
+async function updateUsagerAfterCreation({
+  usager,
+  user,
+}: {
+  usager: Pick<Usager, "ref" | "uuid" | "lastInteraction">;
+  user: Pick<
+    UserStructureAuthenticated,
+    "id" | "structureId" | "nom" | "prenom"
+  >;
+}): Promise<UsagerLight> {
+  const lastInteractionCount =
+    await interactionRepository.countPendingInteractionsIn({
+      structureId: user.structureId,
+      usagerRef: usager.ref,
+    });
+
+  usager.lastInteraction.courrierIn = lastInteractionCount.courrierIn;
+  usager.lastInteraction.colisIn = lastInteractionCount.colisIn;
+  usager.lastInteraction.recommandeIn = lastInteractionCount.recommandeIn;
+
+  usager.lastInteraction.enAttente =
+    usager.lastInteraction.courrierIn > 0 ||
+    usager.lastInteraction.colisIn > 0 ||
+    usager.lastInteraction.recommandeIn > 0;
+
+  return await usagerLightRepository.updateOne(
+    { uuid: usager.uuid },
+    { lastInteraction: usager.lastInteraction }
+  );
 }

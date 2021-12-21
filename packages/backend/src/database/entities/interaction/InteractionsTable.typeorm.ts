@@ -14,37 +14,37 @@ export class InteractionsTable
   implements Interactions
 {
   @Column({ type: "timestamptz" })
-  public dateInteraction: Date;
+  dateInteraction: Date;
 
-  @Column({ type: "integer" })
-  public nbCourrier: number;
+  @Column({ type: "integer", default: 0 })
+  nbCourrier: number;
 
   @Index()
   @Column({ type: "integer" })
-  public structureId: number;
+  structureId: number;
 
   @ManyToOne(() => StructureTable, { lazy: true })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
-  public structureFk?: Promise<StructureTable>;
+  structureFk?: Promise<StructureTable>;
 
   @Column({ type: "text" })
-  public type: InteractionType;
+  type: InteractionType;
 
   @Index()
   @Column({ type: "integer" })
-  public usagerRef: number;
+  usagerRef: number;
 
   @Index()
   @Column({ type: "text" })
-  public usagerUUID: string;
+  usagerUUID: string;
 
   @ManyToOne(() => UsagerTable, { lazy: true })
   @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })
-  public usagerFk?: Promise<UsagerTable>;
+  usagerFk?: Promise<UsagerTable>;
 
   @Index()
   @Column({ type: "integer", nullable: true }) // nullable if user is deleted
-  public userId: number;
+  userId: number;
 
   // NOTE: pas de FK car les users peuvent être supprimés (si on ajoute la FK, il faudra rendre nullable les userId)
   // @ManyToOne(() => UserStructureTable, { lazy: true })
@@ -52,16 +52,24 @@ export class InteractionsTable
   // userFk?: Promise<UserStructureTable>;
 
   @Column({ type: "text" })
-  public userName: string;
+  userName: string;
 
   @Column({ type: "text", nullable: true })
-  public content: string;
+  content: string;
 
   @Column({ type: "text", default: "create" })
-  public event: InteractionEvent;
+  event: InteractionEvent;
+
+  @Index()
+  @Column({ type: "text", nullable: true })
+  interactionOutUUID: string;
+
+  @ManyToOne(() => InteractionsTable, { lazy: true })
+  @JoinColumn({ name: "interactionOutUUID", referencedColumnName: "uuid" })
+  interactionOutUUIDFk?: Promise<Interactions>;
 
   @Column({ type: "jsonb", nullable: true })
-  public previousValue?: Interactions; // if event === 'delete'
+  previousValue?: Interactions; // if event === 'delete'
 
   public constructor(entity?: Partial<InteractionsTable>) {
     super(entity);

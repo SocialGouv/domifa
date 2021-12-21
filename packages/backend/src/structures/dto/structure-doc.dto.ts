@@ -1,10 +1,4 @@
-import {
-  IsBoolean,
-  IsBooleanString,
-  IsIn,
-  IsNotEmpty,
-  ValidateIf,
-} from "class-validator";
+import { IsIn, IsNotEmpty, ValidateIf } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 import { StructureCustomDocType } from "../../_common/model";
 
@@ -13,8 +7,8 @@ export class StructureDocDto {
     type: String,
     required: true,
   })
-  @IsNotEmpty()
   @ValidateIf((o) => o.custom === true)
+  @IsNotEmpty()
   label: string;
 
   @ApiProperty({
