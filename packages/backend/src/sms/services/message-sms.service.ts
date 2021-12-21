@@ -1,32 +1,35 @@
-import { generateScheduleSendDate } from "./generators/generateScheduleSendDate";
-import { MESSAGE_SMS_STATUS } from "./../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
-import {
-  INDEX_DATE_EMISSION,
-  INDEX_DATE_MISE_A_JOUR,
-  INDEX_NUMERO,
-  INDEX_OPERATEUR,
-  INDEX_STATUT,
-  INDEX_STATUT_DETAILLE,
-} from "./../../_common/model/message-sms/MESSAGE_SMS_SUIVI_INDEX.const";
-import { MessageSmsSuivi } from "./../../_common/model/message-sms/MessageSmsSuivi.type";
-
 import { Injectable } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
 
 import { Repository } from "typeorm";
 import { appTypeormManager, structureRepository } from "../../database";
-import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsTable.typeorm";
-import { messageSmsRepository } from "../../database/services/message-sms";
-import { InteractionDto } from "../../interactions/interactions.dto";
-import { appLogger } from "../../util";
-import { Structure, Usager, UsagerLight } from "../../_common/model";
-import { MessageSms } from "../../_common/model/message-sms";
-import { StructureSmsParams } from "../../_common/model/structure/StructureSmsParams.type";
-import { generateSmsInteraction } from "./generators";
 
 import { AxiosError } from "axios";
 import { domifaConfig } from "../../config";
-import { INDEX_ID_MESSAGE } from "../../_common/model/message-sms/MESSAGE_SMS_SUIVI_INDEX.const";
+import {
+  INDEX_DATE_EMISSION,
+  INDEX_DATE_MISE_A_JOUR,
+  INDEX_ID_MESSAGE,
+  INDEX_NUMERO,
+  INDEX_OPERATEUR,
+  INDEX_STATUT,
+  INDEX_STATUT_DETAILLE,
+} from "../../_common/model/message-sms/MESSAGE_SMS_SUIVI_INDEX.const";
+import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsTable.typeorm";
+import { messageSmsRepository } from "../../database/services/message-sms";
+import { InteractionDto } from "../../interactions/dto";
+import { appLogger } from "../../util";
+import {
+  MessageSms,
+  Usager,
+  UsagerLight,
+  Structure,
+  StructureSmsParams,
+  MessageSmsSuivi,
+} from "../../_common/model";
+import { generateSmsInteraction } from "./generators";
+import { MESSAGE_SMS_STATUS } from "../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
+import { generateScheduleSendDate } from "./generators/generateScheduleSendDate";
 
 @Injectable()
 export class MessageSmsService {

@@ -51,6 +51,7 @@ async function checkPassword({
     password,
     hash: user.password,
   });
+
   if (!isValidPass) {
     await userUsagerSecurityRepository.logEvent({
       userId: user.id,
