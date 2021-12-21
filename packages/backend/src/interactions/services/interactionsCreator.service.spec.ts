@@ -1,7 +1,14 @@
+import MockDate from "mockdate";
 import moment = require("moment");
+import {
+  interactionsCreator,
+  InteractionsDeletor,
+  InteractionsService,
+} from ".";
 import {
   structureRepository,
   usagerRepository,
+  interactionRepository,
   userStructureRepository,
 } from "../../database";
 import { StructuresModule } from "../../structures/structure.module";
@@ -9,11 +16,8 @@ import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { Usager, UserStructure } from "../../_common/model";
-import { InteractionDto } from "../interactions.dto";
+import { InteractionDto } from "../dto";
 import { InteractionsModule } from "../interactions.module";
-import { InteractionsService } from "./interactions.service";
-import { interactionsCreator } from "./interactionsCreator.service";
-import { InteractionsDeletor } from "./InteractionsDeletor.service";
 
 describe("interactionsCreator", () => {
   let context: AppTestContext;
@@ -25,6 +29,9 @@ describe("interactionsCreator", () => {
   let structure;
 
   beforeAll(async () => {
+    // On défini la valeur que devrait avoir new Date();
+    MockDate.set("2020-12-01T10:00:24.980Z");
+
     context = await AppTestHelper.bootstrapTestApp({
       imports: [
         InteractionsModule,
@@ -40,10 +47,28 @@ describe("interactionsCreator", () => {
 
     user = await userStructureRepository.findOne({ id: 1 });
 
-    usager = await usagerRepository.findOne({
-      ref: 2,
+    // Reset des courriers
+    await interactionRepository.deleteByCriteria({
+      usagerRef: 2,
       structureId: 1,
     });
+
+    // Reset les courriers
+    usager = await usagerRepository.updateOne(
+      {
+        ref: 2,
+        structureId: 1,
+      },
+      {
+        lastInteraction: {
+          dateInteraction: new Date("2020-12-01T14:11:28.167Z"),
+          enAttente: false,
+          courrierIn: 0,
+          recommandeIn: 0,
+          colisIn: 0,
+        },
+      }
+    );
 
     structure = await structureRepository.findOne({
       id: 1,
@@ -51,34 +76,13 @@ describe("interactionsCreator", () => {
   });
 
   afterAll(async () => {
+    // Reset de new Date()
+    MockDate.reset();
+
     await AppTestHelper.tearDownTestApp(context);
   });
 
-  it("1. Distribution d'un courrier", async () => {
-    const interaction = new InteractionDto();
-    interaction.type = "courrierOut";
-    interaction.content = "Retrait du courrier";
-    interaction.nbCourrier = 0;
-    interaction.dateInteraction = new Date();
-
-    const resultat = await interactionsCreator.createInteraction({
-      usager,
-      user,
-      interaction,
-    });
-
-    expect(resultat.usager.lastInteraction.courrierIn).toEqual(0);
-
-    // clean
-    await interactionsDeletor.deleteOrRestoreInteraction({
-      interaction: resultat.interaction,
-      structure,
-      usager,
-      user,
-    });
-  });
-
-  it("2. Réception de 15 courriers", async () => {
+  it("1. Réception de 15 courriers", async () => {
     const newusager = await usagerRepository.findOne({
       ref: 2,
       structureId: 1,
@@ -90,11 +94,13 @@ describe("interactionsCreator", () => {
     interaction.nbCourrier = 10;
     interaction.dateInteraction = new Date();
 
-    const retour = await interactionsCreator.createInteraction({
-      usager,
-      user,
+    const firstInteraction = await interactionsCreator.createInteraction({
+      usager: newusager,
       interaction,
+      user,
     });
+
+    expect(firstInteraction.usager.lastInteraction.courrierIn).toEqual(10);
 
     const secondInteraction = new InteractionDto();
     secondInteraction.type = "courrierIn";
@@ -108,7 +114,59 @@ describe("interactionsCreator", () => {
       interaction: secondInteraction,
     });
 
-    expect(resultat.usager.lastInteraction.courrierIn).toEqual(17);
+    expect(resultat.usager.lastInteraction.courrierIn).toEqual(15);
+    expect(resultat.usager.lastInteraction.enAttente).toEqual(true);
+
+    // clean
+    const deleteSecondInteraction =
+      await interactionsDeletor.deleteOrRestoreInteraction({
+        interaction: resultat.interaction,
+        structure,
+        usager,
+        user,
+      });
+
+    expect(deleteSecondInteraction.lastInteraction.courrierIn).toEqual(10);
+
+    // clean
+    const deletedFirstInteraction =
+      await interactionsDeletor.deleteOrRestoreInteraction({
+        interaction: firstInteraction.interaction,
+        structure,
+        usager,
+        user,
+      });
+
+    expect(deletedFirstInteraction.lastInteraction.courrierIn).toEqual(0);
+  });
+
+  it("2. Distribution d'un courrier", async () => {
+    const interactionIn = new InteractionDto();
+    interactionIn.type = "colisIn";
+    interactionIn.content = "Colis à donner en urgence";
+    interactionIn.nbCourrier = 3;
+    interactionIn.dateInteraction = new Date();
+
+    const createdInteractionIn = await interactionsCreator.createInteraction({
+      usager,
+      user,
+      interaction: interactionIn,
+    });
+    expect(createdInteractionIn.usager.lastInteraction.colisIn).toEqual(3);
+
+    const interactionOut = new InteractionDto();
+    interactionOut.type = "colisOut";
+    interactionOut.content = "Retrait du courrier";
+    interactionOut.nbCourrier = 0;
+    interactionOut.dateInteraction = new Date();
+
+    const resultat = await interactionsCreator.createInteraction({
+      usager,
+      user,
+      interaction: interactionOut,
+    });
+
+    expect(resultat.usager.lastInteraction.colisIn).toEqual(0);
 
     // clean
     await interactionsDeletor.deleteOrRestoreInteraction({
@@ -119,51 +177,18 @@ describe("interactionsCreator", () => {
     });
   });
 
-  it("3. Réception et distribution de 1 courriers", async () => {
+  it("3. Appels & visites", async () => {
     const interaction = new InteractionDto();
-    interaction.type = "colisIn";
-    interaction.content = "Colis d'un distributeur";
-    interaction.nbCourrier = 1;
-    interaction.dateInteraction = new Date();
-    const usagerBefore = await usagerRepository.findOne({
-      ref: 2,
-      structureId: 1,
-    });
-
-    const resultat1 = await interactionsCreator.createInteraction({
+    interaction.type = "visite";
+    const resultat = await interactionsCreator.createInteraction({
       usager,
       user,
       interaction,
     });
 
-    expect(resultat1.usager.lastInteraction.colisIn).toEqual(
-      usagerBefore.lastInteraction.colisIn + 1
+    expect(resultat.usager.lastInteraction.dateInteraction).toEqual(
+      "2020-12-01T10:00:24.980Z"
     );
-
-    // clean
-    await interactionsDeletor.deleteOrRestoreInteraction({
-      interaction: resultat1.interaction,
-      structure,
-      usager,
-      user,
-    });
-
-    const distribution = new InteractionDto();
-    distribution.type = "colisOut";
-    const resultat2 = await interactionsCreator.createInteraction({
-      usager,
-      user,
-      interaction: distribution,
-    });
-    expect(resultat2.usager.lastInteraction.colisIn).toEqual(0);
-
-    // clean
-    await interactionsDeletor.deleteOrRestoreInteraction({
-      interaction: resultat2.interaction,
-      structure,
-      usager,
-      user,
-    });
   });
 
   it("4. Distribution d'un courrier avec transfert", async () => {
@@ -198,8 +223,12 @@ describe("interactionsCreator", () => {
     });
   });
 
-  it("5. Distribution d'un courrier avec procuration", async () => {
+  it("5. Distribution d'un courrier avec procuration ", async () => {
     const interaction = new InteractionDto();
+    const lastInteractionDateBefore = "2018-02-01T10:00:00.980Z";
+    usager.lastInteraction.dateInteraction = new Date(
+      lastInteractionDateBefore
+    );
 
     interaction.type = "courrierOut";
     interaction.content = "Test transfert du courrier";
@@ -222,6 +251,11 @@ describe("interactionsCreator", () => {
 
     expect(resultat.interaction.content).toEqual(
       "Courrier remis au mandataire : Jean michel PROCURATION"
+    );
+
+    // La date de dernier passage ne doit pas se mettre à jour car c'est une procuration
+    expect(resultat.usager.lastInteraction.dateInteraction).toEqual(
+      lastInteractionDateBefore
     );
 
     // clean
