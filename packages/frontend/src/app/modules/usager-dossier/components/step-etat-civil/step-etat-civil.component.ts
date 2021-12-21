@@ -1,4 +1,3 @@
-import { UsagerTypeDom } from "./../../../../../_common/model/usager/UsagerTypeDom.type";
 import { Component, OnInit } from "@angular/core";
 import {
   AbstractControl,
@@ -23,6 +22,8 @@ import {
   minDateNaissance,
   minDateToday,
 } from "src/app/shared/bootstrap-util";
+
+import { UsagerTypeDom } from "./../../../../../_common/model/usager/UsagerTypeDom.type";
 import {
   UsagerLight,
   UserStructure,

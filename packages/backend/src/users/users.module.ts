@@ -1,5 +1,6 @@
 import { HttpModule } from "@nestjs/axios";
 import { forwardRef, Module } from "@nestjs/common";
+
 import { AuthModule } from "../auth/auth.module";
 import { MailsModule } from "../mails/mails.module";
 import { StructuresModule } from "../structures/structure.module";

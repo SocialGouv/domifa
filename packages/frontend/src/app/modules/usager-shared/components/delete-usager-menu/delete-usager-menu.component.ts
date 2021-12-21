@@ -2,6 +2,7 @@ import { Component, Input, OnInit, TemplateRef } from "@angular/core";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
+
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsagerProfilService } from "../../../usager-profil/services/usager-profil.service";

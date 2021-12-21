@@ -16,6 +16,7 @@ import { StatsModule } from "./stats/stats.module";
 import { StructuresModule } from "./structures/structure.module";
 import { UsagersModule } from "./usagers/usagers.module";
 import { UsersModule } from "./users/users.module";
+import { LogsModule } from "./logs/logs.module";
 
 @Module({
   controllers: [HealthController],
@@ -42,6 +43,7 @@ import { UsersModule } from "./users/users.module";
     TerminusModule,
     PortailUsagerModule,
     PortailAdminModule,
+    LogsModule,
   ],
   providers: [PostgresHealthIndicator],
 })

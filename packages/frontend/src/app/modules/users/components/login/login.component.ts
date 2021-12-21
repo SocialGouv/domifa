@@ -6,11 +6,12 @@ import {
   Validators,
 } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-
 import { ToastrService } from "ngx-toastr";
 import { Title } from "@angular/platform-browser";
+
 import { AuthService } from "../../../shared/services/auth.service";
 import { regexp } from "../../../../shared/validators";
+
 @Component({
   selector: "app-login",
   styleUrls: ["./login.component.css"],

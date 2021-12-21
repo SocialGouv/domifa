@@ -15,6 +15,7 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
+
 import { AllowUserStructureRoles } from "../../auth/decorators";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
@@ -53,6 +54,7 @@ import {
   usagerHistoryStateManager,
   UsagersService,
 } from "../services";
+import { LogsService } from "../../logs/logs.service";
 
 @Controller("usagers")
 @ApiTags("usagers")
@@ -61,7 +63,8 @@ import {
 export class UsagersController {
   constructor(
     private readonly usagersService: UsagersService,
-    private readonly cerfaService: CerfaService
+    private readonly cerfaService: CerfaService,
+    private logsService: LogsService
   ) {}
 
   @Get()
@@ -269,6 +272,12 @@ export class UsagersController {
       structureId: user.structureId,
     });
 
+    await this.logsService.create({
+      userId: user.id,
+      usagerRef: usager.ref,
+      structureId: user.structureId,
+      action: "SUPPRIMER_DOMICILIE",
+    });
     return res.status(HttpStatus.OK).json({ message: "DELETE_SUCCESS" });
   }
 
@@ -389,6 +398,12 @@ export class UsagersController {
               usagerUUID: usager.uuid,
               generateNewPassword,
             });
+          await this.logsService.create({
+            userId: user.id,
+            usagerRef: usager.ref,
+            structureId: user.structureId,
+            action: "RESET_PASSWORD_PORTAIL",
+          });
           return res.status(HttpStatus.CREATED).json({
             usager: updatedUsager,
             login: generateNewPassword ? userUsager.login : undefined,

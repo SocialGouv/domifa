@@ -11,6 +11,7 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
+
 import { AllowUserStructureRoles } from "../../auth/decorators";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
@@ -30,13 +31,17 @@ import {
   generateCustomDoc,
 } from "../custom-docs";
 import { StructureDocService } from "./../../structures/services/structure-doc.service";
+import { LogsService } from "../../logs/logs.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("usagers-structure-docs")
 @ApiBearerAuth()
 @Controller("usagers-structure-docs")
 export class UsagerStructureDocsController {
-  constructor(private structureDocService: StructureDocService) {}
+  constructor(
+    private structureDocService: StructureDocService,
+    private logsService: LogsService
+  ) {}
 
   @Get("structure/:usagerRef/:structureDocUuid")
   @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
@@ -133,6 +138,14 @@ export class UsagerStructureDocsController {
       extraParameters,
     });
 
+    if (docType === "acces_espace_domicilie") {
+      await this.logsService.create({
+        userId: user.id,
+        usagerRef: usager.ref,
+        structureId: user.structureId,
+        action: "DOWNLOAD_PASSWORD_PORTAIL",
+      });
+    }
     res.end(generateCustomDoc(content, docValues));
   }
 }

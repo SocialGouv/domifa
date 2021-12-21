@@ -9,15 +9,9 @@
   "username": "domifa_user",
   "password": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "database": "domifa_dev",
-  "entities": [
-    "src/database/entities/**/*Table.typeorm.ts"
-  ],
-  "migrations": [
-    "src/_migrations/**/*.ts"
-  ],
-  "subscribers": [
-    "src/**/*Subscriber.typeorm.ts"
-  ],
+  "entities": ["src/database/entities/**/*Table.typeorm.ts"],
+  "migrations": ["src/_migrations/**/*.ts"],
+  "subscribers": ["src/**/*Subscriber.typeorm.ts"],
   "cli": {
     "entitiesDir": "src",
     "migrationsDir": "src/_migrations",

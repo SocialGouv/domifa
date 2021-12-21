@@ -13,3 +13,4 @@ export * from "./usager/cerfa";
 export * from "./_core";
 export * from "./_portail-admin";
 export * from "./_portail-usager";
+export * from "./log";
