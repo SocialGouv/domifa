@@ -1,10 +1,12 @@
 import { UsagerDoc } from "src/_common/model";
 import { Component, Input, OnInit } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
+
 import { STRUCTURE_DOC_ICONS } from "../../../../../_common/model";
 import { UsagerFormModel } from "../../interfaces";
 import { DocumentService } from "../../services/document.service";
 import * as fileSaver from "file-saver";
+
 @Component({
   selector: "app-display-usager-docs",
   templateUrl: "./display-usager-docs.component.html",
@@ -49,7 +51,6 @@ export class DisplayUsagerDocsComponent implements OnInit {
             "." +
             extension
         );
-
         this.stopLoading("download", i);
       },
       error: () => {

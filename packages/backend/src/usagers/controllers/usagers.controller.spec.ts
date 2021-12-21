@@ -5,6 +5,7 @@ import { CerfaService } from "../services/cerfa.service";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
 import { UsagersController } from "./usagers.controller";
+import { LogsService } from "../../logs/logs.service";
 
 describe("Usagers Controller", () => {
   let controller: UsagersController;
@@ -15,7 +16,7 @@ describe("Usagers Controller", () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [UsagersController],
       imports: [UsersModule, InteractionsModule],
-      providers: [CerfaService, UsagersService, DocumentsService],
+      providers: [CerfaService, UsagersService, DocumentsService, LogsService],
     });
 
     controller = context.module.get<UsagersController>(UsagersController);

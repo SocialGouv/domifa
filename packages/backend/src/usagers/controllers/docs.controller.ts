@@ -20,6 +20,7 @@ import { Response } from "express";
 import * as fs from "fs";
 import { diskStorage } from "multer";
 import * as path from "path";
+
 import { AllowUserStructureRoles } from "../../auth/decorators";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
@@ -37,6 +38,7 @@ import {
 } from "../../_common/model";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
+import { LogsService } from "../../logs/logs.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
 @ApiTags("docs")
@@ -45,7 +47,8 @@ import { UsagersService } from "../services/usagers.service";
 export class DocsController {
   constructor(
     private readonly usagersService: UsagersService,
-    private readonly docsService: DocumentsService
+    private readonly docsService: DocumentsService,
+    private logsService: LogsService
   ) {}
 
   @ApiOperation({ summary: "Upload de pièces jointes" })
@@ -182,6 +185,13 @@ export class DocsController {
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "DOC_UPDATE_USAGER_IMPOSSIBLE" });
     }
+
+    await this.logsService.create({
+      userId: user.id,
+      usagerRef,
+      structureId: user.structureId,
+      action: "SUPPRIMER_PIECE_JOINTE",
+    });
     return res.status(HttpStatus.OK).json(updatedUsager.docs);
   }
 

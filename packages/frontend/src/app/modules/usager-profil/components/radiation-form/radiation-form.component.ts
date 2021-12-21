@@ -1,8 +1,8 @@
 import { Component, OnInit, EventEmitter, Input, Output } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
-
 import { ToastrService } from "ngx-toastr";
+
 import {
   MOTIFS_RADIATION_LABELS,
   UsagerDecisionRadiationForm,
@@ -101,6 +101,7 @@ export class RadiationFormComponent implements OnInit {
           this.closeModals.emit();
           this.loading = false;
           this.submitted = false;
+
           window.location.reload();
         },
         error: () => {

@@ -1,5 +1,6 @@
 import { HttpModule } from "@nestjs/axios";
 import { forwardRef, Module } from "@nestjs/common";
+
 import { InteractionsModule } from "../interactions/interactions.module";
 import { MailsModule } from "../mails/mails.module";
 import { StatsModule } from "../stats/stats.module";
@@ -16,6 +17,7 @@ import { UsagersController } from "./controllers/usagers.controller";
 import { CerfaService } from "./services/cerfa.service";
 import { DocumentsService } from "./services/documents.service";
 import { UsagersService } from "./services/usagers.service";
+import { LogsModule } from "../logs/logs.module";
 
 @Module({
   controllers: [
@@ -36,6 +38,7 @@ import { UsagersService } from "./services/usagers.service";
     forwardRef(() => StatsModule),
     forwardRef(() => UsersModule),
     forwardRef(() => InteractionsModule),
+    forwardRef(() => LogsModule),
   ],
   providers: [UsagersService, CerfaService, DocumentsService],
 })

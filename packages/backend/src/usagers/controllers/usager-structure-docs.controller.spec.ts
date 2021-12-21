@@ -7,6 +7,7 @@ import { CerfaService } from "../services/cerfa.service";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
 import { UsagerStructureDocsController } from "./usager-structure-docs.controller";
+import { LogsService } from "../../logs/logs.service";
 
 describe("UsagerStructureDocs Controller", () => {
   let controller: UsagerStructureDocsController;
@@ -22,6 +23,7 @@ describe("UsagerStructureDocs Controller", () => {
         UsagersService,
         DocumentsService,
         AdminStructuresService,
+        LogsService,
       ],
     });
     controller = context.module.get<UsagerStructureDocsController>(

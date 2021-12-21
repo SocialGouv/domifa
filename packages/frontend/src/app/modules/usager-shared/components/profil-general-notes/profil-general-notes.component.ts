@@ -7,8 +7,8 @@ import {
   Output,
 } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
-import { UsagerNote, UserStructure } from "../../../../../_common/model";
 
+import { UsagerNote, UserStructure } from "../../../../../_common/model";
 import { UsagerService } from "../../../usagers/services/usager.service";
 import { UsagerFormModel } from "../../interfaces";
 
