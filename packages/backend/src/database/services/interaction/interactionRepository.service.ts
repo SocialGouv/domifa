@@ -32,6 +32,8 @@ export const interactionRepository = {
   findLastInteractionInWithContent,
   findWithFilters,
   countInteractionsByMonth,
+  countPendingInteraction,
+  countPendingInteractionsIn,
 };
 
 async function findLastInteraction({
@@ -112,6 +114,69 @@ async function findLastInteractionInWithContent({
     }
   );
   return lastInteractions?.length > 0 ? lastInteractions[0] : undefined;
+}
+
+async function countPendingInteraction({
+  structureId,
+  usagerRef,
+  interactionType,
+}: {
+  structureId: number;
+  usagerRef: number;
+  interactionType: InteractionType;
+}): Promise<number> {
+  // NOTE: cette requête ne renvoit pas de résultats pour les usagers de cette structure qui n'ont pas d'interaction
+  const query = `
+    SELECT
+      coalesce (SUM(CASE WHEN i.type = $1 THEN "nbCourrier" END), 0) AS "nbInteractions"
+    FROM interactions i
+    WHERE i."structureId" = $2 AND i."usagerRef" = $3 and i.event = 'create' AND i."interactionOutUUID" is null
+    GROUP BY i."usagerRef"`;
+  const results = await (
+    await interactionRepository.typeorm()
+  ).query(query, [interactionType, structureId, usagerRef]);
+
+  return typeof results[0] === "undefined"
+    ? 0
+    : parseInt(results[0].nbInteractions, 10);
+}
+
+async function countPendingInteractionsIn({
+  structureId,
+  usagerRef,
+}: {
+  structureId: number;
+  usagerRef: number;
+}): Promise<{
+  courrierIn: number;
+  recommandeIn: number;
+  colisIn: number;
+}> {
+  // NOTE: cette requête ne renvoit pas de résultats pour les usagers de cette structure qui n'ont pas d'interaction
+  const query = `SELECT
+      coalesce (SUM(CASE WHEN i.type = 'courrierIn' THEN "nbCourrier" END), 0) AS "courrierIn",
+      coalesce (SUM(CASE WHEN i.type = 'recommandeIn' THEN "nbCourrier" END), 0) AS "recommandeIn",
+      coalesce (SUM(CASE WHEN i.type = 'colisIn' THEN "nbCourrier" END), 0) AS "colisIn"
+    FROM interactions i
+    WHERE i."structureId" = $1 AND i."usagerRef" = $2 and i.event = 'create' AND i."interactionOutUUID" is null
+    GROUP BY i."usagerRef"`;
+  const results = await (
+    await interactionRepository.typeorm()
+  ).query(query, [structureId, usagerRef]);
+
+  if (typeof results[0] === "undefined") {
+    return {
+      courrierIn: 0,
+      recommandeIn: 0,
+      colisIn: 0,
+    };
+  }
+
+  return {
+    courrierIn: parseInt(results[0].courrierIn, 10),
+    recommandeIn: parseInt(results[0].recommandeIn, 10),
+    colisIn: parseInt(results[0].colisIn, 10),
+  };
 }
 
 async function findWithFilters({

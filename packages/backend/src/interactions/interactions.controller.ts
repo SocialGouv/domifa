@@ -11,21 +11,25 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags } from "@nestjs/swagger";
-import { AllowUserProfiles } from "../auth/decorators";
-import { CurrentInteraction } from "../auth/decorators/current-interaction.decorator";
-import { CurrentUsager } from "../auth/decorators/current-usager.decorator";
-import { CurrentUser } from "../auth/decorators/current-user.decorator";
-import { AppUserGuard } from "../auth/guards";
-import { InteractionsGuard } from "../auth/guards/interactions.guard";
-import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
+import {
+  AllowUserProfiles,
+  CurrentUser,
+  CurrentUsager,
+  CurrentInteraction,
+} from "../auth/decorators";
+import {
+  AppUserGuard,
+  UsagerAccessGuard,
+  InteractionsGuard,
+} from "../auth/guards";
 import { interactionRepository } from "../database";
 import {
-  Interactions,
-  UsagerLight,
   UserStructureAuthenticated,
+  UsagerLight,
+  Interactions,
 } from "../_common/model";
-import { InteractionDto } from "./interactions.dto";
-import { interactionsCreator, InteractionsDeletor } from "./services";
+import { InteractionDto } from "./dto";
+import { InteractionsDeletor, interactionsCreator } from "./services";
 import { InteractionsSmsManager } from "./services/InteractionsSmsManager.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
@@ -52,6 +56,7 @@ export class InteractionsController {
         usager,
         user,
       });
+
       usager = created.usager;
 
       await this.interactionsSmsManager.updateSmsAfterCreation({

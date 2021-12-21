@@ -1,8 +1,14 @@
-import { Component, Input, NgZone, OnInit } from "@angular/core";
-import { MatomoTracker } from "ngx-matomo";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import {
+  Component,
+  Input,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
+
 import { ToastrService } from "ngx-toastr";
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
-import { InteractionType } from "../../../../../_common/model/interaction";
 import {
   UsagerFormModel,
   Interaction,
@@ -18,33 +24,41 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
   @Input() public usager: UsagerFormModel;
   @Input() public me: UserStructure;
 
-  public typeInteraction: InteractionType;
   public interactions: Interaction[];
+  public interactionToDelete: Interaction;
+
+  @ViewChild("deleteInteractionModal", { static: true })
+  public deleteInteractionModal!: TemplateRef<any>;
 
   constructor(
     private notifService: ToastrService,
-    private matomo: MatomoTracker,
+
     private interactionService: InteractionService,
-    private ngZone: NgZone
-  ) {}
+    private modalService: NgbModal
+  ) {
+    this.interactionToDelete = null;
+    this.interactions = [];
+  }
 
   public ngOnInit(): void {
-    this.interactions = [];
     this.getInteractions();
   }
 
-  public deleteInteraction(interactionUuid: string) {
-    this.matomo.trackEvent("profil", "interactions", "delete", 1);
-    this.interactionService.delete(this.usager.ref, interactionUuid).subscribe({
-      next: (usager: UsagerLight) => {
-        this.usager = new UsagerFormModel(usager);
-        this.notifService.success("Interaction supprimée avec succès");
-        this.getInteractions();
-      },
-      error: () => {
-        this.notifService.error("Impossible de supprimer l'interaction");
-      },
-    });
+  public deleteInteraction() {
+    this.interactionService
+      .delete(this.usager.ref, this.interactionToDelete.uuid)
+      .subscribe({
+        next: (usager: UsagerLight) => {
+          this.usager = new UsagerFormModel(usager);
+          this.notifService.success("Interaction supprimée avec succès");
+          this.interactionToDelete = null;
+          this.getInteractions();
+          this.closeModals();
+        },
+        error: () => {
+          this.notifService.error("Impossible de supprimer l'interaction");
+        },
+      });
   }
 
   private getInteractions() {
@@ -55,5 +69,14 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
       .subscribe((interactions: Interaction[]) => {
         this.interactions = interactions;
       });
+  }
+
+  public openDeleteInteractionModal(): void {
+    this.modalService.open(this.deleteInteractionModal);
+  }
+
+  public closeModals(): void {
+    this.interactionToDelete = null;
+    this.modalService.dismissAll();
   }
 }

@@ -1,4 +1,9 @@
 import {
+  InteractionsDeletor,
+  InteractionsService,
+  interactionsCreator,
+} from ".";
+import {
   structureRepository,
   usagerRepository,
   userStructureRepository,
@@ -8,11 +13,8 @@ import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { Structure, Usager, UserStructure } from "../../_common/model";
-import { InteractionDto } from "../interactions.dto";
+import { InteractionDto } from "../dto";
 import { InteractionsModule } from "../interactions.module";
-import { InteractionsService } from "./interactions.service";
-import { interactionsCreator } from "./interactionsCreator.service";
-import { InteractionsDeletor } from "./InteractionsDeletor.service";
 
 describe("InteractionsDeletor", () => {
   let context: AppTestContext;
