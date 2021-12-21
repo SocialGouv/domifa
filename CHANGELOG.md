@@ -1,3 +1,12 @@
+## [2.53.5](https://github.com/SocialGouv/domifa/compare/v2.53.4...v2.53.5) (2021-12-21)
+
+
+### Bug Fixes
+
+* erreurs suite à l'ajout du linter ([883a1f0](https://github.com/SocialGouv/domifa/commit/883a1f060e42d6b1919314c95304061c147770ff))
+* tests sur le portail ([99da603](https://github.com/SocialGouv/domifa/commit/99da603daa7ae7c0c72591d8e05e655e1417bf4a))
+* tests unitaires sur l'admin ([50261d5](https://github.com/SocialGouv/domifa/commit/50261d5308390ccac1e43f92411f3e7625f98d0f))
+
 ## [2.53.4](https://github.com/SocialGouv/domifa/compare/v2.53.3...v2.53.4) (2021-12-20)
 
 
