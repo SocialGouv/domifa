@@ -16,8 +16,6 @@ describe("ManageUsagersComponent", () => {
 
   let fixture: ComponentFixture<ManageUsagersComponent>;
 
-  const spyScrollTo = jest.fn();
-
   beforeAll(async () => {
     TestBed.configureTestingModule({
       declarations: [ManageUsagersComponent],
