@@ -8,7 +8,6 @@ import { NewsComponent } from "./news.component";
 describe("NewsComponent", () => {
   let component: NewsComponent;
   let fixture: ComponentFixture<NewsComponent>;
-  const spyScrollTo = jest.fn();
 
   beforeEach(
     waitForAsync(() => {
