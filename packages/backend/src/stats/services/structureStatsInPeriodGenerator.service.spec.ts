@@ -54,9 +54,9 @@ describe("structureStatsInPeriodGenerator", () => {
       },
       interactions: {
         appel: 0,
-        colisIn: 4,
+        colisIn: 7,
         colisOut: 0,
-        courrierIn: 4,
+        courrierIn: 1,
         courrierOut: 0,
         npai: 0,
         recommandeIn: 3,
