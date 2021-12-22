@@ -29,7 +29,8 @@ async function createTables(queryRunner: QueryRunner) {
     `CREATE INDEX "IDX_90ac7986e769d602d218075215" ON "structure" ("id") `
   );
   await queryRunner.query(
-    `CREATE TABLE "usager" ("uuid" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "version" integer NOT NULL, "ref" integer NOT NULL, "customRef" text NOT NULL, "structureId" integer NOT NULL, "nom" text NOT NULL, "prenom" text NOT NULL, "surnom" text, "sexe" text NOT NULL, "dateNaissance" TIMESTAMP WITH TIME ZONE NOT NULL, "villeNaissance" text NOT NULL, "langue" text, "email" text, "phone" text, "preference" jsonb DEFAULT '{"email": false, "phone": false, "phoneNumber": null}', "datePremiereDom" TIMESTAMP WITH TIME ZONE, "typeDom" text DEFAULT 'INSTRUCTION', "import" jsonb, "decision" jsonb NOT NULL, "historique" jsonb NOT NULL, "ayantsDroits" jsonb, "lastInteraction" jsonb NOT NULL, "docs" jsonb NOT NULL DEFAULT '[]', "docsPath" jsonb NOT NULL DEFAULT '[]', "etapeDemande" integer NOT NULL DEFAULT '0', "rdv" jsonb, "notes" jsonb NOT NULL DEFAULT '[]', "entretien" jsonb NOT NULL, "options" jsonb NOT NULL, CONSTRAINT "UQ_e76056fb098740de66d58a5055a" UNIQUE ("structureId", "ref"), CONSTRAINT "PK_1bb36e24229bec446a281573612" PRIMARY KEY ("uuid"))`
+    `CREATE TABLE "usager" ("uuid" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "version" integer NOT NULL, "ref" integer NOT NULL, "customRef" text NOT NULL, "structureId" integer NOT NULL, "nom" text NOT NULL, "prenom" text NOT NULL, "surnom" text, "sexe" text NOT NULL, "dateNaissance" TIMESTAMP WITH TIME ZONE NOT NULL, "villeNaissance" text NOT NULL, "langue" text, "email" text, "phone" text, "preference" jsonb DEFAULT '{"email": false, "phone": false, "phoneNumber": null}', "datePremiereDom" TIMESTAMP WITH TIME ZONE, "typeDom" text DEFAULT 'INSTRUCTION', "import" jsonb, "decision" jsonb NOT NULL, "historique" jsonb NOT NULL, "ayantsDroits" jsonb, "lastInteraction" jsonb NOT NULL, "docs" jsonb NOT NULL DEFAULT '[]', "docsPath" jsonb NOT NULL DEFAULT '[]', "etapeDemande" integer NOT NULL DEFAULT '0', "rdv" jsonb, "notes" jsonb NOT NULL DEFAULT '[]', "entretien" jsonb NOT NULL, "options" jsonb NOT NULL, "interactionsMigrated" boolean NOT NULL DEFAULT false,
+    "interactionsDifference" boolean NOT NULL DEFAULT false, CONSTRAINT "UQ_e76056fb098740de66d58a5055a" UNIQUE ("structureId", "ref"), CONSTRAINT "PK_1bb36e24229bec446a281573612" PRIMARY KEY ("uuid"))`
   );
   await queryRunner.query(
     `CREATE INDEX "IDX_8198a25ae40584a38bce1dd4d2" ON "usager" ("ref") `
@@ -38,7 +39,10 @@ async function createTables(queryRunner: QueryRunner) {
     `CREATE INDEX "IDX_a44d882d224e368efdee8eb8c8" ON "usager" ("structureId") `
   );
   await queryRunner.query(
-    `CREATE TABLE "usager_history" ("uuid" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "version" integer NOT NULL, "usagerUUID" uuid NOT NULL, "usagerRef" integer NOT NULL, "structureId" integer NOT NULL, "import" jsonb, "states" jsonb NOT NULL, CONSTRAINT "UQ_7356ee08f3ac6e3e1c6fe08bd81" UNIQUE ("usagerUUID"), CONSTRAINT "UQ_29a873927e96c4290d288d594f4" UNIQUE ("structureId", "usagerRef"), CONSTRAINT "PK_29638b771d16000882db14bab40" PRIMARY KEY ("uuid"))`
+    `CREATE TABLE "usager_history" ("uuid" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "version" integer NOT NULL, "usagerUUID" uuid NOT NULL, "usagerRef" integer NOT NULL, "structureId" integer NOT NULL, "import" jsonb, "states" jsonb NOT NULL, "interactionOutUUID" uuid, CONSTRAINT "UQ_7356ee08f3ac6e3e1c6fe08bd81" UNIQUE ("usagerUUID"), CONSTRAINT "UQ_29a873927e96c4290d288d594f4" UNIQUE ("structureId", "usagerRef"), CONSTRAINT "PK_29638b771d16000882db14bab40" PRIMARY KEY ("uuid"))`
+  );
+  await queryRunner.query(
+    `CREATE INDEX "IDX_495b59d0dd15e43b262f2da890" ON "interactions" ("interactionOutUUID") `
   );
   await queryRunner.query(
     `CREATE INDEX "IDX_7356ee08f3ac6e3e1c6fe08bd8" ON "usager_history" ("usagerUUID") `
@@ -128,4 +132,7 @@ async function createTables(queryRunner: QueryRunner) {
     `ALTER TABLE "user_structure_security" ADD CONSTRAINT "FK_57be1bdd772eb3fea1e201317e6" FOREIGN KEY ("structureId") REFERENCES "structure"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
   );
   await queryRunner.query(`ALTER TABLE "interactions" ADD COLUMN "id" serial`);
+  await queryRunner.query(
+    `ALTER TABLE "interactions" ADD CONSTRAINT "FK_495b59d0dd15e43b262f2da8907" FOREIGN KEY ("interactionOutUUID") REFERENCES "interactions"("uuid") ON DELETE NO ACTION ON UPDATE NO ACTION`
+  );
 }
