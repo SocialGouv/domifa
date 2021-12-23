@@ -64,5 +64,4 @@ export type Usager = AppEntity & {
 
   options: UsagerOptions;
   interactionsMigrated: boolean;
-  interactionsDifference: boolean;
 };

@@ -15,6 +15,10 @@ export class migrateInteractions1638808597232 implements MigrationInterface {
   public name = "migrateInteractions1638808597232";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(
+      `UPDATE "usager" SET "interactionsMigrated" = false`
+    );
+
     const INTERACTIONS_IN = ["courrierIn", "colisIn", "recommandeIn"];
 
     const structures = await structureLightRepository.findMany(
@@ -100,7 +104,8 @@ export class migrateInteractions1638808597232 implements MigrationInterface {
 
           if (direction === "in") {
             // On additionne le nombre de courriers entrés
-            lastInteractionCalculated[interaction.type] +=interaction.nbCourrier;
+            lastInteractionCalculated[interaction.type] +=
+              interaction.nbCourrier;
 
             // Ajout de l'interaction dans le tableau des interactions à mettre à jour : ajout de l'uuid de l'interaction sortante correspondante
             tmpInteractions[interaction.type].push(interaction.uuid.toString());
@@ -204,19 +209,11 @@ export class migrateInteractions1638808597232 implements MigrationInterface {
           await usagerLightRepository.updateOne(
             { uuid: usagerToUpdate.uuid },
             {
-              interactionsDifference: true,
               lastInteraction: usagerToUpdate.lastInteraction,
             }
           );
         }
       }
-
-      // Flag pour indiquer que cet usager est à jour
-      await usagerLightRepository.count({
-        where: {
-          interactionsMigrated: false,
-        },
-      });
     }
     // Fin boucle structures
   }
