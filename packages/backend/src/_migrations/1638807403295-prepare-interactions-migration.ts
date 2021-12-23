@@ -18,12 +18,6 @@ export class manualMigration1638807403295 implements MigrationInterface {
     // await queryRunner.query(
     //   `ALTER TABLE "interactions" ADD CONSTRAINT "FK_495b59d0dd15e43b262f2da8907" FOREIGN KEY ("interactionOutUUID") REFERENCES "interactions"("uuid") ON DELETE NO ACTION ON UPDATE NO ACTION`
     // );
-    await queryRunner.query(
-      `UPDATE "usager" SET "interactionsMigrated" = false`
-    );
-    await queryRunner.query(
-      `UPDATE "usager" SET "interactionsDifference" = false`
-    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
