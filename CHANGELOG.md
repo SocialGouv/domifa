@@ -1,3 +1,11 @@
+## [2.53.6](https://github.com/SocialGouv/domifa/compare/v2.53.5...v2.53.6) (2021-12-23)
+
+
+### Bug Fixes
+
+* class transform version ([c108016](https://github.com/SocialGouv/domifa/commit/c108016fea9126d09f25809ff5902de96c04f001))
+* update yarn.lock ([2880637](https://github.com/SocialGouv/domifa/commit/2880637eea43ad114524feb93b213d1021f96360))
+
 ## [2.53.5](https://github.com/SocialGouv/domifa/compare/v2.53.4...v2.53.5) (2021-12-21)
 
 
