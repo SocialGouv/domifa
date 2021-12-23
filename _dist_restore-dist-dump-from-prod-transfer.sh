@@ -7,7 +7,7 @@ if [ -z "$DOMIFA_ENV_ID" ]; then
     echo "[ERROR] DOMIFA_ENV_ID is not defined in .env"
     exit 1
 fi
-if [ "$DOMIFA_ENV_ID" != "preprod" && "$DOMIFA_ENV_ID" != "formation" ]; then
+if [ "$DOMIFA_ENV_ID" != "preprod"]; then
     echo "[ERROR] script not allowed in this environment (only for 'preprod' & 'formation')"
     exit 1
 else
@@ -34,7 +34,7 @@ echo ""
 echo ""
 read -p "Are you sure? (y/N)?" choice
 echo ""
-case "$choice" in 
+case "$choice" in
     y|Y ) echo "yes";;
     * ) echo "exit"; exit 0 ;;
 esac

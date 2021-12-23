@@ -7,7 +7,7 @@ import {
   IsNumber,
   IsOptional,
 } from "class-validator";
-import { InteractionType } from "../_common/model/interaction";
+import { InteractionType } from "../../_common/model";
 
 export class InteractionDto {
   @ApiProperty({

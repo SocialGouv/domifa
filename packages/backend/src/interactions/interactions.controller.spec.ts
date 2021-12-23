@@ -8,8 +8,9 @@ import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
 import { UsagerLight, UserStructureAuthenticated } from "../_common/model";
+import { InteractionDto } from "./dto";
 import { InteractionsController } from "./interactions.controller";
-import { InteractionDto } from "./interactions.dto";
+
 import { InteractionsModule } from "./interactions.module";
 
 describe("Interactions Controller", () => {

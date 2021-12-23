@@ -7,6 +7,7 @@ import {
   ManyToOne,
 } from "typeorm";
 import { StructureTable, UsagerTable } from "..";
+
 import { UserStructureResume, UserUsager } from "../../../_common/model";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 

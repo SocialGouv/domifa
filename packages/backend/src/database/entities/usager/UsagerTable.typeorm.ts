@@ -143,6 +143,12 @@ export class UsagerTable
   })
   public options: UsagerOptions;
 
+  @Column({ type: "boolean", default: false })
+  public interactionsMigrated: boolean;
+
+  @Column({ type: "boolean", default: false })
+  public interactionsDifference: boolean;
+
   public constructor(entity?: Partial<UsagerTable>) {
     super(entity);
     Object.assign(this, entity);

@@ -18,8 +18,8 @@ export class Interaction {
   public structureId: number;
   public userName?: string;
   public userId: number;
-
-  public delete: boolean;
+  public interactionOutUUID: number;
+  public interactionOut: number;
 
   public label: string;
 
@@ -42,7 +42,6 @@ export class Interaction {
     this.nbCourrier = (interaction && interaction.nbCourrier) || 0;
     this.userName = (interaction && interaction.userName) || "";
 
-    this.delete = false;
     this.uuid = (interaction && interaction.uuid) || null;
 
     if (

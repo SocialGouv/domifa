@@ -14,7 +14,6 @@ import { StatsComponent } from "./structure-stats.component";
 describe("StatsComponent", () => {
   let component: StatsComponent;
   let fixture: ComponentFixture<StatsComponent>;
-  const spyScrollTo = jest.fn();
 
   beforeEach(
     waitForAsync(() => {
