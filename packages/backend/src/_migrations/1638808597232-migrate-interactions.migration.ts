@@ -100,8 +100,7 @@ export class migrateInteractions1638808597232 implements MigrationInterface {
 
           if (direction === "in") {
             // On additionne le nombre de courriers entrés
-            lastInteractionCalculated[interaction.type] =
-              lastInteractionCalculated[interaction.type] +
+            lastInteractionCalculated[interaction.type] +=
               interaction.nbCourrier;
 
             // Ajout de l'interaction dans le tableau des interactions à mettre à jour : ajout de l'uuid de l'interaction sortante correspondante
@@ -139,9 +138,8 @@ export class migrateInteractions1638808597232 implements MigrationInterface {
             // Création de la requête d'update
             if (tmpInteractions[oppositeType].length > 0) {
               // Remise des tableaux à zéro
-              lastInteractionCalculated[oppositeType] =
-                lastInteractionCalculated[oppositeType] -
-                interaction.nbCourrier;
+              lastInteractionCalculated[oppositeType] -= interaction.nbCourrier;
+
               await (
                 await interactionRepository.typeorm()
               )
@@ -207,19 +205,11 @@ export class migrateInteractions1638808597232 implements MigrationInterface {
           await usagerLightRepository.updateOne(
             { uuid: usagerToUpdate.uuid },
             {
-              interactionsDifference: true,
               lastInteraction: usagerToUpdate.lastInteraction,
             }
           );
         }
       }
-
-      // Flag pour indiquer que cet usager est à jour
-      await usagerLightRepository.count({
-        where: {
-          interactionsMigrated: false,
-        },
-      });
     }
     // Fin boucle structures
   }
@@ -230,7 +220,7 @@ export class migrateInteractions1638808597232 implements MigrationInterface {
     );
 
     await queryRunner.query(
-      `ALTER TABLE "usager" DROP COLUMN "interactionsMigrated"`
+      `UPDATE "usager" SET "interactionsMigrated" = false`
     );
   }
 }

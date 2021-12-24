@@ -126,7 +126,10 @@ export class UsagerService {
     importMode: UsagersImportMode;
     previewTable: ImportPreviewTable;
   }> {
-    return this.http.post<any>(environment.apiUrl + "import/" + mode, data);
+    return this.http.post<{
+      importMode: UsagersImportMode;
+      previewTable: ImportPreviewTable;
+    }>(environment.apiUrl + "import/" + mode, data);
   }
 
   public findMySms(usager: UsagerLight): Observable<MessageSms[]> {

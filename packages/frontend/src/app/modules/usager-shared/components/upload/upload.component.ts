@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { UsagerLight } from "../../../../../_common/model";
 import {
@@ -31,7 +36,7 @@ export class UploadComponent implements OnInit {
     this.uploadResponse = { status: "", message: "", filePath: "", body: [] };
   }
 
-  get u(): any {
+  get u(): { [key: string]: AbstractControl } {
     return this.uploadForm.controls;
   }
 
