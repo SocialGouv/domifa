@@ -1,28 +1,32 @@
+import { appLogger } from "./../util/AppLogger.service";
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { domifaConfig } from "../config";
 
 export class manualMigration1638807403295 implements MigrationInterface {
   name = "prepareInteractionMigration1635801057529";
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `ALTER TABLE "usager" ADD "interactionsMigrated" boolean NOT NULL DEFAULT false`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "usager" ADD "interactionsDifference" boolean NOT NULL DEFAULT false`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "interactions" ADD "interactionOutUUID" uuid`
-    );
-    await queryRunner.query(
-      `CREATE INDEX "IDX_495b59d0dd15e43b262f2da890" ON "interactions" ("interactionOutUUID") `
-    );
-    await queryRunner.query(
-      `ALTER TABLE "interactions" ADD CONSTRAINT "FK_495b59d0dd15e43b262f2da8907" FOREIGN KEY ("interactionOutUUID") REFERENCES "interactions"("uuid") ON DELETE NO ACTION ON UPDATE NO ACTION`
-    );
+    const envId = domifaConfig().envId;
+
+    if (envId === "prod" || envId === "preprod") {
+      await queryRunner.query(
+        `ALTER TABLE "usager" ADD "interactionsMigrated" boolean NOT NULL DEFAULT false`
+      );
+      await queryRunner.query(
+        `ALTER TABLE "interactions" ADD "interactionOutUUID" uuid`
+      );
+      await queryRunner.query(
+        `CREATE INDEX "IDX_495b59d0dd15e43b262f2da890" ON "interactions" ("interactionOutUUID") `
+      );
+      await queryRunner.query(
+        `ALTER TABLE "interactions" ADD CONSTRAINT "FK_495b59d0dd15e43b262f2da8907" FOREIGN KEY ("interactionOutUUID") REFERENCES "interactions"("uuid") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      );
+    } else {
+      appLogger.debug(
+        "[MIGRATION] Création des données esquivée, car pas dans un env PROD, PREPROD"
+      );
+    }
     await queryRunner.query(
       `UPDATE "usager" SET "interactionsMigrated" = false`
-    );
-    await queryRunner.query(
-      `UPDATE "usager" SET "interactionsDifference" = false`
     );
   }
 

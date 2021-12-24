@@ -25,7 +25,7 @@ async function createTables(queryRunner: QueryRunner) {
 
   await queryRunner.query(
     `
-    CREATE TABLE message_email (
+    CREATE UNLOGGED TABLE message_email (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
@@ -50,7 +50,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE message_sms;
 
-    CREATE TABLE message_sms (
+    CREATE UNLOGGED TABLE message_sms (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
@@ -77,14 +77,13 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_7fd081c7b024fd7837e6d1923c" ON message_sms USING btree (status);
     CREATE INDEX "IDX_dae89d90feda082fad814da8a4" ON message_sms USING btree ("structureId");
 
-
     -- monitor_batch_process definition
 
     -- Drop table
 
     -- DROP TABLE monitor_batch_process;
 
-    CREATE TABLE monitor_batch_process (
+    CREATE UNLOGGED TABLE monitor_batch_process (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
@@ -150,7 +149,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE structure_doc;
 
-    CREATE TABLE structure_doc (
+    CREATE UNLOGGED TABLE structure_doc (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
@@ -211,6 +210,7 @@ async function createTables(queryRunner: QueryRunner) {
       "options" jsonb NOT NULL,
       "import" jsonb NULL,
       notes jsonb NOT NULL DEFAULT '[]'::jsonb,
+      "interactionsMigrated" bool NOT NULL DEFAULT false,
       CONSTRAINT "PK_1bb36e24229bec446a281573612" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_e76056fb098740de66d58a5055a" UNIQUE ("structureId", ref),
       CONSTRAINT "FK_a44d882d224e368efdee8eb8c80" FOREIGN KEY ("structureId") REFERENCES "structure"(id)
@@ -225,7 +225,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE usager_history;
 
-    CREATE TABLE usager_history (
+    CREATE UNLOGGED TABLE usager_history (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
@@ -284,7 +284,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE user_structure_security;
 
-    CREATE TABLE user_structure_security (
+    CREATE UNLOGGED TABLE user_structure_security (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
@@ -308,7 +308,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE user_usager;
 
-    CREATE TABLE user_usager (
+    CREATE UNLOGGED TABLE user_usager (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
@@ -344,7 +344,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE user_usager_security;
 
-    CREATE TABLE user_usager_security (
+    CREATE UNLOGGED TABLE user_usager_security (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
@@ -367,7 +367,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE interactions;
 
-    CREATE TABLE interactions (
+    CREATE UNLOGGED TABLE interactions (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
@@ -383,13 +383,17 @@ async function createTables(queryRunner: QueryRunner) {
       "usagerUUID" uuid NOT NULL,
       "event" text NOT NULL DEFAULT 'create'::text,
       "previousValue" jsonb NULL,
+      "interactionOutUUID" uuid NULL,
       CONSTRAINT "PK_006113a10247f411c459d62a5b3" PRIMARY KEY (uuid),
       CONSTRAINT "FK_1953f5ad67157bada8774f7e245" FOREIGN KEY ("structureId") REFERENCES "structure"(id),
+      CONSTRAINT "FK_495b59d0dd15e43b262f2da8907" FOREIGN KEY ("interactionOutUUID") REFERENCES interactions(uuid),
       CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335" FOREIGN KEY ("usagerUUID") REFERENCES usager(uuid)
     );
     CREATE INDEX "IDX_0c5d7e9585c77ff002d4072c3c" ON interactions USING btree ("usagerRef");
     CREATE INDEX "IDX_1953f5ad67157bada8774f7e24" ON interactions USING btree ("structureId");
+    CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON interactions USING btree ("usagerUUID");
     CREATE INDEX "IDX_9992157cbe54583ff7002ae4c0" ON interactions USING btree ("userId");
-    CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON interactions USING btree ("usagerUUID");`
+    CREATE INDEX "IDX_495b59d0dd15e43b262f2da890" ON interactions USING btree ("interactionOutUUID");
+    `
   );
 }

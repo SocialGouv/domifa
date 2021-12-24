@@ -138,6 +138,8 @@ async function countPendingInteraction({
 
   return typeof results[0] === "undefined"
     ? 0
+    : results[0] === null || results[0].length === 0
+    ? 0
     : parseInt(results[0].nbInteractions, 10);
 }
 
@@ -164,12 +166,18 @@ async function countPendingInteractionsIn({
     await interactionRepository.typeorm()
   ).query(query, [structureId, usagerRef]);
 
+  const defaultResult = {
+    courrierIn: 0,
+    recommandeIn: 0,
+    colisIn: 0,
+  };
+
   if (typeof results[0] === "undefined") {
-    return {
-      courrierIn: 0,
-      recommandeIn: 0,
-      colisIn: 0,
-    };
+    return defaultResult;
+  }
+
+  if (results[0] === null || results[0].length === 0) {
+    return defaultResult;
   }
 
   return {
