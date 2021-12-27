@@ -2,12 +2,12 @@ import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
+
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { DECISION_LABELS } from "../../../../shared/constants/USAGER_LABELS.const";
 import { getUsagerNomComplet } from "../../../../shared/getUsagerNomComplet";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
-
 import { UsagerService } from "../../../usagers/services/usager.service";
 
 @Component({

@@ -48,7 +48,11 @@
     <tr *ngFor="let usager of usagers; let i = index">
       <td *ngIf="filters.statut==='TOUS'">
         <a [routerLink]="usager.usagerProfilUrl">
-          <div class="label-statut" [class]="usager.statusInfos.color">
+          <div
+            title="Impression"
+            class="label-statut"
+            [class]="usager.statusInfos.color"
+          >
             <span>{{usager.statusInfos.text }}</span>
           </div>
         </a>
