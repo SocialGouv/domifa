@@ -43,13 +43,6 @@ async function createTables(queryRunner: QueryRunner) {
       CONSTRAINT "PK_6bffd9b803b67cd4e099fc795e1" PRIMARY KEY (uuid)
     );
 
-
-    -- message_sms definition
-
-    -- Drop table
-
-    -- DROP TABLE message_sms;
-
     CREATE UNLOGGED TABLE message_sms (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
@@ -77,11 +70,12 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_7fd081c7b024fd7837e6d1923c" ON message_sms USING btree (status);
     CREATE INDEX "IDX_dae89d90feda082fad814da8a4" ON message_sms USING btree ("structureId");
 
-    -- monitor_batch_process definition
-
-    -- Drop table
-
-    -- DROP TABLE monitor_batch_process;
+    CREATE UNLOGGED TABLE migrations (
+      id serial4 NOT NULL,
+      "timestamp" int8 NOT NULL,
+      name varchar NOT NULL,
+      CONSTRAINT "PK_8c82d7f526340ab734260ea46be" PRIMARY KEY (id)
+    );
 
     CREATE UNLOGGED TABLE monitor_batch_process (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -142,12 +136,6 @@ async function createTables(queryRunner: QueryRunner) {
     );
     CREATE INDEX "IDX_90ac7986e769d602d218075215" ON structure USING btree (id);
 
-
-    -- structure_doc definition
-
-    -- Drop table
-
-    -- DROP TABLE structure_doc;
 
     CREATE UNLOGGED TABLE structure_doc (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -372,7 +360,7 @@ async function createTables(queryRunner: QueryRunner) {
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
-      "dateInteraction" timestamptz NOT NULL,
+      "dateInteraction" timestamp NOT NULL,
       "nbCourrier" int4 NOT NULL,
       "structureId" int4 NOT NULL,
       "type" text NOT NULL,
@@ -391,9 +379,9 @@ async function createTables(queryRunner: QueryRunner) {
     );
     CREATE INDEX "IDX_0c5d7e9585c77ff002d4072c3c" ON interactions USING btree ("usagerRef");
     CREATE INDEX "IDX_1953f5ad67157bada8774f7e24" ON interactions USING btree ("structureId");
-    CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON interactions USING btree ("usagerUUID");
-    CREATE INDEX "IDX_9992157cbe54583ff7002ae4c0" ON interactions USING btree ("userId");
     CREATE INDEX "IDX_495b59d0dd15e43b262f2da890" ON interactions USING btree ("interactionOutUUID");
+    CREATE INDEX "IDX_9992157cbe54583ff7002ae4c0" ON interactions USING btree ("userId");
+    CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON interactions USING btree ("usagerUUID");
     `
   );
 }
