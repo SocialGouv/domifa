@@ -1,3 +1,12 @@
+## [2.54.1](https://github.com/SocialGouv/domifa/compare/v2.54.0...v2.54.1) (2021-12-28)
+
+
+### Bug Fixes
+
+* mise à jour des scripts de migration ([6e827c8](https://github.com/SocialGouv/domifa/commit/6e827c83a1305b67942a9fda54593406f88cbf22))
+* **migrations:** affichage des logs de la migration ([c3b10b0](https://github.com/SocialGouv/domifa/commit/c3b10b0164605587b003558c9334eb9bfc7e3424))
+* **migrations:** Débug de la migration des interactions pour suivre l'évolution ([6c0d294](https://github.com/SocialGouv/domifa/commit/6c0d294266e584960d32f02fbba672babd66e5a4))
+
 # [2.54.0](https://github.com/SocialGouv/domifa/compare/v2.53.6...v2.54.0) (2021-12-28)
 
 
