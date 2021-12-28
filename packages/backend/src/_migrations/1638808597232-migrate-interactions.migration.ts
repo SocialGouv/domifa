@@ -15,6 +15,7 @@ export class migrateInteractions1638808597232 implements MigrationInterface {
   public name = "migrateInteractions1638808597232";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
+    appLogger.debug("[MIGRATION] migrateInteractions1638808597232 start");
     const INTERACTIONS_IN = ["courrierIn", "colisIn", "recommandeIn"];
 
     const structures = await structureLightRepository.findMany(
@@ -25,6 +26,9 @@ export class migrateInteractions1638808597232 implements MigrationInterface {
       }
     );
 
+    appLogger.debug(
+      "[MIGRATION] " + structures.length + " structures à mettre à jour"
+    );
     for (const structure of structures) {
       // Affichage du compteur de suivi
       await displayCounter();
