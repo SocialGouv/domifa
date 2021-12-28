@@ -1,3 +1,10 @@
+## [2.54.2](https://github.com/SocialGouv/domifa/compare/v2.54.1...v2.54.2) (2021-12-28)
+
+
+### Bug Fixes
+
+* **preprod:** use new pg server ([#1992](https://github.com/SocialGouv/domifa/issues/1992)) ([3ae3dde](https://github.com/SocialGouv/domifa/commit/3ae3dde387a112fb21445917fd18e57f73bd30ec))
+
 ## [2.54.1](https://github.com/SocialGouv/domifa/compare/v2.54.0...v2.54.1) (2021-12-28)
 
 
