@@ -1,3 +1,16 @@
+# [2.54.0](https://github.com/SocialGouv/domifa/compare/v2.53.6...v2.54.0) (2021-12-28)
+
+
+### Bug Fixes
+
+* affichage du texte ([0c416e4](https://github.com/SocialGouv/domifa/commit/0c416e439bbc3757343778d83d9742ffbc7fc711))
+* **migrations:** mise à jour des dumps de tests, k8s ([23cd109](https://github.com/SocialGouv/domifa/commit/23cd10906dfb6a9a8d3656cada615ce585edb552))
+
+
+### Features
+
+* **interactions:** refonte du système de comptage des interactions ([c16e33f](https://github.com/SocialGouv/domifa/commit/c16e33f5613608d9172ca11c46b721288f8a46e1))
+
 ## [2.53.6](https://github.com/SocialGouv/domifa/compare/v2.53.5...v2.53.6) (2021-12-23)
 
 
