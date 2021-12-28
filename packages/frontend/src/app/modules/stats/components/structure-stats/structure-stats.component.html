@@ -16,14 +16,21 @@
           <div class="row d-flex align-items-center">
             <div class="col-md-8">
               <b>
-                <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+                <fa-icon
+                  title="Information statistiques"
+                  [icon]="['fas', 'info-circle']"
+                ></fa-icon>
 
                 Les statistiques du rapport d’activité 2020 sont disponibles
               </b>
             </div>
             <div class="col-md-4 text-right">
-              <button class="btn btn-primary" (click)="export(2020)">
-                <fa-icon [icon]="['fas', 'download']"> </fa-icon> Télécharger le
+              <button
+                title="Télécharger le rapport 2020"
+                class="btn btn-primary"
+                (click)="export(2020)"
+              >
+                <fa-icon [icon]="['fas', 'download']"></fa-icon> Télécharger le
                 rapport 2020
               </button>
             </div>
@@ -61,7 +68,10 @@
           />
           <div class="input-group-append">
             <span class="btn btn-outline-primary" (click)="dDebut.toggle()">
-              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+              <fa-icon
+                title="Calendrier"
+                [icon]="['fas', 'calendar']"
+              ></fa-icon>
             </span>
           </div>
         </div>
@@ -97,7 +107,10 @@
           />
           <div class="input-group-append">
             <span class="btn btn-outline-primary" (click)="dFin.toggle()">
-              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+              <fa-icon
+                title="Calendrier"
+                [icon]="['fas', 'calendar']"
+              ></fa-icon>
             </span>
           </div>
         </div>
@@ -110,6 +123,7 @@
     <div class="col-md-3 form-group">
       <div class="input-group">
         <button
+          title="Actualiser les statistiques"
           class="btn btn-primary"
           [disabled]="ca.status === 'INVALID' || cb.status === 'INVALID'"
           (click)="compare()"

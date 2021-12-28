@@ -63,6 +63,7 @@
             </div>
             <div class="col-md-1 text-right">
               <button
+                title="Supprimer"
                 *ngIf="me.role === 'admin' && me.id !== user.id"
                 (click)="open(deleteUserConfirmation); selectedUser = user.id"
                 class="btn btn-outline-danger"
@@ -100,7 +101,7 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -108,10 +109,10 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -120,7 +121,7 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -129,7 +130,7 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -138,7 +139,7 @@
               <td></td>
               <td>* Téléchargement seulement</td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -147,7 +148,16 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
+              </td>
+            </tr>
+            <tr>
+              <td>Portail usager</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="bg-success">
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -156,7 +166,7 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -168,7 +178,7 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -176,36 +186,36 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
               <td>Page statistiques de la structure</td>
               <td></td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
               <td>Cr&eacute;ation du dossier d&rsquo;un domicili&eacute;</td>
               <td></td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -215,10 +225,10 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -228,6 +238,8 @@
                 <ul>
                   <li>&eacute;tat civil*</li>
                   <li>ayants-droit*</li>
+                  <li>notifications SMS*</li>
+                  <li>portail usager*</li>
                   <li>transfert de courrier**</li>
                   <li>procuration de courrier**</li>
                   <li>entretien</li>
@@ -239,84 +251,84 @@
                 <p>** Modification et suppression possible</p>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
               <td>Ajout/suppression de notes internes</td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
               <td>Gestion de la r&eacute;ception des courriers/colis/avis</td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
               <td>D&eacute;claration d&rsquo;un passage/appel&nbsp;</td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
               <td>Radiation du dossier d&rsquo;un domicili&eacute;</td>
               <td></td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
               <td>Renouvellement du dossier d&rsquo;un domicili&eacute;</td>
               <td></td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -326,13 +338,13 @@
               </td>
               <td></td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
             </tr>
             <tr>
@@ -340,10 +352,10 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
               <td class="bg-success">
-                <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon title="Autoriser" [icon]="['fas', 'check']"></fa-icon>
               </td>
             </tr>
           </tbody>

@@ -11,7 +11,7 @@
             class="alert alert-danger"
             *ngIf="usager.decision.statut === 'RADIE'"
           >
-            <div class="svg-icon icon-danger"></div>
+            <div title="Important" class="svg-icon icon-danger"></div>
 
             <div>
               Cette personne a été radiée le
@@ -40,7 +40,7 @@
               !isRole('facteur')
             "
           >
-            <div class="svg-icon icon-calendar"></div>
+            <div title="Calendrier" class="svg-icon icon-calendar"></div>
             <span [class]="usager.rdvInfos.class">
               Demande de renouvellement actuellement en cours
               {{
@@ -63,7 +63,7 @@
               usager.typeDom === 'RENOUVELLEMENT'
             "
           >
-            <div class="svg-icon icon-calendar"></div>
+            <div title="Calendrier" class="svg-icon icon-calendar"></div>
             <div>
               Cette demande de renouvellement est actuellement en attente d'une
               décision
@@ -182,7 +182,7 @@
             "
             class="alert alert-danger"
           >
-            <span class="svg-icon icon-calendar"></span>
+            <span title="Calendrier" class="svg-icon icon-calendar"></span>
             <span>
               La procuration au nom de
               <u

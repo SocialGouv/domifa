@@ -7,7 +7,7 @@
       <div class="col-6">
         <div id="searchbar">
           <span id="search_icon">
-            <fa-icon [icon]="['fas','search']"></fa-icon>
+            <fa-icon title="Rechercher" [icon]="['fas', 'search']"></fa-icon>
           </span>
           <input
             type="text"
@@ -16,14 +16,22 @@
             autofocus
             placeholder="Recherche par numéro de domicilié, nom, prénom ou ayant-droit"
             class="form-control"
-            (keyup)="matomo.trackEvent('MANAGE', 'keyUp', 'Liste_Recherche', $event.target.value)"
+            (keyup)="
+              matomo.trackEvent(
+                'MANAGE',
+                'keyUp',
+                'Liste_Recherche',
+                $event.target.value
+              )
+            "
           />
           <span
+            title="Annuler"
             *ngIf="searchInput.value?.trim() !== ''"
             (click)="resetSearchBar()"
             id="times_icon"
           >
-            <fa-icon [icon]="['fas','times']"></fa-icon>
+            <fa-icon title="Annuler" [icon]="['fas', 'times']"></fa-icon>
           </span>
         </div>
       </div>
@@ -43,16 +51,16 @@
     <div id="statut-selector" class="mt-3 row">
       <div
         class="col"
-        [ngClass]="{'selected-section' : filters.statut === 'TOUS' }"
-        (click)="updateFilters({element: 'statut', value:'TOUS'})"
+        [ngClass]="{ 'selected-section': filters.statut === 'TOUS' }"
+        (click)="updateFilters({ element: 'statut', value: 'TOUS' })"
       >
         <span class="statut-cpt"> {{ usagersTotalCount || 0 }} </span>
         <span class="statut-label"> Tous</span>
       </div>
       <div
         class="col"
-        [ngClass]="{'selected-section' :filters.statut === 'VALIDE' }"
-        (click)="updateFilters({element: 'statut', value:'VALIDE'})"
+        [ngClass]="{ 'selected-section': filters.statut === 'VALIDE' }"
+        (click)="updateFilters({ element: 'statut', value: 'VALIDE' })"
       >
         <span class="statut-cpt"
           >{{ allUsagersByStatus?.VALIDE.length || 0 }}
@@ -61,8 +69,8 @@
       </div>
       <div
         class="col"
-        [ngClass]="{'selected-section' : filters.statut === 'INSTRUCTION' }"
-        (click)="updateFilters({element: 'statut', value:'INSTRUCTION'})"
+        [ngClass]="{ 'selected-section': filters.statut === 'INSTRUCTION' }"
+        (click)="updateFilters({ element: 'statut', value: 'INSTRUCTION' })"
       >
         <span class="statut-cpt"
           >{{ allUsagersByStatus?.INSTRUCTION.length || 0 }}
@@ -71,8 +79,12 @@
       </div>
       <div
         class="col"
-        [ngClass]="{'selected-section' : filters.statut === 'ATTENTE_DECISION' }"
-        (click)="updateFilters({element: 'statut', value:'ATTENTE_DECISION'})"
+        [ngClass]="{
+          'selected-section': filters.statut === 'ATTENTE_DECISION'
+        }"
+        (click)="
+          updateFilters({ element: 'statut', value: 'ATTENTE_DECISION' })
+        "
       >
         <span class="statut-cpt"
           >{{ allUsagersByStatus?.ATTENTE_DECISION.length || 0 }}
@@ -81,8 +93,8 @@
       </div>
       <div
         class="col"
-        [ngClass]="{'selected-section' :filters.statut === 'REFUS' }"
-        (click)="updateFilters({element: 'statut', value:'REFUS'})"
+        [ngClass]="{ 'selected-section': filters.statut === 'REFUS' }"
+        (click)="updateFilters({ element: 'statut', value: 'REFUS' })"
       >
         <span class="statut-cpt"
           >{{ allUsagersByStatus?.REFUS.length || 0 }}
@@ -91,8 +103,8 @@
       </div>
       <div
         class="col"
-        [ngClass]="{'selected-section' :filters.statut === 'RADIE' }"
-        (click)="updateFilters({element: 'statut', value:'RADIE'})"
+        [ngClass]="{ 'selected-section': filters.statut === 'RADIE' }"
+        (click)="updateFilters({ element: 'statut', value: 'RADIE' })"
       >
         <span class="statut-cpt"> {{ usagersRadiesTotalCount || 0 }} </span>
         <span class="statut-label"> Radiés</span>
@@ -106,9 +118,12 @@
     <div class="row d-flex align-items-center">
       <div class="col-md-9">
         <div *ngIf="nbResults" class="filter-part">
-          Filtrer les <span class="text-primary"> {{nbResults}} </span>
+          Filtrer les <span class="text-primary"> {{ nbResults }} </span>
           <ng-container
-            *ngIf="filters.statut === 'RADIE' && usagersRadiesTotalCount !== usagersRadiesLoadedCount"
+            *ngIf="
+              filters.statut === 'RADIE' &&
+              usagersRadiesTotalCount !== usagersRadiesLoadedCount
+            "
           >
             premiers
           </ng-container>
@@ -117,13 +132,14 @@
         <div *ngIf="!nbResults" class="filter-part">Aucun résultat</div>
 
         <div
-          *ngIf="filters.statut === 'TOUS' || filters.statut === 'VALIDE'"
+          *ngIf="filters.statut === 'TOUS' || filters.statut === 'VALIDE'"
           class="filter-part"
         >
           <div class="d-inline-block" *ngIf="filters.passage">
             <button
+              title="Réinitialiser le filtre"
               class="btn selected-btn"
-              (click)="updateFilters({element: 'passage', value: null})"
+              (click)="updateFilters({ element: 'passage', value: null })"
             >
               {{ labelsDernierPassage[filters.passage] }}
               <fa-icon [icon]="['fas', 'times']" class="cross"></fa-icon>
@@ -147,13 +163,17 @@
               class="dropdown-menu"
             >
               <button
-                (click)="updateFilters({element: 'passage', value: 'DEUX_MOIS'})"
+                (click)="
+                  updateFilters({ element: 'passage', value: 'DEUX_MOIS' })
+                "
                 ngbDropdownItem
               >
                 Plus de 2 mois
               </button>
               <button
-                (click)="updateFilters({element: 'passage', value: 'TROIS_MOIS'})"
+                (click)="
+                  updateFilters({ element: 'passage', value: 'TROIS_MOIS' })
+                "
                 ngbDropdownItem
               >
                 Plus de 3 mois
@@ -163,13 +183,14 @@
         </div>
 
         <div
-          *ngIf="filters.statut === 'TOUS' || filters.statut === 'VALIDE'"
+          *ngIf="filters.statut === 'TOUS' || filters.statut === 'VALIDE'"
           class="filter-part text-left"
         >
           <div class="d-inline-block" *ngIf="filters.echeance">
             <button
+              title="Réinitialiser le filtre"
               class="btn selected-btn"
-              (click)="updateFilters({element: 'echeance',value: null})"
+              (click)="updateFilters({ element: 'echeance', value: null })"
             >
               {{ labelsEcheance[filters.echeance] }}
               <fa-icon [icon]="['fas', 'times']" class="cross"></fa-icon>
@@ -193,19 +214,25 @@
               class="dropdown-menu dropdown-menu-right"
             >
               <button
-                (click)="updateFilters({element: 'echeance', value: 'DEUX_MOIS'})"
+                (click)="
+                  updateFilters({ element: 'echeance', value: 'DEUX_MOIS' })
+                "
                 ngbDropdownItem
               >
                 Moins de 2 mois
               </button>
               <button
-                (click)="updateFilters({element: 'echeance', value: 'DEUX_SEMAINES'})"
+                (click)="
+                  updateFilters({ element: 'echeance', value: 'DEUX_SEMAINES' })
+                "
                 ngbDropdownItem
               >
                 Moins de 2 semaines
               </button>
               <button
-                (click)="updateFilters({element: 'echeance', value: 'DEPASSEE'})"
+                (click)="
+                  updateFilters({ element: 'echeance', value: 'DEPASSEE' })
+                "
                 ngbDropdownItem
               >
                 Dépassée
@@ -217,8 +244,11 @@
         <div *ngIf="filters.statut !== 'REFUS'" class="filter-part">
           <div class="d-inline-block" *ngIf="filters.interactionType">
             <button
+              title="Réinitialiser le filtre"
               class="btn selected-btn"
-              (click)="updateFilters({element: 'interactionType',value: null})"
+              (click)="
+                updateFilters({ element: 'interactionType', value: null })
+              "
             >
               Courrier à récupérer
               <fa-icon [icon]="['fas', 'times']" class="cross"></fa-icon>
@@ -241,7 +271,12 @@
               class="dropdown-menu"
             >
               <button
-                (click)="updateFilters({element: 'interactionType', value: 'courrierIn'})"
+                (click)="
+                  updateFilters({
+                    element: 'interactionType',
+                    value: 'courrierIn'
+                  })
+                "
                 ngbDropdownItem
               >
                 Courrier à récupérer
@@ -260,7 +295,7 @@
           <div id="dropdownSortButton" ngbDropdownToggle>
             <span *ngIf="filters.sortKey !== 'PASSAGE'">
               Trier par
-              <b class="text-primary">{{ sortLabel }}</b>
+              <b class="text-primary">{{ sortLabel }}</b>
             </span>
 
             <span *ngIf="filters.sortKey === 'PASSAGE'">
@@ -283,17 +318,31 @@
             class="dropdown-menu dropdown-menu-right"
           >
             <ng-container
-              *ngIf="filters.statut === 'TOUS'  || filters.statut === 'VALIDE'"
+              *ngIf="filters.statut === 'TOUS' || filters.statut === 'VALIDE'"
             >
               <button
-                (click)="updateFilters({element: 'sortKey', value: 'PASSAGE', sortValue:'ascending'})"
+                title="Trier par dernier passage ascendant"
+                (click)="
+                  updateFilters({
+                    element: 'sortKey',
+                    value: 'PASSAGE',
+                    sortValue: 'ascending'
+                  })
+                "
                 ngbDropdownItem
               >
                 Trier par dernier passage
                 <fa-icon [icon]="['fas', 'sort-amount-up']"></fa-icon>
               </button>
               <button
-                (click)="updateFilters({element: 'sortKey', value: 'PASSAGE', sortValue:'descending'})"
+                title="Trier par dernier passage descendant"
+                (click)="
+                  updateFilters({
+                    element: 'sortKey',
+                    value: 'PASSAGE',
+                    sortValue: 'descending'
+                  })
+                "
                 ngbDropdownItem
               >
                 Trier par dernier passage
@@ -301,42 +350,84 @@
               </button>
             </ng-container>
             <button
-              (click)="updateFilters({element: 'sortKey', value: 'ECHEANCE', sortValue:'ascending'})"
+              [title]="'Trier par ' + getEcheanceLabel() + ' ascendant'"
+              (click)="
+                updateFilters({
+                  element: 'sortKey',
+                  value: 'ECHEANCE',
+                  sortValue: 'ascending'
+                })
+              "
               ngbDropdownItem
             >
               Trier par {{ getEcheanceLabel() }}
               <fa-icon [icon]="['fas', 'sort-amount-up']"></fa-icon>
             </button>
             <button
-              (click)="updateFilters({element: 'sortKey', value: 'ECHEANCE', sortValue:'descending'})"
+              [title]="'Trier par ' + getEcheanceLabel() + ' descendant'"
+              (click)="
+                updateFilters({
+                  element: 'sortKey',
+                  value: 'ECHEANCE',
+                  sortValue: 'descending'
+                })
+              "
               ngbDropdownItem
             >
               Trier par {{ getEcheanceLabel() }}
               <fa-icon [icon]="['fas', 'sort-amount-down']"></fa-icon>
             </button>
             <button
-              (click)="updateFilters({element: 'sortKey', value: 'NAME', sortValue:'ascending'})"
+              title="Trier par nom ascendant"
+              (click)="
+                updateFilters({
+                  element: 'sortKey',
+                  value: 'NAME',
+                  sortValue: 'ascending'
+                })
+              "
               ngbDropdownItem
             >
               Trier par nom
               <fa-icon [icon]="['fas', 'sort-amount-up']"></fa-icon>
             </button>
             <button
-              (click)="updateFilters({element: 'sortKey', value: 'NAME', sortValue:'descending'})"
+              title="Trier par nom descendant"
+              (click)="
+                updateFilters({
+                  element: 'sortKey',
+                  value: 'NAME',
+                  sortValue: 'descending'
+                })
+              "
               ngbDropdownItem
             >
               Trier par nom
               <fa-icon [icon]="['fas', 'sort-amount-down']"></fa-icon>
             </button>
             <button
-              (click)="updateFilters({element: 'sortKey', value: 'ID', sortValue:'ascending'})"
+              title="Trier par ID ascendant"
+              (click)="
+                updateFilters({
+                  element: 'sortKey',
+                  value: 'ID',
+                  sortValue: 'ascending'
+                })
+              "
               ngbDropdownItem
             >
               Trier par ID
               <fa-icon [icon]="['fas', 'sort-amount-up']"></fa-icon>
             </button>
             <button
-              (click)="updateFilters({element: 'sortKey', value: 'ID', sortValue:'descending'})"
+              title="Trier par ID descendant"
+              (click)="
+                updateFilters({
+                  element: 'sortKey',
+                  value: 'ID',
+                  sortValue: 'descending'
+                })
+              "
               ngbDropdownItem
             >
               Trier par ID
@@ -392,7 +483,11 @@
     <div
       style="background: white"
       class="container py-3 px-2"
-      *ngIf="(filters.statut === 'TOUS' || filters.statut === 'RADIE') && usagersRadiesTotalCount !== usagersRadiesLoadedCount && !this.chargerTousRadies$.value"
+      *ngIf="
+        (filters.statut === 'TOUS' || filters.statut === 'RADIE') &&
+        usagersRadiesTotalCount !== usagersRadiesLoadedCount &&
+        !this.chargerTousRadies$.value
+      "
     >
       <div class="my-2">
         <button

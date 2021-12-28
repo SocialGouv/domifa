@@ -31,14 +31,11 @@
           <h4>Vos documents pré-remplis</h4>
           <div *ngIf="me.role === 'admin'">
             <button
+              title="Importer un document pré-rempli"
               class="btn-outline-primary btn"
               (click)="openUploadCustomDocModal(true)"
             >
-              <fa-icon
-                aria-hidden="true"
-                title="Importer"
-                [icon]="['fas', 'upload']"
-              ></fa-icon>
+              <fa-icon title="Importer" [icon]="['fas', 'upload']"></fa-icon>
               Importer un document pré-rempli
             </button>
           </div>
@@ -92,14 +89,11 @@
         <h4>Autres documents</h4>
         <div *ngIf="me.role === 'admin'">
           <button
+            title="Importer un document"
             class="btn-outline-primary btn"
             (click)="openUploadCustomDocModal(false)"
           >
-            <fa-icon
-              aria-hidden="true"
-              title="Importer"
-              [icon]="['fas', 'upload']"
-            ></fa-icon>
+            <fa-icon title="Importer" [icon]="['fas', 'upload']"></fa-icon>
             Importer un document
           </button>
         </div>

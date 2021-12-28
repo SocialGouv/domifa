@@ -5,6 +5,7 @@
     </div>
     <div *ngIf="usager.decision.statut !== 'REFUS'">
       <button
+        title="Modifier le transfert"
         *ngIf="!isFormVisible"
         (click)="showForm()"
         class="btn btn-outline-dark ml-2"
@@ -14,6 +15,7 @@
       </button>
 
       <button
+        title="Annuler les modifications"
         *ngIf="isFormVisible"
         (click)="hideForm()"
         class="btn btn-outline-dark ml-2"
@@ -132,7 +134,10 @@
               class="btn btn-outline-primary"
               (click)="dateDebutTransfert.toggle()"
             >
-              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+              <fa-icon
+                title="Calendrier"
+                [icon]="['fas', 'calendar']"
+              ></fa-icon>
             </span>
           </div>
 
@@ -166,7 +171,10 @@
               class="btn btn-outline-primary"
               (click)="dateFinTransfert.toggle()"
             >
-              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+              <fa-icon
+                title="Calendrier"
+                [icon]="['fas', 'calendar']"
+              ></fa-icon>
             </span>
           </div>
 
@@ -183,7 +191,10 @@
     <div class="row">
       <div class="col-3 offset-3 text-center">
         <span (click)="deleteTransfert()" class="btn btn-block btn-danger mr-2">
-          <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+          <fa-icon
+            title="Supprimer le transfert"
+            [icon]="['fas', 'trash']"
+          ></fa-icon>
           Supprimer le transfert
         </span>
       </div>
