@@ -1,3 +1,10 @@
+## [2.54.3](https://github.com/SocialGouv/domifa/compare/v2.54.2...v2.54.3) (2021-12-28)
+
+
+### Bug Fixes
+
+* **preprod:** fix secret ([#1995](https://github.com/SocialGouv/domifa/issues/1995)) ([8c021b7](https://github.com/SocialGouv/domifa/commit/8c021b77cf69b9dc864ffafdec0e2609142be1bd))
+
 ## [2.54.2](https://github.com/SocialGouv/domifa/compare/v2.54.1...v2.54.2) (2021-12-28)
 
 
