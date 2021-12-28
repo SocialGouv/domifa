@@ -4,7 +4,7 @@
   <router-outlet></router-outlet>
 </div>
 <div class="d-print-none" id="help-button-wrapper" *ngIf="me">
-  <button id="help-button" (click)="openHelpModal()">
+  <button title="Besoin d'aide ?" id="help-button" (click)="openHelpModal()">
     <fa-icon [icon]="['fas', 'question']"></fa-icon>
   </button>
 </div>
@@ -20,11 +20,12 @@
   </div>
   <div>
     <button
+      title="Fermer"
       class="btn btn-white"
       aria-label="Fermer le message"
       (click)="closeMatomo()"
     >
-      Fermer <span aria-hidden="true">&times;</span>
+      Fermer <span>&times;</span>
     </button>
   </div>
 </div>
@@ -69,11 +70,12 @@
       {{ domifaNews.date | date: "dd/MM/yyyy" }} 🎉
     </h4>
     <button
+      title="Fermer"
       class="close"
       aria-label="Fermer la fenêtre"
       (click)="closeNewsModal()"
     >
-      <span aria-hidden="true">&times;</span>
+      <span>&times;</span>
     </button>
   </div>
   <div class="modal-body text-center">
@@ -119,11 +121,12 @@
   <div class="modal-header">
     <h4 class="modal-title">Centre d'aide Domifa</h4>
     <button
+      title="Fermer"
       class="close"
       aria-label="Fermer la fenêtre"
       (click)="closeHelpModal()"
     >
-      <span aria-hidden="true">&times;</span>
+      <span>&times;</span>
     </button>
   </div>
   <div class="modal-body text-center">
@@ -312,7 +315,6 @@
           class="ml-1"
           style="height: 8px"
           alt=""
-          aria-hidden="true"
         />
       </div>
     </div>

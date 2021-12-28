@@ -79,12 +79,17 @@
           Accepter le dossier
         </button>
 
-        <button class="mr-3 btn btn-danger" (click)="open(refus)">
+        <button
+          title="Refuser le dossier"
+          class="mr-3 btn btn-danger"
+          (click)="open(refus)"
+        >
           <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
           Refuser le dossier
         </button>
 
         <button
+          title="Soumettre la demande"
           *ngIf="usager.decision.statut !== 'ATTENTE_DECISION'"
           (click)="setDecisionAttente()"
           class="mr-3 btn btn-outline-primary"
@@ -170,6 +175,7 @@
             </div>
             <div>
               <button
+                title="Modifier"
                 class="btn btn-outline-primary d-print-none"
                 *ngIf="!editEntretien"
                 (click)="editEntretien = true"
@@ -178,6 +184,7 @@
                 Modifier
               </button>
               <button
+                title="Annuler les changements"
                 class="btn btn-outline-primary d-print-none"
                 *ngIf="editEntretien"
                 (click)="editEntretien = false"
@@ -209,6 +216,7 @@
         <h4>Pièces jointes</h4>
         <div>
           <button
+            title="Modifier"
             class="btn btn-outline-primary d-print-none"
             *ngIf="!editPJ"
             (click)="editPJ = true"
@@ -217,6 +225,7 @@
             Modifier
           </button>
           <button
+            title="Annuler les changements"
             class="btn btn-outline-primary d-print-none"
             *ngIf="editPJ"
             (click)="editPJ = false"

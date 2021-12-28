@@ -2,12 +2,13 @@
   <h4 class="text-white modal-title" id="modal-title">Motivez votre refus</h4>
 
   <button
+    title="Fermer"
     type="button"
     class="close"
     aria-describedby="modal-title"
     (click)="closeModals.emit()"
   >
-    <span aria-hidden="true">&times;</span>
+    <span>&times;</span>
   </button>
 </div>
 <div class="modal-body py-4">
@@ -42,7 +43,7 @@
             class="btn btn-outline-primary d-print-none"
             (click)="dFin.toggle()"
           >
-            <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+            <fa-icon title="Calendrier" [icon]="['fas', 'calendar']"></fa-icon>
           </span>
         </div>
       </div>

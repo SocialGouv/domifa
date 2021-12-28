@@ -26,6 +26,7 @@
           "
         >
           <a
+            title="Compléter la demande"
             [routerLink]="['/usager/' + usager.ref + '/edit']"
             class="btn btn-white-primary ml-2"
           >
@@ -35,11 +36,16 @@
         </ng-container>
 
         <ng-container *ngIf="usager.decision.statut === 'REFUS'">
-          <button (click)="openRenewModal()" class="btn btn-white-primary ml-2">
+          <button
+            title="Créer une nouvelle demande"
+            (click)="openRenewModal()"
+            class="btn btn-white-primary ml-2"
+          >
             <fa-icon [icon]="['fas', 'redo']" class="mr-2"></fa-icon>
             Créer une nouvelle demande
           </button>
           <button
+            title="Télécharger le CERFA"
             class="btn btn-white-primary ml-2"
             (click)="
               getCerfa(
@@ -53,7 +59,11 @@
         </ng-container>
 
         <ng-container *ngIf="usager.decision.statut === 'RADIE'">
-          <button class="btn btn-white-primary ml-2" (click)="openRenewModal()">
+          <button
+            title="Créer une nouvelle demande"
+            class="btn btn-white-primary ml-2"
+            (click)="openRenewModal()"
+          >
             <fa-icon [icon]="['fas', 'redo']" class="mr-2"></fa-icon>
             Créer une nouvelle demande
           </button>
@@ -61,6 +71,7 @@
 
         <ng-container *ngIf="usager.decision.statut === 'VALIDE'">
           <button
+            title="Demande de renouvellement"
             class="ml-2 btn btn-white-primary ml-2"
             (click)="openRenewModal()"
           >
@@ -68,6 +79,7 @@
             Demande de renouvellement
           </button>
           <button
+            title="Radier le domicilié"
             (click)="openRadiationModal()"
             class="ml-2 btn btn-white-primary"
           >
@@ -148,12 +160,13 @@
     </h4>
 
     <button
+      title="Fermer"
       type="button"
       class="close"
       aria-describedby="modal-title"
       (click)="closeModals()"
     >
-      <span aria-hidden="true">&times;</span>
+      <span>&times;</span>
     </button>
   </div>
 

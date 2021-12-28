@@ -5,6 +5,7 @@
       <div class="list-group">
         <div class="list-group-item">
           <button
+            title="Exporter tous les domiciliés"
             (click)="export()"
             [disabled]="exportLoading"
             class="btn btn-outline-primary"
@@ -14,13 +15,18 @@
               Exporter tous les domiciliés
             </span>
             <span *ngIf="exportLoading">
-              <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+              <fa-icon
+                title="Chargement..."
+                [icon]="['fas', 'circle-notch']"
+                [spin]="true"
+              >
               </fa-icon>
               Export en cours, veuillez patienter...
             </span>
           </button>
           &nbsp;
           <button
+            title="Supprimer tous les domiciliés"
             *ngIf="me.role === 'admin'"
             (click)="open(hardResetConfirmation)"
             class="btn btn-outline-danger"

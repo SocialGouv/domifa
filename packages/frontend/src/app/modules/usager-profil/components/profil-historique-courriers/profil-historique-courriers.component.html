@@ -68,6 +68,7 @@
           <td class="text-right d-print-none">
             <ng-container *ngIf="i === 0">
               <button
+                title="Supprimer"
                 aria-label="Supprimer l'interaction"
                 *ngIf="interaction.event === 'create'"
                 (click)="
@@ -75,11 +76,11 @@
                   openDeleteInteractionModal('delete')
                 "
                 class="btn btn-danger"
-                title="Supprimer"
               >
                 <fa-icon [icon]="['fas', 'trash']" class="delete"></fa-icon>
               </button>
               <button
+                title="Restaurer"
                 aria-label="Restaurer l'interaction"
                 *ngIf="interaction.event === 'delete'"
                 (click)="
@@ -87,12 +88,8 @@
                   openDeleteInteractionModal('create')
                 "
                 class="btn btn-outline-primary"
-                title="Restaurer"
               >
-                <fa-icon
-                  [icon]="['fas', 'exclamation-triangle']"
-                  title="Restaurer l'interaction"
-                ></fa-icon>
+                <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
               </button>
             </ng-container>
           </td>
@@ -109,6 +106,7 @@
     </h4>
 
     <button
+      title="Fermer"
       type="button"
       class="close"
       aria-describedby="modal-title"
@@ -163,6 +161,7 @@
     </h4>
 
     <button
+      title="Fermer"
       type="button"
       class="close"
       aria-describedby="modal-title"

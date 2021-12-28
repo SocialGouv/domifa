@@ -198,6 +198,7 @@
             <div class="input-group-append">
               <span class="input-group-text" (click)="toggleOldPassword()">
                 <fa-icon
+                  title="Voir / cacher le mot de passe"
                   [icon]="
                     hideOldPassword ? ['far', 'eye'] : ['far', 'eye-slash']
                   "
@@ -225,6 +226,7 @@
             <div class="input-group-append">
               <span class="input-group-text" (click)="togglePassword()">
                 <fa-icon
+                  title="Voir / cacher le mot de passe"
                   [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
                 ></fa-icon>
               </span>
@@ -233,6 +235,12 @@
 
           <div class="row indications">
             <div
+              [title]="
+                p.password.hasError('required') ||
+                p.password.hasError('minlength')
+                  ? 'Erreur'
+                  : 'Correct'
+              "
               class="col-md-12"
               [ngClass]="
                 p.password.hasError('required') ||
@@ -253,6 +261,12 @@
               Au moins 12 caractères
             </div>
             <div
+              [title]="
+                p.password.hasError('required') ||
+                p.password.hasError('hasNumber')
+                  ? 'Erreur'
+                  : 'Correct'
+              "
               class="col-md-12"
               [ngClass]="
                 p.password.hasError('required') ||
@@ -273,6 +287,12 @@
               Au moins 1 chiffre
             </div>
             <div
+              [title]="
+                p.password.hasError('required') ||
+                p.password.hasError('hasCapitalCase')
+                  ? 'Erreur'
+                  : 'Correct'
+              "
               class="col-md-12"
               [ngClass]="
                 p.password.hasError('required') ||
@@ -316,6 +336,7 @@
                 (click)="togglePasswordConfirmation()"
               >
                 <fa-icon
+                  title="Voir / cacher le mot de passe"
                   [icon]="
                     hideConfirmPassword ? ['far', 'eye'] : ['far', 'eye-slash']
                   "

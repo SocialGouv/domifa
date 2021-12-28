@@ -13,6 +13,7 @@
 
       <a class="navbar-brand ml-5 d-none d-sm-block" [routerLink]="['/']">
         <img
+          title="DomiFa"
           class="domifa-logo"
           src="../assets/images/logo.svg"
           alt="Logo Domifa"
@@ -46,7 +47,6 @@
               <span class="nav--menu-breadcrumb">|</span>
               <a
                 routerLink="/connexion"
-                aria-hidden="true"
                 title="Me connecter"
                 (click)="
                   matomo.trackEvent('HEADER', 'Header_Connection', 'null', 1)
@@ -108,18 +108,13 @@
                   rel="noopener noreferrer"
                 >
                   <fa-icon
-                    aria-hidden="true"
                     title="Admin Domifa"
                     [icon]="['fas', 'user-shield']"
                   ></fa-icon>
                   Admin Domifa
                 </a>
                 <a ngbDropdownItem routerLink="/mon-compte">
-                  <fa-icon
-                    aria-hidden="true"
-                    title="Compte"
-                    [icon]="['fas', 'user']"
-                  ></fa-icon>
+                  <fa-icon title="Compte" [icon]="['fas', 'user']"></fa-icon>
                   Compte
                 </a>
                 <a
@@ -127,11 +122,7 @@
                   *ngIf="me.role === 'admin' || me.role === 'responsable'"
                   routerLink="/admin"
                 >
-                  <fa-icon
-                    aria-hidden="true"
-                    title="Administration"
-                    [icon]="['fas', 'users']"
-                  >
+                  <fa-icon title="Administration" [icon]="['fas', 'users']">
                   </fa-icon>
                   Utilisateurs</a
                 >
@@ -141,7 +132,6 @@
                   routerLink="/structures/documents"
                 >
                   <fa-icon
-                    aria-hidden="true"
                     title="Documents de la structure"
                     [icon]="['far', 'file-word']"
                   >
@@ -155,7 +145,6 @@
                   routerLink="/import"
                 >
                   <fa-icon
-                    aria-hidden="true"
                     title="Importer"
                     [icon]="['fas', 'upload']"
                   ></fa-icon>
@@ -166,11 +155,7 @@
                   *ngIf="me.role === 'admin' || me.role === 'responsable'"
                   routerLink="/structures/edit"
                 >
-                  <fa-icon
-                    aria-hidden="true"
-                    title="Structure"
-                    [icon]="['fas', 'home']"
-                  >
+                  <fa-icon title="Structure" [icon]="['fas', 'home']">
                   </fa-icon>
                   Structure
                 </a>
@@ -182,7 +167,6 @@
                   routerLink="/structures/sms"
                 >
                   <fa-icon
-                    aria-hidden="true"
                     title="Notifications"
                     [icon]="['fas', 'sms']"
                   ></fa-icon>
@@ -196,11 +180,7 @@
                   "
                   routerLink="/structures/portail-usager"
                 >
-                  <fa-icon
-                    aria-hidden="true"
-                    title="Portail Usager"
-                    icon="user-secret"
-                  ></fa-icon>
+                  <fa-icon title="Portail Usager" icon="user-secret"></fa-icon>
                   Portail Usager
                 </a>
                 <a
@@ -212,17 +192,12 @@
                   "
                   routerLink="/stats/rapport-activite"
                 >
-                  <fa-icon
-                    aria-hidden="true"
-                    title="Statistiques"
-                    [icon]="['far', 'chart-bar']"
-                  >
+                  <fa-icon title="Statistiques" [icon]="['far', 'chart-bar']">
                   </fa-icon>
                   Statistiques
                 </a>
                 <a ngbDropdownItem (click)="logout()">
                   <fa-icon
-                    aria-hidden="true"
                     title="Statistiques"
                     [icon]="['fas', 'sign-out-alt']"
                   >

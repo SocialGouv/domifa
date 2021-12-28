@@ -5,6 +5,7 @@
   >
     <ng-container *ngIf="usager.decision.statut === 'INSTRUCTION'">
       <button
+        title="Supprimer cette demande"
         class="btn btn-outline-danger"
         id="delete-usager"
         *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
@@ -15,6 +16,7 @@
       </button>
 
       <button
+        title="Supprimer cette demande"
         class="btn btn-outline-danger"
         id="delete-usager"
         *ngIf="usager.typeDom === 'PREMIERE_DOM' && usager.etapeDemande > 0"
@@ -32,6 +34,7 @@
       "
     >
       <button
+        title="Supprimer ce domicilié"
         class="btn btn-outline-danger"
         id="delete-usager"
         (click)="open(deleteConfirmation)"
@@ -47,12 +50,13 @@
   <div class="modal-header bg-danger">
     <h4 class="text-white modal-title" id="modal-title">Attention !</h4>
     <button
+      title="Fermer"
       type="button"
       class="close"
       aria-describedby="modal-title"
       (click)="closeModals()"
     >
-      <span aria-hidden="true">&times;</span>
+      <span>&times;</span>
     </button>
   </div>
   <div class="modal-body py-3 text-center">
@@ -90,12 +94,13 @@
   <div class="modal-header bg-danger">
     <h4 class="text-white modal-title" id="modal-title">Attention !</h4>
     <button
+      title="Fermer"
       type="button"
       class="close"
       aria-describedby="modal-title"
       (click)="closeModals()"
     >
-      <span aria-hidden="true">&times;</span>
+      <span>&times;</span>
     </button>
   </div>
   <div class="modal-body py-3 text-center">

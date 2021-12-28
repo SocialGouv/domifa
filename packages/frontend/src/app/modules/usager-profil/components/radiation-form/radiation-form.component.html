@@ -4,12 +4,12 @@
   </h4>
 
   <button
+    title="Fermer"
     type="button"
     class="close"
-    aria-describedby="modal-title"
     (click)="closeModals.emit()"
   >
-    <span aria-hidden="true">&times;</span>
+    <span>&times;</span>
   </button>
 </div>
 
@@ -64,7 +64,10 @@
               class="btn btn-outline-primary d-print-none"
               (click)="dFin.toggle()"
             >
-              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+              <fa-icon
+                title="Calendrier"
+                [icon]="['fas', 'calendar']"
+              ></fa-icon>
             </span>
           </div>
           <div *ngIf="submitted && r.dateFin.invalid" class="invalid-feedback">

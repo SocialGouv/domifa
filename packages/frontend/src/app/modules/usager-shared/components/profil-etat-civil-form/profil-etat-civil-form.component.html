@@ -78,7 +78,7 @@
         />
         <div class="input-group-append">
           <span class="btn btn-outline-primary" (click)="d.toggle()">
-            <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+            <fa-icon title="Calendrier" [icon]="['fas', 'calendar']"></fa-icon>
           </span>
         </div>
 
@@ -268,7 +268,10 @@
           />
           <div class="input-group-append">
             <span class="btn btn-outline-primary" (click)="d.toggle()">
-              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+              <fa-icon
+                title="Calendrier"
+                [icon]="['fas', 'calendar']"
+              ></fa-icon>
             </span>
           </div>
           <div
@@ -310,7 +313,7 @@
         <label for class="text-white"> c </label>
         <div>
           <span (click)="deleteAyantDroit(i)" class="btn btn-danger">
-            <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+            <fa-icon title="Supprimer" [icon]="['fas', 'trash']"></fa-icon>
           </span>
         </div>
       </div>

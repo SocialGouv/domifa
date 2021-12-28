@@ -151,6 +151,7 @@
             <div class="input-group-append">
               <span class="input-group-text" (click)="togglePassword()">
                 <fa-icon
+                  title="Voir / cacher le mot de passe"
                   [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
                 ></fa-icon>
               </span>
@@ -158,6 +159,12 @@
           </div>
           <div class="row indications">
             <div
+              [title]="
+                f.password.hasError('required') ||
+                f.password.hasError('minlength')
+                  ? 'Erreur'
+                  : 'Correct'
+              "
               class="col-md-12"
               [ngClass]="
                 f.password.hasError('required') ||
@@ -178,6 +185,12 @@
               Au moins 12 caractères
             </div>
             <div
+              [title]="
+                f.password.hasError('required') ||
+                f.password.hasError('hasNumber')
+                  ? 'Erreur'
+                  : 'Correct'
+              "
               class="col-md-12"
               [ngClass]="
                 f.password.hasError('required') ||
@@ -198,6 +211,12 @@
               Au moins 1 chiffre
             </div>
             <div
+              [title]="
+                f.password.hasError('required') ||
+                f.password.hasError('hasCapitalCase')
+                  ? 'Erreur'
+                  : 'Correct'
+              "
               class="col-md-12"
               [ngClass]="
                 f.password.hasError('required') ||
@@ -239,6 +258,7 @@
                 (click)="togglePasswordConfirmation()"
               >
                 <fa-icon
+                  title="Voir / cacher le mot de passe"
                   [icon]="
                     hidePasswordConfirm ? ['far', 'eye'] : ['far', 'eye-slash']
                   "
