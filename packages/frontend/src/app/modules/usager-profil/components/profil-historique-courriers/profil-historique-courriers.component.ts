@@ -8,7 +8,11 @@ import {
 } from "@angular/core";
 
 import { ToastrService } from "ngx-toastr";
-import { UsagerLight, UserStructure } from "../../../../../_common/model";
+import {
+  InteractionEvent,
+  UsagerLight,
+  UserStructure,
+} from "../../../../../_common/model";
 import {
   UsagerFormModel,
   Interaction,
@@ -29,6 +33,8 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
 
   @ViewChild("deleteInteractionModal", { static: true })
   public deleteInteractionModal!: TemplateRef<any>;
+  @ViewChild("restoreInteractionModal", { static: true })
+  public restoreInteractionModal!: TemplateRef<any>;
 
   constructor(
     private notifService: ToastrService,
@@ -71,8 +77,12 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
       });
   }
 
-  public openDeleteInteractionModal(): void {
-    this.modalService.open(this.deleteInteractionModal);
+  public openDeleteInteractionModal(restoreOrDelete: InteractionEvent): void {
+    this.modalService.open(
+      restoreOrDelete === "delete"
+        ? this.deleteInteractionModal
+        : this.restoreInteractionModal
+    );
   }
 
   public closeModals(): void {

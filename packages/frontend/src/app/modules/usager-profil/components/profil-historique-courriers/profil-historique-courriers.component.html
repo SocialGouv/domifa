@@ -22,27 +22,7 @@
       <ng-container
         *ngFor="let interaction of interactions | slice: 0:30; let i = index"
       >
-        <tr *ngIf="interaction.delete === true">
-          <td colspan="4" class="delete-interaction">
-            <span *ngIf="interaction.event === 'create'"
-              >Êtes-vous sûr de vouloir supprimer cette interaction ?</span
-            >
-            <span *ngIf="interaction.event === 'delete'"
-              >Êtes-vous sûr de vouloir restaurer cette interaction ?</span
-            >
-            <button class="btn btn-danger ml-2" (click)="deleteInteraction()">
-              Oui
-            </button>
-            <button
-              class="btn btn-dark ml-2"
-              (click)="interaction.delete = false"
-            >
-              Non
-            </button>
-          </td>
-        </tr>
         <tr
-          *ngIf="!interaction.delete"
           [ngClass]="{
             'font-weight-bold':
               interaction.type === 'courrierOut' ||
@@ -75,27 +55,35 @@
             </div>
           </td>
           <td>{{ interaction.userName }}</td>
-          <td class="interactions-actions">
-            <ng-container *ngIf="!interaction.delete && i === 0">
-              <span
+          <td class="text-right">
+            <ng-container *ngIf="i === 0">
+              <button
+                aria-label="Supprimer l'interaction"
+                *ngIf="interaction.event === 'create'"
                 (click)="
                   interactionToDelete = interaction;
-                  openDeleteInteractionModal()
+                  openDeleteInteractionModal('delete')
                 "
+                class="btn btn-danger"
                 title="Supprimer"
               >
+                <fa-icon [icon]="['fas', 'trash']" class="delete"></fa-icon>
+              </button>
+              <button
+                aria-label="Restaurer l'interaction"
+                *ngIf="interaction.event === 'delete'"
+                (click)="
+                  interactionToDelete = interaction;
+                  openDeleteInteractionModal('create')
+                "
+                class="btn btn-outline-primary"
+                title="Restaurer"
+              >
                 <fa-icon
-                  *ngIf="interaction.event === 'create'"
-                  [icon]="['fas', 'trash']"
-                  class="delete"
-                ></fa-icon>
-
-                <fa-icon
-                  *ngIf="interaction.event === 'delete'"
                   [icon]="['fas', 'exclamation-triangle']"
                   title="Restaurer l'interaction"
                 ></fa-icon>
-              </span>
+              </button>
             </ng-container>
           </td>
         </tr>
@@ -121,7 +109,7 @@
   </div>
 
   <div class="modal-body py-4 text-center">
-    <b>Êtes vous sur de vouloir supprimer cette interaction ?</b>
+    <b>Êtes-vous sûr de vouloir supprimer cette interaction ?</b>
     <br />
     <div
       *ngIf="
@@ -130,7 +118,8 @@
         interactionToDelete.type === 'colisIn'
       "
     >
-      Cette interaction sera retirée des interactions en attente de distribution
+      Cette interaction sera retirée des interactions en attente de
+      distribution.
     </div>
 
     <div
@@ -143,7 +132,7 @@
       Tous les courriers, colis ou avis de passage liés à cette distribution
       seront de nouveau marqués comme "à distribuer"
     </div>
-    <div>Le compteur d'interactions en attente sera remit à jour.</div>
+    <div>Le compteur d'interactions en attente sera remis à jour.</div>
   </div>
 
   <div class="modal-footer">
@@ -153,6 +142,60 @@
 
     <button class="btn btn-danger" (click)="deleteInteraction()">
       Confirmer la suppression
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #restoreInteractionModal let-modal>
+  <div class="modal-header bg-danger">
+    <h4 class="text-white modal-title" id="modal-title">
+      Restaurer une interaction
+    </h4>
+
+    <button
+      type="button"
+      class="close"
+      aria-describedby="modal-title"
+      (click)="closeModals()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body py-4 text-center">
+    <b>Êtes vous sur de vouloir restaurer cette interaction ?</b>
+    <br />
+    <div
+      *ngIf="
+        interactionToDelete.type === 'courrierIn' ||
+        interactionToDelete.type === 'recommandeIn' ||
+        interactionToDelete.type === 'colisIn'
+      "
+    >
+      Cette interaction sera de nouveau considérée comme en attente de
+      distribution
+    </div>
+
+    <div
+      *ngIf="
+        interactionToDelete.type === 'courrierOut' ||
+        interactionToDelete.type === 'recommandeOut' ||
+        interactionToDelete.type === 'colisOut'
+      "
+    >
+      Tous les courriers, colis ou avis de passage liés à cette distribution
+      seront de nouveau marqués comme distribués
+    </div>
+    <div>Le compteur d'interactions en attente sera remit à jour.</div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-outline-dark" (click)="closeModals()">
+      Revenir au profil
+    </button>
+
+    <button class="btn btn-danger" (click)="deleteInteraction()">
+      Confirmer la restauration
     </button>
   </div>
 </ng-template>
