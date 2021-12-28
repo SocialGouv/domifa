@@ -29,6 +29,9 @@ export class migrateInteractions1638808597232 implements MigrationInterface {
     appLogger.debug(
       "[MIGRATION] " + structures.length + " structures à mettre à jour"
     );
+
+    await displayCounter();
+
     for (const structure of structures) {
       // Affichage du compteur de suivi
       await displayCounter();
