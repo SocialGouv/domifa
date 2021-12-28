@@ -89,14 +89,19 @@ export class UsagersService {
       usager.decision.statut === "REFUS" || usager.decision.statut === "RADIE"
         ? "PREMIERE_DOM"
         : "RENOUVELLEMENT";
+    let newDateFin = null;
+
+    if (usager.decision.statut === "VALIDE") {
+      newDateFin = usager.decision.dateFin;
+    }
 
     usager.decision = {
       uuid: uuidGenerator.random(),
       dateDebut: new Date(),
       dateDecision: new Date(),
+      dateFin: newDateFin,
       statut: "INSTRUCTION",
       userId: user.id,
-
       userName: user.prenom + " " + user.nom,
       typeDom,
     };

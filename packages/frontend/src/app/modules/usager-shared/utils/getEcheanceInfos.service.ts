@@ -37,7 +37,7 @@ export const getEcheanceInfos = (
           ? 1
           : null;
 
-      // Fix: certaines donnnées corompus n'ont pas de dateFinn
+      // Fix: certaines donnnées corompus n'ont pas de dateFin
       usagerInfos.dateToDisplay =
         usager.historique[usager.historique.length - indexOfDate]?.dateFin ??
         usager.decision.dateDecision;
@@ -45,9 +45,10 @@ export const getEcheanceInfos = (
       usagerInfos.dateToDisplay = new Date(usagerInfos.dateToDisplay);
     } else {
       usagerInfos.isActif = false;
-      usagerInfos.dateToDisplay = new Date(usager.decision.dateDecision);
+      usagerInfos.dateToDisplay = null;
     }
   }
+
   if (usagerInfos.dateToDisplay && !usagerInfos.dateToDisplay.getTime) {
     usagerInfos.dateToDisplay = new Date(usagerInfos.dateToDisplay);
   }

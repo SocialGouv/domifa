@@ -196,6 +196,7 @@
             [class]="usager.echeanceInfos.color"
           ></span>
           <span
+            *ngIf="usager.echeanceInfos.dateToDisplay"
             [ngClass]="usager.echeanceInfos.color ? 'font-weight-bold' : ''"
           >
             {{ usager.echeanceInfos.dateToDisplay | date: "dd/MM/yyyy" }}</span
