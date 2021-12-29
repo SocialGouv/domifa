@@ -1,3 +1,10 @@
+# [2.56.0](https://github.com/SocialGouv/domifa/compare/v2.55.1...v2.56.0) (2021-12-29)
+
+
+### Features
+
+* print interactions ([66ba46f](https://github.com/SocialGouv/domifa/commit/66ba46f04000e4cc28eeb70ac9e7f4a28479e0b9))
+
 ## [2.55.1](https://github.com/SocialGouv/domifa/compare/v2.55.0...v2.55.1) (2021-12-29)
 
 
