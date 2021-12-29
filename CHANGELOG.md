@@ -1,3 +1,141 @@
+## [2.55.1](https://github.com/SocialGouv/domifa/compare/v2.55.0...v2.55.1) (2021-12-29)
+
+
+### Bug Fixes
+
+* **migration:** correction de la migration ([7397c61](https://github.com/SocialGouv/domifa/commit/7397c61295793e944e204eb46bd707f4c81c7148))
+* add IE warning from nginx ([3d65e14](https://github.com/SocialGouv/domifa/commit/3d65e140ad50667b3baff8bdd91a0ac25b1721e6))
+* fermeture du ticket, la prise en charge d'IE n'est pas gérable ([06052dc](https://github.com/SocialGouv/domifa/commit/06052dc8e064608b7245714a01e091c6f8841be2))
+* ie ([b341627](https://github.com/SocialGouv/domifa/commit/b341627917b8d5ce7e61e0a58320994cc13095ab))
+* nginx conf ([22017b4](https://github.com/SocialGouv/domifa/commit/22017b45121778cfe87c66ac83df968fd209420a))
+* **ie:** config Nginx ([e9656c6](https://github.com/SocialGouv/domifa/commit/e9656c6716f52b0cc4afd811bc9927107f61279e))
+* **ie:** correction de la config NGINX ([fb78059](https://github.com/SocialGouv/domifa/commit/fb7805903c3b4d761402086bd95708b6509e6b5b))
+* **nginx:** mise à jour de la config ([c6bc17e](https://github.com/SocialGouv/domifa/commit/c6bc17e9d8152e2fee451977c54ee830e02369bf))
+
+# [2.55.0](https://github.com/SocialGouv/domifa/compare/v2.54.3...v2.55.0) (2021-12-29)
+
+
+### Features
+
+* **anonymize:** Mise à jour des scripts d'anonymisation ([c948712](https://github.com/SocialGouv/domifa/commit/c948712524793522d969f636923dc3718b5d8068))
+
+## [2.54.3](https://github.com/SocialGouv/domifa/compare/v2.54.2...v2.54.3) (2021-12-28)
+
+
+### Bug Fixes
+
+* **preprod:** fix secret ([#1995](https://github.com/SocialGouv/domifa/issues/1995)) ([8c021b7](https://github.com/SocialGouv/domifa/commit/8c021b77cf69b9dc864ffafdec0e2609142be1bd))
+
+## [2.54.2](https://github.com/SocialGouv/domifa/compare/v2.54.1...v2.54.2) (2021-12-28)
+
+
+### Bug Fixes
+
+* **preprod:** use new pg server ([#1992](https://github.com/SocialGouv/domifa/issues/1992)) ([3ae3dde](https://github.com/SocialGouv/domifa/commit/3ae3dde387a112fb21445917fd18e57f73bd30ec))
+
+## [2.54.1](https://github.com/SocialGouv/domifa/compare/v2.54.0...v2.54.1) (2021-12-28)
+
+
+### Bug Fixes
+
+* mise à jour des scripts de migration ([6e827c8](https://github.com/SocialGouv/domifa/commit/6e827c83a1305b67942a9fda54593406f88cbf22))
+* **migrations:** affichage des logs de la migration ([c3b10b0](https://github.com/SocialGouv/domifa/commit/c3b10b0164605587b003558c9334eb9bfc7e3424))
+* **migrations:** Débug de la migration des interactions pour suivre l'évolution ([6c0d294](https://github.com/SocialGouv/domifa/commit/6c0d294266e584960d32f02fbba672babd66e5a4))
+
+# [2.54.0](https://github.com/SocialGouv/domifa/compare/v2.53.6...v2.54.0) (2021-12-28)
+
+
+### Bug Fixes
+
+* affichage du texte ([0c416e4](https://github.com/SocialGouv/domifa/commit/0c416e439bbc3757343778d83d9742ffbc7fc711))
+* **migrations:** mise à jour des dumps de tests, k8s ([23cd109](https://github.com/SocialGouv/domifa/commit/23cd10906dfb6a9a8d3656cada615ce585edb552))
+
+
+### Features
+
+* **interactions:** refonte du système de comptage des interactions ([c16e33f](https://github.com/SocialGouv/domifa/commit/c16e33f5613608d9172ca11c46b721288f8a46e1))
+
+## [2.53.6](https://github.com/SocialGouv/domifa/compare/v2.53.5...v2.53.6) (2021-12-23)
+
+
+### Bug Fixes
+
+* class transform version ([c108016](https://github.com/SocialGouv/domifa/commit/c108016fea9126d09f25809ff5902de96c04f001))
+* update yarn.lock ([2880637](https://github.com/SocialGouv/domifa/commit/2880637eea43ad114524feb93b213d1021f96360))
+
+## [2.53.5](https://github.com/SocialGouv/domifa/compare/v2.53.4...v2.53.5) (2021-12-21)
+
+
+### Bug Fixes
+
+* erreurs suite à l'ajout du linter ([883a1f0](https://github.com/SocialGouv/domifa/commit/883a1f060e42d6b1919314c95304061c147770ff))
+* tests sur le portail ([99da603](https://github.com/SocialGouv/domifa/commit/99da603daa7ae7c0c72591d8e05e655e1417bf4a))
+* tests unitaires sur l'admin ([50261d5](https://github.com/SocialGouv/domifa/commit/50261d5308390ccac1e43f92411f3e7625f98d0f))
+
+## [2.53.4](https://github.com/SocialGouv/domifa/compare/v2.53.3...v2.53.4) (2021-12-20)
+
+
+### Bug Fixes
+
+* correction du bug sur les interactions non mises à jour ([dd9a992](https://github.com/SocialGouv/domifa/commit/dd9a99279ee0e0ed767d4561ebeefdfa43148195))
+
+## [2.53.3](https://github.com/SocialGouv/domifa/compare/v2.53.2...v2.53.3) (2021-12-20)
+
+
+### Bug Fixes
+
+* bug IE white screen ([46feb29](https://github.com/SocialGouv/domifa/commit/46feb292e771050729de2c9bb861260fc535ca2f))
+
+## [2.53.2](https://github.com/SocialGouv/domifa/compare/v2.53.1...v2.53.2) (2021-12-17)
+
+
+### Bug Fixes
+
+* suppression du mail de toub des logs ([797fd0c](https://github.com/SocialGouv/domifa/commit/797fd0c5f736f2b867aa94663cb2a4065aa97f1d))
+
+## [2.53.1](https://github.com/SocialGouv/domifa/compare/v2.53.0...v2.53.1) (2021-12-16)
+
+
+### Bug Fixes
+
+* **docs:** correction de l'affichage des documents personnalisés ([e0497fa](https://github.com/SocialGouv/domifa/commit/e0497fa1192d615136283527068accd33a653956))
+* **sms:** Correction de l'enregistrement des SMS ([8c4aea6](https://github.com/SocialGouv/domifa/commit/8c4aea6ca858b3537b39a5903b1d31a0d48daa48))
+
+# [2.53.0](https://github.com/SocialGouv/domifa/compare/v2.52.1...v2.53.0) (2021-12-14)
+
+
+### Features
+
+* **RADIE:** afficher seulement les 50 premiers radiés ([1f764c9](https://github.com/SocialGouv/domifa/commit/1f764c9b93094a247a53b3868580dd123d246202))
+
+## [2.52.1](https://github.com/SocialGouv/domifa/compare/v2.52.0...v2.52.1) (2021-12-14)
+
+
+### Bug Fixes
+
+* label back office ayants-droit ([53562e5](https://github.com/SocialGouv/domifa/commit/53562e5385fda78adeb9cd83219d28ed8fdca578))
+
+# [2.52.0](https://github.com/SocialGouv/domifa/compare/v2.51.0...v2.52.0) (2021-12-14)
+
+
+### Features
+
+* add doc accessibilite ([28c9c61](https://github.com/SocialGouv/domifa/commit/28c9c61ff9760f4e5408b5c9e02bf28195b6be6d))
+
+# [2.51.0](https://github.com/SocialGouv/domifa/compare/v2.50.1...v2.51.0) (2021-12-14)
+
+
+### Features
+
+* allow admin to change sms notif ([bf08331](https://github.com/SocialGouv/domifa/commit/bf0833118eee9b937ddeffae3699fe58c42899c6))
+
+## [2.50.1](https://github.com/SocialGouv/domifa/compare/v2.50.0...v2.50.1) (2021-12-14)
+
+
+### Bug Fixes
+
+* ajout d'une info dans la popup ([e29ac16](https://github.com/SocialGouv/domifa/commit/e29ac16ea49bbc19e2dddbc846a7699cdfde49b7))
+
 # [2.50.0](https://github.com/SocialGouv/domifa/compare/v2.49.2...v2.50.0) (2021-12-14)
 
 

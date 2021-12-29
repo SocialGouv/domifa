@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   HostListener,
+  NgZone,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -14,12 +15,14 @@ import {
   BehaviorSubject,
   combineLatest,
   fromEvent,
+  NEVER,
   ReplaySubject,
   Subject,
   Subscription,
   timer,
 } from "rxjs";
 import {
+  catchError,
   debounceTime,
   delayWhen,
   distinctUntilChanged,
@@ -30,7 +33,9 @@ import {
 } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
-import { fadeInOutSlow, fadeInOut } from "../../../../shared";
+import { fadeInOut, fadeInOutSlow } from "../../../../shared";
+import { usagersCache } from "../../../../shared/store";
+import { SearchPageLoadedUsagersData } from "../../../../shared/store/AppStoreModel.type";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import {
   getEcheanceInfos,
@@ -40,14 +45,14 @@ import {
 import { UsagerService } from "../../services/usager.service";
 import {
   UsagersByStatus,
+  usagersByStatusBuilder,
+  usagersFilter,
+  UsagersFilterCriteria,
   UsagersFilterCriteriaDernierPassage,
   UsagersFilterCriteriaEcheance,
-  UsagersFilterCriteria,
-  usagersByStatusBuilder,
+  UsagersFilterCriteriaSortKey,
   UsagersFilterCriteriaSortValues,
   UsagersFilterCriteriaStatut,
-  UsagersFilterCriteriaSortKey,
-  usagersFilter,
 } from "./usager-filter";
 
 const AUTO_REFRESH_PERIOD = 3600000; // 1h
@@ -55,14 +60,39 @@ const AUTO_REFRESH_PERIOD = 3600000; // 1h
   animations: [fadeInOutSlow, fadeInOut],
 
   selector: "app-manage-usagers",
-  styleUrls: ["./manage.css"],
-  templateUrl: "./manage.html",
+  styleUrls: ["./manage.component.css"],
+  templateUrl: "./manage.component.html",
 })
 export class ManageUsagersComponent implements OnInit, OnDestroy {
   public searching: boolean;
   public loading: boolean;
 
-  public allUsagers$ = new BehaviorSubject<UsagerLight[]>([]);
+  public searchPageLoadedUsagersData$ =
+    new BehaviorSubject<SearchPageLoadedUsagersData>(undefined);
+
+  public usagersTotalCount = 0;
+  public usagersRadiesLoadedCount = 0;
+  public usagersRadiesTotalCount = 0;
+
+  public chargerTousRadies$ = new BehaviorSubject(false);
+
+  public allUsagers$ = this.searchPageLoadedUsagersData$.pipe(
+    map((data: SearchPageLoadedUsagersData): UsagerLight[] => {
+      if (!data) {
+        return [];
+      }
+      const allUsagers = data.usagersNonRadies
+        .concat(data.usagersRadiesFirsts)
+        .map((usager) => {
+          usager.echeanceInfos = getEcheanceInfos(usager);
+          usager.rdvInfos = getRdvInfos(usager);
+          usager.usagerProfilUrl = getUrlUsagerProfil(usager);
+          return usager;
+        });
+      return allUsagers;
+    })
+  );
+
   public allUsagersByStatus$ = new ReplaySubject<UsagersByStatus>(1);
   public allUsagersByStatus: UsagersByStatus;
   public usagers: UsagerLight[] = [];
@@ -101,7 +131,8 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private notifService: ToastrService,
     private titleService: Title,
-    public matomo: MatomoTracker
+    public matomo: MatomoTracker,
+    private ngZone: NgZone
   ) {
     this.pageSize = 40;
     this.needToPrint = false;
@@ -131,7 +162,12 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
           tap(() => {
             this.loading = true;
           }),
-          switchMap(() => this.usagerService.getAllUsagers()),
+          switchMap(() => this.chargerTousRadies$),
+          switchMap((chargerTousRadies) =>
+            this.usagerService.getSearchPageUsagerData({
+              chargerTousRadies,
+            })
+          ),
           retryWhen((errors) =>
             // retry in case of error
             errors.pipe(
@@ -151,16 +187,18 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
             )
           )
         )
-        .subscribe((allUsagers: UsagerLight[]) => {
+        .subscribe((searchPageLoadedUsagersData) => {
           this.loading = false;
-          const usagers = allUsagers.map((usager) => {
-            usager.echeanceInfos = getEcheanceInfos(usager);
-            usager.rdvInfos = getRdvInfos(usager);
-            usager.usagerProfilUrl = getUrlUsagerProfil(usager);
-            this.updateSortLabel();
-            return usager;
-          });
-          this.allUsagers$.next(usagers);
+
+          this.usagersRadiesTotalCount =
+            searchPageLoadedUsagersData.usagersRadiesTotalCount;
+          this.usagersTotalCount =
+            searchPageLoadedUsagersData.usagersRadiesTotalCount +
+            searchPageLoadedUsagersData.usagersNonRadies.length;
+          this.usagersRadiesLoadedCount =
+            searchPageLoadedUsagersData.usagersRadiesFirsts.length;
+          this.searchPageLoadedUsagersData$.next(searchPageLoadedUsagersData);
+          this.updateSortLabel();
         })
     );
 
@@ -169,12 +207,18 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       this.allUsagersByStatus$.next(this.allUsagersByStatus);
     });
 
+    const onSearchInputKeyUp$ = fromEvent(
+      this.searchInput.nativeElement,
+      "keyup"
+    ).pipe(
+      map((event: Event) => {
+        return (event.target as HTMLInputElement).value;
+      })
+    );
+
     this.subscription.add(
-      fromEvent(this.searchInput.nativeElement, "keyup")
+      onSearchInputKeyUp$
         .pipe(
-          map((event: Event) => {
-            return (event.target as HTMLInputElement).value;
-          }),
           debounceTime(50),
           map((filter: string) => (!filter ? filter : filter.trim())),
           distinctUntilChanged()
@@ -183,6 +227,32 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
           this.filters.searchString = text;
           this.filters.page = 0;
           this.filters$.next(this.filters);
+        })
+    );
+
+    this.subscription.add(
+      onSearchInputKeyUp$
+        .pipe(
+          debounceTime(500),
+          switchMap((searchString: string) => {
+            if (
+              searchString?.trim().length > 3 &&
+              (this.filters.statut === "TOUS" ||
+                this.filters.statut === "RADIE")
+            ) {
+              return this.usagerService.getSearchPageRemoteSearchRadies({
+                searchString,
+              });
+            }
+            return NEVER;
+          }),
+          catchError(() => NEVER)
+        )
+        .subscribe(() => {
+          // update data from cache
+          this.searchPageLoadedUsagersData$.next(
+            usagersCache.getSnapshot().searchPageLoadedUsagersData
+          );
         })
     );
 
@@ -201,9 +271,20 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
         ),
         this.allUsagersByStatus$,
       ]).subscribe(([filters, allUsagersByStatus]) => {
+        // setTimeout(() => {
         this.applyFilters({ filters, allUsagersByStatus });
+        // }, 0);
       })
     );
+  }
+
+  public chargerTousRadies() {
+    window.scroll({
+      behavior: "auto",
+      left: 0,
+      top: 0,
+    });
+    this.chargerTousRadies$.next(true);
   }
 
   public goToPrint(): void {
@@ -220,14 +301,16 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   }
 
   public updateUsager(usager: UsagerFormModel): void {
-    this.allUsagers$.next(
-      this.allUsagers$.value.map((x) => {
-        if (x.ref === usager.ref) {
-          return usager;
-        }
-        return x;
-      })
-    );
+    this.searchPageLoadedUsagersData$.next({
+      ...this.searchPageLoadedUsagersData$.value,
+      usagersNonRadies:
+        this.searchPageLoadedUsagersData$.value.usagersNonRadies.map((x) => {
+          if (x.ref === usager.ref) {
+            return usager;
+          }
+          return x;
+        }),
+    });
   }
 
   public ngOnDestroy(): void {
@@ -403,8 +486,8 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       criteria: filterCriteria,
     });
 
+    this.nbResults = filteredUsagers.length;
     if (filters.page === 0) {
-      this.nbResults = filteredUsagers.length;
       this.usagers = filteredUsagers
         .slice(0, this.pageSize)
         .map((item) => new UsagerFormModel(item, filters));
@@ -430,7 +513,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getFilters() {
+  private getFilters(): null | Partial<UsagersFilterCriteria> {
     const filters = localStorage.getItem("filters");
     return filters === null ? {} : JSON.parse(filters);
   }

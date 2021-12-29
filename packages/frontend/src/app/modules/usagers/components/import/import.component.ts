@@ -1,6 +1,11 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
@@ -32,9 +37,6 @@ export class ImportComponent implements OnInit {
 
   public showTable: boolean;
   public showErrors: boolean;
-
-  public errorsId: any[];
-  public errorsRow: any[];
 
   public nbreAyantsDroits: number[];
 
@@ -83,8 +85,9 @@ export class ImportComponent implements OnInit {
 
   @ViewChild("form", { static: true })
   public form!: ElementRef<any>;
-  previewTable: ImportPreviewTable;
-  visibleRows: ImportPreviewRow[];
+
+  public previewTable: ImportPreviewTable;
+  public visibleRows: ImportPreviewRow[];
 
   public COL = IMPORT_PREVIEW_COLUMNS;
 
@@ -97,10 +100,6 @@ export class ImportComponent implements OnInit {
     private notifService: ToastrService,
     private titleService: Title
   ) {
-    // Tableaux des erreurs
-    this.errorsId = [];
-
-    this.errorsRow = [];
     this.showErrors = false;
     this.showTable = false;
 
@@ -110,7 +109,7 @@ export class ImportComponent implements OnInit {
     this.uploadError = false;
   }
 
-  get u(): any {
+  get u(): { [key: string]: AbstractControl } {
     return this.uploadForm.controls;
   }
 
@@ -163,14 +162,14 @@ export class ImportComponent implements OnInit {
     }
   }
 
-  public submitFile(importMode: UsagersImportMode) {
+  public submitFile(submittedImportMode: UsagersImportMode) {
     this.loadingService.startLoading();
 
     const formData = new FormData();
     formData.append("file", this.uploadForm.controls.fileInput.value);
 
-    this.usagerService.import(importMode, formData).subscribe(
-      ({ importMode, previewTable }) => {
+    this.usagerService.import(submittedImportMode, formData).subscribe({
+      next: ({ importMode, previewTable }) => {
         this.loadingService.stopLoading();
         if (importMode === "preview") {
           this.showTable = true;
@@ -182,7 +181,7 @@ export class ImportComponent implements OnInit {
           this.router.navigate(["/manage"]);
         }
       },
-      (error: HttpErrorResponse) => {
+      error: (error: HttpErrorResponse) => {
         this.notifService.error("Le fichier n'a pas pu être importé ");
         this.loadingService.stopLoading();
 
@@ -193,8 +192,8 @@ export class ImportComponent implements OnInit {
         } else {
           this.backToEtapeSelectFile();
         }
-      }
-    );
+      },
+    });
   }
   backToEtapeSelectFile() {
     this.etapeImport = "select-file";

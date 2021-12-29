@@ -1,4 +1,4 @@
 export type DayOpeningHours = {
-  end: Number;
-  start: Number;
+  end: number;
+  start: number;
 };

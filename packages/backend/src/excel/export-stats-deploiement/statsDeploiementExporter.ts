@@ -36,7 +36,9 @@ async function generateExcelDocument({
     return workbook;
   } catch (err) {
     appLogger.warn(
-      `[statsDeploiementExporter] ERROR - Report NOT created: ${err.message}`,
+      `[statsDeploiementExporter] ERROR - Report NOT created: ${JSON.stringify(
+        err
+      )}`,
       {
         sentryBreadcrumb: true,
       }

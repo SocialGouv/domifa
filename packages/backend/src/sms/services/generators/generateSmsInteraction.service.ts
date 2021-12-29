@@ -1,6 +1,5 @@
-import { InteractionDto } from "../../../interactions/interactions.dto";
+import { InteractionDto } from "../../../interactions/dto";
 
-// TODO: calculer les interactions en standBy
 export function generateSmsInteraction(
   interaction: InteractionDto,
   senderDetails: string
@@ -29,7 +28,6 @@ export function generateSmsInteraction(
     }
   }
 
-  //
   return (
     "Bonjour, \n\nVous avez reçu " +
     interaction.nbCourrier +

@@ -1,7 +1,7 @@
 {
   "name": "domifa",
   "private": true,
-  "version": "2.50.0",
+  "version": "2.55.1",
   "scripts": {
     "build": "lerna run build --stream",
     "dev": "lerna run dev --parallel --stream",
@@ -29,6 +29,7 @@
       "**/@ngrx/*/**",
       "**/@nrwl/*",
       "**/@nrwl/*/**",
+      "**/@socialgouv/*/**",
       "**/eslint*/*/**",
       "**/@angular-builders/*",
       "**/@angular-builders/*/**",

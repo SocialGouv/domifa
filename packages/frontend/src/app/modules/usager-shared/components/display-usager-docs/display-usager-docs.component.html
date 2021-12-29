@@ -6,9 +6,9 @@
     <tr>
       <th>Type</th>
       <th>Nom du document</th>
-      <th>Ajouté le</th>
       <th>Ajouté par</th>
-      <th class="d-print-none"></th>
+      <th>Ajouté le</th>
+      <th class="d-print-none text-right"></th>
     </tr>
 
     <tr *ngFor="let document of usager.docs; let indexDocs = index">
@@ -22,12 +22,12 @@
           ></fa-icon>
         </span>
       </td>
-      <td>{{ document.label }}</td>
+      <td class="align-middle">{{ document.label }}</td>
+      <td class="align-middle">{{ document.createdBy }}</td>
       <td>
         {{ document.createdAt | date: "dd/MM/yyyy" }}
       </td>
-      <td>{{ document.createdBy }}</td>
-      <td class="text-right d-print-none">
+      <td class="align-middle text-right d-print-none">
         <button
           (click)="getDocument(indexDocs)"
           class="m-1 btn btn-primary"

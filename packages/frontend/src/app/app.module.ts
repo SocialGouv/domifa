@@ -12,7 +12,8 @@ import { Router } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import * as Sentry from "@sentry/browser";
+import * as Sentry from "@sentry/angular";
+
 import { CountUpModule } from "ngx-countup";
 import { MatomoModule } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
@@ -32,9 +33,14 @@ import { UsersModule } from "./modules/users/users.module";
 import { UsagerSharedModule } from "./modules/usager-shared/usager-shared.module";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 
+import pkg from "../../package.json";
+
 if (environment.production) {
   Sentry.init({
+    release: "domifa@" + pkg.version,
     dsn: "https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31",
+    environment: environment.env,
+    tracesSampleRate: 1.0,
   });
 }
 

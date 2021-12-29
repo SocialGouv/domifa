@@ -48,7 +48,7 @@ function getTypeormLoggerOptions(
           if (LOGGER_OPTIONS.includes(x as LoggerOptionValues)) {
             acc.push(x as LoggerOptionValues);
           } else {
-            // tslint:disable-next-line: no-console
+            // eslint:disable-next-line: no-console
             console.warn(
               `[appTypeormManager] Invalid typeorm logger option "${x}", @see LoggerOptions`
             );

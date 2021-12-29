@@ -1,6 +1,8 @@
-import { InteractionType, MessageSms } from "../../../_common/model";
+import { In } from "typeorm";
+import { pgRepository, typeOrmSearch } from "..";
+import { appLogger } from "../../../util";
+import { MessageSms, InteractionType } from "../../../_common/model";
 import { MessageSmsTable } from "../../entities/message-sms/MessageSmsTable.typeorm";
-import { pgRepository } from "../_postgres";
 
 const baseRepository = pgRepository.get<MessageSmsTable, MessageSms>(
   MessageSmsTable
@@ -55,25 +57,27 @@ async function findSmsOnHold({
 }
 
 async function findInteractionSmsToSend(): Promise<MessageSmsTable[]> {
-  return messageSmsRepository.findManyWithQuery({
-    select: SMS_ON_HOLD_INTERACTION,
-    where: `"status" = 'TO_SEND'
-            and "smsId" = ANY (ARRAY['courrierIn', 'recommandeIn', 'colisIn'])`,
-  });
+  return messageSmsRepository.findMany(
+    typeOrmSearch<MessageSmsTable>({
+      status: "TO_SEND",
+      smsId: In(["courrierIn", "recommandeIn", "colisIn"]),
+    })
+  );
 }
 
 async function upsertEndDom(sms: MessageSms): Promise<MessageSms> {
-  const message = await messageSmsRepository.findOneWithQuery<MessageSms>({
-    select: SMS_ON_HOLD_INTERACTION,
-    where: `"usagerRef" = :usagerRef
-    and "structureId" = :structureId
-    and "smsId" = 'echeanceDeuxMois'`,
-    params: { usagerRef: sms.usagerRef, structureId: sms.structureId },
+  const message = await messageSmsRepository.findOne<MessageSms>({
+    smsId: "echeanceDeuxMois",
+    usagerRef: sms.usagerRef,
+    structureId: sms.structureId,
+    status: "TO_SEND",
   });
 
   if (!message) {
     return await messageSmsRepository.save(sms);
   }
+
+  appLogger.warn("SMS Already exists");
 
   return message;
 }

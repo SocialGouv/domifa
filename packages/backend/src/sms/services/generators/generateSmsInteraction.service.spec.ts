@@ -1,9 +1,7 @@
-import { InteractionDto } from "../../../interactions/interactions.dto";
-import { generateSmsInteraction } from "./generateSmsInteraction.service";
+import { generateSmsInteraction } from ".";
+import { InteractionDto } from "../../../interactions/dto";
 
 describe("generate SMS", () => {
-  beforeEach(async () => {});
-
   it("generate SMS", () => {
     const firstInteraction: InteractionDto = {
       type: "courrierIn",

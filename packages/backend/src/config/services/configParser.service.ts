@@ -110,7 +110,7 @@ function parseString<T extends string>(
   let value = envConfig[key] as T;
 
   if (value && !value.trim) {
-    // tslint:disable-next-line: no-console
+    // eslint:disable-next-line: no-console
     console.error(
       `[configParser] unexpected value type "${value}" for ${key}"`
     );
@@ -134,13 +134,13 @@ function parseString<T extends string>(
   }
 
   if (!value && required) {
-    // tslint:disable-next-line: no-console
+    // eslint:disable-next-line: no-console
     console.error(`[configParser] missing required env value "${key}"`);
     throw new Error(`Missing required env value ${key}`);
   }
 
   if (isStringValueSet(value) && validValues && !validValues.includes(value)) {
-    // tslint:disable-next-line: no-console
+    // eslint:disable-next-line: no-console
     console.error(
       `[configParser] invalid env value "${key}": "${value}" (allowed: ${validValues
         .map((x) => `"${x}"`)
@@ -175,14 +175,14 @@ function parseDelay<T extends string>(
   if (value) {
     const chunks = value.split(" ");
     if (chunks.length !== 2) {
-      // tslint:disable-next-line: no-console
+      // eslint:disable-next-line: no-console
       console.error(`[configParser] invalid delay value "${key}": "${value}"`);
       throw new Error("Invalid delay value");
     }
     const amount = parseIntegerFromString(chunks[0]);
     const unit = chunks[1] as DomifaConfigDelayUnit;
     if (!DOMIFA_CONFIG_DELAY_UNITS.includes(unit)) {
-      // tslint:disable-next-line: no-console
+      // eslint:disable-next-line: no-console
       console.error(
         `[configParser] invalid delay unit "${key}": "${unit}"(allowed: ${DOMIFA_CONFIG_DELAY_UNITS.map(
           (x) => `"${x}"`
@@ -197,7 +197,7 @@ function parseIntegerFromString(value: string) {
   if (value !== undefined && value !== null) {
     const num = parseInt(value.trim(), 10);
     if (isNaN(num)) {
-      // tslint:disable-next-line: no-console
+      // eslint:disable-next-line: no-console
       console.error(`[configParser] invalid integer "${value}"`);
       throw new Error("Invalid integer");
     }

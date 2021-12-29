@@ -34,6 +34,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
     "@schematics/angular": "^13.0.3",
+    "@sentry/angular": "^6.13.2",
     "@sentry/browser": "^6.7.2",
     "@swimlane/ngx-charts": "^19.0.0",
     "core-js": "^3.19.1",

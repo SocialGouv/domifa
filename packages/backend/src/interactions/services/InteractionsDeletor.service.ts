@@ -4,7 +4,6 @@ import { MessageSmsService } from "../../sms/services/message-sms.service";
 import { UsagersService } from "../../usagers/services/usagers.service";
 import { Structure, UsagerLight, UserStructure } from "../../_common/model";
 import {
-  InteractionDirection,
   InteractionEvent,
   Interactions,
 } from "../../_common/model/interaction";
@@ -36,6 +35,14 @@ export class InteractionsDeletor {
 
     const direction = interactionsTypeManager.getDirection(interaction);
 
+    // Toute les interactions sortantes sont supprimés
+    if (direction === "out") {
+      await interactionRepository.updateMany(
+        { interactionOutUUID: interaction.uuid },
+        { interactionOutUUID: null }
+      );
+    }
+
     // always delete previous interaction ('delete' or 'create' ('restore') event)
     await interactionRepository.deleteByCriteria({
       uuid: interaction.uuid,
@@ -45,7 +52,6 @@ export class InteractionsDeletor {
       // create a "delete" interaction
       await this._createDeleteInteraction({
         user,
-
         interaction,
         newEvent,
       });
@@ -57,10 +63,14 @@ export class InteractionsDeletor {
           structure.id,
           interaction
         );
-      }
+      } else if (direction === "out") {
+        // On remet tous les courriers en "à distribuer"
+        await interactionRepository.updateMany(
+          { interactionOutUUID: interaction.uuid },
+          { interactionOutUUID: null }
+        );
 
-      // Restaurer le SMS
-      else if (direction === "out") {
+        // Mise à jour du SMS
         await this.interactionsSmsManager.updateSmsAfterCreation({
           interaction,
           structure,
@@ -77,12 +87,9 @@ export class InteractionsDeletor {
           );
         }
       }
-
-      return this.updateUsagerLastInteractionAfterDeleteLast({
+      return await interactionsCreator.updateUsagerAfterCreation({
         user,
         usager,
-        interaction,
-        direction,
       });
     } else {
       // restore deleted interaction
@@ -98,7 +105,7 @@ export class InteractionsDeletor {
         await this.interactionsSmsManager.updateSmsAfterCreation({
           interaction: created.interaction,
           structure,
-          usager: created.usager,
+          usager,
         });
       }
       //
@@ -146,86 +153,5 @@ export class InteractionsDeletor {
     newInteraction.uuid = undefined;
 
     return interactionRepository.save(newInteraction);
-  }
-
-  private async updateUsagerLastInteractionAfterDeleteLast({
-    user,
-    usager,
-    interaction,
-    direction,
-  }: {
-    user: Pick<UserStructure, "id" | "structureId" | "nom" | "prenom">;
-    usager: UsagerLight;
-    interaction: Interactions;
-    direction: InteractionDirection;
-  }) {
-    if (direction === "in") {
-      const outType = interactionsTypeManager.getOppositeDirectionalType({
-        type: interaction.type,
-      });
-
-      const last = await interactionRepository.findLastInteraction({
-        usagerRef: usager.ref,
-        dateInteraction: interaction.dateInteraction,
-        typeInteraction: outType,
-        user,
-        isIn: "in",
-        event: "create",
-      });
-
-      if (!last || last === null) {
-        if (interaction.nbCourrier) {
-          usager.lastInteraction[interaction.type] =
-            usager.lastInteraction[interaction.type] - interaction.nbCourrier;
-        }
-      }
-    } else if (direction === "out") {
-      const inType = interactionsTypeManager.getOppositeDirectionalType({
-        type: interaction.type,
-        direction,
-      });
-
-      if (interaction.nbCourrier) {
-        usager.lastInteraction[inType] =
-          usager.lastInteraction[inType] + interaction.nbCourrier;
-      }
-    }
-
-    // Recherche de la dernière date de passage
-    const lastInteraction = await interactionRepository.findLastInteractionOk({
-      user,
-      usager,
-      event: "create",
-    });
-
-    const lastInteractionDate = lastInteraction?.dateInteraction;
-
-    if (lastInteractionDate) {
-      // Si la date de la dernière décision a lieu après la dernière interaction, on l'assigne à lastInteraction.dateInteraction
-      usager.lastInteraction.dateInteraction =
-        lastInteractionDate > new Date(usager.decision.dateDecision)
-          ? lastInteractionDate
-          : usager.decision.dateDecision;
-    } else {
-      usager.lastInteraction.dateInteraction = usager.decision.dateDecision;
-    }
-
-    // recalcul des totaux: ne fonctionne que si on supprime la dernière interaction
-    // NOTE @toub 2021-06-29: j'ai envisagé de recalculer tous les compteurs (voir fichier `sum_all_interactions.aggregate.sql`)
-    // mais hélas, ils ne correspondent pas à la valeur qu'on a dans "lastInteraction"
-    // donc il faudrait mieux revoir le modèle de données
-
-    usager.lastInteraction.enAttente =
-      usager.lastInteraction.courrierIn > 0 ||
-      usager.lastInteraction.colisIn > 0 ||
-      usager.lastInteraction.recommandeIn > 0;
-
-    return this.usagersService.patch(
-      { uuid: usager.uuid },
-      {
-        options: usager.options,
-        lastInteraction: usager.lastInteraction,
-      }
-    );
   }
 }

@@ -1,8 +1,6 @@
 import { configTypeOrmLoggerParser } from "./configTypeOrmLoggerParser.service";
 
 describe("configTypeOrmLoggerParser", () => {
-  beforeEach(async () => {});
-
   it("configTypeOrmLoggerParser.getTypeormLoggerOptions simple value", () => {
     expect(
       configTypeOrmLoggerParser.getTypeormLoggerOptions(
@@ -55,14 +53,4 @@ describe("configTypeOrmLoggerParser", () => {
       )
     ).toEqual(["query", "schema", "error", "warn", "info", "log", "migration"]);
   });
-  // it("configTypeOrmLoggerParser.getTypeormLoggerOptions invalid value", () => {
-  //   expect(
-  //     configTypeOrmLoggerParser.getTypeormLoggerOptions(
-  //       {
-  //         POSTGRES_LOGGING: "invalid-value",
-  //       },
-  //       "POSTGRES_LOGGING"
-  //     )
-  //   ).toThrowError();
-  // });
 });

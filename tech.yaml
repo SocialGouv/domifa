@@ -27,10 +27,13 @@ tools:
 # Overall technical stack
 stack:
   frontend:
-    - Angular 12
+    - Angular 13
+    - Typescript
+  portail-admins:
+    - Angular 13
     - Typescript
   portail-usagers:
-    - Angular 12
+    - Angular 13
     - Typescript
   backend:
     - NestJS
@@ -42,7 +45,7 @@ stack:
     - portail-usagers: unit tests
     - backend: unit tests + integration tests
   ci:
-    - Gitlab-ci (tests, build, register docker images)
+    - Github Actions (tests, build, register docker images)
   deployment:
     - internal VM
     - docker-compose

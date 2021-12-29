@@ -47,7 +47,7 @@ class AppLogger {
       extra,
       sentry,
     }: {
-      error?: Error;
+      error?: any;
       context?: string;
       extra?: { [attr: string]: any };
       sentry: boolean;
@@ -57,7 +57,7 @@ class AppLogger {
   ) {
     if (sentry && domifaConfig().dev.sentry.enabled) {
       // log to sentry
-      const contexts = context ? { context } : (undefined as {});
+      // const contexts = context ? { context } : null;
       // FIXME il y a eu confusion entre contexts et extra, service à refactorer
       const sentryExtra = extra
         ? extra
@@ -67,13 +67,14 @@ class AppLogger {
       if (error) {
         Sentry.captureException(error, {
           level: Sentry.Severity.Error,
-          contexts,
+          // TODO: modifier le context pour qu'il corresponde à ce qu'attend Sentry
+          // contexts,
           extra: sentryExtra,
         });
       } else {
         Sentry.captureMessage(message, {
           level: Sentry.Severity.Error,
-          contexts,
+          // contexts,
           extra: sentryExtra,
         });
       }
