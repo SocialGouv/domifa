@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router, RouterStateSnapshot } from "@angular/router";
 import * as Sentry from "@sentry/browser";
+import { UserIdleService } from "angular-user-idle";
 import jwtDecode from "jwt-decode";
 import { ToastrService } from "ngx-toastr";
 import { BehaviorSubject, Observable, of } from "rxjs";
@@ -22,7 +23,8 @@ export class AuthService {
   constructor(
     public http: HttpClient,
     private toastr: ToastrService,
-    public router: Router
+    public router: Router,
+    private userIdleService: UserIdleService
   ) {
     this.currentUserSubject = new BehaviorSubject<UserStructure | null>(
       JSON.parse(localStorage.getItem("currentUser") || null)
@@ -33,10 +35,10 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
-  public login(email: string, password: string): Observable<any> {
+  public login(email: string, password: string): Observable<UserStructure> {
     usagersCache.clearCache();
     return this.http
-      .post<any>(`${this.endPoint}/login`, {
+      .post<{ access_token: string }>(`${this.endPoint}/login`, {
         email,
         password,
       })
@@ -51,6 +53,7 @@ export class AuthService {
           localStorage.removeItem("filters");
 
           this.currentUserSubject.next(user);
+          this.userIdleService.startWatching();
 
           return user;
         })
@@ -90,7 +93,7 @@ export class AuthService {
   }
 
   public isDomifa(): Observable<boolean> {
-    return this.http.get<any>(`${this.endPoint}/domifa`).pipe(
+    return this.http.get<boolean>(`${this.endPoint}/domifa`).pipe(
       map(() => {
         return true;
       }),
@@ -117,6 +120,7 @@ export class AuthService {
   }
 
   public logoutAndRedirect(state?: RouterStateSnapshot): void {
+    this.userIdleService.stopWatching();
     this.logout();
     if (state) {
       this.router.navigate(["/connexion"], {
