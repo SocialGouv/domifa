@@ -37,10 +37,10 @@ export class AdminStructuresDeleteController {
 
     if (!!structure) {
       deleteStructureEmailSender.sendMail({ structure }).then(
-        (result) => {
+        () => {
           return res.status(HttpStatus.OK).json({ message: "OK" });
         },
-        (error) => {
+        () => {
           return res
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .json({ message: "MAIL_DELETE_STRUCTURE_ERROR" });

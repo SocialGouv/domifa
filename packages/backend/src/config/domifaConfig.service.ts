@@ -362,7 +362,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
   };
   const configWithHiddenSensitiveData = hideSensitiveData(config);
   if (config.dev.printEnv) {
-    printEnv(x, configWithHiddenSensitiveData);
+    printEnv(x);
   }
   if (config.dev.printConfig) {
     // eslint:disable-next-line: no-console
@@ -474,7 +474,7 @@ function buildSmtpOptions(
       };
 }
 
-function printEnv(x: Partial<DomifaEnv>, config: DomifaConfig) {
+function printEnv(x: Partial<DomifaEnv>) {
   const envKeysToLog = Object.keys(x).filter((x) => !x.startsWith("npm_"));
   envKeysToLog.sort();
 

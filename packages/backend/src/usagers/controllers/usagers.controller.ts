@@ -1,3 +1,4 @@
+import { messageSmsRepository } from "./../../database/services/message-sms/messageSmsRepository.service";
 import {
   Body,
   Controller,
@@ -22,7 +23,9 @@ import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import {
+  interactionRepository,
   PgRepositoryFindOrder,
+  usagerHistoryRepository,
   usagerLightRepository,
   usagerRepository,
   userUsagerRepository,
@@ -50,7 +53,7 @@ import {
 import { SearchUsagerDto } from "../dto/search-usager.dto";
 import {
   CerfaService,
-  usagerDeletor,
+  deleteUsagerFolder,
   usagerHistoryStateManager,
   UsagersService,
 } from "../services";
@@ -267,7 +270,8 @@ export class UsagersController {
     @CurrentUsager() usager: UsagerLight,
     @Res() res: Response
   ) {
-    await usagerDeletor.deleteUsager({
+    // Historique
+    await usagerHistoryRepository.deleteByCriteria({
       usagerRef: usager.ref,
       structureId: user.structureId,
     });
@@ -278,6 +282,35 @@ export class UsagersController {
       structureId: user.structureId,
       action: "SUPPRIMER_DOMICILIE",
     });
+    // Interactions
+    await interactionRepository.deleteByCriteria({
+      usagerRef: usager.ref,
+      structureId: user.structureId,
+    });
+
+    // Users
+    await userUsagerRepository.deleteByCriteria({
+      usagerUUID: usager.uuid,
+    });
+
+    // Suppression des SMS
+    await messageSmsRepository.deleteByCriteria({
+      usagerRef: usager.ref,
+      structureId: user.structureId,
+    });
+
+    // Suppression des fichiers de l'usager
+    deleteUsagerFolder({
+      usagerRef: usager.ref,
+      structureId: user.structureId,
+    });
+
+    // Suppression de l'usager
+    await usagerRepository.deleteByCriteria({
+      ref: usager.ref,
+      structureId: user.structureId,
+    });
+
     return res.status(HttpStatus.OK).json({ message: "DELETE_SUCCESS" });
   }
 

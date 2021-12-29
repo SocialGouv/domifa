@@ -212,12 +212,10 @@ export class ImportController {
     }
 
     try {
-      appLogger.debug("[FILES LOGS] Delete import file success " + filePath);
+      appLogger.debug("[FILES] Delete import file success " + filePath);
       fs.unlinkSync(filePath);
     } catch (err) {
-      appLogger.error(
-        "[FILES LOGS] [FAIL] Delete import file fail " + filePath
-      );
+      appLogger.error("[FILES] [FAIL] Delete import file fail " + filePath);
       throw new HttpException(
         "IMPORTE_DELETE_FILE_IMPOSSIBLE",
         HttpStatus.BAD_REQUEST

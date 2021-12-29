@@ -66,6 +66,7 @@ export class DisplayUsagerDocsComponent implements OnInit {
     this.documentService.deleteDocument(this.usager.ref, i).subscribe({
       next: (docs: UsagerDoc[]) => {
         this.usager.docs = docs;
+        this.stopLoading("delete", i);
         this.notifService.success("Document supprimé avec succès");
       },
       error: () => {

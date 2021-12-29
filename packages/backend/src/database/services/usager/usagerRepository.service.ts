@@ -1,7 +1,5 @@
-import { structureCommonRepository } from "./../structure/structureCommonRepository.service";
-import { UsagerLight } from "./../../../_common/model/usager/UsagerLight.type";
 import moment = require("moment");
-import { EntityManager, In } from "typeorm";
+import { EntityManager } from "typeorm";
 import { Usager } from "../../../_common/model";
 import { UsagerTable } from "../../entities";
 import {

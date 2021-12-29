@@ -1,4 +1,3 @@
-import { UsagerAyantDroit } from "./../../../_common/model/usager/UsagerAyantDroit.type";
 import { Column, Workbook } from "exceljs";
 import { structureType } from "../../../stats/usagers.labels";
 import { DEPARTEMENTS_MAP } from "../../../structures/DEPARTEMENTS_MAP.const";

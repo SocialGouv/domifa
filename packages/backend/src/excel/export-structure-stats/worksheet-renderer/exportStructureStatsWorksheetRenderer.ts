@@ -4,7 +4,6 @@ import { StructureStatsExportModel } from "../StructureStatsExportModel.type";
 import { exportStructureStatsWorksheetSection1Renderer } from "./exportStructureStatsWorksheetSection1Renderer";
 import { exportStructureStatsWorksheetSection2Renderer } from "./exportStructureStatsWorksheetSection2Renderer";
 import { exportStructureStatsWorksheetSection3Renderer } from "./exportStructureStatsWorksheetSection3Renderer";
-import moment = require("moment");
 
 export const exportStructureStatsWorksheetRenderer = {
   renderWorksheet,

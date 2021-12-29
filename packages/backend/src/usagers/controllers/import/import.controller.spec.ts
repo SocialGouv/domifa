@@ -117,7 +117,4 @@ describe("Import Controller", () => {
       },
     });
   });
-
-  // TODO: ajouter les test de taille limite
-  // TODO: vérifier le résultat dans la BDD
 });

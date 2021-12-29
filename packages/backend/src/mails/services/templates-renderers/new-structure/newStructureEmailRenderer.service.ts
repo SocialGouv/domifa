@@ -3,7 +3,6 @@ import { DomifaMailTemplateRendering } from "../../../../mail-generator/model";
 import { domifaMailTemplateRenderer } from "../../../../mail-generator/services/domifaMailTemplateRenderer.service";
 import { DEPARTEMENTS_MAP } from "../../../../structures/DEPARTEMENTS_MAP.const";
 import { Structure } from "../../../../_common/model";
-import moment = require("moment");
 
 export type NewStructureEmailModel = {
   structure: Pick<
@@ -57,10 +56,7 @@ async function renderTemplate({
     toSkipString,
   };
 
-  return domifaMailTemplateRenderer.renderTemplate(
-    "new-structure",
-    model
-  );
+  return domifaMailTemplateRenderer.renderTemplate("new-structure", model);
 }
 
 export const newStructureEmailRenderer = { renderTemplate };

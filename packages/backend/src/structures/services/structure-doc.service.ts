@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 
 import { DeleteResult, Repository } from "typeorm";
 import { appTypeormManager } from "../../database";
@@ -48,6 +48,4 @@ export class StructureDocService {
       uuid,
     });
   }
-
-  public async patch(): Promise<any> {}
 }

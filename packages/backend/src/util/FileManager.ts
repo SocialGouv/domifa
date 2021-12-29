@@ -1,7 +1,5 @@
 import * as fs from "fs";
 import * as path from "path";
-import Sentry = require("@sentry/node");
-import { HttpException, HttpStatus } from "@nestjs/common";
 import { appLogger } from ".";
 
 // Liste des extensions autorisé selon le contexte
@@ -55,26 +53,21 @@ export const extensions = {
 };
 
 // Suppression effective d'un fichier
-export async function deleteFile(pathFile: string) {
-  if (fs.existsSync(pathFile)) {
-    setTimeout(() => {
-      try {
-        appLogger.debug("[FILES LOGS] Delete file success " + pathFile);
-
-        fs.unlinkSync(pathFile);
-      } catch (err) {
-        appLogger.error("[FILES LOGS] [FAIL] Delete file fail " + pathFile);
-        Sentry.configureScope((scope) => {
-          scope.setTag("file", pathFile);
-        });
-
-        throw new HttpException(
-          { message: "CANNOT_DELETE_FILE" },
-          HttpStatus.INTERNAL_SERVER_ERROR
-        );
-      }
-    }, 2500);
+export function deleteFile(pathFile: string) {
+  if (!fs.existsSync(pathFile)) {
+    return;
   }
+  setTimeout(() => {
+    try {
+      fs.unlinkSync(pathFile);
+      appLogger.debug("[FILES] Delete file success - " + pathFile);
+    } catch (err) {
+      appLogger.error("[FILES] Delete file fail - " + pathFile, {
+        sentry: true,
+        error: err,
+      });
+    }
+  }, 2000);
 }
 
 export function randomName(file: Express.Multer.File): string {
