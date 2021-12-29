@@ -8,7 +8,12 @@ import {
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { NavigationEnd, Router } from "@angular/router";
-import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbModal,
+  NgbModalOptions,
+  NgbModalRef,
+} from "@ng-bootstrap/ng-bootstrap";
+import { UserIdleService } from "angular-user-idle";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { environment } from "../environments/environment";
@@ -37,16 +42,16 @@ export class AppComponent implements OnInit {
   public me: UserStructure;
 
   @ViewChild("newsCenter", { static: true })
-  public newsCenter!: TemplateRef<any>;
+  public newsCenter!: TemplateRef<NgbModalRef>;
 
   @ViewChild("maintenanceModal", { static: true })
-  public maintenanceModal!: TemplateRef<any>;
+  public maintenanceModal!: TemplateRef<NgbModalRef>;
 
   @ViewChild("helpCenter", { static: true })
-  public helpCenter!: TemplateRef<any>;
+  public helpCenter!: TemplateRef<NgbModalRef>;
 
   @ViewChild("versionModal", { static: true })
-  public versionModal!: TemplateRef<any>;
+  public versionModal!: TemplateRef<NgbModalRef>;
 
   constructor(
     private healthCheckService: HealthCheckService,
@@ -57,7 +62,8 @@ export class AppComponent implements OnInit {
     private router: Router,
     private titleService: Title,
     private ngZone: NgZone,
-    public matomo: MatomoTracker
+    public matomo: MatomoTracker,
+    private userIdleService: UserIdleService
   ) {
     this.domifaNews = null;
     this.matomoInjector.init(environment.matomo.url, environment.matomo.siteId);
@@ -106,37 +112,38 @@ export class AppComponent implements OnInit {
   }
 
   private runHealthCheckAndAutoReload() {
-    if (environment.env !== "test") {
-      this.ngZone.run(() => {
-        this.healthCheckService
-          .enablePeriodicHealthCheck()
-          .subscribe((retour: HealthCheckInfo) => {
-            if (retour.status === "error") {
-              if (!this.modalService.hasOpenModals()) {
-                this.modalService.open(
-                  this.maintenanceModal,
-                  this.modalOptions
-                );
-              }
-            } else {
-              if (this.apiVersion === null) {
-                // Initialisation de la première version
-                this.apiVersion = retour.info.version.info;
-              }
-
-              if (this.apiVersion !== retour.info.version.info) {
-                this.modalService.dismissAll();
-                // On update la page
-                this.modalService.open(this.versionModal, this.modalOptions);
-                // Reload dans 5 secondes
-                setTimeout(() => {
-                  window.location.reload();
-                }, 5000);
-              }
-            }
-          });
-      });
+    if (environment.env === "test") {
+      return;
     }
+
+    this.ngZone.run(() => {
+      this.healthCheckService
+        .enablePeriodicHealthCheck()
+        .subscribe((retour: HealthCheckInfo) => {
+          if (retour.status === "error") {
+            if (!this.modalService.hasOpenModals()) {
+              this.userIdleService.stopWatching();
+
+              this.modalService.open(this.maintenanceModal, this.modalOptions);
+            }
+          } else {
+            if (this.apiVersion === null) {
+              // Initialisation de la première version
+              this.apiVersion = retour.info.version.info;
+            }
+
+            if (this.apiVersion !== retour.info.version.info) {
+              this.modalService.dismissAll();
+              // On update la page
+              this.modalService.open(this.versionModal, this.modalOptions);
+              // Reload dans 5 secondes
+              setTimeout(() => {
+                window.location.reload();
+              }, 5000);
+            }
+          }
+        });
+    });
   }
 
   public initMatomo(): void {

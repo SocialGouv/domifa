@@ -1,3 +1,4 @@
+import { UserIdleModule } from "angular-user-idle";
 import { ToastrModule } from "ngx-toastr";
 import { inject, TestBed } from "@angular/core/testing";
 
@@ -15,6 +16,7 @@ describe("AuthService", () => {
         RouterTestingModule,
         RouterTestingModule,
         ToastrModule.forRoot(),
+        UserIdleModule,
       ],
       providers: [AuthService, { provide: APP_BASE_HREF, useValue: "/" }],
     });
