@@ -1,4 +1,4 @@
-import { Column, Entity, Generated } from "typeorm";
+import { Column, Entity } from "typeorm";
 import { Log, LogAction } from "../../../_common/model";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 

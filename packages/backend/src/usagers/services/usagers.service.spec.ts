@@ -3,16 +3,14 @@ import { usagerRepository, userStructureRepository } from "../../database";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { CreateUsagerDto } from "../dto/create-usager.dto";
-import { SearchDto } from "../dto/search.dto";
+
 import { CerfaService } from "./cerfa.service";
-import { usagerDeletor } from "./usagerDeletor.service";
 import { UsagersService } from "./usagers.service";
 
 describe("UsagersService", () => {
   let service: UsagersService;
 
   const fakeUsagerDto = new CreateUsagerDto();
-  const searchDto = new SearchDto();
 
   fakeUsagerDto.nom = "Usager";
   fakeUsagerDto.prenom = "De test";
@@ -71,12 +69,5 @@ describe("UsagersService", () => {
 
     expect(updatedUsager.nom).toEqual("Nouveau nom");
     expect(updatedUsager.prenom).toEqual("Nouveau prénom");
-
-    // DELETE
-    const deletedCount = await usagerDeletor.deleteUsager({
-      usagerRef: usagerTest.ref,
-      structureId: user.structureId,
-    });
-    expect(await deletedCount).toEqual(1);
   });
 });

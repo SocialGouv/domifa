@@ -47,7 +47,7 @@ class AppLogger {
       extra,
       sentry,
     }: {
-      error?: any;
+      error?: any | Error;
       context?: string;
       extra?: { [attr: string]: any };
       sentry: boolean;

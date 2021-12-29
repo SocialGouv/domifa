@@ -108,7 +108,13 @@ export class DocsController {
       file.filename
     );
 
-    this.encryptFile(fileName, res);
+    try {
+      this.encryptFile(fileName);
+    } catch (e) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "CANNOT_ENCRYPT_FILE" });
+    }
 
     const fieldsToUpdate: Partial<Usager> = {
       docs: usager.docs,
@@ -148,16 +154,10 @@ export class DocsController {
       typeof usager.docs[index] === "undefined" ||
       typeof usager.docsPath[index] === "undefined"
     ) {
-      throw new HttpException(
-        {
-          message: "DOC_NOT_FOUND_DELETE",
-          usagerRef,
-          structureId: usager.structureId,
-        },
-        HttpStatus.BAD_REQUEST
-      );
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "DOC_NOT_FOUND" });
     }
-
     const fileInfos: UsagerDoc & { path?: string } = usager.docs[index];
     fileInfos.path = usager.docsPath[index];
 
@@ -170,9 +170,9 @@ export class DocsController {
       )
     );
 
-    await deleteFile(pathFile);
+    deleteFile(pathFile);
 
-    await deleteFile(pathFile + ".encrypted");
+    deleteFile(pathFile + ".encrypted");
 
     const updatedUsager = await this.docsService.deleteDocument(
       usagerRef,
@@ -210,14 +210,9 @@ export class DocsController {
       typeof usager.docs[index] === "undefined" ||
       typeof usager.docsPath[index] === "undefined"
     ) {
-      throw new HttpException(
-        {
-          message: "DOC_NOT_FOUND_GET",
-          usagerRef,
-          structureId: usager.structureId,
-        },
-        HttpStatus.BAD_REQUEST
-      );
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "DOC_NOT_FOUND" });
     }
 
     const fileInfos: UsagerDoc & { path?: string } = usager.docs[index];
@@ -260,15 +255,23 @@ export class DocsController {
             baseUsagerPathExists,
           },
         });
-        throw new HttpException(
-          { message: "UNENCRYPTED_FILE_NOT_FOUND" },
-          HttpStatus.BAD_REQUEST
-        );
-      } else {
-        this.encryptFile(pathFile, res);
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: "DOC_NOT_FOUND" });
+      }
+      // FIX: pour les rares documents non encryptés du tout début du projet
+      else {
+        try {
+          this.encryptFile(pathFile);
+        } catch (e) {
+          return res
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .json({ message: "CANNOT_ENCRYPT_FILE" });
+        }
       }
     }
 
+    // Clés de chiffrement
     const key = domifaConfig().security.files.private;
     let iv = domifaConfig().security.files.iv;
 
@@ -289,13 +292,23 @@ export class DocsController {
     input
       .pipe(decipher)
       .pipe(output)
-      .on("finish", async () => {
+      .on("error", (error: Error) => {
+        appLogger.error("[FILES] CANNOT_DECRYPT_FILE : " + pathFile, {
+          error,
+          sentry: true,
+        });
+        return res
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: "CANNOT_ENCRYPT_FILE" });
+      })
+      .on("finish", () => {
         res.sendFile(output.path as string);
-        await deleteFile(pathFile + ".unencrypted");
+        // Suppression du fichier non chiffré
+        deleteFile(pathFile + ".unencrypted");
       });
   }
 
-  private encryptFile(fileName: string, @Res() res: Response) {
+  private encryptFile(fileName: string): void {
     const key = domifaConfig().security.files.private;
     const iv = domifaConfig().security.files.iv;
 
@@ -304,24 +317,19 @@ export class DocsController {
     const input = fs.createReadStream(fileName);
     const output = fs.createWriteStream(fileName + ".encrypted");
 
-    return input
+    input
       .pipe(cipher)
       .pipe(output)
+      .on("error", (error) => {
+        appLogger.error("[FILES] CANNOT_ENCRYPT_FILE : " + fileName, {
+          sentry: true,
+          error,
+        });
+        throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      })
       .on("finish", () => {
-        try {
-          fs.unlinkSync(fileName);
-        } catch (err) {
-          appLogger.error("[FILES LOGS] CANNOT_ENCRYPT_FILE : " + fileName);
-          throw new HttpException(
-            {
-              message: "CANNOT_ENCRYPT_FILE",
-              file: fileName,
-              err,
-            },
-            HttpStatus.INTERNAL_SERVER_ERROR
-          );
-        }
-        return output.path;
+        // Suppression du fichier d'origine non-chiffré
+        deleteFile(fileName);
       });
   }
 }

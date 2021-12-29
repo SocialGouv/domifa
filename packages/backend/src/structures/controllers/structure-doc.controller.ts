@@ -165,7 +165,7 @@ export class StructureDocController {
       doc.path
     );
 
-    await deleteFile(pathFile);
+    deleteFile(pathFile);
 
     await this.structureDocService.deleteOne(user.structureId, uuid);
 

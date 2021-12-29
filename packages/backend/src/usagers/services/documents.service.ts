@@ -4,8 +4,6 @@ import { Usager, UserStructure } from "../../_common/model";
 
 @Injectable()
 export class DocumentsService {
-  constructor() {}
-
   public async deleteDocument(
     usagerRef: number,
     index: number,
@@ -21,7 +19,7 @@ export class DocumentsService {
     newDocs.splice(index, 1);
     newDocsPath.splice(index, 1);
 
-    return usagerRepository.updateOne(
+    return await usagerRepository.updateOne(
       { ref: usagerRef, structureId: user.structureId },
       {
         docs: usager.docs,
