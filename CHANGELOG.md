@@ -1,3 +1,10 @@
+# [2.57.0](https://github.com/SocialGouv/domifa/compare/v2.56.0...v2.57.0) (2021-12-29)
+
+
+### Features
+
+* **securité:** Déconnexion automatique après 1h sans utilisation ([9ae37b9](https://github.com/SocialGouv/domifa/commit/9ae37b9169b853ca7f5890e82a57650b83cfb570))
+
 # [2.56.0](https://github.com/SocialGouv/domifa/compare/v2.55.1...v2.56.0) (2021-12-29)
 
 
