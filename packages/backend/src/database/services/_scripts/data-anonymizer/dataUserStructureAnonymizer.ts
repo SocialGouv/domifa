@@ -30,11 +30,26 @@ async function anonymizeUsersStructure({ app }: { app: INestApplication }) {
     isUserStructureToAnonymise(user)
   );
 
-  appLogger.warn(
-    `[dataUserAnonymizer] ${usersToAnonymise.length}/${users.length} users to anonymize`
+  appLogger.warn(`[dataUserAnonymizer] [user-structure] reset security tables`);
+
+  await userStructureSecurityRepository.updateMany(
+    {},
+    {
+      temporaryTokens: null,
+      eventsHistory: [],
+    }
   );
+
+  appLogger.warn(
+    `[dataUserAnonymizer] ${usersToAnonymise.length}/${users.length} users structure to anonymize`
+  );
+
   for (const user of usersToAnonymise) {
-    await _anonymizeUserStructure(user, { app });
+    try {
+      await _anonymizeUserStructure(user, { app });
+    } catch (e) {
+      console.log(e);
+    }
   }
 }
 function isUserStructureToAnonymise(
@@ -83,20 +98,5 @@ async function _anonymizeUserStructure(
     return user;
   }
 
-  await userStructureSecurityRepository.updateOne(
-    {
-      userId: user.id,
-    },
-    {
-      temporaryTokens: null,
-      eventsHistory: [],
-    }
-  );
-
-  return userStructureRepository.updateOne(
-    {
-      id: user.id,
-    },
-    attributesToUpdate
-  );
+  return userStructureRepository.updateOne({ id: user.id }, attributesToUpdate);
 }
