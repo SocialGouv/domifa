@@ -34,6 +34,7 @@ async function anonymizeUsagers({ app }: { app: INestApplication }) {
         "ayantsDroits",
         "datePremiereDom",
         "entretien",
+        "updatedAt",
       ],
     }
   );
@@ -50,7 +51,12 @@ async function anonymizeUsagers({ app }: { app: INestApplication }) {
         `[dataUsagerAnonymizer] ${i}/${usagersToAnonymize.length} usagers anonymized`
       );
     }
-    await _anonymizeUsager(usager, { app });
+
+    try {
+      await _anonymizeUsager(usager, { app });
+    } catch (e) {
+      console.log(e);
+    }
   }
 }
 function isUsagerToAnonymize(x: Usager): unknown {
@@ -67,6 +73,20 @@ async function _anonymizeUsager(
   usager.entretien.revenusDetail = null;
   usager.entretien.raisonDetail = null;
   usager.entretien.orientationDetail = null;
+
+  let historique = [];
+  let docs = [];
+
+  if (usager.historique) {
+    historique = usager.historique.map((h) => anonymizeUsagerHistorique(h));
+  }
+
+  if (usager.docs) {
+    docs = usager.docs.map((d, i) => ({
+      ...d,
+      label: `Document ${i}`,
+    }));
+  }
 
   const attributesToUpdate: Partial<Usager> = {
     email: `usager-${usager.ref}@domifa-fake.fabrique.social.gouv.fr`,
@@ -85,16 +105,9 @@ async function _anonymizeUsager(
     villeNaissance: dataGenerator.fromList(["Inconnu", dataGenerator.city()]),
     entretien: anonymizeUsagerEntretien(usager.entretien),
     decision: anonymizeUsagerDecision(usager.decision),
-    historique: usager.historique.map((h) => anonymizeUsagerHistorique(h)),
+    historique,
     ayantsDroits: anonymizeAyantDroits(usager.ayantsDroits),
-    docs: usager.docs.map((d, i) => ({
-      ...d,
-      label: `Document ${i}`,
-    })),
-    // datePremiereDom non-anonymisée car ça casse la cohérence des données, il faudrait le faire en tenant compte de l'historique
-    // datePremiereDom: dataGenerator.date({
-    //   years: { min: 0, max: -30 },
-    // }),
+    docs,
   };
 
   if (Object.keys(attributesToUpdate).length === 0) {
@@ -102,7 +115,10 @@ async function _anonymizeUsager(
     return usager;
   }
 
-  return usagerRepository.updateOne({ uuid: usager.uuid }, attributesToUpdate);
+  return await usagerRepository.updateOne(
+    { uuid: usager.uuid },
+    attributesToUpdate
+  );
 }
 function anonymizeAyantDroits(
   ayantsDroits: UsagerAyantDroit[]
