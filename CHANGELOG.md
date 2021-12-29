@@ -1,3 +1,10 @@
+# [2.55.0](https://github.com/SocialGouv/domifa/compare/v2.54.3...v2.55.0) (2021-12-29)
+
+
+### Features
+
+* **anonymize:** Mise à jour des scripts d'anonymisation ([c948712](https://github.com/SocialGouv/domifa/commit/c948712524793522d969f636923dc3718b5d8068))
+
 ## [2.54.3](https://github.com/SocialGouv/domifa/compare/v2.54.2...v2.54.3) (2021-12-28)
 
 
