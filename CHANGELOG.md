@@ -1,3 +1,17 @@
+## [2.55.1](https://github.com/SocialGouv/domifa/compare/v2.55.0...v2.55.1) (2021-12-29)
+
+
+### Bug Fixes
+
+* **migration:** correction de la migration ([7397c61](https://github.com/SocialGouv/domifa/commit/7397c61295793e944e204eb46bd707f4c81c7148))
+* add IE warning from nginx ([3d65e14](https://github.com/SocialGouv/domifa/commit/3d65e140ad50667b3baff8bdd91a0ac25b1721e6))
+* fermeture du ticket, la prise en charge d'IE n'est pas gérable ([06052dc](https://github.com/SocialGouv/domifa/commit/06052dc8e064608b7245714a01e091c6f8841be2))
+* ie ([b341627](https://github.com/SocialGouv/domifa/commit/b341627917b8d5ce7e61e0a58320994cc13095ab))
+* nginx conf ([22017b4](https://github.com/SocialGouv/domifa/commit/22017b45121778cfe87c66ac83df968fd209420a))
+* **ie:** config Nginx ([e9656c6](https://github.com/SocialGouv/domifa/commit/e9656c6716f52b0cc4afd811bc9927107f61279e))
+* **ie:** correction de la config NGINX ([fb78059](https://github.com/SocialGouv/domifa/commit/fb7805903c3b4d761402086bd95708b6509e6b5b))
+* **nginx:** mise à jour de la config ([c6bc17e](https://github.com/SocialGouv/domifa/commit/c6bc17e9d8152e2fee451977c54ee830e02369bf))
+
 # [2.55.0](https://github.com/SocialGouv/domifa/compare/v2.54.3...v2.55.0) (2021-12-29)
 
 
