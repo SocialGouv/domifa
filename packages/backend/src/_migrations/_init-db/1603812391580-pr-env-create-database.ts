@@ -70,13 +70,6 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_7fd081c7b024fd7837e6d1923c" ON message_sms USING btree (status);
     CREATE INDEX "IDX_dae89d90feda082fad814da8a4" ON message_sms USING btree ("structureId");
 
-    CREATE UNLOGGED TABLE migrations (
-      id serial4 NOT NULL,
-      "timestamp" int8 NOT NULL,
-      name varchar NOT NULL,
-      CONSTRAINT "PK_8c82d7f526340ab734260ea46be" PRIMARY KEY (id)
-    );
-
     CREATE UNLOGGED TABLE monitor_batch_process (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
