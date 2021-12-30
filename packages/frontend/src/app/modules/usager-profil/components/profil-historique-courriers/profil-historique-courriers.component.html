@@ -1,4 +1,14 @@
-<h4>Historique des courriers</h4>
+<div class="d-flex justify-content-between align-items-center">
+  <h4>Historique des courriers</h4>
+
+  <button
+    title="Impression"
+    class="btn btn-sm btn-primary d-print-none"
+    (click)="goToPrint()"
+  >
+    <fa-icon [icon]="['fas', 'print']"></fa-icon>
+  </button>
+</div>
 
 <div *ngIf="interactions">
   <div class="alert alert-info" *ngIf="interactions.length === 0">
@@ -55,7 +65,7 @@
             </div>
           </td>
           <td>{{ interaction.userName }}</td>
-          <td class="text-right">
+          <td class="text-right d-print-none">
             <ng-container *ngIf="i === 0">
               <button
                 aria-label="Supprimer l'interaction"

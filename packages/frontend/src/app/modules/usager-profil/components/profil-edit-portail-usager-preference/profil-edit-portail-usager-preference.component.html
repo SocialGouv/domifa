@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-between align-items-center">
+<div class="d-flex justify-content-between align-items-center d-print-none">
   <div>
     <h4>Accès au portail usager</h4>
   </div>
@@ -22,7 +22,7 @@
   </div>
 </div>
 
-<div class="row" *ngIf="!editionInProgress">
+<div class="row d-print-none" *ngIf="!editionInProgress">
   <div class="col-md-6 reponses">
     <span class="question"
       >Le demandeur souhaite-t-il avoir accès au portail usager ?</span
@@ -76,6 +76,7 @@
 </div>
 
 <form
+  class="d-print-none"
   *ngIf="editionInProgress"
   [formGroup]="form"
   (ngSubmit)="submit()"

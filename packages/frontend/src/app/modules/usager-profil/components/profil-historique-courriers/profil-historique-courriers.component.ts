@@ -89,4 +89,8 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
     this.interactionToDelete = null;
     this.modalService.dismissAll();
   }
+
+  public goToPrint(): void {
+    window.print();
+  }
 }
