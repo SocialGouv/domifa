@@ -1,3 +1,16 @@
+## [2.57.1](https://github.com/SocialGouv/domifa/compare/v2.57.0...v2.57.1) (2021-12-30)
+
+
+### Bug Fixes
+
+* **migration:** correction de la migration bloquante ([9f60503](https://github.com/SocialGouv/domifa/commit/9f60503145e00350680da3729da19d22a70f2721))
+* **prod:** use new PG server ([f53e11e](https://github.com/SocialGouv/domifa/commit/f53e11eef5d5c54a571a3aed4378a858b13c32d1))
+
+
+### Reverts
+
+* Revert "fix(preprod): use new pg server (#1992)" ([90619f9](https://github.com/SocialGouv/domifa/commit/90619f9abdcd1b41c83128392ddda268c7dee130)), closes [#1992](https://github.com/SocialGouv/domifa/issues/1992)
+
 # [2.57.0](https://github.com/SocialGouv/domifa/compare/v2.56.0...v2.57.0) (2021-12-29)
 
 
