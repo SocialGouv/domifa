@@ -23,7 +23,7 @@
             class="alert alert-danger"
             *ngIf="usager.decision.statut === 'REFUS'"
           >
-            <div class="svg-icon icon-danger"></div>
+            <div title="Important" class="svg-icon icon-danger"></div>
             <div class="text-danger">
               Demande refusée le
               {{ usager.decision.dateFin | date: "dd/MM/yyyy" }}
@@ -104,7 +104,7 @@
             class="alert alert-danger"
             *ngIf="usager.echeanceInfos.dayBeforeEnd < 0"
           >
-            <div class="svg-icon icon-danger"></div>
+            <div title="Important" class="svg-icon icon-danger"></div>
             <div>
               Domiciliation expirée depuis le
 
