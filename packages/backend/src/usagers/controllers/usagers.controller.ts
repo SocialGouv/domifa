@@ -29,6 +29,7 @@ import {
   usagerLightRepository,
   usagerRepository,
   userUsagerRepository,
+  userUsagerSecurityRepository,
 } from "../../database";
 import { USAGER_LIGHT_ATTRIBUTES } from "../../database/services/usager/USAGER_LIGHT_ATTRIBUTES.const";
 import { userUsagerCreator, userUsagerUpdator } from "../../users/services";
@@ -270,6 +271,24 @@ export class UsagersController {
     @CurrentUsager() usager: UsagerLight,
     @Res() res: Response
   ) {
+    // On vérifie s'il existe un user associé
+    const userUsager = await userUsagerRepository.findOne({
+      usagerUUID: usager.uuid,
+    });
+
+    if (userUsager) {
+      // Users
+      await userUsagerSecurityRepository.deleteByCriteria({
+        userId: userUsager.id,
+        structureId: userUsager.structureId,
+      });
+
+      // Users
+      await userUsagerRepository.deleteByCriteria({
+        uuid: userUsager.uuid,
+      });
+    }
+
     // Historique
     await usagerHistoryRepository.deleteByCriteria({
       usagerRef: usager.ref,
@@ -286,11 +305,6 @@ export class UsagersController {
     await interactionRepository.deleteByCriteria({
       usagerRef: usager.ref,
       structureId: user.structureId,
-    });
-
-    // Users
-    await userUsagerRepository.deleteByCriteria({
-      usagerUUID: usager.uuid,
     });
 
     // Suppression des SMS
