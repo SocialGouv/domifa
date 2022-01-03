@@ -40,7 +40,7 @@
     <th class="text-left d-print-none">ACTIONS RAPIDES</th>
     <th class="d-print-none">
       <button class="btn-sm btn-primary btn" (click)="goToPrint.emit()">
-        <fa-icon [icon]="['fas', 'print']"></fa-icon>
+        <fa-icon title="Impression" [icon]="['fas', 'print']"></fa-icon>
       </button>
     </th>
   </thead>
@@ -48,11 +48,7 @@
     <tr *ngFor="let usager of usagers; let i = index">
       <td *ngIf="filters.statut==='TOUS'">
         <a [routerLink]="usager.usagerProfilUrl">
-          <div
-            title="Impression"
-            class="label-statut"
-            [class]="usager.statusInfos.color"
-          >
+          <div class="label-statut" [class]="usager.statusInfos.color">
             <span>{{usager.statusInfos.text }}</span>
           </div>
         </a>
