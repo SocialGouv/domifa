@@ -1,3 +1,10 @@
+# [2.59.0](https://github.com/SocialGouv/domifa/compare/v2.58.1...v2.59.0) (2022-01-04)
+
+
+### Features
+
+* **anonymisation:** Amélioration des performances ([0808ba1](https://github.com/SocialGouv/domifa/commit/0808ba100133f356fd9436e1043fd6bb79ea9023))
+
 ## [2.58.1](https://github.com/SocialGouv/domifa/compare/v2.58.0...v2.58.1) (2022-01-04)
 
 
