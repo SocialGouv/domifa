@@ -1,3 +1,16 @@
+# [2.58.0](https://github.com/SocialGouv/domifa/compare/v2.57.1...v2.58.0) (2022-01-04)
+
+
+### Bug Fixes
+
+* migration bloquante ([bd05456](https://github.com/SocialGouv/domifa/commit/bd05456d8bb4de712cd9bc58e83532b7ff977e60))
+
+
+### Features
+
+* improve RGAA images and icons ([428f996](https://github.com/SocialGouv/domifa/commit/428f996f9d45c2c2f3b2d2399472d8827e6ef893))
+* RGAA images ([02f73a7](https://github.com/SocialGouv/domifa/commit/02f73a702d39f0f151a1233fc2a1275d3a51ffd7))
+
 ## [2.57.1](https://github.com/SocialGouv/domifa/compare/v2.57.0...v2.57.1) (2021-12-30)
 
 
