@@ -1,3 +1,10 @@
+# [2.60.0](https://github.com/SocialGouv/domifa/compare/v2.59.0...v2.60.0) (2022-01-04)
+
+
+### Features
+
+* logger ([e29e62a](https://github.com/SocialGouv/domifa/commit/e29e62aeda6eeac29e8ac4eb0d87d6a72dbd58cd))
+
 # [2.59.0](https://github.com/SocialGouv/domifa/compare/v2.58.1...v2.59.0) (2022-01-04)
 
 
