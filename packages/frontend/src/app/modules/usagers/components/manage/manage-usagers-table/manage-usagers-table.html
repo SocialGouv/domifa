@@ -48,13 +48,17 @@
     <tr *ngFor="let usager of usagers; let i = index">
       <td *ngIf="filters.statut==='TOUS'">
         <a [routerLink]="usager.usagerProfilUrl">
-          <div class="label-statut" [class]="usager.statusInfos.color">
-            <span>{{usager.statusInfos.text }}</span>
+          <div
+            title="Impression"
+            class="label-statut"
+            [class]="usager.statusInfos.color"
+          >
+            <span>{{usager.statusInfos.text }}</span>
           </div>
         </a>
       </td>
       <td
-        *ngIf="filters.statut ==='ATTENTE_DECISION' || filters.statut ==='INSTRUCTION'"
+        *ngIf="filters.statut ==='ATTENTE_DECISION' || filters.statut ==='INSTRUCTION'"
       >
         <ng-template #rdvInfosTooltip class="p-3 text-center">
           <div class="distribution-tooltip">

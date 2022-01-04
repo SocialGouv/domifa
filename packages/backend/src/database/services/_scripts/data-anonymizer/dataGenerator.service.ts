@@ -73,7 +73,7 @@ function fromList<T>(list: T[]): T {
 
 function fromListMany<T>(list: T[], nb: number): T[] {
   return buildArrayBySize(nb).reduce(
-    (acc, x, i) => {
+    (acc) => {
       const { item, remaining } = fromListAndRemove(acc.remaining);
       if (item) {
         acc.items.push(item);
@@ -92,6 +92,7 @@ function fromListMany<T>(list: T[], nb: number): T[] {
 
 function buildArrayBySize(count: number): any[] {
   if (count > 0) {
+    // eslint-disable-next-line prefer-spread
     return Array.apply(null, Array(count));
   }
   return [];

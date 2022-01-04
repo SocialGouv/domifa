@@ -87,11 +87,6 @@ async function createTables(queryRunner: QueryRunner) {
     );
 
 
-    -- "structure" definition
-
-    -- Drop table
-
-    -- DROP TABLE "structure";
 
     CREATE TABLE "structure" (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -153,11 +148,6 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_d79d466c870df0b58864836899" ON structure_doc USING btree ("structureId");
 
 
-    -- usager definition
-
-    -- Drop table
-
-    -- DROP TABLE usager;
 
     CREATE TABLE usager (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -191,7 +181,6 @@ async function createTables(queryRunner: QueryRunner) {
       "options" jsonb NOT NULL,
       "import" jsonb NULL,
       notes jsonb NOT NULL DEFAULT '[]'::jsonb,
-      "interactionsMigrated" bool NOT NULL DEFAULT false,
       CONSTRAINT "PK_1bb36e24229bec446a281573612" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_e76056fb098740de66d58a5055a" UNIQUE ("structureId", ref),
       CONSTRAINT "FK_a44d882d224e368efdee8eb8c80" FOREIGN KEY ("structureId") REFERENCES "structure"(id)
@@ -200,11 +189,6 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_a44d882d224e368efdee8eb8c8" ON usager USING btree ("structureId");
 
 
-    -- usager_history definition
-
-    -- Drop table
-
-    -- DROP TABLE usager_history;
 
     CREATE UNLOGGED TABLE usager_history (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -226,11 +210,6 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_7356ee08f3ac6e3e1c6fe08bd8" ON usager_history USING btree ("usagerUUID");
 
 
-    -- user_structure definition
-
-    -- Drop table
-
-    -- DROP TABLE user_structure;
 
     CREATE TABLE user_structure (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -259,11 +238,6 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_e2828c51dc4d023377f256c980" ON user_structure USING btree (email);
 
 
-    -- user_structure_security definition
-
-    -- Drop table
-
-    -- DROP TABLE user_structure_security;
 
     CREATE UNLOGGED TABLE user_structure_security (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -283,11 +257,6 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_57be1bdd772eb3fea1e201317e" ON user_structure_security USING btree ("structureId");
 
 
-    -- user_usager definition
-
-    -- Drop table
-
-    -- DROP TABLE user_usager;
 
     CREATE UNLOGGED TABLE user_usager (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -318,13 +287,6 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_547d83b925177cadc602bc7e22" ON user_usager USING btree (id);
     CREATE INDEX "IDX_7d7ff538b491444ce070065252" ON user_usager USING btree (login);
 
-
-    -- user_usager_security definition
-
-    -- Drop table
-
-    -- DROP TABLE user_usager_security;
-
     CREATE UNLOGGED TABLE user_usager_security (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
@@ -342,19 +304,13 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_0b7885e1594c7af3a5b84a4bdb" ON user_usager_security USING btree ("userId");
 
 
-    -- interactions definition
-
-    -- Drop table
-
-    -- DROP TABLE interactions;
-
     CREATE UNLOGGED TABLE interactions (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
       "dateInteraction" timestamp NOT NULL,
-      "nbCourrier" int4 NOT NULL,
+      "nbCourrier" int4 NOT NULL DEFAULT 0,
       "structureId" int4 NOT NULL,
       "type" text NOT NULL,
       "usagerRef" int4 NOT NULL,
