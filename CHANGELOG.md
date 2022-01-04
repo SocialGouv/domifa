@@ -1,3 +1,10 @@
+## [2.58.1](https://github.com/SocialGouv/domifa/compare/v2.58.0...v2.58.1) (2022-01-04)
+
+
+### Bug Fixes
+
+* bug dateFin usager renouvellement ([90918c1](https://github.com/SocialGouv/domifa/commit/90918c17a813fc4a0906c7c438e70d0c4fb2e755))
+
 # [2.58.0](https://github.com/SocialGouv/domifa/compare/v2.57.1...v2.58.0) (2022-01-04)
 
 
