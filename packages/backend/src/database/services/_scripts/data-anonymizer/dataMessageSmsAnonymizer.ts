@@ -16,12 +16,11 @@ async function anonymizeSms() {
 
   await messageSmsRepository.updateMany(
     { status: "TO_SEND" },
-    {
-      status: "SENT_AND_RECEIVED",
-    }
+    { status: "DISABLED" }
   );
 
   const smsPhoneNumberToAnonymizeCount = await messageSmsRepository.count({});
+
   appLogger.warn(
     `[dataMessageSmsAnonymizer] ${smsPhoneNumberToAnonymizeCount} SMS phone number to anonymize`
   );

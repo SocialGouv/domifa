@@ -14,21 +14,20 @@ async function anonymizeEmail() {
   });
 
   appLogger.warn(
-    `[dataMessageEmailAnonymizer] ${emailToSendToSkip} EMAIL to skip`
+    `[dataMessageEmailAnonymizer] ${emailToSendToSkip} emails to skip`
   );
 
   await messageEmailRepository.updateMany(
     { status: "pending" },
-    {
-      status: "sent",
-    }
+    { status: "sent" }
   );
 
   const emailPhoneNumberToAnonymizeCount = await messageEmailRepository.count(
     {}
   );
+
   appLogger.warn(
-    `[dataMessageEmailAnonymizer] ${emailPhoneNumberToAnonymizeCount} EMAIL to anonymize`
+    `[dataMessageEmailAnonymizer] ${emailPhoneNumberToAnonymizeCount} emails to anonymize`
   );
 
   await messageEmailRepository.updateMany(
