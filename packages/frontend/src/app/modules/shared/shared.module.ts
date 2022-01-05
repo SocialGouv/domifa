@@ -12,6 +12,7 @@ import { FormatBigNumberPipe } from "./pipes/formatBigNumber.pipe";
 import { FormatPhoneNumberPipe } from "./pipes/formatPhoneNumber.pipe";
 import { UsagerNomCompletPipe } from "./pipes/usager-nom-complet.pipe";
 import { LoadingService } from "./services/loading.service";
+import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { LoadingService } from "./services/loading.service";
     UsagerNomCompletPipe,
     FormatPhoneNumberPipe,
     FormatBigNumberPipe,
+    CustomToastrComponent,
   ],
   exports: [
     DigitOnlyDirective,
@@ -30,6 +32,7 @@ import { LoadingService } from "./services/loading.service";
     FormatPhoneNumberPipe,
     FormatBigNumberPipe,
     FontAwesomeModule,
+    CustomToastrComponent,
   ],
   imports: [CommonModule, FontAwesomeModule],
   providers: [LoadingService],

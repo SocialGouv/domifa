@@ -18,9 +18,7 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
-            "assets": [
-              "src/assets"
-            ],
+            "assets": ["src/assets"],
             "styles": [
               "src/assets/css/tailwind/tailwind-letter-spacing.css",
               "src/assets/css/tailwind/tailwind-font-size.css",
@@ -36,7 +34,7 @@
               "src/assets/css/main.css",
               "src/assets/css/print.css",
               "src/assets/css/icons.css",
-              "node_modules/ngx-toastr/toastr.css"
+              "src/assets/css/toastr.css"
             ],
             "scripts": [],
             "aot": false,
@@ -137,10 +135,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }

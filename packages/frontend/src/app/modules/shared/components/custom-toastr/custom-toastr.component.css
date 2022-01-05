@@ -1,0 +1,10 @@
+:host {
+  position: relative;
+  overflow: hidden;
+  width: 300px !important;
+  border-radius: 6px !important;
+  color: #ffffff;
+  pointer-events: all;
+  display: block;
+  cursor: pointer;
+}

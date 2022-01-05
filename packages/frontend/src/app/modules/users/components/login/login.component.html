@@ -1,6 +1,6 @@
 <div class="step_form my-5">
   <div class="text-center">
-    <h5 class="title">Connexion à Domifa</h5>
+    <h1 class="title">Connexion à Domifa</h1>
   </div>
   <form
     [formGroup]="loginForm"
@@ -11,6 +11,7 @@
       <label for="email">Adresse email</label>
       <input
         type="email"
+        id="email"
         formControlName="email"
         autocomplete="username"
         placeholder="Adresse email"
@@ -26,6 +27,7 @@
       <div class="input-group">
         <input
           type="password"
+          id="password"
           formControlName="password"
           [type]="!hidePassword ? 'text' : 'password'"
           class="form-control"
@@ -34,9 +36,12 @@
           [ngClass]="{ 'is-invalid': f.password.dirty && f.password.errors }"
         />
         <div class="input-group-append">
-          <span class="input-group-text" (click)="togglePassword()">
+          <span
+            class="input-group-text"
+            role="switch"
+            (click)="togglePassword()"
+          >
             <fa-icon
-              title="Voir / cacher le mot de passe"
               [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
             ></fa-icon>
           </span>

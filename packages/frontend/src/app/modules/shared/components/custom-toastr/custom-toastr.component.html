@@ -1,0 +1,33 @@
+<div
+  class="row"
+  *ngIf="toastPackage"
+  [style.display]="state.value === 'inactive' ? 'none' : ''"
+>
+  <div class="col-12">
+    <div *ngIf="title" [class]="options.titleClass" [attr.aria-label]="title">
+      xxxx {{ title }}
+    </div>
+
+    <div
+      *ngIf="message && toastPackage.toastType === 'toast-error'"
+      role="alert"
+      aria-live="polite"
+      [class]="options.messageClass"
+      [attr.aria-label]="message"
+    >
+      {{ message }}
+    </div>
+    <div
+      *ngIf="message && toastPackage.toastType !== 'toast-error'"
+      role="status"
+      aria-live="polite"
+      [class]="options.messageClass"
+      [attr.aria-label]="message"
+    >
+      {{ message }}
+    </div>
+  </div>
+</div>
+<div *ngIf="options.progressBar">
+  <div class="toast-progress" [style.width]="width + '%'"></div>
+</div>
