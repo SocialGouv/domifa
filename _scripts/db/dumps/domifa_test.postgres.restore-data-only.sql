@@ -72,6 +72,14 @@ fb8dde95-b421-4cf0-b205-9e940d9641e5	2021-06-28 13:25:28.512802+00	2021-12-24 00
 
 
 --
+-- Data for Name: log; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.log (uuid, "createdAt", "updatedAt", version, "userId", "usagerRef", "structureId", action) FROM stdin;
+\.
+
+
+--
 -- Data for Name: message_email; Type: TABLE DATA; Schema: public; Owner: -
 --
 
@@ -88,7 +96,6 @@ COPY public.message_email (uuid, "createdAt", "updatedAt", version, status, "ema
 
 COPY public.message_sms (uuid, "createdAt", "updatedAt", version, "usagerRef", "structureId", content, status, "smsId", "scheduledDate", "sendDate", "interactionMetas", "reminderMetas", "statusUpdates", "lastUpdate", "errorCount", "errorMessage", "responseId", "phoneNumber", "senderName") FROM stdin;
 \.
-
 --
 -- Data for Name: monitor_batch_process; Type: TABLE DATA; Schema: public; Owner: -
 --
@@ -177,7 +184,6 @@ COPY public.user_usager_security (uuid, "createdAt", "updatedAt", version, "user
 fadd55b6-ca41-48d4-bd56-238b1a3c6f7b	2021-11-30 13:50:26.290488+00	2021-11-30 14:01:39.66811+00	8	2	1	[{"date": "2021-11-30T13:50:38.357Z", "type": "login-success"}, {"date": "2021-11-30T13:51:20.351Z", "type": "login-success"}, {"date": "2021-11-30T13:51:20.608Z", "type": "change-password-success"}, {"date": "2021-11-30T14:00:55.533Z", "type": "login-error"}, {"date": "2021-11-30T14:01:21.310Z", "type": "login-success"}, {"date": "2021-11-30T14:01:39.398Z", "type": "login-success"}, {"date": "2021-11-30T14:01:39.667Z", "type": "change-password-success"}]
 9bc8decb-5f78-48de-8c1b-9f61ea5acfba	2021-10-05 09:34:41.388922+00	2021-11-30 14:02:07.682311+00	3	1	1	[{"date": "2021-11-30T14:02:07.680Z", "type": "login-success"}]
 \.
-
 
 --
 -- Name: structure_doc_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
