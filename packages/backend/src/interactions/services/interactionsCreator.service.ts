@@ -56,7 +56,6 @@ async function createInteraction({
 
   const usagerUpdated = await updateUsagerAfterCreation({
     usager: buildedInteraction.usager,
-    user,
   });
 
   return { usager: usagerUpdated, interaction: interactionCreated };
@@ -177,18 +176,12 @@ async function updateInteractionAfterDistribution(interaction: Interactions) {
 
 async function updateUsagerAfterCreation({
   usager,
-  user,
 }: {
   usager: Pick<Usager, "ref" | "uuid" | "lastInteraction">;
-  user: Pick<
-    UserStructureAuthenticated,
-    "id" | "structureId" | "nom" | "prenom"
-  >;
 }): Promise<UsagerLight> {
   const lastInteractionCount =
     await interactionRepository.countPendingInteractionsIn({
-      structureId: user.structureId,
-      usagerRef: usager.ref,
+      usagerUUID: usager.uuid,
     });
 
   usager.lastInteraction.courrierIn = lastInteractionCount.courrierIn;

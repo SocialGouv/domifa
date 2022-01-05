@@ -88,7 +88,6 @@ export class InteractionsDeletor {
         }
       }
       return await interactionsCreator.updateUsagerAfterCreation({
-        user,
         usager,
       });
     } else {

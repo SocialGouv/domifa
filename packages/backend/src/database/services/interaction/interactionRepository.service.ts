@@ -144,11 +144,9 @@ async function countPendingInteraction({
 }
 
 async function countPendingInteractionsIn({
-  structureId,
-  usagerRef,
+  usagerUUID,
 }: {
-  structureId: number;
-  usagerRef: number;
+  usagerUUID: string;
 }): Promise<{
   courrierIn: number;
   recommandeIn: number;
@@ -160,11 +158,11 @@ async function countPendingInteractionsIn({
       coalesce (SUM(CASE WHEN i.type = 'recommandeIn' THEN "nbCourrier" END), 0) AS "recommandeIn",
       coalesce (SUM(CASE WHEN i.type = 'colisIn' THEN "nbCourrier" END), 0) AS "colisIn"
     FROM interactions i
-    WHERE i."structureId" = $1 AND i."usagerRef" = $2 and i.event = 'create' AND i."interactionOutUUID" is null
+    WHERE i."usagerUUID" = $1 and i.event = 'create' AND i."interactionOutUUID" is null
     GROUP BY i."usagerRef"`;
   const results = await (
     await interactionRepository.typeorm()
-  ).query(query, [structureId, usagerRef]);
+  ).query(query, [usagerUUID]);
 
   const defaultResult = {
     courrierIn: 0,
