@@ -21,17 +21,17 @@
                   [icon]="['fas', 'info-circle']"
                 ></fa-icon>
 
-                Les statistiques du rapport d’activité 2020 sont disponibles
+                Les statistiques du rapport d’activité 2021 sont disponibles
               </b>
             </div>
             <div class="col-md-4 text-right">
               <button
-                title="Télécharger le rapport 2020"
+                title="Télécharger le rapport 2021"
                 class="btn btn-primary"
-                (click)="export(2020)"
+                (click)="export(2021)"
               >
-                <fa-icon [icon]="['fas', 'download']"></fa-icon> Télécharger le
-                rapport 2020
+                <fa-icon [icon]="['fas', 'download']" role="image"></fa-icon>
+                Télécharger le rapport 2021
               </button>
             </div>
           </div>
@@ -44,7 +44,7 @@
     <div class="col-3">
       <div class="form-group required">
         <div class="input-group">
-          <label class="control-label">Du </label>
+          <label for="dateDebutValide" class="control-label">Du </label>
           <input
             class="form-control"
             placeholder="jj/mm/aaaa"
@@ -69,6 +69,7 @@
           <div class="input-group-append">
             <span class="btn btn-outline-primary" (click)="dDebut.toggle()">
               <fa-icon
+                role="image"
                 title="Calendrier"
                 [icon]="['fas', 'calendar']"
               ></fa-icon>
@@ -91,6 +92,7 @@
             [maxDate]="maxDateFin"
             placement="bottom"
             ngbDatepicker
+            role="image"
             [(ngModel)]="toDate"
             #dFin="ngbDatepicker"
             #cb="ngModel"
@@ -164,7 +166,7 @@
     <br />
     <br />
 
-    <b>Note 2020 :</b> les statistiques des ayants droits et des questions de
+    <b>Note :</b> les statistiques des ayants droits et des questions de
     l'entretien affichent les dernières valeurs à jour sur les fiches
     domiciliés. <br />Par exemple, si les données de l'entretien ont été
     modifiées récemment, les statistiques afficheront seulement la dernière
@@ -174,51 +176,51 @@
       <table id="table-stats" class="table table-hover">
         <tbody>
           <tr>
-            <td class="font-weight-bold">
+            <th scope="row" class="font-weight-bold">
               Total des domiciliés actifs + leurs ayants-droit
-            </td>
+            </th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.total.usagerEtAyantsDroits }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Nombre de domiciliés</td>
+            <th scope="row" class="soustable">Nombre de domiciliés</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.total.usagers }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Nombre d'ayants-droit</td>
+            <th scope="row" class="soustable">Nombre d'ayants-droit</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.total.ayantsDroits }}
             </td>
           </tr>
 
           <tr>
-            <td class="font-weight-bold" colspan="2">
+            <th class="font-weight-bold" colspan="2" scope="col">
               Nombre de domiciliés actifs par sexe
-            </td>
+            </th>
           </tr>
           <tr>
-            <td class="soustable">Femme</td>
+            <th scope="row" class="soustable">Femme</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.sexe.f }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Homme</td>
+            <th scope="row" class="soustable">Homme</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.sexe.h }}
             </td>
           </tr>
 
           <tr>
-            <td class="font-weight-bold" colspan="2">
+            <td class="font-weight-bold" colspan="2" scope="col">
               Nombre de domiciliés actifs + leurs ayants-droit par tranche d'âge
             </td>
           </tr>
           <tr>
-            <td class="soustable">Mineurs</td>
+            <th scope="row" class="soustable">Mineurs</th>
             <td class="stats-table-value">
               {{
                 stats.data.validUsagers.age.usagers.mineurs +
@@ -227,7 +229,7 @@
             </td>
           </tr>
           <tr>
-            <td class="soustable">Majeurs</td>
+            <th scope="row" class="soustable">Majeurs</th>
             <td class="stats-table-value">
               {{
                 stats.data.validUsagers.age.usagers.majeurs +
@@ -237,338 +239,352 @@
           </tr>
 
           <tr>
-            <td class="font-weight-bold" colspan="2">
+            <th class="font-weight-bold" scope="col" colspan="2" scope="col">
               Nombre de domiciliés actifs par tranche d'âge
-            </td>
+            </th>
           </tr>
           <tr>
-            <td class="soustable">Mineurs</td>
+            <th scope="row" class="soustable">Mineurs</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.age.usagers.mineurs }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Majeurs</td>
+            <th scope="row" class="soustable">Majeurs</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.age.usagers.majeurs }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Moins de 15 ans</td>
+            <th scope="row" class="soustable">Moins de 15 ans</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.age.usagers.t_0_14 }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">15-19 ans</td>
+            <th scope="row" class="soustable">15-19 ans</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.age.usagers.t_15_19 }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">20-24 ans</td>
+            <th scope="row" class="soustable">20-24 ans</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.age.usagers.t_20_24 }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">25-29 ans</td>
+            <th scope="row" class="soustable">25-29 ans</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.age.usagers.t_25_29 }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">30-34 ans</td>
+            <th scope="row" class="soustable">30-34 ans</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.age.usagers.t_30_34 }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">35-39 ans</td>
+            <th scope="row" class="soustable">35-39 ans</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.age.usagers.t_35_39 }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">40-44 ans</td>
+            <th scope="row" class="soustable">40-44 ans</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.age.usagers.t_40_44 }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">45-49 ans</td>
+            <th scope="row" class="soustable">45-49 ans</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.age.usagers.t_45_49 }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">50-54 ans</td>
+            <th scope="row" class="soustable">50-54 ans</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.age.usagers.t_50_54 }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">55-59 ans</td>
+            <th scope="row" class="soustable">55-59 ans</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.age.usagers.t_55_59 }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">60-64 ans</td>
+            <th scope="row" class="soustable">60-64 ans</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.age.usagers.t_60_64 }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">65-69 ans</td>
+            <th scope="row" class="soustable">65-69 ans</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.age.usagers.t_65_69 }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">70-74 ans</td>
+            <th scope="row" class="soustable">70-74 ans</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.age.usagers.t_70_74 }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">75 ans ou plus</td>
+            <th scope="row" class="soustable">75 ans ou plus</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.age.usagers.t_75_plus }}
             </td>
           </tr>
-          <tr></tr>
+
           <tr>
-            <td class="font-weight-bold" colspan="2">
+            <th class="font-weight-bold" colspan="2" scope="col">
               Nombre de domiciliés actifs par type de ménage
-            </td>
+            </th>
           </tr>
 
           <tr>
-            <td class="soustable">Couple sans enfant(s)</td>
+            <th scope="row" class="soustable">Couple sans enfant(s)</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.menage.couple_sans_enfant }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Couple avec enfant(s)</td>
+            <th scope="row" class="soustable">Couple avec enfant(s)</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.menage.couple_avec_enfant }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Femme isolée avec enfant(s)</td>
+            <th scope="row" class="soustable">Femme isolée avec enfant(s)</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.menage.femme_isole_avec_enfant }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Femme isolée sans enfant</td>
+            <th scope="row" class="soustable">Femme isolée sans enfant</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.menage.femme_isole_sans_enfant }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Homme isolé avec enfant(s)</td>
+            <th scope="row" class="soustable">Homme isolé avec enfant(s)</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.menage.homme_isole_avec_enfant }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Homme isolé sans enfant</td>
+            <th scope="row" class="soustable">Homme isolé sans enfant</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.menage.homme_isole_sans_enfant }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Non renseigné</td>
+            <th scope="row" class="soustable">Non renseigné</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.menage.non_renseigne }}
             </td>
           </tr>
 
           <tr>
-            <td class="font-weight-bold" colspan="2">
+            <th class="font-weight-bold" colspan="2" scope="col">
               Situation résidentielle
-            </td>
+            </th>
           </tr>
           <tr>
-            <td class="soustable">Domicile mobile (ex: caravane)</td>
+            <th scope="row" class="soustable">
+              Domicile mobile (ex: caravane)
+            </th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.residence.domicile_mobile }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">
+            <th scope="row" class="soustable">
               Hébergement social (sans service courrier)
-            </td>
+            </th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.residence.hebergement_social }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Hébergé chez un tiers</td>
+            <th scope="row" class="soustable">Hébergé chez un tiers</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.residence.hebergement_tiers }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Hôtel</td>
+            <th scope="row" class="soustable">Hôtel</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.residence.hotel }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Sans abris / Squat</td>
+            <th scope="row" class="soustable">Sans abris / Squat</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.residence.sans_abri }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Autre situation</td>
+            <th scope="row" class="soustable">Autre situation</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.residence.autre }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Non renseigné</td>
+            <th scope="row" class="soustable">Non renseigné</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.residence.non_renseigne }}
             </td>
           </tr>
 
           <tr>
-            <td class="font-weight-bold" colspan="2">
+            <th class="font-weight-bold" colspan="2" scope="col">
               Cause de l'instabilité de logement
-            </td>
+            </th>
           </tr>
           <tr>
-            <td class="soustable">Errance</td>
+            <th scope="row" class="soustable">Errance</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.cause.errance }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Expulsion</td>
+            <th scope="row" class="soustable">Expulsion</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.cause.expulsion }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">
+            <th scope="row" class="soustable">
               Hébergé, mais ne peut justifier d'une adresse
-            </td>
+            </th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.cause.heberge_sans_adresse }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Personnes itinérantes</td>
+            <th scope="row" class="soustable">Personnes itinérantes</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.cause.itinerant }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Rupture familiale et/ou conjugale</td>
+            <th scope="row" class="soustable">
+              Rupture familiale et/ou conjugale
+            </th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.cause.rupture }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Sortie d'une structure d'hébergement</td>
+            <th scope="row" class="soustable">
+              Sortie d'une structure d'hébergement
+            </th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.cause.sortie_structure }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Violence familiale et/ou conjugale</td>
+            <th scope="row" class="soustable">
+              Violence familiale et/ou conjugale
+            </th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.cause.violence }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Autre cause</td>
+            <th scope="row" class="soustable">Autre cause</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.cause.autre }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Non renseigné</td>
+            <th scope="row" class="soustable">Non renseigné</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.cause.non_renseigne }}
             </td>
           </tr>
           <tr>
-            <td class="font-weight-bold" colspan="2">
+            <th class="font-weight-bold" colspan="2" scope="col">
               Motif principal de demande de domiciliation
-            </td>
+            </th>
           </tr>
           <tr>
-            <td class="soustable">Exercice des droits civils ou civiques</td>
+            <th scope="row" class="soustable">
+              Exercice des droits civils ou civiques
+            </th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.raison.exercice_droits }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Accès aux prestations sociales</td>
+            <th scope="row" class="soustable">
+              Accès aux prestations sociales
+            </th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.raison.prestations_sociales }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Autre raison</td>
+            <th scope="row" class="soustable">Autre raison</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.raison.autre }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Non renseigné</td>
+            <th scope="row" class="soustable">Non renseigné</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.raison.non_renseigne }}
             </td>
           </tr>
 
           <tr>
-            <td class="font-weight-bold" colspan="2">Lien avec la commune</td>
+            <th class="font-weight-bold" colspan="2" scope="col">
+              Lien avec la commune
+            </th>
           </tr>
           <tr>
-            <td class="soustable">Résidentiel</td>
+            <th scope="row" class="soustable">Résidentiel</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.liencommune.residentiel }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Parental</td>
+            <th scope="row" class="soustable">Parental</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.liencommune.parental }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Familial</td>
+            <th scope="row" class="soustable">Familial</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.liencommune.familial }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Professionnel</td>
+            <th scope="row" class="soustable">Professionnel</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.liencommune.professionnel }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Social</td>
+            <th scope="row" class="soustable">Social</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.liencommune.social }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Autre</td>
+            <th scope="row" class="soustable">Autre</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.liencommune.autre }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Non renseigné</td>
+            <th scope="row" class="soustable">Non renseigné</th>
             <td class="stats-table-value">
               {{ stats.data.validUsagers.liencommune.non_renseigne }}
             </td>
@@ -598,22 +614,22 @@
             </td>
           </tr>
           <tr>
-            <td class="soustable">
+            <th class="soustable" scope="row">
               Dont premières demandes conclues par une attestation d'élection de
               domicile
-            </td>
+            </th>
             <td class="stats-table-value">
               {{ stats.data.decisions.valid.usagers.premiere_demande }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Dont renouvellements</td>
+            <th scope="row" class="soustable">Dont renouvellements</th>
             <td class="stats-table-value">
               {{ stats.data.decisions.valid.usagers.renouvellement }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Ayants-droits concernés</td>
+            <th scope="row" class="soustable">Ayants-droits concernés</th>
             <td class="stats-table-value">
               {{ stats.data.decisions.valid.ayantsDroits.total }}
             </td>
@@ -625,114 +641,124 @@
             </td>
           </tr>
           <tr>
-            <td colspan="2">Répartition des radiations par motif</td>
+            <th colspan="2" scope="col">
+              Répartition des radiations par motif
+            </th>
           </tr>
           <tr>
-            <td class="soustable">À la demande de la personne</td>
+            <th scope="row" class="soustable">À la demande de la personne</th>
             <td class="stats-table-value">
               {{ stats.data.decisions.radie.motif.a_sa_demande }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Plus de lien avec la commune</td>
+            <th scope="row" class="soustable">Plus de lien avec la commune</th>
             <td class="stats-table-value">
               {{ stats.data.decisions.radie.motif.plus_de_lien_commune }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">
+            <th class="soustable" scope="row">
               La domiciliation est arrivée à échéance (1 an) et son
               renouvellement n'a pas été sollicité
-            </td>
+            </th>
             <td class="stats-table-value">
               {{ stats.data.decisions.radie.motif.fin_de_domiciliation }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">
+            <th class="soustable" scope="row">
               Non-manifestation de la personne pendant plus de 3 mois
               consécutifs
-            </td>
+            </th>
             <td class="stats-table-value">
               {{ stats.data.decisions.radie.motif.non_manifestation_3_mois }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Non-respect du règlement</td>
+            <th scope="row" class="soustable">Non-respect du règlement</th>
             <td class="stats-table-value">
               {{ stats.data.decisions.radie.motif.non_respect_reglement }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">
+            <th class="soustable" scope="row">
               Entrée dans un logement/hébergement stable
-            </td>
+            </th>
             <td class="stats-table-value">
               {{ stats.data.decisions.radie.motif.entree_logement }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Autre motif de radiation</td>
+            <th scope="row" class="soustable">Autre motif de radiation</th>
             <td class="stats-table-value">
               {{ stats.data.decisions.radie.motif.autre }}
             </td>
           </tr>
 
           <tr>
-            <td class="font-weight-bold">
+            <th scope="row" class="font-weight-bold">
               Nombre total de refus d'élection de domicile (y compris refus de
               renouvellements)
-            </td>
+            </th>
             <td class="stats-table-value">
               {{ stats.data.decisions.refus.total }}
             </td>
           </tr>
           <tr>
-            <td colspan="2">Répartition par motif de refus</td>
+            <th colspan="2" scope="col">Répartition par motif de refus</th>
           </tr>
           <tr>
-            <td class="soustable">
+            <th scope="row" class="soustable">
               En dehors des critères du public domicilié
-            </td>
+            </th>
             <td class="stats-table-value">
               {{ stats.data.decisions.refus.motif.hors_agrement }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Absence de lien avec la commune</td>
+            <th scope="row" class="soustable">
+              Absence de lien avec la commune
+            </th>
             <td class="stats-table-value">
               {{ stats.data.decisions.refus.motif.lien_commune }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Nombre maximal de domiciliations atteint</td>
+            <th scope="row" class="soustable">
+              Nombre maximal de domiciliations atteint
+            </th>
             <td class="stats-table-value">
               {{ stats.data.decisions.refus.motif.saturation }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Autre motif de refus</td>
+            <th scope="row" class="soustable">Autre motif de refus</th>
             <td class="stats-table-value">
               {{ stats.data.decisions.refus.motif.autre }}
             </td>
           </tr>
           <tr>
-            <td colspan="2">Répartition des orientations</td>
+            <th colspan="2" scope="col">Répartition des orientations</th>
           </tr>
           <tr>
-            <td class="soustable">Orientation vers CCAS, CIAS, commune</td>
+            <th scope="row" class="soustable">
+              Orientation vers CCAS, CIAS, commune
+            </th>
             <td class="stats-table-value">
               {{ stats.data.decisions.refus.reorientation.ccas }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Orientation vers Organisme agrée</td>
+            <th scope="row" class="soustable">
+              Orientation vers Organisme agrée
+            </th>
             <td class="stats-table-value">
               {{ stats.data.decisions.refus.reorientation.asso }}
             </td>
           </tr>
           <tr>
-            <td class="soustable">Autre</td>
+            <th scope="row" class="soustable">Autre</th>
             <td class="stats-table-value">
               {{ stats.data.decisions.refus.reorientation.other }}
             </td>
@@ -747,63 +773,63 @@
       {{ stats.period.endDateUTC | date: "dd/MM/yyyy" }}
     </h4>
     <div>
-      <b>Note 2020 : </b> les statistiques des interactions sont disponibles à
-      compter de votre date d'utilisation de DomiFa, date à partir de laquelle
-      vous avez débuté la saisie des passages, appels, et courriers.
+      <b>Note: </b> les statistiques des interactions sont disponibles à compter
+      de votre date d'utilisation de DomiFa, date à partir de laquelle vous avez
+      débuté la saisie des passages, appels, et courriers.
     </div>
     <div class="rapport-part">
       <table class="table table-hover">
         <tbody>
           <tr>
-            <td>Appel téléphonique</td>
+            <th scope="row">Appel téléphonique</th>
             <td class="stats-table-value">
               {{ stats.data.interactions.appel }}
             </td>
           </tr>
           <tr>
-            <td>Colis enregistré</td>
+            <th scope="row">Colis enregistré</th>
             <td class="stats-table-value">
               {{ stats.data.interactions.colisIn }}
             </td>
           </tr>
           <tr>
-            <td>Colis remis</td>
+            <th scope="row">Colis remis</th>
             <td class="stats-table-value">
               {{ stats.data.interactions.colisOut }}
             </td>
           </tr>
           <tr>
-            <td>Courrier enregistré</td>
+            <th scope="row">Courrier enregistré</th>
             <td class="stats-table-value">
               {{ stats.data.interactions.courrierIn }}
             </td>
           </tr>
           <tr>
-            <td>Courrier remis</td>
+            <th scope="row">Courrier remis</th>
             <td class="stats-table-value">
               {{ stats.data.interactions.courrierOut }}
             </td>
           </tr>
           <tr>
-            <td>Avis de passage enregistré</td>
+            <th scope="row">Avis de passage enregistré</th>
             <td class="stats-table-value">
               {{ stats.data.interactions.recommandeIn }}
             </td>
           </tr>
           <tr>
-            <td>Avis de passage remis</td>
+            <th scope="row">Avis de passage remis</th>
             <td class="stats-table-value">
               {{ stats.data.interactions.recommandeOut }}
             </td>
           </tr>
           <tr>
-            <td>Passage enregistré</td>
+            <th scope="row">Passage enregistré</th>
             <td class="stats-table-value">
               {{ stats.data.interactions.visite }}
             </td>
           </tr>
           <tr>
-            <td>Pli non distribuable enregistré</td>
+            <th scope="row">Pli non distribuable enregistré</th>
             <td class="stats-table-value">
               {{ stats.data.interactions.npai }}
             </td>
