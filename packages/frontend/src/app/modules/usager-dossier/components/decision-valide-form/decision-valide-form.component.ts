@@ -1,5 +1,10 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { Router } from "@angular/router";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { addYears, subDays, format, isBefore } from "date-fns";
@@ -19,7 +24,7 @@ import { UsagerDecisionService } from "../../../usager-shared/services/usager-de
   templateUrl: "./decision-valide-form.component.html",
   styleUrls: ["./decision-valide-form.component.css"],
 })
-export class DecisionValideFormComponent {
+export class DecisionValideFormComponent implements OnInit {
   @Input() public usager: UsagerFormModel;
 
   @Output() public closeModals = new EventEmitter<void>();
@@ -56,7 +61,7 @@ export class DecisionValideFormComponent {
     this.showDurationWarning = false;
   }
 
-  get v(): any {
+  get v(): { [key: string]: AbstractControl } {
     return this.valideForm.controls;
   }
 
@@ -68,7 +73,7 @@ export class DecisionValideFormComponent {
     };
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.valideForm = this.formBuilder.group({
       dateDebut: [formatDateToNgb(new Date()), [Validators.required]],
       dateFin: [

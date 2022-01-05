@@ -1,6 +1,11 @@
 import { CerfaDocType } from "src/_common/model/cerfa";
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
@@ -71,7 +76,7 @@ export class StepRdvComponent implements OnInit {
     this.minDateToday = minDateToday;
   }
 
-  get r(): any {
+  get r(): { [key: string]: AbstractControl } {
     return this.rdvForm.controls;
   }
 
@@ -174,8 +179,6 @@ export class StepRdvComponent implements OnInit {
     const jourRdv = this.nbgDate.formatEn(this.rdvForm.controls.jourRdv.value);
     const dateRdv = new Date(jourRdv);
     dateRdv.setHours(heureRdv.hour, heureRdv.minute, 0);
-
-    //
 
     const rdvFormValue = {
       isNow: false,

@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import {
   StructureDoc,
@@ -31,7 +31,7 @@ export class StructuresCustomDocsComponent implements OnInit {
   public isCustomDoc: boolean;
 
   @ViewChild("uploadCustomDocModal", { static: true })
-  public uploadCustomDocModal!: TemplateRef<any>;
+  public uploadCustomDocModal!: TemplateRef<NgbModalRef>;
 
   constructor(
     private authService: AuthService,

@@ -8,7 +8,7 @@ import {
   TemplateRef,
   ViewChild,
 } from "@angular/core";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
 import { UsagerFormModel } from "./../../../usager-shared/interfaces/UsagerFormModel";
 import { UsagerLight, UserStructure } from "src/_common/model";
@@ -23,7 +23,7 @@ export class StepFooterComponent implements OnInit {
   @Output() usagerChanges = new EventEmitter<UsagerLight>();
 
   @ViewChild("addNoteInModal", { static: true })
-  public addNoteInModal!: TemplateRef<any>;
+  public addNoteInModal!: TemplateRef<NgbModalRef>;
 
   public me: UserStructure;
 

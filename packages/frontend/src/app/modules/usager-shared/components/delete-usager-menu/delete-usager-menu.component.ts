@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, TemplateRef } from "@angular/core";
 import { Router } from "@angular/router";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
@@ -35,7 +35,7 @@ export class DeleteUsagerMenuComponent implements OnInit {
     return this.usager.historique[1].statut;
   }
 
-  public open(content: TemplateRef<any>): void {
+  public open(content: TemplateRef<NgbModalRef>): void {
     this.modalService.open(content);
   }
 
