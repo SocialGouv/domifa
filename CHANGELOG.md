@@ -1,3 +1,14 @@
+## [2.61.1](https://github.com/SocialGouv/domifa/compare/v2.61.0...v2.61.1) (2022-01-05)
+
+
+### Bug Fixes
+
+* mise à jour des fichiers de test ([43413a3](https://github.com/SocialGouv/domifa/commit/43413a3fc599ff964f97f45d934e32c7154dc211))
+* seed de la db de test ([c6c851c](https://github.com/SocialGouv/domifa/commit/c6c851c08d657c72c252540796ce7c580c6137d8))
+* **dumps:** mise à jour des base de données de test et de seed ([831bcef](https://github.com/SocialGouv/domifa/commit/831bcef9b34f5dc24f7eacde9126aff0e3b4a578))
+* **types:** correction de typage ([5cd1abb](https://github.com/SocialGouv/domifa/commit/5cd1abb6a848cc376575888e65c9a2eb3f978d53))
+* preprod secrets, mise à jour de la popup ([bdb717d](https://github.com/SocialGouv/domifa/commit/bdb717ddbde43a1c30706332ca9b8c363ae68ce1))
+
 # [2.61.0](https://github.com/SocialGouv/domifa/compare/v2.60.1...v2.61.0) (2022-01-05)
 
 
