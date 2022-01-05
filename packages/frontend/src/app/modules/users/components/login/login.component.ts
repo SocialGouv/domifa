@@ -81,10 +81,6 @@ export class LoginComponent implements OnInit {
         error: () => {
           this.loading = false;
           this.notifService.error("Email et / ou mot de passe incorrect");
-          this.notifService.warning("xxxxEmail et / ou mot de passe incorrect");
-          this.notifService.info(
-            "xxxxxxxxEmail et / ou mot de passe incorrect"
-          );
         },
       });
   }
