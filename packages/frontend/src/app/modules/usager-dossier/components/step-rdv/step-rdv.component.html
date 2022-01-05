@@ -23,14 +23,14 @@
             <b>{{ usager.rdv.userName }}</b>
             <br />
             <br />
-            <span (click)="rdvNow()" class="btn btn-secondary">
+            <button (click)="rdvNow()" class="btn btn-secondary">
               Réaliser l'entretien maintenant
-            </span>
+            </button>
             <br />
             <br />
-            <span (click)="editRdv = true" class="btn btn-secondary">
+            <button (click)="editRdv = true" class="btn btn-secondary">
               Modifier la date du rendez-vous
-            </span>
+            </button>
             <br />
             <br />
             <button (click)="getCerfa('demande')" class="btn btn-primary">
@@ -150,7 +150,7 @@
                       required
                     />
                     <div class="input-group-append">
-                      <span
+                      <button
                         class="btn btn-outline-primary"
                         (click)="dRdv.toggle()"
                       >
@@ -158,7 +158,7 @@
                           title="Calendrier"
                           [icon]="['fas', 'calendar']"
                         ></fa-icon>
-                      </span>
+                      </button>
                     </div>
                     <div
                       *ngIf="r.jourRdv.invalid"

@@ -1,3 +1,4 @@
+import { UsagerAyantDroit } from "./../../../../../_common/model/usager/UsagerAyantDroit.type";
 import { Component, OnInit } from "@angular/core";
 import {
   AbstractControl,
@@ -27,6 +28,7 @@ import {
   UsagerLight,
   UserStructure,
   Usager,
+  UsagerFormAyantDroit,
 } from "../../../../../_common/model";
 import { LIEN_PARENTE_LABELS } from "../../../../../_common/model/usager/constants/LIEN_PARENTE_LABELS.const";
 import { fadeInOut, languagesAutocomplete } from "../../../../shared";
@@ -227,13 +229,19 @@ export class StepEtatCivilComponent implements OnInit {
     return false;
   }
 
+  public addAyantDroitButton(event: Event): void {
+    event.preventDefault();
+    this.addAyantDroit();
+  }
+
   public addAyantDroit(ayantDroit: AyantDroit = new AyantDroit()): void {
     (this.usagerForm.controls.ayantsDroits as FormArray).push(
       this.newAyantDroit(ayantDroit)
     );
   }
 
-  public deleteAyantDroit(i: number): void {
+  public deleteAyantDroit(event: Event, i: number): void {
+    event.preventDefault();
     if (i === 0) {
       this.usagerForm.controls.ayantsDroitsExist.setValue(false);
     }
@@ -274,14 +282,25 @@ export class StepEtatCivilComponent implements OnInit {
       this.loading = true;
 
       const usagerFormValues = this.usagerForm.value;
-      usagerFormValues.ayantsDroits.map((ayantDroit: any) => {
-        ayantDroit.dateNaissance = new Date(
-          this.nbgDate.formatEn(ayantDroit.dateNaissance)
-        );
-      });
+
+      let ayantsDroits: UsagerAyantDroit[] = [];
+
+      ayantsDroits = usagerFormValues.ayantsDroits.map(
+        (ayantDroit: UsagerFormAyantDroit) => {
+          return {
+            lien: ayantDroit.lien,
+            nom: ayantDroit.nom,
+            prenom: ayantDroit.prenom,
+            dateNaissance: new Date(
+              this.nbgDate.formatEn(ayantDroit.dateNaissance)
+            ),
+          };
+        }
+      );
 
       const formValue: UsagerFormModel = {
         ...usagerFormValues,
+        ayantsDroits,
         dateNaissance: this.nbgDate.formatEn(
           this.usagerForm.controls.dateNaissance.value
         ),

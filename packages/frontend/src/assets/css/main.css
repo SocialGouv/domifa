@@ -1,11 +1,11 @@
 html,
 body {
   height: 100%;
+  font-family: "Marianne";
 }
 
 html {
   font-size: 90%;
-  font-family: "Marianne";
 }
 
 ul {
@@ -117,7 +117,6 @@ orm .card {
 
 .label {
   display: block;
-  font-family: "Marianne";
   font-style: normal;
   font-weight: 600;
   padding: 8px 0;
@@ -320,10 +319,11 @@ orm .card {
   width: 100%;
 }
 
-.head-page .title {
+.head-page .title,
+.head-page h1 {
   font-style: normal;
   font-weight: bold;
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   color: #ffffff;
 }
 
@@ -373,7 +373,6 @@ orm .card {
 
 #statut-selector .col:first-child {
   border-radius: 5px 0 0 0;
-  font-family: "Marianne";
 }
 
 #statut-selector .col:last-child {

@@ -1,9 +1,5 @@
 /* https://tailwindcss.com/docs/font-size */
 
-.text-xs {
-  font-size: 0.75rem;
-  line-height: 1rem;
-}
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;

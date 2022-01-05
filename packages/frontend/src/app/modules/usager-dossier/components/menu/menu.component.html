@@ -5,7 +5,7 @@
       *ngFor="let etape of etapes; let i = index"
       id="step{{ i }}"
     >
-      <div (click)="goToStep(i)">
+      <button title="Aller à l'étape {{ etape }}" (click)="goToStep(i)">
         <span *ngIf="currentStep > i" class="step_number step_check">
           <fa-icon [icon]="['fas', 'check']"></fa-icon>
         </span>
@@ -31,7 +31,7 @@
         >
           {{ etape }}
         </span>
-      </div>
+      </button>
       <div *ngIf="i < 4" [className]="currentStep > i ? 'check_sep' : ''">
         <span
           class="separateur"

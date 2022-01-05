@@ -1,3 +1,12 @@
+button {
+  outline: none;
+  border: none;
+  padding: 0;
+}
+
+button:focus {
+  border: 1px solid black;
+}
 .step * {
   transition: all 0.3s ease;
 }
@@ -47,8 +56,8 @@
 }
 
 .step_text_inactive {
-  color: #afafaf;
-  border-color: #afafaf;
+  color: #3b3b3b;
+  border-color: #3b3b3b;
   background-color: transparent;
   cursor: not-allowed;
 }
@@ -62,8 +71,8 @@
 }
 
 .step_inactive {
-  color: #afafaf;
-  border-color: #afafaf;
+  color: #3b3b3b;
+  border-color: #3b3b3b;
   background-color: white;
   cursor: not-allowed;
 }
@@ -91,7 +100,7 @@
 }
 
 .separateur_inactive {
-  border-bottom: 1px solid #afafaf;
+  border-bottom: 1px solid #3b3b3b;
   min-width: 100px;
   width: 100%;
   display: block;
