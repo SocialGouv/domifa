@@ -10,7 +10,7 @@ do # first run can fail due to unlogged table dependency
  echo "Try again"
 done
 ## apply migrations
-#docker exec -it domifa-backend bash -c "yarn db:test:migrate-up"
+# docker exec -it domifa-backend bash -c "yarn db:test:migrate-up"
 # convert to unlogged
 set +e
 while ! ${CURRENT_DIR}/convert-postgres-tables-to-unlogged-docker.sh --db=test
