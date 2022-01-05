@@ -6,6 +6,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
+  Min,
 } from "class-validator";
 import { InteractionType } from "../../_common/model";
 
@@ -60,6 +61,7 @@ export class InteractionDto {
   })
   @IsNumber()
   @IsNotEmpty()
+  @Min(0)
   public nbCourrier!: number;
 
   @IsEmpty()

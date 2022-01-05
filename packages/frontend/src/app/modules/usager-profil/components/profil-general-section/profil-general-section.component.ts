@@ -1,7 +1,11 @@
 import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import { NgbDateStruct, NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbDateStruct,
+  NgbModal,
+  NgbModalRef,
+} from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import {
   UserStructure,
@@ -45,8 +49,6 @@ export class ProfilGeneralSectionComponent implements OnInit {
 
   public usager: UsagerFormModel;
 
-  public notifInputs: { [key: string]: any };
-
   public today: Date;
   public me: UserStructure;
 
@@ -54,16 +56,16 @@ export class ProfilGeneralSectionComponent implements OnInit {
   public maxDateNaissance: NgbDateStruct;
 
   @ViewChild("distributionConfirm", { static: true })
-  public distributionConfirm!: TemplateRef<any>;
+  public distributionConfirm!: TemplateRef<NgbModalRef>;
 
   @ViewChild("addNoteInModal", { static: true })
-  public addNoteInModal!: TemplateRef<any>;
+  public addNoteInModal!: TemplateRef<NgbModalRef>;
 
   @ViewChild("setInteractionInModal", { static: true })
-  public setInteractionInModal!: TemplateRef<any>;
+  public setInteractionInModal!: TemplateRef<NgbModalRef>;
 
   @ViewChild("setInteractionOutModal", { static: true })
-  public setInteractionOutModal!: TemplateRef<any>;
+  public setInteractionOutModal!: TemplateRef<NgbModalRef>;
 
   @ViewChild(ProfilGeneralHistoriqueCourriersComponent)
   private profileComponent: ProfilGeneralHistoriqueCourriersComponent;

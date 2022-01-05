@@ -87,19 +87,19 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
 
       this.usagerProfilService
         .editSmsPreference(preference, this.usager.ref)
-        .subscribe(
-          (usager: UsagerLight) => {
+        .subscribe({
+          next: (usager: UsagerLight) => {
             this.submitted = false;
             this.editPreferences = false;
             this.notifService.success("Enregistrement des préférences réussi");
             this.usager = new UsagerFormModel(usager);
           },
-          (error) => {
+          error: () => {
             this.notifService.error(
               "Veuillez vérifier les champs du formulaire"
             );
-          }
-        );
+          },
+        });
     }
   }
 }
