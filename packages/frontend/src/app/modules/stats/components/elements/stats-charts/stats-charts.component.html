@@ -8,7 +8,11 @@
           class="stats-section py-4 mb-1"
           (click)="selectChart('courriers')"
         >
-          <img src="/assets/images/stats/courriers.svg" title="" alt="" />
+          <img
+            src="/assets/images/stats/courriers.svg"
+            title="Courriers reçus depuis le lancement"
+            alt="Courriers reçus depuis le lancement"
+          />
           <div class="stats-section-counter text-primary">
             {{ publicStats.interactionsCount | formatBigNumber }}
           </div>
@@ -20,7 +24,11 @@
           class="stats-section py-4 mt-1"
           (click)="selectChart('usagers')"
         >
-          <img src="/assets/images/stats/domicilies.svg" title="" alt="" />
+          <img
+            src="/assets/images/stats/domicilies.svg"
+            title="Domiciliés depuis le lancement"
+            alt="Domiciliés depuis le lancement"
+          />
           <div class="stats-section-counter text-primary">
             {{ publicStats.usagersCount | formatBigNumber }}
           </div>

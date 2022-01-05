@@ -31,9 +31,8 @@
         </div>
       </div>
 
-      <div *ngIf="e.orientation.value === true" class="form-group">
-        <br />
-        <label class="form-check-label" for="orientationDetail">
+      <div *ngIf="e.orientation.value === true" class="my-2 form-group">
+        <label for="orientationDetail">
           Par quelle structure ou personne ?
         </label>
 
@@ -101,11 +100,8 @@
         </div>
       </div>
 
-      <div *ngIf="e.revenus.value === true" class="form-group">
-        <br />
-        <label class="form-check-label" for="revenusDetail">
-          De quelle nature ?
-        </label>
+      <div *ngIf="e.revenus.value === true" class="my-2 form-group">
+        <label for="revenusDetail"> De quelle nature ? </label>
         <textarea
           class="form-control"
           formControlName="revenusDetail"
@@ -302,6 +298,7 @@
           <input
             type="text"
             class="form-control"
+            id="raisonAutre"
             formControlName="raisonDetail"
             placeholder="Précisions"
           />
@@ -334,19 +331,16 @@
         </div>
       </div>
 
-      <div *ngIf="e.accompagnement.value === true" class="form-group">
-        <br />
-        <label class="form-check-label" for="accompagnement_non">
-          Par quelle structure ?
-        </label>
+      <div *ngIf="e.accompagnement.value === true" class="my-2 form-group">
+        <label for="accompagnementDetail"> Par quelle structure ? </label>
         <input
           type="text"
+          id="accompagnementDetail"
           class="form-control"
           formControlName="accompagnementDetail"
         />
       </div>
-      <div>
-        <br />
+      <div class="form-group my-2">
         <label class="form-label" for="rattachement">
           Cette domiciliation est-elle réalisée au titre d'une autre commune ou
           d'un autre arrondissement ? Si oui, complétez le champ ci-dessous
@@ -362,7 +356,7 @@
       </div>
 
       <div>
-        <span class="label">Commentaires</span>
+        <label for="commentaires" class="label">Commentaires</label>
         <textarea
           class="form-control"
           id="commentaires"

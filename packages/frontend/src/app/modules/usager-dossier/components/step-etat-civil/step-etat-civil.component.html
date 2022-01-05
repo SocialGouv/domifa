@@ -31,7 +31,6 @@
         autocomplete="off"
       >
         <h5 class="text-center title">État civil du demandeur</h5>
-        <br />
 
         <div class="form-group">
           <div class="form-check form-check-inline">
@@ -151,12 +150,17 @@
                 required
               />
               <div class="input-group-append">
-                <span class="btn btn-outline-primary" (click)="d.toggle()">
-                  <fa-icon
-                    title="Calendrier"
-                    [icon]="['fas', 'calendar']"
-                  ></fa-icon>
-                </span>
+                <button
+                  class="btn btn-outline-primary"
+                  aria-label="Choisir date de naissance"
+                  (click)="
+                    d.toggle();
+                    $event.preventDefault();
+                    $event.stopPropagation()
+                  "
+                >
+                  <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+                </button>
               </div>
 
               <div *ngIf="f.dateNaissance.invalid" class="invalid-feedback">
@@ -219,7 +223,6 @@
                 [ngClass]="{ 'is-invalid': f.email.errors }"
                 placeholder="adresse@mail.com"
               />
-
               <small id="emailHelp" class="form-text text-muted">
                 Optionnel
               </small>
@@ -337,12 +340,12 @@
           >
             <div [formGroupName]="i" class="row">
               <div class="col form-group required">
-                <label for="nom_{{ i }}">Nom</label>
+                <label for="ad_nom_{{ i }}">Nom</label>
                 <input
-                  id="nom_{{ i }}"
+                  id="ad_nom_{{ i }}"
                   type="text"
                   class="form-control"
-                  formControlName="nom"
+                  formControlName="ad_nom"
                   [ngClass]="{
                     'is-invalid':
                       submitted && ayantsDroits.controls[i].get('nom').errors
@@ -381,10 +384,10 @@
                 </div>
               </div>
               <div class="col form-group required">
-                <label for="dateNaissance">Date de naissance</label>
+                <label for="ad_dateNaissance_{{ i }}">Date de naissance</label>
                 <div class="input-group">
                   <input
-                    id="dateNaissance_{{ i }}"
+                    id="ad_dateNaissance_{{ i }}"
                     class="form-control"
                     placeholder="jj/mm/aaaa"
                     [minDate]="minDateNaissance"
@@ -404,15 +407,13 @@
                     formControlName="dateNaissance"
                   />
                   <div class="input-group-append">
-                    <span
+                    <button
                       class="btn btn-outline-primary"
-                      (click)="dateAyantDroit.toggle()"
+                      (click)="dateAyantDroit.toggle(); $event.preventDefault()"
+                      aria-label="Choisir date de naissance d'un ayant-droit"
                     >
-                      <fa-icon
-                        title="Calendrier"
-                        [icon]="['fas', 'calendar']"
-                      ></fa-icon>
-                    </span>
+                      <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+                    </button>
                   </div>
                 </div>
                 <div
@@ -456,20 +457,21 @@
               <div class="col-md-1">
                 <label for class="text-white"> c </label>
                 <div>
-                  <span (click)="deleteAyantDroit(i)" class="btn btn-danger">
-                    <fa-icon
-                      title="Supprimer"
-                      [icon]="['fas', 'trash']"
-                    ></fa-icon>
-                  </span>
+                  <button
+                    (click)="deleteAyantDroit($event, i)"
+                    class="btn btn-danger"
+                    title="Supprimer l'ayant-droit {{ i }}"
+                  >
+                    <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-          <span (click)="addAyantDroit()" class="btn btn-primary">
+          <button (click)="addAyantDroitButton($event)" class="btn btn-primary">
             <fa-icon [icon]="['fas', 'plus']"></fa-icon>
             Ajouter des ayants droits
-          </span>
+          </button>
           <br />
           <br />
           <br />

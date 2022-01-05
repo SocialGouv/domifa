@@ -18,9 +18,8 @@
       </div>
     </div>
     <div class="col-md-5 form-group required">
-      <label>Document à enregistrer</label>
-
-      <div class="form-group custom-file">
+      <span class="label">Document à enregistrer</span>
+      <div class="input-group custom-file">
         <input
           type="file"
           class="custom-file-input"
@@ -30,6 +29,7 @@
           [ngClass]="{ 'is-invalid': submitted && u.fileSource.errors }"
           (change)="onFileChange($event)"
         />
+
         <small id="pjHelp" class="form-text text-muted">
           Formats autorisés PDF, JPG ou PNG (6mo maxi)
         </small>
@@ -39,7 +39,7 @@
           data-browse="Parcourir"
           lang="fr"
         >
-          {{ fileName }}
+          {{ fileName || "Choisissez un fichier" }}
         </label>
 
         <div *ngIf="submitted && u.fileSource.errors" class="invalid-feedback">
@@ -55,9 +55,8 @@
         </div>
       </div>
     </div>
-    <div class="col-md-2">
-      <label class="text-white">+</label>
-      <button class="btn btn-primary btn-block">
+    <div class="col-md-2 mt-2">
+      <button class="btn btn-primary btn-block mt-4">
         <span *ngIf="!loading">Ajouter</span>
         <span *ngIf="loading">
           <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>

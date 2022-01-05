@@ -4,7 +4,7 @@
       class="py-3 px-0 mx-0 d-flex justify-content-between align-items-center"
     >
       <div class="px-0 mx-0">
-        <span class="title">
+        <h1 class="title">
           <a [routerLink]="['/manage']" title="Revenir à la liste" class="px-3">
             <img
               src="../../../../../assets/icones/fleche-gauche.svg"
@@ -15,7 +15,7 @@
           {{ usager | usagerNomComplet }} -
           <b *ngIf="usager.customRef">{{ usager.customRef }}</b>
           <b *ngIf="!usager.customRef">{{ usager.ref }}</b>
-        </span>
+        </h1>
       </div>
 
       <div class="px-0 mx-0 text-right" *ngIf="!isRole('facteur')">

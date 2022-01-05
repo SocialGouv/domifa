@@ -6,7 +6,7 @@
     <ng-container *ngIf="usager.decision.statut === 'INSTRUCTION'">
       <button
         title="Supprimer cette demande"
-        class="btn btn-outline-danger"
+        class="btn btn-danger"
         id="delete-usager"
         *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
         (click)="open(deleteRenewConfirmation)"
@@ -17,7 +17,7 @@
 
       <button
         title="Supprimer cette demande"
-        class="btn btn-outline-danger"
+        class="btn btn-danger"
         id="delete-usager"
         *ngIf="usager.typeDom === 'PREMIERE_DOM' && usager.etapeDemande > 0"
         (click)="open(deleteConfirmation)"
@@ -35,7 +35,7 @@
     >
       <button
         title="Supprimer ce domicilié"
-        class="btn btn-outline-danger"
+        class="btn btn-danger"
         id="delete-usager"
         (click)="open(deleteConfirmation)"
       >

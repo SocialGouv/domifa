@@ -1,11 +1,11 @@
 // @index('./*', f => `export * from '${f.path}'`)
 export * from "./AyantDroitLienParente.type";
 export * from "./constants";
-export * from "./entretien";
 export * from "./decision";
+export * from "./dossier";
+export * from "./entretien";
 export * from "./Usager.type";
 export * from "./UsagerAyantDroit.type";
-
 export * from "./UsagerDoc.type";
 export * from "./UsagerEcheanceInfos.type";
 export * from "./UsagerImport.type";
