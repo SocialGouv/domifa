@@ -1,3 +1,16 @@
+# [2.61.0](https://github.com/SocialGouv/domifa/compare/v2.60.1...v2.61.0) (2022-01-05)
+
+
+### Bug Fixes
+
+* correction des retours sur les fautes ([e8effb3](https://github.com/SocialGouv/domifa/commit/e8effb3dcc4b0575b3eca770c5ecdccd837eb9bb))
+* suppression des users d'un usager ([d5f7196](https://github.com/SocialGouv/domifa/commit/d5f71969578e2a2e4654e4bf55f42ebb8626e0b3))
+
+
+### Features
+
+* **files:** Amélioration de la gestion des documents et leur suppression ([1872221](https://github.com/SocialGouv/domifa/commit/187222170f80ad5eb322ff069eecb77eef296d3a))
+
 ## [2.60.1](https://github.com/SocialGouv/domifa/compare/v2.60.0...v2.60.1) (2022-01-05)
 
 
