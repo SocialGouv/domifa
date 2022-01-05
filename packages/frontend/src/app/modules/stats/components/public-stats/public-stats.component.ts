@@ -1,4 +1,3 @@
-import { DEFAULT_PUBLIC_STATS } from "./../../../../../_common/model/stats/DEFAULT_PUBLIC_STATS.const";
 import { PublicStats } from "./../../../../../_common/model/stats/PublicStats.type";
 import { StatsService } from "./../../services/stats.service";
 import { Component, OnInit } from "@angular/core";

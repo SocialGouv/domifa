@@ -26,7 +26,6 @@ describe("HomeComponent", () => {
           CommonModule,
           SharedModule,
           ToastrModule.forRoot(),
-
           RouterTestingModule,
           CountUpModule,
           HttpClientTestingModule,
