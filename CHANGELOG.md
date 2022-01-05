@@ -1,3 +1,11 @@
+## [2.60.1](https://github.com/SocialGouv/domifa/compare/v2.60.0...v2.60.1) (2022-01-05)
+
+
+### Bug Fixes
+
+* **interactions:** correction des données corrompus dans les interactions ([d240a42](https://github.com/SocialGouv/domifa/commit/d240a4217f841ea961fc3a30e62bc73601c81717))
+* **migration:** Nettoyage des données corrompus pendant la migration des interactions ([b22bb44](https://github.com/SocialGouv/domifa/commit/b22bb442e3bc6d8b14eb328615efbeb542eeb6da))
+
 # [2.60.0](https://github.com/SocialGouv/domifa/compare/v2.59.0...v2.60.0) (2022-01-04)
 
 
