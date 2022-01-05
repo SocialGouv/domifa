@@ -43,3 +43,7 @@
   max-width: 1300px;
   width: 100%;
 }
+
+th {
+  font-weight: normal;
+}

@@ -182,7 +182,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     const structureId = this.me.structureId;
     this.statsService.export(structureId, period.start, period.end).subscribe({
-      next: (x: any) => {
+      next: (x: Blob) => {
         const newBlob = new Blob([x], {
           type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         });
@@ -234,7 +234,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.statsService
       .getStats(this.me.structureId, this.start, this.end)
-      .subscribe((statsResult) => {
+      .subscribe((statsResult: StructureStatsFull) => {
         this.stats = statsResult;
       });
   }

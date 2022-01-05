@@ -45,7 +45,7 @@ import { SharedModule } from "./modules/shared/shared.module";
       preventDuplicates: true,
       progressAnimation: "increasing",
       progressBar: true,
-      timeOut: 3000,
+      timeOut: 50000,
     }),
   ],
   providers: [
