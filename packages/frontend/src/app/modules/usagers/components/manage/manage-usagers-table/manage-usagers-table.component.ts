@@ -7,7 +7,11 @@ import {
   TemplateRef,
   ViewChild,
 } from "@angular/core";
-import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbModal,
+  NgbModalOptions,
+  NgbModalRef,
+} from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import {
@@ -80,10 +84,10 @@ export class ManageUsagersTableComponent implements OnInit {
   public selectedUsager: UsagerFormModel;
 
   @ViewChild("setInteractionInModal")
-  public setInteractionInModal!: TemplateRef<any>;
+  public setInteractionInModal!: TemplateRef<NgbModalRef>;
 
   @ViewChild("setInteractionOutModal")
-  public setInteractionOutModal!: TemplateRef<any>;
+  public setInteractionOutModal!: TemplateRef<NgbModalRef>;
 
   public loadingButtons: string[];
 

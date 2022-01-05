@@ -1,4 +1,4 @@
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import {
   Component,
   Input,
@@ -32,9 +32,10 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
   public interactionToDelete: Interaction;
 
   @ViewChild("deleteInteractionModal", { static: true })
-  public deleteInteractionModal!: TemplateRef<any>;
+  public deleteInteractionModal!: TemplateRef<NgbModalRef>;
+
   @ViewChild("restoreInteractionModal", { static: true })
-  public restoreInteractionModal!: TemplateRef<any>;
+  public restoreInteractionModal!: TemplateRef<NgbModalRef>;
 
   constructor(
     private notifService: ToastrService,

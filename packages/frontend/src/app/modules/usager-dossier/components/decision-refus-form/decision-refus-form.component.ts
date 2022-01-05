@@ -1,6 +1,11 @@
 import { UsagerFormModel } from "./../../../usager-shared/interfaces/UsagerFormModel";
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  AbstractControl,
+} from "@angular/forms";
 import { Router } from "@angular/router";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
@@ -44,7 +49,7 @@ export class DecisionRefusFormComponent implements OnInit {
     this.maxDateRefus = formatDateToNgb(new Date());
   }
 
-  get r(): any {
+  get r(): { [key: string]: AbstractControl } {
     return this.refusForm.controls;
   }
 

@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { Router } from "@angular/router";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 
 import {
@@ -34,10 +34,10 @@ export class ProfilHeadComponent implements OnInit {
   public today: Date;
 
   @ViewChild("renewModal", { static: true })
-  public renewModal!: TemplateRef<any>;
+  public renewModal!: TemplateRef<NgbModalRef>;
 
   @ViewChild("radiationFormModal", { static: true })
-  public radiationFormModal!: TemplateRef<any>;
+  public radiationFormModal!: TemplateRef<NgbModalRef>;
 
   constructor(
     private readonly modalService: NgbModal,

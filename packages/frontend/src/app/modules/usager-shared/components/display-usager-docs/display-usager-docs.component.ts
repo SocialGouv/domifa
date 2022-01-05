@@ -21,7 +21,7 @@ export class DisplayUsagerDocsComponent implements OnInit {
     download: number[];
     delete: number[];
   };
-
+ 
   constructor(
     private documentService: DocumentService,
     private notifService: ToastrService

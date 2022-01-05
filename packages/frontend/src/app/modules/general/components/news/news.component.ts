@@ -1,3 +1,4 @@
+import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { NEWS_LABELS } from "./../../../../shared/constants/NEWS_LABELS.const";
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit, TemplateRef } from "@angular/core";
@@ -11,7 +12,7 @@ import { Title } from "@angular/platform-browser";
 export class NewsComponent implements OnInit {
   public domifaNews: any;
   public newsLabels = NEWS_LABELS;
-  public newsCenter!: TemplateRef<any>;
+  public newsCenter!: TemplateRef<NgbModalRef>;
   private newsJson: string;
 
   public constructor(private http: HttpClient, private titleService: Title) {

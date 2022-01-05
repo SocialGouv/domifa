@@ -7,8 +7,13 @@ import {
   TemplateRef,
   ViewChild,
 } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  AbstractControl,
+} from "@angular/forms";
+import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { UsagerLight } from "../../../../../_common/model";
 import {
@@ -46,7 +51,7 @@ export class EntretienFormComponent implements OnInit {
   public nextStep = new EventEmitter<number>();
 
   @ViewChild("entretienConfirmation", { static: true })
-  public entretienConfirmation!: TemplateRef<any>;
+  public entretienConfirmation!: TemplateRef<NgbModalRef>;
 
   public loading = false;
 
@@ -61,7 +66,7 @@ export class EntretienFormComponent implements OnInit {
     this.entretienVide = new Entretien();
   }
 
-  get e(): any {
+  get e(): { [key: string]: AbstractControl } {
     return this.entretienForm.controls;
   }
 

@@ -1,5 +1,10 @@
 import { Component, OnInit, EventEmitter, Input, Output } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  AbstractControl,
+} from "@angular/forms";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 
@@ -47,7 +52,7 @@ export class RadiationFormComponent implements OnInit {
     this.maxDate = formatDateToNgb(new Date());
   }
 
-  get r(): any {
+  get r(): { [key: string]: AbstractControl } {
     return this.radiationForm.controls;
   }
 
