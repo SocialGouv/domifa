@@ -1,3 +1,4 @@
+import { CustomToastrComponent } from "./modules/shared/components/custom-toastr/custom-toastr.component";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import {
   CUSTOM_ELEMENTS_SCHEMA,
@@ -68,12 +69,12 @@ if (environment.production) {
     UsersModule,
     UserIdleModule.forRoot({ idle: 3600, timeout: 60, ping: 120 }),
     ToastrModule.forRoot({
-      enableHtml: true,
+      toastComponent: CustomToastrComponent,
       positionClass: "toast-top-left",
       preventDuplicates: true,
       progressAnimation: "increasing",
       progressBar: true,
-      timeOut: 4000,
+      timeOut: 6000,
     }),
   ],
   providers: [
