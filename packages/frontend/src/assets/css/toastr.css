@@ -153,7 +153,7 @@ button.toast-close-button {
 }
 
 .toast-success {
-  background-color: var(--info);
+  background-color: var(--success);
 }
 
 .toast-error {
