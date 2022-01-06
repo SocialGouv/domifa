@@ -126,7 +126,11 @@
         {{ structure.email }}
       </td>
       <td class="d-none d-lg-table-cell">
-        <a class="cursor-pointer" (click)="enableSms(structure)">
+        <a
+          class="cursor-pointer"
+          aria-label="Activer ou désactiver les sms"
+          (click)="enableSms(structure)"
+        >
           <fa-icon
             class="pr-2"
             style="color: #17a2b8"
@@ -142,7 +146,11 @@
         </a>
       </td>
       <td class="d-none d-lg-table-cell">
-        <a class="cursor-pointer" (click)="enablePortailUsager(structure)">
+        <a
+          class="cursor-pointer"
+          aria-label="Activer ou désactiver le portail usager"
+          (click)="enablePortailUsager(structure)"
+        >
           <fa-icon
             class="pr-2"
             style="color: #17a2b8"
@@ -180,10 +188,10 @@
             <a
               class="cursor-pointer"
               ngbDropdownItem
-              (click)="exportYearStats(structure.id, 2020)"
+              (click)="exportYearStats(structure.id, 2021)"
             >
               <fa-icon class="pr-2" [icon]="['fas', 'download']"></fa-icon>
-              Stats 2020
+              Stats 2021
             </a>
             <a
               class="cursor-pointer"
