@@ -308,9 +308,13 @@
       <div class="col-md-1">
         <label for class="text-white"> c </label>
         <div>
-          <span (click)="deleteAyantDroit(i)" class="btn btn-danger">
+          <button
+            (click)="deleteAyantDroit(i)"
+            title="Supprimer l'ayant-droit {{ i }}"
+            class="btn btn-danger"
+          >
             <fa-icon title="Supprimer" [icon]="['fas', 'trash']"></fa-icon>
-          </span>
+          </button>
         </div>
       </div>
     </div>

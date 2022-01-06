@@ -458,7 +458,7 @@
                 <label for class="text-white"> c </label>
                 <div>
                   <button
-                    (click)="deleteAyantDroit($event, i)"
+                    (click)="deleteAyantDroit(i); $event.preventDefault()"
                     class="btn btn-danger"
                     title="Supprimer l'ayant-droit {{ i }}"
                   >

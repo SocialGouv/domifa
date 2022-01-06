@@ -240,8 +240,7 @@ export class StepEtatCivilComponent implements OnInit {
     );
   }
 
-  public deleteAyantDroit(event: Event, i: number): void {
-    event.preventDefault();
+  public deleteAyantDroit(i: number): void {
     if (i === 0) {
       this.usagerForm.controls.ayantsDroitsExist.setValue(false);
     }
