@@ -1,3 +1,11 @@
+## [2.61.2](https://github.com/SocialGouv/domifa/compare/v2.61.1...v2.61.2) (2022-01-06)
+
+
+### Bug Fixes
+
+* **migration:** migration à désactiver ([a567c20](https://github.com/SocialGouv/domifa/commit/a567c20fc4b6701b903c4cb364a4d02572aa187e))
+* fix preprod secret ([14f4cd1](https://github.com/SocialGouv/domifa/commit/14f4cd17502e1c25f225332b5350cfee825dddd4))
+
 ## [2.61.1](https://github.com/SocialGouv/domifa/compare/v2.61.0...v2.61.1) (2022-01-05)
 
 
