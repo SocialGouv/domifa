@@ -7,12 +7,15 @@ import { create } from "@socialgouv/kosko-charts/components/azure-pg";
 
 export default async (): Promise<{ kind: string }[]> => {
   if (env.env === "dev") {
-    return await create("pg-user", { env });
+    return await create("pg-user", {
+      env,
+      config: { pgHost: "domifadev.postgres.database.azure.com" },
+    });
   }
 
   // in prod/preprod, we try to add a fixed sealed-secret
   const secretName = "pg-user.sealed-secret.yaml";
-  const secret = (await loadYaml<SealedSecret>(env, secretName));
+  const secret = await loadYaml<SealedSecret>(env, secretName);
 
   if (!secret) {
     return [];

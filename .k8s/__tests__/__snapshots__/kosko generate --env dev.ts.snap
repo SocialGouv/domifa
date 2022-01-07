@@ -529,18 +529,18 @@ apiVersion: v1
 kind: Secret
 stringData:
   DATABASE_URL: >-
-    postgresql://user_mybranch%40domifadevserver.postgres.database.azure.com:password_mybranch@domifadevserver.postgres.database.azure.com/autodevops_mybranch?sslmode=require
+    postgresql://user_mybranch%40domifadev.postgres.database.azure.com:password_mybranch@domifadev.postgres.database.azure.com/autodevops_mybranch?sslmode=require
   DB_URI: >-
-    postgresql://user_mybranch%40domifadevserver.postgres.database.azure.com:password_mybranch@domifadevserver.postgres.database.azure.com/autodevops_mybranch?sslmode=require
+    postgresql://user_mybranch%40domifadev.postgres.database.azure.com:password_mybranch@domifadev.postgres.database.azure.com/autodevops_mybranch?sslmode=require
   HASURA_GRAPHQL_DATABASE_URL: >-
-    postgresql://user_mybranch%40domifadevserver.postgres.database.azure.com:password_mybranch@domifadevserver.postgres.database.azure.com/autodevops_mybranch?sslmode=require
+    postgresql://user_mybranch%40domifadev.postgres.database.azure.com:password_mybranch@domifadev.postgres.database.azure.com/autodevops_mybranch?sslmode=require
   PGDATABASE: autodevops_mybranch
-  PGHOST: domifadevserver.postgres.database.azure.com
+  PGHOST: domifadev.postgres.database.azure.com
   PGPASSWORD: password_mybranch
   PGRST_DB_URI: >-
-    postgresql://user_mybranch%40domifadevserver.postgres.database.azure.com:password_mybranch@domifadevserver.postgres.database.azure.com/autodevops_mybranch?sslmode=require
+    postgresql://user_mybranch%40domifadev.postgres.database.azure.com:password_mybranch@domifadev.postgres.database.azure.com/autodevops_mybranch?sslmode=require
   PGSSLMODE: require
-  PGUSER: user_mybranch@domifadevserver.postgres.database.azure.com
+  PGUSER: user_mybranch@domifadev.postgres.database.azure.com
 metadata:
   annotations:
     kapp.k14s.io/update-strategy: skip
