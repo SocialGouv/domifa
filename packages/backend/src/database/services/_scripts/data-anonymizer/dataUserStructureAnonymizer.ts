@@ -1,6 +1,11 @@
+import { usagerHistoryRepository } from "./../../usager/usagerHistoryRepository.service";
 import { INestApplication } from "@nestjs/common";
 import * as bcrypt from "bcryptjs";
-import { userStructureSecurityRepository, UserStructureTable } from "../../..";
+import {
+  monitoringBatchProcessRepository,
+  userStructureSecurityRepository,
+  UserStructureTable,
+} from "../../..";
 import { domifaConfig } from "../../../../config";
 import { appLogger } from "../../../../util";
 import { userStructureRepository } from "../../user-structure";
@@ -18,6 +23,13 @@ type PartialUser = Pick<
 >;
 
 async function anonymizeUsersStructure({ app }: { app: INestApplication }) {
+  appLogger.warn(`[ANON] [monitoringBatchProcessRepository] reset tables`);
+  await monitoringBatchProcessRepository.deleteByCriteria({});
+  appLogger.warn(`[ANON] [usagerHistoryRepository] reset tables`);
+  await usagerHistoryRepository.deleteByCriteria({});
+  appLogger.warn(`[ANON] [userStructureSecurityRepository] reset tables`);
+  await userStructureSecurityRepository.deleteByCriteria({});
+
   const users = await userStructureRepository.findMany<PartialUser>(
     {},
     {
@@ -28,16 +40,6 @@ async function anonymizeUsersStructure({ app }: { app: INestApplication }) {
   // ignore domifa team tests users from anonymization
   const usersToAnonymise = users.filter((user) =>
     isUserStructureToAnonymise(user)
-  );
-
-  appLogger.warn(`[dataUserAnonymizer] [user-structure] reset security tables`);
-
-  await userStructureSecurityRepository.updateMany(
-    {},
-    {
-      temporaryTokens: null,
-      eventsHistory: [],
-    }
   );
 
   appLogger.warn(

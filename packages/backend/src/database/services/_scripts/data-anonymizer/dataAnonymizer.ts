@@ -24,7 +24,7 @@ async function anonymize(app: INestApplication) {
     await dataUserStructureAnonymizer.anonymizeUsersStructure({ app });
     await dataUserUsagerAnonymizer.anonymizeUsersUsager({ app });
     await dataUsagerAnonymizer.anonymizeUsagers({ app });
-    await dataUsagerHistoryAnonymizer.anonymizeUsagersHistory({ app });
+    // await dataUsagerHistoryAnonymizer.anonymizeUsagersHistory({ app });
   } else {
     appLogger.warn(`[dataAnonymizer] DB anonymisation OFF (env:${envId})`);
   }
