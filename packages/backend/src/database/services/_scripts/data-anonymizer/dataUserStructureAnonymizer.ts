@@ -1,14 +1,12 @@
-import { usagerHistoryRepository } from "./../../usager/usagerHistoryRepository.service";
 import { INestApplication } from "@nestjs/common";
 import * as bcrypt from "bcryptjs";
-import {
-  monitoringBatchProcessRepository,
-  userStructureSecurityRepository,
-  UserStructureTable,
-} from "../../..";
+import { monitoringBatchProcessRepository, UserStructureTable } from "../../..";
 import { domifaConfig } from "../../../../config";
 import { appLogger } from "../../../../util";
-import { userStructureRepository } from "../../user-structure";
+import {
+  userStructureRepository,
+  userStructureSecurityRepository,
+} from "../../user-structure";
 import { dataEmailAnonymizer } from "./dataEmailAnonymizer";
 import { dataGenerator } from "./dataGenerator.service";
 import { dataStructureAnonymizer } from "./dataStructureAnonymizer";
@@ -25,10 +23,16 @@ type PartialUser = Pick<
 async function anonymizeUsersStructure({ app }: { app: INestApplication }) {
   appLogger.warn(`[ANON] [monitoringBatchProcessRepository] reset tables`);
   await monitoringBatchProcessRepository.deleteByCriteria({});
-  appLogger.warn(`[ANON] [usagerHistoryRepository] reset tables`);
-  await usagerHistoryRepository.deleteByCriteria({});
-  appLogger.warn(`[ANON] [userStructureSecurityRepository] reset tables`);
-  await userStructureSecurityRepository.deleteByCriteria({});
+
+  appLogger.warn(`[dataUserAnonymizer] [user-structure] reset security tables`);
+
+  await userStructureSecurityRepository.updateMany(
+    {},
+    {
+      temporaryTokens: null,
+      eventsHistory: [],
+    }
+  );
 
   // Anonymisation de tous les mots de passe
   const passwordNonEncrypted = domifaConfig().dev.anonymizer.password;
@@ -38,7 +42,7 @@ async function anonymizeUsersStructure({ app }: { app: INestApplication }) {
 
   appLogger.warn(`[ANON] [userStructure] reset passwords`);
   await (await userStructureRepository.typeorm())
-    .createQueryBuilder("interactions")
+    .createQueryBuilder("structures")
     .update()
     .set({ password })
     .where(`"structureId" > 1`)

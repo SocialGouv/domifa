@@ -90,7 +90,6 @@ export class UsagersController {
     const orderByLastDecisionDesc: PgRepositoryFindOrder<any> = {};
     orderByLastDecisionDesc[`"decision"->>'dateFin'`] = "DESC";
 
-    console.log(chargerTousRadies);
     const usagersRadiesFirsts = await usagerLightRepository.findManyWithQuery({
       select: USAGER_LIGHT_ATTRIBUTES,
       where: `"structureId" = :structureId
@@ -102,8 +101,6 @@ export class UsagersController {
       maxResults: chargerTousRadies ? undefined : 50,
       order: orderByLastDecisionDesc,
     });
-
-    console.log("usagersRadiesTotalCount");
 
     const usagersRadiesTotalCount = chargerTousRadies
       ? usagersRadiesFirsts.length

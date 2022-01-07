@@ -1,4 +1,5 @@
 import { INestApplication } from "@nestjs/common";
+import { usagerHistoryRepository } from "../..";
 import { appLogger } from "../../../../util";
 import {
   Usager,
@@ -19,6 +20,9 @@ export const dataUsagerAnonymizer = {
 };
 
 async function anonymizeUsagers({ app }: { app: INestApplication }) {
+  appLogger.warn(`[ANON] [usagerHistoryRepository] reset tables`);
+  await usagerHistoryRepository.deleteByCriteria({});
+
   const usagers = await usagerRepository.findMany(
     {},
     {
@@ -90,7 +94,7 @@ async function _anonymizeUsager(
   }
 
   const attributesToUpdate: Partial<Usager> = {
-    email: `usager-${usager.ref}@domifa-fake.fabrique.social.gouv.fr`,
+    email: null,
     prenom: dataGenerator.firstName(),
     phone: null,
     preference: {
@@ -109,6 +113,7 @@ async function _anonymizeUsager(
     historique,
     ayantsDroits: anonymizeAyantDroits(usager.ayantsDroits),
     docs,
+    docsPath: [],
   };
 
   if (Object.keys(attributesToUpdate).length === 0) {
