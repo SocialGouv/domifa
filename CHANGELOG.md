@@ -1,3 +1,10 @@
+## [2.61.3](https://github.com/SocialGouv/domifa/compare/v2.61.2...v2.61.3) (2022-01-07)
+
+
+### Bug Fixes
+
+* update preprod pg secrets ([cd04ff4](https://github.com/SocialGouv/domifa/commit/cd04ff43035b156fb06804202bd0bb6211c24755))
+
 ## [2.61.2](https://github.com/SocialGouv/domifa/compare/v2.61.1...v2.61.2) (2022-01-06)
 
 
