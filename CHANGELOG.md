@@ -1,3 +1,13 @@
+## [2.61.5](https://github.com/SocialGouv/domifa/compare/v2.61.4...v2.61.5) (2022-01-07)
+
+
+### Bug Fixes
+
+* anonymisation ([73d0a7f](https://github.com/SocialGouv/domifa/commit/73d0a7fea81ad4c96cfd8f9fb157d1226e97b641))
+* Suppression de données à anonymiser ([dfe4fd7](https://github.com/SocialGouv/domifa/commit/dfe4fd75681d91c28ddbaed8769391e26bd94ae5))
+* **anonymisation:** amélioration des perfs ([5133460](https://github.com/SocialGouv/domifa/commit/5133460f447564f9910629a59c3cb806fccf91f6))
+* affichage des bonnes stats ([c6a03f5](https://github.com/SocialGouv/domifa/commit/c6a03f5747eab5253c9cb941838dcdf4e83364b5))
+
 ## [2.61.4](https://github.com/SocialGouv/domifa/compare/v2.61.3...v2.61.4) (2022-01-07)
 
 
