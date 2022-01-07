@@ -35,6 +35,7 @@ async function anonymizeUsagers({ app }: { app: INestApplication }) {
         "datePremiereDom",
         "entretien",
         "updatedAt",
+        "decision",
       ],
     }
   );
