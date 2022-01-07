@@ -7,21 +7,6 @@ export const dataMessageEmailAnonymizer = {
 };
 
 async function anonymizeEmail() {
-  const emailToSendToSkip = await messageEmailRepository.count({
-    where: {
-      status: "pending",
-    },
-  });
-
-  appLogger.warn(
-    `[dataMessageEmailAnonymizer] ${emailToSendToSkip} emails to skip`
-  );
-
-  await messageEmailRepository.updateMany(
-    { status: "pending" },
-    { status: "sent" }
-  );
-
   const emailPhoneNumberToAnonymizeCount = await messageEmailRepository.count(
     {}
   );

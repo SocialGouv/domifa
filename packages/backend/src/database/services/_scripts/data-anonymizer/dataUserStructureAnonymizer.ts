@@ -30,6 +30,20 @@ async function anonymizeUsersStructure({ app }: { app: INestApplication }) {
   appLogger.warn(`[ANON] [userStructureSecurityRepository] reset tables`);
   await userStructureSecurityRepository.deleteByCriteria({});
 
+  // Anonymisation de tous les mots de passe
+  const passwordNonEncrypted = domifaConfig().dev.anonymizer.password;
+  const password = passwordNonEncrypted
+    ? await bcrypt.hash(passwordNonEncrypted, 10)
+    : "";
+
+  appLogger.warn(`[ANON] [userStructure] reset passwords`);
+  await (await userStructureRepository.typeorm())
+    .createQueryBuilder("interactions")
+    .update()
+    .set({ password })
+    .where(`"structureId" > 1`)
+    .execute();
+
   const users = await userStructureRepository.findMany<PartialUser>(
     {},
     {
@@ -66,17 +80,9 @@ async function _anonymizeUserStructure(
   user: PartialUser,
   { app }: { app: INestApplication }
 ) {
-  // appLogger.debug(`[dataUserAnonymizer] check user "${user._id}"`);
-
-  const passwordNonEncrypted = domifaConfig().dev.anonymizer.password;
-  const password = passwordNonEncrypted
-    ? await bcrypt.hash(passwordNonEncrypted, 10)
-    : "";
-
   const attributesToUpdate: Partial<UserStructureTable> = {
     nom: dataGenerator.lastName().toUpperCase(),
     prenom: dataGenerator.firstName(),
-    password,
     fonction: dataGenerator.fromList([
       "Agent administratif",
       "Agent d'accueil",
