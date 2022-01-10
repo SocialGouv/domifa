@@ -99,7 +99,11 @@
               >
                 Domiciliés
               </a>
-              <button class="btn btn-outline-primary" ngbDropdownToggle>
+              <button
+                class="btn btn-outline-primary"
+                data-toggle="dropdown"
+                ngbDropdownToggle
+              >
                 Mon compte
               </button>
               <div ngbDropdownMenu aria-labelledby="dropdownAuthenticatedMenu">
@@ -108,36 +112,42 @@
                   ngbDropdownItem
                   [href]="portailAdminUrl"
                   target="_portail_domifa"
+                  aria-label="Administration de Domifa"
                   rel="noopener noreferrer"
                 >
                   <fa-icon
-                    title="Admin Domifa"
+                    aria-hidden="true"
                     [icon]="['fas', 'user-shield']"
                   ></fa-icon>
                   Admin Domifa
                 </a>
-                <a ngbDropdownItem routerLink="/mon-compte">
-                  <fa-icon title="Compte" [icon]="['fas', 'user']"></fa-icon>
+                <a
+                  ngbDropdownItem
+                  aria-label="Gestion de mon compte"
+                  routerLink="/mon-compte"
+                >
+                  <fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'user']"
+                  ></fa-icon>
                   Compte
                 </a>
                 <a
                   ngbDropdownItem
                   *ngIf="me.role === 'admin' || me.role === 'responsable'"
                   routerLink="/admin"
+                  aria-label="Gestion des utilisateurs"
                 >
-                  <fa-icon title="Administration" [icon]="['fas', 'users']">
-                  </fa-icon>
+                  <fa-icon [icon]="['fas', 'users']"> </fa-icon>
                   Utilisateurs</a
                 >
                 <a
                   ngbDropdownItem
+                  aria-label="Documents de la structure"
                   *ngIf="me.role === 'admin' || me.role === 'responsable'"
                   routerLink="/structures/documents"
                 >
-                  <fa-icon
-                    title="Documents de la structure"
-                    [icon]="['far', 'file-word']"
-                  >
+                  <fa-icon aria-hidden="true" [icon]="['far', 'file-word']">
                   </fa-icon>
                   Documents</a
                 >
@@ -146,19 +156,21 @@
                   ngbDropdownItem
                   *ngIf="me.role !== 'facteur'"
                   routerLink="/import"
+                  aria-label="Importer vos domiciliés"
                 >
                   <fa-icon
-                    title="Importer"
+                    aria-hidden="true"
                     [icon]="['fas', 'upload']"
                   ></fa-icon>
                   Importer
                 </a>
                 <a
                   ngbDropdownItem
+                  aria-label="Modifier ma structure"
                   *ngIf="me.role === 'admin' || me.role === 'responsable'"
                   routerLink="/structures/edit"
                 >
-                  <fa-icon title="Structure" [icon]="['fas', 'home']">
+                  <fa-icon aria-hidden="true" [icon]="['fas', 'home']">
                   </fa-icon>
                   Structure
                 </a>
@@ -167,13 +179,11 @@
                   *ngIf="
                     me.role === 'admin' && me.structure?.sms?.enabledByDomifa
                   "
+                  aria-label="Gestion des SMS"
                   routerLink="/structures/sms"
                 >
-                  <fa-icon
-                    title="Notifications"
-                    [icon]="['fas', 'sms']"
-                  ></fa-icon>
-                  Notifications
+                  <fa-icon [icon]="['fas', 'sms']"></fa-icon>
+                  Notifications SMS
                 </a>
                 <a
                   ngbDropdownItem
@@ -181,9 +191,10 @@
                     me.role === 'admin' &&
                     me.structure?.portailUsager?.enabledByDomifa
                   "
+                  aria-label="Modifer les accès au portail usager"
                   routerLink="/structures/portail-usager"
                 >
-                  <fa-icon title="Portail Usager" icon="user-secret"></fa-icon>
+                  <fa-icon aria-hidden="true" icon="user-secret"></fa-icon>
                   Portail Usager
                 </a>
                 <a
@@ -193,17 +204,14 @@
                     me.role === 'responsable' ||
                     me.role === 'simple'
                   "
+                  aria-label="Statistiques"
                   routerLink="/stats/rapport-activite"
                 >
-                  <fa-icon title="Statistiques" [icon]="['far', 'chart-bar']">
-                  </fa-icon>
+                  <fa-icon [icon]="['far', 'chart-bar']"> </fa-icon>
                   Statistiques
                 </a>
                 <a ngbDropdownItem (click)="logout()">
-                  <fa-icon
-                    title="Statistiques"
-                    [icon]="['fas', 'sign-out-alt']"
-                  >
+                  <fa-icon aria-hidden="true" [icon]="['fas', 'sign-out-alt']">
                   </fa-icon>
                   Déconnexion
                 </a>

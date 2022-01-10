@@ -30,144 +30,6 @@
   </div>
 </div>
 
-<ng-template #maintenanceModal let-modal>
-  <div class="modal-body text-center">
-    <h4 class="modal-title">⚠️ Maintenance en cours de Domifa ⚠️</h4>
-    <br />
-    Veuillez nous excuser pour la gêne occasionnée.
-    <br />
-    Vous pourrez de nouveau utiliser Domifa dans quelques minutes.
-
-    <br /><br />
-
-    Cette fenêtre disparaitra dès la fin de la maintenance.
-    <br />
-    <br />
-  </div>
-</ng-template>
-
-<ng-template #versionModal let-modal>
-  <div class="modal-body text-center">
-    <h4 class="modal-title">
-      ℹ️ Une nouvelle version de Domifa est disponible
-    </h4>
-    <br />
-    Afin de profiter des nouveautés de Domifa, vous devez actualiser la page.
-    <br /><br />
-    <button class="btn btn-primary" (click)="refresh()">
-      <fa-icon [icon]="['fas', 'sync']"></fa-icon> Actualiser
-    </button>
-
-    <br />
-    <br />
-  </div>
-</ng-template>
-
-<ng-template #newsCenter let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">
-      🎉 Les dernières nouveautés de Domifa :
-      {{ domifaNews.date | date: "dd/MM/yyyy" }} 🎉
-    </h4>
-    <button
-      title="Fermer"
-      class="close"
-      aria-label="Fermer la fenêtre"
-      (click)="closeNewsModal()"
-    >
-      <span>&times;</span>
-    </button>
-  </div>
-  <div class="modal-body text-center">
-    <div class="text-left">
-      <div>
-        <span *ngIf="domifaNews.description"
-          >- {{ domifaNews.description }}</span
-        >
-      </div>
-      <div
-        *ngFor="let content of domifaNews.content"
-        class="text-left py-2 d-block"
-      >
-        <div>
-          <span
-            class="badge badge-pill"
-            [ngClass]="{
-              'badge-primary': content.type === 'new',
-              'badge-warning': content.type === 'bug'
-            }"
-          >
-            {{ newsLabels[content.type] }}
-          </span>
-          <b class="ml-2">{{ content.categorie }}</b>
-        </div>
-
-        <ul>
-          <li class="my-1" *ngFor="let message of content.message">
-            {{ message }}
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary" (click)="closeNewsModal()">
-      Continuer sur Domifa
-    </button>
-  </div>
-</ng-template>
-
-<ng-template #helpCenter let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Centre d'aide Domifa</h4>
-    <button
-      title="Fermer"
-      class="close"
-      aria-label="Fermer la fenêtre"
-      (click)="closeHelpModal()"
-    >
-      <span>&times;</span>
-    </button>
-  </div>
-  <div class="modal-body text-center">
-    <p>Notre guide d'utilisateur peut vous accompagner :</p>
-
-    <a
-      href="/assets/files/guide_utilisateur_domifa.pdf"
-      target="_blank"
-      rel="noopener noreferrer"
-      alt="Distribution de courrier"
-      class="btn btn-primary"
-      download
-      ><fa-icon [icon]="['fas', 'download']"></fa-icon>
-      Télécharger notre guide utilisateur
-    </a>
-    <br /><br />
-    <p>Vous vous posez une question ?</p>
-    <a
-      [routerLink]="['/faq']"
-      class="btn btn-primary"
-      routerLinkActive="router-link-active"
-      title=""
-    >
-      Consultez notre FAQ </a
-    ><br />
-
-    <br />
-    <span>Contactez-nous :</span>
-    <br />
-    <br />
-    <a
-      target="_blank"
-      rel="noopener noreferrer"
-      href="mailto:contact.domifa@fabrique.social.gouv.fr"
-    >
-      <b> contact.domifa[at]fabrique.social.gouv.fr </b>
-    </a>
-    <br />
-  </div>
-</ng-template>
-
 <footer class="d-print-none page-footer py-4">
   <div class="container">
     <div class="my-2">
@@ -320,6 +182,144 @@
     </div>
   </div>
 </footer>
+
+<ng-template #maintenanceModal let-modal>
+  <div class="modal-body text-center">
+    <h4 class="modal-title">⚠️ Maintenance en cours de Domifa ⚠️</h4>
+    <br />
+    Veuillez nous excuser pour la gêne occasionnée.
+    <br />
+    Vous pourrez de nouveau utiliser Domifa dans quelques minutes.
+
+    <br /><br />
+
+    Cette fenêtre disparaitra dès la fin de la maintenance.
+    <br />
+    <br />
+  </div>
+</ng-template>
+
+<ng-template #versionModal let-modal>
+  <div class="modal-body text-center">
+    <h4 class="modal-title">
+      ℹ️ Une nouvelle version de Domifa est disponible
+    </h4>
+    <br />
+    Afin de profiter des nouveautés de Domifa, vous devez actualiser la page.
+    <br /><br />
+    <button class="btn btn-primary" (click)="refresh()">
+      <fa-icon [icon]="['fas', 'sync']"></fa-icon> Actualiser
+    </button>
+
+    <br />
+    <br />
+  </div>
+</ng-template>
+
+<ng-template #newsCenter let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      🎉 Les dernières nouveautés de Domifa :
+      {{ domifaNews.date | date: "dd/MM/yyyy" }} 🎉
+    </h4>
+    <button
+      title="Fermer"
+      class="close"
+      aria-label="Fermer la fenêtre"
+      (click)="closeNewsModal()"
+    >
+      <span>&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <div class="text-left">
+      <p>
+        <span *ngIf="domifaNews.description"
+          >- {{ domifaNews.description }}</span
+        >
+      </p>
+      <div
+        *ngFor="let content of domifaNews.content"
+        class="text-left py-2 d-block"
+      >
+        <p>
+          <span
+            class="badge badge-pill"
+            [ngClass]="{
+              'badge-primary': content.type === 'new',
+              'badge-warning': content.type === 'bug'
+            }"
+          >
+            {{ newsLabels[content.type] }}
+          </span>
+          <b class="ml-2">{{ content.categorie }}</b>
+        </p>
+
+        <ul>
+          <li class="my-1" *ngFor="let message of content.message">
+            {{ message }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="closeNewsModal()">
+      Continuer sur Domifa
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #helpCenter let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Centre d'aide Domifa</h4>
+    <button
+      title="Fermer"
+      class="close"
+      aria-label="Fermer la fenêtre"
+      (click)="closeHelpModal()"
+    >
+      <span>&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <p>Notre guide d'utilisateur peut vous accompagner :</p>
+
+    <a
+      href="/assets/files/guide_utilisateur_domifa.pdf"
+      target="_blank"
+      rel="noopener noreferrer"
+      alt="Distribution de courrier"
+      class="btn btn-primary"
+      download
+      ><fa-icon [icon]="['fas', 'download']"></fa-icon>
+      Télécharger notre guide utilisateur
+    </a>
+    <br /><br />
+    <p>Vous vous posez une question ?</p>
+    <a
+      [routerLink]="['/faq']"
+      class="btn btn-primary"
+      routerLinkActive="router-link-active"
+      title=""
+    >
+      Consultez notre FAQ </a
+    ><br />
+
+    <br />
+    <span>Contactez-nous :</span>
+    <br />
+    <br />
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href="mailto:contact.domifa@fabrique.social.gouv.fr"
+    >
+      <b> contact.domifa[at]fabrique.social.gouv.fr </b>
+    </a>
+    <br />
+  </div>
+</ng-template>
 
 <app-loading></app-loading>
 <app-custom-toastr></app-custom-toastr>

@@ -16,6 +16,7 @@
         autocomplete="username"
         class="form-control"
         [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+        [attr.aria-invalid]="f.email.dirty && f.email.errors"
       />
       <div *ngIf="f.email.dirty && f.email.errors" class="invalid-feedback">
         Veuillez vérifier l'adresse email
@@ -32,18 +33,19 @@
           class="form-control"
           placeholder="Mot de passe"
           autocomplete="current-password"
+          [attr.aria-invalid]="f.password.dirty && f.password.errors"
           [ngClass]="{ 'is-invalid': f.password.dirty && f.password.errors }"
         />
         <div class="input-group-append">
           <span
             [attr.aria-label]="
               (hidePassword ? 'Afficher' : 'Masquer') +
-              'ou masquer le mot de passe'
+              ' ou masquer le mot de passe'
             "
             [attr.aria-checked]="!hidePassword"
             class="input-group-text"
             role="switch"
-            (click)="togglePassword()"
+            (click)="togglePassword(); $event.preventDefault()"
           >
             <fa-icon
               [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
