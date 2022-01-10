@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
+import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import {
   UserStructure,
@@ -28,7 +28,7 @@ export class UserProfilComponent implements OnInit {
     private authService: AuthService,
     private userService: UsersService,
     private modalService: NgbModal,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private titleService: Title
   ) {
     this.users = [];
@@ -54,7 +54,7 @@ export class UserProfilComponent implements OnInit {
     this.userService.updateRole(id, role).subscribe({
       next: (user: UserStructureProfile) => {
         this.getUsers();
-        this.notifService.success(
+        this.toastService.success(
           "Les droits de " +
             user.nom +
             " " +
@@ -63,7 +63,7 @@ export class UserProfilComponent implements OnInit {
         );
       },
       error: () => {
-        this.notifService.error(
+        this.toastService.error(
           "Impossible de mettre à jour le rôle de l'utilisateur"
         );
       },
@@ -75,15 +75,15 @@ export class UserProfilComponent implements OnInit {
       next: () => {
         this.getUsers();
         this.modalService.dismissAll();
-        this.notifService.success("Utilisateur supprimé avec succès");
+        this.toastService.success("Utilisateur supprimé avec succès");
       },
       error: () => {
-        this.notifService.error("Impossible de supprimer l'utilisateur");
+        this.toastService.error("Impossible de supprimer l'utilisateur");
       },
     });
   }
 
-  public open(content: TemplateRef<any>) {
+  public open(content: TemplateRef<NgbModalRef>) {
     this.modalService.open(content);
   }
 

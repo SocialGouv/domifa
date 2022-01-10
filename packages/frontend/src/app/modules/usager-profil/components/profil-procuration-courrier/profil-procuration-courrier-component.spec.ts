@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
-import { ToastrModule } from "ngx-toastr";
+
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { NotFoundComponent } from "../../../general/components/errors/not-found/not-found.component";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
@@ -33,7 +33,7 @@ describe("UsagersProfilProcurationCourrierComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-        ToastrModule.forRoot(),
+
         HttpClientTestingModule,
         ReactiveFormsModule,
         FormsModule,

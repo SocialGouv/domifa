@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { CanActivate, Router } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "../modules/shared/services/custom-toast.service";
 import { Observable } from "rxjs";
 import { AuthService } from "../modules/shared/services/auth.service";
 
@@ -9,7 +9,7 @@ export class CanEditPortailUsagerGuard implements CanActivate {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private notifService: ToastrService
+    private toastService: CustomToastService
   ) {}
 
   public canActivate(): Observable<boolean> | boolean {
@@ -20,14 +20,14 @@ export class CanEditPortailUsagerGuard implements CanActivate {
       ) {
         return true;
       } else {
-        this.notifService.error(
+        this.toastService.error(
           "L'accès au portail usager n'est pas encore ouvert à votre structure"
         );
         this.router.navigate(["/manage"]);
         return false;
       }
     }
-    this.notifService.error(
+    this.toastService.error(
       "Vos droits ne vous permettent pas d'accéder à cette page"
     );
     this.router.navigate(["/manage"]);

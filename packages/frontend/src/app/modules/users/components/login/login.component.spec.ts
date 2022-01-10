@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { LoginComponent } from "./login.component";
-import { ToastrModule } from "ngx-toastr";
+
 import { RouterTestingModule } from "@angular/router/testing";
 
 describe("LoginComponent", () => {
@@ -24,7 +24,6 @@ describe("LoginComponent", () => {
           FormsModule,
           HttpClientTestingModule,
           RouterTestingModule,
-          ToastrModule.forRoot({}),
         ],
         providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],

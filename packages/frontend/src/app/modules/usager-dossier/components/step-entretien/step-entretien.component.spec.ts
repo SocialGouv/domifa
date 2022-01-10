@@ -7,7 +7,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
-import { ToastrModule } from "ngx-toastr";
+
 import { StepEntretienComponent } from "./step-entretien.component";
 
 describe("StepEntretienComponent", () => {
@@ -21,7 +21,7 @@ describe("StepEntretienComponent", () => {
         RouterTestingModule,
         NgbModule,
         MatomoModule,
-        ToastrModule.forRoot(),
+
         HttpClientTestingModule,
       ],
       declarations: [StepEntretienComponent],

@@ -6,7 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { regexp } from "src/app/shared/validators";
@@ -45,7 +45,7 @@ export class StructuresFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private structureService: StructureService,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private titleService: Title
   ) {
     this.departements = departements;
@@ -162,7 +162,7 @@ export class StructuresFormComponent implements OnInit {
     this.submitted = true;
 
     if (this.structureForm.invalid) {
-      this.notifService.error(
+      this.toastService.error(
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );
     } else {
@@ -174,7 +174,7 @@ export class StructuresFormComponent implements OnInit {
           this.structureRegisterInfos.structure = structure;
         },
         () => {
-          this.notifService.error("Veuillez vérifier les champs du formulaire");
+          this.toastService.error("Veuillez vérifier les champs du formulaire");
         }
       );
     }

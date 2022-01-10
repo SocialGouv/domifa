@@ -6,7 +6,7 @@ import {
   NgbModal,
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   UserStructure,
   UserStructureRole,
@@ -77,7 +77,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private modalService: NgbModal,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private route: ActivatedRoute,
     private router: Router,
     private usagerProfilService: UsagerProfilService,
@@ -120,7 +120,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
         this.titleService.setTitle("Fiche de " + name);
       },
       () => {
-        this.notifService.error("Le dossier recherché n'existe pas");
+        this.toastService.error("Le dossier recherché n'existe pas");
         this.router.navigate(["404"]);
       }
     );
@@ -137,7 +137,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
     };
 
     if (this.loadingButtons.indexOf(type) !== -1) {
-      this.notifService.warning("Veuillez patienter quelques instants");
+      this.toastService.warning("Veuillez patienter quelques instants");
       return;
     }
 
@@ -146,12 +146,12 @@ export class ProfilGeneralSectionComponent implements OnInit {
     this.interactionService.setInteraction(usagerRef, [interaction]).subscribe({
       next: (newUsager: UsagerLight) => {
         this.usager = new UsagerFormModel(newUsager);
-        this.notifService.success(INTERACTIONS_LABELS_SINGULIER[type]);
+        this.toastService.success(INTERACTIONS_LABELS_SINGULIER[type]);
         this.updateInteractions();
         this.stopLoading(type);
       },
       error: () => {
-        this.notifService.error("Impossible d'enregistrer cette interaction");
+        this.toastService.error("Impossible d'enregistrer cette interaction");
         this.stopLoading(type);
       },
     });
@@ -160,12 +160,12 @@ export class ProfilGeneralSectionComponent implements OnInit {
   public stopCourrier(): void {
     this.usagerProfilService.stopCourrier(this.usager.ref).subscribe({
       next: (newUsager: UsagerLight) => {
-        this.notifService.success("Le courrier ne sera plus enregistré");
+        this.toastService.success("Le courrier ne sera plus enregistré");
         this.usager = new UsagerFormModel(newUsager);
         this.updateInteractions();
       },
       error: () => {
-        this.notifService.error("Impossible d'enregistrer cette interaction");
+        this.toastService.error("Impossible d'enregistrer cette interaction");
       },
     });
   }

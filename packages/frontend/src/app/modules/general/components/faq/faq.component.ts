@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Meta, Title } from "@angular/platform-browser";
 import * as fileSaver from "file-saver";
 import { MatomoTracker } from "ngx-matomo";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 @Component({
   selector: "app-faq",
@@ -14,7 +14,7 @@ export class FaqComponent implements OnInit {
     private titleService: Title,
     private meta: Meta,
     private matomo: MatomoTracker,
-    private notifService: ToastrService
+    private toastService: CustomToastService
   ) {}
 
   public ngOnInit(): void {
@@ -30,7 +30,7 @@ export class FaqComponent implements OnInit {
   public download(url: string, nom: string): void {
     fileSaver.saveAs(url, nom + ".mp4");
     setTimeout(() => {
-      this.notifService.success("Le téléchargement vient de débuter");
+      this.toastService.success("Le téléchargement vient de débuter");
     }, 500);
   }
 

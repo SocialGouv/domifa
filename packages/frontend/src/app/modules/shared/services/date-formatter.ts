@@ -91,7 +91,7 @@ export class NgbDateCustomParserFormatter extends NgbDateParserFormatter {
         }`;
   }
 
-  public isValid(date: any): boolean {
+  public isValid(date: NgbDateStruct): boolean {
     return (
       isNumber(date.year) &&
       date.year > 2000 &&

@@ -6,7 +6,6 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { ToastrModule } from "ngx-toastr";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 import { ProfilHistoriqueCourriersComponent } from "./profil-historique-courriers.component";
@@ -23,7 +22,7 @@ describe("ProfilHistoriqueCourriersComponent", () => {
         NgbModule,
         FormsModule,
         HttpClientTestingModule,
-        ToastrModule.forRoot(),
+
         RouterTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],

@@ -5,7 +5,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, waitForAsync, TestBed } from "@angular/core/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
-import { ToastrModule } from "ngx-toastr";
+
 import { USAGER_ACTIF_MOCK } from "../../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { UsagerFormModel } from "../../../interfaces";
 
@@ -19,12 +19,7 @@ describe("SetInteractionOutFormComponent", () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [SetInteractionOutFormComponent],
-        imports: [
-          NgbModule,
-          ToastrModule.forRoot(),
-          HttpClientTestingModule,
-          SharedModule,
-        ],
+        imports: [NgbModule, HttpClientTestingModule, SharedModule],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [
           {

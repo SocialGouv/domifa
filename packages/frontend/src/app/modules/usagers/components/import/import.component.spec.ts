@@ -5,12 +5,12 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 
 import { ImportComponent } from "./import.component";
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrModule } from "ngx-toastr";
+
 import { SharedModule } from "../../../shared/shared.module";
 
 describe("ImportComponent", () => {
@@ -26,7 +26,7 @@ describe("ImportComponent", () => {
           HttpClientTestingModule,
           RouterTestingModule,
           BrowserAnimationsModule,
-          ToastrModule.forRoot(),
+
           SharedModule,
           ReactiveFormsModule,
           FormsModule,

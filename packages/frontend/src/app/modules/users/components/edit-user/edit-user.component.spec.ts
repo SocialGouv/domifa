@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { EditUserComponent } from "./edit-user.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { ToastrModule } from "ngx-toastr";
 
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 
@@ -23,7 +22,7 @@ describe("EditUserComponent", () => {
           NgbModule,
           ReactiveFormsModule,
           FormsModule,
-          ToastrModule.forRoot(),
+
           HttpClientTestingModule,
           RouterTestingModule,
         ],

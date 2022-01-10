@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, TemplateRef } from "@angular/core";
 import { Router } from "@angular/router";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
@@ -22,7 +22,7 @@ export class DeleteUsagerMenuComponent implements OnInit {
     private modalService: NgbModal,
     private usagerProfilService: UsagerProfilService,
     private usagerDecisionService: UsagerDecisionService,
-    private notifService: ToastrService
+    private toastService: CustomToastService
   ) {}
 
   public ngOnInit(): void {
@@ -47,11 +47,11 @@ export class DeleteUsagerMenuComponent implements OnInit {
     this.usagerProfilService.delete(this.usager.ref).subscribe({
       next: () => {
         this.modalService.dismissAll();
-        this.notifService.success("Usager supprimé avec succès");
+        this.toastService.success("Usager supprimé avec succès");
         this.router.navigate(["/manage"]);
       },
       error: () => {
-        this.notifService.error("Impossible de supprimer la fiche");
+        this.toastService.error("Impossible de supprimer la fiche");
       },
     });
   }
@@ -60,13 +60,13 @@ export class DeleteUsagerMenuComponent implements OnInit {
     this.usagerDecisionService.deleteRenew(this.usager.ref).subscribe(
       () => {
         this.modalService.dismissAll();
-        this.notifService.success(
+        this.toastService.success(
           "Demande de renouvellement supprimée avec succès"
         );
         this.router.navigate(["/manage"]);
       },
       () => {
-        this.notifService.error(
+        this.toastService.error(
           "La demande de renouvellement n'a pas pu être supprimée"
         );
       }

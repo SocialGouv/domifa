@@ -8,7 +8,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { FaqComponent } from "./faq.component";
-import { ToastrModule } from "ngx-toastr";
+
 import { MatomoInjector, MatomoTracker, MatomoModule } from "ngx-matomo";
 import { RouterTestingModule } from "@angular/router/testing";
 
@@ -26,7 +26,6 @@ describe("FaqComponent", () => {
           FormsModule,
           HttpClientTestingModule,
           RouterTestingModule,
-          ToastrModule.forRoot(),
         ],
         providers: [
           {

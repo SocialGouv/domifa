@@ -13,7 +13,7 @@ import {
   NgbDatepickerI18n,
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
@@ -23,7 +23,6 @@ import {
   minDateToday,
 } from "src/app/shared/bootstrap-util";
 
-import { UsagerTypeDom } from "./../../../../../_common/model/usager/UsagerTypeDom.type";
 import {
   UsagerLight,
   UserStructure,
@@ -96,7 +95,7 @@ export class StepEtatCivilComponent implements OnInit {
     private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private nbgDate: NgbDateCustomParserFormatter,
     private titleService: Title
   ) {
@@ -218,7 +217,7 @@ export class StepEtatCivilComponent implements OnInit {
         .subscribe((usagersDoublon: UsagerLight[]) => {
           this.doublons = [];
           if (usagersDoublon.length !== 0) {
-            this.notifService.warning("Un homonyme potentiel a été détecté !");
+            this.toastService.warning("Un homonyme potentiel a été détecté !");
             usagersDoublon.forEach((doublon: UsagerLight) => {
               this.doublons.push(doublon);
             });
@@ -268,7 +267,7 @@ export class StepEtatCivilComponent implements OnInit {
     this.submitted = true;
 
     if (this.usagerForm.invalid) {
-      this.notifService.error(
+      this.toastService.error(
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
     } else {
@@ -307,7 +306,7 @@ export class StepEtatCivilComponent implements OnInit {
         },
         error: () => {
           this.loading = false;
-          this.notifService.error("Veuillez vérifier les champs du formulaire");
+          this.toastService.error("Veuillez vérifier les champs du formulaire");
         },
       });
     }
@@ -317,7 +316,7 @@ export class StepEtatCivilComponent implements OnInit {
     this.usagerDossierService
       .nextStep(this.usager.ref, 2)
       .subscribe((usager: UsagerLight) => {
-        this.notifService.success("Enregistrement réussi");
+        this.toastService.success("Enregistrement réussi");
         this.router.navigate(["usager/" + usager.ref + "/edit/rendez-vous"]);
       });
   }

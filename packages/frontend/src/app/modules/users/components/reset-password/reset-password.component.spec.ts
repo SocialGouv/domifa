@@ -7,7 +7,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrModule } from "ngx-toastr";
+
 import { ResetPasswordComponent } from "./reset-password.component";
 
 import { RouterTestingModule } from "@angular/router/testing";
@@ -25,7 +25,7 @@ describe("ResetPasswordComponent", () => {
           ReactiveFormsModule,
           FormsModule,
           HttpClientTestingModule,
-          ToastrModule.forRoot(),
+
           RouterTestingModule,
         ],
         providers: [{ provide: APP_BASE_HREF, useValue: "/" }],

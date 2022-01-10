@@ -6,7 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { StructureService } from "src/app/modules/structures/services/structure.service";
@@ -48,7 +48,7 @@ export class RegisterUserComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UsersService,
     private structureService: StructureService,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private titleService: Title
   ) {
     this.user = userStructureBuilder.buildUserStructure({});
@@ -103,9 +103,8 @@ export class RegisterUserComponent implements OnInit {
   public submitUser() {
     this.submitted = true;
     if (this.userForm.invalid) {
-      this.notifService.error(
-        "Veuillez vérifier les champs marqués en rouge dans le formulaire",
-        "Erreur dans le formulaire"
+      this.toastService.error(
+        "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );
     } else {
       this.structureService
@@ -116,13 +115,12 @@ export class RegisterUserComponent implements OnInit {
         .subscribe({
           next: () => {
             this.success = true;
-            this.notifService.success(
-              "Votre compte a été créé avec succès",
-              "Félicitations !"
+            this.toastService.success(
+              "Félicitations, votre compte a été créé avec succès"
             );
           },
           error: () => {
-            this.notifService.error(
+            this.toastService.error(
               "Veuillez vérifier les champs du formulaire"
             );
           },

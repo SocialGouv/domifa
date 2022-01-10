@@ -1,7 +1,7 @@
 import { HttpClient, HttpEvent, HttpEventType } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import * as fileSaver from "file-saver";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
@@ -22,7 +22,7 @@ export class DocumentService {
   constructor(
     private http: HttpClient,
     private loadingService: LoadingService,
-    private notifService: ToastrService
+    private toastService: CustomToastService
   ) {
     this.endPoint = environment.apiUrl + "docs/";
   }
@@ -62,7 +62,7 @@ export class DocumentService {
         responseType: "blob",
       })
       .subscribe({
-        next: (x) => {
+        next: (x: Blob) => {
           const newBlob = new Blob([x], { type: "application/pdf" });
           const randomNumber = Math.floor(Math.random() * 100) + 1;
 
@@ -76,7 +76,7 @@ export class DocumentService {
           }, 500);
         },
         error: () => {
-          this.notifService.error(
+          this.toastService.error(
             "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
           );
           this.loadingService.stopLoading();

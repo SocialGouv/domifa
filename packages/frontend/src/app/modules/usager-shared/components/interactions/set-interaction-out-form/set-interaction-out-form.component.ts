@@ -7,7 +7,7 @@ import {
   OnInit,
   Output,
 } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { BehaviorSubject, Subscription, combineLatest } from "rxjs";
 import { UsagerLight } from "../../../../../../_common/model";
 import { InteractionOutForm } from "../../../../../../_common/model/interaction";
@@ -50,7 +50,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   constructor(
     private interactionService: InteractionService,
     private usagerService: UsagerService,
-    private notifService: ToastrService
+    private toastService: CustomToastService
   ) {
     this.procuration = false;
     this.interactionFormData = {
@@ -169,12 +169,12 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
         next: () => {
           this.loading = false;
           this.updateInteractions.emit();
-          this.notifService.success("Distribution effectuée avec succès");
+          this.toastService.success("Distribution effectuée avec succès");
           this.refreshUsager();
         },
         error: () => {
           this.loading = false;
-          this.notifService.error("Impossible d'enregistrer cette interaction");
+          this.toastService.error("Impossible d'enregistrer cette interaction");
         },
       });
   }

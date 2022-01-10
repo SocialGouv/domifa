@@ -7,7 +7,7 @@ import {
   ViewChild,
 } from "@angular/core";
 
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   InteractionEvent,
   UsagerLight,
@@ -38,7 +38,7 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
   public restoreInteractionModal!: TemplateRef<NgbModalRef>;
 
   constructor(
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
 
     private interactionService: InteractionService,
     private modalService: NgbModal
@@ -57,13 +57,13 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
       .subscribe({
         next: (usager: UsagerLight) => {
           this.usager = new UsagerFormModel(usager);
-          this.notifService.success("Interaction supprimée avec succès");
+          this.toastService.success("Interaction supprimée avec succès");
           this.interactionToDelete = null;
           this.getInteractions();
           this.closeModals();
         },
         error: () => {
-          this.notifService.error("Impossible de supprimer l'interaction");
+          this.toastService.error("Impossible de supprimer l'interaction");
         },
       });
   }

@@ -6,7 +6,7 @@ import {
   AbstractControl,
 } from "@angular/forms";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import {
   MOTIFS_RADIATION_LABELS,
@@ -46,7 +46,7 @@ export class RadiationFormComponent implements OnInit {
     private nbgDate: NgbDateCustomParserFormatter,
 
     private usagerDecisionService: UsagerDecisionService,
-    private notifService: ToastrService
+    private toastService: CustomToastService
   ) {
     this.minDate = { day: 1, month: 1, year: new Date().getFullYear() - 1 };
     this.maxDate = formatDateToNgb(new Date());
@@ -79,7 +79,7 @@ export class RadiationFormComponent implements OnInit {
   public setDecisionRadiation() {
     this.submitted = true;
     if (this.radiationForm.invalid) {
-      this.notifService.error(
+      this.toastService.error(
         "Le formulaire contient une erreur, veuillez vérifier les champs"
       );
       return;
@@ -101,7 +101,7 @@ export class RadiationFormComponent implements OnInit {
       .setDecision(this.usager.ref, formDatas)
       .subscribe({
         next: (newUsager: UsagerLight) => {
-          this.notifService.success("Radiation enregistrée avec succès ! ");
+          this.toastService.success("Radiation enregistrée avec succès ! ");
           usagersCache.updateUsager(newUsager);
           this.closeModals.emit();
           this.loading = false;
@@ -111,7 +111,7 @@ export class RadiationFormComponent implements OnInit {
         },
         error: () => {
           this.loading = false;
-          this.notifService.error("La décision n'a pas pu être enregistrée");
+          this.toastService.error("La décision n'a pas pu être enregistrée");
         },
       });
   }

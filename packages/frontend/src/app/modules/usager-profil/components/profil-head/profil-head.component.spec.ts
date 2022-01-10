@@ -6,7 +6,7 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
-import { ToastrModule } from "ngx-toastr";
+
 import { SharedModule } from "../../../shared/shared.module";
 
 import { ProfilHeadComponent } from "./profil-head.component";
@@ -27,7 +27,7 @@ describe("ProfilHeadComponent", () => {
           FormsModule,
           SharedModule,
           HttpClientTestingModule,
-          ToastrModule.forRoot(),
+
           RouterTestingModule,
         ],
         providers: [

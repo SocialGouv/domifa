@@ -11,7 +11,7 @@ import {
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   UserStructure,
   UsagerLight,
@@ -57,7 +57,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private nbgDate: NgbDateCustomParserFormatter,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private usagerProfilService: UsagerProfilService,
     private matomo: MatomoTracker
   ) {
@@ -134,10 +134,10 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
           this.matomo.trackEvent("profil", "actions", "edit_transfert", 1);
           this.usager = new UsagerFormModel(usager);
 
-          this.notifService.success("Transfert ajouté avec succès");
+          this.toastService.success("Transfert ajouté avec succès");
         },
         () => {
-          this.notifService.error("Impossible d'ajouter le transfert'");
+          this.toastService.error("Impossible d'ajouter le transfert'");
         }
       );
   }
@@ -155,10 +155,10 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
         this.matomo.trackEvent("profil", "actions", "delete_transfert", 1);
         this.transfertForm.reset();
         this.usager = new UsagerFormModel(usager);
-        this.notifService.success("Transfert supprimé avec succès");
+        this.toastService.success("Transfert supprimé avec succès");
       },
       () => {
-        this.notifService.error("Impossible de supprimer le transfert");
+        this.toastService.error("Impossible de supprimer le transfert");
       }
     );
   }

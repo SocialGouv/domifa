@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, Input } from "@angular/core";
+import { Directive, ElementRef, HostListener } from "@angular/core";
 import { stringCleaner } from "../../../shared/string-cleaner.service";
 @Directive({
   selector: "[cleanStr]",

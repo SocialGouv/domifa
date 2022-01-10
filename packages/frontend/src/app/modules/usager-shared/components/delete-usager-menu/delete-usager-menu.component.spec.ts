@@ -8,7 +8,7 @@ import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrModule } from "ngx-toastr";
+
 import { RouterTestingModule } from "@angular/router/testing";
 
 describe("DeleteUsagerMenuComponent", () => {
@@ -21,7 +21,7 @@ describe("DeleteUsagerMenuComponent", () => {
         RouterTestingModule,
         NgbModule,
         HttpClientTestingModule,
-        ToastrModule.forRoot(),
+
         HttpClientTestingModule,
       ],
       schemas: [NO_ERRORS_SCHEMA],

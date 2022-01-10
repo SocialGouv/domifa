@@ -17,7 +17,7 @@ export class Rdv implements UsagerRdv {
   public userName: string;
   public isNow: boolean;
 
-  constructor(rdv?: any) {
+  constructor(rdv?: Partial<UsagerRdv>) {
     this.isNow = true;
     this.dateRdv = null;
 

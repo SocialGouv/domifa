@@ -7,7 +7,7 @@ import { TestBed } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
-import { ToastrModule } from "ngx-toastr";
+
 import { JwtInterceptor } from "src/app/interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "src/app/interceptors/server-error.interceptor";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
@@ -30,7 +30,6 @@ describe("UsagerService", () => {
         CommonModule,
         SharedModule,
         RouterTestingModule,
-        ToastrModule.forRoot(),
       ],
       providers: [
         UsagerService,

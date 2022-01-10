@@ -15,7 +15,7 @@ import {
   NgbDatepickerI18n,
   NgbModule,
 } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrModule } from "ngx-toastr";
+
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";
@@ -37,7 +37,7 @@ describe("DecisionRefusFormComponent", () => {
           HttpClientTestingModule,
           RouterTestingModule,
           BrowserAnimationsModule,
-          ToastrModule.forRoot(),
+
           SharedModule,
           FormsModule,
           ReactiveFormsModule,

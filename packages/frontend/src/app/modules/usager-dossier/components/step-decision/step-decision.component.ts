@@ -6,10 +6,11 @@ import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
   NgbModal,
+  NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
 
 import { MatomoTracker } from "ngx-matomo";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
@@ -49,7 +50,7 @@ export class StepDecisionComponent implements OnInit {
     private modalService: NgbModal,
     private router: Router,
 
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private matomo: MatomoTracker,
     private titleService: Title,
     private route: ActivatedRoute
@@ -93,15 +94,15 @@ export class StepDecisionComponent implements OnInit {
       .subscribe({
         next: (usager: UsagerLight) => {
           this.usager = usager;
-          this.notifService.success("Décision enregistrée avec succès ! ");
+          this.toastService.success("Décision enregistrée avec succès ! ");
         },
         error: () => {
-          this.notifService.error("La décision n'a pas pu être enregistrée");
+          this.toastService.error("La décision n'a pas pu être enregistrée");
         },
       });
   }
 
-  public open(content: TemplateRef<any>) {
+  public open(content: TemplateRef<NgbModalRef>) {
     this.modalService.open(content);
   }
 

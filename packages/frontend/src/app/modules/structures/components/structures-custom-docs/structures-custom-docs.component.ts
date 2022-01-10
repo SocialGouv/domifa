@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   StructureDoc,
   UserStructure,
@@ -36,7 +36,7 @@ export class StructuresCustomDocsComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private structureDocService: StructureDocService,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private modalService: NgbModal,
     private titleService: Title
   ) {
@@ -66,7 +66,7 @@ export class StructuresCustomDocsComponent implements OnInit {
         );
       },
       error: () => {
-        this.notifService.error("Impossible d'afficher les documents");
+        this.toastService.error("Impossible d'afficher les documents");
       },
     });
   }

@@ -8,7 +8,7 @@ import {
 import { Router } from "@angular/router";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { addYears, subDays, format, isBefore } from "date-fns";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import {
   UsagerDecisionValideForm,
@@ -49,7 +49,7 @@ export class DecisionValideFormComponent implements OnInit {
     private usagerDecisionService: UsagerDecisionService,
     private router: Router,
     private nbgDate: NgbDateCustomParserFormatter,
-    private notifService: ToastrService
+    private toastService: CustomToastService
   ) {
     this.submitted = false;
     this.loading = false;
@@ -120,7 +120,7 @@ export class DecisionValideFormComponent implements OnInit {
   public setDecisionValide() {
     this.submitted = true;
     if (this.valideForm.invalid) {
-      this.notifService.error(
+      this.toastService.error(
         "Le formulaire contient une erreur, veuillez vérifier les champs"
       );
       return;
@@ -145,7 +145,7 @@ export class DecisionValideFormComponent implements OnInit {
       .setDecision(this.usager.ref, formDatas)
       .subscribe({
         next: (usager: UsagerLight) => {
-          this.notifService.success("Décision enregistrée avec succès ! ");
+          this.toastService.success("Décision enregistrée avec succès ! ");
           this.router.navigate(["profil/general/" + usager.ref]);
           this.closeModals.emit();
           this.submitted = false;
@@ -153,7 +153,7 @@ export class DecisionValideFormComponent implements OnInit {
         },
         error: () => {
           this.loading = false;
-          this.notifService.error("La décision n'a pas pu être enregistrée");
+          this.toastService.error("La décision n'a pas pu être enregistrée");
         },
       });
   }

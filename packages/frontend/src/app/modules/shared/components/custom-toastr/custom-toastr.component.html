@@ -1,46 +1,17 @@
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+<ng-container>
   <div
-    id="liveToast"
-    class="toast"
-    role="alert"
-    aria-live="assertive"
+    @fadeInOutSlow
+    *ngIf="toast.display"
+    id="toast-container"
+    [attr.role]="toast.class === 'success' ? 'status' : 'alert'"
+    aria-live="polite"
     aria-atomic="true"
+    class="toast-top-left toast-container"
   >
-
-    <div class="toast-header">
-      <strong class="me-auto">Toastr</strong>
-
-      <button type="button" class="btn-close" data-bs-dismiss="toast">
-        <span class="visually-hidden">Close</span>
-      </button>
-    </div>
-    <div class="toast-body">Hello, world! This is a toast message.</div>
-  </div>
-</div>
-
-<!--
-<div
-  class="row"
-  aria-atomic="true"
-  [attr.role]="toastPackage.toastType === 'toast-error' ? 'alert' : 'status'"
-  [attr.aria.live]="toastPackage.toastType !== 'toast-error' ? 'assertive' : ''"
-  *ngIf="toastPackage"
-  [style.display]="state.value === 'inactive' ? 'none' : ''"
->
-  <div class="col-12">
-    <div *ngIf="title" [class]="options.titleClass" [attr.aria-label]="title">
-      {{ title }}
-    </div>
-
-    <div
-      *ngIf="message"
-      [class]="options.messageClass"
-      [attr.aria-label]="message"
-    >
-      {{ message }}
+    <div class="ngx-toastr" [class]="'toast-' + toast.class">
+      <div class="toast-message" [attr.aria-label]="toast.message">
+        {{ toast.message }}
+      </div>
     </div>
   </div>
-</div>
-<div *ngIf="options.progressBar">
-  <div class="toast-progress" [style.width]="width + '%'"></div>
-</div> -->
+</ng-container>

@@ -7,7 +7,6 @@ import { RouterModule } from "@angular/router";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { ToastrModule } from "ngx-toastr";
 import { LoginComponent } from "./components/login/login.component";
 
 import { ResetPasswordComponent } from "./components/reset-password/reset-password.component";
@@ -37,7 +36,7 @@ import { SharedModule } from "../shared/shared.module";
     CommonModule,
     SharedModule,
     RouterModule.forChild([]),
-    ToastrModule.forRoot({}),
+
     HttpClientModule,
     NgbModule,
     FormsModule,

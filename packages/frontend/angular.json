@@ -33,8 +33,7 @@
               "src/assets/css/fonts.css",
               "src/assets/css/main.css",
               "src/assets/css/print.css",
-              "src/assets/css/icons.css",
-              "src/assets/css/toastr.css"
+              "src/assets/css/icons.css"
             ],
             "scripts": [],
             "aot": false,

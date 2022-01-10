@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
-import { ToastrModule } from "ngx-toastr";
+
 import { SharedModule } from "../../../shared/shared.module";
 import { StepDecisionComponent } from "./step-decision.component";
 
@@ -24,7 +24,7 @@ describe("StepDecisionComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-        ToastrModule.forRoot(),
+
         HttpClientTestingModule,
       ],
       providers: [

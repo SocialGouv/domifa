@@ -1,15 +1,16 @@
 import { Injectable } from "@angular/core";
 import { CanActivate, Router } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
+
 import { Observable } from "rxjs";
 import { AuthService } from "../modules/shared/services/auth.service";
+import { CustomToastService } from "../modules/shared/services/custom-toast.service";
 
 @Injectable({ providedIn: "root" })
 export class AdminGuard implements CanActivate {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private notifService: ToastrService
+    private toastService: CustomToastService
   ) {}
 
   public canActivate(): Observable<boolean> | boolean {
@@ -19,7 +20,7 @@ export class AdminGuard implements CanActivate {
         return true;
       }
     }
-    this.notifService.error(
+    this.toastService.error(
       "Vos droits ne vous permettent pas d'accéder à cette page"
     );
     this.router.navigate(["/manage"]);

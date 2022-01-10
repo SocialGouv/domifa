@@ -6,7 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   UploadResponseType,
   validateUpload,
@@ -37,7 +37,7 @@ export class StructuresUploadDocsComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private structureDocService: StructureDocService,
-    private notifService: ToastrService
+    private toastService: CustomToastService
   ) {}
 
   public ngOnInit(): void {
@@ -86,7 +86,7 @@ export class StructuresUploadDocsComponent implements OnInit {
     this.submitted = true;
 
     if (this.uploadForm.invalid) {
-      this.notifService.error("Le formulaire d'upload comporte des erreurs");
+      this.toastService.error("Le formulaire d'upload comporte des erreurs");
       return;
     }
 
@@ -111,7 +111,7 @@ export class StructuresUploadDocsComponent implements OnInit {
           this.submitted = false;
           this.uploadForm.reset();
           this.fileName = "";
-          this.notifService.success("Fichier uploadé avec succès");
+          this.toastService.success("Fichier uploadé avec succès");
           this.cancel.emit();
           this.getAllStructureDocs.emit();
         }
@@ -119,7 +119,7 @@ export class StructuresUploadDocsComponent implements OnInit {
       error: () => {
         this.loading = false;
         this.submitted = false;
-        this.notifService.error("Impossible d'uploader le fichier");
+        this.toastService.error("Impossible d'uploader le fichier");
       },
     });
   }

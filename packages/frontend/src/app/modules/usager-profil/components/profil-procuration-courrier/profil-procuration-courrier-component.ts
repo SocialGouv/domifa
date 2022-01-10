@@ -11,7 +11,7 @@ import {
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import {
   UserStructure,
@@ -60,7 +60,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private nbgDate: NgbDateCustomParserFormatter,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private usagerProfilService: UsagerProfilService,
     private matomo: MatomoTracker
   ) {
@@ -144,11 +144,11 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
           this.hideForm();
           this.usagerChanges.emit(usager);
           this.usager = new UsagerFormModel(usager);
-          this.notifService.success("Procuration ajoutée avec succès");
+          this.toastService.success("Procuration ajoutée avec succès");
           this.matomo.trackEvent("profil", "actions", "edit_procuration", 1);
         },
-        error: (error) => {
-          this.notifService.error("Impossible d'ajouter la procuration'");
+        error: () => {
+          this.toastService.error("Impossible d'ajouter la procuration'");
         },
       });
   }
@@ -165,11 +165,11 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
         this.usagerChanges.emit(usager);
         this.procurationForm.reset();
         this.usager = new UsagerFormModel(usager);
-        this.notifService.success("Procuration supprimée avec succès");
+        this.toastService.success("Procuration supprimée avec succès");
         this.matomo.trackEvent("profil", "actions", "delete-procuration", 1);
       },
       () => {
-        this.notifService.error("Impossible de supprimer la procuration");
+        this.toastService.error("Impossible de supprimer la procuration");
       }
     );
   }

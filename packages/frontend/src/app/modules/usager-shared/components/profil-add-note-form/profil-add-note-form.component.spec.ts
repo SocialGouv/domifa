@@ -5,7 +5,7 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
-import { ToastrModule } from "ngx-toastr";
+
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { UsagerFormModel } from "../../interfaces";
 
@@ -21,7 +21,7 @@ describe("ProfilAddNoteFormComponent", () => {
         declarations: [ProfilAddNoteFormComponent],
         imports: [
           NgbModule,
-          ToastrModule.forRoot(),
+
           HttpClientTestingModule,
           ReactiveFormsModule,
           FormsModule,

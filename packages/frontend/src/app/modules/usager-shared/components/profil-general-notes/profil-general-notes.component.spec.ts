@@ -6,7 +6,6 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
-import { ToastrModule } from "ngx-toastr";
 
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { UsagerFormModel } from "../../interfaces";
@@ -24,7 +23,7 @@ describe("ProfilGeneralNotesComponent", () => {
         MatomoModule,
         ReactiveFormsModule,
         HttpClientTestingModule,
-        ToastrModule.forRoot(),
+
         RouterTestingModule,
       ],
       providers: [

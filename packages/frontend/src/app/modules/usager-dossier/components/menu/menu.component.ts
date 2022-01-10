@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UserStructure } from "../../../../../_common/model";
 import { ETAPES_DEMANDE_URL } from "../../../../../_common/model/usager/constants";
@@ -30,7 +30,7 @@ export class MenuComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private notifService: ToastrService
+    private toastService: CustomToastService
   ) {}
 
   public ngOnInit(): void {
@@ -49,18 +49,18 @@ export class MenuComponent implements OnInit {
 
   public goToStep(step: number): void {
     if (this.usager.decision.statut === "ATTENTE_DECISION") {
-      this.notifService.warning(
+      this.toastService.warning(
         "Vous ne pouvez pas revenir en arrière quand le dossier est en attente de décision"
       );
       return;
     }
 
     if (!this.usager.ref) {
-      this.notifService.warning(
+      this.toastService.warning(
         "Vous devez remplir la première étape avant de passer à la suite"
       );
     } else if (step > this.usager.etapeDemande) {
-      this.notifService.warning(
+      this.toastService.warning(
         "Pour passer à la suite, vous devez cliquer sur Suivant"
       );
     } else {

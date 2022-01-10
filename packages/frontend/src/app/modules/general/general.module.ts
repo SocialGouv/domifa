@@ -23,7 +23,7 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
 import { RouterModule } from "@angular/router";
 
 import { CountUpModule } from "ngx-countup";
-import { ToastrModule } from "ngx-toastr";
+
 import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
@@ -46,7 +46,7 @@ import { SharedModule } from "../shared/shared.module";
     SharedModule,
     CountUpModule,
     RouterModule.forChild([]),
-    ToastrModule.forRoot(),
+
     NgbModule,
   ],
   providers: [HomeService],

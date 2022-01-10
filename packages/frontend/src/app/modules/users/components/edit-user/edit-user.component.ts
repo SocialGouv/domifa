@@ -6,7 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
@@ -51,7 +51,7 @@ export class EditUserComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private userService: UsersService,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private formBuilder: FormBuilder,
     private titleService: Title
   ) {
@@ -145,24 +145,21 @@ export class EditUserComponent implements OnInit {
   public updateUser(): void {
     this.submitted = true;
     if (this.userForm.invalid) {
-      this.notifService.error(
-        "Veuillez vérifier les champs marqués en rouge dans le formulaire",
-        "Erreur dans le formulaire"
+      this.toastService.error(
+        "Erreur dans le formulaire : veuillez vérifier les champs marqués en rouge dans le formulaire"
       );
     } else {
       this.userService.patch(this.userForm.value).subscribe(
         (user: UserStructure) => {
           this.me = userStructureBuilder.buildUserStructure(user);
           this.editUser = false;
-          this.notifService.success(
-            "Vos informations ont été modifiées avec succès",
-            "Félicitations !"
+          this.toastService.success(
+            "Félicitations : vos informations ont été modifiées avec succès"
           );
         },
         () => {
-          this.notifService.error(
-            "Veuillez vérifier les champs marqués en rouge dans le formulaire",
-            "Erreur dans le formulaire"
+          this.toastService.error(
+            "Veuillez vérifier les champs marqués en rouge dans le formulaire"
           );
         }
       );
@@ -175,13 +172,12 @@ export class EditUserComponent implements OnInit {
         () => {
           this.editPassword = false;
           this.lastPasswordUpdate = new Date();
-          this.notifService.success(
-            "Votre mot de passe a été modifié avec succès",
-            "Félicitations !"
+          this.toastService.success(
+            "Félicitations ! : votre mot de passe a été modifié avec succès"
           );
         },
         () => {
-          this.notifService.error(
+          this.toastService.error(
             "Une erreur est survenue, veuillez vérifier le formulaire"
           );
         }

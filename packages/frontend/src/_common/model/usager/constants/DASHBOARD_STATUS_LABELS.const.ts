@@ -1,5 +1,4 @@
 import { UsagerDecisionStatut } from "..";
-import { UsagerDecision } from "../decision/UsagerDecision.type";
 
 /* DÉCISIONS */
 export const DASHBOARD_STATUS_LABELS: {

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import * as fileSaver from "file-saver";
 
@@ -31,7 +31,7 @@ export class StructuresCustomDocsTableComponent implements OnInit {
 
   constructor(
     private structureDocService: StructureDocService,
-    private notifService: ToastrService
+    private toastService: CustomToastService
   ) {
     this.loadings = {
       download: [],
@@ -44,14 +44,14 @@ export class StructuresCustomDocsTableComponent implements OnInit {
   public getStructureDoc(structureDoc: StructureDoc): void {
     this.loadings.download.push(structureDoc.uuid);
     this.structureDocService.getStructureDoc(structureDoc.uuid).subscribe({
-      next: (blob: any) => {
+      next: (blob: Blob) => {
         const extension = structureDoc.path.split(".")[1];
         const newBlob = new Blob([blob], { type: structureDoc.filetype });
         fileSaver.saveAs(newBlob, structureDoc.label + "." + extension);
         this.stopLoading("download", structureDoc.uuid);
       },
       error: () => {
-        this.notifService.error("Impossible de télécharger le fichier");
+        this.toastService.error("Impossible de télécharger le fichier");
         this.stopLoading("download", structureDoc.uuid);
       },
     });
@@ -62,13 +62,13 @@ export class StructuresCustomDocsTableComponent implements OnInit {
     this.structureDocService.deleteStructureDoc(structureDoc.uuid).subscribe({
       next: () => {
         this.stopLoading("delete", structureDoc.uuid);
-        this.notifService.success("Suppression réussie");
+        this.toastService.success("Suppression réussie");
 
         this.getAllStructureDocs.emit();
       },
       error: () => {
         this.stopLoading("delete", structureDoc.uuid);
-        this.notifService.error("Impossible de télécharger le fichier");
+        this.toastService.error("Impossible de télécharger le fichier");
       },
     });
   }

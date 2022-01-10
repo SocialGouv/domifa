@@ -4,14 +4,14 @@ import { CanActivate, Router } from "@angular/router";
 import { Observable } from "rxjs";
 
 import { AuthService } from "../modules/shared/services/auth.service";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "../modules/shared/services/custom-toast.service";
 
 @Injectable({ providedIn: "root" })
 export class ResponsableGuard implements CanActivate {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private notifService: ToastrService
+    private toastService: CustomToastService
   ) {}
 
   public canActivate(): Observable<boolean> | boolean {
@@ -21,7 +21,7 @@ export class ResponsableGuard implements CanActivate {
         return true;
       }
     }
-    this.notifService.error(
+    this.toastService.error(
       "Vos droits ne vous permettent pas d'accéder à cette page"
     );
     this.router.navigate(["/manage"]);

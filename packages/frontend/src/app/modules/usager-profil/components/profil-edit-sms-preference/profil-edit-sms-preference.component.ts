@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   UsagerLight,
   UsagerPreferenceContact,
@@ -28,7 +28,7 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private usagerProfilService: UsagerProfilService
   ) {
     this.submitted = false;
@@ -72,7 +72,7 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
   public updateUsagerPreference() {
     this.submitted = true;
     if (this.preferenceForm.invalid) {
-      this.notifService.error(
+      this.toastService.error(
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
     } else {
@@ -91,11 +91,11 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
           next: (usager: UsagerLight) => {
             this.submitted = false;
             this.editPreferences = false;
-            this.notifService.success("Enregistrement des préférences réussi");
+            this.toastService.success("Enregistrement des préférences réussi");
             this.usager = new UsagerFormModel(usager);
           },
           error: () => {
-            this.notifService.error(
+            this.toastService.error(
               "Veuillez vérifier les champs du formulaire"
             );
           },

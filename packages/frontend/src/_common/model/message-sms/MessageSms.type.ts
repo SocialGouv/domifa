@@ -3,7 +3,6 @@ import {
   MessageSmsInteractionMetas,
   MessageSmsReminderMetas,
   MessageSmsStatus,
-  MessageSmsUpdate,
 } from ".";
 import { AppEntity } from "../../../_common/model";
 
@@ -25,9 +24,7 @@ export type MessageSms = AppEntity & {
   reminderMetas?: MessageSmsReminderMetas;
 
   lastUpdate?: Date;
-  statusUpdates?: MessageSmsUpdate[];
 
-  //
   errorCount?: number;
   errorMessage?: string;
 };

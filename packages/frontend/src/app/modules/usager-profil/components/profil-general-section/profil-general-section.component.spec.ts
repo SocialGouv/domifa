@@ -1,13 +1,12 @@
 import { USAGER_ACTIF_MOCK } from "./../../../../../_common/mocks/USAGER_ACTIF.mock";
-import { CommonModule, APP_BASE_HREF } from "@angular/common";
+import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
-import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
-import { ToastrModule } from "ngx-toastr";
 
 import { ProfilGeneralSectionComponent } from "./profil-general-section.component";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
@@ -25,7 +24,7 @@ describe("ProfilGeneralSectionComponent", () => {
           MatomoModule,
           ReactiveFormsModule,
           HttpClientTestingModule,
-          ToastrModule.forRoot(),
+
           RouterTestingModule,
         ],
         providers: [

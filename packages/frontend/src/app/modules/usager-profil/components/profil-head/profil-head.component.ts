@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import {
   UsagerLight,
@@ -41,7 +41,7 @@ export class ProfilHeadComponent implements OnInit {
 
   constructor(
     private readonly modalService: NgbModal,
-    private readonly notifService: ToastrService,
+    private readonly toastService: CustomToastService,
     private readonly router: Router,
 
     private readonly usagerDecisionService: UsagerDecisionService,
@@ -70,13 +70,13 @@ export class ProfilHeadComponent implements OnInit {
       next: (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
         this.closeModals();
-        this.notifService.success(
+        this.toastService.success(
           "Votre demande a été enregistrée. Merci de remplir l'ensemble du dossier"
         );
         this.router.navigate(["usager/" + usager.ref + "/edit"]);
       },
       error: () => {
-        this.notifService.error("Impossible d'enregistrer cette interaction");
+        this.toastService.error("Impossible d'enregistrer cette interaction");
       },
     });
   }
