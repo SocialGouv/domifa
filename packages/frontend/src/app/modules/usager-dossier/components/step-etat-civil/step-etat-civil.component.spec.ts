@@ -10,7 +10,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
-import { ToastrModule } from "ngx-toastr";
+
 import { StepEtatCivilComponent } from "./step-etat-civil.component";
 
 describe("StepEtatCivilComponent", () => {
@@ -27,7 +27,7 @@ describe("StepEtatCivilComponent", () => {
           NgbModule,
           ReactiveFormsModule,
           FormsModule,
-          ToastrModule.forRoot(),
+
           HttpClientTestingModule,
         ],
         providers: [

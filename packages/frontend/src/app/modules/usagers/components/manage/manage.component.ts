@@ -10,7 +10,7 @@ import {
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { MatomoTracker } from "ngx-matomo";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   BehaviorSubject,
   combineLatest,
@@ -129,7 +129,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   constructor(
     private usagerService: UsagerService,
     private authService: AuthService,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private titleService: Title,
     public matomo: MatomoTracker,
     private ngZone: NgZone
@@ -177,7 +177,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
                   this.authService.logoutAndRedirect();
                 } else {
                   console.log(`Error loading usagers`, err);
-                  this.notifService.error(
+                  this.toastService.error(
                     "Une erreur a eu lieu lors de la recherche"
                   );
                 }

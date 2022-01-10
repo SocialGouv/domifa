@@ -5,7 +5,7 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrModule } from "ngx-toastr";
+
 import { StructuresPortailUsagerFormComponent } from "./structures-portail-usager-form.component";
 
 describe("StructuresPortailUsagerFormComponent", () => {
@@ -21,7 +21,7 @@ describe("StructuresPortailUsagerFormComponent", () => {
           FormsModule,
 
           HttpClientTestingModule,
-          ToastrModule.forRoot(),
+
           RouterTestingModule,
         ],
         providers: [{ provide: APP_BASE_HREF, useValue: "/" }],

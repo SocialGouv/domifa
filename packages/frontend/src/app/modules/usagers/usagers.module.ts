@@ -9,7 +9,7 @@ import {
   NgbDatepickerI18n,
   NgbModule,
 } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrModule } from "ngx-toastr";
+
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { GeneralModule } from "../general/general.module";
 import { CustomDatepickerI18n } from "../shared/services/date-french";
@@ -40,7 +40,7 @@ import { UsagerService } from "./services/usager.service";
     ReactiveFormsModule,
     RouterModule.forChild([]),
     SharedModule,
-    ToastrModule.forRoot({}),
+
     UsersModule,
   ],
   providers: [

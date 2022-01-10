@@ -8,8 +8,6 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { ToastrModule } from "ngx-toastr";
-
 describe("MenuComponent", () => {
   let component: MenuComponent;
   let fixture: ComponentFixture<MenuComponent>;
@@ -24,7 +22,7 @@ describe("MenuComponent", () => {
           ReactiveFormsModule,
           FormsModule,
           HttpClientTestingModule,
-          ToastrModule.forRoot(),
+
           HttpClientTestingModule,
         ],
         declarations: [MenuComponent],

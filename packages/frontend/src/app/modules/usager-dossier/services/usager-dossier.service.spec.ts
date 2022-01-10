@@ -6,7 +6,6 @@ import { TestBed } from "@angular/core/testing";
 
 import { RouterTestingModule } from "@angular/router/testing";
 
-import { ToastrModule } from "ngx-toastr";
 import { JwtInterceptor } from "src/app/interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "src/app/interceptors/server-error.interceptor";
 import { AuthService } from "../../shared/services/auth.service";
@@ -23,12 +22,7 @@ describe("UsagerService", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        CommonModule,
-        RouterTestingModule,
-        ToastrModule.forRoot(),
-      ],
+      imports: [HttpClientTestingModule, CommonModule, RouterTestingModule],
       providers: [
         AuthService,
         { provide: APP_BASE_HREF, useValue: "/" },

@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrModule } from "ngx-toastr";
+
 import { SharedModule } from "../../../shared/shared.module";
 
 import { StructuresCustomDocsComponent } from "./structures-custom-docs.component";
@@ -18,7 +18,7 @@ describe("StructuresCustomDocsComponent", () => {
       imports: [
         NgbModule,
         HttpClientTestingModule,
-        ToastrModule.forRoot(),
+
         RouterTestingModule,
         SharedModule,
       ],

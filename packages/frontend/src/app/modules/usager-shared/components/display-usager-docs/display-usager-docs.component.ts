@@ -1,6 +1,6 @@
 import { UsagerDoc } from "src/_common/model";
 import { Component, Input, OnInit } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import { STRUCTURE_DOC_ICONS } from "../../../../../_common/model";
 import { UsagerFormModel } from "../../interfaces";
@@ -21,10 +21,10 @@ export class DisplayUsagerDocsComponent implements OnInit {
     download: number[];
     delete: number[];
   };
- 
+
   constructor(
     private documentService: DocumentService,
-    private notifService: ToastrService
+    private toastService: CustomToastService
   ) {
     this.loadings = {
       download: [],
@@ -55,7 +55,7 @@ export class DisplayUsagerDocsComponent implements OnInit {
       },
       error: () => {
         this.stopLoading("download", i);
-        this.notifService.error("Impossible de télécharger le fichier");
+        this.toastService.error("Impossible de télécharger le fichier");
       },
     });
   }
@@ -67,11 +67,11 @@ export class DisplayUsagerDocsComponent implements OnInit {
       next: (docs: UsagerDoc[]) => {
         this.usager.docs = docs;
         this.stopLoading("delete", i);
-        this.notifService.success("Document supprimé avec succès");
+        this.toastService.success("Document supprimé avec succès");
       },
       error: () => {
         this.stopLoading("delete", i);
-        this.notifService.error("Impossible de supprimer le document");
+        this.toastService.error("Impossible de supprimer le document");
       },
     });
   }

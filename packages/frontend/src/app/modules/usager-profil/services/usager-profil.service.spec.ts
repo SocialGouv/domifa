@@ -5,7 +5,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 
-import { ToastrModule } from "ngx-toastr";
 import { JwtInterceptor } from "../../../interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "../../../interceptors/server-error.interceptor";
 import { AuthService } from "../../shared/services/auth.service";
@@ -18,12 +17,7 @@ describe("UsagerProfilService", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        CommonModule,
-        RouterTestingModule,
-        ToastrModule.forRoot(),
-      ],
+      imports: [HttpClientTestingModule, CommonModule, RouterTestingModule],
       providers: [
         UsagerService,
         AuthService,

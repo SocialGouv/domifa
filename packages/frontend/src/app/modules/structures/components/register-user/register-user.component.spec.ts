@@ -7,7 +7,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrModule } from "ngx-toastr";
+
 import { RegisterUserComponent } from "./register-user.component";
 import { RouterTestingModule } from "@angular/router/testing";
 
@@ -23,7 +23,7 @@ describe("RegisterUserComponent", () => {
           NgbModule,
           ReactiveFormsModule,
           FormsModule,
-          ToastrModule.forRoot(),
+
           HttpClientTestingModule,
           RouterTestingModule,
         ],

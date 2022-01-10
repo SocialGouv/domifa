@@ -5,7 +5,6 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
-import { ToastrModule } from "ngx-toastr";
 
 import { ProfilHistoriqueSmsComponent } from "./profil-historique-sms.component";
 
@@ -22,7 +21,7 @@ describe("ProfilHistoriqueSmsComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-        ToastrModule.forRoot(),
+
         HttpClientTestingModule,
         ReactiveFormsModule,
       ],

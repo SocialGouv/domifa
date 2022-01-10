@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { StructureCommon } from "../../../../../_common/model";
@@ -31,7 +31,7 @@ export class StructureEditFormComponent implements OnInit {
   constructor(
     private structureService: StructureService,
     private formBuilder: FormBuilder,
-    private notifService: ToastrService
+    private toastService: CustomToastService
   ) {
     this.submitted = false;
     this.loading = false;
@@ -99,7 +99,7 @@ export class StructureEditFormComponent implements OnInit {
     this.structureForm
       .get("adresseCourrier")
       .get("actif")
-      .valueChanges.subscribe((value: any) => {
+      .valueChanges.subscribe((value: boolean) => {
         const isRequired = value === true ? [Validators.required] : null;
 
         this.structureForm
@@ -133,21 +133,21 @@ export class StructureEditFormComponent implements OnInit {
   public submitStrucutre() {
     this.submitted = true;
     if (this.structureForm.invalid) {
-      this.notifService.error(
+      this.toastService.error(
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );
     } else {
       this.loading = true;
       this.structureService.patch(this.structureForm.value).subscribe({
         next: (structure: StructureCommon) => {
-          this.notifService.success(
+          this.toastService.success(
             "Les modifications ont bien été prises en compte"
           );
           this.structure = structure;
           this.loading = false;
         },
         error: () => {
-          this.notifService.error("Une erreur est survenue");
+          this.toastService.error("Une erreur est survenue");
           this.loading = false;
         },
       });

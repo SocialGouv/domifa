@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { StructureCommon, UserStructure } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { StructureService } from "../../services/structure.service";
@@ -21,7 +21,7 @@ export class StructuresPortailUsagerFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private structureService: StructureService,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private authService: AuthService,
     private titleService: Title
   ) {
@@ -48,7 +48,7 @@ export class StructuresPortailUsagerFormComponent implements OnInit {
         this.initForm();
       },
       () => {
-        this.notifService.success(
+        this.toastService.success(
           "Impossible de récupérer les infos de ma structure"
         );
       }
@@ -68,20 +68,20 @@ export class StructuresPortailUsagerFormComponent implements OnInit {
     this.submitted = true;
 
     if (this.structurePortailUsagerForm.invalid) {
-      this.notifService.error("Veuillez vérifier le formulaire");
+      this.toastService.error("Veuillez vérifier le formulaire");
     } else {
       this.structureService
         .patchPortailUsagerParams(this.structurePortailUsagerForm.value)
         .subscribe(
           (retour: any) => {
             this.submitted = false;
-            this.notifService.success(
+            this.toastService.success(
               "Paramètres du portail usager mis à jour avec succès"
             );
           },
           (error: any) => {
             this.submitted = false;
-            this.notifService.error(
+            this.toastService.error(
               "Impossible de mettre à jour les paramètres"
             );
           }

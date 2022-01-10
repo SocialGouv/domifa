@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrModule } from "ngx-toastr";
+
 import { GeneralModule } from "../general/general.module";
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
@@ -43,7 +43,7 @@ import { DisplayUsagerDocsComponent } from "./components/display-usager-docs/dis
     GeneralModule,
     RouterModule.forChild([]),
     SharedModule,
-    ToastrModule.forRoot({}),
+
     UsersModule,
     ReactiveFormsModule,
   ],

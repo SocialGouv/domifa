@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { UsagerLight } from "../../../../../_common/model";
 import {
   UploadResponseType,
@@ -31,7 +31,7 @@ export class UploadComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private documentService: DocumentService,
-    private notifService: ToastrService
+    private toastService: CustomToastService
   ) {
     this.uploadResponse = { status: "", message: "", filePath: "", body: [] };
   }
@@ -67,7 +67,7 @@ export class UploadComponent implements OnInit {
     this.submitted = true;
 
     if (this.uploadForm.invalid) {
-      this.notifService.error("Le formulaire d'upload comporte des erreurs");
+      this.toastService.error("Le formulaire d'upload comporte des erreurs");
       return;
     }
 
@@ -89,12 +89,12 @@ export class UploadComponent implements OnInit {
           this.loading = false;
           this.submitted = false;
           this.uploadForm.reset();
-          this.notifService.success("Fichier uploadé avec succès");
+          this.toastService.success("Fichier uploadé avec succès");
         }
       },
       error: () => {
         this.loading = false;
-        this.notifService.error("Impossible d'uploader le fichier");
+        this.toastService.error("Impossible d'uploader le fichier");
       },
     });
   }

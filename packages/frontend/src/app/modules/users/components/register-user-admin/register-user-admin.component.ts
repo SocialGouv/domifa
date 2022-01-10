@@ -7,7 +7,7 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { MatomoTracker } from "ngx-matomo";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { UserStructure } from "../../../../../_common/model";
@@ -31,7 +31,7 @@ export class RegisterUserAdminComponent implements OnInit {
   public emailExist = false;
 
   @ViewChild("form", { static: true })
-  public form!: ElementRef<any>;
+  public form!: ElementRef<HTMLFormElement>;
 
   get f(): { [key: string]: AbstractControl } {
     return this.userForm.controls;
@@ -40,7 +40,7 @@ export class RegisterUserAdminComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UsersService,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private titleService: Title,
     private matomo: MatomoTracker
   ) {
@@ -66,32 +66,23 @@ export class RegisterUserAdminComponent implements OnInit {
   public submitUser() {
     this.submitted = true;
     if (this.userForm.invalid) {
-      this.notifService.error(
-        "Veuillez vérifier les champs marqués en rouge dans le formulaire",
-        "Erreur dans le formulaire"
+      this.toastService.error(
+        "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );
     } else {
-      this.userService.registerUser(this.userForm.value).subscribe(
-        (retour: boolean) => {
+      this.userService.registerUser(this.userForm.value).subscribe({
+        next: () => {
           this.form.nativeElement.reset();
-          this.notifService.success(
-            "Votre collaborateur vient de recevoir un email pour ajouter son mot de passe.",
-            "Le nouveau compte a été créé avec succès !"
-          );
-          this.matomo.trackEvent(
-            "tests_utilisateurs",
-            "inscription_user",
-            "admin_form",
-            1
+          this.toastService.success(
+            "Le nouveau compte a été créé avec succès, votre collaborateur vient de recevoir un email pour ajouter son mot de passe."
           );
         },
-        () => {
-          this.notifService.error(
-            "veuillez vérifier les champs marqués en rouge dans le formulaire",
-            "Erreur dans le formulaire"
+        error: () => {
+          this.toastService.error(
+            "veuillez vérifier les champs marqués en rouge dans le formulaire"
           );
-        }
-      );
+        },
+      });
     }
   }
 

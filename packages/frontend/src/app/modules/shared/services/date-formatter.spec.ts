@@ -32,7 +32,7 @@ describe("NgbDateCustomParserFormatter", () => {
 
   it("Date formatter : invalid state", inject(
     [NgbDateCustomParserFormatter],
-    (service: NgbDateCustomParserFormatter) => {
+    () => {
       expect(isDefined(1)).toBeDefined();
       expect(isInteger(1)).toBeTruthy();
       expect(isInteger("A")).toBeFalsy();

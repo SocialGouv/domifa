@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import { UsagerNote, UserStructure } from "../../../../../_common/model";
 import { UsagerService } from "../../../usagers/services/usager.service";
@@ -30,7 +30,7 @@ export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
 
   constructor(
     private usagerService: UsagerService,
-    private notifService: ToastrService
+    private toastService: CustomToastService
   ) {
     this.me = null;
     this.usager = null;
@@ -57,11 +57,11 @@ export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
       })
       .subscribe({
         next: (usager) => {
-          this.notifService.success("Note archivée avec succès");
+          this.toastService.success("Note archivée avec succès");
           this.usagerChanges.emit(usager);
         },
         error: () => {
-          this.notifService.error("Impossible d'archiver cette note");
+          this.toastService.error("Impossible d'archiver cette note");
         },
       });
   }

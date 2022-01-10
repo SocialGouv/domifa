@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { UsagerLight } from "../../../../../../_common/model";
 import {
   InteractionIn,
@@ -44,7 +44,7 @@ export class SetInteractionInFormComponent implements OnInit {
   constructor(
     private interactionService: InteractionService,
     private usagerService: UsagerService,
-    private notifService: ToastrService
+    private toastService: CustomToastService
   ) {
     this.interactionFormData = {
       courrierIn: {
@@ -91,11 +91,11 @@ export class SetInteractionInFormComponent implements OnInit {
       .setInteraction(this.usager.ref, interactionsToSave)
       .subscribe({
         next: () => {
-          this.notifService.success("Réception enregistrée avec succès");
+          this.toastService.success("Réception enregistrée avec succès");
           this.refreshUsager();
         },
         error: () => {
-          this.notifService.error("Impossible d'enregistrer cette interaction");
+          this.toastService.error("Impossible d'enregistrer cette interaction");
           this.loading = false;
         },
       });

@@ -2,7 +2,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 import { UsagerDoc } from "../../_common/model";
 
 export type UploadResponseType = {
-  success?: any;
+  success?: boolean;
   status?: string;
   message?: string;
   filePath?: string;

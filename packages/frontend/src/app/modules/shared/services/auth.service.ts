@@ -4,13 +4,14 @@ import { Router, RouterStateSnapshot } from "@angular/router";
 import * as Sentry from "@sentry/browser";
 import { UserIdleService } from "angular-user-idle";
 import jwtDecode from "jwt-decode";
-import { ToastrService } from "ngx-toastr";
+
 import { BehaviorSubject, Observable, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { UserStructure } from "../../../../_common/model";
 import { usagersCache } from "../../../shared/store";
 import { userStructureBuilder } from "../../users/services";
+import { CustomToastService } from "./custom-toast.service";
 
 @Injectable({
   providedIn: "root",
@@ -22,7 +23,7 @@ export class AuthService {
 
   constructor(
     public http: HttpClient,
-    private toastr: ToastrService,
+    private toastr: CustomToastService,
     public router: Router,
     private userIdleService: UserIdleService
   ) {
@@ -133,8 +134,7 @@ export class AuthService {
 
   public notAuthorized(): void {
     this.toastr.error(
-      "Vous n'êtes pas autorisé à accéder à cette page",
-      "Action interdite"
+      "Action interdite : vous n'êtes pas autorisé à accéder à cette page"
     );
     this.router.navigate(["/"]);
   }

@@ -12,7 +12,7 @@ import {
   NgbDatepickerI18n,
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { UsagerLight } from "../../../../../_common/model";
 import { languagesAutocomplete } from "../../../../shared";
 import {
@@ -69,7 +69,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private nbgDate: NgbDateCustomParserFormatter,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private etatCivilService: EtatCivilService
   ) {
     this.submitted = false;
@@ -137,7 +137,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
   public updateInfos() {
     this.submitted = true;
     if (this.usagerForm.invalid) {
-      this.notifService.error(
+      this.toastService.error(
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
     } else {
@@ -162,7 +162,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
       this.etatCivilService.patchEtatCivil(formValue).subscribe({
         next: (usager: UsagerLight) => {
           this.editInfosChange.emit(false);
-          this.notifService.success("Enregistrement réussi");
+          this.toastService.success("Enregistrement réussi");
 
           this.usagerChanges.emit(usager);
           this.submitted = false;
@@ -171,7 +171,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
         error: () => {
           this.loading = false;
 
-          this.notifService.error("Veuillez vérifier les champs du formulaire");
+          this.toastService.error("Veuillez vérifier les champs du formulaire");
         },
       });
     }

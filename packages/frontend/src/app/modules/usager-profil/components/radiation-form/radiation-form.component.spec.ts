@@ -15,7 +15,7 @@ import {
 import { RadiationFormComponent } from "./radiation-form.component";
 
 import { RouterTestingModule } from "@angular/router/testing";
-import { ToastrModule } from "ngx-toastr";
+
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";
@@ -36,7 +36,7 @@ describe("RadiationFormComponent", () => {
           RouterTestingModule,
           BrowserAnimationsModule,
           ReactiveFormsModule,
-          ToastrModule.forRoot(),
+
           SharedModule,
           FormsModule,
         ],

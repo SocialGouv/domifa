@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import { UsagerLight } from "../../../../../_common/model";
 import { bounce } from "../../../../shared/animations";
@@ -25,7 +25,7 @@ export class ProfilAddNoteFormComponent implements OnInit {
 
   constructor(
     private usagerService: UsagerService,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private formBuilder: FormBuilder
   ) {}
 
@@ -46,11 +46,11 @@ export class ProfilAddNoteFormComponent implements OnInit {
         })
         .subscribe({
           next: (usager) => {
-            this.notifService.success("Note enregistrée avec succès");
+            this.toastService.success("Note enregistrée avec succès");
             this.confirm.emit(usager);
           },
           error: () => {
-            this.notifService.error("Impossible d'enregistrer cette note");
+            this.toastService.error("Impossible d'enregistrer cette note");
           },
         });
     }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -6,7 +7,7 @@ import {
   HttpRequest,
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "../modules/shared/services/custom-toast.service";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { AuthService } from "../modules/shared/services/auth.service";
@@ -15,7 +16,10 @@ import { AuthService } from "../modules/shared/services/auth.service";
   providedIn: "root",
 })
 export class ServerErrorInterceptor implements HttpInterceptor {
-  constructor(private toastr: ToastrService, public authService: AuthService) {}
+  constructor(
+    private toastr: CustomToastService,
+    public authService: AuthService
+  ) {}
 
   public intercept(
     request: HttpRequest<any>,

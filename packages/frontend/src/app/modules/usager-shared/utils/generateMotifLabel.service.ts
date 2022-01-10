@@ -7,18 +7,18 @@ export const generateMotifLabel = (decision: UsagerDecision): string => {
     return "";
   }
 
-  let motif = "" as any;
+  let motif = "" as string;
   if (decision.statut === "REFUS" || decision.statut === "RADIE") {
     if (decision.motif === "AUTRE") {
       motif =
         decision.motifDetails !== "" && decision.motifDetails !== null
           ? "Autre motif : " + decision.motifDetails
-          : ("Autre motif non précisé" as any);
+          : ("Autre motif non précisé" as string);
     } else {
       motif =
         decision.statut === "REFUS"
           ? MOTIFS_REFUS_LABELS[decision.motif]
-          : (MOTIFS_RADIATION_LABELS[decision.motif] as any);
+          : (MOTIFS_RADIATION_LABELS[decision.motif] as string);
     }
   }
 

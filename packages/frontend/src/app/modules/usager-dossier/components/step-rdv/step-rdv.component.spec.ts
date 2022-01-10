@@ -6,7 +6,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrModule } from "ngx-toastr";
+
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { SharedModule } from "../../../shared/shared.module";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
@@ -25,7 +25,7 @@ describe("StepRdvComponent", () => {
           HttpClientTestingModule,
           RouterTestingModule,
           BrowserAnimationsModule,
-          ToastrModule.forRoot(),
+
           SharedModule,
           ReactiveFormsModule,
           FormsModule,

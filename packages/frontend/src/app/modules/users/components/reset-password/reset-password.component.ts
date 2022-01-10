@@ -7,8 +7,7 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
-import { UserStructure } from "../../../../../_common/model";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
 
@@ -29,7 +28,7 @@ export class ResetPasswordComponent implements OnInit {
 
   public token?: string;
   public userId?: string;
-  public errorLabels: any;
+  public errorLabels: { [key: string]: string };
 
   get e() {
     return this.emailForm.controls;
@@ -43,7 +42,7 @@ export class ResetPasswordComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UsersService,
     private route: ActivatedRoute,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private titleService: Title
   ) {
     this.success = false;
@@ -76,7 +75,7 @@ export class ResetPasswordComponent implements OnInit {
             this.errorLabels[error.message] !== undefined
               ? this.errorLabels[error.message]
               : "Le lien est incorrect, veuillez recommencer la procédure";
-          this.notifService.error(errorMessage);
+          this.toastService.error(errorMessage);
         },
       });
     }
@@ -131,7 +130,7 @@ export class ResetPasswordComponent implements OnInit {
           this.success = true;
         },
         () => {
-          this.notifService.error("Veuillez vérifier l'adresse email");
+          this.toastService.error("Veuillez vérifier l'adresse email");
         }
       );
     }

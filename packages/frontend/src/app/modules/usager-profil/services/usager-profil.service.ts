@@ -31,6 +31,7 @@ export class UsagerProfilService {
     );
   }
 
+  // TODO: type it
   public editTransfert(
     transfert: any,
     usagerRef: number
@@ -67,10 +68,11 @@ export class UsagerProfilService {
     login?: string;
     temporaryPassword?: string;
   }> {
-    return this.http.post<any>(
-      `${this.endPointUsagers}/portail-usager/options/${usagerRef}`,
-      options
-    );
+    return this.http.post<{
+      usager: UsagerLight;
+      login?: string;
+      temporaryPassword?: string;
+    }>(`${this.endPointUsagers}/portail-usager/options/${usagerRef}`, options);
   }
 
   public deleteTransfert(usagerRef: number): Observable<UsagerLight> {
@@ -79,6 +81,7 @@ export class UsagerProfilService {
     );
   }
 
+  // TODO: type it
   public editProcuration(
     transfert: any,
     usagerRef: number

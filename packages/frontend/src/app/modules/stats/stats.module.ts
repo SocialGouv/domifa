@@ -8,7 +8,7 @@ import {
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrModule } from "ngx-toastr";
+
 import { SharedModule } from "../shared/shared.module";
 
 import { StatsComponent } from "./components/structure-stats/structure-stats.component";
@@ -32,7 +32,6 @@ import { UsersModule } from "../users/users.module";
     NgxChartsModule,
     SharedModule,
 
-    ToastrModule.forRoot(),
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,

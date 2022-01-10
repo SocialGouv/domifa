@@ -14,7 +14,7 @@ import {
   AbstractControl,
 } from "@angular/forms";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { UsagerLight } from "../../../../../_common/model";
 import {
   ENTRETIEN_LIEN_COMMUNE,
@@ -60,7 +60,7 @@ export class EntretienFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private entretienService: EntretienService,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private modalService: NgbModal
   ) {
     this.entretienVide = new Entretien();
@@ -116,12 +116,12 @@ export class EntretienFormComponent implements OnInit {
           this.usagerChanges.emit(usager);
           this.editEntretienChange.emit(false);
           this.nextStep.emit(3);
-          this.notifService.success("Enregistrement de l'entretien réussi");
+          this.toastService.success("Enregistrement de l'entretien réussi");
           this.loading = false;
         },
         error: () => {
           this.loading = false;
-          this.notifService.error("Impossible d'enregistrer l'entretien");
+          this.toastService.error("Impossible d'enregistrer l'entretien");
         },
       });
   }

@@ -13,7 +13,7 @@ import {
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   UserStructure,
   UsagerLight,
@@ -94,7 +94,7 @@ export class ManageUsagersTableComponent implements OnInit {
   constructor(
     private interactionService: InteractionService,
     private modalService: NgbModal,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private matomo: MatomoTracker
   ) {
     this.loadingButtons = [];
@@ -121,7 +121,7 @@ export class ManageUsagersTableComponent implements OnInit {
     const loadingRef = usager.ref.toString() + "_" + type;
 
     if (this.loadingButtons.indexOf(loadingRef) !== -1) {
-      this.notifService.warning("Veuillez patienter quelques instants");
+      this.toastService.warning("Veuillez patienter quelques instants");
       return;
     }
 
@@ -146,11 +146,11 @@ export class ManageUsagersTableComponent implements OnInit {
         next: (newUsager: UsagerLight) => {
           usager = new UsagerFormModel(newUsager);
           this.updateUsager.emit(usager);
-          this.notifService.success(INTERACTIONS_LABELS_SINGULIER[type]);
+          this.toastService.success(INTERACTIONS_LABELS_SINGULIER[type]);
           this.stopLoading(loadingRef);
         },
         error: () => {
-          this.notifService.error("Impossible d'enregistrer cette interaction");
+          this.toastService.error("Impossible d'enregistrer cette interaction");
           this.stopLoading(loadingRef);
         },
       });

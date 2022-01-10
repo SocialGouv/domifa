@@ -8,7 +8,7 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { UserStructure } from "../../../../../_common/model";
 import { LoadingService } from "../../../shared/services/loading.service";
 import { AuthService } from "../../../shared/services/auth.service";
@@ -97,7 +97,7 @@ export class ImportComponent implements OnInit {
     private authService: AuthService,
     private loadingService: LoadingService,
     private router: Router,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private titleService: Title
   ) {
     this.showErrors = false;
@@ -142,7 +142,7 @@ export class ImportComponent implements OnInit {
             "application/vnd.oasis.opendocument.spreadsheet")
       ) {
         this.uploadError = true;
-        this.notifService.error("Seul les fichiers Excel sont autorisés");
+        this.toastService.error("Seul les fichiers Excel sont autorisés");
         return;
       }
 
@@ -157,7 +157,7 @@ export class ImportComponent implements OnInit {
     } catch (err) {
       console.error("Error while uploading file", err);
       this.uploadError = true;
-      this.notifService.error("Erreur inattendue, veuillez réessayer.");
+      this.toastService.error("Erreur inattendue, veuillez réessayer.");
       this.backToEtapeSelectFile();
     }
   }
@@ -177,12 +177,12 @@ export class ImportComponent implements OnInit {
           this.visibleRows = this.previewTable.rows.slice(0, 50); // show 50 rows max
         } else {
           // confirm
-          this.notifService.success("L'import a eu lieu avec succès");
+          this.toastService.success("L'import a eu lieu avec succès");
           this.router.navigate(["/manage"]);
         }
       },
       error: (error: HttpErrorResponse) => {
-        this.notifService.error("Le fichier n'a pas pu être importé ");
+        this.toastService.error("Le fichier n'a pas pu être importé ");
         this.loadingService.stopLoading();
 
         if (error.error?.previewTable) {

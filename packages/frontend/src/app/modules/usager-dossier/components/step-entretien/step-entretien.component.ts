@@ -1,4 +1,4 @@
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -21,7 +21,7 @@ export class StepEntretienComponent implements OnInit {
     private router: Router,
     private titleService: Title,
     private route: ActivatedRoute,
-    private toastr: ToastrService
+    private toastr: CustomToastService
   ) {}
 
   public ngOnInit(): void {

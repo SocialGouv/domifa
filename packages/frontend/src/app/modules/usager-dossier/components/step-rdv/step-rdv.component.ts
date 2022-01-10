@@ -13,7 +13,7 @@ import {
   NgbDatepickerI18n,
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
@@ -56,7 +56,7 @@ export class StepRdvComponent implements OnInit {
     private formBuilder: FormBuilder,
     private usagerDossierService: UsagerDossierService,
     private documentService: DocumentService,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private authService: AuthService,
     private nbgDate: NgbDateCustomParserFormatter,
     private router: Router,
@@ -156,7 +156,7 @@ export class StepRdvComponent implements OnInit {
       },
       () => {
         this.loading = false;
-        this.notifService.error(
+        this.toastService.error(
           "Impossible de réaliser l'entretien maintenant"
         );
       }
@@ -165,7 +165,7 @@ export class StepRdvComponent implements OnInit {
 
   public submitRdv(): void {
     if (this.rdvForm.invalid) {
-      this.notifService.error("Veuillez vérifier les champs du formulaire");
+      this.toastService.error("Veuillez vérifier les champs du formulaire");
       return;
     }
 
@@ -189,13 +189,13 @@ export class StepRdvComponent implements OnInit {
     this.usagerDossierService.setRdv(rdvFormValue, this.usager.ref).subscribe({
       next: (usager: UsagerLight) => {
         this.loading = false;
-        this.notifService.success("Rendez-vous enregistré");
+        this.toastService.success("Rendez-vous enregistré");
         this.usager = new UsagerFormModel(usager);
         this.editRdv = false;
       },
       error: () => {
         this.loading = false;
-        this.notifService.error("Impossible d'enregistrer le rendez-vous");
+        this.toastService.error("Impossible d'enregistrer le rendez-vous");
       },
     });
   }

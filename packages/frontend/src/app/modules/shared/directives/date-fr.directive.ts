@@ -26,11 +26,12 @@ export class DateFrDirective {
   }
 
   @HostListener("keydown", ["$event"])
-  public onKeyDown(e: any) {
+  public onKeyDown(e: KeyboardEvent) {
+    const target = e.target as HTMLInputElement;
     if (typeof e.target === "undefined") {
       return;
     }
-    const dateValue = e.target.value;
+    const dateValue = target.value;
 
     if (
       this.navigationKeys.indexOf(e.key) > -1 ||
@@ -51,7 +52,7 @@ export class DateFrDirective {
 
     if (e.key === "/") {
       if (
-        dateValue.substr(dateValue.length - 1) === "/" ||
+        dateValue.substring(dateValue.length - 1) === "/" ||
         (dateValue.length !== 2 && dateValue.length !== 5)
       ) {
         e.preventDefault();
@@ -60,17 +61,19 @@ export class DateFrDirective {
   }
 
   @HostListener("keyup", ["$event"])
-  public onKeyUp(e: any) {
-    const dateValue = e.target.value;
+  public onKeyUp(e: KeyboardEvent) {
+    const target = e.target as HTMLInputElement;
+    let dateValue = target.value;
+
     if (e.key !== "Backspace") {
       if (dateValue.length === 2 || dateValue.length === 5) {
-        e.target.value = dateValue + "/";
+        dateValue = dateValue + "/";
       }
     }
   }
 
   @HostListener("paste", ["$event"])
-  public onPaste(event: any) {
+  public onPaste(event: ClipboardEvent) {
     event.preventDefault();
     const pastedInput: string = event.clipboardData
       .getData("text/plain")

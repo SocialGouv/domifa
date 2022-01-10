@@ -8,7 +8,7 @@ import {
 } from "@angular/forms";
 import { Router } from "@angular/router";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   MOTIFS_REFUS_LABELS,
   UsagerDecisionRefusForm,
@@ -43,7 +43,7 @@ export class DecisionRefusFormComponent implements OnInit {
     private usagerDecisionService: UsagerDecisionService,
     private router: Router,
     private nbgDate: NgbDateCustomParserFormatter,
-    private notifService: ToastrService
+    private toastService: CustomToastService
   ) {
     this.minDate = { day: 1, month: 1, year: new Date().getFullYear() - 1 };
     this.maxDateRefus = formatDateToNgb(new Date());
@@ -78,7 +78,7 @@ export class DecisionRefusFormComponent implements OnInit {
   public setDecisionRefus() {
     this.submitted = true;
     if (this.refusForm.invalid) {
-      this.notifService.error(
+      this.toastService.error(
         "Le formulaire contient une erreur, veuillez vérifier les champs"
       );
       return;
@@ -100,7 +100,7 @@ export class DecisionRefusFormComponent implements OnInit {
       .setDecision(this.usager.ref, formDatas)
       .subscribe({
         next: (usager: UsagerLight) => {
-          this.notifService.success("Décision enregistrée avec succès ! ");
+          this.toastService.success("Décision enregistrée avec succès ! ");
           this.router.navigate(["profil/general/" + usager.ref]);
           this.closeModals.emit();
           this.submitted = false;
@@ -108,7 +108,7 @@ export class DecisionRefusFormComponent implements OnInit {
         },
         error: () => {
           this.loading = false;
-          this.notifService.error("La décision n'a pas pu être enregistrée");
+          this.toastService.error("La décision n'a pas pu être enregistrée");
         },
       });
   }

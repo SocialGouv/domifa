@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   UsagerLight,
   UserStructure,
@@ -29,7 +29,7 @@ export class ProfilDossierComponent implements OnInit {
     private authService: AuthService,
     private usagerService: UsagerService,
     private titleService: Title,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -50,7 +50,7 @@ export class ProfilDossierComponent implements OnInit {
         this.titleService.setTitle("Documents de " + name);
       },
       error: () => {
-        this.notifService.error("Le dossier recherché n'existe pas");
+        this.toastService.error("Le dossier recherché n'existe pas");
         this.router.navigate(["404"]);
       },
     });

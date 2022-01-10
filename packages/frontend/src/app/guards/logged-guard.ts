@@ -1,11 +1,6 @@
 import { Injectable } from "@angular/core";
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-} from "@angular/router";
-import { ToastrService } from "ngx-toastr";
+import { CanActivate, Router } from "@angular/router";
+import { CustomToastService } from "../modules/shared/services/custom-toast.service";
 
 import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
@@ -17,13 +12,10 @@ export class LoggedGuard implements CanActivate {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private notifService: ToastrService
+    private toastService: CustomToastService
   ) {}
 
-  public canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> {
+  public canActivate(): Observable<boolean> {
     if (this.authService.currentUserValue === null) {
       return of(true);
     }
@@ -31,7 +23,7 @@ export class LoggedGuard implements CanActivate {
     return this.authService.isAuth().pipe(
       map((isAuth: boolean) => {
         if (isAuth) {
-          this.notifService.error(
+          this.toastService.error(
             "Vous êtes déjà connecté, impossible d'accéder à cette page"
           );
           this.router.navigate(["/manage"]);

@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { RegisterUserAdminComponent } from "./register-user-admin.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { ToastrModule } from "ngx-toastr";
 
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 
@@ -24,7 +23,7 @@ describe("RegisterUserAdminComponent", () => {
           NgbModule,
           ReactiveFormsModule,
           FormsModule,
-          ToastrModule.forRoot(),
+
           HttpClientTestingModule,
           RouterTestingModule,
         ],

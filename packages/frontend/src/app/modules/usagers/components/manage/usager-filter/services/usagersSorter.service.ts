@@ -166,7 +166,7 @@ function sortUsagersByCustomRef(usagers: UsagerLight[], asc: boolean) {
     : usagersWithCustomRefString.concat(usagersWithCustomRefInteger);
 }
 
-function parseAsNumberOrString(customRef: string): any {
+function parseAsNumberOrString(customRef: string): string | number {
   if (/^\d+$/.test(customRef)) {
     const customRefAsNumber = parseInt(customRef, 10);
     return customRefAsNumber; // sort as number

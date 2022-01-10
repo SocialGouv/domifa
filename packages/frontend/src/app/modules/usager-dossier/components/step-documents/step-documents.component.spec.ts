@@ -8,7 +8,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrModule } from "ngx-toastr";
+
 import { APP_BASE_HREF } from "@angular/common";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
@@ -23,7 +23,7 @@ describe("StepDocumentsComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-        ToastrModule.forRoot(),
+
         HttpClientTestingModule,
       ],
       providers: [

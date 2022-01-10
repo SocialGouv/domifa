@@ -6,7 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { StructureCommon } from "../../../../../_common/model";
 import { StructureService } from "../../services/structure.service";
 
@@ -25,7 +25,7 @@ export class StructuresSearchComponent implements OnInit {
   constructor(
     private structureService: StructureService,
     private formBuilder: FormBuilder,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private titleService: Title
   ) {
     this.searchFailed = false;
@@ -53,7 +53,7 @@ export class StructuresSearchComponent implements OnInit {
 
   public submitCodePostal() {
     if (this.codePostalForm.invalid) {
-      this.notifService.error(
+      this.toastService.error(
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );
     } else {

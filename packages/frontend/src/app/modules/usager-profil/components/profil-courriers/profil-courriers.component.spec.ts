@@ -6,7 +6,6 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
-import { ToastrModule } from "ngx-toastr";
 
 import { ProfilCourriersComponent } from "./profil-courriers.component";
 
@@ -25,7 +24,7 @@ describe("ProfilCourriersComponent", () => {
           ReactiveFormsModule,
           FormsModule,
           HttpClientTestingModule,
-          ToastrModule.forRoot(),
+
           RouterTestingModule,
         ],
         providers: [

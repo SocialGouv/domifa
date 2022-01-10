@@ -1,4 +1,4 @@
-import { CustomToast } from "./../types/CustomType.type";
+import { CustomToast } from "../types/CustomToast.type";
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
 
@@ -10,16 +10,32 @@ export class CustomToastService {
   public toast: CustomToast = {
     display: false,
     message: null,
+    class: null,
   };
 
   public warning(message: string): void {
     this.toast.message = message;
+    this.toast.class = "warning";
+    this.launchToast();
   }
+
   public error(message: string): void {
     this.toast.message = message;
+    this.toast.class = "error";
+
+    this.launchToast();
   }
+
+  public success(message: string): void {
+    this.toast.message = message;
+    this.toast.class = "success";
+    this.launchToast();
+  }
+
   public info(message: string): void {
     this.toast.message = message;
+    this.toast.class = "info";
+    this.launchToast();
   }
 
   public launchToast(): void {

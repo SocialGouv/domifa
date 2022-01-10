@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { StructureCommon, UserStructure } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { generateSender } from "../../services/generateSender.service";
@@ -23,7 +23,7 @@ export class StructuresSmsFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private structureService: StructureService,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private authService: AuthService,
     private titleService: Title
   ) {
@@ -64,7 +64,7 @@ export class StructuresSmsFormComponent implements OnInit {
         this.initForm();
       },
       () => {
-        this.notifService.success(
+        this.toastService.success(
           "Impossible de récupérer les infos de ma structure"
         );
       }
@@ -103,7 +103,7 @@ export class StructuresSmsFormComponent implements OnInit {
     this.submitted = true;
 
     if (this.structureSmsForm.invalid) {
-      this.notifService.error("Veuillez vérifier le formulaire");
+      this.toastService.error("Veuillez vérifier le formulaire");
     } else {
       this.loading = true;
       this.structureService
@@ -111,13 +111,13 @@ export class StructuresSmsFormComponent implements OnInit {
         .subscribe({
           next: () => {
             this.submitted = false;
-            this.notifService.success(
+            this.toastService.success(
               "Paramètres des SMS mis à jour avec succès"
             );
             this.loading = false;
           },
           error: () => {
-            this.notifService.error(
+            this.toastService.error(
               "Impossible de mettre à jour les paramètres"
             );
             this.submitted = false;

@@ -16,7 +16,7 @@ import {
 import * as fileSaver from "file-saver";
 
 import { MatomoTracker } from "ngx-matomo";
-import { ToastrService } from "ngx-toastr";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { Subscription } from "rxjs";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
@@ -69,7 +69,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
     public formatter: NgbDateCustomParserFormatter,
     private statsService: StatsService,
     private titleService: Title,
-    private notifService: ToastrService,
+    private toastService: CustomToastService,
     private cdRef: ChangeDetectorRef,
     private matomo: MatomoTracker,
     private authService: AuthService
@@ -200,7 +200,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
         }, 500);
       },
       error: () => {
-        this.notifService.error(
+        this.toastService.error(
           "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
         );
         this.exportLoading = false;

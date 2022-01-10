@@ -1,6 +1,13 @@
-import { Component, DebugElement, ElementRef, Injectable } from "@angular/core";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Component, DebugElement } from "@angular/core";
 
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from "@angular/core/testing";
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { DigitOnlyDirective } from "./digit-only.directive";
 
@@ -16,16 +23,17 @@ describe("Directive: Digit Only", () => {
   let fixture: ComponentFixture<TestHoverFocusComponent>;
   let inputEl: DebugElement;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [TestHoverFocusComponent, DigitOnlyDirective],
-    });
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [TestHoverFocusComponent, DigitOnlyDirective],
+      });
 
-    fixture = TestBed.createComponent(TestHoverFocusComponent);
-
-    component = fixture.componentInstance;
-    inputEl = fixture.debugElement.query(By.css("input"));
-  }));
+      fixture = TestBed.createComponent(TestHoverFocusComponent);
+      component = fixture.componentInstance;
+      inputEl = fixture.debugElement.query(By.css("input"));
+    })
+  );
 
   it("should be created", fakeAsync(() => {
     const numberDebug = fixture.debugElement.query(By.css("input"));
