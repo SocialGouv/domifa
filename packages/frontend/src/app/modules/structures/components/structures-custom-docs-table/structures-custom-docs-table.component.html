@@ -1,88 +1,90 @@
-<div class="alert-info alert" *ngIf="!structureDocs.length">
-  Aucun document n'a été ajouté pour le moment
-</div>
-<table class="table upload-table" *ngIf="structureDocs.length">
-  <thead>
-    <tr>
-      <th>Type</th>
-      <th>Nom du document</th>
-      <th>Ajouté par</th>
-      <th>Ajouté le</th>
-      <th class="d-print-none text-right"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <!-- Si Aucun doc personnalisé ne remplace l'attestation postale -->
-    <ng-container *ngFor="let document of structureDocs">
+<ng-container *ngIf="structureDocs"
+  ><div class="alert-info alert" *ngIf="!structureDocs.length">
+    Aucun document n'a été ajouté pour le moment
+  </div>
+  <table class="table upload-table" *ngIf="structureDocs.length">
+    <thead>
       <tr>
-        <td class="align-middle">
-          <span
-            class="doc-icon"
-            [ngClass]="STRUCTURE_DOC_ICONS[document.filetype]"
-          >
-            <fa-icon
-              [icon]="['far', STRUCTURE_DOC_ICONS[document.filetype]]"
-            ></fa-icon>
-          </span>
-        </td>
-        <td *ngIf="!document.custom">
-          {{ document.label }}
-        </td>
-        <td *ngIf="document.custom">
-          <span *ngIf="document.customDocType === 'attestation_postale'"
-            >Attestation postale</span
-          >
-          <span *ngIf="document.customDocType === 'courrier_radiation'"
-            >Courrier de radiation</span
-          >
-          <span *ngIf="document.customDocType === 'autre'">{{
-            document.label
-          }}</span>
-        </td>
-        <td class="align-middle">
-          {{ document.createdBy.nom }} {{ document.createdBy.prenom }}
-        </td>
-        <td class="align-middle">
-          {{ document.createdAt | date: "dd/MM/yyyy" }}
-        </td>
-        <td class="align-middle text-right">
-          <button
-            (click)="getStructureDoc(document)"
-            class="mx-1 my-1 btn btn-primary"
-            [disabled]="loadings.download.indexOf(document.uuid) !== -1"
-            aria-label="Voir la pièce jointe"
-          >
-            <span *ngIf="loadings.download.indexOf(document.uuid) !== -1"
-              ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
-              </fa-icon>
-              Patientez...</span
-            >
-            <span *ngIf="loadings.download.indexOf(document.uuid) === -1"
-              ><fa-icon [icon]="['fas', 'download']"></fa-icon>
-              Télécharger</span
-            >
-          </button>
-
-          <button
-            *ngIf="me.role === 'admin'"
-            (click)="deleteStructureDoc(document)"
-            class="mx-1 my-1 btn btn-danger"
-            [disabled]="loadings.delete.indexOf(document.uuid) !== -1"
-            aria-label="Voir la pièce jointe"
-          >
-            <span *ngIf="loadings.delete.indexOf(document.uuid) !== -1"
-              ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
-              </fa-icon>
-              Patientez...</span
-            >
-
-            <span *ngIf="loadings.delete.indexOf(document.uuid) === -1"
-              ><fa-icon title="Supprimer" [icon]="['fas', 'trash']"></fa-icon>
-              Supprimer</span
-            >
-          </button>
-        </td>
+        <th>Type</th>
+        <th>Nom du document</th>
+        <th>Ajouté par</th>
+        <th>Ajouté le</th>
+        <th class="d-print-none text-right"></th>
       </tr>
-    </ng-container>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <!-- Si Aucun doc personnalisé ne remplace l'attestation postale -->
+      <ng-container *ngFor="let document of structureDocs">
+        <tr>
+          <td class="align-middle">
+            <span
+              class="doc-icon"
+              [ngClass]="STRUCTURE_DOC_ICONS[document.filetype]"
+            >
+              <fa-icon
+                [icon]="['far', STRUCTURE_DOC_ICONS[document.filetype]]"
+              ></fa-icon>
+            </span>
+          </td>
+          <td *ngIf="!document.custom">
+            {{ document.label }}
+          </td>
+          <td *ngIf="document.custom">
+            <span *ngIf="document.customDocType === 'attestation_postale'"
+              >Attestation postale</span
+            >
+            <span *ngIf="document.customDocType === 'courrier_radiation'"
+              >Courrier de radiation</span
+            >
+            <span *ngIf="document.customDocType === 'autre'">{{
+              document.label
+            }}</span>
+          </td>
+          <td class="align-middle">
+            {{ document.createdBy.nom }} {{ document.createdBy.prenom }}
+          </td>
+          <td class="align-middle">
+            {{ document.createdAt | date: "dd/MM/yyyy" }}
+          </td>
+          <td class="align-middle text-right">
+            <button
+              (click)="getStructureDoc(document)"
+              class="mx-1 my-1 btn btn-primary"
+              [disabled]="loadings.download.indexOf(document.uuid) !== -1"
+              aria-label="Voir la pièce jointe"
+            >
+              <span *ngIf="loadings.download.indexOf(document.uuid) !== -1"
+                ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+                </fa-icon>
+                Patientez...</span
+              >
+              <span *ngIf="loadings.download.indexOf(document.uuid) === -1"
+                ><fa-icon [icon]="['fas', 'download']"></fa-icon>
+                Télécharger</span
+              >
+            </button>
+
+            <button
+              *ngIf="me.role === 'admin'"
+              (click)="deleteStructureDoc(document)"
+              class="mx-1 my-1 btn btn-danger"
+              [disabled]="loadings.delete.indexOf(document.uuid) !== -1"
+              aria-label="Voir la pièce jointe"
+            >
+              <span *ngIf="loadings.delete.indexOf(document.uuid) !== -1"
+                ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+                </fa-icon>
+                Patientez...</span
+              >
+
+              <span *ngIf="loadings.delete.indexOf(document.uuid) === -1"
+                ><fa-icon title="Supprimer" [icon]="['fas', 'trash']"></fa-icon>
+                Supprimer</span
+              >
+            </button>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</ng-container>

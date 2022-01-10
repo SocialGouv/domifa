@@ -3,10 +3,10 @@
     <div class="container px-2 d-flex flex-column-reverse flex-sm-row">
       <div class="flex-sm-grow-1 text-left py-4 py-sm-5">
         <h1>
-          <div class="font-bold">Simplifiez la domiciliation</div>
-          <div class="font-weight-normal home-header-subtitle">
+          <span class="d-block font-bold">Simplifiez la domiciliation</span>
+          <span class="font-weight-normal home-header-subtitle">
             pour les personnes sans domicile stable
-          </div>
+          </span>
         </h1>
         <div class="mt-2 mt-lg-4">
           <a
@@ -152,6 +152,7 @@
         <img
           src="../../../assets/images/home/avantage-5-protegez-donnees-domicilies.png"
           alt="Données"
+          aria-hidden="true"
           class="mr-1"
         />
         <span>Protégez les données de vos domiciliés</span>
@@ -179,6 +180,7 @@
   <div class="my-5 container px-2">
     <h2 class="font-bold">
       <img
+        aria-hidden="true"
         src="../../../assets/images/home/avantage-6-facilitez-autonomie.png"
         alt="Autonomie"
         class="mr-1"
@@ -263,7 +265,12 @@
   </div>
   <div class="my-5 container px-2">
     <h2 class="font-bold">
-      <img src="../../../assets/icones/icon-heart.png" class="mr-1" />
+      <img
+        src="../../../assets/icones/icon-heart.png"
+        aria-hidden="true"
+        alt="Ces structures nous font confiance "
+        class="mr-1"
+      />
       <span>Ces structures nous font confiance </span>
     </h2>
     <div class="my-2">
@@ -356,7 +363,11 @@
   <div
     class="container px-0 my-3 my-sm-5 d-flex flex-column justify-content-between flex-sm-row"
   >
-    <a class="mr-5" [routerLink]="['/']">
+    <a
+      class="mr-5"
+      [routerLink]="['/']"
+      title="Ministère des Solidarités et de la Santé"
+    >
       <img
         class="ministere-logo-home"
         src="../assets/images/logo-ministere.svg "
