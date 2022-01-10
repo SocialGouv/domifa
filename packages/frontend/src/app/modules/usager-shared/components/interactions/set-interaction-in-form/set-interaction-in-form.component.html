@@ -25,13 +25,18 @@
         <button
           (click)="decrement('courrierIn')"
           class="btn btn-primary"
+          title="Retirer un courrier"
           [disabled]="interactionFormData.courrierIn.nbCourrier === 0"
         >
-          <span class="icon-moins"></span>
+          <span class="icon-moins" aria-hidden="true"></span>
         </button>
         <span class="px-1"></span>
-        <button class="btn btn-primary" (click)="increment('courrierIn')">
-          <span class="icon-plus"></span>
+        <button
+          class="btn btn-primary"
+          title="Ajouter un courrier"
+          (click)="increment('courrierIn')"
+        >
+          <span class="icon-plus" aria-hidden="true"></span>
         </button>
       </div>
       <span class="interaction-label">Courriers</span>

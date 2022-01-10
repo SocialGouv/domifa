@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
   public me: UserStructure;
 
   @ViewChild("newsCenter", { static: true })
-  public newsCenter!: TemplateRef<NgbModalRef>;
+  public newsCenter: TemplateRef<NgbModalRef>;
 
   @ViewChild("maintenanceModal", { static: true })
   public maintenanceModal!: TemplateRef<NgbModalRef>;
@@ -72,7 +72,6 @@ export class AppComponent implements OnInit {
     this.modalOptions = {
       centered: true,
       backdrop: "static",
-      keyboard: false,
     };
 
     this.me = null;
@@ -162,19 +161,13 @@ export class AppComponent implements OnInit {
         !lastNews ||
         (lastNews && new Date(lastNews) < new Date(domifaNews[0].date))
       ) {
-        this.modalService.open(this.newsCenter, {
-          backdrop: "static",
-          centered: true,
-        });
+        this.modalService.open(this.newsCenter, this.modalOptions);
       }
     });
   }
 
   public openHelpModal(): void {
-    this.modalService.open(this.helpCenter, {
-      backdrop: "static",
-      centered: true,
-    });
+    this.modalService.open(this.helpCenter, this.modalOptions);
   }
 
   public closeHelpModal(): void {
