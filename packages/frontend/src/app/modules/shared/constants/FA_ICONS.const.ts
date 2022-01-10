@@ -14,6 +14,7 @@ import {
 import {
   faAngleLeft,
   faAngleRight,
+  faArrowRight,
   faArrowDown,
   faBan,
   faBars,
@@ -55,6 +56,7 @@ import {
 export const FA_ICONS: IconDefinition[] = [
   faAngleLeft,
   faAngleRight,
+  faArrowRight,
   faArrowAltCircleRight,
   faArrowDown,
   faBan,

@@ -54,7 +54,7 @@ export class PublicStatsComponent implements OnInit {
       const region = this.route.snapshot.params.region as string;
 
       if (typeof REGIONS_SEO_URL_TO_REGION_ID_MAP[region] !== "undefined") {
-        this.titleService.setTitle("Stats régionnales");
+        this.titleService.setTitle("Statistiques régionales");
         this.regionId = region;
 
         this.statsService

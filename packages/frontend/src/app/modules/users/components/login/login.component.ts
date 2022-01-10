@@ -11,6 +11,7 @@ import { Title } from "@angular/platform-browser";
 
 import { AuthService } from "../../../shared/services/auth.service";
 import { regexp } from "../../../../shared/validators";
+import { CustomToastService } from "../../../shared/services/custom-toast.service";
 
 @Component({
   selector: "app-login",
@@ -31,7 +32,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private titleService: Title,
     private authService: AuthService,
-    private notifService: ToastrService
+    private notifService: ToastrService,
+    public toastService: CustomToastService
   ) {
     this.hidePassword = true;
     this.loading = false;
@@ -40,9 +42,12 @@ export class LoginComponent implements OnInit {
 
   public ngOnInit(): void {
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || "/";
-
     this.titleService.setTitle("Connexion à DomiFa");
     this.initForm();
+
+    setTimeout(() => {
+      this.notifService.success("Le téléchargement vient de débuter");
+    }, 2000);
   }
 
   public initForm() {

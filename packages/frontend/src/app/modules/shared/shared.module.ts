@@ -1,3 +1,4 @@
+import { CustomToastService } from "./services/custom-toast.service";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import {
@@ -35,7 +36,7 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
     CustomToastrComponent,
   ],
   imports: [CommonModule, FontAwesomeModule],
-  providers: [LoadingService],
+  providers: [LoadingService, CustomToastService],
 })
 export class SharedModule {
   constructor(private library: FaIconLibrary) {

@@ -17,7 +17,7 @@ import * as Sentry from "@sentry/angular";
 
 import { CountUpModule } from "ngx-countup";
 import { MatomoModule } from "ngx-matomo";
-import { ToastrModule } from "ngx-toastr";
+import { ToastNoAnimationModule } from "ngx-toastr";
 import { environment } from "src/environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -68,13 +68,12 @@ if (environment.production) {
     CountUpModule,
     UsersModule,
     UserIdleModule.forRoot({ idle: 3600, timeout: 60, ping: 120 }),
-    ToastrModule.forRoot({
+    ToastNoAnimationModule.forRoot({
       toastComponent: CustomToastrComponent,
       positionClass: "toast-top-left",
       preventDuplicates: true,
       progressAnimation: "increasing",
-      progressBar: true,
-      timeOut: 6000,
+      disableTimeOut: true,
     }),
   ],
   providers: [
