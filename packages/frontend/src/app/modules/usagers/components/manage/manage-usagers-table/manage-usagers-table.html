@@ -28,7 +28,7 @@
     <th scope="col">INFORMATIONS</th>
     <th
       scope="col"
-      *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS' "
+      *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS' "
       (click)="updateFilters.emit({element: 'sortKey', value: 'PASSAGE'})"
     >
       PASSAGE
@@ -70,7 +70,7 @@
         <ng-template #rdvInfosTooltip class="p-3 text-center">
           <div class="distribution-tooltip">
             <div class="text-center" [class]="usager.rdvInfos.class">
-              {{ usager.rdvInfos.content }}
+              {{ usager.rdvInfos.content }}
             </div>
           </div>
         </ng-template>
@@ -103,7 +103,7 @@
       <td scope="row" class="table-name td-name">
         <a [routerLink]="usager.usagerProfilUrl">
           <div>
-            {{ usager.nom | uppercase }} {{ usager.prenom }}
+            {{ usager.nom | uppercase }} {{ usager.prenom }}
             <span *ngIf="usager.surnom && usager.surnom !== null">
               ({{ usager.surnom }})
             </span>
@@ -144,13 +144,13 @@
                     [icon]="['fas', 'share']"
                     class="text-primary mr-1"
                   ></fa-icon>
-                  Courrier à transférer : {{ usager.options.transfert.nom |
-                  titlecase }} {{ usager.options.transfert.adresse | titlecase
+                  Courrier à transférer : {{ usager.options.transfert.nom |
+                  titlecase }} {{ usager.options.transfert.adresse | titlecase
                   }}
                 </div>
 
                 <div *ngIf=" usager.options.transfert.dateFin <= today">
-                  Transfert expiré le {{ usager.options.transfert.dateFin |
+                  Transfert expiré le {{ usager.options.transfert.dateFin |
                   date: "dd/MM/yyyy" }}
                 </div>
               </div>
@@ -170,8 +170,8 @@
                   [icon]="['fas', 'share']"
                   class="text-primary mr-1"
                 ></fa-icon>
-                Procuration : {{ usager.options.procuration.nom }}
-                {{ usager.options.procuration.prenom }}
+                Procuration : {{ usager.options.procuration.nom }} {{
+                usager.options.procuration.prenom }}
               </span>
 
               <span *ngIf=" usager.options.procuration.dateFin <= today">
@@ -192,7 +192,7 @@
         </a>
       </td>
 
-      <td *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS' ">
+      <td *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS' ">
         <a [routerLink]="usager.usagerProfilUrl">
           {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yyyy" }}
         </a>
@@ -269,7 +269,7 @@
                 <span class="list-icon icon-courrier"></span>
                 <span>
                   <b class="text-primary"
-                    >{{ usager.lastInteraction.courrierIn }}</b
+                    >{{ usager.lastInteraction.courrierIn }}</b
                   >
                   courriers
                 </span>
@@ -279,7 +279,7 @@
                 <span class="list-icon icon-recommande"> </span>
                 <span>
                   <b class="text-primary"
-                    >{{ usager.lastInteraction.recommandeIn }}</b
+                    >{{ usager.lastInteraction.recommandeIn }}</b
                   >
                   avis de passage</span
                 >
@@ -289,7 +289,7 @@
                 <span class="list-icon icon-colis"> </span>
                 <span>
                   <b class="text-primary"
-                    >{{ usager.lastInteraction.colisIn }}</b
+                    >{{ usager.lastInteraction.colisIn }}</b
                   >
                   colis</span
                 >
@@ -305,15 +305,17 @@
           >
             <div class="icon-distribution list-icon"></div>
             <div class="list-icon-label">Distribuer</div>
-            <b class="notification">
-              {{ usager.totalInteractionsEnAttente }}
-            </b>
+            <b class="notification"> {{usager.totalInteractionsEnAttente }} </b>
           </div>
         </div>
       </td>
 
       <td class="d-print-none">
-        <a class="svg-icon icon-arrow" [routerLink]="usager.usagerProfilUrl">
+        <a
+          class="svg-icon icon-arrow"
+          [attr.aria-label]="'Aller sur le profil de '+usager.nom + ' ' + usager.prenom"
+          [routerLink]="usager.usagerProfilUrl"
+        >
         </a>
       </td>
     </tr>

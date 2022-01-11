@@ -25,7 +25,7 @@ import {
   InteractionForApi,
 } from "../../../../../../_common/model/interaction";
 import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../../_common/model/interaction/constants";
-import { fadeInOutSlow, fadeInOut } from "../../../../../shared";
+import { fadeInOut } from "../../../../../shared";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { InteractionService } from "../../../../usager-shared/services/interaction.service";
 import {
@@ -39,7 +39,7 @@ import {
 } from "../usager-filter";
 
 @Component({
-  animations: [fadeInOutSlow, fadeInOut],
+  animations: [fadeInOut],
   selector: "app-manage-manage-usagers-table",
   styleUrls: ["./manage-usagers-table.css"],
   templateUrl: "./manage-usagers-table.html",
