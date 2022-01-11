@@ -1,3 +1,22 @@
+# [2.62.0](https://github.com/SocialGouv/domifa/compare/v2.61.5...v2.62.0) (2022-01-11)
+
+
+### Bug Fixes
+
+* **toastr:** Ajout d'icônes directement dans le code, simplification des animations ([6667be4](https://github.com/SocialGouv/domifa/commit/6667be4e2efd6fc446c9962567f9f987c7e64676))
+* affichage des news ([34fc7eb](https://github.com/SocialGouv/domifa/commit/34fc7eb48eec6d5510b0251f6f12d9ebac44e4cf))
+* correction + ajout de la popup news ([5a43c69](https://github.com/SocialGouv/domifa/commit/5a43c699e4134e92062380571e145f5a975955b4))
+* correction de tests ([e88ae90](https://github.com/SocialGouv/domifa/commit/e88ae905923b6d5491788206a18e9dd13dceacda))
+* couleur d'une alerte ([d578c8e](https://github.com/SocialGouv/domifa/commit/d578c8e08f15475aaf9695f9abe194c81f445952))
+* mise à jour du dump de test ([58c5eab](https://github.com/SocialGouv/domifa/commit/58c5eabfba2b68cb7459927766be6181a7f5730a))
+* suppression de ngx-toastr ([d307785](https://github.com/SocialGouv/domifa/commit/d307785b121ba01ba09c304e04eb6991391c0734))
+* **dumps:** mise à jour des dumps de test ([0a2f1d3](https://github.com/SocialGouv/domifa/commit/0a2f1d3dc9423b1ebafcf1a8f295f2b5b3e3abf9))
+
+
+### Features
+
+* **accessibilité:** Correction des éléments de type alert ([c4c79ea](https://github.com/SocialGouv/domifa/commit/c4c79eab171beb79a8f3332aac5f2d659c795e01))
+
 ## [2.61.5](https://github.com/SocialGouv/domifa/compare/v2.61.4...v2.61.5) (2022-01-07)
 
 
