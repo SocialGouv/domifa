@@ -12,7 +12,7 @@
         [ngClass]="{ 'is-invalid': f.nom.errors }"
         required
       />
-      <div *ngIf="f.nom.errors" class="invalid-feedback" autocomplete="null">
+      <div *ngIf="f.nom.errors" class="invalid-feedback">
         <div *ngIf="f.nom.errors.required">
           Le nom du demandeur est obligatoire
         </div>
@@ -31,7 +31,7 @@
         [ngClass]="{ 'is-invalid': f.prenom.errors }"
         required
       />
-      <div *ngIf="f.prenom.errors" class="invalid-feedback" autocomplete="null">
+      <div *ngIf="f.prenom.errors" class="invalid-feedback">
         <div *ngIf="f.prenom.errors.required">Le prénom est obligatoire</div>
       </div>
     </div>
@@ -96,7 +96,6 @@
         id="villeNaissance"
         formControlName="villeNaissance"
         placeholder="Ville (préciser le pays si à l'étranger)"
-        autocomplete="null"
         [ngClass]="{ 'is-invalid': f.villeNaissance.errors }"
         required
       />
@@ -117,7 +116,6 @@
         aria-describedby="phoneHelp"
         [ngClass]="{ 'is-invalid': f.phone.errors }"
         placeholder="0606060606"
-        autocomplete="null"
         maxlength="10"
       />
       <div *ngIf="f.phone.errors" class="invalid-feedback">
@@ -135,7 +133,6 @@
         aria-describedby="emailHelp"
         [ngClass]="{ 'is-invalid': f.email.errors }"
         placeholder="adresse@mail.com"
-        autocomplete="null"
       />
       <div *ngIf="f.email.errors" class="invalid-feedback">
         L'adresse email est incorrecte
@@ -169,7 +166,6 @@
         maxlength="30"
         formControlName="customRef"
         [ngClass]="{ 'is-invalid': f.customRef.errors }"
-        autocomplete="null"
       />
       <div *ngIf="f.customRef.errors" class="invalid-feedback">
         L'identifiant est incorrect

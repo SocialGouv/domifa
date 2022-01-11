@@ -1,6 +1,6 @@
-<ng-container *ngIf="toast">
+<ng-container *ngIf="toast" @fadeInOut>
   <div
-    @fadeInOutSlow
+    @fadeInOut
     *ngIf="toast.display"
     id="toast-container"
     [attr.role]="toast.class === 'success' ? 'status' : 'alert'"
@@ -9,8 +9,20 @@
     class="toast-top-left toast-container"
   >
     <div class="ngx-toastr" [class]="'toast-' + toast.class">
-      <div class="toast-message" [attr.aria-label]="toast.message">
-        {{ toast.message }}
+      <div class="row d-flex align-items-center">
+        <div class="col-2">
+          <fa-icon
+            size="2x"
+            [icon]="['fas', toastIcons[toast.class]]"
+            aria-hidden="true"
+          >
+          </fa-icon>
+        </div>
+        <div class="col-10">
+          <div class="toast-message" [attr.aria-label]="toast.message">
+            {{ toast.message }}
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -81,11 +81,7 @@
           [ngClass]="{ 'is-invalid': f.nom.dirty && f.nom.errors }"
           required
         />
-        <div
-          *ngIf="f.nom.dirty && f.nom.errors"
-          class="invalid-feedback"
-          autocomplete="null"
-        >
+        <div *ngIf="f.nom.dirty && f.nom.errors" class="invalid-feedback">
           <div *ngIf="f.nom.errors.required">Le nom est obligatoire</div>
         </div>
       </div>

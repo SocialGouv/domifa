@@ -33,7 +33,7 @@ import {
 } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
-import { fadeInOut, fadeInOutSlow } from "../../../../shared";
+import { fadeInOut } from "../../../../shared";
 import { usagersCache } from "../../../../shared/store";
 import { SearchPageLoadedUsagersData } from "../../../../shared/store/AppStoreModel.type";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
@@ -57,7 +57,7 @@ import {
 
 const AUTO_REFRESH_PERIOD = 3600000; // 1h
 @Component({
-  animations: [fadeInOutSlow, fadeInOut],
+  animations: [fadeInOut],
 
   selector: "app-manage-usagers",
   styleUrls: ["./manage.component.css"],

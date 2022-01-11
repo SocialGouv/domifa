@@ -69,11 +69,7 @@
               (blur)="isDoublon()"
               required
             />
-            <div
-              *ngIf="submitted && f.nom.errors"
-              class="invalid-feedback"
-              autocomplete="null"
-            >
+            <div *ngIf="submitted && f.nom.errors" class="invalid-feedback">
               <div *ngIf="f.nom.errors.required">
                 Le nom du demandeur est obligatoire
               </div>
@@ -177,7 +173,6 @@
                 id="villeNaissance"
                 formControlName="villeNaissance"
                 placeholder="Ville (préciser le pays si à l'étranger)"
-                autocomplete="null"
                 [ngClass]="{
                   'is-invalid': submitted && f.villeNaissance.errors
                 }"
@@ -202,7 +197,6 @@
                 aria-describedby="phoneHelp"
                 [ngClass]="{ 'is-invalid': f.phone.errors }"
                 placeholder="0606060606"
-                autocomplete="null"
                 maxlength="10"
               />
               <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
@@ -224,7 +218,6 @@
                 aria-describedby="emailHelp"
                 [ngClass]="{ 'is-invalid': f.email.errors }"
                 placeholder="adresse@mail.com"
-                autocomplete="null"
               />
 
               <small id="emailHelp" class="form-text text-muted">
@@ -533,7 +526,6 @@
                     submitted && f.preference.get('phoneNumber').errors
                 }"
                 placeholder="0606060606"
-                autocomplete="null"
                 maxlength="10"
                 required
               />
