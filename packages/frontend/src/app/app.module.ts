@@ -1,4 +1,3 @@
-import { CustomToastrComponent } from "./modules/shared/components/custom-toastr/custom-toastr.component";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import {
   CUSTOM_ELEMENTS_SCHEMA,
@@ -17,7 +16,7 @@ import * as Sentry from "@sentry/angular";
 
 import { CountUpModule } from "ngx-countup";
 import { MatomoModule } from "ngx-matomo";
-import { ToastNoAnimationModule } from "ngx-toastr";
+
 import { environment } from "src/environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -68,13 +67,6 @@ if (environment.production) {
     CountUpModule,
     UsersModule,
     UserIdleModule.forRoot({ idle: 3600, timeout: 60, ping: 120 }),
-    ToastNoAnimationModule.forRoot({
-      toastComponent: CustomToastrComponent,
-      positionClass: "toast-top-left",
-      preventDuplicates: true,
-      progressAnimation: "increasing",
-      disableTimeOut: true,
-    }),
   ],
   providers: [
     AuthService,
