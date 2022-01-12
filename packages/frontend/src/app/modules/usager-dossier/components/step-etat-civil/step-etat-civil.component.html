@@ -1,6 +1,6 @@
 <app-step-header *ngIf="usager" [usager]="usager"></app-step-header>
 
-<div class="content" *ngIf="me && usager">
+<section class="content" *ngIf="me && usager">
   <div class="container py-3">
     <app-form-menu [usager]="usager" [currentStep]="0"></app-form-menu>
 
@@ -28,6 +28,7 @@
       <form
         [formGroup]="usagerForm"
         (ngSubmit)="submitInfos()"
+        ngNativeValidate
         autocomplete="off"
       >
         <h5 class="text-center title">État civil du demandeur</h5>
@@ -171,7 +172,7 @@
                 class="form-control"
                 id="villeNaissance"
                 formControlName="villeNaissance"
-                placeholder="Ville (préciser le pays si à l'étranger)"
+                placeholder="Préciser le pays si à l'étranger"
                 [ngClass]="{
                   'is-invalid': submitted && f.villeNaissance.errors
                 }"
@@ -188,7 +189,7 @@
             <div class="form-group">
               <label for="phone">Numéro de téléphone</label>
               <input
-                type="text"
+                type="tel"
                 class="form-control"
                 id="phone"
                 digitOnly
@@ -569,4 +570,4 @@
     class="my-5"
     [usager]="usager"
   ></app-delete-usager-menu>
-</div>
+</section>

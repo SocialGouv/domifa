@@ -3,9 +3,9 @@ import { UsagerHistoryTable } from "../../database/entities/usager/UsagerHistory
 import { usagerHistoryRepository } from "../../database/services/usager/usagerHistoryRepository.service";
 import { uuidGenerator } from "../../database/services/uuid";
 import {
-  Usager,
   UsagerHistory,
   UsagerHistoryState,
+  UsagerLight,
   UserStructureResume,
 } from "../../_common/model";
 import { UsagerHistoryStateCreationEvent } from "../../_common/model/usager/history/UsagerHistoryStateCreationEvent.type";
@@ -36,18 +36,7 @@ function buildInitialHistoryState({
   historyBeginDate = createdAt,
 }: {
   isImport: boolean;
-  usager: Pick<
-    Usager,
-    | "uuid"
-    | "ref"
-    | "structureId"
-    | "decision"
-    | "typeDom"
-    | "entretien"
-    | "ayantsDroits"
-    | "etapeDemande"
-    | "rdv"
-  >;
+  usager: UsagerLight;
   createdAt?: Date;
   createdEvent: UsagerHistoryStateCreationEvent;
   historyBeginDate?: Date;
@@ -86,16 +75,7 @@ async function updateHistoryStateFromDecision({
   createdEvent,
   historyBeginDate = createdAt,
 }: {
-  usager: Pick<
-    Usager,
-    | "uuid"
-    | "decision"
-    | "typeDom"
-    | "entretien"
-    | "ayantsDroits"
-    | "etapeDemande"
-    | "rdv"
-  >;
+  usager: UsagerLight;
   createdAt?: Date;
   createdEvent: UsagerHistoryStateCreationEvent;
   historyBeginDate?: Date;
@@ -122,16 +102,7 @@ function buildHistoryFromNewDecision({
   createdEvent,
   historyBeginDate = createdAt,
 }: {
-  usager: Pick<
-    Usager,
-    | "uuid"
-    | "decision"
-    | "typeDom"
-    | "entretien"
-    | "ayantsDroits"
-    | "etapeDemande"
-    | "rdv"
-  >;
+  usager: UsagerLight;
   usagerHistory: UsagerHistory;
   createdAt?: Date;
   createdEvent: UsagerHistoryStateCreationEvent;
@@ -144,6 +115,17 @@ function buildHistoryFromNewDecision({
   if (!decision.dateDebut) {
     decision.dateDebut = decision.dateDecision;
   }
+
+  if (!usagerHistory) {
+    usagerHistory = usagerHistoryStateManager.buildInitialHistoryState({
+      isImport: false,
+      usager,
+      createdAt: usager.decision.dateDecision,
+      createdEvent: "new-decision",
+      historyBeginDate: usager.decision.dateDebut,
+    });
+  }
+
   const createdBy: UserStructureResume = {
     userId: decision.userId,
     userName: decision.userName,
@@ -196,16 +178,7 @@ async function updateHistoryStateWithoutDecision({
   createdEvent,
   historyBeginDate = createdAt,
 }: {
-  usager: Pick<
-    Usager,
-    | "uuid"
-    | "decision"
-    | "typeDom"
-    | "entretien"
-    | "ayantsDroits"
-    | "etapeDemande"
-    | "rdv"
-  >;
+  usager: UsagerLight;
   createdBy: UserStructureResume;
   createdAt?: Date;
   createdEvent: UsagerHistoryStateCreationEvent;
@@ -236,16 +209,7 @@ async function removeLastDecisionFromHistory({
   historyBeginDate = createdAt,
   removedDecisionUUID,
 }: {
-  usager: Pick<
-    Usager,
-    | "uuid"
-    | "decision"
-    | "typeDom"
-    | "entretien"
-    | "ayantsDroits"
-    | "etapeDemande"
-    | "rdv"
-  >;
+  usager: UsagerLight;
   createdBy: UserStructureResume;
   createdAt?: Date;
   historyBeginDate?: Date;
@@ -282,15 +246,7 @@ function buildHistoryState({
   createdEvent,
   historyBeginDate,
 }: {
-  usager: Pick<
-    Usager,
-    | "decision"
-    | "typeDom"
-    | "entretien"
-    | "ayantsDroits"
-    | "etapeDemande"
-    | "rdv"
-  >;
+  usager: UsagerLight;
   usagerHistory: UsagerHistory;
   createdAt: Date;
   createdBy: UserStructureResume;

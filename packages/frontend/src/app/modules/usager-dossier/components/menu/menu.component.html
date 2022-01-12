@@ -1,5 +1,5 @@
 <div class="container" *ngIf="me">
-  <div id="steps">
+  <nav id="steps" role="navigation" aria-label="Etapes">
     <div
       class="step"
       *ngFor="let etape of etapes; let i = index"
@@ -10,7 +10,11 @@
         (click)="goToStep(i)"
         [disabled]="(usager.ref === 0 || i > usager.etapeDemande) && i > 0"
       >
-        <span *ngIf="currentStep > i" class="step_number step_check">
+        <span
+          *ngIf="currentStep > i"
+          class="step_number step_check"
+          aria-hidden="true"
+        >
           <fa-icon [icon]="['fas', 'check']"></fa-icon>
         </span>
         <span
@@ -20,6 +24,7 @@
             step_inactive:
               (usager.ref === 0 || i > usager.etapeDemande) && i > 0
           }"
+          aria-hidden="true"
           class="step_number"
         >
           {{ i + 1 }}
@@ -46,5 +51,5 @@
         ></span>
       </div>
     </div>
-  </div>
+  </nav>
 </div>
