@@ -82,7 +82,6 @@
               id="prenom"
               cleanStr
               formControlName="prenom"
-              placeholder="Prénom(s) du demandeur"
               [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
               (blur)="isDoublon()"
               required
@@ -150,17 +149,13 @@
                 required
               />
               <div class="input-group-append">
-                <button
+                <span
                   class="btn btn-outline-primary"
-                  aria-label="Choisir date de naissance"
-                  (click)="
-                    d.toggle();
-                    $event.preventDefault();
-                    $event.stopPropagation()
-                  "
+                  aria-hidden="true"
+                  (click)="d.toggle()"
                 >
                   <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
-                </button>
+                </span>
               </div>
 
               <div *ngIf="f.dateNaissance.invalid" class="invalid-feedback">
@@ -372,7 +367,7 @@
                     'is-invalid':
                       submitted && ayantsDroits.controls[i].get('prenom').errors
                   }"
-                  placeholder="Prénom"
+                  placeholder="Prénom de l'ayant-droit"
                 />
                 <div
                   *ngIf="
@@ -407,23 +402,23 @@
                     formControlName="dateNaissance"
                   />
                   <div class="input-group-append">
-                    <button
+                    <span
                       class="btn btn-outline-primary"
-                      (click)="dateAyantDroit.toggle(); $event.preventDefault()"
-                      aria-label="Choisir date de naissance d'un ayant-droit"
+                      (click)="dateAyantDroit.toggle()"
+                      aria-hidden="true"
                     >
                       <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
-                    </button>
+                    </span>
                   </div>
-                </div>
-                <div
-                  *ngIf="
-                    submitted &&
-                    ayantsDroits.controls[i].get('dateNaissance').errors
-                  "
-                  class="invalid-feedback"
-                >
-                  La date de naissance est obligatoire
+                  <div
+                    *ngIf="
+                      submitted &&
+                      ayantsDroits.controls[i].get('dateNaissance').errors
+                    "
+                    class="invalid-feedback"
+                  >
+                    La date de naissance est obligatoire
+                  </div>
                 </div>
               </div>
               <div class="col form-group required">

@@ -10,7 +10,7 @@ import {
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { MatomoTracker } from "ngx-matomo";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
+
 import {
   BehaviorSubject,
   combineLatest,
@@ -36,6 +36,7 @@ import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { fadeInOut } from "../../../../shared";
 import { usagersCache } from "../../../../shared/store";
 import { SearchPageLoadedUsagersData } from "../../../../shared/store/AppStoreModel.type";
+import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import {
   getEcheanceInfos,

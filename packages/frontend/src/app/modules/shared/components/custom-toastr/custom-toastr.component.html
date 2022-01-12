@@ -1,6 +1,6 @@
-<ng-container *ngIf="toast" @fadeInOut>
+<ng-container *ngIf="toast" @fadeIn>
   <div
-    @fadeInOut
+    @fadeIn
     *ngIf="toast.display"
     id="toast-container"
     [attr.role]="toast.class === 'success' ? 'status' : 'alert'"

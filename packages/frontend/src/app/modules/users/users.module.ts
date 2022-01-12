@@ -36,7 +36,6 @@ import { SharedModule } from "../shared/shared.module";
     CommonModule,
     SharedModule,
     RouterModule.forChild([]),
-
     HttpClientModule,
     NgbModule,
     FormsModule,

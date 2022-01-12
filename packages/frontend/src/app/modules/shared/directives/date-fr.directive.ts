@@ -63,11 +63,12 @@ export class DateFrDirective {
   @HostListener("keyup", ["$event"])
   public onKeyUp(e: KeyboardEvent) {
     const target = e.target as HTMLInputElement;
-    let dateValue = target.value;
+    const dateValue = target.value;
 
     if (e.key !== "Backspace") {
+      console.log(dateValue);
       if (dateValue.length === 2 || dateValue.length === 5) {
-        dateValue = dateValue + "/";
+        (<HTMLInputElement>e.target).value = dateValue + "/";
       }
     }
   }

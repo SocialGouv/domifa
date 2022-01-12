@@ -6,16 +6,17 @@ import {
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
+
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
-import { StructureService } from "src/app/modules/structures/services/structure.service";
-import { StructureCommon, UserStructure } from "../../../../../_common/model";
-import { fadeInOut } from "../../../../shared/animations";
-import { regexp } from "../../../../shared/validators";
+import { UserStructure, StructureCommon } from "../../../../../_common/model";
+import { fadeInOut, regexp } from "../../../../shared";
+
+import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { userStructureBuilder } from "../../../users/services";
 import { PasswordValidator } from "../../../users/services/password-validator.service";
 import { UsersService } from "../../../users/services/users.service";
+import { StructureService } from "../../services/structure.service";
 
 @Component({
   animations: [fadeInOut],

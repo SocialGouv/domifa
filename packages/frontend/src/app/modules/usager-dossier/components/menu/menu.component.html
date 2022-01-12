@@ -5,7 +5,11 @@
       *ngFor="let etape of etapes; let i = index"
       id="step{{ i }}"
     >
-      <button title="Aller à l'étape {{ etape }}" (click)="goToStep(i)">
+      <button
+        [attr.aria-label]="'Aller à l\'étape ' + etape"
+        (click)="goToStep(i)"
+        [disabled]="(usager.ref === 0 || i > usager.etapeDemande) && i > 0"
+      >
         <span *ngIf="currentStep > i" class="step_number step_check">
           <fa-icon [icon]="['fas', 'check']"></fa-icon>
         </span>
