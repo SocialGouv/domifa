@@ -1,33 +1,43 @@
-<app-navbar></app-navbar>
-
-<div id="page">
-  <router-outlet></router-outlet>
-</div>
-<div class="d-print-none" id="help-button-wrapper" *ngIf="me">
-  <button title="Besoin d'aide ?" id="help-button" (click)="openHelpModal()">
-    <fa-icon [icon]="['fas', 'question']"></fa-icon>
-  </button>
-</div>
-
-<div class="d-print-none" id="matomo-info" *ngIf="!matomoInfo">
-  <div>
+<div
+  class="d-print-none d-flex justify-content-center align-items-center"
+  id="matomo-info"
+  role="alert"
+  aria-label="Avertissement sur la collecte de données"
+  *ngIf="!matomoInfo"
+>
+  <div class="mx-1">
     Nous collectons des données anonymisées à des fins statistiques via l'outil
     français Matomo. Pour tout savoir sur notre utilisation des données,
     consultez notre
+
     <a [routerLink]="['/confidentialite']" routerLinkActive="router-link-active"
       >politique de confidentialité.</a
     >
   </div>
-  <div>
+  <div class="mx-1">
     <button
       title="Fermer"
-      class="btn btn-white"
+      class="btn btn-white-primary"
       aria-label="Fermer le message"
       (click)="closeMatomo()"
     >
-      Fermer <span>&times;</span>
+      Fermer <span aria-hidden="true">&times;</span>
     </button>
   </div>
+</div>
+
+<app-loading></app-loading>
+<app-custom-toastr></app-custom-toastr>
+
+<app-navbar></app-navbar>
+
+<main id="page">
+  <router-outlet></router-outlet>
+</main>
+<div class="d-print-none" id="help-button-wrapper" *ngIf="me">
+  <button title="Besoin d'aide ?" id="help-button" (click)="openHelpModal()">
+    <fa-icon [icon]="['fas', 'question']"></fa-icon>
+  </button>
 </div>
 
 <footer class="d-print-none page-footer py-4">
@@ -48,7 +58,6 @@
             class="ministere-logo"
             src="../assets/images/footer/partenaire-fabrique-numerique.png"
             alt="La Fabrique Numérique"
-            title="La Fabrique Numérique"
           />
         </a>
         <a
@@ -62,7 +71,6 @@
             class="ministere-logo"
             src="../assets/images/footer/partenaire-beta-gouv.png"
             alt="Beta Gouv"
-            title="Beta Gouv"
         /></a>
         <a
           class="mr-0 mr-sm-3"
@@ -77,7 +85,6 @@
             class="ministere-logo"
             src="../assets/images/footer/logo-france-relance.svg"
             alt="France Relance soutien Domifa"
-            title="France Relance soutien Domifa"
         /></a>
         <a
           class="mr-0 mr-sm-3"
@@ -90,8 +97,8 @@
             class="ministere-logo"
             src="../assets/images/footer/partenaire-dihal.png"
             alt="DIHAL"
-            title="DIHAL"
-        /></a>
+          />
+        </a>
         <a
           class="mr-0 mr-sm-3"
           (click)="matomo.trackEvent('FOOTER', 'Footer_Logo_DGCS', 'null', 1)"
@@ -103,7 +110,6 @@
             class="ministere-logo"
             src="../assets/images/footer/logo-dgcs.png"
             alt="DGCS"
-            title="DGCS"
         /></a>
         <a
           href="https://www.unccas.org"
@@ -115,7 +121,6 @@
             class="ministere-logo"
             src="../assets/images/footer/partenaire-unccas.png"
             alt="UNCCAS"
-            title="UNCCAS"
         /></a>
       </div>
     </div>
@@ -135,7 +140,6 @@
           (click)="
             matomo.trackEvent('FOOTER', 'Footer_Mentions_Légales', 'null', 1)
           "
-          title="FAQ"
         >
           Mentions légales
         </a>
@@ -144,7 +148,6 @@
           [routerLink]="['/cgu']"
           routerLinkActive="router-link-active"
           (click)="matomo.trackEvent('FOOTER', 'Footer_CGU', 'null', 1)"
-          title="Conditions d'utilisation"
         >
           CGU
         </a>
@@ -218,10 +221,11 @@
 
 <ng-template #newsCenter let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">
-      🎉 Les dernières nouveautés de Domifa :
-      {{ domifaNews.date | date: "dd/MM/yyyy" }} 🎉
-    </h4>
+    <span class="modal-title" id="modal-title">
+      <span aria-hidden="true">🎉</span> Les dernières nouveautés de Domifa :
+      {{ domifaNews.date | date: "dd/MM/yyyy" }}
+      <span aria-hidden="true">🎉</span>
+    </span>
     <button
       title="Fermer"
       class="close"
@@ -320,6 +324,3 @@
     <br />
   </div>
 </ng-template>
-
-<app-loading></app-loading>
-<app-custom-toastr></app-custom-toastr>

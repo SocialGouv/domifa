@@ -36,6 +36,7 @@ export class CustomToastService {
       message,
       class: className,
     });
+
     setTimeout(() => {
       this.toast.display = false;
       this.toast$.next(this.toast);

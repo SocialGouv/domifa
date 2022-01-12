@@ -31,7 +31,6 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private titleService: Title,
     private authService: AuthService,
-
     public toastService: CustomToastService
   ) {
     this.hidePassword = true;

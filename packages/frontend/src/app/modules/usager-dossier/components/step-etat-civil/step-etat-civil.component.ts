@@ -14,7 +14,7 @@ import {
   NgbDatepickerI18n,
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
+
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
@@ -28,16 +28,16 @@ import {
   UsagerLight,
   UserStructure,
   Usager,
-  UsagerFormAyantDroit,
+  CerfaDocType,
+  LIEN_PARENTE_LABELS,
 } from "../../../../../_common/model";
-import { LIEN_PARENTE_LABELS } from "../../../../../_common/model/usager/constants/LIEN_PARENTE_LABELS.const";
+import { UsagerFormAyantDroit } from "../../../../../_common/model/usager/dossier";
 import { fadeInOut, languagesAutocomplete } from "../../../../shared";
 import { regexp } from "../../../../shared/validators";
-import { AyantDroit } from "../../../usager-shared/interfaces/ayant-droit";
-import { UsagerFormModel } from "../../../usager-shared/interfaces/UsagerFormModel";
+import { CustomToastService } from "../../../shared/services/custom-toast.service";
+import { UsagerFormModel, AyantDroit } from "../../../usager-shared/interfaces";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
-import { CerfaDocType } from "src/_common/model/cerfa";
 
 @Component({
   animations: [fadeInOut],
@@ -97,7 +97,7 @@ export class StepEtatCivilComponent implements OnInit {
     private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
-    private toastService: CustomToastService,
+    public toastService: CustomToastService,
     private nbgDate: NgbDateCustomParserFormatter,
     private titleService: Title
   ) {
@@ -274,60 +274,63 @@ export class StepEtatCivilComponent implements OnInit {
     this.submitted = true;
 
     if (this.usagerForm.invalid) {
+      this.toastService.success(
+        "Un des champs du formulaire n'est pas rempli ou contient une erreur"
+      );
       this.toastService.error(
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
-    } else {
-      this.loading = true;
-
-      const usagerFormValues = this.usagerForm.value;
-
-      let ayantsDroits: UsagerAyantDroit[] = [];
-
-      ayantsDroits = usagerFormValues.ayantsDroits.map(
-        (ayantDroit: UsagerFormAyantDroit) => {
-          return {
-            lien: ayantDroit.lien,
-            nom: ayantDroit.nom,
-            prenom: ayantDroit.prenom,
-            dateNaissance: new Date(
-              this.nbgDate.formatEn(ayantDroit.dateNaissance)
-            ),
-          };
-        }
-      );
-
-      const formValue: UsagerFormModel = {
-        ...usagerFormValues,
-        ayantsDroits,
-        dateNaissance: this.nbgDate.formatEn(
-          this.usagerForm.controls.dateNaissance.value
-        ),
-
-        etapeDemande: this.usager.etapeDemande,
-      };
-
-      if (!formValue.preference.phone) {
-        formValue.preference.phoneNumber = null;
-      }
-
-      // if (formValue.typeDom === "RENOUVELLEMENT") {
-      //   formValue.datePremiereDom = new Date(
-      //     this.nbgDate.formatEn(this.usagerForm.controls.datePremiereDom.value)
-      //   );
-      //  }
-
-      this.usagerDossierService.create(formValue).subscribe({
-        next: (usager: UsagerLight) => {
-          this.usager = new UsagerFormModel(usager);
-          this.nextStep();
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error("Veuillez vérifier les champs du formulaire");
-        },
-      });
+      return;
     }
+    this.loading = true;
+
+    const usagerFormValues = this.usagerForm.value;
+
+    let ayantsDroits: UsagerAyantDroit[] = [];
+
+    ayantsDroits = usagerFormValues.ayantsDroits.map(
+      (ayantDroit: UsagerFormAyantDroit) => {
+        return {
+          lien: ayantDroit.lien,
+          nom: ayantDroit.nom,
+          prenom: ayantDroit.prenom,
+          dateNaissance: new Date(
+            this.nbgDate.formatEn(ayantDroit.dateNaissance)
+          ),
+        };
+      }
+    );
+
+    const formValue: UsagerFormModel = {
+      ...usagerFormValues,
+      ayantsDroits,
+      dateNaissance: this.nbgDate.formatEn(
+        this.usagerForm.controls.dateNaissance.value
+      ),
+
+      etapeDemande: this.usager.etapeDemande,
+    };
+
+    if (!formValue.preference.phone) {
+      formValue.preference.phoneNumber = null;
+    }
+
+    // if (formValue.typeDom === "RENOUVELLEMENT") {
+    //   formValue.datePremiereDom = new Date(
+    //     this.nbgDate.formatEn(this.usagerForm.controls.datePremiereDom.value)
+    //   );
+    //  }
+
+    this.usagerDossierService.create(formValue).subscribe({
+      next: (usager: UsagerLight) => {
+        this.usager = new UsagerFormModel(usager);
+        this.nextStep();
+      },
+      error: () => {
+        this.loading = false;
+        this.toastService.error("Veuillez vérifier les champs du formulaire");
+      },
+    });
   }
 
   private nextStep(): void {

@@ -11,7 +11,6 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
-import { GeneralModule } from "../general/general.module";
 import { CustomDatepickerI18n } from "../shared/services/date-french";
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
@@ -33,14 +32,12 @@ import { UsagerService } from "./services/usager.service";
   imports: [
     CommonModule,
     FormsModule,
-    GeneralModule,
     UsagerSharedModule,
     HttpClientModule,
     NgbModule,
     ReactiveFormsModule,
     RouterModule.forChild([]),
     SharedModule,
-
     UsersModule,
   ],
   providers: [

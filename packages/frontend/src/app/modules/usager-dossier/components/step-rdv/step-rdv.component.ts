@@ -56,7 +56,7 @@ export class StepRdvComponent implements OnInit {
     private formBuilder: FormBuilder,
     private usagerDossierService: UsagerDossierService,
     private documentService: DocumentService,
-    private toastService: CustomToastService,
+    public toastService: CustomToastService,
     private authService: AuthService,
     private nbgDate: NgbDateCustomParserFormatter,
     private router: Router,

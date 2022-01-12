@@ -155,10 +155,6 @@ orm .card {
   }
 }
 
-.modal-header h4 {
-  margin: 2px 0;
-}
-
 .notification {
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;

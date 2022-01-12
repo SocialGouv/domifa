@@ -6373,8 +6373,11 @@ a.close.disabled {
 }
 
 .modal-title {
-  margin-bottom: 0;
-  line-height: 1.5;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.4rem;
+  margin-bottom: 0.25rem;
+  margin-top: 0.25rem;
 }
 
 .modal-body {

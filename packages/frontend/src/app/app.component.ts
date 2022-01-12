@@ -72,6 +72,7 @@ export class AppComponent implements OnInit {
     this.modalOptions = {
       centered: true,
       backdrop: "static",
+      ariaLabelledBy: "modal-title",
     };
 
     this.me = null;
