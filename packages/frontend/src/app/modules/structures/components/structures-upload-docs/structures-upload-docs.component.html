@@ -5,7 +5,7 @@
   </h4>
 </div>
 <div class="modal-body">
-  <form [formGroup]="uploadForm" (ngSubmit)="submitFile()">
+  <form ngNativeValidate [formGroup]="uploadForm" (ngSubmit)="submitFile()">
     <div class="row">
       <div class="col-12 form-group required" *ngIf="isCustomDoc">
         <label for="customDocType">Type de document à enregistrer</label>

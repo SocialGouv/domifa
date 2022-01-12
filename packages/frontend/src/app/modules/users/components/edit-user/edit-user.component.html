@@ -74,7 +74,12 @@
         </div>
 
         <div class="list-group-item" *ngIf="editUser">
-          <form [formGroup]="userForm" class="row" (ngSubmit)="updateUser()">
+          <form
+            ngNativeValidate
+            [formGroup]="userForm"
+            class="row"
+            (ngSubmit)="updateUser()"
+          >
             <div class="col-md-4 form-group required">
               <label for="prenom">Prénom</label>
               <input
