@@ -292,6 +292,7 @@
               submitted && ayantsDroits.controls[i].get('lien').errors
           }"
         >
+          <option [value]="null"></option>
           <option
             *ngFor="let lien of LIENS_PARENTE | keyvalue"
             [ngValue]="lien.key"
