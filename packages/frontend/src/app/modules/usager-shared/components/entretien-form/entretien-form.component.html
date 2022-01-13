@@ -142,21 +142,28 @@
               class="form-check-input"
               type="radio"
               formControlName="liencommune"
-              id="liencommuneAutre"
+              id="liencommune_autre"
               value="AUTRE"
             />
-            <label class="form-check-label" for="liencommuneAutre">
+            <label class="form-check-label" for="liencommune_autre">
               Autre lien avec la commune
             </label>
           </div>
         </div>
-        <div class="form-group">
+        <div
+          class="form-group required"
+          *ngIf="e.liencommune.value === 'AUTRE'"
+        >
+          <label class="form-check-label" for="liencommune_autre_contenu">
+            Autre lien avec la commune
+          </label>
           <input
             type="text"
+            id="liencommune_autre_contenu"
             class="form-control"
-            *ngIf="e.liencommune.value === 'AUTRE'"
             formControlName="liencommuneDetail"
-            placeholder="Précisions"
+            placeholder="Précisez le lien avec la commune"
+            required
           />
         </div>
       </div>
@@ -214,13 +221,18 @@
             </label>
           </div>
         </div>
-        <div class="form-group">
+
+        <div class="form-group required" *ngIf="e.residence.value === 'AUTRE'">
+          <label class="form-check-label" for="residence_autre_contenu">
+            Autre situation résidentielle
+          </label>
           <input
             type="text"
+            id="residence_autre_contenu"
             class="form-control"
-            *ngIf="e.residence.value === 'AUTRE'"
             formControlName="residenceDetail"
-            placeholder="Précisions"
+            placeholder="Précisez le lieu de résidence"
+            required
           />
         </div>
       </div>
@@ -252,14 +264,22 @@
             id="causeAutre"
             value="AUTRE"
           />
-          <label class="form-check-label" for="causeAutre"> Autre cause </label>
+          <label class="form-check-label" for="causeAutre">
+            Autre cause d'instabilité
+          </label>
         </div>
-        <div class="form-group" *ngIf="e.cause.value === 'AUTRE'">
+
+        <div class="form-group required" *ngIf="e.cause.value === 'AUTRE'">
+          <label class="form-check-label" for="cause_autre_contenu">
+            Autre cause d'instabilité
+          </label>
           <input
             type="text"
+            id="cause_autre_contenu"
             class="form-control"
             formControlName="causeDetail"
-            placeholder="Précisions"
+            placeholder="Précisez l'autre cause"
+            required
           />
         </div>
       </div>

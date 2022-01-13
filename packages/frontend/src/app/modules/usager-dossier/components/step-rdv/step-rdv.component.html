@@ -9,7 +9,7 @@
         <div class="col">
           <h5 class="title">
             Un entretien pour
-            <u>{{ usager.nom }} {{ usager.prenom }}</u>
+            {{ usager.nom }} {{ usager.prenom }}
             est déjà programmé
           </h5>
           <p>
@@ -23,17 +23,20 @@
             <b>{{ usager.rdv.userName }}</b>
             <br />
             <br />
-            <button (click)="rdvNow()" class="btn btn-secondary">
+            <button (click)="rdvNow()" class="btn btn-primary">
               Réaliser l'entretien maintenant
             </button>
             <br />
             <br />
-            <button (click)="editRdv = true" class="btn btn-secondary">
+            <button (click)="editRdv = true" class="btn btn-outline-primary">
               Modifier la date du rendez-vous
             </button>
             <br />
             <br />
-            <button (click)="getCerfa('demande')" class="btn btn-primary">
+            <button
+              (click)="getCerfa('demande')"
+              class="btn btn-outline-primary"
+            >
               <fa-icon [icon]="['fas', 'download']" class="mr-2"></fa-icon>
               Télécharger l'attestation de Demande
             </button>
@@ -55,8 +58,7 @@
           <div
             class="card my-2"
             [ngClass]="{
-              card_selected: r.isNow.value === true,
-              card_not_selected: r.isNow.value === false
+              card_selected: r.isNow.value === true
             }"
           >
             <div class="card-body" (click)="setValueRdv(true)">
@@ -100,8 +102,7 @@
           <div
             class="card my-4"
             [ngClass]="{
-              card_selected: r.isNow.value === false,
-              card_not_selected: r.isNow.value === true
+              card_selected: r.isNow.value === false
             }"
           >
             <div class="card-body" (click)="setValueRdv(false)">
@@ -143,6 +144,7 @@
                       [minDate]="minDateToday"
                       [maxDate]="maxDateRdv"
                       placement="bottom"
+                      id="jourRdv"
                       ngbDatepicker
                       [ngClass]="{ 'is-invalid': r.jourRdv.invalid }"
                       formControlName="jourRdv"
@@ -150,8 +152,9 @@
                       required
                     />
                     <div class="input-group-append">
-                      <span
-                        aria-hidden="true"
+                      <button
+                        type="button"
+                        aria-label="Sélectionner une date de rendez-vous sur le calendrier"
                         class="btn btn-outline-primary"
                         (click)="dRdv.toggle()"
                       >
@@ -159,7 +162,7 @@
                           title="Calendrier"
                           [icon]="['fas', 'calendar']"
                         ></fa-icon>
-                      </span>
+                      </button>
                     </div>
                     <div
                       *ngIf="r.jourRdv.invalid"

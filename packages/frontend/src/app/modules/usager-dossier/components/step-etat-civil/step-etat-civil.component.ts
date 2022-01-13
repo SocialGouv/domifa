@@ -157,28 +157,13 @@ export class StepEtatCivilComponent implements OnInit {
       sexe: [this.usager.sexe, Validators.required],
       surnom: [this.usager.surnom, []],
       typeDom: [this.usager.typeDom, []],
-      // TODO: réactiver une fois que la décision sur le type de demande sera prise
-      // typeDom: [
-      //   this.usager.isActif ? this.usager.typeDom : null,
-      //   [Validators.required],
-      //  ],
-      //  datePremiereDom: [formatDateToNgb(this.usager.datePremiereDom), []],
+
       villeNaissance: [this.usager.villeNaissance, [Validators.required]],
     });
 
     for (const ayantDroit of this.usager.ayantsDroits) {
       this.addAyantDroit(ayantDroit);
     }
-
-    // this.usagerForm
-    //   .get("typeDom")
-    //   .valueChanges.subscribe((value: UsagerTypeDom | null) => {
-    //     const isRequired =
-    //       value === "RENOUVELLEMENT" ? [Validators.required] : null;
-
-    //     this.usagerForm.get("datePremiereDom").setValidators(isRequired);
-    //     this.usagerForm.get("datePremiereDom").updateValueAndValidity();
-    //   });
 
     this.usagerForm
       .get("preference")
@@ -227,11 +212,6 @@ export class StepEtatCivilComponent implements OnInit {
         });
     }
     return false;
-  }
-
-  public addAyantDroitButton(event: Event): void {
-    event.preventDefault();
-    this.addAyantDroit();
   }
 
   public addAyantDroit(ayantDroit: AyantDroit = new AyantDroit()): void {

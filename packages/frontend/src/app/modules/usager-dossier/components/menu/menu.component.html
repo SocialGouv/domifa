@@ -1,5 +1,9 @@
 <div class="container" *ngIf="me">
-  <nav id="steps" role="navigation" aria-label="Etapes">
+  <nav
+    id="steps"
+    aria-label="Étapes du formulaire de demande de domiciliation"
+    role="navigation"
+  >
     <div
       class="step"
       *ngFor="let etape of etapes; let i = index"
@@ -33,9 +37,8 @@
           [ngClass]="{
             step_text_active: currentStep === i,
             step_text_inactive:
-              (usager.ref === 0 || i > usager.etapeDemande) && i > 0
+              usager.ref === 0 || (i > usager.etapeDemande && i > 0)
           }"
-          [ngClass]="usager.ref === 0 ? 'step_text_inactive' : ''"
           class="step_text"
         >
           {{ etape }}
@@ -45,6 +48,7 @@
         <span
           class="separateur"
           [ngClass]="{
+            step_text_active: currentStep === i,
             separateur_inactive:
               (usager.ref === 0 || i > usager.etapeDemande) && i > 0
           }"
