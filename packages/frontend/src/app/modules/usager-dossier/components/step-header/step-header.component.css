@@ -23,3 +23,7 @@
   text-align: center;
   color: #26353f;
 }
+
+a {
+  color: white !important;
+}

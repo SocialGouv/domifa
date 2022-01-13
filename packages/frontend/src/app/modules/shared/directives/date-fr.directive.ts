@@ -66,7 +66,6 @@ export class DateFrDirective {
     const dateValue = target.value;
 
     if (e.key !== "Backspace") {
-      console.log(dateValue);
       if (dateValue.length === 2 || dateValue.length === 5) {
         (<HTMLInputElement>e.target).value = dateValue + "/";
       }

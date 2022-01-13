@@ -30,7 +30,7 @@
                 class="btn btn-primary"
                 (click)="export(2021)"
               >
-                <fa-icon [icon]="['fas', 'download']" role="image"></fa-icon>
+                <fa-icon [icon]="['fas', 'download']"></fa-icon>
                 Télécharger le rapport 2021
               </button>
             </div>
@@ -69,7 +69,6 @@
           <div class="input-group-append">
             <button class="btn btn-outline-primary" (click)="dDebut.toggle()">
               <fa-icon
-                role="image"
                 title="Calendrier"
                 [icon]="['fas', 'calendar']"
               ></fa-icon>
@@ -92,7 +91,6 @@
             [maxDate]="maxDateFin"
             placement="bottom"
             ngbDatepicker
-            role="image"
             [(ngModel)]="toDate"
             #dFin="ngbDatepicker"
             #cb="ngModel"

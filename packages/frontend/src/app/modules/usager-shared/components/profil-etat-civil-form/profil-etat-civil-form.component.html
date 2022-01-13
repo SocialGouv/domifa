@@ -146,7 +146,7 @@
         type="text"
         class="form-control"
         formControlName="langue"
-        placeholder="Langue parlée"
+        placeholder="Anglais, arabe, chinois, etc"
         [ngClass]="{ 'is-invalid': f.langue.touched && f.langue.errors }"
         [ngbTypeahead]="languagesAutocompleteSearch"
         [resultFormatter]="languagesAutocomplete.formatter"

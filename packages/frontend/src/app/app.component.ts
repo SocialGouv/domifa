@@ -103,6 +103,13 @@ export class AppComponent implements OnInit {
       if (!(evt instanceof NavigationEnd)) {
         return;
       }
+
+      // Retour au top du curseur
+      const mainHeader = document.getElementById("top-site");
+      if (mainHeader) {
+        mainHeader.focus();
+      }
+      // Retour au top de la fenêtre
       window.scroll({
         behavior: "smooth",
         left: 0,
