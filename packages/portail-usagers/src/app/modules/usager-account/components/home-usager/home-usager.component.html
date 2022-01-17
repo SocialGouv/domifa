@@ -1,7 +1,9 @@
 <div *ngIf="usagerProfile">
   <div class="home-message">
     <h1 class="text-primary font-weight-bold">
-      Bonjour {{ usagerProfile.usager.prenom }} !
+      Bonjour {{ usagerProfile.usager.prenom }}
+      <span class="text-uppercase">{{ usagerProfile.usager.nom }}</span> -
+      {{ usagerProfile.usager.customRef || usagerProfile.usager.ref }} !
     </h1>
     <span class="subtitle"
       >Bienvenue dans votre espace de suivi de courrier</span
