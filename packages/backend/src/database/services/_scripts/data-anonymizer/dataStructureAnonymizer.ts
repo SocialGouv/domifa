@@ -38,8 +38,6 @@ async function _anonymizeStructure(structure: Pick<Structure, "id" | "email">) {
       enabledByStructure: false,
       senderName: null,
       senderDetails: null,
-      dateActivation: null,
-      dateDisabled: null,
     },
     email: dataEmailAnonymizer.anonymizeEmail({
       prefix: "structure",

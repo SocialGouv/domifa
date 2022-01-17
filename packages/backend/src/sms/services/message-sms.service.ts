@@ -29,7 +29,6 @@ import {
 import { generateSmsInteraction } from "./generators";
 import { MESSAGE_SMS_STATUS } from "../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
 import { generateScheduleSendDate } from "./generators/generateScheduleSendDate";
-import { strucutreSmsDateCondition } from "./../../util/structureSms.service";
 
 @Injectable()
 export class MessageSmsService {
@@ -208,11 +207,6 @@ export class MessageSmsService {
     structureId: number,
     sms: StructureSmsParams
   ) {
-    const structure = await structureRepository.findOne({
-      id: structureId,
-    });
-    const date = strucutreSmsDateCondition(structure.sms, sms);
-
     return structureRepository.updateOne(
       { id: structureId },
       {
@@ -221,8 +215,6 @@ export class MessageSmsService {
           senderDetails: sms.senderName,
           enabledByDomifa: sms.enabledByDomifa,
           enabledByStructure: sms.enabledByStructure,
-          dateActivation: date.dateActivation,
-          dateDisabled: date.dateDisabled,
         },
       }
     );

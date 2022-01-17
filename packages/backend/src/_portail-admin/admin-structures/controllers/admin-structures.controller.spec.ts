@@ -7,6 +7,7 @@ import { UsersModule } from "../../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../../util/test";
 import { AdminStructuresService } from "../services/admin-structures.service";
 import { AdminStructuresController } from "./admin-structures.controller";
+import { LogsService } from "../../../logs/logs.service";
 
 describe("Dashboard AdminStructuresController", () => {
   let controller: AdminStructuresController;
@@ -22,7 +23,7 @@ describe("Dashboard AdminStructuresController", () => {
         forwardRef(() => InteractionsModule),
         forwardRef(() => SmsModule),
       ],
-      providers: [AdminStructuresService],
+      providers: [AdminStructuresService, LogsService],
     });
     controller = context.module.get<AdminStructuresController>(
       AdminStructuresController

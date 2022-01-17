@@ -3,6 +3,4 @@ export type StructureSmsParams = {
   enabledByStructure: boolean;
   senderName: string;
   senderDetails: string;
-  dateActivation?: Date;
-  dateDisabled?: Date;
 };

@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
 import { environment } from "src/environments/environment";
-import { SmdId, Period, GlobalType } from "src/_common/stats";
+import { SmdId, StatsPeriod, GlobalType } from "src/_common/stats";
 
 const BASE_URL = `${environment.apiUrl}admin/sms`;
 
@@ -15,7 +15,7 @@ export class AdminSmsApiClient {
     return this.http.get(`${BASE_URL}/stats/global/${type}`);
   }
 
-  public getStats(smsId: SmdId, period: Period): Observable<any> {
+  public getStats(smsId: SmdId, period: StatsPeriod): Observable<any> {
     return this.http.get(`${BASE_URL}/stats/${smsId}/${period}`);
   }
 }
