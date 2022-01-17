@@ -11,7 +11,6 @@ import {
 import { departementHelper } from "../departement-helper.service";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
 import { StructureEditDto } from "../dto/structure-edit.dto";
-import { strucutreSmsDateCondition } from "./../../util/structureSms.service";
 
 export interface StructureQuery {
   codePostal?: string;
@@ -41,11 +40,6 @@ export class StructuresService {
     structureSmsDto: StructureEditSmsDto,
     user: Pick<UserStructure, "structureId" | "structure">
   ): Promise<StructureCommon> {
-    const structure = await structureCommonRepository.findOne({
-      id: user.structureId,
-    });
-    const date = strucutreSmsDateCondition(structure.sms, structureSmsDto);
-
     return structureCommonRepository.updateOne(
       { id: user.structureId },
       {
@@ -54,8 +48,6 @@ export class StructuresService {
           senderDetails: structureSmsDto.senderName,
           enabledByDomifa: structureSmsDto.enabledByDomifa,
           enabledByStructure: structureSmsDto.enabledByStructure,
-          dateActivation: date.dateActivation,
-          dateDisabled: date.dateDisabled,
         },
       }
     );

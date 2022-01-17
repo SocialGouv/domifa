@@ -6,6 +6,7 @@ import { AdminStructuresModule } from "./admin-structures/admin-structures.modul
 import { PortailAdminLoginModule } from "./portail-admin-login";
 import { PortailAdminProfilModule } from "./portail-admin-profil";
 import { AdminSmsModule } from "./admin-sms";
+import { LogsService } from "../logs/logs.service";
 
 @Module({
   controllers: [],
@@ -24,6 +25,6 @@ import { AdminSmsModule } from "./admin-sms";
     AdminSmsModule,
     AuthModule,
   ],
-  providers: [],
+  providers: [LogsService],
 })
 export class PortailAdminModule {}

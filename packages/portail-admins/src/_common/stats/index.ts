@@ -7,3 +7,4 @@ export * from "./StatsByRegion.type";
 export * from "./StatsTerritory.type";
 export * from "./STATS_REGIONS_FOR_MAP.const";
 export * from "./StatsSms.type";
+export * from "./StatsPeriod.type";

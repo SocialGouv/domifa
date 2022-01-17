@@ -40,6 +40,7 @@ export const messageSmsRepository = {
   statsSmsGlobal,
   statsSmsByDays,
   statsSmsByMonths,
+  getFirstSmsByStructure,
 };
 
 async function findSmsOnHold({
@@ -129,4 +130,21 @@ async function statsSmsByMonths(smsId: InteractionTypeStats) {
                  ORDER BY date_trunc('month', CAST("public"."message_sms"."sendDate" AS timestamp)) ASC`;
 
   return appTypeormManager.getRepository(MessageSmsTable).query(query);
+}
+
+async function getFirstSmsByStructure(structureId: number) {
+  const query = `SELECT "structureId", "createdAt"
+                 FROM "message_sms"
+                 WHERE "message_sms"."structureId" = '${structureId}'
+                 ORDER BY "createdAt" asc
+                 LIMIT 1`;
+
+  const res = await appTypeormManager
+    .getRepository(MessageSmsTable)
+    .query(query);
+
+  if (res.length > 0) {
+    return res[0];
+  }
+  return null;
 }

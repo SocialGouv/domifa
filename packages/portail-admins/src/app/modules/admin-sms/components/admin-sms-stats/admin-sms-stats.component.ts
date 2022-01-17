@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
 
-import { PortailAdminProfile } from "../../../../../_common";
+import { PortailAdminProfile, StatsSms } from "../../../../../_common";
 import { AdminAuthService } from "../../../admin-auth/services/admin-auth.service";
 import { AdminSmsApiClient } from "../../../shared/services/api/admin-sms-api-client.service";
 
@@ -15,16 +15,15 @@ export class AdminSmsStatsComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  public globalSms: any[];
-  public globalStructureSms: any[];
-  public courrierIn30: any[];
-  public courrierIn12: any[];
-  public colisIn30: any[];
-  public colisIn12: any[];
-  public recommandeIn30: any[];
-  public recommandeIn12: any[];
-  public echeanceDeuxMois30: any[];
-  public echeanceDeuxMois12: any[];
+  public globalSms: StatsSms;
+  public courrierIn30: StatsSms;
+  public courrierIn12: StatsSms;
+  public colisIn30: StatsSms;
+  public colisIn12: StatsSms;
+  public recommandeIn30: StatsSms;
+  public recommandeIn12: StatsSms;
+  public echeanceDeuxMois30: StatsSms;
+  public echeanceDeuxMois12: StatsSms;
 
   constructor(
     private readonly adminAuthService: AdminAuthService,
@@ -32,7 +31,6 @@ export class AdminSmsStatsComponent implements OnInit, OnDestroy {
   ) {
     this.adminProfile = null;
     this.globalSms = [];
-    this.globalStructureSms = [];
     this.courrierIn30 = [];
     this.courrierIn12 = [];
     this.colisIn30 = [];
@@ -56,11 +54,6 @@ export class AdminSmsStatsComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.adminSmsApiClient.getStatsGlobal("sms").subscribe((data) => {
         this.globalSms = [{ name: "SMS", series: data }];
-      })
-    );
-    this.subscription.add(
-      this.adminSmsApiClient.getStatsGlobal("structure").subscribe((data) => {
-        this.globalStructureSms = [{ name: "Structures", series: data }];
       })
     );
 

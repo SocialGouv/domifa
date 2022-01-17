@@ -6,6 +6,7 @@ import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";
 import { AdminStructuresController } from "./controllers/admin-structures.controller";
 import { AdminStructuresService } from "./services";
+import { LogsService } from "../../logs/logs.service";
 
 @Module({
   controllers: [AdminStructuresController],
@@ -17,6 +18,6 @@ import { AdminStructuresService } from "./services";
     forwardRef(() => InteractionsModule),
     forwardRef(() => SmsModule),
   ],
-  providers: [AdminStructuresService],
+  providers: [AdminStructuresService, LogsService],
 })
 export class AdminStructuresModule {}

@@ -27,6 +27,7 @@ import { StructureEditDto } from "../dto/structure-edit.dto";
 import { structureDeletorService } from "../services/structureDeletor.service";
 import { StructureHardResetService } from "../services/structureHardReset.service";
 import { StructuresService } from "../services/structures.service";
+import { LogsService } from "../../logs/logs.service";
 
 @Controller("structures")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -34,7 +35,8 @@ import { StructuresService } from "../services/structures.service";
 export class StructuresController {
   constructor(
     private structureHardResetService: StructureHardResetService,
-    private structureService: StructuresService
+    private structureService: StructuresService,
+    private logsService: LogsService
   ) {}
 
   @ApiBearerAuth()
@@ -87,7 +89,20 @@ export class StructuresController {
       );
     }
 
+    const action =
+      user.structure.sms.enabledByDomifa &&
+      user.structure.sms.enabledByStructure
+        ? "ENABLE_SMS_BY_STRUCTURE"
+        : "DISABLE_SMS_BY_STRUCTURE";
+    this.logsService.create({
+      userId: user._userId,
+      usagerRef: null,
+      structureId: user.structureId,
+      action,
+    });
+
     structureSmsDto.enabledByDomifa = user.structure.sms.enabledByDomifa;
+
     return this.structureService.patchSmsParams(structureSmsDto, user);
   }
 

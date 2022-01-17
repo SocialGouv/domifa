@@ -19,26 +19,6 @@
         Nombre de SMS envoyés (tout type) sur les 12 derniers mois
       </h5>
     </div>
-
-    <div class="d-flex flex-column align-items-center">
-      <ngx-charts-line-chart
-        [view]="[900, 500]"
-        [legend]="false"
-        [showXAxisLabel]="true"
-        [showYAxisLabel]="true"
-        [xAxis]="true"
-        [yAxis]="true"
-        xAxisLabel="Mois"
-        yAxisLabel="Nombre de structures avec les SMS activés"
-        [timeline]="true"
-        [results]="globalStructureSms"
-      >
-      </ngx-charts-line-chart>
-
-      <h5 class="stats-sms-title">
-        Nombre de structures ayant activées les SMS sur les 12 derniers mois
-      </h5>
-    </div>
   </div>
 
   <hr />

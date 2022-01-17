@@ -1,1 +1,1 @@
-export type StatsGlobal = "sms" | "structure";
+export type StatsGlobal = "sms";
