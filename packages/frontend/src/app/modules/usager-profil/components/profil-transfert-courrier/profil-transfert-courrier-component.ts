@@ -127,19 +127,19 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
 
     this.usagerProfilService
       .editTransfert(formValue, this.usager.ref)
-      .subscribe(
-        (usager: UsagerLight) => {
+      .subscribe({
+        next: (usager: UsagerLight) => {
           this.usagerChanges.emit(usager);
           this.hideForm();
           this.matomo.trackEvent("profil", "actions", "edit_transfert", 1);
           this.usager = new UsagerFormModel(usager);
 
-          this.toastService.success("Transfert ajouté avec succès");
+          this.toastService.success("Transfert modifié avec succès");
         },
-        () => {
+        error: () => {
           this.toastService.error("Impossible d'ajouter le transfert'");
-        }
-      );
+        },
+      });
   }
 
   public deleteTransfert(): void {
@@ -148,8 +148,8 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
       return;
     }
 
-    this.usagerProfilService.deleteTransfert(this.usager.ref).subscribe(
-      (usager: UsagerLight) => {
+    this.usagerProfilService.deleteTransfert(this.usager.ref).subscribe({
+      next: (usager: UsagerLight) => {
         this.usagerChanges.emit(usager);
         this.hideForm();
         this.matomo.trackEvent("profil", "actions", "delete_transfert", 1);
@@ -157,9 +157,9 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
         this.usager = new UsagerFormModel(usager);
         this.toastService.success("Transfert supprimé avec succès");
       },
-      () => {
+      error: () => {
         this.toastService.error("Impossible de supprimer le transfert");
-      }
-    );
+      },
+    });
   }
 }

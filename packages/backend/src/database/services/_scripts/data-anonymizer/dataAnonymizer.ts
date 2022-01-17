@@ -5,6 +5,7 @@ import { dataMessageEmailAnonymizer } from "./dataMessageEmailAnonymizer";
 import { dataMessageSmsAnonymizer } from "./dataMessageSmsAnonymizer";
 import { dataStructureAnonymizer } from "./dataStructureAnonymizer";
 import { dataUsagerAnonymizer } from "./dataUsagerAnonymizer";
+import { dataUsagerHistoryAnonymizer } from "./dataUsagerHistoryAnonymizer";
 // import { dataUsagerHistoryAnonymizer } from "./dataUsagerHistoryAnonymizer";
 import { dataUserStructureAnonymizer } from "./dataUserStructureAnonymizer";
 import { dataUserUsagerAnonymizer } from "./dataUserUsagerAnonymizer";
@@ -24,7 +25,7 @@ async function anonymize(app: INestApplication) {
     await dataUserStructureAnonymizer.anonymizeUsersStructure({ app });
     await dataUserUsagerAnonymizer.anonymizeUsersUsager({ app });
     await dataUsagerAnonymizer.anonymizeUsagers({ app });
-    // await dataUsagerHistoryAnonymizer.anonymizeUsagersHistory({ app });
+    await dataUsagerHistoryAnonymizer.anonymizeUsagersHistory({ app });
   } else {
     appLogger.warn(`[dataAnonymizer] DB anonymisation OFF (env:${envId})`);
   }
