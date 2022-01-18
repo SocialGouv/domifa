@@ -1,3 +1,10 @@
+# [2.63.0](https://github.com/SocialGouv/domifa/compare/v2.62.1...v2.63.0) (2022-01-18)
+
+
+### Features
+
+* change title welcome usager ([afa2a08](https://github.com/SocialGouv/domifa/commit/afa2a08a81e1ca122597bf9b2fff4c34b1a630ef))
+
 ## [2.62.1](https://github.com/SocialGouv/domifa/compare/v2.62.0...v2.62.1) (2022-01-11)
 
 
