@@ -52,3 +52,9 @@ export const INTERACTION_OUT_REMOVE_SMS: InteractionType[] = [
   "colisOut",
   "recommandeOut",
 ];
+
+export type InteractionTypeStats =
+  | "courrierIn"
+  | "colisIn"
+  | "echeanceDeuxMois"
+  | "recommandeIn";

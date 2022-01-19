@@ -1,10 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
-
 import { Repository } from "typeorm";
-import { appTypeormManager, structureRepository } from "../../database";
-
 import { AxiosError } from "axios";
+
+import { appTypeormManager, structureRepository } from "../../database";
 import { domifaConfig } from "../../config";
 import {
   INDEX_DATE_EMISSION,
@@ -30,6 +29,7 @@ import {
 import { generateSmsInteraction } from "./generators";
 import { MESSAGE_SMS_STATUS } from "../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
 import { generateScheduleSendDate } from "./generators/generateScheduleSendDate";
+import { strucutreSmsDateCondition } from "./../../util/structureSms.service";
 
 @Injectable()
 export class MessageSmsService {
@@ -204,7 +204,27 @@ export class MessageSmsService {
   }
 
   // Mise à jour par DOMIFA de l'autorisation d'envoi de SMS
-  public changeStatutByDomifa(structureId: number, sms: StructureSmsParams) {
-    return structureRepository.updateOne({ id: structureId }, { sms });
+  public async changeStatutByDomifa(
+    structureId: number,
+    sms: StructureSmsParams
+  ) {
+    const structure = await structureRepository.findOne({
+      id: structureId,
+    });
+    const date = strucutreSmsDateCondition(structure.sms, sms);
+
+    return structureRepository.updateOne(
+      { id: structureId },
+      {
+        sms: {
+          senderName: sms.senderName,
+          senderDetails: sms.senderName,
+          enabledByDomifa: sms.enabledByDomifa,
+          enabledByStructure: sms.enabledByStructure,
+          dateActivation: date.dateActivation,
+          dateDisabled: date.dateDisabled,
+        },
+      }
+    );
   }
 }

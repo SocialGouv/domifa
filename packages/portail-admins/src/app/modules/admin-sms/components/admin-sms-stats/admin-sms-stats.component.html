@@ -1,0 +1,235 @@
+<div class="stats-sms p-3">
+  <div class="d-flex justify-content-between">
+    <div class="d-flex flex-column align-items-center">
+      <ngx-charts-line-chart
+        [view]="[900, 500]"
+        [legend]="false"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        xAxisLabel="Mois"
+        yAxisLabel="Nombre de SMS envoyés"
+        [timeline]="true"
+        [results]="globalSms"
+      >
+      </ngx-charts-line-chart>
+
+      <h5 class="stats-sms-title">
+        Nombre de SMS envoyés (tout type) sur les 12 derniers mois
+      </h5>
+    </div>
+
+    <div class="d-flex flex-column align-items-center">
+      <ngx-charts-line-chart
+        [view]="[900, 500]"
+        [legend]="false"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        xAxisLabel="Mois"
+        yAxisLabel="Nombre de structures avec les SMS activés"
+        [timeline]="true"
+        [results]="globalStructureSms"
+      >
+      </ngx-charts-line-chart>
+
+      <h5 class="stats-sms-title">
+        Nombre de structures ayant activées les SMS sur les 12 derniers mois
+      </h5>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="d-flex justify-content-between mt-5">
+    <div class="d-flex flex-column align-items-center">
+      <ngx-charts-line-chart
+        [view]="[800, 400]"
+        [legend]="false"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        xAxisLabel="Jours"
+        yAxisLabel="Nombre de SMS envoyés"
+        [timeline]="true"
+        [results]="courrierIn30"
+      >
+      </ngx-charts-line-chart>
+
+      <h5 class="stats-sms-title">
+        Nombre de SMS de courrier envoyés sur les 30 derniers jours
+      </h5>
+    </div>
+
+    <div class="d-flex flex-column align-items-center">
+      <ngx-charts-line-chart
+        [view]="[800, 400]"
+        [legend]="false"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        xAxisLabel="Mois"
+        yAxisLabel="Nombre de SMS envoyés"
+        [timeline]="true"
+        [results]="courrierIn12"
+      >
+      </ngx-charts-line-chart>
+
+      <h5 class="stats-sms-title">
+        Nombre de SMS de courrier envoyés sur les 12 derniers mois
+      </h5>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="d-flex justify-content-between mt-5">
+    <div class="d-flex flex-column align-items-center">
+      <ngx-charts-line-chart
+        [view]="[800, 400]"
+        [legend]="false"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        xAxisLabel="Jours"
+        yAxisLabel="Nombre de SMS envoyés"
+        [timeline]="true"
+        [results]="colisIn30"
+      >
+      </ngx-charts-line-chart>
+
+      <h5 class="stats-sms-title">
+        Nombre de SMS de colis envoyés sur les 30 derniers jours
+      </h5>
+    </div>
+
+    <div class="d-flex flex-column align-items-center">
+      <ngx-charts-line-chart
+        [view]="[800, 400]"
+        [legend]="false"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        xAxisLabel="Mois"
+        yAxisLabel="Nombre de SMS envoyés"
+        [timeline]="true"
+        [results]="colisIn12"
+      >
+      </ngx-charts-line-chart>
+
+      <h5 class="stats-sms-title">
+        Nombre de SMS de colis envoyés sur les 12 derniers mois
+      </h5>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="d-flex justify-content-between mt-5">
+    <div class="d-flex flex-column align-items-center">
+      <ngx-charts-line-chart
+        [view]="[800, 400]"
+        [legend]="false"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        xAxisLabel="Jours"
+        yAxisLabel="Nombre de SMS envoyés"
+        [timeline]="true"
+        [results]="recommandeIn30"
+      >
+      </ngx-charts-line-chart>
+
+      <h5 class="stats-sms-title">
+        Nombre de SMS d'avis de passage envoyés sur les 30 derniers jours
+      </h5>
+    </div>
+
+    <div class="d-flex flex-column align-items-center">
+      <ngx-charts-line-chart
+        [view]="[800, 400]"
+        [legend]="false"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        xAxisLabel="Mois"
+        yAxisLabel="Nombre de SMS envoyés"
+        [timeline]="true"
+        [results]="recommandeIn12"
+      >
+      </ngx-charts-line-chart>
+
+      <h5 class="stats-sms-title">
+        Nombre de SMS d'avis de passage envoyés sur les 12 derniers mois
+      </h5>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="d-flex justify-content-between mt-5">
+    <div class="d-flex flex-column align-items-center">
+      <ngx-charts-line-chart
+        [view]="[800, 400]"
+        [legend]="false"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        xAxisLabel="Jours"
+        yAxisLabel="Nombre de SMS envoyés"
+        [timeline]="true"
+        [results]="echeanceDeuxMois30"
+      >
+      </ngx-charts-line-chart>
+
+      <h5 class="stats-sms-title">
+        Nombre de SMS d'échéance de domiciliation envoyés sur les 30 derniers
+        jours
+      </h5>
+    </div>
+
+    <div class="d-flex flex-column align-items-center">
+      <ngx-charts-line-chart
+        [view]="[800, 400]"
+        [legend]="false"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        xAxisLabel="Mois"
+        yAxisLabel="Nombre de SMS envoyés"
+        [timeline]="true"
+        [results]="echeanceDeuxMois12"
+      >
+      </ngx-charts-line-chart>
+
+      <h5 class="stats-sms-title">
+        Nombre de SMS d'échéance de domiciliation envoyés sur les 12 derniers
+        mois
+      </h5>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="stats-blocks-container--inline">
+          <div>
+            <span class="stats-titre">Notifications SMS</span>
+          </div>
+          <div class="stats-blocks">
+            <div>
+              <span class="stats-chiffres">{{
+                stats.structuresCountBySmsEnabled
+              }}</span>
+              <span class="stats-labels">STRUCTURES ACTIVÉES</span>
+            </div>
+          </div>
+        </div> -->

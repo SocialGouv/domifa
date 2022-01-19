@@ -1,8 +1,14 @@
 import { In } from "typeorm";
+
+import { appTypeormManager } from "../_postgres";
 import { pgRepository, typeOrmSearch } from "..";
 import { appLogger } from "../../../util";
-import { MessageSms, InteractionType } from "../../../_common/model";
-import { MessageSmsTable } from "../../entities/message-sms/MessageSmsTable.typeorm";
+import {
+  MessageSms,
+  InteractionType,
+  InteractionTypeStats,
+} from "../../../_common/model";
+import { MessageSmsTable } from "./../../entities/message-sms/MessageSmsTable.typeorm";
 
 const baseRepository = pgRepository.get<MessageSmsTable, MessageSms>(
   MessageSmsTable
@@ -31,6 +37,9 @@ export const messageSmsRepository = {
   findInteractionSmsToSend,
   upsertEndDom,
   findSmsEndDomToSend,
+  statsSmsGlobal,
+  statsSmsByDays,
+  statsSmsByMonths,
 };
 
 async function findSmsOnHold({
@@ -87,4 +96,37 @@ async function findSmsEndDomToSend(): Promise<MessageSmsTable[]> {
     smsId: "echeanceDeuxMois",
     status: "TO_SEND",
   });
+}
+
+async function statsSmsGlobal() {
+  const query = `SELECT date_trunc('month', CAST("public"."message_sms"."sendDate" AS timestamp)) AS "sendDate", count(*) AS "count"
+                 FROM "public"."message_sms"
+                 WHERE ("public"."message_sms"."sendDate" >= date_trunc('month', CAST((CAST(now() AS timestamp) + (INTERVAL '-12 month')) AS timestamp))
+                 AND "public"."message_sms"."sendDate" < date_trunc('month', CAST(now() AS timestamp)))
+                 GROUP BY date_trunc('month', CAST("public"."message_sms"."sendDate" AS timestamp))
+                 ORDER BY date_trunc('month', CAST("public"."message_sms"."sendDate" AS timestamp)) ASC`;
+
+  return appTypeormManager.getRepository(MessageSmsTable).query(query);
+}
+
+async function statsSmsByDays(smsId: InteractionTypeStats) {
+  const query = `SELECT CAST("public"."message_sms"."sendDate" AS date) AS "sendDate", count(*) AS "count"
+                 FROM "public"."message_sms"
+                 WHERE ("public"."message_sms"."smsId" = '${smsId}'
+                 AND "public"."message_sms"."sendDate" >= CAST((CAST(now() AS timestamp) + (INTERVAL '-30 day')) AS date) AND "public"."message_sms"."sendDate" < CAST(now() AS date))
+                 GROUP BY CAST("public"."message_sms"."sendDate" AS date)
+                 ORDER BY CAST("public"."message_sms"."sendDate" AS date) ASC`;
+
+  return appTypeormManager.getRepository(MessageSmsTable).query(query);
+}
+
+async function statsSmsByMonths(smsId: InteractionTypeStats) {
+  const query = `SELECT date_trunc('month', CAST("public"."message_sms"."sendDate" AS timestamp)) AS "sendDate", count(*) AS "count"
+                 FROM "public"."message_sms"
+                 WHERE ("public"."message_sms"."smsId" = '${smsId}'
+                 AND "public"."message_sms"."sendDate" >= date_trunc('month', CAST((CAST(now() AS timestamp) + (INTERVAL '-12 month')) AS timestamp)) AND "public"."message_sms"."sendDate" < date_trunc('month', CAST(now() AS timestamp)))
+                 GROUP BY date_trunc('month', CAST("public"."message_sms"."sendDate" AS timestamp))
+                 ORDER BY date_trunc('month', CAST("public"."message_sms"."sendDate" AS timestamp)) ASC`;
+
+  return appTypeormManager.getRepository(MessageSmsTable).query(query);
 }

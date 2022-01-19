@@ -27,6 +27,8 @@ export const structureMock: StructureCommon = {
     enabledByStructure: false,
     senderDetails: "",
     senderName: "",
+    dateActivation: null,
+    dateDisabled: null,
   },
   portailUsager: {
     enabledByDomifa: false,

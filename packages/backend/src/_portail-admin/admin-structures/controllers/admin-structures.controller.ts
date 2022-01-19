@@ -10,6 +10,8 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import moment = require("moment");
+
 import { AllowUserProfiles } from "../../../auth/decorators";
 import { AppUserGuard } from "../../../auth/guards";
 import {
@@ -36,7 +38,7 @@ import {
   StructureAdmin,
 } from "../../../_common/model";
 import { AdminStructuresService } from "../services";
-import moment = require("moment");
+
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
 @ApiTags("dashboard")
