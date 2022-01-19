@@ -8,6 +8,8 @@ import {
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
+import { MatomoTracker } from "ngx-matomo";
+
 import type {
   PortailUsagerAuthApiResponse,
   PortailUsagerAuthLoginForm,
@@ -35,7 +37,8 @@ export class UsagerLoginComponent implements OnInit {
     private router: Router,
     private titleService: Title,
     private authService: UsagerAuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public matomo: MatomoTracker
   ) {
     this.hidePassword = true;
     this.hidePasswordNew = true;
@@ -89,12 +92,14 @@ export class UsagerLoginComponent implements OnInit {
       }
     );
   }
+
   private switchToChangePasswordMode() {
     this.mode = "login-change-password";
     this.loginForm.controls.newPassword.enable();
     this.loginForm.controls.newPasswordConfirm.enable();
     this.loginForm.updateValueAndValidity();
   }
+
   public switchToLoginOnly() {
     this.mode = "login-only";
     this.loginForm.controls.newPassword.disable();
@@ -132,10 +137,23 @@ export class UsagerLoginComponent implements OnInit {
       error: (err) => {
         this.loading = false;
         if (err?.error?.message === "CHANGE_PASSWORD_REQUIRED") {
+          this.matomo.trackEvent(
+            "login-portail-usagers",
+            "login_success_first_time",
+            "null",
+            1
+          );
           this.switchToChangePasswordMode();
         } else {
           this.toastr.error("Login et / ou mot de passe incorrect");
         }
+
+        this.matomo.trackEvent(
+          "login-portail-usagers",
+          "login_error",
+          "null",
+          1
+        );
       },
       next: (apiAuthResponse: PortailUsagerAuthApiResponse) => {
         this.toastr.success("Connexion réussie");
@@ -145,6 +163,13 @@ export class UsagerLoginComponent implements OnInit {
 
         this.loading = false;
         this.router.navigate(["/account"]);
+
+        this.matomo.trackEvent(
+          "login-portail-usagers",
+          "login_success",
+          "null",
+          1
+        );
       },
     });
   }
