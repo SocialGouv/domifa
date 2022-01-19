@@ -4,7 +4,6 @@ import { AuthGuard } from "./guards/auth-guard";
 import { NotFoundComponent } from "./modules/general/components/not-found/not-found.component";
 
 const routes: Routes = [
-  { path: "", redirectTo: "/structures", pathMatch: "full" },
   {
     path: "auth",
     loadChildren: () =>
@@ -21,6 +20,14 @@ const routes: Routes = [
       ),
   },
   {
+    path: "sms",
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import("./modules/admin-sms/admin-sms.module").then(
+        (m) => m.AdminSmsModule
+      ),
+  },
+  {
     path: "structures-confirm",
     canActivate: [AuthGuard],
     loadChildren: () =>
@@ -28,7 +35,7 @@ const routes: Routes = [
         "./modules/admin-structures-confirm/admin-structures-confirm.module"
       ).then((m) => m.AdminStructuresConfirmModule),
   },
-
+  { path: "", redirectTo: "/structures", pathMatch: "full" },
   { path: "404", component: NotFoundComponent },
   { path: "**", redirectTo: "404" },
 ];
