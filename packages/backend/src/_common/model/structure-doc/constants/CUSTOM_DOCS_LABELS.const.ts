@@ -78,6 +78,6 @@ export const CUSTOM_DOCS_LABELS: StructureCustomDocTags = {
 
   // Espace domicilié
   ESPACE_DOM_URL: "Url de l'espace domicilié",
-  ESPACE_DOM_ID: "my-login",
-  ESPACE_DOM_MDP: "my-password",
+  ESPACE_DOM_ID: "Identifiant",
+  ESPACE_DOM_MDP: "Mot de passe de l'espace domicilié",
 };
