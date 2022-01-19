@@ -1,3 +1,10 @@
+# [2.65.0](https://github.com/SocialGouv/domifa/compare/v2.64.0...v2.65.0) (2022-01-19)
+
+
+### Features
+
+* update doc access ([3302f76](https://github.com/SocialGouv/domifa/commit/3302f7633731b67b18607362d4d04580fcb73001))
+
 # [2.64.0](https://github.com/SocialGouv/domifa/compare/v2.63.0...v2.64.0) (2022-01-19)
 
 
