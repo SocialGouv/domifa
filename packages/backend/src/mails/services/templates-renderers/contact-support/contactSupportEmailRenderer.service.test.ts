@@ -28,7 +28,7 @@ describe("guideUtilisateurEmailRenderer", () => {
       fs.writeFileSync(
         path.join(
           __dirname,
-          "../../../email-templates",
+          "../../../_email-templates",
           "contact-support",
           "test.tmp.html"
         ),
@@ -40,7 +40,7 @@ describe("guideUtilisateurEmailRenderer", () => {
       .readFileSync(
         path.join(
           __dirname,
-          "../../../email-templates",
+          "../../../_email-templates",
           "contact-support",
           "test.ref.html"
         )

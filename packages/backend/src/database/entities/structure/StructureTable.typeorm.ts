@@ -109,7 +109,7 @@ export class StructureTable
 
   @Column({
     type: "jsonb",
-    default: () => `'{"enabledByDomifa": false, "enabledByStructure": false}'`,
+    default: () => `'{"enabledByDomifa": true, "enabledByStructure": false}'`,
   })
   portailUsager: StructurePortailUsagerParams;
 

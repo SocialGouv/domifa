@@ -37,47 +37,52 @@
     <br />
     <div class="col-12">
       Si vous ne trouvez pas de réponse dans notre guide, merci de consulter les
-      sections ci-dessous.
+      sections ci-dessous ou bien contactez-nous via
+      <a [routerLink]="['/contact']" routerLinkActive="router-link-active">
+        notre formulaire de contact.</a
+      >
       <br />
     </div>
   </div>
   <div class="col-12">
     <div class="menu-faq text-center">
-      <button
-        title="Section : La domiciliation"
-        class="btn btn-outline-primary"
-        (click)="scrollTo(ladom)"
-      >
-        La domiciliation
-      </button>
-      <button
-        title="Section : Le projet Domifa"
-        class="btn btn-outline-primary"
-        (click)="scrollTo(faqdomifa)"
-      >
-        Le projet Domifa
-      </button>
-      <button
-        title="Section : La sécurité des données"
-        class="btn btn-outline-primary"
-        (click)="scrollTo(domiciliation)"
-      >
-        La sécurité des données
-      </button>
-      <button
-        title="Section : Les fonctionnalités"
-        class="btn btn-outline-primary"
-        (click)="scrollTo(features)"
-      >
-        Les fonctionnalités
-      </button>
-      <button
-        title="Section : Les tutoriels vidéo"
-        class="btn btn-outline-primary"
-        (click)="scrollTo(videos)"
-      >
-        Les tutoriels vidéo
-      </button>
+      <ul>
+        <li
+          title="Section : La domiciliation"
+          class="btn btn-outline-primary"
+          (click)="scrollTo(ladom)"
+        >
+          La domiciliation
+        </li>
+        <li
+          title="Section : Le projet Domifa"
+          class="btn btn-outline-primary"
+          (click)="scrollTo(faqdomifa)"
+        >
+          Le projet Domifa
+        </li>
+        <li
+          title="Section : La sécurité des données"
+          class="btn btn-outline-primary"
+          (click)="scrollTo(domiciliation)"
+        >
+          La sécurité des données
+        </li>
+        <li
+          title="Section : Les fonctionnalités"
+          class="btn btn-outline-primary"
+          (click)="scrollTo(features)"
+        >
+          Les fonctionnalités
+        </li>
+        <li
+          title="Section : Les tutoriels vidéo"
+          class="btn btn-outline-primary"
+          (click)="scrollTo(videos)"
+        >
+          Les tutoriels vidéo
+        </li>
+      </ul>
     </div>
 
     <div id="faq-ladom" #ladom>

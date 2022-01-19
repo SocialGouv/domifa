@@ -19,7 +19,7 @@ describe("userAccountCreatedByAdminEmailRenderer", () => {
       fs.writeFileSync(
         path.join(
           __dirname,
-          "../../../email-templates",
+          "../../../_email-templates",
           "user-account-created-by-admin",
           "test.tmp.html"
         ),
@@ -31,7 +31,7 @@ describe("userAccountCreatedByAdminEmailRenderer", () => {
       .readFileSync(
         path.join(
           __dirname,
-          "../../../email-templates",
+          "../../../_email-templates",
           "user-account-created-by-admin",
           "test.ref.html"
         )

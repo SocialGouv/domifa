@@ -189,7 +189,7 @@ async function createTables(queryRunner: QueryRunner) {
       verified bool NOT NULL DEFAULT false,
       ville text NULL,
       sms jsonb NOT NULL DEFAULT '{"senderName": null, "senderDetails": null, "enabledByDomifa": true, "enabledByStructure": false}'::jsonb,
-      "portailUsager" jsonb NOT NULL DEFAULT '{"enabledByDomifa": false, "enabledByStructure": false}'::jsonb,
+      "portailUsager" jsonb NOT NULL DEFAULT '{"enabledByDomifa": true, "enabledByStructure": false}'::jsonb,
       CONSTRAINT "PK_a92a6b3dd54efb4ab48b2d6e7c1" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_90ac7986e769d602d218075215c" UNIQUE (id)
     );
