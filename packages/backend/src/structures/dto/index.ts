@@ -1,3 +1,4 @@
+//@index('./*', f => `export * from '${f.path}'`)
 export * from "./structure-doc.dto";
 export * from "./structure-edit-portail-usager.dto";
 export * from "./structure-edit-sms.dto";
