@@ -1,21 +1,26 @@
 import { ApiProperty } from "@nestjs/swagger";
 import {
-  IsBoolean,
+  IsBooleanString,
   IsEmail,
   IsEmpty,
   IsNotEmpty,
   IsNumberString,
-  IsOptional,
+  IsString,
   MinLength,
   ValidateIf,
 } from "class-validator";
 import { ContactStatus } from "../_common/model";
+
+import { Transform, TransformFnParams } from "class-transformer";
+
+import sanitizeHtml = require("sanitize-html");
 
 export class ContactSupportDto {
   @ApiProperty({
     type: String,
     required: true,
   })
+  @IsNotEmpty()
   @IsEmail()
   public email!: string;
 
@@ -23,7 +28,7 @@ export class ContactSupportDto {
     type: Boolean,
     required: true,
   })
-  @IsBoolean()
+  @IsBooleanString()
   public hasAccount!: boolean;
 
   @ApiProperty({
@@ -31,6 +36,9 @@ export class ContactSupportDto {
     required: true,
   })
   @IsNotEmpty()
+  @IsString()
+  @MinLength(2)
+  @Transform(({ value }: TransformFnParams) => sanitizeHtml(value))
   public name!: string;
 
   @ApiProperty({
@@ -38,7 +46,9 @@ export class ContactSupportDto {
     required: true,
   })
   @IsNotEmpty()
+  @IsString()
   @MinLength(10)
+  @Transform(({ value }: TransformFnParams) => sanitizeHtml(value))
   public content!: string;
 
   @ApiProperty({
@@ -47,6 +57,9 @@ export class ContactSupportDto {
   })
   @ValidateIf((o) => o.hasAccount === true)
   @IsNumberString()
+  @Transform(({ value }: TransformFnParams) => {
+    return !value ? null : parseInt(value, 10);
+  })
   structureId!: number;
 
   @ApiProperty({
@@ -55,6 +68,9 @@ export class ContactSupportDto {
   })
   @ValidateIf((o) => o.hasAccount === true)
   @IsNumberString()
+  @Transform(({ value }: TransformFnParams) => {
+    return !value ? null : parseInt(value, 10);
+  })
   public userId!: number;
 
   @ApiProperty({

@@ -1,6 +1,5 @@
-import { ContactSupport } from "./../../../../_common/model/contact/ContactMessage.type";
-import moment = require("moment");
-import { domifaConfig } from "../../../../config";
+import { ContactSupport } from "../../../../_common/model/contact-support/ContactSupport.type";
+
 import { DomifaMailTemplateRendering } from "../../../model";
 import { domifaMailTemplateRenderer } from "../../domifaMailTemplateRenderer.service";
 

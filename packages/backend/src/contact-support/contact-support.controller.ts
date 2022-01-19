@@ -57,12 +57,9 @@ export class ContactSupportController {
     @UploadedFile() file: Express.Multer.File,
     @Res() res: ExpressResponse
   ) {
-    console.log(file);
-
     contactSupportDto.status = "ON_HOLD";
-    if (file) {
-      contactSupportDto.file = file.filename;
-    }
+    contactSupportDto.file = file ? file.filename : null;
+
     const contactSaved = await this.contactSupportService.create(
       contactSupportDto
     );

@@ -38,7 +38,7 @@ import {
 } from "../../_common/model";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
-import { LogsService } from "../../app-logs/logs.service";
+import { LogsService } from "../../app-log/app-log.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
 @ApiTags("docs")

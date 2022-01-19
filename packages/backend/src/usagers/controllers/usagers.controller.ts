@@ -58,7 +58,7 @@ import {
   usagerHistoryStateManager,
   UsagersService,
 } from "../services";
-import { LogsService } from "../../app-logs/logs.service";
+import { LogsService } from "../../app-log/app-log.service";
 
 @Controller("usagers")
 @ApiTags("usagers")

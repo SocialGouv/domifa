@@ -6,7 +6,7 @@ import { CerfaService } from "../services/cerfa.service";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
 import { DocsController } from "./docs.controller";
-import { LogsService } from "../../app-logs/logs.service";
+import { LogsService } from "../../app-log/app-log.service";
 
 describe("Document Controller", () => {
   let controller: DocsController;

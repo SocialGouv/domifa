@@ -1,4 +1,4 @@
-import { ContactSupport } from "./../../../../_common/model/contact/ContactMessage.type";
+import { ContactSupport } from "../../../../_common/model/contact-support/ContactSupport.type";
 import { domifaConfig } from "../../../../config";
 import { MessageEmailContent } from "../../../../database";
 import { appLogger } from "../../../../util";

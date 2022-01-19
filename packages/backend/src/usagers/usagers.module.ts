@@ -17,7 +17,7 @@ import { UsagersController } from "./controllers/usagers.controller";
 import { CerfaService } from "./services/cerfa.service";
 import { DocumentsService } from "./services/documents.service";
 import { UsagersService } from "./services/usagers.service";
-import { LogsModule } from "../app-logs/logs.module";
+import { LogsModule } from "../app-log/app-log.module";
 
 @Module({
   controllers: [
