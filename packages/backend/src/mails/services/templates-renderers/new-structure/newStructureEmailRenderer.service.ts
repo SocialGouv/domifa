@@ -1,6 +1,6 @@
 import { AppUserForAdminEmail } from "../../../../database";
-import { DomifaMailTemplateRendering } from "../../../../mail-generator/model";
-import { domifaMailTemplateRenderer } from "../../../../mail-generator/services/domifaMailTemplateRenderer.service";
+import { DomifaMailTemplateRendering } from "../../../model";
+import { domifaMailTemplateRenderer } from "../../domifaMailTemplateRenderer.service";
 import { DEPARTEMENTS_MAP } from "../../../../structures/DEPARTEMENTS_MAP.const";
 import { Structure } from "../../../../_common/model";
 

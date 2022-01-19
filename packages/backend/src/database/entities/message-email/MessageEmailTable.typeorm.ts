@@ -19,8 +19,10 @@ export class MessageEmailTable
 
   @Column({ type: "timestamptz" })
   initialScheduledDate: Date;
+
   @Column({ type: "timestamptz" })
   nextScheduledDate: Date;
+
   @Column({ type: "timestamptz", nullable: true })
   sendDate: Date;
 
@@ -29,6 +31,7 @@ export class MessageEmailTable
 
   @Column({ type: "integer", default: 0 })
   errorCount: number;
+
   @Column({ type: "text", nullable: true })
   errorMessage?: string;
 

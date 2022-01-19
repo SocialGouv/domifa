@@ -1,0 +1,12 @@
+{{errorsCount}} erreurs ont été rencontrées lors des traitements sur l'environnement "{{envId}}"
+
+
+Structure : {{ hasAccount ? 'Oui' : 'Non'}} {{ structureId ? ' - ' +structureId : '' }}
+
+Nom : {{ name }}
+
+Email : {{ email }}
+
+Contenu du message:
+{{ content }}
+

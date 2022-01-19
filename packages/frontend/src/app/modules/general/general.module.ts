@@ -1,4 +1,4 @@
-import { SharedModule } from "./../shared/shared.module";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import {
@@ -18,12 +18,14 @@ import { HomeComponent } from "./components/home/home.component";
 import { MentionsLegalesComponent } from "./components/mentions/mentions-legales/mentions-legales.component";
 import { NewsComponent } from "./components/news/news.component";
 import { PolitiqueComponent } from "./components/politique/politique.component";
-import { HomeService } from "./components/home/home.service";
+import { GeneralService } from "./services/general.service";
 
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { RouterModule } from "@angular/router";
 
 import { CountUpModule } from "ngx-countup";
+import { SharedModule } from "../shared/shared.module";
+import { ContactSupportComponent } from "./components/contact-support/contact-support.component";
 
 @NgModule({
   declarations: [
@@ -36,18 +38,21 @@ import { CountUpModule } from "ngx-countup";
     CguComponent,
     PolitiqueComponent,
     NavbarComponent,
+    ContactSupportComponent,
   ],
   exports: [LoadingComponent, NotFoundComponent, NavbarComponent],
   imports: [
     CommonModule,
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
     NgbModule,
     SharedModule,
     CountUpModule,
     RouterModule.forChild([]),
     NgbModule,
   ],
-  providers: [HomeService],
+  providers: [GeneralService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class GeneralModule {}

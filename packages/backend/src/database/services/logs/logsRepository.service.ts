@@ -1,9 +1,8 @@
 import { pgRepository } from "..";
-import { appTypeormManager } from "../_postgres";
-import { Log } from "../../../_common/model";
-import { LogTable } from "../../entities/log/LogTable.typeorm";
+import { AppLog } from "../../../_common/model";
+import { AppLogTable } from "../../entities/app-log/AppLogTable.typeorm";
 
-const baseRepository = pgRepository.get<LogTable, Log>(LogTable);
+const baseRepository = pgRepository.get<AppLogTable, AppLog>(AppLogTable);
 
 export const logsRepository = {
   ...baseRepository,

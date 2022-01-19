@@ -38,7 +38,7 @@ import {
 } from "../../_common/model";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
-import { LogsService } from "../../logs/logs.service";
+import { LogsService } from "../../app-logs/logs.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
 @ApiTags("docs")
@@ -83,7 +83,7 @@ export class DocsController {
   )
   public async uploadDoc(
     @Param("usagerRef") usagerRef: number,
-    @UploadedFile() file: any,
+    @UploadedFile() file: Express.Multer.File,
     @Body() postData: any,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: UsagerLight,
@@ -192,6 +192,7 @@ export class DocsController {
       structureId: user.structureId,
       action: "SUPPRIMER_PIECE_JOINTE",
     });
+
     return res.status(HttpStatus.OK).json(updatedUsager.docs);
   }
 

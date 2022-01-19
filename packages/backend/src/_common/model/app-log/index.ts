@@ -1,2 +1,2 @@
-export * from "./Log.type";
+export * from "./AppLog.type";
 export * from "./LogAction.type";

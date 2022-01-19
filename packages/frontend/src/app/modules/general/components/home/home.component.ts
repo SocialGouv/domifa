@@ -4,7 +4,7 @@ import { CountUpOptions } from "countup.js";
 import { MatomoTracker } from "ngx-matomo";
 import { HomeStats } from "./HomeStats.type";
 
-import { HomeService } from "./home.service";
+import { GeneralService } from "../../services/general.service";
 
 @Component({
   selector: "app-home",
@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private titleService: Title,
-    private homeService: HomeService,
+    private generalService: GeneralService,
     public matomo: MatomoTracker
   ) {
     this.countOptions = {
@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
       "Domifa, faciliter la vie des organismes domiciliataires"
     );
 
-    this.homeService.getHomeStats().subscribe((stats: HomeStats) => {
+    this.generalService.getHomeStats().subscribe((stats: HomeStats) => {
       this.stats = stats;
     });
   }

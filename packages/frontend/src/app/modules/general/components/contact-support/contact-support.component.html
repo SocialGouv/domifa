@@ -1,0 +1,156 @@
+<div class="head-page py-4">
+  <div class="container">
+    <h1 class="title">Formulaire de contact</h1>
+  </div>
+</div>
+
+<div class="content py-3" *ngIf="contactForm">
+  <div class="container py-3">
+    <div class="page-content p-4">
+      <p>
+        Un problème ? Une suggestion ? Avez-vous consulté
+        <a [routerLink]="['/faq']" routerLinkActive="router-link-active"
+          >notre FAQ</a
+        >
+        ?
+        <br />
+        Si la réponse ne s'y trouve pas, merci de remplir les champs ci-dessous
+        en nous donnant un maximum d'informations, ce qui nous permettra de vous
+        répondre plus rapidement
+      </p>
+
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-8 col-sm-12">
+          <form [formGroup]="contactForm" (ngSubmit)="sendContactMessage()">
+            <fieldset>
+              <legend>Avez-vous un compte sur DomiFa ?</legend>
+              <div class="form-group">
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    formControlName="hasAccount"
+                    id="compte_oui"
+                    [value]="true"
+                  />
+                  <label class="form-check-label" for="compte_oui"> Oui </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    formControlName="hasAccount"
+                    id="compte_non"
+                    [value]="false"
+                  />
+                  <label class="form-check-label" for="compte_non"> Non </label>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="form-group required">
+              <label for="name">{{
+                f.hasAccount.value === true
+                  ? "Nom de votre structure"
+                  : "Votre nom"
+              }}</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                cleanStr
+                autocomplete="name"
+                formControlName="name"
+                [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
+                required
+              />
+              <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                Veuillez indiquer votre nom ou celui de votre structure
+              </div>
+            </div>
+            <div class="form-group required">
+              <label for="email">Adresse email de contact</label>
+              <input
+                type="email"
+                id="email"
+                formControlName="email"
+                autocomplete="email"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+                [attr.aria-invalid]="submitted && f.email.errors"
+                required
+              />
+              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                Veuillez vérifier l'adresse email
+              </div>
+            </div>
+            <div class="form-group required">
+              <label for="content">Votre message</label>
+              <textarea
+                placeholder="En cas de souci technique, merci de spécifier le navigateur utilisé (10 caractères minimum)"
+                class="form-control"
+                formControlName="content"
+                id="content"
+                [ngClass]="{ 'is-invalid': submitted && f.content.errors }"
+                rows="6"
+                required
+              ></textarea>
+              <div
+                *ngIf="submitted && f.content.errors"
+                class="invalid-feedback"
+              >
+                Veuillez inscrire un message de 10 caractères au minimum
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label
+                >Pièces jointes (capture d'écran du problème rencontré, fichier
+                d'import anonymisé, autres informations etc.)</label
+              >
+
+              <div class="form-group custom-file">
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  id="file"
+                  formControlName="file"
+                  aria-describedby="pjHelp"
+                  [ngClass]="{ 'is-invalid': submitted && f.fileSource.errors }"
+                  (change)="onFileChange($event)"
+                />
+                <small id="pjHelp" class="form-text text-muted">
+                  Formats autorisés PDF, JPG ou PNG, pdf ou docx (6mo maxi)
+                </small>
+                <label
+                  class="custom-file-label"
+                  for="file"
+                  data-browse="Parcourir"
+                  lang="fr"
+                >
+                  {{ fileName }}
+                </label>
+
+                <div
+                  *ngIf="submitted && f.fileSource.errors"
+                  class="invalid-feedback"
+                >
+                  <p *ngIf="f.fileSource.errors.fileType">
+                    Format de fichier invalide
+                  </p>
+                  <p *ngIf="f.fileSource.errors.fileSize">
+                    La taille du fichier est trop grande
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              Envoyer le message
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

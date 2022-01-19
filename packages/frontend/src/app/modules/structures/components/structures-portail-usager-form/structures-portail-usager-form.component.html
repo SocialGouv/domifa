@@ -39,7 +39,12 @@
                     : 'btn-outline-primary'
                 "
               >
-                <input ngbButton type="radio" [value]="true" />
+                <input
+                  ngbButton
+                  type="radio"
+                  aria-label="Activer ou désactiver"
+                  ="true"
+                />
                 Oui
               </label>
               <label
@@ -50,7 +55,12 @@
                     : 'btn-outline-danger'
                 "
               >
-                <input ngbButton type="radio" [value]="false" />
+                <input
+                  ngbButton
+                  type="radio"
+                  aria-label="Activer ou désactiver"
+                  ="false"
+                />
                 Non
               </label>
             </div>
