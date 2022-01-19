@@ -34,6 +34,7 @@
 <main id="page">
   <router-outlet></router-outlet>
 </main>
+
 <div class="d-print-none" id="help-button-wrapper" *ngIf="me">
   <button title="Besoin d'aide ?" id="help-button" (click)="openHelpModal()">
     <fa-icon [icon]="['fas', 'question']"></fa-icon>

@@ -4,7 +4,20 @@
   </div>
 </div>
 
-<div class="content py-3" *ngIf="contactForm">
+<div class="step_form my-5" *ngIf="success">
+  <div class="text-center">
+    <fa-icon
+      class="fa-4x text-success"
+      [icon]="['fas', 'check-circle']"
+    ></fa-icon>
+    <br />
+    <h3 class="text-success">
+      Votre demande a bien été envoyée à l'équipe DomiFa.
+    </h3>
+  </div>
+</div>
+
+<div class="content py-3" *ngIf="contactForm && !success">
   <div class="container py-3">
     <div class="page-content p-4">
       <p>
@@ -45,27 +58,30 @@
                   />
                   <label class="form-check-label" for="compte_non"> Non </label>
                 </div>
+                <div
+                  *ngIf="submitted && f.hasAccount.errors"
+                  class="invalid-feedback"
+                >
+                  Veuillez indiquer si vous possédez un compte sur Domifa
+                </div>
               </div>
             </fieldset>
 
             <div class="form-group required">
-              <label for="name">{{
-                f.hasAccount.value === true
-                  ? "Nom de votre structure"
-                  : "Votre nom"
-              }}</label>
+              <label for="name">Nom de votre structure</label>
               <input
                 type="text"
                 class="form-control"
                 id="name"
                 cleanStr
                 autocomplete="name"
+                placeholder="2 caractères minimum"
                 formControlName="name"
                 [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
                 required
               />
               <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-                Veuillez indiquer votre nom ou celui de votre structure
+                Veuillez indiquer le nom de votre structure
               </div>
             </div>
             <div class="form-group required">
@@ -116,7 +132,9 @@
                   id="file"
                   formControlName="file"
                   aria-describedby="pjHelp"
-                  [ngClass]="{ 'is-invalid': submitted && f.fileSource.errors }"
+                  [ngClass]="{
+                    'is-invalid': submitted && f.fileSource.errors
+                  }"
                   (change)="onFileChange($event)"
                 />
                 <small id="pjHelp" class="form-text text-muted">

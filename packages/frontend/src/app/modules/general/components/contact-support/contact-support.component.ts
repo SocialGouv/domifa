@@ -11,7 +11,6 @@ import { validateUpload } from "../../../../shared/upload-validator";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 
 import { AuthService } from "../../../shared/services/auth.service";
-import { calcPossibleSecurityContexts } from "@angular/compiler/src/template_parser/binding_parser";
 
 @Component({
   selector: "app-contact-support",
@@ -20,6 +19,7 @@ import { calcPossibleSecurityContexts } from "@angular/compiler/src/template_par
 })
 export class ContactSupportComponent implements OnInit {
   public submitted: boolean;
+  public success: boolean;
   public loading: boolean;
   public fileName: string;
   public contactForm: FormGroup;
@@ -31,7 +31,10 @@ export class ContactSupportComponent implements OnInit {
     private generalService: GeneralService,
     private toastService: CustomToastService,
     private authService: AuthService
-  ) {}
+  ) {
+    this.success = false;
+    this.loading = false;
+  }
 
   get f(): { [key: string]: AbstractControl } {
     return this.contactForm.controls;
@@ -55,7 +58,6 @@ export class ContactSupportComponent implements OnInit {
       structureName = this.me.structure.nom;
       structureId = this.me.structure.id.toString();
       userId = this.me.id.toString();
-
       hasAccount = true;
     }
 
@@ -122,6 +124,7 @@ export class ContactSupportComponent implements OnInit {
         console.log(response);
         this.fileName = "";
         this.loading = false;
+        this.success = true;
         this.submitted = false;
         this.contactForm.reset();
         this.toastService.success("Fichier uploadé avec succès");
