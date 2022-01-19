@@ -1,4 +1,5 @@
-export const generatedAttestationMock = {
+import { StructureCustomDocTags } from "./../../../_common/model/structure-doc/StructureCustomDocTags.type";
+export const generatedAttestationMock: StructureCustomDocTags = {
   DATE_JOUR: "15/12/2020",
   DATE_JOUR_HEURE: "15/12/2020 à 14:30",
   DATE_JOUR_LONG: "15 décembre 2020",
@@ -41,4 +42,19 @@ export const generatedAttestationMock = {
   ENTRETIEN_LIEN_COMMUNE: "",
   ENTRETIEN_COMPOSITION_MENAGE: "Femme isolée avec enfant(s)",
   ENTRETIEN_SITUATION_RESIDENTIELLE: "Hébergé chez un tiers",
+
+  // Transferts
+  TRANSFERT_ACTIF: "NON",
+  TRANSFERT_NOM: "",
+  TRANSFERT_ADRESSE: "",
+  TRANSFERT_DATE_DEBUT: "",
+  TRANSFERT_DATE_FIN: "",
+
+  // Procuration
+  PROCURATION_ACTIF: "NON",
+  PROCURATION_NOM: "",
+  PROCURATION_PRENOM: "",
+  PROCURATION_DATE_DEBUT: "",
+  PROCURATION_DATE_FIN: "",
+  PROCURATION_DATE_NAISSANCE: "",
 };

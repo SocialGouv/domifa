@@ -1,5 +1,7 @@
+import { StructureCustomDocTags } from "../../../_common/model";
+
 // Courrier pour les personnes radiées
-export const generatedRadiationMock = {
+export const generatedRadiationMock: StructureCustomDocTags = {
   DATE_JOUR: "15/12/2020",
   DATE_JOUR_HEURE: "15/12/2020 à 14:30",
   DATE_JOUR_LONG: "15 décembre 2020",
@@ -42,4 +44,18 @@ export const generatedRadiationMock = {
   ENTRETIEN_LIEN_COMMUNE: "",
   ENTRETIEN_COMPOSITION_MENAGE: undefined,
   ENTRETIEN_SITUATION_RESIDENTIELLE: undefined,
+
+  // Transferts
+  TRANSFERT_ACTIF: "Oui",
+  TRANSFERT_NOM: "Lieu de transfert",
+  TRANSFERT_ADRESSE: "Adresse du transfert",
+  TRANSFERT_DATE_DEBUT: "20/12/2022",
+  TRANSFERT_DATE_FIN: "04/09/2023",
+  // Procuration
+  PROCURATION_ACTIF: "Nom",
+  PROCURATION_NOM: "",
+  PROCURATION_PRENOM: "",
+  PROCURATION_DATE_DEBUT: "20/12/2022",
+  PROCURATION_DATE_FIN: "04/09/2023",
+  PROCURATION_DATE_NAISSANCE: "12/12/1998",
 };

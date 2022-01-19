@@ -1,4 +1,4 @@
-import { StructureLight } from "./StructureLight.type";
+import { StructureLight } from "..";
 
 export const STRUCTURE_LIGHT_ATTRIBUTES: (keyof StructureLight)[] = [
   "id",
