@@ -4,11 +4,9 @@ import { DomifaMailTemplateRendering } from "../../../model";
 import { domifaMailTemplateRenderer } from "../../domifaMailTemplateRenderer.service";
 
 async function renderTemplate(
-  model: ContactSupport
+  model: Partial<ContactSupport>
 ): Promise<DomifaMailTemplateRendering> {
-  return domifaMailTemplateRenderer.renderTemplate("contact-support", {
-    ...model,
-  });
+  return domifaMailTemplateRenderer.renderTemplate("contact-support", model);
 }
 
 export const contactSupportEmailRenderer = { renderTemplate };

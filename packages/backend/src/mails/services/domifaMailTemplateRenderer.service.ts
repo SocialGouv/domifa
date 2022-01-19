@@ -4,7 +4,7 @@ import * as path from "path";
 import { DomifaMailTemplateRendering } from "../model";
 
 // @see https://github.com/niftylettuce/email-templates/blob/master/src/index.js
-const templateBasePath = path.join(__dirname, "../../_static/email-templates");
+const templateBasePath = path.join(__dirname, "../_email-templates");
 
 const emailConfig: EmailTemplate.EmailConfig<any> = {
   juice: true,
@@ -38,6 +38,7 @@ async function renderTemplate(
 ): Promise<DomifaMailTemplateRendering> {
   const message: Partial<EmailTemplate.EmailMessage> =
     await emailTemplate.renderAll(templateId, model);
+
   const rendering: DomifaMailTemplateRendering = {
     html: message.html,
     text: message.text,

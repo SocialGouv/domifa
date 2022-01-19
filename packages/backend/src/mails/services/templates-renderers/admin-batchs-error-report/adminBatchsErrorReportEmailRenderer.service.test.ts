@@ -27,7 +27,7 @@ describe("adminBatchsErrorReportEmailRenderer", () => {
       fs.writeFileSync(
         path.join(
           __dirname,
-          "../../../../_static/email-templates",
+          "../../../email-templates",
           "admin-batchs-error-report",
           "test.tmp.html"
         ),
@@ -39,7 +39,7 @@ describe("adminBatchsErrorReportEmailRenderer", () => {
       .readFileSync(
         path.join(
           __dirname,
-          "../../../../_static/email-templates",
+          "../../../email-templates",
           "admin-batchs-error-report",
           "test.ref.html"
         )

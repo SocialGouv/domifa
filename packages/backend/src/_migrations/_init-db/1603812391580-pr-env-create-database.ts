@@ -25,13 +25,13 @@ async function createTables(queryRunner: QueryRunner) {
 
   await queryRunner.query(
     `
-    -- log definition
+    -- app_log definition
 
     -- Drop table
 
-    -- DROP TABLE log;
+    -- DROP TABLE app_log;
 
-    CREATE TABLE log (
+    CREATE UNLOGGED TABLE app_log (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
@@ -42,6 +42,33 @@ async function createTables(queryRunner: QueryRunner) {
       "action" text NOT NULL,
       CONSTRAINT "PK_69f8faf72fa4038748e4e3f3fbe" PRIMARY KEY (uuid)
     );
+
+
+    -- contact_support definition
+
+    -- Drop table
+
+    -- DROP TABLE contact_support;
+
+    CREATE UNLOGGED TABLE contact_support (
+      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "createdAt" timestamptz NOT NULL DEFAULT now(),
+      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "version" int4 NOT NULL,
+      "userId" int4 NULL,
+      "structureId" int4 NULL,
+      "content" text NOT NULL,
+      status text NOT NULL DEFAULT 'ON_HOLD'::text,
+      file text NULL,
+      email text NOT NULL,
+      category text NULL,
+      "name" text NOT NULL,
+      "comments" text NULL,
+      CONSTRAINT "PK_8e4a4781a01061a482fa33e5f5a" PRIMARY KEY (uuid)
+    );
+    CREATE INDEX "IDX_2dc55096563e5e2a6db3b83c0c" ON contact_support USING btree ("userId");
+    CREATE INDEX "IDX_d2145fd3e0c677e9f1f9763467" ON contact_support USING btree ("structureId");
+    CREATE INDEX "IDX_d92188af7573662f6be7199eda" ON contact_support USING btree (status);
 
 
     -- message_email definition

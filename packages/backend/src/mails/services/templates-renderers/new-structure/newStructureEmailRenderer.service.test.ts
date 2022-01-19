@@ -47,7 +47,7 @@ describe("newStructureEmailRenderer", () => {
       fs.writeFileSync(
         path.join(
           __dirname,
-          "../../../../_static/email-templates",
+          "../../../email-templates",
           "new-structure",
           "test.tmp.html"
         ),
@@ -59,7 +59,7 @@ describe("newStructureEmailRenderer", () => {
       .readFileSync(
         path.join(
           __dirname,
-          "../../../../_static/email-templates",
+          "../../../email-templates",
           "new-structure",
           "test.ref.html"
         )

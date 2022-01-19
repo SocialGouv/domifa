@@ -59,24 +59,19 @@ export class ContactSupportController {
   ) {
     contactSupportDto.status = "ON_HOLD";
     contactSupportDto.file = file ? file.filename : null;
-
     const contactSaved = await this.contactSupportService.create(
       contactSupportDto
     );
 
-    contactSupportEmailSender.sendMail(contactSaved).then(
+    return contactSupportEmailSender.sendMail(contactSaved).then(
       () => {
-        return res.status(HttpStatus.OK).json(contactSaved);
+        return res.status(HttpStatus.OK).json("OK");
       },
       () => {
         return res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: "REGISTER_ERROR" });
+          .json({ message: "CONTACT_FORM_ERROR" });
       }
     );
-
-    // TODO: Créer le mail
-    console.log(contactSupportDto);
-    return true;
   }
 }

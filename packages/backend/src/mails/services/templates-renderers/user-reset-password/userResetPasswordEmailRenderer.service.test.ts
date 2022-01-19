@@ -19,7 +19,7 @@ describe("userResetPasswordEmailRenderer", () => {
       fs.writeFileSync(
         path.join(
           __dirname,
-          "../../../../_static/email-templates",
+          "../../../email-templates",
           "user-reset-password",
           "test.tmp.html"
         ),
@@ -31,7 +31,7 @@ describe("userResetPasswordEmailRenderer", () => {
       .readFileSync(
         path.join(
           __dirname,
-          "../../../../_static/email-templates",
+          "../../../email-templates",
           "user-reset-password",
           "test.ref.html"
         )

@@ -9,13 +9,8 @@ const messageEmailId = "contact-support";
 export const contactSupportEmailSender = { sendMail };
 
 async function sendMail(model: ContactSupport): Promise<void> {
-  if (!domifaConfig().email.emailAddressErrorReport.length) {
-    return;
-  }
   appLogger.warn(
-    `Sending email report to ${
-      domifaConfig().email.emailAddressErrorReport.length
-    } addresses`
+    `Sending email contact to ${domifaConfig().email.emailAddressAdmin}`
   );
 
   const to = [
@@ -26,7 +21,11 @@ async function sendMail(model: ContactSupport): Promise<void> {
   ];
 
   const renderedTemplate = await contactSupportEmailRenderer.renderTemplate({
-    ...model,
+    structureId: model.structureId,
+    content: model.content,
+    file: model.file,
+    email: model.email,
+    name: model.name,
   });
 
   const messageContent: MessageEmailContent = {
@@ -35,7 +34,7 @@ async function sendMail(model: ContactSupport): Promise<void> {
     to,
   };
 
-  messageEmailSender.sendMessageLater(messageContent, {
+  await messageEmailSender.sendMessageLater(messageContent, {
     messageEmailId,
   });
 }
