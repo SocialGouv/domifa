@@ -1,3 +1,10 @@
+# [2.66.0](https://github.com/SocialGouv/domifa/compare/v2.65.0...v2.66.0) (2022-01-19)
+
+
+### Features
+
+* add 2 column in export structure usager ([462ff3c](https://github.com/SocialGouv/domifa/commit/462ff3cd035fc9a5e55b9ec921b3e746e7585aee))
+
 # [2.65.0](https://github.com/SocialGouv/domifa/compare/v2.64.0...v2.65.0) (2022-01-19)
 
 
