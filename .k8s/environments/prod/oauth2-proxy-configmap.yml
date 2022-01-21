@@ -1,0 +1,13 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: oauth2-proxy-configmap
+  namespace: domifa
+data:
+  OAUTH2_PROXY_PROVIDER: github
+  OAUTH2_PROXY_GITHUB_ORG: SocialGouv
+  OAUTH2_PROXY_BANNER: Domifa private access
+  OAUTH2_PROXY_FOOTER: SocialGouv auth
+  OAUTH2_PROXY_EMAIL_DOMAINS: "*"
+  OAUTH2_PROXY_COOKIE_SECURE: "false"
+  OAUTH2_PROXY_CUSTOM_SIGN_IN_LOGO: "https://socialgouv.github.io/support/_media/marianne.jpeg"

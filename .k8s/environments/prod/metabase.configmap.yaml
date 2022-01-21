@@ -1,0 +1,15 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: metabase-configmap
+data:
+  MB_DB_TYPE: postgres
+  MB_ADMIN_EMAIL: contact@fabrique.social.gouv.fr
+  MB_ANON_TRACKING_ENABLED: "false"
+  MB_APPLICATION_LOGO_URL: https://socialgouv.github.io/support/_media/marianne.jpeg
+  MB_APPLICATION_NAME: metabase-domifa
+  MB_EMAIL_FROM_ADDRESS: contact@fabrique.social.gouv.fr
+  MB_ENABLE_EMBEDDING: "true"
+  MB_ENABLE_PUBLIC_SHARING: "true"
+  MB_SITE_LOCALE: fr
+  MB_SITE_NAME: Fabrique des ministères sociaux

@@ -8,6 +8,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/domifa
@@ -31,6 +32,7 @@ spec:
       annotations:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
+        kapp.k14s.io/delete-strategy: orphan
         app.github.com/job: '5678'
         app.github.com/ref: refs/tags/v1.2.3
         app.github.com/repo: socialgouv/domifa
@@ -139,6 +141,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/domifa
@@ -184,6 +187,7 @@ spec:
       annotations:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
+        kapp.k14s.io/delete-strategy: orphan
         app.github.com/job: '5678'
         app.github.com/ref: refs/tags/v1.2.3
         app.github.com/repo: socialgouv/domifa
@@ -204,6 +208,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/domifa
@@ -239,6 +244,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/domifa
@@ -263,6 +269,7 @@ metadata:
     kubernetes.io/tls-acme: 'true'
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/domifa
@@ -355,6 +362,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/domifa
@@ -378,6 +386,7 @@ spec:
       annotations:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
+        kapp.k14s.io/delete-strategy: orphan
         app.github.com/job: '5678'
         app.github.com/ref: refs/tags/v1.2.3
         app.github.com/repo: socialgouv/domifa
@@ -445,6 +454,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/domifa
@@ -469,6 +479,7 @@ metadata:
     kubernetes.io/tls-acme: 'true'
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/domifa
@@ -498,6 +509,394 @@ spec:
     - hosts:
         - domifa.fabrique.social.gouv.fr
       secretName: frontend-crt
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    app: metabase
+    application: domifa
+    component: domifa
+    owner: domifa
+    team: domifa
+  name: metabase
+  namespace: domifa
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: metabase
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        kapp.k14s.io/delete-strategy: orphan
+        app.github.com/job: '5678'
+        app.github.com/ref: refs/tags/v1.2.3
+        app.github.com/repo: socialgouv/domifa
+        app.github.com/run: '1234'
+        app.github.com/sha: '0123456'
+      labels:
+        app: metabase
+        application: domifa
+        component: domifa
+        owner: domifa
+        team: domifa
+    spec:
+      containers:
+        - image: metabase/metabase:v0.38.6
+          livenessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 5
+          name: metabase
+          ports:
+            - containerPort: 3000
+              name: http
+          readinessProbe:
+            failureThreshold: 15
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1024Mi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+          startupProbe:
+            failureThreshold: 12
+            httpGet:
+              path: /api/health
+              port: http
+            periodSeconds: 10
+            initialDelaySeconds: 240
+            successThreshold: 1
+            timeoutSeconds: 10
+          envFrom:
+            - secretRef:
+                name: metabase-pg-user
+            - configMapRef:
+                name: metabase-configmap
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  name: metabase-pg-user
+  namespace: domifa
+  labels:
+    application: domifa
+    component: domifa
+    owner: domifa
+    team: domifa
+spec:
+  encryptedData:
+    MB_DB_CONNECTION_URI: >-
+      AgAgAB9tvV2JD1ZPtdew0dorJl9vgd+ojFyf/l9EcIQPPyBSiBGc21ICIDCHUHkeRAoMxTOFh0FBZKr4rewAz0lQebD68e/O0JSPqiSV9v3Pl29kyX71LPVE+403E5Z2YoaMgDgk2qDsH4OHMAta+JjesvAdjZiwsBolkXXsmiK6ZavQRqvLrQbOylFkt51pwOsX8jpoZmJ5lS8LB9YknsZ7kXQFv5q+UrVZCgr6Wc76Gi6tOlVqBwy2/ob1YQRHsRG1UkiCqrf8hRQH70khJf/CLPhtTBJMeMMGL8vEHC3kwWMIJY2d4c17SDnz0OjQMn+SQk8vGcIrfJWevpWXXX4ub+2NKdl7bnNB2/HODPfBaAMAY4FIZcnrtphQ+Kzxuq4IEixcpTYUSLEVqEXveI5qDXPoLFewN5ADFBd6YygHKhaRsuk9jpuc6qSkAq7s33im7YD3pqgBLU8SpwCx+08b8qIMONsP8I6M+4vIrvAc4DiwviIxoNw65K88RXeepUoIjeiRctFjKvbiwsYOHVuCYd4eYikKdGJQi050yhVGYkPjw2ZQkXz61xAvIjnBaIHa8i5gp7633E+sy073RSKFVv2e5S8Vi+ZVWwviIuSt5Ulh83BczJSh+N5zgX5YOEGHWyNG9vONsmSNVh/HxHcHMDzL/JQv/9XDzINHhWBkqm0CUJ3Rd0crI+LMCWneKF79XrrYN8sXeQHmhTzSE+77QkbKJr8WymR6G3zXoErhVSt44z/KR/rg5zx8LHCv2Bk2tQIFFaY09y/HZXG+FPR3Ts/Zm41sEM8ACz6KAGu+uEh4M3jYVxS+hUgK6Ozi+WI6f584ZIZyIV/f1SFbQYuPb8WZM7ZJh+4yz6zicQ2709wcMJt/80t8BBlM0LNTISwSlthk+IMB7YaSQpzZ+b7+Ef8n
+    MB_ENCRYPTION_SECRET_KEY: >-
+      AgCIPh4Z86++3RGiZWd4q0NINv9d+/M5iy158NMcyhVFPeht4qNT2r/qylzTKvg2JnDgBuSAhDug6WddCo9w3M75Or21p5+4QseCFT91E0knX9cj2gxZwrVBXaJt28Tm34LdmekN44lL06fAx8C01o5gDg86e43NYwWzVTSmX3tG0OsF4Gkhkoqw6JqN7hdRuqidnAMKv94zLzVyanKGZegzcDMZ1KozvmgMlA+BihxZuzG0FNCMqi9dialj/ILsVqpAqaDBT76FXdvV60rFX63UPYcUuyBEUxf8nL7RgFxSa5HNKs8cAmfVrti+MnD58oXMomDGKcz4wJug0G64rvk8NqihUciXIowy6nEz4qcr61YmSh8Z3tJOWas2iOqu527ATpEjF97iZaxXx8IMO67x+S7RNcuk94vEXxzWgFrPh1TGuFwC9YApaq0Z4zwnXKyEpZ5RnC+8MOlZDxxIWrh1qwNwMU8x2TT4E2Lu8gf6j56H3BfaKMYZsB9AvJclsKfaboSXlwvIXrNGsEW81M7fBKLULDc2zb/Ys26tp4+XLPUic75ycJ7gws6eKkcOu3M0HB8jn6ySgtgUpjhI8JIHqxvpY+N1fUd6rxviImRuV3P7aPmqD+zoNC6R8t/kJWy/ZJroTdZiQJd8H8wbecM895hnfQcDrHGyYQ1IAbYyHKHpgut7UmzIRIvQiLTxQHZyHdfpQsgFPuO3XHwBre8YMHQP/Z6hK50C/e60o5Y=
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        kapp.k14s.io/delete-strategy: orphan
+        app.github.com/job: '5678'
+        app.github.com/ref: refs/tags/v1.2.3
+        app.github.com/repo: socialgouv/domifa
+        app.github.com/run: '1234'
+        app.github.com/sha: '0123456'
+      name: metabase-pg-user
+      labels:
+        application: domifa
+        component: domifa
+        owner: domifa
+        team: domifa
+    type: Opaque
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: metabase-configmap
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    application: domifa
+    component: domifa
+    owner: domifa
+    team: domifa
+  namespace: domifa
+data:
+  MB_DB_TYPE: postgres
+  MB_ADMIN_EMAIL: contact@fabrique.social.gouv.fr
+  MB_ANON_TRACKING_ENABLED: 'false'
+  MB_APPLICATION_LOGO_URL: https://socialgouv.github.io/support/_media/marianne.jpeg
+  MB_APPLICATION_NAME: metabase-domifa
+  MB_EMAIL_FROM_ADDRESS: contact@fabrique.social.gouv.fr
+  MB_ENABLE_EMBEDDING: 'true'
+  MB_ENABLE_PUBLIC_SHARING: 'true'
+  MB_SITE_LOCALE: fr
+  MB_SITE_NAME: Fabrique des ministères sociaux
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: metabase
+    application: domifa
+    component: domifa
+    owner: domifa
+    team: domifa
+  name: metabase
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  namespace: domifa
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+  selector:
+    app: metabase
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oauth2-proxy-configmap
+  namespace: domifa
+data:
+  OAUTH2_PROXY_PROVIDER: github
+  OAUTH2_PROXY_GITHUB_ORG: SocialGouv
+  OAUTH2_PROXY_BANNER: Domifa private access
+  OAUTH2_PROXY_FOOTER: SocialGouv auth
+  OAUTH2_PROXY_EMAIL_DOMAINS: '*'
+  OAUTH2_PROXY_COOKIE_SECURE: 'false'
+  OAUTH2_PROXY_CUSTOM_SIGN_IN_LOGO: https://socialgouv.github.io/support/_media/marianne.jpeg
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations: {}
+  name: oauth2-proxy-sealed-secret
+  namespace: domifa
+spec:
+  encryptedData:
+    OAUTH2_PROXY_COOKIE_SECRET: >-
+      AgCNgaZAa4WcquUi1pbq+IlHDOODbldYNQB2qs/eouYHIrVzM3EnlEJMF9qrPWaDyfi7G1vemv9IZbvAZkYSoTSrBKKvRK381s1iYpuikI1gjPZlbpja2b0ATRG8SKnlWrszGwcvAcm1yvY5/x1KCJgzbEdMYj5yoB0Qd7SeWuWeLp9wmjc7dbFc4wzcWkmcXhDsmndkFmd02asImdbj0ysBvENGCl5kz03zivEgInf/Yt2SqnH05gBAeqcXH/aarY9CVM/7cKUU7OP9LI+U48nSXdg2YWnR5s5l7q/WFAGyGCVFgiOKyqMAu9UVndqfYRvooP1KZ8ViKE13lX1aDNzthPR9DePVY7fF91gys9+ylpcPmsvRJCsEgyuvpLPUpmsJLVkF0/5M1RCvJGqT7LV//uMVSOvBzyWU4wevReUAEo5AvJievh2HeaYIiPpd9JynvKsOWxLhrL7ZCsTUQUA3PXJ/MuAnQP+67rdCXCgN+hcsdcaMuh2D1bJ83juKRZr12l6vIGyx1TTVqyyISaaSrYgzsERTEUlbEtu3eq+KyEp0exFuR/vjblA/e50NhTNyuSl/DKCyjLIStZ9/jufeYDfy5hVJHOLDpLGKGDNnrqt0Gxzrd6Xuqmmt798YkKcmhoENRXGLpBYOWf0RKb3Jg19G5PmNiilhi73sxCZpNQ3h9jKPxKP8zYBmATRHyYNQD9/eSB+f2Ut/6PmUFmiJsW5znjkpJPw=
+    OAUTH2_PROXY_CLIENT_ID: >-
+      AgBrOEfzZ/l3U1iCrzVGmT7hS2NGHwbdCWvFnZt473mgQpzJb/zfydw6HwQ0QWOBzNZo05XSS2stCLzxBc5OQRX2eM18s2YLQikJJZfAk1/5kNXX+b66z9JbCwZ/PhSWBN8yALphkCIfrk98IW/VipnfTLgZkhApJuxvKmTxNmNx7XsIJnE0OZeRVBZOORAfSYBm5woyV8XoxKeK7zrquQbqhpMeK7nnP07HA8SJ4n9h9SphGXE1RJulYUvmZFGAYDG+LgaUQTIY/S2iLgp1cOAh55fhVcOJnhTJUfDDGgFU3admrX8dX+Deax0JRE/gVKfY093UIHppuWmGchZlqxfCrSI1hpWQdi17TJM9Lu3pnzorBaASthk5NYTgklDBwt+yR0iZirXWqYFW+sV7edm6gZu5soM/MsH77D8bSGzC+rWRexPrcwnD1uwRzryNguGXRbdlvX2YySH9ohm8n73ktTTemw4Nt1CA+7cZrbeuym/U6uIdnjbvaRBsca7p6jMjHZ17RnfaSudFU5up6y8smAL9nm+6JPZWolWN2uZwb9ZuVCiB6r7Z/RJVgvCQZ/MfFW0B5D/vm+JFcHfrhedMjTyed/Bfy//JFYOyS1+Sx2AuZm9aQDCB6eb8HZZaQADpbyYVg6BZLKZ8dz485YYWTADsiQcwAtI1IoKz8Sg6suCgp/wN9ogpOz1JaX8NAnWqeKSNW2dZjXKtuH4/E6yVs43VKQ==
+    OAUTH2_PROXY_CLIENT_SECRET: >-
+      AgBcjYzloxnezWnOo08+AQi+QnRA0CM/xTbzMZdMAs97O9qUXsuP/3ynSY3/8Dq6PiLDr66GddNPBPv+m2qZ4jSSwx7lxK6oSmhpppzAw7jlCS6ZXkbP80NYDHcIos+ghLHtWN31GZbW6LheB8N5nfzDodEQ2DihwdM3lLFZ0i3vFo6g8AGa1hlVm/2IYePYXZQ8bwonT8WMF6HgwveQKAFGHd/Ump9jBJ6Xv18FDcrRsgMDmqRmVkqv7uWcliA5Mo2Mfxbi7Jb9K+CMjwLZmAht3n97o9XawijORgSL3Z4KcXDjm8sStQskZ4TR9srty/XP49B+E+HdZ3BDas/vVEPQhBuWcAxX5OgAA51O0A2qOXR+unFPkXNbnBXwzfiK7sVQY9bXCIkiS33c+H8T4UjSa+J/fm7BxgiSKekXD0fL43TxA4ZempWZPHNKDzObFSEb2+JEECFNDir6RSzVphKyrQOG7bwEru0nYHafbkJkCoZ1c6juP0lwauW4CpVIbJkz1tonCrObj+N2DR0oXC1JTYW8NYF+hoD1oDPb98FKYDufz3LGC9o0iX5gfTB/LMTKPcEgkYeyUepi8exqAY64/a+JHDCmbRBlEz1s3pSGW8ibV6PBRxmmnIM7z7oYOt2GgRTJEvfbs6Q2Yxrng33q73BMyjKiJAQt/fZxG/Wz84svqmOSQgAjpdprl1A1oU6JZrtNEwBCOx6yvKDZZOwbxicbpDKcexY+AFZQxmDPLqhFkA75wlsj
+  template:
+    metadata:
+      annotations: {}
+      name: oauth2-proxy-sealed-secret
+    type: Opaque
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    app: proxy
+    application: domifa
+    component: domifa
+    owner: domifa
+    team: domifa
+  name: proxy
+  namespace: domifa
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: proxy
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        kapp.k14s.io/delete-strategy: orphan
+        app.github.com/job: '5678'
+        app.github.com/ref: refs/tags/v1.2.3
+        app.github.com/repo: socialgouv/domifa
+        app.github.com/run: '1234'
+        app.github.com/sha: '0123456'
+      labels:
+        app: proxy
+        application: domifa
+        component: domifa
+        owner: domifa
+        team: domifa
+    spec:
+      containers:
+        - image: quay.io/oauth2-proxy/oauth2-proxy:v7.2.0
+          livenessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /ping
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 5
+          name: proxy
+          ports:
+            - containerPort: 4180
+              name: http
+          readinessProbe:
+            failureThreshold: 15
+            httpGet:
+              path: /ping
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 5m
+              memory: 16Mi
+          startupProbe:
+            failureThreshold: 12
+            httpGet:
+              path: /ping
+              port: http
+            periodSeconds: 5
+          args:
+            - '--upstream'
+            - http://metabase:80
+          env:
+            - name: OAUTH2_PROXY_HTTP_ADDRESS
+              value: 0.0.0.0:4180
+            - name: OAUTH2_PROXY_REDIRECT_URL
+              value: https://metabase-domifa.fabrique.social.gouv.fr/oauth2/callback
+          envFrom:
+            - configMapRef:
+                name: oauth2-proxy-configmap
+            - secretRef:
+                name: oauth2-proxy-sealed-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: proxy
+    application: domifa
+    component: domifa
+    owner: domifa
+    team: domifa
+  name: proxy
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  namespace: domifa
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 4180
+  selector:
+    app: proxy
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/tls-acme: 'true'
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/domifa
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    app: proxy
+    application: domifa
+    component: domifa
+    owner: domifa
+    team: domifa
+  name: proxy
+  namespace: domifa
+spec:
+  rules:
+    - host: metabase-domifa.fabrique.social.gouv.fr
+      http:
+        paths:
+          - backend:
+              service:
+                name: proxy
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - metabase-domifa.fabrique.social.gouv.fr
+      secretName: proxy-crt
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -570,6 +969,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/domifa
@@ -593,6 +993,7 @@ spec:
       annotations:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
+        kapp.k14s.io/delete-strategy: orphan
         app.github.com/job: '5678'
         app.github.com/ref: refs/tags/v1.2.3
         app.github.com/repo: socialgouv/domifa
@@ -658,6 +1059,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/domifa
@@ -682,6 +1084,7 @@ metadata:
     kubernetes.io/tls-acme: 'true'
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/domifa
@@ -718,6 +1121,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/domifa
@@ -741,6 +1145,7 @@ spec:
       annotations:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
+        kapp.k14s.io/delete-strategy: orphan
         app.github.com/job: '5678'
         app.github.com/ref: refs/tags/v1.2.3
         app.github.com/repo: socialgouv/domifa
@@ -806,6 +1211,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/domifa
@@ -830,6 +1236,7 @@ metadata:
     kubernetes.io/tls-acme: 'true'
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/domifa
