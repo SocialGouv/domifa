@@ -1,3 +1,10 @@
+# [2.67.0](https://github.com/SocialGouv/domifa/compare/v2.66.0...v2.67.0) (2022-01-23)
+
+
+### Features
+
+* add tracking login portail usagers ([ae69d8c](https://github.com/SocialGouv/domifa/commit/ae69d8caf65926d8ad3845e94362d00756b4a5d0))
+
 # [2.66.0](https://github.com/SocialGouv/domifa/compare/v2.65.0...v2.66.0) (2022-01-19)
 
 
