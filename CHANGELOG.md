@@ -1,3 +1,10 @@
+## [2.67.1](https://github.com/SocialGouv/domifa/compare/v2.67.0...v2.67.1) (2022-01-23)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @nestjs/axios to ^0.0.5 ([74908e1](https://github.com/SocialGouv/domifa/commit/74908e1793f4f7d209be421497d584b4db51ff5c))
+
 # [2.67.0](https://github.com/SocialGouv/domifa/compare/v2.66.0...v2.67.0) (2022-01-23)
 
 
