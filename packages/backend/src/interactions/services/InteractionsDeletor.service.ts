@@ -97,7 +97,7 @@ export class InteractionsDeletor {
         // Seulement si aucun autre évènement n'a déjà changé la date de dernier passage
         // C'est possible si un renouvellement a été effectué après la saisie de ce courrier
         if (
-          new Date(usager.lastInteraction.dateInteraction) <
+          new Date(usager.lastInteraction.dateInteraction) <=
           interaction.dateInteraction
         ) {
           const lastInteractionOk =
