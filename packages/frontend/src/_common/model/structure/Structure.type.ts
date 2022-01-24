@@ -8,6 +8,7 @@ import { StructureType } from "./StructureType.type";
 export type Structure = AppEntity & {
   id: number;
   adresse: string;
+  createdAt?: Date;
   complementAdresse: string;
   nom: string;
   structureType: StructureType;

@@ -16,7 +16,9 @@ export function deleteUsagerFolder({
   );
 
   if (!fs.existsSync(pathFile)) {
-    appLogger.error("Folder not exists - pathFile : " + pathFile);
+    appLogger.debug(
+      "Nothing to delete, folder not exists - pathFile : " + pathFile
+    );
     return;
   }
 
