@@ -17,6 +17,7 @@ export const userMock: UserStructure = {
   role: "admin" as UserStructureRole,
   structure: {
     id: 100,
+    createdAt: new Date(),
     adresse: "3 place olympe de gouges",
     adresseCourrier: {
       actif: true,
