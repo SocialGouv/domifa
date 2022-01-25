@@ -1,8 +1,13 @@
 <div class="head-page py-4 d-print-none" *ngIf="usager">
   <div class="container">
     <div class="d-flex justify-content-between align-items-center">
-      <div class="title">
-        <a [routerLink]="['/manage']" title="Revenir à la liste" class="px-3">
+      <h1>
+        <a
+          [routerLink]="['/manage']"
+          aria-label="Revenir à la liste"
+          title="Revenir à la liste"
+          class="px-3"
+        >
           <img
             src="../../../../../assets/icones/fleche-gauche.svg"
             alt="Revenir à la liste"
@@ -15,7 +20,7 @@
           {{ !this.usager.isActif ? "Première demande" : "Renouvellement" }}
           de {{ usager | usagerNomComplet }}
         </ng-container>
-      </div>
+      </h1>
 
       <div class="text-light d-flex align-items-center" *ngIf="usager.ref">
         <div class="icon-note mr-2"></div>

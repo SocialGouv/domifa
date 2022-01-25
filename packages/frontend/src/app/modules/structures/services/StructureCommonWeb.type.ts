@@ -10,6 +10,7 @@ import {
 // Structure: attributs publics (retournés au frontend via UserStructureAuthenticated)
 export class StructureCommonWeb implements StructureCommon {
   id: number;
+  createdAt: Date;
   adresse: string;
   complementAdresse: string;
   nom: string;
@@ -30,13 +31,14 @@ export class StructureCommonWeb implements StructureCommon {
 
   constructor(structure?: Partial<StructureCommon>) {
     this.id = (structure && structure.id) || 0;
+    this.createdAt = (structure && structure.createdAt) || null;
     this.capacite = (structure && structure.capacite) || null;
     this.adresse = (structure && structure.adresse) || null;
 
     this.complementAdresse = (structure && structure.complementAdresse) || "";
     this.nom = (structure && structure.nom) || "";
 
-    this.structureType = (structure && structure.structureType) || ("" as any);
+    this.structureType = (structure && structure.structureType) || null;
     this.ville = (structure && structure.ville) || "";
     this.departement = (structure && structure.departement) || "";
     this.codePostal = (structure && structure.codePostal) || "";

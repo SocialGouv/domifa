@@ -31,6 +31,11 @@ export class CustomToastrComponent implements OnInit, OnDestroy {
   };
 
   constructor(public customToastService: CustomToastService) {
+    this.toast = {
+      display: false,
+      message: null,
+      class: null,
+    };
     this.customToastSubscription = new Subscription();
   }
 

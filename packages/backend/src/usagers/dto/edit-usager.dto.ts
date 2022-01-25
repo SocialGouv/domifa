@@ -1,17 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import {
-  IsIn,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  ValidateIf,
-} from "class-validator";
-import {
-  Usager,
-  UsagerAyantDroit,
-  UsagerSexe,
-  UsagerTypeDom,
-} from "../../_common/model";
+import { IsIn, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
+import { Usager, UsagerAyantDroit, UsagerSexe } from "../../_common/model";
 
 export class EditUsagerDto implements Partial<Usager> {
   @ApiProperty()

@@ -11,6 +11,8 @@ import {
   usagerRepository,
   userStructureRepository,
   userStructureSecurityRepository,
+  userUsagerRepository,
+  userUsagerSecurityRepository,
 } from "../../database";
 import { messageSmsRepository } from "../../database/services/message-sms";
 
@@ -30,6 +32,15 @@ async function deleteStructureUsagers({
 }: {
   structureId: number;
 }) {
+  // Suppression des comptes usagers
+  await userUsagerSecurityRepository.deleteByCriteria({
+    structureId,
+  });
+  await userUsagerRepository.deleteByCriteria({
+    structureId,
+  });
+
+  // Suppression des interactions
   await interactionRepository.deleteByCriteria({
     structureId,
   });

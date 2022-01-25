@@ -1,4 +1,4 @@
-import { CustomToastService } from "./services/custom-toast.service";
+import { AutoFocusDirective } from "./directives/autofocus.directive";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import {
@@ -12,7 +12,7 @@ import { DigitOnlyDirective } from "./directives/digit-only.directive";
 import { FormatBigNumberPipe } from "./pipes/formatBigNumber.pipe";
 import { FormatPhoneNumberPipe } from "./pipes/formatPhoneNumber.pipe";
 import { UsagerNomCompletPipe } from "./pipes/usager-nom-complet.pipe";
-import { LoadingService } from "./services/loading.service";
+
 import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
 
 @NgModule({
@@ -24,6 +24,7 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
     FormatPhoneNumberPipe,
     FormatBigNumberPipe,
     CustomToastrComponent,
+    AutoFocusDirective,
   ],
   exports: [
     DigitOnlyDirective,
@@ -34,9 +35,9 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
     FormatBigNumberPipe,
     FontAwesomeModule,
     CustomToastrComponent,
+    AutoFocusDirective,
   ],
   imports: [CommonModule, FontAwesomeModule],
-  providers: [LoadingService, CustomToastService],
 })
 export class SharedModule {
   constructor(private library: FaIconLibrary) {

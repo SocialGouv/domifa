@@ -1,3 +1,4 @@
+import { SharedModule } from "./../shared/shared.module";
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import {
@@ -24,8 +25,6 @@ import { RouterModule } from "@angular/router";
 
 import { CountUpModule } from "ngx-countup";
 
-import { SharedModule } from "../shared/shared.module";
-
 @NgModule({
   declarations: [
     HomeComponent,
@@ -46,7 +45,6 @@ import { SharedModule } from "../shared/shared.module";
     SharedModule,
     CountUpModule,
     RouterModule.forChild([]),
-
     NgbModule,
   ],
   providers: [HomeService],

@@ -6,8 +6,6 @@ import { Interactions, InteractionType } from "../../_common/model/interaction";
 
 @Injectable()
 export class InteractionsService {
-  constructor() {}
-
   public async findOne(
     usagerRef: number,
     interactionUuid: string,

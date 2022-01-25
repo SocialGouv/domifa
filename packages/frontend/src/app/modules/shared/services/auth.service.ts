@@ -7,9 +7,9 @@ import jwtDecode from "jwt-decode";
 
 import { BehaviorSubject, Observable, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
-import { environment } from "src/environments/environment";
+import { environment } from "../../../../environments/environment";
 import { UserStructure } from "../../../../_common/model";
-import { usagersCache } from "../../../shared/store";
+import { usagersCache } from "../../../shared";
 import { userStructureBuilder } from "../../users/services";
 import { CustomToastService } from "./custom-toast.service";
 

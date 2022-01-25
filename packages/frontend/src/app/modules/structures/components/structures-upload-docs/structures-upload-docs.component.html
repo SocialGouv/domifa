@@ -5,7 +5,7 @@
   </h4>
 </div>
 <div class="modal-body">
-  <form [formGroup]="uploadForm" (ngSubmit)="submitFile()">
+  <form ngNativeValidate [formGroup]="uploadForm" (ngSubmit)="submitFile()">
     <div class="row">
       <div class="col-12 form-group required" *ngIf="isCustomDoc">
         <label for="customDocType">Type de document à enregistrer</label>
@@ -15,6 +15,7 @@
           formControlName="customDocType"
           class="form-control"
         >
+          <option></option>
           <option value="attestation_postale">Attestation postale</option>
           <option value="courrier_radiation">Courrier de radiation</option>
           <option value="autre">Autre document à pré-remplir</option>
@@ -45,9 +46,9 @@
             placeholder="Règlement intérieur, etc."
             required
           />
-          <div *ngIf="submitted && f.label.errors" class="invalid-feedback">
+          <p *ngIf="submitted && f.label.errors" class="invalid-feedback">
             Le nom du document est obligatoire
-          </div>
+          </p>
         </div>
       </div>
       <div class="col-md-12 form-group required">
@@ -83,15 +84,15 @@
             *ngIf="submitted && f.fileSource.errors"
             class="invalid-feedback"
           >
-            <div *ngIf="f.fileSource.errors.required">
+            <p *ngIf="f.fileSource.errors.required">
               Vous devez choisir un fichier
-            </div>
-            <div *ngIf="f.fileSource.errors.fileType">
+            </p>
+            <p *ngIf="f.fileSource.errors.fileType">
               Format de fichier invalide
-            </div>
-            <div *ngIf="f.fileSource.errors.fileSize">
+            </p>
+            <p *ngIf="f.fileSource.errors.fileSize">
               La taille du fichier est trop grande
-            </div>
+            </p>
           </div>
         </div>
       </div>

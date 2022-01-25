@@ -1,3 +1,57 @@
+## [2.67.1](https://github.com/SocialGouv/domifa/compare/v2.67.0...v2.67.1) (2022-01-23)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @nestjs/axios to ^0.0.5 ([74908e1](https://github.com/SocialGouv/domifa/commit/74908e1793f4f7d209be421497d584b4db51ff5c))
+
+# [2.67.0](https://github.com/SocialGouv/domifa/compare/v2.66.0...v2.67.0) (2022-01-23)
+
+
+### Features
+
+* add tracking login portail usagers ([ae69d8c](https://github.com/SocialGouv/domifa/commit/ae69d8caf65926d8ad3845e94362d00756b4a5d0))
+
+# [2.66.0](https://github.com/SocialGouv/domifa/compare/v2.65.0...v2.66.0) (2022-01-19)
+
+
+### Features
+
+* add 2 column in export structure usager ([462ff3c](https://github.com/SocialGouv/domifa/commit/462ff3cd035fc9a5e55b9ec921b3e746e7585aee))
+
+# [2.65.0](https://github.com/SocialGouv/domifa/compare/v2.64.0...v2.65.0) (2022-01-19)
+
+
+### Features
+
+* update doc access ([3302f76](https://github.com/SocialGouv/domifa/commit/3302f7633731b67b18607362d4d04580fcb73001))
+
+# [2.64.0](https://github.com/SocialGouv/domifa/compare/v2.63.0...v2.64.0) (2022-01-19)
+
+
+### Bug Fixes
+
+* affichage des alertes ([64d8d62](https://github.com/SocialGouv/domifa/commit/64d8d62d91eedb0b2479a76ab16f504db21ef20f))
+* ajout de l'autofocus ([ced78e3](https://github.com/SocialGouv/domifa/commit/ced78e3766f64fc19037f44e9ef4cd73e46654c5))
+* correction d'élémets sur l'étatcivil ([45e6d05](https://github.com/SocialGouv/domifa/commit/45e6d05d949c1822d9ad2b7dbedb46891f4270ac))
+* correction de liens ([b76f8a1](https://github.com/SocialGouv/domifa/commit/b76f8a157a5605fec92fc16fe80a4a7c8a6fa782))
+* lien footer ([1d9fe32](https://github.com/SocialGouv/domifa/commit/1d9fe3293436548311fe1e685a83bae324cb0a8b))
+* toast et correction d'éléments manquants ([cc76514](https://github.com/SocialGouv/domifa/commit/cc76514773490fa84c1636246743f5cfe67dcaa9))
+
+
+### Features
+
+* **access:** Ajout de balises pour l'accessibilité ([f19edd6](https://github.com/SocialGouv/domifa/commit/f19edd673a1ea6accad378272cc3dddb6ab1b68a))
+* **accessibilité:** Ajout d'éléments pour améliorer le score AA ([ac036b2](https://github.com/SocialGouv/domifa/commit/ac036b2fa83984fc9d3d831da7dda62c35befa53))
+* **Accessibilité:** Mise en confirmité du formulaire de demande de domiciliation ([fa78d79](https://github.com/SocialGouv/domifa/commit/fa78d793b33b33bf722ffd0da2d2faad52f96dee))
+
+# [2.63.0](https://github.com/SocialGouv/domifa/compare/v2.62.1...v2.63.0) (2022-01-18)
+
+
+### Features
+
+* change title welcome usager ([afa2a08](https://github.com/SocialGouv/domifa/commit/afa2a08a81e1ca122597bf9b2fff4c34b1a630ef))
+
 ## [2.62.1](https://github.com/SocialGouv/domifa/compare/v2.62.0...v2.62.1) (2022-01-11)
 
 

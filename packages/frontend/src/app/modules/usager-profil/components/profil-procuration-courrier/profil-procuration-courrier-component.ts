@@ -144,7 +144,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
           this.hideForm();
           this.usagerChanges.emit(usager);
           this.usager = new UsagerFormModel(usager);
-          this.toastService.success("Procuration ajoutée avec succès");
+          this.toastService.success("Procuration modifiée avec succès");
           this.matomo.trackEvent("profil", "actions", "edit_procuration", 1);
         },
         error: () => {

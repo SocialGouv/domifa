@@ -8,9 +8,10 @@
       <div class="text-center">
         <h5 class="title">Pièces justificatives complétant le dossier</h5>
         <br />
-        Cette étape est optionnelle, rien ne vous oblige à enregistrer des
-        pièces justificatives.
-        <br />
+        <p>
+          Cette étape est optionnelle, rien ne vous oblige à enregistrer des
+          pièces justificatives.
+        </p>
         <br />
       </div>
       <br />
@@ -21,6 +22,7 @@
       <div class="col-md-4 offset-md-4 text-center">
         <button
           [disabled]="loading"
+          type="submit"
           class="btn btn-primary btn-block"
           (click)="nextStep(4)"
         >
@@ -47,7 +49,7 @@
     </div>
     <br />
 
-    <div class="p-0 step_form">
+    <div class="p-1 step_form">
       <app-display-usager-docs [usager]="usager"></app-display-usager-docs>
     </div>
 

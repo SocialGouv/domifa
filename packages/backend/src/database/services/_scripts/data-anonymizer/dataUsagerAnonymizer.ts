@@ -1,5 +1,5 @@
 import { INestApplication } from "@nestjs/common";
-import { usagerHistoryRepository } from "../..";
+
 import { appLogger } from "../../../../util";
 import {
   Usager,
@@ -20,9 +20,6 @@ export const dataUsagerAnonymizer = {
 };
 
 async function anonymizeUsagers({ app }: { app: INestApplication }) {
-  appLogger.warn(`[ANON] [usagerHistoryRepository] reset tables`);
-  await usagerHistoryRepository.deleteByCriteria({});
-
   const usagers = await usagerRepository.findMany(
     {},
     {

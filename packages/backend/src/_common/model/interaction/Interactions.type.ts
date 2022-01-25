@@ -4,6 +4,7 @@ import { InteractionType } from "./InteractionType.type";
 export type Interactions = AppEntity & {
   content?: string;
   dateInteraction: Date;
+
   nbCourrier: number;
   structureId: number;
   type: InteractionType;

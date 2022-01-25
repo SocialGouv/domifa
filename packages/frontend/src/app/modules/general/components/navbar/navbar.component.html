@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg" id="navbar-site">
   <div class="container px-2">
     <div class="row d-flex align-items-center">
       <img
@@ -6,7 +6,6 @@
         (click)="matomo.trackEvent('HEADER', 'Header_Logo_DomiFa', 'null', 1)"
         src="../assets/images/logo-ministere.svg "
         alt="Ministère des Solidarités et de la Santé"
-        title="Ministère des Solidarités et de la Santé"
       />
 
       <a
@@ -69,7 +68,11 @@
               class="d-inline-block d-xs-none d-sm-none"
             >
               <button class="btn" ngbDropdownToggle>
-                <img src="../assets/icones/menu.svg " alt="Menu" title="Menu" />
+                <img
+                  src="../assets/icones/menu.svg "
+                  alt="Menu du site"
+                  title="Menu du site"
+                />
               </button>
               <div
                 ngbDropdownMenu

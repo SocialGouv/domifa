@@ -14,17 +14,16 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 
 import * as fileSaver from "file-saver";
-
 import { MatomoTracker } from "ngx-matomo";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { Subscription } from "rxjs";
-import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
-import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 import {
   StructureStatsFull,
   UserStructure,
 } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
+import { CustomToastService } from "../../../shared/services/custom-toast.service";
+import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
+import { CustomDatepickerI18n } from "../../../shared/services/date-french";
 import { StatsService } from "../../services/stats.service";
 import { buildExportStructureStatsFileName } from "./services";
 

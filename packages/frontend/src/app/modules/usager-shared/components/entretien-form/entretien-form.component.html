@@ -1,4 +1,8 @@
-<form [formGroup]="entretienForm" (ngSubmit)="submitEntretien()">
+<form
+  ngNativeValidate
+  [formGroup]="entretienForm"
+  (ngSubmit)="submitEntretien()"
+>
   <h5 class="title text-center my-1" *ngIf="!editEntretien">
     Entretien avec le demandeur
   </h5>
@@ -11,6 +15,7 @@
         <span class="label">Avez-vous été orienté ?</span>
         <div class="form-check form-check-inline">
           <input
+            autofocus
             class="form-check-input"
             type="radio"
             formControlName="orientation"
@@ -31,9 +36,8 @@
         </div>
       </div>
 
-      <div *ngIf="e.orientation.value === true" class="form-group">
-        <br />
-        <label class="form-check-label" for="orientationDetail">
+      <div *ngIf="e.orientation.value === true" class="my-2 form-group">
+        <label for="orientationDetail">
           Par quelle structure ou personne ?
         </label>
 
@@ -101,11 +105,8 @@
         </div>
       </div>
 
-      <div *ngIf="e.revenus.value === true" class="form-group">
-        <br />
-        <label class="form-check-label" for="revenusDetail">
-          De quelle nature ?
-        </label>
+      <div *ngIf="e.revenus.value === true" class="my-2 form-group">
+        <label for="revenusDetail"> De quelle nature ? </label>
         <textarea
           class="form-control"
           formControlName="revenusDetail"
@@ -142,21 +143,28 @@
               class="form-check-input"
               type="radio"
               formControlName="liencommune"
-              id="liencommuneAutre"
+              id="liencommune_autre"
               value="AUTRE"
             />
-            <label class="form-check-label" for="liencommuneAutre">
+            <label class="form-check-label" for="liencommune_autre">
               Autre lien avec la commune
             </label>
           </div>
         </div>
-        <div class="form-group">
+        <div
+          class="form-group required"
+          *ngIf="e.liencommune.value === 'AUTRE'"
+        >
+          <label class="form-check-label" for="liencommune_autre_contenu">
+            Autre lien avec la commune
+          </label>
           <input
             type="text"
+            id="liencommune_autre_contenu"
             class="form-control"
-            *ngIf="e.liencommune.value === 'AUTRE'"
             formControlName="liencommuneDetail"
-            placeholder="Précisions"
+            placeholder="Précisez le lien avec la commune"
+            required
           />
         </div>
       </div>
@@ -214,13 +222,18 @@
             </label>
           </div>
         </div>
-        <div class="form-group">
+
+        <div class="form-group required" *ngIf="e.residence.value === 'AUTRE'">
+          <label class="form-check-label" for="residence_autre_contenu">
+            Autre situation résidentielle
+          </label>
           <input
             type="text"
+            id="residence_autre_contenu"
             class="form-control"
-            *ngIf="e.residence.value === 'AUTRE'"
             formControlName="residenceDetail"
-            placeholder="Précisions"
+            placeholder="Précisez le lieu de résidence"
+            required
           />
         </div>
       </div>
@@ -252,14 +265,22 @@
             id="causeAutre"
             value="AUTRE"
           />
-          <label class="form-check-label" for="causeAutre"> Autre cause </label>
+          <label class="form-check-label" for="causeAutre">
+            Autre cause d'instabilité
+          </label>
         </div>
-        <div class="form-group" *ngIf="e.cause.value === 'AUTRE'">
+
+        <div class="form-group required" *ngIf="e.cause.value === 'AUTRE'">
+          <label class="form-check-label" for="cause_autre_contenu">
+            Autre cause d'instabilité
+          </label>
           <input
             type="text"
+            id="cause_autre_contenu"
             class="form-control"
             formControlName="causeDetail"
-            placeholder="Précisions"
+            placeholder="Précisez l'autre cause"
+            required
           />
         </div>
       </div>
@@ -302,6 +323,7 @@
           <input
             type="text"
             class="form-control"
+            id="raisonAutre"
             formControlName="raisonDetail"
             placeholder="Précisions"
           />
@@ -334,19 +356,16 @@
         </div>
       </div>
 
-      <div *ngIf="e.accompagnement.value === true" class="form-group">
-        <br />
-        <label class="form-check-label" for="accompagnement_non">
-          Par quelle structure ?
-        </label>
+      <div *ngIf="e.accompagnement.value === true" class="my-2 form-group">
+        <label for="accompagnementDetail"> Par quelle structure ? </label>
         <input
           type="text"
+          id="accompagnementDetail"
           class="form-control"
           formControlName="accompagnementDetail"
         />
       </div>
-      <div>
-        <br />
+      <div class="form-group my-2">
         <label class="form-label" for="rattachement">
           Cette domiciliation est-elle réalisée au titre d'une autre commune ou
           d'un autre arrondissement ? Si oui, complétez le champ ci-dessous
@@ -362,7 +381,7 @@
       </div>
 
       <div>
-        <span class="label">Commentaires</span>
+        <label for="commentaires" class="label">Commentaires</label>
         <textarea
           class="form-control"
           id="commentaires"

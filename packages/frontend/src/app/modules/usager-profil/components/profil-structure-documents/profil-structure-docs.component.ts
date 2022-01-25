@@ -1,3 +1,4 @@
+import { UserStructure } from "./../../../../../_common/model/user-structure/UserStructure.type";
 import { Component, Input, OnInit } from "@angular/core";
 import * as fileSaver from "file-saver";
 import {
@@ -15,6 +16,12 @@ import { DocumentService } from "../../../usager-shared/services/document.servic
 })
 export class ProfilStructureDocsComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
+  @Input() public me!: UserStructure;
+
+  public defaultStructureDocs: {
+    attestation_postale?: StructureDoc;
+    courrier_radiation?: StructureDoc;
+  };
 
   public customStructureDocs: StructureDoc[];
   public STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;
@@ -23,11 +30,47 @@ export class ProfilStructureDocsComponent implements OnInit {
   public loadings: string[];
 
   constructor(private documentService: DocumentService) {
+    const defaultCustomDoc: StructureDoc = {
+      createdBy: {
+        id: null,
+        nom: "Domifa",
+        prenom: "",
+      },
+      custom: true,
+      customDocType: "attestation_postale",
+      createdAt: null,
+      structureId: null,
+      filetype:
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      label: "",
+    };
+
+    this.defaultStructureDocs = {
+      attestation_postale: defaultCustomDoc,
+      courrier_radiation: defaultCustomDoc,
+    };
+
     this.customStructureDocs = [];
     this.loadings = [];
   }
 
   public ngOnInit(): void {
+    this.defaultStructureDocs.attestation_postale = {
+      ...this.defaultStructureDocs.attestation_postale,
+      createdAt: this.me.structure.createdAt,
+      structureId: this.me.structureId,
+      label: "Attestation postale",
+      customDocType: "attestation_postale",
+    };
+
+    this.defaultStructureDocs.courrier_radiation = {
+      ...this.defaultStructureDocs.courrier_radiation,
+      createdAt: this.me.structure.createdAt,
+      structureId: this.me.structureId,
+      label: "Courrier de radiation",
+      customDocType: "courrier_radiation",
+    };
+
     this.getAllStructureDocs();
   }
 
@@ -76,12 +119,21 @@ export class ProfilStructureDocsComponent implements OnInit {
   public getAllStructureDocs(): void {
     this.documentService.getAllStructureDocs().subscribe({
       next: (structureDocs: StructureDoc[]) => {
-        this.customStructureDocs = structureDocs.filter(
-          (structureDoc) =>
-            structureDoc.custom &&
-            structureDoc.customDocType !== "attestation_postale" &&
-            structureDoc.customDocType !== "courrier_radiation"
-        );
+        structureDocs.forEach((structureDoc: StructureDoc) => {
+          if (structureDoc.customDocType === "attestation_postale") {
+            this.defaultStructureDocs.attestation_postale.createdBy =
+              structureDoc.createdBy;
+            this.defaultStructureDocs.attestation_postale.createdAt =
+              structureDoc.createdAt;
+          } else if (structureDoc.customDocType === "courrier_radiation") {
+            this.defaultStructureDocs.courrier_radiation.createdBy =
+              structureDoc.createdBy;
+            this.defaultStructureDocs.courrier_radiation.createdAt =
+              structureDoc.createdAt;
+          } else {
+            this.customStructureDocs.push(structureDoc);
+          }
+        });
       },
     });
   }

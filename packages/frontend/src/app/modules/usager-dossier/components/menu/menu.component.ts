@@ -1,10 +1,12 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { UserStructure } from "../../../../../_common/model";
-import { ETAPES_DEMANDE_URL } from "../../../../../_common/model/usager/constants";
-import { UsagerFormModel } from "../../../usager-shared/interfaces/UsagerFormModel";
+import {
+  ETAPES_DEMANDE_URL,
+  UserStructure,
+} from "../../../../../_common/model";
+import { AuthService } from "../../../shared/services/auth.service";
+import { CustomToastService } from "../../../shared/services/custom-toast.service";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 @Component({
   selector: "app-form-menu",
@@ -30,7 +32,7 @@ export class MenuComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private toastService: CustomToastService
+    public toastService: CustomToastService
   ) {}
 
   public ngOnInit(): void {
@@ -55,18 +57,16 @@ export class MenuComponent implements OnInit {
       return;
     }
 
-    if (!this.usager.ref) {
-      this.toastService.warning(
-        "Vous devez remplir la première étape avant de passer à la suite"
-      );
-    } else if (step > this.usager.etapeDemande) {
-      this.toastService.warning(
-        "Pour passer à la suite, vous devez cliquer sur Suivant"
-      );
-    } else {
-      this.router.navigate([
-        "usager/" + this.usager.ref + "/edit/" + this.etapesUrl[step],
-      ]);
+    if (this.usager.ref) {
+      if (step > this.usager.etapeDemande) {
+        this.toastService.warning(
+          "Pour passer à la suite, vous devez cliquer sur Suivant"
+        );
+      } else {
+        this.router.navigate([
+          "usager/" + this.usager.ref + "/edit/" + this.etapesUrl[step],
+        ]);
+      }
     }
   }
 }

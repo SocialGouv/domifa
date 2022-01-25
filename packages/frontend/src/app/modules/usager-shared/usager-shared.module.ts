@@ -6,7 +6,6 @@ import { RouterModule } from "@angular/router";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { GeneralModule } from "../general/general.module";
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
 import { DeleteUsagerMenuComponent } from "./components/delete-usager-menu/delete-usager-menu.component";
@@ -37,13 +36,11 @@ import { DisplayUsagerDocsComponent } from "./components/display-usager-docs/dis
   ],
   imports: [
     CommonModule,
+    SharedModule,
     HttpClientModule,
     NgbModule,
     FormsModule,
-    GeneralModule,
     RouterModule.forChild([]),
-    SharedModule,
-
     UsersModule,
     ReactiveFormsModule,
   ],

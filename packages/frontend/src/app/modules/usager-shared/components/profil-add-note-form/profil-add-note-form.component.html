@@ -5,7 +5,7 @@
   </h4>
 </div>
 <div class="modal-body text-center">
-  <form [formGroup]="addNoteForm" (ngSubmit)="submit()">
+  <form ngNativeValidate [formGroup]="addNoteForm" (ngSubmit)="submit()">
     <div class="form-group">
       <label class="label text-left" for="message"> Message </label>
       <textarea

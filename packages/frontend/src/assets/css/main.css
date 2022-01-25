@@ -1,11 +1,11 @@
 html,
 body {
   height: 100%;
+  font-family: "Marianne";
 }
 
 html {
   font-size: 90%;
-  font-family: "Marianne";
 }
 
 ul {
@@ -117,7 +117,6 @@ orm .card {
 
 .label {
   display: block;
-  font-family: "Marianne";
   font-style: normal;
   font-weight: 600;
   padding: 8px 0;
@@ -154,10 +153,6 @@ orm .card {
   100% {
     opacity: 1;
   }
-}
-
-.modal-header h4 {
-  margin: 2px 0;
 }
 
 .notification {
@@ -254,8 +249,7 @@ orm .card {
 }
 
 .step_text_active {
-  font-weight: 600;
-  color: var(--blue);
+  font-weight: 700;
 }
 
 .step_text_inactive {
@@ -263,14 +257,6 @@ orm .card {
   border-color: #afafaf;
   background-color: white;
   cursor: not-allowed;
-}
-
-.step_menu {
-  padding: 1rem;
-  border: 1px solid #d2d2d2;
-  max-width: 750px;
-  margin: 1rem auto;
-  border-radius: 4px;
 }
 
 .step_inactive {
@@ -320,10 +306,11 @@ orm .card {
   width: 100%;
 }
 
-.head-page .title {
+.head-page .title,
+.head-page h1 {
   font-style: normal;
   font-weight: bold;
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   color: #ffffff;
 }
 
@@ -373,7 +360,6 @@ orm .card {
 
 #statut-selector .col:first-child {
   border-radius: 5px 0 0 0;
-  font-family: "Marianne";
 }
 
 #statut-selector .col:last-child {
