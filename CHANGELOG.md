@@ -1,3 +1,16 @@
+# [2.69.0](https://github.com/SocialGouv/domifa/compare/v2.68.0...v2.69.0) (2022-01-25)
+
+
+### Bug Fixes
+
+* affichage des stats ([4e6b29a](https://github.com/SocialGouv/domifa/commit/4e6b29a8d8c101ac130c2d624defabd427aa2af8))
+* tests unitaires ([1dc267f](https://github.com/SocialGouv/domifa/commit/1dc267f1de4fe36a761d08694278c3f1d29b357f))
+
+
+### Features
+
+* new stats sms page back office ([7d349ea](https://github.com/SocialGouv/domifa/commit/7d349eaa7fd6fcaa9713d4d20a8229a4d19f2372))
+
 # [2.68.0](https://github.com/SocialGouv/domifa/compare/v2.67.1...v2.68.0) (2022-01-25)
 
 
