@@ -1,7 +1,6 @@
 import {
   Controller,
   Get,
-  HttpException,
   HttpStatus,
   Param,
   Put,
@@ -164,7 +163,9 @@ export class AdminStructuresController {
     @Res() res: ExpressResponse
   ): Promise<any> {
     if (token === "") {
-      throw new HttpException("STRUCTURE_TOKEN_EMPTY", HttpStatus.BAD_REQUEST);
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "STRUCTURE_TOKEN_EMPTY" });
     }
 
     const structure = await structureCreatorService.checkCreationToken({
@@ -173,27 +174,26 @@ export class AdminStructuresController {
     });
 
     if (!structure) {
-      throw new HttpException(
-        "STRUCTURE_TOKEN_INVALID",
-        HttpStatus.BAD_REQUEST
-      );
-    } else {
-      const admin = await userStructureRepository.findOne({
-        role: "admin",
-        structureId: structure.id,
-      });
-
-      const updatedAdmin = await userStructureRepository.updateOne(
-        {
-          id: admin.id,
-          structureId: structure.id,
-        },
-        { verified: true }
-      );
-
-      await userAccountActivatedEmailSender.sendMail({ user: updatedAdmin });
-      return res.status(HttpStatus.OK).json({ message: "OK" });
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "STRUCTURE_TOKEN_INVALID" });
     }
+
+    const admin = await userStructureRepository.findOne({
+      role: "admin",
+      structureId: structure.id,
+    });
+
+    const updatedAdmin = await userStructureRepository.updateOne(
+      {
+        id: admin.id,
+        structureId: structure.id,
+      },
+      { verified: true }
+    );
+
+    await userAccountActivatedEmailSender.sendMail({ user: updatedAdmin });
+    return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 
   @AllowUserProfiles("super-admin-domifa")

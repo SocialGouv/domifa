@@ -9,7 +9,7 @@ export class createContactSupportMigration1642548402220
   public async up(queryRunner: QueryRunner): Promise<void> {
     if (domifaConfig().envId === "prod" || domifaConfig().envId === "preprod") {
       await queryRunner.query(
-        `CREATE TABLE "contact_support" ("uuid" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "version" integer NOT NULL, "userId" integer, "structureId" integer, "content" text NOT NULL, "status" text NOT NULL DEFAULT 'ON_HOLD', "file" text, "email" text NOT NULL, "category" text, "name" text NOT NULL, "comments" text, CONSTRAINT "PK_8e4a4781a01061a482fa33e5f5a" PRIMARY KEY ("uuid"))`
+        `CREATE TABLE "contact_support" ("uuid" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "version" integer NOT NULL, "userId" integer, "structureId" integer, "content" text NOT NULL, "status" text NOT NULL DEFAULT 'ON_HOLD', "fileName" text,"fileType" text, "email" text NOT NULL, "category" text, "name" text NOT NULL, "comments" text, CONSTRAINT "PK_8e4a4781a01061a482fa33e5f5a" PRIMARY KEY ("uuid"))`
       );
       await queryRunner.query(
         `CREATE INDEX "IDX_2dc55096563e5e2a6db3b83c0c" ON "contact_support" ("userId") `
@@ -21,6 +21,10 @@ export class createContactSupportMigration1642548402220
         `CREATE INDEX "IDX_d92188af7573662f6be7199eda" ON "contact_support" ("status") `
       );
       await queryRunner.query(`ALTER TABLE "log" RENAME TO "app_log"`);
+
+      await queryRunner.query(
+        `ALTER TABLE "structure" ALTER COLUMN "portailUsager" SET DEFAULT '{"enabledByDomifa": true, "enabledByStructure": false}'`
+      );
     }
   }
 

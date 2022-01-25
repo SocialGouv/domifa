@@ -15,7 +15,7 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
     appLogger.warn("CREATION DB : SUCCESS");
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {
+  public async down(): Promise<void> {
     // pas nécessaire de maintenir le down ici
   }
 }
@@ -59,10 +59,11 @@ async function createTables(queryRunner: QueryRunner) {
       "structureId" int4 NULL,
       "content" text NOT NULL,
       status text NOT NULL DEFAULT 'ON_HOLD'::text,
-      file text NULL,
+      "fileName" text NULL,
+      "fileType" text NULL,
       email text NOT NULL,
       category text NULL,
-      "name" text NOT NULL,
+      name text NOT NULL,
       "comments" text NULL,
       CONSTRAINT "PK_8e4a4781a01061a482fa33e5f5a" PRIMARY KEY (uuid)
     );
@@ -91,7 +92,7 @@ async function createTables(queryRunner: QueryRunner) {
       "errorCount" int4 NOT NULL DEFAULT 0,
       "errorMessage" text NULL,
       "sendDetails" jsonb NULL,
-      attachments bytea NULL,
+      attachments jsonb NULL,
       CONSTRAINT "PK_6bffd9b803b67cd4e099fc795e1" PRIMARY KEY (uuid)
     );
 
@@ -438,7 +439,6 @@ async function createTables(queryRunner: QueryRunner) {
       "interactionOutUUID" uuid NULL,
       CONSTRAINT "PK_006113a10247f411c459d62a5b3" PRIMARY KEY (uuid),
       CONSTRAINT "FK_1953f5ad67157bada8774f7e245" FOREIGN KEY ("structureId") REFERENCES "structure"(id),
-      CONSTRAINT "FK_495b59d0dd15e43b262f2da8907" FOREIGN KEY ("interactionOutUUID") REFERENCES interactions(uuid),
       CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335" FOREIGN KEY ("usagerUUID") REFERENCES usager(uuid)
     );
     CREATE INDEX "IDX_0c5d7e9585c77ff002d4072c3c" ON interactions USING btree ("usagerRef");

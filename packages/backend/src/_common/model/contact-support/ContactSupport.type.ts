@@ -7,7 +7,9 @@ export type ContactSupport = AppEntity & {
   structureId?: number;
   content: string;
   comments?: string; // Commentaire sur le ticket écrit par les admins
-  file?: string;
+  fileName?: string;
+  path?: string;
+  fileType?: string;
   status: ContactStatus;
   category?: ContactCategorie;
   email: string;

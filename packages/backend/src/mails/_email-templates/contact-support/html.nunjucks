@@ -23,7 +23,13 @@
   </p>
 
   <p>
-    <strong>Pièce-jointe :</strong>
+    <strong>
+      {% if link %}
+        <a href="{{ link }}">Télécharger la pièce-jointe</a>
+      </strong>
+    {% else %}
+    Aucune pièce-jointe
+    {% endif %}
   </p>
 
   {{ helpers.redirectedMessage(toSkipString) }}

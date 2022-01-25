@@ -82,8 +82,19 @@ export class ContactSupportDto {
 
   @ApiProperty({
     type: String,
-    required: false,
   })
   @IsEmpty()
-  public file!: string;
+  public fileName!: string;
+
+  @ApiProperty({
+    type: String,
+  })
+  @IsEmpty()
+  public fileType!: string;
+
+  @ApiProperty({
+    type: String,
+  })
+  @IsEmpty()
+  public path!: string;
 }

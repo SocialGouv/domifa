@@ -1,6 +1,9 @@
 import { ContactSupport } from "../../../../_common/model/contact-support/ContactSupport.type";
 import { domifaConfig } from "../../../../config";
-import { MessageEmailContent } from "../../../../database";
+import {
+  MessageEmailAttachement,
+  MessageEmailContent,
+} from "../../../../database";
 import { appLogger } from "../../../../util";
 import { DOMIFA_DEFAULT_MAIL_CONFIG, messageEmailSender } from "../../_core";
 import { contactSupportEmailRenderer } from "./contactSupportEmailRenderer.service";
@@ -20,10 +23,20 @@ async function sendMail(model: ContactSupport): Promise<void> {
     },
   ];
 
+  const attachments: MessageEmailAttachement[] = model.fileName
+    ? [
+        {
+          contentType: model.fileName,
+          filename: model.fileName,
+          path: model.path,
+        },
+      ]
+    : [];
+
   const renderedTemplate = await contactSupportEmailRenderer.renderTemplate({
     structureId: model.structureId,
     content: model.content,
-    file: model.file,
+    fileName: model.fileName,
     email: model.email,
     name: model.name,
   });
@@ -32,6 +45,7 @@ async function sendMail(model: ContactSupport): Promise<void> {
     ...DOMIFA_DEFAULT_MAIL_CONFIG,
     ...renderedTemplate,
     to,
+    attachments,
   };
 
   await messageEmailSender.sendMessageLater(messageContent, {

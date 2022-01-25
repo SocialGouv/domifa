@@ -50,8 +50,6 @@ export class ContactSupportComponent implements OnInit {
     let userId = "";
     let structureId = "";
 
-    console.log(this.me);
-
     if (this.me) {
       email = this.me.structure.email;
       name = this.me.nom;
@@ -65,7 +63,7 @@ export class ContactSupportComponent implements OnInit {
       content: ["", [Validators.required, Validators.minLength(10)]],
       email: [email, [Validators.required, Validators.email]],
       file: [""],
-      fileSource: ["", [validateUpload("USAGER_DOC", false)]],
+      fileSource: ["", [validateUpload("CONTACT_SUPPORT_PJ", false)]],
       hasAccount: [hasAccount, [Validators.required]],
       name: [name, [Validators.required, Validators.minLength(2)]],
       structureId: [structureId, []],
@@ -114,14 +112,11 @@ export class ContactSupportComponent implements OnInit {
     );
 
     formData.append("hasAccount", this.contactForm.controls.hasAccount.value);
-    console.log(this.contactForm.value);
     formData.append("email", this.contactForm.controls.email.value);
     formData.append("content", this.contactForm.controls.content.value);
 
-    console.log(formData);
     this.generalService.sendContact(formData).subscribe({
       next: (response) => {
-        console.log(response);
         this.fileName = "";
         this.loading = false;
         this.success = true;

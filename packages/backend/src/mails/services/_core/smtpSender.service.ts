@@ -78,7 +78,7 @@ async function sendEmail(
           const att: Mail.Attachment = {
             contentType: a.contentType,
             filename: a.filename,
-            content: a.content,
+            path: a.path,
           };
           return att;
         }),

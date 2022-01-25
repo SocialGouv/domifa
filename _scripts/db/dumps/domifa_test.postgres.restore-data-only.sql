@@ -28,7 +28,7 @@ COPY public.app_log (uuid, "createdAt", "updatedAt", version, "userId", "usagerR
 -- Data for Name: contact_support; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.contact_support (uuid, "createdAt", "updatedAt", version, "userId", "structureId", content, status, file, email, category, name, comments) FROM stdin;
+COPY public.contact_support (uuid, "createdAt", "updatedAt", version, "userId", "structureId", content, status, "fileName", "fileType", email, category, name, comments) FROM stdin;
 \.
 
 
@@ -103,6 +103,80 @@ COPY public.message_email (uuid, "createdAt", "updatedAt", version, status, "ema
 --
 
 COPY public.message_sms (uuid, "createdAt", "updatedAt", version, "usagerRef", "structureId", content, status, "smsId", "scheduledDate", "sendDate", "interactionMetas", "reminderMetas", "statusUpdates", "lastUpdate", "errorCount", "errorMessage", "responseId", "phoneNumber", "senderName") FROM stdin;
+\.
+
+
+--
+-- Data for Name: migrations; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.migrations (id, "timestamp", name) FROM stdin;
+1	1603812391580	autoMigration1603812391580
+2	1604995302358	autoMigration1604995302358
+3	1605001375177	autoMigration1605001375177
+4	1605620815542	autoMigration1605620815542
+5	1606748548178	manualMigration1606748548178
+6	1606822012536	autoMigration1606822012536
+7	1606838472064	autoMigration1606838472064
+8	1606839814470	autoMigration1606839814470
+9	1606839814472	autoMigration1606839814472
+10	1607476591678	autoMigration1607476591678
+11	1608026995583	manualMigration1608026995583
+12	1608026995584	manualMigration1608026995584
+13	1608026995585	manualMigration1608026995585
+14	1609767028614	manualMigration1609767028614
+15	1609776115336	autoMigration1609776115336
+16	1611066431350	autoMigration1611066431350
+17	1611148210101	autoMigration1611148210101
+18	1609860597375	autoMigration1609860597375
+19	1610982547284	autoMigration1610982547284
+20	1611568677140	autoMigration1611568677140
+21	1611568677141	autoMigration1611568677141
+22	1611658001706	autoMigration1611658001706
+23	1612770930656	autoMigration1612770930656
+24	1613425788373	manualMigration1613425788373
+25	1613425788374	manualMigration1613425788374
+26	1613987756520	autoMigration1613987756520
+27	1614089579788	manualMigration1614089579788
+28	1614164251906	manualMigration1614164251906
+29	1614194657232	manualMigration1614194657232
+30	1614589489050	manualMigration1614589489050
+31	1614589489060	manualMigration1614589489060
+32	1614608625533	manualMigration1614608625533
+33	1615804855154	autoMigration1615804855154
+34	1615884899669	autoMigration1615884899669
+35	1615884899670	autoMigration1615884899670
+36	1617745703874	manualMigration1617745703874
+37	1617740677589	manualMigration1617740677589
+38	1618289243100	manualMigration1618289243100
+39	1618928713316	manualMigration1618928713316
+40	1619517500466	manualMigration1619517500466
+42	1620015603536	manualMigration1620015603536
+43	1620030624718	manualMigration1620030624718
+44	1620724704165	manualMigration1620724704165
+45	1620724704166	fix-history-migration-1620724704166
+46	1622043150408	manualMigration1622043150408
+47	1623057240566	manualMigration1623057240566
+48	1624353633767	UpdateInteractions1624353633767
+49	1603812391580	autoMigration1603812391580
+50	1603812391581	copyDataToDatabase1603812391581
+51	1630956510605	fixEnableSmsMigration1630956510605
+52	1630997293488	AddUsagerNotes1630997293488
+53	1631539329961	renameAppUserMigration1631539329961
+54	1632752280979	CreateUserUsager1632752280979
+55	1634037134019	CreateDatabase1634037134019
+56	1635782590010	autoMigration1635782590010
+57	1635801057529	setTypeDomDefault1635801057529
+58	1635931181879	migration1635931181879
+59	1637609690061	adCustomDocMigration1637609690061
+60	1635801057529	prepareInteractionMigration1635801057529
+61	1638808597232	migrateInteractions1638808597232
+62	1641289401387	autoMigration1641289401387
+63	1640108810708	autoMigration1640108810708
+64	1641309834050	fixCorruptedUsagersMigration1641309834050
+65	1640108810708	createLogMigration1640108810708
+66	1642548402220	createContactSupportMigration1642548402220
+67	1643148857471	deleteCircularFkMigration1643148857471
 \.
 
 
@@ -194,6 +268,13 @@ COPY public.user_usager_security (uuid, "createdAt", "updatedAt", version, "user
 fadd55b6-ca41-48d4-bd56-238b1a3c6f7b	2021-11-30 13:50:26.290488+00	2021-11-30 14:01:39.66811+00	8	2	1	[{"date": "2021-11-30T13:50:38.357Z", "type": "login-success"}, {"date": "2021-11-30T13:51:20.351Z", "type": "login-success"}, {"date": "2021-11-30T13:51:20.608Z", "type": "change-password-success"}, {"date": "2021-11-30T14:00:55.533Z", "type": "login-error"}, {"date": "2021-11-30T14:01:21.310Z", "type": "login-success"}, {"date": "2021-11-30T14:01:39.398Z", "type": "login-success"}, {"date": "2021-11-30T14:01:39.667Z", "type": "change-password-success"}]
 9bc8decb-5f78-48de-8c1b-9f61ea5acfba	2021-10-05 09:34:41.388922+00	2021-11-30 14:02:07.682311+00	3	1	1	[{"date": "2021-11-30T14:02:07.680Z", "type": "login-success"}]
 \.
+
+
+--
+-- Name: migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.migrations_id_seq', 67, true);
 
 
 --

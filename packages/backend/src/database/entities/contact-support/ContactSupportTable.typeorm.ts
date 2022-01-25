@@ -31,7 +31,10 @@ export class ContactSupportTable
   public status: ContactStatus;
 
   @Column({ type: "text", nullable: true })
-  public file: string;
+  public fileName: string;
+
+  @Column({ type: "text", nullable: true })
+  public fileType: string;
 
   @Column({ type: "text" })
   public email: string;
