@@ -7,17 +7,10 @@ import {
   StatsPeriod,
   StatsGlobal,
 } from "../../../_common/model";
-import {
-  messageSmsRepository,
-  structureRepository,
-  logsRepository,
-} from "../../../database";
-import { StructureTable, typeOrmSearch } from "../../../database";
+import { messageSmsRepository } from "../../../database";
 
 @Injectable()
 export class AdminSmsService {
-  constructor() {}
-
   public async getStatsGlobal(type: StatsGlobal) {
     if (type === "sms") {
       const res = await messageSmsRepository.statsSmsGlobal();
