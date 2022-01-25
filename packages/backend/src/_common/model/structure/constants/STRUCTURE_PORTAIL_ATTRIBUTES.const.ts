@@ -1,4 +1,4 @@
-import { PortailUsagerStructure } from "../_portail-usager";
+import { PortailUsagerStructure } from "../..";
 
 export const STRUCTURE_PORTAIL_ATTRIBUTES: (keyof PortailUsagerStructure)[] = [
   "uuid",

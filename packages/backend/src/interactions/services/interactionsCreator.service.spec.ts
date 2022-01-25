@@ -198,6 +198,9 @@ describe("interactionsCreator", () => {
     interaction.content = "Test transfert du courrier";
     interaction.nbCourrier = 10;
 
+    // Date de dernier passage avant toute modif
+    const dernierPassage = usager.lastInteraction.dateInteraction;
+
     usager.options.transfert.actif = true;
     usager.options.transfert.adresse = "ICI ADRESSE";
     usager.options.transfert.nom = "LA personne DU TRANSFERT";
@@ -214,13 +217,24 @@ describe("interactionsCreator", () => {
       "Courrier transféré à : LA personne DU TRANSFERT - ICI ADRESSE"
     );
 
-    // clean
-    await interactionsDeletor.deleteOrRestoreInteraction({
-      interaction: resultat.interaction,
-      structure,
-      usager,
-      user,
-    });
+    // La date de dernier passage est mise à jour
+    expect(new Date(resultat.usager.lastInteraction.dateInteraction)).toEqual(
+      interaction.dateInteraction
+    );
+
+    // Suppression de l'interaction sortante
+    const usagerAfterDelete =
+      await interactionsDeletor.deleteOrRestoreInteraction({
+        interaction: resultat.interaction,
+        structure,
+        usager,
+        user,
+      });
+
+    // Après suppression, date de dernier passage doit être la même qu'au début
+    expect(new Date(usagerAfterDelete.lastInteraction.dateInteraction)).toEqual(
+      dernierPassage
+    );
   });
 
   it("5. Distribution d'un courrier avec procuration ", async () => {
