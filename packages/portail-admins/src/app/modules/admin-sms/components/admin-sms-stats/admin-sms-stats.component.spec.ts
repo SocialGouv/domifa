@@ -4,6 +4,8 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { ToastrModule } from "ngx-toastr";
 
 import { AdminSmsStatsComponent } from "./admin-sms-stats.component";
+import { AdminSmsApiClient } from "../../admin-sms-api-client.service";
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 
 describe("AdminSmsStatsComponent", () => {
   let component: AdminSmsStatsComponent;
@@ -17,6 +19,8 @@ describe("AdminSmsStatsComponent", () => {
         ToastrModule.forRoot(),
         HttpClientTestingModule,
       ],
+      providers: [AdminSmsApiClient],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
   });
 
