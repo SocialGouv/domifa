@@ -31,7 +31,7 @@ import {
   generateCustomDoc,
 } from "../custom-docs";
 import { StructureDocService } from "./../../structures/services/structure-doc.service";
-import { LogsService } from "../../app-log/app-log.service";
+import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("usagers-structure-docs")
@@ -40,7 +40,7 @@ import { LogsService } from "../../app-log/app-log.service";
 export class UsagerStructureDocsController {
   constructor(
     private structureDocService: StructureDocService,
-    private logsService: LogsService
+    private appLogsService: AppLogsService
   ) {}
 
   @ApiOperation({ summary: "Télécharger un document pré-rempli" })
@@ -144,7 +144,7 @@ export class UsagerStructureDocsController {
     });
 
     if (docType === "acces_espace_domicilie") {
-      await this.logsService.create({
+      await this.appLogsService.create({
         userId: user.id,
         usagerRef: usager.ref,
         structureId: user.structureId,

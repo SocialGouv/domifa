@@ -39,8 +39,8 @@ import {
   UserStructureAuthenticated,
 } from "../../../_common/model";
 import { AdminStructuresService } from "../services";
-import { LogsService } from "../../../logs/logs.service";
 import { CurrentUser } from "../../../auth/decorators/current-user.decorator";
+import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
@@ -51,7 +51,7 @@ export class AdminStructuresController {
     private readonly adminStructuresService: AdminStructuresService,
     private readonly structureService: StructuresService,
     private readonly messageSmsService: MessageSmsService,
-    private readonly logsService: LogsService
+    private readonly appLogsService: AppLogsService
   ) {}
 
   @Get("export")
@@ -215,7 +215,7 @@ export class AdminStructuresController {
         ? "ENABLE_SMS_BY_DOMIFA"
         : "DISABLE_SMS_BY_DOMIFA";
 
-    this.logsService.create({
+    this.appLogsService.create({
       userId: user._userId,
       usagerRef: null,
       structureId,

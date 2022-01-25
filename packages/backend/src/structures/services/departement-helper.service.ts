@@ -1,5 +1,5 @@
-import { appLogger } from "../util";
-import { DEPARTEMENTS_MAP } from "./DEPARTEMENTS_MAP.const";
+import { appLogger } from "../../util";
+import { DEPARTEMENTS_MAP } from "../constants/DEPARTEMENTS_MAP.const";
 
 // NOTE: service dupliqué côté frontend
 const EXCEPTIONS_CODE_POSTAL: { [codePostal: string]: string } = {

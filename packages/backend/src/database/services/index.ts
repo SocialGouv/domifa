@@ -1,4 +1,4 @@
-//@index('./*', f => `export * from '${f.path}'`)
+// @index('./*', f => `export * from '${f.path}'`)
 export * from "./_postgres";
 export * from "./_scripts";
 export * from "./contact";

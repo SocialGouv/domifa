@@ -16,8 +16,8 @@ import { StatsModule } from "./stats/stats.module";
 import { StructuresModule } from "./structures/structure.module";
 import { UsagersModule } from "./usagers/usagers.module";
 import { UsersModule } from "./users/users.module";
-import { LogsModule } from "./app-log/app-log.module";
-import { ContactSupportModule } from "./contact-support/contact.module";
+import { AppLogsModule } from "./modules/app-logs/app-logs.module";
+import { ContactSupportModule } from "./modules/contact-support/contact.module";
 
 @Module({
   controllers: [HealthController],
@@ -44,7 +44,7 @@ import { ContactSupportModule } from "./contact-support/contact.module";
     TerminusModule,
     PortailUsagerModule,
     PortailAdminModule,
-    LogsModule,
+    AppLogsModule,
     ContactSupportModule,
   ],
   providers: [PostgresHealthIndicator],

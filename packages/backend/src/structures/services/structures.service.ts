@@ -8,7 +8,7 @@ import {
   StructureLight,
   UserStructure,
 } from "../../_common/model";
-import { departementHelper } from "../departement-helper.service";
+import { departementHelper } from "./departement-helper.service";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
 import { StructureEditDto } from "../dto/structure-edit.dto";
 

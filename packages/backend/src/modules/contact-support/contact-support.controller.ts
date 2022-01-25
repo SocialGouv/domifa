@@ -14,11 +14,11 @@ import { diskStorage } from "multer";
 import * as fs from "fs";
 
 import path = require("path");
-import { domifaConfig } from "../config";
-import { validateUpload, randomName } from "../util/FileManager";
+import { domifaConfig } from "../../config";
+import { validateUpload, randomName } from "../../util/FileManager";
 import { ContactSupportService } from "./contact-support.service";
-import { contactSupportEmailSender } from "../mails/services/templates-renderers/contact-support";
-import { ExpressResponse } from "../util/express";
+import { contactSupportEmailSender } from "../../mails/services/templates-renderers/contact-support";
+import { ExpressResponse } from "../../util/express";
 
 @Controller("contact")
 export class ContactSupportController {

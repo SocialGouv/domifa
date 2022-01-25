@@ -9,7 +9,7 @@ import {
   MinLength,
   ValidateIf,
 } from "class-validator";
-import { ContactStatus } from "../_common/model";
+import { ContactStatus } from "../../_common/model";
 
 import { Transform, TransformFnParams } from "class-transformer";
 

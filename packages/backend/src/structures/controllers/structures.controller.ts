@@ -27,7 +27,7 @@ import { StructureEditDto } from "../dto/structure-edit.dto";
 import { structureDeletorService } from "../services/structureDeletor.service";
 import { StructureHardResetService } from "../services/structureHardReset.service";
 import { StructuresService } from "../services/structures.service";
-import { LogsService } from "../../logs/logs.service";
+import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 
 @Controller("structures")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -36,7 +36,7 @@ export class StructuresController {
   constructor(
     private structureHardResetService: StructureHardResetService,
     private structureService: StructuresService,
-    private logsService: LogsService
+    private appLogsService: AppLogsService
   ) {}
 
   @ApiBearerAuth()
@@ -94,7 +94,7 @@ export class StructuresController {
       user.structure.sms.enabledByStructure
         ? "ENABLE_SMS_BY_STRUCTURE"
         : "DISABLE_SMS_BY_STRUCTURE";
-    this.logsService.create({
+    this.appLogsService.create({
       userId: user._userId,
       usagerRef: null,
       structureId: user.structureId,
