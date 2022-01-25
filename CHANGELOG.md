@@ -1,3 +1,18 @@
+# [2.68.0](https://github.com/SocialGouv/domifa/compare/v2.67.1...v2.68.0) (2022-01-25)
+
+
+### Bug Fixes
+
+* mise à jour des docs ([4c061fc](https://github.com/SocialGouv/domifa/commit/4c061fcb98a7780e9c9bf50d30367b191b34176a))
+* **custom-docs:** Affichage de la personne qui a créer le fichier ([c86d7ba](https://github.com/SocialGouv/domifa/commit/c86d7ba01f7dcfb00cbe74d9d42f54370fa57603))
+* **docs:** correction de l'envoi de multi-docs ([8538eca](https://github.com/SocialGouv/domifa/commit/8538ecace1275d0c3c87cc44e043a473e253bad5))
+* build du backend ([5f4e8e5](https://github.com/SocialGouv/domifa/commit/5f4e8e522191870e272ddae9a8b7c893d5145243))
+
+
+### Features
+
+* **custom-docs:** Ajout du transfert et de la procuration dans les docs ([f655d5c](https://github.com/SocialGouv/domifa/commit/f655d5cb389dda74d4175c8ab4b26c0c50aa39e1))
+
 ## [2.67.1](https://github.com/SocialGouv/domifa/compare/v2.67.0...v2.67.1) (2022-01-23)
 
 
