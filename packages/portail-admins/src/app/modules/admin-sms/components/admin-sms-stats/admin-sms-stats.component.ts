@@ -1,9 +1,10 @@
+import { StatsSmsChartsDatas } from "./../../../../../_common/stats/StatsSmsChartsDatas.type";
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
 
-import { PortailAdminProfile, StatsSms } from "../../../../../_common";
+import { PortailAdminProfile, StatsSmsApiDatas } from "../../../../../_common";
 import { AdminAuthService } from "../../../admin-auth/services/admin-auth.service";
-import { AdminSmsApiClient } from "../../../shared/services/api/admin-sms-api-client.service";
+import { AdminSmsApiClient } from "../../admin-sms-api-client.service";
 
 @Component({
   selector: "app-admin-sms-stats",
@@ -32,15 +33,15 @@ export class AdminSmsStatsComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  public globalSms: StatsSms;
-  public courrierIn30: StatsSms;
-  public courrierIn12: StatsSms;
-  public colisIn30: StatsSms;
-  public colisIn12: StatsSms;
-  public recommandeIn30: StatsSms;
-  public recommandeIn12: StatsSms;
-  public echeanceDeuxMois30: StatsSms;
-  public echeanceDeuxMois12: StatsSms;
+  public globalSms: StatsSmsChartsDatas;
+  public courrierIn30: StatsSmsChartsDatas;
+  public courrierIn12: StatsSmsChartsDatas;
+  public colisIn30: StatsSmsChartsDatas;
+  public colisIn12: StatsSmsChartsDatas;
+  public recommandeIn30: StatsSmsChartsDatas;
+  public recommandeIn12: StatsSmsChartsDatas;
+  public echeanceDeuxMois30: StatsSmsChartsDatas;
+  public echeanceDeuxMois12: StatsSmsChartsDatas;
 
   constructor(
     private readonly adminAuthService: AdminAuthService,
@@ -69,52 +70,58 @@ export class AdminSmsStatsComponent implements OnInit, OnDestroy {
 
     // Global stats
     this.subscription.add(
-      this.adminSmsApiClient.getStatsGlobal("sms").subscribe((data) => {
-        this.globalSms = [{ name: "SMS", series: data }];
-      })
+      this.adminSmsApiClient
+        .getStatsGlobal()
+        .subscribe((data: StatsSmsApiDatas) => {
+          this.globalSms = [{ name: "SMS", series: data }];
+        })
     );
 
     // courrierIn
     this.subscription.add(
       this.adminSmsApiClient
         .getStats("courrierIn", "days")
-        .subscribe((data) => {
+        .subscribe((data: StatsSmsApiDatas) => {
           this.courrierIn30 = [{ name: "SMS", series: data }];
         })
     );
     this.subscription.add(
       this.adminSmsApiClient
         .getStats("courrierIn", "months")
-        .subscribe((data) => {
+        .subscribe((data: StatsSmsApiDatas) => {
           this.courrierIn12 = [{ name: "SMS", series: data }];
         })
     );
 
     // colisIn
     this.subscription.add(
-      this.adminSmsApiClient.getStats("colisIn", "days").subscribe((data) => {
-        this.colisIn30 = [{ name: "SMS", series: data }];
-      })
+      this.adminSmsApiClient
+        .getStats("colisIn", "days")
+        .subscribe((data: StatsSmsApiDatas) => {
+          this.colisIn30 = [{ name: "SMS", series: data }];
+        })
     );
 
     this.subscription.add(
-      this.adminSmsApiClient.getStats("colisIn", "months").subscribe((data) => {
-        this.colisIn12 = [{ name: "SMS", series: data }];
-      })
+      this.adminSmsApiClient
+        .getStats("colisIn", "months")
+        .subscribe((data: StatsSmsApiDatas) => {
+          this.colisIn12 = [{ name: "SMS", series: data }];
+        })
     );
 
     // recommandeIn
     this.subscription.add(
       this.adminSmsApiClient
         .getStats("recommandeIn", "days")
-        .subscribe((data) => {
+        .subscribe((data: StatsSmsApiDatas) => {
           this.recommandeIn30 = [{ name: "SMS", series: data }];
         })
     );
     this.subscription.add(
       this.adminSmsApiClient
         .getStats("recommandeIn", "months")
-        .subscribe((data) => {
+        .subscribe((data: StatsSmsApiDatas) => {
           this.recommandeIn12 = [{ name: "SMS", series: data }];
         })
     );
@@ -123,14 +130,14 @@ export class AdminSmsStatsComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.adminSmsApiClient
         .getStats("echeanceDeuxMois", "days")
-        .subscribe((data) => {
+        .subscribe((data: StatsSmsApiDatas) => {
           this.echeanceDeuxMois30 = [{ name: "SMS", series: data }];
         })
     );
     this.subscription.add(
       this.adminSmsApiClient
         .getStats("echeanceDeuxMois", "months")
-        .subscribe((data) => {
+        .subscribe((data: StatsSmsApiDatas) => {
           this.echeanceDeuxMois12 = [{ name: "SMS", series: data }];
         })
     );
