@@ -14,11 +14,6 @@ html {
   overflow-x: hidden;
 }
 
-.content {
-  padding-right: 1rem !important;
-  padding-left: 1rem !important;
-}
-
 .container {
   max-width: 1350px;
 }
@@ -100,4 +95,26 @@ html {
 .section-tab {
   border-radius: 0;
   transform: matrix(-1, 0, 0, 1, 0, 0);
+}
+
+.content {
+  background-color: white;
+  border-radius: 3px;
+  min-height: 30vh;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.head-page {
+  background-color: var(--primary);
+  width: 100%;
+}
+
+.head-page .title,
+.head-page h1 {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.7rem;
+  color: #ffffff;
 }

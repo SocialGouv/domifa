@@ -11,18 +11,19 @@ import {
 } from "../../../_common/model";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
-@AllowUserProfiles("super-admin-domifa")
 @Controller("admin/sms")
 export class AdminSmsController {
   constructor(private readonly adminSmsService: AdminSmsService) {}
 
   @Get("stats/global/:type")
+  @AllowUserProfiles("super-admin-domifa")
   public async statsGlobal(@Param("type") type: StatsGlobal) {
     const res = await this.adminSmsService.getStatsGlobal(type);
     return res;
   }
 
   @Get("stats/:smsId/:period")
+  @AllowUserProfiles("super-admin-domifa")
   public async stats(
     @Param("smsId") smsId: InteractionTypeStats,
     @Param("period") period: StatsPeriod

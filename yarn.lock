@@ -3196,25 +3196,6 @@
   resolved "https://registry.yarnpkg.com/@sqltools/formatter/-/formatter-1.2.3.tgz#1185726610acc37317ddab11c3c7f9066966bd20"
   integrity sha512-O3uyB/JbkAEMZaP3YqyHH7TMnex7tWyCbCI4EfJdOCoN6HIhqdJBWTM6aCCiWQ/5f5wxjgU735QAIpJbjDvmzg==
 
-"@swimlane/ngx-charts@19.0.0":
-  version "19.0.0"
-  resolved "https://registry.yarnpkg.com/@swimlane/ngx-charts/-/ngx-charts-19.0.0.tgz#574bcea4ec0dad0e119dfec5ae60f869b9ff9bfb"
-  integrity sha512-W+GvEtd7e2T4I6BRQMkcP3GFZSQZF3dcXcXUnE9RGdF+2gtgcF85QSvkv68l4lF8VIjU5BaJ0NDqU6D9b14geA==
-  dependencies:
-    "@types/d3-shape" "^2.0.0"
-    d3-array "^2.9.1"
-    d3-brush "^2.1.0"
-    d3-color "^2.0.0"
-    d3-format "^2.0.0"
-    d3-hierarchy "^2.0.0"
-    d3-interpolate "^2.0.1"
-    d3-scale "^3.2.3"
-    d3-selection "^2.0.0"
-    d3-shape "^2.0.0"
-    d3-time-format "^3.0.0"
-    d3-transition "^2.0.0"
-    tslib "^2.0.0"
-
 "@swimlane/ngx-charts@^19.0.0":
   version "19.2.0"
   resolved "https://registry.yarnpkg.com/@swimlane/ngx-charts/-/ngx-charts-19.2.0.tgz#42b888a6eeb7926199272343d271705ff694588e"

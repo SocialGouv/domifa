@@ -1,215 +1,241 @@
-<div class="stats-sms p-3">
-  <div class="d-flex justify-content-between">
-    <div class="d-flex flex-column align-items-center">
-      <ngx-charts-line-chart
-        [view]="[900, 500]"
-        [legend]="false"
-        [showXAxisLabel]="true"
-        [showYAxisLabel]="true"
-        [xAxis]="true"
-        [yAxis]="true"
-        xAxisLabel="Mois"
-        yAxisLabel="Nombre de SMS envoyés"
-        [timeline]="true"
-        [results]="globalSms"
-      >
-      </ngx-charts-line-chart>
-
-      <h5 class="stats-sms-title">
-        Nombre de SMS envoyés (tout type) sur les 12 derniers mois
-      </h5>
-    </div>
-  </div>
-
-  <hr />
-
-  <div class="d-flex justify-content-between mt-5">
-    <div class="d-flex flex-column align-items-center">
-      <ngx-charts-line-chart
-        [view]="[800, 400]"
-        [legend]="false"
-        [showXAxisLabel]="true"
-        [showYAxisLabel]="true"
-        [xAxis]="true"
-        [yAxis]="true"
-        xAxisLabel="Jours"
-        yAxisLabel="Nombre de SMS envoyés"
-        [timeline]="true"
-        [results]="courrierIn30"
-      >
-      </ngx-charts-line-chart>
-
-      <h5 class="stats-sms-title">
-        Nombre de SMS de courrier envoyés sur les 30 derniers jours
-      </h5>
-    </div>
-
-    <div class="d-flex flex-column align-items-center">
-      <ngx-charts-line-chart
-        [view]="[800, 400]"
-        [legend]="false"
-        [showXAxisLabel]="true"
-        [showYAxisLabel]="true"
-        [xAxis]="true"
-        [yAxis]="true"
-        xAxisLabel="Mois"
-        yAxisLabel="Nombre de SMS envoyés"
-        [timeline]="true"
-        [results]="courrierIn12"
-      >
-      </ngx-charts-line-chart>
-
-      <h5 class="stats-sms-title">
-        Nombre de SMS de courrier envoyés sur les 12 derniers mois
-      </h5>
-    </div>
-  </div>
-
-  <hr />
-
-  <div class="d-flex justify-content-between mt-5">
-    <div class="d-flex flex-column align-items-center">
-      <ngx-charts-line-chart
-        [view]="[800, 400]"
-        [legend]="false"
-        [showXAxisLabel]="true"
-        [showYAxisLabel]="true"
-        [xAxis]="true"
-        [yAxis]="true"
-        xAxisLabel="Jours"
-        yAxisLabel="Nombre de SMS envoyés"
-        [timeline]="true"
-        [results]="colisIn30"
-      >
-      </ngx-charts-line-chart>
-
-      <h5 class="stats-sms-title">
-        Nombre de SMS de colis envoyés sur les 30 derniers jours
-      </h5>
-    </div>
-
-    <div class="d-flex flex-column align-items-center">
-      <ngx-charts-line-chart
-        [view]="[800, 400]"
-        [legend]="false"
-        [showXAxisLabel]="true"
-        [showYAxisLabel]="true"
-        [xAxis]="true"
-        [yAxis]="true"
-        xAxisLabel="Mois"
-        yAxisLabel="Nombre de SMS envoyés"
-        [timeline]="true"
-        [results]="colisIn12"
-      >
-      </ngx-charts-line-chart>
-
-      <h5 class="stats-sms-title">
-        Nombre de SMS de colis envoyés sur les 12 derniers mois
-      </h5>
-    </div>
-  </div>
-
-  <hr />
-
-  <div class="d-flex justify-content-between mt-5">
-    <div class="d-flex flex-column align-items-center">
-      <ngx-charts-line-chart
-        [view]="[800, 400]"
-        [legend]="false"
-        [showXAxisLabel]="true"
-        [showYAxisLabel]="true"
-        [xAxis]="true"
-        [yAxis]="true"
-        xAxisLabel="Jours"
-        yAxisLabel="Nombre de SMS envoyés"
-        [timeline]="true"
-        [results]="recommandeIn30"
-      >
-      </ngx-charts-line-chart>
-
-      <h5 class="stats-sms-title">
-        Nombre de SMS d'avis de passage envoyés sur les 30 derniers jours
-      </h5>
-    </div>
-
-    <div class="d-flex flex-column align-items-center">
-      <ngx-charts-line-chart
-        [view]="[800, 400]"
-        [legend]="false"
-        [showXAxisLabel]="true"
-        [showYAxisLabel]="true"
-        [xAxis]="true"
-        [yAxis]="true"
-        xAxisLabel="Mois"
-        yAxisLabel="Nombre de SMS envoyés"
-        [timeline]="true"
-        [results]="recommandeIn12"
-      >
-      </ngx-charts-line-chart>
-
-      <h5 class="stats-sms-title">
-        Nombre de SMS d'avis de passage envoyés sur les 12 derniers mois
-      </h5>
-    </div>
-  </div>
-
-  <hr />
-
-  <div class="d-flex justify-content-between mt-5">
-    <div class="d-flex flex-column align-items-center">
-      <ngx-charts-line-chart
-        [view]="[800, 400]"
-        [legend]="false"
-        [showXAxisLabel]="true"
-        [showYAxisLabel]="true"
-        [xAxis]="true"
-        [yAxis]="true"
-        xAxisLabel="Jours"
-        yAxisLabel="Nombre de SMS envoyés"
-        [timeline]="true"
-        [results]="echeanceDeuxMois30"
-      >
-      </ngx-charts-line-chart>
-
-      <h5 class="stats-sms-title">
-        Nombre de SMS d'échéance de domiciliation envoyés sur les 30 derniers
-        jours
-      </h5>
-    </div>
-
-    <div class="d-flex flex-column align-items-center">
-      <ngx-charts-line-chart
-        [view]="[800, 400]"
-        [legend]="false"
-        [showXAxisLabel]="true"
-        [showYAxisLabel]="true"
-        [xAxis]="true"
-        [yAxis]="true"
-        xAxisLabel="Mois"
-        yAxisLabel="Nombre de SMS envoyés"
-        [timeline]="true"
-        [results]="echeanceDeuxMois12"
-      >
-      </ngx-charts-line-chart>
-
-      <h5 class="stats-sms-title">
-        Nombre de SMS d'échéance de domiciliation envoyés sur les 12 derniers
-        mois
-      </h5>
+<div class="head-page py-4 d-print-none">
+  <div class="container">
+    <div class="py-2 px-0 mx-0 row d-flex align-items-center">
+      <h1>Statistiques d'envoi des SMS par catégories</h1>
     </div>
   </div>
 </div>
+<div class="container" *ngIf="globalSms">
+  <div class="content my-3">
+    <div class="row">
+      <div class="col-md-12">
+        <h5>Nombre de SMS envoyés (tout type) sur les 12 derniers mois</h5>
+      </div>
+      <div class="col-md-12">
+        <div class="stats-section">
+          <div class="charts">
+            <ngx-charts-line-chart
+              [gradient]="gradient"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="showLegend"
+              [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="showYAxisLabel"
+              xAxisLabel="Mois"
+              [yAxisLabel]="yLabel"
+              [results]="globalSms"
+            >
+            </ngx-charts-line-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<!-- <div class="stats-blocks-container--inline">
-          <div>
-            <span class="stats-titre">Notifications SMS</span>
+  <div class="content my-3">
+    <div class="row">
+      <div class="col-md-12">
+        <h5>Courrier envoyés sur les 30 derniers jours</h5>
+      </div>
+      <div class="col-md-12">
+        <div class="stats-section">
+          <div class="charts">
+            <ngx-charts-line-chart
+              [gradient]="gradient"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="showLegend"
+              [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="showYAxisLabel"
+              xAxisLabel="Jours"
+              [yAxisLabel]="yLabel"
+              [results]="courrierIn30"
+            >
+            </ngx-charts-line-chart>
           </div>
-          <div class="stats-blocks">
-            <div>
-              <span class="stats-chiffres">{{
-                stats.structuresCountBySmsEnabled
-              }}</span>
-              <span class="stats-labels">STRUCTURES ACTIVÉES</span>
-            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content my-3">
+    <div class="row">
+      <div class="col-md-12">
+        <h5>Courrier envoyés sur les 12 derniers mois</h5>
+      </div>
+      <div class="col-md-12">
+        <div class="stats-section">
+          <div class="charts">
+            <ngx-charts-line-chart
+              [gradient]="gradient"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="showLegend"
+              [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="showYAxisLabel"
+              xAxisLabel="Mois"
+              [yAxisLabel]="yLabel"
+              [results]="courrierIn12"
+            >
+            </ngx-charts-line-chart>
           </div>
-        </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content my-3">
+    <div class="row">
+      <div class="col-md-12">
+        <h5>Nombre de SMS de colis envoyés sur les 12 derniers mois</h5>
+      </div>
+      <div class="col-md-12">
+        <div class="stats-section">
+          <div class="charts">
+            <ngx-charts-line-chart
+              [gradient]="gradient"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="showLegend"
+              [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="showYAxisLabel"
+              xAxisLabel="Mois"
+              [yAxisLabel]="yLabel"
+              [results]="colisIn12"
+            >
+            </ngx-charts-line-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content my-3">
+    <div class="row">
+      <div class="col-md-12">
+        <h5>Colis envoyés sur les 30 derniers jours</h5>
+      </div>
+      <div class="col-md-12">
+        <div class="stats-section">
+          <div class="charts">
+            <ngx-charts-line-chart
+              [gradient]="gradient"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="showLegend"
+              [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="showYAxisLabel"
+              xAxisLabel="Jours"
+              [yAxisLabel]="yLabel"
+              [results]="colisIn30"
+            >
+            </ngx-charts-line-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content my-3">
+    <div class="row">
+      <div class="col-md-12">
+        <h5>Avis de passage envoyés sur les 30 derniers jours</h5>
+      </div>
+      <div class="col-md-12">
+        <div class="stats-section">
+          <div class="charts">
+            <ngx-charts-line-chart
+              [gradient]="gradient"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="showLegend"
+              [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="showYAxisLabel"
+              xAxisLabel="Jours"
+              [yAxisLabel]="yLabel"
+              [results]="recommandeIn30"
+            >
+            </ngx-charts-line-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content my-3">
+    <div class="row">
+      <div class="col-md-12">
+        <h5>Avis de passage envoyés sur les 12 derniers mois</h5>
+      </div>
+      <div class="col-md-12">
+        <div class="stats-section">
+          <div class="charts">
+            <ngx-charts-line-chart
+              [gradient]="gradient"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="showLegend"
+              [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="showYAxisLabel"
+              xAxisLabel="Mois"
+              [yAxisLabel]="yLabel"
+              [results]="recommandeIn12"
+            >
+            </ngx-charts-line-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content my-3">
+    <div class="row">
+      <div class="col-md-12">
+        <h5>Echéance de domiciliation envoyés sur les 30 derniers jours</h5>
+      </div>
+      <div class="col-md-12">
+        <div class="stats-section">
+          <div class="charts">
+            <ngx-charts-line-chart
+              [gradient]="gradient"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="showLegend"
+              [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="showYAxisLabel"
+              xAxisLabel="Jours"
+              [yAxisLabel]="yLabel"
+              [results]="echeanceDeuxMois30"
+            >
+            </ngx-charts-line-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content my-3">
+    <div class="row">
+      <div class="col-md-12">
+        <h5>Echéance de domiciliation envoyés sur les 12 derniers mois</h5>
+      </div>
+      <div class="col-md-12">
+        <div class="stats-section">
+          <div class="charts">
+            <ngx-charts-line-chart
+              [gradient]="gradient"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="showLegend"
+              [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="showYAxisLabel"
+              xAxisLabel="Mois"
+              [yAxisLabel]="yLabel"
+              [results]="echeanceDeuxMois12"
+            >
+            </ngx-charts-line-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

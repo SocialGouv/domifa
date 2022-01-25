@@ -13,6 +13,23 @@ import { AdminSmsApiClient } from "../../../shared/services/api/admin-sms-api-cl
 export class AdminSmsStatsComponent implements OnInit, OnDestroy {
   public adminProfile!: PortailAdminProfile | null;
 
+  public view: number[] = [700, 400];
+
+  public gradient = false;
+
+  // options for the chart
+  public showXAxis = true;
+  public showYAxis = true;
+  public yLabel = "Nombre de SMS envoyés";
+
+  public showLegend = false;
+  public barPadding = 50;
+
+  public showYAxisLabel = true;
+  public showXAxisLabel = true;
+
+  public showLabels = true;
+
   private subscription = new Subscription();
 
   public globalSms: StatsSms;
@@ -79,6 +96,7 @@ export class AdminSmsStatsComponent implements OnInit, OnDestroy {
         this.colisIn30 = [{ name: "SMS", series: data }];
       })
     );
+
     this.subscription.add(
       this.adminSmsApiClient.getStats("colisIn", "months").subscribe((data) => {
         this.colisIn12 = [{ name: "SMS", series: data }];
