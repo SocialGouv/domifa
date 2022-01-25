@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Meta, Title } from "@angular/platform-browser";
 import * as fileSaver from "file-saver";
 import { MatomoTracker } from "ngx-matomo";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
+import { CustomToastService } from "../../../shared/services/custom-toast.service";
 
 @Component({
   selector: "app-faq",

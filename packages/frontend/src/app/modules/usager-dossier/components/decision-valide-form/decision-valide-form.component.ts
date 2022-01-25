@@ -8,17 +8,15 @@ import {
 import { Router } from "@angular/router";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { addYears, subDays, format, isBefore } from "date-fns";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-
 import {
-  UsagerDecisionValideForm,
   UsagerLight,
+  UsagerDecisionValideForm,
 } from "../../../../../_common/model";
-import { formatDateToNgb } from "../../../../shared/bootstrap-util";
+import { formatDateToNgb } from "../../../../shared";
+import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
-
 @Component({
   selector: "app-decision-valide-form",
   templateUrl: "./decision-valide-form.component.html",

@@ -1,6 +1,6 @@
 [
   {
-    "date": "2022-01-15",
+    "date": "2022-01-25",
     "description": "",
     "content": [
       {
@@ -8,6 +8,20 @@
         "categorie": "Le rapport de statistiques 2021 est disponible sur votre page de statistiques structure :)",
         "message": [
           "Afin de faciliter la rédaction de votre rapport annuel d’activité, nous vous proposons le téléchargement de l’ensemble de vos statistiques sur l’année 2021."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Plus de données disponibles pour les courriers personnalisés.",
+        "message": [
+          "Les données sur la procuration et le transfert ont été ajoutées au guide d’utilisation. Vous pouvez aussi désormais ajouter plusieurs documents personnalisés de type “Autre”."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "L’export de vos domiciliés a été enrichi !",
+        "message": [
+          "Vous pouvez désormais visualiser le nombre de transferts et de procurations au sein de votre structure."
         ]
       }
     ]

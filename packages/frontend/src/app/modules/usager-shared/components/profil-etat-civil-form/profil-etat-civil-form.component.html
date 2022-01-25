@@ -1,4 +1,4 @@
-<form [formGroup]="usagerForm" (ngSubmit)="updateInfos()" autocomplete="off">
+<form ngNativeValidate [formGroup]="usagerForm" (ngSubmit)="updateInfos()">
   <div class="row">
     <div class="col-md-4 form-group required">
       <label for="nom">Nom</label>
@@ -108,7 +108,7 @@
     <div class="col-md-4 form-group">
       <label for="phone">Numéro de téléphone</label>
       <input
-        type="text"
+        type="tel"
         class="form-control"
         id="phone"
         digitOnly
@@ -119,7 +119,7 @@
         maxlength="10"
       />
       <div *ngIf="f.phone.errors" class="invalid-feedback">
-        <div>Le numéro de téléphone est incorrect</div>
+        <div>Veuillez saisir un numéro de téléphone</div>
       </div>
     </div>
 
@@ -135,7 +135,8 @@
         placeholder="adresse@mail.com"
       />
       <div *ngIf="f.email.errors" class="invalid-feedback">
-        L'adresse email est incorrecte
+        Veuillez saisir une adresse e-mail valide. Par exemple :
+        john.doe@domifa.fr
       </div>
     </div>
     <div class="col-md-4 form-group">
@@ -145,7 +146,7 @@
         type="text"
         class="form-control"
         formControlName="langue"
-        placeholder="Langue parlée"
+        placeholder="Anglais, arabe, chinois, etc"
         [ngClass]="{ 'is-invalid': f.langue.touched && f.langue.errors }"
         [ngbTypeahead]="languagesAutocompleteSearch"
         [resultFormatter]="languagesAutocomplete.formatter"
@@ -291,6 +292,7 @@
               submitted && ayantsDroits.controls[i].get('lien').errors
           }"
         >
+          <option></option>
           <option
             *ngFor="let lien of LIENS_PARENTE | keyvalue"
             [ngValue]="lien.key"
@@ -308,9 +310,13 @@
       <div class="col-md-1">
         <label for class="text-white"> c </label>
         <div>
-          <span (click)="deleteAyantDroit(i)" class="btn btn-danger">
+          <button
+            (click)="deleteAyantDroit(i)"
+            title="Supprimer l'ayant-droit {{ i }}"
+            class="btn btn-danger"
+          >
             <fa-icon title="Supprimer" [icon]="['fas', 'trash']"></fa-icon>
-          </span>
+          </button>
         </div>
       </div>
     </div>

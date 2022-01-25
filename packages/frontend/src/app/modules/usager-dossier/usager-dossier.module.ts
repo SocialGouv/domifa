@@ -8,7 +8,7 @@ import {
   NgbDatepickerI18n,
   NgbModule,
 } from "@ng-bootstrap/ng-bootstrap";
-import { GeneralModule } from "../general/general.module";
+
 import { NgbDateCustomParserFormatter } from "../shared/services/date-formatter";
 import { CustomDatepickerI18n } from "../shared/services/date-french";
 import { SharedModule } from "../shared/shared.module";
@@ -46,11 +46,10 @@ import { DecisionValideFormComponent } from "./components/decision-valide-form/d
     CommonModule,
     UsagerSharedModule,
     FormsModule,
-    GeneralModule,
+    SharedModule,
     HttpClientModule,
     NgbModule,
     ReactiveFormsModule,
-    SharedModule,
     UsagerDossierRoutingModule,
     UsersModule,
   ],

@@ -28,8 +28,6 @@ import moment = require("moment");
 import { DecisionDto } from "../dto";
 @Injectable()
 export class UsagersService {
-  constructor() {}
-
   public async create(
     usagerDto: CreateUsagerDto,
     user: UserStructureProfile

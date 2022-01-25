@@ -1,4 +1,3 @@
-import moment = require("moment");
 import { DomifaMailTemplateRendering } from "../../../../mail-generator/model";
 import { domifaMailTemplateRenderer } from "../../../../mail-generator/services/domifaMailTemplateRenderer.service";
 

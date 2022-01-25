@@ -13,7 +13,7 @@ import {
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
+
 import {
   UserStructure,
   UsagerLight,
@@ -26,6 +26,7 @@ import {
 } from "../../../../../../_common/model/interaction";
 import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../../_common/model/interaction/constants";
 import { fadeInOut } from "../../../../../shared";
+import { CustomToastService } from "../../../../shared/services/custom-toast.service";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { InteractionService } from "../../../../usager-shared/services/interaction.service";
 import {

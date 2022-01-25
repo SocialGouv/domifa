@@ -1,8 +1,6 @@
-import { StructureCustomDocKeys } from "./StructureCustomDocKeys.type";
+import { StructureCustomDocTags } from "..";
 
-export const StructureCustomDocLabels: {
-  [key in StructureCustomDocKeys]: string;
-} = {
+export const CUSTOM_DOCS_LABELS: StructureCustomDocTags = {
   // DATES UTILES
   DATE_JOUR: "Date du jour (ex: 20/12/2020)",
   DATE_JOUR_HEURE: "Date et heure du jour (ex: 20/12/2020 à 10h30)",
@@ -64,4 +62,22 @@ export const StructureCustomDocLabels: {
   ENTRETIEN_CAUSE_INSTABILITE: "Cause instabilité logement",
   ENTRETIEN_RAISON_DEMANDE: "Motif principal de la demande",
   ENTRETIEN_ACCOMPAGNEMENT: "Accompagnement social",
+  // Transferts
+  TRANSFERT_ACTIF: "Transfert actif ou non : (oui / non)",
+  TRANSFERT_NOM: "Nom de l'établissement",
+  TRANSFERT_ADRESSE: "Adresse de l'établissement",
+  TRANSFERT_DATE_DEBUT: "Date de début de validité (jj/mm/aaaa)",
+  TRANSFERT_DATE_FIN: "Date de fin de validité (jj/mm/aaaa)",
+  // Procuration
+  PROCURATION_ACTIF: "Procuration active ou non : (oui / non)",
+  PROCURATION_NOM: "Nom du mandataire",
+  PROCURATION_PRENOM: "Prénom du mandataire",
+  PROCURATION_DATE_DEBUT: "Date de début de validité (jj/mm/aaaa)",
+  PROCURATION_DATE_FIN: "Date de fin de validité (jj/mm/aaaa)",
+  PROCURATION_DATE_NAISSANCE: "Date de naissance (jj/mm/aaaa)",
+
+  // Espace domicilié
+  ESPACE_DOM_URL: "Url de l'espace domicilié",
+  ESPACE_DOM_ID: "Identifiant",
+  ESPACE_DOM_MDP: "Mot de passe de l'espace domicilié",
 };

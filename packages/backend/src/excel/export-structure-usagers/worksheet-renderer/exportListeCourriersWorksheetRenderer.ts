@@ -41,6 +41,8 @@ function renderWorksheet({
       { key: "surnom" },
       { key: "dateNaissance" },
       { key: "sms" },
+      { key: "transfert" },
+      { key: "procuration" },
       { key: "courrierIn" },
       { key: "courrierOut" },
       { key: "recommandeIn" },
@@ -62,6 +64,7 @@ function renderWorksheet({
     return model.usagers.map((usager) => {
       const usagersInteractionsCounts =
         model.usagersInteractionsCountByType[usager.ref];
+
       const row: XlRowModel = {
         values: {
           customRef: usager.customRef,
@@ -71,6 +74,8 @@ function renderWorksheet({
           surnom: usager.surnom,
           dateNaissance: usager.dateNaissance,
           sms: usager?.preference?.phone ? "OUI" : "NON",
+          transfert: usager?.options?.transfert?.actif ? "OUI" : "NON",
+          procuration: usager?.options?.procuration?.actif ? "OUI" : "NON",
           courrierIn: usagersInteractionsCounts.courrierIn,
           courrierOut: usagersInteractionsCounts.courrierOut,
           recommandeIn: usagersInteractionsCounts.recommandeIn,

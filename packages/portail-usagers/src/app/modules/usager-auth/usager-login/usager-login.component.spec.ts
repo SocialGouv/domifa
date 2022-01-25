@@ -5,6 +5,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
+import { MatomoTracker } from "ngx-matomo";
+
 import { UsagerLoginComponent } from "./usager-login.component";
 
 describe("UsagerLoginComponent", () => {
@@ -21,6 +23,14 @@ describe("UsagerLoginComponent", () => {
         NgbModule,
         FormsModule,
         RouterTestingModule,
+      ],
+      providers: [
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
+          },
+        },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();

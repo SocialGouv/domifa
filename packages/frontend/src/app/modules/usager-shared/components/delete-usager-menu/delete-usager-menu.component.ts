@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, TemplateRef } from "@angular/core";
 import { Router } from "@angular/router";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
+import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { UsagerProfilService } from "../../../usager-profil/services/usager-profil.service";
 import { UsagerDecisionService } from "../../services/usager-decision.service";
 

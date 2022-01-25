@@ -1,5 +1,5 @@
 //@index('./*', f => `export * from '${f.path}'`)
-export * from "./StructureCustomDoc.labels";
+export * from "./constants";
 export * from "./StructureCustomDocKeys.type";
 export * from "./StructureCustomDocTags.type";
 export * from "./StructureCustomDocType.type";

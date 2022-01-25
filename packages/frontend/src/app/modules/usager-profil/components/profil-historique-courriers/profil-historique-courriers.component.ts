@@ -57,7 +57,12 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
       .subscribe({
         next: (usager: UsagerLight) => {
           this.usager = new UsagerFormModel(usager);
-          this.toastService.success("Interaction supprimée avec succès");
+
+          const message =
+            this.interactionToDelete.event === "create"
+              ? "supprimée"
+              : "restaurée";
+          this.toastService.success(`Interaction ${message} avec succès`);
           this.interactionToDelete = null;
           this.getInteractions();
           this.closeModals();

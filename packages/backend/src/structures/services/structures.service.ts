@@ -10,7 +10,6 @@ import {
 import { departementHelper } from "../departement-helper.service";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
 import { StructureEditDto } from "../dto/structure-edit.dto";
-import moment = require("moment");
 
 export interface StructureQuery {
   codePostal?: string;
@@ -19,14 +18,6 @@ export interface StructureQuery {
 
 @Injectable()
 export class StructuresService {
-  public labels = {
-    asso: "Organisme agrée",
-    ccas: "CCAS",
-    cias: "CIAS ou commune",
-  };
-
-  constructor() {}
-
   public async patch(
     structureDto: StructureEditDto,
     user: Pick<UserStructure, "structureId">

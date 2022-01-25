@@ -1,3 +1,7 @@
+import { LoadingService } from "./modules/shared/services/loading.service";
+
+import { CustomToastService } from "./modules/shared/services/custom-toast.service";
+
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import {
   CUSTOM_ELEMENTS_SCHEMA,
@@ -70,6 +74,8 @@ if (environment.production) {
   ],
   providers: [
     AuthService,
+    LoadingService,
+    CustomToastService,
     HealthCheckService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {

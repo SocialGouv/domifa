@@ -1,24 +1,39 @@
-<table class="table upload-table">
+<table
+  class="table upload-table"
+  summary="Documents pré-remplis automatiquement"
+>
+  <caption class="sr-only">
+    Documents pré-remplis automatiquement
+  </caption>
   <thead>
     <tr>
-      <th>Type</th>
-      <th>Nom du document</th>
-      <th>Ajouté par</th>
-      <th>Ajouté le</th>
-      <th class="d-print-none text-right"></th>
+      <th scope="col">Type</th>
+      <th scope="col">Nom du document</th>
+      <th scope="col">Ajouté par</th>
+      <th scope="col">Ajouté le</th>
+      <th scope="col" class="d-print-none text-right">Actions</th>
     </tr>
   </thead>
   <tbody>
     <!-- Documents de base de Domifa -->
-    <tr *ngIf="usager.isActif">
+    <tr *ngIf="usager.isActif && defaultStructureDocs?.attestation_postale">
       <td>
         <span class="doc-icon file-word">
           <fa-icon [icon]="['far', 'file-word']"></fa-icon>
         </span>
       </td>
       <td>Attestation postale</td>
-      <td>Domifa</td>
-      <td></td>
+      <td>
+        {{ defaultStructureDocs.attestation_postale.createdBy.nom }}
+        {{ defaultStructureDocs.attestation_postale.createdBy.prenom }}
+      </td>
+
+      <td>
+        {{
+          defaultStructureDocs.attestation_postale.createdAt
+            | date: "dd/MM/yyyy"
+        }}
+      </td>
       <td class="align-middle text-right">
         <button
           (click)="getDomifaCustomDoc('attestation_postale')"
@@ -36,15 +51,29 @@
         </button>
       </td>
     </tr>
-    <tr *ngIf="usager.decision.statut === 'RADIE'">
+    <tr
+      *ngIf="
+        usager.decision.statut === 'RADIE' &&
+        defaultStructureDocs?.courrier_radiation
+      "
+    >
       <td>
         <span class="doc-icon file-word">
           <fa-icon [icon]="['far', 'file-word']"></fa-icon>
         </span>
       </td>
       <td>Courrier de radiation</td>
-      <td>Domifa</td>
-      <td></td>
+      <td>
+        {{ defaultStructureDocs.courrier_radiation.createdBy.nom }}
+        {{ defaultStructureDocs.courrier_radiation.createdBy.prenom }}
+      </td>
+
+      <td>
+        {{
+          defaultStructureDocs.courrier_radiation.createdAt | date: "dd/MM/yyyy"
+        }}
+      </td>
+
       <td class="align-middle text-right">
         <button
           (click)="getDomifaCustomDoc('courrier_radiation')"
@@ -76,7 +105,6 @@
         </span>
       </td>
       <td>{{ document.label }}</td>
-
       <td>{{ document.createdBy.nom }} {{ document.createdBy.prenom }}</td>
       <td>
         {{ document.createdAt | date: "dd/MM/yyyy" }}

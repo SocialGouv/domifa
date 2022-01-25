@@ -1,3 +1,4 @@
+import { SharedModule } from "./../../../shared/shared.module";
 import { APP_BASE_HREF } from "@angular/common";
 
 import { HttpClientTestingModule } from "@angular/common/http/testing";
@@ -27,7 +28,7 @@ describe("StepEtatCivilComponent", () => {
           NgbModule,
           ReactiveFormsModule,
           FormsModule,
-
+          SharedModule,
           HttpClientTestingModule,
         ],
         providers: [
