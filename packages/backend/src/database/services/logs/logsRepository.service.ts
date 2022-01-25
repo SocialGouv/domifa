@@ -1,4 +1,4 @@
-import { pgRepository } from "..";
+import { appTypeormManager, pgRepository } from "..";
 import { AppLog } from "../../../_common/model";
 import { AppLogTable } from "../../entities/app-log/AppLogTable.typeorm";
 
@@ -16,7 +16,7 @@ async function getLogStructureSmsEnabled(structureId: number) {
                  AND "action" = 'ENABLE_SMS_BY_STRUCTURE'
                  ORDER BY "createdAt" ASC
                  LIMIT 1`;
-  const res = await appTypeormManager.getRepository(LogTable).query(query);
+  const res = await appTypeormManager.getRepository(AppLogTable).query(query);
 
   if (res.length > 0) {
     return res[0];
