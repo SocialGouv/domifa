@@ -105,8 +105,11 @@ export class StructureDocController {
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
-    // Si attestation de refus, ou postale, on supprime
-    if (structureDocDto.customDocType) {
+    // Si attestation de refus, ou postale, on supprime l'ancienne version
+    if (
+      structureDocDto.customDocType === "attestation_postale" ||
+      structureDocDto.customDocType === "courrier_radiation"
+    ) {
       const doc = await structureDocRepository.findOne({
         structureId: user.structureId,
         customDocType: structureDocDto.customDocType,

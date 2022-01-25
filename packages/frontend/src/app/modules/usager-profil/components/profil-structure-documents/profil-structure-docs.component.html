@@ -16,15 +16,24 @@
   </thead>
   <tbody>
     <!-- Documents de base de Domifa -->
-    <tr *ngIf="usager.isActif">
+    <tr *ngIf="usager.isActif && defaultStructureDocs?.attestation_postale">
       <td>
         <span class="doc-icon file-word">
           <fa-icon [icon]="['far', 'file-word']"></fa-icon>
         </span>
       </td>
       <td>Attestation postale</td>
-      <td>Domifa</td>
-      <td></td>
+      <td>
+        {{ defaultStructureDocs.attestation_postale.createdBy.nom }}
+        {{ defaultStructureDocs.attestation_postale.createdBy.prenom }}
+      </td>
+
+      <td>
+        {{
+          defaultStructureDocs.attestation_postale.createdAt
+            | date: "dd/MM/yyyy"
+        }}
+      </td>
       <td class="align-middle text-right">
         <button
           (click)="getDomifaCustomDoc('attestation_postale')"
@@ -42,15 +51,29 @@
         </button>
       </td>
     </tr>
-    <tr *ngIf="usager.decision.statut === 'RADIE'">
+    <tr
+      *ngIf="
+        usager.decision.statut === 'RADIE' &&
+        defaultStructureDocs?.courrier_radiation
+      "
+    >
       <td>
         <span class="doc-icon file-word">
           <fa-icon [icon]="['far', 'file-word']"></fa-icon>
         </span>
       </td>
       <td>Courrier de radiation</td>
-      <td>Domifa</td>
-      <td></td>
+      <td>
+        {{ defaultStructureDocs.courrier_radiation.createdBy.nom }}
+        {{ defaultStructureDocs.courrier_radiation.createdBy.prenom }}
+      </td>
+
+      <td>
+        {{
+          defaultStructureDocs.courrier_radiation.createdAt | date: "dd/MM/yyyy"
+        }}
+      </td>
+
       <td class="align-middle text-right">
         <button
           (click)="getDomifaCustomDoc('courrier_radiation')"
@@ -82,7 +105,6 @@
         </span>
       </td>
       <td>{{ document.label }}</td>
-
       <td>{{ document.createdBy.nom }} {{ document.createdBy.prenom }}</td>
       <td>
         {{ document.createdAt | date: "dd/MM/yyyy" }}

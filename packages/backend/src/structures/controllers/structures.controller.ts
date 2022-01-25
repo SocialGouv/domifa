@@ -165,6 +165,7 @@ export class StructuresController {
     await structureDeletorService.deleteStructureUsagers({
       structureId: structure.id,
     });
+
     await this.structureHardResetService.hardResetClean(structure.id);
 
     return res.status(HttpStatus.OK).json({ message: "success" });

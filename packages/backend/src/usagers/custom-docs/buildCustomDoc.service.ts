@@ -7,6 +7,8 @@ import { generateMotifLabel } from "./../services/generateMotifLabel.service";
 
 import moment = require("moment");
 
+import { format } from "date-fns";
+
 export function buildCustomDoc({
   usager,
   structure,
@@ -72,6 +74,9 @@ export function buildCustomDoc({
 
   // Motif de refus
   const motif = generateMotifLabel(usager.decision);
+  // Procu & transfert
+  const procuration = usager.options.procuration;
+  const transfert = usager.options.transfert;
 
   return {
     // DATES UTILES
@@ -148,7 +153,6 @@ export function buildCustomDoc({
       .format("LL"),
 
     // ENTRETIEN
-
     ENTRETIEN_CAUSE_INSTABILITE: "Cause instabilité logement",
     ENTRETIEN_RAISON_DEMANDE: "Motif principal de la demande",
     ENTRETIEN_ACCOMPAGNEMENT: "Accompagnement social",
@@ -173,6 +177,32 @@ export function buildCustomDoc({
       usager.entretien.residence === "AUTRE"
         ? " Autre : " + usager.entretien.residenceDetail
         : residence[usager.entretien.residence],
+
+    // Transferts
+    TRANSFERT_ACTIF: transfert.actif ? "OUI" : "NON",
+    TRANSFERT_NOM: transfert.actif ? transfert.nom : "",
+    TRANSFERT_ADRESSE: transfert.actif ? transfert.adresse : "",
+    TRANSFERT_DATE_DEBUT: transfert.actif
+      ? format(new Date(transfert.dateDebut), "dd/MM/yyyy")
+      : "",
+    TRANSFERT_DATE_FIN: transfert.actif
+      ? format(new Date(transfert.dateFin), "dd/MM/yyyy")
+      : "",
+
+    // Procuration
+    PROCURATION_ACTIF: procuration.actif ? "OUI" : "NON",
+    PROCURATION_NOM: procuration.actif ? procuration.nom : "",
+    PROCURATION_PRENOM: procuration.actif ? procuration.prenom : "",
+    PROCURATION_DATE_DEBUT: procuration.actif
+      ? format(new Date(procuration.dateDebut), "dd/MM/yyyy")
+      : "",
+    PROCURATION_DATE_FIN: procuration.actif
+      ? format(new Date(procuration.dateFin), "dd/MM/yyyy")
+      : "",
+    PROCURATION_DATE_NAISSANCE: procuration.actif
+      ? format(new Date(procuration.dateNaissance), "dd/MM/yyyy")
+      : "",
+
     ...extraParameters,
   };
 }

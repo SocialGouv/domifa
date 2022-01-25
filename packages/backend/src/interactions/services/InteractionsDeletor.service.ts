@@ -6,6 +6,7 @@ import { Structure, UsagerLight, UserStructure } from "../../_common/model";
 import {
   InteractionEvent,
   Interactions,
+  INTERACTION_OK_LIST,
 } from "../../_common/model/interaction";
 import { interactionsCreator } from "./interactionsCreator.service";
 import { InteractionsSmsManager } from "./InteractionsSmsManager.service";
@@ -48,6 +49,9 @@ export class InteractionsDeletor {
       uuid: interaction.uuid,
     });
 
+    //
+    // 1. Suppression d'une interaction
+    //
     if (newEvent === "delete") {
       // create a "delete" interaction
       await this._createDeleteInteraction({
@@ -56,8 +60,8 @@ export class InteractionsDeletor {
         newEvent,
       });
 
-      // Suppression du SMS en file d'attente
       if (direction === "in") {
+        // Suppression du SMS en file d'attente
         await this.smsService.deleteSmsInteraction(
           usager,
           structure.id,
@@ -87,50 +91,72 @@ export class InteractionsDeletor {
           );
         }
       }
+
+      // Récupération de la bonne date de dernière interaction
+      if (INTERACTION_OK_LIST.indexOf(interaction.type) !== -1) {
+        // Seulement si aucun autre évènement n'a déjà changé la date de dernier passage
+        // C'est possible si un renouvellement a été effectué après la saisie de ce courrier
+        if (
+          new Date(usager.lastInteraction.dateInteraction) <=
+          interaction.dateInteraction
+        ) {
+          const lastInteractionOk =
+            await interactionRepository.findLastInteractionOk({
+              user,
+              usager,
+              event: "create",
+            });
+
+          // Si aucune interaction est trouvée, on remet la date de la décision actuelle
+          usager.lastInteraction.dateInteraction = lastInteractionOk
+            ? lastInteractionOk.dateInteraction
+            : usager.decision.dateDebut;
+        }
+      }
+
       return await interactionsCreator.updateUsagerAfterCreation({
         usager,
       });
-    } else {
-      // restore deleted interaction
-      // même traitement que lors de la création d'une interaction
-      const created = await interactionsCreator.createInteraction({
-        interaction: interaction.previousValue,
-        usager,
-        user,
-      });
-
-      //
-      if (direction === "in") {
-        await this.interactionsSmsManager.updateSmsAfterCreation({
-          interaction: created.interaction,
-          structure,
-          usager,
-        });
-      }
-      //
-      else if (direction === "out") {
-        await this.smsService.deleteSmsInteraction(
-          usager,
-          structure.id,
-          created.interaction
-        );
-      } else {
-        // Désactiver le NPAI
-        if (created.interaction.type === "npai") {
-          usager.options.npai.actif = true;
-          usager.options.npai.dateDebut = created.interaction.dateInteraction;
-
-          return this.usagersService.patch(
-            { uuid: usager.uuid },
-            {
-              options: usager.options,
-              lastInteraction: usager.lastInteraction,
-            }
-          );
-        }
-      }
-      return created.usager;
     }
+
+    //
+    // 2. Restauration d'une interaction
+    //    On effectue le même traitement que lors de la création d'une interaction
+    //
+    const created = await interactionsCreator.createInteraction({
+      interaction: interaction.previousValue,
+      usager,
+      user,
+    });
+
+    if (direction === "in") {
+      await this.interactionsSmsManager.updateSmsAfterCreation({
+        interaction: created.interaction,
+        structure,
+        usager,
+      });
+    } else if (direction === "out") {
+      await this.smsService.deleteSmsInteraction(
+        usager,
+        structure.id,
+        created.interaction
+      );
+    } else {
+      // Désactiver le NPAI
+      if (created.interaction.type === "npai") {
+        usager.options.npai.actif = true;
+        usager.options.npai.dateDebut = created.interaction.dateInteraction;
+
+        return this.usagersService.patch(
+          { uuid: usager.uuid },
+          {
+            options: usager.options,
+            lastInteraction: usager.lastInteraction,
+          }
+        );
+      }
+    }
+    return created.usager;
   }
 
   private async _createDeleteInteraction({
