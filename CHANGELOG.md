@@ -1,3 +1,10 @@
+## [2.69.1](https://github.com/SocialGouv/domifa/compare/v2.69.0...v2.69.1) (2022-01-25)
+
+
+### Bug Fixes
+
+* **stats:** correction des titres ([bbe1b89](https://github.com/SocialGouv/domifa/commit/bbe1b892a5f68e3bdd360bfdb2d67f88bfbe5a7b))
+
 # [2.69.0](https://github.com/SocialGouv/domifa/compare/v2.68.0...v2.69.0) (2022-01-25)
 
 
