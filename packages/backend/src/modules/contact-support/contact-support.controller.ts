@@ -1,9 +1,12 @@
+import { contactSupportRepository } from "./../../database/services/contact/contactSupportRepository.service";
 import { ContactSupportDto } from "./contact.dto";
 import {
   Body,
   Controller,
+  Get,
   HttpException,
   HttpStatus,
+  Param,
   Post,
   Res,
   UploadedFile,
@@ -23,6 +26,7 @@ import { ExpressResponse } from "../../util/express";
 @Controller("contact")
 export class ContactSupportController {
   constructor(private contactSupportService: ContactSupportService) {}
+
   @Post("")
   @UseInterceptors(
     FileInterceptor("file", {
@@ -73,5 +77,34 @@ export class ContactSupportController {
           .json({ message: "CONTACT_FORM_ERROR" });
       }
     );
+  }
+
+  @Get("get-file/:contactMessageId")
+  public async getContactFile(
+    @Param("contactMessageId") contactMessageId: string,
+    @Res() res: ExpressResponse
+  ) {
+    const contactMessage = await contactSupportRepository.findOne({
+      uuid: contactMessageId,
+    });
+
+    if (!contactMessage) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "CONTACT_FORM_ERROR" });
+    }
+    if (!contactMessage.file) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "CONTACT_FORM_ERROR" });
+    }
+
+    const filePath = path.join(
+      domifaConfig().upload.basePath,
+      "contact-support",
+      contactMessage.file
+    );
+
+    return res.sendFile(filePath as string);
   }
 }
