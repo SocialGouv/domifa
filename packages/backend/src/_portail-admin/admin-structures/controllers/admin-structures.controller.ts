@@ -10,6 +10,8 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import moment = require("moment");
+
 import { AllowUserProfiles } from "../../../auth/decorators";
 import { AppUserGuard } from "../../../auth/guards";
 import {
@@ -34,9 +36,12 @@ import {
   AdminStructureStatsData,
   Structure,
   StructureAdmin,
+  UserStructureAuthenticated,
 } from "../../../_common/model";
 import { AdminStructuresService } from "../services";
-import moment = require("moment");
+import { LogsService } from "../../../logs/logs.service";
+import { CurrentUser } from "../../../auth/decorators/current-user.decorator";
+
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
 @ApiTags("dashboard")
@@ -45,7 +50,8 @@ export class AdminStructuresController {
   constructor(
     private readonly adminStructuresService: AdminStructuresService,
     private readonly structureService: StructuresService,
-    private readonly messageSmsService: MessageSmsService
+    private readonly messageSmsService: MessageSmsService,
+    private readonly logsService: LogsService
   ) {}
 
   @Get("export")
@@ -189,9 +195,13 @@ export class AdminStructuresController {
       return res.status(HttpStatus.OK).json({ message: "OK" });
     }
   }
+
   @AllowUserProfiles("super-admin-domifa")
   @Put("sms/enable/:structureId")
-  public async smsEnableByDomifa(@Param("structureId") structureId: number) {
+  public async smsEnableByDomifa(
+    @Param("structureId") structureId: number,
+    @CurrentUser() user: UserStructureAuthenticated
+  ) {
     const structure = await this.structureService.findOneFull(structureId);
 
     structure.sms.enabledByDomifa = !structure.sms.enabledByDomifa;
@@ -199,6 +209,18 @@ export class AdminStructuresController {
     if (!structure.sms.enabledByDomifa) {
       structure.sms.enabledByStructure = false;
     }
+
+    const action =
+      structure.sms.enabledByDomifa && structure.sms.enabledByStructure
+        ? "ENABLE_SMS_BY_DOMIFA"
+        : "DISABLE_SMS_BY_DOMIFA";
+
+    this.logsService.create({
+      userId: user._userId,
+      usagerRef: null,
+      structureId,
+      action,
+    });
 
     return this.messageSmsService.changeStatutByDomifa(
       structureId,

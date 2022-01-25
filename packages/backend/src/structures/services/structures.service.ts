@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+
 import { structureCommonRepository, structureRepository } from "../../database";
 import { structureLightRepository } from "../../database/services/structure/structureLightRepository.service";
 import {
@@ -41,7 +42,14 @@ export class StructuresService {
   ): Promise<StructureCommon> {
     return structureCommonRepository.updateOne(
       { id: user.structureId },
-      { sms: structureSmsDto }
+      {
+        sms: {
+          senderName: structureSmsDto.senderName,
+          senderDetails: structureSmsDto.senderName,
+          enabledByDomifa: structureSmsDto.enabledByDomifa,
+          enabledByStructure: structureSmsDto.enabledByStructure,
+        },
+      }
     );
   }
 

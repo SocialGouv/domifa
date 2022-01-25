@@ -1,10 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
-
 import { Repository } from "typeorm";
-import { appTypeormManager, structureRepository } from "../../database";
-
 import { AxiosError } from "axios";
+
+import { appTypeormManager, structureRepository } from "../../database";
 import { domifaConfig } from "../../config";
 import {
   INDEX_DATE_EMISSION,
@@ -204,7 +203,20 @@ export class MessageSmsService {
   }
 
   // Mise à jour par DOMIFA de l'autorisation d'envoi de SMS
-  public changeStatutByDomifa(structureId: number, sms: StructureSmsParams) {
-    return structureRepository.updateOne({ id: structureId }, { sms });
+  public async changeStatutByDomifa(
+    structureId: number,
+    sms: StructureSmsParams
+  ) {
+    return structureRepository.updateOne(
+      { id: structureId },
+      {
+        sms: {
+          senderName: sms.senderName,
+          senderDetails: sms.senderName,
+          enabledByDomifa: sms.enabledByDomifa,
+          enabledByStructure: sms.enabledByStructure,
+        },
+      }
+    );
   }
 }
