@@ -32,6 +32,7 @@ import {
 } from "../custom-docs";
 import { StructureDocService } from "./../../structures/services/structure-doc.service";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
+import { appLogger } from "../../util";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("usagers-structure-docs")
@@ -75,12 +76,21 @@ export class UsagerStructureDocsController {
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    const docValues = buildCustomDoc({
-      usager,
-      structure: user.structure,
-    });
+    try {
+      const docValues = buildCustomDoc({
+        usager,
+        structure: user.structure,
+      });
 
-    res.end(generateCustomDoc(content, docValues));
+      const docGenerated = generateCustomDoc(content, docValues);
+      return res.end(docGenerated);
+    } catch (e) {
+      appLogger.error(content);
+
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "CANNOT_COMPLETE_DOC" });
+    }
   }
 
   @ApiOperation({
@@ -137,6 +147,7 @@ export class UsagerStructureDocsController {
             ESPACE_DOM_MDP: extraUrlParametersFromClient?.ESPACE_DOM_MDP,
           }
         : {};
+
     const docValues = buildCustomDoc({
       usager,
       structure: user.structure,
@@ -151,6 +162,15 @@ export class UsagerStructureDocsController {
         action: "DOWNLOAD_PASSWORD_PORTAIL",
       });
     }
-    res.end(generateCustomDoc(content, docValues));
+
+    try {
+      const docGenerated = generateCustomDoc(content, docValues);
+      return res.end(docGenerated);
+    } catch (e) {
+      appLogger.error(content);
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "CANNOT_COMPLETE_DOMIFA_DOCS" });
+    }
   }
 }
