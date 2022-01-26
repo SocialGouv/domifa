@@ -12,31 +12,31 @@ import path = require("path");
 import { AllowUserProfiles } from "../../../auth/decorators";
 import { AppUserGuard } from "../../../auth/guards";
 import { domifaConfig } from "../../../config";
+import { structureDocRepository } from "../../../database";
 import { ExpressResponse } from "../../../util/express";
-
-import { StructureDocService } from "./../../../structures/services/structure-doc.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures-docs")
 @ApiTags("structures-docs")
 @ApiBearerAuth()
-export class AdminStructuresController {
-  constructor(private readonly structureDocService: StructureDocService) {}
-
-  @Get("")
+export class AdminStructuresDocsController {
+  @Get("all")
   @AllowUserProfiles("super-admin-domifa")
   public async getAllStructureDocs() {
-    return await this.structureDocService.findAllStructureDocs();
+    return await structureDocRepository.findMany({ custom: true });
   }
 
-  @Get(":structureId/:uuid")
+  @Get("structure/:structureId/:uuid")
   @AllowUserProfiles("super-admin-domifa")
   public async getStructureDoc(
     @Param("uuid") uuid: string,
     @Param("structureId") structureId: number,
     @Res() res: ExpressResponse
   ) {
-    const doc = await this.structureDocService.findOne(structureId, uuid);
+    const doc = await structureDocRepository.findOne({
+      structureId,
+      uuid,
+    });
     const output = path.join(
       domifaConfig().upload.basePath,
       `${structureId}`,
