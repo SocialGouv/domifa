@@ -28,7 +28,7 @@
               "src/assets/css/tailwind/tailwind-table.css",
               "src/assets/css/tailwind/tailwind-whitespace.css",
               "src/assets/css/util.css",
-              "src/assets/css/bootstrap.css",
+              "src/styles.scss",
               "src/assets/css/forms.css",
               "src/assets/css/fonts.css",
               "src/assets/css/main.css",
