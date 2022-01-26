@@ -62,8 +62,6 @@ export class StructuresSmsFormComponent implements OnInit {
         }
 
         this.initForm();
-
-        console.log(structure);
       },
       error: () => {
         this.toastService.success(
@@ -88,7 +86,6 @@ export class StructuresSmsFormComponent implements OnInit {
         [Validators.required, Validators.maxLength(30)],
       ],
     });
-    console.log(this.structureSmsForm);
 
     this.structureSmsForm.get("senderName").valueChanges.subscribe(() => {
       this.structureSmsForm

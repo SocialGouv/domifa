@@ -5,7 +5,7 @@ import {
   usagerRepository,
   userStructureRepository,
 } from "../../database";
-import { PublicStats } from "../../_common/model";
+import { DEFAULT_PUBLIC_STATS, PublicStats } from "../../_common/model";
 import { AdminStructuresService } from "../../_portail-admin/admin-structures/services";
 import { StructuresService } from "./../../structures/services/structures.service";
 
@@ -37,7 +37,6 @@ export class StatsPublicController {
   @Get("public-stats/:regionId?")
   public async getPublicStats(@Param("regionId") regionId: string) {
     const publicStats: PublicStats = {
-      courrierOutCount: 0,
       usagersCount: 0,
       usersCount: 0,
       structuresCount: 0,
@@ -45,12 +44,17 @@ export class StatsPublicController {
     };
 
     // Si aucune region
-    let structures = null;
+    let structures: number[] = null;
 
     if (regionId) {
       structures = await this.structuresService.findStructuresInRegion(
         regionId
       );
+
+      // Si aucune structure dans la région, tous les indicateurs sont à zero
+      if (!structures.length) {
+        return DEFAULT_PUBLIC_STATS;
+      }
 
       publicStats.structuresCountByDepartement =
         await this.adminStructuresService.getStructuresCountByDepartement(

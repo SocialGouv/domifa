@@ -2,7 +2,6 @@ import { StatsByMonth, StatsByRegion } from ".";
 
 export type PublicStats = {
   // Stats globales
-  courrierOutCount: number;
   usagersCount: number;
   usersCount: number;
   structuresCount: number;
@@ -16,8 +15,5 @@ export type PublicStats = {
   // Structures par région
   structuresCountByTypeMap: {
     [type: string]: number;
-  };
-  interactionsCountByTypeMap: {
-    [statut: string]: number;
   };
 };
