@@ -1,3 +1,17 @@
+# [2.70.0](https://github.com/SocialGouv/domifa/compare/v2.69.5...v2.70.0) (2022-01-26)
+
+
+### Bug Fixes
+
+* correction de la DB de test ([57e7176](https://github.com/SocialGouv/domifa/commit/57e7176dd5b675cd81993e55453c1160182e4e8c))
+* message renvoyé par le formulaire ([d9a3172](https://github.com/SocialGouv/domifa/commit/d9a3172a07e84d286be4fdfe2c9998b42b004f77))
+
+
+### Features
+
+* **contact-support:** Création d'un formulaire de contact depuis Domifa ([d87382f](https://github.com/SocialGouv/domifa/commit/d87382f05a690c1afd476932e6f8db79ee660c5b))
+* **stats:** affichage de toutes les régions ([0bc6fc6](https://github.com/SocialGouv/domifa/commit/0bc6fc6e429be880151c6a5be385dfe3f2fb8b60))
+
 ## [2.69.5](https://github.com/SocialGouv/domifa/compare/v2.69.4...v2.69.5) (2022-01-26)
 
 
