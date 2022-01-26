@@ -1,3 +1,11 @@
+## [2.69.2](https://github.com/SocialGouv/domifa/compare/v2.69.1...v2.69.2) (2022-01-26)
+
+
+### Bug Fixes
+
+* bug de création de structure ([e4ca08e](https://github.com/SocialGouv/domifa/commit/e4ca08e5bb0bbb0344228ae6369156350da695cc))
+* **structures:** correction du bug de création de structure ([aba6c95](https://github.com/SocialGouv/domifa/commit/aba6c95c50c0359a03006afdb1867183ebf92237))
+
 ## [2.69.1](https://github.com/SocialGouv/domifa/compare/v2.69.0...v2.69.1) (2022-01-25)
 
 
