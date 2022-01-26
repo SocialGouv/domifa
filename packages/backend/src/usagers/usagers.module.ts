@@ -17,7 +17,7 @@ import { UsagersController } from "./controllers/usagers.controller";
 import { CerfaService } from "./services/cerfa.service";
 import { DocumentsService } from "./services/documents.service";
 import { UsagersService } from "./services/usagers.service";
-import { LogsModule } from "../logs/logs.module";
+import { AppLogsModule } from "../modules/app-logs/app-logs.module";
 
 @Module({
   controllers: [
@@ -38,7 +38,7 @@ import { LogsModule } from "../logs/logs.module";
     forwardRef(() => StatsModule),
     forwardRef(() => UsersModule),
     forwardRef(() => InteractionsModule),
-    forwardRef(() => LogsModule),
+    forwardRef(() => AppLogsModule),
   ],
   providers: [UsagersService, CerfaService, DocumentsService],
 })

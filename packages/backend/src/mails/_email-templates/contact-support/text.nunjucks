@@ -1,0 +1,9 @@
+Un nouveau message a été envoyé à Domifa
+
+Structure existante :  {% if structureId %} Oui {% else %} Non {% endif %}
+
+Nom : {{ name }}
+
+Email : {{ email }}
+
+Contenu du message: {{ content }}

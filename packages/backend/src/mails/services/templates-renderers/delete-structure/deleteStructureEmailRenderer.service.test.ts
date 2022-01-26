@@ -38,7 +38,7 @@ describe("deleteStructureEmailRenderer", () => {
       fs.writeFileSync(
         path.join(
           __dirname,
-          "../../../../_static/email-templates",
+          "../../../_email-templates",
           "delete-structure",
           "test.tmp.html"
         ),
@@ -50,7 +50,7 @@ describe("deleteStructureEmailRenderer", () => {
       .readFileSync(
         path.join(
           __dirname,
-          "../../../../_static/email-templates",
+          "../../../_email-templates",
           "delete-structure",
           "test.ref.html"
         )

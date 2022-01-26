@@ -12,8 +12,6 @@ import { guideUtilisateurEmailSender } from "../templates-renderers";
 
 @Injectable()
 export class CronMailUserGuideSenderService {
-  constructor() {}
-
   @Cron(domifaConfig().cron.emailUserGuide.crontime)
   protected async sendMailGuideCron() {
     if (!domifaConfig().cron.enable) {

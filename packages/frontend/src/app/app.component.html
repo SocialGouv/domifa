@@ -34,6 +34,7 @@
 <main id="page">
   <router-outlet></router-outlet>
 </main>
+
 <div class="d-print-none" id="help-button-wrapper" *ngIf="me">
   <button title="Besoin d'aide ?" id="help-button" (click)="openHelpModal()">
     <fa-icon [icon]="['fas', 'question']"></fa-icon>
@@ -289,40 +290,40 @@
     </button>
   </div>
   <div class="modal-body text-center">
-    <p>Notre guide d'utilisateur peut vous accompagner :</p>
+    <h4>Notre guide d'utilisateur peut vous accompagner</h4>
 
-    <a
-      href="/assets/files/guide_utilisateur_domifa.pdf"
-      target="_blank"
-      rel="noopener noreferrer"
-      alt="Distribution de courrier"
-      class="btn btn-primary"
-      download
-      ><fa-icon [icon]="['fas', 'download']"></fa-icon>
-      Télécharger notre guide utilisateur
-    </a>
-    <br /><br />
-    <p>Vous vous posez une question ?</p>
-    <a
-      [routerLink]="['/faq']"
-      class="btn btn-primary"
-      routerLinkActive="router-link-active"
-      title=""
-    >
-      Consultez notre FAQ </a
-    ><br />
-
-    <br />
-    <span>Contactez-nous :</span>
-    <br />
-    <br />
-    <a
-      target="_blank"
-      rel="noopener noreferrer"
-      href="mailto:contact.domifa@fabrique.social.gouv.fr"
-    >
-      <b> contact.domifa[at]fabrique.social.gouv.fr </b>
-    </a>
-    <br />
+    <p>
+      <a
+        href="/assets/files/guide_utilisateur_domifa.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-primary"
+        download
+      >
+        <fa-icon [icon]="['fas', 'download']"></fa-icon>
+        Télécharger notre guide utilisateur
+      </a>
+    </p>
+    <h4>Vous vous posez une question ?</h4>
+    <p>
+      <a
+        [routerLink]="['/faq']"
+        (click)="modalService.dismissAll()"
+        class="btn btn-primary"
+        routerLinkActive="router-link-active"
+      >
+        Consultez notre FAQ
+      </a>
+      <br />
+      <br />
+      <a
+        [routerLink]="['/contact']"
+        (click)="modalService.dismissAll()"
+        class="btn btn-primary"
+        routerLinkActive="router-link-active"
+      >
+        Contactez-nous via notre formulaire de contact</a
+      >
+    </p>
   </div>
 </ng-template>

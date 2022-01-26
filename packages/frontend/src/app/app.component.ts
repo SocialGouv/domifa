@@ -57,7 +57,7 @@ export class AppComponent implements OnInit {
     private healthCheckService: HealthCheckService,
     private authService: AuthService,
     private matomoInjector: MatomoInjector,
-    private modalService: NgbModal,
+    public modalService: NgbModal,
     private http: HttpClient,
     private router: Router,
     private titleService: Title,

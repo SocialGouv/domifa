@@ -58,7 +58,7 @@ import {
   usagerHistoryStateManager,
   UsagersService,
 } from "../services";
-import { LogsService } from "../../logs/logs.service";
+import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 
 @Controller("usagers")
 @ApiTags("usagers")
@@ -68,7 +68,7 @@ export class UsagersController {
   constructor(
     private readonly usagersService: UsagersService,
     private readonly cerfaService: CerfaService,
-    private logsService: LogsService
+    private appLogsService: AppLogsService
   ) {}
 
   @Get()
@@ -296,7 +296,7 @@ export class UsagersController {
       structureId: user.structureId,
     });
 
-    await this.logsService.create({
+    await this.appLogsService.create({
       userId: user.id,
       usagerRef: usager.ref,
       structureId: user.structureId,
@@ -446,7 +446,7 @@ export class UsagersController {
               usagerUUID: usager.uuid,
               generateNewPassword,
             });
-          await this.logsService.create({
+          await this.appLogsService.create({
             userId: user.id,
             usagerRef: usager.ref,
             structureId: user.structureId,

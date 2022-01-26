@@ -12,7 +12,7 @@ import {
   MonitoringBatchProcessTrigger,
   typeOrmSearch,
 } from "../../../database";
-import { appLogger, hexEncoder } from "../../../util";
+import { appLogger } from "../../../util";
 import { messageEmailConsummerTrigger } from "./message-email-consumer-trigger.service";
 import { smtpSender } from "./smtpSender.service";
 import moment = require("moment");
@@ -56,22 +56,12 @@ export class MessageEmailConsummer {
 
         for (const messageEmail of messageEmails) {
           try {
-            const attachments = hexEncoder.decode<
-              [
-                {
-                  contentType: string;
-                  filename: string;
-                  content: any;
-                }
-              ]
-            >(messageEmail.attachments);
-
             const content = messageEmail.content as Omit<
               MessageEmailContent,
-              "attachments"
+              "hexEncoder"
             >;
             messageEmail.sendDetails = await smtpSender.sendEmail(content, {
-              attachments,
+              attachments: messageEmail.attachments,
               messageEmailId: messageEmail.emailId,
             });
 
