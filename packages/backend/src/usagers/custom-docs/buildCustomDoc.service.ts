@@ -182,26 +182,31 @@ export function buildCustomDoc({
     TRANSFERT_ACTIF: transfert.actif ? "OUI" : "NON",
     TRANSFERT_NOM: transfert.actif ? transfert.nom : "",
     TRANSFERT_ADRESSE: transfert.actif ? transfert.adresse : "",
-    TRANSFERT_DATE_DEBUT: transfert.actif
-      ? format(new Date(transfert.dateDebut), "dd/MM/yyyy")
-      : "",
-    TRANSFERT_DATE_FIN: transfert.actif
-      ? format(new Date(transfert.dateFin), "dd/MM/yyyy")
-      : "",
+    TRANSFERT_DATE_DEBUT:
+      transfert.actif && transfert.dateDebut
+        ? format(new Date(transfert.dateDebut), "dd/MM/yyyy")
+        : "",
+    TRANSFERT_DATE_FIN:
+      transfert.actif && transfert.dateFin
+        ? format(new Date(transfert.dateFin), "dd/MM/yyyy")
+        : "",
 
     // Procuration
     PROCURATION_ACTIF: procuration.actif ? "OUI" : "NON",
     PROCURATION_NOM: procuration.actif ? procuration.nom : "",
     PROCURATION_PRENOM: procuration.actif ? procuration.prenom : "",
-    PROCURATION_DATE_DEBUT: procuration.actif
-      ? format(new Date(procuration.dateDebut), "dd/MM/yyyy")
-      : "",
-    PROCURATION_DATE_FIN: procuration.actif
-      ? format(new Date(procuration.dateFin), "dd/MM/yyyy")
-      : "",
-    PROCURATION_DATE_NAISSANCE: procuration.actif
-      ? format(new Date(procuration.dateNaissance), "dd/MM/yyyy")
-      : "",
+    PROCURATION_DATE_DEBUT:
+      procuration.actif && procuration.dateDebut
+        ? format(new Date(procuration.dateDebut), "dd/MM/yyyy")
+        : "",
+    PROCURATION_DATE_FIN:
+      procuration.actif && procuration.dateFin
+        ? format(new Date(procuration.dateFin), "dd/MM/yyyy")
+        : "",
+    PROCURATION_DATE_NAISSANCE:
+      procuration.actif && procuration.dateNaissance
+        ? format(new Date(procuration.dateNaissance), "dd/MM/yyyy")
+        : "",
 
     ...extraParameters,
   };

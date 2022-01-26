@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpException,
   HttpStatus,
   Param,
   Patch,
@@ -44,8 +43,6 @@ import { userStructureCreator } from "./services/user-structure-creator.service"
 @ApiTags("users")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class UsersController {
-  constructor() {}
-
   @AllowUserStructureRoles("responsable", "admin")
   @ApiBearerAuth()
   @ApiOperation({ summary: "Liste des utilisateurs" })

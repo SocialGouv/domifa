@@ -6,7 +6,6 @@ import {
   IsOptional,
   Max,
   Min,
-  ValidateIf,
 } from "class-validator";
 import {
   UsagerAyantDroit,
@@ -94,14 +93,6 @@ export class CreateUsagerDto {
   @IsIn(["RENOUVELLEMENT", "PREMIERE_DOM"])
   public typeDom!: UsagerTypeDom;
 
-  // @ApiProperty({
-  //   type: Date,
-  //   required: false,
-  // })
-  // @ValidateIf((o) => o.typeDom === "RENOUVELLEMENT")
-  // @IsNotEmpty()
-  // public datePremiereDom!: Date;
-
   @ApiProperty()
   @IsOptional()
   public preference!: {
@@ -113,5 +104,6 @@ export class CreateUsagerDto {
     description: "Tableau des ayants droit",
   })
   @IsOptional()
+  // TODO: Créer un DTO pour les ayant-droit
   public ayantsDroits!: UsagerAyantDroit[];
 }

@@ -22,8 +22,8 @@ async function sendMail({
 }): Promise<void> {
   const parameters = `${structure.id}/${structure.token}`;
   const portailAdminUrl = domifaConfig().apps.portailAdminUrl;
-  const lienConfirmation = `${portailAdminUrl}/structures-confirm/enable/${parameters}`;
-  const lienSuppression = `${portailAdminUrl}/structures-confirm/delete/${parameters}`;
+  const lienConfirmation = `${portailAdminUrl}structures-confirm/enable/${parameters}`;
+  const lienSuppression = `${portailAdminUrl}structures-confirm/delete/${parameters}`;
 
   const to = [
     {

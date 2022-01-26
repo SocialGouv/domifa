@@ -1,4 +1,3 @@
-import { Structure } from "./../../_common/model/structure/Structure.type";
 import {
   IsEmail,
   IsEmpty,
