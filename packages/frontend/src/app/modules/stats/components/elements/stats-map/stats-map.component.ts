@@ -7,6 +7,7 @@ import {
 import { fadeInOut } from "../../../../../shared/animations";
 import {
   RegionsLabels,
+  REGIONS_DEF,
   REGIONS_LABELS_MAP,
   REGIONS_SEO_URL_MAP,
 } from "../../../../../shared";
@@ -25,11 +26,13 @@ export class StatsMapComponent implements OnInit, AfterViewInit {
 
   public selectedRegion: string;
 
+  public statsRegionsValues: { [key: string]: number };
   @Input() public publicStats: PublicStats;
 
   public statsByRegion: StatsByRegion;
 
   constructor() {
+    this.statsRegionsValues = null;
     this.selectedRegion = null;
   }
 
@@ -43,5 +46,17 @@ export class StatsMapComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.statsByRegion = this.publicStats.structuresCountByRegion;
+
+    this.statsRegionsValues = Object.values(REGIONS_DEF).reduce(
+      (acc, value) => {
+        acc[value.regionCode] = 0;
+        return acc;
+      },
+      {}
+    );
+
+    this.publicStats.structuresCountByRegion.forEach((regionStat) => {
+      this.statsRegionsValues[regionStat.region] = regionStat.count;
+    });
   }
 }

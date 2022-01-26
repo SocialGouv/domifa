@@ -26,6 +26,9 @@ export class PublicStatsComponent implements OnInit {
   public regionsUrls: RegionsLabels = REGIONS_SEO_URL_MAP;
   public regions: RegionsLabels = REGIONS_LABELS_MAP;
 
+  public REGIONS_SEO_URL_TO_REGION_ID_MAP: RegionsLabels =
+    REGIONS_SEO_URL_TO_REGION_ID_MAP;
+
   public departements: {
     [key: string]: {
       departmentName: string;
@@ -35,9 +38,6 @@ export class PublicStatsComponent implements OnInit {
     };
   } = DEPARTEMENTS_MAP;
 
-  public REGIONS_SEO_URL_TO_REGION_ID_MAP: RegionsLabels =
-    REGIONS_SEO_URL_TO_REGION_ID_MAP;
-
   public STATS_REGIONS_DOM_TOM = ["01", "02", "03", "04", "06"];
 
   constructor(
@@ -46,6 +46,7 @@ export class PublicStatsComponent implements OnInit {
     private router: Router,
     private titleService: Title
   ) {
+    this.stats = null;
     this.regionId = null;
   }
 
