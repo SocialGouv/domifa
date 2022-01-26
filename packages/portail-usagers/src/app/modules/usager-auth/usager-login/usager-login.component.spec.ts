@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
-import { MatomoTracker } from "ngx-matomo";
+import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 import { UsagerLoginComponent } from "./usager-login.component";
 
@@ -25,6 +25,12 @@ describe("UsagerLoginComponent", () => {
         RouterTestingModule,
       ],
       providers: [
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
+          },
+        },
         {
           provide: MatomoTracker,
           useValue: {

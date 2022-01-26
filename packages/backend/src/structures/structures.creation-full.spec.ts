@@ -40,6 +40,7 @@ const structureDto: StructureDto = {
   responsable: { fonction: "sdf", nom: "sdf", prenom: "sdf" },
   structureType: "cias",
   ville: "sdfdsf",
+  region: null,
 };
 describe("Stuctures creation full", () => {
   let context: AppTestContext;
