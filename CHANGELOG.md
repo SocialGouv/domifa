@@ -1,3 +1,10 @@
+## [2.69.4](https://github.com/SocialGouv/domifa/compare/v2.69.3...v2.69.4) (2022-01-26)
+
+
+### Bug Fixes
+
+* **k8s:** fix preprod secrets ([2ea8cd4](https://github.com/SocialGouv/domifa/commit/2ea8cd4db3cbe14c3f3c17d854902ebd0e3dc2bc))
+
 ## [2.69.3](https://github.com/SocialGouv/domifa/compare/v2.69.2...v2.69.3) (2022-01-26)
 
 
