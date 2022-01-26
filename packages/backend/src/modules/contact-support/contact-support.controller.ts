@@ -68,44 +68,14 @@ export class ContactSupportController {
 
     const contactSaved = await contactSupportRepository.save(dataToSave);
 
-    return contactSupportEmailSender.sendMail(contactSaved).then(
-      () => {
-        return res.status(HttpStatus.OK).json("OK");
-      },
-      () => {
-        return res
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: "CONTACT_FORM_ERROR" });
-      }
-    );
+    try {
+      await contactSupportEmailSender.sendMail(contactSaved);
+      return res.status(HttpStatus.OK).json("OK");
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "CONTACT_FORM_ERROR" });
+    }
   }
-
-  // @Get("get-file/:contactMessageId")
-  // public async getContactFile(
-  //   @Param("contactMessageId") contactMessageId: string,
-  //   @Res() res: ExpressResponse
-  // ) {
-  //   const contactMessage = await contactSupportRepository.findOne({
-  //     uuid: contactMessageId,
-  //   });
-
-  //   if (!contactMessage) {
-  //     return res
-  //       .status(HttpStatus.INTERNAL_SERVER_ERROR)
-  //       .json({ message: "CONTACT_FORM_ERROR" });
-  //   }
-  //   if (!contactMessage.file) {
-  //     return res
-  //       .status(HttpStatus.INTERNAL_SERVER_ERROR)
-  //       .json({ message: "CONTACT_FORM_ERROR" });
-  //   }
-
-  //   const filePath = path.join(
-  //     domifaConfig().upload.basePath,
-  //     "contact-support",
-  //     contactMessage.file
-  //   );
-
-  //   return res.sendFile(filePath as string);
-  // }
 }
