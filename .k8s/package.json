@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@kosko/env": "^2.0.1",
-    "@kubernetes-models/sealed-secrets": "^1.6.3",
+    "@kubernetes-models/sealed-secrets": "^3.0.0",
     "@socialgouv/kosko-charts": "^9.8.11",
     "@types/node": "^16.0.0",
     "kosko": "^1.1.5",
