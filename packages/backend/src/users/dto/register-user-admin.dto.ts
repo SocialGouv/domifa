@@ -8,7 +8,7 @@ import {
   MaxLength,
   MinLength,
 } from "class-validator";
-import { Structure, UserStructureRole } from "../../_common/model";
+import { UserStructureRole } from "../../_common/model";
 
 export class RegisterUserAdminDto {
   @ApiProperty({
