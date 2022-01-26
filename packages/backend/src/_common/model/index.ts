@@ -1,3 +1,9 @@
+// @index('./*', f => `export * from '${f.path}'`)
+export * from "./_core";
+export * from "./_portail-admin";
+export * from "./_portail-usager";
+export * from "./app-log";
+export * from "./contact-support";
 export * from "./interaction";
 export * from "./jwt";
 export * from "./message-sms";
@@ -9,8 +15,3 @@ export * from "./usager";
 export * from "./user";
 export * from "./user-structure";
 export * from "./user-usager";
-export * from "./usager/cerfa";
-export * from "./_core";
-export * from "./_portail-admin";
-export * from "./_portail-usager";
-export * from "./log";

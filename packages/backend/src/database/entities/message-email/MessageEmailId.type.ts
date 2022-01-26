@@ -1,4 +1,5 @@
 export type MessageContentEmailId =
+  | "contact-support"
   | "user-reset-password"
   | "usager-appointment-created"
   | "admin-batchs-error-report"

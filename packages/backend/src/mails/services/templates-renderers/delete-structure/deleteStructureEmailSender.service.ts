@@ -52,7 +52,7 @@ async function sendMail({
     },
   };
 
-  messageEmailSender.sendMessageLater(messageContent, {
+  await messageEmailSender.sendMessageLater(messageContent, {
     messageEmailId,
   });
 }

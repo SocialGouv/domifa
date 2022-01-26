@@ -1,1 +1,3 @@
-export * from "./MessageSmsTable.typeorm";
+
+// @index('./*', f => `export * from '${f.path}'`)
+ export * from "./MessageSmsTable.typeorm";

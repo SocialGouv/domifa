@@ -15,7 +15,7 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
     appLogger.warn("CREATION DB : SUCCESS");
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {
+  public async down(): Promise<void> {
     // pas nécessaire de maintenir le down ici
   }
 }
@@ -25,13 +25,13 @@ async function createTables(queryRunner: QueryRunner) {
 
   await queryRunner.query(
     `
-    -- log definition
+    -- app_log definition
 
     -- Drop table
 
-    -- DROP TABLE log;
+    -- DROP TABLE app_log;
 
-    CREATE TABLE log (
+    CREATE UNLOGGED TABLE app_log (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
@@ -42,6 +42,33 @@ async function createTables(queryRunner: QueryRunner) {
       "action" text NOT NULL,
       CONSTRAINT "PK_69f8faf72fa4038748e4e3f3fbe" PRIMARY KEY (uuid)
     );
+
+
+    -- contact_support definition
+
+    -- Drop table
+
+    -- DROP TABLE contact_support;
+
+    CREATE UNLOGGED TABLE contact_support (
+      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "createdAt" timestamptz NOT NULL DEFAULT now(),
+      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "version" int4 NOT NULL,
+      "userId" int4 NULL,
+      "structureId" int4 NULL,
+      "content" text NOT NULL,
+      status text NOT NULL DEFAULT 'ON_HOLD'::text,
+      attachement jsonb,
+      email text NOT NULL,
+      category text NULL,
+      name text NOT NULL,
+      "comments" text NULL,
+      CONSTRAINT "PK_8e4a4781a01061a482fa33e5f5a" PRIMARY KEY (uuid)
+    );
+    CREATE INDEX "IDX_2dc55096563e5e2a6db3b83c0c" ON contact_support USING btree ("userId");
+    CREATE INDEX "IDX_d2145fd3e0c677e9f1f9763467" ON contact_support USING btree ("structureId");
+    CREATE INDEX "IDX_d92188af7573662f6be7199eda" ON contact_support USING btree (status);
 
 
     -- message_email definition
@@ -64,7 +91,7 @@ async function createTables(queryRunner: QueryRunner) {
       "errorCount" int4 NOT NULL DEFAULT 0,
       "errorMessage" text NULL,
       "sendDetails" jsonb NULL,
-      attachments bytea NULL,
+      attachments jsonb NULL,
       CONSTRAINT "PK_6bffd9b803b67cd4e099fc795e1" PRIMARY KEY (uuid)
     );
 
@@ -162,7 +189,7 @@ async function createTables(queryRunner: QueryRunner) {
       verified bool NOT NULL DEFAULT false,
       ville text NULL,
       sms jsonb NOT NULL DEFAULT '{"senderName": null, "senderDetails": null, "enabledByDomifa": true, "enabledByStructure": false}'::jsonb,
-      "portailUsager" jsonb NOT NULL DEFAULT '{"enabledByDomifa": false, "enabledByStructure": false}'::jsonb,
+      "portailUsager" jsonb NOT NULL DEFAULT '{"enabledByDomifa": true, "enabledByStructure": false}'::jsonb,
       CONSTRAINT "PK_a92a6b3dd54efb4ab48b2d6e7c1" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_90ac7986e769d602d218075215c" UNIQUE (id)
     );
@@ -411,7 +438,6 @@ async function createTables(queryRunner: QueryRunner) {
       "interactionOutUUID" uuid NULL,
       CONSTRAINT "PK_006113a10247f411c459d62a5b3" PRIMARY KEY (uuid),
       CONSTRAINT "FK_1953f5ad67157bada8774f7e245" FOREIGN KEY ("structureId") REFERENCES "structure"(id),
-      CONSTRAINT "FK_495b59d0dd15e43b262f2da8907" FOREIGN KEY ("interactionOutUUID") REFERENCES interactions(uuid),
       CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335" FOREIGN KEY ("usagerUUID") REFERENCES usager(uuid)
     );
     CREATE INDEX "IDX_0c5d7e9585c77ff002d4072c3c" ON interactions USING btree ("usagerRef");

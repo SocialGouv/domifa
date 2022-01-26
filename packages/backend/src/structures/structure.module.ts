@@ -12,7 +12,7 @@ import { StructuresPublicController } from "./controllers/structures.public.cont
 import { StructureDocService } from "./services/structure-doc.service";
 import { StructureHardResetService } from "./services/structureHardReset.service";
 import { StructuresService } from "./services/structures.service";
-import { LogsService } from "../logs/logs.service";
+import { AppLogsService } from "../modules/app-logs/app-logs.service";
 
 @Module({
   controllers: [
@@ -33,7 +33,7 @@ import { LogsService } from "../logs/logs.service";
     StructuresService,
     StructureHardResetService,
     StructureDocService,
-    LogsService,
+    AppLogsService,
   ],
 })
 export class StructuresModule {}

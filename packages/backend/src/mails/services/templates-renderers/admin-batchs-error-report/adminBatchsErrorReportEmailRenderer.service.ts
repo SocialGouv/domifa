@@ -1,8 +1,8 @@
 import moment = require("moment");
 import { domifaConfig } from "../../../../config";
 import { AdminBatchsErrorReportModel } from "../../../../database";
-import { DomifaMailTemplateRendering } from "../../../../mail-generator/model";
-import { domifaMailTemplateRenderer } from "../../../../mail-generator/services/domifaMailTemplateRenderer.service";
+import { DomifaMailTemplateRendering } from "../../../model";
+import { domifaMailTemplateRenderer } from "../../domifaMailTemplateRenderer.service";
 
 async function renderTemplate(
   model: AdminBatchsErrorReportModel

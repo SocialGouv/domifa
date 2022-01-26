@@ -8,9 +8,9 @@ import {
   StructureLight,
   UserStructure,
 } from "../../_common/model";
-import { departementHelper } from "../departement-helper.service";
-import { StructureDto } from "../dto";
+import { departementHelper } from "./departement-helper.service";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
+import { StructureDto } from "../dto";
 
 export interface StructureQuery {
   codePostal?: string;

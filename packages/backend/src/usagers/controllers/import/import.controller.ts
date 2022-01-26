@@ -23,7 +23,6 @@ import { appLogger } from "../../../util";
 import { ExpressResponse } from "../../../util/express";
 import { randomName, validateUpload } from "../../../util/FileManager";
 import { UserStructureAuthenticated } from "../../../_common/model";
-import { UsagersService } from "../../services/usagers.service";
 import { ImportProcessTracker } from "./ImportProcessTracker.type";
 import {
   ImportPreviewColumn,
@@ -51,7 +50,7 @@ const UsagersImportFileInterceptor = FileInterceptor("file", {
   },
   fileFilter: (req: any, file: Express.Multer.File, cb: any) => {
     if (!validateUpload("IMPORT", req, file)) {
-      throw new HttpException("INCORRECT_FORMAT", HttpStatus.BAD_REQUEST);
+      return cb("INCORRECT_FORMAT", false);
     }
     cb(null, true);
   },
@@ -77,8 +76,6 @@ type UsagersImportMode = "preview" | "confirm";
 @ApiBearerAuth()
 @Controller("import")
 export class ImportController {
-  constructor(private readonly usagersService: UsagersService) {}
-
   @Post(":mode")
   @AllowUserStructureRoles("simple", "responsable", "admin")
   @UseInterceptors(UsagersImportFileInterceptor)

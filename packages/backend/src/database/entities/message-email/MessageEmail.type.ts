@@ -1,4 +1,5 @@
-import { Bytea } from "../../../util";
+import { MessageEmailAttachement } from "./MessageEmailAttachement.type";
+
 import { AppEntity } from "../../../_common/model";
 import { MessageEmailContent } from "./MessageEmailContent.type";
 import { MessageEmailId } from "./MessageEmailId.type";
@@ -15,5 +16,5 @@ export type MessageEmail = AppEntity & {
   errorCount: number;
   errorMessage?: string;
   sendDetails?: MessageEmailSendDetails;
-  attachments: Bytea; // binary content, use hexEncoder to read/write
+  attachments?: MessageEmailAttachement[]; // path of files
 };

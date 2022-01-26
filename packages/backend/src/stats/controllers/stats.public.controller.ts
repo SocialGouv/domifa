@@ -3,7 +3,7 @@ import { ApiTags } from "@nestjs/swagger";
 import {
   structureRepository,
   usagerRepository,
-  userStructureRepository
+  userStructureRepository,
 } from "../../database";
 import { PublicStats } from "../../_common/model";
 import { AdminStructuresService } from "../../_portail-admin/admin-structures/services";
@@ -11,18 +11,11 @@ import { StructuresService } from "./../../structures/services/structures.servic
 
 @Controller("stats")
 @ApiTags("stats")
-// ATTENTION: controller non-sécurisé: ajouter les routes à sécuriser dans StatsPrivateController
 export class StatsPublicController {
-  public sheet: {
-    [key: string]: {};
-  }[];
-
   constructor(
     private readonly adminStructuresService: AdminStructuresService,
     private readonly structuresService: StructuresService
-  ) {
-    this.sheet = [];
-  }
+  ) {}
 
   @Get("home-stats")
   public async home() {
