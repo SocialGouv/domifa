@@ -1,3 +1,4 @@
+import { Structure } from "./../../_common/model/structure/Structure.type";
 import {
   IsEmail,
   IsEmpty,
@@ -6,6 +7,7 @@ import {
   MaxLength,
   MinLength,
 } from "class-validator";
+import { StructureCommon } from "../../_common/model";
 
 export class UserDto {
   @MinLength(2, {
@@ -46,5 +48,5 @@ export class UserDto {
   public readonly structureId?: number;
 
   @IsEmpty()
-  public readonly structure?: {};
+  public structure?: StructureCommon;
 }

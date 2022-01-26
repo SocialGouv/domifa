@@ -9,8 +9,8 @@ import {
   UserStructure,
 } from "../../_common/model";
 import { departementHelper } from "../departement-helper.service";
+import { StructureDto } from "../dto";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
-import { StructureEditDto } from "../dto/structure-edit.dto";
 
 export interface StructureQuery {
   codePostal?: string;
@@ -20,7 +20,7 @@ export interface StructureQuery {
 @Injectable()
 export class StructuresService {
   public async patch(
-    structureDto: StructureEditDto,
+    structureDto: StructureDto,
     user: Pick<UserStructure, "structureId">
   ): Promise<StructureCommon> {
     structureDto.departement = departementHelper.getDepartementFromCodePostal(
