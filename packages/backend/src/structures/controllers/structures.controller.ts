@@ -21,9 +21,9 @@ import {
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
 } from "../../_common/model";
-import { StructureEditPortailUsagerDto } from "../dto";
+import { StructureDto, StructureEditPortailUsagerDto } from "../dto";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
-import { StructureEditDto } from "../dto/structure-edit.dto";
+
 import { structureDeletorService } from "../services/structureDeletor.service";
 import { StructureHardResetService } from "../services/structureHardReset.service";
 import { StructuresService } from "../services/structures.service";
@@ -69,7 +69,7 @@ export class StructuresController {
   @AllowUserStructureRoles("admin")
   @Patch()
   public async patchStructure(
-    @Body() structureDto: StructureEditDto,
+    @Body() structureDto: StructureDto,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
     return this.structureService.patch(structureDto, user);

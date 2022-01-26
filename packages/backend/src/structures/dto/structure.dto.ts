@@ -1,12 +1,14 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { Type } from "class-transformer";
 import {
   IsIn,
   IsNotEmpty,
   IsNumber,
-  IsObject,
   IsOptional,
+  ValidateNested,
 } from "class-validator";
-import { StructureResponsable, StructureType } from "../../_common/model";
+import { StructureAdresseCourrierDto, StructureResponsableDto } from ".";
+import { StructureType } from "../../_common/model";
 
 export class StructureDto {
   @ApiProperty({
@@ -75,6 +77,13 @@ export class StructureDto {
 
   @ApiProperty({
     type: String,
+    required: false,
+  })
+  @IsOptional()
+  public region!: string;
+
+  @ApiProperty({
+    type: String,
     required: true,
   })
   @IsNotEmpty()
@@ -89,20 +98,21 @@ export class StructureDto {
 
   @ApiProperty({
     required: true,
+    type: Object,
   })
   @IsNotEmpty()
-  @IsObject()
-  public responsable!: StructureResponsable;
+  @ValidateNested()
+  @Type(() => StructureResponsableDto)
+  @IsNotEmpty()
+  public responsable!: StructureResponsableDto;
 
   @ApiProperty({
     required: false,
+    type: Object,
   })
-  @IsOptional()
-  @IsObject()
-  public adresseCourrier!: {
-    actif: boolean;
-    adresse: string;
-    ville: string;
-    codePostal: string;
-  };
+  @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => StructureAdresseCourrierDto)
+  @IsNotEmpty()
+  public adresseCourrier!: StructureAdresseCourrierDto;
 }

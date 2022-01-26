@@ -44,8 +44,8 @@ export class StructuresSmsFormComponent implements OnInit {
 
     this.titleService.setTitle("Paramétrer les SMS");
 
-    this.structureService.findMyStructure().subscribe(
-      (structure: StructureCommon) => {
+    this.structureService.findMyStructure().subscribe({
+      next: (structure: StructureCommon) => {
         this.structure = structure;
 
         if (!this.structure.sms.senderDetails) {
@@ -62,13 +62,15 @@ export class StructuresSmsFormComponent implements OnInit {
         }
 
         this.initForm();
+
+        console.log(structure);
       },
-      () => {
+      error: () => {
         this.toastService.success(
           "Impossible de récupérer les infos de ma structure"
         );
-      }
-    );
+      },
+    });
   }
 
   public initForm() {
@@ -86,6 +88,7 @@ export class StructuresSmsFormComponent implements OnInit {
         [Validators.required, Validators.maxLength(30)],
       ],
     });
+    console.log(this.structureSmsForm);
 
     this.structureSmsForm.get("senderName").valueChanges.subscribe(() => {
       this.structureSmsForm

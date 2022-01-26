@@ -1,3 +1,4 @@
+import { StructureCommon } from "./../../_common/model/structure/StructureCommon.type";
 import { ApiProperty } from "@nestjs/swagger";
 import {
   IsEmail,
@@ -7,7 +8,7 @@ import {
   MaxLength,
   MinLength,
 } from "class-validator";
-import { UserStructureRole } from "../../_common/model";
+import { Structure, UserStructureRole } from "../../_common/model";
 
 export class RegisterUserAdminDto {
   @ApiProperty({
@@ -57,7 +58,7 @@ export class RegisterUserAdminDto {
   public structureId!: number;
 
   @IsEmpty()
-  public structure?: {};
+  public structure?: StructureCommon;
 
   @IsEmpty()
   public verified?: boolean;
