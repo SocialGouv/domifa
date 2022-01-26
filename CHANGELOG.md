@@ -1,3 +1,10 @@
+## [2.69.3](https://github.com/SocialGouv/domifa/compare/v2.69.2...v2.69.3) (2022-01-26)
+
+
+### Bug Fixes
+
+* bug login first time ([fcb2975](https://github.com/SocialGouv/domifa/commit/fcb2975c131457366fc6fed3909e85f9bb7297f9))
+
 ## [2.69.2](https://github.com/SocialGouv/domifa/compare/v2.69.1...v2.69.2) (2022-01-26)
 
 
