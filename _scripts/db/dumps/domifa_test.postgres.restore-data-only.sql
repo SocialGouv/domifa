@@ -198,13 +198,6 @@ fadd55b6-ca41-48d4-bd56-238b1a3c6f7b	2021-11-30 13:50:26.290488+00	2021-11-30 14
 
 
 --
--- Name: migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
-SELECT pg_catalog.setval('public.migrations_id_seq', 67, true);
-
-
---
 -- Name: structure_doc_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
