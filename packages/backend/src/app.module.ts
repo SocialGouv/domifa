@@ -26,9 +26,9 @@ import { LogsModule } from "./logs/logs.module";
       debug: domifaConfig().dev.sentry.debugModeEnabled,
       dsn: domifaConfig().dev.sentry.sentryDsn,
       environment: domifaConfig().envId,
-      logLevel: domifaConfig().dev.sentry.debugModeEnabled
-        ? 3 // Verbose,
-        : undefined,
+      logLevels: domifaConfig().dev.sentry.debugModeEnabled
+        ? ["log", "error", "warn", "debug", "verbose"] // Verbose,
+        : ["log", "error", "warn", "debug"],
       release: "domifa@" + domifaConfig().version, // default
     }),
     AuthModule,

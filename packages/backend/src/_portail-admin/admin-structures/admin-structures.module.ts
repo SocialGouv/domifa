@@ -7,9 +7,10 @@ import { UsersModule } from "../../users/users.module";
 import { AdminStructuresController } from "./controllers/admin-structures.controller";
 import { AdminStructuresService } from "./services";
 import { LogsService } from "../../logs/logs.service";
+import { AdminStructuresDocsController } from "./controllers/admin-structures-docs.controller";
 
 @Module({
-  controllers: [AdminStructuresController],
+  controllers: [AdminStructuresController, AdminStructuresDocsController],
   exports: [AdminStructuresService],
   imports: [
     forwardRef(() => UsersModule),

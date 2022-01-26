@@ -14,7 +14,7 @@ import { StructuresCustomDocsService } from "../../services/structures-custom-do
 })
 export class AdminStructuresDocsComponent implements OnInit {
   public STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;
-
+  public structureDocs: StructureDoc[];
   // Frontend variables
   public loadings: {
     download: string[];
@@ -29,9 +29,20 @@ export class AdminStructuresDocsComponent implements OnInit {
       download: [],
       delete: [],
     };
+
+    this.structureDocs = [];
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.structureDocService.getAllStructureDocs().subscribe({
+      next: (structureDocs: StructureDoc[]) => {
+        this.structureDocs = structureDocs;
+      },
+      error: () => {
+        this.toastService.error("Impossible de télécharger le fichier");
+      },
+    });
+  }
 
   public getStructureDoc(structureDoc: StructureDoc): void {
     this.loadings.download.push(structureDoc.uuid);

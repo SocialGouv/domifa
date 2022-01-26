@@ -1,5 +1,7 @@
+import { IconName } from "@fortawesome/fontawesome-svg-core";
+
 export const STRUCTURE_DOC_ICONS: {
-  [key: string]: string;
+  [key: string]: IconName;
 } = {
   "image/jpg": "file-image",
   "image/jpeg": "file-image",

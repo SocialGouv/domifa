@@ -35,6 +35,14 @@
           ></fa-icon>
           Stats
         </a>
+        <a ngbDropdownItem [routerLink]="['/structures/custom-docs']">
+          <fa-icon
+            aria-hidden="true"
+            [icon]="['fas', 'chart-bar']"
+            class="mr-2"
+          ></fa-icon>
+          Documents
+        </a>
 
         <a ngbDropdownItem [routerLink]="['/sms/stats']">
           <fa-icon
@@ -58,7 +66,7 @@
   <router-outlet></router-outlet>
 </div>
 
-<footer class="my-5">
+<footer class="py-5">
   <div class="text-sm-left text-md-center text-lg-center">
     <img
       src="../assets/images/logo.svg"
