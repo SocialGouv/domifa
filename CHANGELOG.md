@@ -1,3 +1,12 @@
+## [2.69.5](https://github.com/SocialGouv/domifa/compare/v2.69.4...v2.69.5) (2022-01-26)
+
+
+### Bug Fixes
+
+* affichage des docs ([0a6e3b0](https://github.com/SocialGouv/domifa/commit/0a6e3b090837a15be6c671ee1d0c9b579f57b29b))
+* ajout d'une page dédiée pour télécharger les docs ([8420496](https://github.com/SocialGouv/domifa/commit/84204964beab52abdb9fbef6231e4bf6c5d9cc1e))
+* correction d'erreurs dans le commit ([712f5f8](https://github.com/SocialGouv/domifa/commit/712f5f82eeb062c7a0661c7f3156686ea9fa8937))
+
 ## [2.69.4](https://github.com/SocialGouv/domifa/compare/v2.69.3...v2.69.4) (2022-01-26)
 
 
