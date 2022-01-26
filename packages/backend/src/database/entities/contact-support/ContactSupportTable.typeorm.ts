@@ -1,3 +1,4 @@
+import { MessageEmailAttachement } from "./../message-email/MessageEmailAttachement.type";
 import { Column, Entity, Index } from "typeorm";
 import {
   ContactCategorie,
@@ -30,11 +31,8 @@ export class ContactSupportTable
   @Index()
   public status: ContactStatus;
 
-  @Column({ type: "text", nullable: true })
-  public fileName: string;
-
-  @Column({ type: "text", nullable: true })
-  public fileType: string;
+  @Column({ type: "jsonb", nullable: true })
+  public attachement?: MessageEmailAttachement;
 
   @Column({ type: "text" })
   public email: string;

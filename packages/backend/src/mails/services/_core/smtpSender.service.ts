@@ -76,7 +76,6 @@ async function sendEmail(
       ? undefined
       : attachments.map((a) => {
           const att: Mail.Attachment = {
-            contentType: a.contentType,
             filename: a.filename,
             path: a.path,
           };

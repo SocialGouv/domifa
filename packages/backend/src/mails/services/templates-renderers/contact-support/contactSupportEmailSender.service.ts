@@ -23,20 +23,13 @@ async function sendMail(model: ContactSupport): Promise<void> {
     },
   ];
 
-  const attachments: MessageEmailAttachement[] = model.fileName
-    ? [
-        {
-          contentType: model.fileName,
-          filename: model.fileName,
-          path: model.path,
-        },
-      ]
+  const attachments: MessageEmailAttachement[] = model.attachement
+    ? [model.attachement]
     : [];
 
   const renderedTemplate = await contactSupportEmailRenderer.renderTemplate({
     structureId: model.structureId,
     content: model.content,
-    fileName: model.fileName,
     email: model.email,
     name: model.name,
   });

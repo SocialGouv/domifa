@@ -1,4 +1,6 @@
-import { ContactSupportDto } from "./contact.dto";
+import { ContactSupportTable } from "./../../database/entities/contact-support/ContactSupportTable.typeorm";
+import { contactSupportRepository } from "./../../database/services/contact/contactSupportRepository.service";
+import { ContactSupportDto } from "./contact-support.dto";
 import {
   Body,
   Controller,
@@ -15,14 +17,12 @@ import * as fs from "fs";
 import path = require("path");
 import { domifaConfig } from "../../config";
 import { validateUpload, randomName } from "../../util/FileManager";
-import { ContactSupportService } from "./contact-support.service";
+
 import { contactSupportEmailSender } from "../../mails/services/templates-renderers/contact-support";
 import { ExpressResponse } from "../../util/express";
 
 @Controller("contact")
 export class ContactSupportController {
-  constructor(private contactSupportService: ContactSupportService) {}
-
   @Post("")
   @UseInterceptors(
     FileInterceptor("file", {
@@ -57,18 +57,16 @@ export class ContactSupportController {
     @UploadedFile() file: Express.Multer.File,
     @Res() res: ExpressResponse
   ) {
-    if (file) {
-      contactSupportDto.fileName = file.filename;
-      contactSupportDto.fileType = file.mimetype;
-    }
-
-    const contactSaved = await this.contactSupportService.create(
-      contactSupportDto
-    );
+    const dataToSave = new ContactSupportTable(contactSupportDto);
 
     if (file) {
-      contactSaved.path = file.path;
+      dataToSave.attachement = {
+        filename: file.filename,
+        path: file.path,
+      };
     }
+
+    const contactSaved = await contactSupportRepository.save(dataToSave);
 
     return contactSupportEmailSender.sendMail(contactSaved).then(
       () => {

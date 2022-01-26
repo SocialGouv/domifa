@@ -84,17 +84,5 @@ export class ContactSupportDto {
     type: String,
   })
   @IsEmpty()
-  public fileName!: string;
-
-  @ApiProperty({
-    type: String,
-  })
-  @IsEmpty()
-  public fileType!: string;
-
-  @ApiProperty({
-    type: String,
-  })
-  @IsEmpty()
-  public path!: string;
+  public attachment!: string;
 }

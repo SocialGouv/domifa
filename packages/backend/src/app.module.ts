@@ -17,7 +17,7 @@ import { StructuresModule } from "./structures/structure.module";
 import { UsagersModule } from "./usagers/usagers.module";
 import { UsersModule } from "./users/users.module";
 import { AppLogsModule } from "./modules/app-logs/app-logs.module";
-import { ContactSupportModule } from "./modules/contact-support/contact.module";
+import { ContactSupportModule } from "./modules/contact-support/contact-support.module";
 
 @Module({
   controllers: [HealthController],
