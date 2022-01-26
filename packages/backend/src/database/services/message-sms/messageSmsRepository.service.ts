@@ -104,7 +104,7 @@ async function statsSmsGlobal() {
                  FROM "public"."message_sms"
                  WHERE ("public"."message_sms"."sendDate" >= date_trunc('month', CAST((CAST(now() AS timestamp) + (INTERVAL '-12 month')) AS timestamp))
                  AND "public"."message_sms"."sendDate" < date_trunc('month', CAST(now() AS timestamp)))
-                 GROUP BY date_trunc('month', CAST("public"."message_sms"."sendDate" AS timestamp))
+                 GROUP BY date_trunc(1'month', CAST("public"."message_sms"."sendDate" AS timestamp))
                  ORDER BY date_trunc('month', CAST("public"."message_sms"."sendDate" AS timestamp)) ASC`;
 
   return appTypeormManager.getRepository(MessageSmsTable).query(query);
