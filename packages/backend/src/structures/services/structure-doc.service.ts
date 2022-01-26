@@ -23,6 +23,11 @@ export class StructureDocService {
     return this.structureDocRepository.insert(structureDoc);
   }
 
+  // Admin domifa only
+  public async findAllStructureDocs(): Promise<StructureDoc[]> {
+    return this.structureDocRepository.find();
+  }
+
   public async findAll(structureId: number): Promise<StructureDoc[]> {
     return this.structureDocRepository.find({
       structureId,

@@ -3,7 +3,7 @@ import { UserStructureCreatedBy } from "../user-structure/UserStructureCreatedBy
 import { AppEntity } from "../_core/AppEntity.type";
 
 export type StructureDoc = AppEntity & {
-  uuid?: string;
+  uuid: string;
   createdAt?: Date;
   createdBy: UserStructureCreatedBy;
   custom: boolean;
@@ -12,6 +12,6 @@ export type StructureDoc = AppEntity & {
   filetype: string;
   id?: number;
   label: string;
-  path?: string;
+  path: string;
   structureId: number;
 };
