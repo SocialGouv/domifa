@@ -8,8 +8,9 @@ import {
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { MatomoTracker } from "ngx-matomo";
+import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
+import { environment } from "../../../../environments/environment";
 import type {
   PortailUsagerAuthApiResponse,
   PortailUsagerAuthLoginForm,
@@ -38,8 +39,10 @@ export class UsagerLoginComponent implements OnInit {
     private titleService: Title,
     private authService: UsagerAuthService,
     private toastr: ToastrService,
+    private matomoInjector: MatomoInjector,
     public matomo: MatomoTracker
   ) {
+    this.matomoInjector.init(environment.matomo.url, environment.matomo.siteId);
     this.hidePassword = true;
     this.hidePasswordNew = true;
     this.loading = false;
@@ -137,23 +140,22 @@ export class UsagerLoginComponent implements OnInit {
       error: (err) => {
         this.loading = false;
         if (err?.error?.message === "CHANGE_PASSWORD_REQUIRED") {
+          this.switchToChangePasswordMode();
           this.matomo.trackEvent(
             "login-portail-usagers",
             "login_success_first_time",
             "null",
             1
           );
-          this.switchToChangePasswordMode();
         } else {
           this.toastr.error("Login et / ou mot de passe incorrect");
+          this.matomo.trackEvent(
+            "login-portail-usagers",
+            "login_error",
+            "null",
+            1
+          );
         }
-
-        this.matomo.trackEvent(
-          "login-portail-usagers",
-          "login_error",
-          "null",
-          1
-        );
       },
       next: (apiAuthResponse: PortailUsagerAuthApiResponse) => {
         this.toastr.success("Connexion réussie");
