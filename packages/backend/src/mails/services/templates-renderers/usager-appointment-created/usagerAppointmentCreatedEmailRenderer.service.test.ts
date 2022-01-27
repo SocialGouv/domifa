@@ -20,7 +20,7 @@ describe("usagerAppointmentCreatedEmailRenderer", () => {
       fs.writeFileSync(
         path.join(
           __dirname,
-          "../../../_email-templates",
+          "../../../../_static/email-templates",
           "usager-appointment-created",
           "test.tmp.html"
         ),
@@ -32,7 +32,7 @@ describe("usagerAppointmentCreatedEmailRenderer", () => {
       .readFileSync(
         path.join(
           __dirname,
-          "../../../_email-templates",
+          "../../../../_static/email-templates",
           "usager-appointment-created",
           "test.ref.html"
         )
