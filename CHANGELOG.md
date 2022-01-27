@@ -1,3 +1,10 @@
+## [2.70.1](https://github.com/SocialGouv/domifa/compare/v2.70.0...v2.70.1) (2022-01-27)
+
+
+### Bug Fixes
+
+* **stats:** affichage des statistiques ([dfe379d](https://github.com/SocialGouv/domifa/commit/dfe379dbf3a801796f2fd55a246c0d2acbd90e97))
+
 # [2.70.0](https://github.com/SocialGouv/domifa/compare/v2.69.5...v2.70.0) (2022-01-26)
 
 
