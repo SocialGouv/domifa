@@ -168,6 +168,14 @@
         >
           Statistiques
         </a>
+        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
+        <a
+          [routerLink]="['/contact']"
+          routerLinkActive="router-link-active"
+          (click)="matomo.trackEvent('FOOTER', 'Footer_Contact', 'null', 1)"
+        >
+          Contactez-nous
+        </a>
       </div>
       <div class="my-4 text-gray">
         Sauf mention contraire, tous les textes de ce site sont sous

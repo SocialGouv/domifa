@@ -23,7 +23,7 @@ describe("hardResetEmailRenderer", () => {
       fs.writeFileSync(
         path.join(
           __dirname,
-          "../../../_email-templates",
+          "../../../../_static/email-templates",
           "hard-reset",
           "test.tmp.html"
         ),
@@ -35,7 +35,7 @@ describe("hardResetEmailRenderer", () => {
       .readFileSync(
         path.join(
           __dirname,
-          "../../../_email-templates",
+          "../../../../_static/email-templates",
           "hard-reset",
           "test.ref.html"
         )

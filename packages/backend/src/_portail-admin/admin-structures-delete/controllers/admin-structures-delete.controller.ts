@@ -22,8 +22,6 @@ import { ExpressResponse } from "../../../util/express";
 @ApiTags("admin")
 @ApiBearerAuth()
 export class AdminStructuresDeleteController {
-  constructor() {}
-
   @AllowUserProfiles("super-admin-domifa")
   @ApiBearerAuth()
   @Put("send-mail/:id")
