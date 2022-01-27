@@ -1,4 +1,4 @@
-<div class="carte" *ngIf="statsRegionsValues">
+<div class="carte" *ngIf="statsRegionsValues && statsByRegion">
   <svg
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +68,7 @@
   </svg>
 </div>
 
-<div class="carte" *ngIf="statsRegionsValues">
+<div class="carte" *ngIf="statsRegionsValues && statsByRegion">
   <g class="regions dom-tom">
     <svg
       version="1.1"
@@ -90,8 +90,7 @@
         <foreignObject
           *ngIf="
             STATS_REGIONS_DOM_TOM.indexOf(domTomDept) !== -1 &&
-            selectedRegion === domTomDept &&
-            statsRegionsValues[domTomDept] !== 0
+            selectedRegion === domTomDept
           "
           [attr.x]="STATS_REGIONS_FOR_MAP[domTomDept].x - 85"
           [attr.y]="STATS_REGIONS_FOR_MAP[domTomDept].y - 54"
@@ -100,7 +99,10 @@
           @fadeInOut
           class="text-center"
         >
-          <a [routerLink]="['/stats/region/' + regionsUrls[domTomDept]]">
+          <a
+            [routerLink]="['/stats/region/' + regionsUrls[domTomDept]]"
+            *ngIf="statsRegionsValues[domTomDept] !== 0"
+          >
             <div class="map-tooltip">
               <div>
                 {{ regions[domTomDept] }}
@@ -113,6 +115,11 @@
               </a>
             </div>
           </a>
+          <div class="map-tooltip" *ngIf="statsRegionsValues[domTomDept] === 0">
+            <div>
+              {{ regions[domTomDept] }}
+            </div>
+          </div>
         </foreignObject>
         <foreignObject
           @fadeInOut
