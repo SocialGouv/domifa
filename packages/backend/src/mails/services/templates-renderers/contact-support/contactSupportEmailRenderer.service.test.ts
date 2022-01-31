@@ -22,7 +22,7 @@ describe("guideUtilisateurEmailRenderer", () => {
     const { subject, text, html } =
       await contactSupportEmailRenderer.renderTemplate(model);
 
-    expect(subject).toEqual(`[DOMIFA] Nouveau messaage sur le support`);
+    expect(subject).toEqual(`[DOMIFA] Nouveau message sur le support`);
     expect(text).toContain(model.email);
     expect(text).toContain(model.name);
     expect(text).toContain(model.content);

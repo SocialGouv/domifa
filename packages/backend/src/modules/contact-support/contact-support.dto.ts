@@ -35,6 +35,7 @@ export class ContactSupportDto {
     type: String,
     required: true,
   })
+  @ValidateIf((o) => o.hasAccount === true)
   @IsNotEmpty()
   @IsString()
   @MinLength(2)
