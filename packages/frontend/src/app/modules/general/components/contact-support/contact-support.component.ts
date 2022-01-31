@@ -11,6 +11,7 @@ import { validateUpload } from "../../../../shared/upload-validator";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 
 import { AuthService } from "../../../shared/services/auth.service";
+import { Title, Meta } from "@angular/platform-browser";
 
 @Component({
   selector: "app-contact-support",
@@ -30,7 +31,9 @@ export class ContactSupportComponent implements OnInit {
     private formBuilder: FormBuilder,
     private generalService: GeneralService,
     private toastService: CustomToastService,
-    private authService: AuthService
+    private authService: AuthService,
+    private titleService: Title,
+    private meta: Meta
   ) {
     this.success = false;
     this.loading = false;
@@ -41,6 +44,13 @@ export class ContactSupportComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.titleService.setTitle("Formulaire de contact");
+
+    this.meta.updateTag({
+      name: "description",
+      content:
+        "Vous avez une question ? Ce formulaire vous permettra de contacter l'équipe Domifa",
+    });
     this.me = this.authService.currentUserValue;
 
     let hasAccount = false;

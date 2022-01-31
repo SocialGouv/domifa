@@ -29,7 +29,7 @@
         <br />
         Si la réponse ne s'y trouve pas, merci de remplir les champs ci-dessous
         en nous donnant un maximum d'informations, ce qui nous permettra de vous
-        répondre plus rapidement
+        répondre plus rapidement.
       </p>
 
       <div class="row justify-content-center">
@@ -67,7 +67,10 @@
               </div>
             </fieldset>
 
-            <div class="form-group required">
+            <div
+              class="form-group required"
+              *ngIf="f.hasAccount.value === true"
+            >
               <label for="name">Nom de votre structure</label>
               <input
                 type="text"
