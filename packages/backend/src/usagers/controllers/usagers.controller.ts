@@ -44,7 +44,6 @@ import {
 } from "../../_common/model";
 import {
   CreateUsagerDto,
-  EditUsagerDto,
   EntretienDto,
   PreferenceContactDto,
   ProcurationDto,
@@ -162,7 +161,7 @@ export class UsagersController {
   @AllowUserStructureRoles("simple", "responsable", "admin")
   @Patch(":usagerRef")
   public async patchUsager(
-    @Body() usagerDto: EditUsagerDto,
+    @Body() usagerDto: CreateUsagerDto,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
