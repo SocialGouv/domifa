@@ -1,3 +1,11 @@
+## [2.70.3](https://github.com/SocialGouv/domifa/compare/v2.70.2...v2.70.3) (2022-02-01)
+
+
+### Bug Fixes
+
+* correction du champs nom ([7985db6](https://github.com/SocialGouv/domifa/commit/7985db693e3d3fdd0602deed1b5e0d6806a39280))
+* retours de review PO ([c0d4212](https://github.com/SocialGouv/domifa/commit/c0d42126e62ee5250230d97770b8d0b9c03d24fc))
+
 ## [2.70.2](https://github.com/SocialGouv/domifa/compare/v2.70.1...v2.70.2) (2022-01-27)
 
 
