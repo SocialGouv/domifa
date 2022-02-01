@@ -1,6 +1,7 @@
 import {
   IsBoolean,
   IsNotEmpty,
+  IsOptional,
   Length,
   Matches,
   ValidateIf,
@@ -26,7 +27,7 @@ export class PreferenceContactDto {
     type: Boolean,
     required: true,
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsBoolean()
   public email!: boolean;
 }

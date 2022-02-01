@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import {
+  IsDateString,
   IsEmpty,
   IsIn,
   IsNotEmpty,
@@ -29,6 +30,7 @@ export class DecisionDto implements UsagerDecision {
   })
   @ValidateIf((o) => o.statut === "VALIDE")
   @IsNotEmpty()
+  @IsDateString()
   public dateDebut!: Date;
 
   @ApiProperty({

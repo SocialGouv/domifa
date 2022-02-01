@@ -2,7 +2,7 @@ import { forwardRef } from "@nestjs/common";
 import { usagerRepository, userStructureRepository } from "../../database";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
-import { CreateUsagerDto } from "../dto/create-usager.dto";
+import { CreateUsagerDto } from "../dto/CreateUsagerDto";
 
 import { CerfaService } from "./cerfa.service";
 import { UsagersService } from "./usagers.service";
