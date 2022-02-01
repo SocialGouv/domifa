@@ -8,7 +8,7 @@ import {
   UserStructureAuthenticated,
   CerfaDocType,
 } from "../../_common/model";
-import { getUsagerRef, generateCerfaDatas } from "../cerfa";
+import { generateCerfaDatas } from "../cerfa";
 
 import pdftk = require("node-pdftk");
 
@@ -18,41 +18,15 @@ export class CerfaService {
     usager: Usager,
     user: UserStructureAuthenticated,
     typeCerfa: CerfaDocType
-  ) {
+  ): Promise<Buffer> {
     const pdfForm =
       typeCerfa === "attestation"
         ? "../../_static/static-docs/attestation.pdf"
         : "../../_static/static-docs/demande.pdf";
-    const usagerRef = getUsagerRef(usager);
+
     const pdfInfos = generateCerfaDatas(usager, user, typeCerfa);
 
     const filePath = path.resolve(__dirname, pdfForm);
-    return pdftk
-      .input(fs.readFileSync(filePath))
-      .fillForm(pdfInfos)
-      .output()
-      .then((buffer: any) => {
-        return buffer;
-      })
-      .catch((err) => {
-        console.error(err);
-        appLogger.error(
-          `CERFA ERROR structure : ${user.structureId} / usager :${usagerRef} `,
-          {
-            sentry: true,
-            extra: {
-              filePath,
-              ...pdfInfos,
-            },
-          }
-        );
-        throw new HttpException(
-          {
-            err,
-            message: "CERFA_ERROR",
-          },
-          HttpStatus.INTERNAL_SERVER_ERROR
-        );
-      });
+    return pdftk.input(fs.readFileSync(filePath)).fillForm(pdfInfos).output();
   }
 }

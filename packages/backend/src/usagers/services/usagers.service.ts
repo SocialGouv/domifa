@@ -182,6 +182,7 @@ export class UsagersService {
       }
 
       decision.dateDebut = new Date(decision.dateDebut);
+      decision.dateFin = new Date(decision.dateFin);
 
       // Si la dom est valide après le dernier passage, on le met à jour
       if (
