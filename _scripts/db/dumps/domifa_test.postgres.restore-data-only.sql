@@ -106,7 +106,6 @@ COPY public.message_sms (uuid, "createdAt", "updatedAt", version, "usagerRef", "
 \.
 
 
-
 --
 -- Data for Name: monitor_batch_process; Type: TABLE DATA; Schema: public; Owner: -
 --
