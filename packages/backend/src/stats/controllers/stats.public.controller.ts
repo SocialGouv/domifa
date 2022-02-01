@@ -92,7 +92,6 @@ export class StatsPublicController {
 
     publicStats.interactionsCountByMonth =
       await this.adminStructuresService.countInteractionsByMonth(regionId);
-
     publicStats.usagersCountByMonth =
       await this.adminStructuresService.countUsagersByMonth(regionId);
 

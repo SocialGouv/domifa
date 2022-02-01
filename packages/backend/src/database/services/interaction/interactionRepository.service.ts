@@ -1,4 +1,5 @@
-import moment = require("moment");
+import { startOfMonth, subYears } from "date-fns";
+
 import { FindConditions, In, LessThan, MoreThan } from "typeorm";
 import {
   Usager,
@@ -247,31 +248,28 @@ async function countInteractionsByMonth(
   regionId?: string,
   interactionType: InteractionType = "courrierOut"
 ) {
-  const startDate = postgresQueryBuilder.formatPostgresDate(
-    moment()
-      .utc()
-      .subtract(2, "month")
-      .subtract(1, "year")
-      .endOf("month")
-      .toDate()
+  const startInterval = postgresQueryBuilder.formatPostgresDate(
+    startOfMonth(subYears(new Date(), 1))
+  );
+  const endInterval = postgresQueryBuilder.formatPostgresDate(
+    startOfMonth(new Date())
   );
 
-  const where: string[] = [startDate, interactionType];
+  const where: string[] = [startInterval, endInterval, interactionType];
 
   let query = `select date_trunc('month', "dateInteraction") as date,
     SUM("nbCourrier") as count
     FROM interactions i
-    WHERE "createdAt" > $1 AND "type" = $2`;
+    WHERE i."createdAt"::date > $1 AND i."createdAt"::date < $2 AND "type" = $3`;
 
   if (regionId) {
     query =
       query +
-      ` and "structureId" in (select id from "structure" s where "region"=$3)`;
+      ` and "structureId" in (select id from "structure" s where "region"=$4)`;
 
     where.push(regionId);
   }
 
-  query = query + ` GROUP BY 1`;
-
+  query = query + ` GROUP BY 1 ORDER BY date ASC`;
   return appTypeormManager.getRepository(InteractionsTable).query(query, where);
 }
