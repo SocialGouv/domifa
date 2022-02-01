@@ -4,8 +4,8 @@ import { appLogger } from "../../../../util";
 import { dataMessageEmailAnonymizer } from "./dataMessageEmailAnonymizer";
 import { dataMessageSmsAnonymizer } from "./dataMessageSmsAnonymizer";
 import { dataStructureAnonymizer } from "./dataStructureAnonymizer";
-import { dataUsagerAnonymizer } from "./dataUsagerAnonymizer";
-import { dataUsagerHistoryAnonymizer } from "./dataUsagerHistoryAnonymizer";
+// import { dataUsagerAnonymizer } from "./dataUsagerAnonymizer";
+// import { dataUsagerHistoryAnonymizer } from "./dataUsagerHistoryAnonymizer";
 import { dataUserStructureAnonymizer } from "./dataUserStructureAnonymizer";
 import { dataUserUsagerAnonymizer } from "./dataUserUsagerAnonymizer";
 

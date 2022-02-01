@@ -76,6 +76,7 @@
 
             <button
               *ngIf="me.role === 'admin'"
+              type="button"
               (click)="deleteStructureDoc(document)"
               class="mx-1 my-1 btn btn-danger"
               [disabled]="loadings.delete.indexOf(document.uuid) !== -1"

@@ -44,7 +44,10 @@ export class UsagersDecisionController {
   ) {
     decision.userName = user.prenom + " " + user.nom;
     decision.userId = user.id;
-    return this.usagersService.setDecision({ uuid: usager.uuid }, decision);
+    return await this.usagersService.setDecision(
+      { uuid: usager.uuid },
+      decision
+    );
   }
 
   @UseGuards(UsagerAccessGuard)

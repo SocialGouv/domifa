@@ -13,6 +13,7 @@ import {
   Max,
   MaxLength,
   Min,
+  ValidateIf,
   ValidateNested,
 } from "class-validator";
 import {
@@ -98,6 +99,7 @@ export class CreateUsagerDto {
     description: "Email de l'usager",
   })
   @IsOptional()
+  @ValidateIf((o) => o.email !== "")
   @IsEmail()
   public email!: string;
 
@@ -106,6 +108,7 @@ export class CreateUsagerDto {
     description: "Téléphone",
   })
   @IsOptional()
+  @ValidateIf((o) => o.phone !== "")
   @Matches(ValidationRegexp.phone)
   public phone!: string;
 
