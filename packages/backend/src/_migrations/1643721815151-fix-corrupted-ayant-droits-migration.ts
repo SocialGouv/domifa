@@ -16,12 +16,11 @@ export class fixCorruptedAyantDroitsMigration1643721815151
         SELECT "uuid", "structureId", "ayantsDroits"
         FROM usager u
         join jsonb_array_elements(u."ayantsDroits") as ad on true
-        WHERE (ad->>'dateNaissance')::text \~ ('^([0-9]|[0-2][0-9]|(3)[0-1])(/)(([0-9]|(0)[0-9])|((1)[0-2]))(/)\\d{4}$')
+        WHERE (ad->>'dateNaissance')::text \~ ('^[0-9]{2}/[0-9]{2}/[0-9]{4}$')
         or
         (ad->>'dateNaissance')::text = null
         or
-        (ad->>'dateNaissance')::text = ''
-    group by uuid
+        (ad->>'dateNaissance')::text = '' group by uuid
     `);
     console.log(usagersToEdit);
 
@@ -31,12 +30,9 @@ export class fixCorruptedAyantDroitsMigration1643721815151
       console.log(usager.ayantsDroits);
 
       for (const ayantDroit of usager.ayantsDroits) {
-        const dateParts = ayantDroit.dateNaissance.toString().split("/");
-        const newDateEn = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-        console.log("Avant : " + ayantDroit.dateNaissance);
-        console.log("Après : " + newDateEn);
-        console.log("------ ");
-        ayantDroit.dateNaissance = new Date(newDateEn);
+        ayantDroit.dateNaissance = editDate(
+          ayantDroit.dateNaissance.toString()
+        );
       }
 
       await (
@@ -59,7 +55,7 @@ export class fixCorruptedAyantDroitsMigration1643721815151
       jsonb_array_elements(u."states") as state
       join jsonb_array_elements (state->'ayantsDroits') as state_ayant_droit on true
       where
-      (state_ayant_droit->>'dateNaissance')::text \~ '^([0-9]|[0-2][0-9]|(3)[0-1])(/)(([0-9]|(0)[0-9])|((1)[0-2]))(/)\\d{4}$'
+      (state_ayant_droit->>'dateNaissance')::text \~ '^[0-9]{2}/[0-9]{2}/[0-9]{4}$'
       or
       (state_ayant_droit->>'dateNaissance')::text = null
       or
@@ -69,14 +65,9 @@ export class fixCorruptedAyantDroitsMigration1643721815151
     for (const usagerState of statesToEdit) {
       for (const state of usagerState.states) {
         for (const ayantDroit of state.ayantsDroits) {
-          const dateParts = ayantDroit.dateNaissance.toString().split("/");
-          const newDateEn = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-
-          console.log("Avant : " + ayantDroit.dateNaissance);
-          console.log("Après : " + newDateEn);
-          console.log("------ ");
-
-          ayantDroit.dateNaissance = new Date(newDateEn);
+          ayantDroit.dateNaissance = editDate(
+            ayantDroit.dateNaissance.toString()
+          );
         }
       }
 
@@ -88,3 +79,16 @@ export class fixCorruptedAyantDroitsMigration1643721815151
 
   public async down(queryRunner: QueryRunner): Promise<void> {}
 }
+
+const editDate = (dateNaissance: string) => {
+  console.log("Avant : " + dateNaissance);
+  if (new RegExp("^[0-9]{2}/[0-9]{2}/[0-9]{4}$").test(dateNaissance)) {
+    const dateParts = dateNaissance.toString().split("/");
+    const newDateEn = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+
+    console.log("Après : " + newDateEn);
+    console.log("------ ");
+    return new Date(newDateEn);
+  }
+  return new Date(dateNaissance);
+};
