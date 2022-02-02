@@ -22,6 +22,7 @@ describe("structureStatsInPeriodGenerator", () => {
       startDateUTC,
       endDateUTCExclusive,
     });
+
     expect(stats.structure.id).toEqual(1);
     expect(stats.period.startDateUTC).toEqual(startDateUTC);
     expect(stats.period.endDateUTC).toEqual(endDateUTC);
