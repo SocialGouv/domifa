@@ -1,3 +1,19 @@
+# [2.71.0](https://github.com/SocialGouv/domifa/compare/v2.70.3...v2.71.0) (2022-02-02)
+
+
+### Bug Fixes
+
+* stats dans la CI ([b76b716](https://github.com/SocialGouv/domifa/commit/b76b716cdce5a96f4c6173a1e5eac1ecfd328b32))
+* **ci:** Mise à jour des DB de test ([452650c](https://github.com/SocialGouv/domifa/commit/452650c5e7ae95d0dc6e6ee8dfea0db4226f0f0b))
+* correction des tests ([9fb6253](https://github.com/SocialGouv/domifa/commit/9fb6253fbab15718a16862293d78886c909ca6f4))
+* **stats:** affichage des stats publics corrigé ([fad4175](https://github.com/SocialGouv/domifa/commit/fad417504eb3753b2086ed6c97938d47a5fbace0))
+* correction des données corrompues ([77b42a9](https://github.com/SocialGouv/domifa/commit/77b42a9dac494fe2fe3dcaa1f26b95b5b08b0b66))
+
+
+### Features
+
+* **api:** Renforcement du traitement des formulaires d'ajout & édition d'usager" ([e9b8912](https://github.com/SocialGouv/domifa/commit/e9b8912399a8ae3ef1bbaa3ad457e561f425b87b))
+
 ## [2.70.3](https://github.com/SocialGouv/domifa/compare/v2.70.2...v2.70.3) (2022-02-01)
 
 
