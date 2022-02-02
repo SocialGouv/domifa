@@ -1,3 +1,10 @@
+## [2.71.1](https://github.com/SocialGouv/domifa/compare/v2.71.0...v2.71.1) (2022-02-02)
+
+
+### Bug Fixes
+
+* **migration:** correction de la migration des stats ([3dc29f6](https://github.com/SocialGouv/domifa/commit/3dc29f68cfa07bcdd1750d57742907ea5f6e633b))
+
 # [2.71.0](https://github.com/SocialGouv/domifa/compare/v2.70.3...v2.71.0) (2022-02-02)
 
 
