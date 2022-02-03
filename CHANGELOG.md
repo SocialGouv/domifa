@@ -1,3 +1,10 @@
+## [2.71.2](https://github.com/SocialGouv/domifa/compare/v2.71.1...v2.71.2) (2022-02-03)
+
+
+### Bug Fixes
+
+* hotfix prod for cerfa generation ([249394a](https://github.com/SocialGouv/domifa/commit/249394ab775259050f8e378ad994cc8362a68693))
+
 ## [2.71.1](https://github.com/SocialGouv/domifa/compare/v2.71.0...v2.71.1) (2022-02-02)
 
 
