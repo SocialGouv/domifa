@@ -85,7 +85,8 @@ export const generateCerfaDatas = (
   }
 
   // Numéro de boite
-  if (user.structure.options.numeroBoite === true) {
+  // HOTFIX en attendant d'investiguer sur l'option des structures qui n'est pas censé être à null
+  if (user.structure.options?.numeroBoite === true) {
     adresseDomicilie = `Boite ${usagerRef}\n${adresseDomicilie}`;
   }
 
