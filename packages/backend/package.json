@@ -55,7 +55,7 @@
     "bcryptjs": "^2.4.3",
     "class-transformer": "0.4.0",
     "class-validator": "^0.13.0",
-    "commander": "^8.0.0",
+    "commander": "^9.0.0",
     "compression": "^1.7.4",
     "date-fns": "^2.25.0",
     "docxtemplater": "^3.19.10",
