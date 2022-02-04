@@ -115,4 +115,13 @@ export class StructureDto {
   @Type(() => StructureAdresseCourrierDto)
   @IsNotEmpty()
   public adresseCourrier!: StructureAdresseCourrierDto;
+
+  @ApiProperty({
+    required: true,
+    type: Object,
+  })
+  @IsNotEmpty()
+  public options: {
+    numeroBoite: boolean;
+  };
 }
