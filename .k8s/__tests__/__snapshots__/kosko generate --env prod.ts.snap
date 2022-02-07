@@ -554,7 +554,7 @@ spec:
         team: domifa
     spec:
       containers:
-        - image: metabase/metabase:v0.38.6
+        - image: metabase/metabase:v0.41.6
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -578,11 +578,11 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              cpu: 500m
-              memory: 1024Mi
+              cpu: 1000m
+              memory: 2048Mi
             requests:
-              cpu: 100m
-              memory: 256Mi
+              cpu: 500m
+              memory: 512Mi
           startupProbe:
             failureThreshold: 12
             httpGet:
