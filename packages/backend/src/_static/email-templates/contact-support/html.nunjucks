@@ -3,7 +3,7 @@
 
 {% block content %}
 
-  <h2>Un nouveau message a été envoyé à Domifa</h2>
+  <h2>Un nouveau message a été envoyé à DomiFa</h2>
 
   <p>
     <strong>Structure existante : </strong>
