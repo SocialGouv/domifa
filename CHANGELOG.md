@@ -1,3 +1,10 @@
+## [2.71.3](https://github.com/SocialGouv/domifa/compare/v2.71.2...v2.71.3) (2022-02-08)
+
+
+### Bug Fixes
+
+* **deps:** update dependency commander to v9 ([59cb866](https://github.com/SocialGouv/domifa/commit/59cb866a75f1f16fa1c38a5ca3aecf870d27167c))
+
 ## [2.71.2](https://github.com/SocialGouv/domifa/compare/v2.71.1...v2.71.2) (2022-02-03)
 
 
