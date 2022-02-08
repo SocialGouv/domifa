@@ -80,7 +80,9 @@
                 id="name"
                 cleanStr
                 autocomplete="name"
-                placeholder="2 caractères minimum"
+                [placeholder]="
+                  this.me?.structure?.nom || '2 caractères minimum'
+                "
                 formControlName="name"
                 [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
                 required
@@ -109,6 +111,7 @@
                 id="email"
                 formControlName="email"
                 autocomplete="email"
+                [placeholder]="this.me?.email || 'mon-email@ma-structure.com'"
                 class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
                 [attr.aria-invalid]="submitted && f.email.errors"
@@ -156,7 +159,7 @@
                   (change)="onFileChange($event)"
                 />
                 <small id="pjHelp" class="form-text text-muted">
-                  Formats autorisés PDF, JPG ou PNG, pdf ou docx (6mo maxi)
+                  Formats autorisés PDF, DOCX, XLSX, ODT, JPG ou PNG (6mo maxi)
                 </small>
                 <label
                   class="custom-file-label"

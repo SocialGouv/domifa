@@ -32,16 +32,6 @@ export const mimeTypes = {
     "image/png",
     "application/pdf",
   ],
-  CONTACT_SUPPORT_PJ: [
-    "image/jpg",
-    "image/jpeg",
-    "image/bmp",
-    "image/gif",
-    "image/png",
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    "application/vnd.oasis.opendocument.text",
-    "application/pdf",
-  ],
 };
 
 export const extensions = {
@@ -58,15 +48,7 @@ export const extensions = {
     ".ots",
     ".ods",
   ],
-  CONTACT_SUPPORT_PJ: [
-    ".jpg",
-    ".jpeg",
-    ".png",
-    ".pdf",
-    ".odt",
-    ".doc",
-    ".docx",
-  ],
+
   IMPORT: [".xls", ".xlsx", ".ots", ".ods"],
   USAGER_DOC: [".jpg", ".jpeg", ".png", ".pdf", ".gif", ".bmp"],
 };
@@ -102,7 +84,6 @@ export function validateUpload(
   uploadType:
     | "STRUCTURE_CUSTOM_DOC"
     | "STRUCTURE_DOC"
-    | "CONTACT_SUPPORT_PJ"
     | "USAGER_DOC"
     | "IMPORT",
   req: any,

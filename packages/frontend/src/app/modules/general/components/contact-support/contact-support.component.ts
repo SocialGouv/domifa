@@ -53,32 +53,16 @@ export class ContactSupportComponent implements OnInit {
     });
     this.me = this.authService.currentUserValue;
 
-    let hasAccount = false;
-    let email = "";
-    let name = "";
-    let structureName = "";
-    let userId = "";
-    let structureId = "";
-
-    if (this.me) {
-      email = this.me.structure.email;
-      name = this.me.nom;
-      structureName = this.me.structure.nom;
-      structureId = this.me.structure.id.toString();
-      userId = this.me.id.toString();
-      hasAccount = true;
-    }
-
     this.contactForm = this.formBuilder.group({
-      content: ["", [Validators.required, Validators.minLength(10)]],
-      email: [email, [Validators.required, Validators.email]],
+      content: [null, [Validators.required, Validators.minLength(10)]],
+      email: [null, [Validators.required, Validators.email]],
       file: [""],
-      fileSource: ["", [validateUpload("CONTACT_SUPPORT_PJ", false)]],
-      hasAccount: [hasAccount, [Validators.required]],
-      name: [name, [Validators.required, Validators.minLength(2)]],
-      structureId: [structureId, []],
-      structureName: [structureName, []],
-      userId: [userId, []],
+      fileSource: ["", [validateUpload("STRUCTURE_DOC", false)]],
+      hasAccount: [this.me ? true : false, [Validators.required]],
+      name: ["", [Validators.required, Validators.minLength(2)]],
+      structureId: [null, []],
+      structureName: [null, []],
+      userId: [null, []],
     });
   }
 
