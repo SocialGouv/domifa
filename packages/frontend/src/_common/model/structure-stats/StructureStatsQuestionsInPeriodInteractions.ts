@@ -8,5 +8,6 @@ export type StructureStatsQuestionsInPeriodInteractions = {
   recommandeIn: number;
   recommandeOut: number;
   visite: number;
+  visiteOut: number; // Passages avec distribution de courriers, colis ou recommandés
   npai: number;
 };

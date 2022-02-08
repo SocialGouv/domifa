@@ -53,9 +53,6 @@ async function buildStatsInPeriod({
       endDateUTCExclusive,
       structureId: structure.id,
     });
-
-  console.log(startDateUTC);
-  console.log(endDateUTCExclusive);
   const interactions =
     await structureStatsQuestionsInPeriodInteractionsRepository.getStats({
       startDateUTC,
@@ -81,5 +78,6 @@ async function buildStatsInPeriod({
       interactions,
     },
   };
+
   return stats;
 }

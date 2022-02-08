@@ -53,6 +53,7 @@ export class StatsPrivateController {
     ) {
       throw new HttpException("Invalid structureId", HttpStatus.FORBIDDEN);
     }
+
     return this.buildStatsInPeriod({
       ...statsDto,
       structureId: statsDto.structureId,

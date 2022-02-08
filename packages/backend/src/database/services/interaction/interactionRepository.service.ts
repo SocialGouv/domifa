@@ -1,6 +1,6 @@
 import { startOfMonth, subYears } from "date-fns";
 
-import { FindConditions, In, LessThan, MoreThan } from "typeorm";
+import { Between, FindConditions, In, LessThan, MoreThan } from "typeorm";
 import {
   Usager,
   UserStructure,
@@ -35,6 +35,7 @@ export const interactionRepository = {
   countInteractionsByMonth,
   countPendingInteraction,
   countPendingInteractionsIn,
+  countVisiteOut,
 };
 
 async function findLastInteraction({
@@ -272,4 +273,38 @@ async function countInteractionsByMonth(
 
   query = query + ` GROUP BY 1 ORDER BY date ASC`;
   return appTypeormManager.getRepository(InteractionsTable).query(query, where);
+}
+
+async function countVisiteOut({
+  dateInteractionAfter,
+  dateInteractionBefore,
+  structureId,
+}: {
+  dateInteractionAfter: Date;
+  dateInteractionBefore: Date;
+  structureId: number;
+}): Promise<number> {
+  // Première requête : rassemble les interactions sortantes par minute pour rassembler les éventuelles erreurs
+  // Deuxième requête : On fait la somme de toutes ces interactions
+  const query = `
+  WITH visite_out_counts_by_minute(minute, minute_col_count) AS (
+    SELECT  date_trunc('minute', "dateInteraction"), 1
+      FROM interactions as i
+      WHERE "structureId" = ${structureId}
+      AND "event"='create'
+      AND "dateInteraction" BETWEEN '${dateInteractionAfter.toDateString()}' AND '${dateInteractionBefore.toDateString()}'
+      AND  i.type in ('courrierOut', 'colisOut', 'recommandeOut')
+    GROUP BY date_trunc('minute', "dateInteraction"))
+    SELECT SUM(minute_col_count) as "visiteOut"
+    FROM visite_out_counts_by_minute
+  `;
+
+  const res = await appTypeormManager
+    .getRepository(InteractionsTable)
+    .query(query);
+
+  if (res.length > 0) {
+    return res[0].visiteOut ? parseInt(res[0].visiteOut, 10) : 0;
+  }
+  return 0;
 }
