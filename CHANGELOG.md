@@ -1,3 +1,12 @@
+## [2.71.4](https://github.com/SocialGouv/domifa/compare/v2.71.3...v2.71.4) (2022-02-08)
+
+
+### Bug Fixes
+
+* contact-form corrections ([71d3730](https://github.com/SocialGouv/domifa/commit/71d373030c94a537def2f0bc89f226c17aba21b7))
+* **mails:** correction des entetes ([9b992c8](https://github.com/SocialGouv/domifa/commit/9b992c8ef354add58c369be7f7cc4c2f96ca86ea))
+* dto + add migration to fix data ([fd45155](https://github.com/SocialGouv/domifa/commit/fd4515555a80bae962fdf8f85857e14a7cfe3dd6))
+
 ## [2.71.3](https://github.com/SocialGouv/domifa/compare/v2.71.2...v2.71.3) (2022-02-08)
 
 
