@@ -1,3 +1,10 @@
+# [2.72.0](https://github.com/SocialGouv/domifa/compare/v2.71.4...v2.72.0) (2022-02-08)
+
+
+### Features
+
+* **stats:** Ajout d'une stat de passages avec distribution de courriers, colis ou recommandé ([d96ed75](https://github.com/SocialGouv/domifa/commit/d96ed75486d45749cffcccfa38a07dee79bd48b1))
+
 ## [2.71.4](https://github.com/SocialGouv/domifa/compare/v2.71.3...v2.71.4) (2022-02-08)
 
 
