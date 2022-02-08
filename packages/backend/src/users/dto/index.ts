@@ -1,3 +1,4 @@
+// @index('./*', f => `export * from '${f.path}'`)
 export * from "./admin-login.dto";
 export * from "./edit-password.dto";
 export * from "./email.dto";

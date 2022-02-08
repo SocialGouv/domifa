@@ -1,3 +1,4 @@
+import { ContactSupportComponent } from "./modules/general/components/contact-support/contact-support.component";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AdminGuard, CanEditPortailUsagerGuard } from "./guards";
@@ -86,6 +87,7 @@ export const routes: Routes = [
   },
   { path: "", component: HomeComponent },
   { path: "faq", component: FaqComponent },
+  { path: "contact", component: ContactSupportComponent },
   { path: "news", component: NewsComponent },
   { path: "mentions-legales", component: MentionsLegalesComponent },
   { path: "confidentialite", component: PolitiqueComponent },

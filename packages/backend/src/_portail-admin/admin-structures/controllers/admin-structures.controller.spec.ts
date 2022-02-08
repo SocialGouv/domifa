@@ -1,5 +1,6 @@
 import { forwardRef } from "@nestjs/common";
 import { InteractionsModule } from "../../../interactions/interactions.module";
+import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
 import { SmsModule } from "../../../sms/sms.module";
 import { StructuresModule } from "../../../structures/structure.module";
 import { UsagersModule } from "../../../usagers/usagers.module";
@@ -22,7 +23,7 @@ describe("Dashboard AdminStructuresController", () => {
         forwardRef(() => InteractionsModule),
         forwardRef(() => SmsModule),
       ],
-      providers: [AdminStructuresService],
+      providers: [AdminStructuresService, AppLogsService],
     });
     controller = context.module.get<AdminStructuresController>(
       AdminStructuresController

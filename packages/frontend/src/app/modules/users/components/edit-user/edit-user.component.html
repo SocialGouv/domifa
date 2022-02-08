@@ -201,14 +201,18 @@
               required
             />
             <div class="input-group-append">
-              <span class="input-group-text" (click)="toggleOldPassword()">
+              <button
+                type="button"
+                class="input-group-text"
+                (click)="toggleOldPassword()"
+              >
                 <fa-icon
                   title="Voir / cacher le mot de passe"
                   [icon]="
                     hideOldPassword ? ['far', 'eye'] : ['far', 'eye-slash']
                   "
                 ></fa-icon>
-              </span>
+              </button>
             </div>
           </div>
         </div>
@@ -229,12 +233,16 @@
               required
             />
             <div class="input-group-append">
-              <span class="input-group-text" (click)="togglePassword()">
+              <button
+                type="button"
+                class="input-group-text"
+                (click)="togglePassword()"
+              >
                 <fa-icon
                   title="Voir / cacher le mot de passe"
                   [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
                 ></fa-icon>
-              </span>
+              </button>
             </div>
           </div>
 
@@ -336,7 +344,8 @@
             />
 
             <div class="input-group-append">
-              <span
+              <button
+                type="button"
                 class="input-group-text"
                 (click)="togglePasswordConfirmation()"
               >
@@ -346,7 +355,7 @@
                     hideConfirmPassword ? ['far', 'eye'] : ['far', 'eye-slash']
                   "
                 ></fa-icon>
-              </span>
+              </button>
             </div>
           </div>
 

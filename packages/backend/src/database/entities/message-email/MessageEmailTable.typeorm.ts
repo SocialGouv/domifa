@@ -1,5 +1,6 @@
+import { MessageEmailAttachement } from "./MessageEmailAttachement.type";
 import { Column, Entity } from "typeorm";
-import { Bytea } from "../../../util";
+
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import { MessageEmail } from "./MessageEmail.type";
 import { MessageEmailContent } from "./MessageEmailContent.type";
@@ -19,8 +20,10 @@ export class MessageEmailTable
 
   @Column({ type: "timestamptz" })
   initialScheduledDate: Date;
+
   @Column({ type: "timestamptz" })
   nextScheduledDate: Date;
+
   @Column({ type: "timestamptz", nullable: true })
   sendDate: Date;
 
@@ -29,14 +32,15 @@ export class MessageEmailTable
 
   @Column({ type: "integer", default: 0 })
   errorCount: number;
+
   @Column({ type: "text", nullable: true })
   errorMessage?: string;
 
   @Column({ type: "jsonb", nullable: true })
   sendDetails: MessageEmailSendDetails;
 
-  @Column({ type: "bytea", nullable: true })
-  public attachments: Bytea; // binary content, use hexEncoder to read/write
+  @Column({ type: "jsonb", nullable: true })
+  public attachments?: MessageEmailAttachement[]; // path of files
 
   public constructor(entity?: Partial<MessageEmailTable>) {
     super(entity);

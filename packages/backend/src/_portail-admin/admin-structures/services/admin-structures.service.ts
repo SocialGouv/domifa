@@ -1,5 +1,7 @@
 import { Injectable } from "@nestjs/common";
+import { startOfMonth, subMonths, subYears } from "date-fns";
 import { In, Repository } from "typeorm";
+
 import {
   appTypeormManager,
   interactionRepository,
@@ -442,11 +444,13 @@ export class AdminStructuresService {
     regionId?: string,
     interactionType: InteractionType = "courrierOut"
   ) {
-    const usagersByMonth = await interactionRepository.countInteractionsByMonth(
-      regionId,
-      interactionType
-    );
-    return this.formatStatsByMonth(usagersByMonth, "interactions");
+    const interactionsByMonth =
+      await interactionRepository.countInteractionsByMonth(
+        regionId,
+        interactionType
+      );
+
+    return this.formatStatsByMonth(interactionsByMonth, "interactions");
   }
 
   private formatStatsByMonth(
@@ -457,32 +461,33 @@ export class AdminStructuresService {
     }[],
     elementToCount: "interactions" | "domicilies"
   ): StatsByMonth {
-    const results = {
-      "sept.": 0,
-      "oct.": 0,
-      "nov.": 0,
-      "déc.": 0,
-      "janv.": 0,
-      "févr.": 0,
-      mars: 0,
-      "avr.": 0,
-      mai: 0,
-      juin: 0,
-      "juil.": 0,
-      août: 0,
-    };
+    // Initialisation des résultats pours les 12 derniers mois
+    // 0 par défaut pour les stats
+    const resultsObjects: { [key: string]: number } = {};
+    const startInterval = startOfMonth(subYears(new Date(), 1));
 
+    for (let i = 12; i > 0; i--) {
+      const monthToAdd = subMonths(startInterval, i).toLocaleString("fr-fr", {
+        month: "short",
+      });
+      resultsObjects[monthToAdd] = 0;
+    }
+
+    // Parcours des résulats, ajout du mois
     for (const result of rawResults) {
       const monthKey = new Date(result.date).toLocaleString("fr-fr", {
         month: "short",
       });
-      results[monthKey] =
+
+      // Pour les domiciliés, on compte les ayant-droits
+      resultsObjects[monthKey] =
         elementToCount === "domicilies"
           ? parseInt(result.count, 10) + parseInt(result.ayantsdroits, 10)
           : parseInt(result.count, 10);
     }
 
-    const statsByMonth: StatsByMonth = Object.entries(results).map(
+    // Mise au format pour l'outil de charts côté frontend
+    const statsByMonth: StatsByMonth = Object.entries(resultsObjects).map(
       ([key, value]) => ({ name: key, value })
     );
 

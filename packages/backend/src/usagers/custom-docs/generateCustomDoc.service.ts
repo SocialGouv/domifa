@@ -15,10 +15,10 @@ export function generateCustomDoc(
 ): Buffer {
   const iModule = InspectModule();
 
-  const zip = new PizZip(content);
   let doc: Docxtemplater;
 
   try {
+    const zip = new PizZip(content);
     doc = new docxTemplater(zip, { modules: [iModule], linebreaks: true });
   } catch (error) {
     appLogger.error(`DocTemplater - Opening Doc impossible`, {
@@ -31,17 +31,6 @@ export function generateCustomDoc(
   }
 
   doc.setData(docValues);
-
-  try {
-    doc.render();
-    return doc.getZip().generate({ type: "nodebuffer" });
-  } catch (error) {
-    appLogger.error(`DocTemplater - Rendering documentimpossible`, {
-      sentry: true,
-      extra: {
-        error,
-      },
-    });
-    throw error;
-  }
+  doc.render();
+  return doc.getZip().generate({ type: "nodebuffer" });
 }

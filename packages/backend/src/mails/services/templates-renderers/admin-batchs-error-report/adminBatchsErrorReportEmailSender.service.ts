@@ -42,7 +42,7 @@ async function sendMail(model: AdminBatchsErrorReportModel): Promise<void> {
     to,
   };
 
-  messageEmailSender.sendMessageLater(messageContent, {
+  await messageEmailSender.sendMessageLater(messageContent, {
     messageEmailId,
   });
 }

@@ -5,7 +5,7 @@ export const REGIONS_DEF: {
   regionCode: string;
   regionName: string;
   regionId: string;
-  departements: any[];
+  departements: { departementCode: string; departementName: string }[];
 }[] = [
   {
     regionCode: "01",

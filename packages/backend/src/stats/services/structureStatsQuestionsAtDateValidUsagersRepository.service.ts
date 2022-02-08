@@ -105,7 +105,7 @@ async function getStats({
       WHEN date_part('year',age($3, u2."dateNaissance" at time zone 'utc'))::int < 65  THEN 'T_60_64'
       WHEN date_part('year',age($3, u2."dateNaissance" at time zone 'utc'))::int < 70  THEN 'T_65_69'
       WHEN date_part('year',age($3, u2."dateNaissance" at time zone 'utc'))::int < 75  THEN 'T_70_74'
-    ELSE 'T_75_PLUS'
+      ELSE 'T_75_PLUS'
     end as tranche_age
     from usager u2
     ) as usager_tranche on usager_tranche.uuid = u.uuid

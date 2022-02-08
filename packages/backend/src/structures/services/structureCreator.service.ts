@@ -11,7 +11,7 @@ import { UserDto } from "../../users/dto/user.dto";
 import { userStructureCreator } from "../../users/services/user-structure-creator.service";
 import { appLogger } from "../../util/AppLogger.service";
 import { StructureCommon } from "../../_common/model";
-import { departementHelper } from "../departement-helper.service";
+import { departementHelper } from "./departement-helper.service";
 import { StructureDto } from "../dto/structure.dto";
 
 export const structureCreatorService = {

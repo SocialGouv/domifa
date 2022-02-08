@@ -18,7 +18,7 @@ import {
   UserStructure,
   UserStructureProfile,
 } from "../../_common/model";
-import { CreateUsagerDto } from "../dto/create-usager.dto";
+import { CreateUsagerDto } from "../dto/CreateUsagerDto";
 import { RdvDto } from "../dto/rdv.dto";
 import { usagerHistoryStateManager } from "./usagerHistoryStateManager.service";
 import { usagersCreator } from "./usagersCreator.service";
@@ -182,6 +182,7 @@ export class UsagersService {
       }
 
       decision.dateDebut = new Date(decision.dateDebut);
+      decision.dateFin = new Date(decision.dateFin);
 
       // Si la dom est valide après le dernier passage, on le met à jour
       if (

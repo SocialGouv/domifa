@@ -1,20 +1,21 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsObject } from "class-validator";
+import { Type } from "class-transformer";
+import { IsNotEmpty, ValidateNested } from "class-validator";
 import { UserDto } from "../../users/dto/user.dto";
 import { StructureDto } from "./structure.dto";
 
 export class StructureWithUserDto {
-  @ApiProperty({
-    type: StructureDto,
-    required: true,
-  })
-  @IsObject()
+  @ValidateNested()
+  @Type(() => StructureDto)
+  @IsNotEmpty()
   public structure: StructureDto;
 
   @ApiProperty({
-    type: UserDto,
+    type: Object,
     required: true,
   })
-  @IsObject()
+  @ValidateNested()
+  @Type(() => UserDto)
+  @IsNotEmpty()
   public user: UserDto;
 }

@@ -115,11 +115,13 @@ orm .card {
   word-break: break-word;
 }
 
-.label {
+.label,
+legend {
   display: block;
   font-style: normal;
   font-weight: 600;
   padding: 8px 0;
+  font-size: 1.05rem;
 }
 
 .form-check label {

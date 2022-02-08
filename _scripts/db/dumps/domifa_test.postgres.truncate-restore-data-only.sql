@@ -5,6 +5,8 @@
 -- Pour générer les truncates:
 -- SELECT 'TRUNCATE TABLE public.' ||  tablename || ' RESTART IDENTITY CASCADE;' FROM pg_tables WHERE tableowner='domifa_user' and tablename not like 'pg_%' and tablename not like 'sql_%' and tablename <> 'migrations';
 
+TRUNCATE TABLE public.app_log RESTART IDENTITY CASCADE;
+TRUNCATE TABLE public.contact_support RESTART IDENTITY CASCADE;
 TRUNCATE TABLE public.interactions RESTART IDENTITY CASCADE;
 TRUNCATE TABLE public.message_email RESTART IDENTITY CASCADE;
 TRUNCATE TABLE public.message_sms RESTART IDENTITY CASCADE;
@@ -16,7 +18,8 @@ TRUNCATE TABLE public.user_structure RESTART IDENTITY CASCADE;
 TRUNCATE TABLE public.user_structure_security RESTART IDENTITY CASCADE;
 TRUNCATE TABLE public.user_usager RESTART IDENTITY CASCADE;
 TRUNCATE TABLE public.user_usager_security RESTART IDENTITY CASCADE;
-TRUNCATE TABLE public.structure RESTART IDENTITY CASCADE;--
+TRUNCATE TABLE public.structure RESTART IDENTITY CASCADE;
+--
 -- PostgreSQL database dump
 --
 
@@ -33,6 +36,22 @@ SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
+
+--
+-- Data for Name: app_log; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.app_log (uuid, "createdAt", "updatedAt", version, "userId", "usagerRef", "structureId", action) FROM stdin;
+\.
+
+
+--
+-- Data for Name: contact_support; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.contact_support (uuid, "createdAt", "updatedAt", version, "userId", "structureId", content, status, attachement, email, category, name, comments) FROM stdin;
+\.
+
 
 --
 -- Data for Name: structure; Type: TABLE DATA; Schema: public; Owner: -
@@ -86,14 +105,6 @@ f3b49608-cb17-4fdb-b793-8da431cd6ffe	2021-06-28 13:25:35.998265+00	2021-06-28 13
 b68794a5-1d02-48ca-9cc7-8b43b4a4bbf0	2021-06-28 13:25:28.404973+00	2021-12-24 00:46:32.485168+00	2	2021-06-28 15:25:28.404	2	1	courrierIn	7	1	Patrick Roméro		b2c26e55-ab37-457d-b307-6fe161050a9b	create	\N	f3b49608-cb17-4fdb-b793-8da431cd6ffe
 fb8dde95-b421-4cf0-b205-9e940d9641e5	2021-06-28 13:25:28.512802+00	2021-12-24 00:46:32.491031+00	2	2021-06-28 15:25:28.512	1	1	colisIn	7	1	Patrick Roméro		b2c26e55-ab37-457d-b307-6fe161050a9b	create	\N	53a50f2d-c906-421e-be21-8857dfca97fc
 0a0dbf1d-055f-47db-b2ae-013c611033e8	2021-06-28 13:25:33.70286+00	2021-12-24 00:46:32.491031+00	2	2021-06-28 15:25:33.702	1	1	colisIn	7	1	Patrick Roméro	\N	b2c26e55-ab37-457d-b307-6fe161050a9b	create	\N	53a50f2d-c906-421e-be21-8857dfca97fc
-\.
-
-
---
--- Data for Name: log; Type: TABLE DATA; Schema: public; Owner: -
---
-
-COPY public.log (uuid, "createdAt", "updatedAt", version, "userId", "usagerRef", "structureId", action) FROM stdin;
 \.
 
 

@@ -14,5 +14,4 @@ export type StructureDoc = AppEntity & {
   label: string;
   path?: string;
   structureId: number;
-  tags?: { [key: string]: string };
 };

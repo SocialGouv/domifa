@@ -7,6 +7,7 @@
       <button
         title="Supprimer cette demande"
         class="btn btn-danger"
+        type="button"
         id="delete-usager"
         *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
         (click)="open(deleteRenewConfirmation)"

@@ -1,3 +1,151 @@
+## [2.71.4](https://github.com/SocialGouv/domifa/compare/v2.71.3...v2.71.4) (2022-02-08)
+
+
+### Bug Fixes
+
+* contact-form corrections ([71d3730](https://github.com/SocialGouv/domifa/commit/71d373030c94a537def2f0bc89f226c17aba21b7))
+* **mails:** correction des entetes ([9b992c8](https://github.com/SocialGouv/domifa/commit/9b992c8ef354add58c369be7f7cc4c2f96ca86ea))
+* dto + add migration to fix data ([fd45155](https://github.com/SocialGouv/domifa/commit/fd4515555a80bae962fdf8f85857e14a7cfe3dd6))
+
+## [2.71.3](https://github.com/SocialGouv/domifa/compare/v2.71.2...v2.71.3) (2022-02-08)
+
+
+### Bug Fixes
+
+* **deps:** update dependency commander to v9 ([59cb866](https://github.com/SocialGouv/domifa/commit/59cb866a75f1f16fa1c38a5ca3aecf870d27167c))
+
+## [2.71.2](https://github.com/SocialGouv/domifa/compare/v2.71.1...v2.71.2) (2022-02-03)
+
+
+### Bug Fixes
+
+* hotfix prod for cerfa generation ([249394a](https://github.com/SocialGouv/domifa/commit/249394ab775259050f8e378ad994cc8362a68693))
+
+## [2.71.1](https://github.com/SocialGouv/domifa/compare/v2.71.0...v2.71.1) (2022-02-02)
+
+
+### Bug Fixes
+
+* **migration:** correction de la migration des stats ([3dc29f6](https://github.com/SocialGouv/domifa/commit/3dc29f68cfa07bcdd1750d57742907ea5f6e633b))
+
+# [2.71.0](https://github.com/SocialGouv/domifa/compare/v2.70.3...v2.71.0) (2022-02-02)
+
+
+### Bug Fixes
+
+* stats dans la CI ([b76b716](https://github.com/SocialGouv/domifa/commit/b76b716cdce5a96f4c6173a1e5eac1ecfd328b32))
+* **ci:** Mise à jour des DB de test ([452650c](https://github.com/SocialGouv/domifa/commit/452650c5e7ae95d0dc6e6ee8dfea0db4226f0f0b))
+* correction des tests ([9fb6253](https://github.com/SocialGouv/domifa/commit/9fb6253fbab15718a16862293d78886c909ca6f4))
+* **stats:** affichage des stats publics corrigé ([fad4175](https://github.com/SocialGouv/domifa/commit/fad417504eb3753b2086ed6c97938d47a5fbace0))
+* correction des données corrompues ([77b42a9](https://github.com/SocialGouv/domifa/commit/77b42a9dac494fe2fe3dcaa1f26b95b5b08b0b66))
+
+
+### Features
+
+* **api:** Renforcement du traitement des formulaires d'ajout & édition d'usager" ([e9b8912](https://github.com/SocialGouv/domifa/commit/e9b8912399a8ae3ef1bbaa3ad457e561f425b87b))
+
+## [2.70.3](https://github.com/SocialGouv/domifa/compare/v2.70.2...v2.70.3) (2022-02-01)
+
+
+### Bug Fixes
+
+* correction du champs nom ([7985db6](https://github.com/SocialGouv/domifa/commit/7985db693e3d3fdd0602deed1b5e0d6806a39280))
+* retours de review PO ([c0d4212](https://github.com/SocialGouv/domifa/commit/c0d42126e62ee5250230d97770b8d0b9c03d24fc))
+
+## [2.70.2](https://github.com/SocialGouv/domifa/compare/v2.70.1...v2.70.2) (2022-01-27)
+
+
+### Bug Fixes
+
+* templates d'email ([6b65b89](https://github.com/SocialGouv/domifa/commit/6b65b895751a826c4cdb912f07c0c500eecac301))
+
+## [2.70.1](https://github.com/SocialGouv/domifa/compare/v2.70.0...v2.70.1) (2022-01-27)
+
+
+### Bug Fixes
+
+* **stats:** affichage des statistiques ([dfe379d](https://github.com/SocialGouv/domifa/commit/dfe379dbf3a801796f2fd55a246c0d2acbd90e97))
+
+# [2.70.0](https://github.com/SocialGouv/domifa/compare/v2.69.5...v2.70.0) (2022-01-26)
+
+
+### Bug Fixes
+
+* correction de la DB de test ([57e7176](https://github.com/SocialGouv/domifa/commit/57e7176dd5b675cd81993e55453c1160182e4e8c))
+* message renvoyé par le formulaire ([d9a3172](https://github.com/SocialGouv/domifa/commit/d9a3172a07e84d286be4fdfe2c9998b42b004f77))
+
+
+### Features
+
+* **contact-support:** Création d'un formulaire de contact depuis Domifa ([d87382f](https://github.com/SocialGouv/domifa/commit/d87382f05a690c1afd476932e6f8db79ee660c5b))
+* **stats:** affichage de toutes les régions ([0bc6fc6](https://github.com/SocialGouv/domifa/commit/0bc6fc6e429be880151c6a5be385dfe3f2fb8b60))
+
+## [2.69.5](https://github.com/SocialGouv/domifa/compare/v2.69.4...v2.69.5) (2022-01-26)
+
+
+### Bug Fixes
+
+* affichage des docs ([0a6e3b0](https://github.com/SocialGouv/domifa/commit/0a6e3b090837a15be6c671ee1d0c9b579f57b29b))
+* ajout d'une page dédiée pour télécharger les docs ([8420496](https://github.com/SocialGouv/domifa/commit/84204964beab52abdb9fbef6231e4bf6c5d9cc1e))
+* correction d'erreurs dans le commit ([712f5f8](https://github.com/SocialGouv/domifa/commit/712f5f82eeb062c7a0661c7f3156686ea9fa8937))
+
+## [2.69.4](https://github.com/SocialGouv/domifa/compare/v2.69.3...v2.69.4) (2022-01-26)
+
+
+### Bug Fixes
+
+* **k8s:** fix preprod secrets ([2ea8cd4](https://github.com/SocialGouv/domifa/commit/2ea8cd4db3cbe14c3f3c17d854902ebd0e3dc2bc))
+
+## [2.69.3](https://github.com/SocialGouv/domifa/compare/v2.69.2...v2.69.3) (2022-01-26)
+
+
+### Bug Fixes
+
+* bug login first time ([fcb2975](https://github.com/SocialGouv/domifa/commit/fcb2975c131457366fc6fed3909e85f9bb7297f9))
+
+## [2.69.2](https://github.com/SocialGouv/domifa/compare/v2.69.1...v2.69.2) (2022-01-26)
+
+
+### Bug Fixes
+
+* bug de création de structure ([e4ca08e](https://github.com/SocialGouv/domifa/commit/e4ca08e5bb0bbb0344228ae6369156350da695cc))
+* **structures:** correction du bug de création de structure ([aba6c95](https://github.com/SocialGouv/domifa/commit/aba6c95c50c0359a03006afdb1867183ebf92237))
+
+## [2.69.1](https://github.com/SocialGouv/domifa/compare/v2.69.0...v2.69.1) (2022-01-25)
+
+
+### Bug Fixes
+
+* **stats:** correction des titres ([bbe1b89](https://github.com/SocialGouv/domifa/commit/bbe1b892a5f68e3bdd360bfdb2d67f88bfbe5a7b))
+
+# [2.69.0](https://github.com/SocialGouv/domifa/compare/v2.68.0...v2.69.0) (2022-01-25)
+
+
+### Bug Fixes
+
+* affichage des stats ([4e6b29a](https://github.com/SocialGouv/domifa/commit/4e6b29a8d8c101ac130c2d624defabd427aa2af8))
+* tests unitaires ([1dc267f](https://github.com/SocialGouv/domifa/commit/1dc267f1de4fe36a761d08694278c3f1d29b357f))
+
+
+### Features
+
+* new stats sms page back office ([7d349ea](https://github.com/SocialGouv/domifa/commit/7d349eaa7fd6fcaa9713d4d20a8229a4d19f2372))
+
+# [2.68.0](https://github.com/SocialGouv/domifa/compare/v2.67.1...v2.68.0) (2022-01-25)
+
+
+### Bug Fixes
+
+* mise à jour des docs ([4c061fc](https://github.com/SocialGouv/domifa/commit/4c061fcb98a7780e9c9bf50d30367b191b34176a))
+* **custom-docs:** Affichage de la personne qui a créer le fichier ([c86d7ba](https://github.com/SocialGouv/domifa/commit/c86d7ba01f7dcfb00cbe74d9d42f54370fa57603))
+* **docs:** correction de l'envoi de multi-docs ([8538eca](https://github.com/SocialGouv/domifa/commit/8538ecace1275d0c3c87cc44e043a473e253bad5))
+* build du backend ([5f4e8e5](https://github.com/SocialGouv/domifa/commit/5f4e8e522191870e272ddae9a8b7c893d5145243))
+
+
+### Features
+
+* **custom-docs:** Ajout du transfert et de la procuration dans les docs ([f655d5c](https://github.com/SocialGouv/domifa/commit/f655d5cb389dda74d4175c8ab4b26c0c50aa39e1))
+
 ## [2.67.1](https://github.com/SocialGouv/domifa/compare/v2.67.0...v2.67.1) (2022-01-23)
 
 

@@ -34,7 +34,7 @@ export type DomifaConfig = {
     basePath: string; // UPLOADS_FOLDER
   };
   dev: {
-    printEnv: boolean;
+    printEnv: boolean; // DOMIFA_PRINT_ENV
     printConfig: boolean;
     swaggerEnabled: boolean; // DOMIFA_SWAGGER_ENABLE
     sentry: {

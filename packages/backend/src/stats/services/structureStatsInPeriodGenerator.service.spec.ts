@@ -22,6 +22,7 @@ describe("structureStatsInPeriodGenerator", () => {
       startDateUTC,
       endDateUTCExclusive,
     });
+
     expect(stats.structure.id).toEqual(1);
     expect(stats.period.startDateUTC).toEqual(startDateUTC);
     expect(stats.period.endDateUTC).toEqual(endDateUTC);
@@ -54,9 +55,9 @@ describe("structureStatsInPeriodGenerator", () => {
       },
       interactions: {
         appel: 0,
-        colisIn: 7,
+        colisIn: 7, // 7 = 4 de base + 3 générés par les test
         colisOut: 0,
-        courrierIn: 1,
+        courrierIn: 1, // 4 de base - 3 distribués dans les tests
         courrierOut: 0,
         npai: 0,
         recommandeIn: 3,

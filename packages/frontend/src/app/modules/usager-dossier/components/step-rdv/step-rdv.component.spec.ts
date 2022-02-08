@@ -25,7 +25,6 @@ describe("StepRdvComponent", () => {
           HttpClientTestingModule,
           RouterTestingModule,
           BrowserAnimationsModule,
-
           SharedModule,
           ReactiveFormsModule,
           FormsModule,

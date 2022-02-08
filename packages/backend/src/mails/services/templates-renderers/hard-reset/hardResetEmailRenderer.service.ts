@@ -1,6 +1,5 @@
-import moment = require("moment");
-import { DomifaMailTemplateRendering } from "../../../../mail-generator/model";
-import { domifaMailTemplateRenderer } from "../../../../mail-generator/services/domifaMailTemplateRenderer.service";
+import { DomifaMailTemplateRendering } from "../../../model";
+import { domifaMailTemplateRenderer } from "../../domifaMailTemplateRenderer.service";
 
 async function renderTemplate(model: {
   prenom: string;

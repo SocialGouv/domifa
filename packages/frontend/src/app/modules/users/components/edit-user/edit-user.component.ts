@@ -44,7 +44,7 @@ export class EditUserComponent implements OnInit {
     return this.userForm.controls;
   }
 
-  get p() {
+  get p(): { [key: string]: AbstractControl } {
     return this.passwordForm.controls;
   }
 

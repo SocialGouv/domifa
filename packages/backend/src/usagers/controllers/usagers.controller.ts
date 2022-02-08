@@ -4,7 +4,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpException,
   HttpStatus,
   Param,
   Patch,
@@ -44,7 +43,6 @@ import {
 } from "../../_common/model";
 import {
   CreateUsagerDto,
-  EditUsagerDto,
   EntretienDto,
   PreferenceContactDto,
   ProcurationDto,
@@ -58,7 +56,8 @@ import {
   usagerHistoryStateManager,
   UsagersService,
 } from "../services";
-import { LogsService } from "../../logs/logs.service";
+import { AppLogsService } from "../../modules/app-logs/app-logs.service";
+import { generateCerfaDatas } from "../cerfa";
 
 @Controller("usagers")
 @ApiTags("usagers")
@@ -68,7 +67,7 @@ export class UsagersController {
   constructor(
     private readonly usagersService: UsagersService,
     private readonly cerfaService: CerfaService,
-    private logsService: LogsService
+    private appLogsService: AppLogsService
   ) {}
 
   @Get()
@@ -162,7 +161,7 @@ export class UsagersController {
   @AllowUserStructureRoles("simple", "responsable", "admin")
   @Patch(":usagerRef")
   public async patchUsager(
-    @Body() usagerDto: EditUsagerDto,
+    @Body() usagerDto: CreateUsagerDto,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
@@ -296,7 +295,7 @@ export class UsagersController {
       structureId: user.structureId,
     });
 
-    await this.logsService.create({
+    await this.appLogsService.create({
       userId: user.id,
       usagerRef: usager.ref,
       structureId: user.structureId,
@@ -446,7 +445,7 @@ export class UsagersController {
               usagerUUID: usager.uuid,
               generateNewPassword,
             });
-          await this.logsService.create({
+          await this.appLogsService.create({
             userId: user.id,
             usagerRef: usager.ref,
             structureId: user.structureId,
@@ -546,21 +545,31 @@ export class UsagersController {
   ) {
     const usager = await usagerRepository.findOne({ uuid: currentUsager.uuid });
 
-    return this.cerfaService
-      .attestation(usager, user, typeCerfa)
-      .then((buffer) => {
-        res.setHeader("content-type", "application/pdf");
-        res.send(buffer);
-      })
-      .catch((err) => {
-        throw new HttpException(
-          {
-            err,
-            message: "CERFA_ERROR",
+    try {
+      const buffer = await this.cerfaService.attestation(
+        usager,
+        user,
+        typeCerfa
+      );
+      res.setHeader("content-type", "application/pdf");
+      return res.send(buffer);
+    } catch (err) {
+      console.error(err);
+      const pdfInfos = generateCerfaDatas(usager, user, typeCerfa);
+      console.error(pdfInfos);
+      appLogger.error(
+        `CERFA ERROR structure : ${user.structureId} / usager :${usager.ref} `,
+        {
+          sentry: true,
+          extra: {
+            ...pdfInfos,
           },
-          HttpStatus.INTERNAL_SERVER_ERROR
-        );
-      });
+        }
+      );
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "CERFA_ERROR" });
+    }
   }
 
   @UseGuards(UsagerAccessGuard)

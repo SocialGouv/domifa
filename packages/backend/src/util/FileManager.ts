@@ -48,6 +48,7 @@ export const extensions = {
     ".ots",
     ".ods",
   ],
+
   IMPORT: [".xls", ".xlsx", ".ots", ".ods"],
   USAGER_DOC: [".jpg", ".jpeg", ".png", ".pdf", ".gif", ".bmp"],
 };

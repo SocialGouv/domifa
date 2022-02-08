@@ -37,7 +37,8 @@
           [ngClass]="{ 'is-invalid': f.password.dirty && f.password.errors }"
         />
         <div class="input-group-append">
-          <span
+          <button
+            type="button"
             [attr.aria-label]="
               (hidePassword ? 'Afficher' : 'Masquer') +
               ' ou masquer le mot de passe'
@@ -50,7 +51,7 @@
             <fa-icon
               [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
             ></fa-icon>
-          </span>
+          </button>
         </div>
       </div>
       <div

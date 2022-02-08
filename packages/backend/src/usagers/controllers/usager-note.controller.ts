@@ -29,8 +29,6 @@ import { CreateNoteDto } from "../dto/create-note.dto";
 @Controller("note")
 @UseGuards(AuthGuard("jwt"))
 export class UsagerNoteController {
-  constructor() {}
-
   @Post(":usagerRef")
   @UseGuards(UsagerAccessGuard)
   public async createNote(

@@ -1,4 +1,6 @@
 import { EntityManager } from "typeorm";
+
+import { appTypeormManager } from "../_postgres";
 import {
   Structure,
   StructureCommon,
@@ -18,6 +20,7 @@ export const structureRepository = {
       entityManager,
     }),
   checkHardResetToken,
+  getStructureWithSmsEnabled,
 };
 
 async function checkHardResetToken({
@@ -38,4 +41,14 @@ async function checkHardResetToken({
     where: `"hardReset" @> '{"token": "${token}", "userId": ${userId}}'`,
     params: [],
   });
+}
+
+async function getStructureWithSmsEnabled() {
+  const query = `SELECT id
+                 FROM "structure"
+                 WHERE sms->>'enabledByDomifa' = 'true'
+                 AND sms->>'enabledByStructure' = 'true'
+                 ORDER BY "createdAt" ASC`;
+
+  return appTypeormManager.getRepository(StructureTable).query(query);
 }

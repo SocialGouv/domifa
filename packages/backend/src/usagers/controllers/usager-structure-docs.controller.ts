@@ -31,7 +31,8 @@ import {
   generateCustomDoc,
 } from "../custom-docs";
 import { StructureDocService } from "./../../structures/services/structure-doc.service";
-import { LogsService } from "../../logs/logs.service";
+import { AppLogsService } from "../../modules/app-logs/app-logs.service";
+import { appLogger } from "../../util";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("usagers-structure-docs")
@@ -40,7 +41,7 @@ import { LogsService } from "../../logs/logs.service";
 export class UsagerStructureDocsController {
   constructor(
     private structureDocService: StructureDocService,
-    private logsService: LogsService
+    private appLogsService: AppLogsService
   ) {}
 
   @ApiOperation({ summary: "Télécharger un document pré-rempli" })
@@ -75,12 +76,21 @@ export class UsagerStructureDocsController {
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    const docValues = buildCustomDoc({
-      usager,
-      structure: user.structure,
-    });
+    try {
+      const docValues = buildCustomDoc({
+        usager,
+        structure: user.structure,
+      });
 
-    res.end(generateCustomDoc(content, docValues));
+      const docGenerated = generateCustomDoc(content, docValues);
+      return res.end(docGenerated);
+    } catch (e) {
+      appLogger.error(content);
+
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "CANNOT_COMPLETE_DOC" });
+    }
   }
 
   @ApiOperation({
@@ -137,6 +147,7 @@ export class UsagerStructureDocsController {
             ESPACE_DOM_MDP: extraUrlParametersFromClient?.ESPACE_DOM_MDP,
           }
         : {};
+
     const docValues = buildCustomDoc({
       usager,
       structure: user.structure,
@@ -144,13 +155,22 @@ export class UsagerStructureDocsController {
     });
 
     if (docType === "acces_espace_domicilie") {
-      await this.logsService.create({
+      await this.appLogsService.create({
         userId: user.id,
         usagerRef: usager.ref,
         structureId: user.structureId,
         action: "DOWNLOAD_PASSWORD_PORTAIL",
       });
     }
-    res.end(generateCustomDoc(content, docValues));
+
+    try {
+      const docGenerated = generateCustomDoc(content, docValues);
+      return res.end(docGenerated);
+    } catch (e) {
+      appLogger.error(content);
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "CANNOT_COMPLETE_DOMIFA_DOCS" });
+    }
   }
 }

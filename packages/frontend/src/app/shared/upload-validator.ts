@@ -41,7 +41,12 @@ export const mimeTypes = {
 };
 
 export function validateUpload(
-  uploadType: "STRUCTURE_DOC" | "STRUCTURE_CUSTOM_DOC" | "USAGER_DOC" | "IMPORT"
+  uploadType:
+    | "STRUCTURE_DOC"
+    | "STRUCTURE_CUSTOM_DOC"
+    | "USAGER_DOC"
+    | "IMPORT",
+  required = false
 ): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const file = control.value;
@@ -67,6 +72,7 @@ export function validateUpload(
       }
       return null;
     }
-    return { required: true };
+
+    return required ? { required: true } : null;
   };
 }

@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+
 import { structureCommonRepository, structureRepository } from "../../database";
 import { structureLightRepository } from "../../database/services/structure/structureLightRepository.service";
 import {
@@ -7,9 +8,9 @@ import {
   StructureLight,
   UserStructure,
 } from "../../_common/model";
-import { departementHelper } from "../departement-helper.service";
+import { departementHelper } from "./departement-helper.service";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
-import { StructureEditDto } from "../dto/structure-edit.dto";
+import { StructureDto } from "../dto";
 
 export interface StructureQuery {
   codePostal?: string;
@@ -19,7 +20,7 @@ export interface StructureQuery {
 @Injectable()
 export class StructuresService {
   public async patch(
-    structureDto: StructureEditDto,
+    structureDto: StructureDto,
     user: Pick<UserStructure, "structureId">
   ): Promise<StructureCommon> {
     structureDto.departement = departementHelper.getDepartementFromCodePostal(
@@ -41,7 +42,14 @@ export class StructuresService {
   ): Promise<StructureCommon> {
     return structureCommonRepository.updateOne(
       { id: user.structureId },
-      { sms: structureSmsDto }
+      {
+        sms: {
+          senderName: structureSmsDto.senderName,
+          senderDetails: structureSmsDto.senderName,
+          enabledByDomifa: structureSmsDto.enabledByDomifa,
+          enabledByStructure: structureSmsDto.enabledByStructure,
+        },
+      }
     );
   }
 

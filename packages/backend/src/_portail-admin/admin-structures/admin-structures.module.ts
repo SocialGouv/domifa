@@ -1,4 +1,5 @@
 import { forwardRef, Module } from "@nestjs/common";
+import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { InteractionsModule } from "../../interactions/interactions.module";
 import { SmsModule } from "../../sms/sms.module";
 import { StructuresModule } from "../../structures/structure.module";
@@ -7,8 +8,9 @@ import { UsersModule } from "../../users/users.module";
 import { AdminStructuresController } from "./controllers/admin-structures.controller";
 import { AdminStructuresService } from "./services";
 
+import { AdminStructuresDocsController } from "./controllers/admin-structures-docs.controller";
 @Module({
-  controllers: [AdminStructuresController],
+  controllers: [AdminStructuresController, AdminStructuresDocsController],
   exports: [AdminStructuresService],
   imports: [
     forwardRef(() => UsersModule),
@@ -17,6 +19,6 @@ import { AdminStructuresService } from "./services";
     forwardRef(() => InteractionsModule),
     forwardRef(() => SmsModule),
   ],
-  providers: [AdminStructuresService],
+  providers: [AdminStructuresService, AppLogsService],
 })
 export class AdminStructuresModule {}

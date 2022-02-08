@@ -55,6 +55,10 @@ function isAccountLockedForOperation({
   const eventsRecentHistory = eventsHistory.filter(
     (x) => new Date(x.date) > oneDayAgo
   );
+  if (domifaConfig().envId === "dev") {
+    return false;
+  }
+
   if (
     eventsRecentHistory.length >= STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT
   ) {

@@ -1,4 +1,4 @@
-<div class="carte" *ngIf="statsByRegion">
+<div class="carte" *ngIf="statsRegionsValues && statsByRegion">
   <svg
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
@@ -8,37 +8,37 @@
     xml:space="preserve"
   >
     <g class="regions">
-      <ng-container *ngFor="let stat of statsByRegion">
+      <ng-container *ngFor="let regionMap of STATS_REGIONS_FOR_MAP | keyvalue">
         <path
-          [routerLink]="['/stats/region/' + regionsUrls[stat.region]]"
-          [ngClass]="stat.region === selectedRegion ? 'region-hover' : ''"
-          [attr.d]="STATS_REGIONS_FOR_MAP[stat.region].path"
-          (mouseover)="selectRegion(stat.region)"
-          *ngIf="STATS_REGIONS_DOM_TOM.indexOf(stat.region) === -1"
+          [routerLink]="['/stats/region/' + regionsUrls[regionMap.key]]"
+          [ngClass]="regionMap.key === selectedRegion ? 'region-hover' : ''"
+          [attr.d]="regionMap.value.path"
+          (mouseover)="selectRegion(regionMap.key)"
+          *ngIf="STATS_REGIONS_DOM_TOM.indexOf(regionMap.key) === -1"
         />
       </ng-container>
 
-      <ng-container *ngFor="let stat of statsByRegion">
+      <ng-container *ngFor="let regionMap of STATS_REGIONS_FOR_MAP | keyvalue">
         <foreignObject
           *ngIf="
-            STATS_REGIONS_DOM_TOM.indexOf(stat.region) === -1 &&
-            selectedRegion === stat.region
+            STATS_REGIONS_DOM_TOM.indexOf(regionMap.key) === -1 &&
+            selectedRegion === regionMap.key
           "
-          [attr.x]="STATS_REGIONS_FOR_MAP[stat.region].x - 85"
-          [attr.y]="STATS_REGIONS_FOR_MAP[stat.region].y - 54"
+          [attr.x]="STATS_REGIONS_FOR_MAP[regionMap.key].x - 85"
+          [attr.y]="STATS_REGIONS_FOR_MAP[regionMap.key].y - 54"
           height="80"
           width="220"
           @fadeInOut
           class="text-center"
         >
-          <a [routerLink]="['/stats/region/' + regionsUrls[stat.region]]">
+          <a [routerLink]="['/stats/region/' + regionsUrls[regionMap.key]]">
             <div class="map-tooltip">
               <div class="text-black">
-                {{ regions[stat.region] ? regions[stat.region] : stat.region }}
+                {{ regions[regionMap.key] }}
               </div>
 
               <a
-                [routerLink]="['/stats/region/' + regionsUrls[stat.region]]"
+                [routerLink]="['/stats/region/' + regionsUrls[regionMap.key]]"
                 class="region-name font-weight-bold"
               >
                 Voir le détail
@@ -47,18 +47,20 @@
           </a>
         </foreignObject>
         <foreignObject
-          (mouseover)="selectRegion(stat.region)"
-          *ngIf="STATS_REGIONS_DOM_TOM.indexOf(stat.region) === -1"
-          [attr.x]="STATS_REGIONS_FOR_MAP[stat.region].x"
-          [attr.y]="STATS_REGIONS_FOR_MAP[stat.region].y"
+          (mouseover)="selectRegion(regionMap.key)"
+          *ngIf="STATS_REGIONS_DOM_TOM.indexOf(regionMap.key) === -1"
+          [attr.x]="STATS_REGIONS_FOR_MAP[regionMap.key].x"
+          [attr.y]="STATS_REGIONS_FOR_MAP[regionMap.key].y"
           width="50"
           height="50"
         >
           <a
-            [routerLink]="['/stats/region/' + regionsUrls[stat.region]]"
+            [routerLink]="['/stats/region/' + regionsUrls[regionMap.key]]"
             class="region-name font-weight-bold"
           >
-            <div class="map-number">{{ stat.count }}</div>
+            <div class="map-number">
+              {{ statsRegionsValues[regionMap.key] }}
+            </div>
           </a>
         </foreignObject>
       </ng-container>
@@ -66,14 +68,14 @@
   </svg>
 </div>
 
-<div class="carte" *ngIf="statsByRegion">
+<div class="carte" *ngIf="statsRegionsValues && statsByRegion">
   <g class="regions dom-tom">
     <svg
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 545 163"
-      enable-background="new 0 0 545 163"
+      enable-background="new 0 0 550 170"
       xml:space="preserve"
     >
       <ng-container *ngFor="let domTomDept of STATS_REGIONS_DOM_TOM">
@@ -84,48 +86,56 @@
         />
       </ng-container>
 
-      <ng-container *ngFor="let stat of statsByRegion">
+      <ng-container *ngFor="let domTomDept of STATS_REGIONS_DOM_TOM">
         <foreignObject
           *ngIf="
-            STATS_REGIONS_DOM_TOM.indexOf(stat.region) !== -1 &&
-            selectedRegion === stat.region
+            STATS_REGIONS_DOM_TOM.indexOf(domTomDept) !== -1 &&
+            selectedRegion === domTomDept
           "
-          [attr.x]="STATS_REGIONS_FOR_MAP[stat.region].x - 85"
-          [attr.y]="STATS_REGIONS_FOR_MAP[stat.region].y - 54"
+          [attr.x]="STATS_REGIONS_FOR_MAP[domTomDept].x - 85"
+          [attr.y]="STATS_REGIONS_FOR_MAP[domTomDept].y - 54"
           height="80"
           width="220"
           @fadeInOut
           class="text-center"
         >
-          <a [routerLink]="['/stats/region/' + regionsUrls[stat.region]]">
+          <a
+            [routerLink]="['/stats/region/' + regionsUrls[domTomDept]]"
+            *ngIf="statsRegionsValues[domTomDept] !== 0"
+          >
             <div class="map-tooltip">
               <div>
-                {{ regions[stat.region] ? regions[stat.region] : stat.region }}
+                {{ regions[domTomDept] }}
               </div>
               <a
-                [routerLink]="['/stats/region/' + regionsUrls[stat.region]]"
+                [routerLink]="['/stats/region/' + regionsUrls[domTomDept]]"
                 class="region-name font-weight-bold"
               >
                 Voir le détail
               </a>
             </div>
           </a>
+          <div class="map-tooltip" *ngIf="statsRegionsValues[domTomDept] === 0">
+            <div>
+              {{ regions[domTomDept] }}
+            </div>
+          </div>
         </foreignObject>
         <foreignObject
           @fadeInOut
-          (mouseover)="selectRegion(stat.region)"
-          *ngIf="STATS_REGIONS_DOM_TOM.indexOf(stat.region) !== -1"
-          [attr.x]="STATS_REGIONS_FOR_MAP[stat.region].x"
-          [attr.y]="STATS_REGIONS_FOR_MAP[stat.region].y"
+          (mouseover)="selectRegion(domTomDept)"
+          *ngIf="STATS_REGIONS_DOM_TOM.indexOf(domTomDept) !== -1"
+          [attr.x]="STATS_REGIONS_FOR_MAP[domTomDept].x"
+          [attr.y]="STATS_REGIONS_FOR_MAP[domTomDept].y"
           height="50"
           width="50"
         >
           <a
-            [routerLink]="['/stats/region/' + regionsUrls[stat.region]]"
+            [routerLink]="['/stats/region/' + regionsUrls[domTomDept]]"
             class="region-name font-weight-bold"
             @fadeInOut
           >
-            <div class="map-number">{{ stat.count }}</div>
+            <div class="map-number">{{ statsRegionsValues[domTomDept] }}</div>
           </a>
         </foreignObject>
       </ng-container>

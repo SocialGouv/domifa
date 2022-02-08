@@ -3,22 +3,25 @@
 
 {% block content %}
 
-     <p>
-          <b>{{errorsCount}} erreurs</b> ont été rencontrées lors des traitements sur l'environnement <b>"{{envId}}"</b>
-     </p>
+  <p>
+    <b>{{errorsCount}} erreurs</b> ont été rencontrées lors des traitements sur l'environnement <b>"{{envId}}"</b>
+  </p>
 
-     <p><br/>Dernier message d'erreur: 
+  <p>
+    <br/>
+    Dernier message d'erreur:
      <br/>> <i>
-               <b>{{lastErrorMessage}}</b>
-          </i>
-     </p>
+      <b>{{lastErrorMessage}}</b>
+    </i>
+  </p>
 
-     <p<br/>Date de la dernière erreur: <b>{{lastErrorDate}}</b>
-     </p>
+  <p<br/>Date de la dernière erreur: <b>{{lastErrorDate}}</b>
+</p>
 
-     <p><br/>Process en erreur: <b>{{processIds}}</b>
-     </p>
+<p>
+  <br/>Process en erreur: <b>{{processIds}}</b>
+</p>
 
-     {{ helpers.redirectedMessage(toSkipString) }}
+{{ helpers.redirectedMessage(toSkipString) }}
 
 {% endblock %}

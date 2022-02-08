@@ -52,6 +52,7 @@ export class StructureEditFormComponent implements OnInit {
       this.structure.structureType === "asso" ? [Validators.required] : null;
 
     this.structureForm = this.formBuilder.group({
+      structureType: [this.structure.structureType, [Validators.required]],
       adresse: [this.structure.adresse, [Validators.required]],
       agrement: [this.structure.agrement, assoRequired],
       capacite: [this.structure.capacite, []],

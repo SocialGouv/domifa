@@ -21,12 +21,13 @@ import {
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
 } from "../../_common/model";
-import { StructureEditPortailUsagerDto } from "../dto";
+import { StructureDto, StructureEditPortailUsagerDto } from "../dto";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
-import { StructureEditDto } from "../dto/structure-edit.dto";
+
 import { structureDeletorService } from "../services/structureDeletor.service";
 import { StructureHardResetService } from "../services/structureHardReset.service";
 import { StructuresService } from "../services/structures.service";
+import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 
 @Controller("structures")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -34,7 +35,8 @@ import { StructuresService } from "../services/structures.service";
 export class StructuresController {
   constructor(
     private structureHardResetService: StructureHardResetService,
-    private structureService: StructuresService
+    private structureService: StructuresService,
+    private appLogsService: AppLogsService
   ) {}
 
   @ApiBearerAuth()
@@ -67,7 +69,7 @@ export class StructuresController {
   @AllowUserStructureRoles("admin")
   @Patch()
   public async patchStructure(
-    @Body() structureDto: StructureEditDto,
+    @Body() structureDto: StructureDto,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
     return this.structureService.patch(structureDto, user);
@@ -87,7 +89,20 @@ export class StructuresController {
       );
     }
 
+    const action =
+      user.structure.sms.enabledByDomifa &&
+      user.structure.sms.enabledByStructure
+        ? "ENABLE_SMS_BY_STRUCTURE"
+        : "DISABLE_SMS_BY_STRUCTURE";
+    this.appLogsService.create({
+      userId: user._userId,
+      usagerRef: null,
+      structureId: user.structureId,
+      action,
+    });
+
     structureSmsDto.enabledByDomifa = user.structure.sms.enabledByDomifa;
+
     return this.structureService.patchSmsParams(structureSmsDto, user);
   }
 

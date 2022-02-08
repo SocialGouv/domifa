@@ -10,12 +10,14 @@ import {
   AdminStructuresStatsComponent,
   AdminStructuresTableComponent,
 } from "./components";
+import { AdminStructuresDocsComponent } from './components/admin-structures-docs/admin-structures-docs.component';
 
 @NgModule({
   declarations: [
     AdminStructuresListComponent,
     AdminStructuresStatsComponent,
     AdminStructuresTableComponent,
+    AdminStructuresDocsComponent,
   ],
   imports: [
     CommonModule,

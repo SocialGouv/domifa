@@ -16,7 +16,8 @@ import { StatsModule } from "./stats/stats.module";
 import { StructuresModule } from "./structures/structure.module";
 import { UsagersModule } from "./usagers/usagers.module";
 import { UsersModule } from "./users/users.module";
-import { LogsModule } from "./logs/logs.module";
+import { AppLogsModule } from "./modules/app-logs/app-logs.module";
+import { ContactSupportModule } from "./modules/contact-support/contact-support.module";
 
 @Module({
   controllers: [HealthController],
@@ -26,9 +27,9 @@ import { LogsModule } from "./logs/logs.module";
       debug: domifaConfig().dev.sentry.debugModeEnabled,
       dsn: domifaConfig().dev.sentry.sentryDsn,
       environment: domifaConfig().envId,
-      logLevel: domifaConfig().dev.sentry.debugModeEnabled
-        ? 3 // Verbose,
-        : undefined,
+      logLevels: domifaConfig().dev.sentry.debugModeEnabled
+        ? ["log", "error", "warn", "debug", "verbose"] // Verbose,
+        : ["log", "error", "warn", "debug"],
       release: "domifa@" + domifaConfig().version, // default
     }),
     AuthModule,
@@ -43,7 +44,8 @@ import { LogsModule } from "./logs/logs.module";
     TerminusModule,
     PortailUsagerModule,
     PortailAdminModule,
-    LogsModule,
+    AppLogsModule,
+    ContactSupportModule,
   ],
   providers: [PostgresHealthIndicator],
 })

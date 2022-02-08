@@ -38,7 +38,7 @@ import {
 } from "../../_common/model";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
-import { LogsService } from "../../logs/logs.service";
+import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
 @ApiTags("docs")
@@ -48,7 +48,7 @@ export class DocsController {
   constructor(
     private readonly usagersService: UsagersService,
     private readonly docsService: DocumentsService,
-    private logsService: LogsService
+    private appLogsService: AppLogsService
   ) {}
 
   @ApiOperation({ summary: "Upload de pièces jointes" })
@@ -83,7 +83,7 @@ export class DocsController {
   )
   public async uploadDoc(
     @Param("usagerRef") usagerRef: number,
-    @UploadedFile() file: any,
+    @UploadedFile() file: Express.Multer.File,
     @Body() postData: any,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: UsagerLight,
@@ -186,12 +186,13 @@ export class DocsController {
         .json({ message: "DOC_UPDATE_USAGER_IMPOSSIBLE" });
     }
 
-    await this.logsService.create({
+    await this.appLogsService.create({
       userId: user.id,
       usagerRef,
       structureId: user.structureId,
       action: "SUPPRIMER_PIECE_JOINTE",
     });
+
     return res.status(HttpStatus.OK).json(updatedUsager.docs);
   }
 
