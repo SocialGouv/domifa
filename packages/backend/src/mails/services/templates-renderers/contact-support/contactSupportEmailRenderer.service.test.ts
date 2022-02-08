@@ -9,7 +9,7 @@ describe("guideUtilisateurEmailRenderer", () => {
     const model: ContactSupport = {
       userId: 12,
       structureId: 5,
-      content: `Un nouveau message a été envoyé à Domifa·
+      content: `Un nouveau message a été envoyé à DomiFa·
         Structure existante :   Oui··
         Nom : Nom de la structure·
         Email : un-contact-par-mail@test.com·
