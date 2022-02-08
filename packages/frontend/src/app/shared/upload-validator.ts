@@ -38,16 +38,6 @@ export const mimeTypes = {
     "image/png",
     "application/pdf",
   ],
-  CONTACT_SUPPORT_PJ: [
-    "image/jpg",
-    "image/jpeg",
-    "image/bmp",
-    "image/gif",
-    "image/png",
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    "application/vnd.oasis.opendocument.text",
-    "application/pdf",
-  ],
 };
 
 export function validateUpload(
@@ -55,7 +45,6 @@ export function validateUpload(
     | "STRUCTURE_DOC"
     | "STRUCTURE_CUSTOM_DOC"
     | "USAGER_DOC"
-    | "CONTACT_SUPPORT_PJ"
     | "IMPORT",
   required = false
 ): ValidatorFn {

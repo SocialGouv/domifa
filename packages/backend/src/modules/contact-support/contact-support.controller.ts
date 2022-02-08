@@ -30,7 +30,7 @@ export class ContactSupportController {
         if (!file) {
           cb(null, true);
         }
-        if (!validateUpload("CONTACT_SUPPORT_PJ", req, file)) {
+        if (!validateUpload("STRUCTURE_DOC", req, file)) {
           return cb("INCORRECT_FORMAT", false);
         }
         return cb(null, true);
