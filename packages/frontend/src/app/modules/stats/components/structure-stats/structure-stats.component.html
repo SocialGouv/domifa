@@ -821,7 +821,20 @@
             </td>
           </tr>
           <tr>
-            <th scope="row">Passage enregistré</th>
+            <th colspan="2" scope="col">Passage enregistré</th>
+          </tr>
+          <tr>
+            <th scope="row" class="soustable">
+              Passage avec remise de courrier
+            </th>
+            <td class="stats-table-value">
+              {{ stats.data.interactions.visiteOut }}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" class="soustable">
+              Passage sans remise de courrier
+            </th>
             <td class="stats-table-value">
               {{ stats.data.interactions.visite }}
             </td>

@@ -65,6 +65,11 @@ async function getStats({
       structureId,
       interactionType: "visite",
     }),
+    visiteOut: await interactionRepository.countVisiteOut({
+      dateInteractionBefore: endDateUTCExclusive,
+      dateInteractionAfter: startDateUTC,
+      structureId,
+    }),
     npai: await countInteractions({
       dateInteractionBefore: endDateUTCExclusive,
       dateInteractionAfter: startDateUTC,
@@ -91,7 +96,6 @@ async function countInteractions({
     interactionType === "visite" ||
     interactionType === "npai"
   ) {
-    //
     return interactionRepository.count({
       where: {
         structureId,
