@@ -3189,10 +3189,10 @@
   resolved "https://registry.yarnpkg.com/@sqltools/formatter/-/formatter-1.2.3.tgz#1185726610acc37317ddab11c3c7f9066966bd20"
   integrity sha512-O3uyB/JbkAEMZaP3YqyHH7TMnex7tWyCbCI4EfJdOCoN6HIhqdJBWTM6aCCiWQ/5f5wxjgU735QAIpJbjDvmzg==
 
-"@swimlane/ngx-charts@^19.0.0":
-  version "19.2.0"
-  resolved "https://registry.yarnpkg.com/@swimlane/ngx-charts/-/ngx-charts-19.2.0.tgz#42b888a6eeb7926199272343d271705ff694588e"
-  integrity sha512-FJuDuwxti8U6BfMC0m/KfcyBqbn6mmkAX7NANbcoUaNUrngq+JBZYGVJhM66RDt54m82S7IIZV5kOK/jDTry+w==
+"@swimlane/ngx-charts@^20.0.0":
+  version "20.0.1"
+  resolved "https://registry.yarnpkg.com/@swimlane/ngx-charts/-/ngx-charts-20.0.1.tgz#6bcbf31b1ba88a53bc5796ed23e7ddf65189a493"
+  integrity sha512-gceTOLm4vZHBvNPyNAFqQf96xM+NLy56nRGX1cGR0dBQJq/0PtexrbEttg3AiZy5DvyXNF6rNdeZynUMZUi61Q==
   dependencies:
     "@types/d3-shape" "^2.0.0"
     d3-array "^2.9.1"

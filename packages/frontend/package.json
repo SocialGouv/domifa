@@ -36,7 +36,7 @@
     "@schematics/angular": "^13.0.3",
     "@sentry/angular": "^6.13.2",
     "@sentry/browser": "^6.7.2",
-    "@swimlane/ngx-charts": "^19.0.0",
+    "@swimlane/ngx-charts": "^20.0.0",
     "angular-user-idle": "^2.2.7",
     "core-js": "^3.19.1",
     "date-fns": "^2.24.0",
