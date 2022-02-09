@@ -1,3 +1,10 @@
+## [2.72.1](https://github.com/SocialGouv/domifa/compare/v2.72.0...v2.72.1) (2022-02-09)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @swimlane/ngx-charts to v20 ([d5b4cee](https://github.com/SocialGouv/domifa/commit/d5b4ceec15b8675c93b0a5a1e0fe259ba0a2d672))
+
 # [2.72.0](https://github.com/SocialGouv/domifa/compare/v2.71.4...v2.72.0) (2022-02-08)
 
 
