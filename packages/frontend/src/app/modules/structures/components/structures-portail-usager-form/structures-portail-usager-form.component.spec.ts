@@ -5,6 +5,7 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { USER_STRUCTURE_MOCK } from "../../../../../_common/mocks";
 
 import { StructuresPortailUsagerFormComponent } from "./structures-portail-usager-form.component";
 
@@ -19,9 +20,7 @@ describe("StructuresPortailUsagerFormComponent", () => {
           NgbModule,
           ReactiveFormsModule,
           FormsModule,
-
           HttpClientTestingModule,
-
           RouterTestingModule,
         ],
         providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
@@ -34,6 +33,9 @@ describe("StructuresPortailUsagerFormComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StructuresPortailUsagerFormComponent);
     component = fixture.componentInstance;
+    component.me = USER_STRUCTURE_MOCK;
+    component.structure = USER_STRUCTURE_MOCK.structure;
+
     fixture.detectChanges();
   });
 

@@ -68,40 +68,44 @@
             </fieldset>
 
             <div class="form-group required">
-              <label for="name" *ngIf="f.hasAccount.value === true"
-                >Nom de votre structure</label
-              >
-              <label for="name" *ngIf="f.hasAccount.value === false"
-                >Votre nom</label
-              >
+              <label for="name">Votre nom</label>
               <input
                 type="text"
                 class="form-control"
                 id="name"
                 cleanStr
                 autocomplete="name"
-                [placeholder]="
-                  this.me?.structure?.nom || '2 caractères minimum'
-                "
+                [placeholder]="'2 caractères minimum'"
                 formControlName="name"
                 [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
                 required
+                [attr.aria-invalid]="submitted && f.name.errors"
+              />
+
+              <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                Veuillez indiquer votre nom
+              </div>
+            </div>
+            <div class="form-group required">
+              <label for="structureName">Nom de votre structure</label>
+              <input
+                type="text"
+                class="form-control"
+                id="structureName"
+                cleanStr
+                [placeholder]="'2 caractères minimum'"
+                formControlName="structureName"
+                [attr.aria-invalid]="submitted && f.structureName.errors"
+                [ngClass]="{
+                  'is-invalid': submitted && f.structureName.errors
+                }"
+                required
               />
               <div
-                *ngIf="
-                  submitted && f.hasAccount.value === true && f.name.errors
-                "
+                *ngIf="submitted && f.structureName.errors"
                 class="invalid-feedback"
               >
                 Veuillez indiquer le nom de votre structure
-              </div>
-              <div
-                *ngIf="
-                  submitted && f.hasAccount.value === false && f.name.errors
-                "
-                class="invalid-feedback"
-              >
-                Veuillez indiquer votre nom
               </div>
             </div>
             <div class="form-group required">
@@ -111,7 +115,7 @@
                 id="email"
                 formControlName="email"
                 autocomplete="email"
-                [placeholder]="this.me?.email || 'mon-email@ma-structure.com'"
+                placeholder="mon-email@email.com"
                 class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
                 [attr.aria-invalid]="submitted && f.email.errors"
@@ -130,6 +134,7 @@
                 id="content"
                 [ngClass]="{ 'is-invalid': submitted && f.content.errors }"
                 rows="6"
+                minlength="10"
                 required
               ></textarea>
               <div

@@ -44,6 +44,9 @@ export class ContactSupportTable
   public name: string;
 
   @Column({ type: "text", nullable: true })
+  public structureName: string;
+
+  @Column({ type: "text", nullable: true })
   public comments: string;
 
   public constructor(entity?: Partial<ContactSupportTable>) {

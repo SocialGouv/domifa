@@ -11,15 +11,19 @@
   </p>
 
   <p>
-    <strong>Nom : </strong>{{ name }}
+    <strong>Nom : </strong> {{ name }}
   </p>
 
   <p>
-    <strong>Email : </strong>{{ email }}
+    <strong>Nom de la structure : </strong> {{ structureName }}
   </p>
 
   <p>
-    <strong>Contenu du message: </strong><br><br>{{ content }}
+    <strong>Email : </strong> {{ email }}
+  </p>
+
+  <p>
+    <strong>Contenu du message: </strong><br><br> {{ content }}
   </p>
 
   {{ helpers.redirectedMessage(toSkipString) }}

@@ -10,7 +10,7 @@ import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ProfilHistoriqueComponent } from "./profil-historique.component";
 
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
-import { userMock } from "../../../../../_common/mocks/user.mock";
+import { USER_STRUCTURE_MOCK } from "../../../../../_common/mocks/USER_STRUCTURE.mock";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 describe("ProfilHistoriqueComponent", () => {
@@ -54,7 +54,7 @@ describe("ProfilHistoriqueComponent", () => {
     fixture = TestBed.createComponent(ProfilHistoriqueComponent);
     component = fixture.componentInstance;
     component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
-    component.me = userMock;
+    component.me = USER_STRUCTURE_MOCK;
     fixture.detectChanges();
   });
 

@@ -9,14 +9,11 @@ describe("guideUtilisateurEmailRenderer", () => {
     const model: ContactSupport = {
       userId: 12,
       structureId: 5,
-      content: `Un nouveau message a été envoyé à DomiFa·
-        Structure existante :   Oui··
-        Nom : Nom de la structure·
-        Email : un-contact-par-mail@test.com·
-        Do esse tempor veniam incididunt deserunt ad labore laboris commodo id exercitation sit. Sunt minim tempor ad quis esse est eiusmod incididunt id dolor adipisicing ex excepteur. Consectetur consectetur dolore tempor nisi enim pariatur. Nostrud ea reprehenderit minim pariatur irure. Velit anim qui veniam et in excepteur duis eiusmod est culpa voluptate enim eiusmod laboris. Ut sunt sint magna ullamco nostrud velit est pariatur sit ea consectetur commodo minim.`,
+      structureName: "Asso des bois bleus",
+      content: `Do esse tempor veniam incididunt deserunt ad labore laboris commodo id exercitation sit. Sunt minim tempor ad quis esse est eiusmod incididunt id dolor adipisicing ex excepteur. Consectetur consectetur dolore tempor nisi enim pariatur. Nostrud ea reprehenderit minim pariatur irure. Velit anim qui veniam et in excepteur duis eiusmod est culpa voluptate enim eiusmod laboris. Ut sunt sint magna ullamco nostrud velit est pariatur sit ea consectetur commodo minim.`,
       status: "ON_HOLD",
       email: "un-contact-par-mail@test.com",
-      name: "Nom de la structure",
+      name: "Nom de la personne",
     };
 
     const { subject, text, html } =

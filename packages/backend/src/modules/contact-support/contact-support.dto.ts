@@ -35,12 +35,21 @@ export class ContactSupportDto {
     type: String,
     required: true,
   })
-  @ValidateIf((o) => o.hasAccount === true)
   @IsNotEmpty()
   @IsString()
   @MinLength(2)
   @Transform(({ value }: TransformFnParams) => sanitizeHtml(value))
   public name!: string;
+
+  @ApiProperty({
+    type: String,
+    required: true,
+  })
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(2)
+  @Transform(({ value }: TransformFnParams) => sanitizeHtml(value))
+  public structureName!: string;
 
   @ApiProperty({
     type: String,
@@ -61,7 +70,7 @@ export class ContactSupportDto {
   @Transform(({ value }: TransformFnParams) => {
     return !value ? null : parseInt(value, 10);
   })
-  structureId!: number;
+  public readonly structureId!: number;
 
   @ApiProperty({
     type: Number,
@@ -72,7 +81,7 @@ export class ContactSupportDto {
   @Transform(({ value }: TransformFnParams) => {
     return !value ? null : parseInt(value, 10);
   })
-  public userId!: number;
+  public readonly userId!: number;
 
   @ApiProperty({
     type: String,
