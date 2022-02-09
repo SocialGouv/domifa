@@ -1,12 +1,29 @@
 <div *ngIf="me" class="head-page py-4">
   <div class="container">
-    <h1 class="title">
-      Paramètres d'accès au portail usager pour votre structure
-    </h1>
+    <div class="row">
+      <div class="col-7">
+        <h1 class="title">
+          Paramètres d'accès au portail usager pour votre structure
+        </h1>
+      </div>
+      <div class="text-right col-5">
+        <a
+          title="Télécharger le guide du portail usager"
+          href="/assets/files/guide_portail_usagers.pdf"
+          target="_blank"
+          class="btn btn-white-primary"
+          rel="noopener noreferrer"
+          download
+        >
+          <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+          Télécharger le guide
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="content py-3" *ngIf="me && structurePortailUsagerForm">
+<div class="content py-3">
   <div class="container py-3">
     <div class="page-content p-4">
       <div class="py-2">
@@ -15,59 +32,75 @@
         fiches des domiciliés lorsqu'ils vous en ont fait la demande
       </div>
       <br />
-      <form
-        *ngIf="structure"
-        id="structureForm"
-        [formGroup]="structurePortailUsagerForm"
-        (ngSubmit)="submitStructureSmsForm()"
-      >
+      <form id="structureForm">
         <div class="d-flex justify-content-center align-items-center">
           <div class="form-group required font-bold">
             Activer l'accès au portail usager pour vos domiciliés
           </div>
           <div class="form-group ml-3 text-right">
-            <div
-              formControlName="enabledByStructure"
-              class="btn-group btn-group-toggle"
-              ngbRadioGroup
-            >
-              <label
-                ngbButtonLabel
-                [ngClass]="
-                  form.enabledByStructure.value === true
-                    ? 'btn-primary'
-                    : 'btn-outline-primary'
-                "
+            <div class="btn-group btn-group-toggle" ngbRadioGroup>
+              <div
+                class="btn-group btn-group-toggle"
+                ngbRadioGroup
+                name="radioBasic"
+                [(ngModel)]="structure.portailUsager.enabledByStructure"
               >
-                <input
-                  ngbButton
-                  type="radio"
-                  aria-label="Activer ou désactiver"
-                  ="true"
-                />
-                Oui
-              </label>
-              <label
-                ngbButtonLabel
-                [ngClass]="
-                  form.enabledByStructure.value === false
-                    ? 'btn-danger'
-                    : 'btn-outline-danger'
-                "
-              >
-                <input
-                  ngbButton
-                  type="radio"
-                  aria-label="Activer ou désactiver"
-                  ="false"
-                />
-                Non
-              </label>
+                <label
+                  ngbButtonLabel
+                  for="portail_oui"
+                  [ngClass]="
+                    structure.portailUsager.enabledByStructure
+                      ? 'btn-primary'
+                      : 'btn-outline-primary'
+                  "
+                >
+                  <input
+                    ngbButton
+                    type="radio"
+                    id="portail_oui"
+                    aria-label="Oui"
+                    [value]="true"
+                  />
+                  Oui
+                </label>
+
+                <label
+                  ngbButtonLabel
+                  for="portail_non"
+                  [ngClass]="
+                    !structure.portailUsager.enabledByStructure
+                      ? 'btn-danger'
+                      : 'btn-outline-danger'
+                  "
+                >
+                  <input
+                    ngbButton
+                    type="radio"
+                    id="portail_non"
+                    aria-label="Non"
+                    [value]="false"
+                  />
+                  Non
+                </label>
+              </div>
             </div>
           </div>
         </div>
         <div class="col-md-12 my-2 text-center">
-          <button class="btn btn-primary">Enregistrer les modifications</button>
+          <button
+            class="btn btn-primary"
+            type="submit"
+            (click)="submitStructureSmsForm()"
+            [disabled]="loading"
+          >
+            <span *ngIf="!loading"> Enregistrer les modifications </span>
+
+            <span *ngIf="loading"
+              ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+              </fa-icon>
+              Veuillez patienter...</span
+            >
+          </button>
         </div>
       </form>
     </div>

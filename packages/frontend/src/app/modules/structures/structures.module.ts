@@ -1,4 +1,5 @@
 import { CommonModule } from "@angular/common";
+import { HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -14,6 +15,7 @@ import { StructuresPortailUsagerFormComponent } from "./components/structures-po
 import { StructuresSearchComponent } from "./components/structures-search/structures-search.component";
 import { StructuresSmsFormComponent } from "./components/structures-sms-form/structures-sms-form.component";
 import { StructuresUploadDocsComponent } from "./components/structures-upload-docs/structures-upload-docs.component";
+
 import { StructuresRoutingModule } from "./structures-routing.module";
 
 @NgModule({
@@ -31,13 +33,15 @@ import { StructuresRoutingModule } from "./structures-routing.module";
   ],
   exports: [StructuresSearchComponent, StructuresFormComponent],
   imports: [
+    FormsModule,
+    HttpClientModule,
+    NgbModule,
+    ReactiveFormsModule,
+    SharedModule,
     CommonModule,
     UsersModule,
     SharedModule,
     StructuresRoutingModule,
-    NgbModule,
-    FormsModule,
-    ReactiveFormsModule,
   ],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

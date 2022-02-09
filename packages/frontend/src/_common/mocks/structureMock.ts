@@ -30,7 +30,7 @@ export const structureMock: StructureCommon = {
     senderName: "",
   },
   portailUsager: {
-    enabledByDomifa: false,
+    enabledByDomifa: true,
     enabledByStructure: false,
   },
 };

@@ -65,8 +65,8 @@ import { UsagerProfilRoutingModule } from "./usager-profil-routing.module";
     NgbModule,
     ReactiveFormsModule,
     SharedModule,
-    UsagerProfilRoutingModule,
     UsersModule,
+    UsagerProfilRoutingModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

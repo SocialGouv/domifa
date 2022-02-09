@@ -1,6 +1,6 @@
-import { StructureType, UserStructure, UserStructureRole } from "./../model";
+import { StructureType, UserStructure, UserStructureRole } from "../model";
 
-export const userMock: UserStructure = {
+export const USER_STRUCTURE_MOCK: UserStructure = {
   password: "xxx",
   email: "s1-admin@yopmail.com",
   mail: {
@@ -45,7 +45,7 @@ export const userMock: UserStructure = {
       enabledByStructure: false,
     },
     portailUsager: {
-      enabledByDomifa: false,
+      enabledByDomifa: true,
       enabledByStructure: false,
     },
   },

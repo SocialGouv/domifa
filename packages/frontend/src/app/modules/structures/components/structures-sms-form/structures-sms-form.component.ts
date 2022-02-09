@@ -1,5 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { StructureCommon, UserStructure } from "../../../../../_common/model";
@@ -33,7 +38,7 @@ export class StructuresSmsFormComponent implements OnInit {
     this.submitted = false;
   }
 
-  get form() {
+  get form(): { [key: string]: AbstractControl } {
     return this.structureSmsForm.controls;
   }
 

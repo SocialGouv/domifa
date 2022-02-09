@@ -12,5 +12,6 @@ export type ContactSupport = AppEntity & {
   status: ContactStatus;
   category?: ContactCategorie;
   email: string;
-  name: string; // Nom de la structure ou de l'interlocuteur
+  name: string; // Nom de l'interlocuteur
+  structureName: string; // Nom de la structure
 };

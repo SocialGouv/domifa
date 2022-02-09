@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
 import { CanActivate, Router } from "@angular/router";
-
 import { Observable } from "rxjs";
-
 import { AuthService } from "../modules/shared/services/auth.service";
 import { CustomToastService } from "../modules/shared/services/custom-toast.service";
 

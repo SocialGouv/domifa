@@ -2,4 +2,4 @@
 export * from "./structureMock";
 export * from "./USAGER_ACTIF.mock";
 export * from "./usagerRefus.mock";
-export * from "./user.mock";
+export * from "./USER_STRUCTURE.mock";

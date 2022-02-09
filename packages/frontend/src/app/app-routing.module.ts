@@ -1,9 +1,7 @@
 import { ContactSupportComponent } from "./modules/general/components/contact-support/contact-support.component";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { AdminGuard, CanEditPortailUsagerGuard } from "./guards";
 import { AuthGuard } from "./guards/auth-guard";
-import { CanEditSmsGuard } from "./guards/can-edit-sms.guard";
 import { FacteurGuard } from "./guards/facteur-guard";
 import { LoggedGuard } from "./guards/logged-guard";
 import { CguComponent } from "./modules/general/components/cgu/cgu.component";
@@ -13,8 +11,6 @@ import { HomeComponent } from "./modules/general/components/home/home.component"
 import { MentionsLegalesComponent } from "./modules/general/components/mentions/mentions-legales/mentions-legales.component";
 import { NewsComponent } from "./modules/general/components/news/news.component";
 import { PolitiqueComponent } from "./modules/general/components/politique/politique.component";
-import { StructuresPortailUsagerFormComponent } from "./modules/structures/components/structures-portail-usager-form/structures-portail-usager-form.component";
-import { StructuresSmsFormComponent } from "./modules/structures/components/structures-sms-form/structures-sms-form.component";
 import { ImportComponent } from "./modules/usagers/components/import/import.component";
 import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
 import { EditUserComponent } from "./modules/users/components/edit-user/edit-user.component";
@@ -28,21 +24,14 @@ export const routes: Routes = [
     component: LoginComponent,
     path: "connexion",
   },
+
+  // TODO: migrer les urls suivantes vers un module "users"
   {
     canActivate: [AuthGuard],
     path: "mon-compte",
     component: EditUserComponent,
   },
-  {
-    canActivate: [AuthGuard, AdminGuard, CanEditSmsGuard],
-    path: "structures/sms",
-    component: StructuresSmsFormComponent,
-  },
-  {
-    canActivate: [AuthGuard, AdminGuard, CanEditPortailUsagerGuard],
-    path: "structures/portail-usager",
-    component: StructuresPortailUsagerFormComponent,
-  },
+
   {
     canActivate: [AuthGuard],
     component: UserProfilComponent,
@@ -58,6 +47,7 @@ export const routes: Routes = [
     component: ResetPasswordComponent,
     path: "reset-password/:userId/:token",
   },
+  // TODO: migrer l'import vers un module à part
   {
     canActivate: [AuthGuard, FacteurGuard],
     component: ImportComponent,

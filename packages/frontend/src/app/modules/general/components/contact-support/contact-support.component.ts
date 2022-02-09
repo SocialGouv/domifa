@@ -35,6 +35,7 @@ export class ContactSupportComponent implements OnInit {
     private titleService: Title,
     private meta: Meta
   ) {
+    this.me = null;
     this.success = false;
     this.loading = false;
   }
@@ -51,18 +52,36 @@ export class ContactSupportComponent implements OnInit {
       content:
         "Vous avez une question ? Ce formulaire vous permettra de contacter l'équipe Domifa",
     });
+
+    let email: string = null;
+    let structureName: string = null;
+    let name: string = null;
+    let structureId: number = null;
+    let userId: number = null;
+
+    if (this.me) {
+      email = this.me.email;
+      structureName = this.me.structure.nom;
+      structureId = this.me.structure.id;
+      userId = this.me.id;
+      name = this.me.nom + " " + this.me.prenom;
+    }
+
     this.me = this.authService.currentUserValue;
 
     this.contactForm = this.formBuilder.group({
-      content: [null, [Validators.required, Validators.minLength(10)]],
-      email: [null, [Validators.required, Validators.email]],
+      content: ["", [Validators.required, Validators.minLength(10)]],
+      email: [email || null, [Validators.required, Validators.email]],
       file: [""],
       fileSource: ["", [validateUpload("STRUCTURE_DOC", false)]],
       hasAccount: [this.me ? true : false, [Validators.required]],
-      name: ["", [Validators.required, Validators.minLength(2)]],
-      structureId: [null, []],
-      structureName: [null, []],
-      userId: [null, []],
+      name: [name, [Validators.required, Validators.minLength(2)]],
+      structureId: [structureId, []],
+      structureName: [
+        structureName,
+        [Validators.required, Validators.minLength(2)],
+      ],
+      userId: [userId, []],
     });
   }
 
@@ -110,7 +129,7 @@ export class ContactSupportComponent implements OnInit {
     formData.append("content", this.contactForm.controls.content.value);
 
     this.generalService.sendContact(formData).subscribe({
-      next: (response) => {
+      next: () => {
         this.fileName = "";
         this.loading = false;
         this.success = true;

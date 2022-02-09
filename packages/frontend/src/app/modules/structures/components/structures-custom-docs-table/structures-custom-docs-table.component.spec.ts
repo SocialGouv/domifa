@@ -1,4 +1,4 @@
-import { userMock } from "./../../../../../_common/mocks/user.mock";
+import { USER_STRUCTURE_MOCK } from "../../../../../_common/mocks/USER_STRUCTURE.mock";
 import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
@@ -25,7 +25,7 @@ describe("StructuresCustomDocsTableComponent", () => {
     fixture = TestBed.createComponent(StructuresCustomDocsTableComponent);
     component = fixture.componentInstance;
     component.structureDocs = [];
-    component.me = userMock;
+    component.me = USER_STRUCTURE_MOCK;
     fixture.detectChanges();
   });
 

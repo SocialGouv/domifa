@@ -32,6 +32,7 @@ const routes: Routes = [
     path: "inscription",
     component: StructuresSearchComponent,
   },
+
   {
     canActivate: [AuthGuard, AdminGuard, CanEditSmsGuard],
     path: "sms",
@@ -45,6 +46,9 @@ const routes: Routes = [
   {
     canActivate: [AuthGuard, AdminGuard, CanEditPortailUsagerGuard],
     path: "portail-usager",
+    data: {
+      title: "Modifier les accès au portail des usagers",
+    },
     component: StructuresPortailUsagerFormComponent,
   },
 ];
