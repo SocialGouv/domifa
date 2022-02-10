@@ -1,12 +1,10 @@
 import { ContactSupport } from "../../../../_common/model/contact-support/ContactSupport.type";
 import { domifaConfig } from "../../../../config";
-import {
-  MessageEmailAttachment,
-  MessageEmailContent,
-} from "../../../../database";
+import { MessageEmailContent } from "../../../../database";
 import { appLogger } from "../../../../util";
 import { DOMIFA_DEFAULT_MAIL_CONFIG, messageEmailSender } from "../../_core";
 import { contactSupportEmailRenderer } from "./contactSupportEmailRenderer.service";
+import { MessageEmailAttachment } from "../../../../database/entities/message-email/MessageEmailAttachment.type";
 
 const messageEmailId = "contact-support";
 export const contactSupportEmailSender = { sendMail };

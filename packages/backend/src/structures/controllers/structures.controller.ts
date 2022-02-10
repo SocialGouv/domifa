@@ -107,7 +107,12 @@ export class StructuresController {
     }
 
     structureSmsDto.enabledByDomifa = user.structure.sms.enabledByDomifa;
-    return this.structureService.patchSmsParams(structureSmsDto, user);
+    const retour = await this.structureService.patchSmsParams(
+      structureSmsDto,
+      user
+    );
+
+    return res.status(HttpStatus.OK).json(retour);
   }
 
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)

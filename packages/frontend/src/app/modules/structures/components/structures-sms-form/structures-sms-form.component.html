@@ -83,7 +83,12 @@
                           : 'btn-outline-primary'
                       "
                     >
-                      <input ngbButton type="radio" [value]="true" />
+                      <input
+                        ngbButton
+                        type="radio"
+                        aria-label="Activer les SMS"
+                        [value]="true"
+                      />
                       Oui
                     </label>
                     <label
@@ -94,7 +99,12 @@
                           : 'btn-outline-danger'
                       "
                     >
-                      <input ngbButton type="radio" [value]="false" />
+                      <input
+                        ngbButton
+                        type="radio"
+                        aria-label="Désactiver les SMS"
+                        [value]="false"
+                      />
                       Non
                     </label>
                   </div>
@@ -106,6 +116,7 @@
                     type="text"
                     class="form-control"
                     id="senderName"
+                    cleanStr
                     formControlName="senderName"
                     placeholder="Nom affiché en haut en tant qu'expediteur du message"
                     maxLength="11"
@@ -130,6 +141,7 @@
                     type="text"
                     class="form-control"
                     maxLength="30"
+                    cleanStr
                     formControlName="senderDetails"
                     [ngClass]="{
                       'is-invalid': submitted && form.senderDetails.errors

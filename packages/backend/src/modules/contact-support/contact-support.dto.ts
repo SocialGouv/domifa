@@ -3,7 +3,7 @@ import {
   IsEmail,
   IsEmpty,
   IsNotEmpty,
-  IsNumberString,
+  IsNumber,
   IsOptional,
   IsString,
   MinLength,
@@ -13,7 +13,7 @@ import { ContactStatus } from "../../_common/model";
 import { Transform, TransformFnParams } from "class-transformer";
 
 import sanitizeHtml = require("sanitize-html");
-import { MessageEmailAttachment } from "../../database";
+import { MessageEmailAttachment } from "../../database/entities/message-email/MessageEmailAttachment.type";
 
 export class ContactSupportDto {
   @ApiProperty({
@@ -59,7 +59,7 @@ export class ContactSupportDto {
     required: false,
   })
   @IsOptional()
-  @IsNumberString()
+  @IsNumber()
   @Transform(({ value }: TransformFnParams) => {
     return !value ? null : parseInt(value, 10);
   })
@@ -70,7 +70,7 @@ export class ContactSupportDto {
     required: false,
   })
   @IsOptional()
-  @IsNumberString()
+  @IsNumber()
   @Transform(({ value }: TransformFnParams) => {
     return !value ? null : parseInt(value, 10);
   })
