@@ -23,6 +23,7 @@ describe("guideUtilisateurEmailRenderer", () => {
     expect(text).toContain(model.email);
     expect(text).toContain(model.name);
     expect(text).toContain(model.content);
+    expect(text).toContain(model.structureName);
 
     if (domifaConfig().envId === "test") {
       fs.writeFileSync(

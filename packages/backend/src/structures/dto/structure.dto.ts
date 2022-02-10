@@ -120,7 +120,7 @@ export class StructureDto {
     required: true,
     type: Object,
   })
-  @IsNotEmpty()
+  @IsOptional()
   public options: {
     numeroBoite: boolean;
   };

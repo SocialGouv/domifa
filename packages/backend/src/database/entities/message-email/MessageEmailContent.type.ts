@@ -1,4 +1,4 @@
-import { MessageEmailAttachement } from "./MessageEmailAttachement.type";
+import { MessageEmailAttachment } from "./MessageEmailAttachment.type";
 import { MessageEmailIcalEvent } from "./MessageEmailIcalEvent.type";
 import { MessageEmailRecipient } from "./MessageEmailRecipient.type";
 
@@ -10,6 +10,6 @@ export type MessageEmailContent = {
   html: string;
   text: string;
   icalEvent?: MessageEmailIcalEvent;
-  attachments?: MessageEmailAttachement[];
+  attachments?: MessageEmailAttachment[];
   meta?: { [label: string]: string };
 };

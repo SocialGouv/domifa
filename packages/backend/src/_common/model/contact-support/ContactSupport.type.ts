@@ -1,14 +1,14 @@
 import { ContactCategorie } from "./ContactCategory.type";
 import { ContactStatus } from "./ContactStatus.type";
 import { AppEntity } from "..";
-import { MessageEmailAttachement } from "../../../database";
+import { MessageEmailAttachment } from "../../../database";
 
 export type ContactSupport = AppEntity & {
   userId?: number;
   structureId?: number;
   content: string;
   comments?: string; // Commentaire sur le ticket écrit par les admins
-  attachement?: MessageEmailAttachement;
+  attachment?: MessageEmailAttachment;
   status: ContactStatus;
   category?: ContactCategorie;
   email: string;

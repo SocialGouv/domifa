@@ -1,4 +1,4 @@
-import { MessageEmailAttachement } from "./MessageEmailAttachement.type";
+import { MessageEmailAttachment } from "./MessageEmailAttachment.type";
 
 import { AppEntity } from "../../../_common/model";
 import { MessageEmailContent } from "./MessageEmailContent.type";
@@ -16,5 +16,5 @@ export type MessageEmail = AppEntity & {
   errorCount: number;
   errorMessage?: string;
   sendDetails?: MessageEmailSendDetails;
-  attachments?: MessageEmailAttachement[]; // path of files
+  attachments?: MessageEmailAttachment[]; // path of files
 };
