@@ -1,8 +1,5 @@
 import { usagerPortailRepository } from "../../../database";
-import {
-  PortailUsagerProfile,
-  PortailUsagerPublic,
-} from "../../../_common/model";
+import { PortailUsagerProfile } from "../../../_common/model";
 
 export const portailUsagerProfilBuilder = {
   build,

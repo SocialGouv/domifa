@@ -1,3 +1,4 @@
+import { ApiMessage } from "./../../../../_common/model/_core/ApiMessage.type";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
@@ -102,8 +103,8 @@ export class UsersService {
     return this.http.post(`${this.endPoint}/reset-password`, data);
   }
 
-  public updatePassword(data: any): Observable<any> {
-    return this.http.post(`${this.endPoint}/edit-password`, data);
+  public updatePassword(data: any): Observable<ApiMessage> {
+    return this.http.post<ApiMessage>(`${this.endPoint}/edit-password`, data);
   }
 
   public registerUser(data: string) {
