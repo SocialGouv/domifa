@@ -14,6 +14,7 @@ import { ContactStatus } from "../../_common/model";
 import { Transform, TransformFnParams } from "class-transformer";
 
 import sanitizeHtml = require("sanitize-html");
+import { MessageEmailAttachment } from "../../database";
 
 export class ContactSupportDto {
   @ApiProperty({
@@ -94,5 +95,5 @@ export class ContactSupportDto {
     type: String,
   })
   @IsEmpty()
-  public attachment!: string;
+  public attachment!: MessageEmailAttachment;
 }

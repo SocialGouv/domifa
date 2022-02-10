@@ -2,7 +2,7 @@ import { HttpException, HttpStatus } from "@nestjs/common";
 import { createTransport, SendMailOptions } from "nodemailer";
 import { domifaConfig } from "../../../config";
 import {
-  MessageEmailAttachement,
+  MessageEmailAttachment,
   MessageEmailContent,
   MessageEmailId,
   MessageEmailRecipient,
@@ -27,7 +27,7 @@ async function sendEmail(
     attachments,
   }: {
     messageEmailId: MessageEmailId;
-    attachments: MessageEmailAttachement[];
+    attachments: MessageEmailAttachment[];
   }
 ): Promise<MessageEmailSendDetails> {
   const { toSend, toSkip } = mailRecipientsFilter.filterRecipients(content.to, {

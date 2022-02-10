@@ -59,7 +59,7 @@ async function createTables(queryRunner: QueryRunner) {
       "structureId" int4 NULL,
       "content" text NOT NULL,
       status text NOT NULL DEFAULT 'ON_HOLD'::text,
-      attachement jsonb NULL,
+      attachment jsonb NULL,
       email text NOT NULL,
       category text NULL,
       "name" text NOT NULL,

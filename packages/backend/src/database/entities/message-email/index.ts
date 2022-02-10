@@ -1,6 +1,6 @@
 // @index('./*', f => `export * from '${f.path}'`)
 export * from "./MessageEmail.type";
-export * from "./MessageEmailAttachement.type";
+export * from "./MessageEmailAttachment.type";
 export * from "./MessageEmailContent.type";
 export * from "./MessageEmailContentModel.type";
 export * from "./MessageEmailIcalEvent.type";

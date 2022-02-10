@@ -60,7 +60,7 @@ export class ContactSupportController {
     const dataToSave = new ContactSupportTable(contactSupportDto);
 
     if (file) {
-      dataToSave.attachement = {
+      dataToSave.attachment = {
         filename: file.filename,
         path: file.path,
       };
@@ -72,7 +72,6 @@ export class ContactSupportController {
       await contactSupportEmailSender.sendMail(contactSaved);
       return res.status(HttpStatus.OK).json("OK");
     } catch (error) {
-      console.log(error);
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "CONTACT_FORM_ERROR" });

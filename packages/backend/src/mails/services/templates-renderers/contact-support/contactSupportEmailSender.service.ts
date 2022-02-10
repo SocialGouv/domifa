@@ -1,7 +1,7 @@
 import { ContactSupport } from "../../../../_common/model/contact-support/ContactSupport.type";
 import { domifaConfig } from "../../../../config";
 import {
-  MessageEmailAttachement,
+  MessageEmailAttachment,
   MessageEmailContent,
 } from "../../../../database";
 import { appLogger } from "../../../../util";
@@ -23,8 +23,8 @@ async function sendMail(model: ContactSupport): Promise<void> {
     },
   ];
 
-  const attachments: MessageEmailAttachement[] = model.attachement
-    ? [model.attachement]
+  const attachments: MessageEmailAttachment[] = model.attachment
+    ? [model.attachment]
     : [];
 
   const renderedTemplate = await contactSupportEmailRenderer.renderTemplate({
@@ -32,6 +32,7 @@ async function sendMail(model: ContactSupport): Promise<void> {
     content: model.content,
     email: model.email,
     name: model.name,
+    structureName: model.structureName,
   });
 
   const messageContent: MessageEmailContent = {

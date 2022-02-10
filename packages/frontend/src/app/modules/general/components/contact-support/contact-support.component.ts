@@ -46,6 +46,7 @@ export class ContactSupportComponent implements OnInit {
 
   public ngOnInit(): void {
     this.titleService.setTitle("Formulaire de contact");
+    this.me = this.authService.currentUserValue;
 
     this.meta.updateTag({
       name: "description",

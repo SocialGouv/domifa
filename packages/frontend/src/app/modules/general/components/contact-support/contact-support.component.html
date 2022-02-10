@@ -35,6 +35,9 @@
       <div class="row justify-content-center">
         <div class="col-md-8 col-lg-8 col-sm-12">
           <form [formGroup]="contactForm" (ngSubmit)="sendContactMessage()">
+            <input formControlName="userId" type="hidden" />
+            <input formControlName="structureId" type="hidden" />
+
             <fieldset>
               <legend>Avez-vous un compte sur DomiFa ?</legend>
               <div class="form-group">
@@ -75,11 +78,11 @@
                 id="name"
                 cleanStr
                 autocomplete="name"
-                [placeholder]="'2 caractères minimum'"
+                placeholder="2 caractères minimum"
                 formControlName="name"
                 [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
-                required
                 [attr.aria-invalid]="submitted && f.name.errors"
+                required
               />
 
               <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
