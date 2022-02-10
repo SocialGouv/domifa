@@ -109,26 +109,25 @@ export class StructuresSmsFormComponent implements OnInit {
 
     if (this.structureSmsForm.invalid) {
       this.toastService.error("Veuillez vérifier le formulaire");
-    } else {
-      this.loading = true;
-      this.structureService
-        .patchSmsParams(this.structureSmsForm.value)
-        .subscribe({
-          next: () => {
-            this.submitted = false;
-            this.toastService.success(
-              "Paramètres des SMS mis à jour avec succès"
-            );
-            this.loading = false;
-          },
-          error: () => {
-            this.toastService.error(
-              "Impossible de mettre à jour les paramètres"
-            );
-            this.submitted = false;
-            this.loading = false;
-          },
-        });
+      return;
     }
+
+    this.loading = true;
+    this.structureService
+      .patchSmsParams(this.structureSmsForm.value)
+      .subscribe({
+        next: () => {
+          this.submitted = false;
+          this.toastService.success(
+            "Paramètres des SMS mis à jour avec succès"
+          );
+          this.loading = false;
+        },
+        error: () => {
+          this.toastService.error("Impossible de mettre à jour les paramètres");
+          this.submitted = false;
+          this.loading = false;
+        },
+      });
   }
 }
