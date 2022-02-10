@@ -1,3 +1,10 @@
+## [2.73.3](https://github.com/SocialGouv/domifa/compare/v2.73.2...v2.73.3) (2022-02-10)
+
+
+### Bug Fixes
+
+* userId ([0401e96](https://github.com/SocialGouv/domifa/commit/0401e9640a22fd10faec2aa8fbccf00957a81237))
+
 ## [2.73.2](https://github.com/SocialGouv/domifa/compare/v2.73.1...v2.73.2) (2022-02-10)
 
 
