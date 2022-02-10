@@ -8,10 +8,7 @@
           title="Revenir à la liste"
           class="px-3"
         >
-          <img
-            src="../../../../../assets/icones/fleche-gauche.svg"
-            alt="Revenir à la liste"
-          />
+          <fa-icon [icon]="['fas', 'angle-left']"></fa-icon>
         </a>
 
         <span *ngIf="!this.usager.ref">Nouvelle demande</span>

@@ -26,6 +26,7 @@
       <label for="password">Mot de passe</label>
       <div class="input-group">
         <input
+          required
           type="password"
           id="password"
           formControlName="password"
@@ -53,19 +54,18 @@
             ></fa-icon>
           </button>
         </div>
-      </div>
-      <div
-        *ngIf="f.password.dirty && f.password.errors"
-        class="invalid-feedback"
-      >
-        <div *ngIf="f.password.errors.required">
-          Le mot de passe est obligatoire
+
+        <div
+          *ngIf="f.password.dirty && f.password.errors"
+          class="invalid-feedback"
+        >
+          Veuillez vérifier le mot de passe
         </div>
       </div>
     </div>
     <div class="form-group text-center">
       <button
-        [disabled]="loading || loginForm.invalid"
+        [disabled]="loading"
         aria-label="Connexion"
         class="btn btn-primary"
       >

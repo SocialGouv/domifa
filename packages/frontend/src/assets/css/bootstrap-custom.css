@@ -90,3 +90,15 @@
 .alert-danger .alert-link {
   color: #491217;
 }
+
+.close {
+  opacity: 1 !important;
+}
+
+.modal-title {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.4rem;
+  margin-bottom: 0.2rem;
+  margin-top: 0.2rem;
+}

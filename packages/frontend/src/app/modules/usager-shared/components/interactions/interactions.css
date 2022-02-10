@@ -37,9 +37,9 @@
   right: -6px;
   background-color: var(--secondary);
   border-radius: 100%;
-  color: white;
+  color: black;
   font-weight: 600;
-  width: 40px;
+  width: 38px;
   padding: 4px 2px;
   font-size: 1.35rem;
   z-index: 1000;
@@ -87,7 +87,6 @@
 }
 
 .disabled {
-  opacity: 0.4;
 }
 
 .disabled .action,

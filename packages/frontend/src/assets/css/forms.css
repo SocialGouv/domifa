@@ -1,6 +1,15 @@
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-text {
+  display: block;
+  margin-top: 0.25rem;
+}
+
 .form-group.required .control-label:after {
   content: "*";
-  color: red;
+  color: var(--red);
 }
 
 .custom-file-label {
@@ -14,7 +23,12 @@ input[type="radio"]:checked + label {
 
 .form-group.required label:not(.custom-file-label):after {
   content: " *";
-  color: red;
+  color: var(--red);
+}
+
+label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
 }
 
 form label {
@@ -27,7 +41,7 @@ form label {
   width: 100%;
   margin-top: 0.25rem;
   font-size: 80%;
-  color: #dc3545;
+  color: var(--red);
 }
 
 .indications div {
@@ -131,4 +145,12 @@ form label {
 .upload-error {
   border: 1px dotted var(--danger);
   color: var(--danger);
+}
+
+/* Titre des étapes du formulaire */
+.form-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
 }

@@ -164,12 +164,12 @@ legend {
   text-align: center;
   width: 20px;
   height: 20px;
-  background-color: #ff6b6b;
+  background-color: var(--red);
   position: absolute;
   top: -10px;
   right: -10px;
   font-size: 12px;
-  line-height: 20px;
+  line-height: 18px;
   color: #fff;
   font-weight: 700;
 }

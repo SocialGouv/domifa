@@ -308,17 +308,17 @@
         </div>
       </div>
       <div class="col-md-1">
-        <label for class="text-white"> c </label>
-        <div>
-          <button
-            type="button"
-            (click)="deleteAyantDroit(i)"
-            title="Supprimer l'ayant-droit {{ i }}"
-            class="btn btn-danger"
-          >
-            <fa-icon title="Supprimer" [icon]="['fas', 'trash']"></fa-icon>
-          </button>
-        </div>
+        <label for="delete_ad_{{ i }}">Supprimer</label>
+
+        <button
+          type="button"
+          id="delete_ad_{{ i }}"
+          (click)="deleteAyantDroit(i)"
+          title="Supprimer l'ayant-droit {{ i }}"
+          class="btn btn-danger"
+        >
+          <fa-icon title="Supprimer" [icon]="['fas', 'trash']"></fa-icon>
+        </button>
       </div>
     </div>
   </div>
