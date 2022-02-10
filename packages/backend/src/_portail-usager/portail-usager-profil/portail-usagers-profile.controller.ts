@@ -21,8 +21,6 @@ import { portailUsagerProfilBuilder } from "./services/portail-usager-profil-bui
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("profile")
 export class PortailUsagersProfileController {
-  constructor() {}
-
   @Get("me")
   @AllowUserProfiles("usager")
   @HttpCode(HttpStatus.OK)

@@ -11,8 +11,6 @@ import { appLogger } from "../../util";
 
 @Injectable()
 export class CanGetUserStructureGuard implements CanActivate {
-  constructor() {}
-
   public async canActivate(context: ExecutionContext) {
     const r = context.switchToHttp().getRequest();
     const userId = r.params.userId;

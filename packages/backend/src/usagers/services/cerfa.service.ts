@@ -1,8 +1,7 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import * as fs from "fs";
 import * as path from "path";
 
-import { appLogger } from "../../util";
 import {
   Usager,
   UserStructureAuthenticated,

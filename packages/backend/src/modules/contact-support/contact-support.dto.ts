@@ -3,7 +3,6 @@ import {
   IsEmail,
   IsEmpty,
   IsNotEmpty,
-  IsNumber,
   IsOptional,
   IsString,
   MinLength,
@@ -59,7 +58,6 @@ export class ContactSupportDto {
     required: false,
   })
   @IsOptional()
-  @IsNumber()
   @Transform(({ value }: TransformFnParams) => {
     return !value ? null : parseInt(value, 10);
   })
@@ -70,7 +68,6 @@ export class ContactSupportDto {
     required: false,
   })
   @IsOptional()
-  @IsNumber()
   @Transform(({ value }: TransformFnParams) => {
     return !value ? null : parseInt(value, 10);
   })

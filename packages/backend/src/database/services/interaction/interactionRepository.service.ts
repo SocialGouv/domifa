@@ -1,6 +1,6 @@
 import { startOfMonth, subYears } from "date-fns";
 
-import { Between, FindConditions, In, LessThan, MoreThan } from "typeorm";
+import { FindConditions, In, LessThan, MoreThan } from "typeorm";
 import {
   Usager,
   UserStructure,

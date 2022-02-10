@@ -21,8 +21,6 @@ import { ResetPasswordDto } from "./dto/reset-password.dto";
 @Controller("users")
 @ApiTags("users")
 export class UsersPublicController {
-  constructor() {}
-
   @Post("validate-email")
   public async validateEmail(
     @Body() emailDto: EmailDto,
