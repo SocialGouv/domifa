@@ -2,27 +2,36 @@ import {
   IsBoolean,
   IsEmpty,
   IsNotEmpty,
-  IsOptional,
   MaxLength,
+  MinLength,
+  ValidateIf,
 } from "class-validator";
 
 export class StructureEditSmsDto {
   @IsEmpty()
-  enabledByDomifa: boolean;
+  public enabledByDomifa: boolean;
 
   @IsNotEmpty()
   @IsBoolean()
-  enabledByStructure: boolean;
+  public enabledByStructure: boolean;
 
+  @ValidateIf((o) => o.enabledByStructure === true)
   @MaxLength(11, {
     message: "SENDER_TOO_LONG",
   })
-  @IsOptional()
-  senderName: string;
-
-  @MaxLength(30, {
-    message: "SENDER_TOO_LONG",
+  @MinLength(1, {
+    message: "SENDER_TOO_SHORT",
   })
-  @IsOptional()
-  senderDetails: string;
+  @IsNotEmpty()
+  public senderName: string;
+
+  @ValidateIf((o) => o.enabledByStructure === true)
+  @MaxLength(30, {
+    message: "SENDER_DETAILS_TOO_LONG",
+  })
+  @MinLength(1, {
+    message: "SENDER_DETAILS_TOO_SHORT",
+  })
+  @IsNotEmpty()
+  public senderDetails: string;
 }

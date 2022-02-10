@@ -37,39 +37,6 @@
           <form [formGroup]="contactForm" (ngSubmit)="sendContactMessage()">
             <input formControlName="userId" type="hidden" />
             <input formControlName="structureId" type="hidden" />
-
-            <fieldset>
-              <legend>Avez-vous un compte sur DomiFa ?</legend>
-              <div class="form-group">
-                <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    formControlName="hasAccount"
-                    id="compte_oui"
-                    [value]="true"
-                  />
-                  <label class="form-check-label" for="compte_oui"> Oui </label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    formControlName="hasAccount"
-                    id="compte_non"
-                    [value]="false"
-                  />
-                  <label class="form-check-label" for="compte_non"> Non </label>
-                </div>
-                <div
-                  *ngIf="submitted && f.hasAccount.errors"
-                  class="invalid-feedback"
-                >
-                  Veuillez indiquer si vous possédez un compte sur Domifa
-                </div>
-              </div>
-            </fieldset>
-
             <div class="form-group required">
               <label for="name">Votre nom</label>
               <input

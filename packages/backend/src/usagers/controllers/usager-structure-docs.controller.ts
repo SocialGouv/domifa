@@ -167,7 +167,8 @@ export class UsagerStructureDocsController {
       const docGenerated = generateCustomDoc(content, docValues);
       return res.end(docGenerated);
     } catch (e) {
-      appLogger.error(content);
+      console.log(e);
+
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "CANNOT_COMPLETE_DOMIFA_DOCS" });

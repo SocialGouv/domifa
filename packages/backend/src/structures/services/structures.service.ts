@@ -42,14 +42,7 @@ export class StructuresService {
   ): Promise<StructureCommon> {
     return structureCommonRepository.updateOne(
       { id: user.structureId },
-      {
-        sms: {
-          senderName: structureSmsDto.senderName,
-          senderDetails: structureSmsDto.senderName,
-          enabledByDomifa: structureSmsDto.enabledByDomifa,
-          enabledByStructure: structureSmsDto.enabledByStructure,
-        },
-      }
+      { sms: structureSmsDto }
     );
   }
 
