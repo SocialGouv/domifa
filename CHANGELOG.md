@@ -1,3 +1,11 @@
+## [2.73.1](https://github.com/SocialGouv/domifa/compare/v2.73.0...v2.73.1) (2022-02-10)
+
+
+### Bug Fixes
+
+* deploy ([6928d5f](https://github.com/SocialGouv/domifa/commit/6928d5f3acc64752a2606fb7fabbc80392e62be9))
+* **contact-support:** correction des retours PO sur les formulaires de contact ([28aa61e](https://github.com/SocialGouv/domifa/commit/28aa61ed2d64cc82c23580976a999eeb53e6988b))
+
 # [2.73.0](https://github.com/SocialGouv/domifa/compare/v2.72.1...v2.73.0) (2022-02-09)
 
 
