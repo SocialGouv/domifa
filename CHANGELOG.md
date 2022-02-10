@@ -1,3 +1,11 @@
+## [2.73.2](https://github.com/SocialGouv/domifa/compare/v2.73.1...v2.73.2) (2022-02-10)
+
+
+### Bug Fixes
+
+* correction d'erreurs dans le formulaire des SMS ([466f0b7](https://github.com/SocialGouv/domifa/commit/466f0b7dc2d4c161104be758cfcec49caa25b9eb))
+* formulaire SMS ([a58683f](https://github.com/SocialGouv/domifa/commit/a58683fe8a3d638339305e01c7ef5aaf37601d77))
+
 ## [2.73.1](https://github.com/SocialGouv/domifa/compare/v2.73.0...v2.73.1) (2022-02-10)
 
 
