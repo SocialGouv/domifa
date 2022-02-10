@@ -80,29 +80,33 @@ export class StructuresController {
   @Patch("sms")
   public async patchSmsParams(
     @Body() structureSmsDto: StructureEditSmsDto,
-    @CurrentUser() user: UserStructureAuthenticated
+    @CurrentUser() user: UserStructureAuthenticated,
+    @Res() res: ExpressResponse
   ) {
     if (!user.structure.sms.enabledByDomifa) {
-      throw new HttpException(
-        "SMS_NOT_ENABLED_BY_DOMIFA",
-        HttpStatus.BAD_REQUEST
-      );
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "SMS_NOT_ENABLED_BY_DOMIFA" });
     }
 
-    const action =
-      user.structure.sms.enabledByDomifa &&
-      user.structure.sms.enabledByStructure
-        ? "ENABLE_SMS_BY_STRUCTURE"
-        : "DISABLE_SMS_BY_STRUCTURE";
-    this.appLogsService.create({
-      userId: user._userId,
-      usagerRef: null,
-      structureId: user.structureId,
-      action,
-    });
+    if (
+      user.structure.sms.enabledByStructure !==
+      structureSmsDto.enabledByStructure
+    ) {
+      const action =
+        structureSmsDto.enabledByStructure === true
+          ? "ENABLE_SMS_BY_STRUCTURE"
+          : "DISABLE_SMS_BY_STRUCTURE";
+
+      this.appLogsService.create({
+        userId: user._userId,
+        usagerRef: null,
+        structureId: user.structureId,
+        action,
+      });
+    }
 
     structureSmsDto.enabledByDomifa = user.structure.sms.enabledByDomifa;
-
     return this.structureService.patchSmsParams(structureSmsDto, user);
   }
 

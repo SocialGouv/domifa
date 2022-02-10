@@ -75,7 +75,6 @@ export class ContactSupportComponent implements OnInit {
       email: [email || null, [Validators.required, Validators.email]],
       file: [""],
       fileSource: ["", [validateUpload("STRUCTURE_DOC", false)]],
-      hasAccount: [this.me ? true : false, [Validators.required]],
       name: [name, [Validators.required, Validators.minLength(2)]],
       structureId: [structureId, []],
       structureName: [
@@ -125,7 +124,6 @@ export class ContactSupportComponent implements OnInit {
       this.contactForm.controls.structureName.value
     );
 
-    formData.append("hasAccount", this.contactForm.controls.hasAccount.value);
     formData.append("email", this.contactForm.controls.email.value);
     formData.append("content", this.contactForm.controls.content.value);
 

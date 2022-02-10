@@ -1,13 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
 import {
-  IsBooleanString,
   IsEmail,
   IsEmpty,
   IsNotEmpty,
   IsNumberString,
+  IsOptional,
   IsString,
   MinLength,
-  ValidateIf,
 } from "class-validator";
 import { ContactStatus } from "../../_common/model";
 
@@ -24,13 +23,6 @@ export class ContactSupportDto {
   @IsNotEmpty()
   @IsEmail()
   public email!: string;
-
-  @ApiProperty({
-    type: Boolean,
-    required: true,
-  })
-  @IsBooleanString()
-  public hasAccount!: boolean;
 
   @ApiProperty({
     type: String,
@@ -66,7 +58,7 @@ export class ContactSupportDto {
     type: Number,
     required: false,
   })
-  @ValidateIf((o) => o.hasAccount === true)
+  @IsOptional()
   @IsNumberString()
   @Transform(({ value }: TransformFnParams) => {
     return !value ? null : parseInt(value, 10);
@@ -77,7 +69,7 @@ export class ContactSupportDto {
     type: Number,
     required: false,
   })
-  @ValidateIf((o) => o.hasAccount === true)
+  @IsOptional()
   @IsNumberString()
   @Transform(({ value }: TransformFnParams) => {
     return !value ? null : parseInt(value, 10);
