@@ -20,7 +20,7 @@ const getManifests = async () => {
     const serviceName = appService.metadata?.name;
     const servicePort = appService?.spec?.ports[0].port;
     const upstream = `http://${serviceName}:${servicePort}`;
-    const proxy = await createOauthProxy({
+    const proxy = await createOauthProxy("oauth2-proxy", {
       upstream,
       config: {
         subDomainPrefix: "metabase-",
