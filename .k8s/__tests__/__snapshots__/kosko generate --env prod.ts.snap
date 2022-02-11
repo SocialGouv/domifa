@@ -749,18 +749,18 @@ metadata:
     app.github.com/run: '1234'
     app.github.com/sha: '0123456'
   labels:
-    app: proxy
+    app: oauth2-proxy
     application: domifa
     component: domifa
     owner: domifa
     team: domifa
-  name: proxy
+  name: oauth2-proxy
   namespace: domifa
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: proxy
+      app: oauth2-proxy
   template:
     metadata:
       annotations:
@@ -773,14 +773,14 @@ spec:
         app.github.com/run: '1234'
         app.github.com/sha: '0123456'
       labels:
-        app: proxy
+        app: oauth2-proxy
         application: domifa
         component: domifa
         owner: domifa
         team: domifa
     spec:
       containers:
-        - image: quay.io/oauth2-proxy/oauth2-proxy:v7.2.0
+        - image: quay.io/oauth2-proxy/oauth2-proxy:v7.2.1
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -789,7 +789,7 @@ spec:
             initialDelaySeconds: 30
             periodSeconds: 5
             timeoutSeconds: 5
-          name: proxy
+          name: oauth2-proxy
           ports:
             - containerPort: 4180
               name: http
@@ -815,6 +815,11 @@ spec:
               path: /ping
               port: http
             periodSeconds: 5
+          envFrom:
+            - configMapRef:
+                name: oauth2-proxy-configmap
+            - secretRef:
+                name: oauth2-proxy-sealed-secret
           args:
             - '--upstream'
             - http://metabase:80
@@ -823,22 +828,17 @@ spec:
               value: 0.0.0.0:4180
             - name: OAUTH2_PROXY_REDIRECT_URL
               value: https://metabase-domifa.fabrique.social.gouv.fr/oauth2/callback
-          envFrom:
-            - configMapRef:
-                name: oauth2-proxy-configmap
-            - secretRef:
-                name: oauth2-proxy-sealed-secret
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: proxy
+    app: oauth2-proxy
     application: domifa
     component: domifa
     owner: domifa
     team: domifa
-  name: proxy
+  name: oauth2-proxy
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
@@ -855,7 +855,7 @@ spec:
       port: 80
       targetPort: 4180
   selector:
-    app: proxy
+    app: oauth2-proxy
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
@@ -874,12 +874,12 @@ metadata:
     app.github.com/run: '1234'
     app.github.com/sha: '0123456'
   labels:
-    app: proxy
+    app: oauth2-proxy
     application: domifa
     component: domifa
     owner: domifa
     team: domifa
-  name: proxy
+  name: oauth2-proxy
   namespace: domifa
 spec:
   rules:
@@ -888,7 +888,7 @@ spec:
         paths:
           - backend:
               service:
-                name: proxy
+                name: oauth2-proxy
                 port:
                   name: http
             path: /
@@ -896,7 +896,7 @@ spec:
   tls:
     - hosts:
         - metabase-domifa.fabrique.social.gouv.fr
-      secretName: proxy-crt
+      secretName: oauth2-proxy-crt
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
