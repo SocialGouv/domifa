@@ -1,3 +1,10 @@
+## [2.73.4](https://github.com/SocialGouv/domifa/compare/v2.73.3...v2.73.4) (2022-02-14)
+
+
+### Bug Fixes
+
+* **deps:** update dependency dotenv to v16 ([6b9d86b](https://github.com/SocialGouv/domifa/commit/6b9d86b58ce70764632edf446773ae1d2c211cbe))
+
 ## [2.73.3](https://github.com/SocialGouv/domifa/compare/v2.73.2...v2.73.3) (2022-02-10)
 
 
