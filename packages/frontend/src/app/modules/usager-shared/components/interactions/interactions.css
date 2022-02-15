@@ -86,9 +86,6 @@
   font-size: 1rem;
 }
 
-.disabled {
-}
-
 .disabled .action,
 .disabled .interaction-notification {
   display: none;

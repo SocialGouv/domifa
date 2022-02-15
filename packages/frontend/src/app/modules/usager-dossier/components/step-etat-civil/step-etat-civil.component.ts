@@ -328,8 +328,9 @@ export class StepEtatCivilComponent implements OnInit {
   private focusAyantDroit() {
     // Focus sur l'élément créé
     setTimeout(() => {
-      const test = this.usagerForm.controls.ayantsDroits.value as FormArray;
-      this.inputsAyantDroit.toArray()[test.length - 1].nativeElement.focus();
+      const ayantDroitTable = this.usagerForm.controls.ayantsDroits.value;
+      const inputs = this.inputsAyantDroit.toArray();
+      inputs[ayantDroitTable.length - 1].nativeElement.focus();
     }, 500);
   }
   private nextStep(): void {

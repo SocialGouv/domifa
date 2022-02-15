@@ -16,9 +16,12 @@
   </div>
   <table
     id="interactions-table"
-    class="profil-table table table-light table-hover"
+    class="table table-hover"
     *ngIf="interactions.length > 0"
   >
+    <caption class="sr-only">
+      Historique des courriers
+    </caption>
     <thead>
       <tr>
         <th scope="col">Date</th>

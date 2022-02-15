@@ -1,8 +1,7 @@
-<table
-  class="table"
-  summary="Historique des SMS envoyés"
-  *ngIf="messagesList.length > 0"
->
+<table class="table" *ngIf="messagesList.length > 0">
+  <caption class="sr-only">
+    Historique des SMS envoyés
+  </caption>
   <thead>
     <tr>
       <th scope="col">Date</th>

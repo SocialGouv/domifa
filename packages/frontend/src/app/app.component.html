@@ -172,37 +172,39 @@
 </footer>
 
 <ng-template #maintenanceModal let-modal>
-  <div class="modal-body text-center">
+  <div class="modal-header">
     <span class="modal-title" id="modal-title">
       ⚠️ Maintenance de Domifa en cours ⚠️
     </span>
-    <br />
-    Veuillez nous excuser pour la gêne occasionnée.
-    <br />
-    Vous pourrez de nouveau utiliser Domifa dans quelques minutes.
-
-    <br /><br />
-
-    Cette fenêtre disparaitra dès la fin de la maintenance.
-    <br />
-    <br />
+  </div>
+  <div class="modal-body text-center">
+    <p>
+      <span class="modal-title" id="modal-title"> </span>
+      <br />
+      Veuillez nous excuser pour la gêne occasionnée.
+      <br />
+      Vous pourrez de nouveau utiliser Domifa dans quelques minutes.
+      <br /><br />
+      Cette fenêtre disparaitra dès la fin de la maintenance.
+    </p>
   </div>
 </ng-template>
 
 <ng-template #versionModal let-modal>
-  <div class="modal-body text-center">
-    <h4 class="modal-title">
+  <div class="modal-header">
+    <span class="modal-title" id="modal-title">
       ℹ️ Une nouvelle version de Domifa est disponible
-    </h4>
-    <br />
-    Afin de profiter des nouveautés de Domifa, vous devez actualiser la page.
-    <br /><br />
+    </span>
+  </div>
+
+  <div class="modal-body text-center py-4">
+    <p>
+      Afin de profiter des nouveautés de Domifa, vous devez actualiser la page.
+    </p>
+
     <button class="btn btn-primary" (click)="refresh()">
       <fa-icon [icon]="['fas', 'sync']"></fa-icon> Actualiser
     </button>
-
-    <br />
-    <br />
   </div>
 </ng-template>
 

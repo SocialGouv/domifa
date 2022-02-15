@@ -1,8 +1,7 @@
-<table
-  summary="Notes sur l'usager"
-  *ngIf="usager.notes.length > 0"
-  class="profil-table table table-light table-hover"
->
+<table *ngIf="usager.notes.length > 0" class="table table-hover">
+  <caption>
+    Notes sur l'usager
+  </caption>
   <thead>
     <tr>
       <th scope="col">Date</th>
