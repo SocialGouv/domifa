@@ -1,3 +1,10 @@
+## [2.73.5](https://github.com/SocialGouv/domifa/compare/v2.73.4...v2.73.5) (2022-02-15)
+
+
+### Bug Fixes
+
+* matomo id for portail usagers ([6d126fb](https://github.com/SocialGouv/domifa/commit/6d126fb01d03e8e2aae31d81956734022fb3273e))
+
 ## [2.73.4](https://github.com/SocialGouv/domifa/compare/v2.73.3...v2.73.4) (2022-02-14)
 
 
