@@ -1,11 +1,13 @@
 <div class="step_form my-5">
-  <h1 class="text-center title">Connexion à Domifa</h1>
+  <div class="text-center">
+    <h1 class="title">Connexion à Domifa</h1>
+  </div>
 
   <form [formGroup]="loginForm" (ngSubmit)="login()">
     <div class="row justify-content-center">
       <div class="col-md-8">
         <div class="form-group required">
-          <label for="email">Adresse email</label>
+          <label for="email">Adresse email (champ obligatoire)</label>
           <input
             type="email"
             id="email"
@@ -22,7 +24,7 @@
           </p>
         </div>
         <div class="form-group required">
-          <label for="password">Mot de passe</label>
+          <label for="password">Mot de passe (champ obligatoire)</label>
           <div class="input-group">
             <input
               required

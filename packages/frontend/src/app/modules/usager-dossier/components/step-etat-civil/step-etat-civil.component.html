@@ -35,6 +35,12 @@
         autocomplete="off"
       >
         <h2 class="form-title">État civil du demandeur</h2>
+
+        <!-- <p class="my-3">
+          Les champs obligatoires sont précédés d'une étoile
+          <span class="text-danger">*</span>
+        </p> -->
+
         <fieldset>
           <legend>Civilité</legend>
           <div class="form-group">
@@ -274,24 +280,29 @@
         </div>
 
         <ng-container *ngIf="f.ayantsDroitsExist.value === true" class="py-2">
-          <div
+          <fieldset
             formArrayName="ayantsDroits"
             *ngFor="let ayantDroit of ayantsDroits.controls; let i = index"
           >
+            <legend>Ayant-droit numéro {{ i + 1 }}</legend>
             <div [formGroupName]="i" class="row bottom">
               <div class="col form-group required">
                 <label for="ad_nom_{{ i }}">Nom</label>
                 <input
+                  #adNom
                   id="ad_nom_{{ i }}"
                   type="text"
                   class="form-control"
                   formControlName="nom"
-                  [attr.aria-label]="'Nom de naissance de l\'ayant-droit ' + i"
+                  [attr.aria-label]="
+                    'Nom de naissance de l\'ayant-droit ' + i + 1
+                  "
                   [ngClass]="{
                     'is-invalid':
                       submitted && ayantsDroits.controls[i].get('nom').errors
                   }"
                   required
+                  aria-required="true"
                 />
                 <div
                   *ngIf="
@@ -308,13 +319,14 @@
                   type="text"
                   id="ad_prenom_{{ i }}"
                   class="form-control"
-                  [attr.aria-label]="'Prénom de l\'ayant-droit ' + i"
+                  [attr.aria-label]="'Prénom de l\'ayant-droit ' + i + 1"
                   formControlName="prenom"
                   [ngClass]="{
                     'is-invalid':
                       submitted && ayantsDroits.controls[i].get('prenom').errors
                   }"
                   required
+                  aria-required="true"
                 />
                 <p
                   *ngIf="
@@ -333,7 +345,7 @@
                     class="form-control"
                     placeholder="jj/mm/aaaa"
                     [attr.aria-label]="
-                      'Date de naissance de l\'ayant-droit ' + i
+                      'Date de naissance de l\'ayant-droit ' + i + 1
                     "
                     [minDate]="minDateNaissance"
                     [maxDate]="maxDateNaissance"
@@ -343,6 +355,7 @@
                     ngbDatepicker
                     maxlength="10"
                     required
+                    aria-required="true"
                     dateFr
                     [ngClass]="{
                       'is-invalid':
@@ -356,7 +369,8 @@
                       type="button"
                       [attr.aria-label]="
                         'Sélectionner une date de naissance de l\'ayant-droit ' +
-                        i
+                        i +
+                        1
                       "
                       class="btn btn-outline-primary"
                       (click)="dateAyantDroit.toggle()"
@@ -380,8 +394,11 @@
                 <select
                   id="lien_{{ i }}"
                   required
+                  aria-required="true"
                   formControlName="lien"
-                  [attr.aria-label]="'Lien de parenté de l\'ayant-droit ' + i"
+                  [attr.aria-label]="
+                    'Lien de parenté de l\'ayant-droit ' + i + 1
+                  "
                   [ngClass]="{
                     'is-invalid':
                       submitted && ayantsDroits.controls[i].get('lien').errors
@@ -417,7 +434,7 @@
                 </button>
               </div>
             </div>
-          </div>
+          </fieldset>
           <button
             type="button"
             (click)="addAyantDroit()"
@@ -485,6 +502,7 @@
                 placeholder="0606060606"
                 maxlength="10"
                 required
+                aria-required="true"
               />
               <small>Numéro de portable uniquement</small>
               <div

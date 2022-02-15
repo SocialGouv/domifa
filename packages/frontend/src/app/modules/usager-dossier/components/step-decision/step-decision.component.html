@@ -40,7 +40,7 @@
     <div *ngIf="!isAdmin && usager.decision.statut === 'INSTRUCTION'">
       <div class="row">
         <div class="col-md-12 text-center">
-          <h2 class="form-title">
+          <h2 class="form-title" role="heading" aria-level="1">
             Le dossier de
             {{ usager.nom }} {{ usager.prenom }}
             est complet
@@ -56,7 +56,7 @@
     </div>
 
     <div class="container my-4 text-center" *ngIf="isAdmin">
-      <h2 class="form-title">
+      <h2 class="form-title" role="heading" aria-level="1">
         Le dossier de
         {{ usager.nom }} {{ usager.prenom }}
         est complet

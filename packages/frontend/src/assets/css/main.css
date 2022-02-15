@@ -119,8 +119,8 @@ legend {
   display: block;
   font-style: normal;
   font-weight: 600;
-  padding: 8px 0;
-  font-size: 1.05rem;
+  padding: 6px 0;
+  font-size: 1rem;
 }
 
 .form-check label {

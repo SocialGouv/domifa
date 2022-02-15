@@ -155,6 +155,7 @@
                       formControlName="jourRdv"
                       #dRdv="ngbDatepicker"
                       required
+                      aria-required="true"
                     />
                     <div class="input-group-append">
                       <button
@@ -166,12 +167,12 @@
                         <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
                       </button>
                     </div>
-                    <div
+                    <p
                       *ngIf="r.jourRdv.invalid"
                       class="text-center invalid-feedback"
                     >
                       La date est incorrecte
-                    </div>
+                    </p>
                   </div>
                 </div>
                 <div class="form-group col required">

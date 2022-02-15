@@ -5,8 +5,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { Title } from "@angular/platform-browser";
-import { MatomoTracker } from "ngx-matomo";
+
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
@@ -40,17 +39,13 @@ export class RegisterUserAdminComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UsersService,
-    private toastService: CustomToastService,
-    private titleService: Title,
-    private matomo: MatomoTracker
+    private toastService: CustomToastService
   ) {
     this.user = userStructureBuilder.buildUserStructure({});
     this.submitted = false;
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Inscription sur Domifa");
-
     this.userForm = this.formBuilder.group({
       email: [
         this.user.email,

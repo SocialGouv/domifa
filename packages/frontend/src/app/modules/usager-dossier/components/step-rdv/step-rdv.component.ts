@@ -117,7 +117,7 @@ export class StepRdvComponent implements OnInit {
       userId: [this.usager.rdv.userId, Validators.required],
     });
 
-    this.editRdv = this.usager.rdv.dateRdv === null;
+    this.editRdv = this.usager.rdv.userId === null;
 
     this.usagerDossierService
       .getAllUsersForAgenda()

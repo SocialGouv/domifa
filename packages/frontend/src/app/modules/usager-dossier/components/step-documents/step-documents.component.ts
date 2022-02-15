@@ -3,6 +3,7 @@ import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
+import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
 
@@ -21,7 +22,8 @@ export class StepDocumentsComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private titleService: Title,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public toastService: CustomToastService
   ) {}
 
   public ngOnInit(): void {
@@ -49,12 +51,18 @@ export class StepDocumentsComponent implements OnInit {
 
   public nextStep(step: number): void {
     this.loading = true;
-    this.usagerDossierService
-      .nextStep(this.usager.ref, step)
-      .subscribe((usager: UsagerLight) => {
+    this.usagerDossierService.nextStep(this.usager.ref, step).subscribe({
+      next: (usager: UsagerLight) => {
         this.usager = usager;
         this.router.navigate(["usager/" + usager.ref + "/edit/decision"]);
-      });
+        this.toastService.success("Enregistrement réussi");
+      },
+      error: () => {
+        this.toastService.error(
+          "Une erreur empêche de passer à l'étape suivante."
+        );
+      },
+    });
   }
 
   public onUsagerChanges(usager: UsagerLight): void {

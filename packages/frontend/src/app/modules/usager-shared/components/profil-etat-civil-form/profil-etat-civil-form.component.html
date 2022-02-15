@@ -11,12 +11,11 @@
         placeholder="Précisez nom de naissance si nécessaire"
         [ngClass]="{ 'is-invalid': f.nom.errors }"
         required
+        aria-required="true"
       />
-      <div *ngIf="f.nom.errors" class="invalid-feedback">
-        <div *ngIf="f.nom.errors.required">
-          Le nom du demandeur est obligatoire
-        </div>
-      </div>
+      <p *ngIf="f.nom.errors" class="invalid-feedback">
+        Le nom du demandeur est obligatoire
+      </p>
     </div>
 
     <div class="col-md-4 form-group required">
@@ -30,10 +29,11 @@
         placeholder="Prénom(s) du demandeur"
         [ngClass]="{ 'is-invalid': f.prenom.errors }"
         required
+        aria-required="true"
       />
-      <div *ngIf="f.prenom.errors" class="invalid-feedback">
-        <div *ngIf="f.prenom.errors.required">Le prénom est obligatoire</div>
-      </div>
+      <p *ngIf="f.prenom.errors" class="invalid-feedback">
+        Le prénom est obligatoire
+      </p>
     </div>
 
     <div class="col-md-4 form-group">
@@ -90,9 +90,8 @@
             <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
           </button>
         </div>
-
         <p *ngIf="f.dateNaissance.invalid" class="invalid-feedback">
-          La date de naissance est obligatoire
+          La date de naissance est obligatoire. Exemple : 20/12/1996
         </p>
       </div>
     </div>
@@ -107,6 +106,7 @@
         placeholder="Ville (préciser le pays si à l'étranger)"
         [ngClass]="{ 'is-invalid': f.villeNaissance.errors }"
         required
+        aria-required="true"
       />
       <div *ngIf="f.villeNaissance.errors" class="invalid-feedback">
         La ville de naissance est obligatoire
@@ -169,7 +169,8 @@
       />
 
       <div *ngIf="f.langue.touched && f.langue.errors" class="invalid-feedback">
-        La langue saisie est invalide
+        La langue saisie est invalide. Veuillez sélectionner une valeure dans la
+        liste de propositions
       </div>
     </div>
 
@@ -192,15 +193,16 @@
   <div class="row">
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <h4>Ayants-droits</h4>
-        </div>
-        <div>
-          <span (click)="addAyantDroit()" class="btn btn-outline-primary">
-            <fa-icon [icon]="['fas', 'plus']" class="mr-2"></fa-icon>
-            Ajouter des ayants droits
-          </span>
-        </div>
+        <h4>Ayants-droits</h4>
+
+        <button
+          type="button"
+          (click)="addAyantDroit()"
+          class="btn btn-outline-primary"
+        >
+          <fa-icon [icon]="['fas', 'plus']" class="mr-2"></fa-icon>
+          Ajouter des ayants droits
+        </button>
       </div>
     </div>
   </div>
@@ -226,6 +228,8 @@
               submitted && ayantsDroits.controls[i].get('nom').errors
           }"
           placeholder="Nom de l'ayant droit"
+          required
+          aria-required="true"
         />
         <div
           *ngIf="submitted && ayantsDroits.controls[i].get('nom').errors"
@@ -247,6 +251,8 @@
               submitted && ayantsDroits.controls[i].get('prenom').errors
           }"
           placeholder="Prénom"
+          required
+          aria-required="true"
         />
         <div
           *ngIf="submitted && ayantsDroits.controls[i].get('prenom').errors"
@@ -277,6 +283,7 @@
             #d="ngbDatepicker"
             maxlength="10"
             required
+            aria-required="true"
           />
           <div class="input-group-append">
             <button
@@ -288,14 +295,14 @@
               <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
             </button>
           </div>
-          <div
+          <p
             *ngIf="
               submitted && ayantsDroits.controls[i].get('dateNaissance').errors
             "
             class="invalid-feedback"
           >
             La date de naissance est obligatoire
-          </div>
+          </p>
         </div>
       </div>
       <div class="col form-group required">
@@ -304,6 +311,8 @@
           formControlName="lien"
           id="lien_{{ i }}"
           class="form-control"
+          required
+          aria-required="true"
           [ngClass]="{
             'is-invalid':
               submitted && ayantsDroits.controls[i].get('lien').errors
@@ -317,12 +326,12 @@
             {{ lien.value }}
           </option>
         </select>
-        <div
+        <p
           *ngIf="submitted && ayantsDroits.controls[i].get('lien').errors"
           class="invalid-feedback"
         >
           Le lien de parenté est obligatoire
-        </div>
+        </p>
       </div>
       <div class="col-md-1">
         <label for="delete_ad_{{ i }}">Supprimer</label>
