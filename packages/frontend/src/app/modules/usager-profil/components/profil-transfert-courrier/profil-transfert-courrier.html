@@ -78,6 +78,7 @@
           placeholder="Ex: Maison d'arrêt, Hôpital saint-louis, Association ..."
           [ngClass]="{ 'is-invalid': f.nom.dirty && f.nom.errors }"
           required
+          aria-required="true"
         />
         <div *ngIf="f.nom.dirty && f.nom.errors" class="invalid-feedback">
           <div *ngIf="f.nom.errors.required">
@@ -95,17 +96,18 @@
           placeholder="Numéro, rue, bâtiment, ville, code postal, etc."
           [ngClass]="{ 'is-invalid': f.adresse.dirty && f.adresse.errors }"
           required
+          aria-required="true"
         />
         <div
           *ngIf="f.adresse.dirty && f.adresse.errors"
           class="invalid-feedback"
         >
-          <div *ngIf="f.adresse.errors.minlength">
+          <p *ngIf="f.adresse.errors.minlength">
             L'adresse doit contenir 10 caractères minimum
-          </div>
-          <div *ngIf="f.adresse.errors.required">
+          </p>
+          <p *ngIf="f.adresse.errors.required">
             L'adresse complète est obligatoire
-          </div>
+          </p>
         </div>
       </div>
       <div class="col-3 form-group required">
@@ -124,24 +126,22 @@
             #dateDebutTransfert="ngbDatepicker"
             maxlength="10"
             required
+            aria-required="true"
           />
           <div class="input-group-append">
-            <span
+            <button
+              type="button"
+              aria-label="Choisir une date de début de validité dans le calendrier"
               class="btn btn-outline-primary"
               (click)="dateDebutTransfert.toggle()"
             >
-              <fa-icon
-                title="Calendrier"
-                [icon]="['fas', 'calendar']"
-              ></fa-icon>
-            </span>
+              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+            </button>
           </div>
 
-          <div *ngIf="f.dateFin.invalid" class="invalid-feedback">
-            <div *ngIf="f.dateFin.dirty && f.dateFin.errors.ngbDate">
-              La date de debut est incorrecte
-            </div>
-          </div>
+          <p *ngIf="f.dateFin.invalid" class="invalid-feedback">
+            La date de debut est incorrecte
+          </p>
         </div>
       </div>
       <div class="col-3 form-group required">
@@ -163,23 +163,22 @@
             required
           />
           <div class="input-group-append">
-            <span
+            <button
+              type="button"
+              aria-label="Choisir une date de fin de validité dans le calendrier"
               class="btn btn-outline-primary"
               (click)="dateFinTransfert.toggle()"
             >
-              <fa-icon
-                title="Calendrier"
-                [icon]="['fas', 'calendar']"
-              ></fa-icon>
-            </span>
+              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+            </button>
           </div>
 
           <div *ngIf="f.dateFin.invalid" class="invalid-feedback">
-            <div
+            <p
               *ngIf="f.dateFin.dirty && (f.dateFin.errors.ngbDate || f.dateFin.errors.endDateAfterBeginDate)"
             >
               La date de fin est incorrecte
-            </div>
+            </p>
           </div>
         </div>
       </div>

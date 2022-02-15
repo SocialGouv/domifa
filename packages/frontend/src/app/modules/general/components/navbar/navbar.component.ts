@@ -14,13 +14,14 @@ import { AuthService } from "../../../shared/services/auth.service";
 export class NavbarComponent implements OnInit {
   public isNavbarCollapsed: boolean;
   public me: UserStructure;
+  public matomoInfo: boolean;
 
   public portailAdminUrl = environment.portailAdminUrl;
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    public matomo: MatomoTracker,
+    public matomoService: MatomoTracker,
     private userIdleService: UserIdleService
   ) {
     this.isNavbarCollapsed = false;
@@ -32,8 +33,12 @@ export class NavbarComponent implements OnInit {
       this.me = user;
     });
 
+    // Affichage de matomo
+    this.initMatomo();
+
     // Lancement de la surveillance d'inactivité
     this.userIdleService.startWatching();
+
     // Lancement du décompte
     this.userIdleService.onTimerStart().subscribe({
       next: () => {
@@ -49,6 +54,17 @@ export class NavbarComponent implements OnInit {
         }
       },
     });
+  }
+
+  public initMatomo(): void {
+    const matomo = localStorage.getItem("matomo");
+    this.matomoInfo = matomo === "done";
+    this.matomoService.setUserId("0");
+  }
+
+  public closeMatomo(): void {
+    this.matomoInfo = true;
+    localStorage.setItem("matomo", "done");
   }
 
   public logout(): void {

@@ -120,12 +120,14 @@
             required
           />
           <div class="input-group-append">
-            <span class="btn btn-outline-primary" (click)="d.toggle()">
-              <fa-icon
-                title="Calendrier"
-                [icon]="['fas', 'calendar']"
-              ></fa-icon>
-            </span>
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              (click)="d.toggle()"
+              aria-label="Choisir une date de naissance"
+            >
+              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+            </button>
           </div>
 
           <div
@@ -152,17 +154,16 @@
             #dateDebutPro="ngbDatepicker"
             maxlength="10"
             required
+            aria-required="true"
           />
           <div class="input-group-append">
-            <span
+            <button
+              type="button"
               class="btn btn-outline-primary"
               (click)="dateDebutPro.toggle()"
             >
-              <fa-icon
-                title="Calendrier"
-                [icon]="['fas', 'calendar']"
-              ></fa-icon>
-            </span>
+              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+            </button>
           </div>
 
           <div
@@ -193,15 +194,13 @@
             required
           />
           <div class="input-group-append">
-            <span
+            <button
+              type="button"
               class="btn btn-outline-primary"
               (click)="dateFinProcu.toggle()"
             >
-              <fa-icon
-                title="Calendrier"
-                [icon]="['fas', 'calendar']"
-              ></fa-icon>
-            </span>
+              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+            </button>
           </div>
 
           <div *ngIf="f.dateFin.invalid">

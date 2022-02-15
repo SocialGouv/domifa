@@ -40,11 +40,11 @@
     <div *ngIf="!isAdmin && usager.decision.statut === 'INSTRUCTION'">
       <div class="row">
         <div class="col-md-12 text-center">
-          <h5>
+          <h2 class="form-title">
             Le dossier de
-            <b>{{ usager.nom }} {{ usager.prenom }}</b>
+            {{ usager.nom }} {{ usager.prenom }}
             est complet
-          </h5>
+          </h2>
         </div>
         <div class="col-md-6 offset-3">
           <button (click)="setDecisionAttente()" class="btn btn-primary">
@@ -56,11 +56,11 @@
     </div>
 
     <div class="container my-4 text-center" *ngIf="isAdmin">
-      <h5>
+      <h2 class="form-title">
         Le dossier de
-        <b>{{ usager.nom }} {{ usager.prenom }}</b>
+        {{ usager.nom }} {{ usager.prenom }}
         est complet
-      </h5>
+      </h2>
 
       <div class="pb-4" *ngIf="usager.decision.statut === 'ATTENTE_DECISION'">
         Ce dossier a été mis en attente d'une décision par
@@ -92,7 +92,7 @@
           title="Soumettre la demande"
           *ngIf="usager.decision.statut !== 'ATTENTE_DECISION'"
           (click)="setDecisionAttente()"
-          class="mr-3 btn btn-outline-primary"
+          class="mr-3 btn btn-light-primary"
         >
           <fa-icon [icon]="['far', 'clock']" class="mr-2"></fa-icon>
           Soumettre la demande

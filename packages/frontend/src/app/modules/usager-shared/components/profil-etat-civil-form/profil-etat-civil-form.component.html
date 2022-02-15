@@ -69,22 +69,31 @@
           placement="bottom"
           formControlName="dateNaissance"
           ngbDatepicker
+          id="dateNaissance"
           dateFr
           value
-          [ngClass]="{ 'is-invalid': f.dateNaissance.errors }"
+          [ngClass]="{
+            'is-invalid': submitted && f.dateNaissance.errors
+          }"
           #d="ngbDatepicker"
           maxlength="10"
           required
+          aria-required="true"
         />
         <div class="input-group-append">
-          <span class="btn btn-outline-primary" (click)="d.toggle()">
-            <fa-icon title="Calendrier" [icon]="['fas', 'calendar']"></fa-icon>
-          </span>
+          <button
+            type="button"
+            aria-label="Sélectionner une date de naissance sur le calendrier"
+            class="btn btn-outline-primary"
+            (click)="d.toggle()"
+          >
+            <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+          </button>
         </div>
 
-        <div *ngIf="f.dateNaissance.invalid" class="invalid-feedback">
+        <p *ngIf="f.dateNaissance.invalid" class="invalid-feedback">
           La date de naissance est obligatoire
-        </div>
+        </p>
       </div>
     </div>
 
@@ -105,40 +114,46 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-4 form-group">
-      <label for="phone">Numéro de téléphone</label>
-      <input
-        type="tel"
-        class="form-control"
-        id="phone"
-        digitOnly
-        formControlName="phone"
-        aria-describedby="phoneHelp"
-        [ngClass]="{ 'is-invalid': f.phone.errors }"
-        placeholder="0606060606"
-        maxlength="10"
-      />
-      <div *ngIf="f.phone.errors" class="invalid-feedback">
-        <div>Veuillez saisir un numéro de téléphone</div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="phone">Numéro de téléphone</label>
+        <input
+          type="tel"
+          class="form-control"
+          id="phone"
+          digitOnly
+          formControlName="phone"
+          aria-describedby="phoneHelp"
+          [ngClass]="{ 'is-invalid': f.phone.errors }"
+          placeholder="0606060606"
+          maxlength="10"
+        />
+        <p *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+          Le numéro de téléphone est incorrect
+        </p>
+        <small id="phoneHelp" class="form-text text-muted"> Optionnel </small>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="email">Adresse e-mail</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          formControlName="email"
+          aria-describedby="emailHelp"
+          [ngClass]="{ 'is-invalid': f.email.errors }"
+          placeholder="adresse@mail.com"
+        />
+        <small id="emailHelp" class="form-text text-muted"> Optionnel </small>
+        <p *ngIf="f.email.errors" class="invalid-feedback">
+          Veuillez saisir une adresse e-mail valide. Par exemple :
+          john.doe@domifa.fr
+        </p>
       </div>
     </div>
 
-    <div class="col-md-4 form-group">
-      <label for="email">Adresse e-mail</label>
-      <input
-        type="email"
-        class="form-control"
-        id="email"
-        formControlName="email"
-        aria-describedby="emailHelp"
-        [ngClass]="{ 'is-invalid': f.email.errors }"
-        placeholder="adresse@mail.com"
-      />
-      <div *ngIf="f.email.errors" class="invalid-feedback">
-        Veuillez saisir une adresse e-mail valide. Par exemple :
-        john.doe@domifa.fr
-      </div>
-    </div>
     <div class="col-md-4 form-group">
       <label for="langue">Langue parlée</label>
       <input
@@ -264,12 +279,14 @@
             required
           />
           <div class="input-group-append">
-            <span class="btn btn-outline-primary" (click)="d.toggle()">
-              <fa-icon
-                title="Calendrier"
-                [icon]="['fas', 'calendar']"
-              ></fa-icon>
-            </span>
+            <button
+              type="button"
+              aria-label="Sélectionner une date de naissance sur le calendrier"
+              class="btn btn-outline-primary"
+              (click)="d.toggle()"
+            >
+              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+            </button>
           </div>
           <div
             *ngIf="

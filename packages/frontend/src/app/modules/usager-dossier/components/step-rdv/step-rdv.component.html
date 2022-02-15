@@ -127,6 +127,10 @@
                   <label for="rdvUser">Avec quel collaborateur ?</label>
                   <select
                     *ngIf="agents"
+                    required
+                    [ngClass]="{
+                      'is-invalid': r.userId.errors
+                    }"
                     id="rdvUser"
                     formControlName="userId"
                     class="form-control"
@@ -159,10 +163,7 @@
                         class="btn btn-outline-primary"
                         (click)="dRdv.toggle()"
                       >
-                        <fa-icon
-                          title="Calendrier"
-                          [icon]="['fas', 'calendar']"
-                        ></fa-icon>
+                        <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
                       </button>
                     </div>
                     <div
@@ -176,13 +177,14 @@
                 <div class="form-group col required">
                   <label for="heureRdv">Heure du rendez-vous</label>
                   <div class="input-group">
-                    <ngb-timepicker
-                      required
-                      [spinners]="false"
-                      id="heureRdv"
+                    <input
+                      type="time"
+                      class="form-control"
                       [ngClass]="{ 'is-invalid': r.heureRdv.invalid }"
+                      id="heureRdv"
                       formControlName="heureRdv"
-                    ></ngb-timepicker>
+                    />
+
                     <div
                       *ngIf="r.heureRdv.errors"
                       class="small form-text text-center text-danger"

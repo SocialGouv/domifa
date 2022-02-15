@@ -176,9 +176,11 @@ export class StepRdvComponent implements OnInit {
     this.loading = true;
 
     const heureRdv = this.rdvForm.controls.heureRdv.value;
-    const jourRdv = this.nbgDate.formatEn(this.rdvForm.controls.jourRdv.value);
+    const jourRdv =
+      this.nbgDate.formatEn(this.rdvForm.controls.jourRdv.value) +
+      " " +
+      heureRdv;
     const dateRdv = new Date(jourRdv);
-    dateRdv.setHours(heureRdv.hour, heureRdv.minute, 0);
 
     const rdvFormValue = {
       isNow: false,

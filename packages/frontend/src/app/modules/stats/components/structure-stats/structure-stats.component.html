@@ -68,10 +68,7 @@
           />
           <div class="input-group-append">
             <button class="btn btn-outline-primary" (click)="dDebut.toggle()">
-              <fa-icon
-                title="Calendrier"
-                [icon]="['fas', 'calendar']"
-              ></fa-icon>
+              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
             </button>
           </div>
         </div>
@@ -106,12 +103,16 @@
             required
           />
           <div class="input-group-append">
-            <span class="btn btn-outline-primary" (click)="dFin.toggle()">
+            <button
+              class="btn btn-outline-primary"
+              type="button"
+              (click)="dFin.toggle()"
+            >
               <fa-icon
                 title="Calendrier"
                 [icon]="['fas', 'calendar']"
               ></fa-icon>
-            </span>
+            </button>
           </div>
         </div>
       </div>

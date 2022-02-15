@@ -72,6 +72,7 @@ export class RegisterUserAdminComponent implements OnInit {
     } else {
       this.userService.registerUser(this.userForm.value).subscribe({
         next: () => {
+          this.submitted = false;
           this.form.nativeElement.reset();
           this.toastService.success(
             "Le nouveau compte a été créé avec succès, votre collaborateur vient de recevoir un email pour ajouter son mot de passe."

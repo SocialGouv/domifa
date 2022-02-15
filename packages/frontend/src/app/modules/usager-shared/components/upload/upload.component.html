@@ -11,14 +11,16 @@
           [ngClass]="{ 'is-invalid': submitted && u.label.errors }"
           placeholder="Cerfa signé, impots, carte identité, etc..."
           required
+          aria-required="true"
         />
-        <div *ngIf="u.label.errors" class="invalid-feedback">
+
+        <p *ngIf="u.label.errors" class="invalid-feedback">
           Le nom du document est obligatoire
-        </div>
+        </p>
       </div>
     </div>
     <div class="col-md-5 form-group required">
-      <span class="label">Document à enregistrer</span>
+      <label>Document à enregistrer</label>
       <div class="input-group custom-file">
         <input
           type="file"
@@ -43,15 +45,13 @@
         </label>
 
         <div *ngIf="submitted && u.fileSource.errors" class="invalid-feedback">
-          <div *ngIf="u.fileSource.errors.required">
+          <p *ngIf="u.fileSource.errors.required">
             Vous devez choisir un fichier
-          </div>
-          <div *ngIf="u.fileSource.errors.fileType">
-            Format de fichier invalide
-          </div>
-          <div *ngIf="u.fileSource.errors.fileSize">
+          </p>
+          <p *ngIf="u.fileSource.errors.fileType">Format de fichier invalide</p>
+          <p *ngIf="u.fileSource.errors.fileSize">
             La taille du fichier est trop grande
-          </div>
+          </p>
         </div>
       </div>
     </div>
