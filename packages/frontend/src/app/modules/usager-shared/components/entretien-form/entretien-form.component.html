@@ -383,18 +383,17 @@
         </div>
       </div>
 
-      <fieldset>
-        <label for="commentaires" class="label">Commentaires</label>
-        <textarea
-          class="form-control"
-          rows="6"
-          formControlName="commentaires"
-          id="commentaires"
-        ></textarea>
-        <small id="commentairesHelp" class="form-text text-muted">
-          1000 caractères maximum
-        </small>
-      </fieldset>
+      <label for="commentaires" class="label">Commentaires</label>
+      <textarea
+        class="form-control"
+        rows="6"
+        formControlName="commentaires"
+        id="commentaires"
+        aria-describedby="commentairesHelp"
+      ></textarea>
+      <small id="commentairesHelp" class="form-text text-muted">
+        1000 caractères maximum
+      </small>
     </div>
   </div>
 
@@ -447,7 +446,7 @@
 
 <ng-template #entretienConfirmation let-modal>
   <div class="modal-header bg-primary">
-    <h4 class="text-white modal-title" id="modal-title">Attention !</h4>
+    <span class="text-white modal-title" id="modal-title">Attention !</span>
 
     <button
       title="Fermer"

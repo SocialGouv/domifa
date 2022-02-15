@@ -46,11 +46,11 @@
       </div>
     </div>
 
-    <div class="step_form" id="step_form1" *ngIf="editRdv">
+    <fieldset class="step_form" id="step_form1" *ngIf="editRdv">
       <div class="text-center">
-        <h5 class="title">
+        <legend class="title">
           Quand souhaitez-vous réaliser l'entretien de {{ usager.prenom }} ?
-        </h5>
+        </legend>
         <br />
       </div>
       <form ngNativeValidate [formGroup]="rdvForm" (ngSubmit)="submitRdv()">
@@ -219,7 +219,7 @@
           </div>
         </div>
       </form>
-    </div>
+    </fieldset>
 
     <app-step-footer
       [usager]="usager"

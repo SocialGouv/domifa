@@ -36,7 +36,7 @@
       >
         <h2 class="form-title">État civil du demandeur</h2>
         <fieldset>
-          <legend class="sr-only">Informations sur le demandeur</legend>
+          <legend>Civilité</legend>
           <div class="form-group">
             <div class="form-check form-check-inline">
               <input
@@ -240,23 +240,9 @@
 
         <div class="row">
           <div class="col-md-12 my-3">
-            <label class="form-check-label">
-              Le demandeur a-t-il des ayant-droits ?
-              <button type="button" class="btn" (click)="openToolTip(t2)">
-                <fa-icon
-                  [icon]="['fas', 'question-circle']"
-                  triggers="click"
-                  #t2="ngbTooltip"
-                  [autoClose]="'outside'"
-                  placement="right"
-                  [ngbTooltip]="tipContent"
-                ></fa-icon>
-              </button>
-              <ng-template #tipContent>
-                Autres personnes à la charge du demandeur
-              </ng-template>
-            </label>
-            <div>
+            <fieldset>
+              <legend>Le demandeur a-t-il des ayant-droits ?</legend>
+
               <div class="form-check form-check-inline">
                 <input
                   class="form-check-input"
@@ -283,7 +269,7 @@
                   Non
                 </label>
               </div>
-            </div>
+            </fieldset>
           </div>
         </div>
 
@@ -330,14 +316,14 @@
                   }"
                   required
                 />
-                <div
+                <p
                   *ngIf="
                     submitted && ayantsDroits.controls[i].get('prenom').errors
                   "
                   class="invalid-feedback"
                 >
                   Le prénom est obligatoire
-                </div>
+                </p>
               </div>
               <div class="col form-group required">
                 <label for="ad_dateNaissance_{{ i }}">Date de naissance</label>
@@ -378,7 +364,7 @@
                       <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
                     </button>
                   </div>
-                  <div
+                  <p
                     *ngIf="
                       submitted &&
                       ayantsDroits.controls[i].get('dateNaissance').errors
@@ -386,7 +372,7 @@
                     class="invalid-feedback"
                   >
                     La date de naissance est obligatoire
-                  </div>
+                  </p>
                 </div>
               </div>
               <div class="col form-group required">
@@ -454,32 +440,33 @@
           "
         >
           <div class="col">
-            <div>
-              <label>
+            <fieldset>
+              <legend>
                 Le demandeur souhaite-t-il recevoir des notifications par SMS
                 (arrivée d'un courrier, échéance de domiciliation) ?
-              </label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                formControlName="phone"
-                id="sms_oui"
-                [value]="true"
-              />
-              <label class="form-check-label" for="sms_oui"> Oui </label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                formControlName="phone"
-                id="sms_non"
-                [value]="false"
-              />
-              <label class="form-check-label" for="sms_non"> Non </label>
-            </div>
+              </legend>
+
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  formControlName="phone"
+                  id="sms_oui"
+                  [value]="true"
+                />
+                <label class="form-check-label" for="sms_oui"> Oui </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  formControlName="phone"
+                  id="sms_non"
+                  [value]="false"
+                />
+                <label class="form-check-label" for="sms_non"> Non </label>
+              </div>
+            </fieldset>
           </div>
           <div class="col" *ngIf="f.preference.get('phone').value === true">
             <div class="form-group required">

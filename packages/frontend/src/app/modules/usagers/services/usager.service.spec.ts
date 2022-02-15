@@ -84,7 +84,7 @@ describe("UsagerService", () => {
 
     expect(rdvFull).toEqual({
       dateRdv: new Date("December 20, 1991 02:12:00"),
-      heureRdv: "01:12",
+      heureRdv: "02:12",
       isNow: true,
       jourRdv: {
         day: 20,

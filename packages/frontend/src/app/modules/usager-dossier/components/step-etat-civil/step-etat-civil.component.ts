@@ -13,7 +13,6 @@ import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
   NgbDateStruct,
-  NgbTooltip,
 } from "@ng-bootstrap/ng-bootstrap";
 
 import { AuthService } from "src/app/modules/shared/services/auth.service";
@@ -312,14 +311,6 @@ export class StepEtatCivilComponent implements OnInit {
         this.toastService.error("Veuillez vérifier les champs du formulaire");
       },
     });
-  }
-
-  public openToolTip(tooltip: NgbTooltip) {
-    if (tooltip.isOpen()) {
-      tooltip.close();
-    } else {
-      tooltip.open();
-    }
   }
 
   private nextStep(): void {

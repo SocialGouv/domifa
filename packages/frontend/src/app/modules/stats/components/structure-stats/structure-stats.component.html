@@ -140,6 +140,7 @@
         (click)="export()"
         [disabled]="exportLoading"
         class="btn btn-primary"
+        type="button"
       >
         <span *ngIf="!exportLoading">
           <fa-icon [icon]="['fas', 'download']" class="mr-1"></fa-icon>
@@ -596,13 +597,10 @@
     <h4>
       2. Activité du {{ stats.period.startDateUTC | date: "dd/MM/yyyy" }} au
       {{ stats.period.endDateUTC | date: "dd/MM/yyyy" }}
-
-      <span *ngIf="end !== null"> </span>
-      <span *ngIf="end === null"> </span>
     </h4>
 
     <div class="rapport-part">
-      <table class="table table-hover">
+      <table summary="" class="table table-hover">
         <tbody>
           <tr>
             <td class="font-weight-bold">
