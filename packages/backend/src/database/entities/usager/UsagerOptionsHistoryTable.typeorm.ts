@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, JoinColumn } from "typeorm";
+import { Column, Entity, ManyToOne, JoinColumn, Index } from "typeorm";
 
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import { UsagerTable } from "./UsagerTable.typeorm";
@@ -13,12 +13,20 @@ export class UsagerOptionsHistoryTable
   extends AppTypeormTable<UsagerOptionsHistoryTable>
   implements UsagerOptionsHistory
 {
+  @Index()
+  @Column({ type: "text" })
+  public usagerUUID: string;
+
   @ManyToOne(() => UsagerTable, { lazy: true })
   @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })
-  usager: Promise<UsagerTable>;
+  public usagerFk?: Promise<UsagerTable>;
+
+  @Index()
+  @Column({ type: "integer" }) // nullable if user is deleted
+  public userId: number;
 
   @Column({ type: "text" })
-  public userId: string;
+  public userName: string;
 
   @Column({ type: "integer" })
   public structureId: number;
