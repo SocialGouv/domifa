@@ -26,7 +26,7 @@ export class Rdv implements UsagerRdv {
     this.heureRdv = format(this.dateRdv, "HH:mm");
 
     if (this.userId) {
-      this.isNow = differenceInCalendarDays(this.dateRdv, new Date()) === 0;
+      this.isNow = differenceInCalendarDays(this.dateRdv, new Date()) <= 0;
     }
   }
 }
