@@ -46,11 +46,6 @@ export class InteractionsTable
   @Column({ type: "integer", nullable: true }) // nullable if user is deleted
   userId: number;
 
-  // NOTE: pas de FK car les users peuvent être supprimés (si on ajoute la FK, il faudra rendre nullable les userId)
-  // @ManyToOne(() => UserStructureTable, { lazy: true })
-  // @JoinColumn({ name: "userId", referencedColumnName: "id" })
-  // userFk?: Promise<UserStructureTable>;
-
   @Column({ type: "text" })
   userName: string;
 
