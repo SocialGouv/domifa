@@ -1,3 +1,16 @@
+# [2.74.0](https://github.com/SocialGouv/domifa/compare/v2.73.5...v2.74.0) (2022-02-17)
+
+
+### Bug Fixes
+
+* metabase version ([152f90f](https://github.com/SocialGouv/domifa/commit/152f90f571fc61569c21ee9cdf9a0e954e7a08a8))
+* renames ([95f4c96](https://github.com/SocialGouv/domifa/commit/95f4c962130d97f131ee5114abe12dd263c0e063))
+
+
+### Features
+
+* **k8s:** add prod metabase ([9956900](https://github.com/SocialGouv/domifa/commit/9956900adaeb8d2e161e6d3afeb69b94c501a09c))
+
 ## [2.73.5](https://github.com/SocialGouv/domifa/compare/v2.73.4...v2.73.5) (2022-02-15)
 
 
