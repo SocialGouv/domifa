@@ -598,6 +598,15 @@
     node-fetch "^2.6.1"
     tslib "^2.1.0"
 
+"@kubernetes-models/apimachinery@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@kubernetes-models/apimachinery/-/apimachinery-0.1.0.tgz#3473c8d0cd9c7bf1939bbc8fb040d610e9292459"
+  integrity sha512-HKQ1EPbDZptSgrxodqiW/boft6fGHLJvfSc19JddRAPTd+otKPsbmOelWEQNp3yfAAU/ptAFi9/+8b7Ap6kpmQ==
+  dependencies:
+    "@kubernetes-models/base" "^3.0.0"
+    "@kubernetes-models/validate" "^2.0.1"
+    tslib "^2.3.1"
+
 "@kubernetes-models/base@2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@kubernetes-models/base/-/base-2.0.1.tgz#162a0d4e68d97e70a1b8cc3df4ac64697d97ed9f"
@@ -615,6 +624,15 @@
     "@kubernetes-models/validate" "^1.6.0"
     is-plain-object "^5.0.0"
     tslib "^2.2.0"
+
+"@kubernetes-models/base@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@kubernetes-models/base/-/base-3.0.0.tgz#1b27498863cd10b9e422470e6524d0773adbccc7"
+  integrity sha512-oaWmwwZjMHgxa7FSpfUi8GbXPKmPZGOceVvB4KXc9JtgakZwDVgYBX2Q+fCf1mybbvypLOB/pjwpjznihaXEFQ==
+  dependencies:
+    "@kubernetes-models/validate" "^2.0.1"
+    is-plain-object "^5.0.0"
+    tslib "^2.3.1"
 
 "@kubernetes-models/sealed-secrets@^1.6.3":
   version "1.6.3"
@@ -636,7 +654,7 @@
     kubernetes-models "2.0.2"
     tslib "^2.3.0"
 
-"@kubernetes-models/validate@2.0.1":
+"@kubernetes-models/validate@2.0.1", "@kubernetes-models/validate@^2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@kubernetes-models/validate/-/validate-2.0.1.tgz#fe421a08733ff7018f882c1e58a3b7a337964379"
   integrity sha512-jAXVwj1MJ3T2kEF3l0TYWDvzjVm4z9C7hWxgHKPoNu6zW5/BPxeYhxbCKtXrYRY4WaGWqVUF/6ogwK/vfuisVA==
@@ -2366,6 +2384,16 @@ kubernetes-models@^1.7.1:
     "@kubernetes-models/base" "^1.5.5"
     "@kubernetes-models/validate" "^1.6.0"
     tslib "^2.2.0"
+
+kubernetes-models@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/kubernetes-models/-/kubernetes-models-3.0.1.tgz#b0e4fd760959bdd4fadc5c826b782237efc9db40"
+  integrity sha512-A9i38mVLV8bIooq0AJacze8wQcJdPbly299wLPIA0kK2MjhOfRs7GFw7snqv5G2tHypWSRDykafVPBCAQNsxxQ==
+  dependencies:
+    "@kubernetes-models/apimachinery" "^0.1.0"
+    "@kubernetes-models/base" "^3.0.0"
+    "@kubernetes-models/validate" "^2.0.1"
+    tslib "^2.3.1"
 
 leven@^3.1.0:
   version "3.1.0"
