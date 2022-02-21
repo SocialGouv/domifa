@@ -1,6 +1,6 @@
 import { UsagerPreferenceContact } from "./../../_common/model/usager/UsagerPreferenceContact.type";
 import { ApiProperty } from "@nestjs/swagger";
-import { Type } from "class-transformer";
+import { Transform, TransformFnParams, Type } from "class-transformer";
 import {
   IsArray,
   IsDateString,
@@ -41,6 +41,9 @@ export class CreateUsagerDto {
   })
   @IsNotEmpty()
   @MaxLength(400)
+  @Transform(({ value }: TransformFnParams) => {
+    return value ? value.toString().trim() : null;
+  })
   public nom!: string;
 
   @ApiProperty({
@@ -50,6 +53,9 @@ export class CreateUsagerDto {
   })
   @IsNotEmpty()
   @MaxLength(400)
+  @Transform(({ value }: TransformFnParams) => {
+    return value ? value.toString().trim() : null;
+  })
   public prenom!: string;
 
   @ApiProperty({
@@ -58,6 +64,9 @@ export class CreateUsagerDto {
   })
   @IsOptional()
   @MaxLength(400)
+  @Transform(({ value }: TransformFnParams) => {
+    return value ? value.toString().trim() : null;
+  })
   public surnom!: string;
 
   @ApiProperty({
@@ -77,6 +86,9 @@ export class CreateUsagerDto {
   })
   @IsNotEmpty()
   @MaxLength(400)
+  @Transform(({ value }: TransformFnParams) => {
+    return value ? value.toString().trim() : null;
+  })
   public villeNaissance!: string;
 
   @ApiProperty({
@@ -101,6 +113,9 @@ export class CreateUsagerDto {
   @IsOptional()
   @ValidateIf((o) => o.email !== "")
   @IsEmail()
+  @Transform(({ value }: TransformFnParams) => {
+    return value ? value.toString().trim() : null;
+  })
   public email!: string;
 
   @ApiProperty({

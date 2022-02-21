@@ -1,10 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Type } from "class-transformer";
+import { Transform, TransformFnParams, Type } from "class-transformer";
 import {
   IsIn,
   IsNotEmpty,
   IsNumber,
   IsOptional,
+  Min,
   ValidateNested,
 } from "class-validator";
 import { StructureAdresseCourrierDto, StructureResponsableDto } from ".";
@@ -25,6 +26,9 @@ export class StructureDto {
     required: true,
   })
   @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => {
+    return value.trim();
+  })
   public adresse!: string;
 
   @ApiProperty({
@@ -32,6 +36,9 @@ export class StructureDto {
     required: true,
   })
   @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => {
+    return value.trim();
+  })
   public nom!: string;
 
   @ApiProperty({
@@ -39,12 +46,19 @@ export class StructureDto {
     required: false,
   })
   @IsOptional()
+  @Transform(({ value }: TransformFnParams) => {
+    if (value) {
+      return value.trim();
+    }
+    return null;
+  })
   public complementAdresse!: string;
 
   @ApiProperty({
     type: Number,
     required: false,
   })
+  @Min(0)
   @IsNumber()
   @IsOptional()
   public capacite!: number;
@@ -61,6 +75,9 @@ export class StructureDto {
     required: true,
   })
   @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => {
+    return value.trim();
+  })
   public ville!: string;
 
   @ApiProperty({
@@ -87,6 +104,9 @@ export class StructureDto {
     required: true,
   })
   @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => {
+    return value.trim();
+  })
   public email!: string;
 
   @ApiProperty({

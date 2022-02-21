@@ -30,7 +30,10 @@ export class ContactSupportDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(2)
-  @Transform(({ value }: TransformFnParams) => sanitizeHtml(value))
+  @Transform(({ value }: TransformFnParams) => {
+    value = sanitizeHtml(value);
+    return value.toString().trim();
+  })
   public name!: string;
 
   @ApiProperty({
@@ -40,7 +43,10 @@ export class ContactSupportDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(2)
-  @Transform(({ value }: TransformFnParams) => sanitizeHtml(value))
+  @Transform(({ value }: TransformFnParams) => {
+    value = sanitizeHtml(value);
+    return value.toString().trim();
+  })
   public structureName!: string;
 
   @ApiProperty({
@@ -50,7 +56,10 @@ export class ContactSupportDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(10)
-  @Transform(({ value }: TransformFnParams) => sanitizeHtml(value))
+  @Transform(({ value }: TransformFnParams) => {
+    value = sanitizeHtml(value);
+    return value.toString().trim();
+  })
   public content!: string;
 
   @ApiProperty({
