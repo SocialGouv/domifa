@@ -1,3 +1,10 @@
+## [2.75.1](https://github.com/SocialGouv/domifa/compare/v2.75.0...v2.75.1) (2022-02-21)
+
+
+### Bug Fixes
+
+* **datas:** Correction de données non nettoyées ([cbfe817](https://github.com/SocialGouv/domifa/commit/cbfe81773d93f5b3a531244f77deff2fe9bfd88c))
+
 # [2.75.0](https://github.com/SocialGouv/domifa/compare/v2.74.0...v2.75.0) (2022-02-21)
 
 
