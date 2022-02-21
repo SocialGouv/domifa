@@ -3,7 +3,7 @@
     <div class="col-md-12">
       <h1>Rapport d'activité de votre structure</h1>
 
-      <div>
+      <p>
         Cet item vous permettra de remplir votre obligation légale et
         réglementaire (Article L 264-8 et Article D 264-8 du code de l'action
         sociale et des familles) de transmission annuelle au préfet de
@@ -11,29 +11,29 @@
         <br />
         <br />Il vous permettra aussi d’assurer le suivi et le pilotage de votre
         activité.<br />
+      </p>
 
-        <div class="card p-4 my-4">
-          <div class="row d-flex align-items-center">
-            <div class="col-md-8">
-              <b>
-                <fa-icon
-                  title="Information statistiques"
-                  [icon]="['fas', 'info-circle']"
-                ></fa-icon>
+      <div class="card p-4 my-4">
+        <div class="row d-flex align-items-center">
+          <div class="col-md-8">
+            <b>
+              <fa-icon
+                title="Information statistiques"
+                [icon]="['fas', 'info-circle']"
+              ></fa-icon>
 
-                Les statistiques du rapport d’activité 2021 sont disponibles
-              </b>
-            </div>
-            <div class="col-md-4 text-right">
-              <button
-                title="Télécharger le rapport 2021"
-                class="btn btn-primary"
-                (click)="export(2021)"
-              >
-                <fa-icon [icon]="['fas', 'download']"></fa-icon>
-                Télécharger le rapport 2021
-              </button>
-            </div>
+              Les statistiques du rapport d’activité 2021 sont disponibles
+            </b>
+          </div>
+          <div class="col-md-4 text-right">
+            <button
+              title="Télécharger le rapport 2021"
+              class="btn btn-primary"
+              (click)="export(2021)"
+            >
+              <fa-icon [icon]="['fas', 'download']"></fa-icon>
+              Télécharger le rapport 2021
+            </button>
           </div>
         </div>
       </div>
@@ -68,17 +68,14 @@
           />
           <div class="input-group-append">
             <button class="btn btn-outline-primary" (click)="dDebut.toggle()">
-              <fa-icon
-                title="Calendrier"
-                [icon]="['fas', 'calendar']"
-              ></fa-icon>
+              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
             </button>
           </div>
         </div>
       </div>
-      <div class="text-danger" *ngIf="ca.status === 'INVALID'">
-        La date de début est incorrecte
-      </div>
+      <p class="text-danger" *ngIf="ca.status === 'INVALID'">
+        Veuillez saisir une date de début valide. Par exemple : 01/01/2021
+      </p>
     </div>
     <div class="col-3">
       <div class="form-group">
@@ -104,21 +101,24 @@
             }"
             maxlength="10"
             required
+            aria-required="true"
           />
           <div class="input-group-append">
-            <span class="btn btn-outline-primary" (click)="dFin.toggle()">
-              <fa-icon
-                title="Calendrier"
-                [icon]="['fas', 'calendar']"
-              ></fa-icon>
-            </span>
+            <button
+              aria-label="Sélectionner une date sur le calendrier"
+              class="btn btn-outline-primary"
+              type="button"
+              (click)="dFin.toggle()"
+            >
+              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+            </button>
           </div>
         </div>
       </div>
 
-      <div class="text-center text-danger" *ngIf="cb.status === 'INVALID'">
-        La date de fin est incorrecte
-      </div>
+      <p class="text-center text-danger" *ngIf="cb.status === 'INVALID'">
+        Veuillez saisir une date de fin valide. Exemple : 01/01/2021
+      </p>
     </div>
     <div class="col-md-3 form-group">
       <div class="input-group">
@@ -139,6 +139,7 @@
         (click)="export()"
         [disabled]="exportLoading"
         class="btn btn-primary"
+        type="button"
       >
         <span *ngIf="!exportLoading">
           <fa-icon [icon]="['fas', 'download']" class="mr-1"></fa-icon>
@@ -595,9 +596,6 @@
     <h4>
       2. Activité du {{ stats.period.startDateUTC | date: "dd/MM/yyyy" }} au
       {{ stats.period.endDateUTC | date: "dd/MM/yyyy" }}
-
-      <span *ngIf="end !== null"> </span>
-      <span *ngIf="end === null"> </span>
     </h4>
 
     <div class="rapport-part">

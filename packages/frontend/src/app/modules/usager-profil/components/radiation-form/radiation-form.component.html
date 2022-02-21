@@ -1,7 +1,7 @@
 <div class="modal-header bg-danger">
-  <h4 class="text-white modal-title" id="modal-title">
+  <span class="text-white modal-title" id="modal-title">
     Motivez votre radiation
-  </h4>
+  </span>
 
   <button
     title="Fermer"
@@ -39,7 +39,7 @@
   >
     <div class="row">
       <div class="col-md-6 form-group required">
-        <label for="dateFin"> Date de la radiation </label>
+        <label for="dateFin">Date de la radiation</label>
         <div class="input-group">
           <input
             class="form-control"
@@ -58,66 +58,69 @@
             }"
             maxlength="10"
             required
+            aria-required="true"
           />
           <div class="input-group-append">
-            <span
+            <button
+              type="button"
               class="btn btn-outline-primary d-print-none"
               (click)="dFin.toggle()"
+              aria-label="Sélectionner une date de radiation"
             >
-              <fa-icon
-                title="Calendrier"
-                [icon]="['fas', 'calendar']"
-              ></fa-icon>
-            </span>
+              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+            </button>
           </div>
-          <div *ngIf="submitted && r.dateFin.invalid" class="invalid-feedback">
+          <p *ngIf="submitted && r.dateFin.invalid" class="invalid-feedback">
             La date de radiation est incorrecte
-          </div>
+          </p>
         </div>
       </div>
 
       <div class="col-12">
-        <p class="font-weight-bold">
-          Merci d’indiquer le motif : <span class="text-danger">*</span>
-        </p>
+        <fieldset>
+          <legend class="font-weight-bold">
+            Merci d’indiquer le motif <span class="text-danger">*</span>
+          </legend>
 
-        <div
-          class="form-row form-check"
-          *ngFor="let motif of MOTIFS_RADIATION_LABELS | keyvalue"
-        >
-          <input
-            class="form-check-input"
-            type="radio"
-            [ngClass]="{ 'is-invalid': submitted && r.motif.errors }"
-            formControlName="motif"
-            id="{{ motif.key }}"
-            value="{{ motif.key }}"
-            required
-          />
-          <label class="form-check-label" for="{{ motif.key }}">
-            {{ motif.value }}
-          </label>
-        </div>
-
-        <div class="form-row">
-          <div class="form-check">
+          <div
+            class="form-row form-check"
+            *ngFor="let motif of MOTIFS_RADIATION_LABELS | keyvalue"
+          >
             <input
               class="form-check-input"
               type="radio"
-              id="motif-autre"
               [ngClass]="{ 'is-invalid': submitted && r.motif.errors }"
               formControlName="motif"
-              value="AUTRE"
+              id="{{ motif.key }}"
+              value="{{ motif.key }}"
               required
             />
-            <label class="form-check-label" for="motif-autre">
-              Autre motif
+            <label class="form-check-label" for="{{ motif.key }}">
+              {{ motif.value }}
             </label>
           </div>
-        </div>
-        <div *ngIf="submitted && r.motif.errors" class="invalid-feedback">
-          Veuillez choisir un motif de radiation
-        </div>
+
+          <div class="form-row">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="motif-autre"
+                [ngClass]="{ 'is-invalid': submitted && r.motif.errors }"
+                formControlName="motif"
+                value="AUTRE"
+                required
+                aria-required="true"
+              />
+              <label class="form-check-label" for="motif-autre">
+                Autre motif
+              </label>
+            </div>
+          </div>
+          <p *ngIf="submitted && r.motif.errors" class="invalid-feedback">
+            Veuillez choisir un motif de radiation
+          </p>
+        </fieldset>
 
         <div *ngIf="r.motif.value === 'AUTRE'" class="form-group required">
           <label class="form-check-label" for="motifDetails">

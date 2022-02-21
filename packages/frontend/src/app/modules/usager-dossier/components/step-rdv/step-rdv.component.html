@@ -46,11 +46,11 @@
       </div>
     </div>
 
-    <div class="step_form" id="step_form1" *ngIf="editRdv">
+    <fieldset class="step_form" id="step_form1" *ngIf="editRdv">
       <div class="text-center">
-        <h5 class="title">
+        <legend class="title">
           Quand souhaitez-vous réaliser l'entretien de {{ usager.prenom }} ?
-        </h5>
+        </legend>
         <br />
       </div>
       <form ngNativeValidate [formGroup]="rdvForm" (ngSubmit)="submitRdv()">
@@ -62,7 +62,7 @@
             }"
           >
             <div class="card-body" (click)="setValueRdv(true)">
-              <h5 class="card-title text-center">
+              <h5 class="mb-2 text-center">
                 <input
                   autofocus
                   class="form-check-input"
@@ -107,7 +107,7 @@
             }"
           >
             <div class="card-body" (click)="setValueRdv(false)">
-              <h5 class="card-title text-center">
+              <h5 class="mb-2 text-center">
                 <input
                   class="form-check-input"
                   type="radio"
@@ -127,6 +127,10 @@
                   <label for="rdvUser">Avec quel collaborateur ?</label>
                   <select
                     *ngIf="agents"
+                    required
+                    [ngClass]="{
+                      'is-invalid': r.userId.errors
+                    }"
                     id="rdvUser"
                     formControlName="userId"
                     class="form-control"
@@ -151,6 +155,7 @@
                       formControlName="jourRdv"
                       #dRdv="ngbDatepicker"
                       required
+                      aria-required="true"
                     />
                     <div class="input-group-append">
                       <button
@@ -159,30 +164,28 @@
                         class="btn btn-outline-primary"
                         (click)="dRdv.toggle()"
                       >
-                        <fa-icon
-                          title="Calendrier"
-                          [icon]="['fas', 'calendar']"
-                        ></fa-icon>
+                        <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
                       </button>
                     </div>
-                    <div
+                    <p
                       *ngIf="r.jourRdv.invalid"
                       class="text-center invalid-feedback"
                     >
                       La date est incorrecte
-                    </div>
+                    </p>
                   </div>
                 </div>
                 <div class="form-group col required">
                   <label for="heureRdv">Heure du rendez-vous</label>
                   <div class="input-group">
-                    <ngb-timepicker
-                      required
-                      [spinners]="false"
-                      id="heureRdv"
+                    <input
+                      type="time"
+                      class="form-control"
                       [ngClass]="{ 'is-invalid': r.heureRdv.invalid }"
+                      id="heureRdv"
                       formControlName="heureRdv"
-                    ></ngb-timepicker>
+                    />
+
                     <div
                       *ngIf="r.heureRdv.errors"
                       class="small form-text text-center text-danger"
@@ -217,7 +220,7 @@
           </div>
         </div>
       </form>
-    </div>
+    </fieldset>
 
     <app-step-footer
       [usager]="usager"

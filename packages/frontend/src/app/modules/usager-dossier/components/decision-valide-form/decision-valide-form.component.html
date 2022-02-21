@@ -1,5 +1,7 @@
 <div class="modal-header bg-success">
-  <h4 class="text-white modal-title" id="modal-title">Confirmer la décision</h4>
+  <span class="text-white modal-title" id="modal-title"
+    >Confirmer la décision</span
+  >
 
   <button
     title="Fermer"
@@ -46,9 +48,11 @@
               }"
               maxlength="10"
               required
+              aria-required="true"
             />
             <div class="input-group-append">
-              <span
+              <button
+                type="button"
                 class="btn btn-outline-primary d-print-none"
                 (click)="dDebut.toggle()"
               >
@@ -56,7 +60,7 @@
                   title="Calendrier"
                   [icon]="['fas', 'calendar']"
                 ></fa-icon>
-              </span>
+              </button>
             </div>
           </div>
           <div *ngIf="submitted && v.dateDebut.errors" class="invalid-feedback">
@@ -83,33 +87,33 @@
               }"
               maxlength="10"
               required
+              aria-required="true"
             />
             <div class="input-group-append">
-              <span
+              <button
+                type="button"
+                aria-label="Date de début"
                 class="btn btn-outline-primary d-print-none"
                 (click)="dFin.toggle()"
               >
-                <fa-icon
-                  title="Calendrier"
-                  [icon]="['fas', 'calendar']"
-                ></fa-icon>
-              </span>
+                <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+              </button>
             </div>
           </div>
         </div>
         <div class="text-center text-danger col-12">
-          <div class="text-center" *ngIf="showDurationWarning">
+          <p class="text-center" *ngIf="showDurationWarning">
             <b class="text-danger warning-end-dom"
               ><fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
               D'après la réglementation, une attestation de domiciliation doit
               être valable pendant un an.</b
             >
-          </div>
-          <div *ngIf="v.dateDebut.errors">La date de début est incorrecte</div>
-          <div *ngIf="v.dateFin.errors">La date de fin est incorrecte</div>
-          <div class="text-danger" *ngIf="v.dateDebut.value > v.dateFin.value">
+          </p>
+          <p *ngIf="v.dateDebut.errors">La date de début est incorrecte</p>
+          <p *ngIf="v.dateFin.errors">La date de fin est incorrecte</p>
+          <p class="text-danger" *ngIf="v.dateDebut.value > v.dateFin.value">
             La date de fin doit être supérieure à la date de début
-          </div>
+          </p>
         </div>
       </div>
       <br />
@@ -127,9 +131,9 @@
           <small id="customRefHelp" class="form-text text-muted">
             Optionnel
           </small>
-          <div *ngIf="v.customRef.errors" class="invalid-feedback">
+          <p *ngIf="v.customRef.errors" class="invalid-feedback">
             L'identifiant est incorrect
-          </div>
+          </p>
         </div>
         <div class="col-md-12" *ngIf="usagersRefs.length">
           <div class="my-2">

@@ -1,12 +1,12 @@
-<table
-  *ngIf="usager.notes.length > 0"
-  class="profil-table table table-light table-hover"
->
+<table *ngIf="usager.notes.length > 0" class="table table-hover">
+  <caption>
+    Notes sur l'usager
+  </caption>
   <thead>
     <tr>
-      <th>Date</th>
-      <th>Message</th>
-      <th>Suppression</th>
+      <th scope="col">Date</th>
+      <th scope="col">Message</th>
+      <th scope="col">Suppression</th>
     </tr>
   </thead>
   <tbody>

@@ -37,22 +37,28 @@ export class ProfilAddNoteFormComponent implements OnInit {
 
   public submit(): void {
     if (this.addNoteForm.valid) {
-      this.usagerService
-        .createNote({
-          note: {
-            ...this.addNoteForm.value,
-          },
-          usagerRef: this.usager.ref,
-        })
-        .subscribe({
-          next: (usager) => {
-            this.toastService.success("Note enregistrée avec succès");
-            this.confirm.emit(usager);
-          },
-          error: () => {
-            this.toastService.error("Impossible d'enregistrer cette note");
-          },
-        });
+      this.toastService.warning(
+        "Un des champs du formulaire n'est pas rempli ou contient une erreur"
+      );
+
+      return;
     }
+
+    this.usagerService
+      .createNote({
+        note: {
+          ...this.addNoteForm.value,
+        },
+        usagerRef: this.usager.ref,
+      })
+      .subscribe({
+        next: (usager) => {
+          this.toastService.success("Note enregistrée avec succès");
+          this.confirm.emit(usager);
+        },
+        error: () => {
+          this.toastService.error("Impossible d'enregistrer cette note");
+        },
+      });
   }
 }

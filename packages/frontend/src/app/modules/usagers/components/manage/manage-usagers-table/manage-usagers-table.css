@@ -69,13 +69,12 @@ tbody tr {
   background: #ffffff;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
   border-radius: 2px;
-  opacity: 0.8;
 }
 
 tbody tr:hover {
   background-color: #fff;
   outline: 0;
-  opacity: 1;
+
   cursor: pointer;
   box-shadow: 2px 1px 4px rgba(179, 179, 179, 0.5);
 }

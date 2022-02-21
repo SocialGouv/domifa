@@ -5,25 +5,27 @@
     <app-form-menu [usager]="usager" [currentStep]="3"></app-form-menu>
 
     <div class="step_form" id="step_form3">
-      <div class="text-center">
-        <h5 class="title">Pièces justificatives complétant le dossier</h5>
-        <br />
+      <div class="py-3 text-center">
+        <h2 class="form-title">Pièces justificatives complétant le dossier</h2>
         <p>
           Cette étape est optionnelle, rien ne vous oblige à enregistrer des
           pièces justificatives.
         </p>
-        <br />
       </div>
-      <br />
-      <app-upload [usager]="usager"></app-upload>
 
-      <div class="w-100"></div>
-      <br />
+      <div class="py-3">
+        <app-upload [usager]="usager"></app-upload>
+      </div>
+
+      <div class="py-3">
+        <app-display-usager-docs [usager]="usager"></app-display-usager-docs>
+      </div>
+
       <div class="col-md-4 offset-md-4 text-center">
         <button
           [disabled]="loading"
           type="submit"
-          class="btn btn-primary btn-block"
+          class="btn btn-primary btn-block my-3"
           (click)="nextStep(4)"
         >
           <span *ngIf="!loading">
@@ -39,18 +41,13 @@
         <a
           routerLink="/manage"
           routerLinkActive="router-link-active"
-          class="btn btn-block"
+          class="btn btn-block my-3"
         >
           <u>Continuer plus tard</u>
           &nbsp;
           <fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
         </a>
       </div>
-    </div>
-    <br />
-
-    <div class="p-1 step_form">
-      <app-display-usager-docs [usager]="usager"></app-display-usager-docs>
     </div>
 
     <app-step-footer

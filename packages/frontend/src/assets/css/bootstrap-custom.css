@@ -1,0 +1,137 @@
+.btn {
+  border-radius: 0.25rem;
+}
+
+.alert {
+  position: relative;
+  display: flex;
+  align-items: left;
+  justify-content: left;
+}
+
+.alert .svg-icon {
+  display: table-cell;
+  margin-right: 10px;
+  width: 35px;
+  height: 35px;
+  padding: 6px;
+  box-sizing: border-box;
+  -webkit-mask-size: 98%;
+  mask-size: 98%;
+}
+
+.alert div,
+.alert span {
+  padding-left: 5px;
+  flex-shrink: 1;
+  align-self: center;
+}
+
+.alert-warning .svg-icon {
+  background-color: #f0870c;
+}
+
+.alert-danger .svg-icon {
+  background-color: #f00c0c;
+}
+
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.alert-success hr {
+  border-top-color: #b1dfbb;
+}
+
+.alert-success .alert-link {
+  color: #0b2e13;
+}
+
+.alert-info {
+  color: #000000;
+  background-color: #e1ecff;
+  border-color: #a4c7ff;
+}
+
+.alert-info hr {
+  border-color: #a4c7ff;
+}
+
+.alert-info .alert-link {
+  color: #062c33;
+}
+
+.alert-warning {
+  color: black;
+  background-color: #fff9f4;
+  border-color: #ffe1c6;
+}
+
+.alert-warning hr {
+  border-top-color: #ffe1c6;
+}
+
+.alert-warning .alert-link {
+  color: #533f03;
+}
+
+.alert-danger {
+  color: black;
+  background-color: #fff4f5;
+  border-color: #ffcccf;
+}
+
+.alert-danger hr {
+  border-top-color: #f1b0b7;
+}
+
+.alert-danger .alert-link {
+  color: #491217;
+}
+
+.close {
+  opacity: 1 !important;
+}
+
+.modal-title {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.4rem;
+  margin-bottom: 0.2rem;
+  margin-top: 0.2rem;
+}
+
+.text-muted {
+  color: #6e6e6e !important;
+}
+
+.outside {
+  opacity: 1 !important;
+}
+
+.ngb-dp-weekday {
+  color: var(--primary) !important;
+}
+
+/* TODO: Supprimer quand passage à Boostrap 5 sera terminé */
+.form-control:focus {
+  color: var(--gray-900) !important;
+  background-color: #fff;
+  border-color: #86b7fe !important;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
+}
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--gray-900) !important;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+}

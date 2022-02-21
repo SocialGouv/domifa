@@ -2,86 +2,92 @@
   <div class="text-center">
     <h1 class="title">Connexion à Domifa</h1>
   </div>
-  <form
-    [formGroup]="loginForm"
-    class="col-md-8 offset-md-2"
-    (ngSubmit)="login()"
-  >
-    <div class="col form-group required">
-      <label for="email">Adresse email</label>
-      <input
-        type="email"
-        id="email"
-        formControlName="email"
-        autocomplete="username"
-        class="form-control"
-        [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
-        [attr.aria-invalid]="f.email.dirty && f.email.errors"
-      />
-      <div *ngIf="f.email.dirty && f.email.errors" class="invalid-feedback">
-        Veuillez vérifier l'adresse email
-      </div>
-    </div>
-    <div class="col form-group required">
-      <label for="password">Mot de passe</label>
-      <div class="input-group">
-        <input
-          type="password"
-          id="password"
-          formControlName="password"
-          [type]="!hidePassword ? 'text' : 'password'"
-          class="form-control"
-          placeholder="Mot de passe"
-          autocomplete="current-password"
-          [attr.aria-invalid]="f.password.dirty && f.password.errors"
-          [ngClass]="{ 'is-invalid': f.password.dirty && f.password.errors }"
-        />
-        <div class="input-group-append">
+
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="form-group required">
+          <label for="email">Adresse email (champ obligatoire)</label>
+          <input
+            type="email"
+            id="email"
+            aria-required="true"
+            formControlName="email"
+            autocomplete="email"
+            required
+            class="form-control"
+            [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+            [attr.aria-invalid]="f.email.dirty && f.email.errors"
+          />
+          <p *ngIf="f.email.dirty && f.email.errors" class="invalid-feedback">
+            Veuillez vérifier l'adresse email, format attendu : nom@domaine.fr
+          </p>
+        </div>
+        <div class="form-group required">
+          <label for="password">Mot de passe (champ obligatoire)</label>
+          <div class="input-group">
+            <input
+              required
+              aria-required="true"
+              id="password"
+              formControlName="password"
+              [type]="!hidePassword ? 'text' : 'password'"
+              class="form-control"
+              placeholder="Mot de passe"
+              autocomplete="current-password"
+              [attr.aria-invalid]="f.password.dirty && f.password.errors"
+              [ngClass]="{
+                'is-invalid': f.password.dirty && f.password.errors
+              }"
+            />
+            <div class="input-group-append">
+              <button
+                type="button"
+                [attr.aria-label]="
+                  (hidePassword ? 'Afficher' : 'Masquer') +
+                  ' ou masquer le mot de passe'
+                "
+                [attr.aria-checked]="!hidePassword"
+                class="input-group-text btn"
+                role="switch"
+                (click)="togglePassword(); $event.preventDefault()"
+              >
+                <fa-icon
+                  [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
+                ></fa-icon>
+              </button>
+            </div>
+
+            <p
+              *ngIf="f.password.dirty && f.password.errors"
+              class="invalid-feedback"
+            >
+              Veuillez vérifier le mot de passe
+            </p>
+          </div>
+        </div>
+        <div class="text-center py-2">
           <button
-            type="button"
-            [attr.aria-label]="
-              (hidePassword ? 'Afficher' : 'Masquer') +
-              ' ou masquer le mot de passe'
-            "
-            [attr.aria-checked]="!hidePassword"
-            class="input-group-text"
-            role="switch"
-            (click)="togglePassword(); $event.preventDefault()"
+            [disabled]="loading"
+            aria-label="Connexion"
+            class="btn btn-primary"
           >
-            <fa-icon
-              [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
-            ></fa-icon>
+            <span *ngIf="!loading"> Connexion </span>
+
+            <span *ngIf="loading"
+              ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+              </fa-icon>
+              Connexion en cours...</span
+            >
           </button>
+
+          <br />
+          <br />
+          <a routerLink="/reset-password" class="btn btn-link">
+            Mot de passe oublié
+          </a>
         </div>
       </div>
-      <div
-        *ngIf="f.password.dirty && f.password.errors"
-        class="invalid-feedback"
-      >
-        <div *ngIf="f.password.errors.required">
-          Le mot de passe est obligatoire
-        </div>
-      </div>
-    </div>
-    <div class="form-group text-center">
-      <button
-        [disabled]="loading || loginForm.invalid"
-        aria-label="Connexion"
-        class="btn btn-primary"
-      >
-        <span *ngIf="!loading"> Connexion </span>
-
-        <span *ngIf="loading"
-          ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
-          Connexion en cours...</span
-        >
-      </button>
-    </div>
-
-    <div class="text-center">
-      <a routerLink="/reset-password" class="btn btn-link">
-        Mot de passe oublié
-      </a>
     </div>
   </form>
 </div>

@@ -113,12 +113,7 @@
   <div class="text-left py-1 mt-2 mb-1">
     <button
       class="btn btn-lg btn-primary mx-1"
-      [disabled]="
-        (interactionFormData.courrierIn.nbCourrier === 0 &&
-          interactionFormData.colisIn.nbCourrier === 0 &&
-          interactionFormData.recommandeIn.nbCourrier === 0) ||
-        loading
-      "
+      [disabled]="loading"
       class="btn btn-lg btn-primary mr-2"
       (click)="setInteractionForm()"
     >

@@ -39,7 +39,7 @@
 }
 
 #import-table .required:after {
-  color: red;
+  color: var(--red);
   content: " *";
 }
 

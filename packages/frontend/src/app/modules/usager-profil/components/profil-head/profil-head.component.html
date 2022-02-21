@@ -5,12 +5,18 @@
     >
       <div class="px-0 mx-0">
         <h1 class="title">
-          <a [routerLink]="['/manage']" title="Revenir à la liste" class="px-3">
-            <img
-              src="../../../../../assets/icones/fleche-gauche.svg"
-              alt="Revenir à la liste"
-            />
+          <a
+            [routerLink]="['/manage']"
+            aria-label="Revenir à la liste"
+            title="Revenir à la liste"
+            class="px-3 text-white"
+          >
+            <fa-icon
+              class="text-white"
+              [icon]="['fas', 'angle-left']"
+            ></fa-icon>
           </a>
+
           <span class="statut-signal"></span>
           {{ usager | usagerNomComplet }} -
           <b *ngIf="usager.customRef">{{ usager.customRef }}</b>
@@ -90,7 +96,7 @@
       </div>
     </div>
 
-    <div id="statut-selector" class="mt-4 row">
+    <div id="statut-selector" role="navigation" class="mt-4 row">
       <a
         class="col"
         [class]="{ 'selected-section': section === 'general' }"

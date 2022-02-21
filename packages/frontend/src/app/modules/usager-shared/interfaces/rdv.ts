@@ -1,5 +1,6 @@
 import { UsagerRdv } from "./../../../../_common/model/usager/UsagerRdv.type";
 import { formatDateToNgb } from "../../../shared/bootstrap-util";
+import { differenceInCalendarDays, format } from "date-fns";
 
 export class Rdv implements UsagerRdv {
   public dateRdv: Date;
@@ -8,35 +9,24 @@ export class Rdv implements UsagerRdv {
     month: number;
     year: number;
   };
-  public heureRdv: {
-    hour: number;
-    minute: number;
-  };
-
+  public heureRdv: string;
   public userId: number;
   public userName: string;
   public isNow: boolean;
 
   constructor(rdv?: Partial<UsagerRdv>) {
     this.isNow = true;
-    this.dateRdv = null;
-
-    this.jourRdv = formatDateToNgb(new Date());
-    this.heureRdv = {
-      hour: new Date().getHours(),
-      minute: new Date().getMinutes(),
-    };
 
     this.userId = (rdv && rdv.userId) || null;
     this.userName = (rdv && rdv.userName) || null;
 
-    if (rdv && rdv.dateRdv) {
-      this.dateRdv = new Date(rdv.dateRdv);
-      this.jourRdv = formatDateToNgb(this.dateRdv);
-      this.heureRdv = {
-        hour: this.dateRdv.getHours(),
-        minute: this.dateRdv.getMinutes(),
-      };
+    this.dateRdv = rdv && rdv.dateRdv ? new Date(rdv.dateRdv) : new Date();
+
+    this.jourRdv = formatDateToNgb(this.dateRdv);
+    this.heureRdv = format(this.dateRdv, "HH:mm");
+
+    if (this.userId) {
+      this.isNow = differenceInCalendarDays(this.dateRdv, new Date()) <= 0;
     }
   }
 }

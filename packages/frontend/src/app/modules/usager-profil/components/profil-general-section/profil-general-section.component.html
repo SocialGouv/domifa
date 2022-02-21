@@ -40,7 +40,7 @@
               !isRole('facteur')
             "
           >
-            <div title="Calendrier" class="svg-icon icon-calendar"></div>
+            <div aria-hidden="true" class="svg-icon icon-calendar"></div>
             <span [class]="usager.rdvInfos.class">
               Demande de renouvellement actuellement en cours
               {{
@@ -63,7 +63,7 @@
               usager.typeDom === 'RENOUVELLEMENT'
             "
           >
-            <div title="Calendrier" class="svg-icon icon-calendar"></div>
+            <div aria-hidden="true" class="svg-icon icon-calendar"></div>
             <div>
               Cette demande de renouvellement est actuellement en attente d'une
               décision

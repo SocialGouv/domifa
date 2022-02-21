@@ -1,11 +1,7 @@
 <div class="alert-info alert" *ngIf="!usager.docs.length">
   Aucune pièce jointe n'a été ajouté pour le moment
 </div>
-<table
-  class="table upload-table p-0"
-  *ngIf="usager.docs.length"
-  summary="Documents de l'usager"
->
+<table class="table upload-table p-0" *ngIf="usager.docs.length">
   <caption class="sr-only">
     Documents de l'usager
   </caption>
@@ -23,10 +19,15 @@
         <span
           class="doc-icon"
           [ngClass]="STRUCTURE_DOC_ICONS[document.filetype]"
+          [attr.title]="STRUCTURE_DOC_EXTENSIONS_LABELS[document.filetype]"
         >
           <fa-icon
+            [aria-label]="STRUCTURE_DOC_EXTENSIONS_LABELS[document.filetype]"
             [icon]="['far', STRUCTURE_DOC_ICONS[document.filetype]]"
           ></fa-icon>
+          <p class="sr-only">
+            {{ STRUCTURE_DOC_EXTENSIONS_LABELS[document.filetype] }}
+          </p>
         </span>
       </td>
       <td class="align-middle">{{ document.label }}</td>
@@ -52,6 +53,7 @@
         </button>
 
         <button
+          #usagerDocsDeleteButtons
           (click)="deleteDocument(indexDocs)"
           class="m-1 btn btn-danger"
           [disabled]="loadings.delete.indexOf(indexDocs) !== -1"
