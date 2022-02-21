@@ -1,3 +1,10 @@
+# [2.75.0](https://github.com/SocialGouv/domifa/compare/v2.74.0...v2.75.0) (2022-02-21)
+
+
+### Features
+
+* **rgaa:** Mise en conformité des tableaux, des contrastes et formulaires d'ajout de domiciliation ([1d489e2](https://github.com/SocialGouv/domifa/commit/1d489e2b1115be29053ca6057c7056daf6fbee6d))
+
 # [2.74.0](https://github.com/SocialGouv/domifa/compare/v2.73.5...v2.74.0) (2022-02-17)
 
 
