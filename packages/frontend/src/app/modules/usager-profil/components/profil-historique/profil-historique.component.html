@@ -11,16 +11,15 @@
     <div class="page-content p-4">
       <div class="row">
         <div class="col-md-12">
-          <h4>Historique des décisions</h4>
-          <table
-            *ngIf="usager.historique.length > 0"
-            class="profil-table table table-light table-hover"
-          >
+          <table *ngIf="usager.historique.length > 0" class="table table-hover">
+            <caption>
+              Historique des décisions
+            </caption>
             <thead>
               <tr>
-                <th>Date</th>
-                <th>Type de décision</th>
-                <th>Responsable</th>
+                <th scope="col">Date</th>
+                <th scope="col">Type de décision</th>
+                <th scope="col">Responsable</th>
               </tr>
             </thead>
             <tbody>

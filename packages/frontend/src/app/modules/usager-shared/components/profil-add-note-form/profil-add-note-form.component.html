@@ -1,8 +1,8 @@
 <div class="modal-header">
-  <h4 class="px-1 py-1">
+  <span class="modal-title">
     Nouvelle note concernant
     <span class="text-primary">{{ usager.nom }} {{ usager.prenom }} </span>
-  </h4>
+  </span>
 </div>
 <div class="modal-body text-center">
   <form ngNativeValidate [formGroup]="addNoteForm" (ngSubmit)="submit()">
@@ -18,13 +18,7 @@
     <app-rgpd-warning></app-rgpd-warning>
 
     <div class="text-left py-1 mt-2 mb-1">
-      <button
-        type="submit"
-        class="btn btn-lg btn-primary mx-1"
-        [disabled]="!this.addNoteForm.valid"
-      >
-        Valider
-      </button>
+      <button type="submit" class="btn btn-lg btn-primary mx-1">Valider</button>
       <button
         type="button"
         class="btn btn-outline-dark btn-lg mr-2"

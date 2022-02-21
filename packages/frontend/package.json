@@ -38,6 +38,7 @@
     "@sentry/browser": "^6.7.2",
     "@swimlane/ngx-charts": "^20.0.0",
     "angular-user-idle": "^2.2.7",
+    "bootstrap": "4.6.1",
     "core-js": "^3.19.1",
     "date-fns": "^2.24.0",
     "file-saver": "^2.0.5",

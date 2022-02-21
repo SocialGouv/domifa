@@ -186,74 +186,83 @@
 
     <div id="import-table" *ngIf="!uploadForm.invalid">
       <table class="table table-striped table-hover">
-        <thead class>
-          <th>#</th>
-          <th>ID</th>
-          <th class="required">Civilité (H/F)</th>
-          <th class="required">Nom</th>
-          <th class="required">Prénom</th>
-          <th>Nom d'usage / Surnom</th>
-          <th class="required">
+        <caption>
+          Aperçu de l'import
+        </caption>
+        <thead>
+          <th scope="col">#</th>
+          <th scope="col">ID</th>
+          <th scope="col" class="required">Civilité (H/F)</th>
+          <th scope="col" class="required">Nom</th>
+          <th scope="col" class="required">Prénom</th>
+          <th scope="col">Nom d'usage / Surnom</th>
+          <th scope="col" class="required">
             Date de naissance
             <br />
             (jj/mm/aaaa)
           </th>
-          <th class="required">Lieu de naissance</th>
-          <th>N° Téléphone</th>
-          <th>Adresse Mail</th>
+          <th scope="col" class="required">Lieu de naissance</th>
+          <th scope="col">N° Téléphone</th>
+          <th scope="col">Adresse Mail</th>
 
-          <th class="required">Statut demande</th>
-          <th>
+          <th scope="col" class="required">Statut demande</th>
+          <th scope="col">
             <u>Seulement si refus</u>
             <br />
             Motif du refus
           </th>
-          <th>
+          <th scope="col">
             <u>Seulement si radiation</u>
             <br />
             Motif de radiation
           </th>
-          <th class="required">Type de demande</th>
-          <th class="required">
+          <th scope="col" class="required">Type de demande</th>
+          <th scope="col" class="required">
             Date de Début
             <br />
             domiciliation actuelle
           </th>
-          <th class="required">
+          <th scope="col" class="required">
             Date de fin de domiciliation OU <br />
             Date de radiation si radié OU <br />
             Date de refus si refusé
           </th>
-          <th>
+          <th scope="col">
             Date de la 1
             <sup>ère</sup>
             DOM
           </th>
-          <th>Date de dernier passage</th>
+          <th scope="col">Date de dernier passage</th>
 
-          <th>La personne a-t-elle été orientée ?</th>
-          <th>
+          <th scope="col">La personne a-t-elle été orientée ?</th>
+          <th scope="col">
             <u>Seulement si orientation</u><br />
             Par quelle structure/personne la personne a-t-elle été orientée ?
           </th>
-          <th>La personne a-t-elle déjà une domiciliation ?</th>
-          <th>La personne a-t-elle des revenus ?</th>
-          <th>
+          <th scope="col">La personne a-t-elle déjà une domiciliation ?</th>
+          <th scope="col">La personne a-t-elle des revenus ?</th>
+          <th scope="col">
             <u>Seulement si revenus,</u> <br />
             de quelle nature ?
           </th>
-          <th>Quel est le lien avec la commune ? (Si CCAS ou CIAS)</th>
-          <th><u>Si autre lien avec la commune</u>, précisions</th>
-          <th>Composition du ménage</th>
-          <th>Situation résidentielle</th>
-          <th><u>Si autre situation résidentielle</u><br />, précisions</th>
-          <th>Cause instabilité logement</th>
-          <th><u>Si autre cause d'instabilité</u><br />, précisions</th>
-          <th>Accompagnement social</th>
-          <th>Détail de l'accompagnement social</th>
-          <th>Motif principal de la demande</th>
-          <th><u>Si autre motif,</u><br />, précisions</th>
-          <th>Commentaires</th>
+          <th scope="col">
+            Quel est le lien avec la commune ? (Si CCAS ou CIAS)
+          </th>
+          <th scope="col"><u>Si autre lien avec la commune</u>, précisions</th>
+          <th scope="col">Composition du ménage</th>
+          <th scope="col">Situation résidentielle</th>
+          <th scope="col">
+            <u>Si autre situation résidentielle</u><br />, précisions
+          </th>
+          <th scope="col">Cause instabilité logement</th>
+          <th scope="col">
+            <u>Si autre cause d'instabilité</u><br />, précisions
+          </th>
+          <th scope="col">Accompagnement social</th>
+          <th scope="col">Détail de l'accompagnement social</th>
+          <th scope="col">Motif principal de la demande</th>
+          <th scope="col"><u>Si autre motif,</u><br />, précisions</th>
+          <th scope="col">Commentaires</th>
 
           <ng-container
             *ngFor="
@@ -261,22 +270,22 @@
               let rowIndex = index
             "
           >
-            <th>
+            <th scope="col">
               Nom
               <br />
               Ayant-droit {{ rowIndex + 1 }}
             </th>
-            <th>
+            <th scope="col">
               Prénom
               <br />
               Ayant-droit {{ rowIndex + 1 }}
             </th>
-            <th>
+            <th scope="col">
               Date de naissance
               <br />
               Ayant-droit {{ rowIndex + 1 }}
             </th>
-            <th>
+            <th scope="col">
               Lien de parenté
               <br />
               Ayant-droit {{ rowIndex + 1 }}

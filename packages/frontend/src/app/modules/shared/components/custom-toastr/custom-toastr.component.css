@@ -112,11 +112,11 @@
 }
 
 .toast-success {
-  background-color: #51a351;
+  background-color: var(--green);
 }
 
 .toast-error {
-  background-color: #bd362f;
+  background-color: var(--red);
 }
 
 .toast-info {
@@ -124,7 +124,8 @@
 }
 
 .toast-warning {
-  background-color: #f89406;
+  color: black;
+  background-color: var(--orange);
 }
 
 /*Responsive Design*/

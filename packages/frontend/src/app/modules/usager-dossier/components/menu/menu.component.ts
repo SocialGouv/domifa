@@ -10,7 +10,6 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 @Component({
   selector: "app-form-menu",
-  styleUrls: ["./menu.component.css"],
   templateUrl: "./menu.component.html",
 })
 export class MenuComponent implements OnInit {

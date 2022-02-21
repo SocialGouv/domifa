@@ -13,6 +13,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "preserveSymlinks": true,
+
             "outputPath": "dist/domifa",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -20,6 +22,13 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/assets"],
             "styles": [
+              "src/styles.scss",
+              "src/assets/css/bootstrap-custom.css",
+              "src/assets/css/forms.css",
+              "src/assets/css/fonts.css",
+              "src/assets/css/main.css",
+              "src/assets/css/print.css",
+              "src/assets/css/icons.css",
               "src/assets/css/tailwind/tailwind-letter-spacing.css",
               "src/assets/css/tailwind/tailwind-font-size.css",
               "src/assets/css/tailwind/tailwind-font-weight.css",
@@ -27,13 +36,7 @@
               "src/assets/css/tailwind/tailwind-width-partial.css",
               "src/assets/css/tailwind/tailwind-table.css",
               "src/assets/css/tailwind/tailwind-whitespace.css",
-              "src/assets/css/util.css",
-              "src/assets/css/bootstrap.css",
-              "src/assets/css/forms.css",
-              "src/assets/css/fonts.css",
-              "src/assets/css/main.css",
-              "src/assets/css/print.css",
-              "src/assets/css/icons.css"
+              "src/assets/css/util.css"
             ],
             "scripts": [],
             "aot": false,

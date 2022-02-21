@@ -1,5 +1,11 @@
 import { UsagerAyantDroit } from "./../../../../../_common/model/usager/UsagerAyantDroit.type";
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from "@angular/core";
 import {
   AbstractControl,
   FormArray,
@@ -81,6 +87,8 @@ export class StepEtatCivilComponent implements OnInit {
   });
 
   public me: UserStructure;
+
+  @ViewChildren("adNom") inputsAyantDroit: QueryList<ElementRef>;
 
   get f(): { [key: string]: AbstractControl } {
     return this.usagerForm.controls;
@@ -218,14 +226,18 @@ export class StepEtatCivilComponent implements OnInit {
     (this.usagerForm.controls.ayantsDroits as FormArray).push(
       this.newAyantDroit(ayantDroit)
     );
+    this.focusAyantDroit();
   }
 
   public deleteAyantDroit(i: number): void {
-    if (i === 0) {
-      this.usagerForm.controls.ayantsDroitsExist.setValue(false);
-    }
-
     (this.usagerForm.controls.ayantsDroits as FormArray).removeAt(i);
+
+    const formAyantDroit = this.usagerForm.controls.ayantsDroits as FormArray;
+    if (formAyantDroit.length === 0) {
+      this.usagerForm.controls.ayantsDroitsExist.setValue(false);
+    } else {
+      this.focusAyantDroit();
+    }
   }
 
   public resetAyantDroit(): void {
@@ -313,6 +325,14 @@ export class StepEtatCivilComponent implements OnInit {
     });
   }
 
+  private focusAyantDroit() {
+    // Focus sur l'élément créé
+    setTimeout(() => {
+      const ayantDroitTable = this.usagerForm.controls.ayantsDroits.value;
+      const inputs = this.inputsAyantDroit.toArray();
+      inputs[ayantDroitTable.length - 1].nativeElement.focus();
+    }, 500);
+  }
   private nextStep(): void {
     this.usagerDossierService
       .nextStep(this.usager.ref, 2)

@@ -52,31 +52,33 @@
 >
   <div class="row">
     <div class="col-md-6">
-      <label for=""
-        >Le demandeur souhaite-t-il recevoir des notifications par SMS (arrivée
-        d'un courrier, échéance de domiciliation) ?</label
-      >
-      <br />
-      <div class="form-check form-check-inline">
-        <input
-          class="form-check-input"
-          type="radio"
-          formControlName="phone"
-          id="sms_oui"
-          [value]="true"
-        />
-        <label class="form-check-label" for="sms_oui"> Oui </label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input
-          class="form-check-input"
-          type="radio"
-          formControlName="phone"
-          id="sms_non"
-          [value]="false"
-        />
-        <label class="form-check-label" for="sms_non"> Non </label>
-      </div>
+      <fieldset>
+        <legend class="label">
+          Le demandeur souhaite-t-il recevoir des notifications par SMS (arrivée
+          d'un courrier, échéance de domiciliation) ?
+        </legend>
+
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="phone"
+            id="sms_oui"
+            [value]="true"
+          />
+          <label class="form-check-label" for="sms_oui"> Oui </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="phone"
+            id="sms_non"
+            [value]="false"
+          />
+          <label class="form-check-label" for="sms_non"> Non </label>
+        </div>
+      </fieldset>
     </div>
 
     <div
@@ -96,6 +98,8 @@
         [ngClass]="{ 'is-invalid': formPref.phoneNumber.errors }"
         placeholder="0606060606"
         maxlength="10"
+        required
+        aria-required="true"
       />
 
       <div *ngIf="formPref.phoneNumber.errors" class="invalid-feedback">

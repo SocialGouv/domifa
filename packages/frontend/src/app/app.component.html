@@ -1,45 +1,21 @@
-<div
-  class="d-print-none d-flex justify-content-center align-items-center"
-  id="matomo-info"
-  role="alert"
-  aria-label="Avertissement sur la collecte de données"
-  *ngIf="!matomoInfo"
->
-  <div class="mx-1">
-    Nous collectons des données anonymisées à des fins statistiques via l'outil
-    français Matomo. Pour tout savoir sur notre utilisation des données,
-    consultez notre
-
-    <a [routerLink]="['/confidentialite']" routerLinkActive="router-link-active"
-      >politique de confidentialité.</a
-    >
-  </div>
-  <div class="mx-1">
-    <button
-      title="Fermer"
-      class="btn btn-white-primary"
-      aria-label="Fermer le message"
-      (click)="closeMatomo()"
-    >
-      Fermer <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-</div>
-
-<app-loading></app-loading>
 <app-custom-toastr></app-custom-toastr>
-
+<app-loading></app-loading>
+<div class="d-print-none" id="help-button-wrapper" *ngIf="me">
+  <button
+    type="button"
+    title="Besoin d'aide ?"
+    class="btn"
+    id="help-button"
+    (click)="openHelpModal()"
+  >
+    <fa-icon [icon]="['fas', 'question']"></fa-icon>
+  </button>
+</div>
 <app-navbar></app-navbar>
 
 <main id="page">
   <router-outlet></router-outlet>
 </main>
-
-<div class="d-print-none" id="help-button-wrapper" *ngIf="me">
-  <button title="Besoin d'aide ?" id="help-button" (click)="openHelpModal()">
-    <fa-icon [icon]="['fas', 'question']"></fa-icon>
-  </button>
-</div>
 
 <footer class="d-print-none page-footer py-4">
   <div class="container">
@@ -196,37 +172,39 @@
 </footer>
 
 <ng-template #maintenanceModal let-modal>
-  <div class="modal-body text-center">
-    <h4 class="modal-title" id="modal-title">
+  <div class="modal-header">
+    <span class="modal-title" id="modal-title">
       ⚠️ Maintenance de Domifa en cours ⚠️
-    </h4>
-    <br />
-    Veuillez nous excuser pour la gêne occasionnée.
-    <br />
-    Vous pourrez de nouveau utiliser Domifa dans quelques minutes.
-
-    <br /><br />
-
-    Cette fenêtre disparaitra dès la fin de la maintenance.
-    <br />
-    <br />
+    </span>
+  </div>
+  <div class="modal-body text-center">
+    <p>
+      <span class="modal-title" id="modal-title"> </span>
+      <br />
+      Veuillez nous excuser pour la gêne occasionnée.
+      <br />
+      Vous pourrez de nouveau utiliser Domifa dans quelques minutes.
+      <br /><br />
+      Cette fenêtre disparaitra dès la fin de la maintenance.
+    </p>
   </div>
 </ng-template>
 
 <ng-template #versionModal let-modal>
-  <div class="modal-body text-center">
-    <h4 class="modal-title">
+  <div class="modal-header">
+    <span class="modal-title" id="modal-title">
       ℹ️ Une nouvelle version de Domifa est disponible
-    </h4>
-    <br />
-    Afin de profiter des nouveautés de Domifa, vous devez actualiser la page.
-    <br /><br />
+    </span>
+  </div>
+
+  <div class="modal-body text-center py-4">
+    <p>
+      Afin de profiter des nouveautés de Domifa, vous devez actualiser la page.
+    </p>
+
     <button class="btn btn-primary" (click)="refresh()">
       <fa-icon [icon]="['fas', 'sync']"></fa-icon> Actualiser
     </button>
-
-    <br />
-    <br />
   </div>
 </ng-template>
 

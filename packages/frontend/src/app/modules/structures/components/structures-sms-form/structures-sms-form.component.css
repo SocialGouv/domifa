@@ -18,7 +18,7 @@
 }
 
 .left:after {
-  border: 3px solid #2095fe;
+  border: 3px solid #1266af;
   border-right: 3px solid transparent;
   border-top: 3px solid transparent;
   content: " ";
@@ -33,7 +33,7 @@
 }
 
 .sms-header {
-  color: #2095fe;
+  color: #1266af;
   background: #eee;
   border: 1px solid #ccc;
   border-bottom: 1px solid #bbb;

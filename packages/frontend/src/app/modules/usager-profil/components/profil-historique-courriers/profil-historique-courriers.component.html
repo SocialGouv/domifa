@@ -16,15 +16,18 @@
   </div>
   <table
     id="interactions-table"
-    class="profil-table table table-light table-hover"
+    class="table table-hover"
     *ngIf="interactions.length > 0"
   >
+    <caption class="sr-only">
+      Historique des courriers
+    </caption>
     <thead>
       <tr>
-        <th>Date</th>
-        <th>Type d'interaction</th>
-        <th>Notifié par</th>
-        <th></th>
+        <th scope="col">Date</th>
+        <th scope="col">Type d'interaction</th>
+        <th scope="col">Notifié par</th>
+        <th scope="col"></th>
       </tr>
     </thead>
 
@@ -101,9 +104,9 @@
 
 <ng-template #deleteInteractionModal let-modal>
   <div class="modal-header bg-danger">
-    <h4 class="text-white modal-title" id="modal-title">
+    <span class="text-white modal-title" id="modal-title">
       Supprimer une interaction
-    </h4>
+    </span>
 
     <button
       title="Fermer"
@@ -156,9 +159,9 @@
 
 <ng-template #restoreInteractionModal let-modal>
   <div class="modal-header bg-danger">
-    <h4 class="text-white modal-title" id="modal-title">
+    <span class="text-white modal-title" id="modal-title">
       Restaurer une interaction
-    </h4>
+    </span>
 
     <button
       title="Fermer"

@@ -1,6 +1,15 @@
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-text {
+  display: block;
+  margin-top: 0.25rem;
+}
+
 .form-group.required .control-label:after {
   content: "*";
-  color: red;
+  color: var(--red);
 }
 
 .custom-file-label {
@@ -14,7 +23,12 @@ input[type="radio"]:checked + label {
 
 .form-group.required label:not(.custom-file-label):after {
   content: " *";
-  color: red;
+  color: var(--red);
+}
+
+label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
 }
 
 form label {
@@ -27,7 +41,7 @@ form label {
   width: 100%;
   margin-top: 0.25rem;
   font-size: 80%;
-  color: #dc3545;
+  color: var(--red);
 }
 
 .indications div {
@@ -76,13 +90,19 @@ form label {
   color: white !important;
 }
 
+.btn-light-primary {
+  background-color: #ffffff;
+  color: #4164f5;
+  border-radius: 3px;
+}
+
 .btn-white-primary {
   background-color: #ffffff;
   color: #4164f5;
   box-shadow: 0 2px 2px #2f4ece;
   border-radius: 3px;
 }
-
+.btn-light-primary:hover,
 .btn-white-primary:hover {
   background-color: #e7e7e7;
   color: #2444c5;
@@ -131,4 +151,128 @@ form label {
 .upload-error {
   border: 1px dotted var(--danger);
   color: var(--danger);
+}
+
+/* Titre des étapes du formulaire */
+.form-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Menus d'étapes de formulaire */
+
+#steps {
+  padding: 1rem;
+  display: block;
+  clear: both;
+  min-height: 100px;
+  text-align: center;
+}
+
+.step button {
+  outline: none;
+  border: none;
+  padding: 0;
+}
+
+.step button:disabled {
+  color: #3b3b3b;
+}
+
+.step button:focus {
+  border: 1px solid black;
+}
+
+.step {
+  display: inline-block;
+  max-width: 200px;
+}
+
+.step div {
+  display: inline-block;
+  max-width: 80px;
+  vertical-align: top;
+  transition: all 0.25s;
+}
+
+.step_number {
+  cursor: pointer;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+  padding: 6px 0;
+  background-color: #fff;
+  border: 1px solid var(--primary);
+  color: var(--blue);
+  font-size: 1.2rem;
+}
+
+.step_text {
+  word-break: break-word;
+  display: block;
+  padding-top: 12px;
+  font-size: 0.85rem;
+  line-height: 1.1rem;
+  position: absolute;
+  text-align: center;
+  margin-left: -40px;
+  width: 120px;
+}
+
+.step_text_inactive {
+  color: #3b3b3b;
+  border-color: #3b3b3b;
+  background-color: transparent;
+  cursor: not-allowed;
+}
+
+.step_inactive {
+  color: #3b3b3b;
+  border-color: #3b3b3b;
+  background-color: white;
+  cursor: not-allowed;
+}
+
+.step_text_active {
+  font-weight: 700;
+}
+.step_active {
+  background-color: var(--blue);
+  color: white;
+  cursor: pointer;
+}
+
+.step_check {
+  padding-top: 6px;
+  background-color: white;
+  border-color: var(--success);
+  color: var(--success);
+  cursor: pointer;
+}
+
+.separateur {
+  border-bottom: 1px solid var(--blue);
+  min-width: 100px;
+  width: 100%;
+  display: block;
+  height: 20px;
+  margin: 0;
+}
+
+.separateur_inactive {
+  border-bottom: 1px solid #3b3b3b;
+  min-width: 100px;
+  width: 100%;
+  display: block;
+  height: 20px;
+  margin: 0;
+}
+
+.check_sep .separateur {
+  border-color: var(--success);
 }

@@ -81,7 +81,11 @@ export class SetInteractionInFormComponent implements OnInit {
     );
 
     if (interactionsToSave.length === 0) {
-      this.cancelReception.emit();
+      this.toastService.warning(
+        "Veuillez ajouter au moins un colis, courrier ou avis de passage"
+      );
+
+      this.loading = false;
       return;
     }
 

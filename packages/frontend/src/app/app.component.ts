@@ -34,7 +34,6 @@ export class AppComponent implements OnInit {
   public domifaNews: any;
   public newsLabels = NEWS_LABELS;
 
-  public matomoInfo: boolean;
   public apiVersion: string;
 
   public modalOptions: NgbModalOptions;
@@ -92,8 +91,6 @@ export class AppComponent implements OnInit {
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
-
-    this.initMatomo();
 
     this.displayNews();
 
@@ -153,12 +150,6 @@ export class AppComponent implements OnInit {
     });
   }
 
-  public initMatomo(): void {
-    const matomo = localStorage.getItem("matomo");
-    this.matomoInfo = matomo === "done";
-    this.matomo.setUserId("0");
-  }
-
   public displayNews(): void {
     this.http.get("assets/files/news.json").subscribe((domifaNews) => {
       this.domifaNews = domifaNews[0];
@@ -185,10 +176,5 @@ export class AppComponent implements OnInit {
   public closeNewsModal(): void {
     this.modalService.dismissAll();
     localStorage.setItem("news", new Date(this.domifaNews.date).toISOString());
-  }
-
-  public closeMatomo(): void {
-    this.matomoInfo = true;
-    localStorage.setItem("matomo", "done");
   }
 }

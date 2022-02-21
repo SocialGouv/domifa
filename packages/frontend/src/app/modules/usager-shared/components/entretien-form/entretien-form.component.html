@@ -3,16 +3,14 @@
   [formGroup]="entretienForm"
   (ngSubmit)="submitEntretien()"
 >
-  <h5 class="title text-center my-1" *ngIf="!editEntretien">
-    Entretien avec le demandeur
-  </h5>
+  <h2 class="form-title" *ngIf="!editEntretien">Entretien avec le demandeur</h2>
 
   <app-rgpd-warning></app-rgpd-warning>
 
   <div class="row">
     <div class="col-md-12">
-      <div>
-        <span class="label">Avez-vous été orienté ?</span>
+      <fieldset>
+        <legend class="label">Avez-vous été orienté ?</legend>
         <div class="form-check form-check-inline">
           <input
             autofocus
@@ -34,7 +32,7 @@
           />
           <label class="form-check-label" for="orientation_non"> Non </label>
         </div>
-      </div>
+      </fieldset>
 
       <div *ngIf="e.orientation.value === true" class="my-2 form-group">
         <label for="orientationDetail">
@@ -49,16 +47,23 @@
         />
       </div>
 
-      <div>
-        <span class="label">
+      <fieldset>
+        <legend class="label">
           Avez-vous déjà une domiciliation ?
           <fa-icon
             [icon]="['fas', 'question-circle']"
             placement="top"
+            aria-hidden="true"
             ngbTooltip="Une domiciliation existante n’est pas un motif de refus. Néanmoins, il faut rechercher pourquoi la personne formule une nouvelle demande et l’inviter à choisir quelle domiciliation elle souhaite conserver."
           >
           </fa-icon>
-        </span>
+          <span class="sr-only"
+            >Une domiciliation existante n’est pas un motif de refus. Néanmoins,
+            il faut rechercher pourquoi la personne formule une nouvelle demande
+            et l’inviter à choisir quelle domiciliation elle souhaite
+            conserver.</span
+          >
+        </legend>
         <div class="form-check form-check-inline">
           <input
             class="form-check-input"
@@ -79,10 +84,11 @@
           />
           <label class="form-check-label" for="domiciliation_non"> Non </label>
         </div>
-      </div>
+      </fieldset>
 
-      <div>
-        <span class="label">Avez-vous des revenus ?</span>
+      <fieldset>
+        <legend class="label">Avez-vous des revenus ?</legend>
+
         <div class="form-check form-check-inline">
           <input
             class="form-check-input"
@@ -103,7 +109,7 @@
           />
           <label class="form-check-label" for="revenus_non"> Non </label>
         </div>
-      </div>
+      </fieldset>
 
       <div *ngIf="e.revenus.value === true" class="my-2 form-group">
         <label for="revenusDetail"> De quelle nature ? </label>
@@ -116,11 +122,11 @@
       </div>
 
       <div class="questions">
-        <div>
-          <span class="label"
-            >Quel est votre lien avec la commune ? (Uniquement pour les
-            communes, CCAS, CIAS)</span
-          >
+        <fieldset>
+          <legend class="label">
+            Quel est votre lien avec la commune ? (Uniquement pour les communes,
+            CCAS, CIAS)
+          </legend>
 
           <ng-container
             *ngFor="let liencommune of ENTRETIEN_LIEN_COMMUNE | keyvalue"
@@ -150,7 +156,7 @@
               Autre lien avec la commune
             </label>
           </div>
-        </div>
+        </fieldset>
         <div
           class="form-group required"
           *ngIf="e.liencommune.value === 'AUTRE'"
@@ -169,8 +175,10 @@
         </div>
       </div>
 
-      <div class="questions">
-        <span class="label"> Quelle est la composition de votre ménage ? </span>
+      <fieldset class="questions">
+        <legend class="label">
+          Quelle est la composition de votre ménage ?
+        </legend>
         <div
           class="form-check"
           *ngFor="let typeMenage of ENTRETIEN_TYPE_MENAGE | keyvalue"
@@ -186,41 +194,37 @@
             {{ typeMenage.value }}
           </label>
         </div>
-      </div>
+      </fieldset>
 
-      <div class="questions">
-        <div>
-          <span class="label">
-            Quelle est votre situation résidentielle ?
-          </span>
-          <ng-container
-            *ngFor="let residence of ENTRETIEN_RESIDENCE | keyvalue"
-          >
-            <div class="form-check" *ngIf="residence.key !== 'AUTRE'">
-              <input
-                class="form-check-input"
-                type="radio"
-                formControlName="residence"
-                id="{{ residence.key }}"
-                value="{{ residence.key }}"
-              />
-              <label class="form-check-label" for="{{ residence.key }}">
-                {{ residence.value }}
-              </label>
-            </div>
-          </ng-container>
-          <div class="form-check">
+      <fieldset class="questions">
+        <legend class="label">
+          Quelle est votre situation résidentielle ?
+        </legend>
+        <ng-container *ngFor="let residence of ENTRETIEN_RESIDENCE | keyvalue">
+          <div class="form-check" *ngIf="residence.key !== 'AUTRE'">
             <input
               class="form-check-input"
               type="radio"
               formControlName="residence"
-              id="residenceAutre"
-              value="AUTRE"
+              id="{{ residence.key }}"
+              value="{{ residence.key }}"
             />
-            <label class="form-check-label" for="residenceAutre">
-              Autre situation résidentielle
+            <label class="form-check-label" for="{{ residence.key }}">
+              {{ residence.value }}
             </label>
           </div>
+        </ng-container>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="residence"
+            id="residenceAutre"
+            value="AUTRE"
+          />
+          <label class="form-check-label" for="residenceAutre">
+            Autre situation résidentielle
+          </label>
         </div>
 
         <div class="form-group required" *ngIf="e.residence.value === 'AUTRE'">
@@ -236,12 +240,12 @@
             required
           />
         </div>
-      </div>
+      </fieldset>
 
-      <div class="questions">
-        <span class="label">
+      <fieldset class="questions">
+        <legend class="label">
           Quelle est la cause de l'instabilité de logement ?
-        </span>
+        </legend>
 
         <ng-container *ngFor="let cause of ENTRETIEN_CAUSE | keyvalue">
           <div class="form-check" *ngIf="cause.key !== 'AUTRE'">
@@ -283,57 +287,55 @@
             required
           />
         </div>
-      </div>
+      </fieldset>
 
-      <div class="questions">
-        <div>
-          <span class="label">
-            Quel est le motif principal de demande de domiciliation ?
-          </span>
-          <ng-container
-            *ngFor="let raison of ENTRETIEN_RAISON_DEMANDE | keyvalue"
-          >
-            <div class="form-check" *ngIf="raison.key !== 'AUTRE'">
-              <input
-                class="form-check-input"
-                type="radio"
-                formControlName="raison"
-                id="{{ raison.key }}"
-                value="{{ raison.key }}"
-              />
-              <label class="form-check-label" for="{{ raison.key }}">
-                {{ raison.value }}
-              </label>
-            </div>
-          </ng-container>
-          <div class="form-check">
+      <fieldset class="questions">
+        <legend class="label">
+          Quel est le motif principal de demande de domiciliation ?
+        </legend>
+        <ng-container
+          *ngFor="let raison of ENTRETIEN_RAISON_DEMANDE | keyvalue"
+        >
+          <div class="form-check" *ngIf="raison.key !== 'AUTRE'">
             <input
               class="form-check-input"
               type="radio"
               formControlName="raison"
-              id="raisonAutre"
-              value="AUTRE"
+              id="{{ raison.key }}"
+              value="{{ raison.key }}"
             />
-            <label class="form-check-label" for="raisonAutre">
-              Autre motif
+            <label class="form-check-label" for="{{ raison.key }}">
+              {{ raison.value }}
             </label>
           </div>
-        </div>
-        <div *ngIf="e.raison.value === 'AUTRE'" class="form-group">
+        </ng-container>
+        <div class="form-check">
           <input
-            type="text"
-            class="form-control"
+            class="form-check-input"
+            type="radio"
+            formControlName="raison"
             id="raisonAutre"
-            formControlName="raisonDetail"
-            placeholder="Précisions"
+            value="AUTRE"
           />
+          <label class="form-check-label" for="raisonAutre">
+            Autre motif
+          </label>
         </div>
+      </fieldset>
+      <div *ngIf="e.raison.value === 'AUTRE'" class="form-group">
+        <input
+          type="text"
+          class="form-control"
+          id="raisonAutre"
+          formControlName="raisonDetail"
+          placeholder="Précisions"
+        />
       </div>
 
-      <div>
-        <span class="label">
+      <fieldset>
+        <legend class="label">
           Faites-vous l’objet d’un accompagnement social ?
-        </span>
+        </legend>
         <div class="form-check form-check-inline">
           <input
             class="form-check-input"
@@ -354,7 +356,7 @@
           />
           <label class="form-check-label" for="accompagnement_non"> Non </label>
         </div>
-      </div>
+      </fieldset>
 
       <div *ngIf="e.accompagnement.value === true" class="my-2 form-group">
         <label for="accompagnementDetail"> Par quelle structure ? </label>
@@ -365,6 +367,7 @@
           formControlName="accompagnementDetail"
         />
       </div>
+
       <div class="form-group my-2">
         <label class="form-label" for="rattachement">
           Cette domiciliation est-elle réalisée au titre d'une autre commune ou
@@ -380,19 +383,17 @@
         </div>
       </div>
 
-      <div>
-        <label for="commentaires" class="label">Commentaires</label>
-        <textarea
-          class="form-control"
-          id="commentaires"
-          rows="6"
-          formControlName="commentaires"
-          id="commentaires"
-        ></textarea>
-        <small id="commentairesHelp" class="form-text text-muted">
-          1000 caractères maximum
-        </small>
-      </div>
+      <label for="commentaires" class="label">Commentaires</label>
+      <textarea
+        class="form-control"
+        rows="6"
+        formControlName="commentaires"
+        id="commentaires"
+        aria-describedby="commentairesHelp"
+      ></textarea>
+      <small id="commentairesHelp" class="form-text text-muted">
+        1000 caractères maximum
+      </small>
     </div>
   </div>
 
@@ -436,7 +437,6 @@
           class="my-3 btn btn-block"
         >
           <u class="mr-2">Continuer plus tard</u>
-
           <fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
         </a>
       </ng-container>
@@ -446,7 +446,7 @@
 
 <ng-template #entretienConfirmation let-modal>
   <div class="modal-header bg-primary">
-    <h4 class="text-white modal-title" id="modal-title">Attention !</h4>
+    <span class="text-white modal-title" id="modal-title">Attention !</span>
 
     <button
       title="Fermer"
