@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { Transform, TransformFnParams } from "class-transformer";
 import {
   IsBoolean,
   IsEmpty,
@@ -45,6 +46,9 @@ export class InteractionDto {
     required: false,
   })
   @IsOptional()
+  @Transform(({ value }: TransformFnParams) => {
+    return value ? value.toString().trim() : null;
+  })
   public content?: string;
 
   @ApiProperty({

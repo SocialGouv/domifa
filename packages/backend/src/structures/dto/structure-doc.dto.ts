@@ -1,6 +1,7 @@
 import { IsIn, IsNotEmpty, ValidateIf } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 import { StructureCustomDocType } from "../../_common/model";
+import { Transform, TransformFnParams } from "class-transformer";
 
 export class StructureDocDto {
   @ApiProperty({
@@ -9,19 +10,22 @@ export class StructureDocDto {
   })
   @ValidateIf((o) => o.custom === true)
   @IsNotEmpty()
-  label: string;
+  @Transform(({ value }: TransformFnParams) => {
+    return value ? value.toString().trim() : null;
+  })
+  public label: string;
 
   @ApiProperty({
     type: Boolean,
     required: true,
   })
   @IsNotEmpty()
-  custom: boolean;
+  public custom: boolean;
 
   @ApiProperty({
     type: Boolean,
   })
   @ValidateIf((o) => o.custom === true)
   @IsIn(["attestation_postale", "courrier_radiation", "autre"])
-  customDocType?: StructureCustomDocType;
+  public customDocType?: StructureCustomDocType;
 }

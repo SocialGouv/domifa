@@ -1,5 +1,6 @@
 import { IsBoolean, IsNotEmpty, IsOptional, MinLength } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
+import { Transform, TransformFnParams } from "class-transformer";
 
 export class TransfertDto {
   @IsOptional()
@@ -11,6 +12,9 @@ export class TransfertDto {
     required: true,
   })
   @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => {
+    return value ? value.toString().trim() : null;
+  })
   public nom!: string;
 
   @ApiProperty({
@@ -19,6 +23,9 @@ export class TransfertDto {
   })
   @IsNotEmpty()
   @MinLength(10)
+  @Transform(({ value }: TransformFnParams) => {
+    return value ? value.toString().trim() : null;
+  })
   public adresse!: string;
 
   @ApiProperty({

@@ -9,6 +9,7 @@ import {
   MinLength,
 } from "class-validator";
 import { UserStructureRole } from "../../_common/model";
+import { Transform, TransformFnParams } from "class-transformer";
 
 export class RegisterUserAdminDto {
   @ApiProperty({
@@ -22,6 +23,9 @@ export class RegisterUserAdminDto {
     message: "PRENOM_TOO_LONG",
   })
   @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => {
+    return value.toString().trim();
+  })
   public readonly prenom!: string;
 
   @ApiProperty({
@@ -35,6 +39,9 @@ export class RegisterUserAdminDto {
     message: "NOM_TOO_LONG",
   })
   @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => {
+    return value.toString().trim();
+  })
   public readonly nom!: string;
 
   @ApiProperty({
