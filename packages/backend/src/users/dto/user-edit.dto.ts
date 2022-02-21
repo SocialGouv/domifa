@@ -1,3 +1,4 @@
+import { Transform, TransformFnParams } from "class-transformer";
 import { IsEmail, IsNotEmpty, MaxLength, MinLength } from "class-validator";
 
 export class UserEditDto {
@@ -8,6 +9,9 @@ export class UserEditDto {
     message: "FIRSTNAME_TOO_LONG",
   })
   @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => {
+    return value.toString().trim();
+  })
   public readonly prenom!: string;
 
   @MinLength(2, {
@@ -17,6 +21,9 @@ export class UserEditDto {
     message: "LASTNAME_TOO_LONG",
   })
   @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => {
+    return value.toString().trim();
+  })
   public readonly nom!: string;
 
   @IsNotEmpty()

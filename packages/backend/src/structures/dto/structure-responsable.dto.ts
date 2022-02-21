@@ -1,5 +1,6 @@
 import { IsNotEmpty, IsString } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
+import { Transform, TransformFnParams } from "class-transformer";
 
 export class StructureResponsableDto {
   @ApiProperty({
@@ -8,6 +9,9 @@ export class StructureResponsableDto {
   })
   @IsString()
   @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => {
+    return value ? value.toString().trim() : null;
+  })
   public readonly fonction: string;
 
   @ApiProperty({
@@ -16,6 +20,9 @@ export class StructureResponsableDto {
   })
   @IsString()
   @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => {
+    return value ? value.toString().trim() : null;
+  })
   public readonly nom: string;
 
   @ApiProperty({
@@ -24,5 +31,8 @@ export class StructureResponsableDto {
   })
   @IsString()
   @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => {
+    return value ? value.toString().trim() : null;
+  })
   public readonly prenom: string;
 }

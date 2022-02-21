@@ -1,3 +1,4 @@
+import { Transform, TransformFnParams } from "class-transformer";
 import {
   IsEmail,
   IsEmpty,
@@ -16,6 +17,9 @@ export class UserDto {
     message: "PRENOM_TOO_LONG",
   })
   @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => {
+    return value.toString().trim();
+  })
   public readonly prenom!: string;
 
   @MinLength(2, {
@@ -25,10 +29,16 @@ export class UserDto {
     message: "NOM_TOO_LONG",
   })
   @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => {
+    return value.toString().trim();
+  })
   public readonly nom!: string;
 
   @IsNotEmpty()
   @IsEmail()
+  @Transform(({ value }: TransformFnParams) => {
+    return value.toString().trim();
+  })
   public readonly email!: string;
 
   @IsOptional()

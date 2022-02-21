@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { Transform, TransformFnParams } from "class-transformer";
 import { IsDateString, IsIn, IsNotEmpty } from "class-validator";
 import { AyantDroiLienParent } from "../../_common/model";
 
@@ -9,6 +10,9 @@ export class UsagerAyantDroitDto {
     required: true,
   })
   @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => {
+    return value ? value.toString().trim() : null;
+  })
   public nom!: string;
 
   @ApiProperty({
@@ -18,7 +22,9 @@ export class UsagerAyantDroitDto {
   })
   @IsNotEmpty()
   public prenom!: string;
-
+  @Transform(({ value }: TransformFnParams) => {
+    return value ? value.toString().trim() : null;
+  })
   @ApiProperty({
     example: "Dudu",
     required: true,

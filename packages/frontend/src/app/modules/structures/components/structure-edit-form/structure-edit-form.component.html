@@ -8,7 +8,6 @@
   <div class="list-group-item">
     <div class="row">
       <div class="col-md-12 form-group required">
-        <br />
         <input type="hidden" formControlName="structureType" />
         <label for="nom">Raison sociale (nom de la structure)</label>
         <input
@@ -19,11 +18,10 @@
           placeholder="Nom"
           [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
           required
+          aria-required="true"
         />
         <div *ngIf="submitted && f.nom.errors" class="invalid-feedback">
-          <div *ngIf="f.nom.errors.required">
-            Le nom de la structure est requis
-          </div>
+          Le nom de la structure est requis
         </div>
         <div
           class="font-italic small mt-1"
@@ -47,12 +45,14 @@
           id="adresse"
           type="text"
           class="form-control"
+          required
+          aria-required="true"
           formControlName="adresse"
           [ngClass]="{ 'is-invalid': submitted && f.adresse.errors }"
           placeholder="Cette adresse apparaîtra sur le Cerfa"
         />
         <div *ngIf="submitted && f.adresse.errors" class="invalid-feedback">
-          <div *ngIf="f.adresse.errors.required">L'adresse est obligatoire</div>
+          L'adresse est obligatoire
         </div>
       </div>
 
@@ -304,6 +304,7 @@
           formControlName="capacite"
           class="form-control"
           id="capacite"
+          min="0"
           placeholder="Nombre maxi de domiciliés"
           type="number"
           [ngClass]="{ 'is-invalid': submitted && f.capacite.errors }"
@@ -311,6 +312,9 @@
         <small id="capaciteHelp" class="form-text text-muted">
           Optionnel
         </small>
+        <div *ngIf="submitted && f.capacite.errors" class="invalid-feedback">
+          La capacité doit être supérieur à 0
+        </div>
       </div>
     </div>
     <br />

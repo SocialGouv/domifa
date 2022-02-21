@@ -1,5 +1,6 @@
 import { IsBoolean, IsNotEmpty, IsString, ValidateIf } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
+import { Transform, TransformFnParams } from "class-transformer";
 
 export class StructureAdresseCourrierDto {
   @ApiProperty({
@@ -14,9 +15,12 @@ export class StructureAdresseCourrierDto {
     type: String,
     required: false,
   })
+  @ValidateIf((o) => o.actif === true)
   @IsString()
   @IsNotEmpty()
-  @ValidateIf((o) => o.actif === true)
+  @Transform(({ value }: TransformFnParams) => {
+    return value ? value.toString().trim() : null;
+  })
   public readonly adresse: string;
 
   @ApiProperty({
@@ -25,6 +29,9 @@ export class StructureAdresseCourrierDto {
   })
   @IsString()
   @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => {
+    return value ? value.toString().trim() : null;
+  })
   @ValidateIf((o) => o.actif === true)
   public readonly ville: string;
 

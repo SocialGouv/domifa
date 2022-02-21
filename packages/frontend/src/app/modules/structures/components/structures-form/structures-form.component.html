@@ -424,6 +424,7 @@
             formControlName="capacite"
             class="form-control"
             id="capacite"
+            min="0"
             placeholder="Nombre maxi de domiciliés"
             type="number"
             [ngClass]="{ 'is-invalid': submitted && f.capacite.errors }"
@@ -431,6 +432,9 @@
           <small id="capaciteHelp" class="form-text text-muted">
             Optionnel
           </small>
+          <div *ngIf="submitted && f.capacite.errors" class="invalid-feedback">
+            La capacité doit être supérieur à 0
+          </div>
         </div>
       </div>
       <br />
