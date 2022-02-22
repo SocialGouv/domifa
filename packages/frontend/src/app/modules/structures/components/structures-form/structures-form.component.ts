@@ -14,7 +14,7 @@ import { StructureCommon } from "../../../../../_common/model";
 import { StructureService } from "../../services/structure.service";
 import { StructureCommonWeb } from "../../services/StructureCommonWeb.type";
 import { structureNameChecker } from "../structure-edit-form/structureNameChecker.service";
-import { DEPARTEMENTS_MAP } from "../../../../shared";
+import { DEPARTEMENTS_LISTE } from "../../../../shared";
 
 @Component({
   selector: "app-structures-form",
@@ -25,14 +25,7 @@ export class StructuresFormComponent implements OnInit {
   public success = false;
   public structureForm!: FormGroup;
   public structure: StructureCommon;
-  public departements: {
-    [key: string]: {
-      departmentName: string;
-      regionCode: string;
-      regionName: string;
-      regionId: string;
-    };
-  } = DEPARTEMENTS_MAP;
+  public DEPARTEMENTS_LISTE = DEPARTEMENTS_LISTE;
   public submitted = false;
 
   public etapeInscription: number;
@@ -43,7 +36,6 @@ export class StructuresFormComponent implements OnInit {
 
   public structureRegisterInfos: {
     etapeInscription: number;
-
     structure: StructureCommon;
   };
 
@@ -61,7 +53,6 @@ export class StructuresFormComponent implements OnInit {
 
     this.structureRegisterInfos = {
       etapeInscription: 0,
-
       structure: this.structure,
     };
 
@@ -172,17 +163,17 @@ export class StructuresFormComponent implements OnInit {
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );
     } else {
-      this.structureService.prePost(this.structureForm.value).subscribe(
-        (structure: StructureCommon) => {
+      this.structureService.prePost(this.structureForm.value).subscribe({
+        next: (structure: StructureCommon) => {
           this.etapeInscription = 1;
           this.structureRegisterInfos.etapeInscription = 1;
 
           this.structureRegisterInfos.structure = structure;
         },
-        () => {
+        error: () => {
           this.toastService.error("Veuillez vérifier les champs du formulaire");
-        }
-      );
+        },
+      });
     }
   }
 

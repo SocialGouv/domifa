@@ -13,7 +13,7 @@ import { StructureCommon } from "../../../../../_common/model";
 import { regexp } from "../../../../shared/validators";
 import { StructureService } from "../../services/structure.service";
 import { structureNameChecker } from "./structureNameChecker.service";
-import { DEPARTEMENTS_MAP } from "../../../../shared";
+import { DEPARTEMENTS_LISTE } from "../../../../shared";
 
 @Component({
   selector: "app-structure-edit-form",
@@ -22,14 +22,8 @@ import { DEPARTEMENTS_MAP } from "../../../../shared";
 })
 export class StructureEditFormComponent implements OnInit {
   public structureForm: FormGroup;
-  public departements: {
-    [key: string]: {
-      departmentName: string;
-      regionCode: string;
-      regionName: string;
-      regionId: string;
-    };
-  } = DEPARTEMENTS_MAP;
+
+  public DEPARTEMENTS_LISTE = DEPARTEMENTS_LISTE;
   public loading = false;
   public submitted: boolean;
 
