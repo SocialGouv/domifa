@@ -29,9 +29,9 @@
         }"
         required
       />
-      <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
+      <p *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
         Le prénom est obligatoire
-      </div>
+      </p>
     </div>
     <div class="col-md-3 form-group required">
       <label for="email">Adresse email</label>
@@ -47,13 +47,11 @@
         required
       />
       <div *ngIf="f.email.errors" class="invalid-feedback">
-        <div *ngIf="f.email.errors.emailTaken">
+        <p *ngIf="f.email.errors.emailTaken">
           <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
           <b>L'adresse email est déjà utilisée</b>
-        </div>
-        <div *ngIf="!f.email.errors.emailTaken">
-          L'adresse Email est incorrecte
-        </div>
+        </p>
+        <p *ngIf="!f.email.errors.emailTaken">L'adresse Email est incorrecte</p>
       </div>
     </div>
     <div class="col-md-3 form-group required">
@@ -61,11 +59,11 @@
       <select
         id="role"
         formControlName="role"
-        required
         [ngClass]="{
           'is-invalid': submitted && f.role.errors
         }"
         class="form-control"
+        required
       >
         <option [value]="null"></option>
         <option value="admin">Administrateur</option>

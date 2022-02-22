@@ -7,7 +7,7 @@ import {
   DEPARTEMENTS_METROPOLE,
   RegionsLabels,
   REGIONS_ID_SEO,
-  REGIONS_LABELS_MAP,
+  REGIONS_LISTE,
   REGIONS_SEO_ID,
   REGIONS_OUTRE_MER,
 } from "../../../../shared";
@@ -24,7 +24,7 @@ export class PublicStatsComponent implements OnInit {
 
   public regionId: string;
 
-  public regions: RegionsLabels = REGIONS_LABELS_MAP;
+  public regions: RegionsLabels = REGIONS_LISTE;
 
   public DEPARTEMENTS_METROPOLE = DEPARTEMENTS_METROPOLE;
   public REGIONS_OUTRE_MER = REGIONS_OUTRE_MER;

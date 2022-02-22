@@ -48,10 +48,12 @@
         <h5 class="title">
           Création du compte administrateur de votre structure sur Domifa
         </h5>
-        Attention, les informations que vous allez saisir vous serviront à
-        administrer votre compte Domifa. Lorsque celui-ci sera validé, vous
-        pourrez alors inviter d'autres collaborateurs de votre structure à créer
-        des comptes pour se connecter à votre compte Domifa.
+        <p>
+          Attention, les informations que vous allez saisir vous serviront à
+          administrer votre compte Domifa. Lorsque celui-ci sera validé, vous
+          pourrez alors inviter d'autres collaborateurs de votre structure à
+          créer des comptes pour se connecter à votre compte Domifa.
+        </p>
       </div>
     </div>
     <br />
@@ -65,15 +67,14 @@
             class="form-control"
             id="nom"
             cleanStr
+            autocomplete="family-name"
             formControlName="nom"
             [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
             required
           />
-          <div *ngIf="submitted && f.nom.errors" class="invalid-feedback">
-            <div *ngIf="f.nom.errors.required">
-              Le nom du demandeur est obligatoire
-            </div>
-          </div>
+          <p *ngIf="submitted && f.nom.errors" class="invalid-feedback">
+            Le nom du demandeur est obligatoire
+          </p>
         </div>
         <div class="col form-group required">
           <label for="prenom">Prénom</label>
@@ -82,15 +83,14 @@
             class="form-control"
             id="prenom"
             cleanStr
+            autocomplete="given-name"
             formControlName="prenom"
             [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
             required
           />
-          <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
-            <div *ngIf="f.prenom.errors.required">
-              Le prénom est obligatoire
-            </div>
-          </div>
+          <p *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
+            Le prénom est obligatoire
+          </p>
         </div>
       </div>
       <div class="row">
@@ -106,9 +106,7 @@
             required
           />
           <div *ngIf="submitted && f.fonction.errors" class="invalid-feedback">
-            <div *ngIf="f.fonction.errors.required">
-              Votre fonction est obligatoire
-            </div>
+            Votre fonction est obligatoire
           </div>
         </div>
       </div>
@@ -119,19 +117,19 @@
             type="email"
             class="form-control"
             id="email"
-            autocomplete="username"
+            autocomplete="email"
             formControlName="email"
             [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
             required
           />
           <div *ngIf="f.email.errors" class="invalid-feedback">
-            <div *ngIf="f.email.errors.emailTaken">
+            <p *ngIf="f.email.errors.emailTaken">
               <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
               <b>L'adresse email est déjà utilisée</b>
-            </div>
-            <div *ngIf="!f.email.errors.emailTaken">
+            </p>
+            <p *ngIf="!f.email.errors.emailTaken">
               L'adresse Email est incorrecte
-            </div>
+            </p>
           </div>
         </div>
       </div>
@@ -162,13 +160,7 @@
             </div>
           </div>
           <div class="row indications">
-            <div
-              [title]="
-                f.password.hasError('required') ||
-                f.password.hasError('minlength')
-                  ? 'Erreur'
-                  : 'Correct'
-              "
+            <p
               class="col-md-12"
               [ngClass]="
                 f.password.hasError('required') ||
@@ -187,14 +179,8 @@
                 ]"
               ></fa-icon>
               Au moins 12 caractères
-            </div>
-            <div
-              [title]="
-                f.password.hasError('required') ||
-                f.password.hasError('hasNumber')
-                  ? 'Erreur'
-                  : 'Correct'
-              "
+            </p>
+            <p
               class="col-md-12"
               [ngClass]="
                 f.password.hasError('required') ||
@@ -213,14 +199,8 @@
                 ]"
               ></fa-icon>
               Au moins 1 chiffre
-            </div>
-            <div
-              [title]="
-                f.password.hasError('required') ||
-                f.password.hasError('hasCapitalCase')
-                  ? 'Erreur'
-                  : 'Correct'
-              "
+            </p>
+            <p
               class="col-md-12"
               [ngClass]="
                 f.password.hasError('required') ||
@@ -239,7 +219,7 @@
                 ]"
               ></fa-icon>
               Au moins une lettre en majuscule
-            </div>
+            </p>
           </div>
         </div>
         <div class="col form-group required" id="confirmPassword">

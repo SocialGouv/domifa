@@ -10,7 +10,7 @@ import {
   RegionsLabels,
   REGIONS_DEF,
   REGIONS_ID_SEO,
-  REGIONS_LABELS_MAP,
+  REGIONS_LISTE,
   REGIONS_COM,
   REGIONS_DOM_TOM,
   REGIONS_OUTRE_MER,
@@ -38,7 +38,7 @@ export class StatsMapComponent implements OnInit, AfterContentChecked {
   public REGIONS_ID_SEO: RegionsLabels = REGIONS_ID_SEO;
 
   // Labels des régions
-  public REGIONS_LABELS: RegionsLabels = REGIONS_LABELS_MAP;
+  public REGIONS_LABELS: RegionsLabels = REGIONS_LISTE;
 
   // Région choisie
   public selectedRegion: string;

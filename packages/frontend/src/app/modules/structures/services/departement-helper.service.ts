@@ -1,4 +1,4 @@
-import { DEPARTEMENTS_MAP } from "src/app/shared";
+import { DEPARTEMENTS_MAP } from "../../../shared";
 
 // NOTE: service dupliqué côté backend
 const EXCEPTIONS_CODE_POSTAL: { [codePostal: string]: string } = {

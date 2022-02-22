@@ -1,11 +1,13 @@
-import { RegionDef } from "../types";
-import { DepartementInfos } from "../types/DepartementInfos.type";
-// constante dupliquée côté frontend
-// https://fr.wikipedia.org/wiki/Liste_des_d%C3%A9partements_fran%C3%A7ais
-
+import { DepartementInfos, RegionDef, RegionsLabels } from "../types";
 import { REGIONS_DEF } from "./REGIONS_DEF.const";
 
+// Départements et territoires d'outre mer
+// 2 départements et régions d'outre-mer (DROM) : la Guadeloupe et La Réunion ;
+// 3 collectivités uniques : la Collectivité Territoriale de Martinique, la Collectivité Territoriale de Guyane et le Département de Mayotte ;
+
 export const REGIONS_DOM_TOM = ["01", "02", "03", "04", "06"];
+
+// 7 collectivités d'outre-mer (COM) : la Nouvelle-Calédonie ;la Polynésie française ;Saint-Barthélemy ; Saint-Martin ; Saint-Pierre-et-Miquelon ;les Terres-australes-et-antarctiques-françaises et Wallis-et-Futuna.
 export const REGIONS_COM = ["NC", "PO", "SB", "SM", "SP", "WF", "TF"];
 
 // Tout territoire hors métropole & Corse
@@ -27,6 +29,18 @@ export const DEPARTEMENTS_MAP: DepartementInfos = REGIONS_DEF.reduce(
   {}
 );
 
+// Liste des départements : 93 => Seine-Saint-Denis
+export const DEPARTEMENTS_LISTE: RegionsLabels = REGIONS_DEF.reduce(
+  (acc, region: RegionDef) => {
+    region.departements.forEach((dep) => {
+      acc[dep.departementCode] = dep.departementName;
+    });
+    return acc;
+  },
+  {} as unknown as RegionsLabels
+);
+
+// Départements de métropole
 export const DEPARTEMENTS_METROPOLE: DepartementInfos = REGIONS_DEF.reduce(
   (acc, region: RegionDef) => {
     region.departements.forEach((dep) => {
@@ -48,6 +62,9 @@ export const DEPARTEMENTS_METROPOLE: DepartementInfos = REGIONS_DEF.reduce(
   {}
 );
 
+// Départements et territoires d'outre mer
+// 2 départements et régions d'outre-mer (DROM) : la Guadeloupe et La Réunion ;
+// 3 collectivités uniques : la Collectivité Territoriale de Martinique, la Collectivité Territoriale de Guyane et le Département de Mayotte ;
 export const DEPARTEMENTS_DOM_TOM: DepartementInfos = REGIONS_DEF.reduce(
   (acc, region: RegionDef) => {
     region.departements.forEach((dep) => {
@@ -66,6 +83,7 @@ export const DEPARTEMENTS_DOM_TOM: DepartementInfos = REGIONS_DEF.reduce(
   {}
 );
 
+// 7 collectivités d'outre-mer (COM) : la Nouvelle-Calédonie ;la Polynésie française ;Saint-Barthélemy ; Saint-Martin ; Saint-Pierre-et-Miquelon ;les Terres-australes-et-antarctiques-françaises et Wallis-et-Futuna.
 export const DEPARTEMENTS_COM: DepartementInfos = REGIONS_DEF.reduce(
   (acc, region: RegionDef) => {
     region.departements.forEach((dep) => {
@@ -84,4 +102,26 @@ export const DEPARTEMENTS_COM: DepartementInfos = REGIONS_DEF.reduce(
   {}
 );
 
-console.log(DEPARTEMENTS_COM);
+// Liste des régions
+export const REGIONS_LISTE: RegionsLabels = Object.values(
+  DEPARTEMENTS_MAP
+).reduce((acc, value) => {
+  acc[value.regionCode] = value.regionName;
+  return acc;
+}, {} as unknown as RegionsLabels);
+
+// Récupérer l'ID à partir de la SEO url
+export const REGIONS_ID_SEO: RegionsLabels = Object.values(
+  DEPARTEMENTS_MAP
+).reduce((acc, value) => {
+  acc[value.regionCode] = value.regionId;
+  return acc;
+}, {} as unknown as RegionsLabels);
+
+// Récupérer l'URL Seo à partir de l'ID
+export const REGIONS_SEO_ID: RegionsLabels = Object.values(
+  DEPARTEMENTS_MAP
+).reduce((acc, value) => {
+  acc[value.regionId] = value.regionCode;
+  return acc;
+}, {} as unknown as RegionsLabels);
