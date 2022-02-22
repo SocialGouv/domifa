@@ -1,4 +1,4 @@
-<div id="stats-charts-container" class="py-4" *ngIf="publicStats">
+<div id="stats-charts-container" class="py-4">
   <div class="row d-flex align-items-center">
     <div class="col-md-3">
       <div class="text-center pl-4 pr-2">
@@ -14,7 +14,7 @@
             alt="Courriers reçus depuis le lancement"
           />
           <div class="stats-section-counter text-primary">
-            {{ publicStats.interactionsCount | formatBigNumber }}
+            {{ publicStats?.interactionsCount | formatBigNumber }}
           </div>
           <div class="stats-section-label">courriers distribués</div>
         </div>
@@ -30,7 +30,7 @@
             alt="Domiciliés depuis le lancement"
           />
           <div class="stats-section-counter text-primary">
-            {{ publicStats.usagersCount | formatBigNumber }}
+            {{ publicStats?.usagersCount | formatBigNumber }}
           </div>
           <div class="stats-section-label">domiciliés</div>
         </div>
@@ -46,7 +46,7 @@
         </span>
       </div>
 
-      <div class="stats-section">
+      <div class="stats-section" *ngIf="publicStats">
         <div id="charts">
           <ngx-charts-bar-vertical
             [scheme]="colorScheme"

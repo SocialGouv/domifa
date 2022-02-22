@@ -3,6 +3,8 @@
   color: var(--primary);
   font-size: 2.5rem;
   line-height: 2rem;
+  min-width: 100px;
+  min-height: 30px;
 }
 
 .sub-stats-number {
@@ -11,6 +13,9 @@
   font-weight: 600;
 }
 
+.region-list {
+  text-align: left;
+}
 ul {
   margin: 0;
   padding: 0;

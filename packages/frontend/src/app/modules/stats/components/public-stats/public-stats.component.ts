@@ -1,15 +1,16 @@
+import { SeoService } from "./../../../shared/services/seo.service";
 import { PublicStats } from "./../../../../../_common/model/stats/PublicStats.type";
 import { StatsService } from "./../../services/stats.service";
 import { Component, OnInit } from "@angular/core";
 import { STRUCTURE_TYPE_LABELS } from "../../../../../_common/model/usager/constants/STRUCTURE_TYPE_LABELS.const";
 import {
-  DEPARTEMENTS_MAP,
+  DEPARTEMENTS_METROPOLE,
   RegionsLabels,
+  REGIONS_ID_SEO,
   REGIONS_LABELS_MAP,
-  REGIONS_SEO_URL_MAP,
-  REGIONS_SEO_URL_TO_REGION_ID_MAP,
+  REGIONS_SEO_ID,
+  REGIONS_OUTRE_MER,
 } from "../../../../shared";
-import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
@@ -23,28 +24,18 @@ export class PublicStatsComponent implements OnInit {
 
   public regionId: string;
 
-  public regionsUrls: RegionsLabels = REGIONS_SEO_URL_MAP;
   public regions: RegionsLabels = REGIONS_LABELS_MAP;
 
-  public REGIONS_SEO_URL_TO_REGION_ID_MAP: RegionsLabels =
-    REGIONS_SEO_URL_TO_REGION_ID_MAP;
-
-  public departements: {
-    [key: string]: {
-      departmentName: string;
-      regionCode: string;
-      regionName: string;
-      regionId: string;
-    };
-  } = DEPARTEMENTS_MAP;
-
-  public STATS_REGIONS_DOM_TOM = ["01", "02", "03", "04", "06"];
+  public DEPARTEMENTS_METROPOLE = DEPARTEMENTS_METROPOLE;
+  public REGIONS_OUTRE_MER = REGIONS_OUTRE_MER;
+  public REGIONS_SEO_ID: RegionsLabels = REGIONS_SEO_ID;
+  public REGIONS_ID_SEO: RegionsLabels = REGIONS_ID_SEO;
 
   constructor(
     private statsService: StatsService,
     private route: ActivatedRoute,
     private router: Router,
-    private titleService: Title
+    private seoService: SeoService
   ) {
     this.stats = null;
     this.regionId = null;
@@ -54,18 +45,26 @@ export class PublicStatsComponent implements OnInit {
     if (this.route.snapshot.params.region) {
       const region = this.route.snapshot.params.region as string;
 
-      if (typeof REGIONS_SEO_URL_TO_REGION_ID_MAP[region] !== "undefined") {
-        this.titleService.setTitle("Statistiques régionales");
-        this.regionId = region;
-
-        this.statsService
-          .getPublicStats(REGIONS_SEO_URL_TO_REGION_ID_MAP[region])
-          .subscribe((stats: PublicStats) => {
-            this.stats = stats;
-          });
-      } else {
+      if (typeof REGIONS_SEO_ID[region] === "undefined") {
         this.router.navigate(["404"]);
+        return;
       }
+
+      this.regionId = region;
+
+      this.statsService
+        .getPublicStats(REGIONS_SEO_ID[region])
+        .subscribe((stats: PublicStats) => {
+          this.stats = stats;
+        });
+
+      const title =
+        "Statistiques régionales : " + this.regions[REGIONS_SEO_ID[region]];
+      const description =
+        " Domifa simplifie la domiciliation et la distribution de courrier pour les personnes sans domicile stable dans la région" +
+        this.regions[REGIONS_SEO_ID[region]];
+
+      this.seoService.updateTitleAndTags(title, description, true);
     } else {
       this.statsService.getPublicStats().subscribe((stats: PublicStats) => {
         this.stats = stats;

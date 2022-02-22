@@ -5,7 +5,7 @@
     <a routerLink="/stats" title="S'inscrire">
       Statistiques et mesure d’impact
     </a>
-    > {{ regions[REGIONS_SEO_URL_TO_REGION_ID_MAP[regionId]] }}
+    > {{ regions[REGIONS_SEO_ID[regionId]] }}
   </div>
 </div>
 
@@ -22,12 +22,12 @@
       <ng-container *ngIf="regionId">
         <h1 class="font-bold">
           Statistiques régionales :
-          {{ regions[REGIONS_SEO_URL_TO_REGION_ID_MAP[regionId]] }}
+          {{ regions[REGIONS_SEO_ID[regionId]] }}
         </h1>
         <h3 class="font-weight-normal home-header-subtitle">
           Domifa simplifie la domiciliation et la distribution de courrier pour
           les personnes sans domicile stable dans la région
-          {{ regions[REGIONS_SEO_URL_TO_REGION_ID_MAP[regionId]] }}
+          {{ regions[REGIONS_SEO_ID[regionId]] }}
         </h3>
       </ng-container>
     </div>
@@ -43,7 +43,7 @@
     </div>
   </div>
 </div>
-<div class="container py-3" *ngIf="stats">
+<div class="container py-3">
   <section class="py-4">
     <h2 class="font-bold text-primary">
       Notre priorité, l’aide aux domiciliés
@@ -52,7 +52,7 @@
       Au coeur de notre action, faciliter l’acheminement du courrier aux
       personnes sans domicile stable
     </p>
-    <app-stats-charts [publicStats]="stats"></app-stats-charts>
+    <app-stats-charts class="skeleton" [publicStats]="stats"></app-stats-charts>
   </section>
   <section class="py-4">
     <h2 class="font-bold text-primary">
@@ -79,12 +79,12 @@
           </div>
           <div>
             <div class="text-left">
-              <div class="stats-counter">
-                {{ stats.structuresCount | formatBigNumber }}
+              <div class="stats-counter skeleton">
+                {{ stats?.structuresCount | formatBigNumber }}
               </div>
               <div class="stats-counter-label">structures</div>
             </div>
-            <div class="py-3 text-left">
+            <div class="py-3 text-left" *ngIf="stats">
               <ul>
                 <li
                   *ngFor="
@@ -113,7 +113,7 @@
           </div>
           <div class="text-left">
             <div class="stats-counter">
-              {{ stats.usersCount | formatBigNumber }}
+              {{ stats?.usersCount | formatBigNumber }}
             </div>
             <div class="stats-counter-label">agents</div>
           </div>
@@ -141,10 +141,7 @@
   <section
     class="py-4"
     *ngIf="
-      regionId &&
-      STATS_REGIONS_DOM_TOM.indexOf(
-        REGIONS_SEO_URL_TO_REGION_ID_MAP[regionId]
-      ) === -1
+      regionId && REGIONS_OUTRE_MER.indexOf(REGIONS_SEO_ID[regionId]) === -1
     "
   >
     <div class="row">
@@ -160,8 +157,8 @@
           >
             <span class="underline region-name">
               {{
-                departements[structure.dep]
-                  ? departements[structure.dep].departmentName
+                DEPARTEMENTS_METROPOLE[structure.dep]
+                  ? DEPARTEMENTS_METROPOLE[structure.dep].departmentName
                   : structure.dep
               }}
             </span>
@@ -185,27 +182,30 @@
       </div>
       <div class="col-md-4 offset-md-1">
         <h4 class="font-weight-bold text-primary">Top des régions</h4>
-
-        <ul>
-          <li
-            class="py-2"
-            *ngFor="let structure of stats.structuresCountByRegion"
-          >
-            <a
-              [routerLink]="['/stats/region/' + regionsUrls[structure.region]]"
-              class="region-name"
+        <div class="region-list">
+          <ul>
+            <li
+              class="py-2"
+              *ngFor="let structure of stats.structuresCountByRegion"
             >
-              {{
-                regions[structure.region]
-                  ? regions[structure.region]
-                  : structure.region
-              }}
-            </a>
-            <span class="text-primary font-weight-bold">
-              {{ structure.count }}
-            </span>
-          </li>
-        </ul>
+              <a
+                [routerLink]="[
+                  '/stats/region/' + REGIONS_ID_SEO[structure.region]
+                ]"
+                class="region-name"
+              >
+                {{
+                  regions[structure.region]
+                    ? regions[structure.region]
+                    : structure.region
+                }}
+              </a>
+              <span class="text-primary font-weight-bold">
+                {{ structure.count }}
+              </span>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>

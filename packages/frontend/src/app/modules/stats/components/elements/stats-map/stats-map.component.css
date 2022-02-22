@@ -2,6 +2,11 @@
   min-width: 400px;
 }
 
+#carte-metropole {
+  min-height: 300px;
+  min-width: 400px;
+}
+
 path {
   stroke: #999999;
   stroke-width: 1px;
