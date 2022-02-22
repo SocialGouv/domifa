@@ -1,4 +1,5 @@
-import { RegionsLabels, DEPARTEMENTS_MAP } from ".";
+import { RegionsLabels } from "../types";
+import { DEPARTEMENTS_MAP } from "./DEPARTEMENTS_MAP.const";
 
 export const REGIONS_LABELS_MAP: RegionsLabels = Object.values(
   DEPARTEMENTS_MAP

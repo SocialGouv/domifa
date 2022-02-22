@@ -38,6 +38,8 @@ export class StatsChartsComponent implements OnInit, AfterViewInit {
   }
 
   public ngOnInit(): void {
+    this.selectedCharts = "courriers";
+
     this.statsInCharts = this.publicStats.interactionsCountByMonth;
   }
 

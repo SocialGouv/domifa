@@ -9,10 +9,11 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { StructureCommon } from "../../../../../_common/model";
-import { departements, DepartementsLabels } from "../../../../shared/constants";
+
 import { regexp } from "../../../../shared/validators";
 import { StructureService } from "../../services/structure.service";
 import { structureNameChecker } from "./structureNameChecker.service";
+import { DEPARTEMENTS_MAP } from "../../../../shared";
 
 @Component({
   selector: "app-structure-edit-form",
@@ -21,8 +22,14 @@ import { structureNameChecker } from "./structureNameChecker.service";
 })
 export class StructureEditFormComponent implements OnInit {
   public structureForm: FormGroup;
-  public departements: DepartementsLabels;
-
+  public departements: {
+    [key: string]: {
+      departmentName: string;
+      regionCode: string;
+      regionName: string;
+      regionId: string;
+    };
+  } = DEPARTEMENTS_MAP;
   public loading = false;
   public submitted: boolean;
 
@@ -35,7 +42,6 @@ export class StructureEditFormComponent implements OnInit {
   ) {
     this.submitted = false;
     this.loading = false;
-    this.departements = departements;
   }
 
   get f(): { [key: string]: AbstractControl } {

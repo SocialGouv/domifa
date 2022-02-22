@@ -273,7 +273,7 @@
             *ngFor="let departement of departements | keyvalue"
             [ngValue]="departement.key"
           >
-            {{ departement.key }} - {{ departement.value }}
+            {{ departement.key }} - {{ departement.value.departmentName }}
           </option>
         </select>
 
@@ -431,7 +431,7 @@
                 : 'btn-outline-primary'
             "
           >
-            <input ngbButton type="radio" [value]="true" />
+            <input ngbButton type="radio" aria-label="Oui" [value]="true" />
             Oui
           </label>
           <label
@@ -442,7 +442,7 @@
                 : 'btn-outline-danger'
             "
           >
-            <input ngbButton type="radio" [value]="false" />
+            <input ngbButton type="radio" aria-label="Non" [value]="false" />
             Non
           </label>
         </div>

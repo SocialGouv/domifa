@@ -51,57 +51,63 @@
       <div class="row">
         <div class="col-md-12 text-center">Vous appartenez à…</div>
         <div class="col-md-12 text-center">
-          <div
-            class="btn"
+          <button
+            type="button"
+            class="btn mx-2"
+            aria-label=""
             [ngClass]="{
               'btn-primary': f.structureType.value === 'cias',
               'btn-outline-primary': f.structureType.value !== 'cias',
               'btn-outline-danger': submitted && f.structureType.value === ''
             }"
           >
-            <input
-              type="radio"
-              id="cias"
-              class="d-none"
-              value="cias"
-              formControlName="structureType"
-            />
             <label for="cias">CIAS / COMMUNE</label>
-          </div>
-          <div
-            class="btn"
+          </button>
+          <button
+            type="button"
+            class="btn mx-2"
+            aria-label=""
             [ngClass]="{
               'btn-primary': f.structureType.value === 'ccas',
               'btn-outline-primary': f.structureType.value !== 'ccas',
               'btn-outline-danger': submitted && f.structureType.value === ''
             }"
           >
-            <input
-              type="radio"
-              id="ccas"
-              class="d-none"
-              value="ccas"
-              formControlName="structureType"
-            />
             <label for="ccas">CCAS</label>
-          </div>
-          <div
-            class="btn"
+          </button>
+          <button
+            type="button"
+            class="btn mx-2"
+            aria-label="Organisme agréé"
             [ngClass]="{
               'btn-primary': f.structureType.value === 'asso',
               'btn-outline-primary': f.structureType.value !== 'asso',
               'btn-outline-danger': submitted && f.structureType.value === ''
             }"
           >
-            <input
-              type="radio"
-              id="asso"
-              class="d-none"
-              value="asso"
-              formControlName="structureType"
-            />
             <label for="asso">Organisme agréé</label>
-          </div>
+          </button>
+          <input
+            type="radio"
+            id="cias"
+            class="d-none"
+            value="cias"
+            formControlName="structureType"
+          />
+          <input
+            type="radio"
+            id="ccas"
+            class="d-none"
+            value="ccas"
+            formControlName="structureType"
+          />
+          <input
+            type="radio"
+            id="asso"
+            class="d-none"
+            value="asso"
+            formControlName="structureType"
+          />
         </div>
 
         <div
@@ -390,7 +396,7 @@
               *ngFor="let departement of departements | keyvalue"
               [ngValue]="departement.key"
             >
-              {{ departement.key }} - {{ departement.value }}
+              {{ departement.key }} - {{ departement.value.departmentName }}
             </option>
           </select>
 

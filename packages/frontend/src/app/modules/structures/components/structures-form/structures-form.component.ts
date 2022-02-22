@@ -11,10 +11,10 @@ import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { regexp } from "src/app/shared/validators";
 import { StructureCommon } from "../../../../../_common/model";
-import { departements, DepartementsLabels } from "../../../../shared";
 import { StructureService } from "../../services/structure.service";
 import { StructureCommonWeb } from "../../services/StructureCommonWeb.type";
 import { structureNameChecker } from "../structure-edit-form/structureNameChecker.service";
+import { DEPARTEMENTS_MAP } from "../../../../shared";
 
 @Component({
   selector: "app-structures-form",
@@ -25,7 +25,14 @@ export class StructuresFormComponent implements OnInit {
   public success = false;
   public structureForm!: FormGroup;
   public structure: StructureCommon;
-  public departements: DepartementsLabels;
+  public departements: {
+    [key: string]: {
+      departmentName: string;
+      regionCode: string;
+      regionName: string;
+      regionId: string;
+    };
+  } = DEPARTEMENTS_MAP;
   public submitted = false;
 
   public etapeInscription: number;
@@ -48,7 +55,6 @@ export class StructuresFormComponent implements OnInit {
     private toastService: CustomToastService,
     private titleService: Title
   ) {
-    this.departements = departements;
     this.etapeInscription = 0;
 
     this.structure = new StructureCommonWeb();

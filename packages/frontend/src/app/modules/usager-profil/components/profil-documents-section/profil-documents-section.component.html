@@ -53,10 +53,9 @@
           ></app-display-usager-docs>
           <br />
           <app-upload
-            *ngIf="usager.isActif || usager.decision.statut === 'RADIE'"
+            *ngIf="me.role !== 'facteur'"
             [usager]="usager"
-          >
-          </app-upload>
+          ></app-upload>
         </div>
       </div>
     </div>
