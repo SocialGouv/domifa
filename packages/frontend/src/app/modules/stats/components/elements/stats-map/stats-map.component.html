@@ -96,8 +96,8 @@
           [attr.y]="STATS_REGIONS_FOR_MAP[domTomDept].y - 54"
           height="80"
           width="220"
-          @fadeInOut
           class="text-center"
+          @fadeInOut
         >
           <a
             [routerLink]="['/stats/region/' + regionsUrls[domTomDept]]"
@@ -121,19 +121,18 @@
             </div>
           </div>
         </foreignObject>
+
         <foreignObject
-          @fadeInOut
-          (mouseover)="selectRegion(domTomDept)"
           *ngIf="STATS_REGIONS_DOM_TOM.indexOf(domTomDept) !== -1"
           [attr.x]="STATS_REGIONS_FOR_MAP[domTomDept].x"
           [attr.y]="STATS_REGIONS_FOR_MAP[domTomDept].y"
           height="50"
           width="50"
+          (mouseover)="selectRegion(domTomDept)"
         >
           <a
             [routerLink]="['/stats/region/' + regionsUrls[domTomDept]]"
             class="region-name font-weight-bold"
-            @fadeInOut
           >
             <div class="map-number">{{ statsRegionsValues[domTomDept] }}</div>
           </a>

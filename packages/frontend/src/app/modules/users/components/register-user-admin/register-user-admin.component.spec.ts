@@ -23,7 +23,6 @@ describe("RegisterUserAdminComponent", () => {
           NgbModule,
           ReactiveFormsModule,
           FormsModule,
-
           HttpClientTestingModule,
           RouterTestingModule,
         ],

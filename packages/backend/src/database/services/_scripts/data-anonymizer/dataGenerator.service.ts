@@ -1,50 +1,30 @@
-import * as faker from "faker/locale/fr";
-
-const state = {
-  initialized: false,
-};
-
-function get() {
-  if (!state.initialized) {
-    resetSeed();
-  }
-
-  return faker;
-}
+import { faker } from "@faker-js/faker";
+faker.setLocale("fr");
 
 export const dataGenerator = {
-  resetSeed,
   firstName,
   lastName,
   phoneNumber,
   fromList,
-  fromListMany,
   fromListAndRemove,
   number,
   boolean,
   date,
   email,
-  buildList,
   city,
 };
 
-function resetSeed({ seed }: { seed: number } = { seed: 123 }) {
-  state.initialized = true;
-  // be sure to have consistent generated values by setting the seed
-  faker.seed(seed);
-}
-
 function firstName() {
-  return get().name.firstName();
+  return faker.name.firstName();
 }
 function city() {
-  return get().address.city();
+  return faker.address.city();
 }
 function lastName() {
-  return get().name.lastName();
+  return faker.name.lastName();
 }
 function phoneNumber() {
-  return get().phone.phoneNumber();
+  return faker.phone.phoneNumber();
 }
 function email({
   firstName,
@@ -55,47 +35,16 @@ function email({
   lastName?: string;
   provider?: string;
 }) {
-  return get().internet.email(firstName, lastName, provider);
-}
-
-function buildList<T>(nb: number, value: T): T[] {
-  return buildArrayBySize(nb).map(() => value);
+  return faker.internet.email(firstName, lastName, provider);
 }
 
 function fromList<T>(list: T[]): T {
   const length = list.length;
-  const randomIndex = get().datatype.number({
+  const randomIndex = faker.datatype.number({
     min: 0,
     max: length - 1,
   });
   return list[randomIndex];
-}
-
-function fromListMany<T>(list: T[], nb: number): T[] {
-  return buildArrayBySize(nb).reduce(
-    (acc) => {
-      const { item, remaining } = fromListAndRemove(acc.remaining);
-      if (item) {
-        acc.items.push(item);
-      }
-      return {
-        items: acc.items,
-        remaining,
-      };
-    },
-    {
-      items: [] as T[],
-      remaining: list,
-    }
-  ).items;
-}
-
-function buildArrayBySize(count: number): any[] {
-  if (count > 0) {
-    // eslint-disable-next-line prefer-spread
-    return Array.apply(null, Array(count));
-  }
-  return [];
 }
 
 function fromListAndRemove<T>(list: T[]): {
@@ -110,7 +59,7 @@ function fromListAndRemove<T>(list: T[]): {
       remaining: [],
     };
   }
-  const randomIndex = get().datatype.number({
+  const randomIndex = faker.datatype.number({
     min: 0,
     max: length - 1,
   });
@@ -129,19 +78,21 @@ function number(options?: {
   max?: number;
   precision?: number;
 }): number {
-  return get().datatype.number(options);
+  return faker.datatype.number(options);
 }
+
 function boolean(options?: { percentageTrue?: number }): boolean {
   if (options && options.percentageTrue) {
     return number({ min: 1, max: 100, precision: 1 }) <= options.percentageTrue;
   }
-  return get().datatype.boolean();
+  return faker.datatype.boolean();
 }
 
 type MinMaxOptions = {
   min: number;
   max: number;
 };
+
 function date(options: {
   refDate?: Date;
   years?: MinMaxOptions;

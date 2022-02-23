@@ -25,7 +25,6 @@ describe("UploadComponent", () => {
           HttpClientTestingModule,
           RouterTestingModule,
           BrowserAnimationsModule,
-
           SharedModule,
           ReactiveFormsModule,
           FormsModule,
