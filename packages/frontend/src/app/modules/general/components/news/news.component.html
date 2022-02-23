@@ -4,10 +4,10 @@
   </div>
 </div>
 
-<div class="content py-3" *ngIf="domifaNews">
+<div class="content py-3" *ngIf="DOMIFA_NEWS">
   <div class="container py-3">
     <div class="page-content p-4">
-      <div class="card my-3 text-left" *ngFor="let news of domifaNews">
+      <div class="card my-3 text-left" *ngFor="let news of DOMIFA_NEWS">
         <p>
           <b>{{ news.date | date: "dd/MM/yyyy" }}</b>
           <span *ngIf="news.description">- {{ news.description }}</span>

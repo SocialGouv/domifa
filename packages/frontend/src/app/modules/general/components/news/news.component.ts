@@ -11,6 +11,7 @@ import DOMIFA_NEWS from "../../../../../assets/files/news.json";
 })
 export class NewsComponent implements OnInit {
   public NEWS_LABELS = NEWS_LABELS;
+  public DOMIFA_NEWS = DOMIFA_NEWS;
   public newsCenter!: TemplateRef<NgbModalRef>;
 
   public constructor(private seoService: SeoService) {}

@@ -73,6 +73,7 @@ export class NavbarComponent implements OnInit {
 
   public hideNews(): void {
     localStorage.setItem("news", new Date(DOMIFA_NEWS[0].date).toISOString());
+    this.pendingNews = false;
   }
 
   public initMatomo(): void {
