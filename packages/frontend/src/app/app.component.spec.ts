@@ -15,7 +15,6 @@ describe("AppComponent", () => {
         imports: [
           HttpClientTestingModule,
           MatomoModule,
-
           RouterTestingModule,
           UserIdleModule,
         ],

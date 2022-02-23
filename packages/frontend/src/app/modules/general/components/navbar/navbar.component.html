@@ -72,6 +72,21 @@
               <!-- MENU SI DECONNECTE - SAUF MOBILE -->
               <div class="d-none d-xs-inline-block d-sm-inline-block">
                 <a
+                  routerLink="/news"
+                  class="btn text-primary"
+                  (click)="
+                    hideNews();
+                    matomoService.trackEvent('HEADER', 'Header_ESP', 'null', 1)
+                  "
+                >
+                  <span *ngIf="pendingNews" class="pulse-button"></span>
+                  <span [ngClass]="pendingNews ? 'font-weight-bold' : ''"
+                    >Nouveautés</span
+                  >
+                </a>
+                <span class="nav--menu-breadcrumb">|</span>
+
+                <a
                   routerLink="/faq"
                   class="btn text-primary"
                   (click)="
@@ -118,6 +133,16 @@
                   ngbDropdownMenu
                   aria-labelledby="dropdownNotAuthenticatedMenu"
                 >
+                  <a routerLink="/news" ngbDropdownItem (click)="hideNews()">
+                    <span
+                      aria-hidden="true"
+                      *ngIf="pendingNews"
+                      class="pulse-button"
+                    ></span>
+                    <span [ngClass]="pendingNews ? 'font-weight-bold' : ''"
+                      >Nouveautés</span
+                    >
+                  </a>
                   <a ngbDropdownItem routerLink="/faq">En savoir plus</a>
                   <a ngbDropdownItem routerLink="/connexion">Me connecter</a>
                 </div>

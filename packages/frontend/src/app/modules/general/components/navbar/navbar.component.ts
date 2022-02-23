@@ -5,6 +5,7 @@ import { MatomoTracker } from "ngx-matomo";
 import { environment } from "../../../../../environments/environment";
 import { UserStructure } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
+import DOMIFA_NEWS from "../../../../../assets/files/news.json";
 
 @Component({
   selector: "app-navbar",
@@ -18,6 +19,8 @@ export class NavbarComponent implements OnInit {
 
   public portailAdminUrl = environment.portailAdminUrl;
 
+  public pendingNews: boolean;
+
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -26,6 +29,7 @@ export class NavbarComponent implements OnInit {
   ) {
     this.isNavbarCollapsed = false;
     this.me = null;
+    this.pendingNews = true;
   }
 
   public ngOnInit(): void {
@@ -46,6 +50,9 @@ export class NavbarComponent implements OnInit {
       },
     });
 
+    // Affichage des nouveautés
+    this.checkNews();
+
     // Délai d'inactivité atteint, on déconnecte
     this.userIdleService.onTimeout().subscribe({
       next: () => {
@@ -54,6 +61,18 @@ export class NavbarComponent implements OnInit {
         }
       },
     });
+  }
+
+  public checkNews(): void {
+    const lastNews = localStorage.getItem("news");
+
+    if (lastNews) {
+      this.pendingNews = new Date(lastNews) < new Date(DOMIFA_NEWS[0].date);
+    }
+  }
+
+  public hideNews(): void {
+    localStorage.setItem("news", new Date(DOMIFA_NEWS[0].date).toISOString());
   }
 
   public initMatomo(): void {

@@ -1,4 +1,3 @@
-import { HttpClient } from "@angular/common/http";
 import {
   Component,
   NgZone,
@@ -22,7 +21,7 @@ import {
   HealthCheckInfo,
   HealthCheckService,
 } from "./modules/shared/services/health-check";
-import { fadeInOut, NEWS_LABELS } from "./shared";
+import { fadeInOut } from "./shared";
 
 @Component({
   animations: [fadeInOut],
@@ -31,17 +30,11 @@ import { fadeInOut, NEWS_LABELS } from "./shared";
   templateUrl: "./app.component.html",
 })
 export class AppComponent implements OnInit {
-  public domifaNews: any;
-  public newsLabels = NEWS_LABELS;
-
   public apiVersion: string;
 
   public modalOptions: NgbModalOptions;
 
   public me: UserStructure;
-
-  @ViewChild("newsCenter", { static: true })
-  public newsCenter: TemplateRef<NgbModalRef>;
 
   @ViewChild("maintenanceModal", { static: true })
   public maintenanceModal!: TemplateRef<NgbModalRef>;
@@ -57,14 +50,12 @@ export class AppComponent implements OnInit {
     private authService: AuthService,
     private matomoInjector: MatomoInjector,
     public modalService: NgbModal,
-    private http: HttpClient,
     private router: Router,
     private titleService: Title,
     private ngZone: NgZone,
     public matomo: MatomoTracker,
     private userIdleService: UserIdleService
   ) {
-    this.domifaNews = null;
     this.matomoInjector.init(environment.matomo.url, environment.matomo.siteId);
     this.apiVersion = null;
 
@@ -91,8 +82,6 @@ export class AppComponent implements OnInit {
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
-
-    this.displayNews();
 
     this.runHealthCheckAndAutoReload();
 
@@ -150,31 +139,11 @@ export class AppComponent implements OnInit {
     });
   }
 
-  public displayNews(): void {
-    this.http.get("assets/files/news.json").subscribe((domifaNews) => {
-      this.domifaNews = domifaNews[0];
-
-      const lastNews = localStorage.getItem("news");
-
-      if (
-        !lastNews ||
-        (lastNews && new Date(lastNews) < new Date(domifaNews[0].date))
-      ) {
-        this.modalService.open(this.newsCenter, this.modalOptions);
-      }
-    });
-  }
-
   public openHelpModal(): void {
     this.modalService.open(this.helpCenter, this.modalOptions);
   }
 
   public closeHelpModal(): void {
     this.modalService.dismissAll();
-  }
-
-  public closeNewsModal(): void {
-    this.modalService.dismissAll();
-    localStorage.setItem("news", new Date(this.domifaNews.date).toISOString());
   }
 }
