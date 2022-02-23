@@ -1,3 +1,11 @@
+## [2.75.2](https://github.com/SocialGouv/domifa/compare/v2.75.1...v2.75.2) (2022-02-23)
+
+
+### Bug Fixes
+
+* départements outre-mer ([19dc9cc](https://github.com/SocialGouv/domifa/commit/19dc9cc93e1ff8dc81e09cbd76c38d8ee5f97788))
+* stats ([0058b47](https://github.com/SocialGouv/domifa/commit/0058b47806703c93051f5a99889e48f637009e46))
+
 ## [2.75.1](https://github.com/SocialGouv/domifa/compare/v2.75.0...v2.75.1) (2022-02-21)
 
 
