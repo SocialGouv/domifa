@@ -1,547 +1,577 @@
-<div class="container my-4">
-  <div class="row">
-    <div class="col-12">
-      <h1 class="text-center">Questions / Réponses sur Domifa</h1>
-      <br />
-      Si vos questions concernent les sections ci-dessous, merci de vous référer
-      à notre guide utilisateur :
-      <br />
-      <br />
-    </div>
-    <div class="col-12 col-md-4">
-      <ul>
-        <li>Présentation de DomiFa</li>
-        <li>L’inscription en ligne</li>
-        <li>La création de comptes utilisateurs</li>
-        <li>L’import des données domiciliés</li>
-        <li>La création d’une demande de domiciliation</li>
-        <li>La liste des domiciliés</li>
-        <li>La fiche domicilié</li>
-        <li>Les données statistiques</li>
-      </ul>
-      <br />
-    </div>
-    <div class="col-12 col-md-5 my-5 mt-md-5 text-center text-md-right">
-      <a
-        title="Téléchargez le guide utilisateur"
-        href="/assets/files/guide_utilisateur_domifa.pdf"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn btn-primary"
-        download
-      >
-        <fa-icon [icon]="['fas', 'download']"></fa-icon>
-        Téléchargez le guide utilisateur
-      </a>
-    </div>
-    <br />
-    <div class="col-12">
-      Si vous ne trouvez pas de réponse dans notre guide, merci de consulter les
-      sections ci-dessous ou bien contactez-nous via
-      <a [routerLink]="['/contact']" routerLinkActive="router-link-active">
-        notre formulaire de contact.</a
-      >
-      <br />
-    </div>
+<div class="head-page py-4">
+  <div class="container">
+    <h1>Questions / Réponses sur Domifa</h1>
   </div>
-  <div class="col-12">
-    <div class="menu-faq text-center">
-      <ul>
-        <li
-          title="Section : La domiciliation"
-          class="btn btn-outline-primary"
-          (click)="scrollTo(ladom)"
-        >
-          La domiciliation
-        </li>
-        <li
-          title="Section : Le projet Domifa"
-          class="btn btn-outline-primary"
-          (click)="scrollTo(faqdomifa)"
-        >
-          Le projet Domifa
-        </li>
-        <li
-          title="Section : La sécurité des données"
-          class="btn btn-outline-primary"
-          (click)="scrollTo(domiciliation)"
-        >
-          La sécurité des données
-        </li>
-        <li
-          title="Section : Les fonctionnalités"
-          class="btn btn-outline-primary"
-          (click)="scrollTo(features)"
-        >
-          Les fonctionnalités
-        </li>
-        <li
-          title="Section : Les tutoriels vidéo"
-          class="btn btn-outline-primary"
-          (click)="scrollTo(videos)"
-        >
-          Les tutoriels vidéo
-        </li>
-      </ul>
-    </div>
+</div>
 
-    <div id="faq-ladom" #ladom>
-      <br />
-      <br />
-      <br />
-      <h3>La domiciliation</h3>
+<div class="content py-3">
+  <div class="container py-3">
+    <div class="page-content p-4">
+      <p>
+        Si vos questions concernent les sections ci-dessous, merci de vous
+        référer à notre guide utilisateur :
+      </p>
 
-      Pour comprendre ce qu'est la domiciliation, comment la demander et à qui
-      elle s'adresse, nous vous invitons à consulter
-      <a
-        href="https://solidarites-sante.gouv.fr/affaires-sociales/lutte-contre-l-exclusion/article/domiciliation-des-personnes-sans-domicile-stable"
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <ul>
+            <li>Présentation de DomiFa</li>
+            <li>L’inscription en ligne</li>
+            <li>La création de comptes utilisateurs</li>
+            <li>L’import des données domiciliés</li>
+            <li>La création d’une demande de domiciliation</li>
+            <li>La liste des domiciliés</li>
+            <li>La fiche domicilié</li>
+            <li>Les données statistiques</li>
+          </ul>
+          <br />
+        </div>
+        <div class="col-12 col-md-5 my-5 mt-md-5 text-center text-md-right">
+          <a
+            title="Téléchargez le guide utilisateur"
+            href="/assets/files/guide_utilisateur_domifa.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-primary"
+            download
+          >
+            <fa-icon [icon]="['fas', 'download']"></fa-icon>
+            Téléchargez le guide utilisateur
+          </a>
+        </div>
+      </div>
+
+      <p>
+        Si vous ne trouvez pas de réponse dans notre guide, merci de consulter
+        les sections ci-dessous ou bien contactez-nous via
+        <a [routerLink]="['/contact']" routerLinkActive="router-link-active">
+          notre formulaire de contact.</a
+        >
+      </p>
+
+      <nav
+        role="navigation"
+        arial-label="Sommaire"
+        class="menu-faq text-center"
       >
-        cette page du Ministère des Solidarités et de la Santé</a
-      >. <br /><br />
-      De même une Foire aux questions sur la domiciliation des personnes sans
-      domicile stable rédigée par la Direction Générale de la Cohésion Sociale
-      est disponible
-      <a href="https://solidarites-sante.gouv.fr/IMG/pdf/faq_domiciliation.pdf">
-        ici</a
-      >. Des informations sur la réglementation sont disponibles
-      <a
-        href="http://circulaire.legifrance.gouv.fr/index.php?action=afficherCirculaire&hit=1&r=43202"
-      >
-        ici</a
-      >.
-    </div>
-    <div id="faq-domifa" #faqdomifa>
-      <br />
-      <br />
-      <br />
+        <ul>
+          <li
+            title="Section : La domiciliation"
+            class="btn btn-outline-primary"
+            (click)="scrollTo(ladom)"
+          >
+            La domiciliation
+          </li>
+          <li
+            title="Section : Le projet Domifa"
+            class="btn btn-outline-primary"
+            (click)="scrollTo(faqdomifa)"
+          >
+            Le projet Domifa
+          </li>
+          <li
+            title="Section : La sécurité des données"
+            class="btn btn-outline-primary"
+            (click)="scrollTo(domiciliation)"
+          >
+            La sécurité des données
+          </li>
+          <li
+            title="Section : Les fonctionnalités"
+            class="btn btn-outline-primary"
+            (click)="scrollTo(features)"
+          >
+            Les fonctionnalités
+          </li>
+          <li
+            title="Section : Les tutoriels vidéo"
+            class="btn btn-outline-primary"
+            (click)="scrollTo(videos)"
+          >
+            Les tutoriels vidéo
+          </li>
+        </ul>
+      </nav>
 
-      <h3>Le projet DomiFa</h3>
+      <div id="faq-ladom" class="pt-5" #ladom>
+        <br />
+        <br />
+        <br />
+        <h2>La domiciliation</h2>
 
-      <h4>Quand et par qui le projet a-t-il été créé ?</h4>
+        <p>
+          Pour comprendre ce qu'est la domiciliation, comment la demander et à
+          qui elle s'adresse, nous vous invitons à consulter
+          <a
+            href="https://solidarites-sante.gouv.fr/affaires-sociales/lutte-contre-l-exclusion/article/domiciliation-des-personnes-sans-domicile-stable"
+          >
+            cette page du Ministère des Solidarités et de la Santé</a
+          >. <br /><br />
+          De même une Foire aux questions sur la domiciliation des personnes
+          sans domicile stable rédigée par la Direction Générale de la Cohésion
+          Sociale est disponible
+          <a
+            href="https://solidarites-sante.gouv.fr/IMG/pdf/faq_domiciliation.pdf"
+          >
+            ici</a
+          >. Des informations sur la réglementation sont disponibles
+          <a
+            href="http://circulaire.legifrance.gouv.fr/index.php?action=afficherCirculaire&hit=1&r=43202"
+          >
+            ici</a
+          >.
+        </p>
+      </div>
+      <div id="faq-domifa" class="pt-5" #faqdomifa>
+        <h2>Le projet DomiFa</h2>
 
-      DomiFa est un service de l’État développé au sein de la Fabrique des
-      Ministères Sociaux dans le cadre du programme Startups d’État. Une Startup
-      d’État est un service public sans personnalité juridique propre,
-      constituée d’une petite équipe totalement autonome. <br /><br />
+        <h3>Quand et par qui le projet a-t-il été créé ?</h3>
 
-      Elle est financée par une administration porteuse qui lui garantit un
-      espace de liberté pour innover. Elle naît de l’identification d’un
-      problème rencontré par les citoyens comme par les agents publics, qu’elle
-      se donne pour objectif de résoudre grâce à un service numérique.
-      <br /><br />
+        <p>
+          DomiFa est un service de l’État développé au sein de la Fabrique des
+          Ministères Sociaux dans le cadre du programme Startups d’État. Une
+          Startup d’État est un service public sans personnalité juridique
+          propre, constituée d’une petite équipe totalement autonome.
+        </p>
 
-      Cette Startup d'État a été lancée en janvier 2019. L’équipe de DomiFa est
-      composée de :
-      <ul>
-        <li>Anaïs Martins Da Cruz, cheffe de produit</li>
-        <li>Anne-Laure Pilloy, product owner</li>
-        <li>Yassine Riffi, développeur full-stack</li>
-        <li>Chiraz Herizi, chargée de déploiement</li>
-        <li>Saniya Al Saadi, designer</li>
-      </ul>
+        <p>
+          Elle est financée par une administration porteuse qui lui garantit un
+          espace de liberté pour innover. Elle naît de l’identification d’un
+          problème rencontré par les citoyens comme par les agents publics,
+          qu’elle se donne pour objectif de résoudre grâce à un service
+          numérique.
+        </p>
 
-      <h4>Quelle est la finalité du service DomiFa ?</h4>
+        <p>
+          Cette Startup d'État a été lancée en janvier 2019. L’équipe de DomiFa
+          est composée de :
+        </p>
 
-      DomiFa est un outil qui permet de faciliter le suivi et la gestion des
-      domiciliations.
+        <ul>
+          <li>Anne-Laure Pilloy, product owner</li>
+          <li>Yassine Riffi, développeur full-stack</li>
+          <li>Chiraz Herizi, chargée de déploiement</li>
+          <li>Olivier Leung, développeur full-stack</li>
+        </ul>
 
-      <h4>Qui peut utiliser DomiFa ?</h4>
+        <h3>Quelle est la finalité du service DomiFa ?</h3>
+        <p>
+          DomiFa est un outil qui permet de faciliter le suivi et la gestion des
+          domiciliations.
+        </p>
 
-      DomiFa s’adresse aux CCAS, CIAS, communes et tout autre organisme agréé
-      (associations, hôpitaux…).
-    </div>
+        <h3>Qui peut utiliser DomiFa ?</h3>
 
-    <div #domiciliation id="faq-domiciliation">
-      <br />
-      <br />
-      <br />
-      <h3>La sécurité des données</h3>
+        <p>
+          DomiFa s’adresse aux CCAS, CIAS, communes et tout autre organisme
+          agréé (associations, hôpitaux…).
+        </p>
+      </div>
 
-      <h4>DomiFa est-il en conformité avec le RGPD ?</h4>
+      <div #domiciliation id="faq-domiciliation">
+        <br />
+        <br />
+        <br />
+        <h2>La sécurité des données</h2>
 
-      DomiFa est en conformité vis-à-vis de la législation en matière de
-      protection des données à caractère personnel, et notamment le RGPD, la Loi
-      Informatique et Libertés, ainsi que les recommandations de la CNIL. DomiFa
-      a respecté ce cadre juridique dès la conception de la plateforme, en
-      respectant par exemple les principes de minimisation des données et de
-      licéité du traitement.
-      <br /><br />
-      La plateforme répond aujourd'hui à toutes les obligations du RGPD et
-      continuera de s'y astreindre strictement dans ses futurs développements,
-      comme expliqué dans notre politique de confidentialité disponible en accès
-      libre sur notre plateforme. <br /><br />
+        <h3>DomiFa est-il en conformité avec le RGPD ?</h3>
 
-      Ci-dessous la liste des éléments mis en place dans le cadre de cette
-      conformité :
+        <p>
+          DomiFa est en conformité vis-à-vis de la législation en matière de
+          protection des données à caractère personnel, et notamment le RGPD, la
+          Loi Informatique et Libertés, ainsi que les recommandations de la
+          CNIL. DomiFa a respecté ce cadre juridique dès la conception de la
+          plateforme, en respectant par exemple les principes de minimisation
+          des données et de licéité du traitement. <br /><br />
+          La plateforme répond aujourd'hui à toutes les obligations du RGPD et
+          continuera de s'y astreindre strictement dans ses futurs
+          développements, comme expliqué dans notre politique de confidentialité
+          disponible en accès libre sur notre plateforme. <br /><br />
 
-      <ul>
-        <li>Mise en place d'un registre de traitements ;</li>
-        <li>
-          Rédaction d'une politique de confidentialité, de mentions légales et
-          de conditions générales d'utilisation de la plateforme ;
-        </li>
-        <li>
-          Identification, analyse et nettoyage des cookies sur la plateforme ;
-        </li>
-        <li>
-          Mise en conformité des formulaires de collecte de données sur la
-          plateforme ;
-        </li>
-        <li>
-          Réalisation d'une analyse d'impact (EIVP) - en cours de finalisation ;
-        </li>
-        <li>
-          Analyse du parcours de vie des données et minimisation de celles-ci ;
-        </li>
-        <li>Sécurisation technique des traitements de données ;</li>
-        <li>Nomination d'un DPO ;</li>
-        <li>
-          Sensibilisation/formation de l'équipe à la protection des données à
-          caractère personnel ;
-        </li>
-        <li>
-          Mise en place d'une procédure interne en cas de violation de données
-          personnelles ;
-        </li>
-        <li>
-          Points d'étapes fréquents avec notre juriste en protection des
+          Ci-dessous la liste des éléments mis en place dans le cadre de cette
+          conformité :
+        </p>
+
+        <ul>
+          <li>Mise en place d'un registre de traitements ;</li>
+          <li>
+            Rédaction d'une politique de confidentialité, de mentions légales et
+            de conditions générales d'utilisation de la plateforme ;
+          </li>
+          <li>
+            Identification, analyse et nettoyage des cookies sur la plateforme ;
+          </li>
+          <li>
+            Mise en conformité des formulaires de collecte de données sur la
+            plateforme ;
+          </li>
+          <li>
+            Réalisation d'une analyse d'impact (EIVP) - en cours de finalisation
+            ;
+          </li>
+          <li>
+            Analyse du parcours de vie des données et minimisation de celles-ci
+            ;
+          </li>
+          <li>Sécurisation technique des traitements de données ;</li>
+          <li>Nomination d'un DPO ;</li>
+          <li>
+            Sensibilisation/formation de l'équipe à la protection des données à
+            caractère personnel ;
+          </li>
+          <li>
+            Mise en place d'une procédure interne en cas de violation de données
+            personnelles ;
+          </li>
+          <li>
+            Points d'étapes fréquents avec notre juriste en protection des
+            données.
+          </li>
+        </ul>
+
+        <h3>Le recueil du consentement des domiciliés est-il nécessaire ?</h3>
+
+        <p>
+          Le traitement des données étant nécessaire à l’exécution d'une mission
+          d'intérêt public, le recueil du consentement n'est pas obligatoire.
+          Vous disposez des droits suivants détaillés dans notre politique de
+          confidentialité :
+        </p>
+
+        <ul>
+          <li>Droit d’information, d’accès et de communication des données</li>
+          <li>Droit de rectification des données.</li>
+        </ul>
+
+        <h3>Où sont stockées / hébergées les données ?</h3>
+        <p>
+          Nos données sont hébergées en France via la société Microsoft Azure et
+          leur accès est sécurisé et cloisonné. Chaque structure ne peut accéder
+          qu'à ses propres données. Il n’est d’ailleurs pas possible pour une
+          structure de savoir si un domicilié est déjà bénéficiaire d’une
+          domiciliation au sein d’une autre structure.
+        </p>
+
+        <h3>Comment les données sont-elles traitées sur DomiFa ?</h3>
+
+        <p>
+          Chaque responsable de traitement, structures ou équipe Domifa, réalise
+          son propre traitement à partir des données. Ainsi, par exemple, les
+          structures traitent les données en vue d'établir des domiciliations,
+          l'équipe DomiFa les utilise pour faciliter le travail des structures,
+          ou pour réaliser des statistiques anonymes.
+        </p>
+
+        <h3>En tant que structure dois-je faire une déclaration à la CNIL ?</h3>
+
+        <p>
+          Depuis l’arrivée du nouveau règlement RGPD, la déclaration CNIL n’est
+          plus nécessaire. Nous sommes en effet passés d'un régime déclaratif à
+          un régime de responsabilisation des différents acteurs. La structure
+          est elle-même responsable du respect des règles de sécurité imposées
+          par la RGPD et doit pouvoir les démontrer en cas de contrôle de la
+          CNIL (registre des données, DPO...).
+        </p>
+
+        <h3>
+          En cas d’arrêt d’utilisation de DomiFa, comment supprimer mes données
+          ainsi que mon compte structure ?
+        </h3>
+
+        <p>
+          Une structure peut à tout moment arrêter d'utiliser DomiFa. Dans son
+          compte administrateur, la structure peut exporter sa base de données
+          si besoin. Elle peut aussi supprimer l'entièreté des dossiers de
+          domiciliation sur la plateforme.
+        </p>
+
+        <p>
+          Pour une demande de suppression d’un compte structure, merci de nous
+          envoyer un message à l’adresse
+          contact.domifa[at]fabrique.social.gouv.fr avec les informations
+          suivantes :
+        </p>
+
+        <ul>
+          <li>Objet du mail : Suppression de ma structure ;</li>
+          <li>Nom de la structure à supprimer ;</li>
+          <li>Adresse mail de la personne demandant sa suppression ;</li>
+          <li>Motif de la suppression ;</li>
+        </ul>
+        <p>La structure sera alors supprimée dans un délai d’une semaine.</p>
+
+        <h3>
+          En cas d’incident majeur sur la plateforme, quel est le dispositif mis
+          en place ?
+        </h3>
+
+        <p>
+          En cas d’incident majeur sur notre plateforme technique une équipe est
+          disponible pour intervenir dans les meilleurs délais.
+        </p>
+
+        <p>
+          Cette équipe est composée de 4 profils “OPS” dédiés à l’infrastructure
+          et 3 profils “SRE” dédiés au support des applications.
+          <br />
+
+          Ces équipes soit joignables 5 jours sur 7, de 9h à 18h.
+        </p>
+
+        <table class="table">
+          <caption>
+            En cas d’incident majeur sur la plateforme, quel est le dispositif
+            mis en place ?
+          </caption>
+          <thead>
+            <tr>
+              <th scope="row">Action</th>
+              <th scope="row">Indisponibilité maximum</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Mise à jour</td>
+              <td>30 minutes</td>
+            </tr>
+            <tr>
+              <td>Maintenance trimestrielle</td>
+              <td>1 heure</td>
+            </tr>
+            <tr>
+              <td>Désastre majeur</td>
+              <td>48 heures</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          Nous garantissons un taux de disponibilité des applications de 95%.
+          <br />
+
+          Plusieurs mesures de prévention sont mises en place pour garantir la
+          continuité de service.
+        </p>
+        <ul>
+          <li>Sauvegardes quotidiennes des données ;</li>
+          <li>Versionning du code et de la configuration des applications.</li>
+        </ul>
+        <br />
+        <p>
+          En amont, l’équipe SRE de la fabrique audite et intervient en continu
+          sur les produits pour assurer fiabiliité, résilience et sécurité des
           données.
-        </li>
-      </ul>
+        </p>
+      </div>
 
-      <h4>Le recueil du consentement des domiciliés est-il nécessaire ?</h4>
+      <div #features id="faq-fonctionnalites">
+        <br />
+        <br />
+        <br />
+        <h2>Les fonctionnalités</h2>
 
-      Le traitement des données étant nécessaire à l’exécution d'une mission
-      d'intérêt public, le recueil du consentement n'est pas obligatoire. Vous
-      disposez des droits suivants détaillés dans notre politique de
-      confidentialité : <br /><br />
+        <h3>L’inscription</h3>
 
-      <ul>
-        <li>Droit d’information, d’accès et de communication des données</li>
-        <li>Droit de rectification des données.</li>
-      </ul>
+        <h4>Doit-on signer une convention avec DomiFa ?</h4>
 
-      <h4>Où sont stockées / hébergées les données ?</h4>
+        <p>
+          L’utilisation de DomiFa n’est pas soumise à la signature d’une
+          convention. L'inscription se fait directement sur notre plateforme.
+          Elle est ensuite validée par un membre de notre équipe.
+        </p>
+        <h4>La plateforme DomiFa est-elle payante ?</h4>
 
-      Nos données sont hébergées en France via la société Microsoft Azure et
-      leur accès est sécurisé et cloisonné. Chaque structure ne peut accéder
-      qu'à ses propres données. Il n’est d’ailleurs pas possible pour une
-      structure de savoir si un domicilié est déjà bénéficiaire d’une
-      domiciliation au sein d’une autre structure.
-      <br />
+        <p>
+          DomiFa est un dispositif d’Etat entièrement gratuit destiné aux
+          structures domiciliatrices.
+        </p>
+        <h4>Y a-t-il un logiciel à installer préalablement ?</h4>
+        <p>
+          DomiFa est une plateforme Web et ne nécessite pas l’installation d’un
+          logiciel.
+        </p>
 
-      <h4>Comment les données sont-elles traitées sur DomiFa ?</h4>
+        <h4>Sous quel navigateur faut-il utiliser DomiFa ?</h4>
 
-      Chaque responsable de traitement, structures ou équipe Domifa, réalise son
-      propre traitement à partir des données. Ainsi, par exemple, les structures
-      traitent les données en vue d'établir des domiciliations, l'équipe DomiFa
-      les utilise pour faciliter le travail des structures, ou pour réaliser des
-      statistiques anonymes.
-      <br />
+        <p>
+          DomiFa est compatible avec les dernières versions de Chrome, Safari,
+          Firefox, Opera et Microsoft Edge.<br />
+          Si vous utilisez Internet Explorer, nous vous recommandons de
+          télécharger un autre navigateur (listé au-dessus) pour une utilisation
+          optimale.
+        </p>
 
-      <h4>En tant que structure dois-je faire une déclaration à la CNIL ?</h4>
+        <h3>La gestion des comptes</h3>
+        <h4>Existe t-il un nombre d’utilisateurs maximum ?</h4>
+        <p>
+          Non. La structure est libre de créer autant de comptes utilisateurs
+          que nécessaire.
+        </p>
 
-      Depuis l’arrivée du nouveau règlement RGPD, la déclaration CNIL n’est plus
-      nécessaire. Nous sommes en effet passés d'un régime déclaratif à un régime
-      de responsabilisation des différents acteurs. La structure est elle-même
-      responsable du respect des règles de sécurité imposées par la RGPD et doit
-      pouvoir les démontrer en cas de contrôle de la CNIL (registre des données,
-      DPO...).
-      <br />
+        <h4>Une structure peut-elle avoir plusieurs administrateurs ?</h4>
+        <p>Oui.</p>
 
-      <h4>
-        En cas d’arrêt d’utilisation de DomiFa, comment supprimer mes données
-        ainsi que mon compte structure ?
-      </h4>
+        <h4>Peut-on mettre un nom neutre pour l’administrateur ?</h4>
+        <p>Non. Les comptes doivent être individuels et nominatifs.</p>
 
-      Une structure peut à tout moment arrêter d'utiliser DomiFa. Dans son
-      compte administrateur, la structure peut exporter sa base de données si
-      besoin. Elle peut aussi supprimer l'entièreté des dossiers de
-      domiciliation sur la plateforme.
-      <br />
+        <h3>La connexion</h3>
+        <h4>
+          Deux postes peuvent-ils se connecter au même compte structure et
+          l’utiliser en simultané ?
+        </h4>
+        <p>
+          Un compte structure peut inclure plusieurs utilisateurs et ceux-ci
+          peuvent se connecter en même temps. Cependant, il est fortement
+          déconseillé d’utiliser un seul compte utilisateur sur plusieurs
+          postes.
+        </p>
+        <h3>L’import des domiciliés</h3>
 
-      Pour une demande de suppression d’un compte structure, merci de nous
-      envoyer un message à l’adresse contact.domifa[at]fabrique.social.gouv.fr
-      avec les informations suivantes :
+        <h4>Comment importer des ID personnalisés pour mes domiciliés ?</h4>
 
-      <ul>
-        <li>Objet du mail : Suppression de ma structure ;</li>
-        <li>Nom de la structure à supprimer ;</li>
-        <li>Adresse mail de la personne demandant sa suppression ;</li>
-        <li>Motif de la suppression ;</li>
-      </ul>
+        <p>
+          Il vous est possible d’importer un système de numérotation
+          personnalisée pour vos domiciliés. Pour cela, il vous suffit d’ouvrir
+          notre modèle d’import, le remplir avec vos données puis créer une
+          nouvelle colonne à droite de toutes celles demandées. Juste y entrer
+          les numéros voulus pour chaque ligne de domicilié (pas la peine
+          d’ajouter un titre à cette colonne).
+          <br />
 
-      La structure sera alors supprimée dans un délai d’une semaine.
-      <br />
+          Avant ou après l’import personnalisé, un administrateur doit se rendre
+          sur sa page “Compte”, section “informations de la structure”, cliquer
+          sur “modifier les informations” et enfin activer les identifiants
+          personnalisés en bas de page.
+        </p>
 
-      <h4>
-        En cas d’incident majeur sur la plateforme, quel est le dispositif mis
-        en place ?
-      </h4>
+        <h3>Les interactions</h3>
 
-      En cas d’incident majeur sur notre plateforme technique une équipe est
-      disponible pour intervenir dans les meilleurs délais.
-      <br />
+        <h4>La remise d’un courrier contre signature est-elle obligatoire ?</h4>
+        <p>
+          Les textes ne prévoient pas que les courriers soient remis aux
+          domiciliés contre signature. C'est une pratique utile pour permettre
+          de s'assurer de l'identité de la personne et de garder un suivi des
+          passages. Elle est à encourager, sans pour autant la rendre
+          obligatoire.
+        </p>
 
-      Cette équipe est composée de 4 profils “OPS” dédiés à l’infrastructure et
-      3 profils “SRE” dédiés au support des applications.
-      <br /><br />
+        <h4>Dois-je maintenir mon registre de signature avec DomiFa ?</h4>
 
-      Ces équipes soit joignables 5 jours sur 7, de 9h à 18h.
-      <br /><br />
+        <p>
+          Il n'y a pas d'obligation pour une structure de recueillir les
+          signatures des domiciliés lors de la distribution des courriers. Il
+          n'est d'ailleurs pas envisagé de mettre en place la signature
+          électronique sur DomiFa. Le choix appartient à chaque structure de
+          conserver ou non le registre de signature papier existant.
+        </p>
+      </div>
 
-      <table class="table">
-        <thead>
-          <tr>
-            <td>Action</td>
-            <td>Indisponibilité maximum</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Mise à jour</td>
-            <td>30 minutes</td>
-          </tr>
-          <tr>
-            <td>Maintenance trimestrielle</td>
-            <td>1 heure</td>
-          </tr>
-          <tr>
-            <td>Désastre majeur</td>
-            <td>48 heures</td>
-          </tr>
-        </tbody>
-      </table>
+      <div #videos id="faq-videos">
+        <br />
+        <br />
+        <br />
+        <h2>Tutoriels vidéos</h2>
+        <p>
+          Voici quelques vidéos qui vous aideront à utiliser Domifa au mieux.
+        </p>
+        <div class="text-center">
+          <div>
+            <h3>Inscription d'une nouvelle structure</h3>
+            <video
+              preload="none"
+              width="800"
+              poster="../../../../../assets/images/faq/faq-inscription.jpg"
+              controls
+              (click)="trackVideo('inscription')"
+            >
+              <source
+                src="https://domifaprod2.blob.core.windows.net/public/tuto_inscription_nouvelle_structure.mp4"
+                type="video/mp4"
+              />
+            </video>
+          </div>
+          <br /><br />
+          <div>
+            <h3>Créer une domiciliation</h3>
+            <video
+              width="800"
+              preload="none"
+              poster="../../../../../assets/images/faq/faq-demande.jpg"
+              controls
+              (click)="trackVideo('creation_dom')"
+            >
+              <source
+                src="https://domifaprod2.blob.core.windows.net/public/tuto_creation_domiciliation.mp4"
+                type="video/mp4"
+              />
+            </video>
+          </div>
+          <br /><br />
+          <div>
+            <h3>Importer vos domiciliés</h3>
 
-      Nous garantissons un taux de disponibilité des applications de 95%.
-      <br />
-
-      Plusieurs mesures de prévention sont mises en place pour garantir la
-      continuité de service.
-      <ul>
-        <li>Sauvegardes quotidiennes des données ;</li>
-        <li>Versionning du code et de la configuration des applications.</li>
-      </ul>
-      <br />
-      En amont, l’équipe SRE de la fabrique audite et intervient en continu sur
-      les produits pour assurer fiabiliité, résilience et sécurité des données.
-      <br />
-    </div>
-
-    <div #features id="faq-fonctionnalites">
-      <br />
-      <br />
-      <br />
-      <h3>Les fonctionnalités</h3>
-
-      <h4>L’inscription</h4>
-
-      <b>Doit-on signer une convention avec DomiFa ?</b>
-      <br />
-
-      L’utilisation de DomiFa n’est pas soumise à la signature d’une convention.
-      L'inscription se fait directement sur notre plateforme. Elle est ensuite
-      validée par un membre de notre équipe.
-      <br />
-      <br />
-      <b>La plateforme DomiFa est-elle payante ?</b>
-      <br />
-
-      DomiFa est un dispositif d’Etat entièrement gratuit destiné aux structures
-      domiciliatrices.
-      <br />
-      <br />
-      <b>Y a-t-il un logiciel à installer préalablement ?</b>
-      <br />
-
-      DomiFa est une plateforme Web et ne nécessite pas l’installation d’un
-      logiciel.
-
-      <br />
-      <br />
-
-      <b>Sous quel navigateur faut-il utiliser DomiFa ?</b>
-      <br />
-
-      DomiFa est compatible avec les dernières versions de Chrome, Safari,
-      Firefox, Opera et Microsoft Edge.<br />
-      Si vous utilisez Internet Explorer, nous vous recommandons de télécharger
-      un autre navigateur (listé au-dessus) pour une utilisation optimale.
-
-      <h4>La gestion des comptes</h4>
-
-      <b>Existe t-il un nombre d’utilisateurs maximum ? </b>
-      <br />
-      Non. La structure est libre de créer autant de comptes utilisateurs que
-      nécessaire.
-      <br />
-      <br />
-
-      <b>Une structure peut-elle avoir plusieurs administrateurs ?</b>
-      <br />
-      Oui.
-      <br />
-      <br />
-
-      <b>Peut-on mettre un nom neutre pour l’administrateur ?</b>
-      <br />
-
-      Non. Les comptes doivent être individuels et nominatifs.
-
-      <h4>La connexion</h4>
-
-      <b>
-        Deux postes peuvent-ils se connecter au même compte structure et
-        l’utiliser en simultané ?
-      </b>
-      <br />
-      Un compte structure peut inclure plusieurs utilisateurs et ceux-ci peuvent
-      se connecter en même temps. Cependant, il est fortement déconseillé
-      d’utiliser un seul compte utilisateur sur plusieurs postes.
-
-      <h4>L’import des domiciliés</h4>
-
-      <b>Comment importer des ID personnalisés pour mes domiciliés ?</b>
-      <br />
-
-      Il vous est possible d’importer un système de numérotation personnalisée
-      pour vos domiciliés. Pour cela, il vous suffit d’ouvrir notre modèle
-      d’import, le remplir avec vos données puis créer une nouvelle colonne à
-      droite de toutes celles demandées. Juste y entrer les numéros voulus pour
-      chaque ligne de domicilié (pas la peine d’ajouter un titre à cette
-      colonne).
-
-      <br /><br />
-
-      Avant ou après l’import personnalisé, un administrateur doit se rendre sur
-      sa page “Compte”, section “informations de la structure”, cliquer sur
-      “modifier les informations” et enfin activer les identifiants
-      personnalisés en bas de page.
-
-      <h4>Les interactions</h4>
-
-      <b>La remise d’un courrier contre signature est-elle obligatoire ?</b>
-      <br />
-
-      Les textes ne prévoient pas que les courriers soient remis aux domiciliés
-      contre signature. C'est une pratique utile pour permettre de s'assurer de
-      l'identité de la personne et de garder un suivi des passages. Elle est à
-      encourager, sans pour autant la rendre obligatoire.
-      <br /><br />
-      <b>Dois-je maintenir mon registre de signature avec DomiFa ?</b>
-      <br />
-
-      Il n'y a pas d'obligation pour une structure de recueillir les signatures
-      des domiciliés lors de la distribution des courriers. Il n'est d'ailleurs
-      pas envisagé de mettre en place la signature électronique sur DomiFa. Le
-      choix appartient à chaque structure de conserver ou non le registre de
-      signature papier existant.
-    </div>
-
-    <div #videos id="faq-videos">
-      <br />
-      <br />
-      <br />
-      <h3>Tutoriels vidéos</h3>
-      <p>Voici quelques vidéos qui vous aideront à utiliser Domifa au mieux.</p>
-      <div class="text-center">
-        <div>
-          <h4>Inscription d'une nouvelle structure</h4>
-          <video
-            preload="none"
-            width="800"
-            poster="../../../../../assets/images/faq/faq-inscription.jpg"
-            controls
-            (click)="trackVideo('inscription')"
-          >
-            <source
-              src="https://domifaprod2.blob.core.windows.net/public/tuto_inscription_nouvelle_structure.mp4"
-              type="video/mp4"
-            />
-          </video>
+            <video
+              preload="none"
+              width="800"
+              poster="../../../../../assets/images/faq/faq-import.jpg"
+              controls
+              (click)="trackVideo('import')"
+            >
+              <source
+                src="https://domifaprod2.blob.core.windows.net/public/tuto_import.mp4"
+                type="video/mp4"
+              />
+            </video>
+          </div>
+          <br /><br />
+          <div>
+            <h3>Gestion des domiciliés</h3>
+            <video
+              width="800"
+              preload="none"
+              poster="../../../../../assets/images/faq/faq-liste.jpg"
+              controls
+              (click)="trackVideo('gestion_domicilies')"
+            >
+              <source
+                src="https://domifaprod2.blob.core.windows.net/public/tuto_liste_domicilies.mp4"
+                type="video/mp4"
+              />
+            </video>
+          </div>
+          <br /><br />
+          <div>
+            <h3>Compte</h3>
+            <video
+              width="800"
+              preload="none"
+              poster="../../../../../assets/images/faq/faq-compte.jpg"
+              controls
+              (click)="trackVideo('mon_compte')"
+            >
+              <source
+                src="https://domifaprod2.blob.core.windows.net/public/tuto_compte.mp4"
+                type="video/mp4"
+              />
+            </video>
+          </div>
+          <br /><br />
+          <div>
+            <h3>Fiche domicilié</h3>
+            <video
+              width="800"
+              preload="none"
+              poster="../../../../../assets/images/faq/faq-profil.jpg"
+              controls
+              (click)="trackVideo('fiche_domicilie')"
+            >
+              <source
+                src="https://domifaprod2.blob.core.windows.net/public/tuto_fiche_domicilie.mp4"
+                type="video/mp4"
+              />
+            </video>
+          </div>
+          <br /><br />
         </div>
-        <br /><br />
-        <div>
-          <h4>Créer une domiciliation</h4>
-          <video
-            width="800"
-            preload="none"
-            poster="../../../../../assets/images/faq/faq-demande.jpg"
-            controls
-            (click)="trackVideo('creation_dom')"
-          >
-            <source
-              src="https://domifaprod2.blob.core.windows.net/public/tuto_creation_domiciliation.mp4"
-              type="video/mp4"
-            />
-          </video>
-        </div>
-        <br /><br />
-        <div>
-          <h4>Importer vos domiciliés</h4>
-
-          <video
-            preload="none"
-            width="800"
-            poster="../../../../../assets/images/faq/faq-import.jpg"
-            controls
-            (click)="trackVideo('import')"
-          >
-            <source
-              src="https://domifaprod2.blob.core.windows.net/public/tuto_import.mp4"
-              type="video/mp4"
-            />
-          </video>
-        </div>
-        <br /><br />
-        <div>
-          <h4>Gestion des domiciliés</h4>
-          <video
-            width="800"
-            preload="none"
-            poster="../../../../../assets/images/faq/faq-liste.jpg"
-            controls
-            (click)="trackVideo('gestion_domicilies')"
-          >
-            <source
-              src="https://domifaprod2.blob.core.windows.net/public/tuto_liste_domicilies.mp4"
-              type="video/mp4"
-            />
-          </video>
-        </div>
-        <br /><br />
-        <div>
-          <h4>Compte</h4>
-          <video
-            width="800"
-            preload="none"
-            poster="../../../../../assets/images/faq/faq-compte.jpg"
-            controls
-            (click)="trackVideo('mon_compte')"
-          >
-            <source
-              src="https://domifaprod2.blob.core.windows.net/public/tuto_compte.mp4"
-              type="video/mp4"
-            />
-          </video>
-        </div>
-        <br /><br />
-        <div>
-          <h4>Fiche domicilié</h4>
-          <video
-            width="800"
-            preload="none"
-            poster="../../../../../assets/images/faq/faq-profil.jpg"
-            controls
-            (click)="trackVideo('fiche_domicilie')"
-          >
-            <source
-              src="https://domifaprod2.blob.core.windows.net/public/tuto_fiche_domicilie.mp4"
-              type="video/mp4"
-            />
-          </video>
-        </div>
-        <br /><br />
       </div>
     </div>
   </div>

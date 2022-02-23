@@ -206,61 +206,6 @@
   </div>
 </ng-template>
 
-<ng-template #newsCenter let-modal>
-  <div class="modal-header">
-    <span class="modal-title" id="modal-title">
-      <span aria-hidden="true">🎉</span> Les dernières nouveautés de Domifa :
-      {{ domifaNews.date | date: "dd/MM/yyyy" }}
-      <span aria-hidden="true">🎉</span>
-    </span>
-    <button
-      title="Fermer"
-      class="close"
-      aria-label="Fermer la fenêtre"
-      (click)="closeNewsModal()"
-    >
-      <span>&times;</span>
-    </button>
-  </div>
-  <div class="modal-body text-center">
-    <div class="text-left">
-      <p>
-        <span *ngIf="domifaNews.description"
-          >- {{ domifaNews.description }}</span
-        >
-      </p>
-      <div
-        *ngFor="let content of domifaNews.content"
-        class="text-left py-2 d-block"
-      >
-        <p>
-          <span
-            class="badge badge-pill"
-            [ngClass]="{
-              'badge-primary': content.type === 'new',
-              'badge-warning': content.type === 'bug'
-            }"
-          >
-            {{ newsLabels[content.type] }}
-          </span>
-          <b class="ml-2">{{ content.categorie }}</b>
-        </p>
-
-        <ul>
-          <li class="my-1" *ngFor="let message of content.message">
-            {{ message }}
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary" (click)="closeNewsModal()">
-      Continuer sur Domifa
-    </button>
-  </div>
-</ng-template>
-
 <ng-template #helpCenter let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-title">Centre d'aide Domifa</h4>
