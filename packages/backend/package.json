@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "^6.0.0-alpha.7",
-    "@nestjs/axios": "^0.0.5",
+    "@nestjs/axios": "^0.0.6",
     "@nestjs/common": "^8.0.6",
     "@nestjs/core": "^8.0.6",
     "@nestjs/jwt": "^8.0.0",
@@ -81,7 +81,7 @@
     "sanitize-html": "^2.6.1",
     "striptags": "^3.2.0",
     "swagger-ui-express": "^4.1.6",
-    "typeorm": "0.2.41",
+    "typeorm": "0.2.44",
     "uuid": "^8.3.2",
     "xlsx": "^0.17.1",
     "yup": "^0.32.9"
