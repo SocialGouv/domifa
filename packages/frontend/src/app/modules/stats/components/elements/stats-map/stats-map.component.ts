@@ -4,8 +4,9 @@ import {
   StatsByRegion,
   STATS_REGIONS_FOR_MAP,
 } from "../../../../../../_common/model";
-import { fadeInOut } from "../../../../../shared/animations";
+
 import {
+  fadeInOut,
   RegionsLabels,
   REGIONS_DEF,
   REGIONS_LABELS_MAP,
