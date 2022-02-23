@@ -1,3 +1,15 @@
+# [2.76.0](https://github.com/SocialGouv/domifa/compare/v2.75.3...v2.76.0) (2022-02-23)
+
+
+### Bug Fixes
+
+* correction d'un bug sur la suppression des news ([504dbe7](https://github.com/SocialGouv/domifa/commit/504dbe7bf0d54e115ebe7dbea47a7f0e6bd85a0f))
+
+
+### Features
+
+* **news:** Changement de la page nouveautés ([373112c](https://github.com/SocialGouv/domifa/commit/373112c322c7e4590dc7e491cb3ff95f2654ad28))
+
 ## [2.75.3](https://github.com/SocialGouv/domifa/compare/v2.75.2...v2.75.3) (2022-02-23)
 
 
