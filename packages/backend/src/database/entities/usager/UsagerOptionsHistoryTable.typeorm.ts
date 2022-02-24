@@ -22,7 +22,7 @@ export class UsagerOptionsHistoryTable
   public usagerFk?: Promise<UsagerTable>;
 
   @Index()
-  @Column({ type: "integer" }) // nullable if user is deleted
+  @Column({ type: "integer", nullable: true }) // nullable if user is deleted
   public userId: number;
 
   @Column({ type: "text" })
