@@ -7,7 +7,7 @@ export class initUsagerOptionsHistoryMigration1644970505013
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `CREATE TABLE "usager_options_history" ("uuid" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "version" integer NOT NULL, "usagerUUID" uuid NOT NULL, "userId" integer NOT NULL, "userName" text NOT NULL, "structureId" integer NOT NULL, "action" text NOT NULL, "type" text NOT NULL, "date" date NOT NULL, "nom" text NOT NULL, "prenom" text NOT NULL, "adresse" text NOT NULL, "actif" boolean NOT NULL DEFAULT false, "dateDebut" date, "dateFin" date, "dateNaissance" date, CONSTRAINT "PK_429ff2cc277afdc9e1ce5ac8d63" PRIMARY KEY ("uuid"))`
+      `CREATE TABLE "usager_options_history" ("uuid" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "version" integer NOT NULL, "usagerUUID" uuid NOT NULL, "userId" integer, "userName" text NOT NULL, "structureId" integer NOT NULL, "action" text NOT NULL, "type" text NOT NULL, "date" date NOT NULL, "nom" text NOT NULL, "prenom" text NOT NULL, "adresse" text NOT NULL, "actif" boolean NOT NULL DEFAULT false, "dateDebut" date, "dateFin" date, "dateNaissance" date, CONSTRAINT "PK_429ff2cc277afdc9e1ce5ac8d63" PRIMARY KEY ("uuid"))`
     );
     await queryRunner.query(
       `CREATE INDEX "IDX_3cb5af09bf7cd68d7070dbc896" ON "usager_options_history" ("usagerUUID") `
