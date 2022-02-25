@@ -457,7 +457,7 @@ async function createTables(queryRunner: QueryRunner) {
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
-      "userId" text NOT NULL,
+      "userId" text,
       "structureId" int4 NOT NULL,
       "action" text NOT NULL,
       "type" text NOT NULL,
