@@ -1,5 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import { UsagerLight } from "../../../../../_common/model";
@@ -21,40 +26,48 @@ export class ProfilAddNoteFormComponent implements OnInit {
   @Output()
   public confirm = new EventEmitter();
 
+  public submitted: boolean;
   public addNoteForm: FormGroup;
 
   constructor(
     private usagerService: UsagerService,
     private toastService: CustomToastService,
     private formBuilder: FormBuilder
-  ) {}
+  ) {
+    this.submitted = false;
+  }
 
   public ngOnInit(): void {
     this.addNoteForm = this.formBuilder.group({
-      message: ["", [Validators.required, Validators.maxLength(1000)]],
+      message: [null, [Validators.required, Validators.maxLength(1000)]],
     });
   }
 
+  get f(): { [key: string]: AbstractControl } {
+    return this.addNoteForm.controls;
+  }
+
   public submit(): void {
-    if (this.addNoteForm.valid) {
+    this.submitted = true;
+    if (this.addNoteForm.invalid) {
       this.toastService.warning(
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
-
       return;
     }
 
     this.usagerService
       .createNote({
-        note: {
-          ...this.addNoteForm.value,
-        },
+        note: { message: this.addNoteForm.get("message").value },
         usagerRef: this.usager.ref,
       })
       .subscribe({
         next: (usager) => {
           this.toastService.success("Note enregistrée avec succès");
-          this.confirm.emit(usager);
+          setTimeout(() => {
+            this.submitted = false;
+            this.confirm.emit(usager);
+          }, 1000);
         },
         error: () => {
           this.toastService.error("Impossible d'enregistrer cette note");

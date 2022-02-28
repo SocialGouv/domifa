@@ -284,7 +284,7 @@ export const REGIONS_DEF: RegionDef[] = [
   },
   {
     regionCode: "WF",
-    regionId: "saint-pierre-et-miquelon",
+    regionId: "wallis-et-futuna",
     regionName: "Wallis-et-Futuna",
     timeZone: "Pacific/Wallis",
     departements: [

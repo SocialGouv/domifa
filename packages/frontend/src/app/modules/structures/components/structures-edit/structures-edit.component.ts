@@ -1,5 +1,10 @@
 import { Component, OnInit, TemplateRef } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import * as fileSaver from "file-saver";
@@ -36,7 +41,7 @@ export class StructuresEditComponent implements OnInit {
     this.hardResetCode = null;
   }
 
-  get h() {
+  get h(): { [key: string]: AbstractControl } {
     return this.hardResetForm.controls;
   }
 
@@ -55,21 +60,21 @@ export class StructuresEditComponent implements OnInit {
       });
   }
 
-  public initForms() {
+  public initForms(): void {
     this.hardResetForm = this.formBuilder.group({
       token: ["", [Validators.required]],
     });
   }
 
-  public open(content: TemplateRef<NgbModalRef>) {
+  public open(content: TemplateRef<NgbModalRef>): void {
     this.modalService.open(content);
   }
 
-  public closeModals() {
+  public closeModals(): void {
     this.modalService.dismissAll();
   }
 
-  public hardReset() {
+  public hardReset(): void {
     this.structureService.hardReset().subscribe(() => {
       this.showHardReset = true;
     });
@@ -78,27 +83,32 @@ export class StructuresEditComponent implements OnInit {
   public hardResetConfirm() {
     if (this.hardResetForm.invalid) {
       this.toastService.error("Veuillez vérifier le formulaire");
-    } else {
-      this.structureService
-        .hardResetConfirm(this.hardResetForm.controls.token.value)
-        .subscribe(
-          () => {
-            this.toastService.success(
-              "La remise à zéro a été effectuée avec succès !"
-            );
+      return;
+    }
+
+    this.structureService
+      .hardResetConfirm(this.hardResetForm.controls.token.value)
+      .subscribe({
+        next: () => {
+          this.toastService.success(
+            "La remise à zéro a été effectuée avec succès !"
+          );
+
+          setTimeout(() => {
             this.closeModals();
             this.showHardReset = false;
-          },
-          () => {
-            this.toastService.error(
-              "La remise à zéro n'a pas pu être effectuée !"
-            );
-          }
-        );
-    }
+            this.hardResetForm.reset();
+          }, 1000);
+        },
+        error: () => {
+          this.toastService.error(
+            "La remise à zéro n'a pas pu être effectuée !"
+          );
+        },
+      });
   }
 
-  public export() {
+  public export(): void {
     this.exportLoading = true;
     this.structureService.export().subscribe({
       next: (x: Blob) => {
@@ -109,7 +119,7 @@ export class StructuresEditComponent implements OnInit {
         fileSaver.saveAs(newBlob, "export_domifa" + ".xlsx");
         setTimeout(() => {
           this.exportLoading = false;
-        }, 500);
+        }, 1000);
       },
       error: () => {
         this.toastService.error(

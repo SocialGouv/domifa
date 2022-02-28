@@ -96,7 +96,9 @@ export class SetInteractionInFormComponent implements OnInit {
       .subscribe({
         next: () => {
           this.toastService.success("Réception enregistrée avec succès");
-          this.refreshUsager();
+          setTimeout(() => {
+            this.refreshUsager();
+          }, 1000);
         },
         error: () => {
           this.toastService.error("Impossible d'enregistrer cette interaction");

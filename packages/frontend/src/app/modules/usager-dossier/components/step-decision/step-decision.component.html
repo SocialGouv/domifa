@@ -263,6 +263,8 @@
           (click)="getCerfa('attestation')"
           class="btn btn-primary d-print-none mr-2"
           *ngIf="
+            me.role !== 'facteur' &&
+            me.role !== 'simple' &&
             usager.decision.statut !== 'REFUS' &&
             usager.decision.statut !== 'RADIE'
           "

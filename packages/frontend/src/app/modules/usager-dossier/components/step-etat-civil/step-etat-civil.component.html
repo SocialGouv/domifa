@@ -208,12 +208,9 @@
                   placeholder="0606060606"
                   maxlength="10"
                 />
-                <div
-                  *ngIf="submitted && f.phone.errors"
-                  class="invalid-feedback"
-                >
-                  <div>Le numéro de téléphone est incorrect</div>
-                </div>
+                <p *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                  Le numéro de téléphone est incorrect
+                </p>
                 <small id="phoneHelp" class="form-text text-muted">
                   Optionnel
                 </small>

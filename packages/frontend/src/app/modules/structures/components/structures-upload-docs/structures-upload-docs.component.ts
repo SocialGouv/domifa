@@ -107,19 +107,21 @@ export class StructuresUploadDocsComponent implements OnInit {
     this.structureDocService.upload(formData).subscribe({
       next: (uploadResponse: any) => {
         if (uploadResponse.success !== undefined && uploadResponse.success) {
-          this.loading = false;
-          this.submitted = false;
-          this.uploadForm.reset();
-          this.fileName = "";
           this.toastService.success("Fichier uploadé avec succès");
-          this.cancel.emit();
-          this.getAllStructureDocs.emit();
+          setTimeout(() => {
+            this.loading = false;
+            this.submitted = false;
+            this.uploadForm.reset();
+            this.fileName = "";
+            this.cancel.emit();
+            this.getAllStructureDocs.emit();
+          }, 1000);
         }
       },
       error: () => {
+        this.toastService.error("Impossible d'uploader le fichier");
         this.loading = false;
         this.submitted = false;
-        this.toastService.error("Impossible d'uploader le fichier");
       },
     });
   }

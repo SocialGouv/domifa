@@ -9,6 +9,7 @@ import { UsagerProfilService } from "../../../usager-profil/services/usager-prof
 import { UsagerDecisionService } from "../../services/usager-decision.service";
 
 @Component({
+  styleUrls: ["./delete-usager-menu.component.css"],
   selector: "app-delete-usager-menu",
   templateUrl: "./delete-usager-menu.component.html",
 })
@@ -46,9 +47,11 @@ export class DeleteUsagerMenuComponent implements OnInit {
   public deleteUsager(): void {
     this.usagerProfilService.delete(this.usager.ref).subscribe({
       next: () => {
-        this.modalService.dismissAll();
         this.toastService.success("Usager supprimé avec succès");
-        this.router.navigate(["/manage"]);
+        setTimeout(() => {
+          this.modalService.dismissAll();
+          this.router.navigate(["/manage"]);
+        }, 1000);
       },
       error: () => {
         this.toastService.error("Impossible de supprimer la fiche");
@@ -57,19 +60,22 @@ export class DeleteUsagerMenuComponent implements OnInit {
   }
 
   public deleteRenew(): void {
-    this.usagerDecisionService.deleteRenew(this.usager.ref).subscribe(
-      () => {
-        this.modalService.dismissAll();
+    this.usagerDecisionService.deleteRenew(this.usager.ref).subscribe({
+      next: () => {
         this.toastService.success(
           "Demande de renouvellement supprimée avec succès"
         );
-        this.router.navigate(["/manage"]);
+
+        setTimeout(() => {
+          this.modalService.dismissAll();
+          this.router.navigate(["/manage"]);
+        }, 1000);
       },
-      () => {
+      error: () => {
         this.toastService.error(
           "La demande de renouvellement n'a pas pu être supprimée"
         );
-      }
-    );
+      },
+    });
   }
 }
