@@ -1,3 +1,10 @@
+## [2.76.1](https://github.com/SocialGouv/domifa/compare/v2.76.0...v2.76.1) (2022-02-28)
+
+
+### Bug Fixes
+
+* **Cerfas:** suppression de l'affichage de cerfas, correction du RGAA ([0f6becd](https://github.com/SocialGouv/domifa/commit/0f6becdb213d8ead7dae3c57af276fa31ec48e01))
+
 # [2.76.0](https://github.com/SocialGouv/domifa/compare/v2.75.3...v2.76.0) (2022-02-23)
 
 
