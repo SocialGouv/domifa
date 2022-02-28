@@ -55,6 +55,7 @@ import {
   deleteUsagerFolder,
   usagerHistoryStateManager,
   UsagersService,
+  UsagerOptionsHistoryService,
 } from "../services";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { generateCerfaDatas } from "../cerfa";
@@ -67,6 +68,7 @@ export class UsagersController {
   constructor(
     private readonly usagersService: UsagersService,
     private readonly cerfaService: CerfaService,
+    private readonly usagerOptionsHistoryService: UsagerOptionsHistoryService,
     private appLogsService: AppLogsService
   ) {}
 
@@ -346,11 +348,21 @@ export class UsagersController {
       nom: transfertDto.nom,
     };
 
-    usager.options.historique.transfert.push({
-      user: user.prenom + " " + user.nom,
+    await this.usagerOptionsHistoryService.create({
+      usagerUUID: usager.uuid,
+      userId: user.id,
+      userName: `${user.prenom} ${user.nom}`,
+      structureId: usager.structureId,
       action,
+      type: "transfert",
       date: new Date(),
-      content: newTransfert,
+      nom: newTransfert.nom,
+      prenom: "",
+      actif: newTransfert.actif,
+      dateDebut: newTransfert.dateDebut,
+      dateFin: newTransfert.dateFin,
+      dateNaissance: null,
+      adresse: newTransfert.adresse,
     });
 
     usager.options.transfert = newTransfert;
@@ -376,11 +388,21 @@ export class UsagersController {
       dateFin: null,
     };
 
-    usager.options.historique.transfert.push({
-      user: user.prenom + " " + user.nom,
+    await this.usagerOptionsHistoryService.create({
+      usagerUUID: usager.uuid,
+      userId: user.id,
+      userName: `${user.prenom} ${user.nom}`,
+      structureId: usager.structureId,
       action: "DELETE",
+      type: "transfert",
       date: new Date(),
-      content: {},
+      nom: "",
+      prenom: "",
+      actif: false,
+      dateDebut: null,
+      dateFin: null,
+      dateNaissance: null,
+      adresse: "",
     });
 
     return this.usagersService.patch(
@@ -491,11 +513,21 @@ export class UsagersController {
       prenom: procurationDto.prenom,
     };
 
-    usager.options.historique.procuration.push({
-      user: user.prenom + " " + user.nom,
+    await this.usagerOptionsHistoryService.create({
+      usagerUUID: usager.uuid,
+      userId: user.id,
+      userName: `${user.prenom} ${user.nom}`,
+      structureId: usager.structureId,
       action,
+      type: "procuration",
       date: new Date(),
-      content: newProcuration,
+      nom: newProcuration.nom,
+      prenom: newProcuration.prenom,
+      actif: newProcuration.actif,
+      dateDebut: newProcuration.dateDebut,
+      dateFin: newProcuration.dateFin,
+      dateNaissance: new Date(newProcuration.dateNaissance),
+      adresse: "",
     });
 
     usager.options.procuration = newProcuration;
@@ -521,11 +553,21 @@ export class UsagersController {
       prenom: "",
     };
 
-    usager.options.historique.procuration.push({
-      user: user.prenom + " " + user.nom,
+    await this.usagerOptionsHistoryService.create({
+      usagerUUID: usager.uuid,
+      userId: user.id,
+      userName: `${user.prenom} ${user.nom}`,
+      structureId: usager.structureId,
       action: "DELETE",
+      type: "procuration",
       date: new Date(),
-      content: {},
+      nom: "",
+      prenom: "",
+      actif: false,
+      dateDebut: null,
+      dateFin: null,
+      dateNaissance: null,
+      adresse: "",
     });
 
     return this.usagersService.patch(

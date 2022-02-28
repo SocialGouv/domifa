@@ -31,6 +31,10 @@ export class UsagerProfilService {
     );
   }
 
+  public findHistory(usagerRef: number) {
+    return this.usagerService.findHistory(usagerRef);
+  }
+
   // TODO: type it
   public editTransfert(
     transfert: any,

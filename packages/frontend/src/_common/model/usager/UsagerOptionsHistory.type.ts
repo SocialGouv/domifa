@@ -1,8 +1,7 @@
-import { AppEntity } from "./../_core/AppEntity.type";
 import { UsagerOptionsHistoryAction } from "./UsagerOptionsHistoryAction.type";
 import { UsagerOptionsHistoryType } from "./UsagerOptionsHistoryType.type";
 
-export type UsagerOptionsHistory = AppEntity & {
+export type UsagerOptionsHistory = {
   usagerUUID: string;
   userId: number;
   userName: string;

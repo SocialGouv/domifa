@@ -21,3 +21,6 @@ export * from "./UsagerRdv.type";
 export * from "./UsagerRdvInfos.type";
 export * from "./UsagerSexe.type";
 export * from "./UsagerTypeDom.type";
+export * from "./UsagerOptionsHistory.type";
+export * from "./UsagerOptionsHistoryAction.type";
+export * from "./UsagerOptionsHistoryType.type";
