@@ -20,7 +20,7 @@ export class UserProfilComponent implements OnInit {
   public users: UserStructureProfile[];
   public me: UserStructure;
 
-  public selectedUser: number;
+  public selectedUser: UserStructure;
   public usersInfos: boolean;
   public exportLoading: boolean;
 
@@ -71,11 +71,14 @@ export class UserProfilComponent implements OnInit {
   }
 
   public deleteUser() {
-    this.userService.deleteUser(this.selectedUser).subscribe({
+    this.userService.deleteUser(this.selectedUser.id).subscribe({
       next: () => {
-        this.getUsers();
-        this.modalService.dismissAll();
         this.toastService.success("Utilisateur supprimé avec succès");
+
+        setTimeout(() => {
+          this.modalService.dismissAll();
+          this.getUsers();
+        }, 1000);
       },
       error: () => {
         this.toastService.error("Impossible de supprimer l'utilisateur");
@@ -87,11 +90,11 @@ export class UserProfilComponent implements OnInit {
     this.modalService.open(content);
   }
 
-  public closeModal() {
+  public closeModal(): void {
     this.modalService.dismissAll();
   }
 
-  private getUsers() {
+  private getUsers(): void {
     this.userService.getUsers().subscribe((users: UserStructureProfile[]) => {
       this.users = users;
     });

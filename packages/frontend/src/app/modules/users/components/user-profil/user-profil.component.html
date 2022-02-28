@@ -8,10 +8,22 @@
   <div class="container py-3">
     <div class="page-content p-4">
       <h4>Membres actifs</h4>
-      <div *ngIf="users" class="list-group">
-        <div class="list-group-item" *ngFor="let user of users">
-          <div class="row">
-            <div class="col-md-4 text-left">
+
+      <table class="table">
+        <caption class="sr-only">
+          Liste des membres actifs
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Nom prénom</th>
+            <th scope="col">Email</th>
+            <th scope="col">Rôle</th>
+            <th scope="col">Supprimer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>
               <b>{{ user.nom }} {{ user.prenom }}</b>
               <span class="user-icon">
                 <span *ngIf="user.role === 'admin'" class="badge badge-primary">
@@ -36,51 +48,37 @@
                   Non activé
                 </span>
               </span>
-            </div>
-            <div class="col-md-4">
-              {{ user.email }}
-            </div>
-            <div
-              *ngIf="me.role === 'admin' && me.id !== user.id"
-              class="col-md-3 text-center"
-            >
+            </td>
+            <td>{{ user.email }}</td>
+            <td>
               <select
+                *ngIf="me.role === 'admin' && me.id !== user.id"
                 id="role_{{ user.id }}"
+                [(ngModel)]="user.role"
                 (change)="updateRole(user.id, $event.target.value)"
                 class="form-control"
               >
-                <option [selected]="user.role === 'admin'" value="admin">
-                  Administrateur
-                </option>
-                <option
-                  [selected]="user.role === 'responsable'"
-                  value="responsable"
-                >
-                  Gestionnaire
-                </option>
-                <option [selected]="user.role === 'simple'" value="simple">
-                  Instructeur
-                </option>
-                <option [selected]="user.role === 'facteur'" value="facteur">
-                  Facteur
-                </option>
+                <option value="admin">Administrateur</option>
+                <option value="responsable">Gestionnaire</option>
+                <option value="simple">Instructeur</option>
+                <option value="facteur">Facteur</option>
               </select>
-            </div>
-            <div class="col-md-1 text-right">
+            </td>
+            <td>
               <button
-                title="Supprimer"
+                [attr.title]="'Supprimer ' + user.nom + ' ' + user.prenom"
                 type="button"
                 *ngIf="me.role === 'admin' && me.id !== user.id"
-                (click)="open(deleteUserConfirmation); selectedUser = user.id"
+                (click)="open(deleteUserConfirmation); selectedUser = user"
                 class="btn btn-outline-danger"
               >
                 <fa-icon [icon]="['fas', 'trash']"></fa-icon>
               </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <br />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
       <button
         class="btn btn-outline-primary"
         (click)="usersInfos = !usersInfos"
@@ -581,16 +579,18 @@
   </div>
 
   <div class="modal-body text-center">
-    <div class="col">
-      Vous êtes sur le point de supprimer le compte de cet utilisateur. Une fois
-      supprimé, l'utilisateur ne pourra plus se connecter.
+    <p>
+      Vous êtes sur le point de supprimer le compte de {{ selectedUser.nom }}
+      {{ selectedUser.prenom }}. Une fois supprimé, l'utilisateur ne pourra plus
+      se connecter.
       <br />
-      <br />
-    </div>
+    </p>
   </div>
   <div class="modal-footer text-center">
-    <button class="btn btn-outline-dark" (click)="closeModal()">Annuler</button>
-    <button class="btn btn-danger" (click)="deleteUser()">
+    <button class="btn btn-lg btn-outline-dark" (click)="closeModal()">
+      Annuler
+    </button>
+    <button class="btn btn-lg btn-danger" (click)="deleteUser()">
       Confirmer la suppression
     </button>
   </div>

@@ -64,7 +64,7 @@
 
   <ng-template #hardResetConfirmation let-modal>
     <div class="modal-header bg-danger text-white">
-      <h4 class="px-2">Suppression de tous les dossiers</h4>
+      <span class="modal-title">Suppression de tous les dossiers</span>
     </div>
     <div class="modal-body">
       <div class="p-3" *ngIf="!hardResetCode">
@@ -101,7 +101,7 @@
           (ngSubmit)="hardResetConfirm()"
           class="col-12"
         >
-          <div class="form-group">
+          <div class="form-group required">
             <label for="hard-reset-input"
               >Veuillez saisir le code reçu par email</label
             >
@@ -135,7 +135,6 @@
       <button
         class="btn btn-danger"
         *ngIf="showHardReset"
-        [disabled]="hardResetForm.invalid"
         (click)="hardResetConfirm()"
       >
         Confirmer la suppression

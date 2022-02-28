@@ -11,7 +11,7 @@
           <div class="my-2 d-flex justify-content-between align-items-center">
             <h4>Documents pré-remplis automatiquement</h4>
 
-            <div>
+            <div *ngIf="usager.isActif || usager.decision.statut === 'REFUS'">
               <button
                 (click)="getCerfa('demande')"
                 *ngIf="usager.decision.statut !== 'REFUS'"

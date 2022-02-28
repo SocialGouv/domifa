@@ -1,8 +1,8 @@
 <div class="modal-header">
-  <h4 class="px-1 py-1 my-1">
-    <span *ngIf="isCustomDoc">Télécharger un document pré-rempli </span>
-    <span *ngIf="!isCustomDoc">Télécharger un document</span>
-  </h4>
+  <span class="modal-title" *ngIf="isCustomDoc"
+    >Télécharger un document pré-rempli
+  </span>
+  <span class="modal-title" *ngIf="!isCustomDoc">Télécharger un document</span>
 </div>
 <div class="modal-body">
   <form ngNativeValidate [formGroup]="uploadForm" (ngSubmit)="submitFile()">
@@ -98,8 +98,8 @@
       </div>
     </div>
   </form>
-  <hr class="my-2" />
-  <div class="text-right py-1 mt-2 mb-1">
+
+  <div class="modal-foorter">
     <button class="btn btn-lg btn-outline-dark mr-2" (click)="cancel.emit()">
       Annuler
     </button>

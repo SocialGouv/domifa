@@ -1,9 +1,11 @@
 <app-custom-toastr></app-custom-toastr>
 <app-loading></app-loading>
+
+<app-navbar></app-navbar>
 <div class="d-print-none" id="help-button-wrapper" *ngIf="me">
   <button
     type="button"
-    title="Besoin d'aide ?"
+    aria-label="Besoin d'aide ?"
     class="btn"
     id="help-button"
     (click)="openHelpModal()"
@@ -11,8 +13,6 @@
     <fa-icon [icon]="['fas', 'question']"></fa-icon>
   </button>
 </div>
-<app-navbar></app-navbar>
-
 <main id="page">
   <router-outlet></router-outlet>
 </main>
@@ -210,7 +210,7 @@
   <div class="modal-header">
     <h4 class="modal-title" id="modal-title">Centre d'aide Domifa</h4>
     <button
-      title="Fermer"
+      title="Fermer la fenêtre"
       class="close"
       aria-label="Fermer la fenêtre"
       (click)="closeHelpModal()"

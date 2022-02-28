@@ -33,7 +33,7 @@ import { UsagerDossierService } from "../../services/usager-dossier.service";
   templateUrl: "./step-decision.component.html",
 })
 export class StepDecisionComponent implements OnInit {
-  public usager: UsagerLight;
+  public usager: UsagerFormModel;
   public isAdmin!: boolean;
 
   public me: UserStructure;
@@ -77,7 +77,7 @@ export class StepDecisionComponent implements OnInit {
 
       this.usagerDossierService.findOne(id).subscribe({
         next: (usager: UsagerLight) => {
-          this.usager = usager;
+          this.usager = new UsagerFormModel(usager);
         },
         error: () => {
           this.router.navigate(["404"]);
@@ -93,7 +93,7 @@ export class StepDecisionComponent implements OnInit {
       .setDecision(this.usager.ref, { statut: "ATTENTE_DECISION" })
       .subscribe({
         next: (usager: UsagerLight) => {
-          this.usager = usager;
+          this.usager = new UsagerFormModel(usager);
           this.toastService.success("Décision enregistrée avec succès ! ");
         },
         error: () => {

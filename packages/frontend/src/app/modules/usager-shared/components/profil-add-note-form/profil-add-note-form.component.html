@@ -4,28 +4,36 @@
     <span class="text-primary">{{ usager.nom }} {{ usager.prenom }} </span>
   </span>
 </div>
-<div class="modal-body text-center">
-  <form ngNativeValidate [formGroup]="addNoteForm" (ngSubmit)="submit()">
-    <div class="form-group">
-      <label class="label text-left" for="message"> Message </label>
+<form ngNativeValidate [formGroup]="addNoteForm" (ngSubmit)="submit()">
+  <div class="modal-body text-center">
+    <div class="form-group required">
+      <label class="label text-left" for="message"
+        >Contenu de la note (1000 caractères maximum)</label
+      >
       <textarea
         class="form-control"
         formControlName="message"
         id="message"
         maxlength="1000"
+        required
       ></textarea>
+
+      <p *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+        La note saisie est incorrect. 1000 caractères maximum
+      </p>
     </div>
     <app-rgpd-warning></app-rgpd-warning>
-
-    <div class="text-left py-1 mt-2 mb-1">
-      <button type="submit" class="btn btn-lg btn-primary mx-1">Valider</button>
-      <button
-        type="button"
-        class="btn btn-outline-dark btn-lg mr-2"
-        (click)="cancel.emit()"
-      >
-        Annuler
-      </button>
-    </div>
-  </form>
-</div>
+  </div>
+  <div class="modal-footer text-right">
+    <button type="submit" class="btn btn-lg btn-primary mx-1">
+      Enregistrer la note
+    </button>
+    <button
+      type="button"
+      class="btn btn-outline-dark btn-lg mr-2"
+      (click)="cancel.emit()"
+    >
+      Annuler
+    </button>
+  </div>
+</form>
