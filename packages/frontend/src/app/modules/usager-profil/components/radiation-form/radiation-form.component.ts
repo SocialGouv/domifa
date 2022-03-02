@@ -80,12 +80,9 @@ export class RadiationFormComponent implements OnInit {
     this.submitted = true;
 
     if (this.radiationForm.invalid) {
-      this.toastService.success(
+      this.toastService.error(
         "Le formulaire contient une erreur, veuillez vérifier les champs"
       );
-      // this.toastService.error(
-      //   "Le formulaire contient une erreur, veuillez vérifier les champs"
-      // );
     } else {
       const formDatas: UsagerDecisionRadiationForm = {
         ...this.radiationForm.value,
@@ -105,12 +102,14 @@ export class RadiationFormComponent implements OnInit {
       .subscribe({
         next: (newUsager: UsagerLight) => {
           this.toastService.success("Radiation enregistrée avec succès ! ");
-          usagersCache.updateUsager(newUsager);
-          this.closeModals.emit();
-          this.loading = false;
-          this.submitted = false;
 
-          window.location.reload();
+          setTimeout(() => {
+            usagersCache.updateUsager(newUsager);
+            this.closeModals.emit();
+            this.loading = false;
+            this.submitted = false;
+            window.location.reload();
+          }, 1000);
         },
         error: () => {
           this.loading = false;
