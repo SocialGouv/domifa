@@ -21,13 +21,6 @@ export class trimFieldsMigration1645450554611 implements MigrationInterface {
     );
     appLogger.debug("[MIGRATION] Trim des champs de usagers");
 
-    // Usagers
-    await queryRunner.query(`UPDATE "usager" AS u SET nom = TRIM(u.nom)`);
-    await queryRunner.query(`UPDATE "usager" AS u SET prenom = TRIM(u.prenom)`);
-    await queryRunner.query(`UPDATE "usager" AS u SET surnom = TRIM(u.surnom)`);
-    await queryRunner.query(`UPDATE "usager" AS u SET phone = TRIM(u.phone)`);
-    appLogger.debug("[MIGRATION] Trim des champs de users");
-
     // Users
     await queryRunner.query(
       `UPDATE "user_structure" AS us SET nom = TRIM(us.nom)`
