@@ -5974,7 +5974,7 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
-countup.js@^2.0.5:
+countup.js@^2.0.8:
   version "2.0.8"
   resolved "https://registry.yarnpkg.com/countup.js/-/countup.js-2.0.8.tgz#eca0c31c9db3f7769cba494d9315cd52dbaaf1b9"
   integrity sha512-pW3xwwD+hB+xmtI16xFcuLS0D5hSQqPQWkZOdgpKQyzxCquDNo2VCFPkRw12vmvdpnicXVTcjmYiakG6biwINg==
@@ -10729,13 +10729,13 @@ neo-async@^2.6.0, neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-ngx-countup@^7.3.3:
-  version "7.3.3"
-  resolved "https://registry.yarnpkg.com/ngx-countup/-/ngx-countup-7.3.3.tgz#c68926369d4c3a666e1e8920e62b9649187cb933"
-  integrity sha512-Vu+amEzO0ZrfXxWUFXl61qTDxFpKvxTwHg7Uw/psCIj2vhZzZEIBWliZ6m6FzBBHvvfJzb1xhK/6+Ab7RivuMg==
+ngx-countup@^13.0.0:
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-countup/-/ngx-countup-13.0.0.tgz#cf26a2859d33de9829a3f1eff6b9c0ef78f218e6"
+  integrity sha512-e42k2gOmSHMYQJrdANbukCnJueY9q59atXyBhDu7DoA5vey2Hm/DdrviPdj4IjJdDUvzHPByifiVv9nWpGAETw==
   dependencies:
-    countup.js "^2.0.5"
-    tslib "^1.9.0"
+    countup.js "^2.0.8"
+    tslib "^2.0.0"
 
 ngx-matomo@^0.1.4:
   version "0.1.4"
