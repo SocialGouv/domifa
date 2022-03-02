@@ -1,3 +1,11 @@
+## [2.76.2](https://github.com/SocialGouv/domifa/compare/v2.76.1...v2.76.2) (2022-03-02)
+
+
+### Bug Fixes
+
+* **rgaa:** Correction de la lecture vocale des toastr ([0205556](https://github.com/SocialGouv/domifa/commit/020555626d158037f90d81ef2d29745b1a3032bc))
+* **toastr:** correction d'un affichage ([6779c2c](https://github.com/SocialGouv/domifa/commit/6779c2ccf0606d6a8c570df8bcebfe86918ade21))
+
 ## [2.76.1](https://github.com/SocialGouv/domifa/compare/v2.76.0...v2.76.1) (2022-02-28)
 
 
