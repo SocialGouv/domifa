@@ -1,3 +1,10 @@
+## [2.76.3](https://github.com/SocialGouv/domifa/compare/v2.76.2...v2.76.3) (2022-03-02)
+
+
+### Bug Fixes
+
+* **db:** requête trop longue supprimée ([7bc33d9](https://github.com/SocialGouv/domifa/commit/7bc33d9f57af1199971c01c374161d46aec5f0ac))
+
 ## [2.76.2](https://github.com/SocialGouv/domifa/compare/v2.76.1...v2.76.2) (2022-03-02)
 
 
