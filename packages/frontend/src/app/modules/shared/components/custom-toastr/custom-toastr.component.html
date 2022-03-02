@@ -7,6 +7,7 @@
     aria-live="polite"
     aria-atomic="true"
     class="toast-top-left toast-container"
+    [attr.aria-label]="toast.message"
   >
     <div class="ngx-toastr" [class]="'toast-' + toast.class">
       <div class="row d-flex align-items-center">
@@ -19,7 +20,7 @@
           </fa-icon>
         </div>
         <div class="col-10">
-          <div class="toast-message" [attr.aria-label]="toast.message">
+          <div class="toast-message">
             {{ toast.message }}
           </div>
         </div>

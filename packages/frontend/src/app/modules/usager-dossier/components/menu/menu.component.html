@@ -10,7 +10,7 @@
       id="step{{ i }}"
     >
       <button
-        [attr.aria-label]="'Aller à l\'étape ' + etape"
+        [attr.aria-label]="'Aller à l\'étape ' + (i + 1) + ' : ' + etape"
         (click)="goToStep(i)"
         [disabled]="(usager.ref === 0 || i > usager.etapeDemande) && i > 0"
       >
@@ -28,6 +28,7 @@
             step_inactive:
               (usager.ref === 0 || i > usager.etapeDemande) && i > 0
           }"
+          [attr.aria-label]="'Vous êtes actuellement à l\'étape ' + etape"
           aria-hidden="true"
           class="step_number"
         >

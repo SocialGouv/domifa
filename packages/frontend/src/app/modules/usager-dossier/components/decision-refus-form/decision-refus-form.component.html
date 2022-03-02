@@ -2,7 +2,6 @@
   <span class="text-white modal-title" id="modal-title"
     >Motivez votre refus</span
   >
-
   <button
     title="Fermer la fenêtre"
     class="close"
@@ -43,6 +42,7 @@
         <div class="input-group-append">
           <button
             type="button"
+            aria-label="Sélectionner la date du refus dans le calendrier"
             class="btn btn-outline-primary d-print-none"
             (click)="dFin.toggle()"
           >
@@ -102,10 +102,9 @@
         </p>
       </fieldset>
 
-      <div *ngIf="r.motif.value === 'AUTRE'" class="form-row">
+      <div class="form-group required" *ngIf="r.motif.value === 'AUTRE'">
         <label class="form-check-label" for="motifRefusAutre">
           Autre motif de refus
-          <span class="text-danger">*</span>
         </label>
         <input
           type="text"
@@ -113,9 +112,10 @@
           class="form-control"
           id="motifRefusAutre"
           formControlName="motifDetails"
+          required
         />
         <p *ngIf="submitted && r.motifDetails.errors" class="invalid-feedback">
-          Veuillez choisir un motif de refus (10 caractères minimum)
+          Veuillez précisez la raison (10 caractères minimum)
         </p>
       </div>
     </div>
