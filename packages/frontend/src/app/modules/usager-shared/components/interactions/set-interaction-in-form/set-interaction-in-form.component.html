@@ -109,25 +109,25 @@
       ></textarea>
     </div>
   </div>
+</div>
 
-  <div class="text-left py-1 mt-2 mb-1">
-    <button
-      class="btn btn-lg btn-primary mx-1"
-      [disabled]="loading"
-      class="btn btn-lg btn-primary mr-2"
-      (click)="setInteractionForm()"
-    >
-      <span *ngIf="!loading">Valider</span>
-      <span *ngIf="loading">
-        <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
-        Veuillez patientez...
-      </span>
-    </button>
-    <button
-      class="btn btn-outline-dark btn-lg mr-2"
-      (click)="cancelReception.emit()"
-    >
-      Annuler
-    </button>
-  </div>
+<div class="text-right modal-footer">
+  <button
+    class="btn btn-lg btn-primary mx-1"
+    [disabled]="loading"
+    class="btn btn-lg btn-primary mr-2"
+    (click)="setInteractionForm()"
+  >
+    <span *ngIf="!loading">Valider</span>
+    <span *ngIf="loading">
+      <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+      Veuillez patientez...
+    </span>
+  </button>
+  <button
+    class="btn btn-outline-dark btn-lg mr-2"
+    (click)="cancelReception.emit()"
+  >
+    Annuler
+  </button>
 </div>

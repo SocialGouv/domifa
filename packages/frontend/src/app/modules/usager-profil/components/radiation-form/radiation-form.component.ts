@@ -78,21 +78,24 @@ export class RadiationFormComponent implements OnInit {
 
   public setDecisionRadiation() {
     this.submitted = true;
+
     if (this.radiationForm.invalid) {
-      this.toastService.error(
+      this.toastService.success(
         "Le formulaire contient une erreur, veuillez vérifier les champs"
       );
-      return;
+      // this.toastService.error(
+      //   "Le formulaire contient une erreur, veuillez vérifier les champs"
+      // );
+    } else {
+      const formDatas: UsagerDecisionRadiationForm = {
+        ...this.radiationForm.value,
+        dateFin: new Date(
+          this.nbgDate.formatEn(this.radiationForm.controls.dateFin.value)
+        ),
+      };
+
+      this.setDecision(formDatas);
     }
-
-    const formDatas: UsagerDecisionRadiationForm = {
-      ...this.radiationForm.value,
-      dateFin: new Date(
-        this.nbgDate.formatEn(this.radiationForm.controls.dateFin.value)
-      ),
-    };
-
-    this.setDecision(formDatas);
   }
 
   public setDecision(formDatas: UsagerDecisionRadiationForm): void {

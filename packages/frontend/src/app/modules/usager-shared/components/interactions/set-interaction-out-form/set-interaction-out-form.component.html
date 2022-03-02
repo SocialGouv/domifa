@@ -169,29 +169,26 @@
       </ng-container>
     </div>
   </div>
+</div>
 
-  <div class="text-right py-1 mt-2 mb-1">
-    <button
-      [disabled]="
-        (!interactionFormData.courrierOut.selected &&
-          !interactionFormData.recommandeOut.selected &&
-          !interactionFormData.colisOut.selected) ||
-        loading
-      "
-      class="btn btn-lg btn-primary mr-2"
-      (click)="setInteractionForm()"
-    >
-      <span *ngIf="!loading">Confirmer la distribution</span>
-      <span *ngIf="loading">
-        <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
-        Veuillez patientez...
-      </span>
-    </button>
-    <button
-      class="btn btn-lg btn-outline-dark"
-      (click)="cancelReception.emit()"
-    >
-      Annuler
-    </button>
-  </div>
+<div class="text-right modal-footer">
+  <button
+    [disabled]="
+      (!interactionFormData.courrierOut.selected &&
+        !interactionFormData.recommandeOut.selected &&
+        !interactionFormData.colisOut.selected) ||
+      loading
+    "
+    class="btn btn-lg btn-primary mr-2"
+    (click)="setInteractionForm()"
+  >
+    <span *ngIf="!loading">Confirmer la distribution</span>
+    <span *ngIf="loading">
+      <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+      Veuillez patientez...
+    </span>
+  </button>
+  <button class="btn btn-lg btn-outline-dark" (click)="cancelReception.emit()">
+    Annuler
+  </button>
 </div>
