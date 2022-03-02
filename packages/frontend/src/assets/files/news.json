@@ -1,4 +1,31 @@
 [
+   {
+    "date": "2022-03-03",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Notre page Nouveautés évolue :)",
+        "message": [
+          "La page Nouveautés a été rémontée et une pastille apparaitra en cas de mise en production et donc d’ajout de nouvelles fonctionnalités sur DomiFa."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Profil instructeur adapté",
+        "message": [
+          "Les instructeurs ne pouvant pas valider ou refuser une demande de domiciliation, l’accès au cerfa de domiciliation provisoire leur a été retiré."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Ajout de documents pour les refusés",
+        "message": [
+          "Il est possible d’ajouter des pièces jointes sur les fiches des refusés (tel que le scan du cerfa de refus signé par exemple)."
+        ]
+      },
+    ]
+  },
   {
     "date": "2022-02-11",
     "description": "",
