@@ -36,6 +36,7 @@ function loadCustomDocTemplate({
     structureId,
     docPath,
   });
+
   return loadTemplateFromFilePath(customTemplatePath);
 }
 

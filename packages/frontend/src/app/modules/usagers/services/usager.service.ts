@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { filter, map, startWith, tap } from "rxjs/operators";
+import { filter, startWith, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { UsagerNote } from "../../../../_common/model";
 import { MessageSms } from "../../../../_common/model/message-sms";
@@ -133,10 +133,8 @@ export class UsagerService {
   }
 
   public findMySms(usager: UsagerLight): Observable<MessageSms[]> {
-    return this.http.get(environment.apiUrl + "sms/usager/" + usager.ref).pipe(
-      map((res: MessageSms[]) => {
-        return res;
-      })
+    return this.http.get<MessageSms[]>(
+      environment.apiUrl + "sms/usager/" + usager.ref
     );
   }
 }

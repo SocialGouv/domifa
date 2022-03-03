@@ -22,10 +22,10 @@ export class ContactSupportComponent implements OnInit {
   public submitted: boolean;
   public success: boolean;
   public loading: boolean;
-  public fileName: string;
-  public contactForm: FormGroup;
+  public fileName?: string;
+  public contactForm!: FormGroup;
 
-  public me: UserStructure;
+  public me!: UserStructure | null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -36,6 +36,7 @@ export class ContactSupportComponent implements OnInit {
     private meta: Meta
   ) {
     this.me = null;
+    this.submitted = false;
     this.success = false;
     this.loading = false;
   }
@@ -54,16 +55,16 @@ export class ContactSupportComponent implements OnInit {
         "Vous avez une question ? Ce formulaire vous permettra de contacter l'équipe Domifa",
     });
 
-    let email: string = null;
-    let structureName: string = null;
-    let name: string = null;
-    let structureId: number = null;
-    let userId: number = null;
+    let email = null;
+    let structureName = null;
+    let name = null;
+    let structureId = null;
+    let userId = null;
 
     if (this.me) {
       email = this.me.email;
-      structureName = this.me.structure.nom;
-      structureId = this.me.structure.id;
+      structureName = this.me?.structure?.nom;
+      structureId = this.me?.structure?.id;
       userId = this.me.id;
       name = this.me.nom + " " + this.me.prenom;
     }

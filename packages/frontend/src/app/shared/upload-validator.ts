@@ -11,7 +11,6 @@ export type UploadResponseType = {
 
 export const mimeTypes = {
   STRUCTURE_CUSTOM_DOC: [
-    "application/msword",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   ],
   STRUCTURE_DOC: [

@@ -25,7 +25,6 @@ describe("ProfilStructureDocsComponent", () => {
           HttpClientTestingModule,
           RouterTestingModule,
           BrowserAnimationsModule,
-
           SharedModule,
           ReactiveFormsModule,
           FormsModule,

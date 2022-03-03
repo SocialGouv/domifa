@@ -14,7 +14,7 @@ import DOMIFA_NEWS from "../../../../../assets/files/news.json";
 })
 export class NavbarComponent implements OnInit {
   public isNavbarCollapsed: boolean;
-  public me: UserStructure;
+  public me: UserStructure | null;
   public matomoInfo: boolean;
 
   public portailAdminUrl = environment.portailAdminUrl;
@@ -29,6 +29,7 @@ export class NavbarComponent implements OnInit {
   ) {
     this.isNavbarCollapsed = false;
     this.me = null;
+    this.matomoInfo = false;
     this.pendingNews = true;
   }
 

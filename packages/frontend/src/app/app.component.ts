@@ -30,7 +30,7 @@ import { fadeInOut } from "./shared";
   templateUrl: "./app.component.html",
 })
 export class AppComponent implements OnInit {
-  public apiVersion: string;
+  public apiVersion: string | null;
 
   public modalOptions: NgbModalOptions;
 

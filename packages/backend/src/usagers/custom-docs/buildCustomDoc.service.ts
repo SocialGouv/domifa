@@ -134,7 +134,9 @@ export function buildCustomDoc({
     // STATUT ET TYPE DE DOM
     STATUT_DOM: USAGER_DECISION_STATUT_LABELS[usager.decision.statut],
     TYPE_DOM:
-      "Type de domiciliation : première domiciliation ou renouvellement",
+      usager.typeDom === "PREMIERE_DOM"
+        ? "Première domiciliation"
+        : "Renouvellement",
 
     // REFUS / RADIATION
     MOTIF_RADIATION: motif,

@@ -24,6 +24,7 @@ export type UserStructure = AppEntity & {
 
   mail: UserStructureMails;
 
+  // TODO: retirer l'optionnal
   structure?: StructureCommon;
 
   access_token?: string; // frontend only

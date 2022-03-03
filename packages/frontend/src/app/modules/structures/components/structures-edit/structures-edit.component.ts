@@ -39,6 +39,7 @@ export class StructuresEditComponent implements OnInit {
   ) {
     this.showHardReset = false;
     this.hardResetCode = null;
+    this.exportLoading = false;
   }
 
   get h(): { [key: string]: AbstractControl } {

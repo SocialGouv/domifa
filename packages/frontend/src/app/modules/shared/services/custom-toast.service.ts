@@ -10,8 +10,8 @@ export class CustomToastService {
   public toast$: Subject<CustomToast> = new Subject();
   public toast: CustomToast = {
     display: false,
-    message: null,
-    class: null,
+    message: "",
+    class: "",
   };
 
   public warning(message: string): void {

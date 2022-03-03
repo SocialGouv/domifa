@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   HostListener,
-  NgZone,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -112,7 +111,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     DEPASSEE: "Domiciliation expirée",
   };
 
-  public searchString = "";
+  public searchString: string | null;
   public filters: UsagersFilterCriteria;
   public filters$: Subject<UsagersFilterCriteria> = new ReplaySubject(1);
 
@@ -132,11 +131,14 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private toastService: CustomToastService,
     private titleService: Title,
-    public matomo: MatomoTracker,
-    private ngZone: NgZone
+    public matomo: MatomoTracker
   ) {
     this.pageSize = 40;
     this.needToPrint = false;
+    this.searching = false;
+    this.loading = false;
+    this.nbResults = 0;
+    this.searchString = null;
   }
 
   public ngOnInit(): void {

@@ -8,6 +8,7 @@ import {
 } from "../../../../../_common/model/structure-doc";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { DocumentService } from "../../../usager-shared/services/document.service";
+import { CustomToastService } from "../../../shared/services/custom-toast.service";
 
 @Component({
   selector: "app-profil-structure-docs",
@@ -29,7 +30,10 @@ export class ProfilStructureDocsComponent implements OnInit {
   // Frontend variables
   public loadings: string[];
 
-  constructor(private documentService: DocumentService) {
+  constructor(
+    private documentService: DocumentService,
+    private toastService: CustomToastService
+  ) {
     const defaultCustomDoc: StructureDoc = {
       createdBy: {
         id: null,
@@ -93,6 +97,9 @@ export class ProfilStructureDocsComponent implements OnInit {
           this.stopLoading(docType);
         },
         error: () => {
+          this.toastService.error(
+            "Impossible de télécharger le fichier pour l'instant"
+          );
           this.stopLoading(docType);
         },
       });
@@ -111,6 +118,9 @@ export class ProfilStructureDocsComponent implements OnInit {
           this.stopLoading(structureDoc.uuid);
         },
         error: () => {
+          this.toastService.error(
+            "Impossible de télécharger le fichier pour l'instant"
+          );
           this.stopLoading(structureDoc.uuid);
         },
       });

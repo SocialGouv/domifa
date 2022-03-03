@@ -1,1 +1,1 @@
-export type CustomToastClass = "warning" | "success" | "error" | "info";
+export type CustomToastClass = "warning" | "success" | "error" | "info" | "";
