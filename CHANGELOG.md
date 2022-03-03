@@ -1,3 +1,14 @@
+## [2.76.5](https://github.com/SocialGouv/domifa/compare/v2.76.4...v2.76.5) (2022-03-03)
+
+
+### Bug Fixes
+
+* mise à jour des DB de test ([9d5f671](https://github.com/SocialGouv/domifa/commit/9d5f671196849770793120ce37224c17a4f0ee1a))
+* suppression d'anciennes migrations ([daa8f84](https://github.com/SocialGouv/domifa/commit/daa8f84fc81b4235aeb66dfec1a867c3cf99c4d1))
+* tests unitaires ([74db5e1](https://github.com/SocialGouv/domifa/commit/74db5e1e833d30859258aa81509b87a51ddf13ea))
+* tests unitaires de l'import ([083ad55](https://github.com/SocialGouv/domifa/commit/083ad55379c4c85f7801246b62282ca8d3af18f2))
+* **db:** Mise à jour des DB de test ([8ec45d3](https://github.com/SocialGouv/domifa/commit/8ec45d3ceeddb15a2d228b35af1de82db71b401f))
+
 ## [2.76.4](https://github.com/SocialGouv/domifa/compare/v2.76.3...v2.76.4) (2022-03-03)
 
 
