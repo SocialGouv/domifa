@@ -139,7 +139,7 @@
           >
             <ng-template #transfertActif>
               <div class="distribution-tooltip">
-                <div *ngIf=" usager.options.transfert.dateFin > today">
+                <div *ngIf="usager.options.transfert.dateFin > today">
                   <fa-icon
                     [icon]="['fas', 'share']"
                     class="text-primary mr-1"
@@ -149,7 +149,7 @@
                   }}
                 </div>
 
-                <div *ngIf=" usager.options.transfert.dateFin <= today">
+                <div *ngIf="usager.options.transfert.dateFin <= today">
                   Transfert expiré le {{ usager.options.transfert.dateFin |
                   date: "dd/MM/yyyy" }}
                 </div>

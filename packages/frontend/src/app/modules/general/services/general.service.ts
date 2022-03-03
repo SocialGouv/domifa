@@ -8,8 +8,6 @@ import { HomeStats } from "../components/home/HomeStats.type";
   providedIn: "root",
 })
 export class GeneralService {
-  public baseUrl: string;
-
   constructor(public http: HttpClient) {}
 
   public getHomeStats(): Observable<HomeStats> {

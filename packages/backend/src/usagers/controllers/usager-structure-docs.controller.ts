@@ -76,17 +76,15 @@ export class UsagerStructureDocsController {
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    try {
-      const docValues = buildCustomDoc({
-        usager,
-        structure: user.structure,
-      });
+    const docValues = buildCustomDoc({
+      usager,
+      structure: user.structure,
+    });
 
+    try {
       const docGenerated = generateCustomDoc(content, docValues);
       return res.end(docGenerated);
     } catch (e) {
-      appLogger.error(content);
-
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "CANNOT_COMPLETE_DOC" });
@@ -168,7 +166,6 @@ export class UsagerStructureDocsController {
       return res.end(docGenerated);
     } catch (e) {
       console.log(e);
-
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "CANNOT_COMPLETE_DOMIFA_DOCS" });

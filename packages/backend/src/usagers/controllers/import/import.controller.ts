@@ -110,7 +110,9 @@ export class ImportController {
           fileName,
         },
       });
-      throw new HttpException(err, HttpStatus.BAD_REQUEST);
+      return res
+        .json({ message: "EXCEL_FILE_CORRUPTED" })
+        .status(HttpStatus.BAD_REQUEST);
     }
 
     const today = moment.utc().endOf("day").toDate();
@@ -205,7 +207,7 @@ export class ImportController {
         rows: importPreviewRows.filter(({ isValid }) => !isValid).slice(0, 50),
       };
 
-      throw new HttpException({ previewTable }, HttpStatus.BAD_REQUEST);
+      return res.json({ previewTable }).status(HttpStatus.BAD_REQUEST);
     }
 
     try {

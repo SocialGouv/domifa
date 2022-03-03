@@ -65,8 +65,8 @@ export class DisplayUsagerDocsComponent implements OnInit {
         this.stopLoading("download", i);
       },
       error: () => {
-        this.stopLoading("download", i);
         this.toastService.error("Impossible de télécharger le fichier");
+        this.stopLoading("download", i);
       },
     });
   }

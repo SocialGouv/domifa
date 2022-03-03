@@ -21,12 +21,9 @@
           <option value="autre">Autre document à pré-remplir</option>
         </select>
 
-        <div
-          *ngIf="submitted && f.customDocType.errors"
-          class="invalid-feedback"
-        >
+        <p *ngIf="submitted && f.customDocType.errors" class="invalid-feedback">
           Le type de document est obligatoire
-        </div>
+        </p>
       </div>
 
       <div
@@ -66,7 +63,7 @@
           />
 
           <small *ngIf="isCustomDoc" id="pjHelp" class="form-text text-muted">
-            Seul les fichiers Word (.doc et .docx) sont autorisés
+            Seul les fichiers Word au format .docx sont autorisés
           </small>
           <small *ngIf="!isCustomDoc" id="pjHelp" class="form-text text-muted">
             Formats autorisés pdf, docx, xlsx, odt, jpg ou png (6mo maxi)
@@ -99,7 +96,7 @@
     </div>
   </form>
 
-  <div class="modal-foorter">
+  <div class="modal-footer text-right">
     <button class="btn btn-lg btn-outline-dark mr-2" (click)="cancel.emit()">
       Annuler
     </button>

@@ -140,6 +140,7 @@ export class UsagerTable
   // TRANSFERTS / NPAI / PROCURATION
   @Column({
     type: "jsonb",
+    default: () => "'[]'",
   })
   public options: UsagerOptions;
 

@@ -62,13 +62,14 @@ async function createTables(queryRunner: QueryRunner) {
       attachment jsonb NULL,
       email text NOT NULL,
       category text NULL,
-      "name" text NOT NULL,
+      name text NOT NULL,
       "comments" text NULL,
+      "structureName" text NULL,
       CONSTRAINT "PK_8e4a4781a01061a482fa33e5f5a" PRIMARY KEY (uuid)
     );
-    CREATE INDEX "IDX_2dc55096563e5e2a6db3b83c0c" ON public.contact_support USING btree ("userId");
-    CREATE INDEX "IDX_d2145fd3e0c677e9f1f9763467" ON public.contact_support USING btree ("structureId");
-    CREATE INDEX "IDX_d92188af7573662f6be7199eda" ON public.contact_support USING btree (status);
+    CREATE INDEX "IDX_2dc55096563e5e2a6db3b83c0c" ON contact_support USING btree ("userId");
+    CREATE INDEX "IDX_d2145fd3e0c677e9f1f9763467" ON contact_support USING btree ("structureId");
+    CREATE INDEX "IDX_d92188af7573662f6be7199eda" ON contact_support USING btree (status);
 
 
     -- message_email definition
@@ -360,7 +361,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE user_usager;
 
-    CREATE UNLOGGED TABLE user_usager (
+    CREATE TABLE user_usager (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
