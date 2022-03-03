@@ -23,8 +23,8 @@ TRUNCATE TABLE public.structure RESTART IDENTITY CASCADE;
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.19 (Debian 10.19-1.pgdg90+1)
--- Dumped by pg_dump version 10.19 (Debian 10.19-1.pgdg90+1)
+-- Dumped from database version 10.20 (Debian 10.20-1.pgdg90+1)
+-- Dumped by pg_dump version 10.20 (Debian 10.20-1.pgdg90+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -49,7 +49,7 @@ COPY public.app_log (uuid, "createdAt", "updatedAt", version, "userId", "usagerR
 -- Data for Name: contact_support; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.contact_support (uuid, "createdAt", "updatedAt", version, "userId", "structureId", content, status, attachement, email, category, name, comments) FROM stdin;
+COPY public.contact_support (uuid, "createdAt", "updatedAt", version, "userId", "structureId", content, status, attachment, email, category, name, comments, "structureName") FROM stdin;
 \.
 
 
@@ -58,10 +58,10 @@ COPY public.contact_support (uuid, "createdAt", "updatedAt", version, "userId", 
 --
 
 COPY public.structure (uuid, "createdAt", "updatedAt", version, id, adresse, "adresseCourrier", agrement, capacite, "codePostal", "complementAdresse", departement, region, email, "hardReset", "tokenDelete", import, "registrationDate", "importDate", "lastLogin", nom, options, phone, responsable, "structureType", token, verified, ville, sms, "portailUsager") FROM stdin;
-e159011b-6648-426d-a772-b3ca4f27a6d5	2021-01-26 07:51:53.846157+00	2021-01-26 07:51:53.846157+00	1	2	2 rue du test	\N	\N	\N	33600	\N	33	75	cias.test@yopmail.com	\N		f	2020-11-17 13:32:21.959+00	\N	2020-11-17	CIAS de Test	{"numeroBoite": false}	0102030405	{"nom": "Anna", "prenom": "Dupond", "fonction": "PDG"}	cias	b1ca3193633282c675257f1b05771a7605a4aa1c5ba231b3545564bfa33a	f	Pessac	{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}	{"enabledByDomifa": false, "enabledByStructure": false}
 610966c4-ab91-43c0-88da-483ae23d0af2	2021-02-01 16:12:30.65884+00	2021-10-05 09:24:59.084266+00	6	4	rue de l'import	{"actif": false, "ville": "", "adresse": "", "codePostal": ""}	123	\N	44000		44	52	test.import@yopmail.com	\N	\N	f	2021-02-01 16:12:30.655+00	\N	\N	Structure de Test d'import	{"numeroBoite": false}	0101010101	{"nom": "Test", "prenom": "Import", "fonction": "Testeur"}	asso		t	Nantes	{"senderName": null, "senderDetails": null, "enabledByDomifa": true, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": false}
-1d1ed6f0-7674-474a-908b-d0bd8c6389cb	2021-01-26 07:51:53.846157+00	2021-12-06 15:26:01.35835+00	3	3	1 rue du test de l'organise agréé	\N	1234	80	44000	\N	44	52	structure@yopmail.com	{"token": "6V0XR2S", "userId": 3}		t	2020-11-17 13:34:35.821+00	\N	2021-12-06	Organisme agréé de Test	{"numeroBoite": false}	0506070809	{"nom": "Calvez", "prenom": "Simon", "fonction": "Directeur"}	asso	b8e2e05b767ac984f0f4b8a222062b07268f46265525f98d83e4b518b343	f	Nantes	{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}	{"enabledByDomifa": false, "enabledByStructure": false}
 412f6962-fc6e-4e48-b0a6-a37d6eebbc67	2021-01-26 07:51:53.846157+00	2021-12-06 15:27:28.202738+00	310	1	1 rue de l'océan	\N	\N	\N	92600	\N	92	11	ccas.test@yopmail.com	\N		f	2020-11-17 13:30:23.692+00	\N	2021-12-06	CCAS de Test	{"numeroBoite": false}	0602030405	{"nom": "Jean", "prenom": "Thomson", "fonction": "PDG"}	ccas	adfbfe24ff6de1f4e7c0011ad05028f5a129ced7f120079d20c4adf21d89	t	Asnieres-sur-seine	{"senderName": null, "senderDetails": null, "enabledByDomifa": true, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": true}
+e159011b-6648-426d-a772-b3ca4f27a6d5	2021-01-26 07:51:53.846157+00	2021-01-26 07:51:53.846157+00	1	2	2 rue du test	\N	\N	\N	33600	\N	33	75	cias.test@yopmail.com	\N		f	2020-11-17 13:32:21.959+00	\N	2020-11-17	CIAS de Test	{"numeroBoite": false}	0102030405	{"nom": "Anna", "prenom": "Dupond", "fonction": "PDG"}	cias	b1ca3193633282c675257f1b05771a7605a4aa1c5ba231b3545564bfa33a	f	Pessac	{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": false}
+1d1ed6f0-7674-474a-908b-d0bd8c6389cb	2021-01-26 07:51:53.846157+00	2021-12-06 15:26:01.35835+00	3	3	1 rue du test de l'organise agréé	\N	1234	80	44000	\N	44	52	structure@yopmail.com	{"token": "6V0XR2S", "userId": 3}		t	2020-11-17 13:34:35.821+00	\N	2021-12-06	Organisme agréé de Test	{"numeroBoite": false}	0506070809	{"nom": "Calvez", "prenom": "Simon", "fonction": "Directeur"}	asso	b8e2e05b767ac984f0f4b8a222062b07268f46265525f98d83e4b518b343	f	Nantes	{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": false}
 \.
 
 
