@@ -8,9 +8,9 @@ export const usagerRefusMock: UsagerLight = {
     dateDebut: new Date("2020-02-12T00:00:00.000Z"),
     dateDecision: new Date("2020-02-12T00:00:00.000Z"),
     dateFin: new Date("2021-02-12T00:00:00.000Z"),
-    motif: "NON_MANIFESTATION_3_MOIS",
-    typeDom: undefined,
-    motifDetails: "",
+    motif: "LIEN_COMMUNE",
+    typeDom: "PREMIERE_DOM",
+    motifDetails: "Aucun lien avec la commune",
     userId: 30,
     userName: "Testeur Robin",
   },
@@ -80,8 +80,7 @@ export const usagerRefusMock: UsagerLight = {
       typeDom: undefined,
     },
   ],
-  // interactions: [],
-  // migration: false,
+
   phone: "0142424242",
   surnom: "",
   import: {

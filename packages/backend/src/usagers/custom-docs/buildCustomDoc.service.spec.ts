@@ -1,7 +1,12 @@
 import { buildCustomDoc } from ".";
+import { usagerRefusMock } from "../../_common/mocks/usagerRefus.mock";
 import { usagerValideMock } from "../../_common/mocks/usagerValideMock.mock";
 import { StructureCustomDocTags } from "../../_common/model";
-import { generatedAttestationMock, structureMock } from "./mocks";
+import {
+  generatedAttestationMock,
+  generatedRefusMock,
+  structureMock,
+} from "./mocks";
 
 describe("buildCustomDoc.service", () => {
   it("Generate data for ATTESTATION POSTALE", async () => {
@@ -44,6 +49,21 @@ describe("buildCustomDoc.service", () => {
       ...generatedAttestationMock,
       ...extraParameters,
     });
+  });
+
+  it("Générer un document pour un refus de renouvellement", async () => {
+    const date = new Date("2020-12-15 14:30:00");
+
+    const usager = usagerRefusMock;
+    usager.typeDom = "RENOUVELLEMENT";
+
+    const docActif: StructureCustomDocTags = buildCustomDoc({
+      usager: usagerRefusMock,
+      structure: structureMock,
+      date,
+    });
+
+    expect(docActif).toEqual(generatedRefusMock);
   });
 
   it("Générer un document avec transfert & procuration", async () => {
