@@ -77,6 +77,16 @@ export function buildCustomDoc({
   // Procu & transfert
   const procuration = usager.options.procuration;
   const transfert = usager.options.transfert;
+  const orientation = usager.entretien.orientation
+    ? usager.entretien.orientationDetail
+      ? "Oui: " + usager.entretien.orientationDetail
+      : "OUI"
+    : "NON";
+  const revenus = usager.entretien.revenus
+    ? usager.entretien.revenusDetail
+      ? "Oui: " + usager.entretien.revenusDetail
+      : "OUI"
+    : "NON";
 
   return {
     // DATES UTILES
@@ -159,17 +169,13 @@ export function buildCustomDoc({
     ENTRETIEN_RAISON_DEMANDE: "Motif principal de la demande",
     ENTRETIEN_ACCOMPAGNEMENT: "Accompagnement social",
 
-    ENTRETIEN_ORIENTE_PAR: usager.entretien.orientation
-      ? "Oui: " + usager.entretien.orientationDetail
-      : "Non",
+    ENTRETIEN_ORIENTE_PAR: orientation,
 
     ENTRETIEN_DOMICILIATION_EXISTANTE: usager.entretien.domiciliation
       ? "OUI"
       : "NON",
 
-    ENTRETIEN_REVENUS: usager.entretien.revenus
-      ? "OUI" + usager.entretien.revenusDetail
-      : "NON",
+    ENTRETIEN_REVENUS: revenus,
 
     ENTRETIEN_LIEN_COMMUNE: usager.entretien.liencommune || "",
 
