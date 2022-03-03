@@ -1,3 +1,10 @@
+## [2.76.4](https://github.com/SocialGouv/domifa/compare/v2.76.3...v2.76.4) (2022-03-03)
+
+
+### Bug Fixes
+
+* **deps:** update dependency ngx-countup to v13 ([9e83ed1](https://github.com/SocialGouv/domifa/commit/9e83ed13237e02c7a80373c038e454eb78c89847))
+
 ## [2.76.3](https://github.com/SocialGouv/domifa/compare/v2.76.2...v2.76.3) (2022-03-02)
 
 
