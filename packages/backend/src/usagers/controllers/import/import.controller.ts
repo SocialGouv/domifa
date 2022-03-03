@@ -111,8 +111,8 @@ export class ImportController {
         },
       });
       return res
-        .json({ message: "EXCEL_FILE_CORRUPTED" })
-        .status(HttpStatus.BAD_REQUEST);
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "EXCEL_FILE_CORRUPTED" });
     }
 
     const today = moment.utc().endOf("day").toDate();
@@ -207,7 +207,7 @@ export class ImportController {
         rows: importPreviewRows.filter(({ isValid }) => !isValid).slice(0, 50),
       };
 
-      return res.json({ previewTable }).status(HttpStatus.BAD_REQUEST);
+      return res.status(HttpStatus.BAD_REQUEST).json({ previewTable });
     }
 
     try {
