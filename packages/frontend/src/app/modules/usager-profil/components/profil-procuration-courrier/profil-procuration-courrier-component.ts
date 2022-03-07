@@ -43,12 +43,6 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
 
   @Output() usagerChanges = new EventEmitter<UsagerLight>();
 
-  public actions = {
-    EDIT: "Modification",
-    DELETE: "Suppression",
-    CREATION: "Création",
-  };
-
   public isFormVisible: boolean;
 
   public procurationForm!: FormGroup;

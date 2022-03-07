@@ -1,11 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { filter, startWith, tap } from "rxjs/operators";
+import { filter, startWith, tap, map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { UsagerNote } from "../../../../_common/model";
 import { MessageSms } from "../../../../_common/model/message-sms";
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
+import { UsagerOptionsHistory } from "../../../../_common/model/usager/UsagerOptionsHistory.type";
 import { usagersCache } from "../../../shared/store";
 import { SearchPageLoadedUsagersData } from "../../../shared/store/AppStoreModel.type";
 import { UsagerFormModel } from "../../usager-shared/interfaces";
@@ -136,5 +137,15 @@ export class UsagerService {
     return this.http.get<MessageSms[]>(
       environment.apiUrl + "sms/usager/" + usager.ref
     );
+  }
+
+  public findHistory(usagerRef: number): Observable<UsagerOptionsHistory[]> {
+    return this.http
+      .get(`${environment.apiUrl}optionsHistory/${usagerRef}`)
+      .pipe(
+        map((res: UsagerOptionsHistory[]) => {
+          return res;
+        })
+      );
   }
 }

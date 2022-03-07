@@ -40,6 +40,7 @@ import {
   UsagerLight,
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
+  UsagerOptionsHistoriqueContent,
 } from "../../_common/model";
 import {
   CreateUsagerDto,
@@ -55,6 +56,7 @@ import {
   deleteUsagerFolder,
   usagerHistoryStateManager,
   UsagersService,
+  UsagerOptionsHistoryService,
 } from "../services";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { generateCerfaDatas } from "../cerfa";
@@ -67,6 +69,7 @@ export class UsagersController {
   constructor(
     private readonly usagersService: UsagersService,
     private readonly cerfaService: CerfaService,
+    private readonly usagerOptionsHistoryService: UsagerOptionsHistoryService,
     private appLogsService: AppLogsService
   ) {}
 
@@ -346,12 +349,13 @@ export class UsagersController {
       nom: transfertDto.nom,
     };
 
-    usager.options.historique.transfert.push({
-      user: user.prenom + " " + user.nom,
+    await this.usagerOptionsHistoryService.createHistoryData(
+      usager,
+      user,
       action,
-      date: new Date(),
-      content: newTransfert,
-    });
+      "transfert",
+      newTransfert as UsagerOptionsHistoriqueContent
+    );
 
     usager.options.transfert = newTransfert;
 
@@ -376,12 +380,13 @@ export class UsagersController {
       dateFin: null,
     };
 
-    usager.options.historique.transfert.push({
-      user: user.prenom + " " + user.nom,
-      action: "DELETE",
-      date: new Date(),
-      content: {},
-    });
+    await this.usagerOptionsHistoryService.createHistoryData(
+      usager,
+      user,
+      "DELETE",
+      "transfert",
+      null
+    );
 
     return this.usagersService.patch(
       { uuid: usager.uuid },
@@ -491,12 +496,16 @@ export class UsagersController {
       prenom: procurationDto.prenom,
     };
 
-    usager.options.historique.procuration.push({
-      user: user.prenom + " " + user.nom,
+    await this.usagerOptionsHistoryService.createHistoryData(
+      usager,
+      user,
       action,
-      date: new Date(),
-      content: newProcuration,
-    });
+      "procuration",
+      {
+        ...newProcuration,
+        dateNaissance: new Date(procurationDto.dateNaissance),
+      }
+    );
 
     usager.options.procuration = newProcuration;
     return this.usagersService.patch(
@@ -521,12 +530,13 @@ export class UsagersController {
       prenom: "",
     };
 
-    usager.options.historique.procuration.push({
-      user: user.prenom + " " + user.nom,
-      action: "DELETE",
-      date: new Date(),
-      content: {},
-    });
+    await this.usagerOptionsHistoryService.createHistoryData(
+      usager,
+      user,
+      "DELETE",
+      "procuration",
+      null
+    );
 
     return this.usagersService.patch(
       { uuid: usager.uuid },

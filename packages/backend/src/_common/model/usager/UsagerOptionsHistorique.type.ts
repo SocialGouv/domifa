@@ -1,6 +1,9 @@
+import { UsagerOptionsHistoryAction } from "./UsagerOptionsHistoryAction.type";
+import { UsagerOptionsHistoriqueContent } from "./UsagerOptionsHistoriqueContent.type";
+
 export type UsagerOptionsHistorique = {
   user: string;
   date: Date;
-  action: string;
-  content?: {};
+  action: UsagerOptionsHistoryAction;
+  content: UsagerOptionsHistoriqueContent;
 };

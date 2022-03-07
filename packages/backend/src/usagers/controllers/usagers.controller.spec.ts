@@ -5,6 +5,7 @@ import { CerfaService } from "../services/cerfa.service";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
 import { UsagersController } from "./usagers.controller";
+import { UsagerOptionsHistoryService } from "../services";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 
 describe("Usagers Controller", () => {
@@ -20,6 +21,7 @@ describe("Usagers Controller", () => {
         CerfaService,
         UsagersService,
         DocumentsService,
+        UsagerOptionsHistoryService,
         AppLogsService,
       ],
     });

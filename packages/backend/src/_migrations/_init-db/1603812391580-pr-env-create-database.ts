@@ -446,6 +446,33 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_495b59d0dd15e43b262f2da890" ON interactions USING btree ("interactionOutUUID");
     CREATE INDEX "IDX_9992157cbe54583ff7002ae4c0" ON interactions USING btree ("userId");
     CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON interactions USING btree ("usagerUUID");
+
+    -- public.usager_options_history definition
+
+    -- Drop table
+
+    -- DROP TABLE public.usager_options_history;
+
+    CREATE TABLE public.usager_options_history (
+      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "createdAt" timestamptz NOT NULL DEFAULT now(),
+      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "version" int4 NOT NULL,
+      "userId" text,
+      "structureId" int4 NOT NULL,
+      "action" text NOT NULL,
+      "type" text NOT NULL,
+      "date" date NOT NULL,
+      nom text NOT NULL,
+      prenom text NOT NULL,
+      adresse text NOT NULL,
+      actif bool NOT NULL DEFAULT false,
+      "dateDebut" date NULL,
+      "dateFin" date NULL,
+      "dateNaissance" date NULL,
+      "usagerUUID" uuid NULL,
+      CONSTRAINT "PK_429ff2cc277afdc9e1ce5ac8d63" PRIMARY KEY (uuid)
+    );
     `
   );
 }

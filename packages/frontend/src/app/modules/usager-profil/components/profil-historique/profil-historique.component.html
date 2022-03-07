@@ -11,6 +11,8 @@
     <div class="page-content p-4">
       <div class="row">
         <div class="col-md-12">
+          <h4>Historique des décisions</h4>
+
           <table *ngIf="usager.historique.length > 0" class="table table-hover">
             <caption>
               Historique des décisions
@@ -43,6 +45,89 @@
           </table>
         </div>
       </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h4>Historique des procurations</h4>
+
+          <table
+            *ngIf="procurationHistory.length > 0"
+            class="table table-hover"
+          >
+            <caption>
+              Historique des procurations
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Action</th>
+                <th scope="col">Nom prénom</th>
+                <th scope="col">Date de naissance</th>
+                <th scope="col">Période de validité</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let procu of procurationHistory">
+                <td>
+                  {{ actions[procu.action] }} le
+                  {{ procu.date | date: "dd/MM/yyyy" }} par {{ procu.userName }}
+                </td>
+                <td>{{ procu.nom }} {{ procu.prenom }}</td>
+                <td>{{ procu.dateNaissance | date: "dd/MM/yyyy" || "" }}</td>
+                <td>
+                  <span *ngIf="procu.dateDebut === null">
+                    {{ procu.dateFin | date: "dd/MM/yyyy" }}
+                  </span>
+                  <span class="valeur" *ngIf="procu.dateDebut">
+                    Du {{ procu.dateDebut | date: "dd/MM/yyyy" }} au
+                    {{ procu.dateFin | date: "dd/MM/yyyy" }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h4>Historique des transferts</h4>
+
+          <table *ngIf="transfertHistory.length > 0" class="table table-hover">
+            <caption>
+              Historique des transferts
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Action</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Adresse</th>
+                <th scope="col">Période de validité</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let transfert of transfertHistory">
+                <td>
+                  {{ actions[transfert.action] }} le
+                  {{ transfert.date | date: "dd/MM/yyyy" }} par
+                  {{ transfert.userName }}
+                </td>
+                <td>{{ transfert.nom }}</td>
+                <td>{{ transfert.adresse }}</td>
+                <td>
+                  <span *ngIf="transfert.dateDebut === null">
+                    {{ transfert.dateFin | date: "dd/MM/yyyy" }}
+                  </span>
+                  <span class="valeur" *ngIf="transfert.dateDebut">
+                    Du {{ transfert.dateDebut | date: "dd/MM/yyyy" }} au
+                    {{ transfert.dateFin | date: "dd/MM/yyyy" }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <div
         class="row"
         *ngIf="
