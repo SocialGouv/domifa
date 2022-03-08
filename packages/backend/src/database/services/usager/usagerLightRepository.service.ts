@@ -107,7 +107,7 @@ function findNextRendezVous({
     params: {
       userId,
       dateRefNow,
-    },
+    },:
     order: {
       "(rdv->>'dateRdv')::timestamptz": "DESC",
     } as PgRepositoryFindOrder<any>,

@@ -2,6 +2,7 @@ export const USAGER_DEFAULT_OPTIONS = {
   npai: {
     actif: false,
   },
+  procurations: [],
   procuration: {
     actif: false,
   },

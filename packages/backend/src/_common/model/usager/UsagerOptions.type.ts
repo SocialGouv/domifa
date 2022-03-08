@@ -4,7 +4,7 @@ import { UsagerOptionsTransfert } from "./UsagerOptionsTransfert.type";
 
 export type UsagerOptions = {
   transfert: UsagerOptionsTransfert;
-  procuration: UsagerOptionsProcuration;
+  procurations: UsagerOptionsProcuration[];
   npai: {
     actif: boolean;
     dateDebut?: Date | null;
@@ -13,6 +13,5 @@ export type UsagerOptions = {
     transfert: UsagerOptionsHistorique[];
     procuration: UsagerOptionsHistorique[];
   };
-
   portailUsagerEnabled?: boolean;
 };
