@@ -1,6 +1,22 @@
 <div *ngIf="usager" class="py-3">
+  <div
+    *ngIf="
+      usager.decision.statut === 'INSTRUCTION' &&
+      usager.typeDom === 'RENOUVELLEMENT'
+    "
+    class="my-2 px-3"
+  >
+    <div class="alert alert-warning">
+      <div aria-hidden="true" class="svg-icon icon-calendar"></div>
+      <span class="content"
+        >Demande de renouvellement actuellement en cours</span
+      >
+    </div>
+  </div>
+
   <div *ngIf="!usager.lastInteraction.enAttente" class="my-2">
     <h2 class="content section-title">Votre courrier</h2>
+
     <div class="content section-content" id="usager-dossier">
       <div class="d-flex align-items-top">
         <div class="py-1">
@@ -20,6 +36,7 @@
 
   <div *ngIf="usager.lastInteraction.enAttente" class="my-2">
     <h2 class="content section-title">Vous avez du courrier !</h2>
+
     <div class="content section-content" id="usager-dossier">
       <div>
         Vous pouvez le récupérer dans votre centre de domiciliation
