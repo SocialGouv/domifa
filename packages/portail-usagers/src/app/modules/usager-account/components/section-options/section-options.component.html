@@ -1,0 +1,11 @@
+<div *ngIf="usager" class="py-3">
+  <div *ngIf="usager.options.transfert.actif" class="my-2">
+    <div class="content section-title">Votre Transfert</div>
+
+    <div class="content section-content">
+      Un transfert est actif jusqu'au {{ transfertDateFin }} à l'adresse
+      suivante : {{ usager.options.transfert.nom }},
+      {{ usager.options.transfert.adresse }}.
+    </div>
+  </div>
+</div>
