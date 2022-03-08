@@ -1,13 +1,22 @@
 import { UsagerOptionsProcuration } from "../../../../_common/model";
 
 export function isProcurationActifMaintenant(
-  procuration: UsagerOptionsProcuration
+  procurations: UsagerOptionsProcuration[]
 ): boolean {
-  if (procuration.actif) {
-    const debut = new Date(procuration.dateDebut).getTime();
-    const fin = new Date(procuration.dateFin).getTime();
-    const now = new Date().getTime();
-    return debut < now && fin > now;
+  let retour = false;
+  for (const procuration of procurations) {
+    if (procuration.actif) {
+      const debut = new Date(procuration.dateDebut).getTime();
+      const fin = new Date(procuration.dateFin).getTime();
+      const now = new Date().getTime();
+      retour = debut < now && fin > now;
+    }
+
+    // Si une des deux procurations est active
+    if (retour) {
+      return true;
+    }
   }
-  return false;
+
+  return retour;
 }

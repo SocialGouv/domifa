@@ -2,7 +2,9 @@ import { MOTIFS_RADIATION_LABELS } from "../../../../_common/model/usager/consta
 import { MOTIFS_REFUS_LABELS } from "../../../../_common/model/usager/constants/MOTIFS_REFUS_LABELS.const";
 import { UsagerDecision } from "../../../../_common/model/usager/decision/UsagerDecision.type";
 
-export const generateMotifLabel = (decision: UsagerDecision): string => {
+export const generateMotifLabel = (
+  decision: Partial<UsagerDecision>
+): string => {
   if (!decision) {
     return "";
   }

@@ -155,44 +155,38 @@
               {{ usager.options.transfert.adresse | titlecase }}
             </span>
           </div>
-          <div
-            class="alert alert-warning"
-            *ngIf="
-              usager.options.procuration.actif &&
-              usager.options.procuration.dateFin > today
-            "
-          >
-            <div class="svg-icon icon-distribution"></div>
-
-            <span>
-              Une procuration au nom de
-              <u
-                >{{ usager.options.procuration.nom }}
-                {{ usager.options.procuration.prenom }}</u
+          <ng-container *ngIf="usager.options.procurations.length">
+            <ng-container
+              *ngFor="let procuration of usager.options.procurations"
+            >
+              <div
+                class="alert alert-warning"
+                *ngIf="procuration.dateFin > today"
               >
-              est active et valable jusqu'au
-              {{ usager.options.procuration.dateFin | date: "dd/MM/yyyy" }}
-            </span>
-          </div>
+                <div class="svg-icon icon-distribution"></div>
 
-          <div
-            *ngIf="
-              usager.options.procuration.actif &&
-              usager.options.procuration.dateFin <= today
-            "
-            class="alert alert-danger"
-          >
-            <span title="Calendrier" class="svg-icon icon-calendar"></span>
-            <span>
-              La procuration au nom de
-              <u
-                >{{ usager.options.procuration.nom
-                }}{{ usager.options.procuration.prenom }}</u
+                <span>
+                  Une procuration au nom de
+                  <u>{{ procuration.nom }} {{ procuration.prenom }}</u>
+                  est active et valable jusqu'au
+                  {{ procuration.dateFin | date: "dd/MM/yyyy" }}
+                </span>
+              </div>
+
+              <div
+                *ngIf="procuration.actif && procuration.dateFin <= today"
+                class="alert alert-danger"
               >
-              a expiré le
-              {{ usager.options.procuration.dateFin | date: "dd/MM/yyyy" }}
-            </span>
-          </div>
+                <span title="Calendrier" class="svg-icon icon-calendar"></span>
+                <span>
+                  La procuration au nom de
+                  <u>{{ procuration.nom }}{{ procuration.prenom }}</u>
+                  a expiré le
+                  {{ procuration.dateFin | date: "dd/MM/yyyy" }}
+                </span>
+              </div>
+            </ng-container>
+          </ng-container>
         </div>
       </div>
 

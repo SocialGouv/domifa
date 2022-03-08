@@ -23,7 +23,7 @@ export const USAGER_ACTIF_MOCK: UsagerLight = {
   },
   options: {
     npai: { actif: false },
-    procuration: { actif: false },
+    procurations: [],
     transfert: { actif: false, adresse: null, nom: null },
     historique: { transfert: [], procuration: [] },
     portailUsagerEnabled: false,

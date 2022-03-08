@@ -1,7 +1,7 @@
 import { UsagerLight } from "../model";
 import { ETAPE_DOSSIER_COMPLET } from "../model/usager/constants";
 
-export const usagerRefusMock: UsagerLight = {
+export const USAGER_REFUS_MOCK: UsagerLight = {
   notes: [],
   decision: {
     orientationDetails: null,
@@ -24,7 +24,7 @@ export const usagerRefusMock: UsagerLight = {
   },
   options: {
     npai: { actif: false },
-    procuration: { actif: false },
+    procurations: [],
     transfert: { actif: false, adresse: null, nom: null },
     historique: { transfert: [], procuration: [] },
     portailUsagerEnabled: false,

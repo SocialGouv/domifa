@@ -1,3 +1,4 @@
+import { UsagerProcuration } from "./../../usager-shared/interfaces/usager-procuration";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, tap } from "rxjs";
@@ -81,20 +82,22 @@ export class UsagerProfilService {
     );
   }
 
-  // TODO: type it
-  public editProcuration(
-    transfert: any,
+  public editProcurations(
+    procurations: UsagerProcuration[],
     usagerRef: number
   ): Observable<UsagerLight> {
     return this.http.post<UsagerLight>(
-      `${this.endPointUsagers}/procuration/${usagerRef}`,
-      transfert
+      `${this.endPointUsagers}/procurations/${usagerRef}`,
+      procurations
     );
   }
 
-  public deleteProcuration(usagerRef: number): Observable<UsagerLight> {
+  public deleteProcuration(
+    usagerRef: number,
+    procurationIndex: number
+  ): Observable<UsagerLight> {
     return this.http.delete<UsagerLight>(
-      `${this.endPointUsagers}/procuration/${usagerRef}`
+      `${this.endPointUsagers}/procuration/${usagerRef}/${procurationIndex}`
     );
   }
 

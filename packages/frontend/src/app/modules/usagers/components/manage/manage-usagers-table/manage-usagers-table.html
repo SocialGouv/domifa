@@ -159,30 +159,34 @@
             <div>Transfert</div>
           </div>
 
-          <div
-            class="label-info label-yellow"
-            *ngIf="isProcurationActifMaintenant(usager.options.procuration)"
-            [ngbTooltip]="procurationActif"
-          >
-            <ng-template #procurationActif>
-              <span *ngIf=" usager.options.procuration.dateFin > today">
-                <fa-icon
-                  [icon]="['fas', 'share']"
-                  class="text-primary mr-1"
-                ></fa-icon>
-                Procuration : {{ usager.options.procuration.nom }} {{
-                usager.options.procuration.prenom }}
-              </span>
+          <ng-container *ngIf="usager.options.procurations.length">
+            <ng-container
+              *ngFor="let procuration of usager.options.procurations"
+            >
+              <div
+                class="label-info label-yellow"
+                *ngIf="isProcurationActifMaintenant(procuration)"
+                [ngbTooltip]="procurationActif"
+              >
+                <ng-template #procurationActif>
+                  <span *ngIf=" procuration.dateFin > today">
+                    <fa-icon
+                      [icon]="['fas', 'share']"
+                      class="text-primary mr-1"
+                    ></fa-icon>
+                    Procuration : {{ procuration.nom }} {{ procuration.prenom }}
+                  </span>
 
-              <span *ngIf=" usager.options.procuration.dateFin <= today">
-                Procuration expirée : {{usager.options.procuration.dateFin |
-                date: "dd/MM/yyyy" }}
-              </span>
-            </ng-template>
+                  <span *ngIf="procuration.dateFin <= today">
+                    Procuration expirée : {{ procuration.dateFin | date:
+                    "dd/MM/yyyy" }}
+                  </span>
+                </ng-template>
 
-            <div>Procuration</div>
-          </div>
-
+                <div>Procuration</div>
+              </div>
+            </ng-container>
+          </ng-container>
           <div
             *ngIf="usager.options.npai.actif"
             class="label-info label-danger"

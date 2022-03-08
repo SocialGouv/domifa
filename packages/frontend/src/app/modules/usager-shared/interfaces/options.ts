@@ -1,3 +1,4 @@
+import { UsagerProcuration } from ".";
 import {
   UsagerOptionsProcuration,
   UsagerOptionsTransfert,
@@ -7,7 +8,9 @@ import { HistoriqueOptions } from "./historique-options";
 
 export class Options implements UsagerOptions {
   public transfert: UsagerOptionsTransfert;
-  public procuration: UsagerOptionsProcuration;
+  public procuration?: UsagerOptionsProcuration;
+  public procurations: UsagerOptionsProcuration[];
+
   public portailUsagerEnabled: boolean;
 
   public npai: {
@@ -15,12 +18,12 @@ export class Options implements UsagerOptions {
     dateDebut: Date | null;
   };
 
-  public historique: {
+  public historique?: {
     transfert: HistoriqueOptions[];
     procuration: HistoriqueOptions[];
   };
 
-  constructor(options?: any) {
+  constructor(options?: Partial<UsagerOptions>) {
     this.transfert = {
       actif: false,
       adresse: "",
@@ -34,19 +37,7 @@ export class Options implements UsagerOptions {
       dateDebut: null,
     };
 
-    this.procuration = {
-      actif: false,
-      dateDebut: null,
-      dateFin: null,
-      dateNaissance: null,
-      nom: "",
-      prenom: "",
-    };
-
-    this.historique = {
-      transfert: [],
-      procuration: [],
-    };
+    this.procurations = [];
 
     if (options) {
       if (typeof options.transfert !== "undefined") {
@@ -65,30 +56,10 @@ export class Options implements UsagerOptions {
             : (this.transfert.dateFin = null);
       }
 
-      if (typeof options.procuration !== "undefined") {
-        this.procuration.actif = options.procuration.actif || false;
-        this.procuration.nom = options.procuration.nom || "";
-        this.procuration.prenom = options.procuration.prenom || "";
-
-        if (
-          options.procuration.dateNaissance &&
-          options.procuration.dateNaissance !== null
-        ) {
-          this.procuration.dateNaissance = new Date(
-            options.procuration.dateNaissance
-          );
-        }
-        if (
-          options.procuration.dateFin &&
-          options.procuration.dateFin !== null
-        ) {
-          this.procuration.dateFin = new Date(options.procuration.dateFin);
-        }
-        if (
-          options.procuration.dateDebut &&
-          options.procuration.dateDebut !== null
-        ) {
-          this.procuration.dateDebut = new Date(options.procuration.dateDebut);
+      if (typeof options.procurations !== "undefined") {
+        // Maximum 2 procurations
+        for (let i = 0; i < 2; i++) {
+          this.procurations[i] = new UsagerProcuration(options.procurations[i]);
         }
       }
 
@@ -96,33 +67,6 @@ export class Options implements UsagerOptions {
         this.npai.actif = options.npai.actif || false;
         if (options.npai.dateDebut && options.npai.dateDebut !== null) {
           this.npai.dateDebut = new Date(options.npai.dateDebut);
-        }
-      }
-
-      this.historique = {
-        transfert: [],
-        procuration: [],
-      };
-
-      if (typeof options.historique !== "undefined") {
-        if (options.historique.transfert.length > 0) {
-          this.historique.transfert = Array.isArray(
-            options.historique.transfert
-          )
-            ? options.historique.transfert.map(
-                (item: HistoriqueOptions) => new HistoriqueOptions(item)
-              )
-            : [new HistoriqueOptions(options.historique.transfert)];
-        }
-
-        if (options.historique.procuration.length > 0) {
-          this.historique.procuration = Array.isArray(
-            options.historique.procuration
-          )
-            ? options.historique.procuration.map(
-                (item: HistoriqueOptions) => new HistoriqueOptions(item)
-              )
-            : [new HistoriqueOptions(options.historique.procuration)];
         }
       }
     }

@@ -6,4 +6,5 @@ export * from "./historique-options";
 export * from "./interaction";
 export * from "./options";
 export * from "./rdv";
+export * from "./usager-procuration";
 export * from "./UsagerFormModel";

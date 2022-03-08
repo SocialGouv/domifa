@@ -31,7 +31,7 @@ export class Decision implements UsagerDecision {
   public userId: number; // UserStructure.id
   public userName: string; // UserStructure.nom / prenom
 
-  constructor(decision?: any) {
+  constructor(decision?: Partial<UsagerDecision>) {
     this.uuid = decision?.uuid;
     this.typeDom = decision?.typeDom;
     this.dateDebut = (decision && new Date(decision.dateDebut)) || undefined;
@@ -41,12 +41,12 @@ export class Decision implements UsagerDecision {
     this.statut = (decision && decision.statut) || "INSTRUCTION";
 
     this.userName = (decision && decision.userName) || "";
-    this.userId = (decision && decision.userId) || "";
+    this.userId = (decision && decision.userId) || null;
     this.motifDetails = (decision && decision.motifDetails) || "";
-    this.motif = (decision && decision.motif) || "";
+    this.motif = (decision && decision.motif) || null;
     this.motifString = "";
 
-    this.orientation = (decision && decision.orientation) || "";
+    this.orientation = (decision && decision.orientation) || null;
     this.orientationDetails = (decision && decision.orientationDetails) || "";
 
     this.statutLabel = USAGER_DECISION_STATUT_LABELS_PROFIL[this.statut];

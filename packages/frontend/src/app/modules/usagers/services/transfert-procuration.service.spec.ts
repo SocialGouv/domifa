@@ -32,20 +32,24 @@ describe("[getEcheanceInfos] Affichage des infos de l'échéance ", () => {
       isProcurationActifMaintenant(usager.options.procuration)
     ).toBeFalsy();
 
-    usager.options.procuration = {
-      actif: true,
-      dateDebut: new Date("2020-02-30T00:00:00.000Z"),
-      dateFin: new Date("2020-03-30T00:00:00.000Z"),
-    };
+    usager.options.procurations = [
+      {
+        actif: true,
+        dateDebut: new Date("2020-02-30T00:00:00.000Z"),
+        dateFin: new Date("2020-03-30T00:00:00.000Z"),
+      },
+    ];
     expect(
       isProcurationActifMaintenant(usager.options.procuration)
     ).toBeFalsy();
 
-    usager.options.procuration = {
-      actif: true,
-      dateDebut: new Date("2020-02-30T00:00:00.000Z"),
-      dateFin: new Date("2020-05-30T00:00:00.000Z"),
-    };
+    usager.options.procurations = [
+      {
+        actif: true,
+        dateDebut: new Date("2020-02-30T00:00:00.000Z"),
+        dateFin: new Date("2020-05-30T00:00:00.000Z"),
+      },
+    ];
     expect(
       isProcurationActifMaintenant(usager.options.procuration)
     ).toBeTruthy();

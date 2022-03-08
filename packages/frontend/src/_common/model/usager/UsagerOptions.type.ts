@@ -4,12 +4,14 @@ import { UsagerOptionsTransfert } from "./UsagerOptionsTransfert.type";
 
 export type UsagerOptions = {
   transfert: UsagerOptionsTransfert;
-  procuration: UsagerOptionsProcuration;
+  // TODO: supprimer
+
+  procurations: UsagerOptionsProcuration[];
   npai: {
     actif: boolean;
     dateDebut?: Date;
   };
-  historique: {
+  historique?: {
     transfert: UsagerOptionsHistorique[];
     procuration: UsagerOptionsHistorique[];
   };

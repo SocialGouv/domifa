@@ -1,10 +1,6 @@
+import { UsagerProcuration } from "./../../../usager-shared/interfaces/usager-procuration";
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
@@ -49,9 +45,10 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     CREATION: "Création",
   };
 
+  public submitted: boolean;
   public isFormVisible: boolean;
 
-  public procurationForm!: FormGroup;
+  public procurationsForm!: FormGroup;
   public minDateToday: NgbDateStruct;
 
   public minDateNaissance: NgbDateStruct;
@@ -64,51 +61,63 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     private usagerProfilService: UsagerProfilService,
     private matomo: MatomoTracker
   ) {
-    this.hideForm();
     this.isFormVisible = false;
+    this.submitted = false;
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
   }
 
-  public isRole(role: UserStructureRole): boolean {
-    return this.me.role === role;
-  }
-
   public ngOnInit(): void {
     this.initForm();
+
+    console.log(new UsagerProcuration());
   }
 
   public showForm(): void {
     this.isFormVisible = true;
-    this.initForm();
+  }
+
+  public initForm(): void {
+    this.procurationsForm = this.formBuilder.group({
+      procurations: this.formBuilder.array([]),
+    });
+
+    this.addProcuration();
+
+    console.log(this.procurationsForm);
+  }
+
+  get form(): FormArray {
+    return this.procurationsForm.get("procurations") as FormArray;
   }
 
   public hideForm(): void {
     this.isFormVisible = false;
   }
 
-  get f(): { [key: string]: AbstractControl } {
-    return this.procurationForm.controls;
+  public addProcuration(
+    procuration: UsagerProcuration = new UsagerProcuration()
+  ): void {
+    (this.procurationsForm.controls.procurations as FormArray).push(
+      this.newProcuration(procuration)
+    );
   }
 
-  public initForm(): void {
-    this.procurationForm = this.formBuilder.group(
+  public newProcuration(procuration: UsagerProcuration) {
+    return this.formBuilder.group(
       {
-        nom: [this.usager.options.procuration.nom, [Validators.required]],
-        prenom: [this.usager.options.procuration.prenom, [Validators.required]],
-        dateFin: [
-          formatDateToNgb(this.usager.options.procuration.dateFin),
-          [Validators.required],
-        ],
+        nom: [procuration.nom, [Validators.required]],
+        prenom: [procuration.prenom, [Validators.required]],
+        dateFin: [formatDateToNgb(procuration.dateFin), [Validators.required]],
         dateDebut: [
-          formatDateToNgb(this.usager.options.procuration.dateDebut),
+          formatDateToNgb(procuration.dateDebut),
           [Validators.required],
         ],
         dateNaissance: [
           formatDateToNgb(
             this.usager.options.procuration.dateNaissance
-              ? new Date(this.usager.options.procuration.dateNaissance)
+              ? new Date(procuration.dateNaissance)
               : undefined
           ),
           [Validators.required],
@@ -124,21 +133,27 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   }
 
   public editProcuration(): void {
-    const formValue = {
-      ...this.procurationForm.value,
-      dateFin: this.nbgDate.formatEn(
-        this.procurationForm.controls.dateFin.value
-      ),
-      dateDebut: this.nbgDate.formatEn(
-        this.procurationForm.controls.dateDebut.value
-      ),
-      dateNaissance: this.nbgDate.formatEn(
-        this.procurationForm.controls.dateNaissance.value
-      ),
-    };
+    const procurationsData: UsagerProcuration[] =
+      this.procurationsForm.value.procurations.map(
+        (procu: UsagerProcuration) => {
+          return {
+            nom: procu.nom,
+            prenom: procu.prenom,
+            dateFin: this.nbgDate.formatEn(
+              this.procurationsForm.controls.dateFin.value
+            ),
+            dateDebut: this.nbgDate.formatEn(
+              this.procurationsForm.controls.dateDebut.value
+            ),
+            dateNaissance: this.nbgDate.formatEn(
+              this.procurationsForm.controls.dateNaissance.value
+            ),
+          };
+        }
+      );
 
     this.usagerProfilService
-      .editProcuration(formValue, this.usager.ref)
+      .editProcurations(procurationsData, this.usager.ref)
       .subscribe({
         next: (usager: UsagerLight) => {
           this.hideForm();
@@ -153,24 +168,27 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
       });
   }
 
-  public deleteProcuration(): void {
+  public deleteProcuration(procurationIndex: number): void {
     if (!this.usager.options.procuration.actif) {
       this.hideForm();
       return;
     }
 
-    this.usagerProfilService.deleteProcuration(this.usager.ref).subscribe(
-      (usager: UsagerLight) => {
-        this.hideForm();
-        this.usagerChanges.emit(usager);
-        this.procurationForm.reset();
-        this.usager = new UsagerFormModel(usager);
-        this.toastService.success("Procuration supprimée avec succès");
-        this.matomo.trackEvent("profil", "actions", "delete-procuration", 1);
-      },
-      () => {
-        this.toastService.error("Impossible de supprimer la procuration");
-      }
-    );
+    // TODO: Ajouter l'index du tableau à supprimer
+    this.usagerProfilService
+      .deleteProcuration(this.usager.ref, procurationIndex)
+      .subscribe({
+        next: (usager: UsagerLight) => {
+          this.hideForm();
+          this.usagerChanges.emit(usager);
+          this.procurationsForm.reset();
+          this.usager = new UsagerFormModel(usager);
+          this.toastService.success("Procuration supprimée avec succès");
+          this.matomo.trackEvent("profil", "actions", "delete-procuration", 1);
+        },
+        error: () => {
+          this.toastService.error("Impossible de supprimer la procuration");
+        },
+      });
   }
 }
