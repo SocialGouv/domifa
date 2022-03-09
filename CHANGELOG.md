@@ -1,3 +1,10 @@
+# [2.78.0](https://github.com/SocialGouv/domifa/compare/v2.77.0...v2.78.0) (2022-03-09)
+
+
+### Features
+
+* **procurations:** Refonte de l'historique ([b4e52b6](https://github.com/SocialGouv/domifa/commit/b4e52b6d0504b86f6242b60df3bc11ceae981623))
+
 # [2.77.0](https://github.com/SocialGouv/domifa/compare/v2.76.6...v2.77.0) (2022-03-09)
 
 
