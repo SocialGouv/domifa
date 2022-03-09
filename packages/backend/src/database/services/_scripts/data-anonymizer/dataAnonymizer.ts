@@ -16,7 +16,7 @@ export const dataAnonymizer = {
 async function anonymize(app: INestApplication) {
   appLogger.debug(`[dataAnonymizer] UP`);
   const envId = domifaConfig().envId;
-  if (envId === "dev" || envId === "preprod" || envId === "formation") {
+  if (envId === "dev" || envId === "preprod" || envId === "local") {
     appLogger.warn(`[dataAnonymizer] DB anonymisation ON (env:${envId})`);
     await dataMessageEmailAnonymizer.anonymizeEmail();
     await dataMessageSmsAnonymizer.anonymizeSms();

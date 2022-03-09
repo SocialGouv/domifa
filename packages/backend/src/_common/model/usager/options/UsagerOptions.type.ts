@@ -9,10 +9,9 @@ export type UsagerOptions = {
     actif: boolean;
     dateDebut?: Date | null;
   };
-  historique: {
+  historique?: {
     transfert: UsagerOptionsHistorique[];
     procuration: UsagerOptionsHistorique[];
   };
-
   portailUsagerEnabled?: boolean;
 };

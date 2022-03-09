@@ -36,7 +36,7 @@ async function runDocTypeTest({
     buffer: generatedDoc,
   });
 
-  if (domifaConfig().envId === "dev") {
+  if (domifaConfig().envId === "local") {
     // in dev mode, we want to be able to open the file in browser or copy "tmp" as "ref" file
     // To enable dev mode, run locally:
     // npx jest -- generateCustomDoc.service.spec.ts

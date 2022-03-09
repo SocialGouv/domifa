@@ -15,7 +15,7 @@ describe("userAccountActivatedEmailRenderer", () => {
     expect(text).toContain(model.prenom);
     expect(text).toContain(model.lien);
 
-    if (domifaConfig().envId === "dev") {
+    if (domifaConfig().envId === "local") {
       fs.writeFileSync(
         path.join(
           __dirname,

@@ -55,7 +55,7 @@ function isAccountLockedForOperation({
   const eventsRecentHistory = eventsHistory.filter(
     (x) => new Date(x.date) > oneDayAgo
   );
-  if (domifaConfig().envId === "dev") {
+  if (domifaConfig().envId === "local") {
     return false;
   }
 
@@ -113,7 +113,7 @@ function logOperationError({
   operation: string;
   userId: number;
 }) {
-  if (domifaConfig().envId === "dev") {
+  if (domifaConfig().envId === "dev" || domifaConfig().envId === "local") {
     appLogger.warn(
       "Operation forbidden due to excessive recent security events",
       {

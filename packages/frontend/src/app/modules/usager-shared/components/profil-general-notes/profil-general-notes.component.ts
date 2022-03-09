@@ -9,8 +9,8 @@ import {
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import { UsagerNote, UserStructure } from "../../../../../_common/model";
-import { UsagerService } from "../../../usagers/services/usager.service";
 import { UsagerFormModel } from "../../interfaces";
+import { UsagerNotesService } from "../../services/usager-notes.service";
 
 @Component({
   selector: "app-profil-general-notes",
@@ -29,7 +29,7 @@ export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
   public usagerChanges = new EventEmitter();
 
   constructor(
-    private usagerService: UsagerService,
+    private usagerNotesService: UsagerNotesService,
     private toastService: CustomToastService
   ) {
     this.me = null;
@@ -50,7 +50,7 @@ export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
 
   public confirmArchiveNote(note: UsagerNote): void {
     this.displayConfirmArchiveMessageNoteId = undefined;
-    this.usagerService
+    this.usagerNotesService
       .archiveNote({
         noteId: note.id,
         usagerRef: this.usager.ref,

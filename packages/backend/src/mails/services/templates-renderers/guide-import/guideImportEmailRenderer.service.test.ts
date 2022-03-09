@@ -19,7 +19,7 @@ describe("guideImportEmailRenderer", () => {
     expect(text).toContain(model.lienFaq);
     expect(text).toContain(model.lienGuide);
 
-    if (domifaConfig().envId === "dev") {
+    if (domifaConfig().envId === "local") {
       fs.writeFileSync(
         path.join(
           __dirname,

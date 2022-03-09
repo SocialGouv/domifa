@@ -2,7 +2,7 @@
   <h4>Historique des courriers</h4>
 
   <button
-    title="Impression"
+    aria-label="Imprimer les courriers"
     class="btn btn-sm btn-primary d-print-none"
     (click)="goToPrint()"
   >
@@ -27,7 +27,7 @@
         <th scope="col">Date</th>
         <th scope="col">Type d'interaction</th>
         <th scope="col">Notifié par</th>
-        <th scope="col"></th>
+        <th scope="col text-right">Actions</th>
       </tr>
     </thead>
 

@@ -62,19 +62,23 @@ export class UsagerDossierService {
     );
   }
 
-  public findOne(usagerRef: number): Observable<UsagerLight> {
-    return this.http
-      .get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`)
-      .pipe(
-        startWith(usagersCache.getSnapshot().usagersByRefMap[usagerRef]), // try to load value from cache
-        filter((x) => !!x) // filter out empty cache value
-      );
-  }
-
   public isDoublon(nom: string, prenom: string, usagerRef: number) {
     return this.http.get<UsagerLight[]>(
       `${this.endPointUsagers}/doublon/${nom}/${prenom}/${usagerRef}`
     );
+  }
+
+  public findOne(usagerRef: number): Observable<UsagerLight> {
+    return this.http
+      .get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`)
+      .pipe(
+        tap((x: UsagerLight) =>
+          // update cache
+          usagersCache.updateUsager(x)
+        ),
+        startWith(usagersCache.getSnapshot().usagersByRefMap[usagerRef]), // try to load value from cache
+        filter((x) => !!x) // filter out empty cache value
+      );
   }
 
   public getAllUsersForAgenda(): Observable<UserStructure[]> {

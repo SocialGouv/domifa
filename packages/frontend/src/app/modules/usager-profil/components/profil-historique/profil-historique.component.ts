@@ -1,9 +1,14 @@
+import { UsagerOptionsService } from "./../../services/usager-options.service";
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
-import { UsagerLight, UserStructure } from "../../../../../_common/model";
+import {
+  UsagerLight,
+  UserStructure,
+  UsagerOptionsHistory,
+} from "../../../../../_common/model";
 import { DECISION_LABELS } from "../../../../shared/constants/USAGER_LABELS.const";
 import { getUsagerNomComplet } from "../../../../shared/getUsagerNomComplet";
 import { AuthService } from "../../../shared/services/auth.service";
@@ -21,9 +26,18 @@ export class ProfilHistoriqueComponent implements OnInit {
 
   public DECISION_LABELS = DECISION_LABELS;
 
+  public actions = {
+    EDIT: "Modification",
+    DELETE: "Suppression",
+    CREATION: "Création",
+  };
+  public transfertHistory: UsagerOptionsHistory[];
+  public procurationHistory: UsagerOptionsHistory[];
+
   constructor(
     private authService: AuthService,
     private usagerService: UsagerService,
+    private usagerOptionsService: UsagerOptionsService,
     private titleService: Title,
     private toastService: CustomToastService,
     private route: ActivatedRoute,
@@ -37,16 +51,59 @@ export class ProfilHistoriqueComponent implements OnInit {
       this.me = user;
     });
 
-    this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
-      (usager: UsagerLight) => {
-        const name = getUsagerNomComplet(usager);
-        this.titleService.setTitle("Historique de " + name);
-        this.usager = new UsagerFormModel(usager);
+    this.usagerService.findOne(this.route.snapshot.params.id).subscribe({
+      next: (usager: UsagerLight) => {
+        {
+          const name = getUsagerNomComplet(usager);
+          this.titleService.setTitle("Historique de " + name);
+          this.usager = new UsagerFormModel(usager);
+          console.log(this.usager);
+          this.getHistoriqueOptions();
+        }
       },
-      () => {
+      error: () => {
         this.toastService.error("Le dossier recherché n'existe pas");
         this.router.navigate(["404"]);
-      }
-    );
+      },
+    });
+  }
+
+  public getHistoriqueOptions(): void {
+    this.usagerOptionsService
+      .findHistory(this.usager.ref)
+      .subscribe((optionsHistorique: UsagerOptionsHistory[]) => {
+        console.log(optionsHistorique);
+        // if (typeof options.historique !== "undefined") {
+        //   if (options.historique.transfert.length > 0) {
+        //     this.historique.transfert = Array.isArray(
+        //       options.historique.transfert
+        //     )
+        //       ? options.historique.transfert.map(
+        //           (item: HistoriqueOptions) => new HistoriqueOptions(item)
+        //         )
+        //       : [new HistoriqueOptions(options.historique.transfert)];
+        //   }
+
+        //   if (options.historique.procuration.length > 0) {
+        //     this.historique.procuration = Array.isArray(
+        //       options.historique.procuration
+        //     )
+        //       ? options.historique.procuration.map(
+        //           (item: HistoriqueOptions) => new HistoriqueOptions(item)
+        //         )
+        //       : [new HistoriqueOptions(options.historique.procuration)];
+        //   }
+        // }
+
+        this.transfertHistory = optionsHistorique.filter(
+          (history: UsagerOptionsHistory) => history.type === "transfert"
+        );
+        this.procurationHistory = optionsHistorique.filter(
+          (history: UsagerOptionsHistory) => history.type === "procuration"
+        );
+
+        console.log("tranfert : ", this.transfertHistory);
+        console.log("procu : ", this.procurationHistory);
+      });
   }
 }

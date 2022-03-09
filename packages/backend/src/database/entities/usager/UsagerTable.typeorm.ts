@@ -140,7 +140,8 @@ export class UsagerTable
   // TRANSFERTS / NPAI / PROCURATION
   @Column({
     type: "jsonb",
-    default: () => "'[]'",
+    default: () =>
+      `'{ "transfert":{ "actif":false, "nom":null, "adresse":null, "dateDebut":null, "dateFin":null },"procuration":{ "actif":null, "nom":null, "prenom":null, "dateFin":null, "dateDebut":null, "dateNaissance":null }, "npai":{ "actif":false, "dateDebut":null }, "portailUsagerEnabled":false }'`,
   })
   public options: UsagerOptions;
 

@@ -109,7 +109,7 @@ function logOperationError({
   operation: string;
   userId: number;
 }) {
-  if (domifaConfig().envId === "dev") {
+  if (domifaConfig().envId === "local") {
     appLogger.warn(
       "Operation forbidden due to excessive recent security events",
       {

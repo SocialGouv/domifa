@@ -9,7 +9,7 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 
 import { UsagerLight } from "../../../../../_common/model";
 import { bounce } from "../../../../shared/animations";
-import { UsagerService } from "../../../usagers/services/usager.service";
+import { UsagerNotesService } from "../../services/usager-notes.service";
 
 @Component({
   animations: [bounce],
@@ -30,7 +30,7 @@ export class ProfilAddNoteFormComponent implements OnInit {
   public addNoteForm: FormGroup;
 
   constructor(
-    private usagerService: UsagerService,
+    private usagerNotesService: UsagerNotesService,
     private toastService: CustomToastService,
     private formBuilder: FormBuilder
   ) {
@@ -56,7 +56,7 @@ export class ProfilAddNoteFormComponent implements OnInit {
       return;
     }
 
-    this.usagerService
+    this.usagerNotesService
       .createNote({
         note: { message: this.addNoteForm.get("message").value },
         usagerRef: this.usager.ref,

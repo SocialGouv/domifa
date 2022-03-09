@@ -15,12 +15,10 @@ function filter(
 ) {
   return search.filter(usagers, {
     searchText: searchString,
-    getAttributes: (usager, i) => {
+    getAttributes: (usager) => {
       const attributes = [
         usager.nom,
         usager.prenom,
-        // usager.email,
-        // usager.phone,
         usager.surnom,
         usager.customRef,
       ];

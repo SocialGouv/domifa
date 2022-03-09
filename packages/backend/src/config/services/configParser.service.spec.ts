@@ -1,8 +1,6 @@
 import { configParser } from "./configParser.service";
 
 describe("configParser", () => {
-  beforeEach(async () => {});
-
   it("configParser.get", () => {
     expect(
       configParser.parseString(

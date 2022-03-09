@@ -21,8 +21,6 @@ import { portailAdminProfilBuilder } from "./services/portail-admin-profil-build
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("profile")
 export class PortailAdminProfileController {
-  constructor() {}
-
   @Get("me")
   @AllowUserProfiles("super-admin-domifa")
   @HttpCode(HttpStatus.OK)

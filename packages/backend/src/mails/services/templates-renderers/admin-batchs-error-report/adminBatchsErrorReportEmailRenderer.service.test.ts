@@ -23,7 +23,7 @@ describe("adminBatchsErrorReportEmailRenderer", () => {
     expect(text).toContain("mail-import-guide");
     expect(html).toContain(`${errorsCount} erreurs`);
 
-    if (domifaConfig().envId === "dev") {
+    if (domifaConfig().envId === "local") {
       fs.writeFileSync(
         path.join(
           __dirname,

@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -9,6 +17,8 @@ import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
   NgbDateStruct,
+  NgbModal,
+  NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
@@ -26,7 +36,7 @@ import {
 import { endDateAfterBeginDateValidator } from "../../../../shared/validators";
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
-import { UsagerProfilService } from "../../services/usager-profil.service";
+import { UsagerOptionsService } from "../../services/usager-options.service";
 @Component({
   providers: [
     NgbDateCustomParserFormatter,
@@ -43,13 +53,9 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
 
   @Output() usagerChanges = new EventEmitter<UsagerLight>();
 
-  public actions = {
-    EDIT: "Modification",
-    DELETE: "Suppression",
-    CREATION: "Création",
-  };
-
   public isFormVisible: boolean;
+  public submitted: boolean;
+  public procurationToDelete: number; // Index de la procu à supprimer
 
   public procurationForm!: FormGroup;
   public minDateToday: NgbDateStruct;
@@ -57,14 +63,19 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   public minDateNaissance: NgbDateStruct;
   public maxDateNaissance: NgbDateStruct;
 
+  @ViewChild("confirmDelete", { static: true })
+  public confirmDelete!: TemplateRef<NgbModalRef>;
+
   constructor(
     private formBuilder: FormBuilder,
     private nbgDate: NgbDateCustomParserFormatter,
     private toastService: CustomToastService,
-    private usagerProfilService: UsagerProfilService,
-    private matomo: MatomoTracker
+    private usagerOptionsService: UsagerOptionsService,
+    private matomo: MatomoTracker,
+    private readonly modalService: NgbModal
   ) {
     this.hideForm();
+    this.submitted = false;
     this.isFormVisible = false;
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
@@ -124,6 +135,14 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   }
 
   public editProcuration(): void {
+    this.submitted = true;
+    if (this.procurationForm.invalid) {
+      this.toastService.error(
+        "Un des champs du formulaire n'est pas rempli ou contient une erreur"
+      );
+      return;
+    }
+
     const formValue = {
       ...this.procurationForm.value,
       dateFin: this.nbgDate.formatEn(
@@ -137,7 +156,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
       ),
     };
 
-    this.usagerProfilService
+    this.usagerOptionsService
       .editProcuration(formValue, this.usager.ref)
       .subscribe({
         next: (usager: UsagerLight) => {
@@ -153,24 +172,38 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
       });
   }
 
+  public openConfirmation(): void {
+    this.modalService.open(this.confirmDelete);
+  }
+
   public deleteProcuration(): void {
     if (!this.usager.options.procuration.actif) {
       this.hideForm();
       return;
     }
 
-    this.usagerProfilService.deleteProcuration(this.usager.ref).subscribe(
-      (usager: UsagerLight) => {
-        this.hideForm();
-        this.usagerChanges.emit(usager);
-        this.procurationForm.reset();
-        this.usager = new UsagerFormModel(usager);
+    // TODO: intégrer l'index
+    // procurationToDelete
+    this.usagerOptionsService.deleteProcuration(this.usager.ref).subscribe({
+      next: (usager: UsagerLight) => {
         this.toastService.success("Procuration supprimée avec succès");
-        this.matomo.trackEvent("profil", "actions", "delete-procuration", 1);
+
+        setTimeout(() => {
+          this.closeModals();
+          this.hideForm();
+          this.usagerChanges.emit(usager);
+          this.procurationForm.reset();
+          this.usager = new UsagerFormModel(usager);
+          this.matomo.trackEvent("profil", "actions", "delete-procuration", 1);
+        }, 500);
       },
-      () => {
+      error: () => {
         this.toastService.error("Impossible de supprimer la procuration");
-      }
-    );
+      },
+    });
+  }
+
+  public closeModals(): void {
+    this.modalService.dismissAll();
   }
 }

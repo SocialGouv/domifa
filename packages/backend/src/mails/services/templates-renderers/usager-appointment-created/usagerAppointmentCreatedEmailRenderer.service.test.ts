@@ -15,8 +15,9 @@ describe("usagerAppointmentCreatedEmailRenderer", () => {
     expect(subject).toEqual(
       `[DOMIFA] Prise de rendez-vous entre le demandeur et un collaborateur`
     );
-
-    if (domifaConfig().envId === "dev") {
+    expect(text).toContain("Paul");
+    expect(text).toContain("Smith");
+    if (domifaConfig().envId === "local") {
       fs.writeFileSync(
         path.join(
           __dirname,

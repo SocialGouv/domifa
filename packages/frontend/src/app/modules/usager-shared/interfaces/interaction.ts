@@ -1,3 +1,4 @@
+import { InteractionType } from "./../../../../_common/model/interaction/InteractionType.type";
 import {
   InteractionEvent,
   Interactions,
@@ -8,15 +9,15 @@ import {
   INTERACTIONS_LABELS_SINGULIER,
 } from "../../../../_common/model/interaction/constants";
 
-export class Interaction {
+export class Interaction implements Interactions {
   public uuid: string;
-  public type: string;
+  public type: InteractionType;
   public dateInteraction: Date | null;
   public content?: string;
-  public nbCourrier?: number;
+  public nbCourrier: number;
   public usagerRef: number;
   public structureId: number;
-  public userName?: string;
+  public userName: string;
   public userId: number;
   public interactionOutUUID: number;
   public interactionOut: number;
@@ -26,7 +27,7 @@ export class Interaction {
   public event: InteractionEvent;
   public previousValue?: Interactions; // if event === 'delete'
 
-  constructor(interaction: any) {
+  constructor(interaction: Interactions) {
     this.event = interaction?.event;
     this.previousValue = interaction?.previousValue;
     this.usagerRef = (interaction && interaction.usagerRef) || null;
@@ -37,7 +38,7 @@ export class Interaction {
         ? new Date(interaction.dateInteraction)
         : null;
 
-    this.type = (interaction && interaction.type) || "";
+    this.type = (interaction && interaction.type) || null;
     this.content = (interaction && interaction.content) || "";
     this.nbCourrier = (interaction && interaction.nbCourrier) || 0;
     this.userName = (interaction && interaction.userName) || "";
