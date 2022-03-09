@@ -3,12 +3,10 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { filter, startWith, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
-import { UsagerNote } from "../../../../_common/model";
-import { MessageSms } from "../../../../_common/model/message-sms";
+
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
 import { usagersCache } from "../../../shared/store";
 import { SearchPageLoadedUsagersData } from "../../../shared/store/AppStoreModel.type";
-import { UsagerFormModel } from "../../usager-shared/interfaces";
 import { ImportPreviewTable } from "../components/import/preview";
 
 export type UsagersImportMode = "preview" | "confirm";
@@ -20,54 +18,6 @@ export class UsagerService {
   public endPointUsagers = environment.apiUrl + "usagers";
 
   constructor(private http: HttpClient) {}
-
-  public patch(usager: UsagerFormModel): Observable<UsagerLight> {
-    const response = this.http
-      .patch<UsagerLight>(`${this.endPointUsagers}/${usager.ref}`, usager)
-      .pipe(
-        tap((newUsager: UsagerLight) => {
-          usagersCache.updateUsager(newUsager);
-          return newUsager;
-        })
-      );
-
-    return response;
-  }
-
-  public createNote({
-    note,
-    usagerRef,
-  }: {
-    note: Pick<UsagerNote, "message">;
-    usagerRef: number;
-  }): Observable<UsagerLight> {
-    return this.http
-      .post<UsagerLight>(`${environment.apiUrl}note/${usagerRef}`, note)
-      .pipe(
-        tap((usager: UsagerLight) => {
-          usagersCache.updateUsager(usager);
-        })
-      );
-  }
-
-  public archiveNote({
-    noteId,
-    usagerRef,
-  }: {
-    noteId: string;
-    usagerRef: number;
-  }): Observable<UsagerLight> {
-    return this.http
-      .put<UsagerLight>(
-        `${environment.apiUrl}note/${usagerRef}/archive/${noteId}`,
-        {}
-      )
-      .pipe(
-        tap((usager: UsagerLight) => {
-          usagersCache.updateUsager(usager);
-        })
-      );
-  }
 
   public findOne(usagerRef: number): Observable<UsagerLight> {
     return this.http
@@ -130,11 +80,5 @@ export class UsagerService {
       importMode: UsagersImportMode;
       previewTable: ImportPreviewTable;
     }>(environment.apiUrl + "import/" + mode, data);
-  }
-
-  public findMySms(usager: UsagerLight): Observable<MessageSms[]> {
-    return this.http.get<MessageSms[]>(
-      environment.apiUrl + "sms/usager/" + usager.ref
-    );
   }
 }

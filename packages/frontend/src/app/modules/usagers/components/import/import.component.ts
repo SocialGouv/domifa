@@ -19,16 +19,12 @@ import {
 import { IMPORT_PREVIEW_COLUMNS } from "./IMPORT_PREVIEW_COLUMNS.const";
 import { ImportPreviewRow, ImportPreviewTable } from "./preview";
 
-type AOA = any[][];
-
 @Component({
   selector: "app-import",
   styleUrls: ["./import.component.css"],
   templateUrl: "./import.component.html",
 })
 export class ImportComponent implements OnInit {
-  public datas: AOA = [[], []];
-
   public columnsHeaders: string[];
 
   public uploadForm!: FormGroup;
@@ -84,7 +80,7 @@ export class ImportComponent implements OnInit {
   public AYANT_DROIT: [34, 38, 42, 46, 50, 54, 58, 62, 66];
 
   @ViewChild("form", { static: true })
-  public form!: ElementRef<any>;
+  public form!: ElementRef<HTMLFormElement>;
 
   public previewTable: ImportPreviewTable;
   public visibleRows: ImportPreviewRow[];
@@ -147,7 +143,7 @@ export class ImportComponent implements OnInit {
       }
 
       this.etapeImport = "preview-import";
-      this.datas = [[], []];
+
       this.showTable = false;
 
       const file = input.files[0];
@@ -197,7 +193,6 @@ export class ImportComponent implements OnInit {
   }
   backToEtapeSelectFile() {
     this.etapeImport = "select-file";
-    this.datas = [[], []];
     this.showTable = false;
   }
 }

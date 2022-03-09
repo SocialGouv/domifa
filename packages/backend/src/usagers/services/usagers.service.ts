@@ -1,5 +1,6 @@
-import { UsagerTypeDom } from "./../../_common/model/usager/UsagerTypeDom.type";
 import { Injectable } from "@nestjs/common";
+import moment = require("moment");
+
 import {
   usagerLightRepository,
   usagerRepository,
@@ -17,15 +18,15 @@ import {
   UsagerLight,
   UserStructure,
   UserStructureProfile,
+  UsagerTypeDom,
 } from "../../_common/model";
-import { CreateUsagerDto } from "../dto/CreateUsagerDto";
-import { RdvDto } from "../dto/rdv.dto";
 import { usagerHistoryStateManager } from "./usagerHistoryStateManager.service";
 import { usagersCreator } from "./usagersCreator.service";
 import { usagerVisibleHistoryManager } from "./usagerVisibleHistoryManager.service";
-
-import moment = require("moment");
+import { CreateUsagerDto } from "../dto/CreateUsagerDto";
+import { RdvDto } from "../dto/rdv.dto";
 import { DecisionDto } from "../dto";
+
 @Injectable()
 export class UsagersService {
   public async create(

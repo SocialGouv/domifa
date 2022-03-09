@@ -72,9 +72,25 @@ export const usagerValideMock: UsagerLight = {
     accompagnementDetail: null,
   },
   options: {
-    npai: { actif: false },
-    transfert: { nom: null, actif: false, adresse: null },
-    historique: { transfert: [], procuration: [] },
-    procuration: { actif: false },
+    transfert: {
+      actif: false,
+      nom: null,
+      adresse: null,
+      dateDebut: null,
+      dateFin: null,
+    },
+    procuration: {
+      actif: null,
+      nom: null,
+      prenom: null,
+      dateFin: null,
+      dateDebut: null,
+      dateNaissance: null,
+    },
+    npai: {
+      actif: false,
+      dateDebut: null,
+    },
+    portailUsagerEnabled: false,
   },
 };

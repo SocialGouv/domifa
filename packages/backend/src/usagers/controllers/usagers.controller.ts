@@ -45,8 +45,6 @@ import {
   CreateUsagerDto,
   EntretienDto,
   PreferenceContactDto,
-  ProcurationDto,
-  TransfertDto,
   UpdatePortailUsagerOptionsDto,
 } from "../dto";
 import { SearchUsagerDto } from "../dto/search-usager.dto";
@@ -329,66 +327,6 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
-  @Post("transfert/:usagerRef")
-  public async editTransfert(
-    @Body() transfertDto: TransfertDto,
-    @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight
-  ) {
-    const action = usager.options.transfert.actif ? "EDIT" : "CREATION";
-
-    const newTransfert = {
-      actif: true,
-      adresse: transfertDto.adresse,
-      dateDebut: new Date(transfertDto.dateDebut),
-      dateFin: new Date(transfertDto.dateFin),
-      nom: transfertDto.nom,
-    };
-
-    usager.options.historique.transfert.push({
-      user: user.prenom + " " + user.nom,
-      action,
-      date: new Date(),
-      content: newTransfert,
-    });
-
-    usager.options.transfert = newTransfert;
-
-    return this.usagersService.patch(
-      { uuid: usager.uuid },
-      { options: usager.options }
-    );
-  }
-
-  @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
-  @Delete("transfert/:usagerRef")
-  public async deleteTransfert(
-    @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight
-  ) {
-    usager.options.transfert = {
-      actif: false,
-      adresse: "",
-      nom: "",
-      dateDebut: null,
-      dateFin: null,
-    };
-
-    usager.options.historique.transfert.push({
-      user: user.prenom + " " + user.nom,
-      action: "DELETE",
-      date: new Date(),
-      content: {},
-    });
-
-    return this.usagersService.patch(
-      { uuid: usager.uuid },
-      { options: usager.options }
-    );
-  }
-  @UseGuards(UsagerAccessGuard)
   @AllowUserStructureRoles("simple", "responsable", "admin")
   @Post("preference/:usagerRef")
   public async editPreference(
@@ -471,67 +409,6 @@ export class UsagersController {
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "ERROR_UPDATING_OPTIONS" });
     }
-  }
-
-  @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
-  @Post("procuration/:usagerRef")
-  public async editProcuration(
-    @Body() procurationDto: ProcurationDto,
-    @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight
-  ) {
-    const action = usager.options.procuration.actif ? "EDIT" : "CREATION";
-    const newProcuration = {
-      actif: true,
-      dateFin: new Date(procurationDto.dateFin),
-      dateDebut: new Date(procurationDto.dateDebut),
-      dateNaissance: procurationDto.dateNaissance,
-      nom: procurationDto.nom,
-      prenom: procurationDto.prenom,
-    };
-
-    usager.options.historique.procuration.push({
-      user: user.prenom + " " + user.nom,
-      action,
-      date: new Date(),
-      content: newProcuration,
-    });
-
-    usager.options.procuration = newProcuration;
-    return this.usagersService.patch(
-      { uuid: usager.uuid },
-      { options: usager.options }
-    );
-  }
-
-  @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
-  @Delete("procuration/:usagerRef")
-  public async deleteProcuration(
-    @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight
-  ) {
-    usager.options.procuration = {
-      actif: false,
-      dateDebut: null,
-      dateFin: null,
-      dateNaissance: "null",
-      nom: "",
-      prenom: "",
-    };
-
-    usager.options.historique.procuration.push({
-      user: user.prenom + " " + user.nom,
-      action: "DELETE",
-      date: new Date(),
-      content: {},
-    });
-
-    return this.usagersService.patch(
-      { uuid: usager.uuid },
-      { options: usager.options }
-    );
   }
 
   @UseGuards(UsagerAccessGuard)

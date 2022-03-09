@@ -32,7 +32,6 @@ import {
 } from "../custom-docs";
 import { StructureDocService } from "./../../structures/services/structure-doc.service";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
-import { appLogger } from "../../util";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("usagers-structure-docs")

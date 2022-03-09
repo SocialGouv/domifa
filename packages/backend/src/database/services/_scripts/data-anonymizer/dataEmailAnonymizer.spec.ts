@@ -4,8 +4,6 @@ import {
 } from "./dataEmailAnonymizer";
 
 describe("dataEmailAnonymizer", () => {
-  beforeEach(async () => {});
-
   it("isAnonymizedEmail", () => {
     expect(
       dataEmailAnonymizer.isAnonymizedEmail(`john@${ANONYMOUS_EMAIL_DOMAIN}`)

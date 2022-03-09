@@ -11,7 +11,7 @@ export type Interactions = AppEntity & {
   structureId: number;
   type: InteractionType;
   usagerRef: number;
-  usagerUUID: string;
+  usagerUUID?: string;
   userId: number;
   userName: string;
   event: InteractionEvent;

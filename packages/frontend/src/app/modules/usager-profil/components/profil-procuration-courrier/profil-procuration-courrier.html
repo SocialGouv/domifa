@@ -1,7 +1,7 @@
 <div class="d-print-none" *ngIf="usager && me">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <div>
-      <h4>Procuration</h4>
+      <h4>Procurations</h4>
     </div>
     <div *ngIf="usager.decision.statut !== 'REFUS'">
       <button
@@ -11,7 +11,7 @@
         class="btn btn-outline-dark ml-2"
       >
         <fa-icon [icon]="['far', 'edit']" class="mr-2"></fa-icon>
-        Modifier la procuration
+        Modifier les procurations
       </button>
       <button
         title="Annuler les modifications"
@@ -31,25 +31,27 @@
     </div>
   </div>
 
-  <div *ngIf="usager.options.procuration.actif && !isFormVisible" class="row">
-    <div class="col-md-2 reponses">
+  <div
+    *ngIf="usager.options.procuration.actif && !isFormVisible"
+    class="row justify-content-between align-items-center"
+  >
+    <div class="col reponses">
       <span class="question">Nom</span>
       <span class="valeur">
         {{ usager.options.procuration.nom | uppercase }}
       </span>
     </div>
-    <div class="col-md-2 reponses">
+    <div class="col reponses">
       <span class="question">Prénom</span>
       <span class="valeur"> {{ usager.options.procuration.prenom }} </span>
     </div>
-    <div class="col-md-3 reponses">
+    <div class="col reponses">
       <span class="question">Date de naissance</span>
       <span class="valeur">
         {{ usager.options.procuration.dateNaissance | date: 'dd/MM/yyyy' }}
       </span>
     </div>
-
-    <div class="col-md-3 reponses">
+    <div class="col reponses">
       <span class="question">Dates de validité</span>
       <span
         class="valeur"
@@ -62,6 +64,16 @@
         usager.options.procuration.dateFin | date: 'dd/MM/yyyy' }}
       </span>
     </div>
+    <div class="col-1 text-right">
+      <button
+        aria-label="Supprimer la procuration"
+        type="button"
+        (click)="openConfirmation()"
+        class="btn btn-danger mr-2"
+      >
+        <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+      </button>
+    </div>
   </div>
 
   <form
@@ -71,36 +83,36 @@
     autocomplete="off"
   >
     <div class="row">
-      <div class="col-md-3 form-group required">
+      <div class="col form-group required">
         <label for="procuration_nom">Nom</label>
         <input
           type="text"
           class="form-control"
           id="procuration_nom"
           formControlName="nom"
-          [ngClass]="{ 'is-invalid': f.nom.dirty && f.nom.errors }"
+          [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
           required
         />
-        <div *ngIf="f.nom.dirty && f.nom.errors" class="invalid-feedback">
-          <div *ngIf="f.nom.errors.required">Le nom est obligatoire</div>
-        </div>
+        <p *ngIf="submitted && f.nom.errors" class="invalid-feedback">
+          Le nom est obligatoire
+        </p>
       </div>
-      <div class="col-md-3 form-group required">
-        <label for="procuration_prenom">Prénom</label>
+      <div class="col form-group required">
+        <label for="procuration_prenom">Prénom du mandataire</label>
         <input
           type="text"
           class="form-control"
           id="procuration_prenom"
           formControlName="prenom"
-          [ngClass]="{ 'is-invalid': f.prenom.dirty && f.prenom.errors }"
+          [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
           required
         />
-        <div *ngIf="f.prenom.dirty && f.prenom.errors" class="invalid-feedback">
-          <div *ngIf="f.prenom.errors.required">Prénom obligatoire</div>
-        </div>
+        <p *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
+          Prénom obligatoire
+        </p>
       </div>
 
-      <div class="col-md-2 form-group required">
+      <div class="col form-group required">
         <label for="dateNaissance">Date de naissance</label>
         <div class="input-group">
           <input
@@ -111,47 +123,13 @@
             placement="bottom"
             formControlName="dateNaissance"
             ngbDatepicker
-            dateFr
-            value
             id="dateNaissance"
-            [ngClass]="{ 'is-invalid':  f.dateNaissance.dirty &&  f.dateNaissance.errors  }"
-            #d="ngbDatepicker"
-            maxlength="10"
-            required
-          />
-          <div class="input-group-append">
-            <button
-              type="button"
-              class="btn btn-outline-primary"
-              (click)="d.toggle()"
-              aria-label="Choisir une date de naissance"
-            >
-              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
-            </button>
-          </div>
-
-          <div
-            *ngIf="f.dateNaissance.dirty && f.dateNaissance.invalid"
-            class="invalid-feedback"
-          >
-            La date de naissance est incorrecte (ex: 20/12/1991)
-          </div>
-        </div>
-      </div>
-      <div class="col-md-2 form-group required">
-        <label for="dateDebut">Date début de validité</label>
-        <div class="input-group">
-          <input
-            class="form-control"
-            placeholder="jj/mm/aaaa"
-            placement="bottom"
-            formControlName="dateDebut"
-            ngbDatepicker
             dateFr
             value
-            id="dateDebut"
-            [ngClass]="{ 'is-invalid': f.dateDebut.dirty &&  f.dateDebut.errors }"
-            #dateDebutPro="ngbDatepicker"
+            [ngClass]="{
+              'is-invalid': submitted && f.dateNaissance.errors
+            }"
+            #d="ngbDatepicker"
             maxlength="10"
             required
             aria-required="true"
@@ -159,126 +137,121 @@
           <div class="input-group-append">
             <button
               type="button"
+              aria-label="Sélectionner une date de naissance sur le calendrier"
               class="btn btn-outline-primary"
-              (click)="dateDebutPro.toggle()"
+              (click)="d.toggle()"
             >
               <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
             </button>
           </div>
-
-          <div
-            *ngIf="f.dateDebut.dirty && f.dateDebut.invalid"
-            class="invalid-feedback"
-          >
-            La date de début est incorrecte (ex: 20/12/1991)
-          </div>
+          <p *ngIf="f.dateNaissance.invalid" class="invalid-feedback">
+            La date de naissance est obligatoire. Exemple : 20/12/1996
+          </p>
         </div>
       </div>
-
-      <div class="col-md-2 form-group required">
-        <label for="dateFin">Date de fin de validité</label>
+      <div class="col form-group required">
+        <label for="dateDebut">Valide du</label>
         <div class="input-group">
           <input
             class="form-control"
             placeholder="jj/mm/aaaa"
             placement="bottom"
-            formControlName="dateFin"
+            id="dateDebut"
+            formControlName="dateDebut"
+            aria-label="Choisir une date de début de validité dans le calendrier"
             ngbDatepicker
             dateFr
             value
-            id="dateFin"
-            [minDate]="minDateToday"
-            [ngClass]="{ 'is-invalid': f.dateFin.dirty &&  f.dateFin.errors }"
-            #dateFinProcu="ngbDatepicker"
+            [ngClass]="{ 'is-invalid':  submitted &&  f.dateDebut.errors  }"
+            #dateDebut="ngbDatepicker"
             maxlength="10"
             required
           />
           <div class="input-group-append">
             <button
               type="button"
+              aria-label="Choisir une date de début de validité dans le calendrier"
               class="btn btn-outline-primary"
-              (click)="dateFinProcu.toggle()"
+              (click)="dateDebut.toggle()"
+            >
+              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+            </button>
+          </div>
+          <p *ngIf="submitted && f.dateFin.invalid" class="invalid-feedback">
+            La date de debut est incorrecte
+          </p>
+        </div>
+      </div>
+      <div class="col form-group required">
+        <label for="dateFin">Valide jusqu'au</label>
+        <div class="input-group">
+          <input
+            class="form-control"
+            placeholder="jj/mm/aaaa"
+            placement="bottom"
+            id="dateFin"
+            formControlName="dateFin"
+            ngbDatepicker
+            dateFr
+            value
+            [minDate]="minDateToday"
+            [ngClass]="{ 'is-invalid':  submitted &&  f.dateFin.errors  }"
+            #dateFin="ngbDatepicker"
+            maxlength="10"
+            required
+          />
+          <div class="input-group-append">
+            <button
+              type="button"
+              aria-label="Choisir une date de fin de validité dans le calendrier"
+              class="btn btn-outline-primary"
+              (click)="dateFin.toggle()"
             >
               <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
             </button>
           </div>
 
-          <div *ngIf="f.dateFin.invalid">
-            <div
-              class="invalid-feedback"
-              *ngIf="f.dateFin.dirty && (f.dateFin.errors.ngbDate || f.dateFin.errors.endDateAfterBeginDate)"
+          <div *ngIf="submitted && f.dateFin.errors" class="invalid-feedback">
+            <p *ngIf="f.dateFin.errors.required">
+              La date de fin est obligatoire
+            </p>
+            <p
+              *ngIf=" (f.dateFin.errors.ngbDate || f.dateFin.errors.endDateAfterBeginDate)"
             >
               La date de fin est incorrecte
-            </div>
+            </p>
           </div>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-3 offset-3 text-center">
-        <span
-          (click)="deleteProcuration()"
-          class="btn btn-block btn-danger mr-2"
-        >
-          <fa-icon
-            title="Supprimer la procuration"
-            [icon]="['fas', 'trash']"
-          ></fa-icon>
-          Supprimer la procuration
-        </span>
-      </div>
-      <div class="col-3 text-center">
-        <button
-          class="btn btn-block btn-primary"
-          type="submit"
-          [disabled]="!procurationForm.valid"
-        >
-          Enregistrer la procuration
-        </button>
-      </div>
+
+    <div class="col-12 text-center">
+      <button class="btn btn-primary" type="submit">
+        Enregistrer les procurations
+      </button>
     </div>
   </form>
-
-  <ng-container *ngIf="usager.options.historique.procuration.length > 0">
-    <div class="row">
-      <div class="col-md-12">
-        <h4>Historique des procurations</h4>
-
-        <table class="table table-hover">
-          <caption>
-            Historique des procurations
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Action</th>
-              <th scope="col">Nom prénom</th>
-              <th scope="col">Date de naissance</th>
-              <th scope="col">Période de validité</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let procu of usager.options.historique.procuration">
-              <td>
-                {{ actions[procu.action] }} le {{ procu.date | date:
-                'dd/MM/yyyy' }} par {{ procu.user }}
-              </td>
-              <td>{{ procu.content?.nom }} {{ procu.content?.prenom }}</td>
-              <td>
-                {{ procu.content?.dateNaissance | date: 'dd/MM/yyyy' || "" }}
-              </td>
-              <td>
-                <span *ngIf="procu.content?.dateDebut === null">
-                  {{ procu.content?.dateFin | date: 'dd/MM/yyyy' }}
-                </span>
-                <span class="valeur" *ngIf="procu.content?.dateDebut">
-                  Du {{ procu.content?.dateDebut | date: 'dd/MM/yyyy' }} au {{
-                  procu.content?.dateFin | date: 'dd/MM/yyyy' }}
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </ng-container>
 </div>
+
+<ng-template #confirmDelete let-modal>
+  <div class="modal-header bg-danger">
+    <span class="modal-title text-white"> Confirmer la suppression </span>
+  </div>
+  <div class="modal-body">
+    Êtes-vous sur de vouloir supprimer la procuration au nom de
+    <b
+      >{{ usager.options.procuration.nom }} {{ usager.options.procuration.prenom
+      }}
+    </b>
+    ?
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-lg btn-outline-dark" (click)="closeModals()">
+      Revenir au profil
+    </button>
+
+    <button class="btn btn-lg btn-danger" (click)="deleteProcuration()">
+      Confirmer la suppression
+    </button>
+  </div></ng-template
+>

@@ -2,8 +2,11 @@ import {
   UsagerOptionsProcuration,
   UsagerOptionsTransfert,
 } from "../../../../_common/model";
-import { UsagerOptions } from "./../../../../_common/model/usager/UsagerOptions.type";
-import { HistoriqueOptions } from "./historique-options";
+import { UsagerOptions } from "../../../../_common/model/usager/options/UsagerOptions.type";
+import {
+  isTransfertActifMaintenant,
+  isProcurationActifMaintenant,
+} from "../../usagers/services";
 
 export class Options implements UsagerOptions {
   public transfert: UsagerOptionsTransfert;
@@ -15,18 +18,20 @@ export class Options implements UsagerOptions {
     dateDebut: Date | null;
   };
 
-  public historique: {
-    transfert: HistoriqueOptions[];
-    procuration: HistoriqueOptions[];
-  };
+  public isProcurationActifMaintenant = false;
+  public isTransfertActifMaintenant = false;
+  public isProcurationExpired = false;
+  public isTransfertExpired = false;
+  // TODO : vérifier la validité du transfert & procu direct dans l'interface
+  // public transfertExpired: boolean;
 
-  constructor(options?: any) {
+  constructor(options?: UsagerOptions) {
     this.transfert = {
       actif: false,
-      adresse: "",
+      adresse: null,
       dateDebut: null,
       dateFin: null,
-      nom: "",
+      nom: null,
     };
 
     this.npai = {
@@ -39,13 +44,8 @@ export class Options implements UsagerOptions {
       dateDebut: null,
       dateFin: null,
       dateNaissance: null,
-      nom: "",
-      prenom: "",
-    };
-
-    this.historique = {
-      transfert: [],
-      procuration: [],
+      nom: null,
+      prenom: null,
     };
 
     if (options) {
@@ -63,12 +63,16 @@ export class Options implements UsagerOptions {
           options.transfert.dateFin && options.transfert.dateFin !== null
             ? new Date(options.transfert.dateFin)
             : (this.transfert.dateFin = null);
+
+        this.isTransfertActifMaintenant = isTransfertActifMaintenant(
+          this.transfert
+        );
       }
 
       if (typeof options.procuration !== "undefined") {
         this.procuration.actif = options.procuration.actif || false;
-        this.procuration.nom = options.procuration.nom || "";
-        this.procuration.prenom = options.procuration.prenom || "";
+        this.procuration.nom = options.procuration.nom || null;
+        this.procuration.prenom = options.procuration.prenom || null;
 
         if (
           options.procuration.dateNaissance &&
@@ -90,39 +94,16 @@ export class Options implements UsagerOptions {
         ) {
           this.procuration.dateDebut = new Date(options.procuration.dateDebut);
         }
+
+        this.isProcurationActifMaintenant = isProcurationActifMaintenant(
+          this.procuration
+        );
       }
 
       if (typeof options.npai !== "undefined") {
         this.npai.actif = options.npai.actif || false;
         if (options.npai.dateDebut && options.npai.dateDebut !== null) {
           this.npai.dateDebut = new Date(options.npai.dateDebut);
-        }
-      }
-
-      this.historique = {
-        transfert: [],
-        procuration: [],
-      };
-
-      if (typeof options.historique !== "undefined") {
-        if (options.historique.transfert.length > 0) {
-          this.historique.transfert = Array.isArray(
-            options.historique.transfert
-          )
-            ? options.historique.transfert.map(
-                (item: HistoriqueOptions) => new HistoriqueOptions(item)
-              )
-            : [new HistoriqueOptions(options.historique.transfert)];
-        }
-
-        if (options.historique.procuration.length > 0) {
-          this.historique.procuration = Array.isArray(
-            options.historique.procuration
-          )
-            ? options.historique.procuration.map(
-                (item: HistoriqueOptions) => new HistoriqueOptions(item)
-              )
-            : [new HistoriqueOptions(options.historique.procuration)];
         }
       }
     }

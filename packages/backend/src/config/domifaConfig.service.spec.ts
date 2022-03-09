@@ -2,8 +2,6 @@ import { loadConfig, loadEnvWithPreset } from "./domifaConfig.service";
 import { DomifaEnv } from "./model";
 
 describe("loadConfig", () => {
-  beforeEach(async () => {});
-
   it("loadConfig TEST (default)", () => {
     const defaultEnv: Partial<DomifaEnv> = {
       DOMIFA_ENV_PRESET: "local-test.preset.env",

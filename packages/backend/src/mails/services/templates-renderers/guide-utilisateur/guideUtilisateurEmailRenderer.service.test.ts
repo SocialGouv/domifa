@@ -15,7 +15,7 @@ describe("guideUtilisateurEmailRenderer", () => {
     expect(text).toContain(model.prenom);
     expect(text).toContain(model.lienGuide);
 
-    if (domifaConfig().envId === "dev") {
+    if (domifaConfig().envId === "local") {
       fs.writeFileSync(
         path.join(
           __dirname,

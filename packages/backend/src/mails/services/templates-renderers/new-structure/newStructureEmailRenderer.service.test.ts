@@ -43,7 +43,7 @@ describe("newStructureEmailRenderer", () => {
     expect(text).toContain(model.lienSuppression);
     expect(text).toContain(model.lienConfirmation);
 
-    if (domifaConfig().envId === "dev") {
+    if (domifaConfig().envId === "local") {
       fs.writeFileSync(
         path.join(
           __dirname,

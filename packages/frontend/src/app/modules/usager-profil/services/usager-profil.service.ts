@@ -1,13 +1,13 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, tap } from "rxjs";
+import { filter, Observable, startWith, tap } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import {
+  MessageSms,
   UsagerLight,
   UsagerPreferenceContact,
 } from "../../../../_common/model";
 import { usagersCache } from "../../../shared/store";
-import { UsagerService } from "../../usagers/services/usager.service";
 
 @Injectable({
   providedIn: "root",
@@ -15,12 +15,21 @@ import { UsagerService } from "../../usagers/services/usager.service";
 export class UsagerProfilService {
   public endPointUsagers = environment.apiUrl + "usagers";
 
-  constructor(public http: HttpClient, public usagerService: UsagerService) {
+  constructor(public http: HttpClient) {
     this.http = http;
   }
 
   public findOne(usagerRef: number): Observable<UsagerLight> {
-    return this.usagerService.findOne(usagerRef);
+    return this.http
+      .get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`)
+      .pipe(
+        tap((x: UsagerLight) =>
+          // update cache
+          usagersCache.updateUsager(x)
+        ),
+        startWith(usagersCache.getSnapshot().usagersByRefMap[usagerRef]), // try to load value from cache
+        filter((x) => !!x) // filter out empty cache value
+      );
   }
 
   public delete(usagerRef: number) {
@@ -28,17 +37,6 @@ export class UsagerProfilService {
       tap(() => {
         usagersCache.removeUsager({ ref: usagerRef });
       })
-    );
-  }
-
-  // TODO: type it
-  public editTransfert(
-    transfert: any,
-    usagerRef: number
-  ): Observable<UsagerLight> {
-    return this.http.post<UsagerLight>(
-      `${this.endPointUsagers}/transfert/${usagerRef}`,
-      transfert
     );
   }
 
@@ -75,32 +73,15 @@ export class UsagerProfilService {
     }>(`${this.endPointUsagers}/portail-usager/options/${usagerRef}`, options);
   }
 
-  public deleteTransfert(usagerRef: number): Observable<UsagerLight> {
-    return this.http.delete<UsagerLight>(
-      `${this.endPointUsagers}/transfert/${usagerRef}`
-    );
-  }
-
-  // TODO: type it
-  public editProcuration(
-    transfert: any,
-    usagerRef: number
-  ): Observable<UsagerLight> {
-    return this.http.post<UsagerLight>(
-      `${this.endPointUsagers}/procuration/${usagerRef}`,
-      transfert
-    );
-  }
-
-  public deleteProcuration(usagerRef: number): Observable<UsagerLight> {
-    return this.http.delete<UsagerLight>(
-      `${this.endPointUsagers}/procuration/${usagerRef}`
-    );
-  }
-
   public stopCourrier(usagerRef: number): Observable<UsagerLight> {
     return this.http.get<UsagerLight>(
       `${this.endPointUsagers}/stop-courrier/${usagerRef}`
+    );
+  }
+
+  public findMySms(usager: UsagerLight): Observable<MessageSms[]> {
+    return this.http.get<MessageSms[]>(
+      environment.apiUrl + "sms/usager/" + usager.ref
     );
   }
 }

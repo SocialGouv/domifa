@@ -14,12 +14,7 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 
-import {
-  UserStructure,
-  UsagerLight,
-  UsagerOptionsProcuration,
-  UsagerOptionsTransfert,
-} from "../../../../../../_common/model";
+import { UserStructure, UsagerLight } from "../../../../../../_common/model";
 import {
   InteractionType,
   InteractionForApi,
@@ -29,10 +24,7 @@ import { fadeInOut } from "../../../../../shared";
 import { CustomToastService } from "../../../../shared/services/custom-toast.service";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { InteractionService } from "../../../../usager-shared/services/interaction.service";
-import {
-  isProcurationActifMaintenant,
-  isTransfertActifMaintenant,
-} from "../../../services";
+
 import {
   UsagersFilterCriteria,
   UsagersFilterCriteriaSortValues,
@@ -104,14 +96,6 @@ export class ManageUsagersTableComponent implements OnInit {
   public ngOnInit(): void {
     this.selectedUsager = {} as UsagerFormModel;
     this.today = new Date();
-  }
-
-  public isProcurationActifMaintenant(procuration: UsagerOptionsProcuration) {
-    return isProcurationActifMaintenant(procuration);
-  }
-
-  public isTransfertActifMaintenant(transfert: UsagerOptionsTransfert) {
-    return isTransfertActifMaintenant(transfert);
   }
 
   public setSingleInteraction(

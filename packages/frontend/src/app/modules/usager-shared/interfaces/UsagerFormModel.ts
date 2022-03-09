@@ -180,13 +180,10 @@ export class UsagerFormModel implements UsagerLight {
         : "",
     };
 
-    this.rdv = (usager && new Rdv(usager.rdv)) || new Rdv();
-
-    this.entretien =
-      (usager && new Entretien(usager.entretien)) || new Entretien();
-
-    this.options = (usager && new Options(usager.options)) || new Options();
-    this.decision = (usager && new Decision(usager.decision)) || new Decision();
+    this.rdv = new Rdv((usager && usager.rdv) || null);
+    this.entretien = new Entretien((usager && usager.entretien) || null);
+    this.options = new Options((usager && usager.options) || null);
+    this.decision = new Decision((usager && usager.decision) || null);
 
     //
     //

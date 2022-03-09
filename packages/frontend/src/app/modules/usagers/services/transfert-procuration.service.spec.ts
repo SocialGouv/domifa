@@ -36,6 +36,9 @@ describe("[getEcheanceInfos] Affichage des infos de l'échéance ", () => {
       actif: true,
       dateDebut: new Date("2020-02-30T00:00:00.000Z"),
       dateFin: new Date("2020-03-30T00:00:00.000Z"),
+      dateNaissance: new Date("2020-03-30T00:00:00.000Z"),
+      nom: "Nom",
+      prenom: "Prénom",
     };
     expect(
       isProcurationActifMaintenant(usager.options.procuration)
@@ -44,7 +47,10 @@ describe("[getEcheanceInfos] Affichage des infos de l'échéance ", () => {
     usager.options.procuration = {
       actif: true,
       dateDebut: new Date("2020-02-30T00:00:00.000Z"),
+      dateNaissance: new Date("2020-02-30T00:00:00.000Z"),
       dateFin: new Date("2020-05-30T00:00:00.000Z"),
+      nom: "Nom",
+      prenom: "Prénom",
     };
     expect(
       isProcurationActifMaintenant(usager.options.procuration)

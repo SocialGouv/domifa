@@ -6,7 +6,7 @@ import { UsagerDoc } from "./UsagerDoc.type";
 import { UsagerImport } from "./UsagerImport.type";
 import { UsagerLastInteractions } from "./UsagerLastInteractions.type";
 import { UsagerNote } from "./UsagerNote.type";
-import { UsagerOptions } from "./UsagerOptions.type";
+import { UsagerOptions } from "./options/UsagerOptions.type";
 import { UsagerPreferenceContact } from "./UsagerPreferenceContact.type";
 import { UsagerRdv } from "./UsagerRdv.type";
 import { UsagerRdvInfos } from "./UsagerRdvInfos.type";

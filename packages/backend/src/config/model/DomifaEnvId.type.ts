@@ -1,8 +1,8 @@
-export type DomifaEnvId = "prod" | "preprod" | "formation" | "dev" | "test";
+export type DomifaEnvId = "prod" | "preprod" | "local" | "dev" | "test";
 export const DOMIFA_ENV_IDS: DomifaEnvId[] = [
   "prod",
   "preprod",
-  "formation",
+  "local",
   "dev",
   "test",
 ];

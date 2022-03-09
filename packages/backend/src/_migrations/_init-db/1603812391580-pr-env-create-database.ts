@@ -446,6 +446,40 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_495b59d0dd15e43b262f2da890" ON interactions USING btree ("interactionOutUUID");
     CREATE INDEX "IDX_9992157cbe54583ff7002ae4c0" ON interactions USING btree ("userId");
     CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON interactions USING btree ("usagerUUID");
+
+    -- public.usager_options_history definition
+
+    -- Drop table
+
+    -- DROP TABLE usager_options_history;
+
+    CREATE UNLOGGED TABLE usager_options_history (
+      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "createdAt" timestamptz NOT NULL DEFAULT now(),
+      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "version" int4 NOT NULL,
+      "usagerUUID" uuid NOT NULL,
+      "userId" int4 NOT NULL,
+      "userName" text NOT NULL,
+      "structureId" int4 NOT NULL,
+      "action" text NOT NULL,
+      "type" text NOT NULL,
+      nom text NULL,
+      prenom text NULL,
+      adresse text NULL,
+      actif bool NOT NULL DEFAULT false,
+      "dateDebut" date NOT NULL,
+      "dateFin" date NOT NULL,
+      "dateNaissance" date NULL,
+      CONSTRAINT "PK_429ff2cc277afdc9e1ce5ac8d63" null
+    );
+    CREATE INDEX "IDX_3cb5af09bf7cd68d7070dbc896" ON usager_options_history ("usagerUUID" uuid_ops);
+    CREATE INDEX "IDX_c2fa002e6f45fe1ca6c7f23496" ON usager_options_history ("userId" int4_ops);
+
+
+    -- public.usager_options_history foreign keys
+
+    ALTER TABLE  usager_options_history ADD CONSTRAINT "FK_3cb5af09bf7cd68d7070dbc8966" FOREIGN KEY ("usagerUUID") REFERENCES usager(uuid);
     `
   );
 }

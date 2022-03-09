@@ -19,7 +19,7 @@ describe("hardResetEmailRenderer", () => {
     expect(text).toContain(model.prenom);
     expect(text).toContain(model.confirmationCode);
 
-    if (domifaConfig().envId === "dev") {
+    if (domifaConfig().envId === "local") {
       fs.writeFileSync(
         path.join(
           __dirname,

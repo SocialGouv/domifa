@@ -66,7 +66,7 @@ export async function bootstrapApplication() {
       portailAdminUrl.slice(0, -1),
     ];
 
-    if (["dev", "test"].includes(domifaConfig().envId)) {
+    if (["dev", "local", "test"].includes(domifaConfig().envId)) {
       app.enableCors({
         origin: true, // "Access-Control-Allow-Origin" = request.origin (unsecure): https://docs.nestjs.com/techniques/security#cors
       });

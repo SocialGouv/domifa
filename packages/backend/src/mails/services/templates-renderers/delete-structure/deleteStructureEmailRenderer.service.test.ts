@@ -34,7 +34,7 @@ describe("deleteStructureEmailRenderer", () => {
     expect(text).toContain(model.structure.ville);
     expect(text).toContain(model.lienSuppression);
 
-    if (domifaConfig().envId === "dev") {
+    if (domifaConfig().envId === "local") {
       fs.writeFileSync(
         path.join(
           __dirname,

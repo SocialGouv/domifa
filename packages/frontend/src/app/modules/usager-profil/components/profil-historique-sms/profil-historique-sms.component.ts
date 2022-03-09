@@ -5,7 +5,7 @@ import { MessageSms } from "../../../../../_common/model/message-sms";
 import { MESSAGE_SMS_STATUS } from "../../../../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
-import { UsagerService } from "../../../usagers/services/usager.service";
+import { UsagerProfilService } from "../../services/usager-profil.service";
 
 @Component({
   selector: "app-profil-historique-sms",
@@ -21,7 +21,7 @@ export class ProfilHistoriqueSmsComponent implements OnInit, AfterViewInit {
 
   @Input() public messagesList: MessageSms[];
 
-  constructor(private usagerService: UsagerService) {
+  constructor(private usagerProfilService: UsagerProfilService) {
     this.usager = new UsagerFormModel();
     this.messagesList = [];
   }
@@ -33,7 +33,7 @@ export class ProfilHistoriqueSmsComponent implements OnInit, AfterViewInit {
   }
 
   public getMySms(): void {
-    this.usagerService.findMySms(this.usager).subscribe({
+    this.usagerProfilService.findMySms(this.usager).subscribe({
       next: (messages: MessageSms[]) => (this.messagesList = messages),
     });
   }
