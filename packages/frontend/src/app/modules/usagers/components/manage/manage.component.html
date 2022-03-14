@@ -278,6 +278,60 @@
             </div>
           </div>
         </div>
+
+        <div *ngIf="filters.statut === 'INSTRUCTION'" class="filter-part">
+          <div class="d-inline-block" *ngIf="filters.entretien">
+            <button
+              title="Réinitialiser le filtre"
+              class="btn selected-btn"
+              (click)="updateFilters({ element: 'entretien', value: null })"
+            >
+              Entretien {{ labelsEntretien[filters.entretien] }}
+              <fa-icon [icon]="['fas', 'times']" class="cross"></fa-icon>
+            </button>
+          </div>
+          <div
+            ngbDropdown
+            id="dropdownDernierPassage"
+            display="dynamic"
+            placement="bottom-left"
+            *ngIf="!filters.entretien"
+            class="d-inline-block"
+          >
+            <button class="btn" id="dropdownManual" ngbDropdownToggle>
+              <span>Entretien</span>
+            </button>
+            <div
+              ngbDropdownMenu
+              aria-labelledby="navbarDropdown2"
+              class="dropdown-menu"
+            >
+              <button
+                (click)="
+                  updateFilters({
+                    element: 'entretien',
+                    value: 'COMING'
+                  })
+                "
+                ngbDropdownItem
+              >
+                À venir
+              </button>
+
+              <button
+                (click)="
+                  updateFilters({
+                    element: 'entretien',
+                    value: 'OVERDUE'
+                  })
+                "
+                ngbDropdownItem
+              >
+                Date dépassée
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="col-md-3 text-right">
         <div
