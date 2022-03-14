@@ -1,3 +1,5 @@
+import { isFuture, isPast } from "date-fns";
+
 import { UsagerLight } from "../../../../../../_common/model";
 import {
   usagerEcheanceChecker,
@@ -37,6 +39,7 @@ function filter(
     sortValue: criteria.sortValue,
   });
 }
+
 function filterByCriteria(
   usagers: UsagerLight[],
   criteria: UsagersFilterCriteria,
@@ -69,6 +72,22 @@ function filterByCriteria(
           refDateNow: now,
         })
       );
+    });
+  } else if (criteria.entretien === "COMING") {
+    return usagers.filter((usager) => {
+      if (usager.rdv === null) return false;
+
+      const date = new Date(usager.rdv.dateRdv);
+
+      return isFuture(date);
+    });
+  } else if (criteria.entretien === "OVERDUE") {
+    return usagers.filter((usager) => {
+      if (usager.rdv === null) return false;
+
+      const date = new Date(usager.rdv.dateRdv);
+
+      return isPast(date);
     });
   }
   return usagers;

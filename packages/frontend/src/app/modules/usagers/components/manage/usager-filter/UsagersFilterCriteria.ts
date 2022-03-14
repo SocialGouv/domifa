@@ -27,6 +27,8 @@ export type UsagersFilterCriteriaEcheance =
   | "DEUX_MOIS"
   | "DEUX_SEMAINES";
 
+export type UsagersFilterCriteriaEntretien = "COMING" | "OVERDUE";
+
 export type UsagersFilterCriteriaDernierPassage = "DEUX_MOIS" | "TROIS_MOIS";
 
 export class UsagersFilterCriteria {
@@ -37,6 +39,7 @@ export class UsagersFilterCriteria {
   public echeance?: UsagersFilterCriteriaEcheance;
   public interactionType?: "courrierIn";
   public passage?: UsagersFilterCriteriaDernierPassage;
+  public entretien: UsagersFilterCriteriaEntretien;
   // order by
   public sortKey?: UsagersFilterCriteriaSortKey;
   public sortValue?: UsagersFilterCriteriaSortValues;
@@ -47,6 +50,7 @@ export class UsagersFilterCriteria {
   constructor(search?: Partial<UsagersFilterCriteria>) {
     this.interactionType = (search && search.interactionType) || null;
     this.passage = (search && search.passage) || null;
+    this.entretien = (search && search.entretien) || null;
     this.echeance = (search && search.echeance) || null;
     this.searchString = (search && search.searchString) || null;
     this.statut = (search && search.statut) || "VALIDE";
