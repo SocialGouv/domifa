@@ -1,5 +1,6 @@
+import { addDays } from "date-fns";
 import MockDate from "mockdate";
-import moment = require("moment");
+
 import {
   interactionsCreator,
   InteractionsDeletor,
@@ -204,7 +205,7 @@ describe("interactionsCreator", () => {
     usager.options.transfert.actif = true;
     usager.options.transfert.adresse = "ICI ADRESSE";
     usager.options.transfert.nom = "LA personne DU TRANSFERT";
-    usager.options.transfert.dateFin = moment().add(10, "days").toDate();
+    usager.options.transfert.dateFin = addDays(new Date(), 10);
     interaction.dateInteraction = new Date();
 
     const resultat = await interactionsCreator.createInteraction({
@@ -252,10 +253,15 @@ describe("interactionsCreator", () => {
 
     usager.options.transfert.actif = false;
 
-    usager.options.procuration.actif = true;
-    usager.options.procuration.nom = "Procuration";
-    usager.options.procuration.prenom = "Jean michel";
-    usager.options.procuration.dateFin = moment().add(10, "days").toDate();
+    usager.options.procurations = [
+      {
+        nom: "Procuration",
+        prenom: "Jean michel",
+        dateNaissance: new Date("2000-02-01T10:00:00.980Z"),
+        dateDebut: addDays(new Date(), 10),
+        dateFin: addDays(new Date(), 30),
+      },
+    ];
 
     const resultat = await interactionsCreator.createInteraction({
       usager,
