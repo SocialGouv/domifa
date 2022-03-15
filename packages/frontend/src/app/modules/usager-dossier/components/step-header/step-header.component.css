@@ -24,6 +24,10 @@
   color: #26353f;
 }
 
+.private-notes-anchor {
+  cursor: pointer;
+}
+
 a {
   color: white !important;
 }

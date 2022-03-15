@@ -1,6 +1,6 @@
 import { ContactSupportComponent } from "./modules/general/components/contact-support/contact-support.component";
 import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { RouterModule, Routes, ExtraOptions } from "@angular/router";
 import { AuthGuard } from "./guards/auth-guard";
 import { FacteurGuard } from "./guards/facteur-guard";
 import { LoggedGuard } from "./guards/logged-guard";
@@ -114,8 +114,13 @@ export const routes: Routes = [
   { path: "404", component: NotFoundComponent },
   { path: "**", redirectTo: "404" },
 ];
+
+const routerOptions: ExtraOptions = {
+  relativeLinkResolution: "legacy",
+};
+
 @NgModule({
   exports: [RouterModule],
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: "legacy" })],
+  imports: [RouterModule.forRoot(routes, routerOptions)],
 })
 export class AppRoutingModule {}
