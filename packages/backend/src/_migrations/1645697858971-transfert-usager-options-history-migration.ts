@@ -5,6 +5,7 @@ import { usagerRepository } from "./../database/services/usager/usagerRepository
 import { UsagerOptionsHistoryTable } from "./../database/entities/usager/UsagerOptionsHistoryTable.typeorm";
 import { usagerOptionsHistoryRepository } from "./../database/services/usager/usagerOptionsHistoryRepository.service";
 import { Usager } from "../_common/model";
+import { appLogger } from "../util";
 
 export class manualMigration1645697858971 implements MigrationInterface {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -18,11 +19,14 @@ export class manualMigration1645697858971 implements MigrationInterface {
         await usagerRepository.typeorm()
       ).query(
         `
-        SELECT uuid, options
+        SELECT uuid, options, "structureId"
         FROM usager
         WHERE options->'historique'->'transfert' != '[]'::jsonb
-        OR options->'historique'->'procuration' != '[]'::jsonb
       `
+      );
+
+      appLogger.warn(
+        "’[MIGRATION] Copie des données de l'historique du transfert"
       );
 
       for (const usager of usagers) {
@@ -35,17 +39,33 @@ export class manualMigration1645697858971 implements MigrationInterface {
             action: transfertHistory.action,
             type: "transfert",
             createdAt: new Date(transfertHistory.date),
-            nom: transfertHistory.content.nom,
+            nom: transfertHistory?.content?.nom ?? null,
             prenom: null,
-            actif: transfertHistory.content.actif,
-            dateDebut: transfertHistory.content.dateDebut,
-            dateFin: transfertHistory.content.dateFin,
+            actif: transfertHistory?.content?.actif ?? false,
+            dateDebut: transfertHistory?.content?.dateDebut ?? null,
+            dateFin: transfertHistory?.content?.dateFin ?? null,
             dateNaissance: null,
-            adresse: transfertHistory.content.adresse,
+            adresse: transfertHistory?.content?.adresse ?? null,
           });
           await usagerOptionsHistoryRepository.save(newUsagerOptionsHistory);
         }
+      }
 
+      appLogger.warn(
+        "’[MIGRATION] Copie des données de l'historique des procurations"
+      );
+
+      const usagersWithProcuration: Usager[] = await (
+        await usagerRepository.typeorm()
+      ).query(
+        `
+          SELECT uuid, options, "structureId"
+          FROM usager
+          WHERE options->'historique'->'procuration' != '[]'::jsonb
+        `
+      );
+
+      for (const usager of usagersWithProcuration) {
         for (const procurationHistory of usager.options.historique
           .procuration) {
           const newUsagerOptionsHistory = new UsagerOptionsHistoryTable({
@@ -56,12 +76,11 @@ export class manualMigration1645697858971 implements MigrationInterface {
             action: procurationHistory.action,
             type: "procuration",
             createdAt: new Date(procurationHistory.date),
-            nom: procurationHistory.content.nom,
-            prenom: procurationHistory.content.prenom,
-            actif: procurationHistory.content.actif,
-            dateDebut: procurationHistory.content.dateDebut,
-            dateFin: procurationHistory.content.dateFin,
-            dateNaissance: procurationHistory.content.dateNaissance,
+            nom: procurationHistory?.content?.nom ?? null,
+            prenom: procurationHistory?.content?.prenom ?? null,
+            dateDebut: procurationHistory?.content?.dateDebut ?? null,
+            dateFin: procurationHistory?.content?.dateFin ?? null,
+            dateNaissance: procurationHistory?.content?.dateNaissance ?? null,
             adresse: "",
           });
 

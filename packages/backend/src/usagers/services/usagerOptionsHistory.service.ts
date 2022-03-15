@@ -27,13 +27,13 @@ export class UsagerOptionsHistoryService {
       structureId: usager.structureId,
       action,
       type,
-      nom: content.nom || null,
-      prenom: content.prenom || null,
-      actif: content.actif || false,
-      dateDebut: content.dateDebut || null,
-      dateFin: content.dateFin || null,
-      dateNaissance: content.dateNaissance || null,
-      adresse: content.adresse || null,
+      nom: content?.nom ?? null,
+      prenom: content?.prenom ?? null,
+      actif: content?.actif ?? false,
+      dateDebut: content?.dateDebut ?? null,
+      dateFin: content?.dateFin ?? null,
+      dateNaissance: content?.dateNaissance ?? null,
+      adresse: content?.adresse ?? null,
     };
 
     return await usagerOptionsHistoryRepository.save(newUsagerOptionsHistory);

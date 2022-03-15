@@ -1,4 +1,15 @@
-import { Body, Controller, Delete, Get, Post, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  ParseArrayPipe,
+  Post,
+  Res,
+  UseGuards,
+} from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
@@ -10,6 +21,7 @@ import { usagerOptionsHistoryRepository } from "../../database/services/usager/u
 import { AllowUserStructureRoles, CurrentUser } from "../../auth/decorators";
 import { TransfertDto, ProcurationDto } from "../dto";
 import { UsagerOptionsHistoryService, UsagersService } from "../services";
+import { ExpressResponse } from "../../util/express";
 
 @ApiTags("usagers-options")
 @ApiBearerAuth()
@@ -90,22 +102,43 @@ export class UsagerOptionsController {
   @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
   @Post("procuration/:usagerRef")
   public async editProcuration(
-    @Body() procurationDto: ProcurationDto,
+    @Body(new ParseArrayPipe({ items: ProcurationDto }))
+    procurationsDto: ProcurationDto[],
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
-    const action = usager.options.procuration.actif ? "EDIT" : "CREATION";
+    // Initialisation si vide
+    if (typeof usager.options.procurations === "undefined") {
+      usager.options.procurations = [];
+    }
 
-    await this.usagerOptionsHistoryService.createOptionHistory(
-      usager,
-      user,
-      action,
-      "procuration",
-      action === "EDIT" ? usager.options.procuration : procurationDto
-      // Si création, on met la nouvelle valeure
-    );
+    const action = usager.options.procurations.length > 0 ? "EDIT" : "CREATION";
 
-    usager.options.procuration = procurationDto;
+    for (let i = 0; i < 2; i++) {
+      let needCreateHistory = true;
+
+      // Seulement si la nouvelle procuration est différente de l'ancienne
+      if (typeof usager.options.procurations[i] !== undefined) {
+        if (
+          JSON.stringify(usager.options.procurations[i]) ===
+          JSON.stringify(procurationsDto[i])
+        ) {
+          needCreateHistory = false;
+        }
+      }
+
+      if (needCreateHistory) {
+        await this.usagerOptionsHistoryService.createOptionHistory(
+          usager,
+          user,
+          action,
+          "procuration",
+          procurationsDto[i]
+        );
+      }
+    }
+
+    usager.options.procurations = procurationsDto;
 
     return this.usagersService.patch(
       { uuid: usager.uuid },
@@ -115,31 +148,34 @@ export class UsagerOptionsController {
 
   @UseGuards(UsagerAccessGuard)
   @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
-  @Delete("procuration/:usagerRef")
+  @Delete("procuration/:usagerRef/:index")
   public async deleteProcuration(
+    @Param("index") index: number,
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight
+    @CurrentUsager() usager: UsagerLight,
+    @Res() res: ExpressResponse
   ) {
+    if (typeof usager.options.procurations[index] === "undefined") {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "INDEX_NOT_FOUND" });
+    }
+
     await this.usagerOptionsHistoryService.createOptionHistory(
       usager,
       user,
       "DELETE",
       "procuration",
-      usager.options.procuration
+      usager.options.procurations[index]
     );
 
-    usager.options.procuration = {
-      actif: false,
-      dateDebut: null,
-      dateFin: null,
-      dateNaissance: null,
-      nom: null,
-      prenom: null,
-    };
+    usager.options.procurations.splice(index, 1);
 
-    return this.usagersService.patch(
+    const updatedUsager = await this.usagersService.patch(
       { uuid: usager.uuid },
       { options: usager.options }
     );
+
+    return res.status(HttpStatus.OK).json(updatedUsager);
   }
 }

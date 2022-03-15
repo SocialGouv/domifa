@@ -79,14 +79,16 @@ export const usagerValideMock: UsagerLight = {
       dateDebut: null,
       dateFin: null,
     },
-    procuration: {
-      actif: null,
-      nom: null,
-      prenom: null,
-      dateFin: null,
-      dateDebut: null,
-      dateNaissance: null,
-    },
+    procurations: [
+      {
+        nom: null,
+        prenom: null,
+        dateFin: null,
+        dateDebut: null,
+        dateNaissance: null,
+      },
+    ],
+
     npai: {
       actif: false,
       dateDebut: null,

@@ -13,7 +13,6 @@ import { UsagerLight } from "../../../../../../_common/model";
 import { InteractionOutForm } from "../../../../../../_common/model/interaction";
 import { INTERACTIONS_OUT_AVAILABLE } from "../../../../../../_common/model/interaction/constants";
 import { bounce } from "../../../../../shared";
-import { isProcurationActifMaintenant } from "../../../../usagers/services";
 import { UsagerService } from "../../../../usagers/services/usager.service";
 import { UsagerFormModel, Interaction } from "../../../interfaces";
 import { InteractionService } from "../../../services/interaction.service";
@@ -42,7 +41,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   public interactionFormData: InteractionOutForm;
   public interactionFormData$: BehaviorSubject<InteractionOutForm>;
 
-  public procuration: boolean; // Mandataire = true / domicilié = false
+  public procurationIndex: number; // Mandataire = true / domicilié = false
   public loading = false;
 
   private subscription: Subscription;
@@ -52,7 +51,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
     private usagerService: UsagerService,
     private toastService: CustomToastService
   ) {
-    this.procuration = false;
+    this.procurationIndex = null;
     this.interactionFormData = {
       courrierOut: {
         nbCourrier: 0,
@@ -130,10 +129,6 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
     this.getInteractions();
   }
 
-  public displayProcuration(): boolean {
-    return isProcurationActifMaintenant(this.usager.options.procuration);
-  }
-
   public toggleSelect(
     type: "courrierOut" | "recommandeOut" | "colisOut"
   ): void {
@@ -147,7 +142,8 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
       (filtered, interaction) => {
         if (this.interactionFormData[interaction].selected) {
           filtered.push({
-            procuration: this.procuration,
+            // TODO: ajouter la procu
+            procuration: this.procurationIndex !== null ? true : false,
             nbCourrier: this.interactionFormData[interaction].nbCourrier,
             type: interaction,
           });

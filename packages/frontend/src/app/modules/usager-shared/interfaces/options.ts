@@ -3,14 +3,18 @@ import {
   UsagerOptionsTransfert,
 } from "../../../../_common/model";
 import { UsagerOptions } from "../../../../_common/model/usager/options/UsagerOptions.type";
-import {
-  isTransfertActifMaintenant,
-  isProcurationActifMaintenant,
-} from "../../usagers/services";
 
 export class Options implements UsagerOptions {
-  public transfert: UsagerOptionsTransfert;
-  public procuration: UsagerOptionsProcuration;
+  public transfert: UsagerOptionsTransfert = {
+    actif: false,
+    adresse: null,
+    dateDebut: null,
+    dateFin: null,
+    nom: null,
+  };
+
+  public procurations: UsagerOptionsProcuration[] = [];
+
   public portailUsagerEnabled: boolean;
 
   public npai: {
@@ -18,34 +22,10 @@ export class Options implements UsagerOptions {
     dateDebut: Date | null;
   };
 
-  public isProcurationActifMaintenant = false;
-  public isTransfertActifMaintenant = false;
-  public isProcurationExpired = false;
-  public isTransfertExpired = false;
-  // TODO : vérifier la validité du transfert & procu direct dans l'interface
-  // public transfertExpired: boolean;
-
   constructor(options?: UsagerOptions) {
-    this.transfert = {
-      actif: false,
-      adresse: null,
-      dateDebut: null,
-      dateFin: null,
-      nom: null,
-    };
-
     this.npai = {
       actif: false,
       dateDebut: null,
-    };
-
-    this.procuration = {
-      actif: false,
-      dateDebut: null,
-      dateFin: null,
-      dateNaissance: null,
-      nom: null,
-      prenom: null,
     };
 
     if (options) {
@@ -63,40 +43,35 @@ export class Options implements UsagerOptions {
           options.transfert.dateFin && options.transfert.dateFin !== null
             ? new Date(options.transfert.dateFin)
             : (this.transfert.dateFin = null);
-
-        this.isTransfertActifMaintenant = isTransfertActifMaintenant(
-          this.transfert
-        );
       }
 
-      if (typeof options.procuration !== "undefined") {
-        this.procuration.actif = options.procuration.actif || false;
-        this.procuration.nom = options.procuration.nom || null;
-        this.procuration.prenom = options.procuration.prenom || null;
+      if (typeof options.procurations !== "undefined") {
+        this.procurations = options.procurations.map(
+          (apiProcuration: UsagerOptionsProcuration) => {
+            const procuration: UsagerOptionsProcuration = {
+              nom: null,
+              prenom: null,
+              dateNaissance: null,
+              dateFin: null,
+              dateDebut: null,
+            };
 
-        if (
-          options.procuration.dateNaissance &&
-          options.procuration.dateNaissance !== null
-        ) {
-          this.procuration.dateNaissance = new Date(
-            options.procuration.dateNaissance
-          );
-        }
-        if (
-          options.procuration.dateFin &&
-          options.procuration.dateFin !== null
-        ) {
-          this.procuration.dateFin = new Date(options.procuration.dateFin);
-        }
-        if (
-          options.procuration.dateDebut &&
-          options.procuration.dateDebut !== null
-        ) {
-          this.procuration.dateDebut = new Date(options.procuration.dateDebut);
-        }
+            procuration.nom = apiProcuration?.nom ?? null;
+            procuration.prenom = apiProcuration?.prenom ?? null;
 
-        this.isProcurationActifMaintenant = isProcurationActifMaintenant(
-          this.procuration
+            if (apiProcuration.dateNaissance) {
+              procuration.dateNaissance = new Date(
+                apiProcuration.dateNaissance
+              );
+            }
+            if (apiProcuration.dateFin) {
+              procuration.dateFin = new Date(apiProcuration.dateFin);
+            }
+            if (apiProcuration.dateDebut) {
+              procuration.dateDebut = new Date(apiProcuration.dateDebut);
+            }
+            return procuration;
+          }
         );
       }
 

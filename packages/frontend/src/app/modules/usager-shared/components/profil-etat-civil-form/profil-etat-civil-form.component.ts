@@ -62,7 +62,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
     return this.usagerForm.controls;
   }
 
-  get ayantsDroits() {
+  get ayantsDroits(): FormArray {
     return this.usagerForm.get("ayantsDroits") as FormArray;
   }
 

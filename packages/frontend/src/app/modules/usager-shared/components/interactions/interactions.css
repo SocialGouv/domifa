@@ -91,6 +91,27 @@
   display: none;
 }
 
-.row {
-  margin: 0;
+.checkbox {
+  position: relative;
+}
+
+.checkbox input {
+  outline: none;
+  cursor: pointer;
+  width: 35px;
+  height: 35px;
+  display: block;
+  margin: 2px auto;
+  background-color: #c8dbff;
+  border: 1px solid var(--primary);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 300ms ease, colour 300ms ease,
+    box-shadow 300ms ease;
+}
+
+.checkbox input:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  box-shadow: 2px 1px 4px rgb(179 179 179 / 50%);
 }

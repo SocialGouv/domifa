@@ -12,7 +12,9 @@
       <div class="row">
         <div class="col-md-12">
           <h4>Historique des décisions</h4>
-
+          <div class="alert alert-info" *ngIf="usager.historique.length === 0">
+            Aucun historique de décision n'est enregistré
+          </div>
           <table *ngIf="usager.historique.length > 0" class="table table-hover">
             <caption class="sr-only">
               Historique des décisions
@@ -49,7 +51,9 @@
       <div class="row">
         <div class="col-md-12">
           <h4>Historique des procurations</h4>
-
+          <div class="alert alert-info" *ngIf="procurationHistory.length === 0">
+            Aucun historique de procurations actuellement
+          </div>
           <table
             *ngIf="procurationHistory.length > 0"
             class="table table-hover"
@@ -92,7 +96,9 @@
       <div class="row">
         <div class="col-md-12">
           <h4>Historique des transferts</h4>
-
+          <div class="alert alert-info" *ngIf="transfertHistory.length === 0">
+            Aucun historique de transferts de courriers actuellement
+          </div>
           <table *ngIf="transfertHistory.length > 0" class="table table-hover">
             <caption class="sr-only">
               Historique des transferts

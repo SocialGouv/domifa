@@ -2,13 +2,13 @@
 CURRENT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 DUMPS_DIR="${CURRENT_DIR}/dumps"
 
-set -e
+#set -e
 # restore last dump
-${CURRENT_DIR}/restore-database-docker.sh --db=test
-while ! ${CURRENT_DIR}/convert-postgres-tables-to-logged-docker.sh --db=test
-do # first run can fail due to unlogged table dependency
- echo "Try again"
-done
+#${CURRENT_DIR}/restore-database-docker.sh --db=test
+#while ! ${CURRENT_DIR}/convert-postgres-tables-to-logged-docker.sh --db=test
+#do # first run can fail due to unlogged table dependency
+#echo "Try again"
+#done
 ## apply migrations
 # docker exec -it domifa-backend bash -c "yarn db:test:migrate-up"
 # convert to unlogged

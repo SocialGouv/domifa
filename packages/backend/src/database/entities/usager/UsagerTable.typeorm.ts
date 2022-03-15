@@ -141,7 +141,7 @@ export class UsagerTable
   @Column({
     type: "jsonb",
     default: () =>
-      `'{ "transfert":{ "actif":false, "nom":null, "adresse":null, "dateDebut":null, "dateFin":null },"procuration":{ "actif":null, "nom":null, "prenom":null, "dateFin":null, "dateDebut":null, "dateNaissance":null }, "npai":{ "actif":false, "dateDebut":null }, "portailUsagerEnabled":false }'`,
+      `'{ "transfert":{ "actif":false, "nom":null, "adresse":null, "dateDebut":null, "dateFin":null }, "procurations":[], "npai":{ "actif":false, "dateDebut":null }, "portailUsagerEnabled":false }'`,
   })
   public options: UsagerOptions;
 
