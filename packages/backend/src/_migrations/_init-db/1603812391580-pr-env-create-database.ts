@@ -21,7 +21,7 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
 }
 
 async function createTables(queryRunner: QueryRunner) {
-  appLogger.warn("> CREATE TABLES");
+  appLogger.warn("> CREATE UNLOGGED TABLES");
 
   await queryRunner.query(
     `
@@ -62,7 +62,7 @@ async function createTables(queryRunner: QueryRunner) {
       attachment jsonb NULL,
       email text NOT NULL,
       category text NULL,
-      name text NOT NULL,
+      "name" text NOT NULL,
       "comments" text NULL,
       "structureName" text NULL,
       CONSTRAINT "PK_8e4a4781a01061a482fa33e5f5a" PRIMARY KEY (uuid)
@@ -232,7 +232,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE usager;
 
-    CREATE TABLE usager (
+    CREATE UNLOGGED TABLE usager (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
@@ -261,7 +261,7 @@ async function createTables(queryRunner: QueryRunner) {
       "etapeDemande" int4 NOT NULL DEFAULT 0,
       rdv jsonb NULL,
       entretien jsonb NOT NULL,
-      "options" jsonb NOT NULL,
+      "options" jsonb NOT NULL DEFAULT '{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}'::jsonb,
       "import" jsonb NULL,
       notes jsonb NOT NULL DEFAULT '[]'::jsonb,
       CONSTRAINT "PK_1bb36e24229bec446a281573612" PRIMARY KEY (uuid),
@@ -298,13 +298,44 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_7356ee08f3ac6e3e1c6fe08bd8" ON usager_history USING btree ("usagerUUID");
 
 
+    -- usager_options_history definition
+
+    -- Drop table
+
+    -- DROP TABLE usager_options_history;
+
+    CREATE UNLOGGED TABLE usager_options_history (
+      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "createdAt" timestamptz NOT NULL DEFAULT now(),
+      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "version" int4 NOT NULL,
+      "usagerUUID" uuid NOT NULL,
+      "userId" int4 NULL,
+      "userName" text NOT NULL,
+      "structureId" int4 NOT NULL,
+      "action" text NOT NULL,
+      "type" text NOT NULL,
+      nom text NULL,
+      prenom text NULL,
+      adresse text NULL,
+      actif bool NOT NULL DEFAULT false,
+      "dateDebut" date NULL,
+      "dateFin" date NULL,
+      "dateNaissance" date NULL,
+      CONSTRAINT "PK_429ff2cc277afdc9e1ce5ac8d63" PRIMARY KEY (uuid),
+      CONSTRAINT "FK_3cb5af09bf7cd68d7070dbc8966" FOREIGN KEY ("usagerUUID") REFERENCES usager(uuid)
+    );
+    CREATE INDEX "IDX_3cb5af09bf7cd68d7070dbc896" ON usager_options_history USING btree ("usagerUUID");
+    CREATE INDEX "IDX_c2fa002e6f45fe1ca6c7f23496" ON usager_options_history USING btree ("userId");
+
+
     -- user_structure definition
 
     -- Drop table
 
     -- DROP TABLE user_structure;
 
-    CREATE TABLE user_structure (
+    CREATE UNLOGGED TABLE user_structure (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
@@ -361,7 +392,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE user_usager;
 
-    CREATE TABLE user_usager (
+    CREATE UNLOGGED TABLE user_usager (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
@@ -425,7 +456,7 @@ async function createTables(queryRunner: QueryRunner) {
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
-      "dateInteraction" timestamp NOT NULL,
+      "dateInteraction" timestamptz NOT NULL,
       "nbCourrier" int4 NOT NULL DEFAULT 0,
       "structureId" int4 NOT NULL,
       "type" text NOT NULL,
@@ -446,40 +477,6 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_495b59d0dd15e43b262f2da890" ON interactions USING btree ("interactionOutUUID");
     CREATE INDEX "IDX_9992157cbe54583ff7002ae4c0" ON interactions USING btree ("userId");
     CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON interactions USING btree ("usagerUUID");
-
-    -- public.usager_options_history definition
-
-    -- Drop table
-
-    -- DROP TABLE usager_options_history;
-
-    CREATE UNLOGGED TABLE usager_options_history (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
-      "version" int4 NOT NULL,
-      "usagerUUID" uuid NOT NULL,
-      "userId" int4 NOT NULL,
-      "userName" text NOT NULL,
-      "structureId" int4 NOT NULL,
-      "action" text NOT NULL,
-      "type" text NOT NULL,
-      nom text NULL,
-      prenom text NULL,
-      adresse text NULL,
-      actif bool NOT NULL DEFAULT false,
-      "dateDebut" date NOT NULL,
-      "dateFin" date NOT NULL,
-      "dateNaissance" date NULL,
-      CONSTRAINT "PK_429ff2cc277afdc9e1ce5ac8d63" null
-    );
-    CREATE INDEX "IDX_3cb5af09bf7cd68d7070dbc896" ON usager_options_history ("usagerUUID" uuid_ops);
-    CREATE INDEX "IDX_c2fa002e6f45fe1ca6c7f23496" ON usager_options_history ("userId" int4_ops);
-
-
-    -- public.usager_options_history foreign keys
-
-    ALTER TABLE  usager_options_history ADD CONSTRAINT "FK_3cb5af09bf7cd68d7070dbc8966" FOREIGN KEY ("usagerUUID") REFERENCES usager(uuid);
     `
   );
 }
