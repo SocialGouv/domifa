@@ -7,6 +7,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
+  Max,
   Min,
 } from "class-validator";
 import { InteractionType } from "../../_common/model";
@@ -52,12 +53,14 @@ export class InteractionDto {
   public content?: string;
 
   @ApiProperty({
-    type: Boolean,
+    type: Number,
     required: false,
   })
   @IsOptional()
-  @IsBoolean()
-  public procuration?: boolean;
+  @IsNumber()
+  @Min(0)
+  @Max(1)
+  public procurationIndex?: number;
 
   @ApiProperty({
     type: Number,

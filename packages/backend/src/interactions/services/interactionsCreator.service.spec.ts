@@ -239,18 +239,21 @@ describe("interactionsCreator", () => {
   });
 
   it("5. Distribution d'un courrier avec procuration ", async () => {
-    const interaction = new InteractionDto();
     const lastInteractionDateBefore = "2018-02-01T10:00:00.980Z";
     usager.lastInteraction.dateInteraction = new Date(
       lastInteractionDateBefore
     );
-
-    interaction.type = "courrierOut";
-    interaction.content = "Test transfert du courrier";
-    interaction.nbCourrier = 10;
-    interaction.procuration = true;
-    interaction.dateInteraction = new Date();
-
+    const interaction: InteractionDto = {
+      type: "courrierOut",
+      content: "Test transfert du courrier",
+      nbCourrier: 10,
+      procurationIndex: 0,
+      structureId: 1,
+      userId: 1,
+      usagerRef: usager.ref,
+      userName: "Nom",
+      dateInteraction: new Date(),
+    };
     usager.options.transfert.actif = false;
 
     usager.options.procurations = [
