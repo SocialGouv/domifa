@@ -81,6 +81,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       if (!data) {
         return [];
       }
+
       const allUsagers = data.usagersNonRadies
         .concat(data.usagersRadiesFirsts)
         .map((usager) => {

@@ -1,18 +1,8 @@
-import { IsDate, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsDate, IsNotEmpty, IsString } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams } from "class-transformer";
 
 export class ProcurationDto {
-  @ApiProperty({
-    type: Boolean,
-    required: true,
-  })
-  @IsOptional()
-  @Transform(() => {
-    return true;
-  })
-  public actif!: boolean;
-
   @ApiProperty({
     type: String,
     required: true,

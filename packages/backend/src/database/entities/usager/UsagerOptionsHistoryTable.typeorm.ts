@@ -22,7 +22,7 @@ export class UsagerOptionsHistoryTable
   public usagerFk?: Promise<UsagerTable>;
 
   @Index()
-  @Column({ type: "integer" })
+  @Column({ type: "integer", nullable: true })
   public userId: number;
 
   @Column({ type: "text" })
@@ -49,10 +49,10 @@ export class UsagerOptionsHistoryTable
   @Column({ type: "boolean", default: false })
   public actif: boolean;
 
-  @Column({ type: "date" })
+  @Column({ type: "date", nullable: true })
   public dateDebut: Date;
 
-  @Column({ type: "date" })
+  @Column({ type: "date", nullable: true })
   public dateFin: Date;
 
   @Column({ type: "date", nullable: true })

@@ -37,14 +37,6 @@
         </div>
 
         <div class="col-md-12 my-4">
-          <app-profil-historique-courriers
-            #historiqueCourrier
-            [usager]="usager"
-            [me]="me"
-          ></app-profil-historique-courriers>
-        </div>
-
-        <div class="col-md-12 my-4">
           <app-profil-procuration-courrier
             [usager]="usager"
             (usagerChanges)="onUsagerChanges($event)"
@@ -58,6 +50,14 @@
             (usagerChanges)="onUsagerChanges($event)"
             [me]="me"
           ></app-profil-transfert-courrier>
+        </div>
+
+        <div class="col-md-12 my-4">
+          <app-profil-historique-courriers
+            #historiqueCourrier
+            [usager]="usager"
+            [me]="me"
+          ></app-profil-historique-courriers>
         </div>
       </div>
     </div>

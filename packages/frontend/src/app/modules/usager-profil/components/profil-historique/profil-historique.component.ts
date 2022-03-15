@@ -57,7 +57,7 @@ export class ProfilHistoriqueComponent implements OnInit {
           const name = getUsagerNomComplet(usager);
           this.titleService.setTitle("Historique de " + name);
           this.usager = new UsagerFormModel(usager);
-          console.log(this.usager);
+
           this.getHistoriqueOptions();
         }
       },
@@ -72,38 +72,12 @@ export class ProfilHistoriqueComponent implements OnInit {
     this.usagerOptionsService
       .findHistory(this.usager.ref)
       .subscribe((optionsHistorique: UsagerOptionsHistory[]) => {
-        console.log(optionsHistorique);
-        // if (typeof options.historique !== "undefined") {
-        //   if (options.historique.transfert.length > 0) {
-        //     this.historique.transfert = Array.isArray(
-        //       options.historique.transfert
-        //     )
-        //       ? options.historique.transfert.map(
-        //           (item: HistoriqueOptions) => new HistoriqueOptions(item)
-        //         )
-        //       : [new HistoriqueOptions(options.historique.transfert)];
-        //   }
-
-        //   if (options.historique.procuration.length > 0) {
-        //     this.historique.procuration = Array.isArray(
-        //       options.historique.procuration
-        //     )
-        //       ? options.historique.procuration.map(
-        //           (item: HistoriqueOptions) => new HistoriqueOptions(item)
-        //         )
-        //       : [new HistoriqueOptions(options.historique.procuration)];
-        //   }
-        // }
-
         this.transfertHistory = optionsHistorique.filter(
           (history: UsagerOptionsHistory) => history.type === "transfert"
         );
         this.procurationHistory = optionsHistorique.filter(
           (history: UsagerOptionsHistory) => history.type === "procuration"
         );
-
-        console.log("tranfert : ", this.transfertHistory);
-        console.log("procu : ", this.procurationHistory);
       });
   }
 }

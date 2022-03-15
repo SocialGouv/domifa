@@ -8,145 +8,151 @@
     </span>
   </h4>
 </div>
-<div class="modal-body text-center" *ngIf="usager">
-  <div class="row d-flex align-items-top">
-    <div
-      class="interaction-zone p-1 mr-3 my-3"
-      [ngClass]="{ disabled: interactionFormData.courrierOut.nbCourrier === 0 }"
-    >
-      <div class="interaction-icon-box">
-        <div class="interaction-notification">
-          {{ interactionFormData.courrierOut.nbCourrier }}
-        </div>
-        <div class="interaction-icon icon-courrier"></div>
-      </div>
-      <div class="interaction-actions">
-        <button
-          class="btn"
-          [disabled]="interactionFormData.courrierOut.nbCourrier === 0"
-          (click)="this.toggleSelect('courrierOut')"
-          [ngClass]="
-            interactionFormData.courrierOut.selected
-              ? 'btn-primary'
-              : 'btn-outline-primary'
-          "
-        >
-          <fa-icon
-            [icon]="[
-              'fas',
-              interactionFormData.courrierOut.selected ? 'check' : 'circle'
-            ]"
-          ></fa-icon>
-        </button>
-      </div>
-      <span class="interaction-label">Courriers</span>
-    </div>
-
-    <div
-      class="interaction-zone p-1 mr-3 my-3"
-      [ngClass]="{ disabled: interactionFormData.colisOut.nbCourrier === 0 }"
-    >
-      <div class="interaction-icon-box">
-        <div class="interaction-notification">
-          {{ interactionFormData.colisOut.nbCourrier }}
-        </div>
-        <div class="interaction-icon icon-colis"></div>
-      </div>
-      <div class="interaction-actions">
-        <button
-          class="btn"
-          [disabled]="interactionFormData.colisOut.nbCourrier === 0"
-          (click)="toggleSelect('colisOut')"
-          [ngClass]="
-            interactionFormData.colisOut.selected
-              ? 'btn-primary'
-              : 'btn-outline-primary'
-          "
-        >
-          <fa-icon
-            [icon]="[
-              'fas',
-              interactionFormData.colisOut.selected ? 'check' : 'circle'
-            ]"
-          ></fa-icon>
-        </button>
-      </div>
-      <span class="interaction-label">Colis</span>
-    </div>
-
-    <div
-      class="interaction-zone p-1 mr-3 my-3"
-      [ngClass]="{
-        disabled: interactionFormData.recommandeOut.nbCourrier === 0
-      }"
-    >
-      <div class="interaction-icon-box">
-        <div class="interaction-notification">
-          {{ interactionFormData.recommandeOut.nbCourrier }}
-        </div>
-        <div class="interaction-icon icon-recommande"></div>
-      </div>
-      <div class="interaction-actions">
-        <button
-          class="btn action-selected"
-          (click)="toggleSelect('recommandeOut')"
-          [disabled]="interactionFormData.recommandeOut.nbCourrier === 0"
-          [ngClass]="
-            interactionFormData.recommandeOut.selected
-              ? 'btn-primary'
-              : 'btn-outline-primary'
-          "
-        >
-          <fa-icon
-            [icon]="[
-              'fas',
-              interactionFormData.recommandeOut.selected ? 'check' : 'circle'
-            ]"
-          ></fa-icon>
-        </button>
-      </div>
-      <span class="interaction-label">Avis de passage</span>
-    </div>
-  </div>
-
-  <div class="text-left my-3" *ngIf="displayProcuration()">
-    <div class="row d-flex align-items-top">
-      <div class="col-md-5 px-1 mr-2 my-2">
+<div class="modal-body" *ngIf="usager">
+  <fieldset>
+    <legend>Que souhaitez-vous distribuer ?</legend>
+    <div class="d-flex align-items-top">
+      <div
+        class="interaction-zone p-1 mr-3 my-3"
+        [ngClass]="{
+          disabled: interactionFormData.courrierOut.nbCourrier === 0
+        }"
+      >
         <div class="interaction-icon-box">
-          <div class="font-weight-bold">Mandataire</div>
-          <div class="mb-3">
-            {{ usager.options.procuration.nom | uppercase }}
-            {{ usager.options.procuration.prenom }}
+          <div class="interaction-notification">
+            {{ interactionFormData.courrierOut.nbCourrier }}
+          </div>
+          <div class="interaction-icon icon-courrier"></div>
+        </div>
+        <div class="interaction-actions checkbox">
+          <input
+            id="courrier-distribution"
+            type="checkbox"
+            (click)="toggleSelect('courrierOut')"
+            [disabled]="interactionFormData.courrierOut.nbCourrier === 0"
+            [ngModel]="interactionFormData.courrierOut.selected"
+          />
+          <label for="courrier-distribution" class="interaction-label"
+            >{{ interactionFormData.courrierOut.nbCourrier }} courriers
+          </label>
+        </div>
+      </div>
+
+      <div
+        class="interaction-zone p-1 mr-3 my-3"
+        [ngClass]="{ disabled: interactionFormData.colisOut.nbCourrier === 0 }"
+      >
+        <div class="interaction-icon-box">
+          <div class="interaction-notification">
+            {{ interactionFormData.colisOut.nbCourrier }}
+          </div>
+          <div class="interaction-icon icon-colis"></div>
+        </div>
+        <div class="interaction-actions checkbox">
+          <input
+            id="colis-distribution"
+            type="checkbox"
+            (click)="toggleSelect('colisOut')"
+            [disabled]="interactionFormData.colisOut.nbCourrier === 0"
+            [ngModel]="interactionFormData.colisOut.selected"
+          />
+          <label for="colis-distribution" class="interaction-label"
+            >Colis
+          </label>
+        </div>
+      </div>
+
+      <div
+        class="interaction-zone p-1 mr-3 my-3"
+        [ngClass]="{
+          disabled: interactionFormData.recommandeOut.nbCourrier === 0
+        }"
+      >
+        <div class="interaction-icon-box">
+          <div class="interaction-notification">
+            {{ interactionFormData.recommandeOut.nbCourrier }}
+          </div>
+          <div class="interaction-icon icon-recommande"></div>
+        </div>
+
+        <div class="interaction-actions checkbox">
+          <input
+            id="recommande-distribution"
+            type="checkbox"
+            (click)="toggleSelect('recommandeOut')"
+            [disabled]="interactionFormData.recommandeOut.nbCourrier === 0"
+            [ngModel]="interactionFormData.recommandeOut.selected"
+          />
+          <label for="recommande-distribution" class="interaction-label"
+            >Avis de passage
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="text-left my-3">
+    <fieldset>
+      <legend>A qui est distribué le courrier ?</legend>
+      <div class="row d-flex align-items-top">
+        <div class="col-md-4 px-1 mr-2 my-2">
+          <div class="interaction-icon-box">
+            <div class="font-weight-bold">Domicilié</div>
+            <div class="mb-3">
+              {{ usager.nom | uppercase }} {{ usager.prenom }}
+            </div>
+          </div>
+          <div class="interaction-actions">
+            <button
+              class="btn"
+              aria-label="Distribué au domicilié directement"
+              (click)="procurationIndex = null"
+              [ngClass]="
+                procurationIndex === null
+                  ? 'btn-primary'
+                  : 'btn-outline-primary'
+              "
+            >
+              <fa-icon
+                [icon]="procurationIndex === null ? 'check' : 'circle'"
+              ></fa-icon>
+            </button>
           </div>
         </div>
-        <div class="interaction-actions">
-          <button
-            class="btn"
-            (click)="procuration = true"
-            [ngClass]="procuration ? 'btn-primary' : 'btn-outline-primary'"
-          >
-            <fa-icon [icon]="procuration ? 'check' : 'circle'"></fa-icon>
-          </button>
-        </div>
-      </div>
-      <div class="col-md-5 px-1 mr-2 my-2">
-        <div class="interaction-icon-box">
-          <div class="font-weight-bold">Domicilié</div>
-          <div class="mb-3">
-            {{ usager.nom | uppercase }} {{ usager.prenom }}
+        <ng-container
+          *ngFor="let procuration of usager.options.procurations; let i = index"
+        >
+          <div class="col px-1 mr-1 my-2">
+            <div class="interaction-icon-box">
+              <div class="font-weight-bold">Mandataire</div>
+              <div class="mb-3">
+                {{ procuration.nom | uppercase }}
+                {{ procuration.prenom }}
+              </div>
+            </div>
+            <div class="interaction-actions">
+              <button
+                class="btn"
+                [attr.aria-label]="
+                  'Distribué au mandataire' +
+                  procuration.nom +
+                  ' ' +
+                  procuration.prenom
+                "
+                (click)="procurationIndex = i"
+                [ngClass]="
+                  procurationIndex === i ? 'btn-primary' : 'btn-outline-primary'
+                "
+              >
+                <fa-icon
+                  [icon]="procurationIndex === i ? 'check' : 'circle'"
+                ></fa-icon>
+              </button>
+            </div>
           </div>
-        </div>
-        <div class="interaction-actions">
-          <button
-            class="btn"
-            (click)="procuration = false"
-            [ngClass]="!procuration ? 'btn-primary' : 'btn-outline-primary'"
-          >
-            <fa-icon [icon]="!procuration ? 'check' : 'circle'"></fa-icon>
-          </button>
-        </div>
+        </ng-container>
       </div>
-    </div>
+    </fieldset>
   </div>
   <div
     class="interaction-icon-box text-left px-3 py-3 my-3"

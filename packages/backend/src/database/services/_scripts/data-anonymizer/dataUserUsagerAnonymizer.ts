@@ -16,7 +16,7 @@ type PartialUser = Pick<UserUsagerTable, "id" | "structureId">;
 
 async function anonymizeUsersUsager({ app }: { app: INestApplication }) {
   appLogger.warn(`[dataUserAnonymizer] [user-usager] update of security table`);
-  await userStructureSecurityRepository.updateOne(
+  await userStructureSecurityRepository.updateMany(
     {},
     {
       temporaryTokens: null,
@@ -29,7 +29,15 @@ async function anonymizeUsersUsager({ app }: { app: INestApplication }) {
     ? await bcrypt.hash(passwordNonEncrypted, 10)
     : "";
 
-  await userUsagerRepository.updateMany<PartialUser>({}, { password });
-
   appLogger.warn(`[dataUserAnonymizer] [user-usager] update passwords`);
+  return userUsagerRepository.updateMany<PartialUser>(
+    {},
+    {
+      password,
+      lastPasswordResetStructureUser: {
+        userId: 1,
+        userName: "Nom",
+      },
+    }
+  );
 }

@@ -77,21 +77,19 @@ describe("buildCustomDoc.service", () => {
         dateDebut: new Date("2022-12-20 10:35:00"),
         dateFin: new Date("2023-09-04 14:30:00"),
       },
-      procuration: {
-        actif: true,
-        nom: "Nom du mandataire",
-        prenom: "Prénom du mandataire",
-        dateDebut: new Date("2022-12-20 14:30:00"),
-        dateFin: new Date("2023-09-04 14:30:00"),
-        dateNaissance: new Date("1998-12-12 04:30:00"),
-      },
+      procurations: [
+        {
+          nom: "Nom du mandataire",
+          prenom: "Prénom du mandataire",
+          dateDebut: new Date("2022-12-20 14:30:00"),
+          dateFin: new Date("2023-09-04 14:30:00"),
+          dateNaissance: new Date("1998-12-12 04:30:00"),
+        },
+      ],
       npai: {
         actif: false,
       },
-      historique: {
-        transfert: [],
-        procuration: [],
-      },
+      portailUsagerEnabled: false,
     };
 
     const customDocGenerated: StructureCustomDocTags = buildCustomDoc({

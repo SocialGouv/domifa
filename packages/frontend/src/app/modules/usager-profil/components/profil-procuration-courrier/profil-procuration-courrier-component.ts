@@ -1,18 +1,16 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnInit,
   Output,
+  QueryList,
   TemplateRef,
   ViewChild,
+  ViewChildren,
 } from "@angular/core";
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
@@ -27,6 +25,7 @@ import {
   UserStructure,
   UsagerLight,
   UserStructureRole,
+  UsagerOptionsProcuration,
 } from "../../../../../_common/model";
 import {
   minDateToday,
@@ -36,6 +35,7 @@ import {
 import { endDateAfterBeginDateValidator } from "../../../../shared/validators";
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
+import { UsagerProcuration } from "../../../usager-shared/interfaces/UsagerProcuration.interface";
 import { UsagerOptionsService } from "../../services/usager-options.service";
 @Component({
   providers: [
@@ -53,11 +53,13 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
 
   @Output() usagerChanges = new EventEmitter<UsagerLight>();
 
+  @ViewChildren("procurationNom") inputsProcurations: QueryList<ElementRef>;
+
   public isFormVisible: boolean;
   public submitted: boolean;
   public procurationToDelete: number; // Index de la procu à supprimer
 
-  public procurationForm!: FormGroup;
+  public procurationsForm!: FormGroup;
   public minDateToday: NgbDateStruct;
 
   public minDateNaissance: NgbDateStruct;
@@ -87,39 +89,57 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.initForm();
+    this.procurationsForm = this.formBuilder.group({
+      procurations: this.formBuilder.array([]),
+    });
   }
 
-  public showForm(): void {
-    this.isFormVisible = true;
-    this.initForm();
+  get form(): FormArray {
+    return this.procurationsForm.get("procurations") as FormArray;
   }
 
   public hideForm(): void {
     this.isFormVisible = false;
   }
 
-  get f(): { [key: string]: AbstractControl } {
-    return this.procurationForm.controls;
+  public addProcuration(
+    procuration: UsagerProcuration = new UsagerProcuration()
+  ): void {
+    (this.procurationsForm.controls.procurations as FormArray).push(
+      this.newProcuration(procuration)
+    );
   }
 
   public initForm(): void {
-    this.procurationForm = this.formBuilder.group(
+    this.isFormVisible = true;
+
+    this.procurationsForm = this.formBuilder.group({
+      procurations: this.formBuilder.array([]),
+    });
+
+    if (this.usager.options.procurations.length > 0) {
+      for (const procuration of this.usager.options.procurations) {
+        this.addProcuration(procuration);
+      }
+    } else {
+      this.addProcuration();
+    }
+  }
+
+  public newProcuration(procuration: UsagerOptionsProcuration) {
+    return this.formBuilder.group(
       {
-        nom: [this.usager.options.procuration.nom, [Validators.required]],
-        prenom: [this.usager.options.procuration.prenom, [Validators.required]],
-        dateFin: [
-          formatDateToNgb(this.usager.options.procuration.dateFin),
-          [Validators.required],
-        ],
+        nom: [procuration.nom, [Validators.required]],
+        prenom: [procuration.prenom, [Validators.required]],
+        dateFin: [formatDateToNgb(procuration.dateFin), [Validators.required]],
         dateDebut: [
-          formatDateToNgb(this.usager.options.procuration.dateDebut),
+          formatDateToNgb(procuration.dateDebut),
           [Validators.required],
         ],
         dateNaissance: [
           formatDateToNgb(
-            this.usager.options.procuration.dateNaissance
-              ? new Date(this.usager.options.procuration.dateNaissance)
+            procuration.dateNaissance
+              ? new Date(procuration.dateNaissance)
               : undefined
           ),
           [Validators.required],
@@ -134,30 +154,30 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     );
   }
 
-  public editProcuration(): void {
+  public editProcurations(): void {
     this.submitted = true;
-    if (this.procurationForm.invalid) {
+
+    if (this.procurationsForm.invalid) {
       this.toastService.error(
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
       return;
     }
 
-    const formValue = {
-      ...this.procurationForm.value,
-      dateFin: this.nbgDate.formatEn(
-        this.procurationForm.controls.dateFin.value
-      ),
-      dateDebut: this.nbgDate.formatEn(
-        this.procurationForm.controls.dateDebut.value
-      ),
-      dateNaissance: this.nbgDate.formatEn(
-        this.procurationForm.controls.dateNaissance.value
-      ),
-    };
+    const procurationFormData: UsagerOptionsProcuration[] = this.form.value.map(
+      (procuration) => {
+        return {
+          nom: procuration.nom,
+          prenom: procuration.prenom,
+          dateFin: this.nbgDate.formatEn(procuration.dateFin),
+          dateDebut: this.nbgDate.formatEn(procuration.dateDebut),
+          dateNaissance: this.nbgDate.formatEn(procuration.dateNaissance),
+        };
+      }
+    );
 
     this.usagerOptionsService
-      .editProcuration(formValue, this.usager.ref)
+      .editProcurations(procurationFormData, this.usager.ref)
       .subscribe({
         next: (usager: UsagerLight) => {
           this.hideForm();
@@ -172,38 +192,59 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
       });
   }
 
-  public openConfirmation(): void {
+  public openConfirmation(index: number): void {
+    this.procurationToDelete = index;
     this.modalService.open(this.confirmDelete);
   }
 
-  public deleteProcuration(): void {
-    if (!this.usager.options.procuration.actif) {
-      this.hideForm();
-      return;
+  public deleteProcurationForm(i: number): void {
+    (this.form as FormArray).removeAt(i);
+
+    if (this.form.length === 0) {
+      this.procurationsForm.controls.ayantsDroitsExist.setValue(false);
+    } else {
+      this.focusProcuration();
     }
+  }
 
-    // TODO: intégrer l'index
-    // procurationToDelete
-    this.usagerOptionsService.deleteProcuration(this.usager.ref).subscribe({
-      next: (usager: UsagerLight) => {
-        this.toastService.success("Procuration supprimée avec succès");
+  private focusProcuration() {
+    // Focus sur l'élément créé
+    setTimeout(() => {
+      const procurationsTable = this.procurationsForm.value;
+      const inputs = this.inputsProcurations.toArray();
+      inputs[procurationsTable.length - 1].nativeElement.focus();
+    }, 500);
+  }
 
-        setTimeout(() => {
-          this.closeModals();
-          this.hideForm();
-          this.usagerChanges.emit(usager);
-          this.procurationForm.reset();
-          this.usager = new UsagerFormModel(usager);
-          this.matomo.trackEvent("profil", "actions", "delete-procuration", 1);
-        }, 500);
-      },
-      error: () => {
-        this.toastService.error("Impossible de supprimer la procuration");
-      },
-    });
+  public deleteProcuration(): void {
+    this.usagerOptionsService
+      .deleteProcuration(this.usager.ref, this.procurationToDelete)
+      .subscribe({
+        next: (usager: UsagerLight) => {
+          this.toastService.success("Procuration supprimée avec succès");
+
+          setTimeout(() => {
+            this.closeModals();
+            this.hideForm();
+            this.usagerChanges.emit(usager);
+            this.procurationsForm.reset();
+            this.usager = new UsagerFormModel(usager);
+            this.matomo.trackEvent(
+              "profil",
+              "actions",
+              "delete-procuration",
+              1
+            );
+          }, 500);
+        },
+        error: () => {
+          this.toastService.error("Impossible de supprimer la procuration");
+        },
+      });
   }
 
   public closeModals(): void {
+    this.procurationToDelete = null;
     this.modalService.dismissAll();
   }
 }

@@ -34,26 +34,29 @@ export class UsagerOptionsService {
       transfert
     );
   }
+
   public deleteTransfert(usagerRef: number): Observable<UsagerLight> {
     return this.http.delete<UsagerLight>(
       `${this.endPoint}transfert/${usagerRef}`
     );
   }
 
-  // TODO: type it
-  public editProcuration(
-    transfert: UsagerOptionsProcuration,
+  public editProcurations(
+    procurations: UsagerOptionsProcuration[],
     usagerRef: number
   ): Observable<UsagerLight> {
     return this.http.post<UsagerLight>(
       `${this.endPoint}procuration/${usagerRef}`,
-      transfert
+      procurations
     );
   }
 
-  public deleteProcuration(usagerRef: number): Observable<UsagerLight> {
+  public deleteProcuration(
+    usagerRef: number,
+    indexProcuration: number
+  ): Observable<UsagerLight> {
     return this.http.delete<UsagerLight>(
-      `${this.endPoint}procuration/${usagerRef}`
+      `${this.endPoint}procuration/${usagerRef}/${indexProcuration}`
     );
   }
 }

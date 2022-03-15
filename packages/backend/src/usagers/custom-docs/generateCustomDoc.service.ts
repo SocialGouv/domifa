@@ -21,7 +21,6 @@ export function generateCustomDoc(
     const zip = new PizZip(content);
     doc = new docxTemplater(zip, { modules: [iModule], linebreaks: true });
   } catch (error) {
-    console.log(docValues);
     appLogger.error(`DocTemplater - Opening Doc impossible`, {
       sentry: true,
       extra: {

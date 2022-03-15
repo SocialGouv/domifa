@@ -55,9 +55,7 @@ export class StatsMapComponent implements OnInit, AfterContentChecked {
     this.selectedRegion = null;
   }
 
-  public ngOnInit(): void {
-    console.log(DEPARTEMENTS_COM);
-  }
+  public ngOnInit(): void {}
 
   public selectRegion(regionId: string): void {
     if (this.selectedRegion !== regionId) {

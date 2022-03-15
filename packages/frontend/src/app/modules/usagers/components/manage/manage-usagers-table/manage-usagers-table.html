@@ -134,7 +134,7 @@
 
           <div
             class="label-info label-yellow"
-            *ngIf="usager.options.isTransfertActifMaintenant"
+            *ngIf="usager.options.transfert.actif"
             [ngbTooltip]="transfertActif"
           >
             <ng-template #transfertActif>
@@ -161,26 +161,35 @@
 
           <div
             class="label-info label-yellow"
-            *ngIf="usager.options.isProcurationActifMaintenant"
+            *ngIf="usager.options.procurations.length > 0"
             [ngbTooltip]="procurationActif"
           >
             <ng-template #procurationActif>
-              <span *ngIf="usager.options.procuration.dateFin > today">
-                <fa-icon
-                  [icon]="['fas', 'share']"
-                  class="text-primary mr-1"
-                ></fa-icon>
-                Procuration : {{ usager.options.procuration.nom }} {{
-                usager.options.procuration.prenom }}
-              </span>
+              <div
+                class="text-left"
+                *ngFor="let procuration of usager.options.procurations; let i = index"
+              >
+                <span *ngIf="procuration.dateFin > today">
+                  <fa-icon
+                    [icon]="['fas', 'share']"
+                    class="text-primary mr-1"
+                  ></fa-icon>
+                  Procuration active : {{ procuration.nom }} {{
+                  procuration.prenom }}
+                </span>
 
-              <span *ngIf="usager.options.procuration.dateFin <= today">
-                Procuration expirée : {{usager.options.procuration.dateFin |
-                date: "dd/MM/yyyy" }}
-              </span>
+                <span *ngIf="procuration.dateFin <= today">
+                  <fa-icon
+                    [icon]="['fas', 'times']"
+                    class="text-danger mr-1"
+                  ></fa-icon>
+                  Procuration expirée : {{procuration.dateFin | date:
+                  "dd/MM/yyyy" }}
+                </span>
+              </div>
             </ng-template>
 
-            <div>Procuration</div>
+            <div>Procurations</div>
           </div>
 
           <div
