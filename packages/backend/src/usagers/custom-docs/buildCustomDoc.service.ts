@@ -75,8 +75,9 @@ export function buildCustomDoc({
   // Motif de refus
   const motif = generateMotifLabel(usager.decision);
   // Procu & transfert
-  const procuration = usager.options.procuration;
+
   const transfert = usager.options.transfert;
+  const procurations = usager.options.procurations;
   const orientation = usager.entretien.orientation
     ? usager.entretien.orientationDetail
       ? "Oui: " + usager.entretien.orientationDetail
@@ -200,21 +201,18 @@ export function buildCustomDoc({
         : "",
 
     // Procuration
-    PROCURATION_ACTIF: procuration.actif ? "OUI" : "NON",
-    PROCURATION_NOM: procuration.actif ? procuration.nom : "",
-    PROCURATION_PRENOM: procuration.actif ? procuration.prenom : "",
-    PROCURATION_DATE_DEBUT:
-      procuration.actif && procuration.dateDebut
-        ? format(new Date(procuration.dateDebut), "dd/MM/yyyy")
-        : "",
-    PROCURATION_DATE_FIN:
-      procuration.actif && procuration.dateFin
-        ? format(new Date(procuration.dateFin), "dd/MM/yyyy")
-        : "",
-    PROCURATION_DATE_NAISSANCE:
-      procuration.actif && procuration.dateNaissance
-        ? format(new Date(procuration.dateNaissance), "dd/MM/yyyy")
-        : "",
+    PROCURATION_ACTIF: procurations.length > 0 ? "OUI" : "NON",
+    PROCURATION_NOM: procurations[0].actif ? procurations[0].nom : "",
+    PROCURATION_PRENOM: procurations[0].actif ? procurations[0].prenom : "",
+    PROCURATION_DATE_DEBUT: procurations[0].dateDebut
+      ? format(new Date(procurations[0].dateDebut), "dd/MM/yyyy")
+      : "",
+    PROCURATION_DATE_FIN: procurations[0].dateFin
+      ? format(new Date(procurations[0].dateFin), "dd/MM/yyyy")
+      : "",
+    PROCURATION_DATE_NAISSANCE: procurations[0].dateNaissance
+      ? format(new Date(procurations[0].dateNaissance), "dd/MM/yyyy")
+      : "",
 
     ...extraParameters,
   };
