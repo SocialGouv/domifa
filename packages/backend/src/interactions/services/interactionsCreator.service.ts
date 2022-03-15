@@ -102,12 +102,17 @@ async function buildNewInteraction({
     interaction.content = lastInteraction?.content || "";
 
     // La procuration ne remet pas à jour le dernier passage
-    if (interaction.procuration) {
+    if (
+      interaction.procurationIndex === 0 ||
+      interaction.procurationIndex === 1
+    ) {
       interaction.content =
         "Courrier remis au mandataire : " +
-        usager.options.procuration.prenom +
+        usager.options.procurations[interaction.procurationIndex].prenom +
         " " +
-        usager.options.procuration.nom.toUpperCase();
+        usager.options.procurations[
+          interaction.procurationIndex
+        ].nom.toUpperCase();
     } else {
       usager.lastInteraction.dateInteraction = new Date();
     }
@@ -138,7 +143,7 @@ async function buildNewInteraction({
     interaction.nbCourrier = 0;
   }
 
-  delete interaction.procuration;
+  delete interaction.procurationIndex;
 
   const newInteraction: Interactions = {
     ...interaction,
