@@ -105,7 +105,6 @@
   background-color: #c8dbff;
   border: 1px solid var(--primary);
   border-radius: 50%;
-  cursor: pointer;
   transition: background-color 300ms ease, colour 300ms ease,
     box-shadow 300ms ease;
 }
