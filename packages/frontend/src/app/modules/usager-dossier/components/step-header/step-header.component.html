@@ -19,7 +19,11 @@
         </ng-container>
       </h1>
 
-      <div class="text-light d-flex align-items-center" *ngIf="usager.ref">
+      <div
+        class="private-notes-anchor text-light d-flex align-items-center"
+        *ngIf="usager.ref"
+        (click)="navigateToNotes()"
+      >
         <div class="icon-note mr-2"></div>
         Commentaires privés
         <div class="notif-notes ml-2">

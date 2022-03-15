@@ -24,4 +24,13 @@ export class StepHeaderComponent implements OnInit, OnChanges {
       (note) => !note.archived
     ).length;
   }
+
+  public navigateToNotes(): void {
+    const element = document.getElementById("private_notes");
+    element.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest",
+    });
+  }
 }
