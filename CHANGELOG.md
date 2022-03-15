@@ -1,3 +1,16 @@
+# [2.79.0](https://github.com/SocialGouv/domifa/compare/v2.78.0...v2.79.0) (2022-03-15)
+
+
+### Bug Fixes
+
+* test unitaire ([5180a82](https://github.com/SocialGouv/domifa/commit/5180a82cdd675508bd21118c2efb3ffb58ca5439))
+* **db:** Correction de la DB d'initialisation ([586c0fc](https://github.com/SocialGouv/domifa/commit/586c0fc50a4235ba19a4cb9ad38bdaff6b55b114))
+
+
+### Features
+
+* **Procurations:** Ajout d'une seconde procuration ([6eab230](https://github.com/SocialGouv/domifa/commit/6eab2307bfd5990f8b0037337d2bbb7bd21398ae))
+
 # [2.78.0](https://github.com/SocialGouv/domifa/compare/v2.77.0...v2.78.0) (2022-03-09)
 
 
