@@ -13,8 +13,8 @@ import {
   UsagerLight,
 } from "../../../../../_common/model";
 import {
+  InteractionInForApi,
   InteractionType,
-  InteractionForApi,
 } from "../../../../../_common/model/interaction";
 import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../_common/model/interaction/constants";
 import { USAGER_DECISION_STATUT_LABELS } from "../../../../../_common/model/usager/constants";
@@ -38,19 +38,16 @@ import { ProfilGeneralHistoriqueCourriersComponent } from "../profil-general-his
   styleUrls: ["./profil-general-section.component.css"],
 })
 export class ProfilGeneralSectionComponent implements OnInit {
-  public typeInteraction: InteractionType;
   public interactions: Interaction[];
 
   public actions: {
     [key: string]: string;
   };
 
-  public motifsRadiation: { [key: string]: string };
-
-  public usager: UsagerFormModel;
+  public usager!: UsagerFormModel;
 
   public today: Date;
-  public me: UserStructure;
+  public me!: UserStructure;
 
   public minDateNaissance: NgbDateStruct;
   public maxDateNaissance: NgbDateStruct;
@@ -131,9 +128,10 @@ export class ProfilGeneralSectionComponent implements OnInit {
   }
 
   public setSingleInteraction(usagerRef: number, type: InteractionType): void {
-    const interaction: InteractionForApi = {
+    const interaction: InteractionInForApi = {
       type,
       nbCourrier: 1,
+      content: null,
     };
 
     if (this.loadingButtons.indexOf(type) !== -1) {
@@ -143,18 +141,20 @@ export class ProfilGeneralSectionComponent implements OnInit {
 
     this.loadingButtons.push(type);
 
-    this.interactionService.setInteraction(usagerRef, [interaction]).subscribe({
-      next: (newUsager: UsagerLight) => {
-        this.usager = new UsagerFormModel(newUsager);
-        this.toastService.success(INTERACTIONS_LABELS_SINGULIER[type]);
-        this.updateInteractions();
-        this.stopLoading(type);
-      },
-      error: () => {
-        this.toastService.error("Impossible d'enregistrer cette interaction");
-        this.stopLoading(type);
-      },
-    });
+    this.interactionService
+      .setInteractionIn(usagerRef, [interaction])
+      .subscribe({
+        next: (newUsager: UsagerLight) => {
+          this.usager = new UsagerFormModel(newUsager);
+          this.toastService.success(INTERACTIONS_LABELS_SINGULIER[type]);
+          this.updateInteractions();
+          this.stopLoading(type);
+        },
+        error: () => {
+          this.toastService.error("Impossible d'enregistrer cette interaction");
+          this.stopLoading(type);
+        },
+      });
   }
 
   public stopCourrier(): void {

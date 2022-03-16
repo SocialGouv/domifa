@@ -5,7 +5,6 @@ import {
   MessageSmsInteractionMetas,
   MessageSmsReminderMetas,
   MessageSmsStatus,
-  MessageSmsUpdate,
 } from "../../../_common/model/message-sms";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 
@@ -52,9 +51,6 @@ export class MessageSmsTable
 
   @Column({ type: "jsonb", nullable: true })
   public reminderMetas: MessageSmsReminderMetas;
-
-  @Column({ type: "jsonb", nullable: true })
-  public statusUpdates: MessageSmsUpdate[];
 
   @Column({ type: "timestamptz", nullable: true })
   public lastUpdate: Date;

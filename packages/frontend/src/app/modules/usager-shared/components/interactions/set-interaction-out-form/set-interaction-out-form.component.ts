@@ -10,7 +10,10 @@ import {
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { BehaviorSubject, Subscription, combineLatest } from "rxjs";
 import { UsagerLight } from "../../../../../../_common/model";
-import { InteractionOutForm } from "../../../../../../_common/model/interaction";
+import {
+  InteractionOutForApi,
+  InteractionOutForm,
+} from "../../../../../../_common/model/interaction";
 import { INTERACTIONS_OUT_AVAILABLE } from "../../../../../../_common/model/interaction/constants";
 import { bounce } from "../../../../../shared";
 import { UsagerService } from "../../../../usagers/services/usager.service";
@@ -24,7 +27,7 @@ import { InteractionService } from "../../../services/interaction.service";
   styleUrls: ["../interactions.css"],
 })
 export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
-  @Input() public usager: UsagerFormModel;
+  @Input() public usager!: UsagerFormModel;
 
   @Output()
   public cancelReception = new EventEmitter<void>();
@@ -39,9 +42,10 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   public selectedInteractionsWithContent: Interaction[] = [];
 
   public interactionFormData: InteractionOutForm;
+
   public interactionFormData$: BehaviorSubject<InteractionOutForm>;
 
-  public procurationIndex: number; // Mandataire = true / domicilié = false
+  public procurationIndex: number | null; // Mandataire = true / domicilié = false
   public loading = false;
 
   private subscription: Subscription;
@@ -55,18 +59,18 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
     this.interactionFormData = {
       courrierOut: {
         nbCourrier: 0,
-        procuration: false,
         selected: false,
+        procurationIndex: 0,
       },
       recommandeOut: {
         nbCourrier: 0,
-        procuration: false,
         selected: false,
+        procurationIndex: 0,
       },
       colisOut: {
         nbCourrier: 0,
-        procuration: false,
         selected: false,
+        procurationIndex: 0,
       },
     };
 
@@ -138,20 +142,20 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   }
 
   public setInteractionForm(): void {
-    const interactionsToSave = INTERACTIONS_OUT_AVAILABLE.reduce(
-      (filtered, interaction) => {
-        if (this.interactionFormData[interaction].selected) {
-          filtered.push({
-            // TODO: ajouter la procu
-            procuration: this.procurationIndex !== null ? true : false,
-            nbCourrier: this.interactionFormData[interaction].nbCourrier,
-            type: interaction,
-          });
-        }
-        return filtered;
-      },
-      []
-    );
+    const interactionsToSave: InteractionOutForApi[] =
+      INTERACTIONS_OUT_AVAILABLE.reduce(
+        (filtered: InteractionOutForApi[], interaction) => {
+          if (this.interactionFormData[interaction].selected) {
+            filtered.push({
+              procurationIndex: this.procurationIndex,
+              nbCourrier: this.interactionFormData[interaction].nbCourrier,
+              type: interaction,
+            });
+          }
+          return filtered;
+        },
+        []
+      );
 
     if (interactionsToSave.length === 0) {
       this.cancelReception.emit();
@@ -160,7 +164,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
 
     this.loading = true;
     this.interactionService
-      .setInteraction(this.usager.ref, interactionsToSave)
+      .setInteractionOut(this.usager.ref, interactionsToSave)
       .subscribe({
         next: () => {
           this.loading = false;

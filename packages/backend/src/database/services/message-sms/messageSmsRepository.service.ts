@@ -28,7 +28,6 @@ export const SMS_ON_HOLD_INTERACTION: (keyof MessageSms)[] = [
   "responseId",
   "phoneNumber",
   "senderName",
-  "statusUpdates",
 ];
 
 export const messageSmsRepository = {

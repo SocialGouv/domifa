@@ -1,3 +1,4 @@
+import { usagerOptionsHistoryRepository } from "./../../database/services/usager/usagerOptionsHistoryRepository.service";
 import { messageSmsRepository } from "./../../database/services/message-sms/messageSmsRepository.service";
 import {
   Body,
@@ -293,12 +294,11 @@ export class UsagersController {
       structureId: user.structureId,
     });
 
-    await this.appLogsService.create({
-      userId: user.id,
-      usagerRef: usager.ref,
-      structureId: user.structureId,
-      action: "SUPPRIMER_DOMICILIE",
+    // Historique de la procuration
+    await usagerOptionsHistoryRepository.deleteByCriteria({
+      usagerUUID: usager.uuid,
     });
+
     // Interactions
     await interactionRepository.deleteByCriteria({
       usagerRef: usager.ref,
@@ -323,6 +323,13 @@ export class UsagersController {
       structureId: user.structureId,
     });
 
+    // Ajout d'un log
+    await this.appLogsService.create({
+      userId: user.id,
+      usagerRef: usager.ref,
+      structureId: user.structureId,
+      action: "SUPPRIMER_DOMICILIE",
+    });
     return res.status(HttpStatus.OK).json({ message: "DELETE_SUCCESS" });
   }
 

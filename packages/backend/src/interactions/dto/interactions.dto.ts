@@ -1,16 +1,21 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams } from "class-transformer";
 import {
-  IsBoolean,
   IsEmpty,
   IsIn,
   IsNotEmpty,
   IsNumber,
   IsOptional,
+  IsString,
   Max,
   Min,
+  ValidateIf,
 } from "class-validator";
-import { InteractionType } from "../../_common/model";
+import {
+  InteractionType,
+  INTERACTION_IN_CREATE_SMS,
+  INTERACTION_OUT_REMOVE_SMS,
+} from "../../_common/model";
 
 export class InteractionDto {
   @ApiProperty({
@@ -46,7 +51,9 @@ export class InteractionDto {
     type: String,
     required: false,
   })
+  @ValidateIf((o) => INTERACTION_IN_CREATE_SMS.indexOf(o.type) !== -1)
   @IsOptional()
+  @IsString()
   @Transform(({ value }: TransformFnParams) => {
     return value ? value.toString().trim() : null;
   })
@@ -56,6 +63,7 @@ export class InteractionDto {
     type: Number,
     required: false,
   })
+  @ValidateIf((o) => INTERACTION_OUT_REMOVE_SMS.indexOf(o.type) !== -1)
   @IsOptional()
   @IsNumber()
   @Min(0)

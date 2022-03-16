@@ -6,7 +6,7 @@ export type Interactions = AppEntity & {
   id?: number;
   createdAt?: Date;
   content?: string;
-  dateInteraction: Date;
+  dateInteraction: Date | null;
   nbCourrier: number;
   structureId: number;
   type: InteractionType;
@@ -14,6 +14,7 @@ export type Interactions = AppEntity & {
   usagerUUID?: string;
   userId: number;
   userName: string;
+
   event: InteractionEvent;
   previousValue?: Interactions; // if event === 'delete'
 };

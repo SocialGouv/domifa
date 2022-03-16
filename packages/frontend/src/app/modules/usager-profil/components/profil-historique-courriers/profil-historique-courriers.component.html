@@ -27,7 +27,7 @@
         <th scope="col">Date</th>
         <th scope="col">Type d'interaction</th>
         <th scope="col">Notifié par</th>
-        <th scope="col text-right">Actions</th>
+        <th scope="col text-right d-print-none">Actions</th>
       </tr>
     </thead>
 
@@ -49,9 +49,9 @@
           <td>
             <div *ngIf="interaction.event === 'create'">
               {{ interaction.label }}
-              <span *ngIf="interaction.content">
-                : {{ interaction.content }}
-              </span>
+              <div *ngIf="interaction.content">
+                {{ interaction.content }}
+              </div>
             </div>
             <div *ngIf="interaction.event === 'delete'">
               <b>{{ interaction.label }}</b>

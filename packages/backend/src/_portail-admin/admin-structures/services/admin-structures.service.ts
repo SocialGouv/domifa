@@ -110,7 +110,6 @@ export class AdminStructuresService {
     return data;
   }
 
-  // TODO: ajouter la région
   public async getStructuresByType(region?: string): Promise<
     {
       structureType: StructureType;

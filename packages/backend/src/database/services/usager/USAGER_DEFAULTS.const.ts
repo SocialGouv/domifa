@@ -7,19 +7,8 @@ export const USAGER_DEFAULT_OPTIONS: UsagerOptions = {
     dateDebut: null,
     dateFin: null,
   },
-
-  // TODO: SUPPRIMER
-  procuration: {
-    actif: null,
-    nom: null,
-    prenom: null,
-    dateFin: null,
-    dateDebut: null,
-    dateNaissance: null,
-  },
   procurations: [
     {
-      actif: null,
       nom: null,
       prenom: null,
       dateFin: null,

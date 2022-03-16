@@ -3,13 +3,14 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { filter, map, startWith, tap } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
-import { UsagerLight } from "../../../../_common/model";
-import { InteractionInForm } from "../../../../_common/model/interaction";
+import {
+  InteractionInForApi,
+  InteractionOutForApi,
+  UsagerLight,
+} from "../../../../_common/model";
 
-import { Interaction, UsagerFormModel } from "../interfaces";
+import { Interaction } from "../interfaces";
 import { usagersCache } from "../../../shared/store";
-
-import { InteractionForApi } from "./../../../../_common/model/interaction/InteractionForApi.type";
 
 @Injectable({
   providedIn: "root",
@@ -19,9 +20,22 @@ export class InteractionService {
 
   constructor(private http: HttpClient) {}
 
-  public setInteraction(
+  public setInteractionIn(
     usagerRef: number,
-    interactions: InteractionForApi[]
+    interactions: InteractionInForApi[]
+  ): Observable<UsagerLight> {
+    return this.http
+      .post<UsagerLight>(`${this.endPoint}${usagerRef}`, interactions)
+      .pipe(
+        tap((newUsager: UsagerLight) => {
+          usagersCache.updateUsager(newUsager);
+        })
+      );
+  }
+
+  public setInteractionOut(
+    usagerRef: number,
+    interactions: InteractionOutForApi[]
   ): Observable<UsagerLight> {
     return this.http
       .post<UsagerLight>(`${this.endPoint}${usagerRef}`, interactions)
@@ -68,15 +82,5 @@ export class InteractionService {
 
   public delete(usagerRef: number, interactionUuid: string) {
     return this.http.delete(`${this.endPoint}${usagerRef}/${interactionUuid}`);
-  }
-
-  // Courrier entrant
-  public setInteractionIN(
-    usager: UsagerLight | UsagerFormModel,
-    interaction?: InteractionInForm
-  ): Observable<UsagerLight> {
-    return this.http
-      .post<UsagerLight>(`${this.endPoint}in/${usager.ref}`, interaction)
-      .pipe();
   }
 }

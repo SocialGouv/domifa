@@ -1,8 +1,13 @@
 import { InteractionType } from ".";
 
-export type InteractionForApi = {
+export type InteractionInForApi = {
   nbCourrier: number;
   type: InteractionType;
-  procuration?: boolean;
-  content?: string;
+  content: string | null;
+};
+
+export type InteractionOutForApi = {
+  nbCourrier: number;
+  type: InteractionType;
+  procurationIndex: number | null;
 };

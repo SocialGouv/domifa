@@ -117,7 +117,6 @@ async function createTables(queryRunner: QueryRunner) {
       "sendDate" timestamptz NULL,
       "interactionMetas" jsonb NULL,
       "reminderMetas" jsonb NULL,
-      "statusUpdates" jsonb NULL,
       "lastUpdate" timestamptz NULL,
       "errorCount" int4 NOT NULL DEFAULT 0,
       "errorMessage" text NULL,
