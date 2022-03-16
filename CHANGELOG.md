@@ -1,3 +1,10 @@
+# [2.80.0](https://github.com/SocialGouv/domifa/compare/v2.79.0...v2.80.0) (2022-03-16)
+
+
+### Features
+
+* anchor to private notes ([a4d68ea](https://github.com/SocialGouv/domifa/commit/a4d68eab794ae2c19c8d1272f22d0e2249b96fc1))
+
 # [2.79.0](https://github.com/SocialGouv/domifa/compare/v2.78.0...v2.79.0) (2022-03-15)
 
 
