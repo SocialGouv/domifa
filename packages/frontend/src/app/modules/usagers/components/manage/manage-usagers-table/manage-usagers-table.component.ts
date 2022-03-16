@@ -17,7 +17,7 @@ import { MatomoTracker } from "ngx-matomo";
 import { UserStructure, UsagerLight } from "../../../../../../_common/model";
 import {
   InteractionType,
-  InteractionForApi,
+  InteractionInForApi,
 } from "../../../../../../_common/model/interaction";
 import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../../_common/model/interaction/constants";
 import { fadeInOut } from "../../../../../shared";
@@ -74,7 +74,7 @@ export class ManageUsagersTableComponent implements OnInit {
     TROIS_MOIS: "Dernier passage 3 mois",
   };
 
-  public selectedUsager: UsagerFormModel;
+  public selectedUsager: UsagerFormModel | null;
 
   @ViewChild("setInteractionInModal")
   public setInteractionInModal!: TemplateRef<NgbModalRef>;
@@ -90,12 +90,14 @@ export class ManageUsagersTableComponent implements OnInit {
     private toastService: CustomToastService,
     private matomo: MatomoTracker
   ) {
+    this.today = new Date();
+    this.selectedUsager = null;
     this.loadingButtons = [];
+    this.usagers = [];
   }
 
   public ngOnInit(): void {
     this.selectedUsager = {} as UsagerFormModel;
-    this.today = new Date();
   }
 
   public setSingleInteraction(
@@ -112,9 +114,10 @@ export class ManageUsagersTableComponent implements OnInit {
 
     this.loadingButtons.push(loadingRef);
 
-    const interaction: InteractionForApi = {
+    const interaction: InteractionInForApi = {
       type,
       nbCourrier: 1,
+      content: null,
     };
 
     const interactionType: { [key: string]: string } = {
@@ -126,7 +129,7 @@ export class ManageUsagersTableComponent implements OnInit {
     this.matomo.trackEvent("MANAGE_USAGERS", "click", interactionType[type], 1);
 
     this.interactionService
-      .setInteraction(usager.ref, [interaction])
+      .setInteractionIn(usager.ref, [interaction])
       .subscribe({
         next: (newUsager: UsagerLight) => {
           usager = new UsagerFormModel(newUsager);

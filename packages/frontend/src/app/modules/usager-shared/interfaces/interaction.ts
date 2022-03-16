@@ -15,12 +15,10 @@ export class Interaction implements Interactions {
   public dateInteraction: Date | null;
   public content?: string;
   public nbCourrier: number;
-  public usagerRef: number;
-  public structureId: number;
-  public userName: string;
+  public usagerRef: number | null;
+  public structureId: number | null;
+  public userName: string | null;
   public userId: number;
-  public interactionOutUUID: number;
-  public interactionOut: number;
 
   public label: string;
 

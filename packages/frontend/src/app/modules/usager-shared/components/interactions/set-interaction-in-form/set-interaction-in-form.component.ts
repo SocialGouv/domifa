@@ -1,3 +1,4 @@
+import { InteractionInForApi } from "./../../../../../../_common/model/interaction/InteractionForApi.type";
 import {
   Component,
   EventEmitter,
@@ -25,7 +26,7 @@ import { InteractionService } from "../../../services/interaction.service";
   styleUrls: ["./set-interaction-in-form.component.css", "../interactions.css"],
 })
 export class SetInteractionInFormComponent implements OnInit {
-  @Input() public usager: UsagerFormModel;
+  @Input() public usager!: UsagerFormModel;
 
   @Output()
   public cancelReception = new EventEmitter<void>();
@@ -38,7 +39,7 @@ export class SetInteractionInFormComponent implements OnInit {
 
   public interactionFormData: InteractionInForm;
 
-  public content: string;
+  public content: string | null;
   public loading = false;
 
   constructor(
@@ -66,19 +67,20 @@ export class SetInteractionInFormComponent implements OnInit {
   public ngOnInit(): void {}
 
   public setInteractionForm(): void {
-    const interactionsToSave = INTERACTIONS_IN_AVAILABLE.reduce(
-      (filtered, interaction) => {
-        if (this.interactionFormData[interaction].nbCourrier > 0) {
-          filtered.push({
-            nbCourrier: this.interactionFormData[interaction].nbCourrier,
-            type: interaction,
-            content: this.content,
-          });
-        }
-        return filtered;
-      },
-      []
-    );
+    const interactionsToSave: InteractionInForApi[] =
+      INTERACTIONS_IN_AVAILABLE.reduce(
+        (filtered: InteractionInForApi[], interaction) => {
+          if (this.interactionFormData[interaction].nbCourrier > 0) {
+            filtered.push({
+              nbCourrier: this.interactionFormData[interaction].nbCourrier,
+              type: interaction,
+              content: this.content,
+            });
+          }
+          return filtered;
+        },
+        []
+      );
 
     if (interactionsToSave.length === 0) {
       this.toastService.warning(
@@ -92,7 +94,7 @@ export class SetInteractionInFormComponent implements OnInit {
     this.loading = true;
 
     this.interactionService
-      .setInteraction(this.usager.ref, interactionsToSave)
+      .setInteractionIn(this.usager.ref, interactionsToSave)
       .subscribe({
         next: () => {
           this.toastService.success("Réception enregistrée avec succès");

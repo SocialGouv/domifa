@@ -75,7 +75,7 @@ function renderWorksheet({
           dateNaissance: usager.dateNaissance,
           sms: usager?.preference?.phone ? "OUI" : "NON",
           transfert: usager?.options?.transfert?.actif ? "OUI" : "NON",
-          procuration: usager?.options?.procuration?.actif ? "OUI" : "NON",
+          procuration: usager?.options?.procurations.length > 0 ? "OUI" : "NON",
           courrierIn: usagersInteractionsCounts.courrierIn,
           courrierOut: usagersInteractionsCounts.courrierOut,
           recommandeIn: usagersInteractionsCounts.recommandeIn,

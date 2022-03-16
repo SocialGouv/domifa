@@ -25,10 +25,10 @@ export class UsagerOptionsHistoryTable
   @Column({ type: "integer", nullable: true })
   public userId: number;
 
-  @Column({ type: "text" })
+  @Column({ type: "text", nullable: true })
   public userName: string;
 
-  @Column({ type: "integer" })
+  @Column({ type: "integer", nullable: true })
   public structureId: number;
 
   @Column({ type: "text" })

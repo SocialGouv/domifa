@@ -174,7 +174,6 @@ export class UsagersService {
         usager.customRef = decision.customRef;
       }
 
-      // TODO: revoir ceci une fois qu'on pourra ajouter le type de dom
       if (usager.datePremiereDom !== null) {
         usager.typeDom = "RENOUVELLEMENT";
       } else {
