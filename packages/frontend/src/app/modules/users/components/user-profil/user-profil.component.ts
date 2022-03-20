@@ -10,6 +10,8 @@ import {
 } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsersService } from "../../services/users.service";
+import {tap} from "rxjs/operators";
+import {Observable} from "rxjs";
 
 @Component({
   selector: "app-user-profil",
@@ -18,7 +20,7 @@ import { UsersService } from "../../services/users.service";
 })
 export class UserProfilComponent implements OnInit {
   public users: UserStructureProfile[];
-  public me: UserStructure;
+  public currentUserSubject$: Observable<UserStructure>;
 
   public selectedUser: UserStructure;
   public usersInfos: boolean;
@@ -40,14 +42,8 @@ export class UserProfilComponent implements OnInit {
 
   public ngOnInit(): void {
     this.titleService.setTitle("Gestion des utilisateurs Domifa");
+    this.currentUserSubject$ = this.authService.currentUserSubject.pipe(tap( user => this.getUsers()))
 
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      if (user !== null) {
-        this.me = user;
-
-        this.getUsers();
-      }
-    });
   }
 
   public updateRole(id: number, role: UserStructureRole) {
