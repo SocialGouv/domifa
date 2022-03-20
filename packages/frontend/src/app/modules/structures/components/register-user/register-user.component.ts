@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import {Component, Input, OnDestroy, OnInit} from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -7,7 +7,7 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 
-import { of } from "rxjs";
+import {of, Subject, takeUntil} from "rxjs";
 import { map } from "rxjs/operators";
 import { UserStructure, StructureCommon } from "../../../../../_common/model";
 import { fadeInOut, regexp } from "../../../../shared";
@@ -24,7 +24,7 @@ import { StructureService } from "../../services/structure.service";
   styleUrls: ["./register-user.component.css"],
   templateUrl: "./register-user.component.html",
 })
-export class RegisterUserComponent implements OnInit {
+export class RegisterUserComponent implements OnInit, OnDestroy {
   public user: UserStructure;
   public userForm: FormGroup;
 
@@ -33,8 +33,8 @@ export class RegisterUserComponent implements OnInit {
 
   public hidePassword: boolean;
   public hidePasswordConfirm: boolean;
-
   public emailExist = false;
+  private unsubscribe: Subject<void> = new Subject();
 
   @Input() public structureRegisterInfos!: {
     etapeInscription: number;
@@ -112,7 +112,7 @@ export class RegisterUserComponent implements OnInit {
         .create({
           structure: this.structureRegisterInfos.structure,
           user: this.userForm.value,
-        })
+        }).pipe(takeUntil(this.unsubscribe))
         .subscribe({
           next: () => {
             this.success = true;
@@ -133,10 +133,16 @@ export class RegisterUserComponent implements OnInit {
     const testEmail = RegExp(regexp.email).test(control.value);
     return testEmail
       ? this.userService.validateEmail(control.value).pipe(
+          takeUntil(this.unsubscribe),
           map((res: boolean) => {
             return res === false ? null : { emailTaken: true };
           })
         )
       : of(null);
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }
