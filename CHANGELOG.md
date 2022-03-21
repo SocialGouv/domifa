@@ -1,3 +1,10 @@
+## [2.80.1](https://github.com/SocialGouv/domifa/compare/v2.80.0...v2.80.1) (2022-03-21)
+
+
+### Bug Fixes
+
+* **deps:** update dependency email-templates to v9 ([29745ab](https://github.com/SocialGouv/domifa/commit/29745ab92981703549f5b9a77e6d5623d8451ac9))
+
 # [2.80.0](https://github.com/SocialGouv/domifa/compare/v2.79.0...v2.80.0) (2022-03-16)
 
 
