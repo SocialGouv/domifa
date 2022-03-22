@@ -8,6 +8,7 @@ import {
   UsagerRdv,
   UsagerSexe,
   UsagerTypeDom,
+  Telephone,
 } from "../../../_common/model";
 import { UsagerEntretien } from "../../../_common/model/usager/entretien";
 import { UsagerAyantDroit } from "../../../_common/model/usager/UsagerAyantDroit.type";
@@ -69,6 +70,13 @@ export class UsagerTable
   @Column({ type: "text", nullable: true })
   public email: string;
 
+  @Column({
+    type: "jsonb",
+    nullable: true,
+    default: () => `'{"indicatif": "+33", "numero": ""}'`,
+  })
+  public telephone: Telephone;
+
   @Column({ type: "text", nullable: true })
   public phone: string;
 
@@ -76,7 +84,8 @@ export class UsagerTable
   @Column({
     type: "jsonb",
     nullable: true,
-    default: () => `'{"email": false, "phone": false, "phoneNumber": null}'`,
+    default: () =>
+      `'{"email": false, "phone": false, "phoneNumber": null, "telephone": null}'`,
   })
   public preference: UsagerPreferenceContact;
 
