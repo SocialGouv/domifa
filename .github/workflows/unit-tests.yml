@@ -55,7 +55,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Set up Node.js v14
+      - name: Set up Node.js v17
         uses: actions/setup-node@v3
         with:
           node-version: "17"
@@ -84,7 +84,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Set up Node.js v14
+      - name: Set up Node.js v17
         uses: actions/setup-node@v3
         with:
           node-version: "17"
@@ -113,7 +113,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Set up Node.js v14
+      - name: Set up Node.js v17
         uses: actions/setup-node@v3
         with:
           node-version: "17"
