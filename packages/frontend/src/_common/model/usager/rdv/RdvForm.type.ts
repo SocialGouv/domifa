@@ -1,5 +1,5 @@
 export type RdvForm = {
   isNow: boolean;
-  dateRdv?: string;
+  dateRdv?: Date;
   userId: number;
 };

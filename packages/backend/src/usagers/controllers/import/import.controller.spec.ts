@@ -9,7 +9,7 @@ import {
   AppTestHttpClient,
 } from "../../../util/test";
 import { TESTS_USERS_STRUCTURE } from "../../../_tests";
-import { CerfaService } from "../../services/cerfa.service";
+
 import { DocumentsService } from "../../services/documents.service";
 import { UsagersService } from "../../services/usagers.service";
 import { ImportController } from "./import.controller";
@@ -29,7 +29,7 @@ describe("Import Controller", () => {
       {
         controllers: [ImportController],
         imports: [UsersModule, StructuresModule],
-        providers: [CerfaService, UsagersService, DocumentsService],
+        providers: [UsagersService, DocumentsService],
       },
       { initApp: true }
     );

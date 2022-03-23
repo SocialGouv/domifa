@@ -8,7 +8,6 @@ import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { CreateUsagerDto } from "../dto/CreateUsagerDto";
 
-import { CerfaService } from "./cerfa.service";
 import { UsagersService } from "./usagers.service";
 
 describe("UsagersService", () => {
@@ -29,7 +28,7 @@ describe("UsagersService", () => {
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       imports: [forwardRef(() => UsersModule)],
-      providers: [UsagersService, CerfaService],
+      providers: [UsagersService],
     });
     service = context.module.get<UsagersService>(UsagersService);
   });

@@ -15,7 +15,6 @@ import { UsagerStructureDocsController } from "./controllers/usager-structure-do
 import { UsagersDecisionController } from "./controllers/usagers-decision.controller";
 import { UsagersController } from "./controllers/usagers.controller";
 import { UsagerOptionsController } from "./controllers/usager-options.controller";
-import { CerfaService } from "./services/cerfa.service";
 import { DocumentsService } from "./services/documents.service";
 import { UsagersService } from "./services/usagers.service";
 import { UsagerOptionsHistoryService } from "./services/usagerOptionsHistory.service";
@@ -33,7 +32,7 @@ import { AppLogsModule } from "../modules/app-logs/app-logs.module";
     ExportStructureUsagersController,
     UsagerOptionsController,
   ],
-  exports: [UsagersService, CerfaService, DocumentsService],
+  exports: [UsagersService, DocumentsService],
   imports: [
     HttpModule,
     forwardRef(() => MailsModule),
@@ -43,11 +42,6 @@ import { AppLogsModule } from "../modules/app-logs/app-logs.module";
     forwardRef(() => InteractionsModule),
     forwardRef(() => AppLogsModule),
   ],
-  providers: [
-    UsagersService,
-    CerfaService,
-    DocumentsService,
-    UsagerOptionsHistoryService,
-  ],
+  providers: [UsagersService, DocumentsService, UsagerOptionsHistoryService],
 })
 export class UsagersModule {}

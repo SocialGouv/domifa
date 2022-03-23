@@ -1,5 +1,5 @@
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
-import { DateCerfa, UserStructureAuthenticated } from "../../_common/model";
+import { DateCerfa, UserStructureAuthenticated } from "../../../_common/model";
 
 export function generateDateForCerfa(
   date: Date | string | null,
@@ -20,7 +20,6 @@ export function generateDateForCerfa(
       // On Repasse en UTC pour convertir correctement
       date = zonedTimeToUtc(date, "Europe/Paris");
       // On repasse sur la bonne timezone
-
       date = utcToZonedTime(date, user.structure.timeZone);
     }
 

@@ -1,6 +1,6 @@
 import * as ExcelJS from "exceljs";
 import { UsagersImportRow } from "../model";
-import moment = require("moment");
+import { format } from "date-fns";
 
 export const usagersImportExcelParser = {
   parseFileSync,
@@ -49,7 +49,7 @@ function parseValue(xlCell: ExcelJS.Cell): Date | boolean | number | string {
   }
 
   if (rawValue instanceof Date) {
-    return moment(rawValue).format("DD/MM/yyyy");
+    return format(rawValue, "DD/MM/yyyy");
   }
 
   if (typeof rawValue === "string") {

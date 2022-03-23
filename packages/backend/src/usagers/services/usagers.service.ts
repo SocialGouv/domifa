@@ -1,4 +1,3 @@
-import { zonedTimeToUtc } from "date-fns-tz";
 import { Injectable } from "@nestjs/common";
 
 import {
@@ -28,7 +27,6 @@ import { RdvDto } from "../dto/rdv.dto";
 import { DecisionDto } from "../dto";
 
 import { endOfDay, subMinutes } from "date-fns";
-import { domifaConfig } from "../../config";
 
 @Injectable()
 export class UsagersService {
@@ -64,9 +62,9 @@ export class UsagersService {
     const usagerHistory = usagerHistoryStateManager.buildInitialHistoryState({
       isImport: false,
       usager: createdUsager,
-      createdAt: usager.decision.dateDecision,
+      createdAt: createdUsager.decision.dateDecision,
       createdEvent: "new-decision",
-      historyBeginDate: usager.decision.dateDebut,
+      historyBeginDate: createdUsager.decision.dateDebut,
     });
 
     await usagerHistoryRepository.save(usagerHistory);
@@ -95,8 +93,10 @@ export class UsagersService {
       usager.decision.statut === "REFUS" || usager.decision.statut === "RADIE"
         ? "PREMIERE_DOM"
         : "RENOUVELLEMENT";
+
     let newDateFin = null;
 
+    // Pour les renouvellements de dossier encore valide, on reprend l'actuelle date de fin
     if (usager.decision.statut === "VALIDE") {
       newDateFin = endOfDay(usager.decision.dateFin);
     }
@@ -115,12 +115,10 @@ export class UsagersService {
     // Ajout du précédent état dans l'historique
     usagerVisibleHistoryManager.addDecisionToVisibleHistory({ usager });
 
-    if (!usager.options.npai) {
-      usager.options.npai = {} as any;
-    }
-
-    usager.options.npai.actif = false;
-    usager.options.npai.dateDebut = null;
+    usager.options.npai = {
+      actif: false,
+      dateDebut: null,
+    };
 
     usager.etapeDemande = ETAPE_ETAT_CIVIL;
     usager.typeDom = "RENOUVELLEMENT";
@@ -240,7 +238,7 @@ export class UsagersService {
   }
 
   public async setRdv(
-    { uuid }: { uuid: string },
+    uuid: string,
     rdv: RdvDto,
     user: UserStructureProfile
   ): Promise<UsagerLight> {
@@ -248,38 +246,21 @@ export class UsagersService {
       uuid,
     });
 
-    if (!usager.rdv) {
-      usager.rdv = {
-        userId: rdv.userId,
-        userName: user.prenom + " " + user.nom,
-        dateRdv: null,
-      };
-    }
+    usager.rdv = {
+      userId: rdv.userId,
+      userName: user.prenom + " " + user.nom,
+      dateRdv: rdv.dateRdv,
+    };
 
     if (rdv.isNow) {
       usager.etapeDemande = ETAPE_ENTRETIEN;
       usager.rdv.dateRdv = subMinutes(new Date(), 1);
-
-      if (domifaConfig().envId !== "test") {
-        usager.rdv.dateRdv = zonedTimeToUtc(usager.rdv.dateRdv, "Europe/Paris");
-      }
-    } else {
-      usager.rdv.dateRdv = rdv.dateRdv;
     }
 
     usager = await usagerLightRepository.updateOne(
       { uuid },
       { rdv: usager.rdv, etapeDemande: usager.etapeDemande }
     );
-
-    await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
-      usager,
-      createdBy: {
-        userId: user.id,
-        userName: user.prenom + " " + user.nom,
-      },
-      createdEvent: "update-rdv",
-    });
 
     return usager;
   }

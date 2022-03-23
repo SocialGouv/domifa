@@ -1,6 +1,6 @@
 import {
   IsBoolean,
-  IsDateString,
+  IsDate,
   IsNotEmpty,
   IsNumber,
   ValidateIf,
@@ -29,9 +29,9 @@ export class RdvDto {
     type: Date,
     required: true,
   })
-  @IsNotEmpty()
-  @IsDateString()
   @ValidateIf((o) => o.isNow === false)
+  @IsNotEmpty()
+  @IsDate()
   @Transform(({ value }: TransformFnParams) => {
     return value ? new Date(value) : new Date();
   })

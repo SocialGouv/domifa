@@ -25,6 +25,7 @@ import { UserStructure, UsagerLight } from "../../../../../_common/model";
 import { UsagerFormModel } from "../../../usager-shared/interfaces/UsagerFormModel";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
+import { setHours, setMinutes } from "date-fns";
 
 @Component({
   animations: [fadeInOut],
@@ -177,14 +178,13 @@ export class StepRdvComponent implements OnInit {
     }
     this.loading = true;
 
-    const heureRdv = this.rdvForm.controls.heureRdv.value;
-    console.log(heureRdv);
+    const heureRdv = this.rdvForm.controls.heureRdv.value.split(":");
+    const jourRdv = this.nbgDate.formatEn(this.rdvForm.controls.jourRdv.value);
 
-    const dateRdv: string =
-      this.nbgDate.formatEn(this.rdvForm.controls.jourRdv.value) +
-      "T" +
-      heureRdv +
-      ".000Z";
+    const dateRdv: Date = setMinutes(
+      setHours(new Date(jourRdv), heureRdv[0]),
+      heureRdv[1]
+    );
 
     const rdvFormValue: RdvForm = {
       isNow: false,
@@ -192,9 +192,6 @@ export class StepRdvComponent implements OnInit {
       userId: this.rdvForm.controls.userId.value,
     };
 
-    console.log(rdvFormValue);
-
-    console.log(rdvFormValue);
     this.usagerDossierService.setRdv(rdvFormValue, this.usager.ref).subscribe({
       next: (usager: UsagerLight) => {
         this.loading = false;

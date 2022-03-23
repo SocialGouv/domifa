@@ -1,7 +1,7 @@
 import { forwardRef } from "@nestjs/common";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
-import { CerfaService } from "./cerfa.service";
+
 import { DocumentsService } from "./documents.service";
 import { UsagersService } from "./usagers.service";
 
@@ -13,7 +13,7 @@ describe("DocumentsService", () => {
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       imports: [forwardRef(() => UsersModule)],
-      providers: [UsagersService, CerfaService, DocumentsService],
+      providers: [UsagersService, DocumentsService],
     });
     service = context.module.get<DocumentsService>(DocumentsService);
   });

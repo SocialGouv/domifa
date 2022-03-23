@@ -6,8 +6,8 @@ import {
   UsagerCerfaFields,
   CerfaDocType,
   DateCerfa,
-} from "../../_common/model";
-import { generateMotifLabel } from "../services";
+} from "../../../_common/model";
+import { generateMotifLabel } from "..";
 
 const isNil = (value: any): boolean => {
   return value === null || value === undefined;

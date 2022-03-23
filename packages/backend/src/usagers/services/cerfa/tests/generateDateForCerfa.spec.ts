@@ -1,10 +1,12 @@
-import { IsNull } from "typeorm";
+import {
+  userStructureRepository,
+  structureRepository,
+} from "../../../../database";
+import { UsersModule } from "../../../../users/users.module";
+import { AppTestHelper } from "../../../../util/test";
+import { UserStructureAuthenticated } from "../../../../_common/model";
+import { generateDateForCerfa } from "../generateDateForCerfa";
 import MockDate from "mockdate";
-import { userStructureRepository, structureRepository } from "../../database";
-import { UsersModule } from "../../users/users.module";
-import { AppTestHelper } from "../../util/test";
-import { UserStructureAuthenticated } from "../../_common/model";
-import { generateDateForCerfa } from "./generateDateForCerfa";
 
 describe("generateDateForCerfa", () => {
   beforeAll(async () => {
@@ -42,9 +44,9 @@ describe("generateDateForCerfa", () => {
     const structure = await structureRepository.findOne({
       id: 5,
     });
-    console.log(new Date().toString());
+
     user.structure = structure;
-    console.log(process.env.TZ);
+
     expect(generateDateForCerfa(new Date(), user)).toEqual({
       annee: "2022",
       heure: "17",
