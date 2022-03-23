@@ -152,9 +152,6 @@
             <!-- MENU DECONNECTE -->
             <ng-container *ngIf="me">
               <div class="d-flex">
-                <span>
-                  {{ today | date: "dd/MM/yyyy  à HH:mm" }}
-                </span>
                 <a
                   class="btn btn-outline-primary"
                   [routerLink]="!me ? ['/'] : ['/manage']"
