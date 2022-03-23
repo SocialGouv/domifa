@@ -1,6 +1,6 @@
 import { Column, Workbook } from "exceljs";
 import { structureType } from "../../../stats/usagers.labels";
-import { DEPARTEMENTS_MAP } from "../../../structures/constants/DEPARTEMENTS_MAP.const";
+import { DEPARTEMENTS_MAP } from "../../../util/territoires";
 import {
   WorksheetRenderer,
   xlFormater,

@@ -1,4 +1,5 @@
 import { Column, Entity, Generated, Index } from "typeorm";
+import { TimeZone } from "../../../util/territoires";
 import {
   Structure,
   StructurePortailUsagerParams,
@@ -106,6 +107,9 @@ export class StructureTable
       `'{"senderName": null, "senderDetails": null, "enabledByDomifa": true, "enabledByStructure": false}'`,
   })
   sms: StructureSmsParams;
+
+  @Column({ type: "text", nullable: true })
+  timeZone: TimeZone;
 
   @Column({
     type: "jsonb",

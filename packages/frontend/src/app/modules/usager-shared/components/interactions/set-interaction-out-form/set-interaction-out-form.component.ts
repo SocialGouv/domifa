@@ -148,7 +148,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
           if (this.interactionFormData[interaction].selected) {
             filtered.push({
               procurationIndex: this.procurationIndex,
-              nbCourrier: this.interactionFormData[interaction].nbCourrier,
+
               type: interaction,
             });
           }

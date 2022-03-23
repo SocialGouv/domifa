@@ -1,3 +1,4 @@
+import { RdvForm } from "./../../../../_common/model/usager/rdv/RdvForm.type";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
@@ -7,7 +8,6 @@ import { UsagerLight, UserStructure } from "../../../../_common/model";
 
 import { usagersCache } from "../../../shared/store";
 
-import { Rdv } from "../../usager-shared/interfaces/rdv";
 import { UsagerFormModel } from "../../usager-shared/interfaces/UsagerFormModel";
 import { userStructureBuilder } from "../../users/services";
 
@@ -43,10 +43,7 @@ export class UsagerDossierService {
   }
 
   // RDV maintenant : on passe l'étape du formulaire
-  public setRdv(
-    rdv: Pick<Rdv, "userId" | "dateRdv" | "isNow">,
-    usagerRef: number
-  ): Observable<UsagerLight> {
+  public setRdv(rdv: RdvForm, usagerRef: number): Observable<UsagerLight> {
     return this.http.post<UsagerLight>(
       `${environment.apiUrl}agenda/${usagerRef}`,
       rdv

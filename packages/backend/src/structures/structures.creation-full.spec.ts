@@ -44,7 +44,9 @@ const structureDto: StructureDto = {
   options: {
     numeroBoite: false,
   },
+  timeZone: "Europe/Paris",
 };
+
 describe("Stuctures creation full", () => {
   let context: AppTestContext;
   let structureController: StructuresController;

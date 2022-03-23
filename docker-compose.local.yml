@@ -16,7 +16,7 @@ services:
     ports:
       - "5432:5432"
     environment:
-      TZ: UTC
+      TZ: "Europe/Paris"
       NODE_ENV: development
       PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_DB: ${POSTGRES_DATABASE}

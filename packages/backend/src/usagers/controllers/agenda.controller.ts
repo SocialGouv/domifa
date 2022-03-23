@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  HttpException,
   HttpStatus,
   Post,
   Res,
@@ -74,7 +73,9 @@ export class AgendaController {
     });
 
     if (!user) {
-      throw new HttpException("USER_AGENDA_NOT_EXIST", HttpStatus.BAD_REQUEST);
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "USER_AGENDA_NOT_EXIST" });
     }
 
     const title =
@@ -83,8 +84,6 @@ export class AgendaController {
       usager.nom +
       " " +
       usager.prenom;
-
-    const dateRdv = new Date(rdvDto.dateRdv);
 
     if (rdvDto.isNow) {
       const updatedUsager = await this.usagersService.setRdv(
@@ -96,12 +95,13 @@ export class AgendaController {
       return res.status(HttpStatus.OK).json(updatedUsager);
     }
 
-    const annee = dateRdv.getFullYear();
-    const mois = dateRdv.getMonth() + 1;
-    const jour = dateRdv.getDate();
-    const heure = dateRdv.getHours();
-    const minutes = dateRdv.getMinutes();
+    const annee = rdvDto.dateRdv.getFullYear();
+    const mois = rdvDto.dateRdv.getMonth() + 1;
+    const jour = rdvDto.dateRdv.getDate();
+    const heure = rdvDto.dateRdv.getHours();
+    const minutes = rdvDto.dateRdv.getMinutes();
 
+    // TODO: Ajouter la timezone ici
     const invitation: ics.ReturnObject = ics.createEvent({
       title,
       description: "Entretien demande de domiciliation",
@@ -110,6 +110,7 @@ export class AgendaController {
         name: currentUser.prenom + " " + currentUser.nom,
         email: currentUser.email,
       },
+      startInputType: "local",
       duration: { minutes: 30 },
     });
 
@@ -154,13 +155,14 @@ export class AgendaController {
             }
           );
       } else {
-        throw new HttpException("UPDATE_RDV", HttpStatus.INTERNAL_SERVER_ERROR);
+        return res
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: "CANNOT_SET_RDV" });
       }
     } else {
-      throw new HttpException(
-        "ICS_GENERATION",
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "ICS_GENERATION" });
     }
   }
 }

@@ -1,7 +1,7 @@
 import { DomifaMailTemplateRendering } from "../../../model";
 import { domifaMailTemplateRenderer } from "../../domifaMailTemplateRenderer.service";
-import { DEPARTEMENTS_MAP } from "../../../../structures/constants/DEPARTEMENTS_MAP.const";
 import { Structure } from "../../../../_common/model";
+import { DEPARTEMENTS_MAP } from "../../../../util/territoires";
 
 export type DeleteStructureEmailModel = {
   structure: Pick<

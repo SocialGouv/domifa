@@ -1,5 +1,5 @@
 export type UsagerRdv = {
-  dateRdv: Date;
-  userId: number; // UserStructure
-  userName: string; // UserStructure
+  dateRdv: Date | null;
+  userId: number | null; // UserStructure
+  userName: string | null; // UserStructure
 };

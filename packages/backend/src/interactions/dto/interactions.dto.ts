@@ -30,7 +30,6 @@ export class InteractionDto {
       "colisOut",
       "appel",
       "visite",
-      "npai",
     ],
   })
   @IsIn([
@@ -42,7 +41,6 @@ export class InteractionDto {
     "colisOut",
     "appel",
     "visite",
-    "npai",
   ])
   @IsNotEmpty()
   public type!: InteractionType;
@@ -74,23 +72,24 @@ export class InteractionDto {
     type: Number,
     required: true,
   })
+  @ValidateIf((o) => INTERACTION_IN_CREATE_SMS.indexOf(o.type) !== -1)
   @IsNumber()
   @IsNotEmpty()
-  @Min(0)
+  @Min(1)
   public nbCourrier!: number;
 
   @IsEmpty()
-  public structureId: number;
+  public structureId?: number;
 
   @IsEmpty()
-  public usagerRef: number;
+  public usagerRef?: number;
 
   @IsEmpty()
-  public userId: number;
+  public userId?: number;
 
   @IsEmpty()
-  public userName: string;
+  public userName?: string;
 
   @IsEmpty()
-  public dateInteraction: Date;
+  public dateInteraction?: Date;
 }

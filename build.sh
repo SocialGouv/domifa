@@ -34,7 +34,7 @@ mkdir -p ${CURRENT_DIR}/node_modules
 
 # install yarn dependencies
 CMD="yarn install --frozen-lockfile --prefer-offline"
-(set -x && sudo docker run --rm --volume=${CURRENT_DIR}:/app:delegated --volume=$HOME/.npm:/home/node/.npm:delegated --workdir=/app node:14.15.1-stretch ${CMD})
+(set -x && sudo docker run --rm --volume=${CURRENT_DIR}:/app:delegated --volume=$HOME/.npm:/home/node/.npm:delegated --workdir=/app node:17.7-bullseye-slim ${CMD})
 
 if [ $? -eq 1 ]; then
     echo "[ERROR] exit"
@@ -43,7 +43,7 @@ fi
 
 # build app (frontend+backend)
 CMD="yarn build"
-(set -x && sudo docker run --rm --volume=${CURRENT_DIR}:/app:delegated --volume=$HOME/.npm:/home/node/.npm:delegated --workdir=/app node:14.15.1-stretch ${CMD})
+(set -x && sudo docker run --rm --volume=${CURRENT_DIR}:/app:delegated --volume=$HOME/.npm:/home/node/.npm:delegated --workdir=/app node:17.7-bullseye-slim ${CMD})
 
 if [ $? -eq 1 ]; then
     echo "[ERROR] exit"

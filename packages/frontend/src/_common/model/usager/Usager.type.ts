@@ -1,4 +1,8 @@
-import { AppEntity, UsagerEcheanceInfos } from "../../../_common/model";
+import {
+  AppEntity,
+  UsagerEcheanceInfos,
+  UsagerRdvInfos,
+} from "../../../_common/model";
 import { UsagerEntretien } from "./entretien";
 import { UsagerAyantDroit } from "./UsagerAyantDroit.type";
 import { UsagerDecision } from "./decision/UsagerDecision.type";
@@ -8,8 +12,8 @@ import { UsagerLastInteractions } from "./UsagerLastInteractions.type";
 import { UsagerNote } from "./UsagerNote.type";
 import { UsagerOptions } from "./options/UsagerOptions.type";
 import { UsagerPreferenceContact } from "./UsagerPreferenceContact.type";
-import { UsagerRdv } from "./UsagerRdv.type";
-import { UsagerRdvInfos } from "./UsagerRdvInfos.type";
+import { UsagerRdv } from "./rdv/UsagerRdv.type";
+
 import { UsagerSexe } from "./UsagerSexe.type";
 import { UsagerTypeDom } from "./UsagerTypeDom.type";
 

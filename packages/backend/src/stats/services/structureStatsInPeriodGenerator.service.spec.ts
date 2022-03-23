@@ -55,14 +55,14 @@ describe("structureStatsInPeriodGenerator", () => {
       },
       interactions: {
         appel: 0,
-        colisIn: 7, // 7 = 4 de base + 3 générés par les test
+        colisIn: 4,
         colisOut: 0,
         courrierIn: 1, // 4 de base - 3 distribués dans les tests
         courrierOut: 0,
         npai: 0,
         recommandeIn: 3,
         recommandeOut: 0,
-        visite: 1,
+        visite: 0,
         visiteOut: 0,
       },
       validUsagers: {

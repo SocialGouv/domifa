@@ -9,5 +9,6 @@ export type UserStructureProfile = Pick<
   | "role"
   | "verified"
   | "structureId"
+  | "structure"
   | "fonction"
 >;

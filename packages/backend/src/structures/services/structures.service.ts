@@ -11,6 +11,7 @@ import {
 import { departementHelper } from "./departement-helper.service";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
 import { StructureDto } from "../dto";
+import { DEPARTEMENTS_MAP } from "../../util/territoires";
 
 export interface StructureQuery {
   codePostal?: string;
@@ -26,9 +27,12 @@ export class StructuresService {
     structureDto.departement = departementHelper.getDepartementFromCodePostal(
       structureDto.codePostal
     );
+
     structureDto.region = departementHelper.getRegionCodeFromDepartement(
       structureDto.departement
     );
+
+    structureDto.timeZone = DEPARTEMENTS_MAP[structureDto.departement].timeZone;
 
     return structureCommonRepository.updateOne(
       { id: user.structureId },

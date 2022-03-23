@@ -1,8 +1,8 @@
 import { AppUserForAdminEmail } from "../../../../database";
 import { DomifaMailTemplateRendering } from "../../../model";
 import { domifaMailTemplateRenderer } from "../../domifaMailTemplateRenderer.service";
-import { DEPARTEMENTS_MAP } from "../../../../structures/constants/DEPARTEMENTS_MAP.const";
 import { Structure } from "../../../../_common/model";
+import { DEPARTEMENTS_MAP } from "../../../../util/territoires";
 
 export type NewStructureEmailModel = {
   structure: Pick<
@@ -39,8 +39,7 @@ async function renderTemplate({
     structure_name: structure.nom,
     structure_type: structureTypes[structure.structureType],
     adresse: structure.adresse,
-    departement:
-      DEPARTEMENTS_MAP[structure.departement].departmentName || "Non renseigné",
+    departement: DEPARTEMENTS_MAP[structure.departement].departmentName,
     ville: structure.ville,
     code_postal: structure.codePostal,
     email: structure.email,

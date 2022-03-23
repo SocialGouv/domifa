@@ -28,7 +28,10 @@ export class InteractionsDeletor {
   }: {
     interaction: Interactions;
     usager: UsagerLight;
-    user: Pick<UserStructure, "id" | "structureId" | "nom" | "prenom">;
+    user: Pick<
+      UserStructure,
+      "id" | "structureId" | "nom" | "prenom" | "structure"
+    >;
     structure: Pick<Structure, "id" | "sms">;
   }): Promise<UsagerLight> {
     const newEvent: InteractionEvent =
@@ -92,14 +95,15 @@ export class InteractionsDeletor {
         }
       }
 
+      const dateInteractionWithGoodTimeZone = new Date(
+        usager.lastInteraction.dateInteraction
+      );
+
       // Récupération de la bonne date de dernière interaction
       if (INTERACTION_OK_LIST.indexOf(interaction.type) !== -1) {
         // Seulement si aucun autre évènement n'a déjà changé la date de dernier passage
         // C'est possible si un renouvellement a été effectué après la saisie de ce courrier
-        if (
-          new Date(usager.lastInteraction.dateInteraction) <=
-          interaction.dateInteraction
-        ) {
+        if (dateInteractionWithGoodTimeZone <= interaction.dateInteraction) {
           const lastInteractionOk =
             await interactionRepository.findLastInteractionOk({
               user,
@@ -145,7 +149,9 @@ export class InteractionsDeletor {
       // Désactiver le NPAI
       if (created.interaction.type === "npai") {
         usager.options.npai.actif = true;
-        usager.options.npai.dateDebut = created.interaction.dateInteraction;
+        usager.options.npai.dateDebut = new Date(
+          created.interaction.dateInteraction
+        );
 
         return this.usagersService.patch(
           { uuid: usager.uuid },
@@ -164,7 +170,10 @@ export class InteractionsDeletor {
     interaction,
     newEvent,
   }: {
-    user: Pick<UserStructure, "id" | "structureId" | "nom" | "prenom">;
+    user: Pick<
+      UserStructure,
+      "id" | "structureId" | "nom" | "prenom" | "structure"
+    >;
     interaction: Interactions;
     newEvent: InteractionEvent;
   }) {
