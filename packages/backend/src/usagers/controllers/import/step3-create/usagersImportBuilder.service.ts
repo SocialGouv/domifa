@@ -49,22 +49,11 @@ function buildUsager({
   const sexe = usagerRow.civilite === "H" ? "homme" : "femme";
   let motif: UsagerDecisionMotif;
 
-  // Partie STATUT + HISTORIQUE
-  //
-  let datePremiereDom = now;
-  let dateDecision = usagerRow.dateDebutDom ?? now;
-
   //
   // Partie ENTRETIEN
   //
   const entretien: UsagerEntretien = buildEntretien(usagerRow);
   const ayantsDroits = buildAyantsDroits(usagerRow);
-
-  if (usagerRow.datePremiereDom) {
-    datePremiereDom = usagerRow.datePremiereDom;
-  } else if (usagerRow.dateDebutDom) {
-    datePremiereDom = usagerRow.dateDebutDom;
-  }
 
   const customRef = usagerRow.customId;
 
@@ -75,13 +64,18 @@ function buildUsager({
   //
   // Dates
   //
+  let datePremiereDom = now;
+  let dateDecision = usagerRow.dateDebutDom ?? now;
 
-  // TODO: ajouter l'heure à la date de dernier passage
-  const dernierPassage = usagerRow.dateDernierPassage ?? now;
+  if (usagerRow.datePremiereDom) {
+    datePremiereDom = usagerRow.datePremiereDom;
+  } else if (usagerRow.dateDebutDom) {
+    datePremiereDom = usagerRow.dateDebutDom;
+  }
+  const dernierPassage = endOfDay(usagerRow.dateDernierPassage ?? now);
+  const dateFin = endOfDay(usagerRow.dateFinDom);
 
   let dateDebut = usagerRow.dateDebutDom;
-
-  const dateFin = endOfDay(usagerRow.dateFinDom);
 
   if (usagerRow.statutDom === "REFUS") {
     motif = usagerRow.motifRefus ?? "AUTRE";
