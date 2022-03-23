@@ -1,5 +1,5 @@
 import { Column, Workbook } from "exceljs";
-import { REGIONS_LABELS_MAP } from "../../../structures/constants";
+import { REGIONS_LISTE } from "../../../util/territoires";
 
 import { InteractionType } from "../../../_common/model/interaction";
 import { StructureType } from "../../../_common/model/structure/StructureType.type";
@@ -132,7 +132,7 @@ function renderWorksheet({
     return stats.structuresCountByRegion.forEach((x) => {
       worksheetRendered.renderRow(i++, {
         values: {
-          d: REGIONS_LABELS_MAP[x.region],
+          d: REGIONS_LISTE[x.region],
           e: x.count,
         },
       });

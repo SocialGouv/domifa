@@ -10,7 +10,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-
   ##############################################################################
   ## BUILD AND REGISTER BACKEND IMAGE
   ##############################################################################
@@ -18,18 +17,17 @@ jobs:
     name: Build & Register application
     runs-on: ubuntu-latest
     steps:
+      - name: Get project name
+        run: |
+          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
-    - name: Get project name
-      run: |
-        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-
-    - name: Use autodevops build and register
-      uses: SocialGouv/actions/autodevops-build-register@v1
-      with:
-        project: ${{ env.project }}
-        token: ${{ secrets.GITHUB_TOKEN }}
-        imageName: ${{ env.project }}/backend
-        dockerfile: packages/backend/Dockerfile
+      - name: Use autodevops build and register
+        uses: SocialGouv/actions/autodevops-build-register@v1
+        with:
+          project: ${{ env.project }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          imageName: ${{ env.project }}/backend
+          dockerfile: packages/backend/Dockerfile
 
   ##############################################################################
   ## BUILD AND REGISTER FRONTEND IMAGE
@@ -38,20 +36,19 @@ jobs:
     name: Build & Register application
     runs-on: ubuntu-latest
     steps:
+      - name: Get project name
+        run: |
+          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
-    - name: Get project name
-      run: |
-        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-
-    - name: Use autodevops build and register
-      uses: SocialGouv/actions/autodevops-build-register@v1
-      with:
-        project: ${{ env.project }}
-        token: ${{ secrets.GITHUB_TOKEN }}
-        imageName: ${{ env.project }}/frontend
-        dockerfile: packages/frontend/Dockerfile
-        dockerbuildargs: |
-          DOMIFA_FRONTEND_META_ROBOTS=index,follow
+      - name: Use autodevops build and register
+        uses: SocialGouv/actions/autodevops-build-register@v1
+        with:
+          project: ${{ env.project }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          imageName: ${{ env.project }}/frontend
+          dockerfile: packages/frontend/Dockerfile
+          dockerbuildargs: |
+            DOMIFA_FRONTEND_META_ROBOTS=index,follow
 
   ##############################################################################
   ## BUILD AND REGISTER PORTAIL USAGERS IMAGE
@@ -71,7 +68,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           imageName: ${{ env.project }}/portail-usagers
           dockerfile: packages/portail-usagers/Dockerfile
-
 
   ##############################################################################
   ## BUILD AND REGISTER PORTAIL ADMINS IMAGE
@@ -98,28 +94,23 @@ jobs:
   deploy-prod:
     name: Deploy production
     runs-on: ubuntu-latest
-    needs: [
-      register-backend,
-      register-frontend,
-      register-portail-usagers
-    ]
+    needs: [register-backend, register-frontend, register-portail-usagers]
     environment:
       name: production
       url: ${{ steps.deploy.outputs.url }}
     steps:
+      - name: Use autodevops manifests generation
+        uses: SocialGouv/actions/k8s-manifests@v1
+        with:
+          environment: "prod"
+          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+          socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
 
-    - name: Use autodevops manifests generation
-      uses: SocialGouv/actions/k8s-manifests@v1
-      with:
-        environment: "prod"
-        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
-        socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
-
-    - name: Use autodevops deployment
-      uses: SocialGouv/actions/autodevops-deploy@v1
-      id: deploy
-      with:
-        environment: "prod"
-        token: ${{ secrets.GITHUB_TOKEN }}
-        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
-        kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_PROD2 }}
+      - name: Use autodevops deployment
+        uses: SocialGouv/actions/autodevops-deploy@v1
+        id: deploy
+        with:
+          environment: "prod"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+          kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_PROD2 }}

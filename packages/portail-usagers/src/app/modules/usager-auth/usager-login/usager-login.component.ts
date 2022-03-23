@@ -40,7 +40,7 @@ export class UsagerLoginComponent implements OnInit {
     private authService: UsagerAuthService,
     private toastr: ToastrService,
     private matomoInjector: MatomoInjector,
-    public matomo: MatomoTracker
+    public matomo: MatomoTracker,
   ) {
     this.matomoInjector.init(environment.matomo.url, environment.matomo.siteId);
     this.hidePassword = true;
@@ -92,7 +92,7 @@ export class UsagerLoginComponent implements OnInit {
             errName: "new-password-confim-does-not-match",
           }),
         ],
-      }
+      },
     );
   }
 
@@ -117,17 +117,6 @@ export class UsagerLoginComponent implements OnInit {
   }
 
   public login(): void {
-    console.log("xxx this.loginForm", this.loginForm);
-    console.log(
-      "xxx f.newPasswordConfirm?.errors",
-      this.loginForm.controls.newPasswordConfirm?.errors
-    );
-    console.log("xxx this.loginForm.errors", this.loginForm.errors);
-    console.log(
-      "xxx hasError ",
-      this.loginForm?.hasError("new-password-confim-does-not-match")
-    );
-
     if (this.loginForm.invalid) {
       this.toastr.error("Veuillez vérifier les champs du formulaire");
       return;
@@ -145,7 +134,7 @@ export class UsagerLoginComponent implements OnInit {
             "login-portail-usagers",
             "login_success_first_time",
             "null",
-            1
+            1,
           );
         } else {
           this.toastr.error("Login et / ou mot de passe incorrect");
@@ -153,7 +142,7 @@ export class UsagerLoginComponent implements OnInit {
             "login-portail-usagers",
             "login_error",
             "null",
-            1
+            1,
           );
         }
       },
@@ -170,7 +159,7 @@ export class UsagerLoginComponent implements OnInit {
           "login-portail-usagers",
           "login_success",
           "null",
-          1
+          1,
         );
       },
     });

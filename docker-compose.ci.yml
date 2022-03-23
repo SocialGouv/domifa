@@ -11,7 +11,7 @@ services:
     ports:
       - "5433:5432"
     environment:
-      TZ: UTC
+      TZ: "Europe/Paris"
       PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_DB: ${POSTGRES_DATABASE}
       POSTGRES_USER: ${POSTGRES_USERNAME}

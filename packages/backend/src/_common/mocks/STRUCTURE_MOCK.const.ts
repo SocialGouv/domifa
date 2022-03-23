@@ -1,6 +1,6 @@
 import { StructureCommon } from "../model";
 
-export const structureMock: StructureCommon = {
+export const STRUCTURE_MOCK: StructureCommon = {
   id: 1,
   adresse: "1 rue de l'océan",
   adresseCourrier: {
@@ -28,6 +28,7 @@ export const structureMock: StructureCommon = {
     senderDetails: "",
     senderName: "",
   },
+  timeZone: "Europe/Paris",
   portailUsager: {
     enabledByDomifa: false,
     enabledByStructure: false,

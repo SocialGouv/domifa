@@ -10,7 +10,7 @@ services:
     ports:
       - "5432:5432"
     environment:
-      TZ: UTC
+      TZ: "Europe/Paris"
       POSTGRES_DB: domifa_test
       POSTGRES_USER: domifa_user
       POSTGRES_PASSWORD: xxxxxxxxxxxxxxxxxxx

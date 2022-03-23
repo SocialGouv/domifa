@@ -13,5 +13,6 @@ export const STRUCTURE_LIGHT_ATTRIBUTES: (keyof StructureLight)[] = [
   "codePostal",
   "agrement",
   "options",
+  "timeZone",
   "adresseCourrier",
 ];

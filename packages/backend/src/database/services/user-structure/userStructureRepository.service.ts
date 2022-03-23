@@ -17,11 +17,13 @@ export const USERS_USER_PROFILE_ATTRIBUTES: (keyof UserStructureTable)[] = [
   "fonction",
   "role",
 ];
+
 export const USERS_ADMIN_EMAILS_ATTRIBUTES: (keyof UserStructureTable)[] = [
   "email",
   "nom",
   "prenom",
 ];
+
 export type AppUserForAdminEmail = Pick<
   UserStructure,
   "email" | "nom" | "prenom"

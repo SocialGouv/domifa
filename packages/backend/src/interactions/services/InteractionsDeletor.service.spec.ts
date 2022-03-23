@@ -66,6 +66,8 @@ describe("InteractionsDeletor", () => {
       structureId: 1,
     });
 
+    user.structure = await structureRepository.findOne({ id: 5 });
+
     const interaction1 = new InteractionDto();
     interaction1.type = "colisIn";
     interaction1.content = "Colis d'un distributeur";

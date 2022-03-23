@@ -1,3 +1,4 @@
+process.env.TZ = "Europe/Paris";
 module.exports = {
   collectCoverageFrom: ["src/*.{ts}", "src/**/**.ts"],
   preset: "ts-jest",

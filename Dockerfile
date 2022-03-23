@@ -1,4 +1,4 @@
-FROM node:17
+FROM node:17.7-bullseye-slim
 
 ENV TZ Europe/Paris
 RUN cp /usr/share/zoneinfo/Europe/Paris /etc/localtime

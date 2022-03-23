@@ -1,5 +1,5 @@
+import { zonedTimeToUtc } from "date-fns-tz";
 import { Injectable } from "@nestjs/common";
-import moment = require("moment");
 
 import {
   usagerLightRepository,
@@ -27,6 +27,9 @@ import { CreateUsagerDto } from "../dto/CreateUsagerDto";
 import { RdvDto } from "../dto/rdv.dto";
 import { DecisionDto } from "../dto";
 
+import { endOfDay, subMinutes } from "date-fns";
+import { domifaConfig } from "../../config";
+
 @Injectable()
 export class UsagersService {
   public async create(
@@ -34,6 +37,7 @@ export class UsagersService {
     user: UserStructureProfile
   ): Promise<UsagerLight> {
     const usager = new UsagerTable(usagerDto);
+    const now = new Date();
 
     usagersCreator.setUsagerDefaultAttributes(usager);
 
@@ -42,11 +46,12 @@ export class UsagersService {
 
     usager.decision = {
       uuid: uuidGenerator.random(),
-      dateDecision: new Date(),
+      dateDecision: now,
       statut: "INSTRUCTION",
       userName: user.prenom + " " + user.nom,
       userId: user.id,
-      dateFin: new Date(),
+      dateFin: now,
+      dateDebut: now,
     };
 
     usager.historique.push(usager.decision);
@@ -82,8 +87,10 @@ export class UsagersService {
 
   public async renouvellement(
     usager: UsagerLight,
-    user: Pick<UserStructure, "id" | "nom" | "prenom">
+    user: Pick<UserStructure, "id" | "nom" | "prenom" | "structure">
   ): Promise<UsagerLight> {
+    const now = new Date();
+
     const typeDom: UsagerTypeDom =
       usager.decision.statut === "REFUS" || usager.decision.statut === "RADIE"
         ? "PREMIERE_DOM"
@@ -91,13 +98,13 @@ export class UsagersService {
     let newDateFin = null;
 
     if (usager.decision.statut === "VALIDE") {
-      newDateFin = usager.decision.dateFin;
+      newDateFin = endOfDay(usager.decision.dateFin);
     }
 
     usager.decision = {
       uuid: uuidGenerator.random(),
-      dateDebut: new Date(),
-      dateDecision: new Date(),
+      dateDebut: now,
+      dateDecision: now,
       dateFin: newDateFin,
       statut: "INSTRUCTION",
       userId: user.id,
@@ -127,7 +134,7 @@ export class UsagersService {
       historyBeginDate: usager.decision.dateDebut,
     });
 
-    usager.lastInteraction.dateInteraction = new Date();
+    usager.lastInteraction.dateInteraction = now;
 
     return usagerLightRepository.updateOne(
       { uuid: usager.uuid },
@@ -147,7 +154,9 @@ export class UsagersService {
     { uuid }: { uuid: string },
     decision: DecisionDto
   ): Promise<UsagerLight> {
-    decision.dateDecision = new Date();
+    // Adaptation de la timeZone
+    const now = new Date();
+    decision.dateDecision = now;
 
     const usager = await usagerRepository.findOne({
       uuid,
@@ -162,33 +171,39 @@ export class UsagersService {
     if (decision.statut === "REFUS" || decision.statut === "RADIE") {
       decision.dateFin =
         decision.dateFin !== undefined && decision.dateFin !== null
-          ? new Date(decision.dateFin)
-          : new Date();
+          ? // Fin de la journée pour la date de fin
+            endOfDay(new Date(decision.dateFin))
+          : now;
       decision.dateDebut = decision.dateFin;
     }
 
     // Valide
     if (decision.statut === "VALIDE") {
+      // Date de début = au moment de la décision
+      decision.dateDebut = new Date(decision.dateDebut);
+      // Date de fin = fin de la journée indiquée
+      decision.dateFin = endOfDay(new Date(decision.dateFin));
+
+      const actualLastInteraction = new Date(
+        usager.lastInteraction.dateInteraction
+      );
+
+      // Si la dom est valide après le dernier passage, on le met à jour
+      if (decision.dateDebut > actualLastInteraction) {
+        usager.lastInteraction.dateInteraction = decision.dateDebut;
+      }
+
       // ID personnalisé
       if (decision.customRef) {
         usager.customRef = decision.customRef;
       }
 
+      // Date de premiere dom
       if (usager.datePremiereDom !== null) {
         usager.typeDom = "RENOUVELLEMENT";
       } else {
         usager.typeDom = "PREMIERE_DOM";
-        usager.datePremiereDom = new Date(decision.dateDebut);
-      }
-
-      decision.dateDebut = new Date(decision.dateDebut);
-      decision.dateFin = new Date(decision.dateFin);
-
-      // Si la dom est valide après le dernier passage, on le met à jour
-      if (
-        decision.dateDebut > new Date(usager.lastInteraction.dateInteraction)
-      ) {
-        usager.lastInteraction.dateInteraction = decision.dateDebut;
+        usager.datePremiereDom = decision.dateDebut;
       }
     }
 
@@ -234,19 +249,23 @@ export class UsagersService {
     });
 
     if (!usager.rdv) {
-      usager.rdv = {} as any;
+      usager.rdv = {
+        userId: rdv.userId,
+        userName: user.prenom + " " + user.nom,
+        dateRdv: null,
+      };
     }
 
     if (rdv.isNow) {
       usager.etapeDemande = ETAPE_ENTRETIEN;
-      rdv.dateRdv = moment.utc().subtract(1, "minutes").toDate();
-    } else {
-      rdv.dateRdv = moment.utc(rdv.dateRdv).toDate();
-    }
+      usager.rdv.dateRdv = subMinutes(new Date(), 1);
 
-    usager.rdv.dateRdv = rdv.dateRdv;
-    usager.rdv.userId = rdv.userId;
-    usager.rdv.userName = user.prenom + " " + user.nom;
+      if (domifaConfig().envId !== "test") {
+        usager.rdv.dateRdv = zonedTimeToUtc(usager.rdv.dateRdv, "Europe/Paris");
+      }
+    } else {
+      usager.rdv.dateRdv = rdv.dateRdv;
+    }
 
     usager = await usagerLightRepository.updateOne(
       { uuid },

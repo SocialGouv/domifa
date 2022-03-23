@@ -159,7 +159,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE "structure";
 
-    CREATE TABLE "structure" (
+    CREATE UNLOGGED TABLE "structure" (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
@@ -190,6 +190,7 @@ async function createTables(queryRunner: QueryRunner) {
       ville text NULL,
       sms jsonb NOT NULL DEFAULT '{"senderName": null, "senderDetails": null, "enabledByDomifa": true, "enabledByStructure": false}'::jsonb,
       "portailUsager" jsonb NOT NULL DEFAULT '{"enabledByDomifa": true, "enabledByStructure": false}'::jsonb,
+      "timeZone" text NULL,
       CONSTRAINT "PK_a92a6b3dd54efb4ab48b2d6e7c1" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_90ac7986e769d602d218075215c" UNIQUE (id)
     );
@@ -310,8 +311,8 @@ async function createTables(queryRunner: QueryRunner) {
       "version" int4 NOT NULL,
       "usagerUUID" uuid NOT NULL,
       "userId" int4 NULL,
-      "userName" text NOT NULL,
-      "structureId" int4 NOT NULL,
+      "userName" text NULL,
+      "structureId" int4 NULL,
       "action" text NOT NULL,
       "type" text NOT NULL,
       nom text NULL,
@@ -455,7 +456,7 @@ async function createTables(queryRunner: QueryRunner) {
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
-      "dateInteraction" timestamptz NOT NULL,
+      "dateInteraction" timestampz NOT NULL,
       "nbCourrier" int4 NOT NULL DEFAULT 0,
       "structureId" int4 NOT NULL,
       "type" text NOT NULL,
@@ -469,6 +470,7 @@ async function createTables(queryRunner: QueryRunner) {
       "interactionOutUUID" uuid NULL,
       CONSTRAINT "PK_006113a10247f411c459d62a5b3" PRIMARY KEY (uuid),
       CONSTRAINT "FK_1953f5ad67157bada8774f7e245" FOREIGN KEY ("structureId") REFERENCES "structure"(id),
+      CONSTRAINT "FK_495b59d0dd15e43b262f2da8907" FOREIGN KEY ("interactionOutUUID") REFERENCES interactions(uuid),
       CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335" FOREIGN KEY ("usagerUUID") REFERENCES usager(uuid)
     );
     CREATE INDEX "IDX_0c5d7e9585c77ff002d4072c3c" ON interactions USING btree ("usagerRef");

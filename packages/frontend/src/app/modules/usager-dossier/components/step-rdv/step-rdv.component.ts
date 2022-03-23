@@ -1,3 +1,4 @@
+import { RdvForm } from "./../../../../../_common/model/usager/rdv/RdvForm.type";
 import { CerfaDocType } from "src/_common/model/cerfa";
 import { Component, OnInit } from "@angular/core";
 import {
@@ -143,24 +144,25 @@ export class StepRdvComponent implements OnInit {
   }
 
   public rdvNow(): void {
-    const rdvFormValue = {
+    this.loading = true;
+
+    const rdvFormValue: RdvForm = {
       isNow: true,
-      dateRdv: new Date(),
       userId: this.me.id,
     };
-    this.loading = true;
-    this.usagerDossierService.setRdv(rdvFormValue, this.usager.ref).subscribe(
-      (usager: UsagerLight) => {
+
+    this.usagerDossierService.setRdv(rdvFormValue, this.usager.ref).subscribe({
+      next: (usager: UsagerLight) => {
         this.loading = false;
         this.router.navigate(["usager/" + usager.ref + "/edit/entretien"]);
       },
-      () => {
+      error: () => {
         this.loading = false;
         this.toastService.error(
           "Impossible de réaliser l'entretien maintenant"
         );
-      }
-    );
+      },
+    });
   }
 
   public submitRdv(): void {
@@ -176,18 +178,23 @@ export class StepRdvComponent implements OnInit {
     this.loading = true;
 
     const heureRdv = this.rdvForm.controls.heureRdv.value;
-    const jourRdv =
-      this.nbgDate.formatEn(this.rdvForm.controls.jourRdv.value) +
-      " " +
-      heureRdv;
-    const dateRdv = new Date(jourRdv);
+    console.log(heureRdv);
 
-    const rdvFormValue = {
+    const dateRdv: string =
+      this.nbgDate.formatEn(this.rdvForm.controls.jourRdv.value) +
+      "T" +
+      heureRdv +
+      ".000Z";
+
+    const rdvFormValue: RdvForm = {
       isNow: false,
       dateRdv,
       userId: this.rdvForm.controls.userId.value,
     };
 
+    console.log(rdvFormValue);
+
+    console.log(rdvFormValue);
     this.usagerDossierService.setRdv(rdvFormValue, this.usager.ref).subscribe({
       next: (usager: UsagerLight) => {
         this.loading = false;

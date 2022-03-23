@@ -1,4 +1,4 @@
-import { UsagerRdv } from "./../../../../_common/model/usager/UsagerRdv.type";
+import { UsagerRdv } from "../../../../_common/model/usager/rdv/UsagerRdv.type";
 import { formatDateToNgb } from "../../../shared/bootstrap-util";
 import { differenceInCalendarDays, format } from "date-fns";
 

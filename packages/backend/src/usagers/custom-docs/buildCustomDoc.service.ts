@@ -5,9 +5,15 @@ import { USAGER_DECISION_STATUT_LABELS } from "./../../_common/labels/USAGER_DEC
 import { UsagerDecision } from "./../../_common/model/usager/UsagerDecision.type";
 import { generateMotifLabel } from "./../services/generateMotifLabel.service";
 
-import moment = require("moment");
+export const DATE_FORMAT = {
+  JOUR: "dd/MM/yyyy",
+  JOUR_HEURE: "dd/MM/yyyy à HH:mm",
+  JOUR_LONG: "PPP",
+};
 
 import { format } from "date-fns";
+import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
+import { fr } from "date-fns/locale";
 
 export function buildCustomDoc({
   usager,
@@ -17,11 +23,16 @@ export function buildCustomDoc({
 }: {
   usager: UsagerLight;
   structure: StructureCommon;
-  date?: Date;
+  date: Date;
   extraParameters?: { [name: string]: string };
 }): StructureCustomDocTags {
   // Date
-  const dateOfDocument = date ? moment(date) : moment();
+
+  // On Repasse en UTC pour convertir correctement
+  let dateOfDocument = zonedTimeToUtc(date, "Europe/Paris");
+  // On repasse sur la bonne timezone
+
+  dateOfDocument = utcToZonedTime(date, structure.timeZone);
 
   // Adresse courrier active
   const isDifferentAddress =
@@ -97,12 +108,11 @@ export function buildCustomDoc({
 
   return {
     // DATES UTILES
-    DATE_JOUR: dateOfDocument.locale("fr").format("L"),
-    DATE_JOUR_HEURE:
-      dateOfDocument.locale("fr").format("L") +
-      " à " +
-      dateOfDocument.format("LT"),
-    DATE_JOUR_LONG: dateOfDocument.locale("fr").format("LL"),
+    DATE_JOUR: format(dateOfDocument, DATE_FORMAT.JOUR),
+    DATE_JOUR_HEURE: format(dateOfDocument, DATE_FORMAT.JOUR_HEURE),
+    DATE_JOUR_LONG: format(dateOfDocument, DATE_FORMAT.JOUR_LONG, {
+      locale: fr,
+    }),
 
     // INFOS RESPONSABLE
     RESPONSABLE_NOM: ucFirst(structure.responsable.nom),
@@ -137,10 +147,8 @@ export function buildCustomDoc({
     USAGER_CIVILITE: usager.sexe === "femme" ? "Madame" : "Monsieur",
     USAGER_NOM: ucFirst(usager.nom),
     USAGER_PRENOM: ucFirst(usager.prenom),
-    USAGER_SURNOM: ucFirst(usager.surnom) || "",
-    USAGER_DATE_NAISSANCE: moment(usager.dateNaissance)
-      .locale("fr")
-      .format("L"),
+    USAGER_SURNOM: usager?.surnom ? ucFirst(usager?.surnom) : "",
+    USAGER_DATE_NAISSANCE: format(usager.dateNaissance, DATE_FORMAT.JOUR),
 
     USAGER_LIEU_NAISSANCE: ucFirst(usager.villeNaissance),
 
@@ -157,24 +165,35 @@ export function buildCustomDoc({
 
     // REFUS / RADIATION
     MOTIF_RADIATION: motif,
-    DATE_RADIATION: moment(usager.decision.dateDecision)
-      .locale("fr")
-      .format("LL"),
+    DATE_RADIATION: format(
+      new Date(usager.decision.dateDecision),
+      DATE_FORMAT.JOUR_LONG,
+      {
+        locale: fr,
+      }
+    ),
 
     // DATES DOMICILIATION
-    DATE_DEBUT_DOM: moment(dateDebutDom).locale("fr").format("LL"),
-    DATE_FIN_DOM: moment(dateFinDom).locale("fr").format("LL"),
+    DATE_DEBUT_DOM: format(new Date(dateDebutDom), DATE_FORMAT.JOUR_LONG, {
+      locale: fr,
+    }),
+    DATE_FIN_DOM: format(new Date(dateFinDom), DATE_FORMAT.JOUR_LONG, {
+      locale: fr,
+    }),
+    DATE_PREMIERE_DOM: format(usager.datePremiereDom, DATE_FORMAT.JOUR_LONG, {
+      locale: fr,
+    }),
 
-    DATE_PREMIERE_DOM: moment(usager.datePremiereDom).locale("fr").format("LL"),
-
-    DATE_DERNIER_PASSAGE: moment(usager.lastInteraction.dateInteraction)
-      .locale("fr")
-      .format("LL"),
+    DATE_DERNIER_PASSAGE: format(
+      usager.lastInteraction.dateInteraction,
+      DATE_FORMAT.JOUR_LONG,
+      { locale: fr }
+    ),
 
     // ENTRETIEN
-    ENTRETIEN_CAUSE_INSTABILITE: "Cause instabilité logement",
-    ENTRETIEN_RAISON_DEMANDE: "Motif principal de la demande",
-    ENTRETIEN_ACCOMPAGNEMENT: "Accompagnement social",
+    ENTRETIEN_CAUSE_INSTABILITE: "",
+    ENTRETIEN_RAISON_DEMANDE: "",
+    ENTRETIEN_ACCOMPAGNEMENT: "",
 
     ENTRETIEN_ORIENTE_PAR: orientation,
 
@@ -199,11 +218,11 @@ export function buildCustomDoc({
     TRANSFERT_ADRESSE: transfert.actif ? transfert.adresse : "",
     TRANSFERT_DATE_DEBUT:
       transfert.actif && transfert.dateDebut
-        ? format(new Date(transfert.dateDebut), "dd/MM/yyyy")
+        ? format(new Date(transfert.dateDebut), DATE_FORMAT.JOUR)
         : "",
     TRANSFERT_DATE_FIN:
       transfert.actif && transfert.dateFin
-        ? format(new Date(transfert.dateFin), "dd/MM/yyyy")
+        ? format(new Date(transfert.dateFin), DATE_FORMAT.JOUR)
         : "",
 
     // Procuration
@@ -211,13 +230,13 @@ export function buildCustomDoc({
     PROCURATION_NOM: procuration.nom ?? "",
     PROCURATION_PRENOM: procuration.prenom ?? "",
     PROCURATION_DATE_DEBUT: procuration.dateDebut
-      ? format(new Date(procuration.dateDebut), "dd/MM/yyyy")
+      ? format(new Date(procuration.dateDebut), DATE_FORMAT.JOUR)
       : "",
     PROCURATION_DATE_FIN: procuration.dateFin
-      ? format(new Date(procuration.dateFin), "dd/MM/yyyy")
+      ? format(new Date(procuration.dateFin), DATE_FORMAT.JOUR)
       : "",
     PROCURATION_DATE_NAISSANCE: procuration.dateNaissance
-      ? format(new Date(procuration.dateNaissance), "dd/MM/yyyy")
+      ? format(new Date(procuration.dateNaissance), DATE_FORMAT.JOUR)
       : "",
 
     ...extraParameters,

@@ -22,7 +22,7 @@ export const REGIONS_DEF: RegionDef[] = [
     regionCode: "03",
     regionName: "Guyane",
     regionId: "guyane",
-    timeZone: "America/Guyana",
+    timeZone: "America/Cayenne",
     departements: [{ departementCode: "973", departementName: "Guyane" }],
   },
   {
@@ -252,7 +252,7 @@ export const REGIONS_DEF: RegionDef[] = [
     regionCode: "PO",
     regionId: "polynesie-française",
     regionName: "Polynésie Française",
-    timeZone: "Pacific/Gambier",
+    timeZone: "Pacific/Tahiti",
     departements: [
       { departementCode: "987", departementName: "Polynésie Française" },
     ],

@@ -78,6 +78,7 @@ export class UsagerStructureDocsController {
     const docValues = buildCustomDoc({
       usager,
       structure: user.structure,
+      date: new Date(),
     });
 
     try {
@@ -149,6 +150,7 @@ export class UsagerStructureDocsController {
       usager,
       structure: user.structure,
       extraParameters,
+      date: new Date(),
     });
 
     if (docType === "acces_espace_domicilie") {

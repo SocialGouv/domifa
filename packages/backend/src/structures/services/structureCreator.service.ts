@@ -1,3 +1,4 @@
+import { DEPARTEMENTS_MAP } from "./../../util/territoires/constants/REGIONS_DEPARTEMENTS_MAP.const";
 import { HttpException, HttpStatus } from "@nestjs/common";
 import * as crypto from "crypto";
 import {
@@ -94,9 +95,13 @@ async function createStructure(structureDto: StructureDto) {
   createdStructure.departement = departementHelper.getDepartementFromCodePostal(
     createdStructure.codePostal
   );
+
   createdStructure.region = departementHelper.getRegionCodeFromDepartement(
     createdStructure.departement
   );
+
+  createdStructure.timeZone =
+    DEPARTEMENTS_MAP[createdStructure.departement].timeZone;
 
   const structure = await structureRepository.save(createdStructure);
 

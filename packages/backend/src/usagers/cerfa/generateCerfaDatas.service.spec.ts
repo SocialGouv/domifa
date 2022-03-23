@@ -1,3 +1,4 @@
+import { Structure } from "./../../_common/model/structure/Structure.type";
 import {
   usagerRepository,
   userStructureRepository,
@@ -144,9 +145,10 @@ describe("Cerfa Data utils", () => {
   let user: UserStructureAuthenticated;
   let usagerValide: Usager;
   let usagerRefus: Usager;
-  let structure;
+  let structure: Structure;
 
   beforeAll(async () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     context = await AppTestHelper.bootstrapTestApp({
       imports: [UsagersModule, UsersModule],
     });

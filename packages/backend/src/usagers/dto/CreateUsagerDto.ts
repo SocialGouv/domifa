@@ -97,7 +97,7 @@ export class CreateUsagerDto {
     description: "Langue parlée par l'usager",
   })
   @IsOptional()
-  public langue!: string;
+  public langue!: string | null;
 
   @ApiProperty({
     example: "2020-1",

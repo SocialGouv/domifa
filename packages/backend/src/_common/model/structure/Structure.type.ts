@@ -1,3 +1,4 @@
+import { TimeZone } from "../../../util/territoires";
 import { AppEntity } from "../_core";
 import { StructureAddresseCourrier } from "./StructureAddresseCourrier.type";
 import { StructurePortailUsagerParams } from "./StructurePortailUsagerParams.type";
@@ -41,6 +42,8 @@ export type Structure = AppEntity & {
 
   token: string;
   verified: boolean;
+
+  timeZone: TimeZone;
 
   sms: StructureSmsParams;
   portailUsager: StructurePortailUsagerParams;

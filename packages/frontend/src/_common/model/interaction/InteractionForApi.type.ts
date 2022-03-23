@@ -7,7 +7,6 @@ export type InteractionInForApi = {
 };
 
 export type InteractionOutForApi = {
-  nbCourrier: number;
   type: InteractionType;
   procurationIndex: number | null;
 };

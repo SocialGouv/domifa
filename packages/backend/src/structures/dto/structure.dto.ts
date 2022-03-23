@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams, Type } from "class-transformer";
 import {
+  IsEmpty,
   IsIn,
   IsNotEmpty,
   IsNumber,
@@ -9,6 +10,7 @@ import {
   ValidateNested,
 } from "class-validator";
 import { StructureAdresseCourrierDto, StructureResponsableDto } from ".";
+import { TimeZone } from "../../util/territoires";
 import { StructureType } from "../../_common/model";
 
 export class StructureDto {
@@ -144,4 +146,7 @@ export class StructureDto {
   public options: {
     numeroBoite: boolean;
   };
+
+  @IsEmpty()
+  public timeZone: TimeZone;
 }

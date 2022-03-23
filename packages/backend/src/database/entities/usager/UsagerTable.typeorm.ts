@@ -62,7 +62,7 @@ export class UsagerTable
   public villeNaissance: string;
 
   @Column({ type: "text", nullable: true })
-  public langue: string;
+  public langue!: string | null;
 
   //
   // INFORMATIONS DE CONTACT
@@ -108,33 +108,33 @@ export class UsagerTable
     // default:
     //   "{ dateInteraction: now(), enAttente: false, courrierIn: 0, recommandeIn: 0, colisIn: 0};",
   })
-  public lastInteraction: UsagerLastInteractions;
+  public lastInteraction!: UsagerLastInteractions;
 
   //
   // DOCUMENTS
   @Column({ type: "jsonb", default: "[]" })
-  public docs: UsagerDoc[];
+  public docs!: UsagerDoc[];
 
   @Column({ type: "jsonb", default: "[]" })
-  public docsPath: string[];
+  public docsPath!: string[];
 
   //
   // FORMULAIRE
   @Column({ type: "integer", default: 0 })
-  public etapeDemande: number;
+  public etapeDemande!: number;
 
   @Column({ type: "jsonb", nullable: true })
-  public rdv: UsagerRdv;
+  public rdv!: UsagerRdv;
 
   @Column({ type: "jsonb", default: () => "'[]'" })
-  public notes: UsagerNote[];
+  public notes!: UsagerNote[];
 
   @Column({
     type: "jsonb",
     // default:
     //   "{ accompagnement: null, accompagnementDetail: null, cause: null, causeDetail: null, commentaires: null, domiciliation: null, liencommune: null, pourquoi: null, rattachement: null, raison: null, raisonDetail: null, residence: null, residenceDetail: null, revenus: null, revenusDetail: null, typeMenage: null }",
   })
-  public entretien: UsagerEntretien;
+  public entretien!: UsagerEntretien;
 
   //
   // TRANSFERTS / NPAI / PROCURATION
@@ -143,7 +143,7 @@ export class UsagerTable
     default: () =>
       `'{ "transfert":{ "actif":false, "nom":null, "adresse":null, "dateDebut":null, "dateFin":null }, "procurations":[], "npai":{ "actif":false, "dateDebut":null }, "portailUsagerEnabled":false }'`,
   })
-  public options: UsagerOptions;
+  public options!: UsagerOptions;
 
   public constructor(entity?: Partial<UsagerTable>) {
     super(entity);

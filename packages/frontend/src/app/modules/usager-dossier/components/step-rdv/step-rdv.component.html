@@ -155,7 +155,6 @@
                       formControlName="jourRdv"
                       #dRdv="ngbDatepicker"
                       required
-                      aria-required="true"
                     />
                     <div class="input-group-append">
                       <button
@@ -184,15 +183,15 @@
                       [ngClass]="{ 'is-invalid': r.heureRdv.invalid }"
                       id="heureRdv"
                       formControlName="heureRdv"
+                      required
                     />
-
-                    <div
-                      *ngIf="r.heureRdv.errors"
-                      class="small form-text text-center text-danger"
-                    >
-                      L'heure est obligatoire
-                    </div>
                   </div>
+                  <p
+                    *ngIf="r.heureRdv.errors"
+                    class="small form-text text-center text-danger"
+                  >
+                    L'heure est obligatoire
+                  </p>
                 </div>
               </div>
               <div

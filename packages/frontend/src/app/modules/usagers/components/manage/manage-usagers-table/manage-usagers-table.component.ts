@@ -91,6 +91,7 @@ export class ManageUsagersTableComponent implements OnInit {
     private matomo: MatomoTracker
   ) {
     this.today = new Date();
+    console.log(this.today);
     this.selectedUsager = null;
     this.loadingButtons = [];
     this.usagers = [];

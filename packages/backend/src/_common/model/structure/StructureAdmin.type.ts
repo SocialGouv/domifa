@@ -24,6 +24,7 @@ export type StructureAdmin = Pick<
   | "portailUsager"
   | "verified"
   | "import"
+  | "timeZone"
   | "importDate"
   | "lastLogin"
 >;

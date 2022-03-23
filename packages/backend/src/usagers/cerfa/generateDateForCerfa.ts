@@ -1,6 +1,10 @@
-import { DateCerfa } from "../../_common/model";
+import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
+import { DateCerfa, UserStructureAuthenticated } from "../../_common/model";
 
-export function generateDateForCerfa(date?: Date | string): DateCerfa {
+export function generateDateForCerfa(
+  date: Date | string | null,
+  user?: UserStructureAuthenticated // Pour les RDV uniquement
+): DateCerfa {
   let annee = "";
   let heure = "";
   let jour = "";
@@ -10,6 +14,14 @@ export function generateDateForCerfa(date?: Date | string): DateCerfa {
   if (date !== null && typeof date !== "undefined") {
     if (typeof date === "string") {
       date = new Date(date);
+    }
+
+    if (user) {
+      // On Repasse en UTC pour convertir correctement
+      date = zonedTimeToUtc(date, "Europe/Paris");
+      // On repasse sur la bonne timezone
+
+      date = utcToZonedTime(date, user.structure.timeZone);
     }
 
     annee = date.getFullYear().toString();

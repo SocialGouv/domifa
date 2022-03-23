@@ -9,7 +9,7 @@ import {
   Interactions,
   Usager,
   UsagerLight,
-  UserStructureAuthenticated,
+  UserStructure,
 } from "../../_common/model";
 import { InteractionDto } from "../dto";
 
@@ -26,67 +26,21 @@ async function createInteraction({
   interaction: InteractionDto;
   usager: UsagerLight;
   user: Pick<
-    UserStructureAuthenticated,
-    "id" | "structureId" | "nom" | "prenom"
+    UserStructure,
+    "id" | "structureId" | "nom" | "prenom" | "structure"
   >;
 }): Promise<{
   usager: UsagerLight;
   interaction: Interactions;
 }> {
-  const buildedInteraction = await buildNewInteraction({
-    interaction,
-    usager,
-    user,
-  });
-
-  const newInteraction = buildedInteraction.newInteraction;
-
-  const interactionCreated = await interactionRepository.save(
-    new InteractionsTable(newInteraction)
-  );
-
-  // S'il s'agit d'une distribution, on met à jour toutes les interactions entrantes correspondant
-  if (
-    interactionsTypeManager.getDirection({
-      type: interaction.type,
-    }) === "out"
-  ) {
-    await updateInteractionAfterDistribution(interactionCreated);
-  }
-
-  const usagerUpdated = await updateUsagerAfterCreation({
-    usager: buildedInteraction.usager,
-  });
-
-  return { usager: usagerUpdated, interaction: interactionCreated };
-}
-
-async function buildNewInteraction({
-  interaction,
-  usager,
-  user,
-}: {
-  interaction: InteractionDto;
-  usager: Pick<Usager, "ref" | "uuid" | "lastInteraction" | "options">;
-  user: Pick<
-    UserStructureAuthenticated,
-    "id" | "structureId" | "nom" | "prenom"
-  >;
-}): Promise<{
-  usager: Pick<Usager, "ref" | "uuid" | "lastInteraction" | "options">;
-  newInteraction: Interactions;
-}> {
-  interaction.dateInteraction = new Date();
+  const todayWithGoodTimeZone = new Date();
 
   const direction = interactionsTypeManager.getDirection({
     type: interaction.type,
   });
 
-  if (direction === "in") {
-    if (typeof interaction.nbCourrier === "undefined") {
-      interaction.nbCourrier = 1;
-    }
-  } else if (direction === "out") {
+  // Sortants
+  if (direction === "out") {
     const oppositeType = interactionsTypeManager.getOppositeDirectionalType({
       type: interaction.type,
     });
@@ -101,7 +55,8 @@ async function buildNewInteraction({
 
     interaction.content = lastInteraction?.content || "";
 
-    // La procuration ne remet pas à jour le dernier passage
+    // Note métier :
+    // La date de dernier passage n'est pas mise à jour si remise à un mandataire
     if (
       interaction.procurationIndex === 0 ||
       interaction.procurationIndex === 1
@@ -114,7 +69,7 @@ async function buildNewInteraction({
           interaction.procurationIndex
         ].nom.toUpperCase();
     } else {
-      usager.lastInteraction.dateInteraction = new Date();
+      usager.lastInteraction.dateInteraction = todayWithGoodTimeZone;
     }
 
     // Transfert actif: on le précise dans le contenu
@@ -136,10 +91,16 @@ async function buildNewInteraction({
       });
 
     interaction.nbCourrier = pendingInteractionsCount;
-  } else {
-    if (interaction.type === "visite" || interaction.type === "appel") {
-      usager.lastInteraction.dateInteraction = new Date();
+  }
+  // Entrants
+  else if (direction === "in") {
+    if (typeof interaction.nbCourrier === "undefined") {
+      interaction.nbCourrier = 1;
     }
+  }
+  // Appels & Visites
+  else {
+    usager.lastInteraction.dateInteraction = todayWithGoodTimeZone;
     interaction.nbCourrier = 0;
   }
 
@@ -152,11 +113,30 @@ async function buildNewInteraction({
     usagerUUID: usager.uuid,
     userId: user.id,
     userName: user.prenom + " " + user.nom,
-    dateInteraction: new Date(),
+    dateInteraction: todayWithGoodTimeZone,
     event: "create",
   };
 
-  return { usager, newInteraction };
+  // Enregistrement de l'interaction
+  const interactionCreated = await interactionRepository.save(
+    new InteractionsTable(newInteraction)
+  );
+
+  // S'il s'agit d'une distribution, on met à jour toutes les interactions entrantes correspondant
+  if (
+    interactionsTypeManager.getDirection({
+      type: interaction.type,
+    }) === "out"
+  ) {
+    await updateInteractionAfterDistribution(interactionCreated);
+  }
+
+  // Mise à jour des infos de dernier passage pour l'usager
+  const usagerUpdated = await updateUsagerAfterCreation({
+    usager,
+  });
+
+  return { usager: usagerUpdated, interaction: interactionCreated };
 }
 
 async function updateInteractionAfterDistribution(interaction: Interactions) {

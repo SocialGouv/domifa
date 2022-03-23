@@ -16,6 +16,7 @@ export class NavbarComponent implements OnInit {
   public isNavbarCollapsed: boolean;
   public me: UserStructure | null;
   public matomoInfo: boolean;
+  public today = new Date();
 
   public portailAdminUrl = environment.portailAdminUrl;
 

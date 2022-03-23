@@ -1,4 +1,4 @@
-import moment = require("moment");
+import { format } from "date-fns";
 import { generateDateForCerfa } from ".";
 import {
   Usager,
@@ -46,7 +46,8 @@ export const generateCerfaDatas = (
   const entretienAvec = toString(usager.rdv.userName).toUpperCase();
 
   const dateNaissance = generateDateForCerfa(usager.dateNaissance);
-  const dateRdv = generateDateForCerfa(usager.rdv.dateRdv);
+
+  const dateRdv = generateDateForCerfa(usager.rdv.dateRdv, user);
   const dateDecision = generateDateForCerfa(usager.decision.dateDecision);
   const datePremiereDom = generateDateForCerfa(usager.datePremiereDom);
 
@@ -93,11 +94,10 @@ export const generateCerfaDatas = (
   // Ayants-droits
   let ayantsDroitsTexte = usager.ayantsDroits.reduce(
     (prev, current) =>
-      `${prev}${current.nom} ${current.prenom} né(e) le ${moment(
-        current.dateNaissance
-      )
-        .locale("fr")
-        .format("L")} - `,
+      `${prev}${current.nom} ${current.prenom} né(e) le ${format(
+        new Date(current.dateNaissance),
+        "dd/MM/yyyy"
+      )} - `,
     ""
   );
 
@@ -166,7 +166,7 @@ export const generateCerfaDatas = (
     numeroUsager: usagerRef,
     orientation: isNil(usager.decision.orientationDetails)
       ? ""
-      : usager.decision.orientationDetails,
+      : usager.decision.orientationDetails ?? "",
     prefecture1: prefecture,
     prefecture2: prefecture,
     prenoms1: usager.prenom,

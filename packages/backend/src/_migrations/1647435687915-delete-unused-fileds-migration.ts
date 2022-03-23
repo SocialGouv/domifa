@@ -47,10 +47,6 @@ export class setDefaultOptionsUsagerMigration1647435687915
       await queryRunner.query(
         `ALTER TABLE "usager_options_history" ALTER COLUMN "dateFin" DROP NOT NULL`
       );
-
-      await queryRunner.query(
-        `ALTER TABLE "interactions" ADD CONSTRAINT "FK_495b59d0dd15e43b262f2da8907" FOREIGN KEY ("interactionOutUUID") REFERENCES "interactions"("uuid") ON DELETE NO ACTION ON UPDATE NO ACTION`
-      );
     }
   }
 
