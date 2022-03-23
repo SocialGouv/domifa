@@ -45,18 +45,7 @@ describe("buildCustomDoc.service", () => {
       expect(docActif).toEqual(generatedAttestationMock);
     });
 
-    it("2. COURRIER DE RADIATION", async () => {
-      const date = new Date("2020-12-15 14:30:00");
-      const docActif: StructureCustomDocTags = buildCustomDoc({
-        usager: usagerValideMock,
-        structure: STRUCTURE_MOCK,
-        date,
-      });
-
-      expect(docActif).toEqual(generatedAttestationMock);
-    });
-
-    it("3. CUSTOM DOC - REFUS DE RENOUVELLEMENT", async () => {
+    it("2. CUSTOM DOC - REFUS DE RENOUVELLEMENT", async () => {
       const date = new Date("2020-12-15 14:30:00");
 
       const usager = usagerRefusMock;

@@ -49,7 +49,7 @@ function parseValue(xlCell: ExcelJS.Cell): Date | boolean | number | string {
   }
 
   if (rawValue instanceof Date) {
-    return format(rawValue, "DD/MM/yyyy");
+    return format(rawValue, "dd/MM/yyyy");
   }
 
   if (typeof rawValue === "string") {

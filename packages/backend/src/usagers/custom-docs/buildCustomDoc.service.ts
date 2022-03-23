@@ -28,11 +28,11 @@ export function buildCustomDoc({
 }): StructureCustomDocTags {
   // Date
 
-  // On Repasse en UTC pour convertir correctement
-  let dateOfDocument = zonedTimeToUtc(date, "Europe/Paris");
-  // On repasse sur la bonne timezone
-
-  dateOfDocument = utcToZonedTime(date, structure.timeZone);
+  // On Repasse en UTC pour convertir correctement + On repasse sur la bonne timezone ensuite
+  const dateOfDocument = utcToZonedTime(
+    zonedTimeToUtc(date, "Europe/Paris"),
+    structure.timeZone
+  );
 
   // Adresse courrier active
   const isDifferentAddress =
