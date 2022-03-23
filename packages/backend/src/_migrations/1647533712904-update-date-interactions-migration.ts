@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { domifaConfig } from "../config";
 
@@ -18,5 +19,6 @@ export class updateDateInteractionMigration1647533712904
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public async down(queryRunner: QueryRunner): Promise<void> {}
 }

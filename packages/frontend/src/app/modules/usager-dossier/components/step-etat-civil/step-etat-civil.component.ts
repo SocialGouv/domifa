@@ -307,16 +307,11 @@ export class StepEtatCivilComponent implements OnInit {
       formValue.preference.phoneNumber = null;
     }
 
-    // if (formValue.typeDom === "RENOUVELLEMENT") {
-    //   formValue.datePremiereDom = new Date(
-    //     this.nbgDate.formatEn(this.usagerForm.controls.datePremiereDom.value)
-    //   );
-    //  }
-
     this.usagerDossierService.create(formValue).subscribe({
       next: (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
-        this.nextStep();
+        this.toastService.success("Enregistrement réussi");
+        this.router.navigate(["usager/" + usager.ref + "/edit/rendez-vous"]);
       },
       error: () => {
         this.loading = false;
@@ -332,14 +327,6 @@ export class StepEtatCivilComponent implements OnInit {
       const inputs = this.inputsAyantDroit.toArray();
       inputs[ayantDroitTable.length - 1].nativeElement.focus();
     }, 500);
-  }
-  private nextStep(): void {
-    this.usagerDossierService
-      .nextStep(this.usager.ref, 2)
-      .subscribe((usager: UsagerLight) => {
-        this.toastService.success("Enregistrement réussi");
-        this.router.navigate(["usager/" + usager.ref + "/edit/rendez-vous"]);
-      });
   }
 
   public onUsagerChanges(usager: UsagerLight): void {

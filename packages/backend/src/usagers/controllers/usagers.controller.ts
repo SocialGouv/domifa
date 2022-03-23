@@ -50,14 +50,17 @@ import {
 } from "../dto";
 import { SearchUsagerDto } from "../dto/search-usager.dto";
 import {
-  CerfaService,
   deleteUsagerFolder,
   usagerHistoryStateManager,
   UsagersService,
 } from "../services";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
-import { generateCerfaDatas } from "../cerfa";
+import { generateCerfaDatas } from "../services/cerfa";
 
+import pdftk = require("node-pdftk");
+
+import * as fs from "fs";
+import * as path from "path";
 @Controller("usagers")
 @ApiTags("usagers")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -65,7 +68,7 @@ import { generateCerfaDatas } from "../cerfa";
 export class UsagersController {
   constructor(
     private readonly usagersService: UsagersService,
-    private readonly cerfaService: CerfaService,
+
     private appLogsService: AppLogsService
   ) {}
 
@@ -430,11 +433,16 @@ export class UsagersController {
     const usager = await usagerRepository.findOne({ uuid: currentUsager.uuid });
 
     try {
-      const buffer = await this.cerfaService.attestation(
-        usager,
-        user,
-        typeCerfa
-      );
+      const pdfForm =
+        typeCerfa === "attestation"
+          ? "../../_static/static-docs/attestation.pdf"
+          : "../../_static/static-docs/demande.pdf";
+
+      const pdfInfos = generateCerfaDatas(usager, user, typeCerfa);
+
+      const filePath = fs.readFileSync(path.resolve(__dirname, pdfForm));
+      const buffer = await pdftk.input(filePath).fillForm(pdfInfos).output();
+
       res.setHeader("content-type", "application/pdf");
       return res.send(buffer);
     } catch (err) {

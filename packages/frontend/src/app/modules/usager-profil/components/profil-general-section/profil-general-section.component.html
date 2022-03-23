@@ -256,6 +256,31 @@
               {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yyyy" }}
             </div>
 
+            <div class="col-6 my-1">
+              <span class="label">Première domiciliation</span>
+            </div>
+            <div class="col-6 my-1">
+              {{ usager.datePremiereDom | date: "dd/MM/yyyy" }}
+            </div>
+            <div class="col-6 my-1">
+              <span class="label">Type de domiciliation</span>
+            </div>
+            <div class="col-6 my-1">
+              <div
+                *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
+                class="label-statut orange-status"
+              >
+                <span>Renouvellement</span>
+              </div>
+
+              <div
+                *ngIf="usager.typeDom === 'PREMIERE_DOM'"
+                class="label-statut grey-status"
+              >
+                <span>Première demande</span>
+              </div>
+            </div>
+
             <div class="col-12 mt-4">
               <a
                 class="text-link"

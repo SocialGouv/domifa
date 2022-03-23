@@ -78,16 +78,9 @@ export class AgendaController {
         .json({ message: "USER_AGENDA_NOT_EXIST" });
     }
 
-    const title =
-      "Entretien avec " +
-      (usager.sexe === "homme" ? "M. " : "Mme. ") +
-      usager.nom +
-      " " +
-      usager.prenom;
-
     if (rdvDto.isNow) {
       const updatedUsager = await this.usagersService.setRdv(
-        { uuid: usager.uuid },
+        usager.uuid,
         rdvDto,
         currentUser
       );
@@ -95,13 +88,19 @@ export class AgendaController {
       return res.status(HttpStatus.OK).json(updatedUsager);
     }
 
+    const title =
+      "Entretien avec " +
+      (usager.sexe === "homme" ? "M. " : "Mme. ") +
+      usager.nom +
+      " " +
+      usager.prenom;
+
     const annee = rdvDto.dateRdv.getFullYear();
     const mois = rdvDto.dateRdv.getMonth() + 1;
     const jour = rdvDto.dateRdv.getDate();
     const heure = rdvDto.dateRdv.getHours();
     const minutes = rdvDto.dateRdv.getMinutes();
 
-    // TODO: Ajouter la timezone ici
     const invitation: ics.ReturnObject = ics.createEvent({
       title,
       description: "Entretien demande de domiciliation",
@@ -132,7 +131,7 @@ export class AgendaController {
       }
 
       const updatedUsager = await this.usagersService.setRdv(
-        { uuid: usager.uuid },
+        usager.uuid,
         rdvDto,
         user
       );

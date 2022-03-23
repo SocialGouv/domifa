@@ -1,4 +1,4 @@
-import moment = require("moment");
+import { endOfDay } from "date-fns";
 import { uuidGenerator } from "../../../../database/services/uuid";
 import {
   Usager,
@@ -22,7 +22,7 @@ function buildUsagers({
   usagersRows: UsagersImportUsager[];
   user: Pick<UserStructure, "id" | "structureId" | "prenom" | "nom">;
 }): Partial<Usager>[] {
-  const now = moment().toDate();
+  const now = new Date();
   const agent = user.prenom + " " + user.nom;
 
   return usagersRows.map((usagerRow) =>
@@ -75,11 +75,13 @@ function buildUsager({
   //
   // Dates
   //
+
+  // TODO: ajouter l'heure à la date de dernier passage
   const dernierPassage = usagerRow.dateDernierPassage ?? now;
 
   let dateDebut = usagerRow.dateDebutDom;
 
-  const dateFin = usagerRow.dateFinDom;
+  const dateFin = endOfDay(usagerRow.dateFinDom);
 
   if (usagerRow.statutDom === "REFUS") {
     motif = usagerRow.motifRefus ?? "AUTRE";

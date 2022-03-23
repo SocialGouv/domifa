@@ -1,14 +1,20 @@
-import { Structure } from "./../../_common/model/structure/Structure.type";
 import {
-  usagerRepository,
   userStructureRepository,
   structureRepository,
-} from "../../database";
-import { UsagersModule } from "../usagers.module";
-import { UsersModule } from "../../users/users.module";
-import { AppTestContext, AppTestHelper } from "../../util/test";
-import { Usager, UserStructureAuthenticated } from "../../_common/model";
-import { getUsagerRef, generateCerfaDatas } from "./generateCerfaDatas.service";
+  usagerRepository,
+} from "../../../../database";
+import { UsersModule } from "../../../../users/users.module";
+import { AppTestContext, AppTestHelper } from "../../../../util/test";
+import {
+  UserStructureAuthenticated,
+  Usager,
+  Structure,
+} from "../../../../_common/model";
+import { UsagersModule } from "../../../usagers.module";
+import {
+  getUsagerRef,
+  generateCerfaDatas,
+} from "../generateCerfaDatas.service";
 
 const mockDataUsagerValide = {
   adresse: "CCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine",

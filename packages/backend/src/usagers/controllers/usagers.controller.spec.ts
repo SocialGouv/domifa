@@ -1,7 +1,7 @@
 import { InteractionsModule } from "../../interactions/interactions.module";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
-import { CerfaService } from "../services/cerfa.service";
+
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
 import { UsagersController } from "./usagers.controller";
@@ -18,7 +18,6 @@ describe("Usagers Controller", () => {
       controllers: [UsagersController],
       imports: [UsersModule, InteractionsModule],
       providers: [
-        CerfaService,
         UsagersService,
         DocumentsService,
         UsagerOptionsHistoryService,
