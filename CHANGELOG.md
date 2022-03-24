@@ -1,3 +1,18 @@
+# [2.81.0](https://github.com/SocialGouv/domifa/compare/v2.80.1...v2.81.0) (2022-03-24)
+
+
+### Bug Fixes
+
+* tests unitaires sur l'import ([bf4a4d1](https://github.com/SocialGouv/domifa/commit/bf4a4d162d0930741510350dac508db94bb3ca45))
+* **tests:** Correction des dumps de test ([a5ca854](https://github.com/SocialGouv/domifa/commit/a5ca8545647d5d3c4672ff2a2081549b6b2c9e86))
+* upgrade node 17 ([993f33a](https://github.com/SocialGouv/domifa/commit/993f33adc3937bf264aba712d8ebabc2019b09da))
+
+
+### Features
+
+* **Rendez-vous:** Correction des timezones sur les rendez-vous ([32e5e9d](https://github.com/SocialGouv/domifa/commit/32e5e9ddaad0b2f287dbcb91da9bcacb88544a09))
+* **timeZone:** Ajout de la prise en charge des fuseaux horaires dans les dom-tom ([44ac441](https://github.com/SocialGouv/domifa/commit/44ac4414fa0374c7469e07cd850d70ff63dccaf6))
+
 ## [2.80.1](https://github.com/SocialGouv/domifa/compare/v2.80.0...v2.80.1) (2022-03-21)
 
 
