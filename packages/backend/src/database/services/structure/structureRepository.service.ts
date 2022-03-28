@@ -1,6 +1,5 @@
 import { EntityManager } from "typeorm";
 
-import { appTypeormManager } from "../_postgres";
 import {
   Structure,
   StructureCommon,
@@ -20,7 +19,8 @@ export const structureRepository = {
       entityManager,
     }),
   checkHardResetToken,
-  getStructureWithSmsEnabled,
+  getStructureWithSms,
+  getStructureIdsWithSms,
 };
 
 async function checkHardResetToken({
@@ -43,12 +43,32 @@ async function checkHardResetToken({
   });
 }
 
-async function getStructureWithSmsEnabled() {
-  const query = `SELECT id
-                 FROM "structure"
-                 WHERE sms->>'enabledByDomifa' = 'true'
-                 AND sms->>'enabledByStructure' = 'true'
-                 ORDER BY "createdAt" ASC`;
+async function getStructureIdsWithSms(timeZone: string): Promise<number[]> {
+  // Liste des structures accessibles
+  const structures = await structureRepository.findManyWithQuery({
+    where: `(sms->>'enabledByDomifa')::boolean is true and (sms->>'enabledByStructure')::boolean is true AND "timeZone" = :timezone`,
+    select: ["id"],
+    params: {
+      timezone: timeZone,
+    },
+  });
 
-  return appTypeormManager.getRepository(StructureTable).query(query);
+  return structures.reduce((acc: number[], value: StructureCommon) => {
+    acc.push(value.id);
+    return acc;
+  }, []);
+}
+
+async function getStructureWithSms(
+  timeZone: string,
+  select: (keyof StructureTable)[]
+): Promise<Structure[]> {
+  // Liste des structures accessibles
+  return await structureRepository.findManyWithQuery({
+    where: `(sms->>'enabledByDomifa')::boolean is true and (sms->>'enabledByStructure')::boolean is true AND "timeZone" = :timezone`,
+    select,
+    params: {
+      timezone: timeZone,
+    },
+  });
 }
