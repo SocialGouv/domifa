@@ -7,7 +7,7 @@ import {
   CronMailUserGuideSenderService,
 } from "./mails/services";
 import { messageEmailConsummerTrigger } from "./mails/services/_core";
-import { CronSmsFetchEndDomService } from "./sms/services/cron-sms-fetch-end-dom.service";
+import { CronSmsFetchEndDomService } from "./sms/services/senders/cron-sms-fetch-end-dom.service";
 import {
   CronSmsInteractionSenderService,
   CronSmsEndDomSenderService,

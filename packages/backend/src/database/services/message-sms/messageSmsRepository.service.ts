@@ -65,10 +65,13 @@ async function findSmsOnHold({
   });
 }
 
-async function findInteractionSmsToSend(): Promise<MessageSmsTable[]> {
+async function findInteractionSmsToSend(
+  structureIds: number[]
+): Promise<MessageSmsTable[]> {
   return messageSmsRepository.findMany(
     typeOrmSearch<MessageSmsTable>({
       status: "TO_SEND",
+      structureId: In(structureIds),
       smsId: In(["courrierIn", "recommandeIn", "colisIn"]),
     })
   );
@@ -91,11 +94,16 @@ async function upsertEndDom(sms: MessageSms): Promise<MessageSms> {
   return message;
 }
 
-async function findSmsEndDomToSend(): Promise<MessageSmsTable[]> {
-  return messageSmsRepository.findMany({
-    smsId: "echeanceDeuxMois",
-    status: "TO_SEND",
-  });
+async function findSmsEndDomToSend(
+  structureIds: number[]
+): Promise<MessageSmsTable[]> {
+  return messageSmsRepository.findMany(
+    typeOrmSearch<MessageSmsTable>({
+      smsId: "echeanceDeuxMois",
+      structureId: In(structureIds),
+      status: "TO_SEND",
+    })
+  );
 }
 
 async function statsSmsGlobal() {

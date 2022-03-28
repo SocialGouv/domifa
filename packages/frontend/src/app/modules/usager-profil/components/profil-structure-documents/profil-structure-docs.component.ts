@@ -107,14 +107,17 @@ export class ProfilStructureDocsComponent implements OnInit {
 
   // Documents personnalisables de la structure
   public getStructureCustomDoc(structureDoc: StructureDoc): void {
+    console.log(structureDoc);
     this.documentService
       .getStructureCustomDoc(this.usager.ref, structureDoc.uuid)
       .subscribe({
         next: (blob: Blob) => {
+          const extension = structureDoc.filetype.split("/")[1];
+
           const newBlob = new Blob([blob], {
             type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
           });
-          fileSaver.saveAs(newBlob, structureDoc.label + ".docx");
+          fileSaver.saveAs(newBlob, structureDoc.label + "." + extension);
           this.stopLoading(structureDoc.uuid);
         },
         error: () => {

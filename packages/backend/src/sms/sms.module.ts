@@ -4,7 +4,7 @@ import { HttpModule } from "@nestjs/axios";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { SmsController } from "./sms.controller";
-import { CronSmsFetchEndDomService } from "./services/cron-sms-fetch-end-dom.service";
+import { CronSmsFetchEndDomService } from "./services/senders/cron-sms-fetch-end-dom.service";
 import { MessageSmsSenderService } from "./services/message-sms-sender.service";
 import { MessageSmsService } from "./services/message-sms.service";
 import {

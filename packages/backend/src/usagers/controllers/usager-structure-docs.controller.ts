@@ -33,6 +33,7 @@ import {
 import { StructureDocService } from "./../../structures/services/structure-doc.service";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 
+import * as path from "path";
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("usagers-structure-docs")
 @ApiBearerAuth()
@@ -64,6 +65,20 @@ export class UsagerStructureDocsController {
         .json({ message: "DOC_NOT_FOUND" });
     }
 
+    // Document statique
+    if (!doc.custom) {
+      console.log(doc);
+      const output = path.join(
+        domifaConfig().upload.basePath,
+        `${user.structureId}`,
+        "docs",
+        doc.path
+      );
+
+      return res.status(HttpStatus.OK).sendFile(output as string);
+    }
+
+    // Document à compléter
     const content = customDocTemplateLoader.loadCustomDocTemplate({
       docPath: doc.path,
       structureId: user.structureId,

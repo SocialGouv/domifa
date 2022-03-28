@@ -72,6 +72,7 @@ function buildUsager({
   } else if (usagerRow.dateDebutDom) {
     datePremiereDom = usagerRow.dateDebutDom;
   }
+
   const dernierPassage = endOfDay(usagerRow.dateDernierPassage ?? now);
   const dateFin = endOfDay(usagerRow.dateFinDom);
 
