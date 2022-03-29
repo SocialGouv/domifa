@@ -1,3 +1,17 @@
+# [2.84.0](https://github.com/SocialGouv/domifa/compare/v2.83.0...v2.84.0) (2022-03-29)
+
+
+### Bug Fixes
+
+* tests unitaires ([d22e96b](https://github.com/SocialGouv/domifa/commit/d22e96b584f28bdf0f024350471f633f0ca8b161))
+* **portail-usagers:** Correction et ajout du transfert & procurations ([16242d6](https://github.com/SocialGouv/domifa/commit/16242d6104404081c9a7c90db10237e59cbe791d))
+* date format ([a730e4a](https://github.com/SocialGouv/domifa/commit/a730e4a5944df5e29f6813cd7d2e4cf58b71b936))
+
+
+### Features
+
+* add info options procuration and transfert ([029e425](https://github.com/SocialGouv/domifa/commit/029e4250ea560b33d3346a74935179f456913ec5))
+
 # [2.83.0](https://github.com/SocialGouv/domifa/compare/v2.82.0...v2.83.0) (2022-03-29)
 
 
