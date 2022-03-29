@@ -1,3 +1,15 @@
+# [2.83.0](https://github.com/SocialGouv/domifa/compare/v2.82.0...v2.83.0) (2022-03-29)
+
+
+### Bug Fixes
+
+* tests unitaires sur la recherche ([7d2eb69](https://github.com/SocialGouv/domifa/commit/7d2eb69833683a54975bc46a7a61d5a13f50206e))
+
+
+### Features
+
+* add new filter entretien ([92ea6df](https://github.com/SocialGouv/domifa/commit/92ea6df9f7e0b742e944ffcaedc53d21c626e550))
+
 # [2.82.0](https://github.com/SocialGouv/domifa/compare/v2.81.0...v2.82.0) (2022-03-29)
 
 
