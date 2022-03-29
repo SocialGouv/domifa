@@ -65,6 +65,7 @@ describe("ManageUsagersComponent", () => {
       expect(component.filters).toEqual({
         echeance: null,
         interactionType: null,
+        entretien: null,
         searchString: null,
         page: 0,
         passage: null,
