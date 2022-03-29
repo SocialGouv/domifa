@@ -37,16 +37,10 @@ export const DEFAULT_USAGER: PortailUsagerPublic = {
   },
   nom: "Martine",
   options: {
-    historique: {
-      procuration: [],
-      transfert: [],
-    },
     npai: {
       actif: false,
     },
-    procuration: {
-      actif: false,
-    },
+    procurations: [],
     transfert: {
       actif: false,
       adresse: null,

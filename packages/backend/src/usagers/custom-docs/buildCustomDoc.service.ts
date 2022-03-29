@@ -1,4 +1,3 @@
-import { TimeZone } from "./../../../../frontend/src/app/shared/territoires/types/TimeZone.type";
 import { residence, typeMenage } from "../../stats/usagers.labels";
 import { StructureCommon, UsagerLight } from "../../_common/model";
 import { StructureCustomDocTags } from "../../_common/model/structure-doc/StructureCustomDocTags.type";
@@ -9,6 +8,7 @@ import { generateMotifLabel } from "./../services/generateMotifLabel.service";
 import { format } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 import { fr } from "date-fns/locale";
+import { TimeZone } from "../../util/territoires";
 
 export const DATE_FORMAT = {
   JOUR: "dd/MM/yyyy",
@@ -109,11 +109,17 @@ export function buildCustomDoc({
 
   return {
     // DATES UTILES
-    DATE_JOUR: format(dateOfDocument, DATE_FORMAT.JOUR),
-    DATE_JOUR_HEURE: format(dateOfDocument, DATE_FORMAT.JOUR_HEURE),
-    DATE_JOUR_LONG: format(dateOfDocument, DATE_FORMAT.JOUR_LONG, {
-      locale: fr,
-    }),
+    DATE_JOUR: dateFormat(dateOfDocument, structure.timeZone, DATE_FORMAT.JOUR),
+    DATE_JOUR_HEURE: dateFormat(
+      dateOfDocument,
+      structure.timeZone,
+      DATE_FORMAT.JOUR_HEURE
+    ),
+    DATE_JOUR_LONG: dateFormat(
+      dateOfDocument,
+      structure.timeZone,
+      DATE_FORMAT.JOUR_LONG
+    ),
 
     // INFOS RESPONSABLE
     RESPONSABLE_NOM: ucFirst(structure.responsable.nom),
@@ -193,10 +199,10 @@ export function buildCustomDoc({
       DATE_FORMAT.JOUR_LONG
     ),
 
-    DATE_DERNIER_PASSAGE: format(
+    DATE_DERNIER_PASSAGE: dateFormat(
       usager.lastInteraction.dateInteraction,
-      DATE_FORMAT.JOUR_LONG,
-      { locale: fr }
+      structure.timeZone,
+      DATE_FORMAT.JOUR_LONG
     ),
 
     // ENTRETIEN
