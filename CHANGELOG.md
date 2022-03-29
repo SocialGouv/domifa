@@ -1,3 +1,10 @@
+# [2.82.0](https://github.com/SocialGouv/domifa/compare/v2.81.0...v2.82.0) (2022-03-29)
+
+
+### Features
+
+* **sms:** Adaptation des fuseaux horaires des envois de SMS ([ee5f09d](https://github.com/SocialGouv/domifa/commit/ee5f09d72b51e2364ed6897bb342d341c8be0f05))
+
 # [2.81.0](https://github.com/SocialGouv/domifa/compare/v2.80.1...v2.81.0) (2022-03-24)
 
 
