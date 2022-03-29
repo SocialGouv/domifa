@@ -21,16 +21,10 @@ export const USAGER_REFUS_MOCK: PortailUsagerPublic = {
     dateInteraction: new Date("2020-12-01T14:11:28.167Z"),
   },
   options: {
-    historique: {
-      procuration: [],
-      transfert: [],
-    },
     npai: {
       actif: false,
     },
-    procuration: {
-      actif: false,
-    },
+    procurations: [],
     transfert: {
       actif: false,
       adresse: null,

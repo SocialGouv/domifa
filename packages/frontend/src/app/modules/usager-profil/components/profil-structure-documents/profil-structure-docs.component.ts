@@ -107,7 +107,6 @@ export class ProfilStructureDocsComponent implements OnInit {
 
   // Documents personnalisables de la structure
   public getStructureCustomDoc(structureDoc: StructureDoc): void {
-    console.log(structureDoc);
     this.documentService
       .getStructureCustomDoc(this.usager.ref, structureDoc.uuid)
       .subscribe({

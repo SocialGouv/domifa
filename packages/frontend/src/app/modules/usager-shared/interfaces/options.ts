@@ -37,12 +37,12 @@ export class Options implements UsagerOptions {
         this.transfert.dateDebut =
           options.transfert.dateDebut && options.transfert.dateDebut !== null
             ? new Date(options.transfert.dateDebut)
-            : (this.transfert.dateDebut = null);
+            : null;
 
         this.transfert.dateFin =
           options.transfert.dateFin && options.transfert.dateFin !== null
             ? new Date(options.transfert.dateFin)
-            : (this.transfert.dateFin = null);
+            : null;
       }
 
       if (typeof options.procurations !== "undefined") {
