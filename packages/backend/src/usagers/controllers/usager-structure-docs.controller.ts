@@ -67,7 +67,6 @@ export class UsagerStructureDocsController {
 
     // Document statique
     if (!doc.custom) {
-      console.log(doc);
       const output = path.join(
         domifaConfig().upload.basePath,
         `${user.structureId}`,
@@ -160,8 +159,6 @@ export class UsagerStructureDocsController {
             ESPACE_DOM_MDP: extraUrlParametersFromClient?.ESPACE_DOM_MDP,
           }
         : {};
-
-    console.log(extraParameters);
 
     const docValues = buildCustomDoc({
       usager,

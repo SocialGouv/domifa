@@ -27,14 +27,6 @@ export function buildCustomDoc({
   date: Date;
   extraParameters?: { [name: string]: string };
 }): StructureCustomDocTags {
-  // Date
-
-  // On Repasse en UTC pour convertir correctement + On repasse sur la bonne timezone ensuite
-  const dateOfDocument = utcToZonedTime(
-    zonedTimeToUtc(date, "Europe/Paris"),
-    structure.timeZone
-  );
-
   // Adresse courrier active
   const isDifferentAddress =
     structure.adresseCourrier !== null && structure.adresseCourrier?.actif;
@@ -109,17 +101,13 @@ export function buildCustomDoc({
 
   return {
     // DATES UTILES
-    DATE_JOUR: dateFormat(dateOfDocument, structure.timeZone, DATE_FORMAT.JOUR),
+    DATE_JOUR: dateFormat(date, structure.timeZone, DATE_FORMAT.JOUR),
     DATE_JOUR_HEURE: dateFormat(
-      dateOfDocument,
+      date,
       structure.timeZone,
       DATE_FORMAT.JOUR_HEURE
     ),
-    DATE_JOUR_LONG: dateFormat(
-      dateOfDocument,
-      structure.timeZone,
-      DATE_FORMAT.JOUR_LONG
-    ),
+    DATE_JOUR_LONG: dateFormat(date, structure.timeZone, DATE_FORMAT.JOUR_LONG),
 
     // INFOS RESPONSABLE
     RESPONSABLE_NOM: ucFirst(structure.responsable.nom),

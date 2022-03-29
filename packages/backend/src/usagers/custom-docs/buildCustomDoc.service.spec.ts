@@ -119,9 +119,9 @@ describe("buildCustomDoc.service", () => {
   });
 
   describe("[TIMEZONE] Vérifier que l'heure s'affiche correctement selon la timeZone", () => {
-    it("America/Cayenne : Heure d'hiver à Paris -4h", async () => {
+    it("America/Cayenne : Heure d'été à Paris -5h (heure d'été)", async () => {
       // Même date que le précédent test
-      const date = new Date("2022-03-23 14:32:00");
+      const date = new Date("April 12, 2022 15:43:00");
 
       const usager = usagerRefusMock;
       usager.typeDom = "RENOUVELLEMENT";
@@ -134,12 +134,12 @@ describe("buildCustomDoc.service", () => {
         date,
       });
 
-      expect(testDoc.DATE_JOUR_HEURE).toEqual("23/03/2022 à 10:32");
+      expect(testDoc.DATE_JOUR_HEURE).toEqual("12/04/2022 à 10:43");
     });
 
-    it("America/Cayenne : Heure d'été à Paris -5h", async () => {
+    it("America/Cayenne : Heure d'hiver à Paris -4h", async () => {
       // Même date que le précédent test
-      const date = new Date("2022-05-23 14:32:00");
+      const date = new Date("March 23, 2022 09:32:00");
 
       const usager = usagerRefusMock;
       usager.typeDom = "RENOUVELLEMENT";
@@ -152,7 +152,7 @@ describe("buildCustomDoc.service", () => {
         date,
       });
 
-      expect(testDoc.DATE_JOUR_HEURE).toEqual("23/05/2022 à 09:32");
+      expect(testDoc.DATE_JOUR_HEURE).toEqual("23/03/2022 à 05:32");
     });
   });
 
