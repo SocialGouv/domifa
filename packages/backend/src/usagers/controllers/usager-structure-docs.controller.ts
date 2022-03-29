@@ -161,6 +161,8 @@ export class UsagerStructureDocsController {
           }
         : {};
 
+    console.log(extraParameters);
+
     const docValues = buildCustomDoc({
       usager,
       structure: user.structure,

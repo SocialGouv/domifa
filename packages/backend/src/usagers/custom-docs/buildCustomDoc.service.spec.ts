@@ -4,6 +4,7 @@ import { STRUCTURE_MOCK } from "../../_common/mocks";
 import { usagerRefusMock } from "../../_common/mocks/usagerRefus.mock";
 import { usagerValideMock } from "../../_common/mocks/usagerValideMock.mock";
 import { StructureCustomDocTags } from "../../_common/model";
+import { dateFormat, DATE_FORMAT } from "./buildCustomDoc.service";
 import { generatedAttestationMock, generatedRefusMock } from "./mocks";
 
 describe("buildCustomDoc.service", () => {
@@ -152,6 +153,41 @@ describe("buildCustomDoc.service", () => {
       });
 
       expect(testDoc.DATE_JOUR_HEURE).toEqual("23/05/2022 à 09:32");
+    });
+  });
+
+  describe("dateFormat : doit retourner une date dans le format souhaité à la bonne timeZone", () => {
+    it("Dates au format string", async () => {
+      const dateForTest = "January 21, 2022 15:35:00";
+
+      //  "dd/MM/yyyy",
+      expect(dateFormat(dateForTest, "Europe/Paris", DATE_FORMAT.JOUR)).toEqual(
+        "21/01/2022"
+      );
+      //  "dd/MM/yyyy à HH:mm",
+      expect(
+        dateFormat(dateForTest, "Europe/Paris", DATE_FORMAT.JOUR_HEURE)
+      ).toEqual("21/01/2022 à 15:35");
+      //  "PPP",
+      expect(
+        dateFormat(dateForTest, "Europe/Paris", DATE_FORMAT.JOUR_LONG)
+      ).toEqual("21 janvier 2022");
+    });
+
+    it("Dates au format Date", async () => {
+      const dateForTest = new Date("October 12, 2019 15:05:00");
+      //  "dd/MM/yyyy",
+      expect(
+        dateFormat(dateForTest, "America/Cayenne", DATE_FORMAT.JOUR)
+      ).toEqual("12/10/2019");
+      //  "dd/MM/yyyy à HH:mm",
+      expect(
+        dateFormat(dateForTest, "America/Cayenne", DATE_FORMAT.JOUR_HEURE)
+      ).toEqual("12/10/2019 à 10:05");
+      //  "PPP",
+      expect(
+        dateFormat(dateForTest, "America/Cayenne", DATE_FORMAT.JOUR_LONG)
+      ).toEqual("12 octobre 2019");
     });
   });
 });

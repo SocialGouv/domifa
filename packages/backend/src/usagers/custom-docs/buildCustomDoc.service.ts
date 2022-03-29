@@ -1,3 +1,4 @@
+import { TimeZone } from "./../../../../frontend/src/app/shared/territoires/types/TimeZone.type";
 import { residence, typeMenage } from "../../stats/usagers.labels";
 import { StructureCommon, UsagerLight } from "../../_common/model";
 import { StructureCustomDocTags } from "../../_common/model/structure-doc/StructureCustomDocTags.type";
@@ -5,15 +6,15 @@ import { USAGER_DECISION_STATUT_LABELS } from "./../../_common/labels/USAGER_DEC
 import { UsagerDecision } from "./../../_common/model/usager/UsagerDecision.type";
 import { generateMotifLabel } from "./../services/generateMotifLabel.service";
 
+import { format } from "date-fns";
+import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
+import { fr } from "date-fns/locale";
+
 export const DATE_FORMAT = {
   JOUR: "dd/MM/yyyy",
   JOUR_HEURE: "dd/MM/yyyy à HH:mm",
   JOUR_LONG: "PPP",
 };
-
-import { format } from "date-fns";
-import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
-import { fr } from "date-fns/locale";
 
 export function buildCustomDoc({
   usager,
@@ -148,7 +149,11 @@ export function buildCustomDoc({
     USAGER_NOM: ucFirst(usager.nom),
     USAGER_PRENOM: ucFirst(usager.prenom),
     USAGER_SURNOM: usager?.surnom ? ucFirst(usager?.surnom) : "",
-    USAGER_DATE_NAISSANCE: format(usager.dateNaissance, DATE_FORMAT.JOUR),
+    USAGER_DATE_NAISSANCE: dateFormat(
+      usager.dateNaissance,
+      structure.timeZone,
+      DATE_FORMAT.JOUR
+    ),
 
     USAGER_LIEU_NAISSANCE: ucFirst(usager.villeNaissance),
 
@@ -165,24 +170,28 @@ export function buildCustomDoc({
 
     // REFUS / RADIATION
     MOTIF_RADIATION: motif,
-    DATE_RADIATION: format(
-      new Date(usager.decision.dateDecision),
-      DATE_FORMAT.JOUR_LONG,
-      {
-        locale: fr,
-      }
+    DATE_RADIATION: dateFormat(
+      usager.decision.dateDecision,
+      structure.timeZone,
+      DATE_FORMAT.JOUR_LONG
     ),
 
     // DATES DOMICILIATION
-    DATE_DEBUT_DOM: format(new Date(dateDebutDom), DATE_FORMAT.JOUR_LONG, {
-      locale: fr,
-    }),
-    DATE_FIN_DOM: format(new Date(dateFinDom), DATE_FORMAT.JOUR_LONG, {
-      locale: fr,
-    }),
-    DATE_PREMIERE_DOM: format(usager.datePremiereDom, DATE_FORMAT.JOUR_LONG, {
-      locale: fr,
-    }),
+    DATE_DEBUT_DOM: dateFormat(
+      dateDebutDom,
+      structure.timeZone,
+      DATE_FORMAT.JOUR_LONG
+    ),
+    DATE_FIN_DOM: dateFormat(
+      dateFinDom,
+      structure.timeZone,
+      DATE_FORMAT.JOUR_LONG
+    ),
+    DATE_PREMIERE_DOM: dateFormat(
+      usager.datePremiereDom,
+      structure.timeZone,
+      DATE_FORMAT.JOUR_LONG
+    ),
 
     DATE_DERNIER_PASSAGE: format(
       usager.lastInteraction.dateInteraction,
@@ -218,11 +227,11 @@ export function buildCustomDoc({
     TRANSFERT_ADRESSE: transfert.actif ? transfert.adresse : "",
     TRANSFERT_DATE_DEBUT:
       transfert.actif && transfert.dateDebut
-        ? format(new Date(transfert.dateDebut), DATE_FORMAT.JOUR)
+        ? dateFormat(transfert.dateDebut, structure.timeZone, DATE_FORMAT.JOUR)
         : "",
     TRANSFERT_DATE_FIN:
       transfert.actif && transfert.dateFin
-        ? format(new Date(transfert.dateFin), DATE_FORMAT.JOUR)
+        ? dateFormat(transfert.dateFin, structure.timeZone, DATE_FORMAT.JOUR)
         : "",
 
     // Procuration
@@ -230,25 +239,47 @@ export function buildCustomDoc({
     PROCURATION_NOM: procuration.nom ?? "",
     PROCURATION_PRENOM: procuration.prenom ?? "",
     PROCURATION_DATE_DEBUT: procuration.dateDebut
-      ? format(new Date(procuration.dateDebut), DATE_FORMAT.JOUR)
+      ? dateFormat(procuration.dateDebut, structure.timeZone, DATE_FORMAT.JOUR)
       : "",
     PROCURATION_DATE_FIN: procuration.dateFin
-      ? format(new Date(procuration.dateFin), DATE_FORMAT.JOUR)
+      ? dateFormat(procuration.dateFin, structure.timeZone, DATE_FORMAT.JOUR)
       : "",
     PROCURATION_DATE_NAISSANCE: procuration.dateNaissance
-      ? format(new Date(procuration.dateNaissance), DATE_FORMAT.JOUR)
+      ? dateFormat(
+          procuration.dateNaissance,
+          structure.timeZone,
+          DATE_FORMAT.JOUR
+        )
       : "",
 
     ...extraParameters,
   };
 }
 
-const ucFirst = (value: string) => {
+export const ucFirst = (value: string) => {
   return value === undefined || value === null
     ? ""
     : value.charAt(0).toUpperCase() + value.slice(1);
 };
 
-const notEmpty = (value: string): boolean => {
+export const notEmpty = (value: string): boolean => {
   return typeof value !== "undefined" && value !== null && value.trim() !== "";
+};
+
+export const dateFormat = (
+  date: Date | string,
+  timeZone: TimeZone,
+  displayFormat: string
+): string => {
+  if (typeof date === "string") {
+    date = new Date(date);
+  }
+  // On Repasse en UTC pour convertir correctement
+  date = zonedTimeToUtc(date, "Europe/Paris");
+  // On repasse sur la bonne timezone
+  date = utcToZonedTime(date, timeZone);
+
+  return format(date, displayFormat, {
+    locale: fr,
+  });
 };
