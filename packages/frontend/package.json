@@ -32,7 +32,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
-    "@ng-bootstrap/ng-bootstrap": "^10.0.0",
+    "@ng-bootstrap/ng-bootstrap": "^12.0.0",
     "@schematics/angular": "^13.0.3",
     "@sentry/angular": "^6.13.2",
     "@sentry/browser": "^6.7.2",
