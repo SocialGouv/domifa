@@ -52,13 +52,11 @@
     <span class="text-white modal-title" id="modal-title">Attention !</span>
     <button
       title="Fermer la fenêtre"
-      class="close"
+      class="btn-close"
       type="button"
       aria-label="Fermer la fenêtre"
       (click)="closeModals()"
-    >
-      <span>&times;</span>
-    </button>
+    ></button>
   </div>
   <div class="modal-body text-center">
     <p>
@@ -72,7 +70,7 @@
       <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
       Toutes les informations liées à cet usager disparaitront définitivement.
     </p>
-    <ul class="font-weight-bold">
+    <ul class="fw-bold">
       <li>Les fichiers uploadés sur Domifa</li>
       <li>L'historique de la domiciliation</li>
       <li>L'historique des interactions</li>
@@ -94,13 +92,14 @@
     <span class="text-white modal-title" id="modal-title">Attention !</span>
     <button
       title="Revenir au profil"
-      class="close"
+      class="btn-close"
       type="button"
       aria-label="Revenir au profil"
       (click)="closeModals()"
     >
-      <span class="sr-only">Fermer la fenêtre et revenir au profil</span>
-      <span>&times;</span>
+      <span class="visually-hidden"
+        >Fermer la fenêtre et revenir au profil</span
+      >
     </button>
   </div>
   <p class="modal-body py-3 text-center">

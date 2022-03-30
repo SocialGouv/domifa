@@ -41,7 +41,7 @@
                 [routerLink]="[
                   '/stats/region/' + REGIONS_ID_SEO[regionMap.key]
                 ]"
-                class="region-name font-weight-bold"
+                class="region-name fw-bold"
               >
                 Voir le détail
               </a>
@@ -58,7 +58,7 @@
         >
           <a
             [routerLink]="['/stats/region/' + REGIONS_ID_SEO[regionMap.key]]"
-            class="region-name font-weight-bold"
+            class="region-name fw-bold"
             *ngIf="statsRegionsValues"
           >
             <div class="map-number">
@@ -113,7 +113,7 @@
               </div>
               <a
                 [routerLink]="['/stats/region/' + REGIONS_ID_SEO[regionDomTom]]"
-                class="region-name font-weight-bold"
+                class="region-name fw-bold"
               >
                 Voir le détail
               </a>
@@ -139,7 +139,7 @@
         >
           <a
             [routerLink]="['/stats/region/' + REGIONS_ID_SEO[regionDomTom]]"
-            class="region-name font-weight-bold"
+            class="region-name fw-bold"
           >
             <div class="map-number">
               {{ statsRegionsValues[regionDomTom] }}
@@ -152,7 +152,7 @@
 </div>
 
 <div class="text-start">
-  <h4 class="font-weight-bold text-primary">Les collectivités d'outre-mer</h4>
+  <h4 class="fw-bold text-primary">Les collectivités d'outre-mer</h4>
 
   <div class="region-list">
     <ul>
@@ -166,7 +166,7 @@
         >
           {{ departementCom.value.departmentName }}
         </a>
-        <span class="text-primary font-weight-bold">
+        <span class="text-primary fw-bold">
           {{ statsRegionsValues[departementCom.value.regionCode] }}
         </span>
       </li>

@@ -97,7 +97,7 @@
       <div class="d-flex align-items-top">
         <div class="col-md-4 px-1 me-2 my-2">
           <div class="interaction-icon-box">
-            <div class="font-weight-bold">Domicilié</div>
+            <div class="fw-bold">Domicilié</div>
             <div class="mb-3">
               {{ usager.nom | uppercase }} {{ usager.prenom }}
             </div>
@@ -124,7 +124,7 @@
         >
           <div class="col-md-4 px-1 me-1 my-2">
             <div class="interaction-icon-box">
-              <div class="font-weight-bold">Mandataire</div>
+              <div class="fw-bold">Mandataire</div>
               <div class="mb-3">
                 {{ procuration.nom | uppercase }}
                 {{ procuration.prenom }}
@@ -158,7 +158,7 @@
     class="interaction-icon-box text-start px-3 py-3 my-3"
     *ngIf="this.selectedInteractionsWithContent.length !== 0"
   >
-    <div class="mb-2 font-weight-bold">
+    <div class="mb-2 fw-bold">
       Un ou plusieurs courriers contiennent des informations importantes :
     </div>
     <div

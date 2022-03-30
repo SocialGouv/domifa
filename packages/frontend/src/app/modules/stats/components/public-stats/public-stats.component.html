@@ -14,7 +14,7 @@
     <div class="text-start flex-sm-grow-1 pe-5">
       <ng-container *ngIf="!regionId">
         <h1 class="font-bold">Statistiques et mesure d’impact</h1>
-        <h3 class="font-weight-normal home-header-subtitle">
+        <h3 class="fw-normal home-header-subtitle">
           Domifa simplifie la domiciliation et la distribution de courrier pour
           les personnes sans domicile stable
         </h3>
@@ -24,7 +24,7 @@
           Statistiques régionales :
           {{ regions[REGIONS_SEO_ID[regionId]] }}
         </h1>
-        <h3 class="font-weight-normal home-header-subtitle">
+        <h3 class="fw-normal home-header-subtitle">
           Domifa simplifie la domiciliation et la distribution de courrier pour
           les personnes sans domicile stable dans la région
           {{ regions[REGIONS_SEO_ID[regionId]] }}
@@ -146,9 +146,7 @@
   >
     <div class="row">
       <div class="col-md-6">
-        <h4 class="font-weight-bold text-primary">
-          Structures par département
-        </h4>
+        <h4 class="fw-bold text-primary">Structures par département</h4>
 
         <ul>
           <li
@@ -162,7 +160,7 @@
                   : structure.dep
               }}
             </span>
-            <span class="text-primary font-weight-bold">
+            <span class="text-primary fw-bold">
               {{ structure.count }}
             </span>
           </li>
@@ -181,7 +179,7 @@
         <app-stats-map [publicStats]="stats"></app-stats-map>
       </div>
       <div class="col-md-4 offset-md-1">
-        <h4 class="font-weight-bold text-primary">Top des régions</h4>
+        <h4 class="fw-bold text-primary">Top des régions</h4>
         <div class="region-list">
           <ul>
             <li
@@ -200,7 +198,7 @@
                     : structure.region
                 }}
               </a>
-              <span class="text-primary font-weight-bold">
+              <span class="text-primary fw-bold">
                 {{ structure.count }}
               </span>
             </li>

@@ -19,7 +19,6 @@ import { StructureDocService } from "../../services/structure-doc.service";
   templateUrl: "./structures-upload-docs.component.html",
 })
 export class StructuresUploadDocsComponent implements OnInit {
-  public fileName = "";
   public uploadResponse: UploadResponseType;
 
   public loading = false;
@@ -75,7 +74,6 @@ export class StructuresUploadDocsComponent implements OnInit {
     }
 
     const file = input.files[0];
-    this.fileName = file.name;
 
     this.uploadForm.patchValue({
       fileSource: file,
@@ -112,7 +110,7 @@ export class StructuresUploadDocsComponent implements OnInit {
             this.loading = false;
             this.submitted = false;
             this.uploadForm.reset();
-            this.fileName = "";
+
             this.cancel.emit();
             this.getAllStructureDocs.emit();
           }, 1000);

@@ -16,8 +16,8 @@
           <span
             class="badge badge-pill"
             [ngClass]="{
-              'badge-primary': content.type === 'new',
-              'badge-warning': content.type === 'bug'
+              'bg-primary': content.type === 'new',
+              'bg-warning': content.type === 'bug'
             }"
           >
             {{ NEWS_LABELS[content.type] }}

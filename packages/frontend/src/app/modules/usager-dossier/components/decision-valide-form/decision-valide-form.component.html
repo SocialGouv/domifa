@@ -5,12 +5,10 @@
 
   <button
     title="Fermer la fenêtre"
-    class="close"
+    class="btn-close"
     aria-label="Fermer la fenêtre"
     (click)="closeModals.emit()"
-  >
-    <span>&times;</span>
-  </button>
+  ></button>
 </div>
 
 <div class="modal-body">
@@ -47,20 +45,18 @@
               }"
               maxlength="10"
               required
-              aria-required="true"
             />
-            <div class="input-group-text">
-              <button
-                type="button"
-                class="btn btn-outline-primary d-print-none"
-                (click)="dDebut.toggle()"
-              >
-                <fa-icon
-                  title="Calendrier"
-                  [icon]="['fas', 'calendar']"
-                ></fa-icon>
-              </button>
-            </div>
+
+            <button
+              type="button"
+              class="input-group-text btn btn-outline-primary d-print-none"
+              (click)="dDebut.toggle()"
+            >
+              <fa-icon
+                title="Calendrier"
+                [icon]="['fas', 'calendar']"
+              ></fa-icon>
+            </button>
           </div>
           <div *ngIf="submitted && v.dateDebut.errors" class="invalid-feedback">
             La date de début de domiciliation est incorrecte
@@ -86,18 +82,16 @@
               }"
               maxlength="10"
               required
-              aria-required="true"
             />
-            <div class="input-group-text">
-              <button
-                type="button"
-                aria-label="Date de début"
-                class="btn btn-outline-primary d-print-none"
-                (click)="dFin.toggle()"
-              >
-                <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
-              </button>
-            </div>
+
+            <button
+              type="button"
+              aria-label="Date de début"
+              class="input-group-text btn btn-outline-primary d-print-none"
+              (click)="dFin.toggle()"
+            >
+              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+            </button>
           </div>
         </div>
         <div class="text-center text-danger col-12">

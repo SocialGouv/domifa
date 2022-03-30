@@ -4,13 +4,11 @@
   </span>
 
   <button
-    class="close"
+    class="btn-close"
     type="button"
     aria-label="Fermer la fenêtre"
     (click)="closeModals.emit()"
-  >
-    <span>&times;</span>
-  </button>
+  ></button>
 </div>
 
 <div class="modal-body p-4 text-start">
@@ -58,18 +56,17 @@
             }"
             maxlength="10"
             required
-            aria-required="true"
           />
-          <div class="input-group-text">
-            <button
-              type="button"
-              class="btn btn-outline-primary d-print-none"
-              (click)="dFin.toggle()"
-              aria-label="Sélectionner une date de radiation"
-            >
-              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
-            </button>
-          </div>
+
+          <button
+            type="button"
+            class="btn btn-outline-primary d-print-none input-group-text"
+            (click)="dFin.toggle()"
+            aria-label="Sélectionner une date de radiation"
+          >
+            <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+          </button>
+
           <p *ngIf="submitted && r.dateFin.invalid" class="invalid-feedback">
             La date de radiation est incorrecte
           </p>
@@ -78,7 +75,7 @@
 
       <div class="col-12">
         <fieldset>
-          <legend class="font-weight-bold">
+          <legend class="fw-bold">
             Merci d’indiquer le motif <span class="text-danger">*</span>
           </legend>
 
@@ -110,7 +107,6 @@
                 formControlName="motif"
                 value="AUTRE"
                 required
-                aria-required="true"
               />
               <label class="form-check-label" for="motif-autre">
                 Autre motif

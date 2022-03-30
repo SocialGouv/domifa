@@ -4,12 +4,10 @@
   >
   <button
     title="Fermer la fenêtre"
-    class="close"
+    class="btn-close"
     aria-label="Fermer la fenêtre"
     (click)="closeModals.emit()"
-  >
-    <span>&times;</span>
-  </button>
+  ></button>
 </div>
 <div class="modal-body py-4">
   <form
@@ -37,18 +35,16 @@
           }"
           maxlength="10"
           required
-          aria-required="true"
         />
-        <div class="input-group-text">
-          <button
-            type="button"
-            aria-label="Sélectionner la date du refus dans le calendrier"
-            class="btn btn-outline-primary d-print-none"
-            (click)="dFin.toggle()"
-          >
-            <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
-          </button>
-        </div>
+
+        <button
+          type="button"
+          aria-label="Sélectionner la date du refus dans le calendrier"
+          class="input-group-text btn btn-outline-primary d-print-none"
+          (click)="dFin.toggle()"
+        >
+          <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+        </button>
       </div>
       <p *ngIf="submitted && r.dateFin.invalid" class="invalid-feedback">
         La date de refus est incorrecte
@@ -69,7 +65,6 @@
             <input
               class="form-check-input"
               type="radio"
-              aria-required="true"
               id="motif-refus-{{ motif.key }}"
               formControlName="motif"
               [ngClass]="{ 'is-invalid': submitted && r.motif.errors }"
@@ -191,7 +186,6 @@
           formControlName="orientationDetails"
           id="orientationRefusDetails"
           required
-          aria-required="true"
         />
         <p
           *ngIf="submitted && r.orientationDetails.errors"

@@ -19,7 +19,6 @@ import { DocumentService } from "../../services/document.service";
   templateUrl: "./upload.component.html",
 })
 export class UploadComponent implements OnInit {
-  public fileName = null;
   public submitted = false;
   public loading = false;
 
@@ -57,7 +56,6 @@ export class UploadComponent implements OnInit {
 
     const file = input.files[0];
 
-    this.fileName = file.name;
     this.uploadForm.patchValue({
       fileSource: file,
     });
@@ -85,7 +83,7 @@ export class UploadComponent implements OnInit {
           this.uploadResponse.success
         ) {
           this.usager.docs = this.uploadResponse.body;
-          this.fileName = "";
+
           this.loading = false;
           this.submitted = false;
           this.uploadForm.reset();

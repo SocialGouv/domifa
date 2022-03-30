@@ -10,7 +10,7 @@
       <h4>Membres actifs</h4>
 
       <table class="table">
-        <caption class="sr-only">
+        <caption class="visually-hidden">
           Liste des membres actifs
         </caption>
         <thead>
@@ -26,25 +26,22 @@
             <td>
               <b>{{ user.nom }} {{ user.prenom }}</b>
               <span class="user-icon">
-                <span *ngIf="user.role === 'admin'" class="badge badge-primary">
+                <span *ngIf="user.role === 'admin'" class="badge bg-primary">
                   Administrateur
                 </span>
                 <span
                   *ngIf="user.role === 'responsable'"
-                  class="badge badge-secondary"
+                  class="badge bg-secondary"
                 >
                   Gestionnaire
                 </span>
-                <span *ngIf="user.role === 'simple'" class="badge badge-light">
+                <span *ngIf="user.role === 'simple'" class="badge bg-light">
                   Instructeur
                 </span>
-                <span
-                  *ngIf="user.role === 'facteur'"
-                  class="badge badge-warning"
-                >
+                <span *ngIf="user.role === 'facteur'" class="badge bg-warning">
                   Facteur
                 </span>
-                <span *ngIf="!user.verified" class="badge badge-danger">
+                <span *ngIf="!user.verified" class="badge bg-danger">
                   Non activé
                 </span>
               </span>
@@ -56,7 +53,7 @@
                 id="role_{{ user.id }}"
                 [(ngModel)]="user.role"
                 (change)="updateRole(user.id, $event.target.value)"
-                class="form-control"
+                class="form-select"
               >
                 <option value="admin">Administrateur</option>
                 <option value="responsable">Gestionnaire</option>
@@ -105,7 +102,7 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
@@ -117,14 +114,14 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
@@ -137,7 +134,7 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
@@ -150,7 +147,7 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
@@ -163,7 +160,7 @@
               <td></td>
               <td>* Téléchargement seulement</td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
@@ -176,7 +173,7 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
@@ -189,7 +186,7 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
@@ -202,7 +199,7 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
@@ -218,7 +215,7 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
@@ -230,14 +227,14 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
@@ -248,21 +245,21 @@
               <td>Page statistiques de la structure</td>
               <td></td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
@@ -273,21 +270,21 @@
               <td>Cr&eacute;ation du dossier d&rsquo;un domicili&eacute;</td>
               <td></td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
@@ -301,14 +298,14 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
@@ -335,21 +332,21 @@
                 <p>** Modification et suppression possible</p>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
@@ -359,28 +356,28 @@
             <tr>
               <td>Ajout/suppression de notes internes</td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
@@ -390,28 +387,28 @@
             <tr>
               <td>Gestion de la r&eacute;ception des courriers/colis/avis</td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
@@ -421,28 +418,28 @@
             <tr>
               <td>D&eacute;claration d&rsquo;un passage/appel&nbsp;</td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
@@ -453,21 +450,21 @@
               <td>Radiation du dossier d&rsquo;un domicili&eacute;</td>
               <td></td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
@@ -478,21 +475,21 @@
               <td>Renouvellement du dossier d&rsquo;un domicili&eacute;</td>
               <td></td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
@@ -506,21 +503,21 @@
               </td>
               <td></td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
@@ -532,14 +529,14 @@
               <td></td>
               <td></td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
                 ></fa-icon>
               </td>
               <td class="bg-success">
-                <span class="sr-only">Oui</span
+                <span class="visually-hidden">Oui</span
                 ><fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'check']"
@@ -569,13 +566,11 @@
 
     <button
       type="button"
-      class="close"
+      class="btn-close"
       aria-hidden="true"
       aria-label="Fermer la fenêtre"
       (click)="closeModal()"
-    >
-      <span>&times;</span>
-    </button>
+    ></button>
   </div>
 
   <div class="modal-body text-center">

@@ -1,6 +1,6 @@
 <form ngNativeValidate [formGroup]="uploadForm" (ngSubmit)="submitFile()">
   <div class="row">
-    <div class="col-md-5">
+    <div class="col-md-5 col-5">
       <div class="form-group required">
         <label for="label">Nom du document</label>
         <input
@@ -11,7 +11,6 @@
           [ngClass]="{ 'is-invalid': submitted && u.label.errors }"
           placeholder="Cerfa signé, impots, carte identité, etc..."
           required
-          aria-required="true"
         />
 
         <p *ngIf="u.label.errors" class="invalid-feedback">
@@ -19,21 +18,19 @@
         </p>
       </div>
     </div>
-    <div class="col-md-5">
-      <div class="required">
-        <label for="file">
-          Document à enregistrer <span class="text-danger">*</span>
-        </label>
-        <input
-          type="file"
-          class="form-control"
-          id="file"
-          formControlName="file"
-          aria-describedby="pjHelp"
-          [ngClass]="{ 'is-invalid': submitted && u.fileSource.errors }"
-          (change)="onFileChange($event)"
-        />
-      </div>
+    <div class="col-md-5 col-5 form-group required">
+      <label for="file"> Document à enregistrer </label>
+      <input
+        type="file"
+        class="form-control"
+        id="file"
+        formControlName="file"
+        aria-describedby="pjHelp"
+        [ngClass]="{ 'is-invalid': submitted && u.fileSource.errors }"
+        (change)="onFileChange($event)"
+        required
+      />
+
       <small id="pjHelp" class="form-text text-muted">
         Formats autorisés PDF, JPG ou PNG (6mo maxi)
       </small>

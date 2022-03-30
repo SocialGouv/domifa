@@ -99,6 +99,13 @@
   margin-top: 0.2rem;
 }
 
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 600px;
+    margin: 1.75rem auto;
+  }
+}
+
 .text-muted {
   color: #6e6e6e !important;
 }
@@ -114,9 +121,6 @@
 .table > :not(:first-child) {
   border-top: 0 !important;
 }
-.table > :not(caption) > * > * {
-  /* padding: 0.6rem 0.6rem; */
-  /* background-color: var(--bs-table-bg); */
-  /* border-bottom-width: 1px; */
-  /* box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg); */
+.table th .btn-primary {
+  background-color: var(--bs-primary);
 }

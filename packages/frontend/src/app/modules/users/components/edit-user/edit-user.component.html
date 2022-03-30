@@ -1,35 +1,40 @@
-<div class="container my-4" *ngIf="me">
-  <div class="row">
-    <div class="col-md-10 offset-1">
+<div *ngIf="me" class="head-page py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-7">
+        <h1 class="title">Mon compte</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content py-3" *ngIf="me">
+  <div class="container py-3">
+    <div class="page-content p-4">
       <div class="row" *ngIf="me.role !== 'facteur'">
         <div class="col-12">
           <h4>Mes prochains rendez-vous</h4>
-          <div class="list-group">
-            <div class="list-group-item">
-              <div class="alert-info alert" *ngIf="usagers.length === 0">
-                Aucun rendez-vous prévu
-              </div>
-              <div *ngIf="usagers.length > 0">
-                <div class="list-group-item" *ngFor="let usager of usagers">
-                  <div class="row">
-                    <div class="col-7">
-                      <b
-                        >Le
-                        {{ usager.rdv.dateRdv | date: "dd/MM/yyyy à HH:mm" }}</b
-                      >
-                      <br />
-                      {{ usager.nom }} {{ usager.prenom }}
-                    </div>
-                    <div class="col-5 text-end">
-                      <a
-                        class="btn btn-outline-dark"
-                        [routerLink]="['/usager/' + usager.ref + '/edit']"
-                        routerLinkActive="router-link-active"
-                      >
-                        Voir la fiche
-                      </a>
-                    </div>
-                  </div>
+          <div class="alert-info alert" *ngIf="usagers.length === 0">
+            Aucun rendez-vous prévu
+          </div>
+          <div class="list-group" *ngIf="usagers.length > 0">
+            <div class="list-group-item" *ngFor="let usager of usagers">
+              <div class="row">
+                <div class="col-7">
+                  <b
+                    >Le {{ usager.rdv.dateRdv | date: "dd/MM/yyyy à HH:mm" }}</b
+                  >
+                  <br />
+                  {{ usager.nom }} {{ usager.prenom }}
+                </div>
+                <div class="col-5 text-end">
+                  <a
+                    class="btn btn-outline-dark"
+                    [routerLink]="['/usager/' + usager.ref + '/edit']"
+                    routerLinkActive="router-link-active"
+                  >
+                    Voir la fiche
+                  </a>
                 </div>
               </div>
             </div>
@@ -37,10 +42,16 @@
         </div>
       </div>
 
-      <br />
-      <div class="row">
-        <h4 class="col-md-12">Informations personnelles</h4>
+      <div class="my-2 d-flex justify-content-between align-items-center">
+        <h4>Informations personnelles</h4>
+
+        <button (click)="initUserForm()" class="btn btn-outline-dark">
+          <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
+
+          Modifier les informations
+        </button>
       </div>
+
       <div class="list-group">
         <div class="list-group-item" *ngIf="!editUser">
           <div class="row">
@@ -61,14 +72,6 @@
               <span class="valeur">
                 {{ me.email }}
               </span>
-            </div>
-            <div class="col-md-12 text-center">
-              <br />
-              <button (click)="initUserForm()" class="btn btn-outline-dark">
-                <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
-
-                Modifier les informations
-              </button>
             </div>
           </div>
         </div>
@@ -155,53 +158,56 @@
             </div>
           </form>
         </div>
-      </div>
 
-      <br /><br />
-      <div class="row">
-        <h4 class="col-md-12">Mot de passe</h4>
+        <br /><br />
+        <div class="row">
+          <h4 class="col-md-12">Mot de passe</h4>
 
-        <br />
-
-        <div class="col-md-12 text-center" *ngIf="!editPassword">
-          <span *ngIf="lastPasswordUpdate"
-            >Dernière modification le :
-            {{ lastPasswordUpdate | date: "dd/MM/yyyy" }}</span
-          >
-          <span *ngIf="!lastPasswordUpdate || lastPasswordUpdate === null"
-            >Aucune modification de mot de passe enregistrée</span
-          >
           <br />
-          <br />
-          <button (click)="initPasswordForm()" class="btn btn-outline-dark">
-            <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
-            Modifier votre mot de passe
-          </button>
+
+          <div class="col-md-12 text-center" *ngIf="!editPassword">
+            <span *ngIf="lastPasswordUpdate"
+              >Dernière modification le :
+              {{ lastPasswordUpdate | date: "dd/MM/yyyy" }}</span
+            >
+            <span *ngIf="!lastPasswordUpdate || lastPasswordUpdate === null"
+              >Aucune modification de mot de passe enregistrée</span
+            >
+            <br />
+            <br />
+            <button (click)="initPasswordForm()" class="btn btn-outline-dark">
+              <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
+              Modifier votre mot de passe
+            </button>
+          </div>
         </div>
-      </div>
 
-      <form
-        *ngIf="editPassword"
-        [formGroup]="passwordForm"
-        class="row"
-        (ngSubmit)="updatePassword()"
-      >
-        <div class="col-md-4 form-group required">
-          <label for="password">Ancien mot de passe</label>
-          <div class="input-group">
-            <input
-              class="form-control"
-              [type]="!hideOldPassword ? 'text' : 'password'"
-              [ngClass]="{
-                'is-invalid': p.oldPassword.dirty && p.oldPassword.errors
-              }"
-              id="password"
-              formControlName="oldPassword"
-              autocomplete="off"
-              required
-            />
-            <div class="input-group-text">
-              <button type="button" class="btn" (click)="toggleOldPassword()">
+        <form
+          *ngIf="editPassword"
+          [formGroup]="passwordForm"
+          class="row"
+          (ngSubmit)="updatePassword()"
+        >
+          <div class="col-md-4 form-group required">
+            <label for="password">Ancien mot de passe</label>
+            <div class="input-group">
+              <input
+                class="form-control"
+                [type]="!hideOldPassword ? 'text' : 'password'"
+                [ngClass]="{
+                  'is-invalid': p.oldPassword.dirty && p.oldPassword.errors
+                }"
+                id="password"
+                formControlName="oldPassword"
+                autocomplete="off"
+                required
+              />
+
+              <button
+                type="button"
+                class="btn input-group-text"
+                (click)="toggleOldPassword()"
+              >
                 <fa-icon
                   title="Voir / cacher le mot de passe"
                   [icon]="
@@ -211,134 +217,137 @@
               </button>
             </div>
           </div>
-        </div>
-        <div class="col-md-4 form-group required">
-          <label for="new-password">Nouveau mot de passe</label>
-          <div class="input-group">
-            <input
-              type="password"
-              formControlName="password"
-              [type]="!hidePassword ? 'text' : 'password'"
-              class="form-control"
-              id="new-password"
-              [ngClass]="{
-                'is-invalid': p.password.dirty && p.password.errors
-              }"
-              placeholder="Mot de passe"
-              autocomplete="new-password"
-              required
-            />
-            <div class="input-group-text">
-              <button type="button" class="btn" (click)="togglePassword()">
+          <div class="col-md-4 form-group required">
+            <label for="new-password">Nouveau mot de passe</label>
+            <div class="input-group">
+              <input
+                type="password"
+                formControlName="password"
+                [type]="!hidePassword ? 'text' : 'password'"
+                class="form-control"
+                id="new-password"
+                [ngClass]="{
+                  'is-invalid': p.password.dirty && p.password.errors
+                }"
+                placeholder="Mot de passe"
+                autocomplete="new-password"
+                required
+              />
+
+              <button
+                type="button"
+                class="input-group-text btn"
+                (click)="togglePassword()"
+              >
                 <fa-icon
                   title="Voir / cacher le mot de passe"
                   [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
                 ></fa-icon>
               </button>
             </div>
-          </div>
 
-          <div class="row indications">
-            <div
-              [title]="
-                p.password.hasError('required') ||
-                p.password.hasError('minlength')
-                  ? 'Erreur'
-                  : 'Correct'
-              "
-              class="col-md-12"
-              [ngClass]="
-                p.password.hasError('required') ||
-                p.password.hasError('minlength')
-                  ? 'text-danger'
-                  : 'text-success'
-              "
-            >
-              <fa-icon
-                [icon]="[
-                  'fas',
+            <div class="row indications">
+              <div
+                [title]="
                   p.password.hasError('required') ||
                   p.password.hasError('minlength')
-                    ? 'times-circle'
-                    : 'check-circle'
-                ]"
-              ></fa-icon>
-              Au moins 12 caractères
-            </div>
-            <div
-              [title]="
-                p.password.hasError('required') ||
-                p.password.hasError('hasNumber')
-                  ? 'Erreur'
-                  : 'Correct'
-              "
-              class="col-md-12"
-              [ngClass]="
-                p.password.hasError('required') ||
-                p.password.hasError('hasNumber')
-                  ? 'text-danger'
-                  : 'text-success'
-              "
-            >
-              <fa-icon
-                [icon]="[
-                  'fas',
+                    ? 'Erreur'
+                    : 'Correct'
+                "
+                class="col-md-12"
+                [ngClass]="
+                  p.password.hasError('required') ||
+                  p.password.hasError('minlength')
+                    ? 'text-danger'
+                    : 'text-success'
+                "
+              >
+                <fa-icon
+                  [icon]="[
+                    'fas',
+                    p.password.hasError('required') ||
+                    p.password.hasError('minlength')
+                      ? 'times-circle'
+                      : 'check-circle'
+                  ]"
+                ></fa-icon>
+                Au moins 12 caractères
+              </div>
+              <div
+                [title]="
                   p.password.hasError('required') ||
                   p.password.hasError('hasNumber')
-                    ? 'times-circle'
-                    : 'check-circle'
-                ]"
-              ></fa-icon>
-              Au moins 1 chiffre
-            </div>
-            <div
-              [title]="
-                p.password.hasError('required') ||
-                p.password.hasError('hasCapitalCase')
-                  ? 'Erreur'
-                  : 'Correct'
-              "
-              class="col-md-12"
-              [ngClass]="
-                p.password.hasError('required') ||
-                p.password.hasError('hasCapitalCase')
-                  ? 'text-danger'
-                  : 'text-success'
-              "
-            >
-              <fa-icon
-                [icon]="[
-                  'fas',
+                    ? 'Erreur'
+                    : 'Correct'
+                "
+                class="col-md-12"
+                [ngClass]="
+                  p.password.hasError('required') ||
+                  p.password.hasError('hasNumber')
+                    ? 'text-danger'
+                    : 'text-success'
+                "
+              >
+                <fa-icon
+                  [icon]="[
+                    'fas',
+                    p.password.hasError('required') ||
+                    p.password.hasError('hasNumber')
+                      ? 'times-circle'
+                      : 'check-circle'
+                  ]"
+                ></fa-icon>
+                Au moins 1 chiffre
+              </div>
+              <div
+                [title]="
                   p.password.hasError('required') ||
                   p.password.hasError('hasCapitalCase')
-                    ? 'times-circle'
-                    : 'check-circle'
-                ]"
-              ></fa-icon>
-              Au moins une lettre en majuscule
+                    ? 'Erreur'
+                    : 'Correct'
+                "
+                class="col-md-12"
+                [ngClass]="
+                  p.password.hasError('required') ||
+                  p.password.hasError('hasCapitalCase')
+                    ? 'text-danger'
+                    : 'text-success'
+                "
+              >
+                <fa-icon
+                  [icon]="[
+                    'fas',
+                    p.password.hasError('required') ||
+                    p.password.hasError('hasCapitalCase')
+                      ? 'times-circle'
+                      : 'check-circle'
+                  ]"
+                ></fa-icon>
+                Au moins une lettre en majuscule
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-4 form-group required" id="confirmPassword">
-          <label for="confirmPasswordInput">Confirmer votre mot de passe</label>
-          <div class="input-group">
-            <input
-              class="form-control"
-              [type]="!hideConfirmPassword ? 'text' : 'password'"
-              [ngClass]="{
-                'is-invalid':
-                  p.confirmPassword.dirty && p.confirmPassword.errors
-              }"
-              id="confirmPasswordInput"
-              autocomplete="new-password"
-              formControlName="confirmPassword"
-              required
-            />
+          <div class="col-md-4 form-group required" id="confirmPassword">
+            <label for="confirmPasswordInput"
+              >Confirmer votre mot de passe</label
+            >
+            <div class="input-group">
+              <input
+                class="form-control"
+                [type]="!hideConfirmPassword ? 'text' : 'password'"
+                [ngClass]="{
+                  'is-invalid':
+                    p.confirmPassword.dirty && p.confirmPassword.errors
+                }"
+                id="confirmPasswordInput"
+                autocomplete="new-password"
+                formControlName="confirmPassword"
+                required
+              />
 
-            <div class="input-group-text">
               <button
                 type="button"
-                class="btn"
+                class="input-group-text btn"
                 (click)="togglePasswordConfirmation()"
               >
                 <fa-icon
@@ -349,56 +358,56 @@
                 ></fa-icon>
               </button>
             </div>
-          </div>
 
-          <div class="row indications">
-            <div
-              class="text-danger col-md-12"
-              *ngIf="
-                p.confirmPassword.dirty &&
-                p.confirmPassword.hasError('required')
-              "
-            >
-              La confirmation du mot de passe est obligatoire
-            </div>
-            <div
-              class="col-md-12"
-              [ngClass]="
-                p.confirmPassword.dirty &&
-                !p.confirmPassword.hasError('NoPassswordMatch')
-                  ? 'text-success'
-                  : 'text-danger'
-              "
-            >
-              <fa-icon
-                [icon]="[
-                  'fas',
+            <div class="row indications">
+              <div
+                class="text-danger col-md-12"
+                *ngIf="
+                  p.confirmPassword.dirty &&
+                  p.confirmPassword.hasError('required')
+                "
+              >
+                La confirmation du mot de passe est obligatoire
+              </div>
+              <div
+                class="col-md-12"
+                [ngClass]="
                   p.confirmPassword.dirty &&
                   !p.confirmPassword.hasError('NoPassswordMatch')
-                    ? 'check-circle'
-                    : 'times-circle'
-                ]"
-              ></fa-icon>
-              Les mots de passe doivent être identiques
+                    ? 'text-success'
+                    : 'text-danger'
+                "
+              >
+                <fa-icon
+                  [icon]="[
+                    'fas',
+                    p.confirmPassword.dirty &&
+                    !p.confirmPassword.hasError('NoPassswordMatch')
+                      ? 'check-circle'
+                      : 'times-circle'
+                  ]"
+                ></fa-icon>
+                Les mots de passe doivent être identiques
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="col-md-12 text-center">
-          <button (click)="editPassword = false" class="btn btn-outline-dark">
-            <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
-            Annuler
-          </button>
-          &nbsp;&nbsp;
-          <button
-            class="btn btn-primary"
-            type="submit"
-            [disabled]="!passwordForm.valid"
-          >
-            Enregistrer les changements
-          </button>
-        </div>
-      </form>
+          <div class="col-md-12 text-center">
+            <button (click)="editPassword = false" class="btn btn-outline-dark">
+              <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
+              Annuler
+            </button>
+            &nbsp;&nbsp;
+            <button
+              class="btn btn-primary"
+              type="submit"
+              [disabled]="!passwordForm.valid"
+            >
+              Enregistrer les changements
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

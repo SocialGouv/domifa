@@ -22,7 +22,7 @@ export class ContactSupportComponent implements OnInit {
   public submitted: boolean;
   public success: boolean;
   public loading: boolean;
-  public fileName?: string;
+
   public contactForm!: FormGroup;
 
   public me!: UserStructure | null;
@@ -95,7 +95,6 @@ export class ContactSupportComponent implements OnInit {
 
     const file = input.files[0];
 
-    this.fileName = file.name;
     this.contactForm.patchValue({
       fileSource: file,
     });
@@ -130,7 +129,6 @@ export class ContactSupportComponent implements OnInit {
 
     this.generalService.sendContact(formData).subscribe({
       next: () => {
-        this.fileName = "";
         this.loading = false;
         this.success = true;
         this.submitted = false;

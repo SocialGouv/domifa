@@ -1,18 +1,16 @@
 <div class="row">
   <div class="col-6">
     <div class="py-1">
-      <span class="font-weight-bold">{{ usager.prenom }} {{ usager.nom }}</span>
+      <span class="fw-bold">{{ usager.prenom }} {{ usager.nom }}</span>
       ({{ usager.sexe | titlecase }})
     </div>
     <div class="py-1">
       Né{{ usager.sexe === "homme" ? "" : "e" }} le
-      <span class="font-weight-bold">{{
+      <span class="fw-bold">{{
         usager.dateNaissance | date: "dd/MM/yyyy"
       }}</span>
       à
-      <span class="font-weight-bold">{{
-        usager.villeNaissance | titlecase
-      }}</span>
+      <span class="fw-bold">{{ usager.villeNaissance | titlecase }}</span>
     </div>
 
     <div class="py-1">
@@ -24,7 +22,7 @@
     </div>
 
     <div class="my-4">
-      <div class="py-2 text-primary font-weight-bold">Contact</div>
+      <div class="py-2 text-primary fw-bold">Contact</div>
       <div>
         Téléphone:
         <span class="valeur" *ngIf="usager.phone">{{
