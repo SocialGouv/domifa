@@ -7,12 +7,12 @@
 <div class="content py-3" *ngIf="DOMIFA_NEWS">
   <div class="container py-3">
     <div class="page-content p-4">
-      <div class="card my-3 text-left" *ngFor="let news of DOMIFA_NEWS">
+      <div class="card my-3 text-start" *ngFor="let news of DOMIFA_NEWS">
         <p>
           <b>{{ news.date | date: "dd/MM/yyyy" }}</b>
           <span *ngIf="news.description">- {{ news.description }}</span>
         </p>
-        <div *ngFor="let content of news.content" class="text-left news">
+        <div *ngFor="let content of news.content" class="text-start news">
           <span
             class="badge badge-pill"
             [ngClass]="{

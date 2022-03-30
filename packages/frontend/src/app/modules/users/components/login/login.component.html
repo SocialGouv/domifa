@@ -40,23 +40,22 @@
                 'is-invalid': f.password.dirty && f.password.errors
               }"
             />
-            <div class="input-group-append">
-              <button
-                type="button"
-                [attr.aria-label]="
-                  (hidePassword ? 'Afficher' : 'Masquer') +
-                  ' ou masquer le mot de passe'
-                "
-                [attr.aria-checked]="!hidePassword"
-                class="input-group-text btn"
-                role="switch"
-                (click)="togglePassword(); $event.preventDefault()"
-              >
-                <fa-icon
-                  [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
-                ></fa-icon>
-              </button>
-            </div>
+
+            <button
+              class="input-group-text"
+              type="button"
+              [attr.aria-label]="
+                (hidePassword ? 'Afficher' : 'Masquer') +
+                ' ou masquer le mot de passe'
+              "
+              [attr.aria-checked]="!hidePassword"
+              role="switch"
+              (click)="togglePassword(); $event.preventDefault()"
+            >
+              <fa-icon
+                [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
+              ></fa-icon>
+            </button>
 
             <p
               *ngIf="f.password.dirty && f.password.errors"

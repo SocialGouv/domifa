@@ -38,7 +38,7 @@ foreignObject {
 }
 
 .map-number {
-  background-color: var(--primary);
+  background-color: var(--bs-primary);
   font-weight: bold;
   border-radius: 100%;
   padding: 4px;

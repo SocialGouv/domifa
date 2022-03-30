@@ -3,7 +3,7 @@
 }
 
 .verified {
-  color: var(--success);
+  color: var(--bs-success);
 }
 
 .not-verified {
@@ -20,7 +20,7 @@
 }
 
 .danger-zone {
-  border: 1px solid var(--danger);
+  border: 1px solid var(--bs-danger);
 }
 
 #user-infos tr td:not(:first-child) {

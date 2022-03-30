@@ -101,7 +101,7 @@ ul.check-list li::before {
 }
 
 .hero {
-  background-color: var(--primary);
+  background-color: var(--bs-primary);
   padding: 3rem 1rem;
   text-align: center;
   color: white;

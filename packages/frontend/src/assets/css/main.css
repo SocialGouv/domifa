@@ -44,7 +44,7 @@ ul {
 .npai {
   -webkit-text-stroke-width: 0;
   stroke-width: 0;
-  color: var(--danger) !important;
+  color: var(--bs-danger) !important;
 }
 
 .pointer {
@@ -52,7 +52,7 @@ ul {
 }
 
 .active {
-  color: var(--primary);
+  color: var(--bs-primary);
 }
 
 table .active {
@@ -101,7 +101,7 @@ orm .card {
 }
 
 .reponses .question {
-  color: var(--primary);
+  color: var(--bs-primary);
   font-size: 1.1rem;
   font-weight: 600;
 }
@@ -163,7 +163,7 @@ legend {
   text-align: center;
   width: 20px;
   height: 20px;
-  background-color: var(--red);
+  background-color: var(--bs-red);
   position: absolute;
   top: -10px;
   right: -10px;
@@ -201,7 +201,7 @@ legend {
 }
 
 .head-page {
-  background-color: var(--primary);
+  background-color: var(--bs-primary);
   width: 100%;
 }
 
@@ -229,7 +229,7 @@ legend {
 }
 
 .selected-section .statut-label {
-  color: var(--primary);
+  color: var(--bs-primary);
 }
 
 .selected-section {
@@ -243,7 +243,7 @@ legend {
 }
 
 .danger-status td:first-child {
-  border-left: 4px solid var(--red) !important;
+  border-left: 4px solid var(--bs-red) !important;
 }
 .warning-status td:first-child {
   border-left: 4px solid var(--warning) !important;

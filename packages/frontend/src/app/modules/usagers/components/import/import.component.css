@@ -39,7 +39,7 @@
 }
 
 #import-table .required:after {
-  color: var(--red);
+  color: var(--bs-red);
   content: " *";
 }
 
@@ -69,5 +69,5 @@
 #errors-list {
   margin: 20px auto;
   padding: 15px 10px;
-  border: 1px solid var(--danger);
+  border: 1px solid var(--bs-danger);
 }

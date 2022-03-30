@@ -8,7 +8,7 @@
       <th scope="col">Nom du document</th>
       <th scope="col">Ajouté par</th>
       <th scope="col">Ajouté le</th>
-      <th scope="col" class="d-print-none text-right">Actions</th>
+      <th scope="col" class="d-print-none text-end">Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -31,7 +31,7 @@
             | date: "dd/MM/yyyy"
         }}
       </td>
-      <td class="align-middle text-right">
+      <td class="align-middle text-end">
         <button
           (click)="getDomifaCustomDoc('attestation_postale')"
           class="mx-1 my-1 btn btn-primary"
@@ -71,7 +71,7 @@
         }}
       </td>
 
-      <td class="align-middle text-right">
+      <td class="align-middle text-end">
         <button
           (click)="getDomifaCustomDoc('courrier_radiation')"
           class="mx-1 my-1 btn btn-primary"
@@ -106,7 +106,7 @@
       <td>
         {{ document.createdAt | date: "dd/MM/yyyy" }}
       </td>
-      <td class="align-middle text-right">
+      <td class="align-middle text-end">
         <button
           (click)="getStructureCustomDoc(document)"
           class="mx-1 my-1 btn btn-primary"

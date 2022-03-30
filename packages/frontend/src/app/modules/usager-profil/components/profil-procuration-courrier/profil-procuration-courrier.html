@@ -8,18 +8,18 @@
         title="Modifier la procuration"
         (click)="initForm()"
         *ngIf="!isFormVisible "
-        class="btn btn-outline-dark ml-2"
+        class="btn btn-outline-dark ms-2"
       >
-        <fa-icon [icon]="['far', 'edit']" class="mr-2"></fa-icon>
+        <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
         Modifier les procurations
       </button>
       <button
         title="Annuler les modifications"
         *ngIf="isFormVisible"
         (click)="hideForm()"
-        class="btn btn-outline-dark ml-2"
+        class="btn btn-outline-dark ms-2"
       >
-        <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
+        <fa-icon [icon]="['fas', 'times']" class="me-2"></fa-icon>
         Annuler les modifications
       </button>
     </div>
@@ -64,12 +64,12 @@
           procuration.dateFin | date: 'dd/MM/yyyy' }}
         </span>
       </div>
-      <div class="col-1 text-right">
+      <div class="col-1 text-end">
         <button
           aria-label="Supprimer la procuration"
           type="button"
           (click)="openConfirmation(i)"
-          class="btn btn-danger mr-2"
+          class="btn btn-danger me-2"
         >
           <fa-icon [icon]="['fas', 'trash']"></fa-icon>
         </button>
@@ -146,7 +146,7 @@
               required
               aria-required="true"
             />
-            <div class="input-group-append">
+            <div class="input-group-text">
               <button
                 type="button"
                 aria-label="Sélectionner une date de naissance sur le calendrier"
@@ -182,7 +182,7 @@
               maxlength="10"
               required
             />
-            <div class="input-group-append">
+            <div class="input-group-text">
               <button
                 type="button"
                 aria-label="Choisir une date de début de validité dans le calendrier"
@@ -218,7 +218,7 @@
               maxlength="10"
               required
             />
-            <div class="input-group-append">
+            <div class="input-group-text">
               <button
                 type="button"
                 aria-label="Choisir une date de fin de validité dans le calendrier"
@@ -244,7 +244,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-1 text-right">
+        <div class="col-md-1 text-end">
           <label for="delete_procu_{{ i }}">Supprimer</label>
 
           <button
@@ -261,7 +261,7 @@
     </div>
     <div class="text-center">
       <button
-        class="btn btn-outline-primary mr-2"
+        class="btn btn-outline-primary me-2"
         type="button"
         (click)="addProcuration()"
         *ngIf="form.controls.length < 2"

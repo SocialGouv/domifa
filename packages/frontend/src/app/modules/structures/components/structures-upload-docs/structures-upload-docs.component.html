@@ -48,56 +48,41 @@
           </p>
         </div>
       </div>
-      <div class="col-md-12 form-group required">
-        <label>Document à enregistrer</label>
+      <div class="col-md-12 required">
+        <label for="file"> Document à enregistrer </label>
 
-        <div class="form-group custom-file">
-          <input
-            type="file"
-            class="custom-file-input"
-            id="file"
-            formControlName="file"
-            aria-describedby="pjHelp"
-            [ngClass]="{ 'is-invalid': submitted && f.fileSource.errors }"
-            (change)="onFileChange($event)"
-          />
+        <input
+          type="file"
+          class="form-control"
+          id="file"
+          formControlName="file"
+          aria-describedby="pjHelp"
+          [ngClass]="{ 'is-invalid': submitted && f.fileSource.errors }"
+          (change)="onFileChange($event)"
+        />
 
-          <small *ngIf="isCustomDoc" id="pjHelp" class="form-text text-muted">
-            Seul les fichiers Word au format .docx sont autorisés
-          </small>
-          <small *ngIf="!isCustomDoc" id="pjHelp" class="form-text text-muted">
-            Formats autorisés pdf, docx, xlsx, odt, jpg ou png (6mo maxi)
-          </small>
-          <label
-            class="custom-file-label"
-            for="file"
-            data-browse="Parcourir"
-            lang="fr"
-          >
-            {{ fileName }}
-          </label>
+        <small *ngIf="isCustomDoc" id="pjHelp" class="form-text text-muted">
+          Seul les fichiers Word au format .docx sont autorisés
+        </small>
+        <small *ngIf="!isCustomDoc" id="pjHelp" class="form-text text-muted">
+          Formats autorisés pdf, docx, xlsx, odt, jpg ou png (6mo maxi)
+        </small>
 
-          <div
-            *ngIf="submitted && f.fileSource.errors"
-            class="invalid-feedback"
-          >
-            <p *ngIf="f.fileSource.errors.required">
-              Vous devez choisir un fichier
-            </p>
-            <p *ngIf="f.fileSource.errors.fileType">
-              Format de fichier invalide
-            </p>
-            <p *ngIf="f.fileSource.errors.fileSize">
-              La taille du fichier est trop grande
-            </p>
-          </div>
+        <div *ngIf="submitted && f.fileSource.errors" class="invalid-feedback">
+          <p *ngIf="f.fileSource.errors.required">
+            Vous devez choisir un fichier
+          </p>
+          <p *ngIf="f.fileSource.errors.fileType">Format de fichier invalide</p>
+          <p *ngIf="f.fileSource.errors.fileSize">
+            La taille du fichier est trop grande
+          </p>
         </div>
       </div>
     </div>
   </form>
 
-  <div class="modal-footer text-right">
-    <button class="btn btn-lg btn-outline-dark mr-2" (click)="cancel.emit()">
+  <div class="modal-footer text-end">
+    <button class="btn btn-lg btn-outline-dark me-2" (click)="cancel.emit()">
       Annuler
     </button>
     <button

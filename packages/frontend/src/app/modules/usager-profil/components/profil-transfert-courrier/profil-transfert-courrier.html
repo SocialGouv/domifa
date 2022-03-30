@@ -9,9 +9,9 @@
         type="button"
         *ngIf="!isFormVisible"
         (click)="showForm()"
-        class="btn btn-outline-dark ml-2"
+        class="btn btn-outline-dark ms-2"
       >
-        <fa-icon [icon]="['far', 'edit']" class="mr-2"></fa-icon>
+        <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
         Modifier le transfert
       </button>
 
@@ -20,9 +20,9 @@
         type="button"
         *ngIf="isFormVisible"
         (click)="hideForm()"
-        class="btn btn-outline-dark ml-2"
+        class="btn btn-outline-dark ms-2"
       >
-        <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
+        <fa-icon [icon]="['fas', 'times']" class="me-2"></fa-icon>
         Annuler les modifications
       </button>
     </div>
@@ -61,12 +61,12 @@
         usager.options.transfert.dateFin | date: 'dd/MM/yyyy' }}
       </span>
     </div>
-    <div class="col-md-1 text-right">
+    <div class="col-md-1 text-end">
       <button
         type="button"
         (click)="openConfirmation()"
         aria-label="Supprimer le transfert"
-        class="btn btn-danger mr-2"
+        class="btn btn-danger me-2"
       >
         <fa-icon [icon]="['fas', 'trash']"></fa-icon>
       </button>
@@ -138,7 +138,7 @@
             maxlength="10"
             required
           />
-          <div class="input-group-append">
+          <div class="input-group-text">
             <button
               type="button"
               aria-label="Choisir une date de début de validité dans le calendrier"
@@ -171,7 +171,7 @@
             maxlength="10"
             required
           />
-          <div class="input-group-append">
+          <div class="input-group-text">
             <button
               type="button"
               aria-label="Choisir une date de fin de validité dans le calendrier"

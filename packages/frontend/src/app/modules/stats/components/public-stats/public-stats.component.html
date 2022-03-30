@@ -11,7 +11,7 @@
 
 <div class="home-header-content bg-primary py-4 text-white text-bold">
   <div class="container px-2 py-3 py-sm-4 d-flex align-items-center">
-    <div class="text-left flex-sm-grow-1 pr-5">
+    <div class="text-start flex-sm-grow-1 pe-5">
       <ng-container *ngIf="!regionId">
         <h1 class="font-bold">Statistiques et mesure d’impact</h1>
         <h3 class="font-weight-normal home-header-subtitle">
@@ -32,7 +32,7 @@
       </ng-container>
     </div>
 
-    <div class="pl-3 flex-sm-grow-0 flex-lg-grow-0 text-center">
+    <div class="ps-3 flex-sm-grow-0 flex-lg-grow-0 text-center">
       <div class="w-full text-center">
         <img
           title="Statistiques publiques"
@@ -71,20 +71,20 @@
     <div class="row">
       <div class="col-md-4 text-center">
         <div class="p-2 d-flex align-items-top">
-          <div class="mr-5">
+          <div class="me-5">
             <img
               src="../assets/images/stats/structures.svg"
               alt="Nombre de structures"
             />
           </div>
           <div>
-            <div class="text-left">
+            <div class="text-start">
               <div class="stats-counter skeleton">
                 {{ stats?.structuresCount | formatBigNumber }}
               </div>
               <div class="stats-counter-label">structures</div>
             </div>
-            <div class="py-3 text-left" *ngIf="stats">
+            <div class="py-3 text-start" *ngIf="stats">
               <ul>
                 <li
                   *ngFor="
@@ -105,13 +105,13 @@
       </div>
       <div class="col-md-4 text-center">
         <div class="p-2 d-flex align-items-top">
-          <div class="mr-5">
+          <div class="me-5">
             <img
               src="../assets/images/stats/agents.svg"
               alt="Nombre d'utilisateurs"
             />
           </div>
-          <div class="text-left">
+          <div class="text-start">
             <div class="stats-counter">
               {{ stats?.usersCount | formatBigNumber }}
             </div>
@@ -121,13 +121,13 @@
       </div>
       <div class="col-md-3 text-center" *ngIf="!regionId">
         <div class="p-2 d-flex align-items-top">
-          <div class="mr-5">
+          <div class="me-5">
             <img
               src="../assets/images/stats/satisfaction.svg"
               alt="Enquête de satisfaction"
             />
           </div>
-          <div class="text-left">
+          <div class="text-start">
             <div class="stats-counter">8,9/10</div>
             <div class="stats-counter-label py-2">
               Questionnaire envoyé à nos usagers en avril 2021

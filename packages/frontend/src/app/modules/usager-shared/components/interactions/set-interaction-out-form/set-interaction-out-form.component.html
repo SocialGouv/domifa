@@ -13,7 +13,7 @@
     <legend>Que souhaitez-vous distribuer ?</legend>
     <div class="d-flex align-items-top">
       <div
-        class="interaction-zone p-1 mr-3 my-3"
+        class="interaction-zone p-1 me-3 my-3"
         [ngClass]="{
           disabled: interactionFormData.courrierOut.nbCourrier === 0
         }"
@@ -39,7 +39,7 @@
       </div>
 
       <div
-        class="interaction-zone p-1 mr-3 my-3"
+        class="interaction-zone p-1 me-3 my-3"
         [ngClass]="{ disabled: interactionFormData.colisOut.nbCourrier === 0 }"
       >
         <div class="interaction-icon-box">
@@ -63,7 +63,7 @@
       </div>
 
       <div
-        class="interaction-zone p-1 mr-3 my-3"
+        class="interaction-zone p-1 me-3 my-3"
         [ngClass]="{
           disabled: interactionFormData.recommandeOut.nbCourrier === 0
         }"
@@ -91,11 +91,11 @@
     </div>
   </fieldset>
 
-  <div class="text-left my-3" *ngIf="usager.options.procurations.length > 0">
+  <div class="text-start my-3" *ngIf="usager.options.procurations.length > 0">
     <fieldset>
       <legend>A qui est distribué le courrier ?</legend>
       <div class="d-flex align-items-top">
-        <div class="col-md-4 px-1 mr-2 my-2">
+        <div class="col-md-4 px-1 me-2 my-2">
           <div class="interaction-icon-box">
             <div class="font-weight-bold">Domicilié</div>
             <div class="mb-3">
@@ -122,7 +122,7 @@
         <ng-container
           *ngFor="let procuration of usager.options.procurations; let i = index"
         >
-          <div class="col-md-4 px-1 mr-1 my-2">
+          <div class="col-md-4 px-1 me-1 my-2">
             <div class="interaction-icon-box">
               <div class="font-weight-bold">Mandataire</div>
               <div class="mb-3">
@@ -155,14 +155,14 @@
     </fieldset>
   </div>
   <div
-    class="interaction-icon-box text-left px-3 py-3 my-3"
+    class="interaction-icon-box text-start px-3 py-3 my-3"
     *ngIf="this.selectedInteractionsWithContent.length !== 0"
   >
     <div class="mb-2 font-weight-bold">
       Un ou plusieurs courriers contiennent des informations importantes :
     </div>
     <div
-      class="text-left"
+      class="text-start"
       *ngFor="let interaction of selectedInteractionsWithContent | slice: 0:30"
     >
       <ng-container *ngIf="interaction.content">
@@ -177,7 +177,7 @@
   </div>
 </div>
 
-<div class="text-right modal-footer">
+<div class="text-end modal-footer">
   <button
     [disabled]="
       (!interactionFormData.courrierOut.selected &&
@@ -185,7 +185,7 @@
         !interactionFormData.colisOut.selected) ||
       loading
     "
-    class="btn btn-lg btn-primary mr-2"
+    class="btn btn-lg btn-primary me-2"
     (click)="setInteractionForm()"
   >
     <span *ngIf="!loading">Confirmer la distribution</span>

@@ -2,14 +2,14 @@
   <div>
     <h4>Préférence de contact</h4>
   </div>
-  <div class="text-right" *ngIf="!isRole('facteur')">
+  <div class="text-end" *ngIf="!isRole('facteur')">
     <button
       title="Modifier les préférences"
       class="btn btn-outline-dark"
       *ngIf="!editPreferences"
       (click)="editPreferences = true"
     >
-      <fa-icon [icon]="['far', 'edit']" class="mr-2"></fa-icon>
+      <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
       Modifier les préférences
     </button>
     <button
@@ -18,7 +18,7 @@
       *ngIf="editPreferences"
       (click)="editPreferences = false"
     >
-      <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
+      <fa-icon [icon]="['fas', 'times']" class="me-2"></fa-icon>
       Annuler les modifications
     </button>
   </div>

@@ -130,7 +130,7 @@ button.dropdown-toggle {
 
 .spinner {
   font-size: 4rem;
-  color: var(--primary);
+  color: var(--bs-primary);
   -webkit-text-stroke-width: 20px;
   stroke-width: 20px;
   -webkit-text-stroke-color: white;
@@ -141,7 +141,7 @@ button.dropdown-toggle {
 .content-overlay span {
   width: 300px;
   line-height: 100%;
-  color: var(--primary);
+  color: var(--bs-primary);
   font-size: 1.05rem;
 }
 
@@ -150,12 +150,12 @@ button.dropdown-toggle {
 }
 
 .selected-btn {
-  border: 1px solid var(--primary) !important;
+  border: 1px solid var(--bs-primary) !important;
 }
 
 .cross:hover {
   background-color: white;
-  color: var(--primary);
+  color: var(--bs-primary);
 }
 
 .cross {
@@ -163,7 +163,7 @@ button.dropdown-toggle {
   padding: 2px 6px;
   font-size: 0.85rem;
   line-height: 100%;
-  background-color: var(--primary);
+  background-color: var(--bs-primary);
   color: white;
 }
 

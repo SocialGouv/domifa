@@ -10,7 +10,7 @@
 </div>
 <div class="modal-body text-center">
   <div class="d-flex align-items-center">
-    <div class="interaction-zone p-1 mr-4 my-2">
+    <div class="interaction-zone p-1 me-4 my-2">
       <div class="interaction-icon-box">
         <div
           [@bounce]="interactionFormData.courrierIn.nbCourrier"
@@ -42,7 +42,7 @@
       <span class="interaction-label">Courriers</span>
     </div>
 
-    <div class="interaction-zone p-1 mr-4 my-2">
+    <div class="interaction-zone p-1 me-4 my-2">
       <div class="interaction-icon-box">
         <div
           [@bounce]="interactionFormData.colisIn.nbCourrier"
@@ -69,7 +69,7 @@
       <span class="interaction-label">Colis</span>
     </div>
 
-    <div class="interaction-zone p-1 mr-4 my-2">
+    <div class="interaction-zone p-1 me-4 my-2">
       <div class="interaction-icon-box">
         <div
           [@bounce]="interactionFormData.recommandeIn.nbCourrier"
@@ -99,7 +99,7 @@
 
   <div class="px-1 my-1">
     <div class="form-group">
-      <label class="label text-left" for="content">
+      <label class="label text-start" for="content">
         Informations importantes concernant les courriers
       </label>
       <textarea
@@ -111,11 +111,11 @@
   </div>
 </div>
 
-<div class="text-right modal-footer">
+<div class="text-end modal-footer">
   <button
     class="btn btn-lg btn-primary mx-1"
     [disabled]="loading"
-    class="btn btn-lg btn-primary mr-2"
+    class="btn btn-lg btn-primary me-2"
     (click)="setInteractionForm()"
   >
     <span *ngIf="!loading">Valider</span>
@@ -125,7 +125,7 @@
     </span>
   </button>
   <button
-    class="btn btn-outline-dark btn-lg mr-2"
+    class="btn btn-outline-dark btn-lg me-2"
     (click)="cancelReception.emit()"
   >
     Annuler

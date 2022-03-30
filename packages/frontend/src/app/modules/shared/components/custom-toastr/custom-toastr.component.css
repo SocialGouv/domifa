@@ -112,11 +112,11 @@
 }
 
 .toast-success {
-  background-color: var(--green);
+  background-color: var(--bs-green);
 }
 
 .toast-error {
-  background-color: var(--red);
+  background-color: var(--bs-red);
 }
 
 .toast-info {

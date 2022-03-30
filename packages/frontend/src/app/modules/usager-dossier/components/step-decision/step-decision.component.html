@@ -74,17 +74,17 @@
       <div
         class="d-print-none d-flex justify-content-center align-items-center text-center py-2"
       >
-        <button class="mr-3 btn btn-success" (click)="open(confirmation)">
-          <fa-icon [icon]="['fas', 'check']" class="mr-2"></fa-icon>
+        <button class="me-3 btn btn-success" (click)="open(confirmation)">
+          <fa-icon [icon]="['fas', 'check']" class="me-2"></fa-icon>
           Accepter le dossier
         </button>
 
         <button
           title="Refuser le dossier"
-          class="mr-3 btn btn-danger"
+          class="me-3 btn btn-danger"
           (click)="open(refus)"
         >
-          <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
+          <fa-icon [icon]="['fas', 'times']" class="me-2"></fa-icon>
           Refuser le dossier
         </button>
 
@@ -92,9 +92,9 @@
           title="Soumettre la demande"
           *ngIf="usager.decision.statut !== 'ATTENTE_DECISION'"
           (click)="setDecisionAttente()"
-          class="mr-3 btn btn-light-primary"
+          class="me-3 btn btn-light-primary"
         >
-          <fa-icon [icon]="['far', 'clock']" class="mr-2"></fa-icon>
+          <fa-icon [icon]="['far', 'clock']" class="me-2"></fa-icon>
           Soumettre la demande
         </button>
       </div>
@@ -105,7 +105,7 @@
         <div class="col mb-4">
           <span *ngIf="usager.typeDom === 'RENOUVELLEMENT'">
             Dossier
-            <span class="text-primary font-weight-bold mr-3">{{
+            <span class="text-primary font-weight-bold me-3">{{
               usager.customRef
             }}</span>
           </span>
@@ -132,13 +132,13 @@
         <div class="col-3">
           <h4 *ngIf="!editInfos">Ayants-droits</h4>
         </div>
-        <div class="col-3 text-right">
+        <div class="col-3 text-end">
           <button
             class="btn btn-outline-primary d-print-none"
             *ngIf="!editInfos"
             (click)="editInfos = true"
           >
-            <fa-icon [icon]="['far', 'edit']" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
             Modifier
           </button>
 
@@ -147,7 +147,7 @@
             *ngIf="editInfos"
             (click)="editInfos = false"
           >
-            <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['fas', 'times']" class="me-2"></fa-icon>
             Annuler
           </button>
         </div>
@@ -180,7 +180,7 @@
                 *ngIf="!editEntretien"
                 (click)="editEntretien = true"
               >
-                <fa-icon [icon]="['far', 'edit']" class="mr-2"></fa-icon>
+                <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
                 Modifier
               </button>
               <button
@@ -189,7 +189,7 @@
                 *ngIf="editEntretien"
                 (click)="editEntretien = false"
               >
-                <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
+                <fa-icon [icon]="['fas', 'times']" class="me-2"></fa-icon>
                 Annuler les changements
               </button>
             </div>
@@ -221,7 +221,7 @@
             *ngIf="!editPJ"
             (click)="editPJ = true"
           >
-            <fa-icon [icon]="['far', 'edit']" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
             Modifier
           </button>
           <button
@@ -230,7 +230,7 @@
             *ngIf="editPJ"
             (click)="editPJ = false"
           >
-            <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['fas', 'times']" class="me-2"></fa-icon>
             Annuler les changements
           </button>
         </div>
@@ -254,14 +254,14 @@
       >
         <button
           (click)="getCerfa('demande')"
-          class="btn btn-primary d-print-none mr-2"
+          class="btn btn-primary d-print-none me-2"
         >
-          <fa-icon [icon]="['fas', 'download']" class="mr-2"></fa-icon>
+          <fa-icon [icon]="['fas', 'download']" class="me-2"></fa-icon>
           Télécharger l'attestation de demande
         </button>
         <button
           (click)="getCerfa('attestation')"
-          class="btn btn-primary d-print-none mr-2"
+          class="btn btn-primary d-print-none me-2"
           *ngIf="
             me.role !== 'facteur' &&
             me.role !== 'simple' &&
@@ -269,14 +269,14 @@
             usager.decision.statut !== 'RADIE'
           "
         >
-          <fa-icon [icon]="['fas', 'download']" class="mr-2"></fa-icon>
+          <fa-icon [icon]="['fas', 'download']" class="me-2"></fa-icon>
           Télécharger un CERFA provisoire
         </button>
       </div>
     </div>
     <div class="text-center">
-      <button (click)="printPage()" class="d-print-none mr-2 btn btn-primary">
-        <fa-icon [icon]="['fas', 'print']" class="mr-2"></fa-icon>
+      <button (click)="printPage()" class="d-print-none me-2 btn btn-primary">
+        <fa-icon [icon]="['fas', 'print']" class="me-2"></fa-icon>
         Imprimer le récapitulatif
       </button>
     </div>
