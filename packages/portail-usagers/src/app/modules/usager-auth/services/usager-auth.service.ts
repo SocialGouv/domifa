@@ -1,8 +1,8 @@
+import { CustomToastService } from "./../../shared/services/custom-toast.service";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router, RouterStateSnapshot } from "@angular/router";
 import * as Sentry from "@sentry/browser";
-import { ToastrService } from "ngx-toastr";
 import { BehaviorSubject, catchError, map, Observable, of } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import {
@@ -26,7 +26,7 @@ export class UsagerAuthService {
   constructor(
     private readonly http: HttpClient,
     private readonly router: Router,
-    private readonly toastr: ToastrService,
+    private readonly toastr: CustomToastService,
   ) {
     this.currentUsagerSubject =
       new BehaviorSubject<PortailUsagerProfile | null>(null);
@@ -96,10 +96,7 @@ export class UsagerAuthService {
   }
 
   public notAuthorized(): void {
-    this.toastr.error(
-      "Vous n'êtes pas autorisé à accéder à cette page",
-      "Action interdite",
-    );
+    this.toastr.error("Vous n'êtes pas autorisé à accéder à cette page");
     this.router.navigate(["/"]);
   }
 

@@ -7,7 +7,6 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 import { environment } from "../../../../environments/environment";
@@ -17,6 +16,7 @@ import type {
 } from "../../../../_common";
 import { UsagerAuthService } from "../services/usager-auth.service";
 import { PasswordValidator } from "./password-validator.service";
+import { CustomToastService } from "../../shared/services/custom-toast.service";
 
 @Component({
   selector: "app-usager-login",
@@ -38,7 +38,8 @@ export class UsagerLoginComponent implements OnInit {
     private router: Router,
     private titleService: Title,
     private authService: UsagerAuthService,
-    private toastr: ToastrService,
+    private toastr: CustomToastService,
+
     private matomoInjector: MatomoInjector,
     public matomo: MatomoTracker,
   ) {

@@ -7,7 +7,6 @@ import {
   RouterModule,
   RouterStateSnapshot,
 } from "@angular/router";
-import { ToastrModule } from "ngx-toastr";
 import { AdminAuthService } from "../modules/admin-auth/services/admin-auth.service";
 import { AuthGuard } from "./auth-guard";
 
@@ -20,7 +19,7 @@ describe("AuthGuard", () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        ToastrModule.forRoot(),
+
         RouterModule.forRoot([], { relativeLinkResolution: "legacy" }),
       ],
       providers: [

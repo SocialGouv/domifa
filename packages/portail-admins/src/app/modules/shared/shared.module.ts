@@ -4,8 +4,8 @@ import {
   FaIconLibrary,
   FontAwesomeModule,
 } from "@fortawesome/angular-fontawesome";
-import { ToastrModule } from "ngx-toastr";
 import { AdminStructuresExportComponent } from "../general/components/admin-structures-export";
+import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
 import { FA_ICONS } from "./constants/FA_ICONS.const";
 import { CleanStrDirective } from "./directives/clean-str.directive";
 import { DateFrDirective } from "./directives/date-fr.directive";
@@ -29,6 +29,7 @@ import { AdminStructuresDeleteApiClient } from "./services/api/admin-structures-
     FormatPhoneNumberPipe,
     FormatBigNumberPipe,
     AdminStructuresExportComponent,
+    CustomToastrComponent,
   ],
   exports: [
     DigitOnlyDirective,
@@ -39,9 +40,8 @@ import { AdminStructuresDeleteApiClient } from "./services/api/admin-structures-
     FormatBigNumberPipe,
     AdminStructuresExportComponent,
     FontAwesomeModule,
-    ToastrModule,
   ],
-  imports: [CommonModule, FontAwesomeModule, ToastrModule],
+  imports: [CommonModule, FontAwesomeModule],
   providers: [
     AdminStructuresExportApiClient,
     AdminStructuresApiClient,

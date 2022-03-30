@@ -1,4 +1,3 @@
-import { ToastrModule } from "ngx-toastr";
 import { RouterTestingModule } from "@angular/router/testing";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
@@ -10,11 +9,7 @@ describe("UsagerAuthService", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        ToastrModule.forRoot(),
-      ],
+      imports: [HttpClientTestingModule, RouterTestingModule],
       providers: [UsagerAuthService],
     });
     service = TestBed.inject(UsagerAuthService);

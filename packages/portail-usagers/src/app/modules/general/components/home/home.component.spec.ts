@@ -8,44 +8,42 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
-import { ToastrModule } from "ngx-toastr";
+
 import { SharedModule } from "../../../shared/shared.module";
 
 describe("HomeComponent", () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [HomeComponent],
-        imports: [
-          CommonModule,
-          SharedModule,
-          ToastrModule.forRoot(),
-          RouterTestingModule,
-          HttpClientTestingModule,
-        ],
-        providers: [
-          { provide: APP_BASE_HREF, useValue: "/" },
-          {
-            provide: MatomoInjector,
-            useValue: {
-              init: jest.fn(),
-            },
-          },
-          {
-            provide: MatomoTracker,
-            useValue: {
-              setUserId: jest.fn(),
-            },
-          },
-        ],
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [HomeComponent],
+      imports: [
+        CommonModule,
+        SharedModule,
 
-        schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-      }).compileComponents();
-    }),
-  );
+        RouterTestingModule,
+        HttpClientTestingModule,
+      ],
+      providers: [
+        { provide: APP_BASE_HREF, useValue: "/" },
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
+          },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
+          },
+        },
+      ],
+
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);

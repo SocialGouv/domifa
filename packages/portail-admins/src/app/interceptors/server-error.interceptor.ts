@@ -1,3 +1,4 @@
+import { CustomToastService } from "./../modules/shared/services/custom-toast.service";
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -6,7 +7,7 @@ import {
   HttpRequest,
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
+
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { AdminAuthService } from "../modules/admin-auth/services/admin-auth.service";
@@ -16,7 +17,7 @@ import { AdminAuthService } from "../modules/admin-auth/services/admin-auth.serv
 })
 export class ServerErrorInterceptor implements HttpInterceptor {
   constructor(
-    private toastr: ToastrService,
+    private toastr: CustomToastService,
     public authService: AdminAuthService
   ) {}
 

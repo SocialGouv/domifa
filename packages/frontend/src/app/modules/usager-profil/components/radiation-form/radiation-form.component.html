@@ -128,16 +128,19 @@
             id="motifDetails"
             [ngClass]="{ 'is-invalid': submitted && r.motifDetails.errors }"
             formControlName="motifDetails"
+            aria-describedby="otherHelpText"
             required
           />
-          <small class="form-text text-muted"> 10 caractères minimum </small>
-          <div
+          <small id="otherHelpText" class="form-text text-muted">
+            10 caractères minimum
+          </small>
+          <p
             *ngIf="submitted && r.motifDetails.errors"
             class="invalid-feedback"
           >
             Veuillez indiquer un autre motif de radiation d'au moins 10
             caractères
-          </div>
+          </p>
         </div>
       </div>
     </div>

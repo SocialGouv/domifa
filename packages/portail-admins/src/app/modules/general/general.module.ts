@@ -8,7 +8,6 @@ import {
 import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrModule } from "ngx-toastr";
 import { SharedModule } from "../shared/shared.module";
 import { NotFoundComponent } from "./components/not-found/not-found.component";
 
@@ -21,7 +20,7 @@ import { NotFoundComponent } from "./components/not-found/not-found.component";
     FontAwesomeModule,
     NgbModule,
     RouterModule.forChild([]),
-    ToastrModule.forRoot(),
+
     NgbModule,
     SharedModule,
   ],

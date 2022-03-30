@@ -10,7 +10,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { Router } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrModule } from "ngx-toastr";
+
 import { SharedModule } from "src/app/modules/shared/shared.module";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -31,14 +31,6 @@ import { AdminAuthService } from "./modules/admin-auth/services/admin-auth.servi
     NgbModule,
     SharedModule,
     ReactiveFormsModule,
-    ToastrModule.forRoot({
-      enableHtml: true,
-      positionClass: "toast-top-right",
-      preventDuplicates: true,
-      progressAnimation: "increasing",
-      progressBar: true,
-      timeOut: 3000,
-    }),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -19,8 +19,6 @@ import { PolitiqueComponent } from "./components/politique/politique.component";
 
 import { RouterModule } from "@angular/router";
 
-import { ToastrModule } from "ngx-toastr";
-
 @NgModule({
   declarations: [
     HomeComponent,
@@ -36,7 +34,7 @@ import { ToastrModule } from "ngx-toastr";
     FontAwesomeModule,
     NgbModule,
     RouterModule.forChild([]),
-    ToastrModule.forRoot(),
+
     NgbModule,
   ],
   providers: [],

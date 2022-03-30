@@ -1,4 +1,3 @@
-import { ToastrService } from "ngx-toastr";
 import { Component, OnInit } from "@angular/core";
 import fileSaver from "file-saver";
 import {
@@ -6,6 +5,7 @@ import {
   StructureDoc,
 } from "../../../../../_common/structure-doc";
 import { StructuresCustomDocsService } from "../../services/structures-custom-docs.service";
+import { CustomToastService } from "../../../shared/services/custom-toast.service";
 
 @Component({
   selector: "app-admin-structures-docs",
@@ -23,7 +23,7 @@ export class AdminStructuresDocsComponent implements OnInit {
 
   constructor(
     private structureDocService: StructuresCustomDocsService,
-    private toastService: ToastrService
+    private toastService: CustomToastService
   ) {
     this.loadings = {
       download: [],

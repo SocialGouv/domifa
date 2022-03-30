@@ -2,11 +2,6 @@
   margin-bottom: 1rem;
 }
 
-.form-text {
-  display: block;
-  margin-top: 0.25rem;
-}
-
 .form-group.required .control-label:after {
   content: "*";
   color: var(--bs-red);
