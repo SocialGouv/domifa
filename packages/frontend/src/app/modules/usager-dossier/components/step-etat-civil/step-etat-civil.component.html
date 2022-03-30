@@ -74,7 +74,6 @@
                 [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
                 (blur)="isDoublon()"
                 required
-                aria-required="true"
               />
               <p *ngIf="submitted && f.nom.errors" class="invalid-feedback">
                 Le nom du demandeur est obligatoire
@@ -91,7 +90,6 @@
                 [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
                 (blur)="isDoublon()"
                 required
-                aria-required="true"
               />
               <p *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
                 Le prénom du demandeur est obligatoire
@@ -155,18 +153,16 @@
                   #d="ngbDatepicker"
                   maxlength="10"
                   required
-                  aria-required="true"
                 />
-                <div class="input-group-text">
-                  <button
-                    type="button"
-                    aria-label="Sélectionner une date de naissance sur le calendrier"
-                    class="btn btn-outline-primary"
-                    (click)="d.toggle()"
-                  >
-                    <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
-                  </button>
-                </div>
+
+                <button
+                  type="button"
+                  aria-label="Sélectionner une date de naissance sur le calendrier"
+                  class="input-group-text btn btn-outline-primary"
+                  (click)="d.toggle()"
+                >
+                  <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+                </button>
 
                 <p *ngIf="f.dateNaissance.invalid" class="invalid-feedback">
                   La date de naissance est obligatoire
@@ -294,7 +290,6 @@
                       submitted && ayantsDroits.controls[i].get('nom').errors
                   }"
                   required
-                  aria-required="true"
                 />
                 <div
                   *ngIf="
@@ -318,7 +313,6 @@
                       submitted && ayantsDroits.controls[i].get('prenom').errors
                   }"
                   required
-                  aria-required="true"
                 />
                 <p
                   *ngIf="
@@ -347,7 +341,6 @@
                     ngbDatepicker
                     maxlength="10"
                     required
-                    aria-required="true"
                     dateFr
                     [ngClass]="{
                       'is-invalid':
@@ -356,20 +349,20 @@
                     }"
                     formControlName="dateNaissance"
                   />
-                  <div class="input-group-text">
-                    <button
-                      type="button"
-                      [attr.aria-label]="
-                        'Sélectionner une date de naissance de l\'ayant-droit ' +
-                        i +
-                        1
-                      "
-                      class="btn btn-outline-primary"
-                      (click)="dateAyantDroit.toggle()"
-                    >
-                      <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
-                    </button>
-                  </div>
+
+                  <button
+                    type="button"
+                    [attr.aria-label]="
+                      'Sélectionner une date de naissance de l\'ayant-droit ' +
+                      i +
+                      1
+                    "
+                    class="input-group-text btn btn-outline-primary"
+                    (click)="dateAyantDroit.toggle()"
+                  >
+                    <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+                  </button>
+
                   <p
                     *ngIf="
                       submitted &&
@@ -386,7 +379,6 @@
                 <select
                   id="lien_{{ i }}"
                   required
-                  aria-required="true"
                   formControlName="lien"
                   [attr.aria-label]="
                     'Lien de parenté de l\'ayant-droit ' + i + 1
@@ -395,7 +387,7 @@
                     'is-invalid':
                       submitted && ayantsDroits.controls[i].get('lien').errors
                   }"
-                  class="form-control"
+                  class="form-select"
                 >
                   <option></option>
                   <option
@@ -494,7 +486,6 @@
                 placeholder="0606060606"
                 maxlength="10"
                 required
-                aria-required="true"
               />
               <small>Numéro de portable uniquement</small>
               <div

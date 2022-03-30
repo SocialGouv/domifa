@@ -144,25 +144,23 @@
               #d="ngbDatepicker"
               maxlength="10"
               required
-              aria-required="true"
             />
-            <div class="input-group-text">
-              <button
-                type="button"
-                aria-label="Sélectionner une date de naissance sur le calendrier"
-                class="btn btn-outline-primary"
-                (click)="d.toggle()"
-              >
-                <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
-              </button>
-            </div>
-            <p
-              *ngIf="form.controls[i].get('dateNaissance').invalid"
-              class="invalid-feedback"
+
+            <button
+              type="button"
+              aria-label="Sélectionner une date de naissance sur le calendrier"
+              class="input-group-text btn btn-outline-primary"
+              (click)="d.toggle()"
             >
-              La date de naissance est obligatoire. Exemple : 20/12/1996
-            </p>
+              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+            </button>
           </div>
+          <p
+            *ngIf="form.controls[i].get('dateNaissance').invalid"
+            class="invalid-feedback"
+          >
+            La date de naissance est obligatoire. Exemple : 20/12/1996
+          </p>
         </div>
         <div class="col form-group required">
           <label for="dateDebut">Valide du</label>
@@ -182,16 +180,14 @@
               maxlength="10"
               required
             />
-            <div class="input-group-text">
-              <button
-                type="button"
-                aria-label="Choisir une date de début de validité dans le calendrier"
-                class="btn btn-outline-primary"
-                (click)="dateDebut.toggle()"
-              >
-                <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
-              </button>
-            </div>
+            <button
+              type="button"
+              aria-label="Choisir une date de début de validité dans le calendrier"
+              class="btn input-group-text btn-outline-primary"
+              (click)="dateDebut.toggle()"
+            >
+              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+            </button>
             <p
               *ngIf="submitted && form.controls[i].get('dateFin').invalid"
               class="invalid-feedback"
@@ -218,16 +214,15 @@
               maxlength="10"
               required
             />
-            <div class="input-group-text">
-              <button
-                type="button"
-                aria-label="Choisir une date de fin de validité dans le calendrier"
-                class="btn btn-outline-primary"
-                (click)="dateFin.toggle()"
-              >
-                <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
-              </button>
-            </div>
+
+            <button
+              type="button"
+              aria-label="Choisir une date de fin de validité dans le calendrier"
+              class="btn input-group-text btn-outline-primary"
+              (click)="dateFin.toggle()"
+            >
+              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+            </button>
 
             <div
               *ngIf="submitted && form.controls[i].get('dateFin').errors"

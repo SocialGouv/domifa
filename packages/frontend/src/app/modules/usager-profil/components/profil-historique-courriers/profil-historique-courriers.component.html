@@ -19,7 +19,7 @@
     class="table table-hover"
     *ngIf="interactions.length > 0"
   >
-    <caption class="sr-only">
+    <caption class="visually-hidden">
       Historique des courriers
     </caption>
     <thead>
@@ -37,7 +37,7 @@
       >
         <tr
           [ngClass]="{
-            'font-weight-bold':
+            'fw-bold':
               interaction.type === 'courrierOut' ||
               interaction.type === 'recommandeOut' ||
               interaction.type === 'colisOut'
@@ -110,7 +110,7 @@
 
     <button
       title="Fermer la fenêtre"
-      class="close"
+      class="btn-close"
       aria-label="Fermer la fenêtre"
       (click)="closeModals()"
     >
@@ -163,7 +163,7 @@
     </span>
     <button
       title="Fermer la fenêtre"
-      class="close"
+      class="btn-close"
       aria-label="Fermer la fenêtre"
       (click)="closeModals()"
     >

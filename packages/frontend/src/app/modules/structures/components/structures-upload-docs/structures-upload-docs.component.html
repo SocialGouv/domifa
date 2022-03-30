@@ -13,7 +13,7 @@
           id="customDocType"
           required
           formControlName="customDocType"
-          class="form-control"
+          class="form-select"
         >
           <option></option>
           <option value="attestation_postale">Attestation postale</option>
@@ -27,34 +27,33 @@
       </div>
 
       <div
-        class="col-md-12"
+        class="col-md-12 form-group required"
         *ngIf="
           !isCustomDoc || (isCustomDoc && f.customDocType.value === 'autre')
         "
       >
-        <div class="form-group required">
-          <label for="label">Nom du document</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="label"
-            id="label"
-            [ngClass]="{ 'is-invalid': submitted && f.label.errors }"
-            placeholder="Règlement intérieur, etc."
-            required
-          />
-          <p *ngIf="submitted && f.label.errors" class="invalid-feedback">
-            Le nom du document est obligatoire
-          </p>
-        </div>
+        <label for="label">Nom du document</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="label"
+          id="label"
+          [ngClass]="{ 'is-invalid': submitted && f.label.errors }"
+          placeholder="Règlement intérieur, etc."
+          required
+        />
+        <p *ngIf="submitted && f.label.errors" class="invalid-feedback">
+          Le nom du document est obligatoire
+        </p>
       </div>
-      <div class="col-md-12 required">
-        <label for="file"> Document à enregistrer </label>
+      <div class="col-md-12 form-group required">
+        <label for="file">Document à enregistrer</label>
 
         <input
           type="file"
           class="form-control"
           id="file"
+          required
           formControlName="file"
           aria-describedby="pjHelp"
           [ngClass]="{ 'is-invalid': submitted && f.fileSource.errors }"
@@ -80,21 +79,21 @@
       </div>
     </div>
   </form>
+</div>
 
-  <div class="modal-footer text-end">
-    <button class="btn btn-lg btn-outline-dark me-2" (click)="cancel.emit()">
-      Annuler
-    </button>
-    <button
-      class="btn btn-lg btn-primary"
-      (click)="submitFile()"
-      [disabled]="loading"
-    >
-      <span *ngIf="!loading">Ajouter</span>
-      <span *ngIf="loading">
-        <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
-        Patientez
-      </span>
-    </button>
-  </div>
+<div class="modal-footer text-end">
+  <button class="btn btn-lg btn-outline-dark me-2" (click)="cancel.emit()">
+    Annuler
+  </button>
+  <button
+    class="btn btn-lg btn-primary"
+    (click)="submitFile()"
+    [disabled]="loading"
+  >
+    <span *ngIf="!loading">Ajouter</span>
+    <span *ngIf="loading">
+      <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+      Patientez
+    </span>
+  </button>
 </div>

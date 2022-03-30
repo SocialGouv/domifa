@@ -98,7 +98,7 @@ export class UsagersService {
 
     // Pour les renouvellements de dossier encore valide, on reprend l'actuelle date de fin
     if (usager.decision.statut === "VALIDE") {
-      newDateFin = endOfDay(usager.decision.dateFin);
+      newDateFin = endOfDay(new Date(usager.decision.dateFin));
     }
 
     usager.decision = {

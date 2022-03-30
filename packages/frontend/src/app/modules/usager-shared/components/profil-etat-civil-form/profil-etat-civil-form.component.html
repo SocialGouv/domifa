@@ -11,7 +11,6 @@
         placeholder="Précisez nom de naissance si nécessaire"
         [ngClass]="{ 'is-invalid': f.nom.errors }"
         required
-        aria-required="true"
       />
       <p *ngIf="f.nom.errors" class="invalid-feedback">
         Le nom du demandeur est obligatoire
@@ -29,7 +28,6 @@
         placeholder="Prénom(s) du demandeur"
         [ngClass]="{ 'is-invalid': f.prenom.errors }"
         required
-        aria-required="true"
       />
       <p *ngIf="f.prenom.errors" class="invalid-feedback">
         Le prénom est obligatoire
@@ -52,7 +50,7 @@
   <div class="row">
     <div class="col-md-4 form-group required">
       <label for="sexe">Sexe</label>
-      <select formControlName="sexe" id="sexe" class="form-control">
+      <select formControlName="sexe" id="sexe" class="form-select">
         <option value="homme">Homme</option>
         <option value="femme">Femme</option>
       </select>
@@ -78,18 +76,17 @@
           #d="ngbDatepicker"
           maxlength="10"
           required
-          aria-required="true"
         />
-        <div class="input-group-text">
-          <button
-            type="button"
-            aria-label="Sélectionner une date de naissance sur le calendrier"
-            class="btn btn-outline-primary"
-            (click)="d.toggle()"
-          >
-            <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
-          </button>
-        </div>
+
+        <button
+          type="button"
+          aria-label="Sélectionner une date de naissance sur le calendrier"
+          class="input-group-text btn btn-outline-primary"
+          (click)="d.toggle()"
+        >
+          <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+        </button>
+
         <p *ngIf="f.dateNaissance.invalid" class="invalid-feedback">
           La date de naissance est obligatoire. Exemple : 20/12/1996
         </p>
@@ -106,7 +103,6 @@
         placeholder="Ville (préciser le pays si à l'étranger)"
         [ngClass]="{ 'is-invalid': f.villeNaissance.errors }"
         required
-        aria-required="true"
       />
       <div *ngIf="f.villeNaissance.errors" class="invalid-feedback">
         La ville de naissance est obligatoire
@@ -229,7 +225,6 @@
           }"
           placeholder="Nom de l'ayant droit"
           required
-          aria-required="true"
         />
         <div
           *ngIf="submitted && ayantsDroits.controls[i].get('nom').errors"
@@ -252,7 +247,6 @@
           }"
           placeholder="Prénom"
           required
-          aria-required="true"
         />
         <div
           *ngIf="submitted && ayantsDroits.controls[i].get('prenom').errors"
@@ -283,18 +277,17 @@
             #d="ngbDatepicker"
             maxlength="10"
             required
-            aria-required="true"
           />
-          <div class="input-group-text">
-            <button
-              type="button"
-              aria-label="Sélectionner une date de naissance sur le calendrier"
-              class="btn btn-outline-primary"
-              (click)="d.toggle()"
-            >
-              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
-            </button>
-          </div>
+
+          <button
+            type="button"
+            aria-label="Sélectionner une date de naissance sur le calendrier"
+            class="btn btn-outline-primary input-group-text"
+            (click)="d.toggle()"
+          >
+            <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+          </button>
+
           <p
             *ngIf="
               submitted && ayantsDroits.controls[i].get('dateNaissance').errors
@@ -310,9 +303,8 @@
         <select
           formControlName="lien"
           id="lien_{{ i }}"
-          class="form-control"
+          class="form-select"
           required
-          aria-required="true"
           [ngClass]="{
             'is-invalid':
               submitted && ayantsDroits.controls[i].get('lien').errors

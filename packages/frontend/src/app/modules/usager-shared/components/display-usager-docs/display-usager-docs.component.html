@@ -2,7 +2,7 @@
   Aucune pièce jointe n'a été ajouté pour le moment
 </div>
 <table class="table upload-table p-0" *ngIf="usager.docs.length">
-  <caption class="sr-only">
+  <caption class="visually-hidden">
     Documents de l'usager
   </caption>
   <tbody>
@@ -25,7 +25,7 @@
             [aria-label]="STRUCTURE_DOC_EXTENSIONS_LABELS[document.filetype]"
             [icon]="['far', STRUCTURE_DOC_ICONS[document.filetype]]"
           ></fa-icon>
-          <p class="sr-only">
+          <p class="visually-hidden">
             {{ STRUCTURE_DOC_EXTENSIONS_LABELS[document.filetype] }}
           </p>
         </span>

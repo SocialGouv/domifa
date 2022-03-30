@@ -126,15 +126,15 @@
                 <div class="form-group col required">
                   <label for="rdvUser">Avec quel collaborateur ?</label>
                   <select
-                    *ngIf="agents"
-                    required
                     [ngClass]="{
                       'is-invalid': r.userId.errors
                     }"
                     id="rdvUser"
                     formControlName="userId"
-                    class="form-control"
+                    class="form-select"
+                    required
                   >
+                    <option [value]="null"></option>
                     <option *ngFor="let agent of agents" [ngValue]="agent.id">
                       {{ agent.nom }} {{ agent.prenom }}
                     </option>
@@ -156,16 +156,16 @@
                       #dRdv="ngbDatepicker"
                       required
                     />
-                    <div class="input-group-text">
-                      <button
-                        type="button"
-                        aria-label="Sélectionner une date de rendez-vous sur le calendrier"
-                        class="btn btn-outline-primary"
-                        (click)="dRdv.toggle()"
-                      >
-                        <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
-                      </button>
-                    </div>
+
+                    <button
+                      type="button"
+                      aria-label="Sélectionner une date de rendez-vous sur le calendrier"
+                      class="input-group-text btn btn-outline-primary"
+                      (click)="dRdv.toggle()"
+                    >
+                      <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+                    </button>
+
                     <p
                       *ngIf="r.jourRdv.invalid"
                       class="text-center invalid-feedback"
