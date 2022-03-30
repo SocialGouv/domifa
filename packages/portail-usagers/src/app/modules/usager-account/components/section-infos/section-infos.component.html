@@ -63,19 +63,17 @@
       </div>
       <div>
         <div class="section-subtitle">Vos informations</div>
-        <div class="py-1 font-weight-bold">
-          {{ usager.prenom }} {{ usager.nom }}
-        </div>
-        <div class="py-1 font-weight-bold">
+        <div class="py-1 fw-bold">{{ usager.prenom }} {{ usager.nom }}</div>
+        <div class="py-1 fw-bold">
           {{ usager.phone || "Téléphone non renseigné" }}
         </div>
-        <div class="py-1 font-weight-bold">
+        <div class="py-1 fw-bold">
           {{ usager.email || "Email non renseigné" }}
         </div>
 
         <!-- <div class="py-2">
           <button class="btn-outline-primary btn">
-            <fa-icon [icon]="['far', 'edit']" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
             Mettre à jour
           </button>
         </div> -->

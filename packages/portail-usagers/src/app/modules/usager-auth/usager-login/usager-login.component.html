@@ -9,7 +9,7 @@
       (ngSubmit)="login()"
     >
       <div class="form-group required">
-        <label class="font-weight-bold" for="login">Votre identifiant</label>
+        <label class="fw-bold" for="login">Votre identifiant</label>
         <input
           type="text"
           formControlName="login"
@@ -34,7 +34,7 @@
           passe:
         </p>
         <div class="form-group required">
-          <label class="font-weight-bold" for="password" id="new-password"
+          <label class="fw-bold" for="password" id="new-password"
             >Nouveau mot de passe</label
           >
           <div class="input-group">
@@ -175,7 +175,7 @@
             !this.loginForm?.hasError('new-password-same-as-temporary-password')
           "
         >
-          <label class="font-weight-bold" for="password" id="new-password"
+          <label class="fw-bold" for="password" id="new-password"
             >Confirmation du mot de passe</label
           >
           <div class="input-group">
@@ -235,7 +235,7 @@
         class="form-group required"
         [hidden]="this.mode === 'login-change-password'"
       >
-        <label class="font-weight-bold" for="password">Mot de passe</label>
+        <label class="fw-bold" for="password">Mot de passe</label>
         <div class="input-group">
           <input
             type="password"
@@ -272,7 +272,7 @@
         <button
           *ngIf="this.mode === 'login-change-password'"
           aria-label="Connexion"
-          class="btn mr-5"
+          class="btn me-5"
           (click)="this.switchToLoginOnly()"
         >
           <span> Annuler </span>

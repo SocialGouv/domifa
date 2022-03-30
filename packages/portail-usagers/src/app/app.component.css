@@ -6,5 +6,5 @@
 }
 
 .navbar {
-  border-top: 4px solid var(--primary);
+  border-top: 4px solid var(--bs-primary);
 }

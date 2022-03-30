@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrModule } from "ngx-toastr";
+
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 import { UsagerLoginComponent } from "./usager-login.component";
@@ -19,7 +19,7 @@ describe("UsagerLoginComponent", () => {
       imports: [
         HttpClientTestingModule,
         ReactiveFormsModule,
-        ToastrModule.forRoot(),
+
         NgbModule,
         FormsModule,
         RouterTestingModule,

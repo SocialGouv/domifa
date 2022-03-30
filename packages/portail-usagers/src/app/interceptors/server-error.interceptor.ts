@@ -1,3 +1,4 @@
+import { CustomToastService } from "./../modules/shared/services/custom-toast.service";
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -6,7 +7,6 @@ import {
   HttpRequest,
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { UsagerAuthService } from "../modules/usager-auth/services/usager-auth.service";
@@ -16,13 +16,13 @@ import { UsagerAuthService } from "../modules/usager-auth/services/usager-auth.s
 })
 export class ServerErrorInterceptor implements HttpInterceptor {
   constructor(
-    private toastr: ToastrService,
-    public authService: UsagerAuthService
+    private toastr: CustomToastService,
+    public authService: UsagerAuthService,
   ) {}
 
   public intercept(
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
@@ -30,7 +30,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
         if (error.error instanceof ErrorEvent) {
           if (!navigator.onLine) {
             this.toastr.error(
-              "Vous êtes actuellement hors-ligne. Veuillez vérifier votre connexion internet"
+              "Vous êtes actuellement hors-ligne. Veuillez vérifier votre connexion internet",
             );
             return throwError(() => "NAVIGATOR_OFFLINE");
           }
@@ -43,7 +43,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
           switch (error.status) {
             case 401:
               this.toastr.warning(
-                "Votre session a expiré, merci de vous reconnecter"
+                "Votre session a expiré, merci de vous reconnecter",
               );
               this.authService.logoutAndRedirect();
               break;
@@ -55,7 +55,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
           }
         }
         return throwError(() => error);
-      })
+      }),
     );
   }
 }

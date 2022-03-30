@@ -7,8 +7,8 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
 import type { PortailAdminAuthApiResponse } from "../../../../_common";
+import { CustomToastService } from "../../shared/services/custom-toast.service";
 import { PortailAdminAuthLoginForm } from "../model";
 import { AdminAuthService } from "../services/admin-auth.service";
 
@@ -34,7 +34,7 @@ export class AdminLoginComponent implements OnInit {
     private router: Router,
     private titleService: Title,
     private authService: AdminAuthService,
-    private toastr: ToastrService
+    private toastr: CustomToastService
   ) {
     this.hidePassword = true;
     this.loading = false;

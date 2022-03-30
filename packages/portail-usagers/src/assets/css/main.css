@@ -38,7 +38,7 @@ html {
 }
 
 .active {
-  color: var(--primary);
+  color: var(--bs-primary);
 }
 
 .tooltip-inner {
@@ -79,7 +79,7 @@ html {
   font-weight: bold;
   font-size: 1.35rem;
   padding: 0.5rem 1rem;
-  color: var(--primary);
+  color: var(--bs-primary);
 }
 
 .section-subtitle {
@@ -87,11 +87,11 @@ html {
   font-weight: bold;
   font-size: 1.2rem;
   margin-bottom: 0.25rem;
-  color: var(--primary);
+  color: var(--bs-primary);
 }
 
 .section-content {
-  border-top: 2px solid var(--primary);
+  border-top: 2px solid var(--bs-primary);
   box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.06);
   border-radius: 2px;
   padding: 1rem;

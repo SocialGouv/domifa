@@ -2,13 +2,13 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router, RouterStateSnapshot } from "@angular/router";
 import * as Sentry from "@sentry/browser";
-import { ToastrService } from "ngx-toastr";
 import { BehaviorSubject, catchError, map, Observable, of } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import {
   PortailAdminAuthApiResponse,
   PortailAdminProfile,
 } from "../../../../_common";
+import { CustomToastService } from "../../shared/services/custom-toast.service";
 import { appStore } from "../../shared/store/appStore.service";
 import { PortailAdminAuthLoginForm } from "../model";
 
@@ -27,7 +27,7 @@ export class AdminAuthService {
   constructor(
     private readonly http: HttpClient,
     private readonly router: Router,
-    private readonly toastr: ToastrService
+    private readonly toastr: CustomToastService
   ) {
     this.currentAdminSubject = new BehaviorSubject<PortailAdminProfile | null>(
       null
@@ -67,8 +67,8 @@ export class AdminAuthService {
   }
 
   public logout(): void {
-    appStore.dispatch({ type: "reset" }),
-      window.sessionStorage.removeItem(TOKEN_KEY);
+    appStore.dispatch({ type: "reset" });
+    window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.removeItem(USER_KEY);
     this.currentAdminSubject.next(null);
     Sentry.configureScope((scope) => {
@@ -94,10 +94,7 @@ export class AdminAuthService {
   }
 
   public notAuthorized(): void {
-    this.toastr.error(
-      "Vous n'êtes pas autorisé à accéder à cette page",
-      "Action interdite"
-    );
+    this.toastr.error("Vous n'êtes pas autorisé à accéder à cette page");
     this.router.navigate(["/"]);
   }
 

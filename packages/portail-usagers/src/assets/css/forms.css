@@ -9,7 +9,7 @@
 }
 
 input[type="radio"]:checked + label {
-  color: var(--blue);
+  color: var(--bs-blue);
 }
 
 .form-group.required label:not(.custom-file-label):after {

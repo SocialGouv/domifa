@@ -17,7 +17,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { JwtInterceptor } from "./interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "./interceptors/server-error.interceptor";
 import { MatomoModule } from "ngx-matomo";
-import { ToastrModule } from "ngx-toastr";
+
 import { SentryErrorHandler } from "./interceptors/sentry.interceptor";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -39,14 +39,6 @@ import { SharedModule } from "./modules/shared/shared.module";
     NgbModule,
     SharedModule,
     ReactiveFormsModule,
-    ToastrModule.forRoot({
-      enableHtml: true,
-      positionClass: "toast-top-right",
-      preventDuplicates: true,
-      progressAnimation: "increasing",
-      progressBar: true,
-      disableTimeOut: true,
-    }),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

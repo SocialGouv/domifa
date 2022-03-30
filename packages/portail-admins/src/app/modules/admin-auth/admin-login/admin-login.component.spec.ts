@@ -4,7 +4,6 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrModule } from "ngx-toastr";
 import { AdminLoginComponent } from "./admin-login.component";
 
 describe("AdminLoginComponent", () => {
@@ -17,7 +16,7 @@ describe("AdminLoginComponent", () => {
       imports: [
         HttpClientTestingModule,
         ReactiveFormsModule,
-        ToastrModule.forRoot(),
+
         NgbModule,
         FormsModule,
         RouterTestingModule,

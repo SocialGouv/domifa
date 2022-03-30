@@ -1,7 +1,7 @@
+import { CustomToastService } from "./../shared/services/custom-toast.service";
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
 import { StructureAdmin } from "../../../_common";
 import { AdminStructuresApiClient } from "../shared/services";
 import { AdminStructuresDeleteApiClient } from "../shared/services/api/admin-structures-delete-api-client.service";
@@ -32,7 +32,7 @@ export class StructuresConfirmComponent implements OnInit {
     private adminStructuresApiClient: AdminStructuresApiClient,
     private adminStructuresDeleteApiClient: AdminStructuresDeleteApiClient,
     private route: ActivatedRoute,
-    private notifService: ToastrService,
+    private notifService: CustomToastService,
     private titleService: Title
   ) {
     this.successDelete = false;

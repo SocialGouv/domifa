@@ -7,8 +7,12 @@ import { DateFrDirective } from "./directives/date-fr.directive";
 import { DigitOnlyDirective } from "./directives/digit-only.directive";
 import { FormatPhoneNumberPipe } from "./pipes/formatPhoneNumber.pipe";
 import { FormatBigNumberPipe } from "./pipes/formatBigNumber.pipe";
-import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
+import {
+  FaIconLibrary,
+  FontAwesomeModule,
+} from "@fortawesome/angular-fontawesome";
 import { FA_ICONS } from "./constants/FA_ICONS.const";
+import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
 
 @NgModule({
   declarations: [
@@ -18,6 +22,7 @@ import { FA_ICONS } from "./constants/FA_ICONS.const";
     UsagerNomCompletPipe,
     FormatPhoneNumberPipe,
     FormatBigNumberPipe,
+    CustomToastrComponent,
   ],
   exports: [
     DigitOnlyDirective,
@@ -27,7 +32,7 @@ import { FA_ICONS } from "./constants/FA_ICONS.const";
     FormatPhoneNumberPipe,
     FormatBigNumberPipe,
   ],
-  imports: [CommonModule],
+  imports: [CommonModule, FontAwesomeModule],
 })
 export class SharedModule {
   constructor(private library: FaIconLibrary) {

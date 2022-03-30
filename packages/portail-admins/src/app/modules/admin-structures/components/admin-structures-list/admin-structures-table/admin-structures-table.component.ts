@@ -7,12 +7,12 @@ import {
   OnInit,
   Output,
 } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
 import {
   AdminStructuresApiClient,
   AdminStructuresExportApiClient,
 } from "../../../../shared/services";
 import { AdminStructuresDeleteApiClient } from "../../../../shared/services/api/admin-structures-delete-api-client.service";
+import { CustomToastService } from "../../../../shared/services/custom-toast.service";
 import {
   AdminStructuresListSortAttribute,
   AdminStructuresListStructureModel,
@@ -41,7 +41,7 @@ export class AdminStructuresTableComponent
     private readonly adminStructuresApiClient: AdminStructuresApiClient,
     private readonly adminStructuresDeleteApiClient: AdminStructuresDeleteApiClient,
     private readonly adminStructuresExportApiClient: AdminStructuresExportApiClient,
-    private notifService: ToastrService
+    private notifService: CustomToastService
   ) {}
 
   public ngOnInit(): void {}
