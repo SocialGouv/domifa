@@ -19,7 +19,7 @@
 }
 
 .stats-section-counter {
-  color: var(--primary);
+  color: var(--bs-primary);
   font-weight: 700;
   font-size: 2rem;
 }
@@ -35,5 +35,5 @@
 }
 
 .tick {
-  color: var(--primary);
+  color: var(--bs-primary);
 }

@@ -29,14 +29,14 @@
           </button>
         </div>
       </div>
-      <div class="col-4 text-right">
+      <div class="col-4 text-end">
         <a
           *ngIf="me.role !== 'facteur'"
           routerLink="/nouveau"
           class="btn btn-white-primary"
           (click)="matomo.trackEvent('MANAGE', 'click', 'Liste_Création', 1)"
         >
-          <fa-icon [icon]="['fas', 'plus']" class="mr-2"></fa-icon>
+          <fa-icon [icon]="['fas', 'plus']" class="me-2"></fa-icon>
           Créer une demande
         </a>
       </div>
@@ -178,7 +178,7 @@
 
         <div
           *ngIf="filters.statut === 'TOUS' || filters.statut === 'VALIDE'"
-          class="filter-part text-left"
+          class="filter-part text-start"
         >
           <div class="d-inline-block" *ngIf="filters.echeance">
             <button
@@ -195,7 +195,7 @@
             ngbDropdown
             id="dropdownEcheance"
             display="dynamic"
-            placement="bottom-right"
+            placement="bottom-end"
             class="d-inline-block"
           >
             <button class="btn" id="dropdownManual" ngbDropdownToggle>
@@ -205,7 +205,7 @@
             <div
               ngbDropdownMenu
               aria-labelledby="navbarDropdown2"
-              class="dropdown-menu dropdown-menu-right"
+              class="dropdown-menu dropdown-menu-end"
             >
               <button
                 (click)="
@@ -333,11 +333,11 @@
           </div>
         </div>
       </div>
-      <div class="col-md-3 text-right">
+      <div class="col-md-3 text-end">
         <div
           ngbDropdown
           id="dropdownSort"
-          placement="bottom-right"
+          placement="bottom-end"
           class="d-inline-block"
         >
           <div id="dropdownSortButton" ngbDropdownToggle>
@@ -363,7 +363,7 @@
           <div
             ngbDropdownMenu
             aria-labelledby="navbarDropdown2"
-            class="dropdown-menu dropdown-menu-right"
+            class="dropdown-menu dropdown-menu-end"
           >
             <ng-container
               *ngIf="filters.statut === 'TOUS' || filters.statut === 'VALIDE'"
@@ -493,7 +493,7 @@
       *ngIf="usagers.length === 0 && !searching && !loading"
       class="my-4 alert alert-warning text-center d-print-none"
     >
-      <span class="mr-2">
+      <span class="me-2">
         <b>Aucun résultat :</b>
         aucun dossier ne correspond à votre recherche
       </span>

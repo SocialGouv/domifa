@@ -19,7 +19,7 @@
 
 .spinner {
   font-size: 5rem;
-  color: var(--primary);
+  color: var(--bs-primary);
   -webkit-text-stroke-width: 25px;
   stroke-width: 25px;
   -webkit-text-stroke-color: white;
@@ -32,6 +32,6 @@
   width: 300px;
   display: block;
   line-height: 100%;
-  color: var(--primary);
+  color: var(--bs-primary);
   font-size: 1.05rem;
 }

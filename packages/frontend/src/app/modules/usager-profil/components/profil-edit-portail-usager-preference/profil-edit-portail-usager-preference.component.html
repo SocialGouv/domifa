@@ -2,13 +2,13 @@
   <div>
     <h4>Accès au portail usager</h4>
   </div>
-  <div class="text-right" *ngIf="usager.isActif && !isRole('facteur')">
+  <div class="text-end" *ngIf="usager.isActif && !isRole('facteur')">
     <button
       class="btn btn-outline-dark"
       *ngIf="!editionInProgress"
       (click)="editionInProgress = true"
     >
-      <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
+      <fa-icon icon="pencil-alt" class="me-2"></fa-icon>
       Modifier les préférences
     </button>
     <button
@@ -16,7 +16,7 @@
       *ngIf="editionInProgress"
       (click)="editionInProgress = false"
     >
-      <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
+      <fa-icon icon="pencil-alt" class="me-2"></fa-icon>
       Annuler les modifications
     </button>
   </div>

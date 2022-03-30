@@ -7,7 +7,7 @@
 <form ngNativeValidate [formGroup]="addNoteForm" (ngSubmit)="submit()">
   <div class="modal-body text-center">
     <div class="form-group required">
-      <label class="label text-left" for="message"
+      <label class="label text-start" for="message"
         >Contenu de la note (1000 caractères maximum)</label
       >
       <textarea
@@ -24,13 +24,13 @@
     </div>
     <app-rgpd-warning></app-rgpd-warning>
   </div>
-  <div class="modal-footer text-right">
+  <div class="modal-footer text-end">
     <button type="submit" class="btn btn-lg btn-primary mx-1">
       Enregistrer la note
     </button>
     <button
       type="button"
-      class="btn btn-outline-dark btn-lg mr-2"
+      class="btn btn-outline-dark btn-lg me-2"
       (click)="cancel.emit()"
     >
       Annuler

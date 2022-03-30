@@ -5,8 +5,8 @@
   padding: 8px;
   display: block;
   background: #fff;
-  border: 1px solid var(--primary);
-  color: var(--primary);
+  border: 1px solid var(--bs-primary);
+  color: var(--bs-primary);
   text-align: center;
 }
 
@@ -33,7 +33,7 @@
   font-style: normal;
   font-weight: bold;
   font-size: 0.95rem;
-  color: var(--primary);
+  color: var(--bs-primary);
   line-height: 150%;
 }
 

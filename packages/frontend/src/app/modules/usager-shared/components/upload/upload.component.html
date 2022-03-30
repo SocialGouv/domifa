@@ -19,50 +19,34 @@
         </p>
       </div>
     </div>
-    <div class="col-md-5 form-group required">
-      <fieldset>
-        <legend class="p-0">
+    <div class="col-md-5">
+      <div class="required">
+        <label for="file">
           Document à enregistrer <span class="text-danger">*</span>
-        </legend>
-        <div class="input-group custom-file">
-          <input
-            type="file"
-            class="custom-file-input"
-            id="file"
-            formControlName="file"
-            aria-describedby="pjHelp"
-            [ngClass]="{ 'is-invalid': submitted && u.fileSource.errors }"
-            (change)="onFileChange($event)"
-          />
+        </label>
+        <input
+          type="file"
+          class="form-control"
+          id="file"
+          formControlName="file"
+          aria-describedby="pjHelp"
+          [ngClass]="{ 'is-invalid': submitted && u.fileSource.errors }"
+          (change)="onFileChange($event)"
+        />
+      </div>
+      <small id="pjHelp" class="form-text text-muted">
+        Formats autorisés PDF, JPG ou PNG (6mo maxi)
+      </small>
 
-          <small id="pjHelp" class="form-text text-muted">
-            Formats autorisés PDF, JPG ou PNG (6mo maxi)
-          </small>
-          <label
-            class="custom-file-label"
-            for="file"
-            data-browse="Parcourir"
-            lang="fr"
-          >
-            {{ fileName || "Choisissez un fichier" }}
-          </label>
-
-          <div
-            *ngIf="submitted && u.fileSource.errors"
-            class="invalid-feedback"
-          >
-            <p *ngIf="u.fileSource.errors.required">
-              Vous devez choisir un fichier
-            </p>
-            <p *ngIf="u.fileSource.errors.fileType">
-              Format de fichier invalide
-            </p>
-            <p *ngIf="u.fileSource.errors.fileSize">
-              La taille du fichier est trop grande
-            </p>
-          </div>
-        </div>
-      </fieldset>
+      <div *ngIf="submitted && u.fileSource.errors" class="invalid-feedback">
+        <p *ngIf="u.fileSource.errors.required">
+          Vous devez choisir un fichier
+        </p>
+        <p *ngIf="u.fileSource.errors.fileType">Format de fichier invalide</p>
+        <p *ngIf="u.fileSource.errors.fileSize">
+          La taille du fichier est trop grande
+        </p>
+      </div>
     </div>
     <div class="col-md-2 my-2">
       <button class="btn btn-primary btn-block mt-4">

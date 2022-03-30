@@ -146,12 +146,8 @@
               formControlName="password"
               required
             />
-            <div class="input-group-append">
-              <button
-                type="button"
-                class="input-group-text btn"
-                (click)="togglePassword()"
-              >
+            <div class="input-group-text">
+              <button type="button" class="btn" (click)="togglePassword()">
                 <fa-icon
                   title="Voir / cacher le mot de passe"
                   [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
@@ -236,10 +232,10 @@
               formControlName="confirmPassword"
               required
             />
-            <div class="input-group-append">
+            <div class="input-group-text">
               <button
                 type="button"
-                class="input-group-text btn"
+                class="btn"
                 (click)="togglePasswordConfirmation()"
               >
                 <fa-icon

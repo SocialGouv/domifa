@@ -20,7 +20,7 @@
                       <br />
                       {{ usager.nom }} {{ usager.prenom }}
                     </div>
-                    <div class="col-5 text-right">
+                    <div class="col-5 text-end">
                       <a
                         class="btn btn-outline-dark"
                         [routerLink]="['/usager/' + usager.ref + '/edit']"
@@ -65,7 +65,7 @@
             <div class="col-md-12 text-center">
               <br />
               <button (click)="initUserForm()" class="btn btn-outline-dark">
-                <fa-icon [icon]="['far', 'edit']" class="mr-2"></fa-icon>
+                <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
 
                 Modifier les informations
               </button>
@@ -141,7 +141,7 @@
 
             <div class="col-md-12 text-center">
               <button (click)="editUser = false" class="btn btn-outline-dark">
-                <fa-icon [icon]="['far', 'edit']" class="mr-2"></fa-icon>
+                <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
                 Annuler
               </button>
               &nbsp;&nbsp;
@@ -174,7 +174,7 @@
           <br />
           <br />
           <button (click)="initPasswordForm()" class="btn btn-outline-dark">
-            <fa-icon [icon]="['far', 'edit']" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
             Modifier votre mot de passe
           </button>
         </div>
@@ -200,12 +200,8 @@
               autocomplete="off"
               required
             />
-            <div class="input-group-append">
-              <button
-                type="button"
-                class="input-group-text btn"
-                (click)="toggleOldPassword()"
-              >
+            <div class="input-group-text">
+              <button type="button" class="btn" (click)="toggleOldPassword()">
                 <fa-icon
                   title="Voir / cacher le mot de passe"
                   [icon]="
@@ -232,12 +228,8 @@
               autocomplete="new-password"
               required
             />
-            <div class="input-group-append">
-              <button
-                type="button"
-                class="input-group-text btn"
-                (click)="togglePassword()"
-              >
+            <div class="input-group-text">
+              <button type="button" class="btn" (click)="togglePassword()">
                 <fa-icon
                   title="Voir / cacher le mot de passe"
                   [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
@@ -343,10 +335,10 @@
               required
             />
 
-            <div class="input-group-append">
+            <div class="input-group-text">
               <button
                 type="button"
-                class="input-group-text btn"
+                class="btn"
                 (click)="togglePasswordConfirmation()"
               >
                 <fa-icon
@@ -394,7 +386,7 @@
 
         <div class="col-md-12 text-center">
           <button (click)="editPassword = false" class="btn btn-outline-dark">
-            <fa-icon [icon]="['far', 'edit']" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
             Annuler
           </button>
           &nbsp;&nbsp;

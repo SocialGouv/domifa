@@ -1,6 +1,6 @@
 .stats-counter {
   font-weight: bold;
-  color: var(--primary);
+  color: var(--bs-primary);
   font-size: 2.5rem;
   line-height: 2rem;
   min-width: 100px;
@@ -8,7 +8,7 @@
 }
 
 .sub-stats-number {
-  color: var(--primary);
+  color: var(--bs-primary);
   min-width: 40px;
   font-weight: 600;
 }
@@ -30,7 +30,7 @@ li a {
 }
 
 li a:hover {
-  color: var(--primary);
+  color: var(--bs-primary);
 }
 li a {
   text-decoration: underline;

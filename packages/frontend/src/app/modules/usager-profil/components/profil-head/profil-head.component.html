@@ -24,7 +24,7 @@
         </h1>
       </div>
 
-      <div class="px-0 mx-0 text-right" *ngIf="!isRole('facteur')">
+      <div class="px-0 mx-0 text-end" *ngIf="!isRole('facteur')">
         <ng-container
           *ngIf="
             usager.decision.statut === 'INSTRUCTION' &&
@@ -34,9 +34,9 @@
           <a
             title="Compléter la demande"
             [routerLink]="['/usager/' + usager.ref + '/edit']"
-            class="btn btn-white-primary ml-2"
+            class="btn btn-white-primary ms-2"
           >
-            <fa-icon [icon]="['fas', 'redo']" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['fas', 'redo']" class="me-2"></fa-icon>
             Compléter la demande
           </a>
         </ng-container>
@@ -45,14 +45,14 @@
           <button
             title="Créer une nouvelle demande"
             (click)="openRenewModal()"
-            class="btn btn-white-primary ml-2"
+            class="btn btn-white-primary ms-2"
           >
-            <fa-icon [icon]="['fas', 'redo']" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['fas', 'redo']" class="me-2"></fa-icon>
             Créer une nouvelle demande
           </button>
           <button
             title="Télécharger le CERFA"
-            class="btn btn-white-primary ml-2"
+            class="btn btn-white-primary ms-2"
             (click)="
               getCerfa(
                 usager.decision.statut === 'REFUS' ? 'demande' : 'attestation'
@@ -67,10 +67,10 @@
         <ng-container *ngIf="usager.decision.statut === 'RADIE'">
           <button
             title="Créer une nouvelle demande"
-            class="btn btn-white-primary ml-2"
+            class="btn btn-white-primary ms-2"
             (click)="openRenewModal()"
           >
-            <fa-icon [icon]="['fas', 'redo']" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['fas', 'redo']" class="me-2"></fa-icon>
             Créer une nouvelle demande
           </button>
         </ng-container>
@@ -78,18 +78,18 @@
         <ng-container *ngIf="usager.decision.statut === 'VALIDE'">
           <button
             title="Demande de renouvellement"
-            class="ml-2 btn btn-white-primary ml-2"
+            class="ms-2 btn btn-white-primary ms-2"
             (click)="openRenewModal()"
           >
-            <fa-icon [icon]="['fas', 'redo']" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['fas', 'redo']" class="me-2"></fa-icon>
             Demande de renouvellement
           </button>
           <button
             title="Radier le domicilié"
             (click)="openRadiationModal()"
-            class="ml-2 btn btn-white-primary"
+            class="ms-2 btn btn-white-primary"
           >
-            <fa-icon [icon]="['fas', 'times']" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['fas', 'times']" class="me-2"></fa-icon>
             Radier le domicilié
           </button>
         </ng-container>

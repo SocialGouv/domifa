@@ -116,46 +116,35 @@
             </div>
 
             <div class="form-group">
-              <label
-                >Pièces jointes (capture d'écran du problème rencontré, fichier
-                d'import anonymisé, autres informations etc.)</label
+              <label for="file">
+                Pièces jointes (capture d'écran du problème rencontré, fichier
+                d'import anonymisé, autres informations etc.)
+              </label>
+              <input
+                class="form-control"
+                type="file"
+                id="file"
+                formControlName="file"
+                aria-describedby="pjHelp"
+                [ngClass]="{
+                  'is-invalid': submitted && f.fileSource.errors
+                }"
+                (change)="onFileChange($event)"
+              />
+              <small id="pjHelp" class="form-text text-muted">
+                Formats autorisés PDF, DOCX, XLSX, ODT, JPG ou PNG (6mo maxi)
+              </small>
+
+              <div
+                *ngIf="submitted && f.fileSource.errors"
+                class="invalid-feedback"
               >
-
-              <div class="form-group custom-file">
-                <input
-                  type="file"
-                  class="custom-file-input"
-                  id="file"
-                  formControlName="file"
-                  aria-describedby="pjHelp"
-                  [ngClass]="{
-                    'is-invalid': submitted && f.fileSource.errors
-                  }"
-                  (change)="onFileChange($event)"
-                />
-                <small id="pjHelp" class="form-text text-muted">
-                  Formats autorisés PDF, DOCX, XLSX, ODT, JPG ou PNG (6mo maxi)
-                </small>
-                <label
-                  class="custom-file-label"
-                  for="file"
-                  data-browse="Parcourir"
-                  lang="fr"
-                >
-                  {{ fileName }}
-                </label>
-
-                <div
-                  *ngIf="submitted && f.fileSource.errors"
-                  class="invalid-feedback"
-                >
-                  <p *ngIf="f.fileSource.errors.fileType">
-                    Format de fichier invalide
-                  </p>
-                  <p *ngIf="f.fileSource.errors.fileSize">
-                    La taille du fichier est trop grande
-                  </p>
-                </div>
+                <p *ngIf="f.fileSource.errors.fileType">
+                  Format de fichier invalide
+                </p>
+                <p *ngIf="f.fileSource.errors.fileSize">
+                  La taille du fichier est trop grande
+                </p>
               </div>
             </div>
 

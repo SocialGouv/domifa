@@ -44,7 +44,7 @@
       <span *ngIf="filters.statut === 'REFUS' ">REFUSÉ LE</span>
       <span *ngIf="filters.statut === 'RADIE' ">RADIÉ LE</span>
     </th>
-    <th scope="col" class="text-left d-print-none">ACTIONS RAPIDES</th>
+    <th scope="col" class="text-start d-print-none">ACTIONS RAPIDES</th>
     <th scope="col" class="d-print-none">
       <button class="btn-sm btn-primary btn" (click)="goToPrint.emit()">
         <fa-icon title="Impression" [icon]="['fas', 'print']"></fa-icon>
@@ -113,7 +113,7 @@
 
       <td>
         <a [routerLink]="usager.usagerProfilUrl">
-          <ng-template #ayantsDroitsTooltip class="p-4 text-left">
+          <ng-template #ayantsDroitsTooltip class="p-4 text-start">
             <div class="distribution-tooltip">
               <div class="p-1" *ngFor="let ayantDroit of usager.ayantsDroits">
                 <b class="text-primary">{{ayantDroit.nom }}</b>
@@ -142,7 +142,7 @@
                 <div *ngIf="usager.options.transfert.dateFin > today">
                   <fa-icon
                     [icon]="['fas', 'share']"
-                    class="text-primary mr-1"
+                    class="text-primary me-1"
                   ></fa-icon>
                   Courrier à transférer : {{ usager.options.transfert.nom |
                   titlecase }} {{ usager.options.transfert.adresse | titlecase
@@ -166,13 +166,13 @@
           >
             <ng-template #procurationActif>
               <div
-                class="text-left"
+                class="text-start"
                 *ngFor="let procuration of usager.options.procurations; let i = index"
               >
                 <span *ngIf="procuration.dateFin > today">
                   <fa-icon
                     [icon]="['fas', 'share']"
-                    class="text-primary mr-1"
+                    class="text-primary me-1"
                   ></fa-icon>
                   Procuration active : {{ procuration.nom }} {{
                   procuration.prenom }}
@@ -181,7 +181,7 @@
                 <span *ngIf="procuration.dateFin <= today">
                   <fa-icon
                     [icon]="['fas', 'times']"
-                    class="text-danger mr-1"
+                    class="text-danger me-1"
                   ></fa-icon>
                   Procuration expirée : {{procuration.dateFin | date:
                   "dd/MM/yyyy" }}
@@ -224,7 +224,7 @@
         </a>
       </td>
 
-      <td class="text-left icones_liste d-print-none">
+      <td class="text-start icones_liste d-print-none">
         <div
           class="interaction-buttons"
           *ngIf="usager.isActif || (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)"
@@ -272,7 +272,7 @@
             <div class="list-icon-label">Réception</div>
           </div>
 
-          <ng-template #distributionBox class="p-2 text-left">
+          <ng-template #distributionBox class="p-2 text-start">
             <div class="distribution-tooltip">
               <div *ngIf="usager.lastInteraction.courrierIn > 0">
                 <span class="list-icon icon-courrier"></span>

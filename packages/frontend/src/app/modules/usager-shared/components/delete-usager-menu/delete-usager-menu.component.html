@@ -12,7 +12,7 @@
         *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
         (click)="open(deleteRenewConfirmation)"
       >
-        <fa-icon [icon]="['fas', 'trash']" class="mr-2"></fa-icon>
+        <fa-icon [icon]="['fas', 'trash']" class="me-2"></fa-icon>
         Supprimer cette demande
       </button>
 
@@ -23,7 +23,7 @@
         *ngIf="usager.typeDom === 'PREMIERE_DOM' && usager.etapeDemande > 0"
         (click)="open(deleteConfirmation)"
       >
-        <fa-icon [icon]="['fas', 'trash']" class="mr-2"></fa-icon>
+        <fa-icon [icon]="['fas', 'trash']" class="me-2"></fa-icon>
         Supprimer cette demande
       </button>
     </ng-container>
@@ -40,7 +40,7 @@
         id="delete-usager"
         (click)="open(deleteConfirmation)"
       >
-        <fa-icon [icon]="['fas', 'trash']" class="mr-2"></fa-icon>
+        <fa-icon [icon]="['fas', 'trash']" class="me-2"></fa-icon>
         Supprimer ce domicilié
       </button>
     </ng-container>

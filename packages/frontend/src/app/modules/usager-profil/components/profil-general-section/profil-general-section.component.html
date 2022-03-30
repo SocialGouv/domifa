@@ -49,7 +49,7 @@
 
               <a
                 [routerLink]="['/usager/' + usager.ref + '/edit']"
-                class="ml-2"
+                class="ms-2"
               >
                 Compléter la demande
               </a>
@@ -73,7 +73,7 @@
                 [routerLink]="['/usager/' + usager.ref + '/edit']"
                 class="btn btn-light"
               >
-                <fa-icon [icon]="['fas', 'redo']" class="mr-2"></fa-icon>
+                <fa-icon [icon]="['fas', 'redo']" class="me-2"></fa-icon>
                 Voir le récapitulatif
               </a>
             </div>
@@ -121,7 +121,7 @@
             <fa-icon
               [icon]="['fas', 'ban']"
               size="2x"
-              class="text-danger mr-3"
+              class="text-danger me-3"
             ></fa-icon>
             <span>
               N'habite plus à l'adresse indiquée, pli non distribuable
@@ -216,7 +216,7 @@
               <span class="label">Ayants-droits</span>
             </div>
             <div class="col-6 my-1 align-self-center">
-              <ng-template #ayantsDroitsTooltip class="p-4 text-left">
+              <ng-template #ayantsDroitsTooltip class="p-4 text-start">
                 <div class="distribution-tooltip">
                   <div
                     class="p-1"
@@ -295,7 +295,7 @@
         <div class="col-md-6">
           <h4>Courrier en attente</h4>
           <div class="profil-interaction my-3">
-            <div class="interaction-icon-box mr-3">
+            <div class="interaction-icon-box me-3">
               <div class="interaction-icon icon-courrier"></div>
             </div>
             <div class="profil-interaction-label">
@@ -303,7 +303,7 @@
             </div>
           </div>
           <div class="profil-interaction my-3">
-            <div class="interaction-icon-box mr-3">
+            <div class="interaction-icon-box me-3">
               <div class="interaction-icon icon-colis"></div>
             </div>
             <div class="profil-interaction-label">
@@ -311,7 +311,7 @@
             </div>
           </div>
           <div class="profil-interaction my-3">
-            <div class="interaction-icon-box mr-3">
+            <div class="interaction-icon-box me-3">
               <div class="interaction-icon icon-recommande"></div>
             </div>
             <div class="profil-interaction-label">
@@ -331,7 +331,7 @@
             >
               <button
                 ngbTooltip="Ajout d'un passage"
-                class="mr-2"
+                class="me-2"
                 [ngClass]="
                   loadingButtons.indexOf('visite') !== -1
                     ? 'interaction-btn-disabled '
@@ -353,7 +353,7 @@
                     : 'btn btn-primary'
                 "
                 ngbTooltip="Ajout d'un appel téléphonique"
-                class="mr-2"
+                class="me-2"
                 (click)="setSingleInteraction(usager.ref, 'appel')"
               >
                 <div class="list-icon-disabled">
@@ -367,30 +367,30 @@
 
             <ng-container *ngIf="!usager.options.npai.actif">
               <button
-                class="btn btn-primary mr-2"
+                class="btn btn-primary me-2"
                 (click)="openInteractionInModal()"
               >
-                <span class="icon-reception list-icon mr-2"></span>
+                <span class="icon-reception list-icon me-2"></span>
                 <span>Réception</span>
               </button>
 
               <button
                 *ngIf="usager.lastInteraction.enAttente"
-                class="btn btn-primary mr-2"
+                class="btn btn-primary me-2"
                 (click)="openInteractionOutModal()"
               >
-                <span class="icon-distribution list-icon mr-2"></span>
+                <span class="icon-distribution list-icon me-2"></span>
                 <span>Distribuer le courrier</span>
               </button>
 
               <button
-                class="btn btn-danger mr-2"
+                class="btn btn-danger me-2"
                 *ngIf="usager.decision.statut === 'RADIE'"
                 (click)="
                   stopCourrier(); setSingleInteraction(usager.ref, 'npai')
                 "
               >
-                <span class="list-icon icon-ban mr-2"></span>
+                <span class="list-icon icon-ban me-2"></span>
 
                 <span>Ne plus accepter le courrier</span>
               </button>
@@ -429,10 +429,10 @@
           ></app-profil-general-notes>
 
           <button
-            class="mt-4 btn btn-outline-primary mr-2"
+            class="mt-4 btn btn-outline-primary me-2"
             (click)="openAddNoteInModal()"
           >
-            <fa-icon [icon]="['fas', 'plus']" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['fas', 'plus']" class="me-2"></fa-icon>
             <span>Ajouter une note</span>
           </button>
         </div>

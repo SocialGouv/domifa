@@ -11,7 +11,7 @@
             class="btn btn-outline-primary"
           >
             <span *ngIf="!exportLoading">
-              <fa-icon [icon]="['fas', 'download']" class="mr-2"></fa-icon>
+              <fa-icon [icon]="['fas', 'download']" class="me-2"></fa-icon>
               Exporter tous les domiciliés
             </span>
             <span *ngIf="exportLoading">
@@ -31,7 +31,7 @@
             (click)="open(hardResetConfirmation)"
             class="btn btn-outline-danger"
           >
-            <fa-icon [icon]="['fas', 'trash']" class="mr-2"></fa-icon>
+            <fa-icon [icon]="['fas', 'trash']" class="me-2"></fa-icon>
             Supprimer tous les domiciliés
           </button>
         </div>
@@ -83,7 +83,7 @@
           supprimées:
         </p>
 
-        <ul class="text-left">
+        <ul class="text-start">
           <li>Tous les dossiers : demandes, domiciliés actifs, radiés, etc.</li>
           <li>L'historique de toutes les décisions</li>
           <li>Toutes les interactions (courriers, appels, etc.)</li>

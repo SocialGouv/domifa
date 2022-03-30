@@ -9,21 +9,16 @@
 
 .form-group.required .control-label:after {
   content: "*";
-  color: var(--red);
-}
-
-.custom-file-label {
-  overflow: hidden;
-  font-weight: 400 !important;
+  color: var(--bs-red);
 }
 
 input[type="radio"]:checked + label {
-  color: var(--blue);
+  color: var(--bs-blue);
 }
 
-.form-group.required label:not(.custom-file-label):after {
+.form-group.required label:after {
   content: " *";
-  color: var(--red);
+  color: var(--bs-red);
 }
 
 label {
@@ -41,7 +36,7 @@ form label {
   width: 100%;
   margin-top: 0.25rem;
   font-size: 80%;
-  color: var(--red);
+  color: var(--bs-red);
 }
 
 .indications div {
@@ -67,7 +62,14 @@ form label {
   margin-top: 10px;
 }
 
-.input-group-append .btn .ng-fa-icon {
+.input-group-text button {
+  margin: 0 !important;
+  padding: 0 !important;
+  outline: none;
+  border: none;
+}
+
+.input-group-text .btn .ng-fa-icon {
   margin: 0 !important;
 }
 
@@ -81,7 +83,7 @@ form label {
 }
 
 #structureForm .btn label {
-  color: var(--blue);
+  color: var(--bs-blue);
   margin: 0;
   padding: 12px 22px;
 }
@@ -138,19 +140,19 @@ form label {
 }
 
 #upload-zone:hover {
-  border-color: var(--blue);
+  border-color: var(--bs-blue);
   box-shadow: 0 1px 6px 0 rgba(124, 124, 124, 0.15);
-  border: 1px solid var(--primary);
+  border: 1px solid var(--bs-primary);
 }
 
 .upload-ok {
-  border: 1px dotted var(--primary);
-  color: var(--primary);
+  border: 1px dotted var(--bs-primary);
+  color: var(--bs-primary);
 }
 
 .upload-error {
-  border: 1px dotted var(--danger);
-  color: var(--danger);
+  border: 1px dotted var(--bs-danger);
+  color: var(--bs-danger);
 }
 
 /* Titre des étapes du formulaire */
@@ -207,8 +209,8 @@ form label {
   text-align: center;
   padding: 6px 0;
   background-color: #fff;
-  border: 1px solid var(--primary);
-  color: var(--blue);
+  border: 1px solid var(--bs-primary);
+  color: var(--bs-blue);
   font-size: 1.2rem;
 }
 
@@ -242,7 +244,7 @@ form label {
   font-weight: 700;
 }
 .step_active {
-  background-color: var(--blue);
+  background-color: var(--bs-blue);
   color: white;
   cursor: pointer;
 }
@@ -250,13 +252,13 @@ form label {
 .step_check {
   padding-top: 6px;
   background-color: white;
-  border-color: var(--success);
-  color: var(--success);
+  border-color: var(--bs-success);
+  color: var(--bs-success);
   cursor: pointer;
 }
 
 .separateur {
-  border-bottom: 1px solid var(--blue);
+  border-bottom: 1px solid var(--bs-blue);
   min-width: 100px;
   width: 100%;
   display: block;
@@ -274,5 +276,14 @@ form label {
 }
 
 .check_sep .separateur {
-  border-color: var(--success);
+  border-color: var(--bs-success);
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+.btn-block + .btn-block {
+  margin-top: 0.5rem;
 }
