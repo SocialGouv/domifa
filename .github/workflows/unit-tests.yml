@@ -41,7 +41,7 @@ jobs:
         run: DISABLE_TYPEORM_CLOSE=1 yarn workspace @domifa/backend jest --coverage --detectOpenHandles --forceExit --runInBand
 
       - name: Archive code coverage
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: backend-coverage
           path: packages/backend/coverage
@@ -70,7 +70,7 @@ jobs:
         run: yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
 
       - name: Archive code coverage
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: frontend-coverage
           path: packages/frontend/coverage
@@ -99,7 +99,7 @@ jobs:
         run: yarn workspace @domifa/portail-usagers test --coverage --detectOpenHandles --forceExit
 
       - name: Archive code coverage
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: portail-usagers-coverage
           path: packages/portail-usagers/coverage
@@ -128,7 +128,7 @@ jobs:
         run: yarn workspace @domifa/portail-admins test --coverage --detectOpenHandles --forceExit
 
       - name: Archive code coverage
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: portail-admins-coverage
           path: packages/portail-admins/coverage
