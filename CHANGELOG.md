@@ -1,3 +1,12 @@
+## [2.84.1](https://github.com/SocialGouv/domifa/compare/v2.84.0...v2.84.1) (2022-03-31)
+
+
+### Bug Fixes
+
+* **bootstrap:** Ajout du nouveau bootstrap sur le portail ([51c23b9](https://github.com/SocialGouv/domifa/commit/51c23b9dace396a51293e90ac5a306e976d3de54))
+* **bootstrap:** correction des bugs suite à la montée de version ([4c1d9a6](https://github.com/SocialGouv/domifa/commit/4c1d9a6960ca46641e72fb0e8bd0d84d44d0d565))
+* **deps:** dependencies bootstrap ([d6fd2bb](https://github.com/SocialGouv/domifa/commit/d6fd2bb739dab507b8dde810be5ab0c0292ddb24))
+
 # [2.84.0](https://github.com/SocialGouv/domifa/compare/v2.83.0...v2.84.0) (2022-03-29)
 
 
