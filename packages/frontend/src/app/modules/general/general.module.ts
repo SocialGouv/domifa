@@ -26,6 +26,7 @@ import { RouterModule } from "@angular/router";
 import { CountUpModule } from "ngx-countup";
 import { SharedModule } from "../shared/shared.module";
 import { ContactSupportComponent } from "./components/contact-support/contact-support.component";
+import { LoginComponent } from "./components/login/login.component";
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ContactSupportComponent } from "./components/contact-support/contact-su
     PolitiqueComponent,
     NavbarComponent,
     ContactSupportComponent,
+    LoginComponent,
   ],
   exports: [LoadingComponent, NotFoundComponent, NavbarComponent],
   imports: [

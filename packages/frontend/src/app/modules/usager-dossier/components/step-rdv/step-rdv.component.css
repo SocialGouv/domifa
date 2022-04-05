@@ -11,6 +11,7 @@
   z-index: 900;
 }
 
-label {
+.form-check-rdv {
   font-weight: 600;
+  font-size: 1.25rem;
 }

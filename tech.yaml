@@ -18,7 +18,7 @@ tools:
   ticketing: https://github.com/SocialGouv/domifa/issues
   sentry (backend): https://sentry.fabrique.social.gouv.fr/incubateur/domifa-backend
   sentry (frontend): https://sentry.fabrique.social.gouv.fr/incubateur/domifa-frontend
-  sentry (frontend): https://sentry.fabrique.social.gouv.fr/incubateur/domifa-portail-usagers
+  sentry (portail-usager): https://sentry.fabrique.social.gouv.fr/incubateur/domifa-portail-usagers
   matomo: https://matomo.fabrique.social.gouv.fr
   mails (prod+dev): https://app.tipimail.com/
   mails (dev): https://mailtrap.io/
@@ -47,5 +47,4 @@ stack:
   ci:
     - Github Actions (tests, build, register docker images)
   deployment:
-    - internal VM
     - docker-compose

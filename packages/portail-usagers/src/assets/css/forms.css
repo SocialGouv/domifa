@@ -1,20 +1,24 @@
-.form-group.required .control-label:after {
-  content: "*";
-  color: red;
+.form-group {
+  margin-bottom: 1rem;
 }
 
-.custom-file-label {
-  overflow: hidden;
-  font-weight: 400 !important;
+.form-group.required .control-label:after {
+  content: "*";
+  color: var(--bs-red);
 }
 
 input[type="radio"]:checked + label {
   color: var(--bs-blue);
 }
 
-.form-group.required label:not(.custom-file-label):after {
+.form-group.required label:after {
   content: " *";
-  color: red;
+  color: var(--bs-red);
+}
+
+label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
 }
 
 form label {
@@ -27,7 +31,19 @@ form label {
   width: 100%;
   margin-top: 0.25rem;
   font-size: 80%;
-  color: #dc3545;
+  color: var(--bs-red);
+}
+
+.indications div {
+  padding-top: 5px;
+}
+
+.indications {
+  padding: 5px;
+}
+
+.indications .ng-fa-icon {
+  margin-right: 5px;
 }
 
 .modal-body .form-check {
@@ -41,8 +57,21 @@ form label {
   margin-top: 10px;
 }
 
-.input-group-append .btn .ng-fa-icon {
+.input-group-text button {
   margin: 0 !important;
+  padding: 0 !important;
+  outline: none;
+  border: none;
+}
+
+.input-group-text .btn .ng-fa-icon {
+  margin: 0 !important;
+}
+
+.btn-light-primary {
+  background-color: #ffffff;
+  color: #4164f5;
+  border-radius: 3px;
 }
 
 .btn-white-primary {
@@ -51,9 +80,70 @@ form label {
   box-shadow: 0 2px 2px #2f4ece;
   border-radius: 3px;
 }
-
+.btn-light-primary:hover,
 .btn-white-primary:hover {
   background-color: #e7e7e7;
   color: #2444c5;
   border: 1px solid rgba(65, 100, 245, 0.3);
+}
+
+.modal-body .form-check label {
+  font-weight: 300;
+  margin-left: 5px;
+  padding: 6px 0;
+  width: 100%;
+}
+
+.modal-body .invalid-feedback {
+  display: block !important;
+}
+
+#upload-zone .ng-fa-icon {
+  font-size: 4rem;
+  line-height: 0;
+  display: block;
+  padding-bottom: 10px;
+}
+
+#upload-zone {
+  text-align: center;
+  border-radius: 2px;
+  padding: 25px 40px;
+  max-width: 500px;
+  margin: 0 auto;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+#upload-zone:hover {
+  border-color: var(--bs-blue);
+  box-shadow: 0 1px 6px 0 rgba(124, 124, 124, 0.15);
+  border: 1px solid var(--bs-primary);
+}
+
+.upload-ok {
+  border: 1px dotted var(--bs-primary);
+  color: var(--bs-primary);
+}
+
+.upload-error {
+  border: 1px dotted var(--bs-danger);
+  color: var(--bs-danger);
+}
+
+/* Titre des étapes du formulaire */
+.form-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+.btn-block + .btn-block {
+  margin-top: 0.5rem;
 }

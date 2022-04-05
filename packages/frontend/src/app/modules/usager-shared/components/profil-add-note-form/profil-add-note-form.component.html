@@ -25,9 +25,18 @@
     <app-rgpd-warning></app-rgpd-warning>
   </div>
   <div class="modal-footer text-end">
-    <button type="submit" class="btn btn-lg btn-primary mx-1">
-      Enregistrer la note
+    <button
+      [disabled]="loading"
+      type="submit"
+      class="btn btn-lg btn-primary mx-1"
+    >
+      <span *ngIf="!loading"> Enregistrer la note </span>
+      <span *ngIf="loading">
+        <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+        Veuillez patienter...
+      </span>
     </button>
+
     <button
       type="button"
       class="btn btn-outline-dark btn-lg me-2"

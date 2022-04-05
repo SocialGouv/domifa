@@ -125,7 +125,7 @@
 
 .toast-warning {
   color: black;
-  background-color: var(--orange);
+  background-color: var(--bs-orange);
 }
 
 /*Responsive Design*/

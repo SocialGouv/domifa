@@ -5,6 +5,8 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
+  ValidationErrors,
+  ValidatorFn,
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
@@ -25,7 +27,13 @@ import { UserStructure, UsagerLight } from "../../../../../_common/model";
 import { UsagerFormModel } from "../../../usager-shared/interfaces/UsagerFormModel";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
-import { setHours, setMinutes } from "date-fns";
+import {
+  addMinutes,
+  differenceInDays,
+  format,
+  setHours,
+  setMinutes,
+} from "date-fns";
 
 @Component({
   animations: [fadeInOut],
@@ -47,6 +55,8 @@ export class StepRdvComponent implements OnInit {
   public me: UserStructure;
   public agents: UserStructure[] = [];
 
+  public rdvIsToday: boolean;
+
   /* Config datepickers */
   public dToday = new Date();
   public loading = false;
@@ -66,7 +76,7 @@ export class StepRdvComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.editRdv = true;
-
+    this.rdvIsToday = false;
     this.maxDateRdv = {
       day: this.dToday.getDate(),
       month: this.dToday.getMonth() + 1,
@@ -113,11 +123,33 @@ export class StepRdvComponent implements OnInit {
 
   public initForm() {
     this.rdvForm = this.formBuilder.group({
-      heureRdv: [this.usager.rdv.heureRdv, [Validators.required]],
+      heureRdv: [
+        this.usager.rdv.heureRdv,
+        [Validators.required, this.isHourOk()],
+      ],
       isNow: [this.usager.rdv.isNow, []],
       jourRdv: [this.usager.rdv.jourRdv, [Validators.required]],
       userId: [this.usager.rdv.userId, Validators.required],
     });
+
+    this.rdvForm
+      .get("jourRdv")
+      .valueChanges.subscribe((value: NgbDateStruct) => {
+        if (!this.r.jourRdv.invalid) {
+          const jourRdv = new Date(this.nbgDate.formatEn(value));
+
+          if (differenceInDays(jourRdv, new Date()) === 0) {
+            this.rdvIsToday = true;
+
+            this.rdvForm.controls.heureRdv.setValue(
+              format(addMinutes(new Date(), 1), "HH:mm"),
+              {
+                onlySelf: true,
+              }
+            );
+          }
+        }
+      });
 
     this.editRdv = this.usager.rdv.userId === null;
 
@@ -208,5 +240,28 @@ export class StepRdvComponent implements OnInit {
 
   public onUsagerChanges(usager: UsagerLight): void {
     this.usager = new UsagerFormModel(usager);
+  }
+
+  private isHourOk(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!this.rdvIsToday) {
+        return null;
+      }
+
+      console.log(control.value);
+
+      const heureRdv = control.value.split(":");
+
+      const dateRdv: Date = setMinutes(
+        setHours(new Date(), heureRdv[0]),
+        heureRdv[1]
+      );
+
+      console.log(dateRdv);
+      console.log(new Date());
+      console.log(dateRdv < new Date());
+
+      return dateRdv < new Date() ? { dateInvalid: true } : null;
+    };
   }
 }

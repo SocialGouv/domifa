@@ -28,12 +28,13 @@ export class ProfilAddNoteFormComponent implements OnInit {
 
   public submitted: boolean;
   public addNoteForm: FormGroup;
-
+  public loading: boolean;
   constructor(
     private usagerNotesService: UsagerNotesService,
     private toastService: CustomToastService,
     private formBuilder: FormBuilder
   ) {
+    this.loading = false;
     this.submitted = false;
   }
 
@@ -56,6 +57,7 @@ export class ProfilAddNoteFormComponent implements OnInit {
       return;
     }
 
+    this.loading = true;
     this.usagerNotesService
       .createNote({
         note: { message: this.addNoteForm.get("message").value },
@@ -65,11 +67,13 @@ export class ProfilAddNoteFormComponent implements OnInit {
         next: (usager) => {
           this.toastService.success("Note enregistrée avec succès");
           setTimeout(() => {
+            this.loading = false;
             this.submitted = false;
             this.confirm.emit(usager);
           }, 1000);
         },
         error: () => {
+          this.loading = false;
           this.toastService.error("Impossible d'enregistrer cette note");
         },
       });

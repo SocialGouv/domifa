@@ -189,7 +189,10 @@
               </div>
             </ng-template>
 
-            <div>Procurations</div>
+            <div>
+              {{ usager.options.procurations.length > 1? 'Procuration':
+              'Procurations'}}
+            </div>
           </div>
 
           <div

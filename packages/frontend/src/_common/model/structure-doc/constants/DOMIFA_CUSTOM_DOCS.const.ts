@@ -1,4 +1,5 @@
-import { StructureDoc } from "./StructureDoc.type";
+import { StructureDoc } from "../types";
+
 export const DOMIFA_CUSTOM_DOCS: StructureDoc[] = [
   {
     label: "Attestation postale",

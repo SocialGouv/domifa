@@ -1,3 +1,3 @@
-import { StructureDocTypesAvailable } from ".";
+import { StructureDocTypesAvailable } from "..";
 
 export type StructureCustomDocType = StructureDocTypesAvailable | "autre";

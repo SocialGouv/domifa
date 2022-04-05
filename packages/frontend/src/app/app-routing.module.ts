@@ -13,52 +13,13 @@ import { NewsComponent } from "./modules/general/components/news/news.component"
 import { PolitiqueComponent } from "./modules/general/components/politique/politique.component";
 import { ImportComponent } from "./modules/usagers/components/import/import.component";
 import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
-import { EditUserComponent } from "./modules/users/components/edit-user/edit-user.component";
-import { LoginComponent } from "./modules/users/components/login/login.component";
-import { ResetPasswordComponent } from "./modules/users/components/reset-password/reset-password.component";
-import { UserProfilComponent } from "./modules/users/components/user-profil/user-profil.component";
+
+import { LoginComponent } from "./modules/general/components/login/login.component";
 
 export const routes: Routes = [
-  {
-    canActivate: [LoggedGuard],
-    component: LoginComponent,
-    path: "connexion",
-  },
-
-  // TODO: migrer les urls suivantes vers un module "users"
-  {
-    canActivate: [AuthGuard],
-    path: "mon-compte",
-    component: EditUserComponent,
-  },
-
-  {
-    canActivate: [AuthGuard],
-    component: UserProfilComponent,
-    path: "admin",
-  },
-  {
-    canActivate: [LoggedGuard],
-    component: ResetPasswordComponent,
-    path: "reset-password",
-  },
-  {
-    canActivate: [LoggedGuard],
-    component: ResetPasswordComponent,
-    path: "reset-password/:userId/:token",
-  },
-  // TODO: migrer l'import vers un module à part
-  {
-    canActivate: [AuthGuard, FacteurGuard],
-    component: ImportComponent,
-    path: "import",
-  },
-  {
-    canActivate: [AuthGuard],
-    component: ManageUsagersComponent,
-    path: "manage",
-  },
-  // Redirections vers les nouveaux modules
+  // ---
+  // DEBUT Redirection
+  // ---
   {
     path: "nouveau",
     redirectTo: "/usager/nouveau",
@@ -75,6 +36,25 @@ export const routes: Routes = [
     path: "rapport-activite",
     redirectTo: "/stats/rapport-activite",
   },
+  {
+    path: "mon-compte",
+    redirectTo: "users/mon-compte",
+  },
+  {
+    path: "admin",
+    redirectTo: "users/admin",
+  },
+  {
+    path: "reset-password",
+    redirectTo: "users/reset-password",
+  },
+  {
+    path: "reset-password/:userId/:token",
+    redirectTo: "users/reset-password/:userId/:token",
+  },
+  // ---
+  // FIN Redirection
+  // ---
   { path: "", component: HomeComponent },
   { path: "faq", component: FaqComponent },
   { path: "contact", component: ContactSupportComponent },
@@ -82,11 +62,30 @@ export const routes: Routes = [
   { path: "mentions-legales", component: MentionsLegalesComponent },
   { path: "confidentialite", component: PolitiqueComponent },
   { path: "cgu", component: CguComponent },
-
+  {
+    canActivate: [LoggedGuard],
+    component: LoginComponent,
+    path: "connexion",
+  },
+  {
+    canActivate: [AuthGuard, FacteurGuard],
+    component: ImportComponent, // TODO: migrer l'import vers un module à part
+    path: "import",
+  },
+  {
+    canActivate: [AuthGuard],
+    component: ManageUsagersComponent,
+    path: "manage",
+  },
   {
     path: "stats",
     loadChildren: () =>
       import("./modules/stats/stats.module").then((m) => m.StatsModule),
+  },
+  {
+    path: "users",
+    loadChildren: () =>
+      import("./modules/users/users.module").then((m) => m.UsersModule),
   },
   {
     path: "usager",
@@ -110,7 +109,7 @@ export const routes: Routes = [
         (m) => m.StructuresModule
       ),
   },
-  // NEW  LAZY LOAD MODULES
+  // 404 Page
   { path: "404", component: NotFoundComponent },
   { path: "**", redirectTo: "404" },
 ];

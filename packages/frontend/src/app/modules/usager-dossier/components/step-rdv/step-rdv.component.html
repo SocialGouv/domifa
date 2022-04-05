@@ -7,11 +7,11 @@
     <div class="step_form" *ngIf="!editRdv">
       <div class="row text-center">
         <div class="col">
-          <h5 class="title">
-            Un entretien pour
-            {{ usager.nom }} {{ usager.prenom }}
-            est déjà programmé
-          </h5>
+          <h2 class="form-title">
+            Un entretien pour {{ usager.nom }} {{ usager.prenom }} est déjà
+            programmé
+          </h2>
+
           <p>
             Le
             <b> {{ usager.rdv.dateRdv | date: "dd/MM/yyyy" }} </b>
@@ -46,13 +46,11 @@
       </div>
     </div>
 
-    <fieldset class="step_form" id="step_form1" *ngIf="editRdv">
-      <div class="text-center">
-        <legend class="title">
-          Quand souhaitez-vous réaliser l'entretien de {{ usager.prenom }} ?
-        </legend>
-        <br />
-      </div>
+    <fieldset class="step_form" *ngIf="editRdv">
+      <legend class="form-title mb-3 text-center">
+        Quand souhaitez-vous réaliser l'entretien de {{ usager.prenom }} ?
+      </legend>
+
       <form ngNativeValidate [formGroup]="rdvForm" (ngSubmit)="submitRdv()">
         <div class="text-center">
           <div
@@ -62,10 +60,10 @@
             }"
           >
             <div class="card-body" (click)="setValueRdv(true)">
-              <h5 class="mb-2 text-center">
+              <div class="form-check-rdv mb-2 text-center">
                 <input
                   autofocus
-                  class="form-check-input"
+                  class="form-check-input me-2"
                   type="radio"
                   formControlName="isNow"
                   id="rdvNow"
@@ -74,7 +72,7 @@
                 <label class="form-check-label" for="rdvNow"
                   >L'entretien a lieu maintenant</label
                 >
-              </h5>
+              </div>
               <p class="card-text">
                 Pas besoin de fixer de date d'entretien ultérieure : l'entretien
                 est réalisé maintenant
@@ -109,9 +107,9 @@
             }"
           >
             <div class="card-body" (click)="setValueRdv(false)">
-              <h5 class="mb-2 text-center">
+              <div class="form-check-rdv mb-2 text-center">
                 <input
-                  class="form-check-input"
+                  class="form-check-input me-2"
                   type="radio"
                   id="rdv"
                   [value]="false"
@@ -120,7 +118,7 @@
                 <label class="form-check-label" for="rdv"
                   >Fixer une date de rendez-vous</label
                 >
-              </h5>
+              </div>
               <p class="card-text">
                 L'entretien sera réalisé plus tard, par vous-même ou un autre
                 collaborateur.
@@ -184,17 +182,26 @@
                     <input
                       type="time"
                       class="form-control"
-                      [ngClass]="{ 'is-invalid': r.heureRdv.invalid }"
+                      [ngClass]="{
+                        'is-invalid':
+                          r.heureRdv.invalid || r.heureRdv.errors?.dateInvalid
+                      }"
                       id="heureRdv"
                       formControlName="heureRdv"
                       required
                     />
                   </div>
                   <p
-                    *ngIf="r.heureRdv.errors"
+                    *ngIf="r.heureRdv.errors?.required"
                     class="small form-text text-center text-danger"
                   >
                     L'heure est obligatoire
+                  </p>
+                  <p
+                    *ngIf="r.heureRdv.errors?.dateInvalid"
+                    class="small form-text text-center text-danger"
+                  >
+                    L'horaire choisi est incorrect
                   </p>
                 </div>
               </div>

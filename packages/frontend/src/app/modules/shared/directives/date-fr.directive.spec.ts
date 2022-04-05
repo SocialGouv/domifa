@@ -1,6 +1,12 @@
-import { Component, DebugElement, ElementRef, Injectable } from "@angular/core";
+import { Component, DebugElement } from "@angular/core";
 
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from "@angular/core/testing";
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { DateFrDirective } from "./date-fr.directive";
 

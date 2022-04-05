@@ -3,45 +3,41 @@ import { HttpClientModule } from "@angular/common/http";
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { RouterModule } from "@angular/router";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { LoginComponent } from "./components/login/login.component";
-
 import { ResetPasswordComponent } from "./components/reset-password/reset-password.component";
 import { UserProfilComponent } from "./components/user-profil/user-profil.component";
-import { UsersService } from "./services/users.service";
 import { RegisterUserAdminComponent } from "./components/register-user-admin/register-user-admin.component";
 import { EditUserComponent } from "./components/edit-user/edit-user.component";
 
 import { SharedModule } from "../shared/shared.module";
+import { UsersRoutingModule } from "./users-routing.module";
 
 @NgModule({
   declarations: [
-    LoginComponent,
     ResetPasswordComponent,
     UserProfilComponent,
     RegisterUserAdminComponent,
     EditUserComponent,
   ],
   exports: [
-    LoginComponent,
     ResetPasswordComponent,
     UserProfilComponent,
     RegisterUserAdminComponent,
     EditUserComponent,
   ],
   imports: [
-    CommonModule,
-    SharedModule,
-    RouterModule.forChild([]),
+    FormsModule,
     HttpClientModule,
     NgbModule,
-    FormsModule,
     ReactiveFormsModule,
+    SharedModule,
+    CommonModule,
+    SharedModule,
+    UsersRoutingModule,
   ],
-  providers: [UsersService],
+  providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class UsersModule {}

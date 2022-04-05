@@ -39,14 +39,20 @@ export class HealthController {
     const frontUrl = domifaConfig().healthz.frontendUrlFromBackend;
     return this.health.check([
       async () => this.postgresIndicator.pingCheck("postgres"),
-      async () =>
-        this.dnsIndicator.pingCheck("frontend", frontUrl).catch((err) => {
-          appLogger.warn(
-            `[HealthController] frontend health check error for "${frontUrl}"`,
-            { sentryBreadcrumb: true }
-          );
-          throw err;
-        }),
+      // Health Check uniquement sur les machines de prod & préprod
+      async () => {
+        return domifaConfig().envId === "prod" ||
+          domifaConfig().envId === "preprod"
+          ? this.dnsIndicator.pingCheck("frontend", frontUrl).catch((err) => {
+              appLogger.warn(
+                `[HealthController] frontend health check error for "${frontUrl}"`,
+                { sentryBreadcrumb: true }
+              );
+              throw err;
+            })
+          : ({ status: "up" } as unknown as HealthIndicatorResult);
+      },
+
       async () => this.version,
     ]);
   }
