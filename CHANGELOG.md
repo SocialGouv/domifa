@@ -1,3 +1,10 @@
+## [2.84.2](https://github.com/SocialGouv/domifa/compare/v2.84.1...v2.84.2) (2022-04-05)
+
+
+### Bug Fixes
+
+* **procurations:** correction des bugs de design suite au passage à bootstrap 5 ([209bb72](https://github.com/SocialGouv/domifa/commit/209bb725703af1fc5963dca32304d313cf1c2cfa))
+
 ## [2.84.1](https://github.com/SocialGouv/domifa/compare/v2.84.0...v2.84.1) (2022-03-31)
 
 
