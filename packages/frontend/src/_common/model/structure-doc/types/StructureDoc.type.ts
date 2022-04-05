@@ -1,6 +1,6 @@
-import { StructureCustomDocType } from ".";
-import { UserStructureCreatedBy } from "../user-structure/UserStructureCreatedBy.type";
-import { AppEntity } from "../_core/AppEntity.type";
+import { UserStructureCreatedBy } from "../../user-structure";
+import { AppEntity } from "../../_core";
+import { StructureCustomDocType } from "./StructureCustomDocType.type";
 
 export type StructureDoc = AppEntity & {
   uuid?: string;

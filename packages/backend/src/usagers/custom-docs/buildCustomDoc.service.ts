@@ -9,7 +9,6 @@ import { format } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 import { fr } from "date-fns/locale";
 import { TimeZone } from "../../util/territoires";
-import { isRegExp } from "util/types";
 
 export const DATE_FORMAT = {
   JOUR: "dd/MM/yyyy",
@@ -42,7 +41,6 @@ export function buildCustomDoc({
   let dateDebutDom: Date;
   let dateFinDom: Date;
 
-  console.log(usager.decision);
   if (usager.decision.statut === "RADIE") {
     usager.historique.forEach((decision: UsagerDecision) => {
       if (decision.statut === "VALIDE") {
@@ -59,7 +57,7 @@ export function buildCustomDoc({
         }
       }
     });
-    console.log(" Aucune date défini, on cherche la date de premième Dom");
+
     // Aucune date défini, on cherche la date de premième Dom
     if (!dateDebutDom || !dateFinDom) {
       // Date de premiere Dom par défaut
@@ -74,7 +72,6 @@ export function buildCustomDoc({
       }
     }
   } else {
-    console.log("usager.decision.dateDebut");
     dateDebutDom = usager.decision.dateDebut;
     dateFinDom = usager.decision.dateFin;
   }
@@ -82,7 +79,6 @@ export function buildCustomDoc({
   // Motif de refus
   const motif = generateMotifLabel(usager.decision);
   // Procu & transfert
-  console.log(motif);
   const transfert = usager.options.transfert;
   const procuration = usager.options.procurations[0] ?? {
     prenom: null,

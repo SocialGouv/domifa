@@ -99,11 +99,16 @@ export class UsersService {
     );
   }
 
-  public resetPassword(data: any) {
+  public resetPassword(data: { email: string }) {
     return this.http.post(`${this.endPoint}/reset-password`, data);
   }
 
-  public updatePassword(data: any): Observable<ApiMessage> {
+  public updatePassword(data: {
+    confirmPassword: string;
+    password: string;
+    token: string;
+    userId: number;
+  }): Observable<ApiMessage> {
     return this.http.post<ApiMessage>(`${this.endPoint}/edit-password`, data);
   }
 

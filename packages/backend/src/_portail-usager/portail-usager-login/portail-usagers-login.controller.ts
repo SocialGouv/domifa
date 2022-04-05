@@ -28,7 +28,6 @@ export class PortailUsagersLoginController {
     @Res() res: ExpressResponse,
     @Body() loginDto: UsagerLoginDto
   ) {
-    console.log(loginDto);
     try {
       const user = await userUsagerSecurityPasswordChecker.checkPassword({
         login: loginDto.login,

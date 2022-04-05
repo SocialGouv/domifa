@@ -21,12 +21,12 @@
             'is-invalid': f.login.dirty && f.login.errors
           }"
         />
-        <div
+        <p
           *ngIf="f.login.dirty && f.login.errors"
           class="invalid-feedback-custom"
         >
           Veuillez vérifier l'identifiant
-        </div>
+        </p>
       </div>
       <ng-container *ngIf="this.mode === 'login-change-password'">
         <p>

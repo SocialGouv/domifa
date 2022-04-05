@@ -99,6 +99,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   }
 
   public hideForm(): void {
+    this.submitted = false;
     this.isFormVisible = false;
   }
 

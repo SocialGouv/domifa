@@ -57,6 +57,7 @@ export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
       })
       .subscribe({
         next: (usager) => {
+          this.filteredNotes = usager.notes.filter((x) => !x.archived);
           this.toastService.success("Note archivée avec succès");
           this.usagerChanges.emit(usager);
         },

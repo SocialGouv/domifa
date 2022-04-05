@@ -13,7 +13,11 @@ import {
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { UsagerLight } from "../../../../../_common/model";
+import {
+  UsagerAyantDroit,
+  UsagerFormAyantDroit,
+  UsagerLight,
+} from "../../../../../_common/model";
 import { languagesAutocomplete } from "../../../../shared";
 import {
   minDateNaissance,
@@ -145,14 +149,23 @@ export class ProfilEtatCivilFormComponent implements OnInit {
 
       const usagerFormValues = this.usagerForm.value;
 
-      usagerFormValues.ayantsDroits.map((ayantDroit: any) => {
-        ayantDroit.dateNaissance = new Date(
-          this.nbgDate.formatEn(ayantDroit.dateNaissance)
+      const ayantsDroits: UsagerAyantDroit[] =
+        usagerFormValues.ayantsDroits.map(
+          (ayantDroit: UsagerFormAyantDroit) => {
+            return {
+              lien: ayantDroit.lien,
+              nom: ayantDroit.nom,
+              prenom: ayantDroit.prenom,
+              dateNaissance: new Date(
+                this.nbgDate.formatEn(ayantDroit.dateNaissance)
+              ),
+            };
+          }
         );
-      });
 
       const formValue: UsagerFormModel = {
         ...usagerFormValues,
+        ayantsDroits,
         dateNaissance: this.nbgDate.formatEn(
           this.usagerForm.controls.dateNaissance.value
         ),

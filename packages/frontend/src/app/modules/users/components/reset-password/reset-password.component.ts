@@ -125,14 +125,14 @@ export class ResetPasswordComponent implements OnInit {
   public submitEmailForm() {
     this.submitted = true;
     if (!this.emailForm.invalid) {
-      this.userService.getPasswordToken(this.emailForm.value).subscribe(
-        () => {
+      this.userService.getPasswordToken(this.emailForm.value).subscribe({
+        next: () => {
           this.success = true;
         },
-        () => {
+        error: () => {
           this.toastService.error("Veuillez vérifier l'adresse email");
-        }
-      );
+        },
+      });
     }
   }
 

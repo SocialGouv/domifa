@@ -121,6 +121,14 @@
 .table > :not(:first-child) {
   border-top: 0 !important;
 }
+
 .table th .btn-primary {
   background-color: var(--bs-primary);
+}
+
+thead th {
+  font-style: normal;
+  font-weight: 700;
+  border-bottom: 1px solid #e5e7ef;
+  transition: all 0.2s ease;
 }

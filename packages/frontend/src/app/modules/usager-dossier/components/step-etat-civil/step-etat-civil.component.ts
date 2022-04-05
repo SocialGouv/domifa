@@ -110,7 +110,7 @@ export class StepEtatCivilComponent implements OnInit {
     private titleService: Title
   ) {
     this.doublons = [];
-
+    this.me = null;
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());

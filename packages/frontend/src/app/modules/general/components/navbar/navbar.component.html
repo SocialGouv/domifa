@@ -200,7 +200,7 @@
                     <a
                       ngbDropdownItem
                       aria-label="Gestion de mon compte"
-                      routerLink="/mon-compte"
+                      routerLink="/users/mon-compte"
                     >
                       <fa-icon
                         aria-hidden="true"
@@ -211,7 +211,7 @@
                     <a
                       ngbDropdownItem
                       *ngIf="me.role === 'admin' || me.role === 'responsable'"
-                      routerLink="/admin"
+                      routerLink="/users/comptes"
                       aria-label="Gestion des utilisateurs"
                     >
                       <fa-icon [icon]="['fas', 'users']"> </fa-icon>

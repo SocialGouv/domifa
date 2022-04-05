@@ -1,4 +1,8 @@
-import { STRUCTURE_DOC_EXTENSIONS_LABELS, UsagerDoc } from "src/_common/model";
+import {
+  STRUCTURE_DOC_EXTENSIONS,
+  STRUCTURE_DOC_EXTENSIONS_LABELS,
+  UsagerDoc,
+} from "src/_common/model";
 import {
   Component,
   ElementRef,
@@ -51,7 +55,7 @@ export class DisplayUsagerDocsComponent implements OnInit {
     this.documentService.getDocument(this.usager.ref, i).subscribe({
       next: (blob: Blob) => {
         const doc = this.usager.docs[i];
-        const extension = doc.filetype.split("/")[1];
+        const extension = STRUCTURE_DOC_EXTENSIONS[doc.filetype];
         const newBlob = new Blob([blob], { type: doc.filetype });
 
         fileSaver.saveAs(
@@ -59,7 +63,6 @@ export class DisplayUsagerDocsComponent implements OnInit {
           this.slugLabel(doc.label) +
             "_" +
             this.slugLabel(this.usager.nom + " " + this.usager.prenom) +
-            "." +
             extension
         );
         this.stopLoading("download", i);

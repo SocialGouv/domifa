@@ -4,6 +4,7 @@ import * as fileSaver from "file-saver";
 import {
   StructureDoc,
   StructureDocTypesAvailable,
+  STRUCTURE_DOC_EXTENSIONS,
   STRUCTURE_DOC_ICONS,
 } from "../../../../../_common/model/structure-doc";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
@@ -111,12 +112,10 @@ export class ProfilStructureDocsComponent implements OnInit {
       .getStructureCustomDoc(this.usager.ref, structureDoc.uuid)
       .subscribe({
         next: (blob: Blob) => {
-          const extension = structureDoc.filetype.split("/")[1];
+          const extension = STRUCTURE_DOC_EXTENSIONS[structureDoc.filetype];
+          const newBlob = new Blob([blob], { type: structureDoc.filetype });
 
-          const newBlob = new Blob([blob], {
-            type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-          });
-          fileSaver.saveAs(newBlob, structureDoc.label + "." + extension);
+          fileSaver.saveAs(newBlob, structureDoc.label + extension);
           this.stopLoading(structureDoc.uuid);
         },
         error: () => {

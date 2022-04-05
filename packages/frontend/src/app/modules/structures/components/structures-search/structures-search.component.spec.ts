@@ -17,24 +17,21 @@ describe("StructuresSearchComponent", () => {
   let component: StructuresSearchComponent;
   let fixture: ComponentFixture<StructuresSearchComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [StructuresSearchComponent],
-        imports: [
-          UsersModule,
-          NgbModule,
-          ReactiveFormsModule,
-          FormsModule,
-
-          HttpClientTestingModule,
-          RouterTestingModule,
-        ],
-        providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [StructuresSearchComponent],
+      imports: [
+        UsersModule,
+        NgbModule,
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StructuresSearchComponent);

@@ -17,7 +17,7 @@ RUN yarn --frozen-lockfile && yarn cache clean
 WORKDIR /app
 COPY ./packages/backend /app
 # NOTE: cp is faster than mv in a docker container
-RUN cp -R /tmp/app-yarn/node_modules  /app/node_modules 
+RUN cp -R /tmp/app-yarn/node_modules  /app/node_modules
 
 # build app
 RUN yarn build

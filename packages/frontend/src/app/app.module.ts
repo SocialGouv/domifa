@@ -33,7 +33,6 @@ import { HealthCheckService } from "./modules/shared/services/health-check";
 import { SharedModule } from "./modules/shared/shared.module";
 
 import { UsagersModule } from "./modules/usagers/usagers.module";
-import { UsersModule } from "./modules/users/users.module";
 import { UsagerSharedModule } from "./modules/usager-shared/usager-shared.module";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 
@@ -69,7 +68,6 @@ if (environment.production) {
     UsagerSharedModule,
     UsagersModule,
     CountUpModule,
-    UsersModule,
     UserIdleModule.forRoot({ idle: 3600, timeout: 60, ping: 120 }),
   ],
   providers: [
