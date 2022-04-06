@@ -60,6 +60,7 @@ export class StepRdvComponent implements OnInit {
   /* Config datepickers */
   public dToday = new Date();
   public loading = false;
+  public submitted = false;
 
   public minDateToday: NgbDateStruct;
   public maxDateRdv: NgbDateStruct;
@@ -77,6 +78,7 @@ export class StepRdvComponent implements OnInit {
   ) {
     this.editRdv = true;
     this.rdvIsToday = false;
+    this.submitted = false;
     this.maxDateRdv = {
       day: this.dToday.getDate(),
       month: this.dToday.getMonth() + 1,
@@ -150,6 +152,8 @@ export class StepRdvComponent implements OnInit {
           }
         }
       });
+
+    this.rdvForm.get("jourRdv").setValue(this.usager.rdv.jourRdv);
 
     this.editRdv = this.usager.rdv.userId === null;
 
@@ -248,18 +252,12 @@ export class StepRdvComponent implements OnInit {
         return null;
       }
 
-      console.log(control.value);
-
       const heureRdv = control.value.split(":");
 
       const dateRdv: Date = setMinutes(
         setHours(new Date(), heureRdv[0]),
         heureRdv[1]
       );
-
-      console.log(dateRdv);
-      console.log(new Date());
-      console.log(dateRdv < new Date());
 
       return dateRdv < new Date() ? { dateInvalid: true } : null;
     };

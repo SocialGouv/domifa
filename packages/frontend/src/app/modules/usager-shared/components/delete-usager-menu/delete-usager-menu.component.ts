@@ -1,9 +1,14 @@
+import { UsagerFormModel } from "./../../interfaces/UsagerFormModel";
+import { UsagerDecisionStatut } from "./../../../../../_common/model/usager/decision/UsagerDecisionStatut.type";
 import { Component, Input, OnInit, TemplateRef } from "@angular/core";
 import { Router } from "@angular/router";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
-import { UsagerLight, UserStructure } from "../../../../../_common/model";
-import { AuthService } from "../../../shared/services/auth.service";
+import {
+  USAGER_DECISION_STATUT_LABELS,
+  UserStructure,
+} from "../../../../../_common/model";
+
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { UsagerProfilService } from "../../../usager-profil/services/usager-profil.service";
 import { UsagerDecisionService } from "../../services/usager-decision.service";
@@ -14,12 +19,14 @@ import { UsagerDecisionService } from "../../services/usager-decision.service";
   templateUrl: "./delete-usager-menu.component.html",
 })
 export class DeleteUsagerMenuComponent implements OnInit {
-  @Input() public usager!: UsagerLight;
-  public me: UserStructure;
+  @Input() public usager!: UsagerFormModel;
+  @Input() public me!: UserStructure;
+
+  public previousStatus: string;
 
   constructor(
     private router: Router,
-    private authService: AuthService,
+
     private modalService: NgbModal,
     private usagerProfilService: UsagerProfilService,
     private usagerDecisionService: UsagerDecisionService,
@@ -27,13 +34,14 @@ export class DeleteUsagerMenuComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      this.me = user;
-    });
+    this.getPreviousStatus();
   }
 
-  public getPreviousStatus(): string {
-    return this.usager.historique[1].statut;
+  public getPreviousStatus(): void {
+    this.previousStatus =
+      USAGER_DECISION_STATUT_LABELS[
+        this.usager.historique[this.usager.historique.length - 2].statut
+      ];
   }
 
   public open(content: TemplateRef<NgbModalRef>): void {

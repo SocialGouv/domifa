@@ -18,6 +18,7 @@ import {
   NgbModal,
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
+import { arTN } from "date-fns/locale";
 import { MatomoTracker } from "ngx-matomo";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
@@ -109,6 +110,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     (this.procurationsForm.controls.procurations as FormArray).push(
       this.newProcuration(procuration)
     );
+    this.submitted = false;
   }
 
   public initForm(): void {
@@ -227,6 +229,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
           setTimeout(() => {
             this.closeModals();
             this.hideForm();
+            this.submitted = false;
             this.usagerChanges.emit(usager);
             this.procurationsForm.reset();
             this.usager = new UsagerFormModel(usager);
