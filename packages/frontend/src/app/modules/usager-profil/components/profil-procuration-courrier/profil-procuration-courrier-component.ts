@@ -18,7 +18,6 @@ import {
   NgbModal,
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
-import { arTN } from "date-fns/locale";
 import { MatomoTracker } from "ngx-matomo";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";

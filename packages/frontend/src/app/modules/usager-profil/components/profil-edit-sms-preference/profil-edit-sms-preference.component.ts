@@ -22,6 +22,7 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
   @Input() public me: UserStructure;
 
   public submitted: boolean;
+  public loading: boolean;
   public preferenceForm: FormGroup;
 
   public editPreferences: boolean;
@@ -31,6 +32,7 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
     private toastService: CustomToastService,
     private usagerProfilService: UsagerProfilService
   ) {
+    this.loading = false;
     this.submitted = false;
     this.me = null;
     this.usager = null;
@@ -76,6 +78,7 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
     } else {
+      this.loading = true;
       const preference: UsagerPreferenceContact = {
         ...this.preferenceForm.value,
         email: false,
@@ -90,11 +93,13 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
         .subscribe({
           next: (usager: UsagerLight) => {
             this.submitted = false;
+            this.loading = false;
             this.editPreferences = false;
             this.toastService.success("Enregistrement des préférences réussi");
             this.usager = new UsagerFormModel(usager);
           },
           error: () => {
+            this.loading = false;
             this.toastService.error(
               "Veuillez vérifier les champs du formulaire"
             );
