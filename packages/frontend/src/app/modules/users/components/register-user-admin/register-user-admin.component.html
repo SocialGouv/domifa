@@ -65,15 +65,15 @@
         class="form-select"
         required
       >
-        <option [value]="null"></option>
+        <option></option>
         <option value="admin">Administrateur</option>
         <option value="responsable">Gestionnaire</option>
         <option value="simple">Instructeur</option>
         <option value="facteur">Facteur</option>
       </select>
-      <div *ngIf="submitted && f.role.errors" class="invalid-feedback">
+      <p *ngIf="submitted && f.role.errors" class="invalid-feedback">
         Le rôle est obligatoire
-      </div>
+      </p>
     </div>
     <div class="col-12 text-center">
       <input
