@@ -35,6 +35,7 @@ import { SharedModule } from "./modules/shared/shared.module";
 import { UsagersModule } from "./modules/usagers/usagers.module";
 import { UsagerSharedModule } from "./modules/usager-shared/usager-shared.module";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
+import { NgxMatIntlTelInputModule } from "ngx-mat-intl-tel-input";
 
 import pkg from "../../package.json";
 import { UserIdleModule } from "angular-user-idle";
@@ -69,6 +70,7 @@ if (environment.production) {
     UsagersModule,
     CountUpModule,
     UserIdleModule.forRoot({ idle: 3600, timeout: 60, ping: 120 }),
+    NgxMatIntlTelInputModule,
   ],
   providers: [
     AuthService,

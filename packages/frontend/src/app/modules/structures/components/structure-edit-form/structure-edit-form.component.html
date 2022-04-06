@@ -1,3 +1,19 @@
+<form id="phoneForm" [formGroup]="phoneForm">
+  toto
+  <div>
+    <ngx-mat-intl-tel-input
+      [preferredCountries]="['us', 'gb']"
+      [enablePlaceholder]="true"
+      placeholder="Enter Number"
+      [enableSearch]="true"
+      name="phone"
+      describedBy="phoneInput"
+      formControlName="phone"
+      #phone
+    ></ngx-mat-intl-tel-input>
+  </div>
+</form>
+
 <h4 class="title">Modifier les informations de votre structure</h4>
 <form
   *ngIf="structure"

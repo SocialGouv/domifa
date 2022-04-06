@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -14,6 +14,7 @@ import { regexp } from "../../../../shared/validators";
 import { StructureService } from "../../services/structure.service";
 import { structureNameChecker } from "./structureNameChecker.service";
 import { DEPARTEMENTS_LISTE } from "../../../../shared";
+import { NgxMatIntlTelInputComponent } from "ngx-mat-intl-tel-input";
 
 @Component({
   selector: "app-structure-edit-form",
@@ -21,7 +22,10 @@ import { DEPARTEMENTS_LISTE } from "../../../../shared";
   styleUrls: ["./structure-edit-form.component.css"],
 })
 export class StructureEditFormComponent implements OnInit {
+  @ViewChild(NgxMatIntlTelInputComponent)
+  phoneInput: NgxMatIntlTelInputComponent;
   public structureForm: FormGroup;
+  public phoneForm: FormGroup;
 
   public DEPARTEMENTS_LISTE = DEPARTEMENTS_LISTE;
   public loading = false;
@@ -43,6 +47,10 @@ export class StructureEditFormComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.phoneForm = this.formBuilder.group({
+      phone: [""],
+    });
+
     const adresseRequired =
       this.structure.adresseCourrier.actif === true
         ? [Validators.required]
