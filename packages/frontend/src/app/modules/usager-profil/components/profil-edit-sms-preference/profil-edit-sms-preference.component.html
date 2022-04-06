@@ -95,7 +95,7 @@
         digitOnly
         formControlName="phoneNumber"
         aria-describedby="phoneHelp"
-        [ngClass]="{ 'is-invalid': formPref.phoneNumber.errors }"
+        [ngClass]="{ 'is-invalid': submitted && formPref.phoneNumber.errors }"
         placeholder="0606060606"
         maxlength="10"
         required
@@ -110,10 +110,14 @@
   <div class="col-md-4 offset-md-4 text-center">
     <button
       type="submit"
-      [disabled]="preferenceForm.invalid"
+      [disabled]="loading"
       class="btn btn-primary btn-block"
     >
-      Enregistrer les préférences
+      <span *ngIf="!loading">Enregistrer les préférences</span>
+      <span *ngIf="loading">
+        <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+        Veuillez patientez...
+      </span>
     </button>
   </div>
 </form>

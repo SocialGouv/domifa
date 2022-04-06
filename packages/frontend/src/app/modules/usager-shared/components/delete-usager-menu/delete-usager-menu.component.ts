@@ -1,5 +1,4 @@
 import { UsagerFormModel } from "./../../interfaces/UsagerFormModel";
-import { UsagerDecisionStatut } from "./../../../../../_common/model/usager/decision/UsagerDecisionStatut.type";
 import { Component, Input, OnInit, TemplateRef } from "@angular/core";
 import { Router } from "@angular/router";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
