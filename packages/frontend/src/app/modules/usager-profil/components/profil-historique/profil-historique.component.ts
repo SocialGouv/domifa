@@ -8,8 +8,8 @@ import {
   UsagerLight,
   UserStructure,
   UsagerOptionsHistory,
+  USAGER_DECISION_STATUT_LABELS_PROFIL,
 } from "../../../../../_common/model";
-import { DECISION_LABELS } from "../../../../shared/constants/USAGER_LABELS.const";
 import { getUsagerNomComplet } from "../../../../shared/getUsagerNomComplet";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
@@ -21,16 +21,17 @@ import { UsagerService } from "../../../usagers/services/usager.service";
   styleUrls: ["./profil-historique.component.css"],
 })
 export class ProfilHistoriqueComponent implements OnInit {
-  public me: UserStructure;
-  public usager: UsagerFormModel;
+  public me!: UserStructure;
+  public usager!: UsagerFormModel;
 
-  public DECISION_LABELS = DECISION_LABELS;
+  public DECISION_LABELS = USAGER_DECISION_STATUT_LABELS_PROFIL;
 
   public actions = {
     EDIT: "Modification",
     DELETE: "Suppression",
     CREATION: "Création",
   };
+
   public transfertHistory: UsagerOptionsHistory[];
   public procurationHistory: UsagerOptionsHistory[];
 
@@ -44,6 +45,8 @@ export class ProfilHistoriqueComponent implements OnInit {
     private router: Router
   ) {
     this.me = null;
+    this.transfertHistory = [];
+    this.procurationHistory = [];
   }
 
   ngOnInit(): void {
@@ -54,9 +57,13 @@ export class ProfilHistoriqueComponent implements OnInit {
     this.usagerService.findOne(this.route.snapshot.params.id).subscribe({
       next: (usager: UsagerLight) => {
         {
-          this.usager = new UsagerFormModel(usager);
           const name = getUsagerNomComplet(usager);
           this.titleService.setTitle("Historique de " + name);
+          this.usager = new UsagerFormModel(usager);
+
+          this.usager.historique.sort((a, b) => {
+            return b.dateDecision.getTime() - a.dateDecision.getTime();
+          });
           this.getHistoriqueOptions();
         }
       },

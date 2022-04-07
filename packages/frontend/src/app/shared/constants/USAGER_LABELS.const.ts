@@ -1,35 +1,11 @@
-/* TYPE DE STRUCTURE */
-export const structureType = {
-  asso: "Organisme agrée",
-  ccas: "CCAS",
-  cias: "CIAS",
-};
+import { AyantDroiLienParent } from "../../../_common/model";
 
 /* LIENS DE PARENTÉ */
-export const LIENS_PARENTE: { [key: string]: string } = {
+export const LIENS_PARENTE: { [key in AyantDroiLienParent]: string } = {
   AUTRE: "Autre personne à la charge du domicilié",
   CONJOINT: "Conjoint.e",
   ENFANT: "Enfant",
   PARENT: "Parent",
-};
-
-/* DÉCISIONS */
-export const DECISION_LABELS: { [key: string]: string } = {
-  ATTENTE_DECISION: "Demande de domiciliation déposée",
-  INSTRUCTION: "Instruction du dossier",
-  RADIE: "Radiation",
-  REFUS: "Demande refusée",
-  VALIDE: "Domiciliation acceptée",
-};
-
-/* DÉCISIONS */
-export const DECISION_STATUT_LABELS: { [key: string]: string } = {
-  TOUS: "Tous",
-  ATTENTE_DECISION: "Attente de décision",
-  INSTRUCTION: "À compléter",
-  RADIE: "Radiés",
-  REFUS: "Refusés",
-  VALIDE: "Actifs",
 };
 
 /* QUESTIONS RÉPONSES DE L'ENTRETIEN SOCIAL */
