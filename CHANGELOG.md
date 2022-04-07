@@ -1,3 +1,12 @@
+## [2.84.3](https://github.com/SocialGouv/domifa/compare/v2.84.2...v2.84.3) (2022-04-07)
+
+
+### Bug Fixes
+
+* **bootstrap:** Correction des modals ([08cc807](https://github.com/SocialGouv/domifa/commit/08cc80784a21c06fba4b27d08a79afaeb0d486d0))
+* **dumps:** Mise à jour du dump de test ([9f566af](https://github.com/SocialGouv/domifa/commit/9f566afed70d129bc405a5d804909608f4a85958))
+* **guide:** Mise à jour du guide ([5faa338](https://github.com/SocialGouv/domifa/commit/5faa338e434179a8690801a73df638fc2cd6d5cb))
+
 ## [2.84.2](https://github.com/SocialGouv/domifa/compare/v2.84.1...v2.84.2) (2022-04-05)
 
 
