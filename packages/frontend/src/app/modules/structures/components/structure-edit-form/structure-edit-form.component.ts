@@ -3,7 +3,6 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  FormControl,
   Validators,
 } from "@angular/forms";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
@@ -27,17 +26,15 @@ import { DEPARTEMENTS_LISTE } from "../../../../shared";
   styleUrls: ["./structure-edit-form.component.css"],
 })
 export class StructureEditFormComponent implements OnInit {
-  separateDialCode = false;
-  SearchCountryField = SearchCountryField;
-  CountryISO = CountryISO;
-  PhoneNumberFormat = PhoneNumberFormat;
-  preferredCountries: CountryISO[] = [
+  public separateDialCode = false;
+  public SearchCountryField = SearchCountryField;
+  public CountryISO = CountryISO;
+  public PhoneNumberFormat = PhoneNumberFormat;
+  public preferredCountries: CountryISO[] = [
     CountryISO.UnitedStates,
     CountryISO.UnitedKingdom,
   ];
-  phoneForm = new FormGroup({
-    phone: new FormControl(undefined, [Validators.required]),
-  });
+  public phoneForm: FormGroup;
 
   changePreferredCountries() {
     this.preferredCountries = [CountryISO.India, CountryISO.Canada];
@@ -65,6 +62,10 @@ export class StructureEditFormComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.phoneForm = this.formBuilder.group({
+      phone: [undefined, [Validators.required]],
+    });
+
     const adresseRequired =
       this.structure.adresseCourrier.actif === true
         ? [Validators.required]

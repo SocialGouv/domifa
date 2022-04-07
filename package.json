@@ -36,7 +36,8 @@
       "**/@angular-devkit/*",
       "**/@angular-devkit/*/**",
       "**/@angular-eslint/*",
-      "**/@angular-eslint/*/**"
+      "**/@angular-eslint/*/**",
+      "**/intl-tel-input/*/**"
     ]
   },
   "packageManager": "yarn@1.22.18"
