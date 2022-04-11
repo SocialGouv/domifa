@@ -21,9 +21,6 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/assets"],
             "styles": [
-              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
-              "./node_modules/intl-tel-input/build/css/intlTelInput.css",
               "src/styles.scss",
               "src/assets/css/bootstrap-custom.css",
               "src/assets/css/forms.css",
@@ -38,7 +35,8 @@
               "src/assets/css/tailwind/tailwind-width-partial.css",
               "src/assets/css/tailwind/tailwind-table.css",
               "src/assets/css/tailwind/tailwind-whitespace.css",
-              "src/assets/css/util.css"
+              "src/assets/css/util.css",
+              "node_modules/intl-tel-input/build/css/intlTelInput.css"
             ],
             "scripts": [],
             "aot": false,

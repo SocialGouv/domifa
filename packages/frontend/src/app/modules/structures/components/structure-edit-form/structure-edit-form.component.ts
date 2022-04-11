@@ -2,23 +2,24 @@ import { Component, Input, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
 } from "@angular/forms";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
-import {
-  SearchCountryField,
-  CountryISO,
-  PhoneNumberFormat,
-} from "ngx-intl-tel-input";
 
 import { StructureCommon } from "../../../../../_common/model";
 import { regexp } from "../../../../shared/validators";
 import { StructureService } from "../../services/structure.service";
 import { structureNameChecker } from "./structureNameChecker.service";
 import { DEPARTEMENTS_LISTE } from "../../../../shared";
+import {
+  CountryISO,
+  PhoneNumberFormat,
+  SearchCountryField,
+} from "ngx-intl-tel-input";
 
 @Component({
   selector: "app-structure-edit-form",
@@ -31,14 +32,18 @@ export class StructureEditFormComponent implements OnInit {
   public CountryISO = CountryISO;
   public PhoneNumberFormat = PhoneNumberFormat;
   public preferredCountries: CountryISO[] = [
-    CountryISO.UnitedStates,
-    CountryISO.UnitedKingdom,
+    CountryISO.France,
+    CountryISO.FrenchGuiana,
+    CountryISO.FrenchPolynesia,
+    CountryISO.Guadeloupe,
+    CountryISO.Martinique,
+    CountryISO.Réunion,
+    CountryISO.Mayotte,
+    CountryISO.SaintPierreAndMiquelon,
   ];
-  public phoneForm: FormGroup;
-
-  changePreferredCountries() {
-    this.preferredCountries = [CountryISO.India, CountryISO.Canada];
-  }
+  public phoneForm = new FormGroup({
+    phone: new FormControl(undefined, [Validators.required]),
+  });
 
   public structureForm: FormGroup;
 
@@ -191,5 +196,9 @@ export class StructureEditFormComponent implements OnInit {
 
   isInvalidStructureName(structureName: string) {
     return structureNameChecker.isInvalidStructureName(structureName);
+  }
+
+  changePreferredCountries() {
+    this.preferredCountries = [CountryISO.India, CountryISO.Canada];
   }
 }
