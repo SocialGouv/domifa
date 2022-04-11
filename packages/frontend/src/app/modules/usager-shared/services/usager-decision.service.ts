@@ -4,9 +4,11 @@ import { Observable } from "rxjs";
 import { map, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import {
+  UsagerDecision,
   UsagerDecisionRadiationForm,
   UsagerDecisionRefusForm,
   UsagerDecisionValideForm,
+  UsagerHistoryState,
   UsagerLight,
 } from "../../../../_common/model";
 
@@ -59,6 +61,14 @@ export class UsagerDecisionService {
           usagersCache.updateUsager(usager);
         })
       );
+  }
+
+  public getHistoriqueDecisions(
+    usagerRef: number
+  ): Observable<UsagerHistoryState[]> {
+    return this.http.get<UsagerHistoryState[]>(
+      `${this.endPointDecision}/historique/${usagerRef}`
+    );
   }
 
   public getLastFiveCustomRef(usagerRef: number): Observable<UsagerLight[]> {

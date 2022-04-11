@@ -1,3 +1,5 @@
+import { UsagerDecision } from "./../../_common/model/usager/UsagerDecision.type";
+import { usagerHistoryRepository } from "./../../database/services/usager/usagerHistoryRepository.service";
 import {
   Body,
   Controller,
@@ -20,6 +22,7 @@ import { usagerLightRepository } from "../../database";
 
 import {
   ETAPE_ETAT_CIVIL,
+  UsagerHistoryState,
   UsagerLight,
   UserStructureAuthenticated,
 } from "../../_common/model";
@@ -47,6 +50,25 @@ export class UsagersDecisionController {
     return await this.usagersService.setDecision(
       { uuid: usager.uuid },
       decision
+    );
+  }
+
+  @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
+  @Get("historique/:usagerRef")
+  public async getHistorique(
+    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentUsager() usager: UsagerLight
+  ) {
+    console.log("historique");
+    const historique = await usagerHistoryRepository.findOne({
+      usagerUUID: usager.uuid,
+    });
+
+    return historique.states.filter(
+      (state) =>
+        state.createdEvent === "new-decision" ||
+        state.createdEvent === "delete-decision"
     );
   }
 

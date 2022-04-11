@@ -4,6 +4,7 @@ export * from "./constants";
 export * from "./decision";
 export * from "./dossier";
 export * from "./entretien";
+export * from "./history";
 export * from "./options";
 export * from "./rdv";
 export * from "./Usager.type";

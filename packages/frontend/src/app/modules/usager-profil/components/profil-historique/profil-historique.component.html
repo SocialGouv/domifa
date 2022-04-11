@@ -11,7 +11,7 @@
     <div class="page-content p-4">
       <div class="row">
         <div class="col-md-12">
-          <h4>Historique des décisions</h4>
+          <h4>Historique des décisions ACTUEL</h4>
           <div class="alert alert-info" *ngIf="usager.historique.length === 0">
             Aucun historique de décision n'est enregistré
           </div>
@@ -28,7 +28,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let histo of usager.historique">
-                <td>{{ histo.dateDecision | date: "dd/MM/yyyy" }}</td>
+                <td>{{ histo.dateDecision | date: "dd/MM/yyyy à HH:mm" }}</td>
                 <td>
                   {{ DECISION_LABELS[histo.statut] }}
                   <span
@@ -48,6 +48,50 @@
                   </div>
                 </td>
                 <td>{{ histo.userName }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h4>Historique des décisions NOUVEAU</h4>
+          <div class="alert alert-info" *ngIf="newHistorique.length === 0">
+            Aucun historique de décision n'est enregistré
+          </div>
+          <table *ngIf="newHistorique.length > 0" class="table table-hover">
+            <caption class="visually-hidden">
+              Historique des décisions
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Type de décision</th>
+                <th scope="col">Responsable</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let histo of newHistorique">
+                <td>
+                  {{ histo.decision.dateDecision | date: "dd/MM/yyyy à HH:mm" }}
+                </td>
+                <td>
+                  <b *ngIf="histo.createdEvent === 'delete-decision'"
+                    >Supprimé</b
+                  >
+                  {{ DECISION_LABELS[histo.decision.statut] }}
+                  <span *ngIf="histo.decision.statut === 'VALIDE'">
+                    du
+                    <b> {{ histo.decision.dateDebut | date: "dd/MM/yyyy" }} </b>
+                    au
+                    <b>{{ histo.decision.dateFin | date: "dd/MM/yyyy" }}</b>
+                  </span>
+                  <div *ngIf="histo.decision.statut === 'RADIE'">
+                    - {{ histo.decision.motifString }}
+                  </div>
+                </td>
+                <td>{{ histo.decision.userName }}</td>
               </tr>
             </tbody>
           </table>
@@ -79,7 +123,7 @@
               <tr *ngFor="let procu of procurationHistory">
                 <td>
                   {{ actions[procu.action] }} le
-                  {{ procu.createdAt | date: "dd/MM/yyyy" }} par
+                  {{ procu.createdAt | date: "dd/MM/yyyy à HH:mm" }} par
                   {{ procu.userName }}
                 </td>
                 <td>{{ procu.nom }} {{ procu.prenom }}</td>
