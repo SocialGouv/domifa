@@ -1,3 +1,10 @@
+## [2.84.4](https://github.com/SocialGouv/domifa/compare/v2.84.3...v2.84.4) (2022-04-12)
+
+
+### Bug Fixes
+
+* **general:** correction de bugs mineurs sur les rdv ([08756ba](https://github.com/SocialGouv/domifa/commit/08756baa1623e99595bbcc25f92737f52fab4d43))
+
 ## [2.84.3](https://github.com/SocialGouv/domifa/compare/v2.84.2...v2.84.3) (2022-04-07)
 
 
