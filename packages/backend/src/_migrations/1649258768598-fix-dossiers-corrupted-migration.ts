@@ -1,7 +1,8 @@
+import { UsagerHistory } from "./../_common/model/usager/history/UsagerHistory.type";
 import { format } from "date-fns";
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { domifaConfig } from "../config";
-import { usagerRepository } from "../database";
+import { usagerHistoryRepository, usagerRepository } from "../database";
 import { appLogger } from "../util";
 import { Usager } from "../_common/model";
 
@@ -18,16 +19,22 @@ export class fixCorruptedDossiersMigration1649258768598
         "[MIGRATION] Correction des dates de premières dom manquantes"
       );
 
-      const usagers: Usager[] = await (
-        await usagerRepository.typeorm()
+      const usagersHistory: UsagerHistory[] = await (
+        await usagerHistoryRepository.typeorm()
       ).query(
-        `select * from usager u where "datePremiereDom" IS null AND "typeDom" is  null`
+        `select "usagerUUID", states from  usager_history uh where EXISTS (
+          SELECT TRUE
+          FROM jsonb_array_elements(states) x
+          WHERE x->>'createdEvent' IN ('delete-decision'))`
       );
 
       const updated = [];
       const notUpdated = [];
 
-      for (const usager of usagers) {
+      for (const usagerHistory of usagersHistory) {
+        const usager: Usager = await (
+          await usagerRepository.typeorm()
+        ).findOne({ uuid: usagerHistory.usagerUUID });
         let datePremiereDom = null;
         let typeDom = null;
 
@@ -86,7 +93,7 @@ export class fixCorruptedDossiersMigration1649258768598
       }
 
       console.log(
-        `${usagers.length} = ${updated.length} + ${notUpdated.length}`
+        `${usagersHistory.length} = ${updated.length} + ${notUpdated.length}`
       );
     }
   }
