@@ -137,11 +137,13 @@ export class StepRdvComponent implements OnInit {
     this.rdvForm
       .get("jourRdv")
       .valueChanges.subscribe((value: NgbDateStruct) => {
+        let isValueToday = false;
+
         if (!this.r.jourRdv.invalid) {
           const jourRdv = new Date(this.nbgDate.formatEn(value));
 
           if (differenceInDays(jourRdv, new Date()) === 0) {
-            this.rdvIsToday = true;
+            isValueToday = true;
 
             this.rdvForm.controls.heureRdv.setValue(
               format(addMinutes(new Date(), 1), "HH:mm"),
@@ -151,6 +153,8 @@ export class StepRdvComponent implements OnInit {
             );
           }
         }
+        this.rdvIsToday = isValueToday;
+        this.rdvForm.controls.heureRdv.updateValueAndValidity();
       });
 
     this.rdvForm.get("jourRdv").setValue(this.usager.rdv.jourRdv);

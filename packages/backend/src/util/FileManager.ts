@@ -5,7 +5,6 @@ import { appLogger } from ".";
 // Liste des extensions autorisé selon le contexte
 export const mimeTypes = {
   STRUCTURE_CUSTOM_DOC: [
-    "application/msword",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   ],
   STRUCTURE_DOC: [
@@ -35,6 +34,7 @@ export const mimeTypes = {
 };
 
 export const extensions = {
+  STRUCTURE_CUSTOM_DOC: [".docx"],
   STRUCTURE_DOC: [
     ".jpg",
     ".jpeg",
@@ -48,7 +48,6 @@ export const extensions = {
     ".ots",
     ".ods",
   ],
-
   IMPORT: [".xls", ".xlsx", ".ots", ".ods"],
   USAGER_DOC: [".jpg", ".jpeg", ".png", ".pdf", ".gif", ".bmp"],
 };
@@ -61,7 +60,6 @@ export function deleteFile(pathFile: string) {
   setTimeout(() => {
     try {
       fs.unlinkSync(pathFile);
-      appLogger.debug("[FILES] Delete file success - " + pathFile);
     } catch (err) {
       appLogger.error("[FILES] Delete file fail - " + pathFile, {
         sentry: true,
