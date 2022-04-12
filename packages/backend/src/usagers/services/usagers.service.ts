@@ -255,6 +255,8 @@ export class UsagersService {
     if (rdv.isNow) {
       usager.etapeDemande = ETAPE_ENTRETIEN;
       usager.rdv.dateRdv = subMinutes(new Date(), 1);
+    } else {
+      usager.etapeDemande = ETAPE_RENDEZ_VOUS;
     }
 
     usager = await usagerLightRepository.updateOne(

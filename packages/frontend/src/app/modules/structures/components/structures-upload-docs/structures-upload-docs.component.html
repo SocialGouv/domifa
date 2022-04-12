@@ -3,13 +3,6 @@
     >Télécharger un document pré-rempli
   </span>
   <span class="modal-title" *ngIf="!isCustomDoc">Télécharger un document</span>
-
-  <button
-    class="btn-close"
-    type="button"
-    aria-label="Annuler le téléchargement"
-    (click)="cancel.emit()"
-  ></button>
 </div>
 <div class="modal-body">
   <form ngNativeValidate [formGroup]="uploadForm" (ngSubmit)="submitFile()">

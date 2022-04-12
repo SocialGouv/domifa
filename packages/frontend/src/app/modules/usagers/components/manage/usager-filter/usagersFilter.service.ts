@@ -1,6 +1,4 @@
-import { isFuture, isPast } from "date-fns";
-
-import { UsagerLight } from "../../../../../../_common/model";
+import { UsagerLight, ETAPE_ENTRETIEN } from "../../../../../../_common/model";
 import {
   usagerEcheanceChecker,
   usagerInteractionTypeChecker,
@@ -75,19 +73,15 @@ function filterByCriteria(
     });
   } else if (criteria.entretien === "COMING") {
     return usagers.filter((usager) => {
-      if (usager.rdv === null) return false;
-
-      const date = new Date(usager.rdv.dateRdv);
-
-      return isFuture(date);
+      return usager.rdv === null || usager.etapeDemande > ETAPE_ENTRETIEN
+        ? false
+        : new Date() < new Date(usager.rdv.dateRdv);
     });
   } else if (criteria.entretien === "OVERDUE") {
     return usagers.filter((usager) => {
-      if (usager.rdv === null) return false;
-
-      const date = new Date(usager.rdv.dateRdv);
-
-      return isPast(date);
+      return usager.rdv === null || usager.etapeDemande > ETAPE_ENTRETIEN
+        ? false
+        : new Date() > new Date(usager.rdv.dateRdv);
     });
   }
   return usagers;

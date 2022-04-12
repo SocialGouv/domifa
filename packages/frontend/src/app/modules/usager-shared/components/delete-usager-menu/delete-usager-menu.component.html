@@ -50,13 +50,6 @@
 <ng-template #deleteConfirmation let-modal>
   <div class="modal-header bg-danger">
     <span class="text-white modal-title" id="modal-title">Attention !</span>
-    <button
-      title="Fermer la fenêtre"
-      class="btn-close"
-      type="button"
-      aria-label="Fermer la fenêtre"
-      (click)="closeModals()"
-    ></button>
   </div>
   <div class="modal-body text-center">
     <p>
@@ -90,16 +83,6 @@
 <ng-template #deleteRenewConfirmation let-modal>
   <div class="modal-header bg-danger">
     <span class="text-white modal-title" id="modal-title">Attention !</span>
-    <button
-      class="btn-close"
-      type="button"
-      aria-label="Revenir au profil"
-      (click)="closeModals()"
-    >
-      <span class="visually-hidden"
-        >Fermer la fenêtre et revenir au profil</span
-      >
-    </button>
   </div>
   <p class="modal-body py-3 text-center">
     Si vous supprimez cette demande de renouvellement, l'usager retrouvera son
