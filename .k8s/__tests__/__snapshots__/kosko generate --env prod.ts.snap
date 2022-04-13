@@ -554,7 +554,7 @@ spec:
         team: domifa
     spec:
       containers:
-        - image: metabase/metabase:v0.41.6
+        - image: metabase/metabase:v0.42.4
           livenessProbe:
             failureThreshold: 6
             httpGet:
