@@ -13,4 +13,5 @@ export type UsagerDecisionMotif =
   | "SATURATION"
 
   // AUTRE
-  | "AUTRE";
+  | "AUTRE"
+  | null;

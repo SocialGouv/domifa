@@ -257,6 +257,8 @@ function buildHistoryState({
     ...usager.decision,
   };
 
+  // !!! Corriger ici
+  // TODO: centraliser la fonction qui détermine le isActive entre le frontend & backend
   const previousState = usagerHistory?.states.length
     ? usagerHistory.states[usagerHistory.states.length - 1]
     : undefined;

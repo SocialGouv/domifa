@@ -43,6 +43,7 @@ export class UsagersService {
     usager.customRef = `${usager.ref}`;
 
     usager.decision = {
+      motif: null,
       uuid: uuidGenerator.random(),
       dateDecision: now,
       statut: "INSTRUCTION",
@@ -102,6 +103,7 @@ export class UsagersService {
     }
 
     usager.decision = {
+      motif: null,
       uuid: uuidGenerator.random(),
       dateDebut: now,
       dateDecision: now,
