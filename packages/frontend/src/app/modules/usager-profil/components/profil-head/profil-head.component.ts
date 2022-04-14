@@ -10,6 +10,7 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import {
+  ETAPES_DEMANDE_URL,
   UsagerLight,
   UserStructure,
   UserStructureRole,
@@ -30,7 +31,8 @@ export class ProfilHeadComponent implements OnInit {
   @Input() public me: UserStructure;
 
   @Input() public section: string;
-
+  public loading: boolean;
+  public ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
   public today: Date;
 
   @ViewChild("renewModal", { static: true })
@@ -47,12 +49,14 @@ export class ProfilHeadComponent implements OnInit {
     private readonly usagerDecisionService: UsagerDecisionService,
     private readonly documentService: DocumentService
   ) {
+    this.loading = false;
     this.today = new Date();
   }
 
   public ngOnInit(): void {}
 
   public closeModals(): void {
+    this.loading = false;
     this.modalService.dismissAll();
   }
 
@@ -66,6 +70,7 @@ export class ProfilHeadComponent implements OnInit {
   }
 
   public renouvellement(): void {
+    this.loading = true;
     this.usagerDecisionService.renouvellement(this.usager.ref).subscribe({
       next: (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
@@ -73,9 +78,11 @@ export class ProfilHeadComponent implements OnInit {
         this.toastService.success(
           "Votre demande a été enregistrée. Merci de remplir l'ensemble du dossier"
         );
+        this.loading = false;
         this.router.navigate(["usager/" + usager.ref + "/edit"]);
       },
       error: () => {
+        this.loading = false;
         this.toastService.error("Impossible d'enregistrer cette interaction");
       },
     });

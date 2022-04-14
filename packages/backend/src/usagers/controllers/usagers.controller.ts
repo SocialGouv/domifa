@@ -448,7 +448,7 @@ export class UsagersController {
     } catch (err) {
       console.error(err);
       const pdfInfos = generateCerfaDatas(usager, user, typeCerfa);
-      console.error(pdfInfos);
+
       appLogger.error(
         `CERFA ERROR structure : ${user.structureId} / usager :${usager.ref} `,
         {

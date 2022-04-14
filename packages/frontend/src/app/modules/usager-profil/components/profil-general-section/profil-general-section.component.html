@@ -35,9 +35,7 @@
             class="alert"
             [ngClass]="usager.rdvInfos.class ? 'alert-danger' : 'alert-warning'"
             *ngIf="
-              usager.decision.statut === 'INSTRUCTION' &&
-              usager.typeDom === 'RENOUVELLEMENT' &&
-              !isRole('facteur')
+              usager.decision.statut === 'INSTRUCTION' && !isRole('facteur')
             "
           >
             <div aria-hidden="true" class="svg-icon icon-calendar"></div>
@@ -48,7 +46,12 @@
               }}
 
               <a
-                [routerLink]="['/usager/' + usager.ref + '/edit']"
+                [routerLink]="[
+                  '/usager/' +
+                    usager.ref +
+                    '/edit/' +
+                    ETAPES_DEMANDE_URL[usager.etapeDemande]
+                ]"
                 class="ms-2"
               >
                 Compléter la demande

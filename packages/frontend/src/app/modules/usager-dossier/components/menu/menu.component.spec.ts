@@ -12,25 +12,23 @@ describe("MenuComponent", () => {
   let component: MenuComponent;
   let fixture: ComponentFixture<MenuComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        schemas: [NO_ERRORS_SCHEMA],
-        imports: [
-          RouterTestingModule,
-          NgbModule,
-          ReactiveFormsModule,
-          FormsModule,
-          HttpClientTestingModule,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      schemas: [NO_ERRORS_SCHEMA],
+      imports: [
+        RouterTestingModule,
+        NgbModule,
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientTestingModule,
 
-          HttpClientTestingModule,
-        ],
-        declarations: [MenuComponent],
-      });
-      fixture = TestBed.createComponent(MenuComponent);
-      component = fixture.componentInstance;
-    })
-  );
+        HttpClientTestingModule,
+      ],
+      declarations: [MenuComponent],
+    });
+    fixture = TestBed.createComponent(MenuComponent);
+    component = fixture.componentInstance;
+  }));
 
   it("can load instance", () => {
     expect(component).toBeTruthy();
@@ -46,8 +44,8 @@ describe("MenuComponent", () => {
     ]);
   });
 
-  it(`etapesUrl has default value`, () => {
-    expect(component.etapesUrl).toEqual([
+  it(`ETAPES_DEMANDE_URL has default value`, () => {
+    expect(component.ETAPES_DEMANDE_URL).toEqual([
       `etat-civil`,
       `rendez-vous`,
       `entretien`,
