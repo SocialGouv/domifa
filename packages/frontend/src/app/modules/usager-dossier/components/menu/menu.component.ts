@@ -24,7 +24,7 @@ export class MenuComponent implements OnInit {
     "Décision finale",
   ];
 
-  public etapesUrl = ETAPES_DEMANDE_URL;
+  public ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
 
   public me: UserStructure;
 
@@ -63,7 +63,10 @@ export class MenuComponent implements OnInit {
         );
       } else {
         this.router.navigate([
-          "usager/" + this.usager.ref + "/edit/" + this.etapesUrl[step],
+          "usager/" +
+            this.usager.ref +
+            "/edit/" +
+            this.ETAPES_DEMANDE_URL[step],
         ]);
       }
     }

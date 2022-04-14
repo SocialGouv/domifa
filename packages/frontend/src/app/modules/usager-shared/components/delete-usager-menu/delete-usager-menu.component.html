@@ -9,7 +9,7 @@
         class="btn btn-danger"
         type="button"
         id="delete-usager"
-        *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
+        *ngIf="hasHistorique"
         (click)="open(deleteRenewConfirmation)"
       >
         <fa-icon [icon]="['fas', 'trash']" class="me-2"></fa-icon>
@@ -20,7 +20,7 @@
         title="Supprimer cette demande"
         class="btn btn-danger"
         id="delete-usager"
-        *ngIf="usager.typeDom === 'PREMIERE_DOM' && usager.etapeDemande > 0"
+        *ngIf="!hasHistorique"
         (click)="open(deleteConfirmation)"
       >
         <fa-icon [icon]="['fas', 'trash']" class="me-2"></fa-icon>
@@ -85,14 +85,31 @@
     <span class="text-white modal-title" id="modal-title">Attention !</span>
   </div>
   <p class="modal-body py-3 text-center">
-    Si vous supprimez cette demande de renouvellement, l'usager retrouvera son
+    Une demande de domiciliation a été créée le <br />
+    <b
+      >{{ usager.decision.dateDecision | date: "dd/MM/yyyy à HH:mm" }} par
+      {{ usager.decision.userName }}.</b
+    >
+
+    <br />
+    <br />
+    Si vous confirmer la suppression de cette demande, l'usager retrouvera son
     précédent statut :
     <b>{{ previousStatus }}</b>
     <br />
   </p>
   <div class="modal-footer">
-    <button class="btn btn-lg btn-danger" (click)="deleteRenew()">
-      Confirmer la suppression
+    <button
+      class="btn btn-lg btn-danger"
+      (click)="deleteRenew()"
+      [disabled]="loading"
+    >
+      <span *ngIf="!loading"> Confirmer la suppression</span>
+
+      <span *ngIf="loading"
+        ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+        Veuillez patienter...</span
+      >
     </button>
     <button class="btn btn-lg btn-outline-dark" (click)="closeModals()">
       Revenir au profil

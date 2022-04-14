@@ -25,15 +25,15 @@
       </div>
 
       <div class="px-0 mx-0 text-end" *ngIf="!isRole('facteur')">
-        <ng-container
-          *ngIf="
-            usager.decision.statut === 'INSTRUCTION' &&
-            usager.typeDom === 'RENOUVELLEMENT'
-          "
-        >
+        <ng-container *ngIf="usager.decision.statut === 'INSTRUCTION'">
           <a
             title="Compléter la demande"
-            [routerLink]="['/usager/' + usager.ref + '/edit']"
+            [routerLink]="[
+              '/usager/' +
+                usager.ref +
+                '/edit/' +
+                ETAPES_DEMANDE_URL[usager.etapeDemande]
+            ]"
             class="btn btn-white-primary ms-2"
           >
             <fa-icon [icon]="['fas', 'redo']" class="me-2"></fa-icon>
@@ -191,13 +191,14 @@
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-outline-dark" (click)="closeModals()">
-      Revenir au profil
-    </button>
-
-    <button class="btn btn-primary" (click)="renouvellement()">
+    <button
+      class="btn btn-lg btn-primary"
+      (click)="renouvellement()"
+      [disabled]="loading"
+    >
       <span
         *ngIf="
+          !loading &&
           usager.decision.statut !== 'RADIE' &&
           usager.decision.statut !== 'REFUS'
         "
@@ -206,12 +207,19 @@
       </span>
       <span
         *ngIf="
-          usager.decision.statut === 'RADIE' ||
+          (!loading && usager.decision.statut === 'RADIE') ||
           usager.decision.statut === 'REFUS'
         "
       >
         Créer une nouvelle demande
       </span>
+      <span *ngIf="loading"
+        ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+        Veuillez patienter...</span
+      >
+    </button>
+    <button class="btn btn-lg btn-outline-dark" (click)="closeModals()">
+      Revenir au profil
     </button>
   </div>
 </ng-template>

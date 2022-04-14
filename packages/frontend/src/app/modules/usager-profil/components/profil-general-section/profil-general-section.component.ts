@@ -17,7 +17,10 @@ import {
   InteractionType,
 } from "../../../../../_common/model/interaction";
 import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../_common/model/interaction/constants";
-import { USAGER_DECISION_STATUT_LABELS } from "../../../../../_common/model/usager/constants";
+import {
+  ETAPES_DEMANDE_URL,
+  USAGER_DECISION_STATUT_LABELS,
+} from "../../../../../_common/model/usager/constants";
 import {
   minDateNaissance,
   formatDateToNgb,
@@ -49,6 +52,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
   public today: Date;
   public me!: UserStructure;
 
+  public ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
   public minDateNaissance: NgbDateStruct;
   public maxDateNaissance: NgbDateStruct;
 

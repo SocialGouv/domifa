@@ -141,18 +141,16 @@ export class UsagerFormModel implements UsagerLight {
       this.datePremiereDom = new Date(usager.datePremiereDom);
     }
 
-    this.historique = [];
+    this.historique =
+      usager && usager.historique
+        ? usager.historique.map((decision: UsagerDecision) => {
+            return new Decision(decision);
+          })
+        : [];
 
-    if (usager && usager.historique) {
-      this.historique = [];
-      usager.historique.forEach((decision: UsagerDecision) => {
-        this.historique.push(new Decision(decision));
-      });
-
-      this.historique.sort((a, b) => {
-        return b.dateDecision.getTime() - a.dateDecision.getTime();
-      });
-    }
+    this.historique.sort((a, b) => {
+      return b.dateDecision.getTime() - a.dateDecision.getTime();
+    });
 
     this.lastInteraction = {
       dateInteraction: null,

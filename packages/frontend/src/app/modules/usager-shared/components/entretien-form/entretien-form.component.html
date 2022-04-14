@@ -174,8 +174,12 @@
             class="form-control"
             formControlName="liencommuneDetail"
             placeholder="Précisez le lien avec la commune"
+            [ngClass]="{ 'is-invalid': e.liencommune.errors }"
             required
           />
+          <p *ngIf="e.liencommune.errors" class="invalid-feedback">
+            Le lien avec la commune est obligatoire
+          </p>
         </div>
       </div>
 
@@ -231,7 +235,7 @@
           </label>
         </div>
 
-        <div class="form-group required" *ngIf="e.residence.value === 'AUTRE'">
+        <div class="form-group" *ngIf="e.residence.value === 'AUTRE'">
           <label class="form-check-label" for="residence_autre_contenu">
             Autre situation résidentielle
           </label>
@@ -241,7 +245,6 @@
             class="form-control"
             formControlName="residenceDetail"
             placeholder="Précisez le lieu de résidence"
-            required
           />
         </div>
       </fieldset>
@@ -288,8 +291,12 @@
             class="form-control"
             formControlName="causeDetail"
             placeholder="Précisez l'autre cause"
+            [ngClass]="{ 'is-invalid': e.cause.errors }"
             required
           />
+          <p *ngIf="e.cause.errors" class="invalid-feedback">
+            Précisez l'autre cause
+          </p>
         </div>
       </fieldset>
 

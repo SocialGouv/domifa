@@ -21,7 +21,9 @@ export class DeleteUsagerMenuComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
 
+  public hasHistorique: boolean;
   public previousStatus: string;
+  public loading: boolean;
 
   constructor(
     private router: Router,
@@ -30,16 +32,38 @@ export class DeleteUsagerMenuComponent implements OnInit {
     private usagerProfilService: UsagerProfilService,
     private usagerDecisionService: UsagerDecisionService,
     private toastService: CustomToastService
-  ) {}
+  ) {
+    this.loading = false;
+    this.hasHistorique = false;
+  }
 
   public ngOnInit(): void {
+    this.hasHistorique =
+      typeof this.usager.historique.find(
+        (decision) =>
+          decision.statut === "REFUS" ||
+          decision.statut === "RADIE" ||
+          decision.statut === "VALIDE"
+      ) !== "undefined";
+
     this.getPreviousStatus();
   }
 
   public getPreviousStatus(): void {
+    // On tri du plus récent au plus ancien
+    const historique = this.usager.historique.sort((a, b) => {
+      return (
+        new Date(a.dateDecision).getTime() - new Date(b.dateDecision).getTime()
+      );
+    });
+
+    // Fix temporaire = si instruction dans l'historique, on prend la valeure juste avant
+    const index =
+      historique[historique.length - 1].statut === "INSTRUCTION" ? 2 : 1;
+
     this.previousStatus =
       USAGER_DECISION_STATUT_LABELS[
-        this.usager.historique[this.usager.historique.length - 2].statut
+        historique[historique.length - index].statut
       ];
   }
 
@@ -52,21 +76,25 @@ export class DeleteUsagerMenuComponent implements OnInit {
   }
 
   public deleteUsager(): void {
+    this.loading = true;
     this.usagerProfilService.delete(this.usager.ref).subscribe({
       next: () => {
         this.toastService.success("Usager supprimé avec succès");
         setTimeout(() => {
           this.modalService.dismissAll();
+          this.loading = false;
           this.router.navigate(["/manage"]);
         }, 1000);
       },
       error: () => {
+        this.loading = false;
         this.toastService.error("Impossible de supprimer la fiche");
       },
     });
   }
 
   public deleteRenew(): void {
+    this.loading = true;
     this.usagerDecisionService.deleteRenew(this.usager.ref).subscribe({
       next: () => {
         this.toastService.success(
@@ -75,10 +103,12 @@ export class DeleteUsagerMenuComponent implements OnInit {
 
         setTimeout(() => {
           this.modalService.dismissAll();
+          this.loading = false;
           this.router.navigate(["/manage"]);
         }, 1000);
       },
       error: () => {
+        this.loading = false;
         this.toastService.error(
           "La demande de renouvellement n'a pas pu être supprimée"
         );

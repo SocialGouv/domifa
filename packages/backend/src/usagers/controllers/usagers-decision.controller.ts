@@ -81,15 +81,29 @@ export class UsagersDecisionController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
-    if (usager.typeDom === "RENOUVELLEMENT") {
+    const hasHistorique =
+      typeof usager.historique.find(
+        (decision) =>
+          decision.statut === "REFUS" ||
+          decision.statut === "RADIE" ||
+          decision.statut === "VALIDE"
+      ) !== "undefined";
+
+    if (hasHistorique) {
       usager.etapeDemande = ETAPE_ETAT_CIVIL;
 
-      const [decisionToRollback] = usager.historique.splice(
-        usager.historique.length - 1,
-        1
-      );
+      // Fix temporaire = si instruction dans l'historique, on prend la valeure juste avant
+      const index =
+        usager.historique[usager.historique.length - 1].statut === "INSTRUCTION"
+          ? 1
+          : 2;
 
-      usager.decision = usager.historique[usager.historique.length - 1];
+      usager.historique.splice(usager.historique.length - index, index);
+
+      const decisionToRollback =
+        usager.historique[usager.historique.length - 1];
+
+      usager.decision = decisionToRollback;
 
       if (decisionToRollback) {
         // on garde trace du changement dans l'historique, car il peut y avoir eu aussi d'autres changements entre temps
@@ -108,6 +122,7 @@ export class UsagersDecisionController {
       const result = await usagerLightRepository.updateOne(
         { uuid: usager.uuid },
         {
+          historique: usager.historique,
           etapeDemande: usager.etapeDemande,
           decision: usager.decision,
         }
