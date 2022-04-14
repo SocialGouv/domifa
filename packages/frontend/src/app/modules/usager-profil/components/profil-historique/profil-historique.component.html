@@ -170,5 +170,11 @@
         </div>
       </div>
     </div>
+
+    <app-delete-usager-menu
+      (usagerChanges)="onUsagerChanges($event)"
+      [usager]="usager"
+      [me]="me"
+    ></app-delete-usager-menu>
   </div>
 </div>

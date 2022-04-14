@@ -17,5 +17,9 @@
     (usagerChanges)="onUsagerChanges($event)"
   ></app-step-footer>
 
-  <app-delete-usager-menu [me]="me" [usager]="usager"></app-delete-usager-menu>
+  <app-delete-usager-menu
+    (usagerChanges)="onUsagerChanges($event)"
+    [me]="me"
+    [usager]="usager"
+  ></app-delete-usager-menu>
 </div>

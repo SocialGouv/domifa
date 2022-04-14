@@ -1,6 +1,13 @@
 import { UsagerLight } from "./../../../../../_common/model/usager/UsagerLight.type";
 import { UsagerFormModel } from "./../../interfaces/UsagerFormModel";
-import { Component, Input, OnInit, TemplateRef } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  TemplateRef,
+} from "@angular/core";
 import { Router } from "@angular/router";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
@@ -21,6 +28,7 @@ import { UsagerDecisionService } from "../../services/usager-decision.service";
 export class DeleteUsagerMenuComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
+  @Output() usagerChanges = new EventEmitter<UsagerLight>();
 
   public hasHistorique: boolean;
   public previousStatus: string;
@@ -101,6 +109,8 @@ export class DeleteUsagerMenuComponent implements OnInit {
         this.toastService.success(
           "Demande de renouvellement supprimée avec succès"
         );
+        this.usagerChanges.emit(usager);
+
         this.usager = new UsagerFormModel(usager);
 
         setTimeout(() => {

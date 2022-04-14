@@ -527,8 +527,9 @@
   ></app-step-footer>
 
   <app-delete-usager-menu
-    class="my-5"
+    (usagerChanges)="onUsagerChanges($event)"
     [me]="me"
     [usager]="usager"
+    class="my-4"
   ></app-delete-usager-menu>
 </div>
