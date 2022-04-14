@@ -1,3 +1,10 @@
+## [2.84.5](https://github.com/SocialGouv/domifa/compare/v2.84.4...v2.84.5) (2022-04-14)
+
+
+### Bug Fixes
+
+* upgrade metabase ([b17f0c8](https://github.com/SocialGouv/domifa/commit/b17f0c8d1026deccd67ca14f270343a617e5c431))
+
 ## [2.84.4](https://github.com/SocialGouv/domifa/compare/v2.84.3...v2.84.4) (2022-04-12)
 
 
