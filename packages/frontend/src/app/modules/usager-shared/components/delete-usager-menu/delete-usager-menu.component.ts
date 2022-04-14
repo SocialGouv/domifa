@@ -1,3 +1,4 @@
+import { UsagerLight } from "./../../../../../_common/model/usager/UsagerLight.type";
 import { UsagerFormModel } from "./../../interfaces/UsagerFormModel";
 import { Component, Input, OnInit, TemplateRef } from "@angular/core";
 import { Router } from "@angular/router";
@@ -96,10 +97,11 @@ export class DeleteUsagerMenuComponent implements OnInit {
   public deleteRenew(): void {
     this.loading = true;
     this.usagerDecisionService.deleteRenew(this.usager.ref).subscribe({
-      next: () => {
+      next: (usager: UsagerLight) => {
         this.toastService.success(
           "Demande de renouvellement supprimée avec succès"
         );
+        this.usager = new UsagerFormModel(usager);
 
         setTimeout(() => {
           this.modalService.dismissAll();

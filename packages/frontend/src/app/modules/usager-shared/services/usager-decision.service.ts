@@ -23,9 +23,13 @@ export class UsagerDecisionService {
 
   constructor(private http: HttpClient) {}
   public renouvellement(usagerRef: number): Observable<UsagerLight> {
-    return this.http.get<UsagerLight>(
-      `${this.endPointDecision}/renouvellement/${usagerRef}`
-    );
+    return this.http
+      .get<UsagerLight>(`${this.endPointDecision}/renouvellement/${usagerRef}`)
+      .pipe(
+        tap((usager: UsagerLight) => {
+          usagersCache.updateUsager(usager);
+        })
+      );
   }
 
   public deleteRenew(usagerRef: number): Observable<UsagerLight> {
@@ -33,7 +37,11 @@ export class UsagerDecisionService {
       .delete<UsagerLight>(
         `${this.endPointDecision}/renouvellement/${usagerRef}`
       )
-      .pipe();
+      .pipe(
+        tap((usager: UsagerLight) => {
+          usagersCache.updateUsager(usager);
+        })
+      );
   }
 
   public setDecision(
