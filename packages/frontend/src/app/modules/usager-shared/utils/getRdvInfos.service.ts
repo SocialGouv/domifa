@@ -35,7 +35,7 @@ export const getRdvInfos = (usager: Partial<UsagerLight>): UsagerRdvInfos => {
   // Rdv passé
   else {
     // On Affiche ou masque selon que l'entretien est fait
-    if (usager.etapeDemande < ETAPE_ENTRETIEN) {
+    if (usager.etapeDemande <= ETAPE_ENTRETIEN) {
       rdvDisplay.display = true;
       rdvDisplay.class = "text-danger";
     }

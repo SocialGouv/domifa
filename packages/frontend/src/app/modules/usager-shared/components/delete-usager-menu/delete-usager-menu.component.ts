@@ -104,7 +104,7 @@ export class DeleteUsagerMenuComponent implements OnInit {
         setTimeout(() => {
           this.modalService.dismissAll();
           this.loading = false;
-          this.router.navigate(["/manage"]);
+          this.router.navigate(["profil/general/" + this.usager.ref]);
         }, 1000);
       },
       error: () => {
