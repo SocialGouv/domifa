@@ -244,9 +244,9 @@
     ></app-step-footer>
 
     <app-delete-usager-menu
+      (usagerChanges)="onUsagerChanges($event)"
       [usager]="usager"
       [me]="me"
-      [currentStep]="1"
     ></app-delete-usager-menu>
   </div>
 </div>

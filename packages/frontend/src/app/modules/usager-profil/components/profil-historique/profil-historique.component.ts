@@ -80,4 +80,8 @@ export class ProfilHistoriqueComponent implements OnInit {
         );
       });
   }
+
+  public onUsagerChanges(usager: UsagerLight): void {
+    this.usager = new UsagerFormModel(usager);
+  }
 }

@@ -96,8 +96,9 @@
       </div>
     </div>
     <app-delete-usager-menu
-      [me]="me"
+      (usagerChanges)="onUsagerChanges($event)"
       [usager]="usager"
+      [me]="me"
     ></app-delete-usager-menu>
   </div>
 </div>
