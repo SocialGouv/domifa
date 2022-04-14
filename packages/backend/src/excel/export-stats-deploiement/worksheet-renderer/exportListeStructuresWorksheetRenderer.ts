@@ -39,6 +39,7 @@ function renderWorksheet({
     { key: "usagersValideCount" },
     { key: "lastLogin" },
     { key: "codePostal" },
+    { key: "ville" },
     { key: "departementCode" },
     { key: "departementLabel" },
     { key: "regionCode" },
