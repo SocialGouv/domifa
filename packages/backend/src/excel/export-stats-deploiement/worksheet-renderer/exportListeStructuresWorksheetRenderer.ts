@@ -77,6 +77,7 @@ function buildRows(stats: StatsDeploiementExportModel): XlRowModel[] {
           stats.usagersValideCountByStructureId[structure.id] || 0,
         lastLogin: xlFormater.toLocalTimezone(structure.lastLogin),
         codePostal: structure.codePostal,
+        ville: structure.ville.toUpperCase().trim(),
         departementCode: structure.departement,
         departementLabel: departement?.departmentName,
         regionCode: structure.region,
