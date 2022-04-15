@@ -1,3 +1,22 @@
+# [2.85.0](https://github.com/SocialGouv/domifa/compare/v2.84.5...v2.85.0) (2022-04-15)
+
+
+### Bug Fixes
+
+* add export ville ([523e7f3](https://github.com/SocialGouv/domifa/commit/523e7f3bdde9454b530050ebd061c73c39d9b79c))
+* code postal dans le fichier de suivi ([8368066](https://github.com/SocialGouv/domifa/commit/8368066d90f000a6cc852b747d1a676e7de63f3e))
+* colonne export ([9dad137](https://github.com/SocialGouv/domifa/commit/9dad1374be9d7ba70d418388e4650115db32905c))
+* erreurs des dates ([6c0b1d0](https://github.com/SocialGouv/domifa/commit/6c0b1d003ecda9deb10be12dfc9ffe760d668c4e))
+* mise à jour de la page ([20df4e6](https://github.com/SocialGouv/domifa/commit/20df4e6a5db3b284a1eee319a7774bef0f3b6b42))
+* rafraichissement de la page ([8961dcf](https://github.com/SocialGouv/domifa/commit/8961dcf0e7ba0efa6da8997a36a9bef0f827dbab))
+* rdv date ([6e402ab](https://github.com/SocialGouv/domifa/commit/6e402ab10b6f72b4427a82c714fd28384ab7c18a))
+* sms send date ([81211b0](https://github.com/SocialGouv/domifa/commit/81211b0d9b6b0aa35b1cb47bb012dcfd99d8f7c2))
+
+
+### Features
+
+* **renouvellement:** Correction des bugs empêchant la suppression d'un renouvellement ([eacb2fb](https://github.com/SocialGouv/domifa/commit/eacb2fbcd20a0cef24b0a2509711b7ec645bf145))
+
 ## [2.84.5](https://github.com/SocialGouv/domifa/compare/v2.84.4...v2.84.5) (2022-04-14)
 
 
