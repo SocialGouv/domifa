@@ -273,14 +273,14 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           "DOMIFA_CRON_SMS_CONSUMER_CRONTIME",
           {
             //defaultValue: "0 19 * * TUE,THU",
-            defaultValue: "0 11 * * *",
+            defaultValue: "30 11 * * *",
           }
         ),
         fetchEndDomCronTim: configParser.parseString(
           x,
           "DOMIFA_CRON_FETCH_END_DOM_CRONTIME",
           {
-            defaultValue: "0 11 * * *",
+            defaultValue: "30 11 * * *",
             // defaultValue: "0 0 18 * * *",
           }
         ),
@@ -288,7 +288,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           x,
           "DOMIFA_CRON_SEND_END_DOM_CRONTIME",
           {
-            defaultValue: "0 12 * * *",
+            defaultValue: "30 12 * * *",
             //defaultValue: "0 19 * * *",
           }
         ),

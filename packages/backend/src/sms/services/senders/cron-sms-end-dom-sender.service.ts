@@ -104,9 +104,11 @@ export class CronSmsEndDomSenderService {
       return;
     }
 
-    if (!domifaConfig().cron.enable || !domifaConfig().sms.enabled) {
+    if (!domifaConfig().sms.enabled) {
       // Désactiver tous les SMS en attente
-      appLogger.warn(`[CronSms] Disable all SMS to Send`);
+      appLogger.warn(
+        `[CronSms] [sendSmsUsagerEndDom] Disable all SMS to Send for  ${timeZone}`
+      );
       return this.messageSmsSenderService.disableAllSmsToSend();
     }
 
