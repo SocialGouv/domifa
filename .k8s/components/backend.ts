@@ -50,8 +50,9 @@ export const getManifests = async () => {
           path: probesPath,
           port: "http",
         },
-        initialDelaySeconds: 60,
-        periodSeconds: 1200,
+        failureThreshold: 300,
+        initialDelaySeconds: 30,
+        periodSeconds: 15,
       },
     }),
     {}
