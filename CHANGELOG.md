@@ -1,3 +1,10 @@
+## [2.85.1](https://github.com/SocialGouv/domifa/compare/v2.85.0...v2.85.1) (2022-04-15)
+
+
+### Bug Fixes
+
+* activation des sms ([75a4f00](https://github.com/SocialGouv/domifa/commit/75a4f0003a8a536ddc6d083ab125d90c5bf53a49))
+
 # [2.85.0](https://github.com/SocialGouv/domifa/compare/v2.84.5...v2.85.0) (2022-04-15)
 
 
