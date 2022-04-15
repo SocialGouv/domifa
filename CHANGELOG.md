@@ -1,3 +1,10 @@
+## [2.85.3](https://github.com/SocialGouv/domifa/compare/v2.85.2...v2.85.3) (2022-04-15)
+
+
+### Bug Fixes
+
+* Derniers correctifs sur les SMS ([193c4fd](https://github.com/SocialGouv/domifa/commit/193c4fdf279e5fc2d0ead6fb5817b31ad6d03ef5))
+
 ## [2.85.2](https://github.com/SocialGouv/domifa/compare/v2.85.1...v2.85.2) (2022-04-15)
 
 
