@@ -34,8 +34,10 @@ export class Decision implements UsagerDecision {
   constructor(decision?: UsagerDecision) {
     this.uuid = decision?.uuid;
     this.typeDom = decision?.typeDom;
-    this.dateDebut = (decision && new Date(decision.dateDebut)) || undefined;
-    this.dateFin = (decision && new Date(decision.dateFin)) || undefined;
+    this.dateDebut =
+      decision && decision.dateDebut ? new Date(decision.dateDebut) : null;
+    this.dateFin =
+      decision && decision.dateFin ? new Date(decision.dateFin) : null;
     this.dateDecision =
       (decision && new Date(decision.dateDecision)) || new Date();
     this.statut = (decision && decision.statut) || "INSTRUCTION";

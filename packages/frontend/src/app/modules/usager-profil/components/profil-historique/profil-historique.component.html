@@ -31,6 +31,12 @@
                 <td>{{ histo.dateDecision | date: "dd/MM/yyyy" }}</td>
                 <td>
                   {{ DECISION_LABELS[histo.statut] }}
+                  <span
+                    *ngIf="histo.statut === 'REFUS' || histo.statut === 'RADIE'"
+                  >
+                    le {{ histo.dateDebut | date: "dd/MM/yyyy" }}
+                  </span>
+
                   <span *ngIf="histo.statut === 'VALIDE'">
                     du
                     <b> {{ histo.dateDebut | date: "dd/MM/yyyy" }} </b>
@@ -38,7 +44,7 @@
                     <b>{{ histo.dateFin | date: "dd/MM/yyyy" }}</b>
                   </span>
                   <div *ngIf="histo.statut === 'RADIE'">
-                    - {{ histo.motifString }}
+                    Motif: {{ histo.motifString }}
                   </div>
                 </td>
                 <td>{{ histo.userName }}</td>

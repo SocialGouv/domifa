@@ -54,10 +54,9 @@ export class ProfilHistoriqueComponent implements OnInit {
     this.usagerService.findOne(this.route.snapshot.params.id).subscribe({
       next: (usager: UsagerLight) => {
         {
+          this.usager = new UsagerFormModel(usager);
           const name = getUsagerNomComplet(usager);
           this.titleService.setTitle("Historique de " + name);
-          this.usager = new UsagerFormModel(usager);
-
           this.getHistoriqueOptions();
         }
       },
