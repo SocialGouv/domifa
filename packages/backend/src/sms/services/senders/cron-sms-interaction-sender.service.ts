@@ -106,7 +106,7 @@ export class CronSmsInteractionSenderService {
 
     if (!structureIds || structureIds.length === 0) {
       appLogger.warn(
-        `[CronSms] No structure with SMS for ${timeZone} at ${new Date().toString()}`
+        `[CronSms] [sendSmsInteraction] No structure with SMS for ${timeZone} at ${new Date().toString()}`
       );
       return;
     }

@@ -26,7 +26,7 @@ import { CreateUsagerDto } from "../dto/CreateUsagerDto";
 import { RdvDto } from "../dto/rdv.dto";
 import { DecisionDto } from "../dto";
 
-import { endOfDay, subMinutes } from "date-fns";
+import { subMinutes } from "date-fns";
 
 @Injectable()
 export class UsagersService {
@@ -98,7 +98,7 @@ export class UsagersService {
 
     // Pour les renouvellements de dossier encore valide, on reprend l'actuelle date de fin
     if (usager.decision.statut === "VALIDE") {
-      newDateFin = endOfDay(new Date(usager.decision.dateFin));
+      newDateFin = new Date(usager.decision.dateFin);
     }
 
     usager.decision = {
@@ -170,17 +170,14 @@ export class UsagersService {
       decision.dateFin =
         decision.dateFin !== undefined && decision.dateFin !== null
           ? // Fin de la journée pour la date de fin
-            endOfDay(new Date(decision.dateFin))
+            decision.dateFin
           : now;
       decision.dateDebut = decision.dateFin;
     }
 
     // Valide
     if (decision.statut === "VALIDE") {
-      // Date de début = au moment de la décision
-      decision.dateDebut = new Date(decision.dateDebut);
-      // Date de fin = fin de la journée indiquée
-      decision.dateFin = endOfDay(new Date(decision.dateFin));
+      console.log(decision.dateDebut);
 
       const actualLastInteraction = new Date(
         usager.lastInteraction.dateInteraction

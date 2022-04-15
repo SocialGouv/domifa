@@ -19,6 +19,7 @@ import {
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { UsagerProfilService } from "../../../usager-profil/services/usager-profil.service";
 import { UsagerDecisionService } from "../../services/usager-decision.service";
+import { Decision } from "../../interfaces";
 
 @Component({
   styleUrls: ["./delete-usager-menu.component.css"],
@@ -60,10 +61,15 @@ export class DeleteUsagerMenuComponent implements OnInit {
 
   public getPreviousStatus(): void {
     // On tri du plus récent au plus ancien
-    const historique = this.usager.historique.sort((a, b) => {
-      return (
-        new Date(a.dateDecision).getTime() - new Date(b.dateDecision).getTime()
-      );
+    const historique: Decision[] = Object.assign(
+      [],
+      this.usager.historique
+    ).map((decision) => {
+      return new Decision(decision);
+    });
+
+    historique.sort((a, b) => {
+      return a.dateDecision.getTime() - b.dateDecision.getTime();
     });
 
     // Fix temporaire = si instruction dans l'historique, on prend la valeure juste avant
@@ -109,15 +115,14 @@ export class DeleteUsagerMenuComponent implements OnInit {
         this.toastService.success(
           "Demande de renouvellement supprimée avec succès"
         );
-        this.usagerChanges.emit(usager);
-
-        this.usager = new UsagerFormModel(usager);
 
         setTimeout(() => {
           this.modalService.dismissAll();
+          this.usagerChanges.emit(usager);
+          this.usager = new UsagerFormModel(usager);
           this.loading = false;
           this.router.navigate(["profil/general/" + this.usager.ref]);
-        }, 1000);
+        }, 500);
       },
       error: () => {
         this.loading = false;

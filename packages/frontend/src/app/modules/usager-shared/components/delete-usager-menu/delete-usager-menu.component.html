@@ -71,8 +71,17 @@
     </ul>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-lg btn-danger" (click)="deleteUsager()">
-      Confirmer la suppression
+    <button
+      class="btn btn-lg btn-danger"
+      (click)="deleteUsager()"
+      [disabled]="loading"
+    >
+      <span *ngIf="!loading"> Confirmer la suppression</span>
+
+      <span *ngIf="loading"
+        ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+        Veuillez patienter...</span
+      >
     </button>
     <button class="btn btn-lg btn-outline-dark" (click)="closeModals()">
       Revenir au profil

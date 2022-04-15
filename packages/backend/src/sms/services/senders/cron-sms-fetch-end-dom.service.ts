@@ -97,7 +97,7 @@ export class CronSmsFetchEndDomService {
 
     if (!structuresWithSms || structuresWithSms.length === 0) {
       appLogger.warn(
-        `[CronSms] No structure with SMS for ${timeZone} at ${new Date().toString()}`
+        `[CronSms] [CronSmsFetchEndDomService] No structure with SMS for ${timeZone} at ${new Date().toString()}`
       );
       return;
     }

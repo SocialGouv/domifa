@@ -1,4 +1,4 @@
-import { endOfDay } from "date-fns";
+import { setHours } from "date-fns";
 import { uuidGenerator } from "../../../../database/services/uuid";
 import {
   Usager,
@@ -73,8 +73,9 @@ function buildUsager({
     datePremiereDom = usagerRow.dateDebutDom;
   }
 
-  const dernierPassage = endOfDay(usagerRow.dateDernierPassage ?? now);
-  const dateFin = endOfDay(usagerRow.dateFinDom);
+  const dernierPassage = setHours(usagerRow.dateDernierPassage ?? now, 19);
+
+  const dateFin = usagerRow.dateFinDom;
 
   let dateDebut = usagerRow.dateDebutDom;
 

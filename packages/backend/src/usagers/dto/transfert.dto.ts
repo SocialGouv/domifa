@@ -8,7 +8,6 @@ import {
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams } from "class-transformer";
 import { UsagerOptionsTransfert } from "../../_common/model";
-import { endOfDay } from "date-fns";
 
 export class TransfertDto implements UsagerOptionsTransfert {
   @IsEmpty()
@@ -58,7 +57,7 @@ export class TransfertDto implements UsagerOptionsTransfert {
   @IsNotEmpty()
   @IsDate()
   @Transform(({ value }: TransformFnParams) => {
-    return value ? endOfDay(new Date(value)) : null;
+    return value ? new Date(value) : null;
   })
   public dateFin!: Date;
 }
