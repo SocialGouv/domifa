@@ -1,3 +1,11 @@
+## [2.85.2](https://github.com/SocialGouv/domifa/compare/v2.85.1...v2.85.2) (2022-04-15)
+
+
+### Bug Fixes
+
+* sms disabled ([efeb607](https://github.com/SocialGouv/domifa/commit/efeb607f1bd854cc37bc6fbad9b7e5e7cb65546b))
+* sms disabled ([9daec85](https://github.com/SocialGouv/domifa/commit/9daec85ddc4db7a39bb896fca634a129832e313a))
+
 ## [2.85.1](https://github.com/SocialGouv/domifa/compare/v2.85.0...v2.85.1) (2022-04-15)
 
 
