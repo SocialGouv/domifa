@@ -11,6 +11,8 @@ export class addTimeZoneMigration1647474476639 implements MigrationInterface {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async up(_queryRunner: QueryRunner): Promise<void> {
+    appLogger.warn("[MIGRATION] Ajout des timezones");
+
     if (
       domifaConfig().envId === "prod" ||
       domifaConfig().envId === "preprod" ||

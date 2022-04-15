@@ -14,6 +14,10 @@ export class fixCorruptedDossiersMigration1649258768598
       domifaConfig().envId === "preprod" ||
       domifaConfig().envId === "local"
     ) {
+      appLogger.warn(
+        "[MIGRATION] Correction des dates de premières dom manquantes"
+      );
+
       const usagers: Usager[] = await (
         await usagerRepository.typeorm()
       ).query(
