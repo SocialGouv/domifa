@@ -102,12 +102,12 @@ export class CronSmsFetchEndDomService {
       return;
     }
     // Si désactivé, on retire tous les SMS en attente
-    if (!domifaConfig().sms.enabled) {
-      appLogger.warn(
-        `[CronSms] [CronSmsFetchEndDomService] Disable all SMS to Send for  ${timeZone}`
-      );
-      return;
-    }
+    // if (!domifaConfig().sms.enabled) {
+    //   appLogger.warn(
+    //     `[CronSms] [CronSmsFetchEndDomService] Disable all SMS to Send for  ${timeZone}`
+    //   );
+    //   return;
+    // }
 
     const scheduledDate = new Date();
     scheduledDate.setUTCHours(19, 0, 0);

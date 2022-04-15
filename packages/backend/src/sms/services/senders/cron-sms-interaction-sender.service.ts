@@ -111,12 +111,12 @@ export class CronSmsInteractionSenderService {
       return;
     }
     // Si désactivé, on retire tous les SMS en attente
-    if (!domifaConfig().sms.enabled) {
-      appLogger.warn(
-        `[CronSms] [sendSmsInteraction] SMS disabled for ${timeZone} at ${new Date().toString()}`
-      );
-      return this.messageSmsSenderService.disableAllSmsToSend();
-    }
+    // if (!domifaConfig().sms.enabled) {
+    //   appLogger.warn(
+    //     `[CronSms] [sendSmsInteraction] SMS disabled for ${timeZone} at ${new Date().toString()}`
+    //   );
+    //   return this.messageSmsSenderService.disableAllSmsToSend();
+    // }
 
     await monitoringBatchProcessSimpleCountRunner.monitorProcess(
       {
