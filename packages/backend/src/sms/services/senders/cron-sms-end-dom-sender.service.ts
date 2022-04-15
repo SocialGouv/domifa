@@ -16,72 +16,70 @@ import { appLogger } from "../../../util";
 export class CronSmsEndDomSenderService {
   constructor(private messageSmsSenderService: MessageSmsSenderService) {}
 
-  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTim, {
-    name: "Sms send Europe/Paris",
+  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "Europe/Paris",
   })
   protected async sendSmsEurope() {
     await this.sendSmsUsagerEndDom("cron", "Europe/Paris");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTim, {
-    name: "Sms send America/Martinique",
+  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "America/Martinique",
   })
   protected async sendSmsMartinique() {
     await this.sendSmsUsagerEndDom("cron", "America/Martinique");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTim, {
-    name: "Sms send America/Cayenne",
+  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "America/Cayenne",
   })
   protected async sendSmsCayenne() {
     await this.sendSmsUsagerEndDom("cron", "America/Cayenne");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTim, {
-    name: "Sms send Indian/Mayotte",
+  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "Indian/Mayotte",
   })
   protected async sendSmsMayotte() {
     await this.sendSmsUsagerEndDom("cron", "Indian/Mayotte");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTim, {
-    name: "Sms send Pacific/Noumea",
+  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "Pacific/Noumea",
   })
   protected async sendSmsNoumea() {
     await this.sendSmsUsagerEndDom("cron", "Pacific/Noumea");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTim, {
-    name: "Sms send Pacific/Tahiti",
+  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "Pacific/Tahiti",
   })
   protected async sendSmsTahiti() {
     await this.sendSmsUsagerEndDom("cron", "Pacific/Tahiti");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTim, {
-    name: "Sms send America/Miquelon",
+  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "America/Miquelon",
   })
   protected async sendSmsMiquelon() {
     await this.sendSmsUsagerEndDom("cron", "America/Miquelon");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTim, {
-    name: "Sms send Indian/Maldives",
+  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "Indian/Maldives",
   })
   protected async sendSmsMaldives() {
     await this.sendSmsUsagerEndDom("cron", "Indian/Maldives");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTim, {
-    name: "Sms send Indian/Reunion",
+  @Cron(domifaConfig().cron.smsConsumer.crontime, {
+    timeZone: "Pacific/Wallis",
+  })
+  protected async sendSmsWallis() {
+    await this.sendSmsUsagerEndDom("cron", "Pacific/Wallis");
+  }
+
+  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "Indian/Reunion",
   })
   protected async sendSmsReunion() {
@@ -93,6 +91,12 @@ export class CronSmsEndDomSenderService {
     trigger: MonitoringBatchProcessTrigger,
     timeZone: TimeZone
   ) {
+    if (!domifaConfig().cron.enable || !domifaConfig().sms.enabled) {
+      // Désactiver tous les SMS en attente
+      appLogger.warn(`[CronSms] [sendSmsUsagerEndDom] Disable all SMS to Send`);
+      return this.messageSmsSenderService.disableAllSmsToSend();
+    }
+
     const structureIds = await structureRepository.getStructureIdsWithSms(
       timeZone
     );
@@ -103,14 +107,6 @@ export class CronSmsEndDomSenderService {
       );
       return;
     }
-
-    // if (!domifaConfig().sms.enabled) {
-    //   // Désactiver tous les SMS en attente
-    //   appLogger.warn(
-    //     `[CronSms] [sendSmsUsagerEndDom] Disable all SMS to Send for  ${timeZone}`
-    //   );
-    //   return this.messageSmsSenderService.disableAllSmsToSend();
-    // }
 
     await monitoringBatchProcessSimpleCountRunner.monitorProcess(
       {

@@ -17,7 +17,6 @@ export class CronSmsInteractionSenderService {
   constructor(private messageSmsSenderService: MessageSmsSenderService) {}
 
   @Cron(domifaConfig().cron.smsConsumer.crontime, {
-    name: "Sms send Europe/Paris",
     timeZone: "Europe/Paris",
   })
   protected async sendSmsEurope() {
@@ -25,7 +24,6 @@ export class CronSmsInteractionSenderService {
   }
 
   @Cron(domifaConfig().cron.smsConsumer.crontime, {
-    name: "Sms send America/Martinique",
     timeZone: "America/Martinique",
   })
   protected async sendSmsMartinique() {
@@ -33,7 +31,6 @@ export class CronSmsInteractionSenderService {
   }
 
   @Cron(domifaConfig().cron.smsConsumer.crontime, {
-    name: "Sms send America/Cayenne",
     timeZone: "America/Cayenne",
   })
   protected async sendSmsCayenne() {
@@ -41,7 +38,6 @@ export class CronSmsInteractionSenderService {
   }
 
   @Cron(domifaConfig().cron.smsConsumer.crontime, {
-    name: "Sms send Indian/Mayotte",
     timeZone: "Indian/Mayotte",
   })
   protected async sendSmsMayotte() {
@@ -49,7 +45,6 @@ export class CronSmsInteractionSenderService {
   }
 
   @Cron(domifaConfig().cron.smsConsumer.crontime, {
-    name: "Sms send Pacific/Noumea",
     timeZone: "Pacific/Noumea",
   })
   protected async sendSmsNoumea() {
@@ -57,7 +52,6 @@ export class CronSmsInteractionSenderService {
   }
 
   @Cron(domifaConfig().cron.smsConsumer.crontime, {
-    name: "Sms send Pacific/Tahiti",
     timeZone: "Pacific/Tahiti",
   })
   protected async sendSmsTahiti() {
@@ -65,7 +59,6 @@ export class CronSmsInteractionSenderService {
   }
 
   @Cron(domifaConfig().cron.smsConsumer.crontime, {
-    name: "Sms send Pacific/Wallis",
     timeZone: "Pacific/Wallis",
   })
   protected async sendSmsWallis() {
@@ -73,7 +66,6 @@ export class CronSmsInteractionSenderService {
   }
 
   @Cron(domifaConfig().cron.smsConsumer.crontime, {
-    name: "Sms send America/Miquelon",
     timeZone: "America/Miquelon",
   })
   protected async sendSmsMiquelon() {
@@ -81,7 +73,6 @@ export class CronSmsInteractionSenderService {
   }
 
   @Cron(domifaConfig().cron.smsConsumer.crontime, {
-    name: "Sms send Indian/Maldives",
     timeZone: "Indian/Maldives",
   })
   protected async sendSmsMaldives() {
@@ -89,7 +80,6 @@ export class CronSmsInteractionSenderService {
   }
 
   @Cron(domifaConfig().cron.smsConsumer.crontime, {
-    name: "Sms send Indian/Reunion",
     timeZone: "Indian/Reunion",
   })
   protected async sendSmsReunion() {
@@ -100,6 +90,18 @@ export class CronSmsInteractionSenderService {
     trigger: MonitoringBatchProcessTrigger,
     timeZone: TimeZone
   ) {
+    // Si désactivé, on retire tous les SMS en attente
+    if (!domifaConfig().cron.enable || !domifaConfig().sms.enabled) {
+      appLogger.warn(
+        `[CronSms] [sendSmsInteraction] SMS disabled for ${timeZone} at ${new Date().toString()}`
+      );
+      return this.messageSmsSenderService.disableAllSmsToSend();
+    }
+
+    appLogger.warn(
+      `[CronSms] [sendSmsInteraction] Start sendSmsInteraction for ${timeZone} at ${new Date().toString()}`
+    );
+
     const structureIds = await structureRepository.getStructureIdsWithSms(
       timeZone
     );
@@ -110,13 +112,12 @@ export class CronSmsInteractionSenderService {
       );
       return;
     }
-    // Si désactivé, on retire tous les SMS en attente
-    // if (!domifaConfig().sms.enabled) {
-    //   appLogger.warn(
-    //     `[CronSms] [sendSmsInteraction] SMS disabled for ${timeZone} at ${new Date().toString()}`
-    //   );
-    //   return this.messageSmsSenderService.disableAllSmsToSend();
-    // }
+
+    appLogger.warn(
+      `[CronSms] [sendSmsInteraction] ${
+        structureIds.length
+      } structures with SMS enabled for ${timeZone} at ${new Date().toString()}`
+    );
 
     await monitoringBatchProcessSimpleCountRunner.monitorProcess(
       {
