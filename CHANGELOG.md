@@ -1,3 +1,12 @@
+## [2.85.4](https://github.com/SocialGouv/domifa/compare/v2.85.3...v2.85.4) (2022-04-15)
+
+
+### Bug Fixes
+
+* **dump:** mise à jour du dump de tests ([fae52ef](https://github.com/SocialGouv/domifa/commit/fae52ef7d9b496cb63b8e643c41dad2d793ee6f8))
+* **k8s:** Augmentation du temps de lancement ([c3684f8](https://github.com/SocialGouv/domifa/commit/c3684f846859f107850384a0bc43cf4473de67f1))
+* **migration:** Restructuration des migrations pour faciliter le lancement de l'APi ([0a55784](https://github.com/SocialGouv/domifa/commit/0a55784e56294ed224dade4460850bc2cefb8bd4))
+
 ## [2.85.3](https://github.com/SocialGouv/domifa/compare/v2.85.2...v2.85.3) (2022-04-15)
 
 
