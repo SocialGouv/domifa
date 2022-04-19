@@ -15,3 +15,4 @@ export * from "./usager";
 export * from "./user";
 export * from "./user-structure";
 export * from "./user-usager";
+export * from "./telephone/Telephone.type";
