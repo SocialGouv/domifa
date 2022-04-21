@@ -10,14 +10,16 @@ import {
   UserStructure,
   UsagerOptionsHistory,
   USAGER_DECISION_STATUT_LABELS_PROFIL,
-  UsagerHistoryState,
-  UsagerHistoryStateCreationEvent,
 } from "../../../../../_common/model";
 import { getUsagerNomComplet } from "../../../../shared/getUsagerNomComplet";
 import { AuthService } from "../../../shared/services/auth.service";
 import { Decision, UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerService } from "../../../usagers/services/usager.service";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
+import {
+  UsagerHistoryStateCreationEvent,
+  UsagerHistoryState,
+} from "../../../../../_common/model/usager/history";
 
 @Component({
   selector: "app-profil-historique",

@@ -1,11 +1,13 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne, Unique } from "typeorm";
 import {
+  UsagerAyantDroit,
   UsagerDecisionMotif,
   UsagerDecisionOrientation,
   UsagerDecisionStatut,
-  UsagerHistoryDecisions,
+  UsagerEntretien,
   UsagerTypeDom,
 } from "../../../_common/model";
+import { UsagerHistoryDecision } from "../../../_common/model/usager/history/UsagerHistoryDecision.type";
 
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import { UsagerHistoryTable } from "./UsagerHistoryTable.typeorm";
@@ -14,9 +16,9 @@ import { UsagerTable } from "./UsagerTable.typeorm";
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "usager_history_decision" })
 @Unique(["structureId", "usagerRef"])
-export class UsagerHistoryDecisionsTable
-  extends AppTypeormTable<UsagerHistoryDecisionsTable>
-  implements UsagerHistoryDecisions
+export class UsagerHistoryDecisionTable
+  extends AppTypeormTable<UsagerHistoryDecisionTable>
+  implements UsagerHistoryDecision
 {
   @Index()
   @Column({ type: "text", unique: true, update: false }) // unique par structure
@@ -31,39 +33,55 @@ export class UsagerHistoryDecisionsTable
 
   @Index()
   @Column({ type: "integer", update: false })
-  structureId: number;
+  public structureId: number;
 
   @Column({ type: "date" })
-  dateDecision: Date; // Now()
+  public dateDecision: Date; // Now()
 
   @Column({ type: "date", nullable: true })
-  dateDebut: Date | null;
+  public dateDebut: Date | null;
+
   @Column({ type: "date", nullable: true })
-  dateFin: Date | null;
+  public dateFin: Date | null;
 
   @Column({ type: "text", nullable: true })
-  typeDom: UsagerTypeDom | null;
+  public typeDom: UsagerTypeDom | null;
 
   @Column({ type: "text", nullable: true })
-  statut: UsagerDecisionStatut;
+  public statut: UsagerDecisionStatut;
 
   // Motif de refus ou radiation
   @Column({ type: "text", nullable: true })
-  motif: UsagerDecisionMotif | null;
+  public motif: UsagerDecisionMotif | null;
+
   @Column({ type: "text", nullable: true })
-  motifDetails: string | null;
+  public motifDetails: string | null;
 
   // Orientation si refus
   @Column({ type: "text", nullable: true })
-  orientation: UsagerDecisionOrientation | null;
+  public orientation: UsagerDecisionOrientation | null;
 
   @Column({ type: "text", nullable: true })
-  orientationDetails: string | null;
+  public orientationDetails: string | null;
 
   @Column({ type: "integer", nullable: false })
-  userId: number; // UserStructure.id
+  public userId: number; // UserStructure.id
+
   @Column({ type: "text", nullable: false })
-  userName: string; // UserStructure.nom / prenom
+  public userName: string; // UserStructure.nom / prenom
+
+  //
+  // AYANTS DROITS
+  @Column({ type: "jsonb", nullable: true, default: "[]" })
+  public ayantsDroits: UsagerAyantDroit[];
+
+  @Column({
+    type: "jsonb",
+    nullable: true,
+    // default:
+    //   "{ accompagnement: null, accompagnementDetail: null, cause: null, causeDetail: null, commentaires: null, domiciliation: null, liencommune: null, pourquoi: null, rattachement: null, raison: null, raisonDetail: null, residence: null, residenceDetail: null, revenus: null, revenusDetail: null, typeMenage: null }",
+  })
+  public entretien!: UsagerEntretien;
 
   public constructor(entity?: Partial<UsagerHistoryTable>) {
     super(entity);
