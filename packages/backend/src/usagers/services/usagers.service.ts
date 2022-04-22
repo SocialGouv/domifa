@@ -110,6 +110,8 @@ export class UsagersService {
       userId: user.id,
       userName: user.prenom + " " + user.nom,
       typeDom,
+
+      motif: null,
     };
 
     // Ajout du précédent état dans l'historique

@@ -145,6 +145,9 @@ export class UsagerTable
   })
   public options!: UsagerOptions;
 
+  @Column({ type: "boolean", default: false })
+  public migrated: boolean;
+
   public constructor(entity?: Partial<UsagerTable>) {
     super(entity);
     Object.assign(this, entity);

@@ -81,57 +81,45 @@ export class UsagersDecisionController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
-    const hasHistorique =
+    if (
       typeof usager.historique.find(
         (decision) =>
           decision.statut === "REFUS" ||
           decision.statut === "RADIE" ||
           decision.statut === "VALIDE"
-      ) !== "undefined";
-
-    if (hasHistorique) {
-      usager.etapeDemande = ETAPE_ETAT_CIVIL;
-
-      // Fix temporaire = si instruction dans l'historique, on prend la valeure juste avant
-      const index =
-        usager.historique[usager.historique.length - 1].statut === "INSTRUCTION"
-          ? 1
-          : 2;
-
-      usager.historique.splice(usager.historique.length - index, index);
-
-      const decisionToRollback =
-        usager.historique[usager.historique.length - 1];
-
-      usager.decision = decisionToRollback;
-
-      if (decisionToRollback) {
-        // on garde trace du changement dans l'historique, car il peut y avoir eu aussi d'autres changements entre temps
-        await usagerHistoryStateManager.removeLastDecisionFromHistory({
-          usager,
-          createdBy: {
-            userId: user.id,
-            userName: user.prenom + " " + user.nom,
-          },
-          createdAt: usager.decision.dateDecision,
-          historyBeginDate: usager.decision.dateDebut,
-          removedDecisionUUID: decisionToRollback.uuid,
-        });
-      }
-
-      const result = await usagerLightRepository.updateOne(
-        { uuid: usager.uuid },
-        {
-          historique: usager.historique,
-          etapeDemande: usager.etapeDemande,
-          decision: usager.decision,
-        }
-      );
-      return res.status(HttpStatus.OK).json(result);
-    } else {
+      ) !== "undefined"
+    ) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "CANNOT_DELETE_DECISION" });
     }
+
+    usager.etapeDemande = ETAPE_ETAT_CIVIL;
+
+    usager.decision = usager.historique[usager.historique.length - 1];
+
+    usager.historique.splice(usager.historique.length - 1, 1);
+
+    // on garde trace du changement dans l'historique, car il peut y avoir eu aussi d'autres changements entre temps
+    await usagerHistoryStateManager.removeLastDecisionFromHistory({
+      usager,
+      createdBy: {
+        userId: user.id,
+        userName: user.prenom + " " + user.nom,
+      },
+      createdAt: usager.decision.dateDecision,
+      historyBeginDate: usager.decision.dateDebut,
+      removedDecisionUUID: usager.decision.uuid,
+    });
+
+    const result = await usagerLightRepository.updateOne(
+      { uuid: usager.uuid },
+      {
+        historique: usager.historique,
+        etapeDemande: usager.etapeDemande,
+        decision: usager.decision,
+      }
+    );
+    return res.status(HttpStatus.OK).json(result);
   }
 }

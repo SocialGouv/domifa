@@ -8,12 +8,16 @@ import {
   UsagerLight,
   UserStructure,
   UsagerOptionsHistory,
+  UsagerDecision,
+  UsagerHistoryStateCreationEvent,
+  USAGER_DECISION_STATUT_LABELS_PROFIL,
+  UsagerHistoryState,
 } from "../../../../../_common/model";
-import { DECISION_LABELS } from "../../../../shared/constants/USAGER_LABELS.const";
 import { getUsagerNomComplet } from "../../../../shared/getUsagerNomComplet";
 import { AuthService } from "../../../shared/services/auth.service";
-import { UsagerFormModel } from "../../../usager-shared/interfaces";
+import { Decision, UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerService } from "../../../usagers/services/usager.service";
+import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
 
 @Component({
   selector: "app-profil-historique",
@@ -21,29 +25,39 @@ import { UsagerService } from "../../../usagers/services/usager.service";
   styleUrls: ["./profil-historique.component.css"],
 })
 export class ProfilHistoriqueComponent implements OnInit {
-  public me: UserStructure;
-  public usager: UsagerFormModel;
+  public me!: UserStructure;
+  public usager!: UsagerFormModel;
 
-  public DECISION_LABELS = DECISION_LABELS;
+  public DECISION_LABELS = USAGER_DECISION_STATUT_LABELS_PROFIL;
 
   public actions = {
     EDIT: "Modification",
     DELETE: "Suppression",
     CREATION: "Création",
   };
+
   public transfertHistory: UsagerOptionsHistory[];
   public procurationHistory: UsagerOptionsHistory[];
+
+  public newHistorique: {
+    decision: UsagerDecision;
+    createdEvent: UsagerHistoryStateCreationEvent;
+  }[];
 
   constructor(
     private authService: AuthService,
     private usagerService: UsagerService,
     private usagerOptionsService: UsagerOptionsService,
     private titleService: Title,
+    private usagerDecisionService: UsagerDecisionService,
     private toastService: CustomToastService,
     private route: ActivatedRoute,
     private router: Router
   ) {
     this.me = null;
+    this.transfertHistory = [];
+    this.procurationHistory = [];
+    this.newHistorique = [];
   }
 
   ngOnInit(): void {
@@ -57,6 +71,7 @@ export class ProfilHistoriqueComponent implements OnInit {
           this.usager = new UsagerFormModel(usager);
           const name = getUsagerNomComplet(usager);
           this.titleService.setTitle("Historique de " + name);
+
           this.getHistoriqueOptions();
         }
       },
