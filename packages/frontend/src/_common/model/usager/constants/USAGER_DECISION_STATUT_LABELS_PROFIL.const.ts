@@ -4,7 +4,7 @@ import { UsagerDecisionStatut } from "..";
 export const USAGER_DECISION_STATUT_LABELS_PROFIL: {
   [key in UsagerDecisionStatut]: string;
 } = {
-  ATTENTE_DECISION: "Demande de domiciliation déposée",
+  ATTENTE_DECISION: "Demande de domiciliation déposée, en attente de décision",
   INSTRUCTION: "Instruction du dossier",
   RADIE: "Radiation",
   REFUS: "Demande refusée",

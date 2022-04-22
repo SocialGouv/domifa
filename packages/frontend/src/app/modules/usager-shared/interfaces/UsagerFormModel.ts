@@ -107,6 +107,9 @@ export class UsagerFormModel implements UsagerLight {
   ) {
     this.docs = (usager && usager.docs) || [];
     this.notes = (usager && usager.notes) || [];
+    this.notes.sort((a, b) => {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
 
     this.ref = (usager && usager.ref) || 0;
     this.customRef = (usager && usager.customRef) || null;

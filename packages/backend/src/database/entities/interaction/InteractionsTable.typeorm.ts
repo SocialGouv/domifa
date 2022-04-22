@@ -59,7 +59,7 @@ export class InteractionsTable
   @Column({ type: "text", nullable: true })
   interactionOutUUID: string;
 
-  @ManyToOne(() => InteractionsTable, { lazy: true })
+  @ManyToOne(() => InteractionsTable, (interaction) => interaction.uuid)
   @JoinColumn({ name: "interactionOutUUID", referencedColumnName: "uuid" })
   interactionOutUUIDFk?: Promise<Interactions>;
 

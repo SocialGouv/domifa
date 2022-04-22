@@ -40,12 +40,12 @@ export class Decision implements UsagerDecision {
       decision && decision.dateFin ? new Date(decision.dateFin) : null;
     this.dateDecision =
       (decision && new Date(decision.dateDecision)) || new Date();
-    this.statut = (decision && decision.statut) || "INSTRUCTION";
 
     this.userName = (decision && decision.userName) || "";
     this.userId = (decision && decision.userId) || null;
     this.motifDetails = (decision && decision.motifDetails) || "";
     this.motif = (decision && decision.motif) || null;
+    this.statut = (decision && decision.statut) || "INSTRUCTION";
     this.motifString = "";
 
     this.orientation = (decision && decision.orientation) || null;

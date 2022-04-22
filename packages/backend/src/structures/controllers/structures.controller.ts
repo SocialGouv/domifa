@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  HttpException,
   HttpStatus,
   Param,
   Patch,
@@ -44,14 +43,14 @@ export class StructuresController {
   @Patch("portail-usager/configure-structure")
   public async toggleEnablePortailUsagerByStructure(
     @CurrentUser() user: UserStructureAuthenticated,
-    @Body() structurePortailUsagerDto: StructureEditPortailUsagerDto
+    @Body() structurePortailUsagerDto: StructureEditPortailUsagerDto,
+    @Res() res: ExpressResponse
   ) {
     const portailUsager = user.structure.portailUsager;
     if (!portailUsager.enabledByDomifa) {
-      throw new HttpException(
-        "SMS_NOT_ENABLED_BY_DOMIFA",
-        HttpStatus.BAD_REQUEST
-      );
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "SMS_NOT_ENABLED_BY_DOMIFA" });
     }
 
     return structureRepository.updateOne(
@@ -150,10 +149,9 @@ export class StructuresController {
       });
       return res.status(HttpStatus.OK).json({ message: expireAt });
     } else {
-      throw new HttpException(
-        "HARD_RESET_ERROR",
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "HARD_RESET_ERROR" });
     }
   }
 
@@ -171,19 +169,17 @@ export class StructuresController {
     });
 
     if (!structure) {
-      throw new HttpException(
-        "HARD_RESET_INCORRECT_TOKEN",
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "HARD_RESET_INCORRECT_TOKEN" });
     }
 
     const now = new Date();
 
     if (structure.hardReset.expireAt && structure.hardReset.expireAt < now) {
-      throw new HttpException(
-        "HARD_RESET_EXPIRED_TOKEN",
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "HARD_RESET_EXPIRED_TOKEN" });
     }
 
     await structureDeletorService.deleteStructureUsagers({
