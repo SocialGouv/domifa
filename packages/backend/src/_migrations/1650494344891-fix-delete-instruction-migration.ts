@@ -14,6 +14,7 @@ export class fixDeleteInstructionMigration1650494327593
     appLogger.warn(
       "[MIGRATION] Nettoyage de données supprimées dans la DB usager_history"
     );
+
     const usagersHistory: UsagerHistory[] = await (
       await usagerHistoryRepository.typeorm()
     ).query(
@@ -40,11 +41,10 @@ export class fixDeleteInstructionMigration1650494327593
           historyEndDate: state.historyEndDate,
         });
       }
-      console.log("");
-      console.log("");
-      console.log("> BEFORE " + decisions.length + " - " + history.usagerUUID);
-
-      console.table(decisions);
+      // console.log("");
+      // console.log("");
+      // console.log("> BEFORE " + decisions.length + " - " + history.usagerUUID);
+      // console.table(decisions);
       history.states = history.states.filter(
         (state) =>
           !(
@@ -73,9 +73,8 @@ export class fixDeleteInstructionMigration1650494327593
           historyEndDate: state.historyEndDate,
         });
       }
-      console.log("> AFTER " + decisions.length + " - " + history.usagerUUID);
-
-      console.table(decisions);
+      // console.log("> AFTER " + decisions.length + " - " + history.usagerUUID);
+      // console.table(decisions);
 
       //Update de l'historique
       await (

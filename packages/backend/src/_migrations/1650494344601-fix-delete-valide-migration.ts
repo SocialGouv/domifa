@@ -22,9 +22,8 @@ export class fixDeleteValideMigration1650494327593
         from usager_history uh join jsonb_array_elements(uh.states) as state on true
         AND (state->>'createdEvent')::text = 'delete-decision' AND (state->'decision'->>'statut')::text = 'VALIDE'`
     );
-
     appLogger.warn(
-      `[MIGRATION] [FIX PREMIERE_DOM] ${usagersHistory.length} dossiers avec un valide supprimé à nettoyer`
+      `[MIGRATION] [DOSSIERS SUPPRIMES VALIDE] ${usagersHistory.length} dossiers avec un refus / radié supprimé à mettre à jour`
     );
     // Correction des datas obsolètes de l'historique des premieres dom
     for (const history of usagersHistory) {
@@ -40,11 +39,10 @@ export class fixDeleteValideMigration1650494327593
           historyEndDate: state.historyEndDate,
         });
       }
-      console.log("");
-      console.log("");
-      console.log("> BEFORE " + decisions.length + " - " + history.usagerUUID);
-
-      console.table(decisions);
+      // console.log("");
+      // console.log("");
+      // console.log("> BEFORE " + decisions.length + " - " + history.usagerUUID);
+      // console.table(decisions);
 
       history.states = history.states.filter(
         (state) =>
@@ -73,9 +71,9 @@ export class fixDeleteValideMigration1650494327593
           historyEndDate: state.historyEndDate,
         });
       }
-      console.log("> AFTER " + decisions.length + " - " + history.usagerUUID);
+      //  console.log("> AFTER " + decisions.length + " - " + history.usagerUUID);
 
-      console.table(decisions);
+      //  console.table(decisions);
 
       // Update de l'historique
       await (
@@ -99,10 +97,10 @@ export class fixDeleteValideMigration1650494327593
     );
 
     appLogger.warn(
-      `[MIGRATION] [BEFORE] ${usagersHistory.length} dossiers avec un valide supprimé à nettoyer`
+      `[MIGRATION] [DOSSIERS VALIDES BEFORE] ${usagersHistory.length} dossiers avec un valide supprimé à nettoyer`
     );
     appLogger.warn(
-      `[MIGRATION] [AFTER] ${usagersHistoryAfter.length} dossiers avec un valide supprimé à nettoyer`
+      `[MIGRATION] [DOSSIERS VALIDES AFTER] ${usagersHistoryAfter.length} dossiers avec un valide supprimé à nettoyer`
     );
   }
 
