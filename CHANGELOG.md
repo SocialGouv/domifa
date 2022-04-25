@@ -1,3 +1,10 @@
+## [2.85.5](https://github.com/SocialGouv/domifa/compare/v2.85.4...v2.85.5) (2022-04-25)
+
+
+### Bug Fixes
+
+* **deps:** update dependency puppeteer to v13 ([c436dcc](https://github.com/SocialGouv/domifa/commit/c436dcc0f13b019b938990103a92fa58e0d4e7e9))
+
 ## [2.85.4](https://github.com/SocialGouv/domifa/compare/v2.85.3...v2.85.4) (2022-04-15)
 
 
