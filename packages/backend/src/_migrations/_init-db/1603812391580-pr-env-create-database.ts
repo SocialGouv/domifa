@@ -62,7 +62,7 @@ async function createTables(queryRunner: QueryRunner) {
       attachment jsonb NULL,
       email text NOT NULL,
       category text NULL,
-      "name" text NOT NULL,
+      name text NOT NULL,
       "comments" text NULL,
       "structureName" text NULL,
       CONSTRAINT "PK_8e4a4781a01061a482fa33e5f5a" PRIMARY KEY (uuid)
@@ -264,6 +264,7 @@ async function createTables(queryRunner: QueryRunner) {
       "options" jsonb NOT NULL DEFAULT '{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}'::jsonb,
       "import" jsonb NULL,
       notes jsonb NOT NULL DEFAULT '[]'::jsonb,
+      migrated bool NOT NULL DEFAULT false,
       CONSTRAINT "PK_1bb36e24229bec446a281573612" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_e76056fb098740de66d58a5055a" UNIQUE ("structureId", ref),
       CONSTRAINT "FK_a44d882d224e368efdee8eb8c80" FOREIGN KEY ("structureId") REFERENCES "structure"(id)
@@ -456,7 +457,7 @@ async function createTables(queryRunner: QueryRunner) {
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
-      "dateInteraction" timestamptz NOT NULL DEFAULT now(),
+      "dateInteraction" timestamptz NOT NULL,
       "nbCourrier" int4 NOT NULL DEFAULT 0,
       "structureId" int4 NOT NULL,
       "type" text NOT NULL,

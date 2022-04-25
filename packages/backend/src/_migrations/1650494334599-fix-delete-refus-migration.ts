@@ -41,11 +41,11 @@ export class fixDeleteRefusMigration1650494327593
           historyEndDate: state.historyEndDate,
         });
       }
-      console.log("");
-      console.log("");
-      console.log("> BEFORE " + history.usagerUUID);
-      console.table(decisions);
-      console.log("> AFTER ");
+      // console.log("");
+      // console.log("");
+      // console.log("> BEFORE " + history.usagerUUID);
+      // console.table(decisions);
+      // console.log("> AFTER ");
 
       history.states = history.states.filter(
         (state) =>
@@ -56,8 +56,6 @@ export class fixDeleteRefusMigration1650494327593
           )
       );
 
-      // Mise à jour du End Date :
-      console.log(history.states.length);
       // Mise à jour du End Date :
       if (
         history.states[history.states.length - 1].decision.statut === "REFUS" ||
@@ -78,7 +76,7 @@ export class fixDeleteRefusMigration1650494327593
           historyEndDate: state.historyEndDate,
         });
       }
-      console.table(decisions);
+      // console.table(decisions);
 
       // Update de l'historique
       await (
@@ -92,6 +90,10 @@ export class fixDeleteRefusMigration1650494327593
         }
       );
     }
+
+    appLogger.warn(
+      `[MIGRATION] [DOSSIERS SUPPRIMES REFUS] ${usagersHistory.length} dossiers avec un refus / radié supprimé à mettre à jour`
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {}
