@@ -23,13 +23,16 @@ jobs:
         echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
     - name: Use autodevops build and register
-      uses: SocialGouv/actions/autodevops-build-register@v1
+      uses: SocialGouv/actions/harbor-build-register@v1
       with:
         environment: preprod
         project: ${{ env.project }}
         token: ${{ secrets.GITHUB_TOKEN }}
         imageName: ${{ env.project }}/backend
         dockerfile: packages/backend/Dockerfile
+        harborUsername: ${{ secrets.HARBOR_USERNAME }}
+        harborPassword: ${{ secrets.HARBOR_PASSWORD }}
+        harborUrl: ${{ secrets.HARBOR_REGISTRY }}
 
   ##############################################################################
   ## BUILD AND REGISTER FRONTEND IMAGE
@@ -44,7 +47,7 @@ jobs:
         echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
     - name: Use autodevops build and register
-      uses: SocialGouv/actions/autodevops-build-register@v1
+      uses: SocialGouv/actions/harbor-build-register@v1
       with:
         environment: preprod
         project: ${{ env.project }}
@@ -53,6 +56,9 @@ jobs:
         dockerfile: packages/frontend/Dockerfile
         dockerbuildargs: |
           DOMIFA_FRONTEND_META_ROBOTS=noindex,nofollow
+        harborUsername: ${{ secrets.HARBOR_USERNAME }}
+        harborPassword: ${{ secrets.HARBOR_PASSWORD }}
+        harborUrl: ${{ secrets.HARBOR_REGISTRY }}
 
   ##############################################################################
   ## BUILD AND REGISTER PORTAIL USAGERS IMAGE
@@ -66,13 +72,16 @@ jobs:
           echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
       - name: Use autodevops build and register
-        uses: SocialGouv/actions/autodevops-build-register@v1
+        uses: SocialGouv/actions/harbor-build-register@v1
         with:
           environment: preprod
           project: ${{ env.project }}
           token: ${{ secrets.GITHUB_TOKEN }}
           imageName: ${{ env.project }}/portail-usagers
           dockerfile: packages/portail-usagers/Dockerfile
+          harborUsername: ${{ secrets.HARBOR_USERNAME }}
+          harborPassword: ${{ secrets.HARBOR_PASSWORD }}
+          harborUrl: ${{ secrets.HARBOR_REGISTRY }}
 
   ##############################################################################
   ## BUILD AND REGISTER PORTAIL ADMINS IMAGE
@@ -86,13 +95,16 @@ jobs:
           echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
       - name: Use autodevops build and register
-        uses: SocialGouv/actions/autodevops-build-register@v1
+        uses: SocialGouv/actions/harbor-build-register@v1
         with:
           environment: preprod
           project: ${{ env.project }}
           token: ${{ secrets.GITHUB_TOKEN }}
           imageName: ${{ env.project }}/portail-admins
           dockerfile: packages/portail-admins/Dockerfile
+          harborUsername: ${{ secrets.HARBOR_USERNAME }}
+          harborPassword: ${{ secrets.HARBOR_PASSWORD }}
+          harborUrl: ${{ secrets.HARBOR_REGISTRY }}
 
   ##############################################################################
   ## GENERATE PREPROD KUBERNETES MANIFESTS
