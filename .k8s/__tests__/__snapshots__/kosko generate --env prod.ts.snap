@@ -46,7 +46,7 @@ spec:
         team: domifa
     spec:
       containers:
-        - image: ghcr.io/socialgouv/domifa/backend:1.2.3
+        - image: harbor.fabrique.social.gouv.fr/domifa/backend:1.2.3
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -400,7 +400,7 @@ spec:
         team: domifa
     spec:
       containers:
-        - image: ghcr.io/socialgouv/domifa/frontend:1.2.3
+        - image: harbor.fabrique.social.gouv.fr/domifa/frontend:1.2.3
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -1007,7 +1007,7 @@ spec:
         team: domifa
     spec:
       containers:
-        - image: ghcr.io/socialgouv/domifa/portail-admins:1.2.3
+        - image: harbor.fabrique.social.gouv.fr/domifa/portail-admins:1.2.3
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -1159,7 +1159,7 @@ spec:
         team: domifa
     spec:
       containers:
-        - image: ghcr.io/socialgouv/domifa/portail-usagers:1.2.3
+        - image: harbor.fabrique.social.gouv.fr/domifa/portail-usagers:1.2.3
           livenessProbe:
             failureThreshold: 6
             httpGet:

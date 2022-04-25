@@ -24,8 +24,12 @@ jobs:
           echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
       - name: Use autodevops build and register
-        uses: SocialGouv/actions/autodevops-build-register@v1
+        uses: SocialGouv/actions/harbor-build-register@v1
         with:
+          harborUsername: ${{ secrets.HARBOR_USERNAME }}
+          harborPassword: ${{ secrets.HARBOR_PASSWORD }}
+          harborUrl: ${{ secrets.HARBOR_REGISTRY }}
+          environment: dev
           project: ${{ env.project }}
           token: ${{ secrets.GITHUB_TOKEN }}
           imageName: ${{ env.project }}/backend
@@ -43,8 +47,12 @@ jobs:
           echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
       - name: Use autodevops build and register
-        uses: SocialGouv/actions/autodevops-build-register@v1
+        uses: SocialGouv/actions/harbor-build-register@v1
         with:
+          harborUsername: ${{ secrets.HARBOR_USERNAME }}
+          harborPassword: ${{ secrets.HARBOR_PASSWORD }}
+          harborUrl: ${{ secrets.HARBOR_REGISTRY }}
+          environment: dev
           project: ${{ env.project }}
           token: ${{ secrets.GITHUB_TOKEN }}
           imageName: ${{ env.project }}/frontend
@@ -64,8 +72,12 @@ jobs:
           echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
       - name: Use autodevops build and register
-        uses: SocialGouv/actions/autodevops-build-register@v1
+        uses: SocialGouv/actions/harbor-build-register@v1
         with:
+          harborUsername: ${{ secrets.HARBOR_USERNAME }}
+          harborPassword: ${{ secrets.HARBOR_PASSWORD }}
+          harborUrl: ${{ secrets.HARBOR_REGISTRY }}
+          environment: dev
           project: ${{ env.project }}
           token: ${{ secrets.GITHUB_TOKEN }}
           imageName: ${{ env.project }}/portail-usagers
@@ -83,8 +95,12 @@ jobs:
           echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
       - name: Use autodevops build and register
-        uses: SocialGouv/actions/autodevops-build-register@v1
+        uses: SocialGouv/actions/harbor-build-register@v1
         with:
+          harborUsername: ${{ secrets.HARBOR_USERNAME }}
+          harborPassword: ${{ secrets.HARBOR_PASSWORD }}
+          harborUrl: ${{ secrets.HARBOR_REGISTRY }}
+          environment: dev
           project: ${{ env.project }}
           token: ${{ secrets.GITHUB_TOKEN }}
           imageName: ${{ env.project }}/portail-admins

@@ -3,6 +3,7 @@ import { create } from "@socialgouv/kosko-charts/components/nginx";
 import { addEnv } from "@socialgouv/kosko-charts/utils/addEnv";
 import { getIngressHost } from "@socialgouv/kosko-charts/utils/getIngressHost";
 import { getManifestByKind } from "@socialgouv/kosko-charts/utils/getManifestByKind";
+import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath";
 import { ok } from "assert";
 import { Deployment } from "kubernetes-models/apps/v1/Deployment";
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
@@ -14,7 +15,14 @@ export const getManifests = async () => {
   const name = "portail-usagers";
   const subdomain = "mon-domifa";
   const ciEnv = environments(process.env);
-  const version = ciEnv.isPreProduction ? `preprod-${ciEnv.sha}` : ciEnv.tag || `sha-${ciEnv.sha}`;
+  const version = ciEnv.isPreProduction
+    ? `preprod-${ciEnv.sha}`
+    : ciEnv.tag || `sha-${ciEnv.sha}`;
+
+  const image = getHarborImagePath({
+    name: "portail-usagers",
+    project: "domifa",
+  });
 
   const podProbes = ["livenessProbe", "readinessProbe", "startupProbe"].reduce(
     (probes, probe) => ({
@@ -39,7 +47,7 @@ export const getManifests = async () => {
       subDomainPrefix: ciEnv.isProduction ? "" : `${subdomain}-`,
     },
     deployment: {
-      image: `ghcr.io/socialgouv/domifa/portail-usagers:${version}`,
+      image,
       ...podProbes,
     },
   });

@@ -48,8 +48,7 @@ spec:
         cert: wildcard
     spec:
       containers:
-        - image: >-
-            ghcr.io/socialgouv/domifa/backend:preprod-0123456789abcdefghijklmnopqrstuvwxyz0123
+        - image: harbor.fabrique.social.gouv.fr/domifa/backend:1.2.3
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -413,8 +412,7 @@ spec:
         cert: wildcard
     spec:
       containers:
-        - image: >-
-            ghcr.io/socialgouv/domifa/frontend:preprod-0123456789abcdefghijklmnopqrstuvwxyz0123
+        - image: harbor.fabrique.social.gouv.fr/domifa/frontend:1.2.3
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -647,8 +645,7 @@ spec:
         cert: wildcard
     spec:
       containers:
-        - image: >-
-            ghcr.io/socialgouv/domifa/portail-admins:preprod-0123456789abcdefghijklmnopqrstuvwxyz0123
+        - image: harbor.fabrique.social.gouv.fr/domifa/portail-admins:1.2.3
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -802,8 +799,7 @@ spec:
         cert: wildcard
     spec:
       containers:
-        - image: >-
-            ghcr.io/socialgouv/domifa/portail-usagers:preprod-0123456789abcdefghijklmnopqrstuvwxyz0123
+        - image: harbor.fabrique.social.gouv.fr/domifa/portail-usagers:1.2.3
           livenessProbe:
             failureThreshold: 6
             httpGet:

@@ -4,6 +4,7 @@ import { azureProjectVolume } from "@socialgouv/kosko-charts/components/azure-st
 import environments from "@socialgouv/kosko-charts/environments";
 import { CIEnv } from "@socialgouv/kosko-charts/types";
 import { addEnv } from "@socialgouv/kosko-charts/utils/addEnv";
+import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath";
 import { getIngressHost } from "@socialgouv/kosko-charts/utils/getIngressHost";
 import { getManifestByKind } from "@socialgouv/kosko-charts/utils/getManifestByKind";
 import { ok } from "assert";
@@ -41,6 +42,8 @@ export const getManifests = async () => {
   const ciEnv = environments(process.env);
   const isDev = !(ciEnv.isPreProduction || ciEnv.isProduction);
   const version = getVersion(ciEnv);
+
+  const image = getHarborImagePath({ name: "backend", project: "domifa" });
 
   const podProbes = ["livenessProbe", "readinessProbe", "startupProbe"].reduce(
     (probes, probe) => ({
@@ -86,7 +89,7 @@ export const getManifests = async () => {
       subDomainPrefix: ciEnv.isProduction ? "" : `${subdomain}-`,
     },
     deployment: {
-      image: `ghcr.io/socialgouv/domifa/backend:${version}`,
+      image,
       volumes: [isDev ? emptyDir : uploadsVolume],
       container: {
         volumeMounts: [uploadsVolumeMount],
