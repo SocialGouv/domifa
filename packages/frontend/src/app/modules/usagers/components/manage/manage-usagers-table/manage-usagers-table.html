@@ -241,7 +241,7 @@
               <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
               </fa-icon>
             </div>
-            <div class="icon-passage list-icon"></div>
+            <button class="icon-passage list-icon"></button>
           </div>
 
           <div
@@ -253,7 +253,7 @@
               <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
               </fa-icon>
             </div>
-            <div class="icon-appel list-icon"></div>
+            <button class="icon-appel list-icon" title="Ajout d'un appel"></button>
           </div>
           <div
             ngbTooltip="Ajout rapide d'un courrier"
@@ -264,15 +264,16 @@
               <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
               </fa-icon>
             </div>
-            <div class="icon-courrier list-icon"></div>
+            <button autofocus class="icon-courrier list-icon"></button>
           </div>
           <div
             ngbTooltip="Ajout détaillé d'un courrier"
             class="interaction-btn"
             (click)="openInteractionInModal(usager)"
           >
-            <div class="icon-reception list-icon"></div>
-            <div class="list-icon-label">Réception</div>
+            <button type="button" class="icon-reception list-icon">
+            </button>
+            <span class="list-icon-label">Réception</span>
           </div>
 
           <ng-template #distributionBox class="p-2 text-start">
@@ -315,8 +316,8 @@
             [ngbTooltip]="distributionBox"
             (click)="openInteractionOutModal(usager)"
           >
-            <div class="icon-distribution list-icon"></div>
-            <div class="list-icon-label">Distribuer</div>
+            <button class="icon-distribution list-icon"></button>
+            <span class="list-icon-label">Distribuer</span>
             <b class="notification"> {{usager.totalInteractionsEnAttente }} </b>
           </div>
         </div>
