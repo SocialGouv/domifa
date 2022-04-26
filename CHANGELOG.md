@@ -1,3 +1,10 @@
+## [2.85.6](https://github.com/SocialGouv/domifa/compare/v2.85.5...v2.85.6) (2022-04-26)
+
+
+### Bug Fixes
+
+* **deps:** update dependency execa to v6 ([2b879c1](https://github.com/SocialGouv/domifa/commit/2b879c11a6ee84043996d55c3067638bc67d27cf))
+
 ## [2.85.5](https://github.com/SocialGouv/domifa/compare/v2.85.4...v2.85.5) (2022-04-25)
 
 
