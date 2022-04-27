@@ -62,7 +62,7 @@ async function createTables(queryRunner: QueryRunner) {
       attachment jsonb NULL,
       email text NOT NULL,
       category text NULL,
-      name text NOT NULL,
+      "name" text NOT NULL,
       "comments" text NULL,
       "structureName" text NULL,
       CONSTRAINT "PK_8e4a4781a01061a482fa33e5f5a" PRIMARY KEY (uuid)
