@@ -1,3 +1,21 @@
+# [2.86.0](https://github.com/SocialGouv/domifa/compare/v2.85.6...v2.86.0) (2022-04-27)
+
+
+### Bug Fixes
+
+* **dumps:** correction des dumps ([8ea1137](https://github.com/SocialGouv/domifa/commit/8ea1137456f70484b77bfde719026cadb3c737ba))
+* **dumps:** mise à jour des dumps de test ([fa90898](https://github.com/SocialGouv/domifa/commit/fa908980be7aaa6405e482b3ef38e48046e53457))
+* affichage des notes ([aaa2632](https://github.com/SocialGouv/domifa/commit/aaa2632eea7bb901486d79385489d3ef292ff63c))
+* ajout de la date de dernier passage ([e018b5d](https://github.com/SocialGouv/domifa/commit/e018b5d8ddb6bc86a8f07bec02e831fae8209016))
+* **db:** mise à jour des dumps ([47282f1](https://github.com/SocialGouv/domifa/commit/47282f1eb9155df7c09aa88cf5fb9a29671a51a8))
+* **historique:** correction des derniers bugs ([ae40fca](https://github.com/SocialGouv/domifa/commit/ae40fcadd3b34df641d2833dbb77bd8506fbf0f3))
+* suppresion de données obsolètes ([855192e](https://github.com/SocialGouv/domifa/commit/855192e962824a8c6fe879f123a906cd6330a89f))
+
+
+### Features
+
+* **historique:** Suppression des doublons dans l'historique ([c770ea9](https://github.com/SocialGouv/domifa/commit/c770ea92d853b4cbc34508645e1bf9949f46bf80))
+
 ## [2.85.6](https://github.com/SocialGouv/domifa/compare/v2.85.5...v2.85.6) (2022-04-26)
 
 
