@@ -16,7 +16,7 @@ import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import { usagerLightRepository } from "../../database";
+import { interactionRepository, usagerLightRepository } from "../../database";
 
 import {
   ETAPE_ETAT_CIVIL,
@@ -87,7 +87,7 @@ export class UsagersDecisionController {
           decision.statut === "REFUS" ||
           decision.statut === "RADIE" ||
           decision.statut === "VALIDE"
-      ) !== "undefined"
+      ) === "undefined"
     ) {
       return res
         .status(HttpStatus.BAD_REQUEST)
@@ -96,11 +96,11 @@ export class UsagersDecisionController {
 
     usager.etapeDemande = ETAPE_ETAT_CIVIL;
 
-    // On récupère la dernière décision
-    usager.decision = usager.historique[usager.historique.length - 1];
-
     // On retire la précédente décision de l'historique
     usager.historique.splice(usager.historique.length - 1, 1);
+
+    // On récupère la dernière décision
+    usager.decision = usager.historique[usager.historique.length - 1];
 
     // on garde trace du changement dans l'historique, car il peut y avoir eu aussi d'autres changements entre temps
     await usagerHistoryStateManager.removeLastDecisionFromHistory({
@@ -114,9 +114,23 @@ export class UsagersDecisionController {
       removedDecisionUUID: usager.decision.uuid,
     });
 
+    const lastInteractionOk = await interactionRepository.findLastInteractionOk(
+      {
+        user,
+        usager,
+        event: "create",
+      }
+    );
+
+    // Si aucune interaction est trouvée, on remet la date de la décision actuelle
+    usager.lastInteraction.dateInteraction = lastInteractionOk
+      ? lastInteractionOk.dateInteraction
+      : usager.decision.dateDebut;
+
     const result = await usagerLightRepository.updateOne(
       { uuid: usager.uuid },
       {
+        lastInteraction: usager.lastInteraction,
         historique: usager.historique,
         etapeDemande: usager.etapeDemande,
         decision: usager.decision,

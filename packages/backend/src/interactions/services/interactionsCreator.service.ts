@@ -33,7 +33,7 @@ async function createInteraction({
   usager: UsagerLight;
   interaction: Interactions;
 }> {
-  const todayWithGoodTimeZone = new Date();
+  const now = new Date();
 
   const direction = interactionsTypeManager.getDirection({
     type: interaction.type,
@@ -69,7 +69,7 @@ async function createInteraction({
           interaction.procurationIndex
         ].nom.toUpperCase();
     } else {
-      usager.lastInteraction.dateInteraction = todayWithGoodTimeZone;
+      usager.lastInteraction.dateInteraction = now;
     }
 
     // Transfert actif: on le précise dans le contenu
@@ -100,7 +100,7 @@ async function createInteraction({
   }
   // Appels & Visites
   else {
-    usager.lastInteraction.dateInteraction = todayWithGoodTimeZone;
+    usager.lastInteraction.dateInteraction = now;
     interaction.nbCourrier = 0;
   }
 
@@ -113,7 +113,7 @@ async function createInteraction({
     usagerUUID: usager.uuid,
     userId: user.id,
     userName: user.prenom + " " + user.nom,
-    dateInteraction: todayWithGoodTimeZone,
+    dateInteraction: now,
     event: "create",
   };
 
