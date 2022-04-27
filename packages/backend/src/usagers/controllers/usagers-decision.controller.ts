@@ -96,8 +96,10 @@ export class UsagersDecisionController {
 
     usager.etapeDemande = ETAPE_ETAT_CIVIL;
 
+    // On récupère la dernière décision
     usager.decision = usager.historique[usager.historique.length - 1];
 
+    // On retire la précédente décision de l'historique
     usager.historique.splice(usager.historique.length - 1, 1);
 
     // on garde trace du changement dans l'historique, car il peut y avoir eu aussi d'autres changements entre temps

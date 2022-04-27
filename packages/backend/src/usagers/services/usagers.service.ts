@@ -50,12 +50,14 @@ export class UsagersService {
       userId: user.id,
       dateFin: now,
       dateDebut: now,
+      typeDom: "PREMIERE_DOM",
     };
 
     usager.historique.push(usager.decision);
 
     usager.structureId = user.structureId;
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
+    usager.typeDom = "PREMIERE_DOM";
 
     const createdUsager = await usagerLightRepository.save(usager);
 
@@ -94,6 +96,7 @@ export class UsagersService {
         ? "PREMIERE_DOM"
         : "RENOUVELLEMENT";
 
+    usager.typeDom = typeDom;
     let newDateFin = null;
 
     // Pour les renouvellements de dossier encore valide, on reprend l'actuelle date de fin
@@ -110,7 +113,6 @@ export class UsagersService {
       userId: user.id,
       userName: user.prenom + " " + user.nom,
       typeDom,
-
       motif: null,
     };
 
@@ -179,8 +181,6 @@ export class UsagersService {
 
     // Valide
     if (decision.statut === "VALIDE") {
-      console.log(decision.dateDebut);
-
       const actualLastInteraction = new Date(
         usager.lastInteraction.dateInteraction
       );
@@ -195,11 +195,8 @@ export class UsagersService {
         usager.customRef = decision.customRef;
       }
 
-      // Date de premiere dom
-      if (usager.datePremiereDom !== null) {
-        usager.typeDom = "RENOUVELLEMENT";
-      } else {
-        usager.typeDom = "PREMIERE_DOM";
+      // Date de premiere dom = date de début si aucune autre date n'est spécifiée
+      if (!usager.datePremiereDom) {
         usager.datePremiereDom = decision.dateDebut;
       }
     }

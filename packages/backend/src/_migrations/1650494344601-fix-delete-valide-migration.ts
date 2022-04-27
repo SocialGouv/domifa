@@ -23,15 +23,14 @@ export class fixDeleteValideMigration1650494327593
         AND (state->>'createdEvent')::text = 'delete-decision' AND (state->'decision'->>'statut')::text = 'VALIDE'`
     );
     appLogger.warn(
-      `[MIGRATION] [DOSSIERS SUPPRIMES VALIDE] ${usagersHistory.length} dossiers avec un refus / radié supprimé à mettre à jour`
+      `> ${usagersHistory.length} dossiers avec un refus / radié supprimé à mettre à jour`
     );
     // Correction des datas obsolètes de l'historique des premieres dom
     for (const history of usagersHistory) {
       let decisions = [];
 
       // DISPLAY BEFORE AND CLEAN
-      for (let i = 0; i < history.states.length; i++) {
-        const state = history.states[i];
+      for (const state of history.states) {
         decisions.push({
           event: state.createdEvent,
           statut: state.decision.statut,
@@ -39,10 +38,6 @@ export class fixDeleteValideMigration1650494327593
           historyEndDate: state.historyEndDate,
         });
       }
-      // console.log("");
-      // console.log("");
-      // console.log("> BEFORE " + decisions.length + " - " + history.usagerUUID);
-      // console.table(decisions);
 
       history.states = history.states.filter(
         (state) =>
@@ -52,7 +47,7 @@ export class fixDeleteValideMigration1650494327593
           )
       );
 
-      // Mise à jour du End Date :
+      // Mise à jour du End Date
       if (
         history.states[history.states.length - 1].decision.statut === "VALIDE"
       ) {
@@ -62,8 +57,7 @@ export class fixDeleteValideMigration1650494327593
       // DISPLAY AFTER CLEAN
       decisions = [];
 
-      for (let i = 0; i < history.states.length; i++) {
-        const state = history.states[i];
+      for (const state of history.states) {
         decisions.push({
           event: state.createdEvent,
           statut: state.decision.statut,
@@ -71,10 +65,6 @@ export class fixDeleteValideMigration1650494327593
           historyEndDate: state.historyEndDate,
         });
       }
-      //  console.log("> AFTER " + decisions.length + " - " + history.usagerUUID);
-
-      //  console.table(decisions);
-
       // Update de l'historique
       await (
         await usagerHistoryRepository.typeorm()
@@ -97,10 +87,10 @@ export class fixDeleteValideMigration1650494327593
     );
 
     appLogger.warn(
-      `[MIGRATION] [DOSSIERS VALIDES BEFORE] ${usagersHistory.length} dossiers avec un valide supprimé à nettoyer`
+      `> [BEFORE] ${usagersHistory.length} dossiers avec un valide supprimé à nettoyer`
     );
     appLogger.warn(
-      `[MIGRATION] [DOSSIERS VALIDES AFTER] ${usagersHistoryAfter.length} dossiers avec un valide supprimé à nettoyer`
+      `> [AFTER] ${usagersHistoryAfter.length} dossiers avec un valide supprimé à nettoyer`
     );
   }
 

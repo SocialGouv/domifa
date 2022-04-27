@@ -16,11 +16,7 @@ import {
   ValidateIf,
   ValidateNested,
 } from "class-validator";
-import {
-  UsagerAyantDroit,
-  UsagerSexe,
-  UsagerTypeDom,
-} from "../../_common/model";
+import { UsagerAyantDroit, UsagerSexe } from "../../_common/model";
 import { UsagerAyantDroitDto } from "./UsagerAyantDroitDto";
 import { PreferenceContactDto } from ".";
 import { ValidationRegexp } from "../controllers/import/step2-validate-row";
@@ -101,6 +97,7 @@ export class CreateUsagerDto {
 
   @ApiProperty({
     example: "2020-1",
+    required: false,
     description: "Id personnalisé",
   })
   @IsOptional()
@@ -136,11 +133,6 @@ export class CreateUsagerDto {
   @Min(0)
   @Max(5)
   public etapeDemande!: number;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsIn(["RENOUVELLEMENT", "PREMIERE_DOM"])
-  public typeDom!: UsagerTypeDom;
 
   @ApiProperty({
     description: "Préférences de contact",

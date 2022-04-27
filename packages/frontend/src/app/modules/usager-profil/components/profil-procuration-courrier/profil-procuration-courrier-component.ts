@@ -57,7 +57,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
 
   public isFormVisible: boolean;
   public submitted: boolean;
-  public procurationToDelete: number; // Index de la procu à supprimer
+  public procurationToDelete: number | null; // Index de la procu à supprimer
 
   public procurationsForm!: FormGroup;
   public minDateToday: NgbDateStruct;
@@ -81,6 +81,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     this.isFormVisible = false;
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
+    this.procurationToDelete = null;
     this.maxDateNaissance = formatDateToNgb(new Date());
   }
 
@@ -228,7 +229,6 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
           setTimeout(() => {
             this.closeModals();
             this.hideForm();
-            this.submitted = false;
             this.usagerChanges.emit(usager);
             this.procurationsForm.reset();
             this.usager = new UsagerFormModel(usager);
@@ -248,6 +248,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
 
   public closeModals(): void {
     this.procurationToDelete = null;
+    this.submitted = false;
     this.modalService.dismissAll();
   }
 }

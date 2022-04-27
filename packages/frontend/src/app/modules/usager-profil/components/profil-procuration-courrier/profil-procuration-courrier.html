@@ -272,9 +272,9 @@
 
 <ng-template #confirmDelete let-modal>
   <div class="modal-header bg-danger">
-    <span class="modal-title text-white"> Confirmer la suppression </span>
+    <span class="modal-title text-white">Confirmer la suppression</span>
   </div>
-  <div class="modal-body">
+  <div class="modal-body" *ngIf="procurationToDelete">
     Êtes-vous sur de vouloir supprimer la procuration au nom de
     <b
       >{{ usager.options.procurations[procurationToDelete].nom }} {{
