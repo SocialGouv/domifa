@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { UsagerHistory } from "../_common/model/usager/history/UsagerHistory.type";
 import { MigrationInterface, QueryRunner } from "typeorm";
-import { domifaConfig } from "../config";
 import { usagerHistoryRepository } from "../database";
 import { appLogger } from "../util";
 
@@ -24,7 +23,7 @@ export class fixDeleteRefusMigration1650494327593
     );
 
     appLogger.warn(
-      `[MIGRATION] [FIX PREMIERE_DOM] ${usagersHistory.length} dossiers avec un refus / radié supprimé à mettre à jour`
+      `> ${usagersHistory.length} dossiers avec un refus / radié supprimé à mettre à jour`
     );
     // Correction des datas obsolètes de l'historique des premieres dom
     for (const history of usagersHistory) {
@@ -41,11 +40,6 @@ export class fixDeleteRefusMigration1650494327593
           historyEndDate: state.historyEndDate,
         });
       }
-      // console.log("");
-      // console.log("");
-      // console.log("> BEFORE " + history.usagerUUID);
-      // console.table(decisions);
-      // console.log("> AFTER ");
 
       history.states = history.states.filter(
         (state) =>
@@ -56,7 +50,7 @@ export class fixDeleteRefusMigration1650494327593
           )
       );
 
-      // Mise à jour du End Date :
+      // Mise à jour du End Date
       if (
         history.states[history.states.length - 1].decision.statut === "REFUS" ||
         history.states[history.states.length - 1].decision.statut === "RADIE"
@@ -76,7 +70,6 @@ export class fixDeleteRefusMigration1650494327593
           historyEndDate: state.historyEndDate,
         });
       }
-      // console.table(decisions);
 
       // Update de l'historique
       await (
@@ -92,7 +85,7 @@ export class fixDeleteRefusMigration1650494327593
     }
 
     appLogger.warn(
-      `[MIGRATION] [DOSSIERS SUPPRIMES REFUS] ${usagersHistory.length} dossiers avec un refus / radié supprimé à mettre à jour`
+      `> ${usagersHistory.length} dossiers avec un refus / radié supprimé à mettre à jour`
     );
   }
 

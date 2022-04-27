@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { MigrationInterface, QueryRunner } from "typeorm";
-import { domifaConfig } from "../config";
 import { usagerRepository } from "../database";
 import { appLogger } from "../util";
 import { Usager } from "../_common/model";
@@ -11,7 +10,7 @@ export class fixPremiereDomMigration1650494327593
 {
   name = "fixPremiereDomMigration1650494327593";
 
-  public async up(queryRunner: QueryRunner): Promise<void> {
+  public async up(): Promise<void> {
     appLogger.warn("[MIGRATION] Nettoyage de données obsolètes");
     const usagers: Usager[] = await (
       await usagerRepository.typeorm()
@@ -39,5 +38,5 @@ export class fixPremiereDomMigration1650494327593
     }
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {}
+  public async down(): Promise<void> {}
 }

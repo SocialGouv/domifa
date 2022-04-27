@@ -25,7 +25,7 @@ export class deleteDoubloonsHistoriqueMigration1650555036350
       ).query(
         `select uuid, decision, historique FROM usager u
         WHERE u.migrated = false
-        order by  jsonb_array_length(u.historique) DESC
+        order by jsonb_array_length(u.historique) DESC
         LIMIT 5000`
       );
 
@@ -35,14 +35,13 @@ export class deleteDoubloonsHistoriqueMigration1650555036350
           usager.historique.push(usager.decision);
         }
 
+        // Si la décision n'existe pas encore dans l'historique, on l'ajoute
         if (
           usager.decision.statut !==
           usager.historique[usager.historique.length - 1].statut
         ) {
           usager.historique.push(usager.decision);
         }
-
-        // console.table(usager.historique);
 
         // Nouveau tableau d'historique
         let newHistorique = [];
@@ -54,14 +53,14 @@ export class deleteDoubloonsHistoriqueMigration1650555036350
           // Date de référence pour l'index
 
           if (lastStatut === decision.statut) {
-            appLogger.debug(
-              "[DOUBLON] " +
-                decision.statut +
-                " le " +
-                decision.dateDecision +
-                " \t Début :" +
-                decision.dateDebut
-            );
+            // appLogger.debug(
+            //   "[DOUBLON] " +
+            //     decision.statut +
+            //     " le " +
+            //     decision.dateDecision +
+            //     " \t Début :" +
+            //     decision.dateDebut
+            // );
 
             totalHistoriquesFail++;
           } else {
@@ -96,16 +95,6 @@ export class deleteDoubloonsHistoriqueMigration1650555036350
         if (newHistorique.length !== usager.historique.length) {
           totalDoublons++;
         }
-
-        if (usager.historique.length !== newHistorique.length) {
-          appLogger.debug(usager.uuid);
-          appLogger.warn("BEFORE " + usager.historique.length);
-          appLogger.warn("AFTER " + newHistorique.length);
-          console.log("");
-          console.log("");
-        }
-
-        //console.table(history);
 
         await (
           await usagerRepository.typeorm()

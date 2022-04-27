@@ -72,14 +72,8 @@ export class DeleteUsagerMenuComponent implements OnInit {
       return a.dateDecision.getTime() - b.dateDecision.getTime();
     });
 
-    // Fix temporaire = si instruction dans l'historique, on prend la valeure juste avant
-    const index =
-      historique[historique.length - 1].statut === "INSTRUCTION" ? 2 : 1;
-
     this.previousStatus =
-      USAGER_DECISION_STATUT_LABELS[
-        historique[historique.length - index].statut
-      ];
+      USAGER_DECISION_STATUT_LABELS[historique[historique.length - 1].statut];
   }
 
   public open(content: TemplateRef<NgbModalRef>): void {
