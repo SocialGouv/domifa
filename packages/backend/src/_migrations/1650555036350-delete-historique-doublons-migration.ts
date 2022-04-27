@@ -112,7 +112,7 @@ export class deleteDoubloonsHistoriqueMigration1650555036350
     }
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {}
+  public async down(): Promise<void> {}
 
   public resetDate = (value: Date) => {
     return setMilliseconds(setSeconds(new Date(value), 0), 0)
