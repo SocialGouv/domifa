@@ -73,7 +73,7 @@ export class DeleteUsagerMenuComponent implements OnInit {
     });
 
     this.previousStatus =
-      USAGER_DECISION_STATUT_LABELS[historique[historique.length - 1].statut];
+      USAGER_DECISION_STATUT_LABELS[historique[historique.length - 2].statut];
   }
 
   public open(content: TemplateRef<NgbModalRef>): void {

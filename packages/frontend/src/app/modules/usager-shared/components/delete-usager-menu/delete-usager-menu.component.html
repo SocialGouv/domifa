@@ -3,7 +3,9 @@
     class="d-print-none col-md-12 text-center text-danger"
     *ngIf="me.role === 'admin' || me.role === 'responsable'"
   >
-    <ng-container *ngIf="usager.decision.statut === 'INSTRUCTION'">
+    <ng-container
+      *ngIf="usager.decision.statut === 'INSTRUCTION' && usager.ref"
+    >
       <button
         title="Supprimer cette demande"
         class="btn btn-danger"

@@ -28,7 +28,6 @@ const baseRepository = pgRepository.get<InteractionsTable, Interactions>(
 
 export const interactionRepository = {
   ...baseRepository,
-  findLastInteraction,
   findLastInteractionOk,
   findLastInteractionInWithContent,
   findWithFilters,
@@ -37,34 +36,6 @@ export const interactionRepository = {
   countPendingInteractionsIn,
   countVisiteOut,
 };
-
-async function findLastInteraction({
-  usagerRef,
-  dateInteraction,
-  typeInteraction,
-  user,
-  isIn,
-  event,
-}: {
-  usagerRef: number;
-  dateInteraction: Date;
-  typeInteraction: InteractionType;
-  user: Pick<UserStructure, "structureId">;
-  isIn: string;
-  event: InteractionEvent;
-}): Promise<Interactions | null> {
-  const dateQuery =
-    isIn === "out" ? LessThan(dateInteraction) : MoreThan(dateInteraction);
-
-  const where: FindConditions<InteractionsTable> = {
-    structureId: user.structureId,
-    usagerRef,
-    type: typeInteraction,
-    dateInteraction: dateQuery,
-    event,
-  };
-  return interactionRepository.findOne(where as any);
-}
 
 async function findLastInteractionOk({
   user,
