@@ -1,0 +1,69 @@
+app-frontend:
+  imagePackage: frontend
+  host: "{{ .Values.global.host }}"
+  containerPort: 8080
+  resources:
+    requests:
+      cpu: 0.2
+      memory: 256Mi
+    limits:
+      cpu: 1
+      memory: 1Gi
+
+app-backend: # todo: probes
+  imagePackage: backend
+  host: "api-{{ .Values.global.host }}"
+  probesPath: /healthz
+  containerPort: 3000
+  resources:
+    requests:
+      cpu: 0.2
+      memory: 256Mi
+    limits:
+      cpu: 1
+      memory: 1Gi
+  envFrom:
+    - secretRef:
+        name: "{{ .Values.global.pgSecretName }}"
+    - secretRef:
+        name: backend-sealed-secret
+    - configMapRef:
+        name: backend-configmap
+  # todo: version
+  env:
+    - name: TZ
+      value: Europe/Paris
+    - name: POSTGRES_HOST
+      value: "$(PGHOST)"
+    - name: POSTGRES_USERNAME
+      value: "$(PGUSER)"
+    - name: POSTGRES_PASSWORD
+      value: "$(PGPASSWORD)"
+    - name: POSTGRES_DATABASE
+      value: "$(PGDATABASE)"
+    - name: DOMIFA_VERSION
+      value: xxx
+    - name: DOMIFA_BACKEND_URL
+      value: https://"api-{{ .Values.global.host }}"
+    - name: DOMIFA_FRONTEND_URL
+      value: https://"{{ .Values.global.host }}"
+    - name: DOMIFA_PORTAIL_USAGERS_URL
+      value: https://"portail-usagers-{{ .Values.global.host }}"
+    - name: DOMIFA_PORTAIL_ADMINS_URL
+      value: https://"portail-admins-{{ .Values.global.host }}"
+
+app-portail-usagers:
+  imagePackage: portail-usagers
+  containerPort: 8080
+  host: "portail-usagers-{{ .Values.global.host }}"
+
+app-portail-admins:
+  imagePackage: portail-admins
+  containerPort: 8080
+  host: "portail-admins-{{ .Values.global.host }}"
+
+metabase:
+  enabled: false
+
+oauth2-proxy:
+  enabled: false

@@ -19,17 +19,15 @@ jobs:
     name: Build & Register backend
     runs-on: ubuntu-latest
     steps:
-      - name: Get project name
-        run: |
-          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-
       - name: Use autodevops build and register
         uses: SocialGouv/actions/autodevops-build-register@v1
         with:
-          project: ${{ env.project }}
+          environment: dev
           token: ${{ secrets.GITHUB_TOKEN }}
-          imageName: ${{ env.project }}/backend
+          imageName: domifa/backend
           dockerfile: packages/backend/Dockerfile
+          dockerbuildargs: |
+            DOMIFA_ENV_ID=dev
 
   ##############################################################################
   ## BUILD AND REGISTER FRONTEND IMAGE
@@ -40,17 +38,25 @@ jobs:
     steps:
       - name: Get project name
         run: |
-          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+          REPOSITORY=${GITHUB_REPOSITORY#*/}
+          BRANCH=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
+          HOST=$(npx kube-workflow slugify $REPOSITORY-$BRANCH)
+          echo "project=${REPOSITORY}" >> $GITHUB_ENV
+          echo "branch=${BRANCH}" >> $GITHUB_ENV
+          echo "host=${HOST}" >> $GITHUB_ENV
 
       - name: Use autodevops build and register
         uses: SocialGouv/actions/autodevops-build-register@v1
         with:
-          project: ${{ env.project }}
+          environment: dev
           token: ${{ secrets.GITHUB_TOKEN }}
-          imageName: ${{ env.project }}/frontend
+          imageName: domifa/frontend
           dockerfile: packages/frontend/Dockerfile
           dockerbuildargs: |
-            DOMIFA_FRONTEND_META_ROBOTS=noindex,nofollow
+            DOMIFA_BACKEND_URL=https://api-${{ env.host }}.dev.fabrique.social.gouv.fr/
+            DOMIFA_PORTAIL_ADMINS_URL=https://portail-admins-${{ env.host }}.dev.fabrique.social.gouv.fr
+            DOMIFA_PORTAIL_USAGERS_URL=https://portail-usagers-${{ env.host }}.dev.fabrique.social.gouv.fr
+            DOMIFA_ENV_ID=dev
 
   ##############################################################################
   ## BUILD AND REGISTER PORTAIL USAGERS IMAGE
@@ -61,15 +67,23 @@ jobs:
     steps:
       - name: Get project name
         run: |
-          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+          REPOSITORY=${GITHUB_REPOSITORY#*/}
+          BRANCH=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
+          HOST=$(npx kube-workflow slugify $REPOSITORY-$BRANCH)
+          echo "project=${REPOSITORY}" >> $GITHUB_ENV
+          echo "branch=${BRANCH}" >> $GITHUB_ENV
+          echo "host=${HOST}" >> $GITHUB_ENV
 
       - name: Use autodevops build and register
         uses: SocialGouv/actions/autodevops-build-register@v1
         with:
-          project: ${{ env.project }}
+          environment: dev
           token: ${{ secrets.GITHUB_TOKEN }}
-          imageName: ${{ env.project }}/portail-usagers
+          imageName: domifa/portail-usagers
           dockerfile: packages/portail-usagers/Dockerfile
+          dockerbuildargs: |
+            DOMIFA_BACKEND_URL=https://api-${{ env.host }}.dev.fabrique.social.gouv.fr/
+            DOMIFA_ENV_ID=dev
 
   ##############################################################################
   ## BUILD AND REGISTER PORTAIL ADMINS IMAGE
@@ -80,29 +94,23 @@ jobs:
     steps:
       - name: Get project name
         run: |
-          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+          REPOSITORY=${GITHUB_REPOSITORY#*/}
+          BRANCH=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
+          HOST=$(npx kube-workflow slugify $REPOSITORY-$BRANCH)
+          echo "project=${REPOSITORY}" >> $GITHUB_ENV
+          echo "branch=${BRANCH}" >> $GITHUB_ENV
+          echo "host=${HOST}" >> $GITHUB_ENV
 
       - name: Use autodevops build and register
         uses: SocialGouv/actions/autodevops-build-register@v1
         with:
-          project: ${{ env.project }}
+          environment: dev
           token: ${{ secrets.GITHUB_TOKEN }}
-          imageName: ${{ env.project }}/portail-admins
+          imageName: domifa/portail-admins
           dockerfile: packages/portail-admins/Dockerfile
-
-  ##############################################################################
-  ## GENERATE KUBERNETES MANIFESTS
-  ##############################################################################
-  manifests:
-    name: Generate k8s manifests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Use autodevops manifests generation
-        uses: SocialGouv/actions/k8s-manifests@v1
-        with:
-          environment: "dev"
-          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
-          socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
+          dockerbuildargs: |
+            DOMIFA_BACKEND_URL=https://api-${{ env.host }}.dev.fabrique.social.gouv.fr/
+            DOMIFA_ENV_ID=dev
 
   ##############################################################################
   ## DEPLOY BACKEND & FRONT-END
@@ -111,26 +119,17 @@ jobs:
     name: Deploy review branch
     runs-on: ubuntu-latest
     needs:
-      [register-backend, register-frontend, register-portail-usagers, manifests]
+      [
+        register-backend,
+        register-frontend,
+        register-portail-usagers,
+        register-portail-admins,
+      ]
     steps:
-      - name: Use autodevops deployment
-        uses: SocialGouv/actions/autodevops-deploy@v1
+      - uses: SocialGouv/kube-workflow@master
         with:
-          environment: "dev"
+          environment: dev
           token: ${{ secrets.GITHUB_TOKEN }}
-          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
-          kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }}
-
-  ##############################################################################
-  ## RESTORE DATABASE
-  ##############################################################################
-  restore-db:
-    name: Restore database
-    runs-on: ubuntu-latest
-    needs: deploy
-    steps:
-      - uses: SocialGouv/actions/k8s-restore-db@v1
-        with:
           kubeconfig: ${{ secrets.KUBECONFIG }}
-          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
-          socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
+          rancherProjectId: ${{ secrets.RANCHER_PROJECT_ID }}
+          rancherProjectName: ${{ secrets.RANCHER_PROJECT_NAME }}
