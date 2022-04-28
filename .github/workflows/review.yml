@@ -126,7 +126,7 @@ jobs:
         register-portail-admins,
       ]
     steps:
-      - uses: SocialGouv/kube-workflow@master
+      - uses: SocialGouv/kube-workflow@v1
         with:
           environment: dev
           token: ${{ secrets.GITHUB_TOKEN }}

@@ -102,18 +102,11 @@ jobs:
       name: production
       url: ${{ steps.deploy.outputs.url }}
     steps:
-      - name: Use autodevops manifests generation
-        uses: SocialGouv/actions/k8s-manifests@v1
-        with:
-          environment: "prod"
-          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
-          socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
-
-      - name: Use autodevops deployment
-        uses: SocialGouv/actions/autodevops-deploy@v1
+      - uses: SocialGouv/kube-workflow@v1
         id: deploy
         with:
-          environment: "prod"
+          environment: prod
           token: ${{ secrets.GITHUB_TOKEN }}
-          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
-          kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_PROD2 }}
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+          rancherProjectId: ${{ secrets.RANCHER_PROJECT_ID }}
+          rancherProjectName: ${{ secrets.RANCHER_PROJECT_NAME }}
