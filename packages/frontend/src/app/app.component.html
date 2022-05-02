@@ -1,22 +1,20 @@
 <app-custom-toastr></app-custom-toastr>
 <app-loading></app-loading>
-
-<app-navbar></app-navbar>
+<app-navbar></app-navbar>  
 <div class="d-print-none" id="help-button-wrapper" *ngIf="me">
   <button
     type="button"
-    aria-label="Besoin d'aide ?"
     class="btn"
     id="help-button"
     (click)="openHelpModal()"
   >
+  <span class="sr-only">Besoin d'aide ?</span>
     <fa-icon [icon]="['fas', 'question']"></fa-icon>
   </button>
 </div>
 <main id="page">
   <router-outlet></router-outlet>
 </main>
-
 <footer class="d-print-none page-footer py-4">
   <div class="container">
     <div class="my-2">
@@ -27,16 +25,13 @@
           href="https://www.fabrique.social.gouv.fr"
           target="_blank"
           rel="noopener noreferrer"
-          (click)="
-            matomo.trackEvent('FOOTER', 'Footer_Logo_Fabrique', 'null', 1)
-          "
-        >
+          (click)="matomo.trackEvent('FOOTER', 'Footer_Logo_Fabrique', 'null', 1)">
           <img
             class="ministere-logo"
             src="../assets/images/footer/partenaire-fabrique-numerique.png"
             alt="La Fabrique Numérique"
           />
-          <span class="invisible">Ouvre une nouvelle fenêtre</span>
+          <!-- <span class="invisible">Ouvre une nouvelle fenêtre</span> -->
         </a>
         <a
           class="me-0 me-sm-3"
@@ -50,7 +45,7 @@
             src="../assets/images/footer/partenaire-beta-gouv.png"
             alt="Beta Gouv"
         />
-        <span class="invisible">Ouvre une nouvelle fenêtre</span>
+        <!-- <span class="invisible">Ouvre une nouvelle fenêtre</span> -->
       </a>
         <a
           class="me-0 me-sm-3"
@@ -66,7 +61,7 @@
             src="../assets/images/footer/logo-france-relance.svg"
             alt="France Relance soutien Domifa"
         />
-        <span class="invisible">Ouvre une nouvelle fenêtre</span>
+        <!-- <span class="invisible">Ouvre une nouvelle fenêtre</span> -->
       </a>
         <a
           class="me-0 me-sm-3"
@@ -80,7 +75,7 @@
             src="../assets/images/footer/partenaire-dihal.png"
             alt="DIHAL"
           />
-          <span class="invisible">Ouvre une nouvelle fenêtre</span>
+          <!-- <span class="invisible">Ouvre une nouvelle fenêtre</span> -->
         </a>
         <a
           class="me-0 me-sm-3"
@@ -94,7 +89,7 @@
             src="../assets/images/footer/logo-dgcs.png"
             alt="DGCS"
         />
-        <span class="invisible">Ouvre une nouvelle fenêtre</span>
+        <!-- <span class="invisible">Ouvre une nouvelle fenêtre</span> -->
       </a>
         <a
           href="https://www.unccas.org"
@@ -107,7 +102,7 @@
             src="../assets/images/footer/partenaire-unccas.png"
             alt="UNCCAS"
         />
-        <span class="invisible">Ouvre une nouvelle fenêtre</span>
+        <!-- <span class="invisible">Ouvre une nouvelle fenêtre</span> -->
       </a>
       </div>
     </div>
@@ -119,7 +114,7 @@
           rel="noopener noreferrer"
           download
           >Accessibilité: non conforme 
-          <span class="invisible">Ouvre une nouvelle fenêtre</span>
+          <!-- <span class="invisible">Ouvre une nouvelle fenêtre</span> -->
         </a>
         <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
         <a
@@ -162,6 +157,15 @@
           (click)="matomo.trackEvent('FOOTER', 'Footer_Contact', 'null', 1)"
         >
           Contactez-nous
+        </a>
+        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
+        <a 
+          href="plandusite" 
+          title="Plan du site"
+          routerLinkActive="router-link-active"
+          (click)="matomo.trackEvent('FOOTER', 'Footer_Contact', 'null', 1)"
+          >
+          Plan du site
         </a>
       </div>
       <div class="my-4 text-gray">
