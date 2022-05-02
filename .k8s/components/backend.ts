@@ -97,7 +97,7 @@ export const getManifests = async () => {
             memory: "512Mi",
           },
           limits: {
-            cpu: "800m",
+            cpu: "1500m",
             memory: "1024Mi",
           },
         },
