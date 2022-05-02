@@ -120,3 +120,11 @@ h2 img {
   width: 32px;
   height: auto;
 }
+
+
+a.btn:hover,
+a.btn:focus {
+  text-decoration: underline;
+  color: var(--bs-primary);
+  outline: 2px solid var(--bs-white);
+}
