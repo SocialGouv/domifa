@@ -1,21 +1,18 @@
 <div id="page-header">
   <div id="matomo-info" *ngIf="!matomoInfo">
-    <div
-      class="d-print-none d-flex justify-content-center align-items-center"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Avertissement sur la collecte de données"
-    >
+    <div class="d-print-none d-flex justify-content-center align-items-center"role="dialog">
       <div class="mx-1">
-        Nous collectons des données anonymisées à des fins statistiques via
-        l'outil français Matomo. Pour tout savoir sur notre utilisation des
-        données, consultez notre
-
-        <a
-          [routerLink]="['/confidentialite']"
-          routerLinkActive="router-link-active"
-          >politique de confidentialité.</a
-        >
+        <div role="heading" aria-level="1">
+          Avertissement sur la collecte de données
+        </div>
+        <p>
+          Nous collectons des données anonymisées à des fins statistiques via
+          l'outil français Matomo. Pour tout savoir sur notre utilisation des
+          données, consultez notre
+          <a [routerLink]="['/confidentialite']" routerLinkActive="router-link-active">
+            politique de confidentialité.
+          </a>
+        </p>
       </div>
       <div class="mx-1">
         <button
@@ -28,43 +25,48 @@
       </div>
     </div>
   </div>
-
-  <nav class="navbar navbar-expand-lg" id="navbar-site">
+  <nav class="navbar navbar-expand-lg" id="navbar-site">  
     <div class="container px-2">
       <div class="d-flex align-items-center">
+        <ul class="skip-links">
+          <li>
+            <a href="#navigation">Aller à la navigation</a>
+          </li>
+          <li>
+            <a href="#content">Aller au contenu</a> 
+          </li>
+          <li>
+            <a href="#plandesite">Aller au plan du site</a>    
+          </li> 
+        </ul>
         <img
           class="home-header-image"
-          (click)="
-            matomoService.trackEvent('HEADER', 'Header_Logo_DomiFa', 'null', 1)
-          "
+          (click)="matomoService.trackEvent('HEADER', 'Header_Logo_DomiFa', 'null', 1)"
           src="../assets/images/logo-ministere.svg "
-          alt=""
-          aria-label="Ministère des Solidarités et de la Santé"
+          alt="Ministère des Solidarités et de la Santé"
         />
-
         <a
           class="navbar-brand ms-4 d-none d-sm-block"
-          title="Accueil de Domifa"
+          title="Retour à l'accueil de Domifa"
           [routerLink]="['/']"
         >
           <img
             class="domifa-logo"
             src="../assets/images/logo.svg"
-            alt="Accueil Domifa"
+            alt="Domifa"
           />
           <span id="nom-asso" *ngIf="me">
             {{ me?.structure?.nom }}
           </span>
         </a>
       </div>
-
       <div>
         <div
           [ngbCollapse]="isNavbarCollapsed"
           class="collapse navbar-collapse"
           id="navbarsDefault"
         >
-          <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+          <ul id="navigation" class="navbar-nav me-auto mt-2 mt-lg-0">
             <li class="nav-item active"></li>
           </ul>
           <div class="my-2 my-lg-0">
