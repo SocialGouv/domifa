@@ -1,4 +1,4 @@
-<div id="page-header">
+<div id="page-header" role="banner">
   <div id="matomo-info" *ngIf="!matomoInfo">
     <div class="d-print-none d-flex justify-content-center align-items-center"role="dialog">
       <div class="mx-1">
@@ -20,12 +20,13 @@
           aria-label="Fermer le message"
           (click)="closeMatomo()"
         >
-          Fermer <span aria-hidden="true">&times;</span>
+          Fermer 
+          <span aria-hidden="true">&times;</span>
         </button>
       </div>
     </div>
   </div>
-  <nav class="navbar navbar-expand-lg" id="navbar-site">  
+  <nav class="navbar navbar-expand-lg" id="navbar-site" role="navigation">  
     <div class="container px-2">
       <div class="d-flex align-items-center">
         <ul class="skip-links">
@@ -36,7 +37,7 @@
             <a href="#content">Aller au contenu</a> 
           </li>
           <li>
-            <a href="#plandesite">Aller au plan du site</a>    
+            <a href="#plandesite">Aller au pied de page</a>    
           </li> 
         </ul>
         <img
@@ -60,11 +61,13 @@
           </span>
         </a>
       </div>
-      <div>
+      <div >
         <div
           [ngbCollapse]="isNavbarCollapsed"
           class="collapse navbar-collapse"
           id="navbarsDefault"
+          role="navigation"
+          aria-label="Menu principal"
         >
           <ul id="navigation" class="navbar-nav me-auto mt-2 mt-lg-0">
             <li class="nav-item active"></li>
@@ -72,7 +75,7 @@
           <div class="my-2 my-lg-0">
             <ng-container *ngIf="!me">
               <!-- MENU SI DECONNECTE - SAUF MOBILE -->
-              <div class="d-none d-xs-inline-block d-sm-inline-block">
+              <div class="d-none d-xs-inline-block d-sm-inline-block" aria-label="Menu principal">
                 <a
                   routerLink="/news"
                   class="btn text-primary"
