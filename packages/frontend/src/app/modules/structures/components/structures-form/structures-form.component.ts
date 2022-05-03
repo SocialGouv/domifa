@@ -6,6 +6,12 @@ import {
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
+import {
+  CountryISO,
+  PhoneNumberFormat,
+  SearchCountryField,
+} from "ngx-intl-tel-input";
+
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
@@ -22,6 +28,19 @@ import { DEPARTEMENTS_LISTE } from "../../../../shared";
   templateUrl: "./structures-form.component.html",
 })
 export class StructuresFormComponent implements OnInit {
+  public PhoneNumberFormat = PhoneNumberFormat;
+  public SearchCountryField = SearchCountryField;
+  public CountryISO = CountryISO;
+  public preferredCountries: CountryISO[] = [
+    CountryISO.France,
+    CountryISO.FrenchGuiana,
+    CountryISO.FrenchPolynesia,
+    CountryISO.Guadeloupe,
+    CountryISO.Martinique,
+    CountryISO.Réunion,
+    CountryISO.Mayotte,
+    CountryISO.SaintPierreAndMiquelon,
+  ];
   public success = false;
   public structureForm!: FormGroup;
   public structure: StructureCommon;
@@ -93,10 +112,13 @@ export class StructuresFormComponent implements OnInit {
       ],
       id: [this.structure.id, [Validators.required]],
       nom: [this.structure.nom, [Validators.required]],
-      phone: [
-        this.structure.phone,
-        [Validators.required, Validators.pattern(regexp.phone)],
-      ],
+      telephone: this.formBuilder.control(
+        {
+          number: this.structure.telephone.numero,
+          countryCode: this.structure.telephone.indicatif,
+        },
+        [Validators.required]
+      ),
       responsable: this.formBuilder.group({
         fonction: [this.structure.responsable.fonction, [Validators.required]],
         nom: [this.structure.responsable.nom, [Validators.required]],
@@ -163,7 +185,15 @@ export class StructuresFormComponent implements OnInit {
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );
     } else {
-      this.structureService.prePost(this.structureForm.value).subscribe({
+      const structureFormValue = {
+        ...this.structureForm.value,
+        telephone: {
+          numero: this.structureForm.value.telephone.number,
+          indicatif:
+            this.structureForm.value.telephone.countryCode.toLowerCase(),
+        },
+      };
+      this.structureService.prePost(structureFormValue).subscribe({
         next: (structure: StructureCommon) => {
           this.etapeInscription = 1;
           this.structureRegisterInfos.etapeInscription = 1;

@@ -8,8 +8,13 @@ import {
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
-import { StructureCommon } from "../../../../../_common/model";
+import {
+  CountryISO,
+  PhoneNumberFormat,
+  SearchCountryField,
+} from "ngx-intl-tel-input";
 
+import { StructureCommon } from "../../../../../_common/model";
 import { regexp } from "../../../../shared/validators";
 import { StructureService } from "../../services/structure.service";
 import { structureNameChecker } from "./structureNameChecker.service";
@@ -21,8 +26,20 @@ import { DEPARTEMENTS_LISTE } from "../../../../shared";
   styleUrls: ["./structure-edit-form.component.css"],
 })
 export class StructureEditFormComponent implements OnInit {
+  public PhoneNumberFormat = PhoneNumberFormat;
+  public SearchCountryField = SearchCountryField;
+  public CountryISO = CountryISO;
+  public preferredCountries: CountryISO[] = [
+    CountryISO.France,
+    CountryISO.FrenchGuiana,
+    CountryISO.FrenchPolynesia,
+    CountryISO.Guadeloupe,
+    CountryISO.Martinique,
+    CountryISO.Réunion,
+    CountryISO.Mayotte,
+    CountryISO.SaintPierreAndMiquelon,
+  ];
   public structureForm: FormGroup;
-
   public DEPARTEMENTS_LISTE = DEPARTEMENTS_LISTE;
   public loading = false;
   public submitted: boolean;
@@ -83,10 +100,14 @@ export class StructureEditFormComponent implements OnInit {
           adresseRequired,
         ],
       }),
-      phone: [
-        this.structure.phone,
-        [Validators.required, Validators.pattern(regexp.phone)],
-      ],
+
+      telephone: this.formBuilder.control(
+        {
+          number: this.structure.telephone.numero,
+          countryCode: this.structure.telephone.indicatif,
+        },
+        [Validators.required]
+      ),
 
       responsable: this.formBuilder.group({
         fonction: [this.structure.responsable.fonction, [Validators.required]],
@@ -139,7 +160,15 @@ export class StructureEditFormComponent implements OnInit {
       );
     } else {
       this.loading = true;
-      this.structureService.patch(this.structureForm.value).subscribe({
+      const structureFormValue = {
+        ...this.structureForm.value,
+        telephone: {
+          numero: this.structureForm.value.telephone.number,
+          indicatif:
+            this.structureForm.value.telephone.countryCode.toLowerCase(),
+        },
+      };
+      this.structureService.patch(structureFormValue).subscribe({
         next: (structure: StructureCommon) => {
           this.toastService.success(
             "Les modifications ont bien été prises en compte"
@@ -168,5 +197,9 @@ export class StructureEditFormComponent implements OnInit {
 
   isInvalidStructureName(structureName: string) {
     return structureNameChecker.isInvalidStructureName(structureName);
+  }
+
+  changePreferredCountries() {
+    this.preferredCountries = [CountryISO.India, CountryISO.Canada];
   }
 }

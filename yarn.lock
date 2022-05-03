@@ -8211,6 +8211,11 @@ globby@^12.0.2:
     merge2 "^1.4.1"
     slash "^4.0.0"
 
+google-libphonenumber@^3.2.27:
+  version "3.2.27"
+  resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.2.27.tgz#06a0c1d42be712a6fd4189e2e3b07fc36cacee01"
+  integrity sha512-et3QlrfWemNPhyUfXZmJG8TfzitfAN71ygNI15+B35zNge/7vyZxkpDsc13oninkf8RAtN2kNEzvMr4L1n3vfQ==
+
 got@^9.6.0:
   version "9.6.0"
   resolved "https://registry.yarnpkg.com/got/-/got-9.6.0.tgz#edf45e7d67f99545705de1f7bbeeeb121765ed85"
@@ -8787,6 +8792,11 @@ interpret@^1.0.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.4.0.tgz#665ab8bc4da27a774a40584e812e3e0fa45b1a1e"
   integrity sha512-agE4QfB2Lkp9uICn7BAqoscw4SZP9kTE2hxiFI3jBPmXJfdqiahTbUuKGsMoN2GtqL9AxhYioAcVvgsb1HvRbA==
+
+intl-tel-input@17.0.3:
+  version "17.0.3"
+  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-17.0.3.tgz#0f1468ac0ea573b4cedddd24db9fd5cb32eb7d86"
+  integrity sha512-vfO5yIddrkNKaJYqGySuT6lyovWZoBLU/vyGA2A4VdKIZasknpd9/emTJYIPqFzjkguFfEDUiERKFih3k9Yj3Q==
 
 ip@^1.1.0, ip@^1.1.5:
   version "1.1.5"
@@ -10867,6 +10877,13 @@ neo-async@^2.6.0, neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
+ngx-bootstrap@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-8.0.0.tgz#a1d222e626a1f5e13acdaafd754bb18874a1d561"
+  integrity sha512-UjJ/57Pr7ctdI2L113QX1IqJPYtOMrp5Qq/RLvUT1TOwPQWPi9LXTQ/7BtipkptQjer7Fk9yueITH3Y8vD+Dmg==
+  dependencies:
+    tslib "^2.0.0"
+
 ngx-countup@^13.0.0:
   version "13.0.0"
   resolved "https://registry.yarnpkg.com/ngx-countup/-/ngx-countup-13.0.0.tgz#cf26a2859d33de9829a3f1eff6b9c0ef78f218e6"
@@ -10874,6 +10891,13 @@ ngx-countup@^13.0.0:
   dependencies:
     countup.js "^2.0.8"
     tslib "^2.0.0"
+
+ngx-intl-tel-input@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/ngx-intl-tel-input/-/ngx-intl-tel-input-3.2.0.tgz#c2d8dc683408b550d5ba571df633890294ee33c8"
+  integrity sha512-TM3R0Az+F63eNCBj+NpR6UzJYg4FkHxDrS2hfeFoHJymMc4+DlqB581g4tPil4IkMetlR+jaAtEcqKiqmYGYlw==
+  dependencies:
+    tslib "^2.3.0"
 
 ngx-matomo@^0.1.4:
   version "0.1.4"

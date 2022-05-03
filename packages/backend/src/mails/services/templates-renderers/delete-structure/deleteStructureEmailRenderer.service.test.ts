@@ -17,6 +17,10 @@ describe("deleteStructureEmailRenderer", () => {
         ville: "Paris",
         email: "test@structure.com",
         phone: "010203040506",
+        telephone: {
+          numero: "010203040506",
+          indicatif: "fr",
+        },
         responsable: {
           fonction: "pdg",
           nom: "Dupont",
