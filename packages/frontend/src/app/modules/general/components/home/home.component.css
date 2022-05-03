@@ -121,7 +121,9 @@ h2 img {
   height: auto;
 }
 
-
+div.container > h3 {
+  color: red;
+}
 a.btn:hover,
 a.btn:focus {
   text-decoration: underline;
