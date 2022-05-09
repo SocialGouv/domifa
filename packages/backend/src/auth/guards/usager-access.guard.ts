@@ -10,8 +10,6 @@ import { appLogger } from "../../util";
 
 @Injectable()
 export class UsagerAccessGuard implements CanActivate {
-  constructor() {}
-
   public async canActivate(context: ExecutionContext) {
     const r = context.switchToHttp().getRequest();
     const usagerRef = r.params.usagerRef;

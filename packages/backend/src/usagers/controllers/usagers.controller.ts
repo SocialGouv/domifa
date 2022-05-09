@@ -152,7 +152,7 @@ export class UsagersController {
   /* FORMULAIRE INFOS */
   @AllowUserStructureRoles("simple", "responsable", "admin")
   @Post()
-  public postUsager(
+  public createUsager(
     @Body() usagerDto: CreateUsagerDto,
     @CurrentUser() user: UserStructureAuthenticated
   ) {

@@ -73,6 +73,12 @@
           ce document explicatif
         </a>
       </p>
+      <p class="text-danger">
+        <b>Attention:</b> seul le modèle téléchargé sur Domifa vous permettra
+        d'importer. <br />
+        Pour éviter tout bug, merci de ne pas modifier l'ordre ou le format des
+        colonnes du fichier Excel
+      </p>
     </div>
 
     <div id="import-menu">
@@ -186,7 +192,7 @@
 
     <div id="import-table" *ngIf="!uploadForm.invalid">
       <table class="table table-striped table-hover">
-        <caption>
+        <caption class="sr-only">
           Aperçu de l'import
         </caption>
         <thead>
@@ -295,7 +301,7 @@
         <tbody *ngIf="visibleRows">
           <tr *ngFor="let row of visibleRows; let index = index">
             <td>
-              <b>{{ row.rowNumber }}</b>
+              <b>{{ row.rowNumber - 1 }}</b>
             </td>
             <td
               [ngClass]="{

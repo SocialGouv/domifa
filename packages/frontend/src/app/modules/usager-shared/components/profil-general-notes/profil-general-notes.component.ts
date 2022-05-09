@@ -39,11 +39,20 @@ export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
   public ngOnInit(): void {}
 
   public ngOnChanges(): void {
-    if (this.usager?.notes) {
-      this.filteredNotes = this.usager.notes.filter((x) => !x.archived);
-    }
+    this.sortNotes();
   }
 
+  public sortNotes(): void {
+    if (this.usager?.notes) {
+      this.filteredNotes = this.usager.notes.filter((x) => !x.archived);
+
+      this.filteredNotes.sort((a, b) => {
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      });
+    }
+  }
   public cancelArchiveNote(): void {
     this.displayConfirmArchiveMessageNoteId = undefined;
   }
@@ -59,6 +68,8 @@ export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
         next: (usager) => {
           this.filteredNotes = usager.notes.filter((x) => !x.archived);
           this.toastService.success("Note archivée avec succès");
+          this.usager = new UsagerFormModel(usager);
+          this.sortNotes();
           this.usagerChanges.emit(usager);
         },
         error: () => {

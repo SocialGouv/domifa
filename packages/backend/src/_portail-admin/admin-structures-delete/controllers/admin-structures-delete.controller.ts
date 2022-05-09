@@ -1,7 +1,6 @@
 import {
   Controller,
   Delete,
-  HttpException,
   HttpStatus,
   Param,
   Put,
@@ -49,7 +48,6 @@ export class AdminStructuresDeleteController {
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "DELETED_STRUCTURE_NOT_FOUND" });
     }
-    return true;
   }
 
   @AllowUserProfiles("super-admin-domifa")
@@ -57,6 +55,7 @@ export class AdminStructuresDeleteController {
   @Put("check/:id/:token")
   public async deleteCheck(
     @Param("id") id: string,
+    @Res() res: ExpressResponse,
     @Param("token") token: string
   ) {
     const structure = await structureLightRepository.findOne({
@@ -64,12 +63,12 @@ export class AdminStructuresDeleteController {
       id: parseInt(id, 10),
     });
     if (!structure) {
-      throw new HttpException(
-        "HARD_RESET_INCORRECT_TOKEN",
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "HARD_RESET_INCORRECT_TOKEN" });
     }
-    return structure;
+
+    return res.status(HttpStatus.OK).json(structure);
   }
 
   @AllowUserProfiles("super-admin-domifa")
@@ -78,12 +77,28 @@ export class AdminStructuresDeleteController {
   public async deleteConfirm(
     @Param("id") id: string,
     @Param("token") token: string,
-    @Param("nom") nom: string
+    @Param("nom") structureNom: string,
+    @Res() res: ExpressResponse
   ) {
-    return structureDeletorService.deleteStructure({
-      structureId: parseInt(id, 10),
+    const structure = await structureLightRepository.findOne({
       token,
-      structureNom: nom,
+      nom: structureNom,
+      id: parseInt(id, 10),
     });
+
+    if (!structure) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "DELETE_STRUCTURE_FAIL" });
+    }
+
+    try {
+      await structureDeletorService.deleteStructure(structure);
+      return res.status(HttpStatus.OK).json({ message: "OK" });
+    } catch (e) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "DELETE_STRUCTURE_FAIL" });
+    }
   }
 }

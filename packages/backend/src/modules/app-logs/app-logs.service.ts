@@ -7,14 +7,14 @@ import { AppLog } from "../../_common/model";
 
 @Injectable()
 export class AppLogsService {
-  private logsRepository: Repository<AppLogTable>;
+  private appLogsRepository: Repository<AppLogTable>;
 
   public constructor() {
-    this.logsRepository = appTypeormManager.getRepository(AppLogTable);
+    this.appLogsRepository = appTypeormManager.getRepository(AppLogTable);
   }
 
   public async create(appLog: AppLog): Promise<AppLog> {
     const newLog = new AppLogTable(appLog);
-    return await this.logsRepository.save(newLog);
+    return await this.appLogsRepository.save(newLog);
   }
 }

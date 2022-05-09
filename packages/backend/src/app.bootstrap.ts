@@ -54,7 +54,6 @@ export async function bootstrapApplication() {
     }
 
     appHolder.app = app;
-    app.useGlobalPipes(new ValidationPipe());
 
     const frontendUrl = domifaConfig().apps.frontendUrl;
     const portailUsagersUrl = domifaConfig().apps.portailUsagersUrl;

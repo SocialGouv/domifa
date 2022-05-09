@@ -67,7 +67,6 @@ class AppLogger {
       if (error) {
         Sentry.captureException(error, {
           level: Sentry.Severity.Error,
-
           extra: sentryExtra,
         });
       } else {

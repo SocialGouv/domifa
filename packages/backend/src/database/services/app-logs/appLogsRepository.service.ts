@@ -4,7 +4,7 @@ import { AppLogTable } from "../../entities/app-log/AppLogTable.typeorm";
 
 const baseRepository = pgRepository.get<AppLogTable, AppLog>(AppLogTable);
 
-export const logsRepository = {
+export const appLogsRepository = {
   ...baseRepository,
   getLogStructureSmsEnabled,
 };

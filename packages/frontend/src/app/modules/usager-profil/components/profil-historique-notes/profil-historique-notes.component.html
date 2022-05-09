@@ -1,27 +1,29 @@
 <table *ngIf="usager?.notes.length > 0" class="table table-hover">
-  <caption>
+  <caption class="sr-only">
     Notes sur l'usager
   </caption>
   <thead>
     <tr>
       <th scope="col">Date</th>
       <th scope="col">Message</th>
-      <th scope="col">Suppression</th>
+      <th scope="col">Responsable</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let note of usager.notes">
       <td>
-        {{ note.createdAt | date: "dd/MM/yyyy à HH:mm" }} -
-        {{ note.createdBy.userName }}
+        {{ note.createdAt | date: "dd/MM/yyyy à HH:mm" }}
       </td>
-      <td>{{ note.message }}</td>
       <td>
         <ng-container *ngIf="note.archivedAt">
-          {{ note.archivedAt | date: "dd/MM/yyyy à HH:mm" }} -
-          {{ note.archivedBy.userName }}</ng-container
+          <b
+            >Archivée le {{ note.archivedAt | date: "dd/MM/yyyy à HH:mm" }} par
+            {{ note.archivedBy.userName }}</b
+          ></ng-container
         >
+        {{ note.message }}
       </td>
+      <td>{{ note.createdBy.userName }}</td>
     </tr>
   </tbody>
 </table>

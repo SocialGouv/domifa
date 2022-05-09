@@ -47,6 +47,11 @@ const structureDto: StructureDto = {
   timeZone: "Europe/Paris",
 };
 
+const res = {
+  status: jest.fn().mockReturnThis(),
+  json: jest.fn().mockReturnThis(),
+} as unknown as ExpressResponse;
+
 describe("Stuctures creation full", () => {
   let context: AppTestContext;
   let structureController: StructuresController;
@@ -129,7 +134,8 @@ describe("Stuctures creation full", () => {
     await adminStructuresDeleteController.deleteConfirm(
       "" + structure.id,
       structure.token,
-      structure.nom
+      structure.nom,
+      res
     );
   });
 
@@ -203,10 +209,7 @@ describe("Stuctures creation full", () => {
     expect(structure).toBeDefined();
     expect(structure.id).toEqual(structureId);
     expect(structure.token).toBeDefined();
-    const res = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn().mockReturnThis(),
-    } as unknown as ExpressResponse;
+
     await adminStructuresController.confirmStructureCreation(
       structure.token,
       `${structure.id}`,

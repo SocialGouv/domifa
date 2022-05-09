@@ -1,5 +1,6 @@
 #help-button-wrapper {
   position: fixed;
+  z-index: 200;
   bottom: 5%;
   right: 1%;
   text-align: right;

@@ -152,6 +152,19 @@
             <ng-container *ngIf="me">
               <div class="d-flex">
                 <a
+                  routerLink="/news"
+                  class="btn text-primary"
+                  (click)="
+                    hideNews();
+                    matomoService.trackEvent('HEADER', 'Header_ESP', 'null', 1)
+                  "
+                >
+                  <span *ngIf="pendingNews" class="pulse-button"></span>
+                  <span [ngClass]="pendingNews ? 'fw-bold' : ''"
+                    >Nouveautés</span
+                  >
+                </a>
+                <a
                   class="btn btn-outline-primary"
                   [routerLink]="!me ? ['/'] : ['/manage']"
                   (click)="

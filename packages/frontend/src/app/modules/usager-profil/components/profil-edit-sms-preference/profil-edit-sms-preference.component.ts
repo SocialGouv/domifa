@@ -81,7 +81,6 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
       this.loading = true;
       const preference: UsagerPreferenceContact = {
         ...this.preferenceForm.value,
-        email: false,
       };
 
       if (!preference.phone) {

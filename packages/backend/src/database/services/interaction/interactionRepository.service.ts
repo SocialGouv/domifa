@@ -1,11 +1,7 @@
 import { startOfMonth, subYears } from "date-fns";
 
-import { FindConditions, In, LessThan, MoreThan } from "typeorm";
-import {
-  Usager,
-  UserStructure,
-  UserStructureAuthenticated,
-} from "../../../_common/model";
+import { In } from "typeorm";
+import { Usager, UserStructureAuthenticated } from "../../../_common/model";
 import {
   InteractionEvent,
   Interactions,
