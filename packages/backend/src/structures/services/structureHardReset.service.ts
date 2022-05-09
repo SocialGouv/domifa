@@ -3,8 +3,6 @@ import { structureCommonRepository } from "../../database";
 
 @Injectable()
 export class StructureHardResetService {
-  constructor() {}
-
   public async hardReset(id: number, token: any) {
     return structureCommonRepository.updateOne({ id }, { hardReset: token });
   }

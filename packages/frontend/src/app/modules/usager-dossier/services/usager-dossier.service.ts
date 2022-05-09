@@ -21,25 +21,14 @@ export class UsagerDossierService {
 
   constructor(private http: HttpClient) {}
 
-  public create(usager: UsagerFormModel): Observable<UsagerLight> {
-    const response =
-      usager.ref !== 0
-        ? this.http
-            .patch<UsagerLight>(`${this.endPointUsagers}/${usager.ref}`, usager)
-            .pipe(
-              tap((newUsager: UsagerLight) => {
-                usagersCache.updateUsager(newUsager);
-                return newUsager;
-              })
-            )
-        : this.http.post<UsagerLight>(`${this.endPointUsagers}`, usager).pipe(
-            tap((newUsager: UsagerLight) => {
-              usagersCache.createUsager(newUsager);
-              return newUsager;
-            })
-          );
-
-    return response;
+  public createUsager(usager: UsagerFormModel): Observable<UsagerLight> {
+    // TODO: éditer ce type pour ne conserver que les champs utiles
+    return this.http.post<UsagerLight>(`${this.endPointUsagers}`, usager).pipe(
+      tap((newUsager: UsagerLight) => {
+        usagersCache.createUsager(newUsager);
+        return newUsager;
+      })
+    );
   }
 
   // RDV maintenant : on passe l'étape du formulaire

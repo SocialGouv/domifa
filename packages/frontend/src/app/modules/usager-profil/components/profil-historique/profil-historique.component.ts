@@ -11,13 +11,11 @@ import {
   UsagerDecision,
   UsagerHistoryStateCreationEvent,
   USAGER_DECISION_STATUT_LABELS_PROFIL,
-  UsagerHistoryState,
 } from "../../../../../_common/model";
 import { getUsagerNomComplet } from "../../../../shared/getUsagerNomComplet";
 import { AuthService } from "../../../shared/services/auth.service";
-import { Decision, UsagerFormModel } from "../../../usager-shared/interfaces";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerService } from "../../../usagers/services/usager.service";
-import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
 
 @Component({
   selector: "app-profil-historique",
@@ -49,7 +47,6 @@ export class ProfilHistoriqueComponent implements OnInit {
     private usagerService: UsagerService,
     private usagerOptionsService: UsagerOptionsService,
     private titleService: Title,
-    private usagerDecisionService: UsagerDecisionService,
     private toastService: CustomToastService,
     private route: ActivatedRoute,
     private router: Router
@@ -86,12 +83,25 @@ export class ProfilHistoriqueComponent implements OnInit {
     this.usagerOptionsService
       .findHistory(this.usager.ref)
       .subscribe((optionsHistorique: UsagerOptionsHistory[]) => {
-        this.transfertHistory = optionsHistorique.filter(
-          (history: UsagerOptionsHistory) => history.type === "transfert"
-        );
-        this.procurationHistory = optionsHistorique.filter(
-          (history: UsagerOptionsHistory) => history.type === "procuration"
-        );
+        this.transfertHistory = optionsHistorique
+          .filter(
+            (history: UsagerOptionsHistory) => history.type === "transfert"
+          )
+          .sort((a, b) => {
+            return (
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            );
+          });
+
+        this.procurationHistory = optionsHistorique
+          .filter(
+            (history: UsagerOptionsHistory) => history.type === "procuration"
+          )
+          .sort((a, b) => {
+            return (
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            );
+          });
       });
   }
 

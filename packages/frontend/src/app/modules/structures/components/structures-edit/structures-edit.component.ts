@@ -26,6 +26,7 @@ export class StructuresEditComponent implements OnInit {
   public exportLoading: boolean;
   public showHardReset: boolean;
   public hardResetCode: boolean;
+  public loading: boolean;
 
   public hardResetForm!: FormGroup;
 
@@ -40,6 +41,7 @@ export class StructuresEditComponent implements OnInit {
     this.showHardReset = false;
     this.hardResetCode = null;
     this.exportLoading = false;
+    this.loading = false;
   }
 
   get h(): { [key: string]: AbstractControl } {
@@ -87,6 +89,8 @@ export class StructuresEditComponent implements OnInit {
       return;
     }
 
+    this.loading = true;
+
     this.structureService
       .hardResetConfirm(this.hardResetForm.controls.token.value)
       .subscribe({
@@ -98,10 +102,12 @@ export class StructuresEditComponent implements OnInit {
           setTimeout(() => {
             this.closeModals();
             this.showHardReset = false;
+            this.loading = false;
             this.hardResetForm.reset();
           }, 1000);
         },
         error: () => {
+          this.loading = false;
           this.toastService.error(
             "La remise à zéro n'a pas pu être effectuée !"
           );

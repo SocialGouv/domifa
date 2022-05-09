@@ -1,5 +1,56 @@
 [
   {
+    "date": "2022-05-09",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Domifa et les DOM-TOM",
+        "message": [
+          "Adaptation de tous les champs concernant les heures en fonction du fuseau horaire de l'utilisateur"
+        ]
+      },
+      {
+        "type": "bugs",
+        "categorie": "Résolution des incohérences dans l'historique",
+        "message": [
+          "Des dossiers présentaient des entrées en doublon dans l'historique lorsque l'on supprimait une demande"
+        ]
+      }
+    ]
+  },
+  {
+    "date": "2022-04-15",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "De nouvelles informations visibles sur le portail domicilié",
+        "message": [
+          "Affichage des procurations ou d'un transfert en cours",
+          "Ajout d'un bandeau d'information en cas de renouvellement précisant que la demande est en cours"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Les autres nouveautés sur DomiFa !",
+        "message": [
+          "Ajout d'un filtre pour visualiser les entretiens dont la date est passée",
+          "Vous pouvez ajouter une deuxième procuration à un domicilié",
+          "L'historique des procurations et transfert est à consulter dans la section 'Historique' de la fiche d'un domicilié",
+          "Pendant l'instruction d'un dossier, en cliquant sur la pastille indiquant le nombre de notes présent sur le dossier, vous serez automatiquement accompagné en bas de page pour les consulter"
+        ]
+      },
+      {
+        "type": "bugs",
+        "categorie": "",
+        "message": [
+          "Correction du dossier de domiciliation, la date de première domiciliation était parfois absente"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2022-03-03",
     "description": "",
     "content": [

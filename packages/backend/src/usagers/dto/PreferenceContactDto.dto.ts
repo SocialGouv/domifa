@@ -1,7 +1,6 @@
 import {
   IsBoolean,
   IsNotEmpty,
-  IsOptional,
   Length,
   Matches,
   ValidateIf,
@@ -22,12 +21,4 @@ export class PreferenceContactDto {
   @Length(10)
   @Matches(/^(06|07)(\d{2}){4}$/)
   public phoneNumber!: string;
-
-  @ApiProperty({
-    type: Boolean,
-    required: true,
-  })
-  @IsOptional()
-  @IsBoolean()
-  public email!: boolean;
 }

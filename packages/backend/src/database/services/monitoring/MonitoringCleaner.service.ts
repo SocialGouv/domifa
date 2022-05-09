@@ -18,8 +18,6 @@ import moment = require("moment");
 
 @Injectable()
 export class MonitoringCleaner {
-  constructor() {}
-
   @Cron(domifaConfig().cron.monitoringCleaner.crontime)
   public async purgeObsoleteDataCron() {
     if (!domifaConfig().cron.enable) {

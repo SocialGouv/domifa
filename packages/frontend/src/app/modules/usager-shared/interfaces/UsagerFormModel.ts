@@ -44,7 +44,6 @@ export class UsagerFormModel implements UsagerLight {
 
   // Préférence d'envoi de notifs
   public preference: {
-    email: boolean;
     phone: boolean;
     phoneNumber?: string;
   };
@@ -174,7 +173,6 @@ export class UsagerFormModel implements UsagerLight {
     }
 
     this.preference = (usager && usager.preference) || {
-      email: false,
       phone: false,
       phoneNumber: new RegExp(regexp.mobilePhone).test(this.phone)
         ? this.phone

@@ -1,4 +1,9 @@
-import { HttpStatus, INestApplication, ModuleMetadata } from "@nestjs/common";
+import {
+  HttpStatus,
+  INestApplication,
+  ModuleMetadata,
+  ValidationPipe,
+} from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import * as request from "supertest";
 import { Connection } from "typeorm";
@@ -33,6 +38,11 @@ async function bootstrapTestApp(
   const context: AppTestContext = { module, postgresTypeormConnection };
   if (initApp) {
     context.app = module.createNestApplication();
+    context.app.useGlobalPipes(
+      new ValidationPipe({
+        whitelist: true,
+      })
+    );
     await context.app.init();
   }
   return context;

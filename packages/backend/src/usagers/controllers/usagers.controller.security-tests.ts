@@ -53,7 +53,6 @@ export const UsagersControllerSecurityTests: AppTestHttpClientSecurityTestDef[] 
           body: {
             phone: false,
             phoneNumber: "00-00-00-00-00",
-            email: false,
           },
         }),
         expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(

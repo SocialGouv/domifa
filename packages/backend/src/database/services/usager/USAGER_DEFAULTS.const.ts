@@ -17,6 +17,5 @@ export const USAGER_DEFAULT_OPTIONS: UsagerOptions = {
 };
 
 export const USAGER_DEFAULT_PREFERENCE = {
-  email: false,
   phone: false,
 };

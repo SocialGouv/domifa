@@ -1,6 +1,6 @@
-import { UsagerPreferenceContact } from "./../../_common/model/usager/UsagerPreferenceContact.type";
+import { UsagerPreferenceContact } from "../../_common/model/usager/UsagerPreferenceContact.type";
 import { ApiProperty } from "@nestjs/swagger";
-import { Type } from "class-transformer";
+import { Transform, TransformFnParams, Type } from "class-transformer";
 import {
   IsArray,
   IsDateString,
@@ -17,19 +17,14 @@ import { UsagerAyantDroit, UsagerSexe } from "../../_common/model";
 import { UsagerAyantDroitDto } from "./UsagerAyantDroitDto";
 import { PreferenceContactDto } from ".";
 import { ValidationRegexp } from "../controllers/import/step2-validate-row";
-import {
-  LowerCaseTransform,
-  TrimOrNullTransform,
-} from "../../_common/decorators";
 
-export class CreateUsagerDto {
+export class PatchUsagerDto {
   @ApiProperty({
     example: "homme",
     required: true,
     description: "Sexe de l'usager",
   })
   @IsIn(["homme", "femme"])
-  @IsNotEmpty()
   public sexe!: UsagerSexe;
 
   @ApiProperty({
@@ -39,8 +34,10 @@ export class CreateUsagerDto {
   })
   @IsNotEmpty()
   @MaxLength(400)
-  @TrimOrNullTransform()
-  public nom: string;
+  @Transform(({ value }: TransformFnParams) => {
+    return value ? value.toString().trim() : null;
+  })
+  public nom!: string;
 
   @ApiProperty({
     example: "Pierre",
@@ -49,7 +46,9 @@ export class CreateUsagerDto {
   })
   @IsNotEmpty()
   @MaxLength(400)
-  @TrimOrNullTransform()
+  @Transform(({ value }: TransformFnParams) => {
+    return value ? value.toString().trim() : null;
+  })
   public prenom!: string;
 
   @ApiProperty({
@@ -58,7 +57,9 @@ export class CreateUsagerDto {
   })
   @IsOptional()
   @MaxLength(400)
-  @TrimOrNullTransform()
+  @Transform(({ value }: TransformFnParams) => {
+    return value ? value.toString().trim() : null;
+  })
   public surnom!: string;
 
   @ApiProperty({
@@ -78,7 +79,9 @@ export class CreateUsagerDto {
   })
   @IsNotEmpty()
   @MaxLength(400)
-  @TrimOrNullTransform()
+  @Transform(({ value }: TransformFnParams) => {
+    return value ? value.toString().trim() : null;
+  })
   public villeNaissance!: string;
 
   @ApiProperty({
@@ -87,7 +90,6 @@ export class CreateUsagerDto {
     description: "Langue parlée par l'usager",
   })
   @IsOptional()
-  @TrimOrNullTransform()
   public langue!: string | null;
 
   @ApiProperty({
@@ -96,7 +98,6 @@ export class CreateUsagerDto {
     description: "Id personnalisé",
   })
   @IsOptional()
-  @TrimOrNullTransform()
   public customRef!: string;
 
   @ApiProperty({
@@ -104,10 +105,11 @@ export class CreateUsagerDto {
     description: "Email de l'usager",
   })
   @IsOptional()
-  @IsNotEmpty()
+  @ValidateIf((o) => o.email !== "")
   @IsEmail()
-  @TrimOrNullTransform()
-  @LowerCaseTransform()
+  @Transform(({ value }: TransformFnParams) => {
+    return value ? value.toString().trim() : null;
+  })
   public email!: string;
 
   @ApiProperty({
@@ -132,13 +134,6 @@ export class CreateUsagerDto {
   })
   @IsOptional()
   @IsArray()
-  @ValidateIf((o) => {
-    return typeof o.ayantsDroits !== "undefined"
-      ? o.ayantsDroits.length > 0
-        ? true
-        : false
-      : false;
-  })
   @ValidateNested({ each: true })
   @Type(() => UsagerAyantDroitDto)
   public ayantsDroits!: UsagerAyantDroit[];

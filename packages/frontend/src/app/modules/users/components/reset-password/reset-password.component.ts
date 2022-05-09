@@ -71,6 +71,7 @@ export class ResetPasswordComponent implements OnInit {
           this.initPasswordForm();
         },
         error: (error) => {
+          // TODO : rediriger vers "reset-password"
           const errorMessage =
             this.errorLabels[error.message] !== undefined
               ? this.errorLabels[error.message]

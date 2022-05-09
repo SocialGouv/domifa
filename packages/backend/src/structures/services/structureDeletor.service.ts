@@ -1,9 +1,11 @@
-import { HttpException, HttpStatus } from "@nestjs/common";
+import { StructureLight } from "./../../_common/model/structure/StructureLight.type";
+import { usagerOptionsHistoryRepository } from "./../../database/services/usager/usagerOptionsHistoryRepository.service";
 import * as crypto from "crypto";
 import * as fs from "fs";
 import * as path from "path";
 import { domifaConfig } from "../../config";
 import {
+  appLogsRepository,
   interactionRepository,
   structureDocRepository,
   structureRepository,
@@ -36,6 +38,11 @@ async function deleteStructureUsagers({
   await userUsagerSecurityRepository.deleteByCriteria({
     structureId,
   });
+
+  await appLogsRepository.deleteByCriteria({
+    structureId,
+  });
+
   await userUsagerRepository.deleteByCriteria({
     structureId,
   });
@@ -49,6 +56,10 @@ async function deleteStructureUsagers({
     structureId,
   });
 
+  await usagerOptionsHistoryRepository.deleteByCriteria({
+    structureId,
+  });
+
   await messageSmsRepository.deleteByCriteria({
     structureId,
   });
@@ -58,50 +69,60 @@ async function deleteStructureUsagers({
   });
 }
 
-async function deleteStructure({
-  structureId,
-  token,
-  structureNom,
-}: {
-  structureId: number;
-  token: string;
-  structureNom: string;
-}) {
-  const structure = await structureRepository.findOne({
-    token,
-    nom: structureNom,
-    id: structureId,
+async function deleteStructure(structure: StructureLight) {
+  const pathFile = path.join(domifaConfig().upload.basePath, `${structure.id}`);
+
+  if (fs.existsSync(pathFile)) {
+    fs.rmdirSync(pathFile, { recursive: true });
+  }
+
+  // Suppression des comptes usagers
+  await userUsagerSecurityRepository.deleteByCriteria({
+    structureId: structure.id,
   });
 
-  if (!!structure) {
-    await userStructureSecurityRepository.deleteByCriteria({
-      structureId: structure.id,
-    });
+  await appLogsRepository.deleteByCriteria({
+    structureId: structure.id,
+  });
 
-    await userStructureRepository.deleteByCriteria({
-      structureId: structure.id,
-    });
+  await userUsagerRepository.deleteByCriteria({
+    structureId: structure.id,
+  });
 
-    await deleteStructureUsagers({
-      structureId: structure.id,
-    });
+  // Suppression des interactions
+  await interactionRepository.deleteByCriteria({
+    structureId: structure.id,
+  });
 
-    await structureDocRepository.deleteByCriteria({ structureId });
+  await usagerHistoryRepository.deleteByCriteria({
+    structureId: structure.id,
+  });
 
-    await structureRepository.deleteByCriteria({ id: structureId });
+  await usagerOptionsHistoryRepository.deleteByCriteria({
+    structureId: structure.id,
+  });
 
-    const pathFile = path.join(
-      domifaConfig().upload.basePath,
-      `${structure.id}`
-    );
+  await messageSmsRepository.deleteByCriteria({
+    structureId: structure.id,
+  });
 
-    if (fs.existsSync(pathFile)) {
-      fs.rmdirSync(pathFile, { recursive: true });
-    }
-  } else {
-    throw new HttpException(
-      "DELETED_STRUCTURE_CONFIRM_IMPOSSIBLE",
-      HttpStatus.BAD_REQUEST
-    );
-  }
+  await usagerRepository.deleteByCriteria({
+    structureId: structure.id,
+  });
+
+  await userStructureSecurityRepository.deleteByCriteria({
+    structureId: structure.id,
+  });
+
+  await userStructureRepository.deleteByCriteria({
+    structureId: structure.id,
+  });
+
+  await deleteStructureUsagers({
+    structureId: structure.id,
+  });
+
+  await structureDocRepository.deleteByCriteria({ structureId: structure.id });
+
+  return structureRepository.deleteByCriteria({ id: structure.id });
 }

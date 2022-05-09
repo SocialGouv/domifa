@@ -4,6 +4,7 @@
 // - API_SECURITY_STRUCTURE_CONTROLLER_TEST_DEFS
 //
 
+import { HttpStatus } from "@nestjs/common";
 import { AppTestContext, AppTestHttpClient } from "../util/test";
 import {
   AppTestHttpClientSecurityTestDef,
@@ -20,10 +21,22 @@ export const UserPublicControllerSecurityTests: AppTestHttpClientSecurityTestDef
         response: await AppTestHttpClient.post("/users/validate-email", {
           context,
           body: {
-            email: "xxx",
+            email: "test@test.fr",
           },
         }),
         expectedStatus: expectedResponseStatusBuilder.allowAnonymous(),
+      }),
+    },
+    {
+      label: `${CONTROLLER}.validateEmail`,
+      query: async (context: AppTestContext) => ({
+        response: await AppTestHttpClient.post("/users/validate-email", {
+          context,
+          body: {
+            email: "xxx",
+          },
+        }),
+        expectedStatus: HttpStatus.BAD_REQUEST,
       }),
     },
   ];

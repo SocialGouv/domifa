@@ -1,7 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Transform, TransformFnParams } from "class-transformer";
 import { IsDateString, IsIn, IsNotEmpty } from "class-validator";
 import { AyantDroiLienParent } from "../../_common/model";
+
+import { TrimOrNullTransform } from "../../_common/decorators";
 
 export class UsagerAyantDroitDto {
   @ApiProperty({
@@ -10,9 +11,7 @@ export class UsagerAyantDroitDto {
     required: true,
   })
   @IsNotEmpty()
-  @Transform(({ value }: TransformFnParams) => {
-    return value ? value.toString().trim() : null;
-  })
+  @TrimOrNullTransform()
   public nom!: string;
 
   @ApiProperty({
@@ -21,10 +20,9 @@ export class UsagerAyantDroitDto {
     description: "Prénom",
   })
   @IsNotEmpty()
+  @TrimOrNullTransform()
   public prenom!: string;
-  @Transform(({ value }: TransformFnParams) => {
-    return value ? value.toString().trim() : null;
-  })
+
   @ApiProperty({
     example: "Dudu",
     required: true,
@@ -32,11 +30,12 @@ export class UsagerAyantDroitDto {
   })
   @IsNotEmpty()
   @IsIn(["AUTRE", "CONJOINT", "ENFANT", "PARENT"])
+  @TrimOrNullTransform()
   public lien: AyantDroiLienParent;
 
   @ApiProperty({
-    example: "Pierre",
-    description: "Prénom",
+    example: "20/12/2002",
+    description: "Date de naissance de l'ayant-droit",
     type: Date,
   })
   @IsNotEmpty()

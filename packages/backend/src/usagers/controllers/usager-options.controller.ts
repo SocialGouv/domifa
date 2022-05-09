@@ -1,3 +1,4 @@
+import { UsagerOptionsHistoryAction } from "./../../_common/model/usager/options/UsagerOptionsHistoryAction.type";
 import {
   Body,
   Controller,
@@ -80,15 +81,27 @@ export class UsagerOptionsController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
-    const action = usager.options.transfert.actif ? "EDIT" : "CREATION";
+    const action =
+      typeof usager.options.transfert !== "undefined"
+        ? usager.options.transfert.actif
+          ? "EDIT"
+          : "CREATION"
+        : "CREATION";
 
-    await this.usagerOptionsHistoryService.createOptionHistory(
-      usager,
-      user,
-      action,
-      "transfert",
-      transfertDto
-    );
+    if (typeof usager.options.transfert !== "undefined") {
+      if (
+        JSON.stringify(usager.options.transfert) ===
+        JSON.stringify(transfertDto)
+      ) {
+        await this.usagerOptionsHistoryService.createOptionHistory(
+          usager,
+          user,
+          action,
+          "transfert",
+          transfertDto
+        );
+      }
+    }
 
     usager.options.transfert = transfertDto;
 
@@ -112,19 +125,23 @@ export class UsagerOptionsController {
       usager.options.procurations = [];
     }
 
-    const action = usager.options.procurations.length > 0 ? "EDIT" : "CREATION";
-
     for (let i = 0; i < 2; i++) {
       let needCreateHistory = true;
+      let action: UsagerOptionsHistoryAction = "EDIT";
 
       // Seulement si la nouvelle procuration est différente de l'ancienne
-      if (typeof usager.options.procurations[i] !== undefined) {
+      if (typeof usager.options.procurations[i] !== "undefined") {
         if (
           JSON.stringify(usager.options.procurations[i]) ===
           JSON.stringify(procurationsDto[i])
         ) {
           needCreateHistory = false;
         }
+      } else if (
+        typeof usager.options.procurations[i] === "undefined" &&
+        typeof procurationsDto[i] !== "undefined"
+      ) {
+        action = "CREATION";
       }
 
       if (needCreateHistory) {

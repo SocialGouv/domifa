@@ -135,9 +135,15 @@
       <button
         class="btn btn-danger"
         *ngIf="showHardReset"
+        [disabled]="loading"
         (click)="hardResetConfirm()"
       >
-        Confirmer la suppression
+        <span *ngIf="!loading">Confirmer la suppression</span>
+
+        <span *ngIf="loading"
+          ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+          Veuillez patienter...</span
+        >
       </button>
     </div>
   </ng-template>

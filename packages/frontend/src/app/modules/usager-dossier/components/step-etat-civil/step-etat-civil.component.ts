@@ -150,11 +150,8 @@ export class StepEtatCivilComponent implements OnInit {
         formatDateToNgb(this.usager.dateNaissance),
         [Validators.required],
       ],
-      decision: [this.usager.decision, []],
       customRef: [this.usager.customRef, []],
       email: [this.usager.email, [Validators.email]],
-      etapeDemande: [this.usager.etapeDemande, []],
-      ref: [this.usager.ref, []],
       nom: [this.usager.nom, Validators.required],
       phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
       preference: this.formBuilder.group({
@@ -164,8 +161,6 @@ export class StepEtatCivilComponent implements OnInit {
       prenom: [this.usager.prenom, Validators.required],
       sexe: [this.usager.sexe, Validators.required],
       surnom: [this.usager.surnom, []],
-      typeDom: [this.usager.typeDom, []],
-
       villeNaissance: [this.usager.villeNaissance, [Validators.required]],
     });
 
@@ -286,9 +281,7 @@ export class StepEtatCivilComponent implements OnInit {
           lien: ayantDroit.lien,
           nom: ayantDroit.nom,
           prenom: ayantDroit.prenom,
-          dateNaissance: new Date(
-            this.nbgDate.formatEn(ayantDroit.dateNaissance)
-          ),
+          dateNaissance: this.nbgDate.formatEn(ayantDroit.dateNaissance),
         };
       }
     );
@@ -299,7 +292,6 @@ export class StepEtatCivilComponent implements OnInit {
       dateNaissance: this.nbgDate.formatEn(
         this.usagerForm.controls.dateNaissance.value
       ),
-
       etapeDemande: this.usager.etapeDemande,
     };
 
@@ -307,7 +299,9 @@ export class StepEtatCivilComponent implements OnInit {
       formValue.preference.phoneNumber = null;
     }
 
-    this.usagerDossierService.create(formValue).subscribe({
+    delete formValue.ayantsDroitsExist;
+
+    this.usagerDossierService.createUsager(formValue).subscribe({
       next: (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
         this.toastService.success("Enregistrement réussi");

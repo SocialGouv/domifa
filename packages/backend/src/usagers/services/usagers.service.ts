@@ -125,7 +125,6 @@ export class UsagersService {
     };
 
     usager.etapeDemande = ETAPE_ETAT_CIVIL;
-    usager.typeDom = "RENOUVELLEMENT";
     usager.rdv = null;
 
     // Ajout du nouvel état

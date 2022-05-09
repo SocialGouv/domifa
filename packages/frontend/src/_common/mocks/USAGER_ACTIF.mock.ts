@@ -44,7 +44,7 @@ export const USAGER_ACTIF_MOCK: UsagerLight = {
     },
     portailUsagerEnabled: false,
   },
-  preference: { email: false, phone: false, phoneNumber: "0606060606" },
+  preference: { phone: false, phoneNumber: "0606060606" },
   rdv: { dateRdv: null, userId: 0, userName: "" },
   ayantsDroits: [
     {

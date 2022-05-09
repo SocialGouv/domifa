@@ -54,6 +54,7 @@ function allowStructureOnly(
 
   return HttpStatus.FORBIDDEN;
 }
+
 function allowAnonymous() {
   return HttpStatus.OK;
 }
