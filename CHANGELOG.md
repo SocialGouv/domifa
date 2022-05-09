@@ -1,3 +1,10 @@
+# [2.87.0](https://github.com/SocialGouv/domifa/compare/v2.86.1...v2.87.0) (2022-05-09)
+
+
+### Features
+
+* **historiques:** Ajout de colonnes, tri par ordre décroissant ([65885b4](https://github.com/SocialGouv/domifa/commit/65885b438033ed2e417bdd2cda6374160e50d447))
+
 ## [2.86.1](https://github.com/SocialGouv/domifa/compare/v2.86.0...v2.86.1) (2022-05-03)
 
 
