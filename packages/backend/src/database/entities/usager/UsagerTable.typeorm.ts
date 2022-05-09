@@ -76,7 +76,7 @@ export class UsagerTable
   @Column({
     type: "jsonb",
     nullable: true,
-    default: () => `'{"email": false, "phone": false, "phoneNumber": null}'`,
+    default: () => `'{ "phone": false, "phoneNumber": null}'`,
   })
   public preference: UsagerPreferenceContact;
 
