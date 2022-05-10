@@ -15,13 +15,14 @@
         {{ note.createdAt | date: "dd/MM/yyyy à HH:mm" }}
       </td>
       <td>
+        {{ note.message }}
         <ng-container *ngIf="note.archivedAt">
+          <br />
           <b
             >Archivée le {{ note.archivedAt | date: "dd/MM/yyyy à HH:mm" }} par
             {{ note.archivedBy.userName }}</b
           ></ng-container
         >
-        {{ note.message }}
       </td>
       <td>{{ note.createdBy.userName }}</td>
     </tr>

@@ -175,6 +175,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
   public closeModals(): void {
     this.modalService.dismissAll();
   }
+
   public deleteTransfert(): void {
     if (!this.usager.options.transfert.actif) {
       this.hideForm();
@@ -190,6 +191,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
           this.hideForm();
           this.usagerChanges.emit(usager);
           this.transfertForm.reset();
+          this.submitted = false;
           this.usager = new UsagerFormModel(usager);
           this.matomo.trackEvent("profil", "actions", "delete_transfert", 1);
         }, 500);
