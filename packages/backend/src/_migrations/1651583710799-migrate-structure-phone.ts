@@ -32,7 +32,7 @@ const findTimeZoneIndicatif = (timeZone: string): string => {
 
 export class manualMigration1651583710799 implements MigrationInterface {
   name = "migrateStructurePhone1651583710799";
-  public async up(queryRunner: QueryRunner): Promise<void> {
+  public async up(): Promise<void> {
     if (
       domifaConfig().envId === "prod" ||
       domifaConfig().envId === "preprod" ||
@@ -65,5 +65,5 @@ export class manualMigration1651583710799 implements MigrationInterface {
     }
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {}
+  public async down(): Promise<void> {}
 }

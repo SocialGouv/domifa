@@ -89,7 +89,6 @@ export const usagerRefusMock: UsagerLight = {
       typeDom: undefined,
     },
   ],
-
   phone: "0142424242",
   telephone: {
     indicatif: "fr",
