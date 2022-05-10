@@ -92,36 +92,39 @@
       <p>
         Une fois le modèle Excel complété, cliquez ci-dessous pour l'importer
         sur Domifa
-      </p>
-      <label
+      </p> 
+      <div 
+      class="m-auto d-flex flex-column w-50 border border-primary rounded-2 form-label required"
+      tabindex="0"
+      >
+        <label
         for="fileExcel"
         data-browse="Parcourir"
         lang="fr"
-        id="upload-zone"
-        [className]="uploadError ? 'upload-error' : 'upload-ok'"
-      >
+        class="zone-upload"
+        >  
         <fa-icon [icon]="['fas', 'download']"></fa-icon>
-        <span>
-          <b>Cliquez ici</b>
-          pour importer le fichier complété
-        </span>
-        <span *ngIf="uploadError" class="upload-error">
-          Seul les fichiers Excel sont autorisés
-        </span>
-      </label>
-      <input
-        type="file"
-        id="fileExcel"
-        name="fileExcel"
-        (change)="onFileChange($event)"
-        multiple="false"
-        accept=".xlsx,.xls"
-        file="fileExcel"
-        required
-      />
+          <span>
+            <p>
+              <b>Cliquez ici</b>
+              pour importer le fichier Excel complété
+            </p>
+          </span>
+        </label>
+        <input
+          class="form-control w-100"
+          type="file"
+          id="fileExcel"
+          name="fileExcel"
+          (change)="onFileChange($event)"
+          multiple="false"
+          accept=".xlsx,.xls"
+          file="fileExcel"
+          required
+        />
+      </div>
     </div>
   </div>
-
   <div *ngIf="etapeImport === 'preview-import'" class="text-center">
     <div
       class="form-group"
