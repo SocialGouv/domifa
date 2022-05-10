@@ -17,7 +17,7 @@ export class manualMigration1651583630498 implements MigrationInterface {
         `ALTER TABLE "usager" ADD "telephone" jsonb DEFAULT '{"indicatif": "fr", "numero": ""}'`
       );
       await queryRunner.query(
-        `ALTER TABLE "usager" ALTER COLUMN "preference" SET DEFAULT '{"email": false, "phone": false, "phoneNumber": null, "telephone": {"indicatif": "fr", "numero": ""}}'`
+        `ALTER TABLE "usager" ALTER COLUMN "preference" SET DEFAULT '{ "phone": false, "phoneNumber": null, "telephone": {"indicatif": "fr", "numero": ""}}'`
       );
     }
   }
