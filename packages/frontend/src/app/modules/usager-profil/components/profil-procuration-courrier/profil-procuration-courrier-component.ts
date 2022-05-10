@@ -186,6 +186,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
           this.hideForm();
           this.usagerChanges.emit(usager);
           this.usager = new UsagerFormModel(usager);
+          this.submitted = false;
           this.toastService.success("Procuration modifiée avec succès");
           this.matomo.trackEvent("profil", "actions", "edit_procuration", 1);
         },
@@ -196,6 +197,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   }
 
   public openConfirmation(index: number): void {
+    console.log(index);
     this.procurationToDelete = index;
     this.modalService.open(this.confirmDelete);
   }

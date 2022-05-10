@@ -23,6 +23,9 @@ import { AllowUserStructureRoles, CurrentUser } from "../../auth/decorators";
 import { TransfertDto, ProcurationDto } from "../dto";
 import { UsagerOptionsHistoryService, UsagersService } from "../services";
 import { ExpressResponse } from "../../util/express";
+import { isEqual } from "lodash";
+
+import sortObj = require("sort-object");
 
 @ApiTags("usagers-options")
 @ApiBearerAuth()
@@ -81,26 +84,25 @@ export class UsagerOptionsController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
-    const action =
-      typeof usager.options.transfert !== "undefined"
-        ? usager.options.transfert.actif
-          ? "EDIT"
-          : "CREATION"
-        : "CREATION";
+    const action = usager.options.transfert.actif ? "EDIT" : "CREATION";
 
-    if (typeof usager.options.transfert !== "undefined") {
-      if (
-        JSON.stringify(usager.options.transfert) ===
-        JSON.stringify(transfertDto)
-      ) {
-        await this.usagerOptionsHistoryService.createOptionHistory(
-          usager,
-          user,
-          action,
-          "transfert",
-          transfertDto
-        );
-      }
+    if (usager.options.transfert.actif) {
+      usager.options.transfert.dateDebut = new Date(
+        usager.options.transfert.dateDebut
+      );
+      usager.options.transfert.dateFin = new Date(
+        usager.options.transfert.dateFin
+      );
+    }
+
+    if (!isEqual(sortObj(usager.options.transfert), sortObj(transfertDto))) {
+      await this.usagerOptionsHistoryService.createOptionHistory(
+        usager,
+        user,
+        action,
+        "transfert",
+        transfertDto
+      );
     }
 
     usager.options.transfert = transfertDto;
@@ -125,33 +127,46 @@ export class UsagerOptionsController {
       usager.options.procurations = [];
     }
 
+    // Parcours des procurations
     for (let i = 0; i < 2; i++) {
       let needCreateHistory = true;
       let action: UsagerOptionsHistoryAction = "EDIT";
 
-      // Seulement si la nouvelle procuration est différente de l'ancienne
-      if (typeof usager.options.procurations[i] !== "undefined") {
-        if (
-          JSON.stringify(usager.options.procurations[i]) ===
-          JSON.stringify(procurationsDto[i])
-        ) {
-          needCreateHistory = false;
-        }
-      } else if (
-        typeof usager.options.procurations[i] === "undefined" &&
-        typeof procurationsDto[i] !== "undefined"
-      ) {
-        action = "CREATION";
-      }
+      if (typeof procurationsDto[i] !== "undefined") {
+        // Seulement si la nouvelle procuration est différente de l'ancienne
+        if (typeof usager.options.procurations[i] !== "undefined") {
+          usager.options.procurations[i].dateDebut = new Date(
+            usager.options.procurations[i].dateDebut
+          );
+          usager.options.procurations[i].dateNaissance = new Date(
+            usager.options.procurations[i].dateNaissance
+          );
+          usager.options.procurations[i].dateFin = new Date(
+            usager.options.procurations[i].dateFin
+          );
 
-      if (needCreateHistory) {
-        await this.usagerOptionsHistoryService.createOptionHistory(
-          usager,
-          user,
-          action,
-          "procuration",
-          procurationsDto[i]
-        );
+          if (
+            isEqual(
+              sortObj(usager.options.procurations[i]),
+              sortObj(procurationsDto[i])
+            )
+          ) {
+            needCreateHistory = false;
+          }
+        } else {
+          needCreateHistory = true;
+          action = "CREATION";
+        }
+
+        if (needCreateHistory) {
+          await this.usagerOptionsHistoryService.createOptionHistory(
+            usager,
+            user,
+            action,
+            "procuration",
+            procurationsDto[i]
+          );
+        }
       }
     }
 

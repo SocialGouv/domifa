@@ -74,14 +74,14 @@
                 <th scope="col">Nom prénom</th>
                 <th scope="col">Date de naissance</th>
                 <th scope="col">Période de validité</th>
+                <th scope="col">Responsable</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let procu of procurationHistory">
                 <td>{{ procu.createdAt | date: "dd/MM/yyyy à HH:mm" }}</td>
                 <td>
-                  {{ actions[procu.action] }} par
-                  {{ procu.userName }}
+                  {{ actions[procu.action] }}
                 </td>
                 <td>{{ procu.nom }} {{ procu.prenom }}</td>
                 <td>{{ procu.dateNaissance | date: "dd/MM/yyyy" || "" }}</td>
@@ -94,6 +94,7 @@
                     {{ procu.dateFin | date: "dd/MM/yyyy" }}
                   </span>
                 </td>
+                <td>{{ procu.userName }}</td>
               </tr>
             </tbody>
           </table>
@@ -117,14 +118,14 @@
                 <th scope="col">Nom</th>
                 <th scope="col">Adresse</th>
                 <th scope="col">Période de validité</th>
+                <th scope="col">Responsable</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let transfert of transfertHistory">
                 <td>{{ transfert.createdAt | date: "dd/MM/yyyy à HH:mm" }}</td>
                 <td>
-                  {{ actions[transfert.action] }} par
-                  {{ transfert.userName }}
+                  {{ actions[transfert.action] }}
                 </td>
                 <td>{{ transfert.nom }}</td>
                 <td>{{ transfert.adresse }}</td>
@@ -137,6 +138,7 @@
                     {{ transfert.dateFin | date: "dd/MM/yyyy" }}
                   </span>
                 </td>
+                <td>{{ transfert.userName }}</td>
               </tr>
             </tbody>
           </table>
