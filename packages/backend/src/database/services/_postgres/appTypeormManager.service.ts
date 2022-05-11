@@ -130,13 +130,13 @@ async function connect(
     password: pgConfig.password,
     database: pgConfig.database,
     logger: "simple-console",
-    logging: pgConfig.logging,
+    logging: ["error"],
+    maxQueryExecutionTime: 1000,
     ...connectOptionsPaths,
     extra: { max: pgConfig.poolMaxConnections }, // https://github.com/typeorm/typeorm/issues/3388#issuecomment-452860552 (default: 10 - https://node-postgres.com/api/pool#constructor)
   };
   try {
     connectionHolder.connection = await createConnection(connectOptions);
-
     appLogger.debug(`[appTypeormManager] postgres connection success`);
     return connectionHolder.connection;
   } catch (err) {

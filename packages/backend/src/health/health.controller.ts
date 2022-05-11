@@ -4,6 +4,7 @@ import {
   HealthCheckService,
   HealthIndicatorResult,
   HttpHealthIndicator,
+  TypeOrmHealthIndicator,
 } from "@nestjs/terminus";
 import { domifaConfig } from "../config";
 import { appLogger } from "../util";
@@ -21,13 +22,15 @@ export class HealthController {
   constructor(
     private health: HealthCheckService,
     public dnsIndicator: HttpHealthIndicator,
-    public postgresIndicator: PostgresHealthIndicator
+    public postgresIndicator: PostgresHealthIndicator,
+    private db: TypeOrmHealthIndicator
   ) {}
 
   @Get()
   @HealthCheck()
   healthCheckBackendAndDb() {
     return this.health.check([
+      async () => this.db.pingCheck(domifaConfig().postgres.database),
       async () => this.postgresIndicator.pingCheck("postgres"),
       async () => this.version,
     ]);
@@ -36,23 +39,30 @@ export class HealthController {
   @Get("full")
   @HealthCheck()
   healthCheckFull() {
-    const frontUrl = domifaConfig().healthz.frontendUrlFromBackend;
+    const frontUrl = domifaConfig().apps.frontendUrl;
     return this.health.check([
-      async () => this.postgresIndicator.pingCheck("postgres"),
-      // Health Check uniquement sur les machines de prod & préprod
       async () => {
-        return domifaConfig().envId === "prod" ||
-          domifaConfig().envId === "preprod"
-          ? this.dnsIndicator.pingCheck("frontend", frontUrl).catch((err) => {
-              appLogger.warn(
-                `[HealthController] frontend health check error for "${frontUrl}"`,
-                { sentryBreadcrumb: true }
-              );
-              throw err;
-            })
-          : ({ status: "up" } as unknown as HealthIndicatorResult);
+        return this.dnsIndicator
+          .pingCheck("frontend", frontUrl)
+          .then((pingData) => {
+            console.log(pingData);
+            return pingData;
+          })
+          .catch((err) => {
+            appLogger.warn(
+              `[HealthController] frontend health check error for "${frontUrl}"`,
+              { sentryBreadcrumb: true }
+            );
+            appLogger.error(err);
+            throw new Error(
+              `[HealthController] [ENV=${
+                domifaConfig().envId
+              }] frontend health check error for "${frontUrl}"`
+            );
+          });
       },
-
+      async () => this.db.pingCheck(domifaConfig().postgres.database),
+      // Health Check uniquement sur les machines de prod & préprod
       async () => this.version,
     ]);
   }
