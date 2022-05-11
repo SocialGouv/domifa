@@ -21,7 +21,6 @@ export type DomifaConfig = {
     portailAdminUrl: string; // DOMIFA_PORTAIL_ADMINS_URL
     backendUrl: string; // DOMIFA_BACKEND_URL
   };
-
   security: DomifaConfigSecurity;
   postgres: DomifaConfigPostgres;
   typeorm: {

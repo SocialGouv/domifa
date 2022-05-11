@@ -4,7 +4,6 @@ import {
   HealthCheckService,
   HealthIndicatorResult,
   HttpHealthIndicator,
-  TypeOrmHealthIndicator,
 } from "@nestjs/terminus";
 import { domifaConfig } from "../config";
 import { appLogger } from "../util";
@@ -22,15 +21,13 @@ export class HealthController {
   constructor(
     private health: HealthCheckService,
     public dnsIndicator: HttpHealthIndicator,
-    public postgresIndicator: PostgresHealthIndicator,
-    private db: TypeOrmHealthIndicator
+    public postgresIndicator: PostgresHealthIndicator
   ) {}
 
   @Get()
   @HealthCheck()
   healthCheckBackendAndDb() {
     return this.health.check([
-      async () => this.db.pingCheck(domifaConfig().postgres.database),
       async () => this.postgresIndicator.pingCheck("postgres"),
       async () => this.version,
     ]);
@@ -61,7 +58,6 @@ export class HealthController {
             );
           });
       },
-      async () => this.db.pingCheck(domifaConfig().postgres.database),
       // Health Check uniquement sur les machines de prod & préprod
       async () => this.version,
     ]);
