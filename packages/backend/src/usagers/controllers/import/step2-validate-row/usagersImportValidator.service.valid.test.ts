@@ -24,7 +24,7 @@ describe("usagersImportValidator parse valid data", () => {
     );
     expect(errors).toEqual([]);
     expect(usagerRow).toEqual<Partial<UsagersImportUsager>>({
-      customId: "15b",
+      customRef: "15b",
       civilite: "H",
       nom: "Dupont",
       prenom: "Paul",

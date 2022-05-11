@@ -52,7 +52,7 @@ export class StepRdvComponent implements OnInit {
   public usager!: UsagerFormModel;
   public editRdv: boolean;
 
-  public me: UserStructure;
+  public me!: UserStructure;
   public agents: UserStructure[] = [];
 
   public rdvIsToday: boolean;
@@ -85,8 +85,6 @@ export class StepRdvComponent implements OnInit {
       year: this.dToday.getFullYear() + 2,
     };
 
-    this.usager = null;
-
     this.minDateToday = minDateToday;
   }
 
@@ -107,7 +105,6 @@ export class StepRdvComponent implements OnInit {
       this.usagerDossierService.findOne(id).subscribe({
         next: (usager: UsagerLight) => {
           this.usager = new UsagerFormModel(usager);
-
           this.initForm();
         },
         error: () => {

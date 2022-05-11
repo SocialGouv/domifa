@@ -9,13 +9,10 @@ import {
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { UserStructure } from "../../../../../_common/model";
+import { UsagersImportMode, UserStructure } from "../../../../../_common/model";
 import { LoadingService } from "../../../shared/services/loading.service";
 import { AuthService } from "../../../shared/services/auth.service";
-import {
-  UsagerService,
-  UsagersImportMode,
-} from "../../services/usager.service";
+import { UsagerService } from "../../services/usager.service";
 import { IMPORT_PREVIEW_COLUMNS } from "./IMPORT_PREVIEW_COLUMNS.const";
 import { ImportPreviewRow, ImportPreviewTable } from "./preview";
 

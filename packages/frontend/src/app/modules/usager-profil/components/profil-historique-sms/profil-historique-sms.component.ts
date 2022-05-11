@@ -13,8 +13,8 @@ import { UsagerProfilService } from "../../services/usager-profil.service";
   styleUrls: ["./profil-historique-sms.component.css"],
 })
 export class ProfilHistoriqueSmsComponent implements OnInit, AfterViewInit {
-  @Input() public usager: UsagerFormModel;
-  @Input() public me: UserStructure;
+  @Input() public usager!: UsagerFormModel;
+  @Input() public me!: UserStructure;
 
   public INTERACTIONS_LABELS_SINGULIER = INTERACTIONS_LABELS_SINGULIER;
   public MESSAGE_SMS_STATUS = MESSAGE_SMS_STATUS;
@@ -33,7 +33,7 @@ export class ProfilHistoriqueSmsComponent implements OnInit, AfterViewInit {
   }
 
   public getMySms(): void {
-    this.usagerProfilService.findMySms(this.usager).subscribe({
+    this.usagerProfilService.findMySms(this.usager.ref).subscribe({
       next: (messages: MessageSms[]) => (this.messagesList = messages),
     });
   }

@@ -1,5 +1,5 @@
 export const USAGERS_IMPORT_COLUMNS = {
-  customId: { index: 0, label: "Numéro d'identification" },
+  customRef: { index: 0, label: "Numéro d'identification" },
   civilite: { index: 1, label: "Civilité" },
   nom: { index: 2, label: "Nom" },
   prenom: { index: 3, label: "Prénom" },

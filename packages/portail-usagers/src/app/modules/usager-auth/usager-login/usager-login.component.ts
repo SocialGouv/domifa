@@ -39,7 +39,6 @@ export class UsagerLoginComponent implements OnInit {
     private titleService: Title,
     private authService: UsagerAuthService,
     private toastr: CustomToastService,
-
     private matomoInjector: MatomoInjector,
     public matomo: MatomoTracker,
   ) {

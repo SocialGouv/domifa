@@ -24,7 +24,7 @@ import { UsagerDecisionService } from "../../../usager-shared/services/usager-de
   styleUrls: ["./decision-refus-form.component.css"],
 })
 export class DecisionRefusFormComponent implements OnInit {
-  @Input() public usager: UsagerFormModel;
+  @Input() public usager!: UsagerFormModel;
 
   @Output() public closeModals = new EventEmitter<void>();
 
@@ -45,6 +45,8 @@ export class DecisionRefusFormComponent implements OnInit {
     private nbgDate: NgbDateCustomParserFormatter,
     private toastService: CustomToastService
   ) {
+    this.loading = false;
+    this.submitted = false;
     this.minDate = { day: 1, month: 1, year: new Date().getFullYear() - 1 };
     this.maxDateRefus = formatDateToNgb(new Date());
   }

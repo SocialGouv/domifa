@@ -3,13 +3,12 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { filter, startWith, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
+import { UsagersImportMode } from "../../../../_common/model";
 
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
 import { usagersCache } from "../../../shared/store";
 import { SearchPageLoadedUsagersData } from "../../../shared/store/AppStoreModel.type";
 import { ImportPreviewTable } from "../components/import/preview";
-
-export type UsagersImportMode = "preview" | "confirm";
 
 @Injectable({
   providedIn: "root",

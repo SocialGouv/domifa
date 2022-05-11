@@ -11,8 +11,6 @@ import { usagersCache } from "../../../shared/store";
 import { UsagerFormModel } from "../../usager-shared/interfaces/UsagerFormModel";
 import { userStructureBuilder } from "../../users/services";
 
-export type UsagersImportMode = "preview" | "confirm";
-
 @Injectable({
   providedIn: "root",
 })
@@ -21,8 +19,23 @@ export class UsagerDossierService {
 
   constructor(private http: HttpClient) {}
 
-  public createUsager(usager: UsagerFormModel): Observable<UsagerLight> {
-    // TODO: éditer ce type pour ne conserver que les champs utiles
+  public editStepEtatCivil(
+    usager: UsagerFormModel,
+    ref: number
+  ): Observable<UsagerLight> {
+    // Edition d'une fiche
+    if (ref !== 0 && ref !== null) {
+      return this.http
+        .patch<UsagerLight>(`${this.endPointUsagers}/${ref}`, usager)
+        .pipe(
+          tap((newUsager: UsagerLight) => {
+            usagersCache.updateUsager(newUsager);
+            return newUsager;
+          })
+        );
+    }
+
+    // Création
     return this.http.post<UsagerLight>(`${this.endPointUsagers}`, usager).pipe(
       tap((newUsager: UsagerLight) => {
         usagersCache.createUsager(newUsager);

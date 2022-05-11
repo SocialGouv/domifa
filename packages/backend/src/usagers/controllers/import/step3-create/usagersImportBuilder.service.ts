@@ -56,39 +56,49 @@ function buildUsager({
   const entretien: UsagerEntretien = buildEntretien(usagerRow);
   const ayantsDroits = buildAyantsDroits(usagerRow);
 
-  const customRef = usagerRow.customId;
-
+  const customRef = usagerRow.customRef;
   const phone = usagerRow.phone;
-
   const email = usagerRow.email;
 
   //
   // Dates
   //
-  let datePremiereDom = now;
-  let dateDecision = usagerRow.dateDebutDom ?? now;
+  let datePremiereDom = usagerRow.datePremiereDom
+    ? usagerRow.datePremiereDom
+    : null;
+  let dateDecision = null;
 
-  if (usagerRow.datePremiereDom) {
-    datePremiereDom = usagerRow.datePremiereDom;
-  } else if (usagerRow.dateDebutDom) {
-    datePremiereDom = usagerRow.dateDebutDom;
-  }
-
-  const dernierPassage = setHours(usagerRow.dateDernierPassage ?? now, 19);
+  let dernierPassage = null;
 
   const dateFin = usagerRow.dateFinDom;
 
   let dateDebut = usagerRow.dateDebutDom;
 
-  if (usagerRow.statutDom === "REFUS") {
-    motif = usagerRow.motifRefus ?? "AUTRE";
+  if (usagerRow.statutDom === "REFUS" || usagerRow.statutDom === "RADIE") {
     dateDebut = usagerRow.dateFinDom;
     dateDecision = usagerRow.dateFinDom;
   }
 
+  if (usagerRow.statutDom === "REFUS") {
+    motif = usagerRow.motifRefus ?? "AUTRE";
+  }
+
   if (usagerRow.statutDom === "RADIE") {
-    dateDecision = usagerRow.dateFinDom ?? now;
     motif = usagerRow.motifRadiation ?? "AUTRE";
+  }
+
+  if (usagerRow.statutDom === "VALIDE") {
+    dernierPassage =
+      usagerRow.dateDernierPassage !== null &&
+      typeof usagerRow.dateDernierPassage !== "undefined"
+        ? setHours(new Date(usagerRow.dateDernierPassage), 19)
+        : now;
+
+    dateDecision = usagerRow.dateDebutDom;
+    // Valide uniquement avec date de début
+    if (datePremiereDom === null && usagerRow.dateDebutDom) {
+      datePremiereDom = usagerRow.dateDebutDom;
+    }
   }
 
   if (usagerRow.typeDom === "PREMIERE") {
@@ -158,9 +168,9 @@ function buildAyantsDroits(usagerRow): UsagerAyantDroit[] {
 function buildEntretien(usagerRow): UsagerEntretien {
   const entretien: UsagerEntretien = {};
 
-  entretien.commentaires = usagerRow.commentaires;
-  entretien.domiciliation = usagerRow.domiciliationExistante;
-  entretien.typeMenage = usagerRow.typeMenage;
+  entretien.commentaires = usagerRow.commentaires ?? null;
+  entretien.domiciliation = usagerRow.domiciliationExistante ?? null;
+  entretien.typeMenage = usagerRow.typeMenage ?? null;
 
   entretien.accompagnement = usagerRow.accompagnement;
   if (usagerRow.accompagnement) {

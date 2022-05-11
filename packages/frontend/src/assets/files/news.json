@@ -11,10 +11,18 @@
         ]
       },
       {
-        "type": "bug",
-        "categorie": "Résolution des incohérences dans l'historique",
+        "type": "new",
+        "categorie": "Les autres nouveautés sur DomiFa !",
         "message": [
-          "Des dossiers présentaient des entrées en doublon dans l'historique lorsque l'on supprimait une demande"
+          "La page des nouveautés est accessible même après votre connexion"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Résolution des incohérences",
+        "message": [
+          "Des dossiers présentaient des entrées en doublon dans l'historique lorsque l'on supprimait une demande",
+          "Le type de demande affiché lors de l'instruction d'un dossier ne correspondait pas au vrai statut du domiciié"
         ]
       }
     ]

@@ -164,7 +164,9 @@ export class UsagerFormModel implements UsagerLight {
 
     if (usager && usager.lastInteraction) {
       this.lastInteraction = {
-        dateInteraction: new Date(usager.lastInteraction.dateInteraction),
+        dateInteraction: usager.lastInteraction.dateInteraction
+          ? new Date(usager.lastInteraction.dateInteraction)
+          : null,
         enAttente: usager.lastInteraction.enAttente || false,
         courrierIn: usager.lastInteraction.courrierIn || 0,
         recommandeIn: usager.lastInteraction.recommandeIn || 0,

@@ -1,6 +1,6 @@
 export const TEST_VALID_IMPORT_ROW = [
   // @see USAGERS_IMPORT_COLUMNS
-  "15b", // customId
+  "15b", // customRef
   "H", // civilite
   "Dupont", // nom
   "Paul", // prenom

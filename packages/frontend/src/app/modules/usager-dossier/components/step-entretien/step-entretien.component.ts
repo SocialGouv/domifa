@@ -12,8 +12,8 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
   templateUrl: "./step-entretien.component.html",
 })
 export class StepEntretienComponent implements OnInit {
-  public usager: UsagerLight;
-  public me: UserStructure;
+  public usager!: UsagerFormModel;
+  public me!: UserStructure;
 
   constructor(
     private usagerDossierService: UsagerDossierService,
@@ -36,13 +36,15 @@ export class StepEntretienComponent implements OnInit {
 
       this.usagerDossierService.findOne(id).subscribe({
         next: (usager: UsagerLight) => {
-          this.usager = usager;
+          this.usager = new UsagerFormModel(usager);
         },
         error: () => {
+          this.toastr.error("Le dossier recherché n'existe pas");
           this.router.navigate(["404"]);
         },
       });
     } else {
+      this.toastr.error("Le dossier recherché n'existe pas");
       this.router.navigate(["404"]);
     }
   }

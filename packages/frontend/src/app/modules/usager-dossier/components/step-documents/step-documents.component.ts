@@ -12,9 +12,9 @@ import { UsagerDossierService } from "../../services/usager-dossier.service";
   templateUrl: "./step-documents.component.html",
 })
 export class StepDocumentsComponent implements OnInit {
-  public usager: UsagerLight;
+  public usager!: UsagerFormModel;
 
-  public me: UserStructure;
+  public me!: UserStructure;
   public loading = false;
 
   constructor(
@@ -38,7 +38,7 @@ export class StepDocumentsComponent implements OnInit {
 
       this.usagerDossierService.findOne(id).subscribe({
         next: (usager: UsagerLight) => {
-          this.usager = usager;
+          this.usager = new UsagerFormModel(usager);
         },
         error: () => {
           this.router.navigate(["404"]);
@@ -53,7 +53,7 @@ export class StepDocumentsComponent implements OnInit {
     this.loading = true;
     this.usagerDossierService.nextStep(this.usager.ref, step).subscribe({
       next: (usager: UsagerLight) => {
-        this.usager = usager;
+        this.usager = new UsagerFormModel(usager);
         this.router.navigate(["usager/" + usager.ref + "/edit/decision"]);
         this.toastService.success("Enregistrement réussi");
       },

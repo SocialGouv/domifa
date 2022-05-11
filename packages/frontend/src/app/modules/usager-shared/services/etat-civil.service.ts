@@ -8,8 +8,6 @@ import { UsagerLight } from "../../../../_common/model";
 import { usagersCache } from "../../../shared/store";
 import { UsagerFormModel } from "../interfaces";
 
-export type UsagersImportMode = "preview" | "confirm";
-
 @Injectable({
   providedIn: "root",
 })

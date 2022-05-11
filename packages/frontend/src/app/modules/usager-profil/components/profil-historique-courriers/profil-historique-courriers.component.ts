@@ -25,11 +25,11 @@ import { InteractionService } from "../../../usager-shared/services/interaction.
   styleUrls: ["./profil-historique-courriers.component.css"],
 })
 export class ProfilHistoriqueCourriersComponent implements OnInit {
-  @Input() public usager: UsagerFormModel;
-  @Input() public me: UserStructure;
+  @Input() public usager!: UsagerFormModel;
+  @Input() public me!: UserStructure;
 
   public interactions: Interaction[];
-  public interactionToDelete: Interaction;
+  public interactionToDelete?: Interaction;
 
   @ViewChild("deleteInteractionModal", { static: true })
   public deleteInteractionModal!: TemplateRef<NgbModalRef>;
@@ -43,7 +43,6 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
     private interactionService: InteractionService,
     private modalService: NgbModal
   ) {
-    this.interactionToDelete = null;
     this.interactions = [];
   }
 
