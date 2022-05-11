@@ -6,7 +6,7 @@ import {
   ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_TYPE_MENAGE,
   ENTRETIEN_CAUSE,
-} from "../../../../../_common/model/usager/constants";
+} from "../../../../../_common/model/usager/_constants";
 
 @Component({
   selector: "app-display-entretien",

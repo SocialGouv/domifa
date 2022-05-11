@@ -3,7 +3,7 @@ import {
   ETAPE_DOCUMENTS,
   ETAPE_ENTRETIEN,
   ETAPE_ETAT_CIVIL,
-} from "../../../../_common/model/usager/constants";
+} from "../../../../_common/model/usager/_constants";
 
 import { getUrlUsagerProfil } from "./getUrlUsagerProfil.service";
 

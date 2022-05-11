@@ -20,7 +20,7 @@ import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../_common/model/inte
 import {
   ETAPES_DEMANDE_URL,
   USAGER_DECISION_STATUT_LABELS,
-} from "../../../../../_common/model/usager/constants";
+} from "../../../../../_common/model/usager/_constants";
 import {
   minDateNaissance,
   formatDateToNgb,

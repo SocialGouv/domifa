@@ -11,7 +11,7 @@
         ]
       },
       {
-        "type": "bugs",
+        "type": "bug",
         "categorie": "Résolution des incohérences dans l'historique",
         "message": [
           "Des dossiers présentaient des entrées en doublon dans l'historique lorsque l'on supprimait une demande"
@@ -42,7 +42,7 @@
         ]
       },
       {
-        "type": "bugs",
+        "type": "bug",
         "categorie": "",
         "message": [
           "Correction du dossier de domiciliation, la date de première domiciliation était parfois absente"

@@ -1,4 +1,5 @@
 import { Column, Workbook } from "exceljs";
+import { USAGER_DECISION_STATUT_LABELS } from "../../../_common/model";
 import {
   WorksheetRenderer,
   xlFormater,
@@ -7,7 +8,6 @@ import {
 } from "../../xlLib";
 import { StructureUsagersExportModel } from "../StructureUsagersExportModel.type";
 import { generateMotifLabel } from "./../../../usagers/services/generateMotifLabel.service";
-import { USAGER_DECISION_STATUT_LABELS } from "./../../../_common/labels/USAGER_DECISION_STATUT_LABELS.const";
 
 export const exportListeParticipantsWorksheetRenderer = {
   renderWorksheet,

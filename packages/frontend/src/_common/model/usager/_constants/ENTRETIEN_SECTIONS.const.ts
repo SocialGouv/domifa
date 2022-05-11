@@ -1,11 +1,14 @@
-import { UsagerEntretienResidence } from "./../entretien/UsagerEntretienResidence.type";
+import { UsagerEntretienResidence } from "../entretien/UsagerEntretienResidence.type";
 import {
   UsagerEntretienCause,
+  UsagerEntretienLienCommune,
   UsagerEntretienRaisonDemande,
   UsagerEntretienTypeMenage,
 } from "../entretien";
 
-export const ENTRETIEN_LIEN_COMMUNE = {
+export const ENTRETIEN_LIEN_COMMUNE: {
+  [key in UsagerEntretienLienCommune]: string;
+} = {
   RESIDENTIEL: "Résidentiel",
   PARENTAL: "Parental",
   FAMILIAL: "Familial",

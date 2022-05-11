@@ -1,7 +1,7 @@
 import { AppUserForAdminEmail } from "../../../../database";
 import { DomifaMailTemplateRendering } from "../../../model";
 import { domifaMailTemplateRenderer } from "../../domifaMailTemplateRenderer.service";
-import { Structure } from "../../../../_common/model";
+import { Structure, STRUCTURE_TYPE_LABELS } from "../../../../_common/model";
 import { DEPARTEMENTS_MAP } from "../../../../util/territoires";
 
 export type NewStructureEmailModel = {
@@ -30,14 +30,9 @@ async function renderTemplate({
   lienSuppression,
   toSkipString,
 }: NewStructureEmailModel): Promise<DomifaMailTemplateRendering> {
-  const structureTypes = {
-    asso: "Organisme agrée",
-    ccas: "CCAS",
-    cias: "CIAS",
-  };
   const model = {
     structure_name: structure.nom,
-    structure_type: structureTypes[structure.structureType],
+    structure_type: STRUCTURE_TYPE_LABELS[structure.structureType],
     adresse: structure.adresse,
     departement: DEPARTEMENTS_MAP[structure.departement].departmentName,
     ville: structure.ville,

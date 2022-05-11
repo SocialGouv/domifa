@@ -2,7 +2,7 @@ import { SeoService } from "./../../../shared/services/seo.service";
 import { PublicStats } from "./../../../../../_common/model/stats/PublicStats.type";
 import { StatsService } from "./../../services/stats.service";
 import { Component, OnInit } from "@angular/core";
-import { STRUCTURE_TYPE_LABELS } from "../../../../../_common/model/usager/constants/STRUCTURE_TYPE_LABELS.const";
+import { STRUCTURE_TYPE_LABELS } from "../../../../../_common/model/structure/_constants/STRUCTURE_TYPE_LABELS.const";
 import {
   DEPARTEMENTS_METROPOLE,
   RegionsLabels,

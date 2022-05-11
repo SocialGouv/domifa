@@ -1,7 +1,7 @@
 export type UsagerLastInteractions = {
   dateInteraction: Date;
-  enAttente?: boolean;
-  courrierIn?: number;
-  recommandeIn?: number;
-  colisIn?: number;
+  enAttente: boolean;
+  courrierIn: number;
+  recommandeIn: number;
+  colisIn: number;
 };

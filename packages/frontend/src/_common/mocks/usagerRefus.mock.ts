@@ -1,5 +1,5 @@
 import { UsagerLight } from "../model";
-import { ETAPE_DOSSIER_COMPLET } from "../model/usager/constants";
+import { ETAPE_DOSSIER_COMPLET } from "../model/usager/_constants";
 
 export const usagerRefusMock: UsagerLight = {
   notes: [],

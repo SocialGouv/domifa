@@ -1,7 +1,11 @@
-import { residence, typeMenage } from "../../stats/usagers.labels";
-import { StructureCommon, UsagerLight } from "../../_common/model";
+import {
+  ENTRETIEN_RESIDENCE,
+  ENTRETIEN_TYPE_MENAGE,
+  StructureCommon,
+  UsagerLight,
+  USAGER_DECISION_STATUT_LABELS,
+} from "../../_common/model";
 import { StructureCustomDocTags } from "../../_common/model/structure-doc/StructureCustomDocTags.type";
-import { USAGER_DECISION_STATUT_LABELS } from "./../../_common/labels/USAGER_DECISION_STATUT_LABELS.const";
 import { UsagerDecision } from "./../../_common/model/usager/UsagerDecision.type";
 import { generateMotifLabel } from "./../services/generateMotifLabel.service";
 
@@ -207,12 +211,13 @@ export function buildCustomDoc({
 
     ENTRETIEN_LIEN_COMMUNE: usager.entretien.liencommune || "",
 
-    ENTRETIEN_COMPOSITION_MENAGE: typeMenage[usager.entretien.typeMenage],
+    ENTRETIEN_COMPOSITION_MENAGE:
+      ENTRETIEN_TYPE_MENAGE[usager.entretien.typeMenage],
 
     ENTRETIEN_SITUATION_RESIDENTIELLE:
       usager.entretien.residence === "AUTRE"
         ? " Autre : " + usager.entretien.residenceDetail
-        : residence[usager.entretien.residence],
+        : ENTRETIEN_RESIDENCE[usager.entretien.residence],
 
     // Transferts
     TRANSFERT_ACTIF: transfert.actif ? "OUI" : "NON",

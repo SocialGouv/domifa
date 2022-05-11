@@ -1,4 +1,4 @@
-import { UsagerDecisionMotif } from "../model";
+import { UsagerDecisionMotif } from "..";
 
 export const MOTIFS_RADIATION_LABELS: {
   [key in UsagerDecisionMotif]?: string;
@@ -12,3 +12,13 @@ export const MOTIFS_RADIATION_LABELS: {
   NON_RESPECT_REGLEMENT: "Non-respect du règlement",
   ENTREE_LOGEMENT: "Entrée dans un logement/hébergement stable",
 };
+
+export const MOTIFS_RADIATION_LABELS_MAP: UsagerDecisionMotif[] = [
+  "A_SA_DEMANDE",
+  "PLUS_DE_LIEN_COMMUNE",
+  "FIN_DE_DOMICILIATION",
+  "NON_MANIFESTATION_3_MOIS",
+  "NON_RESPECT_REGLEMENT",
+  "ENTREE_LOGEMENT",
+  "AUTRE",
+];
