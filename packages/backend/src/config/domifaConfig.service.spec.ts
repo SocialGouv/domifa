@@ -20,9 +20,7 @@ describe("loadConfig", () => {
     expect(config.version).toEqual(process.env.npm_package_version);
 
     expect(config.apps.frontendUrl).toBeDefined();
-    expect(config.apps.frontendUrl).toEqual(
-      config.healthz.frontendUrlFromBackend
-    );
+
     expect(config.apps.backendUrl).toBeDefined();
     expect(config.apps.portailUsagersUrl).toBeDefined();
 

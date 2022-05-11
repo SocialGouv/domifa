@@ -16,7 +16,6 @@ export type DomifaEnv = {
   DOMIFA_PORTAIL_USAGERS_URL: string;
   DOMIFA_PORTAIL_ADMINS_URL: string;
   DOMIFA_BACKEND_URL: string;
-  DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND: string;
   /**
    * @deprecated use DOMIFA_SECURITY_JWT_SECRET instead
    */

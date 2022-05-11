@@ -21,9 +21,7 @@ export type DomifaConfig = {
     portailAdminUrl: string; // DOMIFA_PORTAIL_ADMINS_URL
     backendUrl: string; // DOMIFA_BACKEND_URL
   };
-  healthz: {
-    frontendUrlFromBackend: string; // DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND
-  };
+
   security: DomifaConfigSecurity;
   postgres: DomifaConfigPostgres;
   typeorm: {

@@ -51,7 +51,6 @@ describe("UsagersImportCiviliteSchema invalid schema", () => {
         "statutDom",
         "typeDom",
         "dateDebutDom",
-        "dateFinDom",
         "datePremiereDom",
         "dateDernierPassage",
         "orientation",

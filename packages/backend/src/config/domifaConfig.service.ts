@@ -97,14 +97,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
     "DOMIFA_PORTAIL_ADMINS_URL"
   );
 
-  const frontendUrlFromBackend = configParser.parseString(
-    x,
-    "DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND",
-    {
-      defaultValue: frontendUrl,
-    }
-  );
-
   const backendUrl = configParser.parseString(x, "DOMIFA_BACKEND_URL");
 
   const emailsEnabled = configParser.parseBoolean(x, "DOMIFA_EMAILS_ENABLE");
@@ -129,9 +121,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       frontendUrl,
       backendUrl,
     },
-    healthz: {
-      frontendUrlFromBackend,
-    },
+
     security: parseSecurityConfig(x),
     postgres: {
       host: configParser.parseString(x, "POSTGRES_HOST", {
