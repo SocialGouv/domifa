@@ -75,8 +75,8 @@ export class UsersService {
       );
   }
 
-  public deleteUser(id: number): Observable<any> {
-    return this.http.delete(`${this.endPoint}/${id}`);
+  public deleteUser(id: number): Observable<ApiMessage> {
+    return this.http.delete<ApiMessage>(`${this.endPoint}/${id}`);
   }
 
   public getPasswordToken(data: string) {

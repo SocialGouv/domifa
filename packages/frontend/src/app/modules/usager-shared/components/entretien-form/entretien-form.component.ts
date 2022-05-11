@@ -19,7 +19,7 @@ import { UsagerLight } from "../../../../../_common/model";
 import {
   ENTRETIEN_LIEN_COMMUNE,
   ENTRETIEN_TYPE_MENAGE,
-  ENTRETIEN_CAUSE,
+  ENTRETIEN_CAUSE_INSTABILITE,
   ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_RESIDENCE,
 } from "../../../../../_common/model/usager/_constants";
@@ -35,7 +35,7 @@ import { EntretienService } from "../../services/entretien.service";
 export class EntretienFormComponent implements OnInit {
   public ENTRETIEN_LIEN_COMMUNE = ENTRETIEN_LIEN_COMMUNE;
   public ENTRETIEN_TYPE_MENAGE = ENTRETIEN_TYPE_MENAGE;
-  public ENTRETIEN_CAUSE = ENTRETIEN_CAUSE;
+  public ENTRETIEN_CAUSE_INSTABILITE = ENTRETIEN_CAUSE_INSTABILITE;
   public ENTRETIEN_RAISON_DEMANDE = ENTRETIEN_RAISON_DEMANDE;
   public ENTRETIEN_RESIDENCE = ENTRETIEN_RESIDENCE;
 

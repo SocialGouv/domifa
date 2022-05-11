@@ -29,7 +29,7 @@ export const USAGERS_IMPORT_COLUMNS = {
   },
   liencommune: { index: 22, label: "Lien avec la commune" },
   liencommuneDetail: { index: 23, label: "Détail du lien avec la commune" },
-  compositionMenage: { index: 24, label: "Composition du ménage" },
+  typeMenage: { index: 24, label: "Composition du ménage" },
   situationResidentielle: { index: 25, label: "Situation résidentielle" },
   situationDetails: {
     index: 26,

@@ -100,12 +100,12 @@ export class UsersController {
     @CurrentChosenUserStructure() chosenUserStructure: UserStructure,
     @Res() res: ExpressResponse
   ) {
-    const retour = await usersDeletor.deleteUser({
-      userId,
+    await usersDeletor.deleteUser({
+      userId: chosenUserStructure.id,
       structureId: userStructureAuth.structureId,
     });
 
-    return res.status(HttpStatus.OK).json({ success: true, message: retour });
+    return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)

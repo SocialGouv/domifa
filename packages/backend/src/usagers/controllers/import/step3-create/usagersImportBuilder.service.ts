@@ -1,13 +1,14 @@
 import { setHours } from "date-fns";
 import { uuidGenerator } from "../../../../database/services/uuid";
 import {
+  ETAPE_DOSSIER_COMPLET,
   Usager,
   UsagerAyantDroit,
   UsagerDecision,
   UserStructure,
 } from "../../../../_common/model";
 import { UsagerEntretien } from "../../../../_common/model/usager/entretien";
-import { ETAPE_DOSSIER_COMPLET } from "../../../../_common/model/usager/_constants/ETAPES_DEMANDE.const";
+
 import { UsagerDecisionMotif } from "../../../../_common/model/usager/UsagerDecisionMotif.type";
 import { UsagersImportUsager } from "../step2-validate-row/schema";
 
@@ -159,7 +160,7 @@ function buildEntretien(usagerRow): UsagerEntretien {
 
   entretien.commentaires = usagerRow.commentaires;
   entretien.domiciliation = usagerRow.domiciliationExistante;
-  entretien.typeMenage = usagerRow.compositionMenage;
+  entretien.typeMenage = usagerRow.typeMenage;
 
   entretien.accompagnement = usagerRow.accompagnement;
   if (usagerRow.accompagnement) {

@@ -1,5 +1,7 @@
-import { ETAPE_DECISION } from "../../../../_common/model/usager/_constants/ETAPES_DEMANDE.const";
-import { ETAPE_RENDEZ_VOUS } from "../../../../_common/model/usager/_constants/ETAPES_DEMANDE.const";
+import {
+  ETAPE_DECISION,
+  ETAPE_RENDEZ_VOUS,
+} from "../../../../_common/model/usager/_constants/ETAPES_DEMANDE.const";
 
 import { USAGER_ACTIF_MOCK } from "../../../../_common/mocks/USAGER_ACTIF.mock";
 import { getRdvInfos } from "./getRdvInfos.service";

@@ -44,7 +44,7 @@ describe("usagersImportValidator parse invalid data", () => {
           "détails revenus", // revenusDetail
           "SOCIAL", // liencommune
           "suivi social", // liencommune
-          "invalid-compositionMenage", // compositionMenage
+          "invalid-typeMenage", // typeMenage
           "invalid-situationResidentielle", // situationResidentielle
           "détails situation", // situationDetails
           "invalid-causeInstabilite", // causeInstabilite
@@ -131,7 +131,7 @@ describe("usagersImportValidator parse invalid data", () => {
         columnNumber: 25,
         label: "Composition du ménage",
         rowNumber: 10,
-        value: "invalid-compositionMenage",
+        value: "invalid-typeMenage",
       },
       {
         columnNumber: 26,

@@ -89,6 +89,6 @@ function getSearchAttributes(): (
     x.lastName,
     x.email,
     ...x.tags,
-    ...x.children.map((x) => x.firstName),
+    ...x.children.map((ch) => ch.firstName),
   ];
 }
