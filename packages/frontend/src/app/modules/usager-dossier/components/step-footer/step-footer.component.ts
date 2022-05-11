@@ -19,13 +19,12 @@ import { UsagerLight, UserStructure } from "src/_common/model";
   styleUrls: ["./step-footer.component.css"],
 })
 export class StepFooterComponent implements OnInit {
+  public me!: UserStructure;
   @Input() public usager!: UsagerFormModel;
   @Output() usagerChanges = new EventEmitter<UsagerLight>();
 
   @ViewChild("addNoteInModal", { static: true })
   public addNoteInModal!: TemplateRef<NgbModalRef>;
-
-  public me: UserStructure;
 
   constructor(
     private modalService: NgbModal,
@@ -39,8 +38,8 @@ export class StepFooterComponent implements OnInit {
   }
 
   public onUsagerChanges(usager: UsagerLight): void {
+    this.usagerChanges.emit(usager);
     this.usager = new UsagerFormModel(usager);
-    this.usagerChanges.emit(this.usager);
   }
 
   public openAddNoteInModal(): void {

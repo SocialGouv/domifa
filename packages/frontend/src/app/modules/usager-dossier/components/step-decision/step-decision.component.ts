@@ -33,11 +33,10 @@ import { UsagerDossierService } from "../../services/usager-dossier.service";
   templateUrl: "./step-decision.component.html",
 })
 export class StepDecisionComponent implements OnInit {
-  public usager: UsagerFormModel;
-  public isAdmin!: boolean;
+  public usager!: UsagerFormModel;
+  public me!: UserStructure;
 
-  public me: UserStructure;
-
+  public isAdmin: boolean;
   public editInfos: boolean;
   public editEntretien: boolean;
   public editPJ: boolean;

@@ -6,7 +6,7 @@ import {
   HttpHealthIndicator,
 } from "@nestjs/terminus";
 import { domifaConfig } from "../config";
-import { appLogger } from "../util";
+
 import { PostgresHealthIndicator } from "./postgres-health-indicator.service";
 
 @Controller("/healthz")
@@ -36,15 +36,19 @@ export class HealthController {
   @Get("full")
   @HealthCheck()
   healthCheckFull() {
-    const frontUrl = domifaConfig().apps.frontendUrl;
+    const frontUrl =
+      domifaConfig().envId === "local"
+        ? "127.0.0.1:4200"
+        : domifaConfig().apps.frontendUrl;
+
     return this.health.check([
       async () => {
         return domifaConfig().envId !== "local" &&
           domifaConfig().envId !== "test"
           ? this.dnsIndicator
-              .pingCheck("frontend", "127.0.0.1:4200")
+              .pingCheck("frontend", frontUrl)
               .then((pingData) => {
-                console.log("[HealthController] frontend up");
+                console.log("[HealthController] frontend up - " + frontUrl);
                 return pingData;
               })
               .catch((err) => {

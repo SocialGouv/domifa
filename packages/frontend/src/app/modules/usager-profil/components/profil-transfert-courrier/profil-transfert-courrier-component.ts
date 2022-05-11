@@ -48,8 +48,8 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
   templateUrl: "./profil-transfert-courrier.html",
 })
 export class UsagersProfilTransfertCourrierComponent implements OnInit {
-  @Input() public usager: UsagerFormModel;
-  @Input() public me: UserStructure;
+  @Input() public usager!: UsagerFormModel;
+  @Input() public me!: UserStructure;
 
   @Output() usagerChanges = new EventEmitter<UsagerLight>();
 
@@ -79,8 +79,6 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
     this.isFormVisible = false;
     this.submitted = false;
     this.minDateToday = minDateToday;
-    this.usager = null;
-    this.me = null;
   }
 
   public ngOnInit(): void {
@@ -115,11 +113,15 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
           [Validators.required, Validators.minLength(10)],
         ],
         dateFin: [
-          formatDateToNgb(this.usager.options.transfert.dateFin),
+          this.usager.options.transfert.dateFin
+            ? formatDateToNgb(this.usager.options.transfert.dateFin)
+            : null,
           [Validators.required],
         ],
         dateDebut: [
-          formatDateToNgb(this.usager.options.transfert.dateDebut),
+          this.usager.options.transfert.dateDebut
+            ? formatDateToNgb(this.usager.options.transfert.dateDebut)
+            : null,
           [Validators.required],
         ],
       },

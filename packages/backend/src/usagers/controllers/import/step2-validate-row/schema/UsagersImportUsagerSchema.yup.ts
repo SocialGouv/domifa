@@ -21,7 +21,7 @@ import { email } from "./core/email.yup";
 // Note: les méthodes .notRequired() et .required() sont indispensable pour que `oneOfString` soit correctement typé
 export const UsagersImportUsagerSchema = yup
   .object({
-    customId: yup.string(),
+    customRef: yup.string(),
     civilite: oneOfString(["H", "F"]).required(),
     nom: yup.string().required(),
     prenom: yup.string().required(),
@@ -49,10 +49,7 @@ export const UsagersImportUsagerSchema = yup
       .max(yup.ref("$nextYear"))
       .when("statutDom", {
         is: (statutDom) => statutDom === "VALIDE",
-        then: dateUtcSchema()
-          .min(yup.ref("dateDebutDom"))
-          .max(yup.ref("$today"))
-          .required(),
+        then: dateUtcSchema().required(),
       }),
     datePremiereDom: dateUtcSchema()
       .min(yup.ref("$minDate"))

@@ -80,7 +80,12 @@ export class InteractionService {
       );
   }
 
-  public delete(usagerRef: number, interactionUuid: string) {
-    return this.http.delete(`${this.endPoint}${usagerRef}/${interactionUuid}`);
+  public delete(
+    usagerRef: number,
+    interactionUuid: string
+  ): Observable<UsagerLight> {
+    return this.http.delete<UsagerLight>(
+      `${this.endPoint}${usagerRef}/${interactionUuid}`
+    );
   }
 }

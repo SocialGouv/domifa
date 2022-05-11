@@ -33,7 +33,6 @@ import {
 import {
   UsagerLight,
   UserStructure,
-  Usager,
   CerfaDocType,
   LIEN_PARENTE_LABELS,
 } from "../../../../../_common/model";
@@ -86,9 +85,9 @@ export class StepEtatCivilComponent implements OnInit {
     maxResults: 10,
   });
 
-  public me: UserStructure;
+  public me!: UserStructure;
 
-  @ViewChildren("adNom") inputsAyantDroit: QueryList<ElementRef>;
+  @ViewChildren("adNom") public inputsAyantDroit: QueryList<ElementRef>;
 
   get f(): { [key: string]: AbstractControl } {
     return this.usagerForm.controls;
@@ -127,7 +126,7 @@ export class StepEtatCivilComponent implements OnInit {
       const id = this.route.snapshot.params.id;
 
       this.usagerDossierService.findOne(id).subscribe({
-        next: (usager: Usager) => {
+        next: (usager: UsagerLight) => {
           this.usager = new UsagerFormModel(usager);
           this.initForm();
         },
@@ -301,17 +300,19 @@ export class StepEtatCivilComponent implements OnInit {
 
     delete formValue.ayantsDroitsExist;
 
-    this.usagerDossierService.createUsager(formValue).subscribe({
-      next: (usager: UsagerLight) => {
-        this.usager = new UsagerFormModel(usager);
-        this.toastService.success("Enregistrement réussi");
-        this.router.navigate(["usager/" + usager.ref + "/edit/rendez-vous"]);
-      },
-      error: () => {
-        this.loading = false;
-        this.toastService.error("Veuillez vérifier les champs du formulaire");
-      },
-    });
+    this.usagerDossierService
+      .editStepEtatCivil(formValue, this.usager.ref)
+      .subscribe({
+        next: (usager: UsagerLight) => {
+          this.usager = new UsagerFormModel(usager);
+          this.toastService.success("Enregistrement réussi");
+          this.router.navigate(["usager/" + usager.ref + "/edit/rendez-vous"]);
+        },
+        error: () => {
+          this.loading = false;
+          this.toastService.error("Veuillez vérifier les champs du formulaire");
+        },
+      });
   }
 
   private focusAyantDroit() {

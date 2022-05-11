@@ -79,9 +79,9 @@ export class UsagerProfilService {
     );
   }
 
-  public findMySms(usager: UsagerLight): Observable<MessageSms[]> {
+  public findMySms(ref: number): Observable<MessageSms[]> {
     return this.http.get<MessageSms[]>(
-      environment.apiUrl + "sms/usager/" + usager.ref
+      environment.apiUrl + "sms/usager/" + ref.toString()
     );
   }
 }

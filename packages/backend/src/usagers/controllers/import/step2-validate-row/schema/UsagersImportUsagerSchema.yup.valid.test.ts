@@ -1,4 +1,7 @@
-import { TEST_VALID_IMPORT_USAGER } from "./test-data";
+import {
+  TEST_VALID_IMPORT_USAGER,
+  TEST_VALID_IMPORT_USAGER_REFUS,
+} from "./test-data";
 import {
   UsagersImportUsager,
   UsagersImportUsagerSchema,
@@ -16,13 +19,13 @@ const context: UsagersImportUsagerSchemaContext = {
 };
 
 describe("UsagersImportCiviliteSchema schema", () => {
-  it("valid usager", async () => {
+  it("usager VALIDE", async () => {
     await expect(
       await UsagersImportUsagerSchema.validate(TEST_VALID_IMPORT_USAGER, {
         context,
       })
     ).toEqual<UsagersImportUsager>({
-      customId: "15b",
+      customRef: "15b",
       civilite: "H",
       nom: "Dupont",
       prenom: "Paul",
@@ -70,6 +73,50 @@ describe("UsagersImportCiviliteSchema schema", () => {
           lienParente: "PARENT",
         },
       ],
+    });
+  });
+
+  it("usager REFUS", async () => {
+    await expect(
+      await UsagersImportUsagerSchema.validate(TEST_VALID_IMPORT_USAGER_REFUS, {
+        context,
+      })
+    ).toEqual<Partial<UsagersImportUsager>>({
+      accompagnement: true,
+      accompagnementDetail: "Ici le détail",
+      ayantsDroits: [
+        {
+          dateNaissance: new Date(Date.UTC(1991, 7 - 1, 11)),
+          lienParente: "AUTRE",
+          nom: "Auguy",
+          prenom: "Marcelo",
+        },
+      ],
+      causeDetail: "",
+      civilite: "F",
+      commentaires: "Un commentaire",
+      customRef: "XX_0111",
+      dateFinDom: new Date(Date.UTC(2020, 5 - 1, 12)),
+      dateNaissance: new Date(Date.UTC(1929, 6 - 1, 15)),
+      domiciliationExistante: false,
+      email: "marcelo-bielsa@yopmail.com",
+      liencommune: "SOCIAL",
+      liencommuneDetail: "Suivi social",
+      lieuNaissance: "Paris",
+      nom: "Auguy",
+      orientation: false,
+      orientationDetail: "détails orientation",
+      phone: "0102030405",
+      prenom: "Paul",
+      raisonDemande: "EXERCICE_DROITS",
+      raisonDemandeDetail: "détails raison demande",
+      revenus: true,
+      revenusDetail: "détails revenus",
+      situationDetails: "détails situation",
+      situationResidentielle: "HEBERGEMENT_TIERS",
+      statutDom: "REFUS",
+      typeDom: "RENOUVELLEMENT",
+      typeMenage: "FEMME_ISOLE_AVEC_ENFANT",
     });
   });
 });

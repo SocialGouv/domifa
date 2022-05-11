@@ -1,7 +1,7 @@
 import { UsagerImportObject } from "../../../model";
 
 export const TEST_INVALID_IMPORT_USAGER: UsagerImportObject = {
-  customId: "15b",
+  customRef: "15b",
   civilite: "homme",
   nom: "Milano",
   prenom: "Paul",

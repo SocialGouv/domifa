@@ -26,7 +26,7 @@ export class MenuComponent implements OnInit {
 
   public ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
 
-  public me: UserStructure;
+  public me!: UserStructure;
 
   constructor(
     private authService: AuthService,

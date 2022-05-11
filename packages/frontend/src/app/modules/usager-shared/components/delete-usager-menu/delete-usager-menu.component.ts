@@ -45,6 +45,7 @@ export class DeleteUsagerMenuComponent implements OnInit {
   ) {
     this.loading = false;
     this.hasHistorique = false;
+    this.previousStatus = "";
   }
 
   public ngOnInit(): void {

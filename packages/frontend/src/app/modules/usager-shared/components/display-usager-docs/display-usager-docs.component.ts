@@ -24,7 +24,7 @@ import * as fileSaver from "file-saver";
   styleUrls: ["./display-usager-docs.component.css"],
 })
 export class DisplayUsagerDocsComponent implements OnInit {
-  @Input() public usager: UsagerFormModel;
+  @Input() public usager!: UsagerFormModel;
 
   @ViewChildren("usagerDocsDeleteButtons")
   usagerDocsDeleteButtons: QueryList<ElementRef>;

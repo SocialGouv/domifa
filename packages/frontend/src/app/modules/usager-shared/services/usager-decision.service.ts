@@ -13,8 +13,6 @@ import {
 
 import { usagersCache } from "../../../shared/store";
 
-export type UsagersImportMode = "preview" | "confirm";
-
 @Injectable({
   providedIn: "root",
 })

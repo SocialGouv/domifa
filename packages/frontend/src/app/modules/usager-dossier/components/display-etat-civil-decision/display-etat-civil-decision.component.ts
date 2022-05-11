@@ -7,7 +7,7 @@ import { languagesAutocomplete } from "../../../../shared";
   templateUrl: "./display-etat-civil-decision.component.html",
 })
 export class DisplayEtatCivilDecisionComponent implements OnInit {
-  @Input() public usager: UsagerLight;
+  @Input() public usager!: UsagerLight;
 
   public languagesAutocomplete = languagesAutocomplete;
   public LIEN_PARENTE_LABELS = LIEN_PARENTE_LABELS;

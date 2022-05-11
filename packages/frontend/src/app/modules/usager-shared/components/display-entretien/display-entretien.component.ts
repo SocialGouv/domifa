@@ -13,7 +13,7 @@ import {
   templateUrl: "./display-entretien.component.html",
 })
 export class DisplayEntretienComponent implements OnInit {
-  @Input() public usager: UsagerLight;
+  @Input() public usager!: UsagerLight;
 
   public ENTRETIEN_LIEN_COMMUNE = ENTRETIEN_LIEN_COMMUNE;
   public ENTRETIEN_RESIDENCE = ENTRETIEN_RESIDENCE;

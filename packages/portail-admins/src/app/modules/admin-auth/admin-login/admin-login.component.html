@@ -8,50 +8,53 @@
       class="col-md-6 col-lg-4 col-12"
       (ngSubmit)="login()"
     >
-      <div class="form-group required">
-        <label for="login">Votre identifiant</label>
-        <input
-          type="text"
-          formControlName="login"
-          autocomplete="username"
-          placeholder="Votre identifiant"
-          class="form-control"
-          [ngClass]="{
-            'is-invalid': f.login.dirty && f.login.errors
-          }"
-        />
-        <div *ngIf="f.login.dirty && f.login.errors" class="invalid-feedback">
-          Veuillez vérifier l'identifiant
+      <div class="row">
+        <div class="col form-group required">
+          <label for="login">Votre identifiant</label>
+          <input
+            type="text"
+            formControlName="login"
+            autocomplete="username"
+            placeholder="Votre identifiant"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid': f.login.dirty && f.login.errors
+            }"
+          />
+          <p *ngIf="f.login.dirty && f.login.errors" class="invalid-feedback">
+            Veuillez vérifier l'identifiant
+          </p>
         </div>
       </div>
-
-      <div class="form-group required">
-        <label for="password">Mot de passe</label>
-        <div class="input-group">
-          <input
-            type="password"
-            formControlName="password"
-            [type]="!hidePassword ? 'text' : 'password'"
-            class="form-control"
-            placeholder="Mot de passe"
-            autocomplete="current-password"
-            [ngClass]="{ 'is-invalid': f.password.dirty && f.password.errors }"
-          />
-          <div class="input-group-append">
-            <span class="input-group-text" (click)="toggleShowPassword()">
-              <fa-icon
-                [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
-              ></fa-icon>
-            </span>
+      <div class="row">
+        <div class="col form-group required">
+          <label for="password">Mot de passe</label>
+          <div class="input-group">
+            <input
+              type="password"
+              formControlName="password"
+              [type]="!hidePassword ? 'text' : 'password'"
+              class="form-control"
+              placeholder="Mot de passe"
+              autocomplete="current-password"
+              [ngClass]="{
+                'is-invalid': f.password.dirty && f.password.errors
+              }"
+            />
+            <div class="input-group-append">
+              <span class="input-group-text" (click)="toggleShowPassword()">
+                <fa-icon
+                  [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
+                ></fa-icon>
+              </span>
+            </div>
           </div>
-        </div>
-        <div
-          *ngIf="f.password.dirty && f.password.errors"
-          class="invalid-feedback"
-        >
-          <div *ngIf="f.password.errors.required">
+          <p
+            *ngIf="f.password.dirty && f.password.errors"
+            class="invalid-feedback"
+          >
             Le mot de passe est obligatoire
-          </div>
+          </p>
         </div>
       </div>
       <div class="form-group text-center">

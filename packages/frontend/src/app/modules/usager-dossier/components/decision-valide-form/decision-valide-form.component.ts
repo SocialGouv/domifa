@@ -23,7 +23,7 @@ import { UsagerDecisionService } from "../../../usager-shared/services/usager-de
   styleUrls: ["./decision-valide-form.component.css"],
 })
 export class DecisionValideFormComponent implements OnInit {
-  @Input() public usager: UsagerFormModel;
+  @Input() public usager!: UsagerFormModel;
 
   @Output() public closeModals = new EventEmitter<void>();
 

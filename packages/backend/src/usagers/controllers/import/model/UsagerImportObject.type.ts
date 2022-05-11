@@ -1,5 +1,5 @@
 export type UsagerImportObject = {
-  customId?: string;
+  customRef?: string;
   civilite: string;
   nom: string;
   prenom: string;

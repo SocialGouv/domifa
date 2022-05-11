@@ -20,3 +20,7 @@ optional/e2e/runners/puppeteer/output
 ~$*.xlsx
 
 yarn-error.log
+
+# System Files
+.DS_Store
+Thumbs.db

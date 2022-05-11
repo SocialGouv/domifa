@@ -19,11 +19,11 @@ import { UsagerProfilService } from "../../services/usager-profil.service";
 })
 export class ProfilEditSmsPreferenceComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
-  @Input() public me: UserStructure;
+  @Input() public me!: UserStructure;
 
   public submitted: boolean;
   public loading: boolean;
-  public preferenceForm: FormGroup;
+  public preferenceForm!: FormGroup;
 
   public editPreferences: boolean;
 
@@ -34,8 +34,6 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
   ) {
     this.loading = false;
     this.submitted = false;
-    this.me = null;
-    this.usager = null;
     this.editPreferences = false;
   }
 

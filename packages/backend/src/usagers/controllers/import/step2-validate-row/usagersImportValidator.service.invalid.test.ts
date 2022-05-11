@@ -20,7 +20,7 @@ describe("usagersImportValidator parse invalid data", () => {
       {
         row: [
           // @see USAGERS_IMPORT_COLUMNS
-          "15b", // customId
+          "15b", // customRef
           "y", // civilite
           "Dupont", // nom
           "Paul", // prenom

@@ -41,7 +41,6 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
   public stats: StructureStatsFull;
 
   public exportLoading: boolean;
-  public showCalendar: boolean;
 
   public start: Date;
   public end: Date;
@@ -59,7 +58,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
   private defaultStartDate: Date;
   private defaultEndDate: Date;
 
-  private me: UserStructure;
+  private me!: UserStructure;
 
   private subscriptions = new Subscription();
 
@@ -73,8 +72,10 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
     private matomo: MatomoTracker,
     private authService: AuthService
   ) {
+    this.exportLoading = false;
     const date = new Date("2020-01-01");
     this.defaultStartDate = date;
+    this.defaultEndDate = new Date();
     this.minDateDebut = new NgbDate(
       date.getFullYear(),
       date.getMonth() + 1,
@@ -90,6 +91,11 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
       date.getMonth() + 1,
       date.getDate()
     );
+
+    this.start = null;
+    this.end = null;
+
+    this.exportLoading = false;
   }
 
   public ngOnInit(): void {
@@ -109,12 +115,6 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
   public ngAfterViewInit(): void {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
-
-    this.start = null;
-    this.end = null;
-
-    this.showCalendar = false;
-    this.exportLoading = false;
 
     // Dates du calendrier
     this.defaultEndDate = yesterday;

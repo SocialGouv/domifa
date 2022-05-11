@@ -8,8 +8,6 @@ import { usagersCache } from "../../../shared/store";
 
 import { Entretien } from "../interfaces";
 
-export type UsagersImportMode = "preview" | "confirm";
-
 @Injectable({
   providedIn: "root",
 })

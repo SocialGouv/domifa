@@ -13,7 +13,6 @@ export class StepHeaderComponent implements OnInit, OnChanges {
   public filteredNotes: number;
 
   constructor() {
-    this.usager = null;
     this.filteredNotes = 0;
   }
 
@@ -27,10 +26,12 @@ export class StepHeaderComponent implements OnInit, OnChanges {
 
   public navigateToNotes(): void {
     const element = document.getElementById("private_notes");
-    element.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-      inline: "nearest",
-    });
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest",
+      });
+    }
   }
 }
