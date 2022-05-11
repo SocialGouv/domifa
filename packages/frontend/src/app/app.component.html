@@ -1,6 +1,20 @@
+  <!-- <ul class="skip-links">
+    <li>
+      <a routerLink]="['./']" [fragment]="navbar-site">Aller à la navigation</a>
+    </li>
+    <li>
+      <a [routerLink]="['./']"  >Aller au contenu</a>
+    </li>
+    <li>
+      <a [routerLink]="['./']" fragment="contentinfo">Aller au pied de page</a>
+    </li> 
+  </ul> -->
+ 
+  
 <app-custom-toastr></app-custom-toastr>
 <app-loading></app-loading>
-<app-navbar></app-navbar>  
+<app-navbar></app-navbar>
+
 <div class="d-print-none" id="help-button-wrapper" *ngIf="me">
   <button
     type="button"
@@ -12,7 +26,14 @@
     <fa-icon [icon]="['fas', 'question']"></fa-icon>
   </button>
 </div>
-<main id="page">
+<div role="navigation">
+  <ul class="skip-links">
+    <li>
+      <a href="#content">Aller à la navigation</a>
+    </li>
+  </ul>
+</div>  
+<main id="page" #content>
   <router-outlet></router-outlet>
 </main>
 <footer role="contentinfo" id="plandesite" class="d-print-none page-footer py-4">
@@ -154,7 +175,6 @@
         <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
         <a 
           href="plandusite" 
-          title="Plan du site"
           routerLinkActive="router-link-active"
           (click)="matomo.trackEvent('FOOTER', 'Footer_Contact', 'null', 1)"
           >
@@ -169,7 +189,6 @@
           rel="noopener noreferrer"
           >licence etatlab-2.0</a
         >
-        <span aria-hidden="true" class="invisible">Ouvre une nouvelle fenêtre</span>
         <img
           src="../../../assets/icones/link-external.png"
           class="ms-1"
@@ -238,7 +257,6 @@
       >
         <fa-icon [icon]="['fas', 'download']"></fa-icon>
         Télécharger notre guide utilisateur
-        <span class="invisible">Ouvre une nouvelle fenêtre</span>
       </a>
     </p>
     <h4>Vous vous posez une question ?</h4>
