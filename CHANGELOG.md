@@ -1,3 +1,11 @@
+## [2.87.2](https://github.com/SocialGouv/domifa/compare/v2.87.1...v2.87.2) (2022-05-11)
+
+
+### Bug Fixes
+
+* logging pg ([64f9427](https://github.com/SocialGouv/domifa/commit/64f942714159679190514033406773d5b877aa50))
+* tests unitaires sur l'import ([5a32452](https://github.com/SocialGouv/domifa/commit/5a32452e04a1c2bbc70a706b0a45e213451be7d8))
+
 ## [2.87.1](https://github.com/SocialGouv/domifa/compare/v2.87.0...v2.87.1) (2022-05-11)
 
 
