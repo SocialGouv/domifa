@@ -1,10 +1,11 @@
 import { Column, Workbook } from "exceljs";
 import {
-  cause,
-  raison,
-  residence,
-  typeMenage,
-} from "../../../stats/usagers.labels";
+  ENTRETIEN_CAUSE,
+  ENTRETIEN_RAISON_DEMANDE,
+  ENTRETIEN_RESIDENCE,
+  ENTRETIEN_TYPE_MENAGE,
+} from "../../../_common/model";
+
 import {
   WorksheetRenderer,
   xlFormater,
@@ -94,18 +95,18 @@ function renderWorksheet({
             ? usager.entretien.revenusDetail
             : "",
           entretienLiencommune: usager.entretien.liencommune || "",
-          typeMenage: typeMenage[usager.entretien.typeMenage],
-          residence: residence[usager.entretien.residence],
+          typeMenage: ENTRETIEN_TYPE_MENAGE[usager.entretien.typeMenage],
+          residence: ENTRETIEN_RESIDENCE[usager.entretien.residence],
           entretienResidenceDetails:
             usager.entretien.residence === "AUTRE"
               ? usager.entretien.residenceDetail
               : "",
-          entretienCause: cause[usager.entretien.cause],
+          entretienCause: ENTRETIEN_CAUSE[usager.entretien.cause],
           entretienCauseDetail:
             usager.entretien.cause === "AUTRE"
               ? usager.entretien.causeDetail
               : "",
-          entretienRaison: raison[usager.entretien.raison],
+          entretienRaison: ENTRETIEN_RAISON_DEMANDE[usager.entretien.raison],
           entretienRaisonDetail:
             usager.entretien.raison === "AUTRE"
               ? usager.entretien.raisonDetail

@@ -11,16 +11,16 @@ import {
 } from "class-validator";
 import { StructureAdresseCourrierDto, StructureResponsableDto } from ".";
 import { TimeZone } from "../../util/territoires";
-import { StructureType } from "../../_common/model";
+import { StructureType, STRUCTURE_TYPE_MAP } from "../../_common/model";
 
 export class StructureDto {
   @ApiProperty({
     type: String,
     required: true,
-    enum: ["asso", "ccas", "cias"],
+    enum: STRUCTURE_TYPE_MAP,
   })
   @IsNotEmpty()
-  @IsIn(["asso", "ccas", "cias"])
+  @IsIn(STRUCTURE_TYPE_MAP)
   public structureType!: StructureType;
 
   @ApiProperty({

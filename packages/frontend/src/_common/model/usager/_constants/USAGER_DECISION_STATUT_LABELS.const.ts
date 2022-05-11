@@ -1,7 +1,7 @@
-import { UsagerDecisionStatut } from "../model";
+import { UsagerDecisionStatut } from "..";
 
 export const USAGER_DECISION_STATUT_LABELS: {
-  [key in UsagerDecisionStatut]?: string;
+  [key in UsagerDecisionStatut]: string;
 } = {
   VALIDE: "Actif",
   INSTRUCTION: "Instruction",

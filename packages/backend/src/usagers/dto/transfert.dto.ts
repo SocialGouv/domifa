@@ -8,6 +8,7 @@ import {
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams } from "class-transformer";
 import { UsagerOptionsTransfert } from "../../_common/model";
+import { TrimOrNullTransform } from "../../_common/decorators";
 
 export class TransfertDto implements UsagerOptionsTransfert {
   @IsEmpty()
@@ -22,9 +23,7 @@ export class TransfertDto implements UsagerOptionsTransfert {
   })
   @IsNotEmpty()
   @IsString()
-  @Transform(({ value }: TransformFnParams) => {
-    return value ? value.toString().trim() : null;
-  })
+  @TrimOrNullTransform()
   public nom!: string;
 
   @ApiProperty({
@@ -34,9 +33,7 @@ export class TransfertDto implements UsagerOptionsTransfert {
   @IsNotEmpty()
   @IsString()
   @MinLength(10)
-  @Transform(({ value }: TransformFnParams) => {
-    return value ? value.toString().trim() : null;
-  })
+  @TrimOrNullTransform()
   public adresse!: string;
 
   @ApiProperty({

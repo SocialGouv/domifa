@@ -1,6 +1,7 @@
 import { IsDate, IsNotEmpty, IsString } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams } from "class-transformer";
+import { TrimOrNullTransform } from "../../_common/decorators";
 
 export class ProcurationDto {
   @ApiProperty({
@@ -9,9 +10,7 @@ export class ProcurationDto {
   })
   @IsNotEmpty()
   @IsString()
-  @Transform(({ value }: TransformFnParams) => {
-    return value ? value.toString().trim() : null;
-  })
+  @TrimOrNullTransform()
   public nom!: string;
 
   @ApiProperty({
@@ -20,9 +19,7 @@ export class ProcurationDto {
   })
   @IsNotEmpty()
   @IsString()
-  @Transform(({ value }: TransformFnParams) => {
-    return value ? value.toString().trim() : null;
-  })
+  @TrimOrNullTransform()
   public prenom!: string;
 
   @ApiProperty({

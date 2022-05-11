@@ -1,3 +1,4 @@
+import { LIEN_PARENTE_LABELS } from "./../../_common/model/usager/_constants/LIEN_PARENTE_LABELS.const";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsDateString, IsIn, IsNotEmpty } from "class-validator";
 import { AyantDroiLienParent } from "../../_common/model";
@@ -29,7 +30,7 @@ export class UsagerAyantDroitDto {
     description: "Surnom",
   })
   @IsNotEmpty()
-  @IsIn(["AUTRE", "CONJOINT", "ENFANT", "PARENT"])
+  @IsIn(Object.keys(LIEN_PARENTE_LABELS))
   @TrimOrNullTransform()
   public lien: AyantDroiLienParent;
 

@@ -1,4 +1,4 @@
-import { UserStructureRole } from "./UserStructureRole.type";
+import { UserStructureRole } from "../UserStructureRole.type";
 
 export const USER_STRUCTURE_ROLE_ALL: UserStructureRole[] = [
   "simple",

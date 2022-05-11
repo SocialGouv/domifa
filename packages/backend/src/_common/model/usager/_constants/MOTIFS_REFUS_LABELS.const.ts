@@ -1,4 +1,4 @@
-import { UsagerDecisionMotif } from "../model";
+import { UsagerDecisionMotif } from "..";
 
 export const MOTIFS_REFUS_LABELS: {
   [key in UsagerDecisionMotif]?: string;
@@ -7,3 +7,10 @@ export const MOTIFS_REFUS_LABELS: {
   LIEN_COMMUNE: "Absence de lien avec la commune",
   SATURATION: "Nombre maximal domiciliations atteint",
 };
+
+export const MOTIFS_REFUS_LABELS_MAP: UsagerDecisionMotif[] = [
+  "AUTRE",
+  "HORS_AGREMENT",
+  "LIEN_COMMUNE",
+  "SATURATION",
+];

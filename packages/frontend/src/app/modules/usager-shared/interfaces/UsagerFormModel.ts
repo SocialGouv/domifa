@@ -16,7 +16,7 @@ import {
   ETAPE_ETAT_CIVIL,
   USAGER_DECISION_STATUT_LABELS,
   USAGER_DECISION_STATUT_COLORS,
-} from "../../../../_common/model/usager/constants";
+} from "../../../../_common/model/usager/_constants";
 import { regexp } from "../../../shared/validators";
 import {
   UsagersFilterCriteria,

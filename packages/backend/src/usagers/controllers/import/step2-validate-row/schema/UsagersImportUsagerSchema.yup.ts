@@ -1,5 +1,15 @@
 import * as yup from "yup";
 import {
+  ENTRETIEN_TYPE_MENAGE,
+  ENTRETIEN_CAUSE,
+  ENTRETIEN_RAISON_DEMANDE,
+  ENTRETIEN_LIEN_COMMUNE,
+  ENTRETIEN_RESIDENCE,
+  LIEN_PARENTE_LABELS,
+  MOTIFS_RADIATION_LABELS_MAP,
+  MOTIFS_REFUS_LABELS_MAP,
+} from "../../../../../_common/model";
+import {
   booleanOuiNon,
   dateUtcSchema,
   oneOfString,
@@ -24,21 +34,8 @@ export const UsagersImportUsagerSchema = yup
     phone: phone(),
     email: email().notRequired(),
     statutDom: oneOfString(["VALIDE", "REFUS", "RADIE"]).required(),
-    motifRefus: oneOfString([
-      "LIEN_COMMUNE",
-      "SATURATION",
-      "HORS_AGREMENT",
-      "AUTRE",
-    ]).notRequired(),
-    motifRadiation: oneOfString([
-      "NON_MANIFESTATION_3_MOIS",
-      "A_SA_DEMANDE",
-      "ENTREE_LOGEMENT",
-      "FIN_DE_DOMICILIATION",
-      "PLUS_DE_LIEN_COMMUNE",
-      "NON_RESPECT_REGLEMENT",
-      "AUTRE",
-    ]).notRequired(),
+    motifRefus: oneOfString(MOTIFS_REFUS_LABELS_MAP).notRequired(),
+    motifRadiation: oneOfString(MOTIFS_RADIATION_LABELS_MAP).notRequired(),
     typeDom: typeDomSchema.required(),
     dateDebutDom: dateUtcSchema()
       .min(yup.ref("$minDate"))
@@ -51,7 +48,7 @@ export const UsagersImportUsagerSchema = yup
       .min(yup.ref("$minDate"))
       .max(yup.ref("$today"))
       .when("statutDom", {
-        is: (statutDom) => !["RADIE"].includes(statutDom), // = VALIDE
+        is: (statutDom) => !["REFUS", "RADIE"].includes(statutDom),
         then: dateUtcSchema()
           .min(yup.ref("dateDebutDom"))
           .max(yup.ref("$nextYear"))
@@ -71,48 +68,20 @@ export const UsagersImportUsagerSchema = yup
     domiciliationExistante: booleanOuiNon().notRequired(),
     revenus: booleanOuiNon().notRequired(),
     revenusDetail: yup.string(),
-    liencommune: oneOfString([
-      "RESIDENTIEL",
-      "PARENTAL",
-      "FAMILIAL",
-      "PROFESSIONNEL",
-      "SOCIAL",
-      "AUTRE",
-    ]).notRequired(),
+    liencommune: oneOfString(Object.keys(ENTRETIEN_LIEN_COMMUNE)).notRequired(),
     liencommuneDetail: yup.string(),
-    compositionMenage: oneOfString([
-      "HOMME_ISOLE_SANS_ENFANT",
-      "FEMME_ISOLE_SANS_ENFANT",
-      "HOMME_ISOLE_AVEC_ENFANT",
-      "FEMME_ISOLE_AVEC_ENFANT",
-      "COUPLE_SANS_ENFANT",
-      "COUPLE_AVEC_ENFANT",
-    ]).notRequired(),
-    situationResidentielle: oneOfString([
-      "DOMICILE_MOBILE",
-      "HEBERGEMENT_SOCIAL",
-      "HEBERGEMENT_TIERS",
-      "HOTEL",
-      "SANS_ABRI",
-      "AUTRE",
-    ]).notRequired(),
+    compositionMenage: oneOfString(
+      Object.keys(ENTRETIEN_TYPE_MENAGE)
+    ).notRequired(),
+    situationResidentielle: oneOfString(
+      Object.keys(ENTRETIEN_RESIDENCE)
+    ).notRequired(),
     situationDetails: yup.string(),
-    causeInstabilite: oneOfString([
-      "ERRANCE",
-      "AUTRE",
-      "EXPULSION",
-      "HEBERGE_SANS_ADRESSE",
-      "ITINERANT",
-      "RUPTURE",
-      "SORTIE_STRUCTURE",
-      "VIOLENCE",
-    ]).notRequired(),
+    causeInstabilite: oneOfString(Object.keys(ENTRETIEN_CAUSE)).notRequired(),
     causeDetail: yup.string(),
-    raisonDemande: oneOfString([
-      "EXERCICE_DROITS",
-      "PRESTATIONS_SOCIALES",
-      "AUTRE",
-    ]).notRequired(),
+    raisonDemande: oneOfString(
+      Object.keys(ENTRETIEN_RAISON_DEMANDE)
+    ).notRequired(),
     raisonDemandeDetail: yup.string(),
     accompagnement: booleanOuiNon().notRequired(),
     accompagnementDetail: yup.string(),
@@ -126,12 +95,7 @@ export const UsagersImportUsagerSchema = yup
             .min(yup.ref("$minDate"))
             .max(yup.ref("$today"))
             .required(),
-          lienParente: oneOfString([
-            "ENFANT",
-            "CONJOINT",
-            "PARENT",
-            "AUTRE",
-          ]).required(),
+          lienParente: oneOfString(Object.keys(LIEN_PARENTE_LABELS)).required(),
         })
       )
       .default([]),

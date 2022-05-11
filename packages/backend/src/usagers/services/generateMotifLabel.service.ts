@@ -1,8 +1,8 @@
 import {
-  MOTIFS_REFUS_LABELS,
   MOTIFS_RADIATION_LABELS,
-} from "../../_common/labels";
-import { UsagerDecision } from "../../_common/model";
+  MOTIFS_REFUS_LABELS,
+  UsagerDecision,
+} from "../../_common/model";
 
 export const generateMotifLabel = (decision: UsagerDecision): string => {
   if (!decision) {

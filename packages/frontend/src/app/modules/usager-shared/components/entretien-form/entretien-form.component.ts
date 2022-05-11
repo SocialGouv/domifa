@@ -22,7 +22,7 @@ import {
   ENTRETIEN_CAUSE,
   ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_RESIDENCE,
-} from "../../../../../_common/model/usager/constants";
+} from "../../../../../_common/model/usager/_constants";
 import { Entretien } from "../../interfaces";
 
 import { EntretienService } from "../../services/entretien.service";

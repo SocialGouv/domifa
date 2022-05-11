@@ -1,8 +1,8 @@
 //@index('./*', f => `export * from '${f.path}'`)
+export * from "./_constants";
 export * from "./AyantDroitLienParente.type";
 export * from "./cerfa";
 export * from "./entretien";
-export * from "./ETAPES_DEMANDE.const";
 export * from "./history";
 export * from "./options";
 export * from "./Usager.type";

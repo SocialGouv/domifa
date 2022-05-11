@@ -1,6 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsIn, IsOptional } from "class-validator";
 import {
+  ENTRETIEN_CAUSE,
+  ENTRETIEN_LIEN_COMMUNE,
+  ENTRETIEN_RAISON_DEMANDE,
+  ENTRETIEN_RESIDENCE,
+  ENTRETIEN_TYPE_MENAGE,
+} from "../../_common/model";
+import {
   UsagerEntretien,
   UsagerEntretienCause,
   UsagerEntretienLienCommune,
@@ -22,24 +29,10 @@ export class EntretienDto implements UsagerEntretien {
   @ApiProperty({
     type: String,
     required: false,
-    enum: [
-      "COUPLE_AVEC_ENFANT",
-      "COUPLE_SANS_ENFANT",
-      "FEMME_ISOLE_AVEC_ENFANT",
-      "FEMME_ISOLE_SANS_ENFANT",
-      "HOMME_ISOLE_AVEC_ENFANT",
-      "HOMME_ISOLE_SANS_ENFANT",
-    ],
+    enum: Object.keys(ENTRETIEN_TYPE_MENAGE),
   })
   @IsOptional()
-  @IsIn([
-    "COUPLE_AVEC_ENFANT",
-    "COUPLE_SANS_ENFANT",
-    "FEMME_ISOLE_AVEC_ENFANT",
-    "FEMME_ISOLE_SANS_ENFANT",
-    "HOMME_ISOLE_AVEC_ENFANT",
-    "HOMME_ISOLE_SANS_ENFANT",
-  ])
+  @IsIn(Object.keys(ENTRETIEN_TYPE_MENAGE))
   public typeMenage!: UsagerEntretienTypeMenage;
 
   @IsOptional()
@@ -48,47 +41,19 @@ export class EntretienDto implements UsagerEntretien {
   @ApiProperty({
     type: String,
     required: false,
-    enum: [
-      "AUTRE",
-      "DOMICILE_MOBILE",
-      "HEBERGEMENT_SOCIAL",
-      "HEBERGEMENT_TIERS",
-      "HOTEL",
-      "SANS_ABRI",
-    ],
+    enum: Object.keys(ENTRETIEN_RESIDENCE),
   })
   @IsOptional()
-  @IsIn([
-    "AUTRE",
-    "DOMICILE_MOBILE",
-    "HEBERGEMENT_SOCIAL",
-    "HEBERGEMENT_TIERS",
-    "HOTEL",
-    "SANS_ABRI",
-  ])
+  @IsIn(Object.keys(ENTRETIEN_RESIDENCE))
   public residence!: UsagerEntretienResidence;
 
   @ApiProperty({
     type: String,
     required: false,
-    enum: [
-      "RESIDENTIEL",
-      "PARENTAL",
-      "FAMILIAL",
-      "PROFESSIONNEL",
-      "SOCIAL",
-      "AUTRE",
-    ],
+    enum: Object.keys(ENTRETIEN_LIEN_COMMUNE),
   })
   @IsOptional()
-  @IsIn([
-    "RESIDENTIEL",
-    "PARENTAL",
-    "FAMILIAL",
-    "PROFESSIONNEL",
-    "SOCIAL",
-    "AUTRE",
-  ])
+  @IsIn(Object.keys(ENTRETIEN_LIEN_COMMUNE))
   public liencommune!: UsagerEntretienLienCommune;
 
   @IsOptional()
@@ -106,28 +71,10 @@ export class EntretienDto implements UsagerEntretien {
   @ApiProperty({
     type: String,
     required: false,
-    enum: [
-      "AUTRE",
-      "ERRANCE",
-      "EXPULSION",
-      "HEBERGE_SANS_ADRESSE",
-      "ITINERANT",
-      "RUPTURE",
-      "SORTIE_STRUCTURE",
-      "VIOLENCE",
-    ],
+    enum: Object.keys(ENTRETIEN_CAUSE),
   })
   @IsOptional()
-  @IsIn([
-    "AUTRE",
-    "ERRANCE",
-    "EXPULSION",
-    "HEBERGE_SANS_ADRESSE",
-    "ITINERANT",
-    "RUPTURE",
-    "SORTIE_STRUCTURE",
-    "VIOLENCE",
-  ])
+  @IsIn(Object.keys(ENTRETIEN_CAUSE))
   public cause!: UsagerEntretienCause;
 
   @ApiProperty({
@@ -140,10 +87,10 @@ export class EntretienDto implements UsagerEntretien {
   @ApiProperty({
     type: String,
     required: false,
-    enum: ["EXERCICE_DROITS", "PRESTATIONS_SOCIALES", "AUTRE"],
+    enum: Object.keys(ENTRETIEN_RAISON_DEMANDE),
   })
   @IsOptional()
-  @IsIn(["EXERCICE_DROITS", "PRESTATIONS_SOCIALES", "AUTRE"])
+  @IsIn(Object.keys(ENTRETIEN_RAISON_DEMANDE))
   public raison!: UsagerEntretienRaisonDemande;
 
   @ApiProperty({

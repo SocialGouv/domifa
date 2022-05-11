@@ -1,6 +1,7 @@
 import { Column, Workbook } from "exceljs";
-import { structureType } from "../../../stats/usagers.labels";
+
 import { DEPARTEMENTS_MAP } from "../../../util/territoires";
+import { STRUCTURE_TYPE_LABELS } from "../../../_common/model";
 import {
   WorksheetRenderer,
   xlFormater,
@@ -64,7 +65,7 @@ function buildRows(stats: StatsDeploiementExportModel): XlRowModel[] {
       values: {
         id: structure.id,
         nom: structure.nom,
-        structureTypeLabel: structureType[structure.structureType],
+        structureTypeLabel: STRUCTURE_TYPE_LABELS[structure.structureType],
         registrationDate: xlFormater.toLocalTimezone(
           structure.registrationDate
         ),
