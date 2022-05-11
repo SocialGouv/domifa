@@ -46,7 +46,7 @@
     </th>
     <th scope="col" class="text-start d-print-none">ACTIONS RAPIDES</th>
     <th scope="col" class="d-print-none">
-      <button class="btn-sm btn-primary btn" (click)="goToPrint.emit()">
+      <button aria-label="Imprimer la page" class="btn-sm btn-primary btn" (click)="goToPrint.emit()">
         <fa-icon title="Impression" [icon]="['fas', 'print']"></fa-icon>
       </button>
     </th>
@@ -241,7 +241,7 @@
               <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
               </fa-icon>
             </div>
-            <button class="icon-passage list-icon"></button>
+            <button type="button"class="icon-passage list-icon" aria-label="Ajout d'un passage"></button>
           </div>
 
           <div
@@ -253,7 +253,7 @@
               <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
               </fa-icon>
             </div>
-            <button class="icon-appel list-icon" title="Ajout d'un appel"></button>
+            <button type="button" class="icon-appel list-icon" aria-label="Ajout d'un appel"></button>
           </div>
           <div
             ngbTooltip="Ajout rapide d'un courrier"
@@ -264,14 +264,14 @@
               <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
               </fa-icon>
             </div>
-            <button autofocus class="icon-courrier list-icon"></button>
+            <button aria-label="Ajout rapide d'un courrier" type="button" class="icon-courrier list-icon"></button>
           </div>
           <div
             ngbTooltip="Ajout détaillé d'un courrier"
             class="interaction-btn"
             (click)="openInteractionInModal(usager)"
           >
-            <button type="button" class="icon-reception list-icon">
+            <button type="button" aria-label="Ajout détaillé d'un courrier" class="icon-reception list-icon">
             </button>
             <span class="list-icon-label">Réception</span>
           </div>
@@ -316,7 +316,7 @@
             [ngbTooltip]="distributionBox"
             (click)="openInteractionOutModal(usager)"
           >
-            <button class="icon-distribution list-icon"></button>
+            <button type="button" aria-label="Distribuer le courrier" class="icon-distribution list-icon"></button>
             <span class="list-icon-label">Distribuer</span>
             <b class="notification"> {{usager.totalInteractionsEnAttente }} </b>
           </div>
