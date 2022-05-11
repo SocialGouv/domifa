@@ -52,3 +52,29 @@
   padding-left: 10px;
   padding-right: 10px;
 }
+ul.skip-links {
+  position:absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 10;
+}
+ul.skip-links li {
+  list-style: none;
+}
+ul.skip-links a {
+  color: transparent  ;
+  display:block;
+  width: 0;
+  height: 0;    
+  text-decoration: none;
+}
+ul.skip-links a:focus {
+  background-color: var(--bs-primary);
+  width: auto;
+  height: auto;
+  color: #fff;
+  z-index: 11;
+  position: relative;
+  outline-offset: 2px;
+  padding: 5px;
+}
