@@ -1,3 +1,14 @@
+## [2.87.1](https://github.com/SocialGouv/domifa/compare/v2.87.0...v2.87.1) (2022-05-11)
+
+
+### Bug Fixes
+
+* correction d'un bug dans la config ([62723a6](https://github.com/SocialGouv/domifa/commit/62723a673a80b7fedbd40b3f682be5d0a89b07e3))
+* healthcheck ([6bdf9b7](https://github.com/SocialGouv/domifa/commit/6bdf9b7fb571d7e021178175d02da0352cc13c65))
+* healthCheck ([ee37060](https://github.com/SocialGouv/domifa/commit/ee3706048c9d4f0ab4360704c366e770a41c0931))
+* renovate du code backend ([fda9567](https://github.com/SocialGouv/domifa/commit/fda9567269c493f0af0a032fd2471b5b389be84c))
+* **historique:** correction des bugs repérés sur les historiques de transfert & procuration ([13b114b](https://github.com/SocialGouv/domifa/commit/13b114b5c12c83f6b8f9ad303691a25734d9e4fc))
+
 # [2.87.0](https://github.com/SocialGouv/domifa/compare/v2.86.1...v2.87.0) (2022-05-09)
 
 
