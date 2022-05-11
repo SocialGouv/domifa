@@ -49,7 +49,10 @@ export const UsagersImportUsagerSchema = yup
       .max(yup.ref("$nextYear"))
       .when("statutDom", {
         is: (statutDom) => statutDom === "VALIDE",
-        then: dateUtcSchema().required(),
+        then: dateUtcSchema()
+          .min(yup.ref("dateDebutDom"))
+          .max(yup.ref("$nextYear"))
+          .required(),
       }),
     datePremiereDom: dateUtcSchema()
       .min(yup.ref("$minDate"))
