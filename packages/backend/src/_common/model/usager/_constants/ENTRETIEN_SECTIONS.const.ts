@@ -17,7 +17,7 @@ export const ENTRETIEN_LIEN_COMMUNE: {
   AUTRE: "Autre",
 };
 
-export const ENTRETIEN_CAUSE: {
+export const ENTRETIEN_CAUSE_INSTABILITE: {
   [key in UsagerEntretienCause];
 } = {
   AUTRE: "Autre cause",

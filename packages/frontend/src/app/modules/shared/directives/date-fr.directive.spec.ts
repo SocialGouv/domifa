@@ -1,4 +1,4 @@
-import { Component, DebugElement } from "@angular/core";
+import { Component } from "@angular/core";
 
 import {
   ComponentFixture,
@@ -18,9 +18,7 @@ class TestHoverFocusComponent {
 }
 
 describe("Directive: Date FR", () => {
-  let component: TestHoverFocusComponent;
   let fixture: ComponentFixture<TestHoverFocusComponent>;
-  let inputEl: DebugElement;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -28,9 +26,6 @@ describe("Directive: Date FR", () => {
     });
 
     fixture = TestBed.createComponent(TestHoverFocusComponent);
-
-    component = fixture.componentInstance;
-    inputEl = fixture.debugElement.query(By.css("input"));
   }));
 
   it("should be created", fakeAsync(() => {

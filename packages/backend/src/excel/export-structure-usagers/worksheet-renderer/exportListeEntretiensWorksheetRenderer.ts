@@ -1,6 +1,6 @@
 import { Column, Workbook } from "exceljs";
 import {
-  ENTRETIEN_CAUSE,
+  ENTRETIEN_CAUSE_INSTABILITE,
   ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_RESIDENCE,
   ENTRETIEN_TYPE_MENAGE,
@@ -101,7 +101,7 @@ function renderWorksheet({
             usager.entretien.residence === "AUTRE"
               ? usager.entretien.residenceDetail
               : "",
-          entretienCause: ENTRETIEN_CAUSE[usager.entretien.cause],
+          entretienCause: ENTRETIEN_CAUSE_INSTABILITE[usager.entretien.cause],
           entretienCauseDetail:
             usager.entretien.cause === "AUTRE"
               ? usager.entretien.causeDetail

@@ -254,7 +254,9 @@
           Quelle est la cause de l'instabilité de logement ?
         </legend>
 
-        <ng-container *ngFor="let cause of ENTRETIEN_CAUSE | keyvalue">
+        <ng-container
+          *ngFor="let cause of ENTRETIEN_CAUSE_INSTABILITE | keyvalue"
+        >
           <div class="form-check" *ngIf="cause.key !== 'AUTRE'">
             <input
               class="form-check-input"

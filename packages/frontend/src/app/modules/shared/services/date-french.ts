@@ -24,7 +24,7 @@ const I18N_VALUES = {
 
 @Injectable()
 export class CustomDatepickerI18n extends NgbDatepickerI18n {
-  public getWeekdayLabel(weekday: number, width?: TranslationWidth): string {
+  public getWeekdayLabel(weekday: number): string {
     return I18N_VALUES.fr.weekdays[weekday - 1];
   }
   public getMonthShortName(month: number): string {

@@ -42,7 +42,7 @@ function _isInvalid(value: string) {
 function _filterLanguages(
   term: string,
   { maxResults = 10 }: { maxResults: number }
-): any[] {
+): string[] {
   return term.length < 2
     ? []
     : LANGUAGES.filter(

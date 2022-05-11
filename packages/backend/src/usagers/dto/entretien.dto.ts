@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsIn, IsOptional } from "class-validator";
 import {
-  ENTRETIEN_CAUSE,
+  ENTRETIEN_CAUSE_INSTABILITE,
   ENTRETIEN_LIEN_COMMUNE,
   ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_RESIDENCE,
@@ -71,10 +71,10 @@ export class EntretienDto implements UsagerEntretien {
   @ApiProperty({
     type: String,
     required: false,
-    enum: Object.keys(ENTRETIEN_CAUSE),
+    enum: Object.keys(ENTRETIEN_CAUSE_INSTABILITE),
   })
   @IsOptional()
-  @IsIn(Object.keys(ENTRETIEN_CAUSE))
+  @IsIn(Object.keys(ENTRETIEN_CAUSE_INSTABILITE))
   public cause!: UsagerEntretienCause;
 
   @ApiProperty({

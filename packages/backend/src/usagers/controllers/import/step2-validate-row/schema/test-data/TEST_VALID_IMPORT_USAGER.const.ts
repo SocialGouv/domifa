@@ -25,7 +25,7 @@ export const TEST_VALID_IMPORT_USAGER: UsagerImportObject = {
   revenusDetail: "détails revenus",
   liencommune: "SOCIAL",
   liencommuneDetail: "Suivi social",
-  compositionMenage: "FEMME_ISOLE_AVEC_ENFANT",
+  typeMenage: "FEMME_ISOLE_AVEC_ENFANT",
   situationResidentielle: "HEBERGEMENT_TIERS",
   situationDetails: "détails situation",
   causeInstabilite: "ERRANCE",
