@@ -1,6 +1,9 @@
 <div id="page-header" role="banner">
   <div id="matomo-info" *ngIf="!matomoInfo">
-    <div class="d-print-none d-flex justify-content-center align-items-center"role="dialog">
+    <div
+      class="d-print-none d-flex justify-content-center align-items-center"
+      role="dialog"
+    >
       <div class="mx-1">
         <div role="heading" aria-level="1">
           Avertissement sur la collecte de données
@@ -9,7 +12,10 @@
           Nous collectons des données anonymisées à des fins statistiques via
           l'outil français Matomo. Pour tout savoir sur notre utilisation des
           données, consultez notre
-          <a [routerLink]="['/confidentialite']" routerLinkActive="router-link-active">
+          <a
+            [routerLink]="['/confidentialite']"
+            routerLinkActive="router-link-active"
+          >
             politique de confidentialité.
           </a>
         </p>
@@ -20,24 +26,20 @@
           aria-label="Fermer le message"
           (click)="closeMatomo()"
         >
-          Fermer 
+          Fermer
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
     </div>
   </div>
-  <nav class="navbar navbar-expand-lg" id="navbar-site" role="navigation">  
-    <ul class="skip-links">
-      <li>
-        <a [href]="['/']" fragment="content">Aller à la navigation</a>
-        <!-- <a href="#content">Aller à la navigation</a> -->
-      </li>
-    </ul> 
+  <nav class="navbar navbar-expand-lg" id="navbar-site" role="navigation">
     <div class="container px-2">
       <div class="d-flex align-items-center">
         <img
           class="home-header-image"
-          (click)="matomoService.trackEvent('HEADER', 'Header_Logo_DomiFa', 'null', 1)"
+          (click)="
+            matomoService.trackEvent('HEADER', 'Header_Logo_DomiFa', 'null', 1)
+          "
           src="../assets/images/logo-ministere.svg "
           alt="Ministère des Solidarités et de la Santé"
         />
@@ -56,7 +58,7 @@
           </span>
         </a>
       </div>
-      <div >
+      <div>
         <div
           [ngbCollapse]="isNavbarCollapsed"
           class="collapse navbar-collapse"
@@ -68,9 +70,12 @@
             <li class="nav-item active"></li>
           </ul>
           <div class="my-2 my-lg-0">
+            <!-- MENU SI DECONNECTE - SAUF MOBILE -->
             <ng-container *ngIf="!me">
-              <!-- MENU SI DECONNECTE - SAUF MOBILE -->
-              <div class="d-none d-xs-inline-block d-sm-inline-block" aria-label="Menu principal">
+              <div
+                class="d-none d-xs-inline-block d-sm-inline-block"
+                aria-label="Menu principal"
+              >
                 <a
                   routerLink="/news"
                   class="btn text-primary"
@@ -149,7 +154,7 @@
               </div>
             </ng-container>
 
-            <!-- MENU DECONNECTE -->
+            <!-- MENU CONNECTE -->
             <ng-container *ngIf="me">
               <div class="d-flex">
                 <a

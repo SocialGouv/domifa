@@ -115,6 +115,7 @@ export const routes: Routes = [
 ];
 
 const routerOptions: ExtraOptions = {
+  anchorScrolling: "enabled",
   relativeLinkResolution: "legacy",
 };
 

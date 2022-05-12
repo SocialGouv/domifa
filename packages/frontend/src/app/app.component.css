@@ -52,29 +52,27 @@
   padding-left: 10px;
   padding-right: 10px;
 }
-/* ul.skip-links {
-  position:absolute;
-  left: 10px;
-  top: 10px;
-  z-index: 10;
+
+#skip-links {
+  width: 100%;
+  padding: 0;
+  background-color: white;
 }
-ul.skip-links li {
-  list-style: none;
+
+#skip-links li {
+  padding: 0;
+  width: 100%;
+  position: absolute;
 }
-ul.skip-links a {
-  color: transparent  ;
-  display:block;
-  width: 0;
-  height: 0;    
+
+#skip-links li a {
+  left: -999rem;
+  position: absolute;
   text-decoration: none;
+  list-style: none;
+  z-index: 1202;
 }
-ul.skip-links a:focus {
-  background-color: var(--bs-primary);
-  width: auto;
-  height: auto;
-  color: #fff;
-  z-index: 11;
-  position: relative;
-  outline-offset: 2px;
-  padding: 5px;
-} */
+
+#skip-links li a:focus {
+  left: 0;
+}

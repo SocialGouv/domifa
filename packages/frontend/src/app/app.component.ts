@@ -14,6 +14,7 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { UserIdleService } from "angular-user-idle";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { filter } from "rxjs";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { environment } from "../environments/environment";
 import { UserStructure } from "../_common/model";
@@ -32,6 +33,7 @@ import { fadeInOut } from "./shared";
 export class AppComponent implements OnInit {
   public apiVersion: string | null;
 
+  public currentUrl = "";
   public modalOptions: NgbModalOptions;
 
   public me: UserStructure;
@@ -56,6 +58,12 @@ export class AppComponent implements OnInit {
     public matomo: MatomoTracker,
     private userIdleService: UserIdleService
   ) {
+    router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.currentUrl = event.url.split("#")[0];
+      });
+
     this.matomoInjector.init(environment.matomo.url, environment.matomo.siteId);
     this.apiVersion = null;
 
@@ -76,6 +84,8 @@ export class AppComponent implements OnInit {
     this.titleService.setTitle(
       "Domifa, l'outil qui facilite la gestion des structures domiciliatirices"
     );
+
+    this.currentUrl = this.router.url;
 
     // REFRESH TOKEN
     this.authService.isAuth().subscribe();

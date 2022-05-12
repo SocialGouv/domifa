@@ -1,45 +1,47 @@
-  <!-- <ul class="skip-links">
-    <li>
-      <a routerLink]="['./']" [fragment]="navbar-site">Aller à la navigation</a>
-    </li>
-    <li>
-      <a [routerLink]="['./']"  >Aller au contenu</a>
-    </li>
-    <li>
-      <a [routerLink]="['./']" fragment="contentinfo">Aller au pied de page</a>
-    </li> 
-  </ul> -->
- 
-  
+<ul id="skip-links">
+  <li>
+    <a
+      class="m-1 btn btn-sm btn-primary"
+      [routerLink]="currentUrl"
+      fragment="navigation"
+      >Aller à la navigation</a
+    >
+  </li>
+  <li>
+    <a
+      class="m-1 btn btn-sm btn-primary"
+      [routerLink]="currentUrl"
+      fragment="page"
+      >Aller au contenu</a
+    >
+  </li>
+  <li>
+    <a
+      class="m-1 btn btn-sm btn-primary"
+      [routerLink]="currentUrl"
+      fragment="footer"
+      >Aller au pied de page</a
+    >
+  </li>
+</ul>
+
 <app-custom-toastr></app-custom-toastr>
 <app-loading></app-loading>
-<app-navbar></app-navbar>
-<!-- <div role="navigation">
-  <ul class="skip-links">
-    <li>
-      <a href="#content">Aller à la navigation</a>
-    </li>
-  </ul>
-</div>  -->
+
+<app-navbar id="navigation"></app-navbar>
 
 <div class="d-print-none" id="help-button-wrapper" *ngIf="me">
-  <button
-    type="button"
-    class="btn"
-    id="help-button"
-    (click)="openHelpModal()"
-  >
-  <span class="sr-only">Besoin d'aide ?</span>
+  <button type="button" class="btn" id="help-button" (click)="openHelpModal()">
+    <span class="sr-only">Besoin d'aide ?</span>
     <fa-icon [icon]="['fas', 'question']"></fa-icon>
   </button>
 </div>
 
- 
-
-<main id="page" #content>
+<main id="page">
   <router-outlet></router-outlet>
 </main>
-<footer role="contentinfo" id="plandesite" class="d-print-none page-footer py-4">
+
+<footer role="contentinfo" id="footer" class="d-print-none page-footer py-4">
   <div class="container">
     <div class="my-2">
       <div class="mb-3 mb-sm-0">Nos partenaires:</div>
@@ -49,7 +51,10 @@
           href="https://www.fabrique.social.gouv.fr"
           target="_blank"
           rel="noopener noreferrer"
-          (click)="matomo.trackEvent('FOOTER', 'Footer_Logo_Fabrique', 'null', 1)">
+          (click)="
+            matomo.trackEvent('FOOTER', 'Footer_Logo_Fabrique', 'null', 1)
+          "
+        >
           <img
             class="ministere-logo"
             src="../assets/images/footer/partenaire-fabrique-numerique.png"
@@ -67,8 +72,8 @@
             class="ministere-logo"
             src="../assets/images/footer/partenaire-beta-gouv.png"
             alt="Beta Gouv"
-        />
-      </a>
+          />
+        </a>
         <a
           class="me-0 me-sm-3"
           href="https://www.gouvernement.fr/france-relance"
@@ -82,8 +87,8 @@
             class="ministere-logo"
             src="../assets/images/footer/logo-france-relance.svg"
             alt="France Relance soutien Domifa"
-        />
-      </a>
+          />
+        </a>
         <a
           class="me-0 me-sm-3"
           href="https://www.gouvernement.fr/delegation-interministerielle-a-l-hebergement-et-a-l-acces-au-logement"
@@ -108,8 +113,8 @@
             class="ministere-logo"
             src="../assets/images/footer/logo-dgcs.png"
             alt="DGCS"
-        />
-      </a>
+          />
+        </a>
         <a
           href="https://www.unccas.org"
           target="_blank"
@@ -120,8 +125,8 @@
             class="ministere-logo"
             src="../assets/images/footer/partenaire-unccas.png"
             alt="UNCCAS"
-        />
-      </a>
+          />
+        </a>
       </div>
     </div>
     <div class="py-3 my-4 text-gray border-top">
@@ -131,7 +136,7 @@
           target="_blank"
           rel="noopener noreferrer"
           download
-          >Accessibilité: non conforme 
+          >Accessibilité: non conforme
         </a>
         <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
         <a
@@ -176,11 +181,11 @@
           Contactez-nous
         </a>
         <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
-        <a 
-          href="plandusite" 
+        <a
+          href="plandusite"
           routerLinkActive="router-link-active"
           (click)="matomo.trackEvent('FOOTER', 'Footer_Contact', 'null', 1)"
-          >
+        >
           Plan du site
         </a>
       </div>
