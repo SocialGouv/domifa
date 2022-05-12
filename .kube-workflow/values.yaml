@@ -44,13 +44,13 @@ app-backend: # todo: probes
     - name: DOMIFA_VERSION
       value: xxx
     - name: DOMIFA_BACKEND_URL
-      value: https://"api-{{ .Values.global.host }}"
+      value: "https://api-{{ .Values.global.host }}"
     - name: DOMIFA_FRONTEND_URL
-      value: https://"{{ .Values.global.host }}"
+      value: "https://{{ .Values.global.host }}"
     - name: DOMIFA_PORTAIL_USAGERS_URL
-      value: https://"portail-usagers-{{ .Values.global.host }}"
+      value: "https://portail-usagers-{{ .Values.global.host }}"
     - name: DOMIFA_PORTAIL_ADMINS_URL
-      value: https://"portail-admins-{{ .Values.global.host }}"
+      value: "https://portail-admins-{{ .Values.global.host }}"
 
 app-portail-usagers:
   imagePackage: portail-usagers
