@@ -14,6 +14,13 @@
 <app-custom-toastr></app-custom-toastr>
 <app-loading></app-loading>
 <app-navbar></app-navbar>
+<!-- <div role="navigation">
+  <ul class="skip-links">
+    <li>
+      <a href="#content">Aller à la navigation</a>
+    </li>
+  </ul>
+</div>  -->
 
 <div class="d-print-none" id="help-button-wrapper" *ngIf="me">
   <button
@@ -26,13 +33,9 @@
     <fa-icon [icon]="['fas', 'question']"></fa-icon>
   </button>
 </div>
-<div role="navigation">
-  <ul class="skip-links">
-    <li>
-      <a href="#content">Aller à la navigation</a>
-    </li>
-  </ul>
-</div>  
+
+ 
+
 <main id="page" #content>
   <router-outlet></router-outlet>
 </main>
