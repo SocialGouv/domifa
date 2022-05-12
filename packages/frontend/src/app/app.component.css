@@ -52,7 +52,7 @@
   padding-left: 10px;
   padding-right: 10px;
 }
-ul.skip-links {
+/* ul.skip-links {
   position:absolute;
   left: 10px;
   top: 10px;
@@ -77,4 +77,4 @@ ul.skip-links a:focus {
   position: relative;
   outline-offset: 2px;
   padding: 5px;
-}
+} */
