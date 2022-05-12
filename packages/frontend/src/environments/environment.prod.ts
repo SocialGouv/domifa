@@ -1,3 +1,6 @@
+/*
+Les variables bash ci-dessous sont substituées au moment du docker build (cf Dockerfile)
+*/
 export const environment = {
   apiUrl: "${DOMIFA_BACKEND_URL}", // https://domifa-api.fabrique.social.gouv.fr/
   portailAdminUrl: "${DOMIFA_PORTAIL_ADMINS_URL}",
