@@ -20,8 +20,8 @@ app-backend: # todo: probes
       cpu: 0.2
       memory: 256Mi
     limits:
-      cpu: 1
-      memory: 1Gi
+      cpu: 1.5
+      memory: 2Gi
   envFrom:
     - secretRef:
         name: "{{ .Values.global.pgSecretName }}"

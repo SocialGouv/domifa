@@ -21,6 +21,7 @@ oauth2-proxy:
 
 app-backend:
   host: "domifa-api.fabrique.social.gouv.fr"
+  replicas: 2
   certSecretName: backend-crt
   addVolumes:
     - files
