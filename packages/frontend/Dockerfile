@@ -24,7 +24,7 @@ RUN if [ -z "$PRODUCTION" ]; then \
     fi
 
 # replace environment variables
-RUN apt-get update -y && apt-get install gettext-base
+RUN apt-get update -y && apt-get install gettext-base && rm -rf /var/lib/apt/lists/*
 RUN envsubst < ./src/environments/environment.prod.ts > ./src/environments/environment.prod-env.ts
 RUN mv ./src/environments/environment.prod-env.ts ./src/environments/environment.prod.ts
 
