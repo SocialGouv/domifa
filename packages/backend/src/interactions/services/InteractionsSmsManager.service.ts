@@ -19,7 +19,7 @@ export class InteractionsSmsManager {
     usager,
   }: {
     interaction: Interactions;
-    structure: Pick<Structure, "id" | "sms">;
+    structure: Pick<Structure, "id" | "sms" | "telephone">;
     usager: UsagerLight;
   }) {
     // 1. Vérifier l'activation des SMS par la structure

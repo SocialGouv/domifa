@@ -35,6 +35,7 @@ export const USER_STRUCTURE_MOCK: UserStructure = {
     nom: "DomiFa Compte Test",
     options: { numeroBoite: false },
     phone: "0134334410",
+    telephone: { numero: "0134334410", indicatif: "fr" },
     responsable: { nom: "Pompei", prenom: "Roma", fonction: "Directrice" },
     structureType: "asso" as StructureType,
     ville: "Cergy",

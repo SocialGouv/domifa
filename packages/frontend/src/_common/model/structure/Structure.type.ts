@@ -4,6 +4,7 @@ import { StructurePortailUsagerParams } from "./StructurePortailUsagerParams.typ
 import { StructureResponsable } from "./StructureResponsable.type";
 import { StructureSmsParams } from "./StructureSmsParams.type";
 import { StructureType } from "./StructureType.type";
+import { Telephone } from "../common";
 
 export type Structure = AppEntity & {
   id: number;
@@ -19,6 +20,7 @@ export type Structure = AppEntity & {
   codePostal: string;
   agrement: string;
   phone: string;
+  telephone: Telephone;
   email: string;
   import: boolean;
   registrationDate: Date;

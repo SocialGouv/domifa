@@ -2,6 +2,7 @@ import { usagerLightRepository } from "../../../database/services/usager/usagerL
 import { Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
 import { domifaConfig } from "../../../config";
+import { setHours, setMinutes } from "date-fns";
 
 import { appLogger } from "../../../util";
 import { messageSmsRepository } from "../../../database/services/message-sms";
@@ -10,7 +11,7 @@ import {
   structureRepository,
 } from "../../../database";
 import { TimeZone } from "../../../util/territoires";
-import { setHours, setMinutes } from "date-fns";
+import { telephoneFixIndicatif } from "../../../util/telephoneString.service";
 
 @Injectable()
 export class CronSmsFetchEndDomService {
@@ -148,7 +149,10 @@ export class CronSmsFetchEndDomService {
           status: "TO_SEND",
           errorCount: 0,
           scheduledDate,
-          phoneNumber: usager.preference.phoneNumber,
+          phoneNumber: telephoneFixIndicatif(
+            structure.telephone.indicatif,
+            usager.preference.phoneNumber
+          ),
           senderName: structure.sms.senderName,
         });
       }
