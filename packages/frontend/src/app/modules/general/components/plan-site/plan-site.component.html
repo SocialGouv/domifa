@@ -1,0 +1,33 @@
+<div class="head-page py-4">
+    <div class="container">
+      <h1 class="title">Plan de site</h1>
+    </div>
+  </div>
+  <div class="content py-3">
+      <div class="container">
+        <div class="page-content">
+            <ul>
+                <li *ngFor="let link of sitemapLinks" >
+                  <a routerLink={{link.path}}>{{ link.label }}</a>
+                </li>
+                <li>
+                  <a
+                  href="../../../../../assets/files/domifa_declaration-d-accessibilite.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download
+                  >Accessibilité: non conforme 
+                </a>
+                </li>
+            </ul>
+            <p class="m-3">Nos partenaires</p>
+            <ul>
+              <li *ngFor="let link of partnerLinks" >
+                <a href={{link.path}} target="_blank">{{ link.label }}</a>
+              </li>
+            </ul>
+        </div>
+      </div>
+  </div>
+
+
