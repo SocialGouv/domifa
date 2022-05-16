@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { PlanSiteComponent } from './plan-site.component';
 import { RouterTestingModule } from "@angular/router/testing";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 describe('PlanSiteComponent', () => {
   let component: PlanSiteComponent;
@@ -12,8 +13,7 @@ describe('PlanSiteComponent', () => {
     TestBed.configureTestingModule({
       declarations: [PlanSiteComponent],
       imports: [
-        ComponentFixture,
-        TestBed,
+        NgbModule,
         RouterTestingModule,
         HttpClientTestingModule,
 
@@ -21,7 +21,7 @@ describe('PlanSiteComponent', () => {
     }).compileComponents();
   })
   );
-
+  
   beforeEach(() => {
     fixture = TestBed.createComponent(PlanSiteComponent);
     component = fixture.componentInstance;
