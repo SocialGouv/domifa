@@ -41,8 +41,6 @@ app-backend: # todo: probes
       value: "$(PGPASSWORD)"
     - name: POSTGRES_DATABASE
       value: "$(PGDATABASE)"
-    - name: DOMIFA_VERSION
-      value: xxx
     - name: DOMIFA_BACKEND_URL
       value: "https://api-{{ .Values.global.host }}"
     - name: DOMIFA_FRONTEND_URL
