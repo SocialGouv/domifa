@@ -10,7 +10,6 @@ import {
 } from "../../../../_common/model/interaction/constants";
 
 export class Interaction implements Interactions {
-  public uuid: string;
   public type: InteractionType;
   public dateInteraction: Date | null;
   public content?: string;
@@ -18,10 +17,9 @@ export class Interaction implements Interactions {
   public usagerRef: number | null;
   public structureId: number | null;
   public userName: string | null;
-  public userId: number;
-
+  public userId: number | null;
   public label: string;
-
+  public uuid: string;
   public event: InteractionEvent;
   public previousValue?: Interactions; // if event === 'delete'
 

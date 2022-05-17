@@ -21,8 +21,8 @@ export class ProfilStructureDocsComponent implements OnInit {
   @Input() public me!: UserStructure;
 
   public defaultStructureDocs: {
-    attestation_postale?: StructureDoc;
-    courrier_radiation?: StructureDoc;
+    attestation_postale: StructureDoc;
+    courrier_radiation: StructureDoc;
   };
 
   public customStructureDocs: StructureDoc[];
@@ -35,24 +35,37 @@ export class ProfilStructureDocsComponent implements OnInit {
     private documentService: DocumentService,
     private toastService: CustomToastService
   ) {
-    const defaultCustomDoc: StructureDoc = {
-      createdBy: {
-        id: null,
-        nom: "Domifa",
-        prenom: "",
-      },
-      custom: true,
-      customDocType: "attestation_postale",
-      createdAt: null,
-      structureId: null,
-      filetype:
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      label: "",
-    };
-
     this.defaultStructureDocs = {
-      attestation_postale: defaultCustomDoc,
-      courrier_radiation: defaultCustomDoc,
+      attestation_postale: {
+        id: 0,
+        createdBy: {
+          id: 0,
+          nom: "Domifa",
+          prenom: "",
+        },
+        filetype:
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        custom: true,
+        uuid: "xxx",
+        createdAt: this.me?.structure?.createdAt,
+        label: "Attestation postale",
+        customDocType: "attestation_postale",
+      },
+      courrier_radiation: {
+        id: 1,
+        createdBy: {
+          id: 0,
+          nom: "Domifa",
+          prenom: "",
+        },
+        filetype:
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        custom: true,
+        uuid: "xxx",
+        createdAt: this.me?.structure?.createdAt,
+        label: "Courrier de radiation",
+        customDocType: "courrier_radiation",
+      },
     };
 
     this.customStructureDocs = [];
@@ -60,22 +73,6 @@ export class ProfilStructureDocsComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.defaultStructureDocs.attestation_postale = {
-      ...this.defaultStructureDocs.attestation_postale,
-      createdAt: this.me.structure.createdAt,
-      structureId: this.me.structureId,
-      label: "Attestation postale",
-      customDocType: "attestation_postale",
-    };
-
-    this.defaultStructureDocs.courrier_radiation = {
-      ...this.defaultStructureDocs.courrier_radiation,
-      createdAt: this.me.structure.createdAt,
-      structureId: this.me.structureId,
-      label: "Courrier de radiation",
-      customDocType: "courrier_radiation",
-    };
-
     this.getAllStructureDocs();
   }
 

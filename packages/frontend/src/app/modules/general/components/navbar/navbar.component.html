@@ -6,23 +6,19 @@
       aria-modal="true"
       aria-label="Avertissement sur la collecte de données"
     >
-      <div class="mx-1">
-        <div>
-          Avertissement sur la collecte de données
-        </div>
-        <p>
-          Nous collectons des données anonymisées à des fins statistiques via
-          l'outil français Matomo. Pour tout savoir sur notre utilisation des
-          données, consultez notre
-          <a
-            [routerLink]="['/confidentialite']"
-            routerLinkActive="router-link-active"
-          >
-            politique de confidentialité.
-          </a>
-        </p>
-      </div>
-      <div class="mx-1">
+      <p class="my-0">
+        Nous collectons des données anonymisées à des fins statistiques via
+        l'outil français Matomo. Pour tout savoir sur notre utilisation des
+        données, consultez notre
+        <a
+          [routerLink]="['/confidentialite']"
+          routerLinkActive="router-link-active"
+        >
+          politique de confidentialité.
+        </a>
+      </p>
+
+      <div class="mx-2">
         <button
           class="btn btn-white-primary"
           aria-label="Fermer le message"
@@ -34,7 +30,7 @@
       </div>
     </div>
   </div>
-  <nav class="navbar navbar-expand-lg" id="navbar-site" role="navigation">  
+  <nav class="navbar navbar-expand-lg" id="navbar-site" role="navigation">
     <div class="container px-2">
       <div class="d-flex align-items-center">
         <img

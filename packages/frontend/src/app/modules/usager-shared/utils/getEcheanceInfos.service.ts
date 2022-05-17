@@ -16,7 +16,7 @@ export const getEcheanceInfos = (
   }
 
   // Actuellement actif
-  if (usager.decision.statut === "VALIDE") {
+  if (usager.decision.statut === "VALIDE" && usager.decision.dateFin) {
     usagerInfos.isActif = true;
     usagerInfos.dateToDisplay = new Date(usager.decision.dateFin);
   } else if (
@@ -53,7 +53,7 @@ export const getEcheanceInfos = (
     usagerInfos.dateToDisplay = new Date(usagerInfos.dateToDisplay);
   }
 
-  if (usagerInfos.isActif) {
+  if (usagerInfos.isActif && usagerInfos.dateToDisplay) {
     const today = new Date();
     const msPerDay: number = 1000 * 60 * 60 * 24;
     const start: number = today.getTime();

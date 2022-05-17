@@ -33,13 +33,13 @@ export type UsagersFilterCriteriaDernierPassage = "DEUX_MOIS" | "TROIS_MOIS";
 
 export class UsagersFilterCriteria {
   // text search filter
-  public searchString?: string;
+  public searchString: string | null;
   // filters
   public statut: UsagersFilterCriteriaStatut;
-  public echeance?: UsagersFilterCriteriaEcheance;
-  public interactionType?: "courrierIn";
-  public passage?: UsagersFilterCriteriaDernierPassage;
-  public entretien: UsagersFilterCriteriaEntretien;
+  public echeance: UsagersFilterCriteriaEcheance | null;
+  public interactionType: "courrierIn" | null;
+  public passage: UsagersFilterCriteriaDernierPassage | null;
+  public entretien: UsagersFilterCriteriaEntretien | null;
   // order by
   public sortKey?: UsagersFilterCriteriaSortKey;
   public sortValue?: UsagersFilterCriteriaSortValues;
@@ -47,7 +47,7 @@ export class UsagersFilterCriteria {
   public page: number;
   public searchInAyantDroits = true;
 
-  constructor(search?: Partial<UsagersFilterCriteria>) {
+  constructor(search?: Partial<UsagersFilterCriteria> | null) {
     this.interactionType = (search && search.interactionType) || null;
     this.passage = (search && search.passage) || null;
     this.entretien = (search && search.entretien) || null;

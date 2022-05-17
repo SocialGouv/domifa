@@ -22,8 +22,6 @@ import { ImportPreviewRow, ImportPreviewTable } from "./preview";
   templateUrl: "./import.component.html",
 })
 export class ImportComponent implements OnInit {
-  public columnsHeaders: string[];
-
   public uploadForm!: FormGroup;
 
   public uploadError: boolean;
@@ -31,11 +29,9 @@ export class ImportComponent implements OnInit {
   public showTable: boolean;
   public showErrors: boolean;
 
-  public nbreAyantsDroits: number[];
-
   public etapeImport: "select-file" | "preview-import";
 
-  public me: UserStructure;
+  public me!: UserStructure;
 
   public CUSTOM_ID = 0;
   public CIVILITE = 1;
@@ -61,25 +57,25 @@ export class ImportComponent implements OnInit {
   public REVENUS = 20;
   public REVENUS_DETAILS = 21;
   public LIEN_COMMUNE = 22;
-  public LIEN_COMMUNE_DETAILS: 23;
+  public LIEN_COMMUNE_DETAILS = 23;
 
-  public COMPOSITION_MENAGE: 24;
-  public SITUATION_RESIDENTIELLE: 25;
-  public SITUATION_DETAILS: 26;
-  public CAUSE_INSTABILITE: 27;
-  public CAUSE_DETAILS: 28;
-  public RAISON_DEMANDE: 29;
-  public RAISON_DEMANDE_DETAILS: 30;
-  public ACCOMPAGNEMENT: 31;
-  public ACCOMPAGNEMENT_DETAILS: 32;
-  public COMMENTAIRES: 33;
+  public COMPOSITION_MENAGE = 24;
+  public SITUATION_RESIDENTIELLE = 25;
+  public SITUATION_DETAILS = 26;
+  public CAUSE_INSTABILITE = 27;
+  public CAUSE_DETAILS = 28;
+  public RAISON_DEMANDE = 29;
+  public RAISON_DEMANDE_DETAILS = 30;
+  public ACCOMPAGNEMENT = 31;
+  public ACCOMPAGNEMENT_DETAILS = 32;
+  public COMMENTAIRES = 33;
 
-  public AYANT_DROIT: [34, 38, 42, 46, 50, 54, 58, 62, 66];
+  public AYANT_DROIT = [34, 38, 42, 46, 50, 54, 58, 62, 66];
 
   @ViewChild("form", { static: true })
   public form!: ElementRef<HTMLFormElement>;
 
-  public previewTable: ImportPreviewTable;
+  public previewTable?: ImportPreviewTable;
   public visibleRows: ImportPreviewRow[];
 
   public COL = IMPORT_PREVIEW_COLUMNS;
@@ -93,6 +89,7 @@ export class ImportComponent implements OnInit {
     private toastService: CustomToastService,
     private titleService: Title
   ) {
+    this.visibleRows = [];
     this.showErrors = false;
     this.showTable = false;
 
@@ -181,7 +178,7 @@ export class ImportComponent implements OnInit {
         if (error.error?.previewTable) {
           this.showTable = true;
           this.previewTable = error.error.previewTable;
-          this.visibleRows = this.previewTable.rows.slice(0, 50); // show 50 rows max
+          this.visibleRows = error.error.previewTable.rows.slice(0, 50); // show 50 rows max
         } else {
           this.backToEtapeSelectFile();
         }

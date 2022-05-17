@@ -97,7 +97,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   public allUsagersByStatus$ = new ReplaySubject<UsagersByStatus>(1);
   public allUsagersByStatus: UsagersByStatus;
   public usagers: UsagerLight[] = [];
-  public me: UserStructure;
+  public me!: UserStructure;
 
   public labelsDernierPassage: {
     [key in UsagersFilterCriteriaDernierPassage]: string;
@@ -139,12 +139,22 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     private titleService: Title,
     public matomo: MatomoTracker
   ) {
+    this.allUsagersByStatus = {
+      INSTRUCTION: [],
+      VALIDE: [],
+      ATTENTE_DECISION: [],
+      REFUS: [],
+      RADIE: [],
+      TOUS: [],
+    };
+
     this.pageSize = 40;
     this.needToPrint = false;
     this.searching = false;
     this.loading = false;
     this.nbResults = 0;
     this.searchString = null;
+    this.filters = new UsagersFilterCriteria();
   }
 
   public ngOnInit(): void {
@@ -391,7 +401,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     const sortTypeButton: { [key: string]: string } = {
       ID: "Liste_Colonne_ID",
       NAME: "Liste_Colonne_Nom_Prénom",
-      PASSAGE: "Liste_Colonne_Passage",
+      PASSAGE: "Li<ste_Colonne_Passage",
       ECHEANCE: "Liste_Colonne_Échéance",
     };
 

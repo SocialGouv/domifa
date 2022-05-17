@@ -1,33 +1,47 @@
 <div class="head-page py-4">
-    <div class="container">
-      <h1 class="title">Plan de site</h1>
-    </div>
+  <div class="container">
+    <h1 class="title">Plan du site Domifa</h1>
   </div>
-  <div class="content py-3">
-      <div class="container">
-        <div class="page-content">
+</div>
+<div class="content py-3">
+  <div class="container">
+    <div class="page-content p-4">
+      <div class="row" *ngIf="authService.currentUserValue">
+        <ng-container *ngFor="let linkSection of siteMapLinksLogged">
+          <div class="col-md-4 my-3">
+            <h2 class="my-3">
+              {{ linkSection.section }}
+            </h2>
             <ul>
-                <li *ngFor="let link of sitemapLinks" >
-                  <a routerLink={{link.path}}>{{ link.label }}</a>
-                </li>
-                <li>
-                  <a
-                  href="../../../../../assets/files/domifa_declaration-d-accessibilite.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  download
-                  >Accessibilité: non conforme 
-                </a>
-                </li>
-            </ul>
-            <p class="m-3">Nos partenaires</p>
-            <ul>
-              <li *ngFor="let link of partnerLinks" >
-                <a href={{link.path}} target="_blank">{{ link.label }}</a>
+              <li *ngFor="let link of linkSection.links">
+                <a routerLink="{{ link.path }}">{{ link.label }}</a>
               </li>
             </ul>
+          </div>
+        </ng-container>
+      </div>
+      <div class="row">
+        <ng-container *ngFor="let linkSection of sitemapLinks">
+          <div class="col-md-4 my-3">
+            <h2 class="my-3">
+              {{ linkSection.section }}
+            </h2>
+            <ul>
+              <li *ngFor="let link of linkSection.links">
+                <a routerLink="{{ link.path }}">{{ link.label }}</a>
+              </li>
+            </ul>
+          </div>
+        </ng-container>
+        <div class="col-md-4 my-3">
+          <h2 class="my-3">Nos partenaires</h2>
+          <ul>
+            <li *ngFor="let link of partnerLinks">
+              <a href="{{ link.path }}" target="_blank">{{ link.label }}</a>
+            </li>
+          </ul>
         </div>
       </div>
+    </div>
   </div>
-
-
+</div>

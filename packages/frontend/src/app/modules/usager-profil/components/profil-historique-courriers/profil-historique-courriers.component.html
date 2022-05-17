@@ -109,7 +109,7 @@
     </span>
   </div>
 
-  <div class="modal-body py-4 text-center">
+  <div class="modal-body py-4 text-center" *ngIf="interactionToDelete">
     <b>Êtes-vous sûr de vouloir supprimer cette interaction ?</b>
     <br />
     <div
@@ -154,7 +154,7 @@
     </span>
   </div>
 
-  <div class="modal-body py-4 text-center">
+  <div class="modal-body py-4 text-center" *ngIf="interactionToDelete">
     <b>Êtes-vous sûr de vouloir restaurer cette interaction ?</b>
     <br />
     <div

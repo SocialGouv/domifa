@@ -29,7 +29,7 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
   @Input() public me!: UserStructure;
 
   public interactions: Interaction[];
-  public interactionToDelete?: Interaction;
+  public interactionToDelete: Interaction | null;
 
   @ViewChild("deleteInteractionModal", { static: true })
   public deleteInteractionModal!: TemplateRef<NgbModalRef>;
@@ -39,10 +39,10 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
 
   constructor(
     private toastService: CustomToastService,
-
     private interactionService: InteractionService,
     private modalService: NgbModal
   ) {
+    this.interactionToDelete = null;
     this.interactions = [];
   }
 
@@ -51,25 +51,28 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
   }
 
   public deleteInteraction() {
-    this.interactionService
-      .delete(this.usager.ref, this.interactionToDelete.uuid)
-      .subscribe({
-        next: (usager: UsagerLight) => {
-          this.usager = new UsagerFormModel(usager);
+    if (this.interactionToDelete) {
+      this.interactionService
+        .delete(this.usager.ref, this.interactionToDelete.uuid)
+        .subscribe({
+          next: (usager: UsagerLight) => {
+            this.usager = new UsagerFormModel(usager);
 
-          const message =
-            this.interactionToDelete.event === "create"
-              ? "supprimée"
-              : "restaurée";
-          this.toastService.success(`Interaction ${message} avec succès`);
-          this.interactionToDelete = null;
-          this.getInteractions();
-          this.closeModals();
-        },
-        error: () => {
-          this.toastService.error("Impossible de supprimer l'interaction");
-        },
-      });
+            const message =
+              this.interactionToDelete?.event === "create"
+                ? "supprimée"
+                : "restaurée";
+
+            this.toastService.success(`Interaction ${message} avec succès`);
+            this.interactionToDelete = null;
+            this.getInteractions();
+            this.closeModals();
+          },
+          error: () => {
+            this.toastService.error("Impossible de supprimer l'interaction");
+          },
+        });
+    }
   }
 
   private getInteractions() {

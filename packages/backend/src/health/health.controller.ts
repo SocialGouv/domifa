@@ -48,7 +48,6 @@ export class HealthController {
           ? this.dnsIndicator
               .pingCheck("frontend", frontUrl)
               .then((pingData) => {
-                console.log("[HealthController] frontend up - " + frontUrl);
                 return pingData;
               })
               .catch((err) => {
