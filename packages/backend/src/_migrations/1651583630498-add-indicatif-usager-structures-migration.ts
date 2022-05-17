@@ -5,11 +5,7 @@ import { domifaConfig } from "../config";
 export class manualMigration1651583630498 implements MigrationInterface {
   name = "addIndicatif1651583630498";
   public async up(queryRunner: QueryRunner): Promise<void> {
-    if (
-      domifaConfig().envId === "prod" ||
-      domifaConfig().envId === "preprod" ||
-      domifaConfig().envId === "local"
-    ) {
+    if (domifaConfig().envId === "prod" || domifaConfig().envId === "preprod") {
       await queryRunner.query(
         `ALTER TABLE "structure" ADD "telephone" jsonb NOT NULL DEFAULT '{"indicatif": "fr", "numero": ""}'`
       );

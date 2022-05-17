@@ -1,9 +1,9 @@
 import { MigrationInterface } from "typeorm";
 
-import { domifaConfig } from "../config";
 import { structureRepository } from "../database/services/structure/structureRepository.service";
 import { Structure } from "../_common/model";
 import { appLogger } from "../util";
+import { domifaConfig } from "../config";
 
 const findTimeZoneIndicatif = (timeZone: string): string => {
   switch (timeZone) {
@@ -33,37 +33,34 @@ const findTimeZoneIndicatif = (timeZone: string): string => {
 export class manualMigration1652704277943 implements MigrationInterface {
   name = "migrateStructurePhone1652704277943";
   public async up(): Promise<void> {
-    // if (
-    //   domifaConfig().envId === "prod" ||
-    //   domifaConfig().envId === "preprod" ||
-    //   domifaConfig().envId === "local"
-    // ) {
-    const structures: Structure[] = await (
-      await structureRepository.typeorm()
-    ).query(
-      `
+    if (domifaConfig().envId === "prod" || domifaConfig().envId === "preprod") {
+      const structures: Structure[] = await (
+        await structureRepository.typeorm()
+      ).query(
+        `
         SELECT uuid, phone, "timeZone"
         FROM structure
         WHERE phone != ''
       `
-    );
-    appLogger.warn("[MIGRATION] SELECT ALL STRUCTURE WITH PHONE");
-
-    for (const structure of structures) {
-      await structureRepository.updateOne(
-        {
-          uuid: structure.uuid,
-        },
-        {
-          telephone: {
-            indicatif: findTimeZoneIndicatif(structure.timeZone),
-            numero: structure.phone,
-          },
-        }
       );
-      //   }
+      appLogger.warn("[MIGRATION] SELECT ALL STRUCTURE WITH PHONE");
+
+      for (const structure of structures) {
+        await structureRepository.updateOne(
+          {
+            uuid: structure.uuid,
+          },
+          {
+            telephone: {
+              indicatif: findTimeZoneIndicatif(structure.timeZone),
+              numero: structure.phone,
+            },
+          }
+        );
+      }
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public async down(): Promise<void> {}
 }
