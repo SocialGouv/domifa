@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
+import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import { UserStructure } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 
@@ -11,6 +12,7 @@ import { AuthService } from "../../../shared/services/auth.service";
 export class PlanSiteComponent implements OnInit {
   public me!: UserStructure;
 
+  public faExternalLinkAlt = faExternalLinkAlt;
   public siteMapLinksLogged: {
     section: string;
     links: {
