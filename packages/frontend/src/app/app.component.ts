@@ -33,6 +33,7 @@ import { fadeInOut } from "./shared";
 export class AppComponent implements OnInit {
   public apiVersion: string | null;
 
+  public currentFragment = "";
   public currentUrl = "";
   public modalOptions: NgbModalOptions;
 
@@ -48,9 +49,9 @@ export class AppComponent implements OnInit {
   public versionModal!: TemplateRef<NgbModalRef>;
 
   constructor(
-    private healthCheckService: HealthCheckService,
-    private authService: AuthService,
-    private matomoInjector: MatomoInjector,
+    private readonly healthCheckService: HealthCheckService,
+    private readonly authService: AuthService,
+    private readonly matomoInjector: MatomoInjector,
     public modalService: NgbModal,
     private router: Router,
     private titleService: Title,
@@ -58,12 +59,6 @@ export class AppComponent implements OnInit {
     public matomo: MatomoTracker,
     private userIdleService: UserIdleService
   ) {
-    router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => {
-        this.currentUrl = event.url.split("#")[0];
-      });
-
     this.matomoInjector.init(environment.matomo.url, environment.matomo.siteId);
     this.apiVersion = null;
 
@@ -81,6 +76,14 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    document.addEventListener(
+      "focusin",
+      function () {
+        console.log("focused: ", document.activeElement);
+      },
+      true
+    );
+
     this.titleService.setTitle(
       "Domifa, l'outil qui facilite la gestion des structures domiciliatirices"
     );
@@ -95,23 +98,37 @@ export class AppComponent implements OnInit {
 
     this.runHealthCheckAndAutoReload();
 
-    this.router.events.subscribe((evt) => {
-      if (!(evt instanceof NavigationEnd)) {
-        return;
-      }
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        console.log(event);
+        const splitUrl = event.url.split("#");
+        this.currentUrl = splitUrl[0];
 
-      // Retour au top du curseur
-      const mainHeader = document.getElementById("top-site");
-      if (mainHeader) {
-        mainHeader.focus();
-      }
-      // Retour au top de la fenêtre
-      window.scroll({
-        behavior: "smooth",
-        left: 0,
-        top: 0,
+        const sections = ["navigation", "page", "footer"];
+        if (typeof splitUrl[1] !== "undefined") {
+          //
+          if (sections.indexOf(splitUrl[1]) !== -1) {
+            console.log("FRAGMENT : on focus");
+            this.currentFragment = splitUrl[1];
+            document.getElementById("focus").focus();
+          }
+        } else {
+          this.currentUrl = event.url.split("#")[0];
+          // Retour au top du curseur
+          const mainHeader = document.getElementById("top-site");
+          if (mainHeader) {
+            console.log(mainHeader);
+            mainHeader.focus();
+          }
+          // Retour au top de la fenêtre
+          window.scroll({
+            behavior: "smooth",
+            left: 0,
+            top: 0,
+          });
+        }
       });
-    });
   }
 
   private runHealthCheckAndAutoReload() {

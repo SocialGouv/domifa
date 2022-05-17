@@ -1,34 +1,38 @@
-<ul id="skip-links">
-  <li>
-    <a
-      class="m-1 btn btn-sm btn-primary"
-      [routerLink]="currentUrl"
-      fragment="navigation"
-      >Aller à la navigation</a
-    >
-  </li>
-  <li>
-    <a
-      class="m-1 btn btn-sm btn-primary"
-      [routerLink]="currentUrl"
-      fragment="page"
-      >Aller au contenu</a
-    >
-  </li>
-  <li>
-    <a
-      class="m-1 btn btn-sm btn-primary"
-      [routerLink]="currentUrl"
-      fragment="footer"
-      >Aller au pied de page</a
-    >
-  </li>
-</ul>
-
 <app-custom-toastr></app-custom-toastr>
 <app-loading></app-loading>
 
-<app-navbar id="navigation"></app-navbar>
+<nav class="fr-container" role="navigation" aria-label="Accès rapide">
+  <ul id="skip-links">
+    <li>
+      <a
+        class="m-1 btn btn-sm btn-primary"
+        [routerLink]="currentUrl"
+        fragment="navigation"
+        >Aller à la navigation</a
+      >
+    </li>
+    <li>
+      <a
+        class="m-1 btn btn-sm btn-primary"
+        [routerLink]="currentUrl"
+        fragment="page"
+        >Aller au contenu</a
+      >
+    </li>
+    <li>
+      <a
+        class="m-1 btn btn-sm btn-primary"
+        [routerLink]="currentUrl"
+        fragment="footer"
+        >Aller au pied de page</a
+      >
+    </li>
+  </ul>
+</nav>
+<app-navbar
+  id="navigation"
+  [tabIndex]="currentFragment === 'navigation' ? 1 : -1"
+></app-navbar>
 
 <div class="d-print-none" id="help-button-wrapper" *ngIf="me">
   <button type="button" class="btn" id="help-button" (click)="openHelpModal()">
@@ -37,11 +41,12 @@
   </button>
 </div>
 
-<main id="page">
+<main id="page" [tabIndex]="currentFragment === 'page' ? 1 : -1">
   <router-outlet></router-outlet>
 </main>
 
 <footer
+  [tabIndex]="currentFragment === 'footer' ? 1 : -1"
   role="contentinfo"
   id="footer"
   class="d-print-none page-footer py-4"
