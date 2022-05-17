@@ -44,7 +44,7 @@ describe("DocumentService", () => {
       [HttpTestingController, DocumentService],
       (backend: HttpTestingController, ser: DocumentService) => {
         let response = null;
-        const responseObject = new UsagerFormModel({});
+        const responseObject = new UsagerFormModel();
 
         responseObject.docs = [
           {
@@ -79,7 +79,7 @@ describe("DocumentService", () => {
       [HttpTestingController, DocumentService],
       (backend: HttpTestingController, ser: DocumentService) => {
         let response = null;
-        const responseObject = new UsagerFormModel({});
+        const responseObject = new UsagerFormModel();
 
         responseObject.docs = [
           {
