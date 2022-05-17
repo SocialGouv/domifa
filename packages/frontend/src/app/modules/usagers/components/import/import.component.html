@@ -70,7 +70,7 @@
           href="/assets/files/tuto-import.pdf"
           download
         >
-          document explicatif
+          ce document explicatif
         </a>
       </p>
       <p class="text-danger">
@@ -97,24 +97,15 @@
       <p>
         Une fois le modèle Excel complété, cliquez ci-dessous pour l'importer
         sur Domifa
-      </p> 
-      <div 
-      class="m-auto d-flex flex-column w-50 border border-primary rounded-2 form-label required"
-      tabindex="0"
+      </p>
+      <div
+        class="m-auto d-flex flex-column w-50 border border-primary rounded-2 form-label required"
+        tabindex="0"
       >
-        <label
-        for="fileExcel"
-        data-browse="Parcourir"
-        lang="fr"
-        class="zone-upload"
-        >  
-        <fa-icon [icon]="['fas', 'download']"></fa-icon>
-          <span>
-            <p>
-              <b>Cliquez ici</b>
-              pour importer le fichier Excel complété
-            </p>
-          </span>
+        <label for="fileExcel" class="zone-upload">
+          <fa-icon [icon]="['fas', 'download']"></fa-icon>
+          <b>Cliquez ici</b>
+          pour importer le fichier Excel complété
         </label>
         <input
           class="form-control w-100"
@@ -124,7 +115,6 @@
           (change)="onFileChange($event)"
           multiple="false"
           accept=".xlsx,.xls"
-          file="fileExcel"
           required
         />
       </div>
