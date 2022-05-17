@@ -1,4 +1,7 @@
 <table class="table" *ngIf="usagers.length !== 0" id="table-usagers">
+  <caption class="sr-only">
+    Tableau des domiciliés
+  </caption>
   <thead>
     <th scope="col" *ngIf="filters.statut==='TOUS'">STATUT</th>
     <th

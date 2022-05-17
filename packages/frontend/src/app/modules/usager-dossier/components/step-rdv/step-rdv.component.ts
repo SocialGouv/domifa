@@ -34,6 +34,7 @@ import {
   setHours,
   setMinutes,
 } from "date-fns";
+import { getUsagerNomComplet } from "../../../../shared";
 
 @Component({
   animations: [fadeInOut],
@@ -93,8 +94,6 @@ export class StepRdvComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Rendez-vous de l'usager");
-
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
@@ -104,6 +103,9 @@ export class StepRdvComponent implements OnInit {
 
       this.usagerDossierService.findOne(id).subscribe({
         next: (usager: UsagerLight) => {
+          this.titleService.setTitle(
+            "Rendez-vous de " + getUsagerNomComplet(usager)
+          );
           this.usager = new UsagerFormModel(usager);
           this.initForm();
         },
