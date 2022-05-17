@@ -12,7 +12,7 @@ WORKDIR /app
 COPY ./packages/portail-admins .
 COPY ./yarn.lock .
 
-# replace environment variables
+# replace environment variables at build time
 RUN apt-get update -y && apt-get install gettext-base && rm -rf /var/lib/apt/lists/*
 RUN envsubst < ./src/environments/environment.prod.ts > ./src/environments/environment.prod-env.ts
 RUN mv ./src/environments/environment.prod-env.ts ./src/environments/environment.prod.ts
