@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { MigrationInterface } from "typeorm";
 
 import { domifaConfig } from "../config";
 import { structureRepository } from "../database/services/structure/structureRepository.service";
@@ -30,14 +30,12 @@ const findTimeZoneIndicatif = (timeZone: string): string => {
   }
 };
 
-export class manualMigration1651583710799 implements MigrationInterface {
+export class migrateStructurePhoneMigration1651583710799
+  implements MigrationInterface
+{
   name = "migrateStructurePhone1651583710799";
   public async up(): Promise<void> {
-    if (
-      domifaConfig().envId === "prod" ||
-      domifaConfig().envId === "preprod" ||
-      domifaConfig().envId === "local"
-    ) {
+    if (domifaConfig().envId === "prod" || domifaConfig().envId === "preprod") {
       const structures: Structure[] = await (
         await structureRepository.typeorm()
       ).query(
@@ -65,5 +63,6 @@ export class manualMigration1651583710799 implements MigrationInterface {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public async down(): Promise<void> {}
 }
