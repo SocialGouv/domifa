@@ -49,6 +49,7 @@ export class MenuComponent implements OnInit {
       this.router.navigate(["/profil/general/" + this.usager.ref]);
       return;
     }
+
     if (
       this.usager.decision.statut === "ATTENTE_DECISION" &&
       this.currentStep !== 4
