@@ -118,7 +118,7 @@ button.dropdown-toggle {
   left: 0;
   display: block;
   width: 100%;
-  min-height: 800px;
+  min-height: 70vh;
   background-color: white;
   z-index: 4000;
 }
