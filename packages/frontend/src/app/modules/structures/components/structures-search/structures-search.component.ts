@@ -20,15 +20,17 @@ export class StructuresSearchComponent implements OnInit {
   public searchFailed: boolean;
 
   public codePostal: string;
+  public loading: boolean;
   public codePostalForm!: FormGroup;
 
   constructor(
-    private structureService: StructureService,
-    private formBuilder: FormBuilder,
-    private toastService: CustomToastService,
-    private titleService: Title
+    private readonly structureService: StructureService,
+    private readonly formBuilder: FormBuilder,
+    private readonly toastService: CustomToastService,
+    private readonly titleService: Title
   ) {
     this.searchFailed = false;
+    this.loading = false;
     this.structures = [];
     this.codePostal = "";
   }
@@ -56,17 +58,23 @@ export class StructuresSearchComponent implements OnInit {
       this.toastService.error(
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );
-    } else {
-      this.structureService
-        .find(this.f.codePostal.value)
-        .subscribe((structures: StructureCommon[]) => {
-          if (structures.length === 0) {
-            this.searchFailed = true;
-          } else {
-            this.searchFailed = false;
-            this.structures = structures;
-          }
-        });
+      return;
     }
+    this.loading = true;
+
+    this.structureService.find(this.f.codePostal.value).subscribe({
+      next: (structures: StructureCommon[]) => {
+        this.loading = false;
+        if (structures.length === 0) {
+          this.searchFailed = true;
+        } else {
+          this.searchFailed = false;
+          this.structures = structures;
+        }
+      },
+      error: () => {
+        this.loading = false;
+      },
+    });
   }
 }

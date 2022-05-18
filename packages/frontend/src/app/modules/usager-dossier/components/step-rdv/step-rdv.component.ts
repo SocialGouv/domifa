@@ -67,15 +67,15 @@ export class StepRdvComponent implements OnInit {
   public maxDateRdv: NgbDateStruct;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private usagerDossierService: UsagerDossierService,
-    private documentService: DocumentService,
-    public toastService: CustomToastService,
-    private authService: AuthService,
-    private nbgDate: NgbDateCustomParserFormatter,
-    private router: Router,
-    private titleService: Title,
-    private route: ActivatedRoute
+    private readonly formBuilder: FormBuilder,
+    private readonly usagerDossierService: UsagerDossierService,
+    private readonly documentService: DocumentService,
+    private readonly toastService: CustomToastService,
+    private readonly authService: AuthService,
+    private readonly nbgDate: NgbDateCustomParserFormatter,
+    private readonly router: Router,
+    private readonly titleService: Title,
+    private readonly route: ActivatedRoute
   ) {
     this.editRdv = true;
     this.rdvIsToday = false;
@@ -215,6 +215,7 @@ export class StepRdvComponent implements OnInit {
       this.rdvNow();
       return;
     }
+
     this.loading = true;
 
     const heureRdv = this.rdvForm.controls.heureRdv.value.split(":");
@@ -234,9 +235,9 @@ export class StepRdvComponent implements OnInit {
     this.usagerDossierService.setRdv(rdvFormValue, this.usager.ref).subscribe({
       next: (usager: UsagerLight) => {
         this.loading = false;
+        this.editRdv = false;
         this.toastService.success("Rendez-vous enregistré");
         this.usager = new UsagerFormModel(usager);
-        this.editRdv = false;
       },
       error: () => {
         this.loading = false;
