@@ -7,31 +7,31 @@ import {
 } from ".";
 
 export type UsagerEntretien = {
-  domiciliation?: boolean;
-  commentaires?: string;
+  domiciliation?: boolean | null;
+  commentaires?: string | null;
 
-  typeMenage?: UsagerEntretienTypeMenage;
+  typeMenage?: UsagerEntretienTypeMenage | null;
 
-  revenus?: boolean;
-  revenusDetail?: string;
+  revenus?: boolean | null;
+  revenusDetail?: string | null;
 
-  orientation?: boolean;
-  orientationDetail?: string;
+  orientation?: boolean | null;
+  orientationDetail?: string | null;
 
-  liencommune?: UsagerEntretienLienCommune;
-  liencommuneDetail?: string;
+  liencommune?: UsagerEntretienLienCommune | null;
+  liencommuneDetail?: string | null;
 
-  residence?: UsagerEntretienResidence;
-  residenceDetail?: string;
+  residence?: UsagerEntretienResidence | null;
+  residenceDetail?: string | null;
 
-  cause?: UsagerEntretienCause;
-  causeDetail?: string;
+  cause?: UsagerEntretienCause | null;
+  causeDetail?: string | null;
 
-  rattachement?: string;
+  rattachement?: string | null;
 
-  raison?: UsagerEntretienRaisonDemande;
-  raisonDetail?: string;
+  raison?: UsagerEntretienRaisonDemande | null;
+  raisonDetail?: string | null;
 
-  accompagnement?: boolean;
-  accompagnementDetail?: string;
+  accompagnement?: boolean | null;
+  accompagnementDetail?: string | null;
 };

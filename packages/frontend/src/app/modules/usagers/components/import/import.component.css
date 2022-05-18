@@ -54,20 +54,34 @@
 .separateur {
   min-width: 140px;
 }
-
 .separateur_inactive {
   min-width: 140px;
 }
-
 .step div {
   max-width: 120px;
-}
-
-#fileExcel {
-  display: none;
 }
 #errors-list {
   margin: 20px auto;
   padding: 15px 10px;
   border: 1px solid var(--bs-danger);
 }
+.zone-upload {
+  text-align: center;
+  border-radius: 2px;
+  padding: 25px 40px;
+  max-width: 500px;
+  margin: 0 auto;
+  font-weight: normal;
+  cursor: pointer;
+  color: var(--bs-primary);
+}
+
+.zone-upload .ng-fa-icon {
+  color: var(--bs-primary);
+  font-size: 4rem;
+  line-height: 0;
+  display: block;
+  padding-bottom: 10px;
+}
+
+

@@ -13,7 +13,7 @@ import { NewsComponent } from "./modules/general/components/news/news.component"
 import { PolitiqueComponent } from "./modules/general/components/politique/politique.component";
 import { ImportComponent } from "./modules/usagers/components/import/import.component";
 import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
-
+import { PlanSiteComponent } from './modules/general/components/plan-site/plan-site.component';
 import { LoginComponent } from "./modules/general/components/login/login.component";
 
 export const routes: Routes = [
@@ -62,6 +62,7 @@ export const routes: Routes = [
   { path: "mentions-legales", component: MentionsLegalesComponent },
   { path: "confidentialite", component: PolitiqueComponent },
   { path: "cgu", component: CguComponent },
+  { path: "plan-site", component: PlanSiteComponent },
   {
     canActivate: [LoggedGuard],
     component: LoginComponent,
@@ -115,6 +116,7 @@ export const routes: Routes = [
 ];
 
 const routerOptions: ExtraOptions = {
+  anchorScrolling: "enabled",
   relativeLinkResolution: "legacy",
 };
 

@@ -53,7 +53,6 @@
         </button>
 
         <button
-          #usagerDocsDeleteButtons
           (click)="deleteDocument(indexDocs)"
           class="m-1 btn btn-danger"
           [disabled]="loadings.delete.indexOf(indexDocs) !== -1"

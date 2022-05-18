@@ -14,7 +14,7 @@ export class Rdv implements UsagerRdv {
   public userName: string;
   public isNow: boolean;
 
-  constructor(rdv?: Partial<UsagerRdv>) {
+  constructor(rdv?: UsagerRdv | null) {
     this.isNow = true;
 
     this.userId = (rdv && rdv.userId) || null;

@@ -18,10 +18,10 @@ import { UsagerNotesService } from "../../services/usager-notes.service";
   styleUrls: ["./profil-general-notes.component.css"],
 })
 export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
-  @Input() public usager: UsagerFormModel;
-  @Input() public me: UserStructure;
+  @Input() public usager!: UsagerFormModel;
+  @Input() public me!: UserStructure;
 
-  public displayConfirmArchiveMessageNoteId: string;
+  public displayConfirmArchiveMessageNoteId?: string;
 
   public filteredNotes: UsagerNote[];
 
@@ -32,8 +32,7 @@ export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
     private usagerNotesService: UsagerNotesService,
     private toastService: CustomToastService
   ) {
-    this.me = null;
-    this.usager = null;
+    this.filteredNotes = [];
   }
 
   public ngOnInit(): void {}

@@ -32,7 +32,6 @@ const routes: Routes = [
     path: "inscription",
     component: StructuresSearchComponent,
   },
-
   {
     canActivate: [AuthGuard, AdminGuard, CanEditSmsGuard],
     path: "sms",

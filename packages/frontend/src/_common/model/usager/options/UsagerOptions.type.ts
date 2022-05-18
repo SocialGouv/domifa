@@ -6,7 +6,7 @@ export type UsagerOptions = {
   procurations: UsagerOptionsProcuration[];
   npai: {
     actif: boolean;
-    dateDebut?: Date;
+    dateDebut: Date | null;
   };
   portailUsagerEnabled?: boolean;
 };

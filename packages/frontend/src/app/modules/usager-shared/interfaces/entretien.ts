@@ -8,36 +8,35 @@ import {
 } from "../../../../_common/model/usager/entretien";
 
 export class Entretien implements UsagerEntretien {
-  public domiciliation: boolean;
+  public domiciliation?: boolean | null;
+  public commentaires?: string | null;
 
-  public revenus: boolean;
-  public revenusDetail: string;
+  public typeMenage?: UsagerEntretienTypeMenage | null;
 
-  public orientation: boolean;
-  public orientationDetail: string;
+  public revenus?: boolean | null;
+  public revenusDetail?: string | null;
 
-  public typeMenage: UsagerEntretienTypeMenage;
+  public orientation?: boolean | null;
+  public orientationDetail?: string | null;
 
-  public liencommune: UsagerEntretienLienCommune;
-  public liencommuneDetail: string;
+  public liencommune?: UsagerEntretienLienCommune | null;
+  public liencommuneDetail?: string | null;
 
-  public residence: UsagerEntretienResidence;
-  public residenceDetail: string;
+  public residence?: UsagerEntretienResidence | null;
+  public residenceDetail?: string | null;
 
-  public cause: UsagerEntretienCause;
-  public causeDetail: string;
+  public cause?: UsagerEntretienCause | null;
+  public causeDetail?: string | null;
 
-  public raison: UsagerEntretienRaisonDemande;
-  public raisonDetail: string;
+  public rattachement?: string | null;
 
-  public rattachement: string;
+  public raison?: UsagerEntretienRaisonDemande | null;
+  public raisonDetail?: string | null;
 
-  public accompagnement: boolean;
-  public accompagnementDetail: string;
+  public accompagnement?: boolean | null;
+  public accompagnementDetail?: string | null;
 
-  public commentaires: string;
-
-  constructor(entretien?: any) {
+  constructor(entretien?: Partial<UsagerEntretien> | null) {
     this.domiciliation = null;
     this.revenus = null;
     this.orientation = null;

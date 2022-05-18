@@ -6,7 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { UsagerLight } from "../../../../../_common/model";
+import { UsagerDoc, UsagerLight } from "../../../../../_common/model";
 import {
   UploadResponseType,
   validateUpload,
@@ -82,7 +82,7 @@ export class UploadComponent implements OnInit {
           this.uploadResponse.success !== undefined &&
           this.uploadResponse.success
         ) {
-          this.usager.docs = this.uploadResponse.body;
+          this.usager.docs = this.uploadResponse.body as UsagerDoc[];
 
           this.loading = false;
           this.submitted = false;

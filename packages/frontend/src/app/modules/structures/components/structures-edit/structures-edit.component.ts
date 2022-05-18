@@ -53,7 +53,7 @@ export class StructuresEditComponent implements OnInit {
       this.me = user;
     });
 
-    this.titleService.setTitle("Structure");
+    this.titleService.setTitle("Modifier ma structure");
 
     this.structureService
       .findMyStructure()

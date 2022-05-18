@@ -43,9 +43,9 @@ describe("UsagerService", () => {
   });
 
   it("Interfaces", () => {
-    const usager = new UsagerFormModel({});
+    const usager = new UsagerFormModel();
     const entretien = new Entretien({});
-    const rdv = new Rdv({});
+    const rdv = new Rdv();
 
     const today = new Date();
     today.setSeconds(0);

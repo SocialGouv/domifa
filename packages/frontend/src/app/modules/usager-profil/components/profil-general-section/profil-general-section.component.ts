@@ -163,10 +163,8 @@ export class ProfilGeneralSectionComponent implements OnInit {
 
   public stopCourrier(): void {
     this.usagerProfilService.stopCourrier(this.usager.ref).subscribe({
-      next: (newUsager: UsagerLight) => {
-        this.toastService.success("Le courrier ne sera plus enregistré");
-        this.usager = new UsagerFormModel(newUsager);
-        this.updateInteractions();
+      next: () => {
+        this.setSingleInteraction(this.usager.ref, "npai");
       },
       error: () => {
         this.toastService.error("Impossible d'enregistrer cette interaction");

@@ -62,7 +62,6 @@ export class StepDecisionComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Décision sur la domiciliation");
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       if (user) {
         this.me = user;
@@ -76,6 +75,13 @@ export class StepDecisionComponent implements OnInit {
 
       this.usagerDossierService.findOne(id).subscribe({
         next: (usager: UsagerLight) => {
+          this.titleService.setTitle(
+            "Décision sur la domiciliation de " +
+              usager.nom +
+              " " +
+              usager.prenom
+          );
+
           this.usager = new UsagerFormModel(usager);
         },
         error: () => {

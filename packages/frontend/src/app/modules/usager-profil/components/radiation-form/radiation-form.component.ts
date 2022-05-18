@@ -48,6 +48,8 @@ export class RadiationFormComponent implements OnInit {
     private usagerDecisionService: UsagerDecisionService,
     private toastService: CustomToastService
   ) {
+    this.submitted = false;
+    this.loading = false;
     this.minDate = { day: 1, month: 1, year: new Date().getFullYear() - 1 };
     this.maxDate = formatDateToNgb(new Date());
   }

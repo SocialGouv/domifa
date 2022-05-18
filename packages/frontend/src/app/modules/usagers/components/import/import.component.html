@@ -64,13 +64,13 @@
         Afin d'importer vos dossiers, vous devez télécharger et compléter le
         fichier Excel ci-dessous.
         <br />
-        Vous trouverez toutes les indications dans
+        Vous trouverez toutes les indications dans ce
         <a
-          title="Télécharger le tuto d'import domifa"
+          title="Télécharger le document explicatif pour importer vos domiciliés"
           href="/assets/files/tuto-import.pdf"
           download
         >
-          ce document explicatif
+          document explicatif
         </a>
       </p>
       <p class="text-danger">
@@ -80,7 +80,6 @@
         colonnes du fichier Excel
       </p>
     </div>
-
     <div id="import-menu">
       <a
         href="/assets/files/modele_import_domifa.xlsx"
@@ -99,35 +98,28 @@
         Une fois le modèle Excel complété, cliquez ci-dessous pour l'importer
         sur Domifa
       </p>
-      <label
-        for="fileExcel"
-        data-browse="Parcourir"
-        lang="fr"
-        id="upload-zone"
-        [className]="uploadError ? 'upload-error' : 'upload-ok'"
+      <div
+        class="m-auto d-flex flex-column w-50 border border-primary rounded-2 form-label required"
+        tabindex="0"
       >
-        <fa-icon [icon]="['fas', 'download']"></fa-icon>
-        <span>
+        <label for="fileExcel" class="zone-upload">
+          <fa-icon [icon]="['fas', 'download']"></fa-icon>
           <b>Cliquez ici</b>
-          pour importer le fichier complété
-        </span>
-        <span *ngIf="uploadError" class="upload-error">
-          Seul les fichiers Excel sont autorisés
-        </span>
-      </label>
-      <input
-        type="file"
-        id="fileExcel"
-        name="fileExcel"
-        (change)="onFileChange($event)"
-        multiple="false"
-        accept=".xlsx,.xls"
-        file="fileExcel"
-        required
-      />
+          pour importer le fichier Excel complété
+        </label>
+        <input
+          class="form-control w-100"
+          type="file"
+          id="fileExcel"
+          name="fileExcel"
+          (change)="onFileChange($event)"
+          multiple="false"
+          accept=".xlsx,.xls"
+          required
+        />
+      </div>
     </div>
   </div>
-
   <div *ngIf="etapeImport === 'preview-import'" class="text-center">
     <div
       class="form-group"
@@ -169,13 +161,13 @@
         <br />
         Les champs incorrects sont marqués en rouge dans le tableau ci-dessous
         <br />
-        N'hésitez pas à consulter
+        N'hésitez pas à consulter ce
         <a
-          title="Télécharger le tuto d'import domifa"
+          title="Télécharger le document explicatif pour importer vos domiciliés"
           href="/assets/files/tuto-import.pdf"
           download
         >
-          ce document explicatif
+          document explicatif
         </a>
         en cas de souci.
       </p>

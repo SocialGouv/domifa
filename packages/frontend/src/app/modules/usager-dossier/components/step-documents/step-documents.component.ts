@@ -31,13 +31,14 @@ export class StepDocumentsComponent implements OnInit {
       this.me = user;
     });
 
-    this.titleService.setTitle("Pièces jointes du dossier");
-
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
 
       this.usagerDossierService.findOne(id).subscribe({
         next: (usager: UsagerLight) => {
+          this.titleService.setTitle(
+            "Pièces jointes du dossier de " + usager.nom + " " + usager.prenom
+          );
           this.usager = new UsagerFormModel(usager);
         },
         error: () => {

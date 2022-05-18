@@ -60,6 +60,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
   };
 
   public isFormVisible: boolean;
+  public loading: boolean;
   public submitted: boolean;
 
   public transfertForm!: FormGroup;
@@ -77,6 +78,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
     private readonly modalService: NgbModal
   ) {
     this.isFormVisible = false;
+    this.loading = false;
     this.submitted = false;
     this.minDateToday = minDateToday;
   }
@@ -96,6 +98,8 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
   }
 
   public hideForm(): void {
+    this.submitted = false;
+    this.loading = false;
     this.isFormVisible = false;
     this.transfertForm.reset(this.transfertForm.value);
   }
@@ -153,6 +157,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
       ),
     };
 
+    this.loading = true;
     this.usagerOptionsService
       .editTransfert(formValue, this.usager.ref)
       .subscribe({
@@ -165,6 +170,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
           this.toastService.success("Transfert modifié avec succès");
         },
         error: () => {
+          this.loading = false;
           this.toastService.error("Impossible d'ajouter le transfert'");
         },
       });
@@ -183,6 +189,8 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
       this.hideForm();
       return;
     }
+
+    this.loading = true;
 
     this.usagerOptionsService.deleteTransfert(this.usager.ref).subscribe({
       next: (usager: UsagerLight) => {

@@ -18,9 +18,9 @@ import { UsersService } from "../../services/users.service";
 })
 export class UserProfilComponent implements OnInit {
   public users: UserStructureProfile[];
-  public me: UserStructure;
+  public me!: UserStructure | null;
 
-  public selectedUser: UserStructure;
+  public selectedUser: UserStructure | null;
   public usersInfos: boolean;
   public exportLoading: boolean;
 
@@ -71,19 +71,21 @@ export class UserProfilComponent implements OnInit {
   }
 
   public deleteUser() {
-    this.userService.deleteUser(this.selectedUser.id).subscribe({
-      next: () => {
-        this.toastService.success("Utilisateur supprimé avec succès");
+    if (this.selectedUser) {
+      this.userService.deleteUser(this.selectedUser.id).subscribe({
+        next: () => {
+          this.toastService.success("Utilisateur supprimé avec succès");
 
-        setTimeout(() => {
-          this.modalService.dismissAll();
-          this.getUsers();
-        }, 1000);
-      },
-      error: () => {
-        this.toastService.error("Impossible de supprimer l'utilisateur");
-      },
-    });
+          setTimeout(() => {
+            this.modalService.dismissAll();
+            this.getUsers();
+          }, 1000);
+        },
+        error: () => {
+          this.toastService.error("Impossible de supprimer l'utilisateur");
+        },
+      });
+    }
   }
 
   public open(content: TemplateRef<NgbModalRef>) {

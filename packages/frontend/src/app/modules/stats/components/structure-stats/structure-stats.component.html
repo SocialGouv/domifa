@@ -179,7 +179,9 @@
 
         <div class="rapport-part">
           <table id="table-stats" class="table table-hover">
-            <summary class="visually-hidden">Tableau des statistiques</summary>
+            <caption class="visually-hidden">
+              Tableau des statistiques
+            </caption>
             <tbody>
               <tr>
                 <th scope="row" class="fw-bold">
@@ -611,10 +613,13 @@
         </h4>
 
         <div class="rapport-part">
+          <caption class="visually-hidden">
+            Tableau des statistiques de l'activité
+          </caption>
           <table class="table table-hover">
             <tbody>
               <tr>
-                <td class="fw-bold">
+                <td class="fw-bold" scope="row">
                   Nombre total d'attestations d'élection de domicile délivrées
                 </td>
                 <td class="stats-table-value">
@@ -643,7 +648,7 @@
                 </td>
               </tr>
               <tr>
-                <td class="fw-bold">Nombre total de radiations</td>
+                <td class="fw-bold" scope="row">Nombre total de radiations</td>
                 <td class="stats-table-value">
                   {{ stats.data.decisions.radie.total }}
                 </td>
@@ -793,6 +798,9 @@
           courriers.
         </div>
         <div class="rapport-part">
+          <caption class="visually-hidden">
+            Tableau des statistiques des interactions
+          </caption>
           <table class="table table-hover">
             <tbody>
               <tr>

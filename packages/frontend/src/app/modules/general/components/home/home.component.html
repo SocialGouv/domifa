@@ -8,8 +8,9 @@
             pour les personnes sans domicile stable
           </span>
         </h1>
-        <div class="mt-2 mt-lg-4">
+        <div id="content" class="mt-2 mt-lg-4">
           <a
+            aria-label="Découvrir la plateforme Domifa"
             routerLink="/inscription"
             class="btn bg-light btn-outline-primary"
             (click)="
@@ -20,7 +21,6 @@
           </a>
         </div>
       </div>
-
       <div class="flex-sm-grow-0 flex-lg-grow-0 text-end">
         <div class="w-full text-center">
           <img
@@ -32,7 +32,6 @@
       </div>
     </div>
   </div>
-
   <div class="container px-2 text-center py-3 d-flex flex-column flex-sm-row">
     <div class="w-sm-1/3 mb-3 mt-sm-0">
       <img
@@ -220,7 +219,7 @@
         <div>
           <a
             routerLink="/inscription"
-            title="S'inscrire"
+            aria-label="S'inscrire à la plateforme Domifa"
             (click)="matomo.trackEvent('HOME', 'HP_Inscription1', 'null', 1)"
             class="text-sm font-bold text-primary"
           >

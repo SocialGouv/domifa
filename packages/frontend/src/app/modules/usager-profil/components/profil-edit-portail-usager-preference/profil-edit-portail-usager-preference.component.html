@@ -134,8 +134,13 @@
       type="submit"
       [disabled]="form.invalid"
       class="btn btn-primary btn-block"
+      [disabled]="loading"
     >
-      Enregistrer les préférences
+      <span *ngIf="loading"
+        ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+        Veuillez patienter...</span
+      >
+      <span *ngIf="!loading"> Enregistrer les préférences</span>
     </button>
   </div>
 </form>

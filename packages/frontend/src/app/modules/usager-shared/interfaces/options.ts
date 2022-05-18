@@ -82,6 +82,6 @@ export class Options implements UsagerOptions {
         }
       }
     }
-    this.portailUsagerEnabled = options?.portailUsagerEnabled;
+    this.portailUsagerEnabled = options?.portailUsagerEnabled ?? false;
   }
 }
