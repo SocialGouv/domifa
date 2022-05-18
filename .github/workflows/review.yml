@@ -19,6 +19,9 @@ jobs:
     name: Build & Register backend
     runs-on: ubuntu-latest
     steps:
+      - name: Get version
+        id: version
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
       - name: Use autodevops build and register
         uses: SocialGouv/actions/autodevops-build-register@v1
         with:
@@ -28,6 +31,7 @@ jobs:
           dockerfile: packages/backend/Dockerfile
           dockerbuildargs: |
             DOMIFA_ENV_ID=dev
+            DOMIFA_VERSION=${{ steps.version.outputs.VERSION }}
 
   ##############################################################################
   ## BUILD AND REGISTER FRONTEND IMAGE

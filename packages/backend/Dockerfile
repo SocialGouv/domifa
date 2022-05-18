@@ -27,6 +27,9 @@ RUN yarn build
 # ---------------------------------------------------------
 FROM node:17.7-bullseye-slim
 
+ARG DOMIFA_VERSION
+ENV DOMIFA_VERSION=$DOMIFA_VERSION
+
 # install common tools
 ENV CORE_PACKAGES pdftk
 # sudo bash wget vim git bash-completion xsel rubygems build-essential ruby-dev pdftk
