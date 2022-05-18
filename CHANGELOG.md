@@ -1,3 +1,15 @@
+# [2.89.0](https://github.com/SocialGouv/domifa/compare/v2.88.1...v2.89.0) (2022-05-18)
+
+
+### Bug Fixes
+
+* **rgaa:** affichage du bouton ([0564c4d](https://github.com/SocialGouv/domifa/commit/0564c4d9a6f38db2da235e4cdf6e54ca9be7b840))
+
+
+### Features
+
+* **rgaa:** Mise en conformité du plan du site ([e50db31](https://github.com/SocialGouv/domifa/commit/e50db313dab9a0676864ad951ea4c3bd566dc570))
+
 ## [2.88.1](https://github.com/SocialGouv/domifa/compare/v2.88.0...v2.88.1) (2022-05-18)
 
 
