@@ -1,0 +1,20 @@
+app-backend:
+  needs: [db]
+  volumes:
+    - name: files
+      emptyDir: {}
+  volumeMounts:
+    - mountPath: /mnt/files
+      name: files
+
+jobs:
+  runs:
+    - name: db
+      use: SocialGouv/kube-workflow/jobs/create-db@v1
+      with:
+        pgAdminSecretRefName: azure-pg-admin-user
+    - name: seed
+      needs: [app-backend]
+      use: SocialGouv/kube-workflow/jobs/seed-db@v1
+      with:
+        seedPath: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql

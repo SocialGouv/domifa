@@ -1,0 +1,22 @@
+app-backend:
+  host: "api-domifa-preprod.dev.fabrique.social.gouv.fr"
+  addVolumes:
+    - files
+  envFrom:
+    - secretRef:
+        name: "{{ .Values.global.pgSecretName }}"
+    - secretRef:
+        name: backend-sealed-secret
+    - configMapRef:
+        name: backend-configmap
+    - secretRef:
+        name: azure-domifa-volume
+
+app-frontend:
+  host: "domifa-preprod.dev.fabrique.social.gouv.fr"
+
+app-portail-admins:
+  host: "portail-admins-domifa-preprod.dev.fabrique.social.gouv.fr"
+
+app-portail-usagers:
+  host: "portail-usagers-domifa-preprod.dev.fabrique.social.gouv.fr"

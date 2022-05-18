@@ -17,17 +17,24 @@ jobs:
     name: Build & Register application
     runs-on: ubuntu-latest
     steps:
-      - name: Get project name
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Get version
+        id: version
         run: |
-          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-
+          VERSION=$(jq -r '.version' package.json)
+          echo ::set-output name=VERSION::$VERSION
       - name: Use autodevops build and register
         uses: SocialGouv/actions/autodevops-build-register@v1
         with:
-          project: ${{ env.project }}
+          environment: prod
           token: ${{ secrets.GITHUB_TOKEN }}
-          imageName: ${{ env.project }}/backend
+          imageName: domifa/backend
           dockerfile: packages/backend/Dockerfile
+          dockerbuildargs: |
+            PRODUCTION=true
+            DOMIFA_ENV_ID=prod
+            DOMIFA_VERSION=${{ steps.version.outputs.VERSION }}
 
   ##############################################################################
   ## BUILD AND REGISTER FRONTEND IMAGE
@@ -36,18 +43,19 @@ jobs:
     name: Build & Register application
     runs-on: ubuntu-latest
     steps:
-      - name: Get project name
-        run: |
-          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-
       - name: Use autodevops build and register
         uses: SocialGouv/actions/autodevops-build-register@v1
         with:
-          project: ${{ env.project }}
+          environment: prod
           token: ${{ secrets.GITHUB_TOKEN }}
-          imageName: ${{ env.project }}/frontend
+          imageName: domifa/frontend
           dockerfile: packages/frontend/Dockerfile
           dockerbuildargs: |
+            PRODUCTION=true
+            DOMIFA_ENV_ID=prod
+            DOMIFA_BACKEND_URL=https://domifa-api.fabrique.social.gouv.fr/
+            DOMIFA_PORTAIL_ADMINS_URL=https://admin-domifa.fabrique.social.gouv.fr
+            DOMIFA_PORTAIL_USAGERS_URL=https://mon-domifa.fabrique.social.gouv.fr
             DOMIFA_FRONTEND_META_ROBOTS=index,follow
 
   ##############################################################################
@@ -57,17 +65,17 @@ jobs:
     name: Build & Register portail-usagers
     runs-on: ubuntu-latest
     steps:
-      - name: Get project name
-        run: |
-          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-
       - name: Use autodevops build and register
         uses: SocialGouv/actions/autodevops-build-register@v1
         with:
-          project: ${{ env.project }}
+          environment: prod
           token: ${{ secrets.GITHUB_TOKEN }}
-          imageName: ${{ env.project }}/portail-usagers
+          imageName: domifa/portail-usagers
           dockerfile: packages/portail-usagers/Dockerfile
+          dockerbuildargs: |
+            PRODUCTION=true
+            DOMIFA_ENV_ID=prod
+            DOMIFA_BACKEND_URL=https://domifa-api.fabrique.social.gouv.fr/
 
   ##############################################################################
   ## BUILD AND REGISTER PORTAIL ADMINS IMAGE
@@ -83,10 +91,14 @@ jobs:
       - name: Use autodevops build and register
         uses: SocialGouv/actions/autodevops-build-register@v1
         with:
-          project: ${{ env.project }}
+          environment: prod
           token: ${{ secrets.GITHUB_TOKEN }}
-          imageName: ${{ env.project }}/portail-admins
+          imageName: domifa/portail-admins
           dockerfile: packages/portail-admins/Dockerfile
+          dockerbuildargs: |
+            PRODUCTION=true
+            DOMIFA_ENV_ID=prod
+            DOMIFA_BACKEND_URL=https://domifa-api.fabrique.social.gouv.fr/
 
   ##############################################################################
   ## DEPLOY BACKEND & FRONT-END TO PRODUCTION
@@ -94,23 +106,22 @@ jobs:
   deploy-prod:
     name: Deploy production
     runs-on: ubuntu-latest
-    needs: [register-backend, register-frontend, register-portail-usagers]
+    needs:
+      [
+        register-backend,
+        register-frontend,
+        register-portail-usagers,
+        register-portail-admins,
+      ]
     environment:
       name: production
       url: ${{ steps.deploy.outputs.url }}
     steps:
-      - name: Use autodevops manifests generation
-        uses: SocialGouv/actions/k8s-manifests@v1
-        with:
-          environment: "prod"
-          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
-          socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
-
-      - name: Use autodevops deployment
-        uses: SocialGouv/actions/autodevops-deploy@v1
+      - uses: SocialGouv/kube-workflow@v1
         id: deploy
         with:
-          environment: "prod"
+          environment: prod
           token: ${{ secrets.GITHUB_TOKEN }}
-          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
-          kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_PROD2 }}
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+          rancherProjectId: ${{ secrets.RANCHER_PROJECT_ID }}
+          rancherProjectName: ${{ secrets.RANCHER_PROJECT_NAME }}

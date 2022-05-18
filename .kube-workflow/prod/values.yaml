@@ -1,0 +1,48 @@
+metabase:
+  enabled: true
+  ingress:
+    enabled: false
+  envFrom:
+    - secretRef:
+        name: metabase-pg-user
+    - configMapRef:
+        name: metabase-configmap
+
+oauth2-proxy:
+  host: "metabase-domifa.fabrique.social.gouv.fr"
+  certSecretName: oauth2-proxy-crt
+  upstream: http://metabase
+  enabled: true
+  envFrom:
+    - secretRef:
+        name: "oauth2-proxy-sealed-secret"
+    - configMapRef:
+        name: oauth2-proxy-configmap
+
+app-backend:
+  host: "domifa-api.fabrique.social.gouv.fr"
+  replicas: 2
+  certSecretName: backend-crt
+  addVolumes:
+    - files
+  envFrom:
+    - secretRef:
+        name: "{{ .Values.global.pgSecretName }}"
+    - secretRef:
+        name: backend-sealed-secret
+    - configMapRef:
+        name: backend-configmap
+    - secretRef:
+        name: azure-domifa-volume
+
+app-frontend:
+  host: "domifa.fabrique.social.gouv.fr"
+  certSecretName: frontend-crt
+
+app-portail-admins:
+  host: "admin-domifa.fabrique.social.gouv.fr"
+  certSecretName: portail-admins-crt
+
+app-portail-usagers:
+  host: "mon-domifa.fabrique.social.gouv.fr"
+  certSecretName: portail-usagers-crt
