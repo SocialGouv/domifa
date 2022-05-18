@@ -43,10 +43,12 @@ export class MenuComponent implements OnInit {
       this.usager.decision.statut !== "ATTENTE_DECISION" &&
       this.usager.decision.statut !== "INSTRUCTION"
     ) {
-      this.router.navigate(["profil/general/" + this.usager.ref]);
+      this.toastService.warning(
+        "Vous ne pouvez pas revenir sur une décision déjà prise"
+      );
+      this.router.navigate(["/profil/general/" + this.usager.ref]);
       return;
     }
-
     if (
       this.usager.decision.statut === "ATTENTE_DECISION" &&
       this.currentStep !== 4
