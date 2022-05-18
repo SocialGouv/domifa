@@ -24,8 +24,9 @@ jobs:
       - name: Get version
         id: version
         run: |
-          jq -r '.version' package.json
-          echo ::set-output name=VERSION::$(jq -r '.version' package.json)
+          VERSION=$ jq -r '.version' package.json)
+          echo $VERSION
+          echo ::set-output name=VERSION::$VERSION
       - name: Use autodevops build and register
         uses: SocialGouv/actions/autodevops-build-register@v1
         with:
