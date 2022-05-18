@@ -1,3 +1,10 @@
+## [2.88.1](https://github.com/SocialGouv/domifa/compare/v2.88.0...v2.88.1) (2022-05-18)
+
+
+### Bug Fixes
+
+* **ci:** add trailing-slashes in url variables ([#2272](https://github.com/SocialGouv/domifa/issues/2272)) ([b7d01ef](https://github.com/SocialGouv/domifa/commit/b7d01effe165c29346cc2b8d1a8af5428b93416a))
+
 # [2.88.0](https://github.com/SocialGouv/domifa/compare/v2.87.2...v2.88.0) (2022-05-18)
 
 
