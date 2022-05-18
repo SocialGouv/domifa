@@ -12,7 +12,7 @@ export const INTERACTIONS_LABELS_SINGULIER: {
   recommandeIn: "Avis de passage enregistré",
   recommandeOut: "Avis de passage remis",
   visite: "Passage enregistré",
-  npai: "Pli non distribuable enregistré",
+  npai: "Le courrier ne sera plus enregistré",
   echeanceDeuxMois: "Rappel fin de domiciliation",
 };
 

@@ -54,8 +54,8 @@ export class AppComponent implements OnInit {
     private readonly matomoInjector: MatomoInjector,
     public modalService: NgbModal,
     private router: Router,
-    private titleService: Title,
-    private ngZone: NgZone,
+    private readonly titleService: Title,
+    private readonly ngZone: NgZone,
     public matomo: MatomoTracker,
     private userIdleService: UserIdleService
   ) {
@@ -76,14 +76,6 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    document.addEventListener(
-      "focusin",
-      function () {
-        console.log("focused: ", document.activeElement);
-      },
-      true
-    );
-
     this.titleService.setTitle(
       "Domifa, l'outil qui facilite la gestion des structures domiciliatirices"
     );
@@ -101,7 +93,6 @@ export class AppComponent implements OnInit {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        console.log(event);
         const splitUrl = event.url.split("#");
         this.currentUrl = splitUrl[0];
 
@@ -109,7 +100,6 @@ export class AppComponent implements OnInit {
         if (typeof splitUrl[1] !== "undefined") {
           //
           if (sections.indexOf(splitUrl[1]) !== -1) {
-            console.log("FRAGMENT : on focus");
             this.currentFragment = splitUrl[1];
             document.getElementById("focus").focus();
           }
@@ -118,7 +108,6 @@ export class AppComponent implements OnInit {
           // Retour au top du curseur
           const mainHeader = document.getElementById("top-site");
           if (mainHeader) {
-            console.log(mainHeader);
             mainHeader.focus();
           }
           // Retour au top de la fenêtre

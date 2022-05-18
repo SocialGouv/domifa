@@ -239,64 +239,68 @@
           class="interaction-buttons"
           *ngIf="usager.isActif || (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)"
         >
-          <div
+          <button
+            type="button"
+            [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_visite') !== -1"
+            aria-label="Ajout d'un passage"
             ngbTooltip="Ajout d'un passage"
-            [ngClass]="loadingButtons.indexOf(usager.ref.toString() + '_visite') !== -1 ? 'interaction-btn-disabled': 'interaction-btn'"
+            class="btn interaction-btn"
             (click)="setSingleInteraction(usager, 'visite')"
           >
-            <div class="list-icon-disabled">
-              <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
-              </fa-icon>
-            </div>
-            <button
-              type="button"
-              class="icon-passage list-icon"
-              aria-label="Ajout d'un passage"
-            ></button>
-          </div>
+            <fa-icon
+              [icon]="['fas', 'circle-notch']"
+              [spin]="true"
+              class="list-icon-disabled"
+            >
+            </fa-icon>
 
-          <div
+            <span class="icon-passage list-icon"></span>
+          </button>
+
+          <button
+            type="button"
+            [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_appel') !== -1"
+            aria-label="Ajout d'un appel téléphonique"
             ngbTooltip="Ajout d'un appel téléphonique"
-            [ngClass]="loadingButtons.indexOf(usager.ref.toString() + '_appel') !== -1 ? 'interaction-btn-disabled': 'interaction-btn'"
+            class="btn interaction-btn"
             (click)="setSingleInteraction(usager, 'appel')"
           >
-            <div class="list-icon-disabled">
-              <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
-              </fa-icon>
-            </div>
-            <button
-              type="button"
-              class="icon-appel list-icon"
-              aria-label="Ajout d'un appel"
-            ></button>
-          </div>
-          <div
+            <fa-icon
+              [icon]="['fas', 'circle-notch']"
+              [spin]="true"
+              class="list-icon-disabled"
+            >
+            </fa-icon>
+
+            <span class="icon-appel list-icon"></span>
+          </button>
+          <button
+            aria-label="Ajout rapide d'un courrier"
+            type="button"
+            [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_courrierIn') !== -1"
             ngbTooltip="Ajout rapide d'un courrier"
-            [ngClass]="loadingButtons.indexOf(usager.ref.toString() + '_courrierIn') !== -1 ? 'interaction-btn-disabled': 'interaction-btn'"
+            class="btn interaction-btn"
             (click)="setSingleInteraction(usager, 'courrierIn')"
           >
-            <div class="list-icon-disabled">
-              <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
-              </fa-icon>
-            </div>
-            <button
-              aria-label="Ajout rapide d'un courrier"
-              type="button"
-              class="icon-courrier list-icon"
-            ></button>
-          </div>
-          <div
+            <fa-icon
+              [icon]="['fas', 'circle-notch']"
+              [spin]="true"
+              class="list-icon-disabled"
+            >
+            </fa-icon>
+
+            <span class="icon-courrier list-icon"></span>
+          </button>
+          <button
+            type="button"
+            aria-label="Ajout détaillé d'un courrier"
             ngbTooltip="Ajout détaillé d'un courrier"
-            class="interaction-btn"
+            class="interaction-btn btn"
             (click)="openInteractionInModal(usager)"
           >
-            <button
-              type="button"
-              aria-label="Ajout détaillé d'un courrier"
-              class="icon-reception list-icon"
-            ></button>
+            <span class="icon-reception list-icon"></span>
             <span class="list-icon-label">Réception</span>
-          </div>
+          </button>
 
           <ng-template #distributionBox class="p-2 text-start">
             <div class="distribution-tooltip">
@@ -332,20 +336,20 @@
             </div>
           </ng-template>
 
-          <div
+          <button
             *ngIf="usager.lastInteraction.enAttente"
-            class="interaction-btn"
+            class="btn interaction-btn"
             [ngbTooltip]="distributionBox"
+            type="button"
+            aria-label="Distribuer le courrier"
             (click)="openInteractionOutModal(usager)"
           >
-            <button
-              type="button"
-              aria-label="Distribuer le courrier"
-              class="icon-distribution list-icon"
-            ></button>
+            <span class="icon-distribution list-icon"></span>
             <span class="list-icon-label">Distribuer</span>
-            <b class="notification"> {{usager.totalInteractionsEnAttente }} </b>
-          </div>
+            <b class="notification">
+              {{ usager.totalInteractionsEnAttente }}
+            </b>
+          </button>
         </div>
       </td>
 

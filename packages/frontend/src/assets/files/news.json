@@ -1,5 +1,16 @@
 [
   {
+    "date": "2022-05-19",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Accessibilité du site",
+        "message": ["Ajout du plan de site, accessible depuis le bas de page"]
+      }
+    ]
+  },
+  {
     "date": "2022-05-09",
     "description": "",
     "content": [
