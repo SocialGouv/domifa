@@ -26,7 +26,6 @@ jobs:
           dockerbuildargs: |
             DOMIFA_ENV_ID=preprod
 
-
   ##############################################################################
   ## BUILD AND REGISTER FRONTEND IMAGE
   ##############################################################################
@@ -46,6 +45,7 @@ jobs:
             DOMIFA_PORTAIL_ADMINS_URL=https://portail-admins-domifa-preprod.dev.fabrique.social.gouv.fr
             DOMIFA_PORTAIL_USAGERS_URL=https://portail-usagers-domifa-preprod.dev.fabrique.social.gouv.fr
             DOMIFA_ENV_ID=preprod
+            DOMIFA_FRONTEND_META_ROBOTS=noindex,nofollow
 
   ##############################################################################
   ## BUILD AND REGISTER PORTAIL USAGERS IMAGE
@@ -82,20 +82,6 @@ jobs:
           dockerbuildargs: |
             DOMIFA_BACKEND_URL=https://api-domifa-preprod.dev.fabrique.social.gouv.fr/
             DOMIFA_ENV_ID=preprod
-            
-  ##############################################################################
-  ## GENERATE PREPROD KUBERNETES MANIFESTS
-  ##############################################################################
-  manifests:
-    name: Preproduction manifests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Use autodevops manifests generation
-        uses: SocialGouv/actions/k8s-manifests@v1
-        with:
-          environment: "preprod"
-          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
-          socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
 
   ##############################################################################
   ## DEPLOY BACKEND & FRONT-END TO PREPRODUCTION
@@ -104,7 +90,12 @@ jobs:
     name: Deploy preproduction
     runs-on: ubuntu-latest
     needs:
-      [register-backend, register-frontend, register-portail-usagers, manifests]
+      [
+        register-backend,
+        register-frontend,
+        register-portail-usagers,
+        register-portail-admins,
+      ]
     environment:
       name: preproduction
       url: ${{ steps.deploy.outputs.url }}
@@ -117,4 +108,3 @@ jobs:
           kubeconfig: ${{ secrets.KUBECONFIG }}
           rancherProjectId: ${{ secrets.RANCHER_PROJECT_ID }}
           rancherProjectName: ${{ secrets.RANCHER_PROJECT_NAME }}
-

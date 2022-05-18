@@ -57,6 +57,7 @@ jobs:
             DOMIFA_PORTAIL_ADMINS_URL=https://portail-admins-${{ env.host }}.dev.fabrique.social.gouv.fr
             DOMIFA_PORTAIL_USAGERS_URL=https://portail-usagers-${{ env.host }}.dev.fabrique.social.gouv.fr
             DOMIFA_ENV_ID=dev
+            DOMIFA_FRONTEND_META_ROBOTS=noindex,nofollow
 
   ##############################################################################
   ## BUILD AND REGISTER PORTAIL USAGERS IMAGE
