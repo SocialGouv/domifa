@@ -1,23 +1,57 @@
 <app-custom-toastr></app-custom-toastr>
 <app-loading></app-loading>
 
-<app-navbar></app-navbar>
+<nav class="fr-container" role="navigation" aria-label="Accès rapide">
+  <ul id="skip-links">
+    <li>
+      <a
+        class="m-1 btn btn-sm btn-primary"
+        [routerLink]="currentUrl"
+        fragment="navigation"
+        >Aller à la navigation</a
+      >
+    </li>
+    <li>
+      <a
+        class="m-1 btn btn-sm btn-primary"
+        [routerLink]="currentUrl"
+        fragment="page"
+        >Aller au contenu</a
+      >
+    </li>
+    <li>
+      <a
+        class="m-1 btn btn-sm btn-primary"
+        [routerLink]="currentUrl"
+        fragment="footer"
+        >Aller au pied de page</a
+      >
+    </li>
+  </ul>
+</nav>
+<app-navbar
+  id="navigation"
+  [tabIndex]="currentFragment === 'navigation' ? 1 : -1"
+></app-navbar>
+
 <div class="d-print-none" id="help-button-wrapper" *ngIf="me">
-  <button
-    type="button"
-    aria-label="Besoin d'aide ?"
-    class="btn"
-    id="help-button"
-    (click)="openHelpModal()"
-  >
+  <button type="button" class="btn" id="help-button" (click)="openHelpModal()">
+    <span class="sr-only">Besoin d'aide ?</span>
     <fa-icon [icon]="['fas', 'question']"></fa-icon>
   </button>
 </div>
-<main id="page">
+
+<main id="page" [tabIndex]="currentFragment === 'page' ? 1 : -1">
   <router-outlet></router-outlet>
 </main>
 
-<footer class="d-print-none page-footer py-4">
+<footer
+  [tabIndex]="currentFragment === 'footer' ? 1 : -1"
+  role="contentinfo"
+  id="footer"
+  class="d-print-none page-footer py-4"
+  #footer
+>
   <div class="container">
     <div class="my-2">
       <div class="mb-3 mb-sm-0">Nos partenaires:</div>
@@ -48,7 +82,8 @@
             class="ministere-logo"
             src="../assets/images/footer/partenaire-beta-gouv.png"
             alt="Beta Gouv"
-        /></a>
+          />
+        </a>
         <a
           class="me-0 me-sm-3"
           href="https://www.gouvernement.fr/france-relance"
@@ -62,7 +97,8 @@
             class="ministere-logo"
             src="../assets/images/footer/logo-france-relance.svg"
             alt="France Relance soutien Domifa"
-        /></a>
+          />
+        </a>
         <a
           class="me-0 me-sm-3"
           href="https://www.gouvernement.fr/delegation-interministerielle-a-l-hebergement-et-a-l-acces-au-logement"
@@ -87,7 +123,8 @@
             class="ministere-logo"
             src="../assets/images/footer/logo-dgcs.png"
             alt="DGCS"
-        /></a>
+          />
+        </a>
         <a
           href="https://www.unccas.org"
           target="_blank"
@@ -98,7 +135,8 @@
             class="ministere-logo"
             src="../assets/images/footer/partenaire-unccas.png"
             alt="UNCCAS"
-        /></a>
+          />
+        </a>
       </div>
     </div>
     <div class="py-3 my-4 text-gray border-top">
@@ -108,8 +146,8 @@
           target="_blank"
           rel="noopener noreferrer"
           download
-          >Accessibilité: non conforme</a
-        >
+          >Accessibilité: non conforme
+        </a>
         <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
         <a
           [routerLink]="['/mentions-legales']"
@@ -152,6 +190,14 @@
         >
           Contactez-nous
         </a>
+        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
+        <a
+          routerLink="/plan-site"
+          routerLinkActive="router-link-active"
+          (click)="matomo.trackEvent('FOOTER', 'Footer_Contact', 'null', 1)"
+        >
+          Plan du site
+        </a>
       </div>
       <div class="my-4 text-gray">
         Sauf mention contraire, tous les textes de ce site sont sous
@@ -160,7 +206,8 @@
           target="_blank"
           rel="noopener noreferrer"
           >licence etatlab-2.0</a
-        ><img
+        >
+        <img
           src="../../../assets/icones/link-external.png"
           class="ms-1"
           style="height: 8px"

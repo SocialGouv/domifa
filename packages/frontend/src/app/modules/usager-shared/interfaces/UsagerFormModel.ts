@@ -100,10 +100,7 @@ export class UsagerFormModel implements UsagerLight {
     color: string;
   };
 
-  constructor(
-    usager?: Partial<UsagerLight>,
-    filterCriteria?: UsagersFilterCriteria
-  ) {
+  constructor(usager?: UsagerLight, filterCriteria?: UsagersFilterCriteria) {
     this.docs = (usager && usager.docs) || [];
     this.notes = (usager && usager.notes) || [];
     this.notes.sort((a, b) => {

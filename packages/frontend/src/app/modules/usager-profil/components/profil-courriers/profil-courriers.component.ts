@@ -37,8 +37,10 @@ export class ProfilCourriersComponent implements OnInit {
     this.usagerProfilService.findOne(this.route.snapshot.params.id).subscribe(
       (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
-        const name = getUsagerNomComplet(usager);
-        this.titleService.setTitle("Courriers de " + name);
+
+        this.titleService.setTitle(
+          "Courriers de " + getUsagerNomComplet(usager)
+        );
       },
       () => {
         this.toastService.error("Le dossier recherché n'existe pas");

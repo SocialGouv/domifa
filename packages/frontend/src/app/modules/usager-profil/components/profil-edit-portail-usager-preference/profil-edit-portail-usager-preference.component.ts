@@ -20,6 +20,7 @@ export class ProfilEditPortailUsagerPreferenceComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
   @Input() public me: UserStructure;
 
+  public loading: boolean;
   public submitted: boolean;
   public form: FormGroup;
 
@@ -39,6 +40,8 @@ export class ProfilEditPortailUsagerPreferenceComponent implements OnInit {
   ) {
     this.submitted = false;
     this.me = null;
+    this.loading = false;
+    this.loadings = [];
     this.usager = null;
     this.editionInProgress = false;
   }
@@ -98,38 +101,40 @@ export class ProfilEditPortailUsagerPreferenceComponent implements OnInit {
       this.toastService.error(
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
-    } else {
-      this.usagerProfilService
-        .updatePortailUsagerOptions({
-          usagerRef: this.usager.ref,
-          options: {
-            portailUsagerEnabled: this.form.value.portailUsagerEnabled,
-            generateNewPassword:
-              this.form.value.portailUsagerEnabled &&
-              this.form.value.generateNewPassword,
-          },
-        })
-        .subscribe(
-          ({ usager, login, temporaryPassword }) => {
-            if (login && temporaryPassword) {
-              this.loginToDisplay = {
-                login,
-                temporaryPassword,
-              };
-            } else {
-              this.loginToDisplay = undefined;
-            }
-            this.submitted = false;
-            this.editionInProgress = false;
-            this.toastService.success("Enregistrement des préférences réussi");
-            this.usager = new UsagerFormModel(usager);
-          },
-          () => {
-            this.toastService.error(
-              "Veuillez vérifier les champs du formulaire"
-            );
-          }
-        );
+      return;
     }
+    this.loading = true;
+    this.usagerProfilService
+      .updatePortailUsagerOptions({
+        usagerRef: this.usager.ref,
+        options: {
+          portailUsagerEnabled: this.form.value.portailUsagerEnabled,
+          generateNewPassword:
+            this.form.value.portailUsagerEnabled &&
+            this.form.value.generateNewPassword,
+        },
+      })
+      .subscribe({
+        next: ({ usager, login, temporaryPassword }) => {
+          if (login && temporaryPassword) {
+            this.loginToDisplay = {
+              login,
+              temporaryPassword,
+            };
+          } else {
+            this.loginToDisplay = undefined;
+          }
+          this.submitted = false;
+          this.loading = false;
+          this.editionInProgress = false;
+          this.toastService.success("Enregistrement des préférences réussi");
+          this.usager = new UsagerFormModel(usager);
+        },
+        error: () => {
+          this.loading = false;
+          this.editionInProgress = false;
+          this.toastService.error("Veuillez vérifier les champs du formulaire");
+        },
+      });
   }
 }

@@ -196,23 +196,24 @@
       (click)="renouvellement()"
       [disabled]="loading"
     >
-      <span
-        *ngIf="
-          !loading &&
-          usager.decision.statut !== 'RADIE' &&
-          usager.decision.statut !== 'REFUS'
-        "
-      >
-        Demander un renouvellement
-      </span>
-      <span
-        *ngIf="
-          (!loading && usager.decision.statut === 'RADIE') ||
-          usager.decision.statut === 'REFUS'
-        "
-      >
-        Créer une nouvelle demande
-      </span>
+      <ng-container *ngIf="!loading">
+        <span
+          *ngIf="
+            usager.decision.statut !== 'RADIE' &&
+            usager.decision.statut !== 'REFUS'
+          "
+        >
+          Demander un renouvellement
+        </span>
+        <span
+          *ngIf="
+            usager.decision.statut === 'RADIE' ||
+            usager.decision.statut === 'REFUS'
+          "
+        >
+          Créer une nouvelle demande
+        </span>
+      </ng-container>
       <span *ngIf="loading"
         ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
         Veuillez patienter...</span

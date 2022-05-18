@@ -3,14 +3,7 @@ import {
   STRUCTURE_DOC_EXTENSIONS_LABELS,
   UsagerDoc,
 } from "src/_common/model";
-import {
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-  QueryList,
-  ViewChildren,
-} from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import { STRUCTURE_DOC_ICONS } from "../../../../../_common/model";
@@ -25,9 +18,6 @@ import * as fileSaver from "file-saver";
 })
 export class DisplayUsagerDocsComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
-
-  @ViewChildren("usagerDocsDeleteButtons")
-  usagerDocsDeleteButtons: QueryList<ElementRef>;
 
   public STRUCTURE_DOC_EXTENSIONS_LABELS = STRUCTURE_DOC_EXTENSIONS_LABELS;
   public STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;
@@ -115,12 +105,6 @@ export class DisplayUsagerDocsComponent implements OnInit {
     if (index < newIndexToFocus) {
       newIndexToFocus = index;
     }
-
-    // Focus sur l'élément créé
-    setTimeout(() => {
-      const elements = this.usagerDocsDeleteButtons.toArray();
-      elements[newIndexToFocus].nativeElement.focus();
-    }, 500);
   }
 
   private stopLoading(loadingType: "delete" | "download", loadingRef: number) {

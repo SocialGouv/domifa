@@ -565,7 +565,7 @@
     </span>
   </div>
 
-  <div class="modal-body text-center">
+  <div class="modal-body text-center" *ngIf="selectedUser">
     <p>
       Vous êtes sur le point de supprimer le compte de {{ selectedUser.nom }}
       {{ selectedUser.prenom }}. Une fois supprimé, l'utilisateur ne pourra plus

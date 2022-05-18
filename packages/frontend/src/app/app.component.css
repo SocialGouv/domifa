@@ -52,3 +52,27 @@
   padding-left: 10px;
   padding-right: 10px;
 }
+
+#skip-links {
+  width: 100%;
+  padding: 0;
+  background-color: white;
+}
+
+#skip-links li {
+  padding: 0;
+  width: 100%;
+  position: absolute;
+}
+
+#skip-links li a {
+  left: -999rem;
+  position: absolute;
+  text-decoration: none;
+  list-style: none;
+  z-index: 1202;
+}
+
+#skip-links li a:focus {
+  left: 0;
+}

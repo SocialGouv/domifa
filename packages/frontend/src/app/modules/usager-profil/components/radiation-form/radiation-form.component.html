@@ -23,11 +23,7 @@
     <br />
   </p>
 
-  <form
-    [formGroup]="radiationForm"
-    (ngSubmit)="setDecisionRadiation()"
-    autocomplete="on"
-  >
+  <form [formGroup]="radiationForm" (ngSubmit)="setDecisionRadiation()">
     <div class="row">
       <div class="col-md-6 form-group required">
         <label for="dateFin">Date de la radiation</label>

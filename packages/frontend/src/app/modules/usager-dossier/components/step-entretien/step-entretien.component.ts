@@ -25,8 +25,6 @@ export class StepEntretienComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Entretien avec l'usager");
-
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
@@ -36,6 +34,9 @@ export class StepEntretienComponent implements OnInit {
 
       this.usagerDossierService.findOne(id).subscribe({
         next: (usager: UsagerLight) => {
+          this.titleService.setTitle(
+            "Entretien avec  " + usager.nom + " " + usager.prenom
+          );
           this.usager = new UsagerFormModel(usager);
         },
         error: () => {

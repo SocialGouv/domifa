@@ -65,6 +65,8 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   public minDateNaissance: NgbDateStruct;
   public maxDateNaissance: NgbDateStruct;
 
+  public loading = false;
+
   @ViewChild("confirmDelete", { static: true })
   public confirmDelete!: TemplateRef<NgbModalRef>;
 
@@ -101,6 +103,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
 
   public hideForm(): void {
     this.submitted = false;
+    this.loading = false;
     this.isFormVisible = false;
   }
 
@@ -179,6 +182,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
       }
     );
 
+    this.loading = true;
     this.usagerOptionsService
       .editProcurations(procurationFormData, this.usager.ref)
       .subscribe({
@@ -186,11 +190,11 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
           this.hideForm();
           this.usagerChanges.emit(usager);
           this.usager = new UsagerFormModel(usager);
-          this.submitted = false;
           this.toastService.success("Procuration modifiée avec succès");
           this.matomo.trackEvent("profil", "actions", "edit_procuration", 1);
         },
         error: () => {
+          this.loading = false;
           this.toastService.error("Impossible d'ajouter la procuration'");
         },
       });

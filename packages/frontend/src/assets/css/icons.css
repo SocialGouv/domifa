@@ -107,36 +107,8 @@
   -webkit-mask-size: 100%;
   mask-size: 100%;
   height: 24px;
-  padding: 2px;
   vertical-align: top;
   display: inline-block;
   width: 24px;
-}
-
-.list-icon-disabled {
-  display: block;
-  padding: 6px 10px;
-  box-sizing: border-box;
-  background-color: #e7e7e7;
-  cursor: progress;
-}
-
-.interaction-btn .list-icon-disabled,
-.btn-primary .list-icon-disabled {
-  display: none;
-}
-
-.interaction-btn-disabled {
-  border: 1px solid rgba(122, 122, 122, 1);
-  box-sizing: border-box;
-  border-radius: 3px;
-  margin: 3px;
-  position: relative;
-}
-
-.interaction-btn-disabled .list-icon {
-  display: none;
-}
-.interaction-btn-disabled .list-icon-disabled {
-  display: block;
+  padding: 0;
 }

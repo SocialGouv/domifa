@@ -57,7 +57,9 @@ export class DeleteUsagerMenuComponent implements OnInit {
           decision.statut === "VALIDE"
       ) !== "undefined";
 
-    this.getPreviousStatus();
+    if (this.usager.decision.statut === "INSTRUCTION" && this.usager.ref) {
+      this.getPreviousStatus();
+    }
   }
 
   public getPreviousStatus(): void {

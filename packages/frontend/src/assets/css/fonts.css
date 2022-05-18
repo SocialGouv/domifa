@@ -29,6 +29,13 @@
   font-style: italic;
 }
 
+h2,
+.h2 {
+  font-style: normal;
+  font-size: 1.65rem;
+  font-weight: 600;
+}
+
 h3,
 .h3 {
   font-style: normal;
