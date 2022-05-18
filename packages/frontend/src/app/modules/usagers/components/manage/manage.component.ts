@@ -123,6 +123,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
 
   public nbResults: number;
   public needToPrint: boolean;
+
   public pageSize: number;
 
   @ViewChild("searchInput", { static: true })

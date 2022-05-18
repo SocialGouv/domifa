@@ -47,6 +47,9 @@ export class ManageUsagersTableComponent implements OnInit {
   @Input()
   public filters!: UsagersFilterCriteria;
 
+  @Input()
+  public loading: boolean;
+
   @Output()
   public updateUsager = new EventEmitter<UsagerLight>();
 

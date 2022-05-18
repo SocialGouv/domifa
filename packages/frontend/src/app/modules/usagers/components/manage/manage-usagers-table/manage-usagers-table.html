@@ -54,7 +54,14 @@
         class="btn-sm btn-primary btn"
         (click)="goToPrint.emit()"
       >
-        <fa-icon title="Impression" [icon]="['fas', 'print']"></fa-icon>
+        <fa-icon
+          title="Impression"
+          [icon]="['fas', 'print']"
+          *ngIf="!loading"
+        ></fa-icon>
+
+        <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true" *ngIf="loading">
+        </fa-icon>
       </button>
     </th>
   </thead>
