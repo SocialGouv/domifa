@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -7,8 +7,8 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 
-import { of } from "rxjs";
-import { map } from "rxjs/operators";
+import { of, Subject } from "rxjs";
+import { map, takeUntil } from "rxjs/operators";
 import { UserStructure, StructureCommon } from "../../../../../_common/model";
 import { fadeInOut, regexp } from "../../../../shared";
 
@@ -24,17 +24,20 @@ import { StructureService } from "../../services/structure.service";
   styleUrls: ["./register-user.component.css"],
   templateUrl: "./register-user.component.html",
 })
-export class RegisterUserComponent implements OnInit {
+export class RegisterUserComponent implements OnInit, OnDestroy {
   public user: UserStructure;
   public userForm: FormGroup;
 
   public submitted: boolean;
+  public loading: boolean;
   public success: boolean;
 
   public hidePassword: boolean;
   public hidePasswordConfirm: boolean;
 
   public emailExist = false;
+
+  private unsubscribe: Subject<void> = new Subject();
 
   @Input() public structureRegisterInfos!: {
     etapeInscription: number;
@@ -56,6 +59,7 @@ export class RegisterUserComponent implements OnInit {
     this.hidePassword = true;
     this.hidePasswordConfirm = true;
     this.submitted = false;
+    this.loading = false;
     this.success = false;
   }
 
@@ -103,11 +107,13 @@ export class RegisterUserComponent implements OnInit {
 
   public submitUser() {
     this.submitted = true;
+
     if (this.userForm.invalid) {
       this.toastService.error(
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );
     } else {
+      this.loading = true;
       this.structureService
         .create({
           structure: this.structureRegisterInfos.structure,
@@ -116,11 +122,13 @@ export class RegisterUserComponent implements OnInit {
         .subscribe({
           next: () => {
             this.success = true;
+            this.loading = false;
             this.toastService.success(
               "Félicitations, votre compte a été créé avec succès"
             );
           },
           error: () => {
+            this.loading = false;
             this.toastService.error(
               "Veuillez vérifier les champs du formulaire"
             );
@@ -133,10 +141,16 @@ export class RegisterUserComponent implements OnInit {
     const testEmail = RegExp(regexp.email).test(control.value);
     return testEmail
       ? this.userService.validateEmail(control.value).pipe(
+          takeUntil(this.unsubscribe),
           map((res: boolean) => {
             return res === false ? null : { emailTaken: true };
           })
         )
       : of(null);
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }

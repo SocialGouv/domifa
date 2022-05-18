@@ -112,7 +112,7 @@
   <div class="modal-body py-4 text-center" *ngIf="interactionToDelete">
     <b>Êtes-vous sûr de vouloir supprimer cette interaction ?</b>
     <br />
-    <div
+    <p
       *ngIf="
         interactionToDelete.type === 'courrierIn' ||
         interactionToDelete.type === 'recommandeIn' ||
@@ -121,9 +121,9 @@
     >
       Cette interaction sera retirée des interactions en attente de
       distribution.
-    </div>
+    </p>
 
-    <div
+    <p
       *ngIf="
         interactionToDelete.type === 'courrierOut' ||
         interactionToDelete.type === 'recommandeOut' ||
@@ -132,17 +132,24 @@
     >
       Tous les courriers, colis ou avis de passage liés à cette distribution
       seront de nouveau marqués comme "à distribuer".
-    </div>
+    </p>
     <div>Le compteur d'interactions en attente sera remis à jour.</div>
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-outline-dark" (click)="closeModals()">
-      Revenir au profil
-    </button>
-
     <button class="btn btn-danger" (click)="deleteInteraction()">
       Confirmer la suppression
+    </button>
+    <button
+      [disabled]="loading"
+      class="btn btn-outline-dark"
+      (click)="closeModals()"
+    >
+      <span *ngIf="loading">
+        <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+        Veuillez patienter...
+      </span>
+      <span *ngIf="!loading" Revenir au profil></span>
     </button>
   </div>
 </ng-template>
@@ -157,7 +164,7 @@
   <div class="modal-body py-4 text-center" *ngIf="interactionToDelete">
     <b>Êtes-vous sûr de vouloir restaurer cette interaction ?</b>
     <br />
-    <div
+    <p
       *ngIf="
         interactionToDelete.type === 'courrierIn' ||
         interactionToDelete.type === 'recommandeIn' ||
@@ -166,9 +173,9 @@
     >
       Cette interaction sera de nouveau considérée comme en attente de
       distribution
-    </div>
+    </p>
 
-    <div
+    <p
       *ngIf="
         interactionToDelete.type === 'courrierOut' ||
         interactionToDelete.type === 'recommandeOut' ||
@@ -177,17 +184,24 @@
     >
       Tous les courriers, colis ou avis de passage liés à cette distribution
       seront de nouveau marqués comme distribués.
-    </div>
+    </p>
     <div>Le compteur d'interactions en attente sera remis à jour.</div>
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-outline-dark" (click)="closeModals()">
+    <button class="btn btn-lg btn-outline-dark" (click)="closeModals()">
       Revenir au profil
     </button>
-
-    <button class="btn btn-danger" (click)="deleteInteraction()">
-      Confirmer la restauration
+    <button
+      [disabled]="loading"
+      class="btn btn-lg btn-danger"
+      (click)="deleteInteraction()"
+    >
+      <span *ngIf="loading">
+        <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+        Veuillez patienter...
+      </span>
+      <span *ngIf="!loading">Confirmer la restauration</span>
     </button>
   </div>
 </ng-template>

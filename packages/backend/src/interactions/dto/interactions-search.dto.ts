@@ -1,16 +1,8 @@
+import { ALL_INTERACTION_TYPES } from "./../../_common/model/interaction/InteractionType.type";
 import { IsIn, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
 
 export class InteractionSearchDto {
-  @IsIn([
-    "courrierIn",
-    "courrierOut",
-    "recommandeIn",
-    "recommandeOut",
-    "colisIn",
-    "colisOut",
-    "appel",
-    "visite",
-  ])
+  @IsIn(ALL_INTERACTION_TYPES)
   @IsNotEmpty()
   public type!: string;
 

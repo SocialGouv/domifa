@@ -110,6 +110,7 @@ export class AppComponent implements OnInit {
           if (mainHeader) {
             mainHeader.focus();
           }
+
           // Retour au top de la fenêtre
           window.scroll({
             behavior: "smooth",

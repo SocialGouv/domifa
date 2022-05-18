@@ -15,24 +15,21 @@ describe("RegisterUserComponent", () => {
   let component: RegisterUserComponent;
   let fixture: ComponentFixture<RegisterUserComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [RegisterUserComponent],
-        imports: [
-          NgbModule,
-          ReactiveFormsModule,
-          FormsModule,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [RegisterUserComponent],
+      imports: [
+        NgbModule,
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+      ],
 
-          HttpClientTestingModule,
-          RouterTestingModule,
-        ],
-
-        providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
-    })
-  );
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterUserComponent);
