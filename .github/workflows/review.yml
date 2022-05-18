@@ -21,7 +21,9 @@ jobs:
     steps:
       - name: Get version
         id: version
-        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+        run: |
+          cat package.json
+          echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
       - name: Use autodevops build and register
         uses: SocialGouv/actions/autodevops-build-register@v1
         with:
