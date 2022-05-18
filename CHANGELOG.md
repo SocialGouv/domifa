@@ -1,3 +1,10 @@
+# [2.88.0](https://github.com/SocialGouv/domifa/compare/v2.87.2...v2.88.0) (2022-05-18)
+
+
+### Features
+
+* **ci:** use kube-workflow ([#2227](https://github.com/SocialGouv/domifa/issues/2227)) ([f83fc81](https://github.com/SocialGouv/domifa/commit/f83fc8117e16a363da8d4810b6fe139768c8f8a0))
+
 ## [2.87.2](https://github.com/SocialGouv/domifa/compare/v2.87.1...v2.87.2) (2022-05-11)
 
 
