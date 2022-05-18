@@ -50,8 +50,8 @@ jobs:
           dockerfile: packages/frontend/Dockerfile
           dockerbuildargs: |
             DOMIFA_BACKEND_URL=https://api-domifa-preprod.dev.fabrique.social.gouv.fr/
-            DOMIFA_PORTAIL_ADMINS_URL=https://portail-admins-domifa-preprod.dev.fabrique.social.gouv.fr
-            DOMIFA_PORTAIL_USAGERS_URL=https://portail-usagers-domifa-preprod.dev.fabrique.social.gouv.fr
+            DOMIFA_PORTAIL_ADMINS_URL=https://portail-admins-domifa-preprod.dev.fabrique.social.gouv.fr/
+            DOMIFA_PORTAIL_USAGERS_URL=https://portail-usagers-domifa-preprod.dev.fabrique.social.gouv.fr/
             DOMIFA_ENV_ID=preprod
             DOMIFA_FRONTEND_META_ROBOTS=noindex,nofollow
 
