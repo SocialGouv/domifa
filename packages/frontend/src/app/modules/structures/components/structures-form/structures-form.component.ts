@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -14,8 +14,8 @@ import {
 } from "ngx-intl-tel-input";
 
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { of } from "rxjs";
-import { map } from "rxjs/operators";
+import { of, Subject } from "rxjs";
+import { map, takeUntil } from "rxjs/operators";
 import { regexp } from "src/app/shared/validators";
 import { Structure, StructureCommon } from "../../../../../_common/model";
 import { StructureService } from "../../services/structure.service";
@@ -30,12 +30,14 @@ import { getFormPhone } from "../../../../shared/phone/telephoneString.service";
   styleUrls: ["./structures-form.component.css"],
   templateUrl: "./structures-form.component.html",
 })
-export class StructuresFormComponent implements OnInit {
+export class StructuresFormComponent implements OnInit, OnDestroy {
   public PhoneNumberFormat = PhoneNumberFormat;
   public SearchCountryField = SearchCountryField;
   public CountryISO = CountryISO;
   public preferredCountries = PREFERRED_COUNTRIES;
   public success = false;
+
+  public loading = false;
   public structureForm!: FormGroup;
   public structure: StructureCommon;
   public DEPARTEMENTS_LISTE = DEPARTEMENTS_LISTE;
@@ -52,6 +54,7 @@ export class StructuresFormComponent implements OnInit {
     structure: StructureCommon;
   };
 
+  private unsubscribe: Subject<void> = new Subject();
   public accountExist: boolean;
 
   constructor(
@@ -197,6 +200,7 @@ export class StructuresFormComponent implements OnInit {
     const testEmail = RegExp(regexp.email).test(control.value);
     return testEmail
       ? this.structureService.validateEmail(control.value).pipe(
+          takeUntil(this.unsubscribe),
           map((res: boolean) => {
             return res === false ? null : { emailTaken: true };
           })
@@ -206,5 +210,10 @@ export class StructuresFormComponent implements OnInit {
 
   public isInvalidStructureName(structureName: string): boolean {
     return structureNameChecker.isInvalidStructureName(structureName);
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }

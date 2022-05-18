@@ -24,7 +24,12 @@
             <br />
             <br />
             <button (click)="rdvNow()" class="btn btn-primary">
-              Réaliser l'entretien maintenant
+              <span *ngIf="loading">
+                <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+                </fa-icon>
+                Veuillez patienter...
+              </span>
+              <span *ngIf="!loading"> Réaliser l'entretien maintenant</span>
             </button>
             <br />
             <br />

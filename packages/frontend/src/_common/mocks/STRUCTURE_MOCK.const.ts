@@ -1,6 +1,6 @@
 import { StructureCommon } from "../model";
 
-export const structureMock: StructureCommon = {
+export const STRUCTURE_MOCK: StructureCommon = {
   id: 1,
   createdAt: null,
   adresse: "1 rue de l'océan",

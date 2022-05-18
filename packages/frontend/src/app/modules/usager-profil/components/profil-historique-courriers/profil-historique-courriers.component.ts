@@ -37,11 +37,13 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
   @ViewChild("restoreInteractionModal", { static: true })
   public restoreInteractionModal!: TemplateRef<NgbModalRef>;
 
+  public loading: boolean;
   constructor(
     private readonly toastService: CustomToastService,
     private readonly interactionService: InteractionService,
     private readonly modalService: NgbModal
   ) {
+    this.loading = false;
     this.interactionToDelete = null;
     this.interactions = [];
   }
@@ -52,6 +54,7 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
 
   public deleteInteraction() {
     if (this.interactionToDelete) {
+      this.loading = true;
       this.interactionService
         .delete(this.usager.ref, this.interactionToDelete.uuid)
         .subscribe({
@@ -95,6 +98,7 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
   }
 
   public closeModals(): void {
+    this.loading = false;
     this.interactionToDelete = null;
     this.modalService.dismissAll();
   }

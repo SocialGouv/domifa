@@ -1,6 +1,6 @@
 import { ENUM_TYPE_INTERACTION } from "./../../_common/model/interaction/InteractionType.type";
 import { ApiProperty } from "@nestjs/swagger";
-import { Transform, TransformFnParams } from "class-transformer";
+
 import {
   IsEmpty,
   IsIn,
@@ -12,7 +12,9 @@ import {
   Min,
   ValidateIf,
 } from "class-validator";
+import { TrimOrNullTransform } from "../../_common/decorators";
 import {
+  ALL_INTERACTION_TYPES,
   InteractionType,
   INTERACTION_IN_CREATE_SMS,
   INTERACTION_OUT_REMOVE_SMS,
@@ -22,9 +24,9 @@ export class InteractionDto {
   @ApiProperty({
     type: String,
     required: true,
-    enum: ENUM_TYPE_INTERACTION,
+    enum: ALL_INTERACTION_TYPES,
   })
-  @IsIn(ENUM_TYPE_INTERACTION)
+  @IsIn(ALL_INTERACTION_TYPES)
   @IsNotEmpty()
   public type!: InteractionType;
 
@@ -35,9 +37,7 @@ export class InteractionDto {
   @ValidateIf((o) => INTERACTION_IN_CREATE_SMS.indexOf(o.type) !== -1)
   @IsOptional()
   @IsString()
-  @Transform(({ value }: TransformFnParams) => {
-    return value ? value.toString().trim() : null;
-  })
+  @TrimOrNullTransform()
   public content?: string;
 
   @ApiProperty({

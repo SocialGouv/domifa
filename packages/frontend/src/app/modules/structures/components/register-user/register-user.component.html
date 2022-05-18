@@ -119,7 +119,9 @@
             id="email"
             autocomplete="email"
             formControlName="email"
-            [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+            [ngClass]="{
+              'is-invalid': (f.email.dirty || submitted) && f.email.errors
+            }"
             required
           />
           <div *ngIf="f.email.errors" class="invalid-feedback">
@@ -149,7 +151,7 @@
 
             <button
               type="button"
-              class="input-group-text btn"
+              class="input-group-text"
               (click)="togglePassword()"
             >
               <fa-icon
@@ -238,7 +240,7 @@
 
             <button
               type="button"
-              class="btn input-group-text"
+              class="input-group-text"
               (click)="togglePasswordConfirmation()"
             >
               <fa-icon
@@ -253,13 +255,13 @@
       </div>
       <br />
       <div class="text-center">
-        <input
-          type="submit"
-          aria-label="Créer mon compte"
-          class="btn btn-primary"
-          value="Créer mon compte"
-          [disabled]="userForm.invalid && !emailExist"
-        />
+        <button type="submit" [disabled]="loading" class="btn btn-primary">
+          <span *ngIf="loading">
+            <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+            Veuillez patienter...
+          </span>
+          <span *ngIf="!loading"> Créer mon compte</span>
+        </button>
 
         <br />
         <br />

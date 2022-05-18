@@ -9,6 +9,18 @@ export type InteractionType =
   | "visite"
   | "npai";
 
+export const ALL_INTERACTION_TYPES: InteractionType[] = [
+  "courrierIn",
+  "courrierOut",
+  "recommandeIn",
+  "recommandeOut",
+  "colisIn",
+  "colisOut",
+  "appel",
+  "visite",
+  "npai",
+];
+
 export const INTERACTION_OK_LIST: InteractionType[] = [
   "courrierOut",
   "visite",
