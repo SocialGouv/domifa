@@ -16,6 +16,13 @@ jobs:
     name: Build & Register application
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Get version
+        id: version
+        run: |
+          VERSION=$(jq -r '.version' package.json)
+          echo ::set-output name=VERSION::$VERSION
       - name: Use autodevops build and register
         uses: SocialGouv/actions/autodevops-build-register@v1
         with:
@@ -25,6 +32,7 @@ jobs:
           dockerfile: packages/backend/Dockerfile
           dockerbuildargs: |
             DOMIFA_ENV_ID=preprod
+            DOMIFA_VERSION=${{ steps.version.outputs.VERSION }}
 
   ##############################################################################
   ## BUILD AND REGISTER FRONTEND IMAGE
