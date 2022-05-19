@@ -46,7 +46,7 @@ export class StatsMapComponent implements OnInit, AfterContentChecked {
   // Statistiques par region
   public statsRegionsValues: { [key: string]: number };
 
-  @Input() public publicStats: PublicStats;
+  @Input() public publicStats!: PublicStats;
 
   public statsByRegion: StatsByRegion;
 

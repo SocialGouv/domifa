@@ -10,7 +10,8 @@ export type PublicStats = {
   interactionsCount?: number;
   usagersCountByMonth?: StatsByMonth;
   // Structures par région
-  structuresCountByRegion?: StatsByRegion; // Structures par région
+  structuresCountByRegion?: StatsByRegion;
+  // Structures par région
   structuresCountByDepartement?: StatsByRegion;
   // Structures par région
   structuresCountByTypeMap: {
