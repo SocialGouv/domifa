@@ -76,12 +76,13 @@
       </p>
     </div>
     <div class="col-12 text-center">
-      <input
-        type="submit"
-        aria-label="Ajouter cet utilisateur"
-        class="btn btn-primary"
-        value="Ajouter cet utilisateur"
-      />
+      <button class="btn btn-primary" type="submit" [disabled]="loading">
+        <span *ngIf="loading">
+          <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+          Veuillez patienter...
+        </span>
+        <span *ngIf="!loading">Ajouter cet utilisateur</span>
+      </button>
     </div>
   </div>
 </form>

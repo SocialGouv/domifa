@@ -48,7 +48,7 @@
               "
               [attr.aria-checked]="!hidePassword"
               role="switch"
-              (click)="togglePassword(); $event.preventDefault()"
+              (click)="togglePassword()"
             >
               <fa-icon
                 [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"

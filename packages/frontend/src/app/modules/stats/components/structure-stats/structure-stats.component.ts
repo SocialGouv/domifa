@@ -38,12 +38,12 @@ import { buildExportStructureStatsFileName } from "./services";
   templateUrl: "./structure-stats.component.html",
 })
 export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
-  public stats: StructureStatsFull;
+  public stats!: StructureStatsFull;
 
-  public exportLoading: boolean;
+  public loading: boolean;
 
   public start: Date;
-  public end: Date;
+  public end: Date | null;
 
   public hoveredDate: NgbDate | null = null;
 
@@ -65,14 +65,14 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     public calendar: NgbCalendar,
     public formatter: NgbDateCustomParserFormatter,
-    private statsService: StatsService,
-    private titleService: Title,
-    private toastService: CustomToastService,
-    private cdRef: ChangeDetectorRef,
-    private matomo: MatomoTracker,
-    private authService: AuthService
+    private readonly statsService: StatsService,
+    private readonly titleService: Title,
+    private readonly toastService: CustomToastService,
+    private readonly cdRef: ChangeDetectorRef,
+    private readonly matomo: MatomoTracker,
+    private readonly authService: AuthService
   ) {
-    this.exportLoading = false;
+    this.loading = false;
     const date = new Date("2020-01-01");
     this.defaultStartDate = date;
     this.defaultEndDate = new Date();
@@ -91,28 +91,6 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
       date.getMonth() + 1,
       date.getDate()
     );
-
-    this.start = null;
-    this.end = null;
-
-    this.exportLoading = false;
-  }
-
-  public ngOnInit(): void {
-    this.titleService.setTitle("Rapport d'activité de votre structure");
-
-    this.subscriptions.add(
-      this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-        this.me = user;
-      })
-    );
-  }
-
-  public ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
-  }
-
-  public ngAfterViewInit(): void {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
 
@@ -137,6 +115,25 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
       yesterday.getDate()
     );
 
+    this.start = new Date();
+    this.end = null;
+  }
+
+  public ngOnInit(): void {
+    this.titleService.setTitle("Rapport d'activité de votre structure");
+
+    this.subscriptions.add(
+      this.authService.currentUserSubject.subscribe((user: UserStructure) => {
+        this.me = user;
+      })
+    );
+  }
+
+  public ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  public ngAfterViewInit(): void {
     this.cdRef.detectChanges();
   }
 
@@ -152,7 +149,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public export(year?: number): void {
-    this.exportLoading = true;
+    this.loading = true;
 
     const period = {
       start: this.start,
@@ -195,19 +192,20 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
           })
         );
         setTimeout(() => {
-          this.exportLoading = false;
+          this.loading = false;
         }, 500);
       },
       error: () => {
         this.toastService.error(
           "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
         );
-        this.exportLoading = false;
+        this.loading = false;
       },
     });
   }
 
   public compare(): void {
+    this.loading = true;
     this.start = new Date(this.formatter.formatEn(this.fromDate));
     this.end =
       this.toDate !== null
@@ -233,8 +231,17 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.statsService
       .getStats(this.me.structureId, this.start, this.end)
-      .subscribe((statsResult: StructureStatsFull) => {
-        this.stats = statsResult;
+      .subscribe({
+        next: (statsResult: StructureStatsFull) => {
+          this.stats = statsResult;
+          this.loading = false;
+        },
+        error: () => {
+          this.toastService.error(
+            "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+          );
+          this.loading = false;
+        },
       });
   }
 }

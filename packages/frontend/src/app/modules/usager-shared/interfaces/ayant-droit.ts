@@ -2,7 +2,7 @@ import { AyantDroiLienParent } from "./../../../../_common/model/usager/AyantDro
 import { UsagerAyantDroit } from "../../../../_common/model/usager/UsagerAyantDroit.type";
 
 export class AyantDroit implements UsagerAyantDroit {
-  public dateNaissance: Date;
+  public dateNaissance: Date | null;
   public lien: AyantDroiLienParent | null;
   public nom: string;
   public prenom: string;

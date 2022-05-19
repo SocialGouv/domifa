@@ -26,6 +26,7 @@ export class RegisterUserAdminComponent implements OnInit {
   public userForm!: FormGroup;
 
   public submitted: boolean;
+  public loading: boolean;
 
   public emailExist = false;
 
@@ -42,6 +43,7 @@ export class RegisterUserAdminComponent implements OnInit {
     private toastService: CustomToastService
   ) {
     this.user = userStructureBuilder.buildUserStructure({});
+    this.loading = false;
     this.submitted = false;
   }
 
@@ -60,6 +62,7 @@ export class RegisterUserAdminComponent implements OnInit {
 
   public submitUser() {
     this.submitted = true;
+    this.loading = true;
     if (this.userForm.invalid) {
       this.toastService.error(
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
@@ -67,6 +70,7 @@ export class RegisterUserAdminComponent implements OnInit {
     } else {
       this.userService.registerUser(this.userForm.value).subscribe({
         next: () => {
+          this.loading = false;
           this.submitted = false;
           this.form.nativeElement.reset();
           this.toastService.success(
@@ -74,6 +78,7 @@ export class RegisterUserAdminComponent implements OnInit {
           );
         },
         error: () => {
+          this.loading = false;
           this.toastService.error(
             "veuillez vérifier les champs marqués en rouge dans le formulaire"
           );

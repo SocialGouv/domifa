@@ -22,17 +22,19 @@ import { UsersService } from "../../services/users.service";
   styleUrls: ["./edit-user.component.css"],
 })
 export class EditUserComponent implements OnInit {
-  public me!: UserStructure | null;
+  public me!: UserStructure;
   public usagers: UsagerLight[];
 
   public submitted: boolean;
+  public loading: boolean;
 
   public editUser: boolean;
   public editPassword: boolean;
 
   public hideOldPassword: boolean;
   public hidePassword: boolean;
-  public hideConfirmPassword: boolean;
+  public hidePasswordConfirm: boolean;
+
   public lastPasswordUpdate: Date | null;
 
   public passwordForm!: FormGroup;
@@ -61,9 +63,10 @@ export class EditUserComponent implements OnInit {
 
     this.hideOldPassword = true;
     this.hidePassword = true;
-    this.hideConfirmPassword = true;
+    this.hidePasswordConfirm = true;
 
     this.emailExist = false;
+    this.loading = false;
     this.usagers = [];
 
     this.lastPasswordUpdate = null;
@@ -73,18 +76,15 @@ export class EditUserComponent implements OnInit {
     this.titleService.setTitle("Editer mes informations");
 
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      if (user !== null) {
-        this.userService.getLastPasswordUpdate().subscribe((retour: Date) => {
-          this.lastPasswordUpdate = retour;
+      this.me = user;
+      this.userService.getLastPasswordUpdate().subscribe((retour: Date) => {
+        this.lastPasswordUpdate = retour;
+      });
+
+      if (this.me.role !== "facteur") {
+        this.userService.agenda().subscribe((usagers: UsagerLight[]) => {
+          this.usagers = usagers;
         });
-
-        this.me = user;
-
-        if (this.me.role !== "facteur") {
-          this.userService.agenda().subscribe((usagers: UsagerLight[]) => {
-            this.usagers = usagers;
-          });
-        }
       }
     });
   }
@@ -146,43 +146,56 @@ export class EditUserComponent implements OnInit {
     this.submitted = true;
     if (this.userForm.invalid) {
       this.toastService.error(
-        "Erreur dans le formulaire : veuillez vérifier les champs marqués en rouge dans le formulaire"
+        "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );
-    } else {
-      this.userService.patch(this.userForm.value).subscribe(
-        (user: UserStructure) => {
-          this.me = userStructureBuilder.buildUserStructure(user);
-          this.editUser = false;
-          this.toastService.success(
-            "Félicitations : vos informations ont été modifiées avec succès"
-          );
-        },
-        () => {
-          this.toastService.error(
-            "Veuillez vérifier les champs marqués en rouge dans le formulaire"
-          );
-        }
-      );
+      return;
     }
+    this.loading = true;
+    this.userService.patch(this.userForm.value).subscribe({
+      next: (user: UserStructure) => {
+        this.loading = false;
+        this.me = userStructureBuilder.buildUserStructure(user);
+        this.editUser = false;
+        this.toastService.success(
+          "Félicitations : vos informations ont été modifiées avec succès"
+        );
+      },
+      error: () => {
+        this.loading = false;
+        this.toastService.error(
+          "Veuillez vérifier les champs marqués en rouge dans le formulaire"
+        );
+      },
+    });
   }
 
   public updatePassword(): void {
-    if (!this.passwordForm.invalid) {
-      this.userService.updatePassword(this.passwordForm.value).subscribe(
-        () => {
-          this.editPassword = false;
-          this.lastPasswordUpdate = new Date();
-          this.toastService.success(
-            "Félicitations ! : votre mot de passe a été modifié avec succès"
-          );
-        },
-        () => {
-          this.toastService.error(
-            "Une erreur est survenue, veuillez vérifier le formulaire"
-          );
-        }
+    this.submitted = true;
+    if (this.passwordForm.invalid) {
+      this.toastService.error(
+        "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );
+      return;
     }
+
+    this.loading = true;
+    this.userService.updatePassword(this.passwordForm.value).subscribe({
+      next: () => {
+        this.loading = false;
+        this.editPassword = false;
+        this.submitted = false;
+        this.lastPasswordUpdate = new Date();
+        this.toastService.success(
+          "Félicitations ! : votre mot de passe a été modifié avec succès"
+        );
+      },
+      error: () => {
+        this.loading = false;
+        this.toastService.error(
+          "Une erreur est survenue, veuillez vérifier le formulaire"
+        );
+      },
+    });
   }
 
   public togglePassword(): void {
@@ -190,7 +203,7 @@ export class EditUserComponent implements OnInit {
   }
 
   public togglePasswordConfirmation(): void {
-    this.hideConfirmPassword = !this.hideConfirmPassword;
+    this.hidePasswordConfirm = !this.hidePasswordConfirm;
   }
 
   public toggleOldPassword(): void {
