@@ -22,7 +22,6 @@ export class UserProfilComponent implements OnInit {
 
   public selectedUser: UserStructure | null;
   public usersInfos: boolean;
-  public exportLoading: boolean;
 
   constructor(
     private readonly authService: AuthService,
@@ -35,7 +34,6 @@ export class UserProfilComponent implements OnInit {
 
     this.selectedUser = null;
     this.usersInfos = false;
-    this.exportLoading = false;
   }
 
   public ngOnInit(): void {

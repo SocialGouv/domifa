@@ -28,12 +28,7 @@ export const getEcheanceInfos = (usager: UsagerLight): UsagerEcheanceInfos => {
     if (usager.typeDom === "RENOUVELLEMENT") {
       usagerInfos.isActif = true;
 
-      const indexOfDate =
-        usager.decision.statut === "ATTENTE_DECISION"
-          ? 2
-          : usager.decision.statut === "INSTRUCTION"
-          ? 1
-          : null;
+      const indexOfDate = usager.decision.statut === "ATTENTE_DECISION" ? 2 : 1;
 
       // Fix: certaines donnnées corompus n'ont pas de dateFin
       if (indexOfDate) {

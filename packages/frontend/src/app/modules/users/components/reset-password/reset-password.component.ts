@@ -6,7 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
@@ -42,6 +42,7 @@ export class ResetPasswordComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UsersService,
     private route: ActivatedRoute,
+    private router: Router,
     private toastService: CustomToastService,
     private titleService: Title
   ) {
@@ -71,12 +72,13 @@ export class ResetPasswordComponent implements OnInit {
           this.initPasswordForm();
         },
         error: (error) => {
-          // TODO : rediriger vers "reset-password"
           const errorMessage =
-            this.errorLabels[error.message] !== undefined
+            typeof this.errorLabels[error.message] !== "undefined"
               ? this.errorLabels[error.message]
               : "Le lien est incorrect, veuillez recommencer la procédure";
           this.toastService.error(errorMessage);
+
+          this.router.navigate(["/users/reset-password"]);
         },
       });
     }

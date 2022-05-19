@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
   public currentUrl = "";
   public modalOptions: NgbModalOptions;
 
-  public me: UserStructure;
+  public me: UserStructure | null;
 
   @ViewChild("maintenanceModal", { static: true })
   public maintenanceModal!: TemplateRef<NgbModalRef>;
@@ -53,11 +53,11 @@ export class AppComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly matomoInjector: MatomoInjector,
     public modalService: NgbModal,
-    private router: Router,
+    private readonly router: Router,
     private readonly titleService: Title,
     private readonly ngZone: NgZone,
     public matomo: MatomoTracker,
-    private userIdleService: UserIdleService
+    private readonly userIdleService: UserIdleService
   ) {
     this.matomoInjector.init(environment.matomo.url, environment.matomo.siteId);
     this.apiVersion = null;

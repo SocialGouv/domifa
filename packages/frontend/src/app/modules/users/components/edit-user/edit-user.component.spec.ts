@@ -14,23 +14,21 @@ describe("EditUserComponent", () => {
   let component: EditUserComponent;
   let fixture: ComponentFixture<EditUserComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [EditUserComponent],
-        imports: [
-          NgbModule,
-          ReactiveFormsModule,
-          FormsModule,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [EditUserComponent],
+      imports: [
+        NgbModule,
+        ReactiveFormsModule,
+        FormsModule,
 
-          HttpClientTestingModule,
-          RouterTestingModule,
-        ],
-        providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
-    })
-  );
+        HttpClientTestingModule,
+        RouterTestingModule,
+      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditUserComponent);
@@ -60,7 +58,7 @@ describe("EditUserComponent", () => {
 
     expect(component.hideOldPassword).toBe(true);
     expect(component.hidePassword).toBe(true);
-    expect(component.hideConfirmPassword).toBe(true);
+    expect(component.hidePasswordConfirm).toBe(true);
 
     component.togglePassword();
     component.togglePasswordConfirmation();
@@ -68,6 +66,6 @@ describe("EditUserComponent", () => {
 
     expect(component.hideOldPassword).toBe(false);
     expect(component.hidePassword).toBe(false);
-    expect(component.hideConfirmPassword).toBe(false);
+    expect(component.hidePasswordConfirm).toBe(false);
   });
 });
