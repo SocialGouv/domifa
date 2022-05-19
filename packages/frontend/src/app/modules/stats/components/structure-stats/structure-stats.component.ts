@@ -191,9 +191,8 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
             structureId,
           })
         );
-        setTimeout(() => {
-          this.loading = false;
-        }, 500);
+
+        this.loading = false;
       },
       error: () => {
         this.toastService.error(
@@ -237,10 +236,10 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.loading = false;
         },
         error: () => {
+          this.loading = false;
           this.toastService.error(
             "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
           );
-          this.loading = false;
         },
       });
   }
