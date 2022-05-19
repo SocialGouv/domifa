@@ -1,3 +1,11 @@
+## [2.89.1](https://github.com/SocialGouv/domifa/compare/v2.89.0...v2.89.1) (2022-05-19)
+
+
+### Bug Fixes
+
+* **deploy:** mise à jour des secrets et du healthcheck ([4800920](https://github.com/SocialGouv/domifa/commit/4800920e5aa23feb732a71d88d22f68d45322376))
+* **k8s:** Correction des urls ([e4dfd05](https://github.com/SocialGouv/domifa/commit/e4dfd05113f2f18521722586ab9538ba6a1a4370))
+
 # [2.89.0](https://github.com/SocialGouv/domifa/compare/v2.88.1...v2.89.0) (2022-05-18)
 
 
