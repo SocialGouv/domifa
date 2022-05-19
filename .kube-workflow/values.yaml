@@ -46,19 +46,19 @@ app-backend: # todo: probes
     - name: DOMIFA_FRONTEND_URL
       value: "https://{{ .Values.global.host }}/"
     - name: DOMIFA_PORTAIL_USAGERS_URL
-      value: "https://portail-usagers-{{ .Values.global.host }}/"
+      value: "https://mon-{{ .Values.global.host }}/"
     - name: DOMIFA_PORTAIL_ADMINS_URL
-      value: "https://portail-admins-{{ .Values.global.host }}/"
+      value: "https://admin-{{ .Values.global.host }}/"
 
 app-portail-usagers:
   imagePackage: portail-usagers
   containerPort: 8080
-  host: "portail-usagers-{{ .Values.global.host }}"
+  host: "mon-{{ .Values.global.host }}"
 
 app-portail-admins:
   imagePackage: portail-admins
   containerPort: 8080
-  host: "portail-admins-{{ .Values.global.host }}"
+  host: "admin-{{ .Values.global.host }}"
 
 metabase:
   enabled: false

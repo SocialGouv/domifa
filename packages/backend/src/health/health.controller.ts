@@ -36,34 +36,33 @@ export class HealthController {
   @Get("full")
   @HealthCheck()
   healthCheckFull() {
-    const frontUrl =
-      domifaConfig().envId === "local"
-        ? "127.0.0.1:4200"
-        : domifaConfig().apps.frontendUrl;
+    if (domifaConfig().envId === "local" || domifaConfig().envId === "test") {
+      return this.health.check([async () => this.version]);
+    }
 
     return this.health.check([
       async () => {
-        return domifaConfig().envId !== "local" &&
-          domifaConfig().envId !== "test"
-          ? this.dnsIndicator
-              .pingCheck("frontend", frontUrl)
-              .then((pingData) => {
-                return pingData;
-              })
-              .catch((err) => {
-                console.log(err);
-                console.warn(
-                  `[HealthController] frontend health check error for "${frontUrl}"`,
-                  { sentryBreadcrumb: true }
-                );
-                console.log(err);
-                throw new Error(
-                  `[HealthController] [ENV=${
-                    domifaConfig().envId
-                  }] frontend health check error for "${frontUrl}"`
-                );
-              })
-          : { frontend: { status: "up" } };
+        return this.dnsIndicator
+          .pingCheck("frontend", domifaConfig().apps.frontendUrl)
+          .then((pingData) => {
+            return pingData;
+          })
+          .catch((err) => {
+            console.log(err);
+            console.warn(
+              `[HealthController] frontend health check error for "${
+                domifaConfig().apps.frontendUrl
+              }"`
+            );
+
+            throw new Error(
+              `[HealthController] [ENV=${
+                domifaConfig().envId
+              }] frontend health check error for "${
+                domifaConfig().apps.frontendUrl
+              }"`
+            );
+          });
       },
       // Health Check uniquement sur les machines de prod & préprod
       async () => this.version,
