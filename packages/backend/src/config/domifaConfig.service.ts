@@ -263,6 +263,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           "DOMIFA_CRON_SMS_CONSUMER_CRONTIME",
           {
             defaultValue: "0 19 * * TUE,THU",
+            //defaultValue: CronExpression.EVERY_MINUTE,
           }
         ),
         fetchEndDomCronTime: configParser.parseString(

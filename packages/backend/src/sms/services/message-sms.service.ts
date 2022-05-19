@@ -5,15 +5,7 @@ import { AxiosError } from "axios";
 
 import { appTypeormManager, structureRepository } from "../../database";
 import { domifaConfig } from "../../config";
-import {
-  INDEX_DATE_EMISSION,
-  INDEX_DATE_MISE_A_JOUR,
-  INDEX_ID_MESSAGE,
-  INDEX_NUMERO,
-  INDEX_OPERATEUR,
-  INDEX_STATUT,
-  INDEX_STATUT_DETAILLE,
-} from "../../_common/model/message-sms/MESSAGE_SMS_SUIVI_INDEX.const";
+import { INDEX_STATUT } from "../../_common/model/message-sms/MESSAGE_SMS_SUIVI_INDEX.const";
 import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsTable.typeorm";
 import { messageSmsRepository } from "../../database/services/message-sms";
 import { InteractionDto } from "../../interactions/dto";
@@ -24,12 +16,13 @@ import {
   UsagerLight,
   Structure,
   StructureSmsParams,
-  MessageSmsSuivi,
+  MESSAGE_SMS_RESPONSE_ERRORS,
 } from "../../_common/model";
 import { generateSmsInteraction } from "./generators";
 import { MESSAGE_SMS_STATUS } from "../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
 import { generateScheduleSendDate } from "./generators/generateScheduleSendDate";
 import { telephoneFixIndicatif } from "../../util/telephoneString.service";
+import { firstValueFrom } from "rxjs";
 
 @Injectable()
 export class MessageSmsService {
@@ -58,22 +51,18 @@ export class MessageSmsService {
       encodeURIComponent(options.id);
 
     try {
-      const response = await this.httpService.get(endPoint).toPromise();
+      const response = await firstValueFrom(this.httpService.get(endPoint));
 
-      const suivi = response.data[0];
-
-      const responseContent: MessageSmsSuivi = {
-        date_emission: new Date(suivi[INDEX_DATE_EMISSION] * 1000),
-        date_mise_a_jour: new Date(suivi[INDEX_DATE_MISE_A_JOUR] * 1000),
-        statut_detaille: MESSAGE_SMS_STATUS[suivi[INDEX_STATUT_DETAILLE]],
-        id_message: suivi[INDEX_ID_MESSAGE],
-        operateur: suivi[INDEX_OPERATEUR],
-        statut: MESSAGE_SMS_STATUS[suivi[INDEX_STATUT]],
-        numero: suivi[INDEX_NUMERO],
-      };
-
-      smsToUpdate.status = responseContent.statut;
+      if (response.data?.resultat === false) {
+        smsToUpdate.status = "FAILURE";
+        smsToUpdate.errorCount++;
+        smsToUpdate.errorMessage =
+          MESSAGE_SMS_RESPONSE_ERRORS[response.data.erreurs];
+      } else {
+        smsToUpdate.status = MESSAGE_SMS_STATUS[response.data[0][INDEX_STATUT]];
+      }
     } catch (err) {
+      console.log("[SMS] Status update fail " + smsToUpdate.uuid);
       smsToUpdate.status = "FAILURE";
       smsToUpdate.errorCount++;
       smsToUpdate.errorMessage = (err as AxiosError)?.message;
@@ -197,7 +186,10 @@ export class MessageSmsService {
   // Afficher les SMS en attente d'envoi
   public findAll(usager: UsagerLight): Promise<MessageSmsTable[]> {
     return this.messageSmsRepository.find({
-      where: { usagerRef: usager.ref, structureId: usager.structureId },
+      where: {
+        usagerRef: usager.ref,
+        structureId: usager.structureId,
+      },
       order: {
         createdAt: "DESC",
       },

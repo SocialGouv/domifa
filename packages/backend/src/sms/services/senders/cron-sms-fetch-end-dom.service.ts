@@ -155,6 +155,7 @@ export class CronSmsFetchEndDomService {
           senderName: structure.sms.senderName,
         });
       }
+      return true;
     }
     return true;
   }

@@ -21,7 +21,7 @@ export class InteractionsSmsManager {
     interaction: Interactions;
     structure: Pick<Structure, "id" | "sms" | "telephone">;
     usager: UsagerLight;
-  }) {
+  }): Promise<void> {
     // 1. Vérifier l'activation des SMS par la structure
     if (structure.sms.enabledByDomifa && structure.sms.enabledByStructure) {
       // 2. Vérifier l'activation du SMS pour l'usager
@@ -48,5 +48,6 @@ export class InteractionsSmsManager {
         }
       }
     }
+    return;
   }
 }
