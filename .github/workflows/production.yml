@@ -35,6 +35,9 @@ jobs:
             PRODUCTION=true
             DOMIFA_ENV_ID=prod
             DOMIFA_VERSION=${{ steps.version.outputs.VERSION }}
+            DOMIFA_BACKEND_URL=https://domifa-api.fabrique.social.gouv.fr/
+            DOMIFA_PORTAIL_ADMINS_URL=https://admin-domifa.fabrique.social.gouv.fr/
+            DOMIFA_PORTAIL_USAGERS_URL=https://mon-domifa.fabrique.social.gouv.fr/
 
   ##############################################################################
   ## BUILD AND REGISTER FRONTEND IMAGE
