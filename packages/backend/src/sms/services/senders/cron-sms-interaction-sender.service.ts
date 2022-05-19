@@ -72,17 +72,17 @@ export class CronSmsInteractionSenderService {
     await this.sendSmsInteraction("cron", "Indian/Maldives");
   }
   @Cron(domifaConfig().cron.smsConsumer.crontime, {
-    timeZone: "Indian/Reunion",
-  })
-  protected async sendSmsReunion() {
-    await this.sendSmsInteraction("cron", "Indian/Reunion");
-  }
-
-  @Cron(domifaConfig().cron.smsConsumer.crontime, {
     timeZone: "Pacific/Wallis",
   })
   protected async sendSmsWallis() {
     await this.sendSmsInteraction("cron", "Pacific/Wallis");
+  }
+
+  @Cron(domifaConfig().cron.smsConsumer.crontime, {
+    timeZone: "Indian/Reunion",
+  })
+  protected async sendSmsReunion() {
+    await this.sendSmsInteraction("cron", "Indian/Reunion");
   }
 
   public async sendSmsInteraction(

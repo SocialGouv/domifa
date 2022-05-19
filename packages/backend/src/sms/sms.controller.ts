@@ -25,9 +25,11 @@ export class SmsController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
+    console.log("opkopkopk");
     // 0. On récupère les sms
     const lastTenSms = await this.messageSmsService.findAll(usager);
 
+    console.log(lastTenSms);
     // Etape 1 : on met à jour le statut des 10 derniers SMS
     // Etape 2 : on renvoi les donnnnées
     const allSmsUpdated = [];
