@@ -26,7 +26,7 @@ import { StructureService } from "../../services/structure.service";
 })
 export class RegisterUserComponent implements OnInit, OnDestroy {
   public user: UserStructure;
-  public userForm: FormGroup;
+  public userForm!: FormGroup;
 
   public submitted: boolean;
   public loading: boolean;

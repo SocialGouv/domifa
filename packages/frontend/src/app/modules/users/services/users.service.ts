@@ -33,11 +33,9 @@ export class UsersService {
   }
 
   public validateEmail(email: string): Observable<boolean> {
-    return this.http.post(`${this.endPoint}/validate-email`, { email }).pipe(
-      map((response: boolean) => {
-        return response;
-      })
-    );
+    return this.http.post<boolean>(`${this.endPoint}/validate-email`, {
+      email,
+    });
   }
 
   public patch(userInfos: UserStructureEditProfile): Observable<UserStructure> {
@@ -83,8 +81,8 @@ export class UsersService {
     return this.http.post(`${this.endPoint}/get-password-token`, data);
   }
 
-  public getLastPasswordUpdate() {
-    return this.http.get(`${this.endPoint}/last-password-update`);
+  public getLastPasswordUpdate(): Observable<Date> {
+    return this.http.get<Date>(`${this.endPoint}/last-password-update`);
   }
 
   public checkPasswordToken({

@@ -3,6 +3,7 @@ export * from "./animations";
 export * from "./bootstrap-util";
 export * from "./constants";
 export * from "./getUsagerNomComplet";
+export * from "./global-constants.class";
 export * from "./languages";
 export * from "./search";
 export * from "./sorter";
