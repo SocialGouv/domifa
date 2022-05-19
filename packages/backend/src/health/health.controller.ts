@@ -43,6 +43,52 @@ export class HealthController {
     return this.health.check([
       async () => {
         return this.dnsIndicator
+          .pingCheck("portailAdmin", domifaConfig().apps.portailAdminUrl)
+          .then((pingData) => {
+            return pingData;
+          })
+          .catch((err) => {
+            console.log(err);
+            console.warn(
+              `[HealthController] portailAdmin health check error for "${
+                domifaConfig().apps.portailAdminUrl
+              }"`
+            );
+
+            throw new Error(
+              `[HealthController] [ENV=${
+                domifaConfig().envId
+              }] frontend health check error for "${
+                domifaConfig().apps.portailAdminUrl
+              }"`
+            );
+          });
+      },
+      async () => {
+        return this.dnsIndicator
+          .pingCheck("portailUsagers", domifaConfig().apps.portailUsagersUrl)
+          .then((pingData) => {
+            return pingData;
+          })
+          .catch((err) => {
+            console.log(err);
+            console.warn(
+              `[HealthController] portailUsagersUrl health check error for "${
+                domifaConfig().apps.portailUsagersUrl
+              }"`
+            );
+
+            throw new Error(
+              `[HealthController] [ENV=${
+                domifaConfig().envId
+              }] frontend health check error for "${
+                domifaConfig().apps.portailUsagersUrl
+              }"`
+            );
+          });
+      },
+      async () => {
+        return this.dnsIndicator
           .pingCheck("frontend", domifaConfig().apps.frontendUrl)
           .then((pingData) => {
             return pingData;

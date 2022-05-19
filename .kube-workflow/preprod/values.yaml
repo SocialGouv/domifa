@@ -16,7 +16,7 @@ app-frontend:
   host: "domifa-preprod.dev.fabrique.social.gouv.fr"
 
 app-portail-admins:
-  host: "portail-admins-domifa-preprod.dev.fabrique.social.gouv.fr"
+  host: "admin-domifa-preprod.dev.fabrique.social.gouv.fr"
 
 app-portail-usagers:
-  host: "portail-usagers-domifa-preprod.dev.fabrique.social.gouv.fr"
+  host: "mon-domifa-preprod.dev.fabrique.social.gouv.fr"

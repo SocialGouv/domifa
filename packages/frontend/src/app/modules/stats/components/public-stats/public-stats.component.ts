@@ -20,7 +20,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 })
 export class PublicStatsComponent implements OnInit {
   public STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
-  public stats: PublicStats;
+  public stats!: PublicStats;
 
   public regionId: string | null;
 
@@ -37,12 +37,6 @@ export class PublicStatsComponent implements OnInit {
     private router: Router,
     private seoService: SeoService
   ) {
-    this.stats = {
-      usagersCount: 0,
-      usersCount: 0,
-      structuresCount: 0,
-      structuresCountByTypeMap: {},
-    };
     this.regionId = null;
   }
 
