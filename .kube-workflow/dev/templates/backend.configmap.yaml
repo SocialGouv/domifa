@@ -14,3 +14,4 @@ data:
   DOMIFA_SMS_ENABLED: "false"
   POSTGRES_LOGGING: "schema,migration"
   DOMIFA_FRONTEND_META_ROBOTS: noindex,nofollow
+  ELASTIC_APM_SERVICE_NAME: domifa-backend-review
