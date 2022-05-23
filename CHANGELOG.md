@@ -1,3 +1,10 @@
+## [2.90.1](https://github.com/SocialGouv/domifa/compare/v2.90.0...v2.90.1) (2022-05-23)
+
+
+### Bug Fixes
+
+* Remove typo in values.yml ([d22b91b](https://github.com/SocialGouv/domifa/commit/d22b91beaa581b7b6d6414a51c5961dc6cb35acd))
+
 # [2.90.0](https://github.com/SocialGouv/domifa/compare/v2.89.1...v2.90.0) (2022-05-23)
 
 
