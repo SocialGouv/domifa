@@ -56,7 +56,7 @@ app-backend:
 
 app-frontend:
   host: "domifa.fabrique.social.gouv.fr"
-  certSecretName: frontend-crtfix('')
+  certSecretName: frontend-crt
 
 app-portail-admins:
   host: "admin-domifa.fabrique.social.gouv.fr"
