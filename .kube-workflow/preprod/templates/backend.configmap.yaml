@@ -16,3 +16,4 @@ data:
   # https://docs.microsoft.com/fr-fr/azure/postgresql/concepts-limits
   POSTGRES_POOL_MAX_CONNEXIONS: "2"
   DOMIFA_FRONTEND_META_ROBOTS: noindex,nofollow
+  ELASTIC_APM_SERVICE_NAME: domifa-backend-preprod
