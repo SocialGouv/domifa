@@ -5,7 +5,11 @@ import { domifaConfig } from "../config";
 export class manualMigration1651583630498 implements MigrationInterface {
   name = "addTelephone1651583630498";
   public async up(queryRunner: QueryRunner): Promise<void> {
-    if (domifaConfig().envId === "prod" || domifaConfig().envId === "preprod") {
+    if (
+      domifaConfig().envId === "prod" ||
+      domifaConfig().envId === "preprod" ||
+      domifaConfig().envId === "local"
+    ) {
       await queryRunner.query(
         `ALTER TABLE "structure" ADD "telephone" jsonb NOT NULL DEFAULT '{"indicatif": "fr", "numero": ""}'`
       );
