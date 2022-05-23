@@ -126,7 +126,6 @@ export class StructureDto {
     type: Object,
     required: true,
   })
-  @ValidateNested({ each: true })
   @Type(() => TelephoneDto)
   @IsNotEmpty()
   public telephone: Telephone;
@@ -145,7 +144,6 @@ export class StructureDto {
     required: false,
     type: Object,
   })
-  @IsNotEmpty()
   @ValidateNested()
   @Type(() => StructureAdresseCourrierDto)
   @IsNotEmpty()
