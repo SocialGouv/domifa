@@ -35,7 +35,11 @@ export class migrateStructurePhoneMigration1651583710799
 {
   name = "migrateStructurePhone1651583710799";
   public async up(): Promise<void> {
-    if (domifaConfig().envId === "prod" || domifaConfig().envId === "preprod") {
+    if (
+      domifaConfig().envId === "prod" ||
+      domifaConfig().envId === "preprod" ||
+      domifaConfig().envId === "local"
+    ) {
       const structures: Structure[] = await (
         await structureRepository.typeorm()
       ).query(
