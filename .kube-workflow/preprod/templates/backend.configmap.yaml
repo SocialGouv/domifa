@@ -14,6 +14,6 @@ data:
   DOMIFA_SMS_ENABLED: "true"
   # 50 connexions en tout à partager entre la preprod + les environnements de dev :
   # https://docs.microsoft.com/fr-fr/azure/postgresql/concepts-limits
-  POSTGRES_POOL_MAX_CONNEXIONS: "2"
+  POSTGRES_POOL_MAX_CONNEXIONS: "50"
   DOMIFA_FRONTEND_META_ROBOTS: noindex,nofollow
   ELASTIC_APM_SERVICE_NAME: domifa-backend-preprod
