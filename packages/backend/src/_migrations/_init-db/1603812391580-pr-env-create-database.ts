@@ -25,7 +25,7 @@ async function createTables(queryRunner: QueryRunner) {
 
   await queryRunner.query(
     `
-    -- app_log definition
+    -- public.app_log definition
 
     -- Drop table
 
