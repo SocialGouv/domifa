@@ -115,6 +115,7 @@ async function connect(
       subscribers: ["dist/**/*Subscriber.typeorm.js"],
     };
   }
+
   const connectOptions: PostgresConnectionOptions = {
     // name: `test-${Math.random()}`,
     applicationName: "domifa-api",
@@ -135,7 +136,12 @@ async function connect(
     ...connectOptionsPaths,
     extra: { max: pgConfig.poolMaxConnections }, // https://github.com/typeorm/typeorm/issues/3388#issuecomment-452860552 (default: 10 - https://node-postgres.com/api/pool#constructor)
   };
+
   try {
+    console.log("[PG] connectOptions logs");
+    console.log(connectOptions);
+    console.log("");
+
     connectionHolder.connection = await createConnection(connectOptions);
     appLogger.debug(`[appTypeormManager] postgres connection success`);
     return connectionHolder.connection;
