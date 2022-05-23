@@ -1,3 +1,10 @@
+# [2.90.0](https://github.com/SocialGouv/domifa/compare/v2.89.1...v2.90.0) (2022-05-23)
+
+
+### Features
+
+* **sre:** use elastic apm ([#2278](https://github.com/SocialGouv/domifa/issues/2278)) ([678f2d5](https://github.com/SocialGouv/domifa/commit/678f2d5223d17557cbaa06c0152837e896dabc78))
+
 ## [2.89.1](https://github.com/SocialGouv/domifa/compare/v2.89.0...v2.89.1) (2022-05-19)
 
 
