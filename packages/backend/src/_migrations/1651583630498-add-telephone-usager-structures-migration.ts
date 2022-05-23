@@ -3,7 +3,7 @@ import { MigrationInterface, QueryRunner } from "typeorm";
 import { domifaConfig } from "../config";
 
 export class manualMigration1651583630498 implements MigrationInterface {
-  name = "addIndicatif1651583630498";
+  name = "addTelephone1651583630498";
   public async up(queryRunner: QueryRunner): Promise<void> {
     if (domifaConfig().envId === "prod" || domifaConfig().envId === "preprod") {
       await queryRunner.query(

@@ -46,7 +46,6 @@ export class StructureCommonWeb implements StructureCommon {
     this.codePostal = (structure && structure.codePostal) || "";
     this.region = (structure && structure.region) || "";
     this.agrement = (structure && structure.agrement) || "";
-    this.phone = (structure && structure.phone) || "";
     this.telephone = (structure && structure.telephone) || {
       numero: "",
       indicatif: "fr",
