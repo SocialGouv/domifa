@@ -4,8 +4,8 @@
   id="structureForm"
   [formGroup]="structureForm"
   (ngSubmit)="submitStrucutre()"
+  class="my-2"
 >
-  <br /><br />
   <div class="list-group-item">
     <div class="row">
       <div class="col-md-12 form-group required">
@@ -231,6 +231,7 @@
             SearchCountryField.Iso2,
             SearchCountryField.Name
           ]"
+          [selectedCountryISO]="CountryISO.France"
           [selectFirstCountry]="false"
           [maxLength]="15"
           [phoneValidation]="true"

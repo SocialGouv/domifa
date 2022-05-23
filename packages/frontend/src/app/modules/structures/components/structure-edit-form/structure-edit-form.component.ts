@@ -19,6 +19,7 @@ import { regexp } from "../../../../shared/validators";
 import { StructureService } from "../../services/structure.service";
 import { structureNameChecker } from "./structureNameChecker.service";
 import { DEPARTEMENTS_LISTE } from "../../../../shared";
+import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
 
 @Component({
   selector: "app-structure-edit-form",
@@ -29,16 +30,7 @@ export class StructureEditFormComponent implements OnInit {
   public PhoneNumberFormat = PhoneNumberFormat;
   public SearchCountryField = SearchCountryField;
   public CountryISO = CountryISO;
-  public preferredCountries: CountryISO[] = [
-    CountryISO.France,
-    CountryISO.FrenchGuiana,
-    CountryISO.FrenchPolynesia,
-    CountryISO.Guadeloupe,
-    CountryISO.Martinique,
-    CountryISO.Réunion,
-    CountryISO.Mayotte,
-    CountryISO.SaintPierreAndMiquelon,
-  ];
+  public preferredCountries = PREFERRED_COUNTRIES;
   public structureForm: FormGroup;
   public DEPARTEMENTS_LISTE = DEPARTEMENTS_LISTE;
   public loading = false;

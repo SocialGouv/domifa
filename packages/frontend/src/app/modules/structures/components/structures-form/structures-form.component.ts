@@ -21,6 +21,7 @@ import { StructureService } from "../../services/structure.service";
 import { StructureCommonWeb } from "../../services/StructureCommonWeb.type";
 import { structureNameChecker } from "../structure-edit-form/structureNameChecker.service";
 import { DEPARTEMENTS_LISTE } from "../../../../shared";
+import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
 
 @Component({
   selector: "app-structures-form",
@@ -31,16 +32,7 @@ export class StructuresFormComponent implements OnInit {
   public PhoneNumberFormat = PhoneNumberFormat;
   public SearchCountryField = SearchCountryField;
   public CountryISO = CountryISO;
-  public preferredCountries: CountryISO[] = [
-    CountryISO.France,
-    CountryISO.FrenchGuiana,
-    CountryISO.FrenchPolynesia,
-    CountryISO.Guadeloupe,
-    CountryISO.Martinique,
-    CountryISO.Réunion,
-    CountryISO.Mayotte,
-    CountryISO.SaintPierreAndMiquelon,
-  ];
+  public preferredCountries = PREFERRED_COUNTRIES;
   public success = false;
   public structureForm!: FormGroup;
   public structure: StructureCommon;
