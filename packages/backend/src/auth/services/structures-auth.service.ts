@@ -66,7 +66,12 @@ export class StructuresAuthService {
     }
 
     // Mise à jour une seule fois par jour
-    if (differenceInDays(authUser.structure.lastLogin, new Date()) > 0) {
+    const authStructureLastLogin =
+      authUser.structure.lastLogin !== null
+        ? new Date(authUser.structure.lastLogin)
+        : new Date(authUser.structure.createdAt);
+
+    if (differenceInDays(authStructureLastLogin, new Date()) > 0) {
       // update structure & user last login date
       await structureCommonRepository.updateOne(
         { id: authUser.structureId },
@@ -74,8 +79,13 @@ export class StructuresAuthService {
       );
     }
 
+    const authUserLastLogin =
+      authUser.lastLogin !== null
+        ? new Date(authUser.lastLogin)
+        : new Date(authUser.createdAt);
+
     // Mise à jour une seule fois par jour
-    if (differenceInDays(authUser.lastLogin, new Date()) > 0) {
+    if (differenceInDays(authUserLastLogin, new Date()) > 0) {
       await userStructureRepository.updateOne(
         {
           id: authUser.id,

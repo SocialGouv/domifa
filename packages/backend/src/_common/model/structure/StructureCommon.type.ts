@@ -5,6 +5,7 @@ export type StructureCommon = Pick<
   Structure,
   | "uuid"
   | "id"
+  | "createdAt"
   | "adresse"
   | "complementAdresse"
   | "nom"
