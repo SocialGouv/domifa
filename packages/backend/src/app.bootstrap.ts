@@ -33,6 +33,7 @@ export async function bootstrapApplication() {
       appLogger.debug(
         `SENTRY DNS enabled: ${domifaConfig().dev.sentry.sentryDsn}`
       );
+
       if (domifaConfig().envId === "prod") {
         Sentry.captureMessage(
           `[API START] [${domifaConfig().envId}] ${format(

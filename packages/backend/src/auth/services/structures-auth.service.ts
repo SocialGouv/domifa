@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
+import { differenceInDays } from "date-fns";
 import {
   structureCommonRepository,
   userStructureRepository,
@@ -64,21 +65,27 @@ export class StructuresAuthService {
       return false;
     }
 
-    // update structure & user last login date
-    await structureCommonRepository.updateOne(
-      { id: authUser.structureId },
-      { lastLogin: new Date() }
-    );
+    // Mise à jour une seule fois par jour
+    if (differenceInDays(authUser.structure.lastLogin, new Date()) > 0) {
+      // update structure & user last login date
+      await structureCommonRepository.updateOne(
+        { id: authUser.structureId },
+        { lastLogin: new Date() }
+      );
+    }
 
-    await userStructureRepository.updateOne(
-      {
-        id: authUser.id,
-        structureId: authUser.structureId,
-      },
-      {
-        lastLogin: new Date(),
-      }
-    );
+    // Mise à jour une seule fois par jour
+    if (differenceInDays(authUser.lastLogin, new Date()) > 0) {
+      await userStructureRepository.updateOne(
+        {
+          id: authUser.id,
+          structureId: authUser.structureId,
+        },
+        {
+          lastLogin: new Date(),
+        }
+      );
+    }
 
     return authUser;
   }

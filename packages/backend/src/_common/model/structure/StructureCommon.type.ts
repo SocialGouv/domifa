@@ -21,6 +21,7 @@ export type StructureCommon = Pick<
   | "options"
   | "adresseCourrier"
   | "sms"
+  | "lastLogin"
   | "timeZone"
   | "portailUsager"
 >;
