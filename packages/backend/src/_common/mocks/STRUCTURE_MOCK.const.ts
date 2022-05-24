@@ -28,6 +28,7 @@ export const STRUCTURE_MOCK: StructureCommon = {
     senderDetails: "",
     senderName: "",
   },
+  lastLogin: null,
   timeZone: "Europe/Paris",
   portailUsager: {
     enabledByDomifa: false,
