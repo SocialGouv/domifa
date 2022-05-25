@@ -11,6 +11,7 @@ app-frontend:
       memory: 1Gi
 
 app-backend: # todo: probes
+  replicas: 2
   imagePackage: backend
   host: "api-{{ .Values.global.host }}"
   probesPath: /healthz
