@@ -33,14 +33,6 @@ import moment = require("moment");
 @ApiTags("stats")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class StatsPrivateController {
-  public sheet: {
-    [key: string]: {};
-  }[];
-
-  constructor() {
-    this.sheet = [];
-  }
-
   @AllowUserStructureRoles("simple", "responsable", "admin")
   @Post("")
   public async getByDate(

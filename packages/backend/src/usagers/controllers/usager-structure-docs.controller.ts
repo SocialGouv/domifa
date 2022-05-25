@@ -180,7 +180,6 @@ export class UsagerStructureDocsController {
       const docGenerated = generateCustomDoc(content, docValues);
       return res.end(docGenerated);
     } catch (e) {
-      console.log("CANNOT_COMPLETE_DOMIFA_DOCS");
       console.log(e);
       return res
         .status(HttpStatus.BAD_REQUEST)

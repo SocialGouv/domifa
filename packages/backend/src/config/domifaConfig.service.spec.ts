@@ -51,6 +51,7 @@ describe("loadConfig", () => {
       DOMIFA_SECURITY_JWT_SECRET: "******************",
       DOMIFA_PRINT_ENV: "false",
       DOMIFA_PRINT_CONFIG: "false",
+      ELASTIC_APM_SECRET_TOKEN: "chips",
     };
     const env = loadEnvWithPreset({ defaultEnv });
     const config = loadConfig(env);
@@ -80,6 +81,9 @@ describe("loadConfig", () => {
     expect(config.email.emailsEnabled).toEqual(false);
 
     expect(config.sms.enabled).toEqual(false);
+
+    expect(config.apm.token).toEqual("chips");
+    expect(config.apm.serviceName).toEqual(undefined);
   });
 
   it("loadConfig PROD (default)", () => {

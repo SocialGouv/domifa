@@ -1,4 +1,3 @@
-import { STRUCTURE_TYPE_MAP } from "./../../_common/model/structure/constants/STRUCTURE_TYPE_LABELS.const";
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams } from "class-transformer";
 import {
@@ -83,7 +82,7 @@ export class DecisionDto implements UsagerDecision {
   })
   @ValidateIf((o) => o.statut === "REFUS")
   @IsNotEmpty()
-  @IsIn(STRUCTURE_TYPE_MAP)
+  @IsIn(["asso", "ccas", "cias", "other"])
   public orientation!: UsagerDecisionOrientation;
 
   @ApiProperty({

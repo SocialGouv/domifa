@@ -125,7 +125,20 @@
             value="ccas"
           />
           <label class="form-check-label" for="orientationRefusCcas">
-            CCAS, CIAS, Commune
+            CCAS
+          </label>
+        </div>
+        <div class="form-row form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="orientationRefusCias"
+            [ngClass]="{ 'is-invalid': submitted && r.orientation.errors }"
+            formControlName="orientation"
+            value="cias"
+          />
+          <label class="form-check-label" for="orientationRefusCias">
+            CIAS, Commune
           </label>
         </div>
         <div class="form-row">

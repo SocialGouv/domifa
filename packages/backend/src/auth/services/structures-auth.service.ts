@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
+import { differenceInDays } from "date-fns";
 import {
   structureCommonRepository,
   userStructureRepository,
@@ -64,21 +65,37 @@ export class StructuresAuthService {
       return false;
     }
 
-    // update structure & user last login date
-    await structureCommonRepository.updateOne(
-      { id: authUser.structureId },
-      { lastLogin: new Date() }
-    );
+    // Mise à jour une seule fois par jour
+    const authStructureLastLogin =
+      authUser.structure.lastLogin !== null
+        ? new Date(authUser.structure.lastLogin)
+        : new Date(authUser.structure.createdAt);
 
-    await userStructureRepository.updateOne(
-      {
-        id: authUser.id,
-        structureId: authUser.structureId,
-      },
-      {
-        lastLogin: new Date(),
-      }
-    );
+    if (differenceInDays(authStructureLastLogin, new Date()) > 0) {
+      // update structure & user last login date
+      await structureCommonRepository.updateOne(
+        { id: authUser.structureId },
+        { lastLogin: new Date() }
+      );
+    }
+
+    const authUserLastLogin =
+      authUser.lastLogin !== null
+        ? new Date(authUser.lastLogin)
+        : new Date(authUser.createdAt);
+
+    // Mise à jour une seule fois par jour
+    if (differenceInDays(authUserLastLogin, new Date()) > 0) {
+      await userStructureRepository.updateOne(
+        {
+          id: authUser.id,
+          structureId: authUser.structureId,
+        },
+        {
+          lastLogin: new Date(),
+        }
+      );
+    }
 
     return authUser;
   }

@@ -19,6 +19,7 @@ export const STRUCTURE_COMMON_ATTRIBUTES: (keyof StructureCommon)[] = [
   "options",
   "adresseCourrier",
   "sms",
+  "lastLogin",
   "timeZone",
   "portailUsager",
 ];

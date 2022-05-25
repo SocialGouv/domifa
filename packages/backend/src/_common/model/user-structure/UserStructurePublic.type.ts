@@ -4,6 +4,7 @@ import { UserStructure } from "./UserStructure.type";
 export type UserStructurePublic = Pick<
   UserStructure,
   | "id"
+  | "createdAt"
   | "email"
   | "nom"
   | "prenom"

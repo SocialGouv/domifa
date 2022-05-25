@@ -1,4 +1,12 @@
-import { Controller, Get, Param } from "@nestjs/common";
+import {
+  CacheInterceptor,
+  CacheKey,
+  CacheTTL,
+  Controller,
+  Get,
+  Param,
+  UseInterceptors,
+} from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import {
   structureRepository,
@@ -17,6 +25,9 @@ export class StatsPublicController {
     private readonly structuresService: StructuresService
   ) {}
 
+  @UseInterceptors(CacheInterceptor)
+  @CacheKey("home-stats")
+  @CacheTTL(86400)
   @Get("home-stats")
   public async home() {
     const usagers = await usagerRepository.count();
@@ -31,6 +42,7 @@ export class StatsPublicController {
       ),
       usagers: totalUsagers,
     };
+
     return statsHome;
   }
 
