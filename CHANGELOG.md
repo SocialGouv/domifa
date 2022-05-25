@@ -1,3 +1,10 @@
+# [2.91.0](https://github.com/SocialGouv/domifa/compare/v2.90.2...v2.91.0) (2022-05-25)
+
+
+### Features
+
+* **apm:** ajout de la config pour l'utiliser localement ([116ca74](https://github.com/SocialGouv/domifa/commit/116ca74693769acc131620ad2bcedb1e5d561fca))
+
 ## [2.90.2](https://github.com/SocialGouv/domifa/compare/v2.90.1...v2.90.2) (2022-05-23)
 
 
