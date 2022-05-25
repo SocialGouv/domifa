@@ -349,7 +349,19 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         required: smsEnabled,
       }),
     },
+    apm: {
+      serviceName: configParser.parseString(x, "ELASTIC_APM_SERVICE_NAME", {
+        required: false,
+      }),
+      token: configParser.parseString(x, "ELASTIC_APM_SECRET_TOKEN", {
+        required: false,
+      }),
+      url: configParser.parseString(x, "ELASTIC_APM_SERVER_URL", {
+        required: false,
+      }),
+    },
   };
+
   const configWithHiddenSensitiveData = hideSensitiveData(config);
   if (config.dev.printEnv) {
     printEnv(x);

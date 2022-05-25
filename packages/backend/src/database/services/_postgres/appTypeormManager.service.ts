@@ -131,19 +131,17 @@ async function connect(
     password: pgConfig.password,
     database: pgConfig.database,
     logger: "simple-console",
-    logging: ["error", "warn"],
+    logging: domifaConfig().envId !== "test" ? ["error", "warn"] : false,
     maxQueryExecutionTime: 1000,
     ...connectOptionsPaths,
     extra: { max: pgConfig.poolMaxConnections }, // https://github.com/typeorm/typeorm/issues/3388#issuecomment-452860552 (default: 10 - https://node-postgres.com/api/pool#constructor)
   };
 
   try {
-    console.log("[PG] connectOptions logs");
-    console.log(connectOptions);
-    console.log("");
-
     connectionHolder.connection = await createConnection(connectOptions);
-    appLogger.debug(`[appTypeormManager] postgres connection success`);
+    if (domifaConfig().envId !== "test") {
+      appLogger.debug(`[appTypeormManager] postgres connection success`);
+    }
     return connectionHolder.connection;
   } catch (err) {
     console.error("[appTypeormManager] err:", err);

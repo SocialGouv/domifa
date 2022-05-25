@@ -38,7 +38,7 @@ export class HealthCheckService {
             delay(environment.healthzCheck.initialCheckDelay * 1000),
             switchMap(() => this.checkPeriod$.pipe(distinctUntilChanged())),
             switchMap((checkPeriod: number) => timer(0, checkPeriod * 1000)),
-            debounceTime(500), // be sure only one event is triggered
+            debounceTime(1500), // be sure only one event is triggered
             concatMap(() => this.executeCheck())
           )
     )
@@ -63,19 +63,17 @@ export class HealthCheckService {
   }
 
   private executeCheck(): Observable<HealthCheckInfo> {
-    return this.http
-      .get<HealthCheckInfo>(`${environment.apiUrl}healthz/full`)
-      .pipe(
-        tap(() => {
-          this.checkPeriod$.next(environment.healthzCheck.checkPeriodIfSuccess);
-        }),
-        catchError(() => {
-          this.checkPeriod$.next(environment.healthzCheck.checkPeriodIfError);
-          const errorStatus: HealthCheckInfo = {
-            status: "error",
-          };
-          return of(errorStatus);
-        })
-      );
+    return this.http.get<HealthCheckInfo>(`${environment.apiUrl}healthz`).pipe(
+      tap(() => {
+        this.checkPeriod$.next(environment.healthzCheck.checkPeriodIfSuccess);
+      }),
+      catchError(() => {
+        this.checkPeriod$.next(environment.healthzCheck.checkPeriodIfError);
+        const errorStatus: HealthCheckInfo = {
+          status: "error",
+        };
+        return of(errorStatus);
+      })
+    );
   }
 }

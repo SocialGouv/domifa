@@ -16,6 +16,7 @@ import { appTypeormManager } from "./database";
 import { appLogger } from "./util";
 import { AppSentryInterceptor } from "./util/sentry";
 
+import elastic = require("elastic-apm-node");
 export async function tearDownApplication({
   app,
   postgresTypeormConnection,
@@ -29,10 +30,21 @@ export async function tearDownApplication({
 
 export async function bootstrapApplication() {
   try {
+    if (domifaConfig().envId === "local") {
+      elastic.start({
+        serviceName: domifaConfig().apm.serviceName,
+        secretToken: domifaConfig().apm.token,
+        serverUrl: domifaConfig().apm.url,
+        captureBody: "all",
+        active: true,
+      });
+    }
+
     if (domifaConfig().dev.sentry.enabled) {
       appLogger.debug(
         `SENTRY DNS enabled: ${domifaConfig().dev.sentry.sentryDsn}`
       );
+
       if (domifaConfig().envId === "prod") {
         Sentry.captureMessage(
           `[API START] [${domifaConfig().envId}] ${format(

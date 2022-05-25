@@ -1,4 +1,4 @@
-import { forwardRef } from "@nestjs/common";
+import { CacheModule, forwardRef } from "@nestjs/common";
 import { InteractionsModule } from "../../interactions/interactions.module";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
@@ -15,6 +15,7 @@ describe("Stats Public Controller", () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [StatsPublicController],
       imports: [
+        CacheModule.register(),
         forwardRef(() => AdminStructuresModule),
         forwardRef(() => UsersModule),
         forwardRef(() => StructuresModule),

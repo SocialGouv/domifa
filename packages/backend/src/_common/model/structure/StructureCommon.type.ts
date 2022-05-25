@@ -5,6 +5,7 @@ export type StructureCommon = Pick<
   Structure,
   | "uuid"
   | "id"
+  | "createdAt"
   | "adresse"
   | "complementAdresse"
   | "nom"
@@ -21,6 +22,7 @@ export type StructureCommon = Pick<
   | "options"
   | "adresseCourrier"
   | "sms"
+  | "lastLogin"
   | "timeZone"
   | "portailUsager"
 >;
