@@ -1,4 +1,4 @@
-FROM node:17.7.2 as builder
+FROM node:17.9.0 as builder
 
 # these variables are needed at build time because we produce a *static* app
 ARG PRODUCTION
