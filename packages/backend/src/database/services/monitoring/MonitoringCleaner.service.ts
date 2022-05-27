@@ -15,12 +15,13 @@ import { messageEmailRepository } from "../message-email";
 import { AdminBatchsErrorReportModel } from "./AdminBatchsErrorReportModel.type";
 import { monitoringBatchProcessRepository } from "./monitoringBatchProcessRepository.service";
 import moment = require("moment");
+import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 
 @Injectable()
 export class MonitoringCleaner {
   @Cron(domifaConfig().cron.monitoringCleaner.crontime)
   public async purgeObsoleteDataCron() {
-    if (!domifaConfig().cron.enable) {
+    if (!isCronEnabled()) {
       return;
     }
     await this.purgeObsoleteData("cron");

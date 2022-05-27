@@ -34,6 +34,7 @@ import { StructureDocService } from "./../../structures/services/structure-doc.s
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 
 import * as path from "path";
+
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("usagers-structure-docs")
 @ApiBearerAuth()

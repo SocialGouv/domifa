@@ -11,6 +11,7 @@ import {
 } from "../../../database";
 import { TimeZone } from "../../../util/territoires";
 import { setHours, setMinutes } from "date-fns";
+import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 
 @Injectable()
 export class CronSmsFetchEndDomService {
@@ -88,8 +89,7 @@ export class CronSmsFetchEndDomService {
     trigger: MonitoringBatchProcessTrigger,
     timeZone: TimeZone
   ) {
-    // Si désactivé, on retire tous les SMS en attente
-    if (!domifaConfig().cron.enable || !domifaConfig().sms.enabled) {
+    if (!isCronEnabled() || !domifaConfig().sms.enabled) {
       appLogger.warn(
         `[CronSms] [CronSmsFetchEndDomService] Disable all SMS to Send for ${timeZone}`
       );
@@ -152,5 +152,6 @@ export class CronSmsFetchEndDomService {
         });
       }
     }
+    return true;
   }
 }

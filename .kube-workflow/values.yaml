@@ -58,7 +58,7 @@ app-backend-cron:
   ingress:
     enabled: false
   probesPath: /healthz
-  containerPort: 3000
+  containerPort: 3001
   resources:
     requests:
       cpu: 0.2
@@ -76,6 +76,8 @@ app-backend-cron:
   env:
     - name: TZ
       value: Europe/Paris
+    - name: DOMIFA_ENV_ID
+      value: "backend-cron"
     - name: POSTGRES_HOST
       value: "$(PGHOST)"
     - name: POSTGRES_USERNAME

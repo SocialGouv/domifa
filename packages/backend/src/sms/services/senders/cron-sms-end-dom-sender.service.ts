@@ -11,6 +11,7 @@ import {
 import { messageSmsRepository } from "../../../database/services/message-sms";
 import { MessageSmsSenderService } from "../message-sms-sender.service";
 import { appLogger } from "../../../util";
+import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 
 @Injectable()
 export class CronSmsEndDomSenderService {
@@ -90,10 +91,9 @@ export class CronSmsEndDomSenderService {
     trigger: MonitoringBatchProcessTrigger,
     timeZone: TimeZone
   ) {
-    if (!domifaConfig().cron.enable || !domifaConfig().sms.enabled) {
-      // Désactiver tous les SMS en attente
+    if (!isCronEnabled() || !domifaConfig().sms.enabled) {
       appLogger.warn(`[CronSms] [sendSmsUsagerEndDom] Disable all SMS to Send`);
-      return this.messageSmsSenderService.disableAllSmsToSend();
+      return;
     }
 
     const structureIds = await structureRepository.getStructureIdsWithSms(
