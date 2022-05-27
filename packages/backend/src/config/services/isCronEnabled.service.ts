@@ -10,3 +10,5 @@ export function isCronEnabled() {
   }
   return false;
 }
+
+console.log("isCronEnabled() " + isCronEnabled());
