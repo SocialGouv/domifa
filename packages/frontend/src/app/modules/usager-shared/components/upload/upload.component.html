@@ -24,6 +24,7 @@
         type="file"
         class="form-control"
         id="file"
+        accept=".jpg, .jpeg, .png, .pdf"
         formControlName="file"
         aria-describedby="pjHelp"
         [ngClass]="{ 'is-invalid': submitted && u.fileSource.errors }"
@@ -32,7 +33,7 @@
       />
 
       <small id="pjHelp" class="form-text text-muted">
-        Formats autorisés PDF, JPG ou PNG (6mo maxi)
+        Formats autorisés .pdf, .jpg, ou .png (6mo maxi)
       </small>
 
       <div *ngIf="submitted && u.fileSource.errors" class="invalid-feedback">

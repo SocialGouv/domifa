@@ -272,7 +272,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             defaultValue: "0 0 18 * * *",
           }
         ),
-        sendEndDomCronTim: configParser.parseString(
+        sendEndDomCronTime: configParser.parseString(
           x,
           "DOMIFA_CRON_SEND_END_DOM_CRONTIME",
           {

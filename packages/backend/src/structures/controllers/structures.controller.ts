@@ -1,3 +1,4 @@
+import { appLogger } from "./../../util/AppLogger.service";
 import {
   Body,
   Controller,
@@ -47,21 +48,30 @@ export class StructuresController {
     @Res() res: ExpressResponse
   ) {
     const portailUsager = user.structure.portailUsager;
+
     if (!portailUsager.enabledByDomifa) {
       return res
         .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "SMS_NOT_ENABLED_BY_DOMIFA" });
+        .json({ message: "PORTAIL_NOT_ENABLED_BY_DOMIFA" });
     }
 
-    return structureRepository.updateOne(
-      { id: user.structureId },
-      {
-        portailUsager: {
-          ...portailUsager,
-          enabledByStructure: structurePortailUsagerDto.enabledByStructure,
-        },
-      }
-    );
+    try {
+      const retour = structureRepository.updateOne(
+        { id: user.structureId },
+        {
+          portailUsager: {
+            ...portailUsager,
+            enabledByStructure: structurePortailUsagerDto.enabledByStructure,
+          },
+        }
+      );
+      return res.status(HttpStatus.OK).json(retour);
+    } catch (e) {
+      appLogger.error("PORTAIL_UPDATE_FAIL", { error: e, sentry: true });
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "PORTAIL_UPDATE_FAIL" });
+    }
   }
 
   @ApiBearerAuth()

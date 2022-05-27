@@ -29,15 +29,23 @@ export class MenuComponent implements OnInit {
   public me!: UserStructure;
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
-    public toastService: CustomToastService
+    private readonly authService: AuthService,
+    private readonly router: Router,
+    private readonly toastService: CustomToastService
   ) {}
 
   public ngOnInit(): void {
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });
+
+    if (
+      this.usager.decision.statut !== "ATTENTE_DECISION" &&
+      this.usager.decision.statut !== "INSTRUCTION"
+    ) {
+      this.router.navigate(["profil/general/" + this.usager.ref]);
+      return;
+    }
 
     if (
       this.usager.decision.statut === "ATTENTE_DECISION" &&

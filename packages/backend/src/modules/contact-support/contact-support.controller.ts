@@ -70,7 +70,7 @@ export class ContactSupportController {
 
     try {
       await contactSupportEmailSender.sendMail(contactSaved);
-      return res.status(HttpStatus.OK).json("OK");
+      return res.status(HttpStatus.OK).json({ message: "OK" });
     } catch (error) {
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)

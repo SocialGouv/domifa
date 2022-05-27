@@ -54,6 +54,11 @@
           class="form-control"
           id="file"
           required
+          [attr.accept]="
+            isCustomDoc
+              ? '.docx'
+              : '.jpg, .jpeg, .png, .pdf, .doc, .docx, .xlsx, .xls'
+          "
           formControlName="file"
           aria-describedby="pjHelp"
           [ngClass]="{ 'is-invalid': submitted && f.fileSource.errors }"
