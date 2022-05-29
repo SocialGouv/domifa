@@ -1,3 +1,10 @@
+## [2.91.2](https://github.com/SocialGouv/domifa/compare/v2.91.1...v2.91.2) (2022-05-29)
+
+
+### Bug Fixes
+
+* Correction des cron, d'une erreur sur le portail usager et remise de moment ([#2293](https://github.com/SocialGouv/domifa/issues/2293)) ([3d643bf](https://github.com/SocialGouv/domifa/commit/3d643bfc7be70d518505ab71627daea0c4f08ed5))
+
 ## [2.91.1](https://github.com/SocialGouv/domifa/compare/v2.91.0...v2.91.1) (2022-05-27)
 
 
