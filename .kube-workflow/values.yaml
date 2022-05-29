@@ -50,7 +50,7 @@ app-backend: # todo: probes
       value: "https://mon-{{ .Values.global.host }}/"
     - name: DOMIFA_PORTAIL_ADMINS_URL
       value: "https://admin-{{ .Values.global.host }}/"
-    - name: REPLACE_WITH_ENABLE_CRON_VARIABLE_NAME
+    - name: DOMIFA_CRON_ENABLED
       value: "false"
 
 app-backend-cron:
@@ -58,7 +58,7 @@ app-backend-cron:
   ingress:
     enabled: false
   probesPath: /healthz
-  containerPort: 3001
+  containerPort: 3000
   resources:
     requests:
       cpu: 0.2
