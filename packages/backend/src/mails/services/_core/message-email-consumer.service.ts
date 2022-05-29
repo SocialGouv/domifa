@@ -34,6 +34,7 @@ export class MessageEmailConsummer {
   @Cron(domifaConfig().cron.emailConsumer.crontime)
   protected async consumeEmailsCron() {
     if (!isCronEnabled()) {
+      appLogger.warn(`[CRON] [consumeEmailsCron] Disabled by config`);
       return;
     }
 

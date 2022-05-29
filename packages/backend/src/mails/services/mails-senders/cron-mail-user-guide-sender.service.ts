@@ -16,6 +16,7 @@ export class CronMailUserGuideSenderService {
   @Cron(domifaConfig().cron.emailUserGuide.crontime)
   protected async sendMailGuideCron() {
     if (!isCronEnabled()) {
+      appLogger.warn(`[CRON] [sendMailGuideCron] Disabled by config`);
       return;
     }
     await this.sendMailGuides("cron");

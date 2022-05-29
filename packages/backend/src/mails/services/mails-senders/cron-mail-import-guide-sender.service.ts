@@ -18,6 +18,7 @@ export class CronMailImportGuideSenderService {
   @Cron(domifaConfig().cron.emailImportGuide.crontime)
   protected async sendMailImportCron() {
     if (!isCronEnabled()) {
+      appLogger.warn(`[CRON] [sendMailImportCron] Disabled by config`);
       return;
     }
 

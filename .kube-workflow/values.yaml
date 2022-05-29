@@ -77,7 +77,7 @@ app-backend-cron:
     - name: TZ
       value: Europe/Paris
     - name: DOMIFA_ENV_ID
-      value: "backend-cron"
+      value: "prod"
     - name: POSTGRES_HOST
       value: "$(PGHOST)"
     - name: POSTGRES_USERNAME
@@ -94,7 +94,7 @@ app-backend-cron:
       value: "https://mon-{{ .Values.global.host }}/"
     - name: DOMIFA_PORTAIL_ADMINS_URL
       value: "https://admin-{{ .Values.global.host }}/"
-    - name: REPLACE_WITH_ENABLE_CRON_VARIABLE_NAME
+    - name: DOMIFA_CRON_ENABLED
       value: "true"
 
 app-portail-usagers:

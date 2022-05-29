@@ -22,6 +22,8 @@ export class MonitoringCleaner {
   @Cron(domifaConfig().cron.monitoringCleaner.crontime)
   public async purgeObsoleteDataCron() {
     if (!isCronEnabled()) {
+      appLogger.warn(`[CRON] [purgeObsoleteDataCron] Disabled by config`);
+
       return;
     }
     await this.purgeObsoleteData("cron");

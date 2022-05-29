@@ -1,14 +1,5 @@
 import { domifaConfig } from "../domifaConfig.service";
 
-export function isCronEnabled() {
-  if (
-    domifaConfig().cron.enable &&
-    domifaConfig().envId !== "backend-cron" &&
-    domifaConfig().envId !== "local"
-  ) {
-    return true;
-  }
-  return false;
+export function isCronEnabled(): boolean {
+  return domifaConfig().cron.enable && domifaConfig().envId !== "local";
 }
-
-console.log("isCronEnabled() " + isCronEnabled());
