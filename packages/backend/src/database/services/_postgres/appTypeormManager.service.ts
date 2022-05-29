@@ -131,7 +131,10 @@ async function connect(
     password: pgConfig.password,
     database: pgConfig.database,
     logger: "simple-console",
-    logging: domifaConfig().envId !== "test" ? ["error", "warn"] : false,
+    logging:
+      domifaConfig().envId !== "test"
+        ? ["error", "warn", "log", "info"]
+        : false,
     maxQueryExecutionTime: 1000,
     ...connectOptionsPaths,
     extra: { max: pgConfig.poolMaxConnections }, // https://github.com/typeorm/typeorm/issues/3388#issuecomment-452860552 (default: 10 - https://node-postgres.com/api/pool#constructor)

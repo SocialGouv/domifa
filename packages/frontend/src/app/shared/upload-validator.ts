@@ -29,14 +29,7 @@ export const mimeTypes = {
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     "application/vnd.oasis.opendocument.spreadsheet",
   ],
-  USAGER_DOC: [
-    "image/jpg",
-    "image/jpeg",
-    "image/bmp",
-    "image/gif",
-    "image/png",
-    "application/pdf",
-  ],
+  USAGER_DOC: ["image/jpg", "image/jpeg", "image/png", "application/pdf"],
 };
 
 export function validateUpload(

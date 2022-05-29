@@ -34,9 +34,9 @@ export class StructuresUploadDocsComponent implements OnInit {
   public getAllStructureDocs = new EventEmitter<void>();
 
   constructor(
-    private formBuilder: FormBuilder,
-    private structureDocService: StructureDocService,
-    private toastService: CustomToastService
+    private readonly formBuilder: FormBuilder,
+    private readonly structureDocService: StructureDocService,
+    private readonly toastService: CustomToastService
   ) {}
 
   public ngOnInit(): void {

@@ -72,6 +72,7 @@ async function anonymizeUsersStructure({ app }: { app: INestApplication }) {
     }
   }
 }
+
 function isUserStructureToAnonymise(
   user: Pick<UserStructureTable, "id" | "structureId" | "email">
 ): unknown {

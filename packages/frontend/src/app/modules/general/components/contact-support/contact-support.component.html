@@ -123,6 +123,7 @@
               <input
                 class="form-control"
                 type="file"
+                accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .xlsx, .xls"
                 id="file"
                 formControlName="file"
                 aria-describedby="pjHelp"
@@ -132,7 +133,7 @@
                 (change)="onFileChange($event)"
               />
               <small id="pjHelp" class="form-text text-muted">
-                Formats autorisés PDF, DOCX, XLSX, ODT, JPG ou PNG (6mo maxi)
+                Formats autorisés .pdf, .docx, .odt, .jpg, ou .png (6mo maxi)
               </small>
 
               <div

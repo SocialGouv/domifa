@@ -77,14 +77,13 @@ export class CronSmsFetchEndDomService {
     await this.fetchUsagerEndDom("cron", "Indian/Reunion");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.crontime, {
+  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "Pacific/Wallis",
   })
   protected async sendSmsWallis() {
     await this.fetchUsagerEndDom("cron", "Pacific/Wallis");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime)
   public async fetchUsagerEndDom(
     trigger: MonitoringBatchProcessTrigger,
     timeZone: TimeZone
