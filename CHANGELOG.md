@@ -1,3 +1,11 @@
+## [2.91.4](https://github.com/SocialGouv/domifa/compare/v2.91.3...v2.91.4) (2022-05-30)
+
+
+### Bug Fixes
+
+* **ci:** add SENTRY_DSN in prod configmap ([bcac55a](https://github.com/SocialGouv/domifa/commit/bcac55a4b18ff7cac825ec801abb1368a8cee511))
+* **logs:** ajout de logs pour PG ([a6a5ff6](https://github.com/SocialGouv/domifa/commit/a6a5ff6eeeaad93a449e6f759220049b5b5dcc6a))
+
 ## [2.91.3](https://github.com/SocialGouv/domifa/compare/v2.91.2...v2.91.3) (2022-05-30)
 
 
