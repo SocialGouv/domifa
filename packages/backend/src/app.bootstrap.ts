@@ -17,6 +17,7 @@ import { appLogger } from "./util";
 import { AppSentryInterceptor } from "./util/sentry";
 
 import elastic = require("elastic-apm-node");
+
 export async function tearDownApplication({
   app,
   postgresTypeormConnection,

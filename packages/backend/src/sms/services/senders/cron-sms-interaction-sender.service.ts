@@ -11,6 +11,7 @@ import {
 import { messageSmsRepository } from "../../../database/services/message-sms";
 import { appLogger } from "../../../util";
 import { MessageSmsSenderService } from "../message-sms-sender.service";
+import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 
 @Injectable()
 export class CronSmsInteractionSenderService {
@@ -57,14 +58,6 @@ export class CronSmsInteractionSenderService {
   protected async sendSmsTahiti() {
     await this.sendSmsInteraction("cron", "Pacific/Tahiti");
   }
-
-  @Cron(domifaConfig().cron.smsConsumer.crontime, {
-    timeZone: "Pacific/Wallis",
-  })
-  protected async sendSmsWallis() {
-    await this.sendSmsInteraction("cron", "Pacific/Wallis");
-  }
-
   @Cron(domifaConfig().cron.smsConsumer.crontime, {
     timeZone: "America/Miquelon",
   })
@@ -78,7 +71,6 @@ export class CronSmsInteractionSenderService {
   protected async sendSmsMaldives() {
     await this.sendSmsInteraction("cron", "Indian/Maldives");
   }
-
   @Cron(domifaConfig().cron.smsConsumer.crontime, {
     timeZone: "Indian/Reunion",
   })
@@ -86,16 +78,22 @@ export class CronSmsInteractionSenderService {
     await this.sendSmsInteraction("cron", "Indian/Reunion");
   }
 
+  @Cron(domifaConfig().cron.smsConsumer.crontime, {
+    timeZone: "Pacific/Wallis",
+  })
+  protected async sendSmsWallis() {
+    await this.sendSmsInteraction("cron", "Pacific/Wallis");
+  }
+
   public async sendSmsInteraction(
     trigger: MonitoringBatchProcessTrigger,
     timeZone: TimeZone
   ) {
-    // Si désactivé, on retire tous les SMS en attente
-    if (!domifaConfig().cron.enable || !domifaConfig().sms.enabled) {
+    if (!isCronEnabled() || !domifaConfig().sms.enabled) {
       appLogger.warn(
         `[CronSms] [sendSmsInteraction] SMS disabled for ${timeZone} at ${new Date().toString()}`
       );
-      return this.messageSmsSenderService.disableAllSmsToSend();
+      return;
     }
 
     appLogger.warn(

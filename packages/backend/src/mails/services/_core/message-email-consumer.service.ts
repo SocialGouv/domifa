@@ -16,6 +16,7 @@ import { appLogger } from "../../../util";
 import { messageEmailConsummerTrigger } from "./message-email-consumer-trigger.service";
 import { smtpSender } from "./smtpSender.service";
 import moment = require("moment");
+import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 
 @Injectable()
 export class MessageEmailConsummer {
@@ -32,9 +33,11 @@ export class MessageEmailConsummer {
 
   @Cron(domifaConfig().cron.emailConsumer.crontime)
   protected async consumeEmailsCron() {
-    if (!domifaConfig().cron.enable) {
+    if (!isCronEnabled()) {
+      appLogger.warn(`[CRON] [consumeEmailsCron] Disabled by config`);
       return;
     }
+
     messageEmailConsummerTrigger.triggerNextSending("cron");
   }
 

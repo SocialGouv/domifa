@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
 import * as moment from "moment";
 import { domifaConfig } from "../../../config";
+import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 import {
   cronMailsRepository,
   monitoringBatchProcessSimpleCountRunner,
@@ -16,7 +17,8 @@ import { guideImportEmailSender } from "../templates-renderers";
 export class CronMailImportGuideSenderService {
   @Cron(domifaConfig().cron.emailImportGuide.crontime)
   protected async sendMailImportCron() {
-    if (!domifaConfig().cron.enable) {
+    if (!isCronEnabled()) {
+      appLogger.warn(`[CRON] [sendMailImportCron] Disabled by config`);
       return;
     }
 

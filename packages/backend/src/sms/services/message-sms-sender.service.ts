@@ -82,15 +82,4 @@ export class MessageSmsSenderService {
 
     return messageSms;
   }
-
-  public disableAllSmsToSend() {
-    return messageSmsRepository.updateMany(
-      { status: "TO_SEND" },
-      {
-        status: "DISABLED",
-        sendDate: new Date(),
-        lastUpdate: new Date(),
-      }
-    );
-  }
 }

@@ -11,6 +11,7 @@ app-frontend:
       memory: 1Gi
 
 app-backend: # todo: probes
+  replicas: 2
   imagePackage: backend
   host: "api-{{ .Values.global.host }}"
   probesPath: /healthz
@@ -49,6 +50,52 @@ app-backend: # todo: probes
       value: "https://mon-{{ .Values.global.host }}/"
     - name: DOMIFA_PORTAIL_ADMINS_URL
       value: "https://admin-{{ .Values.global.host }}/"
+    - name: DOMIFA_CRON_ENABLED
+      value: "false"
+
+app-backend-cron:
+  imagePackage: backend
+  ingress:
+    enabled: false
+  probesPath: /healthz
+  containerPort: 3000
+  resources:
+    requests:
+      cpu: 0.2
+      memory: 256Mi
+    limits:
+      cpu: 1.5
+      memory: 2Gi
+  envFrom:
+    - secretRef:
+        name: "{{ .Values.global.pgSecretName }}"
+    - secretRef:
+        name: backend-sealed-secret
+    - configMapRef:
+        name: backend-configmap
+  env:
+    - name: TZ
+      value: Europe/Paris
+    - name: DOMIFA_ENV_ID
+      value: "prod"
+    - name: POSTGRES_HOST
+      value: "$(PGHOST)"
+    - name: POSTGRES_USERNAME
+      value: "$(PGUSER)"
+    - name: POSTGRES_PASSWORD
+      value: "$(PGPASSWORD)"
+    - name: POSTGRES_DATABASE
+      value: "$(PGDATABASE)"
+    - name: DOMIFA_BACKEND_URL
+      value: "https://api-{{ .Values.global.host }}/"
+    - name: DOMIFA_FRONTEND_URL
+      value: "https://{{ .Values.global.host }}/"
+    - name: DOMIFA_PORTAIL_USAGERS_URL
+      value: "https://mon-{{ .Values.global.host }}/"
+    - name: DOMIFA_PORTAIL_ADMINS_URL
+      value: "https://admin-{{ .Values.global.host }}/"
+    - name: DOMIFA_CRON_ENABLED
+      value: "true"
 
 app-portail-usagers:
   imagePackage: portail-usagers
