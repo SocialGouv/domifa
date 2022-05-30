@@ -1,3 +1,10 @@
+## [2.91.3](https://github.com/SocialGouv/domifa/compare/v2.91.2...v2.91.3) (2022-05-30)
+
+
+### Bug Fixes
+
+* decouple cron and add replicas ([#2291](https://github.com/SocialGouv/domifa/issues/2291)) ([fe856aa](https://github.com/SocialGouv/domifa/commit/fe856aa05265f49feab03d428bffb1e387742818))
+
 ## [2.91.2](https://github.com/SocialGouv/domifa/compare/v2.91.1...v2.91.2) (2022-05-29)
 
 
