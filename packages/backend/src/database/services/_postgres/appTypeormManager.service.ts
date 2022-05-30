@@ -117,7 +117,6 @@ async function connect(
   }
 
   const connectOptions: PostgresConnectionOptions = {
-    // name: `test-${Math.random()}`,
     applicationName: "domifa-api",
     poolErrorHandler: (err: Error) => {
       appLogger.error("PG pool error:", { error: err, sentry: true });
@@ -133,7 +132,7 @@ async function connect(
     logger: "simple-console",
     logging:
       domifaConfig().envId !== "test"
-        ? ["error", "warn", "log", "info"]
+        ? "all" //  ? "["error", "warn", "log", "info"]"
         : false,
     maxQueryExecutionTime: 1000,
     ...connectOptionsPaths,

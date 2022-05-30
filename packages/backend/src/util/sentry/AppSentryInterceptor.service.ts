@@ -51,7 +51,7 @@ export class AppSentryInterceptor implements NestInterceptor {
           );
         }
         // re-throw original error
-        return throwError(err);
+        return throwError(() => new Error(err));
       })
     );
   }

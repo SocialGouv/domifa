@@ -1,4 +1,4 @@
-import Sentry = require("@sentry/node");
+import * as Sentry from "@sentry/node";
 import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import {
