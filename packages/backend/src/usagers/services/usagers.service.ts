@@ -152,16 +152,12 @@ export class UsagersService {
   }
 
   public async setDecision(
-    { uuid }: { uuid: string },
+    usager: UsagerLight,
     decision: DecisionDto
   ): Promise<UsagerLight> {
     // Adaptation de la timeZone
     const now = new Date();
     decision.dateDecision = now;
-
-    const usager = await usagerRepository.findOne({
-      uuid,
-    });
 
     usager.etapeDemande = ETAPE_DOSSIER_COMPLET;
 
@@ -217,7 +213,7 @@ export class UsagersService {
     });
 
     return usagerLightRepository.updateOne(
-      { uuid },
+      { uuid: usager.uuid },
       {
         lastInteraction: usager.lastInteraction,
         customRef: usager.customRef,
@@ -233,14 +229,10 @@ export class UsagersService {
   }
 
   public async setRdv(
-    uuid: string,
+    usager: UsagerLight,
     rdv: RdvDto,
     user: UserStructureProfile
   ): Promise<UsagerLight> {
-    let usager = await usagerRepository.findOne({
-      uuid,
-    });
-
     usager.rdv = {
       userId: rdv.userId,
       userName: user.prenom + " " + user.nom,
@@ -255,7 +247,7 @@ export class UsagersService {
     }
 
     usager = await usagerLightRepository.updateOne(
-      { uuid },
+      { uuid: usager.uuid },
       { rdv: usager.rdv, etapeDemande: usager.etapeDemande }
     );
 

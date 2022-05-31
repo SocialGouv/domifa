@@ -67,25 +67,31 @@ export class AgendaController {
     @CurrentUsager() usager: UsagerLight,
     @Res() res: ExpressResponse
   ) {
-    const user = await userStructureRepository.findOne({
-      id: rdvDto.userId,
-      structureId: currentUser.structureId,
-    });
-
-    if (!user) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "USER_AGENDA_NOT_EXIST" });
-    }
-
     if (rdvDto.isNow) {
       const updatedUsager = await this.usagersService.setRdv(
-        usager.uuid,
+        usager,
         rdvDto,
         currentUser
       );
 
       return res.status(HttpStatus.OK).json(updatedUsager);
+    }
+
+    let user: UserStructureAuthenticated;
+
+    if (currentUser.id !== rdvDto.userId) {
+      user = await userStructureRepository.findOne({
+        id: rdvDto.userId,
+        structureId: currentUser.structureId,
+      });
+
+      if (!user) {
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: "USER_AGENDA_NOT_EXIST" });
+      }
+    } else {
+      user = currentUser;
     }
 
     const title =
@@ -131,7 +137,7 @@ export class AgendaController {
       }
 
       const updatedUsager = await this.usagersService.setRdv(
-        usager.uuid,
+        usager,
         rdvDto,
         user
       );

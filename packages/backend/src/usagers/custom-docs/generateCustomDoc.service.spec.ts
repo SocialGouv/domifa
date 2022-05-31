@@ -22,7 +22,7 @@ async function runDocTypeTest({
 }: {
   docType: StructureDocTypesAvailable;
 }) {
-  const content = customDocTemplateLoader.loadDefaultDocTemplate({
+  const content = await customDocTemplateLoader.loadDefaultDocTemplate({
     docType,
   });
 
