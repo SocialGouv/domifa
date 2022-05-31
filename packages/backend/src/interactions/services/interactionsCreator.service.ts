@@ -135,7 +135,6 @@ async function createInteraction({
   const usagerUpdated = await updateUsagerAfterCreation({
     usager,
   });
-
   return { usager: usagerUpdated, interaction: interactionCreated };
 }
 

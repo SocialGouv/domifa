@@ -45,18 +45,18 @@ async function runDocTypeTest({
       "../../_static/custom-docs/test",
       `${docType}.docx.tmp.html`
     );
-    fs.writeFileSync(tmpHtmlPath, generatedDocHtml);
+    await fs.promises.writeFile(tmpHtmlPath, generatedDocHtml);
   }
 
-  const expectedGeneratedDocHtml = fs
-    .readFileSync(
-      path.join(
-        __dirname,
-        "../../_static/custom-docs/test",
-        `${docType}.docx.ref.html`
-      )
-    )
-    .toString();
+  const file = path.join(
+    __dirname,
+    "../../_static/custom-docs/test",
+    `${docType}.docx.ref.html`
+  );
+
+  const expectedGeneratedDocHtml = await fs.promises.readFile(file, "utf-8");
+
+  // console.log(expectedGeneratedDocHtml);
 
   expect(expectedGeneratedDocHtml.trim()).toEqual(generatedDocHtml.trim());
 }

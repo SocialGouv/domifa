@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import * as fse from "fs-extra";
 import * as path from "path";
 import { appLogger } from ".";
 
@@ -46,20 +47,15 @@ export const extensions = {
 };
 
 // Suppression effective d'un fichier
-export function deleteFile(pathFile: string) {
-  if (!fs.existsSync(pathFile)) {
-    return;
+export async function deleteFile(pathFile: string) {
+  try {
+    await fse.remove(pathFile);
+  } catch (err) {
+    appLogger.error("[FILES] Delete file fail - " + pathFile, {
+      sentry: true,
+      error: err,
+    });
   }
-  setTimeout(() => {
-    try {
-      fs.unlinkSync(pathFile);
-    } catch (err) {
-      appLogger.error("[FILES] Delete file fail - " + pathFile, {
-        sentry: true,
-        error: err,
-      });
-    }
-  }, 2000);
 }
 
 export function randomName(file: Express.Multer.File): string {

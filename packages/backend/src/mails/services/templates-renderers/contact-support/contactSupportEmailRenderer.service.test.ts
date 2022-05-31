@@ -26,7 +26,7 @@ describe("guideUtilisateurEmailRenderer", () => {
     expect(text).toContain(model.structureName);
 
     if (domifaConfig().envId === "test") {
-      fs.writeFileSync(
+      await fs.promises.writeFile(
         path.join(
           __dirname,
           "../../../../_static/email-templates",
@@ -37,16 +37,16 @@ describe("guideUtilisateurEmailRenderer", () => {
       );
     }
 
-    const refHtml = fs
-      .readFileSync(
-        path.join(
-          __dirname,
-          "../../../../_static/email-templates",
-          "contact-support",
-          "test.ref.html"
-        )
-      )
-      .toString();
+    const refHtml = await fs.promises.readFile(
+      path.join(
+        __dirname,
+        "../../../../_static/email-templates",
+        "contact-support",
+        "test.ref.html"
+      ),
+      "utf-8"
+    );
+
     expect(refHtml).toEqual(html);
   });
 });

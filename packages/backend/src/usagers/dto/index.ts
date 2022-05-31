@@ -9,4 +9,5 @@ export * from "./rdv.dto";
 export * from "./search-usager.dto";
 export * from "./transfert.dto";
 export * from "./UpdatePortailUsagerOptionsDto";
+export * from "./UploadUsagerDoc.dto";
 export * from "./UsagerAyantDroitDto";

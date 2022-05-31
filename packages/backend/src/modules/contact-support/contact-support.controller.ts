@@ -13,6 +13,7 @@ import {
 import { FileInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
 import * as fs from "fs";
+import * as fse from "fs-extra";
 
 import path = require("path");
 import { domifaConfig } from "../../config";
@@ -36,13 +37,13 @@ export class ContactSupportController {
         return cb(null, true);
       },
       storage: diskStorage({
-        destination: (req: any, file: Express.Multer.File, cb: any) => {
+        destination: async (req: any, file: Express.Multer.File, cb: any) => {
           const dir = path.join(
             domifaConfig().upload.basePath,
             "contact-support"
           );
-          if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, { recursive: true });
+          if (!(await fse.pathExists(dir))) {
+            await fs.promises.mkdir(dir, { recursive: true });
           }
           cb(null, dir);
         },

@@ -1,6 +1,5 @@
 import {
   Controller,
-  HttpException,
   HttpStatus,
   Param,
   Post,
@@ -13,6 +12,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import * as fs from "fs";
+import * as fse from "fs-extra";
 import { diskStorage } from "multer";
 import * as os from "os";
 import * as path from "path";
@@ -55,10 +55,10 @@ const UsagersImportFileInterceptor = FileInterceptor("file", {
     cb(null, true);
   },
   storage: diskStorage({
-    destination: (req: any, file: Express.Multer.File, cb: any) => {
+    destination: async (req: any, file: Express.Multer.File, cb: any) => {
       const dir = USAGERS_IMPORT_DIR;
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
+      if (!(await fse.pathExists(dir))) {
+        await fs.promises.mkdir(dir, { recursive: true });
       }
       cb(null, dir);
     },
@@ -211,14 +211,10 @@ export class ImportController {
     }
 
     try {
+      await fs.promises.unlink(filePath);
       appLogger.debug("[FILES] Delete import file success " + filePath);
-      fs.unlinkSync(filePath);
     } catch (err) {
       appLogger.error("[FILES] [FAIL] Delete import file fail " + filePath);
-      throw new HttpException(
-        "IMPORTE_DELETE_FILE_IMPOSSIBLE",
-        HttpStatus.BAD_REQUEST
-      );
     }
 
     if (importMode === "preview") {

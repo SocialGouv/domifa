@@ -16,7 +16,7 @@ describe("userResetPasswordEmailRenderer", () => {
     expect(text).toContain(model.lien);
 
     if (domifaConfig().envId === "local") {
-      fs.writeFileSync(
+      await fs.promises.writeFile(
         path.join(
           __dirname,
           "../../../../_static/email-templates",
@@ -27,16 +27,16 @@ describe("userResetPasswordEmailRenderer", () => {
       );
     }
 
-    const refHtml = fs
-      .readFileSync(
-        path.join(
-          __dirname,
-          "../../../../_static/email-templates",
-          "user-reset-password",
-          "test.ref.html"
-        )
-      )
-      .toString();
+    const refHtml = await fs.promises.readFile(
+      path.join(
+        __dirname,
+        "../../../../_static/email-templates",
+        "user-reset-password",
+        "test.ref.html"
+      ),
+      "utf-8"
+    );
+
     expect(refHtml).toEqual(html);
   });
 });

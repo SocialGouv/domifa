@@ -4,16 +4,20 @@ import { domifaConfig } from "../../config/domifaConfig.service";
 
 import { appLogger } from "../../util";
 
-export function deleteUsagerFolder({
+export async function deleteUsagerFolder({
   usagerRef,
   structureId,
 }: {
   usagerRef: number;
   structureId: number;
-}) {
+}): Promise<void> {
+  console.log(
+    path.join(domifaConfig().upload.basePath, `${structureId}`, `${usagerRef}`)
+  );
   const pathFile = path.resolve(
     path.join(domifaConfig().upload.basePath, `${structureId}`, `${usagerRef}`)
   );
+  console.log(pathFile);
 
   if (!fs.existsSync(pathFile)) {
     appLogger.debug(
@@ -22,28 +26,17 @@ export function deleteUsagerFolder({
     return;
   }
 
-  fs.readdir(pathFile, (error, files) => {
-    if (error) {
-      appLogger.error("Error after folder reading - pathFile : " + pathFile, {
-        sentry: true,
-        error,
-      });
-      return;
-    }
-
-    for (const file of files) {
-      try {
-        appLogger.debug("[FILES] Delete file in folder success " + file);
-        fs.unlinkSync(path.join(pathFile, file));
-      } catch (err) {
-        appLogger.error(
-          "[FILES] Cannot delete file ( " + file + ") in folder  " + pathFile,
-          {
-            sentry: true,
-            error,
-          }
-        );
-      }
-    }
-  });
+  try {
+    await fs.promises.rm(pathFile, {
+      recursive: true,
+      force: true,
+      maxRetries: 2,
+    });
+    appLogger.debug("[FILES] Delete file in folder success " + pathFile);
+  } catch (error) {
+    appLogger.error("[FILES] Cannot delete folder  " + pathFile, {
+      sentry: true,
+      error,
+    });
+  }
 }
