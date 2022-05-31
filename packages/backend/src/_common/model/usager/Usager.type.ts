@@ -11,6 +11,7 @@ import { UsagerPreferenceContact } from "./UsagerPreferenceContact.type";
 import { UsagerRdv } from "./UsagerRdv.type";
 import { UsagerSexe } from "./UsagerSexe.type";
 import { UsagerTypeDom } from "./UsagerTypeDom.type";
+import { Telephone } from "../telephone/Telephone.type";
 
 export type Usager = AppEntity & {
   ref: number; // unique par structure
@@ -30,6 +31,7 @@ export type Usager = AppEntity & {
   // CONTACT
   email?: string;
   phone?: string;
+  telephone?: Telephone;
 
   preference?: UsagerPreferenceContact;
 

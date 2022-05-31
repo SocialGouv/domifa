@@ -29,6 +29,7 @@ import {
 import { generateSmsInteraction } from "./generators";
 import { MESSAGE_SMS_STATUS } from "../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
 import { generateScheduleSendDate } from "./generators/generateScheduleSendDate";
+import { telephoneFixIndicatif } from "../../util/telephoneString.service";
 
 @Injectable()
 export class MessageSmsService {
@@ -137,7 +138,7 @@ export class MessageSmsService {
 
   public async createSmsInteraction(
     usager: UsagerLight,
-    structure: Pick<Structure, "id" | "sms">,
+    structure: Pick<Structure, "id" | "sms" | "telephone">,
     interaction: InteractionDto
   ) {
     const scheduledDate = generateScheduleSendDate(new Date());
@@ -176,7 +177,10 @@ export class MessageSmsService {
         senderName: structure.sms.senderName,
         status: "TO_SEND",
         smsId: interaction.type,
-        phoneNumber: usager.preference.phoneNumber,
+        phoneNumber: telephoneFixIndicatif(
+          structure.telephone.indicatif,
+          usager.preference.phoneNumber
+        ),
         scheduledDate,
         errorCount: 0,
         interactionMetas: {

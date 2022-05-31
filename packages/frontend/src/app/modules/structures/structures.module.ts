@@ -1,8 +1,10 @@
+import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
 import { RegisterUserComponent } from "./components/register-user/register-user.component";
@@ -40,6 +42,7 @@ import { StructuresRoutingModule } from "./structures-routing.module";
     SharedModule,
     CommonModule,
     UsersModule,
+    NgxIntlTelInputModule,
     SharedModule,
     StructuresRoutingModule,
   ],
