@@ -2,7 +2,7 @@ import { DomifaMailTemplateRendering } from "../../../model";
 import { domifaMailTemplateRenderer } from "../../domifaMailTemplateRenderer.service";
 import { Structure, STRUCTURE_TYPE_LABELS } from "../../../../_common/model";
 import { DEPARTEMENTS_MAP } from "../../../../util/territoires";
-import { telephoneString } from "../../../../util/telephoneString.service";
+import { formatInternationalPhoneNumber } from "../../../../util/telephoneString.service";
 
 export type DeleteStructureEmailModel = {
   structure: Pick<
@@ -36,7 +36,7 @@ async function renderTemplate({
     ville: structure.ville,
     code_postal: structure.codePostal,
     email: structure.email,
-    phone: telephoneString(structure.telephone),
+    phone: formatInternationalPhoneNumber(structure.telephone),
     responsable_nom: structure.responsable.nom,
     responsable_prenom: structure.responsable.prenom,
     responsable_fonction: structure.responsable.fonction,

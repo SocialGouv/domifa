@@ -6,10 +6,9 @@ import CountryCode from "../../util/countryCode";
 export class TelephoneDto {
   @ApiProperty({
     type: String,
-    required: true,
+    required: false,
   })
   @IsString()
-  @IsNotEmpty()
   public numero: string;
 
   @ApiProperty({

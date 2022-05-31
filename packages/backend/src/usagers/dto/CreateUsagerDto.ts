@@ -8,12 +8,14 @@ import {
   IsIn,
   IsNotEmpty,
   IsOptional,
-  Matches,
   MaxLength,
   ValidateIf,
   ValidateNested,
+  IsNumber,
+  Min,
+  Max,
 } from "class-validator";
-import { UsagerAyantDroit, UsagerSexe } from "../../_common/model";
+import { UsagerAyantDroit, UsagerSexe, Telephone } from "../../_common/model";
 import { UsagerAyantDroitDto } from "./UsagerAyantDroitDto";
 import { PreferenceContactDto } from ".";
 import { ValidationRegexp } from "../controllers/import/step2-validate-row";
@@ -21,6 +23,7 @@ import {
   LowerCaseTransform,
   TrimOrNullTransform,
 } from "../../_common/decorators";
+import { TelephoneDto } from "../../_common/dto";
 
 export class CreateUsagerDto {
   @ApiProperty({
@@ -111,13 +114,23 @@ export class CreateUsagerDto {
   public email!: string;
 
   @ApiProperty({
-    example: "0606060606",
-    description: "Téléphone",
+    type: Object,
+    required: false,
   })
   @IsOptional()
-  @ValidateIf((o) => o.phone !== "")
-  @Matches(ValidationRegexp.phone)
-  public phone!: string;
+  @ValidateNested({ each: true })
+  @Type(() => TelephoneDto)
+  public telephone: Telephone;
+
+  @ApiProperty({
+    description: "Dernière étape enregistrée",
+    type: Number,
+  })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(5)
+  public etapeDemande!: number;
 
   @ApiProperty({
     description: "Préférences de contact",

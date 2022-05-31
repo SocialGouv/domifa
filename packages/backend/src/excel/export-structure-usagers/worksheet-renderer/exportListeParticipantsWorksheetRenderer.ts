@@ -8,6 +8,7 @@ import {
 } from "../../xlLib";
 import { StructureUsagersExportModel } from "../StructureUsagersExportModel.type";
 import { generateMotifLabel } from "./../../../usagers/services/generateMotifLabel.service";
+import { formatInternationalPhoneNumber } from "../../../util/telephoneString.service";
 
 export const exportListeParticipantsWorksheetRenderer = {
   renderWorksheet,
@@ -150,7 +151,7 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
         surnom: usager.surnom,
         dateNaissance: usager.dateNaissance,
         villeNaissance: usager.villeNaissance,
-        phone: usager.phone,
+        phone: formatInternationalPhoneNumber(usager.telephone),
         email: usager.email,
         decisionStatut: USAGER_DECISION_STATUT_LABELS[usager.decision.statut],
         decisionMotifRefus:

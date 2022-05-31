@@ -5,7 +5,7 @@ import { UsagerNomCompletPipe } from "./pipes/usager-nom-complet.pipe";
 import { CleanStrDirective } from "./directives/clean-str.directive";
 import { DateFrDirective } from "./directives/date-fr.directive";
 import { DigitOnlyDirective } from "./directives/digit-only.directive";
-import { FormatPhoneNumberPipe } from "./pipes/formatPhoneNumber.pipe";
+import { FormatInternationalPhoneNumberPipe } from "./pipes/formatInternationalPhoneNumber.pipe";
 import { FormatBigNumberPipe } from "./pipes/formatBigNumber.pipe";
 import {
   FaIconLibrary,
@@ -20,7 +20,7 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
     DateFrDirective,
     CleanStrDirective,
     UsagerNomCompletPipe,
-    FormatPhoneNumberPipe,
+    FormatInternationalPhoneNumberPipe,
     FormatBigNumberPipe,
     CustomToastrComponent,
   ],
@@ -29,7 +29,7 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
     DateFrDirective,
     CleanStrDirective,
     UsagerNomCompletPipe,
-    FormatPhoneNumberPipe,
+    FormatInternationalPhoneNumberPipe,
     FormatBigNumberPipe,
   ],
   imports: [CommonModule, FontAwesomeModule],

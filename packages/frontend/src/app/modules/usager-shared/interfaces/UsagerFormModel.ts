@@ -23,6 +23,7 @@ import {
   usagersFilter,
 } from "../../usagers/components/manage/usager-filter";
 import { getEcheanceInfos, getRdvInfos, getUrlUsagerProfil } from "../utils";
+import { Telephone } from "../../../../_common/model/common";
 
 export class UsagerFormModel implements UsagerLight {
   public ref: number;
@@ -41,11 +42,13 @@ export class UsagerFormModel implements UsagerLight {
   // Infos de contact
   public email: string;
   public phone: string;
+  public telephone: Telephone;
 
   // Préférence d'envoi de notifs
   public preference: {
     phone: boolean;
     phoneNumber?: string;
+    telephone: Telephone;
   };
 
   public structureId: number | null;
@@ -126,7 +129,10 @@ export class UsagerFormModel implements UsagerLight {
 
     this.email = (usager && usager.email) || "";
     this.phone = (usager && usager.phone) || "";
-
+    this.telephone = (usager && usager.telephone) || {
+      indicatif: "fr",
+      numero: "",
+    };
     this.structureId = (usager && usager.structureId) || null;
     this.etapeDemande = (usager && usager.etapeDemande) || ETAPE_ETAT_CIVIL;
 
@@ -176,6 +182,12 @@ export class UsagerFormModel implements UsagerLight {
       phoneNumber: new RegExp(regexp.mobilePhone).test(this.phone)
         ? this.phone
         : "",
+      telephone: (usager &&
+        usager.preference &&
+        usager.preference.telephone) || {
+        indicatif: "fr",
+        numero: "",
+      },
     };
 
     this.rdv = new Rdv((usager && usager.rdv) || null);

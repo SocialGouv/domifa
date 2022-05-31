@@ -12,7 +12,7 @@ import {
 } from "../../../database";
 import { TimeZone } from "../../../util/territoires";
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
-import { telephoneFixIndicatif } from "../../../util/telephoneString.service";
+import { formatInternationalPhoneNumber } from "../../../util/telephoneString.service";
 
 @Injectable()
 export class CronSmsFetchEndDomService {
@@ -148,9 +148,8 @@ export class CronSmsFetchEndDomService {
           status: "TO_SEND",
           errorCount: 0,
           scheduledDate,
-          phoneNumber: telephoneFixIndicatif(
-            structure.telephone.indicatif,
-            usager.preference.phoneNumber
+          phoneNumber: formatInternationalPhoneNumber(
+            usager.preference.telephone
           ),
           senderName: structure.sms.senderName,
         });

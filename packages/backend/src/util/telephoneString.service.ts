@@ -1,29 +1,32 @@
+import * as lpn from "google-libphonenumber";
+
 import { Telephone } from "../_common/model/index";
-import countryCode from "./countryCode";
+import { appLogger } from "./AppLogger.service";
 
-export const telephoneString = (telephone: Telephone): string => {
-  if (!telephone) return "";
-
-  return `+${countryCode[telephone.indicatif]}${telephone.numero}`;
-};
-
-export const telephoneIndicatif = (indicatif: string): string => {
-  if (countryCode[indicatif] === undefined) return "+33";
-
-  return `+${countryCode[indicatif]}`;
-};
-
-// HOTFIX en attendant qu'on intégre les indicatifs dans les usagers
-export const telephoneFixIndicatif = (
-  indicatif: string,
-  phone: string
+export const formatInternationalPhoneNumber = (
+  telephone: Telephone
 ): string => {
-  if (countryCode[indicatif] === undefined) return "+33";
+  if (!telephone) return "";
+  else if (!telephone?.numero) return "";
+  else if (!telephone?.indicatif) return "";
 
-  if (indicatif === "fr" && phone[0] === "0") {
-    const newPhone = phone.substring(1, phone.length);
-    return `${telephoneIndicatif(indicatif)}${newPhone}`;
+  const phoneUtil = lpn.PhoneNumberUtil.getInstance();
+
+  try {
+    const number = phoneUtil.parse(
+      telephone.numero,
+      telephone.indicatif.toUpperCase()
+    );
+    const internationalPhone = phoneUtil.format(
+      number,
+      lpn.PhoneNumberFormat.INTERNATIONAL
+    );
+    return internationalPhone;
+  } catch (error) {
+    appLogger.error("Error format international phone number", {
+      error: error as any,
+      sentry: true,
+    });
+    return "";
   }
-
-  return `${telephoneIndicatif(indicatif)}${phone}`;
 };

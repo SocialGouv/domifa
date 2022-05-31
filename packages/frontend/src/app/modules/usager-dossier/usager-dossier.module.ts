@@ -2,12 +2,12 @@ import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
   NgbModule,
 } from "@ng-bootstrap/ng-bootstrap";
+import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
 
 import { NgbDateCustomParserFormatter } from "../shared/services/date-formatter";
 import { CustomDatepickerI18n } from "../shared/services/date-french";
@@ -52,6 +52,7 @@ import { DecisionValideFormComponent } from "./components/decision-valide-form/d
     ReactiveFormsModule,
     UsagerDossierRoutingModule,
     UsersModule,
+    NgxIntlTelInputModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

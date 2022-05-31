@@ -32,7 +32,7 @@ export class StructuresFormComponent implements OnInit {
   public PhoneNumberFormat = PhoneNumberFormat;
   public SearchCountryField = SearchCountryField;
   public CountryISO = CountryISO;
-  public preferredCountries = PREFERRED_COUNTRIES;
+  public preferredCountries: CountryISO[] = PREFERRED_COUNTRIES;
   public success = false;
   public structureForm!: FormGroup;
   public structure: StructureCommon;
