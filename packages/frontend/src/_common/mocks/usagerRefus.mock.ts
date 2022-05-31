@@ -45,7 +45,11 @@ export const usagerRefusMock: UsagerLight = {
     },
     portailUsagerEnabled: false,
   },
-  preference: { phone: false, phoneNumber: "0606060606" },
+  preference: {
+    phone: false,
+    phoneNumber: "0606060606",
+    telephone: { indicatif: "fr", numero: "0606060606" },
+  },
   rdv: { dateRdv: null, userId: 0, userName: "" },
   ayantsDroits: [
     {
@@ -87,6 +91,7 @@ export const usagerRefusMock: UsagerLight = {
   // interactions: [],
   // migration: false,
   phone: "0142424242",
+  telephone: { indicatif: "fr", numero: "0142424242" },
   surnom: "",
   import: {
     date: new Date("2020-12-01T10:00:24.980Z"),

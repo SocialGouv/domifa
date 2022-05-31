@@ -31,7 +31,11 @@ export const USAGER_REFUS_MOCK: PortailUsagerPublic = {
       nom: null,
     },
   },
-  preference: { email: false, phone: false, phoneNumber: "0606060606" },
+  preference: {
+    phone: false,
+    phoneNumber: "0606060606",
+    telephone: { indicatif: "fr", numero: "0606060606" },
+  },
   rdv: null,
   ayantsDroits: [
     {
@@ -60,6 +64,7 @@ export const USAGER_REFUS_MOCK: PortailUsagerPublic = {
   // interactions: [],
   // migration: false,
   phone: "0142424242",
+  telephone: { indicatif: "fr", numero: "0142424242" },
   surnom: "",
 
   typeDom: "RENOUVELLEMENT",

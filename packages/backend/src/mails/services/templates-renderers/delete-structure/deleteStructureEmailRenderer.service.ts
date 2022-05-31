@@ -35,7 +35,7 @@ async function renderTemplate({
     ville: structure.ville,
     code_postal: structure.codePostal,
     email: structure.email,
-    phone: telephoneString(structure.telephone),
+    phone: formatInternationalPhoneNumber(structure.telephone),
     responsable_nom: structure.responsable.nom,
     responsable_prenom: structure.responsable.prenom,
     responsable_fonction: structure.responsable.fonction,

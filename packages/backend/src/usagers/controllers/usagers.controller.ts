@@ -313,6 +313,10 @@ export class UsagersController {
     // Nettoyage du téléphone
     if (!preferenceDto.phone) {
       preferenceDto.phoneNumber = null;
+      preferenceDto.telephone = {
+        indicatif: "fr",
+        numero: "",
+      };
     }
 
     return this.usagersService.patch(

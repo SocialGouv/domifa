@@ -25,8 +25,8 @@ async function createTables(queryRunner: QueryRunner) {
 
   await queryRunner.query(
     `
+
     -- public.app_log definition
-<<<<<<< HEAD
 
     -- Drop table
 
@@ -507,8 +507,10 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_9992157cbe54583ff7002ae4c0" ON public.interactions USING btree ("userId");
     CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON public.interactions USING btree ("usagerUUID");
 
-=======
->>>>>>> e5d2597b3 (fix: db)
+
+-- public.app_log definition
+
+
 
 -- Drop table
 
@@ -545,7 +547,7 @@ CREATE UNLOGGED TABLE public.contact_support (
   attachment jsonb NULL,
   email text NOT NULL,
   category text NULL,
-  name text NOT NULL,
+  "name" text NOT NULL,
   "comments" text NULL,
   "structureName" text NULL,
   CONSTRAINT "PK_8e4a4781a01061a482fa33e5f5a" PRIMARY KEY (uuid)
@@ -959,20 +961,13 @@ CREATE UNLOGGED TABLE public.interactions (
   CONSTRAINT "FK_495b59d0dd15e43b262f2da8907" FOREIGN KEY ("interactionOutUUID") REFERENCES public.interactions(uuid),
   CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid)
 );
-<<<<<<< HEAD
 
-=======
->>>>>>> e5d2597b3 (fix: db)
 CREATE INDEX "IDX_0c5d7e9585c77ff002d4072c3c" ON public.interactions USING btree ("usagerRef");
 CREATE INDEX "IDX_1953f5ad67157bada8774f7e24" ON public.interactions USING btree ("structureId");
 CREATE INDEX "IDX_495b59d0dd15e43b262f2da890" ON public.interactions USING btree ("interactionOutUUID");
 CREATE INDEX "IDX_9992157cbe54583ff7002ae4c0" ON public.interactions USING btree ("userId");
 CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON public.interactions USING btree ("usagerUUID");
-<<<<<<< HEAD
 
-
-=======
->>>>>>> e5d2597b3 (fix: db)
     `
   );
 }

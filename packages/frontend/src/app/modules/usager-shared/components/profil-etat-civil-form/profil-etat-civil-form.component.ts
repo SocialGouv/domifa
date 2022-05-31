@@ -13,6 +13,12 @@ import {
   NgbDatepickerI18n,
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
+import {
+  CountryISO,
+  PhoneNumberFormat,
+  SearchCountryField,
+} from "ngx-intl-tel-input";
+
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   UsagerAyantDroit,
@@ -24,10 +30,10 @@ import {
   minDateNaissance,
   formatDateToNgb,
 } from "../../../../shared/bootstrap-util";
+import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
 import { regexp } from "../../../../shared/validators";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";
-
 import { UsagerFormModel, AyantDroit } from "../../interfaces";
 import { EtatCivilService } from "../../services/etat-civil.service";
 
@@ -42,9 +48,13 @@ import { EtatCivilService } from "../../services/etat-civil.service";
   ],
 })
 export class ProfilEtatCivilFormComponent implements OnInit {
+  public PhoneNumberFormat = PhoneNumberFormat;
+  public SearchCountryField = SearchCountryField;
+  public CountryISO = CountryISO;
+  public preferredCountries: CountryISO[] = PREFERRED_COUNTRIES;
+
   @Input() public usager: UsagerFormModel;
   @Output() public usagerChanges = new EventEmitter<UsagerLight>();
-
   public usagerForm!: FormGroup;
   public loading: boolean;
   public submitted: boolean;
@@ -101,6 +111,13 @@ export class ProfilEtatCivilFormComponent implements OnInit {
       langue: [this.usager.langue, languagesAutocomplete.validator("langue")],
       nom: [this.usager.nom, Validators.required],
       phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
+      telephone: this.formBuilder.control(
+        {
+          number: this.usager.telephone.numero,
+          countryCode: this.usager.telephone.indicatif,
+        },
+        []
+      ),
       prenom: [this.usager.prenom, Validators.required],
       sexe: [this.usager.sexe, Validators.required],
       surnom: [this.usager.surnom, []],
@@ -140,6 +157,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
 
   public updateInfos() {
     this.submitted = true;
+
     if (this.usagerForm.invalid) {
       this.toastService.error(
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
@@ -172,21 +190,36 @@ export class ProfilEtatCivilFormComponent implements OnInit {
         etapeDemande: this.usager.etapeDemande,
       };
 
-      this.etatCivilService.patchEtatCivil(formValue).subscribe({
-        next: (usager: UsagerLight) => {
-          this.editInfosChange.emit(false);
-          this.toastService.success("Enregistrement réussi");
+      const telephone =
+        this.usagerForm.value.telephone === null
+          ? {
+              indicatif: "fr",
+              numero: "",
+            }
+          : {
+              indicatif: this.usagerForm.value.telephone.countryCode,
+              numero: this.usagerForm.value.telephone.number,
+            };
 
-          this.usagerChanges.emit(usager);
-          this.submitted = false;
-          this.loading = false;
-        },
-        error: () => {
-          this.loading = false;
+      this.etatCivilService
+        .patchEtatCivil({ ...formValue, telephone })
+        .subscribe({
+          next: (usager: UsagerLight) => {
+            this.editInfosChange.emit(false);
+            this.toastService.success("Enregistrement réussi");
 
-          this.toastService.error("Veuillez vérifier les champs du formulaire");
-        },
-      });
+            this.usagerChanges.emit(usager);
+            this.submitted = false;
+            this.loading = false;
+          },
+          error: () => {
+            this.loading = false;
+
+            this.toastService.error(
+              "Veuillez vérifier les champs du formulaire"
+            );
+          },
+        });
     }
   }
 }

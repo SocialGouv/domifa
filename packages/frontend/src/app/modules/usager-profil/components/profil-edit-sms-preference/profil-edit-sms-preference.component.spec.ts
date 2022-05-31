@@ -6,11 +6,12 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
+import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { SharedModule } from "../../../shared/shared.module";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
-
 import { ProfilEditSmsPreferenceComponent } from "./profil-edit-sms-preference.component";
 
 describe("ProfilEditSmsPreferenceComponent", () => {
@@ -29,8 +30,9 @@ describe("ProfilEditSmsPreferenceComponent", () => {
         ReactiveFormsModule,
         FormsModule,
         SharedModule,
-
+        NgxIntlTelInputModule,
         HttpClientTestingModule,
+        BrowserAnimationsModule,
         ReactiveFormsModule,
         FormsModule,
       ],

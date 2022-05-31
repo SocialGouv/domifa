@@ -112,22 +112,35 @@
   <div class="row">
     <div class="col-md-4">
       <div class="form-group">
-        <label for="phone">Numéro de téléphone</label>
-        <input
-          type="tel"
-          class="form-control"
-          id="phone"
-          digitOnly
-          formControlName="phone"
-          aria-describedby="phoneHelp"
-          [ngClass]="{ 'is-invalid': f.phone.errors }"
-          placeholder="0606060606"
-          maxlength="10"
-        />
-        <p *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+        <label for="telephone">Numéro de téléphone</label>
+        <ngx-intl-tel-input
+          [cssClass]="{
+            'form-control': true,
+            'is-invalid': f.telephone.errors
+          }"
+          [preferredCountries]="preferredCountries"
+          [enableAutoCountrySelect]="true"
+          [enablePlaceholder]="true"
+          [searchCountryFlag]="true"
+          [searchCountryField]="[
+            SearchCountryField.Iso2,
+            SearchCountryField.Name
+          ]"
+          [selectedCountryISO]="CountryISO.France"
+          [selectFirstCountry]="false"
+          [maxLength]="15"
+          [phoneValidation]="true"
+          [separateDialCode]="true"
+          [inputId]="'telephone'"
+          [numberFormat]="PhoneNumberFormat.National"
+          formControlName="telephone"
+        ></ngx-intl-tel-input>
+        <p *ngIf="submitted && f.telephone.errors" class="invalid-feedback">
           Le numéro de téléphone est incorrect
         </p>
-        <small id="phoneHelp" class="form-text text-muted"> Optionnel </small>
+        <small id="phoneHelp" class="d-block form-text text-muted"
+          >Optionnel</small
+        >
       </div>
     </div>
     <div class="col-md-4">

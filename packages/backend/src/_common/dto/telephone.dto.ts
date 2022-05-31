@@ -6,7 +6,7 @@ import { COUNTRY_CODES } from "../model/telephone";
 export class TelephoneDto {
   @ApiProperty({
     type: String,
-    required: true,
+    required: false,
   })
   @IsString()
   @IsNotEmpty()

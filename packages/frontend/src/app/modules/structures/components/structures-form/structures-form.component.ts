@@ -34,7 +34,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
   public PhoneNumberFormat = PhoneNumberFormat;
   public SearchCountryField = SearchCountryField;
   public CountryISO = CountryISO;
-  public preferredCountries = PREFERRED_COUNTRIES;
+  public preferredCountries: CountryISO[] = PREFERRED_COUNTRIES;
   public success = false;
 
   public loading = false;

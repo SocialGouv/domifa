@@ -1,16 +1,21 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
+import {
+  CountryISO,
+  PhoneNumberFormat,
+  SearchCountryField,
+} from "ngx-intl-tel-input";
+
 import {
   UsagerLight,
   UsagerPreferenceContact,
   UserStructure,
   UserStructureRole,
 } from "../../../../../_common/model";
-import { regexp } from "../../../../shared/validators";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
-
 import { UsagerProfilService } from "../../services/usager-profil.service";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
+import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
 
 @Component({
   selector: "app-profil-edit-sms-preference",
@@ -18,6 +23,10 @@ import { UsagerProfilService } from "../../services/usager-profil.service";
   styleUrls: ["./profil-edit-sms-preference.component.css"],
 })
 export class ProfilEditSmsPreferenceComponent implements OnInit {
+  public PhoneNumberFormat = PhoneNumberFormat;
+  public SearchCountryField = SearchCountryField;
+  public CountryISO = CountryISO;
+  public preferredCountries: CountryISO[] = PREFERRED_COUNTRIES;
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
 
@@ -38,26 +47,33 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    const validator = this.usager.preference.phone
-      ? [Validators.required, Validators.pattern(regexp.mobilePhone)]
+    // const validator = this.usager.preference.phone
+    //   ? [Validators.required, Validators.pattern(regexp.mobilePhone)]
+    //   : null;
+    const telephoneValidator = this.usager.preference.phone
+      ? [Validators.required]
       : null;
 
     this.preferenceForm = this.formBuilder.group({
-      phoneNumber: [this.usager.preference.phoneNumber, validator],
+      // phoneNumber: [this.usager.preference.phoneNumber, validator],
       phone: [this.usager.preference.phone, [Validators.required]],
+
+      telephone: this.formBuilder.control(
+        {
+          number: this.usager.preference.telephone?.numero || "",
+          countryCode: this.usager.preference.telephone?.indicatif || "fr",
+        },
+        telephoneValidator
+      ),
     });
 
     this.preferenceForm
       .get("phone")
       .valueChanges.subscribe((value: boolean) => {
-        const isRequired =
-          value === true
-            ? [Validators.required, Validators.pattern(regexp.mobilePhone)]
-            : null;
+        const isRequiredTelephone = value ? [Validators.required] : null;
 
-        this.preferenceForm.get("phoneNumber").setValidators(isRequired);
-
-        this.preferenceForm.get("phoneNumber").updateValueAndValidity();
+        this.preferenceForm.get("telephone").setValidators(isRequiredTelephone);
+        this.preferenceForm.get("telephone").updateValueAndValidity();
       });
   }
 
@@ -71,6 +87,7 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
 
   public updateUsagerPreference() {
     this.submitted = true;
+
     if (this.preferenceForm.invalid) {
       this.toastService.error(
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
@@ -81,8 +98,17 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
         ...this.preferenceForm.value,
       };
 
-      if (!preference.phone) {
+      if (!preference.phone || this.preferenceForm.value.telephone === null) {
         preference.phoneNumber = null;
+        preference.telephone = {
+          indicatif: "fr",
+          numero: "",
+        };
+      } else {
+        preference.telephone = {
+          indicatif: this.preferenceForm.value.telephone.countryCode,
+          numero: this.preferenceForm.value.telephone.number,
+        };
       }
 
       this.usagerProfilService

@@ -192,22 +192,36 @@
           <div class="row">
             <div class="col">
               <div class="form-group">
-                <label for="phone">Numéro de téléphone</label>
-                <input
-                  type="tel"
-                  class="form-control"
-                  id="phone"
-                  digitOnly
-                  formControlName="phone"
-                  aria-describedby="phoneHelp"
-                  [ngClass]="{ 'is-invalid': f.phone.errors }"
-                  placeholder="0606060606"
-                  maxlength="10"
-                />
-                <p *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                <label for="telephone">Numéro de téléphone</label>
+                <ngx-intl-tel-input
+                  [cssClass]="{
+                    'form-control': true,
+                    'is-invalid': submitted && f.telephone.errors
+                  }"
+                  [preferredCountries]="preferredCountries"
+                  [enableAutoCountrySelect]="true"
+                  [enablePlaceholder]="true"
+                  [searchCountryFlag]="true"
+                  [searchCountryField]="[
+                    SearchCountryField.Iso2,
+                    SearchCountryField.Name
+                  ]"
+                  [selectedCountryISO]="CountryISO.France"
+                  [selectFirstCountry]="false"
+                  [maxLength]="15"
+                  [phoneValidation]="true"
+                  [separateDialCode]="true"
+                  [inputId]="'telephone'"
+                  [numberFormat]="PhoneNumberFormat.National"
+                  formControlName="telephone"
+                ></ngx-intl-tel-input>
+                <p
+                  *ngIf="submitted && f.telephone.errors"
+                  class="invalid-feedback"
+                >
                   Le numéro de téléphone est incorrect
                 </p>
-                <small id="phoneHelp" class="form-text text-muted">
+                <small id="phoneHelp" class="d-block form-text text-muted">
                   Optionnel
                 </small>
               </div>
@@ -472,24 +486,32 @@
           <div class="col" *ngIf="f.preference.get('phone').value === true">
             <div class="form-group required">
               <label for="phoneNumber">Numéro de téléphone</label>
-              <input
-                type="tel"
-                class="form-control"
-                id="phoneNumber"
-                digitOnly
-                formControlName="phoneNumber"
-                aria-describedby="phoneNumber"
-                [ngClass]="{
+              <ngx-intl-tel-input
+                [cssClass]="{
+                  'form-control': true,
                   'is-invalid':
-                    submitted && f.preference.get('phoneNumber').errors
+                    submitted && f.preference.get('telephone').errors
                 }"
-                placeholder="0606060606"
-                maxlength="10"
-                required
-              />
-              <small>Numéro de portable uniquement</small>
+                [preferredCountries]="preferredCountries"
+                [enableAutoCountrySelect]="true"
+                [enablePlaceholder]="true"
+                [searchCountryFlag]="true"
+                [searchCountryField]="[
+                  SearchCountryField.Iso2,
+                  SearchCountryField.Name
+                ]"
+                [selectedCountryISO]="CountryISO.France"
+                [selectFirstCountry]="false"
+                [maxLength]="15"
+                [phoneValidation]="true"
+                [separateDialCode]="true"
+                [inputId]="'preferenceTelephone'"
+                [numberFormat]="PhoneNumberFormat.National"
+                formControlName="telephone"
+              ></ngx-intl-tel-input>
+              <small class="d-block">Numéro de portable uniquement</small>
               <div
-                *ngIf="submitted && f.preference.get('phoneNumber').errors"
+                *ngIf="submitted && f.preference.get('telephone').errors"
                 class="invalid-feedback"
               >
                 Le numéro de téléphone est incorrect

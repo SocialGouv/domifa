@@ -20,6 +20,11 @@ import {
   NgbDatepickerI18n,
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
+import {
+  CountryISO,
+  PhoneNumberFormat,
+  SearchCountryField,
+} from "ngx-intl-tel-input";
 
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
@@ -29,7 +34,6 @@ import {
   minDateNaissance,
   minDateToday,
 } from "src/app/shared/bootstrap-util";
-
 import {
   UsagerLight,
   UserStructure,
@@ -43,6 +47,7 @@ import { CustomToastService } from "../../../shared/services/custom-toast.servic
 import { UsagerFormModel, AyantDroit } from "../../../usager-shared/interfaces";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
+import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
 
 @Component({
   animations: [fadeInOut],
@@ -56,6 +61,10 @@ import { UsagerDossierService } from "../../services/usager-dossier.service";
   templateUrl: "./step-etat-civil.component.html",
 })
 export class StepEtatCivilComponent implements OnInit {
+  public PhoneNumberFormat = PhoneNumberFormat;
+  public SearchCountryField = SearchCountryField;
+  public CountryISO = CountryISO;
+  public preferredCountries: CountryISO[] = PREFERRED_COUNTRIES;
   public doublons: UsagerLight[];
   public LIEN_PARENTE_LABELS = LIEN_PARENTE_LABELS;
 
@@ -141,6 +150,10 @@ export class StepEtatCivilComponent implements OnInit {
   }
 
   public initForm(): void {
+    const preferenceTelephoneValidator = this.usager.preference.phone
+      ? [Validators.required]
+      : null;
+
     this.usagerForm = this.formBuilder.group({
       ayantsDroits: this.formBuilder.array([]),
       langue: [this.usager.langue, languagesAutocomplete.validator("langue")],
@@ -153,9 +166,23 @@ export class StepEtatCivilComponent implements OnInit {
       email: [this.usager.email, [Validators.email]],
       nom: [this.usager.nom, Validators.required],
       phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
+      telephone: this.formBuilder.control(
+        {
+          number: this.usager.telephone.numero,
+          countryCode: this.usager.telephone.indicatif,
+        },
+        []
+      ),
       preference: this.formBuilder.group({
         phone: [this.usager.preference.phone, [Validators.required]],
         phoneNumber: [this.usager.preference.phoneNumber, []],
+        telephone: this.formBuilder.control(
+          {
+            number: this.usager.preference?.telephone?.numero || "",
+            countryCode: this.usager.preference?.telephone?.indicatif || "fr",
+          },
+          preferenceTelephoneValidator
+        ),
       }),
       prenom: [this.usager.prenom, Validators.required],
       sexe: [this.usager.sexe, Validators.required],
@@ -171,19 +198,14 @@ export class StepEtatCivilComponent implements OnInit {
       .get("preference")
       .get("phone")
       .valueChanges.subscribe((value: boolean) => {
-        const isRequired =
-          value === true
-            ? [Validators.required, Validators.pattern(regexp.mobilePhone)]
-            : null;
-
+        const isRequiredTelephone = value ? [Validators.required] : null;
         this.usagerForm
           .get("preference")
-          .get("phoneNumber")
-          .setValidators(isRequired);
-
+          .get("telephone")
+          .setValidators(isRequiredTelephone);
         this.usagerForm
           .get("preference")
-          .get("phoneNumber")
+          .get("telephone")
           .updateValueAndValidity();
       });
   }
@@ -294,14 +316,33 @@ export class StepEtatCivilComponent implements OnInit {
       etapeDemande: this.usager.etapeDemande,
     };
 
-    if (!formValue.preference.phone) {
-      formValue.preference.phoneNumber = null;
+    if (formValue.preference.phone) {
+      formValue.preference.telephone = {
+        indicatif: this.usagerForm.value.preference.telephone.countryCode,
+        numero: this.usagerForm.value.preference.telephone.number,
+      };
+    } else {
+      formValue.preference.telephone = {
+        indicatif: "fr",
+        numero: "",
+      };
     }
 
     delete formValue.ayantsDroitsExist;
 
+    const telephone =
+      this.usagerForm.value.telephone === null
+        ? {
+            indicatif: "fr",
+            numero: "",
+          }
+        : {
+            indicatif: this.usagerForm.value.telephone.countryCode,
+            numero: this.usagerForm.value.telephone.number,
+          };
+
     this.usagerDossierService
-      .editStepEtatCivil(formValue, this.usager.ref)
+      .editStepEtatCivil({ ...formValue, telephone }, this.usager.ref)
       .subscribe({
         next: (usager: UsagerLight) => {
           this.usager = new UsagerFormModel(usager);

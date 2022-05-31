@@ -17,4 +17,8 @@ export const USAGER_DEFAULT_OPTIONS: UsagerOptions = {
 
 export const USAGER_DEFAULT_PREFERENCE = {
   phone: false,
+  telephone: {
+    indicatif: "fr",
+    numero: "",
+  },
 };

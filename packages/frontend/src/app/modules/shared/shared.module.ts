@@ -10,8 +10,8 @@ import { CleanStrDirective } from "./directives/clean-str.directive";
 import { DateFrDirective } from "./directives/date-fr.directive";
 import { DigitOnlyDirective } from "./directives/digit-only.directive";
 import { FormatBigNumberPipe } from "./pipes/formatBigNumber.pipe";
-import { FormatPhoneNumberPipe } from "./pipes/formatPhoneNumber.pipe";
 import { UsagerNomCompletPipe } from "./pipes/usager-nom-complet.pipe";
+import { FormatInternationalPhoneNumberPipe } from "./pipes/formatInternationalPhoneNumber.pipe";
 
 import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
 
@@ -21,21 +21,21 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
     DateFrDirective,
     CleanStrDirective,
     UsagerNomCompletPipe,
-    FormatPhoneNumberPipe,
     FormatBigNumberPipe,
     CustomToastrComponent,
     AutoFocusDirective,
+    FormatInternationalPhoneNumberPipe,
   ],
   exports: [
     DigitOnlyDirective,
     DateFrDirective,
     CleanStrDirective,
     UsagerNomCompletPipe,
-    FormatPhoneNumberPipe,
     FormatBigNumberPipe,
     FontAwesomeModule,
     CustomToastrComponent,
     AutoFocusDirective,
+    FormatInternationalPhoneNumberPipe,
   ],
   imports: [CommonModule, FontAwesomeModule],
 })

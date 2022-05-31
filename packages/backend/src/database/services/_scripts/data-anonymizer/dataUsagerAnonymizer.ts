@@ -92,7 +92,10 @@ async function _anonymizeUsager(
     },
     preference: {
       phone: false,
-      phoneNumber: null,
+      telephone: {
+        indicatif: "fr",
+        numero: "",
+      },
     },
     nom: dataGenerator.lastName(),
     surnom: null,

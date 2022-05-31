@@ -35,7 +35,7 @@ export class StructureEditFormComponent implements OnInit {
   public PhoneNumberFormat = PhoneNumberFormat;
   public SearchCountryField = SearchCountryField;
   public CountryISO = CountryISO;
-  public preferredCountries = PREFERRED_COUNTRIES;
+  public preferredCountries: CountryISO[] = PREFERRED_COUNTRIES;
   public structureForm: FormGroup;
   public DEPARTEMENTS_LISTE = DEPARTEMENTS_LISTE;
   public loading = false;

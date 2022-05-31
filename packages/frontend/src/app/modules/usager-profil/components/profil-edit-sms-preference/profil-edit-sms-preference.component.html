@@ -35,11 +35,8 @@
 
   <div class="col-md-6 reponses">
     <span class="question">Numéro de téléphone</span>
-    <span *ngIf="usager.preference.phoneNumber" class="valeur"
-      >{{ usager.preference.phoneNumber | formatPhoneNumber }}
-    </span>
-    <span *ngIf="!usager.preference.phoneNumber" class="valeur">
-      Non renseigné
+    <span class="valeur"
+      >{{ usager.preference.telephone | formatInternationalPhoneNumber }}
     </span>
   </div>
 </div>
@@ -85,23 +82,32 @@
       class="col-md-6 form-group required"
       *ngIf="formPref.phone.value === true"
     >
-      <label for="phone"
+      <label for="telephone"
         >À quel numéro de téléphone ? (Numéro de portable uniquement)</label
       >
-      <input
-        type="tel"
-        class="form-control"
-        id="phone"
-        digitOnly
-        formControlName="phoneNumber"
-        aria-describedby="phoneHelp"
-        [ngClass]="{ 'is-invalid': submitted && formPref.phoneNumber.errors }"
-        placeholder="0606060606"
-        maxlength="10"
-        required
-      />
-
-      <div *ngIf="formPref.phoneNumber.errors" class="invalid-feedback">
+      <ngx-intl-tel-input
+        [cssClass]="{
+          'form-control': true,
+          'is-invalid': submitted && formPref.telephone.errors
+        }"
+        [preferredCountries]="preferredCountries"
+        [enableAutoCountrySelect]="true"
+        [enablePlaceholder]="true"
+        [searchCountryFlag]="true"
+        [searchCountryField]="[
+          SearchCountryField.Iso2,
+          SearchCountryField.Name
+        ]"
+        [selectedCountryISO]="CountryISO.France"
+        [selectFirstCountry]="false"
+        [maxLength]="15"
+        [phoneValidation]="true"
+        [separateDialCode]="true"
+        [inputId]="'telephone'"
+        [numberFormat]="PhoneNumberFormat.National"
+        formControlName="telephone"
+      ></ngx-intl-tel-input>
+      <div *ngIf="formPref.telephone.errors" class="invalid-feedback">
         Le numéro de portable est incorrect
       </div>
     </div>
