@@ -12,7 +12,7 @@ import {
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
-import * as fs from "fs";
+
 import * as fse from "fs-extra";
 
 import path = require("path");
@@ -43,7 +43,7 @@ export class ContactSupportController {
             "contact-support"
           );
           if (!(await fse.pathExists(dir))) {
-            await fs.promises.mkdir(dir, { recursive: true });
+            await fse.ensureDir(dir);
           }
           cb(null, dir);
         },

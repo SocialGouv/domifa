@@ -5,7 +5,7 @@
 //
 
 import { HttpStatus } from "@nestjs/common";
-import * as fs from "fs";
+import * as fse from "fs-extra";
 import * as path from "path";
 import { AppTestContext, AppTestHttpClient } from "../../../util/test";
 import {
@@ -27,7 +27,7 @@ export const ImportControllerSecurityTests: AppTestHttpClientSecurityTestDef[] =
       query: async (context: AppTestContext) => {
         const importFilePath = path.resolve(importFilesDir, "import_ko_1.xlsx");
 
-        expect(fs.existsSync(importFilePath)).toBeTruthy();
+        expect(await fse.pathExists(importFilePath)).toBeTruthy();
 
         const headers: { [name: string]: string } = {};
         headers["Content-Type"] = "multipart/form-data";

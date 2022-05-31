@@ -79,7 +79,7 @@ export class UsagerStructureDocsController {
     }
 
     // Document à compléter
-    const content = customDocTemplateLoader.loadCustomDocTemplate({
+    const content = await customDocTemplateLoader.loadCustomDocTemplate({
       docPath: doc.path,
       structureId: user.structureId,
     });
@@ -138,11 +138,11 @@ export class UsagerStructureDocsController {
     });
 
     const content = doc
-      ? customDocTemplateLoader.loadCustomDocTemplate({
+      ? await customDocTemplateLoader.loadCustomDocTemplate({
           docPath: doc.path,
           structureId: user.structureId,
         })
-      : customDocTemplateLoader.loadDefaultDocTemplate({
+      : await customDocTemplateLoader.loadDefaultDocTemplate({
           docType,
         });
 
