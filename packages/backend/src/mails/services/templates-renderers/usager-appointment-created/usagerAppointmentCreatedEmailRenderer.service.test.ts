@@ -18,7 +18,7 @@ describe("usagerAppointmentCreatedEmailRenderer", () => {
     expect(text).toContain("Paul");
     expect(text).toContain("Smith");
     if (domifaConfig().envId === "local") {
-      fs.writeFileSync(
+      await fs.promises.writeFile(
         path.join(
           __dirname,
           "../../../../_static/email-templates",
@@ -29,16 +29,16 @@ describe("usagerAppointmentCreatedEmailRenderer", () => {
       );
     }
 
-    const refHtml = fs
-      .readFileSync(
-        path.join(
-          __dirname,
-          "../../../../_static/email-templates",
-          "usager-appointment-created",
-          "test.ref.html"
-        )
-      )
-      .toString();
+    const refHtml = await fs.promises.readFile(
+      path.join(
+        __dirname,
+        "../../../../_static/email-templates",
+        "usager-appointment-created",
+        "test.ref.html"
+      ),
+      "utf-8"
+    );
+
     expect(refHtml).toEqual(html);
   });
 });

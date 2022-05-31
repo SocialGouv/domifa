@@ -1,3 +1,4 @@
+import { UsagerLight } from "./../../../_common/model/usager/UsagerLight.type";
 import { format } from "date-fns";
 import { generateDateForCerfa } from ".";
 import {
@@ -30,7 +31,7 @@ export const getUsagerRef = (usager: Usager): string => {
 };
 
 export const generateCerfaDatas = (
-  usager: Usager,
+  usager: UsagerLight,
   user: UserStructureAuthenticated,
   typeCerfa: CerfaDocType
 ): UsagerCerfaFields => {

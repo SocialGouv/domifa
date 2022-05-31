@@ -22,8 +22,6 @@ export class UserStructureTable
   extends AppTypeormTable<UserStructureTable>
   implements UserStructure
 {
-  mail: UserStructureMails;
-
   @Index()
   @Column({ type: "text", unique: true })
   email: string;
@@ -55,9 +53,9 @@ export class UserStructureTable
   @Column({ type: "integer" })
   structureId: number;
 
-  @ManyToOne(() => StructureTable, { lazy: true })
+  @ManyToOne(() => StructureTable)
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
-  structureFk?: Promise<StructureTable>;
+  structureFk: StructureTable;
 
   @Column({ type: "jsonb", default: '{"guide": false, "import": false}' })
   mails: UserStructureMails;

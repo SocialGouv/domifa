@@ -430,27 +430,24 @@ export class UsagersController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: UsagerLight
   ) {
-    const usager = await usagerRepository.findOne({ uuid: currentUsager.uuid });
+    const pdfForm =
+      typeCerfa === "attestation"
+        ? "../../_static/static-docs/attestation.pdf"
+        : "../../_static/static-docs/demande.pdf";
+
+    const pdfInfos = generateCerfaDatas(currentUsager, user, typeCerfa);
+
+    const filePath = await fs.promises.readFile(
+      path.resolve(__dirname, pdfForm)
+    );
 
     try {
-      const pdfForm =
-        typeCerfa === "attestation"
-          ? "../../_static/static-docs/attestation.pdf"
-          : "../../_static/static-docs/demande.pdf";
-
-      const pdfInfos = generateCerfaDatas(usager, user, typeCerfa);
-
-      const filePath = fs.readFileSync(path.resolve(__dirname, pdfForm));
       const buffer = await pdftk.input(filePath).fillForm(pdfInfos).output();
-
-      res.setHeader("content-type", "application/pdf");
-      return res.send(buffer);
+      return res.setHeader("content-type", "application/pdf").send(buffer);
     } catch (err) {
       console.error(err);
-      const pdfInfos = generateCerfaDatas(usager, user, typeCerfa);
-
       appLogger.error(
-        `CERFA ERROR structure : ${user.structureId} / usager :${usager.ref} `,
+        `CERFA ERROR structure : ${user.structureId} / usager :${currentUsager.ref} `,
         {
           sentry: true,
           extra: {

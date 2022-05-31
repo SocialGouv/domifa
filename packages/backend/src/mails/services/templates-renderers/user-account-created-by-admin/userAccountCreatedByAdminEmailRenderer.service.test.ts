@@ -16,7 +16,7 @@ describe("userAccountCreatedByAdminEmailRenderer", () => {
     expect(text).toContain(model.lien);
 
     if (domifaConfig().envId === "local") {
-      fs.writeFileSync(
+      await fs.promises.writeFile(
         path.join(
           __dirname,
           "../../../../_static/email-templates",
@@ -27,16 +27,16 @@ describe("userAccountCreatedByAdminEmailRenderer", () => {
       );
     }
 
-    const refHtml = fs
-      .readFileSync(
-        path.join(
-          __dirname,
-          "../../../../_static/email-templates",
-          "user-account-created-by-admin",
-          "test.ref.html"
-        )
-      )
-      .toString();
+    const refHtml = await fs.promises.readFile(
+      path.join(
+        __dirname,
+        "../../../../_static/email-templates",
+        "user-account-created-by-admin",
+        "test.ref.html"
+      ),
+      "utf-8"
+    );
+
     expect(refHtml).toEqual(html);
   });
 });

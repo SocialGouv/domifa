@@ -83,7 +83,7 @@ export class AppComponent implements OnInit {
     this.currentUrl = this.router.url;
 
     // REFRESH TOKEN
-    this.authService.isAuth().subscribe();
+    //this.authService.isAuth().subscribe();
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;
     });

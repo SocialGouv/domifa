@@ -17,6 +17,7 @@ const USAGER_LIGHT_ATTRIBUTES: (keyof UsagerTable)[] = [
   "datePremiereDom",
   "typeDom",
   "docs",
+  "docsPath",
   "entretien",
   "etapeDemande",
   "rdv",

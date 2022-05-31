@@ -16,7 +16,7 @@ describe("guideUtilisateurEmailRenderer", () => {
     expect(text).toContain(model.lienGuide);
 
     if (domifaConfig().envId === "local") {
-      fs.writeFileSync(
+      await fs.promises.writeFile(
         path.join(
           __dirname,
           "../../../../_static/email-templates",
@@ -27,16 +27,16 @@ describe("guideUtilisateurEmailRenderer", () => {
       );
     }
 
-    const refHtml = fs
-      .readFileSync(
-        path.join(
-          __dirname,
-          "../../../../_static/email-templates",
-          "guide-utilisateur",
-          "test.ref.html"
-        )
-      )
-      .toString();
+    const refHtml = await fs.promises.readFile(
+      path.join(
+        __dirname,
+        "../../../../_static/email-templates",
+        "guide-utilisateur",
+        "test.ref.html"
+      ),
+      "utf-8"
+    );
+
     expect(refHtml).toEqual(html);
   });
 });

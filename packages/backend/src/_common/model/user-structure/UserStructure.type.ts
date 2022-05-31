@@ -22,7 +22,7 @@ export type UserStructure = AppEntity & {
 
   role: UserStructureRole; // security profile
 
-  mail: UserStructureMails;
+  mails: UserStructureMails;
 
   structure?: StructureCommon;
 };

@@ -129,7 +129,7 @@ async function connect(
     username: pgConfig.username,
     password: pgConfig.password,
     database: pgConfig.database,
-    logger: "simple-console",
+    logger: "advanced-console",
     logging:
       domifaConfig().envId !== "test"
         ? "all" //  ? "["error", "warn", "log", "info"]"

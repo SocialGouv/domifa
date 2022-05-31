@@ -15,10 +15,12 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
-import * as crypto from "crypto";
 import { Response } from "express";
-import * as fs from "fs";
 import { diskStorage } from "multer";
+import * as crypto from "crypto";
+
+import * as fs from "fs";
+import * as fse from "fs-extra";
 import * as path from "path";
 
 import { AllowUserStructureRoles } from "../../auth/decorators";
@@ -27,7 +29,7 @@ import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
-import { usagerRepository } from "../../database";
+
 import { appLogger } from "../../util";
 import { deleteFile, randomName, validateUpload } from "../../util/FileManager";
 import {
@@ -39,6 +41,7 @@ import {
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
+import { UploadUsagerDocDto } from "../dto";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
 @ApiTags("docs")
@@ -48,7 +51,7 @@ export class DocsController {
   constructor(
     private readonly usagersService: UsagersService,
     private readonly docsService: DocumentsService,
-    private appLogsService: AppLogsService
+    private readonly appLogsService: AppLogsService
   ) {}
 
   @ApiOperation({ summary: "Upload de pièces jointes" })
@@ -63,15 +66,21 @@ export class DocsController {
         cb(null, true);
       },
       storage: diskStorage({
-        destination: (req: any, file: Express.Multer.File, cb: any) => {
+        destination: async (req: any, file: Express.Multer.File, cb: any) => {
           const dir = path.join(
             domifaConfig().upload.basePath,
             `${req.user.structureId}`,
             `${req.usager.ref}`
           );
 
-          if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, { recursive: true });
+          try {
+            await fse.ensureDir(dir);
+          } catch (err) {
+            console.error(err);
+            throw new HttpException(
+              "INTERNAL_ERROR_UPLOAD",
+              HttpStatus.BAD_REQUEST
+            );
           }
           cb(null, dir);
         },
@@ -84,14 +93,19 @@ export class DocsController {
   public async uploadDoc(
     @Param("usagerRef") usagerRef: number,
     @UploadedFile() file: Express.Multer.File,
-    @Body() postData: any,
+    @Body() postData: UploadUsagerDocDto,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: UsagerLight,
     @Res() res: Response
   ) {
-    const usager = await usagerRepository.findOne({
-      uuid: currentUsager.uuid,
-    });
+    try {
+      await this.encryptFile(file.path);
+    } catch (e) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "CANNOT_ENCRYPT_FILE" });
+    }
+
     const userName = user.prenom + " " + user.nom;
 
     const newDoc = {
@@ -101,31 +115,19 @@ export class DocsController {
       label: postData.label,
     };
 
-    const fileName = path.join(
-      domifaConfig().upload.basePath,
-      `${user.structureId}`,
-      `${usagerRef}`,
-      file.filename
-    );
-
-    try {
-      this.encryptFile(fileName);
-    } catch (e) {
-      return res
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "CANNOT_ENCRYPT_FILE" });
-    }
-
     const fieldsToUpdate: Partial<Usager> = {
-      docs: usager.docs,
-      docsPath: usager.docsPath,
+      docs: currentUsager.docs,
+      docsPath: currentUsager.docsPath,
     };
+
+    console.log(currentUsager.docs);
+    console.log(currentUsager.docsPath);
 
     fieldsToUpdate.docs.push(newDoc);
     fieldsToUpdate.docsPath.push(file.filename);
 
     const retour = await this.usagersService.patch(
-      { uuid: usager.uuid },
+      { uuid: currentUsager.uuid },
       fieldsToUpdate
     );
 
@@ -147,32 +149,27 @@ export class DocsController {
     @CurrentUsager() currentUsager: UsagerLight,
     @Res() res: Response
   ) {
-    const usager = await usagerRepository.findOne({
-      uuid: currentUsager.uuid,
-    });
     if (
-      typeof usager.docs[index] === "undefined" ||
-      typeof usager.docsPath[index] === "undefined"
+      typeof currentUsager.docs[index] === "undefined" ||
+      typeof currentUsager.docsPath[index] === "undefined"
     ) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "DOC_NOT_FOUND" });
     }
-    const fileInfos: UsagerDoc & { path?: string } = usager.docs[index];
-    fileInfos.path = usager.docsPath[index];
+    const fileInfos: UsagerDoc & { path?: string } = currentUsager.docs[index];
+    fileInfos.path = currentUsager.docsPath[index];
 
-    const pathFile = path.resolve(
-      path.join(
-        domifaConfig().upload.basePath,
-        `${usager.structureId}`,
-        `${usager.ref}`,
-        fileInfos.path
-      )
+    const pathFile = path.join(
+      domifaConfig().upload.basePath,
+      `${currentUsager.structureId}`,
+      `${currentUsager.ref}`,
+      fileInfos.path
     );
 
-    deleteFile(pathFile);
+    await deleteFile(pathFile);
 
-    deleteFile(pathFile + ".encrypted");
+    await deleteFile(pathFile + ".encrypted");
 
     const updatedUsager = await this.docsService.deleteDocument(
       usagerRef,
@@ -204,49 +201,47 @@ export class DocsController {
     @Res() res: Response,
     @CurrentUsager() currentUsager: UsagerLight
   ) {
-    const usager = await usagerRepository.findOne({
-      uuid: currentUsager.uuid,
-    });
     if (
-      typeof usager.docs[index] === "undefined" ||
-      typeof usager.docsPath[index] === "undefined"
+      typeof currentUsager.docs[index] === "undefined" ||
+      typeof currentUsager.docsPath[index] === "undefined"
     ) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    const fileInfos: UsagerDoc & { path?: string } = usager.docs[index];
-    fileInfos.path = usager.docsPath[index];
+    const fileInfos: UsagerDoc & { path?: string } = currentUsager.docs[index];
+    fileInfos.path = currentUsager.docsPath[index];
 
-    const pathFile = path.resolve(
-      path.join(
-        domifaConfig().upload.basePath,
-        `${usager.structureId}`,
-        `${usager.ref}`,
-        fileInfos.path
-      )
+    const pathFile = path.join(
+      domifaConfig().upload.basePath,
+      `${currentUsager.structureId}`,
+      `${currentUsager.ref}`,
+      fileInfos.path
     );
 
-    if (!fs.existsSync(pathFile + ".encrypted")) {
-      if (!fs.existsSync(pathFile)) {
-        const basePathExists = fs.existsSync(
-          path.resolve(
-            path.join(
-              domifaConfig().upload.basePath,
-              `${usager.structureId}`,
-              `${usager.ref}`
-            )
+    if (!(await fse.pathExists(pathFile + ".encrypted"))) {
+      // Si le fichier
+      if (!(await fse.pathExists(pathFile))) {
+        const basePathExists = await fse.pathExists(
+          path.join(
+            domifaConfig().upload.basePath,
+            `${currentUsager.structureId}`,
+            `${currentUsager.ref}`
           )
         );
-        const baseStructurePathExists = fs.existsSync(
-          path.resolve(
-            path.join(domifaConfig().upload.basePath, `${usager.structureId}`)
+
+        const baseStructurePathExists = await fse.pathExists(
+          path.join(
+            domifaConfig().upload.basePath,
+            `${currentUsager.structureId}`
           )
         );
-        const baseUsagerPathExists = fs.existsSync(
+
+        const baseUsagerPathExists = await fse.pathExists(
           path.resolve(path.join(domifaConfig().upload.basePath))
         );
+
         appLogger.error("Error reading usager document", {
           sentry: true,
           extra: {
@@ -263,7 +258,7 @@ export class DocsController {
       // FIX: pour les rares documents non encryptés du tout début du projet
       else {
         try {
-          this.encryptFile(pathFile);
+          await this.encryptFile(pathFile);
         } catch (e) {
           return res
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -279,7 +274,7 @@ export class DocsController {
     // TEMP FIX : Utiliser la deuxième clé d'encryptage générée le 30 juin
     // A supprimer une fois que les fichiers seront de nouveaux regénérés
     if (
-      new Date(usager.docs[index].createdAt) <
+      new Date(currentUsager.docs[index].createdAt) <
       new Date("2021-06-30T01:01:01.113Z")
     ) {
       iv = domifaConfig().security.files.ivSecours;
@@ -303,13 +298,14 @@ export class DocsController {
           .json({ message: "CANNOT_ENCRYPT_FILE" });
       })
       .on("finish", () => {
-        res.sendFile(output.path as string);
         // Suppression du fichier non chiffré
         deleteFile(pathFile + ".unencrypted");
+
+        return res.sendFile(output.path as string);
       });
   }
 
-  private encryptFile(fileName: string): void {
+  private async encryptFile(fileName: string): Promise<void> {
     const key = domifaConfig().security.files.private;
     const iv = domifaConfig().security.files.iv;
 
