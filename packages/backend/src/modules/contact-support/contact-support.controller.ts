@@ -37,17 +37,15 @@ export class ContactSupportController {
         return cb(null, true);
       },
       storage: diskStorage({
-        destination: async (req: any, file: Express.Multer.File, cb: any) => {
+        destination: async (_req: any, _file: Express.Multer.File, cb: any) => {
           const dir = path.join(
             domifaConfig().upload.basePath,
             "contact-support"
           );
-          if (!(await fse.pathExists(dir))) {
-            await fse.ensureDir(dir);
-          }
+          await fse.ensureDir(dir);
           cb(null, dir);
         },
-        filename: (req: any, file: Express.Multer.File, cb: any) => {
+        filename: (_req: any, file: Express.Multer.File, cb: any) => {
           return cb(null, randomName(file));
         },
       }),

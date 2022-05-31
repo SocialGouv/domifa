@@ -46,7 +46,7 @@ export const extensions = {
 };
 
 // Suppression effective d'un fichier
-export async function deleteFile(pathFile: string) {
+export async function deleteFile(pathFile: string): Promise<void> {
   try {
     await fse.remove(pathFile);
   } catch (err) {
@@ -72,7 +72,7 @@ export function validateUpload(
     | "STRUCTURE_DOC"
     | "USAGER_DOC"
     | "IMPORT",
-  req: any,
+  _req: any,
   file: Express.Multer.File
 ): boolean {
   const validFileMimeType = mimeTypes[uploadType].includes(file.mimetype);

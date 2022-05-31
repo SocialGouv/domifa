@@ -55,7 +55,9 @@ export class StructuresAuthController {
     @CurrentUser() user: UserStructureAuthenticated
   ) {
     if (!user || user === null) {
-      return res.status(HttpStatus.UNAUTHORIZED).json();
+      return res
+        .status(HttpStatus.UNAUTHORIZED)
+        .json({ message: "WRONG_CREDENTIALS" });
     }
 
     return res.status(HttpStatus.OK).json({

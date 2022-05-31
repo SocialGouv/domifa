@@ -23,5 +23,5 @@ export class StatsDto {
     required: true,
   })
   @IsNotEmpty()
-  structureId!: number;
+  public structureId!: number;
 }

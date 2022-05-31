@@ -112,6 +112,7 @@ export class AdminStructuresController {
     const fileName = `${moment(stats.exportDate).format(
       "DD-MM-yyyy_HH-mm"
     )}_export-stats-deploiement.xlsx`;
+
     await expressResponseExcelRenderer.sendExcelWorkbook({
       res,
       fileName,
