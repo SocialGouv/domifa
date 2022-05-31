@@ -13,7 +13,13 @@ import {
 import { StructureAdresseCourrierDto, StructureResponsableDto } from ".";
 import { TimeZone } from "../../util/territoires";
 import { TrimOrNullTransform } from "../../_common/decorators";
-import { StructureType, STRUCTURE_TYPE_MAP } from "../../_common/model";
+
+import {
+  StructureType,
+  STRUCTURE_TYPE_MAP,
+  Telephone,
+} from "../../_common/model";
+import { TelephoneDto } from "../../_common/dto";
 
 export class StructureDto {
   @ApiProperty({
@@ -107,10 +113,18 @@ export class StructureDto {
 
   @ApiProperty({
     type: String,
+    required: false,
+  })
+  public phone: string;
+
+  @ApiProperty({
+    type: Object,
     required: true,
   })
+  @ValidateNested({ each: true })
+  @Type(() => TelephoneDto)
   @IsNotEmpty()
-  public phone!: string;
+  public telephone: Telephone;
 
   @ApiProperty({
     required: true,

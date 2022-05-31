@@ -17,6 +17,7 @@ export type StructureCommon = Pick<
   | "codePostal"
   | "agrement"
   | "phone"
+  | "telephone"
   | "email"
   | "responsable"
   | "options"

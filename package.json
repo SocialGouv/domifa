@@ -15,6 +15,10 @@
     "@socialgouv/sre-secrets": "^1.4.0",
     "lerna": "^5.0.0"
   },
+  "engines": {
+    "npm": ">=7.0.0",
+    "node": ">=16.0.0"
+  },
   "workspaces": {
     "packages": [
       "packages/*"
@@ -36,7 +40,14 @@
       "**/@angular-devkit/*",
       "**/@angular-devkit/*/**",
       "**/@angular-eslint/*",
-      "**/@angular-eslint/*/**"
+      "**/@angular-eslint/*/**",
+      "**/intl-tel-input",
+      "**/intl-tel-input/*",
+      "**/intl-tel-input/*/**",
+      "**/ngx-bootstrap",
+      "**/ngx-intl-tel-input",
+      "**/ngx-intl-tel-input/*",
+      "**/ngx-intl-tel-input/*/**"
     ]
   },
   "packageManager": "yarn@1.22.18"

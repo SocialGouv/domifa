@@ -5,6 +5,7 @@ import {
   StructurePortailUsagerParams,
   StructureResponsable,
   StructureType,
+  Telephone,
 } from "../../../_common/model";
 import { StructureAddresseCourrier } from "../../../_common/model/structure/StructureAddresseCourrier.type";
 import { StructureSmsParams } from "../../../_common/model/structure/StructureSmsParams.type";
@@ -86,7 +87,14 @@ export class StructureTable
   @Column({ type: "text", nullable: false })
   phone: string;
 
-  @Column({ type: "jsonb", nullable: false })
+  @Column({
+    type: "jsonb",
+    nullable: false,
+    default: () => `'{"indicatif": "fr", "numero": ""}'`,
+  })
+  public telephone: Telephone;
+
+  @Column({ type: "jsonb" })
   responsable: StructureResponsable;
 
   @Column({ type: "text", nullable: false })
@@ -116,6 +124,12 @@ export class StructureTable
     default: () => `'{"enabledByDomifa": true, "enabledByStructure": false}'`,
   })
   portailUsager: StructurePortailUsagerParams;
+
+  public get telephoneString(): string {
+    if (this.telephone.numero === "" || this.telephone.numero === null)
+      return "";
+    return `${this.telephone.indicatif}${this.telephone.numero}`;
+  }
 
   public constructor(entity?: Partial<StructureTable>) {
     super(entity);
