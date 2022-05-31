@@ -333,17 +333,27 @@
       <div class="row">
         <div class="col form-group required">
           <label for="phone">Numéro de téléphone</label>
-          <input
-            type="tel"
-            class="form-control"
-            id="phone"
-            digitOnly
-            formControlName="phone"
-            placeholder="0606060606"
-            maxlength="10"
-            [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"
-            required
-          />
+          <ngx-intl-tel-input
+            [cssClass]="{
+              'form-control': true,
+              'is-invalid': submitted && f.telephone.errors
+            }"
+            [preferredCountries]="preferredCountries"
+            [enableAutoCountrySelect]="true"
+            [enablePlaceholder]="true"
+            [searchCountryFlag]="true"
+            [searchCountryField]="[
+              SearchCountryField.Iso2,
+              SearchCountryField.Name
+            ]"
+            [selectFirstCountry]="false"
+            [maxLength]="15"
+            [phoneValidation]="true"
+            [separateDialCode]="true"
+            [inputId]="'telephone'"
+            [numberFormat]="PhoneNumberFormat.National"
+            formControlName="telephone"
+          ></ngx-intl-tel-input>
           <p *ngIf="submitted && f.phone.errors" class="invalid-feedback">
             Le numéro de téléphone est obligatoire
           </p>

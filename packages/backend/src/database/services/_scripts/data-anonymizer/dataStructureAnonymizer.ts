@@ -33,6 +33,11 @@ async function anonymizeStructures() {
 
 async function _anonymizeStructure(structure: Pick<Structure, "id" | "email">) {
   const attributesToUpdate: Partial<Structure> = {
+    phone: null,
+    telephone: {
+      indicatif: "fr",
+      numero: "",
+    },
     sms: {
       enabledByDomifa: false,
       enabledByStructure: false,

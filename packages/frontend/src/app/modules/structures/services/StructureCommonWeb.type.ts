@@ -6,6 +6,7 @@ import {
   StructureSmsParams,
   StructureType,
 } from "../../../../_common/model";
+import { Telephone } from "src/_common/model/common";
 
 // Structure: attributs publics (retournés au frontend via UserStructureAuthenticated)
 export class StructureCommonWeb implements StructureCommon {
@@ -22,6 +23,7 @@ export class StructureCommonWeb implements StructureCommon {
   codePostal: string;
   agrement: string;
   phone: string;
+  telephone: Telephone;
   email: string;
   responsable: StructureResponsable;
   options: { numeroBoite: boolean };
@@ -45,6 +47,10 @@ export class StructureCommonWeb implements StructureCommon {
     this.region = (structure && structure.region) || "";
     this.agrement = (structure && structure.agrement) || "";
     this.phone = (structure && structure.phone) || "";
+    this.telephone = (structure && structure.telephone) || {
+      numero: "",
+      indicatif: "fr",
+    };
     this.email = (structure && structure.email) || "";
     this.adresseCourrier = (structure && structure.adresseCourrier) || {
       actif: false,

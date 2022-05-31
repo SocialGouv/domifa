@@ -38,6 +38,7 @@ import { NgxChartsModule } from "@swimlane/ngx-charts";
 
 import pkg from "../../package.json";
 import { UserIdleModule } from "angular-user-idle";
+import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
 
 if (environment.production) {
   Sentry.init({
@@ -67,6 +68,7 @@ if (environment.production) {
     SharedModule,
     UsagerSharedModule,
     UsagersModule,
+    NgxIntlTelInputModule,
     CountUpModule,
     UserIdleModule.forRoot({ idle: 3600, timeout: 60, ping: 120 }),
   ],

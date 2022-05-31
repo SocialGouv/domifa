@@ -91,6 +91,10 @@ export const usagerRefusMock: UsagerLight = {
   ],
 
   phone: "0142424242",
+  telephone: {
+    indicatif: "fr",
+    numero: "0142424242",
+  },
   surnom: "",
   import: {
     date: new Date("2020-12-01T10:00:24.980Z"),
