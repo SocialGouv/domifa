@@ -56,7 +56,5 @@ async function runDocTypeTest({
 
   const expectedGeneratedDocHtml = await fs.promises.readFile(file, "utf-8");
 
-  // console.log(expectedGeneratedDocHtml);
-
   expect(expectedGeneratedDocHtml.trim()).toEqual(generatedDocHtml.trim());
 }

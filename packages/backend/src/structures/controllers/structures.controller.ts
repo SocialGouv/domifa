@@ -34,9 +34,9 @@ import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 @ApiTags("structures")
 export class StructuresController {
   constructor(
-    private structureHardResetService: StructureHardResetService,
-    private structureService: StructuresService,
-    private appLogsService: AppLogsService
+    private readonly structureHardResetService: StructureHardResetService,
+    private readonly structureService: StructuresService,
+    private readonly appLogsService: AppLogsService
   ) {}
 
   @ApiBearerAuth()
@@ -107,7 +107,7 @@ export class StructuresController {
           ? "ENABLE_SMS_BY_STRUCTURE"
           : "DISABLE_SMS_BY_STRUCTURE";
 
-      this.appLogsService.create({
+      await this.appLogsService.create({
         userId: user._userId,
         usagerRef: null,
         structureId: user.structureId,
@@ -116,6 +116,7 @@ export class StructuresController {
     }
 
     structureSmsDto.enabledByDomifa = user.structure.sms.enabledByDomifa;
+
     const retour = await this.structureService.patchSmsParams(
       structureSmsDto,
       user

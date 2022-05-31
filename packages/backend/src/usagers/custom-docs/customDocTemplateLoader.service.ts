@@ -68,6 +68,8 @@ function buildCustomDocPath({
   );
 }
 
-async function loadTemplateFromFilePath(templateFilePath: string) {
+async function loadTemplateFromFilePath(
+  templateFilePath: string
+): Promise<string> {
   return await fs.promises.readFile(path.resolve(templateFilePath), "binary");
 }

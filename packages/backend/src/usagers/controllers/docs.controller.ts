@@ -66,32 +66,23 @@ export class DocsController {
         cb(null, true);
       },
       storage: diskStorage({
-        destination: async (req: any, file: Express.Multer.File, cb: any) => {
+        destination: async (req: any, _file: Express.Multer.File, cb: any) => {
           const dir = path.join(
             domifaConfig().upload.basePath,
             `${req.user.structureId}`,
             `${req.usager.ref}`
           );
-
-          try {
-            await fse.ensureDir(dir);
-          } catch (err) {
-            console.error(err);
-            throw new HttpException(
-              "INTERNAL_ERROR_UPLOAD",
-              HttpStatus.BAD_REQUEST
-            );
-          }
+          await fse.ensureDir(dir);
           cb(null, dir);
         },
-        filename: (req: any, file: Express.Multer.File, cb: any) => {
+        filename: (_req: any, file: Express.Multer.File, cb: any) => {
           return cb(null, randomName(file));
         },
       }),
     })
   )
   public async uploadDoc(
-    @Param("usagerRef") usagerRef: number,
+    @Param("usagerRef") _usagerRef: number,
     @UploadedFile() file: Express.Multer.File,
     @Body() postData: UploadUsagerDocDto,
     @CurrentUser() user: UserStructureAuthenticated,
@@ -99,7 +90,7 @@ export class DocsController {
     @Res() res: Response
   ) {
     try {
-      await this.encryptFile(file.path);
+      this.encryptFile(file.path);
     } catch (e) {
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)

@@ -77,21 +77,18 @@ export class AgendaController {
       return res.status(HttpStatus.OK).json(updatedUsager);
     }
 
-    let user: UserStructureAuthenticated;
+    const user: UserStructureAuthenticated =
+      currentUser.id !== rdvDto.userId
+        ? await userStructureRepository.findOne({
+            id: rdvDto.userId,
+            structureId: currentUser.structureId,
+          })
+        : currentUser;
 
-    if (currentUser.id !== rdvDto.userId) {
-      user = await userStructureRepository.findOne({
-        id: rdvDto.userId,
-        structureId: currentUser.structureId,
-      });
-
-      if (!user) {
-        return res
-          .status(HttpStatus.BAD_REQUEST)
-          .json({ message: "USER_AGENDA_NOT_EXIST" });
-      }
-    } else {
-      user = currentUser;
+    if (!user) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "USER_AGENDA_NOT_EXIST" });
     }
 
     const title =

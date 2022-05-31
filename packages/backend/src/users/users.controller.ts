@@ -65,7 +65,7 @@ export class UsersController {
   ) {
     const newUser = await userStructureRepository.findOne<UserStructure>(
       { id: user.id },
-      { select: "ALL" }
+      { select: ["passwordLastUpdate"] }
     );
     return res.status(HttpStatus.OK).json(newUser.passwordLastUpdate);
   }
