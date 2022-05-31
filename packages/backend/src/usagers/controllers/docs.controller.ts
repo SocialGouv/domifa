@@ -172,9 +172,8 @@ export class DocsController {
     await deleteFile(pathFile + ".encrypted");
 
     const updatedUsager = await this.docsService.deleteDocument(
-      usagerRef,
-      index,
-      user
+      currentUsager,
+      index
     );
 
     if (!updatedUsager) {

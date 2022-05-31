@@ -1,18 +1,14 @@
+import { UsagerLight } from "./../../_common/model/usager/UsagerLight.type";
 import { Injectable } from "@nestjs/common";
 import { usagerRepository } from "../../database";
-import { Usager, UserStructure } from "../../_common/model";
+import { Usager } from "../../_common/model";
 
 @Injectable()
 export class DocumentsService {
   public async deleteDocument(
-    usagerRef: number,
-    index: number,
-    user: Pick<UserStructure, "structureId">
+    usager: UsagerLight,
+    index: number
   ): Promise<Usager> {
-    const usager = await usagerRepository.findOne({
-      ref: usagerRef,
-      structureId: user.structureId,
-    });
     const newDocs = usager.docs;
     const newDocsPath = usager.docsPath;
 
@@ -20,7 +16,7 @@ export class DocumentsService {
     newDocsPath.splice(index, 1);
 
     return await usagerRepository.updateOne(
-      { ref: usagerRef, structureId: user.structureId },
+      { uuid: usager.uuid },
       {
         docs: usager.docs,
         docsPath: usager.docsPath,

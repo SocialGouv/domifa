@@ -50,18 +50,13 @@ export class UsagerNoteController {
       message: createNoteDto.message,
     };
 
-    const usager = await usagerRepository.findOne({
-      uuid: currentUsager.uuid,
-      structureId: currentUser.structureId,
-    });
-
     const updatedUsager = await usagerRepository.updateOne(
       {
         uuid: currentUsager.uuid,
         structureId: currentUser.structureId,
       },
       {
-        notes: usager.notes.concat(usagerNote),
+        notes: currentUsager.notes.concat(usagerNote),
       },
       {}
     );
@@ -76,11 +71,6 @@ export class UsagerNoteController {
     @CurrentUsager() currentUsager: UsagerLight,
     @Res() res: ExpressResponse
   ) {
-    const usager = await usagerRepository.findOne({
-      uuid: currentUsager.uuid,
-      structureId: currentUser.structureId,
-    });
-
     const archivedBy: UserStructureResume = {
       userId: currentUser.id,
       userName: currentUser.prenom + " " + currentUser.nom,
@@ -92,7 +82,7 @@ export class UsagerNoteController {
         structureId: currentUser.structureId,
       },
       {
-        notes: usager.notes.map((note) => {
+        notes: currentUsager.notes.map((note) => {
           if (note.id === noteId) {
             return {
               ...note,

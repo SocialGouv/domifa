@@ -231,20 +231,17 @@ export class UsagersController {
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @Get("stop-courrier/:usagerRef")
   public async stopCourrier(@CurrentUsager() currentUsager: UsagerLight) {
-    const usager = await usagerRepository.findOne({
-      uuid: currentUsager.uuid,
-    });
-    if (usager.options.npai.actif) {
-      usager.options.npai.actif = false;
-      usager.options.npai.dateDebut = null;
+    if (currentUsager.options.npai.actif) {
+      currentUsager.options.npai.actif = false;
+      currentUsager.options.npai.dateDebut = null;
     } else {
-      usager.options.npai.actif = true;
-      usager.options.npai.dateDebut = new Date();
+      currentUsager.options.npai.actif = true;
+      currentUsager.options.npai.dateDebut = new Date();
     }
 
     return this.usagersService.patch(
-      { uuid: usager.uuid },
-      { options: usager.options }
+      { uuid: currentUsager.uuid },
+      { options: currentUsager.options }
     );
   }
 
@@ -314,12 +311,6 @@ export class UsagersController {
       structureId: user.structureId,
     });
 
-    // Suppression des fichiers de l'usager
-    deleteUsagerFolder({
-      usagerRef: usager.ref,
-      structureId: user.structureId,
-    });
-
     // Suppression de l'usager
     await usagerRepository.deleteByCriteria({
       ref: usager.ref,
@@ -333,6 +324,13 @@ export class UsagersController {
       structureId: user.structureId,
       action: "SUPPRIMER_DOMICILIE",
     });
+
+    // Suppression des fichiers de l'usager
+    await deleteUsagerFolder({
+      usagerRef: usager.ref,
+      structureId: user.structureId,
+    });
+
     return res.status(HttpStatus.OK).json({ message: "DELETE_SUCCESS" });
   }
 
