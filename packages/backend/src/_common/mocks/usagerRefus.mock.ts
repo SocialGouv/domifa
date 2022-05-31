@@ -61,7 +61,7 @@ export const usagerRefusMock: UsagerLight = {
       label: "Document",
     },
   ],
-
+  docsPath: ["xxx.jpg", "xxkkzz.jpg"],
   email: "domicilie2@yopmail.com",
   entretien: {
     typeMenage: "COUPLE_AVEC_ENFANT",

@@ -85,6 +85,7 @@ export const POST_USAGER: {
       enAttente: false,
     },
     docs: [],
+    docsPath: [],
     etapeDemande: 1,
     rdv: null,
     notes: [],

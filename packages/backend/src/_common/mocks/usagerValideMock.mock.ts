@@ -46,6 +46,7 @@ export const usagerValideMock: UsagerLight = {
     dateInteraction: new Date("2020-11-01T00:00:00.000Z"),
   },
   docs: [],
+  docsPath: [],
   etapeDemande: 5,
   rdv: {
     userId: 1,
