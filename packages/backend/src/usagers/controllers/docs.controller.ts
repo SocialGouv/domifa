@@ -282,6 +282,7 @@ export class DocsController {
 
     const decipher = crypto.createDecipheriv("aes-256-cfb", key, iv);
 
+    // TODO: vérifier si on peut rendre cette partie asynchrone
     const input = fs.createReadStream(pathFile + ".encrypted");
     const output = fs.createWriteStream(pathFile + ".unencrypted");
 

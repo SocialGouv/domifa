@@ -17,6 +17,7 @@ import {
   userUsagerSecurityRepository,
 } from "../../database";
 import { messageSmsRepository } from "../../database/services/message-sms";
+import { appLogger } from "../../util";
 
 export const structureDeletorService = {
   generateDeleteToken,
@@ -34,6 +35,8 @@ async function deleteStructureUsagers({
 }: {
   structureId: number;
 }) {
+  // TODO : ajouter la suppression des fichiers des usager
+
   // Suppression des comptes usagers
   await userUsagerSecurityRepository.deleteByCriteria({
     structureId,
@@ -72,10 +75,24 @@ async function deleteStructureUsagers({
 async function deleteStructure(structure: StructureLight) {
   const pathFile = path.join(domifaConfig().upload.basePath, `${structure.id}`);
 
-  if (fs.existsSync(pathFile)) {
-    fs.rmdirSync(pathFile, { recursive: true });
+  try {
+    await fs.promises.rm(pathFile, {
+      recursive: true,
+      force: true,
+      maxRetries: 2,
+    });
+    appLogger.debug(
+      "[deleteStructure] Delete structure folder success " + pathFile
+    );
+  } catch (error) {
+    appLogger.error(
+      "[deleteStructure] Cannot delete structure folder  " + pathFile,
+      {
+        sentry: true,
+        error,
+      }
+    );
   }
-
   // Suppression des comptes usagers
   await userUsagerSecurityRepository.deleteByCriteria({
     structureId: structure.id,

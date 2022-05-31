@@ -17,7 +17,8 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { diskStorage } from "multer";
-import * as fs from "fs";
+
+import * as fse from "fs-extra";
 import * as path from "path";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
@@ -76,7 +77,7 @@ export class StructureDocController {
         cb(null, true);
       },
       storage: diskStorage({
-        destination: (
+        destination: async (
           req: any,
           file: Express.Multer.File,
           cb: (error: Error | null, success: string) => void
@@ -87,8 +88,8 @@ export class StructureDocController {
             "docs"
           );
 
-          if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, { recursive: true });
+          if (!(await fse.pathExists(dir))) {
+            await fse.ensureDir(dir);
           }
           cb(null, dir);
         },

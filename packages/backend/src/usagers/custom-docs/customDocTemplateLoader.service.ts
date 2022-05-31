@@ -24,20 +24,20 @@ const TEMPLATES_PATHS: {
   return acc;
 }, {} as { [attr in StructureDocTypesAvailable]: string });
 
-function loadCustomDocTemplate({
+async function loadCustomDocTemplate({
   docPath,
   structureId,
 }: {
   docPath: string;
   structureId: number;
-}) {
+}): Promise<string> {
   // Une version customisée par la structure existe-t-elle ?
   const customTemplatePath = buildCustomDocPath({
     structureId,
     docPath,
   });
 
-  return loadTemplateFromFilePath(customTemplatePath);
+  return await loadTemplateFromFilePath(customTemplatePath);
 }
 
 function loadDefaultDocTemplate({
@@ -59,7 +59,7 @@ function buildCustomDocPath({
 }: {
   structureId: number;
   docPath: string;
-}) {
+}): string {
   return path.join(
     domifaConfig().upload.basePath,
     `${structureId}`,
@@ -68,6 +68,6 @@ function buildCustomDocPath({
   );
 }
 
-function loadTemplateFromFilePath(templateFilePath: string) {
-  return fs.readFileSync(path.resolve(templateFilePath), "binary");
+async function loadTemplateFromFilePath(templateFilePath: string) {
+  return await fs.promises.readFile(path.resolve(templateFilePath), "binary");
 }

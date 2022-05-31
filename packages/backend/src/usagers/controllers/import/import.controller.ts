@@ -11,7 +11,7 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import * as fs from "fs";
+
 import * as fse from "fs-extra";
 import { diskStorage } from "multer";
 import * as os from "os";
@@ -58,7 +58,7 @@ const UsagersImportFileInterceptor = FileInterceptor("file", {
     destination: async (req: any, file: Express.Multer.File, cb: any) => {
       const dir = USAGERS_IMPORT_DIR;
       if (!(await fse.pathExists(dir))) {
-        await fs.promises.mkdir(dir, { recursive: true });
+        await fse.ensureDir(dir);
       }
       cb(null, dir);
     },
@@ -99,6 +99,7 @@ export class ImportController {
       rowNumber: number;
       row: UsagersImportRow;
     }[] = [];
+
     try {
       usagerImportRows = await usagersImportExcelParser.parseFileSync(filePath);
       processTracker.data = { count: usagerImportRows.length };
@@ -211,7 +212,7 @@ export class ImportController {
     }
 
     try {
-      await fs.promises.unlink(filePath);
+      await fse.remove(filePath);
       appLogger.debug("[FILES] Delete import file success " + filePath);
     } catch (err) {
       appLogger.error("[FILES] [FAIL] Delete import file fail " + filePath);

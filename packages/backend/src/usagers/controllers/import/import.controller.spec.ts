@@ -1,5 +1,5 @@
 import { HttpStatus } from "@nestjs/common";
-import * as fs from "fs";
+import * as fse from "fs-extra";
 import * as path from "path";
 import { StructuresModule } from "../../../structures/structure.module";
 import { UsersModule } from "../../../users/users.module";
@@ -52,7 +52,7 @@ describe("Import Controller", () => {
   it(`❌ Import d'un fichier Incorrect`, async () => {
     const importFilePath = path.resolve(importFilesDir, "import_ko_1.xlsx");
 
-    expect(fs.existsSync(importFilePath)).toBeTruthy();
+    expect(await fse.pathExists(importFilePath)).toBeTruthy();
 
     const headers: { [name: string]: string } = {};
     headers["Content-Type"] = "multipart/form-data";
@@ -69,7 +69,7 @@ describe("Import Controller", () => {
   it(`✅ Import d'un fichier Valide 1️⃣`, async () => {
     const importFilePath = path.resolve(importFilesDir, "import_ok_1.xlsx");
 
-    expect(fs.existsSync(importFilePath)).toBeTruthy();
+    expect(await fse.pathExists(importFilePath)).toBeTruthy();
 
     const headers: { [name: string]: string } = {};
     headers["Content-Type"] = "multipart/form-data";
@@ -95,7 +95,7 @@ describe("Import Controller", () => {
   it(`✅ Import d'un fichier Valide 2️⃣`, async () => {
     const importFilePath = path.resolve(importFilesDir, "import_ok_2.xlsx");
 
-    expect(fs.existsSync(importFilePath)).toBeTruthy();
+    expect(await fse.pathExists(importFilePath)).toBeTruthy();
 
     const headers: { [name: string]: string } = {};
     headers["Content-Type"] = "multipart/form-data";
