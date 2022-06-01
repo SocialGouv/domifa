@@ -1,3 +1,10 @@
+## [2.92.2](https://github.com/SocialGouv/domifa/compare/v2.92.1...v2.92.2) (2022-06-01)
+
+
+### Bug Fixes
+
+* **news:** Mise à jour des news, ajout de logs ([58f07f3](https://github.com/SocialGouv/domifa/commit/58f07f311027fddafb8d10bd3a2787c26ce624aa))
+
 ## [2.92.1](https://github.com/SocialGouv/domifa/compare/v2.92.0...v2.92.1) (2022-06-01)
 
 
