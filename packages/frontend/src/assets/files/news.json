@@ -1,5 +1,16 @@
 [
   {
+    "date": "2022-06-02",
+    "description": "",
+    "content": [
+      {
+        "type": "bug",
+        "categorie": "Amélioration des performances de la plateforme",
+        "message": ["L'import de fichier est plus performant"]
+      }
+    ]
+  },
+  {
     "date": "2022-05-19",
     "description": "",
     "content": [

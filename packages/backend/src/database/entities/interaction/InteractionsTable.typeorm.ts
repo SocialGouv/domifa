@@ -23,7 +23,7 @@ export class InteractionsTable
   @Column({ type: "integer" })
   structureId: number;
 
-  @ManyToOne(() => StructureTable, { lazy: true })
+  @ManyToOne(() => StructureTable, (structure) => structure.id)
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   structureFk?: Promise<StructureTable>;
 
