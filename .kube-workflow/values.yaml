@@ -96,6 +96,8 @@ app-backend-cron:
       value: "https://admin-{{ .Values.global.host }}/"
     - name: DOMIFA_CRON_ENABLED
       value: "true"
+    - name: ELASTIC_APM_SERVICE_NAME
+      value: "$(CRON_ELASTIC_APM_SERVICE_NAME)" # override using kubernetes interpolation from configmap var
 
 app-portail-usagers:
   imagePackage: portail-usagers

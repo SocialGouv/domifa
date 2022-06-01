@@ -14,4 +14,5 @@ data:
   POSTGRES_POOL_MAX_CONNEXIONS: "100"
   DOMIFA_FRONTEND_META_ROBOTS: index,follow
   ELASTIC_APM_SERVICE_NAME: domifa-backend-prod
+  CRON_ELASTIC_APM_SERVICE_NAME: domifa-backend-cron-prod
   SENTRY_DSN: https://dfbf0028aa3e410081dcd356dac0490e@sentry.fabrique.social.gouv.fr/30
