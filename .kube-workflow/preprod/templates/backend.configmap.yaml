@@ -17,3 +17,4 @@ data:
   POSTGRES_POOL_MAX_CONNEXIONS: "50"
   DOMIFA_FRONTEND_META_ROBOTS: noindex,nofollow
   ELASTIC_APM_SERVICE_NAME: domifa-backend-preprod
+  CRON_ELASTIC_APM_SERVICE_NAME: domifa-backend-cron-preprod
