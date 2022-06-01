@@ -1500,10 +1500,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@faker-js/faker@^6.0.0-alpha.7":
-  version "6.0.0-alpha.7"
-  resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-6.0.0-alpha.7.tgz#d4383b10c5cd35ec02fafd1bc472b2f85c306cf5"
-  integrity sha512-T2nYE8+EfzfkRMLMSm7UvgC7fZ2KkKEyCMeyPVS0q2cuvENbt1SjWyu0bOJ0JqBbTs1g+gYMWMFMXspWlzNVmQ==
+"@faker-js/faker@^7.0.0":
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-7.1.0.tgz#019eeb2c20030e475a1bd05df1cc7b7e72c039d5"
+  integrity sha512-G+EvE29QUd9/6GTrwA/TK2AiN79W4ZG6kyJqj2RAqUqEd8A8ICnjA3Rj3F2IaaA+sq6WJzs4lh8GJJRDG1UH7A==
 
 "@fast-csv/format@4.3.5":
   version "4.3.5"
