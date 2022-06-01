@@ -1,3 +1,17 @@
+# [2.92.0](https://github.com/SocialGouv/domifa/compare/v2.91.4...v2.92.0) (2022-06-01)
+
+
+### Bug Fixes
+
+* **interactions:** Ajout d'une limite pour éviter les fuites de mémoire ([b953cc1](https://github.com/SocialGouv/domifa/commit/b953cc1ea05d7ebdfaca51d57c6c75a9504297a0))
+* **tests:** mise à jour des Mocks ([2746cbd](https://github.com/SocialGouv/domifa/commit/2746cbd09acc1e1df0b2ea38daedf7af83f682e9))
+* **upload:** fin de la migration des éléments synchrones ([7008330](https://github.com/SocialGouv/domifa/commit/70083305e18bf72567fcd94f2ad53e32e2545022))
+
+
+### Features
+
+* **upload:** passage en asynchrone de toutes les fonctions d'upload ([348a81e](https://github.com/SocialGouv/domifa/commit/348a81eb717c305bd191eb4f8dc8e1909be654a0))
+
 ## [2.91.4](https://github.com/SocialGouv/domifa/compare/v2.91.3...v2.91.4) (2022-05-30)
 
 
