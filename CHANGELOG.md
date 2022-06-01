@@ -1,3 +1,10 @@
+## [2.92.1](https://github.com/SocialGouv/domifa/compare/v2.92.0...v2.92.1) (2022-06-01)
+
+
+### Bug Fixes
+
+* decouple apm service name ([9b3f881](https://github.com/SocialGouv/domifa/commit/9b3f881e425ff49a1f052b60e147718ce10978cd))
+
 # [2.92.0](https://github.com/SocialGouv/domifa/compare/v2.91.4...v2.92.0) (2022-06-01)
 
 
