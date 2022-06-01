@@ -14,6 +14,6 @@ export class AppLogsService {
   }
 
   public async create(appLog: AppLog): Promise<AppLog> {
-    return await this.appLogsRepository.save(new AppLogTable(appLog));
+    return this.appLogsRepository.save(new AppLogTable(appLog));
   }
 }

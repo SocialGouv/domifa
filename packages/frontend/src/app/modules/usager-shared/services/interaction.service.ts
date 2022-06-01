@@ -52,7 +52,7 @@ export class InteractionService {
     filter: filterSearch,
   }: {
     usagerRef: number;
-    maxResults?: number;
+    maxResults: number;
     filter?: "distribution";
   }): Observable<Interaction[]> {
     // NOTE: usagerRef est une chaîne quand il vient d'un paramètre de l'URL, ce qui est incompatible avec la recherche dans le cache

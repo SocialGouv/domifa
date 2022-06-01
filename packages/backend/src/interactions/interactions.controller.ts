@@ -79,7 +79,7 @@ export class InteractionsController {
     // check query parameters
     const filter = filterString === "distribution" ? "distribution" : undefined;
     const maxResultsInteger = parseInt(maxResultsString, 10);
-    const maxResults = maxResultsInteger > 0 ? maxResultsInteger : undefined;
+    const maxResults = maxResultsInteger > 0 ? maxResultsInteger : 30;
     return interactionRepository.findWithFilters({
       usagerRef: usager.ref,
       structureId: user.structureId,

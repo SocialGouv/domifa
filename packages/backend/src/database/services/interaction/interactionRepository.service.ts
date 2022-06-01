@@ -56,6 +56,7 @@ async function findLastInteractionOk({
       maxResults: 1,
     }
   );
+
   return lastInteractions?.length > 0 ? lastInteractions[0] : undefined;
 }
 
@@ -170,6 +171,7 @@ async function findWithFilters({
   if (filter === "distribution") {
     search.type = In(INTERACTION_IN_OUT_LIST) as any;
   }
+
   const interactions = await interactionRepository.findMany(search, {
     order: {
       dateInteraction: "DESC",

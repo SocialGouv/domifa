@@ -198,8 +198,13 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   }
 
   private getInteractions() {
+    // TODO: optimiser cette requête pour éviter un chargement trop important
     this.interactionService
-      .getInteractions({ usagerRef: this.usager.ref, filter: "distribution" })
+      .getInteractions({
+        usagerRef: this.usager.ref,
+        filter: "distribution",
+        maxResults: 20,
+      })
       .subscribe((interactions: Interaction[]) => {
         this.interactions$.next(interactions);
       });
