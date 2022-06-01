@@ -22,14 +22,14 @@ export class MonitoringCleaner {
   @Cron(domifaConfig().cron.monitoringCleaner.crontime)
   public async purgeObsoleteDataCron() {
     if (!isCronEnabled()) {
-      appLogger.warn(`[CRON] [purgeObsoleteDataCron] Disabled by config`);
-
+      appLogger.debug(`[CRON] [purgeObsoleteDataCron] Disabled by config`);
       return;
     }
     await this.purgeObsoleteData("cron");
   }
 
   public async purgeObsoleteData(trigger: MonitoringBatchProcessTrigger) {
+    appLogger.warn(`[CRON] [purgeObsoleteDataCron] Start`);
     const delay = domifaConfig().cron.monitoringCleaner.delay;
     const limitDate: Date = moment()
       .utc()

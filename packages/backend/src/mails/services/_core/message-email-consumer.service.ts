@@ -34,7 +34,7 @@ export class MessageEmailConsummer {
   @Cron(domifaConfig().cron.emailConsumer.crontime)
   protected async consumeEmailsCron() {
     if (!isCronEnabled()) {
-      appLogger.warn(`[CRON] [consumeEmailsCron] Disabled by config`);
+      appLogger.debug(`[CRON] [consumeEmailsCron] Disabled by config`);
       return;
     }
 
@@ -42,6 +42,7 @@ export class MessageEmailConsummer {
   }
 
   protected async consumeEmails(trigger: MonitoringBatchProcessTrigger) {
+    appLogger.warn(`[CRON] [consumeEmails] Start`);
     await monitoringBatchProcessSimpleCountRunner.monitorProcess(
       {
         processId: "mail-messages-consumer",
@@ -55,6 +56,8 @@ export class MessageEmailConsummer {
             nextScheduledDate: LessThanOrEqual(now),
           })
         );
+
+        appLogger.debug(`${messageEmails.length} mails à traiter`);
         monitorTotal(messageEmails.length);
 
         for (const messageEmail of messageEmails) {

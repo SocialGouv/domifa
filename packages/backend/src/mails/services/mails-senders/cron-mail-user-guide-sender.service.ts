@@ -23,6 +23,7 @@ export class CronMailUserGuideSenderService {
   }
 
   public async sendMailGuides(trigger: MonitoringBatchProcessTrigger) {
+    appLogger.warn(`[CRON] [sendMailGuideCron] Start `);
     await monitoringBatchProcessSimpleCountRunner.monitorProcess(
       {
         processId: "mail-user-guide",
