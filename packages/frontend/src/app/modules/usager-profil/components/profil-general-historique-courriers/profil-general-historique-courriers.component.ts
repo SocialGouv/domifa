@@ -30,6 +30,7 @@ export class ProfilGeneralHistoriqueCourriersComponent implements OnInit {
     this.interactionService
       .getInteractions({
         usagerRef: this.usager.ref,
+        maxResults: 5,
       })
       .subscribe((interactions: Interaction[]) => {
         this.interactions = interactions.reduce((filtered, interaction) => {

@@ -38,9 +38,9 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
   public restoreInteractionModal!: TemplateRef<NgbModalRef>;
 
   constructor(
-    private toastService: CustomToastService,
-    private interactionService: InteractionService,
-    private modalService: NgbModal
+    private readonly toastService: CustomToastService,
+    private readonly interactionService: InteractionService,
+    private readonly modalService: NgbModal
   ) {
     this.interactionToDelete = null;
     this.interactions = [];
@@ -79,6 +79,7 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
     this.interactionService
       .getInteractions({
         usagerRef: this.usager.ref,
+        maxResults: 20,
       })
       .subscribe((interactions: Interaction[]) => {
         this.interactions = interactions;

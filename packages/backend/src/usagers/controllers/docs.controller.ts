@@ -111,9 +111,6 @@ export class DocsController {
       docsPath: currentUsager.docsPath,
     };
 
-    console.log(currentUsager.docs);
-    console.log(currentUsager.docsPath);
-
     fieldsToUpdate.docs.push(newDoc);
     fieldsToUpdate.docsPath.push(file.filename);
 
