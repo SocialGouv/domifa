@@ -48,12 +48,12 @@ import { UsagerOptionsService } from "../../services/usager-options.service";
   templateUrl: "./profil-procuration-courrier.html",
 })
 export class UsagersProfilProcurationCourrierComponent implements OnInit {
-  @Input() public usager: UsagerFormModel;
-  @Input() public me: UserStructure;
+  @Input() public usager!: UsagerFormModel;
+  @Input() public me!: UserStructure;
 
   @Output() usagerChanges = new EventEmitter<UsagerLight>();
 
-  @ViewChildren("procurationNom") inputsProcurations: QueryList<ElementRef>;
+  @ViewChildren("procurationNom") inputsProcurations!: QueryList<ElementRef>;
 
   public isFormVisible: boolean;
   public submitted: boolean;
@@ -71,11 +71,11 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   public confirmDelete!: TemplateRef<NgbModalRef>;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private nbgDate: NgbDateCustomParserFormatter,
-    private toastService: CustomToastService,
-    private usagerOptionsService: UsagerOptionsService,
-    private matomo: MatomoTracker,
+    private readonly formBuilder: FormBuilder,
+    private readonly nbgDate: NgbDateCustomParserFormatter,
+    private readonly toastService: CustomToastService,
+    private readonly usagerOptionsService: UsagerOptionsService,
+    private readonly matomo: MatomoTracker,
     private readonly modalService: NgbModal
   ) {
     this.hideForm();

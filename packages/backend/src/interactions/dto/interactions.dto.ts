@@ -1,3 +1,4 @@
+import { ENUM_TYPE_INTERACTION } from "./../../_common/model/interaction/InteractionType.type";
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams } from "class-transformer";
 import {
@@ -21,27 +22,9 @@ export class InteractionDto {
   @ApiProperty({
     type: String,
     required: true,
-    enum: [
-      "courrierIn",
-      "courrierOut",
-      "recommandeIn",
-      "recommandeOut",
-      "colisIn",
-      "colisOut",
-      "appel",
-      "visite",
-    ],
+    enum: ENUM_TYPE_INTERACTION,
   })
-  @IsIn([
-    "courrierIn",
-    "courrierOut",
-    "recommandeIn",
-    "recommandeOut",
-    "colisIn",
-    "colisOut",
-    "appel",
-    "visite",
-  ])
+  @IsIn(ENUM_TYPE_INTERACTION)
   @IsNotEmpty()
   public type!: InteractionType;
 

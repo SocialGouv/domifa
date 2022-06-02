@@ -14,7 +14,7 @@ export type Interactions = AppEntity & {
   usagerUUID?: string | null;
   userId: number | null;
   userName: string | null;
-
+  uuid: string;
   event: InteractionEvent;
   previousValue?: Interactions; // if event === 'delete'
 };

@@ -27,10 +27,11 @@ import { CerfaDocType } from "src/_common/model/cerfa";
   styleUrls: ["./profil-head.component.css"],
 })
 export class ProfilHeadComponent implements OnInit {
-  @Input() public usager: UsagerFormModel;
-  @Input() public me: UserStructure;
+  @Input() public usager!: UsagerFormModel;
+  @Input() public me!: UserStructure;
 
   @Input() public section: string;
+
   public loading: boolean;
   public ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
   public today: Date;
@@ -45,7 +46,6 @@ export class ProfilHeadComponent implements OnInit {
     private readonly modalService: NgbModal,
     private readonly toastService: CustomToastService,
     private readonly router: Router,
-
     private readonly usagerDecisionService: UsagerDecisionService,
     private readonly documentService: DocumentService
   ) {

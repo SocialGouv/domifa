@@ -5,6 +5,7 @@ import { UsagerOptionsHistoryType } from "./UsagerOptionsHistoryType.type";
 export type UsagerOptionsHistory = AppEntity & {
   usagerUUID: string;
   userId: number;
+  createdAt: Date;
   userName: string;
   structureId: number;
   action: UsagerOptionsHistoryAction;

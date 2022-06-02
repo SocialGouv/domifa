@@ -18,9 +18,9 @@ import { getUsagerNomComplet } from "../../../../shared/getUsagerNomComplet";
   styleUrls: ["./profil-documents-section.component.css"],
 })
 export class ProfilDocumentsSectionComponent implements OnInit {
-  public me: UserStructure;
+  public me!: UserStructure;
 
-  public usager: UsagerFormModel;
+  public usager!: UsagerFormModel;
 
   constructor(
     private authService: AuthService,
@@ -30,9 +30,7 @@ export class ProfilDocumentsSectionComponent implements OnInit {
     private toastService: CustomToastService,
     private route: ActivatedRoute,
     private router: Router
-  ) {
-    this.me = null;
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {

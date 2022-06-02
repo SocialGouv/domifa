@@ -22,7 +22,7 @@ import { UsersService } from "../../services/users.service";
   styleUrls: ["./edit-user.component.css"],
 })
 export class EditUserComponent implements OnInit {
-  public me: UserStructure | null;
+  public me!: UserStructure | null;
   public usagers: UsagerLight[];
 
   public submitted: boolean;
@@ -33,7 +33,7 @@ export class EditUserComponent implements OnInit {
   public hideOldPassword: boolean;
   public hidePassword: boolean;
   public hideConfirmPassword: boolean;
-  public lastPasswordUpdate: Date;
+  public lastPasswordUpdate: Date | null;
 
   public passwordForm!: FormGroup;
   public userForm!: FormGroup;

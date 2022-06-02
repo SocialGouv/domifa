@@ -14,8 +14,8 @@ import { UsagerProfilService } from "../../services/usager-profil.service";
   styleUrls: ["./profil-courriers.component.css"],
 })
 export class ProfilCourriersComponent implements OnInit {
-  public me: UserStructure;
-  public usager: UsagerFormModel;
+  public me: UserStructure | null;
+  public usager: UsagerFormModel | null;
 
   constructor(
     private authService: AuthService,

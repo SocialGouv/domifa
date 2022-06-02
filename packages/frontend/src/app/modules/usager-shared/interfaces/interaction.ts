@@ -39,7 +39,7 @@ export class Interaction implements Interactions {
     this.nbCourrier = (interaction && interaction.nbCourrier) || 0;
     this.userName = (interaction && interaction.userName) || "";
 
-    this.uuid = (interaction && interaction.uuid) || null;
+    this.uuid = interaction && interaction.uuid;
 
     if (
       this.type !== "appel" &&

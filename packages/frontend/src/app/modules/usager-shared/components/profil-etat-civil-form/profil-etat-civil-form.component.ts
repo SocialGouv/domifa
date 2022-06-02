@@ -1,3 +1,4 @@
+import { LIEN_PARENTE_LABELS } from "./../../../../../_common/model/usager/_constants/LIEN_PARENTE_LABELS.const";
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import {
   AbstractControl,
@@ -23,7 +24,6 @@ import {
   minDateNaissance,
   formatDateToNgb,
 } from "../../../../shared/bootstrap-util";
-import { LIENS_PARENTE } from "../../../../shared/constants/USAGER_LABELS.const";
 import { regexp } from "../../../../shared/validators";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";
@@ -54,7 +54,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
   public minDateNaissance: NgbDateStruct;
   public maxDateNaissance: NgbDateStruct;
 
-  public LIENS_PARENTE = LIENS_PARENTE;
+  public LIENS_PARENTE = LIEN_PARENTE_LABELS;
 
   public languagesAutocompleteSearch = languagesAutocomplete.typeahead({
     maxResults: 10,

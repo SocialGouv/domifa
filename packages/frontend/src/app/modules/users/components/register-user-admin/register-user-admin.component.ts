@@ -23,7 +23,7 @@ import { UsersService } from "../../services/users.service";
 })
 export class RegisterUserAdminComponent implements OnInit {
   public user: UserStructure;
-  public userForm: FormGroup;
+  public userForm!: FormGroup;
 
   public submitted: boolean;
 

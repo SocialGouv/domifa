@@ -37,7 +37,6 @@ export class DeleteUsagerMenuComponent implements OnInit {
 
   constructor(
     private router: Router,
-
     private modalService: NgbModal,
     private usagerProfilService: UsagerProfilService,
     private usagerDecisionService: UsagerDecisionService,
@@ -57,26 +56,22 @@ export class DeleteUsagerMenuComponent implements OnInit {
           decision.statut === "VALIDE"
       ) !== "undefined";
 
-    if (this.usager.decision.statut === "INSTRUCTION" && this.usager.ref) {
+    if (this.hasHistorique) {
       this.getPreviousStatus();
     }
   }
 
   public getPreviousStatus(): void {
     // On tri du plus récent au plus ancien
-    const historique: Decision[] = Object.assign(
-      [],
-      this.usager.historique
-    ).map((decision) => {
-      return new Decision(decision);
-    });
+    const historique: Decision[] = Object.assign([], this.usager.historique);
 
     historique.sort((a, b) => {
       return a.dateDecision.getTime() - b.dateDecision.getTime();
     });
 
-    this.previousStatus =
-      USAGER_DECISION_STATUT_LABELS[historique[historique.length - 2].statut];
+    const statut = historique[historique.length - 2].statut;
+
+    this.previousStatus = USAGER_DECISION_STATUT_LABELS[statut];
   }
 
   public open(content: TemplateRef<NgbModalRef>): void {

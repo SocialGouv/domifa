@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams, Type } from "class-transformer";
 import {
+  IsBoolean,
   IsEmpty,
   IsIn,
   IsNotEmpty,
@@ -11,6 +12,7 @@ import {
 } from "class-validator";
 import { StructureAdresseCourrierDto, StructureResponsableDto } from ".";
 import { TimeZone } from "../../util/territoires";
+import { TrimOrNullTransform } from "../../_common/decorators";
 import { StructureType, STRUCTURE_TYPE_MAP } from "../../_common/model";
 
 export class StructureDto {
@@ -38,9 +40,7 @@ export class StructureDto {
     required: true,
   })
   @IsNotEmpty()
-  @Transform(({ value }: TransformFnParams) => {
-    return value.trim();
-  })
+  @TrimOrNullTransform()
   public nom!: string;
 
   @ApiProperty({
@@ -48,12 +48,7 @@ export class StructureDto {
     required: false,
   })
   @IsOptional()
-  @Transform(({ value }: TransformFnParams) => {
-    if (value) {
-      return value.trim();
-    }
-    return null;
-  })
+  @TrimOrNullTransform()
   public complementAdresse!: string;
 
   @ApiProperty({
@@ -77,15 +72,14 @@ export class StructureDto {
     required: true,
   })
   @IsNotEmpty()
-  @Transform(({ value }: TransformFnParams) => {
-    return value.trim();
-  })
+  @TrimOrNullTransform()
   public ville!: string;
 
   @ApiProperty({
     type: String,
   })
   @IsOptional()
+  @TrimOrNullTransform()
   public agrement!: string;
 
   @ApiProperty({

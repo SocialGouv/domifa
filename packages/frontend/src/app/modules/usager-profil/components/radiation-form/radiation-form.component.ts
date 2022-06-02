@@ -26,7 +26,7 @@ import { UsagerDecisionService } from "../../../usager-shared/services/usager-de
   templateUrl: "./radiation-form.component.html",
 })
 export class RadiationFormComponent implements OnInit {
-  @Input() public usager: UsagerFormModel;
+  @Input() public usager!: UsagerFormModel;
 
   @Output() public closeModals = new EventEmitter<void>();
 

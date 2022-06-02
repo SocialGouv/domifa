@@ -51,7 +51,6 @@ export class ProfilHistoriqueComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.me = null;
     this.transfertHistory = [];
     this.procurationHistory = [];
     this.newHistorique = [];
@@ -87,7 +86,7 @@ export class ProfilHistoriqueComponent implements OnInit {
           .filter(
             (history: UsagerOptionsHistory) => history.type === "transfert"
           )
-          .sort((a, b) => {
+          .sort((a: UsagerOptionsHistory, b: UsagerOptionsHistory) => {
             return (
               new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
             );
@@ -97,7 +96,7 @@ export class ProfilHistoriqueComponent implements OnInit {
           .filter(
             (history: UsagerOptionsHistory) => history.type === "procuration"
           )
-          .sort((a, b) => {
+          .sort((a: UsagerOptionsHistory, b: UsagerOptionsHistory) => {
             return (
               new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
             );

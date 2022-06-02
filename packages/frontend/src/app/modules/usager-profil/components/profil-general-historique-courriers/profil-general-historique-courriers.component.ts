@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { UserStructure } from "../../../../../_common/model";
-import { InteractionType } from "../../../../../_common/model/interaction";
+
 import {
   UsagerFormModel,
   Interaction,
@@ -14,13 +14,14 @@ import { InteractionService } from "../../../usager-shared/services/interaction.
   styleUrls: ["./profil-general-historique-courriers.component.css"],
 })
 export class ProfilGeneralHistoriqueCourriersComponent implements OnInit {
-  @Input() public usager: UsagerFormModel;
-  @Input() public me: UserStructure;
+  @Input() public usager!: UsagerFormModel;
+  @Input() public me!: UserStructure;
 
-  public typeInteraction: InteractionType;
   public interactions: Interaction[];
 
-  constructor(private interactionService: InteractionService) {}
+  constructor(private interactionService: InteractionService) {
+    this.interactions = [];
+  }
 
   public ngOnInit(): void {
     this.getInteractions();
@@ -33,12 +34,15 @@ export class ProfilGeneralHistoriqueCourriersComponent implements OnInit {
         maxResults: 5,
       })
       .subscribe((interactions: Interaction[]) => {
-        this.interactions = interactions.reduce((filtered, interaction) => {
-          if (interaction.event !== "delete") {
-            filtered.push(interaction);
-          }
-          return filtered;
-        }, []);
+        this.interactions = interactions.reduce(
+          (filtered: Interaction[], interaction: Interaction) => {
+            if (interaction.event !== "delete") {
+              filtered.push(interaction);
+            }
+            return filtered;
+          },
+          []
+        );
       });
   }
 }

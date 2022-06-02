@@ -16,7 +16,7 @@ export const getRdvInfos = (usager: Partial<UsagerLight>): UsagerRdvInfos => {
   }
 
   // Aucune date précisée
-  if (!usager.rdv.dateRdv) {
+  if (!usager.rdv.dateRdv || !usager.etapeDemande) {
     return rdvDisplay;
   }
 

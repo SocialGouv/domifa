@@ -21,7 +21,7 @@
     "target": "es2017",
     "typeRoots": ["node_modules/@types", "../../node_modules/@types"],
     "types": ["jest"]
-    //"strict": true
+    // "strict": true
   },
   "exclude": ["./node_modules", "./dist"],
   "angularCompilerOptions": {
