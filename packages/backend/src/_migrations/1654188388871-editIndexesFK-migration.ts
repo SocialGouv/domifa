@@ -1,3 +1,4 @@
+import { domifaConfig } from "./../config/domifaConfig.service";
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class editIndexesFKMigration1654188388871 implements MigrationInterface {
@@ -23,9 +24,7 @@ export class editIndexesFKMigration1654188388871 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "usager_options_history" ADD CONSTRAINT "FK_3cb5af09bf7cd68d7070dbc8966" FOREIGN KEY ("usagerUUID") REFERENCES "usager"("uuid") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
-    await queryRunner.query(
-      `ALTER TABLE "interactions" ADD CONSTRAINT "FK_495b59d0dd15e43b262f2da8907" FOREIGN KEY ("interactionOutUUID") REFERENCES "interactions"("uuid") ON DELETE NO ACTION ON UPDATE NO ACTION`
-    );
+
     await queryRunner.query(
       `ALTER TABLE "user_structure_security" ADD CONSTRAINT "FK_0389a8aa8e69b2d17210745d040" FOREIGN KEY ("userId") REFERENCES "user_structure"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
@@ -35,6 +34,12 @@ export class editIndexesFKMigration1654188388871 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "user_usager_security" ADD CONSTRAINT "FK_0b7885e1594c7af3a5b84a4bdb3" FOREIGN KEY ("userId") REFERENCES "user_usager"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
+
+    if (domifaConfig().envId === "preprod" || domifaConfig().envId === "prod") {
+      await queryRunner.query(
+        `ALTER TABLE "interactions" ADD CONSTRAINT "FK_495b59d0dd15e43b262f2da8907" FOREIGN KEY ("interactionOutUUID") REFERENCES "interactions"("uuid") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      );
+    }
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
