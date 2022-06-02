@@ -5,7 +5,7 @@ import {
   UserStructureRole,
 } from "../../../_common/model";
 import { UserStructureTable } from "../../entities";
-import { pgRepository, typeOrmSearch } from "../_postgres";
+import { appTypeormManager, pgRepository, typeOrmSearch } from "../_postgres";
 
 export const USERS_USER_PROFILE_ATTRIBUTES: (keyof UserStructureTable)[] = [
   "id",
@@ -57,21 +57,20 @@ function findVerifiedStructureUsersByRoles({
   );
 }
 
-function countUsersByRegionId({
+async function countUsersByRegionId({
   regionId,
 }: {
   regionId: string;
 }): Promise<number> {
-  // SELECT count(*) AS "count"
-  // FROM "public"."user_structure"
-  // LEFT JOIN "public"."structure" "structure__via__structureId" ON "public"."user_structure"."structureId" = "structure__via__structureId"."id"
-  // WHERE"structure__via__structureId"."region" = '02'
-  return baseRepository.aggregateAsNumber({
-    alias: "u",
-    expression: "COUNT(u.uuid)",
-    resultAlias: "count",
-    configure: (qb) => qb.innerJoin("u.structure", "s"),
-    where: "s.region=:regionId",
-    params: { regionId },
-  });
+  const query = ` SELECT count(*) AS "count" FROM "public"."user_structure" LEFT JOIN "structure" ON "user_structure"."structureId" = "structure"."id" WHERE "structure"."region" = '${regionId}'`;
+
+  const results = await appTypeormManager
+    .getRepository(UserStructureTable)
+    .query(query);
+
+  return typeof results[0] === "undefined"
+    ? 0
+    : results[0] === null || results[0].length === 0
+    ? 0
+    : parseInt(results[0].count, 10);
 }
