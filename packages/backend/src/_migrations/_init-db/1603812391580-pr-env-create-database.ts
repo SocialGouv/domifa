@@ -25,7 +25,7 @@ async function createTables(queryRunner: QueryRunner) {
 
   await queryRunner.query(
     `
-    -- public.app_log definition
+    -- app_log definition
 
     -- Drop table
 
@@ -191,6 +191,7 @@ async function createTables(queryRunner: QueryRunner) {
       sms jsonb NOT NULL DEFAULT '{"senderName": null, "senderDetails": null, "enabledByDomifa": true, "enabledByStructure": false}'::jsonb,
       "portailUsager" jsonb NOT NULL DEFAULT '{"enabledByDomifa": true, "enabledByStructure": false}'::jsonb,
       "timeZone" text NULL,
+      telephone jsonb NOT NULL DEFAULT '{"numero": "", "indicatif": "fr"}'::jsonb,
       CONSTRAINT "PK_a92a6b3dd54efb4ab48b2d6e7c1" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_90ac7986e769d602d218075215c" UNIQUE (id)
     );
@@ -249,7 +250,7 @@ async function createTables(queryRunner: QueryRunner) {
       langue text NULL,
       email text NULL,
       phone text NULL,
-      preference jsonb NULL DEFAULT '{"phone": false, "phoneNumber": null}'::jsonb,
+      preference jsonb NULL DEFAULT '{"phone": false, "telephone": {"numero": "", "indicatif": "fr"}, "phoneNumber": null}'::jsonb,
       "datePremiereDom" timestamptz NULL,
       "typeDom" text NULL DEFAULT 'PREMIERE_DOM'::text,
       decision jsonb NOT NULL,
@@ -265,6 +266,7 @@ async function createTables(queryRunner: QueryRunner) {
       "import" jsonb NULL,
       notes jsonb NOT NULL DEFAULT '[]'::jsonb,
       migrated bool NOT NULL DEFAULT false,
+      telephone jsonb NULL DEFAULT '{"numero": "", "indicatif": "fr"}'::jsonb,
       CONSTRAINT "PK_1bb36e24229bec446a281573612" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_e76056fb098740de66d58a5055a" UNIQUE ("structureId", ref),
       CONSTRAINT "FK_a44d882d224e368efdee8eb8c80" FOREIGN KEY ("structureId") REFERENCES "structure"(id)
