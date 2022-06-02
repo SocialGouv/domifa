@@ -20,13 +20,16 @@ export class AppUserGuard implements CanActivate {
       "allowUserProfiles",
       context.getHandler()
     );
+
     const allowUserStructureRoles = this.reflector.get<UserStructureRole[]>(
       "allowUserStructureRoles",
       context.getHandler()
     );
+
     if (!allowUserProfiles?.length && allowUserStructureRoles?.length) {
       allowUserProfiles = ["structure"];
     }
+
     if (allowUserProfiles?.length) {
       // check structure user roles
       const isValidProfile = authChecker.checkProfile(

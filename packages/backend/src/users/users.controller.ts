@@ -67,7 +67,8 @@ export class UsersController {
       { id: user.id },
       { select: ["passwordLastUpdate"] }
     );
-    return res.status(HttpStatus.OK).json(newUser.passwordLastUpdate);
+
+    return res.status(HttpStatus.OK).json(newUser?.passwordLastUpdate ?? null);
   }
 
   @AllowUserStructureRoles("admin")
