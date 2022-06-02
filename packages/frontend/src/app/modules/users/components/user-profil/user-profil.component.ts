@@ -25,11 +25,11 @@ export class UserProfilComponent implements OnInit {
   public exportLoading: boolean;
 
   constructor(
-    private authService: AuthService,
-    private userService: UsersService,
-    private modalService: NgbModal,
-    private toastService: CustomToastService,
-    private titleService: Title
+    private readonly authService: AuthService,
+    private readonly userService: UsersService,
+    private readonly modalService: NgbModal,
+    private readonly toastService: CustomToastService,
+    private readonly titleService: Title
   ) {
     this.users = [];
 

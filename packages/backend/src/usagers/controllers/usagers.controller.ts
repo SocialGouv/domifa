@@ -231,6 +231,9 @@ export class UsagersController {
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @Get("stop-courrier/:usagerRef")
   public async stopCourrier(@CurrentUsager() currentUsager: UsagerLight) {
+    console.log("");
+    console.log();
+    console.log(currentUsager.options);
     if (currentUsager.options.npai.actif) {
       currentUsager.options.npai.actif = false;
       currentUsager.options.npai.dateDebut = null;
@@ -239,7 +242,14 @@ export class UsagersController {
       currentUsager.options.npai.dateDebut = new Date();
     }
 
-    return this.usagersService.patch(
+    console.log("");
+    console.log("");
+    console.log(currentUsager.options);
+
+    console.log("");
+    console.log("");
+
+    return usagerLightRepository.updateOne(
       { uuid: currentUsager.uuid },
       { options: currentUsager.options }
     );

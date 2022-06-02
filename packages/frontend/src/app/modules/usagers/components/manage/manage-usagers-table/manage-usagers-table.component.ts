@@ -39,13 +39,13 @@ import {
 })
 export class ManageUsagersTableComponent implements OnInit {
   @Input()
-  public me: UserStructure;
+  public me!: UserStructure;
 
   @Input()
-  public usagers: UsagerFormModel[];
+  public usagers!: UsagerFormModel[];
 
   @Input()
-  public filters: UsagersFilterCriteria;
+  public filters!: UsagersFilterCriteria;
 
   @Output()
   public updateUsager = new EventEmitter<UsagerLight>();

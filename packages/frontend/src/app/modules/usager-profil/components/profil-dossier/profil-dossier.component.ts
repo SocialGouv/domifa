@@ -19,8 +19,8 @@ import { UsagerService } from "../../../usagers/services/usager.service";
   styleUrls: ["./profil-dossier.component.css"],
 })
 export class ProfilDossierComponent implements OnInit {
-  public me: UserStructure;
-  public usager: UsagerFormModel;
+  public me!: UserStructure;
+  public usager!: UsagerFormModel;
 
   public editInfos: boolean;
   public editEntretien: boolean;
@@ -33,7 +33,6 @@ export class ProfilDossierComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.me = null;
     this.editInfos = false;
     this.editEntretien = false;
   }

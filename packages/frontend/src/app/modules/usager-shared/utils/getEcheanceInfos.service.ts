@@ -1,9 +1,7 @@
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
 import { UsagerEcheanceInfos } from "./../../../../_common/model/usager/UsagerEcheanceInfos.type";
 
-export const getEcheanceInfos = (
-  usager: Partial<UsagerLight>
-): UsagerEcheanceInfos => {
+export const getEcheanceInfos = (usager: UsagerLight): UsagerEcheanceInfos => {
   const usagerInfos: UsagerEcheanceInfos = {
     isActif: false,
     dateToDisplay: null,
@@ -38,11 +36,15 @@ export const getEcheanceInfos = (
           : null;
 
       // Fix: certaines donnnées corompus n'ont pas de dateFin
-      usagerInfos.dateToDisplay =
-        usager.historique[usager.historique.length - indexOfDate]?.dateFin ??
-        usager.decision.dateDecision;
+      if (indexOfDate) {
+        usagerInfos.dateToDisplay =
+          usager.historique[usager.historique.length - indexOfDate]?.dateFin ??
+          usager.decision.dateDecision;
+      }
 
-      usagerInfos.dateToDisplay = new Date(usagerInfos.dateToDisplay);
+      if (usagerInfos.dateToDisplay) {
+        usagerInfos.dateToDisplay = new Date(usagerInfos.dateToDisplay);
+      }
     } else {
       usagerInfos.isActif = false;
       usagerInfos.dateToDisplay = null;

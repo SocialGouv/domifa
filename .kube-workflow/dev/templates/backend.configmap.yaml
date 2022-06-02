@@ -16,3 +16,4 @@ data:
   DOMIFA_FRONTEND_META_ROBOTS: noindex,nofollow
   ELASTIC_APM_SERVICE_NAME: domifa-backend-review
   CRON_ELASTIC_APM_SERVICE_NAME: domifa-backend-cron-review
+  DOMIFA_SENTRY_ENABLED: "false"

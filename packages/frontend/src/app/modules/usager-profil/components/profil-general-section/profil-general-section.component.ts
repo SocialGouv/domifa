@@ -69,7 +69,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
   public setInteractionOutModal!: TemplateRef<NgbModalRef>;
 
   @ViewChild(ProfilGeneralHistoriqueCourriersComponent)
-  private profileComponent: ProfilGeneralHistoriqueCourriersComponent;
+  private profileComponent!: ProfilGeneralHistoriqueCourriersComponent;
 
   public USAGER_DECISION_STATUT_LABELS = USAGER_DECISION_STATUT_LABELS;
 
