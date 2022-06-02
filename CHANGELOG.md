@@ -1,3 +1,12 @@
+## [2.92.3](https://github.com/SocialGouv/domifa/compare/v2.92.2...v2.92.3) (2022-06-02)
+
+
+### Bug Fixes
+
+* **dumps:** mise à jour des dumps de test et pour la CI ([3607fe5](https://github.com/SocialGouv/domifa/commit/3607fe57872d7e8edd9961ab409d6d874c55adf8))
+* **pg:** Correction d'un bug de db sur les déploiements ([e77c742](https://github.com/SocialGouv/domifa/commit/e77c74298eb2056db27f5fb4fb85aea9e2a17658))
+* **stats:** correction de la requête des stats publics ([1bc1363](https://github.com/SocialGouv/domifa/commit/1bc1363a04989027bab1afbe35ef53a07cca3a77))
+
 ## [2.92.2](https://github.com/SocialGouv/domifa/compare/v2.92.1...v2.92.2) (2022-06-01)
 
 
