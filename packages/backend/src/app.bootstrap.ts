@@ -1,3 +1,4 @@
+import './instrumentation';
 import * as Sentry from "@sentry/node";
 import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
@@ -16,7 +17,6 @@ import { appTypeormManager } from "./database";
 import { appLogger } from "./util";
 import { AppSentryInterceptor } from "./util/sentry";
 
-import elastic = require("elastic-apm-node");
 
 export async function tearDownApplication({
   app,
@@ -31,15 +31,6 @@ export async function tearDownApplication({
 
 export async function bootstrapApplication() {
   try {
-    if (domifaConfig().envId === "local") {
-      elastic.start({
-        serviceName: domifaConfig().apm.serviceName,
-        secretToken: domifaConfig().apm.token,
-        serverUrl: domifaConfig().apm.url,
-        captureBody: "all",
-        active: true,
-      });
-    }
 
     if (domifaConfig().dev.sentry.enabled) {
       appLogger.debug(
