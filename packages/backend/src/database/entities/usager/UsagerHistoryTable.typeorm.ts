@@ -16,23 +16,19 @@ export class UsagerHistoryTable
   implements UsagerHistory
 {
   @Index()
-  @Column({ type: "text", unique: true, update: false }) // unique par structure
-  public usagerUUID: string;
-
-  @ManyToOne(() => UsagerTable, { lazy: true })
+  @Column({ type: "uuid", unique: true, update: false })
+  @ManyToOne(() => UsagerTable, (usager) => usager.uuid)
   @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })
-  usagerFk?: Promise<UsagerTable>;
+  public usagerUUID: string;
 
   @Column({ type: "integer", update: false })
   public usagerRef: number;
 
   @Index()
-  @Column({ type: "integer", update: false })
-  structureId: number;
-
-  @ManyToOne(() => StructureTable, { lazy: true })
+  @ManyToOne(() => StructureTable, (structure) => structure.id)
+  @Column({ type: "integer", nullable: false })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
-  structureFk?: Promise<StructureTable>;
+  public structureId: number;
 
   @Column({ type: "jsonb", nullable: true })
   import?: UsagerHistoryImport;

@@ -32,15 +32,10 @@ export class UsagerTable
   public customRef: string;
 
   @Index()
-  @Column({ type: "integer" })
+  @ManyToOne(() => StructureTable, (structure) => structure.id)
+  @Column({ type: "integer", nullable: false })
+  @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   public structureId: number;
-
-  @ManyToOne(() => StructureTable, { lazy: true })
-  @JoinColumn({
-    name: "structureId",
-    referencedColumnName: "id",
-  })
-  public structureFk?: Promise<StructureTable>;
 
   // ETAT-CIVIL
   @Column({ type: "text" })

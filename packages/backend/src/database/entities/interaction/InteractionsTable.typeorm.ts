@@ -20,12 +20,10 @@ export class InteractionsTable
   nbCourrier: number;
 
   @Index()
-  @Column({ type: "integer" })
-  structureId: number;
-
   @ManyToOne(() => StructureTable, (structure) => structure.id)
+  @Column({ type: "integer", nullable: false })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
-  structureFk?: Promise<StructureTable>;
+  structureId: number;
 
   @Column({ type: "text" })
   type: InteractionType;
@@ -35,12 +33,10 @@ export class InteractionsTable
   usagerRef: number;
 
   @Index()
-  @Column({ type: "text" })
-  usagerUUID: string;
-
-  @ManyToOne(() => UsagerTable, { lazy: true })
+  @Column({ type: "uuid", nullable: false })
+  @ManyToOne(() => UsagerTable, (usager) => usager.uuid)
   @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })
-  usagerFk?: Promise<UsagerTable>;
+  usagerUUID: string;
 
   @Index()
   @Column({ type: "integer", nullable: true }) // nullable if user is deleted
@@ -56,12 +52,10 @@ export class InteractionsTable
   event: InteractionEvent;
 
   @Index()
-  @Column({ type: "text", nullable: true })
-  interactionOutUUID: string;
-
+  @Column({ type: "uuid", nullable: true })
   @ManyToOne(() => InteractionsTable, (interaction) => interaction.uuid)
   @JoinColumn({ name: "interactionOutUUID", referencedColumnName: "uuid" })
-  interactionOutUUIDFk?: Promise<Interactions>;
+  interactionOutUUID: string;
 
   @Column({ type: "jsonb", nullable: true })
   previousValue?: Interactions; // if event === 'delete'

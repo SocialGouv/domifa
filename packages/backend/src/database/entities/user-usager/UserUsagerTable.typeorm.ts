@@ -23,20 +23,16 @@ export class UserUsagerTable
   id: number;
 
   @Index()
-  @Column({ type: "text", unique: true })
-  usagerUUID: string;
-
-  @ManyToOne(() => UsagerTable, { lazy: true })
+  @Column({ type: "uuid", unique: true })
+  @ManyToOne(() => UsagerTable, (usager) => usager.uuid)
   @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })
-  usagerFk?: Promise<UsagerTable>;
+  public usagerUUID: string;
 
   @Index()
-  @Column({ type: "integer" })
-  structureId: number;
-
-  @ManyToOne(() => StructureTable, { lazy: true })
+  @ManyToOne(() => StructureTable, (structure) => structure.id)
+  @Column({ type: "integer", nullable: false })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
-  structureFk?: Promise<StructureTable>;
+  public structureId: number;
 
   @Index()
   @Column({ type: "text", unique: true })

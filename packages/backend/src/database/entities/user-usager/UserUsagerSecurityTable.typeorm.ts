@@ -14,29 +14,22 @@ export class UserUsagerSecurityTable
   implements UserUsagerSecurity
 {
   @Index()
-  @Column({ type: "integer", unique: true, update: false })
-  userId: number;
-
-  @ManyToOne(() => UserUsagerTable, { lazy: true })
+  @ManyToOne(() => UserUsagerTable, (user) => user.id)
+  @Column({ type: "integer", nullable: false, update: false })
   @JoinColumn({ name: "userId", referencedColumnName: "id" })
-  userFk?: Promise<UserUsagerTable>;
+  public userId: number;
 
   @Index()
-  @Column({ type: "integer" })
-  structureId: number;
-
-  @ManyToOne(() => StructureTable, { lazy: true })
+  @ManyToOne(() => StructureTable, (structure) => structure.id)
+  @Column({ type: "integer", nullable: false })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
-  structureFk?: Promise<StructureTable>;
-
-  // @Column({ type: "jsonb", nullable: true })
-  // temporaryTokens: UserUsagerTokens;
+  public structureId: number;
 
   @Column({ type: "jsonb", default: () => "'[]'" })
   eventsHistory: UserUsagerSecurityEvent[];
 
-  // public constructor(entity?: Partial<UserUsagerSecurityTable>) {
-  //   super(entity);
-  //   Object.assign(this, entity);
-  // }
+  public constructor(entity?: Partial<UserUsagerSecurityTable>) {
+    super(entity);
+    Object.assign(this, entity);
+  }
 }

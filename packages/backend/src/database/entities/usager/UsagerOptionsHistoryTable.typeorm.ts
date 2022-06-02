@@ -14,12 +14,10 @@ export class UsagerOptionsHistoryTable
   implements UsagerOptionsHistory
 {
   @Index()
-  @Column({ type: "text" })
-  public usagerUUID: string;
-
-  @ManyToOne(() => UsagerTable, { lazy: true })
+  @Column({ type: "uuid", unique: true })
+  @ManyToOne(() => UsagerTable, (usager) => usager.uuid)
   @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })
-  public usagerFk?: Promise<UsagerTable>;
+  public usagerUUID: string;
 
   @Index()
   @Column({ type: "integer", nullable: true })

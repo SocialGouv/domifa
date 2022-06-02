@@ -15,20 +15,16 @@ export class UserStructureSecurityTable
   implements UserStructureSecurity
 {
   @Index()
-  @Column({ type: "integer", unique: true, update: false })
-  userId: number;
-
-  @ManyToOne(() => UserStructureTable, { lazy: true })
+  @ManyToOne(() => UserStructureTable, (user) => user.id)
+  @Column({ type: "integer", nullable: false, update: false })
   @JoinColumn({ name: "userId", referencedColumnName: "id" })
-  userFk?: Promise<UserStructureTable>;
+  public userId: number;
 
   @Index()
-  @Column({ type: "integer" })
-  structureId: number;
-
-  @ManyToOne(() => StructureTable, { lazy: true })
+  @ManyToOne(() => StructureTable, (structure) => structure.id)
+  @Column({ type: "integer", nullable: false })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
-  structureFk?: Promise<StructureTable>;
+  public structureId: number;
 
   @Column({ type: "jsonb", nullable: true })
   temporaryTokens: UserStructureTokens;
