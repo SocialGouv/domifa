@@ -203,7 +203,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
       .getInteractions({
         usagerRef: this.usager.ref,
         filter: "distribution",
-        maxResults: 20,
+        maxResults: 10,
       })
       .subscribe((interactions: Interaction[]) => {
         this.interactions$.next(interactions);

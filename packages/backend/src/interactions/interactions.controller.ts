@@ -80,6 +80,14 @@ export class InteractionsController {
     const filter = filterString === "distribution" ? "distribution" : undefined;
     const maxResultsInteger = parseInt(maxResultsString, 10);
     const maxResults = maxResultsInteger > 0 ? maxResultsInteger : 20;
+
+    console.log("");
+    console.log("");
+    console.log("");
+    console.log("getInteractions");
+    console.log("");
+    console.log("");
+    console.log("");
     return interactionRepository.findWithFilters({
       usagerRef: usager.ref,
       structureId: user.structureId,

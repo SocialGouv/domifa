@@ -47,12 +47,10 @@ export class StructureDocTable
   filetype: string;
 
   @Index()
+  @ManyToOne(() => StructureTable, (structure) => structure.id)
   @Column({ type: "integer", nullable: false })
-  structureId: number;
-
-  @ManyToOne(() => StructureTable, { lazy: true })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
-  structureFk?: Promise<StructureTable>;
+  structureId: number;
 
   @Column({ type: "text", nullable: false })
   path: string;

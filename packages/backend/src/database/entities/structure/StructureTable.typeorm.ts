@@ -19,10 +19,10 @@ export class StructureTable
   @Index()
   @Column({ type: "integer", unique: true })
   @Generated("increment")
-  id: number;
+  public id: number;
 
-  @Column({ type: "text", nullable: true })
-  adresse: string;
+  @Column({ type: "text", nullable: false })
+  public adresse: string;
 
   @Column({
     type: "jsonb",
@@ -42,13 +42,13 @@ export class StructureTable
   @Column({ type: "text", nullable: true })
   complementAdresse: string;
 
-  @Column({ type: "text", nullable: true })
+  @Column({ type: "text", nullable: false })
   departement: string;
 
-  @Column({ type: "text", nullable: true })
+  @Column({ type: "text", nullable: false })
   region: string;
 
-  @Column({ type: "text", nullable: true })
+  @Column({ type: "text", nullable: false })
   email: string;
 
   @Column({
@@ -75,7 +75,7 @@ export class StructureTable
   @Column({ type: "date", nullable: true })
   lastLogin: Date;
 
-  @Column({ type: "text", nullable: true })
+  @Column({ type: "text", nullable: false })
   nom: string;
 
   @Column({ type: "jsonb", nullable: true })
@@ -83,13 +83,13 @@ export class StructureTable
     numeroBoite: boolean;
   };
 
-  @Column({ type: "text", nullable: true })
+  @Column({ type: "text", nullable: false })
   phone: string;
 
-  @Column({ type: "jsonb" })
+  @Column({ type: "jsonb", nullable: false })
   responsable: StructureResponsable;
 
-  @Column({ type: "text" })
+  @Column({ type: "text", nullable: false })
   structureType: StructureType;
 
   @Column({ type: "text", nullable: true })

@@ -50,12 +50,10 @@ export class UserStructureTable
   role: UserStructureRole;
 
   @Index()
-  @Column({ type: "integer" })
-  structureId: number;
-
-  @ManyToOne(() => StructureTable)
+  @ManyToOne(() => StructureTable, (structure) => structure.id)
+  @Column({ type: "integer", nullable: false })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
-  structureFk: StructureTable;
+  structureId: number;
 
   @Column({ type: "jsonb", default: '{"guide": false, "import": false}' })
   mails: UserStructureMails;

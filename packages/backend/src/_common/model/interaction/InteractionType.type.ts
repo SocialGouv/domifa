@@ -52,3 +52,15 @@ export const INTERACTION_OUT_REMOVE_SMS: InteractionType[] = [
   "colisOut",
   "recommandeOut",
 ];
+
+export const ENUM_TYPE_INTERACTION: InteractionType[] = [
+  "courrierIn",
+  "courrierOut",
+  "recommandeIn",
+  "recommandeOut",
+  "colisIn",
+  "colisOut",
+  "appel",
+  "visite",
+  "npai",
+];

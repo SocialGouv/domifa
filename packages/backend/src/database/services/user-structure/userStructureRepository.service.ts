@@ -62,11 +62,15 @@ function countUsersByRegionId({
 }: {
   regionId: string;
 }): Promise<number> {
+  // SELECT count(*) AS "count"
+  // FROM "public"."user_structure"
+  // LEFT JOIN "public"."structure" "structure__via__structureId" ON "public"."user_structure"."structureId" = "structure__via__structureId"."id"
+  // WHERE"structure__via__structureId"."region" = '02'
   return baseRepository.aggregateAsNumber({
     alias: "u",
     expression: "COUNT(u.uuid)",
     resultAlias: "count",
-    configure: (qb) => qb.innerJoin("u.structureFk", "s"),
+    configure: (qb) => qb.innerJoin("u.structure", "s"),
     where: "s.region=:regionId",
     params: { regionId },
   });
