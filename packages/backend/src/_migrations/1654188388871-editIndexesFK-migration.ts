@@ -30,6 +30,9 @@ export class editIndexesFKMigration1654188388871 implements MigrationInterface {
       `ALTER TABLE "user_structure_security" ADD CONSTRAINT "FK_0389a8aa8e69b2d17210745d040" FOREIGN KEY ("userId") REFERENCES "user_structure"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
+      `ALTER TABLE "user_usager_security" ADD CONSTRAINT "UQ_0b7885e1594c7af3a5b84a4bdb3" UNIQUE ("userId")`
+    );
+    await queryRunner.query(
       `ALTER TABLE "user_usager_security" ADD CONSTRAINT "FK_0b7885e1594c7af3a5b84a4bdb3" FOREIGN KEY ("userId") REFERENCES "user_usager"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
   }

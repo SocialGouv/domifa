@@ -23,7 +23,7 @@ export class UserStructureTable
   implements UserStructure
 {
   @Index()
-  @Column({ type: "text", unique: true })
+  @Column({ type: "text", unique: true, nullable: false })
   email: string;
 
   @Column({ type: "text", nullable: true })

@@ -16,27 +16,15 @@ export class InteractionsTable
   @Column({ type: "timestamptz" })
   dateInteraction: Date;
 
-  @Column({ type: "integer", default: 0 })
+  @Column({ type: "integer", default: 0, nullable: false })
   nbCourrier: number;
-
-  @Index()
-  @ManyToOne(() => StructureTable, (structure) => structure.id)
-  @Column({ type: "integer", nullable: false })
-  @JoinColumn({ name: "structureId", referencedColumnName: "id" })
-  structureId: number;
 
   @Column({ type: "text" })
   type: InteractionType;
 
   @Index()
-  @Column({ type: "integer" })
+  @Column({ type: "integer", nullable: false })
   usagerRef: number;
-
-  @Index()
-  @Column({ type: "uuid", nullable: false })
-  @ManyToOne(() => UsagerTable, (usager) => usager.uuid)
-  @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })
-  usagerUUID: string;
 
   @Index()
   @Column({ type: "integer", nullable: true }) // nullable if user is deleted
@@ -51,14 +39,26 @@ export class InteractionsTable
   @Column({ type: "text", default: "create" })
   event: InteractionEvent;
 
+  @Column({ type: "jsonb", nullable: true })
+  previousValue?: Interactions; // if event === 'delete'
+
   @Index()
   @Column({ type: "uuid", nullable: true })
   @ManyToOne(() => InteractionsTable, (interaction) => interaction.uuid)
   @JoinColumn({ name: "interactionOutUUID", referencedColumnName: "uuid" })
   interactionOutUUID: string;
 
-  @Column({ type: "jsonb", nullable: true })
-  previousValue?: Interactions; // if event === 'delete'
+  @Index()
+  @Column({ type: "integer", nullable: false })
+  @ManyToOne(() => StructureTable, (structure) => structure.id)
+  @JoinColumn({ name: "structureId", referencedColumnName: "id" })
+  structureId: number;
+
+  @Index()
+  @Column({ type: "uuid", nullable: false })
+  @ManyToOne(() => UsagerTable, (usager) => usager.uuid)
+  @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })
+  usagerUUID: string;
 
   public constructor(entity?: Partial<InteractionsTable>) {
     super(entity);
