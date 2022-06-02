@@ -48,7 +48,7 @@ export class StructureDocTable
 
   @Index()
   @ManyToOne(() => StructureTable, (structure) => structure.id)
-  @Column({ type: "integer", nullable: false })
+  @Column({ type: "integer", nullable: false, update: false })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   structureId: number;
 

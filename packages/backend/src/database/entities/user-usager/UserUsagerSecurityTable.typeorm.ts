@@ -15,7 +15,7 @@ export class UserUsagerSecurityTable
 {
   @Index()
   @ManyToOne(() => UserUsagerTable, (user) => user.id)
-  @Column({ type: "integer", nullable: false, update: false })
+  @Column({ type: "integer", nullable: false, unique: true, update: false })
   @JoinColumn({ name: "userId", referencedColumnName: "id" })
   public userId: number;
 

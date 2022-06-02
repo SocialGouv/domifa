@@ -24,8 +24,8 @@ TRUNCATE TABLE public.structure RESTART IDENTITY CASCADE;
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.20 (Debian 10.20-1.pgdg90+1)
--- Dumped by pg_dump version 10.20 (Debian 10.20-1.pgdg90+1)
+-- Dumped from database version 10.21 (Debian 10.21-1.pgdg90+1)
+-- Dumped by pg_dump version 10.21 (Debian 10.21-1.pgdg90+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
