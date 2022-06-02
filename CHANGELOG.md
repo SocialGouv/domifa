@@ -1,3 +1,10 @@
+## [2.92.4](https://github.com/SocialGouv/domifa/compare/v2.92.3...v2.92.4) (2022-06-02)
+
+
+### Bug Fixes
+
+* **frontend:** donnée undefined dans la suppression de dossier ([ed4602f](https://github.com/SocialGouv/domifa/commit/ed4602fc9f0451eaa76ce3be0e118fb41bace934))
+
 ## [2.92.3](https://github.com/SocialGouv/domifa/compare/v2.92.2...v2.92.3) (2022-06-02)
 
 
