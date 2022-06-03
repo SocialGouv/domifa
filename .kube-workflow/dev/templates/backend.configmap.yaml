@@ -15,5 +15,6 @@ data:
   POSTGRES_LOGGING: "schema,migration"
   DOMIFA_FRONTEND_META_ROBOTS: noindex,nofollow
   ELASTIC_APM_SERVICE_NAME: domifa-backend-review
+  ELASTIC_APM_ACTIVE: "true"
   CRON_ELASTIC_APM_SERVICE_NAME: domifa-backend-cron-review
   DOMIFA_SENTRY_ENABLED: "false"
