@@ -1,3 +1,10 @@
+# [2.93.0](https://github.com/SocialGouv/domifa/compare/v2.92.4...v2.93.0) (2022-06-03)
+
+
+### Features
+
+* **SRE:** Improve apm instrumentation ([#2313](https://github.com/SocialGouv/domifa/issues/2313)) ([662b5ce](https://github.com/SocialGouv/domifa/commit/662b5cefcd07cb04c821496739ab6e4fa26d9aa7))
+
 ## [2.92.4](https://github.com/SocialGouv/domifa/compare/v2.92.3...v2.92.4) (2022-06-02)
 
 
