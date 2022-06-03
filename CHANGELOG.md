@@ -1,3 +1,10 @@
+## [2.93.1](https://github.com/SocialGouv/domifa/compare/v2.93.0...v2.93.1) (2022-06-03)
+
+
+### Bug Fixes
+
+* **sre:** Add missing flag to active APM ([66867fe](https://github.com/SocialGouv/domifa/commit/66867fe91d108837db861606ad3b46e5b489fc4f))
+
 # [2.93.0](https://github.com/SocialGouv/domifa/compare/v2.92.4...v2.93.0) (2022-06-03)
 
 
