@@ -82,7 +82,7 @@ export class AdminStructuresController {
     >(undefined, {
       select: USER_STATS_ATTRIBUTES,
     });
-    span1.end();
+    span1 ? span1.end() : null;
 
     const span2 = startApmSpan('user filtering');
     const structuresById = structures.reduce((acc, s) => {
@@ -108,7 +108,7 @@ export class AdminStructuresController {
       }
       return res;
     });
-    span2.end();
+    span2 ? span2.end() : null;
 
 
     const span3 = startApmSpan('generate excel and send');
@@ -126,7 +126,7 @@ export class AdminStructuresController {
       fileName,
       workbook,
     });
-    span3.end();
+    span3 ? span3.end() : null;
   }
 
   @Get("stats")

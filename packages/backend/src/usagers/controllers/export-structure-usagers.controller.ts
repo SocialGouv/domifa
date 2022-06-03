@@ -41,12 +41,13 @@ export class ExportStructureUsagersController {
     const model: StructureUsagersExportModel = await this.buildExportModel(
       user
     );
-    buildModelSpan.end();
+    buildModelSpan ? buildModelSpan.end(): null;
     const generateExcelSpan = startApmSpan('generateExcelDocument');
     const workbook = await structureUsagersExporter.generateExcelDocument(
       model
     );
-    generateExcelSpan.end();
+    generateExcelSpan ? generateExcelSpan.end(): null;
+    
     const fileName = `${moment(model.exportDate).format(
       "DD-MM-yyyy_HH-mm"
     )}_export-structure-${user.structureId}-usagers.xlsx`;
