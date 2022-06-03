@@ -89,5 +89,6 @@ export type DomifaConfig = {
     serviceName: string; // ELASTIC_APM_SERVICE_NAME
     token: string; // ELASTIC_APM_SECRET_TOKEN
     url: string; // ELASTIC_APM_SERVER_URL
+    active: boolean; // ELASTIC_APM_ACTIVE
   };
 };

@@ -19,6 +19,7 @@ import {
 import { UsagersService } from "../services/usagers.service";
 
 import moment = require("moment");
+import { startApmSpan } from "../../instrumentation";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("export")
@@ -36,12 +37,18 @@ export class ExportStructureUsagersController {
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
+    const buildModelSpan = startApmSpan('buildExportModel');
     const model: StructureUsagersExportModel = await this.buildExportModel(
       user
     );
+    if (buildModelSpan) buildModelSpan.end();
+
+    const generateExcelSpan = startApmSpan('generateExcelDocument');
     const workbook = await structureUsagersExporter.generateExcelDocument(
       model
     );
+    if (generateExcelSpan) generateExcelSpan.end();
+
     const fileName = `${moment(model.exportDate).format(
       "DD-MM-yyyy_HH-mm"
     )}_export-structure-${user.structureId}-usagers.xlsx`;

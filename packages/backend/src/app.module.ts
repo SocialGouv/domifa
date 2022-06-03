@@ -1,3 +1,4 @@
+import { ApmModule } from './instrumentation';
 import { Module } from "@nestjs/common";
 import { ScheduleModule } from "@nestjs/schedule";
 import { TerminusModule } from "@nestjs/terminus";
@@ -23,6 +24,7 @@ import { ContactSupportModule } from "./modules/contact-support/contact-support.
   controllers: [HealthController],
   exports: [],
   imports: [
+    ApmModule.register(),
     SentryModule.forRoot({
       debug: domifaConfig().dev.sentry.debugModeEnabled,
       dsn: domifaConfig().dev.sentry.sentryDsn,

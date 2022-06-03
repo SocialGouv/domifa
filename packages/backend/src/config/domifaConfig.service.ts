@@ -359,6 +359,10 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       url: configParser.parseString(x, "ELASTIC_APM_SERVER_URL", {
         required: false,
       }),
+      active: configParser.parseBoolean(x, "ELASTIC_APM_ACTIVE", {
+        required: false,
+        defaultValue: false
+      }),
     },
   };
 
