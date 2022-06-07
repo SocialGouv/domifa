@@ -50,7 +50,7 @@ export class CustomToastrComponent implements OnInit, OnDestroy {
       this.customToastService.toast$.subscribe((value: CustomToast) => {
         this.toast = value;
         this.icon = this.toastIcons[this.toast.class];
-      })
+      }),
     );
   }
 

@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   public usagerProfile: PortailUsagerProfile | null;
 
   constructor(
-    private titleService: Title,
+    private readonly titleService: Title,
     private readonly usagerAuthService: UsagerAuthService,
   ) {
     this.apiVersion = null;
@@ -27,7 +27,6 @@ export class AppComponent implements OnInit {
       "Domifa, l'outil qui facilite la gestion des structures domiciliatirices",
     );
 
-    this.usagerAuthService.isAuth().subscribe();
     this.usagerAuthService.currentUsagerSubject.subscribe(
       (usager: PortailUsagerProfile | null) => {
         this.usagerProfile = usager;
@@ -38,6 +37,4 @@ export class AppComponent implements OnInit {
   public logout(): void {
     this.usagerAuthService.logout();
   }
-
-  private runHealthCheckAndAutoReload() {}
 }

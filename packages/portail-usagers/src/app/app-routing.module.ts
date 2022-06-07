@@ -1,4 +1,3 @@
-import { HomeComponent } from "./modules/general/components/home/home.component";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { CguComponent } from "./modules/general/components/cgu/cgu.component";
