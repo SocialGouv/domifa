@@ -37,6 +37,7 @@ import { UsagerSharedModule } from "./modules/usager-shared/usager-shared.module
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 
 import pkg from "../../package.json";
+
 import { UserIdleModule } from "angular-user-idle";
 import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
 

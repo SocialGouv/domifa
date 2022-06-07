@@ -53,10 +53,10 @@ export class StructuresFormComponent implements OnInit {
   public accountExist: boolean;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private structureService: StructureService,
-    private toastService: CustomToastService,
-    private titleService: Title
+    private readonly formBuilder: FormBuilder,
+    private readonly structureService: StructureService,
+    private readonly toastService: CustomToastService,
+    private readonly titleService: Title
   ) {
     this.etapeInscription = 0;
 
