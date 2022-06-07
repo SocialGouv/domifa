@@ -1,3 +1,24 @@
+# [2.94.0](https://github.com/SocialGouv/domifa/compare/v2.93.1...v2.94.0) (2022-06-07)
+
+
+### Bug Fixes
+
+* **dumps:** Mise à jour des dumps ([2f9b22e](https://github.com/SocialGouv/domifa/commit/2f9b22e3bdb950cf9bf93d5b67f16518b891e76d))
+* labels ([e02ce57](https://github.com/SocialGouv/domifa/commit/e02ce57a555b05d1909efbbd6ab0cbe729599935))
+* **deps:** update dependency cache-manager to v4 ([2f722b4](https://github.com/SocialGouv/domifa/commit/2f722b4b9a21714cec09a5bb5e602ae4b236a703))
+* **dumps:** mise à jour des dumps ([b49faff](https://github.com/SocialGouv/domifa/commit/b49faffe3f96185bdc9f9c21794f670d2da53740))
+* db ([8bc1041](https://github.com/SocialGouv/domifa/commit/8bc1041d758b86a8bcf11208d50057a7a5cf46da))
+* **dumps:** mise à jour des dumps ([3545c3a](https://github.com/SocialGouv/domifa/commit/3545c3a4c29778b19826c532a242add1adee1c75))
+* retours PR ([dacdaef](https://github.com/SocialGouv/domifa/commit/dacdaef21435477ae9a6034a3bc1f903db4ae972))
+* **migrations:** nettoyage des migrations ([10240b3](https://github.com/SocialGouv/domifa/commit/10240b371d5145fa4dfc2ed012095432ab7834fa))
+* correction desm igrations suite au Rebase ([fe83cc6](https://github.com/SocialGouv/domifa/commit/fe83cc6d02a21eb17cdde2f616975a60781a129e))
+* correction rebase ([16cc1e7](https://github.com/SocialGouv/domifa/commit/16cc1e7d153bd29242cb542120e81a836823c0a9))
+
+
+### Features
+
+* indicatif usagers + indicatif structure ([16e2ab8](https://github.com/SocialGouv/domifa/commit/16e2ab88cd25346e317364437a8b1d53d012a77c))
+
 ## [2.93.1](https://github.com/SocialGouv/domifa/compare/v2.93.0...v2.93.1) (2022-06-03)
 
 
