@@ -7,6 +7,7 @@ import {
 } from "typeorm";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 import { domifaConfig, DomifaConfigPostgres } from "../../../config";
+import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 import { appLogger } from "../../../util";
 
 export const appTypeormManager = {
@@ -24,6 +25,13 @@ const connectionHolder: {
 };
 
 async function migrateUp(connection: Connection): Promise<Migration[]> {
+  if (domifaConfig().envId !== "local") {
+    if (!isCronEnabled()) {
+      console.log("[MIGRATIONS] Disable in this pod");
+      return;
+    }
+  }
+
   const migrations = await connection.runMigrations({
     transaction: "each",
   });

@@ -46,7 +46,7 @@ export class migrateStructurePhoneMigration1651583710799
         `
         SELECT uuid, phone, "timeZone"
         FROM structure
-        WHERE phone != ''
+        WHERE phone != '' and phone != null
       `
       );
       appLogger.warn("[MIGRATION] SELECT ALL STRUCTURE WITH PHONE");
