@@ -1,3 +1,11 @@
+## [2.94.1](https://github.com/SocialGouv/domifa/compare/v2.94.0...v2.94.1) (2022-06-07)
+
+
+### Bug Fixes
+
+* **dumps:** Remise en état des dumps ([f0eadc8](https://github.com/SocialGouv/domifa/commit/f0eadc8f7284561039ee8def0ad2d400ace6f200))
+* **k8s:** correction de la migration ([76c30b6](https://github.com/SocialGouv/domifa/commit/76c30b695248d73587f5fa64d8826b7cc7a44207))
+
 # [2.94.0](https://github.com/SocialGouv/domifa/compare/v2.93.1...v2.94.0) (2022-06-07)
 
 
