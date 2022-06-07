@@ -21,6 +21,7 @@ export class UserProfilComponent implements OnInit {
   public me!: UserStructure | null;
 
   public selectedUser: UserStructure | null;
+  public loading: boolean;
   public usersInfos: boolean;
 
   constructor(
@@ -31,7 +32,7 @@ export class UserProfilComponent implements OnInit {
     private readonly titleService: Title
   ) {
     this.users = [];
-
+    this.loading = false;
     this.selectedUser = null;
     this.usersInfos = false;
   }
@@ -49,6 +50,7 @@ export class UserProfilComponent implements OnInit {
   }
 
   public updateRole(id: number, role: UserStructureRole) {
+    this.loading = true;
     this.userService.updateRole(id, role).subscribe({
       next: (user: UserStructureProfile) => {
         this.getUsers();
@@ -61,6 +63,7 @@ export class UserProfilComponent implements OnInit {
         );
       },
       error: () => {
+        this.loading = false;
         this.toastService.error(
           "Impossible de mettre à jour le rôle de l'utilisateur"
         );
@@ -70,6 +73,7 @@ export class UserProfilComponent implements OnInit {
 
   public deleteUser() {
     if (this.selectedUser) {
+      this.loading = true;
       this.userService.deleteUser(this.selectedUser.id).subscribe({
         next: () => {
           this.toastService.success("Utilisateur supprimé avec succès");
@@ -77,9 +81,11 @@ export class UserProfilComponent implements OnInit {
           setTimeout(() => {
             this.modalService.dismissAll();
             this.getUsers();
+            this.loading = false;
           }, 1000);
         },
         error: () => {
+          this.loading = false;
           this.toastService.error("Impossible de supprimer l'utilisateur");
         },
       });
@@ -97,6 +103,7 @@ export class UserProfilComponent implements OnInit {
   private getUsers(): void {
     this.userService.getUsers().subscribe((users: UserStructureProfile[]) => {
       this.users = users;
+      this.loading = false;
     });
   }
 }

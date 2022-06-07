@@ -48,10 +48,20 @@
           <button
             class="btn btn-danger ms-2"
             (click)="confirmArchiveNote(note)"
+            [disabled]="loading"
           >
-            Oui
+            <span *ngIf="!loading">Oui</span>
+            <span *ngIf="loading">
+              <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+              </fa-icon>
+              Patientez...
+            </span>
           </button>
-          <button class="btn btn-dark ms-2" (click)="cancelArchiveNote()">
+          <button
+            class="btn btn-dark ms-2"
+            (click)="cancelArchiveNote()"
+            [disabled]="loading"
+          >
             Non
           </button>
         </div>
