@@ -20,7 +20,7 @@ import { UsagerNotesService } from "../../services/usager-notes.service";
 export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
-
+  public loading: boolean;
   public displayConfirmArchiveMessageNoteId?: string;
 
   public filteredNotes: UsagerNote[];
@@ -32,6 +32,7 @@ export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
     private usagerNotesService: UsagerNotesService,
     private toastService: CustomToastService
   ) {
+    this.loading = false;
     this.filteredNotes = [];
   }
 
@@ -58,6 +59,7 @@ export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
 
   public confirmArchiveNote(note: UsagerNote): void {
     this.displayConfirmArchiveMessageNoteId = undefined;
+    this.loading = true;
     this.usagerNotesService
       .archiveNote({
         noteId: note.id,
@@ -70,9 +72,11 @@ export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
           this.usager = new UsagerFormModel(usager);
           this.sortNotes();
           this.usagerChanges.emit(usager);
+          this.loading = false;
         },
         error: () => {
           this.toastService.error("Impossible d'archiver cette note");
+          this.loading = false;
         },
       });
   }

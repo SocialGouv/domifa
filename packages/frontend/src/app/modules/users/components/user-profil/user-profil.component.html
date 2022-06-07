@@ -49,6 +49,7 @@
             <td>{{ user.email }}</td>
             <td>
               <select
+                [disabled]="loading"
                 *ngIf="me.role === 'admin' && me.id !== user.id"
                 id="role_{{ user.id }}"
                 [(ngModel)]="user.role"
@@ -577,8 +578,16 @@
     <button class="btn btn-lg btn-outline-dark" (click)="closeModal()">
       Annuler
     </button>
-    <button class="btn btn-lg btn-danger" (click)="deleteUser()">
-      Confirmer la suppression
+    <button
+      class="btn btn-lg btn-danger"
+      (click)="deleteUser()"
+      [disabled]="loading"
+    >
+      <span *ngIf="!loading">Confirmer la suppression</span>
+      <span *ngIf="loading">
+        <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+        Veuillez patientez...
+      </span>
     </button>
   </div>
 </ng-template>
