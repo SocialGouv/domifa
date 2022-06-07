@@ -24,6 +24,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { UsagerAuthService } from "./modules/usager-auth/services/usager-auth.service";
 import { Router } from "@angular/router";
 import { SharedModule } from "./modules/shared/shared.module";
+import { CustomToastService } from "./modules/shared/services/custom-toast.service";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -41,6 +42,8 @@ import { SharedModule } from "./modules/shared/shared.module";
     ReactiveFormsModule,
   ],
   providers: [
+    UsagerAuthService,
+    CustomToastService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {
       deps: [Router, UsagerAuthService],

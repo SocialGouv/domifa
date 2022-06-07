@@ -7,9 +7,4 @@ export const environment = {
     url: "https://matomo.fabrique.social.gouv.fr/",
     siteId: 66, // 17=prod, 18=dev,tests, 66=portail-usagers prod
   },
-  healthzCheck: {
-    initialCheckDelay: 5,
-    checkPeriodIfSuccess: 60,
-    checkPeriodIfError: 30,
-  },
 };

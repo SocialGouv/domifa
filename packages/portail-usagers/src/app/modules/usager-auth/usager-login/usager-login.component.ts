@@ -34,12 +34,12 @@ export class UsagerLoginComponent implements OnInit {
   public mode: "login-only" | "login-change-password" = "login-only";
 
   constructor(
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private titleService: Title,
-    private authService: UsagerAuthService,
-    private toastr: CustomToastService,
-    private matomoInjector: MatomoInjector,
+    private readonly formBuilder: FormBuilder,
+    private readonly router: Router,
+    private readonly titleService: Title,
+    private readonly authService: UsagerAuthService,
+    private readonly toastr: CustomToastService,
+    private readonly matomoInjector: MatomoInjector,
     public matomo: MatomoTracker,
   ) {
     this.matomoInjector.init(environment.matomo.url, environment.matomo.siteId);
@@ -126,6 +126,23 @@ export class UsagerLoginComponent implements OnInit {
     this.loading = true;
 
     this.authService.login(loginForm).subscribe({
+      next: (apiAuthResponse: PortailUsagerAuthApiResponse) => {
+        this.toastr.success("Connexion réussie !");
+
+        // SAVE USER & Tokenn
+        this.authService.saveToken(apiAuthResponse);
+
+        this.loading = false;
+        this.router.navigate(["/account"]);
+
+        this.matomo.trackEvent(
+          "login-portail-usagers",
+          "login_success",
+          "null",
+          1,
+        );
+      },
+
       error: (err) => {
         this.loading = false;
         if (err?.error?.message === "CHANGE_PASSWORD_REQUIRED") {
@@ -145,22 +162,6 @@ export class UsagerLoginComponent implements OnInit {
             1,
           );
         }
-      },
-      next: (apiAuthResponse: PortailUsagerAuthApiResponse) => {
-        this.toastr.success("Connexion réussie");
-
-        // SAVE USER & Tokenn
-        this.authService.saveToken(apiAuthResponse);
-
-        this.loading = false;
-        this.router.navigate(["/account"]);
-
-        this.matomo.trackEvent(
-          "login-portail-usagers",
-          "login_success",
-          "null",
-          1,
-        );
       },
     });
   }

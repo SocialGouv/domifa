@@ -31,6 +31,7 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
     UsagerNomCompletPipe,
     FormatPhoneNumberPipe,
     FormatBigNumberPipe,
+    CustomToastrComponent,
   ],
   imports: [CommonModule, FontAwesomeModule],
 })
