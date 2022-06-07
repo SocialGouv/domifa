@@ -1,150 +1,175 @@
-<div class="container my-4" *ngIf="me">
-  <div class="row">
-    <div class="col-md-10 offset-1">
-      <h4>Vos données</h4>
-      <div class="list-group">
-        <div class="list-group-item">
-          <button
-            title="Exporter tous les domiciliés"
-            (click)="export()"
-            [disabled]="exportLoading"
-            class="btn btn-outline-primary"
-          >
-            <span *ngIf="!exportLoading">
-              <fa-icon [icon]="['fas', 'download']" class="me-2"></fa-icon>
-              Exporter tous les domiciliés
-            </span>
-            <span *ngIf="exportLoading">
-              <fa-icon
-                title="Chargement..."
-                [icon]="['fas', 'circle-notch']"
-                [spin]="true"
-              >
-              </fa-icon>
-              Export en cours, veuillez patienter...
-            </span>
-          </button>
-          &nbsp;
-          <button
-            title="Supprimer tous les domiciliés"
-            *ngIf="me.role === 'admin'"
-            (click)="open(hardResetConfirmation)"
-            class="btn btn-outline-danger"
-          >
-            <fa-icon [icon]="['fas', 'trash']" class="me-2"></fa-icon>
-            Supprimer tous les domiciliés
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-10 offset-1" *ngIf="me.role === 'admin'">
-      <h4>Informations de votre structure</h4>
-      <div class="list-group-item" *ngIf="structure">
-        <div class="row">
-          <div class="col-7">
-            <b>{{ structure.nom }}</b>
-            <br />
-            {{ structure.adresse }}
-            <span *ngIf="structure.complementAdresse">
-              , {{ structure.complementAdresse }}
-              <br />
-            </span>
-            {{ structure.codePostal }}, {{ structure.ville }}
-          </div>
-        </div>
-      </div>
-
-      <app-structure-edit-form
-        *ngIf="structure"
-        [structure]="structure"
-      ></app-structure-edit-form>
-    </div>
+<div *ngIf="me" class="head-page py-4">
+  <div class="container">
+    <h1 class="title">Gestion de la structure</h1>
   </div>
+</div>
 
-  <ng-template #hardResetConfirmation let-modal>
-    <div class="modal-header bg-danger text-white">
-      <span class="modal-title">Suppression de tous les dossiers</span>
-    </div>
-    <div class="modal-body">
-      <div class="p-3" *ngIf="!hardResetCode">
-        <p>
-          Vous êtes sur le point de
-          <b>supprimer TOUS LES DOMICILIÉS</b>
-          de votre structure.
-        </p>
-
-        <p *ngIf="structure.portailUsager.enabledByStructure">
-          <b>Important :</b> Tous les accès au portail Domifa dédié aux usagers
-          seront supprimés ! Vos domiciliés ne pourront plus y accéder.
-        </p>
-        <p>
-          Si vous choisissez de continuer, les données suivantes seront
-          supprimées:
-        </p>
-
-        <ul class="text-start">
-          <li>Tous les dossiers : demandes, domiciliés actifs, radiés, etc.</li>
-          <li>L'historique de toutes les décisions</li>
-          <li>Toutes les interactions (courriers, appels, etc.)</li>
-        </ul>
-        <br />
-        <p>
-          <b> Vous n'aurez aucun moyen de restaurer les dossiers effacés. </b>
-          <br />
-          Pour finaliser cette procédure, cliquez sur "continuer".
-        </p>
-      </div>
-      <div class="p-3" *ngIf="showHardReset">
-        <form
-          [formGroup]="hardResetForm"
-          (ngSubmit)="hardResetConfirm()"
-          class="col-12"
-        >
-          <div class="form-group required">
-            <label for="hard-reset-input"
-              >Veuillez saisir le code reçu par email</label
-            >
-            <div class="offset-md-2 col-md-8">
-              <input
-                type="text"
-                class="form-control"
-                id="hard-reset-input"
-                [ngClass]="{ 'is-invalid': h.token.dirty && h.token.errors }"
-                formControlName="token"
-                maxlength="7"
-                minlength="7"
-                required
-              />
+<div class="content py-3" *ngIf="me">
+  <div class="container py-3">
+    <div class="page-content p-4">
+      <div class="row">
+        <div class="col-md-10 offset-1">
+          <h4>Vos données</h4>
+          <div class="list-group">
+            <div class="list-group-item">
+              <button
+                title="Exporter tous les domiciliés"
+                (click)="export()"
+                [disabled]="exportLoading"
+                class="btn btn-outline-primary"
+              >
+                <span *ngIf="!exportLoading">
+                  <fa-icon [icon]="['fas', 'download']" class="me-2"></fa-icon>
+                  Exporter tous les domiciliés
+                </span>
+                <span *ngIf="exportLoading">
+                  <fa-icon
+                    title="Chargement..."
+                    [icon]="['fas', 'circle-notch']"
+                    [spin]="true"
+                  >
+                  </fa-icon>
+                  Export en cours, veuillez patienter...
+                </span>
+              </button>
+              &nbsp;
+              <button
+                title="Supprimer tous les domiciliés"
+                *ngIf="me.role === 'admin'"
+                (click)="open(hardResetConfirmation)"
+                class="btn btn-outline-danger"
+              >
+                <fa-icon [icon]="['fas', 'trash']" class="me-2"></fa-icon>
+                Supprimer tous les domiciliés
+              </button>
             </div>
           </div>
-        </form>
-      </div>
-    </div>
-    <div class="modal-footer text-center">
-      <button class="btn btn-outline-dark" (click)="closeModals()">
-        Annuler
-      </button>
-      <button
-        class="btn btn-danger"
-        *ngIf="!showHardReset"
-        (click)="hardReset()"
-      >
-        Continuer
-      </button>
-      <button
-        class="btn btn-danger"
-        *ngIf="showHardReset"
-        [disabled]="loading"
-        (click)="hardResetConfirm()"
-      >
-        <span *ngIf="!loading">Confirmer la suppression</span>
+        </div>
 
-        <span *ngIf="loading"
-          ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
-          Veuillez patienter...</span
-        >
-      </button>
+        <div class="col-md-10 offset-1" *ngIf="me.role === 'admin'">
+          <h4>Informations de votre structure</h4>
+          <div class="list-group-item" *ngIf="structure">
+            <div class="row">
+              <div class="col-7">
+                <b>{{ structure.nom }}</b>
+                <br />
+                {{ structure.adresse }}
+                <span *ngIf="structure.complementAdresse">
+                  , {{ structure.complementAdresse }}
+                  <br />
+                </span>
+                {{ structure.codePostal }}, {{ structure.ville }}
+              </div>
+            </div>
+          </div>
+
+          <app-structure-edit-form
+            *ngIf="structure"
+            [structure]="structure"
+          ></app-structure-edit-form>
+        </div>
+      </div>
+
+      <ng-template #hardResetConfirmation let-modal>
+        <div class="modal-header bg-danger text-white">
+          <span class="modal-title">Suppression de tous les dossiers</span>
+        </div>
+        <div class="modal-body">
+          <div class="p-3" *ngIf="!hardResetCode">
+            <p>
+              Vous êtes sur le point de
+              <b>supprimer TOUS LES DOMICILIÉS</b>
+              de votre structure.
+            </p>
+
+            <p *ngIf="structure.portailUsager.enabledByStructure">
+              <b>Important :</b> Tous les accès au portail Domifa dédié aux
+              usagers seront supprimés ! Vos domiciliés ne pourront plus y
+              accéder.
+            </p>
+            <p>
+              Si vous choisissez de continuer, les données suivantes seront
+              supprimées:
+            </p>
+
+            <ul class="text-start">
+              <li>
+                Tous les dossiers : demandes, domiciliés actifs, radiés, etc.
+              </li>
+              <li>L'historique de toutes les décisions</li>
+              <li>Toutes les interactions (courriers, appels, etc.)</li>
+            </ul>
+            <br />
+            <p>
+              <b>
+                Vous n'aurez aucun moyen de restaurer les dossiers effacés.
+              </b>
+              <br />
+              Pour finaliser cette procédure, cliquez sur "continuer".
+            </p>
+          </div>
+          <div class="p-3" *ngIf="showHardReset">
+            <form
+              [formGroup]="hardResetForm"
+              (ngSubmit)="hardResetConfirm()"
+              class="col-12"
+            >
+              <div class="form-group required">
+                <label for="hard-reset-input"
+                  >Veuillez saisir le code reçu par email</label
+                >
+                <div class="offset-md-2 col-md-8">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="hard-reset-input"
+                    [ngClass]="{
+                      'is-invalid': h.token.dirty && h.token.errors
+                    }"
+                    formControlName="token"
+                    maxlength="7"
+                    minlength="7"
+                    required
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer text-center">
+          <button class="btn btn-outline-dark" (click)="closeModals()">
+            Annuler
+          </button>
+          <button
+            class="btn btn-danger"
+            *ngIf="!showHardReset"
+            (click)="hardReset()"
+            [disabled]="loading"
+          >
+            <span *ngIf="!loading">Continuer</span>
+
+            <span *ngIf="loading"
+              ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+              </fa-icon>
+              Veuillez patienter...</span
+            >
+          </button>
+          <button
+            class="btn btn-danger"
+            *ngIf="showHardReset"
+            [disabled]="loading"
+            (click)="hardResetConfirm()"
+          >
+            <span *ngIf="!loading">Confirmer la suppression</span>
+
+            <span *ngIf="loading"
+              ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+              </fa-icon>
+              Veuillez patienter...</span
+            >
+          </button>
+        </div>
+      </ng-template>
     </div>
-  </ng-template>
+  </div>
 </div>
