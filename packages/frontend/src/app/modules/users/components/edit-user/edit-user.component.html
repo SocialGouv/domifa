@@ -328,7 +328,7 @@
           <div class="input-group">
             <input
               class="form-control"
-              [type]="!hideConfirmPassword ? 'text' : 'password'"
+              [type]="!hidePasswordConfirm ? 'text' : 'password'"
               [ngClass]="{
                 'is-invalid':
                   p.confirmPassword.dirty && p.confirmPassword.errors
@@ -347,7 +347,7 @@
               <fa-icon
                 title="Voir / cacher le mot de passe"
                 [icon]="
-                  hideConfirmPassword ? ['far', 'eye'] : ['far', 'eye-slash']
+                  hidePasswordConfirm ? ['far', 'eye'] : ['far', 'eye-slash']
                 "
               ></fa-icon>
             </button>
