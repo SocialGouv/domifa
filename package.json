@@ -49,5 +49,5 @@
       "**/ngx-intl-tel-input/*/**"
     ]
   },
-  "packageManager": "yarn@1.22.18"
+  "packageManager": "yarn@1.22.19"
 }
