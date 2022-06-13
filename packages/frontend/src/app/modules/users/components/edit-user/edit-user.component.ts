@@ -81,7 +81,7 @@ export class EditUserComponent implements OnInit {
         this.lastPasswordUpdate = retour;
       });
 
-      if (this.me.role !== "facteur") {
+      if (this.me?.role !== "facteur") {
         this.userService.agenda().subscribe((usagers: UsagerLight[]) => {
           this.usagers = usagers;
         });
