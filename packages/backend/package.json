@@ -94,7 +94,7 @@
     "@nestjs/cli": "^8.1.1",
     "@socialgouv/eslint-config-typescript": "^1.100.0",
     "@types/bcryptjs": "^2.4.2",
-    "@types/cache-manager": "^3.4.3",
+    "@types/cache-manager": "^4.0.0",
     "@types/compression": "^1.7.0",
     "@types/cron": "^2.0.0",
     "@types/dotenv": "^8.2.0",
