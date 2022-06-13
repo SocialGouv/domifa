@@ -157,7 +157,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
 
   public updateInfos() {
     this.submitted = true;
-
+    // TODO: fusionner les checks avec ceux de l'état-civil
     if (this.usagerForm.invalid) {
       this.toastService.error(
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
@@ -197,10 +197,12 @@ export class ProfilEtatCivilFormComponent implements OnInit {
               numero: "",
             }
           : {
-              indicatif: this.usagerForm.value.telephone.countryCode,
-              numero: this.usagerForm.value.telephone.number,
+              indicatif:
+                this.usagerForm.value.telephone.countryCode.toLowerCase(),
+              numero: this.usagerForm.value.telephone.number.trim(),
             };
 
+      console.log(telephone);
       this.etatCivilService
         .patchEtatCivil({ ...formValue, telephone })
         .subscribe({

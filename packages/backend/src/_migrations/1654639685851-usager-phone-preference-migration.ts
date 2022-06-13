@@ -14,16 +14,20 @@ export class manualMigration1647933917641 implements MigrationInterface {
       domifaConfig().envId === "preprod" ||
       domifaConfig().envId === "local"
     ) {
+      appLogger.warn("[MIGRATION] SELECT ALL USAGER WITH PREFERENCE PHONE");
       const usagers: Usager[] = await (
         await usagerRepository.typeorm()
       ).query(
         `
         SELECT uuid, preference
         FROM usager
-        WHERE (preference->'phoneNumber')::text != 'null'
+        WHERE (preference->'phoneNumber')::text != 'null' AND (preference->'phoneNumber')::text != ''AND (preference->'phoneNumber')::text != null
       `
       );
-      appLogger.warn("[MIGRATION] SELECT ALL USAGER WITH PREFERENCE PHONE");
+
+      appLogger.warn(
+        "[MIGRATION] [PHONES] " + usagers.length + " avec numéro de téléphone"
+      );
 
       for (const usager of usagers) {
         await usagerRepository.updateOne(

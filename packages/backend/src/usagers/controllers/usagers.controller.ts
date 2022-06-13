@@ -236,7 +236,6 @@ export class UsagersController {
       currentUsager.options.npai.actif = true;
       currentUsager.options.npai.dateDebut = new Date();
     }
-
     return usagerLightRepository.updateOne(
       { uuid: currentUsager.uuid },
       { options: currentUsager.options }

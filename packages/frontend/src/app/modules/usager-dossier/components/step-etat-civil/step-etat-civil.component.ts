@@ -340,7 +340,7 @@ export class StepEtatCivilComponent implements OnInit {
             indicatif: this.usagerForm.value.telephone.countryCode,
             numero: this.usagerForm.value.telephone.number,
           };
-
+    console.log(telephone);
     this.usagerDossierService
       .editStepEtatCivil({ ...formValue, telephone }, this.usager.ref)
       .subscribe({
