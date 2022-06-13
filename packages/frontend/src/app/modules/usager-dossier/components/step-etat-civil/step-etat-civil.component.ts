@@ -169,7 +169,7 @@ export class StepEtatCivilComponent implements OnInit {
       telephone: this.formBuilder.control(
         {
           number: this.usager.telephone.numero,
-          countryCode: this.usager.telephone.indicatif,
+          countryCode: this.usager.telephone.indicatif.toLowerCase(),
         },
         []
       ),

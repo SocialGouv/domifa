@@ -126,10 +126,12 @@ export class UsagerFormModel implements UsagerLight {
 
     this.email = (usager && usager.email) || "";
     this.phone = (usager && usager.phone) || "";
+
     this.telephone = (usager && usager.telephone) || {
       indicatif: "fr",
       numero: "",
     };
+
     this.structureId = (usager && usager.structureId) || null;
     this.etapeDemande = (usager && usager.etapeDemande) || ETAPE_ETAT_CIVIL;
 
