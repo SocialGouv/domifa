@@ -1,3 +1,13 @@
+## [2.94.3](https://github.com/SocialGouv/domifa/compare/v2.94.2...v2.94.3) (2022-06-14)
+
+
+### Bug Fixes
+
+* **dumps:** mise à jour des dumsp et de l'anonymisqation ([2589c1b](https://github.com/SocialGouv/domifa/commit/2589c1bdfc3bcb8437f87241a1a35c76bcaff01f))
+* renommage ([e9ec01b](https://github.com/SocialGouv/domifa/commit/e9ec01b0b019d18fcc7a2913729a019d4129e790))
+* tests unitaires ([49f6a09](https://github.com/SocialGouv/domifa/commit/49f6a09621784eb18ff1d68609c4979968883e55))
+* **tests:** correction de données en minuscule ([708ed88](https://github.com/SocialGouv/domifa/commit/708ed88ad03ed556be5b9b590c57c2e0ccc9fd69))
+
 ## [2.94.2](https://github.com/SocialGouv/domifa/compare/v2.94.1...v2.94.2) (2022-06-14)
 
 
