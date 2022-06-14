@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { TimeZone } from "../util/territoires/types/TimeZone.type";
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { domifaConfig } from "../config";
