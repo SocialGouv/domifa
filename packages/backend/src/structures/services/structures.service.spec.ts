@@ -15,7 +15,6 @@ describe("Structure Service", () => {
   structureDto.agrement = "10091099191";
   structureDto.departement = "PARIS";
   structureDto.email = "structure@domifa.net";
-  structureDto.phone = "0101010101";
   structureDto.responsable = {
     fonction: "Président",
     nom: "Hidalin",
