@@ -8,25 +8,25 @@ import { Structure } from "../_common/model";
 const findTimeZonecountryCode = (timeZone: TimeZone): string => {
   switch (timeZone) {
     case "Europe/Paris":
-      return "FR";
+      return "fr";
     case "America/Martinique":
-      return "MQ";
+      return "mq";
     case "America/Cayenne":
-      return "GF";
+      return "gf";
     case "Indian/Reunion":
-      return "RE";
+      return "re";
     case "Indian/Mayotte":
-      return "YT";
+      return "yt";
     case "Pacific/Noumea":
-      return "NC";
+      return "nc";
     case "Pacific/Tahiti":
-      return "PF";
+      return "pf";
     case "Pacific/Wallis":
-      return "WF";
+      return "wf";
     case "America/Miquelon":
-      return "PM";
+      return "pm";
     default:
-      return "FR";
+      return "fr";
   }
 };
 
@@ -34,6 +34,7 @@ export class migrateStructurePhoneMigration1654639685849
   implements MigrationInterface
 {
   name = "migrateStructurePhoneMigration1654639685849";
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async up(queryRunner: QueryRunner): Promise<void> {
     if (
       domifaConfig().envId === "prod" ||
@@ -64,5 +65,6 @@ export class migrateStructurePhoneMigration1654639685849
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async down(queryRunner: QueryRunner): Promise<void> {}
 }

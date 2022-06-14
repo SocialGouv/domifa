@@ -95,7 +95,7 @@ async function _anonymizeUsager(
     prenom: dataGenerator.firstName(),
     phone: null,
     telephone: {
-      countryCode: "FR",
+      countryCode: "fr",
       numero: "",
     },
     preference: {

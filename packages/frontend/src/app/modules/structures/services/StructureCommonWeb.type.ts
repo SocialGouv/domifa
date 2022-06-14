@@ -48,7 +48,7 @@ export class StructureCommonWeb implements StructureCommon {
     this.agrement = (structure && structure.agrement) || "";
     this.telephone = (structure && structure.telephone) || {
       numero: "",
-      countryCode: "FR",
+      countryCode: "fr",
     };
     this.email = (structure && structure.email) || "";
     this.adresseCourrier = (structure && structure.adresseCourrier) || {

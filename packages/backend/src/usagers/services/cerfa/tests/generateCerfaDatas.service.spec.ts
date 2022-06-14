@@ -201,7 +201,7 @@ describe("Cerfa Data utils", () => {
   it("CerfaData() test de valeurs vides", async () => {
     usagerValide.entretien.rattachement = null;
     usagerRefus.phone = null;
-    user.structure.telephone = { countryCode: "FR", numero: "" };
+    user.structure.telephone = { countryCode: "fr", numero: "" };
     const data = generateCerfaDatas(usagerRefus, user, "attestation");
     expect(data.rattachement).toEqual("");
     expect(data.telephone).toEqual("");

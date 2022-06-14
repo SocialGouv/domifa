@@ -18,12 +18,12 @@ describe("Telephone utils", () => {
   });
 
   it("telephoneString shoud return string with countryCode if numero is empty", () => {
-    expect(telephoneString({ countryCode: "FR", numero: "" })).toEqual("+33");
+    expect(telephoneString({ countryCode: "fr", numero: "" })).toEqual("+33");
   });
 
   it("telephoneString shoud return string with countryCode and numero", () => {
     expect(
-      telephoneString({ countryCode: "FR", numero: "0622062206" })
+      telephoneString({ countryCode: "fr", numero: "0622062206" })
     ).toEqual("+330622062206");
   });
 
