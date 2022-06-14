@@ -5,28 +5,28 @@ import { structureRepository } from "../database";
 import { appLogger } from "../util";
 import { Structure } from "../_common/model";
 
-const findTimeZoneIndicatif = (timeZone: TimeZone): string => {
+const findTimeZonecountryCode = (timeZone: TimeZone): string => {
   switch (timeZone) {
     case "Europe/Paris":
-      return "fr";
+      return "FR";
     case "America/Martinique":
-      return "mq";
+      return "MQ";
     case "America/Cayenne":
-      return "gf";
+      return "GF";
     case "Indian/Reunion":
-      return "re";
+      return "RE";
     case "Indian/Mayotte":
-      return "yt";
+      return "YT";
     case "Pacific/Noumea":
-      return "nc";
+      return "NC";
     case "Pacific/Tahiti":
-      return "pf";
+      return "PF";
     case "Pacific/Wallis":
-      return "wf";
+      return "WF";
     case "America/Miquelon":
-      return "pm";
+      return "PM";
     default:
-      return "fr";
+      return "FR";
   }
 };
 
@@ -55,7 +55,7 @@ export class migrateStructurePhoneMigration1654639685849
           },
           {
             telephone: {
-              indicatif: findTimeZoneIndicatif(structure.timeZone),
+              countryCode: findTimeZonecountryCode(structure.timeZone),
               numero: structure.phone,
             },
           }

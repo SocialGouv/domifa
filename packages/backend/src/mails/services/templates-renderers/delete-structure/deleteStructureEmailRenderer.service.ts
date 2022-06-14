@@ -2,7 +2,7 @@ import { DomifaMailTemplateRendering } from "../../../model";
 import { domifaMailTemplateRenderer } from "../../domifaMailTemplateRenderer.service";
 import { Structure, STRUCTURE_TYPE_LABELS } from "../../../../_common/model";
 import { DEPARTEMENTS_MAP } from "../../../../util/territoires";
-import { telephoneString } from "../../../../util/telephoneString.service";
+import { telephoneString } from "../../../../util/phone/telephoneString.service";
 
 export type DeleteStructureEmailModel = {
   structure: Pick<

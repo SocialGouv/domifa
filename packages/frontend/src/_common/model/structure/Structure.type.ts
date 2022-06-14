@@ -1,10 +1,10 @@
+import { Telephone } from "../telephone";
 import { AppEntity } from "../_core";
 import { StructureAddresseCourrier } from "./StructureAddresseCourrier.type";
 import { StructurePortailUsagerParams } from "./StructurePortailUsagerParams.type";
 import { StructureResponsable } from "./StructureResponsable.type";
 import { StructureSmsParams } from "./StructureSmsParams.type";
 import { StructureType } from "./StructureType.type";
-import { Telephone } from "../common";
 
 export type Structure = AppEntity & {
   id: number;

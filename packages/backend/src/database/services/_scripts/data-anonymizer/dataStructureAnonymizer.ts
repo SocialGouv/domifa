@@ -35,7 +35,7 @@ async function _anonymizeStructure(structure: Pick<Structure, "id" | "email">) {
   const attributesToUpdate: Partial<Structure> = {
     phone: null,
     telephone: {
-      indicatif: "fr",
+      countryCode: "FR",
       numero: "",
     },
     sms: {

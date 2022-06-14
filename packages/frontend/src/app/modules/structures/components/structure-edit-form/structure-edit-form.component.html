@@ -217,31 +217,35 @@
     <br />
     <div class="row">
       <div class="col form-group required">
-        <label for="phone">Numéro de téléphone</label><br />
+        <label for="phone">Numéro de téléphone</label>
         <ngx-intl-tel-input
-          [cssClass]="{
-            'form-control': true,
-            'is-invalid': submitted && f.telephone.errors
-          }"
+          [cssClass]="
+            submitted && (f.phone.errors || f.phone.invalid)
+              ? 'form-control is-invalid'
+              : 'form-control'
+          "
           [preferredCountries]="preferredCountries"
           [enableAutoCountrySelect]="true"
           [enablePlaceholder]="true"
           [searchCountryFlag]="true"
+          searchCountryPlaceholder="Choisissez votre pays"
           [searchCountryField]="[
             SearchCountryField.Iso2,
             SearchCountryField.Name
           ]"
-          [selectedCountryISO]="CountryISO.France"
-          [selectFirstCountry]="false"
+          [selectedCountryISO]="structure.telephone.countryCode"
           [maxLength]="15"
           [phoneValidation]="true"
           [separateDialCode]="true"
-          [inputId]="'telephone'"
+          [inputId]="'phone'"
           [numberFormat]="PhoneNumberFormat.National"
-          formControlName="telephone"
+          formControlName="phone"
         ></ngx-intl-tel-input>
-        <p *ngIf="submitted && f.telephone.errors" class="text-danger">
-          Le numéro de téléphone est obligatoire
+        <p
+          *ngIf="submitted && (f.phone.errors || f.phone.invalid)"
+          class="invalid-feedback-custom"
+        >
+          Veuillez vérifier le numéro de téléphone
         </p>
       </div>
       <div class="col form-group required">

@@ -5,7 +5,7 @@ import { structureRepository } from "../database/services/structure/structureRep
 import { Structure } from "../_common/model";
 import { appLogger } from "../util";
 
-const findTimeZoneIndicatif = (timeZone: string): string => {
+const findTimeZonecountryCode = (timeZone: string): string => {
   switch (timeZone) {
     case "Europe/Paris":
       return "fr";
@@ -58,7 +58,7 @@ export class migrateStructurePhoneMigration1651583710799
           },
           {
             telephone: {
-              indicatif: findTimeZoneIndicatif(structure.timeZone),
+              countryCode: findTimeZonecountryCode(structure.timeZone),
               numero: structure.phone,
             },
           }

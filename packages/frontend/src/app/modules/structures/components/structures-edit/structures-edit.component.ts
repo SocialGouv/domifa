@@ -31,12 +31,12 @@ export class StructuresEditComponent implements OnInit {
   public hardResetForm!: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private structureService: StructureService,
-    private toastService: CustomToastService,
-    private authService: AuthService,
-    private modalService: NgbModal,
-    private titleService: Title
+    private readonly formBuilder: FormBuilder,
+    private readonly structureService: StructureService,
+    private readonly toastService: CustomToastService,
+    private readonly authService: AuthService,
+    private readonly modalService: NgbModal,
+    private readonly titleService: Title
   ) {
     this.showHardReset = false;
     this.hardResetCode = null;

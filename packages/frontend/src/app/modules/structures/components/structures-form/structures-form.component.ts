@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
 } from "@angular/forms";
@@ -16,12 +17,13 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { regexp } from "src/app/shared/validators";
-import { StructureCommon } from "../../../../../_common/model";
+import { Structure, StructureCommon } from "../../../../../_common/model";
 import { StructureService } from "../../services/structure.service";
 import { StructureCommonWeb } from "../../services/StructureCommonWeb.type";
 import { structureNameChecker } from "../structure-edit-form/structureNameChecker.service";
 import { DEPARTEMENTS_LISTE } from "../../../../shared";
 import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
+import { getFormPhone } from "../../../../shared/phone/telephoneString.service";
 
 @Component({
   selector: "app-structures-form",
@@ -104,13 +106,7 @@ export class StructuresFormComponent implements OnInit {
       ],
       id: [this.structure.id, [Validators.required]],
       nom: [this.structure.nom, [Validators.required]],
-      telephone: this.formBuilder.control(
-        {
-          number: this.structure.telephone.numero,
-          countryCode: this.structure.telephone.indicatif,
-        },
-        [Validators.required]
-      ),
+      phone: new FormControl(undefined, [Validators.required]),
       responsable: this.formBuilder.group({
         fonction: [this.structure.responsable.fonction, [Validators.required]],
         nom: [this.structure.responsable.nom, [Validators.required]],
@@ -176,27 +172,25 @@ export class StructuresFormComponent implements OnInit {
       this.toastService.error(
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );
-    } else {
-      const structureFormValue = {
-        ...this.structureForm.value,
-        telephone: {
-          numero: this.structureForm.value.telephone.number,
-          indicatif:
-            this.structureForm.value.telephone.countryCode.toLowerCase(),
-        },
-      };
-      this.structureService.prePost(structureFormValue).subscribe({
-        next: (structure: StructureCommon) => {
-          this.etapeInscription = 1;
-          this.structureRegisterInfos.etapeInscription = 1;
-
-          this.structureRegisterInfos.structure = structure;
-        },
-        error: () => {
-          this.toastService.error("Veuillez vérifier les champs du formulaire");
-        },
-      });
+      return;
     }
+
+    const structureFormValue: Partial<Structure> = {
+      ...this.structureForm.value,
+    };
+
+    structureFormValue.telephone = getFormPhone(this.structureForm.value.phone);
+
+    this.structureService.prePost(structureFormValue).subscribe({
+      next: (structure: StructureCommon) => {
+        this.etapeInscription = 1;
+        this.structureRegisterInfos.etapeInscription = 1;
+        this.structureRegisterInfos.structure = structure;
+      },
+      error: () => {
+        this.toastService.error("Veuillez vérifier les champs du formulaire");
+      },
+    });
   }
 
   public validateEmailNotTaken(control: AbstractControl) {

@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsString, IsIn } from "class-validator";
-
-import CountryCode from "../../util/countryCode";
+import { TrimOrNullTransform } from "../decorators";
+import { COUNTRY_CODES } from "../model/telephone";
 
 export class TelephoneDto {
   @ApiProperty({
@@ -10,6 +10,7 @@ export class TelephoneDto {
   })
   @IsString()
   @IsNotEmpty()
+  @TrimOrNullTransform()
   public numero: string;
 
   @ApiProperty({
@@ -18,6 +19,6 @@ export class TelephoneDto {
   })
   @IsString()
   @IsNotEmpty()
-  @IsIn(Object.keys(CountryCode))
-  public indicatif: string;
+  @IsIn(Object.keys(COUNTRY_CODES))
+  public countryCode: string;
 }

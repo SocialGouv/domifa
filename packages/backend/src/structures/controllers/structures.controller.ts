@@ -81,6 +81,7 @@ export class StructuresController {
     @Body() structureDto: StructureDto,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
+    console.log(structureDto);
     return this.structureService.patch(structureDto, user);
   }
 

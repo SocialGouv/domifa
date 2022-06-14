@@ -11,13 +11,13 @@ export class manualMigration1651583630498 implements MigrationInterface {
       domifaConfig().envId === "local"
     ) {
       await queryRunner.query(
-        `ALTER TABLE "structure" ADD "telephone" jsonb NOT NULL DEFAULT '{"indicatif": "fr", "numero": ""}'`
+        `ALTER TABLE "structure" ADD "telephone" jsonb NOT NULL DEFAULT '{"countryCode": "fr", "numero": ""}'`
       );
       await queryRunner.query(
-        `ALTER TABLE "usager" ADD "telephone" jsonb DEFAULT '{"indicatif": "fr", "numero": ""}'`
+        `ALTER TABLE "usager" ADD "telephone" jsonb DEFAULT '{"countryCode": "fr", "numero": ""}'`
       );
       await queryRunner.query(
-        `ALTER TABLE "usager" ALTER COLUMN "preference" SET DEFAULT '{ "phone": false, "phoneNumber": null, "telephone": {"indicatif": "fr", "numero": ""}}'`
+        `ALTER TABLE "usager" ALTER COLUMN "preference" SET DEFAULT '{ "phone": false, "phoneNumber": null, "telephone": {"countryCode": "fr", "numero": ""}}'`
       );
     }
   }
