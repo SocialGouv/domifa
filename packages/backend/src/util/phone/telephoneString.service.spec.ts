@@ -1,7 +1,7 @@
 import {
   telephoneString,
   telephonecountryCode,
-  telephoneFixcountryCode,
+  telephoneFixcCountryCode,
 } from "./telephoneString.service";
 
 describe("Telephone utils", () => {
@@ -47,11 +47,13 @@ describe("Telephone utils", () => {
     expect(telephonecountryCode("nc")).toEqual("+687");
   });
 
-  it("telephoneFixcountryCode shoud return +33 without the first 0 if countryCode is fr", () => {
-    expect(telephoneFixcountryCode("fr", "0620202020")).toEqual("+33620202020");
+  it("telephoneFixcCountryCode shoud return +33 without the first 0 if countryCode is fr", () => {
+    expect(telephoneFixcCountryCode("fr", "0620202020")).toEqual(
+      "+33620202020"
+    );
   });
 
-  it("telephoneFixcountryCode shoud return normally if countryCode other than fr", () => {
-    expect(telephoneFixcountryCode("nc", "912969")).toEqual("+687912969");
+  it("telephoneFixcCountryCode shoud return normally if countryCode other than fr", () => {
+    expect(telephoneFixcCountryCode("nc", "912969")).toEqual("+687912969");
   });
 });
