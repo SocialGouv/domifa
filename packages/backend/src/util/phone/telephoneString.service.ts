@@ -13,7 +13,7 @@ export const telephonecountryCode = (countryCode: string): string => {
 };
 
 // HOTFIX en attendant qu'on intégre les countryCodes dans les usagers
-export const telephoneFixcountryCode = (
+export const telephoneFixcCountryCode = (
   countryCode: string,
   phone: string
 ): string => {

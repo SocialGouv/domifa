@@ -29,7 +29,7 @@ import {
 import { generateSmsInteraction } from "./generators";
 import { MESSAGE_SMS_STATUS } from "../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
 import { generateScheduleSendDate } from "./generators/generateScheduleSendDate";
-import { telephoneFixcountryCode } from "../../util/phone/telephoneString.service";
+import { telephoneFixcCountryCode } from "../../util/phone/telephoneString.service";
 
 @Injectable()
 export class MessageSmsService {
@@ -177,7 +177,7 @@ export class MessageSmsService {
         senderName: structure.sms.senderName,
         status: "TO_SEND",
         smsId: interaction.type,
-        phoneNumber: telephoneFixcountryCode(
+        phoneNumber: telephoneFixcCountryCode(
           structure.telephone.countryCode,
           usager.preference.phoneNumber
         ),
