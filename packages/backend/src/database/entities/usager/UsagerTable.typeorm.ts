@@ -68,7 +68,7 @@ export class UsagerTable
   @Column({
     type: "jsonb",
     nullable: true,
-    default: () => `'{"indicatif": "fr", "numero": ""}'`,
+    default: () => `'{"countryCode": "fr", "numero": ""}'`,
   })
   public telephone: Telephone;
 
@@ -80,7 +80,7 @@ export class UsagerTable
     type: "jsonb",
     nullable: true,
     default: () =>
-      `'{"phone": false, "telephone": {"indicatif": "fr", "numero": ""}}'`,
+      `'{"phone": false, "telephone": {"countryCode": "fr", "numero": ""}}'`,
   })
   public preference: UsagerPreferenceContact;
 

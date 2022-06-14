@@ -1,4 +1,4 @@
-export default {
+export const COUNTRY_CODES: { [key: string]: string } = {
   af: "93",
   al: "355",
   dz: "213",

@@ -9,7 +9,7 @@ import {
   DateCerfa,
 } from "../../../_common/model";
 import { generateMotifLabel } from "..";
-import { telephoneString } from "../../../util/telephoneString.service";
+import { telephoneString } from "../../../util/phone/telephoneString.service";
 
 const isNil = (value: any): boolean => {
   return value === null || value === undefined;

@@ -1,4 +1,4 @@
 export type Telephone = {
-  indicatif: string;
+  countryCode: string;
   numero: string;
 };

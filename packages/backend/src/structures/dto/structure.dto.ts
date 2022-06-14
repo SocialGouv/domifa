@@ -1,7 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams, Type } from "class-transformer";
 import {
-  IsBoolean,
   IsEmpty,
   IsIn,
   IsNotEmpty,
@@ -112,17 +111,12 @@ export class StructureDto {
   public email!: string;
 
   @ApiProperty({
-    type: String,
-    required: false,
-  })
-  public phone: string;
-
-  @ApiProperty({
     type: Object,
     required: true,
   })
-  @Type(() => TelephoneDto)
   @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => TelephoneDto)
   public telephone: Telephone;
 
   @ApiProperty({

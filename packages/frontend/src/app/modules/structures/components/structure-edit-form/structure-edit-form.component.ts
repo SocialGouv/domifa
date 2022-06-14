@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
 } from "@angular/forms";
@@ -14,12 +15,16 @@ import {
   SearchCountryField,
 } from "ngx-intl-tel-input";
 
-import { StructureCommon } from "../../../../../_common/model";
+import { Structure, StructureCommon } from "../../../../../_common/model";
 import { regexp } from "../../../../shared/validators";
 import { StructureService } from "../../services/structure.service";
 import { structureNameChecker } from "./structureNameChecker.service";
 import { DEPARTEMENTS_LISTE } from "../../../../shared";
 import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
+import {
+  getFormPhone,
+  setFormPhone,
+} from "../../../../shared/phone/telephoneString.service";
 
 @Component({
   selector: "app-structure-edit-form",
@@ -92,15 +97,9 @@ export class StructureEditFormComponent implements OnInit {
           adresseRequired,
         ],
       }),
-
-      telephone: this.formBuilder.control(
-        {
-          number: this.structure.telephone.numero,
-          countryCode: this.structure.telephone.indicatif,
-        },
-        [Validators.required]
-      ),
-
+      phone: new FormControl(setFormPhone(this.structure.telephone), [
+        Validators.required,
+      ]),
       responsable: this.formBuilder.group({
         fonction: [this.structure.responsable.fonction, [Validators.required]],
         nom: [this.structure.responsable.nom, [Validators.required]],
@@ -150,30 +149,30 @@ export class StructureEditFormComponent implements OnInit {
       this.toastService.error(
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );
-    } else {
-      this.loading = true;
-      const structureFormValue = {
-        ...this.structureForm.value,
-        telephone: {
-          numero: this.structureForm.value.telephone.number,
-          indicatif:
-            this.structureForm.value.telephone.countryCode.toLowerCase(),
-        },
-      };
-      this.structureService.patch(structureFormValue).subscribe({
-        next: (structure: StructureCommon) => {
-          this.toastService.success(
-            "Les modifications ont bien été prises en compte"
-          );
-          this.structure = structure;
-          this.loading = false;
-        },
-        error: () => {
-          this.toastService.error("Une erreur est survenue");
-          this.loading = false;
-        },
-      });
+      return;
     }
+
+    this.loading = true;
+
+    const structureFormValue: Structure = {
+      ...this.structureForm.value,
+    };
+
+    structureFormValue.telephone = getFormPhone(this.structureForm.value.phone);
+
+    this.structureService.patch(structureFormValue).subscribe({
+      next: (structure: StructureCommon) => {
+        this.toastService.success(
+          "Les modifications ont bien été prises en compte"
+        );
+        this.structure = structure;
+        this.loading = false;
+      },
+      error: () => {
+        this.toastService.error("Une erreur est survenue");
+        this.loading = false;
+      },
+    });
   }
 
   public validateEmailNotTaken(control: AbstractControl) {
@@ -187,11 +186,7 @@ export class StructureEditFormComponent implements OnInit {
       : of(null);
   }
 
-  isInvalidStructureName(structureName: string) {
+  public isInvalidStructureName(structureName: string) {
     return structureNameChecker.isInvalidStructureName(structureName);
-  }
-
-  changePreferredCountries() {
-    this.preferredCountries = [CountryISO.India, CountryISO.Canada];
   }
 }

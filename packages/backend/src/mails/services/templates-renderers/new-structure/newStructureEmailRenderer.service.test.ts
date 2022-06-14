@@ -20,7 +20,7 @@ describe("newStructureEmailRenderer", () => {
         phone: "010203040506",
         telephone: {
           numero: "010203040506",
-          indicatif: "fr",
+          countryCode: "FR",
         },
         responsable: {
           fonction: "pdg",

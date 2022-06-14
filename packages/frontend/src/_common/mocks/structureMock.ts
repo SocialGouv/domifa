@@ -22,7 +22,7 @@ export const structureMock: StructureCommon = {
   phone: "0602030405",
   telephone: {
     numero: "0602030405",
-    indicatif: "fr",
+    countryCode: "FR",
   },
   responsable: { nom: "Jean", prenom: "Thomson", fonction: "PDG" },
   structureType: "ccas",

@@ -90,7 +90,7 @@ export class StructureTable
   @Column({
     type: "jsonb",
     nullable: false,
-    default: () => `'{"indicatif": "fr", "numero": ""}'`,
+    default: () => `'{"countryCode": "fr", "numero": ""}'`,
   })
   public telephone: Telephone;
 
@@ -128,7 +128,7 @@ export class StructureTable
   public get telephoneString(): string {
     if (this.telephone.numero === "" || this.telephone.numero === null)
       return "";
-    return `${this.telephone.indicatif}${this.telephone.numero}`;
+    return `${this.telephone.countryCode}${this.telephone.numero}`;
   }
 
   public constructor(entity?: Partial<StructureTable>) {
