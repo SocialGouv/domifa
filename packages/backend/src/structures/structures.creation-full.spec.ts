@@ -37,7 +37,7 @@ const structureDto: StructureDto = {
   email: `nouvelle-structure-${Math.random()}@cias-pessac.yopmail.com`,
   nom: "CIAS Pessac",
   telephone: {
-    countryCode: "FR",
+    countryCode: "fr",
     numero: "0102030405",
   },
   responsable: { fonction: "sdf", nom: "sdf", prenom: "sdf" },

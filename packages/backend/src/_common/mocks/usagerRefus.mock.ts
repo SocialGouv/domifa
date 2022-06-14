@@ -91,7 +91,7 @@ export const usagerRefusMock: UsagerLight = {
   ],
   phone: "0142424242",
   telephone: {
-    countryCode: "FR",
+    countryCode: "fr",
     numero: "0142424242",
   },
   surnom: "",
