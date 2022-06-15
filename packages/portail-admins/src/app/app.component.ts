@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { Router } from "@angular/router";
 import { PortailAdminProfile } from "./../_common/_portail-admin/PortailAdminProfile.type";
 import { AdminAuthService } from "./modules/admin-auth/services/admin-auth.service";
 
@@ -16,7 +15,6 @@ export class AppComponent implements OnInit {
 
   constructor(
     private titleService: Title,
-    private router: Router,
     private readonly adminAuthService: AdminAuthService
   ) {
     this.apiVersion = null;

@@ -144,14 +144,17 @@ export class UsersController {
     const userExist = await userStructureRepository.findOne({
       email: registerUserDto.email.toLowerCase(),
     });
+
     if (userExist) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "EMAIL_EXIST" });
     }
 
-    registerUserDto.structureId = user.structureId;
-    registerUserDto.structure = user.structure;
+    if (!registerUserDto.structureId && !registerUserDto.structure) {
+      registerUserDto.structureId = user.structureId;
+      registerUserDto.structure = user.structure;
+    }
 
     const { user: newUser, userSecurity } =
       await userStructureCreator.createUserWithTmpToken(registerUserDto);

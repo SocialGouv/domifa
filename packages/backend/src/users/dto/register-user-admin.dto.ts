@@ -5,6 +5,7 @@ import {
   IsEmpty,
   IsIn,
   IsNotEmpty,
+  IsOptional,
   MaxLength,
   MinLength,
 } from "class-validator";
@@ -61,10 +62,10 @@ export class RegisterUserAdminDto {
   @IsIn(["admin", "simple", "facteur", "responsable"])
   public readonly role!: UserStructureRole;
 
-  @IsEmpty()
+  @IsOptional()
   public structureId!: number;
 
-  @IsEmpty()
+  @IsOptional()
   public structure?: StructureCommon;
 
   @IsEmpty()

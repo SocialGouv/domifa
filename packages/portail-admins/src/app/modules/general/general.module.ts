@@ -20,7 +20,6 @@ import { NotFoundComponent } from "./components/not-found/not-found.component";
     FontAwesomeModule,
     NgbModule,
     RouterModule.forChild([]),
-
     NgbModule,
     SharedModule,
   ],
