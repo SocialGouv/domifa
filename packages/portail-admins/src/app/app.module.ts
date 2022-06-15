@@ -18,6 +18,7 @@ import { JwtInterceptor } from "./interceptors/jwt.interceptor";
 import { SentryErrorHandler } from "./interceptors/sentry.interceptor";
 import { ServerErrorInterceptor } from "./interceptors/server-error.interceptor";
 import { AdminAuthService } from "./modules/admin-auth/services/admin-auth.service";
+import { CustomToastService } from "./modules/shared/services/custom-toast.service";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -41,6 +42,7 @@ import { AdminAuthService } from "./modules/admin-auth/services/admin-auth.servi
       useClass: ServerErrorInterceptor,
     },
     { provide: ErrorHandler, useClass: SentryErrorHandler },
+    CustomToastService,
   ],
 
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],

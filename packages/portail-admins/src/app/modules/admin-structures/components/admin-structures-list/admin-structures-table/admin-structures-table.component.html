@@ -231,9 +231,96 @@
               ></fa-icon>
               Portail usager
             </a>
+
+            <a
+              class="cursor-pointer"
+              ngbDropdownItem
+              (click)="openModal(structure)"
+              >Ajouter un admin</a
+            >
           </div>
         </div>
       </td>
     </tr>
   </tbody>
 </table>
+
+<ng-template #addAdminModal let-modal>
+  <div class="modal-header">
+    <span class="modal-title" id="modal-title">
+      Création d'un utilisateur admin pour la structure :
+      {{ currentStructure?.nom }}
+    </span>
+  </div>
+  <form
+    id="newAdminForm"
+    [formGroup]="newAdminForm"
+    (ngSubmit)="submitNewAdmin()"
+  >
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-4 form-group required">
+          <label for="nom">Nom :</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nom"
+            autocomplete="nom"
+            formControlName="nom"
+            placeholder="Nom"
+            [ngClass]="{
+              'is-invalid': submitted && f.nom.errors
+            }"
+            required
+            aria-describedby="help-nom-structure"
+          />
+        </div>
+
+        <div class="col-4 form-group required">
+          <label for="prenom">Prénom :</label>
+          <input
+            type="text"
+            class="form-control"
+            id="prenom"
+            autocomplete="prénom"
+            formControlName="prenom"
+            placeholder="Prénom"
+            [ngClass]="{
+              'is-invalid': submitted && f.prenom.errors
+            }"
+            required
+            aria-describedby="help-prenom-structure"
+          />
+        </div>
+
+        <div class="col-4 form-group required">
+          <label for="email">Email :</label>
+          <input
+            type="text"
+            class="form-control"
+            id="email"
+            autocomplete="email"
+            formControlName="email"
+            placeholder="Email"
+            [ngClass]="{
+              'is-invalid': submitted && f.email.errors
+            }"
+            required
+            aria-describedby="help-email-structure"
+          />
+          <div *ngIf="f.email.errors" class="invalid-feedback">
+            <p *ngIf="f.email.errors.emailTaken">
+              <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+              <b>L'adresse email est déjà utilisée</b>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <div class="btn btn-danger" (click)="cancelForm()">Annuler</div>
+      <button class="btn btn-success">Ajouter</button>
+    </div>
+  </form>
+</ng-template>

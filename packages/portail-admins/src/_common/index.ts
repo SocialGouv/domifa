@@ -6,3 +6,4 @@ export * from "./usager";
 export * from "./user";
 export * from "./_core";
 export * from "./_portail-admin";
+export * from "./user-structure";

@@ -1,6 +1,8 @@
 import {
   Controller,
   Get,
+  Post,
+  Body,
   HttpStatus,
   Param,
   Put,
@@ -41,6 +43,8 @@ import { AdminStructuresService } from "../services";
 import { CurrentUser } from "../../../auth/decorators/current-user.decorator";
 import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
 import { startApmSpan } from "../../../instrumentation";
+import { UsersController } from "../../../users/users.controller";
+import { RegisterUserAdminDto } from "../../../users/dto";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
@@ -76,7 +80,7 @@ export class AdminStructuresController {
       "structureId",
     ];
 
-    const span1 = startApmSpan('userStructureRepository.findMany');
+    const span1 = startApmSpan("userStructureRepository.findMany");
     const users = await userStructureRepository.findMany<
       Omit<StatsExportUser, "structure">
     >(undefined, {
@@ -84,7 +88,7 @@ export class AdminStructuresController {
     });
     if (span1) span1.end();
 
-    const span2 = startApmSpan('user filtering');
+    const span2 = startApmSpan("user filtering");
     const structuresById = structures.reduce((acc, s) => {
       acc[s.id] = s;
       return acc;
@@ -110,8 +114,7 @@ export class AdminStructuresController {
     });
     if (span2) span2.end();
 
-
-    const span3 = startApmSpan('generate excel and send');
+    const span3 = startApmSpan("generate excel and send");
     const workbook = await statsDeploiementExporter.generateExcelDocument({
       stats,
       users: usersWithStructure,
@@ -236,5 +239,16 @@ export class AdminStructuresController {
       structureId,
       structure.sms
     );
+  }
+
+  @AllowUserProfiles("super-admin-domifa")
+  @Post("register")
+  public async registerAdmin(
+    @CurrentUser() user: UserStructureAuthenticated,
+    @Res() res: ExpressResponse,
+    @Body() registerUserDto: RegisterUserAdminDto
+  ) {
+    const userController = new UsersController();
+    return userController.registerUser(user, res, registerUserDto);
   }
 }

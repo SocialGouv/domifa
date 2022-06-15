@@ -1,18 +1,24 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { filter, Observable, startWith, tap } from "rxjs";
+
 import { environment } from "src/environments/environment";
 import {
   AdminStructureListData,
   AdminStructureStatsData,
   StructureAdmin,
+  UserNewAdmin,
 } from "../../../../../_common";
 import { structuresCache } from "../../store/structuresCache.service";
 
 const BASE_URL = environment.apiUrl + "admin/structures";
 @Injectable()
 export class AdminStructuresApiClient {
-  constructor(public http: HttpClient) {}
+  public http: HttpClient;
+
+  constructor(http: HttpClient) {
+    this.http = http;
+  }
 
   public getAdminStructureListData(): Observable<AdminStructureListData> {
     return this.http.get<AdminStructureListData>(BASE_URL).pipe(
@@ -59,5 +65,16 @@ export class AdminStructuresApiClient {
     token: string
   ): Observable<StructureAdmin> {
     return this.http.get<StructureAdmin>(`${BASE_URL}/confirm/${id}/${token}`);
+  }
+
+  public postNewAdmin(newAdmin: UserNewAdmin): Observable<any> {
+    return this.http.post(`${BASE_URL}/register`, newAdmin);
+  }
+
+  public validateEmail(email: string): Observable<boolean> {
+    return this.http.post<boolean>(
+      `${environment.apiUrl}users/validate-email`,
+      { email }
+    );
   }
 }

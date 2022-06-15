@@ -40,6 +40,7 @@ import { AdminStructuresDeleteApiClient } from "./services/api/admin-structures-
     FormatBigNumberPipe,
     AdminStructuresExportComponent,
     FontAwesomeModule,
+    CustomToastrComponent,
   ],
   imports: [CommonModule, FontAwesomeModule],
   providers: [

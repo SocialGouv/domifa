@@ -3,16 +3,13 @@ import {
   userStructureSecurityRepository,
 } from "../../database";
 
-export const usersDeletor = {
-  deleteUser,
-};
-async function deleteUser({
+const deleteUser = async ({
   userId,
   structureId,
 }: {
   userId: number;
   structureId: number;
-}) {
+}) => {
   await userStructureSecurityRepository.deleteByCriteria({
     userId,
     structureId,
@@ -21,4 +18,15 @@ async function deleteUser({
     id: userId,
     structureId,
   });
-}
+};
+
+const deleteUserByEmail = async (email: string) => {
+  const user = await userStructureRepository.findOne({ email });
+  if (user)
+    await deleteUser({ userId: user.id, structureId: user.structureId });
+};
+
+export const usersDeletor = {
+  deleteUser,
+  deleteUserByEmail,
+};
