@@ -24,7 +24,6 @@ export const userMock = {
     email: "s1-admin@yopmail.com",
     nom: "DomiFa Compte Test",
     options: { numeroBoite: false },
-    phone: "0134334410",
     responsable: { nom: "Pompei", prenom: "Roma", fonction: "Directrice" },
     structureType: "asso" as StructureType,
     ville: "Cergy",

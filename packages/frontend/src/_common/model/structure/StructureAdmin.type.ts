@@ -15,7 +15,6 @@ export type StructureAdmin = Pick<
   | "capacite"
   | "codePostal"
   | "agrement"
-  | "phone"
   | "email"
   | "responsable"
   | "options"
