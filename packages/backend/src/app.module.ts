@@ -1,4 +1,4 @@
-import { ApmModule } from './instrumentation';
+import { ApmModule } from "./instrumentation";
 import { Module } from "@nestjs/common";
 import { ScheduleModule } from "@nestjs/schedule";
 import { TerminusModule } from "@nestjs/terminus";

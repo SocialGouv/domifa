@@ -1,14 +1,13 @@
-import * as apmAgent from 'elastic-apm-node';
+import * as apmAgent from "elastic-apm-node";
 import { domifaConfig } from "../config";
 
 const options: apmAgent.AgentConfigOptions = {
-  ...domifaConfig().apm
+  ...domifaConfig().apm,
 };
 
-options.captureBody = "all";
+options.captureBody = domifaConfig().envId !== "test" ? "all" : "off";
 options.errorOnAbortedRequests = true;
 options.abortedErrorThreshold = "60s";
 
-console.log("=> Starting APM");
 const apm: apmAgent.Agent = apmAgent.start(options);
 export { apm };

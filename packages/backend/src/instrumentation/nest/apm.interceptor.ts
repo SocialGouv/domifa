@@ -3,11 +3,11 @@ import {
   NestInterceptor,
   ExecutionContext,
   CallHandler,
-  HttpException
-} from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { ApmService } from './apm.service';
+  HttpException,
+} from "@nestjs/common";
+import { Observable } from "rxjs";
+import { catchError } from "rxjs/operators";
+import { ApmService } from "./apm.service";
 
 @Injectable()
 export class ApmInterceptor implements NestInterceptor {
@@ -18,7 +18,7 @@ export class ApmInterceptor implements NestInterceptor {
     next: CallHandler
   ): Observable<Response> {
     return next.handle().pipe(
-      catchError(error => {
+      catchError((error) => {
         if (error instanceof HttpException) {
           this.apmService.captureError(error.message);
         } else {

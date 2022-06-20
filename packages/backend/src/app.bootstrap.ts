@@ -1,4 +1,5 @@
-import './instrumentation';
+import "./instrumentation";
+
 import * as Sentry from "@sentry/node";
 import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
@@ -17,7 +18,6 @@ import { appTypeormManager } from "./database";
 import { appLogger } from "./util";
 import { AppSentryInterceptor } from "./util/sentry";
 
-
 export async function tearDownApplication({
   app,
   postgresTypeormConnection,
@@ -31,7 +31,6 @@ export async function tearDownApplication({
 
 export async function bootstrapApplication() {
   try {
-
     if (domifaConfig().dev.sentry.enabled) {
       appLogger.debug(
         `SENTRY DNS enabled: ${domifaConfig().dev.sentry.sentryDsn}`
