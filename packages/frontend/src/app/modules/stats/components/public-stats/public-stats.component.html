@@ -78,7 +78,7 @@
             />
           </div>
           <div>
-            <div class="text-start">
+            <div class="text-start" *ngIf="stats">
               <div class="stats-counter skeleton">
                 {{ stats?.structuresCount | formatBigNumber }}
               </div>
