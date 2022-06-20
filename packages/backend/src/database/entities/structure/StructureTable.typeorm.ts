@@ -85,7 +85,7 @@ export class StructureTable
   };
 
   // ! DEPRECATED
-  @Column({ type: "text", nullable: false })
+  @Column({ type: "text", nullable: true })
   phone?: string;
 
   @Column({
