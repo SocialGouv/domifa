@@ -6,14 +6,14 @@ export const telephoneString = (telephone: Telephone): string => {
     : `+${COUNTRY_CODES[telephone.countryCode]}${telephone.numero}`;
 };
 
-export const telephonecountryCode = (countryCode: string): string => {
+export const telephoneCountryCode = (countryCode: string): string => {
   if (COUNTRY_CODES[countryCode] === undefined) return "+33";
 
   return `+${COUNTRY_CODES[countryCode]}`;
 };
 
 // HOTFIX en attendant qu'on intégre les countryCodes dans les usagers
-export const telephoneFixcCountryCode = (
+export const telephoneFixCountryCode = (
   countryCode: string,
   phone: string
 ): string => {
@@ -23,8 +23,8 @@ export const telephoneFixcCountryCode = (
 
   if (countryCode === "fr" && phone[0] === "0") {
     const newPhone = phone.substring(1, phone.length);
-    return `${telephonecountryCode(countryCode)}${newPhone}`;
+    return `${telephoneCountryCode(countryCode)}${newPhone}`;
   }
 
-  return `${telephonecountryCode(countryCode)}${phone}`;
+  return `${telephoneCountryCode(countryCode)}${phone}`;
 };

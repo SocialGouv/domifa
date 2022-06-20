@@ -84,8 +84,9 @@ export class StructureTable
     numeroBoite: boolean;
   };
 
+  // ! DEPRECATED
   @Column({ type: "text", nullable: false })
-  phone: string;
+  phone?: string;
 
   @Column({
     type: "jsonb",
