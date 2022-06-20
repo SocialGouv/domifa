@@ -22,7 +22,6 @@ export class StructureCommonWeb implements StructureCommon {
   capacite: number;
   codePostal: string;
   agrement: string;
-  phone: string;
   telephone: Telephone;
   email: string;
   responsable: StructureResponsable;

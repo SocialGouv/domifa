@@ -22,6 +22,7 @@ export class ResetPasswordComponent implements OnInit {
 
   public submitted: boolean;
   public success: boolean;
+  public loading: boolean;
 
   public hidePassword: boolean;
   public hidePasswordConfirm: boolean;
@@ -39,15 +40,16 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   constructor(
-    private formBuilder: FormBuilder,
-    private userService: UsersService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private toastService: CustomToastService,
-    private titleService: Title
+    private readonly formBuilder: FormBuilder,
+    private readonly userService: UsersService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly toastService: CustomToastService,
+    private readonly titleService: Title
   ) {
     this.success = false;
     this.submitted = false;
+    this.loading = false;
     this.hidePassword = true;
     this.hidePasswordConfirm = true;
     this.errorLabels = {
@@ -127,16 +129,25 @@ export class ResetPasswordComponent implements OnInit {
 
   public submitEmailForm() {
     this.submitted = true;
+
     if (!this.emailForm.invalid) {
-      this.userService.getPasswordToken(this.emailForm.value).subscribe({
-        next: () => {
-          this.success = true;
-        },
-        error: () => {
-          this.toastService.error("Veuillez vérifier l'adresse email");
-        },
-      });
+      this.toastService.error(
+        "Veuillez vérifier les champs marqués en rouge dans le formulaire"
+      );
+      return;
     }
+
+    this.loading = true;
+    this.userService.getPasswordToken(this.emailForm.value).subscribe({
+      next: () => {
+        this.success = true;
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+        this.toastService.error("Veuillez vérifier l'adresse email");
+      },
+    });
   }
 
   public submitResetForm() {

@@ -19,7 +19,6 @@ export type Structure = AppEntity & {
   capacite: number;
   codePostal: string;
   agrement: string;
-  phone: string;
   telephone: Telephone;
   email: string;
   import: boolean;

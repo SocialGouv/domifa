@@ -149,7 +149,6 @@ describe("Stuctures creation full", () => {
       nom: "Smith",
       password: "Y67xc6D7XBibZ6r",
       prenom: "Ben",
-      phone: "0102030405",
       structure: undefined,
     };
     const structureWithUser: StructureWithUserDto = {

@@ -21,7 +21,7 @@ import {
 import { generateSmsInteraction } from "./generators";
 import { MESSAGE_SMS_STATUS } from "../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
 import { generateScheduleSendDate } from "./generators/generateScheduleSendDate";
-import { telephoneFixcCountryCode } from "../../util/phone/telephoneString.service";
+import { telephoneFixCountryCode } from "../../util/phone/telephoneString.service";
 import { firstValueFrom } from "rxjs";
 
 @Injectable()
@@ -166,7 +166,7 @@ export class MessageSmsService {
         senderName: structure.sms.senderName,
         status: "TO_SEND",
         smsId: interaction.type,
-        phoneNumber: telephoneFixcCountryCode(
+        phoneNumber: telephoneFixCountryCode(
           structure.telephone.countryCode,
           usager.preference.phoneNumber
         ),

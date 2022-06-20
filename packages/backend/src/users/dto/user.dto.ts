@@ -3,7 +3,6 @@ import {
   IsEmail,
   IsEmpty,
   IsNotEmpty,
-  IsOptional,
   MaxLength,
   MinLength,
 } from "class-validator";
@@ -40,9 +39,6 @@ export class UserDto {
     return value.toString().trim();
   })
   public readonly email!: string;
-
-  @IsOptional()
-  public readonly phone!: string;
 
   @IsNotEmpty()
   @MinLength(12, {

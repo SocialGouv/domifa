@@ -17,7 +17,6 @@ describe("newStructureEmailRenderer", () => {
         departement: "75",
         ville: "Paris",
         email: "test@structure.com",
-        phone: "010203040506",
         telephone: {
           numero: "010203040506",
           countryCode: "fr",
