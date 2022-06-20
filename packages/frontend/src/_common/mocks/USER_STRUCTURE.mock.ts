@@ -34,7 +34,6 @@ export const USER_STRUCTURE_MOCK: UserStructure = {
     email: "s1-admin@yopmail.com",
     nom: "DomiFa Compte Test",
     options: { numeroBoite: false },
-    phone: "0134334410",
     telephone: { numero: "0134334410", countryCode: "fr" },
     responsable: { nom: "Pompei", prenom: "Roma", fonction: "Directrice" },
     structureType: "asso" as StructureType,
