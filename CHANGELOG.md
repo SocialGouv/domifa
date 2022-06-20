@@ -1,3 +1,10 @@
+## [2.95.1](https://github.com/SocialGouv/domifa/compare/v2.95.0...v2.95.1) (2022-06-20)
+
+
+### Bug Fixes
+
+* **deps:** update dependency angular-user-idle to v3 ([5faa865](https://github.com/SocialGouv/domifa/commit/5faa8658a2efc78b6516be4a3fca05fd9b0368a4))
+
 # [2.95.0](https://github.com/SocialGouv/domifa/compare/v2.94.3...v2.95.0) (2022-06-20)
 
 
