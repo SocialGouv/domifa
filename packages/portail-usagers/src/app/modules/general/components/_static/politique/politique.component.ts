@@ -9,7 +9,7 @@ import { Title } from "@angular/platform-browser";
 export class PolitiqueComponent implements OnInit {
   public constructor(private titleService: Title) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle("Politique de confidentialité");
   }
 }

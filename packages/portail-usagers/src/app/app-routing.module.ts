@@ -1,10 +1,13 @@
+import { RgaaComponent } from "./modules/general/components/_static/rgaa/rgaa.component";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { CguComponent } from "./modules/general/components/cgu/cgu.component";
-import { MentionsLegalesComponent } from "./modules/general/components/mentions-legales/mentions-legales.component";
+
 import { NotFoundComponent } from "./modules/general/components/not-found/not-found.component";
-import { PolitiqueComponent } from "./modules/general/components/politique/politique.component";
+
 import { AuthGuard } from "./guards/auth-guard";
+import { CguComponent } from "./modules/general/components/_static/cgu/cgu.component";
+import { MentionsLegalesComponent } from "./modules/general/components/_static/mentions-legales/mentions-legales.component";
+import { PolitiqueComponent } from "./modules/general/components/_static/politique/politique.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "/auth/login", pathMatch: "full" },
@@ -24,6 +27,7 @@ const routes: Routes = [
       ),
   },
 
+  { path: "accessibilite", component: RgaaComponent },
   { path: "mentions-legales", component: MentionsLegalesComponent },
   { path: "confidentialite", component: PolitiqueComponent },
   { path: "cgu", component: CguComponent },

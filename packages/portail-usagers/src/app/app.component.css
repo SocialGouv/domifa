@@ -8,3 +8,18 @@
 .navbar {
   border-top: 4px solid var(--bs-primary);
 }
+
+.page-footer {
+  width: 100%;
+  border-top: 1px solid #e6e6e6;
+}
+
+.page-footer img.ministere-logo {
+  height: 80px;
+  width: auto;
+}
+.page-footer .menu-breadcrumb {
+  color: #1a1a1a;
+  padding-left: 10px;
+  padding-right: 10px;
+}

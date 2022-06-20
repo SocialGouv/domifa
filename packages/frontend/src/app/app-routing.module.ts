@@ -4,16 +4,16 @@ import { RouterModule, Routes, ExtraOptions } from "@angular/router";
 import { AuthGuard } from "./guards/auth-guard";
 import { FacteurGuard } from "./guards/facteur-guard";
 import { LoggedGuard } from "./guards/logged-guard";
-import { CguComponent } from "./modules/general/components/cgu/cgu.component";
+import { CguComponent } from "./modules/general/components/_static/cgu/cgu.component";
 import { NotFoundComponent } from "./modules/general/components/errors/not-found/not-found.component";
 import { FaqComponent } from "./modules/general/components/faq/faq.component";
 import { HomeComponent } from "./modules/general/components/home/home.component";
-import { MentionsLegalesComponent } from "./modules/general/components/mentions/mentions-legales/mentions-legales.component";
+import { MentionsLegalesComponent } from "./modules/general/components/_static/mentions-legales/mentions-legales.component";
 import { NewsComponent } from "./modules/general/components/news/news.component";
-import { PolitiqueComponent } from "./modules/general/components/politique/politique.component";
+import { PolitiqueComponent } from "./modules/general/components/_static/politique/politique.component";
 import { ImportComponent } from "./modules/usagers/components/import/import.component";
 import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
-import { PlanSiteComponent } from './modules/general/components/plan-site/plan-site.component';
+import { PlanSiteComponent } from "./modules/general/components/plan-site/plan-site.component";
 import { LoginComponent } from "./modules/general/components/login/login.component";
 
 export const routes: Routes = [
