@@ -1,3 +1,27 @@
+# [2.95.0](https://github.com/SocialGouv/domifa/compare/v2.94.3...v2.95.0) (2022-06-20)
+
+
+### Bug Fixes
+
+* **tests:** correction des tests unitaires ([1b50a2a](https://github.com/SocialGouv/domifa/commit/1b50a2add1f04cbcc152af9434c92099734d74ba))
+* tests unitaires manquants ([48ed2ae](https://github.com/SocialGouv/domifa/commit/48ed2aeae732d18a6457d79a890f9f84b9b13bc5))
+* **dumps:** mise à jour des dumps ([a334e97](https://github.com/SocialGouv/domifa/commit/a334e9790c61a0a4ccb0571319b56253ee0e0896))
+* dumps mis à jour ([b711b40](https://github.com/SocialGouv/domifa/commit/b711b40726425005f5664cbff5c40e56b77aad96))
+* test unitaire ([76d7cde](https://github.com/SocialGouv/domifa/commit/76d7cde527566f225178b4f73d1c6ed7938ae6f4))
+* tests unitaires ([8db2176](https://github.com/SocialGouv/domifa/commit/8db2176880711254ccd9fdbf08e59960515cb4dd))
+* **loaders:** Ajout de loaders ([baeca33](https://github.com/SocialGouv/domifa/commit/baeca33344be3cef9d60188697b534a7eb2f4c4d))
+* **loaders:** correction des derniers loadings ([97ad587](https://github.com/SocialGouv/domifa/commit/97ad587fd833b1f8cc2bd0b262d42135d05416f2))
+* **loaders:** correction du build ([b34ba96](https://github.com/SocialGouv/domifa/commit/b34ba96163f8578c3438451e50c518d0f92d1cc7))
+* **loading:** ajout de loaders ([ff99b9e](https://github.com/SocialGouv/domifa/commit/ff99b9e9bd3b7e9ac562018b59b6a5f308e80bbe))
+* **loading:** ajout de loaders ([86a1d4a](https://github.com/SocialGouv/domifa/commit/86a1d4ab1fdae54776916c6ebe69202183c6c817))
+* **sms:** Correction de la mise à jour des status ([5e3869a](https://github.com/SocialGouv/domifa/commit/5e3869a27aad9b9cf7089ca393f3ffe8b0dae157))
+* **sms:** Correction de la mise à jour des status ([9d57bfb](https://github.com/SocialGouv/domifa/commit/9d57bfbcd5d573fae2f8db1d4e84efa135381925))
+
+
+### Features
+
+* **loading:** Ajout de loaders sur les formulaires ([21f182e](https://github.com/SocialGouv/domifa/commit/21f182e14fecb35e070d4016352da98b9138087b))
+
 ## [2.94.3](https://github.com/SocialGouv/domifa/compare/v2.94.2...v2.94.3) (2022-06-14)
 
 
