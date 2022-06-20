@@ -4687,12 +4687,12 @@ ajv@^8.0.0, ajv@^8.8.0:
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
-angular-user-idle@^2.2.7:
-  version "2.2.7"
-  resolved "https://registry.yarnpkg.com/angular-user-idle/-/angular-user-idle-2.2.7.tgz#ba886a41c8d3fc02050f5f7849be3a97bb990cd0"
-  integrity sha512-Vu+vioYIRwT/Y2Aq+qXhP+wrleAfU50FIix736CY0IW37yAjRNPuXVljgRRtBSildVIzLRVtaGTqvC44duDo2w==
+angular-user-idle@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/angular-user-idle/-/angular-user-idle-3.0.0.tgz#ed2ede563aa31bef4829f58a63d771446526cc8e"
+  integrity sha512-ub2TUNvKonmZA/OY0gsvVFDdoKLVJTlx6G7i4ItgTOJ89wg2Uojp0yruH4uEI72pYdhn7Le/ZLD8Ph/H6rCzhw==
   dependencies:
-    tslib "^1.9.0"
+    tslib "^2.3.0"
 
 ansi-align@^3.0.0:
   version "3.0.1"
