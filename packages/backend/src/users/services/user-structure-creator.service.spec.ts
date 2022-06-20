@@ -27,8 +27,6 @@ describe("userStructureCreator", () => {
       nom: "Smith",
       prenom: "Tom",
       password,
-      phone: "0102030405",
-
       structureId,
     };
     const { user, userSecurity } =

@@ -9,7 +9,7 @@ export const telephoneString = (telephone: Telephone): string => {
       }`;
 };
 
-export const telephoneIndicatif = (countryCode: string): string => {
+export const getIndicatif = (countryCode: string): string => {
   if (COUNTRY_CODES[countryCode] === undefined) return "+33";
 
   return `+${COUNTRY_CODES[countryCode]}`;
@@ -26,10 +26,10 @@ export const telephoneFixIndicatif = (
 
   if (countryCode === "fr" && phone[0] === "0") {
     const newPhone = phone.substring(1, phone.length);
-    return `${telephoneIndicatif(countryCode)}${newPhone}`;
+    return `${getIndicatif(countryCode)}${newPhone}`;
   }
 
-  return `${telephoneIndicatif(countryCode)}${phone}`;
+  return `${getIndicatif(countryCode)}${phone}`;
 };
 
 export function getFormPhone(formValue: ChangeData): Telephone {
@@ -43,6 +43,6 @@ export function setFormPhone(telephone: Telephone): ChangeData {
   return {
     // eslint-disable-next-line id-denylist
     number: telephone.numero.replace(/\s/g, ""),
-    dialCode: telephoneIndicatif(telephone.countryCode),
+    dialCode: getIndicatif(telephone.countryCode),
   };
 }
