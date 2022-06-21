@@ -7,7 +7,7 @@ export const usagersByStatusBuilder = {
 };
 
 function build(usagers: UsagerLight[]): UsagersByStatus {
-  const acc: UsagersByStatus = {
+  const byStatus: UsagersByStatus = {
     RADIE: [],
     VALIDE: [],
     REFUS: [],
@@ -15,20 +15,21 @@ function build(usagers: UsagerLight[]): UsagersByStatus {
     ATTENTE_DECISION: [],
     TOUS: usagers,
   };
-  const byStatus = usagers.reduce((acc, usager) => {
+
+  usagers.map((usager) => {
     if (isStatus(usager, "RADIE")) {
-      acc.RADIE.push(usager);
+      byStatus.RADIE.push(usager);
     } else if (isStatus(usager, "VALIDE")) {
-      acc.VALIDE.push(usager);
+      byStatus.VALIDE.push(usager);
     } else if (isStatus(usager, "REFUS")) {
-      acc.REFUS.push(usager);
+      byStatus.REFUS.push(usager);
     } else if (isStatus(usager, "INSTRUCTION")) {
-      acc.INSTRUCTION.push(usager);
+      byStatus.INSTRUCTION.push(usager);
     } else if (isStatus(usager, "ATTENTE_DECISION")) {
-      acc.ATTENTE_DECISION.push(usager);
+      byStatus.ATTENTE_DECISION.push(usager);
     }
-    return acc;
-  }, acc);
+  });
+
   return byStatus;
 }
 function isStatus(usager: UsagerLight, statut: UsagersFilterCriteriaStatut) {

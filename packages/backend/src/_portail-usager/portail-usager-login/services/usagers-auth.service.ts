@@ -39,7 +39,7 @@ export class UsagersAuthService {
     }
     const authUser = await this.findAuthUserUsager(payload);
 
-    if (!authUser || authUser === null) {
+    if (!authUser) {
       return false;
     }
 

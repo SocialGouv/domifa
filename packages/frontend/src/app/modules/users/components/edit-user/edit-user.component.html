@@ -168,7 +168,7 @@
             >Dernière modification le :
             {{ lastPasswordUpdate | date: "dd/MM/yyyy" }}</span
           >
-          <span *ngIf="!lastPasswordUpdate || lastPasswordUpdate === null"
+          <span *ngIf="!lastPasswordUpdate"
             >Aucune modification de mot de passe enregistrée</span
           >
           <br />

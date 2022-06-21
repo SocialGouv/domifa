@@ -15,9 +15,7 @@ import {
 export class UsagerOptionsService {
   public endPoint = environment.apiUrl + "usagers-options/";
 
-  constructor(public http: HttpClient) {
-    this.http = http;
-  }
+  constructor(private readonly http: HttpClient) {}
 
   public findHistory(usagerRef: number): Observable<UsagerOptionsHistory[]> {
     return this.http.get<UsagerOptionsHistory[]>(

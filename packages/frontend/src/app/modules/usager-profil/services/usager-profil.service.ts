@@ -15,9 +15,7 @@ import { usagersCache } from "../../../shared/store";
 export class UsagerProfilService {
   public endPointUsagers = environment.apiUrl + "usagers";
 
-  constructor(public http: HttpClient) {
-    this.http = http;
-  }
+  constructor(private readonly http: HttpClient) {}
 
   public findOne(usagerRef: number): Observable<UsagerLight> {
     return this.http

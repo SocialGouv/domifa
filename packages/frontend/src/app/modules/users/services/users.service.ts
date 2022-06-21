@@ -17,12 +17,9 @@ import { userStructureBuilder } from "./userStructureBuilder.service";
   providedIn: "root",
 })
 export class UsersService {
-  public http: HttpClient;
   private endPoint = environment.apiUrl + "users";
 
-  constructor(http: HttpClient) {
-    this.http = http;
-  }
+  constructor(private readonly http: HttpClient) {}
 
   public getUser(id: number): Observable<UserStructure> {
     return this.http.get(`${this.endPoint}/${id}`).pipe(

@@ -18,12 +18,9 @@ import { StructureCommonWeb } from "./StructureCommonWeb.type";
   providedIn: "root",
 })
 export class StructureService {
-  public http: HttpClient;
   private endPoint = environment.apiUrl + "structures";
 
-  constructor(http: HttpClient) {
-    this.http = http;
-  }
+  constructor(private readonly http: HttpClient) {}
 
   public findOne(structureId: number): Observable<StructureCommon> {
     return this.http.get<StructureCommon>(`${this.endPoint}/${structureId}`);

@@ -6,6 +6,6 @@ function cleanString(str: string) {
   }
   return str
     .trim()
-    .replace(/[&\/\\#,+()$~%.\'\":*?<>{}]/gi, "")
+    .replace(/[&\\/\\#,+()$~%.\\'\\":*?<>{}]/gi, "")
     .replace(/\s+/g, " ");
 }
