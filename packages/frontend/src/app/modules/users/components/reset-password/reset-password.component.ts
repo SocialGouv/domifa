@@ -130,7 +130,7 @@ export class ResetPasswordComponent implements OnInit {
   public submitEmailForm() {
     this.submitted = true;
 
-    if (!this.emailForm.invalid) {
+    if (this.emailForm.invalid) {
       this.toastService.error(
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );

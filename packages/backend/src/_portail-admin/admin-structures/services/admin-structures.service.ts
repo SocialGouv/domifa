@@ -18,6 +18,7 @@ import {
   AdminStructureListData,
   AdminStructureStatsData,
   InteractionType,
+  StatsByLocality,
   StatsByMonth,
   StructureAdmin,
   StructureType,
@@ -264,15 +265,12 @@ export class AdminStructuresService {
       },
     });
   }
-  public async getStructuresCountByDepartement(regionId: string): Promise<
-    {
-      departement: string;
-      count: number;
-    }[]
-  > {
-    return structureRepository.countBy({
+  public async getStructuresCountByDepartement(
+    regionId: string
+  ): Promise<StatsByLocality> {
+    const structures = await structureRepository.countBy({
       countBy: "departement",
-      countByAlias: "dep",
+      countByAlias: "departement",
       where: {
         region: regionId,
       },
@@ -281,6 +279,14 @@ export class AdminStructuresService {
         countBy: "ASC",
       },
     });
+
+    return structures.reduce(
+      (acc: StatsByLocality, value: { departement: string; count: number }) => {
+        acc.push({ region: value.departement, count: value.count });
+        return acc;
+      },
+      []
+    );
   }
 
   public async getUsagersCountByStatutMap() {
@@ -299,9 +305,17 @@ export class AdminStructuresService {
     return usagers;
   }
 
-  public async getStructuresCountByTypeMap(region?: string) {
-    const structures: { [key: string]: number } = {};
+  public async getStructuresCountByTypeMap(region?: string): Promise<{
+    [key in StructureType]: number;
+  }> {
+    const structures: { [key in StructureType]: number } = {
+      ccas: 0,
+      cias: 0,
+      asso: 0,
+    };
+
     const result = await this.getStructuresByType(region);
+
     for (const structure of result) {
       structures[structure.structureType] = structure.count;
     }

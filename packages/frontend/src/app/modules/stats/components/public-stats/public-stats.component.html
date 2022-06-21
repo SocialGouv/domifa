@@ -151,13 +151,13 @@
         <ul>
           <li
             class="py-2"
-            *ngFor="let structure of stats.structuresCountByDepartement"
+            *ngFor="let structure of stats.structuresCountByRegion"
           >
             <span class="underline region-name">
               {{
-                DEPARTEMENTS_METROPOLE[structure.dep]
-                  ? DEPARTEMENTS_METROPOLE[structure.dep].departmentName
-                  : structure.dep
+                DEPARTEMENTS_METROPOLE[structure.region]
+                  ? DEPARTEMENTS_METROPOLE[structure.region].departmentName
+                  : structure.region
               }}
             </span>
             <span class="text-primary fw-bold">

@@ -1,3 +1,4 @@
+import { HomeStats } from "./../../_common/model/stats/HomeStats.type";
 import {
   CacheInterceptor,
   CacheKey,
@@ -26,16 +27,16 @@ export class StatsPublicController {
   ) {}
 
   @UseInterceptors(CacheInterceptor)
-  @CacheKey("home-stats")
+  @CacheKey("home")
   @CacheTTL(86400)
-  @Get("home-stats")
+  @Get("home")
   public async home() {
     const usagers = await usagerRepository.count();
     const ayantsDroits = await usagerRepository.countAyantsDroits();
 
     const totalUsagers = usagers + ayantsDroits;
 
-    const statsHome = {
+    const statsHome: HomeStats = {
       structures: await structureRepository.count(),
       interactions: await this.adminStructuresService.totalInteractions(
         "courrierIn"
@@ -49,12 +50,19 @@ export class StatsPublicController {
   @Get("public-stats/:regionId?")
   public async getPublicStats(@Param("regionId") regionId: string) {
     const publicStats: PublicStats = {
+      structuresCountByRegion: [],
+      interactionsCountByMonth: [], // Par défaut: courriers distribués
       usagersCount: 0,
+      usagersCountByMonth: [],
       usersCount: 0,
-      structuresCount: 0,
       interactionsCount: 0,
+      structuresCount: 0,
+      structuresCountByTypeMap: {
+        asso: 0,
+        ccas: 0,
+        cias: 0,
+      },
     };
-
     // Si aucune region
     let structures: number[] = null;
 
@@ -68,7 +76,7 @@ export class StatsPublicController {
         return DEFAULT_PUBLIC_STATS;
       }
 
-      publicStats.structuresCountByDepartement =
+      publicStats.structuresCountByRegion =
         await this.adminStructuresService.getStructuresCountByDepartement(
           regionId
         );
