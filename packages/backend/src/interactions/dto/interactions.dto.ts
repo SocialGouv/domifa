@@ -1,4 +1,3 @@
-import { ENUM_TYPE_INTERACTION } from "./../../_common/model/interaction/InteractionType.type";
 import { ApiProperty } from "@nestjs/swagger";
 
 import {
