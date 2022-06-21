@@ -38,9 +38,9 @@ export class RegisterUserAdminComponent implements OnInit {
   }
 
   constructor(
-    private formBuilder: FormBuilder,
-    private userService: UsersService,
-    private toastService: CustomToastService
+    private readonly formBuilder: FormBuilder,
+    private readonly userService: UsersService,
+    private readonly toastService: CustomToastService
   ) {
     this.user = userStructureBuilder.buildUserStructure({});
     this.loading = false;

@@ -49,6 +49,7 @@ export class DeleteUsagerMenuComponent implements OnInit {
 
   public ngOnInit(): void {
     this.hasHistorique =
+      this.usager.decision.statut === "INSTRUCTION" &&
       typeof this.usager.historique.find(
         (decision) =>
           decision.statut === "REFUS" ||

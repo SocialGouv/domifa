@@ -1,7 +1,7 @@
+import { StatsByLocality } from "./../../../../../../_common/model/stats/StatsByLocality.type";
 import { AfterContentChecked, Component, Input, OnInit } from "@angular/core";
 import {
   PublicStats,
-  StatsByRegion,
   STATS_REGIONS_FOR_MAP,
 } from "../../../../../../_common/model";
 
@@ -15,6 +15,7 @@ import {
   REGIONS_DOM_TOM,
   REGIONS_OUTRE_MER,
   DEPARTEMENTS_COM,
+  RegionDef,
 } from "../../../../../shared";
 
 @Component({
@@ -41,17 +42,17 @@ export class StatsMapComponent implements OnInit, AfterContentChecked {
   public REGIONS_LABELS: RegionsLabels = REGIONS_LISTE;
 
   // Région choisie
-  public selectedRegion: string;
+  public selectedRegion: string | null;
 
   // Statistiques par region
   public statsRegionsValues: { [key: string]: number };
 
   @Input() public publicStats!: PublicStats;
 
-  public statsByRegion: StatsByRegion;
+  public statsByRegion!: StatsByLocality;
 
   constructor() {
-    this.statsRegionsValues = null;
+    this.statsRegionsValues = {};
     this.selectedRegion = null;
   }
 
@@ -67,7 +68,7 @@ export class StatsMapComponent implements OnInit, AfterContentChecked {
     this.statsByRegion = this.publicStats.structuresCountByRegion;
 
     this.statsRegionsValues = Object.values(REGIONS_DEF).reduce(
-      (acc, value) => {
+      (acc: { [key: string]: number }, value: RegionDef) => {
         acc[value.regionCode] = 0;
         return acc;
       },

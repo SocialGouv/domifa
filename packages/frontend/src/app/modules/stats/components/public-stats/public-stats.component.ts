@@ -32,10 +32,10 @@ export class PublicStatsComponent implements OnInit {
   public REGIONS_ID_SEO: RegionsLabels = REGIONS_ID_SEO;
 
   constructor(
-    private statsService: StatsService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private seoService: SeoService
+    private readonly statsService: StatsService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly seoService: SeoService
   ) {
     this.regionId = null;
   }

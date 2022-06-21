@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { CountUpOptions } from "countup.js";
 import { MatomoTracker } from "ngx-matomo";
-import { HomeStats } from "./HomeStats.type";
+import { HomeStats } from "../../../../../_common/model";
 
 import { GeneralService } from "../../services/general.service";
 

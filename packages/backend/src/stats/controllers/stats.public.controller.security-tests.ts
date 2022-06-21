@@ -17,7 +17,7 @@ export const StatsPublicControllerSecurityTests: AppTestHttpClientSecurityTestDe
     {
       label: `${CONTROLLER}.home`,
       query: async (context: AppTestContext) => ({
-        response: await AppTestHttpClient.get("/stats/home-stats", {
+        response: await AppTestHttpClient.get("/stats/home", {
           context,
         }),
         expectedStatus: expectedResponseStatusBuilder.allowAnonymous(),

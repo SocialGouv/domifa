@@ -1,4 +1,4 @@
-import { StatsByMonth, StatsByRegion } from ".";
+import { StatsByMonth, StatsByStructureType } from ".";
 
 export type PublicStats = {
   // Stats globales
@@ -6,15 +6,14 @@ export type PublicStats = {
   usersCount: number;
   structuresCount: number;
   // Statistiques mensuelles
-  interactionsCountByMonth?: StatsByMonth;
-  interactionsCount?: number;
-  usagersCountByMonth?: StatsByMonth;
-  // Structures par région
-  structuresCountByRegion?: StatsByRegion;
-  // Structures par région
-  structuresCountByDepartement?: StatsByRegion;
-  // Structures par région
-  structuresCountByTypeMap: {
-    [type: string]: number;
-  };
+  interactionsCount: number;
+  interactionsCountByMonth: StatsByMonth;
+  usagersCountByMonth: StatsByMonth;
+  // Structures par région ou département. Par défaut on utilise le terme "region" pour les 2 cas
+  structuresCountByRegion: {
+    region: string;
+    count: number;
+  }[];
+  // Structures par type de structure
+  structuresCountByTypeMap: StatsByStructureType;
 };

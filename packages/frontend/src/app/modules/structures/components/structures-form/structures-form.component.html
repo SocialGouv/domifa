@@ -244,7 +244,7 @@
           </div>
         </div>
 
-        <div class="row" *ngIf="f.adresseCourrier.get('actif').value === true">
+        <div class="row" *ngIf="f.adresseCourrier.get('actif')?.value === true">
           <div class="col-md-12 form-group required">
             <label for="adresse2">Adresse de réception du courrier</label>
             <input
@@ -257,16 +257,16 @@
               [ngClass]="{
                 'is-invalid':
                   submitted &&
-                  f.adresseCourrier.get('actif').value === true &&
-                  f.adresseCourrier.get('adresse').errors
+                  f.adresseCourrier.get('actif')?.value === true &&
+                  f.adresseCourrier.get('adresse')?.errors
               }"
               required
             />
             <p
               *ngIf="
                 submitted &&
-                f.adresseCourrier.get('actif').value === true &&
-                f.adresseCourrier.get('adresse').errors
+                f.adresseCourrier.get('actif')?.value === true &&
+                f.adresseCourrier.get('adresse')?.errors
               "
               class="invalid-feedback"
             >
@@ -284,16 +284,16 @@
               [ngClass]="{
                 'is-invalid':
                   submitted &&
-                  f.adresseCourrier.get('actif').value === true &&
-                  f.adresseCourrier.get('codePostal').errors
+                  f.adresseCourrier.get('actif')?.value === true &&
+                  f.adresseCourrier.get('codePostal')?.errors
               }"
               required
             />
             <p
               *ngIf="
                 submitted &&
-                f.adresseCourrier.get('actif').value === true &&
-                f.adresseCourrier.get('codePostal').errors
+                f.adresseCourrier.get('actif')?.value === true &&
+                f.adresseCourrier.get('codePostal')?.errors
               "
               class="invalid-feedback"
             >
@@ -310,16 +310,16 @@
               [ngClass]="{
                 'is-invalid':
                   submitted &&
-                  f.adresseCourrier.get('actif').value === true &&
-                  f.adresseCourrier.get('ville').errors
+                  f.adresseCourrier.get('actif')?.value === true &&
+                  f.adresseCourrier.get('ville')?.errors
               }"
               required
             />
             <p
               *ngIf="
                 submitted &&
-                f.adresseCourrier.get('actif').value === true &&
-                f.adresseCourrier.get('ville').errors
+                f.adresseCourrier.get('actif')?.value === true &&
+                f.adresseCourrier.get('ville')?.errors
               "
               class="invalid-feedback"
             >
@@ -360,7 +360,7 @@
             *ngIf="submitted && (f.phone.errors || f.phone.invalid)"
             class="invalid-feedback-custom"
           >
-            Le numéro de téléphone est obligatoire
+            Veuillez vérifier le numéro de téléphone
           </p>
         </div>
         <div class="col form-group required">
@@ -470,12 +470,12 @@
             formControlName="nom"
             placeholder="Nom d'un.e responsable"
             [ngClass]="{
-              'is-invalid': submitted && f.responsable.get('nom').errors
+              'is-invalid': submitted && f.responsable.get('nom')?.errors
             }"
             required
           />
           <p
-            *ngIf="submitted && f.responsable.get('nom').errors"
+            *ngIf="submitted && f.responsable.get('nom')?.errors"
             class="invalid-feedback"
           >
             Le nom du responsable est obligatoire
@@ -491,12 +491,12 @@
             placeholder="Prénom(s)"
             autocomplete="given-name"
             [ngClass]="{
-              'is-invalid': submitted && f.responsable.get('prenom').errors
+              'is-invalid': submitted && f.responsable.get('prenom')?.errors
             }"
             required
           />
           <p
-            *ngIf="submitted && f.responsable.get('prenom').errors"
+            *ngIf="submitted && f.responsable.get('prenom')?.errors"
             class="invalid-feedback"
           >
             Le prénom du responsable est obligatoire
@@ -511,12 +511,12 @@
             formControlName="fonction"
             placeholder="Président.e, Directrice, etc."
             [ngClass]="{
-              'is-invalid': submitted && f.responsable.get('fonction').errors
+              'is-invalid': submitted && f.responsable.get('fonction')?.errors
             }"
             required
           />
           <p
-            *ngIf="submitted && f.responsable.get('fonction').errors"
+            *ngIf="submitted && f.responsable.get('fonction')?.errors"
             class="invalid-feedback"
           >
             La fonction du responsable est obligatoire
