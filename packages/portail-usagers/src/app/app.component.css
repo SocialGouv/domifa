@@ -11,6 +11,8 @@
 
 .page-footer {
   width: 100%;
+  background-color: white;
+  padding: 1rem;
   border-top: 1px solid #e6e6e6;
 }
 

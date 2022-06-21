@@ -1,7 +1,10 @@
 <app-custom-toastr></app-custom-toastr>
 
 <nav class="navbar bg-white">
-  <a class="navbar-brand" href="#">
+  <a
+    class="navbar-brand"
+    [routerLink]="usagerProfile ? '/account' : '/auth/login'"
+  >
     <img
       src="../assets/images/logo-mini.svg"
       width="30"
@@ -14,6 +17,12 @@
 </nav>
 <main id="page">
   <router-outlet></router-outlet>
+
+  <div *ngIf="usagerProfile" class="py-4 text-center">
+    <button (click)="logout()" class="btn btn-outline-primary">
+      <fa-icon [icon]="['far', 'comment']"></fa-icon> Me déconnecter
+    </button>
+  </div>
 </main>
 
 <footer role="contentinfo" id="footer" class="page-footer content">
@@ -121,6 +130,21 @@
           Politique de confidentialité
         </a>
       </div>
+    </div>
+    <div class="my-4 text-gray">
+      Sauf mention contraire, tous les textes de ce site sont sous
+      <a
+        href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
+        target="_blank"
+        rel="noopener noreferrer"
+        >licence etatlab-2.0</a
+      >
+      <img
+        src="../../../assets/icones/link-external.png"
+        class="ms-1"
+        style="height: 8px"
+        alt="Lien externe"
+      />
     </div>
   </div>
 </footer>
