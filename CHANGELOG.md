@@ -1,3 +1,12 @@
+## [2.95.2](https://github.com/SocialGouv/domifa/compare/v2.95.1...v2.95.2) (2022-06-21)
+
+
+### Bug Fixes
+
+* unit tests ([2e7b176](https://github.com/SocialGouv/domifa/commit/2e7b17684e28c1f026c0e301e0ac9b4315336a9e))
+* **password:** Correction de l'erreur sur mot de passe oublié ([8db8682](https://github.com/SocialGouv/domifa/commit/8db86829355de228f66d578a0383d3ade18c34d9))
+* **password:** correction du message affiché ([a220504](https://github.com/SocialGouv/domifa/commit/a220504d846516a37b4ba7afe655a3664d00c439))
+
 ## [2.95.1](https://github.com/SocialGouv/domifa/compare/v2.95.0...v2.95.1) (2022-06-20)
 
 
