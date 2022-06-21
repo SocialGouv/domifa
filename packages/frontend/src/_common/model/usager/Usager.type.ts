@@ -1,5 +1,6 @@
 import {
   AppEntity,
+  Telephone,
   UsagerEcheanceInfos,
   UsagerRdvInfos,
 } from "../../../_common/model";
@@ -15,7 +16,6 @@ import { UsagerPreferenceContact } from "./UsagerPreferenceContact.type";
 import { UsagerRdv } from "./rdv/UsagerRdv.type";
 import { UsagerSexe } from "./UsagerSexe.type";
 import { UsagerTypeDom } from "./UsagerTypeDom.type";
-import { Telephone } from "../common";
 
 export type Usager = AppEntity & {
   ref: number; // unique par structure

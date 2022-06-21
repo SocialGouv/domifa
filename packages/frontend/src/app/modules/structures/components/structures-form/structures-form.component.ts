@@ -21,9 +21,8 @@ import { Structure, StructureCommon } from "../../../../../_common/model";
 import { StructureService } from "../../services/structure.service";
 import { StructureCommonWeb } from "../../services/StructureCommonWeb.type";
 import { structureNameChecker } from "../structure-edit-form/structureNameChecker.service";
-import { DEPARTEMENTS_LISTE } from "../../../../shared";
+import { DEPARTEMENTS_LISTE, getFormPhone } from "../../../../shared";
 import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
-import { getFormPhone } from "../../../../shared/phone/telephoneString.service";
 
 @Component({
   selector: "app-structures-form",

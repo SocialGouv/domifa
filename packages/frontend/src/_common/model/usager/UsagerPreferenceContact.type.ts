@@ -1,7 +1,6 @@
-import { Telephone } from "../common";
+import { Telephone } from "../telephone";
 
 export type UsagerPreferenceContact = {
   phone: boolean;
-  phoneNumber?: string;
   telephone: Telephone;
 };

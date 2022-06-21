@@ -1,30 +1,30 @@
 import {
-  telephoneString,
+  getPhoneString,
   getIndicatif,
   telephoneFixCountryCode,
-} from "./telephoneString.service";
+} from "./phoneUtils.service";
 
 describe("Telephone utils", () => {
-  it("telephoneString shoud return empty string if telephone is null or undefined", () => {
-    expect(telephoneString(null)).toEqual("");
+  it("getPhoneString shoud return empty string if telephone is null or undefined", () => {
+    expect(getPhoneString(null)).toEqual("");
   });
 
-  it("telephoneString shoud return US indictaif", () => {
-    expect(telephoneString({ countryCode: "us", numero: "" })).toEqual("+1");
+  it("getPhoneString shoud return US indictaif", () => {
+    expect(getPhoneString({ countryCode: "us", numero: "" })).toEqual("+1");
   });
 
-  it("telephoneString shoud return Guyane indictaif", () => {
-    expect(telephoneString({ countryCode: "gf", numero: "" })).toEqual("+594");
+  it("getPhoneString shoud return Guyane indictaif", () => {
+    expect(getPhoneString({ countryCode: "gf", numero: "" })).toEqual("+594");
   });
 
-  it("telephoneString shoud return string with countryCode if numero is empty", () => {
-    expect(telephoneString({ countryCode: "fr", numero: "" })).toEqual("+33");
+  it("getPhoneString shoud return string with countryCode if numero is empty", () => {
+    expect(getPhoneString({ countryCode: "fr", numero: "" })).toEqual("+33");
   });
 
-  it("telephoneString shoud return string with countryCode and numero", () => {
-    expect(
-      telephoneString({ countryCode: "fr", numero: "0622062206" })
-    ).toEqual("+330622062206");
+  it("getPhoneString shoud return string with countryCode and numero", () => {
+    expect(getPhoneString({ countryCode: "fr", numero: "0622062206" })).toEqual(
+      "+330622062206"
+    );
   });
 
   it("telephoneFixCountryCode shoud return +33 if countryCode is undefined", () => {

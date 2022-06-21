@@ -114,7 +114,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
       telephone: this.formBuilder.control(
         {
           number: this.usager.telephone.numero,
-          countryCode: this.usager.telephone.indicatif.toLowerCase(),
+          countryCode: this.usager.telephone.countryCode.toLowerCase(),
         },
         []
       ),
@@ -193,11 +193,11 @@ export class ProfilEtatCivilFormComponent implements OnInit {
       const telephone =
         this.usagerForm.value.telephone === null
           ? {
-              indicatif: "fr",
+              countryCode: "fr",
               numero: "",
             }
           : {
-              indicatif:
+              countryCode:
                 this.usagerForm.value.telephone.countryCode.toLowerCase(),
               numero: this.usagerForm.value.telephone.number.trim(),
             };

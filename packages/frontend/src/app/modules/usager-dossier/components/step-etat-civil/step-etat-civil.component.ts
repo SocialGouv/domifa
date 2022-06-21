@@ -107,15 +107,15 @@ export class StepEtatCivilComponent implements OnInit {
   }
 
   constructor(
-    private formBuilder: FormBuilder,
-    private usagerDossierService: UsagerDossierService,
-    private documentService: DocumentService,
-    private authService: AuthService,
-    private route: ActivatedRoute,
-    private router: Router,
-    public toastService: CustomToastService,
-    private nbgDate: NgbDateCustomParserFormatter,
-    private titleService: Title
+    private readonly formBuilder: FormBuilder,
+    private readonly usagerDossierService: UsagerDossierService,
+    private readonly documentService: DocumentService,
+    private readonly authService: AuthService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly toastService: CustomToastService,
+    private readonly nbgDate: NgbDateCustomParserFormatter,
+    private readonly titleService: Title
   ) {
     this.doublons = [];
     this.me = null;
@@ -169,17 +169,17 @@ export class StepEtatCivilComponent implements OnInit {
       telephone: this.formBuilder.control(
         {
           number: this.usager.telephone.numero,
-          countryCode: this.usager.telephone.indicatif.toLowerCase(),
+          countryCode: this.usager.telephone.countryCode.toLowerCase(),
         },
         []
       ),
       preference: this.formBuilder.group({
         phone: [this.usager.preference.phone, [Validators.required]],
-        phoneNumber: [this.usager.preference.phoneNumber, []],
+
         telephone: this.formBuilder.control(
           {
             number: this.usager.preference?.telephone?.numero || "",
-            countryCode: this.usager.preference?.telephone?.indicatif || "fr",
+            countryCode: this.usager.preference?.telephone?.countryCode || "fr",
           },
           preferenceTelephoneValidator
         ),
@@ -318,12 +318,12 @@ export class StepEtatCivilComponent implements OnInit {
 
     if (formValue.preference.phone) {
       formValue.preference.telephone = {
-        indicatif: this.usagerForm.value.preference.telephone.countryCode,
+        countryCode: this.usagerForm.value.preference.telephone.countryCode,
         numero: this.usagerForm.value.preference.telephone.number,
       };
     } else {
       formValue.preference.telephone = {
-        indicatif: "fr",
+        countryCode: "fr",
         numero: "",
       };
     }
@@ -333,11 +333,11 @@ export class StepEtatCivilComponent implements OnInit {
     const telephone =
       this.usagerForm.value.telephone === null
         ? {
-            indicatif: "fr",
+            countryCode: "fr",
             numero: "",
           }
         : {
-            indicatif: this.usagerForm.value.telephone.countryCode,
+            countryCode: this.usagerForm.value.telephone.countryCode,
             numero: this.usagerForm.value.telephone.number,
           };
     console.log(telephone);

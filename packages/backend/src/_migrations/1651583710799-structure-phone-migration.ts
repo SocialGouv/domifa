@@ -58,7 +58,7 @@ export class migrateStructurePhoneMigration1651583710799
           },
           {
             telephone: {
-              indicatif: findTimeZoneIndicatif(structure.timeZone),
+              countryCode: findTimeZoneIndicatif(structure.timeZone),
               numero: structure.phone,
             },
           }

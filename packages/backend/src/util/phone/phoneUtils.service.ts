@@ -1,6 +1,6 @@
 import { COUNTRY_CODES, Telephone } from "../../_common/model/telephone";
 
-export const telephoneString = (telephone: Telephone): string => {
+export const getPhoneString = (telephone: Telephone): string => {
   return !telephone
     ? ""
     : `+${COUNTRY_CODES[telephone.countryCode]}${telephone.numero}`;

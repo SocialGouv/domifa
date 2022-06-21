@@ -46,8 +46,7 @@ export const USAGER_ACTIF_MOCK: UsagerLight = {
   },
   preference: {
     phone: false,
-    phoneNumber: "0606060606",
-    telephone: { indicatif: "fr", numero: "0606060606" },
+    telephone: { countryCode: "fr", numero: "0606060606" },
   },
   rdv: { dateRdv: null, userId: 0, userName: "" },
   ayantsDroits: [
@@ -101,7 +100,7 @@ export const USAGER_ACTIF_MOCK: UsagerLight = {
   ],
 
   phone: "0142424242",
-  telephone: { indicatif: "fr", numero: "0142424242" },
+  telephone: { countryCode: "fr", numero: "0142424242" },
   surnom: "",
   import: {
     date: new Date("2020-12-01T10:00:24.980Z"),

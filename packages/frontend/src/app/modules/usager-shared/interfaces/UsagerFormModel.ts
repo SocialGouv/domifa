@@ -9,6 +9,7 @@ import {
   UsagerImport,
   UsagerEcheanceInfos,
   UsagerRdvInfos,
+  Telephone,
 } from "../../../../_common/model";
 import { INTERACTIONS_IN_AVAILABLE } from "../../../../_common/model/interaction/constants";
 import {
@@ -16,13 +17,12 @@ import {
   USAGER_DECISION_STATUT_LABELS,
   USAGER_DECISION_STATUT_COLORS,
 } from "../../../../_common/model/usager/_constants";
-import { regexp } from "../../../shared/validators";
+
 import {
   UsagersFilterCriteria,
   usagersFilter,
 } from "../../usagers/components/manage/usager-filter";
 import { getEcheanceInfos, getRdvInfos, getUrlUsagerProfil } from "../utils";
-import { Telephone } from "../../../../_common/model/common";
 
 export class UsagerFormModel implements UsagerLight {
   public ref: number;
@@ -46,8 +46,7 @@ export class UsagerFormModel implements UsagerLight {
   // Préférence d'envoi de notifs
   public preference: {
     phone: boolean;
-    phoneNumber?: string;
-    telephone: Telephone;
+    telephone: Telephone | null;
   };
 
   public structureId: number | null;
@@ -128,7 +127,7 @@ export class UsagerFormModel implements UsagerLight {
     this.phone = (usager && usager.phone) || "";
 
     this.telephone = (usager && usager.telephone) || {
-      indicatif: "fr",
+      countryCode: "fr",
       numero: "",
     };
 
@@ -178,13 +177,11 @@ export class UsagerFormModel implements UsagerLight {
 
     this.preference = (usager && usager.preference) || {
       phone: false,
-      phoneNumber: new RegExp(regexp.mobilePhone).test(this.phone)
-        ? this.phone
-        : "",
+
       telephone: (usager &&
         usager.preference &&
         usager.preference.telephone) || {
-        indicatif: "fr",
+        countryCode: "fr",
         numero: "",
       },
     };

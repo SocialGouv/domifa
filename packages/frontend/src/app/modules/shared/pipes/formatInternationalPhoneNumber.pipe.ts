@@ -1,25 +1,28 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import * as lpn from "google-libphonenumber";
+import { PhoneNumberFormat, PhoneNumberUtil } from "google-libphonenumber";
 
-import { Telephone } from "src/_common/model/common";
+import { Telephone } from "../../../../_common/model";
 
 @Pipe({ name: "formatInternationalPhoneNumber" })
 export class FormatInternationalPhoneNumberPipe implements PipeTransform {
-  phoneUtil: any = lpn.PhoneNumberUtil.getInstance();
-
   transform(telephone: Telephone): string {
-    if (!telephone) return "Non renseigné";
-    else if (!telephone?.numero) return "Non renseigné";
-    else if (!telephone?.indicatif) return "Indicatif non renseigné";
+    const phoneUtil = PhoneNumberUtil.getInstance();
+    if (!telephone) {
+      return "Non renseigné";
+    }
+
+    if (telephone?.numero === "" || !telephone?.countryCode) {
+      return "Non renseigné";
+    }
 
     try {
-      const number = this.phoneUtil.parse(
+      const numero = phoneUtil.parse(
         telephone.numero,
-        telephone.indicatif.toUpperCase()
+        telephone.countryCode.toUpperCase()
       );
-      const internationalPhone = this.phoneUtil.format(
-        number,
-        lpn.PhoneNumberFormat.INTERNATIONAL
+      const internationalPhone = phoneUtil.format(
+        numero,
+        PhoneNumberFormat.INTERNATIONAL
       );
       return internationalPhone;
     } catch (error) {

@@ -3,7 +3,7 @@ import { DomifaMailTemplateRendering } from "../../../model";
 import { domifaMailTemplateRenderer } from "../../domifaMailTemplateRenderer.service";
 import { Structure, STRUCTURE_TYPE_LABELS } from "../../../../_common/model";
 import { DEPARTEMENTS_MAP } from "../../../../util/territoires";
-import { telephoneString } from "../../../../util/phone/telephoneString.service";
+import { getPhoneString } from "../../../../util/phone/phoneUtils.service";
 
 export type NewStructureEmailModel = {
   structure: Pick<
@@ -39,7 +39,7 @@ async function renderTemplate({
     ville: structure.ville,
     code_postal: structure.codePostal,
     email: structure.email,
-    phone: formatInternationalPhoneNumber(structure.telephone),
+    phone: getPhoneString(structure.telephone),
     responsable_nom: structure.responsable.nom,
     responsable_prenom: structure.responsable.prenom,
     responsable_fonction: structure.responsable.fonction,

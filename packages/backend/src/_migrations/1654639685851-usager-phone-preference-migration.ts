@@ -39,7 +39,7 @@ export class manualMigration1647933917641 implements MigrationInterface {
               phone: usager.preference.phone,
               phoneNumber: usager.preference.phoneNumber,
               telephone: {
-                indicatif: "fr",
+                countryCode: "fr",
                 numero: usager.preference.phoneNumber,
               },
             },
@@ -70,7 +70,7 @@ export class manualMigration1647933917641 implements MigrationInterface {
             phone: usager.preference.phone,
             phoneNumber: usager.preference.phoneNumber,
             telephone: {
-              indicatif: "fr",
+              countryCode: "fr",
               numero: "",
             },
           },

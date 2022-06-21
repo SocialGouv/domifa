@@ -13,7 +13,7 @@ import { format } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 import { fr } from "date-fns/locale";
 import { TimeZone } from "../../util/territoires";
-import { formatInternationalPhoneNumber } from "../../util/telephoneString.service";
+import { getPhoneString } from "../../util/phone/phoneUtils.service";
 
 export const DATE_FORMAT = {
   JOUR: "dd/MM/yyyy",
@@ -156,7 +156,7 @@ export function buildCustomDoc({
     USAGER_LIEU_NAISSANCE: ucFirst(usager.villeNaissance),
 
     // CONTACT USAGER
-    USAGER_PHONE: formatInternationalPhoneNumber(usager.telephone),
+    USAGER_PHONE: getPhoneString(usager.telephone),
     USAGER_EMAIL: usager.email || "",
 
     // STATUT ET TYPE DE DOM

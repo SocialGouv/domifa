@@ -313,7 +313,7 @@ export class UsagersController {
     if (!preferenceDto.phone) {
       preferenceDto.phoneNumber = null;
       preferenceDto.telephone = {
-        indicatif: "fr",
+        countryCode: "fr",
         numero: "",
       };
     }

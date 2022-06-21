@@ -21,7 +21,7 @@ import {
 import { generateSmsInteraction } from "./generators";
 import { MESSAGE_SMS_STATUS } from "../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
 import { generateScheduleSendDate } from "./generators/generateScheduleSendDate";
-import { telephoneFixCountryCode } from "../../util/phone/telephoneString.service";
+import { telephoneFixCountryCode } from "../../util/phone/phoneUtils.service";
 import { firstValueFrom } from "rxjs";
 
 @Injectable()

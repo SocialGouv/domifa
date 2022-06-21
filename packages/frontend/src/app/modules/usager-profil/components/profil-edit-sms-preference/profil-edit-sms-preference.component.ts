@@ -37,9 +37,9 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
   public editPreferences: boolean;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private toastService: CustomToastService,
-    private usagerProfilService: UsagerProfilService
+    private readonly formBuilder: FormBuilder,
+    private readonly toastService: CustomToastService,
+    private readonly usagerProfilService: UsagerProfilService
   ) {
     this.loading = false;
     this.submitted = false;
@@ -55,13 +55,12 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
       : null;
 
     this.preferenceForm = this.formBuilder.group({
-      // phoneNumber: [this.usager.preference.phoneNumber, validator],
       phone: [this.usager.preference.phone, [Validators.required]],
 
       telephone: this.formBuilder.control(
         {
           number: this.usager.preference.telephone?.numero || "",
-          countryCode: this.usager.preference.telephone?.indicatif || "fr",
+          countryCode: this.usager.preference.telephone?.countryCode || "fr",
         },
         telephoneValidator
       ),
@@ -99,14 +98,13 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
       };
 
       if (!preference.phone || this.preferenceForm.value.telephone === null) {
-        preference.phoneNumber = null;
         preference.telephone = {
-          indicatif: "fr",
+          countryCode: "fr",
           numero: "",
         };
       } else {
         preference.telephone = {
-          indicatif: this.preferenceForm.value.telephone.countryCode,
+          countryCode: this.preferenceForm.value.telephone.countryCode,
           numero: this.preferenceForm.value.telephone.number,
         };
       }

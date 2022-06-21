@@ -19,12 +19,12 @@ import { Structure, StructureCommon } from "../../../../../_common/model";
 import { regexp } from "../../../../shared/validators";
 import { StructureService } from "../../services/structure.service";
 import { structureNameChecker } from "./structureNameChecker.service";
-import { DEPARTEMENTS_LISTE } from "../../../../shared";
-import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
 import {
+  DEPARTEMENTS_LISTE,
   getFormPhone,
   setFormPhone,
-} from "../../../../shared/phone/telephoneString.service";
+} from "../../../../shared";
+import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
 
 @Component({
   selector: "app-structure-edit-form",

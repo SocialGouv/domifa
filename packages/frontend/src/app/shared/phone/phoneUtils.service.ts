@@ -1,12 +1,10 @@
 import { ChangeData } from "ngx-intl-tel-input";
 import { Telephone, COUNTRY_CODES } from "../../../_common/model";
 
-export const telephoneString = (telephone: Telephone): string => {
+export const getPhoneString = (telephone: Telephone): string => {
   return !telephone
     ? ""
-    : `+${COUNTRY_CODES[telephone.countryCode.toLowerCase()]}${
-        telephone.numero
-      }`;
+    : `+${COUNTRY_CODES[telephone.countryCode]}${telephone.numero}`;
 };
 
 export const getIndicatif = (countryCode: string): string => {
@@ -16,7 +14,7 @@ export const getIndicatif = (countryCode: string): string => {
 };
 
 // HOTFIX en attendant qu'on intégre les countryCodes dans les usagers
-export const telephoneFixIndicatif = (
+export const telephoneFixCountryCode = (
   countryCode: string,
   phone: string
 ): string => {

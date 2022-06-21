@@ -93,7 +93,7 @@ async function _anonymizeUsager(
     preference: {
       phone: false,
       telephone: {
-        indicatif: "fr",
+        countryCode: "fr",
         numero: "",
       },
     },
