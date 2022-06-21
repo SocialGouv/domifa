@@ -52,9 +52,9 @@
                 required
               />
 
-              <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+              <p *ngIf="submitted && f.name.errors" class="invalid-feedback">
                 Veuillez indiquer votre nom
-              </div>
+              </p>
             </div>
             <div class="form-group required">
               <label for="structureName">Nom de votre structure</label>
@@ -71,12 +71,12 @@
                 }"
                 required
               />
-              <div
+              <p
                 *ngIf="submitted && f.structureName.errors"
                 class="invalid-feedback"
               >
                 Veuillez indiquer le nom de votre structure
-              </div>
+              </p>
             </div>
             <div class="form-group required">
               <label for="email">Adresse email de contact</label>
@@ -91,9 +91,9 @@
                 [attr.aria-invalid]="submitted && f.email.errors"
                 required
               />
-              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+              <p *ngIf="submitted && f.email.errors" class="invalid-feedback">
                 Veuillez vérifier l'adresse email
-              </div>
+              </p>
             </div>
             <div class="form-group required">
               <label for="content">Votre message</label>
@@ -107,12 +107,9 @@
                 minlength="10"
                 required
               ></textarea>
-              <div
-                *ngIf="submitted && f.content.errors"
-                class="invalid-feedback"
-              >
+              <p *ngIf="submitted && f.content.errors" class="invalid-feedback">
                 Veuillez inscrire un message de 10 caractères au minimum
-              </div>
+              </p>
             </div>
 
             <div class="form-group">
