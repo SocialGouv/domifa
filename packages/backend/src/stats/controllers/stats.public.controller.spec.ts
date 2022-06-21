@@ -1,8 +1,8 @@
 import { PublicStats } from "./../../_common/model/stats/PublicStats.type";
 import { HomeStats } from "./../../_common/model/stats/HomeStats.type";
-import { HttpStatus } from "@nestjs/common";
+import { CacheModule, forwardRef, HttpStatus } from "@nestjs/common";
 import * as request from "supertest";
-import { CacheModule, forwardRef } from "@nestjs/common";
+
 import { InteractionsModule } from "../../interactions/interactions.module";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
@@ -13,8 +13,8 @@ import { StatsPublicController } from "./stats.public.controller";
 
 describe("Stats Public Controller", () => {
   let controller: StatsPublicController;
-
   let context: AppTestContext;
+
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [StatsPublicController],
