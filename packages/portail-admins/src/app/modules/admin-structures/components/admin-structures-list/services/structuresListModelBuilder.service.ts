@@ -1,9 +1,10 @@
 import { Structure, StructureAdminForList } from "../../../../../../_common";
 import { STRUCTURE_TYPE_LABELS } from "../../../../../../_common/usager/constants";
 import {
-  DEPARTMENTS_LABELS,
-  REGIONS_LABELS_MAP,
-} from "../../../../shared/constants";
+  DEPARTEMENTS_LISTE,
+  REGIONS_LISTE,
+} from "../../../../shared/territoires";
+
 import { AdminStructuresListStructureModel } from "../model";
 
 export const structuresListModelBuilder = { buildStructuresViewModel };
@@ -23,7 +24,7 @@ function buildStructuresViewModel(structures: StructureAdminForList[]) {
 }
 
 function getRegionLabel(structure: Pick<Structure, "region">): string {
-  const regionLabel = REGIONS_LABELS_MAP[structure.region];
+  const regionLabel = REGIONS_LISTE[structure.region];
   if (!regionLabel && structure.region) {
     // eslint-disable-next-line no-console
     console.warn(
@@ -36,7 +37,7 @@ function getRegionLabel(structure: Pick<Structure, "region">): string {
 function getDepartementLabel(
   structure: Pick<Structure, "departement">
 ): string {
-  const departementLabel = DEPARTMENTS_LABELS[structure.departement];
+  const departementLabel = DEPARTEMENTS_LISTE[structure.departement];
   if (!departementLabel && structure.departement) {
     // eslint-disable-next-line no-console
     console.warn(

@@ -14,7 +14,7 @@ function filter(
 ) {
   return search.filter(structures, {
     searchText: searchString as string,
-    getAttributes: (structure, i) => {
+    getAttributes: (structure) => {
       const attributes = [
         `#${structure.id}`,
         structure.nom,

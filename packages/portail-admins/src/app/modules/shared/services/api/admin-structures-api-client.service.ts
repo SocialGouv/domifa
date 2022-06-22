@@ -9,6 +9,7 @@ import {
   StructureAdmin,
   UserNewAdmin,
 } from "../../../../../_common";
+import { ApiMessage } from "../../../../../_common/_core";
 import { structuresCache } from "../../store/structuresCache.service";
 
 const BASE_URL = environment.apiUrl + "admin/structures";
@@ -67,8 +68,8 @@ export class AdminStructuresApiClient {
     return this.http.get<StructureAdmin>(`${BASE_URL}/confirm/${id}/${token}`);
   }
 
-  public postNewAdmin(newAdmin: UserNewAdmin): Observable<any> {
-    return this.http.post(`${BASE_URL}/register`, newAdmin);
+  public postNewAdmin(newAdmin: UserNewAdmin): Observable<ApiMessage> {
+    return this.http.post<ApiMessage>(`${BASE_URL}/register`, newAdmin);
   }
 
   public validateEmail(email: string): Observable<boolean> {
