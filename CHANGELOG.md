@@ -1,3 +1,10 @@
+## [2.95.4](https://github.com/SocialGouv/domifa/compare/v2.95.3...v2.95.4) (2022-06-22)
+
+
+### Bug Fixes
+
+* **k8s:** migration ([be0192a](https://github.com/SocialGouv/domifa/commit/be0192a700348c570336919653ae579264712b4b))
+
 ## [2.95.3](https://github.com/SocialGouv/domifa/compare/v2.95.2...v2.95.3) (2022-06-22)
 
 
