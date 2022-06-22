@@ -53,6 +53,8 @@ app-backend-cron:
       value: "https://mon-domifa.fabrique.social.gouv.fr/"
     - name: DOMIFA_PORTAIL_ADMINS_URL
       value: "https://admin-domifa.fabrique.social.gouv.fr/"
+    - name: DOMIFA_CRON_ENABLED
+      value: "true"
 
 app-backend:
   host: "domifa-api.fabrique.social.gouv.fr"
@@ -90,6 +92,8 @@ app-backend:
       value: "https://mon-domifa.fabrique.social.gouv.fr/"
     - name: DOMIFA_PORTAIL_ADMINS_URL
       value: "https://admin-domifa.fabrique.social.gouv.fr/"
+    - name: DOMIFA_CRON_ENABLED
+      value: "false"
 
 app-frontend:
   host: "domifa.fabrique.social.gouv.fr"
