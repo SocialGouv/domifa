@@ -26,7 +26,6 @@ const routes: Routes = [
         (m) => m.UsagerAccountModule,
       ),
   },
-
   { path: "accessibilite", component: RgaaComponent },
   { path: "mentions-legales", component: MentionsLegalesComponent },
   { path: "confidentialite", component: PolitiqueComponent },
