@@ -17,7 +17,7 @@ function buildViewModel(data: AdminStructureStatsData): AdminStructuresStatsVM {
   const interactionsCountByType = buildInteractionsCountByType(data);
   const structuresCountByType = buildStructuresCountByType(data);
   const usagersCountByStatut = buildUsagersCountByStatut(data);
-  const usagersCount = data.usagersCountByStatutMap["TOUS"];
+  const usagersCount = data.usagersCountByStatutMap.TOUS;
   return {
     ...data,
     usagersCount,

@@ -110,8 +110,8 @@ export class UsersService {
     return this.http.post<ApiMessage>(`${this.endPoint}/edit-password`, data);
   }
 
-  public registerUser(data: string) {
-    return this.http.post(`${this.endPoint}/register`, data);
+  public registerUser(data: string): Observable<ApiMessage> {
+    return this.http.post<ApiMessage>(`${this.endPoint}/register`, data);
   }
 
   public agenda(): Observable<UsagerLight[] | []> {

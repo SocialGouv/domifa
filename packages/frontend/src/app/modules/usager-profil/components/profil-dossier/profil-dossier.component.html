@@ -86,11 +86,7 @@
             [(usager)]="usager"
           ></app-entretien-form>
 
-          <app-display-entretien
-            *ngIf="!editEntretien"
-            [usager]="usager"
-            [structure]="me.structure"
-          >
+          <app-display-entretien *ngIf="!editEntretien" [usager]="usager">
           </app-display-entretien>
         </div>
       </div>

@@ -409,6 +409,21 @@ describe("interactionsCreator", () => {
       });
 
       expect(resultat.usager.lastInteraction.courrierIn).toEqual(0);
+
+      // clean
+      await interactionsDeletor.deleteOrRestoreInteraction({
+        interaction: createdInteractionIn.interaction,
+        structure,
+        usager,
+        user,
+      });
+      // clean
+      await interactionsDeletor.deleteOrRestoreInteraction({
+        interaction: resultat.interaction,
+        structure,
+        usager,
+        user,
+      });
     });
   });
 });

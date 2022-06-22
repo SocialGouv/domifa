@@ -27,8 +27,7 @@ import {
   AdminStructuresListSortAttribute,
   AdminStructuresListStructureModel,
 } from "../model";
-
-import { regexp } from "src/app/shared/validators";
+import { regexp } from "../../../../../shared/utils/validators";
 
 @Component({
   selector: "app-admin-structures-table",

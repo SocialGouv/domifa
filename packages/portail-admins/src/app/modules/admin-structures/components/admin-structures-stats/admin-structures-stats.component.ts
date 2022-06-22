@@ -11,9 +11,10 @@ import {
   STRUCTURE_TYPE_LABELS,
 } from "../../../../../_common/usager/constants";
 import { AdminAuthService } from "../../../admin-auth/services/admin-auth.service";
-import { REGIONS_LABELS_MAP } from "../../../shared/constants";
+
 import { languagesAutocomplete } from "../../../shared/languages";
 import { AdminStructuresApiClient } from "../../../shared/services";
+import { REGIONS_LISTE } from "../../../shared/territoires";
 import { AdminStructuresStatsVM, adminStructuresStatsVmBuilder } from "./vm";
 
 @Component({
@@ -29,7 +30,7 @@ export class AdminStructuresStatsComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  public REGIONS_LABELS_MAP = REGIONS_LABELS_MAP;
+  public REGIONS_LISTE = REGIONS_LISTE;
   public DASHBOARD_STATUS_LABELS = DASHBOARD_STATUS_LABELS;
   public INTERACTIONS_LABELS_PLURIEL = INTERACTIONS_LABELS_PLURIEL;
   public STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
