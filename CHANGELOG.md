@@ -1,3 +1,10 @@
+## [2.95.3](https://github.com/SocialGouv/domifa/compare/v2.95.2...v2.95.3) (2022-06-22)
+
+
+### Bug Fixes
+
+* **k8s:** Ajout des variables manquantes ([b1ac2df](https://github.com/SocialGouv/domifa/commit/b1ac2df736235acaeb32d72ce4693c68e6aa3e0d))
+
 ## [2.95.2](https://github.com/SocialGouv/domifa/compare/v2.95.1...v2.95.2) (2022-06-21)
 
 
