@@ -1,8 +1,6 @@
-import { StructureCommon } from "./../../_common/model/structure/StructureCommon.type";
 import { ApiProperty } from "@nestjs/swagger";
 import {
   IsEmail,
-  IsEmpty,
   IsIn,
   IsNotEmpty,
   IsOptional,
@@ -64,10 +62,4 @@ export class RegisterUserAdminDto {
 
   @IsOptional()
   public structureId!: number;
-
-  @IsOptional()
-  public structure?: StructureCommon;
-
-  @IsEmpty()
-  public verified?: boolean;
 }

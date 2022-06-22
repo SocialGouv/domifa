@@ -151,9 +151,8 @@ export class UsersController {
         .json({ message: "EMAIL_EXIST" });
     }
 
-    if (!registerUserDto.structureId && !registerUserDto.structure) {
+    if (user._userProfile !== "super-admin-domifa") {
       registerUserDto.structureId = user.structureId;
-      registerUserDto.structure = user.structure;
     }
 
     const { user: newUser, userSecurity } =
