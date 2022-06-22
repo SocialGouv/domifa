@@ -1,3 +1,15 @@
+# [2.96.0](https://github.com/SocialGouv/domifa/compare/v2.95.4...v2.96.0) (2022-06-22)
+
+
+### Bug Fixes
+
+* correction des DTO ([4057c8d](https://github.com/SocialGouv/domifa/commit/4057c8df74ed1fa287e87b7a75cb35b3e8d069a9))
+
+
+### Features
+
+* add admin in portail-admin ([efd400f](https://github.com/SocialGouv/domifa/commit/efd400f8f68249ceede1997fe08957c55af36434))
+
 ## [2.95.4](https://github.com/SocialGouv/domifa/compare/v2.95.3...v2.95.4) (2022-06-22)
 
 
