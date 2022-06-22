@@ -37,6 +37,22 @@ app-backend-cron:
       value: Europe/Paris
     - name: DOMIFA_ENV_ID
       value: "prod"
+    - name: POSTGRES_HOST
+      value: "$(PGHOST)"
+    - name: POSTGRES_USERNAME
+      value: "$(PGUSER)"
+    - name: POSTGRES_PASSWORD
+      value: "$(PGPASSWORD)"
+    - name: POSTGRES_DATABASE
+      value: "$(PGDATABASE)"
+    - name: DOMIFA_BACKEND_URL
+      value: "https://domifa-api.fabrique.social.gouv.fr/"
+    - name: DOMIFA_FRONTEND_URL
+      value: "https://domifa.fabrique.social.gouv.fr/"
+    - name: DOMIFA_PORTAIL_USAGERS_URL
+      value: "https://mon-domifa.fabrique.social.gouv.fr/"
+    - name: DOMIFA_PORTAIL_ADMINS_URL
+      value: "https://admin-domifa.fabrique.social.gouv.fr/"
 
 app-backend:
   host: "domifa-api.fabrique.social.gouv.fr"
