@@ -78,6 +78,7 @@ export class AdminStructuresListComponent implements OnInit, OnDestroy {
   public onSearchChange(event: any): void {
     this.updateSearch(event.target.value);
   }
+
   public updateSearch(searchString: string): void {
     this.filters = {
       ...this.filters,

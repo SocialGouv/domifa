@@ -148,3 +148,15 @@ html {
   vertical-align: middle;
   border-bottom: 1px solid #eceffe;
 }
+
+.dropdown-item {
+  border-bottom: 1px solid rgb(211, 211, 211) !important;
+  font-size: 1.05rem;
+  padding: 0.8rem !important;
+  min-width: 190px;
+}
+
+.dropdown-item .ng-fa-icon {
+  width: 30px;
+  display: inline-block;
+}

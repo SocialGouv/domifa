@@ -81,13 +81,13 @@ export class ImportComponent implements OnInit {
   public COL = IMPORT_PREVIEW_COLUMNS;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private usagerService: UsagerService,
-    private authService: AuthService,
-    private loadingService: LoadingService,
-    private router: Router,
-    private toastService: CustomToastService,
-    private titleService: Title
+    private readonly formBuilder: FormBuilder,
+    private readonly usagerService: UsagerService,
+    private readonly authService: AuthService,
+    private readonly loadingService: LoadingService,
+    private readonly router: Router,
+    private readonly toastService: CustomToastService,
+    private readonly titleService: Title
   ) {
     this.visibleRows = [];
     this.showErrors = false;
