@@ -37,7 +37,7 @@
     <app-admin-structures-table
       *ngIf="this.filteredStructuresVM"
       [structuresVM]="this.filteredStructuresVM"
-      (onSort)="sortDashboard($event)"
+      (sort)="sortDashboard($event)"
     ></app-admin-structures-table>
   </div>
 </div>

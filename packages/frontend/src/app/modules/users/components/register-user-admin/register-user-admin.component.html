@@ -12,9 +12,9 @@
         [ngClass]="{ 'is-invalid': (f.nom.dirty || submitted) && f.nom.errors }"
         required
       />
-      <div *ngIf="submitted && f.nom.errors" class="invalid-feedback">
-        Le nom est obligatoire
-      </div>
+      <p *ngIf="submitted && f.nom.errors" class="invalid-feedback">
+        Veuillez vérifier le nom
+      </p>
     </div>
     <div class="col-md-3 form-group required">
       <label for="prenom">Prénom</label>
@@ -30,7 +30,7 @@
         required
       />
       <p *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
-        Le prénom est obligatoire
+        Veuillez vérifier le prénom
       </p>
     </div>
     <div class="col-md-3 form-group required">

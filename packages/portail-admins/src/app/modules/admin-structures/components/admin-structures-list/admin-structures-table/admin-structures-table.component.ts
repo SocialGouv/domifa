@@ -2,8 +2,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
-  OnDestroy,
   OnInit,
   Output,
   ViewChild,
@@ -29,7 +27,7 @@ import {
   AdminStructuresListSortAttribute,
   AdminStructuresListStructureModel,
 } from "../model";
-import { UserNewAdmin } from "../../../../../../_common";
+
 import { regexp } from "src/app/shared/validators";
 
 @Component({
@@ -37,31 +35,27 @@ import { regexp } from "src/app/shared/validators";
   templateUrl: "./admin-structures-table.component.html",
   styleUrls: ["./admin-structures-table.component.css"],
 })
-export class AdminStructuresTableComponent
-  implements OnInit, OnDestroy, OnChanges
-{
+export class AdminStructuresTableComponent implements OnInit {
   @Input()
   public structuresVM?: AdminStructuresListStructureModel[] = [];
 
   @Output()
-  public onSort = new EventEmitter<{
+  public sort = new EventEmitter<{
     name: AdminStructuresListSortAttribute;
     defaultSort: "asc" | "desc";
   }>();
 
   @ViewChild("addAdminModal", { static: true })
   public addAdminModal!: TemplateRef<NgbModalRef>;
+
   public currentStructure: AdminStructuresListStructureModel | undefined =
     undefined;
-  public newAdminForm!: FormGroup;
-  public newAdmin: UserNewAdmin = {
-    nom: "",
-    prenom: "",
-    email: "",
-    role: "admin",
-  };
-  public submitted: Boolean = false;
 
+  public newAdminForm!: FormGroup;
+
+  public submitted = false;
+
+  public loading = false;
   public exportLoading = false;
 
   constructor(
@@ -69,7 +63,7 @@ export class AdminStructuresTableComponent
     private readonly adminStructuresDeleteApiClient: AdminStructuresDeleteApiClient,
     private readonly adminStructuresExportApiClient: AdminStructuresExportApiClient,
     private readonly toastService: CustomToastService,
-    public modalService: NgbModal,
+    private readonly modalService: NgbModal,
     private readonly formBuilder: FormBuilder
   ) {}
 
@@ -79,25 +73,21 @@ export class AdminStructuresTableComponent
 
   public ngOnInit(): void {
     this.newAdminForm = this.formBuilder.group({
-      nom: [this.newAdmin.nom, [Validators.required]],
-      prenom: [this.newAdmin.prenom, [Validators.required]],
+      nom: [null, [Validators.required]],
+      prenom: [null, [Validators.required]],
       email: [
-        this.newAdmin.email,
+        null,
         [Validators.required, Validators.pattern(regexp.email)],
         this.validateEmailNotTaken.bind(this),
       ],
     });
   }
 
-  public ngOnChanges(): void {}
-
-  public ngOnDestroy(): void {}
-
   public sortDashboard(
     name: AdminStructuresListSortAttribute,
     defaultSort: "asc" | "desc" = "asc"
   ): void {
-    this.onSort.emit({
+    this.sort.emit({
       name,
       defaultSort,
     });
@@ -175,6 +165,7 @@ export class AdminStructuresTableComponent
           this.exportLoading = false;
         },
         complete: () => {
+          this.toastService.success("Téléchargement en cours");
           this.exportLoading = false;
         },
       });
@@ -188,31 +179,41 @@ export class AdminStructuresTableComponent
   public submitNewAdmin(): void {
     this.submitted = true;
 
-    if (this.newAdminForm.valid) {
-      this.adminStructuresApiClient
-        .postNewAdmin({
-          ...this.newAdminForm.value,
-          structureId: this.currentStructure?.id,
-          structure: this.currentStructure,
-          role: "admin",
-        })
-        .subscribe({
-          next: () => {
-            this.newAdminForm.reset();
-            this.submitted = false;
-            this.modalService.dismissAll();
-            this.toastService.success("Un email a été envoyé à l'utilisateur.");
-          },
-          error: () => {
-            this.submitted = false;
-            this.toastService.error("Une erreur est survenue.");
-          },
-        });
+    if (this.newAdminForm.invalid) {
+      this.toastService.error("Veuillez vérifier le formulaire");
+      return;
     }
+
+    this.loading = true;
+
+    this.adminStructuresApiClient
+      .postNewAdmin({
+        ...this.newAdminForm.value,
+        structureId: this.currentStructure?.id,
+        structure: this.currentStructure,
+        role: "admin",
+      })
+      .subscribe({
+        next: () => {
+          this.newAdminForm.reset();
+          this.submitted = false;
+          this.loading = false;
+
+          this.currentStructure = undefined;
+          this.modalService.dismissAll();
+          this.toastService.success("Un email a été envoyé à l'utilisateur.");
+        },
+        error: () => {
+          this.loading = false;
+          this.submitted = false;
+          this.toastService.error("Une erreur est survenue.");
+        },
+      });
   }
 
   public cancelForm(): void {
     this.newAdminForm.reset();
+    this.currentStructure = undefined;
     this.submitted = false;
     this.modalService.dismissAll();
   }

@@ -1,3 +1,4 @@
+/* eslint-disable no-template-curly-in-string */
 /*
 Les variables bash ci-dessous sont substituées au moment du docker build (cf Dockerfile)
 */

@@ -6,12 +6,11 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { SharedModule } from "src/app/modules/shared/shared.module";
 import { AdminStructuresRoutingModule } from "./admin-structures-routing.module";
-import {
-  AdminStructuresListComponent,
-  AdminStructuresStatsComponent,
-  AdminStructuresTableComponent,
-} from "./components";
+import { AdminStructuresStatsComponent } from "./components";
+
 import { AdminStructuresDocsComponent } from "./components/admin-structures-docs/admin-structures-docs.component";
+import { AdminStructuresListComponent } from "./components/admin-structures-list/admin-structures-list.component";
+import { AdminStructuresTableComponent } from "./components/admin-structures-list/admin-structures-table/admin-structures-table.component";
 
 @NgModule({
   declarations: [

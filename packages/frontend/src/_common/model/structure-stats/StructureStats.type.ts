@@ -11,6 +11,7 @@ export type StructureStats = AppEntity & {
   ville: string;
   capacite: number;
   codePostal: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   questions: any;
   generated: boolean;
 };
