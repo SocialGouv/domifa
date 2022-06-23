@@ -1,5 +1,6 @@
-import { ConsoleLogger } from "@nestjs/common";
+import { ConsoleLogger, LoggerService } from "@nestjs/common";
 import * as Sentry from "@sentry/node";
+import { Logger } from "nestjs-pino";
 import { domifaConfig } from "../config";
 
 class AppLogger {
@@ -85,4 +86,10 @@ class AppLogger {
   }
 }
 
-export const appLogger = new AppLogger();
+// Use console before NestJs app is bootstrapped and proper logger is initialized
+export let appLogger: LoggerService = console;
+
+export function setLogger(app: INestApplication) {
+  appLogger = app.get(Logger);
+  app.useLogger(appLogger);
+}

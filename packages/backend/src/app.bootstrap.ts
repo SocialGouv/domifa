@@ -15,8 +15,9 @@ import { AppModule } from "./app.module";
 import { appHolder } from "./appHolder";
 import { domifaConfig } from "./config";
 import { appTypeormManager } from "./database";
-import { appLogger } from "./util";
+import { appLogger, setLogger } from "./util";
 import { AppSentryInterceptor } from "./util/sentry";
+import { Logger } from "nestjs-pino";
 
 export async function tearDownApplication({
   app,
@@ -48,7 +49,8 @@ export async function bootstrapApplication() {
 
     const postgresTypeormConnection = await appTypeormManager.connect();
 
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule, { bufferLogs: true });
+    setLogger(app);
 
     if (domifaConfig().dev.sentry.enabled) {
       app.useGlobalInterceptors(

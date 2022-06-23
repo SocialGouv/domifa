@@ -1,4 +1,5 @@
 import { ApmModule } from "./instrumentation";
+import { LoggerModule } from 'nestjs-pino';
 import { Module } from "@nestjs/common";
 import { ScheduleModule } from "@nestjs/schedule";
 import { TerminusModule } from "@nestjs/terminus";
@@ -19,12 +20,26 @@ import { UsagersModule } from "./usagers/usagers.module";
 import { UsersModule } from "./users/users.module";
 import { AppLogsModule } from "./modules/app-logs/app-logs.module";
 import { ContactSupportModule } from "./modules/contact-support/contact-support.module";
+import { apm } from "./instrumentation";
+import { randomUUID } from "crypto";
 
 @Module({
   controllers: [HealthController],
   exports: [],
   imports: [
     ApmModule.register(),
+    LoggerModule.forRoot({
+      pinoHttp: [
+        {
+          customProps: () => {
+            return {
+              apm: apm.currentTraceIds
+            }
+          },
+          genReqId: () => { return randomUUID() }
+        },
+      ],
+    }),
     SentryModule.forRoot({
       debug: domifaConfig().dev.sentry.debugModeEnabled,
       dsn: domifaConfig().dev.sentry.sentryDsn,
