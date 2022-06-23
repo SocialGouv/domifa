@@ -17,7 +17,6 @@ import { domifaConfig } from "./config";
 import { appTypeormManager } from "./database";
 import { appLogger, setLogger } from "./util";
 import { AppSentryInterceptor } from "./util/sentry";
-import { Logger } from "nestjs-pino";
 
 export async function tearDownApplication({
   app,
