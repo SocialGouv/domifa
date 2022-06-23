@@ -1,4 +1,4 @@
-import { ConsoleLogger, LoggerService } from "@nestjs/common";
+import { ConsoleLogger, INestApplication, LoggerService } from "@nestjs/common";
 import * as Sentry from "@sentry/node";
 import { Logger } from "nestjs-pino";
 import { domifaConfig } from "../config";

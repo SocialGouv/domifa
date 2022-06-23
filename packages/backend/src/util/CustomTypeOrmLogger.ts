@@ -1,4 +1,4 @@
-import { Logger, LoggerOptions } from "typeorm";
+import { Logger, LoggerOptions, QueryRunner } from "typeorm";
 import { appLogger } from "./AppLogger.service";
 
 
