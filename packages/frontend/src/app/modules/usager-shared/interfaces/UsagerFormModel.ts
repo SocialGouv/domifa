@@ -2,7 +2,6 @@ import { Entretien, Rdv, Decision, Options } from ".";
 import {
   UsagerLight,
   UsagerSexe,
-  UsagerDoc,
   UsagerNote,
   UsagerAyantDroit,
   UsagerDecision,
@@ -51,7 +50,6 @@ export class UsagerFormModel implements UsagerLight {
   public structureId: number | null;
   public etapeDemande: number;
 
-  public docs: UsagerDoc[];
   public entretien: Entretien;
   public rdv: Rdv;
   public notes: UsagerNote[];
@@ -101,7 +99,6 @@ export class UsagerFormModel implements UsagerLight {
   };
 
   constructor(usager?: UsagerLight, filterCriteria?: UsagersFilterCriteria) {
-    this.docs = (usager && usager.docs) || [];
     this.notes = (usager && usager.notes) || [];
     this.notes.sort((a, b) => {
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
@@ -223,7 +220,6 @@ export class UsagerFormModel implements UsagerLight {
       }
 
       delete this.entretien;
-      delete this.docs;
       delete this.langue;
       delete this.phone;
       delete this.villeNaissance;

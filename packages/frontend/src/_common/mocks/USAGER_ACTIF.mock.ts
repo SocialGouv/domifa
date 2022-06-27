@@ -55,20 +55,6 @@ export const USAGER_ACTIF_MOCK: UsagerLight = {
     },
   ],
   datePremiereDom: new Date("2018-01-11T00:00:00.000Z"),
-  docs: [
-    {
-      createdAt: new Date("2020-12-21T17:05:15.113Z"),
-      createdBy: "TEST USER",
-      filetype: "application/pdf",
-      label: "Document",
-    },
-    {
-      createdAt: new Date("2020-12-21T17:07:12.911Z"),
-      createdBy: "TEST USER",
-      filetype: "image/jpeg",
-      label: "Document",
-    },
-  ],
 
   email: "domicilie2@yopmail.com",
   entretien: {

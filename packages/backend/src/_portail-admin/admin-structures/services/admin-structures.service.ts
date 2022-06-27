@@ -12,6 +12,7 @@ import {
   UsagerTable,
   userStructureRepository,
 } from "../../../database";
+import { usagerDocsRepository } from "../../../database/services/usager/usagerDocsRepository.service";
 import { StatsDeploiementExportModel } from "../../../excel/export-stats-deploiement";
 import { StatsDeploiementStructureExportModel } from "../../../excel/export-stats-deploiement/StatsDeploiementStructureExportModel.type";
 import {
@@ -54,7 +55,7 @@ export class AdminStructuresService {
     const interactionsCountByTypeMap =
       await this.getInteractionsCountByTypeMap();
 
-    const usagersDocumentsCount = await usagerRepository.countDocuments();
+    const usagersDocumentsCount = await usagerDocsRepository.count();
     const usagersCountByStatutMap = await this.getUsagersCountByStatutMap();
     const usagersCountByLanguage = await this.getUsagersCountByLanguage();
     const structuresCountBySmsEnabled = await this.getStructuresWithSms();
@@ -365,7 +366,7 @@ export class AdminStructuresService {
 
     const usersCount = await userStructureRepository.count();
 
-    const docsCount = await usagerRepository.countDocuments();
+    const docsCount = await usagerDocsRepository.count();
 
     const interactionsCountByStatut =
       await this.getInteractionsCountByTypeMap();

@@ -76,14 +76,14 @@ export class ProfilGeneralSectionComponent implements OnInit {
   public loadingButtons: string[];
 
   constructor(
-    private authService: AuthService,
-    private modalService: NgbModal,
-    private toastService: CustomToastService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private usagerProfilService: UsagerProfilService,
-    private titleService: Title,
-    private interactionService: InteractionService
+    private readonly authService: AuthService,
+    private readonly modalService: NgbModal,
+    private readonly toastService: CustomToastService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly usagerProfilService: UsagerProfilService,
+    private readonly titleService: Title,
+    private readonly interactionService: InteractionService
   ) {
     this.loadingButtons = [];
     this.interactions = [];

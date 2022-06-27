@@ -51,13 +51,9 @@
           <h4>Documents de l'usager</h4>
           <app-display-usager-docs
             [me]="me"
+            [editPJ]="true"
             [usager]="usager"
           ></app-display-usager-docs>
-          <br />
-          <app-upload
-            *ngIf="me.role !== 'facteur'"
-            [usager]="usager"
-          ></app-upload>
         </div>
       </div>
     </div>

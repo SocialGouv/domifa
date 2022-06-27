@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
-import * as fileSaver from "file-saver";
+import fileSaver from "file-saver";
 
 import {
   StructureDoc,

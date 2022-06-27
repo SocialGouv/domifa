@@ -35,8 +35,7 @@ async function deleteStructureUsagers({
 }: {
   structureId: number;
 }) {
-  // TODO : ajouter la suppression des fichiers des usager
-
+  await deleteStructureDocuments(structureId);
   // Suppression des comptes usagers
   await userUsagerSecurityRepository.deleteByCriteria({
     structureId,
@@ -73,26 +72,7 @@ async function deleteStructureUsagers({
 }
 
 async function deleteStructure(structure: StructureLight) {
-  const pathFile = path.join(domifaConfig().upload.basePath, `${structure.id}`);
-
-  try {
-    await fs.promises.rm(pathFile, {
-      recursive: true,
-      force: true,
-      maxRetries: 2,
-    });
-    appLogger.debug(
-      "[deleteStructure] Delete structure folder success " + pathFile
-    );
-  } catch (error) {
-    appLogger.error(
-      "[deleteStructure] Cannot delete structure folder  " + pathFile,
-      {
-        sentry: true,
-        error,
-      }
-    );
-  }
+  await deleteStructureDocuments(structure.id);
   // Suppression des comptes usagers
   await userUsagerSecurityRepository.deleteByCriteria({
     structureId: structure.id,
@@ -142,4 +122,27 @@ async function deleteStructure(structure: StructureLight) {
   await structureDocRepository.deleteByCriteria({ structureId: structure.id });
 
   return structureRepository.deleteByCriteria({ id: structure.id });
+}
+
+async function deleteStructureDocuments(structureId: number) {
+  const pathFile = path.join(domifaConfig().upload.basePath, `${structureId}`);
+
+  try {
+    await fs.promises.rm(pathFile, {
+      recursive: true,
+      force: true,
+      maxRetries: 2,
+    });
+    appLogger.debug(
+      "[deleteStructure] Delete structure folder success " + pathFile
+    );
+  } catch (error) {
+    appLogger.error(
+      "[deleteStructure] Cannot delete structure folder  " + pathFile,
+      {
+        sentry: true,
+        error,
+      }
+    );
+  }
 }

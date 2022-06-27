@@ -1,6 +1,5 @@
 // @index('./*service.ts', f => `export * from '${f.path}'`)
 export * from "./deleteUsagerFolder.service";
-export * from "./documents.service";
 export * from "./generateMotifLabel.service";
 export * from "./usagerHistoryStateManager.service";
 export * from "./usagerOptionsHistory.service";

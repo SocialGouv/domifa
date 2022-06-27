@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Meta, Title } from "@angular/platform-browser";
-import * as fileSaver from "file-saver";
+import fileSaver from "file-saver";
 import { MatomoTracker } from "ngx-matomo";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 

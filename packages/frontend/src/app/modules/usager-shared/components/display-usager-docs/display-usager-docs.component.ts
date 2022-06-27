@@ -16,7 +16,8 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { STRUCTURE_DOC_ICONS } from "../../../../../_common/model";
 import { UsagerFormModel } from "../../interfaces";
 import { DocumentService } from "../../services/document.service";
-import * as fileSaver from "file-saver";
+import fileSaver from "file-saver";
+import { User } from "@sentry/browser";
 
 @Component({
   selector: "app-display-usager-docs",
@@ -25,7 +26,10 @@ import * as fileSaver from "file-saver";
 })
 export class DisplayUsagerDocsComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
+  @Input() public me!: User;
+  @Input() public editPJ!: boolean;
 
+  public docs: UsagerDoc[];
   public STRUCTURE_DOC_EXTENSIONS_LABELS = STRUCTURE_DOC_EXTENSIONS_LABELS;
   public STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;
 
@@ -45,53 +49,70 @@ export class DisplayUsagerDocsComponent implements OnInit {
       download: [],
       delete: [],
     };
+    this.docs = [];
   }
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    this.getUsagerDocs();
+  }
 
-  public getDocument(i: number) {
-    this.startLoading("download", i);
-
-    this.documentService.getDocument(this.usager.ref, i).subscribe({
-      next: (blob: Blob) => {
-        const doc = this.usager.docs[i];
-        const extension = STRUCTURE_DOC_EXTENSIONS[doc.filetype];
-        const newBlob = new Blob([blob], { type: doc.filetype });
-
-        fileSaver.saveAs(
-          newBlob,
-          this.slugLabel(doc.label) +
-            "_" +
-            this.slugLabel(this.usager.nom + " " + this.usager.prenom) +
-            extension
-        );
-        this.stopLoading("download", i);
+  public getUsagerDocs() {
+    this.documentService.getUsagerDocs(this.usager.ref).subscribe({
+      next: (docs: UsagerDoc[]) => {
+        this.docs = docs;
       },
       error: () => {
-        this.toastService.error("Impossible de télécharger le fichier");
-        this.stopLoading("download", i);
+        this.toastService.error("Impossible de d'afficher les documents");
       },
     });
+  }
+
+  public getDocument(docIndex: number) {
+    this.startLoading("download", docIndex);
+
+    this.documentService
+      .getDocument(this.usager.ref, this.docs[docIndex].uuid)
+      .subscribe({
+        next: (blob: Blob) => {
+          const doc = this.docs[docIndex];
+          const extension = STRUCTURE_DOC_EXTENSIONS[doc.filetype];
+          const newBlob = new Blob([blob], { type: doc.filetype });
+
+          fileSaver.saveAs(
+            newBlob,
+            this.slugLabel(doc.label) +
+              "_" +
+              this.slugLabel(this.usager.nom + " " + this.usager.prenom) +
+              extension
+          );
+          this.stopLoading("download", docIndex);
+        },
+        error: () => {
+          this.toastService.error("Impossible de télécharger le fichier");
+          this.stopLoading("download", docIndex);
+        },
+      });
   }
 
   public deleteDocument(docIndex: number): void {
     this.startLoading("delete", docIndex);
 
-    this.documentService.deleteDocument(this.usager.ref, docIndex).subscribe({
-      next: (docs: UsagerDoc[]) => {
-        this.usager.docs = docs;
-
-        this.stopLoading("delete", docIndex);
-        this.toastService.success("Document supprimé avec succès");
-      },
-      error: () => {
-        this.stopLoading("delete", docIndex);
-        this.toastService.error("Impossible de supprimer le document");
-      },
-    });
+    this.documentService
+      .deleteDocument(this.usager.ref, this.docs[docIndex].uuid)
+      .subscribe({
+        next: (docs: UsagerDoc[]) => {
+          this.docs = docs;
+          this.stopLoading("delete", docIndex);
+          this.toastService.success("Document supprimé avec succès");
+        },
+        error: () => {
+          this.stopLoading("delete", docIndex);
+          this.toastService.error("Impossible de supprimer le document");
+        },
+      });
   }
 
-  private slugLabel(docName: string) {
+  private slugLabel(docName: string): string {
     docName = docName.trim().toLowerCase();
     docName = docName.replace(/\W/g, "_");
     docName = docName.replace(/-+/g, "_");
@@ -103,13 +124,16 @@ export class DisplayUsagerDocsComponent implements OnInit {
     return docName;
   }
 
-  private startLoading(loadingType: "delete" | "download", loadingRef: number) {
+  private startLoading(
+    loadingType: "delete" | "download",
+    loadingRef: number
+  ): void {
     this.loadings[loadingType].push(loadingRef);
   }
 
-  private focusDeleteDoc(index: number) {
+  private focusDeleteDoc(index: number): void {
     // Par défaut on va au dernier point du tablea
-    let newIndexToFocus = this.usager.docs.length - 1;
+    let newIndexToFocus = this.docs.length - 1;
 
     // S'il reste des éléments dans le tableaux, on focus sur le suivant
     if (index < newIndexToFocus) {
@@ -122,7 +146,10 @@ export class DisplayUsagerDocsComponent implements OnInit {
     }, 500);
   }
 
-  private stopLoading(loadingType: "delete" | "download", loadingRef: number) {
+  private stopLoading(
+    loadingType: "delete" | "download",
+    loadingRef: number
+  ): void {
     setTimeout(() => {
       const index = this.loadings[loadingType].indexOf(loadingRef);
       if (index !== -1) {
