@@ -112,8 +112,7 @@ async function _anonymizeUsager(
     decision: anonymizeUsagerDecision(usager.decision),
     historique,
     ayantsDroits: anonymizeAyantDroits(usager.ayantsDroits),
-    docs,
-    docsPath: [],
+    docs, // TODO: mettre à jour après migration
   };
 
   if (Object.keys(attributesToUpdate).length === 0) {

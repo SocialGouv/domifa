@@ -140,7 +140,7 @@ async function connect(
     logger: "advanced-console",
     logging:
       domifaConfig().envId !== "test"
-        ? "all" //  ? "["error", "warn", "log", "info"]"
+        ? ["error", "warn"] //"all"
         : false,
     maxQueryExecutionTime: 1000,
     ...connectOptionsPaths,

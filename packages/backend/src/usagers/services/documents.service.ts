@@ -10,16 +10,13 @@ export class DocumentsService {
     index: number
   ): Promise<Usager> {
     const newDocs = usager.docs;
-    const newDocsPath = usager.docsPath;
 
     newDocs.splice(index, 1);
-    newDocsPath.splice(index, 1);
-
+    // TODO: mettre à jour après migration
     return await usagerRepository.updateOne(
       { uuid: usager.uuid },
       {
         docs: usager.docs,
-        docsPath: usager.docsPath,
       }
     );
   }
