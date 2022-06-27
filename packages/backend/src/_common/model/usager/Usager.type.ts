@@ -62,7 +62,7 @@ export type Usager = AppEntity & {
 
   notes: UsagerNote[];
 
-  docsPath: string[]; // TODO: fusionner avec docs
+  docsPath?: string[]; // TODO: mettre à jour après migration
 
   options: UsagerOptions;
 

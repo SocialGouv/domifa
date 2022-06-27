@@ -9,7 +9,7 @@ export type DomifaConfigSecurity = {
     ivSecours: string; // DOMIFA_SECURITY_FILES_IV_SECOURS
     private: string; // DOMIFA_SECURITY_FILES_PRIVATE
   };
-  jwtSecret: string; // SECRET
+  jwtSecret: string; // DOMIFA_SECURITY_JWT_SECRET
 };
 
 export type DomifaConfig = {
@@ -28,7 +28,7 @@ export type DomifaConfig = {
     createDatabase: boolean; // DOMIFA_TYPEORM_CREATE_DATABASE
   };
   upload: {
-    basePath: string; // UPLOADS_FOLDER
+    basePath: string; // DOMIFA_UPLOADS_FOLDER
   };
   dev: {
     printEnv: boolean; // DOMIFA_PRINT_ENV

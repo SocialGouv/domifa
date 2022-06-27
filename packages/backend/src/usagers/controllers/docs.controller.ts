@@ -104,15 +104,14 @@ export class DocsController {
       createdBy: userName,
       filetype: file.mimetype,
       label: postData.label,
+      path: file.filename,
     };
 
     const fieldsToUpdate: Partial<Usager> = {
       docs: currentUsager.docs,
-      docsPath: currentUsager.docsPath,
     };
 
     fieldsToUpdate.docs.push(newDoc);
-    fieldsToUpdate.docsPath.push(file.filename);
 
     const retour = await this.usagersService.patch(
       { uuid: currentUsager.uuid },
@@ -137,16 +136,12 @@ export class DocsController {
     @CurrentUsager() currentUsager: UsagerLight,
     @Res() res: Response
   ) {
-    if (
-      typeof currentUsager.docs[index] === "undefined" ||
-      typeof currentUsager.docsPath[index] === "undefined"
-    ) {
+    if (typeof currentUsager.docs[index] === "undefined") {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "DOC_NOT_FOUND" });
     }
-    const fileInfos: UsagerDoc & { path?: string } = currentUsager.docs[index];
-    fileInfos.path = currentUsager.docsPath[index];
+    const fileInfos: UsagerDoc = currentUsager.docs[index];
 
     const pathFile = path.join(
       domifaConfig().upload.basePath,
@@ -188,17 +183,13 @@ export class DocsController {
     @Res() res: Response,
     @CurrentUsager() currentUsager: UsagerLight
   ) {
-    if (
-      typeof currentUsager.docs[index] === "undefined" ||
-      typeof currentUsager.docsPath[index] === "undefined"
-    ) {
+    if (typeof currentUsager.docs[index] === "undefined") {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    const fileInfos: UsagerDoc & { path?: string } = currentUsager.docs[index];
-    fileInfos.path = currentUsager.docsPath[index];
+    const fileInfos: UsagerDoc = currentUsager.docs[index];
 
     const pathFile = path.join(
       domifaConfig().upload.basePath,
@@ -273,7 +264,7 @@ export class DocsController {
     const input = fs.createReadStream(pathFile + ".encrypted");
     const output = fs.createWriteStream(pathFile + ".unencrypted");
 
-    input
+    return input
       .pipe(decipher)
       .pipe(output)
       .on("error", (error: Error) => {

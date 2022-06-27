@@ -49,19 +49,21 @@ export const usagerRefusMock: UsagerLight = {
   datePremiereDom: new Date("2018-01-11T00:00:00.000Z"),
   docs: [
     {
+      path: "xxxx.jpg",
       createdAt: new Date("2020-12-21T17:05:15.113Z"),
       createdBy: "TEST USER",
       filetype: "application/pdf",
       label: "Document",
     },
     {
+      path: "xxxx.jpg",
       createdAt: new Date("2020-12-21T17:07:12.911Z"),
       createdBy: "TEST USER",
       filetype: "image/jpeg",
       label: "Document",
     },
   ],
-  docsPath: ["xxx.jpg", "xxkkzz.jpg"],
+
   email: "domicilie2@yopmail.com",
   entretien: {
     typeMenage: "COUPLE_AVEC_ENFANT",

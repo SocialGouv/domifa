@@ -17,7 +17,6 @@ export type UsagerLight = AppEntity &
     | "decision"
     | "typeDom"
     | "docs"
-    | "docsPath"
     | "entretien"
     | "etapeDemande"
     | "rdv"

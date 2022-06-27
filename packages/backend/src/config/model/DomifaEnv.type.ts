@@ -1,14 +1,7 @@
 export type DomifaEnv = {
   DOMIFA_ENV_PRESET: string;
   DOMIFA_ENV_PRIORITY: "files" | "process.env";
-  /**
-   * @deprecated use DOMIFA_SECURITY_FILES_IV instead
-   */
-  FILES_IV: string;
-  /**
-   * @deprecated use DOMIFA_SECURITY_FILES_PRIVATE instead
-   */
-  FILES_PRIVATE: string;
+
   DOMIFA_SECURITY_FILES_IV: string;
   DOMIFA_SECURITY_FILES_IV_SECOURS: string; // TEMP VALUE : supprimer une fois la réencryption réalisée
   DOMIFA_SECURITY_FILES_PRIVATE: string;
@@ -16,15 +9,7 @@ export type DomifaEnv = {
   DOMIFA_PORTAIL_USAGERS_URL: string;
   DOMIFA_PORTAIL_ADMINS_URL: string;
   DOMIFA_BACKEND_URL: string;
-  /**
-   * @deprecated use DOMIFA_SECURITY_JWT_SECRET instead
-   */
-  SECRET: string;
   DOMIFA_SECURITY_JWT_SECRET: string;
-  /**
-   * @deprecated use DOMIFA_UPLOADS_FOLDER instead
-   */
-  UPLOADS_FOLDER: string;
   DOMIFA_UPLOADS_FOLDER: string;
   DOMIFA_ENV_ID: string;
   DOMIFA_VERSION: string;
