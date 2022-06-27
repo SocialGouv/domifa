@@ -11,7 +11,6 @@ export type DeleteStructureEmailModel = {
     | "adresse"
     | "ville"
     | "email"
-    | "phone"
     | "telephone"
     | "codePostal"
     | "responsable"

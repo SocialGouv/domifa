@@ -12,7 +12,6 @@ export type NewStructureEmailModel = {
     | "adresse"
     | "ville"
     | "email"
-    | "phone"
     | "telephone"
     | "codePostal"
     | "responsable"
