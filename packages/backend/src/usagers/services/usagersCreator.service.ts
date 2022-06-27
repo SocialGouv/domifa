@@ -20,9 +20,7 @@ function setUsagerDefaultAttributes(usager: UsagerTable) {
   if (!usager.ayantsDroits) usager.ayantsDroits = [];
   if (!usager.historique) usager.historique = [];
   if (!usager.rdv) usager.rdv = null;
-  if (!usager.docs) usager.docs = [];
-  if (!usager.docs) usager.docs = [];
-  if (!usager.docsPath) usager.docsPath = [];
+  if (!usager.docs) usager.docs = []; // TODO: mettre à jour après migration
   if (!usager.entretien) usager.entretien = {};
   if (!usager.options) {
     usager.options = USAGER_DEFAULT_OPTIONS;

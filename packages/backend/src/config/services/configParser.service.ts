@@ -97,12 +97,10 @@ function parseString<T extends string>(
     required = true,
     validValues,
     defaultValue,
-    deprecatedKey,
   }: {
     required?: boolean;
     validValues?: T[];
     defaultValue?: T;
-    deprecatedKey?: DomifaEnvKey;
   } = {
     required: true,
   }
@@ -115,18 +113,6 @@ function parseString<T extends string>(
       `[configParser] unexpected value type "${value}" for ${key}"`
     );
     throw new Error(`Unexpected value type "${value}" for ${key}`);
-  }
-
-  if (!isStringValueSet(value) && deprecatedKey) {
-    // use deprecated key
-    value = parseString(envConfig, deprecatedKey, {
-      required: false,
-    });
-    if (value) {
-      console.warn(
-        `[configParser] "${deprecatedKey}" env variable is deprecated: use "${key}" instead`
-      );
-    }
   }
 
   if (!isStringValueSet(value)) {

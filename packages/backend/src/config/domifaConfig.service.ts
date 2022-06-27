@@ -162,9 +162,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       ),
     },
     upload: {
-      basePath: configParser.parseString(x, "DOMIFA_UPLOADS_FOLDER", {
-        deprecatedKey: "UPLOADS_FOLDER",
-      }),
+      basePath: configParser.parseString(x, "DOMIFA_UPLOADS_FOLDER"),
     },
     dev: {
       printEnv: configParser.parseBoolean(x, "DOMIFA_PRINT_ENV"),
@@ -362,7 +360,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       }),
       active: configParser.parseBoolean(x, "ELASTIC_APM_ACTIVE", {
         required: false,
-        defaultValue: false
+        defaultValue: false,
       }),
     },
   };
@@ -414,21 +412,15 @@ function hideSensitiveData(x: DomifaConfig): DomifaConfig {
 function parseSecurityConfig(x: Partial<DomifaEnv>): DomifaConfigSecurity {
   return {
     files: {
-      iv: configParser.parseString(x, "DOMIFA_SECURITY_FILES_IV", {
-        deprecatedKey: "FILES_IV",
-      }),
+      iv: configParser.parseString(x, "DOMIFA_SECURITY_FILES_IV"),
       ivSecours: configParser.parseString(
         x,
         "DOMIFA_SECURITY_FILES_IV_SECOURS",
         { required: false }
       ),
-      private: configParser.parseString(x, "DOMIFA_SECURITY_FILES_PRIVATE", {
-        deprecatedKey: "FILES_PRIVATE",
-      }),
+      private: configParser.parseString(x, "DOMIFA_SECURITY_FILES_PRIVATE"),
     },
-    jwtSecret: configParser.parseString(x, "DOMIFA_SECURITY_JWT_SECRET", {
-      deprecatedKey: "SECRET",
-    }),
+    jwtSecret: configParser.parseString(x, "DOMIFA_SECURITY_JWT_SECRET"),
   };
 }
 

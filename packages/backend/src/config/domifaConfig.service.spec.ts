@@ -95,8 +95,6 @@ describe("loadConfig", () => {
       POSTGRES_PASSWORD: "value POSTGRES_PASSWORD",
       POSTGRES_DATABASE: "value POSTGRES_DATABASE",
       DOMIFA_SECURITY_JWT_SECRET: "******************",
-      FILES_IV: "******************",
-      FILES_PRIVATE: "******************",
       DOMIFA_FRONTEND_URL: "https://domifa.xxx",
       DOMIFA_PORTAIL_USAGERS_URL: "https://mon-domifa.xxx",
       DOMIFA_PORTAIL_ADMINS_URL: "https://admin.domifa.xxx",
