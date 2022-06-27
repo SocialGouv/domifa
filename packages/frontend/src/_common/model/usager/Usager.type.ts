@@ -6,7 +6,7 @@ import {
 import { UsagerEntretien } from "./entretien";
 import { UsagerAyantDroit } from "./UsagerAyantDroit.type";
 import { UsagerDecision } from "./decision/UsagerDecision.type";
-import { UsagerDoc } from "./UsagerDoc.type";
+
 import { UsagerImport } from "./UsagerImport.type";
 import { UsagerLastInteractions } from "./UsagerLastInteractions.type";
 import { UsagerNote } from "./UsagerNote.type";
@@ -59,9 +59,6 @@ export type Usager = AppEntity & {
 
   // INTERACTIONS
   lastInteraction: UsagerLastInteractions;
-
-  // DOCUMENTS
-  docs: UsagerDoc[];
 
   options: UsagerOptions;
 

@@ -7,7 +7,6 @@ import {
   AppTestHttpClient,
 } from "../../util/test";
 
-import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
 import { UsagersController } from "./usagers.controller";
 import { UsagerOptionsHistoryService } from "../services";
@@ -34,7 +33,7 @@ describe("Usagers Controller", () => {
         imports: [UsersModule, InteractionsModule],
         providers: [
           UsagersService,
-          DocumentsService,
+
           UsagerOptionsHistoryService,
           AppLogsService,
         ],

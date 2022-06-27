@@ -13,7 +13,7 @@ import {
   NgbDatepickerI18n,
 } from "@ng-bootstrap/ng-bootstrap";
 
-import * as fileSaver from "file-saver";
+import fileSaver from "file-saver";
 import { MatomoTracker } from "ngx-matomo";
 import { Subscription } from "rxjs";
 import {

@@ -1,59 +1,59 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { UsagerDocsTable } from "./../database/entities/usager/UsagerDocsTable.typeorm";
 import { appLogger } from "./../util/AppLogger.service";
 import { usagerRepository } from "../database/services/usager/usagerRepository.service";
 import { Usager } from "../_common/model/usager/Usager.type";
 import { MigrationInterface, QueryRunner } from "typeorm";
-import { domifaConfig } from "../config";
 
-export class mergeDocsMigration1656343814368 implements MigrationInterface {
-  name = "mergeDocsMigration1656343814368";
+import { usagerDocsRepository } from "../database/services/usager/usagerDocsRepository.service";
+
+export class mergeDocsMigration1656344493133 implements MigrationInterface {
+  name = "mergeDocsMigration1656344493133";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    if (
-      domifaConfig().envId === "prod" ||
-      domifaConfig().envId === "preprod" ||
-      domifaConfig().envId === "local"
-    ) {
-      const usagers: Usager[] = await (
-        await usagerRepository.typeorm()
-      ).query(
-        `
+    appLogger.warn("[MIGRATION] - Merge des documents start at " + new Date());
+
+    const usagers: Usager[] = await (
+      await usagerRepository.typeorm()
+    ).query(
+      `
         select uuid, docs, "docsPath", ref, "structureId"
         from usager u where jsonb_array_length(docs) > 0
       `
-      );
+    );
 
-      let cptMigration = 0;
+    let cptMigration = 0;
 
-      for (const usager of usagers) {
-        for (let i = 0; i < usager.docs.length; i++) {
-          usager.docs[i] = {
-            ...usager.docs[i],
-            path: usager.docsPath[i],
-          };
-        }
+    for (const usager of usagers) {
+      for (let i = 0; i < usager.docs.length; i++) {
+        const newDoc: UsagerDocsTable = {
+          path: usager.docsPath[i],
+          label: usager.docs[i].label,
+          filetype: usager.docs[i].filetype,
+          createdBy: usager.docs[i].createdBy,
+          createdAt: usager.docs[i].createdAt,
+          usagerUUID: usager.uuid,
+          usagerRef: usager.ref,
+          structureId: usager.structureId,
+        };
 
-        await (
-          await usagerRepository.typeorm()
-        ).update(
-          {
-            uuid: usager.uuid,
-          },
-          {
-            docs: usager.docs,
-          }
-        );
-
-        cptMigration++;
-
-        if (cptMigration % 100 === 0) {
-          appLogger.debug(
-            `[MIGRATE DOCS] ${cptMigration}/${usagers.length} migrés`
-          );
-        }
+        await (await usagerDocsRepository.typeorm()).save(newDoc);
       }
+
+      cptMigration++;
+
+      if (cptMigration % 500 === 0) {
+        appLogger.debug(
+          `[MIGRATE DOCS] ${cptMigration}/${usagers.length} migrés`
+        );
+      }
+
+      appLogger.warn(
+        "[MIGRATION] - Merge des documents finish at " + new Date()
+      );
     }
-    throw new Error("TEST");
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public async down(queryRunner: QueryRunner): Promise<void> {}
 }

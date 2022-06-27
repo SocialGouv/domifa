@@ -3,23 +3,21 @@ import { StructuresModule } from "../../structures/structure.module";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 
-import { DocumentsService } from "../services/documents.service";
-import { UsagersService } from "../services/usagers.service";
-import { DocsController } from "./docs.controller";
+import { UsagerDocsController } from "./usager-docs.controller";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 
 describe("Document Controller", () => {
-  let controller: DocsController;
+  let controller: UsagerDocsController;
 
   let context: AppTestContext;
 
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
-      controllers: [DocsController],
+      controllers: [UsagerDocsController],
       imports: [UsersModule, InteractionsModule, StructuresModule],
-      providers: [UsagersService, DocumentsService, AppLogsService],
+      providers: [AppLogsService],
     });
-    controller = context.module.get<DocsController>(DocsController);
+    controller = context.module.get<UsagerDocsController>(UsagerDocsController);
   });
   afterAll(async () => {
     await AppTestHelper.tearDownTestApp(context);

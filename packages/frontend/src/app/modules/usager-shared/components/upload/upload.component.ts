@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -6,7 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { UsagerDoc, UsagerLight } from "../../../../../_common/model";
+import { UsagerLight } from "../../../../../_common/model";
 import {
   UploadResponseType,
   validateUpload,
@@ -25,12 +25,16 @@ export class UploadComponent implements OnInit {
   public uploadResponse: UploadResponseType;
   public uploadForm!: FormGroup;
 
+  @Output() public getUsagerDocs = new EventEmitter<void>();
+
   @Input() public usager!: UsagerLight;
 
+  @Input() public edit!: boolean;
+
   constructor(
-    private formBuilder: FormBuilder,
-    private documentService: DocumentService,
-    private toastService: CustomToastService
+    private readonly formBuilder: FormBuilder,
+    private readonly documentService: DocumentService,
+    private readonly toastService: CustomToastService
   ) {
     this.uploadResponse = { status: "", message: "", filePath: "", body: [] };
   }
@@ -76,17 +80,17 @@ export class UploadComponent implements OnInit {
     formData.append("label", this.uploadForm.controls.label.value);
 
     this.documentService.upload(formData, this.usager.ref).subscribe({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       next: (uploadResponse: any) => {
         this.uploadResponse = uploadResponse;
         if (
           this.uploadResponse.success !== undefined &&
           this.uploadResponse.success
         ) {
-          this.usager.docs = this.uploadResponse.body as UsagerDoc[];
-
           this.loading = false;
           this.submitted = false;
           this.uploadForm.reset();
+          this.getUsagerDocs.emit();
           this.toastService.success("Fichier uploadé avec succès");
         }
       },

@@ -7,7 +7,7 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import * as fileSaver from "file-saver";
+import fileSaver from "file-saver";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import { StructureCommon, UserStructure } from "../../../../../_common/model";
