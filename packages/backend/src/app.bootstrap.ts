@@ -18,6 +18,9 @@ import { appTypeormManager } from "./database";
 import { appLogger } from "./util";
 import { AppSentryInterceptor } from "./util/sentry";
 
+import fs from 'fs'
+fs.existsSync("oui")
+
 export async function tearDownApplication({
   app,
   postgresTypeormConnection,
