@@ -15,7 +15,6 @@ export type PortailUsagerStructure = Pick<
   // | "region"
   // | "capacite"
   // | "agrement"
-  // | "phone"
   // | "email"
   // | "responsable"
   // | "options"
