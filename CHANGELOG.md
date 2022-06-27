@@ -1,3 +1,10 @@
+# [2.97.0](https://github.com/SocialGouv/domifa/compare/v2.96.0...v2.97.0) (2022-06-27)
+
+
+### Features
+
+* semgrep workflow ([#2353](https://github.com/SocialGouv/domifa/issues/2353)) ([4251cf5](https://github.com/SocialGouv/domifa/commit/4251cf51f141181f9db75c4389b84f5e46b27c50))
+
 # [2.96.0](https://github.com/SocialGouv/domifa/compare/v2.95.4...v2.96.0) (2022-06-22)
 
 
