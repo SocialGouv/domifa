@@ -235,14 +235,10 @@
           </button>
         </div>
       </div>
-      <app-upload *ngIf="editPJ" [usager]="usager"></app-upload>
-      <div class="mb-5">
-        <div class="font-italic" *ngIf="usager.docs.length === 0">
-          Aucune pièce jointe enregistrée
-        </div>
 
+      <div class="mb-5">
         <app-display-usager-docs
-          *ngIf="usager.docs.length > 0"
+          [editPJ]="editPJ"
           [usager]="usager"
         ></app-display-usager-docs>
       </div>

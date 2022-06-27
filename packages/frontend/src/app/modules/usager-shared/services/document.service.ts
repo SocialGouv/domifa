@@ -1,6 +1,6 @@
 import { HttpClient, HttpEvent, HttpEventType } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import * as fileSaver from "file-saver";
+import fileSaver from "file-saver";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
@@ -27,15 +27,16 @@ export class DocumentService {
     this.endPoint = environment.apiUrl + "docs/";
   }
 
-  public upload(data: any, usagerRef: number) {
+  public upload(data: FormData, usagerRef: number) {
     const uploadURL = `${this.endPoint}${usagerRef}`;
 
     return this.http
-      .post<any>(uploadURL, data, {
+      .post(uploadURL, data, {
         observe: "events",
         reportProgress: true,
       })
       .pipe(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         map((event: HttpEvent<any>) => {
           if (event.type === HttpEventType.UploadProgress) {
             if (event.total) {
@@ -84,15 +85,19 @@ export class DocumentService {
       });
   }
 
-  public getDocument(usagerRef: number, index: number): Observable<Blob> {
-    return this.http.get(`${this.endPoint}${usagerRef}/${index}`, {
+  public getDocument(usagerRef: number, uuid: string): Observable<Blob> {
+    return this.http.get(`${this.endPoint}${usagerRef}/${uuid}`, {
       responseType: "blob",
     });
   }
 
-  public deleteDocument(usagerRef: number, index: number) {
+  public getUsagerDocs(usagerRef: number): Observable<UsagerDoc[]> {
+    return this.http.get<UsagerDoc[]>(`${this.endPoint}${usagerRef}`);
+  }
+
+  public deleteDocument(usagerRef: number, uuid: string) {
     return this.http.delete<UsagerDoc[]>(
-      `${this.endPoint}${usagerRef}/${index}`
+      `${this.endPoint}${usagerRef}/${uuid}`
     );
   }
 

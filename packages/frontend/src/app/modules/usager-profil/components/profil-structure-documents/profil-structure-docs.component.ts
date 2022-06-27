@@ -1,6 +1,6 @@
 import { UserStructure } from "./../../../../../_common/model/user-structure/UserStructure.type";
 import { Component, Input, OnInit } from "@angular/core";
-import * as fileSaver from "file-saver";
+import fileSaver from "file-saver";
 import {
   StructureDoc,
   StructureDocTypesAvailable,
@@ -32,8 +32,8 @@ export class ProfilStructureDocsComponent implements OnInit {
   public loadings: string[];
 
   constructor(
-    private documentService: DocumentService,
-    private toastService: CustomToastService
+    private readonly documentService: DocumentService,
+    private readonly toastService: CustomToastService
   ) {
     this.defaultStructureDocs = {
       attestation_postale: {

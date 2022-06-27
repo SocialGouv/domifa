@@ -6,7 +6,7 @@ import { StatsPublicControllerSecurityTests } from "../stats/controllers/stats.p
 import { StructureDocControllerSecurityTests } from "../structures/controllers/structure-doc.controller.security-tests";
 import { StructuresControllerSecurityTests } from "../structures/controllers/structures.controller.security-tests";
 import { AgendaControllerSecurityTests } from "../usagers/controllers/agenda.controller.security-tests";
-import { DocsControllerSecurityTests } from "../usagers/controllers/docs.controller.security-tests";
+import { UsagerDocsControllerSecurityTests } from "../usagers/controllers/usager-docs.controller.security-tests";
 import { ExportStructureUsagersControllerSecurityTests } from "../usagers/controllers/export-structure-usagers.controller.security-tests";
 import { ImportControllerSecurityTests } from "../usagers/controllers/import/import.controller.security-tests";
 import { UsagersStructureDocsControllerSecurityTests } from "../usagers/controllers/usager-structure-docs.controller.security-tests";
@@ -22,7 +22,7 @@ export const API_SECURITY_STRUCTURE_CONTROLLER_TEST_DEFS: AppTestHttpClientSecur
     ...AgendaControllerSecurityTests,
     ...AdminStructuresControllerSecurityTests,
     ...AdminStructuresDeleteControllerSecurityTests,
-    ...DocsControllerSecurityTests,
+    ...UsagerDocsControllerSecurityTests,
     ...ExportStructureUsagersControllerSecurityTests,
     ...ImportControllerSecurityTests,
     ...SmsControllerSecurityTests,

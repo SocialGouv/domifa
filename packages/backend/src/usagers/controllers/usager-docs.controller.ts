@@ -1,3 +1,5 @@
+import { UsagerDocsTable } from "./../../database/entities/usager/UsagerDocsTable.typeorm";
+import { usagerDocsRepository } from "./../../database/services/usager/usagerDocsRepository.service";
 import {
   Body,
   Controller,
@@ -33,13 +35,11 @@ import { domifaConfig } from "../../config";
 import { appLogger } from "../../util";
 import { deleteFile, randomName, validateUpload } from "../../util/FileManager";
 import {
-  Usager,
   UsagerDoc,
   UsagerLight,
   UserStructureAuthenticated,
 } from "../../_common/model";
-import { DocumentsService } from "../services/documents.service";
-import { UsagersService } from "../services/usagers.service";
+
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { UploadUsagerDocDto } from "../dto";
 
@@ -47,12 +47,8 @@ import { UploadUsagerDocDto } from "../dto";
 @ApiTags("docs")
 @ApiBearerAuth()
 @Controller("docs")
-export class DocsController {
-  constructor(
-    private readonly usagersService: UsagersService,
-    private readonly docsService: DocumentsService,
-    private readonly appLogsService: AppLogsService
-  ) {}
+export class UsagerDocsController {
+  constructor(private readonly appLogsService: AppLogsService) {}
 
   @ApiOperation({ summary: "Upload de pièces jointes" })
   @Post(":usagerRef")
@@ -82,7 +78,7 @@ export class DocsController {
     })
   )
   public async uploadDoc(
-    @Param("usagerRef") _usagerRef: number,
+    @Param("usagerRef") usagerRef: number,
     @UploadedFile() file: Express.Multer.File,
     @Body() postData: UploadUsagerDocDto,
     @CurrentUser() user: UserStructureAuthenticated,
@@ -99,71 +95,61 @@ export class DocsController {
 
     const userName = user.prenom + " " + user.nom;
 
-    const newDoc = {
+    const newDoc: UsagerDocsTable = {
       createdAt: new Date(),
       createdBy: userName,
       filetype: file.mimetype,
       label: postData.label,
       path: file.filename,
+      usagerRef,
+      structureId: currentUsager.structureId,
+      usagerUUID: currentUsager.uuid,
     };
 
-    const fieldsToUpdate: Partial<Usager> = {
-      docs: currentUsager.docs,
-    };
+    await usagerDocsRepository.save(newDoc);
 
-    fieldsToUpdate.docs.push(newDoc);
-
-    const retour = await this.usagersService.patch(
-      { uuid: currentUsager.uuid },
-      fieldsToUpdate
+    const docs = await usagerDocsRepository.getUsagerDocs(
+      usagerRef,
+      currentUsager.structureId
     );
 
-    if (!retour || retour === null) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "CANNOT_ADD_FILE" });
-    }
-
-    return res.status(HttpStatus.OK).json(retour.docs);
+    return res.status(HttpStatus.OK).json(docs);
   }
 
-  @Delete(":usagerRef/:index")
+  @Delete(":usagerRef/:docUuid")
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async deleteDocument(
     @Param("usagerRef") usagerRef: number,
-    @Param("index") index: number,
+    @Param("docUuid") docUuid: string,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: UsagerLight,
     @Res() res: Response
   ) {
-    if (typeof currentUsager.docs[index] === "undefined") {
+    const doc = await usagerDocsRepository.findOne({
+      uuid: docUuid,
+      structureId: currentUsager.structureId,
+    });
+
+    if (!doc) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "DOC_NOT_FOUND" });
     }
-    const fileInfos: UsagerDoc = currentUsager.docs[index];
 
     const pathFile = path.join(
       domifaConfig().upload.basePath,
       `${currentUsager.structureId}`,
       `${currentUsager.ref}`,
-      fileInfos.path
+      doc.path
     );
 
     await deleteFile(pathFile);
 
     await deleteFile(pathFile + ".encrypted");
 
-    const updatedUsager = await this.docsService.deleteDocument(
-      currentUsager,
-      index
-    );
-
-    if (!updatedUsager) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "DOC_UPDATE_USAGER_IMPOSSIBLE" });
-    }
+    await usagerDocsRepository.deleteByCriteria({
+      uuid: doc.uuid,
+    });
 
     await this.appLogsService.create({
       userId: user.id,
@@ -172,30 +158,51 @@ export class DocsController {
       action: "SUPPRIMER_PIECE_JOINTE",
     });
 
-    return res.status(HttpStatus.OK).json(updatedUsager.docs);
+    const docs = await usagerDocsRepository.getUsagerDocs(
+      usagerRef,
+      currentUsager.structureId
+    );
+
+    return res.status(HttpStatus.OK).json(docs);
   }
 
-  @Get(":usagerRef/:index")
+  @Get(":usagerRef")
+  @AllowUserStructureRoles("simple", "responsable", "admin")
+  public async getUsagerDocuments(
+    @Param("usagerRef") usagerRef: number,
+    @CurrentUsager() currentUsager: UsagerLight
+  ): Promise<UsagerDoc[]> {
+    return await usagerDocsRepository.getUsagerDocs(
+      usagerRef,
+      currentUsager.structureId
+    );
+  }
+
+  @Get(":usagerRef/:docUuid")
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getDocument(
     @Param("usagerRef") usagerRef: number,
-    @Param("index") index: number,
+    @Param("docUuid") docUuid: string,
     @Res() res: Response,
     @CurrentUsager() currentUsager: UsagerLight
   ) {
-    if (typeof currentUsager.docs[index] === "undefined") {
+    const doc = await usagerDocsRepository.findOne({
+      uuid: docUuid,
+      usagerRef,
+      structureId: currentUsager.structureId,
+    });
+
+    if (!doc) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    const fileInfos: UsagerDoc = currentUsager.docs[index];
-
     const pathFile = path.join(
       domifaConfig().upload.basePath,
       `${currentUsager.structureId}`,
       `${currentUsager.ref}`,
-      fileInfos.path
+      doc.path
     );
 
     if (!(await fse.pathExists(pathFile + ".encrypted"))) {
@@ -251,16 +258,12 @@ export class DocsController {
 
     // TEMP FIX : Utiliser la deuxième clé d'encryptage générée le 30 juin
     // A supprimer une fois que les fichiers seront de nouveaux regénérés
-    if (
-      new Date(currentUsager.docs[index].createdAt) <
-      new Date("2021-06-30T01:01:01.113Z")
-    ) {
+    if (new Date(doc.createdAt) < new Date("2021-06-12T01:01:01.113Z")) {
       iv = domifaConfig().security.files.ivSecours;
     }
 
     const decipher = crypto.createDecipheriv("aes-256-cfb", key, iv);
 
-    // TODO: vérifier si on peut rendre cette partie asynchrone
     const input = fs.createReadStream(pathFile + ".encrypted");
     const output = fs.createWriteStream(pathFile + ".unencrypted");
 

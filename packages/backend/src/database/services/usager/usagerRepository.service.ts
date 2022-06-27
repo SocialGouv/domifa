@@ -16,7 +16,6 @@ export const usagerRepository = {
       entityManager,
     }),
   countAyantsDroits,
-  countDocuments,
   countUsagersByMonth,
   countUsagers,
 };
@@ -27,14 +26,6 @@ function countAyantsDroits(structuresId?: number[]): Promise<number> {
 
 function countUsagers(structuresId?: number[]): Promise<number> {
   return _advancedCount({ countType: "domicilie", structuresId });
-}
-
-// TODO: editer après la migration
-async function countDocuments() {
-  return usagerRepository.aggregateAsNumber({
-    expression: 'sum(jsonb_array_length("docs"))',
-    resultAlias: "count",
-  });
 }
 
 async function countUsagersByMonth(regionId?: string) {

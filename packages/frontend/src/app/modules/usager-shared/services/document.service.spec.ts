@@ -1,11 +1,6 @@
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from "@angular/common/http/testing";
-import { fakeAsync, inject, TestBed } from "@angular/core/testing";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
-
-import { UsagerFormModel } from "../interfaces";
 
 import { DocumentService } from "./document.service";
 
@@ -38,74 +33,4 @@ describe("DocumentService", () => {
     expect(service).toBeTruthy();
     expect(service.endPoint).toEqual("http://localhost:3000/docs/");
   });
-
-  it("Delete document", fakeAsync(
-    inject(
-      [HttpTestingController, DocumentService],
-      (backend: HttpTestingController, ser: DocumentService) => {
-        let response = null;
-        const responseObject = new UsagerFormModel();
-
-        responseObject.docs = [
-          {
-            createdAt: new Date(),
-            label: "A",
-            filetype: "image/jpeg",
-            createdBy: "A",
-          },
-          {
-            createdAt: new Date(),
-            label: "B",
-            filetype: "applications/pdf",
-            createdBy: "B",
-          },
-        ];
-
-        ser.deleteDocument(2, 1).subscribe((receivedResponse: any) => {
-          response = receivedResponse;
-        });
-
-        backend
-          .expectOne({
-            url: "http://localhost:3000/docs/2/1",
-          })
-          .flush(responseObject);
-      }
-    )
-  ));
-
-  it("should get users", fakeAsync(
-    inject(
-      [HttpTestingController, DocumentService],
-      (backend: HttpTestingController, ser: DocumentService) => {
-        let response = null;
-        const responseObject = new UsagerFormModel();
-
-        responseObject.docs = [
-          {
-            createdAt: new Date(),
-            label: "A",
-            filetype: "image/jpeg",
-            createdBy: "A",
-          },
-          {
-            createdAt: new Date(),
-            label: "B",
-            filetype: "applications/pdf",
-            createdBy: "B",
-          },
-        ];
-
-        ser.deleteDocument(2, 1).subscribe((receivedResponse: any) => {
-          response = receivedResponse;
-        });
-
-        backend
-          .expectOne({
-            url: "http://localhost:3000/docs/2/1",
-          })
-          .flush(responseObject);
-      }
-    )
-  ));
 });

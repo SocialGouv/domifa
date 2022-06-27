@@ -1,7 +1,16 @@
-<div class="alert-info alert" *ngIf="!usager.docs.length">
+<div class="my-4">
+  <app-upload
+    *ngIf="me?.role !== 'facteur' && editPJ"
+    (getUsagerDocs)="getUsagerDocs()"
+    [usager]="usager"
+  ></app-upload>
+</div>
+
+<div class="alert-info alert" *ngIf="!docs.length">
   Aucune pièce jointe n'a été ajouté pour le moment
 </div>
-<table class="table upload-table p-0" *ngIf="usager.docs.length">
+
+<table class="table upload-table p-0" *ngIf="docs.length">
   <caption class="visually-hidden">
     Documents de l'usager
   </caption>
@@ -14,7 +23,7 @@
       <th scope="col" class="d-print-none text-end">Actions</th>
     </tr>
 
-    <tr *ngFor="let document of usager.docs; let indexDocs = index">
+    <tr *ngFor="let document of docs; let indexDocs = index">
       <td class="align-middle">
         <span
           class="doc-icon"

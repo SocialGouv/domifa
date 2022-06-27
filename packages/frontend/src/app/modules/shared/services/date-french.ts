@@ -1,4 +1,3 @@
-import { TranslationWidth } from "@angular/common";
 import { Injectable } from "@angular/core";
 import { NgbDatepickerI18n, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 

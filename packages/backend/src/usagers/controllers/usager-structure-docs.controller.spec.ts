@@ -4,7 +4,6 @@ import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { AdminStructuresService } from "../../_portail-admin/admin-structures/services";
 
-import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
 import { UsagerStructureDocsController } from "./usager-structure-docs.controller";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
@@ -18,12 +17,7 @@ describe("UsagerStructureDocs Controller", () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [UsagerStructureDocsController],
       imports: [UsersModule, InteractionsModule, StructuresModule],
-      providers: [
-        UsagersService,
-        DocumentsService,
-        AdminStructuresService,
-        AppLogsService,
-      ],
+      providers: [UsagersService, AdminStructuresService, AppLogsService],
     });
     controller = context.module.get<UsagerStructureDocsController>(
       UsagerStructureDocsController

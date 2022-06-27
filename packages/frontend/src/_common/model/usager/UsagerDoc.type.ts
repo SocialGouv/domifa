@@ -1,4 +1,5 @@
-export type UsagerDoc = {
+import { AppEntity } from "..";
+export type UsagerDoc = AppEntity & {
   createdAt: Date;
   path?: string;
   createdBy: string;

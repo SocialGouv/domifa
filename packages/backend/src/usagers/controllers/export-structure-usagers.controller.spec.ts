@@ -3,7 +3,6 @@ import { StructuresModule } from "../../structures/structure.module";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 
-import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
 import { ExportStructureUsagersController } from "./export-structure-usagers.controller";
 
@@ -16,7 +15,7 @@ describe("Export Controller", () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [ExportStructureUsagersController],
       imports: [UsersModule, InteractionsModule, StructuresModule],
-      providers: [UsagersService, DocumentsService],
+      providers: [UsagersService],
     });
     controller = context.module.get<ExportStructureUsagersController>(
       ExportStructureUsagersController

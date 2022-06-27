@@ -7,8 +7,8 @@ import { UsagerTable } from "./UsagerTable.typeorm";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "usager_docs" })
-export class UsagerDocTable
-  extends AppTypeormTable<UsagerDocTable>
+export class UsagerDocsTable
+  extends AppTypeormTable<UsagerDocsTable>
   implements UsagerDoc
 {
   @Index()
@@ -38,7 +38,7 @@ export class UsagerDocTable
   @Column({ type: "text", nullable: false })
   public createdBy: string;
 
-  public constructor(entity?: Partial<UsagerDocTable>) {
+  public constructor(entity?: Partial<UsagerDocsTable>) {
     super(entity);
     Object.assign(this, entity);
   }

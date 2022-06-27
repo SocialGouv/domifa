@@ -77,17 +77,9 @@ async function _anonymizeUsager(
   usager.entretien.orientationDetail = null;
 
   let historique = [];
-  let docs = [];
 
   if (usager.historique) {
     historique = usager.historique.map((h) => anonymizeUsagerHistorique(h));
-  }
-
-  if (usager.docs) {
-    docs = usager.docs.map((d, i) => ({
-      ...d,
-      label: `Document ${i}`,
-    }));
   }
 
   const attributesToUpdate: Partial<Usager> = {
@@ -112,7 +104,6 @@ async function _anonymizeUsager(
     decision: anonymizeUsagerDecision(usager.decision),
     historique,
     ayantsDroits: anonymizeAyantDroits(usager.ayantsDroits),
-    docs, // TODO: mettre à jour après migration
   };
 
   if (Object.keys(attributesToUpdate).length === 0) {
