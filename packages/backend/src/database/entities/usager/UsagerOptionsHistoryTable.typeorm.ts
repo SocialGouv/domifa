@@ -7,6 +7,7 @@ import {
   UsagerOptionsHistoryAction,
   UsagerOptionsHistoryType,
 } from "../../../_common/model";
+import { StructureTable } from "../structure";
 
 @Entity({ name: "usager_options_history" })
 export class UsagerOptionsHistoryTable
@@ -28,7 +29,12 @@ export class UsagerOptionsHistoryTable
   @Column({ type: "text", nullable: true })
   public userName: string;
 
-  @Column({ type: "integer", nullable: true })
+  @Index()
+  @ManyToOne(() => StructureTable, (structure) => structure.id, {
+    onDelete: "CASCADE",
+  })
+  @Column({ type: "integer", nullable: false })
+  @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   public structureId: number;
 
   @Column({ type: "text" })
