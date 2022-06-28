@@ -161,8 +161,8 @@ COPY public.structure_doc (uuid, "createdAt", "updatedAt", version, id, label, "
 --
 
 COPY public.usager_docs (uuid, "createdAt", "updatedAt", version, "usagerUUID", "structureId", "usagerRef", path, label, filetype, "createdBy") FROM stdin;
-3592e449-8b9e-4609-aeca-b057d99bafbf	2019-10-07 18:51:31.578+00	2022-06-27 21:28:10.284087+00	1	860ffa4c-88c4-4e1c-ad42-5a05cdf39830	1	1	373144a3d9d0b3f4c84bd527a5cff880.jpg	CNI	image/jpeg	Patrick Roméro
-f9426cb5-ab3d-4f55-84da-76a27314791e	2019-10-07 18:53:32.922+00	2022-06-27 21:28:10.290187+00	1	4dcdcddc-fad2-4827-aac5-0acf1df7b5bc	1	5	8242ba1bc7f3c3971f761b6a347fc1c4.jpg	Carte identité	image/jpeg	Patrick Roméro
+c669f08b-74a8-4ffc-8128-c9e29e2fd535	2019-10-07 18:51:31.578+00	2022-06-28 12:57:39.479614+00	1	860ffa4c-88c4-4e1c-ad42-5a05cdf39830	1	1	373144a3d9d0b3f4c84bd527a5cff880.jpg	CNI	image/jpeg	Patrick Roméro
+2b38fcf8-6c47-4708-b83d-0a6ebdc9cd65	2019-10-07 18:53:32.922+00	2022-06-28 12:57:39.485475+00	1	4dcdcddc-fad2-4827-aac5-0acf1df7b5bc	1	5	8242ba1bc7f3c3971f761b6a347fc1c4.jpg	Carte identité	image/jpeg	Patrick Roméro
 \.
 
 

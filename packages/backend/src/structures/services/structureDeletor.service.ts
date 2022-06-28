@@ -1,20 +1,13 @@
 import { StructureLight } from "./../../_common/model/structure/StructureLight.type";
-import { usagerOptionsHistoryRepository } from "./../../database/services/usager/usagerOptionsHistoryRepository.service";
 import * as crypto from "crypto";
 import * as fs from "fs";
 import * as path from "path";
 import { domifaConfig } from "../../config";
 import {
   appLogsRepository,
-  interactionRepository,
-  structureDocRepository,
   structureRepository,
   usagerDocsRepository,
-  usagerHistoryRepository,
   usagerRepository,
-  userStructureRepository,
-  userUsagerRepository,
-  userUsagerSecurityRepository,
 } from "../../database";
 import { messageSmsRepository } from "../../database/services/message-sms";
 import { appLogger } from "../../util";
@@ -46,22 +39,16 @@ async function deleteStructure(structure: StructureLight): Promise<number> {
     structureId: structure.id,
   });
 
-  await userStructureRepository.deleteByCriteria({
-    structureId: structure.id,
-  });
-
-  await structureDocRepository.deleteByCriteria({ structureId: structure.id });
-
   return structureRepository.deleteByCriteria({ id: structure.id });
 }
 
 async function resetUsagers(structureId: number): Promise<void> {
-  // Suppression des comptes usagers
-  await userUsagerSecurityRepository.deleteByCriteria({
+  // Suppression des Documents
+  await usagerDocsRepository.deleteByCriteria({
     structureId,
   });
 
-  await userUsagerRepository.deleteByCriteria({
+  await usagerRepository.deleteByCriteria({
     structureId,
   });
 
@@ -69,28 +56,7 @@ async function resetUsagers(structureId: number): Promise<void> {
     structureId,
   });
 
-  // Suppression des interactions
-  await interactionRepository.deleteByCriteria({
-    structureId,
-  });
-
-  await usagerHistoryRepository.deleteByCriteria({
-    structureId,
-  });
-
-  await usagerOptionsHistoryRepository.deleteByCriteria({
-    structureId,
-  });
-
   await messageSmsRepository.deleteByCriteria({
-    structureId,
-  });
-
-  await usagerDocsRepository.deleteByCriteria({
-    structureId,
-  });
-
-  await usagerRepository.deleteByCriteria({
     structureId,
   });
 }
