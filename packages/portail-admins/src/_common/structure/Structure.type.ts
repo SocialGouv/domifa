@@ -1,3 +1,4 @@
+import { Telephone } from "../telephone";
 import { AppEntity } from "../_core";
 import { StructureAddresseCourrier } from "./StructureAddresseCourrier.type";
 import { StructurePortailUsagerParams } from "./StructurePortailUsagerParams.type";
@@ -17,7 +18,7 @@ export type Structure = AppEntity & {
   capacite: number;
   codePostal: string;
   agrement: string;
-  phone: string;
+  telephone: Telephone;
   email: string;
   import: boolean;
   registrationDate: Date;

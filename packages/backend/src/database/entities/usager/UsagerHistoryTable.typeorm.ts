@@ -17,7 +17,9 @@ export class UsagerHistoryTable
 {
   @Index()
   @Column({ type: "uuid", unique: true, update: false })
-  @ManyToOne(() => UsagerTable, (usager) => usager.uuid)
+  @ManyToOne(() => UsagerTable, (usager) => usager.uuid, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })
   public usagerUUID: string;
 
@@ -25,7 +27,9 @@ export class UsagerHistoryTable
   public usagerRef: number;
 
   @Index()
-  @ManyToOne(() => StructureTable, (structure) => structure.id)
+  @ManyToOne(() => StructureTable, (structure) => structure.id, {
+    onDelete: "CASCADE",
+  })
   @Column({ type: "integer", nullable: false })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   public structureId: number;

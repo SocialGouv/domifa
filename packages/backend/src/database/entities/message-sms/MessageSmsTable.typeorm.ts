@@ -14,6 +14,7 @@ export class MessageSmsTable
   extends AppTypeormTable<MessageSmsTable>
   implements MessageSms
 {
+  // TODO: associer un usagerUUID
   // Infos usager
   @Column({ type: "integer" })
   @Index()

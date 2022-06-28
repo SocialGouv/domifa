@@ -50,13 +50,17 @@ export class InteractionsTable
 
   @Index()
   @Column({ type: "integer", nullable: false })
-  @ManyToOne(() => StructureTable, (structure) => structure.id)
+  @ManyToOne(() => StructureTable, (structure) => structure.id, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   structureId: number;
 
   @Index()
   @Column({ type: "uuid", nullable: false })
-  @ManyToOne(() => UsagerTable, (usager) => usager.uuid)
+  @ManyToOne(() => UsagerTable, (usager) => usager.uuid, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })
   usagerUUID: string;
 

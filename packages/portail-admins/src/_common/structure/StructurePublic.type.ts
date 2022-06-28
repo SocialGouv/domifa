@@ -1,3 +1,4 @@
+import { Telephone } from "./../telephone/Telephone.type";
 import { StructureType, StructureAddresseCourrier } from ".";
 import { AppEntity } from "../_core";
 
@@ -11,7 +12,7 @@ export type StructurePublic = AppEntity & {
   departement: string;
   region: string;
   codePostal: string;
-  phone: string;
+  telephone: Telephone;
   email: string;
   tokenDelete: string;
   adresseCourrier: StructureAddresseCourrier;
