@@ -1,3 +1,10 @@
+## [2.98.2](https://github.com/SocialGouv/domifa/compare/v2.98.1...v2.98.2) (2022-06-28)
+
+
+### Bug Fixes
+
+* **migration:** Amélioration des performances ([530122e](https://github.com/SocialGouv/domifa/commit/530122e0bb315e1a3d514537b0a4a0ee6a60fa8d))
+
 ## [2.98.1](https://github.com/SocialGouv/domifa/compare/v2.98.0...v2.98.1) (2022-06-28)
 
 
