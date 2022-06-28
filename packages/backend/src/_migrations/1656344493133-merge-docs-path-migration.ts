@@ -47,11 +47,11 @@ export class mergeDocsMigration1656344493133 implements MigrationInterface {
           `[MIGRATE DOCS] ${cptMigration}/${usagers.length} migrés`
         );
       }
-
-      appLogger.warn(
-        "[MIGRATION] - Merge des documents finish at " + new Date()
-      );
     }
+
+    appLogger.warn(
+      "[MIGRATION] Déplacement des documents terminé le " + new Date()
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function

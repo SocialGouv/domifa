@@ -1,4 +1,5 @@
-import { usagerOptionsHistoryRepository } from "./../../database/services/usager/usagerOptionsHistoryRepository.service";
+import { usagerDocsRepository } from "./../../database/services/usager/usagerDocsRepository.service";
+
 import { messageSmsRepository } from "./../../database/services/message-sms/messageSmsRepository.service";
 import {
   Body,
@@ -23,14 +24,11 @@ import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import {
-  interactionRepository,
   PgRepositoryFindOrder,
-  usagerHistoryRepository,
   usagerLightRepository,
   usagerRepository,
   USAGER_LIGHT_ATTRIBUTES,
   userUsagerRepository,
-  userUsagerSecurityRepository,
 } from "../../database";
 
 import { userUsagerCreator, userUsagerUpdator } from "../../users/services";
@@ -69,8 +67,7 @@ import * as path from "path";
 export class UsagersController {
   constructor(
     private readonly usagersService: UsagersService,
-
-    private appLogsService: AppLogsService
+    private readonly appLogsService: AppLogsService
   ) {}
 
   @Get()
@@ -271,40 +268,11 @@ export class UsagersController {
     @CurrentUsager() usager: UsagerLight,
     @Res() res: Response
   ) {
-    // // On vérifie s'il existe un user associé
-    // const userUsager = await userUsagerRepository.findOne({
-    //   usagerUUID: usager.uuid,
-    // });
-
-    // if (userUsager) {
-    //   // Users
-    //   await userUsagerSecurityRepository.deleteByCriteria({
-    //     userId: userUsager.id,
-    //     structureId: userUsager.structureId,
-    //   });
-
-    //   // Users
-    //   await userUsagerRepository.deleteByCriteria({
-    //     uuid: userUsager.uuid,
-    //   });
-    // }
-
-    // // Historique
-    // await usagerHistoryRepository.deleteByCriteria({
-    //   usagerRef: usager.ref,
-    //   structureId: user.structureId,
-    // });
-
-    // // Historique de la procuration
-    // await usagerOptionsHistoryRepository.deleteByCriteria({
-    //   usagerUUID: usager.uuid,
-    // });
-
-    // // Interactions
-    // await interactionRepository.deleteByCriteria({
-    //   usagerRef: usager.ref,
-    //   structureId: user.structureId,
-    // });
+    // Suppression des Documents
+    await usagerDocsRepository.deleteByCriteria({
+      usagerRef: usager.ref,
+      structureId: user.structureId,
+    });
 
     // Suppression des SMS
     await messageSmsRepository.deleteByCriteria({

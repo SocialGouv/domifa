@@ -1,9 +1,7 @@
 import { UsagerDoc } from "../../../_common/model/usager/UsagerDoc.type";
-import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
+import { Column, Entity, Index } from "typeorm";
 
-import { StructureTable } from "../structure/StructureTable.typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
-import { UsagerTable } from "./UsagerTable.typeorm";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "usager_docs" })
@@ -13,18 +11,18 @@ export class UsagerDocsTable
 {
   @Index()
   @Column({ type: "uuid", update: false })
-  @ManyToOne(() => UsagerTable, (usager) => usager.uuid, {
-    onDelete: "CASCADE",
-  })
-  @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })
+  // @ManyToOne(() => UsagerTable, (usager) => usager.uuid, {
+  //   onDelete: "CASCADE",
+  // })
+  // @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })
   public usagerUUID: string;
 
   @Index()
-  @ManyToOne(() => StructureTable, (structure) => structure.id, {
-    onDelete: "CASCADE",
-  })
   @Column({ type: "integer", update: false, nullable: false })
-  @JoinColumn({ name: "structureId", referencedColumnName: "id" })
+  // @ManyToOne(() => StructureTable, (structure) => structure.id, {
+  //   onDelete: "CASCADE",
+  // })
+  // @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   public structureId: number;
 
   @Column({ type: "integer", update: false, nullable: false })
