@@ -33,7 +33,9 @@ export class UsagerTable
   public customRef: string;
 
   @Index()
-  @ManyToOne(() => StructureTable, (structure) => structure.id)
+  @ManyToOne(() => StructureTable, (structure) => structure.id, {
+    onDelete: "CASCADE",
+  })
   @Column({ type: "integer", nullable: false })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   public structureId: number;
@@ -116,9 +118,11 @@ export class UsagerTable
 
   //
   // DOCUMENTS
+  // ! @deprecated
   @Column({ type: "jsonb", default: "[]" })
   public docs!: UsagerDoc[];
 
+  // ! @deprecated
   @Column({ type: "jsonb", default: "[]" })
   public docsPath!: string[];
 

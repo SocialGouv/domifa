@@ -47,7 +47,9 @@ export class StructureDocTable
   filetype: string;
 
   @Index()
-  @ManyToOne(() => StructureTable, (structure) => structure.id)
+  @ManyToOne(() => StructureTable, (structure) => structure.id, {
+    onDelete: "CASCADE",
+  })
   @Column({ type: "integer", nullable: false, update: false })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   structureId: number;

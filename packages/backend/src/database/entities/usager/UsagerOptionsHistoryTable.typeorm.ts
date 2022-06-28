@@ -15,7 +15,9 @@ export class UsagerOptionsHistoryTable
 {
   @Index()
   @Column({ type: "uuid", nullable: false })
-  @ManyToOne(() => UsagerTable, (usager) => usager.uuid)
+  @ManyToOne(() => UsagerTable, (usager) => usager.uuid, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })
   public usagerUUID: string;
 
