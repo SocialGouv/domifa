@@ -1,3 +1,15 @@
+# [2.98.0](https://github.com/SocialGouv/domifa/compare/v2.97.0...v2.98.0) (2022-06-28)
+
+
+### Bug Fixes
+
+* mutualisation d'une fonction ([e7dd99f](https://github.com/SocialGouv/domifa/commit/e7dd99f3c2c154f3151844525708ea98c9d338f8))
+
+
+### Features
+
+* **cache:** ajout du cache sur les stats publiques ([f4c025c](https://github.com/SocialGouv/domifa/commit/f4c025c6b64a5439fac8815c9a26b44a8e34f599))
+
 # [2.97.0](https://github.com/SocialGouv/domifa/compare/v2.96.0...v2.97.0) (2022-06-27)
 
 
