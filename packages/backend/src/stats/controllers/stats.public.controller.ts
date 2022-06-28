@@ -117,10 +117,9 @@ export class StatsPublicController {
     }
 
     // Usagers
-    const usagers = await usagerRepository.countUsagers(structures);
-    const ayantsDroits = await usagerRepository.countAyantsDroits(structures);
-
-    publicStats.usagersCount = usagers + ayantsDroits;
+    publicStats.usagersCount = await usagerRepository.countTotalUsagers(
+      structures
+    );
 
     publicStats.interactionsCount =
       await this.adminStructuresService.totalInteractions(
@@ -133,6 +132,7 @@ export class StatsPublicController {
 
     publicStats.interactionsCountByMonth =
       await this.adminStructuresService.countInteractionsByMonth(regionId);
+
     publicStats.usagersCountByMonth =
       await this.adminStructuresService.countUsagersByMonth(regionId);
 

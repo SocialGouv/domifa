@@ -103,8 +103,8 @@ function _advancedCount({
   return usagerCoreRepository.aggregateAsNumber(query);
 }
 
-async function countTotalUsagers() {
-  const usagers = await usagerRepository.count();
-  const ayantsDroits = await usagerRepository.countAyantsDroits();
+async function countTotalUsagers(structuresId?: number[]): Promise<number> {
+  const usagers = await usagerRepository.countUsagers(structuresId);
+  const ayantsDroits = await usagerRepository.countAyantsDroits(structuresId);
   return usagers + ayantsDroits;
 }
