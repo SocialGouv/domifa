@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { UsagerLight } from "../../../_common/model";
 import { SearchPageLoadedUsagersData } from "./AppStoreModel.type";
 import { usagersCache } from "./usagersCache.service";
@@ -9,7 +10,7 @@ const initialStateUsagers: Partial<UsagerLight>[] = [
     prenom: "John",
     nom: "Smith",
     decision: {
-      statut: "ACTIF",
+      statut: "VALIDE",
     } as any,
   },
   {
@@ -18,7 +19,7 @@ const initialStateUsagers: Partial<UsagerLight>[] = [
     prenom: "Marie",
     nom: "Smith",
     decision: {
-      statut: "ACTIF",
+      statut: "VALIDE",
     } as any,
   },
   {
@@ -65,7 +66,7 @@ it("usagersCache: update", () => {
     prenom: "Maria",
     nom: "Smith",
     decision: {
-      statut: "ACTIF",
+      statut: "VALIDE",
     } as any,
   } as UsagerLight);
   const data = usagersCache.getSnapshot().searchPageLoadedUsagersData;
@@ -77,7 +78,7 @@ it("usagersCache: update", () => {
       prenom: "John",
       nom: "Smith",
       decision: {
-        statut: "ACTIF",
+        statut: "VALIDE",
       },
     },
     {
@@ -86,7 +87,7 @@ it("usagersCache: update", () => {
       prenom: "Maria",
       nom: "Smith",
       decision: {
-        statut: "ACTIF",
+        statut: "VALIDE",
       },
     },
     {
@@ -100,7 +101,7 @@ it("usagersCache: update", () => {
     },
   ]);
 });
-it("usagersCache: update ACTIF => RADIE", () => {
+it("usagersCache: update VALIDE => RADIE", () => {
   usagersCache.setSearchPageLoadedUsagersData(initialState);
   usagersCache.updateUsager({
     uuid: "2",
@@ -120,7 +121,7 @@ it("usagersCache: update ACTIF => RADIE", () => {
       prenom: "John",
       nom: "Smith",
       decision: {
-        statut: "ACTIF",
+        statut: "VALIDE",
       },
     },
     {
@@ -144,7 +145,7 @@ it("usagersCache: update ACTIF => RADIE", () => {
   ]);
 });
 
-it("usagersCache: update RADIE => ACTIF", () => {
+it("usagersCache: update RADIE => VALIDE", () => {
   usagersCache.setSearchPageLoadedUsagersData(initialState);
   usagersCache.updateUsager({
     uuid: "3",
@@ -152,7 +153,7 @@ it("usagersCache: update RADIE => ACTIF", () => {
     prenom: "Claire",
     nom: "Meunier",
     decision: {
-      statut: "ACTIF",
+      statut: "VALIDE",
     } as any,
   } as UsagerLight);
   const data = usagersCache.getSnapshot().searchPageLoadedUsagersData;
@@ -164,7 +165,7 @@ it("usagersCache: update RADIE => ACTIF", () => {
       prenom: "John",
       nom: "Smith",
       decision: {
-        statut: "ACTIF",
+        statut: "VALIDE",
       },
     },
     {
@@ -173,7 +174,7 @@ it("usagersCache: update RADIE => ACTIF", () => {
       prenom: "Marie",
       nom: "Smith",
       decision: {
-        statut: "ACTIF",
+        statut: "VALIDE",
       },
     },
     {
@@ -182,7 +183,7 @@ it("usagersCache: update RADIE => ACTIF", () => {
       prenom: "Claire",
       nom: "Meunier",
       decision: {
-        statut: "ACTIF",
+        statut: "VALIDE",
       },
     },
   ]);
@@ -208,7 +209,7 @@ it("usagersCache: create", () => {
       prenom: "John",
       nom: "Smith",
       decision: {
-        statut: "ACTIF",
+        statut: "VALIDE",
       },
     },
     {
@@ -217,7 +218,7 @@ it("usagersCache: create", () => {
       prenom: "Marie",
       nom: "Smith",
       decision: {
-        statut: "ACTIF",
+        statut: "VALIDE",
       },
     },
     {
@@ -257,7 +258,7 @@ it("usagersCache: remove by ref", () => {
         prenom: "John",
         nom: "Smith",
         decision: {
-          statut: "ACTIF",
+          statut: "VALIDE",
         },
       },
       {
@@ -284,7 +285,7 @@ it("usagersCache: remove by ref", () => {
         prenom: "John",
         nom: "Smith",
         decision: {
-          statut: "ACTIF",
+          statut: "VALIDE",
         },
       },
     ]);
