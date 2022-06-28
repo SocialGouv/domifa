@@ -5,6 +5,7 @@ export class PasswordValidator {
     regex: RegExp,
     error: ValidationErrors
   ): ValidatorFn {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (!control.value) {
         return null;
