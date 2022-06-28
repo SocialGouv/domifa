@@ -34,6 +34,7 @@ export class StatsPublicController {
   public async home() {
     let homeStats = await this.cacheManager.get("home");
     if (!homeStats) {
+      console.log();
       homeStats = await this.getHomeStats();
       await this.cacheManager.set("home", homeStats, {
         ttl: 86400,
@@ -58,9 +59,11 @@ export class StatsPublicController {
 
     // Récupération du cache
     if (statsInCache) {
+      console.log("Use Cache for public-stats");
       return res.status(HttpStatus.OK).json(statsInCache);
     }
 
+    console.log("Do not Use Cache for public-stats");
     const publicStats: PublicStats = {
       structuresCountByRegion: [],
       interactionsCountByMonth: [], // Par défaut: courriers distribués
