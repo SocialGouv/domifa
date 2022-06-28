@@ -16,6 +16,7 @@ export const usagerRepository = {
       entityManager,
     }),
   countAyantsDroits,
+  countTotalUsagers,
   countDocuments,
   countUsagersByMonth,
   countUsagers,
@@ -100,4 +101,10 @@ function _advancedCount({
     query.params = { ids: structuresId };
   }
   return usagerCoreRepository.aggregateAsNumber(query);
+}
+
+async function countTotalUsagers() {
+  const usagers = await usagerRepository.count();
+  const ayantsDroits = await usagerRepository.countAyantsDroits();
+  return usagers + ayantsDroits;
 }
