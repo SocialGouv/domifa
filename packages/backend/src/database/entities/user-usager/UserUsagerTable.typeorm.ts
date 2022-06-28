@@ -24,12 +24,16 @@ export class UserUsagerTable
 
   @Index()
   @Column({ type: "uuid", unique: true })
-  @ManyToOne(() => UsagerTable, (usager) => usager.uuid)
+  @ManyToOne(() => UsagerTable, (usager) => usager.uuid, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })
   public usagerUUID: string;
 
   @Index()
-  @ManyToOne(() => StructureTable, (structure) => structure.id)
+  @ManyToOne(() => StructureTable, (structure) => structure.id, {
+    onDelete: "CASCADE",
+  })
   @Column({ type: "integer", nullable: false })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   public structureId: number;

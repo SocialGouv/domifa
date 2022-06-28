@@ -14,13 +14,17 @@ export class UserUsagerSecurityTable
   implements UserUsagerSecurity
 {
   @Index()
-  @ManyToOne(() => UserUsagerTable, (user) => user.id)
+  @ManyToOne(() => UserUsagerTable, (user) => user.id, {
+    onDelete: "CASCADE",
+  })
   @Column({ type: "integer", nullable: false, unique: true, update: false })
   @JoinColumn({ name: "userId", referencedColumnName: "id" })
   public userId: number;
 
   @Index()
-  @ManyToOne(() => StructureTable, (structure) => structure.id)
+  @ManyToOne(() => StructureTable, (structure) => structure.id, {
+    onDelete: "CASCADE",
+  })
   @Column({ type: "integer", nullable: false })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   public structureId: number;

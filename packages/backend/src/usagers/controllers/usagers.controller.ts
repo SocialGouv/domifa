@@ -270,40 +270,40 @@ export class UsagersController {
     @CurrentUsager() usager: UsagerLight,
     @Res() res: Response
   ) {
-    // On vérifie s'il existe un user associé
-    const userUsager = await userUsagerRepository.findOne({
-      usagerUUID: usager.uuid,
-    });
+    // // On vérifie s'il existe un user associé
+    // const userUsager = await userUsagerRepository.findOne({
+    //   usagerUUID: usager.uuid,
+    // });
 
-    if (userUsager) {
-      // Users
-      await userUsagerSecurityRepository.deleteByCriteria({
-        userId: userUsager.id,
-        structureId: userUsager.structureId,
-      });
+    // if (userUsager) {
+    //   // Users
+    //   await userUsagerSecurityRepository.deleteByCriteria({
+    //     userId: userUsager.id,
+    //     structureId: userUsager.structureId,
+    //   });
 
-      // Users
-      await userUsagerRepository.deleteByCriteria({
-        uuid: userUsager.uuid,
-      });
-    }
+    //   // Users
+    //   await userUsagerRepository.deleteByCriteria({
+    //     uuid: userUsager.uuid,
+    //   });
+    // }
 
-    // Historique
-    await usagerHistoryRepository.deleteByCriteria({
-      usagerRef: usager.ref,
-      structureId: user.structureId,
-    });
+    // // Historique
+    // await usagerHistoryRepository.deleteByCriteria({
+    //   usagerRef: usager.ref,
+    //   structureId: user.structureId,
+    // });
 
-    // Historique de la procuration
-    await usagerOptionsHistoryRepository.deleteByCriteria({
-      usagerUUID: usager.uuid,
-    });
+    // // Historique de la procuration
+    // await usagerOptionsHistoryRepository.deleteByCriteria({
+    //   usagerUUID: usager.uuid,
+    // });
 
-    // Interactions
-    await interactionRepository.deleteByCriteria({
-      usagerRef: usager.ref,
-      structureId: user.structureId,
-    });
+    // // Interactions
+    // await interactionRepository.deleteByCriteria({
+    //   usagerRef: usager.ref,
+    //   structureId: user.structureId,
+    // });
 
     // Suppression des SMS
     await messageSmsRepository.deleteByCriteria({

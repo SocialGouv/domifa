@@ -13,12 +13,16 @@ export class UsagerDocsTable
 {
   @Index()
   @Column({ type: "uuid", update: false })
-  @ManyToOne(() => UsagerTable, (usager) => usager.uuid)
+  @ManyToOne(() => UsagerTable, (usager) => usager.uuid, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })
   public usagerUUID: string;
 
   @Index()
-  @ManyToOne(() => StructureTable, (structure) => structure.id)
+  @ManyToOne(() => StructureTable, (structure) => structure.id, {
+    onDelete: "CASCADE",
+  })
   @Column({ type: "integer", update: false, nullable: false })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   public structureId: number;
