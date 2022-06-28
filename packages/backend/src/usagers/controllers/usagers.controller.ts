@@ -68,8 +68,7 @@ import * as path from "path";
 export class UsagersController {
   constructor(
     private readonly usagersService: UsagersService,
-
-    private appLogsService: AppLogsService
+    private readonly appLogsService: AppLogsService
   ) {}
 
   @Get()

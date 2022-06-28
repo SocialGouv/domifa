@@ -54,8 +54,8 @@ export class StructuresService {
     const structure = await structureRepository.findOne({
       id: structureId,
     });
-    if (!structure || structure === null) {
-      throw new HttpException("NOT_EXIST", HttpStatus.BAD_REQUEST);
+    if (!structure) {
+      throw new HttpException("STRUCTURE_NOT_EXIST", HttpStatus.BAD_REQUEST);
     }
     return structure;
   }
@@ -64,8 +64,8 @@ export class StructuresService {
     const structure = await structureCommonRepository.findOne({
       id: structureId,
     });
-    if (!structure || structure === null) {
-      throw new HttpException("NOT_EXIST", HttpStatus.BAD_REQUEST);
+    if (!structure) {
+      throw new HttpException("STRUCTURE_NOT_EXIST", HttpStatus.BAD_REQUEST);
     }
     return structure;
   }

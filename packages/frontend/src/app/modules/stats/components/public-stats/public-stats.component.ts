@@ -44,7 +44,7 @@ export class PublicStatsComponent implements OnInit {
     if (this.route.snapshot.params.region) {
       const region = this.route.snapshot.params.region as string;
 
-      if (typeof REGIONS_SEO_ID[region] === "undefined") {
+      if (region && typeof REGIONS_SEO_ID[region] === "undefined") {
         this.router.navigate(["404"]);
         return;
       }
