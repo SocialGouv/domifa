@@ -50,7 +50,7 @@
     "@nestjs/terminus": "^8.0.6",
     "@nestjs/testing": "^8.0.6",
     "@ntegral/nestjs-sentry": "^3.0.7",
-    "@sentry/node": "^6.11.0",
+    "@sentry/node": "^7.0.0",
     "bcryptjs": "^2.4.3",
     "cache-manager": "^4.0.0",
     "class-transformer": "0.4.0",
