@@ -2,7 +2,7 @@ import { usagerRepository, UsagerTable } from "../../database";
 import {
   USAGER_DEFAULT_OPTIONS,
   USAGER_DEFAULT_PREFERENCE,
-} from "../../database/services/usager/USAGER_DEFAULTS.const";
+} from "../../database/services/usager/constants/USAGER_DEFAULTS.const";
 
 export const usagersCreator = { findNextUsagerRef, setUsagerDefaultAttributes };
 async function findNextUsagerRef(structureId: number): Promise<number> {

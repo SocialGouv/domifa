@@ -28,10 +28,11 @@ import {
   usagerHistoryRepository,
   usagerLightRepository,
   usagerRepository,
+  USAGER_LIGHT_ATTRIBUTES,
   userUsagerRepository,
   userUsagerSecurityRepository,
 } from "../../database";
-import { USAGER_LIGHT_ATTRIBUTES } from "../../database/services/usager/USAGER_LIGHT_ATTRIBUTES.const";
+
 import { userUsagerCreator, userUsagerUpdator } from "../../users/services";
 import { appLogger } from "../../util";
 import { dataCompare } from "../../util/dataCompare.service";

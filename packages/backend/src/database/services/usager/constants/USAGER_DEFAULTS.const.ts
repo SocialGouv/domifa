@@ -1,4 +1,4 @@
-import { UsagerOptions } from "../../../_common/model";
+import { UsagerOptions } from "../../../../_common/model";
 export const USAGER_DEFAULT_OPTIONS: UsagerOptions = {
   transfert: {
     actif: false,
@@ -8,7 +8,6 @@ export const USAGER_DEFAULT_OPTIONS: UsagerOptions = {
     dateFin: null,
   },
   procurations: [],
-
   npai: {
     actif: false,
     dateDebut: null,
