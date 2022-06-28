@@ -1,36 +1,8 @@
 import { Usager, UsagerLight } from "../../../_common/model";
 import { UsagerTable } from "../../entities";
 import { pgRepository, PgRepositoryFindOrder } from "../_postgres";
+import { USAGER_LIGHT_ATTRIBUTES } from "./constants";
 
-const USAGER_LIGHT_ATTRIBUTES: (keyof UsagerTable)[] = [
-  "uuid",
-  "ref",
-  "customRef",
-  "structureId",
-  "nom",
-  "prenom",
-  "surnom",
-  "sexe",
-  "dateNaissance",
-  "email",
-  "decision",
-  "datePremiereDom",
-  "typeDom",
-  "docs",
-  "docsPath",
-  "entretien",
-  "etapeDemande",
-  "rdv",
-  "lastInteraction",
-  "options",
-  "historique",
-  "ayantsDroits",
-  "villeNaissance",
-  "phone",
-  "langue",
-  "preference",
-  "notes",
-];
 const baseRepository = pgRepository.get<UsagerTable, UsagerLight>(UsagerTable, {
   defaultSelect: USAGER_LIGHT_ATTRIBUTES,
 });

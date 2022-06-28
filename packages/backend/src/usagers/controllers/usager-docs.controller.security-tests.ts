@@ -11,7 +11,7 @@ import {
   expectedResponseStatusBuilder,
 } from "../../_tests";
 
-const CONTROLLER = "DocsController";
+const CONTROLLER = "UsagerDocsController";
 
 export const UsagerDocsControllerSecurityTests: AppTestHttpClientSecurityTestDef[] =
   [

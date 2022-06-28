@@ -1,6 +1,6 @@
-import { UsagerLight } from "../../../_common/model";
+import { UsagerTable } from "../../../entities";
 
-export const USAGER_LIGHT_ATTRIBUTES: (keyof UsagerLight)[] = [
+export const USAGER_LIGHT_ATTRIBUTES: (keyof UsagerTable)[] = [
   "uuid",
   "ref",
   "customRef",
@@ -10,11 +10,12 @@ export const USAGER_LIGHT_ATTRIBUTES: (keyof UsagerLight)[] = [
   "surnom",
   "sexe",
   "dateNaissance",
-  "datePremiereDom",
   "email",
   "decision",
+  "datePremiereDom",
   "typeDom",
   "docs",
+  "docsPath",
   "entretien",
   "etapeDemande",
   "rdv",
