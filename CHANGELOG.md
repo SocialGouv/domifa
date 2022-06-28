@@ -1,3 +1,17 @@
+## [2.98.1](https://github.com/SocialGouv/domifa/compare/v2.98.0...v2.98.1) (2022-06-28)
+
+
+### Bug Fixes
+
+* **dumps:** mise à jour des dumps de test ([5840293](https://github.com/SocialGouv/domifa/commit/5840293c56ef0da97d721a1e14fd8062e34f4e92))
+* **dumps:** Mise à jour des dumps, correction d'une foreign key bloquante ([a7eb59e](https://github.com/SocialGouv/domifa/commit/a7eb59ec93d41a67d2b0b6f89c991f3cbb8c729b))
+* **linters:** correction des lints défaillants ([81a165f](https://github.com/SocialGouv/domifa/commit/81a165f432e6644f06e147bbb7ae44ea9e09b49c))
+* **test:** correction du test unitaire ([a7615ba](https://github.com/SocialGouv/domifa/commit/a7615ba3c799f3e3b728ca88950089ede0f56498))
+* **tests:** correction d'un test unitaire ([672cef2](https://github.com/SocialGouv/domifa/commit/672cef2ec80df65454132adaa39a6060a216c2cf))
+* **tests:** mise à jour de tests unitaires ([d368257](https://github.com/SocialGouv/domifa/commit/d368257d99017e4ddb6feac7171afce4330aaaac))
+* build des tests ([70f30ae](https://github.com/SocialGouv/domifa/commit/70f30ae35d6d441cf2ee1091609dad636231415e))
+* build des tests ([c08c13f](https://github.com/SocialGouv/domifa/commit/c08c13ffeb616726b7ee076c02fc68656446b253))
+
 # [2.98.0](https://github.com/SocialGouv/domifa/compare/v2.97.0...v2.98.0) (2022-06-28)
 
 
