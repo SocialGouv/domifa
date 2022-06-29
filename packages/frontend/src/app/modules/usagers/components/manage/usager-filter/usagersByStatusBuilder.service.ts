@@ -16,7 +16,7 @@ function build(usagers: UsagerLight[]): UsagersByStatus {
     TOUS: usagers,
   };
 
-  usagers.map((usager) => {
+  usagers.forEach((usager: UsagerLight) => {
     if (isStatus(usager, "RADIE")) {
       byStatus.RADIE.push(usager);
     } else if (isStatus(usager, "VALIDE")) {
@@ -32,6 +32,7 @@ function build(usagers: UsagerLight[]): UsagersByStatus {
 
   return byStatus;
 }
+
 function isStatus(usager: UsagerLight, statut: UsagersFilterCriteriaStatut) {
   return usagerStatutChecker.check({
     usager,

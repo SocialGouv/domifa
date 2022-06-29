@@ -74,8 +74,8 @@
         </a>
       </p>
       <p class="text-danger">
-        <b>Attention:</b> seul le modèle téléchargé sur Domifa vous permettra
-        d'importer. <br />
+        <strong>Attention:</strong> seul le modèle téléchargé sur DomiFa vous
+        permettra d'importer. <br />
         Pour éviter tout bug, merci de ne pas modifier l'ordre ou le format des
         colonnes du fichier Excel
       </p>
@@ -104,7 +104,7 @@
       >
         <label for="fileExcel" class="zone-upload">
           <fa-icon [icon]="['fas', 'download']"></fa-icon>
-          <b>Cliquez ici</b>
+          <strong>Cliquez ici</strong>
           pour importer le fichier Excel complété
         </label>
         <input
@@ -127,7 +127,7 @@
     >
       <div class="text-center" *ngIf="previewTable">
         <h4 class="text-primary">Votre fichier est prêt à être importé !</h4>
-        <b>{{ previewTable.totalCount }} domiciliés</b>
+        <strong>{{ previewTable.totalCount }} domiciliés</strong>
         seront importés sur Domifa
       </div>
       <br />
@@ -156,7 +156,7 @@
 
       <p>
         Attention : votre fichier contient
-        <b>{{ previewTable?.errorsCount }}</b>
+        <strong>{{ previewTable?.errorsCount }}</strong>
         erreurs
         <br />
         Les champs incorrects sont marqués en rouge dans le tableau ci-dessous
@@ -293,7 +293,7 @@
         <tbody *ngIf="visibleRows">
           <tr *ngFor="let row of visibleRows; let index = index">
             <td>
-              <b>{{ row.rowNumber - 1 }}</b>
+              <strong>{{ row.rowNumber - 1 }}</strong>
             </td>
             <td
               [ngClass]="{

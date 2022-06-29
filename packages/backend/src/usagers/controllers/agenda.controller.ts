@@ -68,13 +68,13 @@ export class AgendaController {
     @Res() res: ExpressResponse
   ) {
     if (rdvDto.isNow) {
-      const updatedUsager = await this.usagersService.setRdv(
+      const updatedUsagerNow = await this.usagersService.setRdv(
         usager,
         rdvDto,
         currentUser
       );
 
-      return res.status(HttpStatus.OK).json(updatedUsager);
+      return res.status(HttpStatus.OK).json(updatedUsagerNow);
     }
 
     const user: UserStructureAuthenticated =

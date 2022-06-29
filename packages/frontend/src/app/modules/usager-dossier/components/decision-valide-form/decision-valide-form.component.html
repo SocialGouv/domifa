@@ -7,7 +7,7 @@
 <div class="modal-body">
   <div class="col">
     Vous êtes sur le point de domicilier
-    <b>{{ usager | usagerNomComplet }}.</b>
+    <strong>{{ usager | usagerNomComplet }}.</strong>
     <br />
     Veuillez indiquer la date de début de la domiciliation.
     <br />
@@ -130,9 +130,9 @@
 
           <ul>
             <li *ngFor="let usagerRef of usagersRefs">
-              <b>
+              <strong>
                 {{ usagerRef | usagerNomComplet }}
-              </b>
+              </strong>
               - {{ usagerRef.customRef }}
             </li>
           </ul>

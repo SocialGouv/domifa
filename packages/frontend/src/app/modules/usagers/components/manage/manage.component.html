@@ -346,11 +346,11 @@
           <div id="dropdownSortButton" ngbDropdownToggle>
             <span *ngIf="filters.sortKey !== 'PASSAGE'">
               Trier par
-              <b class="text-primary">{{ sortLabel }}</b>
+              <b class="text-primary">{{ sortLabel }}</strong>
             </span>
 
             <span *ngIf="filters.sortKey === 'PASSAGE'">
-              Trier par <b class="text-primary">dernier passage</b>
+              Trier par <b class="text-primary">dernier passage</strong>
             </span>
 
             <fa-icon
@@ -497,7 +497,7 @@
       class="my-4 alert alert-warning text-center d-print-none"
     >
       <span class="me-2">
-        <b>Aucun résultat :</b>
+        <strong>Aucun résultat :</strong>
         aucun dossier ne correspond à votre recherche
       </span>
 

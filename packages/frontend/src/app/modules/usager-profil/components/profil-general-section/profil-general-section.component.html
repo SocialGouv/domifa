@@ -98,9 +98,9 @@
             <div class="svg-icon icon-danger"></div>
             <span>
               La domiciliation expire le
-              <b>
+              <strong>
                 {{ usager.echeanceInfos.dateToDisplay | date: "dd/MM/yyyy" }}
-              </b>
+              </strong>
             </span>
           </div>
           <div
@@ -142,7 +142,7 @@
           >
             <div class="svg-icon icon-distribution"></div>
             <span
-              ><b>Attention : </b> le transfert de courrier était valable
+              ><strong>Attention : </strong> le transfert de courrier était valable
               jusqu'au
               {{ usager.options.transfert.dateFin | date: "dd/MM/yyyy" }}</span
             >
@@ -225,7 +225,7 @@
                     class="p-1"
                     *ngFor="let ayantDroit of usager.ayantsDroits"
                   >
-                    <b class="text-primary">{{ ayantDroit.nom }}</b>
+                    <b class="text-primary">{{ ayantDroit.nom }}</strong>
                     {{ ayantDroit.prenom }}
                   </div>
                 </div>
@@ -302,7 +302,7 @@
               <div class="interaction-icon icon-courrier"></div>
             </div>
             <div class="profil-interaction-label">
-              <b>{{ usager.lastInteraction.courrierIn }}</b> courriers
+              <strong>{{ usager.lastInteraction.courrierIn }}</strong> courriers
             </div>
           </div>
           <div class="profil-interaction my-3">
@@ -310,7 +310,7 @@
               <div class="interaction-icon icon-colis"></div>
             </div>
             <div class="profil-interaction-label">
-              <b>{{ usager.lastInteraction.colisIn }}</b> colis
+              <strong>{{ usager.lastInteraction.colisIn }}</strong> colis
             </div>
           </div>
           <div class="profil-interaction my-3">
@@ -318,7 +318,7 @@
               <div class="interaction-icon icon-recommande"></div>
             </div>
             <div class="profil-interaction-label">
-              <b>{{ usager.lastInteraction.recommandeIn }}</b> avis de passage
+              <strong>{{ usager.lastInteraction.recommandeIn }}</strong> avis de passage
             </div>
           </div>
 

@@ -98,17 +98,14 @@ html {
 }
 
 .content {
+  background-color: #f2f2f2;
+  min-height: calc(90vh - 78px);
+  padding-bottom: 4rem;
+}
+
+.page-content {
   background-color: white;
   border-radius: 3px;
-  min-height: 30vh;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-.head-page {
-  background-color: var(--primary);
-  width: 100%;
 }
 
 .head-page .title,

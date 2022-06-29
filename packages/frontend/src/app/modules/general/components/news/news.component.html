@@ -9,7 +9,7 @@
     <div class="page-content p-4">
       <div class="card my-3 text-start" *ngFor="let news of DOMIFA_NEWS">
         <p>
-          <b>{{ news.date | date: "dd/MM/yyyy" }}</b>
+          <strong>{{ news.date | date: "dd/MM/yyyy" }}</strong>
           <span *ngIf="news.description">- {{ news.description }}</span>
         </p>
         <div *ngFor="let content of news.content" class="text-start news">
@@ -23,7 +23,7 @@
             {{ NEWS_LABELS[content.type] }}
           </span>
           &nbsp;
-          <b>{{ content.categorie }}</b>
+          <strong>{{ content.categorie }}</strong>
           <br />
           <ul>
             <li *ngFor="let message of content.message">{{ message }}</li>

@@ -25,7 +25,7 @@
       id="dropdownAuthenticatedMenu"
       display="dynamic"
       placement="bottom-right"
-      class="ms-2 d-inline-block bg-white"
+      class="ms-2 me-2 d-inline-block bg-white"
     >
       <button class="btn btn-outline-primary" ngbDropdownToggle>Menu</button>
       <div ngbDropdownMenu aria-labelledby="dropdownAuthenticatedMenu">
@@ -74,12 +74,6 @@
   class="d-print-none page-footer py-4"
   #footer
 >
-  <div *ngIf="adminProfile" class="py-4 text-center">
-    <button (click)="logout()" class="btn btn-outline-primary">
-      <fa-icon [icon]="['far', 'comment']"></fa-icon> Me déconnecter
-    </button>
-  </div>
-
   <div class="container">
     <div class="my-2">
       <div class="mb-3 mb-sm-0">Nos partenaires:</div>
