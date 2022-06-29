@@ -7,7 +7,7 @@
 <div class="modal-body">
   <div class="col">
     Vous êtes sur le point de domicilier
-    <b>{{ usager | usagerNomComplet }}.</b>
+    <strong>{{ usager | usagerNomComplet }}.</strong>
     <br />
     Veuillez indiquer la date de début de la domiciliation.
     <br />
@@ -89,10 +89,10 @@
         </div>
         <div class="text-center text-danger col-12">
           <p class="text-center" *ngIf="showDurationWarning">
-            <b class="text-danger warning-end-dom"
+            <strong class="text-danger warning-end-dom"
               ><fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
               D'après la réglementation, une attestation de domiciliation doit
-              être valable pendant un an.</b
+              être valable pendant un an.</strong
             >
           </p>
           <p *ngIf="v.dateDebut.errors">La date de début est incorrecte</p>
@@ -130,9 +130,9 @@
 
           <ul>
             <li *ngFor="let usagerRef of usagersRefs">
-              <b>
+              <strong>
                 {{ usagerRef | usagerNomComplet }}
-              </b>
+              </strong>
               - {{ usagerRef.customRef }}
             </li>
           </ul>

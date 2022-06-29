@@ -279,10 +279,10 @@
   </div>
   <div class="modal-body" *ngIf="procurationToDelete !== null">
     Êtes-vous sur de vouloir supprimer la procuration au nom de
-    <b
+    <strong
       >{{ usager.options.procurations[procurationToDelete].nom }} {{
       usager.options.procurations[procurationToDelete].prenom }}
-    </b>
+    </strong>
     ?
   </div>
   <div class="modal-footer">
@@ -293,5 +293,5 @@
     <button class="btn btn-lg btn-danger" (click)="deleteProcuration()">
       Confirmer la suppression
     </button>
-  </div></ng-template
->
+  </div>
+</ng-template>

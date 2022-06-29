@@ -15,7 +15,7 @@
       <ng-container *ngIf="!regionId">
         <h1 class="font-bold">Statistiques et mesure d’impact</h1>
         <h3 class="fw-normal home-header-subtitle">
-          Domifa simplifie la domiciliation et la distribution de courrier pour
+          DomiFa simplifie la domiciliation et la distribution de courrier pour
           les personnes sans domicile stable
         </h3>
       </ng-container>
@@ -25,7 +25,7 @@
           {{ regions[REGIONS_SEO_ID[regionId]] }}
         </h1>
         <h3 class="fw-normal home-header-subtitle">
-          Domifa simplifie la domiciliation et la distribution de courrier pour
+          DomiFa simplifie la domiciliation et la distribution de courrier pour
           les personnes sans domicile stable dans la région
           {{ regions[REGIONS_SEO_ID[regionId]] }}
         </h3>
@@ -60,10 +60,10 @@
     </h2>
     <p>
       En lien avec les domiciliés, des structures de domiciliation utilisent
-      Domifa chaque jour pour gérer leur activité
+      DomiFa chaque jour pour gérer leur activité
       <br />
       <a routerLink="/" title="S'inscrire">
-        Vous souhaitez utiliser Domifa ?
+        Vous souhaitez utiliser DomiFa ?
       </a>
     </p>
     <br />
@@ -78,7 +78,7 @@
             />
           </div>
           <div>
-            <div class="text-start">
+            <div class="text-start" *ngIf="stats">
               <div class="stats-counter skeleton">
                 {{ stats?.structuresCount | formatBigNumber }}
               </div>
@@ -172,7 +172,7 @@
     <h2 class="font-bold text-primary">
       Nous répondons présent partout en France !
     </h2>
-    <p>Domifa est utilisé dans la majorité des régions Françaises</p>
+    <p>DomiFa est utilisé dans la majorité des régions Françaises</p>
     <br />
     <div class="row">
       <div class="col-md-6 text-center">

@@ -15,6 +15,7 @@ function build(usagers: UsagerLight[]): UsagersByStatus {
     ATTENTE_DECISION: [],
     TOUS: usagers,
   };
+  // eslint-disable-next-line no-shadow
   const byStatus = usagers.reduce((acc, usager) => {
     if (isStatus(usager, "RADIE")) {
       acc.RADIE.push(usager);
@@ -31,6 +32,7 @@ function build(usagers: UsagerLight[]): UsagersByStatus {
   }, acc);
   return byStatus;
 }
+
 function isStatus(usager: UsagerLight, statut: UsagersFilterCriteriaStatut) {
   return usagerStatutChecker.check({
     usager,

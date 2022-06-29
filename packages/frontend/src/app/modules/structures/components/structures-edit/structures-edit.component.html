@@ -51,7 +51,7 @@
           <div class="list-group-item" *ngIf="structure">
             <div class="row">
               <div class="col-7">
-                <b>{{ structure.nom }}</b>
+                <strong>{{ structure.nom }}</strong>
                 <br />
                 {{ structure.adresse }}
                 <span *ngIf="structure.complementAdresse">
@@ -78,14 +78,14 @@
           <div class="p-3" *ngIf="!hardResetCode">
             <p>
               Vous êtes sur le point de
-              <b>supprimer TOUS LES DOMICILIÉS</b>
+              <strong>supprimer TOUS LES DOMICILIÉS</strong>
               de votre structure.
             </p>
 
             <p *ngIf="structure.portailUsager.enabledByStructure">
-              <b>Important :</b> Tous les accès au portail Domifa dédié aux
-              usagers seront supprimés ! Vos domiciliés ne pourront plus y
-              accéder.
+              <strong>Important :</strong> Tous les accès au portail DomiFa
+              dédié aux usagers seront supprimés ! Vos domiciliés ne pourront
+              plus y accéder.
             </p>
             <p>
               Si vous choisissez de continuer, les données suivantes seront
@@ -101,9 +101,9 @@
             </ul>
             <br />
             <p>
-              <b>
+              <strong>
                 Vous n'aurez aucun moyen de restaurer les dossiers effacés.
-              </b>
+              </strong>
               <br />
               Pour finaliser cette procédure, cliquez sur "continuer".
             </p>

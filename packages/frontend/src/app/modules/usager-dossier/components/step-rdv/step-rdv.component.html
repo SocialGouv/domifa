@@ -14,13 +14,13 @@
 
           <p>
             Le
-            <b> {{ usager.rdv.dateRdv | date: "dd/MM/yyyy" }} </b>
+            <strong> {{ usager.rdv.dateRdv | date: "dd/MM/yyyy" }} </strong>
             <br />
             à
-            <b> {{ usager.rdv.dateRdv | date: "HH:mm" }} </b>
+            <strong> {{ usager.rdv.dateRdv | date: "HH:mm" }} </strong>
             <br />
             avec
-            <b>{{ usager.rdv.userName }}</b>
+            <strong>{{ usager.rdv.userName }}</strong>
             <br />
             <br />
             <button (click)="rdvNow()" class="btn btn-primary">

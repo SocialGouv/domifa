@@ -64,7 +64,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Inscription sur Domifa : étape 2");
+    this.titleService.setTitle("Inscription sur DomiFa : étape 2");
 
     this.userForm = this.formBuilder.group(
       {

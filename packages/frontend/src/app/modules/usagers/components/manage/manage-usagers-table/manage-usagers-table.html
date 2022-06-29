@@ -130,7 +130,7 @@
           <ng-template #ayantsDroitsTooltip class="p-4 text-start">
             <div class="distribution-tooltip">
               <div class="p-1" *ngFor="let ayantDroit of usager.ayantsDroits">
-                <b class="text-primary">{{ayantDroit.nom }}</b>
+                <strong class="text-primary">{{ayantDroit.nom }}</strong>
                 {{ ayantDroit.prenom}}
               </div>
             </div>
@@ -314,8 +314,8 @@
               <div *ngIf="usager.lastInteraction.courrierIn > 0">
                 <span class="list-icon icon-courrier"></span>
                 <span>
-                  <b class="text-primary"
-                    >{{ usager.lastInteraction.courrierIn }}</b
+                  <strong class="text-primary"
+                    >{{ usager.lastInteraction.courrierIn }}</strong
                   >
                   courriers
                 </span>
@@ -324,8 +324,8 @@
               <div *ngIf="usager.lastInteraction.recommandeIn > 0">
                 <span class="list-icon icon-recommande"> </span>
                 <span>
-                  <b class="text-primary"
-                    >{{ usager.lastInteraction.recommandeIn }}</b
+                  <strong class="text-primary"
+                    >{{ usager.lastInteraction.recommandeIn }}</strong
                   >
                   avis de passage</span
                 >
@@ -334,8 +334,8 @@
               <div *ngIf="usager.lastInteraction.colisIn > 0">
                 <span class="list-icon icon-colis"> </span>
                 <span>
-                  <b class="text-primary"
-                    >{{ usager.lastInteraction.colisIn }}</b
+                  <strong class="text-primary"
+                    >{{ usager.lastInteraction.colisIn }}</strong
                   >
                   colis</span
                 >
@@ -353,9 +353,9 @@
           >
             <span class="icon-distribution list-icon"></span>
             <span class="list-icon-label">Distribuer</span>
-            <b class="notification">
+            <strong class="notification">
               {{ usager.totalInteractionsEnAttente }}
-            </b>
+            </strong>
           </button>
         </div>
       </td>

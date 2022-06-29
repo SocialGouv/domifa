@@ -62,12 +62,13 @@ export class RegisterUserAdminComponent implements OnInit {
 
   public submitUser() {
     this.submitted = true;
-    this.loading = true;
+
     if (this.userForm.invalid) {
       this.toastService.error(
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );
     } else {
+      this.loading = true;
       this.userService.registerUser(this.userForm.value).subscribe({
         next: () => {
           this.loading = false;

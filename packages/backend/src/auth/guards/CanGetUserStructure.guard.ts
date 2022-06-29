@@ -37,7 +37,7 @@ export class CanGetUserStructureGuard implements CanActivate {
       }
     );
 
-    if (!chosenUserStructure || chosenUserStructure === null) {
+    if (!chosenUserStructure) {
       appLogger.warn(
         `[CanGetUserStructureGuard] chosenUserStructure not found for userId "${userId}" or structureId "${structureId}" for user "${r.user._id}" with role "${r.user.role}"`,
         { sentryBreadcrumb: true }

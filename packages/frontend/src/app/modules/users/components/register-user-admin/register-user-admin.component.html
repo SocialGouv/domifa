@@ -49,7 +49,7 @@
       <div *ngIf="f.email.errors" class="invalid-feedback">
         <p *ngIf="f.email.errors.emailTaken">
           <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
-          <b>L'adresse email est déjà utilisée</b>
+          <strong>L'adresse email est déjà utilisée</strong>
         </p>
         <p *ngIf="!f.email.errors.emailTaken">L'adresse Email est incorrecte</p>
       </div>

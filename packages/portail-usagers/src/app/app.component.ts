@@ -35,6 +35,6 @@ export class AppComponent implements OnInit {
   }
 
   public logout(): void {
-    this.usagerAuthService.logout();
+    this.usagerAuthService.logoutAndRedirect();
   }
 }

@@ -7,12 +7,12 @@
 <div class="modal-body p-4 text-start">
   <p>
     Vous souhaitez mettre fin à la domiciliation de
-    <b>
+    <strong>
       {{ usager | usagerNomComplet }} né{{
         usager.sexe === "homme" ? "" : "e"
       }}
       le {{ usager.dateNaissance | date: "dd/MM/yyyy" }}.
-    </b>
+    </strong>
     <br />
     <br />
     La radiation peut avoir de lourdes conséquences et laisser une personne sans

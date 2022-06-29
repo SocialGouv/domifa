@@ -1,4 +1,4 @@
-<div class="container my-5">
+<div class="container my-5" *ngIf="!usagerProfile">
   <div class="text-center py-2">
     <h5 class="title">Connexion à Domifa</h5>
   </div>
@@ -14,6 +14,7 @@
           type="text"
           formControlName="login"
           autocomplete="username"
+          id="login"
           placeholder="Votre identifiant"
           class="form-control"
           [readonly]="this.mode === 'login-change-password'"
@@ -34,12 +35,10 @@
           passe:
         </p>
         <div class="form-group required">
-          <label class="fw-bold" for="password" id="new-password"
-            >Nouveau mot de passe</label
-          >
+          <label class="fw-bold" for="password">Nouveau mot de passe</label>
           <div class="input-group">
             <input
-              id="new-password"
+              id="password"
               type="password"
               formControlName="newPassword"
               [type]="!hidePasswordNew ? 'text' : 'password'"
@@ -175,7 +174,7 @@
             !this.loginForm?.hasError('new-password-same-as-temporary-password')
           "
         >
-          <label class="fw-bold" for="password" id="new-password"
+          <label class="fw-bold" for="new-password-confirm"
             >Confirmation du mot de passe</label
           >
           <div class="input-group">
@@ -239,6 +238,7 @@
         <div class="input-group">
           <input
             type="password"
+            id="password"
             formControlName="password"
             [type]="!hidePassword ? 'text' : 'password'"
             class="form-control"

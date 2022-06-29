@@ -61,9 +61,9 @@
 
     <div class="text-center" *ngIf="searchFailed && structures.length === 0">
       <br />
-      <b class="text-danger">
+      <strong class="text-danger">
         Aucune structure n'est enregistrée dans votre ville.
-      </b>
+      </strong>
       <br />
       Cliquez sur le lien ci-dessous pour inscrire votre structure.
       <br />
@@ -82,13 +82,13 @@
     </div>
     <div class="text-center" *ngIf="structures.length > 0">
       <br />
-      <b>
+      <strong>
         Si vous appartenez à l’une de ces structures, un membre de celle-ci doit
         vous donner accès :
-      </b>
+      </strong>
       <div class="card" *ngFor="let structure of structures">
         <span>
-          <b class="text-primary">{{ structure.nom }}</b>
+          <strong class="text-primary">{{ structure.nom }}</strong>
           <br />
           {{ structure.adresse }},
           <i>{{ structure.codePostal }}, {{ structure.ville }}</i>

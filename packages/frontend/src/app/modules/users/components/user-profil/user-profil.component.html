@@ -24,7 +24,7 @@
         <tbody>
           <tr *ngFor="let user of users">
             <td>
-              <b>{{ user.nom }} {{ user.prenom }}</b>
+              <strong>{{ user.nom }} {{ user.prenom }}</strong>
               <span class="user-icon">
                 <span *ngIf="user.role === 'admin'" class="badge bg-primary">
                   Administrateur

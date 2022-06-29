@@ -60,7 +60,7 @@ export class PublicStatsComponent implements OnInit {
       const title =
         "Statistiques régionales : " + this.regions[REGIONS_SEO_ID[region]];
       const description =
-        " Domifa simplifie la domiciliation et la distribution de courrier pour les personnes sans domicile stable dans la région" +
+        " DomiFa simplifie la domiciliation et la distribution de courrier pour les personnes sans domicile stable dans la région" +
         this.regions[REGIONS_SEO_ID[region]];
 
       this.seoService.updateTitleAndTags(title, description, true);
