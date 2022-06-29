@@ -1,7 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router, RouterStateSnapshot } from "@angular/router";
-import * as Sentry from "@sentry/browser";
+import { configureScope } from "@sentry/angular";
+
 import { BehaviorSubject, catchError, map, Observable, of } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import {
@@ -71,7 +72,7 @@ export class AdminAuthService {
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.removeItem(USER_KEY);
     this.currentAdminSubject.next(null);
-    Sentry.configureScope((scope) => {
+    configureScope((scope) => {
       scope.setTag("profil-admin", "none");
       scope.setUser({});
     });
@@ -117,7 +118,7 @@ export class AdminAuthService {
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(authAdminProfile));
 
     // Sentry
-    Sentry.configureScope((scope) => {
+    configureScope((scope) => {
       scope.setTag("auth-admin-ref", authAdminProfile.toString());
       scope.setUser({
         username:

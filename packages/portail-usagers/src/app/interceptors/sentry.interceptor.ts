@@ -1,10 +1,9 @@
 import { ErrorHandler, Injectable } from "@angular/core";
-
-import * as Sentry from "@sentry/browser";
+import { captureException } from "@sentry/angular";
 
 @Injectable()
 export class SentryErrorHandler implements ErrorHandler {
   handleError(err: any): void {
-    Sentry.captureException(new Error(err));
+    captureException(new Error(err));
   }
 }

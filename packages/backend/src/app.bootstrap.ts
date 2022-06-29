@@ -1,6 +1,5 @@
 import "./instrumentation";
 
-import * as Sentry from "@sentry/node";
 import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import {
@@ -17,6 +16,7 @@ import { domifaConfig } from "./config";
 import { appTypeormManager } from "./database";
 import { appLogger } from "./util";
 import { AppSentryInterceptor } from "./util/sentry";
+import { captureMessage } from "@sentry/node";
 
 export async function tearDownApplication({
   app,
@@ -37,7 +37,7 @@ export async function bootstrapApplication() {
       );
 
       if (domifaConfig().envId === "prod") {
-        Sentry.captureMessage(
+        captureMessage(
           `[API START] [${domifaConfig().envId}] ${format(
             new Date(),
             "dd/MM/yyyy - HH:mm"

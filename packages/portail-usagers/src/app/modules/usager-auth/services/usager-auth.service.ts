@@ -2,7 +2,7 @@ import { CustomToastService } from "./../../shared/services/custom-toast.service
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router, RouterStateSnapshot } from "@angular/router";
-import * as Sentry from "@sentry/browser";
+
 import { BehaviorSubject, catchError, map, Observable, of } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import {
@@ -11,6 +11,7 @@ import {
   PortailUsagerProfile,
 } from "../../../../_common";
 import { globalConstants } from "../../../shared/utils/global-constants.class";
+import { configureScope } from "@sentry/angular";
 
 const END_POINT_AUTH = environment.apiUrl + "portail-usagers/auth";
 const END_POINT_PROFILE = environment.apiUrl + "portail-usagers/profile";
@@ -68,7 +69,7 @@ export class UsagerAuthService {
   public logout(): void {
     this.currentUsagerSubject.next(null);
     globalConstants.clearStorage();
-    Sentry.configureScope((scope) => {
+    configureScope((scope) => {
       scope.setTag("profil-usager", "none");
       scope.setUser({});
     });
@@ -110,7 +111,7 @@ export class UsagerAuthService {
     globalConstants.setItem(USER_KEY, JSON.stringify(authUsagerProfile));
 
     // Sentry
-    Sentry.configureScope((scope) => {
+    configureScope((scope) => {
       scope.setTag("auth-usager-ref", authUsagerProfile.toString());
       scope.setUser({
         username:

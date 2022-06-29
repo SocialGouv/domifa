@@ -4,7 +4,15 @@ import {
   Injectable,
   NestInterceptor,
 } from "@nestjs/common";
-import * as Sentry from "@sentry/node";
+import {
+  addRequestDataToEvent,
+  captureException,
+  captureMessage,
+  CrossPlatformRequest,
+  Scope,
+  withScope,
+} from "@sentry/node";
+
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { UserStructureAuthenticated } from "../../_common/model";
@@ -16,14 +24,14 @@ export class AppSentryInterceptor implements NestInterceptor {
     return next.handle().pipe(
       catchError((err) => {
         try {
-          Sentry.withScope((scope) => {
+          withScope((scope) => {
             let prefix: string;
             switch (context.getType()) {
               case "http":
                 {
                   prefix = "[http]";
 
-                  const { req, user } = parseRequest(context, scope);
+                  const { req, user } = parseRequest(context);
                   logSentryRequest({ req, scope });
                   logSentryUser({ user, scope });
                 }
@@ -32,15 +40,15 @@ export class AppSentryInterceptor implements NestInterceptor {
                 prefix = "[core]";
               }
             }
-            Sentry.captureException(err, {
-              level: Sentry.Severity.Warning,
+            captureException(err, {
+              level: "warning",
             });
-            Sentry.captureMessage(
+            captureMessage(
               `${prefix} ${
                 err.message ?? "unexpected error"
               } ${new Date().toUTCString()}`,
               {
-                level: Sentry.Severity.Error,
+                level: "error",
               }
             );
           });
@@ -56,14 +64,15 @@ export class AppSentryInterceptor implements NestInterceptor {
     );
   }
 }
-function parseRequest(context: ExecutionContext, scope: Sentry.Scope) {
+function parseRequest(context: ExecutionContext) {
   const httpContext = context.switchToHttp();
-  const expressRequest: Sentry.Handlers.ExpressRequest =
-    httpContext.getRequest();
+  const expressRequest: CrossPlatformRequest = httpContext.getRequest();
   if (expressRequest) {
-    const data = Sentry.Handlers.parseRequest({}, expressRequest, {
-      request: true,
-      user: false,
+    const data = addRequestDataToEvent({}, expressRequest, {
+      include: {
+        request: true,
+        user: false,
+      },
     });
     const req = data.request;
 
@@ -80,8 +89,8 @@ function logSentryRequest({
   req,
   scope,
 }: {
-  req: Sentry.Request;
-  scope: Sentry.Scope;
+  req: CrossPlatformRequest;
+  scope: Scope;
 }) {
   if (req) {
     const headers = req.headers ?? {};
@@ -99,12 +108,13 @@ function logSentryRequest({
     });
   }
 }
+
 function logSentryUser({
   user,
   scope,
 }: {
   user: UserStructureAuthenticated;
-  scope: Sentry.Scope;
+  scope: Scope;
 }) {
   if (user) {
     scope.setExtra("user", {
