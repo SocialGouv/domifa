@@ -1,3 +1,10 @@
+# [2.99.0](https://github.com/SocialGouv/domifa/compare/v2.98.2...v2.99.0) (2022-06-29)
+
+
+### Features
+
+* **general:** Mise à jour des documents généraux ([ab4eab2](https://github.com/SocialGouv/domifa/commit/ab4eab257a5e3c304de1bf8935d93ebacb7c38ae))
+
 ## [2.98.2](https://github.com/SocialGouv/domifa/compare/v2.98.1...v2.98.2) (2022-06-28)
 
 
