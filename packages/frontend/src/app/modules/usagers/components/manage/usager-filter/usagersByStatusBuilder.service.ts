@@ -7,7 +7,7 @@ export const usagersByStatusBuilder = {
 };
 
 function build(usagers: UsagerLight[]): UsagersByStatus {
-  const byStatus: UsagersByStatus = {
+  const acc: UsagersByStatus = {
     RADIE: [],
     VALIDE: [],
     REFUS: [],
@@ -15,21 +15,21 @@ function build(usagers: UsagerLight[]): UsagersByStatus {
     ATTENTE_DECISION: [],
     TOUS: usagers,
   };
-
-  usagers.forEach((usager: UsagerLight) => {
+  // eslint-disable-next-line no-shadow
+  const byStatus = usagers.reduce((acc, usager) => {
     if (isStatus(usager, "RADIE")) {
-      byStatus.RADIE.push(usager);
+      acc.RADIE.push(usager);
     } else if (isStatus(usager, "VALIDE")) {
-      byStatus.VALIDE.push(usager);
+      acc.VALIDE.push(usager);
     } else if (isStatus(usager, "REFUS")) {
-      byStatus.REFUS.push(usager);
+      acc.REFUS.push(usager);
     } else if (isStatus(usager, "INSTRUCTION")) {
-      byStatus.INSTRUCTION.push(usager);
+      acc.INSTRUCTION.push(usager);
     } else if (isStatus(usager, "ATTENTE_DECISION")) {
-      byStatus.ATTENTE_DECISION.push(usager);
+      acc.ATTENTE_DECISION.push(usager);
     }
-  });
-
+    return acc;
+  }, acc);
   return byStatus;
 }
 
