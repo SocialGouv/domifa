@@ -166,7 +166,10 @@
       *ngFor="let interaction of selectedInteractionsWithContent | slice: 0:30"
     >
       <ng-container *ngIf="interaction.content">
-        <b>{{ interaction.dateInteraction | date: "dd/MM/yyyy à HH:mm" }} </b> -
+        <strong
+          >{{ interaction.dateInteraction | date: "dd/MM/yyyy à HH:mm" }}
+        </strong>
+        -
         {{ interaction.label }}
         <div *ngIf="interaction.content">
           {{ interaction.content }}

@@ -19,7 +19,7 @@ export class NewsComponent implements OnInit {
   public ngOnInit(): void {
     this.seoService.updateTitleAndTags(
       "Les dernières nouveautés de Domifa",
-      "Domifa est une startup d'état qui développe de nouvelles fonctionnalités en continue pour améliorer le produit"
+      "DomiFa est une startup d'état qui développe de nouvelles fonctionnalités en continue pour améliorer le produit"
     );
     localStorage.setItem("news", new Date(DOMIFA_NEWS[0].date).toISOString());
   }

@@ -11,13 +11,13 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { LoadingComponent } from "../shared/components/loading/loading.component";
 
-import { CguComponent } from "./components/cgu/cgu.component";
+import { CguComponent } from "./components/_static/cgu/cgu.component";
 import { NotFoundComponent } from "./components/errors/not-found/not-found.component";
 import { FaqComponent } from "./components/faq/faq.component";
 import { HomeComponent } from "./components/home/home.component";
-import { MentionsLegalesComponent } from "./components/mentions/mentions-legales/mentions-legales.component";
+import { MentionsLegalesComponent } from "./components/_static/mentions-legales/mentions-legales.component";
 import { NewsComponent } from "./components/news/news.component";
-import { PolitiqueComponent } from "./components/politique/politique.component";
+import { PolitiqueComponent } from "./components/_static/politique/politique.component";
 import { GeneralService } from "./services/general.service";
 
 import { NavbarComponent } from "./components/navbar/navbar.component";
@@ -28,6 +28,7 @@ import { SharedModule } from "../shared/shared.module";
 import { ContactSupportComponent } from "./components/contact-support/contact-support.component";
 import { LoginComponent } from "./components/login/login.component";
 import { PlanSiteComponent } from "./components/plan-site/plan-site.component";
+
 @NgModule({
   declarations: [
     HomeComponent,

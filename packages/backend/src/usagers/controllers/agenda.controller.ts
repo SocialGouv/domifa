@@ -68,13 +68,13 @@ export class AgendaController {
     @Res() res: ExpressResponse
   ) {
     if (rdvDto.isNow) {
-      const updatedUsager = await this.usagersService.setRdv(
+      const updatedUsagerNow = await this.usagersService.setRdv(
         usager,
         rdvDto,
         currentUser
       );
 
-      return res.status(HttpStatus.OK).json(updatedUsager);
+      return res.status(HttpStatus.OK).json(updatedUsagerNow);
     }
 
     const user: UserStructureAuthenticated =
@@ -118,53 +118,53 @@ export class AgendaController {
 
     const invitationContent = invitation.value;
 
-    if (invitationContent) {
-      const icalEvent: MessageEmailIcalEvent = {
-        filename: "invitation.ics",
-        content: invitationContent,
-        method: "publish",
-      };
-      let message = "";
-      if (currentUser.id !== user.id) {
-        message =
-          "Il vous a été assigné par " +
-          currentUser.prenom +
-          " " +
-          currentUser.nom;
-      }
-
-      const updatedUsager = await this.usagersService.setRdv(
-        usager,
-        rdvDto,
-        user
-      );
-
-      if (updatedUsager && updatedUsager !== null) {
-        if (!domifaConfig().email.emailsEnabled) {
-          return res.status(HttpStatus.OK).json(updatedUsager);
-        }
-
-        usagerAppointmentCreatedEmailSender
-          .sendMail({ user, usager: updatedUsager, icalEvent, message })
-          .then(
-            () => {
-              return res.status(HttpStatus.OK).json(updatedUsager);
-            },
-            () => {
-              return res
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .json({ message: "REGISTER_ERROR" });
-            }
-          );
-      } else {
-        return res
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: "CANNOT_SET_RDV" });
-      }
-    } else {
+    if (!invitationContent) {
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "ICS_GENERATION" });
     }
+
+    const icalEvent: MessageEmailIcalEvent = {
+      filename: "invitation.ics",
+      content: invitationContent,
+      method: "publish",
+    };
+
+    let message = "";
+    if (currentUser.id !== user.id) {
+      message =
+        "Il vous a été assigné par " +
+        currentUser.prenom +
+        " " +
+        currentUser.nom;
+    }
+
+    const updatedUsager = await this.usagersService.setRdv(
+      usager,
+      rdvDto,
+      user
+    );
+
+    if (!updatedUsager) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "CANNOT_SET_RDV" });
+    }
+    if (!domifaConfig().email.emailsEnabled) {
+      return res.status(HttpStatus.OK).json(updatedUsager);
+    }
+
+    usagerAppointmentCreatedEmailSender
+      .sendMail({ user, usager: updatedUsager, icalEvent, message })
+      .then(
+        () => {
+          return res.status(HttpStatus.OK).json(updatedUsager);
+        },
+        () => {
+          return res
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .json({ message: "REGISTER_ERROR" });
+        }
+      );
   }
 }

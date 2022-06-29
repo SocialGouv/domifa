@@ -5,7 +5,7 @@
     "content": [
       {
         "type": "new",
-        "categorie": "Domifa et les DOM-TOM",
+        "categorie": "DomiFa et les DOM-TOM",
         "message": [
           "Ajoutez des maintenant votre indicatif de numéro de téléphone dans l'onglet structure"
         ]
@@ -40,7 +40,7 @@
     "content": [
       {
         "type": "new",
-        "categorie": "Domifa et les DOM-TOM",
+        "categorie": "DomiFa et les DOM-TOM",
         "message": [
           "Adaptation de tous les champs concernant les heures en fonction du fuseau horaire de l'utilisateur"
         ]

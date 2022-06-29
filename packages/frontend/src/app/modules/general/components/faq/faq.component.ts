@@ -11,10 +11,10 @@ import { CustomToastService } from "../../../shared/services/custom-toast.servic
 })
 export class FaqComponent implements OnInit {
   constructor(
-    private titleService: Title,
-    private meta: Meta,
-    private matomo: MatomoTracker,
-    private toastService: CustomToastService
+    private readonly titleService: Title,
+    private readonly meta: Meta,
+    private readonly matomo: MatomoTracker,
+    private readonly toastService: CustomToastService
   ) {}
 
   public ngOnInit(): void {

@@ -10,8 +10,8 @@ html {
 }
 
 #page {
-  min-height: 60vh;
   background-color: #f9f9fc;
+  min-height: calc(80vh - 70px);
   overflow-x: hidden;
 }
 
@@ -101,4 +101,22 @@ html {
 .section-tab {
   border-radius: 0;
   transform: matrix(-1, 0, 0, 1, 0, 0);
+}
+
+.head-page {
+  background-color: var(--bs-primary);
+  width: 100%;
+}
+
+.head-page .title,
+.head-page h1 {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.7rem;
+  color: #ffffff;
+}
+
+.page-content {
+  background-color: white;
+  border-radius: 3px;
 }

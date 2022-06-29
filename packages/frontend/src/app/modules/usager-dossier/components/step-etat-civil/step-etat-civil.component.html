@@ -16,7 +16,7 @@
         <ul>
           <li *ngFor="let doublon of doublons">
             <a [routerLink]="'/profil/general/' + doublon.ref">
-              <b>{{ doublon.nom | uppercase }}</b>
+              <strong>{{ doublon.nom | uppercase }}</strong>
               {{ doublon.prenom }}</a
             >, né(e) le {{ doublon.dateNaissance | date: "dd/MM/yyyy" }}
           </li>

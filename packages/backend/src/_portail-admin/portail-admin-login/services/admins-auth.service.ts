@@ -36,7 +36,7 @@ export class AdminsAuthService {
     }
     const authUser = await this.findAuthUserAdmin(payload);
 
-    if (!authUser || authUser === null) {
+    if (!authUser) {
       return false;
     }
 

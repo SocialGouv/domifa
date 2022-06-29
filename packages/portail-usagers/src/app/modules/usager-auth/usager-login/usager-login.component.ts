@@ -13,6 +13,7 @@ import { environment } from "../../../../environments/environment";
 import type {
   PortailUsagerAuthApiResponse,
   PortailUsagerAuthLoginForm,
+  PortailUsagerProfile,
 } from "../../../../_common";
 import { UsagerAuthService } from "../services/usager-auth.service";
 import { PasswordValidator } from "./password-validator.service";
@@ -30,7 +31,7 @@ export class UsagerLoginComponent implements OnInit {
   public hidePasswordNew: boolean;
 
   public loading: boolean;
-
+  public usagerProfile: PortailUsagerProfile | null;
   public mode: "login-only" | "login-change-password" = "login-only";
 
   constructor(
@@ -40,17 +41,29 @@ export class UsagerLoginComponent implements OnInit {
     private readonly authService: UsagerAuthService,
     private readonly toastr: CustomToastService,
     private readonly matomoInjector: MatomoInjector,
+    private readonly usagerAuthService: UsagerAuthService,
     public matomo: MatomoTracker,
   ) {
     this.matomoInjector.init(environment.matomo.url, environment.matomo.siteId);
     this.hidePassword = true;
     this.hidePasswordNew = true;
     this.loading = false;
+    this.usagerProfile = null;
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Connexion à DomiFa");
-    this.initForm();
+    this.titleService.setTitle("Connexion à Domifa");
+
+    this.usagerAuthService.currentUsagerSubject.subscribe(
+      (apiResponse: PortailUsagerProfile | null) => {
+        this.usagerProfile = apiResponse;
+        if (apiResponse !== null) {
+          this.router.navigate(["/account"]);
+        } else {
+          this.initForm();
+        }
+      },
+    );
   }
 
   public initForm(): void {

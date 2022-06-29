@@ -54,7 +54,7 @@
               </div>
             </div>
             <div *ngIf="interaction.event === 'delete'">
-              <b>{{ interaction.label }}</b>
+              <strong>{{ interaction.label }}</strong>
               <span *ngIf="interaction.content">
                 {{ interaction.content }}
               </span>
@@ -110,7 +110,7 @@
   </div>
 
   <div class="modal-body py-4 text-center" *ngIf="interactionToDelete">
-    <b>Êtes-vous sûr de vouloir supprimer cette interaction ?</b>
+    <strong>Êtes-vous sûr de vouloir supprimer cette interaction ?</strong>
     <br />
     <p
       *ngIf="
@@ -166,7 +166,7 @@
   </div>
 
   <div class="modal-body py-4 text-center" *ngIf="interactionToDelete">
-    <b>Êtes-vous sûr de vouloir restaurer cette interaction ?</b>
+    <strong>Êtes-vous sûr de vouloir restaurer cette interaction ?</strong>
     <br />
     <p
       *ngIf="

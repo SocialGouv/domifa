@@ -19,8 +19,8 @@
 
           <span class="statut-signal"></span>
           {{ usager | usagerNomComplet }} -
-          <b *ngIf="usager.customRef">{{ usager.customRef }}</b>
-          <b *ngIf="!usager.customRef">{{ usager.ref }}</b>
+          <strong *ngIf="usager.customRef">{{ usager.customRef }}</strong>
+          <strong *ngIf="!usager.customRef">{{ usager.ref }}</strong>
         </h1>
       </div>
 
@@ -174,17 +174,17 @@
     >
       Si vous commencez un renouvellement,
       <br />
-      <b> ce dossier ne sera plus considéré comme "actif". </b>
+      <strong> ce dossier ne sera plus considéré comme "actif". </strong>
     </p>
     <p *ngIf="usager.decision.statut === 'RADIE'">
       Si vous commencez une nouvelle demande,
       <br />
-      <b> ce dossier ne sera plus comptabilisé parmi les radiés. </b>
+      <strong> ce dossier ne sera plus comptabilisé parmi les radiés. </strong>
     </p>
     <p *ngIf="usager.decision.statut === 'REFUS'">
       Si vous créez une nouvelle demande,
       <br />
-      <b> ce dossier ne sera plus comptabilisé parmi les refusés. </b>
+      <strong> ce dossier ne sera plus comptabilisé parmi les refusés. </strong>
     </p>
     Afin de le retrouver dans la liste, vous devrez cliquer sur le filtre "À
     compléter"

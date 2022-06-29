@@ -61,7 +61,7 @@ export class StructuresAuthService {
     }
     const authUser = await this.findAuthUser(payload);
 
-    if (!authUser || authUser === null) {
+    if (!authUser) {
       return false;
     }
 

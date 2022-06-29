@@ -12,28 +12,28 @@
     <br />
     <br />
     <span>
-      <b class="text-primary">
+      <strong class="text-primary">
         <fa-icon [icon]="['fas', 'arrow-down']"></fa-icon>
         &nbsp;
-      </b>
+      </strong>
       importer vos domiciliations actuelles
     </span>
     <br />
     <br />
     <span>
-      <b class="text-primary">
+      <strong class="text-primary">
         <fa-icon [icon]="['fas', 'plus']"></fa-icon>
         &nbsp;
-      </b>
+      </strong>
       domicilier de nouvelles personnes
     </span>
     <br />
     <br />
     <span>
-      <b class="text-primary">
+      <strong class="text-primary">
         <fa-icon [icon]="['fas', 'user-plus']"></fa-icon>
         &nbsp;
-      </b>
+      </strong>
       créer des comptes pour vos collaborateurs
     </span>
     <br />
@@ -127,7 +127,7 @@
           <div *ngIf="f.email.errors" class="invalid-feedback">
             <p *ngIf="f.email.errors.emailTaken">
               <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
-              <b>L'adresse email est déjà utilisée</b>
+              <strong>L'adresse email est déjà utilisée</strong>
             </p>
             <p *ngIf="!f.email.errors.emailTaken">
               L'adresse Email est incorrecte

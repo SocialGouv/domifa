@@ -98,17 +98,14 @@ html {
 }
 
 .content {
+  background-color: #f2f2f2;
+  min-height: calc(90vh - 78px);
+  padding-bottom: 4rem;
+}
+
+.page-content {
   background-color: white;
   border-radius: 3px;
-  min-height: 30vh;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-.head-page {
-  background-color: var(--primary);
-  width: 100%;
 }
 
 .head-page .title,
@@ -159,4 +156,32 @@ html {
 .dropdown-item .ng-fa-icon {
   width: 30px;
   display: inline-block;
+}
+
+.page-footer {
+  width: 100%;
+  border-top: 1px solid #e6e6e6;
+}
+
+.page-footer img.ministere-logo {
+  height: 80px;
+  width: auto;
+}
+.page-footer .menu-breadcrumb {
+  color: #1a1a1a;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.head-page {
+  background-color: var(--bs-primary);
+  width: 100%;
+}
+
+.head-page .title,
+.head-page h1 {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.7rem;
+  color: #ffffff;
 }
