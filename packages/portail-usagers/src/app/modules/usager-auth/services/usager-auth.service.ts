@@ -10,6 +10,7 @@ import {
   PortailUsagerAuthLoginForm,
   PortailUsagerProfile,
 } from "../../../../_common";
+import { globalConstants } from "../../../shared/utils/global-constants.class";
 
 const END_POINT_AUTH = environment.apiUrl + "portail-usagers/auth";
 const END_POINT_PROFILE = environment.apiUrl + "portail-usagers/profile";
@@ -65,34 +66,24 @@ export class UsagerAuthService {
   }
 
   public logout(): void {
-    window.sessionStorage.removeItem(TOKEN_KEY);
-    window.sessionStorage.removeItem(USER_KEY);
     this.currentUsagerSubject.next(null);
+    globalConstants.clearStorage();
     Sentry.configureScope((scope) => {
       scope.setTag("profil-usager", "none");
       scope.setUser({});
-    });
-
-    this.router.navigate(["/auth/login"]).then(() => {
-      window.location.reload();
     });
   }
 
   public logoutAndRedirect(state?: RouterStateSnapshot): void {
     this.logout();
-    if (state) {
-      this.router
-        .navigate(["/auth/login"], {
-          queryParams: { returnUrl: state.url },
-        })
-        .then(() => {
-          window.location.reload();
-        });
-    } else {
-      this.router.navigate(["/auth/login"]).then(() => {
+
+    this.router
+      .navigate(["/auth/login"], {
+        queryParams: state ? { returnUrl: state.url } : {},
+      })
+      .then(() => {
         window.location.reload();
       });
-    }
   }
 
   public notAuthorized(): void {
@@ -101,13 +92,13 @@ export class UsagerAuthService {
   }
 
   public getToken(): string | null {
-    return window.sessionStorage.getItem(TOKEN_KEY);
+    return globalConstants.getItem(TOKEN_KEY);
   }
 
   public saveToken(apiAuthResponse: PortailUsagerAuthApiResponse): void {
     // Enregistrement du token
-    window.sessionStorage.removeItem(TOKEN_KEY);
-    window.sessionStorage.setItem(TOKEN_KEY, apiAuthResponse.token);
+    globalConstants.removeItem(TOKEN_KEY);
+    globalConstants.setItem(TOKEN_KEY, apiAuthResponse.token);
 
     // Build usager
     this.saveAuthUsager(apiAuthResponse.profile);
@@ -115,8 +106,8 @@ export class UsagerAuthService {
 
   public saveAuthUsager(authUsagerProfile: PortailUsagerProfile): void {
     // Enregistrement de l'utilisateur
-    window.sessionStorage.removeItem(USER_KEY);
-    window.sessionStorage.setItem(USER_KEY, JSON.stringify(authUsagerProfile));
+    globalConstants.removeItem(USER_KEY);
+    globalConstants.setItem(USER_KEY, JSON.stringify(authUsagerProfile));
 
     // Sentry
     Sentry.configureScope((scope) => {
