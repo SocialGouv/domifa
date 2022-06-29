@@ -1,3 +1,10 @@
+## [2.99.1](https://github.com/SocialGouv/domifa/compare/v2.99.0...v2.99.1) (2022-06-29)
+
+
+### Bug Fixes
+
+* **deps:** update sentry-javascript monorepo to v7 ([a3348f5](https://github.com/SocialGouv/domifa/commit/a3348f5bb17e799d9c48ec02d941f90e9d48432f))
+
 # [2.99.0](https://github.com/SocialGouv/domifa/compare/v2.98.2...v2.99.0) (2022-06-29)
 
 
