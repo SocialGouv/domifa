@@ -142,8 +142,8 @@
           >
             <div class="svg-icon icon-distribution"></div>
             <span
-              ><strong>Attention : </strong> le transfert de courrier était valable
-              jusqu'au
+              ><strong>Attention : </strong> le transfert de courrier était
+              valable jusqu'au
               {{ usager.options.transfert.dateFin | date: "dd/MM/yyyy" }}</span
             >
           </div>
@@ -225,7 +225,7 @@
                     class="p-1"
                     *ngFor="let ayantDroit of usager.ayantsDroits"
                   >
-                    <b class="text-primary">{{ ayantDroit.nom }}</strong>
+                    <strong class="text-primary">{{ ayantDroit.nom }}</strong>
                     {{ ayantDroit.prenom }}
                   </div>
                 </div>
@@ -318,7 +318,8 @@
               <div class="interaction-icon icon-recommande"></div>
             </div>
             <div class="profil-interaction-label">
-              <strong>{{ usager.lastInteraction.recommandeIn }}</strong> avis de passage
+              <strong>{{ usager.lastInteraction.recommandeIn }}</strong> avis de
+              passage
             </div>
           </div>
 

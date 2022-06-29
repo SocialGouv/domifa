@@ -61,7 +61,7 @@
 
     <div class="text-center" *ngIf="searchFailed && structures.length === 0">
       <br />
-      <b class="text-danger">
+      <strong class="text-danger">
         Aucune structure n'est enregistrée dans votre ville.
       </strong>
       <br />
@@ -88,7 +88,7 @@
       </strong>
       <div class="card" *ngFor="let structure of structures">
         <span>
-          <b class="text-primary">{{ structure.nom }}</strong>
+          <strong class="text-primary">{{ structure.nom }}</strong>
           <br />
           {{ structure.adresse }},
           <i>{{ structure.codePostal }}, {{ structure.ville }}</i>

@@ -19,8 +19,8 @@
 
           <span class="statut-signal"></span>
           {{ usager | usagerNomComplet }} -
-          <b *ngIf="usager.customRef">{{ usager.customRef }}</strong>
-          <b *ngIf="!usager.customRef">{{ usager.ref }}</strong>
+          <strong *ngIf="usager.customRef">{{ usager.customRef }}</strong>
+          <strong *ngIf="!usager.customRef">{{ usager.ref }}</strong>
         </h1>
       </div>
 
