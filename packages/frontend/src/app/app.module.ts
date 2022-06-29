@@ -16,7 +16,6 @@ import { Router } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import * as Sentry from "@sentry/angular";
 
 import { CountUpModule } from "ngx-countup";
 import { MatomoModule } from "ngx-matomo";
@@ -40,9 +39,10 @@ import pkg from "../../package.json";
 
 import { UserIdleModule } from "angular-user-idle";
 import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
+import { init } from "@sentry/angular";
 
 if (environment.production) {
-  Sentry.init({
+  init({
     release: "domifa@" + pkg.version,
     dsn: "https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31",
     environment: environment.env,

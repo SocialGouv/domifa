@@ -1,5 +1,11 @@
 import { ConsoleLogger } from "@nestjs/common";
-import * as Sentry from "@sentry/node";
+import {
+  addBreadcrumb,
+  Breadcrumb,
+  captureException,
+  captureMessage,
+} from "@sentry/node";
+
 import { domifaConfig } from "../config";
 
 class AppLogger {
@@ -30,12 +36,12 @@ class AppLogger {
         ? { extraInfo: context }
         : undefined;
 
-      const breadcrumb: Sentry.Breadcrumb = {
-        level: Sentry.Severity.Warning,
+      const breadcrumb: Breadcrumb = {
+        level: "warning",
         message,
         data: sentryExtra,
       };
-      Sentry.addBreadcrumb(breadcrumb);
+      addBreadcrumb(breadcrumb);
     }
     new ConsoleLogger().warn(message);
   }
@@ -65,13 +71,13 @@ class AppLogger {
         ? { extraInfo: context }
         : undefined;
       if (error) {
-        Sentry.captureException(error, {
-          level: Sentry.Severity.Error,
+        captureException(error, {
+          level: "error",
           extra: sentryExtra,
         });
       } else {
-        Sentry.captureMessage(message, {
-          level: Sentry.Severity.Error,
+        captureMessage(message, {
+          level: "error",
           // contexts,
           extra: sentryExtra,
         });

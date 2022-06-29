@@ -1,7 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router, RouterStateSnapshot } from "@angular/router";
-import * as Sentry from "@sentry/browser";
+import { configureScope } from "@sentry/angular";
+
 import { UserIdleService } from "angular-user-idle";
 import jwtDecode from "jwt-decode";
 
@@ -74,7 +75,7 @@ export class AuthService {
         localStorage.setItem("currentUser", JSON.stringify(user));
 
         // Ajout d'infos pour Sentry
-        Sentry.configureScope((scope) => {
+        configureScope((scope) => {
           scope.setTag("structure", user.structureId.toString());
           scope.setUser({
             email: user.email,
@@ -110,7 +111,7 @@ export class AuthService {
     localStorage.removeItem("currentUser");
     localStorage.removeItem("filters");
     // Ajout d'infos pour Sentry
-    Sentry.configureScope((scope) => {
+    configureScope((scope) => {
       scope.setTag("structure", "none");
       scope.setUser({});
     });
