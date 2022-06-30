@@ -65,18 +65,20 @@ export class StatsMapComponent implements OnInit, AfterContentChecked {
   }
 
   public ngAfterContentChecked(): void {
-    this.statsByRegion = this.publicStats.structuresCountByRegion;
+    if (typeof this.publicStats.structuresCountByRegion !== undefined) {
+      this.statsByRegion = this.publicStats.structuresCountByRegion;
 
-    this.statsRegionsValues = Object.values(REGIONS_DEF).reduce(
-      (acc: { [key: string]: number }, value: RegionDef) => {
-        acc[value.regionCode] = 0;
-        return acc;
-      },
-      {}
-    );
+      this.statsRegionsValues = Object.values(REGIONS_DEF).reduce(
+        (acc: { [key: string]: number }, value: RegionDef) => {
+          acc[value.regionCode] = 0;
+          return acc;
+        },
+        {}
+      );
 
-    this.publicStats.structuresCountByRegion.forEach((regionStat) => {
-      this.statsRegionsValues[regionStat.region] = regionStat.count;
-    });
+      this.publicStats.structuresCountByRegion.forEach((regionStat) => {
+        this.statsRegionsValues[regionStat.region] = regionStat.count;
+      });
+    }
   }
 }

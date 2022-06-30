@@ -4,8 +4,10 @@ import { ORIGINAL_LANGUAGES_MAP } from "./ORIGINAL_LANGUAGES_MAP.const";
 
 const codes: string[] = [];
 const TMP_LANGUAGES = Object.values(ORIGINAL_LANGUAGES_MAP)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   .filter((x) => !!x["639-2"] && !!(x as any)["639-1"] && x.fr.length !== 0)
   .map((x) => ({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     isoCode: (x as any)["639-1"],
     label: uppercaseFirstEveryWords(x.fr[0]),
   }))

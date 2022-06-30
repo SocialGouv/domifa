@@ -121,7 +121,13 @@ export class AuthService {
     });
   }
 
-  public logoutAndRedirect(state?: RouterStateSnapshot): void {
+  public logoutAndRedirect(
+    state?: RouterStateSnapshot,
+    sessionExpired?: true
+  ): void {
+    if (sessionExpired) {
+      this.toastr.warning("Votre session a expiré, merci de vous reconnecter");
+    }
     this.userIdleService.stopWatching();
     this.logout();
     if (state) {

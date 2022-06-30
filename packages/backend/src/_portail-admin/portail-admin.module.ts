@@ -5,7 +5,6 @@ import { AdminStructuresDeleteModule } from "./admin-structures-delete";
 import { AdminStructuresModule } from "./admin-structures/admin-structures.module";
 import { PortailAdminLoginModule } from "./portail-admin-login";
 import { PortailAdminProfilModule } from "./portail-admin-profil";
-import { AdminSmsModule } from "./admin-sms";
 import { AppLogsService } from "../modules/app-logs/app-logs.service";
 
 @Module({
@@ -15,14 +14,12 @@ import { AppLogsService } from "../modules/app-logs/app-logs.service";
     PortailAdminLoginModule,
     AdminStructuresDeleteModule,
     AdminStructuresModule,
-    AdminSmsModule,
   ],
   imports: [
     forwardRef(() => AdminStructuresModule),
     PortailAdminProfilModule,
     PortailAdminLoginModule,
     AdminStructuresDeleteModule,
-    AdminSmsModule,
     AuthModule,
   ],
   providers: [AppLogsService],
