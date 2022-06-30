@@ -17,7 +17,7 @@ import { AuthService } from "../modules/shared/services/auth.service";
 })
 export class ServerErrorInterceptor implements HttpInterceptor {
   constructor(
-    private toastr: CustomToastService,
+    public toastr: CustomToastService,
     public authService: AuthService
   ) {}
 
@@ -43,10 +43,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
         if (error instanceof HttpErrorResponse) {
           switch (error.status) {
             case 401:
-              this.toastr.warning(
-                "Votre session a expiré, merci de vous reconnecter"
-              );
-              this.authService.logoutAndRedirect();
+              this.authService.logoutAndRedirect(undefined, true);
               break;
             case 403:
               this.authService.notAuthorized();

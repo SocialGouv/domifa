@@ -29,7 +29,7 @@ export class UsagerTable
   @Column({ type: "integer" }) // unique par structure
   public ref: number;
 
-  @Column({ type: "text" })
+  @Column({ type: "text", nullable: true })
   public customRef: string;
 
   @Index()
@@ -41,19 +41,19 @@ export class UsagerTable
   public structureId: number;
 
   // ETAT-CIVIL
-  @Column({ type: "text" })
+  @Column({ type: "text", nullable: false })
   public nom: string;
 
-  @Column({ type: "text" })
+  @Column({ type: "text", nullable: false })
   public prenom: string;
 
   @Column({ type: "text", nullable: true })
   public surnom: string;
 
-  @Column({ type: "text" })
+  @Column({ type: "text", nullable: false })
   public sexe: UsagerSexe;
 
-  @Column({ type: "timestamptz" })
+  @Column({ type: "timestamptz", nullable: false })
   public dateNaissance: Date;
 
   @Column({ type: "text" })

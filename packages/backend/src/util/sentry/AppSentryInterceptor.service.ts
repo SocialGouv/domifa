@@ -40,9 +40,11 @@ export class AppSentryInterceptor implements NestInterceptor {
                 prefix = "[core]";
               }
             }
+
             captureException(err, {
               level: "warning",
             });
+
             captureMessage(
               `${prefix} ${
                 err.message ?? "unexpected error"
@@ -64,6 +66,7 @@ export class AppSentryInterceptor implements NestInterceptor {
     );
   }
 }
+
 function parseRequest(context: ExecutionContext) {
   const httpContext = context.switchToHttp();
   const expressRequest: CrossPlatformRequest = httpContext.getRequest();
@@ -105,6 +108,7 @@ function logSentryRequest({
         "user-agent": req.headers["user-agent"],
         withAuthorizationToken: headers.authorization !== undefined,
       },
+      body: JSON.stringify(req.body),
     });
   }
 }

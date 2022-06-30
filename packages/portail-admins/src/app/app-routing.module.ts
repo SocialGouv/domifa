@@ -22,14 +22,7 @@ const routes: Routes = [
         (m) => m.AdminStructuresModule
       ),
   },
-  {
-    path: "sms",
-    canActivate: [AuthGuard],
-    loadChildren: () =>
-      import("./modules/admin-sms/admin-sms.module").then(
-        (m) => m.AdminSmsModule
-      ),
-  },
+
   {
     path: "structures-confirm",
     canActivate: [AuthGuard],

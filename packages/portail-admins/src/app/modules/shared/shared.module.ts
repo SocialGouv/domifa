@@ -14,7 +14,6 @@ import { FormatPhoneNumberPipe } from "./pipes/formatPhoneNumber.pipe";
 import {
   AdminStructuresApiClient,
   AdminStructuresExportApiClient,
-  AdminSmsApiClient,
 } from "./services";
 import { AdminStructuresDeleteApiClient } from "./services/api/admin-structures-delete-api-client.service";
 
@@ -39,7 +38,6 @@ import { AdminStructuresDeleteApiClient } from "./services/api/admin-structures-
     AdminStructuresExportApiClient,
     AdminStructuresApiClient,
     AdminStructuresDeleteApiClient,
-    AdminSmsApiClient,
   ],
 })
 export class SharedModule {

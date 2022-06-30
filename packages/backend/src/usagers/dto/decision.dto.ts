@@ -9,6 +9,7 @@ import {
   MinLength,
   ValidateIf,
 } from "class-validator";
+import { TrimOrNullTransform } from "../../_common/decorators";
 
 import {
   UsagerDecision,
@@ -93,8 +94,13 @@ export class DecisionDto implements UsagerDecision {
   @MinLength(10)
   public orientationDetails!: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    example: "2020-1",
+    required: false,
+    description: "Id personnalisé",
+  })
   @IsOptional()
+  @TrimOrNullTransform()
   public customRef!: string;
 
   @IsEmpty()
