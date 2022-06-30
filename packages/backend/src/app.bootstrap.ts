@@ -14,7 +14,7 @@ import { AppModule } from "./app.module";
 import { appHolder } from "./appHolder";
 import { domifaConfig } from "./config";
 import { appTypeormManager } from "./database";
-import { appLogger } from "./util";
+import { appLogger, setupLog } from "./util";
 import { AppSentryInterceptor } from "./util/sentry";
 import { captureMessage } from "@sentry/node";
 
@@ -49,6 +49,7 @@ export async function bootstrapApplication() {
     const postgresTypeormConnection = await appTypeormManager.connect();
 
     const app = await NestFactory.create(AppModule);
+    setupLog(app);
 
     if (domifaConfig().dev.sentry.enabled) {
       app.useGlobalInterceptors(

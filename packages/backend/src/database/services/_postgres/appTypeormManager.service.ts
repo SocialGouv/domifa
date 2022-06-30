@@ -1,3 +1,4 @@
+import { CustomTypeOrmLogger } from "../../../util/CustomTypeOrmLogger";
 import {
   Connection,
   createConnection,
@@ -137,9 +138,11 @@ async function connect(
     username: pgConfig.username,
     password: pgConfig.password,
     database: pgConfig.database,
-    logger: "advanced-console",
-    logging:
-      domifaConfig().envId !== "test" ? ["error", "warn", "info"] : false,
+    logger: new CustomTypeOrmLogger(
+      domifaConfig().envId !== "test"
+        ? "all" //  ? "["error", "warn", "log", "info"]"
+        : false
+    ),
     maxQueryExecutionTime: 1000,
     ...connectOptionsPaths,
     extra: { max: pgConfig.poolMaxConnections }, // https://github.com/typeorm/typeorm/issues/3388#issuecomment-452860552 (default: 10 - https://node-postgres.com/api/pool#constructor)

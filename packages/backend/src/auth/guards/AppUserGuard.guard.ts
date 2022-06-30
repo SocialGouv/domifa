@@ -1,5 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
+import { addLogContext } from "../../util";
 import { instrumentWithAPM } from "../../instrumentation";
 import {
   UserAuthenticated,
@@ -17,6 +18,14 @@ export class AppUserGuard implements CanActivate {
   public canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
     const user = request.user as UserAuthenticated;
+
+    addLogContext({
+      auth: {
+        user_id: user._userId,
+        profile: user._userProfile,
+        isSuperAdmin: user.isSuperAdminDomifa,
+      },
+    });
 
     let allowUserProfiles = this.reflector.get<UserProfile[]>(
       "allowUserProfiles",
