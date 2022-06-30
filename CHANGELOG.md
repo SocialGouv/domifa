@@ -1,3 +1,10 @@
+## [2.99.2](https://github.com/SocialGouv/domifa/compare/v2.99.1...v2.99.2) (2022-06-30)
+
+
+### Bug Fixes
+
+* lock semgrep container version ([#2356](https://github.com/SocialGouv/domifa/issues/2356)) ([34ac75f](https://github.com/SocialGouv/domifa/commit/34ac75f8115112cfab502d90f169b28fadd9d4a4))
+
 ## [2.99.1](https://github.com/SocialGouv/domifa/compare/v2.99.0...v2.99.1) (2022-06-29)
 
 
