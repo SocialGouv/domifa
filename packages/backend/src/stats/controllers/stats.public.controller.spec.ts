@@ -68,7 +68,6 @@ describe("Stats Public Controller", () => {
       ],
       structuresCountByTypeMap: { asso: 2, cias: 2, ccas: 1 },
       interactionsCountByMonth: [
-        { name: "juin", value: 2 },
         { name: "juil.", value: 0 },
         { name: "août", value: 0 },
         { name: "sept.", value: 0 },
@@ -80,9 +79,9 @@ describe("Stats Public Controller", () => {
         { name: "mars", value: 0 },
         { name: "avr.", value: 0 },
         { name: "mai", value: 0 },
+        { name: "juin", value: 0 },
       ],
       usagersCountByMonth: [
-        { name: "juin", value: 4 },
         { name: "juil.", value: 0 },
         { name: "août", value: 0 },
         { name: "sept.", value: 0 },
@@ -94,6 +93,7 @@ describe("Stats Public Controller", () => {
         { name: "mars", value: 1 },
         { name: "avr.", value: 0 },
         { name: "mai", value: 0 },
+        { name: "juin", value: 4 },
       ],
     };
 
@@ -124,10 +124,6 @@ describe("Stats Public Controller", () => {
       },
       interactionsCountByMonth: [
         {
-          name: "juin",
-          value: 0,
-        },
-        {
           name: "juil.",
           value: 0,
         },
@@ -169,15 +165,15 @@ describe("Stats Public Controller", () => {
         },
         {
           name: "mai",
+          value: 0,
+        },
+        {
+          name: "juin",
           value: 0,
         },
       ],
       usagersCountByMonth: [
         {
-          name: "juin",
-          value: 0,
-        },
-        {
           name: "juil.",
           value: 0,
         },
@@ -219,6 +215,10 @@ describe("Stats Public Controller", () => {
         },
         {
           name: "mai",
+          value: 0,
+        },
+        {
+          name: "juin",
           value: 0,
         },
       ],
