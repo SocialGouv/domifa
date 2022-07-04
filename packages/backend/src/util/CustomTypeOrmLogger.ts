@@ -16,7 +16,7 @@ export class CustomTypeOrmLogger implements Logger {
       this.options === true ||
       (Array.isArray(this.options) && this.options.indexOf("query") !== -1)
     ) {
-      appLogger.info({ query, parameters }, "sql_query");
+      appLogger.info("sql_query", { query, parameters });
     }
   }
 
@@ -34,7 +34,7 @@ export class CustomTypeOrmLogger implements Logger {
       this.options === true ||
       (Array.isArray(this.options) && this.options.indexOf("error") !== -1)
     ) {
-      appLogger.error({ query, parameters, error }, "sql_query failed");
+      appLogger.error("sql_query failed", { query, parameters, error });
     }
   }
 

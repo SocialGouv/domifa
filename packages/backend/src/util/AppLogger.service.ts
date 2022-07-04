@@ -6,6 +6,12 @@ import { randomUUID } from "crypto";
 import { NextFunction, Request, Response } from "express";
 import { AsyncLocalStorage } from "async_hooks";
 import { INestApplication, LoggerService } from "@nestjs/common";
+import {
+  addBreadcrumb,
+  captureException,
+  captureMessage,
+  SeverityLevel,
+} from "@sentry/node";
 
 class Store {
   constructor(public logger: Logger) {}
@@ -15,9 +21,35 @@ const requestContextStorage = new AsyncLocalStorage<Store>();
 
 const rootLogger = pinoCaller(pino());
 
+function log(
+  logger: Logger,
+  level: string,
+  message: string,
+  context?: Record<string, any>,
+  error?: any | Error
+) {
+  const severityLevel: SeverityLevel =
+    level === "warn" ? "warning" : (level as SeverityLevel);
+  addBreadcrumb({ level: severityLevel, message, data: context });
+
+  if (level === "error") {
+    if (error) {
+      captureException(error, { level, contexts: context });
+    } else {
+      captureMessage(message, { level, contexts: context });
+    }
+  }
+
+  if (error) {
+    logger[level](error, { ...context, message });
+  } else {
+    logger[level]({ ...context }, message);
+  }
+}
+
 function getLogger(_target: any, name: string) {
   const logger = requestContextStorage.getStore()?.logger || rootLogger;
-  return logger[name];
+  return log.bind(null, logger, name);
 }
 
 // Main app logger, using either rootLogger if not inside a request, or a child logger stored in requestContextStorage
@@ -75,23 +107,23 @@ export function setupLog(app: INestApplication) {
   app.use(httpLogger);
 
   // use a custom nestjs logger to forward logs (and especially caught errors) to our pino logger
-  app.useLogger(new LoggerWrapper());
+  app.useLogger(new NestjsLoggerWrapper());
 }
 
-export class LoggerWrapper implements LoggerService {
+class NestjsLoggerWrapper implements LoggerService {
   log(message: any, ...optionalParams: any[]) {
-    appLogger.info(...optionalParams, message);
+    appLogger.info(message, optionalParams);
   }
   error(message: any, ...optionalParams: any[]) {
-    appLogger.error(...optionalParams, message);
+    appLogger.error(message, optionalParams);
   }
   warn(message: any, ...optionalParams: any[]) {
-    appLogger.info(...optionalParams, message);
+    appLogger.warn(message, optionalParams);
   }
-  debug?(message: any, ...optionalParams: any[]) {
-    appLogger.info(...optionalParams, message);
+  debug?(message: any, optionalParams: any[]) {
+    appLogger.debug(message, optionalParams);
   }
   verbose?(message: any, ...optionalParams: any[]) {
-    appLogger.info(...optionalParams, message);
+    appLogger.debug(message, optionalParams);
   }
 }

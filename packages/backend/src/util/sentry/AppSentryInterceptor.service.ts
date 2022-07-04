@@ -2,12 +2,11 @@ import {
   CallHandler,
   ExecutionContext,
   Injectable,
+  InternalServerErrorException,
   NestInterceptor,
 } from "@nestjs/common";
 import {
   addRequestDataToEvent,
-  captureException,
-  captureMessage,
   CrossPlatformRequest,
   Scope,
   withScope,
@@ -16,6 +15,7 @@ import {
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { UserStructureAuthenticated } from "../../_common/model";
+import { appLogger } from "../AppLogger.service";
 
 @Injectable()
 export class AppSentryInterceptor implements NestInterceptor {
@@ -40,28 +40,22 @@ export class AppSentryInterceptor implements NestInterceptor {
                 prefix = "[core]";
               }
             }
-
-            captureException(err, {
-              level: "warning",
-            });
-
-            captureMessage(
+            appLogger.error(
               `${prefix} ${
                 err.message ?? "unexpected error"
               } ${new Date().toUTCString()}`,
-              {
-                level: "error",
-              }
+              {},
+              err
             );
           });
         } catch (err) {
-          console.error(
+          appLogger.error(
             "[AppSentryInterceptor] Unexpected error while processing sentry event",
+            {},
             err
           );
         }
-        // re-throw original error
-        return throwError(() => new Error(err));
+        return throwError(() => new InternalServerErrorException());
       })
     );
   }
