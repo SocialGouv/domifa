@@ -1,3 +1,17 @@
+# [2.100.0](https://github.com/SocialGouv/domifa/compare/v2.99.2...v2.100.0) (2022-07-04)
+
+
+### Bug Fixes
+
+* Temp fix on test dependant of current date ([2324510](https://github.com/SocialGouv/domifa/commit/2324510fed3d921209cbcd2e81a8af3f7f70bc3c))
+* **review:** add drop db before create db to force initialiazing db with latest schema ([ca1ab9f](https://github.com/SocialGouv/domifa/commit/ca1ab9f74e4a684f07985f48bad408f6cb6350e8))
+* hide apm token in logs ([b571b48](https://github.com/SocialGouv/domifa/commit/b571b48e8ec34c7c0efbf0cd8c2cab668f1d7bda))
+
+
+### Features
+
+* Use pino for logging ([9b01cec](https://github.com/SocialGouv/domifa/commit/9b01cec64fe1a66db89266dfcce90d153192dde5))
+
 ## [2.99.2](https://github.com/SocialGouv/domifa/compare/v2.99.1...v2.99.2) (2022-06-30)
 
 
