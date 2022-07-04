@@ -1,3 +1,10 @@
+## [2.100.1](https://github.com/SocialGouv/domifa/compare/v2.100.0...v2.100.1) (2022-07-04)
+
+
+### Bug Fixes
+
+* **logging:** Don't try to log http context when not present ([57c2089](https://github.com/SocialGouv/domifa/commit/57c2089a198d65de413aad4ec34683915720194a))
+
 # [2.100.0](https://github.com/SocialGouv/domifa/compare/v2.99.2...v2.100.0) (2022-07-04)
 
 
