@@ -53,9 +53,13 @@ function httpLogger(req: RequestWithId, res: Response, next: NextFunction) {
 
     const responseTime = Date.now() - startTime;
 
-    requestContextStorage
-      .getStore()
-      .logger.info({ res, responseTime }, "http_request");
+    const store = requestContextStorage.getStore();
+
+    if (store) {
+      store.logger.info({ res, responseTime }, "http_request");
+    } else {
+      rootLogger.warn({ responseTime }, "http_request NO CONTEXT");
+    }
   }
 
   res.on("close", onResFinished);
