@@ -46,7 +46,7 @@ describe("Stats Public Controller", () => {
 
     const content = response.body as HomeStats;
     expect(content.interactions).toEqual(5);
-    expect(content.structures).toEqual(5);
+    expect(content.structures).toEqual(6);
     expect(content.usagers).toEqual(20);
   });
 
@@ -57,16 +57,16 @@ describe("Stats Public Controller", () => {
 
     const retour: PublicStats = {
       usagersCount: 20,
-      usersCount: 10,
-      structuresCount: 5,
+      usersCount: 11,
+      structuresCount: 6,
       interactionsCount: 2,
       structuresCountByRegion: [
+        { count: 2, region: "11" },
         { count: 2, region: "52" },
         { count: 1, region: "03" },
-        { count: 1, region: "11" },
         { count: 1, region: "75" },
       ],
-      structuresCountByTypeMap: { asso: 2, cias: 2, ccas: 1 },
+      structuresCountByTypeMap: { asso: 3, cias: 2, ccas: 1 },
       interactionsCountByMonth: [
         { name: "juil.", value: 0 },
         { name: "août", value: 0 },
