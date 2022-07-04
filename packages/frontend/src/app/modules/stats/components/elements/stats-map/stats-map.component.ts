@@ -65,7 +65,7 @@ export class StatsMapComponent implements OnInit, AfterContentChecked {
   }
 
   public ngAfterContentChecked(): void {
-    if (typeof this.publicStats.structuresCountByRegion !== undefined) {
+    if (typeof this.publicStats.structuresCountByRegion !== "undefined") {
       this.statsByRegion = this.publicStats.structuresCountByRegion;
 
       this.statsRegionsValues = Object.values(REGIONS_DEF).reduce(
