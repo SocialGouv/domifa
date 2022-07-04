@@ -1,5 +1,5 @@
 app-backend:
-  needs: [db]
+  needs: [create-db]
   volumes:
     - name: files
       emptyDir: {}
@@ -9,7 +9,12 @@ app-backend:
 
 jobs:
   runs:
-    - name: db
+    - name: drop-db
+      use: SocialGouv/kube-workflow/jobs/drop-db@v1
+      with:
+        pgSecretRefName: azure-pg-admin-user
+    - name: create-db
+      needs: [drop-db]
       use: SocialGouv/kube-workflow/jobs/create-db@v1
       with:
         pgAdminSecretRefName: azure-pg-admin-user

@@ -34,7 +34,6 @@ export class StatsPublicController {
   public async home() {
     let homeStats = await this.cacheManager.get("home");
     if (!homeStats) {
-      console.log();
       homeStats = await this.getHomeStats();
       await this.cacheManager.set("home", homeStats, {
         ttl: 86400,

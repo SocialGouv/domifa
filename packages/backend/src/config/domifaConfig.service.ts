@@ -407,6 +407,10 @@ function hideSensitiveData(x: DomifaConfig): DomifaConfig {
           }
         : undefined,
     },
+    apm: {
+      ...x.apm,
+      token: "***",
+    },
   };
 }
 function parseSecurityConfig(x: Partial<DomifaEnv>): DomifaConfigSecurity {

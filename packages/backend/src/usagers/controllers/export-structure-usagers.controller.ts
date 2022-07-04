@@ -37,13 +37,13 @@ export class ExportStructureUsagersController {
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
-    const buildModelSpan = startApmSpan('buildExportModel');
+    const buildModelSpan = startApmSpan("buildExportModel");
     const model: StructureUsagersExportModel = await this.buildExportModel(
       user
     );
     if (buildModelSpan) buildModelSpan.end();
 
-    const generateExcelSpan = startApmSpan('generateExcelDocument');
+    const generateExcelSpan = startApmSpan("generateExcelDocument");
     const workbook = await structureUsagersExporter.generateExcelDocument(
       model
     );
