@@ -1,3 +1,11 @@
+## [2.100.2](https://github.com/SocialGouv/domifa/compare/v2.100.1...v2.100.2) (2022-07-05)
+
+
+### Bug Fixes
+
+* **codeql:** remontée de bug ([b22d10b](https://github.com/SocialGouv/domifa/commit/b22d10be5fc25b2632b47c565cfda7ac9b798ad2))
+* **sms:** suppression du dashboard inutilisé ([2e8a7cc](https://github.com/SocialGouv/domifa/commit/2e8a7cce376035bfabfaf2958a8c5dcf7941e295))
+
 ## [2.100.1](https://github.com/SocialGouv/domifa/compare/v2.100.0...v2.100.1) (2022-07-04)
 
 
