@@ -1,8 +1,4 @@
-import {
-  getPhoneString,
-  getIndicatif,
-  telephoneFixCountryCode,
-} from "./phoneUtils.service";
+import { getPhoneString, getIndicatif } from "./phoneUtils.service";
 
 describe("Telephone utils", () => {
   it("getPhoneString shoud return empty string if telephone is null or undefined", () => {
@@ -27,31 +23,23 @@ describe("Telephone utils", () => {
     );
   });
 
-  it("telephoneFixCountryCode shoud return +33 if countryCode is undefined", () => {
+  it("getIndicatif shoud return +33 if countryCode is undefined", () => {
     expect(getIndicatif("toto")).toEqual("+33");
   });
 
-  it("telephoneFixCountryCode shoud return +33 if countryCode is fr", () => {
+  it("getIndicatif shoud return +33 if countryCode is fr", () => {
     expect(getIndicatif("fr")).toEqual("+33");
   });
 
-  it("telephoneFixCountryCode shoud return +596 if countryCode is mq", () => {
+  it("getIndicatif shoud return +596 if countryCode is mq", () => {
     expect(getIndicatif("mq")).toEqual("+596");
   });
 
-  it("telephoneFixCountryCode shoud return +262 if countryCode is re", () => {
+  it("getIndicatif shoud return +262 if countryCode is re", () => {
     expect(getIndicatif("re")).toEqual("+262");
   });
 
-  it("telephoneFixCountryCode shoud return +687 if countryCode is nc", () => {
+  it("getIndicatif shoud return +687 if countryCode is nc", () => {
     expect(getIndicatif("nc")).toEqual("+687");
-  });
-
-  it("telephoneFixCountryCode shoud return +33 without the first 0 if countryCode is fr", () => {
-    expect(telephoneFixCountryCode("fr", "0620202020")).toEqual("+33620202020");
-  });
-
-  it("telephoneFixCountryCode shoud return normally if countryCode other than fr", () => {
-    expect(telephoneFixCountryCode("nc", "912969")).toEqual("+687912969");
   });
 });

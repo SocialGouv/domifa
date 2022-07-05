@@ -45,7 +45,7 @@ export const USAGER_ACTIF_MOCK: UsagerLight = {
     portailUsagerEnabled: false,
   },
   preference: {
-    phone: false,
+    contactByPhone: false,
     telephone: { countryCode: "fr", numero: "0606060606" },
   },
   rdv: { dateRdv: null, userId: 0, userName: "" },

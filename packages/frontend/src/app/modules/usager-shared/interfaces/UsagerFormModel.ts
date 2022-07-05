@@ -45,7 +45,7 @@ export class UsagerFormModel implements UsagerLight {
 
   // Préférence d'envoi de notifs
   public preference: {
-    phone: boolean;
+    contactByPhone: boolean;
     telephone: Telephone | null;
   };
 
@@ -176,11 +176,8 @@ export class UsagerFormModel implements UsagerLight {
     }
 
     this.preference = (usager && usager.preference) || {
-      phone: false,
-
-      telephone: (usager &&
-        usager.preference &&
-        usager.preference.telephone) || {
+      contactByPhone: false,
+      telephone: {
         countryCode: "fr",
         numero: "",
       },

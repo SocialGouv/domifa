@@ -46,7 +46,7 @@ export const usagerRefusMock: UsagerLight = {
     portailUsagerEnabled: false,
   },
   preference: {
-    phone: false,
+    contactByPhone: false,
     telephone: { countryCode: "fr", numero: "0606060606" },
   },
   rdv: { dateRdv: null, userId: 0, userName: "" },
@@ -87,9 +87,6 @@ export const usagerRefusMock: UsagerLight = {
       typeDom: undefined,
     },
   ],
-  // interactions: [],
-  // migration: false,
-  phone: "0142424242",
   telephone: { countryCode: "fr", numero: "0142424242" },
   surnom: "",
   import: {

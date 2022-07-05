@@ -25,7 +25,7 @@ export class InteractionsSmsManager {
     // 1. Vérifier l'activation des SMS par la structure
     if (structure.sms.enabledByDomifa && structure.sms.enabledByStructure) {
       // 2. Vérifier l'activation du SMS pour l'usager
-      if (usager.preference?.phone === true) {
+      if (usager.preference?.contactByPhone === true) {
         // Courrier / Colis / Recommandé entrant = Envoi de SMS à prévoir
         if (INTERACTION_IN_CREATE_SMS.includes(interaction.type)) {
           await this.smsService.createSmsInteraction(

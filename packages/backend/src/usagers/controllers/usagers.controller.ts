@@ -169,7 +169,10 @@ export class UsagersController {
       usagerDto.langue = null;
     }
 
-    if (!usager.customRef && !usagerDto.customRef) {
+    if (
+      !usager.customRef &&
+      (!usagerDto.customRef || usagerDto.customRef === null)
+    ) {
       usagerDto.customRef = usager.ref.toString();
     }
 
@@ -310,8 +313,7 @@ export class UsagersController {
     @CurrentUsager() usager: UsagerLight
   ) {
     // Nettoyage du téléphone
-    if (!preferenceDto.phone) {
-      preferenceDto.phoneNumber = null;
+    if (!preferenceDto.contactByPhone) {
       preferenceDto.telephone = {
         countryCode: "fr",
         numero: "",

@@ -91,7 +91,7 @@ async function _anonymizeUsager(
       numero: "",
     },
     preference: {
-      phone: false,
+      contactByPhone: false,
       telephone: {
         countryCode: "fr",
         numero: "",

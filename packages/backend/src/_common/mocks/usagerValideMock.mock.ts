@@ -18,7 +18,7 @@ export const usagerValideMock: UsagerLight = {
   phone: "0101010101",
   telephone: { countryCode: "fr", numero: "0101010101" },
   preference: {
-    phone: false,
+    contactByPhone: false,
     telephone: { countryCode: "fr", numero: "" },
   },
   typeDom: "PREMIERE_DOM",

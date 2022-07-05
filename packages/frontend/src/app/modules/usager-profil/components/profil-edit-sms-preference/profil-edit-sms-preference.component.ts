@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import {
   CountryISO,
   PhoneNumberFormat,
@@ -16,6 +21,7 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerProfilService } from "../../services/usager-profil.service";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
+import { getFormPhone, setFormPhone } from "../../../../shared";
 
 @Component({
   selector: "app-profil-edit-sms-preference",
@@ -27,6 +33,7 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
   public SearchCountryField = SearchCountryField;
   public CountryISO = CountryISO;
   public preferredCountries: CountryISO[] = PREFERRED_COUNTRIES;
+
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
 
@@ -47,21 +54,17 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    // const validator = this.usager.preference.phone
-    //   ? [Validators.required, Validators.pattern(regexp.mobilePhone)]
-    //   : null;
-    const telephoneValidator = this.usager.preference.phone
+    const telephoneValidator = this.usager.preference.contactByPhone
       ? [Validators.required]
       : null;
-
+    console.log(this.usager.preference);
     this.preferenceForm = this.formBuilder.group({
-      phone: [this.usager.preference.phone, [Validators.required]],
-
-      telephone: this.formBuilder.control(
-        {
-          number: this.usager.preference.telephone?.numero || "",
-          countryCode: this.usager.preference.telephone?.countryCode || "fr",
-        },
+      contactByPhone: [
+        this.usager.preference.contactByPhone,
+        [Validators.required],
+      ],
+      phone: new FormControl(
+        setFormPhone(this.usager.preference.telephone),
         telephoneValidator
       ),
     });
@@ -80,52 +83,46 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
     return this.preferenceForm.controls;
   }
 
-  public isRole(role: UserStructureRole) {
+  public isRole(role: UserStructureRole): boolean {
     return this.me?.role === role;
   }
 
-  public updateUsagerPreference() {
+  public updateUsagerPreference(): void {
     this.submitted = true;
 
     if (this.preferenceForm.invalid) {
       this.toastService.error(
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
-    } else {
-      this.loading = true;
-      const preference: UsagerPreferenceContact = {
-        ...this.preferenceForm.value,
-      };
-
-      if (!preference.phone || this.preferenceForm.value.telephone === null) {
-        preference.telephone = {
-          countryCode: "fr",
-          numero: "",
-        };
-      } else {
-        preference.telephone = {
-          countryCode: this.preferenceForm.value.telephone.countryCode,
-          numero: this.preferenceForm.value.telephone.number,
-        };
-      }
-
-      this.usagerProfilService
-        .editSmsPreference(preference, this.usager.ref)
-        .subscribe({
-          next: (usager: UsagerLight) => {
-            this.submitted = false;
-            this.loading = false;
-            this.editPreferences = false;
-            this.toastService.success("Enregistrement des préférences réussi");
-            this.usager = new UsagerFormModel(usager);
-          },
-          error: () => {
-            this.loading = false;
-            this.toastService.error(
-              "Veuillez vérifier les champs du formulaire"
-            );
-          },
-        });
+      return;
     }
+    this.loading = true;
+    const preference: UsagerPreferenceContact = {
+      contactByPhone: this.preferenceForm.get("contactByPhone").value,
+      telephone: {
+        countryCode: "fr",
+        numero: "",
+      },
+    };
+
+    if (preference.contactByPhone) {
+      preference.telephone = getFormPhone(this.preferenceForm.value?.phone);
+    }
+
+    this.usagerProfilService
+      .editSmsPreference(preference, this.usager.ref)
+      .subscribe({
+        next: (usager: UsagerLight) => {
+          this.submitted = false;
+          this.loading = false;
+          this.editPreferences = false;
+          this.toastService.success("Enregistrement des préférences réussi");
+          this.usager = new UsagerFormModel(usager);
+        },
+        error: () => {
+          this.loading = false;
+          this.toastService.error("Veuillez vérifier les champs du formulaire");
+        },
+      });
   }
 }

@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString, IsIn } from "class-validator";
+import { IsNotEmpty, IsString, IsIn, IsOptional } from "class-validator";
 import { TrimOrNullTransform } from "../decorators";
 import { COUNTRY_CODES } from "../model/telephone";
 
@@ -8,8 +8,7 @@ export class TelephoneDto {
     type: String,
     required: false,
   })
-  @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @TrimOrNullTransform()
   public numero: string;
 

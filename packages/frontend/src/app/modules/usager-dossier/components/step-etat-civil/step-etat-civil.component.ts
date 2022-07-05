@@ -1,4 +1,3 @@
-import { UsagerAyantDroit } from "./../../../../../_common/model/usager/UsagerAyantDroit.type";
 import {
   Component,
   ElementRef,
@@ -10,6 +9,7 @@ import {
   AbstractControl,
   FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
 } from "@angular/forms";
@@ -39,15 +39,19 @@ import {
   UserStructure,
   CerfaDocType,
   LIEN_PARENTE_LABELS,
+  UsagerEtatCivilFormData,
 } from "../../../../../_common/model";
-import { UsagerFormAyantDroit } from "../../../../../_common/model/usager/dossier";
-import { fadeInOut, languagesAutocomplete } from "../../../../shared";
-import { regexp } from "../../../../shared/validators";
+import {
+  fadeInOut,
+  languagesAutocomplete,
+  setFormPhone,
+} from "../../../../shared";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { UsagerFormModel, AyantDroit } from "../../../usager-shared/interfaces";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
 import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
+import { getEtatCivilForm } from "../../../usager-shared/utils";
 
 @Component({
   animations: [fadeInOut],
@@ -150,10 +154,6 @@ export class StepEtatCivilComponent implements OnInit {
   }
 
   public initForm(): void {
-    const preferenceTelephoneValidator = this.usager.preference.phone
-      ? [Validators.required]
-      : null;
-
     this.usagerForm = this.formBuilder.group({
       ayantsDroits: this.formBuilder.array([]),
       langue: [this.usager.langue, languagesAutocomplete.validator("langue")],
@@ -165,25 +165,17 @@ export class StepEtatCivilComponent implements OnInit {
       customRef: [this.usager.customRef, []],
       email: [this.usager.email, [Validators.email]],
       nom: [this.usager.nom, Validators.required],
-      phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
-      telephone: this.formBuilder.control(
-        {
-          number: this.usager.telephone.numero,
-          countryCode: this.usager.telephone.countryCode.toLowerCase(),
-        },
-        []
-      ),
       preference: this.formBuilder.group({
-        phone: [this.usager.preference.phone, [Validators.required]],
-
-        telephone: this.formBuilder.control(
-          {
-            number: this.usager.preference?.telephone?.numero || "",
-            countryCode: this.usager.preference?.telephone?.countryCode || "fr",
-          },
-          preferenceTelephoneValidator
+        contactByPhone: [
+          this.usager.preference.contactByPhone,
+          [Validators.required],
+        ],
+        phoneNumber: new FormControl(
+          setFormPhone(this.usager.preference.telephone),
+          this.usager.preference.contactByPhone ? [Validators.required] : null
         ),
       }),
+      phone: new FormControl(setFormPhone(this.usager.telephone), null),
       prenom: [this.usager.prenom, Validators.required],
       sexe: [this.usager.sexe, Validators.required],
       surnom: [this.usager.surnom, []],
@@ -292,57 +284,12 @@ export class StepEtatCivilComponent implements OnInit {
     }
     this.loading = true;
 
-    const usagerFormValues = this.usagerForm.value;
-
-    let ayantsDroits: UsagerAyantDroit[] = [];
-
-    ayantsDroits = usagerFormValues.ayantsDroits.map(
-      (ayantDroit: UsagerFormAyantDroit) => {
-        return {
-          lien: ayantDroit.lien,
-          nom: ayantDroit.nom,
-          prenom: ayantDroit.prenom,
-          dateNaissance: this.nbgDate.formatEn(ayantDroit.dateNaissance),
-        };
-      }
+    const formValue: UsagerEtatCivilFormData = getEtatCivilForm(
+      this.usagerForm.value
     );
 
-    const formValue: UsagerFormModel = {
-      ...usagerFormValues,
-      ayantsDroits,
-      dateNaissance: this.nbgDate.formatEn(
-        this.usagerForm.controls.dateNaissance.value
-      ),
-      etapeDemande: this.usager.etapeDemande,
-    };
-
-    if (formValue.preference.phone) {
-      formValue.preference.telephone = {
-        countryCode: this.usagerForm.value.preference.telephone.countryCode,
-        numero: this.usagerForm.value.preference.telephone.number,
-      };
-    } else {
-      formValue.preference.telephone = {
-        countryCode: "fr",
-        numero: "",
-      };
-    }
-
-    delete formValue.ayantsDroitsExist;
-
-    const telephone =
-      this.usagerForm.value.telephone === null
-        ? {
-            countryCode: "fr",
-            numero: "",
-          }
-        : {
-            countryCode: this.usagerForm.value.telephone.countryCode,
-            numero: this.usagerForm.value.telephone.number,
-          };
-    console.log(telephone);
     this.usagerDossierService
-      .editStepEtatCivil({ ...formValue, telephone }, this.usager.ref)
+      .editStepEtatCivil(formValue, this.usager.ref)
       .subscribe({
         next: (usager: UsagerLight) => {
           this.usager = new UsagerFormModel(usager);
@@ -356,7 +303,7 @@ export class StepEtatCivilComponent implements OnInit {
       });
   }
 
-  private focusAyantDroit() {
+  private focusAyantDroit(): void {
     // Focus sur l'élément créé
     setTimeout(() => {
       const ayantDroitTable = this.usagerForm.controls.ayantsDroits.value;

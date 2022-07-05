@@ -82,7 +82,7 @@ export class UsagerTable
     type: "jsonb",
     nullable: true,
     default: () =>
-      `'{"phone": false, "telephone": {"countryCode": "fr", "numero": ""}}'`,
+      `'{"contactByPhone": false, "telephone": {"countryCode": "fr", "numero": ""}}'`,
   })
   public preference: UsagerPreferenceContact;
 

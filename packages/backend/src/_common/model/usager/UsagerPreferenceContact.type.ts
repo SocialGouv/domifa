@@ -1,7 +1,8 @@
 import { Telephone } from "../../model";
 
 export type UsagerPreferenceContact = {
-  phone: boolean;
+  contactByPhone: boolean;
+  // ! Deprecated
   phoneNumber?: string;
   telephone: Telephone;
 };

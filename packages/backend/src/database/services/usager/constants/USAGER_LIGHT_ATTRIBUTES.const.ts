@@ -24,6 +24,7 @@ export const USAGER_LIGHT_ATTRIBUTES: (keyof UsagerTable)[] = [
   "ayantsDroits",
   "villeNaissance",
   "phone",
+  "telephone",
   "langue",
   "preference",
   "notes",

@@ -1,4 +1,4 @@
-<form ngNativeValidate [formGroup]="usagerForm" (ngSubmit)="updateInfos()">
+<form [formGroup]="usagerForm" (ngSubmit)="updateInfos()">
   <div class="row">
     <div class="col-md-4 form-group required">
       <label for="nom">Nom</label>
@@ -110,38 +110,40 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-4">
-      <div class="form-group">
-        <label for="telephone">Numéro de téléphone</label>
-        <ngx-intl-tel-input
-          [cssClass]="{
-            'form-control': true,
-            'is-invalid': f.telephone.errors
-          }"
-          [preferredCountries]="preferredCountries"
-          [enableAutoCountrySelect]="true"
-          [enablePlaceholder]="true"
-          [searchCountryFlag]="true"
-          [searchCountryField]="[
-            SearchCountryField.Iso2,
-            SearchCountryField.Name
-          ]"
-          [selectedCountryISO]="CountryISO.France"
-          [selectFirstCountry]="false"
-          [maxLength]="15"
-          [phoneValidation]="true"
-          [separateDialCode]="true"
-          [inputId]="'telephone'"
-          [numberFormat]="PhoneNumberFormat.National"
-          formControlName="telephone"
-        ></ngx-intl-tel-input>
-        <p *ngIf="submitted && f.telephone.errors" class="invalid-feedback">
-          Le numéro de téléphone est incorrect
-        </p>
-        <small id="phoneHelp" class="d-block form-text text-muted"
-          >Optionnel</small
-        >
-      </div>
+    <div class="col-md-4 form-group">
+      <label for="phone">Numéro de téléphone</label>
+      <ngx-intl-tel-input
+        [cssClass]="
+          submitted && (f.phone.errors || f.phone.invalid)
+            ? 'form-control is-invalid'
+            : 'form-control'
+        "
+        [preferredCountries]="preferredCountries"
+        [enableAutoCountrySelect]="true"
+        [enablePlaceholder]="true"
+        [searchCountryFlag]="true"
+        searchCountryPlaceholder="Choisissez votre pays"
+        [searchCountryField]="[
+          SearchCountryField.Iso2,
+          SearchCountryField.Name
+        ]"
+        [selectedCountryISO]="usager.telephone.countryCode"
+        [maxLength]="15"
+        [phoneValidation]="true"
+        [separateDialCode]="true"
+        [inputId]="'phone'"
+        [numberFormat]="PhoneNumberFormat.National"
+        formControlName="phone"
+      ></ngx-intl-tel-input>
+      <p
+        *ngIf="submitted && (f.phone.errors || f.phone.invalid)"
+        class="invalid-feedback-custom"
+      >
+        Veuillez vérifier le numéro de téléphone
+      </p>
+      <small id="phoneHelp" class="d-block form-text text-muted"
+        >Optionnel</small
+      >
     </div>
     <div class="col-md-4">
       <div class="form-group">
@@ -177,10 +179,10 @@
         [inputFormatter]="languagesAutocomplete.formatter"
       />
 
-      <div *ngIf="f.langue.touched && f.langue.errors" class="invalid-feedback">
+      <p *ngIf="f.langue.touched && f.langue.errors" class="invalid-feedback">
         La langue saisie est invalide. Veuillez sélectionner une valeure dans la
         liste de propositions
-      </div>
+      </p>
     </div>
 
     <div class="col-md-4 form-group">
@@ -193,9 +195,9 @@
         formControlName="customRef"
         [ngClass]="{ 'is-invalid': f.customRef.errors }"
       />
-      <div *ngIf="f.customRef.errors" class="invalid-feedback">
+      <p *ngIf="f.customRef.errors" class="invalid-feedback">
         L'identifiant est incorrect
-      </div>
+      </p>
     </div>
   </div>
 

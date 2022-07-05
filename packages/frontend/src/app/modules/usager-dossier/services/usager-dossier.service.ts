@@ -4,11 +4,14 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { filter, map, startWith, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
-import { UsagerLight, UserStructure } from "../../../../_common/model";
+import {
+  UsagerEtatCivilFormData,
+  UsagerLight,
+  UserStructure,
+} from "../../../../_common/model";
 
 import { usagersCache } from "../../../shared/store";
 
-import { UsagerFormModel } from "../../usager-shared/interfaces/UsagerFormModel";
 import { userStructureBuilder } from "../../users/services";
 
 @Injectable({
@@ -20,7 +23,7 @@ export class UsagerDossierService {
   constructor(private http: HttpClient) {}
 
   public editStepEtatCivil(
-    usager: UsagerFormModel,
+    usager: UsagerEtatCivilFormData,
     ref: number
   ): Observable<UsagerLight> {
     // Edition d'une fiche

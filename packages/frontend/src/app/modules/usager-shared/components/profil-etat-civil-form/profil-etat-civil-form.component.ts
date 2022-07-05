@@ -1,9 +1,11 @@
+import { UsagerEtatCivilFormData } from "./../../../../../_common/model/usager/form/UsagerEtatCivilFormData.type";
 import { LIEN_PARENTE_LABELS } from "./../../../../../_common/model/usager/_constants/LIEN_PARENTE_LABELS.const";
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import {
   AbstractControl,
   FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
 } from "@angular/forms";
@@ -20,22 +22,19 @@ import {
 } from "ngx-intl-tel-input";
 
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import {
-  UsagerAyantDroit,
-  UsagerFormAyantDroit,
-  UsagerLight,
-} from "../../../../../_common/model";
-import { languagesAutocomplete } from "../../../../shared";
+import { UsagerLight } from "../../../../../_common/model";
+import { languagesAutocomplete, setFormPhone } from "../../../../shared";
 import {
   minDateNaissance,
   formatDateToNgb,
 } from "../../../../shared/bootstrap-util";
 import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
-import { regexp } from "../../../../shared/validators";
+
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";
 import { UsagerFormModel, AyantDroit } from "../../interfaces";
 import { EtatCivilService } from "../../services/etat-civil.service";
+import { getEtatCivilForm } from "../../utils";
 
 @Component({
   selector: "app-profil-etat-civil-form",
@@ -55,6 +54,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
 
   @Input() public usager: UsagerFormModel;
   @Output() public usagerChanges = new EventEmitter<UsagerLight>();
+
   public usagerForm!: FormGroup;
   public loading: boolean;
   public submitted: boolean;
@@ -81,10 +81,10 @@ export class ProfilEtatCivilFormComponent implements OnInit {
   }
 
   constructor(
-    private formBuilder: FormBuilder,
-    private nbgDate: NgbDateCustomParserFormatter,
-    private toastService: CustomToastService,
-    private etatCivilService: EtatCivilService
+    private readonly formBuilder: FormBuilder,
+    private readonly nbgDate: NgbDateCustomParserFormatter,
+    private readonly toastService: CustomToastService,
+    private readonly etatCivilService: EtatCivilService
   ) {
     this.submitted = false;
     this.loading = false;
@@ -110,14 +110,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
       ref: [this.usager.ref, [Validators.required]],
       langue: [this.usager.langue, languagesAutocomplete.validator("langue")],
       nom: [this.usager.nom, Validators.required],
-      phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
-      telephone: this.formBuilder.control(
-        {
-          number: this.usager.telephone.numero,
-          countryCode: this.usager.telephone.countryCode.toLowerCase(),
-        },
-        []
-      ),
+      phone: new FormControl(setFormPhone(this.usager.telephone), null),
       prenom: [this.usager.prenom, Validators.required],
       sexe: [this.usager.sexe, Validators.required],
       surnom: [this.usager.surnom, []],
@@ -143,7 +136,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
     (this.usagerForm.controls.ayantsDroits as FormArray).removeAt(i);
   }
 
-  public newAyantDroit(ayantDroit: AyantDroit) {
+  public newAyantDroit(ayantDroit: AyantDroit): FormGroup {
     return this.formBuilder.group({
       dateNaissance: [
         formatDateToNgb(ayantDroit.dateNaissance),
@@ -155,72 +148,35 @@ export class ProfilEtatCivilFormComponent implements OnInit {
     });
   }
 
-  public updateInfos() {
+  public updateInfos(): void {
     this.submitted = true;
-    // TODO: fusionner les checks avec ceux de l'état-civil
+
     if (this.usagerForm.invalid) {
       this.toastService.error(
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
-    } else {
-      this.loading = true;
-
-      const usagerFormValues = this.usagerForm.value;
-
-      const ayantsDroits: UsagerAyantDroit[] =
-        usagerFormValues.ayantsDroits.map(
-          (ayantDroit: UsagerFormAyantDroit) => {
-            return {
-              lien: ayantDroit.lien,
-              nom: ayantDroit.nom,
-              prenom: ayantDroit.prenom,
-              dateNaissance: new Date(
-                this.nbgDate.formatEn(ayantDroit.dateNaissance)
-              ),
-            };
-          }
-        );
-
-      const formValue: UsagerFormModel = {
-        ...usagerFormValues,
-        ayantsDroits,
-        dateNaissance: this.nbgDate.formatEn(
-          this.usagerForm.controls.dateNaissance.value
-        ),
-        etapeDemande: this.usager.etapeDemande,
-      };
-
-      const telephone =
-        this.usagerForm.value.telephone === null
-          ? {
-              countryCode: "fr",
-              numero: "",
-            }
-          : {
-              countryCode:
-                this.usagerForm.value.telephone.countryCode.toLowerCase(),
-              numero: this.usagerForm.value.telephone.number.trim(),
-            };
-
-      this.etatCivilService
-        .patchEtatCivil({ ...formValue, telephone })
-        .subscribe({
-          next: (usager: UsagerLight) => {
-            this.editInfosChange.emit(false);
-            this.toastService.success("Enregistrement réussi");
-
-            this.usagerChanges.emit(usager);
-            this.submitted = false;
-            this.loading = false;
-          },
-          error: () => {
-            this.loading = false;
-
-            this.toastService.error(
-              "Veuillez vérifier les champs du formulaire"
-            );
-          },
-        });
+      return;
     }
+    this.loading = true;
+
+    const formValue: UsagerEtatCivilFormData = getEtatCivilForm(
+      this.usagerForm.value
+    );
+
+    this.etatCivilService.patchEtatCivil(this.usager.ref, formValue).subscribe({
+      next: (usager: UsagerLight) => {
+        this.editInfosChange.emit(false);
+        this.toastService.success("Enregistrement réussi");
+
+        this.usagerChanges.emit(usager);
+        this.submitted = false;
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+
+        this.toastService.error("Veuillez vérifier les champs du formulaire");
+      },
+    });
   }
 }

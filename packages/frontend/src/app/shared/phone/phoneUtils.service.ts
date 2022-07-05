@@ -13,23 +13,6 @@ export const getIndicatif = (countryCode: string): string => {
   return `+${COUNTRY_CODES[countryCode]}`;
 };
 
-// HOTFIX en attendant qu'on intégre les countryCodes dans les usagers
-export const telephoneFixCountryCode = (
-  countryCode: string,
-  phone: string
-): string => {
-  if (COUNTRY_CODES[countryCode] === undefined) {
-    return "+33";
-  }
-
-  if (countryCode === "fr" && phone[0] === "0") {
-    const newPhone = phone.substring(1, phone.length);
-    return `${getIndicatif(countryCode)}${newPhone}`;
-  }
-
-  return `${getIndicatif(countryCode)}${phone}`;
-};
-
 export function getFormPhone(formValue: ChangeData): Telephone {
   return {
     numero: formValue?.number.replace(/\s/g, ""),

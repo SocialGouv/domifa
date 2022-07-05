@@ -12,7 +12,7 @@ import {
 } from "../../../database";
 import { TimeZone } from "../../../util/territoires";
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
-import { telephoneFixCountryCode } from "../../../util/phone/phoneUtils.service";
+import { getPhoneString } from "../../../util/phone/phoneUtils.service";
 
 @Injectable()
 export class CronSmsFetchEndDomService {
@@ -124,7 +124,7 @@ export class CronSmsFetchEndDomService {
         select: ["structureId", "ref", "preference"],
         where: `decision->>'statut' = 'VALIDE'
                 AND "structureId" = :structureId
-                AND (preference->>'phone')::boolean is true
+                AND (preference->>'contactByPhone')::boolean is true
                 AND to_char((decision->>'dateFin')::timestamptz, 'YYYY-MM-DD') = to_char(current_date + interval '1 month' * 2, 'YYYY-MM-DD')`,
         params: {
           structureId: structure.id,
@@ -148,10 +148,7 @@ export class CronSmsFetchEndDomService {
           status: "TO_SEND",
           errorCount: 0,
           scheduledDate,
-          phoneNumber: telephoneFixCountryCode(
-            structure.telephone.countryCode,
-            usager.preference.phoneNumber
-          ),
+          phoneNumber: getPhoneString(usager.preference.telephone),
           senderName: structure.sms.senderName,
         });
       }

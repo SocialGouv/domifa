@@ -16,7 +16,7 @@ import { TelephoneDto } from "../../_common/dto";
 export class PreferenceContactDto {
   @IsNotEmpty()
   @IsBoolean()
-  public phone!: boolean;
+  public contactByPhone!: boolean;
 
   @ApiProperty({
     type: String,

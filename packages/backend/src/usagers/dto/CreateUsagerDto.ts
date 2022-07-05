@@ -11,14 +11,11 @@ import {
   MaxLength,
   ValidateIf,
   ValidateNested,
-  IsNumber,
-  Min,
-  Max,
 } from "class-validator";
 import { UsagerAyantDroit, UsagerSexe, Telephone } from "../../_common/model";
 import { UsagerAyantDroitDto } from "./UsagerAyantDroitDto";
 import { PreferenceContactDto } from ".";
-import { ValidationRegexp } from "../controllers/import/step2-validate-row";
+
 import {
   LowerCaseTransform,
   TrimOrNullTransform,
@@ -121,16 +118,6 @@ export class CreateUsagerDto {
   @ValidateNested({ each: true })
   @Type(() => TelephoneDto)
   public telephone: Telephone;
-
-  @ApiProperty({
-    description: "Dernière étape enregistrée",
-    type: Number,
-  })
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  @Max(5)
-  public etapeDemande!: number;
 
   @ApiProperty({
     description: "Préférences de contact",
