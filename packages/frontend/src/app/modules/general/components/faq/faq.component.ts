@@ -18,12 +18,12 @@ export class FaqComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Foire aux question de Domifa");
+    this.titleService.setTitle("Foire aux question de DomiFa");
 
     this.meta.updateTag({
       name: "description",
       content:
-        "Foire aux questions de DOMIFA : RGPD, conditions d'utilisations, réglement, toutes vos questions trouveront leur réponse ici !",
+        "Foire aux questions de DomiFa : RGPD, conditions d'utilisations, réglement, toutes vos questions trouveront leur réponse ici !",
     });
   }
 

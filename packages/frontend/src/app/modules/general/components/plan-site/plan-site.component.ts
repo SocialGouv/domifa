@@ -63,10 +63,10 @@ export class PlanSiteComponent implements OnInit {
       links: [
         { label: "Accueil", path: "/" },
         { label: "Se connecter", path: "/connexion" },
-        { label: "Contacter l'équipe de Domifa", path: "/contact" },
+        { label: "Contacter l'équipe de DomiFa", path: "/contact" },
         { label: "Foire aux questions", path: "/faq" },
-        { label: "Mentions légales de Domifa", path: "/mentions-legales" },
-        { label: "Conditions d’utilisation de Domifa", path: "/cgu" },
+        { label: "Mentions légales de DomiFa", path: "/mentions-legales" },
+        { label: "Conditions d’utilisation de DomiFa", path: "/cgu" },
         { label: "Nouveautés", path: "/news" },
         { label: "Statistiques", path: "/stats" },
         { label: "Créer une structure", path: "/structures/inscription" },
@@ -106,6 +106,6 @@ export class PlanSiteComponent implements OnInit {
       this.me = user;
     });
 
-    this.titleService.setTitle("Plan de site de Domifa");
+    this.titleService.setTitle("Plan de site de DomiFa");
   }
 }

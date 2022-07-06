@@ -21,8 +21,10 @@ export class ServerErrorInterceptor implements HttpInterceptor {
   ) {}
 
   public intercept(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     request: HttpRequest<any>,
     next: HttpHandler,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {

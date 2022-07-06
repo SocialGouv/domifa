@@ -52,7 +52,7 @@ export class ContactSupportComponent implements OnInit {
     this.meta.updateTag({
       name: "description",
       content:
-        "Vous avez une question ? Ce formulaire vous permettra de contacter l'équipe Domifa",
+        "Vous avez une question ? Ce formulaire vous permettra de contacter l'équipe DomiFa",
     });
 
     let email = null;
