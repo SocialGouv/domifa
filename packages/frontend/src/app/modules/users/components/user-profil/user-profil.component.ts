@@ -38,7 +38,7 @@ export class UserProfilComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Gestion des utilisateurs Domifa");
+    this.titleService.setTitle("Gestion des utilisateurs DomiFa");
 
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       if (user !== null) {

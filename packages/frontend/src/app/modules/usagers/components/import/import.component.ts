@@ -108,7 +108,7 @@ export class ImportComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Importer vos domiciliés sur Domifa");
+    this.titleService.setTitle("Importer vos domiciliés sur DomiFa");
 
     this.authService.currentUserSubject.subscribe((user: UserStructure) => {
       this.me = user;

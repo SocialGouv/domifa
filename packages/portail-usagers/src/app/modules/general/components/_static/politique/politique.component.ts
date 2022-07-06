@@ -7,7 +7,7 @@ import { Title } from "@angular/platform-browser";
   styleUrls: ["./politique.component.css"],
 })
 export class PolitiqueComponent implements OnInit {
-  public constructor(private titleService: Title) {}
+  public constructor(private readonly titleService: Title) {}
 
   public ngOnInit(): void {
     this.titleService.setTitle("Politique de confidentialité");
