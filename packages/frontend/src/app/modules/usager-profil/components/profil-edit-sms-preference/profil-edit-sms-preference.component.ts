@@ -57,7 +57,7 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
     const telephoneValidator = this.usager.preference.contactByPhone
       ? [Validators.required]
       : null;
-    console.log(this.usager.preference);
+
     this.preferenceForm = this.formBuilder.group({
       contactByPhone: [
         this.usager.preference.contactByPhone,
@@ -70,7 +70,7 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
     });
 
     this.preferenceForm
-      .get("phone")
+      .get("contactByPhone")
       .valueChanges.subscribe((value: boolean) => {
         const isRequiredTelephone = value ? [Validators.required] : null;
 

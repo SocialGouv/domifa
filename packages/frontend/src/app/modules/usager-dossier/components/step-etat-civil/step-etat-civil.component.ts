@@ -37,7 +37,6 @@ import {
 import {
   UsagerLight,
   UserStructure,
-  CerfaDocType,
   LIEN_PARENTE_LABELS,
   UsagerEtatCivilFormData,
 } from "../../../../../_common/model";
@@ -48,7 +47,7 @@ import {
 } from "../../../../shared";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { UsagerFormModel, AyantDroit } from "../../../usager-shared/interfaces";
-import { DocumentService } from "../../../usager-shared/services/document.service";
+
 import { UsagerDossierService } from "../../services/usager-dossier.service";
 import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
 import { getEtatCivilForm } from "../../../usager-shared/utils";
@@ -106,19 +105,17 @@ export class StepEtatCivilComponent implements OnInit {
     return this.usagerForm.controls;
   }
 
-  get ayantsDroits() {
+  get ayantsDroits(): FormArray {
     return this.usagerForm.get("ayantsDroits") as FormArray;
   }
 
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly usagerDossierService: UsagerDossierService,
-    private readonly documentService: DocumentService,
     private readonly authService: AuthService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly toastService: CustomToastService,
-    private readonly nbgDate: NgbDateCustomParserFormatter,
     private readonly titleService: Title
   ) {
     this.doublons = [];
@@ -188,7 +185,7 @@ export class StepEtatCivilComponent implements OnInit {
 
     this.usagerForm
       .get("preference")
-      .get("phone")
+      .get("contactByPhone")
       .valueChanges.subscribe((value: boolean) => {
         const isRequiredTelephone = value ? [Validators.required] : null;
         this.usagerForm
@@ -264,10 +261,6 @@ export class StepEtatCivilComponent implements OnInit {
       nom: [ayantDroit.nom, Validators.required],
       prenom: [ayantDroit.prenom, Validators.required],
     });
-  }
-
-  public getCerfa(typeCerfa: CerfaDocType): void {
-    return this.documentService.attestation(this.usager.ref, typeCerfa);
   }
 
   public submitInfos(): void {

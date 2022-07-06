@@ -18,7 +18,7 @@ import { UsagerNotesService } from "../../services/usager-notes.service";
   styleUrls: ["./profil-add-note-form.component.css"],
 })
 export class ProfilAddNoteFormComponent implements OnInit {
-  @Input() public usager: UsagerLight;
+  @Input() public usager!: UsagerLight;
 
   @Output()
   public cancel = new EventEmitter();
@@ -26,13 +26,14 @@ export class ProfilAddNoteFormComponent implements OnInit {
   @Output()
   public confirm = new EventEmitter();
 
+  public addNoteForm!: FormGroup;
   public submitted: boolean;
-  public addNoteForm: FormGroup;
   public loading: boolean;
+
   constructor(
-    private usagerNotesService: UsagerNotesService,
-    private toastService: CustomToastService,
-    private formBuilder: FormBuilder
+    private readonly usagerNotesService: UsagerNotesService,
+    private readonly toastService: CustomToastService,
+    private readonly formBuilder: FormBuilder
   ) {
     this.loading = false;
     this.submitted = false;

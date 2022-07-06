@@ -5,12 +5,16 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
+
 import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { SharedModule } from "./../../../shared/shared.module";
 import { StepEtatCivilComponent } from "./step-etat-civil.component";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { JwtInterceptor } from "../../../../interceptors/jwt.interceptor";
+import { ServerErrorInterceptor } from "../../../../interceptors/server-error.interceptor";
+import { AuthService } from "../../../shared/services/auth.service";
 
 describe("StepEtatCivilComponent", () => {
   let component: StepEtatCivilComponent;
@@ -20,7 +24,6 @@ describe("StepEtatCivilComponent", () => {
     TestBed.configureTestingModule({
       declarations: [StepEtatCivilComponent],
       imports: [
-        MatomoModule,
         RouterTestingModule,
         NgbModule,
         ReactiveFormsModule,
@@ -31,17 +34,13 @@ describe("StepEtatCivilComponent", () => {
         BrowserAnimationsModule,
       ],
       providers: [
+        AuthService,
+        { provide: APP_BASE_HREF, useValue: "/" },
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
-          },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
-          },
+          multi: true,
+          provide: HTTP_INTERCEPTORS,
+          useClass: ServerErrorInterceptor,
         },
         { provide: APP_BASE_HREF, useValue: "/" },
       ],

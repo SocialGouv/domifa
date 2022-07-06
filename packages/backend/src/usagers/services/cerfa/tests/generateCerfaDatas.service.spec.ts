@@ -76,8 +76,8 @@ const mockDataUsagerValide = {
   signature1A: "ASNIERES-SUR-SEINE",
   signature1B: "ASNIERES-SUR-SEINE",
   signature2: "ASNIERES-SUR-SEINE",
-  telephone: "+33 1 42 42 42 42",
-  telephoneOrga: "+33 6 02 03 04 05",
+  telephone: "+33142424242",
+  telephoneOrga: "+33602030405",
   typeDemande: "2",
 };
 
@@ -142,7 +142,7 @@ const mockDataUsagerRefus = {
   signature1B: "ASNIERES-SUR-SEINE",
   signature2: "ASNIERES-SUR-SEINE",
   telephone: "",
-  telephoneOrga: "+33 6 02 03 04 05",
+  telephoneOrga: "+33602030405",
   typeDemande: "1",
 };
 
