@@ -6,15 +6,11 @@ describe("Telephone utils", () => {
   });
 
   it("getPhoneString shoud return US indictaif", () => {
-    expect(getPhoneString({ countryCode: "us", numero: "" })).toEqual("+1");
+    expect(getPhoneString({ countryCode: "us", numero: "" })).toEqual("");
   });
 
   it("getPhoneString shoud return Guyane indictaif", () => {
-    expect(getPhoneString({ countryCode: "gf", numero: "" })).toEqual("+594");
-  });
-
-  it("getPhoneString shoud return string with countryCode if numero is empty", () => {
-    expect(getPhoneString({ countryCode: "fr", numero: "" })).toEqual("+33");
+    expect(getPhoneString({ countryCode: "gf", numero: "" })).toEqual("");
   });
 
   it("getPhoneString shoud return string with countryCode and numero", () => {

@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import { format } from "prettier";
 import { domifaConfig } from "../../../../config";
 import { adminBatchsErrorReportEmailRenderer } from "./adminBatchsErrorReportEmailRenderer.service";
 describe("adminBatchsErrorReportEmailRenderer", () => {
@@ -45,6 +46,8 @@ describe("adminBatchsErrorReportEmailRenderer", () => {
       "utf-8"
     );
 
-    expect(refHtml).toEqual(html);
+    expect(format(refHtml, { parser: "html" })).toEqual(
+      format(html, { parser: "html" })
+    );
   });
 });

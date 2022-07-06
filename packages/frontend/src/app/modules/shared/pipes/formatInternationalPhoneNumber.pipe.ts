@@ -20,11 +20,7 @@ export class FormatInternationalPhoneNumberPipe implements PipeTransform {
         telephone.numero,
         telephone.countryCode.toUpperCase()
       );
-      const internationalPhone = phoneUtil.format(
-        numero,
-        PhoneNumberFormat.INTERNATIONAL
-      );
-      return internationalPhone;
+      return phoneUtil.format(numero, PhoneNumberFormat.INTERNATIONAL);
     } catch (error) {
       console.warn(error);
       return "Numéro introuvable";

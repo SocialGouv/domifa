@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import { format } from "prettier";
 import { domifaConfig } from "../../../../config";
 import { userAccountCreatedByAdminEmailRenderer } from "./userAccountCreatedByAdminEmailRenderer.service";
 describe("userAccountCreatedByAdminEmailRenderer", () => {
@@ -37,6 +38,8 @@ describe("userAccountCreatedByAdminEmailRenderer", () => {
       "utf-8"
     );
 
-    expect(refHtml).toEqual(html);
+    expect(format(refHtml, { parser: "html" })).toEqual(
+      format(html, { parser: "html" })
+    );
   });
 });

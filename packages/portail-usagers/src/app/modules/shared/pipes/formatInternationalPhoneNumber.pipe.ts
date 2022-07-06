@@ -5,7 +5,7 @@ import { Telephone } from "../../../../_common/";
 
 @Pipe({ name: "formatInternationalPhoneNumber" })
 export class FormatInternationalPhoneNumberPipe implements PipeTransform {
-  phoneUtil: any = lpn.PhoneNumberUtil.getInstance();
+  public phoneUtil: lpn.PhoneNumberUtil = lpn.PhoneNumberUtil.getInstance();
 
   transform(telephone: Telephone): string {
     if (!telephone) {
