@@ -66,7 +66,7 @@ describe("Stats Public Controller", () => {
         { count: 1, region: "03" },
         { count: 1, region: "75" },
       ],
-      structuresCountByTypeMap: { asso: 3, cias: 2, ccas: 1 },
+      structuresCountByTypeMap: { asso: 2, cias: 3, ccas: 1 },
       interactionsCountByMonth: [
         { name: "juil.", value: 0 },
         { name: "août", value: 0 },
