@@ -49,14 +49,14 @@ export const DEFAULT_USAGER: PortailUsagerPublic = {
   },
   phone: "",
   telephone: {
-    indicatif: "fr",
+    countryCode: "fr",
     numero: "",
   },
   preference: {
     phone: false,
     phoneNumber: "0606060606",
     telephone: {
-      indicatif: "fr",
+      countryCode: "fr",
       numero: "0606060606",
     },
   },

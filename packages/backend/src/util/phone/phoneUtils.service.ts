@@ -8,7 +8,7 @@ export const getPhoneString = (telephone: Telephone): string => {
         .replace(/\s/g, "+")}`;
 };
 
-export const getIndicatif = (countryCode: string): string => {
+export const getCountryCode = (countryCode: string): string => {
   if (COUNTRY_CODES[countryCode] === undefined) return "+33";
 
   return `+${COUNTRY_CODES[countryCode]}`;

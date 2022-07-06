@@ -8,18 +8,22 @@ export class FormatInternationalPhoneNumberPipe implements PipeTransform {
   phoneUtil: any = lpn.PhoneNumberUtil.getInstance();
 
   transform(telephone: Telephone): string {
-    if (!telephone) return "Non renseigné";
-    else if (!telephone?.numero) return "Non renseigné";
-    else if (!telephone?.indicatif) return "Indicatif non renseigné";
+    if (!telephone) {
+      return "Non renseigné";
+    } else if (!telephone?.numero) {
+      return "Non renseigné";
+    } else if (!telephone?.countryCode) {
+      return "Indicatif non renseigné";
+    }
 
     try {
-      const number = this.phoneUtil.parse(
+      const numero = this.phoneUtil.parse(
         telephone.numero,
-        telephone.indicatif.toUpperCase()
+        telephone.countryCode.toUpperCase(),
       );
       const internationalPhone = this.phoneUtil.format(
-        number,
-        lpn.PhoneNumberFormat.INTERNATIONAL
+        numero,
+        lpn.PhoneNumberFormat.INTERNATIONAL,
       );
       return internationalPhone;
     } catch (error) {
