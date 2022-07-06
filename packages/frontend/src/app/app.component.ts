@@ -101,7 +101,9 @@ export class AppComponent implements OnInit {
           //
           if (sections.indexOf(splitUrl[1]) !== -1) {
             this.currentFragment = splitUrl[1];
-            document.getElementById("focus").focus();
+            if (document.getElementById("focus")) {
+              document.getElementById("focus").focus();
+            }
           }
         } else {
           this.currentUrl = event.url.split("#")[0];

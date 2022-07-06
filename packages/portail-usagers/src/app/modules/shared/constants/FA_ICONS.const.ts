@@ -11,6 +11,7 @@ import {
   faCircleNotch,
   faDownload,
   faSignInAlt,
+  faExclamationTriangle,
   faTimesCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -18,6 +19,7 @@ export const FA_ICONS: IconDefinition[] = [
   faDownload,
   faEdit,
   faEye,
+  faExclamationTriangle,
   faEyeSlash,
   faFileWord,
   faCircleNotch,
