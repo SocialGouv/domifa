@@ -4,7 +4,9 @@ import { Telephone, COUNTRY_CODES } from "../../../_common/model";
 export const getPhoneString = (telephone: Telephone): string => {
   return !telephone
     ? ""
-    : `+${COUNTRY_CODES[telephone.countryCode]}${telephone.numero}`;
+    : telephone.numero !== null && telephone.numero !== ""
+    ? `+${COUNTRY_CODES[telephone.countryCode]}${telephone.numero}`
+    : "";
 };
 
 export const getIndicatif = (countryCode: string): string => {
