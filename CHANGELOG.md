@@ -1,3 +1,10 @@
+## [2.100.5](https://github.com/SocialGouv/domifa/compare/v2.100.4...v2.100.5) (2022-07-08)
+
+
+### Bug Fixes
+
+* **legal:** correction des documents légaux ([145abeb](https://github.com/SocialGouv/domifa/commit/145abeb5735bb8a81a8fd40e581c9c1508cd422a))
+
 ## [2.100.4](https://github.com/SocialGouv/domifa/compare/v2.100.3...v2.100.4) (2022-07-08)
 
 
