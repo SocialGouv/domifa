@@ -1,3 +1,10 @@
+## [2.100.3](https://github.com/SocialGouv/domifa/compare/v2.100.2...v2.100.3) (2022-07-08)
+
+
+### Bug Fixes
+
+* **deps:** update dependency passport to ^0.6.0 [security] ([fb8e0a5](https://github.com/SocialGouv/domifa/commit/fb8e0a502e905c22b5e79e8887cdcf9c873316cd))
+
 ## [2.100.2](https://github.com/SocialGouv/domifa/compare/v2.100.1...v2.100.2) (2022-07-05)
 
 
