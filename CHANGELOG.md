@@ -1,3 +1,10 @@
+## [2.100.4](https://github.com/SocialGouv/domifa/compare/v2.100.3...v2.100.4) (2022-07-08)
+
+
+### Bug Fixes
+
+* **deps:** update dependency moment to v2.29.4 [security] ([533270f](https://github.com/SocialGouv/domifa/commit/533270f4453a8d6cb26a3fe6c9ce01a617560177))
+
 ## [2.100.3](https://github.com/SocialGouv/domifa/compare/v2.100.2...v2.100.3) (2022-07-08)
 
 
