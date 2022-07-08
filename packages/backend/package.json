@@ -46,7 +46,7 @@
     "@nestjs/passport": "^8.0.1",
     "@nestjs/platform-express": "^8.0.6",
     "@nestjs/schedule": "^2.0.0",
-    "@nestjs/swagger": "^5.0.9",
+    "@nestjs/swagger": "^6.0.0",
     "@nestjs/terminus": "^8.0.6",
     "@nestjs/testing": "^8.0.6",
     "@ntegral/nestjs-sentry": "^3.0.7",
