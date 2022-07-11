@@ -106,7 +106,7 @@ export class ImportController {
     } catch (err) {
       appLogger.error(`Import unexpected error while opening upload file`, {
         sentry: true,
-        extra: {
+        context: {
           err,
           fileName,
         },
@@ -194,7 +194,7 @@ export class ImportController {
     if (importErrors.length) {
       appLogger.error(`Import error for structure ${structureId}`, {
         sentry: true,
-        extra: {
+        context: {
           ...importContext,
           importErrors,
         },

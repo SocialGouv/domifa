@@ -54,7 +54,7 @@ export class CronMailImportGuideSenderService {
               appLogger.warn(
                 `[CronMailImportGuideSenderService] Too many errors: skip next users: : ${err.message}`,
                 {
-                  sentryBreadcrumb: true,
+                  sentry: true,
                 }
               );
               break;

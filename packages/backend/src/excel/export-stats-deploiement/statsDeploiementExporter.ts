@@ -35,15 +35,10 @@ async function generateExcelDocument({
     );
     return workbook;
   } catch (err) {
-    appLogger.warn(
-      `[statsDeploiementExporter] ERROR - Report NOT created: ${JSON.stringify(
-        err
-      )}`,
-      {
-        sentryBreadcrumb: true,
-      }
-    );
-    appLogger.error("[statsDeploiementExporter] ERROR - Report NOT created");
+    appLogger.error(`[statsDeploiementExporter] ERROR - Report NOT created`, {
+      sentry: true,
+      error: err,
+    });
     throw err;
   }
 }

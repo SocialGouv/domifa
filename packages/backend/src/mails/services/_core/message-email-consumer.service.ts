@@ -99,7 +99,7 @@ export class MessageEmailConsummer {
               appLogger.warn(
                 `[MessageEmailConsummer] Too many errors: skip next emails: : ${error}`,
                 {
-                  sentryBreadcrumb: true,
+                  sentry: true,
                 }
               );
               break;

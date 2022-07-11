@@ -113,8 +113,7 @@ function logOperationError({
     appLogger.warn(
       "Operation forbidden due to excessive recent security events",
       {
-        sentryBreadcrumb: false,
-        extra: {
+        context: {
           operation,
           userId,
         },
@@ -125,7 +124,7 @@ function logOperationError({
       "Operation forbidden due to excessive recent security events",
       {
         sentry: true,
-        extra: {
+        context: {
           operation,
           userId,
         },

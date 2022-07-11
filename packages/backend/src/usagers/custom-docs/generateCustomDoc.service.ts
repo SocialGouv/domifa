@@ -23,9 +23,7 @@ export function generateCustomDoc(
   } catch (error) {
     appLogger.error(`DocTemplater - Opening Doc impossible`, {
       sentry: true,
-      extra: {
-        error,
-      },
+      error,
     });
     throw error;
   }

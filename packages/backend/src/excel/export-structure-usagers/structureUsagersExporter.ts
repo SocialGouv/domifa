@@ -33,7 +33,7 @@ async function generateExcelDocument(
     appLogger.warn(
       `[structureUsagersExporter] ERROR - Report NOT created: ${err.message}`,
       {
-        sentryBreadcrumb: true,
+        sentry: true,
       }
     );
     appLogger.error("[structureUsagersExporter] ERROR - Report NOT created");

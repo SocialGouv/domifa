@@ -94,7 +94,7 @@ async function sendEmail(
     return sendDetails;
   } catch (err) {
     appLogger.warn(`[smtpSender] Error sending smtp message: : ${err}`, {
-      sentryBreadcrumb: true,
+      sentry: true,
     });
     appLogger.error(`[smtpSender] Error sending smtp message`);
     throw new HttpException(`SMTP_ERROR`, HttpStatus.INTERNAL_SERVER_ERROR);

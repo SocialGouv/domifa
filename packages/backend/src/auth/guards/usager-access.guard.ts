@@ -16,11 +16,14 @@ export class UsagerAccessGuard implements CanActivate {
     const structureId = r.user.structureId;
 
     if (usagerRef === undefined || structureId === undefined) {
-      appLogger.warn(
-        `[UsagerAccessGuard] invalid usagerRef "${usagerRef}" or structureId "${structureId}" for user "${r.user._id}"`,
-        { sentryBreadcrumb: true }
-      );
-      appLogger.error(`[UsagerAccessGuard] invalid usagerRef or structureId`);
+      appLogger.error(`[UsagerAccessGuard] invalid usagerRef or structureId`, {
+        sentry: true,
+        context: {
+          usagerRef,
+          structureId,
+          user: r.user._id,
+        },
+      });
       throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
     }
     const usager = await usagerLightRepository.findOne({
@@ -29,11 +32,15 @@ export class UsagerAccessGuard implements CanActivate {
     });
 
     if (!usager || usager === null) {
-      appLogger.warn(
-        `[UsagerAccessGuard] usager not found for usagerRef "${usagerRef}" or structureId "${structureId}" for user "${r.user._id}" with role "${r.user.role}"`,
-        { sentryBreadcrumb: true }
-      );
-      appLogger.error(`[UsagerAccessGuard] usager not found`);
+      appLogger.error(`[UsagerAccessGuard] usager not found`, {
+        sentry: true,
+        context: {
+          usagerRef,
+          structureId,
+          user: r.user._id,
+          role: r.user.role,
+        },
+      });
       throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
     }
 

@@ -20,15 +20,10 @@ function checkRole(
   const isValidRole = user && expectedRoles.includes(user.role);
 
   if (user && !isValidRole) {
-    appLogger.warn(
-      `[authChecker] invalid role "${user.role}" for user "${
-        user.id
-      }" (expected: ${expectedRoles.join(",")})"`,
-      {
-        sentryBreadcrumb: true,
-      }
-    );
-    appLogger.error(`[authChecker] invalid role`);
+    appLogger.error(`[authChecker] invalid role`, {
+      sentry: true,
+      context: { role: user.role, user: user.id, expectedRoles },
+    });
   }
 
   return isValidRole;
@@ -36,20 +31,14 @@ function checkRole(
 
 function checkProfile(
   user: UserAuthenticated,
-  ...exprectedProfiles: UserProfile[]
+  ...expectedProfiles: UserProfile[]
 ) {
   const userProfile = user._userProfile;
-  const isValidRole = user && exprectedProfiles.includes(userProfile);
+  const isValidRole = user && expectedProfiles.includes(userProfile);
   if (user && !isValidRole) {
-    appLogger.warn(
-      `[authChecker] invalid profile "${userProfile}" for user "${
-        user._userId
-      }" (expected: ${exprectedProfiles.join(",")})"`,
-      {
-        sentryBreadcrumb: true,
-      }
-    );
-    appLogger.error(`[authChecker] invalid profile`);
+    appLogger.error(`[authChecker] invalid profile`, {
+      context: { userProfile, user: user._userId, expectedProfiles },
+    });
   }
 
   return isValidRole;

@@ -137,7 +137,7 @@ export class CronSmsInteractionSenderService {
             appLogger.warn(
               `[CronSms] ERROR in sending SMS : ${JSON.stringify(err)}`,
               {
-                sentryBreadcrumb: true,
+                sentry: true,
               }
             );
           }

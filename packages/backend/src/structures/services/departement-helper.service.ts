@@ -42,7 +42,7 @@ function getRegionCodeFromDepartement(departement: string): string {
     return region.regionCode;
   } else {
     const errorMessage = `Invalid departement ${departement} (no region found)`;
-    appLogger.warn(errorMessage, { sentryBreadcrumb: true });
+    appLogger.warn(errorMessage, { sentry: true });
     throw new Error(errorMessage);
   }
 }
@@ -50,7 +50,7 @@ function getRegionCodeFromDepartement(departement: string): string {
 function getDepartementFromCodePostal(codePostal: string): string {
   if (codePostal.length !== 5) {
     const errorMessage = `Invalid postal code ${codePostal} (cause: ${codePostal.length} characters)`;
-    appLogger.warn(errorMessage, { sentryBreadcrumb: true });
+    appLogger.warn(errorMessage, { sentry: true });
     throw new Error(errorMessage);
   }
   if (EXCEPTIONS_CODE_POSTAL[codePostal]) {
@@ -68,7 +68,7 @@ function getDepartementFromCodePostal(codePostal: string): string {
       return "2B";
     }
     const errorMessage = `Invalid postal code ${codePostal} for "Corse"`;
-    appLogger.warn(errorMessage, { sentryBreadcrumb: true });
+    appLogger.warn(errorMessage, { sentry: true });
     throw new Error(errorMessage);
   }
   // outre-mer: https://fr.wikipedia.org/wiki/Code_postal_en_France#France_d'outre-mer

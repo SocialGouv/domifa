@@ -19,12 +19,12 @@ export class InteractionsGuard implements CanActivate {
     const structureId = r.user.structureId;
 
     if (interactionUuid === undefined || structureId === undefined) {
-      appLogger.warn(
-        `[InteractionsGuard] invalid interactionUuid "${interactionUuid}" or structureId "${structureId}" for user "${r.user._id}"`,
-        { sentryBreadcrumb: true }
-      );
       appLogger.error(
-        `[InteractionsGuard] invalid interactionUuid or structureId`
+        `[InteractionsGuard] invalid interactionUuid or structureId`,
+        {
+          sentry: true,
+          context: { interactionUuid, structureId, user: r.user._id },
+        }
       );
       throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
     }
@@ -35,11 +35,10 @@ export class InteractionsGuard implements CanActivate {
     });
 
     if (!interaction || interaction === null) {
-      appLogger.warn(
-        `[InteractionsGuard] Interaction not found for interactionUuid "${interactionUuid}" for user "${r.user._id}" with role "${r.user.role}"`,
-        { sentryBreadcrumb: true }
-      );
-      appLogger.error(`[InteractionsGuard] Interaction not found`);
+      appLogger.error(`[InteractionsGuard] Interaction not found`, {
+        sentry: true,
+        context: { interactionUuid, user: r.user._id, role: r.user.role },
+      });
       throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
     }
 
