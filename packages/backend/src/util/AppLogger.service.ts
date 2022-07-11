@@ -1,6 +1,6 @@
 import pino, { Logger } from "pino";
 import * as pinoSerializers from "pino-std-serializers";
-import pinoCaller from "pino-caller";
+import logCaller from "./logCaller";
 import { apm } from "../instrumentation";
 import { randomUUID } from "crypto";
 import { NextFunction, Request, Response } from "express";
@@ -20,7 +20,7 @@ class Store {
 
 const requestContextStorage = new AsyncLocalStorage<Store>();
 
-const rootLogger = pinoCaller(pino());
+const rootLogger = logCaller(pino());
 
 function log(
   logger: Logger,
