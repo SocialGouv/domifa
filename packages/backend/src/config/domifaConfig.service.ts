@@ -188,6 +188,18 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         }),
       },
     },
+    logger: {
+      logHttpRequests: configParser.parseBoolean(
+        x,
+        "DOMIFA_LOG_HTTP_REQUESTS",
+        {
+          defaultValue: false,
+        }
+      ),
+      logSqlRequests: configParser.parseBoolean(x, "DOMIFA_LOG_SQL_REQUESTS", {
+        defaultValue: false,
+      }),
+    },
     cron: {
       enable: configParser.parseBoolean(x, "DOMIFA_CRON_ENABLED", {
         defaultValue: false,

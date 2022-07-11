@@ -43,6 +43,10 @@ export type DomifaConfig = {
       password: string; // DOMIFA_ANONYMIZER_PASSWORD
     };
   };
+  logger: {
+    logHttpRequests: boolean; // DOMIFA_LOG_HTTP_REQUESTS
+    logSqlRequests: boolean; // DOMIFA_LOG_SQL_REQUESTS
+  };
   cron: {
     enable: boolean; // DOMIFA_CRON_ENABLED
     emailUserGuide: {
