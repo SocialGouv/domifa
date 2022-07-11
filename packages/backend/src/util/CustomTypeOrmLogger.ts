@@ -16,7 +16,7 @@ export class CustomTypeOrmLogger implements Logger {
       this.options === true ||
       (Array.isArray(this.options) && this.options.indexOf("query") !== -1)
     ) {
-      appLogger.info("sql_query", { query, parameters });
+      appLogger.info("sql_query", { context: { query, parameters } });
     }
   }
 
@@ -34,7 +34,9 @@ export class CustomTypeOrmLogger implements Logger {
       this.options === true ||
       (Array.isArray(this.options) && this.options.indexOf("error") !== -1)
     ) {
-      appLogger.error("sql_query failed", { query, parameters, error });
+      appLogger.error("sql_query failed", {
+        context: { query, parameters, error },
+      });
     }
   }
 
@@ -47,10 +49,9 @@ export class CustomTypeOrmLogger implements Logger {
     parameters?: any[],
     _queryRunner?: QueryRunner
   ) {
-    appLogger.error(
-      { query, parameters, execution_time: time },
-      "slow sql_query"
-    );
+    appLogger.error("slow sql_query", {
+      context: { query, parameters, execution_time: time },
+    });
   }
 
   /**
