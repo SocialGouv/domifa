@@ -140,7 +140,9 @@ async function connect(
     database: pgConfig.database,
     logger: new CustomTypeOrmLogger(
       domifaConfig().envId !== "test"
-        ? "all" //  ? "["error", "warn", "log", "info"]"
+        ? domifaConfig().logger.logSqlRequests
+          ? "all"
+          : ["error", "warn"]
         : false
     ),
     maxQueryExecutionTime: 1000,

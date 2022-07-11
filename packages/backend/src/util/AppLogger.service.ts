@@ -12,6 +12,7 @@ import {
   captureMessage,
   SeverityLevel,
 } from "@sentry/node";
+import { domifaConfig } from "../config";
 
 class Store {
   constructor(public logger: Logger) {}
@@ -104,7 +105,9 @@ function httpLogger(req: RequestWithId, res: Response, next: NextFunction) {
 }
 
 export function setupLog(app: INestApplication) {
-  app.use(httpLogger);
+  if (domifaConfig().logger.logHttpRequests) {
+    app.use(httpLogger);
+  }
 
   // use a custom nestjs logger to forward logs (and especially caught errors) to our pino logger
   app.useLogger(new NestjsLoggerWrapper());
