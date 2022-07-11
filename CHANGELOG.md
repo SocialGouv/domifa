@@ -1,3 +1,10 @@
+## [2.100.6](https://github.com/SocialGouv/domifa/compare/v2.100.5...v2.100.6) (2022-07-11)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @nestjs/swagger to v6 ([b876c73](https://github.com/SocialGouv/domifa/commit/b876c7390d82d80eb865bf398d6bf6ddb98bdd45))
+
 ## [2.100.5](https://github.com/SocialGouv/domifa/compare/v2.100.4...v2.100.5) (2022-07-08)
 
 
