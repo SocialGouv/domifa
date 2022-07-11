@@ -62,7 +62,7 @@ async function monitorProcess(
         appLogger.warn(
           `[monitorProcess] Error during "${processId}" process: ${err.message}`,
           {
-            sentryBreadcrumb: true,
+            sentry: true,
           }
         );
         monitoringBatchProcess.details.errors += count;

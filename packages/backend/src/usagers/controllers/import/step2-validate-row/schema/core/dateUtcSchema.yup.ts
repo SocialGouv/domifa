@@ -37,8 +37,8 @@ export const dateUtcSchema = (
 
       if (!momentDate.isValid) {
         appLogger.warn(`Invalid date (moment)`, {
-          sentryBreadcrumb: true,
-          extra: {
+          sentry: true,
+          context: {
             originalValue,
           },
         });

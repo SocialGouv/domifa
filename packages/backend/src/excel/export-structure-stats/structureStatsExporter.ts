@@ -26,13 +26,14 @@ async function generateExcelDocument(
     );
     return workbook;
   } catch (err: any) {
-    appLogger.warn(
+    appLogger.error(
       `[structureStatsExporter] ERROR - Report NOT created: ${err.message}`,
       {
-        sentryBreadcrumb: true,
+        sentry: true,
+        error: err,
+        context: { message: err.message },
       }
     );
-    appLogger.error("[structureStatsExporter] ERROR - Report NOT created");
     throw err;
   }
 }

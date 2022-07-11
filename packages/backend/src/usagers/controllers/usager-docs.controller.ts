@@ -229,7 +229,7 @@ export class UsagerDocsController {
 
         appLogger.error("Error reading usager document", {
           sentry: true,
-          extra: {
+          context: {
             pathFile,
             basePathExists,
             baseStructurePathExists,

@@ -412,12 +412,12 @@ export class UsagersController {
       const buffer = await pdftk.input(filePath).fillForm(pdfInfos).output();
       return res.setHeader("content-type", "application/pdf").send(buffer);
     } catch (err) {
-      console.error(err);
       appLogger.error(
         `CERFA ERROR structure : ${user.structureId} / usager :${currentUsager.ref} `,
         {
           sentry: true,
-          extra: {
+          error: err,
+          context: {
             ...pdfInfos,
           },
         }

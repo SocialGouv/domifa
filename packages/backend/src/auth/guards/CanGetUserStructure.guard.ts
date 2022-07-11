@@ -17,12 +17,12 @@ export class CanGetUserStructureGuard implements CanActivate {
     const structureId = r.user.structureId;
 
     if (userId === undefined || structureId === undefined) {
-      appLogger.warn(
-        `[CanGetUserStructureGuard] invalid user.Uuid "${userId}" or structureId "${structureId}" for user "${r.user._id}"`,
-        { sentryBreadcrumb: true }
-      );
       appLogger.error(
-        `[CanGetUserStructureGuard] invalid user.Uuid or structureId`
+        `[CanGetUserStructureGuard] invalid user.Uuid or structureId`,
+        {
+          sentry: true,
+          context: { "user.Uuid": userId, structureId, user: r.user._id },
+        }
       );
       throw new HttpException("Invalid structureId", HttpStatus.FORBIDDEN);
     }
@@ -38,12 +38,12 @@ export class CanGetUserStructureGuard implements CanActivate {
     );
 
     if (!chosenUserStructure) {
-      appLogger.warn(
-        `[CanGetUserStructureGuard] chosenUserStructure not found for userId "${userId}" or structureId "${structureId}" for user "${r.user._id}" with role "${r.user.role}"`,
-        { sentryBreadcrumb: true }
-      );
       appLogger.error(
-        `[CanGetUserStructureGuard] chosenUserStructure not found`
+        `[CanGetUserStructureGuard] chosenUserStructure not found`,
+        {
+          sentry: true,
+          context: { userId, structureId, user: r.user._id, role: r.user.role },
+        }
       );
       throw new HttpException("Invalid structureId", HttpStatus.FORBIDDEN);
     }

@@ -321,8 +321,8 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     });
     if (!res && options.throwErrorIfNotFound) {
       appLogger.warn("[pgRepository.findOne] search not found", {
-        sentryBreadcrumb: true,
-        extra: {
+        sentry: true,
+        context: {
           search,
         },
       });
