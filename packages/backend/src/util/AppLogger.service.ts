@@ -1,4 +1,4 @@
-import pino, { Logger } from "pino";
+import pino, { Logger, SerializedRequest } from "pino";
 import * as pinoSerializers from "pino-std-serializers";
 import logCaller from "./logCaller";
 import { apm } from "../instrumentation";
@@ -13,6 +13,7 @@ import {
   SeverityLevel,
 } from "@sentry/node";
 import { domifaConfig } from "../config";
+import { IncomingMessage } from "http";
 
 class Store {
   constructor(public logger: Logger) {}
@@ -26,25 +27,31 @@ function log(
   logger: Logger,
   level: string,
   message: string,
-  context?: Record<string, any>,
-  error?: any | Error
+  options?: {
+    context?: Record<string, any>;
+    error?: any | Error;
+    sentry?: boolean;
+  }
 ) {
   const severityLevel: SeverityLevel =
     level === "warn" ? "warning" : (level as SeverityLevel);
-  addBreadcrumb({ level: severityLevel, message, data: context });
 
-  if (level === "error") {
-    if (error) {
-      captureException(error, { level, contexts: context });
+  if (options?.sentry) {
+    if (level === "error") {
+      if (options?.error) {
+        captureException(options?.error, { level, contexts: options?.context });
+      } else {
+        captureMessage(message, { level, contexts: options?.context });
+      }
     } else {
-      captureMessage(message, { level, contexts: context });
+      addBreadcrumb({ level: severityLevel, message, data: options?.context });
     }
   }
 
-  if (error) {
-    logger[level](error, { ...context, message });
+  if (options?.error) {
+    logger[level]({ err: options?.error, ...options?.context }, message);
   } else {
-    logger[level]({ ...context }, message);
+    logger[level]({ ...options?.context }, message);
   }
 }
 
@@ -67,6 +74,17 @@ export function addLogContext(fields: pino.Bindings) {
 
 type RequestWithId = Request & { id: string | string[] };
 
+function redactAuthorizationHeader(req: SerializedRequest): SerializedRequest {
+  const authorization = req.headers.authorization;
+  if (authorization) {
+    req.headers = {
+      ...req.headers,
+      authorization: `${authorization.slice(0, 10)}-REDACTED`,
+    };
+  }
+  return req;
+}
+
 function httpLogger(req: RequestWithId, res: Response, next: NextFunction) {
   req.id = req.headers["X-Request-Id"] || randomUUID();
   const startTime = Date.now();
@@ -76,7 +94,13 @@ function httpLogger(req: RequestWithId, res: Response, next: NextFunction) {
       req,
       apm: apm.currentTraceIds,
     },
-    { serializers: { req: pinoSerializers.req, res: pinoSerializers.res } }
+    {
+      serializers: {
+        req: (request: IncomingMessage) =>
+          redactAuthorizationHeader(pinoSerializers.req(request)),
+        res: pinoSerializers.res,
+      },
+    }
   );
 
   function onResFinished() {

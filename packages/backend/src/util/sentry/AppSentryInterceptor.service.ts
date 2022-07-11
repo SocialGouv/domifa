@@ -24,35 +24,37 @@ export class AppSentryInterceptor implements NestInterceptor {
     return next.handle().pipe(
       catchError((err) => {
         try {
-          withScope((scope) => {
-            let prefix: string;
-            switch (context.getType()) {
-              case "http":
-                {
-                  prefix = "[http]";
+          let prefix: string;
+          let logContext: Record<string, any> = {};
 
-                  const { req, user } = parseRequest(context);
-                  logSentryRequest({ req, scope });
-                  logSentryUser({ user, scope });
+          switch (context.getType()) {
+            case "http":
+              {
+                prefix = "[http]";
+
+                const { req, user } = parseRequest(context);
+                if (req) {
+                  logContext.req = logSentryRequest(req);
                 }
-                break;
-              default: {
-                prefix = "[core]";
+                if (user) {
+                  logContext.user = logSentryUser(user);
+                }
               }
+              break;
+            default: {
+              prefix = "[core]";
             }
-            appLogger.error(
-              `${prefix} ${
-                err.message ?? "unexpected error"
-              } ${new Date().toUTCString()}`,
-              {},
-              err
-            );
-          });
+          }
+          appLogger.error(
+            `${prefix} ${
+              err.message ?? "unexpected error"
+            } ${new Date().toUTCString()}`,
+            { error: err, sentry: true, context: logContext }
+          );
         } catch (err) {
           appLogger.error(
             "[AppSentryInterceptor] Unexpected error while processing sentry event",
-            {},
-            err
+            { error: err, sentry: true }
           );
         }
         return throwError(() => new InternalServerErrorException());
@@ -71,8 +73,8 @@ function parseRequest(context: ExecutionContext) {
         user: false,
       },
     });
-    const req = data.request;
 
+    const req = data.request;
     const user = expressRequest.user as UserStructureAuthenticated;
 
     return {
@@ -82,48 +84,27 @@ function parseRequest(context: ExecutionContext) {
   }
 }
 
-function logSentryRequest({
-  req,
-  scope,
-}: {
-  req: CrossPlatformRequest;
-  scope: Scope;
-}) {
-  if (req) {
-    const headers = req.headers ?? {};
+function logSentryRequest(req: CrossPlatformRequest): Record<string, any> {
+  const headers = req.headers ?? {};
 
-    scope.setExtra("req", {
-      method: req.method,
-      url: req.url,
-      headers: {
-        host: headers.host,
-        origin: headers.origin,
-        referer: headers.referer,
-        "user-agent": req.headers["user-agent"],
-        withAuthorizationToken: headers.authorization !== undefined,
-      },
-      body: JSON.stringify(req.body),
-    });
-  }
+  return {
+    method: req.method,
+    url: req.url,
+    headers: {
+      host: headers.host,
+      origin: headers.origin,
+      referer: headers.referer,
+      "user-agent": req.headers["user-agent"],
+      withAuthorizationToken: headers.authorization !== undefined,
+    },
+    body: JSON.stringify(req.body),
+  };
 }
 
-function logSentryUser({
-  user,
-  scope,
-}: {
-  user: UserStructureAuthenticated;
-  scope: Scope;
-}) {
-  if (user) {
-    scope.setExtra("user", {
-      id: user.id,
-      role: user.role,
-      structureId: user.structureId,
-    });
-    scope.setTags({
-      userId: user.id,
-      userRole: user.role,
-      structureId: user.structureId,
-    });
-  }
+function logSentryUser(user: UserStructureAuthenticated): Record<string, any> {
+  return {
+    id: user.id,
+    role: user.role,
+    structureId: user.structureId,
+  };
 }
