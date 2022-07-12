@@ -1,3 +1,17 @@
+# [2.101.0](https://github.com/SocialGouv/domifa/compare/v2.100.7...v2.101.0) (2022-07-12)
+
+
+### Bug Fixes
+
+* **lint:** correction du lint, ajout de info dans les logs ([f18bd41](https://github.com/SocialGouv/domifa/commit/f18bd417ba9a47b73a647d51627216524fbfef57))
+* Fix log caller stacktrace ([a06f830](https://github.com/SocialGouv/domifa/commit/a06f830efc3f0b2dbb24b07064ddef12235b35ab))
+* **logger:** Add back logging to sentry ([a8b05ce](https://github.com/SocialGouv/domifa/commit/a8b05cebb613b2b29dc053db75361a6b64b1a374))
+
+
+### Features
+
+* Add option to limit logs on local ([542389d](https://github.com/SocialGouv/domifa/commit/542389d9f472be7733c8360ae57ad9ef3c492b45))
+
 ## [2.100.7](https://github.com/SocialGouv/domifa/compare/v2.100.6...v2.100.7) (2022-07-12)
 
 
