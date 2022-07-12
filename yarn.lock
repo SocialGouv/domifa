@@ -396,6 +396,13 @@
   dependencies:
     tslib "^2.3.0"
 
+"@angular/router@>=14.0.0 <15.0.0":
+  version "14.0.5"
+  resolved "https://registry.yarnpkg.com/@angular/router/-/router-14.0.5.tgz#3492240e0fa363e54dfb6e81618796019f7fe270"
+  integrity sha512-10V6MCzg65HdnylSOSDvmcvhWhsVaedrzyfulvAT1/f77HZkK8yv1lTZ9gL/rAMOnKoH3uzdQqlDj8AnuRLKFw==
+  dependencies:
+    tslib "^2.3.0"
+
 "@angular/router@^13.0.2":
   version "13.3.0"
   resolved "https://registry.yarnpkg.com/@angular/router/-/router-13.3.0.tgz#84f1430a2252a3bd0762b017178199b49394d68f"
@@ -11532,10 +11539,15 @@ ngx-intl-tel-input@^3.2.0:
   dependencies:
     tslib "^2.3.0"
 
-ngx-matomo@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/ngx-matomo/-/ngx-matomo-0.1.4.tgz#93f3064208530388132207b1ecbd9361e0d3ce7b"
-  integrity sha512-AKZMnJGyytZqAxuSh+k/AulyQhgqlnnsmtkfvHMJyNuh5g+wVpIbwac36RyeFU3El6INgZVso2CCLElV3bQnBQ==
+ngx-matomo@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-matomo/-/ngx-matomo-1.0.0.tgz#31e8e9152ef707890db15bf85b9ff1d1c6659b89"
+  integrity sha512-eLpQGyn6u97R5rGPHWFxlDjVyHwBXTscv1NLRZggb2GCvQJbAQ6SrLBtCrqJ4K6na3UtZsVssRyz/XCuS4dWHQ==
+  dependencies:
+    tslib "^2.3.0"
+  optionalDependencies:
+    "@angular/router" ">=14.0.0 <15.0.0"
+    rxjs "^7.5.0"
 
 nice-napi@^1.0.2:
   version "1.0.2"
@@ -14064,6 +14076,13 @@ rxjs@^7.3.0, rxjs@^7.4.0:
   version "7.5.4"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.5.4.tgz#3d6bd407e6b7ce9a123e76b1e770dc5761aa368d"
   integrity sha512-h5M3Hk78r6wAheJF0a5YahB1yRQKCsZ4MsGdZ5O9ETbVtjPcScGfrMmoOq7EBsCRzd4BDkvDJ7ogP8Sz5tTFiQ==
+  dependencies:
+    tslib "^2.1.0"
+
+rxjs@^7.5.0:
+  version "7.5.6"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.5.6.tgz#0446577557862afd6903517ce7cae79ecb9662bc"
+  integrity sha512-dnyv2/YsXhnm461G+R/Pe5bWP41Nm6LBXEYWI6eiFP4fiwx6WRI/CD0zbdVAudd9xwLEF2IDcKXLHit0FYjUzw==
   dependencies:
     tslib "^2.1.0"
 

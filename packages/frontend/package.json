@@ -49,7 +49,7 @@
     "ngx-bootstrap": "^8.0.0",
     "ngx-countup": "^13.0.0",
     "ngx-intl-tel-input": "^3.2.0",
-    "ngx-matomo": "^0.1.4",
+    "ngx-matomo": "^1.0.0",
     "path": "^0.12.7",
     "redux": "^4.1.0",
     "rxjs": "^7.4.0",
