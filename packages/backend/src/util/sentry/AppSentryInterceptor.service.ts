@@ -5,12 +5,7 @@ import {
   InternalServerErrorException,
   NestInterceptor,
 } from "@nestjs/common";
-import {
-  addRequestDataToEvent,
-  CrossPlatformRequest,
-  Scope,
-  withScope,
-} from "@sentry/node";
+import { addRequestDataToEvent, CrossPlatformRequest } from "@sentry/node";
 
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
@@ -25,7 +20,7 @@ export class AppSentryInterceptor implements NestInterceptor {
       catchError((err) => {
         try {
           let prefix: string;
-          let logContext: Record<string, any> = {};
+          const logContext: Record<string, any> = {};
 
           switch (context.getType()) {
             case "http":
