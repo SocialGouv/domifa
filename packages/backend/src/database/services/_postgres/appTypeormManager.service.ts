@@ -142,7 +142,7 @@ async function connect(
       domifaConfig().envId !== "test"
         ? domifaConfig().logger.logSqlRequests
           ? "all"
-          : ["error", "warn"]
+          : ["error", "warn", "info"]
         : false
     ),
     maxQueryExecutionTime: 1000,

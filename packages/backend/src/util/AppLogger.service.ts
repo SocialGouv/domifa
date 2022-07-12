@@ -1,4 +1,4 @@
-import pino, { Logger, SerializedRequest } from "pino";
+import { pino, Logger, SerializedRequest } from "pino";
 import * as pinoSerializers from "pino-std-serializers";
 import logCaller from "./logCaller";
 import { apm } from "../instrumentation";
