@@ -1,3 +1,10 @@
+## [2.100.7](https://github.com/SocialGouv/domifa/compare/v2.100.6...v2.100.7) (2022-07-12)
+
+
+### Bug Fixes
+
+* **deps:** update dependency email-templates to v10 ([67eca99](https://github.com/SocialGouv/domifa/commit/67eca991ec034b255247117c9bb7536234d6b5d0))
+
 ## [2.100.6](https://github.com/SocialGouv/domifa/compare/v2.100.5...v2.100.6) (2022-07-11)
 
 
