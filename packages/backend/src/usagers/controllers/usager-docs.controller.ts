@@ -19,11 +19,6 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { diskStorage } from "multer";
-import * as crypto from "crypto";
-
-import * as fs from "fs";
-import * as fse from "fs-extra";
-import * as path from "path";
 
 import { AllowUserStructureRoles } from "../../auth/decorators";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
@@ -42,6 +37,15 @@ import {
 
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { UploadUsagerDocDto } from "../dto";
+import {
+  createReadStream,
+  createWriteStream,
+  ensureDir,
+  pathExists,
+  remove,
+} from "fs-extra";
+import { join } from "path";
+import { createCipheriv, createDecipheriv } from "crypto";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
 @ApiTags("docs")
@@ -63,12 +67,12 @@ export class UsagerDocsController {
       },
       storage: diskStorage({
         destination: async (req: any, _file: Express.Multer.File, cb: any) => {
-          const dir = path.join(
+          const dir = join(
             domifaConfig().upload.basePath,
             `${req.user.structureId}`,
             `${req.usager.ref}`
           );
-          await fse.ensureDir(dir);
+          await ensureDir(dir);
           cb(null, dir);
         },
         filename: (_req: any, file: Express.Multer.File, cb: any) => {
@@ -136,7 +140,7 @@ export class UsagerDocsController {
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    const pathFile = path.join(
+    const pathFile = join(
       domifaConfig().upload.basePath,
       `${currentUsager.structureId}`,
       `${currentUsager.ref}`,
@@ -198,7 +202,7 @@ export class UsagerDocsController {
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    const pathFile = path.join(
+    const pathFile = join(
       domifaConfig().upload.basePath,
       `${currentUsager.structureId}`,
       `${currentUsager.ref}`,
@@ -206,13 +210,13 @@ export class UsagerDocsController {
     );
 
     // Si jamais le fichier décrypté existe déjà, on le supprime
-    await fse.remove(pathFile + ".unencrypted");
+    await remove(pathFile + ".unencrypted");
 
-    if (!(await fse.pathExists(pathFile + ".encrypted"))) {
+    if (!(await pathExists(pathFile + ".encrypted"))) {
       // FIX : vieilles données pas encore encryptés
-      if (await fse.pathExists(pathFile)) {
+      if (await pathExists(pathFile)) {
         try {
-          await this.encryptFile(pathFile);
+          await this.encryptFile(pathFile, true);
         } catch (e) {
           return res
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -241,10 +245,10 @@ export class UsagerDocsController {
       iv = domifaConfig().security.files.ivSecours;
     }
 
-    const decipher = crypto.createDecipheriv("aes-256-cfb", key, iv);
+    const decipher = createDecipheriv("aes-256-cfb", key, iv);
 
-    const input = fs.createReadStream(pathFile + ".encrypted");
-    const output = fs.createWriteStream(pathFile + ".unencrypted");
+    const input = createReadStream(pathFile + ".encrypted");
+    const output = createWriteStream(pathFile + ".unencrypted");
 
     input
       .pipe(decipher)
@@ -266,14 +270,16 @@ export class UsagerDocsController {
       });
   }
 
-  private async encryptFile(fileName: string): Promise<void> {
+  private async encryptFile(fileName: string, old?: boolean): Promise<void> {
     const key = domifaConfig().security.files.private;
-    const iv = domifaConfig().security.files.iv;
+    const iv = old
+      ? domifaConfig().security.files.ivSecours
+      : domifaConfig().security.files.iv;
 
-    const cipher = crypto.createCipheriv("aes-256-cfb", key, iv);
+    const cipher = createCipheriv("aes-256-cfb", key, iv);
 
-    const input = fs.createReadStream(fileName);
-    const output = fs.createWriteStream(fileName + ".encrypted");
+    const input = createReadStream(fileName);
+    const output = createWriteStream(fileName + ".encrypted");
 
     input
       .pipe(cipher)
@@ -285,9 +291,9 @@ export class UsagerDocsController {
         });
         throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
       })
-      .on("finish", () => {
+      .on("finish", async () => {
         // Suppression du fichier d'origine non-chiffré
-        deleteFile(fileName);
+        await deleteFile(fileName);
       });
   }
 }
