@@ -20,6 +20,7 @@ TRUNCATE TABLE public.user_structure_security RESTART IDENTITY CASCADE;
 TRUNCATE TABLE public.user_usager RESTART IDENTITY CASCADE;
 TRUNCATE TABLE public.user_usager_security RESTART IDENTITY CASCADE;
 TRUNCATE TABLE public.usager_options_history RESTART IDENTITY CASCADE;
+TRUNCATE TABLE public.usager_docs RESTART IDENTITY CASCADE;
 
 --
 -- PostgreSQL database dump
