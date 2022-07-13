@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# load into variable from standard input
+manifest=$(cat /dev/stdin)
+
+# arbitrary modify some stuf
+manifest=`echo "$manifest" | jq 'select(.kind = Namespace) | ["janitor/ttl"] = "365d"'`
+
+# output
+echo "$manifest"
