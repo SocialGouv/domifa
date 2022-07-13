@@ -86,7 +86,7 @@ export class UsagerDocsController {
     @Res() res: Response
   ) {
     try {
-      this.encryptFile(file.path);
+      await this.encryptFile(file.path);
     } catch (e) {
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -205,50 +205,29 @@ export class UsagerDocsController {
       doc.path
     );
 
+    // Si jamais le fichier décrypté existe déjà, on le supprime
+    await fse.remove(pathFile + ".unencrypted");
+
     if (!(await fse.pathExists(pathFile + ".encrypted"))) {
-      // Si le fichier
-      if (!(await fse.pathExists(pathFile))) {
-        const basePathExists = await fse.pathExists(
-          path.join(
-            domifaConfig().upload.basePath,
-            `${currentUsager.structureId}`,
-            `${currentUsager.ref}`
-          )
-        );
-
-        const baseStructurePathExists = await fse.pathExists(
-          path.join(
-            domifaConfig().upload.basePath,
-            `${currentUsager.structureId}`
-          )
-        );
-
-        const baseUsagerPathExists = await fse.pathExists(
-          path.resolve(path.join(domifaConfig().upload.basePath))
-        );
-
-        appLogger.error("Error reading usager document", {
-          sentry: true,
-          context: {
-            pathFile,
-            basePathExists,
-            baseStructurePathExists,
-            baseUsagerPathExists,
-          },
-        });
-        return res
-          .status(HttpStatus.BAD_REQUEST)
-          .json({ message: "DOC_NOT_FOUND" });
-      }
-      // FIX: pour les rares documents non encryptés du tout début du projet
-      else {
+      // FIX : vieilles données pas encore encryptés
+      if (await fse.pathExists(pathFile)) {
         try {
           await this.encryptFile(pathFile);
         } catch (e) {
           return res
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .json({ message: "CANNOT_ENCRYPT_FILE" });
+            .json({ message: "CANNOT_OPEN_FILE" });
         }
+      } else {
+        appLogger.error("Error reading usager document", {
+          sentry: true,
+          context: {
+            pathFile,
+          },
+        });
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: "DOC_NOT_FOUND" });
       }
     }
 
@@ -267,7 +246,7 @@ export class UsagerDocsController {
     const input = fs.createReadStream(pathFile + ".encrypted");
     const output = fs.createWriteStream(pathFile + ".unencrypted");
 
-    return input
+    input
       .pipe(decipher)
       .pipe(output)
       .on("error", (error: Error) => {
@@ -277,13 +256,13 @@ export class UsagerDocsController {
         });
         return res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: "CANNOT_ENCRYPT_FILE" });
+          .json({ message: "CANNOT_OPEN_FILE" });
       })
-      .on("finish", () => {
+      .on("finish", async () => {
         // Suppression du fichier non chiffré
-        deleteFile(pathFile + ".unencrypted");
-
-        return res.sendFile(output.path as string);
+        res.status(HttpStatus.OK).sendFile(output.path as string);
+        await deleteFile(pathFile + ".unencrypted");
+        return;
       });
   }
 

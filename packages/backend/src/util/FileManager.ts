@@ -49,10 +49,10 @@ export const extensions = {
 export async function deleteFile(pathFile: string): Promise<void> {
   try {
     await fse.remove(pathFile);
-  } catch (err) {
+  } catch (error) {
     appLogger.error("[FILES] Delete file fail - " + pathFile, {
       sentry: true,
-      error: err,
+      error,
     });
   }
 }

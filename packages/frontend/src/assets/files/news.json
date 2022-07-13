@@ -1,5 +1,33 @@
 [
   {
+    "date": "2022-07-13",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "RGPD",
+        "message": [
+          "Mises à jour des documents légaux sur Domifa",
+          "Ajout des documents légaux sur le portail domicilié 'mon Domifa'"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Statistiques publiques",
+        "message": [
+          "Les statistiques publiques sont maintenant à jour entre la page d'acceuil Domifa et la page 'statistiques'"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Documents des domiciliés illisibles",
+        "message": [
+          "Correctif appliqué à certains documents qui ne pouvaient plus être ouverts"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2022-06-22",
     "description": "",
     "content": [
@@ -57,7 +85,7 @@
         "categorie": "Résolution des incohérences",
         "message": [
           "Des dossiers présentaient des entrées en doublon dans l'historique lorsque l'on supprimait une demande",
-          "Le type de demande affiché lors de l'instruction d'un dossier ne correspondait pas au vrai statut du domiciié"
+          "Le type de demande affiché lors de l'instruction d'un dossier ne correspondait pas au vrai statut du domicilié"
         ]
       }
     ]
