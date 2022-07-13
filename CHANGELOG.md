@@ -1,3 +1,10 @@
+## [2.101.1](https://github.com/SocialGouv/domifa/compare/v2.101.0...v2.101.1) (2022-07-13)
+
+
+### Bug Fixes
+
+* **docs:** mise à jour de la fonction de suppression des docs ([df4adc5](https://github.com/SocialGouv/domifa/commit/df4adc593dc27e252aa77d54959ab54e09341e88))
+
 # [2.101.0](https://github.com/SocialGouv/domifa/compare/v2.100.7...v2.101.0) (2022-07-12)
 
 
