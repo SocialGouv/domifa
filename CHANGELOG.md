@@ -1,3 +1,10 @@
+## [2.101.3](https://github.com/SocialGouv/domifa/compare/v2.101.2...v2.101.3) (2022-07-13)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @nestjs/jwt to v9 ([6abe5cb](https://github.com/SocialGouv/domifa/commit/6abe5cb56c1ba31b61b4046b5950b2e3ffe7e194))
+
 ## [2.101.2](https://github.com/SocialGouv/domifa/compare/v2.101.1...v2.101.2) (2022-07-13)
 
 
