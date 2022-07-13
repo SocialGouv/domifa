@@ -59,6 +59,10 @@ export class UsagerDocsController {
   @AllowUserStructureRoles("simple", "responsable", "admin")
   @UseInterceptors(
     FileInterceptor("file", {
+      limits: {
+        fieldSize: 10 * 1024 * 1024,
+        files: 1,
+      },
       fileFilter: (req: any, file: Express.Multer.File, cb: any) => {
         if (!validateUpload("USAGER_DOC", req, file)) {
           throw new HttpException("INCORRECT_FORMAT", HttpStatus.BAD_REQUEST);
