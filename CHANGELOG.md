@@ -1,3 +1,12 @@
+## [2.101.2](https://github.com/SocialGouv/domifa/compare/v2.101.1...v2.101.2) (2022-07-13)
+
+
+### Bug Fixes
+
+* **docs:** Affichage des logs ([9588794](https://github.com/SocialGouv/domifa/commit/9588794352e5d8ba43770dbcc67cf7f8cb2db29a))
+* **docs:** mise à jour de la bonne clé ([e722441](https://github.com/SocialGouv/domifa/commit/e7224416014a2194032550fb34803b19c8a1ee19))
+* **docs:** mise à jour de la bonne clé ([79f338f](https://github.com/SocialGouv/domifa/commit/79f338f1321683aebb1e8594b9e5329c0cfb7fe9))
+
 ## [2.101.1](https://github.com/SocialGouv/domifa/compare/v2.101.0...v2.101.1) (2022-07-13)
 
 
