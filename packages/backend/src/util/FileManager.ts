@@ -1,5 +1,5 @@
-import * as fse from "fs-extra";
-import * as path from "path";
+import { remove } from "fs-extra";
+import { extname } from "path";
 import { appLogger } from ".";
 
 // Liste des extensions autorisé selon le contexte
@@ -48,7 +48,7 @@ export const extensions = {
 // Suppression effective d'un fichier
 export async function deleteFile(pathFile: string): Promise<void> {
   try {
-    await fse.remove(pathFile);
+    await remove(pathFile);
   } catch (error) {
     appLogger.error("[FILES] Delete file fail - " + pathFile, {
       sentry: true,
@@ -62,7 +62,7 @@ export function randomName(file: Express.Multer.File): string {
     .fill(null)
     .map(() => Math.round(Math.random() * 16).toString(16))
     .join("");
-  return name + path.extname(file.originalname);
+  return name + extname(file.originalname);
 }
 
 // Vérification des mimetype
@@ -77,7 +77,7 @@ export function validateUpload(
 ): boolean {
   const validFileMimeType = mimeTypes[uploadType].includes(file.mimetype);
   const validFileExtension = extensions[uploadType].includes(
-    path.extname(file.originalname).toLowerCase()
+    extname(file.originalname).toLowerCase()
   );
 
   return validFileMimeType && validFileExtension;
