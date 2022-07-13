@@ -43,6 +43,7 @@ import {
   ensureDir,
   pathExists,
   remove,
+  stat,
 } from "fs-extra";
 import { join } from "path";
 import { createCipheriv, createDecipheriv } from "crypto";
@@ -245,8 +246,18 @@ export class UsagerDocsController {
 
     // TEMP FIX : Utiliser la deuxième clé d'encryptage générée le 30 juin
     // A supprimer une fois que les fichiers seront de nouveaux regénérés
-    if (new Date(doc.createdAt) < new Date("2021-06-12T01:01:01.113Z")) {
+    if (new Date(doc.createdAt) < new Date("2021-06-05T01:01:01.113Z")) {
       iv = domifaConfig().security.files.ivSecours;
+      console.log("");
+      console.log("[WARN] - Ancienne clé pour décoder " + pathFile);
+      console.log(iv);
+      console.log("");
+    } else {
+      iv = domifaConfig().security.files.iv;
+      console.log("");
+      console.log("[WARN] - Nouvelle clé pour décoder " + pathFile);
+      console.log(iv);
+      console.log("");
     }
 
     const decipher = createDecipheriv("aes-256-cfb", key, iv);
@@ -267,6 +278,7 @@ export class UsagerDocsController {
           .json({ message: "CANNOT_OPEN_FILE" });
       })
       .on("finish", async () => {
+        console.log(await stat(output.path));
         // Suppression du fichier non chiffré
         res.status(HttpStatus.OK).sendFile(output.path as string);
         await deleteFile(pathFile + ".unencrypted");
