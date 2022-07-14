@@ -1,4 +1,3 @@
-//@index('./*', f => `export * from '${f.path}'`)
-
+// @index('./*service.ts', f => `export * from '${f.path}'`)
 export * from "./generateCerfaDatas.service";
-export * from "./generateDateForCerfa";
+export * from "./generateDateForCerfa.service";

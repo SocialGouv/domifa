@@ -34,6 +34,7 @@ function generateString({
       // generate, then check exclusions
       str = crypto.randomBytes(length).toString("base64").slice(0, length);
     }
+
     isValid = true;
     if (charsToExclude?.length) {
       for (const c of charsToExclude) {

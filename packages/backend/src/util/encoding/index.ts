@@ -1,3 +1,3 @@
-export * from "./base64Encoder.service";
-export * from "./hexEncoder.service";
+// @index('./*service.ts', f => `export * from '${f.path}'`)
+export * from "./passwordGenerator.service";
 export * from "./tokenGenerator.service";

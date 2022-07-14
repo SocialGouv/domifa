@@ -5,7 +5,7 @@ import {
 import { UsersModule } from "../../../../users/users.module";
 import { AppTestHelper } from "../../../../util/test";
 import { UserStructureAuthenticated } from "../../../../_common/model";
-import { generateDateForCerfa } from "../generateDateForCerfa";
+import { generateDateForCerfa } from "../generateDateForCerfa.service";
 import MockDate from "mockdate";
 
 describe("generateDateForCerfa", () => {
