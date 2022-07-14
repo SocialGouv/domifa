@@ -213,21 +213,20 @@ export class UsagerDocsController {
       `${currentUsager.ref}`,
       doc.path
     );
+    const outputFile = join(
+      domifaConfig().upload.basePath,
+      "tmp",
+      doc.path + ".unencrypted"
+    );
+
+    await ensureDir(join(domifaConfig().upload.basePath, "tmp"));
 
     // Si jamais le fichier décrypté existe déjà, on le supprime
     await remove(pathFile + ".unencrypted");
 
     if (!(await pathExists(pathFile + ".encrypted"))) {
       // FIX : vieilles données pas encore encryptés
-      if (await pathExists(pathFile)) {
-        try {
-          await this.encryptFile(pathFile, true);
-        } catch (e) {
-          return res
-            .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .json({ message: "CANNOT_OPEN_FILE" });
-        }
-      } else {
+      if (!(await pathExists(pathFile))) {
         appLogger.error("Error reading usager document", {
           sentry: true,
           context: {
@@ -238,78 +237,112 @@ export class UsagerDocsController {
           .status(HttpStatus.BAD_REQUEST)
           .json({ message: "DOC_NOT_FOUND" });
       }
-    }
 
-    // Clés de chiffrement
-    const key = domifaConfig().security.files.private;
-    let iv = domifaConfig().security.files.iv;
-
-    // TEMP FIX : Utiliser la deuxième clé d'encryptage générée le 30 juin
-    // A supprimer une fois que les fichiers seront de nouveaux regénérés
-    if (new Date(doc.createdAt) < new Date("2021-06-05T01:01:01.113Z")) {
-      iv = domifaConfig().security.files.ivSecours;
-      console.log("");
-      console.log("[WARN] - Ancienne clé pour décoder " + pathFile);
-      console.log(iv);
-      console.log("");
-    } else {
-      iv = domifaConfig().security.files.iv;
-      console.log("");
-      console.log("[WARN] - Nouvelle clé pour décoder " + pathFile);
-      console.log(iv);
-      console.log("");
-    }
-
-    const decipher = createDecipheriv("aes-256-cfb", key, iv);
-
-    const input = createReadStream(pathFile + ".encrypted");
-    const output = createWriteStream(pathFile + ".unencrypted");
-
-    return input
-      .pipe(decipher)
-      .pipe(output)
-      .on("error", (error: Error) => {
-        appLogger.error("[FILES] CANNOT_DECRYPT_FILE : " + pathFile, {
-          error,
-          sentry: true,
-        });
+      try {
+        await this.encryptFile(pathFile, true);
+      } catch (e) {
         return res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
           .json({ message: "CANNOT_OPEN_FILE" });
-      })
-      .on("finish", async () => {
-        console.log(await stat(output.path));
-        // Suppression du fichier non chiffré
-        res.status(HttpStatus.OK).sendFile(output.path as string);
-        await deleteFile(pathFile + ".unencrypted");
-        return;
+      }
+    }
+
+    try {
+      await this.decryptFile(pathFile, doc);
+      return res.status(HttpStatus.OK).sendFile(outputFile);
+    } catch (e) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "CANNOT_OPEN_FILE" });
+    }
+  }
+  private async decryptFile(
+    pathFile: string,
+    doc: UsagerDoc
+  ): Promise<void | Error> {
+    return new Promise((resolve, reject) => {
+      // Clés de chiffrement
+      const key = domifaConfig().security.files.private;
+      let iv = domifaConfig().security.files.iv;
+
+      // TEMP FIX : Utiliser la deuxième clé d'encryptage générée le 30 juin
+      // A supprimer une fois que les fichiers seront de nouveaux regénérés
+      if (new Date(doc.createdAt) < new Date("2021-06-05T01:01:01.113Z")) {
+        iv = domifaConfig().security.files.ivSecours;
+        console.log("");
+        console.log("[WARN] - Ancienne clé pour décoder " + pathFile);
+        console.log(iv);
+        console.log("");
+      } else {
+        iv = domifaConfig().security.files.iv;
+        console.log("");
+        console.log("[WARN] - Nouvelle clé pour décoder " + pathFile);
+        console.log(iv);
+        console.log("");
+      }
+
+      const decipher = createDecipheriv("aes-256-cfb", key, iv);
+
+      const input = createReadStream(pathFile + ".encrypted");
+
+      const outputFile = join(
+        domifaConfig().upload.basePath,
+        "tmp",
+        doc.path + ".unencrypted"
+      );
+
+      const output = createWriteStream(outputFile);
+
+      input.pipe(decipher).pipe(output);
+
+      output.on("error", (error: Error) => {
+        appLogger.error("[FILES] CANNOT_DECRYPT_FILE : " + outputFile, {
+          error,
+          sentry: true,
+        });
+        reject(error);
       });
+
+      output.on("finish", async () => {
+        console.log("---- FINISH");
+        console.log(await stat(outputFile));
+        resolve();
+        // Suppression du fichier non chiffré
+      });
+    });
   }
 
-  private async encryptFile(fileName: string, old?: boolean): Promise<void> {
-    const key = domifaConfig().security.files.private;
-    const iv = old
-      ? domifaConfig().security.files.ivSecours
-      : domifaConfig().security.files.iv;
+  private async encryptFile(
+    pathFile: string,
+    old?: boolean
+  ): Promise<void | Error> {
+    return new Promise((resolve, reject) => {
+      const key = domifaConfig().security.files.private;
+      const iv = old
+        ? domifaConfig().security.files.ivSecours
+        : domifaConfig().security.files.iv;
 
-    const cipher = createCipheriv("aes-256-cfb", key, iv);
+      const cipher = createCipheriv("aes-256-cfb", key, iv);
 
-    const input = createReadStream(fileName);
-    const output = createWriteStream(fileName + ".encrypted");
+      const input = createReadStream(pathFile);
+      const output = createWriteStream(pathFile + ".encrypted");
 
-    input
-      .pipe(cipher)
-      .pipe(output)
-      .on("error", (error) => {
-        appLogger.error("[FILES] CANNOT_ENCRYPT_FILE : " + fileName, {
+      input.pipe(cipher).pipe(output);
+
+      output.on("error", (error: Error) => {
+        appLogger.error("[FILES] CANNOT_ENCRYPT_FILE : " + pathFile, {
           sentry: true,
           error,
         });
-        throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
-      })
-      .on("finish", async () => {
-        // Suppression du fichier d'origine non-chiffré
-        await deleteFile(fileName);
+        reject(error);
       });
+
+      output.on("finish", async () => {
+        // Suppression du fichier d'origine non-chiffré
+        await deleteFile(pathFile);
+        // Retour
+        resolve();
+      });
+    });
   }
 }
