@@ -1,7 +1,6 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne, Unique } from "typeorm";
 import {
   Usager,
-  UsagerDoc,
   UsagerLastInteractions,
   UsagerOptions,
   UsagerPreferenceContact,
@@ -115,16 +114,6 @@ export class UsagerTable
     //   "{ dateInteraction: now(), enAttente: false, courrierIn: 0, recommandeIn: 0, colisIn: 0};",
   })
   public lastInteraction!: UsagerLastInteractions;
-
-  //
-  // DOCUMENTS
-  // ! @deprecated
-  @Column({ type: "jsonb", default: "[]" })
-  public docs!: UsagerDoc[];
-
-  // ! @deprecated
-  @Column({ type: "jsonb", default: "[]" })
-  public docsPath!: string[];
 
   //
   // FORMULAIRE
