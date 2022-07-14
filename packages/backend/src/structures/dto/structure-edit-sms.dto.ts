@@ -2,10 +2,12 @@ import {
   IsBoolean,
   IsEmpty,
   IsNotEmpty,
+  IsString,
   MaxLength,
   MinLength,
   ValidateIf,
 } from "class-validator";
+import { TrimOrNullTransform } from "../../_common/decorators";
 
 export class StructureEditSmsDto {
   @IsEmpty()
@@ -23,6 +25,8 @@ export class StructureEditSmsDto {
     message: "SENDER_TOO_SHORT",
   })
   @IsNotEmpty()
+  @IsString()
+  @TrimOrNullTransform()
   public senderName: string;
 
   @ValidateIf((o) => o.enabledByStructure === true)
