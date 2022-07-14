@@ -84,7 +84,7 @@ export const POST_USAGER: {
       recommandeIn: 0,
       enAttente: false,
     },
-    docs: [],
+
     etapeDemande: 1,
     rdv: null,
     notes: [],

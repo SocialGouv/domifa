@@ -1,4 +1,5 @@
-import * as apmAgent from "elastic-apm-node";
+import apmAgent = require("elastic-apm-node");
+
 import { domifaConfig } from "../config";
 
 let options: apmAgent.AgentConfigOptions = {

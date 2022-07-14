@@ -2,7 +2,6 @@ import { AppEntity } from "../_core/AppEntity.type";
 import { UsagerEntretien } from "./entretien";
 import { UsagerAyantDroit } from "./UsagerAyantDroit.type";
 import { UsagerDecision } from "./UsagerDecision.type";
-import { UsagerDoc } from "./UsagerDoc.type";
 import { UsagerImport } from "./UsagerImport.type";
 import { UsagerLastInteractions } from "./UsagerLastInteractions.type";
 import { UsagerNote } from "./UsagerNote.type";
@@ -57,12 +56,7 @@ export type Usager = AppEntity & {
   // INTERACTIONS
   lastInteraction: UsagerLastInteractions;
 
-  // DOCUMENTS
-  docs: UsagerDoc[];
-
   notes: UsagerNote[];
-
-  docsPath?: string[]; // TODO: mettre à jour après migration
 
   options: UsagerOptions;
 

@@ -265,7 +265,7 @@ export class UsagerDocsController {
     const input = createReadStream(pathFile + ".encrypted");
     const output = createWriteStream(pathFile + ".unencrypted");
 
-    input
+    return input
       .pipe(decipher)
       .pipe(output)
       .on("error", (error: Error) => {
