@@ -1,3 +1,18 @@
+# [2.102.0](https://github.com/SocialGouv/domifa/compare/v2.101.3...v2.102.0) (2022-07-15)
+
+
+### Bug Fixes
+
+* **build:** correction d'un bug sur le build back ([152b811](https://github.com/SocialGouv/domifa/commit/152b8112bcf94c24b40584a5a76d7db4e3b1c15d))
+* **dumps:** correction des dumps ([eeaf969](https://github.com/SocialGouv/domifa/commit/eeaf9691052c367e2b13388f114293fec0e10e96))
+* **dumps:** lancement du dum ([d83876a](https://github.com/SocialGouv/domifa/commit/d83876ae51f16ae8f73e7c76e58aec4e4d0e4b9b))
+* **upload:** séparation des fonctions d'upload et de décode ([d477d1a](https://github.com/SocialGouv/domifa/commit/d477d1a7ab023396dd3de9321fce8b409044bb06))
+
+
+### Features
+
+* **dumps:** mise à jour des dumps de test ([d28243a](https://github.com/SocialGouv/domifa/commit/d28243ad0d93c05b843aaa7acd2152c853daae38))
+
 ## [2.101.3](https://github.com/SocialGouv/domifa/compare/v2.101.2...v2.101.3) (2022-07-13)
 
 
