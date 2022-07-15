@@ -1,18 +1,25 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { domifaConfig } from "../config";
 
 export class autoMigration1657800960499 implements MigrationInterface {
   name = "autoMigration1657800960499";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`ALTER TABLE "usager" DROP COLUMN "docs"`);
-    await queryRunner.query(`ALTER TABLE "usager" DROP COLUMN "docsPath"`);
+    if (
+      domifaConfig().envId === "prod" ||
+      domifaConfig().envId === "preprod" ||
+      domifaConfig().envId === "local"
+    ) {
+      await queryRunner.query(`ALTER TABLE "usager" DROP COLUMN "docs"`);
+      await queryRunner.query(`ALTER TABLE "usager" DROP COLUMN "docsPath"`);
 
-    await queryRunner.query(
-      `ALTER TABLE "usager_docs" ADD CONSTRAINT "FK_08c4299b8abc6b9f548f2aece20" FOREIGN KEY ("usagerUUID") REFERENCES "usager"("uuid") ON DELETE CASCADE ON UPDATE NO ACTION`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "usager_docs" ADD CONSTRAINT "FK_b1db67565e53acec53d5f3aa926" FOREIGN KEY ("structureId") REFERENCES "structure"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
-    );
+      await queryRunner.query(
+        `ALTER TABLE "usager_docs" ADD CONSTRAINT "FK_08c4299b8abc6b9f548f2aece20" FOREIGN KEY ("usagerUUID") REFERENCES "usager"("uuid") ON DELETE CASCADE ON UPDATE NO ACTION`
+      );
+      await queryRunner.query(
+        `ALTER TABLE "usager_docs" ADD CONSTRAINT "FK_b1db67565e53acec53d5f3aa926" FOREIGN KEY ("structureId") REFERENCES "structure"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
+      );
+    }
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
