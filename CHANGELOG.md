@@ -1,3 +1,10 @@
+## [2.102.2](https://github.com/SocialGouv/domifa/compare/v2.102.1...v2.102.2) (2022-07-17)
+
+
+### Bug Fixes
+
+* **deps:** update dependency intl-tel-input to v17.0.18 ([8dfbf78](https://github.com/SocialGouv/domifa/commit/8dfbf78f3e5f6211d8fbda9ccc9549e26b01314f))
+
 ## [2.102.1](https://github.com/SocialGouv/domifa/compare/v2.102.0...v2.102.1) (2022-07-17)
 
 
