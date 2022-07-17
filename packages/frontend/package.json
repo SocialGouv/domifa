@@ -44,7 +44,7 @@
     "file-saver": "^2.0.5",
     "fs": "^0.0.2",
     "google-libphonenumber": "^3.2.27",
-    "intl-tel-input": "17.0.16",
+    "intl-tel-input": "17.0.18",
     "jwt-decode": "^3.1.2",
     "ngx-bootstrap": "^8.0.0",
     "ngx-countup": "^13.0.0",
