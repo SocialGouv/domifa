@@ -3,7 +3,6 @@ import { HttpClientModule } from "@angular/common/http";
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ResetPasswordComponent } from "./components/reset-password/reset-password.component";
@@ -34,7 +33,6 @@ import { UsersRoutingModule } from "./users-routing.module";
     ReactiveFormsModule,
     SharedModule,
     CommonModule,
-    SharedModule,
     UsersRoutingModule,
   ],
   providers: [],

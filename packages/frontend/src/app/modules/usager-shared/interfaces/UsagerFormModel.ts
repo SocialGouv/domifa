@@ -9,6 +9,7 @@ import {
   UsagerImport,
   UsagerEcheanceInfos,
   UsagerRdvInfos,
+  Telephone,
 } from "../../../../_common/model";
 import { INTERACTIONS_IN_AVAILABLE } from "../../../../_common/model/interaction/constants";
 import {
@@ -16,7 +17,7 @@ import {
   USAGER_DECISION_STATUT_LABELS,
   USAGER_DECISION_STATUT_COLORS,
 } from "../../../../_common/model/usager/_constants";
-import { regexp } from "../../../shared/validators";
+
 import {
   UsagersFilterCriteria,
   usagersFilter,
@@ -40,11 +41,12 @@ export class UsagerFormModel implements UsagerLight {
   // Infos de contact
   public email: string;
   public phone: string;
+  public telephone: Telephone;
 
   // Préférence d'envoi de notifs
   public preference: {
-    phone: boolean;
-    phoneNumber?: string;
+    contactByPhone: boolean;
+    telephone: Telephone | null;
   };
 
   public structureId: number | null;
@@ -124,6 +126,11 @@ export class UsagerFormModel implements UsagerLight {
     this.email = (usager && usager.email) || "";
     this.phone = (usager && usager.phone) || "";
 
+    this.telephone = (usager && usager.telephone) || {
+      countryCode: "fr",
+      numero: "",
+    };
+
     this.structureId = (usager && usager.structureId) || null;
     this.etapeDemande = (usager && usager.etapeDemande) || ETAPE_ETAT_CIVIL;
 
@@ -169,10 +176,11 @@ export class UsagerFormModel implements UsagerLight {
     }
 
     this.preference = (usager && usager.preference) || {
-      phone: false,
-      phoneNumber: new RegExp(regexp.mobilePhone).test(this.phone)
-        ? this.phone
-        : "",
+      contactByPhone: false,
+      telephone: {
+        countryCode: "fr",
+        numero: "",
+      },
     };
 
     this.rdv = new Rdv((usager && usager.rdv) || null);

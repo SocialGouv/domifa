@@ -25,10 +25,12 @@
       <div class="py-2 text-primary fw-bold">Contact</div>
       <div>
         Téléphone:
-        <span class="valeur" *ngIf="usager.phone">{{
-          usager.phone | formatPhoneNumber
+        <span class="valeur" *ngIf="usager.telephone.numero">{{
+          usager.telephone | formatInternationalPhoneNumber
         }}</span>
-        <span class="valeur" *ngIf="!usager.phone">Non renseigné</span>
+        <span class="valeur" *ngIf="!usager.telephone.numero"
+          >Non renseigné</span
+        >
       </div>
       <div class="py-2">
         Adresse e-mail:

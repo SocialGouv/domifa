@@ -51,9 +51,9 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
 
   constructor(
-    private interactionService: InteractionService,
-    private usagerService: UsagerService,
-    private toastService: CustomToastService
+    private readonly interactionService: InteractionService,
+    private readonly usagerService: UsagerService,
+    private readonly toastService: CustomToastService
   ) {
     this.procurationIndex = null;
     this.interactionFormData = {
@@ -197,8 +197,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getInteractions() {
-    // TODO: optimiser cette requête pour éviter un chargement trop important
+  private getInteractions(): void {
     this.interactionService
       .getInteractions({
         usagerRef: this.usager.ref,

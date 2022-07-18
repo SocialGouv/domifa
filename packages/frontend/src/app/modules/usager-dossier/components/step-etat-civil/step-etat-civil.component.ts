@@ -1,4 +1,3 @@
-import { UsagerAyantDroit } from "./../../../../../_common/model/usager/UsagerAyantDroit.type";
 import {
   Component,
   ElementRef,
@@ -10,6 +9,7 @@ import {
   AbstractControl,
   FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
 } from "@angular/forms";
@@ -20,6 +20,11 @@ import {
   NgbDatepickerI18n,
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
+import {
+  CountryISO,
+  PhoneNumberFormat,
+  SearchCountryField,
+} from "ngx-intl-tel-input";
 
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
@@ -29,20 +34,23 @@ import {
   minDateNaissance,
   minDateToday,
 } from "src/app/shared/bootstrap-util";
-
 import {
   UsagerLight,
   UserStructure,
-  CerfaDocType,
   LIEN_PARENTE_LABELS,
+  UsagerEtatCivilFormData,
 } from "../../../../../_common/model";
-import { UsagerFormAyantDroit } from "../../../../../_common/model/usager/dossier";
-import { fadeInOut, languagesAutocomplete } from "../../../../shared";
-import { regexp } from "../../../../shared/validators";
+import {
+  fadeInOut,
+  languagesAutocomplete,
+  setFormPhone,
+} from "../../../../shared";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { UsagerFormModel, AyantDroit } from "../../../usager-shared/interfaces";
-import { DocumentService } from "../../../usager-shared/services/document.service";
+
 import { UsagerDossierService } from "../../services/usager-dossier.service";
+import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
+import { getEtatCivilForm } from "../../../usager-shared/utils";
 
 @Component({
   animations: [fadeInOut],
@@ -56,6 +64,10 @@ import { UsagerDossierService } from "../../services/usager-dossier.service";
   templateUrl: "./step-etat-civil.component.html",
 })
 export class StepEtatCivilComponent implements OnInit {
+  public PhoneNumberFormat = PhoneNumberFormat;
+  public SearchCountryField = SearchCountryField;
+  public CountryISO = CountryISO;
+  public preferredCountries: CountryISO[] = PREFERRED_COUNTRIES;
   public doublons: UsagerLight[];
   public LIEN_PARENTE_LABELS = LIEN_PARENTE_LABELS;
 
@@ -93,20 +105,18 @@ export class StepEtatCivilComponent implements OnInit {
     return this.usagerForm.controls;
   }
 
-  get ayantsDroits() {
+  get ayantsDroits(): FormArray {
     return this.usagerForm.get("ayantsDroits") as FormArray;
   }
 
   constructor(
-    private formBuilder: FormBuilder,
-    private usagerDossierService: UsagerDossierService,
-    private documentService: DocumentService,
-    private authService: AuthService,
-    private route: ActivatedRoute,
-    private router: Router,
-    public toastService: CustomToastService,
-    private nbgDate: NgbDateCustomParserFormatter,
-    private titleService: Title
+    private readonly formBuilder: FormBuilder,
+    private readonly usagerDossierService: UsagerDossierService,
+    private readonly authService: AuthService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly toastService: CustomToastService,
+    private readonly titleService: Title
   ) {
     this.doublons = [];
     this.me = null;
@@ -152,11 +162,17 @@ export class StepEtatCivilComponent implements OnInit {
       customRef: [this.usager.customRef, []],
       email: [this.usager.email, [Validators.email]],
       nom: [this.usager.nom, Validators.required],
-      phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
       preference: this.formBuilder.group({
-        phone: [this.usager.preference.phone, [Validators.required]],
-        phoneNumber: [this.usager.preference.phoneNumber, []],
+        contactByPhone: [
+          this.usager.preference.contactByPhone,
+          [Validators.required],
+        ],
+        phoneNumber: new FormControl(
+          setFormPhone(this.usager.preference.telephone),
+          this.usager.preference.contactByPhone ? [Validators.required] : null
+        ),
       }),
+      phone: new FormControl(setFormPhone(this.usager.telephone), null),
       prenom: [this.usager.prenom, Validators.required],
       sexe: [this.usager.sexe, Validators.required],
       surnom: [this.usager.surnom, []],
@@ -169,21 +185,16 @@ export class StepEtatCivilComponent implements OnInit {
 
     this.usagerForm
       .get("preference")
-      .get("phone")
+      .get("contactByPhone")
       .valueChanges.subscribe((value: boolean) => {
-        const isRequired =
-          value === true
-            ? [Validators.required, Validators.pattern(regexp.mobilePhone)]
-            : null;
-
+        const isRequiredTelephone = value ? [Validators.required] : null;
         this.usagerForm
           .get("preference")
-          .get("phoneNumber")
-          .setValidators(isRequired);
-
+          .get("telephone")
+          .setValidators(isRequiredTelephone);
         this.usagerForm
           .get("preference")
-          .get("phoneNumber")
+          .get("telephone")
           .updateValueAndValidity();
       });
   }
@@ -252,10 +263,6 @@ export class StepEtatCivilComponent implements OnInit {
     });
   }
 
-  public getCerfa(typeCerfa: CerfaDocType): void {
-    return this.documentService.attestation(this.usager.ref, typeCerfa);
-  }
-
   public submitInfos(): void {
     this.submitted = true;
 
@@ -270,35 +277,9 @@ export class StepEtatCivilComponent implements OnInit {
     }
     this.loading = true;
 
-    const usagerFormValues = this.usagerForm.value;
-
-    let ayantsDroits: UsagerAyantDroit[] = [];
-
-    ayantsDroits = usagerFormValues.ayantsDroits.map(
-      (ayantDroit: UsagerFormAyantDroit) => {
-        return {
-          lien: ayantDroit.lien,
-          nom: ayantDroit.nom,
-          prenom: ayantDroit.prenom,
-          dateNaissance: this.nbgDate.formatEn(ayantDroit.dateNaissance),
-        };
-      }
+    const formValue: UsagerEtatCivilFormData = getEtatCivilForm(
+      this.usagerForm.value
     );
-
-    const formValue: UsagerFormModel = {
-      ...usagerFormValues,
-      ayantsDroits,
-      dateNaissance: this.nbgDate.formatEn(
-        this.usagerForm.controls.dateNaissance.value
-      ),
-      etapeDemande: this.usager.etapeDemande,
-    };
-
-    if (!formValue.preference.phone) {
-      formValue.preference.phoneNumber = null;
-    }
-
-    delete formValue.ayantsDroitsExist;
 
     this.usagerDossierService
       .editStepEtatCivil(formValue, this.usager.ref)
@@ -315,7 +296,7 @@ export class StepEtatCivilComponent implements OnInit {
       });
   }
 
-  private focusAyantDroit() {
+  private focusAyantDroit(): void {
     // Focus sur l'élément créé
     setTimeout(() => {
       const ayantDroitTable = this.usagerForm.controls.ayantsDroits.value;

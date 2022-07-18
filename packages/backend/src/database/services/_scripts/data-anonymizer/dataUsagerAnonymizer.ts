@@ -91,8 +91,11 @@ async function _anonymizeUsager(
       numero: "",
     },
     preference: {
-      phone: false,
-      phoneNumber: null,
+      contactByPhone: false,
+      telephone: {
+        countryCode: "fr",
+        numero: "",
+      },
     },
     nom: dataGenerator.lastName(),
     surnom: null,

@@ -29,10 +29,10 @@
 
   <div class="col-md-4 reponses">
     <span class="question">Numéro de téléphone</span>
-    <span class="valeur" *ngIf="usager.phone">{{
-      usager.phone | formatPhoneNumber
+    <span class="valeur" *ngIf="usager.telephone.numero">{{
+      usager.telephone | formatInternationalPhoneNumber
     }}</span>
-    <span class="valeur" *ngIf="!usager.phone">Non renseigné</span>
+    <span class="valeur" *ngIf="!usager.telephone.numero">Non renseigné</span>
   </div>
   <div class="col-md-4 reponses">
     <span class="question">Adresse email</span>

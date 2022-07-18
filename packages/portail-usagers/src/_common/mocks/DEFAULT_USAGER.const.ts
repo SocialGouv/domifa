@@ -48,10 +48,17 @@ export const DEFAULT_USAGER: PortailUsagerPublic = {
     },
   },
   phone: "",
+  telephone: {
+    countryCode: "fr",
+    numero: "",
+  },
   preference: {
-    email: false,
     phone: false,
     phoneNumber: "0606060606",
+    telephone: {
+      countryCode: "fr",
+      numero: "0606060606",
+    },
   },
   prenom: "Sembat",
   rdv: null,

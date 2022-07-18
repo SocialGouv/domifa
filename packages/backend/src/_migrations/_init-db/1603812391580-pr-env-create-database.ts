@@ -249,7 +249,7 @@ async function createTables(queryRunner: QueryRunner) {
       langue text NULL,
       email text NULL,
       phone text NULL,
-      preference jsonb NULL DEFAULT '{"phone": false, "telephone": {"numero": "", "countryCode": "fr"}}'::jsonb,
+      preference jsonb NULL DEFAULT '{"telephone": {"numero": "", "countryCode": "fr"}, "contactByPhone": false}'::jsonb,
       "datePremiereDom" timestamptz NULL,
       "typeDom" text NULL DEFAULT 'PREMIERE_DOM'::text,
       decision jsonb NOT NULL,

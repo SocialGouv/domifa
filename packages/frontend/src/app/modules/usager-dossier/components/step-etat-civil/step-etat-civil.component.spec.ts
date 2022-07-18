@@ -1,59 +1,56 @@
-import { SharedModule } from "./../../../shared/shared.module";
 import { APP_BASE_HREF } from "@angular/common";
-
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
+import { SharedModule } from "./../../../shared/shared.module";
 import { StepEtatCivilComponent } from "./step-etat-civil.component";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { JwtInterceptor } from "../../../../interceptors/jwt.interceptor";
+import { ServerErrorInterceptor } from "../../../../interceptors/server-error.interceptor";
+import { AuthService } from "../../../shared/services/auth.service";
 
 describe("StepEtatCivilComponent", () => {
   let component: StepEtatCivilComponent;
   let fixture: ComponentFixture<StepEtatCivilComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [StepEtatCivilComponent],
-        imports: [
-          MatomoModule,
-          RouterTestingModule,
-          NgbModule,
-          ReactiveFormsModule,
-          FormsModule,
-          SharedModule,
-          HttpClientTestingModule,
-        ],
-        providers: [
-          {
-            provide: MatomoInjector,
-            useValue: {
-              init: jest.fn(),
-            },
-          },
-          {
-            provide: MatomoTracker,
-            useValue: {
-              setUserId: jest.fn(),
-            },
-          },
-          { provide: APP_BASE_HREF, useValue: "/" },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [StepEtatCivilComponent],
+      imports: [
+        RouterTestingModule,
+        NgbModule,
+        ReactiveFormsModule,
+        FormsModule,
+        SharedModule,
+        HttpClientTestingModule,
+        NgxIntlTelInputModule,
+        BrowserAnimationsModule,
+      ],
+      providers: [
+        AuthService,
+        { provide: APP_BASE_HREF, useValue: "/" },
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        {
+          multi: true,
+          provide: HTTP_INTERCEPTORS,
+          useClass: ServerErrorInterceptor,
+        },
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(StepEtatCivilComponent);
-      component = fixture.debugElement.componentInstance;
-      component.ngOnInit();
-    })
-  );
+    fixture = TestBed.createComponent(StepEtatCivilComponent);
+    component = fixture.debugElement.componentInstance;
+    component.ngOnInit();
+  }));
 
   it("0. Création du compenent", () => {
     expect(component).toBeTruthy();
@@ -73,15 +70,12 @@ describe("StepEtatCivilComponent", () => {
     expect(component.usager.lastInteraction).toBeTruthy();
   });
 
-  it(
-    "7. DOUBLON",
-    waitForAsync(() => {
-      component.usagerForm.controls.nom.setValue("Mamadou");
-      component.usagerForm.controls.prenom.setValue("Diallo");
-      component.isDoublon();
-      expect(component.doublons).toEqual([]);
-    })
-  );
+  it("7. DOUBLON", waitForAsync(() => {
+    component.usagerForm.controls.nom.setValue("Mamadou");
+    component.usagerForm.controls.prenom.setValue("Diallo");
+    component.isDoublon();
+    expect(component.doublons).toEqual([]);
+  }));
 
   it("6. Valid form", () => {
     component.usagerForm.controls.nom.setValue("Test nom");

@@ -1,8 +1,8 @@
 import { Telephone } from "../../model";
 
 export type UsagerPreferenceContact = {
-  phone: boolean;
-  // Numéro pour l'envoi des SMS
+  contactByPhone: boolean;
+  // ! Deprecated
   phoneNumber?: string;
-  telephone?: Telephone;
+  telephone: Telephone;
 };

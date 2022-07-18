@@ -1,4 +1,6 @@
+import { Telephone } from "../telephone";
+
 export type UsagerPreferenceContact = {
-  phone: boolean;
-  phoneNumber?: string;
+  contactByPhone: boolean;
+  telephone: Telephone;
 };

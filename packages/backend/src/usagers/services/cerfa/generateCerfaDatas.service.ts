@@ -9,6 +9,7 @@ import {
   DateCerfa,
 } from "../../../_common/model";
 import { generateMotifLabel } from "..";
+import { getPhoneString } from "../../../util/phone/phoneUtils.service";
 
 const isNil = (value: any): boolean => {
   return value === null || value === undefined;
@@ -179,8 +180,8 @@ export const generateCerfaDatas = (
     signature1A: user.structure.ville.toUpperCase(),
     signature1B: user.structure.ville.toUpperCase(),
     signature2: user.structure.ville.toUpperCase(),
-    telephone: toString(usager.phone),
-    telephoneOrga: user.structure.telephone.numero,
+    telephone: getPhoneString(usager.telephone),
+    telephoneOrga: getPhoneString(user.structure.telephone),
     typeDemande: usager.typeDom === "RENOUVELLEMENT" ? "2" : "1",
   };
   return pdfInfos;

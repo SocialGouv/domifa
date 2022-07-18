@@ -8,6 +8,7 @@ import {
   UsagerSexe,
   UsagerTypeDom,
 } from "../usager";
+import { Telephone } from "../common";
 import { AppEntity } from "../_core";
 
 export type PortailUsagerPublic = AppEntity & {
@@ -27,6 +28,7 @@ export type PortailUsagerPublic = AppEntity & {
   // CONTACT
   email?: string;
   phone?: string;
+  telephone: Telephone;
 
   preference?: UsagerPreferenceContact;
 

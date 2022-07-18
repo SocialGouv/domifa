@@ -1,8 +1,7 @@
-import apmAgent = require("elastic-apm-node");
-
+import APM = require("elastic-apm-node");
 import { domifaConfig } from "../config";
 
-let options: apmAgent.AgentConfigOptions = {
+let options: APM.AgentConfigOptions = {
   active: false,
 };
 
@@ -16,5 +15,5 @@ if (domifaConfig) {
   options.abortedErrorThreshold = "60s";
 }
 
-const apm: apmAgent.Agent = apmAgent.start(options);
+const apm: APM.Agent = APM.start(options);
 export { apm };

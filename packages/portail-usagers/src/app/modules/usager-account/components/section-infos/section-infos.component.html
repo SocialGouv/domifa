@@ -65,7 +65,7 @@
         <div class="section-subtitle">Vos informations</div>
         <div class="py-1 fw-bold">{{ usager.prenom }} {{ usager.nom }}</div>
         <div class="py-1 fw-bold">
-          {{ usager.phone || "Téléphone non renseigné" }}
+          {{ usager.telephone | formatInternationalPhoneNumber }}
         </div>
         <div class="py-1 fw-bold">
           {{ usager.email || "Email non renseigné" }}

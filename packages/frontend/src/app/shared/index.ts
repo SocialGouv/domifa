@@ -5,6 +5,7 @@ export * from "./constants";
 export * from "./getUsagerNomComplet";
 export * from "./global-constants.class";
 export * from "./languages";
+export * from "./phone";
 export * from "./search";
 export * from "./sorter";
 export * from "./store";

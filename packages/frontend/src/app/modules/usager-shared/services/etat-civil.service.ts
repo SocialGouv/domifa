@@ -4,9 +4,11 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
-import { UsagerLight } from "../../../../_common/model";
+import {
+  UsagerEtatCivilFormData,
+  UsagerLight,
+} from "../../../../_common/model";
 import { usagersCache } from "../../../shared/store";
-import { UsagerFormModel } from "../interfaces";
 
 @Injectable({
   providedIn: "root",
@@ -16,9 +18,12 @@ export class EtatCivilService {
 
   constructor(private http: HttpClient) {}
 
-  public patchEtatCivil(usager: UsagerFormModel): Observable<UsagerLight> {
+  public patchEtatCivil(
+    ref: number,
+    usager: UsagerEtatCivilFormData
+  ): Observable<UsagerLight> {
     const response = this.http
-      .patch<UsagerLight>(`${this.endPointUsagers}/${usager.ref}`, usager)
+      .patch<UsagerLight>(`${this.endPointUsagers}/${ref}`, usager)
       .pipe(
         tap((newUsager: UsagerLight) => {
           usagersCache.updateUsager(newUsager);

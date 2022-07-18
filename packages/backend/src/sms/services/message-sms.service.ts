@@ -21,8 +21,9 @@ import {
 import { generateSmsInteraction } from "./generators";
 import { MESSAGE_SMS_STATUS } from "../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
 import { generateScheduleSendDate } from "./generators/generateScheduleSendDate";
-import { telephoneFixCountryCode } from "../../util/phone/telephoneString.service";
+
 import { firstValueFrom } from "rxjs";
+import { getPhoneString } from "../../util/phone/phoneUtils.service";
 
 @Injectable()
 export class MessageSmsService {
@@ -120,7 +121,7 @@ export class MessageSmsService {
       } else {
         return messageSmsRepository.deleteByCriteria({ uuid: smsOnHold.uuid });
       }
-    } else if (usager.preference?.phone === true) {
+    } else if (usager.preference?.contactByPhone === true) {
       appLogger.warn(`SMS Service: Interaction to delete not found`);
     }
   }
@@ -166,10 +167,7 @@ export class MessageSmsService {
         senderName: structure.sms.senderName,
         status: "TO_SEND",
         smsId: interaction.type,
-        phoneNumber: telephoneFixCountryCode(
-          structure.telephone.countryCode,
-          usager.preference.phoneNumber
-        ),
+        phoneNumber: getPhoneString(usager.preference.telephone),
         scheduledDate,
         errorCount: 0,
         interactionMetas: {

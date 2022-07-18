@@ -1,4 +1,5 @@
 import { Column, Workbook } from "exceljs";
+import { getPhoneString } from "../../../util/phone/phoneUtils.service";
 import { USAGER_DECISION_STATUT_LABELS } from "../../../_common/model";
 import {
   WorksheetRenderer,
@@ -150,7 +151,7 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
         surnom: usager.surnom,
         dateNaissance: usager.dateNaissance,
         villeNaissance: usager.villeNaissance,
-        phone: usager.phone,
+        phone: getPhoneString(usager.telephone),
         email: usager.email,
         decisionStatut: USAGER_DECISION_STATUT_LABELS[usager.decision.statut],
         decisionMotifRefus:

@@ -1,16 +1,27 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import {
+  CountryISO,
+  PhoneNumberFormat,
+  SearchCountryField,
+} from "ngx-intl-tel-input";
+
 import {
   UsagerLight,
   UsagerPreferenceContact,
   UserStructure,
   UserStructureRole,
 } from "../../../../../_common/model";
-import { regexp } from "../../../../shared/validators";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
-
 import { UsagerProfilService } from "../../services/usager-profil.service";
+import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
+import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
+import { getFormPhone, setFormPhone } from "../../../../shared";
 
 @Component({
   selector: "app-profil-edit-sms-preference",
@@ -18,6 +29,11 @@ import { UsagerProfilService } from "../../services/usager-profil.service";
   styleUrls: ["./profil-edit-sms-preference.component.css"],
 })
 export class ProfilEditSmsPreferenceComponent implements OnInit {
+  public PhoneNumberFormat = PhoneNumberFormat;
+  public SearchCountryField = SearchCountryField;
+  public CountryISO = CountryISO;
+  public preferredCountries: CountryISO[] = PREFERRED_COUNTRIES;
+
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
 
@@ -28,9 +44,9 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
   public editPreferences: boolean;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private toastService: CustomToastService,
-    private usagerProfilService: UsagerProfilService
+    private readonly formBuilder: FormBuilder,
+    private readonly toastService: CustomToastService,
+    private readonly usagerProfilService: UsagerProfilService
   ) {
     this.loading = false;
     this.submitted = false;
@@ -38,26 +54,28 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    const validator = this.usager.preference.phone
-      ? [Validators.required, Validators.pattern(regexp.mobilePhone)]
+    const telephoneValidator = this.usager.preference.contactByPhone
+      ? [Validators.required]
       : null;
 
     this.preferenceForm = this.formBuilder.group({
-      phoneNumber: [this.usager.preference.phoneNumber, validator],
-      phone: [this.usager.preference.phone, [Validators.required]],
+      contactByPhone: [
+        this.usager.preference.contactByPhone,
+        [Validators.required],
+      ],
+      phone: new FormControl(
+        setFormPhone(this.usager.preference.telephone),
+        telephoneValidator
+      ),
     });
 
     this.preferenceForm
-      .get("phone")
+      .get("contactByPhone")
       .valueChanges.subscribe((value: boolean) => {
-        const isRequired =
-          value === true
-            ? [Validators.required, Validators.pattern(regexp.mobilePhone)]
-            : null;
+        const isRequiredTelephone = value ? [Validators.required] : null;
 
-        this.preferenceForm.get("phoneNumber").setValidators(isRequired);
-
-        this.preferenceForm.get("phoneNumber").updateValueAndValidity();
+        this.preferenceForm.get("telephone").setValidators(isRequiredTelephone);
+        this.preferenceForm.get("telephone").updateValueAndValidity();
       });
   }
 
@@ -65,43 +83,46 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
     return this.preferenceForm.controls;
   }
 
-  public isRole(role: UserStructureRole) {
+  public isRole(role: UserStructureRole): boolean {
     return this.me?.role === role;
   }
 
-  public updateUsagerPreference() {
+  public updateUsagerPreference(): void {
     this.submitted = true;
+
     if (this.preferenceForm.invalid) {
       this.toastService.error(
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
-    } else {
-      this.loading = true;
-      const preference: UsagerPreferenceContact = {
-        ...this.preferenceForm.value,
-      };
-
-      if (!preference.phone) {
-        preference.phoneNumber = null;
-      }
-
-      this.usagerProfilService
-        .editSmsPreference(preference, this.usager.ref)
-        .subscribe({
-          next: (usager: UsagerLight) => {
-            this.submitted = false;
-            this.loading = false;
-            this.editPreferences = false;
-            this.toastService.success("Enregistrement des préférences réussi");
-            this.usager = new UsagerFormModel(usager);
-          },
-          error: () => {
-            this.loading = false;
-            this.toastService.error(
-              "Veuillez vérifier les champs du formulaire"
-            );
-          },
-        });
+      return;
     }
+    this.loading = true;
+    const preference: UsagerPreferenceContact = {
+      contactByPhone: this.preferenceForm.get("contactByPhone").value,
+      telephone: {
+        countryCode: "fr",
+        numero: "",
+      },
+    };
+
+    if (preference.contactByPhone) {
+      preference.telephone = getFormPhone(this.preferenceForm.value?.phone);
+    }
+
+    this.usagerProfilService
+      .editSmsPreference(preference, this.usager.ref)
+      .subscribe({
+        next: (usager: UsagerLight) => {
+          this.submitted = false;
+          this.loading = false;
+          this.editPreferences = false;
+          this.toastService.success("Enregistrement des préférences réussi");
+          this.usager = new UsagerFormModel(usager);
+        },
+        error: () => {
+          this.loading = false;
+          this.toastService.error("Veuillez vérifier les champs du formulaire");
+        },
+      });
   }
 }
