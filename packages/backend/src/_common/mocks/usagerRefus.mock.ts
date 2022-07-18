@@ -36,7 +36,10 @@ export const usagerRefusMock: UsagerLight = {
     },
     portailUsagerEnabled: false,
   },
-  preference: { phone: false, phoneNumber: "0606060606" },
+  preference: {
+    contactByPhone: false,
+    telephone: { countryCode: "fr", numero: "0606060606" },
+  },
   rdv: { dateRdv: null, userId: 0, userName: "" },
   ayantsDroits: [
     {

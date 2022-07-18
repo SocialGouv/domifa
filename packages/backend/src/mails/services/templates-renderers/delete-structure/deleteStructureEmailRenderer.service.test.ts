@@ -5,6 +5,9 @@ import {
   DeleteStructureEmailModel,
   deleteStructureEmailRenderer,
 } from "./deleteStructureEmailRenderer.service";
+
+import { format } from "prettier";
+
 describe("deleteStructureEmailRenderer", () => {
   it("deleteStructureEmailRenderer render ", async () => {
     const model: DeleteStructureEmailModel = {
@@ -59,6 +62,8 @@ describe("deleteStructureEmailRenderer", () => {
       "utf-8"
     );
 
-    expect(refHtml).toEqual(html);
+    expect(format(refHtml, { parser: "html" })).toEqual(
+      format(html, { parser: "html" })
+    );
   });
 });

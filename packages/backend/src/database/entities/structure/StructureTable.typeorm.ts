@@ -122,12 +122,6 @@ export class StructureTable
   })
   portailUsager: StructurePortailUsagerParams;
 
-  public get telephoneString(): string {
-    if (this.telephone.numero === "" || this.telephone.numero === null)
-      return "";
-    return `${this.telephone.countryCode}${this.telephone.numero}`;
-  }
-
   public constructor(entity?: Partial<StructureTable>) {
     super(entity);
     Object.assign(this, entity);

@@ -1,5 +1,7 @@
+import { Telephone } from "../common";
+
 export type UsagerPreferenceContact = {
-  email: boolean;
   phone: boolean;
   phoneNumber?: string;
+  telephone: Telephone;
 };

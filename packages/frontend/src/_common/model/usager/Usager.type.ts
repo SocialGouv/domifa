@@ -1,5 +1,6 @@
 import {
   AppEntity,
+  Telephone,
   UsagerEcheanceInfos,
   UsagerRdvInfos,
 } from "../../../_common/model";
@@ -13,7 +14,6 @@ import { UsagerNote } from "./UsagerNote.type";
 import { UsagerOptions } from "./options/UsagerOptions.type";
 import { UsagerPreferenceContact } from "./UsagerPreferenceContact.type";
 import { UsagerRdv } from "./rdv/UsagerRdv.type";
-
 import { UsagerSexe } from "./UsagerSexe.type";
 import { UsagerTypeDom } from "./UsagerTypeDom.type";
 
@@ -35,6 +35,7 @@ export type Usager = AppEntity & {
   // CONTACT
   email?: string;
   phone?: string;
+  telephone: Telephone;
 
   preference?: UsagerPreferenceContact;
 

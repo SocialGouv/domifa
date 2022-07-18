@@ -22,9 +22,8 @@ import {
 import { usagerHistoryStateManager } from "./usagerHistoryStateManager.service";
 import { usagersCreator } from "./usagersCreator.service";
 import { usagerVisibleHistoryManager } from "./usagerVisibleHistoryManager.service";
-import { CreateUsagerDto } from "../dto/CreateUsagerDto";
-import { RdvDto } from "../dto/rdv.dto";
-import { DecisionDto } from "../dto";
+
+import { CreateUsagerDto, DecisionDto, RdvDto } from "../dto";
 
 import { subMinutes } from "date-fns";
 

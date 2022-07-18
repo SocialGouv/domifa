@@ -16,7 +16,11 @@ export const usagerValideMock: UsagerLight = {
   langue: null,
   email: "fake-mail@yopmail.com",
   phone: "0101010101",
-  preference: { phone: false },
+  telephone: { countryCode: "fr", numero: "0101010101" },
+  preference: {
+    contactByPhone: false,
+    telephone: { countryCode: "fr", numero: "" },
+  },
   typeDom: "PREMIERE_DOM",
   decision: {
     statut: "VALIDE",

@@ -30,16 +30,15 @@
       >Le demandeur souhaite-t-il recevoir des notifications par SMS (arrivée
       d'un courrier, échéance de domiciliation) ?</span
     >
-    <span class="valeur"> {{ usager.preference.phone ? "OUI" : "NON" }} </span>
+    <span class="valeur">
+      {{ usager.preference.contactByPhone ? "OUI" : "NON" }}
+    </span>
   </div>
 
   <div class="col-md-6 reponses">
     <span class="question">Numéro de téléphone</span>
-    <span *ngIf="usager.preference.phoneNumber" class="valeur"
-      >{{ usager.preference.phoneNumber | formatPhoneNumber }}
-    </span>
-    <span *ngIf="!usager.preference.phoneNumber" class="valeur">
-      Non renseigné
+    <span class="valeur"
+      >{{ usager.preference.telephone | formatInternationalPhoneNumber }}
     </span>
   </div>
 </div>
@@ -51,7 +50,7 @@
   autocomplete="off"
 >
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-7">
       <fieldset>
         <legend class="label">
           Le demandeur souhaite-t-il recevoir des notifications par SMS (arrivée
@@ -62,7 +61,7 @@
           <input
             class="form-check-input"
             type="radio"
-            formControlName="phone"
+            formControlName="contactByPhone"
             id="sms_oui"
             [value]="true"
           />
@@ -72,7 +71,7 @@
           <input
             class="form-check-input"
             type="radio"
-            formControlName="phone"
+            formControlName="contactByPhone"
             id="sms_non"
             [value]="false"
           />
@@ -80,30 +79,45 @@
         </div>
       </fieldset>
     </div>
-
     <div
-      class="col-md-6 form-group required"
-      *ngIf="formPref.phone.value === true"
+      class="col-md-5 required form-group"
+      *ngIf="formPref.contactByPhone.value === true"
     >
-      <label for="phone"
+      <label for="telephone"
         >À quel numéro de téléphone ? (Numéro de portable uniquement)</label
       >
-      <input
-        type="tel"
-        class="form-control"
-        id="phone"
-        digitOnly
-        formControlName="phoneNumber"
-        aria-describedby="phoneHelp"
-        [ngClass]="{ 'is-invalid': submitted && formPref.phoneNumber.errors }"
-        placeholder="0606060606"
-        maxlength="10"
-        required
-      />
-
-      <div *ngIf="formPref.phoneNumber.errors" class="invalid-feedback">
-        Le numéro de portable est incorrect
-      </div>
+      <ngx-intl-tel-input
+        [cssClass]="
+          submitted && (formPref.phone.errors || formPref.phone.invalid)
+            ? 'form-control is-invalid'
+            : 'form-control'
+        "
+        [preferredCountries]="preferredCountries"
+        [enableAutoCountrySelect]="true"
+        [enablePlaceholder]="true"
+        [searchCountryFlag]="true"
+        searchCountryPlaceholder="Choisissez votre pays"
+        [searchCountryField]="[
+          SearchCountryField.Iso2,
+          SearchCountryField.Name
+        ]"
+        [selectedCountryISO]="usager.preference.telephone.countryCode"
+        [maxLength]="15"
+        [phoneValidation]="true"
+        [separateDialCode]="true"
+        [inputId]="'phone'"
+        [numberFormat]="PhoneNumberFormat.National"
+        formControlName="phone"
+      ></ngx-intl-tel-input>
+      <p
+        *ngIf="submitted && (formPref.phone.errors || formPref.phone.invalid)"
+        class="invalid-feedback-custom"
+      >
+        Veuillez vérifier le numéro de téléphone
+      </p>
+      <small id="phoneHelp" class="d-block form-text text-muted"
+        >Optionnel</small
+      >
     </div>
   </div>
 

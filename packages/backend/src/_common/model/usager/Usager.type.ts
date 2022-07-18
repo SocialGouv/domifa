@@ -29,9 +29,11 @@ export type Usager = AppEntity & {
 
   // CONTACT
   email?: string;
-  phone?: string;
-  telephone?: Telephone;
 
+  // ! deprecated
+  phone?: string;
+
+  telephone: Telephone;
   preference?: UsagerPreferenceContact;
 
   // AYANT-DROIT

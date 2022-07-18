@@ -1,3 +1,4 @@
+import { UsagerPreferenceContact } from "./../../../../_common/model/usager/UsagerPreferenceContact.type";
 import { UsagerOptions } from "../../../../_common/model";
 export const USAGER_DEFAULT_OPTIONS: UsagerOptions = {
   transfert: {
@@ -15,6 +16,10 @@ export const USAGER_DEFAULT_OPTIONS: UsagerOptions = {
   portailUsagerEnabled: false,
 };
 
-export const USAGER_DEFAULT_PREFERENCE = {
-  phone: false,
+export const USAGER_DEFAULT_PREFERENCE: UsagerPreferenceContact = {
+  contactByPhone: false,
+  telephone: {
+    countryCode: "fr",
+    numero: "",
+  },
 };

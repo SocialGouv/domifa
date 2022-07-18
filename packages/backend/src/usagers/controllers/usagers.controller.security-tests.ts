@@ -51,7 +51,7 @@ export const UsagersControllerSecurityTests: AppTestHttpClientSecurityTestDef[] 
         response: await AppTestHttpClient.post("/usagers/preference/4444444", {
           context,
           body: {
-            phone: false,
+            contactByPhone: false,
             phoneNumber: "00-00-00-00-00",
           },
         }),
