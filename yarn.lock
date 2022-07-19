@@ -8652,6 +8652,11 @@ google-libphonenumber@^3.2.27:
   resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.2.27.tgz#06a0c1d42be712a6fd4189e2e3b07fc36cacee01"
   integrity sha512-et3QlrfWemNPhyUfXZmJG8TfzitfAN71ygNI15+B35zNge/7vyZxkpDsc13oninkf8RAtN2kNEzvMr4L1n3vfQ==
 
+google-libphonenumber@^3.2.29:
+  version "3.2.29"
+  resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.2.29.tgz#06ca967f632252e4eb2df032288fb4327284edce"
+  integrity sha512-eRVj4HIcRR+MGPDlrt1n8/nORoUMhEj3Wns5f61uDaSrLeFdXdKjBhoEOkiMe2pnmOY+UzI1j8O8umjhzPYs1A==
+
 graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.2.2:
   version "4.2.8"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.8.tgz#e412b8d33f5e006593cbd3cee6df9f2cebbe802a"

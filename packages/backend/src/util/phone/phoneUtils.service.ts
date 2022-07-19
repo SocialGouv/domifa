@@ -9,11 +9,11 @@ export const getPhoneString = (telephone: Telephone): string => {
     return "";
   }
   const phoneUtil = PhoneNumberUtil.getInstance();
-  const phone = phoneUtil.parse(
+  const numero = phoneUtil.parse(
     telephone.numero,
     telephone.countryCode.toLowerCase()
   );
-  return phoneUtil.format(phone, PhoneNumberFormat.E164);
+  return phoneUtil.format(numero, PhoneNumberFormat.INTERNATIONAL);
 };
 
 export const getCountryCode = (countryCode: string): string => {
