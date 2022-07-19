@@ -1,7 +1,7 @@
 {
   "name": "domifa",
   "private": true,
-  "version": "2.102.2",
+  "version": "2.103.0",
   "scripts": {
     "build": "lerna run build --stream",
     "dev": "lerna run dev --parallel --stream",
@@ -14,9 +14,6 @@
   "devDependencies": {
     "@socialgouv/sre-secrets": "^1.4.0",
     "lerna": "^5.0.0"
-  },
-  "engines": {
-    "node": ">=16.0.0"
   },
   "engines": {
     "node": ">=16.0.0"

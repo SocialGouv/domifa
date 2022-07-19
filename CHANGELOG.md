@@ -1,3 +1,18 @@
+# [2.103.0](https://github.com/SocialGouv/domifa/compare/v2.102.2...v2.103.0) (2022-07-19)
+
+
+### Bug Fixes
+
+* **dumps:** Mise à jour des dumps ([1ab0e85](https://github.com/SocialGouv/domifa/commit/1ab0e855dba5c7ff380bc535bed6dec0860c99dd))
+* **dumps:** Mise à jour des dumps de test ([1181534](https://github.com/SocialGouv/domifa/commit/1181534e84fc42d2711f0abe47287c1afc575334))
+* **téléphones:** Correction des bugs d'édition du formulaire ([c8adb9a](https://github.com/SocialGouv/domifa/commit/c8adb9aaec1c1808d7da85cf3320c5fb98bf91d3))
+* **tests:** correction de tests unitaires ([cca5d35](https://github.com/SocialGouv/domifa/commit/cca5d355fd0dde5966ad7ec6151cb5c8269e011c))
+
+
+### Features
+
+* **phones:** ajout de numéros internationaux dans les dossiers usagers ([90b51bd](https://github.com/SocialGouv/domifa/commit/90b51bd9fea0945211543c43747d7dab7cc3a1a0))
+
 ## [2.102.2](https://github.com/SocialGouv/domifa/compare/v2.102.1...v2.102.2) (2022-07-17)
 
 
