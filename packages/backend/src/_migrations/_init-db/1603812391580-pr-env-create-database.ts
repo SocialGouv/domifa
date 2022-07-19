@@ -62,7 +62,7 @@ async function createTables(queryRunner: QueryRunner) {
       attachment jsonb NULL,
       email text NOT NULL,
       category text NULL,
-      "name" text NOT NULL,
+      name text NOT NULL,
       "comments" text NULL,
       "structureName" text NULL,
       CONSTRAINT "PK_8e4a4781a01061a482fa33e5f5a" PRIMARY KEY (uuid)
@@ -197,6 +197,30 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_90ac7986e769d602d218075215" ON public.structure USING btree (id);
 
 
+    -- public.usager_docs definition
+
+    -- Drop table
+
+    -- DROP TABLE public.usager_docs;
+
+    CREATE UNLOGGED TABLE public.usager_docs (
+      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "createdAt" timestamptz NOT NULL DEFAULT now(),
+      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "version" int4 NOT NULL,
+      "usagerUUID" uuid NOT NULL,
+      "structureId" int4 NOT NULL,
+      "usagerRef" int4 NOT NULL,
+      "path" text NOT NULL,
+      "label" text NOT NULL,
+      filetype text NOT NULL,
+      "createdBy" text NOT NULL,
+      CONSTRAINT "PK_e7bb21f7a22254259ca123c5caa" PRIMARY KEY (uuid)
+    );
+    CREATE INDEX "IDX_08c4299b8abc6b9f548f2aece2" ON public.usager_docs USING btree ("usagerUUID");
+    CREATE INDEX "IDX_b1db67565e53acec53d5f3aa92" ON public.usager_docs USING btree ("structureId");
+
+
     -- public.structure_doc definition
 
     -- Drop table
@@ -270,32 +294,6 @@ async function createTables(queryRunner: QueryRunner) {
     );
     CREATE INDEX "IDX_8198a25ae40584a38bce1dd4d2" ON public.usager USING btree (ref);
     CREATE INDEX "IDX_a44d882d224e368efdee8eb8c8" ON public.usager USING btree ("structureId");
-
-
-    -- public.usager_docs definition
-
-    -- Drop table
-
-    -- DROP TABLE public.usager_docs;
-
-    CREATE UNLOGGED TABLE public.usager_docs (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
-      "version" int4 NOT NULL,
-      "usagerUUID" uuid NOT NULL,
-      "structureId" int4 NOT NULL,
-      "usagerRef" int4 NOT NULL,
-      "path" text NOT NULL,
-      "label" text NOT NULL,
-      filetype text NOT NULL,
-      "createdBy" text NOT NULL,
-      CONSTRAINT "PK_e7bb21f7a22254259ca123c5caa" PRIMARY KEY (uuid),
-      CONSTRAINT "FK_08c4299b8abc6b9f548f2aece20" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE,
-      CONSTRAINT "FK_b1db67565e53acec53d5f3aa926" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE
-    );
-    CREATE INDEX "IDX_08c4299b8abc6b9f548f2aece2" ON public.usager_docs USING btree ("usagerUUID");
-    CREATE INDEX "IDX_b1db67565e53acec53d5f3aa92" ON public.usager_docs USING btree ("structureId");
 
 
     -- public.usager_history definition
