@@ -33,7 +33,7 @@ export class migratePhoneNumberUsagerMigration1657059112532
       }[] = await (
         await usagerRepository.typeorm()
       ).query(
-        `SELECT u.uuid, u.phone, u."structureId", s.id, s."timeZone" FROM usager u INNER JOIN structure s on s.id = u."structureId" WHERE u.phone != 'null' AND u.phone != '' `
+        `SELECT u.uuid, u.phone, u."structureId", s.id, s."timeZone" FROM usager u INNER JOIN structure s on s.id = u."structureId" WHERE u.phone != 'null' AND u.phone != '' AND (telephone->'numero')::text != ''`
       );
 
       const codes: { [key in TimeZone]: number } = {

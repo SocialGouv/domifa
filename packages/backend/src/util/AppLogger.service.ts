@@ -67,8 +67,6 @@ export function addLogContext(fields: pino.Bindings) {
   const store = requestContextStorage.getStore();
   if (store) {
     store.logger = store.logger.child(fields);
-  } else {
-    rootLogger.warn("Unable to add log context out of request scope");
   }
 }
 
