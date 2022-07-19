@@ -19,7 +19,7 @@ describe("newStructureEmailRenderer", () => {
         ville: "Paris",
         email: "test@structure.com",
         telephone: {
-          numero: "010203040506",
+          numero: "0102030405",
           countryCode: "fr",
         },
         responsable: {
