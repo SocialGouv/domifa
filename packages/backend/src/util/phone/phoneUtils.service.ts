@@ -7,7 +7,9 @@ export const getPhoneString = (telephone: Telephone): string => {
   if (telephone.numero === null || telephone.numero === "") {
     return "";
   }
-  return `+${COUNTRY_CODES[telephone.countryCode]}${telephone.numero}`;
+  return `+${COUNTRY_CODES[telephone.countryCode.toLowerCase()]}${
+    telephone.numero
+  }`;
 };
 
 export const getCountryCode = (countryCode: string): string => {
