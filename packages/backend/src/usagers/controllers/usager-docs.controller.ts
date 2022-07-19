@@ -258,6 +258,8 @@ export class UsagerDocsController {
 
     try {
       await this.decryptFile(pathFile, doc, iv);
+      console.log("\n[INFOS] Decrypt file infos  ");
+      console.log(await stat(outputFile));
       return res.status(HttpStatus.OK).sendFile(outputFile);
     } catch (e) {
       return res
