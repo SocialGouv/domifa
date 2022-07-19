@@ -26,8 +26,6 @@ async function renderTemplate({
   lienSuppression,
   toSkipString,
 }: DeleteStructureEmailModel): Promise<DomifaMailTemplateRendering> {
-  console.log(structure.telephone);
-  console.log(getPhoneString(structure.telephone));
   const model = {
     structure_name: structure.nom,
     structure_type: STRUCTURE_TYPE_LABELS[structure.structureType],
