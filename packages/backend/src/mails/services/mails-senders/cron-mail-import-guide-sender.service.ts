@@ -47,8 +47,6 @@ export class CronMailImportGuideSenderService {
             });
             monitorSuccess();
           } catch (err: any) {
-            console.log("[sendMailImports] ERROR SEND IMPORT MAIL");
-            console.log(err);
             const totalErrors = monitorError(err);
             if (totalErrors > 10) {
               appLogger.warn(
