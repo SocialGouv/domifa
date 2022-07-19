@@ -76,8 +76,8 @@ const mockDataUsagerValide = {
   signature1A: "ASNIERES-SUR-SEINE",
   signature1B: "ASNIERES-SUR-SEINE",
   signature2: "ASNIERES-SUR-SEINE",
-  telephone: "+330142424242",
-  telephoneOrga: "+330602030405",
+  telephone: "+33142424242",
+  telephoneOrga: "+33602030405",
   typeDemande: "2",
 };
 
@@ -142,7 +142,7 @@ const mockDataUsagerRefus = {
   signature1B: "ASNIERES-SUR-SEINE",
   signature2: "ASNIERES-SUR-SEINE",
   telephone: "",
-  telephoneOrga: "+330602030405",
+  telephoneOrga: "+33602030405",
   typeDemande: "1",
 };
 
@@ -189,7 +189,6 @@ describe("Cerfa Data utils", () => {
   });
 
   it("CerfaData() Dossier valide", async () => {
-    console.log(usagerValide.telephone);
     const data = generateCerfaDatas(usagerValide, user, "attestation");
     expect(data).toEqual(mockDataUsagerValide);
   });
