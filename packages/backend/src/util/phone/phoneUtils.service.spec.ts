@@ -15,7 +15,7 @@ describe("Telephone utils", () => {
 
   it("getPhoneString shoud return string with countryCode and numero", () => {
     expect(getPhoneString({ countryCode: "fr", numero: "0622062206" })).toEqual(
-      "+330622062206"
+      "+33622062206"
     );
   });
 

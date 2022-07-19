@@ -23,7 +23,7 @@ export const generatedAttestationMock: StructureCustomDocTags = {
   USAGER_SURNOM: "TEST",
   USAGER_DATE_NAISSANCE: "02/11/1988",
   USAGER_LIEU_NAISSANCE: "Paris",
-  USAGER_PHONE: "+330101010101",
+  USAGER_PHONE: "+33101010101",
   USAGER_EMAIL: "fake-mail@yopmail.com",
   STATUT_DOM: "Actif",
   TYPE_DOM: "Première domiciliation",
