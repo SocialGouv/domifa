@@ -1,3 +1,13 @@
+## [2.103.1](https://github.com/SocialGouv/domifa/compare/v2.103.0...v2.103.1) (2022-07-19)
+
+
+### Bug Fixes
+
+* **logs:** désactiver certains logs ([1b76fdc](https://github.com/SocialGouv/domifa/commit/1b76fdc678786b6083c9b7dc49b231e505757752))
+* **phone:** correction des affichages de téléphone ([28aec30](https://github.com/SocialGouv/domifa/commit/28aec30878f8c4e4abd1dd01924356660d2b3844))
+* add lib phone ([c19e714](https://github.com/SocialGouv/domifa/commit/c19e7145b7a0af222c36099449767a020dd9b095))
+* **phones:** correction d'un affichage de numéro ([c4bb339](https://github.com/SocialGouv/domifa/commit/c4bb3391b65bed91b53e5fc9ebc054ba18319ad0))
+
 # [2.103.0](https://github.com/SocialGouv/domifa/compare/v2.102.2...v2.103.0) (2022-07-19)
 
 
