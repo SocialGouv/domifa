@@ -63,7 +63,7 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
         this.usager.preference.contactByPhone,
         [Validators.required],
       ],
-      phone: new FormControl(
+      telephone: new FormControl(
         setFormPhone(this.usager.preference.telephone),
         telephoneValidator
       ),
@@ -106,7 +106,7 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
     };
 
     if (preference.contactByPhone) {
-      preference.telephone = getFormPhone(this.preferenceForm.value?.phone);
+      preference.telephone = getFormPhone(this.preferenceForm.value?.telephone);
     }
 
     this.usagerProfilService

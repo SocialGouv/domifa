@@ -34,7 +34,6 @@ export type Usager = AppEntity & {
 
   // CONTACT
   email?: string;
-  phone?: string;
   telephone: Telephone;
 
   preference?: UsagerPreferenceContact;

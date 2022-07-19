@@ -88,7 +88,7 @@
       >
       <ngx-intl-tel-input
         [cssClass]="
-          submitted && (formPref.phone.errors || formPref.phone.invalid)
+          submitted && (formPref.telephone.errors || formPref.telephone.invalid)
             ? 'form-control is-invalid'
             : 'form-control'
         "
@@ -105,12 +105,14 @@
         [maxLength]="15"
         [phoneValidation]="true"
         [separateDialCode]="true"
-        [inputId]="'phone'"
+        [inputId]="'telephone'"
         [numberFormat]="PhoneNumberFormat.National"
-        formControlName="phone"
+        formControlName="telephone"
       ></ngx-intl-tel-input>
       <p
-        *ngIf="submitted && (formPref.phone.errors || formPref.phone.invalid)"
+        *ngIf="
+          submitted && (formPref.telephone.errors || formPref.telephone.invalid)
+        "
         class="invalid-feedback-custom"
       >
         Veuillez vérifier le numéro de téléphone

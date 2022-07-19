@@ -21,16 +21,12 @@ export function getEtatCivilForm(formValue: any): UsagerEtatCivilFormData {
     }
   );
 
-  const telephone: Telephone =
-    formValue.phone === null
-      ? {
-          countryCode: "fr",
-          numero: "",
-        }
-      : {
-          countryCode: formValue.phone.countryCode.toLowerCase(),
-          numero: formValue.phone.number.trim(),
-        };
+  const telephone: Telephone = !formValue?.telephone
+    ? {
+        countryCode: "fr",
+        numero: "",
+      }
+    : getFormPhone(formValue.telephone);
 
   const datas: UsagerEtatCivilFormData = {
     sexe: formValue?.sexe,
@@ -43,16 +39,23 @@ export function getEtatCivilForm(formValue: any): UsagerEtatCivilFormData {
     email: formValue?.email,
     telephone,
     ayantsDroits,
+    preference: {
+      contactByPhone: false,
+      telephone: { countryCode: "fr", numero: "" },
+    },
     dateNaissance: new Date(formatEn(formValue.dateNaissance)),
   };
 
-  if (typeof formValue.preference !== "undefined") {
-    if (formValue.preference.phone) {
-      datas.preference.telephone = getFormPhone(formValue.preference.phone);
+  if (typeof formValue?.preference !== "undefined") {
+    if (formValue?.preference?.contactByPhone) {
+      datas.preference = {
+        contactByPhone: true,
+        telephone: getFormPhone(formValue.preference.telephone),
+      };
     } else {
-      datas.preference.telephone = {
-        countryCode: "fr",
-        numero: "",
+      datas.preference = {
+        contactByPhone: false,
+        telephone: { countryCode: "fr", numero: "" },
       };
     }
   }

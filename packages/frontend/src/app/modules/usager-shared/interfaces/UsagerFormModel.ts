@@ -124,7 +124,6 @@ export class UsagerFormModel implements UsagerLight {
     this.villeNaissance = (usager && usager.villeNaissance) || "";
 
     this.email = (usager && usager.email) || "";
-    this.phone = (usager && usager.phone) || "";
 
     this.telephone = (usager && usager.telephone) || {
       countryCode: "fr",
@@ -229,7 +228,7 @@ export class UsagerFormModel implements UsagerLight {
 
       delete this.entretien;
       delete this.langue;
-      delete this.phone;
+      delete this.telephone;
       delete this.villeNaissance;
       delete this.rdv;
     }

@@ -1,3 +1,4 @@
+import { TimeZone } from "./../../../util/territoires/types/TimeZone.type";
 import { EntityManager } from "typeorm";
 
 import {
@@ -43,7 +44,7 @@ async function checkHardResetToken({
   });
 }
 
-async function getStructureIdsWithSms(timeZone: string): Promise<number[]> {
+async function getStructureIdsWithSms(timeZone: TimeZone): Promise<number[]> {
   // Liste des structures accessibles
   const structures = await structureRepository.findManyWithQuery({
     where: `(sms->>'enabledByDomifa')::boolean is true and (sms->>'enabledByStructure')::boolean is true AND "timeZone" = :timezone`,
@@ -60,7 +61,7 @@ async function getStructureIdsWithSms(timeZone: string): Promise<number[]> {
 }
 
 async function getStructureWithSms(
-  timeZone: string,
+  timeZone: TimeZone,
   select: (keyof StructureTable)[]
 ): Promise<Structure[]> {
   // Liste des structures accessibles

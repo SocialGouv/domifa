@@ -1,3 +1,5 @@
+import { TimeZone } from "../../../util/territoires";
+
 export const COUNTRY_CODES: { [key: string]: string } = {
   af: "93",
   al: "355",
@@ -242,4 +244,17 @@ export const COUNTRY_CODES: { [key: string]: string } = {
   zm: "260",
   zw: "263",
   ax: "358",
+};
+
+export const COUNTRY_CODES_TIMEZONE: { [key in TimeZone]: string } = {
+  "America/Martinique": "MQ",
+  "America/Cayenne": "GF",
+  "Indian/Reunion": "YT",
+  "Indian/Mayotte": "KM",
+  "Europe/Paris": "FR",
+  "Pacific/Noumea": "PF",
+  "Pacific/Tahiti": "PF",
+  "Pacific/Wallis": "WF",
+  "America/Miquelon": "PM",
+  "Indian/Maldives": "FR",
 };

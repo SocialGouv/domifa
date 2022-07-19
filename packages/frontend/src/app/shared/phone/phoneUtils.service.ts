@@ -19,15 +19,16 @@ export const getCountryCode = (countryCode: string): string => {
 
 export function getFormPhone(formValue: ChangeData): Telephone {
   return {
-    numero: formValue?.number.replace(/\s/g, ""),
-    countryCode: formValue?.countryCode.toLowerCase(),
+    numero: formValue?.number ? formValue?.number.replace(/\s/g, "") : "",
+    countryCode: formValue.countryCode.toLowerCase(),
   };
 }
 
 export function setFormPhone(telephone: Telephone): ChangeData {
+  console.log(telephone);
   return {
     // eslint-disable-next-line id-denylist
-    number: telephone.numero.replace(/\s/g, ""),
+    number: telephone.numero ? telephone.numero.replace(/\s/g, "") : "",
     dialCode: getCountryCode(telephone.countryCode),
   };
 }
