@@ -110,7 +110,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
       ref: [this.usager.ref, [Validators.required]],
       langue: [this.usager.langue, languagesAutocomplete.validator("langue")],
       nom: [this.usager.nom, Validators.required],
-      phone: new FormControl(setFormPhone(this.usager.telephone), null),
+      telephone: new FormControl(setFormPhone(this.usager.telephone), null),
       prenom: [this.usager.prenom, Validators.required],
       sexe: [this.usager.sexe, Validators.required],
       surnom: [this.usager.surnom, []],

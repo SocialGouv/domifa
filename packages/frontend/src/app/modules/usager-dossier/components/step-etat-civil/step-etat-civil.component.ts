@@ -39,6 +39,7 @@ import {
   UserStructure,
   LIEN_PARENTE_LABELS,
   UsagerEtatCivilFormData,
+  Telephone,
 } from "../../../../../_common/model";
 import {
   fadeInOut,
@@ -51,6 +52,7 @@ import { UsagerFormModel, AyantDroit } from "../../../usager-shared/interfaces";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
 import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
 import { getEtatCivilForm } from "../../../usager-shared/utils";
+import { Observable } from "rxjs";
 
 @Component({
   animations: [fadeInOut],
@@ -67,7 +69,7 @@ export class StepEtatCivilComponent implements OnInit {
   public PhoneNumberFormat = PhoneNumberFormat;
   public SearchCountryField = SearchCountryField;
   public CountryISO = CountryISO;
-  public preferredCountries: CountryISO[] = PREFERRED_COUNTRIES;
+  public PREFERRED_COUNTRIES: CountryISO[] = PREFERRED_COUNTRIES;
   public doublons: UsagerLight[];
   public LIEN_PARENTE_LABELS = LIEN_PARENTE_LABELS;
 
@@ -97,7 +99,7 @@ export class StepEtatCivilComponent implements OnInit {
     maxResults: 10,
   });
 
-  public me!: UserStructure;
+  public currentUserSubject$: Observable<UserStructure>;
 
   @ViewChildren("adNom") public inputsAyantDroit: QueryList<ElementRef>;
 
@@ -119,7 +121,7 @@ export class StepEtatCivilComponent implements OnInit {
     private readonly titleService: Title
   ) {
     this.doublons = [];
-    this.me = null;
+
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
@@ -127,10 +129,7 @@ export class StepEtatCivilComponent implements OnInit {
 
   public ngOnInit(): void {
     this.titleService.setTitle("État civil du demandeur");
-
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      this.me = user;
-    });
+    this.currentUserSubject$ = this.authService.currentUserSubject;
 
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
@@ -138,6 +137,7 @@ export class StepEtatCivilComponent implements OnInit {
       this.usagerDossierService.findOne(id).subscribe({
         next: (usager: UsagerLight) => {
           this.usager = new UsagerFormModel(usager);
+
           this.initForm();
         },
         error: () => {
@@ -167,12 +167,12 @@ export class StepEtatCivilComponent implements OnInit {
           this.usager.preference.contactByPhone,
           [Validators.required],
         ],
-        phoneNumber: new FormControl(
+        telephone: new FormControl(
           setFormPhone(this.usager.preference.telephone),
           this.usager.preference.contactByPhone ? [Validators.required] : null
         ),
       }),
-      phone: new FormControl(setFormPhone(this.usager.telephone), null),
+      telephone: new FormControl(setFormPhone(this.usager.telephone), null),
       prenom: [this.usager.prenom, Validators.required],
       sexe: [this.usager.sexe, Validators.required],
       surnom: [this.usager.surnom, []],
@@ -188,10 +188,22 @@ export class StepEtatCivilComponent implements OnInit {
       .get("contactByPhone")
       .valueChanges.subscribe((value: boolean) => {
         const isRequiredTelephone = value ? [Validators.required] : null;
+        const phoneExist: Telephone = this.usagerForm
+          .get("preference")
+          .get("telephone").value;
+
+        if (phoneExist.numero === "" || !phoneExist.numero) {
+          this.usagerForm
+            .get("preference")
+            .get("telephone")
+            .setValue(setFormPhone(this.usager.telephone));
+        }
+
         this.usagerForm
           .get("preference")
           .get("telephone")
           .setValidators(isRequiredTelephone);
+
         this.usagerForm
           .get("preference")
           .get("telephone")
@@ -270,9 +282,7 @@ export class StepEtatCivilComponent implements OnInit {
       this.toastService.success(
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
-      this.toastService.error(
-        "Un des champs du formulaire n'est pas rempli ou contient une erreur"
-      );
+
       return;
     }
     this.loading = true;

@@ -16,6 +16,8 @@ export class FormatInternationalPhoneNumberPipe implements PipeTransform {
     }
 
     try {
+      console.log(telephone.numero);
+      console.log(telephone.countryCode.toUpperCase());
       const numero = phoneUtil.parse(
         telephone.numero,
         telephone.countryCode.toUpperCase()

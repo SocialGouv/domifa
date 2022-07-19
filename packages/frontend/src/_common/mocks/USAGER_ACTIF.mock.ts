@@ -98,8 +98,6 @@ export const USAGER_ACTIF_MOCK: UsagerLight = {
       typeDom: undefined,
     },
   ],
-
-  phone: "0142424242",
   telephone: { countryCode: "fr", numero: "0142424242" },
   surnom: "",
   import: {

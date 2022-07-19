@@ -27,6 +27,11 @@ export class resetPreferenceMigration1657059112531
     await queryRunner.query(
       `UPDATE "usager" u set preference = '{"contactByPhone": false, "telephone": {"countryCode": "fr", "numero": ""}}'  where "preference" is null`
     );
+
+    await queryRunner.query(
+      `UPDATE "usager" u set phone = NULL where phone = '' OR phone = '0600000000'`
+    );
+
     console.log("\n[MIGRATION] resetPreferenceMigration1657059112531 -  END\n");
   }
 

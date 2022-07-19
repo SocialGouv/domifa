@@ -181,7 +181,9 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
       ...this.structureForm.value,
     };
 
-    structureFormValue.telephone = getFormPhone(this.structureForm.value.phone);
+    structureFormValue.telephone = getFormPhone(
+      this.structureForm.value.telephone
+    );
 
     this.structureService.prePost(structureFormValue).subscribe({
       next: (structure: StructureCommon) => {
