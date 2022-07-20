@@ -188,8 +188,7 @@ export class StepEtatCivilComponent implements OnInit {
       this.usager.telephone.numero !== "" &&
       this.usager.telephone.numero !== null
         ? this.usager.telephone.countryCode
-        : this.authService.currentUserSubject.getValue().structure.telephone
-            .countryCode;
+        : this.authService.currentUserValue?.structure.telephone.countryCode;
 
     this.usagerForm
       .get("preference")
