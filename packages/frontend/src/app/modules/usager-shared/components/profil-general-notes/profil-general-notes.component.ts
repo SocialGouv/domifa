@@ -20,6 +20,7 @@ import { UsagerNotesService } from "../../services/usager-notes.service";
 export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
+
   public loading: boolean;
   public displayConfirmArchiveMessageNoteId?: string;
 

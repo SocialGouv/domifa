@@ -160,6 +160,7 @@
 
       <app-profil-etat-civil-form
         *ngIf="editInfos"
+        [me]="me"
         [usager]="usager"
         (usagerChanges)="onUsagerChanges($event)"
         [(editInfos)]="editInfos"

@@ -133,9 +133,8 @@ export class StepRdvComponent implements OnInit {
       userId: [this.usager.rdv.userId, Validators.required],
     });
 
-    this.rdvForm
-      .get("jourRdv")
-      .valueChanges.subscribe((value: NgbDateStruct) => {
+    this.rdvForm.controls.jourRdv.valueChanges.subscribe(
+      (value: NgbDateStruct) => {
         let isValueToday = false;
 
         if (!this.r.jourRdv.invalid) {
@@ -154,9 +153,10 @@ export class StepRdvComponent implements OnInit {
         }
         this.rdvIsToday = isValueToday;
         this.rdvForm.controls.heureRdv.updateValueAndValidity();
-      });
+      }
+    );
 
-    this.rdvForm.get("jourRdv").setValue(this.usager.rdv.jourRdv);
+    this.rdvForm.controls.jourRdv.setValue(this.usager.rdv.jourRdv);
 
     this.editRdv = this.usager.rdv.userId === null;
 
@@ -211,7 +211,7 @@ export class StepRdvComponent implements OnInit {
       return;
     }
 
-    if (this.rdvForm.get("isNow").value === true) {
+    if (this.rdvForm.controls.isNow.value === true) {
       this.rdvNow();
       return;
     }

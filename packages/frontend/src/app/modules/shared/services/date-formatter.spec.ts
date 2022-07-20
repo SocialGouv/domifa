@@ -34,8 +34,6 @@ describe("NgbDateCustomParserFormatter", () => {
     [NgbDateCustomParserFormatter],
     () => {
       expect(isDefined(1)).toBeDefined();
-      expect(isInteger(1)).toBeTruthy();
-      expect(isInteger("A")).toBeFalsy();
       expect(isNumber("A")).toBeFalsy();
       expect(isNumber(1)).toBeTruthy();
       expect(padNumber(1)).toEqual("01");

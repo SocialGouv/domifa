@@ -247,14 +247,14 @@ export const COUNTRY_CODES: { [key: string]: string } = {
 };
 
 export const COUNTRY_CODES_TIMEZONE: { [key in TimeZone]: string } = {
-  "America/Martinique": "MQ",
-  "America/Cayenne": "GF",
-  "Indian/Reunion": "YT",
-  "Indian/Mayotte": "KM",
-  "Europe/Paris": "FR",
-  "Pacific/Noumea": "PF",
-  "Pacific/Tahiti": "PF",
-  "Pacific/Wallis": "WF",
-  "America/Miquelon": "PM",
-  "Indian/Maldives": "FR",
+  "America/Martinique": "mq",
+  "America/Cayenne": "gf",
+  "Indian/Reunion": "yt",
+  "Indian/Mayotte": "km",
+  "Europe/Paris": "fr",
+  "Pacific/Noumea": "pf",
+  "Pacific/Tahiti": "pf",
+  "Pacific/Wallis": "wf",
+  "America/Miquelon": "pm",
+  "Indian/Maldives": "fr",
 };

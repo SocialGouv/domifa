@@ -79,6 +79,7 @@ export class StepEtatCivilComponent implements OnInit {
   public minDateNaissance: NgbDateStruct;
   public minDateToday: NgbDateStruct;
 
+  public selectedCountryISO = "fr";
   public maxDateRdv = {
     day: this.dToday.getDate(),
     month: this.dToday.getMonth() + 1,
@@ -101,7 +102,7 @@ export class StepEtatCivilComponent implements OnInit {
 
   public currentUserSubject$: Observable<UserStructure>;
 
-  @ViewChildren("adNom") public inputsAyantDroit: QueryList<ElementRef>;
+  @ViewChildren("adNom") public inputsAyantDroit!: QueryList<ElementRef>;
 
   get f(): { [key: string]: AbstractControl } {
     return this.usagerForm.controls;
@@ -183,6 +184,13 @@ export class StepEtatCivilComponent implements OnInit {
       this.addAyantDroit(ayantDroit);
     }
 
+    this.selectedCountryISO =
+      this.usager.telephone.numero !== "" &&
+      this.usager.telephone.numero !== null
+        ? this.usager.telephone.countryCode
+        : this.authService.currentUserSubject.getValue().structure.telephone
+            .countryCode;
+
     this.usagerForm
       .get("preference")
       .get("contactByPhone")
@@ -190,7 +198,7 @@ export class StepEtatCivilComponent implements OnInit {
         const isRequiredTelephone = value ? [Validators.required] : null;
         const phoneExist: Telephone = this.usagerForm
           .get("preference")
-          .get("telephone").value;
+          .get("telephone")?.value;
 
         if (phoneExist.numero === "" || !phoneExist.numero) {
           this.usagerForm

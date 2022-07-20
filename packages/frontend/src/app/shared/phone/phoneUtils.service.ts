@@ -18,9 +18,17 @@ export const getCountryCode = (countryCode: string): string => {
 };
 
 export function getFormPhone(formValue: ChangeData): Telephone {
+  if (!formValue) {
+    return {
+      numero: "",
+      countryCode: "fr",
+    };
+  }
   return {
     numero: formValue?.number ? formValue?.number.replace(/\s/g, "") : "",
-    countryCode: formValue.countryCode.toLowerCase(),
+    countryCode: formValue?.countryCode
+      ? formValue?.countryCode.toLowerCase()
+      : "fr",
   };
 }
 

@@ -1,3 +1,5 @@
+import { TimeZone } from "../../../app/shared";
+
 export const COUNTRY_CODES: { [key: string]: string } = {
   af: "93",
   al: "355",
@@ -242,4 +244,17 @@ export const COUNTRY_CODES: { [key: string]: string } = {
   zm: "260",
   zw: "263",
   ax: "358",
+};
+
+export const COUNTRY_CODES_TIMEZONE: { [key in TimeZone]: string } = {
+  "America/Martinique": "mq",
+  "America/Cayenne": "gf",
+  "Indian/Reunion": "yt",
+  "Indian/Mayotte": "km",
+  "Europe/Paris": "fr",
+  "Pacific/Noumea": "pf",
+  "Pacific/Tahiti": "pf",
+  "Pacific/Wallis": "wf",
+  "America/Miquelon": "pm",
+  "Indian/Maldives": "fr",
 };

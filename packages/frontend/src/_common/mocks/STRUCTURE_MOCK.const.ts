@@ -23,6 +23,7 @@ export const STRUCTURE_MOCK: StructureCommon = {
     numero: "0602030405",
     countryCode: "fr",
   },
+  timeZone: "Europe/Paris",
   responsable: { nom: "Jean", prenom: "Thomson", fonction: "PDG" },
   structureType: "ccas",
   ville: "Asnieres-sur-seine",

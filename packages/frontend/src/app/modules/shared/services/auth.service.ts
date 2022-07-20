@@ -23,10 +23,10 @@ export class AuthService {
   private endPoint = environment.apiUrl + "structures/auth";
 
   constructor(
-    public http: HttpClient,
-    private toastr: CustomToastService,
-    public router: Router,
-    private userIdleService: UserIdleService
+    private readonly http: HttpClient,
+    private readonly toastr: CustomToastService,
+    private readonly router: Router,
+    private readonly userIdleService: UserIdleService
   ) {
     this.currentUserSubject = new BehaviorSubject<UserStructure | null>(
       JSON.parse(localStorage.getItem("currentUser") || null)

@@ -1,19 +1,15 @@
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 
-export function toInteger(value: any): number {
+export function toInteger(value: string): number {
   return parseInt(`${value}`, 10);
 }
 
-export function isNumber(value: any): value is number {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function isNumber(value: any): boolean {
   return !isNaN(toInteger(value));
 }
 
-export function isInteger(value: any): value is number {
-  return (
-    typeof value === "number" && isFinite(value) && Math.floor(value) === value
-  );
-}
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isDefined(value: any): boolean {
   return value !== undefined && value !== null;
 }
@@ -39,7 +35,7 @@ export function isToday(someDate?: Date): boolean {
   );
 }
 
-export function formatDateToNgb(date: Date): NgbDateStruct | null {
+export function formatDateToNgb(date: Date | null): NgbDateStruct | null {
   if (!date) {
     return null;
   }
@@ -54,9 +50,6 @@ export function formatDateToNgb(date: Date): NgbDateStruct | null {
 }
 
 export function parseDateFromNgb(ngbDate: NgbDateStruct): Date {
-  if (ngbDate === null) {
-    return null;
-  }
   return new Date(Date.UTC(ngbDate.year, ngbDate.month, ngbDate.day));
 }
 

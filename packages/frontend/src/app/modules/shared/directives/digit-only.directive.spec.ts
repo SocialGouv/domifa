@@ -15,7 +15,7 @@ import { DigitOnlyDirective } from "./digit-only.directive";
   template: ` <input type="text" name="chips" digitOnly /> `,
 })
 class TestHoverFocusComponent {
-  public value: any;
+  public value = "0101010101";
 }
 
 describe("Directive: Digit Only", () => {
@@ -23,17 +23,15 @@ describe("Directive: Digit Only", () => {
   let fixture: ComponentFixture<TestHoverFocusComponent>;
   let inputEl: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [TestHoverFocusComponent, DigitOnlyDirective],
-      });
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [TestHoverFocusComponent, DigitOnlyDirective],
+    });
 
-      fixture = TestBed.createComponent(TestHoverFocusComponent);
-      component = fixture.componentInstance;
-      inputEl = fixture.debugElement.query(By.css("input"));
-    })
-  );
+    fixture = TestBed.createComponent(TestHoverFocusComponent);
+    component = fixture.componentInstance;
+    inputEl = fixture.debugElement.query(By.css("input"));
+  }));
 
   it("should be created", fakeAsync(() => {
     const numberDebug = fixture.debugElement.query(By.css("input"));
