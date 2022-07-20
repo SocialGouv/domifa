@@ -1,7 +1,6 @@
 import { inject, TestBed } from "@angular/core/testing";
 import {
   isDefined,
-  isInteger,
   isNumber,
   isToday,
   padNumber,
