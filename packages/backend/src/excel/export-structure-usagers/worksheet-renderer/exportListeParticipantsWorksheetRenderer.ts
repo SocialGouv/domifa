@@ -1,6 +1,9 @@
 import { Column, Workbook } from "exceljs";
-import { getPhoneString } from "../../../util/phone/phoneUtils.service";
-import { USAGER_DECISION_STATUT_LABELS } from "../../../_common/model";
+
+import {
+  COUNTRY_CODES,
+  USAGER_DECISION_STATUT_LABELS,
+} from "../../../_common/model";
 import {
   WorksheetRenderer,
   xlFormater,
@@ -44,6 +47,7 @@ function renderWorksheet({
       { key: "surnom" },
       { key: "dateNaissance" },
       { key: "villeNaissance" },
+      { key: "countryCode" },
       { key: "phone" },
       { key: "email" },
       { key: "decisionStatut" },
@@ -142,6 +146,9 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
       }
     }
 
+    const countryCode = usager.telephone?.countryCode
+      ? "+" + COUNTRY_CODES[usager.telephone.countryCode.toLowerCase()]
+      : "";
     const row: XlRowModel = {
       values: {
         customRef: usager.customRef,
@@ -151,7 +158,8 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
         surnom: usager.surnom,
         dateNaissance: usager.dateNaissance,
         villeNaissance: usager.villeNaissance,
-        phone: getPhoneString(usager.telephone),
+        countryCode,
+        phone: usager.telephone.numero,
         email: usager.email,
         decisionStatut: USAGER_DECISION_STATUT_LABELS[usager.decision.statut],
         decisionMotifRefus:

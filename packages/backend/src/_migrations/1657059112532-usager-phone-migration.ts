@@ -17,11 +17,11 @@ export class migratePhoneNumberUsagerMigration1657059112532
       domifaConfig().envId === "local"
     ) {
       console.warn(
-        "\n[MIGRATION] Sélection des structures Hors France métropolitaine  \n"
+        "\n[MIGRATION] [TEL USAGERS] Sélection des structures Hors France métropolitaine  \n"
       );
 
       console.warn(
-        "\n[MIGRATION] Migrer vers le nouveau format de téléphone - Start \n"
+        "\n[MIGRATION] [TEL USAGERS] Migrer vers le nouveau format de téléphone - Start \n"
       );
 
       const usagers: {
@@ -33,7 +33,7 @@ export class migratePhoneNumberUsagerMigration1657059112532
       }[] = await (
         await usagerRepository.typeorm()
       ).query(
-        `SELECT u.uuid, u.phone, u."structureId", s.id, s."timeZone" FROM usager u INNER JOIN structure s on s.id = u."structureId" WHERE u.phone != 'null' AND u.phone != '' AND (telephone->'numero')::text != ''`
+        `SELECT u.uuid, u.phone, u."structureId", u.telephone, s.id, s."timeZone" FROM usager u INNER JOIN structure s on s.id = u."structureId" WHERE u.phone != 'null' AND u.phone != '' AND (u.telephone->>'numero')::text = ''`
       );
 
       const codes: { [key in TimeZone]: number } = {
@@ -76,7 +76,7 @@ export class migratePhoneNumberUsagerMigration1657059112532
     }
 
     console.warn(
-      "\n[MIGRATION] Migrer vers le nouveau format de téléphone - END \n"
+      "\n[MIGRATION] [TEL USAGERS] Migrer vers le nouveau format de téléphone - END \n"
     );
   }
 
