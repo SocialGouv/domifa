@@ -1,3 +1,19 @@
+## [2.103.4](https://github.com/SocialGouv/domifa/compare/v2.103.3...v2.103.4) (2022-07-20)
+
+
+### Bug Fixes
+
+* **ci:** correction de la DB sur la CI ([b605b27](https://github.com/SocialGouv/domifa/commit/b605b27400d2b48e3e2aceab79cbe4fe015871b8))
+* **ci:** correction de PG ([e77dfb7](https://github.com/SocialGouv/domifa/commit/e77dfb719c3d72d83de0f052988c7f80f9de76ae))
+* **ci:** correction des bugs remontés ([69dcb1e](https://github.com/SocialGouv/domifa/commit/69dcb1eb8b4ab59000f4ce01b119bd4841ef5af4))
+* **ci:** correction des tests ([227be2a](https://github.com/SocialGouv/domifa/commit/227be2a69a76698e7ebd04440d270a7cd4c27f88))
+* **ci:** pg ([b9639fd](https://github.com/SocialGouv/domifa/commit/b9639fdc827f72cb14c111d8dfd22ec784b128b1))
+* **dumps:** mise à jour des dumps de test ([f98d4e8](https://github.com/SocialGouv/domifa/commit/f98d4e8c97734f765c1aee72c6bb74877da2b5e3))
+* **dumps:** suppression de fichiers inutiles ([8147677](https://github.com/SocialGouv/domifa/commit/814767718678fa2c3de0f4256c25e9fb281f4c39))
+* **frontend:** Mise en conformité du frontend, ajout de StrictTemplates ([d40e8b9](https://github.com/SocialGouv/domifa/commit/d40e8b90edb1714336c4794f9f798b7f2cfd2003))
+* **phones:** correction de l'affichage de numéros ([2b48990](https://github.com/SocialGouv/domifa/commit/2b4899085f3d520cc13174edc0eaff93fdc79a71))
+* **validators:** Refacto de la gestion des validators ([f2199b4](https://github.com/SocialGouv/domifa/commit/f2199b4e3b790ad26136111918b0aa8c2319acb9))
+
 ## [2.103.3](https://github.com/SocialGouv/domifa/compare/v2.103.2...v2.103.3) (2022-07-20)
 
 
