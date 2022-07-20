@@ -1,14 +1,14 @@
 version: "3.4"
 
 volumes:
-  postgres-data:
+  postgres-data-2:
 
 services:
   postgres:
-    image: postgresai/extended-postgres:11
+    image: postgres:10.20
     container_name: domifa-postgres
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-data-2:/var/lib/postgresql/data
       - $APP_DIR:/app:delegated
         # NOTE: /docker-entrypoint-initdb.d/*.(sh|js) are automatically run on startup
       - ./_scripts/docker/postgres-restore-dump.docker-entrypoint.sh:/docker-entrypoint-initdb.d/postgres-restore-dump.docker-entrypoint.sh
