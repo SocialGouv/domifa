@@ -17,6 +17,7 @@ export type StructureCommon = Pick<
   | "agrement"
   | "telephone"
   | "email"
+  | "timeZone"
   | "responsable"
   | "options"
   | "adresseCourrier"

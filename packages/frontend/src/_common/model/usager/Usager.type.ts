@@ -25,7 +25,7 @@ export type Usager = AppEntity & {
   // ETAT CIVIL
   nom: string;
   prenom: string;
-  surnom?: string;
+  surnom: string | null;
   sexe: UsagerSexe;
 
   dateNaissance: Date;
@@ -36,7 +36,7 @@ export type Usager = AppEntity & {
   email?: string;
   telephone: Telephone;
 
-  preference?: UsagerPreferenceContact;
+  preference: UsagerPreferenceContact;
 
   // AYANT-DROIT
   ayantsDroits: UsagerAyantDroit[];

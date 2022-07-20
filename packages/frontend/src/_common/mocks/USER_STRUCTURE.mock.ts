@@ -17,6 +17,7 @@ export const USER_STRUCTURE_MOCK: UserStructure = {
   role: "admin" as UserStructureRole,
   structure: {
     id: 100,
+    timeZone: "Europe/Paris",
     createdAt: new Date(),
     adresse: "3 place olympe de gouges",
     adresseCourrier: {

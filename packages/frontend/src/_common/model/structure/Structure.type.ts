@@ -1,3 +1,4 @@
+import { TimeZone } from "./../../../app/shared/territoires/types/TimeZone.type";
 import { Telephone } from "../telephone";
 import { AppEntity } from "../_core";
 import { StructureAddresseCourrier } from "./StructureAddresseCourrier.type";
@@ -33,6 +34,7 @@ export type Structure = AppEntity & {
     expireAt?: Date;
   };
 
+  timeZone: TimeZone;
   tokenDelete: string;
 
   adresseCourrier: StructureAddresseCourrier;

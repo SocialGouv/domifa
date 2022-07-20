@@ -1,3 +1,4 @@
+import { UserStructure } from "./../../../../../_common/model/user-structure/UserStructure.type";
 import { UsagerEtatCivilFormData } from "./../../../../../_common/model/usager/form/UsagerEtatCivilFormData.type";
 import { LIEN_PARENTE_LABELS } from "./../../../../../_common/model/usager/_constants/LIEN_PARENTE_LABELS.const";
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
@@ -53,6 +54,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
   public preferredCountries: CountryISO[] = PREFERRED_COUNTRIES;
 
   @Input() public usager: UsagerFormModel;
+  @Input() public me: UserStructure;
   @Output() public usagerChanges = new EventEmitter<UsagerLight>();
 
   public usagerForm!: FormGroup;
@@ -63,7 +65,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
 
   public minDateNaissance: NgbDateStruct;
   public maxDateNaissance: NgbDateStruct;
-
+  public selectedCountryISO = "fr";
   public LIENS_PARENTE = LIEN_PARENTE_LABELS;
 
   public languagesAutocompleteSearch = languagesAutocomplete.typeahead({
@@ -82,7 +84,6 @@ export class ProfilEtatCivilFormComponent implements OnInit {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly nbgDate: NgbDateCustomParserFormatter,
     private readonly toastService: CustomToastService,
     private readonly etatCivilService: EtatCivilService
   ) {
@@ -120,6 +121,12 @@ export class ProfilEtatCivilFormComponent implements OnInit {
     for (const ayantDroit of this.usager.ayantsDroits) {
       this.addAyantDroit(ayantDroit);
     }
+
+    this.selectedCountryISO =
+      this.usager.telephone.numero !== "" &&
+      this.usager.telephone.numero !== null
+        ? this.usager.telephone.countryCode
+        : this.me.structure.telephone.countryCode;
   }
 
   public addAyantDroit(ayantDroit: AyantDroit = new AyantDroit()): void {

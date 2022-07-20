@@ -1,3 +1,4 @@
+import { TimeZone } from "./../../../shared/territoires/types/TimeZone.type";
 import {
   StructureAddresseCourrier,
   StructureCommon,
@@ -24,6 +25,7 @@ export class StructureCommonWeb implements StructureCommon {
   agrement: string;
   telephone: Telephone;
   email: string;
+  timeZone: TimeZone;
   responsable: StructureResponsable;
   options: { numeroBoite: boolean };
   adresseCourrier: StructureAddresseCourrier;
@@ -35,6 +37,7 @@ export class StructureCommonWeb implements StructureCommon {
     this.createdAt = (structure && structure.createdAt) || null;
     this.capacite = (structure && structure.capacite) || null;
     this.adresse = (structure && structure.adresse) || null;
+    this.timeZone = (structure && structure.timeZone) || "Europe/Paris";
 
     this.complementAdresse = (structure && structure.complementAdresse) || "";
     this.nom = (structure && structure.nom) || "";

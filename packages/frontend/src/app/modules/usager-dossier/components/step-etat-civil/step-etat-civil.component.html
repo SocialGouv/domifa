@@ -206,7 +206,7 @@
                     SearchCountryField.Iso2,
                     SearchCountryField.Name
                   ]"
-                  [selectedCountryISO]="CountryISO.France"
+                  [selectedCountryISO]="selectedCountryISO"
                   [selectFirstCountry]="false"
                   [maxLength]="15"
                   [phoneValidation]="true"
@@ -301,13 +301,13 @@
                   "
                   [ngClass]="{
                     'is-invalid':
-                      submitted && ayantsDroits.controls[i].get('nom').errors
+                      submitted && ayantsDroits.controls[i].get('nom')?.errors
                   }"
                   required
                 />
                 <div
                   *ngIf="
-                    submitted && ayantsDroits.controls[i].get('nom').errors
+                    submitted && ayantsDroits.controls[i].get('nom')?.errors
                   "
                   class="invalid-feedback"
                 >
@@ -324,13 +324,14 @@
                   formControlName="prenom"
                   [ngClass]="{
                     'is-invalid':
-                      submitted && ayantsDroits.controls[i].get('prenom').errors
+                      submitted &&
+                      ayantsDroits.controls[i].get('prenom')?.errors
                   }"
                   required
                 />
                 <p
                   *ngIf="
-                    submitted && ayantsDroits.controls[i].get('prenom').errors
+                    submitted && ayantsDroits.controls[i].get('prenom')?.errors
                   "
                   class="invalid-feedback"
                 >
@@ -359,7 +360,7 @@
                     [ngClass]="{
                       'is-invalid':
                         submitted &&
-                        ayantsDroits.controls[i].get('dateNaissance').errors
+                        ayantsDroits.controls[i].get('dateNaissance')?.errors
                     }"
                     formControlName="dateNaissance"
                   />
@@ -380,7 +381,7 @@
                   <p
                     *ngIf="
                       submitted &&
-                      ayantsDroits.controls[i].get('dateNaissance').errors
+                      ayantsDroits.controls[i].get('dateNaissance')?.errors
                     "
                     class="invalid-feedback"
                   >
@@ -399,7 +400,7 @@
                   "
                   [ngClass]="{
                     'is-invalid':
-                      submitted && ayantsDroits.controls[i].get('lien').errors
+                      submitted && ayantsDroits.controls[i].get('lien')?.errors
                   }"
                   class="form-select"
                 >
@@ -413,7 +414,7 @@
                 </select>
                 <p
                   *ngIf="
-                    submitted && ayantsDroits.controls[i].get('lien').errors
+                    submitted && ayantsDroits.controls[i].get('lien')?.errors
                   "
                   class="invalid-feedback"
                 >
@@ -485,7 +486,7 @@
           </div>
           <div
             class="col"
-            *ngIf="f.preference.get('contactByPhone').value === true"
+            *ngIf="f.preference.get('contactByPhone')?.value === true"
           >
             <div class="form-group required">
               <label for="preferenceTelephone">Numéro de téléphone</label>
@@ -493,7 +494,7 @@
                 [cssClass]="{
                   'form-control': true,
                   'is-invalid':
-                    submitted && f.preference.get('telephone').errors
+                    submitted && f.preference.get('telephone')?.errors
                 }"
                 [preferredCountries]="PREFERRED_COUNTRIES"
                 [enableAutoCountrySelect]="true"
@@ -503,7 +504,7 @@
                   SearchCountryField.Iso2,
                   SearchCountryField.Name
                 ]"
-                [selectedCountryISO]="CountryISO.France"
+                [selectedCountryISO]="selectedCountryISO"
                 [selectFirstCountry]="false"
                 [maxLength]="15"
                 [phoneValidation]="true"
@@ -514,7 +515,7 @@
               ></ngx-intl-tel-input>
               <small class="d-block">Numéro de portable uniquement</small>
               <p
-                *ngIf="submitted && f.preference.get('telephone').errors"
+                *ngIf="submitted && f.preference.get('telephone')?.errors"
                 class="invalid-feedback"
               >
                 Le numéro de téléphone est incorrect

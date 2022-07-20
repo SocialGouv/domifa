@@ -14,7 +14,7 @@ import { DateFrDirective } from "./date-fr.directive";
   template: ` <input type="text" name="dateNaissance" dateFr /> `,
 })
 class TestHoverFocusComponent {
-  public value: string;
+  public value = "20/12/1991";
 }
 
 describe("Directive: Date FR", () => {

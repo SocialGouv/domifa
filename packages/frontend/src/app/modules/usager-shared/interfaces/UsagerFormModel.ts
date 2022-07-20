@@ -40,7 +40,6 @@ export class UsagerFormModel implements UsagerLight {
 
   // Infos de contact
   public email: string;
-  public phone: string;
   public telephone: Telephone;
 
   // Préférence d'envoi de notifs
@@ -66,10 +65,10 @@ export class UsagerFormModel implements UsagerLight {
 
   public typeDom: UsagerTypeDom; // PREMIERE / RENOUVELLEMENT
   public datePremiereDom?: Date;
-  public import?: UsagerImport | null;
+  public import: UsagerImport | null;
 
   public lastInteraction: {
-    dateInteraction: Date;
+    dateInteraction: Date | null;
     enAttente: boolean;
     courrierIn: number;
     recommandeIn: number;
@@ -164,9 +163,7 @@ export class UsagerFormModel implements UsagerLight {
 
     if (usager && usager.lastInteraction) {
       this.lastInteraction = {
-        dateInteraction: usager.lastInteraction.dateInteraction
-          ? new Date(usager.lastInteraction.dateInteraction)
-          : null,
+        dateInteraction: new Date(usager.lastInteraction.dateInteraction),
         enAttente: usager.lastInteraction.enAttente || false,
         courrierIn: usager.lastInteraction.courrierIn || 0,
         recommandeIn: usager.lastInteraction.recommandeIn || 0,
@@ -183,9 +180,9 @@ export class UsagerFormModel implements UsagerLight {
     };
 
     this.rdv = new Rdv((usager && usager.rdv) || null);
-    this.entretien = new Entretien((usager && usager.entretien) || null);
-    this.options = new Options((usager && usager.options) || null);
-    this.decision = new Decision((usager && usager.decision) || null);
+    this.entretien = new Entretien(usager?.entretien);
+    this.options = new Options(usager?.options);
+    this.decision = new Decision(usager?.decision);
 
     //
     //
