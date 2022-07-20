@@ -199,7 +199,7 @@
             *ngIf="editEntretien"
             [(editEntretien)]="editEntretien"
             (usagerChanges)="onUsagerChanges($event)"
-            [(usager)]="usager"
+            [usager]="usager"
           ></app-entretien-form>
 
           <app-display-entretien
@@ -287,21 +287,21 @@
 
 <ng-template #refus let-modal>
   <app-decision-refus-form
-    [(usager)]="usager"
+    [usager]="usager"
     (closeModals)="closeModals()"
   ></app-decision-refus-form>
 </ng-template>
 
 <ng-template #confirmation let-modal>
   <app-decision-valide-form
-    [(usager)]="usager"
+    [usager]="usager"
     (closeModals)="closeModals()"
   ></app-decision-valide-form>
 </ng-template>
 
 <ng-template #addNoteInModal let-modal>
   <app-profil-add-note-form
-    [(usager)]="usager"
+    [usager]="usager"
     (confirm)="onUsagerChanges($event); closeModals()"
     (cancel)="closeModals()"
   ></app-profil-add-note-form>

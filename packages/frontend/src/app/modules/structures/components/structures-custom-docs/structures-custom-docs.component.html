@@ -80,7 +80,7 @@
         <app-structures-custom-docs-table
           [me]="me"
           (getAllStructureDocs)="getAllStructureDocs()"
-          [(structureDocs)]="customStructureDocs"
+          [structureDocs]="customStructureDocs"
           [title]="'Liste des documents pré-remplis'"
         ></app-structures-custom-docs-table>
       </div>
@@ -111,7 +111,7 @@
         <app-structures-custom-docs-table
           [me]="me"
           (getAllStructureDocs)="getAllStructureDocs()"
-          [(structureDocs)]="structureDocs"
+          [structureDocs]="structureDocs"
           [title]="'Liste des autres documents'"
         ></app-structures-custom-docs-table>
       </div>
@@ -122,7 +122,7 @@
 <ng-template #uploadCustomDocModal let-modal>
   <app-structures-upload-docs
     (cancel)="closeModals()"
-    [(isCustomDoc)]="isCustomDoc"
+    [isCustomDoc]="isCustomDoc"
     (getAllStructureDocs)="getAllStructureDocs()"
   ></app-structures-upload-docs>
 </ng-template>

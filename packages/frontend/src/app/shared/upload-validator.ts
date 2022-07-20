@@ -4,7 +4,7 @@ import { UsagerDoc } from "../../_common/model";
 export type UploadResponseType = {
   success?: boolean;
   status?: string;
-  message?: string;
+  message?: number;
   filePath?: string;
   body?: UsagerDoc[];
 };

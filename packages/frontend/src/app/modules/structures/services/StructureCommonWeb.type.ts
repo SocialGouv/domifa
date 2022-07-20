@@ -8,6 +8,7 @@ import {
   StructureType,
   Telephone,
 } from "../../../../_common/model";
+import { CountryISO } from "ngx-intl-tel-input";
 
 // Structure: attributs publics (retournés au frontend via UserStructureAuthenticated)
 export class StructureCommonWeb implements StructureCommon {
@@ -50,7 +51,7 @@ export class StructureCommonWeb implements StructureCommon {
     this.agrement = (structure && structure.agrement) || "";
     this.telephone = (structure && structure.telephone) || {
       numero: "",
-      countryCode: "fr",
+      countryCode: CountryISO.France,
     };
     this.email = (structure && structure.email) || "";
     this.adresseCourrier = (structure && structure.adresseCourrier) || {

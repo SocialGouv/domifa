@@ -1,3 +1,4 @@
+import { CountryISO } from "ngx-intl-tel-input";
 import { Entretien, Rdv, Decision, Options } from ".";
 import {
   UsagerLight,
@@ -60,7 +61,7 @@ export class UsagerFormModel implements UsagerLight {
   public ayantsDroits: UsagerAyantDroit[];
 
   // Historique des décisions et dernière décision
-  public historique: UsagerDecision[];
+  public historique: Decision[];
   public decision: Decision;
 
   public typeDom: UsagerTypeDom; // PREMIERE / RENOUVELLEMENT
@@ -125,7 +126,7 @@ export class UsagerFormModel implements UsagerLight {
     this.email = (usager && usager.email) || "";
 
     this.telephone = (usager && usager.telephone) || {
-      countryCode: "fr",
+      countryCode: CountryISO.France,
       numero: "",
     };
 
@@ -174,7 +175,7 @@ export class UsagerFormModel implements UsagerLight {
     this.preference = (usager && usager.preference) || {
       contactByPhone: false,
       telephone: {
-        countryCode: "fr",
+        countryCode: CountryISO.France,
         numero: "",
       },
     };

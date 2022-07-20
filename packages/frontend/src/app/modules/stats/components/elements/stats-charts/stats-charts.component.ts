@@ -2,6 +2,7 @@ import { PublicStats } from "./../../../../../../_common/model/stats/PublicStats
 import { AfterViewInit, Component, Input, OnInit } from "@angular/core";
 import { StatsService } from "../../../services/stats.service";
 import { StatsByMonth } from "../../../../../../_common/model";
+import { Color, ScaleType } from "@swimlane/ngx-charts";
 
 @Component({
   selector: "app-stats-charts",
@@ -19,7 +20,10 @@ export class StatsChartsComponent implements OnInit, AfterViewInit {
 
   public showLegend = false;
   public barPadding = 35;
-  public colorScheme = {
+  public colorScheme: Color = {
+    name: "ocean",
+    selectable: false,
+    group: ScaleType.Ordinal,
     domain: ["#4164f5"],
   };
   public xAxisLabel = "";

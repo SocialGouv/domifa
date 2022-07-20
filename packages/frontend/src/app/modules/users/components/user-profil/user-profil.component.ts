@@ -20,7 +20,7 @@ export class UserProfilComponent implements OnInit {
   public users: UserStructureProfile[];
   public me!: UserStructure | null;
 
-  public selectedUser: UserStructure | null;
+  public selectedUser: UserStructureProfile | null;
   public loading: boolean;
   public usersInfos: boolean;
 

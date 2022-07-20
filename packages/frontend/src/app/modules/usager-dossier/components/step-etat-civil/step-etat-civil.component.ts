@@ -79,7 +79,8 @@ export class StepEtatCivilComponent implements OnInit {
   public minDateNaissance: NgbDateStruct;
   public minDateToday: NgbDateStruct;
 
-  public selectedCountryISO = "fr";
+  public selectedCountryISO: CountryISO = CountryISO.France;
+
   public maxDateRdv = {
     day: this.dToday.getDate(),
     month: this.dToday.getMonth() + 1,
@@ -187,8 +188,9 @@ export class StepEtatCivilComponent implements OnInit {
     this.selectedCountryISO =
       this.usager.telephone.numero !== "" &&
       this.usager.telephone.numero !== null
-        ? this.usager.telephone.countryCode
-        : this.authService.currentUserValue?.structure.telephone.countryCode;
+        ? (this.usager.telephone.countryCode as CountryISO)
+        : (this.authService.currentUserValue?.structure.telephone
+            .countryCode as CountryISO);
 
     this.usagerForm
       .get("preference")

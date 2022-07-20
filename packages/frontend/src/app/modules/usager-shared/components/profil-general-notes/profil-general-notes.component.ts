@@ -1,3 +1,4 @@
+import { UsagerLight } from "./../../../../../_common/model/usager/UsagerLight.type";
 import {
   Component,
   EventEmitter,
@@ -26,8 +27,7 @@ export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
 
   public filteredNotes: UsagerNote[];
 
-  @Output()
-  public usagerChanges = new EventEmitter();
+  @Output() usagerChanges = new EventEmitter<UsagerLight>();
 
   constructor(
     private usagerNotesService: UsagerNotesService,

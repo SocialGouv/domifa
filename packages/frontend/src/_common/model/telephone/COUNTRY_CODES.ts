@@ -1,3 +1,4 @@
+import { CountryISO } from "ngx-intl-tel-input";
 import { TimeZone } from "../../../app/shared";
 
 export const COUNTRY_CODES: { [key: string]: string } = {
@@ -246,15 +247,15 @@ export const COUNTRY_CODES: { [key: string]: string } = {
   ax: "358",
 };
 
-export const COUNTRY_CODES_TIMEZONE: { [key in TimeZone]: string } = {
-  "America/Martinique": "mq",
-  "America/Cayenne": "gf",
-  "Indian/Reunion": "yt",
-  "Indian/Mayotte": "km",
-  "Europe/Paris": "fr",
-  "Pacific/Noumea": "pf",
-  "Pacific/Tahiti": "pf",
-  "Pacific/Wallis": "wf",
-  "America/Miquelon": "pm",
-  "Indian/Maldives": "fr",
+export const COUNTRY_CODES_TIMEZONE: { [key in TimeZone]: CountryISO } = {
+  "America/Martinique": CountryISO.Martinique,
+  "America/Cayenne": CountryISO.FrenchGuiana,
+  "Indian/Reunion": CountryISO.Réunion,
+  "Indian/Mayotte": CountryISO.Mayotte,
+  "Europe/Paris": CountryISO.France,
+  "Pacific/Noumea": CountryISO.FrenchPolynesia,
+  "Pacific/Tahiti": CountryISO.FrenchPolynesia,
+  "Pacific/Wallis": CountryISO.WallisAndFutuna,
+  "America/Miquelon": CountryISO.SaintPierreAndMiquelon,
+  "Indian/Maldives": CountryISO.France,
 };

@@ -194,10 +194,11 @@
               <div class="form-group">
                 <label for="telephone">Numéro de téléphone</label>
                 <ngx-intl-tel-input
-                  [cssClass]="{
-                    'form-control': true,
-                    'is-invalid': submitted && f.telephone.errors
-                  }"
+                  [cssClass]="
+                    'form-control ' + submitted && f.telephone.errors
+                      ? 'is-invalid'
+                      : ''
+                  "
                   [preferredCountries]="PREFERRED_COUNTRIES"
                   [enableAutoCountrySelect]="true"
                   [enablePlaceholder]="true"
@@ -491,11 +492,12 @@
             <div class="form-group required">
               <label for="preferenceTelephone">Numéro de téléphone</label>
               <ngx-intl-tel-input
-                [cssClass]="{
-                  'form-control': true,
-                  'is-invalid':
-                    submitted && f.preference.get('telephone')?.errors
-                }"
+                [cssClass]="
+                  'form-control ' + submitted &&
+                  f.preference.get('telephone')?.errors
+                    ? 'is-invalid'
+                    : ''
+                "
                 [preferredCountries]="PREFERRED_COUNTRIES"
                 [enableAutoCountrySelect]="true"
                 [enablePlaceholder]="true"

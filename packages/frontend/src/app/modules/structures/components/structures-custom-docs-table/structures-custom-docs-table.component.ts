@@ -17,6 +17,7 @@ import { StructureDocService } from "../../services/structure-doc.service";
 })
 export class StructuresCustomDocsTableComponent implements OnInit {
   public STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;
+
   @Input() public structureDocs: StructureDoc[];
   @Input() public me: UserStructure;
   @Input() public title: string;

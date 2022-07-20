@@ -1,4 +1,5 @@
+import { CountryISO } from "ngx-intl-tel-input";
 export type Telephone = {
-  countryCode: string;
+  countryCode: CountryISO;
   numero: string;
 };

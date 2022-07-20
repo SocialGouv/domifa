@@ -1,3 +1,4 @@
+import { COUNTRY_CODES_TIMEZONE } from "./../../../../../_common/model/telephone/COUNTRY_CODES";
 import { Component, Input, OnInit } from "@angular/core";
 import {
   AbstractControl,
@@ -40,13 +41,14 @@ export class StructureEditFormComponent implements OnInit {
   public DEPARTEMENTS_LISTE = DEPARTEMENTS_LISTE;
   public loading = false;
   public submitted: boolean;
+  public selectedCountryISO: CountryISO = CountryISO.France;
 
   @Input() public structure: StructureCommon;
 
   constructor(
-    private structureService: StructureService,
-    private formBuilder: FormBuilder,
-    private toastService: CustomToastService
+    private readonly structureService: StructureService,
+    private readonly formBuilder: FormBuilder,
+    private readonly toastService: CustomToastService
   ) {
     this.submitted = false;
     this.loading = false;
@@ -108,6 +110,8 @@ export class StructureEditFormComponent implements OnInit {
 
       ville: [this.structure.ville, [Validators.required]],
     });
+
+    this.selectedCountryISO = COUNTRY_CODES_TIMEZONE[this.structure.timeZone];
 
     this.structureForm
       .get("adresseCourrier")

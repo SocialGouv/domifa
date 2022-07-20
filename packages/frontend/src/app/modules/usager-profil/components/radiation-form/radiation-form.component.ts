@@ -30,7 +30,7 @@ export class RadiationFormComponent implements OnInit {
 
   @Output() public closeModals = new EventEmitter<void>();
 
-  @Output() public usagerChange = new EventEmitter<UsagerLight>();
+  @Output() usagerChanges = new EventEmitter<UsagerLight>();
 
   public submitted: boolean;
   public loading: boolean;

@@ -1,3 +1,4 @@
+import { CountryISO } from "ngx-intl-tel-input";
 import { StructureType, UserStructure, UserStructureRole } from "../model";
 
 export const USER_STRUCTURE_MOCK: UserStructure = {
@@ -35,7 +36,7 @@ export const USER_STRUCTURE_MOCK: UserStructure = {
     email: "s1-admin@yopmail.com",
     nom: "DomiFa Compte Test",
     options: { numeroBoite: false },
-    telephone: { numero: "0134334410", countryCode: "fr" },
+    telephone: { numero: "0134334410", countryCode: CountryISO.France },
     responsable: { nom: "Pompei", prenom: "Roma", fonction: "Directrice" },
     structureType: "asso" as StructureType,
     ville: "Cergy",
