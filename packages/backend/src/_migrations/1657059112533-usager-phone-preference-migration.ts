@@ -21,7 +21,7 @@ export class migratePhonePreferenceMigration1657059112533
       domifaConfig().envId === "local"
     ) {
       console.warn(
-        "\n[MIGRATION] Migrer vers le nouveau format de téléphone - Start \n"
+        "\n[MIGRATION] [TEL SMS] Migrer vers le nouveau format de téléphone - Start \n"
       );
       const usagers: {
         uuid: string;
@@ -35,7 +35,7 @@ export class migratePhonePreferenceMigration1657059112533
       ).query(
         `
         SELECT u.uuid, u.preference, u."structureId", s.id, s."timeZone" FROM usager u INNER JOIN structure s on s.id = u."structureId"
-        WHERE (preference->'phoneNumber')::text != 'null' AND (preference->'phoneNumber')::text != '' AND (preference->telephone->'numero')::text != ''
+        WHERE (preference->'phoneNumber')::text != 'null' AND (preference->'phoneNumber')::text != '' AND (preference->'phone')::bool is true
       `
       );
 
@@ -83,7 +83,7 @@ export class migratePhonePreferenceMigration1657059112533
     }
 
     console.warn(
-      "\n[MIGRATION] Migrer vers le nouveau format de téléphone - END \n"
+      "\n[MIGRATION] [TEL SMS] Migrer vers le nouveau format de téléphone - END \n"
     );
   }
 
