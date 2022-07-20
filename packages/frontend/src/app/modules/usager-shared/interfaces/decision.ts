@@ -22,7 +22,7 @@ export class Decision implements UsagerDecision {
   public motifDetails?: string;
 
   // Motif + détail
-  public motifString?: string;
+  public motifString: string;
 
   // Orientation si refus
   public orientation?: UsagerDecisionOrientation;

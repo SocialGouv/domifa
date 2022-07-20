@@ -7,6 +7,7 @@ import {
 
 import { getFormPhone, isNumber, padNumber } from "../../../shared";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { CountryISO } from "ngx-intl-tel-input";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getEtatCivilForm(formValue: any): UsagerEtatCivilFormData {
@@ -23,7 +24,7 @@ export function getEtatCivilForm(formValue: any): UsagerEtatCivilFormData {
 
   const telephone: Telephone = !formValue?.telephone
     ? {
-        countryCode: "fr",
+        countryCode: CountryISO.France,
         numero: "",
       }
     : getFormPhone(formValue.telephone);
@@ -41,7 +42,7 @@ export function getEtatCivilForm(formValue: any): UsagerEtatCivilFormData {
     ayantsDroits,
     preference: {
       contactByPhone: false,
-      telephone: { countryCode: "fr", numero: "" },
+      telephone: { countryCode: CountryISO.France, numero: "" },
     },
     dateNaissance: new Date(formatEn(formValue.dateNaissance)),
   };
@@ -55,7 +56,7 @@ export function getEtatCivilForm(formValue: any): UsagerEtatCivilFormData {
     } else {
       datas.preference = {
         contactByPhone: false,
-        telephone: { countryCode: "fr", numero: "" },
+        telephone: { countryCode: CountryISO.France, numero: "" },
       };
     }
   }

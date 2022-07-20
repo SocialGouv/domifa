@@ -1,3 +1,4 @@
+import { CountryISO } from "ngx-intl-tel-input";
 import { StructureCommon } from "../model";
 
 export const STRUCTURE_MOCK: StructureCommon = {
@@ -21,7 +22,7 @@ export const STRUCTURE_MOCK: StructureCommon = {
   options: { numeroBoite: false },
   telephone: {
     numero: "0602030405",
-    countryCode: "fr",
+    countryCode: CountryISO.France,
   },
   timeZone: "Europe/Paris",
   responsable: { nom: "Jean", prenom: "Thomson", fonction: "PDG" },

@@ -65,7 +65,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
 
   public minDateNaissance: NgbDateStruct;
   public maxDateNaissance: NgbDateStruct;
-  public selectedCountryISO = "fr";
+  public selectedCountryISO = CountryISO.France;
   public LIENS_PARENTE = LIEN_PARENTE_LABELS;
 
   public languagesAutocompleteSearch = languagesAutocomplete.typeahead({
@@ -125,8 +125,8 @@ export class ProfilEtatCivilFormComponent implements OnInit {
     this.selectedCountryISO =
       this.usager.telephone.numero !== "" &&
       this.usager.telephone.numero !== null
-        ? this.usager.telephone.countryCode
-        : this.me.structure.telephone.countryCode;
+        ? (this.usager.telephone.countryCode as CountryISO)
+        : (this.me.structure.telephone.countryCode as CountryISO);
   }
 
   public addAyantDroit(ayantDroit: AyantDroit = new AyantDroit()): void {

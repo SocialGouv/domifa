@@ -36,7 +36,7 @@ export class UploadComponent implements OnInit {
     private readonly documentService: DocumentService,
     private readonly toastService: CustomToastService
   ) {
-    this.uploadResponse = { status: "", message: "", filePath: "", body: [] };
+    this.uploadResponse = { status: "", message: 0, filePath: "", body: [] };
   }
 
   get u(): { [key: string]: AbstractControl } {

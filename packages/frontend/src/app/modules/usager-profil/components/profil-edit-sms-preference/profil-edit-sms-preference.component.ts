@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import {
   FormBuilder,
   FormControl,
@@ -36,7 +36,7 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
 
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
-
+  @Output() usagerChanges = new EventEmitter<UsagerLight>();
   public submitted: boolean;
   public loading: boolean;
   public preferenceForm!: FormGroup;
@@ -100,7 +100,7 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
     const preference: UsagerPreferenceContact = {
       contactByPhone: this.preferenceForm.get("contactByPhone").value,
       telephone: {
-        countryCode: "fr",
+        countryCode: CountryISO.France,
         numero: "",
       },
     };
@@ -117,6 +117,7 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
           this.loading = false;
           this.editPreferences = false;
           this.toastService.success("Enregistrement des préférences réussi");
+          this.usagerChanges.emit(usager);
           this.usager = new UsagerFormModel(usager);
         },
         error: () => {

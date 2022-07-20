@@ -1,3 +1,4 @@
+import { UserStructure } from "./../../../../../_common/model/user-structure/UserStructure.type";
 import {
   STRUCTURE_DOC_EXTENSIONS,
   STRUCTURE_DOC_EXTENSIONS_LABELS,
@@ -10,7 +11,6 @@ import { STRUCTURE_DOC_ICONS } from "../../../../../_common/model";
 import { UsagerFormModel } from "../../interfaces";
 import { DocumentService } from "../../services/document.service";
 import fileSaver from "file-saver";
-import { User } from "@sentry/browser";
 
 @Component({
   selector: "app-display-usager-docs",
@@ -19,7 +19,7 @@ import { User } from "@sentry/browser";
 })
 export class DisplayUsagerDocsComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
-  @Input() public me!: User;
+  @Input() public me!: UserStructure;
   @Input() public editPJ!: boolean;
 
   public docs: UsagerDoc[];
@@ -32,8 +32,8 @@ export class DisplayUsagerDocsComponent implements OnInit {
   };
 
   constructor(
-    private documentService: DocumentService,
-    private toastService: CustomToastService
+    private readonly documentService: DocumentService,
+    private readonly toastService: CustomToastService
   ) {
     this.loadings = {
       download: [],

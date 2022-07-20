@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import fileSaver from "file-saver";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   StructureDocTypesAvailable,
+  UsagerLight,
   UserStructure,
   UserStructureRole,
 } from "../../../../../_common/model";
@@ -32,11 +33,13 @@ export class ProfilEditPortailUsagerPreferenceComponent implements OnInit {
     temporaryPassword: string;
   };
 
+  @Output() usagerChanges = new EventEmitter<UsagerLight>();
+
   constructor(
-    private formBuilder: FormBuilder,
-    private toastService: CustomToastService,
-    private usagerProfilService: UsagerProfilService,
-    private documentService: DocumentService
+    private readonly formBuilder: FormBuilder,
+    private readonly toastService: CustomToastService,
+    private readonly usagerProfilService: UsagerProfilService,
+    private readonly documentService: DocumentService
   ) {
     this.submitted = false;
     this.me = null;
@@ -128,6 +131,7 @@ export class ProfilEditPortailUsagerPreferenceComponent implements OnInit {
           this.loading = false;
           this.editionInProgress = false;
           this.toastService.success("Enregistrement des préférences réussi");
+          this.usagerChanges.emit(usager);
           this.usager = new UsagerFormModel(usager);
         },
         error: () => {

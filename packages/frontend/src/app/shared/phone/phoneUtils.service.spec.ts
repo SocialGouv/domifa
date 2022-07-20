@@ -1,3 +1,4 @@
+import { CountryISO } from "ngx-intl-tel-input";
 import { getPhoneString, getCountryCode } from "./phoneUtils.service";
 
 describe("Telephone utils", () => {
@@ -6,17 +7,21 @@ describe("Telephone utils", () => {
   });
 
   it("getPhoneString shoud return US indictaif", () => {
-    expect(getPhoneString({ countryCode: "us", numero: "" })).toEqual("");
+    expect(
+      getPhoneString({ countryCode: CountryISO.UnitedStates, numero: "" })
+    ).toEqual("");
   });
 
   it("getPhoneString shoud return Guyane indictaif", () => {
-    expect(getPhoneString({ countryCode: "gf", numero: "" })).toEqual("");
+    expect(
+      getPhoneString({ countryCode: CountryISO.FrenchGuiana, numero: "" })
+    ).toEqual("");
   });
 
   it("getPhoneString shoud return string with countryCode and numero", () => {
-    expect(getPhoneString({ countryCode: "fr", numero: "0622062206" })).toEqual(
-      "+330622062206"
-    );
+    expect(
+      getPhoneString({ countryCode: CountryISO.France, numero: "0622062206" })
+    ).toEqual("+330622062206");
   });
 
   it("getCountryCode shoud return +33 if countryCode is undefined", () => {

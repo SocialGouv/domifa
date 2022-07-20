@@ -96,7 +96,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
 
   public allUsagersByStatus$ = new ReplaySubject<UsagersByStatus>(1);
   public allUsagersByStatus: UsagersByStatus;
-  public usagers: UsagerLight[] = [];
+  public usagers: UsagerFormModel[] = [];
   public me!: UserStructure;
 
   public labelsDernierPassage: {
@@ -320,7 +320,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     );
   }
 
-  public updateUsager(usager: UsagerFormModel): void {
+  public updateUsager(usager: UsagerLight): void {
     this.searchPageLoadedUsagersData$.next({
       ...this.searchPageLoadedUsagersData$.value,
       usagersNonRadies:

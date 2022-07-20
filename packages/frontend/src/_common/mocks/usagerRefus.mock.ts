@@ -1,3 +1,4 @@
+import { CountryISO } from "ngx-intl-tel-input";
 import { UsagerLight } from "../model";
 import { ETAPE_DOSSIER_COMPLET } from "../model/usager/_constants";
 
@@ -47,7 +48,7 @@ export const usagerRefusMock: UsagerLight = {
   },
   preference: {
     contactByPhone: false,
-    telephone: { countryCode: "fr", numero: "0606060606" },
+    telephone: { countryCode: CountryISO.France, numero: "0606060606" },
   },
   rdv: { dateRdv: null, userId: 0, userName: "" },
   ayantsDroits: [
@@ -87,7 +88,7 @@ export const usagerRefusMock: UsagerLight = {
       typeDom: undefined,
     },
   ],
-  telephone: { countryCode: "fr", numero: "0142424242" },
+  telephone: { countryCode: CountryISO.France, numero: "0142424242" },
   surnom: "",
   import: {
     date: new Date("2020-12-01T10:00:24.980Z"),

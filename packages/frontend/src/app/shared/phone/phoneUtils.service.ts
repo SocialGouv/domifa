@@ -1,4 +1,4 @@
-import { ChangeData } from "ngx-intl-tel-input";
+import { ChangeData, CountryISO } from "ngx-intl-tel-input";
 import { Telephone, COUNTRY_CODES } from "../../../_common/model";
 
 export const getPhoneString = (telephone: Telephone): string => {
@@ -21,14 +21,14 @@ export function getFormPhone(formValue: ChangeData): Telephone {
   if (!formValue) {
     return {
       numero: "",
-      countryCode: "fr",
+      countryCode: CountryISO.France,
     };
   }
   return {
     numero: formValue?.number ? formValue?.number.replace(/\s/g, "") : "",
     countryCode: formValue?.countryCode
-      ? formValue?.countryCode.toLowerCase()
-      : "fr",
+      ? (formValue?.countryCode.toLowerCase() as CountryISO)
+      : CountryISO.France,
   };
 }
 
