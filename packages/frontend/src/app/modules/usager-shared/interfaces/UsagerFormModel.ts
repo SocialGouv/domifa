@@ -214,8 +214,7 @@ export class UsagerFormModel implements UsagerLight {
     this.isAyantDroit = false;
 
     if (filterCriteria) {
-      const { searchString } = filterCriteria ?? {};
-      if (searchString && searchString !== null) {
+      if (filterCriteria.searchString && filterCriteria.searchString !== null) {
         // if search does not match without ayant-droits, flag it as "isAyantDroit"
         this.isAyantDroit =
           usagersFilter.filter([usager as UsagerLight], {

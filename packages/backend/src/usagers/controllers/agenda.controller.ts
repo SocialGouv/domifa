@@ -9,7 +9,8 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
-import * as ics from "ics";
+import { createEvent, ReturnObject } from "ics";
+
 import { AllowUserStructureRoles } from "../../auth/decorators";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
@@ -104,7 +105,7 @@ export class AgendaController {
     const heure = rdvDto.dateRdv.getHours();
     const minutes = rdvDto.dateRdv.getMinutes();
 
-    const invitation: ics.ReturnObject = ics.createEvent({
+    const invitation: ReturnObject = createEvent({
       title,
       description: "Entretien demande de domiciliation",
       start: [annee, mois, jour, heure, minutes],

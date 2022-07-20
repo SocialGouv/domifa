@@ -34,7 +34,7 @@ export class InteractionsGuard implements CanActivate {
       structureId,
     });
 
-    if (!interaction || interaction === null) {
+    if (!interaction) {
       appLogger.error(`[InteractionsGuard] Interaction not found`, {
         sentry: true,
         context: { interactionUuid, user: r.user._id, role: r.user.role },

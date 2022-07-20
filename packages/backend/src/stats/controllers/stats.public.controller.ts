@@ -61,8 +61,6 @@ export class StatsPublicController {
 
     const publicStats = await this.generatePublicStats(statsCacheKey, regionId);
 
-    console.log(publicStats);
-
     return res.status(HttpStatus.OK).json(publicStats);
   }
 
