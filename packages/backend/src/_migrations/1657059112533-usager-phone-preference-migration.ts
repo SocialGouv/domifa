@@ -35,7 +35,7 @@ export class migratePhonePreferenceMigration1657059112533
       ).query(
         `
         SELECT u.uuid, u.preference, u."structureId", s.id, s."timeZone" FROM usager u INNER JOIN structure s on s.id = u."structureId"
-        WHERE (preference->'phoneNumber')::text != 'null' AND (preference->'phoneNumber')::text != '' AND (preference->'phone')::bool is true
+        WHERE (preference->'phoneNumber')::text != 'null' AND (preference->'phoneNumber')::text != '' AND (preference->>'phone')::bool is true
       `
       );
 

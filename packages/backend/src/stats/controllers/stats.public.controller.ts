@@ -32,12 +32,10 @@ export class StatsPublicController {
 
   @Get("home")
   public async home() {
-    let homeStats = await this.cacheManager.get("home");
+    const homeStats = await this.cacheManager.get("home");
     if (!homeStats) {
-      homeStats = await this.getHomeStats();
-      await this.cacheManager.set("home", homeStats, {
-        ttl: 86400,
-      });
+      await this.generatePublicStats("stats-nationales");
+      return this.cacheManager.get("home");
     }
     return homeStats;
   }
@@ -58,11 +56,30 @@ export class StatsPublicController {
 
     // Récupération du cache
     if (statsInCache) {
-      console.log("Use Cache for public-stats");
       return res.status(HttpStatus.OK).json(statsInCache);
     }
 
-    console.log("Do not Use Cache for public-stats");
+    const publicStats = await this.generatePublicStats(statsCacheKey, regionId);
+
+    console.log(publicStats);
+
+    return res.status(HttpStatus.OK).json(publicStats);
+  }
+
+  private async getHomeStats(): Promise<HomeStats> {
+    return {
+      structures: await structureRepository.count(),
+      interactions: await this.adminStructuresService.totalInteractions(
+        "courrierIn"
+      ),
+      usagers: await usagerRepository.countTotalUsagers(),
+    };
+  }
+
+  private async generatePublicStats(
+    statsCacheKey: string,
+    regionId?: string
+  ): Promise<PublicStats> {
     const publicStats: PublicStats = {
       structuresCountByRegion: [],
       interactionsCountByMonth: [], // Par défaut: courriers distribués
@@ -87,7 +104,7 @@ export class StatsPublicController {
 
       // Si aucune structure dans la région, tous les indicateurs sont à zero
       if (!structures.length) {
-        return res.status(HttpStatus.OK).json(DEFAULT_PUBLIC_STATS);
+        return DEFAULT_PUBLIC_STATS;
       }
 
       publicStats.structuresCountByRegion =
@@ -141,16 +158,6 @@ export class StatsPublicController {
     await this.cacheManager.set(statsCacheKey, publicStats, {
       ttl: 86400,
     });
-    return res.status(HttpStatus.OK).json(publicStats);
-  }
-
-  private async getHomeStats(): Promise<HomeStats> {
-    return {
-      structures: await structureRepository.count(),
-      interactions: await this.adminStructuresService.totalInteractions(
-        "courrierIn"
-      ),
-      usagers: await usagerRepository.countTotalUsagers(),
-    };
+    return publicStats;
   }
 }
