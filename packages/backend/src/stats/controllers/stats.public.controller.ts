@@ -5,6 +5,7 @@ import {
   Get,
   HttpStatus,
   Inject,
+  OnModuleInit,
   Param,
   Res,
 } from "@nestjs/common";
@@ -23,16 +24,20 @@ import { REGIONS_ID_SEO } from "../../util/territoires";
 
 @Controller("stats")
 @ApiTags("stats")
-export class StatsPublicController {
+export class StatsPublicController implements OnModuleInit {
   constructor(
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private readonly adminStructuresService: AdminStructuresService,
     private readonly structuresService: StructuresService
   ) {}
 
+  async onModuleInit(): Promise<void> {
+    await this.generatePublicStats("stats-nationales");
+  }
+
   @Get("home")
-  public async home() {
-    const homeStats = await this.cacheManager.get("home");
+  public async home(): Promise<PublicStats> {
+    const homeStats = (await this.cacheManager.get("home")) as PublicStats;
     if (!homeStats) {
       await this.generatePublicStats("stats-nationales");
       return this.cacheManager.get("home");
@@ -132,7 +137,7 @@ export class StatsPublicController {
         ttl: 86400,
       });
     }
-
+    console.log("opkpokpokpokpok");
     // Usagers
     publicStats.usagersCount = await usagerRepository.countTotalUsagers(
       structures

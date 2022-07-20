@@ -1,3 +1,4 @@
+import { WhiteSpaceValidator } from "./../../../../shared/validators/whitespace.validator";
 import {
   Component,
   ElementRef,
@@ -27,12 +28,13 @@ import {
   UserStructureRole,
   UsagerOptionsProcuration,
 } from "../../../../../_common/model";
+import { endDateAfterBeginDateValidator } from "../../../../shared";
 import {
   minDateToday,
   minDateNaissance,
   formatDateToNgb,
 } from "../../../../shared/bootstrap-util";
-import { endDateAfterBeginDateValidator } from "../../../../shared/validators";
+
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerProcuration } from "../../../usager-shared/interfaces/UsagerProcuration.interface";
@@ -135,8 +137,14 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   public newProcuration(procuration: UsagerOptionsProcuration) {
     return this.formBuilder.group(
       {
-        nom: [procuration.nom, [Validators.required]],
-        prenom: [procuration.prenom, [Validators.required]],
+        nom: [
+          procuration.nom,
+          [Validators.required, WhiteSpaceValidator.noWhiteSpace],
+        ],
+        prenom: [
+          procuration.prenom,
+          [Validators.required, WhiteSpaceValidator.noWhiteSpace],
+        ],
         dateFin: [formatDateToNgb(procuration.dateFin), [Validators.required]],
         dateDebut: [
           formatDateToNgb(procuration.dateDebut),

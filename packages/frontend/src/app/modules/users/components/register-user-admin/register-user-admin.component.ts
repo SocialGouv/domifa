@@ -11,7 +11,7 @@ import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { UserStructure } from "../../../../../_common/model";
 import { fadeInOut } from "../../../../shared/animations";
-import { regexp } from "../../../../shared/validators";
+import { regexp } from "../../../../shared/constants/REGEXP.const";
 import { userStructureBuilder } from "../../services";
 import { UsersService } from "../../services/users.service";
 

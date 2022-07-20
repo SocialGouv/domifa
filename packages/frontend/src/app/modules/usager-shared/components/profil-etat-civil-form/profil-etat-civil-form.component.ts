@@ -24,7 +24,11 @@ import {
 
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { UsagerLight } from "../../../../../_common/model";
-import { languagesAutocomplete, setFormPhone } from "../../../../shared";
+import {
+  languagesAutocomplete,
+  setFormPhone,
+  WhiteSpaceValidator,
+} from "../../../../shared";
 import {
   minDateNaissance,
   formatDateToNgb,
@@ -110,12 +114,21 @@ export class ProfilEtatCivilFormComponent implements OnInit {
       email: [this.usager.email, [Validators.email]],
       ref: [this.usager.ref, [Validators.required]],
       langue: [this.usager.langue, languagesAutocomplete.validator("langue")],
-      nom: [this.usager.nom, Validators.required],
+      nom: [
+        this.usager.nom,
+        [Validators.required, WhiteSpaceValidator.noWhiteSpace],
+      ],
       telephone: new FormControl(setFormPhone(this.usager.telephone), null),
-      prenom: [this.usager.prenom, Validators.required],
+      prenom: [
+        this.usager.prenom,
+        [Validators.required, WhiteSpaceValidator.noWhiteSpace],
+      ],
       sexe: [this.usager.sexe, Validators.required],
       surnom: [this.usager.surnom, []],
-      villeNaissance: [this.usager.villeNaissance, [Validators.required]],
+      villeNaissance: [
+        this.usager.villeNaissance,
+        [Validators.required, WhiteSpaceValidator.noWhiteSpace],
+      ],
     });
 
     for (const ayantDroit of this.usager.ayantsDroits) {

@@ -10,7 +10,7 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { regexp } from "src/app/shared/validators";
+import { regexp } from "src/app/shared/constants/REGEXP.const";
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { userStructureBuilder } from "../../services";
 import { PasswordValidator } from "../../services/password-validator.service";

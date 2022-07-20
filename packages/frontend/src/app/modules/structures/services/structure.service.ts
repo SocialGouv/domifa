@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { AbstractControl } from "@angular/forms";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { regexp } from "src/app/shared/validators";
+import { regexp } from "src/app/shared/constants/REGEXP.const";
 import { environment } from "src/environments/environment";
 import {
   Structure,
