@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Title } from "@angular/platform-browser";
 
 import { AuthService } from "../../../shared/services/auth.service";
-import { regexp } from "../../../../shared/validators";
+import { regexp } from "../../../../shared/constants/REGEXP.const";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 
 @Component({

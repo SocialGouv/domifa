@@ -195,9 +195,9 @@
                 <label for="telephone">Numéro de téléphone</label>
                 <ngx-intl-tel-input
                   [cssClass]="
-                    'form-control ' + submitted && f.telephone.errors
-                      ? 'is-invalid'
-                      : ''
+                    submitted && (f.telephone.errors || f.telephone.invalid)
+                      ? 'form-control is-invalid'
+                      : 'form-control'
                   "
                   [preferredCountries]="PREFERRED_COUNTRIES"
                   [enableAutoCountrySelect]="true"

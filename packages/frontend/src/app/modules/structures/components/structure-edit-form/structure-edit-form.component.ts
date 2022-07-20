@@ -17,7 +17,7 @@ import {
 } from "ngx-intl-tel-input";
 
 import { Structure, StructureCommon } from "../../../../../_common/model";
-import { regexp } from "../../../../shared/validators";
+import { regexp } from "../../../../shared/constants/REGEXP.const";
 import { StructureService } from "../../services/structure.service";
 import { structureNameChecker } from "./structureNameChecker.service";
 import {

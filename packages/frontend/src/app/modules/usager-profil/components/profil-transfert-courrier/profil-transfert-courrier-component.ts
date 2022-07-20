@@ -1,4 +1,3 @@
-import { UsagerOptionsService } from "./../../services/usager-options.service";
 import {
   Component,
   EventEmitter,
@@ -24,18 +23,22 @@ import {
 import { MatomoTracker } from "ngx-matomo";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
-  UserStructure,
   UsagerLight,
+  UserStructure,
   UserStructureRole,
 } from "../../../../../_common/model";
 import {
-  minDateToday,
+  endDateAfterBeginDateValidator,
+  WhiteSpaceValidator,
+} from "../../../../shared";
+import {
   formatDateToNgb,
+  minDateToday,
 } from "../../../../shared/bootstrap-util";
-import { endDateAfterBeginDateValidator } from "../../../../shared/validators";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
+import { UsagerOptionsService } from "./../../services/usager-options.service";
 
 @Component({
   providers: [
@@ -70,11 +73,11 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
   public confirmDelete!: TemplateRef<NgbModalRef>;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private nbgDate: NgbDateCustomParserFormatter,
-    private toastService: CustomToastService,
-    private usagerOptionsService: UsagerOptionsService,
-    private matomo: MatomoTracker,
+    private readonly formBuilder: FormBuilder,
+    private readonly nbgDate: NgbDateCustomParserFormatter,
+    private readonly toastService: CustomToastService,
+    private readonly usagerOptionsService: UsagerOptionsService,
+    private readonly matomo: MatomoTracker,
     private readonly modalService: NgbModal
   ) {
     this.isFormVisible = false;
@@ -111,10 +114,17 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
   public initForm(): void {
     this.transfertForm = this.formBuilder.group(
       {
-        nom: [this.usager.options.transfert.nom, [Validators.required]],
+        nom: [
+          this.usager.options.transfert.nom,
+          [Validators.required, WhiteSpaceValidator.noWhiteSpace],
+        ],
         adresse: [
           this.usager.options.transfert.adresse,
-          [Validators.required, Validators.minLength(10)],
+          [
+            Validators.required,
+            Validators.minLength(10),
+            WhiteSpaceValidator.noWhiteSpace,
+          ],
         ],
         dateFin: [
           this.usager.options.transfert.dateFin

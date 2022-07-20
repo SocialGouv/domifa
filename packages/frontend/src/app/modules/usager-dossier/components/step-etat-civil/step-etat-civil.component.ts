@@ -1,3 +1,4 @@
+import { WhiteSpaceValidator } from "./../../../../shared/validators/whitespace.validator";
 import {
   Component,
   ElementRef,
@@ -163,7 +164,10 @@ export class StepEtatCivilComponent implements OnInit {
       ],
       customRef: [this.usager.customRef, []],
       email: [this.usager.email, [Validators.email]],
-      nom: [this.usager.nom, Validators.required],
+      nom: [
+        this.usager.nom,
+        [Validators.required, WhiteSpaceValidator.noWhiteSpace],
+      ],
       preference: this.formBuilder.group({
         contactByPhone: [
           this.usager.preference.contactByPhone,
@@ -175,7 +179,10 @@ export class StepEtatCivilComponent implements OnInit {
         ),
       }),
       telephone: new FormControl(setFormPhone(this.usager.telephone), null),
-      prenom: [this.usager.prenom, Validators.required],
+      prenom: [
+        this.usager.prenom,
+        [Validators.required, WhiteSpaceValidator.noWhiteSpace],
+      ],
       sexe: [this.usager.sexe, Validators.required],
       surnom: [this.usager.surnom, []],
       villeNaissance: [this.usager.villeNaissance, [Validators.required]],
@@ -288,10 +295,9 @@ export class StepEtatCivilComponent implements OnInit {
     this.submitted = true;
 
     if (this.usagerForm.invalid) {
-      this.toastService.success(
+      this.toastService.error(
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
-
       return;
     }
     this.loading = true;

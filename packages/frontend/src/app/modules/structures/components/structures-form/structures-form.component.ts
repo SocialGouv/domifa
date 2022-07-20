@@ -16,7 +16,7 @@ import {
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { of, Subject } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
-import { regexp } from "src/app/shared/validators";
+import { regexp } from "src/app/shared/constants/REGEXP.const";
 import { Structure, StructureCommon } from "../../../../../_common/model";
 import { StructureService } from "../../services/structure.service";
 import { StructureCommonWeb } from "../../services/StructureCommonWeb.type";

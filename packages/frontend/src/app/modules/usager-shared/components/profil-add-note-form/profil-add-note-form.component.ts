@@ -8,6 +8,7 @@ import {
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import { UsagerLight } from "../../../../../_common/model";
+import { WhiteSpaceValidator } from "../../../../shared";
 import { bounce } from "../../../../shared/animations";
 import { UsagerNotesService } from "../../services/usager-notes.service";
 
@@ -41,7 +42,14 @@ export class ProfilAddNoteFormComponent implements OnInit {
 
   public ngOnInit(): void {
     this.addNoteForm = this.formBuilder.group({
-      message: [null, [Validators.required, Validators.maxLength(1000)]],
+      message: [
+        null,
+        [
+          Validators.required,
+          WhiteSpaceValidator.noWhiteSpace,
+          Validators.maxLength(1000),
+        ],
+      ],
     });
   }
 
