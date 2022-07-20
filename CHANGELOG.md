@@ -1,3 +1,10 @@
+## [2.103.2](https://github.com/SocialGouv/domifa/compare/v2.103.1...v2.103.2) (2022-07-20)
+
+
+### Bug Fixes
+
+* **migration:** correction des migrations de gestion du téléphone ([397b672](https://github.com/SocialGouv/domifa/commit/397b672787a42722d4f36b3ec4ddb684ff6d5eb7))
+
 ## [2.103.1](https://github.com/SocialGouv/domifa/compare/v2.103.0...v2.103.1) (2022-07-19)
 
 
