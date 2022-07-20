@@ -121,16 +121,6 @@ export class DisplayUsagerDocsComponent implements OnInit {
     this.loadings[loadingType].push(loadingRef);
   }
 
-  private focusDeleteDoc(index: number): void {
-    // Par défaut on va au dernier point du tablea
-    let newIndexToFocus = this.docs.length - 1;
-
-    // S'il reste des éléments dans le tableaux, on focus sur le suivant
-    if (index < newIndexToFocus) {
-      newIndexToFocus = index;
-    }
-  }
-
   private stopLoading(
     loadingType: "delete" | "download",
     loadingRef: number
@@ -139,10 +129,6 @@ export class DisplayUsagerDocsComponent implements OnInit {
       const index = this.loadings[loadingType].indexOf(loadingRef);
       if (index !== -1) {
         this.loadings[loadingType].splice(index, 1);
-      }
-
-      if (loadingType === "delete") {
-        this.focusDeleteDoc(loadingRef);
       }
     }, 500);
   }

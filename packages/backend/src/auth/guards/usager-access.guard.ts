@@ -31,7 +31,7 @@ export class UsagerAccessGuard implements CanActivate {
       structureId,
     });
 
-    if (!usager || usager === null) {
+    if (!usager) {
       appLogger.error(`[UsagerAccessGuard] usager not found`, {
         sentry: true,
         context: {

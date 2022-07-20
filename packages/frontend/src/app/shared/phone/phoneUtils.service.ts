@@ -25,7 +25,6 @@ export function getFormPhone(formValue: ChangeData): Telephone {
 }
 
 export function setFormPhone(telephone: Telephone): ChangeData {
-  console.log(telephone);
   return {
     // eslint-disable-next-line id-denylist
     number: telephone.numero ? telephone.numero.replace(/\s/g, "") : "",
