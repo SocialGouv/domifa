@@ -4,7 +4,7 @@ import { Telephone, COUNTRY_CODES } from "../../../_common/model";
 
 export const phoneUtil = PhoneNumberUtil.getInstance();
 
-export const getPhoneString = (telephone: Telephone): string => {
+export const getPhoneString = (telephone?: Telephone): string => {
   if (!telephone) {
     return "";
   }
@@ -28,7 +28,9 @@ export function getFormPhone(formValue: ChangeData): Telephone {
     };
   }
   return {
-    numero: formValue?.number ? formValue?.number.replace(/\s/g, "") : "",
+    numero: formValue?.nationalNumber
+      ? formValue?.nationalNumber.replace(/\s/g, "")
+      : "",
     countryCode: formValue?.countryCode
       ? (formValue?.countryCode.toLowerCase() as CountryISO)
       : CountryISO.France,
@@ -43,12 +45,12 @@ export function setFormPhone(telephone: Telephone): ChangeData {
   };
   try {
     const parsedPhone = phoneUtil.parse(getPhoneString(telephone));
-    if (!phoneUtil.isValidNumber(parsedPhone)) {
+    if (!phoneUtil.isValidNumber(parsedPhone) || !parsedPhone) {
       return defaultReturn;
     }
     return {
       // eslint-disable-next-line id-denylist
-      number: parsedPhone.getNationalNumber().toString(),
+      number: parsedPhone.getNationalNumber()?.toString(),
       countryCode: telephone.countryCode,
     };
   } catch (e) {

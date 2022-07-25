@@ -43,11 +43,11 @@ export class DecisionValideFormComponent implements OnInit {
   >[];
 
   constructor(
-    private formBuilder: FormBuilder,
-    private usagerDecisionService: UsagerDecisionService,
-    private router: Router,
-    private nbgDate: NgbDateCustomParserFormatter,
-    private toastService: CustomToastService
+    private readonly formBuilder: FormBuilder,
+    private readonly usagerDecisionService: UsagerDecisionService,
+    private readonly router: Router,
+    private readonly nbgDate: NgbDateCustomParserFormatter,
+    private readonly toastService: CustomToastService
   ) {
     this.submitted = false;
     this.loading = false;
@@ -82,7 +82,7 @@ export class DecisionValideFormComponent implements OnInit {
       customRef: [this.usager.customRef],
     });
 
-    this.valideForm.get("dateDebut").valueChanges.subscribe((value) => {
+    this.valideForm.get("dateDebut")?.valueChanges.subscribe((value) => {
       if (value !== null && this.nbgDate.isValid(value)) {
         const newDateDebut = new Date(this.nbgDate.formatEn(value));
         const newDateFin = subDays(addYears(newDateDebut, 1), 1);
@@ -92,9 +92,9 @@ export class DecisionValideFormComponent implements OnInit {
       }
     });
 
-    this.valideForm.get("dateFin").valueChanges.subscribe((value) => {
+    this.valideForm.get("dateFin")?.valueChanges.subscribe((value) => {
       const dateDebut = new Date(
-        this.nbgDate.formatEn(this.valideForm.get("dateDebut").value)
+        this.nbgDate.formatEn(this.valideForm.get("dateDebut")?.value)
       );
 
       if (

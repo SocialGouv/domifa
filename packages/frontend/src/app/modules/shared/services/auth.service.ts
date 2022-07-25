@@ -18,7 +18,7 @@ import { CustomToastService } from "./custom-toast.service";
   providedIn: "root",
 })
 export class AuthService {
-  public currentUserSubject: BehaviorSubject<UserStructure>;
+  public currentUserSubject: BehaviorSubject<UserStructure | null>;
 
   private endPoint = environment.apiUrl + "structures/auth";
 
@@ -29,7 +29,9 @@ export class AuthService {
     private readonly userIdleService: UserIdleService
   ) {
     this.currentUserSubject = new BehaviorSubject<UserStructure | null>(
-      JSON.parse(localStorage.getItem("currentUser") || null)
+      localStorage.getItem("currentUser") !== null
+        ? JSON.parse(localStorage.getItem("currentUser") as string)
+        : null
     );
   }
 

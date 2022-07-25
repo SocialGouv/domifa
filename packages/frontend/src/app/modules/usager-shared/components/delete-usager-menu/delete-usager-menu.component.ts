@@ -36,11 +36,11 @@ export class DeleteUsagerMenuComponent implements OnInit {
   public loading: boolean;
 
   constructor(
-    private router: Router,
-    private modalService: NgbModal,
-    private usagerProfilService: UsagerProfilService,
-    private usagerDecisionService: UsagerDecisionService,
-    private toastService: CustomToastService
+    private readonly router: Router,
+    private readonly modalService: NgbModal,
+    private readonly usagerProfilService: UsagerProfilService,
+    private readonly usagerDecisionService: UsagerDecisionService,
+    private readonly toastService: CustomToastService
   ) {
     this.loading = false;
     this.hasHistorique = false;

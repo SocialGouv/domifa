@@ -59,7 +59,8 @@ export class ProfilEtatCivilFormComponent implements OnInit {
   public preferredCountries: CountryISO[] = PREFERRED_COUNTRIES;
 
   @Input() public usager: UsagerFormModel;
-  @Input() public me: UserStructure;
+  @Input() public me!: UserStructure;
+
   @Output() public usagerChanges = new EventEmitter<UsagerLight>();
 
   public usagerForm!: FormGroup;

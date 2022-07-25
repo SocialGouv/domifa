@@ -197,19 +197,13 @@ function addUsager({
 
   const isRadie = usager.decision?.statut === "RADIE";
 
-  searchPageLoadedUsagersData.usagersNonRadies =
-    searchPageLoadedUsagersData.usagersNonRadies
-      ? isRadie
-        ? searchPageLoadedUsagersData.usagersNonRadies
-        : searchPageLoadedUsagersData.usagersNonRadies.concat([usager])
-      : undefined;
+  searchPageLoadedUsagersData.usagersNonRadies = isRadie
+    ? searchPageLoadedUsagersData.usagersNonRadies
+    : searchPageLoadedUsagersData.usagersNonRadies.concat([usager]);
 
-  searchPageLoadedUsagersData.usagersRadiesFirsts =
-    searchPageLoadedUsagersData.usagersRadiesFirsts
-      ? !isRadie
-        ? searchPageLoadedUsagersData.usagersRadiesFirsts
-        : searchPageLoadedUsagersData.usagersRadiesFirsts.concat([usager])
-      : undefined;
+  searchPageLoadedUsagersData.usagersRadiesFirsts = isRadie
+    ? searchPageLoadedUsagersData.usagersRadiesFirsts.concat([usager])
+    : searchPageLoadedUsagersData.usagersRadiesFirsts;
 
   searchPageLoadedUsagersData.usagersRadiesTotalCount =
     searchPageLoadedUsagersData.usagersRadiesTotalCount +

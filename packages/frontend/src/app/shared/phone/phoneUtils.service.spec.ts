@@ -96,7 +96,7 @@ describe("Téléphones pour les formulaires", () => {
 
 describe("getPhoneString", () => {
   it("getPhoneString shoud return empty string if telephone is null or undefined", () => {
-    expect(getPhoneString(null)).toEqual("");
+    expect(getPhoneString(undefined)).toEqual("");
   });
 
   it("getPhoneString shoud return US indictaif", () => {
