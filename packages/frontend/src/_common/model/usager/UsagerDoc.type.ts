@@ -1,4 +1,5 @@
 export type UsagerDoc = {
+  createdAt: Date;
   createdBy: string;
   filetype: string;
   label: string;
