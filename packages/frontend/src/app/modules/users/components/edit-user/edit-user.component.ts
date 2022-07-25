@@ -1,3 +1,4 @@
+import { noWhiteSpace } from "./../../../../shared/validators/whitespace.validator";
 import { Component, OnInit } from "@angular/core";
 import {
   AbstractControl,
@@ -94,12 +95,18 @@ export class EditUserComponent implements OnInit {
 
     this.userForm = this.formBuilder.group({
       email: [
-        this.me.email,
+        this.me?.email,
         [Validators.pattern(regexp.email), Validators.required],
         this.validateEmailNotTaken.bind(this),
       ],
-      nom: [this.me.nom, Validators.required],
-      prenom: [this.me.prenom, Validators.required],
+      nom: [
+        this.me?.nom,
+        [Validators.required, Validators.minLength(2), noWhiteSpace],
+      ],
+      prenom: [
+        this.me?.prenom,
+        [Validators.required, Validators.minLength(2), noWhiteSpace],
+      ],
     });
   }
 
@@ -137,7 +144,7 @@ export class EditUserComponent implements OnInit {
         ],
       },
       {
-        validator: PasswordValidator.passwordMatchValidator,
+        validators: PasswordValidator.passwordMatchValidator,
       }
     );
   }

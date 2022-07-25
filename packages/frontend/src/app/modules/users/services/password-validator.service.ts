@@ -15,20 +15,20 @@ export class PasswordValidator {
     };
   }
 
-  public static passwordMatchValidator(control: AbstractControl) {
-    const password: string = control.get("password")?.value;
-    const confirmPassword: string = control.get("confirmPassword")?.value;
-    if (password !== confirmPassword) {
-      control.get("confirmPassword")?.setErrors({ NoPassswordMatch: true });
-    }
-  }
+  // public static passwordMatchValidator(control: AbstractControl) {
+  //   const password: string = control.get("password")?.value;
+  //   const confirmPassword: string = control.get("confirmPassword")?.value;
+  //   if (password !== confirmPassword) {
+  //     control.get("confirmPassword")?.setErrors({ NoPassswordMatch: true });
+  //   }
+  // }
 
   // TODO: basculer sur ce validateur car l'ancien est déprécié
-  // public static passwordMatchValidator: ValidatorFn = (
-  //   control: AbstractControl
-  // ): ValidationErrors | null => {
-  //   const password: string = control.get("password").value;
-  //   const confirmPassword: string = control.get("confirmPassword").value;
-  //   return password === confirmPassword ? null : { notmatched: true };
-  // };
+  public static passwordMatchValidator: ValidatorFn = (
+    control: AbstractControl
+  ): ValidationErrors | null => {
+    const password: string = control.get("password").value;
+    const confirmPassword: string = control.get("confirmPassword").value;
+    return password === confirmPassword ? null : { notmatched: true };
+  };
 }

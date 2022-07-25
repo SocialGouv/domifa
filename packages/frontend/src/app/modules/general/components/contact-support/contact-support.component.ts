@@ -12,6 +12,7 @@ import { CustomToastService } from "../../../shared/services/custom-toast.servic
 
 import { AuthService } from "../../../shared/services/auth.service";
 import { Title, Meta } from "@angular/platform-browser";
+import { noWhiteSpace } from "../../../../shared";
 
 @Component({
   selector: "app-contact-support",
@@ -72,15 +73,21 @@ export class ContactSupportComponent implements OnInit {
     this.me = this.authService.currentUserValue;
 
     this.contactForm = this.formBuilder.group({
-      content: ["", [Validators.required, Validators.minLength(10)]],
+      content: [
+        "",
+        [Validators.required, Validators.minLength(10), noWhiteSpace],
+      ],
       email: [email || null, [Validators.required, Validators.email]],
       file: [""],
       fileSource: ["", [validateUpload("STRUCTURE_DOC", false)]],
-      name: [name, [Validators.required, Validators.minLength(2)]],
+      name: [
+        name,
+        [Validators.required, Validators.minLength(2), noWhiteSpace],
+      ],
       structureId: [structureId, []],
       structureName: [
         structureName,
-        [Validators.required, Validators.minLength(2)],
+        [Validators.required, Validators.minLength(2), noWhiteSpace],
       ],
       userId: [userId, []],
     });

@@ -10,7 +10,7 @@ import { Title } from "@angular/platform-browser";
 import { of, Subject } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 import { UserStructure, StructureCommon } from "../../../../../_common/model";
-import { fadeInOut, regexp } from "../../../../shared";
+import { fadeInOut, noWhiteSpace, regexp } from "../../../../shared";
 
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { userStructureBuilder } from "../../../users/services";
@@ -75,7 +75,10 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
           this.validateEmailNotTaken.bind(this),
         ],
         fonction: [this.user.fonction, Validators.required],
-        nom: [this.user.nom, Validators.required],
+        nom: [
+          this.user.nom,
+          [Validators.required, Validators.minLength(2), noWhiteSpace],
+        ],
         password: [
           null,
           Validators.compose([
@@ -89,10 +92,13 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
             Validators.minLength(12),
           ]),
         ],
-        prenom: [this.user.prenom, Validators.required],
+        prenom: [
+          this.user.prenom,
+          [Validators.required, Validators.minLength(2), noWhiteSpace],
+        ],
       },
       {
-        validator: PasswordValidator.passwordMatchValidator,
+        validators: PasswordValidator.passwordMatchValidator,
       }
     );
   }

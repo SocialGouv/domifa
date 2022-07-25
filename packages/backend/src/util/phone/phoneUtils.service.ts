@@ -1,5 +1,6 @@
 import { COUNTRY_CODES, Telephone } from "../../_common/model/telephone";
 import { PhoneNumberFormat, PhoneNumberUtil } from "google-libphonenumber";
+export const phoneUtil = PhoneNumberUtil.getInstance();
 
 export const getPhoneString = (telephone: Telephone): string => {
   if (!telephone) {
@@ -8,7 +9,6 @@ export const getPhoneString = (telephone: Telephone): string => {
   if (telephone.numero === null || telephone.numero === "") {
     return "";
   }
-  const phoneUtil = PhoneNumberUtil.getInstance();
   const numero = phoneUtil.parse(
     telephone.numero,
     telephone.countryCode.toLowerCase()

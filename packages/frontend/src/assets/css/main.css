@@ -430,6 +430,16 @@ legend {
   border-bottom: 1px solid #eceffe;
 }
 
+.spinner {
+  font-size: 5rem;
+  color: var(--bs-primary);
+  -webkit-text-stroke-width: 25px;
+  stroke-width: 25px;
+  -webkit-text-stroke-color: white;
+  stroke: white;
+  display: block;
+  margin-bottom: 10px;
+}
 .skeleton:empty {
   border-radius: 4px;
   animation: loading 1s infinite linear;

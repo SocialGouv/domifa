@@ -14,6 +14,7 @@ import { fadeInOut } from "../../../../shared/animations";
 import { regexp } from "../../../../shared/constants/REGEXP.const";
 import { userStructureBuilder } from "../../services";
 import { UsersService } from "../../services/users.service";
+import { noWhiteSpace } from "../../../../shared";
 
 @Component({
   animations: [fadeInOut],
@@ -54,9 +55,15 @@ export class RegisterUserAdminComponent implements OnInit {
         [Validators.pattern(regexp.email), Validators.required],
         this.validateEmailNotTaken.bind(this),
       ],
-      nom: [this.user.nom, Validators.required],
+      nom: [
+        this.user.nom,
+        [Validators.required, Validators.minLength(2), noWhiteSpace],
+      ],
       role: [this.user.role, Validators.required],
-      prenom: [this.user.prenom, Validators.required],
+      prenom: [
+        this.user.prenom,
+        [Validators.required, Validators.minLength(2), noWhiteSpace],
+      ],
     });
   }
 
