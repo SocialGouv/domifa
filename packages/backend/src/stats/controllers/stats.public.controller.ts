@@ -1,14 +1,5 @@
 import { HomeStats } from "./../../_common/model/stats/HomeStats.type";
-import {
-  CACHE_MANAGER,
-  Controller,
-  Get,
-  HttpStatus,
-  Inject,
-  OnModuleInit,
-  Param,
-  Res,
-} from "@nestjs/common";
+import { Controller, Get, HttpStatus, Param, Res } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import {
   structureRepository,
@@ -18,31 +9,26 @@ import {
 import { DEFAULT_PUBLIC_STATS, PublicStats } from "../../_common/model";
 import { AdminStructuresService } from "../../_portail-admin/admin-structures/services";
 import { StructuresService } from "./../../structures/services/structures.service";
-import { Cache } from "cache-manager";
 import { ExpressResponse } from "../../util/express";
 import { REGIONS_ID_SEO } from "../../util/territoires";
 
 @Controller("stats")
 @ApiTags("stats")
-export class StatsPublicController implements OnModuleInit {
+export class StatsPublicController {
   constructor(
-    @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private readonly adminStructuresService: AdminStructuresService,
     private readonly structuresService: StructuresService
   ) {}
 
-  async onModuleInit(): Promise<void> {
-    await this.generatePublicStats("stats-nationales");
-  }
-
   @Get("home")
-  public async home(): Promise<PublicStats> {
-    const homeStats = (await this.cacheManager.get("home")) as PublicStats;
-    if (!homeStats) {
-      await this.generatePublicStats("stats-nationales");
-      return this.cacheManager.get("home");
-    }
-    return homeStats;
+  public async home(): Promise<HomeStats> {
+    return {
+      structures: await structureRepository.count(),
+      interactions: await this.adminStructuresService.totalInteractions(
+        "courrierIn"
+      ),
+      usagers: await usagerRepository.countTotalUsagers(),
+    };
   }
 
   @Get("public-stats/:regionId?")
@@ -56,33 +42,12 @@ export class StatsPublicController implements OnModuleInit {
         .json({ message: "CANNOT_COMPLETE_DOC" });
     }
 
-    const statsCacheKey = regionId ? "stats-" + regionId : "stats-nationales";
-    const statsInCache = await this.cacheManager.get(statsCacheKey);
-
-    // Récupération du cache
-    if (statsInCache) {
-      return res.status(HttpStatus.OK).json(statsInCache);
-    }
-
-    const publicStats = await this.generatePublicStats(statsCacheKey, regionId);
-
-    return res.status(HttpStatus.OK).json(publicStats);
+    return res
+      .status(HttpStatus.OK)
+      .json(await this.generatePublicStats(regionId));
   }
 
-  private async getHomeStats(): Promise<HomeStats> {
-    return {
-      structures: await structureRepository.count(),
-      interactions: await this.adminStructuresService.totalInteractions(
-        "courrierIn"
-      ),
-      usagers: await usagerRepository.countTotalUsagers(),
-    };
-  }
-
-  private async generatePublicStats(
-    statsCacheKey: string,
-    regionId?: string
-  ): Promise<PublicStats> {
+  private async generatePublicStats(regionId?: string): Promise<PublicStats> {
     const publicStats: PublicStats = {
       structuresCountByRegion: [],
       interactionsCountByMonth: [], // Par défaut: courriers distribués
@@ -129,15 +94,8 @@ export class StatsPublicController implements OnModuleInit {
         await this.adminStructuresService.getStructuresCountByRegion();
 
       publicStats.usersCount = await userStructureRepository.count();
-
-      // On rafraichit le cache de la homepage
-      const homeStats = await this.getHomeStats();
-
-      await this.cacheManager.set("home", homeStats, {
-        ttl: 86400,
-      });
     }
-    console.log("opkpokpokpokpok");
+
     // Usagers
     publicStats.usagersCount = await usagerRepository.countTotalUsagers(
       structures
@@ -158,9 +116,6 @@ export class StatsPublicController implements OnModuleInit {
     publicStats.usagersCountByMonth =
       await this.adminStructuresService.countUsagersByMonth(regionId);
 
-    await this.cacheManager.set(statsCacheKey, publicStats, {
-      ttl: 86400,
-    });
     return publicStats;
   }
 }

@@ -1,6 +1,6 @@
 import { PublicStats } from "./../../_common/model/stats/PublicStats.type";
 import { HomeStats } from "./../../_common/model/stats/HomeStats.type";
-import { CacheModule, forwardRef, HttpStatus } from "@nestjs/common";
+import { forwardRef, HttpStatus } from "@nestjs/common";
 import * as request from "supertest";
 
 import { InteractionsModule } from "../../interactions/interactions.module";
@@ -19,7 +19,6 @@ describe("Stats Public Controller", () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [StatsPublicController],
       imports: [
-        CacheModule.register(),
         forwardRef(() => AdminStructuresModule),
         forwardRef(() => UsersModule),
         forwardRef(() => StructuresModule),

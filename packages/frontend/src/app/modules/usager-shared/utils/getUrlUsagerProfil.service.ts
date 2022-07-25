@@ -1,7 +1,7 @@
 import { ETAPES_DEMANDE_URL } from "../../../../_common/model/usager/_constants";
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
 
-export const getUrlUsagerProfil = (usager: UsagerLight): string => {
+export const getUrlUsagerProfil = (usager?: UsagerLight): string => {
   if (usager && usager?.decision) {
     if (usager.decision.statut === "ATTENTE_DECISION") {
       // Retour à la page de décision

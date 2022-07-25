@@ -1,5 +1,5 @@
 export type UsagerLastInteractions = {
-  dateInteraction: Date;
+  dateInteraction: Date | null;
   enAttente: boolean;
   courrierIn: number;
   recommandeIn: number;

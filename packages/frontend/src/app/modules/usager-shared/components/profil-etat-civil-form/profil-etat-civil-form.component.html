@@ -236,13 +236,13 @@
           formControlName="nom"
           [ngClass]="{
             'is-invalid':
-              submitted && ayantsDroits.controls[i].get('nom').errors
+              submitted && ayantsDroits.controls[i].get('nom')?.errors
           }"
           placeholder="Nom de l'ayant droit"
           required
         />
         <div
-          *ngIf="submitted && ayantsDroits.controls[i].get('nom').errors"
+          *ngIf="submitted && ayantsDroits.controls[i].get('nom')?.errors"
           class="invalid-feedback"
         >
           Le nom est obligatoire
@@ -258,13 +258,13 @@
           formControlName="prenom"
           [ngClass]="{
             'is-invalid':
-              submitted && ayantsDroits.controls[i].get('prenom').errors
+              submitted && ayantsDroits.controls[i].get('prenom')?.errors
           }"
           placeholder="Prénom"
           required
         />
         <div
-          *ngIf="submitted && ayantsDroits.controls[i].get('prenom').errors"
+          *ngIf="submitted && ayantsDroits.controls[i].get('prenom')?.errors"
           class="invalid-feedback"
         >
           Le prénom est obligatoire
@@ -287,7 +287,7 @@
             [ngClass]="{
               'is-invalid':
                 submitted &&
-                ayantsDroits.controls[i].get('dateNaissance').errors
+                ayantsDroits.controls[i].get('dateNaissance')?.errors
             }"
             #d="ngbDatepicker"
             maxlength="10"
@@ -305,7 +305,7 @@
 
           <p
             *ngIf="
-              submitted && ayantsDroits.controls[i].get('dateNaissance').errors
+              submitted && ayantsDroits.controls[i].get('dateNaissance')?.errors
             "
             class="invalid-feedback"
           >
@@ -322,7 +322,7 @@
           required
           [ngClass]="{
             'is-invalid':
-              submitted && ayantsDroits.controls[i].get('lien').errors
+              submitted && ayantsDroits.controls[i].get('lien')?.errors
           }"
         >
           <option></option>
@@ -334,7 +334,7 @@
           </option>
         </select>
         <p
-          *ngIf="submitted && ayantsDroits.controls[i].get('lien').errors"
+          *ngIf="submitted && ayantsDroits.controls[i].get('lien')?.errors"
           class="invalid-feedback"
         >
           Le lien de parenté est obligatoire

@@ -18,22 +18,22 @@ export class Decision implements UsagerDecision {
   public statut: UsagerDecisionStatut;
   public statutLabel: string;
   // Motif de refus ou radiation
-  public motif?: UsagerDecisionMotif;
+  public motif: UsagerDecisionMotif | null;
   public motifDetails?: string;
 
   // Motif + détail
   public motifString: string;
 
   // Orientation si refus
-  public orientation?: UsagerDecisionOrientation;
-  public orientationDetails?: string;
+  public orientation: UsagerDecisionOrientation | null;
+  public orientationDetails: string | null;
 
-  public userId: number; // UserStructure.id
+  public userId: number | null; // UserStructure.id
   public userName: string; // UserStructure.nom / prenom
 
   constructor(decision?: UsagerDecision) {
-    this.uuid = decision?.uuid;
-    this.typeDom = decision?.typeDom;
+    this.uuid = decision && decision?.uuid;
+    this.typeDom = (decision && decision.typeDom) || "PREMIERE_DOM";
     this.dateDebut =
       decision && decision.dateDebut ? new Date(decision.dateDebut) : null;
     this.dateFin =

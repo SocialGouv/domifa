@@ -1,4 +1,3 @@
-import { WhiteSpaceValidator } from "./../../../../shared/validators/whitespace.validator";
 import {
   Component,
   ElementRef,
@@ -45,6 +44,7 @@ import {
 import {
   fadeInOut,
   languagesAutocomplete,
+  noWhiteSpace,
   setFormPhone,
 } from "../../../../shared";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
@@ -164,10 +164,7 @@ export class StepEtatCivilComponent implements OnInit {
       ],
       customRef: [this.usager.customRef, []],
       email: [this.usager.email, [Validators.email]],
-      nom: [
-        this.usager.nom,
-        [Validators.required, WhiteSpaceValidator.noWhiteSpace],
-      ],
+      nom: [this.usager.nom, [Validators.required, noWhiteSpace]],
       preference: this.formBuilder.group({
         contactByPhone: [
           this.usager.preference.contactByPhone,
@@ -179,10 +176,7 @@ export class StepEtatCivilComponent implements OnInit {
         ),
       }),
       telephone: new FormControl(setFormPhone(this.usager.telephone), null),
-      prenom: [
-        this.usager.prenom,
-        [Validators.required, WhiteSpaceValidator.noWhiteSpace],
-      ],
+      prenom: [this.usager.prenom, [Validators.required, noWhiteSpace]],
       sexe: [this.usager.sexe, Validators.required],
       surnom: [this.usager.surnom, []],
       villeNaissance: [this.usager.villeNaissance, [Validators.required]],

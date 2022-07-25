@@ -321,16 +321,33 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   }
 
   public updateUsager(usager: UsagerLight): void {
-    this.searchPageLoadedUsagersData$.next({
-      ...this.searchPageLoadedUsagersData$.value,
-      usagersNonRadies:
-        this.searchPageLoadedUsagersData$.value.usagersNonRadies.map((x) => {
-          if (x.ref === usager.ref) {
-            return usager;
+    const toNext =
+      usager.decision.statut !== "RADIE"
+        ? {
+            ...this.searchPageLoadedUsagersData$.value,
+            usagersNonRadies:
+              this.searchPageLoadedUsagersData$.value.usagersNonRadies.map(
+                (x) => {
+                  if (x.ref === usager.ref) {
+                    return usager;
+                  }
+                  return x;
+                }
+              ),
           }
-          return x;
-        }),
-    });
+        : {
+            ...this.searchPageLoadedUsagersData$.value,
+            usagersRadiesFirsts:
+              this.searchPageLoadedUsagersData$.value.usagersRadiesFirsts.map(
+                (x) => {
+                  if (x.ref === usager.ref) {
+                    return usager;
+                  }
+                  return x;
+                }
+              ),
+          };
+    this.searchPageLoadedUsagersData$.next(toNext);
   }
 
   public ngOnDestroy(): void {

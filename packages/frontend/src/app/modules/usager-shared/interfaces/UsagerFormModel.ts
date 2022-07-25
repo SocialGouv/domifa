@@ -36,7 +36,7 @@ export class UsagerFormModel implements UsagerLight {
   public langue: string;
 
   // Naissance
-  public dateNaissance: Date;
+  public dateNaissance: Date | null;
   public villeNaissance: string;
 
   // Infos de contact
@@ -46,7 +46,7 @@ export class UsagerFormModel implements UsagerLight {
   // Préférence d'envoi de notifs
   public preference: {
     contactByPhone: boolean;
-    telephone: Telephone | null;
+    telephone: Telephone;
   };
 
   public structureId: number | null;
@@ -65,7 +65,7 @@ export class UsagerFormModel implements UsagerLight {
   public decision: Decision;
 
   public typeDom: UsagerTypeDom; // PREMIERE / RENOUVELLEMENT
-  public datePremiereDom?: Date;
+  public datePremiereDom: Date;
   public import: UsagerImport | null;
 
   public lastInteraction: {

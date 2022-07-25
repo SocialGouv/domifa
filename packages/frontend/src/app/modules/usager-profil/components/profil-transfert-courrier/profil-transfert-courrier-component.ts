@@ -29,7 +29,7 @@ import {
 } from "../../../../../_common/model";
 import {
   endDateAfterBeginDateValidator,
-  WhiteSpaceValidator,
+  noWhiteSpace,
 } from "../../../../shared";
 import {
   formatDateToNgb,
@@ -116,15 +116,11 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
       {
         nom: [
           this.usager.options.transfert.nom,
-          [Validators.required, WhiteSpaceValidator.noWhiteSpace],
+          [Validators.required, noWhiteSpace],
         ],
         adresse: [
           this.usager.options.transfert.adresse,
-          [
-            Validators.required,
-            Validators.minLength(10),
-            WhiteSpaceValidator.noWhiteSpace,
-          ],
+          [Validators.required, Validators.minLength(10), noWhiteSpace],
         ],
         dateFin: [
           this.usager.options.transfert.dateFin
@@ -140,7 +136,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
         ],
       },
       {
-        validator: endDateAfterBeginDateValidator({
+        validators: endDateAfterBeginDateValidator({
           beginDateControlName: "dateDebut",
           endDateControlName: "dateFin",
         }),

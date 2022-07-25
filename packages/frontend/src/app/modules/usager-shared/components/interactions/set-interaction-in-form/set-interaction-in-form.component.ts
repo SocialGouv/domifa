@@ -35,7 +35,7 @@ export class SetInteractionInFormComponent implements OnInit {
   public updateInteractions = new EventEmitter<void>();
 
   @Output()
-  public usagerChange = new EventEmitter<UsagerFormModel>();
+  public usagerChanges = new EventEmitter<UsagerLight>();
 
   public interactionFormData: InteractionInForm;
 
@@ -97,6 +97,7 @@ export class SetInteractionInFormComponent implements OnInit {
       .setInteractionIn(this.usager.ref, interactionsToSave)
       .subscribe({
         next: () => {
+          console.log(this.usager.lastInteraction);
           this.toastService.success("Réception enregistrée avec succès");
           setTimeout(() => {
             this.refreshUsager();
@@ -114,7 +115,7 @@ export class SetInteractionInFormComponent implements OnInit {
     this.usagerService
       .findOne(this.usager.ref)
       .subscribe((usager: UsagerLight) => {
-        this.usagerChange.emit(new UsagerFormModel(usager));
+        this.usagerChanges.emit(usager);
         this.cancelReception.emit();
         this.updateInteractions.emit();
       });

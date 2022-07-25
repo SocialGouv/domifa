@@ -8,7 +8,7 @@ import {
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import { UsagerLight } from "../../../../../_common/model";
-import { WhiteSpaceValidator } from "../../../../shared";
+import { noWhiteSpace } from "../../../../shared";
 import { bounce } from "../../../../shared/animations";
 import { UsagerNotesService } from "../../services/usager-notes.service";
 
@@ -44,11 +44,7 @@ export class ProfilAddNoteFormComponent implements OnInit {
     this.addNoteForm = this.formBuilder.group({
       message: [
         null,
-        [
-          Validators.required,
-          WhiteSpaceValidator.noWhiteSpace,
-          Validators.maxLength(1000),
-        ],
+        [Validators.required, noWhiteSpace, Validators.maxLength(1000)],
       ],
     });
   }
@@ -69,7 +65,7 @@ export class ProfilAddNoteFormComponent implements OnInit {
     this.loading = true;
     this.usagerNotesService
       .createNote({
-        note: { message: this.addNoteForm.get("message").value },
+        note: { message: this.addNoteForm.get("message")?.value },
         usagerRef: this.usager.ref,
       })
       .subscribe({

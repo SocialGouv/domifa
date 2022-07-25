@@ -26,12 +26,13 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { UsagerLight } from "../../../../../_common/model";
 import {
   languagesAutocomplete,
+  noWhiteSpace,
   setFormPhone,
-  WhiteSpaceValidator,
 } from "../../../../shared";
 import {
   minDateNaissance,
   formatDateToNgb,
+  minDateToday,
 } from "../../../../shared/bootstrap-util";
 import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
 
@@ -94,7 +95,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
     this.submitted = false;
     this.loading = false;
     this.minDateNaissance = minDateNaissance;
-    this.maxDateNaissance = formatDateToNgb(new Date());
+    this.maxDateNaissance = minDateToday;
     this.usager = new UsagerFormModel();
   }
 
@@ -114,20 +115,14 @@ export class ProfilEtatCivilFormComponent implements OnInit {
       email: [this.usager.email, [Validators.email]],
       ref: [this.usager.ref, [Validators.required]],
       langue: [this.usager.langue, languagesAutocomplete.validator("langue")],
-      nom: [
-        this.usager.nom,
-        [Validators.required, WhiteSpaceValidator.noWhiteSpace],
-      ],
+      nom: [this.usager.nom, [Validators.required, noWhiteSpace]],
       telephone: new FormControl(setFormPhone(this.usager.telephone), null),
-      prenom: [
-        this.usager.prenom,
-        [Validators.required, WhiteSpaceValidator.noWhiteSpace],
-      ],
+      prenom: [this.usager.prenom, [Validators.required, noWhiteSpace]],
       sexe: [this.usager.sexe, Validators.required],
       surnom: [this.usager.surnom, []],
       villeNaissance: [
         this.usager.villeNaissance,
-        [Validators.required, WhiteSpaceValidator.noWhiteSpace],
+        [Validators.required, noWhiteSpace],
       ],
     });
 

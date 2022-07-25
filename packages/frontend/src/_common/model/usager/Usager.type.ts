@@ -48,7 +48,7 @@ export type Usager = AppEntity & {
 
   // INFOS DOMICILIATION
   typeDom: UsagerTypeDom;
-  datePremiereDom?: Date;
+  datePremiereDom: Date;
   import?: UsagerImport;
 
   // DECISIONS
