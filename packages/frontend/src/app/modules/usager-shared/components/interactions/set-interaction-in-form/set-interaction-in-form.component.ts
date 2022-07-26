@@ -27,6 +27,8 @@ import { InteractionService } from "../../../services/interaction.service";
 })
 export class SetInteractionInFormComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
+  @Output()
+  public usagerChange = new EventEmitter<UsagerFormModel>();
 
   @Output()
   public cancelReception = new EventEmitter<void>();
@@ -34,18 +36,15 @@ export class SetInteractionInFormComponent implements OnInit {
   @Output()
   public updateInteractions = new EventEmitter<void>();
 
-  @Output()
-  public usagerChanges = new EventEmitter<UsagerLight>();
-
   public interactionFormData: InteractionInForm;
 
   public content: string | null;
   public loading = false;
 
   constructor(
-    private interactionService: InteractionService,
-    private usagerService: UsagerService,
-    private toastService: CustomToastService
+    private readonly interactionService: InteractionService,
+    private readonly usagerService: UsagerService,
+    private readonly toastService: CustomToastService
   ) {
     this.interactionFormData = {
       courrierIn: {
@@ -97,7 +96,6 @@ export class SetInteractionInFormComponent implements OnInit {
       .setInteractionIn(this.usager.ref, interactionsToSave)
       .subscribe({
         next: () => {
-          console.log(this.usager.lastInteraction);
           this.toastService.success("Réception enregistrée avec succès");
           setTimeout(() => {
             this.refreshUsager();
@@ -115,7 +113,7 @@ export class SetInteractionInFormComponent implements OnInit {
     this.usagerService
       .findOne(this.usager.ref)
       .subscribe((usager: UsagerLight) => {
-        this.usagerChanges.emit(usager);
+        this.usagerChange.emit(new UsagerFormModel(usager));
         this.cancelReception.emit();
         this.updateInteractions.emit();
       });

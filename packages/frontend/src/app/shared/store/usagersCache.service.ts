@@ -25,7 +25,6 @@ export const usagersCache = {
       usagers,
     });
   },
-
   createUsager: (usager: UsagerLight) => {
     appStore.dispatch({
       type: "add-usager",

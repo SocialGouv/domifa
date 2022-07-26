@@ -9,14 +9,13 @@ export const mobilePhoneValidator = (
 
   try {
     const parsedValue = phoneUtil.parse(value.number, value.countryCode);
+    const error = { validatePhoneNumber: { valid: false } };
 
     if (phoneUtil.isValidNumber(parsedValue)) {
-      return phoneUtil.getNumberType(parsedValue) === 1
-        ? null
-        : { isNotMobile: true };
+      return phoneUtil.getNumberType(parsedValue) === 1 ? null : error;
     }
-    return { isNotMobile: true };
+    return error;
   } catch (e) {
-    return { isNotMobile: true };
+    return { validatePhoneNumber: { valid: false } };
   }
 };

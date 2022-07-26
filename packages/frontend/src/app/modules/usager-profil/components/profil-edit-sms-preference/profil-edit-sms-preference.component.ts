@@ -37,7 +37,8 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
 
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
-  @Output() usagerChanges = new EventEmitter<UsagerLight>();
+
+  @Output() usagerChange = new EventEmitter<UsagerFormModel>();
 
   public submitted: boolean;
   public loading: boolean;
@@ -127,9 +128,9 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
           this.loading = false;
           this.editPreferences = false;
           this.toastService.success("Enregistrement des préférences réussi");
-          this.usagerChanges.emit(usager);
           this.preferenceForm.reset();
           this.usager = new UsagerFormModel(usager);
+          this.usagerChange.emit(this.usager);
         },
         error: () => {
           this.loading = false;

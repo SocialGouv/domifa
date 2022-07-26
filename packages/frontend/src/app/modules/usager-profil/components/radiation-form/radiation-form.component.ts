@@ -43,11 +43,10 @@ export class RadiationFormComponent implements OnInit {
   public maxDate: NgbDateStruct;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private nbgDate: NgbDateCustomParserFormatter,
-
-    private usagerDecisionService: UsagerDecisionService,
-    private toastService: CustomToastService
+    private readonly formBuilder: FormBuilder,
+    private readonly nbgDate: NgbDateCustomParserFormatter,
+    private readonly usagerDecisionService: UsagerDecisionService,
+    private readonly toastService: CustomToastService
   ) {
     this.submitted = false;
     this.loading = false;

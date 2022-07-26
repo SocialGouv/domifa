@@ -30,8 +30,6 @@ const appStoreReducer = (
       };
     }
     case "update-usager": {
-      console.debug("");
-      console.debug("START ------ update-usager ");
       const usager = action.usager;
 
       // always update map
@@ -42,8 +40,6 @@ const appStoreReducer = (
       usagersByRefMap[usager.ref] = usager;
 
       if (state.searchPageLoadedUsagersData) {
-        console.log("state.searchPageLoadedUsagersData");
-        console.log(state.searchPageLoadedUsagersData);
         // first delete usager, then add-it, in case decision.status has changed
         const searchPageLoadedUsagersData = addUsager({
           initialData: deleteSearchPageLoadedUsagersDataUsager({
@@ -60,7 +56,6 @@ const appStoreReducer = (
           searchPageLoadedUsagersData,
         };
       } else {
-        console.log("state.searchPageLoadedUsagersData");
         return {
           ...state,
           usagersByRefMap,
@@ -189,8 +184,6 @@ function addUsager({
     ...initialData,
   };
 
-  console.warn("addUsager");
-
   const isRadie = usager.decision?.statut === "RADIE";
 
   searchPageLoadedUsagersData.usagersNonRadies =
@@ -206,11 +199,6 @@ function addUsager({
         ? searchPageLoadedUsagersData.usagersRadiesFirsts
         : searchPageLoadedUsagersData.usagersRadiesFirsts.concat([usager])
       : undefined;
-
-  console.log({
-    usagersNonRadies: searchPageLoadedUsagersData.usagersNonRadies.length,
-    usagersRadiesFirsts: searchPageLoadedUsagersData.usagersRadiesFirsts.length,
-  });
 
   searchPageLoadedUsagersData.usagersRadiesTotalCount =
     searchPageLoadedUsagersData.usagersRadiesTotalCount +
@@ -233,14 +221,6 @@ function deleteSearchPageLoadedUsagersDataUsager({
     ...initialData,
   };
 
-  console.warn("---- deleteSearchPageLoadedUsagersDataUsager");
-  console.log("---- AVANT");
-
-  console.log({
-    usagersNonRadies: searchPageLoadedUsagersData.usagersNonRadies.length,
-    usagersRadiesFirsts: searchPageLoadedUsagersData.usagersRadiesFirsts.length,
-  });
-
   searchPageLoadedUsagersData.usagersNonRadies =
     searchPageLoadedUsagersData.usagersNonRadies.filter((u) =>
       attributes.some((attr) => criteria[attr] !== u[attr])
@@ -250,13 +230,6 @@ function deleteSearchPageLoadedUsagersDataUsager({
     searchPageLoadedUsagersData.usagersRadiesFirsts.filter((u) =>
       attributes.some((attr) => criteria[attr] !== u[attr])
     );
-
-  console.log("---- APRES");
-
-  console.log({
-    usagersNonRadies: searchPageLoadedUsagersData.usagersNonRadies.length,
-    usagersRadiesFirsts: searchPageLoadedUsagersData.usagersRadiesFirsts.length,
-  });
 
   searchPageLoadedUsagersData.usagersRadiesTotalCount +=
     searchPageLoadedUsagersData.usagersRadiesFirsts.length -

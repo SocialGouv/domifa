@@ -10,6 +10,7 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { UsagerLight } from "../../../../../_common/model";
 import { noWhiteSpace } from "../../../../shared";
 import { bounce } from "../../../../shared/animations";
+import { UsagerFormModel } from "../../interfaces";
 import { UsagerNotesService } from "../../services/usager-notes.service";
 
 @Component({
@@ -22,10 +23,10 @@ export class ProfilAddNoteFormComponent implements OnInit {
   @Input() public usager!: UsagerLight;
 
   @Output()
-  public cancel = new EventEmitter();
+  public usagerChange = new EventEmitter<UsagerFormModel>();
 
   @Output()
-  public confirm = new EventEmitter();
+  public cancel = new EventEmitter();
 
   public addNoteForm!: FormGroup;
   public submitted: boolean;
@@ -69,13 +70,14 @@ export class ProfilAddNoteFormComponent implements OnInit {
         usagerRef: this.usager.ref,
       })
       .subscribe({
-        next: (usager) => {
+        next: (usager: UsagerLight) => {
           this.toastService.success("Note enregistrée avec succès");
           setTimeout(() => {
+            this.usagerChange.emit(new UsagerFormModel(usager));
             this.loading = false;
             this.submitted = false;
-            this.confirm.emit(usager);
-          }, 1000);
+            this.cancel.emit();
+          }, 500);
         },
         error: () => {
           this.loading = false;

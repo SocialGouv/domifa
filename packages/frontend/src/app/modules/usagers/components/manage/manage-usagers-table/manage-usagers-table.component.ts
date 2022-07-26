@@ -131,11 +131,12 @@ export class ManageUsagersTableComponent implements OnInit {
     };
 
     this.matomo.trackEvent("MANAGE_USAGERS", "click", interactionType[type], 1);
-
+    console.info("Call to setInteractionIn");
     this.interactionService
       .setInteractionIn(usager.ref, [interaction])
       .subscribe({
         next: (newUsager: UsagerLight) => {
+          console.info("RESPONSE OF setInteractionIn");
           this.updateUsager.emit(newUsager);
 
           this.toastService.success(INTERACTIONS_LABELS_SINGULIER[type]);

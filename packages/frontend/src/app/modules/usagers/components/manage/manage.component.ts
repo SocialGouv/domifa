@@ -134,10 +134,10 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   public sortLabel = "échéance";
 
   constructor(
-    private usagerService: UsagerService,
-    private authService: AuthService,
-    private toastService: CustomToastService,
-    private titleService: Title,
+    private readonly usagerService: UsagerService,
+    private readonly authService: AuthService,
+    private readonly toastService: CustomToastService,
+    private readonly titleService: Title,
     public matomo: MatomoTracker
   ) {
     this.allUsagersByStatus = {
@@ -291,9 +291,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
         ),
         this.allUsagersByStatus$,
       ]).subscribe(([filters, allUsagersByStatus]) => {
-        // setTimeout(() => {
         this.applyFilters({ filters, allUsagersByStatus });
-        // }, 0);
       })
     );
   }
@@ -524,20 +522,13 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     });
 
     this.nbResults = filteredUsagers.length;
-    if (filters.page === 0) {
-      this.usagers = filteredUsagers
-        .slice(0, this.pageSize)
-        .map((item) => new UsagerFormModel(item, filters));
-    } else {
-      this.usagers = this.usagers.concat(
-        filteredUsagers
-          .slice(
-            filters.page * this.pageSize,
-            filters.page * this.pageSize + 40
-          )
-          .map((item) => new UsagerFormModel(item, filters))
-      );
-    }
+
+    this.usagers = filteredUsagers
+      .slice(
+        0,
+        filters.page === 0 ? this.pageSize : filters.page * this.pageSize
+      )
+      .map((item: UsagerLight) => new UsagerFormModel(item, filters));
 
     this.searching = false;
 

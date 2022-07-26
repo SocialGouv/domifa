@@ -443,9 +443,8 @@
         <div class="col-md-6">
           <h4>Notes</h4>
           <app-profil-general-notes
-            [usager]="usager"
+            [(usager)]="usager"
             [me]="me"
-            (usagerChanges)="onUsagerChanges($event)"
           ></app-profil-general-notes>
 
           <button
@@ -468,15 +467,14 @@
 
 <ng-template #addNoteInModal let-modal>
   <app-profil-add-note-form
-    [usager]="usager"
-    (confirm)="onUsagerChanges($event); closeModals()"
+    [(usager)]="usager"
     (cancel)="closeModals()"
   ></app-profil-add-note-form>
 </ng-template>
 
 <ng-template #setInteractionInModal let-modal>
   <app-set-interaction-in-form
-    [usager]="usager"
+    [(usager)]="usager"
     (cancelReception)="closeModals()"
     (updateInteractions)="updateInteractions()"
   ></app-set-interaction-in-form>
@@ -484,7 +482,7 @@
 
 <ng-template #setInteractionOutModal let-modal>
   <app-set-interaction-out-form
-    [usager]="usager"
+    [(usager)]="usager"
     (cancelReception)="closeModals()"
     (updateInteractions)="updateInteractions()"
   ></app-set-interaction-out-form>

@@ -84,8 +84,8 @@
       *ngIf="formPref.contactByPhone.value === true"
     >
       <label for="telephone"
-        >À quel numéro de téléphone ? (Numéro de portable uniquement)</label
-      >
+        >À quel numéro de téléphone ? (Numéro de portable uniquement)
+      </label>
       <ngx-intl-tel-input
         [cssClass]="
           submitted && (formPref.telephone.errors || formPref.telephone.invalid)
@@ -93,7 +93,7 @@
             : 'form-control'
         "
         [preferredCountries]="preferredCountries"
-        [enableAutoCountrySelect]="true"
+        [enableAutoCountrySelect]="false"
         [enablePlaceholder]="true"
         [searchCountryFlag]="true"
         searchCountryPlaceholder="Choisissez votre pays"
@@ -106,7 +106,8 @@
         [phoneValidation]="true"
         [separateDialCode]="true"
         [inputId]="'telephone'"
-        [numberFormat]="PhoneNumberFormat.National"
+        [numberFormat]="PhoneNumberFormat.International"
+        name="telephone"
         formControlName="telephone"
       ></ngx-intl-tel-input>
       <p

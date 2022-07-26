@@ -3,9 +3,8 @@
     <h2 class="form-title">Commentaires privés</h2>
     <div class="py-3">
       <app-profil-general-notes
-        [usager]="usager"
+        [(usager)]="usager"
         [me]="me"
-        (usagerChanges)="onUsagerChanges($event)"
       ></app-profil-general-notes>
     </div>
     <button
@@ -20,8 +19,7 @@
 
 <ng-template #addNoteInModal let-modal>
   <app-profil-add-note-form
-    [usager]="usager"
-    (confirm)="onUsagerChanges($event); closeModals()"
+    [(usager)]="usager"
     (cancel)="closeModals()"
   ></app-profil-add-note-form>
 </ng-template>

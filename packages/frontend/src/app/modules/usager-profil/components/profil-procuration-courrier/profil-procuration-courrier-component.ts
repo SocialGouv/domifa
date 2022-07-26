@@ -59,9 +59,8 @@ import { UsagerOptionsService } from "../../services/usager-options.service";
 })
 export class UsagersProfilProcurationCourrierComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
+  @Output() usagerChange = new EventEmitter<UsagerFormModel>();
   @Input() public me!: UserStructure;
-
-  @Output() usagerChanges = new EventEmitter<UsagerLight>();
 
   @ViewChildren("procurationNom") inputsProcurations!: QueryList<ElementRef>;
 
@@ -205,8 +204,8 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
       .subscribe({
         next: (usager: UsagerLight) => {
           this.hideForm();
-          this.usagerChanges.emit(usager);
           this.usager = new UsagerFormModel(usager);
+          this.usagerChange.emit(this.usager);
           this.toastService.success("Procuration modifiée avec succès");
           this.matomo.trackEvent("profil", "actions", "edit_procuration", 1);
         },
@@ -251,9 +250,9 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
           setTimeout(() => {
             this.closeModals();
             this.hideForm();
-            this.usagerChanges.emit(usager);
             this.procurationsForm.reset();
             this.usager = new UsagerFormModel(usager);
+            this.usagerChange.emit(this.usager);
             this.matomo.trackEvent(
               "profil",
               "actions",

@@ -301,8 +301,7 @@
 
 <ng-template #addNoteInModal let-modal>
   <app-profil-add-note-form
-    [usager]="usager"
-    (confirm)="onUsagerChanges($event); closeModals()"
+    [(usager)]="usager"
     (cancel)="closeModals()"
   ></app-profil-add-note-form>
 </ng-template>
