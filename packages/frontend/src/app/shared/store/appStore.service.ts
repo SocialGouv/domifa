@@ -30,6 +30,8 @@ const appStoreReducer = (
       };
     }
     case "update-usager": {
+      console.debug("");
+      console.debug("START ------ update-usager ");
       const usager = action.usager;
 
       // always update map
@@ -40,6 +42,8 @@ const appStoreReducer = (
       usagersByRefMap[usager.ref] = usager;
 
       if (state.searchPageLoadedUsagersData) {
+        console.log("state.searchPageLoadedUsagersData");
+        console.log(state.searchPageLoadedUsagersData);
         // first delete usager, then add-it, in case decision.status has changed
         const searchPageLoadedUsagersData = addUsager({
           initialData: deleteSearchPageLoadedUsagersDataUsager({
@@ -56,6 +60,7 @@ const appStoreReducer = (
           searchPageLoadedUsagersData,
         };
       } else {
+        console.log("state.searchPageLoadedUsagersData");
         return {
           ...state,
           usagersByRefMap,
@@ -77,6 +82,7 @@ const appStoreReducer = (
       if (state.searchPageLoadedUsagersData) {
         // first delete usager, then add-it, in case decision.status has changed
         let searchPageLoadedUsagersData = state.searchPageLoadedUsagersData;
+
         usagers.forEach((usager) => {
           searchPageLoadedUsagersData = addUsager({
             initialData: deleteSearchPageLoadedUsagersDataUsager({
@@ -100,19 +106,7 @@ const appStoreReducer = (
         };
       }
     }
-    case "update-usager-interactions": {
-      const { usagerRef, interactions } = action;
-      // update map
-      const interactionsByRefMap = {
-        ...state.interactionsByRefMap,
-      };
 
-      interactionsByRefMap[usagerRef] = interactions;
-      return {
-        ...state,
-        interactionsByRefMap,
-      };
-    }
     case "delete-usager": {
       const criteria = action.criteria;
       const attributes = Object.keys(criteria);
@@ -195,15 +189,28 @@ function addUsager({
     ...initialData,
   };
 
+  console.warn("addUsager");
+
   const isRadie = usager.decision?.statut === "RADIE";
 
-  searchPageLoadedUsagersData.usagersNonRadies = isRadie
-    ? searchPageLoadedUsagersData.usagersNonRadies
-    : searchPageLoadedUsagersData.usagersNonRadies.concat([usager]);
+  searchPageLoadedUsagersData.usagersNonRadies =
+    searchPageLoadedUsagersData.usagersNonRadies
+      ? isRadie
+        ? searchPageLoadedUsagersData.usagersNonRadies
+        : searchPageLoadedUsagersData.usagersNonRadies.concat([usager])
+      : undefined;
 
-  searchPageLoadedUsagersData.usagersRadiesFirsts = isRadie
-    ? searchPageLoadedUsagersData.usagersRadiesFirsts.concat([usager])
-    : searchPageLoadedUsagersData.usagersRadiesFirsts;
+  searchPageLoadedUsagersData.usagersRadiesFirsts =
+    searchPageLoadedUsagersData.usagersRadiesFirsts
+      ? !isRadie
+        ? searchPageLoadedUsagersData.usagersRadiesFirsts
+        : searchPageLoadedUsagersData.usagersRadiesFirsts.concat([usager])
+      : undefined;
+
+  console.log({
+    usagersNonRadies: searchPageLoadedUsagersData.usagersNonRadies.length,
+    usagersRadiesFirsts: searchPageLoadedUsagersData.usagersRadiesFirsts.length,
+  });
 
   searchPageLoadedUsagersData.usagersRadiesTotalCount =
     searchPageLoadedUsagersData.usagersRadiesTotalCount +
@@ -226,14 +233,30 @@ function deleteSearchPageLoadedUsagersDataUsager({
     ...initialData,
   };
 
+  console.warn("---- deleteSearchPageLoadedUsagersDataUsager");
+  console.log("---- AVANT");
+
+  console.log({
+    usagersNonRadies: searchPageLoadedUsagersData.usagersNonRadies.length,
+    usagersRadiesFirsts: searchPageLoadedUsagersData.usagersRadiesFirsts.length,
+  });
+
   searchPageLoadedUsagersData.usagersNonRadies =
     searchPageLoadedUsagersData.usagersNonRadies.filter((u) =>
       attributes.some((attr) => criteria[attr] !== u[attr])
     );
+
   searchPageLoadedUsagersData.usagersRadiesFirsts =
     searchPageLoadedUsagersData.usagersRadiesFirsts.filter((u) =>
       attributes.some((attr) => criteria[attr] !== u[attr])
     );
+
+  console.log("---- APRES");
+
+  console.log({
+    usagersNonRadies: searchPageLoadedUsagersData.usagersNonRadies.length,
+    usagersRadiesFirsts: searchPageLoadedUsagersData.usagersRadiesFirsts.length,
+  });
 
   searchPageLoadedUsagersData.usagersRadiesTotalCount +=
     searchPageLoadedUsagersData.usagersRadiesFirsts.length -

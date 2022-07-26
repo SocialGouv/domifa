@@ -12,6 +12,6 @@ export type UsagerEtatCivilFormData = {
   customRef: string;
   email: string;
   telephone: Telephone;
-  preference?: UsagerPreferenceContact;
+  preference: UsagerPreferenceContact;
   ayantsDroits: UsagerAyantDroit[];
 };

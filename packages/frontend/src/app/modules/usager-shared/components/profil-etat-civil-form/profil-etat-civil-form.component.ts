@@ -179,6 +179,8 @@ export class ProfilEtatCivilFormComponent implements OnInit {
       this.usagerForm.value
     );
 
+    formValue.preference = this.usager.preference;
+
     this.etatCivilService.patchEtatCivil(this.usager.ref, formValue).subscribe({
       next: (usager: UsagerLight) => {
         this.editInfosChange.emit(false);

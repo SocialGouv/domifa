@@ -143,7 +143,7 @@ export class CronSmsFetchEndDomService {
         await messageSmsRepository.upsertEndDom({
           usagerRef: usager.ref,
           structureId: usager.structureId,
-          content: `Bonjour, \n\nVotre domiciliation expire dans 2 mois, nous vous invitons à vous rendre dans votre structure.\n\n${structure.sms.senderDetails}`,
+          content: `Bonjour,\n\nVotre domiciliation expire dans 2 mois, nous vous invitons à vous rendre dans votre structure.\n\n${structure.sms.senderDetails}`,
           smsId: "echeanceDeuxMois",
           status: "TO_SEND",
           errorCount: 0,

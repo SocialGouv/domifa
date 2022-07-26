@@ -1,5 +1,4 @@
 import { UsagerLight } from "../../../_common/model";
-import { Interaction } from "../../modules/usager-shared/interfaces";
 import { SearchPageLoadedUsagersData } from "./AppStoreModel.type";
 
 export type AppStoreAction =
@@ -14,11 +13,6 @@ export type AppStoreAction =
   | {
       type: "update-usager";
       usager: UsagerLight;
-    }
-  | {
-      type: "update-usager-interactions";
-      usagerRef: number;
-      interactions: Interaction[];
     }
   | {
       type: "delete-usager";
