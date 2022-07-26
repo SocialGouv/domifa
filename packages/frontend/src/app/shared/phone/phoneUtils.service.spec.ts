@@ -56,12 +56,22 @@ describe("Téléphones pour les formulaires", () => {
       })
     ).toEqual({ countryCode: "fr", number: "606060606" });
 
+    // Mayotte
     expect(
       setFormPhone({
         countryCode: CountryISO.Mayotte,
         numero: "269 63 50 00",
       })
     ).toEqual({ countryCode: "yt", number: "269635000" });
+
+    // Réunion
+    // Même indicatif que Mayotte + 262
+    expect(
+      setFormPhone({
+        countryCode: CountryISO.Réunion,
+        numero: " 262 39/ 50.50",
+      })
+    ).toEqual({ countryCode: "re", number: "262395050" });
 
     expect(
       setFormPhone({
@@ -77,12 +87,6 @@ describe("Téléphones pour les formulaires", () => {
       })
     ).toEqual({ countryCode: "mq", number: "596666888" });
 
-    expect(
-      setFormPhone({
-        countryCode: CountryISO.Réunion,
-        numero: " 262 39/ 50.50",
-      })
-    ).toEqual({ countryCode: "re", number: "262395050" });
     expect(
       setFormPhone({
         countryCode: CountryISO.FrenchGuiana,

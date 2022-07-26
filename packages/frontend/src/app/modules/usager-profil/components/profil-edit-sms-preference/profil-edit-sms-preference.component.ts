@@ -22,6 +22,7 @@ import { UsagerProfilService } from "../../services/usager-profil.service";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
 import { getFormPhone, setFormPhone } from "../../../../shared";
+import { mobilePhoneValidator } from "../../../../shared/validators/mobilePhone.validator";
 
 @Component({
   selector: "app-profil-edit-sms-preference",
@@ -37,6 +38,7 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
   @Output() usagerChanges = new EventEmitter<UsagerLight>();
+
   public submitted: boolean;
   public loading: boolean;
   public preferenceForm!: FormGroup;
@@ -53,9 +55,17 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
     this.editPreferences = false;
   }
 
-  public ngOnInit(): void {
+  public ngOnInit(): void {}
+
+  public togglePreferences(): void {
+    this.editPreferences = !this.editPreferences;
+    if (this.editPreferences) {
+      this.initForm();
+    }
+  }
+  public initForm(): void {
     const telephoneValidator = this.usager.preference.contactByPhone
-      ? [Validators.required]
+      ? [Validators.required, mobilePhoneValidator]
       : null;
 
     this.preferenceForm = this.formBuilder.group({
@@ -118,6 +128,7 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
           this.editPreferences = false;
           this.toastService.success("Enregistrement des préférences réussi");
           this.usagerChanges.emit(usager);
+          this.preferenceForm.reset();
           this.usager = new UsagerFormModel(usager);
         },
         error: () => {

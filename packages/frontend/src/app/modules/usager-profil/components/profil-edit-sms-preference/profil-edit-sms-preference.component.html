@@ -7,7 +7,7 @@
       title="Modifier les préférences"
       class="btn btn-outline-dark"
       *ngIf="!editPreferences"
-      (click)="editPreferences = true"
+      (click)="togglePreferences()"
     >
       <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
       Modifier les préférences
@@ -16,7 +16,7 @@
       title="Annuler les modifications"
       class="btn btn-outline-dark"
       *ngIf="editPreferences"
-      (click)="editPreferences = false"
+      (click)="togglePreferences()"
     >
       <fa-icon [icon]="['fas', 'times']" class="me-2"></fa-icon>
       Annuler les modifications
@@ -115,11 +115,8 @@
         "
         class="invalid-feedback-custom"
       >
-        Veuillez vérifier le numéro de téléphone
+        Veuillez un numéro de téléphone portable valide
       </p>
-      <small id="phoneHelp" class="d-block form-text text-muted"
-        >Optionnel</small
-      >
     </div>
   </div>
 
