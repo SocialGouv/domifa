@@ -94,8 +94,6 @@ describe("Téléphones pour les formulaires", () => {
       })
     ).toEqual({ countryCode: "gf", number: "594397070" });
   });
-
-  //
 });
 
 describe("getPhoneString", () => {
