@@ -27,6 +27,10 @@ export const anyPhoneValidator = (
   if (!value) {
     return null;
   }
+  if (!value.number || value.number === "") {
+    return null;
+  }
+
   try {
     const parsedValue = phoneUtil.parse(value.number, value.countryCode);
     return phoneUtil.isValidNumber(parsedValue)

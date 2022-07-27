@@ -1,3 +1,4 @@
+import { Telephone } from "./../../../../../_common/model/telephone/Telephone.type";
 import {
   Component,
   ElementRef,
@@ -39,6 +40,7 @@ import {
   UserStructure,
   LIEN_PARENTE_LABELS,
   UsagerEtatCivilFormData,
+  PHONE_PLACEHOLDERS,
 } from "../../../../../_common/model";
 import {
   anyPhoneValidator,
@@ -55,6 +57,7 @@ import { UsagerDossierService } from "../../services/usager-dossier.service";
 import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
 import { getEtatCivilForm } from "../../../usager-shared/utils";
 import { Observable } from "rxjs";
+import { Country } from "ngx-intl-tel-input/lib/model/country.model";
 
 @Component({
   animations: [fadeInOut],
@@ -86,6 +89,8 @@ export class StepEtatCivilComponent implements OnInit {
     month: this.dToday.getMonth() + 1,
     year: this.dToday.getFullYear() + 2,
   };
+
+  public mobilePhonePlaceHolder: string;
 
   public usager!: UsagerFormModel;
 
@@ -123,7 +128,7 @@ export class StepEtatCivilComponent implements OnInit {
     private readonly titleService: Title
   ) {
     this.doublons = [];
-
+    this.mobilePhonePlaceHolder = "";
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
@@ -157,8 +162,8 @@ export class StepEtatCivilComponent implements OnInit {
       this.usager.telephone.numero === "" ||
       this.usager.telephone.numero === null
     ) {
-      this.usager.telephone.countryCode = this.authService.currentUserValue
-        ?.structure.telephone.countryCode as CountryISO;
+      this.usager.telephone.countryCode = (this.authService.currentUserValue
+        ?.structure.telephone.countryCode || "fr") as CountryISO;
     }
 
     const telephonePreference =
@@ -223,6 +228,15 @@ export class StepEtatCivilComponent implements OnInit {
             )
           );
 
+        this.mobilePhonePlaceHolder = "";
+        const prefValue = this.usagerForm.get("preference").get("telephone")
+          .value as Telephone;
+
+        if (typeof PHONE_PLACEHOLDERS[prefValue?.countryCode] !== "undefined") {
+          this.mobilePhonePlaceHolder =
+            PHONE_PLACEHOLDERS[prefValue?.countryCode];
+        }
+
         this.usagerForm
           .get("preference")
           .get("telephone")
@@ -233,6 +247,15 @@ export class StepEtatCivilComponent implements OnInit {
           .get("telephone")
           .updateValueAndValidity();
       });
+  }
+
+  public updatePlaceHolder(country: Country) {
+    if (typeof PHONE_PLACEHOLDERS[country.iso2] !== "undefined") {
+      this.mobilePhonePlaceHolder =
+        PHONE_PLACEHOLDERS[country.iso2.toLowerCase()];
+    } else {
+      this.mobilePhonePlaceHolder = "";
+    }
   }
 
   public isDoublon(): boolean {

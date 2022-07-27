@@ -505,7 +505,7 @@
                 [enableAutoCountrySelect]="false"
                 [enablePlaceholder]="true"
                 [searchCountryFlag]="true"
-                [customPlaceholder]="'0606060606'"
+                [customPlaceholder]="mobilePhonePlaceHolder"
                 searchCountryPlaceholder="Choisissez votre pays"
                 [searchCountryField]="[
                   SearchCountryField.Iso2,
@@ -519,6 +519,7 @@
                 [inputId]="'telephoneSms'"
                 name="telephone"
                 formControlName="telephone"
+                (countryChange)="updatePlaceHolder($event)"
                 [selectedCountryISO]="
                   f.preference.get('telephone')?.value?.countryCode
                 "

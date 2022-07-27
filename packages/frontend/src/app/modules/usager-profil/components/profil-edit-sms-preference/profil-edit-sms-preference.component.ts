@@ -12,6 +12,8 @@ import {
 } from "ngx-intl-tel-input";
 
 import {
+  PHONE_PLACEHOLDERS,
+  Telephone,
   UsagerLight,
   UsagerPreferenceContact,
   UserStructure,
@@ -23,6 +25,7 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
 import { getFormPhone, setFormPhone } from "../../../../shared";
 import { mobilePhoneValidator } from "../../../../shared/validators/mobilePhone.validator";
+import { Country } from "ngx-intl-tel-input/lib/model/country.model";
 
 @Component({
   selector: "app-profil-edit-sms-preference",
@@ -45,6 +48,7 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
   public preferenceForm!: FormGroup;
 
   public editPreferences: boolean;
+  public mobilePhonePlaceHolder: string;
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -54,6 +58,7 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
     this.loading = false;
     this.submitted = false;
     this.editPreferences = false;
+    this.mobilePhonePlaceHolder = "";
   }
 
   public ngOnInit(): void {}
@@ -98,6 +103,15 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
           ? [Validators.required, mobilePhoneValidator]
           : null;
 
+        this.mobilePhonePlaceHolder = "";
+        const prefValue = this.preferenceForm.get("telephone")
+          .value as Telephone;
+
+        if (typeof PHONE_PLACEHOLDERS[prefValue?.countryCode] !== "undefined") {
+          this.mobilePhonePlaceHolder =
+            PHONE_PLACEHOLDERS[prefValue?.countryCode];
+        }
+
         this.preferenceForm.get("telephone").setValidators(isRequiredTelephone);
         this.preferenceForm.get("telephone").updateValueAndValidity();
       });
@@ -105,6 +119,15 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
 
   get formPref() {
     return this.preferenceForm.controls;
+  }
+
+  public updatePlaceHolder(country: Country) {
+    if (typeof PHONE_PLACEHOLDERS[country.iso2] !== "undefined") {
+      this.mobilePhonePlaceHolder =
+        PHONE_PLACEHOLDERS[country.iso2.toLowerCase()];
+    } else {
+      this.mobilePhonePlaceHolder = "";
+    }
   }
 
   public isRole(role: UserStructureRole): boolean {

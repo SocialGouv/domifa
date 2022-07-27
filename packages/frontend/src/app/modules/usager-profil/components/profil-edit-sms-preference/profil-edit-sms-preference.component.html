@@ -96,7 +96,8 @@
         [enableAutoCountrySelect]="false"
         [enablePlaceholder]="true"
         [searchCountryFlag]="true"
-        [customPlaceholder]="'0606060606'"
+        [customPlaceholder]="mobilePhonePlaceHolder"
+        (countryChange)="updatePlaceHolder($event)"
         searchCountryPlaceholder="Choisissez votre pays"
         [searchCountryField]="[
           SearchCountryField.Iso2,

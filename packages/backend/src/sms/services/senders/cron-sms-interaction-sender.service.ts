@@ -27,8 +27,9 @@ export class CronSmsInteractionSenderService {
   @Cron(domifaConfig().cron.smsConsumer.crontime, {
     timeZone: "America/Martinique",
   })
-  protected async sendSmsMartinique() {
+  protected async sendSmsMartiniqueAndGuadeloupe() {
     await this.sendSmsInteraction("cron", "America/Martinique");
+    await this.sendSmsInteraction("cron", "America/Guadeloupe");
   }
 
   @Cron(domifaConfig().cron.smsConsumer.crontime, {

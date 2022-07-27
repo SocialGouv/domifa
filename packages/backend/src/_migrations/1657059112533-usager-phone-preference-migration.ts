@@ -42,6 +42,7 @@ export class migratePhonePreferenceMigration1657059112533
       console.log(usagers.length + " usagers concernés par la migration");
 
       const codes: { [key in TimeZone]: number } = {
+        "America/Guadeloupe": 0,
         "America/Martinique": 0,
         "America/Cayenne": 0,
         "Indian/Reunion": 0,

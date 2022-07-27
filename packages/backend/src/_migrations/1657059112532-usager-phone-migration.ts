@@ -37,6 +37,7 @@ export class migratePhoneNumberUsagerMigration1657059112532
       );
 
       const codes: { [key in TimeZone]: number } = {
+        "America/Guadeloupe": 0,
         "America/Martinique": 0,
         "America/Cayenne": 0,
         "Indian/Reunion": 0,
