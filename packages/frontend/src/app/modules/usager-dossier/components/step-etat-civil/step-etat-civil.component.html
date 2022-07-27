@@ -32,7 +32,6 @@
       <form
         [formGroup]="usagerForm"
         (ngSubmit)="submitInfos()"
-        ngNativeValidate
         autocomplete="off"
       >
         <h2 class="form-title">État civil du demandeur</h2>
@@ -193,7 +192,7 @@
           <div class="row">
             <div class="col">
               <div class="form-group">
-                <label for="telephone">Numéro de téléphone</label>
+                <label for="telephone">Numéro de téléphone (Optionnel)</label>
                 <ngx-intl-tel-input
                   [cssClass]="
                     submitted && (f.telephone.errors || f.telephone.invalid)
@@ -216,34 +215,32 @@
                   [inputId]="'telephone'"
                   name="telephone"
                   formControlName="telephone"
-                  [selectedCountryISO]="selectedCountryISO"
+                  [selectedCountryISO]="usager.telephone.countryCode"
                 ></ngx-intl-tel-input>
+
                 <p
                   *ngIf="submitted && f.telephone.errors"
-                  class="invalid-feedback"
+                  class="invalid-feedback-custom"
                 >
                   Le numéro de téléphone est incorrect
                 </p>
-                <small id="phoneHelp" class="d-block form-text text-muted">
-                  Optionnel
-                </small>
               </div>
             </div>
             <div class="col">
               <div class="form-group">
-                <label for="email">Adresse e-mail</label>
+                <label for="email">Adresse e-mail (Optionnel)</label>
                 <input
                   type="email"
                   class="form-control"
                   id="email"
                   formControlName="email"
-                  aria-describedby="emailHelp"
                   [ngClass]="{ 'is-invalid': f.email.errors }"
                   placeholder="adresse@mail.com"
                 />
-                <small id="emailHelp" class="form-text text-muted">
-                  Optionnel
-                </small>
+                <p *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                  Veuillez saisir une adresse e-mail valide. Par exemple :
+                  john.doe@domifa.fr
+                </p>
               </div>
             </div>
           </div>

@@ -75,6 +75,14 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
         ? this.usager.preference.telephone
         : this.usager.telephone;
 
+    if (
+      this.usager.preference.telephone.numero === "" ||
+      this.usager.preference.telephone.numero === null
+    ) {
+      this.usager.preference.telephone.countryCode = this.me?.structure
+        .telephone.countryCode as CountryISO;
+    }
+
     this.preferenceForm = this.formBuilder.group({
       contactByPhone: [
         this.usager.preference.contactByPhone,

@@ -42,6 +42,7 @@ import {
   Telephone,
 } from "../../../../../_common/model";
 import {
+  anyPhoneValidator,
   fadeInOut,
   languagesAutocomplete,
   mobilePhoneValidator,
@@ -80,8 +81,6 @@ export class StepEtatCivilComponent implements OnInit {
   public maxDateNaissance: NgbDateStruct;
   public minDateNaissance: NgbDateStruct;
   public minDateToday: NgbDateStruct;
-
-  public selectedCountryISO: CountryISO = CountryISO.France;
 
   public maxDateRdv = {
     day: this.dToday.getDate(),
@@ -155,6 +154,20 @@ export class StepEtatCivilComponent implements OnInit {
   }
 
   public initForm(): void {
+    if (
+      this.usager.telephone.numero === "" ||
+      this.usager.telephone.numero === null
+    ) {
+      this.usager.telephone.countryCode = this.authService.currentUserValue
+        ?.structure.telephone.countryCode as CountryISO;
+    }
+
+    const telephonePreference =
+      this.usager.preference.telephone.numero &&
+      this.usager.preference.telephone.numero !== ""
+        ? this.usager.preference.telephone
+        : this.usager.telephone;
+
     this.usagerForm = this.formBuilder.group({
       ayantsDroits: this.formBuilder.array([]),
       langue: [this.usager.langue, languagesAutocomplete.validator("langue")],
@@ -172,13 +185,15 @@ export class StepEtatCivilComponent implements OnInit {
           [Validators.required],
         ],
         telephone: new FormControl(
-          setFormPhone(this.usager.preference.telephone),
+          setFormPhone(telephonePreference),
           this.usager.preference.contactByPhone
             ? [Validators.required, mobilePhoneValidator]
             : null
         ),
       }),
-      telephone: new FormControl(setFormPhone(this.usager.telephone), null),
+      telephone: new FormControl(setFormPhone(this.usager.telephone), [
+        anyPhoneValidator,
+      ]),
       prenom: [this.usager.prenom, [Validators.required, noWhiteSpace]],
       sexe: [this.usager.sexe, Validators.required],
       surnom: [this.usager.surnom, []],
@@ -189,13 +204,6 @@ export class StepEtatCivilComponent implements OnInit {
       this.addAyantDroit(ayantDroit);
     }
 
-    this.selectedCountryISO =
-      this.usager.telephone.numero !== "" &&
-      this.usager.telephone.numero !== null
-        ? (this.usager.telephone.countryCode as CountryISO)
-        : (this.authService.currentUserValue?.structure.telephone
-            .countryCode as CountryISO);
-
     this.usagerForm
       .get("preference")
       .get("contactByPhone")
@@ -203,6 +211,7 @@ export class StepEtatCivilComponent implements OnInit {
         const isRequiredTelephone = value
           ? [Validators.required, mobilePhoneValidator]
           : null;
+
         const phoneExist: Telephone = this.usagerForm
           .get("preference")
           .get("telephone")?.value;

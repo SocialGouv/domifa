@@ -102,7 +102,7 @@
           SearchCountryField.Iso2,
           SearchCountryField.Name
         ]"
-        [selectFirstCountry]="false"
+        [selectFirstCountry]="true"
         [maxLength]="15"
         [phoneValidation]="true"
         [separateDialCode]="true"
@@ -110,7 +110,7 @@
         [inputId]="'telephoneSms'"
         name="telephone"
         formControlName="telephone"
-        [selectedCountryISO]="usager.preference.telephone.countryCode"
+        [selectedCountryISO]="formPref.telephone.value?.countryCode"
       ></ngx-intl-tel-input>
       <p
         *ngIf="

@@ -21,7 +21,11 @@ import { Structure, StructureCommon } from "../../../../../_common/model";
 import { StructureService } from "../../services/structure.service";
 import { StructureCommonWeb } from "../../services/StructureCommonWeb.type";
 import { structureNameChecker } from "../structure-edit-form/structureNameChecker.service";
-import { DEPARTEMENTS_LISTE, getFormPhone } from "../../../../shared";
+import {
+  anyPhoneValidator,
+  DEPARTEMENTS_LISTE,
+  getFormPhone,
+} from "../../../../shared";
 import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
 
 @Component({
@@ -108,7 +112,10 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
       ],
       id: [this.structure.id, [Validators.required]],
       nom: [this.structure.nom, [Validators.required]],
-      phone: new FormControl(undefined, [Validators.required]),
+      phone: new FormControl(undefined, [
+        Validators.required,
+        anyPhoneValidator,
+      ]),
       responsable: this.formBuilder.group({
         fonction: [this.structure.responsable.fonction, [Validators.required]],
         nom: [this.structure.responsable.nom, [Validators.required]],
