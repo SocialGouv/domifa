@@ -112,6 +112,6 @@ describe("getPhoneString", () => {
   it("getPhoneString shoud return string with countryCode and numero", () => {
     expect(
       getPhoneString({ countryCode: CountryISO.France, numero: "0622062206" })
-    ).toEqual("+330622062206");
+    ).toEqual("+33 6 22 06 22 06");
   });
 });
