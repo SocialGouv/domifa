@@ -47,7 +47,6 @@ export function setFormPhone(telephone: Telephone): ChangeData {
       telephone.numero,
       telephone.countryCode
     );
-
     if (!phoneUtil.isValidNumber(parsedPhone) || !parsedPhone) {
       return defaultReturn;
     }

@@ -519,7 +519,9 @@
                 [inputId]="'telephoneSms'"
                 name="telephone"
                 formControlName="telephone"
-                [selectedCountryISO]="usager.preference.telephone.countryCode"
+                [selectedCountryISO]="
+                  f.preference.get('telephone')?.value?.countryCode
+                "
               ></ngx-intl-tel-input>
 
               <p

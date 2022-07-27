@@ -39,7 +39,6 @@ import {
   UserStructure,
   LIEN_PARENTE_LABELS,
   UsagerEtatCivilFormData,
-  Telephone,
 } from "../../../../../_common/model";
 import {
   anyPhoneValidator,
@@ -163,10 +162,10 @@ export class StepEtatCivilComponent implements OnInit {
     }
 
     const telephonePreference =
-      this.usager.preference.telephone.numero &&
-      this.usager.preference.telephone.numero !== ""
-        ? this.usager.preference.telephone
-        : this.usager.telephone;
+      this.usager.preference.telephone.numero === null ||
+      this.usager.preference.telephone.numero === ""
+        ? this.usager.telephone
+        : this.usager.preference.telephone;
 
     this.usagerForm = this.formBuilder.group({
       ayantsDroits: this.formBuilder.array([]),
@@ -212,16 +211,17 @@ export class StepEtatCivilComponent implements OnInit {
           ? [Validators.required, mobilePhoneValidator]
           : null;
 
-        const phoneExist: Telephone = this.usagerForm
+        this.usagerForm
           .get("preference")
-          .get("telephone")?.value;
-
-        if (phoneExist.numero === "" || !phoneExist.numero) {
-          this.usagerForm
-            .get("preference")
-            .get("telephone")
-            .setValue(setFormPhone(this.usager.telephone));
-        }
+          .get("telephone")
+          .setValue(
+            setFormPhone(
+              this.usager.preference.telephone.numero === null ||
+                this.usager.preference.telephone.numero === ""
+                ? this.usager.telephone
+                : this.usager.preference.telephone
+            )
+          );
 
         this.usagerForm
           .get("preference")
