@@ -1,4 +1,4 @@
-import { COUNTRY_CODES, Telephone } from "../../_common/model/telephone";
+import { Telephone } from "../../_common/model/telephone";
 import { PhoneNumberFormat, PhoneNumberUtil } from "google-libphonenumber";
 export const phoneUtil = PhoneNumberUtil.getInstance();
 
@@ -9,17 +9,10 @@ export const getPhoneString = (telephone: Telephone): string => {
   if (telephone.numero === null || telephone.numero === "") {
     return "";
   }
+
   const numero = phoneUtil.parse(
     telephone.numero,
     telephone.countryCode.toLowerCase()
   );
   return phoneUtil.format(numero, PhoneNumberFormat.INTERNATIONAL);
-};
-
-export const getCountryCode = (countryCode: string): string => {
-  if (COUNTRY_CODES[countryCode] === undefined) {
-    return "+33";
-  }
-
-  return `+${COUNTRY_CODES[countryCode]}`;
 };

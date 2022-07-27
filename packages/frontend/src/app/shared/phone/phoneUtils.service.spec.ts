@@ -1,10 +1,6 @@
 /* eslint-disable id-denylist */
 import { CountryISO } from "ngx-intl-tel-input";
-import {
-  getPhoneString,
-  getCountryCode,
-  setFormPhone,
-} from "./phoneUtils.service";
+import { getPhoneString, setFormPhone } from "./phoneUtils.service";
 
 describe("Téléphones pour les formulaires", () => {
   it("❌ setFormPhone avec un mauvais numéro", () => {
@@ -117,27 +113,5 @@ describe("getPhoneString", () => {
     expect(
       getPhoneString({ countryCode: CountryISO.France, numero: "0622062206" })
     ).toEqual("+330622062206");
-  });
-});
-
-describe("getCountryCode", () => {
-  it("getCountryCode shoud return +33 if countryCode is undefined", () => {
-    expect(getCountryCode("toto")).toEqual("+33");
-  });
-
-  it("getCountryCode shoud return +33 if countryCode is fr", () => {
-    expect(getCountryCode("fr")).toEqual("+33");
-  });
-
-  it("getCountryCode shoud return +596 if countryCode is mq", () => {
-    expect(getCountryCode("mq")).toEqual("+596");
-  });
-
-  it("getCountryCode shoud return +262 if countryCode is re", () => {
-    expect(getCountryCode("re")).toEqual("+262");
-  });
-
-  it("getCountryCode shoud return +687 if countryCode is nc", () => {
-    expect(getCountryCode("nc")).toEqual("+687");
   });
 });

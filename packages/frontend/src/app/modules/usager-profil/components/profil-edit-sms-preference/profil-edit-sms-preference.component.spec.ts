@@ -14,12 +14,12 @@ import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.moc
 import { SharedModule } from "../../../shared/shared.module";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { ProfilEditSmsPreferenceComponent } from "./profil-edit-sms-preference.component";
-import { setFormPhone } from "../../../../shared";
 
 describe("ProfilEditSmsPreferenceComponent", () => {
   let component: ProfilEditSmsPreferenceComponent;
   let fixture: ComponentFixture<ProfilEditSmsPreferenceComponent>;
-  beforeEach(() => {
+
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [ProfilEditSmsPreferenceComponent],
       imports: [
@@ -39,12 +39,14 @@ describe("ProfilEditSmsPreferenceComponent", () => {
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(ProfilEditSmsPreferenceComponent);
-    component = fixture.debugElement.componentInstance;
+    component = fixture.componentInstance;
     component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
     component.usager.preference.contactByPhone = true;
-    component.ngOnInit();
+    fixture.detectChanges();
   });
 
   it("Création du composant", () => {
@@ -55,75 +57,92 @@ describe("ProfilEditSmsPreferenceComponent", () => {
     expect(component.preferenceForm).toBeTruthy();
   });
 
-  describe("Test des numéros de téléphone pour recevoir les SMS : ATTENTION, seul les portables sont autorisés !", () => {
-    it("❌  Mise à jour de l'input avec un mauvais numéro", () => {
-      component.togglePreferences();
-      component.preferenceForm.controls.telephone.setValue({
-        contactByPhone: true,
-      });
+  it("❌  Mise à jour de l'input avec un mauvais numéro", () => {
+    // Faux numéro de portable en guadeloupe
+    component.usager.preference = {
+      contactByPhone: true,
+      telephone: {
+        countryCode: CountryISO.Guadeloupe,
+        numero: "///609 24 39 00ll",
+      },
+    };
+    component.initForm();
+    expect(component.preferenceForm.status).toEqual("INVALID");
 
-      component.preferenceForm.controls.telephone.setValue(
-        setFormPhone({
-          countryCode: CountryISO.Martinique,
-          numero: "0s 96 66 68 88",
-        })
-      );
-      expect(component.preferenceForm.controls.telephone.valid).toBeFalsy();
+    // Faux numéro de portable en Martinique
+    component.usager.preference = {
+      contactByPhone: true,
+      telephone: {
+        countryCode: CountryISO.Martinique,
+        numero: "0s 96 66 68 88",
+      },
+    };
+    component.initForm();
+    expect(component.preferenceForm.status).toEqual("INVALID");
 
-      component.preferenceForm.controls.telephone.patchValue(
-        setFormPhone({
-          countryCode: CountryISO.UnitedStates,
-          numero: "",
-        })
-      );
+    // Faux numéro de portable en Réunion
+    // Les numéros en 639 ne sont valides qu'à Mayotte, mais pas à la Réunion
+    // Malgré le fait que les 2 territoires sont en +262
+    component.usager.preference = {
+      contactByPhone: true,
+      telephone: {
+        countryCode: CountryISO.Réunion,
+        numero: "639 6 66 68 88",
+      },
+    };
+    component.initForm();
+    expect(component.preferenceForm.status).toEqual("INVALID");
 
-      expect(component.preferenceForm.controls.telephone.valid).toBeFalsy();
+    component.usager.preference = {
+      contactByPhone: true,
+      telephone: {
+        countryCode: CountryISO.Mayotte,
+        numero: "63996 68 88",
+      },
+    };
+    component.initForm();
+    expect(component.preferenceForm.status).toEqual("VALID");
 
-      component.preferenceForm.controls.telephone.patchValue(
-        setFormPhone({
-          countryCode: CountryISO.UnitedStates,
-          numero: "NUMBER_FAIL",
-        })
-      );
+    component.usager.preference = {
+      contactByPhone: true,
+      telephone: {
+        countryCode: CountryISO.Mayotte,
+        numero: "6311119912345",
+      },
+    };
+    component.initForm();
+    expect(component.preferenceForm.status).toEqual("INVALID");
+  });
 
-      expect(component.preferenceForm.controls.telephone.valid).toBeFalsy();
+  it("✅  Mise à jour de l'input avec données valides", async () => {
+    component.usager.preference = {
+      contactByPhone: true,
+      telephone: {
+        countryCode: CountryISO.Guadeloupe,
+        numero: "691 25 39.00",
+      },
+    };
+    component.initForm();
+    expect(component.preferenceForm.status).toEqual("VALID");
 
-      component.preferenceForm.controls.telephone.patchValue(
-        setFormPhone({
-          countryCode: CountryISO.France,
-          numero: "2126063600",
-        })
-      );
+    component.usager.preference = {
+      contactByPhone: true,
+      telephone: {
+        countryCode: CountryISO.Réunion,
+        numero: "976223232",
+      },
+    };
+    component.initForm();
+    expect(component.preferenceForm.status).toEqual("VALID");
 
-      expect(component.preferenceForm.controls.telephone.valid).toBeFalsy();
-    });
-
-    it("✅  Mise à jour de l'input avec données valides", () => {
-      component.togglePreferences();
-
-      component.preferenceForm.controls.telephone.patchValue(
-        setFormPhone({
-          countryCode: CountryISO.Guadeloupe,
-          numero: "691 22 39 00",
-        })
-      );
-      expect(component.preferenceForm.controls.telephone.valid).toBeTruthy();
-
-      component.preferenceForm.controls.telephone.patchValue(
-        setFormPhone({
-          countryCode: CountryISO.Martinique,
-          numero: "696 50 68 88",
-        })
-      );
-      expect(component.preferenceForm.controls.telephone.valid).toBeTruthy();
-
-      component.preferenceForm.controls.telephone.patchValue(
-        setFormPhone({
-          countryCode: CountryISO.FrenchGuiana,
-          numero: "694/33.70.70",
-        })
-      );
-      expect(component.preferenceForm.controls.telephone.valid).toBeTruthy();
-    });
+    component.usager.preference = {
+      contactByPhone: true,
+      telephone: {
+        countryCode: CountryISO.Réunion,
+        numero: "693 55 39.00",
+      },
+    };
+    component.initForm();
+    expect(component.preferenceForm.status).toEqual("VALID");
   });
 });
