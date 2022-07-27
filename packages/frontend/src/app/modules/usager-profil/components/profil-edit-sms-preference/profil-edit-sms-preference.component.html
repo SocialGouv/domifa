@@ -92,23 +92,25 @@
             ? 'form-control is-invalid'
             : 'form-control'
         "
-        [preferredCountries]="preferredCountries"
+        [preferredCountries]="PREFERRED_COUNTRIES"
         [enableAutoCountrySelect]="false"
         [enablePlaceholder]="true"
         [searchCountryFlag]="true"
+        [customPlaceholder]="'0606060606'"
         searchCountryPlaceholder="Choisissez votre pays"
         [searchCountryField]="[
           SearchCountryField.Iso2,
           SearchCountryField.Name
         ]"
-        [selectedCountryISO]="usager.preference.telephone.countryCode"
+        [selectFirstCountry]="false"
         [maxLength]="15"
         [phoneValidation]="true"
         [separateDialCode]="true"
-        [inputId]="'telephone'"
         [numberFormat]="PhoneNumberFormat.International"
+        [inputId]="'telephoneSms'"
         name="telephone"
         formControlName="telephone"
+        [selectedCountryISO]="usager.preference.telephone.countryCode"
       ></ngx-intl-tel-input>
       <p
         *ngIf="
@@ -116,7 +118,7 @@
         "
         class="invalid-feedback-custom"
       >
-        Veuillez un numéro de téléphone portable valide
+        Veuillez saisir un numéro de téléphone portable valide
       </p>
     </div>
   </div>

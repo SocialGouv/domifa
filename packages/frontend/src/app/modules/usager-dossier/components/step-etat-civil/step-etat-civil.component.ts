@@ -44,6 +44,7 @@ import {
 import {
   fadeInOut,
   languagesAutocomplete,
+  mobilePhoneValidator,
   noWhiteSpace,
   setFormPhone,
 } from "../../../../shared";
@@ -172,7 +173,9 @@ export class StepEtatCivilComponent implements OnInit {
         ],
         telephone: new FormControl(
           setFormPhone(this.usager.preference.telephone),
-          this.usager.preference.contactByPhone ? [Validators.required] : null
+          this.usager.preference.contactByPhone
+            ? [Validators.required, mobilePhoneValidator]
+            : null
         ),
       }),
       telephone: new FormControl(setFormPhone(this.usager.telephone), null),
@@ -197,7 +200,10 @@ export class StepEtatCivilComponent implements OnInit {
       .get("preference")
       .get("contactByPhone")
       .valueChanges.subscribe((value: boolean) => {
-        const isRequiredTelephone = value ? [Validators.required] : null;
+        console.log(value);
+        const isRequiredTelephone = value
+          ? [Validators.required, mobilePhoneValidator]
+          : null;
         const phoneExist: Telephone = this.usagerForm
           .get("preference")
           .get("telephone")?.value;
@@ -287,7 +293,7 @@ export class StepEtatCivilComponent implements OnInit {
 
   public submitInfos(): void {
     this.submitted = true;
-
+    console.log(this.usagerForm.errors);
     if (this.usagerForm.invalid) {
       this.toastService.error(
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"

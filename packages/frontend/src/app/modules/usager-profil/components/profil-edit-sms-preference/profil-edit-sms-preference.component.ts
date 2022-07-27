@@ -33,7 +33,7 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
   public PhoneNumberFormat = PhoneNumberFormat;
   public SearchCountryField = SearchCountryField;
   public CountryISO = CountryISO;
-  public preferredCountries: CountryISO[] = PREFERRED_COUNTRIES;
+  public PREFERRED_COUNTRIES: CountryISO[] = PREFERRED_COUNTRIES;
 
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
@@ -69,22 +69,24 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
       ? [Validators.required, mobilePhoneValidator]
       : null;
 
+    const telephone =
+      this.usager.preference.telephone.numero &&
+      this.usager.preference.telephone.numero !== ""
+        ? this.usager.preference.telephone
+        : this.usager.telephone;
+
     this.preferenceForm = this.formBuilder.group({
       contactByPhone: [
         this.usager.preference.contactByPhone,
         [Validators.required],
       ],
-      telephone: new FormControl(
-        setFormPhone(this.usager.preference.telephone),
-        telephoneValidator
-      ),
+      telephone: new FormControl(setFormPhone(telephone), telephoneValidator),
     });
 
     this.preferenceForm
       .get("contactByPhone")
       .valueChanges.subscribe((value: boolean) => {
-        const isRequiredTelephone = value ? [Validators.required] : null;
-
+        const isRequiredTelephone = value ? telephoneValidator : null;
         this.preferenceForm.get("telephone").setValidators(isRequiredTelephone);
         this.preferenceForm.get("telephone").updateValueAndValidity();
       });
@@ -107,7 +109,9 @@ export class ProfilEditSmsPreferenceComponent implements OnInit {
       );
       return;
     }
+
     this.loading = true;
+
     const preference: UsagerPreferenceContact = {
       contactByPhone: this.preferenceForm.get("contactByPhone").value,
       telephone: {

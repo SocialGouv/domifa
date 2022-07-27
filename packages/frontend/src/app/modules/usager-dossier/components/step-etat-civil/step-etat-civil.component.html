@@ -27,6 +27,7 @@
     <section
       aria-label="Formulaire d'édition de l'état-civil du demandeur"
       class="step_form"
+      *ngIf="usagerForm"
     >
       <form
         [formGroup]="usagerForm"
@@ -207,14 +208,15 @@
                     SearchCountryField.Iso2,
                     SearchCountryField.Name
                   ]"
-                  [selectedCountryISO]="selectedCountryISO"
                   [selectFirstCountry]="false"
                   [maxLength]="15"
                   [phoneValidation]="true"
                   [separateDialCode]="true"
+                  [numberFormat]="PhoneNumberFormat.International"
                   [inputId]="'telephone'"
-                  [numberFormat]="PhoneNumberFormat.National"
+                  name="telephone"
                   formControlName="telephone"
+                  [selectedCountryISO]="selectedCountryISO"
                 ></ngx-intl-tel-input>
                 <p
                   *ngIf="submitted && f.telephone.errors"
@@ -490,37 +492,48 @@
             *ngIf="f.preference.get('contactByPhone')?.value === true"
           >
             <div class="form-group required">
-              <label for="preferenceTelephone">Numéro de téléphone</label>
+              <label for="preferenceTelephone"
+                >À quel numéro de téléphone ? (Numéro de portable
+                uniquement)</label
+              >
               <ngx-intl-tel-input
                 [cssClass]="
-                  'form-control ' + submitted &&
-                  f.preference.get('telephone')?.errors
-                    ? 'is-invalid'
-                    : ''
+                  submitted &&
+                  (f.preference.get('telephone')?.errors ||
+                    f.preference.get('telephone')?.invalid)
+                    ? 'form-control is-invalid'
+                    : 'form-control'
                 "
                 [preferredCountries]="PREFERRED_COUNTRIES"
                 [enableAutoCountrySelect]="false"
                 [enablePlaceholder]="true"
                 [searchCountryFlag]="true"
+                [customPlaceholder]="'0606060606'"
+                searchCountryPlaceholder="Choisissez votre pays"
                 [searchCountryField]="[
                   SearchCountryField.Iso2,
                   SearchCountryField.Name
                 ]"
-                [selectedCountryISO]="selectedCountryISO"
                 [selectFirstCountry]="false"
                 [maxLength]="15"
                 [phoneValidation]="true"
                 [separateDialCode]="true"
-                [inputId]="'preferenceTelephone'"
-                [numberFormat]="PhoneNumberFormat.National"
+                [numberFormat]="PhoneNumberFormat.International"
+                [inputId]="'telephoneSms'"
+                name="telephone"
                 formControlName="telephone"
+                [selectedCountryISO]="usager.preference.telephone.countryCode"
               ></ngx-intl-tel-input>
-              <small class="d-block">Numéro de portable uniquement</small>
+
               <p
-                *ngIf="submitted && f.preference.get('telephone')?.errors"
-                class="invalid-feedback"
+                *ngIf="
+                  submitted &&
+                  (f.preference.get('telephone')?.errors ||
+                    f.preference.get('telephone')?.invalid)
+                "
+                class="invalid-feedback-custom"
               >
-                Le numéro de téléphone est incorrect
+                Veuillez saisir un numéro de téléphone portable valide
               </p>
             </div>
           </div>

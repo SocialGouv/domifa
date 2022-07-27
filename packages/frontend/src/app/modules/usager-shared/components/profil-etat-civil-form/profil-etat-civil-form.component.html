@@ -119,7 +119,7 @@
             : 'form-control'
         "
         [preferredCountries]="preferredCountries"
-        [enableAutoCountrySelect]="true"
+        [enableAutoCountrySelect]="false"
         [enablePlaceholder]="true"
         [searchCountryFlag]="true"
         searchCountryPlaceholder="Choisissez votre pays"
@@ -132,7 +132,7 @@
         [phoneValidation]="true"
         [separateDialCode]="true"
         [inputId]="'telephone'"
-        [numberFormat]="PhoneNumberFormat.National"
+        [numberFormat]="PhoneNumberFormat.International"
         formControlName="telephone"
       ></ngx-intl-tel-input>
       <p
