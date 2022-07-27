@@ -29,7 +29,7 @@ import { Decision } from "../../interfaces";
 export class DeleteUsagerMenuComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
-  @Output() usagerChanges = new EventEmitter<UsagerLight>();
+  @Output() usagerChange = new EventEmitter<UsagerFormModel>();
 
   public hasHistorique: boolean;
   public previousStatus: string;
@@ -111,8 +111,8 @@ export class DeleteUsagerMenuComponent implements OnInit {
 
         setTimeout(() => {
           this.modalService.dismissAll();
-          this.usagerChanges.emit(usager);
           this.usager = new UsagerFormModel(usager);
+          this.usagerChange.emit(this.usager);
           this.loading = false;
           this.router.navigate(["profil/general/" + this.usager.ref]);
         }, 500);

@@ -33,7 +33,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
   public PhoneNumberFormat = PhoneNumberFormat;
   public SearchCountryField = SearchCountryField;
   public CountryISO = CountryISO;
-  public preferredCountries: CountryISO[] = PREFERRED_COUNTRIES;
+  public PREFERRED_COUNTRIES: CountryISO[] = PREFERRED_COUNTRIES;
   public success = false;
 
   public loading = false;

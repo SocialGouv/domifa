@@ -11,7 +11,11 @@ export class FormatInternationalPhoneNumberPipe implements PipeTransform {
       return "Non renseigné";
     }
 
-    if (telephone?.numero === "" || !telephone?.countryCode) {
+    if (
+      telephone?.numero === "" ||
+      !telephone?.numero ||
+      !telephone?.countryCode
+    ) {
       return "Non renseigné";
     }
 

@@ -376,6 +376,7 @@
   <app-set-interaction-in-form
     [(usager)]="selectedUsager"
     (cancelReception)="cancelReception()"
+    (updateUsagerForManage)="updateUsager.emit($event)"
   ></app-set-interaction-in-form>
 </ng-template>
 
@@ -383,5 +384,6 @@
   <app-set-interaction-out-form
     [(usager)]="selectedUsager"
     (cancelReception)="cancelReception()"
+    (updateUsagerForManage)="updateUsager.emit($event)"
   ></app-set-interaction-out-form>
 </ng-template>

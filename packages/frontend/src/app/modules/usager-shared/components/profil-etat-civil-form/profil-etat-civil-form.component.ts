@@ -56,12 +56,11 @@ export class ProfilEtatCivilFormComponent implements OnInit {
   public PhoneNumberFormat = PhoneNumberFormat;
   public SearchCountryField = SearchCountryField;
   public CountryISO = CountryISO;
-  public preferredCountries: CountryISO[] = PREFERRED_COUNTRIES;
+  public PREFERRED_COUNTRIES: CountryISO[] = PREFERRED_COUNTRIES;
 
   @Input() public usager: UsagerFormModel;
+  @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
   @Input() public me!: UserStructure;
-
-  @Output() public usagerChanges = new EventEmitter<UsagerLight>();
 
   public usagerForm!: FormGroup;
   public loading: boolean;
@@ -185,8 +184,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
       next: (usager: UsagerLight) => {
         this.editInfosChange.emit(false);
         this.toastService.success("Enregistrement réussi");
-
-        this.usagerChanges.emit(usager);
+        this.usagerChange.emit(new UsagerFormModel(usager));
         this.submitted = false;
         this.loading = false;
       },

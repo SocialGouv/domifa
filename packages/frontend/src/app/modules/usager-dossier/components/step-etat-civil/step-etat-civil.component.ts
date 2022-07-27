@@ -200,7 +200,6 @@ export class StepEtatCivilComponent implements OnInit {
       .get("preference")
       .get("contactByPhone")
       .valueChanges.subscribe((value: boolean) => {
-        console.log(value);
         const isRequiredTelephone = value
           ? [Validators.required, mobilePhoneValidator]
           : null;
@@ -293,7 +292,7 @@ export class StepEtatCivilComponent implements OnInit {
 
   public submitInfos(): void {
     this.submitted = true;
-    console.log(this.usagerForm.errors);
+
     if (this.usagerForm.invalid) {
       this.toastService.error(
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"

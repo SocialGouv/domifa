@@ -44,10 +44,9 @@
           ></app-display-etat-civil>
 
           <app-profil-etat-civil-form
-            [usager]="usager"
+            [(usager)]="usager"
             [me]="me"
             *ngIf="editInfos"
-            (usagerChanges)="onUsagerChanges($event)"
             [(editInfos)]="editInfos"
           ></app-profil-etat-civil-form>
         </div>
@@ -93,8 +92,7 @@
       </div>
     </div>
     <app-delete-usager-menu
-      (usagerChanges)="onUsagerChanges($event)"
-      [usager]="usager"
+      [(usager)]="usager"
       [me]="me"
     ></app-delete-usager-menu>
   </div>
