@@ -1,25 +1,12 @@
 app-backend:
-  needs: [create-db]
-  volumes:
-    - name: files
-      emptyDir: {}
-  volumeMounts:
-    - mountPath: /mnt/files
-      name: files
-
-jobs:
-  runs:
-    - name: drop-db
-      use: SocialGouv/kube-workflow/jobs/drop-db@v1
-      with:
-        pgSecretRefName: azure-pg-admin-user
-    - name: create-db
-      needs: [drop-db]
-      use: SocialGouv/kube-workflow/jobs/create-db@v1
-      with:
-        pgAdminSecretRefName: azure-pg-admin-user
-    - name: seed
-      needs: [app-backend]
-      use: SocialGouv/kube-workflow/jobs/seed-db@v1
-      with:
-        seedPath: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
+  # addVolumes:
+  #   - files
+  envFrom:
+    # - secretRef:
+    #     name: "{{ .Values.global.pgSecretName }}"
+    - secretRef:
+        name: backend-sealed-secret
+    - configMapRef:
+        name: backend-configmap
+    # - secretRef:
+    #     name: azure-domifa-volume
