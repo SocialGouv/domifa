@@ -17,3 +17,5 @@ data:
   ELASTIC_APM_ACTIVE: "true"
   CRON_ELASTIC_APM_SERVICE_NAME: domifa-backend-cron-prod
   SENTRY_DSN: https://dfbf0028aa3e410081dcd356dac0490e@sentry.fabrique.social.gouv.fr/30
+  DOMIFA_LOG_HTTP_REQUESTS: "true"
+  DOMIFA_LOG_SQL_REQUESTS: "true"
