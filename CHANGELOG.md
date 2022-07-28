@@ -1,3 +1,10 @@
+## [2.103.5](https://github.com/SocialGouv/domifa/compare/v2.103.4...v2.103.5) (2022-07-28)
+
+
+### Bug Fixes
+
+* **log:** Add missing flags to enable http and sql requests ([19d53ea](https://github.com/SocialGouv/domifa/commit/19d53eaf4b647fceac67c3d89d72e21287b0bf94))
+
 ## [2.103.4](https://github.com/SocialGouv/domifa/compare/v2.103.3...v2.103.4) (2022-07-20)
 
 
