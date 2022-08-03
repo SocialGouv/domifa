@@ -52,7 +52,12 @@
       {{ usager.customRef || "Non renseigné" }}
     </span>
   </div>
-  <div class="col-md-8 reponses"></div>
+  <div class="col-md-8 reponses">
+    <span class="question"> Notifications par SMS activés</span>
+    <span class="valeur">
+      {{ usager.contactByPhone ? "OUI" : "NON" }}
+    </span>
+  </div>
 </div>
 
 <div class="row justify-content-start">

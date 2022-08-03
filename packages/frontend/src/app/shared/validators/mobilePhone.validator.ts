@@ -6,7 +6,12 @@ export const mobilePhoneValidator = (
   control: AbstractControl
 ): ValidationErrors | null => {
   const value = control.value as ChangeData;
-
+  if (!value) {
+    return null;
+  }
+  if (!value.number || value.number === "") {
+    return null;
+  }
   try {
     const parsedValue = phoneUtil.parse(value.number, value.countryCode);
     const error = { isNotMobilePhone: true };
@@ -25,10 +30,10 @@ export const anyPhoneValidator = (
 ): ValidationErrors | null => {
   const value = control.value as ChangeData;
   if (!value) {
-    return null;
+    return { isNotValidPhone: true };
   }
   if (!value.number || value.number === "") {
-    return null;
+    return { isNotValidPhone: true };
   }
 
   try {

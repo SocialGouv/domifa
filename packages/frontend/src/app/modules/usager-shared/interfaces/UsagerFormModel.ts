@@ -43,11 +43,7 @@ export class UsagerFormModel implements UsagerLight {
   public email: string;
   public telephone: Telephone;
 
-  // Préférence d'envoi de notifs
-  public preference: {
-    contactByPhone: boolean;
-    telephone: Telephone;
-  };
+  public contactByPhone: boolean;
 
   public structureId: number | null;
   public etapeDemande: number;
@@ -172,13 +168,7 @@ export class UsagerFormModel implements UsagerLight {
       };
     }
 
-    this.preference = (usager && usager.preference) || {
-      contactByPhone: false,
-      telephone: {
-        countryCode: CountryISO.France,
-        numero: "",
-      },
-    };
+    this.contactByPhone = (usager && usager.contactByPhone) || false;
 
     this.rdv = new Rdv((usager && usager.rdv) || null);
     this.entretien = new Entretien(usager?.entretien);

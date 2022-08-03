@@ -1,6 +1,9 @@
+import { Telephone } from "./../_common/model/telephone/Telephone.type";
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { domifaConfig } from "../config";
 import { usagerRepository } from "../database";
+
+import { isValidMobilePhone } from "../util/phone/phoneUtils.service";
 
 import { TimeZone } from "../util/territoires";
 import {
@@ -20,12 +23,13 @@ export class migratePhonePreferenceMigration1657059112533
       domifaConfig().envId === "preprod" ||
       domifaConfig().envId === "local"
     ) {
-      console.warn(
+      console.log(
         "\n[MIGRATION] [TEL SMS] Migrer vers le nouveau format de téléphone - Start \n"
       );
       const usagers: {
         uuid: string;
         timeZone: TimeZone;
+        telephone: Telephone;
         preference: UsagerPreferenceContact;
         structureId: number;
         phone: string;
@@ -34,7 +38,7 @@ export class migratePhonePreferenceMigration1657059112533
         await usagerRepository.typeorm()
       ).query(
         `
-        SELECT u.uuid, u.preference, u."structureId", s.id, s."timeZone" FROM usager u INNER JOIN structure s on s.id = u."structureId"
+        SELECT u.uuid, u.preference,u.telephone, u."structureId", s.id, s."timeZone" FROM usager u INNER JOIN structure s on s.id = u."structureId"
         WHERE (preference->'phoneNumber')::text != 'null' AND (preference->'phoneNumber')::text != '' AND (preference->>'phone')::bool is true
       `
       );
@@ -54,32 +58,47 @@ export class migratePhonePreferenceMigration1657059112533
         "America/Miquelon": 0,
         "Indian/Maldives": 0,
       };
+
       let cpt = 0;
+      let cptFailPhones = 0;
+
       for (const usager of usagers) {
         if (cpt % 1000 === 0) {
           console.log(cpt + "/" + usagers.length + " usagers migrés");
         }
         cpt++;
         codes[usager.timeZone] = codes[usager.timeZone] + 1;
+
+        let contactByPhone = true;
+        const telephone = {
+          countryCode: COUNTRY_CODES_TIMEZONE[usager.timeZone],
+          numero: usager.preference.phoneNumber
+            .toString()
+            .replace(/[^0-9]/g, ""),
+        };
+
+        if (!isValidMobilePhone(telephone)) {
+          if (!isValidMobilePhone(usager.telephone)) {
+            cptFailPhones++;
+            console.log("[!] Téléphone non valide");
+            console.log(telephone);
+            contactByPhone = false;
+          }
+        } else {
+          usager.telephone = telephone;
+        }
+
         await usagerRepository.updateOne(
+          { uuid: usager.uuid },
           {
-            uuid: usager.uuid,
-          },
-          {
-            preference: {
-              contactByPhone: true,
-              telephone: {
-                countryCode: COUNTRY_CODES_TIMEZONE[usager.timeZone],
-                numero: usager.preference.phoneNumber
-                  .toString()
-                  .replace(/[^0-9]/g, ""),
-              },
-            },
+            contactByPhone,
+            telephone: usager.telephone,
           }
         );
       }
       console.log();
       console.log(codes);
+      console.log(cptFailPhones + " numéros non-enregistrés car foireux");
       console.log();
     }
 

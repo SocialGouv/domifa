@@ -1,4 +1,8 @@
-<form [formGroup]="usagerForm" (ngSubmit)="updateInfos()">
+<form
+  [formGroup]="usagerForm"
+  (ngSubmit)="updateInfos()"
+  *ngIf="currentUserSubject$ | async as me"
+>
   <div class="row">
     <div class="col-md-4 form-group required">
       <label for="nom">Nom</label>
@@ -110,8 +114,13 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-4 form-group">
-      <label for="telephone">Numéro de téléphone</label>
+    <div
+      class="col-md-4 form-group"
+      [ngClass]="
+        f.contactByPhone.value === true ? 'required form-group' : 'form-group'
+      "
+    >
+      <label for="telephone">Numéro de téléphone (mobile uniquement)</label>
       <ngx-intl-tel-input
         [cssClass]="
           submitted && (f.telephone.errors || f.telephone.invalid)
@@ -122,28 +131,30 @@
         [enableAutoCountrySelect]="false"
         [enablePlaceholder]="true"
         [searchCountryFlag]="true"
+        [customPlaceholder]="mobilePhonePlaceHolder"
         searchCountryPlaceholder="Choisissez votre pays"
         [searchCountryField]="[
           SearchCountryField.Iso2,
           SearchCountryField.Name
         ]"
-        [selectedCountryISO]="f.telephone?.value?.countryCode"
+        [selectFirstCountry]="false"
         [maxLength]="15"
         [phoneValidation]="true"
         [separateDialCode]="true"
-        [inputId]="'telephone'"
         [numberFormat]="PhoneNumberFormat.International"
+        inputId="telephone"
+        name="telephone"
         formControlName="telephone"
+        (countryChange)="updatePlaceHolder($event.iso2)"
+        [selectedCountryISO]="f.telephone?.value?.countryCode"
       ></ngx-intl-tel-input>
+      <small *ngIf="f.contactByPhone.value === false">Optionnel</small>
       <p
-        *ngIf="submitted && (f.telephone.errors || f.telephone.invalid)"
+        *ngIf="submitted && f.telephone.errors"
         class="invalid-feedback-custom"
       >
-        Veuillez vérifier le numéro de téléphone
+        Le numéro de téléphone est incorrect
       </p>
-      <small id="phoneHelp" class="d-block form-text text-muted"
-        >Optionnel</small
-      >
     </div>
     <div class="col-md-4">
       <div class="form-group">
@@ -197,6 +208,43 @@
       <p *ngIf="f.customRef.errors" class="invalid-feedback">
         L'identifiant est incorrect
       </p>
+    </div>
+  </div>
+
+  <div
+    class="row my-3"
+    *ngIf="
+      me.structure.sms.enabledByDomifa && me.structure.sms.enabledByStructure
+    "
+  >
+    <div class="col">
+      <fieldset>
+        <legend>
+          Le demandeur souhaite-t-il recevoir des notifications par SMS (arrivée
+          d'un courrier, échéance de domiciliation) ?
+        </legend>
+
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="contactByPhone"
+            id="sms_oui"
+            [value]="true"
+          />
+          <label class="form-check-label" for="sms_oui"> Oui </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="contactByPhone"
+            id="sms_non"
+            [value]="false"
+          />
+          <label class="form-check-label" for="sms_non"> Non </label>
+        </div>
+      </fieldset>
     </div>
   </div>
 
@@ -326,7 +374,7 @@
         >
           <option></option>
           <option
-            *ngFor="let lien of LIENS_PARENTE | keyvalue"
+            *ngFor="let lien of LIEN_PARENTE_LABELS | keyvalue"
             [ngValue]="lien.key"
           >
             {{ lien.value }}

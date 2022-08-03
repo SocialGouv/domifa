@@ -44,9 +44,8 @@
           ></app-display-etat-civil>
 
           <app-profil-etat-civil-form
-            [(usager)]="usager"
-            [me]="me"
             *ngIf="editInfos"
+            [(usager)]="usager"
             [(editInfos)]="editInfos"
           ></app-profil-etat-civil-form>
         </div>

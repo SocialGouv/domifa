@@ -1,5 +1,3 @@
-import { INestApplication } from "@nestjs/common";
-
 import { appLogger } from "../../../../util";
 import {
   Usager,
@@ -19,7 +17,7 @@ export const dataUsagerAnonymizer = {
   anonymizeAyantDroits,
 };
 
-async function anonymizeUsagers({ app }: { app: INestApplication }) {
+async function anonymizeUsagers() {
   const usagers = await usagerRepository.findMany(
     {},
     {
@@ -55,7 +53,7 @@ async function anonymizeUsagers({ app }: { app: INestApplication }) {
     }
 
     try {
-      await _anonymizeUsager(usager, { app });
+      await _anonymizeUsager(usager);
     } catch (e) {
       console.log(e);
     }
@@ -65,12 +63,7 @@ function isUsagerToAnonymize(x: Usager): unknown {
   return dataStructureAnonymizer.isStructureToAnonymise({ id: x.structureId });
 }
 
-async function _anonymizeUsager(
-  usager: Usager,
-  { app }: { app: INestApplication }
-) {
-  // appLogger.debug(`[dataUsagerAnonymizer] check usager "${usager.ref}"`);
-
+async function _anonymizeUsager(usager: Usager) {
   usager.entretien.commentaires = null;
   usager.entretien.revenusDetail = null;
   usager.entretien.raisonDetail = null;
@@ -90,13 +83,7 @@ async function _anonymizeUsager(
       countryCode: "fr",
       numero: "",
     },
-    preference: {
-      contactByPhone: false,
-      telephone: {
-        countryCode: "fr",
-        numero: "",
-      },
-    },
+    contactByPhone: false,
     nom: dataGenerator.lastName(),
     surnom: null,
     dateNaissance: dataGenerator.date({

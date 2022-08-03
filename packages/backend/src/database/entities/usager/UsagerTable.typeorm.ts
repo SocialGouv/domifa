@@ -73,6 +73,7 @@ export class UsagerTable
   })
   public telephone: Telephone;
 
+  // TODO: deprecated
   @Column({ type: "text", nullable: true })
   public phone: string;
 
@@ -80,10 +81,13 @@ export class UsagerTable
   @Column({
     type: "jsonb",
     nullable: true,
-    default: () =>
-      `'{"contactByPhone": false, "telephone": {"countryCode": "fr", "numero": ""}}'`,
+    default: null,
   })
+  // TODO: deprecated
   public preference: UsagerPreferenceContact;
+
+  @Column({ type: "boolean", nullable: true, default: false })
+  public contactByPhone: boolean;
 
   // DOMICILIATION
   @Column({ type: "timestamptz", nullable: true })

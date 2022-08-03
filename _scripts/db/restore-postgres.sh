@@ -133,7 +133,7 @@ fi
 
 if [ "$CI" = "true" ]; then
 
-  (set -x && pg_restore -h ${POSTGRES_HOST} --username=${POSTGRES_USER} --clean --if-exists --no-acl --no-owner --exit-on-error --verbose --dbname=${POSTGRES_DATABASE} ${POSTGRES_DUMP_PATH})
+  (set -x && pg_restore -h ${POSTGRES_HOST} --username=${POSTGRES_USER} --clean --if-exists --no-acl --no-owner --verbose --dbname=${POSTGRES_DATABASE} ${POSTGRES_DUMP_PATH})
   if [ $? -ne 0 ]; then
     echo ""
     echo "----------------------------------------------------------------------------------------------"
@@ -145,7 +145,7 @@ if [ "$CI" = "true" ]; then
 else
 
   export POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-  (set -x && pg_restore --username=${POSTGRES_USERNAME} --no-owner --role=${POSTGRES_USERNAME} --exit-on-error --verbose --dbname=${POSTGRES_DATABASE} ${POSTGRES_DUMP_PATH})
+  (set -x && pg_restore --username=${POSTGRES_USERNAME} --no-owner --role=${POSTGRES_USERNAME} --verbose --dbname=${POSTGRES_DATABASE} ${POSTGRES_DUMP_PATH})
 
   if [ $? -ne 0 ]; then
     echo ""

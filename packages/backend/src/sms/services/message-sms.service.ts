@@ -167,7 +167,7 @@ export class MessageSmsService {
         senderName: structure.sms.senderName,
         status: "TO_SEND",
         smsId: interaction.type,
-        phoneNumber: getPhoneString(usager.preference.telephone),
+        phoneNumber: getPhoneString(usager.telephone),
         scheduledDate,
         errorCount: 0,
         interactionMetas: {

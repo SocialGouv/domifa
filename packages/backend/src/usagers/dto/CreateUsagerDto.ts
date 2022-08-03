@@ -1,8 +1,8 @@
-import { UsagerPreferenceContact } from "./../../_common/model/usager/UsagerPreferenceContact.type";
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import {
   IsArray,
+  IsBoolean,
   IsDateString,
   IsEmail,
   IsIn,
@@ -14,7 +14,6 @@ import {
 } from "class-validator";
 import { UsagerAyantDroit, UsagerSexe, Telephone } from "../../_common/model";
 import { UsagerAyantDroitDto } from "./UsagerAyantDroitDto";
-import { PreferenceContactDto } from ".";
 
 import {
   LowerCaseTransform,
@@ -119,13 +118,9 @@ export class CreateUsagerDto {
   @Type(() => TelephoneDto)
   public telephone: Telephone;
 
-  @ApiProperty({
-    description: "Préférences de contact",
-  })
-  @IsOptional()
-  @ValidateNested()
-  @Type(() => PreferenceContactDto)
-  public preference!: UsagerPreferenceContact;
+  @IsNotEmpty()
+  @IsBoolean()
+  public contactByPhone!: boolean;
 
   @ApiProperty({
     description: "Tableau des ayants-droit",

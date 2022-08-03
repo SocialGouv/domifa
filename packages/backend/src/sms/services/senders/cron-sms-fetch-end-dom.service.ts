@@ -149,7 +149,7 @@ export class CronSmsFetchEndDomService {
           status: "TO_SEND",
           errorCount: 0,
           scheduledDate,
-          phoneNumber: getPhoneString(usager.preference.telephone),
+          phoneNumber: getPhoneString(usager.telephone),
           senderName: structure.sms.senderName,
         });
       }

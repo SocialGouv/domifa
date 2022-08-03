@@ -2,11 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { filter, Observable, startWith, tap } from "rxjs";
 import { environment } from "../../../../environments/environment";
-import {
-  MessageSms,
-  UsagerLight,
-  UsagerPreferenceContact,
-} from "../../../../_common/model";
+import { MessageSms, UsagerLight } from "../../../../_common/model";
 import { usagersCache } from "../../../shared/store";
 
 @Injectable({
@@ -35,17 +31,6 @@ export class UsagerProfilService {
       tap(() => {
         usagersCache.removeUsager({ ref: usagerRef });
       })
-    );
-  }
-
-  // Mise à jour des préférence de contact
-  public editSmsPreference(
-    preference: UsagerPreferenceContact,
-    usagerRef: number
-  ): Observable<UsagerLight> {
-    return this.http.post<UsagerLight>(
-      `${this.endPointUsagers}/preference/${usagerRef}`,
-      preference
     );
   }
 

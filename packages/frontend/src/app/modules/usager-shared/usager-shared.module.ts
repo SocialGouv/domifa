@@ -19,6 +19,7 @@ import { ProfilEtatCivilFormComponent } from "./components/profil-etat-civil-for
 import { ProfilGeneralNotesComponent } from "./components/profil-general-notes/profil-general-notes.component";
 import { ProfilAddNoteFormComponent } from "./components/profil-add-note-form/profil-add-note-form.component";
 import { DisplayUsagerDocsComponent } from "./components/display-usager-docs/display-usager-docs.component";
+import { EtatCivilParentFormComponent } from './components/etat-civil-parent-form/etat-civil-parent-form.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { DisplayUsagerDocsComponent } from "./components/display-usager-docs/dis
     ProfilGeneralNotesComponent,
     ProfilAddNoteFormComponent,
     DisplayUsagerDocsComponent,
+    EtatCivilParentFormComponent,
   ],
   imports: [
     CommonModule,

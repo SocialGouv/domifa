@@ -1,6 +1,8 @@
+import { appLogger } from "./../util/AppLogger.service";
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { domifaConfig } from "../config";
 import { usagerRepository } from "../database";
+import { isValidMobilePhone } from "../util/phone/phoneUtils.service";
 import { COUNTRY_CODES_TIMEZONE } from "../_common/model";
 import { TimeZone } from "./../util/territoires/types/TimeZone.type";
 
@@ -16,11 +18,7 @@ export class migratePhoneNumberUsagerMigration1657059112532
       domifaConfig().envId === "preprod" ||
       domifaConfig().envId === "local"
     ) {
-      console.warn(
-        "\n[MIGRATION] [TEL USAGERS] Sélection des structures Hors France métropolitaine  \n"
-      );
-
-      console.warn(
+      appLogger.debug(
         "\n[MIGRATION] [TEL USAGERS] Migrer vers le nouveau format de téléphone - Start \n"
       );
 
@@ -51,28 +49,31 @@ export class migratePhoneNumberUsagerMigration1657059112532
       };
 
       let cpt = 0;
+      let cptFailPhones = 0;
 
       for (const usager of usagers) {
         if (cpt % 1000 === 0) {
           console.log(cpt + "/" + usagers.length + " usagers migrés");
         }
         cpt++;
+
         codes[usager.timeZone] = codes[usager.timeZone] + 1;
-        await usagerRepository.updateOne(
-          {
-            uuid: usager.uuid,
-          },
-          {
-            telephone: {
-              countryCode: COUNTRY_CODES_TIMEZONE[usager.timeZone],
-              numero: usager.phone.toString().replace(/[^0-9]/g, ""),
-            },
-          }
-        );
+
+        const telephone = {
+          countryCode: COUNTRY_CODES_TIMEZONE[usager.timeZone],
+          numero: usager.phone.toString().replace(/[^0-9]/g, ""),
+        };
+
+        if (!isValidMobilePhone(telephone)) {
+          cptFailPhones++;
+        }
+
+        await usagerRepository.updateOne({ uuid: usager.uuid }, { telephone });
       }
       console.log();
       console.log(usagers.length + " usagers avec téléphone à migrer");
       console.log(codes);
+      console.log(cptFailPhones + " numéros non-enregistrés car foireux");
       console.log();
     }
 

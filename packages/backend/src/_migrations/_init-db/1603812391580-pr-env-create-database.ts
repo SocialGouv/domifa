@@ -3,7 +3,7 @@ import { appLogger } from "../../util";
 
 // IMPORTANT: utilisé sur les branches PR pour initialiser la bdd au démarrage du serveur avec une base vide
 export class CreateDatabase1603812391580 implements MigrationInterface {
-  name = "autoMigration1603812391580";
+  name = "createDatabaseMigration1603812391580";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     appLogger.warn("CREATION DB ....");

@@ -191,8 +191,15 @@
           </div>
           <div class="row">
             <div class="col">
-              <div class="form-group">
-                <label for="telephone">Numéro de téléphone (Optionnel)</label>
+              <div
+                class="form-group"
+                [ngClass]="{
+                  required: f.contactByPhone.value === true
+                }"
+              >
+                <label for="telephone"
+                  >Numéro de téléphone (Numéro de portable uniquement)</label
+                >
                 <ngx-intl-tel-input
                   [cssClass]="
                     submitted && (f.telephone.errors || f.telephone.invalid)
@@ -203,6 +210,8 @@
                   [enableAutoCountrySelect]="false"
                   [enablePlaceholder]="true"
                   [searchCountryFlag]="true"
+                  [customPlaceholder]="mobilePhonePlaceHolder"
+                  searchCountryPlaceholder="Choisissez votre pays"
                   [searchCountryField]="[
                     SearchCountryField.Iso2,
                     SearchCountryField.Name
@@ -212,12 +221,13 @@
                   [phoneValidation]="true"
                   [separateDialCode]="true"
                   [numberFormat]="PhoneNumberFormat.International"
-                  [inputId]="'telephone'"
+                  [inputId]="'telephoneSms'"
                   name="telephone"
                   formControlName="telephone"
-                  [selectedCountryISO]="usager.telephone.countryCode"
+                  (countryChange)="updatePlaceHolder($event.iso2)"
+                  [selectedCountryISO]="f.telephone?.value?.countryCode"
                 ></ngx-intl-tel-input>
-
+                <small *ngIf="f.countryCode.value === true">Optionnel</small>
                 <p
                   *ngIf="submitted && f.telephone.errors"
                   class="invalid-feedback-custom"
@@ -245,6 +255,44 @@
             </div>
           </div>
         </fieldset>
+
+        <div
+          class="row my-3"
+          *ngIf="
+            me.structure.sms.enabledByDomifa &&
+            me.structure.sms.enabledByStructure
+          "
+        >
+          <div class="col">
+            <fieldset>
+              <legend>
+                Le demandeur souhaite-t-il recevoir des notifications par SMS
+                (arrivée d'un courrier, échéance de domiciliation) ?
+              </legend>
+
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  formControlName="contactByPhone"
+                  id="sms_oui"
+                  [value]="true"
+                />
+                <label class="form-check-label" for="sms_oui"> Oui </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  formControlName="contactByPhone"
+                  id="sms_non"
+                  [value]="false"
+                />
+                <label class="form-check-label" for="sms_non"> Non </label>
+              </div>
+            </fieldset>
+          </div>
+        </div>
 
         <div class="row">
           <div class="col-md-12 my-3">
@@ -447,97 +495,6 @@
           <br />
         </ng-container>
 
-        <div
-          class="row my-3"
-          formGroupName="preference"
-          *ngIf="
-            me.structure.sms.enabledByDomifa &&
-            me.structure.sms.enabledByStructure
-          "
-        >
-          <div class="col">
-            <fieldset>
-              <legend>
-                Le demandeur souhaite-t-il recevoir des notifications par SMS
-                (arrivée d'un courrier, échéance de domiciliation) ?
-              </legend>
-
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  formControlName="contactByPhone"
-                  id="sms_oui"
-                  [value]="true"
-                />
-                <label class="form-check-label" for="sms_oui"> Oui </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  formControlName="contactByPhone"
-                  id="sms_non"
-                  [value]="false"
-                />
-                <label class="form-check-label" for="sms_non"> Non </label>
-              </div>
-            </fieldset>
-          </div>
-          <div
-            class="col"
-            *ngIf="f.preference.get('contactByPhone')?.value === true"
-          >
-            <div class="form-group required">
-              <label for="preferenceTelephone"
-                >À quel numéro de téléphone ? (Numéro de portable
-                uniquement)</label
-              >
-              <ngx-intl-tel-input
-                [cssClass]="
-                  submitted &&
-                  (f.preference.get('telephone')?.errors ||
-                    f.preference.get('telephone')?.invalid)
-                    ? 'form-control is-invalid'
-                    : 'form-control'
-                "
-                [preferredCountries]="PREFERRED_COUNTRIES"
-                [enableAutoCountrySelect]="false"
-                [enablePlaceholder]="true"
-                [searchCountryFlag]="true"
-                [customPlaceholder]="mobilePhonePlaceHolder"
-                searchCountryPlaceholder="Choisissez votre pays"
-                [searchCountryField]="[
-                  SearchCountryField.Iso2,
-                  SearchCountryField.Name
-                ]"
-                [selectFirstCountry]="false"
-                [maxLength]="15"
-                [phoneValidation]="true"
-                [separateDialCode]="true"
-                [numberFormat]="PhoneNumberFormat.International"
-                [inputId]="'telephoneSms'"
-                name="telephone"
-                formControlName="telephone"
-                (countryChange)="updatePlaceHolder($event)"
-                [selectedCountryISO]="
-                  f.preference.get('telephone')?.value?.countryCode
-                "
-              ></ngx-intl-tel-input>
-
-              <p
-                *ngIf="
-                  submitted &&
-                  (f.preference.get('telephone')?.errors ||
-                    f.preference.get('telephone')?.invalid)
-                "
-                class="invalid-feedback-custom"
-              >
-                Veuillez saisir un numéro de téléphone portable valide
-              </p>
-            </div>
-          </div>
-        </div>
         <input formControlName="ref" type="hidden" />
 
         <div class="col-md-4 my-4 offset-md-4 text-center">

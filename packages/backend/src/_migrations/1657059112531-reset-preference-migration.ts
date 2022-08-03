@@ -1,4 +1,5 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { domifaConfig } from "../config";
 
 export class resetPreferenceMigration1657059112531
   implements MigrationInterface
@@ -9,28 +10,15 @@ export class resetPreferenceMigration1657059112531
     console.log(
       "\n[MIGRATION] resetPreferenceMigration1657059112531 -  START\n"
     );
-
-    await queryRunner.query(
-      `ALTER TABLE "structure" ALTER COLUMN "telephone" SET DEFAULT '{"countryCode": "fr", "numero": ""}'`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "usager" ALTER COLUMN "telephone" SET DEFAULT '{"countryCode": "fr", "numero": ""}'`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "usager" ALTER COLUMN "preference" SET DEFAULT '{"contactByPhone": false, "telephone": {"countryCode": "fr", "numero": ""}}'`
-    );
-
-    await queryRunner.query(
-      `UPDATE "usager" u set preference = '{"contactByPhone": false, "telephone": {"countryCode": "fr", "numero": ""}}'  where ("preference"->>'phone')::boolean is false`
-    );
-
-    await queryRunner.query(
-      `UPDATE "usager" u set preference = '{"contactByPhone": false, "telephone": {"countryCode": "fr", "numero": ""}}'  where "preference" is null`
-    );
-
-    await queryRunner.query(
-      `UPDATE "usager" u set phone = NULL where phone = '' OR phone = '0600000000'`
-    );
+    if (
+      domifaConfig().envId === "prod" ||
+      domifaConfig().envId === "preprod" ||
+      domifaConfig().envId === "local"
+    ) {
+      await queryRunner.query(
+        `UPDATE "usager" u set phone = NULL where phone = '' OR phone = '0600000000' OR phone = '0606060606'`
+      );
+    }
 
     console.log("\n[MIGRATION] resetPreferenceMigration1657059112531 -  END\n");
   }
