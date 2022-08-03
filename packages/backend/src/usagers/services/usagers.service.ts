@@ -1,3 +1,4 @@
+import { UsagerDecision } from "..";
 import { Injectable } from "@nestjs/common";
 
 import {
@@ -58,7 +59,9 @@ export class UsagersService {
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
     usager.typeDom = "PREMIERE_DOM";
 
-    const createdUsager = await usagerLightRepository.save(usager);
+    const createdUsager = (await usagerLightRepository.save(
+      usager
+    )) as UsagerLight;
 
     const usagerHistory = usagerHistoryStateManager.buildInitialHistoryState({
       isImport: false,
@@ -196,7 +199,7 @@ export class UsagersService {
     }
 
     usager.decision.uuid = uuidGenerator.random();
-    usager.decision = decision;
+    usager.decision = decision as UsagerDecision;
 
     if (!usager.entretien) {
       usager.entretien = {};

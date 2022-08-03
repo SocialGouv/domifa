@@ -116,7 +116,7 @@ export class CreateUsagerDto {
   @IsOptional()
   @ValidateNested({ each: true })
   @Type(() => TelephoneDto)
-  public telephone: Telephone;
+  public telephone!: Telephone;
 
   @IsNotEmpty()
   @IsBoolean()

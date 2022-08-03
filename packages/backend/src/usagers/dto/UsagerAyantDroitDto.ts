@@ -32,7 +32,7 @@ export class UsagerAyantDroitDto {
   @IsNotEmpty()
   @IsIn(Object.keys(LIEN_PARENTE_LABELS))
   @TrimOrNullTransform()
-  public lien: AyantDroiLienParent;
+  public lien!: AyantDroiLienParent;
 
   @ApiProperty({
     example: "20/12/2002",
