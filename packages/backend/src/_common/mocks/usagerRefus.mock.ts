@@ -37,7 +37,6 @@ export const usagerRefusMock: UsagerLight = {
     portailUsagerEnabled: false,
   },
   contactByPhone: false,
-
   rdv: { dateRdv: null, userId: 0, userName: "" },
   ayantsDroits: [
     {
