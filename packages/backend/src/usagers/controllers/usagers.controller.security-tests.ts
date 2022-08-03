@@ -1,4 +1,3 @@
-import { HttpStatus } from "@nestjs/common";
 import { AppTestContext, AppTestHttpClient } from "../../util/test";
 import { USER_STRUCTURE_ROLE_ALL } from "../../_common/model";
 import {
@@ -40,26 +39,6 @@ export const UsagersControllerSecurityTests: AppTestHttpClientSecurityTestDef[] 
           context.user,
           {
             roles: ["simple", "responsable", "admin"],
-          }
-        ),
-      }),
-    },
-    {
-      label: `${CONTROLLER}.editPreference`,
-      query: async (context: AppTestContext) => ({
-        // on utilise un mauvais ID pour ne pas modifier les données (on cherche juste à tester l'accès au controlleur)
-        response: await AppTestHttpClient.post("/usagers/preference/4444444", {
-          context,
-          body: {
-            contactByPhone: false,
-            phoneNumber: "00-00-00-00-00",
-          },
-        }),
-        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
-          context.user,
-          {
-            roles: ["simple", "responsable", "admin"],
-            validExpectedResponseStatus: HttpStatus.BAD_REQUEST, // car mauvais id
           }
         ),
       }),

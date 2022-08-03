@@ -87,7 +87,6 @@ describe("StepEtatCivilComponent", () => {
       day: 12,
     });
     component.usagerForm.controls.villeNaissance.setValue("Paris");
-
     expect(component.usagerForm.valid).toBeTruthy();
   });
 

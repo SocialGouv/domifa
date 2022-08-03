@@ -28,7 +28,7 @@ export type UsagerLight = AppEntity &
     | "telephone"
     | "import"
     | "langue"
-    | "preference"
+    | "contactByPhone"
     | "datePremiereDom"
     | "notes"
   >;

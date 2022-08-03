@@ -3,16 +3,9 @@ import { UsagerEtatCivilFormData } from "./../../../../../_common/model/usager/f
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
 
-import {
-  NgbDateParserFormatter,
-  NgbDatepickerI18n,
-} from "@ng-bootstrap/ng-bootstrap";
-
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { UsagerLight } from "../../../../../_common/model";
 
-import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
-import { CustomDatepickerI18n } from "../../../shared/services/date-french";
 import { UsagerFormModel } from "../../interfaces";
 import { EtatCivilService } from "../../services/etat-civil.service";
 import { AuthService } from "../../../shared/services/auth.service";
@@ -21,11 +14,6 @@ import { AuthService } from "../../../shared/services/auth.service";
   selector: "app-profil-etat-civil-form",
   templateUrl: "./profil-etat-civil-form.component.html",
   styleUrls: ["./profil-etat-civil-form.component.css"],
-  providers: [
-    NgbDateCustomParserFormatter,
-    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
-  ],
 })
 export class ProfilEtatCivilFormComponent
   extends EtatCivilParentFormComponent
@@ -38,8 +26,8 @@ export class ProfilEtatCivilFormComponent
   constructor(
     public authService: AuthService,
     public formBuilder: FormBuilder,
-    public toastService: CustomToastService,
-    public etatCivilService: EtatCivilService
+    private readonly toastService: CustomToastService,
+    private readonly etatCivilService: EtatCivilService
   ) {
     super(formBuilder, authService);
   }

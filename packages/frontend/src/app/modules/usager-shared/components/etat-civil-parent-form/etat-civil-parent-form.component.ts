@@ -13,13 +13,16 @@ import {
   FormControl,
   FormBuilder,
 } from "@angular/forms";
-import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbDateParserFormatter,
+  NgbDatepickerI18n,
+  NgbDateStruct,
+} from "@ng-bootstrap/ng-bootstrap";
 
 import {
   SearchCountryField,
   CountryISO,
   PhoneNumberFormat,
-  ChangeData,
 } from "ngx-intl-tel-input";
 import { Observable } from "rxjs";
 
@@ -43,28 +46,33 @@ import {
   mobilePhoneValidator,
   anyPhoneValidator,
   getFormPhone,
-  isNumber,
-  padNumber,
+  parseDateFromNgb,
 } from "../../../../shared";
 import { AuthService } from "../../../shared/services/auth.service";
+import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
+import { CustomDatepickerI18n } from "../../../shared/services/date-french";
 
 import { AyantDroit, UsagerFormModel } from "../../interfaces";
 
 @Component({
   selector: "app-etat-civil-parent-form",
   templateUrl: "./etat-civil-parent-form.component.html",
-  styleUrls: ["./etat-civil-parent-form.component.css"],
+  providers: [
+    NgbDateCustomParserFormatter,
+    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
+  ],
 })
 export class EtatCivilParentFormComponent implements OnInit {
   public PhoneNumberFormat = PhoneNumberFormat;
   public SearchCountryField = SearchCountryField;
   public CountryISO = CountryISO;
   public PREFERRED_COUNTRIES: CountryISO[] = PREFERRED_COUNTRIES;
+  public countryCode: string | null;
 
   public LIEN_PARENTE_LABELS = LIEN_PARENTE_LABELS;
 
   /* Config datepickers */
-  public dToday = new Date();
   public maxDateNaissance: NgbDateStruct;
   public minDateNaissance: NgbDateStruct;
   public minDateToday: NgbDateStruct;
@@ -84,8 +92,6 @@ export class EtatCivilParentFormComponent implements OnInit {
 
   public currentUserSubject$: Observable<UserStructure>;
 
-  @ViewChildren("adNom") public inputsAyantDroit!: QueryList<ElementRef>;
-
   get f(): { [key: string]: AbstractControl } {
     return this.usagerForm.controls;
   }
@@ -94,10 +100,13 @@ export class EtatCivilParentFormComponent implements OnInit {
     return this.usagerForm.get("ayantsDroits") as FormArray;
   }
 
+  @ViewChildren("adNom") public inputsAyantDroit!: QueryList<ElementRef>;
+
   constructor(
     public formBuilder: FormBuilder,
     public authService: AuthService
   ) {
+    this.countryCode = null;
     this.submitted = false;
     this.loading = false;
     this.mobilePhonePlaceHolder = "";
@@ -130,14 +139,19 @@ export class EtatCivilParentFormComponent implements OnInit {
       ),
       prenom: [this.usager.prenom, [Validators.required, noWhiteSpace]],
       sexe: [this.usager.sexe, Validators.required],
-      surnom: [this.usager.surnom, []],
-      villeNaissance: [this.usager.villeNaissance, [Validators.required]],
+      surnom: [this.usager.surnom, [noWhiteSpace]],
+      villeNaissance: [
+        this.usager.villeNaissance,
+        [Validators.required, noWhiteSpace],
+      ],
     });
 
-    console.log(this.usagerForm.value.telephone);
+    // Ajout des ayant-droit
     for (const ayantDroit of this.usager.ayantsDroits) {
       this.addAyantDroit(ayantDroit);
     }
+
+    this.updatePlaceHolder();
 
     this.usagerForm
       .get("contactByPhone")
@@ -146,19 +160,13 @@ export class EtatCivilParentFormComponent implements OnInit {
           ? [Validators.required, mobilePhoneValidator]
           : [anyPhoneValidator];
 
-        console.log(value);
-        console.log(this.usagerForm.value);
-
-        this.mobilePhonePlaceHolder = "";
-        const prefValue = this.usagerForm.value.telephone as ChangeData;
-        console.log(prefValue);
-        this.updatePlaceHolder(prefValue.countryCode);
-
         this.usagerForm.get("telephone").setValidators(isRequiredTelephone);
         this.usagerForm.get("telephone").updateValueAndValidity();
       });
   }
 
+  //
+  // Gestion des ayant-droits
   public addAyantDroit(ayantDroit: AyantDroit = new AyantDroit()): void {
     (this.usagerForm.controls.ayantsDroits as FormArray).push(
       this.newAyantDroit(ayantDroit)
@@ -203,11 +211,19 @@ export class EtatCivilParentFormComponent implements OnInit {
     });
   }
 
-  public updatePlaceHolder(country: string) {
-    console.log("updatePlaceHolder");
-    console.log(country);
-    if (typeof PHONE_PLACEHOLDERS[country] !== "undefined") {
-      this.mobilePhonePlaceHolder = PHONE_PLACEHOLDERS[country.toLowerCase()];
+  //
+  // Gestion des téléphones
+  public updatePlaceHolder(country?: string) {
+    if (!country && !this.countryCode) {
+      country =
+        this.usagerForm.value?.telephone?.countryCode ||
+        this.usager.telephone.countryCode;
+    }
+
+    this.countryCode = country;
+    if (typeof PHONE_PLACEHOLDERS[this.countryCode] !== "undefined") {
+      this.mobilePhonePlaceHolder =
+        PHONE_PLACEHOLDERS[this.countryCode.toLowerCase()];
     } else {
       this.mobilePhonePlaceHolder = "";
     }
@@ -221,7 +237,7 @@ export class EtatCivilParentFormComponent implements OnInit {
           lien: ayantDroit.lien,
           nom: ayantDroit.nom,
           prenom: ayantDroit.prenom,
-          dateNaissance: new Date(this.formatEn(ayantDroit.dateNaissance)),
+          dateNaissance: new Date(parseDateFromNgb(ayantDroit.dateNaissance)),
         };
       }
     );
@@ -244,18 +260,10 @@ export class EtatCivilParentFormComponent implements OnInit {
       email: formValue?.email,
       telephone,
       ayantsDroits,
-      contactByPhone: false,
-      dateNaissance: new Date(this.formatEn(formValue.dateNaissance)),
+      contactByPhone: formValue?.contactByPhone,
+      dateNaissance: new Date(parseDateFromNgb(formValue.dateNaissance)),
     };
 
     return datas;
-  }
-
-  public formatEn(date: NgbDateStruct): string {
-    return date === null
-      ? null
-      : `${date.year}-${isNumber(date.month) ? padNumber(date.month) : ""}-${
-          isNumber(date.day) ? padNumber(date.day) : ""
-        }`;
   }
 }

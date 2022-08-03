@@ -193,12 +193,14 @@
             <div class="col">
               <div
                 class="form-group"
-                [ngClass]="{
-                  required: f.contactByPhone.value === true
-                }"
+                [ngClass]="
+                  f.contactByPhone.value === true
+                    ? 'required form-group'
+                    : 'form-group'
+                "
               >
                 <label for="telephone"
-                  >Numéro de téléphone (Numéro de portable uniquement)</label
+                  >Numéro de téléphone (mobile uniquement)</label
                 >
                 <ngx-intl-tel-input
                   [cssClass]="
@@ -221,13 +223,15 @@
                   [phoneValidation]="true"
                   [separateDialCode]="true"
                   [numberFormat]="PhoneNumberFormat.International"
-                  [inputId]="'telephoneSms'"
+                  inputId="telephone"
                   name="telephone"
                   formControlName="telephone"
                   (countryChange)="updatePlaceHolder($event.iso2)"
                   [selectedCountryISO]="f.telephone?.value?.countryCode"
                 ></ngx-intl-tel-input>
-                <small *ngIf="f.countryCode.value === true">Optionnel</small>
+                <small *ngIf="f.contactByPhone.value === false"
+                  >Optionnel</small
+                >
                 <p
                   *ngIf="submitted && f.telephone.errors"
                   class="invalid-feedback-custom"

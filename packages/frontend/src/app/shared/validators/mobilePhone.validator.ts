@@ -30,10 +30,10 @@ export const anyPhoneValidator = (
 ): ValidationErrors | null => {
   const value = control.value as ChangeData;
   if (!value) {
-    return { isNotValidPhone: true };
+    return null;
   }
   if (!value.number || value.number === "") {
-    return { isNotValidPhone: true };
+    return null;
   }
 
   try {

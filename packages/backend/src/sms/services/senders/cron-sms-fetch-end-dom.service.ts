@@ -122,10 +122,10 @@ export class CronSmsFetchEndDomService {
 
     for (const structure of structuresWithSms) {
       const usagersWithSms = await usagerLightRepository.findManyWithQuery({
-        select: ["structureId", "ref", "preference"],
+        select: ["structureId", "ref", "contactByPhone", "telephone"],
         where: `decision->>'statut' = 'VALIDE'
                 AND "structureId" = :structureId
-                AND (preference->>'contactByPhone')::boolean is true
+                AND "contactByPhone" is true
                 AND to_char((decision->>'dateFin')::timestamptz, 'YYYY-MM-DD') = to_char(current_date + interval '1 month' * 2, 'YYYY-MM-DD')`,
         params: {
           structureId: structure.id,
