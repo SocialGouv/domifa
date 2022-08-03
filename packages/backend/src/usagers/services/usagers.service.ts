@@ -1,4 +1,3 @@
-import { UsagerDecision } from "..";
 import { Injectable } from "@nestjs/common";
 
 import {
@@ -19,6 +18,7 @@ import {
   UserStructure,
   UserStructureProfile,
   UsagerTypeDom,
+  UsagerDecision,
 } from "../../_common/model";
 import { usagerHistoryStateManager } from "./usagerHistoryStateManager.service";
 import { usagersCreator } from "./usagersCreator.service";
