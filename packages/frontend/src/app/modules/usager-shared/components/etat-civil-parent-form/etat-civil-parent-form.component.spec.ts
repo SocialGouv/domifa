@@ -44,4 +44,66 @@ describe("EtatCivilParentFormComponent", () => {
   it("should create", () => {
     expect(component).toBeTruthy();
   });
+
+  it("Conversion des données brutes du formulaire", () => {
+    const testForm = {
+      ayantsDroits: [
+        {
+          dateNaissance: { year: 2022, month: 8, day: 1 },
+          lien: "ENFANT",
+          nom: "AD NOM",
+          prenom: "AD PRENOM",
+        },
+      ],
+      ayantsDroitsExist: true,
+      contactByPhone: true,
+      customRef: null,
+      dateNaissance: {
+        day: 3,
+        month: 8,
+        year: 2022,
+      },
+      email: "",
+      langue: "ar",
+      nom: "TEST",
+      prenom: "TEST PRENOM",
+      sexe: "homme",
+      surnom: "Chips",
+      telephone: {
+        countryCode: "FR",
+        dialCode: "+33",
+        e164Number: "+33606060606",
+        internationalNumber: "+33 6 06 06 06 06",
+        nationalNumber: "06 06 06 06 06",
+        // eslint-disable-next-line id-denylist
+        number: "6 06 06 06 06",
+      },
+      villeNaissance: "Paris",
+    };
+
+    expect(component.getEtatCivilForm(testForm)).toEqual({
+      ayantsDroits: [
+        {
+          dateNaissance: new Date("2022-08-01T21:59:59.999Z"),
+          lien: "ENFANT",
+          nom: "AD NOM",
+          prenom: "AD PRENOM",
+        },
+      ],
+      contactByPhone: true,
+      customRef: null,
+      dateNaissance: new Date("2022-08-03T21:59:59.999Z"),
+      email: "",
+      langue: "ar",
+      nom: "TEST",
+      prenom: "TEST PRENOM",
+      sexe: "homme",
+      surnom: "Chips",
+      telephone: {
+        countryCode: "fr",
+        numero: "0606060606",
+      },
+      villeNaissance: "Paris",
+    });
+  });
 });

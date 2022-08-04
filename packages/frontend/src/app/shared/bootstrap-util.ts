@@ -50,7 +50,7 @@ export function formatDateToNgb(date: Date | null): NgbDateStruct | null {
 }
 
 export function parseDateFromNgb(ngbDate: NgbDateStruct): Date {
-  return new Date(Date.UTC(ngbDate.year, ngbDate.month, ngbDate.day));
+  return new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
 }
 
 export const minDateNaissance = { day: 1, month: 1, year: 1900 };

@@ -1,3 +1,4 @@
+import { domifaConfig } from "./../../../config/domifaConfig.service";
 import moment = require("moment");
 import { EntityManager } from "typeorm";
 import { Usager } from "../../../_common/model";
@@ -30,7 +31,7 @@ function countUsagers(structuresId?: number[]): Promise<number> {
 }
 
 async function countUsagersByMonth(regionId?: string) {
-  const startDate = postgresQueryBuilder.formatPostgresDate(
+  let startDate = postgresQueryBuilder.formatPostgresDate(
     moment()
       .utc()
       .subtract(2, "month")
@@ -38,6 +39,10 @@ async function countUsagersByMonth(regionId?: string) {
       .endOf("month")
       .toDate()
   );
+
+  if (domifaConfig().envId === "test") {
+    startDate = postgresQueryBuilder.formatPostgresDate(new Date("2021-07-31"));
+  }
 
   const where = [startDate];
 

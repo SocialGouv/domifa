@@ -18,6 +18,7 @@ import {
   NgbDatepickerI18n,
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
+import { endOfDay } from "date-fns";
 
 import {
   SearchCountryField,
@@ -119,6 +120,8 @@ export class EtatCivilParentFormComponent implements OnInit {
   ngOnInit(): void {}
 
   public initForm(): void {
+    console.log(formatDateToNgb(this.usager.dateNaissance));
+
     this.usagerForm = this.formBuilder.group({
       ayantsDroits: this.formBuilder.array([]),
       langue: [this.usager.langue, languagesAutocomplete.validator("langue")],
@@ -139,7 +142,7 @@ export class EtatCivilParentFormComponent implements OnInit {
       ),
       prenom: [this.usager.prenom, [Validators.required, noWhiteSpace]],
       sexe: [this.usager.sexe, Validators.required],
-      surnom: [this.usager.surnom, [noWhiteSpace]],
+      surnom: [this.usager.surnom],
       villeNaissance: [
         this.usager.villeNaissance,
         [Validators.required, noWhiteSpace],
@@ -237,7 +240,7 @@ export class EtatCivilParentFormComponent implements OnInit {
           lien: ayantDroit.lien,
           nom: ayantDroit.nom,
           prenom: ayantDroit.prenom,
-          dateNaissance: new Date(parseDateFromNgb(ayantDroit.dateNaissance)),
+          dateNaissance: endOfDay(parseDateFromNgb(ayantDroit.dateNaissance)),
         };
       }
     );
@@ -251,17 +254,17 @@ export class EtatCivilParentFormComponent implements OnInit {
 
     const datas: UsagerEtatCivilFormData = {
       sexe: formValue?.sexe,
-      nom: formValue?.nom,
-      prenom: formValue?.prenom,
-      surnom: formValue?.surnom,
+      nom: formValue?.nom.trim(),
+      prenom: formValue?.prenom.trim(),
+      surnom: formValue?.surnom || null,
       villeNaissance: formValue?.villeNaissance,
-      langue: formValue?.langue,
-      customRef: formValue?.customRef,
-      email: formValue?.email,
+      langue: formValue?.langue || null,
+      customRef: formValue?.customRef || null,
+      email: formValue?.email.trim(),
       telephone,
       ayantsDroits,
       contactByPhone: formValue?.contactByPhone,
-      dateNaissance: new Date(parseDateFromNgb(formValue.dateNaissance)),
+      dateNaissance: endOfDay(parseDateFromNgb(formValue.dateNaissance)),
     };
 
     return datas;
