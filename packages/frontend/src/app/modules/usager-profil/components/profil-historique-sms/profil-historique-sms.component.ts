@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit } from "@angular/core";
+import { AfterViewInit, Component, Input } from "@angular/core";
 import { UserStructure } from "../../../../../_common/model";
 import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../_common/model/interaction/constants";
 import { MessageSms } from "../../../../../_common/model/message-sms";

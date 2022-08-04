@@ -4,7 +4,6 @@ import {
   EventEmitter,
   HostListener,
   Input,
-  OnInit,
   Output,
 } from "@angular/core";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
