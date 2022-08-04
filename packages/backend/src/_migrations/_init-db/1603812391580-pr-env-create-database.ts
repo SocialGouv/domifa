@@ -16,10 +16,6 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
     }
     appLogger.warn("CREATION DB ....");
 
-    await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "citext"`);
-    await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "hstore"`);
-    await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "hypopg"`);
-    await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "pgcrypto"`);
     await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
 
     await createTables(queryRunner);
