@@ -13,15 +13,17 @@ export class preparePhoneMigration1657059112530 implements MigrationInterface {
       await queryRunner.query(
         `ALTER TABLE "structure" ALTER COLUMN "telephone" SET DEFAULT '{"countryCode": "fr", "numero": ""}'`
       );
+
+      await queryRunner.query(
+        `ALTER TABLE "usager" ALTER COLUMN "telephone" SET DEFAULT '{"countryCode": "fr", "numero": ""}'`
+      );
+
       await queryRunner.query(
         `ALTER TABLE "usager" ADD "contactByPhone" boolean DEFAULT false`
       );
 
       await queryRunner.query(
-        `ALTER TABLE "usager" ALTER COLUMN "telephone" SET DEFAULT '{"countryCode": "fr", "numero": ""}'`
-      );
-      await queryRunner.query(
-        `ALTER TABLE "usager" ALTER COLUMN "preference" DROP DEFAULT`
+        `UPDATE "usager" u set phone = NULL where phone = '' OR phone = '0600000000' OR phone = '0606060606'`
       );
     }
   }

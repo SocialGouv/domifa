@@ -1,4 +1,3 @@
-import { appLogger } from "./../util/AppLogger.service";
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { domifaConfig } from "../config";
 import { usagerRepository } from "../database";
@@ -18,7 +17,7 @@ export class migratePhoneNumberUsagerMigration1657059112532
       domifaConfig().envId === "preprod" ||
       domifaConfig().envId === "local"
     ) {
-      appLogger.debug(
+      console.log(
         "\n[MIGRATION] [TEL USAGERS] Migrer vers le nouveau format de téléphone - Start \n"
       );
 
