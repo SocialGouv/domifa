@@ -120,8 +120,6 @@ export class EtatCivilParentFormComponent implements OnInit {
   ngOnInit(): void {}
 
   public initForm(): void {
-    console.log(formatDateToNgb(this.usager.dateNaissance));
-
     this.usagerForm = this.formBuilder.group({
       ayantsDroits: this.formBuilder.array([]),
       langue: [this.usager.langue, languagesAutocomplete.validator("langue")],
