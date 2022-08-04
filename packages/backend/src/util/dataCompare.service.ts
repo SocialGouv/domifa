@@ -51,6 +51,6 @@ function compareNullValues<T>(
     }
     return -1;
   } else {
-    return -1;
+    return 0;
   }
 }

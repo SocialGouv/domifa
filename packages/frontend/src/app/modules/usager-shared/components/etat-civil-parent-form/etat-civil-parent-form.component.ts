@@ -45,7 +45,6 @@ import {
   noWhiteSpace,
   setFormPhone,
   mobilePhoneValidator,
-  anyPhoneValidator,
   getFormPhone,
   parseDateFromNgb,
 } from "../../../../shared";
@@ -136,7 +135,7 @@ export class EtatCivilParentFormComponent implements OnInit {
         setFormPhone(this.usager.telephone),
         this.usager.contactByPhone
           ? [Validators.required, mobilePhoneValidator]
-          : [anyPhoneValidator]
+          : [mobilePhoneValidator]
       ),
       prenom: [this.usager.prenom, [Validators.required, noWhiteSpace]],
       sexe: [this.usager.sexe, Validators.required],
@@ -159,7 +158,7 @@ export class EtatCivilParentFormComponent implements OnInit {
       .valueChanges.subscribe((value: boolean) => {
         const isRequiredTelephone = value
           ? [Validators.required, mobilePhoneValidator]
-          : [anyPhoneValidator];
+          : [mobilePhoneValidator];
 
         this.usagerForm.get("telephone").setValidators(isRequiredTelephone);
         this.usagerForm.get("telephone").updateValueAndValidity();
@@ -221,7 +220,7 @@ export class EtatCivilParentFormComponent implements OnInit {
         this.usager.telephone.countryCode;
     }
 
-    this.countryCode = country;
+    this.countryCode = country.toLowerCase();
     if (typeof PHONE_PLACEHOLDERS[this.countryCode] !== "undefined") {
       this.mobilePhonePlaceHolder =
         PHONE_PLACEHOLDERS[this.countryCode.toLowerCase()];
@@ -236,8 +235,8 @@ export class EtatCivilParentFormComponent implements OnInit {
       (ayantDroit: UsagerFormAyantDroit) => {
         return {
           lien: ayantDroit.lien,
-          nom: ayantDroit.nom,
-          prenom: ayantDroit.prenom,
+          nom: ayantDroit.nom.trim(),
+          prenom: ayantDroit.prenom.trim(),
           dateNaissance: endOfDay(parseDateFromNgb(ayantDroit.dateNaissance)),
         };
       }
@@ -258,7 +257,7 @@ export class EtatCivilParentFormComponent implements OnInit {
       villeNaissance: formValue?.villeNaissance,
       langue: formValue?.langue || null,
       customRef: formValue?.customRef || null,
-      email: formValue?.email.trim(),
+      email: formValue?.email.toLowerCase().trim() || null,
       telephone,
       ayantsDroits,
       contactByPhone: formValue?.contactByPhone,
