@@ -58,7 +58,7 @@ describe("Stats Public Controller", () => {
       usagersCount: 20,
       usersCount: 10,
       structuresCount: 5,
-      interactionsCount: 0,
+      interactionsCount: 2,
       structuresCountByRegion: [
         { count: 2, region: "52" },
         { count: 1, region: "03" },
