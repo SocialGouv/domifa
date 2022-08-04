@@ -85,6 +85,12 @@ export class ImportController {
     @UploadedFile() file: Express.Multer.File,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
+    if (importMode !== "preview" && importMode !== "confirm") {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "IMPORT_MODE_FAIL" });
+    }
+
     const processTracker: ImportProcessTracker = {
       start: new Date(),
       read: {
