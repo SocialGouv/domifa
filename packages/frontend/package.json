@@ -12,8 +12,7 @@
     "build:analyze": "ng build --configuration=analyze",
     "analyze": "npx source-map-explorer dist/**/*.js",
     "test": "jest",
-    "lint": "ng lint --format stylish",
-    "e2e": "ng e2e"
+    "lint": "ng lint --format stylish"
   },
   "private": true,
   "dependencies": {
