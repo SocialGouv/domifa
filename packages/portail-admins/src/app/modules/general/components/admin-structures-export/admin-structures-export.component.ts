@@ -1,7 +1,8 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
+import saveAs from "file-saver";
 
 import { AdminStructuresApiClient } from "../../../shared/services";
-import * as fileSaver from "file-saver";
+
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 
 @Component({
@@ -9,26 +10,22 @@ import { CustomToastService } from "../../../shared/services/custom-toast.servic
   templateUrl: "./admin-structures-export.component.html",
   styleUrls: ["./admin-structures-export.component.css"],
 })
-export class AdminStructuresExportComponent implements OnInit, OnDestroy {
+export class AdminStructuresExportComponent {
   public exportLoading = false;
 
   constructor(
     private readonly adminStructuresApiClient: AdminStructuresApiClient,
-    private notifService: CustomToastService
+    private readonly notifService: CustomToastService
   ) {}
-
-  public ngOnInit(): void {}
-
-  public ngOnDestroy(): void {}
 
   public exportDashboard(): void {
     this.exportLoading = true;
     this.adminStructuresApiClient.exportDashboard().subscribe({
-      next: (x: any) => {
+      next: (x: Blob) => {
         const newBlob = new Blob([x], {
           type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         });
-        fileSaver.saveAs(newBlob, "export_stats_domifa" + ".xlsx");
+        saveAs(newBlob, "export_stats_domifa" + ".xlsx");
         setTimeout(() => {
           this.exportLoading = false;
         }, 500);

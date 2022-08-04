@@ -66,7 +66,7 @@ describe("EtatCivilParentFormComponent", () => {
       email: "",
       langue: "ar",
       nom: "TEST",
-      prenom: "TEST PRENOM",
+      prenom: "TEST PRENOM ",
       sexe: "homme",
       surnom: "Chips",
       telephone: {
@@ -93,7 +93,7 @@ describe("EtatCivilParentFormComponent", () => {
       contactByPhone: true,
       customRef: null,
       dateNaissance: new Date("2022-08-03T21:59:59.999Z"),
-      email: "",
+      email: null,
       langue: "ar",
       nom: "TEST",
       prenom: "TEST PRENOM",

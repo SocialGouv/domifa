@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from "@angular/core";
+import { Component, Input, OnChanges } from "@angular/core";
 
 import { UsagerFormModel } from "../../../usager-shared/interfaces/UsagerFormModel";
 
@@ -7,7 +7,7 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces/UsagerFormMod
   templateUrl: "./step-header.component.html",
   styleUrls: ["./step-header.component.css"],
 })
-export class StepHeaderComponent implements OnInit, OnChanges {
+export class StepHeaderComponent implements OnChanges {
   @Input() public usager!: UsagerFormModel;
 
   public filteredNotes: number;
@@ -15,8 +15,6 @@ export class StepHeaderComponent implements OnInit, OnChanges {
   constructor() {
     this.filteredNotes = 0;
   }
-
-  public ngOnInit(): void {}
 
   public ngOnChanges() {
     this.filteredNotes = this.usager.notes.filter(

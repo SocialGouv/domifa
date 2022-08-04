@@ -36,8 +36,6 @@ export class StatsChartsComponent implements OnChanges {
 
   @Input() public publicStats: PublicStats;
 
-  constructor() {}
-
   public ngOnChanges(): void {
     if (this.publicStats) {
       this.statsInCharts = this.publicStats.interactionsCountByMonth;

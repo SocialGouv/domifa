@@ -43,14 +43,16 @@ function compareNullValues<T>(
   } else if (a == null && b != null) {
     if (nullFirst) {
       return -1;
+    } else {
+      return 1;
     }
-    return 1;
   } else if (a != null && b == null) {
     if (nullFirst) {
       return 1;
+    } else {
+      return -1;
     }
-    return -1;
   } else {
-    return -1;
+    return undefined;
   }
 }

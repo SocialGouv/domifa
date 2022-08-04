@@ -4,7 +4,7 @@ import { appLogger } from "../../util";
 
 // IMPORTANT: utilisé sur les branches PR pour initialiser la bdd au démarrage du serveur avec une base vide
 export class CreateDatabase1603812391580 implements MigrationInterface {
-  name = "createDatabaseMigration1603812391580";
+  name = "autoMigration1603812391580";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     if (
@@ -16,6 +16,10 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
     }
     appLogger.warn("CREATION DB ....");
 
+    await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "citext"`);
+    await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "hstore"`);
+    await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "hypopg"`);
+    await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "pgcrypto"`);
     await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
 
     await createTables(queryRunner);

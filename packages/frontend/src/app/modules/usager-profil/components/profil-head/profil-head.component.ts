@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from "@angular/core";
+import { Component, Input, TemplateRef, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
@@ -26,7 +20,7 @@ import { CerfaDocType } from "src/_common/model/cerfa";
   templateUrl: "./profil-head.component.html",
   styleUrls: ["./profil-head.component.css"],
 })
-export class ProfilHeadComponent implements OnInit {
+export class ProfilHeadComponent {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
 
@@ -52,8 +46,6 @@ export class ProfilHeadComponent implements OnInit {
     this.loading = false;
     this.today = new Date();
   }
-
-  public ngOnInit(): void {}
 
   public closeModals(): void {
     this.loading = false;
