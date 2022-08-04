@@ -81,7 +81,7 @@ export class MessageSmsService {
 
   // Suppression d'un SMS si le courrier a été distribué
   public async deleteSmsInteractionOut(
-    usager: Pick<Usager, "ref" | "preference">,
+    usager: Pick<Usager, "ref" | "contactByPhone">,
     structureId: number,
     interaction: InteractionDto
   ) {
@@ -99,7 +99,7 @@ export class MessageSmsService {
 
   // Suppression d'un SMS si l'interaction a été supprimée
   public async deleteSmsInteraction(
-    usager: Pick<Usager, "ref" | "preference">,
+    usager: Pick<Usager, "ref" | "contactByPhone">,
     structureId: number,
     interaction: InteractionDto
   ) {
@@ -121,7 +121,7 @@ export class MessageSmsService {
       } else {
         return messageSmsRepository.deleteByCriteria({ uuid: smsOnHold.uuid });
       }
-    } else if (usager.preference?.contactByPhone === true) {
+    } else if (usager.contactByPhone === true) {
       appLogger.warn(`SMS Service: Interaction to delete not found`);
     }
   }
@@ -167,7 +167,7 @@ export class MessageSmsService {
         senderName: structure.sms.senderName,
         status: "TO_SEND",
         smsId: interaction.type,
-        phoneNumber: getPhoneString(usager.preference.telephone),
+        phoneNumber: getPhoneString(usager.telephone),
         scheduledDate,
         errorCount: 0,
         interactionMetas: {

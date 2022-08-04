@@ -6,6 +6,7 @@ export const usagerRefusMock: UsagerLight = {
   notes: [],
   decision: {
     orientationDetails: null,
+    orientation: null,
     statut: "REFUS",
     dateDebut: new Date("2020-02-12T00:00:00.000Z"),
     dateDecision: new Date("2020-02-12T00:00:00.000Z"),
@@ -46,10 +47,8 @@ export const usagerRefusMock: UsagerLight = {
     },
     portailUsagerEnabled: false,
   },
-  preference: {
-    contactByPhone: false,
-    telephone: { countryCode: CountryISO.France, numero: "0606060606" },
-  },
+  contactByPhone: false,
+
   rdv: { dateRdv: null, userId: 0, userName: "" },
   ayantsDroits: [
     {
@@ -81,11 +80,13 @@ export const usagerRefusMock: UsagerLight = {
       dateDebut: new Date("2020-12-01T10:00:24.980Z"),
       dateDecision: new Date("2020-12-01T10:00:24.980Z"),
       dateFin: new Date("2020-12-01T10:00:24.980Z"),
-      motif: undefined,
+      motif: null,
+      orientation: null,
+      orientationDetails: null,
       statut: "INSTRUCTION",
       userId: 30,
       userName: "Testeur Robin",
-      typeDom: undefined,
+      typeDom: null,
     },
   ],
   telephone: { countryCode: CountryISO.France, numero: "0142424242" },

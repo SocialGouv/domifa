@@ -26,7 +26,8 @@ export class CronSmsFetchEndDomService {
   @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "America/Martinique",
   })
-  protected async sendSmsMartinique() {
+  protected async sendSmsMartiniqueAndGuadeloupe() {
+    await this.fetchUsagerEndDom("cron", "America/Guadeloupe");
     await this.fetchUsagerEndDom("cron", "America/Martinique");
   }
 
@@ -121,10 +122,10 @@ export class CronSmsFetchEndDomService {
 
     for (const structure of structuresWithSms) {
       const usagersWithSms = await usagerLightRepository.findManyWithQuery({
-        select: ["structureId", "ref", "preference"],
+        select: ["structureId", "ref", "contactByPhone", "telephone"],
         where: `decision->>'statut' = 'VALIDE'
                 AND "structureId" = :structureId
-                AND (preference->>'contactByPhone')::boolean is true
+                AND "contactByPhone" is true
                 AND to_char((decision->>'dateFin')::timestamptz, 'YYYY-MM-DD') = to_char(current_date + interval '1 month' * 2, 'YYYY-MM-DD')`,
         params: {
           structureId: structure.id,
@@ -143,12 +144,12 @@ export class CronSmsFetchEndDomService {
         await messageSmsRepository.upsertEndDom({
           usagerRef: usager.ref,
           structureId: usager.structureId,
-          content: `Bonjour, \n\nVotre domiciliation expire dans 2 mois, nous vous invitons à vous rendre dans votre structure.\n\n${structure.sms.senderDetails}`,
+          content: `Bonjour,\n\nVotre domiciliation expire dans 2 mois, nous vous invitons à vous rendre dans votre structure.\n\n${structure.sms.senderDetails}`,
           smsId: "echeanceDeuxMois",
           status: "TO_SEND",
           errorCount: 0,
           scheduledDate,
-          phoneNumber: getPhoneString(usager.preference.telephone),
+          phoneNumber: getPhoneString(usager.telephone),
           senderName: structure.sms.senderName,
         });
       }

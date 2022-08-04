@@ -122,7 +122,10 @@ export class UsagersDecisionController {
     // Si aucune interaction est trouvée, on remet la date de la décision actuelle
     usager.lastInteraction.dateInteraction = lastInteractionOk
       ? lastInteractionOk.dateInteraction
-      : usager.decision.dateDebut;
+      : usager.decision.dateDebut
+      ? usager.decision.dateDebut
+      : // Cas extrême, aucune date définie
+        usager.decision.dateDecision;
 
     const result = await usagerLightRepository.updateOne(
       { uuid: usager.uuid },

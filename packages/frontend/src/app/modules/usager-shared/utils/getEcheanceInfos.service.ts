@@ -1,7 +1,7 @@
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
 import { UsagerEcheanceInfos } from "./../../../../_common/model/usager/UsagerEcheanceInfos.type";
 
-export const getEcheanceInfos = (usager: UsagerLight): UsagerEcheanceInfos => {
+export const getEcheanceInfos = (usager?: UsagerLight): UsagerEcheanceInfos => {
   const usagerInfos: UsagerEcheanceInfos = {
     isActif: false,
     dateToDisplay: null,

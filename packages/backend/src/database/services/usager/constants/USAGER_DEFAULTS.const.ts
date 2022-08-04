@@ -1,5 +1,5 @@
-import { UsagerPreferenceContact } from "./../../../../_common/model/usager/UsagerPreferenceContact.type";
 import { UsagerOptions } from "../../../../_common/model";
+
 export const USAGER_DEFAULT_OPTIONS: UsagerOptions = {
   transfert: {
     actif: false,
@@ -14,12 +14,4 @@ export const USAGER_DEFAULT_OPTIONS: UsagerOptions = {
     dateDebut: null,
   },
   portailUsagerEnabled: false,
-};
-
-export const USAGER_DEFAULT_PREFERENCE: UsagerPreferenceContact = {
-  contactByPhone: false,
-  telephone: {
-    countryCode: "fr",
-    numero: "",
-  },
 };

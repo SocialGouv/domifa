@@ -44,7 +44,6 @@ import {
 import {
   CreateUsagerDto,
   EntretienDto,
-  PreferenceContactDto,
   UpdatePortailUsagerOptionsDto,
 } from "../dto";
 import { SearchUsagerDto } from "../dto/search-usager.dto";
@@ -303,27 +302,6 @@ export class UsagersController {
     });
 
     return res.status(HttpStatus.OK).json({ message: "DELETE_SUCCESS" });
-  }
-
-  @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
-  @Post("preference/:usagerRef")
-  public async editPreference(
-    @Body() preferenceDto: PreferenceContactDto,
-    @CurrentUsager() usager: UsagerLight
-  ) {
-    // Nettoyage du téléphone
-    if (!preferenceDto.contactByPhone) {
-      preferenceDto.telephone = {
-        countryCode: "fr",
-        numero: "",
-      };
-    }
-
-    return this.usagersService.patch(
-      { uuid: usager.uuid },
-      { preference: preferenceDto }
-    );
   }
 
   @UseGuards(UsagerAccessGuard)

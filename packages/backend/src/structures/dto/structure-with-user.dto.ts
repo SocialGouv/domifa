@@ -8,7 +8,7 @@ export class StructureWithUserDto {
   @ValidateNested()
   @Type(() => StructureDto)
   @IsNotEmpty()
-  public structure: StructureDto;
+  public structure!: StructureDto;
 
   @ApiProperty({
     type: Object,
@@ -17,5 +17,5 @@ export class StructureWithUserDto {
   @ValidateNested()
   @Type(() => UserDto)
   @IsNotEmpty()
-  public user: UserDto;
+  public user!: UserDto;
 }

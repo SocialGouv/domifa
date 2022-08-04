@@ -5,7 +5,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
+
 import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
@@ -23,7 +23,6 @@ describe("ProfilEtatCivilFormComponent", () => {
       declarations: [ProfilEtatCivilFormComponent],
       imports: [
         NgbModule,
-        MatomoModule,
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
@@ -32,21 +31,7 @@ describe("ProfilEtatCivilFormComponent", () => {
         RouterTestingModule,
         BrowserAnimationsModule,
       ],
-      providers: [
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
-          },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
-          },
-        },
-        { provide: APP_BASE_HREF, useValue: "/" },
-      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
   });

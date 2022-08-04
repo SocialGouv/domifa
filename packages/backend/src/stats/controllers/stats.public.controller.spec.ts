@@ -1,6 +1,6 @@
 import { PublicStats } from "./../../_common/model/stats/PublicStats.type";
 import { HomeStats } from "./../../_common/model/stats/HomeStats.type";
-import { CacheModule, forwardRef, HttpStatus } from "@nestjs/common";
+import { forwardRef, HttpStatus } from "@nestjs/common";
 import * as request from "supertest";
 
 import { InteractionsModule } from "../../interactions/interactions.module";
@@ -19,7 +19,6 @@ describe("Stats Public Controller", () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [StatsPublicController],
       imports: [
-        CacheModule.register(),
         forwardRef(() => AdminStructuresModule),
         forwardRef(() => UsersModule),
         forwardRef(() => StructuresModule),
@@ -45,7 +44,7 @@ describe("Stats Public Controller", () => {
     expect(response.status).toBe(HttpStatus.OK);
 
     const content = response.body as HomeStats;
-    expect(content.interactions).toEqual(5);
+    expect(content.interactions).toEqual(1);
     expect(content.structures).toEqual(5);
     expect(content.usagers).toEqual(20);
   });
@@ -59,7 +58,7 @@ describe("Stats Public Controller", () => {
       usagersCount: 20,
       usersCount: 10,
       structuresCount: 5,
-      interactionsCount: 2,
+      interactionsCount: 0,
       structuresCountByRegion: [
         { count: 2, region: "52" },
         { count: 1, region: "03" },
@@ -68,7 +67,6 @@ describe("Stats Public Controller", () => {
       ],
       structuresCountByTypeMap: { asso: 2, cias: 2, ccas: 1 },
       interactionsCountByMonth: [
-        { name: "juil.", value: 0 },
         { name: "août", value: 0 },
         { name: "sept.", value: 0 },
         { name: "oct.", value: 0 },
@@ -80,10 +78,10 @@ describe("Stats Public Controller", () => {
         { name: "avr.", value: 0 },
         { name: "mai", value: 0 },
         { name: "juin", value: 0 },
+        { name: "juil.", value: 0 },
       ],
       usagersCountByMonth: [
-        { name: "juil.", value: 0 },
-        { name: "août", value: 0 },
+        { name: "août", value: 3 },
         { name: "sept.", value: 0 },
         { name: "oct.", value: 0 },
         { name: "nov.", value: 4 },
@@ -93,7 +91,8 @@ describe("Stats Public Controller", () => {
         { name: "mars", value: 1 },
         { name: "avr.", value: 0 },
         { name: "mai", value: 0 },
-        { name: "juin", value: 4 },
+        { name: "juin", value: 0 },
+        { name: "juil.", value: 0 },
       ],
     };
 
@@ -124,10 +123,6 @@ describe("Stats Public Controller", () => {
       },
       interactionsCountByMonth: [
         {
-          name: "juil.",
-          value: 0,
-        },
-        {
           name: "août",
           value: 0,
         },
@@ -169,15 +164,15 @@ describe("Stats Public Controller", () => {
         },
         {
           name: "juin",
+          value: 0,
+        },
+        {
+          name: "juil.",
           value: 0,
         },
       ],
       usagersCountByMonth: [
         {
-          name: "juil.",
-          value: 0,
-        },
-        {
           name: "août",
           value: 0,
         },
@@ -219,6 +214,10 @@ describe("Stats Public Controller", () => {
         },
         {
           name: "juin",
+          value: 0,
+        },
+        {
+          name: "juil.",
           value: 0,
         },
       ],

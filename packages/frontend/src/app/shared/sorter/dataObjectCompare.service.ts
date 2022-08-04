@@ -152,7 +152,7 @@ function compareComparableObjects<T>(
 
 function buildCompareAttributes<T>(
   item: T,
-  attributes: (item: T) => SortableAttribute[]
+  attributes: (newItem: T) => SortableAttribute[]
 ): DataComparableObjectAttribute[] {
   return attributes(item)
     .filter((x) => x != null)

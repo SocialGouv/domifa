@@ -18,6 +18,7 @@ const formatter = (languageCode: string) => {
 };
 
 const validator = (errorName = "language") =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function validate(control: AbstractControl): { [key: string]: any } | null {
     if (_isInvalid(control.value)) {
       const errorObj = {};

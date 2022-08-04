@@ -1,6 +1,5 @@
 import { PublicStats } from "./../../../../../../_common/model/stats/PublicStats.type";
-import { AfterViewInit, Component, Input, OnInit } from "@angular/core";
-import { StatsService } from "../../../services/stats.service";
+import { Component, Input, OnChanges } from "@angular/core";
 import { StatsByMonth } from "../../../../../../_common/model";
 import { Color, ScaleType } from "@swimlane/ngx-charts";
 
@@ -9,7 +8,7 @@ import { Color, ScaleType } from "@swimlane/ngx-charts";
   templateUrl: "./stats-charts.component.html",
   styleUrls: ["./stats-charts.component.css"],
 })
-export class StatsChartsComponent implements OnInit, AfterViewInit {
+export class StatsChartsComponent implements OnChanges {
   public view: number[] = [700, 400];
 
   public gradient = false;
@@ -33,22 +32,16 @@ export class StatsChartsComponent implements OnInit, AfterViewInit {
   public showLabels = true;
 
   public statsInCharts: StatsByMonth;
-  public selectedCharts: "courriers" | "usagers";
+  public selectedCharts: "courriers" | "usagers" = "courriers";
 
   @Input() public publicStats: PublicStats;
 
-  constructor(public statsService: StatsService) {
-    this.selectedCharts = "courriers";
-  }
+  constructor() {}
 
-  public ngOnInit(): void {
-    this.selectedCharts = "courriers";
-
-    this.statsInCharts = this.publicStats.interactionsCountByMonth;
-  }
-
-  public ngAfterViewInit(): void {
-    this.statsInCharts = this.publicStats.interactionsCountByMonth;
+  public ngOnChanges(): void {
+    if (this.publicStats) {
+      this.statsInCharts = this.publicStats.interactionsCountByMonth;
+    }
   }
 
   public selectChart(value: "courriers" | "usagers"): void {

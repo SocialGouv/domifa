@@ -1,8 +1,10 @@
-import { AppEntity } from "..";
-export type UsagerDoc = AppEntity & {
+export type UsagerDoc = {
   createdAt: Date;
-  path?: string;
   createdBy: string;
-  label: string;
   filetype: string;
+  label: string;
+  path?: string;
+  updatedAt?: Date;
+  uuid: string; // postgres id
+  version?: number;
 };

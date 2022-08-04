@@ -8,7 +8,7 @@ export const REGIONS_DEF: RegionDef[] = [
     regionCode: "01",
     regionName: "Guadeloupe",
     regionId: "guadeloupe",
-    timeZone: "America/Martinique",
+    timeZone: "America/Guadeloupe",
     departements: [{ departementCode: "971", departementName: "Guadeloupe" }],
   },
   {

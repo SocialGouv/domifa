@@ -134,10 +134,10 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   public sortLabel = "échéance";
 
   constructor(
-    private usagerService: UsagerService,
-    private authService: AuthService,
-    private toastService: CustomToastService,
-    private titleService: Title,
+    private readonly usagerService: UsagerService,
+    private readonly authService: AuthService,
+    private readonly toastService: CustomToastService,
+    private readonly titleService: Title,
     public matomo: MatomoTracker
   ) {
     this.allUsagersByStatus = {
@@ -291,9 +291,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
         ),
         this.allUsagersByStatus$,
       ]).subscribe(([filters, allUsagersByStatus]) => {
-        // setTimeout(() => {
         this.applyFilters({ filters, allUsagersByStatus });
-        // }, 0);
       })
     );
   }
@@ -321,16 +319,33 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   }
 
   public updateUsager(usager: UsagerLight): void {
-    this.searchPageLoadedUsagersData$.next({
-      ...this.searchPageLoadedUsagersData$.value,
-      usagersNonRadies:
-        this.searchPageLoadedUsagersData$.value.usagersNonRadies.map((x) => {
-          if (x.ref === usager.ref) {
-            return usager;
+    const toNext =
+      usager.decision.statut !== "RADIE"
+        ? {
+            ...this.searchPageLoadedUsagersData$.value,
+            usagersNonRadies:
+              this.searchPageLoadedUsagersData$.value.usagersNonRadies.map(
+                (x) => {
+                  if (x.ref === usager.ref) {
+                    return usager;
+                  }
+                  return x;
+                }
+              ),
           }
-          return x;
-        }),
-    });
+        : {
+            ...this.searchPageLoadedUsagersData$.value,
+            usagersRadiesFirsts:
+              this.searchPageLoadedUsagersData$.value.usagersRadiesFirsts.map(
+                (x) => {
+                  if (x.ref === usager.ref) {
+                    return usager;
+                  }
+                  return x;
+                }
+              ),
+          };
+    this.searchPageLoadedUsagersData$.next(toNext);
   }
 
   public ngOnDestroy(): void {
@@ -507,20 +522,13 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     });
 
     this.nbResults = filteredUsagers.length;
-    if (filters.page === 0) {
-      this.usagers = filteredUsagers
-        .slice(0, this.pageSize)
-        .map((item) => new UsagerFormModel(item, filters));
-    } else {
-      this.usagers = this.usagers.concat(
-        filteredUsagers
-          .slice(
-            filters.page * this.pageSize,
-            filters.page * this.pageSize + 40
-          )
-          .map((item) => new UsagerFormModel(item, filters))
-      );
-    }
+
+    this.usagers = filteredUsagers
+      .slice(
+        0,
+        filters.page === 0 ? this.pageSize : filters.page * this.pageSize
+      )
+      .map((item: UsagerLight) => new UsagerFormModel(item, filters));
 
     this.searching = false;
 

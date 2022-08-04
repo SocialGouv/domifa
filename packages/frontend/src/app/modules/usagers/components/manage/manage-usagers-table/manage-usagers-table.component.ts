@@ -48,7 +48,7 @@ export class ManageUsagersTableComponent implements OnInit {
   public filters!: UsagersFilterCriteria;
 
   @Input()
-  public loading: boolean;
+  public loading!: boolean;
 
   @Output()
   public updateUsager = new EventEmitter<UsagerLight>();
@@ -88,10 +88,10 @@ export class ManageUsagersTableComponent implements OnInit {
   public loadingButtons: string[];
 
   constructor(
-    private interactionService: InteractionService,
-    private modalService: NgbModal,
-    private toastService: CustomToastService,
-    private matomo: MatomoTracker
+    private readonly interactionService: InteractionService,
+    private readonly modalService: NgbModal,
+    private readonly toastService: CustomToastService,
+    private readonly matomo: MatomoTracker
   ) {
     this.today = new Date();
 
@@ -136,8 +136,7 @@ export class ManageUsagersTableComponent implements OnInit {
       .setInteractionIn(usager.ref, [interaction])
       .subscribe({
         next: (newUsager: UsagerLight) => {
-          usager = new UsagerFormModel(newUsager);
-          this.updateUsager.emit(usager);
+          this.updateUsager.emit(newUsager);
           this.toastService.success(INTERACTIONS_LABELS_SINGULIER[type]);
           this.stopLoading(loadingRef);
         },

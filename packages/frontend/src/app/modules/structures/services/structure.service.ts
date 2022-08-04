@@ -91,11 +91,9 @@ export class StructureService {
   }
 
   public validateEmail(email: string): Observable<boolean> {
-    return this.http.post(`${this.endPoint}/validate-email`, { email }).pipe(
-      map((response: boolean) => {
-        return response;
-      })
-    );
+    return this.http.post<boolean>(`${this.endPoint}/validate-email`, {
+      email,
+    });
   }
 
   public hardReset() {
@@ -139,10 +137,6 @@ export class StructureService {
   }
 
   public smsTimeline(): Observable<MessageSms[]> {
-    return this.http.get(`${environment.apiUrl}sms/timeline`).pipe(
-      map((response: MessageSms[]) => {
-        return response;
-      })
-    );
+    return this.http.get<MessageSms[]>(`${environment.apiUrl}sms/timeline`);
   }
 }

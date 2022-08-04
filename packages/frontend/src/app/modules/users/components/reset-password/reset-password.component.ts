@@ -114,7 +114,7 @@ export class ResetPasswordComponent implements OnInit {
         userId: [this.userId, Validators.required],
       },
       {
-        validator: PasswordValidator.passwordMatchValidator,
+        validators: PasswordValidator.passwordMatchValidator,
       }
     );
   }

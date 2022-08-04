@@ -54,7 +54,7 @@ const usagers: UsagerLight[] = [
 ] as UsagerLight[];
 
 it("usagersFilter searchString+statut", () => {
-  const results = usagersFilter.filter(usagers as any, {
+  const results = usagersFilter.filter(usagers as UsagerLight[], {
     criteria: new UsagersFilterCriteria({
       searchString: "mit",
       statut: "VALIDE",

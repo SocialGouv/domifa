@@ -21,6 +21,7 @@ import { regexp } from "../../../../shared/constants/REGEXP.const";
 import { StructureService } from "../../services/structure.service";
 import { structureNameChecker } from "./structureNameChecker.service";
 import {
+  anyPhoneValidator,
   DEPARTEMENTS_LISTE,
   getFormPhone,
   setFormPhone,
@@ -36,7 +37,7 @@ export class StructureEditFormComponent implements OnInit {
   public PhoneNumberFormat = PhoneNumberFormat;
   public SearchCountryField = SearchCountryField;
   public CountryISO = CountryISO;
-  public preferredCountries: CountryISO[] = PREFERRED_COUNTRIES;
+  public PREFERRED_COUNTRIES: CountryISO[] = PREFERRED_COUNTRIES;
   public structureForm: FormGroup;
   public DEPARTEMENTS_LISTE = DEPARTEMENTS_LISTE;
   public loading = false;
@@ -101,6 +102,7 @@ export class StructureEditFormComponent implements OnInit {
       }),
       phone: new FormControl(setFormPhone(this.structure.telephone), [
         Validators.required,
+        anyPhoneValidator,
       ]),
       responsable: this.formBuilder.group({
         fonction: [this.structure.responsable.fonction, [Validators.required]],

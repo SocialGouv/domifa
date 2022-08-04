@@ -338,8 +338,8 @@
                 ? 'form-control is-invalid'
                 : 'form-control'
             "
-            [preferredCountries]="preferredCountries"
-            [enableAutoCountrySelect]="true"
+            [preferredCountries]="PREFERRED_COUNTRIES"
+            [enableAutoCountrySelect]="false"
             [enablePlaceholder]="true"
             [searchCountryFlag]="true"
             searchCountryPlaceholder="Choisissez votre pays"
@@ -353,7 +353,7 @@
             [phoneValidation]="true"
             [separateDialCode]="true"
             [inputId]="'phone'"
-            [numberFormat]="PhoneNumberFormat.National"
+            [numberFormat]="PhoneNumberFormat.International"
             formControlName="phone"
           ></ngx-intl-tel-input>
           <p

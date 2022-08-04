@@ -375,15 +375,15 @@
 <ng-template #setInteractionInModal let-modal>
   <app-set-interaction-in-form
     [(usager)]="selectedUsager"
-    (usagerChange)="updateUsager.emit($event)"
     (cancelReception)="cancelReception()"
+    (updateUsagerForManage)="updateUsager.emit($event)"
   ></app-set-interaction-in-form>
 </ng-template>
 
 <ng-template #setInteractionOutModal let-modal>
   <app-set-interaction-out-form
     [(usager)]="selectedUsager"
-    (usagerChange)="updateUsager.emit($event)"
     (cancelReception)="cancelReception()"
+    (updateUsagerForManage)="updateUsager.emit($event)"
   ></app-set-interaction-out-form>
 </ng-template>

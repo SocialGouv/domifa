@@ -1,4 +1,4 @@
-import { CacheModule, forwardRef, Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
 import { InteractionsModule } from "../interactions/interactions.module";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
@@ -11,7 +11,6 @@ import { StatsPublicController } from "./controllers/stats.public.controller";
   controllers: [StatsPublicController, StatsPrivateController],
   exports: [],
   imports: [
-    CacheModule.register(),
     forwardRef(() => AdminStructuresModule),
     forwardRef(() => UsersModule),
     forwardRef(() => StructuresModule),

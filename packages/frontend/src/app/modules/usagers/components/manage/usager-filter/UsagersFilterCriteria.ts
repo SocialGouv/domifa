@@ -41,7 +41,7 @@ export class UsagersFilterCriteria {
   public passage: UsagersFilterCriteriaDernierPassage | null;
   public entretien: UsagersFilterCriteriaEntretien | null;
   // order by
-  public sortKey?: UsagersFilterCriteriaSortKey;
+  public sortKey: UsagersFilterCriteriaSortKey;
   public sortValue?: UsagersFilterCriteriaSortValues;
   // pagination
   public page: number;

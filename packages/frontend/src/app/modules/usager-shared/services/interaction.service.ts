@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { filter, map, startWith, tap } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
 import {
   InteractionInForApi,
@@ -63,15 +63,6 @@ export class InteractionService {
         `${this.endPoint}${usagerRef}?maxResults=${maxResults}&filter=${filterSearch}`
       )
       .pipe(
-        tap((interactions) =>
-          // update cache
-          usagersCache.updateUsagerInteractions({
-            usagerRef,
-            interactions,
-          })
-        ),
-        startWith(usagersCache.getSnapshot().interactionsByRefMap[usagerRef]), // try to load value from cache
-        filter((x) => !!x), // filter out empty cache value
         map((response) => {
           return Array.isArray(response)
             ? response.map((item) => new Interaction(item))

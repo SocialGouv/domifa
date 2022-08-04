@@ -1,3 +1,4 @@
+import { minDateToday } from "src/app/shared/bootstrap-util";
 import { Component, OnInit, EventEmitter, Input, Output } from "@angular/core";
 import {
   FormGroup,
@@ -13,7 +14,7 @@ import {
   UsagerDecisionRadiationForm,
   UsagerLight,
 } from "../../../../../_common/model";
-import { formatDateToNgb } from "../../../../shared/bootstrap-util";
+
 import { usagersCache } from "../../../../shared/store";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 
@@ -42,16 +43,15 @@ export class RadiationFormComponent implements OnInit {
   public maxDate: NgbDateStruct;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private nbgDate: NgbDateCustomParserFormatter,
-
-    private usagerDecisionService: UsagerDecisionService,
-    private toastService: CustomToastService
+    private readonly formBuilder: FormBuilder,
+    private readonly nbgDate: NgbDateCustomParserFormatter,
+    private readonly usagerDecisionService: UsagerDecisionService,
+    private readonly toastService: CustomToastService
   ) {
     this.submitted = false;
     this.loading = false;
     this.minDate = { day: 1, month: 1, year: new Date().getFullYear() - 1 };
-    this.maxDate = formatDateToNgb(new Date());
+    this.maxDate = minDateToday;
   }
 
   get r(): { [key: string]: AbstractControl } {
@@ -66,14 +66,14 @@ export class RadiationFormComponent implements OnInit {
       motifDetails: [null, []],
     });
 
-    this.radiationForm.get("motif").valueChanges.subscribe((value) => {
+    this.radiationForm.get("motif")?.valueChanges.subscribe((value) => {
       if (value === "AUTRE") {
         this.radiationForm
           .get("motifDetails")
-          .setValidators([Validators.required, Validators.minLength(10)]);
+          ?.setValidators([Validators.required, Validators.minLength(10)]);
       } else {
-        this.radiationForm.get("motifDetails").setValidators(null);
-        this.radiationForm.get("motifDetails").setValue(null);
+        this.radiationForm.get("motifDetails")?.setValidators(null);
+        this.radiationForm.get("motifDetails")?.setValue(null);
       }
     });
   }

@@ -29,7 +29,7 @@ import { DocumentService } from "../../../usager-shared/services/document.servic
 import { UsagerDossierService } from "../../services/usager-dossier.service";
 import {
   addMinutes,
-  differenceInDays,
+  differenceInCalendarDays,
   format,
   setHours,
   setMinutes,
@@ -140,7 +140,7 @@ export class StepRdvComponent implements OnInit {
         if (!this.r.jourRdv.invalid) {
           const jourRdv = new Date(this.nbgDate.formatEn(value));
 
-          if (differenceInDays(jourRdv, new Date()) === 0) {
+          if (differenceInCalendarDays(jourRdv, new Date()) === 0) {
             isValueToday = true;
 
             this.rdvForm.controls.heureRdv.setValue(

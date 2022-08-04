@@ -30,7 +30,7 @@ export class ProfilHeadComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
 
-  @Input() public section: string;
+  @Input() public section!: string;
 
   public loading: boolean;
   public ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
@@ -66,7 +66,7 @@ export class ProfilHeadComponent implements OnInit {
 
   public onUsagerChanges(usager: UsagerLight): void {
     this.usager = new UsagerFormModel(usager);
-    usagersCache.updateUsager(this.usager);
+    usagersCache.updateUsager(usager);
   }
 
   public renouvellement(): void {

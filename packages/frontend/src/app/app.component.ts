@@ -52,12 +52,12 @@ export class AppComponent implements OnInit {
     private readonly healthCheckService: HealthCheckService,
     private readonly authService: AuthService,
     private readonly matomoInjector: MatomoInjector,
-    public modalService: NgbModal,
     private readonly router: Router,
     private readonly titleService: Title,
     private readonly ngZone: NgZone,
+    private readonly userIdleService: UserIdleService,
     public matomo: MatomoTracker,
-    private readonly userIdleService: UserIdleService
+    public modalService: NgbModal
   ) {
     this.matomoInjector.init(environment.matomo.url, environment.matomo.siteId);
     this.apiVersion = null;
@@ -83,9 +83,11 @@ export class AppComponent implements OnInit {
     this.currentUrl = this.router.url;
 
     // REFRESH TOKEN
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      this.me = user;
-    });
+    this.authService.currentUserSubject.subscribe(
+      (user: UserStructure | null) => {
+        this.me = user;
+      }
+    );
 
     this.runHealthCheckAndAutoReload();
 
@@ -100,6 +102,7 @@ export class AppComponent implements OnInit {
           //
           if (sections.indexOf(splitUrl[1]) !== -1) {
             this.currentFragment = splitUrl[1];
+
             document.getElementById("focus").focus();
           }
         } else {
@@ -138,10 +141,10 @@ export class AppComponent implements OnInit {
           } else {
             if (this.apiVersion === null) {
               // Initialisation de la première version
-              this.apiVersion = retour.info.version.info;
+              this.apiVersion = retour?.info?.version?.info || null;
             }
 
-            if (this.apiVersion !== retour.info.version.info) {
+            if (this.apiVersion !== retour?.info?.version?.info) {
               this.modalService.dismissAll();
               // On update la page
               this.modalService.open(this.versionModal, this.modalOptions);

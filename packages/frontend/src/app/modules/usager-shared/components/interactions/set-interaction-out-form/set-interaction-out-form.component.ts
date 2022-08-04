@@ -30,13 +30,16 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
 
   @Output()
+  public usagerChange = new EventEmitter<UsagerFormModel>();
+
+  @Output()
+  public updateUsagerForManage = new EventEmitter<UsagerLight>();
+
+  @Output()
   public cancelReception = new EventEmitter<void>();
 
   @Output()
   public updateInteractions = new EventEmitter<void>();
-
-  @Output()
-  public usagerChange = new EventEmitter<UsagerFormModel>();
 
   public interactions$: BehaviorSubject<Interaction[]>;
   public selectedInteractionsWithContent: Interaction[] = [];
@@ -184,6 +187,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
     this.usagerService
       .findOne(this.usager.ref)
       .subscribe((usager: UsagerLight) => {
+        this.updateUsagerForManage.emit(usager);
         this.usagerChange.emit(new UsagerFormModel(usager));
         this.cancelReception.emit();
       });

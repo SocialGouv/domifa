@@ -248,6 +248,7 @@ export const COUNTRY_CODES: { [key: string]: string } = {
 };
 
 export const COUNTRY_CODES_TIMEZONE: { [key in TimeZone]: CountryISO } = {
+  "America/Guadeloupe": CountryISO.Guadeloupe,
   "America/Martinique": CountryISO.Martinique,
   "America/Cayenne": CountryISO.FrenchGuiana,
   "Indian/Reunion": CountryISO.Réunion,
@@ -258,4 +259,16 @@ export const COUNTRY_CODES_TIMEZONE: { [key in TimeZone]: CountryISO } = {
   "Pacific/Wallis": CountryISO.WallisAndFutuna,
   "America/Miquelon": CountryISO.SaintPierreAndMiquelon,
   "Indian/Maldives": CountryISO.France,
+};
+
+export const PHONE_PLACEHOLDERS: { [key: string]: string } = {
+  mq: "6 96 01 02 03",
+  gp: "6 91 22 33 44",
+  gf: "6 94 01 02 03",
+  re: "6 92 01 02 03",
+  yt: "6 39 01 02 03",
+  fr: "6 01 02 02 04",
+  pf: "87 01 02 03",
+  wf: "82 01 02",
+  pm: "40 01 02",
 };

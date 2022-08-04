@@ -1,3 +1,4 @@
+import { noWhiteSpace } from "./../../../../shared/validators/whitespace.validator";
 import { Component, OnInit } from "@angular/core";
 import {
   AbstractControl,
@@ -26,11 +27,11 @@ export class StructuresSmsFormComponent implements OnInit {
   public structureSmsForm!: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private structureService: StructureService,
-    private toastService: CustomToastService,
-    private authService: AuthService,
-    private titleService: Title
+    private readonly formBuilder: FormBuilder,
+    private readonly structureService: StructureService,
+    private readonly toastService: CustomToastService,
+    private readonly authService: AuthService,
+    private readonly titleService: Title
   ) {
     this.me = null;
     this.structure = null;
@@ -84,11 +85,11 @@ export class StructuresSmsFormComponent implements OnInit {
       ],
       senderName: [
         this.structure.sms.senderName,
-        [Validators.required, Validators.maxLength(11)],
+        [Validators.required, Validators.maxLength(11), noWhiteSpace],
       ],
       senderDetails: [
         this.structure.sms.senderDetails,
-        [Validators.required, Validators.maxLength(30)],
+        [Validators.required, Validators.maxLength(30), noWhiteSpace],
       ],
     });
 

@@ -17,12 +17,12 @@ function matchWord({
   withScore: boolean;
 }): MatchWithScoreResults {
   if (withScore) {
-    const score = cleanAttributes.reduce((score, attr) => {
+    const newScore = cleanAttributes.reduce((score: number, attr) => {
       if (!attr) {
         return score;
       }
-      const match = attr.indexOf(word) !== -1;
-      if (match) {
+      const matchElement = attr.indexOf(word) !== -1;
+      if (matchElement) {
         if (attr === word) {
           // perfect match
           return score + 50;
@@ -36,11 +36,11 @@ function matchWord({
       return score;
     }, 0);
     return {
-      match: score !== 0,
-      score,
+      match: newScore !== 0,
+      score: newScore,
     };
   } else {
-    const firstMatchingAttribute = cleanAttributes.find((attr) => {
+    const firstMatchingAttribute = cleanAttributes.find((attr: string) => {
       if (!attr) {
         return false;
       }

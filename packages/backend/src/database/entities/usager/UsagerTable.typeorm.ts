@@ -73,6 +73,7 @@ export class UsagerTable
   })
   public telephone: Telephone;
 
+  // TODO: deprecated
   @Column({ type: "text", nullable: true })
   public phone: string;
 
@@ -80,10 +81,13 @@ export class UsagerTable
   @Column({
     type: "jsonb",
     nullable: true,
-    default: () =>
-      `'{"contactByPhone": false, "telephone": {"countryCode": "fr", "numero": ""}}'`,
+    default: null,
   })
+  // TODO: deprecated
   public preference: UsagerPreferenceContact;
+
+  @Column({ type: "boolean", nullable: true, default: false })
+  public contactByPhone: boolean;
 
   // DOMICILIATION
   @Column({ type: "timestamptz", nullable: true })
@@ -129,7 +133,7 @@ export class UsagerTable
   @Column({
     type: "jsonb",
     // default:
-    //   "{ accompagnement: null, accompagnementDetail: null, cause: null, causeDetail: null, commentaires: null, domiciliation: null, liencommune: null, pourquoi: null, rattachement: null, raison: null, raisonDetail: null, residence: null, residenceDetail: null, revenus: null, revenusDetail: null, typeMenage: null }",
+    //   "{ accompagnement: null, accompagnementDetail: null, cause: null, causeDetail: null, commentaires: null, domiciliation: null, liencommune: null, rattachement: null, raison: null, raisonDetail: null, residence: null, residenceDetail: null, revenus: null, revenusDetail: null, typeMenage: null }",
   })
   public entretien!: UsagerEntretien;
 

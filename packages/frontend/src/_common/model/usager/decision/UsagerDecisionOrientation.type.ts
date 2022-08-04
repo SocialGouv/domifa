@@ -1,1 +1,1 @@
-export type UsagerDecisionOrientation = "ccas" | "asso";
+export type UsagerDecisionOrientation = "ccas" | "asso" | "cias" | "other";

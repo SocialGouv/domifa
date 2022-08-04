@@ -212,13 +212,16 @@ export function buildCustomDoc({
 
     ENTRETIEN_LIEN_COMMUNE: usager.entretien.liencommune || "",
 
-    ENTRETIEN_COMPOSITION_MENAGE:
-      ENTRETIEN_TYPE_MENAGE[usager.entretien.typeMenage],
+    ENTRETIEN_COMPOSITION_MENAGE: usager.entretien.typeMenage
+      ? ENTRETIEN_TYPE_MENAGE[usager.entretien.typeMenage]
+      : "",
 
     ENTRETIEN_SITUATION_RESIDENTIELLE:
       usager.entretien.residence === "AUTRE"
         ? " Autre : " + usager.entretien.residenceDetail
-        : ENTRETIEN_RESIDENCE[usager.entretien.residence],
+        : usager.entretien.residence
+        ? ENTRETIEN_RESIDENCE[usager.entretien.residence]
+        : "",
 
     // Transferts
     TRANSFERT_ACTIF: transfert.actif ? "OUI" : "NON",

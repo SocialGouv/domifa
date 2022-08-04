@@ -29,7 +29,7 @@ import {
 } from "../../../../../_common/model";
 import {
   endDateAfterBeginDateValidator,
-  WhiteSpaceValidator,
+  noWhiteSpace,
 } from "../../../../shared";
 import {
   formatDateToNgb,
@@ -54,7 +54,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
 
-  @Output() usagerChanges = new EventEmitter<UsagerLight>();
+  @Output() usagerChange = new EventEmitter<UsagerFormModel>();
 
   public actions = {
     EDIT: "Modification",
@@ -116,15 +116,11 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
       {
         nom: [
           this.usager.options.transfert.nom,
-          [Validators.required, WhiteSpaceValidator.noWhiteSpace],
+          [Validators.required, noWhiteSpace],
         ],
         adresse: [
           this.usager.options.transfert.adresse,
-          [
-            Validators.required,
-            Validators.minLength(10),
-            WhiteSpaceValidator.noWhiteSpace,
-          ],
+          [Validators.required, Validators.minLength(10), noWhiteSpace],
         ],
         dateFin: [
           this.usager.options.transfert.dateFin
@@ -140,7 +136,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
         ],
       },
       {
-        validator: endDateAfterBeginDateValidator({
+        validators: endDateAfterBeginDateValidator({
           beginDateControlName: "dateDebut",
           endDateControlName: "dateFin",
         }),
@@ -172,10 +168,10 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
       .editTransfert(formValue, this.usager.ref)
       .subscribe({
         next: (usager: UsagerLight) => {
-          this.usagerChanges.emit(usager);
           this.hideForm();
           this.matomo.trackEvent("profil", "actions", "edit_transfert", 1);
           this.usager = new UsagerFormModel(usager);
+          this.usagerChange.emit(this.usager);
 
           this.toastService.success("Transfert modifié avec succès");
         },
@@ -209,10 +205,10 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
         setTimeout(() => {
           this.closeModals();
           this.hideForm();
-          this.usagerChanges.emit(usager);
           this.transfertForm.reset();
           this.submitted = false;
           this.usager = new UsagerFormModel(usager);
+          this.usagerChange.emit(this.usager);
           this.matomo.trackEvent("profil", "actions", "delete_transfert", 1);
         }, 500);
       },

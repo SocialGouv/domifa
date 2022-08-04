@@ -1,5 +1,5 @@
 import { StatsByLocality } from "./../../../../../../_common/model/stats/StatsByLocality.type";
-import { AfterContentChecked, Component, Input, OnInit } from "@angular/core";
+import { AfterContentChecked, Component, Input } from "@angular/core";
 import {
   PublicStats,
   STATS_REGIONS_FOR_MAP,
@@ -27,7 +27,7 @@ import {
     "../../public-stats/public-stats.component.css",
   ],
 })
-export class StatsMapComponent implements OnInit, AfterContentChecked {
+export class StatsMapComponent implements AfterContentChecked {
   // Liste des régions
   public REGIONS_DOM_TOM = REGIONS_DOM_TOM;
   public REGIONS_COM = REGIONS_COM;
@@ -55,8 +55,6 @@ export class StatsMapComponent implements OnInit, AfterContentChecked {
     this.statsRegionsValues = {};
     this.selectedRegion = null;
   }
-
-  public ngOnInit(): void {}
 
   public selectRegion(regionId: string): void {
     if (this.selectedRegion !== regionId) {

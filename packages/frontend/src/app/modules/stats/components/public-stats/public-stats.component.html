@@ -174,7 +174,21 @@
     </h2>
     <p>DomiFa est utilisé dans la majorité des régions Françaises</p>
     <br />
-    <div class="row">
+    <div class="row d-flex align-items-center" *ngIf="!stats">
+      <div class="col-md-12 text-center">
+        <div @fadeInOut>
+          <fa-icon
+            [icon]="['fas', 'spinner']"
+            class="spinner"
+            [spin]="true"
+          ></fa-icon>
+          <span class="loading_message"
+            >Chargement en cours, veuillez patienter</span
+          >
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="stats">
       <div class="col-md-6 text-center">
         <app-stats-map [publicStats]="stats"></app-stats-map>
       </div>

@@ -19,28 +19,30 @@ import { UsagerService } from "../../../usagers/services/usager.service";
   styleUrls: ["./profil-dossier.component.css"],
 })
 export class ProfilDossierComponent implements OnInit {
-  public me!: UserStructure;
+  public me!: UserStructure | null;
   public usager!: UsagerFormModel;
 
   public editInfos: boolean;
   public editEntretien: boolean;
 
   constructor(
-    private authService: AuthService,
-    private usagerService: UsagerService,
-    private titleService: Title,
-    private toastService: CustomToastService,
-    private route: ActivatedRoute,
-    private router: Router
+    private readonly authService: AuthService,
+    private readonly usagerService: UsagerService,
+    private readonly titleService: Title,
+    private readonly toastService: CustomToastService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
   ) {
     this.editInfos = false;
     this.editEntretien = false;
   }
 
   public ngOnInit(): void {
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      this.me = user;
-    });
+    this.authService.currentUserSubject.subscribe(
+      (user: UserStructure | null) => {
+        this.me = user;
+      }
+    );
 
     this.usagerService.findOne(this.route.snapshot.params.id).subscribe({
       next: (usager: UsagerLight) => {
@@ -60,7 +62,7 @@ export class ProfilDossierComponent implements OnInit {
   }
 
   public isRole(role: UserStructureRole): boolean {
-    return this.me.role === role;
+    return this.me?.role === role;
   }
 
   public onUsagerChanges(usager: UsagerLight): void {

@@ -29,18 +29,18 @@ import { Decision } from "../../interfaces";
 export class DeleteUsagerMenuComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
-  @Output() usagerChanges = new EventEmitter<UsagerLight>();
+  @Output() usagerChange = new EventEmitter<UsagerFormModel>();
 
   public hasHistorique: boolean;
   public previousStatus: string;
   public loading: boolean;
 
   constructor(
-    private router: Router,
-    private modalService: NgbModal,
-    private usagerProfilService: UsagerProfilService,
-    private usagerDecisionService: UsagerDecisionService,
-    private toastService: CustomToastService
+    private readonly router: Router,
+    private readonly modalService: NgbModal,
+    private readonly usagerProfilService: UsagerProfilService,
+    private readonly usagerDecisionService: UsagerDecisionService,
+    private readonly toastService: CustomToastService
   ) {
     this.loading = false;
     this.hasHistorique = false;
@@ -111,8 +111,8 @@ export class DeleteUsagerMenuComponent implements OnInit {
 
         setTimeout(() => {
           this.modalService.dismissAll();
-          this.usagerChanges.emit(usager);
           this.usager = new UsagerFormModel(usager);
+          this.usagerChange.emit(this.usager);
           this.loading = false;
           this.router.navigate(["profil/general/" + this.usager.ref]);
         }, 500);
