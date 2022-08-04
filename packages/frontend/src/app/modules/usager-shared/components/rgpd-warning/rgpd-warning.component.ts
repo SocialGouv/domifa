@@ -4,6 +4,4 @@ import { Component } from "@angular/core";
   selector: "app-rgpd-warning",
   templateUrl: "./rgpd-warning.component.html",
 })
-export class RgpdWarningComponent {
-  constructor() {}
-}
+export class RgpdWarningComponent {}

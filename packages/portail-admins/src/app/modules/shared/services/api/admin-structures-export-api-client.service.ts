@@ -1,10 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { format } from "date-fns";
+import saveAs from "file-saver";
 
 import { delay, Observable, tap } from "rxjs";
 import { environment } from "../../../../../environments/environment";
-import * as fileSaver from "file-saver";
 
 const BASE_URL = environment.apiUrl + "stats";
 
@@ -18,14 +18,14 @@ export class AdminStructuresExportApiClient {
   }: {
     structureId: number;
     year: number;
-  }): Observable<any> {
+  }): Observable<Blob> {
     const period = {
       start: new Date(year.toString() + "-01-01"),
       end: new Date(year.toString() + "-12-31"),
     };
 
     return this.http
-      .post(
+      .post<Blob>(
         `${BASE_URL}/export/`,
         {
           structureId,
@@ -35,7 +35,7 @@ export class AdminStructuresExportApiClient {
         { responseType: "blob" as "json" }
       )
       .pipe(
-        tap((x: any) => {
+        tap((x: Blob) => {
           const newBlob = new Blob([x], {
             type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
           });
@@ -44,7 +44,7 @@ export class AdminStructuresExportApiClient {
             endDateUTC: period.end,
             structureId,
           });
-          fileSaver.saveAs(newBlob, fileName);
+          saveAs(newBlob, fileName);
         }),
         delay(500)
       );

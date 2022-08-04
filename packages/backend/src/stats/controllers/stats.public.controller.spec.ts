@@ -44,7 +44,7 @@ describe("Stats Public Controller", () => {
     expect(response.status).toBe(HttpStatus.OK);
 
     const content = response.body as HomeStats;
-    expect(content.interactions).toEqual(1);
+    expect(content.interactions).toEqual(5);
     expect(content.structures).toEqual(5);
     expect(content.usagers).toEqual(20);
   });
@@ -58,7 +58,7 @@ describe("Stats Public Controller", () => {
       usagersCount: 20,
       usersCount: 10,
       structuresCount: 5,
-      interactionsCount: 0,
+      interactionsCount: 2,
       structuresCountByRegion: [
         { count: 2, region: "52" },
         { count: 1, region: "03" },
@@ -81,7 +81,7 @@ describe("Stats Public Controller", () => {
         { name: "juil.", value: 0 },
       ],
       usagersCountByMonth: [
-        { name: "août", value: 3 },
+        { name: "août", value: 0 },
         { name: "sept.", value: 0 },
         { name: "oct.", value: 0 },
         { name: "nov.", value: 4 },

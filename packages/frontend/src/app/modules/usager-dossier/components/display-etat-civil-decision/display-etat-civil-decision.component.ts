@@ -11,6 +11,4 @@ export class DisplayEtatCivilDecisionComponent {
 
   public languagesAutocomplete = languagesAutocomplete;
   public LIEN_PARENTE_LABELS = LIEN_PARENTE_LABELS;
-
-  constructor() {}
 }

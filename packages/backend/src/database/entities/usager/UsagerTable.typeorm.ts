@@ -73,23 +73,21 @@ export class UsagerTable
   })
   public telephone: Telephone;
 
-  // TODO: deprecated
+  // @deprecated
   @Column({ type: "text", nullable: true })
   public phone: string;
 
-  @Column({ type: "text", nullable: true })
+  // @deprecated
   @Column({
     type: "jsonb",
     nullable: true,
     default: null,
   })
-  // TODO: deprecated
   public preference: UsagerPreferenceContact;
 
   @Column({ type: "boolean", nullable: true, default: false })
   public contactByPhone: boolean;
 
-  // DOMICILIATION
   @Column({ type: "timestamptz", nullable: true })
   public datePremiereDom: Date;
 

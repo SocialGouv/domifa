@@ -24,6 +24,11 @@ jobs:
         with:
           node-version: "17"
 
+      - name: Change TimeZone
+        uses: szenius/set-timezone@v1.0
+        with:
+          timezoneLinux: "Europe/Paris"
+
       - name: Set up Yarn cache
         uses: c-hive/gha-yarn-cache@v2
 
@@ -59,6 +64,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "17"
+
+      - name: Change TimeZone
+        uses: szenius/set-timezone@v1.0
+        with:
+          timezoneLinux: "Europe/Paris"
 
       - name: Set up Yarn cache
         uses: c-hive/gha-yarn-cache@v2
