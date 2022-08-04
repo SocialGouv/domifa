@@ -19,7 +19,6 @@ import { ProfilCourriersComponent } from "./components/profil-courriers/profil-c
 import { ProfilDocumentsSectionComponent } from "./components/profil-documents-section/profil-documents-section.component";
 import { ProfilDossierComponent } from "./components/profil-dossier/profil-dossier.component";
 import { ProfilEditPortailUsagerPreferenceComponent } from "./components/profil-edit-portail-usager-preference/profil-edit-portail-usager-preference.component";
-import { ProfilEditSmsPreferenceComponent } from "./components/profil-edit-sms-preference/profil-edit-sms-preference.component";
 import { ProfilGeneralHistoriqueCourriersComponent } from "./components/profil-general-historique-courriers/profil-general-historique-courriers.component";
 import { ProfilGeneralSectionComponent } from "./components/profil-general-section/profil-general-section.component";
 import { ProfilHeadComponent } from "./components/profil-head/profil-head.component";
@@ -48,7 +47,7 @@ import { UsagerProfilRoutingModule } from "./usager-profil-routing.module";
     UsagersProfilProcurationCourrierComponent,
     ProfilHistoriqueCourriersComponent,
     ProfilStructureDocsComponent,
-    ProfilEditSmsPreferenceComponent,
+
     ProfilEditPortailUsagerPreferenceComponent,
     ProfilDocumentsSectionComponent,
     ProfilGeneralHistoriqueCourriersComponent,

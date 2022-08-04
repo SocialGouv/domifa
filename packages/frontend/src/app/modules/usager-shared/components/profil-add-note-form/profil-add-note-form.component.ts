@@ -8,8 +8,9 @@ import {
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import { UsagerLight } from "../../../../../_common/model";
-import { WhiteSpaceValidator } from "../../../../shared";
+import { noWhiteSpace } from "../../../../shared";
 import { bounce } from "../../../../shared/animations";
+import { UsagerFormModel } from "../../interfaces";
 import { UsagerNotesService } from "../../services/usager-notes.service";
 
 @Component({
@@ -22,10 +23,10 @@ export class ProfilAddNoteFormComponent implements OnInit {
   @Input() public usager!: UsagerLight;
 
   @Output()
-  public cancel = new EventEmitter();
+  public usagerChange = new EventEmitter<UsagerFormModel>();
 
   @Output()
-  public confirm = new EventEmitter();
+  public cancel = new EventEmitter();
 
   public addNoteForm!: FormGroup;
   public submitted: boolean;
@@ -44,11 +45,7 @@ export class ProfilAddNoteFormComponent implements OnInit {
     this.addNoteForm = this.formBuilder.group({
       message: [
         null,
-        [
-          Validators.required,
-          WhiteSpaceValidator.noWhiteSpace,
-          Validators.maxLength(1000),
-        ],
+        [Validators.required, noWhiteSpace, Validators.maxLength(1000)],
       ],
     });
   }
@@ -69,17 +66,18 @@ export class ProfilAddNoteFormComponent implements OnInit {
     this.loading = true;
     this.usagerNotesService
       .createNote({
-        note: { message: this.addNoteForm.get("message").value },
+        note: { message: this.addNoteForm.get("message")?.value },
         usagerRef: this.usager.ref,
       })
       .subscribe({
-        next: (usager) => {
+        next: (usager: UsagerLight) => {
           this.toastService.success("Note enregistrée avec succès");
           setTimeout(() => {
+            this.usagerChange.emit(new UsagerFormModel(usager));
             this.loading = false;
             this.submitted = false;
-            this.confirm.emit(usager);
-          }, 1000);
+            this.cancel.emit();
+          }, 500);
         },
         error: () => {
           this.loading = false;

@@ -1,6 +1,7 @@
 import { startOfMonth, subYears } from "date-fns";
 
 import { In } from "typeorm";
+import { domifaConfig } from "../../../config";
 import { Usager, UserStructureAuthenticated } from "../../../_common/model";
 import {
   InteractionEvent,
@@ -218,11 +219,14 @@ async function countInteractionsByMonth(
   regionId?: string,
   interactionType: InteractionType = "courrierOut"
 ) {
+  const dateRef =
+    domifaConfig().envId === "test" ? new Date("2022-07-31") : new Date();
+
   const startInterval = postgresQueryBuilder.formatPostgresDate(
-    startOfMonth(subYears(new Date(), 1))
+    startOfMonth(subYears(dateRef, 1))
   );
   const endInterval = postgresQueryBuilder.formatPostgresDate(
-    startOfMonth(new Date())
+    startOfMonth(dateRef)
   );
 
   const where: string[] = [startInterval, endInterval, interactionType];

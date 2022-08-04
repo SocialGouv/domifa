@@ -36,18 +36,14 @@ export class UsagerFormModel implements UsagerLight {
   public langue: string;
 
   // Naissance
-  public dateNaissance: Date;
+  public dateNaissance: Date | null;
   public villeNaissance: string;
 
   // Infos de contact
   public email: string;
   public telephone: Telephone;
 
-  // Préférence d'envoi de notifs
-  public preference: {
-    contactByPhone: boolean;
-    telephone: Telephone | null;
-  };
+  public contactByPhone: boolean;
 
   public structureId: number | null;
   public etapeDemande: number;
@@ -65,7 +61,7 @@ export class UsagerFormModel implements UsagerLight {
   public decision: Decision;
 
   public typeDom: UsagerTypeDom; // PREMIERE / RENOUVELLEMENT
-  public datePremiereDom?: Date;
+  public datePremiereDom: Date;
   public import: UsagerImport | null;
 
   public lastInteraction: {
@@ -172,13 +168,7 @@ export class UsagerFormModel implements UsagerLight {
       };
     }
 
-    this.preference = (usager && usager.preference) || {
-      contactByPhone: false,
-      telephone: {
-        countryCode: CountryISO.France,
-        numero: "",
-      },
-    };
+    this.contactByPhone = (usager && usager.contactByPhone) || false;
 
     this.rdv = new Rdv((usager && usager.rdv) || null);
     this.entretien = new Entretien(usager?.entretien);

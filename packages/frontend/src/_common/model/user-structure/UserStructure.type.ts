@@ -6,16 +6,16 @@ import { UserStructureRole } from "./UserStructureRole.type";
 export type UserStructure = AppEntity & {
   id: number;
 
-  prenom: string;
-  nom: string;
-  fonction?: string;
-  structureId: number;
+  prenom: string | null;
+  nom: string | null;
+  fonction?: string | null;
+  structureId: number | null;
 
   // login tokens
   email: string;
   password: string;
 
-  lastLogin: Date;
+  lastLogin: Date | null;
   passwordLastUpdate: Date;
 
   verified: boolean;

@@ -1,8 +1,5 @@
 import { usagerRepository, UsagerTable } from "../../database";
-import {
-  USAGER_DEFAULT_OPTIONS,
-  USAGER_DEFAULT_PREFERENCE,
-} from "../../database/services/usager/constants/USAGER_DEFAULTS.const";
+import { USAGER_DEFAULT_OPTIONS } from "../../database/services/usager/constants/USAGER_DEFAULTS.const";
 
 export const usagersCreator = { findNextUsagerRef, setUsagerDefaultAttributes };
 async function findNextUsagerRef(structureId: number): Promise<number> {
@@ -24,9 +21,7 @@ function setUsagerDefaultAttributes(usager: UsagerTable) {
   if (!usager.options) {
     usager.options = USAGER_DEFAULT_OPTIONS;
   }
-  if (!usager.preference) {
-    usager.preference = USAGER_DEFAULT_PREFERENCE;
-  }
+
   if (!usager.langue || usager.langue === "") {
     usager.langue = null;
   }

@@ -26,7 +26,6 @@ describe("ManageUsagersComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-
         ReactiveFormsModule,
         FormsModule,
         HttpClientTestingModule,
@@ -57,25 +56,22 @@ describe("ManageUsagersComponent", () => {
     expect(component).toBeTruthy();
   });
 
-  it(
-    "3. Reset Filters",
-    waitForAsync(() => {
-      component.resetFilters();
+  it("3. Reset Filters", waitForAsync(() => {
+    component.resetFilters();
 
-      expect(component.filters).toEqual({
-        echeance: null,
-        interactionType: null,
-        entretien: null,
-        searchString: null,
-        page: 0,
-        passage: null,
-        sortKey: "NAME",
-        sortValue: "ascending",
-        statut: "VALIDE",
-        searchInAyantDroits: true,
-      });
-    })
-  );
+    expect(component.filters).toEqual({
+      echeance: null,
+      interactionType: null,
+      entretien: null,
+      searchString: null,
+      page: 0,
+      passage: null,
+      sortKey: "NAME",
+      sortValue: "ascending",
+      statut: "VALIDE",
+      searchInAyantDroits: true,
+    });
+  }));
 
   it("X. Small functions : get letter, reset bar, go to profil", () => {
     component.resetSearchBar();

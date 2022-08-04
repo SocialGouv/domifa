@@ -383,6 +383,7 @@ const diacriticsList: {
   },
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const diacriticsMap: any = {};
 for (let i = 0; i < diacriticsList.length; i++) {
   const letters: string[] = diacriticsList[i].letters.split("");

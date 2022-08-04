@@ -1,4 +1,5 @@
 export type TimeZone =
+  | "America/Guadeloupe"
   | "America/Martinique"
   | "America/Cayenne"
   | "Indian/Reunion"

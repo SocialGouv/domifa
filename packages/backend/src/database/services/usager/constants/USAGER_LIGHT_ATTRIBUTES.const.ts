@@ -25,6 +25,6 @@ export const USAGER_LIGHT_ATTRIBUTES: (keyof UsagerTable)[] = [
   "phone",
   "telephone",
   "langue",
-  "preference",
+  "contactByPhone",
   "notes",
 ];

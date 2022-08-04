@@ -18,9 +18,9 @@ export type UsagerDecision = {
   motifDetails?: string;
 
   // Orientation si refus
-  orientation?: UsagerDecisionOrientation;
-  orientationDetails?: string;
+  orientation: UsagerDecisionOrientation | null;
+  orientationDetails: string | null;
 
-  userId: number; // UserStructure.id
+  userId: number | null; // UserStructure.id
   userName: string; // UserStructure.nom / prenom
 };

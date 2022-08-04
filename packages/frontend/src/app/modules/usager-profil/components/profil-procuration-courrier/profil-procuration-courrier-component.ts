@@ -1,4 +1,3 @@
-import { WhiteSpaceValidator } from "./../../../../shared/validators/whitespace.validator";
 import {
   Component,
   ElementRef,
@@ -11,7 +10,13 @@ import {
   ViewChild,
   ViewChildren,
 } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
@@ -28,7 +33,10 @@ import {
   UserStructureRole,
   UsagerOptionsProcuration,
 } from "../../../../../_common/model";
-import { endDateAfterBeginDateValidator } from "../../../../shared";
+import {
+  endDateAfterBeginDateValidator,
+  noWhiteSpace,
+} from "../../../../shared";
 import {
   minDateToday,
   minDateNaissance,
@@ -51,9 +59,8 @@ import { UsagerOptionsService } from "../../services/usager-options.service";
 })
 export class UsagersProfilProcurationCourrierComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
+  @Output() usagerChange = new EventEmitter<UsagerFormModel>();
   @Input() public me!: UserStructure;
-
-  @Output() usagerChanges = new EventEmitter<UsagerLight>();
 
   @ViewChildren("procurationNom") inputsProcurations!: QueryList<ElementRef>;
 
@@ -86,7 +93,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
     this.procurationToDelete = null;
-    this.maxDateNaissance = formatDateToNgb(new Date());
+    this.maxDateNaissance = minDateToday;
   }
 
   public isRole(role: UserStructureRole): boolean {
@@ -135,32 +142,33 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   }
 
   public newProcuration(procuration: UsagerOptionsProcuration) {
-    return this.formBuilder.group(
+    return new FormGroup(
       {
-        nom: [
-          procuration.nom,
-          [Validators.required, WhiteSpaceValidator.noWhiteSpace],
-        ],
-        prenom: [
-          procuration.prenom,
-          [Validators.required, WhiteSpaceValidator.noWhiteSpace],
-        ],
-        dateFin: [formatDateToNgb(procuration.dateFin), [Validators.required]],
-        dateDebut: [
-          formatDateToNgb(procuration.dateDebut),
-          [Validators.required],
-        ],
-        dateNaissance: [
+        nom: new FormControl(procuration.nom, [
+          Validators.required,
+          noWhiteSpace,
+        ]),
+        prenom: new FormControl(procuration.prenom, [
+          Validators.required,
+          noWhiteSpace,
+        ]),
+        dateFin: new FormControl(formatDateToNgb(procuration.dateFin), [
+          Validators.required,
+        ]),
+        dateDebut: new FormControl(formatDateToNgb(procuration.dateDebut), [
+          Validators.required,
+        ]),
+        dateNaissance: new FormControl(
           formatDateToNgb(
             procuration.dateNaissance
               ? new Date(procuration.dateNaissance)
-              : undefined
+              : null
           ),
-          [Validators.required],
-        ],
+          [Validators.required]
+        ),
       },
       {
-        validator: endDateAfterBeginDateValidator({
+        validators: endDateAfterBeginDateValidator({
           beginDateControlName: "dateDebut",
           endDateControlName: "dateFin",
         }),
@@ -196,8 +204,8 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
       .subscribe({
         next: (usager: UsagerLight) => {
           this.hideForm();
-          this.usagerChanges.emit(usager);
           this.usager = new UsagerFormModel(usager);
+          this.usagerChange.emit(this.usager);
           this.toastService.success("Procuration modifiée avec succès");
           this.matomo.trackEvent("profil", "actions", "edit_procuration", 1);
         },
@@ -242,9 +250,9 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
           setTimeout(() => {
             this.closeModals();
             this.hideForm();
-            this.usagerChanges.emit(usager);
             this.procurationsForm.reset();
             this.usager = new UsagerFormModel(usager);
+            this.usagerChange.emit(this.usager);
             this.matomo.trackEvent(
               "profil",
               "actions",

@@ -20,14 +20,14 @@ import { UsagerNotesService } from "../../services/usager-notes.service";
 })
 export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
   @Input() public usager!: UsagerFormModel;
+  @Output() usagerChange = new EventEmitter<UsagerFormModel>();
+
   @Input() public me!: UserStructure;
 
   public loading: boolean;
   public displayConfirmArchiveMessageNoteId?: string;
 
   public filteredNotes: UsagerNote[];
-
-  @Output() usagerChanges = new EventEmitter<UsagerLight>();
 
   constructor(
     private usagerNotesService: UsagerNotesService,
@@ -67,12 +67,12 @@ export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
         usagerRef: this.usager.ref,
       })
       .subscribe({
-        next: (usager) => {
+        next: (usager: UsagerLight) => {
           this.filteredNotes = usager.notes.filter((x) => !x.archived);
           this.toastService.success("Note archivée avec succès");
           this.usager = new UsagerFormModel(usager);
           this.sortNotes();
-          this.usagerChanges.emit(usager);
+          this.usagerChange.emit(this.usager);
           this.loading = false;
         },
         error: () => {

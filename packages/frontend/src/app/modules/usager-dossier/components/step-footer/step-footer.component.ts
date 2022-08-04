@@ -1,4 +1,3 @@
-import { AuthService } from "./../../../shared/services/auth.service";
 import {
   Component,
   EventEmitter,
@@ -26,16 +25,9 @@ export class StepFooterComponent implements OnInit {
   @ViewChild("addNoteInModal", { static: true })
   public addNoteInModal!: TemplateRef<NgbModalRef>;
 
-  constructor(
-    private modalService: NgbModal,
-    private authService: AuthService
-  ) {}
+  constructor(private readonly modalService: NgbModal) {}
 
-  ngOnInit(): void {
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      this.me = user;
-    });
-  }
+  ngOnInit(): void {}
 
   public onUsagerChanges(usager: UsagerLight): void {
     this.usagerChanges.emit(usager);

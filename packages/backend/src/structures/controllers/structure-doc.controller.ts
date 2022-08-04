@@ -143,7 +143,7 @@ export class StructureDocController {
 
     return res
       .status(HttpStatus.OK)
-      .json(this.structureDocService.findAll(user.structureId));
+      .json(await this.structureDocService.findAll(user.structureId));
   }
 
   @Get("")

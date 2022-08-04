@@ -38,6 +38,7 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
   public restoreInteractionModal!: TemplateRef<NgbModalRef>;
 
   public loading: boolean;
+
   constructor(
     private readonly toastService: CustomToastService,
     private readonly interactionService: InteractionService,

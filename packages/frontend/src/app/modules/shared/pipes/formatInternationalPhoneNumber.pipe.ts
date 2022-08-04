@@ -1,17 +1,21 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { PhoneNumberFormat, PhoneNumberUtil } from "google-libphonenumber";
+import { PhoneNumberFormat } from "google-libphonenumber";
 
 import { Telephone } from "../../../../_common/model";
+import { phoneUtil } from "../../../shared";
 
 @Pipe({ name: "formatInternationalPhoneNumber" })
 export class FormatInternationalPhoneNumberPipe implements PipeTransform {
   transform(telephone: Telephone): string {
-    const phoneUtil = PhoneNumberUtil.getInstance();
     if (!telephone) {
       return "Non renseigné";
     }
 
-    if (telephone?.numero === "" || !telephone?.countryCode) {
+    if (
+      telephone?.numero === "" ||
+      !telephone?.numero ||
+      !telephone?.countryCode
+    ) {
       return "Non renseigné";
     }
 
@@ -22,7 +26,6 @@ export class FormatInternationalPhoneNumberPipe implements PipeTransform {
       );
       return phoneUtil.format(numero, PhoneNumberFormat.INTERNATIONAL);
     } catch (error) {
-      console.warn(error);
       return "Numéro introuvable";
     }
   }

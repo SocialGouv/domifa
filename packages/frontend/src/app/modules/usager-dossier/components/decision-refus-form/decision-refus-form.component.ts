@@ -1,3 +1,4 @@
+import { minDateToday } from "src/app/shared/bootstrap-util";
 import { UsagerFormModel } from "./../../../usager-shared/interfaces/UsagerFormModel";
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import {
@@ -48,7 +49,7 @@ export class DecisionRefusFormComponent implements OnInit {
     this.loading = false;
     this.submitted = false;
     this.minDate = { day: 1, month: 1, year: new Date().getFullYear() - 1 };
-    this.maxDateRefus = formatDateToNgb(new Date());
+    this.maxDateRefus = minDateToday;
   }
 
   get r(): { [key: string]: AbstractControl } {
@@ -71,8 +72,8 @@ export class DecisionRefusFormComponent implements OnInit {
           .get("motifDetails")
           .setValidators([Validators.required, Validators.minLength(10)]);
       } else {
-        this.refusForm.get("motifDetails").setValidators(null);
-        this.refusForm.get("motifDetails").setValue(null);
+        this.refusForm.get("motifDetails")?.setValidators(null);
+        this.refusForm.get("motifDetails")?.setValue(null);
       }
     });
   }

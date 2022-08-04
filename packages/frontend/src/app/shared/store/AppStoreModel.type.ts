@@ -8,7 +8,7 @@ export type SearchPageLoadedUsagersData = {
 };
 
 export type AppStoreModel = {
-  searchPageLoadedUsagersData: SearchPageLoadedUsagersData;
+  searchPageLoadedUsagersData?: SearchPageLoadedUsagersData;
   usagersByRefMap: { [usagerRef: string]: UsagerLight };
   interactionsByRefMap: { [usagerRef: string]: Interaction[] };
 };

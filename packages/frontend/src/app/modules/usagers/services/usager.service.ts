@@ -22,10 +22,10 @@ export class UsagerService {
     return this.http
       .get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`)
       .pipe(
-        tap((x) =>
+        tap((x) => {
           // update cache
-          usagersCache.updateUsager(x)
-        ),
+          usagersCache.updateUsager(x);
+        }),
         startWith(usagersCache.getSnapshot().usagersByRefMap[usagerRef]), // try to load value from cache
         filter((x) => !!x) // filter out empty cache value
       );

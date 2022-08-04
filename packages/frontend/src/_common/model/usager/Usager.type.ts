@@ -12,7 +12,7 @@ import { UsagerImport } from "./UsagerImport.type";
 import { UsagerLastInteractions } from "./UsagerLastInteractions.type";
 import { UsagerNote } from "./UsagerNote.type";
 import { UsagerOptions } from "./options/UsagerOptions.type";
-import { UsagerPreferenceContact } from "./UsagerPreferenceContact.type";
+
 import { UsagerRdv } from "./rdv/UsagerRdv.type";
 import { UsagerSexe } from "./UsagerSexe.type";
 import { UsagerTypeDom } from "./UsagerTypeDom.type";
@@ -35,8 +35,7 @@ export type Usager = AppEntity & {
   // CONTACT
   email?: string;
   telephone: Telephone;
-
-  preference: UsagerPreferenceContact;
+  contactByPhone: boolean;
 
   // AYANT-DROIT
   ayantsDroits: UsagerAyantDroit[];
@@ -48,7 +47,7 @@ export type Usager = AppEntity & {
 
   // INFOS DOMICILIATION
   typeDom: UsagerTypeDom;
-  datePremiereDom?: Date;
+  datePremiereDom: Date;
   import?: UsagerImport;
 
   // DECISIONS

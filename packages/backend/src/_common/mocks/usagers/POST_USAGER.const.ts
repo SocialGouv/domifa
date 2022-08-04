@@ -20,10 +20,7 @@ export const POST_USAGER: {
     email: "test@test.fr",
     nom: "Nom test OK ",
     telephone: { countryCode: "fr", numero: "0606060606" },
-    preference: {
-      contactByPhone: false,
-      telephone: { countryCode: "fr", numero: "" },
-    },
+    contactByPhone: false,
     prenom: "Prénom test OK ",
     sexe: "homme",
     surnom: "Surnom ",
@@ -49,10 +46,7 @@ export const POST_USAGER: {
     nom: "Nom test OK",
     phone: "0606060606",
     telephone: { countryCode: "fr", numero: "0606060606" },
-    preference: {
-      contactByPhone: false,
-      telephone: { countryCode: "fr", numero: "0101010101" },
-    },
+    contactByPhone: false,
     prenom: "Prénom test OK",
     sexe: "homme",
     surnom: "Surnom",

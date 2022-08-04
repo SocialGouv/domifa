@@ -27,11 +27,11 @@
     <section
       aria-label="Formulaire d'édition de l'état-civil du demandeur"
       class="step_form"
+      *ngIf="usagerForm"
     >
       <form
         [formGroup]="usagerForm"
         (ngSubmit)="submitInfos()"
-        ngNativeValidate
         autocomplete="off"
       >
         <h2 class="form-title">État civil du demandeur</h2>
@@ -191,8 +191,17 @@
           </div>
           <div class="row">
             <div class="col">
-              <div class="form-group">
-                <label for="telephone">Numéro de téléphone</label>
+              <div
+                class="form-group"
+                [ngClass]="
+                  f.contactByPhone.value === true
+                    ? 'required form-group'
+                    : 'form-group'
+                "
+              >
+                <label for="telephone"
+                  >Numéro de téléphone (mobile uniquement)</label
+                >
                 <ngx-intl-tel-input
                   [cssClass]="
                     submitted && (f.telephone.errors || f.telephone.invalid)
@@ -200,52 +209,94 @@
                       : 'form-control'
                   "
                   [preferredCountries]="PREFERRED_COUNTRIES"
-                  [enableAutoCountrySelect]="true"
+                  [enableAutoCountrySelect]="false"
                   [enablePlaceholder]="true"
                   [searchCountryFlag]="true"
+                  [customPlaceholder]="mobilePhonePlaceHolder"
+                  searchCountryPlaceholder="Choisissez votre pays"
                   [searchCountryField]="[
                     SearchCountryField.Iso2,
                     SearchCountryField.Name
                   ]"
-                  [selectedCountryISO]="selectedCountryISO"
                   [selectFirstCountry]="false"
                   [maxLength]="15"
                   [phoneValidation]="true"
                   [separateDialCode]="true"
-                  [inputId]="'telephone'"
-                  [numberFormat]="PhoneNumberFormat.National"
+                  [numberFormat]="PhoneNumberFormat.International"
+                  inputId="telephone"
+                  name="telephone"
                   formControlName="telephone"
+                  (countryChange)="updatePlaceHolder($event.iso2)"
+                  [selectedCountryISO]="f.telephone?.value?.countryCode"
                 ></ngx-intl-tel-input>
+                <small *ngIf="f.contactByPhone.value === false"
+                  >Optionnel</small
+                >
                 <p
                   *ngIf="submitted && f.telephone.errors"
-                  class="invalid-feedback"
+                  class="invalid-feedback-custom"
                 >
                   Le numéro de téléphone est incorrect
                 </p>
-                <small id="phoneHelp" class="d-block form-text text-muted">
-                  Optionnel
-                </small>
               </div>
             </div>
             <div class="col">
               <div class="form-group">
-                <label for="email">Adresse e-mail</label>
+                <label for="email">Adresse e-mail (Optionnel)</label>
                 <input
                   type="email"
                   class="form-control"
                   id="email"
                   formControlName="email"
-                  aria-describedby="emailHelp"
                   [ngClass]="{ 'is-invalid': f.email.errors }"
                   placeholder="adresse@mail.com"
                 />
-                <small id="emailHelp" class="form-text text-muted">
-                  Optionnel
-                </small>
+                <p *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                  Veuillez saisir une adresse e-mail valide. Par exemple :
+                  john.doe@domifa.fr
+                </p>
               </div>
             </div>
           </div>
         </fieldset>
+
+        <div
+          class="row my-3"
+          *ngIf="
+            me.structure.sms.enabledByDomifa &&
+            me.structure.sms.enabledByStructure
+          "
+        >
+          <div class="col">
+            <fieldset>
+              <legend>
+                Le demandeur souhaite-t-il recevoir des notifications par SMS
+                (arrivée d'un courrier, échéance de domiciliation) ?
+              </legend>
+
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  formControlName="contactByPhone"
+                  id="sms_oui"
+                  [value]="true"
+                />
+                <label class="form-check-label" for="sms_oui"> Oui </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  formControlName="contactByPhone"
+                  id="sms_non"
+                  [value]="false"
+                />
+                <label class="form-check-label" for="sms_non"> Non </label>
+              </div>
+            </fieldset>
+          </div>
+        </div>
 
         <div class="row">
           <div class="col-md-12 my-3">
@@ -448,83 +499,6 @@
           <br />
         </ng-container>
 
-        <div
-          class="row my-3"
-          formGroupName="preference"
-          *ngIf="
-            me.structure.sms.enabledByDomifa &&
-            me.structure.sms.enabledByStructure
-          "
-        >
-          <div class="col">
-            <fieldset>
-              <legend>
-                Le demandeur souhaite-t-il recevoir des notifications par SMS
-                (arrivée d'un courrier, échéance de domiciliation) ?
-              </legend>
-
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  formControlName="contactByPhone"
-                  id="sms_oui"
-                  [value]="true"
-                />
-                <label class="form-check-label" for="sms_oui"> Oui </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  formControlName="contactByPhone"
-                  id="sms_non"
-                  [value]="false"
-                />
-                <label class="form-check-label" for="sms_non"> Non </label>
-              </div>
-            </fieldset>
-          </div>
-          <div
-            class="col"
-            *ngIf="f.preference.get('contactByPhone')?.value === true"
-          >
-            <div class="form-group required">
-              <label for="preferenceTelephone">Numéro de téléphone</label>
-              <ngx-intl-tel-input
-                [cssClass]="
-                  'form-control ' + submitted &&
-                  f.preference.get('telephone')?.errors
-                    ? 'is-invalid'
-                    : ''
-                "
-                [preferredCountries]="PREFERRED_COUNTRIES"
-                [enableAutoCountrySelect]="true"
-                [enablePlaceholder]="true"
-                [searchCountryFlag]="true"
-                [searchCountryField]="[
-                  SearchCountryField.Iso2,
-                  SearchCountryField.Name
-                ]"
-                [selectedCountryISO]="selectedCountryISO"
-                [selectFirstCountry]="false"
-                [maxLength]="15"
-                [phoneValidation]="true"
-                [separateDialCode]="true"
-                [inputId]="'preferenceTelephone'"
-                [numberFormat]="PhoneNumberFormat.National"
-                formControlName="telephone"
-              ></ngx-intl-tel-input>
-              <small class="d-block">Numéro de portable uniquement</small>
-              <p
-                *ngIf="submitted && f.preference.get('telephone')?.errors"
-                class="invalid-feedback"
-              >
-                Le numéro de téléphone est incorrect
-              </p>
-            </div>
-          </div>
-        </div>
         <input formControlName="ref" type="hidden" />
 
         <div class="col-md-4 my-4 offset-md-4 text-center">
@@ -555,9 +529,8 @@
   ></app-step-footer>
 
   <app-delete-usager-menu
-    (usagerChanges)="onUsagerChanges($event)"
     [me]="me"
-    [usager]="usager"
+    [(usager)]="usager"
     class="my-4"
   ></app-delete-usager-menu>
 </div>

@@ -77,6 +77,7 @@ const appStoreReducer = (
       if (state.searchPageLoadedUsagersData) {
         // first delete usager, then add-it, in case decision.status has changed
         let searchPageLoadedUsagersData = state.searchPageLoadedUsagersData;
+
         usagers.forEach((usager) => {
           searchPageLoadedUsagersData = addUsager({
             initialData: deleteSearchPageLoadedUsagersDataUsager({
@@ -100,19 +101,7 @@ const appStoreReducer = (
         };
       }
     }
-    case "update-usager-interactions": {
-      const { usagerRef, interactions } = action;
-      // update map
-      const interactionsByRefMap = {
-        ...state.interactionsByRefMap,
-      };
 
-      interactionsByRefMap[usagerRef] = interactions;
-      return {
-        ...state,
-        interactionsByRefMap,
-      };
-    }
     case "delete-usager": {
       const criteria = action.criteria;
       const attributes = Object.keys(criteria);
@@ -196,22 +185,26 @@ function addUsager({
   };
 
   const isRadie = usager.decision?.statut === "RADIE";
+
   searchPageLoadedUsagersData.usagersNonRadies =
     searchPageLoadedUsagersData.usagersNonRadies
       ? isRadie
         ? searchPageLoadedUsagersData.usagersNonRadies
         : searchPageLoadedUsagersData.usagersNonRadies.concat([usager])
       : undefined;
+
   searchPageLoadedUsagersData.usagersRadiesFirsts =
     searchPageLoadedUsagersData.usagersRadiesFirsts
       ? !isRadie
         ? searchPageLoadedUsagersData.usagersRadiesFirsts
         : searchPageLoadedUsagersData.usagersRadiesFirsts.concat([usager])
       : undefined;
+
   searchPageLoadedUsagersData.usagersRadiesTotalCount =
     searchPageLoadedUsagersData.usagersRadiesTotalCount +
     searchPageLoadedUsagersData.usagersRadiesFirsts.length -
     initialData.usagersRadiesFirsts.length;
+
   return searchPageLoadedUsagersData;
 }
 
@@ -232,6 +225,7 @@ function deleteSearchPageLoadedUsagersDataUsager({
     searchPageLoadedUsagersData.usagersNonRadies.filter((u) =>
       attributes.some((attr) => criteria[attr] !== u[attr])
     );
+
   searchPageLoadedUsagersData.usagersRadiesFirsts =
     searchPageLoadedUsagersData.usagersRadiesFirsts.filter((u) =>
       attributes.some((attr) => criteria[attr] !== u[attr])

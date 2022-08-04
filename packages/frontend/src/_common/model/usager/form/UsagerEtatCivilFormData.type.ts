@@ -1,4 +1,4 @@
-import { UsagerAyantDroit, UsagerPreferenceContact, UsagerSexe } from "..";
+import { UsagerAyantDroit, UsagerSexe } from "..";
 import { Telephone } from "../../telephone";
 
 export type UsagerEtatCivilFormData = {
@@ -12,6 +12,6 @@ export type UsagerEtatCivilFormData = {
   customRef: string;
   email: string;
   telephone: Telephone;
-  preference?: UsagerPreferenceContact;
+  contactByPhone: boolean;
   ayantsDroits: UsagerAyantDroit[];
 };

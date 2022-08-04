@@ -25,7 +25,7 @@ export type UsagerLight = AppEntity &
     | "villeNaissance"
     | "telephone"
     | "langue"
-    | "preference"
+    | "contactByPhone"
     | "import"
     | "usagerProfilUrl"
     | "echeanceInfos"

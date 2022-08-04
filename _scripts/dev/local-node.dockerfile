@@ -1,5 +1,3 @@
-# https://hub.docker.com/_/node/
-# BUG SSL/Tipimail avec debian buster: https://github.com/SocialGouv/domifa/issues/1033
 FROM node:17.7-bullseye-slim
 
 USER root

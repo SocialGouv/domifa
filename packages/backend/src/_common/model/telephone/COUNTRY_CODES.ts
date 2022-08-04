@@ -247,7 +247,8 @@ export const COUNTRY_CODES: { [key: string]: string } = {
 };
 
 export const COUNTRY_CODES_TIMEZONE: { [key in TimeZone]: string } = {
-  "America/Martinique": "mq",
+  "America/Guadeloupe": "mq",
+  "America/Martinique": "gp",
   "America/Cayenne": "gf",
   "Indian/Reunion": "yt",
   "Indian/Mayotte": "km",

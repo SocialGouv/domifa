@@ -15,7 +15,7 @@ export type UsagerDecision = {
   statut: UsagerDecisionStatut;
 
   // Motif de refus ou radiation
-  motif?: UsagerDecisionMotif;
+  motif?: UsagerDecisionMotif | null;
   motifDetails?: string;
 
   // Orientation si refus

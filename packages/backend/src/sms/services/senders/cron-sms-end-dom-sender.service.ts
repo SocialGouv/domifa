@@ -27,7 +27,8 @@ export class CronSmsEndDomSenderService {
   @Cron(domifaConfig().cron.smsConsumer.sendEndDomCronTime, {
     timeZone: "America/Martinique",
   })
-  protected async sendSmsMartinique() {
+  protected async sendSmsMartiniqueAndGuadeloupe() {
+    await this.sendSmsUsagerEndDom("cron", "America/Guadeloupe");
     await this.sendSmsUsagerEndDom("cron", "America/Martinique");
   }
 

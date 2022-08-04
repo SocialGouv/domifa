@@ -126,7 +126,7 @@ function _mergeIndices(allWordsIndices: Bounds[]): Bounds[] {
 }
 
 function _findAllWordsIndices(words: string[], cleanContent: string): Bounds[] {
-  return words.reduce((acc, word) => {
+  return words.reduce((acc: Bounds[], word: string) => {
     const wordIndices: Bounds[] = getIndicesOf(cleanContent, {
       word,
     });

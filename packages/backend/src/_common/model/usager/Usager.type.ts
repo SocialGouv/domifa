@@ -32,9 +32,10 @@ export type Usager = AppEntity & {
 
   // ! deprecated
   phone?: string;
+  // ! deprecated
+  preference?: UsagerPreferenceContact;
 
   telephone: Telephone;
-  preference?: UsagerPreferenceContact;
 
   // AYANT-DROIT
   ayantsDroits: UsagerAyantDroit[];
@@ -46,9 +47,9 @@ export type Usager = AppEntity & {
 
   // INFOS DOMICILIATION
   typeDom: UsagerTypeDom;
-  datePremiereDom?: Date;
+  datePremiereDom: Date | null;
   import?: UsagerImport;
-
+  contactByPhone: boolean;
   // DECISIONS
   decision: UsagerDecision;
 

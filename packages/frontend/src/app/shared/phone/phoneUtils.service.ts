@@ -1,5 +1,8 @@
+import { PhoneNumberFormat, PhoneNumberUtil } from "google-libphonenumber";
 import { ChangeData, CountryISO } from "ngx-intl-tel-input";
-import { Telephone, COUNTRY_CODES } from "../../../_common/model";
+import { Telephone } from "../../../_common/model";
+
+export const phoneUtil = PhoneNumberUtil.getInstance();
 
 export const getPhoneString = (telephone: Telephone): string => {
   if (!telephone) {
@@ -8,13 +11,12 @@ export const getPhoneString = (telephone: Telephone): string => {
   if (telephone.numero === null || telephone.numero === "") {
     return "";
   }
-  return `+${COUNTRY_CODES[telephone.countryCode]}${telephone.numero}`;
-};
 
-export const getCountryCode = (countryCode: string): string => {
-  if (COUNTRY_CODES[countryCode] === undefined) return "+33";
-
-  return `+${COUNTRY_CODES[countryCode]}`;
+  const numero = phoneUtil.parse(
+    telephone.numero,
+    telephone.countryCode.toLowerCase()
+  );
+  return phoneUtil.format(numero, PhoneNumberFormat.INTERNATIONAL);
 };
 
 export function getFormPhone(formValue: ChangeData): Telephone {
@@ -25,7 +27,9 @@ export function getFormPhone(formValue: ChangeData): Telephone {
     };
   }
   return {
-    numero: formValue?.number ? formValue?.number.replace(/\s/g, "") : "",
+    numero: formValue?.nationalNumber
+      ? formValue?.nationalNumber.replace(/\s/g, "")
+      : "",
     countryCode: formValue?.countryCode
       ? (formValue?.countryCode.toLowerCase() as CountryISO)
       : CountryISO.France,
@@ -33,9 +37,25 @@ export function getFormPhone(formValue: ChangeData): Telephone {
 }
 
 export function setFormPhone(telephone: Telephone): ChangeData {
-  return {
+  const defaultReturn = {
     // eslint-disable-next-line id-denylist
-    number: telephone.numero ? telephone.numero.replace(/\s/g, "") : "",
-    dialCode: getCountryCode(telephone.countryCode),
+    number: "",
+    countryCode: telephone.countryCode,
   };
+  try {
+    const parsedPhone = phoneUtil.parse(
+      telephone.numero,
+      telephone.countryCode
+    );
+    if (!phoneUtil.isValidNumber(parsedPhone) || !parsedPhone) {
+      return defaultReturn;
+    }
+    return {
+      // eslint-disable-next-line id-denylist
+      number: parsedPhone.getNationalNumber()?.toString(),
+      countryCode: telephone.countryCode,
+    };
+  } catch (e) {
+    return defaultReturn;
+  }
 }

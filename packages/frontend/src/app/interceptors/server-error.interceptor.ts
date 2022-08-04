@@ -17,8 +17,8 @@ import { AuthService } from "../modules/shared/services/auth.service";
 })
 export class ServerErrorInterceptor implements HttpInterceptor {
   constructor(
-    public toastr: CustomToastService,
-    public authService: AuthService
+    private readonly toastr: CustomToastService,
+    private readonly authService: AuthService
   ) {}
 
   public intercept(
