@@ -3219,6 +3219,11 @@
   dependencies:
     "@octokit/openapi-types" "^12.11.0"
 
+"@opentelemetry/api@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@opentelemetry/api/-/api-1.1.0.tgz#563539048255bbe1a5f4f586a4a10a1bb737f44a"
+  integrity sha512-hf+3bwuBwtXsugA2ULBc95qxrOqP2pOekLz34BJhcAKawt94vfeNyUKpYc0lZQ/3sCP6LqRa7UAdHA7i5UODzQ==
+
 "@parcel/watcher@2.0.4":
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/@parcel/watcher/-/watcher-2.0.4.tgz#f300fef4cc38008ff4b8c29d92588eced3ce014b"
@@ -6260,12 +6265,12 @@ cookie-signature@1.0.6:
   resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
   integrity sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==
 
-cookie@0.5.0:
+cookie@0.5.0, cookie@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.5.0.tgz#d1f5d71adec6558c58f389987c366aa47e994f8b"
   integrity sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==
 
-cookie@^0.4.0, cookie@^0.4.1:
+cookie@^0.4.1:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.4.2.tgz#0e41f24de5ecf317947c82fc789e06a884824432"
   integrity sha512-aSWTXFzaKWkvHO1Ny/s+ePFpvKsPnjc551iI41v3ny/ow6tBG5Vd+FuqGNhh1LxOmVzOlGUriIlOaokOvhaStA==
@@ -7127,17 +7132,18 @@ elastic-apm-http-client@11.0.1:
     semver "^6.3.0"
     stream-chopper "^3.0.1"
 
-elastic-apm-node@^3.33.0:
-  version "3.33.0"
-  resolved "https://registry.yarnpkg.com/elastic-apm-node/-/elastic-apm-node-3.33.0.tgz#ad2850b005355299c3a9fdc631875162480ceb15"
-  integrity sha512-ZJKcRbYdEU87MWyB9CczGTLEERA595OWd0nqpxrDBkogogpxwpzCOialKZA+bekpNA0Oa4Sv18zRCdyqpV25Pw==
+elastic-apm-node@^3.37.0:
+  version "3.37.0"
+  resolved "https://registry.yarnpkg.com/elastic-apm-node/-/elastic-apm-node-3.37.0.tgz#475cdd38f6c51992952fa00e9be86f01c0e03eb5"
+  integrity sha512-WjfhMXK3l3aMO/vOSD4LFn9ActPrujOqjQUO4vEFQu5+HGNJIYW+zT4Mqvq0dIZAsdaat0NX/dzzAkBHaQu21Q==
   dependencies:
     "@elastic/ecs-pino-format" "^1.2.0"
+    "@opentelemetry/api" "^1.1.0"
     after-all-results "^2.0.0"
     async-cache "^1.1.0"
     async-value-promise "^1.1.1"
     basic-auth "^2.0.1"
-    cookie "^0.4.0"
+    cookie "^0.5.0"
     core-util-is "^1.0.2"
     elastic-apm-http-client "11.0.1"
     end-of-stream "^1.4.4"
@@ -7154,7 +7160,6 @@ elastic-apm-node@^3.33.0:
     object-identity-map "^1.0.2"
     original-url "^1.2.3"
     pino "^6.11.2"
-    read-pkg-up "^7.0.1"
     relative-microtime "^2.0.0"
     require-in-the-middle "^5.0.3"
     semver "^6.3.0"
@@ -11658,11 +11663,6 @@ nodemailer@6.7.3:
   version "6.7.3"
   resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.7.3.tgz#b73f9a81b9c8fa8acb4ea14b608f5e725ea8e018"
   integrity sha512-KUdDsspqx89sD4UUyUKzdlUOper3hRkDVkrKh/89G+d9WKsU5ox51NWS4tB1XR5dPUdR4SP0E3molyEfOvSa3g==
-
-nodemailer@^6.7.1:
-  version "6.7.2"
-  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.7.2.tgz#44b2ad5f7ed71b7067f7a21c4fedabaec62b85e0"
-  integrity sha512-Dz7zVwlef4k5R71fdmxwR8Q39fiboGbu3xgswkzGwczUfjp873rVxt1O46+Fh0j1ORnAC6L9+heI8uUpO6DT7Q==
 
 nodemailer@^6.7.7:
   version "6.7.7"
