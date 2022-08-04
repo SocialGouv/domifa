@@ -25,7 +25,7 @@ import { InteractionService } from "../../../services/interaction.service";
   templateUrl: "./set-interaction-in-form.component.html",
   styleUrls: ["./set-interaction-in-form.component.css", "../interactions.css"],
 })
-export class SetInteractionInFormComponent implements OnInit {
+export class SetInteractionInFormComponent {
   @Input() public usager!: UsagerFormModel;
   @Output()
   public usagerChange = new EventEmitter<UsagerFormModel>();
@@ -65,8 +65,6 @@ export class SetInteractionInFormComponent implements OnInit {
     };
     this.content = null;
   }
-
-  public ngOnInit(): void {}
 
   public setInteractionForm(): void {
     const interactionsToSave: InteractionInForApi[] =

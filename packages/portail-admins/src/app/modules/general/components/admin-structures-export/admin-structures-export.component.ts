@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy } from "@angular/core";
 
 import { AdminStructuresApiClient } from "../../../shared/services";
 import * as fileSaver from "file-saver";
@@ -9,15 +9,13 @@ import { CustomToastService } from "../../../shared/services/custom-toast.servic
   templateUrl: "./admin-structures-export.component.html",
   styleUrls: ["./admin-structures-export.component.css"],
 })
-export class AdminStructuresExportComponent implements OnInit, OnDestroy {
+export class AdminStructuresExportComponent implements OnDestroy {
   public exportLoading = false;
 
   constructor(
     private readonly adminStructuresApiClient: AdminStructuresApiClient,
     private notifService: CustomToastService
   ) {}
-
-  public ngOnInit(): void {}
 
   public ngOnDestroy(): void {}
 

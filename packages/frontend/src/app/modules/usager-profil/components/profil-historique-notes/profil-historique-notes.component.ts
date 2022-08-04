@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 @Component({
@@ -6,10 +6,6 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
   templateUrl: "./profil-historique-notes.component.html",
   styleUrls: ["./profil-historique-notes.component.css"],
 })
-export class ProfilHistoriqueNotesComponent implements OnInit {
+export class ProfilHistoriqueNotesComponent {
   @Input() public usager: UsagerFormModel;
-
-  constructor() {}
-
-  public ngOnInit(): void {}
 }

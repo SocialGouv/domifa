@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import fileSaver from "file-saver";
@@ -15,7 +15,7 @@ import { StructureDocService } from "../../services/structure-doc.service";
   templateUrl: "./structures-custom-docs-table.component.html",
   styleUrls: ["./structures-custom-docs-table.component.css"],
 })
-export class StructuresCustomDocsTableComponent implements OnInit {
+export class StructuresCustomDocsTableComponent {
   public STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;
 
   @Input() public structureDocs: StructureDoc[];
@@ -40,8 +40,6 @@ export class StructuresCustomDocsTableComponent implements OnInit {
       delete: [],
     };
   }
-
-  ngOnInit(): void {}
 
   public getStructureDoc(structureDoc: StructureDoc): void {
     this.loadings.download.push(structureDoc.uuid);

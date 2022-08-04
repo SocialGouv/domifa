@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  QueryList,
-  ViewChildren,
-} from "@angular/core";
+import { Component, ElementRef, QueryList, ViewChildren } from "@angular/core";
 import {
   FormGroup,
   AbstractControl,
@@ -63,7 +57,7 @@ import { AyantDroit, UsagerFormModel } from "../../interfaces";
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
 })
-export class EtatCivilParentFormComponent implements OnInit {
+export class EtatCivilParentFormComponent {
   public PhoneNumberFormat = PhoneNumberFormat;
   public SearchCountryField = SearchCountryField;
   public CountryISO = CountryISO;
@@ -115,8 +109,6 @@ export class EtatCivilParentFormComponent implements OnInit {
     this.maxDateNaissance = formatDateToNgb(new Date());
     this.currentUserSubject$ = this.authService.currentUserSubject;
   }
-
-  ngOnInit(): void {}
 
   public initForm(): void {
     this.usagerForm = this.formBuilder.group({

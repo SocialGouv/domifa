@@ -12,7 +12,7 @@ import { UsagerProfilService } from "../../services/usager-profil.service";
   templateUrl: "./profil-historique-sms.component.html",
   styleUrls: ["./profil-historique-sms.component.css"],
 })
-export class ProfilHistoriqueSmsComponent implements OnInit, AfterViewInit {
+export class ProfilHistoriqueSmsComponent implements AfterViewInit {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
 
@@ -25,8 +25,6 @@ export class ProfilHistoriqueSmsComponent implements OnInit, AfterViewInit {
     this.usager = new UsagerFormModel();
     this.messagesList = [];
   }
-
-  public ngOnInit(): void {}
 
   public ngAfterViewInit(): void {
     this.getMySms();

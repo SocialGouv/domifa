@@ -4,7 +4,6 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
 } from "@angular/core";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
@@ -18,7 +17,7 @@ import { UsagerNotesService } from "../../services/usager-notes.service";
   templateUrl: "./profil-general-notes.component.html",
   styleUrls: ["./profil-general-notes.component.css"],
 })
-export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
+export class ProfilGeneralNotesComponent implements OnChanges {
   @Input() public usager!: UsagerFormModel;
   @Output() usagerChange = new EventEmitter<UsagerFormModel>();
 
@@ -36,8 +35,6 @@ export class ProfilGeneralNotesComponent implements OnInit, OnChanges {
     this.loading = false;
     this.filteredNotes = [];
   }
-
-  public ngOnInit(): void {}
 
   public ngOnChanges(): void {
     this.sortNotes();
