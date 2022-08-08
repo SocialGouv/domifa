@@ -10,6 +10,7 @@ const context: UsagersImportUsagerSchemaContext = {
   today,
   nextYear,
   minDate,
+  countryCode: "fr",
 };
 
 describe("UsagersImportCiviliteSchema dates", () => {

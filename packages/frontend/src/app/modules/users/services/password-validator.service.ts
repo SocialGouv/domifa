@@ -20,6 +20,6 @@ export class PasswordValidator {
   ): ValidationErrors | null => {
     const password: string = control.get("password").value;
     const confirmPassword: string = control.get("confirmPassword").value;
-    return password === confirmPassword ? null : { NoPassswordMatch: true };
+    return password === confirmPassword ? null : { noPassswordMatch: true };
   };
 }

@@ -140,12 +140,18 @@
           <label for="password">Mot de passe</label>
           <div class="input-group">
             <input
-              class="form-control"
-              [type]="!hidePassword ? 'text' : 'password'"
-              [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
-              id="password"
-              autocomplete="new-password"
+              type="password"
               formControlName="password"
+              [type]="!hidePassword ? 'text' : 'password'"
+              class="form-control"
+              id="password"
+              [ngClass]="{
+                'is-invalid':
+                  (submitted || f.password.dirty) && f.password.errors,
+                'is-valid': f.password.dirty && !f.password.errors
+              }"
+              placeholder="Mot de passe"
+              autocomplete="new-password"
               required
             />
 
@@ -160,6 +166,7 @@
               ></fa-icon>
             </button>
           </div>
+
           <div class="row indications">
             <p
               class="col-md-12"
@@ -223,14 +230,21 @@
             </p>
           </div>
         </div>
-        <div class="col form-group required" id="confirmPassword">
+        <div class="col form-group required">
           <label for="confirmPasswordInput">Confirmer votre mot de passe</label>
           <div class="input-group">
             <input
               class="form-control"
               [type]="!hidePasswordConfirm ? 'text' : 'password'"
               [ngClass]="{
-                'is-invalid': submitted && f.confirmPassword.errors
+                'is-invalid':
+                  (f.confirmPassword.dirty || submitted) &&
+                  (f.confirmPassword.errors ||
+                    userForm?.errors?.noPassswordMatch),
+                'is-valid':
+                  f.confirmPassword.dirty &&
+                  !f.confirmPassword.errors &&
+                  !userForm?.errors?.noPassswordMatch
               }"
               id="confirmPasswordInput"
               autocomplete="new-password"
@@ -250,6 +264,36 @@
                 "
               ></fa-icon>
             </button>
+          </div>
+
+          <div class="row indications">
+            <div
+              class="text-danger col-md-12"
+              *ngIf="
+                f.confirmPassword.dirty &&
+                f.confirmPassword.hasError('required')
+              "
+            >
+              La confirmation du mot de passe est obligatoire
+            </div>
+            <div
+              class="col-md-12"
+              [ngClass]="
+                f.confirmPassword.dirty && !userForm?.errors?.noPassswordMatch
+                  ? 'text-success'
+                  : 'text-danger'
+              "
+            >
+              <fa-icon
+                [icon]="[
+                  'fas',
+                  f.confirmPassword.dirty && !userForm?.errors?.noPassswordMatch
+                    ? 'check-circle'
+                    : 'times-circle'
+                ]"
+              ></fa-icon>
+              Les mots de passe doivent être identiques
+            </div>
           </div>
         </div>
       </div>

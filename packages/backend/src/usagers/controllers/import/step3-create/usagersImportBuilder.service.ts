@@ -57,7 +57,7 @@ function buildUsager({
   const ayantsDroits = buildAyantsDroits(usagerRow);
 
   const customRef = usagerRow.customRef;
-  const phone = usagerRow.phone;
+  const telephone = usagerRow.telephone;
   const email = usagerRow.email;
 
   //
@@ -142,7 +142,7 @@ function buildUsager({
     etapeDemande: ETAPE_DOSSIER_COMPLET,
     historique: [decision],
     nom: usagerRow.nom,
-    phone,
+    telephone,
     prenom: usagerRow.prenom,
     sexe,
     structureId: user.structureId,

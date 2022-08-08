@@ -191,7 +191,7 @@ describe("Usagers Controller", () => {
             ref: 265,
             langue: "",
             nom: "Rami",
-            phone: "0600000000",
+            telephone: { countryCode: "fr", numero: "0600000001" },
             prenom: "Phill",
             sexe: "homme",
             surnom: "",
@@ -208,6 +208,7 @@ describe("Usagers Controller", () => {
       const updatedUsager: UsagerLight = response.body;
       expect(updatedUsager.nom).toEqual("Rami");
       expect(updatedUsager.etapeDemande).toEqual(1);
+      expect(updatedUsager.telephone.numero).toEqual("0600000001");
       expect(updatedUsager.ayantsDroits.length).toEqual(0);
     });
 

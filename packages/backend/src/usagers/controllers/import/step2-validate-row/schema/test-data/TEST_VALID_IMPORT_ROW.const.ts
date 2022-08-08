@@ -7,7 +7,7 @@ export const TEST_VALID_IMPORT_ROW = [
   "Polo", // surnom
   "15/06/2000", // dateNaissance
   "Paris", // lieuNaissance
-  "0102030405", // phone
+  "0602030405", // phone
   "paul.dupont.168436@gmail.com", // email
   "VALIDE", // statutDom
   undefined, // motifRefus

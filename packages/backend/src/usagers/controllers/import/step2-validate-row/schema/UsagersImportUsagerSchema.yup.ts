@@ -31,7 +31,7 @@ export const UsagersImportUsagerSchema = yup
       .max(yup.ref("$today"))
       .required(),
     lieuNaissance: yup.string().required(),
-    phone: phone(),
+    telephone: phone(),
     email: email().notRequired(),
     statutDom: oneOfString(["VALIDE", "REFUS", "RADIE"]).required(),
     motifRefus: oneOfString(MOTIFS_REFUS_LABELS_MAP).notRequired(),

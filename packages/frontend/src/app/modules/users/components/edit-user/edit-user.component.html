@@ -223,7 +223,9 @@
               class="form-control"
               id="new-password"
               [ngClass]="{
-                'is-invalid': p.password.dirty && p.password.errors
+                'is-invalid':
+                  (submitted || p.password.dirty) && p.password.errors,
+                'is-valid': p.password.dirty && !p.password.errors
               }"
               placeholder="Mot de passe"
               autocomplete="new-password"
@@ -236,7 +238,7 @@
               (click)="togglePassword()"
             >
               <fa-icon
-                title="Voir / cacher le mot de passe"
+                aria-label="Voir / cacher le mot de passe"
                 [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
               ></fa-icon>
             </button>
@@ -244,12 +246,6 @@
 
           <div class="row indications">
             <div
-              [title]="
-                p.password.hasError('required') ||
-                p.password.hasError('minlength')
-                  ? 'Erreur'
-                  : 'Correct'
-              "
               class="col-md-12"
               [ngClass]="
                 p.password.hasError('required') ||
@@ -270,12 +266,6 @@
               Au moins 12 caractères
             </div>
             <div
-              [title]="
-                p.password.hasError('required') ||
-                p.password.hasError('hasNumber')
-                  ? 'Erreur'
-                  : 'Correct'
-              "
               class="col-md-12"
               [ngClass]="
                 p.password.hasError('required') ||
@@ -296,12 +286,6 @@
               Au moins 1 chiffre
             </div>
             <div
-              [title]="
-                p.password.hasError('required') ||
-                p.password.hasError('hasCapitalCase')
-                  ? 'Erreur'
-                  : 'Correct'
-              "
               class="col-md-12"
               [ngClass]="
                 p.password.hasError('required') ||
@@ -331,7 +315,13 @@
               [type]="!hidePasswordConfirm ? 'text' : 'password'"
               [ngClass]="{
                 'is-invalid':
-                  p.confirmPassword.dirty && p.confirmPassword.errors
+                  (p.confirmPassword.dirty || submitted) &&
+                  (p.confirmPassword.errors ||
+                    passwordForm?.errors?.noPassswordMatch),
+                'is-valid':
+                  p.confirmPassword.dirty &&
+                  !p.confirmPassword.errors &&
+                  !passwordForm?.errors?.noPassswordMatch
               }"
               id="confirmPasswordInput"
               autocomplete="new-password"
@@ -367,7 +357,7 @@
               class="col-md-12"
               [ngClass]="
                 p.confirmPassword.dirty &&
-                !p.confirmPassword.hasError('NoPassswordMatch')
+                !passwordForm?.errors?.noPassswordMatch
                   ? 'text-success'
                   : 'text-danger'
               "
@@ -376,7 +366,7 @@
                 [icon]="[
                   'fas',
                   p.confirmPassword.dirty &&
-                  !p.confirmPassword.hasError('NoPassswordMatch')
+                  !passwordForm?.errors?.noPassswordMatch
                     ? 'check-circle'
                     : 'times-circle'
                 ]"

@@ -1,4 +1,10 @@
-import { Component, ElementRef, QueryList, ViewChildren } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  QueryList,
+  ViewChildren,
+} from "@angular/core";
 import {
   FormGroup,
   AbstractControl,
@@ -19,7 +25,7 @@ import {
   CountryISO,
   PhoneNumberFormat,
 } from "ngx-intl-tel-input";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 
 import {
   LIEN_PARENTE_LABELS,
@@ -57,7 +63,7 @@ import { AyantDroit, UsagerFormModel } from "../../interfaces";
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
 })
-export class EtatCivilParentFormComponent {
+export class EtatCivilParentFormComponent implements OnDestroy {
   public PhoneNumberFormat = PhoneNumberFormat;
   public SearchCountryField = SearchCountryField;
   public CountryISO = CountryISO;
@@ -83,6 +89,8 @@ export class EtatCivilParentFormComponent {
   public languagesAutocompleteSearch = languagesAutocomplete.typeahead({
     maxResults: 10,
   });
+
+  private subscription = new Subscription();
 
   public currentUserSubject$: Observable<UserStructure>;
 
@@ -143,18 +151,20 @@ export class EtatCivilParentFormComponent {
       this.addAyantDroit(ayantDroit);
     }
 
+    this.subscription.add(
+      this.usagerForm
+        .get("contactByPhone")
+        ?.valueChanges.subscribe((value: boolean) => {
+          const isRequiredTelephone = value
+            ? [Validators.required, mobilePhoneValidator]
+            : [mobilePhoneValidator];
+
+          this.usagerForm.get("telephone").setValidators(isRequiredTelephone);
+          this.usagerForm.get("telephone").updateValueAndValidity();
+        })
+    );
+
     this.updatePlaceHolder();
-
-    this.usagerForm
-      .get("contactByPhone")
-      .valueChanges.subscribe((value: boolean) => {
-        const isRequiredTelephone = value
-          ? [Validators.required, mobilePhoneValidator]
-          : [mobilePhoneValidator];
-
-        this.usagerForm.get("telephone").setValidators(isRequiredTelephone);
-        this.usagerForm.get("telephone").updateValueAndValidity();
-      });
   }
 
   //
@@ -257,5 +267,9 @@ export class EtatCivilParentFormComponent {
     };
 
     return datas;
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

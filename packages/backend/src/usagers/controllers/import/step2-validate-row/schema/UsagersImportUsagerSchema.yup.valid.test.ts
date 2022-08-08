@@ -16,11 +16,12 @@ const context: UsagersImportUsagerSchemaContext = {
   today,
   nextYear,
   minDate,
+  countryCode: "fr",
 };
 
 describe("UsagersImportCiviliteSchema schema", () => {
   it("usager VALIDE", async () => {
-    await expect(
+    expect(
       await UsagersImportUsagerSchema.validate(TEST_VALID_IMPORT_USAGER, {
         context,
       })
@@ -32,7 +33,10 @@ describe("UsagersImportCiviliteSchema schema", () => {
       surnom: "Polo",
       dateNaissance: new Date(Date.UTC(2018, 6 - 1, 15)),
       lieuNaissance: "Paris",
-      phone: "0102030405",
+      telephone: {
+        countryCode: "fr",
+        numero: "06 02 03 04 05",
+      },
       email: "paul.dupont.168436@gmail.com",
       statutDom: "VALIDE",
       motifRefus: undefined,
@@ -77,7 +81,7 @@ describe("UsagersImportCiviliteSchema schema", () => {
   });
 
   it("usager REFUS", async () => {
-    await expect(
+    expect(
       await UsagersImportUsagerSchema.validate(TEST_VALID_IMPORT_USAGER_REFUS, {
         context,
       })
@@ -106,7 +110,10 @@ describe("UsagersImportCiviliteSchema schema", () => {
       nom: "Auguy",
       orientation: false,
       orientationDetail: "détails orientation",
-      phone: "0102030405",
+      telephone: {
+        countryCode: "fr",
+        numero: "06 02 03 04 05",
+      },
       prenom: "Paul",
       raisonDemande: "EXERCICE_DROITS",
       raisonDemandeDetail: "détails raison demande",

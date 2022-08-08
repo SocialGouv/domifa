@@ -10,6 +10,7 @@ const context: UsagersImportUsagerSchemaContext = {
   today,
   nextYear,
   minDate,
+  countryCode: "fr",
 };
 
 const rowNumber = 10;
@@ -83,6 +84,16 @@ describe("usagersImportValidator parse invalid data", () => {
         rowNumber: 10,
         value: "15/06/2050",
       },
+      {
+        columnNumber: 8,
+        label: "Téléphone",
+        rowNumber: 10,
+        value: {
+          countryCode: "fr",
+          numero: "0102030405 et des lettres",
+        },
+      },
+
       {
         columnNumber: 9,
         label: "Email",

@@ -32,7 +32,8 @@ async function parseAndValidate({
   errors: UsagersImportError[];
   usagerRow?: UsagersImportUsager;
 }> {
-  const rowAsObject: UsagerImportObject = buildRowAsUsagerObject(row);
+  const rowAsObject: UsagerImportObject = buildRowAsUsagerObject(row, context);
+
   try {
     const usagerRow: UsagersImportUsager =
       await UsagersImportUsagerSchema.validate(rowAsObject, {
@@ -58,7 +59,10 @@ async function parseAndValidate({
   }
 }
 
-function buildRowAsUsagerObject(row: UsagersImportRow) {
+function buildRowAsUsagerObject(
+  row: UsagersImportRow,
+  context: UsagersImportUsagerSchemaContext
+) {
   const rowAsObject: any = Object.keys(USAGERS_IMPORT_COLUMNS).reduce(
     (acc, key) => {
       const rawValue = row[USAGERS_IMPORT_COLUMNS[key].index];
@@ -68,6 +72,11 @@ function buildRowAsUsagerObject(row: UsagersImportRow) {
     },
     {}
   );
+
+  rowAsObject.telephone = {
+    countryCode: context.countryCode || "fr",
+    numero: rowAsObject?.telephone || "",
+  };
 
   rowAsObject.ayantsDroits = [];
 

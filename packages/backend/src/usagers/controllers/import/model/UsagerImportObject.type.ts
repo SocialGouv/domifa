@@ -1,3 +1,4 @@
+import { Telephone } from "./../../../../_common/model/telephone/Telephone.type";
 export type UsagerImportObject = {
   customRef?: string;
   civilite: string;
@@ -6,7 +7,7 @@ export type UsagerImportObject = {
   surnom?: string;
   dateNaissance: string;
   lieuNaissance: string;
-  phone?: string;
+  telephone?: Telephone;
   email?: string;
   statutDom: string;
   motifRefus?: string;

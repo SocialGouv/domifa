@@ -191,7 +191,6 @@
                   Procuration active : {{ procuration.nom }} {{
                   procuration.prenom }}
                 </span>
-
                 <span *ngIf="procuration.dateFin <= today">
                   <fa-icon
                     [icon]="['fas', 'times']"
@@ -204,7 +203,7 @@
             </ng-template>
 
             <div>
-              {{ usager.options.procurations.length > 1? 'Procurations':
+              {{ usager.options.procurations.length > 1 ? 'Procurations':
               'Procuration'}}
             </div>
           </div>
@@ -227,7 +226,7 @@
       <td class="statut-date">
         <a [routerLink]="usager.usagerProfilUrl">
           <span
-            [title]="usager.echeanceInfos.color === 'bg-danger' ? 'Moins de 2 semaines ou dépassée' : 'Moins de 2 mois'"
+            [attr.aria-label]="usager.echeanceInfos.color === 'bg-danger' ? 'Moins de 2 semaines ou dépassée' : 'Moins de 2 mois'"
             *ngIf="usager.isActif"
             class="statut-signal"
             [class]="usager.echeanceInfos.color"
