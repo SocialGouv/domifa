@@ -11,6 +11,7 @@ const context: UsagersImportUsagerSchemaContext = {
   today,
   nextYear,
   minDate,
+  countryCode: "fr",
 };
 
 describe("usagersImportValidator parse valid data", () => {
@@ -31,7 +32,10 @@ describe("usagersImportValidator parse valid data", () => {
       surnom: "Polo",
       dateNaissance: new Date(Date.UTC(2000, 6 - 1, 15)),
       lieuNaissance: "Paris",
-      phone: "0102030405",
+      telephone: {
+        countryCode: "fr",
+        numero: "06 02 03 04 05",
+      },
       email: "paul.dupont.168436@gmail.com",
       statutDom: "VALIDE",
       // motifRefus: undefined,

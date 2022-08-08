@@ -78,7 +78,6 @@ async function _anonymizeUsager(usager: Usager) {
   const attributesToUpdate: Partial<Usager> = {
     email: null,
     prenom: dataGenerator.firstName(),
-    phone: null,
     telephone: {
       countryCode: "fr",
       numero: "",

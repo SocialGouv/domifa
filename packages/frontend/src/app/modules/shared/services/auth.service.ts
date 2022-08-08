@@ -118,9 +118,7 @@ export class AuthService {
       scope.setUser({});
     });
 
-    this.router.navigate(["/connexion"]).then(() => {
-      window.location.reload();
-    });
+    this.router.navigate(["/connexion"]);
   }
 
   public logoutAndRedirect(

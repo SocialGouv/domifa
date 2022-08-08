@@ -6,7 +6,7 @@ export const USAGERS_IMPORT_COLUMNS = {
   surnom: { index: 4, label: "Nom d'usage / Surnom" },
   dateNaissance: { index: 5, label: "Date naissance" },
   lieuNaissance: { index: 6, label: "Lieu naissance" },
-  phone: { index: 7, label: "Téléphone" },
+  telephone: { index: 7, label: "Téléphone" },
   email: { index: 8, label: "Email" },
   statutDom: { index: 9, label: "Statut domiciliation" },
   motifRefus: { index: 10, label: "Motif de refus" },

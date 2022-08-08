@@ -22,7 +22,10 @@ import { structureCommonRepository } from "../../../database";
 import { appLogger } from "../../../util";
 import { ExpressResponse } from "../../../util/express";
 import { randomName, validateUpload } from "../../../util/FileManager";
-import { UserStructureAuthenticated } from "../../../_common/model";
+import {
+  COUNTRY_CODES_TIMEZONE,
+  UserStructureAuthenticated,
+} from "../../../_common/model";
 import { ImportProcessTracker } from "./ImportProcessTracker.type";
 import {
   ImportPreviewColumn,
@@ -163,6 +166,7 @@ export class ImportController {
             minDate,
             nextYear,
             today,
+            countryCode: COUNTRY_CODES_TIMEZONE[user.structure.timeZone],
           },
         });
       if (errors.length || importMode === "preview") {

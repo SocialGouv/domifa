@@ -31,7 +31,7 @@ export const TEST_VALID_IMPORT_USAGER_REFUS: UsagerImportObject = {
   nom: "Auguy",
   orientation: "NON",
   orientationDetail: "détails orientation",
-  phone: "01-02 03/04 05",
+  telephone: { countryCode: "fr", numero: "06-02 03/04 05" },
   prenom: "Paul",
   raisonDemande: "EXERCICE_DROITS",
   raisonDemandeDetail: "détails raison demande",

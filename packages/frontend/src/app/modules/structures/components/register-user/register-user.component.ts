@@ -49,11 +49,11 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private formBuilder: FormBuilder,
-    private userService: UsersService,
-    private structureService: StructureService,
-    private toastService: CustomToastService,
-    private titleService: Title
+    private readonly formBuilder: FormBuilder,
+    private readonly userService: UsersService,
+    private readonly structureService: StructureService,
+    private readonly toastService: CustomToastService,
+    private readonly titleService: Title
   ) {
     this.user = userStructureBuilder.buildUserStructure({});
     this.hidePassword = true;

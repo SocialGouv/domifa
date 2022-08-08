@@ -8,7 +8,7 @@ export const TEST_VALID_IMPORT_USAGER: UsagerImportObject = {
   surnom: "Polo",
   dateNaissance: "15/06/2018",
   lieuNaissance: "Paris",
-  phone: "01-02 03/04 05",
+  telephone: { numero: "06-02 03/04 05", countryCode: "fr" },
   email: "paul.dupont.168436@gmail.com",
   statutDom: "VALIDE",
   motifRefus: undefined,

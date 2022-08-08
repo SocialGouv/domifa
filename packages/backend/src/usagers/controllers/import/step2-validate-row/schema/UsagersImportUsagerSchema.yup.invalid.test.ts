@@ -10,6 +10,7 @@ const context: UsagersImportUsagerSchemaContext = {
   today,
   nextYear,
   minDate,
+  countryCode: "fr",
 };
 
 describe("UsagersImportCiviliteSchema invalid schema", () => {
@@ -20,7 +21,6 @@ describe("UsagersImportCiviliteSchema invalid schema", () => {
           ...TEST_VALID_IMPORT_USAGER,
           civilite: "y",
           dateNaissance: "15/06/2050",
-          phone: "qsdqsddsffds",
           email: "test@yop",
           statutDom: "invalid-statutDom",
           typeDom: "invalid-typeDom",
@@ -45,7 +45,6 @@ describe("UsagersImportCiviliteSchema invalid schema", () => {
       expect(errorsPaths).toEqual([
         "civilite",
         "dateNaissance",
-        "phone",
         "email",
         "email",
         "statutDom",
