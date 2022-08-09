@@ -5,8 +5,10 @@
         <h1 class="title">Paramètres d'envoi de SMS pour votre structure</h1>
       </div>
       <div class="text-end col-5">
+        <button (click)="openTutoModal()" class="btn btn-white-primary me-1">
+          <fa-icon [icon]="['fas', 'info-circle']"></fa-icon> Vidéo explicative
+        </button>
         <a
-          title="Télécharger le guide SMS"
           href="/assets/files/guide_sms.pdf"
           target="_blank"
           class="btn btn-white-primary"
@@ -46,7 +48,7 @@
             href="/assets/files/guide_sms.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            aria-labelledby="Vous pouvez télécharger un document explicatif sur la mise en place
+            aria-label="Vous pouvez télécharger un document explicatif sur la mise en place
             des notifications SMS en cliquant ici "
             download
           >
@@ -63,53 +65,50 @@
               [formGroup]="structureSmsForm"
               (ngSubmit)="submitStructureSmsForm()"
             >
-              <div class="row">
-                <div class="col-md-9 form-group">
-                  <span class="required label">
-                    Activer l'envoi de SMS pour vos domiciliés
-                  </span>
-                </div>
-                <div class="col-3 text-end">
-                  <div
-                    formControlName="enabledByStructure"
-                    class="btn-group btn-group-toggle"
-                    ngbRadioGroup
-                  >
-                    <label
-                      ngbButtonLabel
-                      [ngClass]="
-                        form.enabledByStructure.value === true
-                          ? 'btn-primary'
-                          : 'btn-outline-primary'
-                      "
-                    >
-                      <input
-                        ngbButton
-                        type="radio"
-                        aria-label="Activer les SMS"
-                        [value]="true"
-                      />
-                      Oui
-                    </label>
-                    <label
-                      ngbButtonLabel
-                      [ngClass]="
-                        form.enabledByStructure.value === false
-                          ? 'btn-danger'
-                          : 'btn-outline-danger'
-                      "
-                    >
-                      <input
-                        ngbButton
-                        type="radio"
-                        aria-label="Désactiver les SMS"
-                        [value]="false"
-                      />
-                      Non
-                    </label>
-                  </div>
-                </div>
+              <fieldset
+                class="d-flex justify-content-between align-items-center"
+              >
+                <legend class="required label">
+                  Activer l'envoi de SMS pour vos domiciliés
+                </legend>
 
+                <div
+                  class="btn-group"
+                  role="group"
+                  aria-label="Activer l'envoi de SMS pour vos domiciliés"
+                >
+                  <input
+                    type="radio"
+                    formControlName="enabledByStructure"
+                    [value]="true"
+                    class="btn-check"
+                    id="btnradio1"
+                    autocomplete="off"
+                  />
+                  <label class="btn btn-outline-primary" for="btnradio1"
+                    >Oui</label
+                  >
+
+                  <input
+                    type="radio"
+                    formControlName="enabledByStructure"
+                    [value]="false"
+                    class="btn-check"
+                    id="btnradio2"
+                    autocomplete="off"
+                  />
+                  <label
+                    [ngClass]="
+                      form.enabledByStructure.value === false
+                        ? 'btn btn-danger'
+                        : 'btn btn-outline-danger'
+                    "
+                    for="btnradio2"
+                    >Non</label
+                  >
+                </div>
+              </fieldset>
+              <div class="row">
                 <div class="col-md-6 form-group required">
                   <label for="senderName">Expéditeur</label>
                   <input
@@ -210,3 +209,38 @@
     </div>
   </div>
 </div>
+
+<ng-template #tutoModal let-modal>
+  <div class="modal-header">
+    <span class="modal-title" id="modal-title">
+      Comment activer et utiliser les SMS
+    </span>
+  </div>
+
+  <div class="modal-body text-center py-4">
+    <video
+      width="560"
+      preload="none"
+      poster="../../../../../assets/images/faq/faq-sms.jpg"
+      controls
+      (click)="trackVideo('fiche_domicilie')"
+    >
+      <source
+        src="https://domifaprod2.blob.core.windows.net/public/activation-sms.mp4"
+        type="video/mp4"
+      />
+    </video>
+  </div>
+  <div class="modal-footer">
+    <a
+      href="https://domifaprod2.blob.core.windows.net/public/activation-sms.mp4"
+      download
+      target="_blank"
+      class="btn-primary btn me-1"
+      >Télécharger la vidéo</a
+    >
+    <button class="btn btn-outline-primary" (click)="closeTutoModal()">
+      Fermer la fenêtre
+    </button>
+  </div>
+</ng-template>

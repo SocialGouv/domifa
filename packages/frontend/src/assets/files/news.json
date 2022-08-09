@@ -1,5 +1,41 @@
 [
   {
+    "date": "2022-08-09",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "DomiFa et les DOM-TOM",
+        "message": [
+          "Ajoutez des maintenant l'indicatif du numéro de téléphone du domicilié dans l'onglet 'Dossier'"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Simplification de l'activation des SMS",
+        "message": [
+          "En cas de modification d’un dossier de domicilié : saisissez le numéro de téléphone qu’à un seul endroit, dans l’onglet ”dossier”",
+          "En cas d’instruction de dossier: vous n’avez plus qu’un champ de téléphone à saisir si vous activez les SMS",
+          "Pour les domiciliés disposant des notifications par sms et d’un numéro différent entre l’onglet « dossier » et celui « courrier » c’est le numéro de téléphone présent dans l’onglet « courrier » que nous avons gardé afin que le domicilié reçoive toujours les SMS"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Distribution du courrier pour les domiciliés radiés",
+        "message": [
+          "Correctif appliqué aux domicliés radiés, il est de nouveau possible de distribuer leur courrier depuis la liste des domiciliés"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Ajout d'une colonne indicatif dans l'export des domiciliés",
+        "message": [
+          "Vous avez la possibilité de trier les domiciliés par indicatif de téléphone"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2022-07-13",
     "description": "",
     "content": [
