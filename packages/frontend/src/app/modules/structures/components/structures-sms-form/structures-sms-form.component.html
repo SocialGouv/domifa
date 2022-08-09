@@ -219,7 +219,7 @@
   <div class="modal-body text-center py-4">
     <video
       width="560"
-      preload="none"
+      preload="metadata"
       poster="../../../../../assets/images/faq/faq-sms.jpg"
       controls
       (click)="trackVideo('fiche_domicilie')"
@@ -234,6 +234,7 @@
     <a
       href="https://domifaprod2.blob.core.windows.net/public/activation-sms.mp4"
       download
+      rel="noopener noreferrer"
       target="_blank"
       class="btn-primary btn me-1"
       >Télécharger la vidéo</a
