@@ -23,7 +23,7 @@
 
     <div class="my-4">
       <div class="py-2 text-primary fw-bold">Contact</div>
-      <div>
+      <div class="py-1">
         Téléphone:
         <span class="valeur" *ngIf="usager.telephone.numero">{{
           usager.telephone | formatInternationalPhoneNumber
@@ -32,12 +32,18 @@
           >Non renseigné</span
         >
       </div>
-      <div class="py-2">
+      <div class="py-1">
         Adresse e-mail:
         <span class="text-underline" *ngIf="usager.email">
           {{ usager.email }}
         </span>
         <span *ngIf="!usager.email">Non renseigné</span>
+      </div>
+      <div class="py-1">
+        <span class="valeur">Notifications par SMS activés: </span>
+        <span>
+          {{ usager.contactByPhone ? "oui" : "non" }}
+        </span>
       </div>
     </div>
   </div>
