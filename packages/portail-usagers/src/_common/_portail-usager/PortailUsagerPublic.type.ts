@@ -3,7 +3,6 @@ import {
   UsagerDecision,
   UsagerLastInteractions,
   UsagerOptions,
-  UsagerPreferenceContact,
   UsagerRdv,
   UsagerSexe,
   UsagerTypeDom,
@@ -27,10 +26,8 @@ export type PortailUsagerPublic = AppEntity & {
 
   // CONTACT
   email?: string;
-  phone?: string;
   telephone: Telephone;
-
-  preference?: UsagerPreferenceContact;
+  contactByPhone: boolean;
 
   // AYANT-DROIT
   ayantsDroits: UsagerAyantDroit[];

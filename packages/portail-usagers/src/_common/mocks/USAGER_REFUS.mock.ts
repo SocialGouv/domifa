@@ -31,11 +31,7 @@ export const USAGER_REFUS_MOCK: PortailUsagerPublic = {
       nom: null,
     },
   },
-  preference: {
-    phone: false,
-    phoneNumber: "0606060606",
-    telephone: { countryCode: "fr", numero: "0606060606" },
-  },
+  contactByPhone: false,
   rdv: null,
   ayantsDroits: [
     {
@@ -61,9 +57,7 @@ export const USAGER_REFUS_MOCK: PortailUsagerPublic = {
       typeDom: "PREMIERE_DOM",
     },
   ],
-  // interactions: [],
-  // migration: false,
-  phone: "0142424242",
+
   telephone: { countryCode: "fr", numero: "0142424242" },
   surnom: "",
 

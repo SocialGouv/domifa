@@ -28,7 +28,7 @@ export type Usager = AppEntity & {
   langue?: string;
 
   // CONTACT
-  email?: string;
+  email: string | null;
 
   // ! deprecated
   phone?: string;
