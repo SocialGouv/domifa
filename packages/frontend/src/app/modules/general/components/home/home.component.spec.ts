@@ -17,38 +17,35 @@ describe("HomeComponent", () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [HomeComponent],
-        imports: [
-          CommonModule,
-          SharedModule,
-
-          RouterTestingModule,
-          CountUpModule,
-          HttpClientTestingModule,
-        ],
-        providers: [
-          { provide: APP_BASE_HREF, useValue: "/" },
-          {
-            provide: MatomoInjector,
-            useValue: {
-              init: jest.fn(),
-            },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [HomeComponent],
+      imports: [
+        CommonModule,
+        SharedModule,
+        RouterTestingModule,
+        CountUpModule,
+        HttpClientTestingModule,
+      ],
+      providers: [
+        { provide: APP_BASE_HREF, useValue: "/" },
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
           },
-          {
-            provide: MatomoTracker,
-            useValue: {
-              setUserId: jest.fn(),
-            },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
           },
-        ],
+        },
+      ],
 
-        schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-      }).compileComponents();
-    })
-  );
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);
