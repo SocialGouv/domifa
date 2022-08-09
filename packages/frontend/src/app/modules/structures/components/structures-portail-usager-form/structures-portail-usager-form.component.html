@@ -26,65 +26,55 @@
 <div class="content py-3">
   <div class="container py-3">
     <div class="page-content p-4">
-      <div class="py-2">
+      <p class="py-2">
         Une fois que la fonctionnalité d'accès au portail usager au sein de
         votre structure est activée, il vous faudra la valider sur chacune des
         fiches des domiciliés lorsqu'ils vous en ont fait la demande
-      </div>
-      <br />
-      <form id="structureForm">
-        <div class="d-flex justify-content-center align-items-center">
-          <div class="form-group required font-bold">
-            Activer l'accès au portail usager pour vos domiciliés
-          </div>
-          <div class="form-group ms-3 text-end">
-            <div class="btn-group btn-group-toggle" ngbRadioGroup>
-              <div
-                class="btn-group btn-group-toggle"
-                ngbRadioGroup
-                name="radioBasic"
-                [(ngModel)]="structure.portailUsager.enabledByStructure"
-              >
-                <label
-                  ngbButtonLabel
-                  for="portail_oui"
-                  [ngClass]="
-                    structure.portailUsager.enabledByStructure
-                      ? 'btn-primary'
-                      : 'btn-outline-primary'
-                  "
-                >
-                  <input
-                    ngbButton
-                    type="radio"
-                    id="portail_oui"
-                    aria-label="Oui"
-                    [value]="true"
-                  />
-                  Oui
-                </label>
+      </p>
 
-                <label
-                  ngbButtonLabel
-                  for="portail_non"
-                  [ngClass]="
-                    !structure.portailUsager.enabledByStructure
-                      ? 'btn-danger'
-                      : 'btn-outline-danger'
-                  "
-                >
-                  <input
-                    ngbButton
-                    type="radio"
-                    id="portail_non"
-                    aria-label="Non"
-                    [value]="false"
-                  />
-                  Non
-                </label>
-              </div>
+      <form>
+        <div class="d-flex justify-content-center align-items-center">
+          <fieldset class="d-flex justify-content-center align-items-center">
+            <legend class="required label me-2">
+              Activer l'accès au portail usager pour vos domiciliés
+            </legend>
+
+            <div
+              class="btn-group"
+              role="group"
+              aria-label="Activer l'accès au portail usager pour vos domiciliés"
+            >
+              <input
+                type="radio"
+                [(ngModel)]="structure.portailUsager.enabledByStructure"
+                [value]="true"
+                name="enabledByStructure"
+                class="btn-check"
+                id="btnradio1"
+                autocomplete="off"
+              />
+              <label class="btn btn-outline-primary" for="btnradio1">Oui</label>
+
+              <input
+                type="radio"
+                [(ngModel)]="structure.portailUsager.enabledByStructure"
+                [value]="false"
+                name="enabledByStructure"
+                class="btn-check"
+                id="btnradio2"
+                autocomplete="off"
+              />
+              <label
+                [ngClass]="
+                  structure.portailUsager.enabledByStructure === false
+                    ? 'btn btn-danger'
+                    : 'btn btn-outline-danger'
+                "
+                for="btnradio2"
+                >Non</label
+              >
             </div>
-          </div>
+          </fieldset>
         </div>
         <div class="col-md-12 my-2 text-center">
           <button

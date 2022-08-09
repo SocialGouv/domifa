@@ -1,7 +1,7 @@
 import { SeoService } from "./../../../shared/services/seo.service";
-import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+
 import { NEWS_LABELS } from "./../../../../shared/constants/NEWS_LABELS.const";
-import { Component, OnInit, TemplateRef } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import DOMIFA_NEWS from "../../../../../assets/files/news.json";
 
 @Component({
@@ -12,7 +12,6 @@ import DOMIFA_NEWS from "../../../../../assets/files/news.json";
 export class NewsComponent implements OnInit {
   public NEWS_LABELS = NEWS_LABELS;
   public DOMIFA_NEWS = DOMIFA_NEWS;
-  public newsCenter!: TemplateRef<NgbModalRef>;
 
   public constructor(private seoService: SeoService) {}
 

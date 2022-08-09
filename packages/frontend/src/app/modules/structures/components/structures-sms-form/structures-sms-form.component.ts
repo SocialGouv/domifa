@@ -1,5 +1,5 @@
 import { noWhiteSpace } from "./../../../../shared/validators/whitespace.validator";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -12,6 +12,12 @@ import { StructureCommon, UserStructure } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { generateSender } from "../../services/generateSender.service";
 import { StructureService } from "../../services/structure.service";
+import { MatomoTracker } from "ngx-matomo";
+import {
+  NgbModal,
+  NgbModalOptions,
+  NgbModalRef,
+} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "app-structures-sms-form",
@@ -26,17 +32,32 @@ export class StructuresSmsFormComponent implements OnInit {
   public submitted: boolean;
   public structureSmsForm!: FormGroup;
 
+  @ViewChild("tutoModal", { static: true })
+  public tutoModal!: TemplateRef<NgbModalRef>;
+
+  public modalOptions: NgbModalOptions;
+
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly structureService: StructureService,
     private readonly toastService: CustomToastService,
     private readonly authService: AuthService,
-    private readonly titleService: Title
+    private readonly titleService: Title,
+    private readonly matomo: MatomoTracker,
+    private readonly modalService: NgbModal
   ) {
     this.me = null;
     this.structure = null;
     this.loading = false;
     this.submitted = false;
+
+    this.modalOptions = {
+      centered: true,
+      backdrop: "static",
+      ariaLabelledBy: "modal-title",
+      size: "xl",
+      fullscreen: "xxl",
+    };
   }
 
   get form(): { [key: string]: AbstractControl } {
@@ -130,5 +151,17 @@ export class StructuresSmsFormComponent implements OnInit {
           this.loading = false;
         },
       });
+  }
+
+  public trackVideo(name: string): void {
+    this.matomo.trackEvent("vues_videos_faq", name, "null", 1);
+  }
+
+  public openTutoModal(): void {
+    this.modalService.open(this.tutoModal, this.modalOptions);
+  }
+
+  public closeTutoModal(): void {
+    this.modalService.dismissAll();
   }
 }
