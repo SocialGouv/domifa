@@ -55,8 +55,6 @@ export class StructuresSmsFormComponent implements OnInit {
       centered: true,
       backdrop: "static",
       ariaLabelledBy: "modal-title",
-      size: "xl",
-      fullscreen: "xxl",
     };
   }
 
