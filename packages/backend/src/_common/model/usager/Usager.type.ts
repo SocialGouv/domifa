@@ -6,7 +6,7 @@ import { UsagerImport } from "./UsagerImport.type";
 import { UsagerLastInteractions } from "./UsagerLastInteractions.type";
 import { UsagerNote } from "./UsagerNote.type";
 import { UsagerOptions } from "./options/UsagerOptions.type";
-import { UsagerPreferenceContact } from "./UsagerPreferenceContact.type";
+
 import { UsagerRdv } from "./UsagerRdv.type";
 import { UsagerSexe } from "./UsagerSexe.type";
 import { UsagerTypeDom } from "./UsagerTypeDom.type";
@@ -25,15 +25,10 @@ export type Usager = AppEntity & {
 
   dateNaissance: Date;
   villeNaissance: string;
-  langue?: string;
+  langue: string | null;
 
   // CONTACT
   email: string | null;
-
-  // ! deprecated
-  phone?: string;
-  // ! deprecated
-  preference?: UsagerPreferenceContact;
 
   telephone: Telephone;
 

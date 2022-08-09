@@ -44,7 +44,7 @@ export const POST_USAGER: {
     customRef: "17",
     email: "test@test.fr",
     nom: "Nom test OK",
-    phone: "0606060606",
+
     telephone: { countryCode: "fr", numero: "0606060606" },
     contactByPhone: false,
     prenom: "Prénom test OK",

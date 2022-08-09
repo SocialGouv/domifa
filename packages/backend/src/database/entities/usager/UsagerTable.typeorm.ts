@@ -3,7 +3,6 @@ import {
   Usager,
   UsagerLastInteractions,
   UsagerOptions,
-  UsagerPreferenceContact,
   UsagerRdv,
   UsagerSexe,
   UsagerTypeDom,
@@ -64,7 +63,7 @@ export class UsagerTable
   //
   // INFORMATIONS DE CONTACT
   @Column({ type: "text", nullable: true })
-  public email: string;
+  public email: string | null;
 
   @Column({
     type: "jsonb",
@@ -72,18 +71,6 @@ export class UsagerTable
     default: () => `'{"countryCode": "fr", "numero": ""}'`,
   })
   public telephone: Telephone;
-
-  // @deprecated
-  @Column({ type: "text", nullable: true })
-  public phone: string;
-
-  // @deprecated
-  @Column({
-    type: "jsonb",
-    nullable: true,
-    default: null,
-  })
-  public preference: UsagerPreferenceContact;
 
   @Column({ type: "boolean", nullable: true, default: false })
   public contactByPhone: boolean;

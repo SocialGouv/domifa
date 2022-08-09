@@ -1,13 +1,13 @@
+import { UsagerLight } from "./../../../../_common/model/usager/UsagerLight.type";
 import {
   userStructureRepository,
   structureRepository,
-  usagerRepository,
+  usagerLightRepository,
 } from "../../../../database";
 import { UsersModule } from "../../../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../../../util/test";
 import {
   UserStructureAuthenticated,
-  Usager,
   Structure,
 } from "../../../../_common/model";
 import { UsagersModule } from "../../../usagers.module";
@@ -149,8 +149,8 @@ const mockDataUsagerRefus = {
 describe("Cerfa Data utils", () => {
   let context: AppTestContext;
   let user: UserStructureAuthenticated;
-  let usagerValide: Usager;
-  let usagerRefus: Usager;
+  let usagerValide: UsagerLight;
+  let usagerRefus: UsagerLight;
   let structure: Structure;
 
   beforeAll(async () => {
@@ -165,11 +165,11 @@ describe("Cerfa Data utils", () => {
     user.structure = structure;
 
     // Usagers à tester
-    usagerValide = await usagerRepository.findOne({
+    usagerValide = await usagerLightRepository.findOne({
       ref: 2,
       structureId: 1,
     });
-    usagerRefus = await usagerRepository.findOne({
+    usagerRefus = await usagerLightRepository.findOne({
       ref: 3,
       structureId: 1,
     });
@@ -200,8 +200,9 @@ describe("Cerfa Data utils", () => {
 
   it("CerfaData() test de valeurs vides", async () => {
     usagerValide.entretien.rattachement = null;
-    usagerRefus.phone = null;
+    usagerRefus.telephone = null;
     user.structure.telephone = { countryCode: "fr", numero: "" };
+    usagerRefus.telephone = { countryCode: "fr", numero: "" };
     const data = generateCerfaDatas(usagerRefus, user, "attestation");
     expect(data.rattachement).toEqual("");
     expect(data.telephone).toEqual("");

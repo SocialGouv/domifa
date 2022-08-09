@@ -16,7 +16,6 @@ export * from "./UsagerImport.type";
 export * from "./UsagerLastInteractions.type";
 export * from "./UsagerLight.type";
 export * from "./UsagerNote.type";
-export * from "./UsagerPreferenceContact.type";
 export * from "./UsagerRdv.type";
 export * from "./UsagerSexe.type";
 export * from "./UsagerTypeDom.type";
