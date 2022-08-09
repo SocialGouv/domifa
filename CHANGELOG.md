@@ -1,3 +1,10 @@
+## [2.103.8](https://github.com/SocialGouv/domifa/compare/v2.103.7...v2.103.8) (2022-08-09)
+
+
+### Bug Fixes
+
+* **import:** Mise à jour de l'import suite à l'ajout des numéros de téléphones etrangers ([8e8ae99](https://github.com/SocialGouv/domifa/commit/8e8ae9968013c61b171575de5c53ecb639f0f89e))
+
 ## [2.103.7](https://github.com/SocialGouv/domifa/compare/v2.103.6...v2.103.7) (2022-08-05)
 
 
