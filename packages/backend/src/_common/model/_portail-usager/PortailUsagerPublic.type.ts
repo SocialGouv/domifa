@@ -1,9 +1,9 @@
+import { Telephone } from "./../telephone/Telephone.type";
 import {
   UsagerAyantDroit,
   UsagerDecision,
   UsagerLastInteractions,
   UsagerOptions,
-  UsagerPreferenceContact,
   UsagerRdv,
   UsagerSexe,
   UsagerTypeDom,
@@ -24,10 +24,9 @@ export type PortailUsagerPublic = AppEntity & {
   villeNaissance: string;
 
   // CONTACT
-  email?: string;
-  phone?: string;
-
-  preference?: UsagerPreferenceContact;
+  email: string | null;
+  telephone: Telephone;
+  contactByPhone: boolean;
 
   // AYANT-DROIT
   ayantsDroits: UsagerAyantDroit[];

@@ -10,12 +10,9 @@ export class FormatInternationalPhoneNumberPipe implements PipeTransform {
   transform(telephone: Telephone): string {
     if (!telephone) {
       return "Non renseigné";
-    } else if (!telephone?.numero) {
+    } else if (!telephone?.numero || !telephone?.countryCode) {
       return "Non renseigné";
-    } else if (!telephone?.countryCode) {
-      return "Indicatif non renseigné";
     }
-
     try {
       const numero = this.phoneUtil.parse(
         telephone.numero,
@@ -28,7 +25,7 @@ export class FormatInternationalPhoneNumberPipe implements PipeTransform {
       return internationalPhone;
     } catch (error) {
       console.warn(error);
-      return "Numéro introuvable";
+      return "Non renseigné";
     }
   }
 }

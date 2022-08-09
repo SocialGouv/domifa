@@ -25,6 +25,7 @@ import { UsagerAuthService } from "./modules/usager-auth/services/usager-auth.se
 import { Router } from "@angular/router";
 import { SharedModule } from "./modules/shared/shared.module";
 import { CustomToastService } from "./modules/shared/services/custom-toast.service";
+import { GeneralModule } from "./modules/general/general.module";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -33,6 +34,7 @@ import { CustomToastService } from "./modules/shared/services/custom-toast.servi
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
+    GeneralModule,
     FontAwesomeModule,
     FormsModule,
     HttpClientModule,
