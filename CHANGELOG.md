@@ -1,3 +1,14 @@
+## [2.103.9](https://github.com/SocialGouv/domifa/compare/v2.103.8...v2.103.9) (2022-08-09)
+
+
+### Bug Fixes
+
+* **portail:** ajout des bons numéros de téléphone ([733f886](https://github.com/SocialGouv/domifa/commit/733f8861b7edbadfd39e5fd390e60324cc749d6c))
+* test unitaire ([6735f1d](https://github.com/SocialGouv/domifa/commit/6735f1d0838af882af2ba214641695297e1c2684))
+* **docs:** mise à jour des documents ([e5a7f43](https://github.com/SocialGouv/domifa/commit/e5a7f43c9aae08aeaee5a59028685d0b71b0e66d))
+* **sms:** affichage des Sms ([1fe524f](https://github.com/SocialGouv/domifa/commit/1fe524f6d48e038ba18d285230bd7573f9960474))
+* **sms:** correction des docs ([35f69ef](https://github.com/SocialGouv/domifa/commit/35f69ef1d490cb8f1e99087085c600f37e4e13e6))
+
 ## [2.103.8](https://github.com/SocialGouv/domifa/compare/v2.103.7...v2.103.8) (2022-08-09)
 
 
