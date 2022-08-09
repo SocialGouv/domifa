@@ -47,7 +47,7 @@ export const usagerRefusMock: UsagerLight = {
     },
   ],
   datePremiereDom: new Date("2018-01-11T00:00:00.000Z"),
-
+  langue: null,
   email: "domicilie2@yopmail.com",
   entretien: {
     typeMenage: "COUPLE_AVEC_ENFANT",
@@ -75,7 +75,7 @@ export const usagerRefusMock: UsagerLight = {
       typeDom: undefined,
     },
   ],
-  phone: "0142424242",
+
   telephone: {
     countryCode: "fr",
     numero: "0142424242",

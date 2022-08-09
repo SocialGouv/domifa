@@ -2,7 +2,6 @@ import { UsagerLight } from "./../../../_common/model/usager/UsagerLight.type";
 import { format } from "date-fns";
 import { generateDateForCerfa } from ".";
 import {
-  Usager,
   UserStructureAuthenticated,
   UsagerCerfaFields,
   CerfaDocType,
@@ -23,7 +22,7 @@ const resetDate = (): DateCerfa => {
   return { annee: "", heure: "", jour: "", minutes: "", mois: "" };
 };
 
-export const getUsagerRef = (usager: Usager): string => {
+export const getUsagerRef = (usager: UsagerLight): string => {
   let usagerRef = toString(usager.ref);
   if (!isNil(usagerRef)) {
     usagerRef = toString(usager.customRef);
