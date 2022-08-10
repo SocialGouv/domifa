@@ -18,8 +18,8 @@ export class PasswordValidator {
   public static passwordMatchValidator: ValidatorFn = (
     control: AbstractControl
   ): ValidationErrors | null => {
-    const password: string = control.get("password").value;
-    const confirmPassword: string = control.get("confirmPassword").value;
+    const password: string = control.get("password")?.value;
+    const confirmPassword: string = control.get("confirmPassword")?.value;
     return password === confirmPassword ? null : { noPassswordMatch: true };
   };
 }

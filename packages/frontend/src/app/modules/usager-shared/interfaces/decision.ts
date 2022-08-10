@@ -10,8 +10,8 @@ import { generateMotifLabel } from "../utils";
 
 export class Decision implements UsagerDecision {
   public uuid?: string;
-  public dateDebut: Date;
-  public dateFin?: Date;
+  public dateDebut: Date | null;
+  public dateFin: Date | null;
   public dateDecision: Date; // Now()
 
   public typeDom: UsagerTypeDom;
@@ -19,7 +19,7 @@ export class Decision implements UsagerDecision {
   public statutLabel: string;
   // Motif de refus ou radiation
   public motif: UsagerDecisionMotif | null;
-  public motifDetails?: string;
+  public motifDetails: string;
 
   // Motif + détail
   public motifString: string;

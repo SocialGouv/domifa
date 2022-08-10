@@ -10,8 +10,8 @@ import { StructureService } from "../../services/structure.service";
   styleUrls: ["./structures-portail-usager-form.component.css"],
 })
 export class StructuresPortailUsagerFormComponent implements OnInit {
-  public me: UserStructure;
-  public structure: StructureCommon;
+  public me!: UserStructure;
+  public structure!: StructureCommon;
 
   public loading: boolean;
 
@@ -20,8 +20,6 @@ export class StructuresPortailUsagerFormComponent implements OnInit {
     private toastService: CustomToastService,
     private authService: AuthService
   ) {
-    this.me = null;
-    this.structure = null;
     this.loading = false;
   }
 

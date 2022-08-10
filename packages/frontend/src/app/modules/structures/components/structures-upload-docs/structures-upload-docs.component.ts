@@ -7,10 +7,7 @@ import {
 } from "@angular/forms";
 
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import {
-  UploadResponseType,
-  validateUpload,
-} from "../../../../shared/upload-validator";
+import { validateUpload } from "../../../../shared/upload-validator";
 import { StructureDocService } from "../../services/structure-doc.service";
 
 @Component({
@@ -19,13 +16,11 @@ import { StructureDocService } from "../../services/structure-doc.service";
   templateUrl: "./structures-upload-docs.component.html",
 })
 export class StructuresUploadDocsComponent implements OnInit {
-  public uploadResponse: UploadResponseType;
-
   public loading = false;
   public submitted = false;
   public uploadForm!: FormGroup;
 
-  @Input() public isCustomDoc: boolean;
+  @Input() public isCustomDoc!: boolean;
 
   @Output()
   public cancel = new EventEmitter<void>();
@@ -56,9 +51,9 @@ export class StructuresUploadDocsComponent implements OnInit {
       isCustomDoc: [this.isCustomDoc ? "true" : "false", []],
     });
 
-    this.uploadForm.get("customDocType").valueChanges.subscribe((value) => {
-      this.uploadForm.get("label").setValue(value === "autre" ? "" : value);
-      this.uploadForm.get("label").updateValueAndValidity();
+    this.uploadForm.get("customDocType")?.valueChanges.subscribe((value) => {
+      this.uploadForm.get("label")?.setValue(value === "autre" ? "" : value);
+      this.uploadForm.get("label")?.updateValueAndValidity();
     });
   }
 

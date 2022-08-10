@@ -35,9 +35,9 @@ export class StructureCommonWeb implements StructureCommon {
 
   constructor(structure?: Partial<StructureCommon>) {
     this.id = (structure && structure.id) || 0;
-    this.createdAt = (structure && structure.createdAt) || null;
-    this.capacite = (structure && structure.capacite) || null;
-    this.adresse = (structure && structure.adresse) || null;
+    this.createdAt = (structure && structure.createdAt) || new Date();
+    this.capacite = (structure && structure.capacite) || 0;
+    this.adresse = (structure && structure.adresse) || "";
     this.timeZone = (structure && structure.timeZone) || "Europe/Paris";
 
     this.complementAdresse = (structure && structure.complementAdresse) || "";
@@ -78,8 +78,8 @@ export class StructureCommonWeb implements StructureCommon {
     this.sms = (structure && structure.sms) || {
       enabledByDomifa: true,
       enabledByStructure: false,
-      senderName: null,
-      senderDetails: null,
+      senderName: "",
+      senderDetails: "",
     };
 
     this.portailUsager = (structure && structure.portailUsager) || {

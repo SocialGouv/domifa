@@ -19,7 +19,7 @@ import { UsagerTypeDom } from "./UsagerTypeDom.type";
 
 export type Usager = AppEntity & {
   ref: number; // unique par structure
-  customRef: string; // valeur par défaut: 'ref'
+  customRef: string | null; // valeur par défaut: 'ref'
   structureId: number;
 
   // ETAT CIVIL

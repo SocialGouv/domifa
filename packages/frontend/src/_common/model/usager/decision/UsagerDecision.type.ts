@@ -6,16 +6,16 @@ import { UsagerTypeDom } from "../UsagerTypeDom.type";
 export type UsagerDecision = {
   uuid?: string; // permet d'identifier une décision en cas de suppression de l'historique
 
-  dateDebut: Date;
-  dateFin?: Date;
+  dateDebut: Date | null;
+  dateFin: Date | null;
   dateDecision: Date; // Now()
 
   typeDom: UsagerTypeDom;
   statut: UsagerDecisionStatut;
 
   // Motif de refus ou radiation
-  motif?: UsagerDecisionMotif;
-  motifDetails?: string;
+  motif: UsagerDecisionMotif | null;
+  motifDetails: string | null;
 
   // Orientation si refus
   orientation: UsagerDecisionOrientation | null;
