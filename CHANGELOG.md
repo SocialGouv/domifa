@@ -1,3 +1,11 @@
+## [2.103.10](https://github.com/SocialGouv/domifa/compare/v2.103.9...v2.103.10) (2022-08-10)
+
+
+### Bug Fixes
+
+* **phones:** suppression des anciennes données de téléphone ([2939aac](https://github.com/SocialGouv/domifa/commit/2939aacbf333960c8496458b692742db77dd153a))
+* **types:** correction de typages ([0f1f14d](https://github.com/SocialGouv/domifa/commit/0f1f14dae3b750e765c3917b13b0a755a1dcd489))
+
 ## [2.103.9](https://github.com/SocialGouv/domifa/compare/v2.103.8...v2.103.9) (2022-08-09)
 
 
