@@ -31,26 +31,13 @@
       {{ usager.options?.portailUsagerEnabled ? "OUI" : "NON" }}
     </span>
   </div>
-  <div *ngIf="loginToDisplay" class="col-md-6 reponses">
+  <div *ngIf="isLoginToDisplay" class="col-md-6 reponses">
     <span class="question">Identifants générés</span>
 
     <p class="mx-1 my-1">
       <strong>IMPORTANT</strong> Veuillez télécharger immédiatement le courrier
       d'accès au portail "Usagers".
     </p>
-    <!-- <p class="mx-1 my-1">
-      <strong>IMPORTANT</strong> Veuillez noter immédiatement ces identifiants ou bien
-      télécharger le courrier d'accès au portail "Usagers".
-    </p> -->
-
-    <!-- <div class="mx-1 my-1">
-      <span class="valeur text-xl">
-        Identifiant:
-        <strong class="tracking-wider">{{ loginToDisplay.login }}</strong> <br />Mot de
-        passe:
-        <strong class="tracking-wider">{{ loginToDisplay.temporaryPassword }}</strong>
-      </span>
-    </div> -->
 
     <button
       (click)="getDomifaCustomDoc()"

@@ -25,8 +25,8 @@ import {
   styleUrls: ["./structures-sms-form.component.css"],
 })
 export class StructuresSmsFormComponent implements OnInit {
-  public me: UserStructure;
-  public structure: StructureCommon;
+  public me!: UserStructure;
+  public structure!: StructureCommon;
 
   public loading: boolean;
   public submitted: boolean;
@@ -46,8 +46,6 @@ export class StructuresSmsFormComponent implements OnInit {
     private readonly matomo: MatomoTracker,
     private readonly modalService: NgbModal
   ) {
-    this.me = null;
-    this.structure = null;
     this.loading = false;
     this.submitted = false;
 
@@ -112,11 +110,11 @@ export class StructuresSmsFormComponent implements OnInit {
       ],
     });
 
-    this.structureSmsForm.get("senderName").valueChanges.subscribe(() => {
+    this.structureSmsForm.get("senderName")?.valueChanges.subscribe(() => {
       this.structureSmsForm
         .get("senderName")
-        .patchValue(
-          generateSender(this.structureSmsForm.get("senderName").value),
+        ?.patchValue(
+          generateSender(this.structureSmsForm.get("senderName")?.value),
           {
             emitEvent: false,
           }

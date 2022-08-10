@@ -82,6 +82,7 @@ export const usagerRefusMock: UsagerLight = {
       dateFin: new Date("2020-12-01T10:00:24.980Z"),
       motif: null,
       orientation: null,
+      motifDetails: null,
       orientationDetails: null,
       statut: "INSTRUCTION",
       userId: 30,

@@ -19,16 +19,17 @@ import { UsagerProfilService } from "../../services/usager-profil.service";
 })
 export class ProfilEditPortailUsagerPreferenceComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
-  @Input() public me: UserStructure;
+  @Input() public me!: UserStructure;
 
   public loading: boolean;
   public submitted: boolean;
-  public form: FormGroup;
+  public form: FormGroup = new FormGroup({});
 
   public editionInProgress: boolean;
   public loadings: string[] = [];
 
-  public loginToDisplay?: {
+  public isLoginToDisplay: boolean;
+  public loginToDisplay: {
     login: string;
     temporaryPassword: string;
   };
@@ -41,11 +42,16 @@ export class ProfilEditPortailUsagerPreferenceComponent implements OnInit {
     private readonly usagerProfilService: UsagerProfilService,
     private readonly documentService: DocumentService
   ) {
+    this.isLoginToDisplay = false;
+    this.loginToDisplay = {
+      login: "",
+      temporaryPassword: "",
+    };
     this.submitted = false;
-    this.me = null;
+
     this.loading = false;
     this.loadings = [];
-    this.usager = null;
+
     this.editionInProgress = false;
   }
 
@@ -120,12 +126,17 @@ export class ProfilEditPortailUsagerPreferenceComponent implements OnInit {
       .subscribe({
         next: ({ usager, login, temporaryPassword }) => {
           if (login && temporaryPassword) {
+            this.isLoginToDisplay = true;
             this.loginToDisplay = {
               login,
               temporaryPassword,
             };
           } else {
-            this.loginToDisplay = undefined;
+            this.isLoginToDisplay = false;
+            this.loginToDisplay = {
+              login: "",
+              temporaryPassword: "",
+            };
           }
           this.submitted = false;
           this.loading = false;

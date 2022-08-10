@@ -89,7 +89,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
     this.interactions = [];
 
     this.minDateNaissance = minDateNaissance;
-    this.maxDateNaissance = formatDateToNgb(new Date());
+    this.maxDateNaissance = formatDateToNgb(new Date()) as NgbDateStruct;
 
     this.actions = {
       EDIT: "Modification",

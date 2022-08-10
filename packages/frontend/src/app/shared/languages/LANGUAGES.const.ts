@@ -2,7 +2,8 @@ import { dataCompare } from "../sorter";
 import { AppLanguage } from "./AppLanguage.type";
 import { ORIGINAL_LANGUAGES_MAP } from "./ORIGINAL_LANGUAGES_MAP.const";
 
-const codes = [];
+const codes: string[] = [];
+
 const TMP_LANGUAGES = Object.values(ORIGINAL_LANGUAGES_MAP)
   .filter((x) => !!x["639-2"] && !!x["639-1"] && x.fr.length !== 0)
   .map((x) => ({

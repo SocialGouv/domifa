@@ -25,7 +25,7 @@ import {
 } from "../../usagers/components/manage/usager-filter";
 import { getEcheanceInfos, getRdvInfos, getUrlUsagerProfil } from "../utils";
 
-export class UsagerFormModel implements UsagerLight {
+export class UsagerFormModel {
   public ref: number;
   public customRef: string | null;
   public nom: string;
@@ -61,7 +61,7 @@ export class UsagerFormModel implements UsagerLight {
   public decision: Decision;
 
   public typeDom: UsagerTypeDom; // PREMIERE / RENOUVELLEMENT
-  public datePremiereDom: Date;
+  public datePremiereDom: Date | null;
   public import: UsagerImport | null;
 
   public lastInteraction: {
@@ -135,9 +135,10 @@ export class UsagerFormModel implements UsagerLight {
     this.typeDom = (usager && usager.typeDom) || "PREMIERE_DOM";
     this.import = (usager && usager.import) || null;
 
-    if (usager && usager.datePremiereDom !== null) {
-      this.datePremiereDom = new Date(usager.datePremiereDom);
-    }
+    this.datePremiereDom =
+      usager && usager.datePremiereDom !== null
+        ? new Date(usager.datePremiereDom)
+        : null;
 
     this.historique =
       usager && usager.historique
@@ -160,7 +161,9 @@ export class UsagerFormModel implements UsagerLight {
 
     if (usager && usager.lastInteraction) {
       this.lastInteraction = {
-        dateInteraction: new Date(usager.lastInteraction.dateInteraction),
+        dateInteraction: usager.lastInteraction.dateInteraction
+          ? new Date(usager.lastInteraction.dateInteraction)
+          : null,
         enAttente: usager.lastInteraction.enAttente || false,
         courrierIn: usager.lastInteraction.courrierIn || 0,
         recommandeIn: usager.lastInteraction.recommandeIn || 0,

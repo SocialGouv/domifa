@@ -92,7 +92,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
 
   private subscription = new Subscription();
 
-  public currentUserSubject$: Observable<UserStructure>;
+  public currentUserSubject$: Observable<UserStructure | null>;
 
   get f(): { [key: string]: AbstractControl } {
     return this.usagerForm.controls;
@@ -114,7 +114,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     this.mobilePhonePlaceHolder = "";
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
-    this.maxDateNaissance = formatDateToNgb(new Date());
+    this.maxDateNaissance = formatDateToNgb(new Date()) as NgbDateStruct;
     this.currentUserSubject$ = this.authService.currentUserSubject;
   }
 
@@ -159,12 +159,12 @@ export class EtatCivilParentFormComponent implements OnDestroy {
             ? [Validators.required, mobilePhoneValidator]
             : [mobilePhoneValidator];
 
-          this.usagerForm.get("telephone").setValidators(isRequiredTelephone);
-          this.usagerForm.get("telephone").updateValueAndValidity();
+          this.usagerForm.get("telephone")?.setValidators(isRequiredTelephone);
+          this.usagerForm.get("telephone")?.updateValueAndValidity();
         })
     );
 
-    this.updatePlaceHolder();
+    this.updatePlaceHolder(this.usagerForm.value?.telephone?.countryCode);
   }
 
   //
@@ -215,11 +215,16 @@ export class EtatCivilParentFormComponent implements OnDestroy {
 
   //
   // Gestion des téléphones
-  public updatePlaceHolder(country?: string) {
+  public updatePlaceHolder(country: string) {
     if (!country && !this.countryCode) {
       country =
         this.usagerForm.value?.telephone?.countryCode ||
-        this.usager.telephone.countryCode;
+        this.usager?.telephone?.countryCode;
+    }
+
+    if (!country) {
+      country = this.authService.currentUserValue?.structure.telephone
+        .countryCode as CountryISO;
     }
 
     this.countryCode = country.toLowerCase();
