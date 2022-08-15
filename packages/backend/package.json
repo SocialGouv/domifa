@@ -80,7 +80,7 @@
     "passport-jwt": "^4.0.0",
     "pg": "^8.7.1",
     "pino": "^8.1.0",
-    "pino-pretty": "^8.0.0",
+    "pino-pretty": "^9.0.0",
     "pino-std-serializers": "^6.0.0",
     "pizzip": "^3.0.6",
     "reflect-metadata": "^0.1.13",
