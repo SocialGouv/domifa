@@ -23,7 +23,7 @@ export class AdminStructuresDocsController {
   @Get("all")
   @AllowUserProfiles("super-admin-domifa")
   public async getAllStructureDocs() {
-    return await structureDocRepository.findMany({ custom: true });
+    return await structureDocRepository.findBy({ custom: true });
   }
 
   @Get("structure/:structureId/:uuid")
@@ -33,10 +33,7 @@ export class AdminStructuresDocsController {
     @Param("structureId") structureId: number,
     @Res() res: ExpressResponse
   ) {
-    const doc = await structureDocRepository.findOne({
-      structureId,
-      uuid,
-    });
+    const doc = await structureDocRepository.findOneBy({ structureId, uuid });
     const output = path.join(
       domifaConfig().upload.basePath,
       `${structureId}`,

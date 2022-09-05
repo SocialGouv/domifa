@@ -1,4 +1,8 @@
-import { userAdminRepository } from "../../../database/services/user-admin/userAdminRepository.service";
+import { USER_ADMIN_WHERE } from "./../../../database/services/user-admin/UserAdminRepository.service";
+import {
+  UserAdminRepository,
+  USER_ADMIN_PROFILE_ATTRIBUTES,
+} from "../../../database";
 import { PortailAdminProfile, PortailAdminUser } from "../../../_common/model";
 
 export const portailAdminProfilBuilder = {
@@ -10,8 +14,12 @@ async function build({
 }: {
   userId: number;
 }): Promise<PortailAdminProfile> {
-  const userAdmin = await userAdminRepository.findOne({
-    id: userId,
+  const userAdmin = await UserAdminRepository.findOneOrFail({
+    where: {
+      id: userId,
+      ...USER_ADMIN_WHERE,
+    },
+    select: USER_ADMIN_PROFILE_ATTRIBUTES,
   });
 
   const user: PortailAdminUser = {

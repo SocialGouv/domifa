@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { structureRepository } from "../../../database/services/structure/structureRepository.service";
+import { structureRepository } from "../../../database/services/structure/StructureRepository.service";
 import { usagerRepository } from "../../../database/services/usager/usagerRepository.service";
 import { userUsagerRepository } from "../../../database/services/user-usager/userUsagerRepository.service";
 import { appLogger } from "../../../util";

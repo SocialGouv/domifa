@@ -111,7 +111,7 @@ export class StructureDocController {
       structureDocDto.customDocType === "attestation_postale" ||
       structureDocDto.customDocType === "courrier_radiation"
     ) {
-      const doc = await structureDocRepository.findOne({
+      const doc = await structureDocRepository.findOneBy({
         structureId: user.structureId,
         customDocType: structureDocDto.customDocType,
       });

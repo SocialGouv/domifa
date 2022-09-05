@@ -1,15 +1,14 @@
 import {
   DeepPartial,
-  EntityManager,
   EntityTarget,
-  FindConditions,
+  FindOptionsOrder,
+  FindOptionsWhere,
   ObjectLiteral,
-  OrderByCondition,
   SelectQueryBuilder,
 } from "typeorm";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { appLogger } from "../../../util";
-import { appTypeormManager } from "./appTypeormManager.service";
+import { myDataSource } from "./appTypeormManager.service";
 import { PgRepositoryFindOptions } from "./PgRepositoryFindOptions.type";
 
 export const pgRepository = {
@@ -17,19 +16,17 @@ export const pgRepository = {
 };
 
 export function typeOrmSearch<T>(
-  search: FindConditions<T>[] | FindConditions<T> | ObjectLiteral | string
-): Partial<T> {
-  return search as unknown as Partial<T>;
+  search: FindOptionsWhere<T>[] | FindOptionsWhere<T> | ObjectLiteral | string
+): FindOptionsWhere<T> {
+  return search as unknown as FindOptionsWhere<T>;
 }
 
 function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   entityTarget: EntityTarget<T>,
   {
     defaultSelect = "ALL",
-    entityManager,
   }: {
     defaultSelect?: (keyof T)[] | "ALL";
-    entityManager?: EntityManager;
   } = {
     defaultSelect: "ALL",
   }
@@ -53,8 +50,9 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   };
 
   async function typeorm() {
-    return appTypeormManager.getRepository(entityTarget, entityManager);
+    return myDataSource.getRepository(entityTarget);
   }
+
   async function save<E extends DeepPartial<T> | DeepPartial<T>[]>(
     entities: E
   ): Promise<E> {
@@ -173,13 +171,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     }
   }
 
-  function escapeAttr(value: any, enabled = true): string {
-    if (enabled) {
-      return `"${value}"`;
-    }
-    return value;
-  }
-
+  // TODO: remplacer par le CountBy de typeorm
   async function countBy<CountBy extends keyof T>({
     alias = "s",
     where,
@@ -191,12 +183,11 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
       count: "ASC",
       countBy: "ASC",
     },
-    escapeAttributes = true,
     nullLabel,
     logSql,
   }: {
     alias?: string;
-    where?: Partial<T>;
+    where?: FindOptionsWhere<T>;
     params?: { [attr: string]: any };
     countBy: CountBy;
     countByAlias?: string;
@@ -205,7 +196,6 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
       count?: "ASC" | "DESC";
       countBy?: "ASC" | "DESC";
     };
-    escapeAttributes?: boolean;
     nullLabel?: string;
     logSql?: boolean;
   }): Promise<
@@ -216,22 +206,22 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     const typeormRepository = await typeorm();
     let qb = typeormRepository
       .createQueryBuilder(alias)
-      .select(`COUNT(${escapeAttr(countAttribute, escapeAttributes)})`, "count")
-      .addSelect(`${escapeAttr(countBy, escapeAttributes)}`, countByAlias)
-      .groupBy(`${alias}.${escapeAttr(countBy, escapeAttributes)}`);
+      .select(`COUNT(${escapeAttr(countAttribute)})`, "count")
+      .addSelect(`${escapeAttr(countBy)}`, countByAlias)
+      .groupBy(`${alias}.${escapeAttr(countBy)}`);
 
     if (where) {
       qb = qb.where(where, params);
     }
+
     if (order) {
-      const orderBy = Object.keys(order).reduce((acc, key) => {
+      Object.keys(order).forEach((key) => {
         // replace "countBy" by countBy name
-        acc[
-          key === "count" ? key : `${escapeAttr(countBy, escapeAttributes)}`
-        ] = order[key];
-        return acc;
-      }, {} as OrderByCondition);
-      qb = qb.orderBy(orderBy);
+        qb = qb.addOrderBy(
+          key === "count" ? key : `${escapeAttr(countBy)}`,
+          order[key]
+        );
+      });
     }
 
     if (logSql) {
@@ -265,13 +255,15 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     const typeormRepository = await typeorm();
 
     const qb = typeormRepository.createQueryBuilder(alias);
-    const select = _buildSelectAttributesQB(options, { addQuotes: true });
+    const select = _buildSelectAttributesQB(options);
+
     qb.select(select as any).where(where, params);
     if (options.groupBy) {
       qb.groupBy(options.groupBy);
     }
+
     if (options.order) {
-      qb.orderBy(options.order);
+      _parseOrderBy(qb, options.order);
     }
 
     if (options.logSql) {
@@ -290,6 +282,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
       throw err;
     }
   }
+
   async function findOneWithQuery<R = DEFAULT_RESULT>(
     args: PgRepositoryFindOptions<T> & {
       where: string;
@@ -309,7 +302,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   }
 
   async function findOne<R = DEFAULT_RESULT>(
-    search?: Partial<T>,
+    search?: FindOptionsWhere<T>,
     options: PgRepositoryFindOptions<T> = {}
   ): Promise<R> {
     const typeormRepository = await typeorm();
@@ -332,7 +325,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   }
 
   async function findMany<R = DEFAULT_RESULT>(
-    search: Partial<T>,
+    search: FindOptionsWhere<T>,
     options: PgRepositoryFindOptions<T> = {}
   ): Promise<R[]> {
     const typeormRepository = await typeorm();
@@ -348,34 +341,28 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   }
 
   async function updateOne<R = DEFAULT_RESULT>(
-    search: Partial<T>,
-    data: Partial<T>,
-    options: PgRepositoryFindOptions<T> & { returnSearch?: Partial<T> } = {}
-  ): Promise<R> {
-    const typeormRepository = await typeorm();
-
-    const { affected } = await typeormRepository.update(
-      search as unknown as FindConditions<T>,
-      data as unknown as QueryDeepPartialEntity<T>
-    );
-    if (affected === 1) {
-      return findOne<R>(
-        options?.returnSearch ? options?.returnSearch : search,
-        options
-      );
-    }
-    return undefined;
-  }
-
-  async function updateMany<R = DEFAULT_RESULT>(
-    search: Partial<T>,
+    search: FindOptionsWhere<T>,
     data: Partial<T>,
     options: PgRepositoryFindOptions<T> = {}
   ) {
     const typeormRepository = await typeorm();
 
     await typeormRepository.update(
-      search as unknown as FindConditions<T>,
+      search as unknown as FindOptionsWhere<T>,
+      data as unknown as QueryDeepPartialEntity<T>
+    );
+    return findOne<R>(search, options);
+  }
+
+  async function updateMany<R = DEFAULT_RESULT>(
+    search: FindOptionsWhere<T>,
+    data: Partial<T>,
+    options: PgRepositoryFindOptions<T> = {}
+  ) {
+    const typeormRepository = await typeorm();
+
+    await typeormRepository.update(
+      search as unknown as FindOptionsWhere<T>,
       data as unknown as QueryDeepPartialEntity<T>
     );
     return findMany<R>(search, options);
@@ -392,28 +379,32 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
 
     return attributes;
   }
+
   function _buildSelectAttributesQB(
-    options: PgRepositoryFindOptions<T> = {},
-    { addQuotes }: { addQuotes: boolean }
+    options: PgRepositoryFindOptions<T> = {}
   ): string[] | string {
     const select = options.select ? options.select : defaultSelect;
     const attributes =
       select === "ALL"
         ? undefined // returns all
         : select;
-    if (attributes && Array.isArray(attributes) && addQuotes) {
-      return (attributes as (keyof T)[]).map((x) => `"${x}"`);
+    if (attributes && Array.isArray(attributes)) {
+      return (attributes as (keyof T)[]).map((x) => `"${x as string}"`);
     }
     return attributes as any;
   }
-  async function deleteByCriteria(search: Partial<T>): Promise<number> {
+
+  async function deleteByCriteria(
+    search: FindOptionsWhere<T>
+  ): Promise<number> {
     const typeormRepository = await typeorm();
     const res = await typeormRepository.delete(
-      search as unknown as FindConditions<T>
+      search as unknown as FindOptionsWhere<T>
     );
     return res.affected;
   }
 }
+
 function _parseCounts<T, CountBy extends keyof T>(
   results: any[],
   {
@@ -442,10 +433,27 @@ function _parseCounts<T, CountBy extends keyof T>(
     count: number;
   })[];
 }
-function printQueryError<T>(qb) {
+
+function _parseOrderBy<T>(
+  qb: SelectQueryBuilder<T>,
+  order: FindOptionsOrder<T>
+): void {
+  if (order) {
+    Object.keys(order).forEach((key) => {
+      // replace "countBy" by countBy name
+      qb = qb.addOrderBy(key, order[key]);
+    });
+  }
+}
+
+function printQueryError<T>(qb: SelectQueryBuilder<T>): void {
   appLogger.warn(
     `[pgRepository] invalid query "${qb.getSql()} - ${
       qb.getParameters() ? JSON.stringify(qb.getParameters()) : ""
     }"`
   );
+}
+
+function escapeAttr(value: any): string {
+  return `"${value}"`;
 }

@@ -1,16 +1,13 @@
-import { Connection } from "typeorm";
 import { structureRepository } from "../../database";
 import { AppTestHelper } from "../../util/test";
 import { structureCreatorService } from "./structureCreator.service";
 
 describe("Structure Creator Service", () => {
-  let postgresTypeormConnection: Connection;
-
   beforeAll(async () => {
-    postgresTypeormConnection = await AppTestHelper.bootstrapTestConnection();
+    await AppTestHelper.bootstrapTestConnection();
   });
   afterAll(async () => {
-    await AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
+    await AppTestHelper.tearDownTestConnection();
   });
 
   it("check token", async () => {

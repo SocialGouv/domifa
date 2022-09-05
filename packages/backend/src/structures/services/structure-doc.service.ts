@@ -24,7 +24,7 @@ export class StructureDocService {
   }
 
   public async findAll(structureId: number): Promise<StructureDoc[]> {
-    return this.structureDocRepository.find({
+    return this.structureDocRepository.findBy({
       structureId,
     });
   }
@@ -33,7 +33,7 @@ export class StructureDocService {
     structureId: number,
     uuid: string
   ): Promise<StructureDoc> {
-    return this.structureDocRepository.findOne({
+    return this.structureDocRepository.findOneBy({
       structureId,
       uuid,
     });

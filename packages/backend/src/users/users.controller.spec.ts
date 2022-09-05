@@ -22,6 +22,7 @@ describe("Users Controller", () => {
     });
 
     const authInfo = TESTS_USERS_STRUCTURE.BY_EMAIL["s1-admin@yopmail.com"];
+
     await AppTestHelper.authenticateStructure(authInfo, { context });
 
     controller = context.module.get<UsersController>(UsersController);

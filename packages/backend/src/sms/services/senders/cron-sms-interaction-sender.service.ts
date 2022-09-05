@@ -1,4 +1,4 @@
-import { structureRepository } from "./../../../database/services/structure/structureRepository.service";
+import { structureRepository } from "../../../database/services/structure/StructureRepository.service";
 
 import { TimeZone } from "./../../../util/territoires/types/TimeZone.type";
 import { Injectable } from "@nestjs/common";

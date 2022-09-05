@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { FindConditions, LessThan, MoreThan } from "typeorm";
+import { FindOptionsWhere, LessThan, MoreThan } from "typeorm";
 import { interactionRepository, InteractionsTable } from "../../database";
 import { UserStructure } from "../../_common/model";
 import { Interactions, InteractionType } from "../../_common/model/interaction";
@@ -28,7 +28,7 @@ export class InteractionsService {
     const dateQuery =
       isIn === "out" ? LessThan(dateInteraction) : MoreThan(dateInteraction);
 
-    const where: FindConditions<InteractionsTable> = {
+    const where: FindOptionsWhere<InteractionsTable> = {
       structureId: user.structureId,
       usagerRef,
       type: typeInteraction,
@@ -68,9 +68,9 @@ export class InteractionsService {
       FROM interactions i
       WHERE i."structureId" = $1 and i.event = 'create'
       GROUP BY i."usagerRef"`;
-    const results = await (
-      await interactionRepository.typeorm()
-    ).query(query, [structureId]);
+    const results = await interactionRepository.typeorm.query(query, [
+      structureId,
+    ]);
     return results.map((x) => ({
       usagerRef: x.usagerRef,
       courrierIn: parseInt(x.courrierIn, 10),
@@ -99,9 +99,7 @@ export class InteractionsService {
         },
       });
     } else {
-      const search = await (
-        await interactionRepository.typeorm()
-      )
+      const search = await interactionRepository.typeorm
         .createQueryBuilder("interactions")
         .select("SUM(interactions.nbCourrier)", "sum")
         .where({

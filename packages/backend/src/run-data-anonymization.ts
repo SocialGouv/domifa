@@ -7,7 +7,7 @@ import { appLogger } from "./util";
   const { app, postgresTypeormConnection } = await bootstrapApplication();
   try {
     appLogger.warn(`[${__filename}] Starting data anonymization...`);
-    await dataAnonymizer.anonymize(app);
+    await dataAnonymizer.anonymize();
   } catch (error) {
     appLogger.error(`[${__filename}] Error anonymizing data`, {
       error,

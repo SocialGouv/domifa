@@ -81,8 +81,7 @@ async function checkCreationToken({
 }): Promise<StructureCommon> {
   return structureCommonRepository.updateOne(
     { id: structureId, token },
-    { token: "", verified: true },
-    { returnSearch: { id: structureId } }
+    { token: "", verified: true }
   );
 }
 

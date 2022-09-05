@@ -1,4 +1,4 @@
-import { userStructureRepository, userStructureSecurityRepository } from "..";
+import { userStructureRepository, UserStructureSecurityRepository } from "..";
 import { passwordGenerator } from "../../../../util/encoding/passwordGenerator.service";
 import { UserStructure } from "../../../../_common/model";
 import { userStructureSecurityEventHistoryManager } from "./userStructureSecurityEventHistoryManager.service";
@@ -14,24 +14,17 @@ async function checkPassword({
   email: string;
   password: string;
 }): Promise<UserStructure> {
-  const user: UserStructure = await userStructureRepository.findOne(
-    {
-      email: email.toLowerCase(),
-    },
-    {
-      throwErrorIfNotFound: true,
-      select: "ALL",
-    }
-  );
+  const user: UserStructure = await userStructureRepository.findOne({
+    email: email.toLowerCase(),
+  });
 
-  const userSecurity = await userStructureSecurityRepository.findOne(
-    {
-      userId: user.id,
-    },
-    {
-      throwErrorIfNotFound: true,
-    }
-  );
+  const userSecurity = await UserStructureSecurityRepository.findOneBy({
+    userId: user.id,
+  });
+
+  if (!user || !userSecurity) {
+    throw new Error("WRONG_CREDENTIALS"); // don't give the real cause
+  }
 
   if (
     userStructureSecurityEventHistoryManager.isAccountLockedForOperation({
@@ -48,7 +41,7 @@ async function checkPassword({
   });
 
   if (!isValidPass) {
-    await userStructureSecurityRepository.logEvent({
+    await UserStructureSecurityRepository.logEvent({
       userId: user.id,
       userSecurity,
       eventType: "login-error",
@@ -59,12 +52,14 @@ async function checkPassword({
   if (!user.verified) {
     throw new Error("ACCOUNT_NOT_ACTIVATED");
   }
-  await userStructureSecurityRepository.logEvent({
+
+  await UserStructureSecurityRepository.logEvent({
     userId: user.id,
     userSecurity,
     eventType: "login-success",
   });
-  return userStructureRepository.updateOne(
+
+  await userStructureRepository.updateOne(
     {
       id: user.id,
     },
@@ -72,4 +67,8 @@ async function checkPassword({
       lastLogin: new Date(),
     }
   );
+
+  return userStructureRepository.findOne({
+    id: user.id,
+  });
 }

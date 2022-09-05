@@ -25,6 +25,7 @@ const baseRepository = pgRepository.get<InteractionsTable, Interactions>(
 
 export const interactionRepository = {
   ...baseRepository,
+  typeorm: appTypeormManager.getRepository(InteractionsTable),
   findLastInteractionOk,
   findLastInteractionInWithContent,
   findWithFilters,
@@ -103,9 +104,11 @@ async function countPendingInteraction({
     FROM interactions i
     WHERE i."structureId" = $2 AND i."usagerRef" = $3 and i.event = 'create' AND i."interactionOutUUID" is null
     GROUP BY i."usagerRef"`;
-  const results = await (
-    await interactionRepository.typeorm()
-  ).query(query, [interactionType, structureId, usagerRef]);
+  const results = await interactionRepository.typeorm.query(query, [
+    interactionType,
+    structureId,
+    usagerRef,
+  ]);
 
   return typeof results[0] === "undefined"
     ? 0
@@ -131,9 +134,9 @@ async function countPendingInteractionsIn({
     FROM interactions i
     WHERE i."usagerUUID" = $1 and i.event = 'create' AND i."interactionOutUUID" is null
     GROUP BY i."usagerRef"`;
-  const results = await (
-    await interactionRepository.typeorm()
-  ).query(query, [usagerUUID]);
+  const results = await interactionRepository.typeorm.query(query, [
+    usagerUUID,
+  ]);
 
   const defaultResult = {
     courrierIn: 0,

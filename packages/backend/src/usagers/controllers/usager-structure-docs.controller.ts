@@ -132,7 +132,7 @@ export class UsagerStructureDocsController {
     }
 
     // La structure a-t-elle uploadé son propre modèle ?
-    const doc: StructureDoc = await structureDocRepository.findOne({
+    const doc: StructureDoc = await structureDocRepository.findOneBy({
       structureId: user.structureId,
       customDocType: docType,
     });

@@ -1,7 +1,6 @@
-import { INestApplication } from "@nestjs/common";
 import * as bcrypt from "bcryptjs";
 import {
-  userStructureSecurityRepository,
+  UserStructureSecurityRepository,
   userUsagerRepository,
   UserUsagerTable,
 } from "../../..";
@@ -14,9 +13,9 @@ export const dataUserUsagerAnonymizer = {
 
 type PartialUser = Pick<UserUsagerTable, "id" | "structureId">;
 
-async function anonymizeUsersUsager({ app }: { app: INestApplication }) {
+async function anonymizeUsersUsager() {
   appLogger.warn(`[dataUserAnonymizer] [user-usager] update of security table`);
-  await userStructureSecurityRepository.updateMany(
+  await UserStructureSecurityRepository.update(
     {},
     {
       temporaryTokens: null,

@@ -1,5 +1,4 @@
-import { Connection } from "typeorm";
-import { userStructureSecurityRepository } from "../../database";
+import { UserStructureSecurityRepository } from "../../database";
 import { passwordGenerator } from "../../util/encoding/passwordGenerator.service";
 import { AppTestHelper } from "../../util/test";
 import { UserStructureRole } from "../../_common/model";
@@ -9,13 +8,11 @@ import { userStructureCreator } from "./user-structure-creator.service";
 import { usersDeletor } from "./users-deletor.service";
 
 describe("userStructureCreator", () => {
-  let postgresTypeormConnection: Connection;
-
   beforeAll(async () => {
-    postgresTypeormConnection = await AppTestHelper.bootstrapTestConnection();
+    await AppTestHelper.bootstrapTestConnection();
   });
   afterAll(async () => {
-    await AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
+    await AppTestHelper.tearDownTestConnection();
   });
 
   it("createUserWithPassword", async () => {
@@ -81,7 +78,7 @@ describe("userStructureCreator", () => {
     expect(userSecurity.temporaryTokens.token).toBeDefined();
     expect(userSecurity.temporaryTokens.validity).toBeDefined();
     const useSecurityByToken =
-      await userStructureSecurityRepository.findOneByTokenAttribute(
+      await UserStructureSecurityRepository.findOneByTokenAttribute(
         userSecurity.temporaryTokens.token
       );
     expect(useSecurityByToken).toBeDefined();

@@ -1,11 +1,10 @@
-import { INestApplication } from "@nestjs/common";
 import * as bcrypt from "bcryptjs";
 import { monitoringBatchProcessRepository, UserStructureTable } from "../../..";
 import { domifaConfig } from "../../../../config";
 import { appLogger } from "../../../../util";
 import {
   userStructureRepository,
-  userStructureSecurityRepository,
+  UserStructureSecurityRepository,
 } from "../../user-structure";
 import { dataEmailAnonymizer } from "./dataEmailAnonymizer";
 import { dataGenerator } from "./dataGenerator.service";
@@ -20,13 +19,13 @@ type PartialUser = Pick<
   "id" | "structureId" | "email" | "role"
 >;
 
-async function anonymizeUsersStructure({ app }: { app: INestApplication }) {
+async function anonymizeUsersStructure() {
   appLogger.warn(`[ANON] [monitoringBatchProcessRepository] reset tables`);
   await monitoringBatchProcessRepository.deleteByCriteria({});
 
   appLogger.warn(`[dataUserAnonymizer] [user-structure] reset security tables`);
 
-  await userStructureSecurityRepository.updateMany(
+  await UserStructureSecurityRepository.update(
     {},
     {
       temporaryTokens: null,
@@ -41,7 +40,7 @@ async function anonymizeUsersStructure({ app }: { app: INestApplication }) {
     : "";
 
   appLogger.warn(`[ANON] [userStructure] reset passwords`);
-  await (await userStructureRepository.typeorm())
+  await userStructureRepository.typeorm
     .createQueryBuilder("structures")
     .update()
     .set({ password })
@@ -66,7 +65,7 @@ async function anonymizeUsersStructure({ app }: { app: INestApplication }) {
 
   for (const user of usersToAnonymise) {
     try {
-      await _anonymizeUserStructure(user, { app });
+      await _anonymizeUserStructure(user);
     } catch (e) {
       console.log(e);
     }
@@ -81,10 +80,7 @@ function isUserStructureToAnonymise(
   });
 }
 
-async function _anonymizeUserStructure(
-  user: PartialUser,
-  { app }: { app: INestApplication }
-) {
+async function _anonymizeUserStructure(user: PartialUser) {
   const attributesToUpdate: Partial<UserStructureTable> = {
     nom: dataGenerator.lastName().toUpperCase(),
     prenom: dataGenerator.firstName(),

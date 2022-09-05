@@ -1,15 +1,12 @@
-import { Connection } from "typeorm";
 import { AppTestHelper } from "../../../../util/test";
 import { usagerLightRepository } from "../usagerLightRepository.service";
 
 describe("usagerLightRepository", () => {
-  let postgresTypeormConnection: Connection;
-
   beforeAll(async () => {
-    postgresTypeormConnection = await AppTestHelper.bootstrapTestConnection();
+    await AppTestHelper.bootstrapTestConnection();
   });
   afterAll(async () => {
-    await AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
+    await AppTestHelper.tearDownTestConnection();
   });
 
   it("findDoublons found", async () => {

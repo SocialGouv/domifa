@@ -1,15 +1,12 @@
-import { Connection } from "typeorm";
 import { AppTestHelper } from "../../../util/test";
-import { structureRepository } from "./structureRepository.service";
+import { structureRepository } from "./StructureRepository.service";
 
-describe("structureRepository", () => {
-  let postgresTypeormConnection: Connection;
-
+describe("StructureRepository", () => {
   beforeAll(async () => {
-    postgresTypeormConnection = await AppTestHelper.bootstrapTestConnection();
+    await AppTestHelper.bootstrapTestConnection();
   });
   afterAll(async () => {
-    await AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
+    await AppTestHelper.tearDownTestConnection();
   });
 
   it("checkHardResetToken", async () => {

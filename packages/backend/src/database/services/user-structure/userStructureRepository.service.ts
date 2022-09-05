@@ -38,6 +38,7 @@ const baseRepository = pgRepository.get<
 
 export const userStructureRepository = {
   ...baseRepository,
+  typeorm: appTypeormManager.getRepository(UserStructureTable),
   findVerifiedStructureUsersByRoles,
   countUsersByRegionId,
 };
