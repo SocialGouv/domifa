@@ -43,7 +43,7 @@ export class StructuresPublicController {
     @Body() emailDto: EmailDto,
     @Res() res: ExpressResponse
   ) {
-    const exist = await structureLightRepository.findOne({
+    const exist = await structureLightRepository.findOneBy({
       email: emailDto.email.toLowerCase(),
     });
     return res.status(HttpStatus.OK).json(!!exist);

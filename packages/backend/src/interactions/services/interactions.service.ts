@@ -11,7 +11,7 @@ export class InteractionsService {
     interactionUuid: string,
     user: Pick<UserStructure, "structureId">
   ): Promise<Interactions | null> {
-    return interactionRepository.findOne({
+    return interactionRepository.findOneBy({
       uuid: interactionUuid,
       structureId: user.structureId,
       usagerRef,
@@ -68,9 +68,7 @@ export class InteractionsService {
       FROM interactions i
       WHERE i."structureId" = $1 and i.event = 'create'
       GROUP BY i."usagerRef"`;
-    const results = await interactionRepository.typeorm.query(query, [
-      structureId,
-    ]);
+    const results = await interactionRepository.query(query, [structureId]);
     return results.map((x) => ({
       usagerRef: x.usagerRef,
       courrierIn: parseInt(x.courrierIn, 10),
@@ -99,7 +97,7 @@ export class InteractionsService {
         },
       });
     } else {
-      const search = await interactionRepository.typeorm
+      const search = await interactionRepository
         .createQueryBuilder("interactions")
         .select("SUM(interactions.nbCourrier)", "sum")
         .where({

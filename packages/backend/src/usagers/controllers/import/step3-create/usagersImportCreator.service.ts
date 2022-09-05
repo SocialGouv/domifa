@@ -1,13 +1,13 @@
 import { usagerLightRepository, UsagerTable } from "../../../../database";
 import { usagerHistoryRepository } from "../../../../database/services/usager/usagerHistoryRepository.service";
-import { uuidGenerator } from "../../../../database/services/uuid";
+
 import { UserStructure } from "../../../../_common/model";
 import { usagerHistoryStateManager } from "../../../services/usagerHistoryStateManager.service";
 import { usagersCreator } from "../../../services/usagersCreator.service";
 import { ImportProcessTracker } from "../ImportProcessTracker.type";
 import { UsagersImportUsager } from "../step2-validate-row";
 import { usagersImportBuilder } from "./usagersImportBuilder.service";
-
+import { v4 as uuidv4 } from "uuid";
 export const usagersImportCreator = {
   createFromImport,
 };
@@ -30,7 +30,7 @@ async function createFromImport({
   const usagersToPersist = usagers.map((data) => {
     const usager = new UsagerTable({
       ...data,
-      uuid: uuidGenerator.random(), // generate manually to use reference in history table
+      uuid: uuidv4(), // generate manually to use reference in history table
     });
     usager.ref = nextRef++;
     usagersCreator.setUsagerDefaultAttributes(usager);

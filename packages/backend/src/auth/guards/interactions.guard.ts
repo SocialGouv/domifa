@@ -29,7 +29,7 @@ export class InteractionsGuard implements CanActivate {
       throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
     }
 
-    const interaction = await interactionRepository.findOne({
+    const interaction = await interactionRepository.findOneBy({
       uuid: interactionUuid,
       structureId,
     });

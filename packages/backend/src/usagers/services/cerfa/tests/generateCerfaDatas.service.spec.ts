@@ -159,7 +159,7 @@ describe("Cerfa Data utils", () => {
       imports: [UsagersModule, UsersModule],
     });
     user = await userStructureRepository.findOne({ id: 1 });
-    structure = await structureRepository.findOne({
+    structure = await structureRepository.findOneBy({
       id: 1,
     });
     user.structure = structure;

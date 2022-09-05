@@ -33,15 +33,9 @@ async function updatePassword({
   ) {
     throw new Error("Error");
   }
-  const user = await userUsagerRepository.findOne<UserUsager>(
-    {
-      id: userId,
-    },
-    {
-      select: "ALL",
-      throwErrorIfNotFound: true,
-    }
-  );
+  const user = await userUsagerRepository.findOneByOrFail({
+    id: userId,
+  });
   const isValidPass: boolean = await passwordGenerator.checkPassword({
     password: oldPassword,
     hash: user.password,
@@ -59,7 +53,7 @@ async function updatePassword({
     password: newPassword,
   });
 
-  const updatedUser = await userUsagerRepository.updateOne(
+  await userUsagerRepository.update(
     {
       id: userId,
     },
@@ -68,6 +62,11 @@ async function updatePassword({
       passwordLastUpdate: new Date(),
     }
   );
+
+  const updatedUser = await userUsagerRepository.findOneBy({
+    id: userId,
+  });
+
   await userUsagerSecurityRepository.logEvent({
     userId,
     userSecurity,

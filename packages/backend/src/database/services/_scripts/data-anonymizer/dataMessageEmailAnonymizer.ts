@@ -15,7 +15,7 @@ async function anonymizeEmail() {
     `[dataMessageEmailAnonymizer] ${emailPhoneNumberToAnonymizeCount} emails to anonymize`
   );
 
-  await messageEmailRepository.updateMany(
+  await messageEmailRepository.update(
     {},
     {
       sendDetails: {

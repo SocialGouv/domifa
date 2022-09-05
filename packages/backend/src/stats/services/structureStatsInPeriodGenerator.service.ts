@@ -18,16 +18,15 @@ async function buildStatsInPeriod({
   startDateUTC: Date;
   endDateUTCExclusive?: Date;
 }): Promise<StructureStatsFull> {
-  const structure = await structureRepository.findOne<
-    Pick<Structure, "id" | "nom" | "importDate" | "registrationDate">
-  >(
-    {
+  const structure: Pick<
+    Structure,
+    "id" | "nom" | "importDate" | "registrationDate"
+  > = await structureRepository.findOne({
+    where: {
       id: structureId,
     },
-    {
-      select: ["id", "nom", "importDate", "registrationDate"],
-    }
-  );
+    select: { id: true, nom: true, importDate: true, registrationDate: true },
+  });
 
   statsQuestionsCoreBuilder.expectDateToHaveNoUtcHoursMinutes(startDateUTC);
   if (endDateUTCExclusive) {

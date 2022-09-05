@@ -1,37 +1,18 @@
 import { In } from "typeorm";
 
-import { pgRepository, typeOrmSearch } from "..";
+import { myDataSource, typeOrmSearch } from "..";
 import { appLogger } from "../../../util";
 import { MessageSms, InteractionType } from "../../../_common/model";
 import { MessageSmsTable } from "./../../entities/message-sms/MessageSmsTable.typeorm";
 
-const baseRepository = pgRepository.get<MessageSmsTable, MessageSms>(
-  MessageSmsTable
-);
-
-export const SMS_ON_HOLD_INTERACTION: (keyof MessageSms)[] = [
-  "uuid",
-  "usagerRef",
-  "structureId",
-  "content",
-  "smsId",
-  "status",
-  "scheduledDate",
-  "sendDate",
-  "interactionMetas",
-  "lastUpdate",
-  "responseId",
-  "phoneNumber",
-  "senderName",
-];
-
-export const messageSmsRepository = {
-  ...baseRepository,
-  findSmsOnHold,
-  findInteractionSmsToSend,
-  upsertEndDom,
-  findSmsEndDomToSend,
-};
+export const messageSmsRepository = myDataSource
+  .getRepository(MessageSmsTable)
+  .extend({
+    findSmsOnHold,
+    findInteractionSmsToSend,
+    upsertEndDom,
+    findSmsEndDomToSend,
+  });
 
 async function findSmsOnHold({
   usagerRef,
@@ -42,24 +23,19 @@ async function findSmsOnHold({
   structureId: number;
   interactionType: InteractionType;
 }): Promise<MessageSms> {
-  return messageSmsRepository.findOneWithQuery<MessageSms>({
-    select: SMS_ON_HOLD_INTERACTION,
-    where: `"interactionMetas"->>'interactionType' = :interactionType and
+  return messageSmsRepository.query(
+    `"interactionMetas"->>'interactionType' = :interactionType and
     status='TO_SEND' and
     "usagerRef"= :usagerRef and
     "structureId"=:structureId `,
-    params: {
-      usagerRef,
-      structureId,
-      interactionType,
-    },
-  });
+    [usagerRef, structureId, interactionType]
+  );
 }
 
 async function findInteractionSmsToSend(
   structureIds: number[]
 ): Promise<MessageSmsTable[]> {
-  return messageSmsRepository.findMany(
+  return messageSmsRepository.findBy(
     typeOrmSearch<MessageSmsTable>({
       status: "TO_SEND",
       structureId: In(structureIds),
@@ -69,7 +45,7 @@ async function findInteractionSmsToSend(
 }
 
 async function upsertEndDom(sms: MessageSms): Promise<MessageSms> {
-  const message = await messageSmsRepository.findOne<MessageSms>({
+  const message = await messageSmsRepository.findOneBy({
     smsId: "echeanceDeuxMois",
     usagerRef: sms.usagerRef,
     structureId: sms.structureId,
@@ -88,7 +64,7 @@ async function upsertEndDom(sms: MessageSms): Promise<MessageSms> {
 async function findSmsEndDomToSend(
   structureIds: number[]
 ): Promise<MessageSmsTable[]> {
-  return messageSmsRepository.findMany(
+  return messageSmsRepository.findBy(
     typeOrmSearch<MessageSmsTable>({
       smsId: "echeanceDeuxMois",
       structureId: In(structureIds),

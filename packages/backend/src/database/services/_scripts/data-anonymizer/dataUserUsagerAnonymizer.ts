@@ -2,7 +2,6 @@ import * as bcrypt from "bcryptjs";
 import {
   UserStructureSecurityRepository,
   userUsagerRepository,
-  UserUsagerTable,
 } from "../../..";
 import { domifaConfig } from "../../../../config";
 import { appLogger } from "../../../../util";
@@ -11,9 +10,7 @@ export const dataUserUsagerAnonymizer = {
   anonymizeUsersUsager,
 };
 
-type PartialUser = Pick<UserUsagerTable, "id" | "structureId">;
-
-async function anonymizeUsersUsager() {
+async function anonymizeUsersUsager(): Promise<void> {
   appLogger.warn(`[dataUserAnonymizer] [user-usager] update of security table`);
   await UserStructureSecurityRepository.update(
     {},
@@ -29,7 +26,7 @@ async function anonymizeUsersUsager() {
     : "";
 
   appLogger.warn(`[dataUserAnonymizer] [user-usager] update passwords`);
-  return userUsagerRepository.updateMany<PartialUser>(
+  await userUsagerRepository.update(
     {},
     {
       password,

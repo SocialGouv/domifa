@@ -6,4 +6,6 @@ export type UsagerDoc = AppEntity & {
   label: string;
   filetype: string;
   path: string;
+  structureId: number;
+  usagerRef: number;
 };

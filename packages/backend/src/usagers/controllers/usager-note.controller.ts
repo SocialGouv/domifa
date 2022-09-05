@@ -14,7 +14,7 @@ import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { usagerRepository } from "../../database";
-import { uuidGenerator } from "../../database/services/uuid";
+
 import { ExpressResponse } from "../../util/express";
 import {
   UsagerLight,
@@ -23,7 +23,7 @@ import {
   UserStructureResume,
 } from "../../_common/model";
 import { CreateNoteDto } from "../dto/create-note.dto";
-
+import { v4 as uuidv4 } from "uuid";
 @ApiTags("note")
 @ApiBearerAuth()
 @Controller("note")
@@ -43,7 +43,7 @@ export class UsagerNoteController {
     };
 
     const usagerNote: UsagerNote = {
-      id: uuidGenerator.random(),
+      id: uuidv4(),
       archived: false,
       createdAt: new Date(),
       createdBy,

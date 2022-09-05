@@ -71,10 +71,10 @@ export class MessageSmsSenderService {
       updateSms.errorMessage = (err as AxiosError)?.message;
     }
 
-    const messageSms = await messageSmsRepository.updateOne(
-      { uuid: message.uuid },
-      updateSms
-    );
+    await messageSmsRepository.update({ uuid: message.uuid }, updateSms);
+    const messageSms = await messageSmsRepository.findOneBy({
+      uuid: message.uuid,
+    });
 
     if (updateSms.status === "FAILURE") {
       throw new Error(`Sms error: ${updateSms.errorMessage}`);

@@ -12,14 +12,7 @@ async function disableUser({
 }: {
   usagerUUID: string;
 }): Promise<void> {
-  await userUsagerRepository.updateOne(
-    {
-      usagerUUID,
-    },
-    {
-      enabled: false,
-    }
-  );
+  await userUsagerRepository.update({ usagerUUID }, { enabled: false });
 }
 
 async function enableUser({
@@ -45,12 +38,15 @@ async function enableUser({
     attributes.isTemporaryPassword = true;
   }
 
-  const userUsager = await userUsagerRepository.updateOne(
+  await userUsagerRepository.update(
     {
       usagerUUID,
     },
     attributes
   );
+  const userUsager = await userUsagerRepository.findOneBy({
+    usagerUUID,
+  });
 
   return { userUsager, temporaryPassword };
 }

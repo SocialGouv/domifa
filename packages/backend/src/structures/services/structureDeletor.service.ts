@@ -21,7 +21,8 @@ export const structureDeletorService = {
 
 async function generateDeleteToken(id: number): Promise<Structure> {
   const token = crypto.randomBytes(30).toString("hex");
-  return structureRepository.updateOne({ id }, { token });
+  await structureRepository.update({ id }, { token });
+  return structureRepository.findOneBy({ id });
 }
 
 async function deleteStructureUsagers({
@@ -34,17 +35,17 @@ async function deleteStructureUsagers({
   await resetUsagers(structureId);
 }
 
-async function deleteStructure(structure: StructureLight): Promise<number> {
+async function deleteStructure(structure: StructureLight): Promise<any> {
   await deleteStructureUsagers({
     structureId: structure.id,
   });
 
-  return structureRepository.deleteByCriteria({ id: structure.id });
+  return structureRepository.delete({ id: structure.id });
 }
 
 async function resetUsagers(structureId: number): Promise<void> {
   // Suppression des Documents
-  await usagerDocsRepository.deleteByCriteria({
+  await usagerDocsRepository.delete({
     structureId,
   });
 
@@ -52,11 +53,11 @@ async function resetUsagers(structureId: number): Promise<void> {
     structureId,
   });
 
-  await appLogsRepository.deleteByCriteria({
+  await appLogsRepository.delete({
     structureId,
   });
 
-  await messageSmsRepository.deleteByCriteria({
+  await messageSmsRepository.delete({
     structureId,
   });
 }

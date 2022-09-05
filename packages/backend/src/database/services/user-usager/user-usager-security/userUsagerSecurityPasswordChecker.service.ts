@@ -17,17 +17,17 @@ async function checkPassword({
   password: string;
   newPassword: string;
 }): Promise<UserUsager> {
-  const user = await userUsagerRepository.findOne<
-    Pick<UserUsager, "password" | "salt" | "id" | "enabled">
-  >(
-    {
+  const user = await userUsagerRepository.findOne({
+    where: {
       login: login.toUpperCase(),
     },
-    {
-      throwErrorIfNotFound: true,
-      select: ["password", "salt", "id", "enabled"],
-    }
-  );
+    select: {
+      password: true,
+      salt: true,
+      id: true,
+      enabled: true,
+    },
+  });
 
   const userSecurity = await userUsagerSecurityRepository.findOne(
     {
@@ -77,7 +77,7 @@ async function checkPassword({
       oldPassword: password,
       newPassword,
     });
-    return userUsagerRepository.updateOne(
+    await userUsagerRepository.update(
       {
         id: user.id,
       },
@@ -88,7 +88,7 @@ async function checkPassword({
       }
     );
   } else {
-    return userUsagerRepository.updateOne(
+    await userUsagerRepository.update(
       {
         id: user.id,
       },
@@ -97,4 +97,8 @@ async function checkPassword({
       }
     );
   }
+
+  return userUsagerRepository.findOneBy({
+    id: user.id,
+  });
 }

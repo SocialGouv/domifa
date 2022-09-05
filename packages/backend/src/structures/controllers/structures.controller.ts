@@ -56,7 +56,7 @@ export class StructuresController {
     }
 
     try {
-      const retour = structureRepository.updateOne(
+      await structureRepository.update(
         { id: user.structureId },
         {
           portailUsager: {
@@ -65,6 +65,9 @@ export class StructuresController {
           },
         }
       );
+      const retour = await structureRepository.findOneBy({
+        id: user.structureId,
+      });
       return res.status(HttpStatus.OK).json(retour);
     } catch (e) {
       appLogger.error("PORTAIL_UPDATE_FAIL", { error: e, sentry: true });

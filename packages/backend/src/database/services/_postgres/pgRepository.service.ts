@@ -36,7 +36,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     count,
     aggregateAsNumber,
     max,
-    sum,
+
     countBy,
     save,
     findOne,
@@ -57,30 +57,6 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     entities: E
   ): Promise<E> {
     return (await typeorm()).save(entities as any);
-  }
-
-  async function sum(
-    {
-      sumAttribute,
-      logSql,
-      params,
-      where,
-    }: {
-      where?: string | Partial<T>;
-      sumAttribute: string;
-      logSql?: boolean;
-      params?: { [attr: string]: any };
-    } = {
-      sumAttribute: "uuid",
-    }
-  ): Promise<number> {
-    return aggregateAsNumber({
-      expression: `SUM("${sumAttribute}")`,
-      resultAlias: "sum",
-      where,
-      logSql,
-      params,
-    });
   }
 
   async function count(

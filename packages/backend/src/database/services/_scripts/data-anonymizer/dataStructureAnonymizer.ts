@@ -14,9 +14,8 @@ function isStructureToAnonymise(structure: Pick<Structure, "id">) {
 }
 
 async function anonymizeStructures() {
-  const structures = await structureRepository.findMany<
-    Pick<Structure, "id" | "email">
-  >({}, { select: ["id", "email"] });
+  const structures: Pick<Structure, "id" | "email">[] =
+    await structureRepository.find({ select: { id: true, email: true } });
 
   const structuresWithEmailsToAnonymize = structures.filter((x) =>
     isStructureToAnonymise(x)
@@ -49,8 +48,5 @@ async function _anonymizeStructure(structure: Pick<Structure, "id" | "email">) {
     }),
   };
 
-  return structureRepository.updateOne(
-    { id: structure.id },
-    attributesToUpdate
-  );
+  return structureRepository.update({ id: structure.id }, attributesToUpdate);
 }

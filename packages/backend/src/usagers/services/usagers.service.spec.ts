@@ -43,7 +43,7 @@ describe("UsagersService", () => {
   it("0. Create / Read / Update / Delete", async () => {
     // CREATE
     const user = await userStructureRepository.findOne({ id: 1 });
-    user.structure = await structureRepository.findOne({ id: 5 });
+    user.structure = await structureRepository.findOneBy({ id: 5 });
 
     const usagerTest = await service.create(fakeUsagerDto, user);
 

@@ -71,12 +71,9 @@ export class MessageSmsService {
 
     smsToUpdate.lastUpdate = new Date();
 
-    const messageSms = await messageSmsRepository.updateOne(
-      { uuid: smsToUpdate.uuid },
-      smsToUpdate
-    );
+    await messageSmsRepository.update({ uuid: smsToUpdate.uuid }, smsToUpdate);
 
-    return messageSms;
+    return await messageSmsRepository.findOneBy({ uuid: smsToUpdate.uuid });
   }
 
   // Suppression d'un SMS si le courrier a été distribué
@@ -92,7 +89,7 @@ export class MessageSmsService {
     });
 
     if (smsOnHold) {
-      return messageSmsRepository.deleteByCriteria({ uuid: smsOnHold.uuid });
+      return messageSmsRepository.delete({ uuid: smsOnHold.uuid });
     }
     return;
   }
@@ -114,12 +111,12 @@ export class MessageSmsService {
         smsOnHold.interactionMetas.nbCourrier - interaction.nbCourrier;
 
       if (smsOnHold.interactionMetas.nbCourrier > 0) {
-        return messageSmsRepository.updateOne(
+        return messageSmsRepository.update(
           { uuid: smsOnHold.uuid },
           { interactionMetas: smsOnHold.interactionMetas }
         );
       } else {
-        return messageSmsRepository.deleteByCriteria({ uuid: smsOnHold.uuid });
+        return messageSmsRepository.delete({ uuid: smsOnHold.uuid });
       }
     } else if (usager.contactByPhone === true) {
       appLogger.warn(`SMS Service: Interaction to delete not found`);
@@ -149,7 +146,7 @@ export class MessageSmsService {
 
       smsReady.interactionMetas.date = new Date();
 
-      return messageSmsRepository.updateOne(
+      return messageSmsRepository.update(
         { uuid: smsReady.uuid },
         { content, interactionMetas: smsReady.interactionMetas }
       );
@@ -201,7 +198,7 @@ export class MessageSmsService {
     structureId: number,
     sms: StructureSmsParams
   ) {
-    return structureRepository.updateOne(
+    await structureRepository.update(
       { id: structureId },
       {
         sms: {
@@ -212,5 +209,7 @@ export class MessageSmsService {
         },
       }
     );
+
+    return await structureRepository.findOneBy({ id: structureId });
   }
 }

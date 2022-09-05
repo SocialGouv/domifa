@@ -51,9 +51,10 @@ export class StructuresService {
   }
 
   public async findOneFull(structureId: number): Promise<Structure> {
-    const structure = await structureRepository.findOne({
+    const structure = await structureRepository.findOneBy({
       id: structureId,
     });
+
     if (!structure) {
       throw new HttpException("STRUCTURE_NOT_EXIST", HttpStatus.BAD_REQUEST);
     }
@@ -79,16 +80,14 @@ export class StructuresService {
       params.codePostal = codePostal;
     }
 
-    return structureLightRepository.findMany(params, {
-      maxResults: 100,
-    });
+    return structureLightRepository.find({ where: params, take: 100 });
   }
 
   public async findStructuresInRegion(regionId?: string): Promise<number[]> {
-    const structures: Structure[] = await structureRepository.findMany(
-      { region: regionId },
-      { select: ["id"] }
-    );
+    const structures: Structure[] = await structureRepository.find({
+      where: { region: regionId },
+      select: { id: true },
+    });
 
     return structures.map((structure: Structure) => {
       return structure.id;

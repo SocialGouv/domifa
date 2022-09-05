@@ -12,7 +12,7 @@ describe("userUsagerRepository", () => {
   });
 
   it("findMany returns all users", async () => {
-    const users = await userUsagerRepository.findMany({});
+    const users = await userUsagerRepository.findBy({});
     expect(users).toBeDefined();
 
     expect(users.length).toEqual(TESTS_USERS_USAGER.ALL.length);

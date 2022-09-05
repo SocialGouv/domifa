@@ -14,7 +14,7 @@ async function anonymizeSms() {
 
   appLogger.warn(`[dataMessageSmsAnonymizer] ${smsToSendToSkip} SMS to skip`);
 
-  await messageSmsRepository.updateMany(
+  await messageSmsRepository.update(
     { status: "TO_SEND" },
     { status: "DISABLED" }
   );
@@ -25,7 +25,7 @@ async function anonymizeSms() {
     `[dataMessageSmsAnonymizer] ${smsPhoneNumberToAnonymizeCount} SMS phone number to anonymize`
   );
 
-  await messageSmsRepository.updateMany(
+  await messageSmsRepository.update(
     {},
     {
       phoneNumber: "0600000000",
