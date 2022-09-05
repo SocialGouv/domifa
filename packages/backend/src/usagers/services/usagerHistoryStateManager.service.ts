@@ -1,7 +1,7 @@
 import moment = require("moment");
 import { UsagerHistoryTable } from "../../database/entities/usager/UsagerHistoryTable.typeorm";
 import { usagerHistoryRepository } from "../../database/services/usager/usagerHistoryRepository.service";
-import { uuidGenerator } from "../../database/services/uuid";
+
 import {
   UsagerHistory,
   UsagerHistoryState,
@@ -9,7 +9,7 @@ import {
   UserStructureResume,
 } from "../../_common/model";
 import { UsagerHistoryStateCreationEvent } from "../../_common/model/usager/history/UsagerHistoryStateCreationEvent.type";
-
+import { v4 as uuidv4 } from "uuid";
 export const usagerHistoryStateManager = {
   buildInitialHistoryState,
   buildHistoryState,
@@ -268,7 +268,7 @@ function buildHistoryState({
       (previousState?.isActive ?? false));
 
   const state: UsagerHistoryState = {
-    uuid: uuidGenerator.random(),
+    uuid: uuidv4(),
     createdAt,
     createdBy,
     createdEvent,

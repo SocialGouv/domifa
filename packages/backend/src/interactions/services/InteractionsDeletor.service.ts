@@ -41,14 +41,14 @@ export class InteractionsDeletor {
 
     // Toute les interactions sortantes sont supprimés
     if (direction === "out") {
-      await interactionRepository.updateMany(
+      await interactionRepository.update(
         { interactionOutUUID: interaction.uuid },
         { interactionOutUUID: null }
       );
     }
 
     // always delete previous interaction ('delete' or 'create' ('restore') event)
-    await interactionRepository.deleteByCriteria({
+    await interactionRepository.delete({
       uuid: interaction.uuid,
     });
 
@@ -72,7 +72,7 @@ export class InteractionsDeletor {
         );
       } else if (direction === "out") {
         // On remet tous les courriers en "à distribuer"
-        await interactionRepository.updateMany(
+        await interactionRepository.update(
           { interactionOutUUID: interaction.uuid },
           { interactionOutUUID: null }
         );

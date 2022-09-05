@@ -50,7 +50,7 @@ export class MessageEmailConsummer {
       },
       async ({ monitorTotal, monitorSuccess, monitorError }) => {
         const now = new Date();
-        const messageEmails = await messageEmailRepository.findMany(
+        const messageEmails = await messageEmailRepository.findBy(
           typeOrmSearch<MessageEmail>({
             status: "pending",
             nextScheduledDate: LessThanOrEqual(now),

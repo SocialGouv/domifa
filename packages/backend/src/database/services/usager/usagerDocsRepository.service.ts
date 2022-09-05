@@ -1,25 +1,23 @@
+import { myDataSource } from "./../_postgres/appTypeormManager.service";
 import { UsagerDoc } from "./../../../_common/model/usager/UsagerDoc.type";
 import { UsagerDocsTable } from "./../../entities/usager/UsagerDocsTable.typeorm";
 
-import { pgRepository } from "../_postgres/pgRepository.service";
-
-const baseRepository = pgRepository.get<UsagerDocsTable, UsagerDoc>(
-  UsagerDocsTable
-);
-
-export const usagerDocsRepository = {
-  ...baseRepository,
-  getUsagerDocs,
-};
+export const usagerDocsRepository = myDataSource
+  .getRepository<UsagerDoc>(UsagerDocsTable)
+  .extend({ getUsagerDocs });
 
 async function getUsagerDocs(usagerRef: number, structureId: number) {
-  return usagerDocsRepository.findMany(
-    {
+  return usagerDocsRepository.find({
+    where: {
       usagerRef,
       structureId,
     },
-    {
-      select: ["filetype", "label", "uuid", "createdAt", "createdBy"],
-    }
-  );
+    select: {
+      filetype: true,
+      label: true,
+      uuid: true,
+      createdAt: true,
+      createdBy: true,
+    },
+  });
 }

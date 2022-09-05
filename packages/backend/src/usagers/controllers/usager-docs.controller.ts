@@ -134,7 +134,7 @@ export class UsagerDocsController {
     @CurrentUsager() currentUsager: UsagerLight,
     @Res() res: Response
   ) {
-    const doc = await usagerDocsRepository.findOne({
+    const doc = await usagerDocsRepository.findOneBy({
       uuid: docUuid,
       structureId: currentUsager.structureId,
     });
@@ -156,7 +156,7 @@ export class UsagerDocsController {
 
     await deleteFile(pathFile + ".encrypted");
 
-    await usagerDocsRepository.deleteByCriteria({
+    await usagerDocsRepository.delete({
       uuid: doc.uuid,
     });
 
@@ -195,7 +195,7 @@ export class UsagerDocsController {
     @Res() res: Response,
     @CurrentUsager() currentUsager: UsagerLight
   ) {
-    const doc = await usagerDocsRepository.findOne({
+    const doc = await usagerDocsRepository.findOneBy({
       uuid: docUuid,
       usagerRef,
       structureId: currentUsager.structureId,

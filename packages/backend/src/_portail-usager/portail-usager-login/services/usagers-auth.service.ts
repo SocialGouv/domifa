@@ -44,7 +44,7 @@ export class UsagersAuthService {
     }
 
     // update usager user last login date
-    await userUsagerRepository.updateOne(
+    await userUsagerRepository.update(
       { id: authUser.user.id },
       { lastLogin: new Date() }
     );
@@ -55,7 +55,7 @@ export class UsagersAuthService {
   public async findAuthUserUsager(
     payload: Pick<UserUsagerJwtPayload, "_userId">
   ): Promise<UserUsagerAuthenticated> {
-    const user = await userUsagerRepository.findOne({ id: payload._userId });
+    const user = await userUsagerRepository.findOneBy({ id: payload._userId });
 
     const usager = await usagerRepository.findOne({ uuid: user.usagerUUID });
 
@@ -63,7 +63,7 @@ export class UsagersAuthService {
       appLogger.debug("[TRACK BUG] " + JSON.stringify(user));
     }
 
-    const structure = await structureRepository.findOne({
+    const structure = await structureRepository.findOneBy({
       id: user.structureId,
     });
 

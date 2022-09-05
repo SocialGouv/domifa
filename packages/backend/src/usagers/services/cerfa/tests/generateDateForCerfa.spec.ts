@@ -41,7 +41,7 @@ describe("generateDateForCerfa", () => {
   it("[TIMEZONE] Date au format America/Cayenne -4h (heure d'hiver)", async () => {
     const user: UserStructureAuthenticated =
       await userStructureRepository.findOne({ id: 11 });
-    const structure = await structureRepository.findOne({
+    const structure = await structureRepository.findOneBy({
       id: 5,
     });
 

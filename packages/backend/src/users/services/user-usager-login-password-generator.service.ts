@@ -31,7 +31,7 @@ async function generateUniqueLogin(
       })
       .toUpperCase();
     if (checkAlreadyExists) {
-      const alreadyExists = await userUsagerRepository.findOne({
+      const alreadyExists = await userUsagerRepository.findOneBy({
         login,
       });
       newLoginAccepted = !alreadyExists;

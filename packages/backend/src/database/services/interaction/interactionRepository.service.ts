@@ -23,17 +23,18 @@ const baseRepository = pgRepository.get<InteractionsTable, Interactions>(
   InteractionsTable
 );
 
-export const interactionRepository = {
-  ...baseRepository,
-  typeorm: appTypeormManager.getRepository(InteractionsTable),
-  findLastInteractionOk,
-  findLastInteractionInWithContent,
-  findWithFilters,
-  countInteractionsByMonth,
-  countPendingInteraction,
-  countPendingInteractionsIn,
-  countVisiteOut,
-};
+export const interactionRepository = appTypeormManager
+  .getRepository(InteractionsTable)
+  .extend({
+    aggregateAsNumber: baseRepository.aggregateAsNumber,
+    findLastInteractionOk,
+    findLastInteractionInWithContent,
+    findWithFilters,
+    countInteractionsByMonth,
+    countPendingInteraction,
+    countPendingInteractionsIn,
+    countVisiteOut,
+  });
 
 async function findLastInteractionOk({
   user,
@@ -104,7 +105,7 @@ async function countPendingInteraction({
     FROM interactions i
     WHERE i."structureId" = $2 AND i."usagerRef" = $3 and i.event = 'create' AND i."interactionOutUUID" is null
     GROUP BY i."usagerRef"`;
-  const results = await interactionRepository.typeorm.query(query, [
+  const results = await interactionRepository.query(query, [
     interactionType,
     structureId,
     usagerRef,
@@ -134,9 +135,7 @@ async function countPendingInteractionsIn({
     FROM interactions i
     WHERE i."usagerUUID" = $1 and i.event = 'create' AND i."interactionOutUUID" is null
     GROUP BY i."usagerRef"`;
-  const results = await interactionRepository.typeorm.query(query, [
-    usagerUUID,
-  ]);
+  const results = await interactionRepository.query(query, [usagerUUID]);
 
   const defaultResult = {
     courrierIn: 0,
@@ -176,12 +175,13 @@ async function findWithFilters({
     search.type = In(INTERACTION_IN_OUT_LIST) as any;
   }
 
-  const interactions = await interactionRepository.findMany(search, {
+  const interactions = await interactionRepository.find({
+    where: search,
     order: {
       dateInteraction: "DESC",
     },
     skip: 0,
-    maxResults,
+    take: maxResults,
   });
 
   if (filter === "distribution") {

@@ -1,5 +1,5 @@
 import { setHours } from "date-fns";
-import { uuidGenerator } from "../../../../database/services/uuid";
+
 import {
   ETAPE_DOSSIER_COMPLET,
   Usager,
@@ -8,7 +8,7 @@ import {
   UserStructure,
 } from "../../../../_common/model";
 import { UsagerEntretien } from "../../../../_common/model/usager/entretien";
-
+import { v4 as uuidv4 } from "uuid";
 import { UsagerDecisionMotif } from "../../../../_common/model/usager/UsagerDecisionMotif.type";
 import { UsagersImportUsager } from "../step2-validate-row/schema";
 
@@ -106,7 +106,7 @@ function buildUsager({
   }
 
   const decision: UsagerDecision = {
-    uuid: uuidGenerator.random(),
+    uuid: uuidv4(),
     dateDebut,
     dateDecision,
     dateFin,

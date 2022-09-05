@@ -36,7 +36,7 @@ export class AdminStructuresService {
   }
 
   public async getStatsDomifaAdminDashboard(): Promise<AdminStructureStatsData> {
-    const structures = await structureRepository.findMany({});
+    const structures = await structureRepository.find({});
 
     const structuresIds = structures.map((s) => s.id);
 
@@ -81,7 +81,7 @@ export class AdminStructuresService {
     return stats;
   }
   public async getAdminStructuresListData(): Promise<AdminStructureListData> {
-    const structures = await structureRepository.findMany({});
+    const structures = await structureRepository.find({});
 
     const structuresIds = structures.map((s) => s.id);
 
@@ -142,8 +142,11 @@ export class AdminStructuresService {
 
   public async getStructuresWithSms(): Promise<number> {
     return structureRepository.count({
-      where: `sms->>'enabledByStructure' = 'true'`,
-      logSql: true,
+      where: {
+        sms: {
+          enabledByStructure: true,
+        },
+      },
     });
   }
 
@@ -327,14 +330,11 @@ export class AdminStructuresService {
     structures: StructureAdmin[];
     stats: StatsDeploiementExportModel;
   }> {
-    const structures: StructureAdmin[] = await structureRepository.findMany(
-      {},
-      {
-        order: {
-          createdAt: "ASC",
-        },
-      }
-    );
+    const structures: StructureAdmin[] = await structureRepository.find({
+      order: {
+        createdAt: "ASC",
+      },
+    });
 
     const structuresIds = structures.map((s) => s.id);
 

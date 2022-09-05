@@ -12,13 +12,16 @@ const baseRepository = pgRepository.get<StructureTable, Structure>(
   StructureTable
 );
 
-export const structureRepository = {
-  ...baseRepository,
-  checkHardResetToken,
-  typeorm: appTypeormManager.getRepository(StructureTable),
-  getStructureWithSms,
-  getStructureIdsWithSms,
-};
+export const structureRepository = appTypeormManager
+  .getRepository(StructureTable)
+  .extend({
+    findOneWithQuery: baseRepository.findOneWithQuery,
+    countBy: baseRepository.countBy,
+    findManyWithQuery: baseRepository.findManyWithQuery,
+    checkHardResetToken,
+    getStructureWithSms,
+    getStructureIdsWithSms,
+  });
 
 async function checkHardResetToken({
   userId,

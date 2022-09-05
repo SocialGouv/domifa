@@ -1,12 +1,12 @@
 import { Injectable } from "@nestjs/common";
-
+import { v4 as uuidv4 } from "uuid";
 import {
   usagerLightRepository,
   usagerRepository,
   UsagerTable,
 } from "../../database";
 import { usagerHistoryRepository } from "../../database/services/usager/usagerHistoryRepository.service";
-import { uuidGenerator } from "../../database/services/uuid";
+
 import {
   ETAPE_DECISION,
   ETAPE_DOSSIER_COMPLET,
@@ -43,7 +43,7 @@ export class UsagersService {
     usager.customRef = `${usager.ref}`;
 
     usager.decision = {
-      uuid: uuidGenerator.random(),
+      uuid: uuidv4(),
       dateDecision: now,
       statut: "INSTRUCTION",
       userName: user.prenom + " " + user.nom,
@@ -107,7 +107,7 @@ export class UsagersService {
     }
 
     usager.decision = {
-      uuid: uuidGenerator.random(),
+      uuid: uuidv4(),
       dateDebut: now,
       dateDecision: now,
       dateFin: newDateFin,
@@ -198,7 +198,7 @@ export class UsagersService {
       }
     }
 
-    usager.decision.uuid = uuidGenerator.random();
+    usager.decision.uuid = uuidv4();
     usager.decision = decision as UsagerDecision;
 
     if (!usager.entretien) {

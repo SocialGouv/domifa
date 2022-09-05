@@ -88,13 +88,13 @@ async function purgeObsoleteMessageEmailProcess({
 }: {
   limitDate: Date;
 }) {
-  const affected = await messageEmailRepository.deleteByCriteria(
+  const res = await messageEmailRepository.delete(
     typeOrmSearch<MessageEmail>({
       status: "sent",
       sendDate: LessThanOrEqual(limitDate),
     })
   );
-  return affected;
+  return res.affected;
 }
 
 async function purgeObsoleteMonitoringBatchProcess({

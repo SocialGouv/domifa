@@ -52,10 +52,10 @@ describe("interactionsCreator", () => {
 
   beforeEach(async () => {
     user = await userStructureRepository.findOne({ id: 1 });
-    user.structure = await structureRepository.findOne({ id: 1 });
+    user.structure = await structureRepository.findOneBy({ id: 1 });
 
     // Reset des courriers
-    await interactionRepository.deleteByCriteria({
+    await interactionRepository.delete({
       usagerRef: 2,
       structureId: 1,
     });
@@ -77,7 +77,7 @@ describe("interactionsCreator", () => {
       }
     );
 
-    structure = await structureRepository.findOne({
+    structure = await structureRepository.findOneBy({
       id: 1,
     });
   });
@@ -362,7 +362,7 @@ describe("interactionsCreator", () => {
   describe("4. Tests des timezones", () => {
     it("Récupération d'un courrier en Guyanne (-4 heures)", async () => {
       user = await userStructureRepository.findOne({ id: 11 });
-      user.structure = await structureRepository.findOne({ id: 5 });
+      user.structure = await structureRepository.findOneBy({ id: 5 });
       usager = await usagerRepository.findOne({
         ref: 1,
         structureId: user.structure.id,

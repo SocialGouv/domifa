@@ -74,15 +74,12 @@ export class CronMailImportGuideSenderService {
 
     const structuresIds: number[] = [];
 
-    const structures: Pick<Structure, "id">[] =
-      await structureRepository.findMany(
-        {
-          import: false,
-        },
-        {
-          select: ["id"],
-        }
-      );
+    const structures: Pick<Structure, "id">[] = await structureRepository.find({
+      where: {
+        import: false,
+      },
+      select: { id: true },
+    });
 
     if (structures.length === 0) {
       return [];

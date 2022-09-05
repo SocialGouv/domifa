@@ -144,7 +144,7 @@ async function updateInteractionAfterDistribution(interaction: Interactions) {
   });
 
   // Liste des interactions entrantes à mettre à jour
-  const updatedInteractions = await interactionRepository.updateMany(
+  const updatedInteractions = await interactionRepository.update(
     typeOrmSearch<InteractionsTable>({
       usagerRef: interaction.usagerRef,
       structureId: interaction.structureId,

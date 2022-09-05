@@ -159,7 +159,7 @@ describe("Stuctures creation full", () => {
       await structurePublicController.postStructure(structureWithUser);
     expect(structureId).toBeDefined();
     expect(userId).toBeDefined();
-    const structure = await structureRepository.typeorm.findOneBy({
+    const structure = await structureRepository.findOneBy({
       id: structureId,
     });
     expect(structure).toBeDefined();
@@ -199,7 +199,7 @@ describe("Stuctures creation full", () => {
     structureId: number;
     userId: number;
   }) {
-    const structure = await structureRepository.findOne({
+    const structure = await structureRepository.findOneBy({
       id: structureId,
     });
     expect(structure).toBeDefined();

@@ -108,9 +108,10 @@ async function countInteractions({
       },
     });
   } else {
-    return interactionRepository.sum({
-      sumAttribute: "nbCourrier",
-      where: {
+    const { sum } = await interactionRepository
+      .createQueryBuilder("interactions")
+      .select("SUM(interactions.nbCourrier)", "sum")
+      .where({
         structureId,
         type: interactionType,
         event: "create",
@@ -118,7 +119,11 @@ async function countInteractions({
           dateInteractionAfter,
           dateInteractionBefore
         ) as unknown as Date,
-      },
-    });
+      })
+      .getRawOne();
+
+    console.log(sum);
+
+    return sum;
   }
 }

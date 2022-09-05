@@ -84,7 +84,9 @@ async function sendEmail(
   };
 
   try {
-    const serverResponse = await transporter.sendMail(transporterMailOptions);
+    const serverResponse: any = await transporter.sendMail(
+      transporterMailOptions
+    );
     // SUCCESS
     const sendDetails: MessageEmailSendDetails = {
       sent: toSend,

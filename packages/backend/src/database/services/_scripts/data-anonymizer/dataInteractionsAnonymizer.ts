@@ -15,7 +15,7 @@ async function anonymizeInteractions() {
   );
 
   // Liste des interactions entrantes à mettre à jour
-  await interactionRepository.updateMany(
+  await interactionRepository.update(
     typeOrmSearch<InteractionsTable>({
       content: Not(IsNull()),
     }),

@@ -162,10 +162,11 @@ export class AdminStructuresController {
       structure.portailUsager.enabledByStructure = false;
     }
 
-    return structureRepository.updateOne(
+    await structureRepository.update(
       { id: structureId },
       { portailUsager: structure.portailUsager }
     );
+    return structureRepository.findOneBy({ id: structureId });
   }
 
   @AllowUserProfiles("super-admin-domifa")

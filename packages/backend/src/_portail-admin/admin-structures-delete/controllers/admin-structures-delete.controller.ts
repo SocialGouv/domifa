@@ -58,15 +58,10 @@ export class AdminStructuresDeleteController {
     @Res() res: ExpressResponse,
     @Param("token") token: string
   ) {
-    const structure = await structureLightRepository.findOne({
+    const structure = await structureLightRepository.findOneByOrFail({
       token,
       id: parseInt(id, 10),
     });
-    if (!structure) {
-      return res
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "HARD_RESET_INCORRECT_TOKEN" });
-    }
 
     return res.status(HttpStatus.OK).json(structure);
   }
@@ -80,7 +75,7 @@ export class AdminStructuresDeleteController {
     @Param("nom") structureNom: string,
     @Res() res: ExpressResponse
   ) {
-    const structure = await structureLightRepository.findOne({
+    const structure = await structureLightRepository.findOneBy({
       token,
       nom: structureNom,
       id: parseInt(id, 10),

@@ -270,13 +270,13 @@ export class UsagersController {
     @Res() res: Response
   ) {
     // Suppression des Documents
-    await usagerDocsRepository.deleteByCriteria({
+    await usagerDocsRepository.delete({
       usagerRef: usager.ref,
       structureId: user.structureId,
     });
 
     // Suppression des SMS
-    await messageSmsRepository.deleteByCriteria({
+    await messageSmsRepository.delete({
       usagerRef: usager.ref,
       structureId: user.structureId,
     });
@@ -320,7 +320,7 @@ export class UsagersController {
         { options: usager.options }
       );
       if (usager.options.portailUsagerEnabled) {
-        const userUsager = await userUsagerRepository.findOne({
+        const userUsager = await userUsagerRepository.findOneBy({
           usagerUUID: usager.uuid,
         });
         if (!userUsager) {
