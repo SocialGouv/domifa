@@ -5,7 +5,7 @@ import {
 } from "../../../../_common/model";
 import { userStructureRepository } from "../userStructureRepository.service";
 import { userStructureSecurityEventHistoryManager } from "./userStructureSecurityEventHistoryManager.service";
-import { userStructureSecurityRepository } from "./userStructureSecurityRepository.service";
+import { UserStructureSecurityRepository } from "./UserStructureSecurityRepository.service";
 
 export const userStructureSecurityResetPasswordUpdater = {
   checkResetPasswordToken,
@@ -24,14 +24,9 @@ async function confirmResetPassword({
   user: UserStructureProfile;
   userSecurity: UserStructureSecurity;
 }> {
-  let userSecurity = await userStructureSecurityRepository.findOne(
-    {
-      userId,
-    },
-    {
-      throwErrorIfNotFound: true,
-    }
-  );
+  let userSecurity = await UserStructureSecurityRepository.findOneByOrFail({
+    userId,
+  });
   if (
     userStructureSecurityEventHistoryManager.isAccountLockedForOperation({
       operation: "reset-password-confirm",
@@ -47,7 +42,7 @@ async function confirmResetPassword({
     new Date(userSecurity.temporaryTokens.validity) < new Date()
   ) {
     // update event history
-    await userStructureSecurityRepository.logEvent({
+    await UserStructureSecurityRepository.logEvent({
       userId,
       userSecurity,
       eventType: "reset-password-error",
@@ -67,13 +62,22 @@ async function confirmResetPassword({
     }
   );
 
-  userSecurity = await userStructureSecurityRepository.logEvent({
+  await UserStructureSecurityRepository.logEvent({
     userId,
     userSecurity,
     eventType: "reset-password-success",
     clearAllEvents: true, // unlock account if locked
     attributes: {
       temporaryTokens: null,
+    },
+  });
+
+  userSecurity = await UserStructureSecurityRepository.findOne({
+    where: {
+      userId: user.id,
+    },
+    order: {
+      createdAt: "DESC",
     },
   });
 
@@ -90,14 +94,9 @@ async function checkResetPasswordToken({
   userId: number;
   token: string;
 }): Promise<void> {
-  const userSecurity = await userStructureSecurityRepository.findOne(
-    {
-      userId,
-    },
-    {
-      throwErrorIfNotFound: true,
-    }
-  );
+  const userSecurity = await UserStructureSecurityRepository.findOneByOrFail({
+    userId,
+  });
   if (
     userStructureSecurityEventHistoryManager.isAccountLockedForOperation({
       operation: "reset-password-confirm",
@@ -113,7 +112,7 @@ async function checkResetPasswordToken({
     new Date(userSecurity.temporaryTokens.validity) < new Date()
   ) {
     // update event history
-    await userStructureSecurityRepository.logEvent({
+    await UserStructureSecurityRepository.logEvent({
       userId,
       userSecurity,
       eventType: "reset-password-error",

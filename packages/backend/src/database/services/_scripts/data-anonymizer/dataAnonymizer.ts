@@ -1,4 +1,3 @@
-import { INestApplication } from "@nestjs/common";
 import { domifaConfig } from "../../../../config";
 import { appLogger } from "../../../../util";
 import { dataMessageEmailAnonymizer } from "./dataMessageEmailAnonymizer";
@@ -13,7 +12,7 @@ export const dataAnonymizer = {
   anonymize,
 };
 
-async function anonymize(app: INestApplication) {
+async function anonymize() {
   appLogger.debug(`[dataAnonymizer] UP`);
   const envId = domifaConfig().envId;
   if (envId === "dev" || envId === "preprod" || envId === "local") {
@@ -21,8 +20,8 @@ async function anonymize(app: INestApplication) {
     await dataMessageEmailAnonymizer.anonymizeEmail();
     await dataMessageSmsAnonymizer.anonymizeSms();
     await dataStructureAnonymizer.anonymizeStructures();
-    await dataUserStructureAnonymizer.anonymizeUsersStructure({ app });
-    await dataUserUsagerAnonymizer.anonymizeUsersUsager({ app });
+    await dataUserStructureAnonymizer.anonymizeUsersStructure();
+    await dataUserUsagerAnonymizer.anonymizeUsersUsager();
     await dataUsagerAnonymizer.anonymizeUsagers();
     // await dataUsagerHistoryAnonymizer.anonymizeUsagersHistory({ app });
   } else {

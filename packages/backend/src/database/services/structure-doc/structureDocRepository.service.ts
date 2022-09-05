@@ -1,11 +1,6 @@
-import { StructureDoc } from "../../../_common/model/structure-doc";
+import { myDataSource } from "./../_postgres/appTypeormManager.service";
+
 import { StructureDocTable } from "../../entities/structure-doc";
-import { pgRepository } from "../_postgres";
 
-const baseRepository = pgRepository.get<StructureDocTable, StructureDoc>(
-  StructureDocTable
-);
-
-export const structureDocRepository = {
-  ...baseRepository,
-};
+export const structureDocRepository =
+  myDataSource.getRepository(StructureDocTable);

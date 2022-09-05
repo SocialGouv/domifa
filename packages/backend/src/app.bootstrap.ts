@@ -9,7 +9,7 @@ import {
 } from "@nestjs/swagger";
 import * as compression from "compression";
 import { format } from "date-fns";
-import { Connection } from "typeorm";
+import { DataSource } from "typeorm";
 import { AppModule } from "./app.module";
 import { appHolder } from "./appHolder";
 import { domifaConfig } from "./config";
@@ -23,10 +23,10 @@ export async function tearDownApplication({
   postgresTypeormConnection,
 }: {
   app: INestApplication;
-  postgresTypeormConnection: Connection;
+  postgresTypeormConnection: DataSource;
 }) {
   await app.close();
-  await postgresTypeormConnection.close();
+  await postgresTypeormConnection.destroy();
 }
 
 export async function bootstrapApplication() {

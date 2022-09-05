@@ -381,6 +381,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
   if (config.dev.printEnv) {
     printEnv(x);
   }
+
   if (config.dev.printConfig) {
     // eslint:disable-next-line: no-console
     console.log(

@@ -9,7 +9,7 @@ import {
 } from "../../../../_common/model";
 import { userStructureRepository } from "../userStructureRepository.service";
 import { userStructureSecurityEventHistoryManager } from "./userStructureSecurityEventHistoryManager.service";
-import { userStructureSecurityRepository } from "./userStructureSecurityRepository.service";
+import { UserStructureSecurityRepository } from "./UserStructureSecurityRepository.service";
 
 export const userStructureSecurityResetPasswordInitiator = {
   buildResetPasswordLink,
@@ -45,14 +45,9 @@ async function generateResetPasswordToken({
     }
   );
 
-  let userSecurity = await userStructureSecurityRepository.findOne(
-    {
-      userId: user.id,
-    },
-    {
-      throwErrorIfNotFound: true,
-    }
-  );
+  let userSecurity = await UserStructureSecurityRepository.findOneByOrFail({
+    userId: user.id,
+  });
 
   if (
     userStructureSecurityEventHistoryManager.isAccountLockedForOperation({
@@ -67,12 +62,21 @@ async function generateResetPasswordToken({
     type: "reset-password",
   });
 
-  userSecurity = await userStructureSecurityRepository.logEvent({
+  await UserStructureSecurityRepository.logEvent({
     userId: user.id,
     userSecurity,
     eventType: "reset-password-request",
     attributes: {
       temporaryTokens,
+    },
+  });
+
+  userSecurity = await UserStructureSecurityRepository.findOne({
+    where: {
+      userId: user.id,
+    },
+    order: {
+      createdAt: "DESC",
     },
   });
 

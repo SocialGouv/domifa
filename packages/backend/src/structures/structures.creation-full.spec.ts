@@ -9,7 +9,7 @@ import { UsersController } from "../users/users.controller";
 import { UsersModule } from "../users/users.module";
 import { ExpressResponse } from "../util/express";
 import { AppTestContext, AppTestHelper } from "../util/test";
-import { UserStructure } from "../_common/model";
+
 import { AdminStructuresModule } from "../_portail-admin/admin-structures";
 import { AdminStructuresDeleteModule } from "../_portail-admin/admin-structures-delete";
 import { AdminStructuresDeleteController } from "../_portail-admin/admin-structures-delete/controllers/admin-structures-delete.controller";
@@ -159,23 +159,17 @@ describe("Stuctures creation full", () => {
       await structurePublicController.postStructure(structureWithUser);
     expect(structureId).toBeDefined();
     expect(userId).toBeDefined();
-    const structure = await structureRepository.findOne<UserStructure>(
-      {
-        id: structureId,
-      },
-      { select: "ALL" }
-    );
+    const structure = await structureRepository.typeorm.findOneBy({
+      id: structureId,
+    });
     expect(structure).toBeDefined();
     expect(structure.nom).toEqual(structureDto.nom);
     expect(structure.lastLogin).toBeNull();
     expect(structure.verified).toBeFalsy();
 
-    const user = await userStructureRepository.findOne<UserStructure>(
-      {
-        id: userId,
-      },
-      { select: "ALL" }
-    );
+    const user = await userStructureRepository.typeorm.findOneBy({
+      id: userId,
+    });
     expect(user).toBeDefined();
 
     expect(user.prenom).toEqual(userDto.prenom);

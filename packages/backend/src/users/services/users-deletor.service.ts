@@ -1,6 +1,6 @@
 import {
   userStructureRepository,
-  userStructureSecurityRepository,
+  UserStructureSecurityRepository,
 } from "../../database";
 
 const deleteUser = async ({
@@ -10,7 +10,7 @@ const deleteUser = async ({
   userId: number;
   structureId: number;
 }) => {
-  await userStructureSecurityRepository.deleteByCriteria({
+  await UserStructureSecurityRepository.delete({
     userId,
     structureId,
   });

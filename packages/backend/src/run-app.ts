@@ -67,7 +67,7 @@ async function runCronJobs(app) {
   }
 
   if (domifaConfig().cron.emailConsumer.autoRunOnStartup) {
-    await messageEmailConsummerTrigger.triggerNextSending("startup");
+    messageEmailConsummerTrigger.triggerNextSending("startup");
   }
 
   if (domifaConfig().cron.monitoringCleaner.autoRunOnStartup) {

@@ -1,7 +1,7 @@
-import { PgRepositoryFindOrder } from "./PgRepositoryFindOrder.type";
+import { FindOptionsOrder } from "typeorm";
 
 export type PgRepositoryFindOptions<T> = {
-  order?: PgRepositoryFindOrder<T>;
+  order?: FindOptionsOrder<T>;
   groupBy?: string;
   select?: (keyof T)[] | "ALL";
   maxResults?: number;

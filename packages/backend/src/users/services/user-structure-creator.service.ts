@@ -1,6 +1,6 @@
 import {
   userStructureRepository,
-  userStructureSecurityRepository,
+  UserStructureSecurityRepository,
   userStructureSecurityResetPasswordInitiator,
   UserStructureTable,
 } from "../../database";
@@ -41,7 +41,7 @@ async function createUserWithPassword(
     temporaryTokens: undefined,
   };
 
-  const userSecurity = await userStructureSecurityRepository.save(
+  const userSecurity = await UserStructureSecurityRepository.save(
     userSecurityAttributes
   );
   return { user, userSecurity };
@@ -69,7 +69,7 @@ async function createUserWithTmpToken(
     eventsHistory: [],
   };
 
-  const userSecurity = await userStructureSecurityRepository.save(
+  const userSecurity = await UserStructureSecurityRepository.save(
     userSecurityAttributes
   );
   return { user, userSecurity };

@@ -6,6 +6,7 @@ import {
   appTypeormManager,
   interactionRepository,
   InteractionsTable,
+  myDataSource,
   structureRepository,
   typeOrmSearch,
   usagerRepository,
@@ -31,8 +32,7 @@ export class AdminStructuresService {
   private interactionRepository: Repository<InteractionsTable>;
 
   constructor() {
-    this.interactionRepository =
-      appTypeormManager.getRepository(InteractionsTable);
+    this.interactionRepository = myDataSource.getRepository(InteractionsTable);
   }
 
   public async getStatsDomifaAdminDashboard(): Promise<AdminStructureStatsData> {
@@ -119,16 +119,17 @@ export class AdminStructuresService {
     }[]
   > {
     if (region) {
-      return structureRepository.countBy({
-        countBy: "structureType",
-        order: {
-          count: "DESC",
-          countBy: "ASC",
-        },
-        where: {
-          region,
-        },
-      });
+      // return structureRepository.countBy({
+      //   where: {
+      //     region,
+      //   },
+      //   //   {
+      //   // countBy: "structureType",
+      //   // order: {
+      //   //   count: "DESC",
+      //   //   countBy: "ASC",
+      //   // },
+      // });
     }
     return structureRepository.countBy({
       countBy: "structureType",
@@ -240,7 +241,6 @@ export class AdminStructuresService {
       countBy: `decision->>'statut'` as any,
       countByAlias: "statut",
       order: { count: "DESC", countBy: "ASC" },
-      escapeAttributes: false,
     }) as any;
   }
 
@@ -394,8 +394,10 @@ export class AdminStructuresService {
     {
       if (interactionType === "appel" || interactionType === "visite") {
         return this.interactionRepository.count({
-          type: interactionType,
-          event: "create",
+          where: {
+            type: interactionType,
+            event: "create",
+          },
         });
       }
       const whereCondition: Partial<InteractionsTable> = {

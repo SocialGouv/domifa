@@ -1,15 +1,12 @@
-import { Connection } from "typeorm";
 import { AppTestHelper } from "../../util/test";
 import { structureStatsInPeriodGenerator } from "./structureStatsInPeriodGenerator.service";
 
 describe("structureStatsInPeriodGenerator", () => {
-  let postgresTypeormConnection: Connection;
-
   beforeAll(async () => {
-    postgresTypeormConnection = await AppTestHelper.bootstrapTestConnection();
+    await AppTestHelper.bootstrapTestConnection();
   });
   afterAll(async () => {
-    await AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
+    await AppTestHelper.tearDownTestConnection();
   });
 
   it("buildStatsInPeriod", async () => {

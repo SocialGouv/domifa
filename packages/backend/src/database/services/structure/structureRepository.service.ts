@@ -1,5 +1,4 @@
 import { TimeZone } from "./../../../util/territoires/types/TimeZone.type";
-import { EntityManager } from "typeorm";
 
 import {
   Structure,
@@ -7,7 +6,7 @@ import {
   STRUCTURE_COMMON_ATTRIBUTES,
 } from "../../../_common/model";
 import { StructureTable } from "../../entities";
-import { pgRepository } from "../_postgres";
+import { appTypeormManager, pgRepository } from "../_postgres";
 
 const baseRepository = pgRepository.get<StructureTable, Structure>(
   StructureTable
@@ -15,11 +14,8 @@ const baseRepository = pgRepository.get<StructureTable, Structure>(
 
 export const structureRepository = {
   ...baseRepository,
-  getForMigration: (entityManager: EntityManager) =>
-    pgRepository.get<StructureTable, Structure>(StructureTable, {
-      entityManager,
-    }),
   checkHardResetToken,
+  typeorm: appTypeormManager.getRepository(StructureTable),
   getStructureWithSms,
   getStructureIdsWithSms,
 };

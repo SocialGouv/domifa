@@ -1,16 +1,14 @@
-import { Connection } from "typeorm";
 import { AppTestHelper } from "../../../../util/test";
-import { userStructureSecurityRepository } from "./userStructureSecurityRepository.service";
+import { UserStructureSecurityRepository } from "./UserStructureSecurityRepository.service";
+
 import { userStructureSecurityResetPasswordInitiator } from "./userStructureSecurityResetPasswordInitiator.service";
 
-describe("userStructureSecurityRepository", () => {
-  let postgresTypeormConnection: Connection;
-
+describe("UserStructureSecurityRepository", () => {
   beforeAll(async () => {
-    postgresTypeormConnection = await AppTestHelper.bootstrapTestConnection();
+    await AppTestHelper.bootstrapTestConnection();
   });
   afterAll(async () => {
-    await AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
+    await AppTestHelper.tearDownTestConnection();
   });
 
   it("findOneByTokenAttribute returns matching user", async () => {
@@ -22,7 +20,7 @@ describe("userStructureSecurityRepository", () => {
       );
 
     const userSecurity2 =
-      await userStructureSecurityRepository.findOneByTokenAttribute(
+      await UserStructureSecurityRepository.findOneByTokenAttribute(
         userSecurity.temporaryTokens.token
       );
     expect(userSecurity2).toBeDefined();

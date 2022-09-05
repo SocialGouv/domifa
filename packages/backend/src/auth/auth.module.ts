@@ -26,9 +26,6 @@ import { StructuresAuthController } from "./structures-auth.controller";
         },
       })
     ),
-    // forwardRef(() => UsersModule),
-    // forwardRef(() => StructuresModule),
-    // forwardRef(() => UsagersModule),
   ],
   providers: [
     JwtStrategy,

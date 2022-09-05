@@ -1,4 +1,4 @@
-import { userStructureRepository, userStructureSecurityRepository } from "..";
+import { userStructureRepository, UserStructureSecurityRepository } from "..";
 import { passwordGenerator } from "../../../../util/encoding/passwordGenerator.service";
 import { UserStructure } from "../../../../_common/model";
 import { userStructureSecurityEventHistoryManager } from "./userStructureSecurityEventHistoryManager.service";
@@ -16,14 +16,9 @@ async function updatePassword({
   oldPassword: string;
   newPassword: string;
 }): Promise<void> {
-  const userSecurity = await userStructureSecurityRepository.findOne(
-    {
-      userId,
-    },
-    {
-      throwErrorIfNotFound: true,
-    }
-  );
+  const userSecurity = await UserStructureSecurityRepository.findOneByOrFail({
+    userId,
+  });
 
   if (
     userStructureSecurityEventHistoryManager.isAccountLockedForOperation({
@@ -47,7 +42,7 @@ async function updatePassword({
     hash: user.password,
   });
   if (!isValidPass) {
-    await userStructureSecurityRepository.logEvent({
+    await UserStructureSecurityRepository.logEvent({
       userId,
       userSecurity,
       eventType: "change-password-error",
@@ -69,7 +64,7 @@ async function updatePassword({
       verified: true, // Suite à une création de compte, le mot de passe est réinitialisé, on valide le compte
     }
   );
-  await userStructureSecurityRepository.logEvent({
+  await UserStructureSecurityRepository.logEvent({
     userId,
     userSecurity,
     eventType: "change-password-success",

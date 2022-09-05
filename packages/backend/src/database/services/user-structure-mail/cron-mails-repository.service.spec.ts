@@ -1,16 +1,13 @@
-import { Connection } from "typeorm";
 import { AppTestHelper } from "../../../util/test";
 import { UserStructure } from "../../../_common/model";
 import { cronMailsRepository } from "./cron-mails-repository.service";
 
 describe("cronMailsRepository", () => {
-  let postgresTypeormConnection: Connection;
-
   beforeAll(async () => {
-    postgresTypeormConnection = await AppTestHelper.bootstrapTestConnection();
+    await AppTestHelper.bootstrapTestConnection();
   });
   afterAll(async () => {
-    await AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
+    await AppTestHelper.tearDownTestConnection();
   });
 
   it("findNextUserToSendCronMail returns next user to send guide mail", async () => {

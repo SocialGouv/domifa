@@ -1,21 +1,19 @@
 import { domifaConfig } from "./../../../config/domifaConfig.service";
 import moment = require("moment");
-import { EntityManager } from "typeorm";
-import { Usager } from "../../../_common/model";
+
 import { UsagerTable } from "../../entities";
 import {
   appTypeormManager,
   pgRepository,
   postgresQueryBuilder,
 } from "../_postgres";
-import { usagerCoreRepository } from "./services/usagerCoreRepository.service";
+
+import { Usager } from "../../../_common/model";
+
+const baseRepository = pgRepository.get<UsagerTable, Usager>(UsagerTable);
 
 export const usagerRepository = {
-  ...usagerCoreRepository,
-  getForMigration: (entityManager: EntityManager) =>
-    pgRepository.get<UsagerTable, Usager>(UsagerTable, {
-      entityManager,
-    }),
+  ...baseRepository,
   countAyantsDroits,
   countUsagersByMonth,
   countTotalUsagers,
@@ -96,7 +94,7 @@ function _advancedCount({
     query.where = `u.structureId IN(:...ids)`;
     query.params = { ids: structuresId };
   }
-  return usagerCoreRepository.aggregateAsNumber(query);
+  return usagerRepository.aggregateAsNumber(query);
 }
 
 async function countTotalUsagers(structuresId?: number[]): Promise<number> {
