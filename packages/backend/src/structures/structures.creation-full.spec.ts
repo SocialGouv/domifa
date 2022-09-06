@@ -207,9 +207,6 @@ describe("Stuctures creation full", () => {
       id: structureId,
     });
 
-    console.log(structure.token);
-    console.log(structure.id);
-
     expect(structure).toBeDefined();
     expect(structure.id).toEqual(structureId);
     expect(structure.token).toBeDefined();

@@ -50,7 +50,7 @@ describe("UsagersService", () => {
     expect(usagerTest).toBeDefined();
 
     // READ
-    const usager = await usagerRepository.findOne({
+    const usager = await usagerRepository.findOneBy({
       ref: usagerTest.ref,
       structureId: user.structureId,
     });
@@ -66,7 +66,7 @@ describe("UsagersService", () => {
         prenom: "Nouveau prénom",
       }
     );
-    const updatedUsager = await usagerRepository.findOne({
+    const updatedUsager = await usagerRepository.findOneBy({
       ref: usagerTest.ref,
       structureId: user.structureId,
     });

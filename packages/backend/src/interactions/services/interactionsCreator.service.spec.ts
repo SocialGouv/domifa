@@ -1,3 +1,6 @@
+import { Structure } from "./../../_common/model/structure/Structure.type";
+import { SmsModule } from "./../../sms/sms.module";
+import { messageSmsRepository } from "./../../database/services/message-sms/messageSmsRepository.service";
 import { addDays, differenceInHours, subDays } from "date-fns";
 import MockDate from "mockdate";
 
@@ -24,10 +27,9 @@ describe("interactionsCreator", () => {
   let context: AppTestContext;
 
   let interactionsDeletor: InteractionsDeletor;
-
   let user: UserStructure;
   let usager: Usager;
-  let structure;
+  let structure: Structure;
 
   const MOCKED_NEW_DATE = "2021-09-11T09:45:30.000Z";
   const MOCKED_LAST_INTERACTION_DATE = new Date("2020-11-21T14:11:28");
@@ -41,6 +43,7 @@ describe("interactionsCreator", () => {
         InteractionsModule,
         UsagersModule,
         UsersModule,
+        SmsModule,
         StructuresModule,
       ],
       providers: [InteractionsService],
@@ -86,6 +89,16 @@ describe("interactionsCreator", () => {
     // Reset de new Date()
     MockDate.reset();
 
+    user.structure.sms.enabledByDomifa = false;
+    user.structure.sms.enabledByStructure = false;
+
+    await structureRepository.update(
+      { id: user.structureId },
+      { sms: user.structure.sms }
+    );
+    await usagerRepository.update({}, { contactByPhone: false });
+
+    await messageSmsRepository.delete({ structureId: user.structureId });
     await AppTestHelper.tearDownTestApp(context);
   });
 
@@ -93,7 +106,7 @@ describe("interactionsCreator", () => {
     it("1. Réception de 15 courriers", async () => {
       //
       // Ajout d'une première interaction
-      const newusager = await usagerRepository.findOne({
+      const newusager = await usagerRepository.findOneBy({
         ref: 2,
         structureId: 1,
       });
@@ -363,7 +376,7 @@ describe("interactionsCreator", () => {
     it("Récupération d'un courrier en Guyanne (-4 heures)", async () => {
       user = await userStructureRepository.findOne({ id: 11 });
       user.structure = await structureRepository.findOneBy({ id: 5 });
-      usager = await usagerRepository.findOne({
+      usager = await usagerRepository.findOneBy({
         ref: 1,
         structureId: user.structure.id,
       });

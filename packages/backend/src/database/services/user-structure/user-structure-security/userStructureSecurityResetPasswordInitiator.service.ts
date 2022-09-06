@@ -9,7 +9,7 @@ import {
 } from "../../../../_common/model";
 import { userStructureRepository } from "../userStructureRepository.service";
 import { userStructureSecurityEventHistoryManager } from "./userStructureSecurityEventHistoryManager.service";
-import { UserStructureSecurityRepository } from "./UserStructureSecurityRepository.service";
+import { UserStructureSecurityRepository } from "./userStructureSecurityRepository.service";
 
 export const userStructureSecurityResetPasswordInitiator = {
   buildResetPasswordLink,

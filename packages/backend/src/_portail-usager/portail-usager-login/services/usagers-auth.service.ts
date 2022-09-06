@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { structureRepository } from "../../../database/services/structure/StructureRepository.service";
+import { structureRepository } from "../../../database";
+
 import { usagerRepository } from "../../../database/services/usager/usagerRepository.service";
 import { userUsagerRepository } from "../../../database/services/user-usager/userUsagerRepository.service";
 import { appLogger } from "../../../util";
@@ -57,7 +58,7 @@ export class UsagersAuthService {
   ): Promise<UserUsagerAuthenticated> {
     const user = await userUsagerRepository.findOneBy({ id: payload._userId });
 
-    const usager = await usagerRepository.findOne({ uuid: user.usagerUUID });
+    const usager = await usagerRepository.findOneBy({ uuid: user.usagerUUID });
 
     if (typeof user.structureId === "undefined") {
       appLogger.debug("[TRACK BUG] " + JSON.stringify(user));

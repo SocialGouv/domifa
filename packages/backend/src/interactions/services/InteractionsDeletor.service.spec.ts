@@ -42,7 +42,7 @@ describe("InteractionsDeletor", () => {
     interactionsService =
       context.module.get<InteractionsService>(InteractionsService);
     user = await userStructureRepository.findOne({ id: 1 });
-    usager = await usagerRepository.findOne({
+    usager = await usagerRepository.findOneBy({
       ref: 2,
       structureId: 1,
     });
@@ -61,7 +61,7 @@ describe("InteractionsDeletor", () => {
   });
 
   it("Réception, suppression et restauration de 5 colis", async () => {
-    const usagerBefore = await usagerRepository.findOne({
+    const usagerBefore = await usagerRepository.findOneBy({
       ref: 2,
       structureId: 1,
     });

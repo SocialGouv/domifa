@@ -146,10 +146,12 @@ export class MessageSmsService {
 
       smsReady.interactionMetas.date = new Date();
 
-      return messageSmsRepository.update(
+      await messageSmsRepository.update(
         { uuid: smsReady.uuid },
         { content, interactionMetas: smsReady.interactionMetas }
       );
+
+      return messageSmsRepository.findOneBy({ uuid: smsReady.uuid });
     } else {
       const content = generateSmsInteraction(
         interaction,
@@ -157,7 +159,6 @@ export class MessageSmsService {
       );
 
       const createdSms: MessageSms = {
-        // Infos sur l'usager
         usagerRef: usager.ref,
         structureId: structure.id,
         content,
@@ -174,7 +175,7 @@ export class MessageSmsService {
         },
       };
 
-      return messageSmsRepository.save(createdSms);
+      return await messageSmsRepository.save(createdSms);
     }
   }
 

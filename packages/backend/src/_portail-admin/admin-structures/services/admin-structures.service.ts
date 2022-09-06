@@ -119,17 +119,16 @@ export class AdminStructuresService {
     }[]
   > {
     if (region) {
-      // return structureRepository.countBy({
-      //   where: {
-      //     region,
-      //   },
-      //   //   {
-      //   // countBy: "structureType",
-      //   // order: {
-      //   //   count: "DESC",
-      //   //   countBy: "ASC",
-      //   // },
-      // });
+      return structureRepository.countBy({
+        countBy: "structureType",
+        order: {
+          count: "DESC",
+          countBy: "ASC",
+        },
+        where: {
+          region,
+        },
+      });
     }
     return structureRepository.countBy({
       countBy: "structureType",
@@ -141,12 +140,9 @@ export class AdminStructuresService {
   }
 
   public async getStructuresWithSms(): Promise<number> {
-    return structureRepository.count({
-      where: {
-        sms: {
-          enabledByStructure: true,
-        },
-      },
+    return await structureRepository.count({
+      where: `sms->>'enabledByStructure' = 'true'`,
+      logSql: true,
     });
   }
 

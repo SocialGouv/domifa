@@ -18,26 +18,23 @@ export const dataUsagerAnonymizer = {
 };
 
 async function anonymizeUsagers() {
-  const usagers = await usagerRepository.findMany(
-    {},
-    {
-      select: [
-        "uuid",
-        "ref",
-        "structureId",
-        "email",
-        "prenom",
-        "nom",
-        "surnom",
-        "dateNaissance",
-        "ayantsDroits",
-        "datePremiereDom",
-        "entretien",
-        "updatedAt",
-        "decision",
-      ],
-    }
-  );
+  const usagers = await usagerRepository.find({
+    select: [
+      "uuid",
+      "ref",
+      "structureId",
+      "email",
+      "prenom",
+      "nom",
+      "surnom",
+      "dateNaissance",
+      "ayantsDroits",
+      "datePremiereDom",
+      "entretien",
+      "updatedAt",
+      "decision",
+    ],
+  });
 
   const usagersToAnonymize = usagers.filter((x) => isUsagerToAnonymize(x));
 

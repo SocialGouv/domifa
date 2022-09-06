@@ -1,5 +1,5 @@
 import { AppTestHelper } from "../../../../util/test";
-import { UserStructureSecurityRepository } from "./UserStructureSecurityRepository.service";
+import { UserStructureSecurityRepository } from "./userStructureSecurityRepository.service";
 
 import { userStructureSecurityResetPasswordInitiator } from "./userStructureSecurityResetPasswordInitiator.service";
 

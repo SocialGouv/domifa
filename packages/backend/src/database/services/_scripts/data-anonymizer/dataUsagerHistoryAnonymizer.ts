@@ -1,4 +1,3 @@
-import { INestApplication } from "@nestjs/common";
 import { appLogger } from "../../../../util";
 import { UsagerHistory } from "../../../../_common/model";
 import { usagerHistoryRepository } from "../../usager/usagerHistoryRepository.service";
@@ -9,7 +8,7 @@ export const dataUsagerHistoryAnonymizer = {
   anonymizeUsagersHistory,
 };
 
-async function anonymizeUsagersHistory({ app }: { app: INestApplication }) {
+async function anonymizeUsagersHistory() {
   const usagersHistory = await usagerHistoryRepository.findMany(
     {},
     {
@@ -38,19 +37,14 @@ async function anonymizeUsagersHistory({ app }: { app: INestApplication }) {
         `[dataUsagerHistoryAnonymizer] ${i}/${usagersHistoryToAnonymize.length} usagersHistory anonymized`
       );
     }
-    await _anonymizeUsagerHistory(usagerHistory, { app });
+    await _anonymizeUsagerHistory(usagerHistory);
   }
 }
 function isUsagerToAnonymize(x: { structureId: number }): unknown {
   return dataStructureAnonymizer.isStructureToAnonymise({ id: x.structureId });
 }
 
-async function _anonymizeUsagerHistory(
-  usagerHistory: UsagerHistory,
-  { app }: { app: INestApplication }
-) {
-  // appLogger.debug(`[dataUsagerHistoryAnonymizer] check usagerHistory "${usagerHistory.ref}"`);
-
+async function _anonymizeUsagerHistory(usagerHistory: UsagerHistory) {
   const states = usagerHistory.states.map((s) => ({
     ...s,
     entretien: dataUsagerAnonymizer.anonymizeUsagerEntretien(s.entretien),

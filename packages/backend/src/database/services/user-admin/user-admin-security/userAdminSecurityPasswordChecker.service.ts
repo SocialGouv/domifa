@@ -1,9 +1,9 @@
-import { USER_ADMIN_WHERE } from "./../UserAdminRepository.service";
 import {
-  UserAdminRepository,
+  userAdminRepository,
   userStructureRepository,
   userStructureSecurityEventHistoryManager,
   UserStructureSecurityRepository,
+  USER_ADMIN_WHERE,
 } from "../..";
 import { passwordGenerator } from "../../../../util/encoding/passwordGenerator.service";
 import { PortailAdminUser } from "../../../../_common/model";
@@ -19,7 +19,7 @@ async function checkPassword({
   email: string;
   password: string;
 }): Promise<PortailAdminUser> {
-  const user: PortailAdminUser = await UserAdminRepository.findOneBy({
+  const user: PortailAdminUser = await userAdminRepository.findOneBy({
     email: email.toLowerCase(),
     ...USER_ADMIN_WHERE,
   });

@@ -4,9 +4,9 @@ import { AppTestHelper } from "../../../util/test";
 import { TESTS_USERS_ADMIN } from "../../../_tests";
 import { SECURITY_TESTS_NEST_MODULE } from "../../../_tests/SECURITY_TESTS_NEST_MODULE.const";
 import {
-  UserAdminRepository,
+  userAdminRepository,
   USER_ADMIN_WHERE,
-} from "./UserAdminRepository.service";
+} from "./userAdminRepository.service";
 
 describe("userAdminRepository", () => {
   let context: AppTestContext;
@@ -19,14 +19,14 @@ describe("userAdminRepository", () => {
   });
 
   it("count users", async () => {
-    const count = await UserAdminRepository.countBy(USER_ADMIN_WHERE);
+    const count = await userAdminRepository.countBy(USER_ADMIN_WHERE);
 
     // be sure the count is ok
     expect(count).toEqual(TESTS_USERS_ADMIN.ALL?.length);
   });
 
   it("findMany returns users count", async () => {
-    const results = await UserAdminRepository.findBy(USER_ADMIN_WHERE);
+    const results = await userAdminRepository.findBy(USER_ADMIN_WHERE);
     // be sure the count is ok
     expect(results.length).toEqual(TESTS_USERS_ADMIN.ALL?.length);
   });
