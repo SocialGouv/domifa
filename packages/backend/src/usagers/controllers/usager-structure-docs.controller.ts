@@ -23,7 +23,7 @@ import {
   StructureDoc,
   StructureDocTypesAvailable,
   UsagerLight,
-  UserStructure,
+  UserStructureAuthenticated,
 } from "../../_common/model";
 import {
   buildCustomDoc,
@@ -51,7 +51,7 @@ export class UsagerStructureDocsController {
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getStructureCustomDoc(
     @CurrentUsager() usager: UsagerLight,
-    @CurrentUser() user: UserStructure,
+    @CurrentUser() user: UserStructureAuthenticated,
     @Param("structureDocUuid") structureDocUuid: string,
     @Res() res: Response
   ) {
@@ -117,7 +117,7 @@ export class UsagerStructureDocsController {
     @Param("docType") docType: StructureDocTypesAvailable,
     @Body() extraUrlParametersFromClient: { [name: string]: string },
     @CurrentUsager() usager: UsagerLight,
-    @CurrentUser() user: UserStructure,
+    @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
     const availableTypes: StructureDocTypesAvailable[] = [
@@ -132,7 +132,7 @@ export class UsagerStructureDocsController {
     }
 
     // La structure a-t-elle uploadé son propre modèle ?
-    const doc: StructureDoc = await structureDocRepository.findOneBy({
+    const doc = await structureDocRepository.findOneBy({
       structureId: user.structureId,
       customDocType: docType,
     });

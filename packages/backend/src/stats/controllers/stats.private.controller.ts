@@ -44,8 +44,13 @@ export class StatsPrivateController {
     @Body() statsDto: StatsDto,
     @Res() res: Response
   ) {
+    const structureId =
+      user._userProfile === "super-admin-domifa"
+        ? statsDto.structureId
+        : user.structureId;
+
     const stats = await this.buildStatsInPeriod({
-      structureId: user.structureId,
+      structureId,
       ...statsDto,
     });
 

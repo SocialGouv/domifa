@@ -56,10 +56,10 @@ export class AdminStructuresService {
       await this.getInteractionsCountByTypeMap();
 
     const usagersDocumentsCount = await usagerDocsRepository.count();
+
     const usagersCountByStatutMap = await this.getUsagersCountByStatutMap();
     const usagersCountByLanguage = await this.getUsagersCountByLanguage();
     const structuresCountBySmsEnabled = await this.getStructuresWithSms();
-
     const structuresCount = await structureRepository.count();
 
     const stats: AdminStructureStatsData = {
@@ -162,22 +162,6 @@ export class AdminStructuresService {
     };
   }
 
-  public async getUsagersValideCountByStructure(): Promise<
-    {
-      structureId: number;
-      count: number;
-    }[]
-  > {
-    return usagerRepository.countBy({
-      countBy: "structureId",
-      where: typeOrmSearch<UsagerTable>(`decision->>'statut' = 'VALIDE'`),
-      order: {
-        count: "DESC",
-        countBy: "ASC",
-      },
-    });
-  }
-
   public async getUsersStructureCountByStructure(): Promise<
     {
       structureId: number;
@@ -192,6 +176,21 @@ export class AdminStructuresService {
       },
     });
   }
+  public async getUsagersValideCountByStructure(): Promise<
+    {
+      structureId: number;
+      count: number;
+    }[]
+  > {
+    return usagerRepository.customCountBy({
+      countBy: "structureId",
+      where: typeOrmSearch<UsagerTable>(`decision->>'statut' = 'VALIDE'`),
+      order: {
+        count: "DESC",
+        countBy: "ASC",
+      },
+    });
+  }
 
   public async getUsagersAllCountByStructure(): Promise<
     {
@@ -199,7 +198,7 @@ export class AdminStructuresService {
       count: number;
     }[]
   > {
-    return usagerRepository.countBy({
+    return usagerRepository.customCountBy({
       countBy: "structureId",
       where: typeOrmSearch<UsagerTable>("true"),
       order: {
@@ -240,6 +239,7 @@ export class AdminStructuresService {
       countBy: `decision->>'statut'` as any,
       countByAlias: "statut",
       order: { count: "DESC", countBy: "ASC" },
+      escapeAttributes: false,
     }) as any;
   }
 

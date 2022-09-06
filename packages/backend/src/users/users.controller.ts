@@ -96,7 +96,6 @@ export class UsersController {
   @UseGuards(CanGetUserStructureGuard)
   @Delete(":userId")
   public async delete(
-    @Param("userId") userId: number,
     @CurrentUser() userStructureAuth: UserStructureAuthenticated,
     @CurrentChosenUserStructure() chosenUserStructure: UserStructure,
     @Res() res: ExpressResponse

@@ -12,7 +12,6 @@ export class deleteOldPhonesMigration1660046910643
       domifaConfig().envId === "preprod" ||
       domifaConfig().envId === "local"
     ) {
-      return;
       await queryRunner.query(`ALTER TABLE "usager" DROP COLUMN "phone"`);
       await queryRunner.query(`ALTER TABLE "usager" DROP COLUMN "preference"`);
       await queryRunner.query(

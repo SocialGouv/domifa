@@ -8,6 +8,7 @@ import {
   LIEN_PARENTE_LABELS,
   MOTIFS_RADIATION_LABELS_MAP,
   MOTIFS_REFUS_LABELS_MAP,
+  UsagerDecisionStatut,
 } from "../../../../../_common/model";
 import {
   booleanOuiNon,
@@ -41,14 +42,14 @@ export const UsagersImportUsagerSchema = yup
       .min(yup.ref("$minDate"))
       .max(yup.ref("$today"))
       .when("statutDom", {
-        is: (statutDom) => statutDom === "VALIDE",
+        is: (statutDom: UsagerDecisionStatut) => statutDom === "VALIDE",
         then: dateUtcSchema().required(),
       }),
     dateFinDom: dateUtcSchema()
       .min(yup.ref("$minDate"))
       .max(yup.ref("$nextYear"))
       .when("statutDom", {
-        is: (statutDom) => statutDom === "VALIDE",
+        is: (statutDom: UsagerDecisionStatut) => statutDom === "VALIDE",
         then: dateUtcSchema()
           .min(yup.ref("dateDebutDom"))
           .max(yup.ref("$nextYear"))

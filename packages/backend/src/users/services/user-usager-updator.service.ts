@@ -22,7 +22,7 @@ async function enableUser({
   usagerUUID: string;
   generateNewPassword: boolean;
 }): Promise<{ userUsager: UserUsager; temporaryPassword: string }> {
-  let temporaryPassword: string;
+  let temporaryPassword = "";
   const attributes: Partial<UserUsager> = {
     enabled: true,
   };
@@ -44,9 +44,10 @@ async function enableUser({
     },
     attributes
   );
-  const userUsager = await userUsagerRepository.findOneBy({
+
+  const updatedUser = await userUsagerRepository.findOneByOrFail({
     usagerUUID,
   });
 
-  return { userUsager, temporaryPassword };
+  return { userUsager: updatedUser, temporaryPassword };
 }

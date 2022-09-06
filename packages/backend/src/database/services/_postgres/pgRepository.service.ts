@@ -146,7 +146,6 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     }
   }
 
-  // TODO: remplacer par le CountBy de typeorm
   async function countBy<CountBy extends keyof T>({
     alias = "s",
     where,
@@ -158,6 +157,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
       count: "ASC",
       countBy: "ASC",
     },
+    escapeAttributes = true,
     nullLabel,
     logSql,
   }: {
@@ -171,6 +171,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
       count?: "ASC" | "DESC";
       countBy?: "ASC" | "DESC";
     };
+    escapeAttributes?: boolean;
     nullLabel?: string;
     logSql?: boolean;
   }): Promise<
@@ -181,22 +182,22 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     const typeormRepository = await typeorm();
     let qb = typeormRepository
       .createQueryBuilder(alias)
-      .select(`COUNT(${escapeAttr(countAttribute)})`, "count")
-      .addSelect(`${escapeAttr(countBy)}`, countByAlias)
-      .groupBy(`${alias}.${escapeAttr(countBy)}`);
+      .select(`COUNT(${escapeAttr(countAttribute, escapeAttributes)})`, "count")
+      .addSelect(`${escapeAttr(countBy, escapeAttributes)}`, countByAlias)
+      .groupBy(`${alias}.${escapeAttr(countBy, escapeAttributes)}`);
 
     if (where) {
       qb = qb.where(where, params);
     }
-
     if (order) {
-      Object.keys(order).forEach((key) => {
+      const orderBy = Object.keys(order).reduce((acc, key) => {
         // replace "countBy" by countBy name
-        qb = qb.addOrderBy(
-          key === "count" ? key : `${escapeAttr(countBy)}`,
-          order[key]
-        );
-      });
+        acc[
+          key === "count" ? key : `${escapeAttr(countBy, escapeAttributes)}`
+        ] = order[key];
+        return acc;
+      }, {} as any);
+      qb = qb.orderBy(orderBy);
     }
 
     if (logSql) {
@@ -274,6 +275,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     if (res.length > 0) {
       return res[0];
     }
+    return undefined;
   }
 
   async function findOne<R = DEFAULT_RESULT>(
@@ -430,6 +432,9 @@ function printQueryError<T>(qb: SelectQueryBuilder<T>): void {
   );
 }
 
-function escapeAttr(value: any): string {
-  return `"${value}"`;
+function escapeAttr(value: any, enabled = true): string {
+  if (enabled) {
+    return `"${value}"`;
+  }
+  return value;
 }

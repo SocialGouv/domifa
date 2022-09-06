@@ -1,3 +1,4 @@
+import { UsagerDecisionMotif } from "./../../_common/model/usager/UsagerDecisionMotif.type";
 import {
   MOTIFS_RADIATION_LABELS,
   MOTIFS_REFUS_LABELS,
@@ -19,8 +20,10 @@ export const generateMotifLabel = (decision: UsagerDecision): string => {
     } else {
       motif =
         decision.statut === "REFUS"
-          ? MOTIFS_REFUS_LABELS[decision.motif]
-          : (MOTIFS_RADIATION_LABELS[decision.motif] as any);
+          ? MOTIFS_REFUS_LABELS[decision.motif as UsagerDecisionMotif]
+          : (MOTIFS_RADIATION_LABELS[
+              decision.motif as UsagerDecisionMotif
+            ] as any);
     }
   }
 

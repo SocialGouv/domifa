@@ -4,7 +4,7 @@ import { AppTestAuthProfile } from "./AppTestAuthProfile.type";
 
 export type AppTestContext = {
   module: TestingModule;
-  app?: INestApplication;
+  app: INestApplication;
   authToken?: string;
   user?: AppTestAuthProfile; // pour l'instant, seulement utilisé pour les tests http
 };

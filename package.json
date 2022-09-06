@@ -22,6 +22,7 @@
       "packages/*"
     ],
     "nohoist": [
+      "**/typeorm",
       "**/bootstrap",
       "**/@angular/*",
       "**/@angular/*/**",

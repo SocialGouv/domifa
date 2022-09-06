@@ -1,8 +1,9 @@
 import { ETAPE_DOSSIER_COMPLET, UsagerLight } from "../model";
-
+import { v4 as uuidv4 } from "uuid";
 export const usagerRefusMock: UsagerLight = {
   notes: [],
   decision: {
+    uuid: uuidv4(),
     orientationDetails: null,
     statut: "REFUS",
     dateDebut: new Date("2020-02-12T00:00:00.000Z"),
@@ -65,6 +66,7 @@ export const usagerRefusMock: UsagerLight = {
   etapeDemande: ETAPE_DOSSIER_COMPLET,
   historique: [
     {
+      uuid: uuidv4(),
       dateDebut: new Date("2020-12-01T10:00:24.980Z"),
       dateDecision: new Date("2020-12-01T10:00:24.980Z"),
       dateFin: new Date("2020-12-01T10:00:24.980Z"),

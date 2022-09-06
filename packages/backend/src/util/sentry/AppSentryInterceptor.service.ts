@@ -58,25 +58,29 @@ export class AppSentryInterceptor implements NestInterceptor {
   }
 }
 
-function parseRequest(context: ExecutionContext) {
+function parseRequest(context: ExecutionContext): {
+  req: any;
+  user: UserStructureAuthenticated;
+} {
   const httpContext = context.switchToHttp();
   const expressRequest: CrossPlatformRequest = httpContext.getRequest();
-  if (expressRequest) {
-    const data = addRequestDataToEvent({}, expressRequest, {
-      include: {
-        request: true,
-        user: false,
-      },
-    });
-
-    const req = data.request;
-    const user = expressRequest.user as UserStructureAuthenticated;
-
-    return {
-      req,
-      user,
-    };
+  if (!expressRequest) {
+    return null;
   }
+  const data = addRequestDataToEvent({}, expressRequest, {
+    include: {
+      request: true,
+      user: false,
+    },
+  });
+
+  const req = data.request;
+  const user = expressRequest.user as UserStructureAuthenticated;
+
+  return {
+    req,
+    user,
+  };
 }
 
 function logSentryRequest(req: CrossPlatformRequest): Record<string, any> {

@@ -25,10 +25,10 @@ export class UsagerTable
 {
   @Index()
   @Column({ type: "integer" }) // unique par structure
-  public ref: number;
+  public ref!: number;
 
   @Column({ type: "text", nullable: true })
-  public customRef: string;
+  public customRef!: string;
 
   @Index()
   @ManyToOne(() => StructureTable, (structure) => structure.id, {
@@ -36,26 +36,26 @@ export class UsagerTable
   })
   @Column({ type: "integer", nullable: false })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
-  public structureId: number;
+  public structureId!: number;
 
   // ETAT-CIVIL
   @Column({ type: "text", nullable: false })
-  public nom: string;
+  public nom!: string;
 
   @Column({ type: "text", nullable: false })
-  public prenom: string;
+  public prenom!: string;
 
   @Column({ type: "text", nullable: true })
-  public surnom: string;
+  public surnom!: string;
 
   @Column({ type: "text", nullable: false })
-  public sexe: UsagerSexe;
+  public sexe!: UsagerSexe;
 
   @Column({ type: "timestamptz", nullable: false })
-  public dateNaissance: Date;
+  public dateNaissance!: Date;
 
   @Column({ type: "text" })
-  public villeNaissance: string;
+  public villeNaissance!: string;
 
   @Column({ type: "text", nullable: true })
   public langue!: string | null;
@@ -63,37 +63,37 @@ export class UsagerTable
   //
   // INFORMATIONS DE CONTACT
   @Column({ type: "text", nullable: true })
-  public email: string | null;
+  public email!: string | null;
 
   @Column({
     type: "jsonb",
     nullable: true,
     default: () => `'{"countryCode": "fr", "numero": ""}'`,
   })
-  public telephone: Telephone;
+  public telephone!: Telephone;
 
   @Column({ type: "boolean", nullable: true, default: false })
-  public contactByPhone: boolean;
+  public contactByPhone!: boolean;
 
   @Column({ type: "timestamptz", nullable: true })
-  public datePremiereDom: Date;
+  public datePremiereDom!: Date | null;
 
   @Column({ type: "text", nullable: true, default: "PREMIERE_DOM" })
-  public typeDom: UsagerTypeDom;
+  public typeDom!: UsagerTypeDom;
 
   @Column({ type: "jsonb", nullable: true, default: null })
-  public import: UsagerImport;
+  public import!: UsagerImport;
 
   @Column({ type: "jsonb" })
-  public decision: UsagerDecision;
+  public decision!: UsagerDecision;
 
   @Column({ type: "jsonb" })
-  public historique: UsagerDecision[];
+  public historique!: UsagerDecision[];
 
   //
   // AYANTS DROITS
   @Column({ type: "jsonb", nullable: true })
-  public ayantsDroits: UsagerAyantDroit[];
+  public ayantsDroits!: UsagerAyantDroit[];
 
   //
   // INTERACTIONS
@@ -110,7 +110,7 @@ export class UsagerTable
   public etapeDemande!: number;
 
   @Column({ type: "jsonb", nullable: true })
-  public rdv!: UsagerRdv;
+  public rdv!: UsagerRdv | null;
 
   @Column({ type: "jsonb", default: () => "'[]'" })
   public notes!: UsagerNote[];
@@ -132,7 +132,7 @@ export class UsagerTable
   public options!: UsagerOptions;
 
   @Column({ type: "boolean", default: false })
-  public migrated: boolean;
+  public migrated!: boolean;
 
   public constructor(entity?: Partial<UsagerTable>) {
     super(entity);

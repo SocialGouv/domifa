@@ -1,16 +1,18 @@
+import { InteractionType } from "./../../../_common/model/interaction/InteractionType.type";
 import { InteractionDto } from "../../../interactions/dto";
 
 export function generateSmsInteraction(
   interaction: InteractionDto,
   senderDetails: string
 ): string {
-  const interactionLabels = {
+  const interactionLabels: {
+    [key in InteractionType]?: string;
+  } = {
     colisIn: "colis",
     courrierIn: "courrier",
     recommandeIn: "avis de passage",
   };
 
-  //
   const interactionValue = interactionLabels[interaction.type];
 
   let newInteractionsLabel = "";
