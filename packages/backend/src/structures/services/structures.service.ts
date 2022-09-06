@@ -10,13 +10,8 @@ import {
 } from "../../_common/model";
 import { departementHelper } from "./departement-helper.service";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
-import { StructureDto } from "../dto";
+import { CodePostalDto, StructureDto } from "../dto";
 import { DEPARTEMENTS_MAP } from "../../util/territoires";
-
-export interface StructureQuery {
-  codePostal?: string;
-  verified: boolean;
-}
 
 @Injectable()
 export class StructuresService {
@@ -71,16 +66,20 @@ export class StructuresService {
     return structure;
   }
 
-  public async findAllLight(codePostal?: string): Promise<StructureLight[]> {
-    const params: StructureQuery = {
-      verified: true,
-    };
-
-    if (codePostal) {
-      params.codePostal = codePostal;
-    }
-
-    return structureLightRepository.find({ where: params, take: 100 });
+  public async findAllLight(dto: CodePostalDto): Promise<StructureLight[]> {
+    return structureLightRepository.find({
+      where: {
+        verified: true,
+        codePostal: dto.codePostal,
+      },
+      select: {
+        nom: true,
+        adresse: true,
+        codePostal: true,
+        ville: true,
+      },
+      take: 40,
+    });
   }
 
   public async findStructuresInRegion(regionId?: string): Promise<number[]> {
@@ -89,8 +88,6 @@ export class StructuresService {
       select: { id: true },
     });
 
-    return structures.map((structure: Structure) => {
-      return structure.id;
-    });
+    return structures.map((structure: Structure) => structure.id);
   }
 }

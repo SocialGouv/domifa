@@ -23,6 +23,7 @@ async function findSmsOnHold({
   structureId: number;
   interactionType: InteractionType;
 }): Promise<MessageSms> {
+  // TODO: check
   return messageSmsRepository.query(
     `"interactionMetas"->>'interactionType' = :interactionType and
     status='TO_SEND' and

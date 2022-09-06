@@ -1,5 +1,9 @@
 import { HttpStatus } from "@nestjs/common";
-import { structureRepository, userStructureRepository } from "../database";
+import {
+  newUserStructureRepository,
+  structureRepository,
+  userStructureRepository,
+} from "../database";
 import { InteractionsModule } from "../interactions/interactions.module";
 import { MailsModule } from "../mails/mails.module";
 import { StatsModule } from "../stats/stats.module";
@@ -167,7 +171,7 @@ describe("Stuctures creation full", () => {
     expect(structure.lastLogin).toBeNull();
     expect(structure.verified).toBeFalsy();
 
-    const user = await userStructureRepository.typeorm.findOneBy({
+    const user = await newUserStructureRepository.findOneBy({
       id: userId,
     });
     expect(user).toBeDefined();
@@ -202,6 +206,10 @@ describe("Stuctures creation full", () => {
     const structure = await structureRepository.findOneBy({
       id: structureId,
     });
+
+    console.log(structure.token);
+    console.log(structure.id);
+
     expect(structure).toBeDefined();
     expect(structure.id).toEqual(structureId);
     expect(structure.token).toBeDefined();

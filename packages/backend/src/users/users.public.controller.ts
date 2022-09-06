@@ -9,7 +9,7 @@ import {
 } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import {
-  userStructureRepository,
+  newUserStructureRepository,
   userStructureSecurityResetPasswordInitiator,
   userStructureSecurityResetPasswordUpdater,
 } from "../database";
@@ -26,13 +26,16 @@ export class UsersPublicController {
     @Body() emailDto: EmailDto,
     @Res() res: ExpressResponse
   ) {
-    const existUser = await userStructureRepository.findOne({
-      email: emailDto.email.toLowerCase(),
+    const existUser = await newUserStructureRepository.findOne({
+      where: {
+        email: emailDto.email.toLowerCase(),
+      },
+      select: {
+        email: true,
+      },
     });
 
-    const emailExist = existUser !== undefined;
-
-    return res.status(HttpStatus.OK).json(emailExist);
+    return res.status(HttpStatus.OK).json(!!existUser);
   }
 
   @Get("check-password-token/:userId/:token")

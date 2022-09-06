@@ -7,6 +7,7 @@ import {
 } from "@angular/forms";
 
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
+
 import { validateUpload } from "../../../../shared/upload-validator";
 import { StructureDocService } from "../../services/structure-doc.service";
 
@@ -98,19 +99,15 @@ export class StructuresUploadDocsComponent implements OnInit {
     this.loading = true;
 
     this.structureDocService.upload(formData).subscribe({
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      next: (uploadResponse: any) => {
-        if (uploadResponse.success !== undefined && uploadResponse.success) {
-          this.toastService.success("Fichier uploadé avec succès");
-          setTimeout(() => {
-            this.loading = false;
-            this.submitted = false;
-            this.uploadForm.reset();
-
-            this.cancel.emit();
-            this.getAllStructureDocs.emit();
-          }, 1000);
-        }
+      next: () => {
+        this.toastService.success("Fichier uploadé avec succès");
+        setTimeout(() => {
+          this.loading = false;
+          this.submitted = false;
+          this.uploadForm.reset();
+          this.cancel.emit();
+          this.getAllStructureDocs.emit();
+        }, 500);
       },
       error: () => {
         this.toastService.error("Impossible d'uploader le fichier");

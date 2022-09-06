@@ -3,6 +3,7 @@ import { monitoringBatchProcessRepository, UserStructureTable } from "../../..";
 import { domifaConfig } from "../../../../config";
 import { appLogger } from "../../../../util";
 import {
+  newUserStructureRepository,
   userStructureRepository,
   UserStructureSecurityRepository,
 } from "../../user-structure";
@@ -40,7 +41,7 @@ async function anonymizeUsersStructure() {
     : "";
 
   appLogger.warn(`[ANON] [userStructure] reset passwords`);
-  await userStructureRepository.typeorm
+  await newUserStructureRepository
     .createQueryBuilder("structures")
     .update()
     .set({ password })

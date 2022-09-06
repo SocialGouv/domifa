@@ -14,9 +14,15 @@ async function checkPassword({
   email: string;
   password: string;
 }): Promise<UserStructure> {
-  const user: UserStructure = await userStructureRepository.findOne({
-    email: email.toLowerCase(),
-  });
+  const user: UserStructure = await userStructureRepository.findOne(
+    {
+      email: email.toLowerCase(),
+    },
+    {
+      throwErrorIfNotFound: true,
+      select: "ALL",
+    }
+  );
 
   const userSecurity = await UserStructureSecurityRepository.findOneBy({
     userId: user.id,

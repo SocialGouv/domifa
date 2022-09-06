@@ -327,6 +327,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
       search as unknown as FindOptionsWhere<T>,
       data as unknown as QueryDeepPartialEntity<T>
     );
+
     return findOne<R>(search, options);
   }
 

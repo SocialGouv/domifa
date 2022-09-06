@@ -100,6 +100,7 @@ export class RegisterUserAdminComponent implements OnInit {
     return testEmail
       ? this.userService.validateEmail(control.value).pipe(
           map((res: boolean) => {
+            console.log(res);
             return res === false ? null : { emailTaken: true };
           })
         )
