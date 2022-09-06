@@ -228,19 +228,17 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
         1
       );
     }
-    this.statsService
-      .getStats(this.me.structureId, this.start, this.end)
-      .subscribe({
-        next: (statsResult: StructureStatsFull) => {
-          this.stats = statsResult;
-          this.loading = false;
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error(
-            "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
-          );
-        },
-      });
+    this.statsService.getStats(this.start, this.end).subscribe({
+      next: (statsResult: StructureStatsFull) => {
+        this.stats = statsResult;
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+        this.toastService.error(
+          "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+        );
+      },
+    });
   }
 }

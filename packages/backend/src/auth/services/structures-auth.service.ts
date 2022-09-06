@@ -1,10 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { differenceInDays } from "date-fns";
-import {
-  structureCommonRepository,
-  userStructureRepository,
-} from "../../database";
+import { structureRepository, userStructureRepository } from "../../database";
 import { appLogger } from "../../util";
 import {
   CURRENT_JWT_PAYLOAD_VERSION,
@@ -73,7 +70,7 @@ export class StructuresAuthService {
 
     if (differenceInDays(authStructureLastLogin, new Date()) > 0) {
       // update structure & user last login date
-      await structureCommonRepository.updateOne(
+      await structureRepository.update(
         { id: authUser.structureId },
         { lastLogin: new Date() }
       );
@@ -116,7 +113,7 @@ export class StructuresAuthService {
       appLogger.debug("[TRACK BUG] " + JSON.stringify(user));
     }
 
-    const structure: StructureCommon = await structureCommonRepository.findOne({
+    const structure: StructureCommon = await structureRepository.findOneBy({
       id: user.structureId,
     });
 

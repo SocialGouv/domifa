@@ -57,7 +57,7 @@ export class StructuresService {
   }
 
   public async findOne(structureId: number): Promise<StructureCommon> {
-    const structure = await structureCommonRepository.findOne({
+    const structure = await structureRepository.findOneBy({
       id: structureId,
     });
     if (!structure) {
