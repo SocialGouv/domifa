@@ -53,7 +53,7 @@ export class StructuresSearchComponent implements OnInit {
     });
   }
 
-  public submitCodePostal() {
+  public submitCodePostal(): void {
     if (this.codePostalForm.invalid) {
       this.toastService.error(
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"

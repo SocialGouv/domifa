@@ -46,7 +46,7 @@ describe("InteractionsDeletor", () => {
       ref: 2,
       structureId: 1,
     });
-    structure = await structureRepository.findOne({
+    structure = await structureRepository.findOneBy({
       id: 1,
     });
   });
@@ -66,7 +66,7 @@ describe("InteractionsDeletor", () => {
       structureId: 1,
     });
 
-    user.structure = await structureRepository.findOne({ id: 5 });
+    user.structure = await structureRepository.findOneBy({ id: 5 });
 
     const interaction1 = new InteractionDto();
     interaction1.type = "colisIn";

@@ -1,3 +1,4 @@
+import { myDataSource } from "..";
 import { In } from "typeorm";
 import {
   UserStructure,
@@ -5,7 +6,7 @@ import {
   UserStructureRole,
 } from "../../../_common/model";
 import { UserStructureTable } from "../../entities";
-import { appTypeormManager, pgRepository, typeOrmSearch } from "../_postgres";
+import { pgRepository, typeOrmSearch } from "../_postgres";
 
 export const USERS_USER_PROFILE_ATTRIBUTES: (keyof UserStructureTable)[] = [
   "id",
@@ -16,12 +17,6 @@ export const USERS_USER_PROFILE_ATTRIBUTES: (keyof UserStructureTable)[] = [
   "structureId",
   "fonction",
   "role",
-];
-
-export const USERS_ADMIN_EMAILS_ATTRIBUTES: (keyof UserStructureTable)[] = [
-  "email",
-  "nom",
-  "prenom",
 ];
 
 export type AppUserForAdminEmail = Pick<
@@ -36,20 +31,25 @@ const baseRepository = pgRepository.get<
   defaultSelect: USERS_USER_PROFILE_ATTRIBUTES,
 });
 
+// Nouveau modèle de repository, les fonctions seront migrés une par une au fur & à mesure
+export const newUserStructureRepository = myDataSource
+  .getRepository(UserStructureTable)
+  .extend({
+    findVerifiedStructureUsersByRoles,
+    countUsersByRegionId,
+  });
+
 export const userStructureRepository = {
   ...baseRepository,
-  typeorm: appTypeormManager.getRepository(UserStructureTable),
-  findVerifiedStructureUsersByRoles,
-  countUsersByRegionId,
 };
 
-function findVerifiedStructureUsersByRoles({
+async function findVerifiedStructureUsersByRoles({
   structureId,
   roles,
 }: Pick<UserStructureTable, "structureId"> & {
   roles: UserStructureRole[];
 }): Promise<UserStructureProfile[]> {
-  return baseRepository.findMany(
+  return await myDataSource.getRepository(UserStructureTable).findBy(
     typeOrmSearch<UserStructureProfile>({
       structureId,
       verified: true,
@@ -65,7 +65,7 @@ async function countUsersByRegionId({
 }): Promise<number> {
   const query = `SELECT count(*) AS "count" FROM "public"."user_structure" LEFT JOIN "structure" ON "user_structure"."structureId" = "structure"."id" WHERE "structure"."region" = '${regionId}'`;
 
-  const results = await appTypeormManager
+  const results = await myDataSource
     .getRepository(UserStructureTable)
     .query(query);
 

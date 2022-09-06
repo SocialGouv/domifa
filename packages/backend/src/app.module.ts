@@ -25,15 +25,15 @@ import { ContactSupportModule } from "./modules/contact-support/contact-support.
   exports: [],
   imports: [
     ApmModule.register(),
-    SentryModule.forRoot({
-      debug: domifaConfig().dev.sentry.debugModeEnabled,
-      dsn: domifaConfig().dev.sentry.sentryDsn,
-      environment: domifaConfig().envId,
-      logLevels: domifaConfig().dev.sentry.debugModeEnabled
-        ? ["log", "error", "warn", "debug", "verbose"] // Verbose,
-        : ["log", "error", "warn", "debug"],
-      release: "domifa@" + domifaConfig().version, // default
-    }),
+    // SentryModule.forRoot({
+    //   debug: domifaConfig().dev.sentry.debugModeEnabled,
+    //   dsn: domifaConfig().dev.sentry.sentryDsn,
+    //   environment: domifaConfig().envId,
+    //   logLevels: domifaConfig().dev.sentry.debugModeEnabled
+    //     ? ["log", "error", "warn", "debug", "verbose"] // Verbose,
+    //     : ["log", "error", "warn", "debug"],
+    //   release: "domifa@" + domifaConfig().version, // default
+    // }),
     AuthModule,
     ScheduleModule.forRoot(),
     TerminusModule,

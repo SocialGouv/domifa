@@ -122,8 +122,6 @@ async function countInteractions({
       })
       .getRawOne();
 
-    console.log(sum);
-
-    return sum;
+    return sum ? parseInt(sum, 10) : 0;
   }
 }

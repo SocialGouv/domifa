@@ -5,11 +5,6 @@ import { appTypeormManager } from "../../database";
 import { StructureDocTable } from "../../database/entities/structure-doc";
 import { StructureDoc } from "../../_common/model/structure-doc";
 
-export interface StructureQuery {
-  codePostal?: string;
-  verified: boolean;
-}
-
 @Injectable()
 export class StructureDocService {
   private structureDocRepository: Repository<StructureDocTable>;

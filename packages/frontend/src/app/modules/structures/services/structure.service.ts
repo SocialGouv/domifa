@@ -35,7 +35,7 @@ export class StructureService {
   }
 
   public find(codePostal: string): Observable<StructureCommon[]> {
-    return this.http.get(`${this.endPoint}/code-postal/${codePostal}`).pipe(
+    return this.http.post(`${this.endPoint}/code-postal`, { codePostal }).pipe(
       map((response) => {
         return Array.isArray(response)
           ? response.map((item) => new StructureCommonWeb(item))

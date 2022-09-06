@@ -2,10 +2,10 @@ import { DEPARTEMENTS_MAP } from "./../../util/territoires/constants/REGIONS_DEP
 import { HttpException, HttpStatus } from "@nestjs/common";
 import * as crypto from "crypto";
 import {
+  newUserStructureRepository,
   structureCommonRepository,
   structureRepository,
   StructureTable,
-  userStructureRepository,
 } from "../../database";
 import { newStructureEmailSender } from "../../mails/services/templates-renderers";
 import { UserDto } from "../../users/dto/user.dto";
@@ -43,7 +43,7 @@ async function createStructureWithAdminUser(
   structureDto: StructureDto,
   userDto: UserDto
 ): Promise<{ structureId: number; userId: number }> {
-  const existingUser = await userStructureRepository.findOne({
+  const existingUser = await newUserStructureRepository.findOneBy({
     email: userDto.email,
   });
 
@@ -79,10 +79,11 @@ async function checkCreationToken({
   structureId: number;
   token: string;
 }): Promise<StructureCommon> {
-  return structureCommonRepository.updateOne(
+  await structureCommonRepository.updateOne(
     { id: structureId, token },
     { token: "", verified: true }
   );
+  return structureCommonRepository.findOne({ id: structureId });
 }
 
 async function createStructure(structureDto: StructureDto) {

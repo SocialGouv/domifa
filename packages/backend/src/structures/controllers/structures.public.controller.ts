@@ -1,12 +1,5 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpStatus,
-  Param,
-  Post,
-  Res,
-} from "@nestjs/common";
+import { CodePostalDto } from "./../dto/code-postal.dto";
+import { Body, Controller, HttpStatus, Post, Res } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { structureLightRepository } from "../../database/services/structure/structureLightRepository.service";
 import { EmailDto } from "../../users/dto/email.dto";
@@ -46,11 +39,12 @@ export class StructuresPublicController {
     const exist = await structureLightRepository.findOneBy({
       email: emailDto.email.toLowerCase(),
     });
+
     return res.status(HttpStatus.OK).json(!!exist);
   }
 
-  @Get("code-postal/:codePostal")
-  public async getByCity(@Param("codePostal") codePostal: string) {
-    return this.structureService.findAllLight(codePostal);
+  @Post("code-postal")
+  public async getByCity(@Body() codePostalDto: CodePostalDto) {
+    return this.structureService.findAllLight(codePostalDto);
   }
 }

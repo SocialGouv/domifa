@@ -1,6 +1,9 @@
 import { AppTestHelper } from "../../../util/test";
 import { TESTS_USERS_STRUCTURE } from "../../../_tests";
-import { userStructureRepository } from "./userStructureRepository.service";
+import {
+  newUserStructureRepository,
+  userStructureRepository,
+} from "./userStructureRepository.service";
 
 describe("userStructureRepository", () => {
   beforeAll(async () => {
@@ -38,7 +41,7 @@ describe("userStructureRepository", () => {
   });
   it("findVerifiedStructureUsersByRoles returns matching users", async () => {
     const users =
-      await userStructureRepository.findVerifiedStructureUsersByRoles({
+      await newUserStructureRepository.findVerifiedStructureUsersByRoles({
         structureId: 1,
         roles: ["admin", "simple", "responsable"],
       });

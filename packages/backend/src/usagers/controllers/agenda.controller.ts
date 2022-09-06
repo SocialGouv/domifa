@@ -19,6 +19,7 @@ import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
 import {
   MessageEmailIcalEvent,
+  newUserStructureRepository,
   usagerLightRepository,
   userStructureRepository,
 } from "../../database";
@@ -45,7 +46,7 @@ export class AgendaController {
   public getAllUsersForAgenda(
     @CurrentUser() currentUser: UserStructureAuthenticated
   ): Promise<UserStructureProfile[]> {
-    return userStructureRepository.findVerifiedStructureUsersByRoles({
+    return newUserStructureRepository.findVerifiedStructureUsersByRoles({
       structureId: currentUser.structureId,
       roles: ["admin", "simple", "responsable"],
     });
