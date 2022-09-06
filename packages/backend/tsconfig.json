@@ -9,6 +9,7 @@
     "lib": ["es2018.promise"],
     "module": "commonjs",
     "declaration": true,
+    "forceConsistentCasingInFileNames": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,

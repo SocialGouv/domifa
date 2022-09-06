@@ -17,7 +17,7 @@ export const USER_ADMIN_PROFILE_ATTRIBUTES: (keyof UserStructureTable)[] = [
   "email",
 ];
 
-export const UserAdminRepository =
+export const userAdminRepository =
   myDataSource.getRepository(UserStructureTable);
 
 export const USER_ADMIN_WHERE: FindOptionsWhere<Partial<UserStructureTable>> = {

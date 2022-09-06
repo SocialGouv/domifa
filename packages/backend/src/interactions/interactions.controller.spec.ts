@@ -48,7 +48,7 @@ describe("Interactions Controller", () => {
       isSuperAdminDomifa: false,
     });
 
-    usager = await usagerRepository.findOne({
+    usager = await usagerRepository.findOneBy({
       ref: 1,
       structureId: 1,
     });

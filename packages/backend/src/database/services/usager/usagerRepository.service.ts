@@ -1,3 +1,4 @@
+import { myDataSource } from "..";
 import { domifaConfig } from "./../../../config/domifaConfig.service";
 import moment = require("moment");
 
@@ -12,13 +13,15 @@ import { Usager } from "../../../_common/model";
 
 const baseRepository = pgRepository.get<UsagerTable, Usager>(UsagerTable);
 
-export const usagerRepository = {
-  ...baseRepository,
-  countAyantsDroits,
-  countUsagersByMonth,
-  countTotalUsagers,
-  countUsagers,
-};
+export const usagerRepository = myDataSource
+  .getRepository<Usager>(UsagerTable)
+  .extend({
+    ...baseRepository,
+    countAyantsDroits,
+    countUsagersByMonth,
+    countTotalUsagers,
+    countUsagers,
+  });
 
 function countAyantsDroits(structuresId?: number[]): Promise<number> {
   return _advancedCount({ countType: "ayant-droit", structuresId });

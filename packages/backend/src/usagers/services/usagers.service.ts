@@ -272,6 +272,6 @@ export class UsagersService {
   }
 
   public async export(structureId: number): Promise<Usager[]> {
-    return usagerRepository.findMany({ structureId });
+    return usagerRepository.findBy({ structureId });
   }
 }

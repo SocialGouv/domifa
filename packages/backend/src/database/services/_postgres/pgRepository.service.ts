@@ -36,7 +36,6 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     count,
     aggregateAsNumber,
     max,
-
     countBy,
     save,
     findOne,

@@ -1,5 +1,3 @@
-import { structureRepository } from "../../../database/services/structure/StructureRepository.service";
-
 import { TimeZone } from "./../../../util/territoires/types/TimeZone.type";
 import { Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
@@ -7,6 +5,7 @@ import { domifaConfig } from "../../../config";
 import {
   MonitoringBatchProcessTrigger,
   monitoringBatchProcessSimpleCountRunner,
+  structureRepository,
 } from "../../../database";
 import { messageSmsRepository } from "../../../database/services/message-sms";
 import { appLogger } from "../../../util";

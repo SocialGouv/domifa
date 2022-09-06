@@ -14,12 +14,8 @@ describe("Structure Creator Service", () => {
     const structureId = 2;
     const token =
       "adfbfe24ff6de1f4e7c0011ad05028f5a129ced7f120079d20c4adf21d89";
-    await structureRepository.updateOne(
-      {
-        id: structureId,
-      },
-      { token }
-    );
+    await structureRepository.update({ id: structureId }, { token });
+
     const structure = await structureCreatorService.checkCreationToken({
       structureId,
       token,

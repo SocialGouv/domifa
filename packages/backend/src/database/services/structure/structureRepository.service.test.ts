@@ -1,5 +1,5 @@
 import { AppTestHelper } from "../../../util/test";
-import { structureRepository } from "./StructureRepository.service";
+import { structureRepository } from "./structureRepository.service";
 
 describe("StructureRepository", () => {
   beforeAll(async () => {

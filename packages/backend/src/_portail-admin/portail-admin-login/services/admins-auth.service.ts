@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { UserAdminRepository } from "../../../database/services/user-admin/UserAdminRepository.service";
+import { userAdminRepository } from "../../../database";
+
 import {
   CURRENT_JWT_PAYLOAD_VERSION,
   PortailAdminProfile,
@@ -41,7 +42,7 @@ export class AdminsAuthService {
     }
 
     // update structure & user last login date
-    await UserAdminRepository.update(
+    await userAdminRepository.update(
       { id: authUser.user.id },
       { lastLogin: new Date() }
     );
