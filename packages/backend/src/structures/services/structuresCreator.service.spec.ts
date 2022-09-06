@@ -20,12 +20,14 @@ describe("Structure Creator Service", () => {
       structureId,
       token,
     });
+
     expect(structure).toBeDefined();
     expect(structure.id).toEqual(2);
+
     const structure2 = await structureCreatorService.checkCreationToken({
       structureId,
       token,
     });
-    expect(structure2).toBeUndefined(); // token has been clear
+    expect(structure2).toBeNull(); // token has been clear: ;
   });
 });

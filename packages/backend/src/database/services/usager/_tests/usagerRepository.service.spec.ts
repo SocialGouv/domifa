@@ -11,6 +11,7 @@ describe("usagerRepository", () => {
 
   it("countAyantsDroits", async () => {
     const result = await usagerRepository.countAyantsDroits();
+
     expect(result).toBeGreaterThan(7);
   });
   it("countUsagers", async () => {

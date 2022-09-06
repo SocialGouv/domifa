@@ -17,11 +17,4 @@ export class StatsDto {
   @IsDateString()
   @IsNotEmpty()
   public end!: string;
-
-  @ApiProperty({
-    type: Number,
-    required: true,
-  })
-  @IsNotEmpty()
-  public structureId!: number;
 }

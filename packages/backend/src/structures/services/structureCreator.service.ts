@@ -3,7 +3,6 @@ import { HttpException, HttpStatus } from "@nestjs/common";
 import * as crypto from "crypto";
 import {
   newUserStructureRepository,
-  structureCommonRepository,
   structureRepository,
   StructureTable,
 } from "../../database";
@@ -79,11 +78,14 @@ async function checkCreationToken({
   structureId: number;
   token: string;
 }): Promise<StructureCommon> {
-  await structureCommonRepository.updateOne(
-    { id: structureId, token },
-    { token: "", verified: true }
-  );
-  return structureCommonRepository.findOne({ id: structureId });
+  const retour = structureRepository.findOneBy({ id: structureId, token });
+  if (retour) {
+    await structureRepository.update(
+      { id: structureId, token },
+      { token: "", verified: true }
+    );
+  }
+  return retour;
 }
 
 async function createStructure(structureDto: StructureDto) {
