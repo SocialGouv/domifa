@@ -9,7 +9,7 @@ import { INDEX_STATUT } from "../../_common/model/message-sms/MESSAGE_SMS_SUIVI_
 import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsTable.typeorm";
 import { messageSmsRepository } from "../../database/services/message-sms";
 import { InteractionDto } from "../../interactions/dto";
-import { appLogger } from "../../util";
+
 import {
   MessageSms,
   Usager,
@@ -91,7 +91,7 @@ export class MessageSmsService {
     if (smsOnHold) {
       return messageSmsRepository.delete({ uuid: smsOnHold.uuid });
     }
-    return;
+    return null;
   }
 
   // Suppression d'un SMS si l'interaction a été supprimée
@@ -107,20 +107,18 @@ export class MessageSmsService {
     });
 
     if (smsOnHold) {
-      smsOnHold.interactionMetas.nbCourrier =
-        smsOnHold.interactionMetas.nbCourrier - interaction.nbCourrier;
-
-      if (smsOnHold.interactionMetas.nbCourrier > 0) {
-        return messageSmsRepository.update(
-          { uuid: smsOnHold.uuid },
-          { interactionMetas: smsOnHold.interactionMetas }
-        );
-      } else {
-        return messageSmsRepository.delete({ uuid: smsOnHold.uuid });
-      }
-    } else if (usager.contactByPhone === true) {
-      appLogger.warn(`SMS Service: Interaction to delete not found`);
+      return true;
     }
+    smsOnHold.interactionMetas.nbCourrier =
+      smsOnHold.interactionMetas.nbCourrier - interaction.nbCourrier;
+
+    if (smsOnHold.interactionMetas.nbCourrier > 0) {
+      return messageSmsRepository.update(
+        { uuid: smsOnHold.uuid },
+        { interactionMetas: smsOnHold.interactionMetas }
+      );
+    }
+    return messageSmsRepository.delete({ uuid: smsOnHold.uuid });
   }
 
   public async createSmsInteraction(

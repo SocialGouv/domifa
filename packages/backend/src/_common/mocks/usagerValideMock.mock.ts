@@ -21,6 +21,7 @@ export const usagerValideMock: UsagerLight = {
 
   typeDom: "PREMIERE_DOM",
   decision: {
+    uuid: "2X",
     statut: "VALIDE",
     userId: 1,
     dateFin: new Date("2021-10-31T00:00:00.000Z"),
@@ -31,6 +32,7 @@ export const usagerValideMock: UsagerLight = {
   },
   historique: [
     {
+      uuid: "2X",
       statut: "INSTRUCTION",
       userId: 1,
       dateFin: new Date("2020-11-01T00:00:00.000Z"),

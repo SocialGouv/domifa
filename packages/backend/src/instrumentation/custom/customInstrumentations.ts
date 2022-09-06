@@ -34,7 +34,7 @@ export function startApmSpan(name: string | null, context?: any) {
   return span;
 }
 
-export function instrumentWithAPM(target, name, descriptor) {
+export function instrumentWithAPM(target: any, name: any, descriptor: any) {
   const original = descriptor.value;
   if (typeof original === "function") {
     const fullName = `${target.constructor.name}.${name}`;

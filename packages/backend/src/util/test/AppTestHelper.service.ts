@@ -38,7 +38,11 @@ async function bootstrapTestApp(
   await bootstrapTestConnection();
 
   const module = await Test.createTestingModule(metadata).compile();
-  const context: AppTestContext = { module };
+  const context: AppTestContext = {
+    module,
+    app: undefined,
+  };
+
   if (initApp) {
     context.app = module.createNestApplication();
     context.app.useGlobalPipes(

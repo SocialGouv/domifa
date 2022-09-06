@@ -207,4 +207,88 @@ async function getStats({
     };
     return stats;
   }
+  return {
+    total: {
+      // Q11
+      usagers: 0,
+      ayantsDroits: 0,
+      usagerEtAyantsDroits: 0,
+    },
+    menage: {
+      // Q19
+      couple_avec_enfant: 0,
+      couple_sans_enfant: 0,
+      femme_isole_avec_enfant: 0,
+      femme_isole_sans_enfant: 0,
+      homme_isole_avec_enfant: 0,
+      homme_isole_sans_enfant: 0,
+      non_renseigne: 0,
+    },
+    cause: {
+      // Q21
+      autre: 0,
+      errance: 0,
+      expulsion: 0,
+      heberge_sans_adresse: 0,
+      itinerant: 0,
+      rupture: 0,
+      sortie_structure: 0,
+      violence: 0,
+      non_renseigne: 0,
+    },
+    liencommune: {
+      residentiel: 0,
+      parental: 0,
+      familial: 0,
+      professionnel: 0,
+      social: 0,
+      autre: 0,
+      non_renseigne: 0,
+    },
+    raison: {
+      // Q21
+      exercice_droits: 0,
+      prestations_sociales: 0,
+      autre: 0,
+      non_renseigne: 0,
+    },
+    residence: {
+      // Q22
+      domicile_mobile: 0,
+      hebergement_social: 0,
+      hebergement_tiers: 0,
+      hotel: 0,
+      sans_abri: 0,
+      autre: 0,
+      non_renseigne: 0,
+    },
+    age: {
+      usagers: {
+        mineurs: 0,
+        majeurs: 0,
+        t_0_14: 0,
+        t_15_19: 0,
+        t_20_24: 0,
+        t_25_29: 0,
+        t_30_34: 0,
+        t_35_39: 0,
+        t_40_44: 0,
+        t_45_49: 0,
+        t_50_54: 0,
+        t_55_59: 0,
+        t_60_64: 0,
+        t_65_69: 0,
+        t_70_74: 0,
+        t_75_plus: 0,
+      },
+      ayantsDroits: {
+        mineurs: 0,
+        majeurs: 0,
+      },
+    },
+    sexe: {
+      h: 0,
+      f: 0,
+    },
+  };
 }

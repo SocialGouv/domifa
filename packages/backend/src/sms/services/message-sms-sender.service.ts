@@ -1,10 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
 
-import { Repository } from "typeorm";
 import { domifaConfig } from "../../config";
-import { appTypeormManager } from "../../database";
-import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsTable.typeorm";
 import { messageSmsRepository } from "../../database/services/message-sms";
 import {
   MessageSms,
@@ -15,12 +12,7 @@ import { AxiosError } from "axios";
 
 @Injectable()
 export class MessageSmsSenderService {
-  private messageSmsRepository: Repository<MessageSmsTable>;
-
-  constructor(private httpService: HttpService) {
-    this.messageSmsRepository =
-      appTypeormManager.getRepository(MessageSmsTable);
-  }
+  constructor(private httpService: HttpService) {}
 
   public async sendSms(message: MessageSms): Promise<MessageSms> {
     const options: {

@@ -111,4 +111,6 @@ export class DecisionDto implements UsagerDecision {
 
   @IsEmpty()
   public dateDecision!: Date;
+  @IsEmpty()
+  public uuid!: string;
 }

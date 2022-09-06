@@ -6,10 +6,7 @@ import { setHours, setMinutes } from "date-fns";
 
 import { appLogger } from "../../../util";
 import { messageSmsRepository } from "../../../database/services/message-sms";
-import {
-  MonitoringBatchProcessTrigger,
-  structureRepository,
-} from "../../../database";
+import { structureRepository } from "../../../database";
 import { TimeZone } from "../../../util/territoires";
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 import { getPhoneString } from "../../../util/phone/phoneUtils.service";
@@ -20,82 +17,79 @@ export class CronSmsFetchEndDomService {
     timeZone: "Europe/Paris",
   })
   protected async sendSmsEurope() {
-    await this.fetchUsagerEndDom("cron", "Europe/Paris");
+    await this.fetchUsagerEndDom("Europe/Paris");
   }
 
   @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "America/Martinique",
   })
   protected async sendSmsMartiniqueAndGuadeloupe() {
-    await this.fetchUsagerEndDom("cron", "America/Guadeloupe");
-    await this.fetchUsagerEndDom("cron", "America/Martinique");
+    await this.fetchUsagerEndDom("America/Guadeloupe");
+    await this.fetchUsagerEndDom("America/Martinique");
   }
 
   @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "America/Cayenne",
   })
   protected async sendSmsCayenne() {
-    await this.fetchUsagerEndDom("cron", "America/Cayenne");
+    await this.fetchUsagerEndDom("America/Cayenne");
   }
 
   @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "Indian/Mayotte",
   })
   protected async sendSmsMayotte() {
-    await this.fetchUsagerEndDom("cron", "Indian/Mayotte");
+    await this.fetchUsagerEndDom("Indian/Mayotte");
   }
 
   @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "Pacific/Noumea",
   })
   protected async sendSmsNoumea() {
-    await this.fetchUsagerEndDom("cron", "Pacific/Noumea");
+    await this.fetchUsagerEndDom("Pacific/Noumea");
   }
 
   @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "Pacific/Tahiti",
   })
   protected async sendSmsTahiti() {
-    await this.fetchUsagerEndDom("cron", "Pacific/Tahiti");
+    await this.fetchUsagerEndDom("Pacific/Tahiti");
   }
 
   @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "America/Miquelon",
   })
   protected async sendSmsMiquelon() {
-    await this.fetchUsagerEndDom("cron", "America/Miquelon");
+    await this.fetchUsagerEndDom("America/Miquelon");
   }
 
   @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "Indian/Maldives",
   })
   protected async sendSmsMaldives() {
-    await this.fetchUsagerEndDom("cron", "Indian/Maldives");
+    await this.fetchUsagerEndDom("Indian/Maldives");
   }
 
   @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "Indian/Reunion",
   })
   protected async sendSmsReunion() {
-    await this.fetchUsagerEndDom("cron", "Indian/Reunion");
+    await this.fetchUsagerEndDom("Indian/Reunion");
   }
 
   @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "Pacific/Wallis",
   })
   protected async sendSmsWallis() {
-    await this.fetchUsagerEndDom("cron", "Pacific/Wallis");
+    await this.fetchUsagerEndDom("Pacific/Wallis");
   }
 
-  public async fetchUsagerEndDom(
-    trigger: MonitoringBatchProcessTrigger,
-    timeZone: TimeZone
-  ) {
+  public async fetchUsagerEndDom(timeZone: TimeZone) {
     if (!isCronEnabled() || !domifaConfig().sms.enabled) {
       appLogger.warn(
         `[CronSms] [CronSmsFetchEndDomService] Disable all SMS to Send for ${timeZone}`
       );
-      return;
+      return true;
     }
 
     appLogger.warn(
@@ -111,7 +105,7 @@ export class CronSmsFetchEndDomService {
       appLogger.warn(
         `[CronSms] [CronSmsFetchEndDomService] No structure with SMS for ${timeZone} at ${new Date().toString()}`
       );
-      return;
+      return true;
     }
 
     const scheduledDate = setMinutes(setHours(new Date(), 19), 0);

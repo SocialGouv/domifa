@@ -18,7 +18,7 @@ async function migrateUp(connection: DataSource): Promise<Migration[]> {
   if (domifaConfig().envId !== "local") {
     if (!isCronEnabled()) {
       console.log("[MIGRATIONS] Disable in this pod");
-      return;
+      return [];
     }
   }
 

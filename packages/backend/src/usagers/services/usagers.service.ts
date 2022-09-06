@@ -78,7 +78,7 @@ export class UsagersService {
 
   public async patch(
     { uuid }: { uuid: string },
-    update: Partial<Usager>
+    update: Partial<UsagerTable>
   ): Promise<Usager> {
     return usagerLightRepository.updateOne({ uuid }, update);
   }
@@ -198,8 +198,8 @@ export class UsagersService {
       }
     }
 
-    usager.decision.uuid = uuidv4();
     usager.decision = decision as UsagerDecision;
+    usager.decision.uuid = uuidv4();
 
     if (!usager.entretien) {
       usager.entretien = {};

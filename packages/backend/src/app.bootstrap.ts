@@ -101,7 +101,7 @@ export async function bootstrapApplication() {
   }
 }
 
-function configureSwagger(app) {
+function configureSwagger(app: INestApplication) {
   const DOMIFA_SWAGGER_CONTEXT = "sw-api";
   if (domifaConfig().dev.swaggerEnabled) {
     const backendUrl = domifaConfig().apps.backendUrl;

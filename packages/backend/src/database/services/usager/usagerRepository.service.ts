@@ -17,6 +17,7 @@ export const usagerRepository = myDataSource
   .getRepository<Usager>(UsagerTable)
   .extend({
     ...baseRepository,
+    customCountBy: baseRepository.countBy,
     countAyantsDroits,
     countUsagersByMonth,
     countTotalUsagers,
@@ -97,6 +98,7 @@ function _advancedCount({
     query.where = `u.structureId IN(:...ids)`;
     query.params = { ids: structuresId };
   }
+
   return usagerRepository.aggregateAsNumber(query);
 }
 
