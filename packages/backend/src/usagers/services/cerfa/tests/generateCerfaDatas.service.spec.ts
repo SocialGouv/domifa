@@ -5,7 +5,7 @@ import {
   usagerLightRepository,
 } from "../../../../database";
 import { UsersModule } from "../../../../users/users.module";
-import { AppTestContext, AppTestHelper } from "../../../../util/test";
+import { AppTestHelper } from "../../../../util/test";
 import {
   UserStructureAuthenticated,
   Structure,
@@ -147,7 +147,6 @@ const mockDataUsagerRefus = {
 };
 
 describe("Cerfa Data utils", () => {
-  let context: AppTestContext;
   let user: UserStructureAuthenticated;
   let usagerValide: UsagerLight;
   let usagerRefus: UsagerLight;
@@ -155,7 +154,7 @@ describe("Cerfa Data utils", () => {
 
   beforeAll(async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    context = await AppTestHelper.bootstrapTestApp({
+    await AppTestHelper.bootstrapTestApp({
       imports: [UsagersModule, UsersModule],
     });
     user = await userStructureRepository.findOne({ id: 1 });

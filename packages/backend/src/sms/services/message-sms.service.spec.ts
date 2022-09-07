@@ -1,47 +1,47 @@
+import { SmsModule } from "./../sms.module";
+import { forwardRef } from "@nestjs/common";
 import {
   userStructureRepository,
-  usagerRepository,
   structureRepository,
+  usagerRepository,
   messageSmsRepository,
 } from "../../database";
+import { InteractionDto } from "../../interactions/dto";
+import { InteractionsModule } from "../../interactions/interactions.module";
+import {
+  InteractionsDeletor,
+  interactionsCreator,
+} from "../../interactions/services";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { UserStructure, Usager } from "../../_common/model";
-import { InteractionDto } from "../dto";
-import { InteractionsModule } from "../interactions.module";
-import { InteractionsService } from "./interactions.service";
-import { interactionsCreator } from "./interactionsCreator.service";
-import { InteractionsDeletor } from "./InteractionsDeletor.service";
+import { MessageSmsService } from "./message-sms.service";
 
-import { InteractionsSmsManager } from "./InteractionsSmsManager.service";
-
-describe("interactionsSmsManager", () => {
+describe("MessageSmsService", () => {
   let context: AppTestContext;
 
   let user: UserStructure;
   let usager: Usager;
   let interactionsDeletor: InteractionsDeletor;
-  let interactionsSmsManager: InteractionsSmsManager;
+  let messageSmsService: MessageSmsService;
 
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       imports: [
-        InteractionsModule,
-        UsagersModule,
-        UsersModule,
-        StructuresModule,
+        forwardRef(() => InteractionsModule),
+        forwardRef(() => UsagersModule),
+        forwardRef(() => UsersModule),
+        forwardRef(() => SmsModule),
+        forwardRef(() => StructuresModule),
       ],
-      providers: [InteractionsService],
     });
+    messageSmsService =
+      context.module.get<MessageSmsService>(MessageSmsService);
 
     interactionsDeletor =
       context.module.get<InteractionsDeletor>(InteractionsDeletor);
-
-    interactionsSmsManager = context.module.get<InteractionsSmsManager>(
-      InteractionsSmsManager
-    );
 
     user = await userStructureRepository.findOne({ id: 1 });
     user.structure = await structureRepository.findOneBy({ id: 1 });
@@ -115,7 +115,7 @@ describe("interactionsSmsManager", () => {
         user,
       });
 
-      await interactionsSmsManager.updateSmsAfterCreation({
+      await messageSmsService.updateSmsAfterCreation({
         interaction: created.interaction,
         structure: user.structure,
         usager: newusager,
