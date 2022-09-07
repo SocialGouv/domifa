@@ -2,7 +2,6 @@ import { interactionsTypeManager } from ".";
 import {
   interactionRepository,
   InteractionsTable,
-  typeOrmSearch,
   usagerLightRepository,
 } from "../../database";
 import {
@@ -90,16 +89,17 @@ async function createInteraction({
         interactionType: oppositeType,
       });
 
+    console.log(pendingInteractionsCount);
     interaction.nbCourrier = pendingInteractionsCount;
   }
   // Entrants
-  else if (direction === "in") {
+  if (direction === "in") {
     if (typeof interaction.nbCourrier === "undefined") {
       interaction.nbCourrier = 1;
     }
   }
   // Appels & Visites
-  else {
+  if (interaction.type === "appel" || interaction.type === "visite") {
     usager.lastInteraction.dateInteraction = now;
     interaction.nbCourrier = 0;
   }
@@ -144,18 +144,16 @@ async function updateInteractionAfterDistribution(interaction: Interactions) {
   });
 
   // Liste des interactions entrantes à mettre à jour
-  const updatedInteractions = await interactionRepository.update(
-    typeOrmSearch<InteractionsTable>({
+  return interactionRepository.update(
+    {
       usagerRef: interaction.usagerRef,
       structureId: interaction.structureId,
       type: oppositeType,
       interactionOutUUID: null,
       event: "create",
-    }),
+    },
     { interactionOutUUID: interaction.uuid }
   );
-
-  return updatedInteractions;
 }
 
 async function updateUsagerAfterCreation({

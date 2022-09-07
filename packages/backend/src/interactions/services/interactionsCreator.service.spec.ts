@@ -49,12 +49,12 @@ describe("interactionsCreator", () => {
 
     interactionsDeletor =
       context.module.get<InteractionsDeletor>(InteractionsDeletor);
+
+    user = await userStructureRepository.findOne({ id: 1 });
+    user.structure = await structureRepository.findOneBy({ id: 1 });
   });
 
   beforeEach(async () => {
-    user = await userStructureRepository.findOne({ id: 1 });
-    user.structure = await structureRepository.findOneBy({ id: 1 });
-
     // Reset des courriers
     await interactionRepository.delete({
       usagerRef: 2,
@@ -181,6 +181,7 @@ describe("interactionsCreator", () => {
         user,
         interaction: interactionIn,
       });
+
       expect(createdInteractionIn.usager.lastInteraction.colisIn).toEqual(3);
 
       const interactionOut: InteractionDto = {
@@ -195,7 +196,7 @@ describe("interactionsCreator", () => {
         user,
         interaction: interactionOut,
       });
-
+      console.log(resultat.usager.lastInteraction);
       expect(resultat.usager.lastInteraction.colisIn).toEqual(0);
 
       // clean
