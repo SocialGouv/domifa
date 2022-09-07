@@ -1,4 +1,3 @@
-import { Structure } from "./../../_common/model/structure/Structure.type";
 import { SmsModule } from "./../../sms/sms.module";
 import { messageSmsRepository } from "./../../database/services/message-sms/messageSmsRepository.service";
 import { addDays, differenceInHours, subDays } from "date-fns";
@@ -29,7 +28,6 @@ describe("interactionsCreator", () => {
   let interactionsDeletor: InteractionsDeletor;
   let user: UserStructure;
   let usager: Usager;
-  let structure: Structure;
 
   const MOCKED_NEW_DATE = "2021-09-11T09:45:30.000Z";
   const MOCKED_LAST_INTERACTION_DATE = new Date("2020-11-21T14:11:28");
@@ -79,16 +77,10 @@ describe("interactionsCreator", () => {
         },
       }
     );
-
-    structure = await structureRepository.findOneBy({
-      id: 1,
-    });
   });
 
   afterAll(async () => {
-    // Reset de new Date()
     MockDate.reset();
-
     user.structure.sms.enabledByDomifa = false;
     user.structure.sms.enabledByStructure = false;
 
@@ -97,7 +89,6 @@ describe("interactionsCreator", () => {
       { sms: user.structure.sms }
     );
     await usagerRepository.update({}, { contactByPhone: false });
-
     await messageSmsRepository.delete({ structureId: user.structureId });
     await AppTestHelper.tearDownTestApp(context);
   });
@@ -160,7 +151,7 @@ describe("interactionsCreator", () => {
       const deleteSecondInteraction =
         await interactionsDeletor.deleteOrRestoreInteraction({
           interaction: secondResult.interaction,
-          structure,
+          structure: user.structure,
           usager,
           user,
         });
@@ -170,7 +161,7 @@ describe("interactionsCreator", () => {
       const deletedFirstInteraction =
         await interactionsDeletor.deleteOrRestoreInteraction({
           interaction: firstResult.interaction,
-          structure,
+          structure: user.structure,
           usager,
           user,
         });
@@ -210,7 +201,7 @@ describe("interactionsCreator", () => {
       // clean
       await interactionsDeletor.deleteOrRestoreInteraction({
         interaction: resultat.interaction,
-        structure,
+        structure: user.structure,
         usager,
         user,
       });
@@ -257,7 +248,7 @@ describe("interactionsCreator", () => {
       // Suppression de l'interaction sortante
       await interactionsDeletor.deleteOrRestoreInteraction({
         interaction: resultat.interaction,
-        structure,
+        structure: user.structure,
         usager,
         user,
       });
@@ -302,7 +293,7 @@ describe("interactionsCreator", () => {
       const usagerAfterDelete =
         await interactionsDeletor.deleteOrRestoreInteraction({
           interaction: resultat.interaction,
-          structure,
+          structure: user.structure,
           usager,
           user,
         });
@@ -358,7 +349,7 @@ describe("interactionsCreator", () => {
       // clean
       await interactionsDeletor.deleteOrRestoreInteraction({
         interaction: resultat.interaction,
-        structure,
+        structure: user.structure,
         usager,
         user,
       });
@@ -426,14 +417,14 @@ describe("interactionsCreator", () => {
       // clean
       await interactionsDeletor.deleteOrRestoreInteraction({
         interaction: createdInteractionIn.interaction,
-        structure,
+        structure: user.structure,
         usager,
         user,
       });
       // clean
       await interactionsDeletor.deleteOrRestoreInteraction({
         interaction: resultat.interaction,
-        structure,
+        structure: user.structure,
         usager,
         user,
       });

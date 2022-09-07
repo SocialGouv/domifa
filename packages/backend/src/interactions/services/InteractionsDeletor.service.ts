@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { interactionRepository } from "../../database";
 import { MessageSmsService } from "../../sms/services/message-sms.service";
 import { UsagersService } from "../../usagers/services/usagers.service";
@@ -9,14 +9,14 @@ import {
   INTERACTION_OK_LIST,
 } from "../../_common/model/interaction";
 import { interactionsCreator } from "./interactionsCreator.service";
-import { InteractionsSmsManager } from "./InteractionsSmsManager.service";
+
 import { interactionsTypeManager } from "./interactionsTypeManager.service";
 
 @Injectable()
 export class InteractionsDeletor {
   constructor(
     private readonly usagersService: UsagersService,
-    private readonly interactionsSmsManager: InteractionsSmsManager,
+    @Inject(forwardRef(() => MessageSmsService))
     private readonly smsService: MessageSmsService
   ) {}
 
@@ -67,32 +67,32 @@ export class InteractionsDeletor {
         // Suppression du SMS en file d'attente
         await this.smsService.deleteSmsInteraction(
           usager,
-          structure.id,
+          structure,
           interaction
         );
-      } else if (direction === "out") {
+      }
+
+      if (direction === "out") {
         // On remet tous les courriers en "à distribuer"
         await interactionRepository.update(
           { interactionOutUUID: interaction.uuid },
           { interactionOutUUID: null }
         );
 
-        // Mise à jour du SMS
-        await this.interactionsSmsManager.updateSmsAfterCreation({
+        await this.smsService.updateSmsAfterCreation({
           interaction,
           structure,
           usager,
         });
-      } else {
-        // Désactiver le NPAI
-        if (interaction.type === "npai") {
-          usager.options.npai.actif = false;
-          usager.options.npai.dateDebut = null;
-          return this.usagersService.patch(
-            { uuid: usager.uuid },
-            { options: usager.options }
-          );
-        }
+      }
+      // Désactiver le NPAI
+      if (interaction.type === "npai") {
+        usager.options.npai.actif = false;
+        usager.options.npai.dateDebut = null;
+        return this.usagersService.patch(
+          { uuid: usager.uuid },
+          { options: usager.options }
+        );
       }
 
       const dateInteractionWithGoodTimeZone = new Date(
@@ -134,34 +134,37 @@ export class InteractionsDeletor {
     });
 
     if (direction === "in") {
-      await this.interactionsSmsManager.updateSmsAfterCreation({
+      await this.smsService.updateSmsAfterCreation({
         interaction: created.interaction,
         structure,
         usager,
       });
-    } else if (direction === "out") {
+    }
+
+    if (direction === "out") {
       await this.smsService.deleteSmsInteraction(
         usager,
-        structure.id,
+        structure,
         created.interaction
       );
-    } else {
-      // Désactiver le NPAI
-      if (created.interaction.type === "npai") {
-        usager.options.npai.actif = true;
-        usager.options.npai.dateDebut = new Date(
-          created.interaction.dateInteraction
-        );
-
-        return this.usagersService.patch(
-          { uuid: usager.uuid },
-          {
-            options: usager.options,
-            lastInteraction: usager.lastInteraction,
-          }
-        );
-      }
     }
+
+    // Désactiver le NPAI
+    if (created.interaction.type === "npai") {
+      usager.options.npai.actif = true;
+      usager.options.npai.dateDebut = new Date(
+        created.interaction.dateInteraction
+      );
+
+      return this.usagersService.patch(
+        { uuid: usager.uuid },
+        {
+          options: usager.options,
+          lastInteraction: usager.lastInteraction,
+        }
+      );
+    }
+
     return created.usager;
   }
 

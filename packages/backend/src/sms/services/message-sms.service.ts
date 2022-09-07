@@ -1,12 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
-import { Repository } from "typeorm";
+
 import { AxiosError } from "axios";
 
-import { appTypeormManager, structureRepository } from "../../database";
+import { structureRepository } from "../../database";
 import { domifaConfig } from "../../config";
 import { INDEX_STATUT } from "../../_common/model/message-sms/MESSAGE_SMS_SUIVI_INDEX.const";
-import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsTable.typeorm";
+
 import { messageSmsRepository } from "../../database/services/message-sms";
 import { InteractionDto } from "../../interactions/dto";
 
@@ -17,6 +17,9 @@ import {
   Structure,
   StructureSmsParams,
   MESSAGE_SMS_RESPONSE_ERRORS,
+  Interactions,
+  INTERACTION_IN_CREATE_SMS,
+  INTERACTION_OUT_REMOVE_SMS,
 } from "../../_common/model";
 import { generateSmsInteraction } from "./generators";
 import { MESSAGE_SMS_STATUS } from "../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
@@ -24,19 +27,13 @@ import { generateScheduleSendDate } from "./generators/generateScheduleSendDate"
 
 import { firstValueFrom } from "rxjs";
 import { getPhoneString } from "../../util/phone/phoneUtils.service";
+import { interactionsTypeManager } from "../../interactions/services";
 
 @Injectable()
 export class MessageSmsService {
-  // Délai entre chaque message envoyé
-  private messageSmsRepository: Repository<MessageSmsTable>;
-
-  public constructor(private httpService: HttpService) {
-    this.messageSmsRepository =
-      appTypeormManager.getRepository(MessageSmsTable);
-  }
+  public constructor(private httpService: HttpService) {}
 
   public async updateMessageSmsStatut(smsToUpdate: MessageSms) {
-    //
     const options: {
       key: string;
       id: string;
@@ -79,12 +76,16 @@ export class MessageSmsService {
   // Suppression d'un SMS si le courrier a été distribué
   public async deleteSmsInteractionOut(
     usager: Pick<Usager, "ref" | "contactByPhone">,
-    structureId: number,
+    structure: Pick<Structure, "id" | "sms" | "telephone">,
     interaction: InteractionDto
   ) {
+    if (!structure.sms.enabledByDomifa && !structure.sms.enabledByStructure) {
+      return null;
+    }
+
     const smsOnHold = await messageSmsRepository.findSmsOnHold({
       usagerRef: usager.ref,
-      structureId,
+      structureId: structure.id,
       interactionType: interaction.type,
     });
 
@@ -97,18 +98,23 @@ export class MessageSmsService {
   // Suppression d'un SMS si l'interaction a été supprimée
   public async deleteSmsInteraction(
     usager: Pick<Usager, "ref" | "contactByPhone">,
-    structureId: number,
+    structure: Pick<Structure, "id" | "sms" | "telephone">,
     interaction: InteractionDto
   ) {
+    if (!structure.sms.enabledByDomifa && !structure.sms.enabledByStructure) {
+      return null;
+    }
+
     const smsOnHold = await messageSmsRepository.findSmsOnHold({
       usagerRef: usager.ref,
-      structureId,
+      structureId: structure.id,
       interactionType: interaction.type,
     });
 
-    if (smsOnHold) {
+    if (!smsOnHold) {
       return true;
     }
+
     smsOnHold.interactionMetas.nbCourrier =
       smsOnHold.interactionMetas.nbCourrier - interaction.nbCourrier;
 
@@ -177,9 +183,42 @@ export class MessageSmsService {
     }
   }
 
+  public async updateSmsAfterCreation({
+    interaction,
+    structure,
+    usager,
+  }: {
+    interaction: Interactions;
+    structure: Pick<Structure, "id" | "sms" | "telephone">;
+    usager: UsagerLight;
+  }): Promise<void> {
+    // 1. Vérifier l'activation des SMS par la structure
+    if (
+      structure.sms.enabledByDomifa &&
+      structure.sms.enabledByStructure &&
+      usager.contactByPhone === true
+    ) {
+      // Courrier / Colis / Recommandé entrant = Envoi de SMS à prévoir
+      if (INTERACTION_IN_CREATE_SMS.includes(interaction.type)) {
+        await this.createSmsInteraction(usager, structure, interaction);
+      }
+      // Suppression du SMS en file d'attente
+      if (INTERACTION_OUT_REMOVE_SMS.includes(interaction.type)) {
+        const inType = interactionsTypeManager.getOppositeDirectionalType({
+          type: interaction.type,
+        });
+
+        interaction.type = inType;
+
+        await this.deleteSmsInteractionOut(usager, structure, interaction);
+      }
+    }
+    return null;
+  }
+
   // Afficher les SMS en attente d'envoi
-  public findAll(usager: UsagerLight): Promise<MessageSmsTable[]> {
-    return this.messageSmsRepository.find({
+  public findAll(usager: UsagerLight): Promise<MessageSms[]> {
+    return messageSmsRepository.find({
       where: {
         usagerRef: usager.ref,
         structureId: usager.structureId,

@@ -1,3 +1,4 @@
+import { InteractionsModule } from "./../interactions/interactions.module";
 import { forwardRef, Module } from "@nestjs/common";
 import { HttpModule } from "@nestjs/axios";
 
@@ -15,23 +16,24 @@ import {
 @Module({
   controllers: [SmsController],
   exports: [
+    MessageSmsSenderService,
     MessageSmsService,
     CronSmsInteractionSenderService,
     CronSmsFetchEndDomService,
     CronSmsEndDomSenderService,
-    MessageSmsSenderService,
   ],
   imports: [
     HttpModule,
     forwardRef(() => StructuresModule),
     forwardRef(() => UsagersModule),
+    forwardRef(() => InteractionsModule),
   ],
   providers: [
+    MessageSmsSenderService,
     MessageSmsService,
     CronSmsInteractionSenderService,
     CronSmsFetchEndDomService,
     CronSmsEndDomSenderService,
-    MessageSmsSenderService,
   ],
 })
 export class SmsModule {}

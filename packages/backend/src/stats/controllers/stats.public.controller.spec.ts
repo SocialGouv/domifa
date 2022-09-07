@@ -10,6 +10,7 @@ import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { AdminStructuresModule } from "../../_portail-admin/admin-structures/admin-structures.module";
 import { StatsPublicController } from "./stats.public.controller";
+import MockDate from "mockdate";
 
 describe("Stats Public Controller", () => {
   let controller: StatsPublicController;
@@ -33,6 +34,8 @@ describe("Stats Public Controller", () => {
   });
 
   afterAll(async () => {
+    // Reset de new Date()
+    MockDate.reset();
     await AppTestHelper.tearDownTestApp(context);
   });
 
@@ -50,6 +53,8 @@ describe("Stats Public Controller", () => {
   });
 
   it("Stats Page : national", async () => {
+    MockDate.set(new Date("2022-08-31T09:45:30.000Z"));
+
     const response = await request(context.app.getHttpServer()).get(
       "/stats/public-stats"
     );

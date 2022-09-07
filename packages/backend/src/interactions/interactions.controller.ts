@@ -1,9 +1,9 @@
+import { MessageSmsService } from "./../sms/services/message-sms.service";
 import {
   Body,
   Controller,
   Delete,
   Get,
-  Param,
   ParseArrayPipe,
   Post,
   Query,
@@ -30,7 +30,6 @@ import {
 } from "../_common/model";
 import { InteractionDto } from "./dto";
 import { InteractionsDeletor, interactionsCreator } from "./services";
-import { InteractionsSmsManager } from "./services/InteractionsSmsManager.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
 @ApiTags("interactions")
@@ -38,7 +37,7 @@ import { InteractionsSmsManager } from "./services/InteractionsSmsManager.servic
 export class InteractionsController {
   constructor(
     private readonly interactionDeletor: InteractionsDeletor,
-    private readonly interactionsSmsManager: InteractionsSmsManager
+    private readonly messageSmsService: MessageSmsService
   ) {}
 
   @Post(":usagerRef")
@@ -59,7 +58,7 @@ export class InteractionsController {
 
       usager = created.usager;
 
-      await this.interactionsSmsManager.updateSmsAfterCreation({
+      await this.messageSmsService.updateSmsAfterCreation({
         interaction: created.interaction,
         structure: user.structure,
         usager,
@@ -93,7 +92,6 @@ export class InteractionsController {
   @AllowUserProfiles("structure")
   @Delete(":usagerRef/:interactionUuid")
   public async deleteInteraction(
-    @Param("interactionUuid") interactionUuid: string,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight,
     @CurrentInteraction() interaction: Interactions
