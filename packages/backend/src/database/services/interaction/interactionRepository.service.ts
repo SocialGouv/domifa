@@ -2,7 +2,11 @@ import { startOfMonth, subYears } from "date-fns";
 
 import { In } from "typeorm";
 import { domifaConfig } from "../../../config";
-import { Usager, UserStructureAuthenticated } from "../../../_common/model";
+import {
+  Usager,
+  UsagerLight,
+  UserStructureAuthenticated,
+} from "../../../_common/model";
 import {
   InteractionEvent,
   Interactions,
@@ -24,17 +28,30 @@ const baseRepository = pgRepository.get<InteractionsTable, Interactions>(
 );
 
 export const interactionRepository = appTypeormManager
-  .getRepository(InteractionsTable)
+  .getRepository<Interactions>(InteractionsTable)
   .extend({
     aggregateAsNumber: baseRepository.aggregateAsNumber,
     findLastInteractionOk,
+    updateMany: baseRepository.updateMany,
     findLastInteractionInWithContent,
     findWithFilters,
     countInteractionsByMonth,
     countPendingInteraction,
     countPendingInteractionsIn,
     countVisiteOut,
+    updateInteractionAfterDistribution,
   });
+
+async function updateInteractionAfterDistribution(
+  usager: UsagerLight,
+  interaction: Interactions,
+  oppositeType: InteractionType
+): Promise<void> {
+  // Liste des interactions entrantes à mettre à jour
+  return interactionRepository.query(
+    `UPDATE interactions SET "interactionOutUUID" = '${interaction.uuid}' where "usagerUUID" = '${usager.uuid}' AND type = '${oppositeType}' AND "interactionOutUUID" is null AND event = 'create'`
+  );
+}
 
 async function findLastInteractionOk({
   user,

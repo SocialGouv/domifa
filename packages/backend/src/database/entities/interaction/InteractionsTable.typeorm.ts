@@ -40,13 +40,13 @@ export class InteractionsTable
   event: InteractionEvent;
 
   @Column({ type: "jsonb", nullable: true })
-  previousValue?: Interactions; // if event === 'delete'
+  previousValue: Interactions; // if event === 'delete'
 
   @Index()
   @Column({ type: "uuid", nullable: true })
   @ManyToOne(() => InteractionsTable, (interaction) => interaction.uuid)
   @JoinColumn({ name: "interactionOutUUID", referencedColumnName: "uuid" })
-  interactionOutUUID: string;
+  interactionOutUUID!: string;
 
   @Index()
   @Column({ type: "integer", nullable: false })
