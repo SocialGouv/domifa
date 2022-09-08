@@ -10,6 +10,7 @@ import {
 } from "../_postgres";
 
 import { Usager } from "../../../_common/model";
+import { FranceRegion } from "../../../util/territoires";
 
 const baseRepository = pgRepository.get<UsagerTable, Usager>(UsagerTable);
 
@@ -32,7 +33,7 @@ function countUsagers(structuresId?: number[]): Promise<number> {
   return _advancedCount({ countType: "domicilie", structuresId });
 }
 
-async function countUsagersByMonth(regionId?: string) {
+async function countUsagersByMonth(regionId?: FranceRegion) {
   let startDate = postgresQueryBuilder.formatPostgresDate(
     moment()
       .utc()

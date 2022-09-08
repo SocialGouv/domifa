@@ -76,6 +76,7 @@ export class MessageEmailConsummer {
             await messageEmailRepository.save(messageEmail);
             monitorSuccess();
           } catch (err) {
+            console.log(err);
             const error: Error = err as Error;
 
             appLogger.error("[MessageEmailConsummer] Error sending mail", {

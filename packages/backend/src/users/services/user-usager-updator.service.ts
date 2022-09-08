@@ -38,12 +38,7 @@ async function enableUser({
     attributes.isTemporaryPassword = true;
   }
 
-  await userUsagerRepository.update(
-    {
-      usagerUUID,
-    },
-    attributes
-  );
+  await userUsagerRepository.update({ usagerUUID }, attributes);
 
   const updatedUser = await userUsagerRepository.findOneByOrFail({
     usagerUUID,

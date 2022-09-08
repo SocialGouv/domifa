@@ -1,3 +1,4 @@
+import { FranceRegion } from "./../../util/territoires/types/FranceRegion.type";
 import { HomeStats } from "./../../_common/model/stats/HomeStats.type";
 import { Controller, Get, HttpStatus, Param, Res } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
@@ -11,7 +12,7 @@ import { DEFAULT_PUBLIC_STATS, PublicStats } from "../../_common/model";
 import { AdminStructuresService } from "../../_portail-admin/admin-structures/services";
 import { StructuresService } from "./../../structures/services/structures.service";
 import { ExpressResponse } from "../../util/express";
-import { REGIONS_ID_SEO } from "../../util/territoires";
+import { FRANCE_REGION_CODES } from "../../util/territoires";
 
 @Controller("stats")
 @ApiTags("stats")
@@ -34,13 +35,13 @@ export class StatsPublicController {
 
   @Get("public-stats/:regionId?")
   public async getPublicStats(
-    @Param("regionId") regionId: string,
+    @Param("regionId") regionId: FranceRegion,
     @Res() res: ExpressResponse
   ) {
-    if (regionId && typeof REGIONS_ID_SEO[regionId] === "undefined") {
+    if (regionId && FRANCE_REGION_CODES.indexOf(regionId) === -1) {
       return res
         .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "CANNOT_COMPLETE_DOC" });
+        .json({ message: "REGION_NOT_EXISTS" });
     }
 
     return res
@@ -48,7 +49,9 @@ export class StatsPublicController {
       .json(await this.generatePublicStats(regionId));
   }
 
-  private async generatePublicStats(regionId?: string): Promise<PublicStats> {
+  private async generatePublicStats(
+    regionId?: FranceRegion
+  ): Promise<PublicStats> {
     const publicStats: PublicStats = {
       structuresCountByRegion: [],
       interactionsCountByMonth: [], // Par défaut: courriers distribués
@@ -88,8 +91,7 @@ export class StatsPublicController {
     }
     // Stats nationales
     else {
-      publicStats.structuresCount =
-        await this.adminStructuresService.countStructures();
+      publicStats.structuresCount = await structureRepository.count();
 
       publicStats.structuresCountByRegion =
         await this.adminStructuresService.getStructuresCountByRegion();

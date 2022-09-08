@@ -1,3 +1,4 @@
+import { FranceRegion } from "./FranceRegion.type";
 export type RegionsLabels = {
-  [regionCode: string]: string;
+  [key in FranceRegion]?: string;
 };

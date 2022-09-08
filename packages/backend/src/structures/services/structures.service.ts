@@ -11,7 +11,7 @@ import {
 import { departementHelper } from "./departement-helper.service";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
 import { CodePostalDto, StructureDto } from "../dto";
-import { DEPARTEMENTS_MAP } from "../../util/territoires";
+import { DEPARTEMENTS_MAP, FranceRegion } from "../../util/territoires";
 
 @Injectable()
 export class StructuresService {
@@ -82,7 +82,9 @@ export class StructuresService {
     });
   }
 
-  public async findStructuresInRegion(regionId?: string): Promise<number[]> {
+  public async findStructuresInRegion(
+    regionId?: FranceRegion
+  ): Promise<number[]> {
     const structures: Structure[] = await structureRepository.find({
       where: { region: regionId },
       select: { id: true },

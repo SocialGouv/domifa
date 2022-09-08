@@ -2,6 +2,7 @@ import { startOfMonth, subYears } from "date-fns";
 
 import { In } from "typeorm";
 import { domifaConfig } from "../../../config";
+import { FranceRegion } from "../../../util/territoires";
 import {
   Usager,
   UsagerLight,
@@ -236,7 +237,7 @@ async function findWithFilters({
 }
 
 async function countInteractionsByMonth(
-  regionId?: string,
+  regionId?: FranceRegion,
   interactionType: InteractionType = "courrierOut"
 ) {
   const dateRef =
