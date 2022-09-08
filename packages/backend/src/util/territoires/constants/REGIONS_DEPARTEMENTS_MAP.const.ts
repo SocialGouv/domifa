@@ -1,14 +1,22 @@
+import { FranceRegion } from "./../types/FranceRegion.type";
 import { DepartementInfos, RegionDef, RegionsLabels } from "../types";
 import { REGIONS_DEF } from "./REGIONS_DEF.const";
 
 // Départements et territoires d'outre mer
 // 2 départements et régions d'outre-mer (DROM) : la Guadeloupe et La Réunion ;
 // 3 collectivités uniques : la Collectivité Territoriale de Martinique, la Collectivité Territoriale de Guyane et le Département de Mayotte ;
-
-export const REGIONS_DOM_TOM = ["01", "02", "03", "04", "06"];
+export const REGIONS_DOM_TOM: FranceRegion[] = ["01", "02", "03", "04", "06"];
 
 // 7 collectivités d'outre-mer (COM) : la Nouvelle-Calédonie ;la Polynésie française ;Saint-Barthélemy ; Saint-Martin ; Saint-Pierre-et-Miquelon ;les Terres-australes-et-antarctiques-françaises et Wallis-et-Futuna.
-export const REGIONS_COM = ["NC", "PO", "SB", "SM", "SP", "WF", "TF"];
+export const REGIONS_COM: FranceRegion[] = [
+  "NC",
+  "PO",
+  "SB",
+  "SM",
+  "SP",
+  "WF",
+  "TF",
+];
 
 // Tout territoire hors métropole & Corse
 export const REGIONS_OUTRE_MER = REGIONS_COM.concat(REGIONS_DOM_TOM);
@@ -125,3 +133,11 @@ export const REGIONS_SEO_ID: RegionsLabels = Object.values(
   acc[value.regionId] = value.regionCode;
   return acc;
 }, {} as unknown as RegionsLabels);
+
+// Toutes les régions
+export const FRANCE_REGION_CODES: FranceRegion[] = Object.values(
+  REGIONS_DEF
+).reduce((acc, value: RegionDef) => {
+  acc.push(value.regionCode);
+  return acc;
+}, [] as unknown as FranceRegion[]);

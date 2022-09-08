@@ -16,6 +16,7 @@ import {
 import { usagerDocsRepository } from "../../../database/services/usager/usagerDocsRepository.service";
 import { StatsDeploiementExportModel } from "../../../excel/export-stats-deploiement";
 import { StatsDeploiementStructureExportModel } from "../../../excel/export-stats-deploiement/StatsDeploiementStructureExportModel.type";
+import { FranceRegion } from "../../../util/territoires";
 import {
   AdminStructureListData,
   AdminStructureStatsData,
@@ -112,7 +113,7 @@ export class AdminStructuresService {
     return data;
   }
 
-  public async getStructuresByType(region?: string): Promise<
+  public async getStructuresByType(region?: FranceRegion): Promise<
     {
       structureType: StructureType;
       count: number;
@@ -225,10 +226,6 @@ export class AdminStructuresService {
     });
   }
 
-  public async countStructures(): Promise<number> {
-    return structureRepository.count();
-  }
-
   public async getUsagersCountByStatut(): Promise<
     {
       statut: UsagerDecisionStatut;
@@ -305,7 +302,7 @@ export class AdminStructuresService {
     return usagers;
   }
 
-  public async getStructuresCountByTypeMap(region?: string): Promise<{
+  public async getStructuresCountByTypeMap(region?: FranceRegion): Promise<{
     [key in StructureType]: number;
   }> {
     const structures: { [key in StructureType]: number } = {
@@ -446,14 +443,14 @@ export class AdminStructuresService {
     };
   }
 
-  public async countUsagersByMonth(regionId?: string) {
+  public async countUsagersByMonth(regionId?: FranceRegion) {
     const usagersByMonth = await usagerRepository.countUsagersByMonth(regionId);
 
     return this.formatStatsByMonth(usagersByMonth, "domicilies");
   }
 
   public async countInteractionsByMonth(
-    regionId?: string,
+    regionId?: FranceRegion,
     interactionType: InteractionType = "courrierOut"
   ) {
     const interactionsByMonth =

@@ -1,5 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsNotEmpty } from "class-validator";
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  MaxLength,
+  MinLength,
+} from "class-validator";
 
 export class StructureLoginDto {
   @ApiProperty({
@@ -15,5 +21,12 @@ export class StructureLoginDto {
     required: true,
   })
   @IsNotEmpty()
+  @IsString()
+  @MinLength(12, {
+    message: "PASSWORD_TOO_SMALL",
+  })
+  @MaxLength(100, {
+    message: "PASSWORD_TOO_LONG",
+  })
   public readonly password!: string;
 }
