@@ -12,7 +12,7 @@ export type Interactions = AppEntity & {
   userId: number;
   userName: string;
   event: InteractionEvent;
-  interactionOutUUID?: string;
+  interactionOutUUID: string | null;
   previousValue?: Interactions; // if event === 'delete'
   interactionOut?: Interactions; // si interaction entrante, on associe la distribution
 };

@@ -196,7 +196,7 @@ describe("interactionsCreator", () => {
         user,
         interaction: interactionOut,
       });
-      console.log(resultat.usager.lastInteraction);
+
       expect(resultat.usager.lastInteraction.colisIn).toEqual(0);
 
       // clean

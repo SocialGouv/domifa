@@ -37,13 +37,12 @@ async function createInteraction({
   const direction = interactionsTypeManager.getDirection({
     type: interaction.type,
   });
+  const oppositeType = interactionsTypeManager.getOppositeDirectionalType({
+    type: interaction.type,
+  });
 
-  // Sortants
+  // Interactions sortantes
   if (direction === "out") {
-    const oppositeType = interactionsTypeManager.getOppositeDirectionalType({
-      type: interaction.type,
-    });
-
     // On ajoute le dernier contenu
     const lastInteraction =
       await interactionRepository.findLastInteractionInWithContent({
@@ -52,6 +51,14 @@ async function createInteraction({
         oppositeType,
       });
 
+    const pendingInteractionsCount =
+      await interactionRepository.countPendingInteraction({
+        structureId: user.structureId,
+        usagerRef: usager.ref,
+        interactionType: oppositeType,
+      });
+
+    interaction.nbCourrier = pendingInteractionsCount;
     interaction.content = lastInteraction?.content || "";
 
     // Note métier :
@@ -61,6 +68,7 @@ async function createInteraction({
       interaction.procurationIndex === 1
     ) {
       interaction.content =
+        interaction.content +
         "Courrier remis au mandataire : " +
         usager.options.procurations[interaction.procurationIndex].prenom +
         " " +
@@ -73,31 +81,24 @@ async function createInteraction({
 
     // Transfert actif: on le précise dans le contenu
     if (usager.options.transfert.actif) {
-      if (new Date(usager.options.transfert.dateFin) >= new Date()) {
+      if (new Date(usager.options.transfert.dateFin) >= now) {
         interaction.content =
+          interaction.content +
           "Courrier transféré à : " +
           usager.options.transfert.nom +
           " - " +
           usager.options.transfert.adresse.toUpperCase();
       }
     }
-
-    const pendingInteractionsCount =
-      await interactionRepository.countPendingInteraction({
-        structureId: user.structureId,
-        usagerRef: usager.ref,
-        interactionType: oppositeType,
-      });
-
-    console.log(pendingInteractionsCount);
-    interaction.nbCourrier = pendingInteractionsCount;
   }
+
   // Entrants
   if (direction === "in") {
     if (typeof interaction.nbCourrier === "undefined") {
       interaction.nbCourrier = 1;
     }
   }
+
   // Appels & Visites
   if (interaction.type === "appel" || interaction.type === "visite") {
     usager.lastInteraction.dateInteraction = now;
@@ -114,6 +115,7 @@ async function createInteraction({
     userId: user.id,
     userName: user.prenom + " " + user.nom,
     dateInteraction: now,
+    interactionOutUUID: null,
     event: "create",
   };
 
@@ -123,37 +125,20 @@ async function createInteraction({
   );
 
   // S'il s'agit d'une distribution, on met à jour toutes les interactions entrantes correspondant
-  if (
-    interactionsTypeManager.getDirection({
-      type: interaction.type,
-    }) === "out"
-  ) {
-    await updateInteractionAfterDistribution(interactionCreated);
+  if (direction === "out") {
+    await interactionRepository.updateInteractionAfterDistribution(
+      usager,
+      interactionCreated,
+      oppositeType
+    );
   }
 
   // Mise à jour des infos de dernier passage pour l'usager
   const usagerUpdated = await updateUsagerAfterCreation({
     usager,
   });
+
   return { usager: usagerUpdated, interaction: interactionCreated };
-}
-
-async function updateInteractionAfterDistribution(interaction: Interactions) {
-  const oppositeType = interactionsTypeManager.getOppositeDirectionalType({
-    type: interaction.type,
-  });
-
-  // Liste des interactions entrantes à mettre à jour
-  return interactionRepository.update(
-    {
-      usagerRef: interaction.usagerRef,
-      structureId: interaction.structureId,
-      type: oppositeType,
-      interactionOutUUID: null,
-      event: "create",
-    },
-    { interactionOutUUID: interaction.uuid }
-  );
 }
 
 async function updateUsagerAfterCreation({
