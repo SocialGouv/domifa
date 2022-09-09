@@ -1,3 +1,4 @@
+import { StructureLoginDto } from "./../../users/dto/structure-login.dto";
 import {
   Body,
   Controller,
@@ -8,7 +9,7 @@ import {
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { userAdminSecurityPasswordChecker } from "../../database/services/user-admin";
-import { AdminLoginDto } from "../../users/dto";
+
 import { ExpressResponse } from "../../util/express";
 import {
   PortailAdminAuthApiResponse,
@@ -26,11 +27,11 @@ export class PortailAdminLoginController {
   @HttpCode(HttpStatus.OK)
   public async loginUser(
     @Res() res: ExpressResponse,
-    @Body() loginDto: AdminLoginDto
+    @Body() loginDto: StructureLoginDto
   ) {
     try {
       const user = await userAdminSecurityPasswordChecker.checkPassword({
-        email: loginDto.login,
+        email: loginDto.email,
         password: loginDto.password,
       });
 

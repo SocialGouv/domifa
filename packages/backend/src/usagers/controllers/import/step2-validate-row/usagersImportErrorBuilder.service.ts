@@ -75,7 +75,7 @@ function buildErrors({
   if (errors.length === 0) {
     appLogger.error("Unexpected error while importing usagers", {
       sentry: true,
-      error: err as any,
+      error: err,
     });
 
     errors.push({

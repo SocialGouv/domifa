@@ -3,7 +3,7 @@ import { pgRepository } from "./../_postgres/pgRepository.service";
 import { In } from "typeorm";
 
 import { myDataSource, typeOrmSearch } from "..";
-import { appLogger } from "../../../util";
+
 import { MessageSms, InteractionType } from "../../../_common/model";
 import { MessageSmsTable } from "./../../entities/message-sms/MessageSmsTable.typeorm";
 
@@ -64,10 +64,8 @@ async function upsertEndDom(sms: MessageSms): Promise<MessageSms> {
   });
 
   if (!message) {
-    return await messageSmsRepository.save(sms);
+    return messageSmsRepository.save(sms);
   }
-
-  appLogger.warn("SMS Already exists");
 
   return message;
 }

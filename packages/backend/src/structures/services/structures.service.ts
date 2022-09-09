@@ -56,16 +56,6 @@ export class StructuresService {
     return structure;
   }
 
-  public async findOne(structureId: number): Promise<StructureCommon> {
-    const structure = await structureRepository.findOneBy({
-      id: structureId,
-    });
-    if (!structure) {
-      throw new HttpException("STRUCTURE_NOT_EXIST", HttpStatus.BAD_REQUEST);
-    }
-    return structure;
-  }
-
   public async findAllLight(dto: CodePostalDto): Promise<StructureLight[]> {
     return structureLightRepository.find({
       where: {

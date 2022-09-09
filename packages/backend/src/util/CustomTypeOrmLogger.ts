@@ -10,6 +10,7 @@ export class CustomTypeOrmLogger implements Logger {
   /**
    * Logs query and parameters used in it.
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   logQuery(query: string, parameters?: any[], _queryRunner?: QueryRunner) {
     if (
       this.options === "all" ||
@@ -27,6 +28,7 @@ export class CustomTypeOrmLogger implements Logger {
     error: string,
     query: string,
     parameters?: any[],
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _queryRunner?: QueryRunner
   ) {
     if (
@@ -47,6 +49,7 @@ export class CustomTypeOrmLogger implements Logger {
     time: number,
     query: string,
     parameters?: any[],
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _queryRunner?: QueryRunner
   ) {
     appLogger.error("slow sql_query", {
@@ -57,6 +60,7 @@ export class CustomTypeOrmLogger implements Logger {
   /**
    * Logs events from the schema build process.
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   logSchemaBuild(message: string, _queryRunner?: QueryRunner) {
     if (
       this.options === "all" ||
@@ -69,6 +73,7 @@ export class CustomTypeOrmLogger implements Logger {
   /**
    * Logs events from the migration run process.
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   logMigration(message: string, _queryRunner?: QueryRunner) {
     appLogger.info(message);
   }
@@ -80,6 +85,7 @@ export class CustomTypeOrmLogger implements Logger {
   log(
     level: "log" | "info" | "warn",
     message: any,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _queryRunner?: QueryRunner
   ) {
     switch (level) {
