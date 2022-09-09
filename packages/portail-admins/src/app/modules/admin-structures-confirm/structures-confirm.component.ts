@@ -29,11 +29,11 @@ export class StructuresConfirmComponent implements OnInit {
   public type?: "enable" | "delete";
 
   constructor(
-    private adminStructuresApiClient: AdminStructuresApiClient,
-    private adminStructuresDeleteApiClient: AdminStructuresDeleteApiClient,
-    private route: ActivatedRoute,
-    private notifService: CustomToastService,
-    private titleService: Title
+    private readonly adminStructuresApiClient: AdminStructuresApiClient,
+    private readonly adminStructuresDeleteApiClient: AdminStructuresDeleteApiClient,
+    private readonly route: ActivatedRoute,
+    private readonly notifService: CustomToastService,
+    private readonly titleService: Title
   ) {
     this.successDelete = false;
     this.successEnable = false;
@@ -46,13 +46,9 @@ export class StructuresConfirmComponent implements OnInit {
     this.titleService.setTitle("Inscription sur Domifa");
 
     this.type = this.route.snapshot.data.type;
-
-    // TODO
-    //this.type = ... from route data
-
-    // TODO: from route params
     this.structureId = parseInt(this.route.snapshot.params.structureId, 10);
     this.token = this.route.snapshot.params.token;
+
     if (this.type === "delete") {
       this.adminStructuresDeleteApiClient
         .deleteCheck(this.structureId, this.token)

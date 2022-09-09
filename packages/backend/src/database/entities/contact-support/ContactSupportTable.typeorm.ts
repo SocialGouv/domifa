@@ -1,10 +1,10 @@
-import { MessageEmailAttachment } from "./../message-email/MessageEmailAttachment.type";
 import { Column, Entity, Index } from "typeorm";
 import {
   ContactCategorie,
   ContactStatus,
   ContactSupport,
 } from "../../../_common/model";
+import { MessageEmailAttachment } from "../message-email";
 
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 
