@@ -75,16 +75,13 @@ export class MessageEmailConsummer {
             messageEmail.status = "sent";
             await messageEmailRepository.save(messageEmail);
             monitorSuccess();
-          } catch (err) {
-            console.log(err);
-            const error: Error = err as Error;
-
+          } catch (error) {
             appLogger.error("[MessageEmailConsummer] Error sending mail", {
               error,
               sentry: true,
             });
             messageEmail.errorCount++;
-            messageEmail.errorMessage = (err as Error).message;
+            messageEmail.errorMessage = error.message;
             if (messageEmail.errorCount < 5) {
               messageEmail.nextScheduledDate = moment(now)
                 // retry after 10, 20, 40, 80mn

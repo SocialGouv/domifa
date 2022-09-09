@@ -20,7 +20,7 @@ async function checkPassword({
   password: string;
 }): Promise<PortailAdminUser> {
   const user: PortailAdminUser = await userAdminRepository.findOneBy({
-    email: email.toLowerCase(),
+    email: email.toLowerCase().trim(),
     ...USER_ADMIN_WHERE,
   });
 
@@ -66,12 +66,8 @@ async function checkPassword({
   });
 
   await userStructureRepository.updateOne(
-    {
-      id: user.id,
-    },
-    {
-      lastLogin: new Date(),
-    }
+    { id: user.id },
+    { lastLogin: new Date() }
   );
   return userStructureRepository.findOne({ id: user.id });
 }

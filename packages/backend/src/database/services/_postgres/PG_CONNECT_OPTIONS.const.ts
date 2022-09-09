@@ -9,7 +9,7 @@ export const PG_CONNECT_OPTIONS: PostgresConnectionOptions = {
     appLogger.error("PG pool error:", { error: err, sentry: true });
   },
   type: "postgres",
-  synchronize: false, // don't synchronise
+  synchronize: true,
   migrationsRun: false, // don't auto-run migrations
   host: domifaConfig().postgres.host,
   port: domifaConfig().postgres.port,
@@ -24,11 +24,11 @@ export const PG_CONNECT_OPTIONS: PostgresConnectionOptions = {
       : false
   ),
   migrations: domifaConfig().typeorm.createDatabase
-    ? [`src/_migrations/**/*.ts`]
+    ? [`src/_migrations/**/*{.ts,.js}`]
     : [
-        `src/_migrations/**/*.ts`,
-        `src/_migrations_exclude-from-create_db/**/*.ts`,
+        `src/_migrations/**/*{.ts,.js}`,
+        `src/_migrations_exclude-from-create_db/**/*{.ts,.js}`,
       ],
-  entities: ["src/database/entities/**/*Table.typeorm.ts"],
+  entities: ["src/database/entities/**/*Table.typeorm{.ts,.js}"],
   maxQueryExecutionTime: 1000,
 };

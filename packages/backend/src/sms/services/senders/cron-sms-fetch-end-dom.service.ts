@@ -84,12 +84,12 @@ export class CronSmsFetchEndDomService {
     await this.fetchUsagerEndDom("Pacific/Wallis");
   }
 
-  public async fetchUsagerEndDom(timeZone: TimeZone) {
+  public async fetchUsagerEndDom(timeZone: TimeZone): Promise<void> {
     if (!isCronEnabled() || !domifaConfig().sms.enabled) {
       appLogger.warn(
         `[CronSms] [CronSmsFetchEndDomService] Disable all SMS to Send for ${timeZone}`
       );
-      return true;
+      return;
     }
 
     appLogger.warn(
@@ -105,7 +105,7 @@ export class CronSmsFetchEndDomService {
       appLogger.warn(
         `[CronSms] [CronSmsFetchEndDomService] No structure with SMS for ${timeZone} at ${new Date().toString()}`
       );
-      return true;
+      return;
     }
 
     const scheduledDate = setMinutes(setHours(new Date(), 19), 0);
@@ -147,8 +147,8 @@ export class CronSmsFetchEndDomService {
           senderName: structure.sms.senderName,
         });
       }
-      return true;
+      return;
     }
-    return true;
+    return;
   }
 }

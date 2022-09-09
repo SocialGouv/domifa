@@ -24,6 +24,7 @@ function generateString({
 
   while (!isValid) {
     if (charsToInclude?.length > 0) {
+      // eslint-disable-next-line prefer-spread
       str = Array.apply(null, Array(length))
         .map(() => {
           const start = crypto.randomInt(charsToInclude.length);

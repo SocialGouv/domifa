@@ -360,9 +360,9 @@ export class UsagersController {
         await userUsagerUpdator.disableUser({ usagerUUID: usager.uuid });
       }
       return res.status(HttpStatus.OK).json({ usager: updatedUsager });
-    } catch (err) {
+    } catch (error) {
       appLogger.error("Error updating usager options", {
-        error: err as any,
+        error,
         sentry: true,
       });
       return res
