@@ -228,6 +228,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
         1
       );
     }
+    
     this.statsService
       .getStats(this.me.structureId, this.start, this.end)
       .subscribe({

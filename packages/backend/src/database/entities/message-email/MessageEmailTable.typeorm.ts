@@ -1,4 +1,3 @@
-import { MessageEmailAttachment } from "./MessageEmailAttachment.type";
 import { Column, Entity } from "typeorm";
 
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
@@ -41,7 +40,7 @@ export class MessageEmailTable
   sendDetails: MessageEmailSendDetails;
 
   @Column({ type: "jsonb", nullable: true })
-  public attachments?: MessageEmailAttachment[]; // path of files
+  public attachments?: any[]; // path of files
 
   public constructor(entity?: Partial<MessageEmailTable>) {
     super(entity);

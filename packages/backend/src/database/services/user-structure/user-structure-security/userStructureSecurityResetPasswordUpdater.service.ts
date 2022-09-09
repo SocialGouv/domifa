@@ -27,6 +27,7 @@ async function confirmResetPassword({
   let userSecurity = await UserStructureSecurityRepository.findOneByOrFail({
     userId,
   });
+
   if (
     userStructureSecurityEventHistoryManager.isAccountLockedForOperation({
       operation: "reset-password-confirm",
@@ -52,6 +53,7 @@ async function confirmResetPassword({
   const hash = await passwordGenerator.generatePasswordHash({
     password: newPassword,
   });
+
   const user: UserStructureProfile = await userStructureRepository.updateOne(
     {
       id: userId,

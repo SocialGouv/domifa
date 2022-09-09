@@ -45,6 +45,7 @@ import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
 import { startApmSpan } from "../../../instrumentation";
 import { UsersController } from "../../../users/users.controller";
 import { RegisterUserAdminDto } from "../../../users/dto";
+import { ConfirmStructureCreation } from "../ConfirmStructureCreation.dto";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
@@ -172,19 +173,12 @@ export class AdminStructuresController {
   @AllowUserProfiles("super-admin-domifa")
   @Get("confirm/:id/:token")
   public async confirmStructureCreation(
-    @Param("token") token: string,
-    @Param("id") id: string,
+    @Body() confirmStructureDto: ConfirmStructureCreation,
     @Res() res: ExpressResponse
   ): Promise<any> {
-    if (token === "") {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "STRUCTURE_TOKEN_EMPTY" });
-    }
-
     const structure = await structureCreatorService.checkCreationToken({
-      token,
-      structureId: parseInt(id, 10),
+      token: confirmStructureDto.token,
+      structureId: confirmStructureDto.structureId,
     });
 
     if (!structure) {

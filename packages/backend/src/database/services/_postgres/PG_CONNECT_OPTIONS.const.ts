@@ -26,6 +26,7 @@ export const PG_CONNECT_OPTIONS: PostgresConnectionOptions = {
   migrations: domifaConfig().typeorm.createDatabase
     ? [`src/_migrations/**/*{.ts,.js}`]
     : [
+        `src/_migrations/*{.ts,.js}`,
         `src/_migrations/**/*{.ts,.js}`,
         `src/_migrations_exclude-from-create_db/**/*{.ts,.js}`,
       ],
