@@ -110,7 +110,7 @@ async function authenticateUsager(
   const response = await request(app.getHttpServer())
     .post("/portail-usagers/auth/login")
     .send({
-      login: authInfo.login,
+      email: authInfo.login,
       password: authInfo.password,
     });
   expect(response.status).toBe(HttpStatus.OK);
@@ -130,7 +130,7 @@ async function authenticateSuperAdmin(
   const response = await request(app.getHttpServer())
     .post("/portail-admins/auth/login")
     .send({
-      login: authInfo.email,
+      email: authInfo.email,
       password: authInfo.password,
     });
   expect(response.status).toBe(HttpStatus.OK);
