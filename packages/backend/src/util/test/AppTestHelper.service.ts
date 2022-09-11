@@ -110,7 +110,7 @@ async function authenticateUsager(
   const response = await request(app.getHttpServer())
     .post("/portail-usagers/auth/login")
     .send({
-      email: authInfo.login,
+      login: authInfo.login,
       password: authInfo.password,
     });
   expect(response.status).toBe(HttpStatus.OK);

@@ -5,11 +5,11 @@
         "types/*"
       ]
     },
-    //"strict": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
-    // "noImplicitReturns": true,
     "noUnusedLocals": true,
+    //"strict": true,
+    // "noImplicitReturns": true,
     // "noUnusedParameters": true,
     // "noImplicitAny": true,
     "lib": [
