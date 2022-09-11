@@ -212,10 +212,10 @@ describe("Stuctures creation full", () => {
     expect(structure.token).toBeDefined();
 
     await adminStructuresController.confirmStructureCreation(
-      structure.token,
-      `${structure.id}`,
+      { token: structure.token, structureId: structure.id },
       res
     );
+
     expect(res.status).toHaveBeenCalledTimes(1);
     expect(res.status).toHaveBeenCalledWith(HttpStatus.OK);
     expect(res.json).toHaveBeenCalledTimes(1);
