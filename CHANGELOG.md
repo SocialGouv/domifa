@@ -1,3 +1,10 @@
+## [2.104.1](https://github.com/SocialGouv/domifa/compare/v2.104.0...v2.104.1) (2022-09-12)
+
+
+### Bug Fixes
+
+* **deps:** update dependency uuid to v9 ([22e43f4](https://github.com/SocialGouv/domifa/commit/22e43f4dc7f9c23369a5e938cdc6ee8e7749e2f9))
+
 # [2.104.0](https://github.com/SocialGouv/domifa/compare/v2.103.11...v2.104.0) (2022-09-12)
 
 
