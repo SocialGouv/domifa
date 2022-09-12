@@ -1,3 +1,30 @@
+# [2.104.0](https://github.com/SocialGouv/domifa/compare/v2.103.11...v2.104.0) (2022-09-12)
+
+
+### Bug Fixes
+
+* **codql:** amélioration suite aux retours de codeql ([86ad93b](https://github.com/SocialGouv/domifa/commit/86ad93b39977f8505f0c83b05f7bacd494bb24ec))
+* **migrations:** correction de l'execution de migration ([20a447c](https://github.com/SocialGouv/domifa/commit/20a447c908bd956b2dc41b228c7a01b0ade3b0e6))
+* **test:** correction d'un test sur la gestion de droits ([eded143](https://github.com/SocialGouv/domifa/commit/eded1431cebb542ce9e421447e31b556c6d014ea))
+* **test:** correction d'un test unitaire interaction ([6b1666c](https://github.com/SocialGouv/domifa/commit/6b1666cac419fbfd0825ea3d7136620ec4a15bc5))
+* **tests:** correction de tests et requêtes ([0388175](https://github.com/SocialGouv/domifa/commit/0388175c4c733197bf22e59f30606c5ce1f4778e))
+* **tests:** correction des tests sur les SMS ([5c8c353](https://github.com/SocialGouv/domifa/commit/5c8c35303e70a1fac0239775d48b80ba0cf58539))
+* **tests:** correction des tests unitaires ([8e0acd8](https://github.com/SocialGouv/domifa/commit/8e0acd8aadc1158f72fd7134827108a187075514))
+* **tests:** correction des tests unitaires sur les interactions ([7af8137](https://github.com/SocialGouv/domifa/commit/7af8137302f44636dde9e6d93fece871b6afdfb8))
+* **tsconfig:** amélioration du typage, remise en route des migrations typeorm ([16fac2c](https://github.com/SocialGouv/domifa/commit/16fac2c1aefa9335e20188dc309c64486eb8454d))
+* **typeorm:** correction de la nouvelle connexion en prod ([83a3930](https://github.com/SocialGouv/domifa/commit/83a3930bc80c3b47fd75b72865ac01c46dc217fb))
+* **typeorm:** correction des derniers tests ([5930519](https://github.com/SocialGouv/domifa/commit/59305191745eeb3121c3f6d011831d1b1b9a73b9))
+* **typeorm:** dernieres corrections suite à la maj de typeorm ([376843a](https://github.com/SocialGouv/domifa/commit/376843ab3bd33ce5b622e3366da27303fbcbdaed))
+* **typeorm:** synchronisation désactivée ([2a8349c](https://github.com/SocialGouv/domifa/commit/2a8349cc09bb3b2dc92dbfb57f342517154bf40b))
+* test oublié ([dbae034](https://github.com/SocialGouv/domifa/commit/dbae03424d4f86a930e6e2d1662bf904b12bf52e))
+* **typeorm:** mise à niveau de services suite à la migration ([773b3fd](https://github.com/SocialGouv/domifa/commit/773b3fd115d0be68bce92c3e4a63293620059383))
+
+
+### Features
+
+* **migration:** migration de typeorm sur les structures ([798580f](https://github.com/SocialGouv/domifa/commit/798580f7a9ecbf2d6afec1a4df3974d66c6d5d86))
+* **typeorm:** migration vers le nouveau package ([e773277](https://github.com/SocialGouv/domifa/commit/e773277bc7ef2db1b473d802b84fb6d3f9493b8b))
+
 ## [2.103.11](https://github.com/SocialGouv/domifa/compare/v2.103.10...v2.103.11) (2022-08-16)
 
 
