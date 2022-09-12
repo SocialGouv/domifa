@@ -18,6 +18,7 @@ describe(`App controllers security - ${TEST_BASENAME}`, () => {
 
     const authInfo =
       TESTS_USERS_USAGER.BY_USAGER_UUID["97b7e840-0e93-4bf4-ba7d-0a406aa898f2"];
+
     await AppTestHelper.authenticateUsager(authInfo, { context });
   });
 
@@ -28,14 +29,4 @@ describe(`App controllers security - ${TEST_BASENAME}`, () => {
   it(`context`, async () => {
     expect(context).toBeDefined();
   });
-
-  // for (const testDef of AppTestHelper.filterSecurityTests(
-  //   API_SECURITY_STRUCTURE_CONTROLLER_TEST_DEFS
-  // )) {
-  //   it(`[API SECURITY TEST][${TEST_BASENAME}] ${testDef.label}`, async () => {
-  //     const { response, expectedStatus } = await testDef.query(context);
-
-  //     expect(response.status).toBe(expectedStatus);
-  //   });
-  // }
 });
