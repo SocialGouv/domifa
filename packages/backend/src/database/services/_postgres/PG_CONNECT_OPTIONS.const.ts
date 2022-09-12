@@ -46,7 +46,7 @@ export const PG_CONNECT_OPTIONS: PostgresConnectionOptions = {
     appLogger.error("PG pool error:", { error: err, sentry: true });
   },
   type: "postgres",
-  synchronize: true,
+  synchronize: false,
   migrationsRun: false, // don't auto-run migrations
   host: domifaConfig().postgres.host,
   port: domifaConfig().postgres.port,
