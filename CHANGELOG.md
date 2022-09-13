@@ -1,3 +1,10 @@
+## [2.104.2](https://github.com/SocialGouv/domifa/compare/v2.104.1...v2.104.2) (2022-09-13)
+
+
+### Bug Fixes
+
+* **doc:** add preset doc to readme ([#2434](https://github.com/SocialGouv/domifa/issues/2434)) ([06912f1](https://github.com/SocialGouv/domifa/commit/06912f153d120eead81306f8097830e96fec6fb5))
+
 ## [2.104.1](https://github.com/SocialGouv/domifa/compare/v2.104.0...v2.104.1) (2022-09-12)
 
 
