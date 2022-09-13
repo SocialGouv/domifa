@@ -24,19 +24,23 @@ export class MessageSmsSenderService {
       key: domifaConfig().sms.apiKey,
       message: message.content,
       destinataires:
-        domifaConfig().sms.phoneNumberRedirectAllTo || message.phoneNumber,
+        domifaConfig().sms.phoneNumberRedirectAllTo ||
+        message.phoneNumber.replace(/\s/g, ""),
       expediteur: message.senderName,
     };
 
-    const endPoint =
-      "https://www.spot-hit.fr/api/envoyer/sms/?key=" +
-      options.key +
-      "&message=" +
-      encodeURIComponent(options.message) +
-      "&destinataires=" +
+    const url =
+      "https://europe.ipx.com/restapi/v1/sms/send?destinationAddress=" +
       options.destinataires +
-      "&expediteur=" +
-      encodeURIComponent(options.expediteur);
+      "&messageText=" +
+      encodeURIComponent(options.message) +
+      "&originatingAddress=" +
+      encodeURIComponent(options.expediteur) +
+      "&originatorTON=1";
+
+    const headers = {
+      Authorization: "Basic " + domifaConfig().sms.apiKey,
+    };
 
     const updateSms: Partial<MessageSms> = {
       lastUpdate: new Date(),
@@ -44,18 +48,21 @@ export class MessageSmsSenderService {
     };
 
     try {
-      const response = await this.httpService.get(endPoint).toPromise();
+      const response = await this.httpService.axiosRef.get(url, {
+        headers: headers,
+      });
+
       const responseContent: MessageSmsSendResponse = response.data;
 
-      if (responseContent.resultat === 1) {
-        updateSms.responseId = responseContent.id;
+      if (responseContent.responseCode === 0) {
+        updateSms.responseId = responseContent.messageIds[0];
         updateSms.status = "ON_HOLD";
         updateSms.sendDate = new Date();
       } else {
         updateSms.status = "FAILURE";
         updateSms.errorCount++;
         updateSms.errorMessage =
-          MESSAGE_SMS_RESPONSE_ERRORS[responseContent.erreurs];
+          MESSAGE_SMS_RESPONSE_ERRORS[responseContent.responseCode];
       }
     } catch (err) {
       updateSms.status = "FAILURE";

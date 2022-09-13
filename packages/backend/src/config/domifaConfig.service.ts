@@ -36,7 +36,6 @@ export function loadEnvWithPreset({
     domifaEnv.DOMIFA_ENV_PRESET ?? process.env.DOMIFA_ENV_PRESET;
 
   if (!presetEnvFileName) {
-    // eslint:disable-next-line: no-console
     console.warn(`[configService] DOMIFA_ENV_PRESET not found`);
     console.warn(`[configService] envFileName:`, envFileName);
     console.warn(`[configService] domifaEnv:`, domifaEnv);

@@ -23,19 +23,20 @@ export class SmsController {
   // Liste des SMS d'un usager
   public async getUsagerSms(@CurrentUsager() usager: UsagerLight) {
     // 0. On récupère les sms
-    const lastTenSms = await this.messageSmsService.findAll(usager);
-    // Etape 1 : on met à jour le statut des 10 derniers SMS
-    const allSmsUpdated = [];
-    for (const sms of lastTenSms) {
-      if (sms.status !== "TO_SEND") {
-        const smsUpdated = await this.messageSmsService.updateMessageSmsStatut(
-          sms
-        );
-        allSmsUpdated.push(smsUpdated);
-      } else {
-        allSmsUpdated.push(sms);
-      }
-    }
-    return allSmsUpdated;
+    return await this.messageSmsService.findAll(usager);
+    // TODO: réactiver quand le service sera disponible
+    // // Etape 1 : on met à jour le statut des 10 derniers SMS
+    // const allSmsUpdated = [];
+    // for (const sms of lastTenSms) {
+    //   if (sms.status !== "TO_SEND") {
+    //     const smsUpdated = await this.messageSmsService.updateMessageSmsStatut(
+    //       sms
+    //     );
+    //     allSmsUpdated.push(smsUpdated);
+    //   } else {
+    //     allSmsUpdated.push(sms);
+    //   }
+    // }
+    // return allSmsUpdated;
   }
 }
