@@ -28,12 +28,14 @@ import { generateScheduleSendDate } from "./generators/generateScheduleSendDate"
 import { firstValueFrom } from "rxjs";
 import { getPhoneString } from "../../util/phone/phoneUtils.service";
 import { interactionsTypeManager } from "../../interactions/services";
+import { PhoneNumberFormat } from "google-libphonenumber";
 
 @Injectable()
 export class MessageSmsService {
   public constructor(private httpService: HttpService) {}
 
   public async updateMessageSmsStatut(smsToUpdate: MessageSms) {
+    // TODO: mettre à jour avec le nouveau fournisseur
     const options: {
       key: string;
       id: string;
@@ -169,7 +171,7 @@ export class MessageSmsService {
         senderName: structure.sms.senderName,
         status: "TO_SEND",
         smsId: interaction.type,
-        phoneNumber: getPhoneString(usager.telephone),
+        phoneNumber: getPhoneString(usager.telephone, PhoneNumberFormat.E164),
         scheduledDate,
         errorCount: 0,
         interactionMetas: {

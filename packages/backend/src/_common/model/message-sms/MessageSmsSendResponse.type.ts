@@ -1,5 +1,7 @@
 export type MessageSmsSendResponse = {
-  resultat: number;
-  id?: string;
-  erreurs?: string;
+  responseCode: number;
+  responseMessage: string;
+  timestamp: Date;
+  traceId: string;
+  messageIds: string[];
 };
