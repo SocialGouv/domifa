@@ -69,6 +69,7 @@ describe("EtatCivilParentFormComponent", () => {
       prenom: "TEST PRENOM ",
       sexe: "homme",
       surnom: "Chips",
+      numeroDistribution: "TSA 1000",
       telephone: {
         countryCode: "FR",
         dialCode: "+33",
@@ -95,6 +96,7 @@ describe("EtatCivilParentFormComponent", () => {
       dateNaissance: new Date("2022-08-03T21:59:59.999Z"),
       email: null,
       langue: "ar",
+      numeroDistribution: "TSA 1000",
       nom: "TEST",
       prenom: "TEST PRENOM",
       sexe: "homme",

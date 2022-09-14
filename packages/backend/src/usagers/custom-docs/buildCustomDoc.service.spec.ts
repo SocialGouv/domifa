@@ -1,8 +1,8 @@
 import { buildCustomDoc } from ".";
 import { AppTestHelper } from "../../util/test";
 import { STRUCTURE_MOCK } from "../../_common/mocks";
-import { USAGER_REFUS_MOCK } from "../../_common/mocks/USAGER_REFUS.mock";
-import { usagerValideMock } from "../../_common/mocks/usagerValideMock.mock";
+import { USAGER_REFUS_MOCK, USAGER_VALIDE_MOCK } from "../../_common/mocks";
+
 import { StructureCustomDocTags } from "../../_common/model";
 import { dateFormat, DATE_FORMAT } from "./buildCustomDoc.service";
 import { generatedAttestationMock, generatedRefusMock } from "./mocks";
@@ -21,7 +21,7 @@ describe("buildCustomDoc.service", () => {
         ESPACE_DOM_MDP: "my-password",
       };
       const docRadiation: StructureCustomDocTags = buildCustomDoc({
-        usager: usagerValideMock,
+        usager: USAGER_VALIDE_MOCK,
         structure: STRUCTURE_MOCK,
         date,
         extraParameters,
@@ -38,7 +38,7 @@ describe("buildCustomDoc.service", () => {
     it("1. ATTESTATION POSTALE", async () => {
       const date = new Date("2020-12-15 14:30:00");
       const docActif: StructureCustomDocTags = buildCustomDoc({
-        usager: usagerValideMock,
+        usager: USAGER_VALIDE_MOCK,
         structure: STRUCTURE_MOCK,
         date,
       });
@@ -64,7 +64,7 @@ describe("buildCustomDoc.service", () => {
     it("4. CUSTOM DOC AVEC PROCURATION & TRANSFERT", async () => {
       const date = new Date("2020-12-15 14:30:00");
 
-      usagerValideMock.options = {
+      USAGER_VALIDE_MOCK.options = {
         transfert: {
           actif: true,
           nom: "Nom de l'établissement",
@@ -88,7 +88,7 @@ describe("buildCustomDoc.service", () => {
       };
 
       const customDocGenerated: StructureCustomDocTags = buildCustomDoc({
-        usager: usagerValideMock,
+        usager: USAGER_VALIDE_MOCK,
         structure: STRUCTURE_MOCK,
         date,
       });

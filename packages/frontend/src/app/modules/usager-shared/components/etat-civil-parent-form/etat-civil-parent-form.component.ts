@@ -130,7 +130,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
       customRef: [this.usager.customRef, []],
       email: [this.usager.email, [Validators.email]],
       nom: [this.usager.nom, [Validators.required, noWhiteSpace]],
-      numeroDistribution: [this.usager.numeroDistribution, [noWhiteSpace]],
+      numeroDistribution: [this.usager.numeroDistribution],
       contactByPhone: [this.usager.contactByPhone, [Validators.required]],
       telephone: new FormControl(
         setFormPhone(this.usager.telephone),
