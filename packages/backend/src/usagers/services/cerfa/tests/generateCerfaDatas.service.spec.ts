@@ -14,6 +14,7 @@ import { UsagersModule } from "../../../usagers.module";
 import {
   getUsagerRef,
   generateCerfaDatas,
+  generateAdressForCerfa,
 } from "../generateCerfaDatas.service";
 
 const mockDataUsagerValide = {
@@ -63,7 +64,7 @@ const mockDataUsagerValide = {
   nomOrga2: "CCAS DE TEST",
   noms1: "KARAMOKO",
   noms2: "KARAMOKO",
-  numeroUsager: "toto",
+  numeroUsager: "63",
   orientation: "",
   prefecture1: "",
   prefecture2: "",
@@ -76,7 +77,7 @@ const mockDataUsagerValide = {
   signature1A: "ASNIERES-SUR-SEINE",
   signature1B: "ASNIERES-SUR-SEINE",
   signature2: "ASNIERES-SUR-SEINE",
-  telephone: "+33 1 42 42 42 42",
+  telephone: "+33 6 06 06 06 06",
   telephoneOrga: "+33 6 02 03 04 05",
   typeDemande: "2",
 };
@@ -174,90 +175,140 @@ describe("Cerfa Data utils", () => {
     });
   });
 
-  it("getUsagerRef() should return ref in string", () => {
-    const usagerRef = getUsagerRef(usagerValide);
+  describe("Cerfa : générer les données complètes du Cerfa", () => {
+    it("CerfaData() Dossier valide", async () => {
+      const data = generateCerfaDatas(usagerValide, user, "attestation");
+      expect(data).toEqual(mockDataUsagerValide);
+    });
 
-    expect(usagerRef).toEqual("63");
+    it("CerfaData() Dossier refusé", async () => {
+      const data = generateCerfaDatas(usagerRefus, user, "attestation");
+      expect(data).toEqual(mockDataUsagerRefus);
+    });
+
+    it("CerfaData() test de valeurs vides", async () => {
+      usagerValide.entretien.rattachement = null;
+      usagerRefus.telephone = null;
+      user.structure.telephone = { countryCode: "fr", numero: "" };
+      usagerRefus.telephone = { countryCode: "fr", numero: "" };
+      const data = generateCerfaDatas(usagerRefus, user, "attestation");
+      expect(data.rattachement).toEqual("");
+      expect(data.telephone).toEqual("");
+      expect(data.telephoneOrga).toEqual("");
+    });
+
+    it("CerfaData() si dossier est en INSTRUCTION alors dateDebut et dateFin doivent être vide", async () => {
+      usagerValide.decision.statut = "INSTRUCTION";
+      const data = generateCerfaDatas(usagerValide, user, "attestation");
+
+      expect(data.jourDebut).toEqual("");
+      expect(data.moisDebut).toEqual("");
+      expect(data.anneeDebut).toEqual("");
+      expect(data.jourFin).toEqual("");
+      expect(data.moisFin).toEqual("");
+      expect(data.anneeFin).toEqual("");
+    });
+
+    it("CerfaData() si dossier est en ATTENTE_DECISION alors dateDebut et dateFin doivent être vide", async () => {
+      usagerValide.decision.statut = "ATTENTE_DECISION";
+      const data = generateCerfaDatas(usagerValide, user, "attestation");
+
+      expect(data.jourDebut).toEqual("");
+      expect(data.moisDebut).toEqual("");
+      expect(data.anneeDebut).toEqual("");
+      expect(data.jourFin).toEqual("");
+      expect(data.moisFin).toEqual("");
+      expect(data.anneeFin).toEqual("");
+    });
+
+    it("CerfaData() si dossier est en ATTENTE_DECISION alors dateDebut et dateFin doivent être vide", async () => {
+      usagerValide.decision.statut = "ATTENTE_DECISION";
+      user.structure.structureType = "asso";
+      const data = generateCerfaDatas(usagerValide, user, "attestation");
+
+      expect(data.prefecture2).toEqual("92");
+      expect(data.prefecture1).toEqual("92");
+    });
   });
 
-  it("getUsagerRef() should return customRef if it's not nil", () => {
-    usagerValide.customRef = "toto";
-    const usagerRef = getUsagerRef(usagerValide);
+  describe("Cerfa : getUsagerRef", () => {
+    it("getUsagerRef() should return ref in string", () => {
+      const usagerRef = getUsagerRef(usagerValide);
+      expect(usagerRef).toEqual("63");
+    });
 
-    expect(usagerRef).toEqual("toto");
+    it("getUsagerRef() should return customRef if it's not nil", () => {
+      usagerValide.customRef = "toto";
+      const usagerRef = getUsagerRef(usagerValide);
+      expect(usagerRef).toEqual("toto");
+    });
   });
 
-  it("CerfaData() Dossier valide", async () => {
-    const data = generateCerfaDatas(usagerValide, user, "attestation");
-    expect(data).toEqual(mockDataUsagerValide);
-  });
+  describe("generateAdressForCerfa", () => {
+    it("Afficher l'ID du domicilié dans l'adresse", () => {
+      user.structure.options.numeroBoite = true;
+      //const { adresseDomicilie } = generateAdressForCerfa(user, usagerValide);
 
-  it("CerfaData() Dossier refusé", async () => {
-    const data = generateCerfaDatas(usagerRefus, user, "attestation");
-    expect(data).toEqual(mockDataUsagerRefus);
-  });
+      const cerfaDatas = generateCerfaDatas(usagerValide, user, "attestation");
+      expect(cerfaDatas.adresse).toEqual(
+        "Boite toto\nCCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine"
+      );
+    });
 
-  it("CerfaData() test de valeurs vides", async () => {
-    usagerValide.entretien.rattachement = null;
-    usagerRefus.telephone = null;
-    user.structure.telephone = { countryCode: "fr", numero: "" };
-    usagerRefus.telephone = { countryCode: "fr", numero: "" };
-    const data = generateCerfaDatas(usagerRefus, user, "attestation");
-    expect(data.rattachement).toEqual("");
-    expect(data.telephone).toEqual("");
-    expect(data.telephoneOrga).toEqual("");
-  });
+    it("Structure sans adresse de réception de courrier", () => {
+      user.structure.options.numeroBoite = false;
+      const { adresseDomicilie, adresseStructure } = generateAdressForCerfa(
+        user,
+        usagerValide
+      );
 
-  it("CerfaData() Tests de cas particuliers", async () => {
-    user.structure.options.numeroBoite = true;
-    const cerfaDatas = generateCerfaDatas(usagerValide, user, "attestation");
-    expect(cerfaDatas.adresse).toEqual(
-      "Boite toto\nCCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine"
-    );
+      expect(adresseDomicilie).toEqual(
+        "CCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine"
+      );
+      expect(adresseStructure).toEqual(
+        "CCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine"
+      );
+    });
 
-    user.structure.adresseCourrier = {
-      adresse: "Adresse de courrier",
-      ville: "Paris 10eme",
-      codePostal: "75010",
-      actif: true,
-    };
+    it("Structure avec adresse de réception différente", () => {
+      user.structure.options.numeroBoite = false;
+      user.structure.adresseCourrier = {
+        adresse: "Adresse de courrier",
+        ville: "Paris 10eme",
+        codePostal: "75010",
+        actif: true,
+      };
 
-    const cerfaDatas2 = generateCerfaDatas(usagerValide, user, "attestation");
-    expect(cerfaDatas2.adresse).toEqual(
-      "Boite toto\nCCAS de Test\nAdresse de courrier\n75010 - Paris 10eme"
-    );
-  });
+      const { adresseDomicilie, adresseStructure } = generateAdressForCerfa(
+        user,
+        usagerValide
+      );
 
-  it("CerfaData() si dossier est en INSTRUCTION alors dateDebut et dateFin doivent être vide", async () => {
-    usagerValide.decision.statut = "INSTRUCTION";
-    const data = generateCerfaDatas(usagerValide, user, "attestation");
+      const cerfaDatas2 = generateCerfaDatas(usagerValide, user, "attestation");
 
-    expect(data.jourDebut).toEqual("");
-    expect(data.moisDebut).toEqual("");
-    expect(data.anneeDebut).toEqual("");
-    expect(data.jourFin).toEqual("");
-    expect(data.moisFin).toEqual("");
-    expect(data.anneeFin).toEqual("");
-  });
+      expect(cerfaDatas2.adresse).toEqual(
+        "CCAS de Test\nAdresse de courrier\n75010 - Paris 10eme"
+      );
 
-  it("CerfaData() si dossier est en ATTENTE_DECISION alors dateDebut et dateFin doivent être vide", async () => {
-    usagerValide.decision.statut = "ATTENTE_DECISION";
-    const data = generateCerfaDatas(usagerValide, user, "attestation");
+      expect(adresseDomicilie).toEqual(
+        "CCAS de Test\nAdresse de courrier\n75010 - Paris 10eme"
+      );
+      // Ici, l'adresse de la structure ne doit pas changer
+      expect(adresseStructure).toEqual(
+        "CCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine"
+      );
+    });
+    it("Usager avec numéro TSA ou boite postale", () => {
+      user.structure.adresseCourrier.actif = false;
+      const usagerTsa: UsagerLight = {
+        ...usagerValide,
+        numeroDistribution: "TSA 30110",
+      };
+      const { adresseDomicilie } = generateAdressForCerfa(user, usagerTsa);
 
-    expect(data.jourDebut).toEqual("");
-    expect(data.moisDebut).toEqual("");
-    expect(data.anneeDebut).toEqual("");
-    expect(data.jourFin).toEqual("");
-    expect(data.moisFin).toEqual("");
-    expect(data.anneeFin).toEqual("");
-  });
-
-  it("CerfaData() si dossier est en ATTENTE_DECISION alors dateDebut et dateFin doivent être vide", async () => {
-    usagerValide.decision.statut = "ATTENTE_DECISION";
-    user.structure.structureType = "asso";
-    const data = generateCerfaDatas(usagerValide, user, "attestation");
-
-    expect(data.prefecture2).toEqual("92");
-    expect(data.prefecture1).toEqual("92");
+      expect(adresseDomicilie).toEqual(
+        `CCAS de Test\n1 rue de l'océan\nTSA 30110\n92600 - Asnieres-sur-seine`
+      );
+    });
   });
 });

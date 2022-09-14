@@ -6,29 +6,10 @@ import {
   UsagerCerfaFields,
   CerfaDocType,
   DateCerfa,
+  UsagerAyantDroit,
 } from "../../../_common/model";
 import { generateMotifLabel } from "..";
 import { getPhoneString } from "../../../util/phone/phoneUtils.service";
-
-const isNil = (value: any): boolean => {
-  return value === null || value === undefined;
-};
-
-const toString = (value: any): string => {
-  return value === undefined || value === null ? "" : value.toString();
-};
-
-const resetDate = (): DateCerfa => {
-  return { annee: "", heure: "", jour: "", minutes: "", mois: "" };
-};
-
-export const getUsagerRef = (usager: UsagerLight): string => {
-  let usagerRef = toString(usager.ref);
-  if (!isNil(usagerRef)) {
-    usagerRef = toString(usager.customRef);
-  }
-  return usagerRef;
-};
 
 export const generateCerfaDatas = (
   usager: UsagerLight,
@@ -70,31 +51,15 @@ export const generateCerfaDatas = (
 
   const responsable = `${user.structure.responsable.nom.toUpperCase()}, ${user.structure.responsable.prenom.toUpperCase()}, ${user.structure.responsable.fonction.toUpperCase()}`;
 
-  // Adresse de la structure
-  let adresseStructure = `${user.structure.nom}\n${user.structure.adresse}`;
-  if (!isNil(user.structure.complementAdresse)) {
-    adresseStructure += `\n${user.structure.complementAdresse}`;
-  }
-  adresseStructure += `\n${user.structure.codePostal} - ${user.structure.ville}`;
-
   // Adresse de courrier
-  let adresseDomicilie = adresseStructure;
-  if (
-    !isNil(user.structure.adresseCourrier) &&
-    user.structure.adresseCourrier.actif
-  ) {
-    adresseDomicilie = `${user.structure.nom}\n${user.structure.adresseCourrier.adresse}\n${user.structure.adresseCourrier.codePostal} - ${user.structure.adresseCourrier.ville}`;
-  }
-
-  // Numéro de boite
-  // HOTFIX en attendant d'investiguer sur l'option des structures qui n'est pas censé être à null
-  if (user.structure.options?.numeroBoite === true) {
-    adresseDomicilie = `Boite ${usagerRef}\n${adresseDomicilie}`;
-  }
+  const { adresseDomicilie, adresseStructure } = generateAdressForCerfa(
+    user,
+    usager
+  );
 
   // Ayants-droits
   let ayantsDroitsTexte = usager.ayantsDroits.reduce(
-    (prev, current) =>
+    (prev: string, current: UsagerAyantDroit) =>
       `${prev}${current.nom} ${current.prenom} né(e) le ${format(
         new Date(current.dateNaissance),
         "dd/MM/yyyy"
@@ -185,3 +150,63 @@ export const generateCerfaDatas = (
   };
   return pdfInfos;
 };
+
+const isNil = (value: any): boolean => {
+  return value === null || typeof value === "undefined";
+};
+
+const toString = (value: any): string => {
+  return typeof value === "undefined" || value === null ? "" : value.toString();
+};
+
+const resetDate = (): DateCerfa => {
+  return { annee: "", heure: "", jour: "", minutes: "", mois: "" };
+};
+
+export const getUsagerRef = (usager: UsagerLight): string => {
+  let usagerRef = toString(usager.ref);
+  if (!isNil(usagerRef)) {
+    usagerRef = toString(usager.customRef);
+  }
+  return usagerRef;
+};
+
+export function generateAdressForCerfa(
+  user: UserStructureAuthenticated,
+  usager: UsagerLight
+): {
+  adresseStructure: string;
+  adresseDomicilie: string;
+} {
+  // Adresse de la structure
+  let adresseStructure = `${user.structure.nom}\n${user.structure.adresse}`;
+
+  if (!isNil(user.structure.complementAdresse)) {
+    adresseStructure += `\n${user.structure.complementAdresse}`;
+  }
+  // Numéro de distribution spéciale
+  if (!isNil(usager.numeroDistribution)) {
+    adresseStructure += `\n${usager.numeroDistribution}`;
+  }
+
+  adresseStructure += `\n${user.structure.codePostal} - ${user.structure.ville}`;
+
+  // Adresse de courrier
+  let adresseDomicilie = adresseStructure;
+
+  if (
+    !isNil(user.structure.adresseCourrier) &&
+    user.structure.adresseCourrier.actif
+  ) {
+    adresseDomicilie = `${user.structure.nom}\n${user.structure.adresseCourrier.adresse}\n`;
+    adresseDomicilie += `${user.structure.adresseCourrier.codePostal} - ${user.structure.adresseCourrier.ville}`;
+  }
+
+  // Numéro de boite
+  // HOTFIX en attendant d'investiguer sur l'option des structures qui n'est pas censé être à null
+  if (user.structure.options?.numeroBoite === true) {
+    adresseDomicilie = `Boite ${getUsagerRef(usager)}\n${adresseDomicilie}`;
+  }
+
+  return { adresseStructure, adresseDomicilie };
+}

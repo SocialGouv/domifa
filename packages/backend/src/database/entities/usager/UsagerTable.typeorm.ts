@@ -134,6 +134,9 @@ export class UsagerTable
   @Column({ type: "boolean", default: false })
   public migrated!: boolean;
 
+  @Column({ type: "text", default: null })
+  public numeroDistribution!: string | null;
+
   public constructor(entity?: Partial<UsagerTable>) {
     super(entity);
     Object.assign(this, entity);

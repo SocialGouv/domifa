@@ -60,6 +60,7 @@ export type Usager = AppEntity & {
   lastInteraction: UsagerLastInteractions;
 
   options: UsagerOptions;
+  numeroDistribution: string | null;
 
   // Variables de front
   echeanceInfos?: UsagerEcheanceInfos;

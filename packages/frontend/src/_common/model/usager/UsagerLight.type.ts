@@ -21,6 +21,7 @@ export type UsagerLight = AppEntity &
     | "lastInteraction"
     | "options"
     | "historique"
+    | "numeroDistribution"
     | "ayantsDroits"
     | "villeNaissance"
     | "telephone"

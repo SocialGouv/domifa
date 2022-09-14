@@ -52,7 +52,14 @@
       {{ usager.customRef || "Non renseigné" }}
     </span>
   </div>
-  <div class="col-md-8 reponses">
+
+  <div class="col-md-4 reponses">
+    <span class="question">Numéro de distribution spéciale (BP, TSA, etc)</span>
+    <span class="valeur">
+      {{ usager.numeroDistribution || "Non renseigné" }}
+    </span>
+  </div>
+  <div class="col-md-4 reponses">
     <span class="question"> Notifications par SMS activés</span>
     <span class="valeur">
       {{ usager.contactByPhone ? "OUI" : "NON" }}

@@ -30,6 +30,7 @@ export class UsagerFormModel {
   public customRef: string | null;
   public nom: string;
   public prenom: string;
+
   public surnom: string;
 
   public sexe: UsagerSexe;
@@ -87,8 +88,9 @@ export class UsagerFormModel {
 
   public totalInteractionsEnAttente: number;
 
-  // Dates à afficher sur le manage, couleur selon le statut
+  public numeroDistribution: string | null;
 
+  // Dates à afficher sur le manage, couleur selon le statut
   public usagerProfilUrl: string;
 
   public statusInfos: {
@@ -109,6 +111,7 @@ export class UsagerFormModel {
     this.nom = (usager && usager.nom) || "";
     this.prenom = (usager && usager.prenom) || "";
     this.langue = (usager && usager.langue) || "";
+    this.numeroDistribution = (usager && usager.numeroDistribution) || null;
 
     this.surnom = (usager && usager.surnom) || "";
 

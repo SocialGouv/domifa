@@ -11,6 +11,7 @@ export type UsagerLight = AppEntity &
     | "nom"
     | "prenom"
     | "surnom"
+    | "numeroDistribution"
     | "sexe"
     | "dateNaissance"
     | "email"

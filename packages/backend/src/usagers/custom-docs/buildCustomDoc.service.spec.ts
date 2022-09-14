@@ -1,7 +1,7 @@
 import { buildCustomDoc } from ".";
 import { AppTestHelper } from "../../util/test";
 import { STRUCTURE_MOCK } from "../../_common/mocks";
-import { usagerRefusMock } from "../../_common/mocks/usagerRefus.mock";
+import { USAGER_REFUS_MOCK } from "../../_common/mocks/USAGER_REFUS.mock";
 import { usagerValideMock } from "../../_common/mocks/usagerValideMock.mock";
 import { StructureCustomDocTags } from "../../_common/model";
 import { dateFormat, DATE_FORMAT } from "./buildCustomDoc.service";
@@ -49,11 +49,11 @@ describe("buildCustomDoc.service", () => {
     it("2. CUSTOM DOC - REFUS DE RENOUVELLEMENT", async () => {
       const date = new Date("2020-12-15 14:30:00");
 
-      const usager = usagerRefusMock;
+      const usager = USAGER_REFUS_MOCK;
       usager.typeDom = "RENOUVELLEMENT";
 
       const docActif: StructureCustomDocTags = buildCustomDoc({
-        usager: usagerRefusMock,
+        usager: USAGER_REFUS_MOCK,
         structure: STRUCTURE_MOCK,
         date,
       });
@@ -123,13 +123,13 @@ describe("buildCustomDoc.service", () => {
       // Même date que le précédent test
       const date = new Date("April 12, 2022 15:43:00");
 
-      const usager = usagerRefusMock;
+      const usager = USAGER_REFUS_MOCK;
       usager.typeDom = "RENOUVELLEMENT";
 
       // Doit être 4 heures plus tôt
       STRUCTURE_MOCK.timeZone = "America/Cayenne";
       const testDoc: StructureCustomDocTags = buildCustomDoc({
-        usager: usagerRefusMock,
+        usager: USAGER_REFUS_MOCK,
         structure: STRUCTURE_MOCK,
         date,
       });
@@ -141,13 +141,13 @@ describe("buildCustomDoc.service", () => {
       // Même date que le précédent test
       const date = new Date("March 23, 2022 09:32:00");
 
-      const usager = usagerRefusMock;
+      const usager = USAGER_REFUS_MOCK;
       usager.typeDom = "RENOUVELLEMENT";
 
       // Doit être 4 heures plus tôt
       STRUCTURE_MOCK.timeZone = "America/Cayenne";
       const testDoc: StructureCustomDocTags = buildCustomDoc({
-        usager: usagerRefusMock,
+        usager: USAGER_REFUS_MOCK,
         structure: STRUCTURE_MOCK,
         date,
       });

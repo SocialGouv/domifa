@@ -17,6 +17,7 @@ export const USAGER_LIGHT_ATTRIBUTES: (keyof UsagerTable)[] = [
   "entretien",
   "etapeDemande",
   "rdv",
+  "numeroDistribution",
   "lastInteraction",
   "options",
   "historique",

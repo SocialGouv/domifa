@@ -1,19 +1,18 @@
-import { CountryISO } from "ngx-intl-tel-input";
-import { UsagerLight } from "../model";
-import { ETAPE_DOSSIER_COMPLET } from "../model/usager/_constants";
-
-export const usagerRefusMock: UsagerLight = {
+import { ETAPE_DOSSIER_COMPLET, UsagerLight } from "../model";
+import { v4 as uuidv4 } from "uuid";
+export const USAGER_REFUS_MOCK: UsagerLight = {
+  numeroDistribution: null,
   notes: [],
   decision: {
+    uuid: uuidv4(),
     orientationDetails: null,
-    orientation: null,
     statut: "REFUS",
     dateDebut: new Date("2020-02-12T00:00:00.000Z"),
     dateDecision: new Date("2020-02-12T00:00:00.000Z"),
     dateFin: new Date("2021-02-12T00:00:00.000Z"),
-    motif: "NON_MANIFESTATION_3_MOIS",
-    typeDom: undefined,
-    motifDetails: "",
+    motif: "LIEN_COMMUNE",
+    typeDom: "PREMIERE_DOM",
+    motifDetails: "Aucun lien avec la commune",
     userId: 30,
     userName: "Testeur Robin",
   },
@@ -32,15 +31,7 @@ export const usagerRefusMock: UsagerLight = {
       dateDebut: null,
       dateFin: null,
     },
-    procurations: [
-      {
-        nom: null,
-        prenom: null,
-        dateFin: null,
-        dateDebut: null,
-        dateNaissance: null,
-      },
-    ],
+    procurations: [],
     npai: {
       actif: false,
       dateDebut: null,
@@ -48,7 +39,6 @@ export const usagerRefusMock: UsagerLight = {
     portailUsagerEnabled: false,
   },
   contactByPhone: false,
-
   rdv: { dateRdv: null, userId: 0, userName: "" },
   ayantsDroits: [
     {
@@ -59,7 +49,7 @@ export const usagerRefusMock: UsagerLight = {
     },
   ],
   datePremiereDom: new Date("2018-01-11T00:00:00.000Z"),
-
+  langue: null,
   email: "domicilie2@yopmail.com",
   entretien: {
     typeMenage: "COUPLE_AVEC_ENFANT",
@@ -77,20 +67,22 @@ export const usagerRefusMock: UsagerLight = {
   etapeDemande: ETAPE_DOSSIER_COMPLET,
   historique: [
     {
+      uuid: uuidv4(),
       dateDebut: new Date("2020-12-01T10:00:24.980Z"),
       dateDecision: new Date("2020-12-01T10:00:24.980Z"),
       dateFin: new Date("2020-12-01T10:00:24.980Z"),
-      motif: null,
-      orientation: null,
-      motifDetails: null,
-      orientationDetails: null,
+      motif: undefined,
       statut: "INSTRUCTION",
       userId: 30,
       userName: "Testeur Robin",
-      typeDom: null,
+      typeDom: undefined,
     },
   ],
-  telephone: { countryCode: CountryISO.France, numero: "0142424242" },
+
+  telephone: {
+    countryCode: "fr",
+    numero: "0606060606",
+  },
   surnom: "",
   import: {
     date: new Date("2020-12-01T10:00:24.980Z"),

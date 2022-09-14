@@ -10,6 +10,7 @@ export type UsagerEtatCivilFormData = {
   villeNaissance: string;
   langue: string | null;
   customRef: string;
+  numeroDistribution: string | null;
   email: string;
   telephone: Telephone;
   contactByPhone: boolean;

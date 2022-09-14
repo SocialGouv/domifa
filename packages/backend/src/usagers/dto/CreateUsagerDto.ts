@@ -137,4 +137,14 @@ export class CreateUsagerDto {
   @ValidateNested({ each: true })
   @Type(() => UsagerAyantDroitDto)
   public ayantsDroits!: UsagerAyantDroit[];
+
+  @ApiProperty({
+    example: "TSA 19000, BP 100",
+    description: "Numéro de TSA ou boite postale",
+    required: false,
+  })
+  @IsOptional()
+  @MaxLength(100)
+  @TrimOrNullTransform()
+  public numeroDistribution!: string;
 }
