@@ -175,7 +175,10 @@ export class UsagersController {
       usagerDto.customRef = usager.ref.toString();
     }
 
-    usager = await this.usagersService.patch({ uuid: usager.uuid }, usagerDto);
+    usager = await usagerLightRepository.updateOne(
+      { uuid: usager.uuid },
+      usagerDto
+    );
 
     await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
       usager,

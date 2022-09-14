@@ -209,6 +209,26 @@
         L'identifiant est incorrect
       </p>
     </div>
+
+    <div class="col-md-4 form-group">
+      <label for="numeroDistribution"
+        >Numéro de distribution spéciale (BP, TSA, etc)</label
+      >
+      <input
+        type="text"
+        class="form-control"
+        id="numeroDistribution"
+        formControlName="numeroDistribution"
+        placeholder="Exemple : BP 102, TSA 11000"
+        [ngClass]="{
+          'is-invalid': submitted && f.numeroDistribution.errors
+        }"
+        maxlength="20"
+      />
+      <p *ngIf="f.numeroDistribution.errors" class="invalid-feedback">
+        Le numéro de distribution spéciale est incorrect
+      </p>
+    </div>
   </div>
 
   <div

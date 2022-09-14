@@ -40,6 +40,14 @@
         <span *ngIf="!usager.email">Non renseigné</span>
       </div>
       <div class="py-1">
+        <span class="valeur"
+          >Numéro de distribution spéciale (BP, TSA, etc)</span
+        >
+        <span>
+          {{ usager.numeroDistribution || "Non renseigné" }}
+        </span>
+      </div>
+      <div class="py-1">
         <span class="valeur">Notifications par SMS activés: </span>
         <span>
           {{ usager.contactByPhone ? "oui" : "non" }}

@@ -20,7 +20,7 @@ export type Usager = AppEntity & {
   // ETAT CIVIL
   nom: string;
   prenom: string;
-  surnom?: string;
+  surnom: string | null;
   sexe: UsagerSexe;
 
   dateNaissance: Date;
@@ -50,6 +50,9 @@ export type Usager = AppEntity & {
 
   // visible history
   historique: UsagerDecision[];
+
+  // Numéro de TSA pour le tri avant arrivée par la Poste
+  numeroDistribution: string | null;
 
   // INTERACTIONS
   lastInteraction: UsagerLastInteractions;

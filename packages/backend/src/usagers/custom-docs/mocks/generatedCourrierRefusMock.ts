@@ -25,7 +25,7 @@ export const generatedRefusMock: StructureCustomDocTags = {
   USAGER_SURNOM: "",
   USAGER_DATE_NAISSANCE: "07/08/1998",
   USAGER_LIEU_NAISSANCE: "Bouaké, Côte d'Ivoire",
-  USAGER_PHONE: "+33 1 42 42 42 42",
+  USAGER_PHONE: "+33 6 06 06 06 06",
   USAGER_EMAIL: "domicilie2@yopmail.com",
   STATUT_DOM: "Refusé",
   TYPE_DOM: "Renouvellement",

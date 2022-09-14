@@ -70,7 +70,7 @@ async function createTables(queryRunner: QueryRunner) {
       attachment jsonb NULL,
       email text NOT NULL,
       category text NULL,
-      "name" text NOT NULL,
+      name text NOT NULL,
       "comments" text NULL,
       "structureName" text NULL,
       CONSTRAINT "PK_8e4a4781a01061a482fa33e5f5a" PRIMARY KEY (uuid)
@@ -271,6 +271,7 @@ async function createTables(queryRunner: QueryRunner) {
       migrated bool NOT NULL DEFAULT false,
       telephone jsonb NULL DEFAULT '{"numero": "", "countryCode": "fr"}'::jsonb,
       "contactByPhone" bool NULL DEFAULT false,
+      "numeroDistribution" text NULL,
       CONSTRAINT "PK_1bb36e24229bec446a281573612" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_e76056fb098740de66d58a5055a" UNIQUE ("structureId", ref),
       CONSTRAINT "FK_a44d882d224e368efdee8eb8c80" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE
