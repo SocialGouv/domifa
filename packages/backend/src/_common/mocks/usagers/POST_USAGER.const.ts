@@ -6,6 +6,7 @@ export const POST_USAGER: {
   response: UsagerLight;
 } = {
   payload: {
+    numeroDistribution: null,
     ayantsDroits: [
       {
         lien: "ENFANT",
@@ -27,6 +28,7 @@ export const POST_USAGER: {
     villeNaissance: "Monaco",
   },
   response: {
+    numeroDistribution: null,
     uuid: null,
     createdAt: new Date("2022-05-05T07:15:36.590Z"),
     updatedAt: new Date("2022-05-05T07:15:36.590Z"),

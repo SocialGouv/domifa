@@ -1,4 +1,4 @@
 export type PortailAdminAuthLoginForm = {
-  login: string;
+  email: string;
   password: string;
 };

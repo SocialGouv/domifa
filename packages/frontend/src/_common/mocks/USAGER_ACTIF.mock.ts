@@ -103,7 +103,7 @@ export const USAGER_ACTIF_MOCK: UsagerLight = {
       typeDom: "PREMIERE_DOM",
     },
   ],
-  telephone: { countryCode: CountryISO.France, numero: "0142424242" },
+  telephone: { countryCode: CountryISO.France, numero: "0606060606" },
   surnom: "",
   import: {
     date: new Date("2020-12-01T10:00:24.980Z"),

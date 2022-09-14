@@ -1,7 +1,8 @@
 import { UsagerLight } from "../model";
 
-export const usagerValideMock: UsagerLight = {
+export const USAGER_VALIDE_MOCK: UsagerLight = {
   notes: [],
+  numeroDistribution: "",
   uuid: "ee7ef219-b101-422c-8ad4-4d5aedf9caad",
   ref: 6,
   customRef: "6",
@@ -16,7 +17,7 @@ export const usagerValideMock: UsagerLight = {
   langue: null,
   email: "fake-mail@yopmail.com",
 
-  telephone: { countryCode: "fr", numero: "0101010101" },
+  telephone: { countryCode: "fr", numero: "0606060606" },
   contactByPhone: false,
 
   typeDom: "PREMIERE_DOM",

@@ -8,6 +8,7 @@ import {
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import type { PortailAdminAuthApiResponse } from "../../../../_common";
+import { regexp } from "../../../shared/utils/validators";
 import { CustomToastService } from "../../shared/services/custom-toast.service";
 import { PortailAdminAuthLoginForm } from "../model";
 import { AdminAuthService } from "../services/admin-auth.service";
@@ -23,18 +24,17 @@ export class AdminLoginComponent implements OnInit {
   public userForm!: FormGroup;
 
   public hidePassword: boolean;
-
   public loading: boolean;
 
   private redirectToAfterLogin?: string;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private titleService: Title,
-    private authService: AdminAuthService,
-    private toastr: CustomToastService
+    private readonly formBuilder: FormBuilder,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly titleService: Title,
+    private readonly authService: AdminAuthService,
+    private readonly toastr: CustomToastService
   ) {
     this.hidePassword = true;
     this.loading = false;
@@ -50,7 +50,7 @@ export class AdminLoginComponent implements OnInit {
   public initForm(): void {
     this.loginForm = this.formBuilder.group({
       password: ["", Validators.required],
-      login: ["", [Validators.required]],
+      email: ["", [Validators.pattern(regexp.email), Validators.required]],
     });
   }
 

@@ -10,18 +10,17 @@
     >
       <div class="row">
         <div class="col form-group required">
-          <label for="login">Votre identifiant</label>
+          <label for="email">Votre identifiant</label>
           <input
-            type="text"
-            formControlName="login"
-            autocomplete="username"
+            type="email"
+            formControlName="email"
             placeholder="Votre identifiant"
             class="form-control"
             [ngClass]="{
-              'is-invalid': f.login.dirty && f.login.errors
+              'is-invalid': f.email.dirty && f.email.errors
             }"
           />
-          <p *ngIf="f.login.dirty && f.login.errors" class="invalid-feedback">
+          <p *ngIf="f.email.dirty && f.email.errors" class="invalid-feedback">
             Veuillez vérifier l'identifiant
           </p>
         </div>

@@ -247,8 +247,11 @@ describe("Cerfa Data utils", () => {
   describe("generateAdressForCerfa", () => {
     it("Afficher l'ID du domicilié dans l'adresse", () => {
       user.structure.options.numeroBoite = true;
-      //const { adresseDomicilie } = generateAdressForCerfa(user, usagerValide);
+      const { adresseDomicilie } = generateAdressForCerfa(user, usagerValide);
 
+      expect(adresseDomicilie).toEqual(
+        "Boite toto\nCCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine"
+      );
       const cerfaDatas = generateCerfaDatas(usagerValide, user, "attestation");
       expect(cerfaDatas.adresse).toEqual(
         "Boite toto\nCCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine"
