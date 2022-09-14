@@ -11,7 +11,7 @@ export const generatedRefusMock: StructureCustomDocTags = {
   STRUCTURE_NOM: "CCAS de Test",
   STRUCTURE_TYPE: "Type de structure",
   STRUCTURE_ADRESSE: "1 rue de l'océan, Batiment B",
-  STRUCTURE_COMPLEMENT_ADRESSE: "",
+  USAGER_NUMERO_DISTRIBUTION: "",
   STRUCTURE_VILLE: "Asnieres-sur-seine",
   STRUCTURE_CODE_POSTAL: "92600",
   STRUCTURE_COURRIER_ADRESSE: "12 rue des bois, porte gauche",

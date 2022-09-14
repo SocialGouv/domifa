@@ -15,7 +15,7 @@ export const CUSTOM_DOCS_LABELS: StructureCustomDocTags = {
   STRUCTURE_NOM: "Nom de la structure",
   STRUCTURE_TYPE: "Type de structure",
   STRUCTURE_ADRESSE: "Adresse de la structure",
-  STRUCTURE_COMPLEMENT_ADRESSE: "Complément d'adresse",
+
   STRUCTURE_VILLE: "Ville de la structure",
   STRUCTURE_CODE_POSTAL: "Code-postal de la structure",
 
@@ -28,6 +28,7 @@ export const CUSTOM_DOCS_LABELS: StructureCustomDocTags = {
   // USAGER INFOS
   USAGER_REF: "Référence dossier",
   USAGER_CUSTOM_REF: "Identifiant personnalisé",
+  USAGER_NUMERO_DISTRIBUTION: "Numéro de distribution (TSA, BP, etc)",
   USAGER_CIVILITE: "Civilité de l'usager",
   USAGER_NOM: "Nom de l'usager",
   USAGER_PRENOM: "Prénom de l'usager",

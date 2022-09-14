@@ -123,7 +123,6 @@ export function buildCustomDoc({
     STRUCTURE_TYPE: "Type de structure",
     STRUCTURE_ADRESSE: adresseStructure,
 
-    STRUCTURE_COMPLEMENT_ADRESSE: "",
     STRUCTURE_VILLE: ucFirst(structure.ville),
     STRUCTURE_CODE_POSTAL: structure.codePostal,
 
@@ -146,6 +145,9 @@ export function buildCustomDoc({
     USAGER_CIVILITE: usager.sexe === "femme" ? "Madame" : "Monsieur",
     USAGER_NOM: ucFirst(usager.nom),
     USAGER_PRENOM: ucFirst(usager.prenom),
+    USAGER_NUMERO_DISTRIBUTION: usager.numeroDistribution
+      ? usager.numeroDistribution
+      : "",
     USAGER_SURNOM: usager?.surnom ? ucFirst(usager?.surnom) : "",
     USAGER_DATE_NAISSANCE: dateFormat(
       usager.dateNaissance,
