@@ -50,6 +50,7 @@ describe("buildCustomDoc.service", () => {
       const date = new Date("2020-12-15 14:30:00");
 
       const usager = USAGER_REFUS_MOCK;
+
       usager.typeDom = "RENOUVELLEMENT";
 
       const docActif: StructureCustomDocTags = buildCustomDoc({
@@ -59,6 +60,17 @@ describe("buildCustomDoc.service", () => {
       });
 
       expect(docActif).toEqual(generatedRefusMock);
+
+      // Test des numéros de distribution
+      const docNumeroDistribution: StructureCustomDocTags = buildCustomDoc({
+        usager: { ...USAGER_REFUS_MOCK, numeroDistribution: "TSA 20000" },
+        structure: STRUCTURE_MOCK,
+        date,
+      });
+
+      expect(docNumeroDistribution.USAGER_NUMERO_DISTRIBUTION).toEqual(
+        "TSA 20000"
+      );
     });
 
     it("4. CUSTOM DOC AVEC PROCURATION & TRANSFERT", async () => {

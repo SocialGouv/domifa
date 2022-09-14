@@ -12,7 +12,6 @@ export type StructureCustomDocKeys =
   | "STRUCTURE_NOM"
   | "STRUCTURE_TYPE"
   | "STRUCTURE_ADRESSE"
-  | "STRUCTURE_COMPLEMENT_ADRESSE"
   | "STRUCTURE_VILLE"
   | "STRUCTURE_CODE_POSTAL"
 
@@ -31,6 +30,7 @@ export type StructureCustomDocKeys =
   | "USAGER_LIEU_NAISSANCE"
   | "USAGER_PHONE"
   | "USAGER_EMAIL"
+  | "USAGER_NUMERO_DISTRIBUTION"
   //
   | "STATUT_DOM"
   | "TYPE_DOM"
