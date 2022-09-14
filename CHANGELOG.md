@@ -1,3 +1,16 @@
+# [2.105.0](https://github.com/SocialGouv/domifa/compare/v2.104.3...v2.105.0) (2022-09-14)
+
+
+### Bug Fixes
+
+* **docs:** ajout des numéros de distribution dans les docs personnalisés ([947c4d3](https://github.com/SocialGouv/domifa/commit/947c4d304fa3859c6cb86e2c2f3405d672d34bc1))
+* **tests:** correction des fichiers de tests ([f9755a5](https://github.com/SocialGouv/domifa/commit/f9755a5c3e65bb8ef2a78c4d908f2f49ccc6f1dd))
+
+
+### Features
+
+* **tsa:** ajout des numéros de distribution spécialisés ([a4b88d0](https://github.com/SocialGouv/domifa/commit/a4b88d0fe4a5872de9b6510657ac7912da48d60d))
+
 ## [2.104.3](https://github.com/SocialGouv/domifa/compare/v2.104.2...v2.104.3) (2022-09-14)
 
 
