@@ -1,3 +1,10 @@
+## [2.104.3](https://github.com/SocialGouv/domifa/compare/v2.104.2...v2.104.3) (2022-09-14)
+
+
+### Bug Fixes
+
+* **ci:** disable prod metabase ([c1aa476](https://github.com/SocialGouv/domifa/commit/c1aa4768580cf90b2f486a97eddb1292e5e38cda))
+
 ## [2.104.2](https://github.com/SocialGouv/domifa/compare/v2.104.1...v2.104.2) (2022-09-13)
 
 
