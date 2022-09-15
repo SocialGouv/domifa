@@ -1,3 +1,11 @@
+## [2.105.1](https://github.com/SocialGouv/domifa/compare/v2.105.0...v2.105.1) (2022-09-15)
+
+
+### Bug Fixes
+
+* **reset-password:** Mise à jour des fonctionnalités d'administration ([a0eb41c](https://github.com/SocialGouv/domifa/commit/a0eb41cf32b02d3a3748b80f57c44a768d19f2ed))
+* **types:** mise à jour de typages ([9cad090](https://github.com/SocialGouv/domifa/commit/9cad0901a8bf31db50f200cb221e6ca78abb31da))
+
 # [2.105.0](https://github.com/SocialGouv/domifa/compare/v2.104.3...v2.105.0) (2022-09-14)
 
 
