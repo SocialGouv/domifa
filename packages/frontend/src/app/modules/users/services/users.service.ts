@@ -100,8 +100,6 @@ export class UsersService {
     token: string;
     userId: number;
   }) {
-    console.log("data");
-    console.log(data);
     return this.http.post(`${this.endPoint}/reset-password`, data);
   }
 
@@ -110,9 +108,10 @@ export class UsersService {
     password: string;
     oldPassword: string;
   }): Observable<ApiMessage> {
-    console.log("updatePassword");
-    console.log(data);
-    return this.http.post<ApiMessage>(`${this.endPoint}/edit-password`, data);
+    return this.http.post<ApiMessage>(
+      `${this.endPoint}/edit-my-password`,
+      data
+    );
   }
 
   public registerUser(data: string): Observable<ApiMessage> {

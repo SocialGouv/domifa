@@ -1,6 +1,5 @@
 import { SeoService } from "./../../../shared/services/seo.service";
 
-import { NEWS_LABELS } from "./../../../../shared/constants/NEWS_LABELS.const";
 import { Component, OnInit } from "@angular/core";
 import DOMIFA_NEWS from "../../../../../assets/files/news.json";
 
@@ -10,8 +9,7 @@ import DOMIFA_NEWS from "../../../../../assets/files/news.json";
   templateUrl: "./news.component.html",
 })
 export class NewsComponent implements OnInit {
-  public NEWS_LABELS = NEWS_LABELS;
-  public DOMIFA_NEWS = DOMIFA_NEWS;
+  public DOMIFA_NEWS: any = DOMIFA_NEWS;
 
   public constructor(private seoService: SeoService) {}
 

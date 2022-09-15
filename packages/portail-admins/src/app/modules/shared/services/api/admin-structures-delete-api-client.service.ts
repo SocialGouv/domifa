@@ -17,18 +17,21 @@ export class AdminStructuresDeleteApiClient {
 
   public deleteCheck(id: number, token: string): Observable<StructureAdmin> {
     return this.http.put<StructureAdmin>(
-      `${BASE_URL}/check/${id}/${token}`,
+      `${BASE_URL}/check-token/${id}/${token}`,
       {}
     );
   }
 
-  public deleteConfirm(
-    id: number,
-    token: string,
-    name: string
-  ): Observable<ApiMessage> {
+  public deleteConfirm(data: {
+    structureId: number;
+    token: string;
+    structureName: string;
+  }): Observable<ApiMessage> {
     return this.http.delete<ApiMessage>(
-      `${BASE_URL}/confirm/${id}/${token}/${name}`
+      `${BASE_URL}/confirm-delete-structure`,
+      {
+        body: data,
+      }
     );
   }
 }

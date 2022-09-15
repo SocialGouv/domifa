@@ -6,8 +6,7 @@ export type UsagersFilterCriteriaStatut =
   | "INSTRUCTION"
   | "ATTENTE_DECISION"
   | "REFUS"
-  | "RADIE"
-  | "RENOUVELLEMENT";
+  | "RADIE";
 
 export type UsagersFilterCriteriaSortKey =
   | "TOUS" // from UsagersFilterCriteriaStatut

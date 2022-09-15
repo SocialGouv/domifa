@@ -138,12 +138,11 @@ describe("Stuctures creation full", () => {
       localCache.structureId
     );
 
-    await adminStructuresDeleteController.deleteConfirm(
-      "" + structure.id,
-      structure.token,
-      structure.nom,
-      res
-    );
+    await adminStructuresDeleteController.deleteStructureConfirm(res, {
+      token: structure.token,
+      structureId: structure.id,
+      structureName: structure.nom,
+    });
   });
 
   async function testCreateStructure() {

@@ -41,8 +41,6 @@ function getRegionCodeFromDepartement(departement: string): string {
     return region.regionCode;
   } else {
     const errorMessage = `Invalid departement ${departement} (no region found)`;
-    // eslint-disable-next-line no-console
-    console.error(errorMessage);
     throw new Error(errorMessage);
   }
 }
@@ -50,8 +48,6 @@ function getRegionCodeFromDepartement(departement: string): string {
 function getDepartementFromCodePostal(codePostal: string): string {
   if (codePostal.length !== 5) {
     const errorMessage = `Invalid postal code ${codePostal} (cause: ${codePostal.length} characters)`;
-    // eslint-disable-next-line no-console
-    console.error(errorMessage);
     throw new Error(errorMessage);
   }
   if (EXCEPTIONS_CODE_POSTAL[codePostal]) {

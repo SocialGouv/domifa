@@ -152,12 +152,12 @@ export class ResetPasswordComponent implements OnInit {
 
   public submitResetForm() {
     this.submitted = true;
-    console.log(this.resetForm.value);
+
     const passwordFormValue = {
       ...this.resetForm.value,
       userId: parseInt(this.resetForm.controls?.userId?.value, 10),
     };
-    console.log(parseInt(this.resetForm.controls?.userId?.value, 10));
+
     if (passwordFormValue) {
       this.userService.resetPassword(this.resetForm.value).subscribe(() => {
         this.success = true;

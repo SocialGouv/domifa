@@ -187,7 +187,8 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     }
 
     const procurationFormData: UsagerOptionsProcuration[] = this.form.value.map(
-      (procuration) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (procuration: any) => {
         return {
           nom: procuration.nom,
           prenom: procuration.prenom,

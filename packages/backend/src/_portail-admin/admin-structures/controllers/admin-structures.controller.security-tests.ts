@@ -19,13 +19,16 @@ export const AdminStructuresControllerSecurityTests: AppTestHttpClientSecurityTe
     {
       label: `${CONTROLLER}.confirmStructureCreation`,
       query: async (context: AppTestContext) => ({
-        response: await AppTestHttpClient.post("/admin/structures/confim", {
-          context,
-          body: {
-            structureId: 6,
-            token: "xxxxxx",
-          },
-        }),
+        response: await AppTestHttpClient.post(
+          "/admin/structures/confirm-structure-creation",
+          {
+            context,
+            body: {
+              structureId: 6,
+              token: "xxxxxx",
+            },
+          }
+        ),
         expectedStatus: expectedResponseStatusBuilder.allowSuperAdminDomifaOnly(
           context.user,
           {
@@ -47,6 +50,17 @@ export const AdminStructuresControllerSecurityTests: AppTestHttpClientSecurityTe
     },
     {
       label: `${CONTROLLER}.stats`,
+      query: async (context: AppTestContext) => ({
+        response: await AppTestHttpClient.get("/admin/structures/stats", {
+          context,
+        }),
+        expectedStatus: expectedResponseStatusBuilder.allowSuperAdminDomifaOnly(
+          context.user
+        ),
+      }),
+    },
+    {
+      label: `${CONTROLLER}.list`,
       query: async (context: AppTestContext) => ({
         response: await AppTestHttpClient.get("/admin/structures", {
           context,
@@ -70,6 +84,47 @@ export const AdminStructuresControllerSecurityTests: AppTestHttpClientSecurityTe
           expectedStatus:
             expectedResponseStatusBuilder.allowSuperAdminDomifaOnly(
               context.user
+            ),
+        };
+      },
+    },
+    {
+      label: `${CONTROLLER}.toggleEnablePortailUsagerByDomifa`,
+      query: async (context: AppTestContext) => {
+        const structureId = securityTestDataBuilder.getUserStructureId(context);
+        return {
+          response: await AppTestHttpClient.put(
+            `/admin/structures/portail-usager/toggle-enable-domifa/${structureId}`,
+            {
+              context,
+            }
+          ),
+          expectedStatus:
+            expectedResponseStatusBuilder.allowSuperAdminDomifaOnly(
+              context.user
+            ),
+        };
+      },
+    },
+    {
+      label: `${CONTROLLER}.registerNewAdmin`,
+      query: async (context: AppTestContext) => {
+        return {
+          response: await AppTestHttpClient.post(
+            `/admin/structures/register-new-admin`,
+            {
+              context,
+              body: {
+                nom: "XXX",
+              },
+            }
+          ),
+          expectedStatus:
+            expectedResponseStatusBuilder.allowSuperAdminDomifaOnly(
+              context.user,
+              {
+                validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
+              }
             ),
         };
       },

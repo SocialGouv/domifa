@@ -94,9 +94,11 @@
                   <span class="sub-stats-number">{{
                     structure.value | formatBigNumber
                   }}</span>
-                  <span class="sub-stats-label">{{
-                    STRUCTURE_TYPE_LABELS[structure.key]
-                  }}</span>
+                  <span class="sub-stats-label">
+                    {{ structure.key === "asso" ? "Organisme agrée" : "" }}
+                    {{ structure.key === "ccas" ? "CCAS" : "" }}
+                    {{ structure.key === "cias" ? "CIAS" : "" }}
+                  </span>
                 </li>
               </ul>
             </div>

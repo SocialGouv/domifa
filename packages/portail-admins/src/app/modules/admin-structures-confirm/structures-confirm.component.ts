@@ -1,7 +1,7 @@
 import { CustomToastService } from "./../shared/services/custom-toast.service";
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { StructureAdmin } from "../../../_common";
 import { AdminStructuresApiClient } from "../shared/services";
 import { AdminStructuresDeleteApiClient } from "../shared/services/api/admin-structures-delete-api-client.service";
@@ -20,7 +20,7 @@ export class StructuresConfirmComponent implements OnInit {
   public error: boolean;
   public errorDelete: boolean;
 
-  public structureConfirmName?: string;
+  public structureName: string | null;
   public structure?: StructureAdmin;
 
   private structureId!: number;
@@ -32,9 +32,11 @@ export class StructuresConfirmComponent implements OnInit {
     private readonly adminStructuresApiClient: AdminStructuresApiClient,
     private readonly adminStructuresDeleteApiClient: AdminStructuresDeleteApiClient,
     private readonly route: ActivatedRoute,
+    private readonly router: Router,
     private readonly notifService: CustomToastService,
     private readonly titleService: Title
   ) {
+    this.structureName = null;
     this.successDelete = false;
     this.successEnable = false;
     this.confirmDelete = false;
@@ -73,16 +75,20 @@ export class StructuresConfirmComponent implements OnInit {
             this.error = true;
           },
         });
+    } else {
+      this.router.navigate(["404"]);
+      return;
     }
   }
 
   public confirm() {
-    if (
-      !!this.structureConfirmName &&
-      this.structureConfirmName.trim().length !== 0
-    ) {
+    if (!!this.structureName && this.structureName.trim().length !== 0) {
       this.adminStructuresDeleteApiClient
-        .deleteConfirm(this.structureId, this.token, this.structureConfirmName)
+        .deleteConfirm({
+          token: this.token,
+          structureName: this.structureName,
+          structureId: this.structureId,
+        })
         .subscribe({
           next: () => {
             this.successDelete = true;

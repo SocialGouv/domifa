@@ -36,7 +36,7 @@ export const AdminStructuresDeleteControllerSecurityTests: AppTestHttpClientSecu
       label: `${CONTROLLER}.deleteCheck`,
       query: async (context: AppTestContext) => ({
         response: await AppTestHttpClient.put(
-          "/admin/structures-delete/check/1/INVALID-TOKEN",
+          "/admin/structures-delete/check-token/1/INVALID-TOKEN",
           {
             context,
           }
@@ -44,7 +44,7 @@ export const AdminStructuresDeleteControllerSecurityTests: AppTestHttpClientSecu
         expectedStatus: expectedResponseStatusBuilder.allowSuperAdminDomifaOnly(
           context.user,
           {
-            validExpectedResponseStatus: HttpStatus.INTERNAL_SERVER_ERROR,
+            validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
           }
         ),
       }),
@@ -53,9 +53,14 @@ export const AdminStructuresDeleteControllerSecurityTests: AppTestHttpClientSecu
       label: `${CONTROLLER}.deleteConfirm`,
       query: async (context: AppTestContext) => ({
         response: await AppTestHttpClient.delete(
-          "/admin/structures-delete/confirm/4444/INVALID-TOKEN/INVALID_NAME",
+          "/admin/structures-delete/confirm-delete-structure",
           {
             context,
+            body: {
+              id: 4444,
+              token: "INVALID-TOKEN",
+              nom: "INVALID_NAME",
+            },
           }
         ),
         expectedStatus: expectedResponseStatusBuilder.allowSuperAdminDomifaOnly(
