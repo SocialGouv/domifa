@@ -69,6 +69,7 @@
     "@angular/compiler-cli": "^13.0.2",
     "@angular/language-service": "^13.0.2",
     "@schematics/update": "^0.1102.12",
+    "@types/d3-scale": "^4.0.2",
     "@types/file-saver": "^2.0.4",
     "@types/google-libphonenumber": "^7.4.23",
     "@types/jest": "^27.0.1",

@@ -46,7 +46,8 @@ describe("EtatCivilParentFormComponent", () => {
   });
 
   it("Conversion des données brutes du formulaire", () => {
-    const testForm = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const testForm: any = {
       ayantsDroits: [
         {
           dateNaissance: { year: 2022, month: 8, day: 1 },

@@ -18,7 +18,7 @@ export const ENTRETIEN_LIEN_COMMUNE: {
 };
 
 export const ENTRETIEN_CAUSE_INSTABILITE: {
-  [key in UsagerEntretienCause];
+  [key in UsagerEntretienCause]: string;
 } = {
   AUTRE: "Autre cause",
   ERRANCE: "Errance",
@@ -42,7 +42,7 @@ export const ENTRETIEN_TYPE_MENAGE: {
 };
 
 export const ENTRETIEN_RAISON_DEMANDE: {
-  [key in UsagerEntretienRaisonDemande];
+  [key in UsagerEntretienRaisonDemande]: string;
 } = {
   AUTRE: "Autre raison",
   EXERCICE_DROITS: "Exercice des droits civils ou civiques",
@@ -50,7 +50,7 @@ export const ENTRETIEN_RAISON_DEMANDE: {
 };
 
 export const ENTRETIEN_RESIDENCE: {
-  [key in UsagerEntretienResidence];
+  [key in UsagerEntretienResidence]: string;
 } = {
   AUTRE: "Autre résidence",
   DOMICILE_MOBILE: "Domicile mobile (ex: caravane)",

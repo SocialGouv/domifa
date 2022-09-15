@@ -17,16 +17,10 @@ const formatter = (languageCode: string) => {
   return LANGUAGES_MAP[languageCode]?.label;
 };
 
-const validator = (errorName = "language") =>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function validate(control: AbstractControl): { [key: string]: any } | null {
-    if (_isInvalid(control.value)) {
-      const errorObj = {};
-      errorObj[errorName] = true;
-      return errorObj; // error
-    }
-    return null; // ok
-  };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function validator(control: AbstractControl): { [key: string]: any } | null {
+  return _isInvalid(control.value) ? { language: true } : null;
+}
 
 export const languagesAutocomplete = {
   typeahead,

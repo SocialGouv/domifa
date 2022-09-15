@@ -10,7 +10,10 @@
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
-    "lib": ["es2018", "dom"],
+    "lib": [
+      "es2018",
+      "dom"
+    ],
     "module": "es2020",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
@@ -19,11 +22,20 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "target": "es2017",
-    "typeRoots": ["node_modules/@types", "../../node_modules/@types"],
-    "types": ["jest"]
+    "typeRoots": [
+      "node_modules/@types",
+      "../../node_modules/@types"
+    ],
+    "types": [
+      "jest"
+    ],
+    // "noImplicitAny": true
     //"strict": true
   },
-  "exclude": ["./node_modules", "./dist"],
+  "exclude": [
+    "./node_modules",
+    "./dist"
+  ],
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,

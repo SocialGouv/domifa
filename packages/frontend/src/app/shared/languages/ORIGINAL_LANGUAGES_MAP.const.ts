@@ -1,4 +1,14 @@
-export const ORIGINAL_LANGUAGES_MAP = {
+export const ORIGINAL_LANGUAGES_MAP: {
+  [key: string]: {
+    "639-1"?: string;
+    "639-2/B"?: string;
+    "639-2": string;
+    de: string[];
+    en: string[];
+    fr: string[];
+    wikiUrl?: string;
+  };
+} = {
   aar: {
     "639-1": "aa",
     "639-2": "aar",

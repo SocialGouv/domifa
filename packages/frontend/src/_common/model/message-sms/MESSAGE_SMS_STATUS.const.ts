@@ -1,3 +1,4 @@
+import { MessageSmsId } from "./MessageSmsId.type";
 import { MessageSmsStatus } from "./MessageSmsStatus.type";
 export const MESSAGE_SMS_STATUS: {
   [key in MessageSmsStatus]: {
@@ -48,4 +49,21 @@ export const MESSAGE_SMS_STATUS: {
     description: "Cet envoi a été désactivé par l'administrateur",
     color: "red-status",
   },
+};
+
+export const SMS_LABELS: {
+  [key in MessageSmsId]: string;
+} = {
+  appel: "Appel téléphonique enregistré",
+  colisIn: "Colis enregistré",
+  colisOut: "Colis remis",
+  courrierIn: "Courrier enregistré",
+  courrierOut: "Courrier remis",
+  recommandeIn: "Avis de passage enregistré",
+  recommandeOut: "Avis de passage remis",
+  visite: "Passage enregistré",
+  npai: "Pli non distribuable",
+  echeanceDeuxMois: "Sms rappel de renouvellement",
+  dernierPassageTroisMois: "Avertissement dernier passage plus de 3 mois",
+  decision: "Nouvelle décision",
 };

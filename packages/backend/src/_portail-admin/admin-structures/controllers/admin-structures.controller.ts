@@ -45,7 +45,7 @@ import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
 import { startApmSpan } from "../../../instrumentation";
 import { UsersController } from "../../../users/users.controller";
 import { RegisterUserAdminDto } from "../../../users/dto";
-import { ConfirmStructureCreation } from "../ConfirmStructureCreation.dto";
+import { ConfirmStructureCreation } from "../../_dto/ConfirmStructureCreation.dto";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
@@ -141,7 +141,7 @@ export class AdminStructuresController {
     return stats;
   }
 
-  @Get()
+  @Get("")
   @AllowUserProfiles("super-admin-domifa")
   public async list(): Promise<AdminStructureListData> {
     const data: AdminStructureListData =

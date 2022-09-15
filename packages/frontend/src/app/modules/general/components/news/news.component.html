@@ -12,23 +12,25 @@
           <strong>{{ news.date | date: "dd/MM/yyyy" }}</strong>
           <span *ngIf="news.description">- {{ news.description }}</span>
         </p>
-        <div *ngFor="let content of news.content" class="text-start news">
-          <span
-            class="badge badge-pill"
-            [ngClass]="{
-              'bg-primary': content.type === 'new',
-              'bg-warning': content.type === 'bug'
-            }"
-          >
-            {{ NEWS_LABELS[content.type] }}
-          </span>
-          &nbsp;
-          <strong>{{ content.categorie }}</strong>
-          <br />
-          <ul>
-            <li *ngFor="let message of content.message">{{ message }}</li>
-          </ul>
-        </div>
+        <ng-container *ngIf="news?.content">
+          <div *ngFor="let content of news.content" class="text-start news">
+            <span
+              class="badge badge-pill"
+              [ngClass]="{
+                'bg-primary': content.type === 'new',
+                'bg-warning': content.type === 'bug'
+              }"
+            >
+              {{ content?.type === "bug" ? "Améliorations" : "Nouveauté" }}
+            </span>
+            &nbsp;
+            <strong>{{ content.categorie }}</strong>
+            <br />
+            <ul>
+              <li *ngFor="let message of content.message">{{ message }}</li>
+            </ul>
+          </div>
+        </ng-container>
       </div>
     </div>
   </div>

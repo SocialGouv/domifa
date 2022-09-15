@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   HttpStatus,
@@ -15,6 +16,8 @@ import { structureLightRepository } from "../../../database";
 import { deleteStructureEmailSender } from "../../../mails/services/templates-renderers";
 import { structureDeletorService } from "../../../structures/services/structureDeletor.service";
 import { ExpressResponse } from "../../../util/express";
+import { STRUCTURE_LIGHT_ATTRIBUTES } from "../../../_common/model";
+import { ConfirmStructureDeleteDto } from "../../_dto";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures-delete")
@@ -52,39 +55,40 @@ export class AdminStructuresDeleteController {
 
   @AllowUserProfiles("super-admin-domifa")
   @ApiBearerAuth()
-  @Put("check/:id/:token")
+  @Put("check-token/:id/:token")
   public async deleteStructureCheck(
     @Param("id") id: string,
     @Res() res: ExpressResponse,
     @Param("token") token: string
   ) {
     try {
-      const structure = await structureLightRepository.findOneByOrFail({
-        token,
-        id: parseInt(id, 10),
+      const structure = await structureLightRepository.findOneOrFail({
+        where: {
+          token,
+          id: parseInt(id, 10),
+        },
+        select: STRUCTURE_LIGHT_ATTRIBUTES,
       });
 
       return res.status(HttpStatus.OK).json(structure);
     } catch (e) {
       return res
         .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "DELETE_STRUCTURE_FAIL" });
+        .json({ message: "CHECK_TOKEN_DELETE_FAIL" });
     }
   }
 
   @AllowUserProfiles("super-admin-domifa")
   @ApiBearerAuth()
-  @Delete("confirm/:id/:token/:nom")
+  @Delete("confirm-delete-structure")
   public async deleteStructureConfirm(
-    @Param("id") id: string,
-    @Param("token") token: string,
-    @Param("nom") structureNom: string,
-    @Res() res: ExpressResponse
+    @Res() res: ExpressResponse,
+    @Body() structureDeleteDto: ConfirmStructureDeleteDto
   ) {
     const structure = await structureLightRepository.findOneBy({
-      token,
-      nom: structureNom,
-      id: parseInt(id, 10),
+      token: structureDeleteDto.token,
+      nom: structureDeleteDto.structureName,
+      id: structureDeleteDto.structureId,
     });
 
     if (!structure) {

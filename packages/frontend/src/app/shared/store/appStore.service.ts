@@ -222,13 +222,13 @@ function deleteSearchPageLoadedUsagersDataUsager({
   };
 
   searchPageLoadedUsagersData.usagersNonRadies =
-    searchPageLoadedUsagersData.usagersNonRadies.filter((u) =>
-      attributes.some((attr) => criteria[attr] !== u[attr])
+    searchPageLoadedUsagersData.usagersNonRadies.filter((u: UsagerLight) =>
+      attributes.some(() => criteria.ref !== u.ref)
     );
 
   searchPageLoadedUsagersData.usagersRadiesFirsts =
-    searchPageLoadedUsagersData.usagersRadiesFirsts.filter((u) =>
-      attributes.some((attr) => criteria[attr] !== u[attr])
+    searchPageLoadedUsagersData.usagersRadiesFirsts.filter((u: UsagerLight) =>
+      attributes.some(() => criteria.ref !== u.ref)
     );
 
   searchPageLoadedUsagersData.usagersRadiesTotalCount +=

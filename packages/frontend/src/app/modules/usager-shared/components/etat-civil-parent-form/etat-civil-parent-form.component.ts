@@ -121,7 +121,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
   public initForm(): void {
     this.usagerForm = this.formBuilder.group({
       ayantsDroits: this.formBuilder.array([]),
-      langue: [this.usager.langue, languagesAutocomplete.validator("langue")],
+      langue: [this.usager.langue, languagesAutocomplete.validator],
       ayantsDroitsExist: [this.usager.ayantsDroitsExist, []],
       dateNaissance: [
         formatDateToNgb(this.usager.dateNaissance),

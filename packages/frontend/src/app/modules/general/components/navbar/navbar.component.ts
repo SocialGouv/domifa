@@ -23,8 +23,8 @@ export class NavbarComponent implements OnInit {
   public pendingNews: boolean;
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
+    private readonly authService: AuthService,
+    private readonly router: Router,
     public matomoService: MatomoTracker,
     private userIdleService: UserIdleService
   ) {
