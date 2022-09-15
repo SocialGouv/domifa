@@ -62,6 +62,7 @@ export class UsersPublicController {
     @Body() resetPasswordDto: ResetPasswordDto,
     @Res() res: ExpressResponse
   ) {
+    console.log(resetPasswordDto);
     try {
       await userStructureSecurityResetPasswordUpdater.confirmResetPassword({
         newPassword: resetPasswordDto.password,

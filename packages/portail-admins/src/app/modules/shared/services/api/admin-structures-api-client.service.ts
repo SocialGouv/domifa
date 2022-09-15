@@ -65,10 +65,13 @@ export class AdminStructuresApiClient {
     structureId: number,
     token: string
   ): Observable<StructureAdmin> {
-    return this.http.post<StructureAdmin>(`${BASE_URL}/confirm`, {
-      structureId,
-      token,
-    });
+    return this.http.post<StructureAdmin>(
+      `${BASE_URL}/confirm-structure-creation`,
+      {
+        structureId,
+        token,
+      }
+    );
   }
 
   public postNewAdmin(newAdmin: UserNewAdmin): Observable<ApiMessage> {

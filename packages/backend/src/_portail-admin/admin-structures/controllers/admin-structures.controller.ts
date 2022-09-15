@@ -171,7 +171,7 @@ export class AdminStructuresController {
   }
 
   @AllowUserProfiles("super-admin-domifa")
-  @Get("confirm/:id/:token")
+  @Post("confirm-structure-creation")
   public async confirmStructureCreation(
     @Body() confirmStructureDto: ConfirmStructureCreation,
     @Res() res: ExpressResponse
@@ -237,8 +237,8 @@ export class AdminStructuresController {
   }
 
   @AllowUserProfiles("super-admin-domifa")
-  @Post("register")
-  public async registerAdmin(
+  @Post("register-new-admin")
+  public async registerNewAdmin(
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: ExpressResponse,
     @Body() registerUserDto: RegisterUserAdminDto

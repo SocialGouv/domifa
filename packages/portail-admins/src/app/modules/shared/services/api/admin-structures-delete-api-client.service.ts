@@ -1,3 +1,4 @@
+import { ApiMessage } from "./../../../../../_common/_core/ApiMessage.type";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
@@ -25,7 +26,9 @@ export class AdminStructuresDeleteApiClient {
     id: number,
     token: string,
     name: string
-  ): Observable<any> {
-    return this.http.delete(`${BASE_URL}/confirm/${id}/${token}/${name}`);
+  ): Observable<ApiMessage> {
+    return this.http.delete<ApiMessage>(
+      `${BASE_URL}/confirm/${id}/${token}/${name}`
+    );
   }
 }

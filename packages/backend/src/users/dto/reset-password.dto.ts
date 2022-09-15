@@ -1,6 +1,6 @@
 import {
   IsNotEmpty,
-  IsNumber,
+  IsNumberString,
   IsString,
   MaxLength,
   MinLength,
@@ -22,6 +22,6 @@ export class ResetPasswordDto {
   public readonly token!: string;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsNumberString()
   public readonly userId!: number;
 }

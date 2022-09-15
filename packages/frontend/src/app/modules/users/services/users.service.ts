@@ -94,16 +94,24 @@ export class UsersService {
     );
   }
 
-  public resetPassword(data: { email: string }) {
-    return this.http.post(`${this.endPoint}/reset-password`, data);
-  }
-
-  public updatePassword(data: {
+  public resetPassword(data: {
     confirmPassword: string;
     password: string;
     token: string;
     userId: number;
+  }) {
+    console.log("data");
+    console.log(data);
+    return this.http.post(`${this.endPoint}/reset-password`, data);
+  }
+
+  public updateMyPassword(data: {
+    confirmPassword: string;
+    password: string;
+    oldPassword: string;
   }): Observable<ApiMessage> {
+    console.log("updatePassword");
+    console.log(data);
     return this.http.post<ApiMessage>(`${this.endPoint}/edit-password`, data);
   }
 

@@ -37,10 +37,12 @@ async function updatePassword({
       throwErrorIfNotFound: true,
     }
   );
+
   const isValidPass: boolean = await passwordGenerator.checkPassword({
     password: oldPassword,
     hash: user.password,
   });
+
   if (!isValidPass) {
     await UserStructureSecurityRepository.logEvent({
       userId,

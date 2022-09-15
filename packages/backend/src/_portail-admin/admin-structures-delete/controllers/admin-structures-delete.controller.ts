@@ -53,23 +53,29 @@ export class AdminStructuresDeleteController {
   @AllowUserProfiles("super-admin-domifa")
   @ApiBearerAuth()
   @Put("check/:id/:token")
-  public async deleteCheck(
+  public async deleteStructureCheck(
     @Param("id") id: string,
     @Res() res: ExpressResponse,
     @Param("token") token: string
   ) {
-    const structure = await structureLightRepository.findOneByOrFail({
-      token,
-      id: parseInt(id, 10),
-    });
+    try {
+      const structure = await structureLightRepository.findOneByOrFail({
+        token,
+        id: parseInt(id, 10),
+      });
 
-    return res.status(HttpStatus.OK).json(structure);
+      return res.status(HttpStatus.OK).json(structure);
+    } catch (e) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "DELETE_STRUCTURE_FAIL" });
+    }
   }
 
   @AllowUserProfiles("super-admin-domifa")
   @ApiBearerAuth()
   @Delete("confirm/:id/:token/:nom")
-  public async deleteConfirm(
+  public async deleteStructureConfirm(
     @Param("id") id: string,
     @Param("token") token: string,
     @Param("nom") structureNom: string,
