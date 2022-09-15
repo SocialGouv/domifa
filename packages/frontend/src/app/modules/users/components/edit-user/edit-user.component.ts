@@ -176,7 +176,7 @@ export class EditUserComponent implements OnInit {
     });
   }
 
-  public updatePassword(): void {
+  public updateMyPassword(): void {
     this.submitted = true;
     if (this.passwordForm.invalid) {
       this.toastService.error(
@@ -186,7 +186,7 @@ export class EditUserComponent implements OnInit {
     }
 
     this.loading = true;
-    this.userService.updatePassword(this.passwordForm.value).subscribe({
+    this.userService.updateMyPassword(this.passwordForm.value).subscribe({
       next: () => {
         this.loading = false;
         this.editPassword = false;

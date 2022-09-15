@@ -31,7 +31,7 @@ import {
   UserStructureProfile,
   USER_STRUCTURE_ROLE_ALL,
 } from "../_common/model";
-import { EditPasswordDto } from "./dto/edit-password.dto";
+import { EditMyPasswordDto } from "./dto/edit-my-password.dto";
 import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
 import { UpdateRoleDto } from "./dto/update-role.dto";
 import { UserEditDto } from "./dto/user-edit.dto";
@@ -176,16 +176,16 @@ export class UsersController {
   }
 
   // Edition d'un mot de passe quand on est déjà connecté
-  @Post("edit-password")
+  @Post("edit-my-password")
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @ApiOperation({ summary: "Edition du mot de passe depuis le compte user" })
   public async editPassword(
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: ExpressResponse,
-    @Body() editPasswordDto: EditPasswordDto
+    @Body() editPasswordDto: EditMyPasswordDto
   ) {
     try {
-      userStructureSecurityPasswordUpdater.updatePassword({
+      await userStructureSecurityPasswordUpdater.updatePassword({
         userId: user.id,
         oldPassword: editPasswordDto.oldPassword,
         newPassword: editPasswordDto.password,

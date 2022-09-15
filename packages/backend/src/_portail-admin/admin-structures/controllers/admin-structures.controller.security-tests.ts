@@ -1,3 +1,4 @@
+import { HttpStatus } from "@nestjs/common";
 import { AppTestContext, AppTestHttpClient } from "../../../util/test";
 import {
   AppTestHttpClientSecurityTestDef,
@@ -15,6 +16,24 @@ const CONTROLLER = "AdminStructuresController";
 
 export const AdminStructuresControllerSecurityTests: AppTestHttpClientSecurityTestDef[] =
   [
+    {
+      label: `${CONTROLLER}.confirmStructureCreation`,
+      query: async (context: AppTestContext) => ({
+        response: await AppTestHttpClient.post("/admin/structures/confim", {
+          context,
+          body: {
+            structureId: 6,
+            token: "xxxxxx",
+          },
+        }),
+        expectedStatus: expectedResponseStatusBuilder.allowSuperAdminDomifaOnly(
+          context.user,
+          {
+            validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
+          }
+        ),
+      }),
+    },
     {
       label: `${CONTROLLER}.export`,
       query: async (context: AppTestContext) => ({

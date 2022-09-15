@@ -1,6 +1,6 @@
 import { IsNotEmpty, MaxLength, MinLength } from "class-validator";
 
-export class EditPasswordDto {
+export class EditMyPasswordDto {
   @IsNotEmpty()
   @MinLength(12, {
     message: "PASSWORD_TOO_SMALL",
