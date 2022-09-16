@@ -1,3 +1,10 @@
+## [2.105.2](https://github.com/SocialGouv/domifa/compare/v2.105.1...v2.105.2) (2022-09-16)
+
+
+### Bug Fixes
+
+* Use new storage secret for preprod ([66b6390](https://github.com/SocialGouv/domifa/commit/66b6390aeba96047f3fae4db9e196a469e9884a1))
+
 ## [2.105.1](https://github.com/SocialGouv/domifa/compare/v2.105.0...v2.105.1) (2022-09-15)
 
 
