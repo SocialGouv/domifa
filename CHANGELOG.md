@@ -1,3 +1,10 @@
+## [2.105.4](https://github.com/SocialGouv/domifa/compare/v2.105.3...v2.105.4) (2022-09-17)
+
+
+### Bug Fixes
+
+* **deps:** update dependency intl-tel-input to v17.0.19 ([f57655b](https://github.com/SocialGouv/domifa/commit/f57655b3d0bdd97f86562331c6cbff21a7612079))
+
 ## [2.105.3](https://github.com/SocialGouv/domifa/compare/v2.105.2...v2.105.3) (2022-09-16)
 
 
