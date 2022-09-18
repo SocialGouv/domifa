@@ -47,7 +47,7 @@
     "@nestjs/swagger": "^6.0.0",
     "@nestjs/terminus": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
-    "@ntegral/nestjs-sentry": "^3.0.7",
+    "@ntegral/nestjs-sentry": "^4.0.0",
     "@sentry/node": "^7.0.0",
     "@types/source-map-support": "^0.5.4",
     "bcryptjs": "^2.4.3",
