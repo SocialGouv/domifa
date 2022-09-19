@@ -1,3 +1,10 @@
+## [2.105.5](https://github.com/SocialGouv/domifa/compare/v2.105.4...v2.105.5) (2022-09-19)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @ntegral/nestjs-sentry to v4 ([ec10a48](https://github.com/SocialGouv/domifa/commit/ec10a48e46bd5b109b3da9da1752d1bd4570ced5))
+
 ## [2.105.4](https://github.com/SocialGouv/domifa/compare/v2.105.3...v2.105.4) (2022-09-17)
 
 
