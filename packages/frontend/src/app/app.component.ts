@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { NavigationEnd, Router } from "@angular/router";
+import { Event, NavigationEnd, Router } from "@angular/router";
 import {
   NgbModal,
   NgbModalOptions,
@@ -92,9 +92,12 @@ export class AppComponent implements OnInit {
     this.runHealthCheckAndAutoReload();
 
     this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => {
-        const splitUrl = event.url.split("#");
+      .pipe(filter((e: Event) => e instanceof NavigationEnd))
+      .subscribe((ev: Event) => {
+        console.log(ev);
+        console.log(typeof ev);
+        const event = ev as NavigationEnd;
+        const splitUrl = event?.url.split("#");
         this.currentUrl = splitUrl[0];
 
         const sections = ["navigation", "page", "footer"];

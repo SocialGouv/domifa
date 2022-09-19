@@ -164,7 +164,7 @@ html {
 }
 
 .page-footer img.ministere-logo {
-  height: 80px;
+  max-height: 100px;
   width: auto;
 }
 .page-footer .menu-breadcrumb {

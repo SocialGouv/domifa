@@ -8,6 +8,8 @@
     "downlevelIteration": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
+    "noImplicitThis": true,
+    "strictFunctionTypes": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
     "lib": [
@@ -29,7 +31,7 @@
     "types": [
       "jest"
     ],
-    // "noImplicitAny": true
+    "noImplicitAny": true
     //"strict": true
   },
   "exclude": [
