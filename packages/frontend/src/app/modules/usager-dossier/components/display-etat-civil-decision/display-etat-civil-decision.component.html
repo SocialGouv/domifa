@@ -20,6 +20,12 @@
       }}</span>
       <span class="valeur" *ngIf="!usager.langue">Non renseigné</span>
     </div>
+    <div class="py-1">
+      <span class="valeur">Numéro de distribution spéciale (BP, TSA, etc)</span>
+      <span>
+        {{ usager.numeroDistribution || "Non renseigné" }}
+      </span>
+    </div>
 
     <div class="my-4">
       <div class="py-2 text-primary fw-bold">Contact</div>
@@ -38,14 +44,6 @@
           {{ usager.email }}
         </span>
         <span *ngIf="!usager.email">Non renseigné</span>
-      </div>
-      <div class="py-1">
-        <span class="valeur"
-          >Numéro de distribution spéciale (BP, TSA, etc)</span
-        >
-        <span>
-          {{ usager.numeroDistribution || "Non renseigné" }}
-        </span>
       </div>
       <div class="py-1">
         <span class="valeur">Notifications par SMS activés: </span>

@@ -136,10 +136,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
         ],
       },
       {
-        validators: endDateAfterBeginDateValidator({
-          beginDateControlName: "dateDebut",
-          endDateControlName: "dateFin",
-        }),
+        validators: endDateAfterBeginDateValidator,
       }
     );
   }

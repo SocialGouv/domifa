@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from "@angular/common/http";
 import {
   Component,
   ElementRef,
@@ -15,6 +14,7 @@ import {
   combineLatest,
   fromEvent,
   NEVER,
+  Observable,
   ReplaySubject,
   Subject,
   Subscription,
@@ -23,10 +23,8 @@ import {
 import {
   catchError,
   debounceTime,
-  delayWhen,
   distinctUntilChanged,
   map,
-  retryWhen,
   switchMap,
   tap,
 } from "rxjs/operators";
@@ -35,7 +33,7 @@ import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { fadeInOut } from "../../../../shared";
 import { usagersCache } from "../../../../shared/store";
 import { SearchPageLoadedUsagersData } from "../../../../shared/store/AppStoreModel.type";
-import { CustomToastService } from "../../../shared/services/custom-toast.service";
+
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import {
   getEcheanceInfos,
@@ -136,7 +134,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   constructor(
     private readonly usagerService: UsagerService,
     private readonly authService: AuthService,
-    private readonly toastService: CustomToastService,
     private readonly titleService: Title,
     public matomo: MatomoTracker
   ) {
@@ -187,24 +184,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
             this.usagerService.getSearchPageUsagerData({
               chargerTousRadies,
             })
-          ),
-          retryWhen((errors) =>
-            // retry in case of error
-            errors.pipe(
-              tap((err: HttpErrorResponse) => {
-                this.loading = false;
-                if (err?.status === 401) {
-                  this.authService.logoutAndRedirect();
-                } else {
-                  console.log(`Error loading usagers`, err);
-                  this.toastService.error(
-                    "Une erreur a eu lieu lors de la recherche"
-                  );
-                }
-              }),
-              // retry in 30 seconds
-              delayWhen(() => timer(30000))
-            )
           )
         )
         .subscribe((searchPageLoadedUsagersData) => {
@@ -227,12 +206,13 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       this.allUsagersByStatus$.next(this.allUsagersByStatus);
     });
 
-    const onSearchInputKeyUp$ = fromEvent(
+    const onSearchInputKeyUp$: Observable<string> = fromEvent<KeyboardEvent>(
       this.searchInput.nativeElement,
       "keyup"
     ).pipe(
-      map((event: Event) => {
-        return (event.target as HTMLInputElement).value;
+      map((event: KeyboardEvent) => {
+        const target = event.target as HTMLInputElement;
+        return target?.value ? target.value : "";
       })
     );
 
