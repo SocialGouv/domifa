@@ -31,7 +31,7 @@
             'color-danger': isInvalidStructureName(f.nom.value)
           }"
         >
-          <!-- // note: on ne bloque par l'inscription si invalide, mais on affiche le message en rouge -->
+          <!-- note: on ne bloque par l'inscription si invalide, mais on affiche le message en rouge -->
           <b
             >Préciser le nom de votre ville / de votre unité locale en cas de
             réseau / de votre association.</b
@@ -91,9 +91,9 @@
               (submitted && f.codePostal.errors)
           }"
         />
-        <div *ngIf="f.codePostal.errors" class="invalid-feedback">
+        <p *ngIf="f.codePostal.errors" class="invalid-feedback">
           Le code postal est obligatoire
-        </div>
+        </p>
       </div>
 
       <div class="col-md-6 form-group required">
@@ -220,7 +220,7 @@
         <label for="phone">Numéro de téléphone</label>
         <ngx-intl-tel-input
           [cssClass]="
-            submitted && (f.phone.errors || f.phone.invalid)
+            submitted && (f.telephone.errors || f.telephone.invalid)
               ? 'form-control is-invalid'
               : 'form-control'
           "
@@ -239,10 +239,10 @@
           [separateDialCode]="true"
           [inputId]="'phone'"
           [numberFormat]="PhoneNumberFormat.International"
-          formControlName="phone"
+          formControlName="telephone"
         ></ngx-intl-tel-input>
         <p
-          *ngIf="submitted && (f.phone.errors || f.phone.invalid)"
+          *ngIf="submitted && (f.telephone.errors || f.telephone.invalid)"
           class="invalid-feedback-custom"
         >
           Veuillez vérifier le numéro de téléphone

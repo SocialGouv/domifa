@@ -1,4 +1,4 @@
-import { ApiMessage } from "./../../../../_common/model/_core/ApiMessage.type";
+import { ApiMessage } from "../../../../_common/model/_general/ApiMessage.type";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";

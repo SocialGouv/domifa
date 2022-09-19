@@ -9,7 +9,11 @@ import { Title } from "@angular/platform-browser";
 
 import { of, Subject } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
-import { UserStructure, StructureCommon } from "../../../../../_common/model";
+import {
+  UserStructure,
+  StructureCommon,
+  FormEmailTakenValidator,
+} from "../../../../../_common/model";
 import { fadeInOut, noWhiteSpace, regexp } from "../../../../shared";
 
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
@@ -143,7 +147,9 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
     }
   }
 
-  public validateEmailNotTaken(control: AbstractControl) {
+  public validateEmailNotTaken(
+    control: AbstractControl
+  ): FormEmailTakenValidator {
     const testEmail = RegExp(regexp.email).test(control.value);
     return testEmail
       ? this.userService.validateEmail(control.value).pipe(

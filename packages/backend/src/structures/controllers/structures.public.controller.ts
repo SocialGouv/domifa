@@ -18,6 +18,7 @@ export class StructuresPublicController {
   public async postStructure(
     @Body() structureWithUserDto: StructureWithUserDto
   ) {
+    console.log(structureWithUserDto);
     const structure =
       await structureCreatorService.createStructureWithAdminUser(
         structureWithUserDto.structure,
@@ -28,6 +29,7 @@ export class StructuresPublicController {
 
   @Post("pre-post")
   public async prePostStructure(@Body() structureDto: StructureDto) {
+    console.log(structureDto);
     return structureCreatorService.checkStructureCreateArgs(structureDto);
   }
 

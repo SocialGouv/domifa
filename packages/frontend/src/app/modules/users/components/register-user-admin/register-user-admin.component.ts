@@ -1,4 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -9,7 +16,10 @@ import {
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
-import { UserStructure } from "../../../../../_common/model";
+import {
+  FormEmailTakenValidator,
+  UserStructure,
+} from "../../../../../_common/model";
 import { fadeInOut } from "../../../../shared/animations";
 import { regexp } from "../../../../shared/constants/REGEXP.const";
 import { userStructureBuilder } from "../../services";
@@ -30,6 +40,8 @@ export class RegisterUserAdminComponent implements OnInit {
   public loading: boolean;
 
   public emailExist = false;
+
+  @Output() public getUsers = new EventEmitter<void>();
 
   @ViewChild("form", { static: true })
   public form!: ElementRef<HTMLFormElement>;
@@ -80,6 +92,7 @@ export class RegisterUserAdminComponent implements OnInit {
         next: () => {
           this.loading = false;
           this.submitted = false;
+          this.getUsers.emit();
           this.form.nativeElement.reset();
           this.toastService.success(
             "Le nouveau compte a été créé avec succès, votre collaborateur vient de recevoir un email pour ajouter son mot de passe."
@@ -95,7 +108,9 @@ export class RegisterUserAdminComponent implements OnInit {
     }
   }
 
-  public validateEmailNotTaken(control: AbstractControl) {
+  public validateEmailNotTaken(
+    control: AbstractControl
+  ): FormEmailTakenValidator {
     const testEmail = RegExp(regexp.email).test(control.value);
     return testEmail
       ? this.userService.validateEmail(control.value).pipe(

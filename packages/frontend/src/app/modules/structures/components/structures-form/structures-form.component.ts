@@ -17,7 +17,11 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { of, Subject } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 import { regexp } from "src/app/shared/constants/REGEXP.const";
-import { Structure, StructureCommon } from "../../../../../_common/model";
+import {
+  FormEmailTakenValidator,
+  Structure,
+  StructureCommon,
+} from "../../../../../_common/model";
 import { StructureService } from "../../services/structure.service";
 import { StructureCommonWeb } from "../../services/StructureCommonWeb.type";
 import { structureNameChecker } from "../structure-edit-form/structureNameChecker.service";
@@ -112,7 +116,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
       ],
       id: [this.structure.id, [Validators.required]],
       nom: [this.structure.nom, [Validators.required]],
-      phone: new FormControl(undefined, [
+      telephone: new FormControl(undefined, [
         Validators.required,
         anyPhoneValidator,
       ]),
@@ -204,7 +208,9 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  public validateEmailNotTaken(control: AbstractControl) {
+  public validateEmailNotTaken(
+    control: AbstractControl
+  ): FormEmailTakenValidator {
     const testEmail = RegExp(regexp.email).test(control.value);
     return testEmail
       ? this.structureService.validateEmail(control.value).pipe(

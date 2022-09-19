@@ -100,7 +100,7 @@ export class UserProfilComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  private getUsers(): void {
+  public getUsers(): void {
     this.userService.getUsers().subscribe((users: UserStructureProfile[]) => {
       this.users = users;
       this.loading = false;

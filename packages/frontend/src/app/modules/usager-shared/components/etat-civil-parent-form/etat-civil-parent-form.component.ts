@@ -194,12 +194,17 @@ export class EtatCivilParentFormComponent implements OnDestroy {
   }
 
   private focusAyantDroit(): void {
-    // Focus sur l'élément créé
-    setTimeout(() => {
-      const ayantDroitTable = this.usagerForm.controls.ayantsDroits.value;
-      const inputs = this.inputsAyantDroit.toArray();
-      inputs[ayantDroitTable.length - 1].nativeElement.focus();
-    }, 500);
+    if (this.inputsAyantDroit) {
+      // Focus sur l'élément créé
+      setTimeout(() => {
+        const ayantDroitTable = this.usagerForm.controls.ayantsDroits.value;
+        const inputs = this.inputsAyantDroit.toArray();
+
+        const index =
+          ayantDroitTable.length > 0 ? ayantDroitTable.length - 1 : 0;
+        inputs[index].nativeElement.focus();
+      }, 500);
+    }
   }
 
   public newAyantDroit(ayantDroit: AyantDroit) {

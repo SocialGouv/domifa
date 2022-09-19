@@ -12,7 +12,11 @@ import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { regexp } from "src/app/shared/constants/REGEXP.const";
-import { UsagerLight, UserStructure } from "../../../../../_common/model";
+import {
+  FormEmailTakenValidator,
+  UsagerLight,
+  UserStructure,
+} from "../../../../../_common/model";
 import { userStructureBuilder } from "../../services";
 import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
@@ -217,7 +221,9 @@ export class EditUserComponent implements OnInit {
     this.hideOldPassword = !this.hideOldPassword;
   }
 
-  public validateEmailNotTaken(control: AbstractControl) {
+  public validateEmailNotTaken(
+    control: AbstractControl
+  ): FormEmailTakenValidator {
     if (control.value === this.me.email) {
       return of(null);
     }
