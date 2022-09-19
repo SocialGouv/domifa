@@ -1,3 +1,4 @@
+import { FormEmailTakenValidator } from "./../../../../../_common/model/_general/FormEmailTakenValidator.type";
 import { COUNTRY_CODES_TIMEZONE } from "./../../../../../_common/model/telephone/COUNTRY_CODES";
 import { Component, Input, OnInit } from "@angular/core";
 import {
@@ -100,7 +101,7 @@ export class StructureEditFormComponent implements OnInit {
           adresseRequired,
         ],
       }),
-      phone: new FormControl(setFormPhone(this.structure.telephone), [
+      telephone: new FormControl(setFormPhone(this.structure.telephone), [
         Validators.required,
         anyPhoneValidator,
       ]),
@@ -164,7 +165,9 @@ export class StructureEditFormComponent implements OnInit {
       ...this.structureForm.value,
     };
 
-    structureFormValue.telephone = getFormPhone(this.structureForm.value.phone);
+    structureFormValue.telephone = getFormPhone(
+      this.structureForm.value.telephone
+    );
 
     this.structureService.patch(structureFormValue).subscribe({
       next: (structure: StructureCommon) => {
@@ -181,7 +184,9 @@ export class StructureEditFormComponent implements OnInit {
     });
   }
 
-  public validateEmailNotTaken(control: AbstractControl) {
+  public validateEmailNotTaken(
+    control: AbstractControl
+  ): FormEmailTakenValidator {
     const testEmail = RegExp(regexp.email).test(control.value);
     return testEmail
       ? this.structureService.validateEmail(control.value).pipe(

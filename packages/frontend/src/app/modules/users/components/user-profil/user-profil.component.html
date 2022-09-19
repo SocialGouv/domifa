@@ -53,7 +53,7 @@
                 *ngIf="me.role === 'admin' && me.id !== user.id"
                 id="role_{{ user.id }}"
                 [(ngModel)]="user.role"
-                (ngModelChange)="updateRole(user.id, $event.target.value)"
+                (ngModelChange)="updateRole(user.id, user.role)"
                 class="form-select"
               >
                 <option value="admin">Administrateur</option>
@@ -552,7 +552,9 @@
 
       <div>
         <div *ngIf="me.role === 'admin'">
-          <app-register-user-admin></app-register-user-admin>
+          <app-register-user-admin
+            (getUsers)="getUsers()"
+          ></app-register-user-admin>
         </div>
       </div>
     </div>
