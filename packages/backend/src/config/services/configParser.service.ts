@@ -178,7 +178,9 @@ function parseDelay<T extends string>(
     }
     return { amount, unit };
   }
+  throw new Error("Invalid delay value");
 }
+
 function parseIntegerFromString(value: string) {
   if (value !== undefined && value !== null) {
     const num = parseInt(value.trim(), 10);
@@ -189,4 +191,5 @@ function parseIntegerFromString(value: string) {
     }
     return num;
   }
+  throw new Error("Invalid integer");
 }

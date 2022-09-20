@@ -8,12 +8,15 @@ const LINE_OFFSET = 7;
 
 const { asJsonSym } = symbols;
 
-function traceCaller(pinoInstance: Logger, options = { relativeTo: null }) {
-  function get(target, name) {
+function traceCaller(
+  pinoInstance: Logger,
+  options: any = { relativeTo: null }
+) {
+  function get(target: any, name: any) {
     return name === asJsonSym ? asJson : target[name];
   }
 
-  function asJson(...args) {
+  function asJson(...args: any[]) {
     args[0] = args[0] || Object.create(null);
     args[0].caller = Error()
       .stack.split("\n")
@@ -32,6 +35,7 @@ function traceCaller(pinoInstance: Logger, options = { relativeTo: null }) {
         .replace(options.relativeTo + "\\", "");
     }
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     return pinoInstance[asJsonSym].apply(this, args);
   }

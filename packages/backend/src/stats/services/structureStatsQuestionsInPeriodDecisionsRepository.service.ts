@@ -112,4 +112,44 @@ async function getStats({
     };
     return stats;
   }
+
+  return {
+    valid: {
+      usagers: {
+        total: 0,
+        premiere_demande: 0,
+        renouvellement: 0,
+      },
+      ayantsDroits: {
+        total: 0,
+      },
+    },
+    radie: {
+      total: 0,
+      motif: {
+        a_sa_demande: 0,
+        entree_logement: 0,
+        fin_de_domiciliation: 0,
+        non_manifestation_3_mois: 0,
+        non_respect_reglement: 0,
+        plus_de_lien_commune: 0,
+        autre: 0,
+      },
+    },
+    refus: {
+      total: 0,
+      motif: {
+        hors_agrement: 0,
+        lien_commune: 0,
+        saturation: 0,
+        autre: 0,
+      },
+      reorientation: {
+        // Q_14: réorientation suite au refus d'élection de domicile
+        ccas: 0,
+        asso: 0,
+        other: 0,
+      },
+    },
+  };
 }

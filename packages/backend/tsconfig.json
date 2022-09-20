@@ -8,7 +8,7 @@
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "noUnusedLocals": true,
-    //"strict": true,
+    //  "strict": true,
     // "noImplicitReturns": true,
     // "noUnusedParameters": true,
     // "noImplicitAny": true,

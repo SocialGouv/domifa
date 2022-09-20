@@ -29,7 +29,10 @@ export async function tearDownApplication({
   await postgresTypeormConnection.destroy();
 }
 
-export async function bootstrapApplication() {
+export async function bootstrapApplication(): Promise<{
+  app: INestApplication;
+  postgresTypeormConnection: DataSource;
+}> {
   try {
     if (domifaConfig().dev.sentry.enabled) {
       appLogger.debug(
