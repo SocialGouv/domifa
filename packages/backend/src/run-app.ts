@@ -7,12 +7,9 @@ import {
   CronMailUserGuideSenderService,
 } from "./mails/services";
 import { messageEmailConsummerTrigger } from "./mails/services/_core";
-import { CronSmsFetchEndDomService } from "./sms/services/senders/cron-sms-fetch-end-dom.service";
-import {
-  CronSmsInteractionSenderService,
-  CronSmsEndDomSenderService,
-} from "./sms/services/senders";
+
 import { appLogger } from "./util";
+import { INestApplication } from "@nestjs/common";
 
 (async () => {
   appLogger.warn(`[${__filename}] Starting app...`);
@@ -53,7 +50,7 @@ import { appLogger } from "./util";
   }
 })();
 
-async function runCronJobs(app) {
+async function runCronJobs(app: INestApplication) {
   if (domifaConfig().cron.emailUserGuide.autoRunOnStartup) {
     const cronMailUserGuideSenderService: CronMailUserGuideSenderService =
       app.get(CronMailUserGuideSenderService);
@@ -73,23 +70,5 @@ async function runCronJobs(app) {
   if (domifaConfig().cron.monitoringCleaner.autoRunOnStartup) {
     const monitoringCleaner: MonitoringCleaner = app.get(MonitoringCleaner);
     await monitoringCleaner.purgeObsoleteData("startup");
-  }
-  if (domifaConfig().cron.smsConsumer.autoRunOnStartup) {
-    const cronSmsInteractionSenderService = await app.get(
-      CronSmsInteractionSenderService
-    );
-    cronSmsInteractionSenderService.sendSmsInteraction("startup");
-  }
-
-  if (domifaConfig().cron.smsConsumer.autoRunOnStartup) {
-    const cronSmsFetchEndDomService = await app.get(CronSmsFetchEndDomService);
-    cronSmsFetchEndDomService.fetchUsagerEndDom("cron");
-  }
-
-  if (domifaConfig().cron.smsConsumer.autoRunOnStartup) {
-    const cronSmsEndDomSenderService = await app.get(
-      CronSmsEndDomSenderService
-    );
-    cronSmsEndDomSenderService.sendSmsUsagerEndDom("cron");
   }
 }

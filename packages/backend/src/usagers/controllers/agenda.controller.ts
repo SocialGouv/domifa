@@ -152,6 +152,7 @@ export class AgendaController {
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "CANNOT_SET_RDV" });
     }
+
     if (!domifaConfig().email.emailsEnabled) {
       return res.status(HttpStatus.OK).json(updatedUsager);
     }

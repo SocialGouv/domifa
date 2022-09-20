@@ -94,8 +94,6 @@ export class AppComponent implements OnInit {
     this.router.events
       .pipe(filter((e: Event) => e instanceof NavigationEnd))
       .subscribe((ev: Event) => {
-        console.log(ev);
-        console.log(typeof ev);
         const event = ev as NavigationEnd;
         const splitUrl = event?.url.split("#");
         this.currentUrl = splitUrl[0];

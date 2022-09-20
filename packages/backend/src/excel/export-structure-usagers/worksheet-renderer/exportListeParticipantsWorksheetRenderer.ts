@@ -50,6 +50,7 @@ function renderWorksheet({
       { key: "countryCode" },
       { key: "phone" },
       { key: "email" },
+      { key: "numeroDistribution" },
       { key: "decisionStatut" },
       { key: "decisionMotifRefus" },
       { key: "decisionUserRefus" },
@@ -161,6 +162,7 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
         countryCode,
         phone: usager.telephone.numero,
         email: usager.email,
+        numeroDistribution: usager.numeroDistribution,
         decisionStatut: USAGER_DECISION_STATUT_LABELS[usager.decision.statut],
         decisionMotifRefus:
           usager.decision.statut === "REFUS" ? usager.decision.motif : "",

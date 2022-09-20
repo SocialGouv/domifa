@@ -69,7 +69,7 @@ export class InteractionsService {
       WHERE i."structureId" = $1 and i.event = 'create'
       GROUP BY i."usagerRef"`;
     const results = await interactionRepository.query(query, [structureId]);
-    return results.map((x) => ({
+    return results.map((x: any) => ({
       usagerRef: x.usagerRef,
       courrierIn: parseInt(x.courrierIn, 10),
       courrierOut: parseInt(x.courrierOut, 10),
