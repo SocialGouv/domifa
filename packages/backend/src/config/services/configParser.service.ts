@@ -178,10 +178,10 @@ function parseDelay<T extends string>(
     }
     return { amount, unit };
   }
-  throw new Error("Invalid delay value");
+  return undefined;
 }
 
-function parseIntegerFromString(value: string) {
+function parseIntegerFromString(value: string): number | undefined {
   if (value !== undefined && value !== null) {
     const num = parseInt(value.trim(), 10);
     if (isNaN(num)) {
@@ -191,5 +191,5 @@ function parseIntegerFromString(value: string) {
     }
     return num;
   }
-  throw new Error("Invalid integer");
+  return undefined;
 }
