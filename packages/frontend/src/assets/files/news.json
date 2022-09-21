@@ -1,5 +1,26 @@
 [
   {
+    "date": "2022-09-21",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Complétez l'adresse du domicilié !",
+        "message": [
+          "Depuis l'onglet \"Dossier\" ajoutez votre numéro de distribution spéciale (BP, TSA, CEDEX, etc.)",
+          "Ajout de la colonne \"Numéro de distribution spéciale (BP, TSA, etc.)\" dans votre export de données de structure"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Mise à jour des logos de nos partenaires",
+        "message": [
+          "En bas de page retrouvez le nouveau logo de nos partenaires"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2022-08-09",
     "description": "",
     "content": [

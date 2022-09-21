@@ -10,7 +10,7 @@
     "start:tests-ci": "ng serve -o --host 0.0.0.0 --configuration=gitlab-ci",
     "build": "ng build --configuration=production",
     "build:analyze": "ng build --configuration=analyze",
-    "analyze": "npx source-map-explorer dist/**/*.js",
+    "analyze": "ng build --configuration=analyze && npx source-map-explorer dist/**/*.js",
     "test": "jest",
     "lint": "ng lint --format stylish"
   },

@@ -1,3 +1,4 @@
+import { UsagersModule } from "./modules/usagers/usagers.module";
 import { LoadingService } from "./modules/shared/services/loading.service";
 
 import { CustomToastService } from "./modules/shared/services/custom-toast.service";
@@ -31,14 +32,10 @@ import { AuthService } from "./modules/shared/services/auth.service";
 import { HealthCheckService } from "./modules/shared/services/health-check";
 import { SharedModule } from "./modules/shared/shared.module";
 
-import { UsagersModule } from "./modules/usagers/usagers.module";
-import { UsagerSharedModule } from "./modules/usager-shared/usager-shared.module";
-import { NgxChartsModule } from "@swimlane/ngx-charts";
-
 import pkg from "../../package.json";
 
 import { UserIdleModule } from "angular-user-idle";
-import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
+
 import { createErrorHandler, init } from "@sentry/angular";
 
 if (environment.production) {
@@ -65,11 +62,8 @@ if (environment.production) {
     GeneralModule,
     MatomoModule,
     NgbModule,
-    NgxChartsModule,
     SharedModule,
-    UsagerSharedModule,
     UsagersModule,
-    NgxIntlTelInputModule,
     CountUpModule,
     UserIdleModule.forRoot({ idle: 3600, timeout: 60, ping: 120 }),
   ],
@@ -88,7 +82,7 @@ if (environment.production) {
     {
       provide: ErrorHandler,
       useValue: createErrorHandler({
-        showDialog: true,
+        showDialog: false,
       }),
     },
   ],

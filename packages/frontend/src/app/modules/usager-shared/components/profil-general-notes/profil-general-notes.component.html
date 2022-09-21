@@ -24,7 +24,7 @@
               {{ note.createdAt | date: "dd/MM/yyyy à HH:mm" }} -
               {{ note.createdBy.userName }}
             </div>
-            <div class="font-bold">{{ note.message }}</div>
+            <p class="font-bold">{{ note.message }}</p>
           </div>
           <div
             *ngIf="displayConfirmArchiveMessageNoteId !== note.id"

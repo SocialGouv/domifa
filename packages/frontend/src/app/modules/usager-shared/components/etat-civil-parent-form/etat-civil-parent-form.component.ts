@@ -111,6 +111,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     this.countryCode = null;
     this.submitted = false;
     this.loading = false;
+    this.usager = new UsagerFormModel();
     this.mobilePhonePlaceHolder = "";
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
