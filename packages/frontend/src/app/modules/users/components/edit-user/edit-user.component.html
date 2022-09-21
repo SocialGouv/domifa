@@ -17,8 +17,8 @@
           <div class="alert-info alert" *ngIf="usagers.length === 0">
             Aucun rendez-vous prévu
           </div>
-          <div class="list-group" *ngIf="usagers.length > 0">
-            <div class="list-group-item" *ngFor="let usager of usagers">
+          <div *ngIf="usagers.length > 0">
+            <div *ngFor="let usager of usagers">
               <div class="row">
                 <div class="col-7">
                   <b

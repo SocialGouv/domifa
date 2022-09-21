@@ -1,4 +1,10 @@
-import { IsIn, IsNotEmpty, ValidateIf } from "class-validator";
+import {
+  IsBoolean,
+  IsIn,
+  IsNotEmpty,
+  IsString,
+  ValidateIf,
+} from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 import { StructureCustomDocType } from "../../_common/model";
 import { Transform, TransformFnParams } from "class-transformer";
@@ -10,6 +16,7 @@ export class StructureDocDto {
   })
   @ValidateIf((o) => o.custom === true)
   @IsNotEmpty()
+  @IsString()
   @Transform(({ value }: TransformFnParams) => {
     return value ? value.toString().trim() : null;
   })
@@ -20,10 +27,11 @@ export class StructureDocDto {
     required: true,
   })
   @IsNotEmpty()
+  @IsBoolean()
   public custom: boolean;
 
   @ApiProperty({
-    type: Boolean,
+    type: "ENUM",
   })
   @ValidateIf((o) => o.custom === true)
   @IsIn(["attestation_postale", "courrier_radiation", "autre"])
