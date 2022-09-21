@@ -7,5 +7,5 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
   styleUrls: ["./profil-historique-notes.component.css"],
 })
 export class ProfilHistoriqueNotesComponent {
-  @Input() public usager: UsagerFormModel;
+  @Input() public usager!: UsagerFormModel;
 }

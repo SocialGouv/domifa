@@ -20,12 +20,12 @@ import { StructureService } from "../../services/structure.service";
   templateUrl: "./structures-edit.component.html",
 })
 export class StructuresEditComponent implements OnInit {
-  public me: UserStructure;
-  public structure: StructureCommon;
+  public me!: UserStructure;
+  public structure!: StructureCommon;
 
   public exportLoading: boolean;
   public showHardReset: boolean;
-  public hardResetCode: boolean;
+
   public loading: boolean;
 
   public hardResetForm!: FormGroup;
@@ -39,7 +39,6 @@ export class StructuresEditComponent implements OnInit {
     private readonly titleService: Title
   ) {
     this.showHardReset = false;
-    this.hardResetCode = null;
     this.exportLoading = false;
     this.loading = false;
   }

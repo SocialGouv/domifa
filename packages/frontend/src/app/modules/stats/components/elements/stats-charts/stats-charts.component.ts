@@ -31,10 +31,10 @@ export class StatsChartsComponent implements OnChanges {
   public yAxisLabel = "";
   public showLabels = true;
 
-  public statsInCharts: StatsByMonth;
+  public statsInCharts!: StatsByMonth;
   public selectedCharts: "courriers" | "usagers" = "courriers";
 
-  @Input() public publicStats: PublicStats;
+  @Input() public publicStats!: PublicStats;
 
   public ngOnChanges(): void {
     if (this.publicStats) {

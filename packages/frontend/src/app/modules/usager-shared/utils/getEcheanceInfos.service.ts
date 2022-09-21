@@ -23,7 +23,9 @@ export const getEcheanceInfos = (usager?: UsagerLight): UsagerEcheanceInfos => {
   ) {
     usagerInfos.dateToDisplay = usager.decision.dateFin
       ? new Date(usager.decision.dateFin)
-      : new Date(usager.decision.dateDebut);
+      : usager.decision.dateDebut
+      ? new Date(usager.decision.dateDebut)
+      : null;
   } else {
     if (usager.typeDom === "RENOUVELLEMENT") {
       usagerInfos.isActif = true;

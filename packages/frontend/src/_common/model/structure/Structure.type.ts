@@ -17,9 +17,9 @@ export type Structure = AppEntity & {
   ville: string;
   departement: string;
   region: string;
-  capacite: number;
+  capacite: number | null;
   codePostal: string;
-  agrement: string;
+  agrement: string | null;
   telephone: Telephone;
   email: string;
   import: boolean;

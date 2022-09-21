@@ -81,7 +81,7 @@ export const USAGER_ACTIF_MOCK: UsagerLight = {
       dateDebut: new Date("2020-02-12T00:00:00.000Z"),
       dateDecision: new Date("2020-02-12T00:00:00.000Z"),
       dateFin: new Date("2021-02-12T00:00:00.000Z"),
-      motif: undefined,
+      motif: null,
       typeDom: "PREMIERE_DOM",
       orientation: null,
       orientationDetails: null,

@@ -29,7 +29,6 @@ export class MenuComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    console.log(this.usager.decision);
     if (
       this.usager.decision.statut !== "ATTENTE_DECISION" &&
       this.usager.decision.statut !== "INSTRUCTION"
