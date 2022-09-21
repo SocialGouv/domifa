@@ -107,12 +107,15 @@ function sortBy(
     });
   }
 }
-function sortUsagersByCustomRef(usagers: UsagerLight[], asc: boolean) {
+function sortUsagersByCustomRef(
+  usagers: UsagerLight[],
+  asc: boolean
+): UsagerLight[] {
   // extract usagers with 'integer' or string' customRef format
   let { usagersWithCustomRefInteger, usagersWithCustomRefString } =
     usagers.reduce(
       (acc, usager) => {
-        if (/^\d+$/.test(usager.customRef.trim())) {
+        if (/^\d+$/.test(usager.customRef)) {
           acc.usagersWithCustomRefInteger.push(usager);
         } else {
           acc.usagersWithCustomRefString.push(usager);
@@ -130,7 +133,7 @@ function sortUsagersByCustomRef(usagers: UsagerLight[], asc: boolean) {
     {
       getSortAttributes: (usager) => [
         {
-          value: parseAsNumberOrString(usager.customRef?.trim()),
+          value: parseAsNumberOrString(usager.customRef),
           asc,
         },
         {
@@ -166,7 +169,11 @@ function sortUsagersByCustomRef(usagers: UsagerLight[], asc: boolean) {
     : usagersWithCustomRefString.concat(usagersWithCustomRefInteger);
 }
 
-function parseAsNumberOrString(customRef: string): string | number {
+function parseAsNumberOrString(customRef: string | null): string | number {
+  if (!customRef) {
+    return "";
+  }
+
   if (/^\d+$/.test(customRef)) {
     const customRefAsNumber = parseInt(customRef, 10);
     return customRefAsNumber; // sort as number

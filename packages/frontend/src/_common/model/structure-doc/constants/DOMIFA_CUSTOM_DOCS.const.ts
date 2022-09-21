@@ -14,6 +14,7 @@ export const DOMIFA_CUSTOM_DOCS: StructureDoc[] = [
     custom: true,
     filetype: "application/msword",
     structureId: 0,
+    path: "",
   },
   {
     id: 100,
@@ -28,5 +29,6 @@ export const DOMIFA_CUSTOM_DOCS: StructureDoc[] = [
     custom: true,
     filetype: "application/msword",
     structureId: 0,
+    path: "",
   },
 ];

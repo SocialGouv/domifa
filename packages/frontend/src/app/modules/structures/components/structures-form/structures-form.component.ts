@@ -129,52 +129,52 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
       ville: [this.structure.ville, [Validators.required]],
     });
 
-    this.structureForm.get("structureType").valueChanges.subscribe((value) => {
-      this.structureForm.get("agrement").setValidators(null);
-      this.structureForm.get("departement").setValidators(null);
+    this.structureForm.get("structureType")?.valueChanges.subscribe((value) => {
+      this.structureForm.get("agrement")?.setValidators(null);
+      this.structureForm.get("departement")?.setValidators(null);
 
       if (value === "asso") {
-        this.structureForm.get("agrement").setValidators(Validators.required);
+        this.structureForm.get("agrement")?.setValidators(Validators.required);
         this.structureForm
           .get("departement")
-          .setValidators(Validators.required);
+          ?.setValidators(Validators.required);
       }
 
-      this.structureForm.get("agrement").updateValueAndValidity();
-      this.structureForm.get("departement").updateValueAndValidity();
+      this.structureForm.get("agrement")?.updateValueAndValidity();
+      this.structureForm.get("departement")?.updateValueAndValidity();
     });
 
     this.structureForm
       .get("adresseCourrier")
-      .get("actif")
-      .valueChanges.subscribe((value) => {
+      ?.get("actif")
+      ?.valueChanges.subscribe((value) => {
         const isRequired = value === true ? [Validators.required] : null;
 
         this.structureForm
           .get("adresseCourrier")
-          .get("adresse")
-          .setValidators(isRequired);
+          ?.get("adresse")
+          ?.setValidators(isRequired);
         this.structureForm
           .get("adresseCourrier")
-          .get("codePostal")
-          .setValidators(isRequired);
+          ?.get("codePostal")
+          ?.setValidators(isRequired);
         this.structureForm
           .get("adresseCourrier")
-          .get("ville")
-          .setValidators(isRequired);
+          ?.get("ville")
+          ?.setValidators(isRequired);
 
         this.structureForm
           .get("adresseCourrier")
-          .get("adresse")
-          .updateValueAndValidity();
+          ?.get("adresse")
+          ?.updateValueAndValidity();
         this.structureForm
           .get("adresseCourrier")
-          .get("codePostal")
-          .updateValueAndValidity();
+          ?.get("codePostal")
+          ?.updateValueAndValidity();
         this.structureForm
           .get("adresseCourrier")
-          .get("ville")
-          .updateValueAndValidity();
+          ?.get("ville")
+          ?.updateValueAndValidity();
       });
   }
 

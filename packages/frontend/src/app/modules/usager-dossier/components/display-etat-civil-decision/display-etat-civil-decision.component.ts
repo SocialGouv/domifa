@@ -1,5 +1,6 @@
+import { UsagerFormModel } from "./../../../usager-shared/interfaces/UsagerFormModel";
 import { Component, Input } from "@angular/core";
-import { LIEN_PARENTE_LABELS, UsagerLight } from "../../../../../_common/model";
+import { LIEN_PARENTE_LABELS } from "../../../../../_common/model";
 import { languagesAutocomplete } from "../../../../shared";
 
 @Component({
@@ -7,7 +8,7 @@ import { languagesAutocomplete } from "../../../../shared";
   templateUrl: "./display-etat-civil-decision.component.html",
 })
 export class DisplayEtatCivilDecisionComponent {
-  @Input() public usager!: UsagerLight;
+  @Input() public usager!: UsagerFormModel;
 
   public languagesAutocomplete = languagesAutocomplete;
   public LIEN_PARENTE_LABELS = LIEN_PARENTE_LABELS;

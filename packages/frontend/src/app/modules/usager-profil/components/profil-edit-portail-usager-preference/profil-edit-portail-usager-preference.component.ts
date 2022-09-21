@@ -4,7 +4,6 @@ import fileSaver from "file-saver";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   StructureDocTypesAvailable,
-  UsagerLight,
   UserStructure,
   UserStructureRole,
 } from "../../../../../_common/model";
@@ -19,6 +18,8 @@ import { UsagerProfilService } from "../../services/usager-profil.service";
 })
 export class ProfilEditPortailUsagerPreferenceComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
+  @Output() usagerChange = new EventEmitter<UsagerFormModel>();
+
   @Input() public me!: UserStructure;
 
   public loading: boolean;
@@ -33,8 +34,6 @@ export class ProfilEditPortailUsagerPreferenceComponent implements OnInit {
     login: string;
     temporaryPassword: string;
   };
-
-  @Output() usagerChanges = new EventEmitter<UsagerLight>();
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -142,8 +141,8 @@ export class ProfilEditPortailUsagerPreferenceComponent implements OnInit {
           this.loading = false;
           this.editionInProgress = false;
           this.toastService.success("Enregistrement des préférences réussi");
-          this.usagerChanges.emit(usager);
           this.usager = new UsagerFormModel(usager);
+          this.usagerChange.emit(this.usager);
         },
         error: () => {
           this.loading = false;

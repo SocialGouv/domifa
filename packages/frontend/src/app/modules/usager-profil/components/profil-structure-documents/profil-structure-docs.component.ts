@@ -50,6 +50,7 @@ export class ProfilStructureDocsComponent implements OnInit {
         createdAt: this.me?.structure?.createdAt,
         label: "Attestation postale",
         customDocType: "attestation_postale",
+        path: "",
       },
       courrier_radiation: {
         id: 1,
@@ -65,6 +66,7 @@ export class ProfilStructureDocsComponent implements OnInit {
         createdAt: this.me?.structure?.createdAt,
         label: "Courrier de radiation",
         customDocType: "courrier_radiation",
+        path: "",
       },
     };
 

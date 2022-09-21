@@ -24,14 +24,14 @@ export class ProfilGeneralNotesComponent implements OnChanges {
   @Input() public me!: UserStructure;
 
   public loading: boolean;
-  public displayConfirmArchiveMessageNoteId?: string;
-
+  public displayConfirmArchiveMessageNoteId: string | null;
   public filteredNotes: UsagerNote[];
 
   constructor(
-    private usagerNotesService: UsagerNotesService,
-    private toastService: CustomToastService
+    private readonly usagerNotesService: UsagerNotesService,
+    private readonly toastService: CustomToastService
   ) {
+    this.displayConfirmArchiveMessageNoteId = null;
     this.loading = false;
     this.filteredNotes = [];
   }
@@ -52,11 +52,11 @@ export class ProfilGeneralNotesComponent implements OnChanges {
     }
   }
   public cancelArchiveNote(): void {
-    this.displayConfirmArchiveMessageNoteId = undefined;
+    this.displayConfirmArchiveMessageNoteId = null;
   }
 
   public confirmArchiveNote(note: UsagerNote): void {
-    this.displayConfirmArchiveMessageNoteId = undefined;
+    this.displayConfirmArchiveMessageNoteId = null;
     this.loading = true;
     this.usagerNotesService
       .archiveNote({
@@ -65,7 +65,9 @@ export class ProfilGeneralNotesComponent implements OnChanges {
       })
       .subscribe({
         next: (usager: UsagerLight) => {
-          this.filteredNotes = usager.notes.filter((x) => !x.archived);
+          this.filteredNotes = usager.notes.filter(
+            (x: UsagerNote) => !x.archived
+          );
           this.toastService.success("Note archivée avec succès");
           this.usager = new UsagerFormModel(usager);
           this.sortNotes();

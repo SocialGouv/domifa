@@ -20,7 +20,7 @@ import { UsagerNotesService } from "../../services/usager-notes.service";
   styleUrls: ["./profil-add-note-form.component.css"],
 })
 export class ProfilAddNoteFormComponent implements OnInit {
-  @Input() public usager!: UsagerLight;
+  @Input() public usager!: UsagerFormModel;
 
   @Output()
   public usagerChange = new EventEmitter<UsagerFormModel>();

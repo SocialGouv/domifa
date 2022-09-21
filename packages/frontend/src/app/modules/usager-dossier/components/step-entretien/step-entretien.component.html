@@ -12,10 +12,7 @@
     </div>
   </div>
 
-  <app-step-footer
-    [usager]="usager"
-    (usagerChanges)="onUsagerChanges($event)"
-  ></app-step-footer>
+  <app-step-footer [(usager)]="usager"></app-step-footer>
 
   <app-delete-usager-menu
     [me]="me"

@@ -33,7 +33,7 @@
     ],
     // Note: ngx-charts n'est pas prêt pour l'activation de noImplicitAny
     // "noImplicitAny": true
-    //"strict": true
+    // "strict": true
   },
   "exclude": [
     "./node_modules",

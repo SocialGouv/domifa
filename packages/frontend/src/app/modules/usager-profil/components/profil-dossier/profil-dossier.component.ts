@@ -64,8 +64,4 @@ export class ProfilDossierComponent implements OnInit {
   public isRole(role: UserStructureRole): boolean {
     return this.me?.role === role;
   }
-
-  public onUsagerChanges(usager: UsagerLight): void {
-    this.usager = new UsagerFormModel(usager);
-  }
 }

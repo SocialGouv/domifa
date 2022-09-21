@@ -43,7 +43,7 @@ export class StructureCommonWeb implements StructureCommon {
     this.complementAdresse = (structure && structure.complementAdresse) || "";
     this.nom = (structure && structure.nom) || "";
 
-    this.structureType = (structure && structure.structureType) || null;
+    this.structureType = (structure && structure.structureType) || "ccas";
     this.ville = (structure && structure.ville) || "";
     this.departement = (structure && structure.departement) || "";
     this.codePostal = (structure && structure.codePostal) || "";

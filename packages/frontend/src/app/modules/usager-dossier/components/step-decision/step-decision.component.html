@@ -196,8 +196,7 @@
           <app-entretien-form
             *ngIf="editEntretien"
             [(editEntretien)]="editEntretien"
-            (usagerChanges)="onUsagerChanges($event)"
-            [usager]="usager"
+            [(usager)]="usager"
           ></app-entretien-form>
 
           <app-display-entretien
@@ -277,10 +276,7 @@
     </div>
   </div>
 
-  <app-step-footer
-    [usager]="usager"
-    (usagerChanges)="onUsagerChanges($event)"
-  ></app-step-footer>
+  <app-step-footer [(usager)]="usager"></app-step-footer>
 </div>
 
 <ng-template #refus let-modal>

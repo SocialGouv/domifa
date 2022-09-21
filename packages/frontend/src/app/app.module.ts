@@ -24,7 +24,7 @@ import { environment } from "src/environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { JwtInterceptor } from "./interceptors/jwt.interceptor";
-import { SentryErrorHandler } from "./interceptors/sentry.interceptor";
+
 import { ServerErrorInterceptor } from "./interceptors/server-error.interceptor";
 import { GeneralModule } from "./modules/general/general.module";
 import { AuthService } from "./modules/shared/services/auth.service";
@@ -39,7 +39,7 @@ import pkg from "../../package.json";
 
 import { UserIdleModule } from "angular-user-idle";
 import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
-import { init } from "@sentry/angular";
+import { createErrorHandler, init } from "@sentry/angular";
 
 if (environment.production) {
   init({
@@ -85,7 +85,12 @@ if (environment.production) {
       provide: HTTP_INTERCEPTORS,
       useClass: ServerErrorInterceptor,
     },
-    { provide: ErrorHandler, useClass: SentryErrorHandler },
+    {
+      provide: ErrorHandler,
+      useValue: createErrorHandler({
+        showDialog: true,
+      }),
+    },
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })

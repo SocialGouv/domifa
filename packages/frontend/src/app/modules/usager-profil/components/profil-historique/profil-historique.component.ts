@@ -43,13 +43,13 @@ export class ProfilHistoriqueComponent implements OnInit {
   }[];
 
   constructor(
-    private authService: AuthService,
-    private usagerService: UsagerService,
-    private usagerOptionsService: UsagerOptionsService,
-    private titleService: Title,
-    private toastService: CustomToastService,
-    private route: ActivatedRoute,
-    private router: Router
+    private readonly authService: AuthService,
+    private readonly usagerService: UsagerService,
+    private readonly usagerOptionsService: UsagerOptionsService,
+    private readonly titleService: Title,
+    private readonly toastService: CustomToastService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
   ) {
     this.transfertHistory = [];
     this.procurationHistory = [];
@@ -102,9 +102,5 @@ export class ProfilHistoriqueComponent implements OnInit {
             );
           });
       });
-  }
-
-  public onUsagerChanges(usager: UsagerLight): void {
-    this.usager = new UsagerFormModel(usager);
   }
 }

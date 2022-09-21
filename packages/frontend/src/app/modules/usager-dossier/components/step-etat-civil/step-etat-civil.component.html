@@ -227,7 +227,7 @@
                   name="telephone"
                   formControlName="telephone"
                   (countryChange)="updatePlaceHolder($event.iso2)"
-                  [selectedCountryISO]="f.telephone?.value?.countryCode"
+                  [selectedCountryISO]="f.telephone.value?.countryCode"
                 ></ngx-intl-tel-input>
                 <small *ngIf="f.contactByPhone.value === false"
                   >Optionnel</small
@@ -541,11 +541,7 @@
     </section>
   </div>
 
-  <app-step-footer
-    *ngIf="usager.ref"
-    [usager]="usager"
-    (usagerChanges)="onUsagerChanges($event)"
-  ></app-step-footer>
+  <app-step-footer *ngIf="usager.ref" [(usager)]="usager"></app-step-footer>
 
   <app-delete-usager-menu
     [me]="me"
