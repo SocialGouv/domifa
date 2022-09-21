@@ -15,7 +15,6 @@ import {
   UsagerLight,
 } from "../../../../../_common/model";
 
-import { usagersCache } from "../../../../shared/store";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
@@ -30,8 +29,7 @@ export class RadiationFormComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
 
   @Output() public closeModals = new EventEmitter<void>();
-
-  @Output() usagerChanges = new EventEmitter<UsagerLight>();
+  @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
 
   public submitted: boolean;
   public loading: boolean;
@@ -106,7 +104,8 @@ export class RadiationFormComponent implements OnInit {
           this.toastService.success("Radiation enregistrée avec succès ! ");
 
           setTimeout(() => {
-            usagersCache.updateUsager(newUsager);
+            this.usager = new UsagerFormModel(newUsager);
+            this.usagerChange.emit(this.usager);
             this.closeModals.emit();
             this.loading = false;
             this.submitted = false;

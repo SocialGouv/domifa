@@ -58,8 +58,4 @@ export class ProfilDocumentsSectionComponent implements OnInit {
   public getCerfa(typeCerfa: CerfaDocType = "attestation"): void {
     return this.documentService.attestation(this.usager.ref, typeCerfa);
   }
-
-  public onUsagerChanges(usager: UsagerLight): void {
-    this.usager = new UsagerFormModel(usager);
-  }
 }

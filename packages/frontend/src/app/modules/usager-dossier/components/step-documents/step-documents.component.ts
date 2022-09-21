@@ -65,8 +65,4 @@ export class StepDocumentsComponent implements OnInit {
       },
     });
   }
-
-  public onUsagerChanges(usager: UsagerLight): void {
-    this.usager = new UsagerFormModel(usager);
-  }
 }

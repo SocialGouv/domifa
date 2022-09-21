@@ -1,3 +1,4 @@
+import { UsagerFormModel } from "./../../interfaces/UsagerFormModel";
 import {
   Component,
   EventEmitter,
@@ -41,8 +42,8 @@ export class EntretienFormComponent implements OnInit {
 
   public entretienForm!: FormGroup;
 
-  @Input() public usager!: UsagerLight;
-  @Output() public usagerChanges = new EventEmitter<UsagerLight>();
+  @Input() public usager!: UsagerFormModel;
+  @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
 
   @Input() public editEntretien!: boolean;
   @Output() public editEntretienChange = new EventEmitter<boolean>();
@@ -113,7 +114,7 @@ export class EntretienFormComponent implements OnInit {
       .submitEntretien(this.entretienForm.value, this.usager.ref)
       .subscribe({
         next: (usager: UsagerLight) => {
-          this.usagerChanges.emit(usager);
+          this.usagerChange.emit(new UsagerFormModel(usager));
           this.editEntretienChange.emit(false);
           this.nextStep.emit(3);
           this.toastService.success("Enregistrement de l'entretien réussi");

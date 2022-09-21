@@ -19,7 +19,7 @@ export class ProfilEtatCivilFormComponent
   extends EtatCivilParentFormComponent
   implements OnInit
 {
-  @Input() public usager: UsagerFormModel;
+  @Input() public usager!: UsagerFormModel;
   @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
   @Output() public editInfosChange = new EventEmitter<boolean>();
 

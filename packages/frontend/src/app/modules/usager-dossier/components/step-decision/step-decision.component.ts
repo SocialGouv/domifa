@@ -128,8 +128,4 @@ export class StepDecisionComponent implements OnInit {
       1
     );
   }
-
-  public onUsagerChanges(usager: UsagerLight): void {
-    this.usager = new UsagerFormModel(usager);
-  }
 }

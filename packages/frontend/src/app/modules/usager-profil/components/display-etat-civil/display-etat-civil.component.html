@@ -79,7 +79,7 @@
     <span class="question"
       >{{ ayantDroit.nom | uppercase }} {{ ayantDroit.prenom }}</span
     >
-    <span class="valeur">
+    <span class="valeur" *ngIf="ayantDroit.lien">
       {{ ayantDroit.dateNaissance | date: "dd/MM/yyyy" }},
       {{ LIEN_PARENTE_LABELS[ayantDroit.lien] }}
     </span>

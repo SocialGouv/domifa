@@ -81,8 +81,7 @@
           <app-entretien-form
             *ngIf="editEntretien"
             [(editEntretien)]="editEntretien"
-            (usagerChanges)="onUsagerChanges($event)"
-            [usager]="usager"
+            [(usager)]="usager"
           ></app-entretien-form>
 
           <app-display-entretien *ngIf="!editEntretien" [usager]="usager">

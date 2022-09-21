@@ -127,10 +127,6 @@ export class ProfilGeneralSectionComponent implements OnInit {
     );
   }
 
-  public onUsagerChanges(usager: UsagerLight): void {
-    this.usager = new UsagerFormModel(usager);
-  }
-
   public setSingleInteraction(usagerRef: number, type: InteractionType): void {
     const interaction: InteractionInForApi = {
       type,

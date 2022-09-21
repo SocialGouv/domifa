@@ -26,7 +26,7 @@ export class StructuresCustomDocsComponent implements OnInit {
   public customStructureDocs: StructureDoc[];
 
   public defaultStructureDocs: StructureDoc[];
-  public me: UserStructure;
+  public me!: UserStructure;
 
   public isCustomDoc: boolean;
 
@@ -41,7 +41,8 @@ export class StructuresCustomDocsComponent implements OnInit {
     private titleService: Title
   ) {
     this.structureDocs = [];
-
+    this.customStructureDocs = [];
+    this.isCustomDoc = false;
     this.defaultStructureDocs = DOMIFA_CUSTOM_DOCS;
   }
 

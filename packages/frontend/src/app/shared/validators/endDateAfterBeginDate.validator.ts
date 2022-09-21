@@ -5,9 +5,12 @@ import { parseDateFromNgb } from "../bootstrap-util";
 export const endDateAfterBeginDateValidator = (
   controls: AbstractControl
 ): ValidationErrors | null => {
-  const beginDateControl: AbstractControl = controls.get("dateDebut");
-  const endDateControl: AbstractControl = controls.get("dateFin");
-  return endDateAfterBeginDateCheck(beginDateControl, endDateControl);
+  const beginDateControl: AbstractControl | null = controls.get("dateDebut");
+  const endDateControl: AbstractControl | null = controls.get("dateFin");
+
+  return beginDateControl && endDateControl
+    ? endDateAfterBeginDateCheck(beginDateControl, endDateControl)
+    : null;
 };
 
 export const endDateAfterBeginDateCheck = (

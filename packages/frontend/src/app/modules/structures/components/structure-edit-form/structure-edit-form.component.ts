@@ -45,7 +45,7 @@ export class StructureEditFormComponent implements OnInit {
   public submitted: boolean;
   public selectedCountryISO: CountryISO = CountryISO.France;
 
-  @Input() public structure: StructureCommon;
+  @Input() public structure!: StructureCommon;
 
   constructor(
     private readonly structureService: StructureService,
@@ -54,6 +54,8 @@ export class StructureEditFormComponent implements OnInit {
   ) {
     this.submitted = false;
     this.loading = false;
+
+    this.structureForm = new FormGroup({});
   }
 
   get f(): { [key: string]: AbstractControl } {

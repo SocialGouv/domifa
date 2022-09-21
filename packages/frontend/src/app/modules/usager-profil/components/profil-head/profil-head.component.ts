@@ -9,7 +9,7 @@ import {
   UserStructure,
   UserStructureRole,
 } from "../../../../../_common/model";
-import { usagersCache } from "../../../../shared/store";
+
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
@@ -54,11 +54,6 @@ export class ProfilHeadComponent {
 
   public isRole(role: UserStructureRole): boolean {
     return this.me.role === role;
-  }
-
-  public onUsagerChanges(usager: UsagerLight): void {
-    this.usager = new UsagerFormModel(usager);
-    usagersCache.updateUsager(usager);
   }
 
   public renouvellement(): void {

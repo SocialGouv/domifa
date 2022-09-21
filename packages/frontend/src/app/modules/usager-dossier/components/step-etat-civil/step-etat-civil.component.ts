@@ -130,8 +130,4 @@ export class StepEtatCivilComponent
         },
       });
   }
-
-  public onUsagerChanges(usager: UsagerLight): void {
-    this.usager = new UsagerFormModel(usager);
-  }
 }

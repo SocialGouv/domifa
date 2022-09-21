@@ -9,7 +9,7 @@ import {
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
 import { UsagerFormModel } from "./../../../usager-shared/interfaces/UsagerFormModel";
-import { UsagerLight, UserStructure } from "src/_common/model";
+import { UserStructure } from "src/_common/model";
 
 @Component({
   selector: "app-step-footer",
@@ -19,17 +19,12 @@ import { UsagerLight, UserStructure } from "src/_common/model";
 export class StepFooterComponent {
   public me!: UserStructure;
   @Input() public usager!: UsagerFormModel;
-  @Output() usagerChanges = new EventEmitter<UsagerLight>();
+  @Output() usagerChange = new EventEmitter<UsagerFormModel>();
 
   @ViewChild("addNoteInModal", { static: true })
   public addNoteInModal!: TemplateRef<NgbModalRef>;
 
   constructor(private readonly modalService: NgbModal) {}
-
-  public onUsagerChanges(usager: UsagerLight): void {
-    this.usagerChanges.emit(usager);
-    this.usager = new UsagerFormModel(usager);
-  }
 
   public openAddNoteInModal(): void {
     this.modalService.open(this.addNoteInModal);
