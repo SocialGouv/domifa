@@ -93,6 +93,10 @@ export class StructureEditFormComponent implements OnInit {
       nom: [this.structure.nom, [Validators.required]],
       options: this.formBuilder.group({
         numeroBoite: [this.structure.options.numeroBoite, []],
+        usagerLoginUpdateLastInteraction: [
+          this.structure.options.usagerLoginUpdateLastInteraction,
+          [],
+        ],
       }),
       adresseCourrier: this.formBuilder.group({
         actif: [this.structure.adresseCourrier.actif, []],

@@ -105,6 +105,14 @@ async function createInteraction({
     interaction.nbCourrier = 0;
   }
 
+  // Connexion au portail
+  if (interaction.type === "loginPortail") {
+    if (user.structure.options.usagerLoginUpdateLastInteraction) {
+      usager.lastInteraction.dateInteraction = now;
+    }
+    interaction.nbCourrier = 0;
+  }
+
   delete interaction.procurationIndex;
 
   const newInteraction: Interactions = {

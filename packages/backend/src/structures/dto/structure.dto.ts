@@ -144,6 +144,7 @@ export class StructureDto {
   @IsOptional()
   public options: {
     numeroBoite: boolean;
+    usagerLoginUpdateLastInteraction: boolean;
   };
 
   @IsOptional()

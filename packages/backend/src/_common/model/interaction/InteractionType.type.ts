@@ -7,7 +7,8 @@ export type InteractionType =
   | "colisOut"
   | "appel"
   | "visite"
-  | "npai";
+  | "npai"
+  | "loginPortail";
 
 export const ALL_INTERACTION_TYPES: InteractionType[] = [
   "courrierIn",
@@ -19,6 +20,7 @@ export const ALL_INTERACTION_TYPES: InteractionType[] = [
   "appel",
   "visite",
   "npai",
+  "loginPortail",
 ];
 
 export const INTERACTION_OK_LIST: InteractionType[] = [
@@ -63,16 +65,4 @@ export const INTERACTION_OUT_REMOVE_SMS: InteractionType[] = [
   "courrierOut",
   "colisOut",
   "recommandeOut",
-];
-
-export const ENUM_TYPE_INTERACTION: InteractionType[] = [
-  "courrierIn",
-  "courrierOut",
-  "recommandeIn",
-  "recommandeOut",
-  "colisIn",
-  "colisOut",
-  "appel",
-  "visite",
-  "npai",
 ];

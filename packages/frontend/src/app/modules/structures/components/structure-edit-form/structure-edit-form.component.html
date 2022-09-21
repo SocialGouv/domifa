@@ -464,8 +464,41 @@
           </label>
         </div>
       </div>
+      <div class="col-9">
+        Afficher l'ID des domiciliés dans la section "Adresse Postale" du cerfa
+        d'attestation du domicilié
+      </div>
+      <div class="col-3 text-end"></div>
+      <div
+        formControlName="usagerLoginUpdateLastInteraction"
+        class="btn-group btn-group-toggle"
+        ngbRadioGroup
+        name="numeroBoite"
+      >
+        <label
+          ngbButtonLabel
+          [ngClass]="
+            f.options.get('usagerLoginUpdateLastInteraction').value === true
+              ? 'btn-primary'
+              : 'btn-outline-primary'
+          "
+        >
+          <input ngbButton type="radio" aria-label="Oui" [value]="true" />
+          Oui
+        </label>
+        <label
+          ngbButtonLabel
+          [ngClass]="
+            f.options.get('usagerLoginUpdateLastInteraction').value === false
+              ? 'btn-danger'
+              : 'btn-outline-danger'
+          "
+        >
+          <input ngbButton type="radio" aria-label="Non" [value]="false" />
+          Non
+        </label>
+      </div>
     </div>
-    <br />
 
     <div class="row">
       <div class="col-md-12 my-2 text-center">
