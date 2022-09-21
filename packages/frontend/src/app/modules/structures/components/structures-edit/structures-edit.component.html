@@ -7,68 +7,60 @@
 <div class="content py-3" *ngIf="me">
   <div class="container py-3">
     <div class="page-content p-4">
-      <div class="row">
-        <div class="col-md-10 offset-1">
-          <h4>Vos données</h4>
-          <div class="list-group">
-            <div class="list-group-item">
-              <button
-                title="Exporter tous les domiciliés"
-                (click)="export()"
-                [disabled]="exportLoading"
-                class="btn btn-outline-primary"
-              >
-                <span *ngIf="!exportLoading">
-                  <fa-icon [icon]="['fas', 'download']" class="me-2"></fa-icon>
-                  Exporter tous les domiciliés
-                </span>
-                <span *ngIf="exportLoading">
-                  <fa-icon
-                    title="Chargement..."
-                    [icon]="['fas', 'circle-notch']"
-                    [spin]="true"
-                  >
-                  </fa-icon>
-                  Export en cours, veuillez patienter...
-                </span>
-              </button>
-              &nbsp;
-              <button
-                title="Supprimer tous les domiciliés"
-                *ngIf="me.role === 'admin'"
-                (click)="open(hardResetConfirmation)"
-                class="btn btn-outline-danger"
-              >
-                <fa-icon [icon]="['fas', 'trash']" class="me-2"></fa-icon>
-                Supprimer tous les domiciliés
-              </button>
-            </div>
-          </div>
+      <section>
+        <h4>Vos données</h4>
+
+        <button
+          title="Exporter tous les domiciliés"
+          (click)="export()"
+          [disabled]="exportLoading"
+          class="btn btn-outline-primary"
+        >
+          <span *ngIf="!exportLoading">
+            <fa-icon [icon]="['fas', 'download']" class="me-2"></fa-icon>
+            Exporter tous les domiciliés
+          </span>
+          <span *ngIf="exportLoading">
+            <fa-icon
+              title="Chargement..."
+              [icon]="['fas', 'circle-notch']"
+              [spin]="true"
+            >
+            </fa-icon>
+            Export en cours, veuillez patienter...
+          </span>
+        </button>
+        &nbsp;
+        <button
+          title="Supprimer tous les domiciliés"
+          *ngIf="me.role === 'admin'"
+          (click)="open(hardResetConfirmation)"
+          class="btn btn-outline-danger"
+        >
+          <fa-icon [icon]="['fas', 'trash']" class="me-2"></fa-icon>
+          Supprimer tous les domiciliés
+        </button>
+      </section>
+
+      <section *ngIf="me.role === 'admin'">
+        <h4>Informations de votre structure</h4>
+
+        <div *ngIf="structure">
+          <strong>{{ structure.nom }}</strong>
+          <br />
+          {{ structure.adresse }}
+          <span *ngIf="structure.complementAdresse">
+            , {{ structure.complementAdresse }}
+            <br />
+          </span>
+          {{ structure.codePostal }}, {{ structure.ville }}
         </div>
 
-        <div class="col-md-10 offset-1" *ngIf="me.role === 'admin'">
-          <h4>Informations de votre structure</h4>
-          <div class="list-group-item" *ngIf="structure">
-            <div class="row">
-              <div class="col-7">
-                <strong>{{ structure.nom }}</strong>
-                <br />
-                {{ structure.adresse }}
-                <span *ngIf="structure.complementAdresse">
-                  , {{ structure.complementAdresse }}
-                  <br />
-                </span>
-                {{ structure.codePostal }}, {{ structure.ville }}
-              </div>
-            </div>
-          </div>
-
-          <app-structure-edit-form
-            *ngIf="structure"
-            [structure]="structure"
-          ></app-structure-edit-form>
-        </div>
-      </div>
+        <app-structure-edit-form
+          *ngIf="structure"
+          [structure]="structure"
+        ></app-structure-edit-form>
+      </section>
 
       <ng-template #hardResetConfirmation let-modal>
         <div class="modal-header bg-danger text-white">

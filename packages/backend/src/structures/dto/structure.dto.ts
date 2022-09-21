@@ -1,3 +1,4 @@
+import { StructureOptionsDto } from "./structure-options.dto";
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams, Type } from "class-transformer";
 import {
@@ -138,14 +139,13 @@ export class StructureDto {
   public adresseCourrier!: StructureAdresseCourrierDto;
 
   @ApiProperty({
-    required: true,
     type: Object,
+    required: true,
   })
-  @IsOptional()
-  public options: {
-    numeroBoite: boolean;
-    usagerLoginUpdateLastInteraction: boolean;
-  };
+  @ValidateNested()
+  @Type(() => StructureOptionsDto)
+  @IsNotEmpty()
+  public options!: StructureOptionsDto;
 
   @IsOptional()
   public timeZone: TimeZone;

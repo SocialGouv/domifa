@@ -67,14 +67,10 @@ export class StructureCommonWeb implements StructureCommon {
       prenom: "",
     };
 
-    this.options = {
+    this.options = (structure && structure.options) || {
       usagerLoginUpdateLastInteraction: false,
       numeroBoite: false,
     };
-
-    if (structure && structure.options) {
-      this.options.numeroBoite = structure.options.numeroBoite || false;
-    }
 
     this.sms = (structure && structure.sms) || {
       enabledByDomifa: true,

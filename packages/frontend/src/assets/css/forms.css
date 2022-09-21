@@ -72,25 +72,6 @@ form label {
   margin: 0 !important;
 }
 
-#structureForm div.btn {
-  margin: 10px 15px;
-  padding: 0;
-}
-
-#structureForm input[type="radio"]:checked + label {
-  color: white !important;
-}
-
-#structureForm .btn label {
-  color: var(--bs-blue);
-  margin: 0;
-  padding: 12px 22px;
-}
-
-#structureForm .btn label:hover {
-  color: white !important;
-}
-
 .btn-light-primary {
   background-color: #ffffff;
   color: #4164f5;
