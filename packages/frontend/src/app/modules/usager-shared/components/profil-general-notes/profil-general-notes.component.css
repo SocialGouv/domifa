@@ -40,3 +40,7 @@
 .note-historique:last-child .note-separator {
   display: none !important;
 }
+
+p {
+  word-break: break-all;
+}

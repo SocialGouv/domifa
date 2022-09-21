@@ -48,12 +48,7 @@
     <span class="valeur" *ngIf="usager.entretien.liencommune === 'AUTRE'">
       Autre : {{ usager.entretien.liencommuneDetail }}
     </span>
-    <span
-      class="valeur"
-      *ngIf="
-        usager.entretien.liencommune && usager.entretien.liencommune !== 'AUTRE'
-      "
-    >
+    <span class="valeur" *ngIf="usager.entretien.liencommune !== 'AUTRE'">
       {{
         ENTRETIEN_LIEN_COMMUNE[usager.entretien.liencommune] || "Non renseigné"
       }}
@@ -65,10 +60,7 @@
     <span class="valeur" *ngIf="usager.entretien.raison === 'AUTRE'">
       Autre : {{ usager.entretien.raisonDetail }}
     </span>
-    <span
-      class="valeur"
-      *ngIf="usager.entretien.raison && usager.entretien.raison !== 'AUTRE'"
-    >
+    <span class="valeur" *ngIf="usager.entretien.raison !== 'AUTRE'">
       {{ ENTRETIEN_RAISON_DEMANDE[usager.entretien.raison] || "Non renseigné" }}
     </span>
   </div>

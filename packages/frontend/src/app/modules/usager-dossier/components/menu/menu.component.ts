@@ -1,10 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import {
-  ETAPES_DEMANDE_URL,
-  UserStructure,
-} from "../../../../../_common/model";
-import { AuthService } from "../../../shared/services/auth.service";
+import { ETAPES_DEMANDE_URL } from "../../../../../_common/model";
+
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
@@ -26,19 +23,13 @@ export class MenuComponent implements OnInit {
 
   public ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
 
-  public me!: UserStructure;
-
   constructor(
-    private readonly authService: AuthService,
     private readonly router: Router,
     private readonly toastService: CustomToastService
   ) {}
 
   public ngOnInit(): void {
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      this.me = user;
-    });
-
+    console.log(this.usager.decision);
     if (
       this.usager.decision.statut !== "ATTENTE_DECISION" &&
       this.usager.decision.statut !== "INSTRUCTION"
