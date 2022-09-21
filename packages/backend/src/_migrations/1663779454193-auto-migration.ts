@@ -1,24 +1,31 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { domifaConfig } from "../config";
 
 export class autoMigration1663779454193 implements MigrationInterface {
   name = "autoMigration1663779454193";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `ALTER TABLE "structure" ALTER COLUMN "options" SET NOT NULL`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "structure" ALTER COLUMN "options" SET DEFAULT '{"usagerLoginUpdateLastInteraction": false, "numeroBoite": false}'`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "structure" ALTER COLUMN "telephone" SET DEFAULT '{"countryCode": "fr", "numero": ""}'`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "usager" ALTER COLUMN "telephone" SET DEFAULT '{"countryCode": "fr", "numero": ""}'`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "usager" ALTER COLUMN "options" SET DEFAULT '{ "transfert":{ "actif":false, "nom":null, "adresse":null, "dateDebut":null, "dateFin":null }, "procurations":[], "npai":{ "actif":false, "dateDebut":null }, "portailUsagerEnabled":false }'`
-    );
+    if (
+      domifaConfig().envId === "preprod" ||
+      domifaConfig().envId === "prod" ||
+      domifaConfig().envId === "local"
+    ) {
+      await queryRunner.query(
+        `ALTER TABLE "structure" ALTER COLUMN "options" SET NOT NULL`
+      );
+      await queryRunner.query(
+        `ALTER TABLE "structure" ALTER COLUMN "options" SET DEFAULT '{"usagerLoginUpdateLastInteraction": false, "numeroBoite": false}'`
+      );
+      await queryRunner.query(
+        `ALTER TABLE "structure" ALTER COLUMN "telephone" SET DEFAULT '{"countryCode": "fr", "numero": ""}'`
+      );
+      await queryRunner.query(
+        `ALTER TABLE "usager" ALTER COLUMN "telephone" SET DEFAULT '{"countryCode": "fr", "numero": ""}'`
+      );
+      await queryRunner.query(
+        `ALTER TABLE "usager" ALTER COLUMN "options" SET DEFAULT '{ "transfert":{ "actif":false, "nom":null, "adresse":null, "dateDebut":null, "dateFin":null }, "procurations":[], "npai":{ "actif":false, "dateDebut":null }, "portailUsagerEnabled":false }'`
+      );
+    }
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
