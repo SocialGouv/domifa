@@ -1,3 +1,11 @@
+## [2.105.7](https://github.com/SocialGouv/domifa/compare/v2.105.6...v2.105.7) (2022-09-21)
+
+
+### Bug Fixes
+
+* **sentry:** correction d'erreurs de typage ([ca8b7c5](https://github.com/SocialGouv/domifa/commit/ca8b7c596653461be80854fa8f58e6f0f9f2956c))
+* **ts:** amélioration du typage ([64faac2](https://github.com/SocialGouv/domifa/commit/64faac291cb34376298958de30579528c8028cb4))
+
 ## [2.105.6](https://github.com/SocialGouv/domifa/compare/v2.105.5...v2.105.6) (2022-09-21)
 
 
