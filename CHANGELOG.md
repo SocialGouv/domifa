@@ -1,3 +1,14 @@
+## [2.105.6](https://github.com/SocialGouv/domifa/compare/v2.105.5...v2.105.6) (2022-09-21)
+
+
+### Bug Fixes
+
+* **logos:** mise à jour des logos ([7c3718e](https://github.com/SocialGouv/domifa/commit/7c3718e5156e59d79c9e8a3549348fbc1215454f))
+* **sms:** Mise a jour du guide ([7ef803f](https://github.com/SocialGouv/domifa/commit/7ef803fbca4b4c2060d02ba0b27ad98fc6b0e5d3))
+* **tests:** correction des tests unitaires ([b524760](https://github.com/SocialGouv/domifa/commit/b524760d3ef0846887fffe0f6312b53a49838222))
+* **tsconfig:** désactivation d'une regle ([3ed268f](https://github.com/SocialGouv/domifa/commit/3ed268f309ac51b6fbba759d1e26d71fde83650e))
+* **users:** édition des droits impossible, problème corrigé ([42d25ae](https://github.com/SocialGouv/domifa/commit/42d25ae7761824eb1c2bf7c66e83c45e5236ee08))
+
 ## [2.105.5](https://github.com/SocialGouv/domifa/compare/v2.105.4...v2.105.5) (2022-09-19)
 
 
