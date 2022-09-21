@@ -28,7 +28,7 @@ export class StructureCommonWeb implements StructureCommon {
   email: string;
   timeZone: TimeZone;
   responsable: StructureResponsable;
-  options: { numeroBoite: boolean };
+  options: { numeroBoite: boolean; usagerLoginUpdateLastInteraction: boolean };
   adresseCourrier: StructureAddresseCourrier;
   sms: StructureSmsParams;
   portailUsager: StructurePortailUsagerParams;
@@ -68,6 +68,7 @@ export class StructureCommonWeb implements StructureCommon {
     };
 
     this.options = {
+      usagerLoginUpdateLastInteraction: false,
       numeroBoite: false,
     };
 

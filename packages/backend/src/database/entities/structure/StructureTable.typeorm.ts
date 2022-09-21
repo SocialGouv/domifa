@@ -79,9 +79,14 @@ export class StructureTable
   @Column({ type: "text", nullable: false })
   nom: string;
 
-  @Column({ type: "jsonb", nullable: true })
+  @Column({
+    type: "jsonb",
+    default:
+      '{"usagerLoginUpdateLastInteraction": false, "numeroBoite": false}',
+  })
   options: {
     numeroBoite: boolean;
+    usagerLoginUpdateLastInteraction: boolean;
   };
 
   @Column({
