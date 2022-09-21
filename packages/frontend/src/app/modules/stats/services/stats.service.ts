@@ -16,7 +16,7 @@ export class StatsService {
   public getStats(
     structureId: number,
     start: Date,
-    end?: Date
+    end: Date | null
   ): Observable<StructureStatsFull> {
     return this.http.post<StructureStatsFull>(this.baseUrl, {
       structureId,
@@ -33,7 +33,11 @@ export class StatsService {
     return this.http.get<PublicStats>(statsUrl);
   }
 
-  public export(structureId: number, start: Date, end: Date): Observable<Blob> {
+  public export(
+    structureId: number,
+    start: Date,
+    end: Date | null
+  ): Observable<Blob> {
     return this.http.post<Blob>(
       `${this.baseUrl}export/`,
       {

@@ -68,7 +68,7 @@ function sortBy(
         } else if (sortKey === "ECHEANCE") {
           sortAttributes.push(
             {
-              value: usager.echeanceInfos.dateToDisplay,
+              value: usager?.echeanceInfos?.dateToDisplay,
               asc,
             },
             {
@@ -115,10 +115,14 @@ function sortUsagersByCustomRef(
   let { usagersWithCustomRefInteger, usagersWithCustomRefString } =
     usagers.reduce(
       (acc, usager) => {
-        if (/^\d+$/.test(usager.customRef)) {
-          acc.usagersWithCustomRefInteger.push(usager);
+        if (usager.customRef) {
+          if (/^\d+$/.test(usager.customRef)) {
+            acc.usagersWithCustomRefInteger.push(usager);
+          } else {
+            acc.usagersWithCustomRefString.push(usager);
+          }
         } else {
-          acc.usagersWithCustomRefString.push(usager);
+          acc.usagersWithCustomRefInteger.push(usager);
         }
         return acc;
       },
@@ -133,7 +137,7 @@ function sortUsagersByCustomRef(
     {
       getSortAttributes: (usager) => [
         {
-          value: parseAsNumberOrString(usager.customRef),
+          value: parseAsNumberOrString(usager),
           asc,
         },
         {
@@ -169,14 +173,13 @@ function sortUsagersByCustomRef(
     : usagersWithCustomRefString.concat(usagersWithCustomRefInteger);
 }
 
-function parseAsNumberOrString(customRef: string | null): string | number {
-  if (!customRef) {
-    return "";
+function parseAsNumberOrString(usager: UsagerLight): string | number {
+  if (!usager.customRef) {
+    return usager.ref;
   }
-
-  if (/^\d+$/.test(customRef)) {
-    const customRefAsNumber = parseInt(customRef, 10);
+  if (/^\d+$/.test(usager.customRef)) {
+    const customRefAsNumber = parseInt(usager.customRef, 10);
     return customRefAsNumber; // sort as number
   }
-  return customRef; // sort as string
+  return usager.customRef.trim(); // sort as string
 }

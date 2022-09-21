@@ -156,21 +156,24 @@ function filter<T>(
   }
 
   if (sortResultsByBestMatch) {
-    const itemsWithMatchResults = items.reduce((acc, item, initialIndex) => {
-      const matchResult = match(item, {
-        index: initialIndex,
-        getAttributes,
-        words,
-        withScore: true,
-      });
-      if (matchResult.match) {
-        acc.push({ item, matchResult, initialIndex });
-      }
-      return acc;
-    }, []);
+    const itemsWithMatchResults = items.reduce(
+      (acc: any, item, initialIndex) => {
+        const matchResult = match(item, {
+          index: initialIndex,
+          getAttributes,
+          words,
+          withScore: true,
+        });
+        if (matchResult.match) {
+          acc.push({ item, matchResult, initialIndex });
+        }
+        return acc;
+      },
+      []
+    );
 
     const results = dataSorter.sortMultiple(itemsWithMatchResults, {
-      getSortAttributes: (itemWithMatchResult) => {
+      getSortAttributes: (itemWithMatchResult: any) => {
         return [
           {
             // sort by score

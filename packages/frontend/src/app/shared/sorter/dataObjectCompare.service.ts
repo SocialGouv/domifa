@@ -156,20 +156,19 @@ function buildCompareAttributes<T>(
 ): DataComparableObjectAttribute[] {
   return attributes(item)
     .filter((x) => x != null)
-    .map((attr) => ({
+    .map((attr: SortableAttribute) => ({
       value: formatAttribute(attr.value, attr.type),
       asc: attr.asc !== false,
     }));
 }
 
-function formatAttribute(attr: any, type: SortableAttributeType) {
+function formatAttribute(attr: any, type?: SortableAttributeType) {
   if (type === "full-text") {
     return formatTextAttribute(attr);
-  } else {
-    return attr;
   }
+  return attr;
 }
 
 function formatTextAttribute(attr: string): string {
-  return attr && attr.trim ? (attr as string).trim().toLowerCase() : attr;
+  return attr && attr.trim() ? (attr as string).trim().toLowerCase() : attr;
 }

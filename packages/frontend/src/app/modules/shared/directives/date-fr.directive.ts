@@ -76,8 +76,8 @@ export class DateFrDirective {
   public onPaste(event: ClipboardEvent) {
     event.preventDefault();
     const pastedInput: string = event.clipboardData
-      .getData("text/plain")
-      .replace(/[^0-9/-]+/g, "");
+      ? event.clipboardData.getData("text/plain").replace(/[^0-9/-]+/g, "")
+      : "";
     document.execCommand("insertText", false, pastedInput);
   }
 
@@ -85,8 +85,8 @@ export class DateFrDirective {
   public onDrop(event: DragEvent) {
     event.preventDefault();
     const textData = event.dataTransfer
-      .getData("text")
-      .replace(/[^0-9/-]+/g, "");
+      ? event.dataTransfer.getData("text").replace(/[^0-9/-]+/g, "")
+      : "";
     this.inputElement.focus();
     document.execCommand("insertText", false, textData);
   }

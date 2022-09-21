@@ -21,9 +21,9 @@ export class StructureCommonWeb implements StructureCommon {
   ville: string;
   departement: string;
   region: string;
-  capacite: number;
+  capacite: number | null;
   codePostal: string;
-  agrement: string;
+  agrement: string | null;
   telephone: Telephone;
   email: string;
   timeZone: TimeZone;

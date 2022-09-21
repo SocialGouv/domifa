@@ -191,14 +191,14 @@ function addUsager({
       ? isRadie
         ? searchPageLoadedUsagersData.usagersNonRadies
         : searchPageLoadedUsagersData.usagersNonRadies.concat([usager])
-      : undefined;
+      : [];
 
   searchPageLoadedUsagersData.usagersRadiesFirsts =
     searchPageLoadedUsagersData.usagersRadiesFirsts
       ? !isRadie
         ? searchPageLoadedUsagersData.usagersRadiesFirsts
         : searchPageLoadedUsagersData.usagersRadiesFirsts.concat([usager])
-      : undefined;
+      : [];
 
   searchPageLoadedUsagersData.usagersRadiesTotalCount =
     searchPageLoadedUsagersData.usagersRadiesTotalCount +

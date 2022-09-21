@@ -19,8 +19,8 @@ export const generateMotifLabel = (decision: UsagerDecision): string => {
       if (decision.motif) {
         motif =
           decision.statut === "REFUS"
-            ? MOTIFS_REFUS_LABELS[decision.motif]
-            : MOTIFS_RADIATION_LABELS[decision.motif];
+            ? (MOTIFS_REFUS_LABELS[decision.motif] as string)
+            : (MOTIFS_RADIATION_LABELS[decision.motif] as string);
       } else {
         motif = "Autre motif";
       }

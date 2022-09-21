@@ -8,8 +8,8 @@ export class UsagerProcuration implements UsagerOptionsProcuration {
   public dateNaissance: Date | string | null;
 
   constructor(procuration?: Partial<UsagerOptionsProcuration>) {
-    this.nom = (procuration && procuration.nom) || null;
-    this.prenom = (procuration && procuration.prenom) || null;
+    this.nom = (procuration && procuration.nom) || "";
+    this.prenom = (procuration && procuration.prenom) || "";
 
     this.dateNaissance =
       procuration && procuration.dateNaissance

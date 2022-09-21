@@ -14,7 +14,7 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 
 import fileSaver from "file-saver";
-import { MatomoTracker } from "ngx-matomo";
+
 import { Subscription } from "rxjs";
 import {
   StructureStatsFull,
@@ -55,9 +55,6 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
   public fromDate: NgbDate;
   public toDate: NgbDate | null = null;
 
-  private defaultStartDate: Date;
-  private defaultEndDate: Date;
-
   private me!: UserStructure;
 
   private subscriptions = new Subscription();
@@ -69,13 +66,11 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly titleService: Title,
     private readonly toastService: CustomToastService,
     private readonly cdRef: ChangeDetectorRef,
-    private readonly matomo: MatomoTracker,
     private readonly authService: AuthService
   ) {
     this.loading = false;
     const date = new Date("2020-01-01");
-    this.defaultStartDate = date;
-    this.defaultEndDate = new Date();
+
     this.minDateDebut = new NgbDate(
       date.getFullYear(),
       date.getMonth() + 1,
@@ -95,7 +90,6 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
     yesterday.setDate(yesterday.getDate() - 1);
 
     // Dates du calendrier
-    this.defaultEndDate = yesterday;
     this.maxDateDebut = new NgbDate(
       yesterday.getFullYear(),
       yesterday.getMonth() + 1,
@@ -141,13 +135,6 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.minDateFin = newDate;
   }
 
-  private isSameDateIgnoreTime(d1: Date, d2: Date) {
-    return (
-      Date.UTC(d1.getUTCFullYear(), d1.getUTCMonth(), d1.getDate()) ===
-      Date.UTC(d2.getUTCFullYear(), d2.getUTCMonth(), d2.getDate())
-    );
-  }
-
   public export(year?: number): void {
     this.loading = true;
 
@@ -158,25 +145,8 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (year) {
       period.start = new Date(year.toString() + "-01-01");
       period.end = new Date(year.toString() + "-12-31");
-    } else if (
-      this.isSameDateIgnoreTime(period.start, this.defaultStartDate) &&
-      this.isSameDateIgnoreTime(period.end, this.defaultEndDate)
-    ) {
-      this.matomo.trackEvent(
-        "structure-stats",
-        "telechargement_stats_structure_defaut",
-        "null",
-        1
-      );
-    } else {
-      this.matomo.trackEvent(
-        "structure-stats",
-        "telechargement_stats_structure_personnalise",
-        "null",
-        1
-      );
     }
-    const structureId = this.me.structureId;
+    const structureId = this.me.structureId as number;
     this.statsService.export(structureId, period.start, period.end).subscribe({
       next: (x: Blob) => {
         const newBlob = new Blob([x], {
@@ -210,27 +180,9 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.toDate !== null
         ? new Date(this.formatter.formatEn(this.toDate))
         : null;
-    if (
-      this.isSameDateIgnoreTime(this.start, this.defaultStartDate) &&
-      this.isSameDateIgnoreTime(this.end, this.defaultEndDate)
-    ) {
-      this.matomo.trackEvent(
-        "structure-stats",
-        "show_stats_structure_defaut",
-        "null",
-        1
-      );
-    } else {
-      this.matomo.trackEvent(
-        "structure-stats",
-        "show_stats_structure_personnalise",
-        "null",
-        1
-      );
-    }
-    
+
     this.statsService
-      .getStats(this.me.structureId, this.start, this.end)
+      .getStats(this.me.structureId as number, this.start, this.end)
       .subscribe({
         next: (statsResult: StructureStatsFull) => {
           this.stats = statsResult;
