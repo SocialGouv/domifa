@@ -1,11 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { HttpService } from "@nestjs/axios";
-
-import { AxiosError } from "axios";
 
 import { structureRepository } from "../../database";
-import { domifaConfig } from "../../config";
-import { INDEX_STATUT } from "../../_common/model/message-sms/MESSAGE_SMS_SUIVI_INDEX.const";
 
 import { messageSmsRepository } from "../../database/services/message-sms";
 import { InteractionDto } from "../../interactions/dto";
@@ -16,65 +11,19 @@ import {
   UsagerLight,
   Structure,
   StructureSmsParams,
-  MESSAGE_SMS_RESPONSE_ERRORS,
   Interactions,
   INTERACTION_IN_CREATE_SMS,
   INTERACTION_OUT_REMOVE_SMS,
 } from "../../_common/model";
 import { generateSmsInteraction } from "./generators";
-import { MESSAGE_SMS_STATUS } from "../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
 import { generateScheduleSendDate } from "./generators/generateScheduleSendDate";
 
-import { firstValueFrom } from "rxjs";
 import { getPhoneString } from "../../util/phone/phoneUtils.service";
 import { interactionsTypeManager } from "../../interactions/services";
 import { PhoneNumberFormat } from "google-libphonenumber";
 
 @Injectable()
 export class MessageSmsService {
-  public constructor(private httpService: HttpService) {}
-
-  public async updateMessageSmsStatut(smsToUpdate: MessageSms) {
-    // TODO: mettre à jour avec le nouveau fournisseur
-    const options: {
-      key: string;
-      id: string;
-    } = {
-      key: domifaConfig().sms.apiKey,
-      id: smsToUpdate.responseId,
-    };
-
-    const endPoint =
-      "https://www.spot-hit.fr/api/dlr?key=" +
-      options.key +
-      "&id=" +
-      encodeURIComponent(options.id);
-
-    try {
-      const response = await firstValueFrom(this.httpService.get(endPoint));
-
-      if (response.data?.resultat === false) {
-        smsToUpdate.status = "FAILURE";
-        smsToUpdate.errorCount++;
-        smsToUpdate.errorMessage =
-          MESSAGE_SMS_RESPONSE_ERRORS[response.data.erreurs];
-      } else {
-        smsToUpdate.status = MESSAGE_SMS_STATUS[response.data[0][INDEX_STATUT]];
-      }
-    } catch (err) {
-      console.log("[SMS] Status update fail " + smsToUpdate.uuid);
-      smsToUpdate.status = "FAILURE";
-      smsToUpdate.errorCount++;
-      smsToUpdate.errorMessage = (err as AxiosError)?.message;
-    }
-
-    smsToUpdate.lastUpdate = new Date();
-
-    await messageSmsRepository.update({ uuid: smsToUpdate.uuid }, smsToUpdate);
-
-    return await messageSmsRepository.findOneBy({ uuid: smsToUpdate.uuid });
-  }
-
   // Suppression d'un SMS si le courrier a été distribué
   public async deleteSmsInteractionOut(
     usager: Pick<Usager, "ref" | "contactByPhone">,

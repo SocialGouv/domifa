@@ -7,7 +7,6 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve -o --host 0.0.0.0 --port 4201",
-    "start:tests-ci": "ng serve -o --host 0.0.0.0 --port 4201 --configuration=gitlab-ci",
     "build": "ng build --configuration=production",
     "analyze:build": "ng build --stats-json --configuration=analyze",
     "analyze:open": "npx source-map-explorer dist/**/*.js",

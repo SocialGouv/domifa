@@ -26,7 +26,7 @@ La base de données est initialisée lors de la création de la PR, mais n'est p
 Elle est initialisée à partir de:
 
 - les migrations typeorm du dossier `_migrations_init-pr-env-k8s` lors du démarrage de l'application
-- les données du dump `domifa_test.postgres.restore-data-only.sql` lors du stage "Seed" de gitlab-ci (après le démarrage de l'application)
+- les données du dump `domifa_test.postgres.restore-data-only.sql` lors du stage "Seed" de github (après le démarrage de l'application)
 
 En cas d'ajout d'une migration, il faut donc:
 
