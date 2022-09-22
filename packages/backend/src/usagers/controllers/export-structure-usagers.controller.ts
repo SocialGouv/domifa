@@ -87,6 +87,7 @@ export class ExportStructureUsagersController {
           colisOut: data.colisOut,
           appel: data.appel,
           visite: data.visite,
+          loginPortail: data.loginPortail,
         };
       } else {
         usagersInteractionsCountByType[usager.ref] = {
@@ -97,6 +98,7 @@ export class ExportStructureUsagersController {
           colisIn: 0,
           colisOut: 0,
           appel: 0,
+          loginPortail: 0,
           visite: 0,
         };
       }
