@@ -167,21 +167,6 @@ export class MessageSmsService {
     return null;
   }
 
-  // Afficher les SMS en attente d'envoi
-  public findAll(usager: UsagerLight): Promise<MessageSms[]> {
-    return messageSmsRepository.find({
-      where: {
-        usagerRef: usager.ref,
-        structureId: usager.structureId,
-      },
-      order: {
-        createdAt: "DESC",
-      },
-      skip: 0,
-      take: 10,
-    });
-  }
-
   // Mise à jour par DOMIFA de l'autorisation d'envoi de SMS
   public async changeStatutByDomifa(
     structureId: number,
