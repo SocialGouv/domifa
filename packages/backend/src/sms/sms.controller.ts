@@ -7,20 +7,28 @@ import { CurrentUsager } from "../auth/decorators/current-usager.decorator";
 
 import { AppUserGuard } from "../auth/guards";
 import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
+import { messageSmsRepository } from "../database";
 import { UsagerLight } from "../_common/model";
-import { MessageSmsService } from "./services/message-sms.service";
 
 @Controller("sms")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("sms")
 export class SmsController {
-  constructor(private readonly messageSmsService: MessageSmsService) {}
-
   @ApiBearerAuth()
   @AllowUserProfiles("structure")
   @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
   @Get("usager/:usagerRef")
   public async getUsagerSms(@CurrentUsager() usager: UsagerLight) {
-    return await this.messageSmsService.findAll(usager);
+    return messageSmsRepository.find({
+      where: {
+        usagerRef: usager.ref,
+        structureId: usager.structureId,
+      },
+      order: {
+        createdAt: "DESC",
+      },
+      skip: 0,
+      take: 10,
+    });
   }
 }
