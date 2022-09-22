@@ -52,6 +52,7 @@ export class InteractionsService {
       recommandeOut: number;
       colisIn: number;
       colisOut: number;
+      loginPortail: number;
     }[]
   > {
     // NOTE: cette requête ne renvoit pas de résultats pour les usagers de cette structure qui n'ont pas d'interaction
@@ -65,6 +66,7 @@ export class InteractionsService {
         coalesce (SUM(CASE WHEN i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOut",
         coalesce (SUM(CASE WHEN i.type = 'colisIn' THEN "nbCourrier" END), 0) AS "colisIn",
         coalesce (SUM(CASE WHEN i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOut"
+        coalesce (SUM(CASE WHEN i.type = 'loginPortail' THEN "nbCourrier" END), 0) AS "loginPortail"
       FROM interactions i
       WHERE i."structureId" = $1 and i.event = 'create'
       GROUP BY i."usagerRef"`;
@@ -79,6 +81,7 @@ export class InteractionsService {
       colisOut: parseInt(x.colisOut, 10),
       appel: parseInt(x.appel, 10),
       visite: parseInt(x.visite, 10),
+      loginPortail: parseInt(x.loginPortail, 10),
     }));
   }
 

@@ -10,4 +10,5 @@ export type StructureStatsQuestionsInPeriodInteractions = {
   visite: number;
   visiteOut: number; // Passages avec distribution de courriers, colis ou recommandés
   npai: number;
+  loginPortail: number;
 };
