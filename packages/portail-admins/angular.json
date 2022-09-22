@@ -88,9 +88,6 @@
             },
             "development": {
               "browserTarget": "domifa-portail-admins:build:development"
-            },
-            "gitlab-ci": {
-              "browserTarget": "domifa:build:gitlab-ci"
             }
           },
           "defaultConfiguration": "development"
