@@ -56,7 +56,7 @@ describe("loadConfig", () => {
     const env = loadEnvWithPreset({ defaultEnv });
     const config = loadConfig(env);
 
-    expect(config.envId).toEqual("dev");
+    expect(config.envId).toEqual("local");
     expect(config.version).toEqual(process.env.npm_package_version);
 
     expect(config.apps.frontendUrl).toBeDefined();
