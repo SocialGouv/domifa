@@ -1,3 +1,17 @@
+# [2.106.0](https://github.com/SocialGouv/domifa/compare/v2.105.7...v2.106.0) (2022-09-25)
+
+
+### Bug Fixes
+
+* **ci:** suppression des codes inutiles ([76cbd7f](https://github.com/SocialGouv/domifa/commit/76cbd7f2bf6da9c8f98d6b74300f61dc6babf5d7))
+* **config:** correction d'un affichage de nombre ([9aa920d](https://github.com/SocialGouv/domifa/commit/9aa920d85693b271787eed4b495dbf4deb5b7c97))
+* **sms:** suppression d'un service inutile ([298404a](https://github.com/SocialGouv/domifa/commit/298404a5de9d56283e001906dbb8eba9b73ebaaf))
+
+
+### Features
+
+* **sms:** migration vers un nouvel opérateur ([c2b2112](https://github.com/SocialGouv/domifa/commit/c2b21129e2dcc36831cea285e8c29b8d3f7e8e80))
+
 ## [2.105.7](https://github.com/SocialGouv/domifa/compare/v2.105.6...v2.105.7) (2022-09-21)
 
 
