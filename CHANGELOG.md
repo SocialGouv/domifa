@@ -1,3 +1,10 @@
+## [2.106.1](https://github.com/SocialGouv/domifa/compare/v2.106.0...v2.106.1) (2022-09-26)
+
+
+### Bug Fixes
+
+* **db:** fix default postgres db name ([#2437](https://github.com/SocialGouv/domifa/issues/2437)) ([40183d8](https://github.com/SocialGouv/domifa/commit/40183d863dacbc478f3b54b71feda05c70bc9e90))
+
 # [2.106.0](https://github.com/SocialGouv/domifa/compare/v2.105.7...v2.106.0) (2022-09-25)
 
 
