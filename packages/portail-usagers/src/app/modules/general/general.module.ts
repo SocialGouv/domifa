@@ -18,7 +18,7 @@ import { RouterModule } from "@angular/router";
 import { MentionsLegalesComponent } from "./components/_static/mentions-legales/mentions-legales.component";
 import { PolitiqueComponent } from "./components/_static/politique/politique.component";
 import { CguComponent } from "./components/_static/cgu/cgu.component";
-import { RgaaComponent } from './components/_static/rgaa/rgaa.component';
+import { RgaaComponent } from "./components/_static/rgaa/rgaa.component";
 
 @NgModule({
   declarations: [

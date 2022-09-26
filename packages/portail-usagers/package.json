@@ -11,6 +11,7 @@
     "analyze:build": "ng build --stats-json --configuration=analyze",
     "analyze:open": "npx source-map-explorer dist/**/*.js",
     "test": "jest",
+    "format": "prettier -w ./src",
     "lint": "ng lint --format stylish"
   },
   "private": true,

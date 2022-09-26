@@ -16,7 +16,7 @@ describe("interactionRepository", () => {
         usagerRef: 7,
       });
 
-      expect(interactions.length).toEqual(8);
+      expect(interactions.length).toEqual(9);
     }
     {
       const interactions = await interactionRepository.findWithFilters({
