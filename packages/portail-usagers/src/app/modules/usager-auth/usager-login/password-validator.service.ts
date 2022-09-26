@@ -3,7 +3,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 export class PasswordValidator {
   public static patternValidator(
     regex: RegExp,
-    error: ValidationErrors
+    error: ValidationErrors,
   ): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (!control.value) {
