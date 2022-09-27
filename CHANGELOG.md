@@ -1,3 +1,27 @@
+# [2.107.0](https://github.com/SocialGouv/domifa/compare/v2.106.2...v2.107.0) (2022-09-27)
+
+
+### Bug Fixes
+
+* **dumps:** mise à jour du dump ([4417624](https://github.com/SocialGouv/domifa/commit/441762465cb8403f86abd43d1f8881a990a7ad43))
+* **labels:** harmonisation du terme portail usager ([aa3395b](https://github.com/SocialGouv/domifa/commit/aa3395b388cb0402d593e7783198fef7e1637b60))
+* **portail:** correction des status de SMS ([81d02a0](https://github.com/SocialGouv/domifa/commit/81d02a0b9e51b8d446908e96c84138759667041f))
+* **prettier:** ajout du formattage sur les projets ([9a4b3b2](https://github.com/SocialGouv/domifa/commit/9a4b3b24ec850fee84d8503eeaced22da777f1bb))
+* **stats:** ajout de la nouvelle donnée de connexion au portail dans les stats ([667f41b](https://github.com/SocialGouv/domifa/commit/667f41b2d75f1e7965edfb8ab83041a520f7f982))
+* **stats:** ajout de la nouvelle statistique de connexion au portail ([d39f77d](https://github.com/SocialGouv/domifa/commit/d39f77d5be3030320f06ce1a9eef8940bb932207))
+* **stats:** correction de la stats sur le portail ([e015f42](https://github.com/SocialGouv/domifa/commit/e015f4257b65aa956acd67032418b726e7d27aaf))
+* **stats:** correction des dates sur les fichiers excel ([bb75704](https://github.com/SocialGouv/domifa/commit/bb7570412d19102e838effd4bac45be13392e8f4))
+* **structure:** déplacement de la donnée au bon endroit ([4f552f4](https://github.com/SocialGouv/domifa/commit/4f552f4137755a439c3b5232b137eabd643a0907))
+* mise à jour des migrations ([ebb9415](https://github.com/SocialGouv/domifa/commit/ebb941594c9f37732837a6eb61cc43c1b88dadd7))
+
+
+### Features
+
+* **dumps:** mise à jour de la DB de test ([75e0349](https://github.com/SocialGouv/domifa/commit/75e03497e65135bcb9945787c1e113a4531d0a09))
+* **portail:** ajout de la connexion aux interactions ([1cf11ce](https://github.com/SocialGouv/domifa/commit/1cf11ce0133cef58e85961876a41fc8fa6a30454))
+* **prettier:** formattage automatique des projets ([15359ae](https://github.com/SocialGouv/domifa/commit/15359ae6a2ecc8dae7c524b2bba40be8aabf6f45))
+* **structures:** ajout de l'option permettant de comptabiliser les connexions comme des passages ([54c8268](https://github.com/SocialGouv/domifa/commit/54c826811a08469e075a137d62da66b1cbb4d4f4))
+
 ## [2.106.2](https://github.com/SocialGouv/domifa/compare/v2.106.1...v2.106.2) (2022-09-27)
 
 
