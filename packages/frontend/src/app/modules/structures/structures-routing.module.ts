@@ -46,7 +46,7 @@ const routes: Routes = [
     canActivate: [AuthGuard, AdminGuard, CanEditPortailUsagerGuard],
     path: "portail-usager",
     data: {
-      title: "Modifier les accès au portail des usagers",
+      title: "Modifier les accès au portail usager",
     },
     component: StructuresPortailUsagerFormComponent,
   },
