@@ -39,7 +39,6 @@ export type Structure = AppEntity & {
 
   options: {
     numeroBoite: boolean;
-    usagerLoginUpdateLastInteraction: boolean;
   };
 
   token: string;

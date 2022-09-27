@@ -49,7 +49,6 @@ const structureDto: StructureDto = {
   ville: "sdfdsf",
   region: null,
   options: {
-    usagerLoginUpdateLastInteraction: false,
     numeroBoite: false,
   },
   timeZone: "Europe/Paris",

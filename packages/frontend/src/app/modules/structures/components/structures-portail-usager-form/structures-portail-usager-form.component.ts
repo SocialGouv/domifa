@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Observable } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { StructureCommon, UserStructure } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
@@ -14,27 +15,31 @@ export class StructuresPortailUsagerFormComponent implements OnInit {
   public structure!: StructureCommon;
 
   public loading: boolean;
+  public currentUserSubject$: Observable<UserStructure | null>;
 
   constructor(
-    private structureService: StructureService,
-    private toastService: CustomToastService,
-    private authService: AuthService
+    private readonly structureService: StructureService,
+    private readonly toastService: CustomToastService,
+    private readonly authService: AuthService
   ) {
     this.loading = false;
   }
 
   public ngOnInit(): void {
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      this.me = user;
-      this.structure = user.structure;
-    });
+    this.me = this.authService.currentUserValue;
+    this.structure = this.me.structure;
   }
 
   public submitStructureSmsForm() {
     this.loading = true;
+    if (this.structure.portailUsager.enabledByStructure === false) {
+      this.structure.portailUsager.usagerLoginUpdateLastInteraction = false;
+    }
     this.structureService
       .patchPortailUsagerParams({
         enabledByStructure: this.structure.portailUsager.enabledByStructure,
+        usagerLoginUpdateLastInteraction:
+          this.structure.portailUsager.usagerLoginUpdateLastInteraction,
       })
       .subscribe({
         next: () => {

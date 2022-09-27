@@ -33,27 +33,30 @@
       </p>
 
       <form>
-        <div class="d-flex justify-content-center align-items-center">
+        <div class="">
           <fieldset class="d-flex justify-content-center align-items-center">
             <legend class="required label me-2">
               Activer l'accès au portail usager pour vos domiciliés
             </legend>
 
-            <div
-              class="btn-group"
-              role="group"
-              aria-label="Activer l'accès au portail usager pour vos domiciliés"
-            >
+            <div class="btn-group" role="group">
               <input
                 type="radio"
                 [(ngModel)]="structure.portailUsager.enabledByStructure"
                 [value]="true"
                 name="enabledByStructure"
                 class="btn-check"
-                id="btnradio1"
-                autocomplete="off"
+                id="enabledByStructure1"
               />
-              <label class="btn btn-outline-primary" for="btnradio1">Oui</label>
+              <label
+                [ngClass]="
+                  structure.portailUsager.enabledByStructure === true
+                    ? 'btn btn-primary'
+                    : 'btn btn-outline-primary'
+                "
+                for="enabledByStructure1"
+                >Oui</label
+              >
 
               <input
                 type="radio"
@@ -61,8 +64,7 @@
                 [value]="false"
                 name="enabledByStructure"
                 class="btn-check"
-                id="btnradio2"
-                autocomplete="off"
+                id="enabledByStructure2"
               />
               <label
                 [ngClass]="
@@ -70,9 +72,64 @@
                     ? 'btn btn-danger'
                     : 'btn btn-outline-danger'
                 "
-                for="btnradio2"
+                for="enabledByStructure2"
                 >Non</label
               >
+            </div>
+          </fieldset>
+
+          <fieldset
+            class="d-flex justify-content-center align-items-center"
+            *ngIf="structure.portailUsager.enabledByStructure === true"
+          >
+            <legend class="label">
+              Mettre à jour la date de dernier passage du domicilié s'il se
+              connecte au portail usager
+            </legend>
+            <div class="btn-group" role="group">
+              <input
+                type="radio"
+                class="btn-check"
+                name="usagerLoginUpdateLastInteractionOui"
+                id="usagerLoginUpdateLastInteractionOui"
+                [(ngModel)]="
+                  structure.portailUsager.usagerLoginUpdateLastInteraction
+                "
+                [value]="true"
+              />
+              <label
+                [ngClass]="
+                  structure.portailUsager.usagerLoginUpdateLastInteraction ===
+                  true
+                    ? 'btn btn-primary'
+                    : 'btn btn-outline-primary'
+                "
+                for="usagerLoginUpdateLastInteractionOui"
+              >
+                Oui
+              </label>
+
+              <input
+                class="btn-check"
+                name="usagerLoginUpdateLastInteractionNon"
+                type="radio"
+                id="usagerLoginUpdateLastInteractionNon"
+                [value]="false"
+                [(ngModel)]="
+                  structure.portailUsager.usagerLoginUpdateLastInteraction
+                "
+              />
+              <label
+                [ngClass]="
+                  structure.portailUsager.usagerLoginUpdateLastInteraction ===
+                  false
+                    ? 'btn btn-danger'
+                    : 'btn btn-outline-danger'
+                "
+                for="usagerLoginUpdateLastInteractionNon"
+              >
+                Non
+              </label>
             </div>
           </fieldset>
         </div>

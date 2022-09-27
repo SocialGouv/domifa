@@ -8,13 +8,5 @@ export class StructureOptionsDto {
   })
   @IsNotEmpty()
   @IsBoolean()
-  public usagerLoginUpdateLastInteraction: boolean;
-
-  @ApiProperty({
-    type: Boolean,
-    required: true,
-  })
-  @IsNotEmpty()
-  @IsBoolean()
   public numeroBoite: boolean;
 }

@@ -457,7 +457,7 @@ describe("interactionsCreator", () => {
         nbCourrier: 1111, // Test avec un faux numéro, on vérifie que c'est bien 0 qui est enregistré
       };
 
-      user.structure.options.usagerLoginUpdateLastInteraction = true;
+      user.structure.portailUsager.usagerLoginUpdateLastInteraction = true;
 
       const resultat = await interactionsCreator.createInteraction({
         usager,

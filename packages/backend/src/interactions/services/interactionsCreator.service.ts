@@ -107,7 +107,7 @@ async function createInteraction({
 
   // Connexion au portail
   if (interaction.type === "loginPortail") {
-    if (user.structure.options.usagerLoginUpdateLastInteraction) {
+    if (user.structure.portailUsager.usagerLoginUpdateLastInteraction) {
       usager.lastInteraction.dateInteraction = now;
     }
     interaction.nbCourrier = 0;
