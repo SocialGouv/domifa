@@ -16,24 +16,22 @@ describe("ProfilStructureDocsComponent", () => {
   let component: ProfilStructureDocsComponent;
   let fixture: ComponentFixture<ProfilStructureDocsComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ProfilStructureDocsComponent],
-        imports: [
-          NgbModule,
-          HttpClientTestingModule,
-          RouterTestingModule,
-          BrowserAnimationsModule,
-          SharedModule,
-          ReactiveFormsModule,
-          FormsModule,
-        ],
-        providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ProfilStructureDocsComponent],
+      imports: [
+        NgbModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+        BrowserAnimationsModule,
+        SharedModule,
+        ReactiveFormsModule,
+        FormsModule,
+      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfilStructureDocsComponent);

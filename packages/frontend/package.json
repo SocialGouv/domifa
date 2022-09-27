@@ -11,7 +11,8 @@
     "build:analyze": "ng build --configuration=analyze",
     "analyze": "ng build --configuration=analyze && npx source-map-explorer dist/**/*.js",
     "test": "jest",
-    "lint": "ng lint --format stylish"
+    "lint": "ng lint --format stylish",
+    "format": "prettier -w ./src"
   },
   "private": true,
   "dependencies": {

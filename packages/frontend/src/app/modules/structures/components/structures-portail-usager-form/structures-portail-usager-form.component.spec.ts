@@ -13,22 +13,20 @@ describe("StructuresPortailUsagerFormComponent", () => {
   let component: StructuresPortailUsagerFormComponent;
   let fixture: ComponentFixture<StructuresPortailUsagerFormComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          NgbModule,
-          ReactiveFormsModule,
-          FormsModule,
-          HttpClientTestingModule,
-          RouterTestingModule,
-        ],
-        providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        declarations: [StructuresPortailUsagerFormComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        NgbModule,
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [StructuresPortailUsagerFormComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StructuresPortailUsagerFormComponent);

@@ -11,39 +11,34 @@ describe("LoadingComponent", () => {
   let fixture: ComponentFixture<LoadingComponent>;
   let service: LoadingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [LoadingComponent],
-        imports: [
-          NgbModule,
-          RouterModule.forRoot([], { relativeLinkResolution: "legacy" }),
-        ],
-        providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [LoadingComponent],
+      imports: [
+        NgbModule,
+        RouterModule.forRoot([], { relativeLinkResolution: "legacy" }),
+      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(LoadingComponent);
-      component = fixture.componentInstance;
-      service = TestBed.inject(LoadingService);
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(LoadingComponent);
+    component = fixture.componentInstance;
+    service = TestBed.inject(LoadingService);
+    fixture.detectChanges();
+  }));
 
-  it(
-    "should create",
-    waitForAsync(() => {
-      expect(component).toBeTruthy();
-      expect(component.loading).toBeFalsy();
+  it("should create", waitForAsync(() => {
+    expect(component).toBeTruthy();
+    expect(component.loading).toBeFalsy();
 
-      service.startLoading();
-      component.ngOnInit();
-      setTimeout(() => {
-        expect(component.loading).toBeTruthy();
-      }, 1000);
+    service.startLoading();
+    component.ngOnInit();
+    setTimeout(() => {
+      expect(component.loading).toBeTruthy();
+    }, 1000);
 
-      component.ngOnDestroy();
-      expect(component.loading).toBeFalsy();
-    })
-  );
+    component.ngOnDestroy();
+    expect(component.loading).toBeFalsy();
+  }));
 });

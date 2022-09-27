@@ -15,36 +15,34 @@ describe("ProfilAddNoteFormComponent", () => {
   let component: ProfilAddNoteFormComponent;
   let fixture: ComponentFixture<ProfilAddNoteFormComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ProfilAddNoteFormComponent],
-        imports: [
-          NgbModule,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ProfilAddNoteFormComponent],
+      imports: [
+        NgbModule,
 
-          HttpClientTestingModule,
-          ReactiveFormsModule,
-          FormsModule,
-        ],
-        providers: [
-          {
-            provide: MatomoInjector,
-            useValue: {
-              init: jest.fn(),
-            },
+        HttpClientTestingModule,
+        ReactiveFormsModule,
+        FormsModule,
+      ],
+      providers: [
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
           },
-          {
-            provide: MatomoTracker,
-            useValue: {
-              setUserId: jest.fn(),
-            },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
           },
-          { provide: APP_BASE_HREF, useValue: "/" },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
-    })
-  );
+        },
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfilAddNoteFormComponent);

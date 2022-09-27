@@ -13,39 +13,37 @@ describe("ProfilCourriersComponent", () => {
   let component: ProfilCourriersComponent;
   let fixture: ComponentFixture<ProfilCourriersComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ProfilCourriersComponent],
-        imports: [
-          NgbModule,
-          MatomoModule,
-          CommonModule,
-          ReactiveFormsModule,
-          FormsModule,
-          HttpClientTestingModule,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ProfilCourriersComponent],
+      imports: [
+        NgbModule,
+        MatomoModule,
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientTestingModule,
 
-          RouterTestingModule,
-        ],
-        providers: [
-          {
-            provide: MatomoInjector,
-            useValue: {
-              init: jest.fn(),
-            },
+        RouterTestingModule,
+      ],
+      providers: [
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
           },
-          {
-            provide: MatomoTracker,
-            useValue: {
-              setUserId: jest.fn(),
-            },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
           },
-          { provide: APP_BASE_HREF, useValue: "/" },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
-    })
-  );
+        },
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfilCourriersComponent);

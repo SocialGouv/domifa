@@ -17,29 +17,27 @@ describe("ImportComponent", () => {
   let fixture: ComponentFixture<ImportComponent>;
   let app: ImportComponent;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ImportComponent],
-        imports: [
-          NgbModule,
-          HttpClientTestingModule,
-          RouterTestingModule,
-          BrowserAnimationsModule,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ImportComponent],
+      imports: [
+        NgbModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+        BrowserAnimationsModule,
 
-          SharedModule,
-          ReactiveFormsModule,
-          FormsModule,
-        ],
-        providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+        SharedModule,
+        ReactiveFormsModule,
+        FormsModule,
+      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(ImportComponent);
-      app = fixture.debugElement.componentInstance;
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(ImportComponent);
+    app = fixture.debugElement.componentInstance;
+    fixture.detectChanges();
+  }));
 
   it("should create", () => {
     expect(app).toBeTruthy();

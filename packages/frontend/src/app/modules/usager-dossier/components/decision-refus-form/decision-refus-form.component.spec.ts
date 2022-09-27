@@ -23,33 +23,31 @@ describe("DecisionRefusFormComponent", () => {
   let component: DecisionRefusFormComponent;
   let fixture: ComponentFixture<DecisionRefusFormComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [DecisionRefusFormComponent],
-        imports: [
-          NgbModule,
-          HttpClientTestingModule,
-          RouterTestingModule,
-          BrowserAnimationsModule,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [DecisionRefusFormComponent],
+      imports: [
+        NgbModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+        BrowserAnimationsModule,
 
-          SharedModule,
-          FormsModule,
-          ReactiveFormsModule,
-        ],
-        providers: [
-          NgbDateCustomParserFormatter,
-          { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-          {
-            provide: NgbDateParserFormatter,
-            useClass: NgbDateCustomParserFormatter,
-          },
-          { provide: APP_BASE_HREF, useValue: "/" },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
-    })
-  );
+        SharedModule,
+        FormsModule,
+        ReactiveFormsModule,
+      ],
+      providers: [
+        NgbDateCustomParserFormatter,
+        { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
+        {
+          provide: NgbDateParserFormatter,
+          useClass: NgbDateCustomParserFormatter,
+        },
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DecisionRefusFormComponent);

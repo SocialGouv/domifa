@@ -17,38 +17,36 @@ describe("ProfilHistoriqueComponent", () => {
   let component: ProfilHistoriqueComponent;
   let fixture: ComponentFixture<ProfilHistoriqueComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ProfilHistoriqueComponent],
-        imports: [
-          MatomoModule,
-          ReactiveFormsModule,
-          NgbModule,
-          FormsModule,
-          HttpClientTestingModule,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ProfilHistoriqueComponent],
+      imports: [
+        MatomoModule,
+        ReactiveFormsModule,
+        NgbModule,
+        FormsModule,
+        HttpClientTestingModule,
 
-          RouterTestingModule,
-        ],
-        providers: [
-          {
-            provide: MatomoInjector,
-            useValue: {
-              init: jest.fn(),
-            },
+        RouterTestingModule,
+      ],
+      providers: [
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
           },
-          {
-            provide: MatomoTracker,
-            useValue: {
-              setUserId: jest.fn(),
-            },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
           },
-          { provide: APP_BASE_HREF, useValue: "/" },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
-    })
-  );
+        },
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfilHistoriqueComponent);
