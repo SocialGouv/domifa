@@ -1,3 +1,4 @@
+import { InteractionType } from "./../../_common/model/interaction/InteractionType.type";
 import { Controller, Get, Res, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
@@ -18,8 +19,8 @@ import {
 } from "../../_common/model";
 import { UsagersService } from "../services/usagers.service";
 
-import moment = require("moment");
 import { startApmSpan } from "../../instrumentation";
+import { format } from "date-fns";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("export")
@@ -49,7 +50,8 @@ export class ExportStructureUsagersController {
     );
     if (generateExcelSpan) generateExcelSpan.end();
 
-    const fileName = `${moment(model.exportDate).format(
+    const fileName = `${format(
+      model.exportDate,
       "DD-MM-yyyy_HH-mm"
     )}_export-structure-${user.structureId}-usagers.xlsx`;
     await expressResponseExcelRenderer.sendExcelWorkbook({
@@ -63,7 +65,7 @@ export class ExportStructureUsagersController {
     const usagers = await this.usagersService.export(user.structureId);
 
     const usagersInteractionsCountByType: {
-      [usagerRef: number]: { [interactionType: string]: number };
+      [usagerRef: number]: { [interactionType in InteractionType]: number };
     } = {};
 
     const interactionsByUsagerMap =
@@ -75,8 +77,21 @@ export class ExportStructureUsagersController {
       const usager: UsagerLight = usagers[i];
 
       const data = interactionsByUsagerMap.find(
-        (x) => x.usagerRef === usager.ref
+        (x: {
+          usagerRef: number;
+          appel: number;
+          visite: number;
+          courrierIn: number;
+          courrierOut: number;
+          recommandeIn: number;
+          recommandeOut: number;
+          colisIn: number;
+          colisOut: number;
+          npai: number;
+          loginPortail: number;
+        }) => x.usagerRef === usager.ref
       );
+
       if (data) {
         usagersInteractionsCountByType[usager.ref] = {
           courrierIn: data.courrierIn,
@@ -88,6 +103,7 @@ export class ExportStructureUsagersController {
           appel: data.appel,
           visite: data.visite,
           loginPortail: data.loginPortail,
+          npai: data.npai,
         };
       } else {
         usagersInteractionsCountByType[usager.ref] = {
@@ -100,6 +116,7 @@ export class ExportStructureUsagersController {
           appel: 0,
           loginPortail: 0,
           visite: 0,
+          npai: 0,
         };
       }
     }

@@ -51,6 +51,7 @@ function renderWorksheet({
       { key: "colisOut" },
       { key: "appel" },
       { key: "visite" },
+      { key: "npai" },
       { key: "loginPortail" },
     ];
 
@@ -85,6 +86,7 @@ function renderWorksheet({
           colisOut: usagersInteractionsCounts.colisOut,
           appel: usagersInteractionsCounts.appel,
           visite: usagersInteractionsCounts.visite,
+          npai: usagersInteractionsCounts.npai,
           loginPortail: usagersInteractionsCounts.loginPortail,
         },
       };

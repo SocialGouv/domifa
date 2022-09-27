@@ -52,6 +52,7 @@ export class InteractionsService {
       recommandeOut: number;
       colisIn: number;
       colisOut: number;
+      npai: number;
       loginPortail: number;
     }[]
   > {
@@ -60,13 +61,14 @@ export class InteractionsService {
         i."usagerRef",
         coalesce (COUNT(CASE WHEN i.type = 'appel' THEN 1 END), 0) AS "appel",
         coalesce (COUNT(CASE WHEN i.type = 'visite' THEN 1 END), 0) AS "visite",
+        coalesce (COUNT(CASE WHEN i.type = 'npai' THEN 1 END), 0) AS "npai",
+        coalesce (COUNT(CASE WHEN i.type = 'loginPortail' THEN 1 END), 0) AS "loginPortail",
         coalesce (SUM(CASE WHEN i.type = 'courrierIn' THEN "nbCourrier" END), 0) AS "courrierIn",
         coalesce (SUM(CASE WHEN i.type = 'courrierOut' THEN "nbCourrier" END), 0) AS "courrierOut",
         coalesce (SUM(CASE WHEN i.type = 'recommandeIn' THEN "nbCourrier" END), 0) AS "recommandeIn",
         coalesce (SUM(CASE WHEN i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOut",
         coalesce (SUM(CASE WHEN i.type = 'colisIn' THEN "nbCourrier" END), 0) AS "colisIn",
         coalesce (SUM(CASE WHEN i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOut",
-        coalesce (SUM(CASE WHEN i.type = 'loginPortail' THEN "nbCourrier" END), 0) AS "loginPortail"
       FROM interactions i
       WHERE i."structureId" = $1 and i.event = 'create'
       GROUP BY i."usagerRef"`;
@@ -82,6 +84,7 @@ export class InteractionsService {
       appel: parseInt(x.appel, 10),
       visite: parseInt(x.visite, 10),
       loginPortail: parseInt(x.loginPortail, 10),
+      npai: parseInt(x.npai, 10),
     }));
   }
 
