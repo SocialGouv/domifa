@@ -25,7 +25,7 @@ describe("structureStatsInPeriodGenerator", () => {
     expect(stats.period.endDateUTC).toEqual(endDateUTC);
     expect(stats.period.endDateUTCExclusive).toEqual(endDateUTCExclusive);
     expect(stats).toBeDefined();
-    // expect(stats.questions).toBeDefined();
+
     expect(stats.data).toEqual({
       decisions: {
         radie: {
@@ -61,6 +61,7 @@ describe("structureStatsInPeriodGenerator", () => {
         recommandeOut: 0,
         visite: 0,
         visiteOut: 0,
+        loginPortail: 0,
       },
       validUsagers: {
         age: {
