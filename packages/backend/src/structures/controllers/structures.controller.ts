@@ -60,8 +60,10 @@ export class StructuresController {
         { id: user.structureId },
         {
           portailUsager: {
-            ...portailUsager,
+            enabledByDomifa: true,
             enabledByStructure: structurePortailUsagerDto.enabledByStructure,
+            usagerLoginUpdateLastInteraction:
+              structurePortailUsagerDto.usagerLoginUpdateLastInteraction,
           },
         }
       );

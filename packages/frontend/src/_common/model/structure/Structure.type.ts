@@ -40,7 +40,6 @@ export type Structure = AppEntity & {
   adresseCourrier: StructureAddresseCourrier;
 
   options: {
-    usagerLoginUpdateLastInteraction: boolean;
     numeroBoite: boolean;
   };
   token: string;

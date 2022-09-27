@@ -1,3 +1,5 @@
+import { MockAuthService } from "./../../../../../_common/mocks/AuthServiceMock";
+
 import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
@@ -8,6 +10,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { USER_STRUCTURE_MOCK } from "../../../../../_common/mocks";
 
 import { StructuresPortailUsagerFormComponent } from "./structures-portail-usager-form.component";
+import { AuthService } from "../../../shared/services/auth.service";
 
 describe("StructuresPortailUsagerFormComponent", () => {
   let component: StructuresPortailUsagerFormComponent;
@@ -22,7 +25,10 @@ describe("StructuresPortailUsagerFormComponent", () => {
         HttpClientTestingModule,
         RouterTestingModule,
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        { provide: APP_BASE_HREF, useValue: "/" },
+        { provide: AuthService, useClass: MockAuthService },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [StructuresPortailUsagerFormComponent],
     }).compileComponents();
@@ -32,6 +38,7 @@ describe("StructuresPortailUsagerFormComponent", () => {
     fixture = TestBed.createComponent(StructuresPortailUsagerFormComponent);
     component = fixture.componentInstance;
     component.me = USER_STRUCTURE_MOCK;
+    component.me.structure = USER_STRUCTURE_MOCK.structure;
     component.structure = USER_STRUCTURE_MOCK.structure;
 
     fixture.detectChanges();

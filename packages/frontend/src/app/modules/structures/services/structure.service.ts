@@ -79,14 +79,13 @@ export class StructureService {
     );
   }
 
-  public patchPortailUsagerParams({
-    enabledByStructure,
-  }: {
+  public patchPortailUsagerParams(formData: {
     enabledByStructure: boolean;
+    usagerLoginUpdateLastInteraction: boolean;
   }) {
     return this.http.patch(
       environment.apiUrl + "structures/portail-usager/configure-structure",
-      { enabledByStructure }
+      formData
     );
   }
 

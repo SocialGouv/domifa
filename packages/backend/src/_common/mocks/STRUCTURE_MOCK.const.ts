@@ -17,7 +17,7 @@ export const STRUCTURE_MOCK: StructureCommon = {
   region: "11",
   email: "ccas.test@yopmail.com",
   nom: "CCAS de Test",
-  options: { numeroBoite: false, usagerLoginUpdateLastInteraction: false },
+  options: { numeroBoite: false },
   telephone: { numero: "0602030405", countryCode: "fr" },
   responsable: { nom: "Jean", prenom: "Thomson", fonction: "PDG" },
   structureType: "ccas",
@@ -31,6 +31,7 @@ export const STRUCTURE_MOCK: StructureCommon = {
   lastLogin: null,
   timeZone: "Europe/Paris",
   portailUsager: {
+    usagerLoginUpdateLastInteraction: false,
     enabledByDomifa: false,
     enabledByStructure: false,
   },

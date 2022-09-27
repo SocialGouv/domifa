@@ -19,7 +19,7 @@ export const STRUCTURE_MOCK: StructureCommon = {
   region: "11",
   email: "ccas.test@yopmail.com",
   nom: "CCAS de Test",
-  options: { numeroBoite: false, usagerLoginUpdateLastInteraction: false },
+  options: { numeroBoite: false },
   telephone: {
     numero: "0602030405",
     countryCode: CountryISO.France,
@@ -35,6 +35,7 @@ export const STRUCTURE_MOCK: StructureCommon = {
     senderName: "",
   },
   portailUsager: {
+    usagerLoginUpdateLastInteraction: false,
     enabledByDomifa: true,
     enabledByStructure: false,
   },

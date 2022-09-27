@@ -1,4 +1,5 @@
 import { Column, Entity, Generated, Index } from "typeorm";
+
 import { TimeZone } from "../../../util/territoires";
 import {
   Structure,
@@ -79,14 +80,13 @@ export class StructureTable
   @Column({ type: "text", nullable: false })
   nom: string;
 
+  // TODO: sortir de l'objet pour passer sur une variable simple
   @Column({
     type: "jsonb",
-    default:
-      '{"usagerLoginUpdateLastInteraction": false, "numeroBoite": false}',
+    default: '{  "numeroBoite": false}',
   })
   options: {
     numeroBoite: boolean;
-    usagerLoginUpdateLastInteraction: boolean;
   };
 
   @Column({
@@ -123,7 +123,8 @@ export class StructureTable
 
   @Column({
     type: "jsonb",
-    default: () => `'{"enabledByDomifa": true, "enabledByStructure": false}'`,
+    default: () =>
+      `'{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}'`,
   })
   portailUsager: StructurePortailUsagerParams;
 
