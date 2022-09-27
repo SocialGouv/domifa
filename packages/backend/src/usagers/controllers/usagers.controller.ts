@@ -57,8 +57,9 @@ import { generateCerfaDatas } from "../services/cerfa";
 
 import pdftk = require("node-pdftk");
 
-import * as fs from "fs";
-import * as path from "path";
+import { promises } from "fs";
+import { resolve } from "path";
+
 @Controller("usagers")
 @ApiTags("usagers")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -390,9 +391,7 @@ export class UsagersController {
 
     const pdfInfos = generateCerfaDatas(currentUsager, user, typeCerfa);
 
-    const filePath = await fs.promises.readFile(
-      path.resolve(__dirname, pdfForm)
-    );
+    const filePath = await promises.readFile(resolve(__dirname, pdfForm));
 
     try {
       const buffer = await pdftk.input(filePath).fillForm(pdfInfos).output();
