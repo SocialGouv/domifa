@@ -3,10 +3,8 @@ node_modules
 coverage
 .vscode
 .prettierrc
-.prettierignore
 optional/e2e/runners/puppeteer/output
 *.code-workspace
-.prettierignore
 .secrets.yaml
 .yarn/*
 !.yarn/cache
