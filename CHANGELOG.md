@@ -1,3 +1,10 @@
+## [2.106.2](https://github.com/SocialGouv/domifa/compare/v2.106.1...v2.106.2) (2022-09-27)
+
+
+### Bug Fixes
+
+* **prettier:** application du formatage ([42e3608](https://github.com/SocialGouv/domifa/commit/42e3608a8c691c8687e746b87d836f06151426c8))
+
 ## [2.106.1](https://github.com/SocialGouv/domifa/compare/v2.106.0...v2.106.1) (2022-09-26)
 
 
