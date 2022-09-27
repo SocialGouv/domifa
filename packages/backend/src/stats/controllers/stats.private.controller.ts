@@ -19,6 +19,7 @@ import { structureStatsInPeriodGenerator } from "../services";
 import { statsQuestionsCoreBuilder } from "../services/statsQuestionsCoreBuilder.service";
 
 import moment = require("moment");
+import { format } from "date-fns";
 
 @Controller("stats")
 @ApiTags("stats")
@@ -103,7 +104,8 @@ export function buildExportStructureStatsFileName({
   endDateUTCExclusive: Date;
   structureId: number;
 }) {
-  return `${moment(startDateUTC).format("yyyy-MM-DD")}_${moment(
-    endDateUTCExclusive
-  ).format("yyyy-MM-DD")}_export-structure-${structureId}-stats.xlsx`;
+  return `${format(startDateUTC, "yyyy-MM-dd")}_${format(
+    endDateUTCExclusive,
+    "yyyy-MM-dd"
+  )}_export-structure-${structureId}-stats.xlsx`;
 }
