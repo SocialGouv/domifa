@@ -12,23 +12,21 @@ describe("NotFoundComponent", () => {
   let component: NotFoundComponent;
   let fixture: ComponentFixture<NotFoundComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [NotFoundComponent],
-        imports: [
-          NgbModule,
-          ReactiveFormsModule,
-          FormsModule,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [NotFoundComponent],
+      imports: [
+        NgbModule,
+        ReactiveFormsModule,
+        FormsModule,
 
-          HttpClientTestingModule,
-          RouterTestingModule,
-        ],
-        providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
-    })
-  );
+        HttpClientTestingModule,
+        RouterTestingModule,
+      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NotFoundComponent);

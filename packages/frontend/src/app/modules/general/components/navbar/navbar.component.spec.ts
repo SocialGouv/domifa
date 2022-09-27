@@ -16,38 +16,36 @@ describe("NavbarComponent", () => {
   let component: NavbarComponent;
   let fixture: ComponentFixture<NavbarComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [NavbarComponent],
-        imports: [
-          CommonModule,
-          SharedModule,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [NavbarComponent],
+      imports: [
+        CommonModule,
+        SharedModule,
 
-          RouterTestingModule,
+        RouterTestingModule,
 
-          HttpClientTestingModule,
-        ],
-        providers: [
-          { provide: APP_BASE_HREF, useValue: "/" },
-          {
-            provide: MatomoInjector,
-            useValue: {
-              init: jest.fn(),
-            },
+        HttpClientTestingModule,
+      ],
+      providers: [
+        { provide: APP_BASE_HREF, useValue: "/" },
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
           },
-          {
-            provide: MatomoTracker,
-            useValue: {
-              setUserId: jest.fn(),
-            },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
           },
-        ],
+        },
+      ],
 
-        schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-      }).compileComponents();
-    })
-  );
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NavbarComponent);

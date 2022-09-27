@@ -12,21 +12,19 @@ describe("StatsMapComponent", () => {
   let component: StatsMapComponent;
   let fixture: ComponentFixture<StatsMapComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [StatsMapComponent],
-        imports: [
-          BrowserAnimationsModule,
-          HttpClientTestingModule,
-          RouterTestingModule,
-        ],
-        providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [StatsMapComponent],
+      imports: [
+        BrowserAnimationsModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
 
-        schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-      }).compileComponents();
-    })
-  );
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StatsMapComponent);

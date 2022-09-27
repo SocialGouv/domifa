@@ -19,7 +19,7 @@
     "db:test:migrate-down:last": "ENV_FILE=tests-local npx ts-node -r tsconfig-paths/register --transpile-only src/run-migrate-down-last.ts",
     "db:test:migrate-redo": "ENV_FILE=tests-local npx ts-node -r tsconfig-paths/register --transpile-only src/run-migrate-up-redo.ts",
     "db:test:migrate-up": "ENV_FILE=tests-local npx ts-node -r tsconfig-paths/register --transpile-only src/run-migrate-up.ts",
-    "format": "prettier --write \"src/**/*.ts\"",
+    "format": "prettier -w ./src",
     "lint": "eslint ./src",
     "postbuild": "cp -r src/excel/_templates dist/excel && cp -r src/_static dist/",
     "prebuild": "rimraf dist",

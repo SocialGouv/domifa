@@ -17,47 +17,43 @@ describe("UsagersProfilTransfertCourrierComponent", () => {
   let fixture: ComponentFixture<UsagersProfilTransfertCourrierComponent>;
   let component: UsagersProfilTransfertCourrierComponent;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [UsagersProfilTransfertCourrierComponent],
-        imports: [
-          NgbModule,
-          MatomoModule,
-          RouterTestingModule.withRoutes([]),
-          NgbModule,
-          ReactiveFormsModule,
-          FormsModule,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [UsagersProfilTransfertCourrierComponent],
+      imports: [
+        NgbModule,
+        MatomoModule,
+        RouterTestingModule.withRoutes([]),
+        NgbModule,
+        ReactiveFormsModule,
+        FormsModule,
 
-          HttpClientTestingModule,
-          ReactiveFormsModule,
-        ],
-        providers: [
-          {
-            provide: MatomoInjector,
-            useValue: {
-              init: jest.fn(),
-            },
+        HttpClientTestingModule,
+        ReactiveFormsModule,
+      ],
+      providers: [
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
           },
-          {
-            provide: MatomoTracker,
-            useValue: {
-              setUserId: jest.fn(),
-            },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
           },
-          { provide: APP_BASE_HREF, useValue: "/" },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+        },
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(
-        UsagersProfilTransfertCourrierComponent
-      );
-      component = fixture.debugElement.componentInstance;
-      component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
-      component.ngOnInit();
-    })
-  );
+    fixture = TestBed.createComponent(UsagersProfilTransfertCourrierComponent);
+    component = fixture.debugElement.componentInstance;
+    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+    component.ngOnInit();
+  }));
 
   it("0. Create component", () => {
     expect(component).toBeTruthy();

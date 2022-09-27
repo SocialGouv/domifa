@@ -26,33 +26,31 @@ describe("RadiationFormComponent", () => {
   let component: RadiationFormComponent;
   let fixture: ComponentFixture<RadiationFormComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [RadiationFormComponent],
-        imports: [
-          NgbModule,
-          HttpClientTestingModule,
-          RouterTestingModule,
-          BrowserAnimationsModule,
-          ReactiveFormsModule,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [RadiationFormComponent],
+      imports: [
+        NgbModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
 
-          SharedModule,
-          FormsModule,
-        ],
-        providers: [
-          NgbDateCustomParserFormatter,
-          { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-          {
-            provide: NgbDateParserFormatter,
-            useClass: NgbDateCustomParserFormatter,
-          },
-          { provide: APP_BASE_HREF, useValue: "/" },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
-    })
-  );
+        SharedModule,
+        FormsModule,
+      ],
+      providers: [
+        NgbDateCustomParserFormatter,
+        { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
+        {
+          provide: NgbDateParserFormatter,
+          useClass: NgbDateCustomParserFormatter,
+        },
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RadiationFormComponent);

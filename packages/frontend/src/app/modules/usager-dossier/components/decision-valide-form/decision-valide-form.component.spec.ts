@@ -23,33 +23,31 @@ describe("DecisionValideFormComponent", () => {
   let component: DecisionValideFormComponent;
   let fixture: ComponentFixture<DecisionValideFormComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [DecisionValideFormComponent],
-        imports: [
-          NgbModule,
-          HttpClientTestingModule,
-          RouterTestingModule,
-          BrowserAnimationsModule,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [DecisionValideFormComponent],
+      imports: [
+        NgbModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+        BrowserAnimationsModule,
 
-          SharedModule,
-          ReactiveFormsModule,
-          FormsModule,
-        ],
-        providers: [
-          NgbDateCustomParserFormatter,
-          { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-          {
-            provide: NgbDateParserFormatter,
-            useClass: NgbDateCustomParserFormatter,
-          },
-          { provide: APP_BASE_HREF, useValue: "/" },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
-    })
-  );
+        SharedModule,
+        ReactiveFormsModule,
+        FormsModule,
+      ],
+      providers: [
+        NgbDateCustomParserFormatter,
+        { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
+        {
+          provide: NgbDateParserFormatter,
+          useClass: NgbDateCustomParserFormatter,
+        },
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DecisionValideFormComponent);
