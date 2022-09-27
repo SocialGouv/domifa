@@ -76,6 +76,12 @@ async function getStats({
       structureId,
       interactionType: "npai",
     }),
+    loginPortail: await countInteractions({
+      dateInteractionBefore: endDateUTCExclusive,
+      dateInteractionAfter: startDateUTC,
+      structureId,
+      interactionType: "loginPortail",
+    }),
   };
   return stats;
 }
@@ -94,6 +100,7 @@ async function countInteractions({
   if (
     interactionType === "appel" ||
     interactionType === "visite" ||
+    interactionType === "loginPortail" ||
     interactionType === "npai"
   ) {
     return interactionRepository.count({

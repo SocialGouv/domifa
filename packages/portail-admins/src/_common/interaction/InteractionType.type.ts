@@ -7,4 +7,5 @@ export type InteractionType =
   | "colisOut"
   | "appel"
   | "visite"
-  | "npai";
+  | "npai"
+  | "loginPortail";

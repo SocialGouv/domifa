@@ -147,6 +147,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
       period.end = new Date(year.toString() + "-12-31");
     }
     const structureId = this.me.structureId as number;
+
     this.statsService.export(structureId, period.start, period.end).subscribe({
       next: (x: Blob) => {
         const newBlob = new Blob([x], {

@@ -11,7 +11,8 @@ export const INTERACTIONS_LABELS_SINGULIER: {
   recommandeIn: "Avis de passage enregistré",
   recommandeOut: "Avis de passage remis",
   visite: "Passage enregistré",
-  npai: "Pli non distribuable enregistré",
+  npai: "Le courrier ne sera plus enregistré",
+  loginPortail: "Connexion au portail usager",
 };
 
 export const INTERACTIONS_LABELS_PLURIEL: {
@@ -26,4 +27,5 @@ export const INTERACTIONS_LABELS_PLURIEL: {
   recommandeOut: "Avis de passage remis",
   visite: "Passages enregistrés",
   npai: "Pli non distribuable enregistré",
+  loginPortail: "Connexion au portail usager",
 };
