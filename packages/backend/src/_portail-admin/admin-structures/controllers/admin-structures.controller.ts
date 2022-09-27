@@ -11,7 +11,6 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import moment = require("moment");
 
 import { AllowUserProfiles } from "../../../auth/decorators";
 import { AppUserGuard } from "../../../auth/guards";
@@ -46,6 +45,7 @@ import { startApmSpan } from "../../../instrumentation";
 import { UsersController } from "../../../users/users.controller";
 import { RegisterUserAdminDto } from "../../../users/dto";
 import { ConfirmStructureCreation } from "../../_dto/ConfirmStructureCreation.dto";
+import { format } from "date-fns";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
@@ -121,8 +121,9 @@ export class AdminStructuresController {
       users: usersWithStructure,
     });
 
-    const fileName = `${moment(stats.exportDate).format(
-      "DD-MM-yyyy_HH-mm"
+    const fileName = `${format(
+      stats.exportDate,
+      "dd-MM-yyyy_HH-mm"
     )}_export-stats-deploiement.xlsx`;
 
     await expressResponseExcelRenderer.sendExcelWorkbook({
@@ -130,7 +131,9 @@ export class AdminStructuresController {
       fileName,
       workbook,
     });
-    if (span3) span3.end();
+    if (span3) {
+      span3.end();
+    }
   }
 
   @Get("stats")

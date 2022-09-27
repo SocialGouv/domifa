@@ -1,9 +1,9 @@
-import moment = require("moment");
+import { format } from "date-fns";
 
 export const postgresQueryBuilder = {
   formatPostgresDate,
 };
 
 function formatPostgresDate(maxCreationDate: Date) {
-  return moment(maxCreationDate).format("yyyy-MM-DD HH:mm:ss");
+  return format(maxCreationDate, "yyyy-MM-dd HH:mm:ss");
 }

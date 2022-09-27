@@ -52,7 +52,7 @@ export class ExportStructureUsagersController {
 
     const fileName = `${format(
       model.exportDate,
-      "DD-MM-yyyy_HH-mm"
+      "dd-MM-yyyy_HH-mm"
     )}_export-structure-${user.structureId}-usagers.xlsx`;
     await expressResponseExcelRenderer.sendExcelWorkbook({
       res,
