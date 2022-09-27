@@ -100,7 +100,11 @@ async function createInteraction({
   }
 
   // Appels & Visites
-  if (interaction.type === "appel" || interaction.type === "visite") {
+  if (
+    interaction.type === "appel" ||
+    interaction.type === "visite" ||
+    interaction.type === "npai"
+  ) {
     usager.lastInteraction.dateInteraction = now;
     interaction.nbCourrier = 0;
   }

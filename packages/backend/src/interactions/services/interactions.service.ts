@@ -90,7 +90,12 @@ export class InteractionsService {
     usagerRef: number,
     interactionType: InteractionType
   ): Promise<number> {
-    if (interactionType === "appel" || interactionType === "visite") {
+    if (
+      interactionType === "appel" ||
+      interactionType === "visite" ||
+      interactionType === "loginPortail" ||
+      interactionType === "npai"
+    ) {
       return interactionRepository.count({
         where: {
           structureId,
@@ -99,19 +104,19 @@ export class InteractionsService {
           event: "create",
         },
       });
-    } else {
-      const search = await interactionRepository
-        .createQueryBuilder("interactions")
-        .select("SUM(interactions.nbCourrier)", "sum")
-        .where({
-          structureId,
-          usagerRef,
-          type: interactionType,
-          event: "create",
-        })
-        .groupBy("interactions.type")
-        .getRawOne();
-      return typeof search !== "undefined" ? search.sum : 0;
     }
+
+    const search = await interactionRepository
+      .createQueryBuilder("interactions")
+      .select("SUM(interactions.nbCourrier)", "sum")
+      .where({
+        structureId,
+        usagerRef,
+        type: interactionType,
+        event: "create",
+      })
+      .groupBy("interactions.type")
+      .getRawOne();
+    return typeof search !== "undefined" ? search.sum : 0;
   }
 }

@@ -51,6 +51,7 @@ function renderWorksheet({
       { key: "colisOut" },
       { key: "appel" },
       { key: "visite" },
+      { key: "loginPortail" },
     ];
 
     worksheetRendered.configureColumn(columns);
@@ -84,6 +85,7 @@ function renderWorksheet({
           colisOut: usagersInteractionsCounts.colisOut,
           appel: usagersInteractionsCounts.appel,
           visite: usagersInteractionsCounts.visite,
+          loginPortail: usagersInteractionsCounts.loginPortail,
         },
       };
 

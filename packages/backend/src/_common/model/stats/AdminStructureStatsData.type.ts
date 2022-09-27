@@ -1,3 +1,4 @@
+import { InteractionType } from "./../interaction/InteractionType.type";
 export type AdminStructureStatsData = {
   usersCount: number;
   structuresCount: number;
@@ -12,7 +13,7 @@ export type AdminStructureStatsData = {
   };
   structuresCountBySmsEnabled: number;
   interactionsCountByTypeMap: {
-    [statut: string]: number;
+    [statut in InteractionType]: number;
   };
   usagersCountByStatutMap: {
     [statut: string]: number;

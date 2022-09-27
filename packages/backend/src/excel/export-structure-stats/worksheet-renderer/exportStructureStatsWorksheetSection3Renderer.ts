@@ -49,6 +49,9 @@ function renderSection3Interactions(context: {
   worksheetRendered.renderCell(i++, "c", {
     value: data.npai,
   });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.loginPortail,
+  });
 
   context.currentRowNumber = i;
 }

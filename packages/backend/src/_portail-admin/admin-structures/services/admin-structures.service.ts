@@ -148,7 +148,7 @@ export class AdminStructuresService {
   }
 
   public async getInteractionsCountByTypeMap(): Promise<{
-    [statut: string]: number;
+    [statut in InteractionType]: number;
   }> {
     return {
       courrierIn: await this.totalInteractions("courrierIn"),
@@ -160,6 +160,7 @@ export class AdminStructuresService {
       appel: await this.totalInteractions("appel"),
       visite: await this.totalInteractions("visite"),
       npai: await this.totalInteractions("npai"),
+      loginPortail: await this.totalInteractions("loginPortail"),
     };
   }
 
@@ -385,7 +386,12 @@ export class AdminStructuresService {
     structuresId?: number[]
   ): Promise<number> {
     {
-      if (interactionType === "appel" || interactionType === "visite") {
+      if (
+        interactionType === "appel" ||
+        interactionType === "visite" ||
+        interactionType === "loginPortail" ||
+        interactionType === "npai"
+      ) {
         return this.interactionRepository.count({
           where: {
             type: interactionType,
@@ -393,6 +399,7 @@ export class AdminStructuresService {
           },
         });
       }
+
       const whereCondition: Partial<InteractionsTable> = {
         type: interactionType,
         event: "create",
