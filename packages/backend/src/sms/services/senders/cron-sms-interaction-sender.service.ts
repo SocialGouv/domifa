@@ -130,10 +130,10 @@ export class CronSmsInteractionSenderService {
 
         for (let i = 0; i < messageSmsList.length; i++) {
           // Mesure de prévention pour ne pas surcharger l'API
-          if (i % 300 === 0) {
+          if (i % 200 === 0) {
             setTimeout(() => {
-              appLogger.warn(`[CronSms] ... Wait 2 seconds`);
-            }, 4000);
+              appLogger.warn(`[CronSms] ... Wait 10 seconds`);
+            }, 10000);
           }
 
           try {
