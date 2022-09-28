@@ -114,6 +114,9 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
         [Validators.required, Validators.pattern(regexp.email)],
         this.validateEmailNotTaken.bind(this),
       ],
+      options: this.formBuilder.group({
+        numeroBoite: [this.structure.options.numeroBoite, []],
+      }),
       id: [this.structure.id, [Validators.required]],
       nom: [this.structure.nom, [Validators.required]],
       telephone: new FormControl(undefined, [
