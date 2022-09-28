@@ -271,7 +271,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           x,
           "DOMIFA_CRON_SMS_CONSUMER_CRONTIME",
           {
-            defaultValue: "0 13 * * TUE,WED,THU",
+            defaultValue: "0 19 * * TUE,WED,THU",
             // defaultValue: "0 13 * * TUE,WEN,THU",
           }
         ),

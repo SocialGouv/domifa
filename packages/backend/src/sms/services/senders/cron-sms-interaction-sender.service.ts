@@ -128,9 +128,16 @@ export class CronSmsInteractionSenderService {
 
         monitorTotal(messageSmsList.length);
 
-        for (const messageSms of messageSmsList) {
+        for (let i = 0; i < messageSmsList.length; i++) {
+          // Mesure de prévention pour ne pas surcharger l'API
+          if (i % 300 === 0) {
+            setTimeout(() => {
+              appLogger.warn(`[CronSms] ... Wait 2 seconds`);
+            }, 4000);
+          }
+
           try {
-            await this.messageSmsSenderService.sendSms(messageSms);
+            await this.messageSmsSenderService.sendSms(messageSmsList[i]);
             monitorSuccess();
           } catch (err) {
             monitorError(err as Error);
