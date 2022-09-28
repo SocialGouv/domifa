@@ -1,3 +1,12 @@
+## [2.107.1](https://github.com/SocialGouv/domifa/compare/v2.107.0...v2.107.1) (2022-09-28)
+
+
+### Bug Fixes
+
+* backend secrets prod ([a3d2587](https://github.com/SocialGouv/domifa/commit/a3d25872051515808a9c9a777db3f1a993169b7d))
+* **sms:** mise a jour des clés ([4dde3e9](https://github.com/SocialGouv/domifa/commit/4dde3e959018a855c52bacc8cae59cd261cbf2cc))
+* **sms:** modification du rythme d'envoi ([dff5afa](https://github.com/SocialGouv/domifa/commit/dff5afa8a8b871f386e420bdde4eb696edc5778f))
+
 # [2.107.0](https://github.com/SocialGouv/domifa/compare/v2.106.2...v2.107.0) (2022-09-27)
 
 
