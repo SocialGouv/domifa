@@ -124,7 +124,7 @@ export class CronSmsEndDomSenderService {
           // Mesure de prévention pour ne pas surcharger l'API
           if (i % 200 === 0) {
             setTimeout(() => {
-              appLogger.warn(`[CronSms] ... Wait 10 seconds`);
+              console.log(`[CronSms] ... Wait 10 seconds`);
             }, 10000);
           }
 
