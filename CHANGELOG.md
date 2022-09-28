@@ -1,3 +1,10 @@
+## [2.107.3](https://github.com/SocialGouv/domifa/compare/v2.107.2...v2.107.3) (2022-09-28)
+
+
+### Bug Fixes
+
+* **sms:** remise des dates du mardi & jeudi ([2b8df9e](https://github.com/SocialGouv/domifa/commit/2b8df9eb1266537eb36b3e75264a889f6c2fc106))
+
 ## [2.107.2](https://github.com/SocialGouv/domifa/compare/v2.107.1...v2.107.2) (2022-09-28)
 
 
