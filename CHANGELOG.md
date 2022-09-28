@@ -1,3 +1,13 @@
+## [2.107.2](https://github.com/SocialGouv/domifa/compare/v2.107.1...v2.107.2) (2022-09-28)
+
+
+### Bug Fixes
+
+* **migration:** mise à jour des migrations d'installation ([0d22019](https://github.com/SocialGouv/domifa/commit/0d22019ca3c49f5cc706bfdf18f652569c6bd7c3))
+* **sms:** mise à jour de la date d'envoi ([4b186e4](https://github.com/SocialGouv/domifa/commit/4b186e4a6e6a55b16dafdf769c6afb053924b39d))
+* **sms:** rythme d'envoi des SMS corrigé ([1fdc4b4](https://github.com/SocialGouv/domifa/commit/1fdc4b4b9af86cc4b2d376aaf8d85d93f950133a))
+* **stats:** correction de la date de début des stats ([a780773](https://github.com/SocialGouv/domifa/commit/a780773f4e6561c0d33abb5bd46f9e35974b5272))
+
 ## [2.107.1](https://github.com/SocialGouv/domifa/compare/v2.107.0...v2.107.1) (2022-09-28)
 
 
