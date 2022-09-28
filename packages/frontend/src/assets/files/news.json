@@ -1,5 +1,18 @@
 [
   {
+    "date": "2022-09-28",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Connexion au portail usager",
+        "message": [
+          "Nous vous donnons la possibilité de choisir si la connexion du domicilié à son espace mettra à jour sa date de dernier passage. Ce nouveau paramètre est disponible depuis \"mon compte\" > \"portail usager\""
+        ]
+      }
+    ]
+  },
+  {
     "date": "2022-09-21",
     "description": "",
     "content": [
