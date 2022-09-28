@@ -1,6 +1,7 @@
+import { endOfMonth, format, subYears } from "date-fns";
+import { subMonths } from "date-fns";
 import { myDataSource } from "..";
 import { domifaConfig } from "./../../../config/domifaConfig.service";
-import moment = require("moment");
 
 import { UsagerTable } from "../../entities";
 import {
@@ -34,14 +35,8 @@ function countUsagers(structuresId?: number[]): Promise<number> {
 }
 
 async function countUsagersByMonth(regionId?: FranceRegion) {
-  let startDate = postgresQueryBuilder.formatPostgresDate(
-    moment()
-      .utc()
-      .subtract(2, "month")
-      .subtract(1, "year")
-      .endOf("month")
-      .toDate()
-  );
+  const oneYearAgo = endOfMonth(subMonths(subYears(new Date(), 1), 2));
+  let startDate = format(oneYearAgo, "yyyy-MM-dd");
 
   if (domifaConfig().envId === "test") {
     startDate = postgresQueryBuilder.formatPostgresDate(new Date("2021-07-31"));
