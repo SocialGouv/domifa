@@ -18,11 +18,11 @@
      {{ helpers.button("primary", lien, "Se connecter", true) }}
 
      <p class="mt-8">
-          Pour vous accompagner au mieux dans votre utilisation de DomiFa, il vous est possible de vous inscrire à une session de présentation en ligne sur le lien suivant :
+          Pour vous accompagner au mieux dans votre utilisation de DomiFa, il vous est possible de vous inscrire à une session de présentation en ligne en nous envoyant un email à l'adresse
      </p>
      <p class="mb-12 text-center">
-          <a href="https://startupdetat.typeform.com/to/O63SNL" target="_blank" rel="noopener noreferrer">
-          https://startupdetat.typeform.com/to/O63SNL
+          <a href="mailto:contact.domifa@fabrique.social.gouv.fr" target="_blank" rel="noopener noreferrer">
+            contact.domifa@fabrique.social.gouv.fr
           </a>
      </p>
 
