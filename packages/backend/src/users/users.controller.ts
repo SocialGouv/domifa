@@ -193,7 +193,7 @@ export class UsersController {
       return res.status(HttpStatus.OK).json({ message: "OK" });
     } catch (err) {
       return res
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .status(HttpStatus.BAD_REQUEST)
         .json({ message: "L'ancien mot de passe est incorrect" });
     }
   }

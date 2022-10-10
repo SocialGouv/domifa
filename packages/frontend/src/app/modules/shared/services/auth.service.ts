@@ -108,6 +108,7 @@ export class AuthService {
   }
 
   public logout(): void {
+    this.userIdleService.stopWatching();
     this.currentUserSubject.next(null);
     usagersCache.clearCache();
     localStorage.removeItem("currentUser");
@@ -128,7 +129,6 @@ export class AuthService {
     if (sessionExpired) {
       this.toastr.warning("Votre session a expiré, merci de vous reconnecter");
     }
-    this.userIdleService.stopWatching();
     this.logout();
     if (state) {
       this.router.navigate(["/connexion"], {

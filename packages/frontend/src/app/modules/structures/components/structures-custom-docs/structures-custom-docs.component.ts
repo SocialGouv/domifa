@@ -34,11 +34,11 @@ export class StructuresCustomDocsComponent implements OnInit {
   public uploadCustomDocModal!: TemplateRef<NgbModalRef>;
 
   constructor(
-    private authService: AuthService,
-    private structureDocService: StructureDocService,
-    private toastService: CustomToastService,
-    private modalService: NgbModal,
-    private titleService: Title
+    private readonly authService: AuthService,
+    private readonly structureDocService: StructureDocService,
+    private readonly toastService: CustomToastService,
+    private readonly modalService: NgbModal,
+    private readonly titleService: Title
   ) {
     this.structureDocs = [];
     this.customStructureDocs = [];
@@ -48,11 +48,7 @@ export class StructuresCustomDocsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.titleService.setTitle("Gestion des documents de la structure");
-
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      this.me = user;
-    });
-
+    this.me = this.authService.currentUserValue;
     this.getAllStructureDocs();
   }
 

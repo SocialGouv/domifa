@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
-import { UserStructure } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 
 @Component({
@@ -10,8 +9,6 @@ import { AuthService } from "../../../shared/services/auth.service";
   styleUrls: ["./plan-site.component.css"],
 })
 export class PlanSiteComponent implements OnInit {
-  public me!: UserStructure;
-
   public faExternalLinkAlt = faExternalLinkAlt;
   public siteMapLinksLogged: {
     section: string;
@@ -102,10 +99,6 @@ export class PlanSiteComponent implements OnInit {
   constructor(private titleService: Title, public authService: AuthService) {}
 
   public ngOnInit(): void {
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      this.me = user;
-    });
-
     this.titleService.setTitle("Plan de site de DomiFa");
   }
 }

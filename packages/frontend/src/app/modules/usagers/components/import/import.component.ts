@@ -11,7 +11,7 @@ import { Router } from "@angular/router";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { UsagersImportMode, UserStructure } from "../../../../../_common/model";
 import { LoadingService } from "../../../shared/services/loading.service";
-import { AuthService } from "../../../shared/services/auth.service";
+
 import { UsagerService } from "../../services/usager.service";
 import { IMPORT_PREVIEW_COLUMNS } from "./IMPORT_PREVIEW_COLUMNS.const";
 import { ImportPreviewRow, ImportPreviewTable } from "./preview";
@@ -83,7 +83,6 @@ export class ImportComponent implements OnInit {
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly usagerService: UsagerService,
-    private readonly authService: AuthService,
     private readonly loadingService: LoadingService,
     private readonly router: Router,
     private readonly toastService: CustomToastService,
@@ -109,10 +108,6 @@ export class ImportComponent implements OnInit {
 
   public ngOnInit(): void {
     this.titleService.setTitle("Importer vos domiciliés sur DomiFa");
-
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      this.me = user;
-    });
 
     this.uploadForm = this.formBuilder.group({
       fileInput: ["", Validators.required],

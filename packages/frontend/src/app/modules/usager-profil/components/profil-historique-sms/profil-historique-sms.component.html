@@ -5,7 +5,6 @@
   <thead>
     <tr>
       <th scope="col">Date</th>
-      <th scope="col">Statut</th>
       <th scope="col">Type de SMS</th>
       <th scope="col">Contenu</th>
     </tr>
@@ -13,15 +12,6 @@
   <tbody>
     <tr *ngFor="let sms of messagesList">
       <td>{{ sms.scheduledDate | date: "dd/MM/yyyy" }} à 19h00</td>
-      <td>
-        <span
-          [ngbTooltip]="MESSAGE_SMS_STATUS[sms.status].description"
-          class="label-statut"
-          [ngClass]="MESSAGE_SMS_STATUS[sms.status].color"
-        >
-          {{ MESSAGE_SMS_STATUS[sms.status].label }}</span
-        >
-      </td>
       <td>{{ SMS_LABELS[sms.smsId] }}</td>
       <td>{{ sms.content }}</td>
     </tr>

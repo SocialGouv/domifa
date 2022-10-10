@@ -8,7 +8,7 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { of } from "rxjs";
+import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { regexp } from "src/app/shared/constants/REGEXP.const";
@@ -20,6 +20,7 @@ import {
 import { userStructureBuilder } from "../../services";
 import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
+import { format } from "date-fns";
 
 @Component({
   selector: "app-edit-user",
@@ -28,7 +29,6 @@ import { UsersService } from "../../services/users.service";
 })
 export class EditUserComponent implements OnInit {
   public me!: UserStructure;
-  public usagers: UsagerLight[];
 
   public submitted: boolean;
   public loading: boolean;
@@ -40,7 +40,8 @@ export class EditUserComponent implements OnInit {
   public hidePassword: boolean;
   public hidePasswordConfirm: boolean;
 
-  public lastPasswordUpdate: Date | null;
+  public lastPasswordUpdate: string;
+  public usagers$: Observable<UsagerLight[]>;
 
   public passwordForm!: FormGroup;
   public userForm!: FormGroup;
@@ -56,11 +57,11 @@ export class EditUserComponent implements OnInit {
   }
 
   constructor(
-    private authService: AuthService,
-    private userService: UsersService,
-    private toastService: CustomToastService,
-    private formBuilder: FormBuilder,
-    private titleService: Title
+    private readonly authService: AuthService,
+    private readonly userService: UsersService,
+    private readonly toastService: CustomToastService,
+    private readonly formBuilder: FormBuilder,
+    private readonly titleService: Title
   ) {
     this.submitted = false;
     this.editPassword = false;
@@ -72,26 +73,21 @@ export class EditUserComponent implements OnInit {
 
     this.emailExist = false;
     this.loading = false;
-    this.usagers = [];
+    this.usagers$ = of([]);
 
-    this.lastPasswordUpdate = null;
+    this.lastPasswordUpdate = "Aucune modification de mot de passe enregistrée";
   }
 
   public ngOnInit(): void {
     this.titleService.setTitle("Editer mes informations");
 
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      this.me = user;
-      this.userService.getLastPasswordUpdate().subscribe((retour: Date) => {
-        this.lastPasswordUpdate = retour;
-      });
+    this.me = this.authService.currentUserValue;
 
-      if (this.me?.role !== "facteur") {
-        this.userService.agenda().subscribe((usagers: UsagerLight[]) => {
-          this.usagers = usagers;
-        });
-      }
-    });
+    this.getLastPasswordUpdate();
+
+    if (this.me?.role !== "facteur") {
+      this.usagers$ = this.userService.agenda();
+    }
   }
 
   public initUserForm(): void {
@@ -153,6 +149,18 @@ export class EditUserComponent implements OnInit {
     );
   }
 
+  private getLastPasswordUpdate(): void {
+    this.userService.getLastPasswordUpdate().subscribe({
+      next: (lastPassword: Date | null) => {
+        this.lastPasswordUpdate =
+          lastPassword === null
+            ? "Aucune modification de mot de passe enregistrée"
+            : "Dernière modification: " +
+              format(new Date(lastPassword), "dd/MM/yyyy");
+      },
+    });
+  }
+
   public updateUser(): void {
     this.submitted = true;
     if (this.userForm.invalid) {
@@ -195,7 +203,7 @@ export class EditUserComponent implements OnInit {
         this.loading = false;
         this.editPassword = false;
         this.submitted = false;
-        this.lastPasswordUpdate = new Date();
+        this.getLastPasswordUpdate();
         this.toastService.success(
           "Félicitations ! : votre mot de passe a été modifié avec succès"
         );

@@ -1,5 +1,5 @@
 import {
-  IsBoolean,
+  IsBooleanString,
   IsIn,
   IsNotEmpty,
   IsString,
@@ -27,7 +27,7 @@ export class StructureDocDto {
     required: true,
   })
   @IsNotEmpty()
-  @IsBoolean()
+  @IsBooleanString()
   public custom: boolean;
 
   @ApiProperty({

@@ -14,31 +14,36 @@
       <div class="row" *ngIf="me.role !== 'facteur'">
         <div class="col-12">
           <h4>Mes prochains rendez-vous</h4>
-          <div class="alert-info alert" *ngIf="usagers.length === 0">
-            Aucun rendez-vous prévu
-          </div>
-          <div *ngIf="usagers.length > 0">
-            <div *ngFor="let usager of usagers">
-              <div class="row">
-                <div class="col-7">
-                  <b
-                    >Le {{ usager.rdv.dateRdv | date: "dd/MM/yyyy à HH:mm" }}</b
-                  >
-                  <br />
-                  {{ usager.nom }} {{ usager.prenom }}
-                </div>
-                <div class="col-5 text-end">
-                  <a
-                    class="btn btn-outline-dark"
-                    [routerLink]="['/usager/' + usager.ref + '/edit']"
-                    routerLinkActive="router-link-active"
-                  >
-                    Voir la fiche
-                  </a>
-                </div>
-              </div>
+          <ng-container *ngIf="usagers$ | async as nextMeetings">
+            <div class="alert-info alert" *ngIf="nextMeetings.length === 0">
+              Aucun rendez-vous prévu
             </div>
-          </div>
+            <table class="table" *ngIf="nextMeetings.length > 0">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Domicilié(e) concerné(e)</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let usager of nextMeetings">
+                  <td>
+                    Le {{ usager.rdv.dateRdv | date: "dd/MM/yyyy à HH:mm" }}
+                  </td>
+                  <td>{{ usager.nom }} {{ usager.prenom }}</td>
+                  <td class="text-end">
+                    <a
+                      [routerLink]="['/usager/' + usager.ref + '/edit']"
+                      routerLinkActive="router-link-active"
+                    >
+                      Voir la fiche
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </ng-container>
         </div>
       </div>
 
@@ -159,24 +164,16 @@
 
       <br /><br />
       <div class="row">
-        <h4 class="col-md-12">Mot de passe</h4>
-
-        <br />
-
-        <div class="col-md-12 text-center" *ngIf="!editPassword">
-          <span *ngIf="lastPasswordUpdate"
-            >Dernière modification le :
-            {{ lastPasswordUpdate | date: "dd/MM/yyyy" }}</span
-          >
-          <span *ngIf="!lastPasswordUpdate"
-            >Aucune modification de mot de passe enregistrée</span
-          >
-          <br />
-          <br />
+        <h4 class="col-md-8">Mot de passe</h4>
+        <h4 class="col-md-4 text-end">
           <button (click)="initPasswordForm()" class="btn btn-outline-dark">
             <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
             Modifier votre mot de passe
           </button>
+        </h4>
+
+        <div class="col-md-12 text-center" *ngIf="!editPassword">
+          {{ lastPasswordUpdate }}
         </div>
       </div>
 

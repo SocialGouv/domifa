@@ -10,7 +10,7 @@ const baseRepository = pgRepository.get<UsagerTable, UsagerLight>(UsagerTable, {
 export const usagerLightRepository = {
   ...baseRepository,
   findDoublons,
-  findNextRendezVous,
+  findNextMeetings,
   findLastFiveCustomRef,
 };
 
@@ -67,7 +67,7 @@ function findLastFiveCustomRef({
   });
 }
 
-function findNextRendezVous({
+function findNextMeetings({
   userId,
   dateRefNow = new Date(),
 }: {

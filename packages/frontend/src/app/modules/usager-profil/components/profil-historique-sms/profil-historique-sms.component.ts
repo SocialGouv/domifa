@@ -1,10 +1,7 @@
 import { AfterViewInit, Component, Input } from "@angular/core";
 import { UserStructure } from "../../../../../_common/model";
 import { MessageSms } from "../../../../../_common/model/message-sms";
-import {
-  MESSAGE_SMS_STATUS,
-  SMS_LABELS,
-} from "../../../../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
+import { SMS_LABELS } from "../../../../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 import { UsagerProfilService } from "../../services/usager-profil.service";
@@ -19,7 +16,6 @@ export class ProfilHistoriqueSmsComponent implements AfterViewInit {
   @Input() public me!: UserStructure;
 
   public SMS_LABELS = SMS_LABELS;
-  public MESSAGE_SMS_STATUS = MESSAGE_SMS_STATUS;
 
   @Input() public messagesList: MessageSms[];
 

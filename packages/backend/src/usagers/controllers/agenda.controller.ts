@@ -57,7 +57,7 @@ export class AgendaController {
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getAll(@CurrentUser() user: UserStructureAuthenticated) {
     const userId = user.id;
-    return usagerLightRepository.findNextRendezVous({ userId });
+    return usagerLightRepository.findNextMeetings({ userId });
   }
 
   @Post(":usagerRef")
