@@ -1,6 +1,7 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
+import { Component, OnDestroy, OnInit, TemplateRef } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import {
@@ -16,13 +17,14 @@ import { UsersService } from "../../services/users.service";
   styleUrls: ["./user-profil.component.css"],
   templateUrl: "./user-profil.component.html",
 })
-export class UserProfilComponent implements OnInit {
+export class UserProfilComponent implements OnInit, OnDestroy {
   public users: UserStructureProfile[];
   public me!: UserStructure | null;
 
   public selectedUser: UserStructureProfile | null;
   public loading: boolean;
   public usersInfos: boolean;
+  private subscriptions = new Subscription();
 
   constructor(
     private readonly authService: AuthService,
@@ -40,13 +42,18 @@ export class UserProfilComponent implements OnInit {
   public ngOnInit(): void {
     this.titleService.setTitle("Gestion des utilisateurs DomiFa");
 
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      if (user !== null) {
-        this.me = user;
+    this.subscriptions.add(
+      this.authService.currentUserSubject.subscribe((user: UserStructure) => {
+        if (user !== null) {
+          this.me = user;
+          this.getUsers();
+        }
+      })
+    );
+  }
 
-        this.getUsers();
-      }
-    });
+  public ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   public updateRole(id: number, role: UserStructureRole) {

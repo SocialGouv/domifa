@@ -32,7 +32,7 @@
           </button>
         </div>
       </div>
-      <div class="col-4 text-end">
+      <div class="col-4 text-end" *ngIf="currentUserSubject$ | async as me">
         <a
           *ngIf="me.role !== 'facteur'"
           routerLink="/nouveau"

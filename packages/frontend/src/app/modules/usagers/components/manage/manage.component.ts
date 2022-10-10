@@ -128,6 +128,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   public searchInput!: ElementRef;
 
   private subscription = new Subscription();
+  public currentUserSubject$: Observable<UserStructure | null>;
 
   public sortLabel = "échéance";
 
@@ -162,9 +163,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
 
     this.filters = new UsagersFilterCriteria(this.getFilters());
 
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      this.me = user;
-    });
+    this.currentUserSubject$ = this.authService.currentUserSubject;
 
     this.titleService.setTitle("Gérer vos domiciliés");
 

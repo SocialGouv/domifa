@@ -6,6 +6,7 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-usager-dossier-step-entretien",
@@ -13,21 +14,20 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 })
 export class StepEntretienComponent implements OnInit {
   public usager!: UsagerFormModel;
-  public me!: UserStructure;
+
+  public currentUserSubject$: Observable<UserStructure | null>;
 
   constructor(
-    private usagerDossierService: UsagerDossierService,
-    private authService: AuthService,
-    private router: Router,
-    private titleService: Title,
-    private route: ActivatedRoute,
-    private toastr: CustomToastService
+    private readonly usagerDossierService: UsagerDossierService,
+    private readonly authService: AuthService,
+    private readonly router: Router,
+    private readonly titleService: Title,
+    private readonly route: ActivatedRoute,
+    private readonly toastr: CustomToastService
   ) {}
 
   public ngOnInit(): void {
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      this.me = user;
-    });
+    this.currentUserSubject$ = this.authService.currentUserSubject;
 
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;

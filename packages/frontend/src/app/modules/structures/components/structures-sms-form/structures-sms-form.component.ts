@@ -8,8 +8,8 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { StructureCommon, UserStructure } from "../../../../../_common/model";
-import { AuthService } from "../../../shared/services/auth.service";
+import { StructureCommon } from "../../../../../_common/model";
+
 import { generateSender } from "../../services/generateSender.service";
 import { StructureService } from "../../services/structure.service";
 import { MatomoTracker } from "ngx-matomo";
@@ -25,7 +25,6 @@ import {
   styleUrls: ["./structures-sms-form.component.css"],
 })
 export class StructuresSmsFormComponent implements OnInit {
-  public me!: UserStructure;
   public structure!: StructureCommon;
 
   public loading: boolean;
@@ -41,7 +40,7 @@ export class StructuresSmsFormComponent implements OnInit {
     private readonly formBuilder: FormBuilder,
     private readonly structureService: StructureService,
     private readonly toastService: CustomToastService,
-    private readonly authService: AuthService,
+
     private readonly titleService: Title,
     private readonly matomo: MatomoTracker,
     private readonly modalService: NgbModal
@@ -61,10 +60,6 @@ export class StructuresSmsFormComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      this.me = user;
-    });
-
     this.titleService.setTitle("Paramétrer les SMS");
 
     this.structureService.findMyStructure().subscribe({

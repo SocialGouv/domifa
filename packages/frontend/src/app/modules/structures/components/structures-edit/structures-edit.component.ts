@@ -48,10 +48,7 @@ export class StructuresEditComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      this.me = user;
-    });
-
+    this.me = this.authService.currentUserValue;
     this.titleService.setTitle("Modifier ma structure");
 
     this.structureService

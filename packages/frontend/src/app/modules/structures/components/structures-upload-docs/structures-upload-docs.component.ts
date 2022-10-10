@@ -76,7 +76,7 @@ export class StructuresUploadDocsComponent implements OnInit {
     });
   }
 
-  public submitFile() {
+  public submitFile(): void {
     this.submitted = true;
 
     if (this.uploadForm.invalid) {

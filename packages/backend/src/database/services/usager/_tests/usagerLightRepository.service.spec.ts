@@ -40,8 +40,8 @@ describe("usagerLightRepository", () => {
     expect(doublons.length).toEqual(0);
   });
 
-  it("findNextRendezVous", async () => {
-    const rendezVous = await usagerLightRepository.findNextRendezVous({
+  it("findNextMeetings", async () => {
+    const rendezVous = await usagerLightRepository.findNextMeetings({
       userId: 2,
       dateRefNow: new Date(Date.UTC(2019, 1, 1)),
     });

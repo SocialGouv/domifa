@@ -27,10 +27,7 @@ export class StepDocumentsComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      this.me = user;
-    });
-
+    this.me = this.authService.currentUserValue;
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
 

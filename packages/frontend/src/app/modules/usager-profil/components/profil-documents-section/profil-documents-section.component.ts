@@ -33,14 +33,11 @@ export class ProfilDocumentsSectionComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      this.me = user;
-    });
-
     if (!this.route.snapshot.params.id) {
       this.router.navigate(["/404"]);
       return;
     }
+    this.me = this.authService.currentUserValue;
 
     this.usagerProfilService.findOne(this.route.snapshot.params.id).subscribe({
       next: (usager: UsagerLight) => {

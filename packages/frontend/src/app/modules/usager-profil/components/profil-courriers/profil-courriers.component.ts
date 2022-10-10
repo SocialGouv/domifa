@@ -30,10 +30,7 @@ export class ProfilCourriersComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      this.me = user;
-    });
-
+    this.me = this.authService.currentUserValue;
     this.usagerProfilService.findOne(this.route.snapshot.params.id).subscribe(
       (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);

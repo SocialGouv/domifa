@@ -78,8 +78,8 @@ export class UsersService {
     return this.http.post(`${this.endPoint}/get-password-token`, data);
   }
 
-  public getLastPasswordUpdate(): Observable<Date> {
-    return this.http.get<Date>(`${this.endPoint}/last-password-update`);
+  public getLastPasswordUpdate(): Observable<Date | null> {
+    return this.http.get<Date | null>(`${this.endPoint}/last-password-update`);
   }
 
   public checkPasswordToken({
@@ -118,11 +118,7 @@ export class UsersService {
     return this.http.post<ApiMessage>(`${this.endPoint}/register`, data);
   }
 
-  public agenda(): Observable<UsagerLight[] | []> {
-    return this.http.get(`${environment.apiUrl}agenda`).pipe(
-      map((response) => {
-        return Array.isArray(response) ? response : [response];
-      })
-    );
+  public agenda(): Observable<UsagerLight[]> {
+    return this.http.get<UsagerLight[]>(`${environment.apiUrl}agenda`);
   }
 }
