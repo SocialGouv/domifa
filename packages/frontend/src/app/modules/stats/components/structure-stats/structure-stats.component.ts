@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  OnDestroy,
   OnInit,
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
@@ -13,9 +12,8 @@ import {
   NgbDatepickerI18n,
 } from "@ng-bootstrap/ng-bootstrap";
 
-import fileSaver from "file-saver";
+import { saveAs } from "file-saver";
 
-import { Subscription } from "rxjs";
 import {
   StructureStatsFull,
   UserStructure,
@@ -37,7 +35,7 @@ import { buildExportStructureStatsFileName } from "./services";
   styleUrls: ["./structure-stats.component.css"],
   templateUrl: "./structure-stats.component.html",
 })
-export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class StatsComponent implements OnInit, AfterViewInit {
   public stats!: StructureStatsFull;
 
   public loading: boolean;
@@ -55,9 +53,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
   public fromDate: NgbDate;
   public toDate: NgbDate | null = null;
 
-  private me!: UserStructure;
-
-  private subscriptions = new Subscription();
+  private me!: UserStructure | null;
 
   constructor(
     public calendar: NgbCalendar,
@@ -115,16 +111,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public ngOnInit(): void {
     this.titleService.setTitle("Rapport d'activité de votre structure");
-
-    this.subscriptions.add(
-      this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-        this.me = user;
-      })
-    );
-  }
-
-  public ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.me = this.authService.currentUserValue;
   }
 
   public ngAfterViewInit(): void {
@@ -146,7 +133,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
       period.start = new Date(year.toString() + "-01-01");
       period.end = new Date(year.toString() + "-12-31");
     }
-    const structureId = this.me.structureId as number;
+    const structureId = this.me?.structureId as number;
 
     this.statsService.export(structureId, period.start, period.end).subscribe({
       next: (x: Blob) => {
@@ -154,7 +141,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
           type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         });
 
-        fileSaver.saveAs(
+        saveAs(
           newBlob,
           buildExportStructureStatsFileName({
             startDateUTC: period.start,
@@ -176,14 +163,14 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public compare(): void {
     this.loading = true;
-    this.start = new Date(this.formatter.formatEn(this.fromDate));
+    this.start = new Date(this.formatter.formatEn(this.fromDate) as string);
     this.end =
       this.toDate !== null
-        ? new Date(this.formatter.formatEn(this.toDate))
+        ? new Date(this.formatter.formatEn(this.toDate) as string)
         : null;
 
     this.statsService
-      .getStats(this.me.structureId as number, this.start, this.end)
+      .getStats(this.me?.structureId as number, this.start, this.end)
       .subscribe({
         next: (statsResult: StructureStatsFull) => {
           this.stats = statsResult;

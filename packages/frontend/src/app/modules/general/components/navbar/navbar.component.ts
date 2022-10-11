@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+
 import { UserIdleService } from "angular-user-idle";
 import { MatomoTracker } from "ngx-matomo";
 import { environment } from "../../../../../environments/environment";
@@ -24,9 +24,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private readonly authService: AuthService,
-    private readonly router: Router,
-    public matomoService: MatomoTracker,
-    private userIdleService: UserIdleService
+    private readonly userIdleService: UserIdleService,
+    public matomoService: MatomoTracker
   ) {
     this.isNavbarCollapsed = false;
     this.me = null;
@@ -35,9 +34,11 @@ export class NavbarComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      this.me = user;
-    });
+    this.authService.currentUserSubject.subscribe(
+      (user: UserStructure | null) => {
+        this.me = user;
+      }
+    );
 
     // Affichage de matomo
     this.initMatomo();

@@ -1,5 +1,25 @@
 [
   {
+    "date": "2022-10-11",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "SMS",
+        "message": [
+          "Nous avons changé de prestataire pour l'envoi des SMS, nous ne pourrons plus vous afficher le statut des SMS. Ainsi nous avons retiré la colonne statut dans l'historique des sms"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Documents",
+        "message": [
+          "Vous avez rencontré une erreur lors de l'ajout d'un document ? Nous avons procédé à la résolution de cette difficulté. Ajoutez dès maintenant les documents que vous souhaitez depuis \"Mon compte\" > \"Documents\""
+        ]
+      }
+    ]
+  },
+  {
     "date": "2022-09-28",
     "description": "",
     "content": [

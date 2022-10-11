@@ -66,11 +66,11 @@ export class DecisionRefusFormComponent implements OnInit {
       orientationDetails: [null, [Validators.required]],
     });
 
-    this.refusForm.get("motif").valueChanges.subscribe((value) => {
+    this.refusForm.get("motif")?.valueChanges.subscribe((value) => {
       if (value === "AUTRE") {
         this.refusForm
           .get("motifDetails")
-          .setValidators([Validators.required, Validators.minLength(10)]);
+          ?.setValidators([Validators.required, Validators.minLength(10)]);
       } else {
         this.refusForm.get("motifDetails")?.setValidators(null);
         this.refusForm.get("motifDetails")?.setValue(null);
@@ -90,7 +90,7 @@ export class DecisionRefusFormComponent implements OnInit {
     const formDatas: UsagerDecisionRefusForm = {
       ...this.refusForm.value,
       dateFin: new Date(
-        this.nbgDate.formatEn(this.refusForm.controls.dateFin.value)
+        this.nbgDate.formatEn(this.refusForm.controls.dateFin.value) as string
       ),
     };
 

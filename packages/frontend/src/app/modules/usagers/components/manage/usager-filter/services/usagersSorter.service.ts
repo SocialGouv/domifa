@@ -26,7 +26,7 @@ function sortBy(
         if (sortKey === "RADIE" || sortKey === "REFUS") {
           sortAttributes.push(
             {
-              value: usager.decision?.dateFin,
+              value: usager.decision?.dateFin as Date,
               asc,
             },
             {
@@ -68,7 +68,7 @@ function sortBy(
         } else if (sortKey === "ECHEANCE") {
           sortAttributes.push(
             {
-              value: usager?.echeanceInfos?.dateToDisplay,
+              value: usager?.echeanceInfos?.dateToDisplay as Date,
               asc,
             },
             {
@@ -81,7 +81,7 @@ function sortBy(
         } else if (sortKey === "PASSAGE") {
           sortAttributes.push(
             {
-              value: usager.lastInteraction.dateInteraction,
+              value: usager.lastInteraction.dateInteraction as Date,
               asc,
             },
             {

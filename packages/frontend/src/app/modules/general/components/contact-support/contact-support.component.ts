@@ -70,8 +70,6 @@ export class ContactSupportComponent implements OnInit {
       name = this.me.nom + " " + this.me.prenom;
     }
 
-    this.me = this.authService.currentUserValue;
-
     this.contactForm = this.formBuilder.group({
       content: [
         "",

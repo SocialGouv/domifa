@@ -22,9 +22,7 @@ describe("NavbarComponent", () => {
       imports: [
         CommonModule,
         SharedModule,
-
         RouterTestingModule,
-
         HttpClientTestingModule,
       ],
       providers: [

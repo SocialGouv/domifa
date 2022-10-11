@@ -98,7 +98,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   }
 
   public isRole(role: UserStructureRole): boolean {
-    return this.me.role === role;
+    return this.me?.role === role;
   }
 
   public ngOnInit(): void {
@@ -239,9 +239,9 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     }, 500);
   }
 
-  public deleteProcuration(): void {
+  public deleteProcuration(procurationToDelete: number): void {
     this.usagerOptionsService
-      .deleteProcuration(this.usager.ref, this.procurationToDelete)
+      .deleteProcuration(this.usager.ref, procurationToDelete)
       .subscribe({
         next: (usager: UsagerLight) => {
           this.toastService.success("Procuration supprimée avec succès");
