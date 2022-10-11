@@ -43,9 +43,6 @@ export class NavbarComponent implements OnInit {
     // Affichage de matomo
     this.initMatomo();
 
-    // Lancement de la surveillance d'inactivité
-    this.userIdleService.startWatching();
-
     // Lancement du décompte
     this.userIdleService.onTimerStart().subscribe({
       next: () => {

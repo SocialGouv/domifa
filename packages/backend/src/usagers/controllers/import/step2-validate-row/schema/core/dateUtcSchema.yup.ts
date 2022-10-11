@@ -3,20 +3,9 @@ import * as yup from "yup";
 import { appLogger } from "../../../../../../util";
 import { ValidationRegexp } from "./ValidationRegexp.data";
 
-const DEFAULT_PARSE_FORMATS = ["DD/MM/YYYY"];
+const DEFAULT_PARSE_FORMATS = "DD/MM/YYYY";
 // @see https://github.com/jquense/yup/blob/master/docs/extending.md
-export const dateUtcSchema = (
-  {
-    parseFormats = DEFAULT_PARSE_FORMATS,
-    startOfDay = true,
-  }: {
-    parseFormats?: string[];
-    startOfDay?: boolean;
-  } = {
-    parseFormats: DEFAULT_PARSE_FORMATS,
-    startOfDay: true,
-  }
-) =>
+export const dateUtcSchema = () =>
   yup.date().transform((value, originalValue) => {
     // Si c'est du texte, Original value sera vide, mais value non
     if (!originalValue && value) {
@@ -31,9 +20,9 @@ export const dateUtcSchema = (
         return yup.date.INVALID_DATE;
       }
 
-      const momentDate = startOfDay
-        ? moment.utc(originalValue, parseFormats).startOf("day")
-        : moment.utc(originalValue, parseFormats);
+      const momentDate = moment
+        .utc(originalValue, DEFAULT_PARSE_FORMATS)
+        .startOf("day");
 
       if (!momentDate.isValid) {
         appLogger.warn(`Invalid date (moment)`, {

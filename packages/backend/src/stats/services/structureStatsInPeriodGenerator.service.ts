@@ -1,4 +1,5 @@
-import moment = require("moment");
+import { subDays } from "date-fns";
+
 import { structureRepository } from "../../database";
 import { Structure, StructureStatsFull } from "../../_common/model";
 import { statsQuestionsCoreBuilder } from "./statsQuestionsCoreBuilder.service";
@@ -68,7 +69,7 @@ async function buildStatsInPeriod({
     },
     period: {
       startDateUTC,
-      endDateUTC: moment.utc(endDateUTCExclusive).add(-1, "day").toDate(),
+      endDateUTC: subDays(new Date(endDateUTCExclusive), 1),
       endDateUTCExclusive,
     },
     data: {

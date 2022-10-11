@@ -1,6 +1,7 @@
 import { WorksheetRenderer } from "../../xlLib";
 import { StructureStatsExportModel } from "../StructureStatsExportModel.type";
-import moment = require("moment");
+
+import { format } from "date-fns";
 
 export const exportStructureStatsWorksheetSection3Renderer = {
   renderSection3Interactions,
@@ -16,11 +17,10 @@ function renderSection3Interactions(context: {
 
   const data = model.stats.data.interactions;
   worksheetRendered.renderCell(i++, "b", {
-    value: `3. TOTAL DES INTERACTIONS DU ${moment
-      .utc(model.stats.period.startDateUTC)
-      .format("DD/MM/yyyy")} AU ${moment
-      .utc(model.stats.period.endDateUTC)
-      .format("DD/MM/yyyy")}`,
+    value: `3. TOTAL DES INTERACTIONS DU ${format(
+      new Date(model.stats.period.startDateUTC),
+      "dd/MM/yyyy"
+    )} AU ${format(new Date(model.stats.period.endDateUTC), "dd/MM/yyyy")}`,
   });
   worksheetRendered.renderCell(i++, "c", {
     value: data.appel,

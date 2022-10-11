@@ -1,4 +1,5 @@
-import moment = require("moment");
+import { subDays } from "date-fns";
+
 import { usagerHistoryRepository } from "../../database";
 import { StructureStatsQuestionsAtDateValidUsagers } from "../../_common/model";
 
@@ -16,7 +17,7 @@ async function getStats({
   // TODO pas besoin de précalculer usager_tranche, on peut faire comme v_u_age_mineur
 
   // dateUTC est le lendemain à 0:00 UTC, alors que pour l'age, il faut la date du jour
-  const dateAgeUTC = moment.utc(dateUTC).add(-1, "day");
+  const dateAgeUTC = subDays(new Date(dateUTC), 1);
 
   const rawResults = await (
     await usagerHistoryRepository.typeorm()

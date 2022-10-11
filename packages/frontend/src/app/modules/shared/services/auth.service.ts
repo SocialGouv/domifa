@@ -40,7 +40,6 @@ export class AuthService {
   }
 
   public login(email: string, password: string): Observable<UserStructure> {
-    usagersCache.clearCache();
     return this.http
       .post<{ access_token: string }>(`${this.endPoint}/login`, {
         email,
@@ -52,13 +51,7 @@ export class AuthService {
             jwtDecode(token.access_token)
           );
           user.access_token = token.access_token;
-
-          localStorage.setItem("currentUser", JSON.stringify(user));
-          localStorage.removeItem("filters");
-
-          this.currentUserSubject.next(user);
-          this.userIdleService.startWatching();
-
+          this.setUser(user);
           return user;
         })
       );
@@ -73,24 +66,11 @@ export class AuthService {
       map((apiUser: UserStructure) => {
         const user = userStructureBuilder.buildUserStructure(apiUser);
         user.access_token = this.currentUserValue?.access_token;
-
-        localStorage.setItem("currentUser", JSON.stringify(user));
-
-        // Ajout d'infos pour Sentry
-        configureScope((scope) => {
-          scope.setTag("structure", user.structureId?.toString());
-          scope.setUser({
-            email: user.email,
-            username:
-              "STRUCTURE " + user.structureId?.toString() + " : " + user.prenom,
-          });
-        });
-        this.currentUserSubject.next(user);
+        this.setUser(user);
         return true;
       }),
       catchError(() => {
         this.currentUserSubject.next(null);
-        localStorage.removeItem("currentUser");
         return of(false);
       })
     );
@@ -118,7 +98,6 @@ export class AuthService {
       scope.setTag("structure", "none");
       scope.setUser({});
     });
-
     this.router.navigate(["/connexion"]);
   }
 
@@ -144,5 +123,23 @@ export class AuthService {
       "Action interdite : vous n'êtes pas autorisé à accéder à cette page"
     );
     this.router.navigate(["/"]);
+  }
+
+  private setUser(user: UserStructure) {
+    usagersCache.clearCache();
+    localStorage.removeItem("filters");
+    localStorage.setItem("currentUser", JSON.stringify(user));
+    this.currentUserSubject.next(user);
+    this.userIdleService.startWatching();
+
+    // Ajout d'infos pour Sentry
+    configureScope((scope) => {
+      scope.setTag("structure", user.structureId.toString());
+      scope.setUser({
+        email: user.email,
+        username:
+          "STRUCTURE " + user.structureId.toString() + " : " + user.prenom,
+      });
+    });
   }
 }

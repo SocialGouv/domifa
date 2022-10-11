@@ -1,6 +1,7 @@
 import { WorksheetRenderer } from "../../xlLib";
 import { StructureStatsExportModel } from "../StructureStatsExportModel.type";
-import moment = require("moment");
+
+import { format } from "date-fns";
 
 export const exportStructureStatsWorksheetSection2Renderer = {
   renderSection2ActiviteDecisions,
@@ -16,11 +17,10 @@ function renderSection2ActiviteDecisions(context: {
 
   const data = model.stats.data.decisions;
   worksheetRendered.renderCell(i++, "b", {
-    value: `2. ACTIVITÉ DU ${moment
-      .utc(model.stats.period.startDateUTC)
-      .format("DD/MM/yyyy")} AU ${moment
-      .utc(model.stats.period.endDateUTC)
-      .format("DD/MM/yyyy")}`,
+    value: `2. ACTIVITÉ DU ${format(
+      new Date(model.stats.period.startDateUTC),
+      "dd/MM/yyyy"
+    )} AU ${format(new Date(model.stats.period.endDateUTC), "dd/MM/yyyy")}`,
   });
   i++; // blank line
   worksheetRendered.renderCell(i++, "c", {

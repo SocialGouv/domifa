@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
-import { subDays } from "date-fns";
-import * as moment from "moment";
+import { sub, subDays } from "date-fns";
+
 import { domifaConfig } from "../../../config";
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 import {
@@ -66,9 +66,11 @@ export class CronMailImportGuideSenderService {
 
   private async _findUsersToSendImportGuide() {
     const delay = domifaConfig().cron.emailImportGuide.delay;
-    const maxCreationDate: Date = moment()
-      .subtract(delay.amount, delay.unit)
-      .toDate();
+
+    const maxCreationDate = sub(new Date(), {
+      [delay.unit]: delay.amount,
+    });
+
     const minCreationDate: Date = subDays(new Date(maxCreationDate), 14);
 
     const structuresIds: number[] = [];

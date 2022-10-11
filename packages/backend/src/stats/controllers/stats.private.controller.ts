@@ -18,8 +18,7 @@ import { StatsDto } from "../dto/stats.dto";
 import { structureStatsInPeriodGenerator } from "../services";
 import { statsQuestionsCoreBuilder } from "../services/statsQuestionsCoreBuilder.service";
 
-import moment = require("moment");
-import { format } from "date-fns";
+import { addDays, format } from "date-fns";
 
 @Controller("stats")
 @ApiTags("stats")
@@ -81,10 +80,10 @@ export class StatsPrivateController {
     end: string;
   }): Promise<StructureStatsFull> {
     const startDateUTC = statsQuestionsCoreBuilder.removeUTCHours(
-      moment.utc(start).toDate()
+      new Date(start)
     );
     const endDateUTCExclusive = statsQuestionsCoreBuilder.removeUTCHours(
-      moment.utc(end).add(1, "day").toDate()
+      addDays(new Date(end), 1)
     );
 
     return structureStatsInPeriodGenerator.buildStatsInPeriod({

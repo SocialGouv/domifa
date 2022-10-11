@@ -1,4 +1,5 @@
-import moment = require("moment");
+import { format } from "date-fns";
+
 import { domifaConfig } from "../../../../config";
 import { AdminBatchsErrorReportModel } from "../../../../database";
 import { DomifaMailTemplateRendering } from "../../../model";
@@ -11,7 +12,7 @@ async function renderTemplate(
     "admin-batchs-error-report",
     {
       ...model,
-      lastErrorDate: moment(model.lastErrorDate).format("yyyy-MM-DD HH:mm"),
+      lastErrorDate: format(model.lastErrorDate, "yyyy-MM-dd HH:mm"),
       envId: model.envId ? model.envId : domifaConfig().envId,
     }
   );
