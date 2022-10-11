@@ -1,3 +1,11 @@
+## [2.107.5](https://github.com/SocialGouv/domifa/compare/v2.107.4...v2.107.5) (2022-10-11)
+
+
+### Bug Fixes
+
+* **auth:** refresh du token amélioré ([959f709](https://github.com/SocialGouv/domifa/commit/959f709f82422acfc0798cf8a4c0dffa8bda861d))
+* **moment:** suppression de moment côté Backend ([78c4101](https://github.com/SocialGouv/domifa/commit/78c4101dabbe03aeb0a10cbd24cf8d8550e64c8c))
+
 ## [2.107.4](https://github.com/SocialGouv/domifa/compare/v2.107.3...v2.107.4) (2022-10-11)
 
 
