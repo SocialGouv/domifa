@@ -1,4 +1,5 @@
-import moment = require("moment");
+import { addDays } from "date-fns";
+
 import { domifaConfig } from "../../../../config";
 import { tokenGenerator } from "../../../../util";
 import {
@@ -92,6 +93,6 @@ function generateResetPasswordTokenAndValidity({
   type: UserStructureTokenType;
 }): UserStructureTokens {
   const token = tokenGenerator.generateToken({ length: 30 });
-  const validity = moment().add(2, "days").toDate();
+  const validity = addDays(new Date(), 2);
   return { type, token, validity };
 }

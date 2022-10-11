@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
+import { subDays } from "date-fns";
 import * as moment from "moment";
 import { domifaConfig } from "../../../config";
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
@@ -64,9 +65,7 @@ async function _findUsersToSendMailGuide() {
   const maxCreationDate: Date = moment()
     .subtract(delay.amount, delay.unit)
     .toDate();
-  const minCreationDate: Date = moment(maxCreationDate)
-    .subtract(14, "day")
-    .toDate();
+  const minCreationDate: Date = subDays(maxCreationDate, 14);
   const users = await cronMailsRepository.findUsersToSendCronMail({
     minCreationDate,
     maxCreationDate,
