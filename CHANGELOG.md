@@ -1,3 +1,13 @@
+## [2.107.4](https://github.com/SocialGouv/domifa/compare/v2.107.3...v2.107.4) (2022-10-11)
+
+
+### Bug Fixes
+
+* **angular:** amélioration du code pour respecter le strict mode ([d4b4512](https://github.com/SocialGouv/domifa/commit/d4b4512b3de2773dce22481d98e5373de6e5e52a))
+* **mails:** modification du formulaire d'inscription aux formations ([a8e135b](https://github.com/SocialGouv/domifa/commit/a8e135bc419e88b3e30acd46c8906c4bbcb7a2a0))
+* **sentry:** correction des souscriptions provoquant les erreurs répétés ([a2fd154](https://github.com/SocialGouv/domifa/commit/a2fd15486acbef7b98ad5b30fb8ec119c5cd28e1))
+* **tests:** correction des tests unitaires ([b91bdee](https://github.com/SocialGouv/domifa/commit/b91bdee50f2ab33f1e06acda9947106be6a01287))
+
 ## [2.107.3](https://github.com/SocialGouv/domifa/compare/v2.107.2...v2.107.3) (2022-09-28)
 
 
