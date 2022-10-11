@@ -15,8 +15,9 @@ import {
 import { appLogger } from "../../../util";
 import { messageEmailConsummerTrigger } from "./message-email-consumer-trigger.service";
 import { smtpSender } from "./smtpSender.service";
-import moment = require("moment");
+
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
+import { addMinutes } from "date-fns";
 
 @Injectable()
 export class MessageEmailConsummer {
@@ -83,10 +84,11 @@ export class MessageEmailConsummer {
             messageEmail.errorCount++;
             messageEmail.errorMessage = error.message;
             if (messageEmail.errorCount < 5) {
-              messageEmail.nextScheduledDate = moment(now)
-                // retry after 10, 20, 40, 80mn
-                .add(5 * Math.pow(2, messageEmail.errorCount), "minutes")
-                .toDate();
+              // retry after 10, 20, 40, 80mn
+              messageEmail.nextScheduledDate = addMinutes(
+                now,
+                5 * Math.pow(2, messageEmail.errorCount)
+              );
             } else {
               // permanent fail, won't try anymore
               messageEmail.status = "failed";

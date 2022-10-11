@@ -1,4 +1,3 @@
-import moment = require("moment");
 import { UsagerHistoryTable } from "../../database/entities/usager/UsagerHistoryTable.typeorm";
 import { usagerHistoryRepository } from "../../database/services/usager/usagerHistoryRepository.service";
 
@@ -10,6 +9,7 @@ import {
 } from "../../_common/model";
 import { UsagerHistoryStateCreationEvent } from "../../_common/model/usager/history/UsagerHistoryStateCreationEvent.type";
 import { v4 as uuidv4 } from "uuid";
+import { endOfDay, startOfDay, subDays } from "date-fns";
 export const usagerHistoryStateManager = {
   buildInitialHistoryState,
   buildHistoryState,
@@ -21,11 +21,11 @@ export const usagerHistoryStateManager = {
 };
 
 function getHistoryBeginDate(date: Date) {
-  return moment.utc(date).startOf("day").toDate();
+  return startOfDay(new Date(date));
 }
 
 function getHistoryEndDateFromNextBeginDate(date: Date) {
-  return moment.utc(date).add(-1, "day").endOf("day").toDate();
+  return endOfDay(subDays(new Date(date), 1));
 }
 
 function buildInitialHistoryState({

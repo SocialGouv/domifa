@@ -1,4 +1,5 @@
-import moment = require("moment");
+import { subDays, subWeeks } from "date-fns";
+
 import { domifaConfig } from "../../../../config";
 import { appLogger } from "../../../../util";
 import { UserStructureSecurityEventType } from "../../../../_common/model";
@@ -28,7 +29,7 @@ function updateEventHistory({
     // clear all previous events
     return [event];
   }
-  const oneWeekAgo = moment().add(-1, "week").toDate();
+  const oneWeekAgo = subWeeks(new Date(), 1);
   return [
     ...eventsHistory.filter((x) => {
       return new Date(x.date) > oneWeekAgo; // purge events older than one week;
@@ -51,7 +52,7 @@ function isAccountLockedForOperation({
   eventsHistory: UserStructureSecurityEvent[];
   userId: number;
 }) {
-  const oneDayAgo = moment().add(-1, "day").toDate();
+  const oneDayAgo = subDays(new Date(), 1);
   const eventsRecentHistory = eventsHistory.filter(
     (x) => new Date(x.date) > oneDayAgo
   );

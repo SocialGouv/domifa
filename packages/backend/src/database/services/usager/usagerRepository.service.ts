@@ -1,4 +1,4 @@
-import { endOfMonth, format, subYears } from "date-fns";
+import { format, startOfMonth, subYears } from "date-fns";
 import { subMonths } from "date-fns";
 import { myDataSource } from "..";
 import { domifaConfig } from "./../../../config/domifaConfig.service";
@@ -35,7 +35,9 @@ function countUsagers(structuresId?: number[]): Promise<number> {
 }
 
 async function countUsagersByMonth(regionId?: FranceRegion) {
-  const oneYearAgo = endOfMonth(subMonths(subYears(new Date(), 1), 2));
+  const lastYear = subYears(new Date(), 1);
+  const oneYearAgo = startOfMonth(subMonths(lastYear, 1));
+
   let startDate = format(oneYearAgo, "yyyy-MM-dd");
 
   if (domifaConfig().envId === "test") {
