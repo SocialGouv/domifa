@@ -24,19 +24,16 @@ describe("UsagersProfilProcurationCourrierComponent", () => {
         NotFoundComponent,
       ],
       imports: [
-        NgbModule,
-        MatomoModule,
-        CommonModule,
         RouterTestingModule.withRoutes([
           { path: "404", component: NotFoundComponent },
         ]),
         NgbModule,
-        ReactiveFormsModule,
+        CommonModule,
         FormsModule,
-
         HttpClientTestingModule,
+        MatomoModule,
+        NgbModule,
         ReactiveFormsModule,
-        FormsModule,
       ],
       providers: [
         {

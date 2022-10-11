@@ -30,14 +30,13 @@ describe("RadiationFormComponent", () => {
     TestBed.configureTestingModule({
       declarations: [RadiationFormComponent],
       imports: [
-        NgbModule,
-        HttpClientTestingModule,
-        RouterTestingModule,
         BrowserAnimationsModule,
-        ReactiveFormsModule,
-
-        SharedModule,
         FormsModule,
+        HttpClientTestingModule,
+        NgbModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+        SharedModule,
       ],
       providers: [
         NgbDateCustomParserFormatter,

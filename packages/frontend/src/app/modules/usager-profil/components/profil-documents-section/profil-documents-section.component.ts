@@ -23,13 +23,13 @@ export class ProfilDocumentsSectionComponent implements OnInit {
   public usager!: UsagerFormModel;
 
   constructor(
-    private authService: AuthService,
-    private usagerProfilService: UsagerProfilService,
-    private documentService: DocumentService,
-    private titleService: Title,
-    private toastService: CustomToastService,
-    private route: ActivatedRoute,
-    private router: Router
+    private readonly authService: AuthService,
+    private readonly usagerProfilService: UsagerProfilService,
+    private readonly documentService: DocumentService,
+    private readonly titleService: Title,
+    private readonly toastService: CustomToastService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
   ) {}
 
   public ngOnInit(): void {

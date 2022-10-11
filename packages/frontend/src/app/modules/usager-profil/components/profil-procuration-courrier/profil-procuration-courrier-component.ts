@@ -59,7 +59,8 @@ import { UsagerOptionsService } from "../../services/usager-options.service";
 })
 export class UsagersProfilProcurationCourrierComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
-  @Output() usagerChange = new EventEmitter<UsagerFormModel>();
+  @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
+
   @Input() public me!: UserStructure;
 
   @ViewChildren("procurationNom") inputsProcurations!: QueryList<ElementRef>;

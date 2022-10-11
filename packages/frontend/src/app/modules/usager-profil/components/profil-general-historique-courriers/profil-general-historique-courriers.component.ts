@@ -19,7 +19,7 @@ export class ProfilGeneralHistoriqueCourriersComponent implements OnInit {
 
   public interactions: Interaction[];
 
-  constructor(private interactionService: InteractionService) {
+  constructor(private readonly interactionService: InteractionService) {
     this.interactions = [];
   }
 

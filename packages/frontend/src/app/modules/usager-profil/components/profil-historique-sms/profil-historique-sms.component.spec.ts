@@ -4,7 +4,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 import { ProfilHistoriqueSmsComponent } from "./profil-historique-sms.component";
 
@@ -17,29 +16,12 @@ describe("ProfilHistoriqueSmsComponent", () => {
       declarations: [ProfilHistoriqueSmsComponent],
       imports: [
         NgbModule,
-        MatomoModule,
-        NgbModule,
         ReactiveFormsModule,
         FormsModule,
-
         HttpClientTestingModule,
         ReactiveFormsModule,
       ],
-      providers: [
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
-          },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
-          },
-        },
-        { provide: APP_BASE_HREF, useValue: "/" },
-      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   });
