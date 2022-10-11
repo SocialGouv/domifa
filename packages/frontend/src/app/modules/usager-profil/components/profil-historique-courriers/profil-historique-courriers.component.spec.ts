@@ -22,7 +22,6 @@ describe("ProfilHistoriqueCourriersComponent", () => {
         NgbModule,
         FormsModule,
         HttpClientTestingModule,
-
         RouterTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],

@@ -18,12 +18,12 @@ export class ProfilCourriersComponent implements OnInit {
   public usager: UsagerFormModel | null;
 
   constructor(
-    private authService: AuthService,
-    private usagerProfilService: UsagerProfilService,
-    private titleService: Title,
-    private toastService: CustomToastService,
-    private route: ActivatedRoute,
-    private router: Router
+    private readonly authService: AuthService,
+    private readonly usagerProfilService: UsagerProfilService,
+    private readonly titleService: Title,
+    private readonly toastService: CustomToastService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
   ) {
     this.me = null;
     this.usager = null;

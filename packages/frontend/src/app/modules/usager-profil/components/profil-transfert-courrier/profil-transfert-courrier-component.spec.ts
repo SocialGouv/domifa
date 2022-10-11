@@ -21,15 +21,12 @@ describe("UsagersProfilTransfertCourrierComponent", () => {
     TestBed.configureTestingModule({
       declarations: [UsagersProfilTransfertCourrierComponent],
       imports: [
-        NgbModule,
-        MatomoModule,
-        RouterTestingModule.withRoutes([]),
-        NgbModule,
-        ReactiveFormsModule,
         FormsModule,
-
         HttpClientTestingModule,
+        MatomoModule,
+        NgbModule,
         ReactiveFormsModule,
+        RouterTestingModule.withRoutes([]),
       ],
       providers: [
         {

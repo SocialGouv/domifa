@@ -40,7 +40,6 @@ export class StructuresSmsFormComponent implements OnInit {
     private readonly formBuilder: FormBuilder,
     private readonly structureService: StructureService,
     private readonly toastService: CustomToastService,
-
     private readonly titleService: Title,
     private readonly matomo: MatomoTracker,
     private readonly modalService: NgbModal

@@ -6,7 +6,6 @@ import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 import { ProfilDossierComponent } from "./profil-dossier.component";
 
@@ -19,30 +18,14 @@ describe("ProfilDossierComponent", () => {
       declarations: [ProfilDossierComponent],
       imports: [
         NgbModule,
-        MatomoModule,
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
         SharedModule,
         HttpClientTestingModule,
-
         RouterTestingModule,
       ],
-      providers: [
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
-          },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
-          },
-        },
-        { provide: APP_BASE_HREF, useValue: "/" },
-      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

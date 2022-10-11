@@ -5,7 +5,6 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
 
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { SharedModule } from "../../../shared/shared.module";
@@ -20,35 +19,16 @@ describe("ProfilEditPortailUsagerPreferenceComponent", () => {
     TestBed.configureTestingModule({
       declarations: [ProfilEditPortailUsagerPreferenceComponent],
       imports: [
-        NgbModule,
-        MatomoModule,
         CommonModule,
-        SharedModule,
-        RouterTestingModule,
+        FormsModule,
+        HttpClientTestingModule,
         NgbModule,
         ReactiveFormsModule,
-        FormsModule,
+        RouterTestingModule,
         SharedModule,
-
-        HttpClientTestingModule,
-        ReactiveFormsModule,
-        FormsModule,
+        SharedModule,
       ],
-      providers: [
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
-          },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
-          },
-        },
-        { provide: APP_BASE_HREF, useValue: "/" },
-      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 

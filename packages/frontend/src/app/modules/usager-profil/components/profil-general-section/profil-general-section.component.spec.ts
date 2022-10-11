@@ -6,7 +6,6 @@ import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 import { ProfilGeneralSectionComponent } from "./profil-general-section.component";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
@@ -19,28 +18,12 @@ describe("ProfilGeneralSectionComponent", () => {
     TestBed.configureTestingModule({
       declarations: [ProfilGeneralSectionComponent],
       imports: [
-        NgbModule,
-        MatomoModule,
-        ReactiveFormsModule,
         HttpClientTestingModule,
-
+        NgbModule,
+        ReactiveFormsModule,
         RouterTestingModule,
       ],
-      providers: [
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
-          },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
-          },
-        },
-        { provide: APP_BASE_HREF, useValue: "/" },
-      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

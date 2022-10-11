@@ -20,13 +20,13 @@ describe("ProfilStructureDocsComponent", () => {
     TestBed.configureTestingModule({
       declarations: [ProfilStructureDocsComponent],
       imports: [
-        NgbModule,
-        HttpClientTestingModule,
-        RouterTestingModule,
         BrowserAnimationsModule,
-        SharedModule,
-        ReactiveFormsModule,
         FormsModule,
+        HttpClientTestingModule,
+        NgbModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+        SharedModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

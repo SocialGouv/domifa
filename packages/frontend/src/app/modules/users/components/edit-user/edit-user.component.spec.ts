@@ -21,7 +21,6 @@ describe("EditUserComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-
         HttpClientTestingModule,
         RouterTestingModule,
       ],
