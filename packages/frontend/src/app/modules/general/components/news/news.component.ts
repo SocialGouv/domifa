@@ -9,6 +9,7 @@ import DOMIFA_NEWS from "../../../../../assets/files/news.json";
   templateUrl: "./news.component.html",
 })
 export class NewsComponent implements OnInit {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public DOMIFA_NEWS: any = DOMIFA_NEWS;
 
   public constructor(private seoService: SeoService) {}

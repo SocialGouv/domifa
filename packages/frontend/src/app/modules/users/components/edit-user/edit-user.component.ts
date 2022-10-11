@@ -28,7 +28,7 @@ import { format } from "date-fns";
   styleUrls: ["./edit-user.component.css"],
 })
 export class EditUserComponent implements OnInit {
-  public me!: UserStructure;
+  public me!: UserStructure | null;
 
   public submitted: boolean;
   public loading: boolean;
@@ -232,7 +232,7 @@ export class EditUserComponent implements OnInit {
   public validateEmailNotTaken(
     control: AbstractControl
   ): FormEmailTakenValidator {
-    if (control.value === this.me.email) {
+    if (control.value === this.me?.email) {
       return of(null);
     }
     const testEmail = RegExp(regexp.email).test(control.value);

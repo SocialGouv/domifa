@@ -31,7 +31,7 @@ export class ImportComponent implements OnInit {
 
   public etapeImport: "select-file" | "preview-import";
 
-  public me!: UserStructure;
+  public me!: UserStructure | null;
 
   public CUSTOM_ID = 0;
   public CIVILITE = 1;

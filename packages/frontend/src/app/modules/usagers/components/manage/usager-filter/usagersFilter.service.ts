@@ -73,13 +73,17 @@ function filterByCriteria(
     });
   } else if (criteria.entretien === "COMING") {
     return usagers.filter((usager) => {
-      return usager.rdv === null || usager.etapeDemande > ETAPE_ENTRETIEN
+      return usager.rdv === null ||
+        usager.etapeDemande > ETAPE_ENTRETIEN ||
+        usager.rdv.dateRdv === null
         ? false
         : new Date() < new Date(usager.rdv.dateRdv);
     });
   } else if (criteria.entretien === "OVERDUE") {
     return usagers.filter((usager) => {
-      return usager.rdv === null || usager.etapeDemande > ETAPE_ENTRETIEN
+      return usager.rdv === null ||
+        usager.etapeDemande > ETAPE_ENTRETIEN ||
+        usager.rdv.dateRdv === null
         ? false
         : new Date() > new Date(usager.rdv.dateRdv);
     });

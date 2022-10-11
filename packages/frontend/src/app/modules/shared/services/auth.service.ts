@@ -72,17 +72,17 @@ export class AuthService {
     return this.http.get<UserStructure>(`${this.endPoint}/me`).pipe(
       map((apiUser: UserStructure) => {
         const user = userStructureBuilder.buildUserStructure(apiUser);
-        user.access_token = this.currentUserValue.access_token;
+        user.access_token = this.currentUserValue?.access_token;
 
         localStorage.setItem("currentUser", JSON.stringify(user));
 
         // Ajout d'infos pour Sentry
         configureScope((scope) => {
-          scope.setTag("structure", user.structureId.toString());
+          scope.setTag("structure", user.structureId?.toString());
           scope.setUser({
             email: user.email,
             username:
-              "STRUCTURE " + user.structureId.toString() + " : " + user.prenom,
+              "STRUCTURE " + user.structureId?.toString() + " : " + user.prenom,
           });
         });
         this.currentUserSubject.next(user);

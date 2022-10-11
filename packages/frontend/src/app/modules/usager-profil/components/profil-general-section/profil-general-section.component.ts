@@ -50,7 +50,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
   public usager!: UsagerFormModel;
 
   public today: Date;
-  public me!: UserStructure;
+  public me!: UserStructure | null;
 
   public ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
   public minDateNaissance: NgbDateStruct;
@@ -101,7 +101,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
   }
 
   public isRole(role: UserStructureRole): boolean {
-    return this.me.role === role;
+    return this.me?.role === role;
   }
 
   public ngOnInit(): void {

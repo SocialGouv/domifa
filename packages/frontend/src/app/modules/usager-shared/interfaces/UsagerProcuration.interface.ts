@@ -1,8 +1,8 @@
 import { UsagerOptionsProcuration } from "../../../../_common/model";
 
 export class UsagerProcuration implements UsagerOptionsProcuration {
-  public nom: string;
-  public prenom: string;
+  public nom: string | null;
+  public prenom: string | null;
   public dateFin: Date | null;
   public dateDebut: Date | null;
   public dateNaissance: Date | string | null;

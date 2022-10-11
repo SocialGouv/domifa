@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
+
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { StructureCommon, UserStructure } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
@@ -11,11 +11,10 @@ import { StructureService } from "../../services/structure.service";
   styleUrls: ["./structures-portail-usager-form.component.css"],
 })
 export class StructuresPortailUsagerFormComponent implements OnInit {
-  public me!: UserStructure;
+  public me!: UserStructure | null;
   public structure!: StructureCommon;
 
   public loading: boolean;
-  public currentUserSubject$: Observable<UserStructure | null>;
 
   constructor(
     private readonly structureService: StructureService,
@@ -27,7 +26,9 @@ export class StructuresPortailUsagerFormComponent implements OnInit {
 
   public ngOnInit(): void {
     this.me = this.authService.currentUserValue;
-    this.structure = this.me.structure;
+    if (this.me) {
+      this.structure = this.me.structure;
+    }
   }
 
   public submitStructureSmsForm() {

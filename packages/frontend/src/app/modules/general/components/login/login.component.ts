@@ -26,12 +26,12 @@ export class LoginComponent implements OnInit {
   public loading: boolean;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private titleService: Title,
-    private authService: AuthService,
-    public toastService: CustomToastService
+    private readonly formBuilder: FormBuilder,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly titleService: Title,
+    private readonly authService: AuthService,
+    private readonly toastService: CustomToastService
   ) {
     this.hidePassword = true;
     this.loading = false;

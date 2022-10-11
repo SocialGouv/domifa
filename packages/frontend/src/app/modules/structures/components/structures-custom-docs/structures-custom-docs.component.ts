@@ -26,7 +26,7 @@ export class StructuresCustomDocsComponent implements OnInit {
   public customStructureDocs: StructureDoc[];
 
   public defaultStructureDocs: StructureDoc[];
-  public me!: UserStructure;
+  public me!: UserStructure | null;
 
   public isCustomDoc: boolean;
 
