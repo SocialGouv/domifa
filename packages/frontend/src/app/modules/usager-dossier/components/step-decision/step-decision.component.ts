@@ -42,17 +42,16 @@ export class StepDecisionComponent implements OnInit {
   public editPJ: boolean;
 
   constructor(
-    private authService: AuthService,
-    private usagerDossierService: UsagerDossierService,
-    private usagerDecisionService: UsagerDecisionService,
-    private documentService: DocumentService,
-    private modalService: NgbModal,
-    private router: Router,
-
-    private toastService: CustomToastService,
-    private matomo: MatomoTracker,
-    private titleService: Title,
-    private route: ActivatedRoute
+    private readonly authService: AuthService,
+    private readonly usagerDossierService: UsagerDossierService,
+    private readonly usagerDecisionService: UsagerDecisionService,
+    private readonly documentService: DocumentService,
+    private readonly modalService: NgbModal,
+    private readonly router: Router,
+    private readonly toastService: CustomToastService,
+    private readonly matomo: MatomoTracker,
+    private readonly titleService: Title,
+    private readonly route: ActivatedRoute
   ) {
     this.isAdmin = false;
     this.editInfos = false;
@@ -62,13 +61,8 @@ export class StepDecisionComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      if (user) {
-        this.me = user;
-        this.isAdmin =
-          this.me.role === "admin" || this.me.role === "responsable";
-      }
-    });
+    this.me = this.authService.currentUserValue;
+    this.isAdmin = this.me?.role === "admin" || this.me?.role === "responsable";
 
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;

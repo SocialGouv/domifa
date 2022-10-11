@@ -1,5 +1,6 @@
 <form
   ngNativeValidate
+  *ngIf="entretienForm"
   [formGroup]="entretienForm"
   (ngSubmit)="submitEntretien()"
 >

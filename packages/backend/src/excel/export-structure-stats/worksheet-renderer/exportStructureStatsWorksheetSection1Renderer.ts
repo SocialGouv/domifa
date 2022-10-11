@@ -1,6 +1,6 @@
+import { format } from "date-fns";
 import { WorksheetRenderer } from "../../xlLib";
 import { StructureStatsExportModel } from "../StructureStatsExportModel.type";
-import moment = require("moment");
 
 export const exportStructureStatsWorksheetSection1Renderer = {
   renderSection1ValidUsagers,
@@ -16,9 +16,10 @@ function renderSection1ValidUsagers(context: {
 
   const data = model.stats.data.validUsagers;
   worksheetRendered.renderCell(i++, "b", {
-    value: `1. DOMICILIÉS PAR STATUT AU ${moment
-      .utc(model.stats.period.endDateUTC)
-      .format("DD/MM/yyyy")}`,
+    value: `1. DOMICILIÉS PAR STATUT AU ${format(
+      model.stats.period.endDateUTC,
+      "dd/MM/yyyy"
+    )}`,
   });
   i++; // blank line
   worksheetRendered.renderCell(i++, "c", {

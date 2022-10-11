@@ -1,4 +1,5 @@
-import moment = require("moment");
+import { format } from "date-fns";
+
 import { UsagersImportUsagerSchemaContext } from "./schema";
 import { usagersImportValidator } from "./usagersImportValidator.service";
 
@@ -116,9 +117,7 @@ describe("usagersImportValidator parse invalid data", () => {
         columnNumber: 17,
         label: "Date de dernier passage",
         rowNumber: 10,
-        value: moment(new Date(Date.UTC(2040, 12 - 1, 18))).format(
-          "DD/MM/yyyy"
-        ),
+        value: format(new Date(Date.UTC(2040, 12 - 1, 18)), "dd/MM/yyyy"),
       },
       {
         columnNumber: 18,
@@ -178,7 +177,7 @@ describe("usagersImportValidator parse invalid data", () => {
         columnNumber: 37,
         label: "Date de naissance Ayant-Droit 1",
         rowNumber: 10,
-        value: moment(new Date(Date.UTC(2218, 7 - 1, 15))).format("DD/MM/yyyy"),
+        value: format(new Date(Date.UTC(2218, 7 - 1, 15)), "dd/MM/yyyy"),
       },
       {
         columnNumber: 42,

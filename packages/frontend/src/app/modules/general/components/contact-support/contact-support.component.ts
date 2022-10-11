@@ -29,12 +29,12 @@ export class ContactSupportComponent implements OnInit {
   public me!: UserStructure | null;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private generalService: GeneralService,
-    private toastService: CustomToastService,
-    private authService: AuthService,
-    private titleService: Title,
-    private meta: Meta
+    private readonly formBuilder: FormBuilder,
+    private readonly generalService: GeneralService,
+    private readonly toastService: CustomToastService,
+    private readonly authService: AuthService,
+    private readonly titleService: Title,
+    private readonly meta: Meta
   ) {
     this.me = null;
     this.submitted = false;

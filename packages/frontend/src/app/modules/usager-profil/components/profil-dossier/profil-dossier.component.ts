@@ -38,11 +38,7 @@ export class ProfilDossierComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.authService.currentUserSubject.subscribe(
-      (user: UserStructure | null) => {
-        this.me = user;
-      }
-    );
+    this.me = this.authService.currentUserValue;
 
     this.usagerService.findOne(this.route.snapshot.params.id).subscribe({
       next: (usager: UsagerLight) => {

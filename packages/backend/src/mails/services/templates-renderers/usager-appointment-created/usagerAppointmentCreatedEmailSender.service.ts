@@ -1,4 +1,5 @@
-import moment = require("moment");
+import { format } from "date-fns";
+
 import {
   AppUserForAdminEmail,
   MessageEmailContent,
@@ -31,8 +32,8 @@ async function sendMail({
     " " +
     usager.prenom;
 
-  const date = moment(new Date(usager.rdv.dateRdv)).locale("fr").format("L");
-  const heure = moment(new Date(usager.rdv.dateRdv)).locale("fr").format("LT");
+  const date = format(new Date(usager.rdv.dateRdv), "dd/MM/yyyy");
+  const heure = format(new Date(usager.rdv.dateRdv), "HH:mm");
   const to = [
     {
       address: user.email,

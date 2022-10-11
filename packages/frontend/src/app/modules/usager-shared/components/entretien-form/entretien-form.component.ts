@@ -55,14 +55,13 @@ export class EntretienFormComponent implements OnInit {
   public entretienConfirmation!: TemplateRef<NgbModalRef>;
 
   public loading = false;
-
   public entretienVide: Entretien;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private entretienService: EntretienService,
-    private toastService: CustomToastService,
-    private modalService: NgbModal
+    private readonly formBuilder: FormBuilder,
+    private readonly entretienService: EntretienService,
+    private readonly toastService: CustomToastService,
+    private readonly modalService: NgbModal
   ) {
     this.entretienVide = new Entretien();
   }

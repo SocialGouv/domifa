@@ -41,8 +41,8 @@ import {
 } from "./step2-validate-row";
 import { usagersImportCreator } from "./step3-create";
 
-import moment = require("moment");
 import { AllowUserStructureRoles } from "../../../auth/decorators";
+import { addYears, endOfDay, startOfYear } from "date-fns";
 
 const USAGERS_IMPORT_DIR = path.join(os.tmpdir(), "domifa", "usagers-imports");
 
@@ -125,12 +125,11 @@ export class ImportController {
         .json({ message: "EXCEL_FILE_CORRUPTED" });
     }
 
-    const today = moment.utc().endOf("day").toDate();
-    const nextYear = moment.utc().add(1, "year").endOf("day").toDate();
-    const minDate = moment
-      .utc("01/01/1900", "DD/MM/YYYY")
-      .endOf("day")
-      .toDate();
+    const today = endOfDay(new Date());
+
+    const nextYear = addYears(endOfDay(new Date()), 1);
+
+    const minDate = startOfYear(new Date("1900-01-01"));
 
     const structureId = user.structureId;
     const importContext = { fileName, filePath, structureId };

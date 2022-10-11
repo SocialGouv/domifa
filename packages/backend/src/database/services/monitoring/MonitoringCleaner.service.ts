@@ -14,8 +14,9 @@ import {
 import { messageEmailRepository } from "../message-email";
 import { AdminBatchsErrorReportModel } from "./AdminBatchsErrorReportModel.type";
 import { monitoringBatchProcessRepository } from "./monitoringBatchProcessRepository.service";
-import moment = require("moment");
+
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
+import { endOfDay, sub } from "date-fns";
 
 @Injectable()
 export class MonitoringCleaner {
@@ -31,11 +32,12 @@ export class MonitoringCleaner {
   public async purgeObsoleteData(trigger: MonitoringBatchProcessTrigger) {
     appLogger.warn(`[CRON] [purgeObsoleteDataCron] Start`);
     const delay = domifaConfig().cron.monitoringCleaner.delay;
-    const limitDate: Date = moment()
-      .utc()
-      .subtract(delay.amount, delay.unit)
-      .endOf("day")
-      .toDate();
+
+    const limitDate = endOfDay(
+      sub(new Date(), {
+        [delay.unit]: delay.amount,
+      })
+    );
 
     await monitoringBatchProcessSimpleCountRunner.monitorProcess(
       {
