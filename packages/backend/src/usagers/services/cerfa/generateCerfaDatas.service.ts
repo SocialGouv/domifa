@@ -16,14 +16,7 @@ export const generateCerfaDatas = (
   user: UserStructureAuthenticated,
   typeCerfa: CerfaDocType
 ): UsagerCerfaFields => {
-  let usagerRef = toString(usager.ref);
-  if (!isNil(usagerRef)) {
-    usagerRef = toString(usager.customRef);
-  }
-
-  if (isNil(usager.rdv)) {
-    usager.rdv = { userId: null, dateRdv: null, userName: null };
-  }
+  const usagerRef = getUsagerRef(usager);
 
   const entretienAvec = toString(usager.rdv.userName).toUpperCase();
 
@@ -35,6 +28,10 @@ export const generateCerfaDatas = (
 
   let dateDebut = generateDateForCerfa(usager.decision.dateDebut);
   let dateFin = generateDateForCerfa(usager.decision.dateFin);
+
+  if (isNil(usager.rdv)) {
+    usager.rdv = { userId: null, dateRdv: null, userName: null };
+  }
 
   if (
     typeCerfa === "attestation" &&
@@ -56,22 +53,6 @@ export const generateCerfaDatas = (
     user,
     usager
   );
-
-  // Ayants-droits
-  let ayantsDroitsTexte = usager.ayantsDroits.reduce(
-    (prev: string, current: UsagerAyantDroit) =>
-      `${prev}${current.nom} ${current.prenom} né(e) le ${format(
-        new Date(current.dateNaissance),
-        "dd/MM/yyyy"
-      )} - `,
-    ""
-  );
-
-  if (ayantsDroitsTexte) {
-    ayantsDroitsTexte = ayantsDroitsTexte
-      .substring(0, ayantsDroitsTexte.length - 2)
-      .trim();
-  }
 
   const prefecture =
     user.structure.structureType === "asso" ? user.structure.departement : "";
@@ -96,7 +77,7 @@ export const generateCerfaDatas = (
     anneeNaissance2: dateNaissance.annee,
     anneePremiereDom: datePremiereDom.annee,
     anneeRdv: dateRdv.annee,
-    ayantsDroits: ayantsDroitsTexte,
+    ayantsDroits: getAyantsDroitsText(usager),
     courriel,
     courrielOrga: user.structure.email,
     decision: usager.decision.statut === "REFUS" ? "2" : "",
@@ -170,6 +151,28 @@ export const getUsagerRef = (usager: UsagerLight): string => {
   }
   return usagerRef;
 };
+
+export function getAyantsDroitsText(usager: UsagerLight): string {
+  let ayantsDroitsTexte = "";
+  // Ayants-droits
+  if (usager.ayantsDroits.length > 0) {
+    ayantsDroitsTexte = usager.ayantsDroits.reduce(
+      (prev: string, current: UsagerAyantDroit) =>
+        `${prev}${current.nom} ${current.prenom} né(e) le ${format(
+          new Date(current.dateNaissance),
+          "dd/MM/yyyy"
+        )} - `,
+      ""
+    );
+
+    if (ayantsDroitsTexte) {
+      ayantsDroitsTexte = ayantsDroitsTexte
+        .substring(0, ayantsDroitsTexte.length - 2)
+        .trim();
+    }
+  }
+  return ayantsDroitsTexte;
+}
 
 export function generateAdressForCerfa(
   user: UserStructureAuthenticated,

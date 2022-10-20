@@ -5,7 +5,7 @@ export const environment = {
   env: "${DOMIFA_ENV_ID}",
   healthzCheck: {
     initialCheckDelay: 5,
-    checkPeriodIfSuccess: 60,
+    checkPeriodIfSuccess: 1800,
     checkPeriodIfError: 30,
   },
 };

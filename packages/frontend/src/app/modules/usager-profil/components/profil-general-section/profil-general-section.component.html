@@ -25,9 +25,12 @@
           >
             <div title="Important" class="svg-icon icon-danger"></div>
             <div class="text-danger">
-              Demande refusée le
-              {{ usager.decision.dateFin | date: "dd/MM/yyyy" }}
-              : {{ usager.decision.motifString }}
+              <b
+                >Demande refusée le
+                {{ usager.decision.dateFin | date: "dd/MM/yyyy" }}</b
+              >
+              <br />
+              {{ usager.decision.motifString }}
             </div>
           </div>
 

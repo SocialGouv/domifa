@@ -21,20 +21,23 @@ export const CUSTOM_DOCS_LABELS: StructureCustomDocTags = {
 
   // Si courrier différent
   STRUCTURE_COURRIER_ADRESSE: "Adresse de réception du courrier",
+  STRUCTURE_COMPLEMENT_ADRESSE: "Complément de l'adresse de la structure",
 
   STRUCTURE_COURRIER_VILLE: "Ville de réception courrier",
   STRUCTURE_COURRIER_CODE_POSTAL: "Code-postal de réception courrier",
-
+  STRUCTURE_ADRESSE_EMAIL: "Email de la structure",
   // USAGER INFOS
   USAGER_REF: "Référence dossier",
   USAGER_CUSTOM_REF: "Identifiant personnalisé",
-  USAGER_NUMERO_DISTRIBUTION: "Numéro de distribution (TSA, BP, etc)",
+  USAGER_NUMERO_DISTRIBUTION_SPECIALE: "Numéro de distribution (TSA, BP, etc)",
   USAGER_CIVILITE: "Civilité de l'usager",
   USAGER_NOM: "Nom de l'usager",
   USAGER_PRENOM: "Prénom de l'usager",
   USAGER_SURNOM: "Nom d'usage / Surnom",
   USAGER_DATE_NAISSANCE: "Date naissance",
   USAGER_LIEU_NAISSANCE: "Lieu naissance",
+  AYANTS_DROITS_LISTE:
+    "La liste des ayants droits avec nom prénom et date de naissance",
 
   // CONTACT USAGER
   USAGER_PHONE: "Numéro de téléphone",
@@ -55,13 +58,14 @@ export const CUSTOM_DOCS_LABELS: StructureCustomDocTags = {
 
   // ENTRETIEN
   ENTRETIEN_ORIENTE_PAR: "Orienté par xxxx",
-  ENTRETIEN_DOMICILIATION_EXISTANTE: "Oui / Non",
-  ENTRETIEN_REVENUS: "Oui ou non",
+  ENTRETIEN_DOMICILIATION_EXISTANTE: "Domiciliation existante : Oui / Non",
+  ENTRETIEN_REVENUS: "Revenus : Oui / Non",
   ENTRETIEN_LIEN_COMMUNE: "Lien avec la commune",
   ENTRETIEN_COMPOSITION_MENAGE: "Composition du ménage",
   ENTRETIEN_SITUATION_RESIDENTIELLE: "Situation résidentielle",
   ENTRETIEN_CAUSE_INSTABILITE: "Cause instabilité logement",
   ENTRETIEN_RAISON_DEMANDE: "Motif principal de la demande",
+  ENTRETIEN_RATTACHEMENT: "Rattachement à une ville ou un arrondissement",
   ENTRETIEN_ACCOMPAGNEMENT: "Accompagnement social",
   // Transferts
   TRANSFERT_ACTIF: "Transfert actif ou non : (oui / non)",
