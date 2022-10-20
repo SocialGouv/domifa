@@ -68,7 +68,7 @@ describe("buildCustomDoc.service", () => {
         date,
       });
 
-      expect(docNumeroDistribution.USAGER_NUMERO_DISTRIBUTION).toEqual(
+      expect(docNumeroDistribution.USAGER_NUMERO_DISTRIBUTION_SPECIALE).toEqual(
         "TSA 20000"
       );
     });

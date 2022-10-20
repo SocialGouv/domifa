@@ -1,3 +1,8 @@
+import { STRUCTURE_TYPE_LABELS } from "./../../_common/model/structure/constants/STRUCTURE_TYPE_LABELS.const";
+import {
+  ENTRETIEN_CAUSE_INSTABILITE,
+  ENTRETIEN_RAISON_DEMANDE,
+} from "./../../_common/model/usager/_constants/ENTRETIEN_SECTIONS.const";
 import {
   ENTRETIEN_RESIDENCE,
   ENTRETIEN_TYPE_MENAGE,
@@ -14,10 +19,11 @@ import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 import { fr } from "date-fns/locale";
 import { TimeZone } from "../../util/territoires";
 import { getPhoneString } from "../../util/phone/phoneUtils.service";
+import { getAyantsDroitsText } from "../services/cerfa";
 
 export const DATE_FORMAT = {
   JOUR: "dd/MM/yyyy",
-  JOUR_HEURE: "dd/MM/yyyy à HH:mm",
+  JOUR_HEURE: "dd/MM/yyyy à HHhmm",
   JOUR_LONG: "PPP",
 };
 
@@ -104,6 +110,7 @@ export function buildCustomDoc({
     : "NON";
 
   return {
+    AYANTS_DROITS_LISTE: getAyantsDroitsText(usager),
     // DATES UTILES
     DATE_JOUR: dateFormat(date, structure.timeZone, DATE_FORMAT.JOUR),
     DATE_JOUR_HEURE: dateFormat(
@@ -120,8 +127,9 @@ export function buildCustomDoc({
 
     // INFOS STRUCTURE
     STRUCTURE_NOM: ucFirst(structure.nom),
-    STRUCTURE_TYPE: "Type de structure",
+    STRUCTURE_TYPE: STRUCTURE_TYPE_LABELS[structure.structureType],
     STRUCTURE_ADRESSE: adresseStructure,
+    STRUCTURE_ADRESSE_EMAIL: structure.email,
 
     STRUCTURE_VILLE: ucFirst(structure.ville),
     STRUCTURE_CODE_POSTAL: structure.codePostal,
@@ -130,6 +138,9 @@ export function buildCustomDoc({
     STRUCTURE_COURRIER_ADRESSE: isDifferentAddress
       ? ucFirst(structure.adresseCourrier.adresse)
       : adresseStructure,
+    STRUCTURE_COMPLEMENT_ADRESSE: isDifferentAddress
+      ? ""
+      : ucFirst(structure.complementAdresse),
 
     STRUCTURE_COURRIER_VILLE: isDifferentAddress
       ? ucFirst(structure.adresseCourrier.ville)
@@ -145,7 +156,7 @@ export function buildCustomDoc({
     USAGER_CIVILITE: usager.sexe === "femme" ? "Madame" : "Monsieur",
     USAGER_NOM: ucFirst(usager.nom),
     USAGER_PRENOM: ucFirst(usager.prenom),
-    USAGER_NUMERO_DISTRIBUTION: usager.numeroDistribution
+    USAGER_NUMERO_DISTRIBUTION_SPECIALE: usager.numeroDistribution
       ? usager.numeroDistribution
       : "",
     USAGER_SURNOM: usager?.surnom ? ucFirst(usager?.surnom) : "",
@@ -170,11 +181,14 @@ export function buildCustomDoc({
 
     // REFUS / RADIATION
     MOTIF_RADIATION: motif,
-    DATE_RADIATION: dateFormat(
-      usager.decision.dateDecision,
-      structure.timeZone,
-      DATE_FORMAT.JOUR_LONG
-    ),
+    DATE_RADIATION:
+      usager.decision.statut === "RADIE"
+        ? dateFormat(
+            usager.decision.dateDecision,
+            structure.timeZone,
+            DATE_FORMAT.JOUR_LONG
+          )
+        : "",
 
     // DATES DOMICILIATION
     DATE_DEBUT_DOM: dateFormat(
@@ -200,11 +214,19 @@ export function buildCustomDoc({
     ),
 
     // ENTRETIEN
-    ENTRETIEN_CAUSE_INSTABILITE: "",
-    ENTRETIEN_RAISON_DEMANDE: "",
-    ENTRETIEN_ACCOMPAGNEMENT: "",
+    ENTRETIEN_CAUSE_INSTABILITE: usager.entretien.cause
+      ? ENTRETIEN_CAUSE_INSTABILITE[usager.entretien.cause]
+      : "",
+    ENTRETIEN_RAISON_DEMANDE: usager.entretien.raison
+      ? ENTRETIEN_RAISON_DEMANDE[usager.entretien.raison]
+      : "",
+
+    ENTRETIEN_ACCOMPAGNEMENT: usager.entretien.accompagnement ? "OUI" : "NON",
 
     ENTRETIEN_ORIENTE_PAR: orientation,
+    ENTRETIEN_RATTACHEMENT: usager.entretien.rattachement
+      ? usager.entretien.rattachement
+      : "",
 
     ENTRETIEN_DOMICILIATION_EXISTANTE: usager.entretien.domiciliation
       ? "OUI"
