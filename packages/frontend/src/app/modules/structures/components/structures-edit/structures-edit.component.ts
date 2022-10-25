@@ -20,7 +20,7 @@ import { StructureService } from "../../services/structure.service";
   templateUrl: "./structures-edit.component.html",
 })
 export class StructuresEditComponent implements OnInit {
-  public me!: UserStructure;
+  public me!: UserStructure | null;
   public structure!: StructureCommon;
 
   public exportLoading: boolean;

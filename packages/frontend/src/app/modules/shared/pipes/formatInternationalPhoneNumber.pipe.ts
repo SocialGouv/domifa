@@ -24,6 +24,9 @@ export class FormatInternationalPhoneNumberPipe implements PipeTransform {
         telephone.numero,
         telephone.countryCode.toLowerCase()
       );
+      if (!phoneUtil.isValidNumber(numero) || !numero) {
+        return "Non renseigné";
+      }
       return phoneUtil.format(numero, PhoneNumberFormat.INTERNATIONAL);
     } catch (error) {
       return "Numéro introuvable";

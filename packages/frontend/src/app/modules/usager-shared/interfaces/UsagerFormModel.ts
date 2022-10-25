@@ -34,11 +34,11 @@ export class UsagerFormModel {
   public surnom: string;
 
   public sexe: UsagerSexe;
-  public langue: string;
+  public langue: string | null;
 
   // Naissance
   public dateNaissance: Date | null;
-  public villeNaissance: string;
+  public villeNaissance: string | null;
 
   // Infos de contact
   public email: string;
@@ -219,11 +219,9 @@ export class UsagerFormModel {
           }).length === 0;
       }
 
-      delete this.entretien;
-      delete this.langue;
-      delete this.telephone;
-      delete this.villeNaissance;
-      delete this.rdv;
+      this.entretien = {};
+      this.langue = null;
+      this.villeNaissance = null;
     }
   }
 }

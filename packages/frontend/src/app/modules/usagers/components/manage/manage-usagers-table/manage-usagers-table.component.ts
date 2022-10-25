@@ -39,7 +39,7 @@ import {
 })
 export class ManageUsagersTableComponent implements OnInit {
   @Input()
-  public me!: UserStructure;
+  public me!: UserStructure | null;
 
   @Input()
   public usagers!: UsagerFormModel[];

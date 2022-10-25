@@ -119,35 +119,35 @@ export class StructureEditFormComponent implements OnInit {
 
     this.structureForm
       .get("adresseCourrier")
-      .get("actif")
-      .valueChanges.subscribe((value: boolean) => {
+      ?.get("actif")
+      ?.valueChanges.subscribe((value: boolean) => {
         const isRequired = value === true ? [Validators.required] : null;
 
         this.structureForm
           .get("adresseCourrier")
-          .get("adresse")
-          .setValidators(isRequired);
+          ?.get("adresse")
+          ?.setValidators(isRequired);
         this.structureForm
           .get("adresseCourrier")
-          .get("codePostal")
-          .setValidators(isRequired);
+          ?.get("codePostal")
+          ?.setValidators(isRequired);
         this.structureForm
           .get("adresseCourrier")
-          .get("ville")
-          .setValidators(isRequired);
+          ?.get("ville")
+          ?.setValidators(isRequired);
 
         this.structureForm
           .get("adresseCourrier")
-          .get("adresse")
-          .updateValueAndValidity();
+          ?.get("adresse")
+          ?.updateValueAndValidity();
         this.structureForm
           .get("adresseCourrier")
-          .get("codePostal")
-          .updateValueAndValidity();
+          ?.get("codePostal")
+          ?.updateValueAndValidity();
         this.structureForm
           .get("adresseCourrier")
-          .get("ville")
-          .updateValueAndValidity();
+          ?.get("ville")
+          ?.updateValueAndValidity();
       });
   }
 

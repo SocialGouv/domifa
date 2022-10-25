@@ -18,7 +18,7 @@ import { getUsagerNomComplet } from "../../../../shared/getUsagerNomComplet";
   styleUrls: ["./profil-documents-section.component.css"],
 })
 export class ProfilDocumentsSectionComponent implements OnInit {
-  public me!: UserStructure;
+  public me!: UserStructure | null;
 
   public usager!: UsagerFormModel;
 

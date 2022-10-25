@@ -34,7 +34,7 @@ import { UsagerDossierService } from "../../services/usager-dossier.service";
 })
 export class StepDecisionComponent implements OnInit {
   public usager!: UsagerFormModel;
-  public me!: UserStructure;
+  public me!: UserStructure | null;
 
   public isAdmin: boolean;
   public editInfos: boolean;

@@ -23,7 +23,7 @@ import { UsagerService } from "../../../usagers/services/usager.service";
   styleUrls: ["./profil-historique.component.css"],
 })
 export class ProfilHistoriqueComponent implements OnInit {
-  public me!: UserStructure;
+  public me!: UserStructure | null;
   public usager!: UsagerFormModel;
 
   public DECISION_LABELS = USAGER_DECISION_STATUT_LABELS_PROFIL;

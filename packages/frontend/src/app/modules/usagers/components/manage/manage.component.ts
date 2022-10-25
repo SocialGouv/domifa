@@ -95,7 +95,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   public allUsagersByStatus$ = new ReplaySubject<UsagersByStatus>(1);
   public allUsagersByStatus: UsagersByStatus;
   public usagers: UsagerFormModel[] = [];
-  public me!: UserStructure;
+  public me!: UserStructure | null;
 
   public labelsDernierPassage: {
     [key in UsagersFilterCriteriaDernierPassage]: string;
@@ -146,7 +146,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       RADIE: [],
       TOUS: [],
     };
-
+    this.currentUserSubject$ = this.authService.currentUserSubject;
     this.pageSize = 40;
     this.needToPrint = false;
     this.searching = false;

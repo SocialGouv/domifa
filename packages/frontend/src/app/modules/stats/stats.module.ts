@@ -33,7 +33,6 @@ import { StatsMapComponent } from "./components/elements/stats-map/stats-map.com
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-
     StatsRoutingModule,
   ],
   providers: [],

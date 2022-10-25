@@ -1,10 +1,4 @@
-import {
-  Component,
-  NgZone,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from "@angular/core";
+import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { Event, NavigationEnd, Router } from "@angular/router";
 import {
@@ -54,10 +48,9 @@ export class AppComponent implements OnInit {
     private readonly matomoInjector: MatomoInjector,
     private readonly router: Router,
     private readonly titleService: Title,
-    private readonly ngZone: NgZone,
     private readonly userIdleService: UserIdleService,
     public matomo: MatomoTracker,
-    public modalService: NgbModal
+    private modalService: NgbModal
   ) {
     this.matomoInjector.init(environment.matomo.url, environment.matomo.siteId);
     this.apiVersion = null;
@@ -83,10 +76,34 @@ export class AppComponent implements OnInit {
     this.currentUrl = this.router.url;
 
     // REFRESH TOKEN
-    this.authService.isAuth().subscribe(() => {});
+    this.authService.isAuth().subscribe(() => {
+      this.runHealthCheckAndAutoReload();
+    });
 
-    this.authService.currentUserSubject.subscribe((user: UserStructure) => {
-      this.me = user;
+    this.authService.currentUserSubject.subscribe(
+      (user: UserStructure | null) => {
+        this.me = user;
+      }
+    );
+
+    if (this.me) {
+      this.userIdleService.startWatching();
+    }
+
+    // Délai d'inactivité atteint, on déconnecte
+    this.userIdleService.onTimeout().subscribe({
+      next: () => {
+        if (this.authService.currentUserSubject.value !== null) {
+          this.authService.logoutAndRedirect(undefined, true);
+        }
+      },
+    });
+
+    // Lancement du décompte
+    this.userIdleService.onTimerStart().subscribe({
+      next: () => {
+        console.log("Déconnexion dans quelques instants...");
+      },
     });
 
     this.runHealthCheckAndAutoReload();
@@ -124,46 +141,33 @@ export class AppComponent implements OnInit {
       });
   }
 
-  private runHealthCheckAndAutoReload() {
-    if (environment.env === "test") {
-      return;
-    }
+  private runHealthCheckAndAutoReload(): void {
+    console.log("runHealthCheckAndAutoReload");
+    this.healthCheckService
+      .getVersion()
+      .subscribe((retour: HealthCheckInfo) => {
+        if (this.apiVersion === null) {
+          // Initialisation de la première version
+          this.apiVersion = retour?.info?.version?.info || null;
+        }
 
-    this.ngZone.run(() => {
-      this.healthCheckService
-        .enablePeriodicHealthCheck()
-        .subscribe((retour: HealthCheckInfo) => {
-          if (retour.status === "error") {
-            if (!this.modalService.hasOpenModals()) {
-              this.userIdleService.stopWatching();
-
-              this.modalService.open(this.maintenanceModal, this.modalOptions);
-            }
-          } else {
-            if (this.apiVersion === null) {
-              // Initialisation de la première version
-              this.apiVersion = retour?.info?.version?.info || null;
-            }
-
-            if (this.apiVersion !== retour?.info?.version?.info) {
-              this.modalService.dismissAll();
-              // On update la page
-              this.modalService.open(this.versionModal, this.modalOptions);
-              // Reload dans 5 secondes
-              setTimeout(() => {
-                window.location.reload();
-              }, 5000);
-            }
-          }
-        });
-    });
+        if (this.apiVersion !== retour?.info?.version?.info) {
+          this.modalService.dismissAll();
+          // On update la page
+          this.modalService.open(this.versionModal, this.modalOptions);
+          // Reload dans 5 secondes
+          setTimeout(() => {
+            window.location.reload();
+          }, 5000);
+        }
+      });
   }
 
   public openHelpModal(): void {
     this.modalService.open(this.helpCenter, this.modalOptions);
   }
 
-  public closeHelpModal(): void {
+  public closeModals(): void {
     this.modalService.dismissAll();
   }
 }

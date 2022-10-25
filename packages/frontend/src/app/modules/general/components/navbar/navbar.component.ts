@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 
-import { UserIdleService } from "angular-user-idle";
 import { MatomoTracker } from "ngx-matomo";
 import { environment } from "../../../../../environments/environment";
 import { UserStructure } from "../../../../../_common/model";
@@ -24,7 +23,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private readonly authService: AuthService,
-    private readonly userIdleService: UserIdleService,
+
     public matomoService: MatomoTracker
   ) {
     this.isNavbarCollapsed = false;
@@ -43,24 +42,8 @@ export class NavbarComponent implements OnInit {
     // Affichage de matomo
     this.initMatomo();
 
-    // Lancement du décompte
-    this.userIdleService.onTimerStart().subscribe({
-      next: () => {
-        console.log("Déconnexion dans quelques instants...");
-      },
-    });
-
     // Affichage des nouveautés
     this.checkNews();
-
-    // Délai d'inactivité atteint, on déconnecte
-    this.userIdleService.onTimeout().subscribe({
-      next: () => {
-        if (this.authService.currentUserSubject.value !== null) {
-          this.authService.logout();
-        }
-      },
-    });
   }
 
   public checkNews(): void {

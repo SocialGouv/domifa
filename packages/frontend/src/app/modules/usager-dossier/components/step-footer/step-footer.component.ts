@@ -17,7 +17,7 @@ import { UserStructure } from "src/_common/model";
   styleUrls: ["./step-footer.component.css"],
 })
 export class StepFooterComponent {
-  public me!: UserStructure;
+  public me!: UserStructure | null;
   @Input() public usager!: UsagerFormModel;
   @Output() usagerChange = new EventEmitter<UsagerFormModel>();
 

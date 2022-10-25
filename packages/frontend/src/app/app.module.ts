@@ -65,7 +65,7 @@ if (environment.production) {
     SharedModule,
     UsagersModule,
     CountUpModule,
-    UserIdleModule.forRoot({ idle: 3600, timeout: 10, ping: 120 }),
+    UserIdleModule.forRoot({ idle: 30, timeout: 10, ping: 12 }),
   ],
   providers: [
     AuthService,
@@ -82,7 +82,7 @@ if (environment.production) {
     {
       provide: ErrorHandler,
       useValue: createErrorHandler({
-        showDialog: false,
+        showDialog: environment.production ? false : true,
       }),
     },
   ],

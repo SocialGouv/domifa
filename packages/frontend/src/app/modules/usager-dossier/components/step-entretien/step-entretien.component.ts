@@ -14,7 +14,6 @@ import { Observable } from "rxjs";
 })
 export class StepEntretienComponent implements OnInit {
   public usager!: UsagerFormModel;
-
   public currentUserSubject$: Observable<UserStructure | null>;
 
   constructor(
@@ -24,7 +23,9 @@ export class StepEntretienComponent implements OnInit {
     private readonly titleService: Title,
     private readonly route: ActivatedRoute,
     private readonly toastr: CustomToastService
-  ) {}
+  ) {
+    this.currentUserSubject$ = this.authService.currentUserSubject;
+  }
 
   public ngOnInit(): void {
     this.currentUserSubject$ = this.authService.currentUserSubject;
