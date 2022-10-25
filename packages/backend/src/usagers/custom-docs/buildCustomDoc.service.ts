@@ -23,7 +23,7 @@ import { getAyantsDroitsText } from "../services/cerfa";
 
 export const DATE_FORMAT = {
   JOUR: "dd/MM/yyyy",
-  JOUR_HEURE: "dd/MM/yyyy à HHhmm",
+  JOUR_HEURE: "dd/MM/yyyy à HH:mm",
   JOUR_LONG: "PPP",
 };
 
