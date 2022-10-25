@@ -6,15 +6,18 @@ const codes: string[] = [];
 
 const TMP_LANGUAGES = Object.values(ORIGINAL_LANGUAGES_MAP)
   .filter((x) => !!x["639-2"] && !!x["639-1"] && x.fr.length !== 0)
-  .map((x) => ({
-    isoCode: x["639-1"],
-    label: uppercaseFirstEveryWords(x.fr[0]),
-  }))
-  .filter((item) => {
-    if (!codes.includes(item.isoCode)) {
-      codes.push(item.isoCode);
+  .map((x) => {
+    return {
+      isoCode: x["639-1"],
+      label: uppercaseFirstEveryWords(x.fr[0]),
+    } as AppLanguage;
+  })
+  .filter((item: AppLanguage) => {
+    if (!codes.includes(item?.isoCode)) {
+      codes.push(item?.isoCode);
       return true;
     }
+
     return false;
   });
 
@@ -27,9 +30,10 @@ TMP_LANGUAGES.sort((a, b) => {
 export const LANGUAGES = TMP_LANGUAGES;
 
 export const LANGUAGES_MAP: { [attr: string]: AppLanguage } = LANGUAGES.reduce(
-  (acc, l) => {
+  (acc, l: AppLanguage) => {
     acc[l.isoCode] = l;
     return acc;
+
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   },
   {} as { [attr: string]: AppLanguage }

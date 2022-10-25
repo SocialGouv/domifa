@@ -288,7 +288,7 @@
       title="Fermer la fenêtre"
       class="btn-close"
       aria-label="Fermer la fenêtre"
-      (click)="closeHelpModal()"
+      (click)="closeModals()"
     ></button>
   </div>
   <div class="modal-body text-center">
@@ -309,7 +309,7 @@
     <p>
       <a
         [routerLink]="['/faq']"
-        (click)="modalService.dismissAll()"
+        (click)="closeModals()"
         class="btn btn-primary"
         routerLinkActive="router-link-active"
       >
@@ -319,7 +319,7 @@
       <br />
       <a
         [routerLink]="['/contact']"
-        (click)="modalService.dismissAll()"
+        (click)="closeModals()"
         class="btn btn-primary"
         routerLinkActive="router-link-active"
       >

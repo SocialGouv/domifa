@@ -10,10 +10,12 @@ import {
   REGIONS_LISTE,
   REGIONS_SEO_ID,
   REGIONS_OUTRE_MER,
+  fadeInOut,
 } from "../../../../shared";
 import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
+  animations: [fadeInOut],
   selector: "app-public-stats",
   templateUrl: "./public-stats.component.html",
   styleUrls: ["./public-stats.component.css"],

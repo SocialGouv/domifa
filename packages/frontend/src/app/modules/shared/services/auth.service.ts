@@ -88,7 +88,6 @@ export class AuthService {
   }
 
   public logout(): void {
-    this.userIdleService.stopWatching();
     this.currentUserSubject.next(null);
     usagersCache.clearCache();
     localStorage.removeItem("currentUser");
@@ -98,6 +97,7 @@ export class AuthService {
       scope.setTag("structure", "none");
       scope.setUser({});
     });
+    this.userIdleService.stopWatching();
     this.router.navigate(["/connexion"]);
   }
 
@@ -134,11 +134,11 @@ export class AuthService {
 
     // Ajout d'infos pour Sentry
     configureScope((scope) => {
-      scope.setTag("structure", user.structureId.toString());
+      scope.setTag("structure", user.structureId?.toString());
       scope.setUser({
         email: user.email,
         username:
-          "STRUCTURE " + user.structureId.toString() + " : " + user.prenom,
+          "STRUCTURE " + user.structureId?.toString() + " : " + user.prenom,
       });
     });
   }

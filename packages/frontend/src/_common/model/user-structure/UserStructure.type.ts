@@ -4,7 +4,7 @@ import { UserStructureMails } from "./UserStructureMails.type";
 import { UserStructureRole } from "./UserStructureRole.type";
 
 export type UserStructure = AppEntity & {
-  id: number;
+  id: number | null;
 
   prenom: string | null;
   nom: string | null;
@@ -20,7 +20,7 @@ export type UserStructure = AppEntity & {
 
   verified: boolean;
 
-  role: UserStructureRole; // security profile
+  role: UserStructureRole | null; // security profile
 
   mail: UserStructureMails;
 

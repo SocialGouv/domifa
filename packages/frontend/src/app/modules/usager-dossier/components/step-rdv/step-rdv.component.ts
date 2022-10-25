@@ -53,7 +53,7 @@ export class StepRdvComponent implements OnInit {
   public usager!: UsagerFormModel;
   public editRdv: boolean;
 
-  public me!: UserStructure;
+  public me!: UserStructure | null;
   public agents: UserStructure[] = [];
 
   public rdvIsToday: boolean;
@@ -85,7 +85,7 @@ export class StepRdvComponent implements OnInit {
       month: this.dToday.getMonth() + 1,
       year: this.dToday.getFullYear() + 2,
     };
-
+    this.me = this.authService.currentUserValue;
     this.minDateToday = minDateToday;
   }
 
@@ -94,7 +94,6 @@ export class StepRdvComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.me = this.authService.currentUserValue;
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
 
@@ -163,7 +162,9 @@ export class StepRdvComponent implements OnInit {
         this.agents = users;
 
         const userIdRdv =
-          this.usager.rdv.userId === null ? this.me.id : this.usager.rdv.userId;
+          this.usager.rdv.userId === null
+            ? this.me?.id
+            : this.usager.rdv.userId;
 
         this.rdvForm.controls.userId.setValue(userIdRdv, {
           onlySelf: true,
@@ -174,7 +175,7 @@ export class StepRdvComponent implements OnInit {
   public setValueRdv(value: boolean): void {
     if (value === true) {
       this.rdvForm.controls.isNow.setValue(true);
-      this.rdvForm.controls.userId.setValue(this.me.id);
+      this.rdvForm.controls.userId.setValue(this.me?.id);
     } else {
       this.rdvForm.controls.isNow.setValue(false);
     }
@@ -185,7 +186,7 @@ export class StepRdvComponent implements OnInit {
 
     const rdvFormValue: RdvForm = {
       isNow: true,
-      userId: this.me.id,
+      userId: this.me?.id ?? 0,
     };
 
     this.usagerDossierService.setRdv(rdvFormValue, this.usager.ref).subscribe({
