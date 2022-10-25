@@ -1,7 +1,7 @@
 <div class="d-print-none" *ngIf="usager && me">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <div>
-      <h4>Procurations (2 maximum)</h4>
+      <h4>Procurations (5 maximum)</h4>
     </div>
     <div *ngIf="usager.decision.statut !== 'REFUS'">
       <button
@@ -258,7 +258,7 @@
         class="btn btn-outline-primary me-2"
         type="button"
         (click)="addProcuration()"
-        *ngIf="form.controls.length < 2"
+        *ngIf="form.controls.length < 5"
       >
         Ajouter une procuration
       </button>

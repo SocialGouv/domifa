@@ -258,10 +258,12 @@ export class UsagerDocsController {
 
     try {
       await this.decryptFile(pathFile, doc, iv);
-      console.log("\n[INFOS] Decrypt file infos  ");
-      console.log(await stat(outputFile));
+
       return res.status(HttpStatus.OK).sendFile(outputFile);
     } catch (e) {
+      console.log("\n[INFOS] Decrypt file infos FAIL");
+      console.log(await stat(outputFile));
+      console.log(e);
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "CANNOT_OPEN_FILE" });
@@ -291,6 +293,7 @@ export class UsagerDocsController {
       input.pipe(decipher).pipe(output);
 
       output.on("error", (error: Error) => {
+        console.log(error);
         appLogger.error("[FILES] CANNOT_DECRYPT_FILE : " + outputFile, {
           error,
           sentry: true,

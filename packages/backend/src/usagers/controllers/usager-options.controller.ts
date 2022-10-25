@@ -128,7 +128,7 @@ export class UsagerOptionsController {
     }
 
     // Parcours des procurations
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 5; i++) {
       let needCreateHistory = true;
       let action: UsagerOptionsHistoryAction = "EDIT";
 
