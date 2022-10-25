@@ -142,7 +142,6 @@ export class AppComponent implements OnInit {
   }
 
   private runHealthCheckAndAutoReload(): void {
-    console.log("runHealthCheckAndAutoReload");
     this.healthCheckService
       .getVersion()
       .subscribe((retour: HealthCheckInfo) => {
