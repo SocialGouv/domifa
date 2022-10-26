@@ -1,15 +1,16 @@
-import { UsagerLight } from "./../../../_common/model/usager/UsagerLight.type";
 import { format } from "date-fns";
 import { generateDateForCerfa } from ".";
+
+import { getPhoneString } from "../../../util/phone/phoneUtils.service";
+import { UserStructureAuthenticated } from "../../../_common/model";
 import {
-  UserStructureAuthenticated,
-  UsagerCerfaFields,
   CerfaDocType,
   DateCerfa,
   UsagerAyantDroit,
-} from "../../../_common/model";
-import { generateMotifLabel } from "..";
-import { getPhoneString } from "../../../util/phone/phoneUtils.service";
+  UsagerCerfaFields,
+  UsagerLight,
+} from "../../../_common/model/usager";
+import { generateMotifLabel } from "../generateMotifLabel.service";
 
 export const generateCerfaDatas = (
   usager: UsagerLight,
@@ -18,20 +19,18 @@ export const generateCerfaDatas = (
 ): UsagerCerfaFields => {
   const usagerRef = getUsagerRef(usager);
 
-  const entretienAvec = toString(usager.rdv.userName).toUpperCase();
-
-  const dateNaissance = generateDateForCerfa(usager.dateNaissance);
-
-  const dateRdv = generateDateForCerfa(usager.rdv.dateRdv, user);
-  const dateDecision = generateDateForCerfa(usager.decision.dateDecision);
-  const datePremiereDom = generateDateForCerfa(usager.datePremiereDom);
-
-  let dateDebut = generateDateForCerfa(usager.decision.dateDebut);
-  let dateFin = generateDateForCerfa(usager.decision.dateFin);
-
+  // Rendez-vous et entretien
   if (isNil(usager.rdv)) {
     usager.rdv = { userId: null, dateRdv: null, userName: null };
   }
+  const entretienAvec = toString(usager.rdv.userName).toUpperCase();
+  const dateRdv = generateDateForCerfa(usager.rdv.dateRdv, user);
+
+  // Dates de la dom
+  const dateDecision = generateDateForCerfa(usager.decision.dateDecision);
+  const datePremiereDom = generateDateForCerfa(usager.datePremiereDom);
+  let dateDebut = generateDateForCerfa(usager.decision.dateDebut);
+  let dateFin = generateDateForCerfa(usager.decision.dateFin);
 
   if (
     typeCerfa === "attestation" &&
@@ -42,10 +41,13 @@ export const generateCerfaDatas = (
     dateFin = resetDate();
   }
 
+  // Date de naissance
+  const dateNaissance = generateDateForCerfa(usager.dateNaissance);
   usager.villeNaissance = usager.villeNaissance.toUpperCase();
   usager.nom = usager.nom.toUpperCase();
   usager.prenom = usager.prenom.toUpperCase();
-
+  const sexe = usager.sexe === "femme" ? "1" : "2";
+  const courriel = toString(usager.email);
   const responsable = `${user.structure.responsable.nom.toUpperCase()}, ${user.structure.responsable.prenom.toUpperCase()}, ${user.structure.responsable.fonction.toUpperCase()}`;
 
   // Adresse de courrier
@@ -56,13 +58,12 @@ export const generateCerfaDatas = (
 
   const prefecture =
     user.structure.structureType === "asso" ? user.structure.departement : "";
-  const sexe = usager.sexe === "femme" ? "1" : "2";
+
   const rattachement = toString(usager.entretien.rattachement).toUpperCase();
   const motif =
     usager.decision.statut === "REFUS"
       ? generateMotifLabel(usager.decision)
       : "";
-  const courriel = toString(usager.email);
 
   const pdfInfos: UsagerCerfaFields = {
     adresse: adresseDomicilie,
