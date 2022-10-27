@@ -1,3 +1,19 @@
+# [2.108.0](https://github.com/SocialGouv/domifa/compare/v2.107.5...v2.108.0) (2022-10-27)
+
+
+### Bug Fixes
+
+* **files:** ajout d'un message d'erreur ([0665e9d](https://github.com/SocialGouv/domifa/commit/0665e9d15c720e12546a23dcf5c11351444fe9f9))
+* **healtz:** suppression du healthcheck ([9ff7e1d](https://github.com/SocialGouv/domifa/commit/9ff7e1dc655dc88b1858e31303a49c904647fd5a))
+* **strict:** corrections dans le frontend pour le rendre plus fiable ([f246b35](https://github.com/SocialGouv/domifa/commit/f246b353da53524aa0cdfae5bfd388ea423c03c3))
+* **tests:** mise à jour des tests suite aux changements dans les docs personnalisables ([e4e69dc](https://github.com/SocialGouv/domifa/commit/e4e69dce33fb166f42dd10aedeed1d2048c2e24a))
+* **tests:** mise à jour du test sur les Cerfa ([d3399f5](https://github.com/SocialGouv/domifa/commit/d3399f5a4e3069654bde7585fe1c8d5cbb88b163))
+
+
+### Features
+
+* **custom-docs:** Ajout de nouveaux éléménts dans les documents personnalisables ([9723707](https://github.com/SocialGouv/domifa/commit/972370713e07100e76ff2a6e7ed0272b90249111))
+
 ## [2.107.5](https://github.com/SocialGouv/domifa/compare/v2.107.4...v2.107.5) (2022-10-11)
 
 
