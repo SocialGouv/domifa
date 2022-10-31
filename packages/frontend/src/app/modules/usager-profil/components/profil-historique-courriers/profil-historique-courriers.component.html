@@ -49,14 +49,18 @@
           <td>
             <div *ngIf="interaction.event === 'create'">
               {{ interaction.label }}
-              <div *ngIf="interaction.content">
-                {{ interaction.content }}
-              </div>
+              <p
+                *ngIf="interaction.content"
+                [innerHTML]="interaction.content | nl2br"
+              ></p>
             </div>
             <div *ngIf="interaction.event === 'delete'">
-              <strong>{{ interaction.label }}</strong>
-              <span *ngIf="interaction.content">
-                {{ interaction.content }}
+              <strong>{{ interaction.label }}</strong
+              ><br />
+              <span
+                *ngIf="interaction.content"
+                [innerHTML]="interaction.content | nl2br"
+              >
               </span>
               <br />
               Interaction supprimée le

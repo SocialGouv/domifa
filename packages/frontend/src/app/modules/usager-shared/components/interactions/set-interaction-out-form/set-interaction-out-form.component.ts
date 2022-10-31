@@ -89,6 +89,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.toggleProcurationIndex(null);
     this.interactionFormData.courrierOut.nbCourrier =
       this.usager.lastInteraction.courrierIn;
     this.interactionFormData.recommandeOut.nbCourrier =
@@ -144,6 +145,10 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
     this.interactionFormData$.next(this.interactionFormData);
   }
 
+  public toggleProcurationIndex(value: number | null): void {
+    this.procurationIndex = value;
+  }
+
   public setInteractionForm(): void {
     const interactionsToSave: InteractionOutForApi[] =
       INTERACTIONS_OUT_AVAILABLE.reduce(
@@ -151,7 +156,6 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
           if (this.interactionFormData[interaction].selected) {
             filtered.push({
               procurationIndex: this.procurationIndex,
-
               type: interaction,
             });
           }

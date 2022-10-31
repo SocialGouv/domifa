@@ -164,7 +164,6 @@
           class="form-control"
           id="email"
           formControlName="email"
-          aria-describedby="emailHelp"
           [ngClass]="{ 'is-invalid': f.email.errors }"
           placeholder="adresse@mail.com"
         />
@@ -292,7 +291,7 @@
     formArrayName="ayantsDroits"
     *ngFor="let ayantDroit of ayantsDroits.controls; let i = index"
   >
-    <div [formGroupName]="i" class="row">
+    <div [formGroupName]="i" class="row align-items-center">
       <div class="col form-group required">
         <label for="nom_{{ i }}">Nom</label>
         <input
@@ -408,16 +407,13 @@
         </p>
       </div>
       <div class="col-md-1">
-        <label for="delete_ad_{{ i }}">Supprimer</label>
-
         <button
           type="button"
-          id="delete_ad_{{ i }}"
           (click)="deleteAyantDroit(i)"
-          title="Supprimer l'ayant-droit {{ i }}"
           class="btn btn-danger"
+          [attr.aria-label]="'Supprimer l\'ayant-droit {{ i }}'"
         >
-          <fa-icon title="Supprimer" [icon]="['fas', 'trash']"></fa-icon>
+          <fa-icon aria-hidden="true" [icon]="['fas', 'trash']"></fa-icon>
         </button>
       </div>
     </div>

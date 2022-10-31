@@ -63,13 +63,10 @@ async function createInteraction({
 
     // Note métier :
     // La date de dernier passage n'est pas mise à jour si remise à un mandataire
-    if (
-      interaction.procurationIndex === 0 ||
-      interaction.procurationIndex === 1
-    ) {
+    if (interaction.procurationIndex !== null) {
       interaction.content =
         interaction.content +
-        "Courrier remis au mandataire : " +
+        "\nCourrier remis au mandataire : " +
         usager.options.procurations[interaction.procurationIndex].prenom +
         " " +
         usager.options.procurations[
@@ -84,7 +81,7 @@ async function createInteraction({
       if (new Date(usager.options.transfert.dateFin) >= now) {
         interaction.content =
           interaction.content +
-          "Courrier transféré à : " +
+          "\nCourrier transféré à : " +
           usager.options.transfert.nom +
           " - " +
           usager.options.transfert.adresse.toUpperCase();
@@ -118,6 +115,9 @@ async function createInteraction({
   }
 
   delete interaction.procurationIndex;
+  if (interaction.content) {
+    interaction.content = interaction.content.trim();
+  }
 
   const newInteraction: Interactions = {
     ...interaction,

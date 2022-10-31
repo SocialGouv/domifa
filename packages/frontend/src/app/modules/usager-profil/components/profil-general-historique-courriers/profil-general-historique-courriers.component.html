@@ -25,7 +25,10 @@
       <div class="fw-bold">
         {{ interaction.label }}
       </div>
-      <span *ngIf="interaction.content">- {{ interaction.content }}</span>
+      <span
+        [innerHTML]="interaction.content | nl2br"
+        *ngIf="interaction.content"
+      ></span>
     </div>
   </div>
 </div>
