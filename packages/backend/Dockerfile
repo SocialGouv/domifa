@@ -1,7 +1,7 @@
 # ---------------------------------------------------------
 # 1) BUILDER IMAGE
 # ---------------------------------------------------------
-FROM node:17.9-bullseye-slim as builder
+FROM node:19.0-bullseye-slim as builder
 
 ENV TZ Europe/Paris
 
@@ -25,7 +25,7 @@ RUN yarn build
 # ---------------------------------------------------------
 # 2) FINAL IMAGE
 # ---------------------------------------------------------
-FROM node:17.9-bullseye-slim
+FROM node:19.0-bullseye-slim
 
 ARG DOMIFA_VERSION
 ENV DOMIFA_VERSION=$DOMIFA_VERSION
