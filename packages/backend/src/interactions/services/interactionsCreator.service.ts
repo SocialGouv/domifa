@@ -63,7 +63,10 @@ async function createInteraction({
 
     // Note métier :
     // La date de dernier passage n'est pas mise à jour si remise à un mandataire
-    if (interaction.procurationIndex !== null) {
+    if (
+      interaction.procurationIndex !== null &&
+      typeof interaction.procurationIndex !== "undefined"
+    ) {
       interaction.content =
         interaction.content +
         "\nCourrier remis au mandataire : " +
