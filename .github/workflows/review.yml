@@ -70,6 +70,7 @@ jobs:
             DOMIFA_PORTAIL_USAGERS_URL=https://mon-${{ env.host }}.dev.fabrique.social.gouv.fr/
             DOMIFA_ENV_ID=dev
             DOMIFA_FRONTEND_META_ROBOTS=noindex,nofollow
+            DOMIFA_SENTRY_DSN_FRONTEND=${{ secrets.DOMIFA_SENTRY_DSN_FRONTEND }}
 
   ##############################################################################
   ## BUILD AND REGISTER PORTAIL USAGERS IMAGE
@@ -97,6 +98,7 @@ jobs:
           dockerbuildargs: |
             DOMIFA_BACKEND_URL=https://api-${{ env.host }}.dev.fabrique.social.gouv.fr/
             DOMIFA_ENV_ID=dev
+            DOMIFA_SENTRY_DSN_PORTAIL=${{ secrets.DOMIFA_SENTRY_DSN_PORTAIL }}
 
   ##############################################################################
   ## BUILD AND REGISTER PORTAIL ADMINS IMAGE

@@ -41,7 +41,7 @@ import { createErrorHandler, init } from "@sentry/angular";
 if (environment.production) {
   init({
     release: "domifa@" + pkg.version,
-    dsn: "https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31",
+    dsn: environment.sentryDsnFrontend,
     environment: environment.env,
     tracesSampleRate: 1.0,
   });
