@@ -36,7 +36,7 @@ export type DomifaConfig = {
     swaggerEnabled: boolean; // DOMIFA_SWAGGER_ENABLE
     sentry: {
       enabled: boolean; // DOMIFA_SENTRY_ENABLED (default: enabled if SENTRY_DSN is defined)
-      sentryDsn: string; // SENTRY_DSN
+      sentryDsn: string; // DOMIFA_SENTRY_DSN_BACKEND
       debugModeEnabled: boolean; // DOMIFA_SENTRY_DEBUG_MODE_ENABLED
     };
     anonymizer: {

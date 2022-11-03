@@ -86,6 +86,9 @@ function renderSection2ActiviteDecisions(context: {
     value: data.refus.reorientation.asso,
   });
   worksheetRendered.renderCell(i++, "c", {
+    value: data.refus.reorientation.cias,
+  });
+  worksheetRendered.renderCell(i++, "c", {
     value: data.refus.reorientation.other,
   });
   i++; // blank line

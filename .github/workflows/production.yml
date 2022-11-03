@@ -60,6 +60,7 @@ jobs:
             DOMIFA_PORTAIL_ADMINS_URL=https://admin-domifa.fabrique.social.gouv.fr/
             DOMIFA_PORTAIL_USAGERS_URL=https://mon-domifa.fabrique.social.gouv.fr/
             DOMIFA_FRONTEND_META_ROBOTS=index,follow
+            DOMIFA_SENTRY_DSN_FRONTEND=${{ secrets.DOMIFA_SENTRY_DSN_FRONTEND }}
 
   ##############################################################################
   ## BUILD AND REGISTER PORTAIL USAGERS IMAGE
@@ -79,6 +80,7 @@ jobs:
             PRODUCTION=true
             DOMIFA_ENV_ID=prod
             DOMIFA_BACKEND_URL=https://domifa-api.fabrique.social.gouv.fr/
+            DOMIFA_SENTRY_DSN_PORTAIL=${{ secrets.DOMIFA_SENTRY_DSN_PORTAIL }}
 
   ##############################################################################
   ## BUILD AND REGISTER PORTAIL ADMINS IMAGE
