@@ -31,11 +31,9 @@ export class AdminStructuresDeleteController {
   @Put("send-mail/:id")
   public async deleteSendInitialMail(
     @Res() res: ExpressResponse,
-    @Param("id") id: string
+    @Param("id", new ParseIntPipe()) id: number
   ) {
-    const structure = await structureDeletorService.generateDeleteToken(
-      parseInt(id, 10)
-    );
+    const structure = await structureDeletorService.generateDeleteToken(id);
 
     if (!!structure) {
       deleteStructureEmailSender.sendMail({ structure }).then(
@@ -60,7 +58,7 @@ export class AdminStructuresDeleteController {
   @Put("check-token/:id/:token")
   public async deleteStructureCheck(
     @Res() res: ExpressResponse,
-    @Param("id", ParseIntPipe) id: number,
+    @Param("id", new ParseIntPipe()) id: number,
     @Param("token") tokenDto: TokenDto
   ) {
     try {
