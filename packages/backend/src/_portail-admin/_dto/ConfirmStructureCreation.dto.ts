@@ -1,9 +1,16 @@
-import { IsNotEmpty, IsNumber, IsString, MinLength } from "class-validator";
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  Matches,
+  MinLength,
+} from "class-validator";
 
 export class ConfirmStructureCreation {
   @MinLength(12)
-  @IsString()
   @IsNotEmpty()
+  @IsString()
+  @Matches("^s*([0-9a-zA-Z]*)s*$")
   public readonly token!: string;
 
   @IsNotEmpty()
