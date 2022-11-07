@@ -25,7 +25,7 @@
         <button
           (click)="decrement('courrierIn')"
           class="btn btn-primary"
-          title="Retirer un courrier"
+          aria-label="Retirer un courrier"
           [disabled]="interactionFormData.courrierIn.nbCourrier === 0"
         >
           <span class="icon-moins" aria-hidden="true"></span>
@@ -33,7 +33,7 @@
         <span class="px-1"></span>
         <button
           class="btn btn-primary"
-          title="Ajouter un courrier"
+          aria-label="Ajouter un courrier"
           (click)="increment('courrierIn')"
         >
           <span class="icon-plus" aria-hidden="true"></span>
@@ -57,13 +57,18 @@
         <button
           (click)="decrement('colisIn')"
           class="btn btn-primary"
+          aria-label="Retirer un colis"
           [disabled]="interactionFormData.colisIn.nbCourrier === 0"
         >
-          <span class="icon-moins"></span>
+          <span class="icon-moins" aria-hidden="true"></span>
         </button>
         <span class="px-1"></span>
-        <button class="btn btn-primary" (click)="increment('colisIn')">
-          <span class="icon-plus"></span>
+        <button
+          class="btn btn-primary"
+          aria-label="Ajouter un colis"
+          (click)="increment('colisIn')"
+        >
+          <span class="icon-plus" aria-hidden="true"></span>
         </button>
       </div>
       <span class="interaction-label">Colis</span>
@@ -84,13 +89,18 @@
         <button
           (click)="decrement('recommandeIn')"
           class="btn btn-primary"
+          aria-label="Retirer un avis de passage"
           [disabled]="interactionFormData.recommandeIn.nbCourrier === 0"
         >
-          <span class="icon-moins"></span>
+          <span class="icon-moins" aria-hidden="true"></span>
         </button>
         <span class="px-1"></span>
-        <button class="btn btn-primary" (click)="increment('recommandeIn')">
-          <span class="icon-plus"></span>
+        <button
+          class="btn btn-primary"
+          aria-label="Ajouter un avis de passage"
+          (click)="increment('recommandeIn')"
+        >
+          <span class="icon-plus" aria-hidden="true"></span>
         </button>
       </div>
       <span class="interaction-label">Avis de passage</span>

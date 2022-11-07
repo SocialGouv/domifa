@@ -29,7 +29,8 @@
       <div
         class="col-md-12 form-group required"
         *ngIf="
-          !isCustomDoc || (isCustomDoc && f.customDocType.value === 'autre')
+          isCustomDoc === false ||
+          (isCustomDoc && f.customDocType.value === 'autre')
         "
       >
         <label for="label">Nom du document</label>

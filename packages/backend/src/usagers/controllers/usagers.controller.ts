@@ -8,6 +8,7 @@ import {
   Get,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Query,
@@ -234,7 +235,11 @@ export class UsagersController {
   @UseGuards(UsagerAccessGuard)
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @Get("stop-courrier/:usagerRef")
-  public async stopCourrier(@CurrentUsager() currentUsager: UsagerLight) {
+  public async stopCourrier(
+    @CurrentUsager() currentUsager: UsagerLight,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
+  ) {
     if (currentUsager.options.npai.actif) {
       currentUsager.options.npai.actif = false;
       currentUsager.options.npai.dateDebut = null;
@@ -253,13 +258,13 @@ export class UsagersController {
   public async isDoublon(
     @Param("nom") nom: string,
     @Param("prenom") prenom: string,
-    @Param("usagerRef") ref: number,
+    @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
     @CurrentUser() user: UserStructureAuthenticated
   ): Promise<UsagerLight[]> {
     const doublons = await usagerLightRepository.findDoublons({
       nom,
       prenom,
-      ref,
+      ref: usagerRef,
       structureId: user.structureId,
     });
     return doublons;
@@ -271,6 +276,7 @@ export class UsagersController {
   public async delete(
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight,
+    @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
     @Res() res: Response
   ) {
     // Suppression des Documents

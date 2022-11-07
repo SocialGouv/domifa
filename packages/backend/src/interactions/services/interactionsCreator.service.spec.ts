@@ -3,11 +3,7 @@ import { messageSmsRepository } from "./../../database/services/message-sms/mess
 import { addDays, differenceInHours, subDays } from "date-fns";
 import MockDate from "mockdate";
 
-import {
-  interactionsCreator,
-  InteractionsDeletor,
-  InteractionsService,
-} from ".";
+import { interactionsCreator, InteractionsDeletor } from ".";
 import {
   structureRepository,
   usagerRepository,
@@ -44,7 +40,6 @@ describe("interactionsCreator", () => {
         SmsModule,
         StructuresModule,
       ],
-      providers: [InteractionsService],
     });
 
     interactionsDeletor =

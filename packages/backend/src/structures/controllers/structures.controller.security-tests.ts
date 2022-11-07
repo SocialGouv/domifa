@@ -43,7 +43,7 @@ export const StructuresControllerSecurityTests: AppTestHttpClientSecurityTestDef
           context.user,
           {
             roles: ["admin"],
-            validExpectedResponseStatus: HttpStatus.INTERNAL_SERVER_ERROR,
+            validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
           }
         ),
       }),

@@ -90,11 +90,11 @@
     >
       <div [formGroupName]="i" class="row">
         <div class="col form-group required">
-          <label for="procuration_nom">Nom</label>
+          <label for="procuration_nom_{{i}}">Nom</label>
           <input
             type="text"
             class="form-control"
-            id="procuration_nom"
+            id="procuration_nom_{{i}}"
             formControlName="nom"
             [ngClass]="{ 'is-invalid': submitted && form.controls[i].get('nom')?.errors }"
             required
@@ -107,11 +107,11 @@
           </p>
         </div>
         <div class="col form-group required">
-          <label for="procuration_prenom">Prénom du mandataire</label>
+          <label for="procuration_prenom_{{i}}">Prénom du mandataire</label>
           <input
             type="text"
             class="form-control"
-            id="procuration_prenom"
+            id="procuration_prenom_{{i}}"
             formControlName="prenom"
             [ngClass]="{ 'is-invalid': submitted && form.controls[i].get('prenom')?.errors}"
             required
@@ -125,7 +125,7 @@
         </div>
 
         <div class="col form-group required">
-          <label for="dateNaissance">Date de naissance</label>
+          <label for="date_naissance_{{i}}">Date de naissance</label>
           <div class="input-group">
             <input
               class="form-control"
@@ -135,7 +135,7 @@
               placement="bottom"
               formControlName="dateNaissance"
               ngbDatepicker
-              id="dateNaissance"
+              id="date_naissance_{{i}}"
               dateFr
               value
               [ngClass]="{
@@ -163,13 +163,13 @@
           </p>
         </div>
         <div class="col form-group required">
-          <label for="dateDebut">Valide du</label>
+          <label for="date_debut_{{i}}">Valide du</label>
           <div class="input-group">
             <input
               class="form-control"
               placeholder="jj/mm/aaaa"
               placement="bottom"
-              id="dateDebut"
+              id="date_debut_{{i}}"
               formControlName="dateDebut"
               aria-label="Choisir une date de début de validité dans le calendrier"
               ngbDatepicker
@@ -197,13 +197,13 @@
           </div>
         </div>
         <div class="col form-group required">
-          <label for="dateFin">Valide jusqu'au</label>
+          <label for="date_fin_{{i}}">Valide jusqu'au</label>
           <div class="input-group">
             <input
               class="form-control"
               placeholder="jj/mm/aaaa"
               placement="bottom"
-              id="dateFin"
+              id="date_fin_{{i}}"
               formControlName="dateFin"
               ngbDatepicker
               dateFr
@@ -239,13 +239,11 @@
             </div>
           </div>
         </div>
-        <div class="col-md-1 text-end">
-          <label for="delete_procu_{{ i }}">Supprimer</label>
+        <div class="col-md-1 mt-4 text-center">
           <button
             type="button"
-            id="delete_procu_{{ i }}"
             (click)="deleteProcurationForm(i)"
-            [attr.aria-label]="'Supprimer la procuration numéro ' +i"
+            [attr.aria-label]="'Supprimer la procuration numéro '+ i"
             class="btn btn-danger"
           >
             <fa-icon aria-hidden="true" [icon]="['fas', 'trash']"></fa-icon>

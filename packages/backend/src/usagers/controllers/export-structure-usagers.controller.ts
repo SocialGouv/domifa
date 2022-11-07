@@ -1,3 +1,4 @@
+import { interactionRepository } from "./../../database/services/interaction/interactionRepository.service";
 import { InteractionType } from "./../../_common/model/interaction/InteractionType.type";
 import { Controller, Get, Res, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
@@ -10,7 +11,7 @@ import {
   structureUsagersExporter,
   StructureUsagersExportModel,
 } from "../../excel/export-structure-usagers";
-import { InteractionsService } from "../../interactions/services";
+
 import { expressResponseExcelRenderer } from "../../util";
 import {
   UsagerLight,
@@ -27,10 +28,7 @@ import { format } from "date-fns";
 @ApiBearerAuth()
 @Controller("export")
 export class ExportStructureUsagersController {
-  constructor(
-    private readonly usagersService: UsagersService,
-    private readonly interactionsService: InteractionsService
-  ) {}
+  constructor(private readonly usagersService: UsagersService) {}
 
   @Get("")
   @AllowUserStructureRoles("responsable", "admin")
@@ -69,7 +67,7 @@ export class ExportStructureUsagersController {
     } = {};
 
     const interactionsByUsagerMap =
-      await this.interactionsService.totalInteractionAllUsagersStructure({
+      await interactionRepository.totalInteractionAllUsagersStructure({
         structureId: user.structureId,
       });
 

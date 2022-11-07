@@ -4,6 +4,7 @@ import {
   Delete,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Put,
   Res,
   UseGuards,
@@ -16,6 +17,7 @@ import { structureLightRepository } from "../../../database";
 import { deleteStructureEmailSender } from "../../../mails/services/templates-renderers";
 import { structureDeletorService } from "../../../structures/services/structureDeletor.service";
 import { ExpressResponse } from "../../../util/express";
+import { TokenDto } from "../../../_common/dto";
 import { STRUCTURE_LIGHT_ATTRIBUTES } from "../../../_common/model";
 import { ConfirmStructureDeleteDto } from "../../_dto";
 
@@ -29,11 +31,9 @@ export class AdminStructuresDeleteController {
   @Put("send-mail/:id")
   public async deleteSendInitialMail(
     @Res() res: ExpressResponse,
-    @Param("id") id: string
+    @Param("id", new ParseIntPipe()) id: number
   ) {
-    const structure = await structureDeletorService.generateDeleteToken(
-      parseInt(id, 10)
-    );
+    const structure = await structureDeletorService.generateDeleteToken(id);
 
     if (!!structure) {
       deleteStructureEmailSender.sendMail({ structure }).then(
@@ -57,15 +57,15 @@ export class AdminStructuresDeleteController {
   @ApiBearerAuth()
   @Put("check-token/:id/:token")
   public async deleteStructureCheck(
-    @Param("id") id: string,
     @Res() res: ExpressResponse,
-    @Param("token") token: string
+    @Param("id", new ParseIntPipe()) id: number,
+    @Param("token") tokenDto: TokenDto
   ) {
     try {
       const structure = await structureLightRepository.findOneOrFail({
         where: {
-          token,
-          id: parseInt(id, 10),
+          token: tokenDto.token,
+          id,
         },
         select: STRUCTURE_LIGHT_ATTRIBUTES,
       });

@@ -4,6 +4,7 @@ import {
   Get,
   HttpStatus,
   Param,
+  ParseUUIDPipe,
   Post,
   Res,
   UseGuards,
@@ -52,7 +53,7 @@ export class UsagerStructureDocsController {
   public async getStructureCustomDoc(
     @CurrentUsager() usager: UsagerLight,
     @CurrentUser() user: UserStructureAuthenticated,
-    @Param("structureDocUuid") structureDocUuid: string,
+    @Param("structureDocUuid", new ParseUUIDPipe()) structureDocUuid: string,
     @Res() res: Response
   ) {
     const doc: StructureDoc = await this.structureDocService.findOne(

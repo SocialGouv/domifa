@@ -37,7 +37,7 @@ async function getStats({
     ,count(state->'uuid') filter (where state->'decision'->>'statut' = 'REFUS' and state->'decision'->>'motif' = 'SATURATION') as u_decision_refus_motif_saturation
     ,count(state->'uuid') filter (where state->'decision'->>'statut' = 'REFUS' and state->'decision'->>'motif' = 'AUTRE') as u_decision_refus_motif_autre
     ,count(state->'uuid') filter (where state->'decision'->>'statut' = 'REFUS' and state->'decision'->>'orientation' = 'ccas') as u_decision_refus_orientation_ccas
-    ,count(state->'uuid') filter (where state->'decision'->>'statut' = 'REFUS' and state->'decision'->>'orientation' = 'asso') as u_decision_refus_orientation_asso
+    ,count(state->'uuid') filter (where state->'decision'->>'statut' = 'REFUS' and state->'decision'->>'orientation' = 'asso') as u_decision_refus_orientation_asso    ,count(state->'uuid') filter (where state->'decision'->>'statut' = 'REFUS' and state->'decision'->>'orientation' = 'cias') as u_decision_refus_orientation_cias
     ,count(state->'uuid') filter (where state->'decision'->>'statut' = 'REFUS' and state->'decision'->>'orientation' = 'other') as u_decision_refus_orientation_other
     FROM "usager_history" "uh"
     join usager u on uh."usagerUUID" = u.uuid
@@ -106,6 +106,7 @@ async function getStats({
           // Q_14: réorientation suite au refus d'élection de domicile
           ccas: parseInt(r.u_decision_refus_orientation_ccas, 10),
           asso: parseInt(r.u_decision_refus_orientation_asso, 10),
+          cias: parseInt(r.u_decision_refus_orientation_cias, 10),
           other: parseInt(r.u_decision_refus_orientation_other, 10),
         },
       },
@@ -148,6 +149,7 @@ async function getStats({
         // Q_14: réorientation suite au refus d'élection de domicile
         ccas: 0,
         asso: 0,
+        cias: 0,
         other: 0,
       },
     },

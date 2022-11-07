@@ -175,7 +175,9 @@
 
                 <span>
                   Une procuration au nom de
-                  <u>{{ procuration.nom }} {{ procuration.prenom }}</u>
+                  <strong
+                    >{{ procuration.nom }} {{ procuration.prenom }}</strong
+                  >
                   est active et valable jusqu'au
                   {{ procuration.dateFin | date: "dd/MM/yyyy" }}
                 </span>
@@ -188,7 +190,9 @@
                 <span title="Calendrier" class="svg-icon icon-calendar"></span>
                 <span>
                   La procuration au nom de
-                  <u>{{ procuration.nom }} {{ procuration.prenom }}</u>
+                  <strong
+                    >{{ procuration.nom }} {{ procuration.prenom }}</strong
+                  >
                   a expiré le
                   {{ procuration.dateFin | date: "dd/MM/yyyy" }}
                 </span>

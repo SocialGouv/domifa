@@ -33,6 +33,7 @@ export type StructureStatsQuestionsInPeriodDecisions = {
       // Q_14: réorientation suite au refus d'élection de domicile
       ccas: number;
       asso: number;
+      cias: number;
       other: number;
     };
   };
