@@ -46,16 +46,10 @@ async function countUsagersByMonth(regionId?: FranceRegion) {
 
   const where = [startDate];
 
-  let query = `select date_trunc('month', "createdAt") as date,
-                COUNT(uuid) AS count,
-                sum(jsonb_array_length("ayantsDroits")) as ayantsDroits
-                FROM usager u WHERE "createdAt" > $1 `;
+  let query = `select date_trunc('month', "createdAt") as date, COUNT(uuid) AS count, sum(jsonb_array_length("ayantsDroits")) as ayantsDroits FROM usager u WHERE "createdAt" > $1 `;
 
   if (regionId) {
-    query =
-      query +
-      ` and "structureId" in (select id from "structure" s where "region"=$2)`;
-
+    query += ` and "structureId" in (select id from "structure" s where "region"=$2)`;
     where.push(regionId);
   }
 

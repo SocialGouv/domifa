@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, MaxLength, MinLength } from "class-validator";
+import { IsNotEmpty, IsString, MaxLength, MinLength } from "class-validator";
 
 export class CodePostalDto {
   @ApiProperty({
@@ -7,6 +7,7 @@ export class CodePostalDto {
     required: true,
   })
   @IsNotEmpty()
+  @IsString()
   @MinLength(4)
   @MaxLength(6)
   public codePostal!: string;

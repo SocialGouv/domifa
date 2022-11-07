@@ -5,6 +5,7 @@ import {
   Param,
   Res,
   HttpStatus,
+  ParseUUIDPipe,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
@@ -30,7 +31,7 @@ export class AdminStructuresDocsController {
   @Get("structure/:structureId/:uuid")
   @AllowUserProfiles("super-admin-domifa")
   public async getStructureDoc(
-    @Param("uuid") uuid: string,
+    @Param("uuid", new ParseUUIDPipe()) uuid: string,
     @Param("structureId") structureId: number,
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: ExpressResponse
