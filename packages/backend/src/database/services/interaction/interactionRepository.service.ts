@@ -41,6 +41,7 @@ export const interactionRepository = appTypeormManager
     countPendingInteractionsIn,
     countVisiteOut,
     updateInteractionAfterDistribution,
+    totalInteractionAllUsagersStructure,
   });
 
 async function updateInteractionAfterDistribution(
@@ -50,7 +51,8 @@ async function updateInteractionAfterDistribution(
 ): Promise<void> {
   // Liste des interactions entrantes à mettre à jour
   return interactionRepository.query(
-    `UPDATE interactions SET "interactionOutUUID" = '${interaction.uuid}' where "usagerUUID" = '${usager.uuid}' AND type = '${oppositeType}' AND "interactionOutUUID" is null AND event = 'create'`
+    `UPDATE interactions SET "interactionOutUUID" = $1 where "usagerUUID" = $2 AND type = $3 AND "interactionOutUUID" is null AND event = 'create'`,
+    [interaction.uuid, usager.uuid, oppositeType]
   );
 }
 
@@ -284,9 +286,9 @@ async function countVisiteOut({
   WITH visite_out_counts_by_minute(minute, minute_col_count) AS (
     SELECT  date_trunc('minute', "dateInteraction"), 1
       FROM interactions as i
-      WHERE "structureId" = ${structureId}
+      WHERE "structureId" = $1
       AND "event"='create'
-      AND "dateInteraction" BETWEEN '${dateInteractionAfter.toDateString()}' AND '${dateInteractionBefore.toDateString()}'
+      AND "dateInteraction" BETWEEN $2 AND $3
       AND  i.type in ('courrierOut', 'colisOut', 'recommandeOut')
     GROUP BY date_trunc('minute', "dateInteraction"))
     SELECT SUM(minute_col_count) as "visiteOut"
@@ -295,10 +297,67 @@ async function countVisiteOut({
 
   const res = await appTypeormManager
     .getRepository(InteractionsTable)
-    .query(query);
+    .query(query, [
+      structureId,
+      dateInteractionAfter.toDateString(),
+      dateInteractionBefore.toDateString(),
+    ]);
 
   if (res.length > 0) {
     return res[0].visiteOut ? parseInt(res[0].visiteOut, 10) : 0;
   }
   return 0;
+}
+
+async function totalInteractionAllUsagersStructure({
+  structureId,
+}: {
+  structureId: number;
+}): Promise<
+  {
+    usagerRef: number;
+    appel: number;
+    visite: number;
+    courrierIn: number;
+    courrierOut: number;
+    recommandeIn: number;
+    recommandeOut: number;
+    colisIn: number;
+    colisOut: number;
+    npai: number;
+    loginPortail: number;
+  }[]
+> {
+  // NOTE: cette requête ne renvoit pas de résultats pour les usagers de cette structure qui n'ont pas d'interaction
+  const query = `SELECT
+      i."usagerRef",
+      coalesce (COUNT(CASE WHEN i.type = 'appel' THEN 1 END), 0) AS "appel",
+      coalesce (COUNT(CASE WHEN i.type = 'visite' THEN 1 END), 0) AS "visite",
+      coalesce (COUNT(CASE WHEN i.type = 'npai' THEN 1 END), 0) AS "npai",
+      coalesce (COUNT(CASE WHEN i.type = 'loginPortail' THEN 1 END), 0) AS "loginPortail",
+      coalesce (SUM(CASE WHEN i.type = 'courrierIn' THEN "nbCourrier" END), 0) AS "courrierIn",
+      coalesce (SUM(CASE WHEN i.type = 'courrierOut' THEN "nbCourrier" END), 0) AS "courrierOut",
+      coalesce (SUM(CASE WHEN i.type = 'recommandeIn' THEN "nbCourrier" END), 0) AS "recommandeIn",
+      coalesce (SUM(CASE WHEN i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOut",
+      coalesce (SUM(CASE WHEN i.type = 'colisIn' THEN "nbCourrier" END), 0) AS "colisIn",
+      coalesce (SUM(CASE WHEN i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOut"
+    FROM interactions i
+    WHERE i."structureId" = $1 and i.event = 'create'
+    GROUP BY i."usagerRef"`;
+
+  const results = await interactionRepository.query(query, [structureId]);
+
+  return results.map((x: any) => ({
+    usagerRef: x.usagerRef,
+    courrierIn: parseInt(x.courrierIn, 10),
+    courrierOut: parseInt(x.courrierOut, 10),
+    recommandeIn: parseInt(x.recommandeIn, 10),
+    recommandeOut: parseInt(x.recommandeOut, 10),
+    colisIn: parseInt(x.colisIn, 10),
+    colisOut: parseInt(x.colisOut, 10),
+    appel: parseInt(x.appel, 10),
+    visite: parseInt(x.visite, 10),
+    loginPortail: parseInt(x.loginPortail, 10),
+    npai: parseInt(x.npai, 10),
+  }));
 }

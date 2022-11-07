@@ -78,14 +78,14 @@ async function checkCreationToken({
   structureId: number;
   token: string;
 }): Promise<StructureCommon> {
-  const retour = structureRepository.findOneBy({ id: structureId, token });
-  if (retour) {
+  const structure = structureRepository.findOneBy({ id: structureId, token });
+  if (structure) {
     await structureRepository.update(
       { id: structureId, token },
       { token: "", verified: true }
     );
   }
-  return retour;
+  return structure;
 }
 
 async function createStructure(structureDto: StructureDto) {

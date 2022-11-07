@@ -15,6 +15,7 @@ import {
 } from "../database";
 import { userResetPasswordEmailSender } from "../mails/services/templates-renderers";
 import { ExpressResponse } from "../util/express";
+import { TokenDto } from "../_common/dto";
 import { EmailDto } from "./dto/email.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 
@@ -41,12 +42,12 @@ export class UsersPublicController {
   @Get("check-password-token/:userId/:token")
   public async checkPasswordToken(
     @Param("userId") userId: string,
-    @Param("token") token: string,
+    @Param("token") tokenDto: TokenDto,
     @Res() res: ExpressResponse
   ) {
     try {
       await userStructureSecurityResetPasswordUpdater.checkResetPasswordToken({
-        token,
+        token: tokenDto.token,
         userId: parseInt(userId, 10),
       });
       return res.status(HttpStatus.OK).json({ message: "OK" });

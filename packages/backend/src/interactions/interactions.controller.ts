@@ -4,7 +4,10 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   ParseArrayPipe,
+  ParseIntPipe,
+  ParseUUIDPipe,
   Post,
   Query,
   UseGuards,
@@ -94,6 +97,8 @@ export class InteractionsController {
   public async deleteInteraction(
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight,
+    @Param("interactionUuid", new ParseUUIDPipe()) _interactionUuid: string,
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentInteraction() interaction: Interactions
   ) {
     return this.interactionDeletor.deleteOrRestoreInteraction({

@@ -6,6 +6,7 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  ParseUUIDPipe,
   Post,
   Res,
   UploadedFile,
@@ -41,7 +42,7 @@ export class StructureDocController {
   @Get(":uuid")
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getStructureDoc(
-    @Param("uuid") uuid: string,
+    @Param("uuid", new ParseUUIDPipe()) uuid: string,
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
@@ -157,7 +158,7 @@ export class StructureDocController {
   @Delete(":uuid")
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async deleteDocument(
-    @Param("uuid") uuid: string,
+    @Param("uuid", new ParseUUIDPipe()) uuid: string,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
     const doc = await this.structureDocService.findOne(user.structureId, uuid);

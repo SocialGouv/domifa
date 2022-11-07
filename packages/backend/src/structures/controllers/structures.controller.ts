@@ -28,6 +28,7 @@ import { structureDeletorService } from "../services/structureDeletor.service";
 import { StructureHardResetService } from "../services/structureHardReset.service";
 import { StructuresService } from "../services/structures.service";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
+import { TokenDto } from "../../_common/dto/TokenDto";
 
 @Controller("structures")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -176,12 +177,12 @@ export class StructuresController {
   @Get("hard-reset-confirm/:token")
   public async hardResetConfirm(
     @Res() res: ExpressResponse,
-    @Param("token") token: string,
-    @CurrentUser() user: UserStructureAuthenticated
+    @CurrentUser() user: UserStructureAuthenticated,
+    @Param() tokenDto: TokenDto
   ) {
     const structure = await structureRepository.checkHardResetToken({
       userId: user.id,
-      token,
+      token: tokenDto.token,
     });
 
     if (!structure) {

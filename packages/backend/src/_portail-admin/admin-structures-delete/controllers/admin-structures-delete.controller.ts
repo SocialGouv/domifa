@@ -4,6 +4,7 @@ import {
   Delete,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Put,
   Res,
   UseGuards,
@@ -16,6 +17,7 @@ import { structureLightRepository } from "../../../database";
 import { deleteStructureEmailSender } from "../../../mails/services/templates-renderers";
 import { structureDeletorService } from "../../../structures/services/structureDeletor.service";
 import { ExpressResponse } from "../../../util/express";
+import { TokenDto } from "../../../_common/dto";
 import { STRUCTURE_LIGHT_ATTRIBUTES } from "../../../_common/model";
 import { ConfirmStructureDeleteDto } from "../../_dto";
 
@@ -57,15 +59,15 @@ export class AdminStructuresDeleteController {
   @ApiBearerAuth()
   @Put("check-token/:id/:token")
   public async deleteStructureCheck(
-    @Param("id") id: string,
     @Res() res: ExpressResponse,
-    @Param("token") token: string
+    @Param("id", ParseIntPipe) id: number,
+    @Param("token") tokenDto: TokenDto
   ) {
     try {
       const structure = await structureLightRepository.findOneOrFail({
         where: {
-          token,
-          id: parseInt(id, 10),
+          token: tokenDto.token,
+          id,
         },
         select: STRUCTURE_LIGHT_ATTRIBUTES,
       });

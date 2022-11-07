@@ -63,11 +63,11 @@ async function countUsersByRegionId({
 }: {
   regionId: string;
 }): Promise<number> {
-  const query = `SELECT count(*) AS "count" FROM "public"."user_structure" LEFT JOIN "structure" ON "user_structure"."structureId" = "structure"."id" WHERE "structure"."region" = '${regionId}'`;
+  const query = `SELECT count(*) AS "count" FROM "public"."user_structure" LEFT JOIN "structure" ON "user_structure"."structureId" = "structure"."id" WHERE "structure"."region" = $1`;
 
   const results = await myDataSource
     .getRepository(UserStructureTable)
-    .query(query);
+    .query(query, [regionId]);
 
   return typeof results[0] === "undefined"
     ? 0
