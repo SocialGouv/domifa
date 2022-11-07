@@ -24,15 +24,11 @@ async function updateMailFlag({
 }) {
   const query = `
       UPDATE user_structure
-      SET mails = mails || jsonb_build_object($1,$2)
-      WHERE id=$3;
+      SET mails = mails || jsonb_build_object('${mailType}', ${value})
+      WHERE id=${userId};
     ;`;
 
-  const updateCount: number = await appTypeormManager
-    .getRepository(UserStructureTable)
-    .query(query, [mailType, value, userId]);
-
-  return updateCount;
+  return await appTypeormManager.getRepository(UserStructureTable).query(query);
 }
 
 async function findUsersToSendCronMail({
