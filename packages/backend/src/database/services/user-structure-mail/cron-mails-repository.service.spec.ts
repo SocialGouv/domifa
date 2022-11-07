@@ -22,6 +22,7 @@ describe("cronMailsRepository", () => {
         mailType: "guide",
         structuresIds: [1, 2],
       });
+
       expect(users.length).toBeGreaterThan(1);
       INITIAL_MATCHING_USERS_COUNT = users.length;
 

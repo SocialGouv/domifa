@@ -204,7 +204,6 @@ describe("Usagers Controller", () => {
 
       expect(response.status).toBe(200);
       expect(response.body).toBeDefined();
-
       const updatedUsager: UsagerLight = response.body;
       expect(updatedUsager.nom).toEqual("Rami");
       expect(updatedUsager.etapeDemande).toEqual(1);
