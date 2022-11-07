@@ -1,3 +1,15 @@
+# [2.109.0](https://github.com/SocialGouv/domifa/compare/v2.108.0...v2.109.0) (2022-11-07)
+
+
+### Bug Fixes
+
+* **securité:** ajout d'une vérification sur les token ([eedc83e](https://github.com/SocialGouv/domifa/commit/eedc83eff3b23ec7338af2193b8b85a3ab339cc5))
+
+
+### Features
+
+* **sentry:** remise à zéro de Sentry ([5b9c6c1](https://github.com/SocialGouv/domifa/commit/5b9c6c1cf4bd4b9bee622c669bd5d5f54e22aefa))
+
 # [2.108.0](https://github.com/SocialGouv/domifa/compare/v2.107.5...v2.108.0) (2022-10-27)
 
 
