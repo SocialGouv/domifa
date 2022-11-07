@@ -8,6 +8,7 @@ import {
   Put,
   Res,
   UseGuards,
+  ParseIntPipe,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
@@ -155,7 +156,7 @@ export class AdminStructuresController {
   @AllowUserProfiles("super-admin-domifa")
   @Put("portail-usager/toggle-enable-domifa/:structureId")
   public async toggleEnablePortailUsagerByDomifa(
-    @Param("structureId") structureId: number
+    @Param("structureId", new ParseIntPipe()) structureId: number
   ) {
     const structure = await this.structureService.findOneFull(structureId);
 
@@ -210,7 +211,7 @@ export class AdminStructuresController {
   @AllowUserProfiles("super-admin-domifa")
   @Put("sms/enable/:structureId")
   public async smsEnableByDomifa(
-    @Param("structureId") structureId: number,
+    @Param("structureId", new ParseIntPipe()) structureId: number,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
     const structure = await this.structureService.findOneFull(structureId);

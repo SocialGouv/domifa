@@ -4,6 +4,7 @@ import {
   Get,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Res,
 } from "@nestjs/common";
@@ -41,14 +42,14 @@ export class UsersPublicController {
 
   @Get("check-password-token/:userId/:token")
   public async checkPasswordToken(
-    @Param("userId") userId: string,
+    @Param("userId", new ParseIntPipe()) userId: number,
     @Param("token") tokenDto: TokenDto,
     @Res() res: ExpressResponse
   ) {
     try {
       await userStructureSecurityResetPasswordUpdater.checkResetPasswordToken({
         token: tokenDto.token,
-        userId: parseInt(userId, 10),
+        userId: userId,
       });
       return res.status(HttpStatus.OK).json({ message: "OK" });
     } catch (err) {

@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Param,
   ParseArrayPipe,
+  ParseIntPipe,
   Post,
   Res,
   UseGuards,
@@ -52,7 +53,9 @@ export class UsagerOptionsController {
   @Delete("transfert/:usagerRef")
   public async deleteTransfert(
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight
+    @CurrentUsager() usager: UsagerLight,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ) {
     await this.usagerOptionsHistoryService.createOptionHistory(
       usager,
@@ -120,7 +123,9 @@ export class UsagerOptionsController {
     @Body(new ParseArrayPipe({ items: ProcurationDto }))
     procurationsDto: ProcurationDto[],
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight
+    @CurrentUsager() usager: UsagerLight,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ) {
     // Initialisation si vide
     if (typeof usager.options.procurations === "undefined") {
@@ -182,7 +187,8 @@ export class UsagerOptionsController {
   @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
   @Delete("procuration/:usagerRef/:index")
   public async deleteProcuration(
-    @Param("index") index: number,
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
+    @Param("index", new ParseIntPipe()) index: number,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight,
     @Res() res: ExpressResponse
