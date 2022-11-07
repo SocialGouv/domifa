@@ -13,6 +13,7 @@ import { Transform, TransformFnParams } from "class-transformer";
 
 import sanitizeHtml = require("sanitize-html");
 import { MessageEmailAttachment } from "../../database/entities/message-email/MessageEmailAttachment.type";
+import { LowerCaseTransform } from "../../_common/decorators";
 
 export class ContactSupportDto {
   @ApiProperty({
@@ -21,6 +22,7 @@ export class ContactSupportDto {
   })
   @IsNotEmpty()
   @IsEmail()
+  @LowerCaseTransform()
   public email!: string;
 
   @ApiProperty({

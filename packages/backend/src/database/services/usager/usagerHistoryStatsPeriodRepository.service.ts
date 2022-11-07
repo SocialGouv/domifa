@@ -88,7 +88,7 @@ function buildQuery({
 
   const statesSubQueries: string[] = [];
 
-  const statesSubQueriesBase = `SELECT 1 FROM LATERAL (SELECT jsonb_array_elements(uh.states) state) states_lateral WHERE`;
+  const statesSubQueriesBase = `SELECT 1 FROM LATERAL (SELECT jsonb_array_elements(uh.states) state) states_lateral WHERE `;
 
   if (createdEvent) {
     statesSubQueries.push(

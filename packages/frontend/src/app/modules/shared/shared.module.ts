@@ -1,3 +1,4 @@
+import { ReplaceLineBreaks } from "./pipes/nl2br.pipe";
 import { AutoFocusDirective } from "./directives/autofocus.directive";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
@@ -25,8 +26,10 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
     CustomToastrComponent,
     AutoFocusDirective,
     FormatInternationalPhoneNumberPipe,
+    ReplaceLineBreaks,
   ],
   exports: [
+    ReplaceLineBreaks,
     DigitOnlyDirective,
     DateFrDirective,
     CleanStrDirective,

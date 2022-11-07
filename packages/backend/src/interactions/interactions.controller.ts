@@ -4,7 +4,10 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   ParseArrayPipe,
+  ParseIntPipe,
+  ParseUUIDPipe,
   Post,
   Query,
   UseGuards,
@@ -71,14 +74,14 @@ export class InteractionsController {
   @AllowUserProfiles("structure")
   public async getInteractions(
     @Query("filter") filterString: string,
-    @Query("maxResults") maxResultsString: string,
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
+    @Param("maxResults", new ParseIntPipe()) maxResults: number,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
     // check query parameters
     const filter = filterString === "distribution" ? "distribution" : undefined;
-    const maxResultsInteger = parseInt(maxResultsString, 10);
-    const maxResults = maxResultsInteger > 0 ? maxResultsInteger : 20;
+    maxResults = maxResults > 0 ? maxResults : 20;
 
     return interactionRepository.findWithFilters({
       usagerRef: usager.ref,
@@ -94,6 +97,8 @@ export class InteractionsController {
   public async deleteInteraction(
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight,
+    @Param("interactionUuid", new ParseUUIDPipe()) _interactionUuid: string,
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentInteraction() interaction: Interactions
   ) {
     return this.interactionDeletor.deleteOrRestoreInteraction({

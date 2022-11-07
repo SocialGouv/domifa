@@ -8,6 +8,7 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  ParseUUIDPipe,
   Post,
   Res,
   UploadedFile,
@@ -129,7 +130,7 @@ export class UsagerDocsController {
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async deleteDocument(
     @Param("usagerRef") usagerRef: number,
-    @Param("docUuid") docUuid: string,
+    @Param("docUuid", new ParseUUIDPipe()) docUuid: string,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: UsagerLight,
     @Res() res: Response
@@ -191,7 +192,7 @@ export class UsagerDocsController {
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getDocument(
     @Param("usagerRef") usagerRef: number,
-    @Param("docUuid") docUuid: string,
+    @Param("docUuid", new ParseUUIDPipe()) docUuid: string,
     @Res() res: Response,
     @CurrentUsager() currentUsager: UsagerLight
   ) {

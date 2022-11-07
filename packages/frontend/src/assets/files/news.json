@@ -1,5 +1,30 @@
 [
   {
+    "date": "2022-10-27",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Augmentation du nombre maximal de procuration par domicilié",
+        "message": ["Vous pouvez ajouter jusqu'à 5 procurations par domicilié"]
+      },
+      {
+        "type": "new",
+        "categorie": "Documents personnalisés",
+        "message": [
+          "Des nouvelles clés sont disponibles pour créer vos documents personnalisés. Elles vous permettront d'afficher en liste les ayants droit du domicilié, son numéro de distribution spéciale (BP, TSA, etc), son rattachement à un ville ou un arrondissement et votre email de structure."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Maintenance",
+        "message": [
+          "Amélioration de la pop-in \"maintenance\" pour qu'elle s'affiche moins souvent"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2022-10-11",
     "description": "",
     "content": [

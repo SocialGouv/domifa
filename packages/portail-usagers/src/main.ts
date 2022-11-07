@@ -10,7 +10,7 @@ import { init } from "@sentry/angular";
 if (environment.production) {
   init({
     release: "domifa@" + pkg.version,
-    dsn: "https://904877ea9ec4454aa1be7b629a6ea340@sentry.fabrique.social.gouv.fr/58",
+    dsn: environment.sentryDsnPortail,
     environment: environment.env,
     tracesSampleRate: 1.0,
   });

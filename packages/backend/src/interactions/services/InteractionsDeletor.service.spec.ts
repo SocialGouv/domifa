@@ -1,8 +1,4 @@
-import {
-  InteractionsDeletor,
-  InteractionsService,
-  interactionsCreator,
-} from ".";
+import { InteractionsDeletor, interactionsCreator } from ".";
 import {
   structureRepository,
   usagerRepository,
@@ -20,7 +16,6 @@ describe("InteractionsDeletor", () => {
   let context: AppTestContext;
 
   let interactionsDeletor: InteractionsDeletor;
-  let interactionsService: InteractionsService;
 
   let user: UserStructure;
   let usager: Usager;
@@ -34,13 +29,10 @@ describe("InteractionsDeletor", () => {
         UsersModule,
         StructuresModule,
       ],
-      providers: [InteractionsService],
     });
     interactionsDeletor =
       context.module.get<InteractionsDeletor>(InteractionsDeletor);
 
-    interactionsService =
-      context.module.get<InteractionsService>(InteractionsService);
     user = await userStructureRepository.findOne({ id: 1 });
     usager = await usagerRepository.findOneBy({
       ref: 2,
@@ -57,7 +49,6 @@ describe("InteractionsDeletor", () => {
 
   it("should be defined", () => {
     expect(interactionsDeletor).toBeDefined();
-    expect(interactionsService).toBeDefined();
   });
 
   it("Réception, suppression et restauration de 5 colis", async () => {

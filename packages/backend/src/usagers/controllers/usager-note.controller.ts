@@ -3,6 +3,7 @@ import {
   Controller,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Res,
@@ -69,6 +70,7 @@ export class UsagerNoteController {
     @Param("noteId") noteId: string,
     @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: UsagerLight,
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @Res() res: ExpressResponse
   ) {
     const archivedBy: UserStructureResume = {

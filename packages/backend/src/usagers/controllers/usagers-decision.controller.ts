@@ -4,6 +4,8 @@ import {
   Delete,
   Get,
   HttpStatus,
+  Param,
+  ParseIntPipe,
   Post,
   Res,
   UseGuards,
@@ -40,7 +42,9 @@ export class UsagersDecisionController {
   public async setDecision(
     @Body() decision: DecisionDto,
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight
+    @CurrentUsager() usager: UsagerLight,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ) {
     decision.userName = user.prenom + " " + user.nom;
     decision.userId = user.id;
@@ -52,7 +56,9 @@ export class UsagersDecisionController {
   @Get("last-usagers-refs/:usagerRef")
   public async getLastUsagerIds(
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight
+    @CurrentUsager() usager: UsagerLight,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ) {
     return this.usagersService.getLastFiveCustomRef(
       user.structureId,
@@ -65,7 +71,9 @@ export class UsagersDecisionController {
   @Get("renouvellement/:usagerRef")
   public async renouvellement(
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight
+    @CurrentUsager() usager: UsagerLight,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ) {
     return this.usagersService.renouvellement(usager, user);
   }
@@ -76,7 +84,9 @@ export class UsagersDecisionController {
   public async deleteRenew(
     @Res() res: Response,
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight
+    @CurrentUsager() usager: UsagerLight,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ) {
     if (
       typeof usager.historique.find(

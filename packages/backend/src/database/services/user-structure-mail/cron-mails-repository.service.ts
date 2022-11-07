@@ -28,11 +28,7 @@ async function updateMailFlag({
       WHERE id=${userId};
     ;`;
 
-  const updateCount: number = await appTypeormManager
-    .getRepository(UserStructureTable)
-    .query(query);
-
-  return updateCount;
+  return await appTypeormManager.getRepository(UserStructureTable).query(query);
 }
 
 async function findUsersToSendCronMail({

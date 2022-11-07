@@ -188,16 +188,15 @@
                     [icon]="['fas', 'share']"
                     class="text-primary me-1"
                   ></fa-icon>
-                  Procuration active : {{ procuration.nom }} {{
-                  procuration.prenom }}
+                  Active: {{ procuration.nom }} {{ procuration.prenom }}
                 </span>
                 <span *ngIf="procuration.dateFin <= today">
                   <fa-icon
                     [icon]="['fas', 'times']"
                     class="text-danger me-1"
                   ></fa-icon>
-                  Procuration expirée : {{procuration.dateFin | date:
-                  "dd/MM/yyyy" }}
+                  Expirée le {{procuration.dateFin | date: "dd/MM/yyyy" }}: {{
+                  procuration.nom }} {{ procuration.prenom }}
                 </span>
               </div>
             </ng-template>

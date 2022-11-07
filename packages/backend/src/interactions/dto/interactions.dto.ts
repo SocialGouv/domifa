@@ -47,7 +47,7 @@ export class InteractionDto {
   @IsOptional()
   @IsNumber()
   @Min(0)
-  @Max(1)
+  @Max(4)
   public procurationIndex?: number;
 
   @ApiProperty({

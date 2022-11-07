@@ -94,60 +94,48 @@
   <div class="text-start my-3" *ngIf="usager.options.procurations.length > 0">
     <fieldset>
       <legend>A qui est distribué le courrier ?</legend>
-      <div class="d-flex align-items-top">
-        <div class="col-md-4 px-1 me-2 my-2">
+      <div class="row align-items-top">
+        <div class="col-md-6 my-2">
           <div class="interaction-icon-box">
             <div class="fw-bold">Domicilié</div>
-            <div class="mb-3">
-              {{ usager.nom | uppercase }} {{ usager.prenom }}
+            <div class="mb-1">
+              <label for="distribution-domicilie"
+                >{{ usager.nom | uppercase }} {{ usager.prenom }}</label
+              >
             </div>
           </div>
-          <div class="interaction-actions">
-            <button
-              class="btn"
-              aria-label="Distribué au domicilié directement"
-              (click)="procurationIndex = null"
-              [ngClass]="
-                procurationIndex === null
-                  ? 'btn-primary'
-                  : 'btn-outline-primary'
-              "
-            >
-              <fa-icon
-                [icon]="procurationIndex === null ? 'check' : 'circle'"
-              ></fa-icon>
-            </button>
+          <div class="interaction-actions checkbox">
+            <input
+              name="procuration"
+              id="distribution-domicilie"
+              type="radio"
+              checked
+              [attr.aria-checked]="procurationIndex === null"
+              (click)="toggleProcurationIndex(null)"
+            />
           </div>
         </div>
         <ng-container
           *ngFor="let procuration of usager.options.procurations; let i = index"
         >
-          <div class="col-md-4 px-1 me-1 my-2">
+          <div class="col-md-6 my-2">
             <div class="interaction-icon-box">
               <div class="fw-bold">Mandataire</div>
-              <div class="mb-3">
-                {{ procuration.nom | uppercase }}
-                {{ procuration.prenom }}
+              <div class="mb-1">
+                <label for="distribution-mandataire-{{ i }}">
+                  {{ procuration.nom | uppercase }}
+                  {{ procuration.prenom }}
+                </label>
               </div>
             </div>
-            <div class="interaction-actions">
-              <button
-                class="btn"
-                [attr.aria-label]="
-                  'Distribué au mandataire' +
-                  procuration.nom +
-                  ' ' +
-                  procuration.prenom
-                "
-                (click)="procurationIndex = i"
-                [ngClass]="
-                  procurationIndex === i ? 'btn-primary' : 'btn-outline-primary'
-                "
-              >
-                <fa-icon
-                  [icon]="procurationIndex === i ? 'check' : 'circle'"
-                ></fa-icon>
-              </button>
+            <div class="interaction-actions checkbox">
+              <input
+                name="procuration"
+                id="distribution-mandataire-{{ i }}"
+                type="radio"
+                [attr.aria-checked]="procurationIndex === i"
+                (click)="toggleProcurationIndex(i)"
+              />
             </div>
           </div>
         </ng-container>
