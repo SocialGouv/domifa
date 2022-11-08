@@ -2,6 +2,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   TemplateRef,
@@ -21,6 +22,7 @@ import {
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
+import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   UsagerLight,
@@ -50,7 +52,9 @@ import { UsagerOptionsService } from "./../../services/usager-options.service";
   styleUrls: ["./profil-transfert-courrier.css"],
   templateUrl: "./profil-transfert-courrier.html",
 })
-export class UsagersProfilTransfertCourrierComponent implements OnInit {
+export class UsagersProfilTransfertCourrierComponent
+  implements OnInit, OnDestroy
+{
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
 
@@ -72,6 +76,8 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
   @ViewChild("confirmDelete", { static: true })
   public confirmDelete!: TemplateRef<NgbModalRef>;
 
+  private subscription = new Subscription();
+
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly nbgDate: NgbDateCustomParserFormatter,
@@ -88,6 +94,10 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
 
   public ngOnInit(): void {
     this.initForm();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   get f(): { [key: string]: AbstractControl } {
@@ -161,22 +171,25 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
     };
 
     this.loading = true;
-    this.usagerOptionsService
-      .editTransfert(formValue, this.usager.ref)
-      .subscribe({
-        next: (usager: UsagerLight) => {
-          this.hideForm();
-          this.matomo.trackEvent("profil", "actions", "edit_transfert", 1);
-          this.usager = new UsagerFormModel(usager);
-          this.usagerChange.emit(this.usager);
 
-          this.toastService.success("Transfert modifié avec succès");
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error("Impossible d'ajouter le transfert'");
-        },
-      });
+    this.subscription.add(
+      this.usagerOptionsService
+        .editTransfert(formValue, this.usager.ref)
+        .subscribe({
+          next: (usager: UsagerLight) => {
+            this.hideForm();
+            this.matomo.trackEvent("profil", "actions", "edit_transfert", 1);
+            this.usager = new UsagerFormModel(usager);
+            this.usagerChange.emit(this.usager);
+
+            this.toastService.success("Transfert modifié avec succès");
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error("Impossible d'ajouter le transfert'");
+          },
+        })
+    );
   }
 
   public openConfirmation(): void {
@@ -195,23 +208,25 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
 
     this.loading = true;
 
-    this.usagerOptionsService.deleteTransfert(this.usager.ref).subscribe({
-      next: (usager: UsagerLight) => {
-        this.toastService.success("Transfert supprimé avec succès");
+    this.subscription.add(
+      this.usagerOptionsService.deleteTransfert(this.usager.ref).subscribe({
+        next: (usager: UsagerLight) => {
+          this.toastService.success("Transfert supprimé avec succès");
 
-        setTimeout(() => {
-          this.closeModals();
-          this.hideForm();
-          this.transfertForm.reset();
-          this.submitted = false;
-          this.usager = new UsagerFormModel(usager);
-          this.usagerChange.emit(this.usager);
-          this.matomo.trackEvent("profil", "actions", "delete_transfert", 1);
-        }, 500);
-      },
-      error: () => {
-        this.toastService.error("Impossible de supprimer le transfert");
-      },
-    });
+          setTimeout(() => {
+            this.closeModals();
+            this.hideForm();
+            this.transfertForm.reset();
+            this.submitted = false;
+            this.usager = new UsagerFormModel(usager);
+            this.usagerChange.emit(this.usager);
+            this.matomo.trackEvent("profil", "actions", "delete_transfert", 1);
+          }, 500);
+        },
+        error: () => {
+          this.toastService.error("Impossible de supprimer le transfert");
+        },
+      })
+    );
   }
 }

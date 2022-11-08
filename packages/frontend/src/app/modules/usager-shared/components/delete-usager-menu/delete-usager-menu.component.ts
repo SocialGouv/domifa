@@ -4,6 +4,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   TemplateRef,
@@ -20,17 +21,19 @@ import { CustomToastService } from "../../../shared/services/custom-toast.servic
 import { UsagerProfilService } from "../../../usager-profil/services/usager-profil.service";
 import { UsagerDecisionService } from "../../services/usager-decision.service";
 import { Decision } from "../../interfaces";
+import { Subscription } from "rxjs";
 
 @Component({
   styleUrls: ["./delete-usager-menu.component.css"],
   selector: "app-delete-usager-menu",
   templateUrl: "./delete-usager-menu.component.html",
 })
-export class DeleteUsagerMenuComponent implements OnInit {
+export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
   @Output() usagerChange = new EventEmitter<UsagerFormModel>();
 
+  private subscription = new Subscription();
   public hasHistorique: boolean;
   public previousStatus: string;
   public loading: boolean;
@@ -85,44 +88,52 @@ export class DeleteUsagerMenuComponent implements OnInit {
 
   public deleteUsager(): void {
     this.loading = true;
-    this.usagerProfilService.delete(this.usager.ref).subscribe({
-      next: () => {
-        this.toastService.success("Usager supprimé avec succès");
-        setTimeout(() => {
-          this.modalService.dismissAll();
+    this.subscription.add(
+      this.usagerProfilService.delete(this.usager.ref).subscribe({
+        next: () => {
+          this.toastService.success("Usager supprimé avec succès");
+          setTimeout(() => {
+            this.modalService.dismissAll();
+            this.loading = false;
+            this.router.navigate(["/manage"]);
+          }, 1000);
+        },
+        error: () => {
           this.loading = false;
-          this.router.navigate(["/manage"]);
-        }, 1000);
-      },
-      error: () => {
-        this.loading = false;
-        this.toastService.error("Impossible de supprimer la fiche");
-      },
-    });
+          this.toastService.error("Impossible de supprimer la fiche");
+        },
+      })
+    );
   }
 
   public deleteRenew(): void {
     this.loading = true;
-    this.usagerDecisionService.deleteRenew(this.usager.ref).subscribe({
-      next: (usager: UsagerLight) => {
-        this.toastService.success(
-          "Demande de renouvellement supprimée avec succès"
-        );
+    this.subscription.add(
+      this.usagerDecisionService.deleteRenew(this.usager.ref).subscribe({
+        next: (usager: UsagerLight) => {
+          this.toastService.success(
+            "Demande de renouvellement supprimée avec succès"
+          );
 
-        setTimeout(() => {
-          this.modalService.dismissAll();
-          this.usager = new UsagerFormModel(usager);
-          this.usagerChange.emit(this.usager);
+          setTimeout(() => {
+            this.modalService.dismissAll();
+            this.usager = new UsagerFormModel(usager);
+            this.usagerChange.emit(this.usager);
+            this.loading = false;
+            this.router.navigate(["profil/general/" + this.usager.ref]);
+          }, 500);
+        },
+        error: () => {
           this.loading = false;
-          this.router.navigate(["profil/general/" + this.usager.ref]);
-        }, 500);
-      },
-      error: () => {
-        this.loading = false;
-        this.toastService.error(
-          "La demande de renouvellement n'a pas pu être supprimée"
-        );
-      },
-    });
+          this.toastService.error(
+            "La demande de renouvellement n'a pas pu être supprimée"
+          );
+        },
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

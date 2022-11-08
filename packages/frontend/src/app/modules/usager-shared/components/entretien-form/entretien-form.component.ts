@@ -3,6 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   TemplateRef,
@@ -27,13 +28,14 @@ import {
 import { Entretien } from "../../interfaces";
 
 import { EntretienService } from "../../services/entretien.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-entretien-form",
   styleUrls: ["./entretien-form.component.css"],
   templateUrl: "./entretien-form.component.html",
 })
-export class EntretienFormComponent implements OnInit {
+export class EntretienFormComponent implements OnInit, OnDestroy {
   public ENTRETIEN_LIEN_COMMUNE = ENTRETIEN_LIEN_COMMUNE;
   public ENTRETIEN_TYPE_MENAGE = ENTRETIEN_TYPE_MENAGE;
   public ENTRETIEN_CAUSE_INSTABILITE = ENTRETIEN_CAUSE_INSTABILITE;
@@ -41,6 +43,7 @@ export class EntretienFormComponent implements OnInit {
   public ENTRETIEN_RESIDENCE = ENTRETIEN_RESIDENCE;
 
   public entretienForm!: FormGroup;
+  private subscription = new Subscription();
 
   @Input() public usager!: UsagerFormModel;
   @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
@@ -109,28 +112,34 @@ export class EntretienFormComponent implements OnInit {
       }
     }
     this.loading = true;
-    this.entretienService
-      .submitEntretien(this.entretienForm.value, this.usager.ref)
-      .subscribe({
-        next: (usager: UsagerLight) => {
-          this.usagerChange.emit(new UsagerFormModel(usager));
-          this.editEntretienChange.emit(false);
-          this.nextStep.emit(3);
-          this.toastService.success("Enregistrement de l'entretien réussi");
-          this.loading = false;
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error("Impossible d'enregistrer l'entretien");
-        },
-      });
+    this.subscription.add(
+      this.entretienService
+        .submitEntretien(this.entretienForm.value, this.usager.ref)
+        .subscribe({
+          next: (usager: UsagerLight) => {
+            this.usagerChange.emit(new UsagerFormModel(usager));
+            this.editEntretienChange.emit(false);
+            this.nextStep.emit(3);
+            this.toastService.success("Enregistrement de l'entretien réussi");
+            this.loading = false;
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error("Impossible d'enregistrer l'entretien");
+          },
+        })
+    );
   }
 
-  private isEmptyForm() {
+  private isEmptyForm(): boolean {
     return (
       Object.keys(this.entretienForm.value).filter(
         (x) => this.entretienForm.value[x] !== null
       ).length === 0
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

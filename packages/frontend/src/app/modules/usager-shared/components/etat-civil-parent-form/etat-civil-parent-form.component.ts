@@ -90,7 +90,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     maxResults: 10,
   });
 
-  private subscription = new Subscription();
+  public subscription = new Subscription();
 
   public currentUserSubject$: Observable<UserStructure | null>;
 
