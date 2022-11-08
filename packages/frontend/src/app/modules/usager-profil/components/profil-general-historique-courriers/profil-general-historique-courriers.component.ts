@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Subscription } from "rxjs";
 import { UserStructure } from "../../../../../_common/model";
 
 import {
@@ -13,10 +14,13 @@ import { InteractionService } from "../../../usager-shared/services/interaction.
   templateUrl: "./profil-general-historique-courriers.component.html",
   styleUrls: ["./profil-general-historique-courriers.component.css"],
 })
-export class ProfilGeneralHistoriqueCourriersComponent implements OnInit {
+export class ProfilGeneralHistoriqueCourriersComponent
+  implements OnInit, OnDestroy
+{
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
 
+  private subscription = new Subscription();
   public interactions: Interaction[];
 
   constructor(private readonly interactionService: InteractionService) {
@@ -28,21 +32,25 @@ export class ProfilGeneralHistoriqueCourriersComponent implements OnInit {
   }
 
   public getInteractions(): void {
-    this.interactionService
-      .getInteractions({
-        usagerRef: this.usager.ref,
-        maxResults: 5,
-      })
-      .subscribe((interactions: Interaction[]) => {
-        this.interactions = interactions.reduce(
-          (filtered: Interaction[], interaction: Interaction) => {
-            if (interaction.event !== "delete") {
-              filtered.push(interaction);
-            }
-            return filtered;
-          },
-          []
-        );
-      });
+    this.subscription.add(
+      this.interactionService
+        .getInteractions({
+          usagerRef: this.usager.ref,
+        })
+        .subscribe((interactions: Interaction[]) => {
+          this.interactions = interactions.reduce(
+            (filtered: Interaction[], interaction: Interaction) => {
+              if (interaction.event !== "delete") {
+                filtered.push(interaction);
+              }
+              return filtered;
+            },
+            []
+          );
+        })
+    );
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

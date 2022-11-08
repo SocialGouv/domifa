@@ -1,10 +1,18 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import { UsagerLight } from "../../../../../_common/model";
@@ -19,7 +27,7 @@ import { UsagerNotesService } from "../../services/usager-notes.service";
   templateUrl: "./profil-add-note-form.component.html",
   styleUrls: ["./profil-add-note-form.component.css"],
 })
-export class ProfilAddNoteFormComponent implements OnInit {
+export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
 
   @Output()
@@ -31,6 +39,7 @@ export class ProfilAddNoteFormComponent implements OnInit {
   public addNoteForm!: FormGroup;
   public submitted: boolean;
   public loading: boolean;
+  private subscription = new Subscription();
 
   constructor(
     private readonly usagerNotesService: UsagerNotesService,
@@ -41,7 +50,11 @@ export class ProfilAddNoteFormComponent implements OnInit {
     this.submitted = false;
   }
 
-  public ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  ngOnInit(): void {
     this.addNoteForm = this.formBuilder.group({
       message: [
         null,
@@ -64,25 +77,27 @@ export class ProfilAddNoteFormComponent implements OnInit {
     }
 
     this.loading = true;
-    this.usagerNotesService
-      .createNote({
-        note: { message: this.addNoteForm.get("message")?.value },
-        usagerRef: this.usager.ref,
-      })
-      .subscribe({
-        next: (usager: UsagerLight) => {
-          this.toastService.success("Note enregistrée avec succès");
-          setTimeout(() => {
-            this.usagerChange.emit(new UsagerFormModel(usager));
+    this.subscription.add(
+      this.usagerNotesService
+        .createNote({
+          note: { message: this.addNoteForm.get("message")?.value },
+          usagerRef: this.usager.ref,
+        })
+        .subscribe({
+          next: (usager: UsagerLight) => {
+            this.toastService.success("Note enregistrée avec succès");
+            setTimeout(() => {
+              this.usagerChange.emit(new UsagerFormModel(usager));
+              this.loading = false;
+              this.submitted = false;
+              this.cancel.emit();
+            }, 500);
+          },
+          error: () => {
             this.loading = false;
-            this.submitted = false;
-            this.cancel.emit();
-          }, 500);
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error("Impossible d'enregistrer cette note");
-        },
-      });
+            this.toastService.error("Impossible d'enregistrer cette note");
+          },
+        })
+    );
   }
 }

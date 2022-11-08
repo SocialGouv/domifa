@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -8,6 +15,7 @@ import {
 import { Router } from "@angular/router";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { addYears, subDays, format, isBefore } from "date-fns";
+import { Subscription } from "rxjs";
 import {
   UsagerLight,
   UsagerDecisionValideForm,
@@ -22,7 +30,7 @@ import { UsagerDecisionService } from "../../../usager-shared/services/usager-de
   templateUrl: "./decision-valide-form.component.html",
   styleUrls: ["./decision-valide-form.component.css"],
 })
-export class DecisionValideFormComponent implements OnInit {
+export class DecisionValideFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
 
   @Output() public closeModals = new EventEmitter<void>();
@@ -42,6 +50,7 @@ export class DecisionValideFormComponent implements OnInit {
     "ref" | "customRef" | "nom" | "prenom" | "sexe" | "structureId"
   >[];
 
+  private subscription = new Subscription();
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly usagerDecisionService: UsagerDecisionService,
@@ -82,35 +91,40 @@ export class DecisionValideFormComponent implements OnInit {
       customRef: [this.usager.customRef],
     });
 
-    this.valideForm.get("dateDebut")?.valueChanges.subscribe((value) => {
-      if (value !== null && this.nbgDate.isValid(value)) {
-        const newDateDebut = new Date(this.nbgDate.formatEn(value));
-        const newDateFin = subDays(addYears(newDateDebut, 1), 1);
+    this.subscription.add(
+      this.valideForm.get("dateDebut")?.valueChanges.subscribe((value) => {
+        if (value !== null && this.nbgDate.isValid(value)) {
+          const newDateDebut = new Date(this.nbgDate.formatEn(value));
+          const newDateFin = subDays(addYears(newDateDebut, 1), 1);
 
-        this.valideForm.controls.dateFin.setValue(formatDateToNgb(newDateFin));
-        this.maxEndDate = this.setDate(subDays(addYears(newDateDebut, 1), 1));
-      }
-    });
+          this.valideForm.controls.dateFin.setValue(
+            formatDateToNgb(newDateFin)
+          );
+          this.maxEndDate = this.setDate(subDays(addYears(newDateDebut, 1), 1));
+        }
+      })
+    );
 
-    this.valideForm.get("dateFin")?.valueChanges.subscribe((value) => {
-      const dateDebut = new Date(
-        this.nbgDate.formatEn(this.valideForm.get("dateDebut")?.value)
-      );
+    this.subscription.add(
+      this.valideForm.get("dateFin")?.valueChanges.subscribe((value) => {
+        const dateDebut = new Date(
+          this.nbgDate.formatEn(this.valideForm.get("dateDebut")?.value)
+        );
 
-      if (
-        value !== null &&
-        this.nbgDate.isValid(value) &&
-        isBefore(
-          new Date(this.nbgDate.formatEn(value)),
-          subDays(addYears(dateDebut, 1), 1)
-        )
-      ) {
-        this.showDurationWarning = true;
-      } else {
-        this.showDurationWarning = false;
-      }
-    });
-
+        if (
+          value !== null &&
+          this.nbgDate.isValid(value) &&
+          isBefore(
+            new Date(this.nbgDate.formatEn(value)),
+            subDays(addYears(dateDebut, 1), 1)
+          )
+        ) {
+          this.showDurationWarning = true;
+        } else {
+          this.showDurationWarning = false;
+        }
+      })
+    );
     // Affichage des 5 derniers ids
     this.getLastUsagersRefs();
   }
@@ -139,27 +153,38 @@ export class DecisionValideFormComponent implements OnInit {
 
   public setDecision(formDatas: UsagerDecisionValideForm): void {
     this.loading = true;
-    this.usagerDecisionService
-      .setDecision(this.usager.ref, formDatas)
-      .subscribe({
-        next: (usager: UsagerLight) => {
-          this.toastService.success("Décision enregistrée avec succès ! ");
-          this.router.navigate(["profil/general/" + usager.ref]);
-          this.closeModals.emit();
-          this.submitted = false;
-          this.loading = false;
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error("La décision n'a pas pu être enregistrée");
-        },
-      });
+
+    this.subscription.add(
+      this.usagerDecisionService
+        .setDecision(this.usager.ref, formDatas)
+        .subscribe({
+          next: (usager: UsagerLight) => {
+            this.toastService.success("Décision enregistrée avec succès ! ");
+            this.router.navigate(["profil/general/" + usager.ref]);
+            this.closeModals.emit();
+            this.submitted = false;
+            this.loading = false;
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error("La décision n'a pas pu être enregistrée");
+          },
+        })
+    );
   }
   private getLastUsagersRefs() {
-    this.usagerDecisionService.getLastFiveCustomRef(this.usager.ref).subscribe({
-      next: (usagers: UsagerLight[]) => {
-        this.usagersRefs = usagers;
-      },
-    });
+    this.subscription.add(
+      this.usagerDecisionService
+        .getLastFiveCustomRef(this.usager.ref)
+        .subscribe({
+          next: (usagers: UsagerLight[]) => {
+            this.usagersRefs = usagers;
+          },
+        })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

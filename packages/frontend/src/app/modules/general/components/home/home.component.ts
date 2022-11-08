@@ -1,4 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { Subscription } from "rxjs";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { CountUpOptions } from "countup.js";
 import { MatomoTracker } from "ngx-matomo";
@@ -11,9 +12,9 @@ import { GeneralService } from "../../services/general.service";
   styleUrls: ["./home.component.css"],
   templateUrl: "./home.component.html",
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   public stats: HomeStats;
-
+  public subscription = new Subscription();
   public countOptions: CountUpOptions;
 
   constructor(
@@ -37,9 +38,13 @@ export class HomeComponent implements OnInit {
     this.titleService.setTitle(
       "Domifa, faciliter la vie des organismes domiciliataires"
     );
-
-    this.generalService.getHomeStats().subscribe((stats: HomeStats) => {
-      this.stats = stats;
-    });
+    this.subscription.add(
+      this.generalService.getHomeStats().subscribe((stats: HomeStats) => {
+        this.stats = stats;
+      })
+    );
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

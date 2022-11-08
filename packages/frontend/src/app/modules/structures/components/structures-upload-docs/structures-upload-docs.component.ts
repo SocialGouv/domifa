@@ -1,10 +1,18 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { Subscription } from "rxjs";
 
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
@@ -16,12 +24,13 @@ import { StructureDocService } from "../../services/structure-doc.service";
   styleUrls: ["./structures-upload-docs.component.css"],
   templateUrl: "./structures-upload-docs.component.html",
 })
-export class StructuresUploadDocsComponent implements OnInit {
+export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
   public loading = false;
   public submitted = false;
   public uploadForm!: FormGroup;
 
   @Input() public isCustomDoc!: boolean;
+  private subscription = new Subscription();
 
   @Output()
   public cancel = new EventEmitter<void>();
@@ -52,10 +61,16 @@ export class StructuresUploadDocsComponent implements OnInit {
       isCustomDoc: [this.isCustomDoc ? "true" : "false", []],
     });
 
-    this.uploadForm.get("customDocType")?.valueChanges.subscribe((value) => {
-      this.uploadForm.get("label")?.setValue(value === "autre" ? "" : value);
-      this.uploadForm.get("label")?.updateValueAndValidity();
-    });
+    this.subscription.add(
+      this.uploadForm.get("customDocType")?.valueChanges.subscribe((value) => {
+        this.uploadForm.get("label")?.setValue(value === "autre" ? "" : value);
+        this.uploadForm.get("label")?.updateValueAndValidity();
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   get f(): { [key: string]: AbstractControl } {
@@ -97,23 +112,24 @@ export class StructuresUploadDocsComponent implements OnInit {
     }
 
     this.loading = true;
-
-    this.structureDocService.upload(formData).subscribe({
-      next: () => {
-        this.toastService.success("Fichier uploadé avec succès");
-        setTimeout(() => {
+    this.subscription.add(
+      this.structureDocService.upload(formData).subscribe({
+        next: () => {
+          this.toastService.success("Fichier uploadé avec succès");
+          setTimeout(() => {
+            this.loading = false;
+            this.submitted = false;
+            this.uploadForm.reset();
+            this.cancel.emit();
+            this.getAllStructureDocs.emit();
+          }, 500);
+        },
+        error: () => {
+          this.toastService.error("Impossible d'uploader le fichier");
           this.loading = false;
           this.submitted = false;
-          this.uploadForm.reset();
-          this.cancel.emit();
-          this.getAllStructureDocs.emit();
-        }, 500);
-      },
-      error: () => {
-        this.toastService.error("Impossible d'uploader le fichier");
-        this.loading = false;
-        this.submitted = false;
-      },
-    });
+        },
+      })
+    );
   }
 }

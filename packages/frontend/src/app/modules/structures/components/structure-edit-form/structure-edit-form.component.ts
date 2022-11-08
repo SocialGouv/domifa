@@ -1,6 +1,6 @@
 import { FormEmailTakenValidator } from "./../../../../../_common/model/_general/FormEmailTakenValidator.type";
 import { COUNTRY_CODES_TIMEZONE } from "./../../../../../_common/model/telephone/COUNTRY_CODES";
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -9,7 +9,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { of } from "rxjs";
+import { of, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
 import {
   CountryISO,
@@ -34,7 +34,7 @@ import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
   templateUrl: "./structure-edit-form.component.html",
   styleUrls: ["./structure-edit-form.component.css"],
 })
-export class StructureEditFormComponent implements OnInit {
+export class StructureEditFormComponent implements OnInit, OnDestroy {
   public PhoneNumberFormat = PhoneNumberFormat;
   public SearchCountryField = SearchCountryField;
   public CountryISO = CountryISO;
@@ -46,6 +46,8 @@ export class StructureEditFormComponent implements OnInit {
   public selectedCountryISO: CountryISO = CountryISO.France;
 
   @Input() public structure!: StructureCommon;
+
+  private subscription = new Subscription();
 
   constructor(
     private readonly structureService: StructureService,
@@ -117,38 +119,40 @@ export class StructureEditFormComponent implements OnInit {
 
     this.selectedCountryISO = COUNTRY_CODES_TIMEZONE[this.structure.timeZone];
 
-    this.structureForm
-      .get("adresseCourrier")
-      ?.get("actif")
-      ?.valueChanges.subscribe((value: boolean) => {
-        const isRequired = value === true ? [Validators.required] : null;
+    this.subscription.add(
+      this.structureForm
+        .get("adresseCourrier")
+        ?.get("actif")
+        ?.valueChanges.subscribe((value: boolean) => {
+          const isRequired = value === true ? [Validators.required] : null;
 
-        this.structureForm
-          .get("adresseCourrier")
-          ?.get("adresse")
-          ?.setValidators(isRequired);
-        this.structureForm
-          .get("adresseCourrier")
-          ?.get("codePostal")
-          ?.setValidators(isRequired);
-        this.structureForm
-          .get("adresseCourrier")
-          ?.get("ville")
-          ?.setValidators(isRequired);
+          this.structureForm
+            .get("adresseCourrier")
+            ?.get("adresse")
+            ?.setValidators(isRequired);
+          this.structureForm
+            .get("adresseCourrier")
+            ?.get("codePostal")
+            ?.setValidators(isRequired);
+          this.structureForm
+            .get("adresseCourrier")
+            ?.get("ville")
+            ?.setValidators(isRequired);
 
-        this.structureForm
-          .get("adresseCourrier")
-          ?.get("adresse")
-          ?.updateValueAndValidity();
-        this.structureForm
-          .get("adresseCourrier")
-          ?.get("codePostal")
-          ?.updateValueAndValidity();
-        this.structureForm
-          .get("adresseCourrier")
-          ?.get("ville")
-          ?.updateValueAndValidity();
-      });
+          this.structureForm
+            .get("adresseCourrier")
+            ?.get("adresse")
+            ?.updateValueAndValidity();
+          this.structureForm
+            .get("adresseCourrier")
+            ?.get("codePostal")
+            ?.updateValueAndValidity();
+          this.structureForm
+            .get("adresseCourrier")
+            ?.get("ville")
+            ?.updateValueAndValidity();
+        })
+    );
   }
 
   public submitStrucutre() {
@@ -170,19 +174,21 @@ export class StructureEditFormComponent implements OnInit {
       this.structureForm.value.telephone
     );
 
-    this.structureService.patch(structureFormValue).subscribe({
-      next: (structure: StructureCommon) => {
-        this.toastService.success(
-          "Les modifications ont bien été prises en compte"
-        );
-        this.structure = structure;
-        this.loading = false;
-      },
-      error: () => {
-        this.toastService.error("Une erreur est survenue");
-        this.loading = false;
-      },
-    });
+    this.subscription.add(
+      this.structureService.patch(structureFormValue).subscribe({
+        next: (structure: StructureCommon) => {
+          this.toastService.success(
+            "Les modifications ont bien été prises en compte"
+          );
+          this.structure = structure;
+          this.loading = false;
+        },
+        error: () => {
+          this.toastService.error("Une erreur est survenue");
+          this.loading = false;
+        },
+      })
+    );
   }
 
   public validateEmailNotTaken(
@@ -198,7 +204,11 @@ export class StructureEditFormComponent implements OnInit {
       : of(null);
   }
 
-  public isInvalidStructureName(structureName: string) {
+  public isInvalidStructureName(structureName: string): boolean {
     return structureNameChecker.isInvalidStructureName(structureName);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

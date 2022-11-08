@@ -1,7 +1,7 @@
 import { SeoService } from "./../../../shared/services/seo.service";
 import { PublicStats } from "./../../../../../_common/model/stats/PublicStats.type";
 import { StatsService } from "./../../services/stats.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { STRUCTURE_TYPE_LABELS } from "../../../../../_common/model/structure/_constants/STRUCTURE_TYPE_LABELS.const";
 import {
   DEPARTEMENTS_METROPOLE,
@@ -13,6 +13,7 @@ import {
   fadeInOut,
 } from "../../../../shared";
 import { ActivatedRoute, Router } from "@angular/router";
+import { Subscription } from "rxjs";
 
 @Component({
   animations: [fadeInOut],
@@ -20,7 +21,7 @@ import { ActivatedRoute, Router } from "@angular/router";
   templateUrl: "./public-stats.component.html",
   styleUrls: ["./public-stats.component.css"],
 })
-export class PublicStatsComponent implements OnInit {
+export class PublicStatsComponent implements OnInit, OnDestroy {
   public STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
   public stats!: PublicStats;
 
@@ -32,6 +33,7 @@ export class PublicStatsComponent implements OnInit {
   public REGIONS_OUTRE_MER = REGIONS_OUTRE_MER;
   public REGIONS_SEO_ID: RegionsLabels = REGIONS_SEO_ID;
   public REGIONS_ID_SEO: RegionsLabels = REGIONS_ID_SEO;
+  public subscription = new Subscription();
 
   constructor(
     private readonly statsService: StatsService,
@@ -53,11 +55,13 @@ export class PublicStatsComponent implements OnInit {
 
       this.regionId = region;
 
-      this.statsService
-        .getPublicStats(REGIONS_SEO_ID[region])
-        .subscribe((stats: PublicStats) => {
-          this.stats = stats;
-        });
+      this.subscription.add(
+        this.statsService
+          .getPublicStats(REGIONS_SEO_ID[region])
+          .subscribe((stats: PublicStats) => {
+            this.stats = stats;
+          })
+      );
 
       const title =
         "Statistiques régionales : " + this.regions[REGIONS_SEO_ID[region]];
@@ -67,9 +71,14 @@ export class PublicStatsComponent implements OnInit {
 
       this.seoService.updateTitleAndTags(title, description, true);
     } else {
-      this.statsService.getPublicStats().subscribe((stats: PublicStats) => {
-        this.stats = stats;
-      });
+      this.subscription.add(
+        this.statsService.getPublicStats().subscribe((stats: PublicStats) => {
+          this.stats = stats;
+        })
+      );
     }
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

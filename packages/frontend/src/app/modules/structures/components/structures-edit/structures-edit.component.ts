@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
+import { Component, OnDestroy, OnInit, TemplateRef } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -8,6 +8,7 @@ import {
 import { Title } from "@angular/platform-browser";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import fileSaver from "file-saver";
+import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import { StructureCommon, UserStructure } from "../../../../../_common/model";
@@ -19,7 +20,7 @@ import { StructureService } from "../../services/structure.service";
   styleUrls: ["./structures-edit.component.css"],
   templateUrl: "./structures-edit.component.html",
 })
-export class StructuresEditComponent implements OnInit {
+export class StructuresEditComponent implements OnInit, OnDestroy {
   public me!: UserStructure | null;
   public structure!: StructureCommon;
 
@@ -29,6 +30,7 @@ export class StructuresEditComponent implements OnInit {
   public loading: boolean;
 
   public hardResetForm!: FormGroup;
+  private subscription = new Subscription();
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -51,12 +53,14 @@ export class StructuresEditComponent implements OnInit {
     this.me = this.authService.currentUserValue;
     this.titleService.setTitle("Modifier ma structure");
 
-    this.structureService
-      .findMyStructure()
-      .subscribe((structure: StructureCommon) => {
-        this.structure = structure;
-        this.initForms();
-      });
+    this.subscription.add(
+      this.structureService
+        .findMyStructure()
+        .subscribe((structure: StructureCommon) => {
+          this.structure = structure;
+          this.initForms();
+        })
+    );
   }
 
   public initForms(): void {
@@ -74,9 +78,11 @@ export class StructuresEditComponent implements OnInit {
   }
 
   public hardReset(): void {
-    this.structureService.hardReset().subscribe(() => {
-      this.showHardReset = true;
-    });
+    this.subscription.add(
+      this.structureService.hardReset().subscribe(() => {
+        this.showHardReset = true;
+      })
+    );
   }
 
   public hardResetConfirm() {
@@ -86,50 +92,57 @@ export class StructuresEditComponent implements OnInit {
     }
 
     this.loading = true;
+    this.subscription.add(
+      this.structureService
+        .hardResetConfirm(this.hardResetForm.controls.token.value)
+        .subscribe({
+          next: () => {
+            this.toastService.success(
+              "La remise à zéro a été effectuée avec succès !"
+            );
 
-    this.structureService
-      .hardResetConfirm(this.hardResetForm.controls.token.value)
-      .subscribe({
-        next: () => {
-          this.toastService.success(
-            "La remise à zéro a été effectuée avec succès !"
-          );
-
-          setTimeout(() => {
-            this.closeModals();
-            this.showHardReset = false;
+            setTimeout(() => {
+              this.closeModals();
+              this.showHardReset = false;
+              this.loading = false;
+              this.hardResetForm.reset();
+            }, 1000);
+          },
+          error: () => {
             this.loading = false;
-            this.hardResetForm.reset();
-          }, 1000);
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error(
-            "La remise à zéro n'a pas pu être effectuée !"
-          );
-        },
-      });
+            this.toastService.error(
+              "La remise à zéro n'a pas pu être effectuée !"
+            );
+          },
+        })
+    );
   }
 
   public export(): void {
     this.exportLoading = true;
-    this.structureService.export().subscribe({
-      next: (x: Blob) => {
-        const newBlob = new Blob([x], {
-          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        });
+    this.subscription.add(
+      this.structureService.export().subscribe({
+        next: (x: Blob) => {
+          const newBlob = new Blob([x], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          });
 
-        fileSaver.saveAs(newBlob, "export_domifa" + ".xlsx");
-        setTimeout(() => {
+          fileSaver.saveAs(newBlob, "export_domifa" + ".xlsx");
+          setTimeout(() => {
+            this.exportLoading = false;
+          }, 1000);
+        },
+        error: () => {
+          this.toastService.error(
+            "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+          );
           this.exportLoading = false;
-        }, 1000);
-      },
-      error: () => {
-        this.toastService.error(
-          "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
-        );
-        this.exportLoading = false;
-      },
-    });
+        },
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

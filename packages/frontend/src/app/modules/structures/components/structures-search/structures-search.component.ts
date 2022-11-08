@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -6,6 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
+import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { StructureCommon } from "../../../../../_common/model";
 import { StructureService } from "../../services/structure.service";
@@ -15,13 +16,14 @@ import { StructureService } from "../../services/structure.service";
   styleUrls: ["./structures-search.component.css"],
   templateUrl: "./structures-search.component.html",
 })
-export class StructuresSearchComponent implements OnInit {
+export class StructuresSearchComponent implements OnInit, OnDestroy {
   public structures: StructureCommon[];
   public searchFailed: boolean;
 
   public codePostal: string;
   public loading: boolean;
   public codePostalForm!: FormGroup;
+  private subscription = new Subscription();
 
   constructor(
     private readonly structureService: StructureService,
@@ -62,19 +64,25 @@ export class StructuresSearchComponent implements OnInit {
     }
     this.loading = true;
 
-    this.structureService.find(this.f.codePostal.value).subscribe({
-      next: (structures: StructureCommon[]) => {
-        this.loading = false;
-        if (structures.length === 0) {
-          this.searchFailed = true;
-        } else {
-          this.searchFailed = false;
-          this.structures = structures;
-        }
-      },
-      error: () => {
-        this.loading = false;
-      },
-    });
+    this.subscription.add(
+      this.structureService.find(this.f.codePostal.value).subscribe({
+        next: (structures: StructureCommon[]) => {
+          this.loading = false;
+          if (structures.length === 0) {
+            this.searchFailed = true;
+          } else {
+            this.searchFailed = false;
+            this.structures = structures;
+          }
+        },
+        error: () => {
+          this.loading = false;
+        },
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

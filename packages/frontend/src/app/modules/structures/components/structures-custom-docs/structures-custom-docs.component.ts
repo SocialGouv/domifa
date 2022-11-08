@@ -1,6 +1,13 @@
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   StructureDoc,
@@ -17,7 +24,7 @@ import { StructureDocService } from "../../services/structure-doc.service";
   templateUrl: "./structures-custom-docs.component.html",
   styleUrls: ["./structures-custom-docs.component.css"],
 })
-export class StructuresCustomDocsComponent implements OnInit {
+export class StructuresCustomDocsComponent implements OnInit, OnDestroy {
   public STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;
 
   // Documents simples
@@ -29,6 +36,7 @@ export class StructuresCustomDocsComponent implements OnInit {
   public me!: UserStructure | null;
 
   public isCustomDoc: boolean;
+  private subscription = new Subscription();
 
   @ViewChild("uploadCustomDocModal", { static: true })
   public uploadCustomDocModal!: TemplateRef<NgbModalRef>;
@@ -53,19 +61,21 @@ export class StructuresCustomDocsComponent implements OnInit {
   }
 
   public getAllStructureDocs(): void {
-    this.structureDocService.getAllStructureDocs().subscribe({
-      next: (structureDocs: StructureDoc[]) => {
-        this.structureDocs = structureDocs.filter(
-          (structureDoc) => !structureDoc.custom
-        );
-        this.customStructureDocs = structureDocs.filter(
-          (structureDoc) => structureDoc.custom
-        );
-      },
-      error: () => {
-        this.toastService.error("Impossible d'afficher les documents");
-      },
-    });
+    this.subscription.add(
+      this.structureDocService.getAllStructureDocs().subscribe({
+        next: (structureDocs: StructureDoc[]) => {
+          this.structureDocs = structureDocs.filter(
+            (structureDoc) => !structureDoc.custom
+          );
+          this.customStructureDocs = structureDocs.filter(
+            (structureDoc) => structureDoc.custom
+          );
+        },
+        error: () => {
+          this.toastService.error("Impossible d'afficher les documents");
+        },
+      })
+    );
   }
 
   public closeModals(): void {
@@ -75,5 +85,9 @@ export class StructuresCustomDocsComponent implements OnInit {
   public openUploadCustomDocModal(isCustomDoc = false): void {
     this.isCustomDoc = isCustomDoc;
     this.modalService.open(this.uploadCustomDocModal);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

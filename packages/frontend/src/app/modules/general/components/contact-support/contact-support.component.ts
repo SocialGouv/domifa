@@ -1,6 +1,6 @@
 import { GeneralService } from "./../../services/general.service";
 import { UserStructure } from "./../../../../../_common/model/user-structure/UserStructure.type";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -13,17 +13,18 @@ import { CustomToastService } from "../../../shared/services/custom-toast.servic
 import { AuthService } from "../../../shared/services/auth.service";
 import { Title, Meta } from "@angular/platform-browser";
 import { noWhiteSpace } from "../../../../shared";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-contact-support",
   templateUrl: "./contact-support.component.html",
   styleUrls: ["./contact-support.component.css"],
 })
-export class ContactSupportComponent implements OnInit {
+export class ContactSupportComponent implements OnInit, OnDestroy {
   public submitted: boolean;
   public success: boolean;
   public loading: boolean;
-
+  private subscription = new Subscription();
   public contactForm!: FormGroup;
 
   public me!: UserStructure | null;
@@ -132,18 +133,23 @@ export class ContactSupportComponent implements OnInit {
     formData.append("email", this.contactForm.controls.email.value);
     formData.append("content", this.contactForm.controls.content.value);
 
-    this.generalService.sendContact(formData).subscribe({
-      next: () => {
-        this.loading = false;
-        this.success = true;
-        this.submitted = false;
-        this.contactForm.reset();
-        this.toastService.success("Fichier uploadé avec succès");
-      },
-      error: () => {
-        this.loading = false;
-        this.toastService.error("Impossible d'uploader le fichier");
-      },
-    });
+    this.subscription.add(
+      this.generalService.sendContact(formData).subscribe({
+        next: () => {
+          this.loading = false;
+          this.success = true;
+          this.submitted = false;
+          this.contactForm.reset();
+          this.toastService.success("Fichier uploadé avec succès");
+        },
+        error: () => {
+          this.loading = false;
+          this.toastService.error("Impossible d'uploader le fichier");
+        },
+      })
+    );
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

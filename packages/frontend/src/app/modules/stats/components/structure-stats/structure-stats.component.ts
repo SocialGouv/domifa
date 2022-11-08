@@ -1,12 +1,13 @@
+import { Subscription } from "rxjs";
 import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import {
-  NgbCalendar,
   NgbDate,
   NgbDateParserFormatter,
   NgbDatepickerI18n,
@@ -35,7 +36,7 @@ import { buildExportStructureStatsFileName } from "./services";
   styleUrls: ["./structure-stats.component.css"],
   templateUrl: "./structure-stats.component.html",
 })
-export class StatsComponent implements OnInit, AfterViewInit {
+export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
   public stats!: StructureStatsFull;
 
   public loading: boolean;
@@ -55,9 +56,10 @@ export class StatsComponent implements OnInit, AfterViewInit {
 
   private me!: UserStructure | null;
 
+  private subscription = new Subscription();
+
   constructor(
-    public calendar: NgbCalendar,
-    public formatter: NgbDateCustomParserFormatter,
+    private readonly formatter: NgbDateCustomParserFormatter,
     private readonly statsService: StatsService,
     private readonly titleService: Title,
     private readonly toastService: CustomToastService,
@@ -135,30 +137,34 @@ export class StatsComponent implements OnInit, AfterViewInit {
     }
     const structureId = this.me?.structureId as number;
 
-    this.statsService.export(structureId, period.start, period.end).subscribe({
-      next: (x: Blob) => {
-        const newBlob = new Blob([x], {
-          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        });
+    this.subscription.add(
+      this.statsService
+        .export(structureId, period.start, period.end)
+        .subscribe({
+          next: (x: Blob) => {
+            const newBlob = new Blob([x], {
+              type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            });
 
-        saveAs(
-          newBlob,
-          buildExportStructureStatsFileName({
-            startDateUTC: period.start,
-            endDateUTC: period.end,
-            structureId,
-          })
-        );
+            saveAs(
+              newBlob,
+              buildExportStructureStatsFileName({
+                startDateUTC: period.start,
+                endDateUTC: period.end,
+                structureId,
+              })
+            );
 
-        this.loading = false;
-      },
-      error: () => {
-        this.toastService.error(
-          "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
-        );
-        this.loading = false;
-      },
-    });
+            this.loading = false;
+          },
+          error: () => {
+            this.toastService.error(
+              "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+            );
+            this.loading = false;
+          },
+        })
+    );
   }
 
   public compare(): void {
@@ -169,19 +175,25 @@ export class StatsComponent implements OnInit, AfterViewInit {
         ? new Date(this.formatter.formatEn(this.toDate) as string)
         : null;
 
-    this.statsService
-      .getStats(this.me?.structureId as number, this.start, this.end)
-      .subscribe({
-        next: (statsResult: StructureStatsFull) => {
-          this.stats = statsResult;
-          this.loading = false;
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error(
-            "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
-          );
-        },
-      });
+    this.subscription.add(
+      this.statsService
+        .getStats(this.me?.structureId as number, this.start, this.end)
+        .subscribe({
+          next: (statsResult: StructureStatsFull) => {
+            this.stats = statsResult;
+            this.loading = false;
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error(
+              "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+            );
+          },
+        })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

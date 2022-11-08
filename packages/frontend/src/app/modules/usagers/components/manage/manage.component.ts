@@ -327,7 +327,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.searchPageLoadedUsagersData$.next(toNext);
   }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 

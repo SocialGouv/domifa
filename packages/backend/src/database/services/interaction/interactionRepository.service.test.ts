@@ -22,34 +22,9 @@ describe("interactionRepository", () => {
       const interactions = await interactionRepository.findWithFilters({
         structureId: 1,
         usagerRef: 7,
-        maxResults: 3,
       });
 
-      expect(interactions.length).toEqual(3);
-    }
-  });
-
-  it("get all interactions to distribute", async () => {
-    {
-      const interactionsToDistribute =
-        await interactionRepository.findWithFilters({
-          structureId: 1,
-          usagerRef: 7,
-          filter: "distribution",
-        });
-
-      expect(interactionsToDistribute.length).toEqual(3);
-    }
-    {
-      const interactionsToDistribute =
-        await interactionRepository.findWithFilters({
-          structureId: 1,
-          usagerRef: 7,
-          filter: "distribution",
-          maxResults: 2,
-        });
-
-      expect(interactionsToDistribute.length).toEqual(2);
+      expect(interactions.length).toBeGreaterThan(2);
     }
   });
 });

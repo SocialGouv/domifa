@@ -1,20 +1,21 @@
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 
 @Component({
   selector: "app-usager-dossier-step-entretien",
   templateUrl: "./step-entretien.component.html",
 })
-export class StepEntretienComponent implements OnInit {
+export class StepEntretienComponent implements OnInit, OnDestroy {
   public usager!: UsagerFormModel;
   public currentUserSubject$: Observable<UserStructure | null>;
+  private subscription = new Subscription();
 
   constructor(
     private readonly usagerDossierService: UsagerDossierService,
@@ -33,18 +34,20 @@ export class StepEntretienComponent implements OnInit {
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
 
-      this.usagerDossierService.findOne(id).subscribe({
-        next: (usager: UsagerLight) => {
-          this.titleService.setTitle(
-            "Entretien avec  " + usager.nom + " " + usager.prenom
-          );
-          this.usager = new UsagerFormModel(usager);
-        },
-        error: () => {
-          this.toastr.error("Le dossier recherché n'existe pas");
-          this.router.navigate(["404"]);
-        },
-      });
+      this.subscription.add(
+        this.usagerDossierService.findOne(id).subscribe({
+          next: (usager: UsagerLight) => {
+            this.titleService.setTitle(
+              "Entretien avec  " + usager.nom + " " + usager.prenom
+            );
+            this.usager = new UsagerFormModel(usager);
+          },
+          error: () => {
+            this.toastr.error("Le dossier recherché n'existe pas");
+            this.router.navigate(["404"]);
+          },
+        })
+      );
     } else {
       this.toastr.error("Le dossier recherché n'existe pas");
       this.router.navigate(["404"]);
@@ -52,13 +55,19 @@ export class StepEntretienComponent implements OnInit {
   }
 
   public nextStep(step: number): void {
-    this.usagerDossierService.nextStep(this.usager.ref, step).subscribe({
-      next: (usager: UsagerLight) => {
-        this.router.navigate(["usager/" + usager.ref + "/edit/documents"]);
-      },
-      error: () => {
-        this.toastr.error("Une erreure inattendue est survenue");
-      },
-    });
+    this.subscription.add(
+      this.usagerDossierService.nextStep(this.usager.ref, step).subscribe({
+        next: (usager: UsagerLight) => {
+          this.router.navigate(["usager/" + usager.ref + "/edit/documents"]);
+        },
+        error: () => {
+          this.toastr.error("Une erreure inattendue est survenue");
+        },
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

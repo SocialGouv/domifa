@@ -48,27 +48,19 @@ export class InteractionService {
 
   public getInteractions({
     usagerRef: usagerRefNumberOrString,
-    maxResults,
-    filter: filterSearch,
   }: {
     usagerRef: number;
-    maxResults: number;
-    filter?: "distribution";
   }): Observable<Interaction[]> {
     // NOTE: usagerRef est une chaîne quand il vient d'un paramètre de l'URL, ce qui est incompatible avec la recherche dans le cache
     const usagerRef: number = parseInt(`${usagerRefNumberOrString}`, 10);
 
-    return this.http
-      .get<Interaction[]>(
-        `${this.endPoint}${usagerRef}?maxResults=${maxResults}&filter=${filterSearch}`
-      )
-      .pipe(
-        map((response) => {
-          return Array.isArray(response)
-            ? response.map((item) => new Interaction(item))
-            : [new Interaction(response)];
-        })
-      );
+    return this.http.get<Interaction[]>(`${this.endPoint}${usagerRef}`).pipe(
+      map((response) => {
+        return Array.isArray(response)
+          ? response.map((item) => new Interaction(item))
+          : [new Interaction(response)];
+      })
+    );
   }
 
   public delete(

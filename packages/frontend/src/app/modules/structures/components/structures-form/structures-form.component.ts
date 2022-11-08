@@ -14,7 +14,7 @@ import {
 } from "ngx-intl-tel-input";
 
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { of, Subject } from "rxjs";
+import { of, Subject, Subscription } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 import { regexp } from "src/app/shared/constants/REGEXP.const";
 import {
@@ -63,6 +63,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
   public accountExist: boolean;
+  private subscription = new Subscription();
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -132,53 +133,60 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
       ville: [this.structure.ville, [Validators.required]],
     });
 
-    this.structureForm.get("structureType")?.valueChanges.subscribe((value) => {
-      this.structureForm.get("agrement")?.setValidators(null);
-      this.structureForm.get("departement")?.setValidators(null);
+    this.subscription.add(
+      this.structureForm
+        .get("structureType")
+        ?.valueChanges.subscribe((value) => {
+          this.structureForm.get("agrement")?.setValidators(null);
+          this.structureForm.get("departement")?.setValidators(null);
 
-      if (value === "asso") {
-        this.structureForm.get("agrement")?.setValidators(Validators.required);
-        this.structureForm
-          .get("departement")
-          ?.setValidators(Validators.required);
-      }
+          if (value === "asso") {
+            this.structureForm
+              .get("agrement")
+              ?.setValidators(Validators.required);
+            this.structureForm
+              .get("departement")
+              ?.setValidators(Validators.required);
+          }
 
-      this.structureForm.get("agrement")?.updateValueAndValidity();
-      this.structureForm.get("departement")?.updateValueAndValidity();
-    });
+          this.structureForm.get("agrement")?.updateValueAndValidity();
+          this.structureForm.get("departement")?.updateValueAndValidity();
+        })
+    );
+    this.subscription.add(
+      this.structureForm
+        .get("adresseCourrier")
+        ?.get("actif")
+        ?.valueChanges.subscribe((value) => {
+          const isRequired = value === true ? [Validators.required] : null;
 
-    this.structureForm
-      .get("adresseCourrier")
-      ?.get("actif")
-      ?.valueChanges.subscribe((value) => {
-        const isRequired = value === true ? [Validators.required] : null;
+          this.structureForm
+            .get("adresseCourrier")
+            ?.get("adresse")
+            ?.setValidators(isRequired);
+          this.structureForm
+            .get("adresseCourrier")
+            ?.get("codePostal")
+            ?.setValidators(isRequired);
+          this.structureForm
+            .get("adresseCourrier")
+            ?.get("ville")
+            ?.setValidators(isRequired);
 
-        this.structureForm
-          .get("adresseCourrier")
-          ?.get("adresse")
-          ?.setValidators(isRequired);
-        this.structureForm
-          .get("adresseCourrier")
-          ?.get("codePostal")
-          ?.setValidators(isRequired);
-        this.structureForm
-          .get("adresseCourrier")
-          ?.get("ville")
-          ?.setValidators(isRequired);
-
-        this.structureForm
-          .get("adresseCourrier")
-          ?.get("adresse")
-          ?.updateValueAndValidity();
-        this.structureForm
-          .get("adresseCourrier")
-          ?.get("codePostal")
-          ?.updateValueAndValidity();
-        this.structureForm
-          .get("adresseCourrier")
-          ?.get("ville")
-          ?.updateValueAndValidity();
-      });
+          this.structureForm
+            .get("adresseCourrier")
+            ?.get("adresse")
+            ?.updateValueAndValidity();
+          this.structureForm
+            .get("adresseCourrier")
+            ?.get("codePostal")
+            ?.updateValueAndValidity();
+          this.structureForm
+            .get("adresseCourrier")
+            ?.get("ville")
+            ?.updateValueAndValidity();
+        })
+    );
   }
 
   public submitStrucutre(): void {
@@ -199,16 +207,18 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
       this.structureForm.value.telephone
     );
 
-    this.structureService.prePost(structureFormValue).subscribe({
-      next: (structure: StructureCommon) => {
-        this.etapeInscription = 1;
-        this.structureRegisterInfos.etapeInscription = 1;
-        this.structureRegisterInfos.structure = structure;
-      },
-      error: () => {
-        this.toastService.error("Veuillez vérifier les champs du formulaire");
-      },
-    });
+    this.subscription.add(
+      this.structureService.prePost(structureFormValue).subscribe({
+        next: (structure: StructureCommon) => {
+          this.etapeInscription = 1;
+          this.structureRegisterInfos.etapeInscription = 1;
+          this.structureRegisterInfos.structure = structure;
+        },
+        error: () => {
+          this.toastService.error("Veuillez vérifier les champs du formulaire");
+        },
+      })
+    );
   }
 
   public validateEmailNotTaken(
@@ -232,5 +242,6 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
+    this.subscription.unsubscribe();
   }
 }

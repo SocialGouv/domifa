@@ -9,7 +9,6 @@ import {
   ParseIntPipe,
   ParseUUIDPipe,
   Post,
-  Query,
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
@@ -73,21 +72,13 @@ export class InteractionsController {
   @Get(":usagerRef")
   @AllowUserProfiles("structure")
   public async getInteractions(
-    @Query("filter") filterString: string,
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
-    @Param("maxResults", new ParseIntPipe()) maxResults: number,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
-    // check query parameters
-    const filter = filterString === "distribution" ? "distribution" : undefined;
-    maxResults = maxResults > 0 ? maxResults : 20;
-
     return interactionRepository.findWithFilters({
       usagerRef: usager.ref,
       structureId: user.structureId,
-      filter,
-      maxResults,
     });
   }
 

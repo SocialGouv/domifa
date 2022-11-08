@@ -170,31 +170,37 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
     }
 
     this.loading = true;
-    this.interactionService
-      .setInteractionOut(this.usager.ref, interactionsToSave)
-      .subscribe({
-        next: () => {
-          this.loading = false;
-          this.updateInteractions.emit();
-          this.toastService.success("Distribution effectuée avec succès");
-          this.refreshUsager();
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error("Impossible d'enregistrer cette interaction");
-        },
-      });
+    this.subscription.add(
+      this.interactionService
+        .setInteractionOut(this.usager.ref, interactionsToSave)
+        .subscribe({
+          next: () => {
+            this.loading = false;
+            this.updateInteractions.emit();
+            this.toastService.success("Distribution effectuée avec succès");
+            this.refreshUsager();
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error(
+              "Impossible d'enregistrer cette interaction"
+            );
+          },
+        })
+    );
   }
 
   // Actualiser les données de l'usager
   public refreshUsager(): void {
-    this.usagerService
-      .findOne(this.usager.ref)
-      .subscribe((usager: UsagerLight) => {
-        this.updateUsagerForManage.emit(usager);
-        this.usagerChange.emit(new UsagerFormModel(usager));
-        this.cancelReception.emit();
-      });
+    this.subscription.add(
+      this.usagerService
+        .findOne(this.usager.ref)
+        .subscribe((usager: UsagerLight) => {
+          this.updateUsagerForManage.emit(usager);
+          this.usagerChange.emit(new UsagerFormModel(usager));
+          this.cancelReception.emit();
+        })
+    );
   }
 
   @HostListener("document:keypress", ["$event"])
@@ -206,14 +212,14 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   }
 
   private getInteractions(): void {
-    this.interactionService
-      .getInteractions({
-        usagerRef: this.usager.ref,
-        filter: "distribution",
-        maxResults: 10,
-      })
-      .subscribe((interactions: Interaction[]) => {
-        this.interactions$.next(interactions);
-      });
+    this.subscription.add(
+      this.interactionService
+        .getInteractions({
+          usagerRef: this.usager.ref,
+        })
+        .subscribe((interactions: Interaction[]) => {
+          this.interactions$.next(interactions);
+        })
+    );
   }
 }

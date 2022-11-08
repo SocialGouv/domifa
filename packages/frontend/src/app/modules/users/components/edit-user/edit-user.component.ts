@@ -1,5 +1,5 @@
 import { noWhiteSpace } from "./../../../../shared/validators/whitespace.validator";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -8,8 +8,8 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { Observable, of } from "rxjs";
-import { map } from "rxjs/operators";
+import { Observable, of, Subject, Subscription } from "rxjs";
+import { map, takeUntil } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { regexp } from "src/app/shared/constants/REGEXP.const";
 import {
@@ -27,7 +27,7 @@ import { format } from "date-fns";
   templateUrl: "./edit-user.component.html",
   styleUrls: ["./edit-user.component.css"],
 })
-export class EditUserComponent implements OnInit {
+export class EditUserComponent implements OnInit, OnDestroy {
   public me!: UserStructure | null;
 
   public submitted: boolean;
@@ -47,6 +47,9 @@ export class EditUserComponent implements OnInit {
   public userForm!: FormGroup;
 
   public emailExist: boolean;
+
+  private subscription = new Subscription();
+  private unsubscribe: Subject<void> = new Subject();
 
   get f(): { [key: string]: AbstractControl } {
     return this.userForm.controls;
@@ -150,15 +153,17 @@ export class EditUserComponent implements OnInit {
   }
 
   private getLastPasswordUpdate(): void {
-    this.userService.getLastPasswordUpdate().subscribe({
-      next: (lastPassword: Date | null) => {
-        this.lastPasswordUpdate =
-          lastPassword === null
-            ? "Aucune modification de mot de passe enregistrée"
-            : "Dernière modification: " +
-              format(new Date(lastPassword), "dd/MM/yyyy");
-      },
-    });
+    this.subscription.add(
+      this.userService.getLastPasswordUpdate().subscribe({
+        next: (lastPassword: Date | null) => {
+          this.lastPasswordUpdate =
+            lastPassword === null
+              ? "Aucune modification de mot de passe enregistrée"
+              : "Dernière modification: " +
+                format(new Date(lastPassword), "dd/MM/yyyy");
+        },
+      })
+    );
   }
 
   public updateUser(): void {
@@ -170,22 +175,24 @@ export class EditUserComponent implements OnInit {
       return;
     }
     this.loading = true;
-    this.userService.patch(this.userForm.value).subscribe({
-      next: (user: UserStructure) => {
-        this.loading = false;
-        this.me = userStructureBuilder.buildUserStructure(user);
-        this.editUser = false;
-        this.toastService.success(
-          "Félicitations : vos informations ont été modifiées avec succès"
-        );
-      },
-      error: () => {
-        this.loading = false;
-        this.toastService.error(
-          "Veuillez vérifier les champs marqués en rouge dans le formulaire"
-        );
-      },
-    });
+    this.subscription.add(
+      this.userService.patch(this.userForm.value).subscribe({
+        next: (user: UserStructure) => {
+          this.loading = false;
+          this.me = userStructureBuilder.buildUserStructure(user);
+          this.editUser = false;
+          this.toastService.success(
+            "Félicitations : vos informations ont été modifiées avec succès"
+          );
+        },
+        error: () => {
+          this.loading = false;
+          this.toastService.error(
+            "Veuillez vérifier les champs marqués en rouge dans le formulaire"
+          );
+        },
+      })
+    );
   }
 
   public updateMyPassword(): void {
@@ -198,23 +205,26 @@ export class EditUserComponent implements OnInit {
     }
 
     this.loading = true;
-    this.userService.updateMyPassword(this.passwordForm.value).subscribe({
-      next: () => {
-        this.loading = false;
-        this.editPassword = false;
-        this.submitted = false;
-        this.getLastPasswordUpdate();
-        this.toastService.success(
-          "Félicitations ! : votre mot de passe a été modifié avec succès"
-        );
-      },
-      error: () => {
-        this.loading = false;
-        this.toastService.error(
-          "Une erreur est survenue, veuillez vérifier le formulaire"
-        );
-      },
-    });
+
+    this.subscription.add(
+      this.userService.updateMyPassword(this.passwordForm.value).subscribe({
+        next: () => {
+          this.loading = false;
+          this.editPassword = false;
+          this.submitted = false;
+          this.getLastPasswordUpdate();
+          this.toastService.success(
+            "Félicitations ! : votre mot de passe a été modifié avec succès"
+          );
+        },
+        error: () => {
+          this.loading = false;
+          this.toastService.error(
+            "Une erreur est survenue, veuillez vérifier le formulaire"
+          );
+        },
+      })
+    );
   }
 
   public togglePassword(): void {
@@ -238,10 +248,16 @@ export class EditUserComponent implements OnInit {
     const testEmail = RegExp(regexp.email).test(control.value);
     return testEmail
       ? this.userService.validateEmail(control.value).pipe(
+          takeUntil(this.unsubscribe),
           map((res: boolean) => {
             return res === false ? null : { emailTaken: true };
           })
         )
       : of(null);
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.subscription.unsubscribe();
   }
 }

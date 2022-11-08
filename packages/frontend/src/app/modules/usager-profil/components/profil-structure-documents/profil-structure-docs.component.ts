@@ -1,5 +1,5 @@
 import { UserStructure } from "./../../../../../_common/model/user-structure/UserStructure.type";
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import fileSaver from "file-saver";
 import {
   StructureDoc,
@@ -10,13 +10,14 @@ import {
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-profil-structure-docs",
   styleUrls: ["./profil-structure-docs.component.css"],
   templateUrl: "./profil-structure-docs.component.html",
 })
-export class ProfilStructureDocsComponent implements OnInit {
+export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
 
@@ -25,6 +26,7 @@ export class ProfilStructureDocsComponent implements OnInit {
     courrier_radiation: StructureDoc;
   };
 
+  private subscription = new Subscription();
   public customStructureDocs: StructureDoc[];
   public STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;
 
@@ -82,76 +84,86 @@ export class ProfilStructureDocsComponent implements OnInit {
   public getDomifaCustomDoc(docType: StructureDocTypesAvailable): void {
     this.loadings.push(docType);
 
-    this.documentService
-      .getDomifaCustomDoc({
-        usagerId: this.usager.ref,
-        docType,
-      })
-      .subscribe({
-        next: (blob: Blob) => {
-          const newBlob = new Blob([blob], {
-            type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-          });
-          fileSaver.saveAs(newBlob, docType + ".docx");
+    this.subscription.add(
+      this.documentService
+        .getDomifaCustomDoc({
+          usagerId: this.usager.ref,
+          docType,
+        })
+        .subscribe({
+          next: (blob: Blob) => {
+            const newBlob = new Blob([blob], {
+              type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            });
+            fileSaver.saveAs(newBlob, docType + ".docx");
 
-          this.stopLoading(docType);
-        },
-        error: () => {
-          this.toastService.error(
-            "Impossible de télécharger le fichier pour l'instant"
-          );
-          this.stopLoading(docType);
-        },
-      });
+            this.stopLoading(docType);
+          },
+          error: () => {
+            this.toastService.error(
+              "Impossible de télécharger le fichier pour l'instant"
+            );
+            this.stopLoading(docType);
+          },
+        })
+    );
   }
 
   // Documents personnalisables de la structure
   public getStructureCustomDoc(structureDoc: StructureDoc): void {
-    this.documentService
-      .getStructureCustomDoc(this.usager.ref, structureDoc.uuid)
-      .subscribe({
-        next: (blob: Blob) => {
-          const extension = STRUCTURE_DOC_EXTENSIONS[structureDoc.filetype];
-          const newBlob = new Blob([blob], { type: structureDoc.filetype });
+    this.subscription.add(
+      this.documentService
+        .getStructureCustomDoc(this.usager.ref, structureDoc.uuid)
+        .subscribe({
+          next: (blob: Blob) => {
+            const extension = STRUCTURE_DOC_EXTENSIONS[structureDoc.filetype];
+            const newBlob = new Blob([blob], { type: structureDoc.filetype });
 
-          fileSaver.saveAs(newBlob, structureDoc.label + extension);
-          this.stopLoading(structureDoc.uuid);
-        },
-        error: () => {
-          this.toastService.error(
-            "Impossible de télécharger le fichier pour l'instant"
-          );
-          this.stopLoading(structureDoc.uuid);
-        },
-      });
+            fileSaver.saveAs(newBlob, structureDoc.label + extension);
+            this.stopLoading(structureDoc.uuid);
+          },
+          error: () => {
+            this.toastService.error(
+              "Impossible de télécharger le fichier pour l'instant"
+            );
+            this.stopLoading(structureDoc.uuid);
+          },
+        })
+    );
   }
 
   public getAllStructureDocs(): void {
-    this.documentService.getAllStructureDocs().subscribe({
-      next: (structureDocs: StructureDoc[]) => {
-        structureDocs.forEach((structureDoc: StructureDoc) => {
-          if (structureDoc.customDocType === "attestation_postale") {
-            this.defaultStructureDocs.attestation_postale.createdBy =
-              structureDoc.createdBy;
-            this.defaultStructureDocs.attestation_postale.createdAt =
-              structureDoc.createdAt;
-          } else if (structureDoc.customDocType === "courrier_radiation") {
-            this.defaultStructureDocs.courrier_radiation.createdBy =
-              structureDoc.createdBy;
-            this.defaultStructureDocs.courrier_radiation.createdAt =
-              structureDoc.createdAt;
-          } else {
-            this.customStructureDocs.push(structureDoc);
-          }
-        });
-      },
-    });
+    this.subscription.add(
+      this.documentService.getAllStructureDocs().subscribe({
+        next: (structureDocs: StructureDoc[]) => {
+          structureDocs.forEach((structureDoc: StructureDoc) => {
+            if (structureDoc.customDocType === "attestation_postale") {
+              this.defaultStructureDocs.attestation_postale.createdBy =
+                structureDoc.createdBy;
+              this.defaultStructureDocs.attestation_postale.createdAt =
+                structureDoc.createdAt;
+            } else if (structureDoc.customDocType === "courrier_radiation") {
+              this.defaultStructureDocs.courrier_radiation.createdBy =
+                structureDoc.createdBy;
+              this.defaultStructureDocs.courrier_radiation.createdAt =
+                structureDoc.createdAt;
+            } else {
+              this.customStructureDocs.push(structureDoc);
+            }
+          });
+        },
+      })
+    );
   }
 
-  private stopLoading(loadingRef: string) {
+  private stopLoading(loadingRef: string): void {
     const index = this.loadings.indexOf(loadingRef);
     if (index !== -1) {
       this.loadings.splice(index, 1);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

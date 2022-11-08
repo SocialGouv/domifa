@@ -1,4 +1,5 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
+import { Subscription } from "rxjs";
+import { Component, OnDestroy, OnInit, TemplateRef } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
@@ -17,13 +18,14 @@ import { UsersService } from "../../services/users.service";
   styleUrls: ["./user-profil.component.css"],
   templateUrl: "./user-profil.component.html",
 })
-export class UserProfilComponent implements OnInit {
+export class UserProfilComponent implements OnInit, OnDestroy {
   public users: UserStructureProfile[];
   public me!: UserStructure | null;
 
   public selectedUser: UserStructureProfile | null;
   public loading: boolean;
   public usersInfos: boolean;
+  private subscription = new Subscription();
 
   constructor(
     private readonly authService: AuthService,
@@ -50,44 +52,48 @@ export class UserProfilComponent implements OnInit {
 
   public updateRole(id: number, role: UserStructureRole): void {
     this.loading = true;
-    this.userService.updateRole(id, role).subscribe({
-      next: (user: UserStructureProfile) => {
-        this.getUsers();
+    this.subscription.add(
+      this.userService.updateRole(id, role).subscribe({
+        next: (user: UserStructureProfile) => {
+          this.getUsers();
 
-        this.toastService.success(
-          "Les droits de " +
-            user.nom +
-            " " +
-            user.prenom +
-            " ont été mis à jour avec succès"
-        );
-      },
-      error: () => {
-        this.loading = false;
-        this.toastService.error(
-          "Impossible de mettre à jour le rôle de l'utilisateur"
-        );
-      },
-    });
+          this.toastService.success(
+            "Les droits de " +
+              user.nom +
+              " " +
+              user.prenom +
+              " ont été mis à jour avec succès"
+          );
+        },
+        error: () => {
+          this.loading = false;
+          this.toastService.error(
+            "Impossible de mettre à jour le rôle de l'utilisateur"
+          );
+        },
+      })
+    );
   }
 
   public deleteUser(): void {
     if (this.selectedUser) {
       this.loading = true;
-      this.userService.deleteUser(this.selectedUser.id).subscribe({
-        next: () => {
-          this.toastService.success("Utilisateur supprimé avec succès");
+      this.subscription.add(
+        this.userService.deleteUser(this.selectedUser.id).subscribe({
+          next: () => {
+            this.toastService.success("Utilisateur supprimé avec succès");
 
-          setTimeout(() => {
-            this.modalService.dismissAll();
-            this.getUsers();
-          }, 1000);
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error("Impossible de supprimer l'utilisateur");
-        },
-      });
+            setTimeout(() => {
+              this.modalService.dismissAll();
+              this.getUsers();
+            }, 1000);
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error("Impossible de supprimer l'utilisateur");
+          },
+        })
+      );
     }
   }
 
@@ -100,9 +106,15 @@ export class UserProfilComponent implements OnInit {
   }
 
   public getUsers(): void {
-    this.userService.getUsers().subscribe((users: UserStructureProfile[]) => {
-      this.users = users;
-      this.loading = false;
-    });
+    this.subscription.add(
+      this.userService.getUsers().subscribe((users: UserStructureProfile[]) => {
+        this.users = users;
+        this.loading = false;
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

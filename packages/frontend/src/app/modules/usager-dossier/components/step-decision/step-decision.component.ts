@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
+import { Component, OnDestroy, OnInit, TemplateRef } from "@angular/core";
 
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -21,6 +21,7 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
+import { Subscription } from "rxjs";
 
 @Component({
   providers: [
@@ -32,7 +33,7 @@ import { UsagerDossierService } from "../../services/usager-dossier.service";
   styleUrls: ["./step-decision.component.css"],
   templateUrl: "./step-decision.component.html",
 })
-export class StepDecisionComponent implements OnInit {
+export class StepDecisionComponent implements OnInit, OnDestroy {
   public usager!: UsagerFormModel;
   public me!: UserStructure | null;
 
@@ -40,6 +41,8 @@ export class StepDecisionComponent implements OnInit {
   public editInfos: boolean;
   public editEntretien: boolean;
   public editPJ: boolean;
+
+  private subscription = new Subscription();
 
   constructor(
     private readonly authService: AuthService,
@@ -60,45 +63,52 @@ export class StepDecisionComponent implements OnInit {
     this.editPJ = false;
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   public ngOnInit(): void {
     this.me = this.authService.currentUserValue;
     this.isAdmin = this.me?.role === "admin" || this.me?.role === "responsable";
 
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
+      this.subscription.add(
+        this.usagerDossierService.findOne(id).subscribe({
+          next: (usager: UsagerLight) => {
+            this.titleService.setTitle(
+              "Décision sur la domiciliation de " +
+                usager.nom +
+                " " +
+                usager.prenom
+            );
 
-      this.usagerDossierService.findOne(id).subscribe({
-        next: (usager: UsagerLight) => {
-          this.titleService.setTitle(
-            "Décision sur la domiciliation de " +
-              usager.nom +
-              " " +
-              usager.prenom
-          );
-
-          this.usager = new UsagerFormModel(usager);
-        },
-        error: () => {
-          this.router.navigate(["404"]);
-        },
-      });
+            this.usager = new UsagerFormModel(usager);
+          },
+          error: () => {
+            this.router.navigate(["404"]);
+          },
+        })
+      );
     } else {
       this.router.navigate(["404"]);
     }
   }
 
   public setDecisionAttente() {
-    this.usagerDecisionService
-      .setDecision(this.usager.ref, { statut: "ATTENTE_DECISION" })
-      .subscribe({
-        next: (usager: UsagerLight) => {
-          this.usager = new UsagerFormModel(usager);
-          this.toastService.success("Décision enregistrée avec succès ! ");
-        },
-        error: () => {
-          this.toastService.error("La décision n'a pas pu être enregistrée");
-        },
-      });
+    this.subscription.add(
+      this.usagerDecisionService
+        .setDecision(this.usager.ref, { statut: "ATTENTE_DECISION" })
+        .subscribe({
+          next: (usager: UsagerLight) => {
+            this.usager = new UsagerFormModel(usager);
+            this.toastService.success("Décision enregistrée avec succès ! ");
+          },
+          error: () => {
+            this.toastService.error("La décision n'a pas pu être enregistrée");
+          },
+        })
+    );
   }
 
   public open(content: TemplateRef<NgbModalRef>) {
