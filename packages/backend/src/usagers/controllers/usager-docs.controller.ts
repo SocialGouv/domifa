@@ -29,7 +29,13 @@ import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
 
 import { appLogger } from "../../util";
-import { deleteFile, randomName, validateUpload } from "../../util/FileManager";
+import {
+  deleteFile,
+  getFileDir,
+  getFilePath,
+  randomName,
+  validateUpload,
+} from "../../util/FileManager";
 import {
   UsagerDoc,
   UsagerLight,
@@ -48,6 +54,7 @@ import {
 } from "fs-extra";
 import { join } from "path";
 import { createCipheriv, createDecipheriv } from "crypto";
+import { ExpressRequest } from "../../util/express";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
 @ApiTags("docs")
@@ -65,7 +72,7 @@ export class UsagerDocsController {
         fieldSize: 10 * 1024 * 1024,
         files: 1,
       },
-      fileFilter: (req: any, file: Express.Multer.File, cb: any) => {
+      fileFilter: (req: ExpressRequest, file: Express.Multer.File, cb: any) => {
         if (!validateUpload("USAGER_DOC", req, file)) {
           throw new HttpException("INCORRECT_FORMAT", HttpStatus.BAD_REQUEST);
         }
@@ -73,15 +80,15 @@ export class UsagerDocsController {
       },
       storage: diskStorage({
         destination: async (req: any, _file: Express.Multer.File, cb: any) => {
-          const dir = join(
-            domifaConfig().upload.basePath,
-            `${req.user.structureId}`,
-            `${req.usager.ref}`
-          );
+          const dir = getFileDir(req.user.structureId, req.usager.ref);
           await ensureDir(dir);
           cb(null, dir);
         },
-        filename: (_req: any, file: Express.Multer.File, cb: any) => {
+        filename: (
+          _req: ExpressRequest,
+          file: Express.Multer.File,
+          cb: any
+        ) => {
           return cb(null, randomName(file));
         },
       }),
@@ -96,7 +103,7 @@ export class UsagerDocsController {
     @Res() res: Response
   ) {
     try {
-      await this.encryptFile(file.path);
+      await this.encryptFile(currentUsager, file.filename);
     } catch (e) {
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -146,16 +153,15 @@ export class UsagerDocsController {
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    const pathFile = join(
-      domifaConfig().upload.basePath,
-      `${currentUsager.structureId}`,
-      `${currentUsager.ref}`,
+    const filePath = getFilePath(
+      currentUsager.structureId,
+      currentUsager.ref,
       doc.path
     );
 
-    await deleteFile(pathFile);
+    await deleteFile(filePath);
 
-    await deleteFile(pathFile + ".encrypted");
+    await deleteFile(filePath + ".encrypted");
 
     await usagerDocsRepository.delete({
       uuid: doc.uuid,
@@ -208,31 +214,22 @@ export class UsagerDocsController {
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    const pathFile = join(
-      domifaConfig().upload.basePath,
-      `${currentUsager.structureId}`,
-      `${currentUsager.ref}`,
-      doc.path
+    const sourceFileDir = getFileDir(
+      currentUsager.ref,
+      currentUsager.structureId
     );
 
-    const outputFile = join(
-      domifaConfig().upload.basePath,
-      "tmp",
-      doc.path + ".unencrypted"
-    );
+    // Encrypted file source
+    const encryptedFilePath = join(sourceFileDir, doc.path + ".encrypted");
 
-    await ensureDir(join(domifaConfig().upload.basePath, "tmp"));
-
-    // Si jamais le fichier décrypté existe déjà, on le supprime
-    await remove(pathFile + ".unencrypted");
-
-    if (!(await pathExists(pathFile + ".encrypted"))) {
-      // FIX : vieilles données pas encore encryptés
-      if (!(await pathExists(pathFile))) {
+    // FIX : vieilles données pas encore encryptés
+    if (!(await pathExists(encryptedFilePath))) {
+      const oldFilePath = join(sourceFileDir, doc.path);
+      if (!(await pathExists(oldFilePath))) {
         appLogger.error("Error reading usager document", {
           sentry: true,
           context: {
-            pathFile,
+            oldFilePath,
           },
         });
         return res
@@ -241,7 +238,7 @@ export class UsagerDocsController {
       }
 
       try {
-        await this.encryptFile(pathFile);
+        await this.encryptFile(currentUsager, doc.path);
       } catch (e) {
         return res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -249,21 +246,32 @@ export class UsagerDocsController {
       }
     }
 
+    // Outputs file & path
+    const outputFolder = join(domifaConfig().upload.basePath, "tmp");
+    const outputFilePath = join(outputFolder, doc.path);
+
+    // Création du dossier temporaire de réception des fichiers déchiffrés
+    await ensureDir(outputFolder);
+
+    // Si jamais le fichier décrypté existe déjà, on le supprime
+    await remove(outputFilePath);
+
     // TEMP FIX : Utiliser la deuxième clé d'encryptage générée le 30 juin
     // A supprimer une fois que les fichiers seront de nouveaux regénérés
-    const docInfos = await stat(pathFile + ".encrypted");
+    const docInfos = await stat(encryptedFilePath);
     const iv =
       docInfos.mtime < new Date("2021-06-30T23:01:01.113Z")
         ? domifaConfig().security.files.ivSecours
         : domifaConfig().security.files.iv;
 
     try {
-      await this.decryptFile(pathFile, doc, iv);
-
-      return res.status(HttpStatus.OK).sendFile(outputFile);
+      await this.decryptFile(encryptedFilePath, outputFilePath, iv);
+      return res.status(HttpStatus.OK).sendFile(outputFilePath);
     } catch (e) {
-      console.log("\n[INFOS] Decrypt file infos FAIL");
-      console.log(await stat(outputFile));
+      console.log({
+        inputFile: await stat(encryptedFilePath),
+        outputFile: await stat(outputFilePath),
+      });
       console.log(e);
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -272,8 +280,8 @@ export class UsagerDocsController {
   }
 
   private async decryptFile(
-    pathFile: string,
-    doc: UsagerDoc,
+    encryptedFilePath: string,
+    outputFilePath: string,
     iv: string
   ): Promise<void | Error> {
     return new Promise((resolve, reject) => {
@@ -281,21 +289,15 @@ export class UsagerDocsController {
       const key = domifaConfig().security.files.private;
 
       const decipher = createDecipheriv("aes-256-cfb", key, iv);
-      const input = createReadStream(pathFile + ".encrypted");
+      const input = createReadStream(encryptedFilePath);
 
-      const outputFile = join(
-        domifaConfig().upload.basePath,
-        "tmp",
-        doc.path + ".unencrypted"
-      );
-
-      const output = createWriteStream(outputFile);
+      const output = createWriteStream(outputFilePath);
 
       input.pipe(decipher).pipe(output);
 
       output.on("error", (error: Error) => {
         console.log(error);
-        appLogger.error("[FILES] CANNOT_DECRYPT_FILE : " + outputFile, {
+        appLogger.error("[FILES] CANNOT_DECRYPT_FILE : " + outputFilePath, {
           error,
           sentry: true,
         });
@@ -308,20 +310,26 @@ export class UsagerDocsController {
     });
   }
 
-  private async encryptFile(pathFile: string): Promise<void | Error> {
+  private async encryptFile(
+    usager: UsagerLight,
+    fileName: string
+  ): Promise<void | Error> {
     return new Promise((resolve, reject) => {
+      const filePath = getFilePath(usager.structureId, usager.ref, fileName);
+
       const key = domifaConfig().security.files.private;
       const iv = domifaConfig().security.files.iv;
 
       const cipher = createCipheriv("aes-256-cfb", key, iv);
 
-      const input = createReadStream(pathFile);
-      const output = createWriteStream(pathFile + ".encrypted");
+      const input = createReadStream(filePath);
+      const output = createWriteStream(filePath + ".encrypted");
 
       input.pipe(cipher).pipe(output);
 
       output.on("error", (error: Error) => {
-        appLogger.error("[FILES] CANNOT_ENCRYPT_FILE : " + pathFile, {
+        console.log(error);
+        appLogger.error("[FILES] CANNOT_ENCRYPT_FILE : " + filePath, {
           sentry: true,
           error,
         });

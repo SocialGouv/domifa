@@ -71,7 +71,7 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   };
 
   public today: Date;
-  public subscription: Subscription;
+  private subscription = new Subscription();
 
   public labelsDernierPassage: {
     [key in UsagersFilterCriteriaDernierPassage]: string;
@@ -97,7 +97,6 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
     private readonly matomo: MatomoTracker
   ) {
     this.today = new Date();
-
     this.selectedUsager = null;
     this.loadingButtons = [];
     this.usagers = [];

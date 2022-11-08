@@ -14,7 +14,7 @@ import { GeneralService } from "../../services/general.service";
 })
 export class HomeComponent implements OnInit, OnDestroy {
   public stats: HomeStats;
-  public subscription = new Subscription();
+  private subscription = new Subscription();
   public countOptions: CountUpOptions;
 
   constructor(

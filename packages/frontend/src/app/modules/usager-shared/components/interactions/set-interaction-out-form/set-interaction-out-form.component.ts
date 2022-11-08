@@ -51,7 +51,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   public procurationIndex: number | null; // Mandataire = true / domicilié = false
   public loading = false;
 
-  private subscription: Subscription;
+  private subscription = new Subscription();
 
   constructor(
     private readonly interactionService: InteractionService,
