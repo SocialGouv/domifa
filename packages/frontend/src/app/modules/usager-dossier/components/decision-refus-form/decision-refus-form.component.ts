@@ -1,6 +1,13 @@
 import { minDateToday } from "src/app/shared/bootstrap-util";
 import { UsagerFormModel } from "./../../../usager-shared/interfaces/UsagerFormModel";
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from "@angular/core";
 import {
   FormGroup,
   FormBuilder,
@@ -18,13 +25,14 @@ import {
 import { formatDateToNgb } from "../../../../shared/bootstrap-util";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-decision-refus-form",
   templateUrl: "./decision-refus-form.component.html",
   styleUrls: ["./decision-refus-form.component.css"],
 })
-export class DecisionRefusFormComponent implements OnInit {
+export class DecisionRefusFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
 
   @Output() public closeModals = new EventEmitter<void>();
@@ -39,12 +47,14 @@ export class DecisionRefusFormComponent implements OnInit {
   public maxDateRefus: NgbDateStruct;
   public minDate: NgbDateStruct;
 
+  private subscription = new Subscription();
+
   constructor(
-    private formBuilder: FormBuilder,
-    private usagerDecisionService: UsagerDecisionService,
-    private router: Router,
-    private nbgDate: NgbDateCustomParserFormatter,
-    private toastService: CustomToastService
+    private readonly formBuilder: FormBuilder,
+    private readonly usagerDecisionService: UsagerDecisionService,
+    private readonly router: Router,
+    private readonly nbgDate: NgbDateCustomParserFormatter,
+    private readonly toastService: CustomToastService
   ) {
     this.loading = false;
     this.submitted = false;
@@ -66,16 +76,18 @@ export class DecisionRefusFormComponent implements OnInit {
       orientationDetails: [null, [Validators.required]],
     });
 
-    this.refusForm.get("motif")?.valueChanges.subscribe((value) => {
-      if (value === "AUTRE") {
-        this.refusForm
-          .get("motifDetails")
-          ?.setValidators([Validators.required, Validators.minLength(10)]);
-      } else {
-        this.refusForm.get("motifDetails")?.setValidators(null);
-        this.refusForm.get("motifDetails")?.setValue(null);
-      }
-    });
+    this.subscription.add(
+      this.refusForm.get("motif")?.valueChanges.subscribe((value) => {
+        if (value === "AUTRE") {
+          this.refusForm
+            .get("motifDetails")
+            ?.setValidators([Validators.required, Validators.minLength(10)]);
+        } else {
+          this.refusForm.get("motifDetails")?.setValidators(null);
+          this.refusForm.get("motifDetails")?.setValue(null);
+        }
+      })
+    );
   }
 
   public setDecisionRefus() {
@@ -99,20 +111,27 @@ export class DecisionRefusFormComponent implements OnInit {
 
   public setDecision(formDatas: UsagerDecisionRefusForm): void {
     this.loading = true;
-    this.usagerDecisionService
-      .setDecision(this.usager.ref, formDatas)
-      .subscribe({
-        next: (usager: UsagerLight) => {
-          this.toastService.success("Décision enregistrée avec succès ! ");
-          this.router.navigate(["profil/general/" + usager.ref]);
-          this.closeModals.emit();
-          this.submitted = false;
-          this.loading = false;
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error("La décision n'a pas pu être enregistrée");
-        },
-      });
+
+    this.subscription.add(
+      this.usagerDecisionService
+        .setDecision(this.usager.ref, formDatas)
+        .subscribe({
+          next: (usager: UsagerLight) => {
+            this.toastService.success("Décision enregistrée avec succès ! ");
+            this.router.navigate(["profil/general/" + usager.ref]);
+            this.closeModals.emit();
+            this.submitted = false;
+            this.loading = false;
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error("La décision n'a pas pu être enregistrée");
+          },
+        })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

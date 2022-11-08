@@ -1,5 +1,11 @@
 import { noWhiteSpace } from "./../../../../shared/validators/whitespace.validator";
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -18,13 +24,14 @@ import {
   NgbModalOptions,
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-structures-sms-form",
   templateUrl: "./structures-sms-form.component.html",
   styleUrls: ["./structures-sms-form.component.css"],
 })
-export class StructuresSmsFormComponent implements OnInit {
+export class StructuresSmsFormComponent implements OnInit, OnDestroy {
   public structure!: StructureCommon;
 
   public loading: boolean;
@@ -35,6 +42,7 @@ export class StructuresSmsFormComponent implements OnInit {
   public tutoModal!: TemplateRef<NgbModalRef>;
 
   public modalOptions: NgbModalOptions;
+  private subscription = new Subscription();
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -60,32 +68,33 @@ export class StructuresSmsFormComponent implements OnInit {
 
   public ngOnInit(): void {
     this.titleService.setTitle("Paramétrer les SMS");
+    this.subscription.add(
+      this.structureService.findMyStructure().subscribe({
+        next: (structure: StructureCommon) => {
+          this.structure = structure;
 
-    this.structureService.findMyStructure().subscribe({
-      next: (structure: StructureCommon) => {
-        this.structure = structure;
+          if (!this.structure.sms.senderDetails) {
+            this.structure.sms.senderDetails = this.structure.nom.substring(
+              0,
+              30
+            );
+          }
 
-        if (!this.structure.sms.senderDetails) {
-          this.structure.sms.senderDetails = this.structure.nom.substring(
-            0,
-            30
+          if (!this.structure.sms.senderName) {
+            this.structure.sms.senderName = generateSender(
+              this.structure.nom.substring(0, 11)
+            );
+          }
+
+          this.initForm();
+        },
+        error: () => {
+          this.toastService.success(
+            "Impossible de récupérer les infos de ma structure"
           );
-        }
-
-        if (!this.structure.sms.senderName) {
-          this.structure.sms.senderName = generateSender(
-            this.structure.nom.substring(0, 11)
-          );
-        }
-
-        this.initForm();
-      },
-      error: () => {
-        this.toastService.success(
-          "Impossible de récupérer les infos de ma structure"
-        );
-      },
-    });
+        },
+      })
+    );
   }
 
   public initForm() {
@@ -103,17 +112,18 @@ export class StructuresSmsFormComponent implements OnInit {
         [Validators.required, Validators.maxLength(30), noWhiteSpace],
       ],
     });
-
-    this.structureSmsForm.get("senderName")?.valueChanges.subscribe(() => {
-      this.structureSmsForm
-        .get("senderName")
-        ?.patchValue(
-          generateSender(this.structureSmsForm.get("senderName")?.value),
-          {
-            emitEvent: false,
-          }
-        );
-    });
+    this.subscription.add(
+      this.structureSmsForm.get("senderName")?.valueChanges.subscribe(() => {
+        this.structureSmsForm
+          .get("senderName")
+          ?.patchValue(
+            generateSender(this.structureSmsForm.get("senderName")?.value),
+            {
+              emitEvent: false,
+            }
+          );
+      })
+    );
   }
 
   public submitStructureSmsForm() {
@@ -125,22 +135,27 @@ export class StructuresSmsFormComponent implements OnInit {
     }
 
     this.loading = true;
-    this.structureService
-      .patchSmsParams(this.structureSmsForm.value)
-      .subscribe({
-        next: () => {
-          this.submitted = false;
-          this.toastService.success(
-            "Paramètres des SMS mis à jour avec succès"
-          );
-          this.loading = false;
-        },
-        error: () => {
-          this.toastService.error("Impossible de mettre à jour les paramètres");
-          this.submitted = false;
-          this.loading = false;
-        },
-      });
+
+    this.subscription.add(
+      this.structureService
+        .patchSmsParams(this.structureSmsForm.value)
+        .subscribe({
+          next: () => {
+            this.submitted = false;
+            this.toastService.success(
+              "Paramètres des SMS mis à jour avec succès"
+            );
+            this.loading = false;
+          },
+          error: () => {
+            this.toastService.error(
+              "Impossible de mettre à jour les paramètres"
+            );
+            this.submitted = false;
+            this.loading = false;
+          },
+        })
+    );
   }
 
   public trackVideo(name: string): void {
@@ -153,5 +168,9 @@ export class StructuresSmsFormComponent implements OnInit {
 
   public closeTutoModal(): void {
     this.modalService.dismissAll();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

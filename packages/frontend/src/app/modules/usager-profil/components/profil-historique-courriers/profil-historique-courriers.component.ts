@@ -83,7 +83,6 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
     this.interactionService
       .getInteractions({
         usagerRef: this.usager.ref,
-        maxResults: 15,
       })
       .subscribe((interactions: Interaction[]) => {
         this.interactions = interactions;

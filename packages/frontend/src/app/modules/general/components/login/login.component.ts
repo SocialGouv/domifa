@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -11,19 +11,21 @@ import { Title } from "@angular/platform-browser";
 import { AuthService } from "../../../shared/services/auth.service";
 import { regexp } from "../../../../shared/constants/REGEXP.const";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-login",
   styleUrls: ["./login.component.css"],
   templateUrl: "./login.component.html",
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   public loginForm!: FormGroup;
   public userForm!: FormGroup;
 
   public returnUrl: string;
   public hidePassword: boolean;
   public loading: boolean;
+  public subscription = new Subscription();
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -66,21 +68,26 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
+    this.subscription.add(
+      this.authService
+        .login(this.f.email.value, this.f.password.value)
+        .subscribe({
+          next: () => {
+            this.loading = false;
 
-    this.authService
-      .login(this.f.email.value, this.f.password.value)
-      .subscribe({
-        next: () => {
-          this.loading = false;
+            return this.returnUrl !== "/"
+              ? this.router.navigateByUrl(this.returnUrl)
+              : this.router.navigate(["/manage"]);
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error("Email et ou mot de passe incorrect");
+          },
+        })
+    );
+  }
 
-          return this.returnUrl !== "/"
-            ? this.router.navigateByUrl(this.returnUrl)
-            : this.router.navigate(["/manage"]);
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error("Email et ou mot de passe incorrect");
-        },
-      });
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

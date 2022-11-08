@@ -1,4 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { Subscription } from "rxjs";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -16,7 +17,7 @@ import { UsersService } from "../../services/users.service";
   styleUrls: ["./reset-password.component.css"],
   templateUrl: "./reset-password.component.html",
 })
-export class ResetPasswordComponent implements OnInit {
+export class ResetPasswordComponent implements OnInit, OnDestroy {
   public emailForm!: FormGroup;
   public resetForm!: FormGroup;
 
@@ -31,6 +32,7 @@ export class ResetPasswordComponent implements OnInit {
   public userId?: string;
   public errorLabels: { [key: string]: string };
 
+  private subscription = new Subscription();
   get e() {
     return this.emailForm.controls;
   }
@@ -67,22 +69,25 @@ export class ResetPasswordComponent implements OnInit {
     if (this.route.snapshot.params.token) {
       const token = this.route.snapshot.params.token;
       const userId = this.route.snapshot.params.userId;
-      this.userService.checkPasswordToken({ userId, token }).subscribe({
-        next: () => {
-          this.token = token;
-          this.userId = userId;
-          this.initPasswordForm();
-        },
-        error: (error) => {
-          const errorMessage =
-            typeof this.errorLabels[error.message] !== "undefined"
-              ? this.errorLabels[error.message]
-              : "Le lien est incorrect, veuillez recommencer la procédure";
-          this.toastService.error(errorMessage);
 
-          this.router.navigate(["/users/reset-password"]);
-        },
-      });
+      this.subscription.add(
+        this.userService.checkPasswordToken({ userId, token }).subscribe({
+          next: () => {
+            this.token = token;
+            this.userId = userId;
+            this.initPasswordForm();
+          },
+          error: (error) => {
+            const errorMessage =
+              typeof this.errorLabels[error.message] !== "undefined"
+                ? this.errorLabels[error.message]
+                : "Le lien est incorrect, veuillez recommencer la procédure";
+            this.toastService.error(errorMessage);
+
+            this.router.navigate(["/users/reset-password"]);
+          },
+        })
+      );
     }
     this.initEmailForm();
   }
@@ -138,16 +143,18 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     this.loading = true;
-    this.userService.getPasswordToken(this.emailForm.value).subscribe({
-      next: () => {
-        this.success = true;
-        this.loading = false;
-      },
-      error: () => {
-        this.loading = false;
-        this.toastService.error("Veuillez vérifier l'adresse email");
-      },
-    });
+    this.subscription.add(
+      this.userService.getPasswordToken(this.emailForm.value).subscribe({
+        next: () => {
+          this.success = true;
+          this.loading = false;
+        },
+        error: () => {
+          this.loading = false;
+          this.toastService.error("Veuillez vérifier l'adresse email");
+        },
+      })
+    );
   }
 
   public submitResetForm() {
@@ -163,5 +170,9 @@ export class ResetPasswordComponent implements OnInit {
         this.success = true;
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

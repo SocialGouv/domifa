@@ -1,7 +1,9 @@
+import { Subscription } from "rxjs";
 import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   TemplateRef,
@@ -37,7 +39,7 @@ import {
   styleUrls: ["./manage-usagers-table.css"],
   templateUrl: "./manage-usagers-table.html",
 })
-export class ManageUsagersTableComponent implements OnInit {
+export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   @Input()
   public me!: UserStructure | null;
 
@@ -69,6 +71,7 @@ export class ManageUsagersTableComponent implements OnInit {
   };
 
   public today: Date;
+  public subscription: Subscription;
 
   public labelsDernierPassage: {
     [key in UsagersFilterCriteriaDernierPassage]: string;
@@ -132,19 +135,23 @@ export class ManageUsagersTableComponent implements OnInit {
 
     this.matomo.trackEvent("MANAGE_USAGERS", "click", interactionType[type], 1);
 
-    this.interactionService
-      .setInteractionIn(usager.ref, [interaction])
-      .subscribe({
-        next: (newUsager: UsagerLight) => {
-          this.updateUsager.emit(newUsager);
-          this.toastService.success(INTERACTIONS_LABELS_SINGULIER[type]);
-          this.stopLoading(loadingRef);
-        },
-        error: () => {
-          this.toastService.error("Impossible d'enregistrer cette interaction");
-          this.stopLoading(loadingRef);
-        },
-      });
+    this.subscription.add(
+      this.interactionService
+        .setInteractionIn(usager.ref, [interaction])
+        .subscribe({
+          next: (newUsager: UsagerLight) => {
+            this.updateUsager.emit(newUsager);
+            this.toastService.success(INTERACTIONS_LABELS_SINGULIER[type]);
+            this.stopLoading(loadingRef);
+          },
+          error: () => {
+            this.toastService.error(
+              "Impossible d'enregistrer cette interaction"
+            );
+            this.stopLoading(loadingRef);
+          },
+        })
+    );
   }
 
   private stopLoading(loadingRef: string) {
@@ -178,5 +185,9 @@ export class ManageUsagersTableComponent implements OnInit {
 
   public cancelReception() {
     this.modalService.dismissAll();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
