@@ -1,3 +1,11 @@
+## [2.109.1](https://github.com/SocialGouv/domifa/compare/v2.109.0...v2.109.1) (2022-11-08)
+
+
+### Bug Fixes
+
+* **files:** amélioration des logs sur l'upload de fichiers ([a3e5e80](https://github.com/SocialGouv/domifa/commit/a3e5e80e1941ba82db686355e0fa45beb708c741))
+* **rxjs:** end of refacto ([322fae5](https://github.com/SocialGouv/domifa/commit/322fae5bcaf17d27231c991ac3ba7fa1916963f1))
+
 # [2.109.0](https://github.com/SocialGouv/domifa/compare/v2.108.0...v2.109.0) (2022-11-07)
 
 
