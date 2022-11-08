@@ -1,5 +1,12 @@
 import { minDateToday } from "src/app/shared/bootstrap-util";
-import { Component, OnInit, EventEmitter, Input, Output } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Input,
+  Output,
+  OnDestroy,
+} from "@angular/core";
 import {
   FormGroup,
   FormBuilder,
@@ -19,13 +26,14 @@ import { NgbDateCustomParserFormatter } from "../../../shared/services/date-form
 
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-radiation-form",
   styleUrls: ["./radiation-form.component.css"],
   templateUrl: "./radiation-form.component.html",
 })
-export class RadiationFormComponent implements OnInit {
+export class RadiationFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
 
   @Output() public closeModals = new EventEmitter<void>();
@@ -39,6 +47,8 @@ export class RadiationFormComponent implements OnInit {
 
   public minDate: NgbDateStruct;
   public maxDate: NgbDateStruct;
+
+  private subscription = new Subscription();
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -64,16 +74,18 @@ export class RadiationFormComponent implements OnInit {
       motifDetails: [null, []],
     });
 
-    this.radiationForm.get("motif")?.valueChanges.subscribe((value) => {
-      if (value === "AUTRE") {
-        this.radiationForm
-          .get("motifDetails")
-          ?.setValidators([Validators.required, Validators.minLength(10)]);
-      } else {
-        this.radiationForm.get("motifDetails")?.setValidators(null);
-        this.radiationForm.get("motifDetails")?.setValue(null);
-      }
-    });
+    this.subscription.add(
+      this.radiationForm.get("motif")?.valueChanges.subscribe((value) => {
+        if (value === "AUTRE") {
+          this.radiationForm
+            .get("motifDetails")
+            ?.setValidators([Validators.required, Validators.minLength(10)]);
+        } else {
+          this.radiationForm.get("motifDetails")?.setValidators(null);
+          this.radiationForm.get("motifDetails")?.setValue(null);
+        }
+      })
+    );
   }
 
   public setDecisionRadiation() {
@@ -97,25 +109,32 @@ export class RadiationFormComponent implements OnInit {
 
   public setDecision(formDatas: UsagerDecisionRadiationForm): void {
     this.loading = true;
-    this.usagerDecisionService
-      .setDecision(this.usager.ref, formDatas)
-      .subscribe({
-        next: (newUsager: UsagerLight) => {
-          this.toastService.success("Radiation enregistrée avec succès ! ");
 
-          setTimeout(() => {
-            this.usager = new UsagerFormModel(newUsager);
-            this.usagerChange.emit(this.usager);
-            this.closeModals.emit();
+    this.subscription.add(
+      this.usagerDecisionService
+        .setDecision(this.usager.ref, formDatas)
+        .subscribe({
+          next: (newUsager: UsagerLight) => {
+            this.toastService.success("Radiation enregistrée avec succès ! ");
+
+            setTimeout(() => {
+              this.usager = new UsagerFormModel(newUsager);
+              this.usagerChange.emit(this.usager);
+              this.closeModals.emit();
+              this.loading = false;
+              this.submitted = false;
+              window.location.reload();
+            }, 1000);
+          },
+          error: () => {
             this.loading = false;
-            this.submitted = false;
-            window.location.reload();
-          }, 1000);
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error("La décision n'a pas pu être enregistrée");
-        },
-      });
+            this.toastService.error("La décision n'a pas pu être enregistrée");
+          },
+        })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

@@ -1,10 +1,18 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { UsagerLight } from "../../../../../_common/model";
 import {
@@ -18,7 +26,7 @@ import { DocumentService } from "../../services/document.service";
   styleUrls: ["./upload.component.css"],
   templateUrl: "./upload.component.html",
 })
-export class UploadComponent implements OnInit {
+export class UploadComponent implements OnInit, OnDestroy {
   public submitted = false;
   public loading = false;
 
@@ -26,10 +34,10 @@ export class UploadComponent implements OnInit {
   public uploadForm!: FormGroup;
 
   @Output() public getUsagerDocs = new EventEmitter<void>();
-
   @Input() public usager!: UsagerLight;
-
   @Input() public edit!: boolean;
+
+  private subscription = new Subscription();
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -78,26 +86,31 @@ export class UploadComponent implements OnInit {
     const formData = new FormData();
     formData.append("file", this.uploadForm.controls.fileSource.value);
     formData.append("label", this.uploadForm.controls.label.value);
-
-    this.documentService.upload(formData, this.usager.ref).subscribe({
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      next: (uploadResponse: any) => {
-        this.uploadResponse = uploadResponse;
-        if (
-          this.uploadResponse.success !== undefined &&
-          this.uploadResponse.success
-        ) {
+    this.subscription.add(
+      this.documentService.upload(formData, this.usager.ref).subscribe({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        next: (uploadResponse: any) => {
+          this.uploadResponse = uploadResponse;
+          if (
+            this.uploadResponse.success !== undefined &&
+            this.uploadResponse.success
+          ) {
+            this.loading = false;
+            this.submitted = false;
+            this.uploadForm.reset();
+            this.getUsagerDocs.emit();
+            this.toastService.success("Fichier uploadé avec succès");
+          }
+        },
+        error: () => {
           this.loading = false;
-          this.submitted = false;
-          this.uploadForm.reset();
-          this.getUsagerDocs.emit();
-          this.toastService.success("Fichier uploadé avec succès");
-        }
-      },
-      error: () => {
-        this.loading = false;
-        this.toastService.error("Impossible d'uploader le fichier");
-      },
-    });
+          this.toastService.error("Impossible d'uploader le fichier");
+        },
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

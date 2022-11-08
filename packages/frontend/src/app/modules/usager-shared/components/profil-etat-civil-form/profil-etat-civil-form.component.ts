@@ -1,6 +1,13 @@
 import { EtatCivilParentFormComponent } from "./../etat-civil-parent-form/etat-civil-parent-form.component";
 import { UsagerEtatCivilFormData } from "./../../../../../_common/model/usager/form/UsagerEtatCivilFormData.type";
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from "@angular/core";
 import { FormBuilder } from "@angular/forms";
 
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
@@ -17,7 +24,7 @@ import { AuthService } from "../../../shared/services/auth.service";
 })
 export class ProfilEtatCivilFormComponent
   extends EtatCivilParentFormComponent
-  implements OnInit
+  implements OnInit, OnDestroy
 {
   @Input() public usager!: UsagerFormModel;
   @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
@@ -50,19 +57,24 @@ export class ProfilEtatCivilFormComponent
     const formValue: UsagerEtatCivilFormData = this.getEtatCivilForm(
       this.usagerForm.value
     );
-
-    this.etatCivilService.patchEtatCivil(this.usager.ref, formValue).subscribe({
-      next: (usager: UsagerLight) => {
-        this.editInfosChange.emit(false);
-        this.toastService.success("Enregistrement réussi");
-        this.usagerChange.emit(new UsagerFormModel(usager));
-        this.submitted = false;
-        this.loading = false;
-      },
-      error: () => {
-        this.loading = false;
-        this.toastService.error("Veuillez vérifier les champs du formulaire");
-      },
-    });
+    this.subscription.add(
+      this.etatCivilService
+        .patchEtatCivil(this.usager.ref, formValue)
+        .subscribe({
+          next: (usager: UsagerLight) => {
+            this.editInfosChange.emit(false);
+            this.toastService.success("Enregistrement réussi");
+            this.usagerChange.emit(new UsagerFormModel(usager));
+            this.submitted = false;
+            this.loading = false;
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error(
+              "Veuillez vérifier les champs du formulaire"
+            );
+          },
+        })
+    );
   }
 }

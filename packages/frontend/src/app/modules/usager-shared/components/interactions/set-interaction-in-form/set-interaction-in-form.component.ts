@@ -4,6 +4,7 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  OnDestroy,
   Output,
 } from "@angular/core";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
@@ -17,6 +18,7 @@ import { bounce } from "../../../../../shared";
 import { UsagerService } from "../../../../usagers/services/usager.service";
 import { UsagerFormModel } from "../../../interfaces";
 import { InteractionService } from "../../../services/interaction.service";
+import { Subscription } from "rxjs";
 
 @Component({
   animations: [bounce],
@@ -24,7 +26,7 @@ import { InteractionService } from "../../../services/interaction.service";
   templateUrl: "./set-interaction-in-form.component.html",
   styleUrls: ["./set-interaction-in-form.component.css", "../interactions.css"],
 })
-export class SetInteractionInFormComponent {
+export class SetInteractionInFormComponent implements OnDestroy {
   @Input() public usager!: UsagerFormModel;
   @Output()
   public usagerChange = new EventEmitter<UsagerFormModel>();
@@ -38,6 +40,7 @@ export class SetInteractionInFormComponent {
   @Output()
   public updateInteractions = new EventEmitter<void>();
 
+  private subscription = new Subscription();
   public interactionFormData: InteractionInForm;
 
   public content: string | null;
@@ -92,32 +95,38 @@ export class SetInteractionInFormComponent {
 
     this.loading = true;
 
-    this.interactionService
-      .setInteractionIn(this.usager.ref, interactionsToSave)
-      .subscribe({
-        next: () => {
-          this.toastService.success("Réception enregistrée avec succès");
-          setTimeout(() => {
-            this.refreshUsager();
-          }, 1000);
-        },
-        error: () => {
-          this.toastService.error("Impossible d'enregistrer cette interaction");
-          this.loading = false;
-        },
-      });
+    this.subscription.add(
+      this.interactionService
+        .setInteractionIn(this.usager.ref, interactionsToSave)
+        .subscribe({
+          next: () => {
+            this.toastService.success("Réception enregistrée avec succès");
+            setTimeout(() => {
+              this.refreshUsager();
+            }, 1000);
+          },
+          error: () => {
+            this.toastService.error(
+              "Impossible d'enregistrer cette interaction"
+            );
+            this.loading = false;
+          },
+        })
+    );
   }
 
   // Actualiser les données de l'usager
   public refreshUsager(): void {
-    this.usagerService
-      .findOne(this.usager.ref)
-      .subscribe((usager: UsagerLight) => {
-        this.updateUsagerForManage.emit(usager);
-        this.usagerChange.emit(new UsagerFormModel(usager));
-        this.cancelReception.emit();
-        this.updateInteractions.emit();
-      });
+    this.subscription.add(
+      this.usagerService
+        .findOne(this.usager.ref)
+        .subscribe((usager: UsagerLight) => {
+          this.updateUsagerForManage.emit(usager);
+          this.usagerChange.emit(new UsagerFormModel(usager));
+          this.cancelReception.emit();
+          this.updateInteractions.emit();
+        })
+    );
   }
 
   public increment(value: InteractionIn): void {
@@ -138,5 +147,9 @@ export class SetInteractionInFormComponent {
       event.preventDefault();
       this.setInteractionForm();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
