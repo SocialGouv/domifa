@@ -1,6 +1,8 @@
 import { remove } from "fs-extra";
-import { extname } from "path";
+import { extname, join } from "path";
 import { appLogger } from ".";
+import { domifaConfig } from "../config";
+import { ExpressRequest } from "./express";
 
 // Liste des extensions autorisé selon le contexte
 export const mimeTypes = {
@@ -72,7 +74,7 @@ export function validateUpload(
     | "STRUCTURE_DOC"
     | "USAGER_DOC"
     | "IMPORT",
-  _req: any,
+  _req: ExpressRequest,
   file: Express.Multer.File
 ): boolean {
   const validFileMimeType = mimeTypes[uploadType].includes(file.mimetype);
@@ -81,4 +83,23 @@ export function validateUpload(
   );
 
   return validFileMimeType && validFileExtension;
+}
+
+export function getFileDir(structureId: number, usagerRef: number): string {
+  const dir = join(
+    domifaConfig().upload.basePath,
+    `${structureId}`,
+    `${usagerRef}`
+  );
+
+  return dir;
+}
+
+export function getFilePath(
+  structureId: number,
+  usagerRef: number,
+  fileName: string
+): string {
+  const dir = getFileDir(structureId, usagerRef);
+  return join(dir, fileName);
 }

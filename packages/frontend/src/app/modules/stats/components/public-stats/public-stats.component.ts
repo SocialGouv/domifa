@@ -33,7 +33,7 @@ export class PublicStatsComponent implements OnInit, OnDestroy {
   public REGIONS_OUTRE_MER = REGIONS_OUTRE_MER;
   public REGIONS_SEO_ID: RegionsLabels = REGIONS_SEO_ID;
   public REGIONS_ID_SEO: RegionsLabels = REGIONS_ID_SEO;
-  public subscription = new Subscription();
+  private subscription = new Subscription();
 
   constructor(
     private readonly statsService: StatsService,
