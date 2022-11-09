@@ -88,8 +88,8 @@ export function validateUpload(
 export function getFileDir(structureId: number, usagerRef: number): string {
   const dir = join(
     domifaConfig().upload.basePath,
-    `${structureId}`,
-    `${usagerRef}`
+    cleanPath(`${structureId}`),
+    cleanPath(`${usagerRef}`)
   );
 
   return dir;
@@ -102,4 +102,8 @@ export function getFilePath(
 ): string {
   const dir = getFileDir(structureId, usagerRef);
   return join(dir, fileName);
+}
+
+export function cleanPath(path: string): string {
+  return path.replace(/[^a-z0-9]/gi, "");
 }
