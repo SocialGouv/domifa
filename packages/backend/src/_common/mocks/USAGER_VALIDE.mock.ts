@@ -39,6 +39,7 @@ export const USAGER_VALIDE_MOCK: UsagerLight = {
       dateFin: new Date("2020-11-01T00:00:00.000Z"),
       userName: "Patrick Roméro",
       dateDecision: new Date("2020-11-01T00:00:00.000Z"),
+      dateDebut: new Date("2020-11-01T00:00:00.000Z"),
       orientationDetails: null,
     },
   ],

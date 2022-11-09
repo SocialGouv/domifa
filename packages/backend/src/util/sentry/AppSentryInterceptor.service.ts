@@ -5,7 +5,7 @@ import {
   InternalServerErrorException,
   NestInterceptor,
 } from "@nestjs/common";
-import { addRequestDataToEvent, CrossPlatformRequest } from "@sentry/node";
+import { addRequestDataToEvent } from "@sentry/node";
 
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
@@ -63,7 +63,7 @@ function parseRequest(context: ExecutionContext): {
   user: UserStructureAuthenticated;
 } {
   const httpContext = context.switchToHttp();
-  const expressRequest: CrossPlatformRequest = httpContext.getRequest();
+  const expressRequest: any = httpContext.getRequest();
   if (!expressRequest) {
     return null;
   }
@@ -83,7 +83,7 @@ function parseRequest(context: ExecutionContext): {
   };
 }
 
-function logSentryRequest(req: CrossPlatformRequest): Record<string, any> {
+function logSentryRequest(req: any): Record<string, any> {
   const headers = req.headers ?? {};
 
   return {
