@@ -1,3 +1,12 @@
+## [2.109.2](https://github.com/SocialGouv/domifa/compare/v2.109.1...v2.109.2) (2022-11-09)
+
+
+### Bug Fixes
+
+* **codeql:** fix alert path ([53c4eb4](https://github.com/SocialGouv/domifa/commit/53c4eb4f251f0ab5f132edb3f30a00c117202b50))
+* **deps:** fix axios deps ([f9d3ee1](https://github.com/SocialGouv/domifa/commit/f9d3ee1769089944080dccb0ff626a468d7396bb))
+* **linters:** refacto pour améliorer le lint et le typage du backend ([2342f8e](https://github.com/SocialGouv/domifa/commit/2342f8ed29b1c0b4b5691c312dbb8ad9d82f487d))
+
 ## [2.109.1](https://github.com/SocialGouv/domifa/compare/v2.109.0...v2.109.1) (2022-11-08)
 
 
