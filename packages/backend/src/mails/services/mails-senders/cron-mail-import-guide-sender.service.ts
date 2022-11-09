@@ -85,12 +85,9 @@ export class CronMailImportGuideSenderService {
     if (structures.length === 0) {
       return [];
     }
+
     for (const structure of structures) {
       structuresIds.push(structure.id);
-    }
-
-    if (structuresIds.length === 0) {
-      return;
     }
 
     const users = await cronMailsRepository.findUsersToSendCronMail({

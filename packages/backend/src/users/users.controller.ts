@@ -80,9 +80,8 @@ export class UsersController {
   public async updateRole(
     @Body() updateRoleDto: UpdateRoleDto,
     @CurrentUser() userStructureAuth: UserStructureAuthenticated,
-    @CurrentChosenUserStructure() chosenUserStructure: UserStructure,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    @Param("userId", new ParseIntPipe()) userId: number
+    @Param("userId", new ParseIntPipe()) _userId: number,
+    @CurrentChosenUserStructure() chosenUserStructure: UserStructure
   ): Promise<UserStructureProfile> {
     return userStructureRepository.updateOne(
       {
@@ -101,7 +100,7 @@ export class UsersController {
   public async delete(
     @CurrentUser() userStructureAuth: UserStructureAuthenticated,
     @CurrentChosenUserStructure() chosenUserStructure: UserStructure,
-    @Param("userId", new ParseIntPipe()) userId: number,
+    @Param("userId", new ParseIntPipe()) _userId: number,
     @Res() res: ExpressResponse
   ) {
     await usersDeletor.deleteUser({

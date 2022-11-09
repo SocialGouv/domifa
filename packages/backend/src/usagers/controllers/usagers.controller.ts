@@ -275,8 +275,8 @@ export class UsagersController {
   @Delete(":usagerRef")
   public async delete(
     @CurrentUser() user: UserStructureAuthenticated,
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentUsager() usager: UsagerLight,
-    @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
     @Res() res: Response
   ) {
     // Suppression des Documents

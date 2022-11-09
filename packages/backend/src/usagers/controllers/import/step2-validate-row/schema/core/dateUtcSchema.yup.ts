@@ -35,4 +35,5 @@ export const dateUtcSchema = () =>
       }
       return momentDate.toDate();
     }
+    return null;
   });

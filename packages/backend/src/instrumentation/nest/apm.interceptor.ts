@@ -14,7 +14,7 @@ export class ApmInterceptor implements NestInterceptor {
   constructor(private readonly apmService: ApmService) {}
 
   intercept(
-    context: ExecutionContext,
+    _context: ExecutionContext,
     next: CallHandler
   ): Observable<Response> {
     return next.handle().pipe(

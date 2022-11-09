@@ -8,9 +8,9 @@
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "noUnusedLocals": true,
-    //  "strict": true,
-    // "noImplicitReturns": true,
-    // "noUnusedParameters": true,
+    // "strict": true,
+    "noImplicitReturns": true,
+    "noUnusedParameters": true,
     // "noImplicitAny": true,
     "lib": [
       "es2018.promise"

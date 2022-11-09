@@ -3,7 +3,7 @@ import * as yup from "yup";
 export function oneOfString<T extends string>(
   allowedValues: T[],
   {
-    transform = (value: any, originalValue: any) => originalValue,
+    transform = (_value: any, originalValue: any) => originalValue,
     toUpperCase,
     label,
   }: {

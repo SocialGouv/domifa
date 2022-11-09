@@ -20,7 +20,7 @@ import { Response } from "express";
 import { diskStorage } from "multer";
 
 import * as fse from "fs-extra";
-import * as path from "path";
+
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { AllowUserStructureRoles } from "../../auth/decorators";
@@ -29,16 +29,16 @@ import { deleteFile, randomName, validateUpload } from "../../util/FileManager";
 import { UserStructureAuthenticated } from "../../_common/model";
 import { StructureDoc } from "../../_common/model/structure-doc";
 import { StructureDocDto } from "../dto/structure-doc.dto";
-import { StructureDocService } from "../services/structure-doc.service";
+
 import { structureDocRepository } from "../../database";
+import { ExpressRequest } from "../../util/express";
+import { join } from "path";
 
 @ApiTags("structure-docs")
 @ApiBearerAuth()
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("structure-docs")
 export class StructureDocController {
-  constructor(private structureDocService: StructureDocService) {}
-
   @Get(":uuid")
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getStructureDoc(
@@ -46,15 +46,25 @@ export class StructureDocController {
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
-    const doc = await this.structureDocService.findOne(user.structureId, uuid);
-    const output = path.join(
-      domifaConfig().upload.basePath,
-      `${user.structureId}`,
-      "docs",
-      doc.path
-    );
+    try {
+      const doc = await structureDocRepository.findOneByOrFail({
+        structureId: user.structureId,
+        uuid,
+      });
 
-    return res.status(HttpStatus.OK).sendFile(output as string);
+      const output = join(
+        domifaConfig().upload.basePath,
+        `${user.structureId}`,
+        "docs",
+        doc.path
+      );
+
+      return res.status(HttpStatus.OK).sendFile(output as string);
+    } catch (e) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "DOC_NOT_FOUND" });
+    }
   }
 
   @ApiOperation({ summary: "Upload de documents personnalisables" })
@@ -67,7 +77,7 @@ export class StructureDocController {
         files: 1,
       },
       fileFilter: (
-        req: any,
+        req: ExpressRequest,
         file: Express.Multer.File,
         cb: (error: any | null, success: boolean) => void
       ) => {
@@ -80,10 +90,10 @@ export class StructureDocController {
       storage: diskStorage({
         destination: async (
           req: any,
-          file: Express.Multer.File,
+          _file: Express.Multer.File,
           cb: (error: Error | null, success: string) => void
         ) => {
-          const dir = path.join(
+          const dir = join(
             domifaConfig().upload.basePath,
             `${req.user.structureId}`,
             "docs"
@@ -95,7 +105,11 @@ export class StructureDocController {
           cb(null, dir);
         },
 
-        filename: (req: any, file: Express.Multer.File, cb: any) => {
+        filename: (
+          _req: ExpressRequest,
+          file: Express.Multer.File,
+          cb: any
+        ) => {
           return cb(null, randomName(file));
         },
       }),
@@ -118,7 +132,7 @@ export class StructureDocController {
       });
 
       if (doc) {
-        await this.deleteDocument(doc.uuid, user);
+        await this.deleteDocument(doc.uuid, user, res);
       }
     }
 
@@ -140,11 +154,12 @@ export class StructureDocController {
     };
 
     // Ajout du document
-    await this.structureDocService.create(newDoc);
+    await structureDocRepository.insert(newDoc);
 
-    return res
-      .status(HttpStatus.OK)
-      .json(await this.structureDocService.findAll(user.structureId));
+    const docs = await structureDocRepository.findBy({
+      structureId: user.structureId,
+    });
+    return res.status(HttpStatus.OK).json(docs);
   }
 
   @Get("")
@@ -152,28 +167,41 @@ export class StructureDocController {
   public async getStructureDocs(
     @CurrentUser() user: UserStructureAuthenticated
   ) {
-    return this.structureDocService.findAll(user.structureId);
+    return structureDocRepository.findBy({ structureId: user.structureId });
   }
 
   @Delete(":uuid")
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async deleteDocument(
     @Param("uuid", new ParseUUIDPipe()) uuid: string,
-    @CurrentUser() user: UserStructureAuthenticated
+    @CurrentUser() user: UserStructureAuthenticated,
+    @Res() res: Response
   ) {
-    const doc = await this.structureDocService.findOne(user.structureId, uuid);
+    try {
+      const doc = await structureDocRepository.findOneByOrFail({
+        structureId: user.structureId,
+        uuid,
+      });
 
-    const pathFile = path.join(
-      domifaConfig().upload.basePath,
-      `${user.structureId}`,
-      "docs",
-      doc.path
-    );
+      const pathFile = join(
+        domifaConfig().upload.basePath,
+        `${user.structureId}`,
+        "docs",
+        doc.path
+      );
 
-    deleteFile(pathFile);
+      await deleteFile(pathFile);
 
-    await this.structureDocService.deleteOne(user.structureId, uuid);
+      await structureDocRepository.delete({
+        structureId: user.structureId,
+        uuid: doc.uuid,
+      });
 
-    return this.structureDocService.findAll(user.structureId);
+      return structureDocRepository.findBy({ structureId: user.structureId });
+    } catch (e) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "DOC_NOT_FOUND" });
+    }
   }
 }

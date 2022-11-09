@@ -31,7 +31,7 @@ import {
   customDocTemplateLoader,
   generateCustomDoc,
 } from "../custom-docs";
-import { StructureDocService } from "./../../structures/services/structure-doc.service";
+
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 
 import * as path from "path";
@@ -41,10 +41,7 @@ import * as path from "path";
 @ApiBearerAuth()
 @Controller("usagers-structure-docs")
 export class UsagerStructureDocsController {
-  constructor(
-    private structureDocService: StructureDocService,
-    private appLogsService: AppLogsService
-  ) {}
+  constructor(private appLogsService: AppLogsService) {}
 
   @ApiOperation({ summary: "Télécharger un document pré-rempli" })
   @Get("structure/:usagerRef/:structureDocUuid")
@@ -56,10 +53,10 @@ export class UsagerStructureDocsController {
     @Param("structureDocUuid", new ParseUUIDPipe()) structureDocUuid: string,
     @Res() res: Response
   ) {
-    const doc: StructureDoc = await this.structureDocService.findOne(
-      user.structureId,
-      structureDocUuid
-    );
+    const doc: StructureDoc = await structureDocRepository.findOneBy({
+      structureId: user.structureId,
+      uuid: structureDocUuid,
+    });
 
     if (!doc) {
       return res

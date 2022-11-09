@@ -20,14 +20,14 @@ import { domifaConfig } from "../../config";
 import { validateUpload, randomName } from "../../util/FileManager";
 
 import { contactSupportEmailSender } from "../../mails/services/templates-renderers/contact-support";
-import { ExpressResponse } from "../../util/express";
+import { ExpressRequest, ExpressResponse } from "../../util/express";
 
 @Controller("contact")
 export class ContactSupportController {
   @Post("")
   @UseInterceptors(
     FileInterceptor("file", {
-      fileFilter: (req: any, file: Express.Multer.File, cb: any) => {
+      fileFilter: (req: ExpressRequest, file: Express.Multer.File, cb: any) => {
         if (!file) {
           cb(null, true);
         }
@@ -37,7 +37,11 @@ export class ContactSupportController {
         return cb(null, true);
       },
       storage: diskStorage({
-        destination: async (_req: any, _file: Express.Multer.File, cb: any) => {
+        destination: async (
+          _req: ExpressRequest,
+          _file: Express.Multer.File,
+          cb: any
+        ) => {
           const dir = path.join(
             domifaConfig().upload.basePath,
             "contact-support"
@@ -45,7 +49,11 @@ export class ContactSupportController {
           await fse.ensureDir(dir);
           cb(null, dir);
         },
-        filename: (_req: any, file: Express.Multer.File, cb: any) => {
+        filename: (
+          _req: ExpressRequest,
+          file: Express.Multer.File,
+          cb: any
+        ) => {
           return cb(null, randomName(file));
         },
       }),

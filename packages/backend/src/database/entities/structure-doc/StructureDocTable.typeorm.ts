@@ -35,16 +35,16 @@ export class StructureDocTable
   };
 
   @Column({ type: "boolean", nullable: false, default: false })
-  custom: boolean;
+  custom!: boolean;
 
   @Column({ type: "text", nullable: true, default: null })
-  customDocType: StructureCustomDocType;
+  customDocType!: StructureCustomDocType;
 
   @Column({ type: "boolean", nullable: false, default: false })
-  displayInPortailUsager: boolean;
+  displayInPortailUsager!: boolean;
 
   @Column({ type: "text", nullable: false })
-  filetype: string;
+  filetype!: string;
 
   @Index()
   @ManyToOne(() => StructureTable, (structure) => structure.id, {
@@ -52,10 +52,10 @@ export class StructureDocTable
   })
   @Column({ type: "integer", nullable: false, update: false })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
-  structureId: number;
+  public structureId!: number;
 
   @Column({ type: "text", nullable: false })
-  path: string;
+  public path!: string;
 
   public constructor(entity?: Partial<StructureDocTable>) {
     super(entity);
