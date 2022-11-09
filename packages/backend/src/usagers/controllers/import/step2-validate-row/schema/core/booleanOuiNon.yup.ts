@@ -3,7 +3,7 @@ import * as yup from "yup";
 export function booleanOuiNon() {
   return yup
     .boolean()
-    .transform((value, originalValue) => {
+    .transform((_value, originalValue) => {
       if (originalValue && originalValue.toString) {
         const upper = originalValue.toString().toUpperCase();
         if (upper === "OUI") {

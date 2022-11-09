@@ -8,8 +8,8 @@ export type UsagerDecision = {
 
   dateDecision: Date; // Now()
 
-  dateDebut?: Date;
-  dateFin?: Date;
+  dateDebut: Date | null;
+  dateFin: Date | null;
 
   typeDom?: UsagerTypeDom;
   statut: UsagerDecisionStatut;

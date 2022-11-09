@@ -55,6 +55,7 @@ async function parseAndValidate({
         error: err as Error,
         sentry: true,
       });
+      throw new Error("[IMPORT]: Error during import");
     }
   }
 }

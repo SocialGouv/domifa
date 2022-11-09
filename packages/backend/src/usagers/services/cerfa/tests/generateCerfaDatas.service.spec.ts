@@ -19,7 +19,7 @@ import {
 
 const mockDataUsagerValide = {
   adresse: "CCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine",
-  adresseOrga1: "CCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine",
+  adresseOrga1: "1 rue de l'océan\n92600 - Asnieres-sur-seine",
   agrement: null,
   anneeDebut: "2019",
   anneeDecision1A: "2019",
@@ -34,8 +34,7 @@ const mockDataUsagerValide = {
   courriel: "domicilie2@yopmail.com",
   courrielOrga: "ccas.test@yopmail.com",
   decision: "",
-  entretienAdresse:
-    "CCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine",
+  entretienAdresse: "1 rue de l'océan\n92600 - Asnieres-sur-seine",
   entretienAvec: "",
   heureRdv: "",
   jourDebut: "12",
@@ -84,7 +83,7 @@ const mockDataUsagerValide = {
 
 const mockDataUsagerRefus = {
   adresse: "CCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine",
-  adresseOrga1: "CCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine",
+  adresseOrga1: "1 rue de l'océan\n92600 - Asnieres-sur-seine",
   agrement: null,
   anneeDebut: "2019",
   anneeDecision1A: "2019",
@@ -99,8 +98,7 @@ const mockDataUsagerRefus = {
   courriel: "",
   courrielOrga: "ccas.test@yopmail.com",
   decision: "2",
-  entretienAdresse:
-    "CCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine",
+  entretienAdresse: "1 rue de l'océan\n92600 - Asnieres-sur-seine",
   entretienAvec: "",
   heureRdv: "",
   jourDebut: "12",
@@ -269,7 +267,7 @@ describe("Cerfa Data utils", () => {
         "CCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine"
       );
       expect(adresseStructure).toEqual(
-        "CCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine"
+        "1 rue de l'océan\n92600 - Asnieres-sur-seine"
       );
     });
 
@@ -289,16 +287,16 @@ describe("Cerfa Data utils", () => {
 
       const cerfaDatas2 = generateCerfaDatas(usagerValide, user, "attestation");
 
-      expect(cerfaDatas2.adresse).toEqual(
-        "CCAS de Test\nAdresse de courrier\n75010 - Paris 10eme"
-      );
-
       expect(adresseDomicilie).toEqual(
         "CCAS de Test\nAdresse de courrier\n75010 - Paris 10eme"
       );
       // Ici, l'adresse de la structure ne doit pas changer
       expect(adresseStructure).toEqual(
-        "CCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine"
+        "1 rue de l'océan\n92600 - Asnieres-sur-seine"
+      );
+
+      expect(cerfaDatas2.adresse).toEqual(
+        "CCAS de Test\nAdresse de courrier\n75010 - Paris 10eme"
       );
     });
     it("Usager avec numéro TSA ou boite postale", () => {

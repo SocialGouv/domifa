@@ -37,7 +37,7 @@ export type Usager = AppEntity & {
 
   // FORMULAIRE
   etapeDemande: number;
-  rdv: UsagerRdv;
+  rdv: UsagerRdv | null;
   entretien: UsagerEntretien;
 
   // INFOS DOMICILIATION

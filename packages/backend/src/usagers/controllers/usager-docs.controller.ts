@@ -81,6 +81,7 @@ export class UsagerDocsController {
       storage: diskStorage({
         destination: async (req: any, _file: Express.Multer.File, cb: any) => {
           const dir = getFileDir(req.user.structureId, req.usager.ref);
+
           await ensureDir(dir);
           cb(null, dir);
         },
@@ -215,8 +216,8 @@ export class UsagerDocsController {
     }
 
     const sourceFileDir = getFileDir(
-      currentUsager.ref,
-      currentUsager.structureId
+      currentUsager.structureId,
+      currentUsager.ref
     );
 
     // Encrypted file source
@@ -327,16 +328,18 @@ export class UsagerDocsController {
 
       input.pipe(cipher).pipe(output);
 
-      output.on("error", (error: Error) => {
+      output.on("error", async (error: Error) => {
         console.log(error);
         appLogger.error("[FILES] CANNOT_ENCRYPT_FILE : " + filePath, {
           sentry: true,
           error,
         });
+        await remove(filePath);
         reject(error);
       });
 
-      output.on("finish", () => {
+      output.on("finish", async () => {
+        await remove(filePath);
         resolve();
       });
     });

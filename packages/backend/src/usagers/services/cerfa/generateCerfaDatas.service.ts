@@ -183,20 +183,7 @@ export function generateAdressForCerfa(
   adresseDomicilie: string;
 } {
   // Adresse de la structure
-  let adresseStructure = `${user.structure.nom}\n${user.structure.adresse}`;
-
-  if (!isNil(user.structure.complementAdresse)) {
-    adresseStructure += `\n${user.structure.complementAdresse}`;
-  }
-  // Numéro de distribution spéciale
-  if (!isNil(usager.numeroDistribution)) {
-    adresseStructure += `\n${usager.numeroDistribution}`;
-  }
-
-  adresseStructure += `\n${user.structure.codePostal} - ${user.structure.ville}`;
-
-  // Adresse de courrier
-  let adresseDomicilie = adresseStructure;
+  let adresseDomicilie = "";
 
   if (
     !isNil(user.structure.adresseCourrier) &&
@@ -204,7 +191,19 @@ export function generateAdressForCerfa(
   ) {
     adresseDomicilie = `${user.structure.nom}\n${user.structure.adresseCourrier.adresse}\n`;
     adresseDomicilie += `${user.structure.adresseCourrier.codePostal} - ${user.structure.adresseCourrier.ville}`;
+  } else {
+    adresseDomicilie = `${user.structure.nom}\n${user.structure.adresse}`;
+
+    if (!isNil(user.structure.complementAdresse)) {
+      adresseDomicilie += `\n${user.structure.complementAdresse}`;
+    }
+    // Numéro de distribution spéciale
+    if (!isNil(usager.numeroDistribution)) {
+      adresseDomicilie += `\n${usager.numeroDistribution}`;
+    }
+    adresseDomicilie += `\n${user.structure.codePostal} - ${user.structure.ville}`;
   }
+  const adresseStructure = `${user.structure.adresse}\n${user.structure.codePostal} - ${user.structure.ville}`;
 
   // Numéro de boite
   // HOTFIX en attendant d'investiguer sur l'option des structures qui n'est pas censé être à null

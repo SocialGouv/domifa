@@ -20,7 +20,7 @@ import { CurrentUser } from "../../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../../auth/guards";
 import { structureCommonRepository } from "../../../database";
 import { appLogger } from "../../../util";
-import { ExpressResponse } from "../../../util/express";
+import { ExpressRequest, ExpressResponse } from "../../../util/express";
 import { randomName, validateUpload } from "../../../util/FileManager";
 import {
   COUNTRY_CODES_TIMEZONE,
@@ -51,14 +51,18 @@ const UsagersImportFileInterceptor = FileInterceptor("file", {
     fieldSize: 10 * 1024 * 1024,
     files: 1,
   },
-  fileFilter: (req: any, file: Express.Multer.File, cb: any) => {
+  fileFilter: (req: ExpressRequest, file: Express.Multer.File, cb: any) => {
     if (!validateUpload("IMPORT", req, file)) {
       return cb("INCORRECT_FORMAT", false);
     }
     cb(null, true);
   },
   storage: diskStorage({
-    destination: async (req: any, file: Express.Multer.File, cb: any) => {
+    destination: async (
+      _req: ExpressRequest,
+      _file: Express.Multer.File,
+      cb: any
+    ) => {
       const dir = USAGERS_IMPORT_DIR;
       if (!(await fse.pathExists(dir))) {
         await fse.ensureDir(dir);
@@ -66,7 +70,7 @@ const UsagersImportFileInterceptor = FileInterceptor("file", {
       cb(null, dir);
     },
 
-    filename: (req: any, file: Express.Multer.File, cb: any) => {
+    filename: (_req: ExpressRequest, file: Express.Multer.File, cb: any) => {
       return cb(null, randomName(file));
     },
   }),

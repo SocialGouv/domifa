@@ -9,7 +9,7 @@ import { UsersModule } from "../users/users.module";
 import { StructureDocController } from "./controllers/structure-doc.controller";
 import { StructuresController } from "./controllers/structures.controller";
 import { StructuresPublicController } from "./controllers/structures.public.controller";
-import { StructureDocService } from "./services/structure-doc.service";
+
 import { StructureHardResetService } from "./services/structureHardReset.service";
 import { StructuresService } from "./services/structures.service";
 import { AppLogsService } from "../modules/app-logs/app-logs.service";
@@ -20,7 +20,7 @@ import { AppLogsService } from "../modules/app-logs/app-logs.service";
     StructuresPublicController,
     StructureDocController,
   ],
-  exports: [StructuresService, StructureHardResetService, StructureDocService],
+  exports: [StructuresService, StructureHardResetService],
   imports: [
     HttpModule,
     forwardRef(() => MailsModule),
@@ -29,11 +29,6 @@ import { AppLogsService } from "../modules/app-logs/app-logs.service";
     forwardRef(() => StatsModule),
     forwardRef(() => InteractionsModule),
   ],
-  providers: [
-    StructuresService,
-    StructureHardResetService,
-    StructureDocService,
-    AppLogsService,
-  ],
+  providers: [StructuresService, StructureHardResetService, AppLogsService],
 })
 export class StructuresModule {}

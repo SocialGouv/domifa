@@ -157,17 +157,18 @@ export class AgendaController {
       return res.status(HttpStatus.OK).json(updatedUsager);
     }
 
-    usagerAppointmentCreatedEmailSender
-      .sendMail({ user, usager: updatedUsager, icalEvent, message })
-      .then(
-        () => {
-          return res.status(HttpStatus.OK).json(updatedUsager);
-        },
-        () => {
-          return res
-            .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .json({ message: "REGISTER_ERROR" });
-        }
-      );
+    try {
+      await usagerAppointmentCreatedEmailSender.sendMail({
+        user,
+        usager: updatedUsager,
+        icalEvent,
+        message,
+      });
+      return res.status(HttpStatus.OK).json(updatedUsager);
+    } catch (e) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "REGISTER_ERROR" });
+    }
   }
 }

@@ -99,11 +99,13 @@ export class UsagersService {
         : "RENOUVELLEMENT";
 
     usager.typeDom = typeDom;
-    let newDateFin = null;
+    let newDateFin: Date | null = null;
 
     // Pour les renouvellements de dossier encore valide, on reprend l'actuelle date de fin
     if (usager.decision.statut === "VALIDE") {
-      newDateFin = new Date(usager.decision.dateFin);
+      newDateFin = usager.decision.dateFin
+        ? new Date(usager.decision.dateFin)
+        : new Date();
     }
 
     usager.decision = {
