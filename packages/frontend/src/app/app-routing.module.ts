@@ -17,44 +17,6 @@ import { PlanSiteComponent } from "./modules/general/components/plan-site/plan-s
 import { LoginComponent } from "./modules/general/components/login/login.component";
 
 export const routes: Routes = [
-  // ---
-  // DEBUT Redirection
-  // ---
-  {
-    path: "nouveau",
-    redirectTo: "/usager/nouveau",
-  },
-  {
-    path: "structure-edit",
-    redirectTo: "/structures/edit",
-  },
-  {
-    path: "inscription",
-    redirectTo: "/structures/inscription",
-  },
-  {
-    path: "rapport-activite",
-    redirectTo: "/stats/rapport-activite",
-  },
-  {
-    path: "mon-compte",
-    redirectTo: "users/mon-compte",
-  },
-  {
-    path: "admin",
-    redirectTo: "users/admin",
-  },
-  {
-    path: "reset-password",
-    redirectTo: "users/reset-password",
-  },
-  {
-    path: "reset-password/:userId/:token",
-    redirectTo: "users/reset-password/:userId/:token",
-  },
-  // ---
-  // FIN Redirection
-  // ---
   { path: "", component: HomeComponent },
   { path: "faq", component: FaqComponent },
   { path: "contact", component: ContactSupportComponent },
@@ -92,6 +54,7 @@ export const routes: Routes = [
       import("./modules/users/users.module").then((m) => m.UsersModule),
   },
   {
+    canActivate: [AuthGuard, FacteurGuard],
     path: "usager",
     loadChildren: () =>
       import("./modules/usager-dossier/usager-dossier.module").then(
