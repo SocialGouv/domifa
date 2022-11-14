@@ -15,7 +15,6 @@ export type UsagersFilterCriteriaSortKey =
   | "ATTENTE_DECISION" // from UsagersFilterCriteriaStatut
   | "REFUS" // from UsagersFilterCriteriaStatut
   | "RADIE" // from UsagersFilterCriteriaStatut
-  | "RENOUVELLEMENT" // from UsagersFilterCriteriaStatut => TODO @toub apparemment pas géré dans le traitement de tri
   | "PASSAGE"
   | "NAME"
   | "ECHEANCE"

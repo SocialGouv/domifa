@@ -10,7 +10,7 @@
         type="text"
         class="form-control"
         id="nom"
-        cleanStr
+        appCleanStr
         formControlName="nom"
         placeholder="Précisez nom de naissance si nécessaire"
         [ngClass]="{ 'is-invalid': f.nom.errors }"
@@ -27,7 +27,7 @@
         type="text"
         class="form-control"
         id="prenom"
-        cleanStr
+        appCleanStr
         formControlName="prenom"
         placeholder="Prénom(s) du demandeur"
         [ngClass]="{ 'is-invalid': f.prenom.errors }"
@@ -44,7 +44,7 @@
         type="text"
         class="form-control"
         id="surnom"
-        cleanStr
+        appCleanStr
         formControlName="surnom"
         placeholder="Nom d'usage / Surnom"
         [ngClass]="{ 'is-invalid': f.surnom.errors }"
@@ -297,7 +297,7 @@
         <input
           id="nom_{{ i }}"
           type="text"
-          cleanStr
+          appCleanStr
           class="form-control"
           formControlName="nom"
           [ngClass]="{
@@ -320,7 +320,7 @@
           type="text"
           id="ad_prenom_{{ i }}"
           class="form-control"
-          cleanStr
+          appCleanStr
           formControlName="prenom"
           [ngClass]="{
             'is-invalid':

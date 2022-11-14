@@ -5,7 +5,7 @@ import {
   usagerPassageChecker,
   usagersSearchStringFilter,
   usagerStatutChecker,
-} from "./services/";
+} from "./services";
 import { usagersSorter } from "./services/usagersSorter.service";
 import { UsagersFilterCriteria } from "./UsagersFilterCriteria";
 

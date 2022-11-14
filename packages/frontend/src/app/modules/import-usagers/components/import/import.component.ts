@@ -19,9 +19,9 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { UsagersImportMode, UserStructure } from "../../../../../_common/model";
 import { LoadingService } from "../../../shared/services/loading.service";
 
-import { UsagerService } from "../../services/usager.service";
-import { IMPORT_PREVIEW_COLUMNS } from "./IMPORT_PREVIEW_COLUMNS.const";
-import { ImportPreviewRow, ImportPreviewTable } from "./preview";
+import { IMPORT_PREVIEW_COLUMNS } from "./constants/IMPORT_PREVIEW_COLUMNS.const";
+import { ImportPreviewTable, ImportPreviewRow } from "../../types";
+import { ImportUsagersService } from "../../import-usagers.service";
 
 @Component({
   selector: "app-import",
@@ -48,7 +48,7 @@ export class ImportComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly usagerService: UsagerService,
+    private readonly importUsagersService: ImportUsagersService,
     private readonly loadingService: LoadingService,
     private readonly router: Router,
     private readonly toastService: CustomToastService,
@@ -114,32 +114,34 @@ export class ImportComponent implements OnInit, OnDestroy {
     formData.append("file", this.uploadForm.controls.fileInput.value);
 
     this.subscription.add(
-      this.usagerService.import(submittedImportMode, formData).subscribe({
-        next: ({ importMode, previewTable }) => {
-          this.loadingService.stopLoading();
-          if (importMode === "preview") {
-            this.showTable = true;
-            this.previewTable = previewTable;
-            this.visibleRows = this.previewTable.rows.slice(0, 50); // show 50 rows max
-          } else {
-            // confirm
-            this.toastService.success("L'import a eu lieu avec succès");
-            this.router.navigate(["/manage"]);
-          }
-        },
-        error: (error: HttpErrorResponse) => {
-          this.toastService.error("Le fichier n'a pas pu être importé ");
-          this.loadingService.stopLoading();
+      this.importUsagersService
+        .import(submittedImportMode, formData)
+        .subscribe({
+          next: ({ importMode, previewTable }) => {
+            this.loadingService.stopLoading();
+            if (importMode === "preview") {
+              this.showTable = true;
+              this.previewTable = previewTable;
+              this.visibleRows = this.previewTable.rows.slice(0, 50); // show 50 rows max
+            } else {
+              // confirm
+              this.toastService.success("L'import a eu lieu avec succès");
+              this.router.navigate(["/manage"]);
+            }
+          },
+          error: (error: HttpErrorResponse) => {
+            this.toastService.error("Le fichier n'a pas pu être importé ");
+            this.loadingService.stopLoading();
 
-          if (error.error?.previewTable) {
-            this.showTable = true;
-            this.previewTable = error.error.previewTable;
-            this.visibleRows = error.error.previewTable.rows.slice(0, 50); // show 50 rows max
-          } else {
-            this.backToEtapeSelectFile();
-          }
-        },
-      })
+            if (error.error?.previewTable) {
+              this.showTable = true;
+              this.previewTable = error.error.previewTable;
+              this.visibleRows = error.error.previewTable.rows.slice(0, 50); // show 50 rows max
+            } else {
+              this.backToEtapeSelectFile();
+            }
+          },
+        })
     );
   }
 

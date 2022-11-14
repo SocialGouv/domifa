@@ -41,7 +41,7 @@
           <div class="form-group">
             <div class="form-check form-check-inline">
               <input
-                autofocus
+                appAutofocus
                 class="form-check-input"
                 type="radio"
                 formControlName="sexe"
@@ -68,7 +68,7 @@
                 type="text"
                 class="form-control"
                 id="nom"
-                cleanStr
+                appCleanStr
                 formControlName="nom"
                 placeholder="Précisez nom de naissance si nécessaire"
                 [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
@@ -85,7 +85,7 @@
                 type="text"
                 class="form-control"
                 id="prenom"
-                cleanStr
+                appCleanStr
                 formControlName="prenom"
                 [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
                 (blur)="isDoublon()"
@@ -103,7 +103,7 @@
                 type="text"
                 class="form-control"
                 id="surnom"
-                cleanStr
+                appCleanStr
                 formControlName="surnom"
                 [ngClass]="{ 'is-invalid': submitted && f.surnom.errors }"
               />

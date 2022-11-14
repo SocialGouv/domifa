@@ -94,7 +94,7 @@
             type="text"
             class="form-control"
             id="prenom"
-            cleanStr
+            appCleanStr
             formControlName="prenom"
             [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
             required
@@ -111,7 +111,7 @@
             type="text"
             class="form-control"
             id="nom"
-            cleanStr
+            appCleanStr
             formControlName="nom"
             [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
             required

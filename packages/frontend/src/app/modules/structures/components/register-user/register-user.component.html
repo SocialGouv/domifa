@@ -66,7 +66,7 @@
             type="text"
             class="form-control"
             id="nom"
-            cleanStr
+            appCleanStr
             autocomplete="family-name"
             formControlName="nom"
             [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
@@ -82,7 +82,7 @@
             type="text"
             class="form-control"
             id="prenom"
-            cleanStr
+            appCleanStr
             autocomplete="given-name"
             formControlName="prenom"
             [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"

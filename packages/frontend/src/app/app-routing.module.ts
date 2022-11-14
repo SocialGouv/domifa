@@ -11,7 +11,7 @@ import { HomeComponent } from "./modules/general/components/home/home.component"
 import { MentionsLegalesComponent } from "./modules/general/components/_static/mentions-legales/mentions-legales.component";
 import { NewsComponent } from "./modules/general/components/news/news.component";
 import { PolitiqueComponent } from "./modules/general/components/_static/politique/politique.component";
-import { ImportComponent } from "./modules/usagers/components/import/import.component";
+
 import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
 import { PlanSiteComponent } from "./modules/general/components/plan-site/plan-site.component";
 import { LoginComponent } from "./modules/general/components/login/login.component";
@@ -69,11 +69,6 @@ export const routes: Routes = [
     path: "connexion",
   },
   {
-    canActivate: [AuthGuard, FacteurGuard],
-    component: ImportComponent, // TODO: migrer l'import vers un module à part
-    path: "import",
-  },
-  {
     canActivate: [AuthGuard],
     component: ManageUsagersComponent,
     path: "manage",
@@ -82,6 +77,14 @@ export const routes: Routes = [
     path: "stats",
     loadChildren: () =>
       import("./modules/stats/stats.module").then((m) => m.StatsModule),
+  },
+  {
+    canActivate: [AuthGuard, FacteurGuard],
+    path: "import",
+    loadChildren: () =>
+      import("./modules/import-usagers/import-usagers.module").then(
+        (m) => m.ImportUsagersModule
+      ),
   },
   {
     path: "users",

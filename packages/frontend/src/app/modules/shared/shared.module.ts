@@ -9,28 +9,25 @@ import {
 import { FA_ICONS } from "./constants/FA_ICONS.const";
 import { CleanStrDirective } from "./directives/clean-str.directive";
 import { DateFrDirective } from "./directives/date-fr.directive";
-import { DigitOnlyDirective } from "./directives/digit-only.directive";
+
 import { FormatBigNumberPipe } from "./pipes/formatBigNumber.pipe";
 import { UsagerNomCompletPipe } from "./pipes/usager-nom-complet.pipe";
-import { FormatInternationalPhoneNumberPipe } from "./pipes/formatInternationalPhoneNumber.pipe";
 
 import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
 
 @NgModule({
   declarations: [
-    DigitOnlyDirective,
     DateFrDirective,
     CleanStrDirective,
     UsagerNomCompletPipe,
     FormatBigNumberPipe,
     CustomToastrComponent,
     AutoFocusDirective,
-    FormatInternationalPhoneNumberPipe,
+
     ReplaceLineBreaks,
   ],
   exports: [
     ReplaceLineBreaks,
-    DigitOnlyDirective,
     DateFrDirective,
     CleanStrDirective,
     UsagerNomCompletPipe,
@@ -38,7 +35,6 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
     FontAwesomeModule,
     CustomToastrComponent,
     AutoFocusDirective,
-    FormatInternationalPhoneNumberPipe,
   ],
   imports: [CommonModule, FontAwesomeModule],
 })

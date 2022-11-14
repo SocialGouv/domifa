@@ -1,13 +1,13 @@
 import { structureCommonRepository } from "../database/services/structure/structureCommonRepository.service";
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class manualMigration1667855065486 implements MigrationInterface {
+export class manualMigration1667855065490 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     const lastLoginArray: {
       structureId: number;
-      lastLogin: Date;
+      first_value: Date;
     }[] = await queryRunner.query(
-      `select "structureId", "lastLogin" from user_structure us where "lastLogin" is not null group by "structureId", "lastLogin" order by "lastLogin" desc`
+      `select DISTINCT  first_value("lastLogin") OVER (PARTITION BY "structureId" ORDER BY "lastLogin" DESC),  "structureId" FROM user_structure where "lastLogin" is not null ORDER BY 1`
     );
 
     console.log(lastLoginArray.length + " structures à mettre à jour");
@@ -16,7 +16,7 @@ export class manualMigration1667855065486 implements MigrationInterface {
       await structureCommonRepository.updateOne(
         { id: lastLoginArray[i].structureId },
         {
-          lastLogin: lastLoginArray[i].lastLogin,
+          lastLogin: new Date(lastLoginArray[i].first_value),
         }
       );
     }

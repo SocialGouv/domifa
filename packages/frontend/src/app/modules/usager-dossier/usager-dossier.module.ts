@@ -13,7 +13,7 @@ import { NgbDateCustomParserFormatter } from "../shared/services/date-formatter"
 import { CustomDatepickerI18n } from "../shared/services/date-french";
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
-import { UsagerSharedModule } from "./../usager-shared/usager-shared.module";
+import { UsagerSharedModule } from "../usager-shared/usager-shared.module";
 import { DisplayEtatCivilDecisionComponent } from "./components/display-etat-civil-decision/display-etat-civil-decision.component";
 import { MenuComponent } from "./components/menu/menu.component";
 import { StepDecisionComponent } from "./components/step-decision/step-decision.component";

@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": ".pp",
+    "types": []
+  },
+  "exclude": [
+    "./jest-global-mocks.ts",
+    "./setup-jest.ts",
+    "**/*.spec.ts",
+    "**/*.d.ts"
+  ]
+}

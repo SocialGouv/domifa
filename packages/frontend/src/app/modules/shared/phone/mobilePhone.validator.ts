@@ -1,10 +1,12 @@
 import { ChangeData } from "ngx-intl-tel-input";
-import { phoneUtil } from "./../phone/phoneUtils.service";
+
 import { AbstractControl, ValidationErrors } from "@angular/forms";
+import { PhoneNumberUtil } from "google-libphonenumber";
 
 export const mobilePhoneValidator = (
   control: AbstractControl
 ): ValidationErrors | null => {
+  const phoneUtil = PhoneNumberUtil.getInstance();
   const value = control.value as ChangeData;
   if (!value) {
     return null;
@@ -28,6 +30,7 @@ export const mobilePhoneValidator = (
 export const anyPhoneValidator = (
   control: AbstractControl
 ): ValidationErrors | null => {
+  const phoneUtil = PhoneNumberUtil.getInstance();
   const value = control.value as ChangeData;
   if (!value) {
     return null;

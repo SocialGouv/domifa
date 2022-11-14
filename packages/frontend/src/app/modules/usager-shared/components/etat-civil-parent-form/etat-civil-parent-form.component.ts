@@ -43,11 +43,10 @@ import {
   minDateNaissance,
   formatDateToNgb,
   noWhiteSpace,
-  setFormPhone,
-  mobilePhoneValidator,
-  getFormPhone,
   parseDateFromNgb,
 } from "../../../../shared";
+import { getFormPhone, setFormPhone } from "../../../shared/phone";
+import { mobilePhoneValidator } from "../../../shared/phone/mobilePhone.validator";
 import { AuthService } from "../../../shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";

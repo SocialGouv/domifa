@@ -3,12 +3,10 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { filter, startWith, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
-import { UsagersImportMode } from "../../../../_common/model";
 
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
 import { usagersCache } from "../../../shared/store";
 import { SearchPageLoadedUsagersData } from "../../../shared/store/AppStoreModel.type";
-import { ImportPreviewTable } from "../components/import/preview";
 
 @Injectable({
   providedIn: "root",
@@ -66,18 +64,5 @@ export class UsagerService {
           usagersCache.updateUsagers(usagers);
         })
       );
-  }
-
-  public import(
-    mode: UsagersImportMode,
-    data: FormData
-  ): Observable<{
-    importMode: UsagersImportMode;
-    previewTable: ImportPreviewTable;
-  }> {
-    return this.http.post<{
-      importMode: UsagersImportMode;
-      previewTable: ImportPreviewTable;
-    }>(environment.apiUrl + "import/" + mode, data);
   }
 }

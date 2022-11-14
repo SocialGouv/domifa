@@ -21,13 +21,10 @@ import { Structure, StructureCommon } from "../../../../../_common/model";
 import { regexp } from "../../../../shared/constants/REGEXP.const";
 import { StructureService } from "../../services/structure.service";
 import { structureNameChecker } from "./structureNameChecker.service";
-import {
-  anyPhoneValidator,
-  DEPARTEMENTS_LISTE,
-  getFormPhone,
-  setFormPhone,
-} from "../../../../shared";
+import { DEPARTEMENTS_LISTE } from "../../../../shared";
 import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
+import { anyPhoneValidator } from "../../../shared/phone/mobilePhone.validator";
+import { setFormPhone, getFormPhone } from "../../../shared/phone";
 
 @Component({
   selector: "app-structure-edit-form",

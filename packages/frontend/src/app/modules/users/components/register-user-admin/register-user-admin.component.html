@@ -7,7 +7,7 @@
         type="text"
         class="form-control"
         id="nom"
-        cleanStr
+        appCleanStr
         formControlName="nom"
         [ngClass]="{ 'is-invalid': (f.nom.dirty || submitted) && f.nom.errors }"
         required
@@ -22,7 +22,7 @@
         type="text"
         class="form-control"
         id="prenom"
-        cleanStr
+        appCleanStr
         formControlName="prenom"
         [ngClass]="{
           'is-invalid': (f.prenom.dirty || submitted) && f.prenom.errors
