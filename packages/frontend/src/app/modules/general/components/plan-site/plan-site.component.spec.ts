@@ -1,4 +1,3 @@
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { PlanSiteComponent } from "./plan-site.component";
 import { RouterTestingModule } from "@angular/router/testing";
@@ -13,12 +12,7 @@ describe("PlanSiteComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PlanSiteComponent],
-      imports: [
-        NgbModule,
-        RouterTestingModule,
-        HttpClientTestingModule,
-        FontAwesomeModule,
-      ],
+      imports: [NgbModule, RouterTestingModule, HttpClientTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

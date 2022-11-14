@@ -20,6 +20,7 @@ import { ProfilGeneralNotesComponent } from "./components/profil-general-notes/p
 import { ProfilAddNoteFormComponent } from "./components/profil-add-note-form/profil-add-note-form.component";
 import { DisplayUsagerDocsComponent } from "./components/display-usager-docs/display-usager-docs.component";
 import { EtatCivilParentFormComponent } from "./components/etat-civil-parent-form/etat-civil-parent-form.component";
+import { FormatInternationalPhoneNumberPipe } from "./formatInternationalPhoneNumber.pipe";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { EtatCivilParentFormComponent } from "./components/etat-civil-parent-for
     ProfilGeneralNotesComponent,
     ProfilAddNoteFormComponent,
     DisplayUsagerDocsComponent,
+    FormatInternationalPhoneNumberPipe,
     EtatCivilParentFormComponent,
   ],
   imports: [
@@ -59,6 +61,7 @@ import { EtatCivilParentFormComponent } from "./components/etat-civil-parent-for
     ProfilGeneralNotesComponent,
     ProfilAddNoteFormComponent,
     DisplayUsagerDocsComponent,
+    FormatInternationalPhoneNumberPipe,
   ],
 
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

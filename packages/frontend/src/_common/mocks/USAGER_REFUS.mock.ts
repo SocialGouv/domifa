@@ -99,7 +99,6 @@ export const USAGER_REFUS_MOCK: UsagerLight = {
     userName: "Testeur Robin",
   },
   typeDom: "RENOUVELLEMENT",
-
   customRef: "5",
   dateNaissance: new Date("1998-08-07T00:00:00.000Z"),
   nom: "Martine",

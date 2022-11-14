@@ -1,4 +1,4 @@
-import { noWhiteSpace } from "./../../../../shared/validators/whitespace.validator";
+import { noWhiteSpace } from "../../../../shared/validators/whitespace.validator";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,

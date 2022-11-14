@@ -1,7 +1,7 @@
 import { Directive, ElementRef, HostListener } from "@angular/core";
 import { stringCleaner } from "../../../shared/string-cleaner.service";
 @Directive({
-  selector: "[cleanStr]",
+  selector: "[appCleanStr]",
 })
 export class CleanStrDirective {
   regexStr =

@@ -7,7 +7,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { JwtInterceptor } from "../../../interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "../../../interceptors/server-error.interceptor";
 import { AuthService } from "../../shared/services/auth.service";
-import { UsagerService } from "../../usagers/services";
+import { UsagerService } from "../../usagers/services/usager.service";
 
 import { UsagerOptionsService } from "./usager-options.service";
 

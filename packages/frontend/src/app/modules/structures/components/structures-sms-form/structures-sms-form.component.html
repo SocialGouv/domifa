@@ -114,7 +114,7 @@
                     type="text"
                     class="form-control"
                     id="senderName"
-                    cleanStr
+                    appCleanStr
                     formControlName="senderName"
                     placeholder="Nom affiché en haut en tant qu'expediteur du message"
                     maxLength="11"
@@ -139,7 +139,7 @@
                     type="text"
                     class="form-control"
                     maxLength="30"
-                    cleanStr
+                    appCleanStr
                     formControlName="senderDetails"
                     [ngClass]="{
                       'is-invalid': submitted && form.senderDetails.errors

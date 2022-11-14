@@ -1,12 +1,11 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { PhoneNumberFormat } from "google-libphonenumber";
-
-import { Telephone } from "../../../../_common/model";
-import { phoneUtil } from "../../../shared";
+import { PhoneNumberFormat, PhoneNumberUtil } from "google-libphonenumber";
+import { Telephone } from "../../../_common/model";
 
 @Pipe({ name: "formatInternationalPhoneNumber" })
 export class FormatInternationalPhoneNumberPipe implements PipeTransform {
   transform(telephone: Telephone): string {
+    const phoneUtil = PhoneNumberUtil.getInstance();
     if (!telephone) {
       return "Non renseigné";
     }

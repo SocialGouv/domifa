@@ -1,6 +1,6 @@
 /* eslint-disable id-denylist */
 import { CountryISO } from "ngx-intl-tel-input";
-import { getPhoneString, setFormPhone } from "./phoneUtils.service";
+import { setFormPhone } from "./phoneUtils";
 
 describe("Téléphones pour les formulaires", () => {
   it("❌ setFormPhone avec un mauvais numéro", () => {
@@ -89,29 +89,5 @@ describe("Téléphones pour les formulaires", () => {
         numero: "594--39.70.70",
       })
     ).toEqual({ countryCode: "gf", number: "594397070" });
-  });
-});
-
-describe("getPhoneString", () => {
-  it("getPhoneString shoud return empty string if telephone is null or undefined", () => {
-    expect(getPhoneString(undefined)).toEqual("");
-  });
-
-  it("getPhoneString shoud return US indictaif", () => {
-    expect(
-      getPhoneString({ countryCode: CountryISO.UnitedStates, numero: "" })
-    ).toEqual("");
-  });
-
-  it("getPhoneString shoud return Guyane indictaif", () => {
-    expect(
-      getPhoneString({ countryCode: CountryISO.FrenchGuiana, numero: "" })
-    ).toEqual("");
-  });
-
-  it("getPhoneString shoud return string with countryCode and numero", () => {
-    expect(
-      getPhoneString({ countryCode: CountryISO.France, numero: "0622062206" })
-    ).toEqual("+33 6 22 06 22 06");
   });
 });
