@@ -1,4 +1,4 @@
-app-backend:
+backend:
   host: "api-{{ .Values.global.host }}"
   addVolumes:
     - files
@@ -12,11 +12,11 @@ app-backend:
     - secretRef:
         name: azure-domifa-volume
 
-app-frontend:
+frontend:
   host: "{{ .Values.global.host }}"
 
-app-portail-admins:
+portail-admins:
   host: "admin-{{ .Values.global.host }}"
 
-app-portail-usagers:
+portail-usagers:
   host: "mon-{{ .Values.global.host }}"
