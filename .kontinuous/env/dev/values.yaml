@@ -11,7 +11,7 @@ jobs:
     drop-db:
       use: drop-db
       with:
-        pgSecretRefName: azure-pg-admin-user
+        pgAdminSecretRefName: azure-pg-admin-user
     create-db:
       needs: [drop-db]
       use: create-db
