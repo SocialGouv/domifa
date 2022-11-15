@@ -1,0 +1,9 @@
+jobs:
+  runs:
+    build-backend:
+      with:
+        buildArgs: 
+          DOMIFA_BACKEND_URL: https://api-{{ .Values.global.host }}/
+          DOMIFA_PORTAIL_ADMINS_URL: https://admin-{{ .Values.global.host }}/
+          DOMIFA_PORTAIL_USAGERS_URL: https://mon-{{ .Values.global.host }}/
+          DOMIFA_FRONTEND_URL: https://{{ .Values.global.host }}/

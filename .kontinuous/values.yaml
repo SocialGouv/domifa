@@ -1,14 +1,57 @@
-app:
+backend:
   ~chart: app
-  ~needs: [build-app]
-  imagePackage: app
+  ~needs: [build-backend]
+  imagePackage: backend
+
+frontend:
+  ~chart: app
+  ~needs: [build-frontend]
+  imagePackage: frontend
+
+portail-admins:
+  ~chart: app
+  ~needs: [build-portail-admins]
+  imagePackage: portail-admins
 
 jobs:
   ~chart: jobs
   runs:
-    build-app:
-      use: ~build
+    build-backend:
+      use: build
       with:
-        imagePackage: app
-        # dockerfile: packages/app/Dockerfile
-    
+        imagePackage: backend
+        dockerfile: packages/backend/Dockerfile
+        buildArgs: 
+          DOMIFA_ENV_ID: "{{ .Values.global.env }}"
+
+    build-frontend:
+      use: build
+      with:
+        imagePackage: frontend
+        dockerfile: packages/frontend/Dockerfile
+        buildArgs: 
+          DOMIFA_ENV_ID: "{{ .Values.global.env }}"
+          DOMIFA_BACKEND_URL: "https://api-{{ .Values.global.host }}/"
+          DOMIFA_PORTAIL_ADMINS_URL: "https://admin-{{ .Values.global.host }}/"
+          DOMIFA_PORTAIL_USAGERS_URL: "https://mon-{{ .Values.global.host }}/"
+          DOMIFA_FRONTEND_META_ROBOTS: noindex,nofollow
+          DOMIFA_SENTRY_DSN_FRONTEND: "https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31"
+
+    build-portail-admins:
+      use: build
+      with:
+        imagePackage: portail-admins
+        dockerfile: packages/portail-admins/Dockerfile
+        buildArgs: 
+          DOMIFA_ENV_ID: "{{ .Values.global.env }}"
+          DOMIFA_BACKEND_URL: "https://api-{{ .Values.global.host }}/"
+
+    build-portail-usagers:
+      use: build
+      with:
+        imagePackage: portail-usagers
+        dockerfile: packages/portail-usagers/Dockerfile
+        buildArgs: 
+          DOMIFA_ENV_ID: "{{ .Values.global.env }}"
+          DOMIFA_BACKEND_URL: "https://api-{{ .Values.global.host }}/"
+          DOMIFA_SENTRY_DSN_PORTAIL: "https://904877ea9ec4454aa1be7b629a6ea340@sentry.fabrique.social.gouv.fr/58"

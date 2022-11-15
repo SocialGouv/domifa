@@ -1,0 +1,25 @@
+jobs:
+  runs:
+    build-backend:
+      with:
+        buildArgs: 
+          DOMIFA_BACKEND_URL: "https://domifa-api.fabrique.social.gouv.fr/"
+          DOMIFA_PORTAIL_ADMINS_URL: "https://admin-domifa.fabrique.social.gouv.fr/"
+          DOMIFA_PORTAIL_USAGERS_URL: "https://mon-domifa.fabrique.social.gouv.fr/"
+
+    build-frontend:
+      with:
+        buildArgs: 
+          DOMIFA_BACKEND_URL: "https://domifa-api.{{ .Values.global.domain }}/"
+
+    build-portail-admins:
+      with:
+        buildArgs: 
+          DOMIFA_BACKEND_URL: "https://domifa-api.{{ .Values.global.domain }}/"
+          PRODUCTION: "true"
+
+    build-portail-usagers:
+      with:
+        buildArgs: 
+          DOMIFA_BACKEND_URL: "https://domifa-api.{{ .Values.global.domain }}/"
+          PRODUCTION: "true"
