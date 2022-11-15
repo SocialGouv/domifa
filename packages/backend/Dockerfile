@@ -45,7 +45,7 @@ COPY ./packages/backend/package.json /app
 COPY ./yarn.lock /app
 RUN yarn --production --frozen-lockfile && yarn cache clean
 
-COPY  ./packages/backend/scripts/start /app/scripts
+COPY  ./packages/backend/scripts/start /app/scripts/start
 
 COPY --from=builder /app/dist /app/dist
 COPY --from=builder /app/.env.preset /app/.env.preset
