@@ -1,0 +1,14 @@
+app:
+  ~chart: app
+  ~needs: [build-app]
+  imagePackage: app
+
+jobs:
+  ~chart: jobs
+  runs:
+    build-app:
+      use: ~build
+      with:
+        imagePackage: app
+        # dockerfile: packages/app/Dockerfile
+    
