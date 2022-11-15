@@ -1,0 +1,20 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: backend-configmap
+data:
+  DOMIFA_ENV_ID: prod
+  DOMIFA_ENV_PRESET: dist-prod.preset.env
+  PGSSLMODE: "require"
+  NODE_ENV: production
+  DOMIFA_PRINT_CONFIG: "false"
+  DOMIFA_EMAILS_ENABLE: "true"
+  DOMIFA_SMS_ENABLED: "true"
+  # 50 connexions max : https://docs.microsoft.com/fr-fr/azure/postgresql/concepts-limits
+  POSTGRES_POOL_MAX_CONNEXIONS: "100"
+  DOMIFA_FRONTEND_META_ROBOTS: index,follow
+  ELASTIC_APM_SERVICE_NAME: domifa-backend-prod
+  ELASTIC_APM_ACTIVE: "true"
+  CRON_ELASTIC_APM_SERVICE_NAME: domifa-backend-cron-prod
+  DOMIFA_LOG_HTTP_REQUESTS: "true"
+  DOMIFA_LOG_SQL_REQUESTS: "true"

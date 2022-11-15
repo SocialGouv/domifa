@@ -1,0 +1,23 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: backend-configmap
+data:
+  DOMIFA_ENV_ID: preprod
+  DOMIFA_ENV_PRESET: dist.preset.env
+  PGSSLMODE: "require"
+  NODE_ENV: production
+  DOMIFA_PRINT_CONFIG: "true"
+  DOMIFA_TYPEORM_CREATE_DATABASE: "true"
+  # emails redirigés vers l'adresse configurée pour DOMIFA_EMAIL_ADDRESS_REDIRECT_ALL_TO
+  DOMIFA_EMAILS_ENABLE: "true"
+  DOMIFA_SMS_ENABLED: "true"
+  # 50 connexions en tout à partager entre la preprod + les environnements de dev :
+  # https://docs.microsoft.com/fr-fr/azure/postgresql/concepts-limits
+  POSTGRES_POOL_MAX_CONNEXIONS: "50"
+  DOMIFA_FRONTEND_META_ROBOTS: noindex,nofollow
+  ELASTIC_APM_SERVICE_NAME: domifa-backend-preprod
+  CRON_ELASTIC_APM_SERVICE_NAME: domifa-backend-cron-preprod
+  ELASTIC_APM_ACTIVE: "true"
+  DOMIFA_LOG_HTTP_REQUESTS: "true"
+  DOMIFA_LOG_SQL_REQUESTS: "true"

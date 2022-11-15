@@ -1,0 +1,22 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: backend-configmap
+data:
+  DOMIFA_ENV_PRESET: dist.preset.env
+  DOMIFA_ENV_ID: dev
+  PGSSLMODE: "require"
+  NODE_ENV: production
+  DOMIFA_PRINT_CONFIG: "true"
+  DOMIFA_TYPEORM_CREATE_DATABASE: "true"
+  # emails redirigés vers l'adresse configurée pour DOMIFA_EMAIL_ADDRESS_REDIRECT_ALL_TO
+  DOMIFA_EMAILS_ENABLE: "true"
+  DOMIFA_SMS_ENABLED: "false"
+  POSTGRES_LOGGING: "schema,migration"
+  DOMIFA_FRONTEND_META_ROBOTS: noindex,nofollow
+  ELASTIC_APM_SERVICE_NAME: domifa-backend-review
+  ELASTIC_APM_ACTIVE: "true"
+  CRON_ELASTIC_APM_SERVICE_NAME: domifa-backend-cron-review
+  DOMIFA_SENTRY_ENABLED: "false"
+  DOMIFA_LOG_HTTP_REQUESTS: "true"
+  DOMIFA_LOG_SQL_REQUESTS: "true"

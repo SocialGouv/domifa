@@ -1,0 +1,22 @@
+app-backend:
+  host: "api-{{ .Values.global.host }}"
+  addVolumes:
+    - files
+  envFrom:
+    - secretRef:
+        name: "{{ .Values.global.pgSecretName }}"
+    - secretRef:
+        name: backend-sealed-secret
+    - configMapRef:
+        name: backend-configmap
+    - secretRef:
+        name: azure-domifa-volume
+
+app-frontend:
+  host: "{{ .Values.global.host }}"
+
+app-portail-admins:
+  host: "admin-{{ .Values.global.host }}"
+
+app-portail-usagers:
+  host: "mon-{{ .Values.global.host }}"

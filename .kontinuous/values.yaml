@@ -1,17 +1,118 @@
-backend:
+backend: 
   ~chart: app
   ~needs: [build-backend]
   imagePackage: backend
+  host: "api-{{ .Values.global.host }}"
+  probesPath: /healthz
+  containerPort: 3000
+  resources:
+    requests:
+      cpu: 0.2
+      memory: 256Mi
+    limits:
+      cpu: 1.5
+      memory: 2Gi
+  envFrom:
+    - secretRef:
+        name: "{{ .Values.global.pgSecretName }}"
+    - secretRef:
+        name: backend-sealed-secret
+    - configMapRef:
+        name: backend-configmap
+  env:
+    - name: TZ
+      value: Europe/Paris
+    - name: POSTGRES_HOST
+      value: "$(PGHOST)"
+    - name: POSTGRES_USERNAME
+      value: "$(PGUSER)"
+    - name: POSTGRES_PASSWORD
+      value: "$(PGPASSWORD)"
+    - name: POSTGRES_DATABASE
+      value: "$(PGDATABASE)"
+    - name: DOMIFA_BACKEND_URL
+      value: "https://api-{{ .Values.global.host }}/"
+    - name: DOMIFA_FRONTEND_URL
+      value: "https://{{ .Values.global.host }}/"
+    - name: DOMIFA_PORTAIL_USAGERS_URL
+      value: "https://mon-{{ .Values.global.host }}/"
+    - name: DOMIFA_PORTAIL_ADMINS_URL
+      value: "https://admin-{{ .Values.global.host }}/"
+    - name: DOMIFA_CRON_ENABLED
+      value: "false"
+
+backend-cron:
+  ~chart: app
+  ~needs: [build-backend]
+  imagePackage: backend
+  .ingress.enabled: false
+  probesPath: /healthz
+  containerPort: 3000
+  resources:
+    requests:
+      cpu: 0.2
+      memory: 256Mi
+    limits:
+      cpu: 1.5
+      memory: 2Gi
+  envFrom:
+    - secretRef:
+        name: "{{ .Values.global.pgSecretName }}"
+    - secretRef:
+        name: backend-sealed-secret
+    - configMapRef:
+        name: backend-configmap
+  env:
+    - name: TZ
+      value: Europe/Paris
+    - name: POSTGRES_HOST
+      value: "$(PGHOST)"
+    - name: POSTGRES_USERNAME
+      value: "$(PGUSER)"
+    - name: POSTGRES_PASSWORD
+      value: "$(PGPASSWORD)"
+    - name: POSTGRES_DATABASE
+      value: "$(PGDATABASE)"
+    - name: DOMIFA_BACKEND_URL
+      value: "https://api-{{ .Values.global.host }}/"
+    - name: DOMIFA_FRONTEND_URL
+      value: "https://{{ .Values.global.host }}/"
+    - name: DOMIFA_PORTAIL_USAGERS_URL
+      value: "https://mon-{{ .Values.global.host }}/"
+    - name: DOMIFA_PORTAIL_ADMINS_URL
+      value: "https://admin-{{ .Values.global.host }}/"
+    - name: DOMIFA_CRON_ENABLED
+      value: "true"
+    - name: ELASTIC_APM_SERVICE_NAME
+      value: "$(CRON_ELASTIC_APM_SERVICE_NAME)" # override using kubernetes interpolation from configmap var
 
 frontend:
   ~chart: app
   ~needs: [build-frontend]
   imagePackage: frontend
+  host: "{{ .Values.global.host }}"
+  containerPort: 8080
+  resources:
+    requests:
+      cpu: 0.2
+      memory: 256Mi
+    limits:
+      cpu: 1
+      memory: 1Gi
 
 portail-admins:
   ~chart: app
   ~needs: [build-portail-admins]
   imagePackage: portail-admins
+  host: "admin-{{ .Values.global.host }}"
+  containerPort: 8080
+
+portail-usagers:
+  ~chart: app
+  ~needs: [build-portail-usagers]
+  imagePackage: portail-usagers
+  host: "mon-{{ .Values.global.host }}"
+  containerPort: 8080
 
 jobs:
   ~chart: jobs
@@ -55,3 +156,9 @@ jobs:
           DOMIFA_ENV_ID: "{{ .Values.global.env }}"
           DOMIFA_BACKEND_URL: "https://api-{{ .Values.global.host }}/"
           DOMIFA_SENTRY_DSN_PORTAIL: "https://904877ea9ec4454aa1be7b629a6ea340@sentry.fabrique.social.gouv.fr/58"
+
+metabase:
+  enabled: false
+
+oauth2-proxy:
+  enabled: false
