@@ -1,3 +1,13 @@
+## [2.109.3](https://github.com/SocialGouv/domifa/compare/v2.109.2...v2.109.3) (2022-11-16)
+
+
+### Bug Fixes
+
+* **frontend:** fix build ([e72f75c](https://github.com/SocialGouv/domifa/commit/e72f75c74c4d7ea8d58cae475209656d64eae0d7))
+* **frontend:** refacto des routes côté frontend ([a90812f](https://github.com/SocialGouv/domifa/commit/a90812f4b94424363b53fd70ffc393e9f1993844))
+* **linters:** mise à jour du linter ([fd03601](https://github.com/SocialGouv/domifa/commit/fd03601f3651cdfaee354719bd0ab4f9617d2d3f))
+* **types:** correction d'imports ([1cad030](https://github.com/SocialGouv/domifa/commit/1cad0308fc833665bcf2dfff687e9ed4b1d1ea74))
+
 ## [2.109.2](https://github.com/SocialGouv/domifa/compare/v2.109.1...v2.109.2) (2022-11-09)
 
 
