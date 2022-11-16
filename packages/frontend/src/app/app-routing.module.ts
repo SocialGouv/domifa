@@ -1,30 +1,31 @@
-import { ContactSupportComponent } from "./modules/general/components/contact-support/contact-support.component";
 import { NgModule } from "@angular/core";
-import { RouterModule, Routes, ExtraOptions } from "@angular/router";
+import type { ExtraOptions, Routes } from "@angular/router";
+import { RouterModule } from "@angular/router";
+
 import { AuthGuard } from "./guards/auth-guard";
 import { FacteurGuard } from "./guards/facteur-guard";
 import { LoggedGuard } from "./guards/logged-guard";
 import { CguComponent } from "./modules/general/components/_static/cgu/cgu.component";
+import { MentionsLegalesComponent } from "./modules/general/components/_static/mentions-legales/mentions-legales.component";
+import { PolitiqueComponent } from "./modules/general/components/_static/politique/politique.component";
+import { ContactSupportComponent } from "./modules/general/components/contact-support/contact-support.component";
 import { NotFoundComponent } from "./modules/general/components/errors/not-found/not-found.component";
 import { FaqComponent } from "./modules/general/components/faq/faq.component";
 import { HomeComponent } from "./modules/general/components/home/home.component";
-import { MentionsLegalesComponent } from "./modules/general/components/_static/mentions-legales/mentions-legales.component";
-import { NewsComponent } from "./modules/general/components/news/news.component";
-import { PolitiqueComponent } from "./modules/general/components/_static/politique/politique.component";
-
-import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
-import { PlanSiteComponent } from "./modules/general/components/plan-site/plan-site.component";
 import { LoginComponent } from "./modules/general/components/login/login.component";
+import { NewsComponent } from "./modules/general/components/news/news.component";
+import { PlanSiteComponent } from "./modules/general/components/plan-site/plan-site.component";
+import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
 
 export const routes: Routes = [
-  { path: "", component: HomeComponent },
-  { path: "faq", component: FaqComponent },
-  { path: "contact", component: ContactSupportComponent },
-  { path: "news", component: NewsComponent },
-  { path: "mentions-legales", component: MentionsLegalesComponent },
-  { path: "confidentialite", component: PolitiqueComponent },
-  { path: "cgu", component: CguComponent },
-  { path: "plan-site", component: PlanSiteComponent },
+  { component: HomeComponent, path: "" },
+  { component: FaqComponent, path: "faq" },
+  { component: ContactSupportComponent, path: "contact" },
+  { component: NewsComponent, path: "news" },
+  { component: MentionsLegalesComponent, path: "mentions-legales" },
+  { component: PolitiqueComponent, path: "confidentialite" },
+  { component: CguComponent, path: "cgu" },
+  { component: PlanSiteComponent, path: "plan-site" },
   {
     canActivate: [LoggedGuard],
     component: LoginComponent,
@@ -36,48 +37,48 @@ export const routes: Routes = [
     path: "manage",
   },
   {
-    path: "stats",
-    loadChildren: () =>
+    loadChildren: async () =>
       import("./modules/stats/stats.module").then((m) => m.StatsModule),
+    path: "stats",
   },
   {
     canActivate: [AuthGuard, FacteurGuard],
-    path: "import",
-    loadChildren: () =>
+    loadChildren: async () =>
       import("./modules/import-usagers/import-usagers.module").then(
         (m) => m.ImportUsagersModule
       ),
+    path: "import",
   },
   {
-    path: "users",
-    loadChildren: () =>
+    loadChildren: async () =>
       import("./modules/users/users.module").then((m) => m.UsersModule),
+    path: "users",
   },
   {
     canActivate: [AuthGuard, FacteurGuard],
-    path: "usager",
-    loadChildren: () =>
+    loadChildren: async () =>
       import("./modules/usager-dossier/usager-dossier.module").then(
         (m) => m.UsagerDossierModule
       ),
+    path: "usager",
   },
   {
     canActivate: [AuthGuard],
-    path: "profil",
-    loadChildren: () =>
+    loadChildren: async () =>
       import("./modules/usager-profil/usager-profil.module").then(
         (m) => m.UsagerProfilModule
       ),
+    path: "profil",
   },
   {
-    path: "structures",
-    loadChildren: () =>
+    loadChildren: async () =>
       import("./modules/structures/structures.module").then(
         (m) => m.StructuresModule
       ),
+    path: "structures",
   },
   // 404 Page
-  { path: "404", component: NotFoundComponent },
+  { component: NotFoundComponent, path: "404" },
   { path: "**", redirectTo: "404" },
 ];
 

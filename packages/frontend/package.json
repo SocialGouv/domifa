@@ -68,6 +68,7 @@
     "@angular/compiler-cli": "^13.0.2",
     "@angular/language-service": "^13.0.2",
     "@schematics/update": "^0.1102.12",
+    "@socialgouv/eslint-config-typescript": "^1.129.1",
     "@types/d3-scale": "^4.0.2",
     "@types/file-saver": "^2.0.4",
     "@types/google-libphonenumber": "^7.4.23",

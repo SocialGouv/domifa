@@ -80,7 +80,7 @@ export class StructureTable
   @Column({ type: "text", nullable: false })
   nom: string;
 
-  // TODO: sortir de l'objet pour passer sur une variable simple
+
   @Column({
     type: "jsonb",
     default: '{"numeroBoite": false}',
