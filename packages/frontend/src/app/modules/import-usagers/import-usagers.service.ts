@@ -1,10 +1,10 @@
-import type { HttpClient } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import type { Observable } from "rxjs";
+import { Observable } from "rxjs";
 
-import type { UsagersImportMode } from "../../../_common/model";
 import { environment } from "../../../environments/environment";
-import type { ImportPreviewTable } from "./types";
+import { UsagersImportMode } from "../../../_common/model";
+import { ImportPreviewTable } from "./types";
 
 @Injectable({
   providedIn: "root",

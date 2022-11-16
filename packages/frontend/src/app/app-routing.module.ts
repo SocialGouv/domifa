@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
-import type { ExtraOptions, Routes } from "@angular/router";
-import { RouterModule } from "@angular/router";
+
+import { ExtraOptions, RouterModule, Routes } from "@angular/router";
 
 import { AuthGuard } from "./guards/auth-guard";
 import { FacteurGuard } from "./guards/facteur-guard";
