@@ -2,6 +2,7 @@ import { structureCommonRepository } from "../database/services/structure/struct
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class manualMigration1667855065490 implements MigrationInterface {
+  name = "updateLastLoginMigration1667855065490";
   public async up(queryRunner: QueryRunner): Promise<void> {
     const lastLoginArray: {
       structureId: number;
