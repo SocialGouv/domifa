@@ -23,6 +23,6 @@ export class manualMigration1667855065490 implements MigrationInterface {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   public async down(_queryRunner: QueryRunner): Promise<void> {}
 }
