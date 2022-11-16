@@ -1,20 +1,28 @@
-import type { HttpErrorResponse } from "@angular/common/http";
-import type { ElementRef, OnDestroy, OnInit } from "@angular/core";
-import { Component, ViewChild } from "@angular/core";
-import type { AbstractControl, FormBuilder, FormGroup } from "@angular/forms";
-import { Validators } from "@angular/forms";
-import type { Title } from "@angular/platform-browser";
-import type { Router } from "@angular/router";
-import { Subscription } from "rxjs";
-import type { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
+import { HttpErrorResponse } from "@angular/common/http";
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 
-import type {
-  UsagersImportMode,
-  UserStructure,
-} from "../../../../../_common/model";
-import type { LoadingService } from "../../../shared/services/loading.service";
-import type { ImportUsagersService } from "../../import-usagers.service";
-import type { ImportPreviewRow, ImportPreviewTable } from "../../types";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { Title } from "@angular/platform-browser";
+import { Router } from "@angular/router";
+
+import { Subscription } from "rxjs";
+import { UserStructure, UsagersImportMode } from "../../../../../_common/model";
+import { CustomToastService } from "../../../shared/services/custom-toast.service";
+import { LoadingService } from "../../../shared/services/loading.service";
+import { ImportUsagersService } from "../../import-usagers.service";
+import { ImportPreviewTable, ImportPreviewRow } from "../../types";
+
 import { IMPORT_PREVIEW_COLUMNS } from "./constants/IMPORT_PREVIEW_COLUMNS.const";
 
 @Component({

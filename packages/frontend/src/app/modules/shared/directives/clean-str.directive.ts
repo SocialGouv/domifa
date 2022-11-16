@@ -1,5 +1,4 @@
-import type { ElementRef } from "@angular/core";
-import { Directive, HostListener } from "@angular/core";
+import { Directive, ElementRef, HostListener } from "@angular/core";
 
 import { stringCleaner } from "../../../shared/string-cleaner.service";
 
