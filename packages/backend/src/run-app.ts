@@ -25,8 +25,7 @@ import { INestApplication } from "@nestjs/common";
       // in local env, run cron on app startup (non blocking)
       await runCronJobs(app);
       const server = await app.listen(3000);
-      server.setTimeout(1000 * 60 * 5); //  5mn - TODO @toub après refactoring de l'import, remettre le timeout par défaut
-
+      server.setTimeout(1000 * 60 * 5); 
       appLogger.warn(`[${__filename}] Application listening on port 3000`);
     } catch (error) {
       const err = error as Error;

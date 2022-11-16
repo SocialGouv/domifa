@@ -1,15 +1,16 @@
-import { HttpClient } from "@angular/common/http";
+import type { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import type { Observable } from "rxjs";
+
+import type { UsagersImportMode } from "../../../_common/model";
 import { environment } from "../../../environments/environment";
-import { UsagersImportMode } from "../../../_common/model";
-import { ImportPreviewTable } from "./types";
+import type { ImportPreviewTable } from "./types";
 
 @Injectable({
   providedIn: "root",
 })
 export class ImportUsagersService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   public import(
     mode: UsagersImportMode,

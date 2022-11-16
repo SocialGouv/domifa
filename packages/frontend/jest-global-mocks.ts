@@ -8,8 +8,8 @@ Object.defineProperty(document, "doctype", {
 Object.defineProperty(window, "getComputedStyle", {
   value: () => {
     return {
-      display: "none",
       appearance: ["-webkit-appearance"],
+      display: "none",
     };
   },
 });
@@ -20,8 +20,8 @@ Object.defineProperty(window, "getComputedStyle", {
 Object.defineProperty(document.body.style, "transform", {
   value: () => {
     return {
-      enumerable: true,
       configurable: true,
+      enumerable: true,
     };
   },
 });

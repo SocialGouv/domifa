@@ -1,27 +1,21 @@
+import type { HttpErrorResponse } from "@angular/common/http";
+import type { ElementRef, OnDestroy, OnInit } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
+import type { AbstractControl, FormBuilder, FormGroup } from "@angular/forms";
+import { Validators } from "@angular/forms";
+import type { Title } from "@angular/platform-browser";
+import type { Router } from "@angular/router";
 import { Subscription } from "rxjs";
-import { HttpErrorResponse } from "@angular/common/http";
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
-import { Title } from "@angular/platform-browser";
-import { Router } from "@angular/router";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { UsagersImportMode, UserStructure } from "../../../../../_common/model";
-import { LoadingService } from "../../../shared/services/loading.service";
+import type { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
+import type {
+  UsagersImportMode,
+  UserStructure,
+} from "../../../../../_common/model";
+import type { LoadingService } from "../../../shared/services/loading.service";
+import type { ImportUsagersService } from "../../import-usagers.service";
+import type { ImportPreviewRow, ImportPreviewTable } from "../../types";
 import { IMPORT_PREVIEW_COLUMNS } from "./constants/IMPORT_PREVIEW_COLUMNS.const";
-import { ImportPreviewTable, ImportPreviewRow } from "../../types";
-import { ImportUsagersService } from "../../import-usagers.service";
 
 @Component({
   selector: "app-import",
@@ -32,7 +26,8 @@ export class ImportComponent implements OnInit, OnDestroy {
   public uploadForm!: FormGroup;
 
   public showTable: boolean;
-  public etapeImport: "select-file" | "preview-import";
+
+  public etapeImport: "preview-import" | "select-file";
 
   public me!: UserStructure | null;
 
@@ -40,11 +35,12 @@ export class ImportComponent implements OnInit, OnDestroy {
   public form!: ElementRef<HTMLFormElement>;
 
   public previewTable?: ImportPreviewTable;
+
   public visibleRows: ImportPreviewRow[];
 
   public COL = IMPORT_PREVIEW_COLUMNS;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -60,11 +56,11 @@ export class ImportComponent implements OnInit, OnDestroy {
     this.showTable = false;
   }
 
-  get u(): { [key: string]: AbstractControl } {
+  get u(): Record<string, AbstractControl> {
     return this.uploadForm.controls;
   }
 
-  public reset() {
+  public reset(): void {
     this.form.nativeElement.reset();
   }
 
@@ -81,7 +77,7 @@ export class ImportComponent implements OnInit, OnDestroy {
       const input = event.target as HTMLInputElement;
 
       if (
-        !input.files?.length ||
+        !input.files.length ||
         (input.files[0].type !== "application/vnd.ms-excel" &&
           input.files[0].type !==
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" &&
@@ -117,18 +113,6 @@ export class ImportComponent implements OnInit, OnDestroy {
       this.importUsagersService
         .import(submittedImportMode, formData)
         .subscribe({
-          next: ({ importMode, previewTable }) => {
-            this.loadingService.stopLoading();
-            if (importMode === "preview") {
-              this.showTable = true;
-              this.previewTable = previewTable;
-              this.visibleRows = this.previewTable.rows.slice(0, 50); // show 50 rows max
-            } else {
-              // confirm
-              this.toastService.success("L'import a eu lieu avec succès");
-              this.router.navigate(["/manage"]);
-            }
-          },
           error: (error: HttpErrorResponse) => {
             this.toastService.error("Le fichier n'a pas pu être importé ");
             this.loadingService.stopLoading();
@@ -139,6 +123,18 @@ export class ImportComponent implements OnInit, OnDestroy {
               this.visibleRows = error.error.previewTable.rows.slice(0, 50); // show 50 rows max
             } else {
               this.backToEtapeSelectFile();
+            }
+          },
+          next: ({ importMode, previewTable }) => {
+            this.loadingService.stopLoading();
+            if (importMode === "preview") {
+              this.showTable = true;
+              this.previewTable = previewTable;
+              this.visibleRows = this.previewTable.rows.slice(0, 50); // show 50 rows max
+            } else {
+              // confirm
+              this.toastService.success("L'import a eu lieu avec succès");
+              this.router.navigate(["/manage"]);
             }
           },
         })
