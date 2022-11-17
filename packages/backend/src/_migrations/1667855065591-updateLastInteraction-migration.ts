@@ -8,7 +8,7 @@ export class manualMigration1667855065591 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Recompte des courriers en attente de tous les usagers
     const usagersToUpdate: Usager[] = await queryRunner.query(
-      `select * from usager where "updatedAt" >= '2022-11-16'`
+      `select uuid, "lastInteraction" from usager where "updatedAt" >= '2022-11-16'`
     );
 
     let i = 0;

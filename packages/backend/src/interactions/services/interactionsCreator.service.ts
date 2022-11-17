@@ -159,7 +159,7 @@ async function createInteraction({
 async function updateUsagerAfterCreation({
   usager,
 }: {
-  usager: Pick<Usager, "ref" | "uuid" | "lastInteraction">;
+  usager: Pick<Usager, "uuid" | "lastInteraction">;
 }): Promise<UsagerLight> {
   const lastInteractionCount =
     await interactionRepository.countPendingInteractionsIn({
