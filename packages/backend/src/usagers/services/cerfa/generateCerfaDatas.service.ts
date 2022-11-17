@@ -185,12 +185,16 @@ export function generateAdressForCerfa(
   // Adresse de la structure
   let adresseDomicilie = "";
 
+  const numeroDistribution = !isNil(usager.numeroDistribution)
+    ? `\n${usager.numeroDistribution}`
+    : "";
+
   if (
     !isNil(user.structure.adresseCourrier) &&
     user.structure.adresseCourrier.actif
   ) {
-    adresseDomicilie = `${user.structure.nom}\n${user.structure.adresseCourrier.adresse}\n`;
-    adresseDomicilie += `${user.structure.adresseCourrier.codePostal} - ${user.structure.adresseCourrier.ville}`;
+    adresseDomicilie = `${user.structure.nom}\n${user.structure.adresseCourrier.adresse}`;
+    adresseDomicilie += `${numeroDistribution}\n${user.structure.adresseCourrier.codePostal} - ${user.structure.adresseCourrier.ville}`;
   } else {
     adresseDomicilie = `${user.structure.nom}\n${user.structure.adresse}`;
 
@@ -198,11 +202,9 @@ export function generateAdressForCerfa(
       adresseDomicilie += `\n${user.structure.complementAdresse}`;
     }
     // Numéro de distribution spéciale
-    if (!isNil(usager.numeroDistribution)) {
-      adresseDomicilie += `\n${usager.numeroDistribution}`;
-    }
-    adresseDomicilie += `\n${user.structure.codePostal} - ${user.structure.ville}`;
+    adresseDomicilie += `${numeroDistribution}\n${user.structure.codePostal} - ${user.structure.ville}`;
   }
+
   const adresseStructure = `${user.structure.adresse}\n${user.structure.codePostal} - ${user.structure.ville}`;
 
   // Numéro de boite

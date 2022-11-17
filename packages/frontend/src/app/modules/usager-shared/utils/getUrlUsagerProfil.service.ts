@@ -20,5 +20,5 @@ export const getUrlUsagerProfil = (usager?: UsagerLight): string => {
       return "/profil/general/" + usager.ref;
     }
   }
-  return "/nouveau";
+  return "/usager/nouveau";
 };

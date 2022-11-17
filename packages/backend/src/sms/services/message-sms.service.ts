@@ -158,9 +158,7 @@ export class MessageSmsService {
         const inType = interactionsTypeManager.getOppositeDirectionalType({
           type: interaction.type,
         });
-
         interaction.type = inType;
-
         await this.deleteSmsInteractionOut(usager, structure, interaction);
       }
     }
