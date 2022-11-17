@@ -1,11 +1,8 @@
 import { interactionRepository } from "./../database/services/interaction/interactionRepository.service";
 import { In, MigrationInterface, QueryRunner } from "typeorm";
 
-import { Interactions, Usager } from "../_common/model";
-import {
-  interactionsCreator,
-  interactionsTypeManager,
-} from "../interactions/services";
+import { Interactions } from "../_common/model";
+import { interactionsTypeManager } from "../interactions/services";
 
 export class manualMigration1667855065590 implements MigrationInterface {
   name = "updateCorruptedInteractionsMigration1667855065590";
@@ -30,17 +27,15 @@ export class manualMigration1667855065590 implements MigrationInterface {
         direction: "out",
       });
 
-      console.log("");
-
-      console.log(
-        interactionToUpdate.nbCourrier +
-          " " +
-          interactionToUpdate.type +
-          " distribués le : " +
-          interactionToUpdate.dateInteraction +
-          " - " +
-          interactionToUpdate.usagerUUID
-      );
+      // console.log(
+      //   interactionToUpdate.nbCourrier +
+      //     " " +
+      //     interactionToUpdate.type +
+      //     " distribués le : " +
+      //     interactionToUpdate.dateInteraction +
+      //     " - " +
+      //     interactionToUpdate.usagerUUID
+      // );
       // On récupère les id des courriers entrants à mettre à jour
       const interactionsOfTypeInToUpdate: {
         uuid: string;
@@ -107,22 +102,6 @@ export class manualMigration1667855065590 implements MigrationInterface {
           uuid: In(uuids),
         })
         .execute();
-    }
-
-    // Recompte des courriers en attente de tous les usagers
-    const usagersToUpdate: Usager[] = await queryRunner.query(
-      `select * from usager where "updatedAt" > '2022-11-15'`
-    );
-
-    let i = 0;
-    for (const usager of usagersToUpdate) {
-      await interactionsCreator.updateUsagerAfterCreation({
-        usager,
-      });
-      i++;
-      console.log(
-        i + " / " + usagersToUpdate.length + " usagers à mettre à jour"
-      );
     }
   }
 
