@@ -197,7 +197,10 @@ export class StructureDocController {
         uuid: doc.uuid,
       });
 
-      return structureDocRepository.findBy({ structureId: user.structureId });
+      const docs = structureDocRepository.findBy({
+        structureId: user.structureId,
+      });
+      return res.status(HttpStatus.OK).json(docs);
     } catch (e) {
       return res
         .status(HttpStatus.BAD_REQUEST)

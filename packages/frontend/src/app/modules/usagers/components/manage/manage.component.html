@@ -35,7 +35,7 @@
       <div class="col-4 text-end" *ngIf="currentUserSubject$ | async as me">
         <a
           *ngIf="me.role !== 'facteur'"
-          routerLink="/nouveau"
+          routerLink="/usager/nouveau"
           class="btn btn-white-primary"
           (click)="matomo.trackEvent('MANAGE', 'click', 'Liste_Création', 1)"
         >

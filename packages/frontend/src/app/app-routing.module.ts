@@ -18,6 +18,22 @@ import { PlanSiteComponent } from "./modules/general/components/plan-site/plan-s
 import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
 
 export const routes: Routes = [
+  {
+    path: "nouveau",
+    redirectTo: "/usager/nouveau",
+  },
+  {
+    path: "admin",
+    redirectTo: "users/admin",
+  },
+  {
+    path: "reset-password",
+    redirectTo: "users/reset-password",
+  },
+  {
+    path: "reset-password/:userId/:token",
+    redirectTo: "users/reset-password/:userId/:token",
+  },
   { component: HomeComponent, path: "" },
   { component: FaqComponent, path: "faq" },
   { component: ContactSupportComponent, path: "contact" },
