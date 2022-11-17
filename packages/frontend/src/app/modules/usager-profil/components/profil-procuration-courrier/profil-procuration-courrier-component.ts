@@ -225,8 +225,6 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
 
     if (this.form.length === 0) {
       this.procurationsForm.controls.ayantsDroitsExist.setValue(false);
-    } else {
-      this.focusProcuration();
     }
   }
 

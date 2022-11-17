@@ -174,7 +174,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     (this.usagerForm.controls.ayantsDroits as FormArray).push(
       this.newAyantDroit(ayantDroit)
     );
-    this.focusAyantDroit();
+    // this.focusAyantDroit();
   }
 
   public deleteAyantDroit(i: number): void {
@@ -182,8 +182,6 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     const formAyantDroit = this.usagerForm.controls.ayantsDroits as FormArray;
     if (formAyantDroit.length === 0) {
       this.usagerForm.controls.ayantsDroitsExist.setValue(false);
-    } else {
-      this.focusAyantDroit();
     }
   }
 

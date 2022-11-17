@@ -1,5 +1,5 @@
 import { ReplaceLineBreaks } from "./pipes/nl2br.pipe";
-import { AutoFocusDirective } from "./directives/autofocus.directive";
+
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import {
@@ -22,8 +22,6 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
     UsagerNomCompletPipe,
     FormatBigNumberPipe,
     CustomToastrComponent,
-    AutoFocusDirective,
-
     ReplaceLineBreaks,
   ],
   exports: [
@@ -34,7 +32,6 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
     FormatBigNumberPipe,
     FontAwesomeModule,
     CustomToastrComponent,
-    AutoFocusDirective,
   ],
   imports: [CommonModule, FontAwesomeModule],
 })
