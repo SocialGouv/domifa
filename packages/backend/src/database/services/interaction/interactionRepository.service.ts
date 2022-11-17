@@ -191,7 +191,7 @@ async function findWithFilters({
       dateInteraction: "DESC",
     },
     skip: 0,
-    take: 30,
+    take: 50,
   });
 }
 

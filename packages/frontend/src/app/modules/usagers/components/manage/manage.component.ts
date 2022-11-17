@@ -171,6 +171,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.filters.page = 0;
     this.filters$.next(this.filters);
 
+    this.scrollTop();
     // reload every hour
     this.subscription.add(
       timer(0, AUTO_REFRESH_PERIOD)
@@ -260,11 +261,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
         this.filters$.pipe(
           tap((filters: UsagersFilterCriteria) => {
             if (filters.page === 0) {
-              window.scroll({
-                behavior: "smooth",
-                left: 0,
-                top: 0,
-              });
+              this.scrollTop();
             }
           })
         ),
@@ -276,12 +273,16 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   }
 
   public chargerTousRadies() {
+    this.scrollTop();
+    this.chargerTousRadies$.next(true);
+  }
+
+  private scrollTop(): void {
     window.scroll({
-      behavior: "auto",
+      behavior: "smooth",
       left: 0,
       top: 0,
     });
-    this.chargerTousRadies$.next(true);
   }
 
   public goToPrint(): void {

@@ -117,10 +117,8 @@ export class AppComponent implements OnInit {
 
         const sections = ["navigation", "page", "footer"];
         if (typeof splitUrl[1] !== "undefined") {
-          //
           if (sections.indexOf(splitUrl[1]) !== -1) {
             this.currentFragment = splitUrl[1];
-
             document.getElementById("focus")?.focus();
           }
         } else {
