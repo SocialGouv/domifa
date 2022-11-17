@@ -12,15 +12,18 @@ export class manualMigration1667855065590 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     //
     // Etape 1 : on récupère tous les courriers / colis / recommandé réellement distribués pendant la période de bugs
-    const interactions: Interactions[] = await queryRunner.query(
+    const interactionOutToUpdate: Interactions[] = await queryRunner.query(
       `select * from interactions where "dateInteraction" >= '2022-11-16' and "type" in ('courrierOut', 'colisOut', 'recommandeOut') ORDER BY "dateInteraction" ASC`
     );
 
-    for (let i = 0; i < interactions.length; i++) {
+    for (let i = 0; i < interactionOutToUpdate.length; i++) {
       console.log(
-        i + " / " + interactions.length + " interactions à mettre à jour"
+        i +
+          " / " +
+          interactionOutToUpdate.length +
+          " interactions à mettre à jour"
       );
-      const interactionToUpdate: Interactions = interactions[i];
+      const interactionToUpdate: Interactions = interactionOutToUpdate[i];
 
       const oppositeType = interactionsTypeManager.getOppositeDirectionalType({
         type: interactionToUpdate.type,
@@ -39,7 +42,7 @@ export class manualMigration1667855065590 implements MigrationInterface {
           interactionToUpdate.usagerUUID
       );
       // On récupère les id des courriers entrants à mettre à jour
-      const uuidsToUpdate: {
+      const interactionsOfTypeInToUpdate: {
         uuid: string;
         interactionOutUUID: string;
         dateInteraction: Date;
@@ -54,11 +57,11 @@ export class manualMigration1667855065590 implements MigrationInterface {
         ]
       );
 
-      const total = uuidsToUpdate.reduce(
+      const total = interactionsOfTypeInToUpdate.reduce(
         (sum: number, current) => sum + current.nbCourrier,
         0
       );
-      // console.log(uuidsToUpdate);
+      // console.log(interactionsOfTypeInToUpdate);
       // console.log(
       // total +
       // " " +
@@ -70,7 +73,7 @@ export class manualMigration1667855065590 implements MigrationInterface {
       // );
       const uuids: string[] = [];
 
-      uuidsToUpdate.map(
+      interactionsOfTypeInToUpdate.map(
         (current: {
           uuid: string;
           interactionOutUUID: string;
