@@ -3,12 +3,12 @@ import { MigrationInterface, QueryRunner } from "typeorm";
 import { Usager } from "../_common/model";
 import { interactionsCreator } from "../interactions/services";
 
-export class manualMigration1667855065591 implements MigrationInterface {
-  name = "updateLastInteractionMigration1667855065591";
+export class manualMigration1667855065594 implements MigrationInterface {
+  name = "updateLastInteractionMigration1667855065594";
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Recompte des courriers en attente de tous les usagers
     const usagersToUpdate: Usager[] = await queryRunner.query(
-      `select uuid, "lastInteraction" from usager where "updatedAt" >= '2022-11-16'`
+      `select uuid, "lastInteraction" from usager where "updatedAt" >= '2022-11-16' LIMIT 5000`
     );
 
     let i = 0;
@@ -17,9 +17,12 @@ export class manualMigration1667855065591 implements MigrationInterface {
         usager,
       });
       i++;
-      console.log(
-        i + " / " + usagersToUpdate.length + " usagers à mettre à jour"
-      );
+
+      if (i % 100 === 0) {
+        console.log(
+          i + " / " + usagersToUpdate.length + " usagers à mettre à jour"
+        );
+      }
     }
   }
 

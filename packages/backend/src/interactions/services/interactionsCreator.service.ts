@@ -177,6 +177,6 @@ async function updateUsagerAfterCreation({
 
   return await usagerLightRepository.updateOne(
     { uuid: usager.uuid },
-    { lastInteraction: usager.lastInteraction }
+    { updatedAt: new Date(), lastInteraction: usager.lastInteraction }
   );
 }
