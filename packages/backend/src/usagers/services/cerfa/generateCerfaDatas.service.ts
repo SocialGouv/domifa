@@ -186,23 +186,24 @@ export function generateAdressForCerfa(
   let adresseDomicilie = "";
 
   const numeroDistribution = !isNil(usager.numeroDistribution)
-    ? `\n${usager.numeroDistribution}`
-    : "";
+    ? "\n" + usager.numeroDistribution + "\n"
+    : "\n";
 
   if (
     !isNil(user.structure.adresseCourrier) &&
     user.structure.adresseCourrier.actif
   ) {
     adresseDomicilie = `${user.structure.nom}\n${user.structure.adresseCourrier.adresse}`;
-    adresseDomicilie += `${numeroDistribution}\n${user.structure.adresseCourrier.codePostal} - ${user.structure.adresseCourrier.ville}`;
+    adresseDomicilie += `${numeroDistribution}${user.structure.adresseCourrier.codePostal} - ${user.structure.adresseCourrier.ville}`;
   } else {
     adresseDomicilie = `${user.structure.nom}\n${user.structure.adresse}`;
 
+    // Complément d'adresse
     if (!isNil(user.structure.complementAdresse)) {
-      adresseDomicilie += `\n${user.structure.complementAdresse}`;
+      adresseDomicilie += `\n----${user.structure.complementAdresse}`;
     }
     // Numéro de distribution spéciale
-    adresseDomicilie += `${numeroDistribution}\n${user.structure.codePostal} - ${user.structure.ville}`;
+    adresseDomicilie += `${numeroDistribution}${user.structure.codePostal} - ${user.structure.ville}`;
   }
 
   const adresseStructure = `${user.structure.adresse}\n${user.structure.codePostal} - ${user.structure.ville}`;
