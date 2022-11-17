@@ -8,7 +8,7 @@ export class manualMigration1667855065490 implements MigrationInterface {
       structureId: number;
       first_value: Date;
     }[] = await queryRunner.query(
-      `select DISTINCT  first_value("lastLogin") OVER (PARTITION BY "structureId" ORDER BY "lastLogin" DESC),  "structureId" FROM user_structure where "lastLogin" is not null ORDER BY 1`
+      `select DISTINCT first_value("lastLogin") OVER (PARTITION BY "structureId" ORDER BY "lastLogin" DESC),  "structureId" FROM user_structure where "lastLogin" is not null ORDER BY 1`
     );
 
     console.log(lastLoginArray.length + " structures à mettre à jour");
