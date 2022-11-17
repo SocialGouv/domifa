@@ -1,3 +1,10 @@
+## [2.109.6](https://github.com/SocialGouv/domifa/compare/v2.109.5...v2.109.6) (2022-11-17)
+
+
+### Bug Fixes
+
+* **migration:** mise à jour de la migration de correction des interactions pour plus de performance ([a594593](https://github.com/SocialGouv/domifa/commit/a5945939c46a682c4fe0207e0b19bb1e8712b218))
+
 ## [2.109.5](https://github.com/SocialGouv/domifa/compare/v2.109.4...v2.109.5) (2022-11-17)
 
 
