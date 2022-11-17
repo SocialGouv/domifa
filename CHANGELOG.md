@@ -1,3 +1,12 @@
+## [2.109.5](https://github.com/SocialGouv/domifa/compare/v2.109.4...v2.109.5) (2022-11-17)
+
+
+### Bug Fixes
+
+* **frontend:** correction de l'auto-focus ([265a2be](https://github.com/SocialGouv/domifa/commit/265a2be896aa883eb2eec103fcfed16bf496f01f))
+* **migration:** séparation pour éviter le timeout ([b1ee226](https://github.com/SocialGouv/domifa/commit/b1ee226ee61e46bd37698d81e3da0a13bbc7d93e))
+* **migrations:** acceleration du process ([8aa63df](https://github.com/SocialGouv/domifa/commit/8aa63df081ca70003409c81e39ef8d5312a2a924))
+
 ## [2.109.4](https://github.com/SocialGouv/domifa/compare/v2.109.3...v2.109.4) (2022-11-17)
 
 
