@@ -1,3 +1,13 @@
+## [2.109.7](https://github.com/SocialGouv/domifa/compare/v2.109.6...v2.109.7) (2022-11-21)
+
+
+### Bug Fixes
+
+* **deps:** node version ([0650ed6](https://github.com/SocialGouv/domifa/commit/0650ed6eec4b38b245bc3edf1806b0feefa52c8d))
+* **deps:** update node version github actions ([704a6c0](https://github.com/SocialGouv/domifa/commit/704a6c01dbd63cd1f7ef819325e727660b4ccc7b))
+* **deps:** update node versions ([f29a236](https://github.com/SocialGouv/domifa/commit/f29a236081221931e0c98a293e2271642b1f3bfc))
+* **token:** correction d'un bug sur les vérifications de token ([81edd58](https://github.com/SocialGouv/domifa/commit/81edd58bb7a39847788a8da7a04ffd5a5ec05a31))
+
 ## [2.109.6](https://github.com/SocialGouv/domifa/compare/v2.109.5...v2.109.6) (2022-11-17)
 
 
