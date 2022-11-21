@@ -17,7 +17,8 @@ import { structureLightRepository } from "../../../database";
 import { deleteStructureEmailSender } from "../../../mails/services/templates-renderers";
 import { structureDeletorService } from "../../../structures/services/structureDeletor.service";
 import { ExpressResponse } from "../../../util/express";
-import { TokenDto } from "../../../_common/dto";
+import { ParseTokenPipe } from "../../../_common/decorators";
+
 import { STRUCTURE_LIGHT_ATTRIBUTES } from "../../../_common/model";
 import { ConfirmStructureDeleteDto } from "../../_dto";
 
@@ -58,12 +59,12 @@ export class AdminStructuresDeleteController {
   public async deleteStructureCheck(
     @Res() res: ExpressResponse,
     @Param("id", new ParseIntPipe()) id: number,
-    @Param("token") tokenDto: TokenDto
+    @Param("token", new ParseTokenPipe()) token: string
   ) {
     try {
       const structure = await structureLightRepository.findOneOrFail({
         where: {
-          token: tokenDto.token,
+          token,
           id,
         },
         select: STRUCTURE_LIGHT_ATTRIBUTES,

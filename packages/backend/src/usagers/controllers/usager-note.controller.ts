@@ -4,6 +4,7 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
+  ParseUUIDPipe,
   Post,
   Put,
   Res,
@@ -67,10 +68,10 @@ export class UsagerNoteController {
   @Put(":usagerRef/archive/:noteId")
   @UseGuards(UsagerAccessGuard)
   public async archiveNote(
-    @Param("noteId") noteId: string,
     @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: UsagerLight,
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
+    @Param("noteId", new ParseUUIDPipe()) noteId: string,
     @Res() res: ExpressResponse
   ) {
     const archivedBy: UserStructureResume = {

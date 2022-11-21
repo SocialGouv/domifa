@@ -16,7 +16,8 @@ import {
 } from "../database";
 import { userResetPasswordEmailSender } from "../mails/services/templates-renderers";
 import { ExpressResponse } from "../util/express";
-import { TokenDto } from "../_common/dto";
+import { ParseTokenPipe } from "../_common/decorators";
+
 import { EmailDto } from "./dto/email.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 
@@ -43,19 +44,20 @@ export class UsersPublicController {
   @Get("check-password-token/:userId/:token")
   public async checkPasswordToken(
     @Param("userId", new ParseIntPipe()) userId: number,
-    @Param("token") tokenDto: TokenDto,
+    @Param("token", new ParseTokenPipe()) token: string,
     @Res() res: ExpressResponse
   ) {
+    console.log(token);
     try {
       await userStructureSecurityResetPasswordUpdater.checkResetPasswordToken({
-        token: tokenDto.token,
+        token,
         userId: userId,
       });
       return res.status(HttpStatus.OK).json({ message: "OK" });
     } catch (err) {
       return res
         .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "TOKEN_EXPIRED" });
+        .json({ message: "TOKEN_INVALID" });
     }
   }
 
@@ -74,7 +76,7 @@ export class UsersPublicController {
     } catch (err) {
       return res
         .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "TOKEN_EXPIRED" });
+        .json({ message: "TOKEN_INVALID" });
     }
   }
 

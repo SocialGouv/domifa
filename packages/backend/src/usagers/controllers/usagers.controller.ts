@@ -226,7 +226,8 @@ export class UsagersController {
   @AllowUserStructureRoles("simple", "responsable", "admin")
   @Get("next-step/:usagerRef/:etapeDemande")
   public async nextStep(
-    @Param("etapeDemande") etapeDemande: number,
+    @Param("etapeDemande", new ParseIntPipe()) etapeDemande: number,
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentUsager() usager: UsagerLight
   ) {
     return this.usagersService.nextStep({ uuid: usager.uuid }, etapeDemande);
@@ -385,8 +386,9 @@ export class UsagersController {
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @Get("attestation/:usagerRef/:typeCerfa")
   public async getAttestation(
-    @Param("typeCerfa") typeCerfa: CerfaDocType,
     @Res() res: Response,
+    @Param("typeCerfa") typeCerfa: CerfaDocType,
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: UsagerLight
   ) {
@@ -422,7 +424,10 @@ export class UsagersController {
   @UseGuards(UsagerAccessGuard)
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @Get(":usagerRef")
-  public async findOne(@CurrentUsager() usager: UsagerLight) {
+  public async findOne(
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
+    @CurrentUsager() usager: UsagerLight
+  ) {
     return usager;
   }
 }
