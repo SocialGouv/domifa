@@ -8,6 +8,7 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  ParseIntPipe,
   ParseUUIDPipe,
   Post,
   Res,
@@ -96,7 +97,7 @@ export class UsagerDocsController {
     })
   )
   public async uploadDoc(
-    @Param("usagerRef") usagerRef: number,
+    @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
     @UploadedFile() file: Express.Multer.File,
     @Body() postData: UploadUsagerDocDto,
     @CurrentUser() user: UserStructureAuthenticated,
@@ -137,7 +138,7 @@ export class UsagerDocsController {
   @Delete(":usagerRef/:docUuid")
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async deleteDocument(
-    @Param("usagerRef") usagerRef: number,
+    @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
     @Param("docUuid", new ParseUUIDPipe()) docUuid: string,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: UsagerLight,
@@ -186,7 +187,7 @@ export class UsagerDocsController {
   @Get(":usagerRef")
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getUsagerDocuments(
-    @Param("usagerRef") usagerRef: number,
+    @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
     @CurrentUsager() currentUsager: UsagerLight
   ): Promise<UsagerDoc[]> {
     return await usagerDocsRepository.getUsagerDocs(
@@ -198,8 +199,8 @@ export class UsagerDocsController {
   @Get(":usagerRef/:docUuid")
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getDocument(
-    @Param("usagerRef") usagerRef: number,
     @Param("docUuid", new ParseUUIDPipe()) docUuid: string,
+    @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
     @Res() res: Response,
     @CurrentUsager() currentUsager: UsagerLight
   ) {
