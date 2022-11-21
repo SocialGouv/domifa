@@ -19,10 +19,10 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Set up Node.js v17
+      - name: Set up Node.js v18.12
         uses: actions/setup-node@v3
         with:
-          node-version: "17"
+          node-version: "18.12"
 
       - name: Change TimeZone
         uses: szenius/set-timezone@v1.1
@@ -60,10 +60,10 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Set up Node.js v17
+      - name: Set up Node.js v18.12
         uses: actions/setup-node@v3
         with:
-          node-version: "17"
+          node-version: "18.12"
 
       - name: Change TimeZone
         uses: szenius/set-timezone@v1.1
@@ -94,10 +94,10 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Set up Node.js v17
+      - name: Set up Node.js v18.12
         uses: actions/setup-node@v3
         with:
-          node-version: "17"
+          node-version: "18.12"
 
       - name: Set up Yarn cache
         uses: c-hive/gha-yarn-cache@v2
@@ -123,10 +123,10 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Set up Node.js v17
+      - name: Set up Node.js v18.12
         uses: actions/setup-node@v3
         with:
-          node-version: "17"
+          node-version: "18.12"
 
       - name: Set up Yarn cache
         uses: c-hive/gha-yarn-cache@v2
