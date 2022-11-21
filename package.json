@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@socialgouv/sre-secrets": "^1.13.9",
-    "lerna": "^5.0.0"
+    "lerna": "^6.0.0"
   },
   "workspaces": {
     "packages": [
