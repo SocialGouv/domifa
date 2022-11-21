@@ -47,7 +47,6 @@ export class UsersPublicController {
     @Param("token", new ParseTokenPipe()) token: string,
     @Res() res: ExpressResponse
   ) {
-    console.log(token);
     try {
       await userStructureSecurityResetPasswordUpdater.checkResetPasswordToken({
         token,
