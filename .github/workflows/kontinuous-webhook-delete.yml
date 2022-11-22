@@ -10,3 +10,5 @@ jobs:
   cleaning:
     uses: socialgouv/kontinuous/.github/workflows/workflow-webhook.yaml@v1
     secrets: inherit
+    with:
+      triggerWebhook: true # comment this line when enabling webhook on repository
