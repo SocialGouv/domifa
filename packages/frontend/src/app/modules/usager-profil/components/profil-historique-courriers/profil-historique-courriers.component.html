@@ -32,9 +32,7 @@
     </thead>
 
     <tbody>
-      <ng-container
-        *ngFor="let interaction of interactions | slice: 0:30; let i = index"
-      >
+      <ng-container *ngFor="let interaction of interactions; let i = index">
         <tr
           [ngClass]="{
             'fw-bold':

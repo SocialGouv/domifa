@@ -33,7 +33,7 @@ export const interactionRepository = appTypeormManager
     findLastInteractionOk,
     updateMany: baseRepository.updateMany,
     findLastInteractionInWithContent,
-    findWithFilters,
+
     countInteractionsByMonth,
     countPendingInteraction,
     countPendingInteractionsIn,
@@ -174,25 +174,6 @@ async function countPendingInteractionsIn({
     recommandeIn: parseInt(results[0].recommandeIn, 10),
     colisIn: parseInt(results[0].colisIn, 10),
   };
-}
-
-async function findWithFilters({
-  usagerRef,
-  structureId,
-}: {
-  usagerRef: number;
-  structureId: number;
-}): Promise<any> {
-  const search: Partial<InteractionsTable> = { structureId, usagerRef };
-
-  return await interactionRepository.find({
-    where: search,
-    order: {
-      dateInteraction: "DESC",
-    },
-    skip: 0,
-    take: 50,
-  });
 }
 
 async function countInteractionsByMonth(

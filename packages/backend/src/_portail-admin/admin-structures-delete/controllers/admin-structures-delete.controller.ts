@@ -37,7 +37,7 @@ export class AdminStructuresDeleteController {
     const structure = await structureDeletorService.generateDeleteToken(id);
 
     if (!!structure) {
-      deleteStructureEmailSender.sendMail({ structure }).then(
+      return deleteStructureEmailSender.sendMail({ structure }).then(
         () => {
           return res.status(HttpStatus.OK).json({ message: "OK" });
         },
@@ -47,10 +47,11 @@ export class AdminStructuresDeleteController {
             .json({ message: "MAIL_DELETE_STRUCTURE_ERROR" });
         }
       );
+    } else {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "DELETED_STRUCTURE_NOT_FOUND" });
     }
-    return res
-      .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .json({ message: "DELETED_STRUCTURE_NOT_FOUND" });
   }
 
   @AllowUserProfiles("super-admin-domifa")
