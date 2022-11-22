@@ -76,9 +76,16 @@ export class InteractionsController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: UsagerLight
   ) {
-    return interactionRepository.findWithFilters({
-      usagerRef: usager.ref,
-      structureId: user.structureId,
+    return await interactionRepository.find({
+      where: {
+        structureId: user.structureId,
+        usagerUUID: usager.uuid,
+      },
+      order: {
+        dateInteraction: "DESC",
+      },
+      skip: 0,
+      take: 50,
     });
   }
 

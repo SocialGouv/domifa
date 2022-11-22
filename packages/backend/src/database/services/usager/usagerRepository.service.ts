@@ -1,5 +1,5 @@
 import { format, startOfMonth, subYears } from "date-fns";
-import { subMonths } from "date-fns";
+
 import { myDataSource } from "..";
 import { domifaConfig } from "./../../../config/domifaConfig.service";
 
@@ -35,26 +35,25 @@ function countUsagers(structuresId?: number[]): Promise<number> {
 }
 
 async function countUsagersByMonth(regionId?: FranceRegion) {
-  const lastYear = subYears(new Date(), 1);
-  const oneYearAgo = startOfMonth(subMonths(lastYear, 1));
+  const lastMonth = startOfMonth(new Date());
+  const oneYearAgo = subYears(lastMonth, 1);
 
   let startDate = format(oneYearAgo, "yyyy-MM-dd");
+  const endDate = format(lastMonth, "yyyy-MM-dd");
 
   if (domifaConfig().envId === "test") {
     startDate = postgresQueryBuilder.formatPostgresDate(new Date("2021-07-31"));
   }
 
-  const where = [startDate];
+  const where = [startDate, endDate];
 
-  let query = `select date_trunc('month', "createdAt") as date, COUNT(uuid) AS count, sum(jsonb_array_length("ayantsDroits")) as ayantsDroits FROM usager u WHERE "createdAt" > $1 `;
+  let query = `select date_trunc('month', "createdAt") as date, COUNT(uuid) AS count, sum(jsonb_array_length("ayantsDroits")) as ayantsDroits FROM usager u WHERE "createdAt" BETWEEN $1 and $2 `;
 
   if (regionId) {
-    query += ` and "structureId" in (select id from "structure" s where "region"=$2)`;
+    query += ` and "structureId" in (select id from "structure" s where "region"=$3)`;
     where.push(regionId);
   }
-
   query = query + ` GROUP BY 1`;
-
   return appTypeormManager.getRepository(UsagerTable).query(query, where);
 }
 
