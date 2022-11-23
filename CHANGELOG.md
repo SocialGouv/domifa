@@ -1,3 +1,11 @@
+## [2.109.8](https://github.com/SocialGouv/domifa/compare/v2.109.7...v2.109.8) (2022-11-23)
+
+
+### Bug Fixes
+
+* **chore:** Mise à jour et harmonisation des version de node ([5b632cb](https://github.com/SocialGouv/domifa/commit/5b632cbed4b8841622b91443b66ac5105517d33f))
+* **interactions:** ajout de 50 interactions affichés ([fdb2274](https://github.com/SocialGouv/domifa/commit/fdb2274090cbceb642f38b2f3409ffbd70ba7d19))
+
 ## [2.109.7](https://github.com/SocialGouv/domifa/compare/v2.109.6...v2.109.7) (2022-11-21)
 
 
