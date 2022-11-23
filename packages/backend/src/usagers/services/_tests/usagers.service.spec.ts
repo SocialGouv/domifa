@@ -1,14 +1,13 @@
 import { forwardRef } from "@nestjs/common";
 import {
+  userStructureRepository,
   structureRepository,
   usagerRepository,
-  userStructureRepository,
-} from "../../database";
-import { UsersModule } from "../../users/users.module";
-import { AppTestContext, AppTestHelper } from "../../util/test";
-import { CreateUsagerDto } from "../dto/CreateUsagerDto";
-
-import { UsagersService } from "./usagers.service";
+} from "../../../database";
+import { UsersModule } from "../../../users/users.module";
+import { AppTestContext, AppTestHelper } from "../../../util/test";
+import { CreateUsagerDto } from "../../dto";
+import { UsagersService } from "../usagers.service";
 
 describe("UsagersService", () => {
   let service: UsagersService;
@@ -66,6 +65,7 @@ describe("UsagersService", () => {
         prenom: "Nouveau prénom",
       }
     );
+
     const updatedUsager = await usagerRepository.findOneBy({
       ref: usagerTest.ref,
       structureId: user.structureId,
@@ -73,5 +73,14 @@ describe("UsagersService", () => {
 
     expect(updatedUsager.nom).toEqual("Nouveau nom");
     expect(updatedUsager.prenom).toEqual("Nouveau prénom");
+
+    await usagerRepository.deleteByCriteria({ uuid: usager.uuid });
+
+    const deletedUsager = await usagerRepository.findOneBy({
+      ref: usagerTest.ref,
+      structureId: user.structureId,
+    });
+
+    expect(deletedUsager).toBeNull();
   });
 });

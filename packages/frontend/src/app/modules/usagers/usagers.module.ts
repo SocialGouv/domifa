@@ -1,14 +1,10 @@
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 
-import {
-  NgbDateParserFormatter,
-  NgbDatepickerI18n,
-  NgbModule,
-} from "@ng-bootstrap/ng-bootstrap";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";

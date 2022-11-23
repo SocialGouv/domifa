@@ -83,6 +83,10 @@ describe("interactionsCreator", () => {
       { id: user.structureId },
       { sms: user.structure.sms }
     );
+    await interactionRepository.delete({
+      usagerRef: 2,
+      structureId: 1,
+    });
     await usagerRepository.update({}, { contactByPhone: false });
     await messageSmsRepository.delete({ structureId: user.structureId });
     await AppTestHelper.tearDownTestApp(context);

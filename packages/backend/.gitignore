@@ -4,4 +4,4 @@ uploads
 dist
 .env
 *.local.env
-ormconfig.json
+

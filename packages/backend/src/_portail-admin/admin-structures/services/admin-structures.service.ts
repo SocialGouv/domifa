@@ -452,7 +452,6 @@ export class AdminStructuresService {
 
   public async countUsagersByMonth(regionId?: FranceRegion) {
     const usagersByMonth = await usagerRepository.countUsagersByMonth(regionId);
-
     return this.formatStatsByMonth(usagersByMonth, "domicilies");
   }
 

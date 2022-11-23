@@ -1,4 +1,4 @@
-FROM node:18.12.1 as builder
+FROM node:16.18.1 as builder
 
 # these variables are needed at build time because we produce a *static* app
 ARG DOMIFA_BACKEND_URL
