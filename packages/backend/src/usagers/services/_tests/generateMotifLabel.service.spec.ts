@@ -1,6 +1,6 @@
-import { USAGER_REFUS_MOCK, USAGER_VALIDE_MOCK } from "../../_common/mocks";
+import { USAGER_REFUS_MOCK, USAGER_VALIDE_MOCK } from "../../../_common/mocks";
 
-import { generateMotifLabel } from "./generateMotifLabel.service";
+import { generateMotifLabel } from "../generateMotifLabel.service";
 
 describe("generateMotifLabel", () => {
   it("generateMotifLabel  ", async () => {

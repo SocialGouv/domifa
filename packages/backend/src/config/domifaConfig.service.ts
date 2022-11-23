@@ -493,14 +493,9 @@ function printEnv(x: Partial<DomifaEnv>) {
   const envKeysToLog = Object.keys(x).filter((x) => !x.startsWith("npm_"));
   envKeysToLog.sort();
 
-  const envToLog = envKeysToLog.reduce(
-    (acc: { [key: string]: string }, key: keyof DomifaEnv) => {
-      acc[key] = x[key];
-      return acc;
-    },
-    {}
-  );
-
   // eslint:disable-next-line: no-console
-  console.log("[domifaConfig] env:", JSON.stringify(envToLog, undefined, 2));
+  console.log(
+    "[domifaConfig] env:",
+    JSON.stringify(envKeysToLog, undefined, 2)
+  );
 }

@@ -1,3 +1,4 @@
+/* eslint-disable id-denylist */
 import { PhoneNumberUtil } from "google-libphonenumber";
 import { ChangeData, CountryISO } from "ngx-intl-tel-input";
 import { Telephone } from "../../../../_common/model";

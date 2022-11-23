@@ -11,6 +11,8 @@
     // "strict": true,
     "noImplicitReturns": true,
     "noUnusedParameters": true,
+    "noImplicitThis": true,
+    "strictFunctionTypes": true,
     // "noImplicitAny": true,
     "lib": [
       "es2018.promise"

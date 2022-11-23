@@ -11,12 +11,14 @@ import { AppTestContext, AppTestHelper } from "../../util/test";
 import { AdminStructuresModule } from "../../_portail-admin/admin-structures/admin-structures.module";
 import { StatsPublicController } from "./stats.public.controller";
 import MockDate from "mockdate";
+import { domifaConfig } from "../../config";
 
 describe("Stats Public Controller", () => {
   let controller: StatsPublicController;
   let context: AppTestContext;
 
   beforeAll(async () => {
+    domifaConfig().envId = "test";
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [StatsPublicController],
       imports: [

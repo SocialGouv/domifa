@@ -1,14 +1,9 @@
 import { format, startOfMonth, subYears } from "date-fns";
 
 import { myDataSource } from "..";
-import { domifaConfig } from "./../../../config/domifaConfig.service";
 
 import { UsagerTable } from "../../entities";
-import {
-  appTypeormManager,
-  pgRepository,
-  postgresQueryBuilder,
-} from "../_postgres";
+import { appTypeormManager, pgRepository } from "../_postgres";
 
 import { Usager } from "../../../_common/model";
 import { FranceRegion } from "../../../util/territoires";
@@ -38,12 +33,8 @@ async function countUsagersByMonth(regionId?: FranceRegion) {
   const lastMonth = startOfMonth(new Date());
   const oneYearAgo = subYears(lastMonth, 1);
 
-  let startDate = format(oneYearAgo, "yyyy-MM-dd");
+  const startDate = format(oneYearAgo, "yyyy-MM-dd");
   const endDate = format(lastMonth, "yyyy-MM-dd");
-
-  if (domifaConfig().envId === "test") {
-    startDate = postgresQueryBuilder.formatPostgresDate(new Date("2021-07-31"));
-  }
 
   const where = [startDate, endDate];
 

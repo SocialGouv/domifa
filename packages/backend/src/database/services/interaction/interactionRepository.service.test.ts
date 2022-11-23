@@ -11,7 +11,7 @@ describe("interactionRepository", () => {
 
   it("get all interactions", async () => {
     {
-      const interactions = await interactionRepository.findWithFilters({
+      const interactions = await interactionRepository.findBy({
         structureId: 1,
         usagerRef: 7,
       });
@@ -19,7 +19,7 @@ describe("interactionRepository", () => {
       expect(interactions.length).toEqual(9);
     }
     {
-      const interactions = await interactionRepository.findWithFilters({
+      const interactions = await interactionRepository.findBy({
         structureId: 1,
         usagerRef: 7,
       });
