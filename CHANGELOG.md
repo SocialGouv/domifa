@@ -1,3 +1,11 @@
+## [2.109.9](https://github.com/SocialGouv/domifa/compare/v2.109.8...v2.109.9) (2022-11-24)
+
+
+### Bug Fixes
+
+* delete useless console.log ([21390a1](https://github.com/SocialGouv/domifa/commit/21390a1530191a6bd14554a595786c134dbdd1e4))
+* **interactions:** ajout de la connexion au portail pour le calcul de la date de dernier passage ([b014261](https://github.com/SocialGouv/domifa/commit/b0142618a2bafaf6d1fd7614b776e9cf2ebfb1d1))
+
 ## [2.109.8](https://github.com/SocialGouv/domifa/compare/v2.109.7...v2.109.8) (2022-11-23)
 
 
