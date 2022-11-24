@@ -120,6 +120,7 @@ export class InteractionsDeletor {
 
       return await interactionsCreator.updateUsagerAfterCreation({
         usager,
+        structure: user.structure,
       });
     }
 

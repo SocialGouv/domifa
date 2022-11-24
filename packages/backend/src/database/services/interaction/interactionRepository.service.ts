@@ -4,6 +4,7 @@ import { In } from "typeorm";
 import { domifaConfig } from "../../../config";
 import { FranceRegion } from "../../../util/territoires";
 import {
+  Structure,
   Usager,
   UsagerLight,
   UserStructureAuthenticated,
@@ -33,7 +34,6 @@ export const interactionRepository = appTypeormManager
     findLastInteractionOk,
     updateMany: baseRepository.updateMany,
     findLastInteractionInWithContent,
-
     countInteractionsByMonth,
     countPendingInteraction,
     countPendingInteractionsIn,
@@ -138,27 +138,43 @@ async function countPendingInteraction({
 
 async function countPendingInteractionsIn({
   usagerUUID,
+  structure,
 }: {
   usagerUUID: string;
+  structure: Pick<Structure, "portailUsager">;
 }): Promise<{
   courrierIn: number;
   recommandeIn: number;
   colisIn: number;
+  lastInteractionOut: Date | null;
 }> {
+  const INTERACTIONS_TO_CHECK = Object.assign([], INTERACTION_OK_LIST);
+
+  if (structure.portailUsager.usagerLoginUpdateLastInteraction) {
+    INTERACTIONS_TO_CHECK.push("loginPortail");
+  }
+
+  const inArray = INTERACTIONS_TO_CHECK.join(", ");
+
   // NOTE: cette requête ne renvoit pas de résultats pour les usagers de cette structure qui n'ont pas d'interaction
   const query = `SELECT
       coalesce (SUM(CASE WHEN i.type = 'courrierIn' THEN "nbCourrier" END), 0) AS "courrierIn",
       coalesce (SUM(CASE WHEN i.type = 'recommandeIn' THEN "nbCourrier" END), 0) AS "recommandeIn",
-      coalesce (SUM(CASE WHEN i.type = 'colisIn' THEN "nbCourrier" END), 0) AS "colisIn"
+      coalesce (SUM(CASE WHEN i.type = 'colisIn' THEN "nbCourrier" END), 0) AS "colisIn",
+      (SELECT "dateInteraction" from interactions where type IN($1) and "usagerUUID" = $2 and event = 'create' ORDER BY "dateInteraction" DESC LIMIT 1) as "lastInteractionOut"
     FROM interactions i
-    WHERE i."usagerUUID" = $1 and i.event = 'create' AND i."interactionOutUUID" is null
+    WHERE i."usagerUUID" = $2 and i.event = 'create' AND i."interactionOutUUID" is null
     GROUP BY i."usagerRef"`;
-  const results = await interactionRepository.query(query, [usagerUUID]);
+  const results = await interactionRepository.query(query, [
+    inArray,
+    usagerUUID,
+  ]);
 
   const defaultResult = {
     courrierIn: 0,
     recommandeIn: 0,
     colisIn: 0,
+    lastInteractionOut: null,
   };
 
   if (typeof results[0] === "undefined") {
@@ -173,6 +189,7 @@ async function countPendingInteractionsIn({
     courrierIn: parseInt(results[0].courrierIn, 10),
     recommandeIn: parseInt(results[0].recommandeIn, 10),
     colisIn: parseInt(results[0].colisIn, 10),
+    lastInteractionOut: results[0].lastInteractionOut,
   };
 }
 
@@ -195,7 +212,7 @@ async function countInteractionsByMonth(
   let query = `select date_trunc('month', "dateInteraction") as date,
     SUM("nbCourrier") as count
     FROM interactions i
-    WHERE i."createdAt"::date > $1 AND i."createdAt"::date < $2 AND "type" = $3`;
+    WHERE i."createdAt"::date BETWEEN $1 AND $2 AND "type" = $3`;
 
   if (regionId) {
     query =

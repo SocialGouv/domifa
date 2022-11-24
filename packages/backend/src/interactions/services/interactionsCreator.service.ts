@@ -1,3 +1,4 @@
+import { differenceInCalendarDays } from "date-fns";
 import { interactionsTypeManager } from ".";
 import {
   interactionRepository,
@@ -6,6 +7,7 @@ import {
 } from "../../database";
 import {
   Interactions,
+  Structure,
   Usager,
   UsagerLight,
   UserStructure,
@@ -151,6 +153,7 @@ async function createInteraction({
   // Mise à jour des infos de dernier passage pour l'usager
   const usagerUpdated = await updateUsagerAfterCreation({
     usager,
+    structure: user.structure,
   });
 
   return { usager: usagerUpdated, interaction: interactionCreated };
@@ -158,25 +161,49 @@ async function createInteraction({
 
 async function updateUsagerAfterCreation({
   usager,
+  structure,
 }: {
+  structure: Pick<Structure, "portailUsager">;
   usager: Pick<Usager, "uuid" | "lastInteraction">;
 }): Promise<UsagerLight> {
+  const lastInteraction = usager.lastInteraction;
+
   const lastInteractionCount =
     await interactionRepository.countPendingInteractionsIn({
       usagerUUID: usager.uuid,
+      structure,
     });
 
-  usager.lastInteraction.courrierIn = lastInteractionCount.courrierIn;
-  usager.lastInteraction.colisIn = lastInteractionCount.colisIn;
-  usager.lastInteraction.recommandeIn = lastInteractionCount.recommandeIn;
+  const lastDateFromInteractions: Date | null =
+    lastInteractionCount.lastInteractionOut;
 
-  usager.lastInteraction.enAttente =
-    usager.lastInteraction.courrierIn > 0 ||
-    usager.lastInteraction.colisIn > 0 ||
-    usager.lastInteraction.recommandeIn > 0;
+  if (lastDateFromInteractions) {
+    if (!lastInteraction.dateInteraction) {
+      lastInteraction.dateInteraction = lastDateFromInteractions;
+    } else {
+      const lastDate = usager.lastInteraction.dateInteraction;
 
-  return await usagerLightRepository.updateOne(
+      if (differenceInCalendarDays(lastDateFromInteractions, lastDate) > 0) {
+        lastInteraction.dateInteraction = lastDateFromInteractions;
+      }
+    }
+  }
+
+  lastInteraction.courrierIn = lastInteractionCount.courrierIn;
+  lastInteraction.colisIn = lastInteractionCount.colisIn;
+  lastInteraction.recommandeIn = lastInteractionCount.recommandeIn;
+
+  lastInteraction.enAttente =
+    lastInteraction.courrierIn > 0 ||
+    lastInteraction.colisIn > 0 ||
+    lastInteraction.recommandeIn > 0;
+
+  console.log("RETOUR START");
+  const retour = await usagerLightRepository.updateOne(
     { uuid: usager.uuid },
-    { updatedAt: new Date(), lastInteraction: usager.lastInteraction }
+    { updatedAt: new Date(), lastInteraction }
   );
+  console.log("RETOUR END");
+  console.log(retour);
+  return retour;
 }
