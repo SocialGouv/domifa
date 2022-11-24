@@ -57,7 +57,6 @@ export class manualMigration1667855065599 implements MigrationInterface {
         lastInteraction.courrierIn = lastInteractionCount.courrierIn;
         lastInteraction.colisIn = lastInteractionCount.colisIn;
         lastInteraction.recommandeIn = lastInteractionCount.recommandeIn;
-        lastInteraction.recommandeIn = 100;
 
         lastInteraction.enAttente =
           lastInteraction.courrierIn > 0 ||
