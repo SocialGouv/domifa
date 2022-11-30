@@ -69,7 +69,7 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
     this.entretienVide = new Entretien();
   }
 
-  get e(): { [key: string]: AbstractControl } {
+  public get e(): { [key: string]: AbstractControl } {
     return this.entretienForm.controls;
   }
 
@@ -99,11 +99,11 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  public closeModal() {
+  public closeModal(): void {
     this.modalService.dismissAll();
   }
 
-  public submitEntretien() {
+  public submitEntretien(): void {
     if (this.usager.decision.statut === "INSTRUCTION") {
       if (this.isEmptyForm()) {
         this.modalService.open(this.entretienConfirmation);
@@ -139,7 +139,7 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

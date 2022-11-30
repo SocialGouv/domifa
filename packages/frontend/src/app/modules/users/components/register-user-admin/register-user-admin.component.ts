@@ -50,7 +50,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
   @ViewChild("form", { static: true })
   public form!: ElementRef<HTMLFormElement>;
 
-  get f(): { [key: string]: AbstractControl } {
+  public get f(): { [key: string]: AbstractControl } {
     return this.userForm.controls;
   }
 
@@ -126,7 +126,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
       : of(null);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.unsubscribe.next();
     this.subscription.unsubscribe();
   }

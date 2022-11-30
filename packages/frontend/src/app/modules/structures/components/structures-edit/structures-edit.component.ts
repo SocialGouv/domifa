@@ -45,7 +45,7 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
     this.loading = false;
   }
 
-  get h(): { [key: string]: AbstractControl } {
+  public get h(): { [key: string]: AbstractControl } {
     return this.hardResetForm.controls;
   }
 
@@ -85,7 +85,7 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
     );
   }
 
-  public hardResetConfirm() {
+  public hardResetConfirm(): void {
     if (this.hardResetForm.invalid) {
       this.toastService.error("Veuillez vérifier le formulaire");
       return;
@@ -142,7 +142,7 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

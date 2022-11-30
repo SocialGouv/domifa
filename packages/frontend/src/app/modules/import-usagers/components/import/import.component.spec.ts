@@ -8,7 +8,7 @@ import { ImportComponent } from "./import.component";
 
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { SharedModule } from "../../../shared/shared.module";
@@ -24,7 +24,7 @@ describe("ImportComponent", () => {
         NgbModule,
         HttpClientTestingModule,
         RouterTestingModule,
-        BrowserAnimationsModule,
+
         SharedModule,
         ReactiveFormsModule,
         FormsModule,

@@ -94,11 +94,11 @@ export class EtatCivilParentFormComponent implements OnDestroy {
 
   public currentUserSubject$: Observable<UserStructure | null>;
 
-  get f(): { [key: string]: AbstractControl } {
+  public get f(): { [key: string]: AbstractControl } {
     return this.usagerForm.controls;
   }
 
-  get ayantsDroits(): FormArray {
+  public get ayantsDroits(): FormArray {
     return this.usagerForm.get("ayantsDroits") as FormArray;
   }
 
@@ -269,7 +269,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     return datas;
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 }

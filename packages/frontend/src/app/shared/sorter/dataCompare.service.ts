@@ -1,19 +1,10 @@
-import { diacritics } from "../search/diacritics";
-
 export const dataCompare = {
   compareAttributes,
   compareNullValues,
-  cleanString,
 };
 
 export type DataComparisonResult = 0 | 1 | -1;
 
-function cleanString(str: string) {
-  if (!str) {
-    return str;
-  }
-  return diacritics.clean(str.trim().toLowerCase());
-}
 function compareAttributes<T>(
   a: T,
   b: T,

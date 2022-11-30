@@ -328,7 +328,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.searchPageLoadedUsagersData$.next(toNext);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
@@ -527,7 +527,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   }
 
   @HostListener("window:scroll", ["$event"])
-  onScroll(): void {
+  public onScroll(): void {
     const pos =
       (document.documentElement.scrollTop || document.body.scrollTop) +
       document.documentElement.offsetHeight;

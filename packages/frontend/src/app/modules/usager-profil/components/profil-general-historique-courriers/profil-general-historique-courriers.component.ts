@@ -50,7 +50,8 @@ export class ProfilGeneralHistoriqueCourriersComponent
         })
     );
   }
-  ngOnDestroy() {
+
+  public ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 }

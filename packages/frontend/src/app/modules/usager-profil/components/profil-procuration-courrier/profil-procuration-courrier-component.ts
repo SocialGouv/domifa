@@ -63,7 +63,8 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
 
   @Input() public me!: UserStructure;
 
-  @ViewChildren("procurationNom") inputsProcurations!: QueryList<ElementRef>;
+  @ViewChildren("procurationNom")
+  public inputsProcurations!: QueryList<ElementRef>;
 
   public isFormVisible: boolean;
   public submitted: boolean;
@@ -107,7 +108,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     });
   }
 
-  get form(): FormArray {
+  public get form(): FormArray {
     return this.procurationsForm.get("procurations") as FormArray;
   }
 
@@ -224,17 +225,8 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     (this.form as FormArray).removeAt(i);
 
     if (this.form.length === 0) {
-      this.procurationsForm.controls.ayantsDroitsExist.setValue(false);
+      this.isFormVisible = false;
     }
-  }
-
-  private focusProcuration() {
-    // Focus sur l'élément créé
-    setTimeout(() => {
-      const procurationsTable = this.procurationsForm.value;
-      const inputs = this.inputsProcurations.toArray();
-      inputs[procurationsTable.length - 1].nativeElement.focus();
-    }, 500);
   }
 
   public deleteProcuration(procurationToDelete: number): void {

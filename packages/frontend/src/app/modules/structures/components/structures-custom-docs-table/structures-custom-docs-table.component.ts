@@ -49,7 +49,7 @@ export class StructuresCustomDocsTableComponent implements OnDestroy {
     };
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 

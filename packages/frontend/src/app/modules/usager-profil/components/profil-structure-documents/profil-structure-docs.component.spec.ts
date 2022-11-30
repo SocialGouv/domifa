@@ -6,7 +6,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ProfilStructureDocsComponent } from "./profil-structure-docs.component";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
@@ -20,7 +20,6 @@ describe("ProfilStructureDocsComponent", () => {
     TestBed.configureTestingModule({
       declarations: [ProfilStructureDocsComponent],
       imports: [
-        BrowserAnimationsModule,
         FormsModule,
         HttpClientTestingModule,
         NgbModule,

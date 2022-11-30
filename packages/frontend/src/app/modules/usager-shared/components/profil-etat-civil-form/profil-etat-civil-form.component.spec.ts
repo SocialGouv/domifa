@@ -7,7 +7,6 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { UsagerFormModel } from "../../interfaces";
@@ -29,7 +28,6 @@ describe("ProfilEtatCivilFormComponent", () => {
         HttpClientTestingModule,
         NgxIntlTelInputModule,
         RouterTestingModule,
-        BrowserAnimationsModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],

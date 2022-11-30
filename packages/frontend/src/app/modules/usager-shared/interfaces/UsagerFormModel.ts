@@ -40,30 +40,16 @@ export class UsagerFormModel {
   public dateNaissance: Date | null;
   public villeNaissance: string | null;
 
-  // Infos de contact
-  public email: string;
-  public telephone: Telephone;
-
-  public contactByPhone: boolean;
-
   public structureId: number | null;
   public etapeDemande: number;
-
-  public entretien: Entretien;
-  public rdv: Rdv;
-  public notes: UsagerNote[];
 
   // Ayants-droits
   public ayantsDroitsExist: boolean;
   public ayantsDroits: UsagerAyantDroit[];
 
-  // Historique des décisions et dernière décision
-  public historique: Decision[];
   public decision: Decision;
-
   public typeDom: UsagerTypeDom; // PREMIERE / RENOUVELLEMENT
   public datePremiereDom: Date | null;
-  public import: UsagerImport | null;
 
   public lastInteraction: {
     dateInteraction: Date | null;
@@ -72,7 +58,7 @@ export class UsagerFormModel {
     recommandeIn: number;
     colisIn: number;
   };
-
+  public totalInteractionsEnAttente: number;
   // TRANSFERT & PROCUS
   public options: Options;
 
@@ -86,10 +72,6 @@ export class UsagerFormModel {
   public echeanceInfos: UsagerEcheanceInfos;
   public rdvInfos: UsagerRdvInfos;
 
-  public totalInteractionsEnAttente: number;
-
-  public numeroDistribution: string | null;
-
   // Dates à afficher sur le manage, couleur selon le statut
   public usagerProfilUrl: string;
 
@@ -97,6 +79,20 @@ export class UsagerFormModel {
     text: string;
     color: string;
   };
+
+  // TODO: utile uniquement pour la page profil, à mettre dans un type étendu d'Usager
+  public email: string;
+  public telephone: Telephone;
+  public contactByPhone: boolean;
+  public rdv: Rdv;
+  public entretien: Entretien;
+  public notes: UsagerNote[];
+
+  // Historique des décisions et dernière décision
+  public historique: Decision[];
+
+  public import: UsagerImport | null;
+  public numeroDistribution: string | null;
 
   constructor(usager?: UsagerLight, filterCriteria?: UsagersFilterCriteria) {
     this.notes = (usager && usager.notes) || [];

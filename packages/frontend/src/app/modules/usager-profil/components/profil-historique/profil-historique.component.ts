@@ -56,7 +56,7 @@ export class ProfilHistoriqueComponent implements OnInit {
     this.newHistorique = [];
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.me = this.authService.currentUserValue;
 
     this.usagerService.findOne(this.route.snapshot.params.id).subscribe({

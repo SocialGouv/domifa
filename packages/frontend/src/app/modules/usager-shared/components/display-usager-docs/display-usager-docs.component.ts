@@ -138,7 +138,7 @@ export class DisplayUsagerDocsComponent implements OnInit, OnDestroy {
     }, 500);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

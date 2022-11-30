@@ -33,11 +33,12 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   public errorLabels: { [key: string]: string };
 
   private subscription = new Subscription();
-  get e() {
+
+  public get e() {
     return this.emailForm.controls;
   }
 
-  get f(): { [key: string]: AbstractControl } {
+  public get f(): { [key: string]: AbstractControl } {
     return this.resetForm.controls;
   }
 
@@ -92,13 +93,13 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     this.initEmailForm();
   }
 
-  public initEmailForm() {
+  public initEmailForm(): void {
     this.emailForm = this.formBuilder.group({
       email: [null, [Validators.email, Validators.required]],
     });
   }
 
-  public initPasswordForm() {
+  public initPasswordForm(): void {
     this.resetForm = this.formBuilder.group(
       {
         confirmPassword: [null, Validators.compose([Validators.required])],
@@ -132,7 +133,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     this.hidePasswordConfirm = !this.hidePasswordConfirm;
   }
 
-  public submitEmailForm() {
+  public submitEmailForm(): void {
     this.submitted = true;
 
     if (this.emailForm.invalid) {
@@ -157,7 +158,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     );
   }
 
-  public submitResetForm() {
+  public submitResetForm(): void {
     this.submitted = true;
 
     const passwordFormValue = {
@@ -172,7 +173,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

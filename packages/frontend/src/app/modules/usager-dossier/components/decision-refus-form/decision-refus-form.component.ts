@@ -62,7 +62,7 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
     this.maxDateRefus = minDateToday;
   }
 
-  get r(): { [key: string]: AbstractControl } {
+  public get r(): { [key: string]: AbstractControl } {
     return this.refusForm.controls;
   }
 
@@ -131,7 +131,7 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

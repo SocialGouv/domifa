@@ -50,11 +50,11 @@ export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
     this.submitted = false;
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.addNoteForm = this.formBuilder.group({
       message: [
         null,
@@ -63,7 +63,7 @@ export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  get f(): { [key: string]: AbstractControl } {
+  public get f(): { [key: string]: AbstractControl } {
     return this.addNoteForm.controls;
   }
 

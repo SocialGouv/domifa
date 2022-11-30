@@ -31,7 +31,7 @@ import { Subscription } from "rxjs";
 export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
-  @Output() usagerChange = new EventEmitter<UsagerFormModel>();
+  @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
 
   private subscription = new Subscription();
   public hasHistorique: boolean;
@@ -133,7 +133,7 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

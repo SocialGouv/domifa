@@ -38,6 +38,10 @@ import { UserIdleModule } from "angular-user-idle";
 
 import { createErrorHandler, init } from "@sentry/angular";
 
+const disableAnimations =
+  !("animate" in document.documentElement) ||
+  (navigator && /iPhone OS (8|9|10|11|12|13)_/.test(navigator.userAgent));
+
 if (environment.production) {
   init({
     release: "domifa@" + pkg.version,
@@ -53,7 +57,7 @@ if (environment.production) {
   imports: [
     AppRoutingModule,
     BrowserModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule.withConfig({ disableAnimations }),
     FormsModule,
     MatomoModule,
     HttpClientModule,

@@ -62,7 +62,7 @@ export class RadiationFormComponent implements OnInit, OnDestroy {
     this.maxDate = minDateToday;
   }
 
-  get r(): { [key: string]: AbstractControl } {
+  public get r(): { [key: string]: AbstractControl } {
     return this.radiationForm.controls;
   }
 
@@ -88,7 +88,7 @@ export class RadiationFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  public setDecisionRadiation() {
+  public setDecisionRadiation(): void {
     this.submitted = true;
 
     if (this.radiationForm.invalid) {
@@ -134,7 +134,7 @@ export class RadiationFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

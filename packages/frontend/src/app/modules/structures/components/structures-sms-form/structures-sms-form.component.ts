@@ -62,7 +62,7 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
     };
   }
 
-  get form(): { [key: string]: AbstractControl } {
+  public get form(): { [key: string]: AbstractControl } {
     return this.structureSmsForm.controls;
   }
 
@@ -170,7 +170,7 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
     this.modalService.dismissAll();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

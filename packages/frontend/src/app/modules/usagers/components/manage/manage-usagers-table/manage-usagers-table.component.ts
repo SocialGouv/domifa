@@ -186,7 +186,7 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
     this.modalService.dismissAll();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

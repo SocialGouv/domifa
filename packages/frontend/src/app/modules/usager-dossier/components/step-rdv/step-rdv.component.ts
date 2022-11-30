@@ -89,7 +89,7 @@ export class StepRdvComponent implements OnInit {
     this.minDateToday = minDateToday;
   }
 
-  get r(): { [key: string]: AbstractControl } {
+  public get r(): { [key: string]: AbstractControl } {
     return this.rdvForm.controls;
   }
 

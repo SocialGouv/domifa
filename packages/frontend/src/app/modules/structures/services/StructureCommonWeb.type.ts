@@ -12,26 +12,26 @@ import { CountryISO } from "ngx-intl-tel-input";
 
 // Structure: attributs publics (retournés au frontend via UserStructureAuthenticated)
 export class StructureCommonWeb implements StructureCommon {
-  id: number;
-  createdAt: Date;
-  adresse: string;
-  complementAdresse: string;
-  nom: string;
-  structureType: StructureType;
-  ville: string;
-  departement: string;
-  region: string;
-  capacite: number | null;
-  codePostal: string;
-  agrement: string | null;
-  telephone: Telephone;
-  email: string;
-  timeZone: TimeZone;
-  responsable: StructureResponsable;
-  options: { numeroBoite: boolean };
-  adresseCourrier: StructureAddresseCourrier;
-  sms: StructureSmsParams;
-  portailUsager: StructurePortailUsagerParams;
+  public id: number;
+  public createdAt: Date;
+  public adresse: string;
+  public complementAdresse: string;
+  public nom: string;
+  public structureType: StructureType;
+  public ville: string;
+  public departement: string;
+  public region: string;
+  public capacite: number | null;
+  public codePostal: string;
+  public agrement: string | null;
+  public telephone: Telephone;
+  public email: string;
+  public timeZone: TimeZone;
+  public responsable: StructureResponsable;
+  public options: { numeroBoite: boolean };
+  public adresseCourrier: StructureAddresseCourrier;
+  public sms: StructureSmsParams;
+  public portailUsager: StructurePortailUsagerParams;
 
   constructor(structure?: Partial<StructureCommon>) {
     this.id = (structure && structure.id) || 0;

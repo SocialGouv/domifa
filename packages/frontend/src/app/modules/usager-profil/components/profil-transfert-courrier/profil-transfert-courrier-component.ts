@@ -58,7 +58,7 @@ export class UsagersProfilTransfertCourrierComponent
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
 
-  @Output() usagerChange = new EventEmitter<UsagerFormModel>();
+  @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
 
   public actions = {
     EDIT: "Modification",
@@ -96,11 +96,11 @@ export class UsagersProfilTransfertCourrierComponent
     this.initForm();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  get f(): { [key: string]: AbstractControl } {
+  public get f(): { [key: string]: AbstractControl } {
     return this.transfertForm.controls;
   }
 

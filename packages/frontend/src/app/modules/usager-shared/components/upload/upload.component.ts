@@ -47,7 +47,7 @@ export class UploadComponent implements OnInit, OnDestroy {
     this.uploadResponse = { status: "", message: 0, filePath: "", body: [] };
   }
 
-  get u(): { [key: string]: AbstractControl } {
+  public get u(): { [key: string]: AbstractControl } {
     return this.uploadForm.controls;
   }
 
@@ -110,7 +110,7 @@ export class UploadComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

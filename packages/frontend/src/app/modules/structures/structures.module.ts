@@ -33,7 +33,7 @@ import { StructuresRoutingModule } from "./structures-routing.module";
     StructuresCustomDocsComponent,
     StructuresCustomDocsTableComponent,
   ],
-  exports: [StructuresSearchComponent, StructuresFormComponent],
+  exports: [StructuresFormComponent],
   imports: [
     FormsModule,
     HttpClientModule,

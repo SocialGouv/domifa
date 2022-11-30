@@ -1,4 +1,3 @@
-import { dataSorter } from "../sorter";
 import { searchChunks } from "./searchChunks";
 import { searchCore } from "./searchCore";
 
@@ -138,12 +137,10 @@ function filter<T>(
     getAttributes,
     searchText,
     maxResults,
-    sortResultsByBestMatch,
   }: {
     getAttributes: (item: T, index?: number) => string[];
     searchText: string;
     maxResults?: number;
-    sortResultsByBestMatch?: boolean;
   }
 ): T[] {
   if (!searchText || !searchText.length) {
@@ -155,60 +152,20 @@ function filter<T>(
     return items.concat([]);
   }
 
-  if (sortResultsByBestMatch) {
-    const itemsWithMatchResults = items.reduce(
-      (acc: any, item, initialIndex) => {
-        const matchResult = match(item, {
-          index: initialIndex,
-          getAttributes,
-          words,
-          withScore: true,
-        });
-        if (matchResult.match) {
-          acc.push({ item, matchResult, initialIndex });
-        }
-        return acc;
-      },
-      []
-    );
-
-    const results = dataSorter.sortMultiple(itemsWithMatchResults, {
-      getSortAttributes: (itemWithMatchResult: any) => {
-        return [
-          {
-            // sort by score
-            value: itemWithMatchResult.matchResult.score,
-            asc: false,
-          },
-          {
-            // then by initial position
-            value: itemWithMatchResult.initialIndex,
-            asc: true,
-          },
-        ];
-      },
-    });
-
-    if (maxResults) {
-      return results.slice(0, maxResults).map((result) => result.item);
-    }
-    return results.map((result) => result.item);
-  } else {
-    return items.reduce((acc, item, initialIndex) => {
-      if (!maxResults || acc.length < maxResults) {
-        const matchResult = match(item, {
-          index: initialIndex,
-          getAttributes,
-          words,
-          withScore: false,
-        });
-        if (matchResult.match) {
-          acc.push(item);
-        }
+  return items.reduce((acc, item, initialIndex) => {
+    if (!maxResults || acc.length < maxResults) {
+      const matchResult = match(item, {
+        index: initialIndex,
+        getAttributes,
+        words,
+        withScore: false,
+      });
+      if (matchResult.match) {
+        acc.push(item);
       }
-      return acc;
-    }, []);
-  }
+    }
+    return acc;
+  }, []);
 }
 
 export const search = {

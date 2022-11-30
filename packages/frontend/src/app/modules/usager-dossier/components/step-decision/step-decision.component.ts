@@ -63,7 +63,7 @@ export class StepDecisionComponent implements OnInit, OnDestroy {
     this.editPJ = false;
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 

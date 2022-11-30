@@ -18,7 +18,7 @@ import { UsagerProfilService } from "../../services/usager-profil.service";
 })
 export class ProfilEditPortailUsagerPreferenceComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
-  @Output() usagerChange = new EventEmitter<UsagerFormModel>();
+  @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
 
   @Input() public me!: UserStructure;
 

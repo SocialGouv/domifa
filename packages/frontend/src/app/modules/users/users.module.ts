@@ -20,12 +20,7 @@ import { UsersRoutingModule } from "./users-routing.module";
     RegisterUserAdminComponent,
     EditUserComponent,
   ],
-  exports: [
-    ResetPasswordComponent,
-    UserProfilComponent,
-    RegisterUserAdminComponent,
-    EditUserComponent,
-  ],
+
   imports: [
     FormsModule,
     HttpClientModule,

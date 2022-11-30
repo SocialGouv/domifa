@@ -284,9 +284,7 @@ function buildHistoryState({
       ...usager.entretien,
     },
     ayantsDroits: [...usager.ayantsDroits],
-    rdv: {
-      ...usager.rdv,
-    },
+    rdv: usager.rdv,
   };
 
   return state;
