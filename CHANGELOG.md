@@ -1,3 +1,12 @@
+## [2.109.11](https://github.com/SocialGouv/domifa/compare/v2.109.10...v2.109.11) (2022-11-30)
+
+
+### Bug Fixes
+
+* **linters:** amélioration du code suite à l'ajout de linter ([026cbe4](https://github.com/SocialGouv/domifa/commit/026cbe45572b365d86457eceedf0900942b11b51))
+* **sms:** retrait des chiffres dans les expéditeurs ([af1bb3c](https://github.com/SocialGouv/domifa/commit/af1bb3c2045e4b60d0110079a8f7aaca6b5a7f2c))
+* **tests:** correction de tests, amélioration des stats mois par mois pour les interactions ([a98d12e](https://github.com/SocialGouv/domifa/commit/a98d12e201a5de9a94c12bed9087c62ebe7cbbeb))
+
 ## [2.109.10](https://github.com/SocialGouv/domifa/compare/v2.109.9...v2.109.10) (2022-11-30)
 
 
