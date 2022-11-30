@@ -377,7 +377,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
   };
 
   const configWithHiddenSensitiveData = hideSensitiveData(config);
-  if (config.dev.printEnv) {
+  if (config.envId === "local") {
     printEnv(x);
   }
 
