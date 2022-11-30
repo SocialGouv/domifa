@@ -33,7 +33,13 @@
         </p>
         <ul>
           <li>1. Activez les SMS via le formulaire ci-dessous</li>
-          <li>2. Complétez le nom de l'expéditeur et la signature des SMS</li>
+          <li>
+            2. Complétez le nom de l'expéditeur et la signature des SMS.
+            <b
+              >Seul des lettres peuvent être utilisés pour l'expéditeur, aucun
+              numéro ne doit figurer dans l'expéditeur !</b
+            >
+          </li>
           <li>
             3. Dans la section <strong>dossier</strong> des fiches domiciliés,
             ajoutez un numéro de portable à chaque domicilié
@@ -123,12 +129,15 @@
                     }"
                     required
                   />
-                  <small>11 caractères maximum</small>
+                  <small
+                    >Veuillez n'utiliser que des lettres (11 caractères
+                    maximum)</small
+                  >
                   <div
                     *ngIf="submitted && form.senderName.errors"
                     class="invalid-feedback"
                   >
-                    L'expediteur est obligatoire (maximum 11 caractères)
+                    Le champs expéditeur est incorrect
                   </div>
                 </div>
 

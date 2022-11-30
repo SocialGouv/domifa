@@ -26,7 +26,7 @@ export class MessageSmsSenderService {
       destinataires:
         domifaConfig().sms.phoneNumberRedirectAllTo ||
         message.phoneNumber.replace(/\s/g, ""),
-      expediteur: message.senderName,
+      expediteur: message.senderName.replace(/^[a-zA-Z ]*$/gi, ""),
     };
 
     const url =

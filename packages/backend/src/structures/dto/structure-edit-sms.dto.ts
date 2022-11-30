@@ -1,4 +1,5 @@
 import {
+  IsAlpha,
   IsBoolean,
   IsEmpty,
   IsNotEmpty,
@@ -26,6 +27,7 @@ export class StructureEditSmsDto {
   })
   @IsNotEmpty()
   @IsString()
+  @IsAlpha()
   @TrimOrNullTransform()
   public senderName: string;
 
