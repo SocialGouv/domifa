@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { StructuresFormComponent } from "./structures-form.component";
 
@@ -21,7 +22,7 @@ describe("StructuresFormComponent", () => {
         ReactiveFormsModule,
         FormsModule,
         HttpClientTestingModule,
-
+        BrowserAnimationsModule,
         NgxIntlTelInputModule,
         RouterTestingModule,
       ],
