@@ -117,7 +117,7 @@ export class MessageSmsService {
         usagerRef: usager.ref,
         structureId: structure.id,
         content,
-        senderName: structure.sms.senderName,
+        senderName: structure.sms.senderName.replace(/^[a-zA-Z ]*$/gi, ""),
         status: "TO_SEND",
         smsId: interaction.type,
         phoneNumber: getPhoneString(usager.telephone, PhoneNumberFormat.E164),

@@ -105,7 +105,12 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
       ],
       senderName: [
         this.structure.sms.senderName,
-        [Validators.required, Validators.maxLength(11), noWhiteSpace],
+        [
+          Validators.required,
+          Validators.maxLength(11),
+          noWhiteSpace,
+          Validators.pattern("^[a-zA-Z ]*$"),
+        ],
       ],
       senderDetails: [
         this.structure.sms.senderDetails,

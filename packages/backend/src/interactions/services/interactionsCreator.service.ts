@@ -198,12 +198,10 @@ async function updateUsagerAfterCreation({
     lastInteraction.colisIn > 0 ||
     lastInteraction.recommandeIn > 0;
 
-  console.log("RETOUR START");
   const retour = await usagerLightRepository.updateOne(
     { uuid: usager.uuid },
     { updatedAt: new Date(), lastInteraction }
   );
-  console.log("RETOUR END");
-  console.log(retour);
+
   return retour;
 }
