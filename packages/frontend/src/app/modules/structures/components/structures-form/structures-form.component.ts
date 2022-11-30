@@ -24,7 +24,7 @@ import {
 } from "../../../../../_common/model";
 import { StructureService } from "../../services/structure.service";
 import { StructureCommonWeb } from "../../services/StructureCommonWeb.type";
-import { structureNameChecker } from "../structure-edit-form/structureNameChecker.service";
+import { structureNameChecker } from "../../services/structureNameChecker.service";
 import { DEPARTEMENTS_LISTE } from "../../../../shared";
 import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
 import { anyPhoneValidator } from "../../../shared/phone/mobilePhone.validator";

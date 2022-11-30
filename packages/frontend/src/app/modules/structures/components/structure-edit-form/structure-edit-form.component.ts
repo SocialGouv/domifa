@@ -8,7 +8,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
+
 import { of, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
 import {
@@ -18,13 +18,19 @@ import {
 } from "ngx-intl-tel-input";
 
 import { Structure, StructureCommon } from "../../../../../_common/model";
-import { regexp } from "../../../../shared/constants/REGEXP.const";
-import { StructureService } from "../../services/structure.service";
-import { structureNameChecker } from "./structureNameChecker.service";
-import { DEPARTEMENTS_LISTE } from "../../../../shared";
-import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
-import { anyPhoneValidator } from "../../../shared/phone/mobilePhone.validator";
-import { setFormPhone, getFormPhone } from "../../../shared/phone";
+
+import {
+  PREFERRED_COUNTRIES,
+  DEPARTEMENTS_LISTE,
+  regexp,
+} from "../../../../shared";
+import {
+  setFormPhone,
+  getFormPhone,
+  anyPhoneValidator,
+} from "../../../shared/phone";
+import { CustomToastService } from "../../../shared/services/custom-toast.service";
+import { structureNameChecker, StructureService } from "../../services";
 
 @Component({
   selector: "app-structure-edit-form",
@@ -32,14 +38,15 @@ import { setFormPhone, getFormPhone } from "../../../shared/phone";
   styleUrls: ["./structure-edit-form.component.css"],
 })
 export class StructureEditFormComponent implements OnInit, OnDestroy {
-  public PhoneNumberFormat = PhoneNumberFormat;
-  public SearchCountryField = SearchCountryField;
-  public CountryISO = CountryISO;
-  public PREFERRED_COUNTRIES: CountryISO[] = PREFERRED_COUNTRIES;
-  public structureForm: FormGroup;
-  public DEPARTEMENTS_LISTE = DEPARTEMENTS_LISTE;
+  public readonly PhoneNumberFormat = PhoneNumberFormat;
+  public readonly SearchCountryField = SearchCountryField;
+  public readonly CountryISO = CountryISO;
+  public readonly PREFERRED_COUNTRIES: CountryISO[] = PREFERRED_COUNTRIES;
+  public readonly DEPARTEMENTS_LISTE = DEPARTEMENTS_LISTE;
+
   public loading = false;
-  public submitted: boolean;
+  public submitted = false;
+  public structureForm: FormGroup;
   public selectedCountryISO: CountryISO = CountryISO.France;
 
   @Input() public structure!: StructureCommon;
@@ -51,8 +58,6 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
     private readonly formBuilder: FormBuilder,
     private readonly toastService: CustomToastService
   ) {
-    this.submitted = false;
-    this.loading = false;
     this.structureForm = new FormGroup({});
   }
 

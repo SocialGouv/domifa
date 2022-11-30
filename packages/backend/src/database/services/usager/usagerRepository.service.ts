@@ -1,5 +1,3 @@
-import { format, startOfMonth, subYears } from "date-fns";
-
 import { myDataSource } from "..";
 
 import { UsagerTable } from "../../entities";
@@ -7,6 +5,7 @@ import { appTypeormManager, pgRepository } from "../_postgres";
 
 import { Usager } from "../../../_common/model";
 import { FranceRegion } from "../../../util/territoires";
+import { getDateForMonthInterval } from "../../../stats/services";
 
 const baseRepository = pgRepository.get<UsagerTable, Usager>(UsagerTable);
 
@@ -30,11 +29,7 @@ function countUsagers(structuresId?: number[]): Promise<number> {
 }
 
 async function countUsagersByMonth(regionId?: FranceRegion) {
-  const lastMonth = startOfMonth(new Date());
-  const oneYearAgo = subYears(lastMonth, 1);
-
-  const startDate = format(oneYearAgo, "yyyy-MM-dd");
-  const endDate = format(lastMonth, "yyyy-MM-dd");
+  const { startDate, endDate } = getDateForMonthInterval();
 
   const where = [startDate, endDate];
 

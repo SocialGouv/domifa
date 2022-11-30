@@ -1,7 +1,5 @@
-import { startOfMonth, subYears } from "date-fns";
-
 import { In } from "typeorm";
-import { domifaConfig } from "../../../config";
+import { getDateForMonthInterval } from "../../../stats/services";
 import { FranceRegion } from "../../../util/territoires";
 import {
   Structure,
@@ -16,12 +14,7 @@ import {
   INTERACTION_OK_LIST,
 } from "../../../_common/model/interaction";
 import { InteractionsTable } from "../../entities";
-import {
-  appTypeormManager,
-  pgRepository,
-  postgresQueryBuilder,
-  typeOrmSearch,
-} from "../_postgres";
+import { appTypeormManager, pgRepository, typeOrmSearch } from "../_postgres";
 
 const baseRepository = pgRepository.get<InteractionsTable, Interactions>(
   InteractionsTable
@@ -197,17 +190,9 @@ async function countInteractionsByMonth(
   regionId?: FranceRegion,
   interactionType: InteractionType = "courrierOut"
 ) {
-  const dateRef =
-    domifaConfig().envId === "test" ? new Date("2022-07-31") : new Date();
+  const { startDate, endDate } = getDateForMonthInterval();
 
-  const startInterval = postgresQueryBuilder.formatPostgresDate(
-    startOfMonth(subYears(dateRef, 1))
-  );
-  const endInterval = postgresQueryBuilder.formatPostgresDate(
-    startOfMonth(dateRef)
-  );
-
-  const where: string[] = [startInterval, endInterval, interactionType];
+  const where: string[] = [startDate, endDate, interactionType];
 
   let query = `select date_trunc('month', "dateInteraction") as date,
     SUM("nbCourrier") as count
