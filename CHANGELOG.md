@@ -1,3 +1,10 @@
+## [2.109.10](https://github.com/SocialGouv/domifa/compare/v2.109.9...v2.109.10) (2022-11-30)
+
+
+### Bug Fixes
+
+* **logs:** Get back json formatted logs on prod ([bf212e2](https://github.com/SocialGouv/domifa/commit/bf212e222af4dd6c44405d79deb9c0a9f265aab9))
+
 ## [2.109.9](https://github.com/SocialGouv/domifa/compare/v2.109.8...v2.109.9) (2022-11-24)
 
 
