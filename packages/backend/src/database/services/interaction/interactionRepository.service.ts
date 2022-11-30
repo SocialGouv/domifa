@@ -192,12 +192,12 @@ async function countInteractionsByMonth(
 ) {
   const { startDate, endDate } = getDateForMonthInterval();
 
-  const where: string[] = [startDate, endDate, interactionType];
+  const where: string[] = [interactionType, startDate, endDate];
 
   let query = `select date_trunc('month', "dateInteraction") as date,
     SUM("nbCourrier") as count
     FROM interactions i
-    WHERE i."createdAt"::date BETWEEN $1 AND $2 AND "type" = $3`;
+    WHERE "type" = $1 and "dateInteraction" BETWEEN $2 AND $3 `;
 
   if (regionId) {
     query =
@@ -207,7 +207,7 @@ async function countInteractionsByMonth(
     where.push(regionId);
   }
 
-  query = query + ` GROUP BY 1 ORDER BY date ASC`;
+  query = query + ` GROUP BY 1`;
   return appTypeormManager.getRepository(InteractionsTable).query(query, where);
 }
 
