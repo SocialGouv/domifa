@@ -48,7 +48,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
     structure: StructureCommon;
   };
 
-  get f(): { [key: string]: AbstractControl } {
+  public get f(): { [key: string]: AbstractControl } {
     return this.userForm.controls;
   }
 
@@ -161,7 +161,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
       : of(null);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }

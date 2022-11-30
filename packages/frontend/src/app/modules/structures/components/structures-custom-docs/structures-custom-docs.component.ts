@@ -87,7 +87,7 @@ export class StructuresCustomDocsComponent implements OnInit, OnDestroy {
     this.modalService.open(this.uploadCustomDocModal);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

@@ -15,7 +15,7 @@ function filter(
 ) {
   return search.filter(usagers, {
     searchText: searchString,
-    getAttributes: (usager) => {
+    getAttributes: (usager: UsagerLight) => {
       const attributes = [
         usager.nom,
         usager.prenom,
@@ -31,6 +31,5 @@ function filter(
       }
       return attributes;
     },
-    sortResultsByBestMatch: false,
   });
 }

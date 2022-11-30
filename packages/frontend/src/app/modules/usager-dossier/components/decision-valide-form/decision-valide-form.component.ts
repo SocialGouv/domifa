@@ -68,7 +68,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     this.showDurationWarning = false;
   }
 
-  get v(): { [key: string]: AbstractControl } {
+  public get v(): { [key: string]: AbstractControl } {
     return this.valideForm.controls;
   }
 
@@ -184,7 +184,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

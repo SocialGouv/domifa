@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
 export const stringCleaner = { cleanString };
-function cleanString(str: string) {
+function cleanString(str: string): string {
   if (!str) {
     return str;
   }

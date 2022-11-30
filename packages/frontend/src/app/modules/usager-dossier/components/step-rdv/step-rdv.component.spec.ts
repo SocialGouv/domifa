@@ -4,7 +4,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
@@ -23,7 +23,7 @@ describe("StepRdvComponent", () => {
         NgbModule,
         HttpClientTestingModule,
         RouterTestingModule,
-        BrowserAnimationsModule,
+
         SharedModule,
         ReactiveFormsModule,
         FormsModule,

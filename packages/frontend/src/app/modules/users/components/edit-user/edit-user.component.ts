@@ -51,11 +51,11 @@ export class EditUserComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   private unsubscribe: Subject<void> = new Subject();
 
-  get f(): { [key: string]: AbstractControl } {
+  public get f(): { [key: string]: AbstractControl } {
     return this.userForm.controls;
   }
 
-  get p(): { [key: string]: AbstractControl } {
+  public get p(): { [key: string]: AbstractControl } {
     return this.passwordForm.controls;
   }
 
@@ -256,7 +256,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
       : of(null);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.unsubscribe.next();
     this.subscription.unsubscribe();
   }

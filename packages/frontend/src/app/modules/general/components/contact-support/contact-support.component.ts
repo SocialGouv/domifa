@@ -43,7 +43,7 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
     this.loading = false;
   }
 
-  get f(): { [key: string]: AbstractControl } {
+  public get f(): { [key: string]: AbstractControl } {
     return this.contactForm.controls;
   }
 
@@ -149,7 +149,7 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
       })
     );
   }
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 }

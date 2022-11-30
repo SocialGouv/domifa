@@ -19,11 +19,11 @@ function generateString({
   charsToExclude?: string;
 }): string {
   let isValid = false;
-  let str: string;
+  let str = "";
   let i = 0;
 
   while (!isValid) {
-    if (charsToInclude?.length > 0) {
+    if (charsToInclude) {
       // eslint-disable-next-line prefer-spread
       str = Array.apply(null, Array(length))
         .map(() => {

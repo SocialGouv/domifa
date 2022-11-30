@@ -4,7 +4,7 @@ import { getUsagerNomComplet } from "../../../shared/getUsagerNomComplet";
 
 @Pipe({ name: "usagerNomComplet" })
 export class UsagerNomCompletPipe implements PipeTransform {
-  transform(usager: Pick<Usager, "nom" | "prenom" | "sexe">): string {
+  public transform(usager: Pick<Usager, "nom" | "prenom" | "sexe">): string {
     return getUsagerNomComplet(usager);
   }
 }

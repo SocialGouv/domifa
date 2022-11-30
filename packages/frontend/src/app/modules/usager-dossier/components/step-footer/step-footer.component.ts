@@ -19,7 +19,7 @@ import { UserStructure } from "src/_common/model";
 export class StepFooterComponent {
   public me!: UserStructure | null;
   @Input() public usager!: UsagerFormModel;
-  @Output() usagerChange = new EventEmitter<UsagerFormModel>();
+  @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
 
   @ViewChild("addNoteInModal", { static: true })
   public addNoteInModal!: TemplateRef<NgbModalRef>;

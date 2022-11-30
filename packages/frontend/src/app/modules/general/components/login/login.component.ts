@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
-  get f(): { [key: string]: AbstractControl } {
+  public get f(): { [key: string]: AbstractControl } {
     return this.loginForm.controls;
   }
 
@@ -87,7 +87,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 }

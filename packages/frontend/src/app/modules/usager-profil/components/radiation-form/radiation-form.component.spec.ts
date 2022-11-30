@@ -16,7 +16,6 @@ import { RadiationFormComponent } from "./radiation-form.component";
 
 import { RouterTestingModule } from "@angular/router/testing";
 
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
@@ -30,7 +29,6 @@ describe("RadiationFormComponent", () => {
     TestBed.configureTestingModule({
       declarations: [RadiationFormComponent],
       imports: [
-        BrowserAnimationsModule,
         FormsModule,
         HttpClientTestingModule,
         NgbModule,

@@ -81,7 +81,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
     this.accountExist = false;
   }
 
-  get f(): { [key: string]: AbstractControl } {
+  public get f(): { [key: string]: AbstractControl } {
     return this.structureForm.controls;
   }
 
@@ -237,7 +237,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
     return structureNameChecker.isInvalidStructureName(structureName);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
     this.subscription.unsubscribe();

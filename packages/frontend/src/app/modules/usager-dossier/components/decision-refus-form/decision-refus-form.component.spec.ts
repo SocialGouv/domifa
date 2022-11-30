@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
 import { RouterTestingModule } from "@angular/router/testing";
 import {
   NgbDateParserFormatter,
@@ -30,7 +30,6 @@ describe("DecisionRefusFormComponent", () => {
         NgbModule,
         HttpClientTestingModule,
         RouterTestingModule,
-        BrowserAnimationsModule,
 
         SharedModule,
         FormsModule,

@@ -51,6 +51,14 @@ module.exports = {
         ],
         "@typescript-eslint/semi": ["off", null],
         "@typescript-eslint/type-annotation-spacing": "off",
+        "@typescript-eslint/explicit-member-accessibility": [
+          "error",
+          {
+            overrides: {
+              constructors: "off",
+            },
+          },
+        ],
         "arrow-parens": ["off", "always"],
         "brace-style": ["off", "off"],
         "dot-notation": "error",
@@ -88,7 +96,8 @@ module.exports = {
         "no-redeclare": "error",
         "no-return-await": "error",
         "no-sequences": "error",
-        "no-shadow": "error",
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": "error",
         "no-sparse-arrays": "error",
         "no-template-curly-in-string": "error",
         "no-trailing-spaces": "off",

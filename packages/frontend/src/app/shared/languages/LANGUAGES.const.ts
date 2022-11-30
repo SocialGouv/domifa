@@ -33,8 +33,6 @@ export const LANGUAGES_MAP: { [attr: string]: AppLanguage } = LANGUAGES.reduce(
   (acc, l: AppLanguage) => {
     acc[l.isoCode] = l;
     return acc;
-
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   },
   {} as { [attr: string]: AppLanguage }
 );

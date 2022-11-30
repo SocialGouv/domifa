@@ -37,7 +37,7 @@ export class StructuresSearchComponent implements OnInit, OnDestroy {
     this.codePostal = "";
   }
 
-  get f(): { [key: string]: AbstractControl } {
+  public get f(): { [key: string]: AbstractControl } {
     return this.codePostalForm.controls;
   }
 
@@ -82,7 +82,7 @@ export class StructuresSearchComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

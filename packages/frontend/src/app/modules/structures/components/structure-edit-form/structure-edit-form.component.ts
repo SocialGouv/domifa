@@ -56,7 +56,7 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
     this.structureForm = new FormGroup({});
   }
 
-  get f(): { [key: string]: AbstractControl } {
+  public get f(): { [key: string]: AbstractControl } {
     return this.structureForm.controls;
   }
 
@@ -205,7 +205,7 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
     return structureNameChecker.isInvalidStructureName(structureName);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

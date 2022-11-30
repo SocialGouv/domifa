@@ -43,9 +43,7 @@ export class ImportComponent implements OnInit, OnDestroy {
   public form!: ElementRef<HTMLFormElement>;
 
   public previewTable?: ImportPreviewTable;
-
   public visibleRows: ImportPreviewRow[];
-
   public COL = IMPORT_PREVIEW_COLUMNS;
 
   private readonly subscription = new Subscription();
@@ -64,7 +62,7 @@ export class ImportComponent implements OnInit, OnDestroy {
     this.showTable = false;
   }
 
-  get u(): Record<string, AbstractControl> {
+  public get u(): Record<string, AbstractControl> {
     return this.uploadForm.controls;
   }
 
@@ -83,6 +81,11 @@ export class ImportComponent implements OnInit, OnDestroy {
   public onFileChange(event: Event) {
     try {
       const input = event.target as HTMLInputElement;
+
+      if (!input.files) {
+        this.toastService.error("Seul les fichiers Excel sont autorisés");
+        return;
+      }
 
       if (
         !input.files.length ||
@@ -154,7 +157,7 @@ export class ImportComponent implements OnInit, OnDestroy {
     this.showTable = false;
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

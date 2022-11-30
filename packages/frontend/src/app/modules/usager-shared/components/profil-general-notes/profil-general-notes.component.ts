@@ -21,7 +21,7 @@ import { Subscription } from "rxjs";
 })
 export class ProfilGeneralNotesComponent implements OnChanges, OnDestroy {
   @Input() public usager!: UsagerFormModel;
-  @Output() usagerChange = new EventEmitter<UsagerFormModel>();
+  @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
 
   @Input() public me!: UserStructure;
 
@@ -87,7 +87,7 @@ export class ProfilGeneralNotesComponent implements OnChanges, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

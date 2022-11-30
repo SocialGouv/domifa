@@ -142,14 +142,14 @@ export class SetInteractionInFormComponent implements OnDestroy {
   }
 
   @HostListener("document:keypress", ["$event"])
-  keyEvent(event: KeyboardEvent): void {
+  public keyEvent(event: KeyboardEvent): void {
     if (event.key === "Enter") {
       event.preventDefault();
       this.setInteractionForm();
     }
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

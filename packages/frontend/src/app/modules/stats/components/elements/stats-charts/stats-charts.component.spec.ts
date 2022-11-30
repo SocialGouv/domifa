@@ -5,7 +5,7 @@ import { StatsChartsComponent } from "./stats-charts.component";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
 import { DEFAULT_PUBLIC_STATS } from "../../../../../../_common/model/stats/DEFAULT_PUBLIC_STATS.const";
 import { SharedModule } from "../../../../shared/shared.module";
 
@@ -19,7 +19,7 @@ describe("StatsChartsComponent", () => {
       imports: [
         NgxChartsModule,
         SharedModule,
-        BrowserAnimationsModule,
+
         RouterTestingModule,
         HttpClientTestingModule,
       ],
