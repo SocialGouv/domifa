@@ -1,4 +1,5 @@
 import { faker } from "@faker-js/faker";
+
 faker.setLocale("fr");
 
 export const dataGenerator = {
@@ -9,7 +10,6 @@ export const dataGenerator = {
   fromListAndRemove,
   number,
   boolean,
-  date,
   email,
   city,
 };
@@ -17,15 +17,19 @@ export const dataGenerator = {
 function firstName() {
   return faker.name.firstName();
 }
+
 function city() {
   return faker.address.city();
 }
+
 function lastName() {
   return faker.name.lastName();
 }
+
 function phoneNumber() {
-  return faker.phone.phoneNumber();
+  return faker.phone.number();
 }
+
 function email({
   firstName,
   lastName,
@@ -86,44 +90,4 @@ function boolean(options?: { percentageTrue?: number }): boolean {
     return number({ min: 1, max: 100, precision: 1 }) <= options.percentageTrue;
   }
   return faker.datatype.boolean();
-}
-
-type MinMaxOptions = {
-  min: number;
-  max: number;
-};
-
-function date(options: {
-  refDate?: Date;
-  years?: MinMaxOptions;
-  days?: MinMaxOptions;
-}): Date {
-  const refDate = options.refDate ? options.refDate : new Date();
-
-  const { days, years } = options;
-
-  if (years) {
-    const min = (years.min ? years.min : 0) * 365 * 24 * 60;
-    const max = years.max * 365 * 24 * 60;
-    const minutesDiff = number({ min, max, precision: 1 });
-    return removeTime(refDate.getTime() + minutesDiff * 60 * 1000);
-  }
-
-  if (days) {
-    const min = (days.min ? days.min : 0) * 24 * 60;
-    const max = days.max * 24 * 60;
-    const minutesDiff = number({ min, max, precision: 1 });
-    return removeTime(refDate.getTime() + minutesDiff * 60 * 1000);
-  }
-
-  return removeTime(refDate);
-}
-
-function removeTime(date: Date | number): Date {
-  date = new Date(date);
-  date.setUTCHours(0);
-  date.setUTCMinutes(0);
-  date.setUTCSeconds(0);
-  date.setUTCMilliseconds(0);
-  return date;
 }

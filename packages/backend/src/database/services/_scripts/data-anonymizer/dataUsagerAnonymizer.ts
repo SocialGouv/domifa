@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import { appLogger } from "../../../../util";
 import {
   Usager,
@@ -82,18 +83,16 @@ async function _anonymizeUsager(usager: Usager) {
     contactByPhone: false,
     nom: dataGenerator.lastName(),
     surnom: null,
-    dateNaissance: dataGenerator.date({
-      years: { min: 18, max: -90 },
-    }),
+    dateNaissance: faker.date.birthdate({ min: 18, max: 99 }),
     villeNaissance: dataGenerator.fromList(["Inconnu", dataGenerator.city()]),
     entretien: anonymizeUsagerEntretien(usager.entretien),
     decision: anonymizeUsagerDecision(usager.decision),
     historique,
     ayantsDroits: anonymizeAyantDroits(usager.ayantsDroits),
+    notes: [],
   };
 
   if (Object.keys(attributesToUpdate).length === 0) {
-    // appLogger.debug(`[dataUsagerAnonymizer] nothing to update for "${usager.ref}"`);
     return usager;
   }
 
@@ -109,9 +108,7 @@ function anonymizeAyantDroits(
     lien: x.lien,
     nom: dataGenerator.lastName(),
     prenom: dataGenerator.firstName(),
-    dateNaissance: dataGenerator.date({
-      years: { min: 0, max: -90 },
-    }),
+    dateNaissance: faker.date.birthdate({ min: 1, max: 18 }),
   }));
 }
 
