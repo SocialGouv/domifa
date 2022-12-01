@@ -39,12 +39,22 @@ describe("Admins Login Controller", () => {
     expect(response.status).toBe(HttpStatus.OK);
   });
 
+  it("should return bad request because password pattern is not valid", async () => {
+    const response = await supertest(context.app.getHttpServer())
+      .post("/portail-admins/auth/login")
+      .send({
+        email: "s1-admin@yopmail.com",
+        password: "INVALID_PASS",
+      });
+    expect(response.status).toBe(HttpStatus.BAD_REQUEST);
+  });
+
   it("should deny login for valid admin login/password", async () => {
     const response = await supertest(context.app.getHttpServer())
       .post("/portail-admins/auth/login")
       .send({
         email: "s1-admin@yopmail.com",
-        password: "INVALID-PASS",
+        password: "Azerty012345678",
       });
     expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
   });

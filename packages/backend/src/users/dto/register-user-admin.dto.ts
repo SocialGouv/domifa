@@ -15,12 +15,8 @@ export class RegisterUserAdminDto {
     type: String,
     required: true,
   })
-  @MinLength(2, {
-    message: "PRENOM_TOO_SMALL",
-  })
-  @MaxLength(100, {
-    message: "PRENOM_TOO_LONG",
-  })
+  @MinLength(2)
+  @MaxLength(100)
   @IsNotEmpty()
   @Transform(({ value }: TransformFnParams) => {
     return value.toString().trim();
@@ -31,12 +27,8 @@ export class RegisterUserAdminDto {
     type: String,
     required: true,
   })
-  @MinLength(2, {
-    message: "NOM_TOO_SMALL",
-  })
-  @MaxLength(100, {
-    message: "NOM_TOO_LONG",
-  })
+  @MinLength(2)
+  @MaxLength(100)
   @IsNotEmpty()
   @Transform(({ value }: TransformFnParams) => {
     return value.toString().trim();

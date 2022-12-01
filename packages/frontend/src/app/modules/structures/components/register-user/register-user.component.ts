@@ -17,6 +17,7 @@ import {
 import { fadeInOut, noWhiteSpace, regexp } from "../../../../shared";
 
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
+import { PASSWORD_VALIDATOR } from "../../../users/PASSWORD_VALIDATOR.const";
 import { userStructureBuilder } from "../../../users/services";
 import { PasswordValidator } from "../../../users/services/password-validator.service";
 import { UsersService } from "../../../users/services/users.service";
@@ -72,7 +73,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
 
     this.userForm = this.formBuilder.group(
       {
-        confirmPassword: [null, Validators.compose([Validators.required])],
+        confirmPassword: [null, Validators.compose(PASSWORD_VALIDATOR)],
         email: [
           this.user.email,
           [Validators.pattern(regexp.email), Validators.required],
@@ -83,19 +84,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
           this.user.nom,
           [Validators.required, Validators.minLength(2), noWhiteSpace],
         ],
-        password: [
-          null,
-          Validators.compose([
-            Validators.required,
-            PasswordValidator.patternValidator(/\d/, {
-              hasNumber: true,
-            }),
-            PasswordValidator.patternValidator(/[A-Z]/, {
-              hasCapitalCase: true,
-            }),
-            Validators.minLength(12),
-          ]),
-        ],
+        password: [null, Validators.compose(PASSWORD_VALIDATOR)],
         prenom: [
           this.user.prenom,
           [Validators.required, Validators.minLength(2), noWhiteSpace],
