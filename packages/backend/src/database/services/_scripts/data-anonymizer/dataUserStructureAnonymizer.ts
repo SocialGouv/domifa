@@ -1,4 +1,4 @@
-import * as bcrypt from "bcryptjs";
+import { hash } from "bcryptjs";
 import { monitoringBatchProcessRepository, UserStructureTable } from "../../..";
 import { domifaConfig } from "../../../../config";
 import { appLogger } from "../../../../util";
@@ -37,7 +37,7 @@ async function anonymizeUsersStructure() {
   // Anonymisation de tous les mots de passe
   const passwordNonEncrypted = domifaConfig().dev.anonymizer.password;
   const password = passwordNonEncrypted
-    ? await bcrypt.hash(passwordNonEncrypted, 10)
+    ? await hash(passwordNonEncrypted, 10)
     : "";
 
   appLogger.warn(`[ANON] [userStructure] reset passwords`);

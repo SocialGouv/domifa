@@ -1,4 +1,4 @@
-import SMTPTransport = require("nodemailer/lib/smtp-transport");
+import SMTPTransport from "nodemailer/lib/smtp-transport";
 import { DomifaConfigDelay } from "./DomifaConfigDelay.type";
 import { DomifaConfigPostgres } from "./DomifaConfigPostgres.type";
 import { DomifaEnvId } from "./DomifaEnvId.type";

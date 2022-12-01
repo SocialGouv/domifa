@@ -7,7 +7,7 @@ import {
   SwaggerCustomOptions,
   SwaggerModule,
 } from "@nestjs/swagger";
-import * as compression from "compression";
+
 import { format } from "date-fns";
 import { DataSource } from "typeorm";
 import { AppModule } from "./app.module";
@@ -17,6 +17,7 @@ import { appTypeormManager } from "./database";
 import { appLogger, setupLog } from "./util";
 import { AppSentryInterceptor } from "./util/sentry";
 import { captureMessage } from "@sentry/node";
+import compression from "compression";
 
 export async function tearDownApplication({
   app,

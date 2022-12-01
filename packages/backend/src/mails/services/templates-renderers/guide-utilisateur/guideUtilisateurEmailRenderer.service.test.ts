@@ -1,5 +1,6 @@
-import * as fs from "fs";
-import * as path from "path";
+import { readFile, writeFile } from "fs-extra";
+import { join } from "path";
+
 import { format } from "prettier";
 import { domifaConfig } from "../../../../config";
 import { guideUtilisateurEmailRenderer } from "./guideUtilisateurEmailRenderer.service";
@@ -17,8 +18,8 @@ describe("guideUtilisateurEmailRenderer", () => {
     expect(text).toContain(model.lienGuide);
 
     if (domifaConfig().envId === "local") {
-      await fs.promises.writeFile(
-        path.join(
+      await writeFile(
+        join(
           __dirname,
           "../../../../_static/email-templates",
           "guide-utilisateur",
@@ -28,8 +29,8 @@ describe("guideUtilisateurEmailRenderer", () => {
       );
     }
 
-    const refHtml = await fs.promises.readFile(
-      path.join(
+    const refHtml = await readFile(
+      join(
         __dirname,
         "../../../../_static/email-templates",
         "guide-utilisateur",

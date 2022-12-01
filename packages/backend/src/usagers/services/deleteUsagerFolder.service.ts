@@ -1,5 +1,5 @@
-import * as fs from "fs";
-import * as path from "path";
+import { rm } from "fs-extra";
+import { join } from "path";
 import { domifaConfig } from "../../config/domifaConfig.service";
 
 import { appLogger } from "../../util";
@@ -11,14 +11,14 @@ export async function deleteUsagerFolder({
   usagerRef: number;
   structureId: number;
 }): Promise<void> {
-  const pathFile = path.join(
+  const pathFile = join(
     domifaConfig().upload.basePath,
     `${structureId}`,
     `${usagerRef}`
   );
 
   try {
-    await fs.promises.rm(pathFile, {
+    await rm(pathFile, {
       recursive: true,
       force: true,
       maxRetries: 2,

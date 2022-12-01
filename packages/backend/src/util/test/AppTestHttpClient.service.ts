@@ -1,5 +1,6 @@
 import { INestApplication } from "@nestjs/common";
-import * as supertest from "supertest";
+import supertest from "supertest";
+
 import { AppTestContext } from "./AppTestContext.type";
 
 export const AppTestHttpClient = {

@@ -1,5 +1,5 @@
 import { HttpStatus } from "@nestjs/common";
-import * as request from "supertest";
+import supertest from "supertest";
 import { AppTestContext, AppTestHelper } from "../util/test";
 import { AuthModule } from "./auth.module";
 import { StructuresAuthController } from "./structures-auth.controller";
@@ -28,7 +28,7 @@ describe("Structure Auth Controller", () => {
   });
 
   it("should accept login for valid structure login/password", async () => {
-    const response = await request(context.app.getHttpServer())
+    const response = await supertest(context.app.getHttpServer())
       .post("/structures/auth/login")
       .send({
         email: "s3-instructeur@yopmail.com",
@@ -38,7 +38,7 @@ describe("Structure Auth Controller", () => {
   });
 
   it("should deny login for valid structure login/password", async () => {
-    const response = await request(context.app.getHttpServer())
+    const response = await supertest(context.app.getHttpServer())
       .post("/structures/auth/login")
       .send({
         email: "s3-instructeur@yopmail.com",

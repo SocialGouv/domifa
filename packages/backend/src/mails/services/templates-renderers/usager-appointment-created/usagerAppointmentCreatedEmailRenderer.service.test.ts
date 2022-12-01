@@ -1,5 +1,6 @@
-import * as fs from "fs";
-import * as path from "path";
+import { readFile, writeFile } from "fs-extra";
+import { join } from "path";
+
 import { format } from "prettier";
 import { domifaConfig } from "../../../../config";
 import { usagerAppointmentCreatedEmailRenderer } from "./usagerAppointmentCreatedEmailRenderer.service";
@@ -19,8 +20,8 @@ describe("usagerAppointmentCreatedEmailRenderer", () => {
     expect(text).toContain("Paul");
     expect(text).toContain("Smith");
     if (domifaConfig().envId === "local") {
-      await fs.promises.writeFile(
-        path.join(
+      await writeFile(
+        join(
           __dirname,
           "../../../../_static/email-templates",
           "usager-appointment-created",
@@ -30,8 +31,8 @@ describe("usagerAppointmentCreatedEmailRenderer", () => {
       );
     }
 
-    const refHtml = await fs.promises.readFile(
-      path.join(
+    const refHtml = await readFile(
+      join(
         __dirname,
         "../../../../_static/email-templates",
         "usager-appointment-created",

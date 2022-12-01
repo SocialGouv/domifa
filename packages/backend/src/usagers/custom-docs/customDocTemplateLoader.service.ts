@@ -1,5 +1,5 @@
-import * as fs from "fs";
-import * as path from "path";
+import { readFile } from "fs-extra";
+import { join, resolve } from "path";
 import { domifaConfig } from "../../config";
 import { StructureDocTypesAvailable } from "../../_common/model";
 
@@ -17,7 +17,7 @@ const TEMPLATES_NAMES: { [attr in StructureDocTypesAvailable]: string } = {
 const TEMPLATES_PATHS: {
   [attr in StructureDocTypesAvailable]: string;
 } = Object.keys(TEMPLATES_NAMES).reduce((acc, docType) => {
-  acc[docType] = path.join(
+  acc[docType] = join(
     __dirname,
     "../../_static/custom-docs/" + TEMPLATES_NAMES[docType]
   );
@@ -60,7 +60,7 @@ function buildCustomDocPath({
   structureId: number;
   docPath: string;
 }): string {
-  return path.join(
+  return join(
     domifaConfig().upload.basePath,
     `${structureId}`,
     "docs",
@@ -71,5 +71,5 @@ function buildCustomDocPath({
 async function loadTemplateFromFilePath(
   templateFilePath: string
 ): Promise<string> {
-  return await fs.promises.readFile(path.resolve(templateFilePath), "binary");
+  return await readFile(resolve(templateFilePath), "binary");
 }

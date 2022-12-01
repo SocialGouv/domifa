@@ -1,7 +1,5 @@
 import { StructureLight } from "./../../_common/model/structure/StructureLight.type";
-import * as crypto from "crypto";
-import * as fs from "fs";
-import * as path from "path";
+
 import { domifaConfig } from "../../config";
 import {
   appLogsRepository,
@@ -12,6 +10,9 @@ import {
 import { messageSmsRepository } from "../../database/services/message-sms";
 import { appLogger } from "../../util";
 import { Structure } from "../../_common/model";
+import { randomBytes } from "crypto";
+import { rm } from "fs-extra";
+import { join } from "path";
 
 export const structureDeletorService = {
   generateDeleteToken,
@@ -20,7 +21,7 @@ export const structureDeletorService = {
 };
 
 async function generateDeleteToken(id: number): Promise<Structure> {
-  const token = crypto.randomBytes(30).toString("hex");
+  const token = randomBytes(30).toString("hex");
   await structureRepository.update({ id }, { token });
   return structureRepository.findOneBy({ id });
 }
@@ -63,10 +64,10 @@ async function resetUsagers(structureId: number): Promise<void> {
 }
 
 async function deleteStructureDocuments(structureId: number) {
-  const pathFile = path.join(domifaConfig().upload.basePath, `${structureId}`);
+  const pathFile = join(domifaConfig().upload.basePath, `${structureId}`);
 
   try {
-    await fs.promises.rm(pathFile, {
+    await rm(pathFile, {
       recursive: true,
       force: true,
       maxRetries: 2,
