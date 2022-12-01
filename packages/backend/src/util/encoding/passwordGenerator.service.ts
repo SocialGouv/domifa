@@ -1,4 +1,4 @@
-import * as bcrypt from "bcryptjs";
+import { compare, genSalt, hash } from "bcryptjs";
 import { appLogger } from "../AppLogger.service";
 import { tokenGenerator } from "./tokenGenerator.service";
 
@@ -10,7 +10,7 @@ export const passwordGenerator = {
 };
 
 function generateSalt({ length }: { length: number }): Promise<string> {
-  return bcrypt.genSalt(length);
+  return genSalt(length);
 }
 
 async function generateRandomPasswordHash(
@@ -33,7 +33,7 @@ async function generatePasswordHash({
   salt?: string | number;
 }): Promise<string> {
   try {
-    return bcrypt.hash(password, salt);
+    return hash(password, salt);
   } catch (err) {
     appLogger.error("Unexpected error testing password", {
       error: err as Error,
@@ -51,7 +51,7 @@ async function checkPassword({
   password: string;
 }): Promise<boolean> {
   try {
-    return await bcrypt.compare(password, hash);
+    return await compare(password, hash);
   } catch (err) {
     appLogger.error("Unexpected error checking password", {
       error: err as Error,

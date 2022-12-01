@@ -27,7 +27,7 @@ import {
 import { StatsExportUser } from "../../../excel/export-stats-deploiement/StatsExportUser.type";
 import { userAccountActivatedEmailSender } from "../../../mails/services/templates-renderers";
 import { MessageSmsService } from "../../../sms/services/message-sms.service";
-import { structureCreatorService } from "../../../structures/services/structureCreator.service";
+
 import { StructuresService } from "../../../structures/services/structures.service";
 import { expressResponseExcelRenderer } from "../../../util";
 import { dataCompare } from "../../../util/dataCompare.service";
@@ -179,33 +179,41 @@ export class AdminStructuresController {
   public async confirmStructureCreation(
     @Body() confirmStructureDto: ConfirmStructureCreation,
     @Res() res: ExpressResponse
-  ): Promise<any> {
-    const structure = await structureCreatorService.checkCreationToken({
-      token: confirmStructureDto.token,
-      structureId: confirmStructureDto.structureId,
-    });
+  ): Promise<ExpressResponse> {
+    try {
+      const structure = await structureRepository.findOneByOrFail({
+        id: confirmStructureDto.structureId,
+        token: confirmStructureDto.token,
+      });
 
-    if (!structure) {
+      await structureRepository.update(
+        {
+          id: confirmStructureDto.structureId,
+          token: confirmStructureDto.token,
+        },
+        { token: "", verified: true }
+      );
+
+      const admin = await userStructureRepository.findOne({
+        role: "admin",
+        structureId: structure.id,
+      });
+
+      const updatedAdmin = await userStructureRepository.updateOne(
+        {
+          id: admin.id,
+          structureId: structure.id,
+        },
+        { verified: true }
+      );
+
+      await userAccountActivatedEmailSender.sendMail({ user: updatedAdmin });
+      return res.status(HttpStatus.OK).json({ message: "OK" });
+    } catch (e) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "STRUCTURE_TOKEN_INVALID" });
     }
-
-    const admin = await userStructureRepository.findOne({
-      role: "admin",
-      structureId: structure.id,
-    });
-
-    const updatedAdmin = await userStructureRepository.updateOne(
-      {
-        id: admin.id,
-        structureId: structure.id,
-      },
-      { verified: true }
-    );
-
-    await userAccountActivatedEmailSender.sendMail({ user: updatedAdmin });
-    return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 
   @AllowUserProfiles("super-admin-domifa")
@@ -246,7 +254,7 @@ export class AdminStructuresController {
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: ExpressResponse,
     @Body() registerUserDto: RegisterUserAdminDto
-  ) {
+  ): Promise<ExpressResponse> {
     const userController = new UsersController();
     return userController.registerUser(user, res, registerUserDto);
   }

@@ -3,8 +3,8 @@ import {
   TransformFnParams,
   TransformOptions,
 } from "class-transformer";
-import striptags = require("striptags");
-import escapeHtml = require("escape-html");
+import escapeHtml from "escape-html";
+import striptags from "striptags";
 
 export function StripTagsTransform(
   transformOptions?: TransformOptions

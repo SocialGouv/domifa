@@ -9,6 +9,6 @@ export class ParseStringPipe implements PipeTransform {
         return value;
       }
     }
-    throw new BadRequestException("TOKEN_INVALID");
+    throw new BadRequestException("STRING_INVALID");
   }
 }

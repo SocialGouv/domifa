@@ -17,7 +17,6 @@ export const myDataSource: DataSource = new DataSource(PG_CONNECT_OPTIONS);
 async function migrateUp(connection: DataSource): Promise<Migration[]> {
   if (domifaConfig().envId !== "local") {
     if (!isCronEnabled()) {
-      console.log("[MIGRATIONS] Disable in this pod");
       return [];
     }
   }
@@ -25,6 +24,7 @@ async function migrateUp(connection: DataSource): Promise<Migration[]> {
   const migrations = await connection.runMigrations({
     transaction: "each",
   });
+
   appLogger.warn(`Migration success: ${migrations.length}`);
   return migrations;
 }

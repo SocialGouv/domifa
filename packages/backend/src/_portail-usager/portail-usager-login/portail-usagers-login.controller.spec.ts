@@ -1,5 +1,6 @@
 import { HttpStatus } from "@nestjs/common";
-import * as request from "supertest";
+import supertest from "supertest";
+
 import { AuthModule } from "../../auth/auth.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { TESTS_USERS_USAGER } from "../../_tests";
@@ -37,7 +38,7 @@ describe("Usagers Login Controller", () => {
   });
 
   it("should accept login for valid usager login/password", async () => {
-    const response = await request(context.app.getHttpServer())
+    const response = await supertest(context.app.getHttpServer())
       .post("/portail-usagers/auth/login")
       .send({
         login: PERMANENT_PASS_USER.login,
@@ -47,7 +48,7 @@ describe("Usagers Login Controller", () => {
   });
 
   it("should deny login if change password required", async () => {
-    const response = await request(context.app.getHttpServer())
+    const response = await supertest(context.app.getHttpServer())
       .post("/portail-usagers/auth/login")
       .send({
         login: TEMPORARY_PASS_USER.login,
@@ -58,7 +59,7 @@ describe("Usagers Login Controller", () => {
   });
 
   it("should accept login for valid usager login/password with temporary password and new password", async () => {
-    const response = await request(context.app.getHttpServer())
+    const response = await supertest(context.app.getHttpServer())
       .post("/portail-usagers/auth/login")
       .send({
         login: TEMPORARY_PASS_USER.login,
@@ -69,7 +70,7 @@ describe("Usagers Login Controller", () => {
   });
 
   it("should deny login for invalid usager login/password", async () => {
-    const response = await request(context.app.getHttpServer())
+    const response = await supertest(context.app.getHttpServer())
       .post("/portail-usagers/auth/login")
       .send({
         login: TEMPORARY_PASS_USER.login,

@@ -12,10 +12,8 @@ import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
-import * as fse from "fs-extra";
 import { diskStorage } from "multer";
-import * as os from "os";
-import * as path from "path";
+
 import { CurrentUser } from "../../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../../auth/guards";
 import { structureCommonRepository } from "../../../database";
@@ -40,11 +38,13 @@ import {
   usagersImportValidator,
 } from "./step2-validate-row";
 import { usagersImportCreator } from "./step3-create";
-
+import os from "os";
 import { AllowUserStructureRoles } from "../../../auth/decorators";
 import { addYears, endOfDay, startOfYear } from "date-fns";
+import { ensureDir, pathExists, remove } from "fs-extra";
+import { join, resolve } from "path";
 
-const USAGERS_IMPORT_DIR = path.join(os.tmpdir(), "domifa", "usagers-imports");
+const USAGERS_IMPORT_DIR = join(os.tmpdir(), "domifa", "usagers-imports");
 
 const UsagersImportFileInterceptor = FileInterceptor("file", {
   limits: {
@@ -64,8 +64,8 @@ const UsagersImportFileInterceptor = FileInterceptor("file", {
       cb: any
     ) => {
       const dir = USAGERS_IMPORT_DIR;
-      if (!(await fse.pathExists(dir))) {
-        await fse.ensureDir(dir);
+      if (!(await pathExists(dir))) {
+        await ensureDir(dir);
       }
       cb(null, dir);
     },
@@ -106,7 +106,7 @@ export class ImportController {
     };
 
     const fileName = file.filename;
-    const filePath = path.resolve(USAGERS_IMPORT_DIR, fileName);
+    const filePath = resolve(USAGERS_IMPORT_DIR, fileName);
 
     let usagerImportRows: {
       rowNumber: number;
@@ -225,7 +225,7 @@ export class ImportController {
     }
 
     try {
-      await fse.remove(filePath);
+      await remove(filePath);
       appLogger.debug("[FILES] Delete import file success " + filePath);
     } catch (err) {
       appLogger.error("[FILES] [FAIL] Delete import file fail " + filePath);

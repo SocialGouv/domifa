@@ -1,5 +1,3 @@
-import * as fs from "fs";
-import * as path from "path";
 import { domifaConfig } from "../../../../config";
 import {
   DeleteStructureEmailModel,
@@ -7,6 +5,9 @@ import {
 } from "./deleteStructureEmailRenderer.service";
 
 import { format } from "prettier";
+
+import { readFile, writeFile } from "fs-extra";
+import { join } from "path";
 
 describe("deleteStructureEmailRenderer", () => {
   it("deleteStructureEmailRenderer render ", async () => {
@@ -41,8 +42,8 @@ describe("deleteStructureEmailRenderer", () => {
     expect(text).toContain(model.lienSuppression);
 
     if (domifaConfig().envId === "local") {
-      await fs.promises.writeFile(
-        path.join(
+      await writeFile(
+        join(
           __dirname,
           "../../../../_static/email-templates",
           "delete-structure",
@@ -52,8 +53,8 @@ describe("deleteStructureEmailRenderer", () => {
       );
     }
 
-    const refHtml = await fs.promises.readFile(
-      path.join(
+    const refHtml = await readFile(
+      join(
         __dirname,
         "../../../../_static/email-templates",
         "delete-structure",

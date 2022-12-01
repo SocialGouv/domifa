@@ -1,6 +1,8 @@
 import { HttpStatus } from "@nestjs/common";
-import * as fse from "fs-extra";
-import * as path from "path";
+
+import { pathExists } from "fs-extra";
+import { resolve } from "path";
+
 import { StructuresModule } from "../../../structures/structure.module";
 import { UsersModule } from "../../../users/users.module";
 import {
@@ -13,7 +15,7 @@ import { TESTS_USERS_STRUCTURE } from "../../../_tests";
 import { UsagersService } from "../../services/usagers.service";
 import { ImportController } from "./import.controller";
 
-const importFilesDir = path.resolve(
+const importFilesDir = resolve(
   __dirname,
   "../../../_static/usagers-import-test"
 );
@@ -49,9 +51,9 @@ describe("Import Controller", () => {
   });
 
   it(`❌ Import d'un fichier Incorrect`, async () => {
-    const importFilePath = path.resolve(importFilesDir, "import_ko_1.xlsx");
+    const importFilePath = resolve(importFilesDir, "import_ko_1.xlsx");
 
-    expect(await fse.pathExists(importFilePath)).toBeTruthy();
+    expect(await pathExists(importFilePath)).toBeTruthy();
 
     const headers: { [name: string]: string } = {};
     headers["Content-Type"] = "multipart/form-data";
@@ -66,9 +68,9 @@ describe("Import Controller", () => {
   });
 
   it(`✅ Import d'un fichier Valide 1️⃣`, async () => {
-    const importFilePath = path.resolve(importFilesDir, "import_ok_1.xlsx");
+    const importFilePath = resolve(importFilesDir, "import_ok_1.xlsx");
 
-    expect(await fse.pathExists(importFilePath)).toBeTruthy();
+    expect(await pathExists(importFilePath)).toBeTruthy();
 
     const headers: { [name: string]: string } = {};
     headers["Content-Type"] = "multipart/form-data";
@@ -92,9 +94,9 @@ describe("Import Controller", () => {
   });
 
   it(`✅ Import d'un fichier Valide 2️⃣`, async () => {
-    const importFilePath = path.resolve(importFilesDir, "import_ok_2.xlsx");
+    const importFilePath = resolve(importFilesDir, "import_ok_2.xlsx");
 
-    expect(await fse.pathExists(importFilePath)).toBeTruthy();
+    expect(await pathExists(importFilePath)).toBeTruthy();
 
     const headers: { [name: string]: string } = {};
     headers["Content-Type"] = "multipart/form-data";
