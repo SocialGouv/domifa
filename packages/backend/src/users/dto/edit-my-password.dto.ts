@@ -1,30 +1,43 @@
 import { IsNotEmpty, MaxLength, MinLength } from "class-validator";
+import { Transform, TransformFnParams } from "class-transformer";
+import { ApiProperty } from "@nestjs/swagger";
+import { IsValidPassword } from "../../_common/decorators";
+import { BadRequestException } from "@nestjs/common";
 
 export class EditMyPasswordDto {
   @IsNotEmpty()
-  @MinLength(12, {
-    message: "PASSWORD_TOO_SMALL",
-  })
-  @MaxLength(100, {
-    message: "PASSWORD_TOO_LONG",
-  })
+  @MinLength(12)
+  @MaxLength(100)
   public readonly oldPassword!: string;
 
+  @ApiProperty({
+    type: String,
+    required: true,
+  })
   @IsNotEmpty()
-  @MinLength(12, {
-    message: "PASSWORD_TOO_SMALL",
-  })
-  @MaxLength(100, {
-    message: "PASSWORD_TOO_LONG",
-  })
+  @IsValidPassword()
   public readonly password!: string;
 
-  @IsNotEmpty()
-  @MinLength(12, {
-    message: "PASSWORD_TOO_SMALL",
+  @ApiProperty({
+    type: String,
+    required: true,
   })
-  @MaxLength(100, {
-    message: "PASSWORD_TOO_LONG",
+  @IsNotEmpty()
+  @IsValidPassword()
+  @Transform(({ value, obj }: TransformFnParams) => {
+    if (
+      typeof obj.password !== "undefined" &&
+      typeof obj.confirmPassword !== "undefined"
+    ) {
+      if (
+        typeof obj.password === "string" &&
+        typeof obj.confirmPassword === "string" &&
+        obj.password === obj.confirmPassword
+      ) {
+        return value;
+      }
+    }
+    throw new BadRequestException("PASSWORD_NOT_MATCH");
   })
   public readonly confirmPassword!: string;
 }

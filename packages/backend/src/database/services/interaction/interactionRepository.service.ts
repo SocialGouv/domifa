@@ -197,7 +197,7 @@ async function countInteractionsByMonth(
   let query = `select date_trunc('month', "dateInteraction") as date,
     SUM("nbCourrier") as count
     FROM interactions i
-    WHERE "type" = $1 and "dateInteraction" BETWEEN $2 AND $3 `;
+    WHERE "event"='create' and "type" = $1 and "dateInteraction" BETWEEN $2 AND $3 `;
 
   if (regionId) {
     query =

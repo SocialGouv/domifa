@@ -19,12 +19,8 @@ export class StructureEditSmsDto {
   public enabledByStructure: boolean;
 
   @ValidateIf((o) => o.enabledByStructure === true)
-  @MaxLength(11, {
-    message: "SENDER_TOO_LONG",
-  })
-  @MinLength(1, {
-    message: "SENDER_TOO_SHORT",
-  })
+  @MaxLength(11)
+  @MinLength(1)
   @IsNotEmpty()
   @IsString()
   @IsAlpha()
@@ -32,12 +28,8 @@ export class StructureEditSmsDto {
   public senderName: string;
 
   @ValidateIf((o) => o.enabledByStructure === true)
-  @MaxLength(30, {
-    message: "SENDER_DETAILS_TOO_LONG",
-  })
-  @MinLength(1, {
-    message: "SENDER_DETAILS_TOO_SHORT",
-  })
+  @MaxLength(30)
+  @MinLength(1)
   @IsNotEmpty()
   public senderDetails: string;
 }
