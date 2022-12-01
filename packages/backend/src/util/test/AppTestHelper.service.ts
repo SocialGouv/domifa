@@ -1,5 +1,3 @@
-import { domifaConfig } from "./../../config/domifaConfig.service";
-
 import { myDataSource } from "./../../database/services/_postgres/appTypeormManager.service";
 import {
   HttpStatus,
@@ -47,11 +45,10 @@ async function bootstrapTestApp(
 
   if (initApp) {
     context.app = module.createNestApplication();
+
     context.app.useGlobalPipes(
       new ValidationPipe({
         whitelist: true,
-        stopAtFirstError: true,
-        enableDebugMessages: domifaConfig().envId === "local",
       })
     );
     await context.app.init();

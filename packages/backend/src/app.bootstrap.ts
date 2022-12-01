@@ -90,6 +90,9 @@ export async function bootstrapApplication(): Promise<{
     app.useGlobalPipes(
       new ValidationPipe({
         whitelist: true,
+        stopAtFirstError: true,
+        enableDebugMessages: domifaConfig().envId !== "local",
+        disableErrorMessages: domifaConfig().envId !== "local",
       })
     );
 

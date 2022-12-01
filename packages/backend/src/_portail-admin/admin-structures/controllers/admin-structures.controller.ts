@@ -47,6 +47,7 @@ import { UsersController } from "../../../users/users.controller";
 import { RegisterUserAdminDto } from "../../../users/dto";
 import { ConfirmStructureCreation } from "../../_dto/ConfirmStructureCreation.dto";
 import { format } from "date-fns";
+import { structureCreatorService } from "../../../structures/services";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
@@ -180,40 +181,32 @@ export class AdminStructuresController {
     @Body() confirmStructureDto: ConfirmStructureCreation,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
-    try {
-      const structure = await structureRepository.findOneByOrFail({
-        id: confirmStructureDto.structureId,
-        token: confirmStructureDto.token,
-      });
+    const structure = await structureCreatorService.checkCreationToken({
+      token: confirmStructureDto.token,
+      structureId: confirmStructureDto.structureId,
+    });
 
-      await structureRepository.update(
-        {
-          id: confirmStructureDto.structureId,
-          token: confirmStructureDto.token,
-        },
-        { token: "", verified: true }
-      );
-
-      const admin = await userStructureRepository.findOne({
-        role: "admin",
-        structureId: structure.id,
-      });
-
-      const updatedAdmin = await userStructureRepository.updateOne(
-        {
-          id: admin.id,
-          structureId: structure.id,
-        },
-        { verified: true }
-      );
-
-      await userAccountActivatedEmailSender.sendMail({ user: updatedAdmin });
-      return res.status(HttpStatus.OK).json({ message: "OK" });
-    } catch (e) {
+    if (!structure) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "STRUCTURE_TOKEN_INVALID" });
     }
+
+    const admin = await userStructureRepository.findOne({
+      role: "admin",
+      structureId: structure.id,
+    });
+
+    const updatedAdmin = await userStructureRepository.updateOne(
+      {
+        id: admin.id,
+        structureId: structure.id,
+      },
+      { verified: true }
+    );
+
+    await userAccountActivatedEmailSender.sendMail({ user: updatedAdmin });
+    return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 
   @AllowUserProfiles("super-admin-domifa")

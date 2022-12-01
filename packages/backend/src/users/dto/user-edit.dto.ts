@@ -1,25 +1,26 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams } from "class-transformer";
 import { IsEmail, IsNotEmpty, MaxLength, MinLength } from "class-validator";
 
 export class UserEditDto {
-  @MinLength(2, {
-    message: "FIRSTNAME_TOO_SMALL",
+  @ApiProperty({
+    type: String,
+    required: true,
   })
-  @MaxLength(100, {
-    message: "FIRSTNAME_TOO_LONG",
-  })
+  @MinLength(2)
+  @MaxLength(100)
   @IsNotEmpty()
   @Transform(({ value }: TransformFnParams) => {
     return value.toString().trim();
   })
   public readonly prenom!: string;
 
-  @MinLength(2, {
-    message: "LASTNAME_TOO_SMALL",
+  @ApiProperty({
+    type: String,
+    required: true,
   })
-  @MaxLength(100, {
-    message: "LASTNAME_TOO_LONG",
-  })
+  @MinLength(2)
+  @MaxLength(100)
   @IsNotEmpty()
   @Transform(({ value }: TransformFnParams) => {
     return value.toString().trim();

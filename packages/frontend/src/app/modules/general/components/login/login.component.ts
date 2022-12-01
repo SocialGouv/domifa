@@ -1,3 +1,4 @@
+import { PASSWORD_VALIDATOR } from "./../../../users/PASSWORD_VALIDATOR.const";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
@@ -49,7 +50,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public initForm() {
     this.loginForm = this.formBuilder.group({
       email: ["", [Validators.pattern(regexp.email), Validators.required]],
-      password: ["", Validators.required],
+      password: ["", Validators.compose(PASSWORD_VALIDATOR)],
     });
   }
 
