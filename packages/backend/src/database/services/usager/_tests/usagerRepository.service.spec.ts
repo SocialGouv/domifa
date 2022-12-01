@@ -11,11 +11,14 @@ describe("usagerRepository", () => {
 
   it("countAyantsDroits", async () => {
     const result = await usagerRepository.countAyantsDroits();
-
-    expect(result).toBeGreaterThan(7);
+    expect(result).toBeGreaterThanOrEqual(7);
   });
   it("countUsagers", async () => {
     const result = await usagerRepository.countUsagers();
-    expect(result).toBeGreaterThan(13);
+    expect(result).toBeGreaterThanOrEqual(13);
+  });
+  it("countAllUsagers", async () => {
+    const result = await usagerRepository.countTotalUsagers();
+    expect(result).toBeGreaterThanOrEqual(20);
   });
 });
