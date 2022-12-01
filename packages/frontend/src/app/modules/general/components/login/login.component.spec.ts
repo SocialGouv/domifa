@@ -47,6 +47,7 @@ describe("LoginComponent", () => {
     expect(component.loginForm.valid).toBeFalsy();
 
     component.loginForm.controls.email.setValue("mon@mail.fr");
+    component.loginForm.controls.password.setValue("Azerty012345");
     expect(component.loginForm.valid).toBeTruthy();
 
     expect(component.returnUrl).toBe("/");
