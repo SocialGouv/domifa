@@ -19,8 +19,6 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { diskStorage } from "multer";
 
-import * as fse from "fs-extra";
-
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { AllowUserStructureRoles } from "../../auth/decorators";
@@ -33,6 +31,7 @@ import { StructureDocDto } from "../dto/structure-doc.dto";
 import { structureDocRepository } from "../../database";
 import { ExpressRequest } from "../../util/express";
 import { join } from "path";
+import { ensureDir, pathExists } from "fs-extra";
 
 @ApiTags("structure-docs")
 @ApiBearerAuth()
@@ -99,8 +98,8 @@ export class StructureDocController {
             "docs"
           );
 
-          if (!(await fse.pathExists(dir))) {
-            await fse.ensureDir(dir);
+          if (!(await pathExists(dir))) {
+            await ensureDir(dir);
           }
           cb(null, dir);
         },

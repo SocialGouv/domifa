@@ -1,34 +1,30 @@
 {
   "compilerOptions": {
-    "paths": {
-      "*": [
-        "types/*"
-      ]
-    },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
-    "noUnusedLocals": true,
+    "baseUrl": "./",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "inlineSources": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
     "noImplicitReturns": true,
-    "noUnusedParameters": true,
     "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "./dist",
+    "removeComments": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
     "strictFunctionTypes": true,
-    // "strict": true,
+    "target": "esnext",
     // "noImplicitAny": true,
+    // "strict": true,
     "lib": [
       "es2018.promise"
     ],
-    "module": "commonjs",
-    "declaration": true,
-    "forceConsistentCasingInFileNames": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "inlineSources": true,
-    "target": "esnext",
-    "sourceMap": true,
-    "skipLibCheck": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
     "typeRoots": [
       "node_modules/@types",
       "../../node_modules/@types"
@@ -36,6 +32,7 @@
   },
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "jest.config.js"
   ]
 }

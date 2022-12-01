@@ -8,7 +8,7 @@ import {
   ValidationPipe,
 } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
-import * as request from "supertest";
+import supertest from "supertest";
 import { DataSource } from "typeorm";
 import { appTypeormManager } from "../../database";
 import {
@@ -88,7 +88,7 @@ async function authenticateStructure(
   const { app } = context;
   expectAppToBeDefined(app);
 
-  const response = await request(app.getHttpServer())
+  const response = await supertest(app.getHttpServer())
     .post("/structures/auth/login")
     .send({
       email: authInfo.email,
@@ -111,7 +111,7 @@ async function authenticateUsager(
 ) {
   const { app } = context;
   expectAppToBeDefined(app);
-  const response = await request(app.getHttpServer())
+  const response = await supertest(app.getHttpServer())
     .post("/portail-usagers/auth/login")
     .send({
       login: authInfo.login,
@@ -131,7 +131,7 @@ async function authenticateSuperAdmin(
 ) {
   const { app } = context;
   expectAppToBeDefined(app);
-  const response = await request(app.getHttpServer())
+  const response = await supertest(app.getHttpServer())
     .post("/portail-admins/auth/login")
     .send({
       email: authInfo.email,

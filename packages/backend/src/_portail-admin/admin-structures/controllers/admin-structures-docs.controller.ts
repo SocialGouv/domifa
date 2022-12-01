@@ -10,7 +10,8 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
-import path = require("path");
+import { join } from "path";
+
 import { AllowUserProfiles, CurrentUser } from "../../../auth/decorators";
 import { AppUserGuard } from "../../../auth/guards";
 import { domifaConfig } from "../../../config";
@@ -41,7 +42,7 @@ export class AdminStructuresDocsController {
       structureId: user.structureId,
       uuid,
     });
-    const output = path.join(
+    const output = join(
       domifaConfig().upload.basePath,
       `${structureId}`,
       "docs",

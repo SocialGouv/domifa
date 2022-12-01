@@ -1,5 +1,6 @@
 import { HttpStatus } from "@nestjs/common";
-import * as request from "supertest";
+import supertest from "supertest";
+
 import { AuthModule } from "../../auth/auth.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { PortailAdminModule } from "../portail-admin.module";
@@ -29,7 +30,7 @@ describe("Admins Login Controller", () => {
   });
 
   it("should accept login for valid admin login/password", async () => {
-    const response = await request(context.app.getHttpServer())
+    const response = await supertest(context.app.getHttpServer())
       .post("/portail-admins/auth/login")
       .send({
         email: "s1-admin@yopmail.com",
@@ -39,7 +40,7 @@ describe("Admins Login Controller", () => {
   });
 
   it("should deny login for valid admin login/password", async () => {
-    const response = await request(context.app.getHttpServer())
+    const response = await supertest(context.app.getHttpServer())
       .post("/portail-admins/auth/login")
       .send({
         email: "s1-admin@yopmail.com",

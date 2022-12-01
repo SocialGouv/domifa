@@ -1,4 +1,4 @@
-import * as bcrypt from "bcryptjs";
+import { hash } from "bcryptjs";
 import {
   UserStructureSecurityRepository,
   userUsagerRepository,
@@ -22,7 +22,7 @@ async function anonymizeUsersUsager(): Promise<void> {
 
   const passwordNonEncrypted = domifaConfig().dev.anonymizer.password;
   const password = passwordNonEncrypted
-    ? await bcrypt.hash(passwordNonEncrypted, 10)
+    ? await hash(passwordNonEncrypted, 10)
     : "";
 
   appLogger.warn(`[dataUserAnonymizer] [user-usager] update passwords`);

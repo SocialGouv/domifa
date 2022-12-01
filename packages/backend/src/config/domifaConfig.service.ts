@@ -1,5 +1,5 @@
 import { CronExpression } from "@nestjs/schedule";
-import * as path from "path";
+
 import { appLogger } from "../util";
 import { domifaConfigFileLoader } from "./domifaConfigFileLoader.service";
 import {
@@ -11,6 +11,7 @@ import {
 import { configParser } from "./services/configParser.service";
 import { configTypeOrmLoggerParser } from "./services/configTypeOrmLoggerParser.service";
 import SMTPTransport = require("nodemailer/lib/smtp-transport");
+import { join } from "path";
 
 let _domifaConfig: DomifaConfig;
 
@@ -42,14 +43,14 @@ export function loadEnvWithPreset({
   }
 
   let domifaPresetEnv = domifaConfigFileLoader.loadEnvFile(
-    path.join(".env.preset", presetEnvFileName)
+    join(".env.preset", presetEnvFileName)
   );
 
   const presetParentEnvFileName = domifaPresetEnv.DOMIFA_ENV_PRESET_PARENT;
 
   if (presetParentEnvFileName) {
     const domifaPresetParentEnv = domifaConfigFileLoader.loadEnvFile(
-      path.join(".env.preset", presetParentEnvFileName)
+      join(".env.preset", presetParentEnvFileName)
     );
     domifaPresetEnv = {
       ...domifaPresetParentEnv,

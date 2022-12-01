@@ -1,7 +1,7 @@
 import { PublicStats } from "./../../_common/model/stats/PublicStats.type";
 import { HomeStats } from "./../../_common/model/stats/HomeStats.type";
 import { forwardRef, HttpStatus } from "@nestjs/common";
-import * as request from "supertest";
+import supertest from "supertest";
 
 import { InteractionsModule } from "../../interactions/interactions.module";
 import { StructuresModule } from "../../structures/structure.module";
@@ -42,7 +42,7 @@ describe("Stats Public Controller", () => {
   });
 
   it("Stats HomePage", async () => {
-    const response = await request(context.app.getHttpServer()).get(
+    const response = await supertest(context.app.getHttpServer()).get(
       "/stats/home"
     );
 
@@ -57,7 +57,7 @@ describe("Stats Public Controller", () => {
   it("Stats Page : national", async () => {
     MockDate.set(new Date("2022-08-31T09:45:30.000Z"));
 
-    const response = await request(context.app.getHttpServer()).get(
+    const response = await supertest(context.app.getHttpServer()).get(
       "/stats/public-stats"
     );
 
@@ -108,7 +108,7 @@ describe("Stats Public Controller", () => {
   });
 
   it("Statistiques régionales : Pays de la Loire", async () => {
-    const response = await request(context.app.getHttpServer()).get(
+    const response = await supertest(context.app.getHttpServer()).get(
       "/stats/public-stats/52"
     );
 
