@@ -18,6 +18,7 @@ describe("Stats Public Controller", () => {
   let context: AppTestContext;
 
   beforeAll(async () => {
+    MockDate.set(new Date("2022-08-31T09:45:30.000Z"));
     domifaConfig().envId = "test";
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [StatsPublicController],
@@ -55,8 +56,6 @@ describe("Stats Public Controller", () => {
   });
 
   it("Stats Page : national", async () => {
-    MockDate.set(new Date("2022-08-31T09:45:30.000Z"));
-
     const response = await supertest(context.app.getHttpServer()).get(
       "/stats/public-stats"
     );
