@@ -1,6 +1,6 @@
 import { DEPARTEMENTS_MAP } from "./../../util/territoires/constants/REGIONS_DEPARTEMENTS_MAP.const";
 import { HttpException, HttpStatus } from "@nestjs/common";
-
+import * as crypto from "crypto";
 import {
   newUserStructureRepository,
   structureRepository,
@@ -10,14 +10,14 @@ import { newStructureEmailSender } from "../../mails/services/templates-renderer
 import { UserDto } from "../../users/dto/user.dto";
 import { userStructureCreator } from "../../users/services/user-structure-creator.service";
 import { appLogger } from "../../util/AppLogger.service";
-
+import { StructureCommon } from "../../_common/model";
 import { departementHelper } from "./departement-helper.service";
 import { StructureDto } from "../dto/structure.dto";
-import { randomBytes } from "crypto";
 
 export const structureCreatorService = {
   checkStructureCreateArgs,
   createStructureWithAdminUser,
+  checkCreationToken,
 };
 
 async function checkStructureCreateArgs(
@@ -71,11 +71,36 @@ async function createStructureWithAdminUser(
   return { structureId: structure.id, userId: user.id };
 }
 
+async function checkCreationToken({
+  structureId,
+  token,
+}: {
+  structureId: number;
+  token: string;
+}): Promise<StructureCommon | null> {
+  try {
+    const structure = await structureRepository.findOneByOrFail({
+      id: structureId,
+      token,
+    });
+    await structureRepository.update(
+      { id: structureId, token },
+      { token: null, verified: true }
+    );
+
+    return await structureRepository.findOneBy({
+      uuid: structure.uuid,
+    });
+  } catch (e) {
+    return null;
+  }
+}
+
 async function createStructure(structureDto: StructureDto) {
   const createdStructure = new StructureTable(structureDto);
 
   createdStructure.registrationDate = new Date();
-  createdStructure.token = randomBytes(30).toString("hex");
+  createdStructure.token = crypto.randomBytes(30).toString("hex");
 
   createdStructure.departement = departementHelper.getDepartementFromCodePostal(
     createdStructure.codePostal

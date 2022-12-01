@@ -21,6 +21,7 @@ import { userStructureBuilder } from "../../services";
 import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
 import { format } from "date-fns";
+import { PASSWORD_VALIDATOR } from "../../PASSWORD_VALIDATOR.const";
 
 @Component({
   selector: "app-edit-user",
@@ -118,33 +119,9 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
     this.passwordForm = this.formBuilder.group(
       {
-        oldPassword: [
-          null,
-          Validators.compose([
-            Validators.required,
-            PasswordValidator.patternValidator(/\d/, {
-              hasNumber: true,
-            }),
-            PasswordValidator.patternValidator(/[A-Z]/, {
-              hasCapitalCase: true,
-            }),
-            Validators.minLength(12),
-          ]),
-        ],
-        confirmPassword: [null, Validators.compose([Validators.required])],
-        password: [
-          null,
-          Validators.compose([
-            Validators.required,
-            PasswordValidator.patternValidator(/\d/, {
-              hasNumber: true,
-            }),
-            PasswordValidator.patternValidator(/[A-Z]/, {
-              hasCapitalCase: true,
-            }),
-            Validators.minLength(12),
-          ]),
-        ],
+        oldPassword: [null, Validators.compose(PASSWORD_VALIDATOR)],
+        confirmPassword: [null, Validators.compose(PASSWORD_VALIDATOR)],
+        password: [null, Validators.compose(PASSWORD_VALIDATOR)],
       },
       {
         validators: PasswordValidator.passwordMatchValidator,

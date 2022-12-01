@@ -198,7 +198,7 @@ export class UsersController {
     } catch (err) {
       return res
         .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "L'ancien mot de passe est incorrect" });
+        .json({ message: "EDIT_PASSWORD_FAIL" });
     }
   }
 }
