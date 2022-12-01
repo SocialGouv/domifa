@@ -42,8 +42,18 @@ describe("Structure Auth Controller", () => {
       .post("/structures/auth/login")
       .send({
         email: "s3-instructeur@yopmail.com",
-        password: "INVALID-PASS",
+        password: "WrongPassword10",
       });
     expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
+  });
+
+  it("should return bad request because password pattern is not valid", async () => {
+    const response = await supertest(context.app.getHttpServer())
+      .post("/structures/auth/login")
+      .send({
+        email: "s3-instructeur@yopmail.com",
+        password: "INVALID_PASS",
+      });
+    expect(response.status).toBe(HttpStatus.BAD_REQUEST);
   });
 });

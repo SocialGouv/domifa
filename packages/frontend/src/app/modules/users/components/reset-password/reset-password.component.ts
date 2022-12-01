@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
+import { PASSWORD_VALIDATOR } from "../../PASSWORD_VALIDATOR.const";
 
 @Component({
   selector: "app-reset-password",
@@ -102,20 +103,8 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   public initPasswordForm(): void {
     this.resetForm = this.formBuilder.group(
       {
-        confirmPassword: [null, Validators.compose([Validators.required])],
-        password: [
-          null,
-          Validators.compose([
-            Validators.required,
-            PasswordValidator.patternValidator(/\d/, {
-              hasNumber: true,
-            }),
-            PasswordValidator.patternValidator(/[A-Z]/, {
-              hasCapitalCase: true,
-            }),
-            Validators.minLength(12),
-          ]),
-        ],
+        confirmPassword: [null, Validators.compose(PASSWORD_VALIDATOR)],
+        password: [null, Validators.compose(PASSWORD_VALIDATOR)],
         token: [this.token, Validators.required],
         userId: [this.userId, Validators.required],
       },

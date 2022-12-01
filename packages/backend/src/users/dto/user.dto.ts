@@ -6,27 +6,20 @@ import {
   MaxLength,
   MinLength,
 } from "class-validator";
+import { IsValidPassword } from "../../_common/decorators";
 import { StructureCommon } from "../../_common/model";
 
 export class UserDto {
-  @MinLength(2, {
-    message: "PRENOM_TOO_SMALL",
-  })
-  @MaxLength(100, {
-    message: "PRENOM_TOO_LONG",
-  })
+  @MinLength(2)
+  @MaxLength(100)
   @IsNotEmpty()
   @Transform(({ value }: TransformFnParams) => {
     return value.toString().trim();
   })
   public readonly prenom!: string;
 
-  @MinLength(2, {
-    message: "NOM_TOO_SMALL",
-  })
-  @MaxLength(100, {
-    message: "NOM_TOO_LONG",
-  })
+  @MinLength(2)
+  @MaxLength(100)
   @IsNotEmpty()
   @Transform(({ value }: TransformFnParams) => {
     return value.toString().trim();
@@ -41,12 +34,7 @@ export class UserDto {
   public readonly email!: string;
 
   @IsNotEmpty()
-  @MinLength(12, {
-    message: "PASSWORD_TOO_SMALL",
-  })
-  @MaxLength(100, {
-    message: "PASSWORD_TOO_LONG",
-  })
+  @IsValidPassword()
   public readonly password!: string;
 
   @IsEmpty()

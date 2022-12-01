@@ -121,9 +121,8 @@ function httpLogger(req: RequestWithId, res: Response, next: NextFunction) {
   res.on("finish", onResFinished);
   res.on("error", onResFinished);
 
-  // @ts-ignore: run requires arguments for next but should not because it can
   // be called without arguments
-  requestContextStorage.run(new Store(requestLogger), next);
+  requestContextStorage.run(new Store(requestLogger), next, null);
 }
 
 export function setupLog(app: INestApplication) {
