@@ -1,10 +1,11 @@
-import * as EmailTemplate from "email-templates";
-import * as nunjucks from "nunjucks";
-import * as path from "path";
+import EmailTemplate from "email-templates";
+import { configure } from "nunjucks";
+import { join } from "path";
+
 import { DomifaMailTemplateRendering } from "../model";
 
 // @see https://github.com/niftylettuce/email-templates/blob/master/src/index.js
-const templateBasePath = path.join(__dirname, "../../_static/email-templates");
+const templateBasePath = join(__dirname, "../../_static/email-templates");
 
 const emailConfig: EmailTemplate.EmailConfig<any> = {
   juice: true,
@@ -26,7 +27,7 @@ const emailConfig: EmailTemplate.EmailConfig<any> = {
 const emailTemplate = new EmailTemplate(emailConfig);
 
 // configure nunjucks working dir so we can use relative path to base.nunjucks template
-nunjucks.configure(templateBasePath);
+configure(templateBasePath);
 
 export const domifaMailTemplateRenderer = {
   renderTemplate,

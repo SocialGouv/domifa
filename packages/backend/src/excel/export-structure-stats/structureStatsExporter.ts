@@ -1,10 +1,11 @@
 import { Workbook } from "exceljs";
-import * as path from "path";
+import { join } from "path";
+
 import { appLogger } from "../../util";
 import { StructureStatsExportModel } from "./StructureStatsExportModel.type";
 import { exportStructureStatsWorksheetRenderer } from "./worksheet-renderer";
 
-const EXCEL_TEMPLATE_FILE_PATH = path.join(
+const EXCEL_TEMPLATE_FILE_PATH = join(
   __dirname,
   "../_templates/export-structure-stats.xlsx"
 );

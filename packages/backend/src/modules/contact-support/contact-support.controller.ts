@@ -13,14 +13,13 @@ import {
 import { FileInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
 
-import * as fse from "fs-extra";
-
-import path = require("path");
 import { domifaConfig } from "../../config";
 import { validateUpload, randomName } from "../../util/FileManager";
 
 import { contactSupportEmailSender } from "../../mails/services/templates-renderers/contact-support";
 import { ExpressRequest, ExpressResponse } from "../../util/express";
+import { ensureDir } from "fs-extra";
+import { join } from "path";
 
 @Controller("contact")
 export class ContactSupportController {
@@ -42,11 +41,8 @@ export class ContactSupportController {
           _file: Express.Multer.File,
           cb: any
         ) => {
-          const dir = path.join(
-            domifaConfig().upload.basePath,
-            "contact-support"
-          );
-          await fse.ensureDir(dir);
+          const dir = join(domifaConfig().upload.basePath, "contact-support");
+          await ensureDir(dir);
           cb(null, dir);
         },
         filename: (

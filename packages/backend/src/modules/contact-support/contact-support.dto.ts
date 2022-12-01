@@ -11,9 +11,9 @@ import { ContactStatus } from "../../_common/model";
 
 import { Transform, TransformFnParams } from "class-transformer";
 
-import sanitizeHtml = require("sanitize-html");
 import { MessageEmailAttachment } from "../../database/entities/message-email/MessageEmailAttachment.type";
 import { LowerCaseTransform } from "../../_common/decorators";
+import sanitizeHtml from "sanitize-html";
 
 export class ContactSupportDto {
   @ApiProperty({

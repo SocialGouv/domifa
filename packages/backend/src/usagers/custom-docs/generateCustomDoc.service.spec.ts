@@ -1,6 +1,8 @@
-import * as fs from "fs";
 import * as mammoth from "mammoth";
-import * as path from "path";
+
+import { readFile, writeFile } from "fs-extra";
+import { join } from "path";
+
 import { domifaConfig } from "../../config";
 import { StructureDocTypesAvailable } from "../../_common/model";
 import { customDocTemplateLoader } from "./customDocTemplateLoader.service";
@@ -26,7 +28,7 @@ async function runDocTypeTest({
     docType,
   });
 
-  const generatedDoc: Buffer = generateCustomDoc(
+  const generatedDoc: Buffer = await generateCustomDoc(
     content,
     generatedAttestationMock
   );
@@ -40,21 +42,21 @@ async function runDocTypeTest({
     // in dev mode, we want to be able to open the file in browser or copy "tmp" as "ref" file
     // To enable dev mode, run locally:
     // npx jest -- generateCustomDoc.service.spec.ts
-    const tmpHtmlPath = path.join(
+    const tmpHtmlPath = join(
       __dirname,
       "../../_static/custom-docs/test",
       `${docType}.docx.tmp.html`
     );
-    await fs.promises.writeFile(tmpHtmlPath, generatedDocHtml);
+    await writeFile(tmpHtmlPath, generatedDocHtml);
   }
 
-  const file = path.join(
+  const file = join(
     __dirname,
     "../../_static/custom-docs/test",
     `${docType}.docx.ref.html`
   );
 
-  const expectedGeneratedDocHtml = await fs.promises.readFile(file, "utf-8");
+  const expectedGeneratedDocHtml = await readFile(file, "utf-8");
 
   expect(expectedGeneratedDocHtml.trim()).toEqual(generatedDocHtml.trim());
 }

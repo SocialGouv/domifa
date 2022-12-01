@@ -1,4 +1,4 @@
-import * as crypto from "crypto";
+import { randomBytes, randomInt } from "crypto";
 
 export const tokenGenerator = {
   generateToken,
@@ -6,7 +6,7 @@ export const tokenGenerator = {
 };
 
 function generateToken({ length }: { length: number }): string {
-  return crypto.randomBytes(length).toString("hex");
+  return randomBytes(length).toString("hex");
 }
 
 function generateString({
@@ -27,13 +27,13 @@ function generateString({
       // eslint-disable-next-line prefer-spread
       str = Array.apply(null, Array(length))
         .map(() => {
-          const start = crypto.randomInt(charsToInclude.length);
+          const start = randomInt(charsToInclude.length);
           return charsToInclude.substring(start, start + 1); // pick random from include list
         })
         .join("");
     } else {
       // generate, then check exclusions
-      str = crypto.randomBytes(length).toString("base64").slice(0, length);
+      str = randomBytes(length).toString("base64").slice(0, length);
     }
 
     isValid = true;
