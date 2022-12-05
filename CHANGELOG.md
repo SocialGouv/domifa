@@ -1,3 +1,10 @@
+## [2.109.12](https://github.com/SocialGouv/domifa/compare/v2.109.11...v2.109.12) (2022-12-05)
+
+
+### Bug Fixes
+
+* **deps:** update dependency fs-extra to v11 ([a579b73](https://github.com/SocialGouv/domifa/commit/a579b738f2ce90e5c47e0af96f3d263d5ff05d65))
+
 ## [2.109.11](https://github.com/SocialGouv/domifa/compare/v2.109.10...v2.109.11) (2022-11-30)
 
 
