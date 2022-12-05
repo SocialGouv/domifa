@@ -1,3 +1,13 @@
+## [2.109.13](https://github.com/SocialGouv/domifa/compare/v2.109.12...v2.109.13) (2022-12-05)
+
+
+### Bug Fixes
+
+* **deps:** fix yarn.lock ([a5a4464](https://github.com/SocialGouv/domifa/commit/a5a44646d3d1bb8a1969bef952d796e0b54dd5b4))
+* **general:** correction d'un bug dans l'anonymisation ([db32d18](https://github.com/SocialGouv/domifa/commit/db32d183c17053639e06ff251d4ff5d74eba1747))
+* **logs:** disable logs sql on prod ([e609101](https://github.com/SocialGouv/domifa/commit/e609101e87e4bc283b0439edfd9c5d601292bda4))
+* **tests:** correction d'un test unitaire ([99314af](https://github.com/SocialGouv/domifa/commit/99314af3e2a72b135fffdf8471837fe01db52fc3))
+
 ## [2.109.12](https://github.com/SocialGouv/domifa/compare/v2.109.11...v2.109.12) (2022-12-05)
 
 
