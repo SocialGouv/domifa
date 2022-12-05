@@ -19,4 +19,4 @@ data:
   CRON_ELASTIC_APM_SERVICE_NAME: domifa-backend-cron-review
   DOMIFA_SENTRY_ENABLED: "false"
   DOMIFA_LOG_HTTP_REQUESTS: "true"
-  DOMIFA_LOG_SQL_REQUESTS: "true"
+  DOMIFA_LOG_SQL_REQUESTS: "false"

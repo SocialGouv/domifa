@@ -54,7 +54,11 @@ export const PG_CONNECT_OPTIONS: PostgresConnectionOptions = {
   password: domifaConfig().postgres.password,
   database: domifaConfig().postgres.database,
   logger: new CustomTypeOrmLogger(
-    domifaConfig().envId !== "test" ? ["error", "warn", "info"] : false
+    domifaConfig().envId !== "test"
+      ? domifaConfig().logger.logSqlRequests
+        ? "all"
+        : ["error", "warn", "info"]
+      : false
   ),
   ...connectOptionsPaths,
   maxQueryExecutionTime: 1000,
