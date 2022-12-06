@@ -12,7 +12,7 @@ export function IsValidPassword(validationOptions?: ValidationOptions) {
         validate(password: any) {
           if (typeof password === "string") {
             return new RegExp(
-              /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])[a-zA-Z0-9!\"#$%&'()*+,-./:;<=>?@\[\]_]{12,}$/
+              /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])[^ ]{12,}$/
             ).test(password);
           }
           return false;
