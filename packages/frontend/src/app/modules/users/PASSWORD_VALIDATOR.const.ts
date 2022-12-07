@@ -10,4 +10,5 @@ export const PASSWORD_VALIDATOR = [
     hasCapitalCase: true,
   }),
   Validators.minLength(12),
+  Validators.maxLength(150),
 ];

@@ -34,7 +34,7 @@ export class UserDto {
   public readonly email!: string;
 
   @IsNotEmpty()
-  @IsValidPassword()
+  @IsValidPassword("password")
   public readonly password!: string;
 
   @IsEmpty()
