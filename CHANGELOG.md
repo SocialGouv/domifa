@@ -1,3 +1,10 @@
+## [2.109.15](https://github.com/SocialGouv/domifa/compare/v2.109.14...v2.109.15) (2022-12-07)
+
+
+### Bug Fixes
+
+* **password:** la vérification du mot de passe a été corrigée ([55be40b](https://github.com/SocialGouv/domifa/commit/55be40b0d1ae55efd32e08db3458857ed881bf40))
+
 ## [2.109.14](https://github.com/SocialGouv/domifa/compare/v2.109.13...v2.109.14) (2022-12-06)
 
 
