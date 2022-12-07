@@ -15,7 +15,7 @@ export class EditMyPasswordDto {
     required: true,
   })
   @IsNotEmpty()
-  @IsValidPassword()
+  @IsValidPassword("password")
   public readonly password!: string;
 
   @ApiProperty({
@@ -23,7 +23,7 @@ export class EditMyPasswordDto {
     required: true,
   })
   @IsNotEmpty()
-  @IsValidPassword()
+  @IsValidPassword("confirmPassword")
   @Transform(({ value, obj }: TransformFnParams) => {
     if (
       typeof obj.password !== "undefined" &&

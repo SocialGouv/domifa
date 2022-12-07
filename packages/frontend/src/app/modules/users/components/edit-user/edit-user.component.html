@@ -249,7 +249,8 @@
               class="col-md-12"
               [ngClass]="
                 p.password.hasError('required') ||
-                p.password.hasError('minlength')
+                p.password.hasError('minlength') ||
+                p.password.hasError('maxlength')
                   ? 'text-danger'
                   : 'text-success'
               "
@@ -258,12 +259,13 @@
                 [icon]="[
                   'fas',
                   p.password.hasError('required') ||
-                  p.password.hasError('minlength')
+                  p.password.hasError('minlength') ||
+                  p.password.hasError('maxlength')
                     ? 'times-circle'
                     : 'check-circle'
                 ]"
               ></fa-icon>
-              Au moins 12 caractères
+              Le mot de passe doit contenir entre 12 et 150 caractères
             </div>
             <div
               class="col-md-12"

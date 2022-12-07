@@ -17,6 +17,6 @@ export class StructureLoginDto {
     required: true,
   })
   @IsNotEmpty()
-  @IsValidPassword()
+  @IsValidPassword("password")
   public readonly password!: string;
 }

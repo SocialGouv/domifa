@@ -67,4 +67,48 @@ describe("EditUserComponent", () => {
     expect(component.hidePassword).toBe(false);
     expect(component.hidePasswordConfirm).toBe(false);
   });
+
+  it("Passwords OK", () => {
+    const testPasswords = [
+      "Azerty0123456",
+      "LsKVYkXBxDR3",
+      "!!!!!!V3K5nWvq84Fj",
+      "  §'/(//(nvew3gKvzgKn",
+      "x$rQAzhmaW(2Fzuk",
+      "Allez les bleus2022",
+      "cpXJydcMV7WjuVc7E2nDIpgHvt)LXhexqh#HvSVN8W6u&x8*LnmXVU&m@5uzfrD",
+    ];
+    component.initPasswordForm();
+    expect(component.editPassword).toBe(true);
+    component.passwordForm.controls.oldPassword.setValue("3Mxx!8ZnhST_zaa");
+    testPasswords.forEach((valueOk: string) => {
+      component.passwordForm.controls.password.setValue(valueOk);
+      component.passwordForm.controls.confirmPassword.setValue(valueOk);
+
+      expect(component.passwordForm.valid).toBe(true);
+    });
+  });
+
+  it("Passwords Fail", () => {
+    component.initPasswordForm();
+    expect(component.editPassword).toBe(true);
+    component.passwordForm.controls.oldPassword.setValue("3Mxx!8ZnhST_zaa");
+    const testPasswords = [
+      "Azerty01234",
+      "azerty01234564564",
+      "LsKVYk",
+      "123456879964661",
+      "<<<<<<<<<<<<<<>>>>>>>>>>>>>>",
+      null,
+      undefined,
+      "",
+      "                  ",
+      "cpXJydcMV7WjuVc7E2nDIpgHvt)LXhexqh#HvSVN8W6u&x8*LnmXVU&m@5uzfrDcpXJydcMV7WjuVc7E2nDIpgHvt)LXhexqh#HvSVN8W6u&x8*LnmXVU&m@5uzfrDMV7WjuVc7E2nDIpgHvt)LXhexqh#HvSVN8W6u&x8*LnmXVU&m@5uzfrDcpXJydcMV7WjuVc7E2nDIpgHvt)LXhexqh#HvSVN8W6u&x8*LnmXVU&m@5uzfrD",
+    ];
+    testPasswords.forEach((valueOk: string) => {
+      component.passwordForm.controls.password.setValue(valueOk);
+      component.passwordForm.controls.confirmPassword.setValue(valueOk);
+      expect(component.passwordForm.valid).toBe(false);
+    });
+  });
 });
