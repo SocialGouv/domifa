@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
 } from "@angular/forms";
@@ -17,8 +18,7 @@ import {
   UsagerLight,
   UserStructure,
 } from "../../../../../_common/model";
-import { userStructureBuilder } from "../../services";
-import { PasswordValidator } from "../../services/password-validator.service";
+import { PasswordValidator, userStructureBuilder } from "../../services";
 import { UsersService } from "../../services/users.service";
 import { format } from "date-fns";
 import { PASSWORD_VALIDATOR } from "../../PASSWORD_VALIDATOR.const";
@@ -38,8 +38,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
   public editPassword: boolean;
 
   public hideOldPassword: boolean;
-  public hidePassword: boolean;
-  public hidePasswordConfirm: boolean;
 
   public lastPasswordUpdate: string;
   public usagers$: Observable<UsagerLight[]>;
@@ -72,8 +70,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
     this.editUser = false;
 
     this.hideOldPassword = true;
-    this.hidePassword = true;
-    this.hidePasswordConfirm = true;
 
     this.emailExist = false;
     this.loading = false;
@@ -119,12 +115,18 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
     this.passwordForm = this.formBuilder.group(
       {
-        oldPassword: [null, Validators.compose(PASSWORD_VALIDATOR)],
-        confirmPassword: [null, Validators.compose(PASSWORD_VALIDATOR)],
-        password: [null, Validators.compose(PASSWORD_VALIDATOR)],
+        oldPassword: new FormControl(
+          null,
+          Validators.compose(PASSWORD_VALIDATOR)
+        ),
+        passwordConfirmation: new FormControl(
+          null,
+          Validators.compose(PASSWORD_VALIDATOR)
+        ),
+        password: new FormControl(null, Validators.compose(PASSWORD_VALIDATOR)),
       },
       {
-        validators: PasswordValidator.passwordMatchValidator,
+        validators: [PasswordValidator.passwordMatchValidator],
       }
     );
   }
@@ -202,14 +204,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
         },
       })
     );
-  }
-
-  public togglePassword(): void {
-    this.hidePassword = !this.hidePassword;
-  }
-
-  public togglePasswordConfirmation(): void {
-    this.hidePasswordConfirm = !this.hidePasswordConfirm;
   }
 
   public toggleOldPassword(): void {

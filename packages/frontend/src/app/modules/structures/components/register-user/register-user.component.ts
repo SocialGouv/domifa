@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
 } from "@angular/forms";
@@ -37,9 +38,6 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   public loading: boolean;
   public success: boolean;
 
-  public hidePassword: boolean;
-  public hidePasswordConfirm: boolean;
-
   public emailExist = false;
 
   private unsubscribe: Subject<void> = new Subject();
@@ -61,8 +59,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
     private readonly titleService: Title
   ) {
     this.user = userStructureBuilder.buildUserStructure({});
-    this.hidePassword = true;
-    this.hidePasswordConfirm = true;
+
     this.submitted = false;
     this.loading = false;
     this.success = false;
@@ -73,7 +70,10 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
 
     this.userForm = this.formBuilder.group(
       {
-        confirmPassword: [null, Validators.compose(PASSWORD_VALIDATOR)],
+        passwordConfirmation: new FormControl(
+          null,
+          Validators.compose(PASSWORD_VALIDATOR)
+        ),
         email: [
           this.user.email,
           [Validators.pattern(regexp.email), Validators.required],
@@ -84,24 +84,16 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
           this.user.nom,
           [Validators.required, Validators.minLength(2), noWhiteSpace],
         ],
-        password: [null, Validators.compose(PASSWORD_VALIDATOR)],
+        password: new FormControl(null, Validators.compose(PASSWORD_VALIDATOR)),
         prenom: [
           this.user.prenom,
           [Validators.required, Validators.minLength(2), noWhiteSpace],
         ],
       },
       {
-        validators: PasswordValidator.passwordMatchValidator,
+        validators: [PasswordValidator.passwordMatchValidator],
       }
     );
-  }
-
-  public togglePassword(): void {
-    this.hidePassword = !this.hidePassword;
-  }
-
-  public togglePasswordConfirmation(): void {
-    this.hidePasswordConfirm = !this.hidePasswordConfirm;
   }
 
   public submitUser() {

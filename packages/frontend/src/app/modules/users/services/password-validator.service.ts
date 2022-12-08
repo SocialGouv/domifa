@@ -19,7 +19,12 @@ export class PasswordValidator {
     control: AbstractControl
   ): ValidationErrors | null => {
     const password: string = control.get("password")?.value;
-    const confirmPassword: string = control.get("confirmPassword")?.value;
-    return password === confirmPassword ? null : { noPassswordMatch: true };
+    const passwordConfirmation: string = control.get(
+      "passwordConfirmation"
+    )?.value;
+
+    return password === passwordConfirmation
+      ? null
+      : { noPassswordMatch: true };
   };
 }

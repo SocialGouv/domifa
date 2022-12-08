@@ -43,12 +43,13 @@ describe("RegisterUserComponent", () => {
 
   it("Check password", () => {
     component.userForm.controls.password.setValue("1234567891011");
-    component.userForm.controls.confirmPassword.setValue("BBBBB");
+    component.userForm.controls.passwordConfirmation.setValue("BBBBB");
     expect(component.userForm.errors).toEqual({ noPassswordMatch: true });
-    component.userForm.controls.confirmPassword.setValue("1234567891011");
+    component.userForm.controls.passwordConfirmation.setValue("1234567891011");
     expect(component.userForm.errors).toBeNull();
     expect(component.userForm.controls.password.errors).toEqual({
       hasCapitalCase: true,
+      hasLowerCase: true,
     });
   });
 });

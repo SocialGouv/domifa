@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
 } from "@angular/forms";
@@ -25,9 +26,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   public submitted: boolean;
   public success: boolean;
   public loading: boolean;
-
-  public hidePassword: boolean;
-  public hidePasswordConfirm: boolean;
 
   public token?: string;
   public userId?: string;
@@ -54,8 +52,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     this.success = false;
     this.submitted = false;
     this.loading = false;
-    this.hidePassword = true;
-    this.hidePasswordConfirm = true;
+
     this.errorLabels = {
       HARD_RESET_EXPIRED: "Le code a expiré, merci de recommencer la procédure",
       HARD_RESET_INCORRECT_TOKEN:
@@ -103,23 +100,18 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   public initPasswordForm(): void {
     this.resetForm = this.formBuilder.group(
       {
-        confirmPassword: [null, Validators.compose(PASSWORD_VALIDATOR)],
-        password: [null, Validators.compose(PASSWORD_VALIDATOR)],
         token: [this.token, Validators.required],
         userId: [this.userId, Validators.required],
+        passwordConfirmation: new FormControl(
+          null,
+          Validators.compose(PASSWORD_VALIDATOR)
+        ),
+        password: new FormControl(null, Validators.compose(PASSWORD_VALIDATOR)),
       },
       {
-        validators: PasswordValidator.passwordMatchValidator,
+        validators: [PasswordValidator.passwordMatchValidator],
       }
     );
-  }
-
-  public togglePassword(): void {
-    this.hidePassword = !this.hidePassword;
-  }
-
-  public togglePasswordConfirmation(): void {
-    this.hidePasswordConfirm = !this.hidePasswordConfirm;
   }
 
   public submitEmailForm(): void {

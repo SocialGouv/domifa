@@ -33,9 +33,6 @@ export class AppComponent implements OnInit {
 
   public me: UserStructure | null;
 
-  @ViewChild("maintenanceModal", { static: true })
-  public maintenanceModal!: TemplateRef<NgbModalRef>;
-
   @ViewChild("helpCenter", { static: true })
   public helpCenter!: TemplateRef<NgbModalRef>;
 

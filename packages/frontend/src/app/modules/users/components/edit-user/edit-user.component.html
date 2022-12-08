@@ -181,7 +181,7 @@
       </div>
 
       <form
-        *ngIf="editPassword"
+        *ngIf="editPassword && passwordForm"
         [formGroup]="passwordForm"
         class="row"
         (ngSubmit)="updateMyPassword()"
@@ -195,7 +195,7 @@
               [ngClass]="{
                 'is-invalid': p.oldPassword.dirty && p.oldPassword.errors
               }"
-              id="password"
+              id="oldPassword"
               formControlName="oldPassword"
               autocomplete="current-password"
               required
@@ -213,171 +213,12 @@
             </button>
           </div>
         </div>
-        <div class="col-md-4 form-group required">
-          <label for="new-password">Nouveau mot de passe</label>
-          <div class="input-group">
-            <input
-              type="password"
-              formControlName="password"
-              [type]="!hidePassword ? 'text' : 'password'"
-              class="form-control"
-              id="new-password"
-              [ngClass]="{
-                'is-invalid':
-                  (submitted || p.password.dirty) && p.password.errors,
-                'is-valid': p.password.dirty && !p.password.errors
-              }"
-              placeholder="Mot de passe"
-              autocomplete="new-password"
-              required
-            />
-
-            <button
-              type="button"
-              class="input-group-text"
-              (click)="togglePassword()"
-            >
-              <fa-icon
-                aria-label="Voir / cacher le mot de passe"
-                [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
-              ></fa-icon>
-            </button>
-          </div>
-
-          <div class="row indications">
-            <div
-              class="col-md-12"
-              [ngClass]="
-                p.password.hasError('required') ||
-                p.password.hasError('minlength') ||
-                p.password.hasError('maxlength')
-                  ? 'text-danger'
-                  : 'text-success'
-              "
-            >
-              <fa-icon
-                [icon]="[
-                  'fas',
-                  p.password.hasError('required') ||
-                  p.password.hasError('minlength') ||
-                  p.password.hasError('maxlength')
-                    ? 'times-circle'
-                    : 'check-circle'
-                ]"
-              ></fa-icon>
-              Le mot de passe doit contenir entre 12 et 150 caractères
-            </div>
-            <div
-              class="col-md-12"
-              [ngClass]="
-                p.password.hasError('required') ||
-                p.password.hasError('hasNumber')
-                  ? 'text-danger'
-                  : 'text-success'
-              "
-            >
-              <fa-icon
-                [icon]="[
-                  'fas',
-                  p.password.hasError('required') ||
-                  p.password.hasError('hasNumber')
-                    ? 'times-circle'
-                    : 'check-circle'
-                ]"
-              ></fa-icon>
-              Au moins 1 chiffre
-            </div>
-            <div
-              class="col-md-12"
-              [ngClass]="
-                p.password.hasError('required') ||
-                p.password.hasError('hasCapitalCase')
-                  ? 'text-danger'
-                  : 'text-success'
-              "
-            >
-              <fa-icon
-                [icon]="[
-                  'fas',
-                  p.password.hasError('required') ||
-                  p.password.hasError('hasCapitalCase')
-                    ? 'times-circle'
-                    : 'check-circle'
-                ]"
-              ></fa-icon>
-              Au moins une lettre en majuscule
-            </div>
-          </div>
+        <div class="col-md-8">
+          <app-user-structure-password-form
+            [parentFormGroup]="passwordForm"
+            [submitted]="submitted"
+          ></app-user-structure-password-form>
         </div>
-        <div class="col-md-4 form-group required" id="confirmPassword">
-          <label for="confirmPasswordInput">Confirmer votre mot de passe</label>
-          <div class="input-group">
-            <input
-              class="form-control"
-              [type]="!hidePasswordConfirm ? 'text' : 'password'"
-              [ngClass]="{
-                'is-invalid':
-                  (p.confirmPassword.dirty || submitted) &&
-                  (p.confirmPassword.errors ||
-                    passwordForm?.errors?.noPassswordMatch),
-                'is-valid':
-                  p.confirmPassword.dirty &&
-                  !p.confirmPassword.errors &&
-                  !passwordForm?.errors?.noPassswordMatch
-              }"
-              id="confirmPasswordInput"
-              autocomplete="new-password"
-              formControlName="confirmPassword"
-              required
-            />
-
-            <button
-              type="button"
-              class="input-group-text"
-              (click)="togglePasswordConfirmation()"
-            >
-              <fa-icon
-                title="Voir / cacher le mot de passe"
-                [icon]="
-                  hidePasswordConfirm ? ['far', 'eye'] : ['far', 'eye-slash']
-                "
-              ></fa-icon>
-            </button>
-          </div>
-
-          <div class="row indications">
-            <div
-              class="text-danger col-md-12"
-              *ngIf="
-                p.confirmPassword.dirty &&
-                p.confirmPassword.hasError('required')
-              "
-            >
-              La confirmation du mot de passe est obligatoire
-            </div>
-            <div
-              class="col-md-12"
-              [ngClass]="
-                p.confirmPassword.dirty &&
-                !passwordForm?.errors?.noPassswordMatch
-                  ? 'text-success'
-                  : 'text-danger'
-              "
-            >
-              <fa-icon
-                [icon]="[
-                  'fas',
-                  p.confirmPassword.dirty &&
-                  !passwordForm?.errors?.noPassswordMatch
-                    ? 'check-circle'
-                    : 'times-circle'
-                ]"
-              ></fa-icon>
-              Les mots de passe doivent être identiques
-            </div>
-          </div>
-        </div>
-
         <div class="col-md-12 text-center">
           <button
             type="button"

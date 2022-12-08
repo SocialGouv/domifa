@@ -23,21 +23,21 @@ export class EditMyPasswordDto {
     required: true,
   })
   @IsNotEmpty()
-  @IsValidPassword("confirmPassword")
+  @IsValidPassword("passwordConfirmation")
   @Transform(({ value, obj }: TransformFnParams) => {
     if (
       typeof obj.password !== "undefined" &&
-      typeof obj.confirmPassword !== "undefined"
+      typeof obj.passwordConfirmation !== "undefined"
     ) {
       if (
         typeof obj.password === "string" &&
-        typeof obj.confirmPassword === "string" &&
-        obj.password === obj.confirmPassword
+        typeof obj.passwordConfirmation === "string" &&
+        obj.password === obj.passwordConfirmation
       ) {
         return value;
       }
     }
     throw new BadRequestException("PASSWORD_NOT_MATCH");
   })
-  public readonly confirmPassword!: string;
+  public readonly passwordConfirmation!: string;
 }

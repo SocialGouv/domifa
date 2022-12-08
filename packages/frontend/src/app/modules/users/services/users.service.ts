@@ -95,7 +95,7 @@ export class UsersService {
   }
 
   public resetPassword(data: {
-    confirmPassword: string;
+    passwordConfirmation: string;
     password: string;
     token: string;
     userId: number;
@@ -104,7 +104,7 @@ export class UsersService {
   }
 
   public updateMyPassword(data: {
-    confirmPassword: string;
+    passwordConfirmation: string;
     password: string;
     oldPassword: string;
   }): Observable<ApiMessage> {
