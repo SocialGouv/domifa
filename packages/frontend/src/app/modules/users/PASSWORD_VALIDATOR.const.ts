@@ -9,6 +9,9 @@ export const PASSWORD_VALIDATOR = [
   PasswordValidator.patternValidator(/[A-Z]/, {
     hasCapitalCase: true,
   }),
+  PasswordValidator.patternValidator(/[a-z]/, {
+    hasLowerCase: true,
+  }),
   Validators.minLength(12),
   Validators.maxLength(150),
 ];

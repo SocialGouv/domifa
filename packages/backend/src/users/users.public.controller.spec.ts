@@ -136,7 +136,7 @@ describe("Users Public Controller", () => {
         .post("/users/reset-password")
         .send({
           password: 111122,
-          confirmPassword: 111122,
+          passwordConfirmation: 111122,
           token: userSecurityDatas.temporaryTokens.token,
           userId: "1",
         });
@@ -147,7 +147,7 @@ describe("Users Public Controller", () => {
         .post("/users/reset-password")
         .send({
           password: "xxxxxxxxxxxxx",
-          confirmPassword: "xxxxxxxxxxxxx",
+          passwordConfirmation: "xxxxxxxxxxxxx",
           token: userSecurityDatas.temporaryTokens.token,
           userId: "1",
         });
@@ -157,7 +157,7 @@ describe("Users Public Controller", () => {
         .post("/users/reset-password")
         .send({
           password: "Azertyu0101010101",
-          confirmPassword: "zqdzAioj!z!qdzqdoij oijzqoidj",
+          passwordConfirmation: "zqdzAioj!z!qdzqdoij oijzqoidj",
           token: userSecurityDatas.temporaryTokens.token,
           userId: "1",
         });
@@ -170,7 +170,7 @@ describe("Users Public Controller", () => {
         .post("/users/reset-password")
         .send({
           password: "Azerty012345",
-          confirmPassword: "Azerty012345",
+          passwordConfirmation: "Azerty012345",
           token: userSecurityDatas.temporaryTokens.token,
           userId: "1",
         });

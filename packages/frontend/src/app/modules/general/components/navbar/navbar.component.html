@@ -321,3 +321,51 @@
     </div>
   </nav>
 </div>
+
+<ng-template #newsModal let-modal>
+  <div class="modal-header">
+    <span class="modal-title" id="modal-title">
+      🎉 Des nouveautés sont disponibles sur la plateforme
+    </span>
+    <button
+      title="Fermer la fenêtre"
+      class="btn-close"
+      aria-label="Fermer la fenêtre"
+      (click)="hideNews()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div class="py-1 px-3">
+      <p>
+        <strong class="text-primary">{{
+          news.date | date : "dd/MM/yyyy"
+        }}</strong>
+        <span *ngIf="news.description">- {{ news.description }}</span>
+      </p>
+      <ng-container *ngIf="news?.content">
+        <div *ngFor="let content of news.content" class="text-start news">
+          <span
+            class="badge badge-pill"
+            [ngClass]="{
+              'bg-primary': content.type === 'new',
+              'bg-warning': content.type === 'bug'
+            }"
+          >
+            {{ content?.type === "bug" ? "Améliorations" : "Nouveauté" }}
+          </span>
+          &nbsp;
+          <strong>{{ content.categorie }}</strong>
+          <p
+            *ngFor="let message of content.message"
+            [innerHTML]="message | nl2br"
+          ></p>
+        </div>
+      </ng-container>
+      <div class="text-center my-2">
+        <button class="btn btn-primary" (click)="hideNews()">
+          Continuer sur Domifa
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -12,6 +12,7 @@ import { EditUserComponent } from "./components/edit-user/edit-user.component";
 
 import { SharedModule } from "../shared/shared.module";
 import { UsersRoutingModule } from "./users-routing.module";
+import { UserStructurePasswordFormComponent } from "./components/user-structure-password-form/user-structure-password-form.component";
 
 @NgModule({
   declarations: [
@@ -19,8 +20,9 @@ import { UsersRoutingModule } from "./users-routing.module";
     UserProfilComponent,
     RegisterUserAdminComponent,
     EditUserComponent,
+    UserStructurePasswordFormComponent,
   ],
-
+  exports: [UserStructurePasswordFormComponent],
   imports: [
     FormsModule,
     HttpClientModule,

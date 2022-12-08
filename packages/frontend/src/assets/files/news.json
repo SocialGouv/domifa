@@ -1,5 +1,18 @@
 [
   {
+    "date": "2022-12-08",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "DomiFa augmente ses critères d’exigence pour les mots de passe.",
+        "message": [
+          "Votre mot de passe doit respecter les règles suivantes :\n- Avoir entre 12 et 150 caractères\n- Au moins 1 chiffre\n- Au moins une lettre en majuscule\n- Au moins une lettre en minuscule (nouveau critère)\n\nSi ce n'est pas le cas, veuillez changer votre mot de passe en cliquant sur \"Mot de passe oublié\" depuis la page de connexion de DomiFa"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2022-10-27",
     "description": "",
     "content": [
