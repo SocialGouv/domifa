@@ -1,3 +1,10 @@
+## [2.109.16](https://github.com/SocialGouv/domifa/compare/v2.109.15...v2.109.16) (2022-12-08)
+
+
+### Bug Fixes
+
+* **password:** correction d'un bug sur les mots de passes en minuscules ([04a3d4c](https://github.com/SocialGouv/domifa/commit/04a3d4c7ac11160adc499bc11a978e702e04e9a1))
+
 ## [2.109.15](https://github.com/SocialGouv/domifa/compare/v2.109.14...v2.109.15) (2022-12-07)
 
 
