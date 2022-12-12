@@ -221,11 +221,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             defaultValue: "7 days",
           }
         ),
-        autoRunOnStartup: configParser.parseBoolean(
-          x,
-          "DOMIFA_CRON_EMAIL_USER_GUIDE_AUTO_RUN_STARTUP",
-          { defaultValue: false }
-        ),
+
       },
       emailImportGuide: {
         crontime: configParser.parseString(
@@ -242,11 +238,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             defaultValue: "7 days",
           }
         ),
-        autoRunOnStartup: configParser.parseBoolean(
-          x,
-          "DOMIFA_CRON_EMAIL_IMPORT_GUIDE_AUTO_RUN_STARTUP",
-          { defaultValue: false }
-        ),
+
       },
       emailConsumer: {
         enableSendImmadiately: configParser.parseBoolean(
@@ -261,11 +253,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             defaultValue: CronExpression.EVERY_5_MINUTES, // most of the time, the CRON is not necessary, as the mail consummer is triggered immediately by messageEmailSender
           }
         ),
-        autoRunOnStartup: configParser.parseBoolean(
-          x,
-          "DOMIFA_CRON_EMAIL_CONSUMER_AUTO_RUN_STARTUP",
-          { defaultValue: false }
-        ),
+
       },
       smsConsumer: {
         crontime: configParser.parseString(
@@ -289,11 +277,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             defaultValue: "0 19 * * *",
           }
         ),
-        autoRunOnStartup: configParser.parseBoolean(
-          x,
-          "DOMIFA_CRON_SMS_CONSUMER_AUTO_RUN_STARTUP",
-          { defaultValue: false }
-        ),
+
       },
       monitoringCleaner: {
         crontime: configParser.parseString(
@@ -303,11 +287,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             defaultValue: CronExpression.EVERY_DAY_AT_11PM,
           }
         ),
-        autoRunOnStartup: configParser.parseBoolean(
-          x,
-          "DOMIFA_CRON_MONITORING_CLEANER_AUTO_RUN_STARTUP",
-          { defaultValue: false }
-        ),
+
         delay: configParser.parseDelay(
           x,
           "DOMIFA_CRON_MONITORING_CLEANER_DELAY",
