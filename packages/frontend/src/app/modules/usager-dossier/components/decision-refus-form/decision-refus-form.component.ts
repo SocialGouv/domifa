@@ -1,4 +1,3 @@
-import { minDateToday } from "src/app/shared/bootstrap-util";
 import { UsagerFormModel } from "./../../../usager-shared/interfaces/UsagerFormModel";
 import {
   Component,
@@ -22,7 +21,10 @@ import {
   UsagerDecisionRefusForm,
   UsagerLight,
 } from "../../../../../_common/model";
-import { formatDateToNgb } from "../../../../shared/bootstrap-util";
+import {
+  formatDateToNgb,
+  minDateToday,
+} from "../../../../shared/bootstrap-util";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
 import { Subscription } from "rxjs";

@@ -1,8 +1,8 @@
-import { fadeInOut } from "src/app/shared/animations";
 import { PublicStats } from "./../../../../../../_common/model/stats/PublicStats.type";
 import { Component, Input, OnChanges } from "@angular/core";
 import { StatsByMonth } from "../../../../../../_common/model";
 import { Color, ScaleType } from "@swimlane/ngx-charts";
+import { fadeInOut } from "../../../../../shared";
 
 @Component({
   animations: [fadeInOut],

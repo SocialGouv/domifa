@@ -5,14 +5,21 @@
   "scripts": {
     "build": "lerna run build --stream",
     "dev": "lerna run dev --parallel --stream",
-    "lint": "lerna run lint --parallel --stream",
+    "lint": "lerna run lint --parallel",
+    "format": "lerna run format --parallel",
+    "format:fix": "lerna run format:fix --parallel",
     "start": "lerna run start --parallel --stream",
     "test": "lerna run test --parallel --stream",
-    "seal-secrets": "sre-secrets --from=./.secrets.yaml --to=./.k8s"
+    "seal-secrets": "sre-secrets --from=./.secrets.yaml --to=./.k8s",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@socialgouv/sre-secrets": "^1.13.9",
-    "lerna": "^6.0.0"
+    "@commitlint/cli": "^17.2.0",
+    "@commitlint/config-conventional": "^17.2.0",
+    "husky": "^8.0.1",
+    "lerna": "^6.0.0",
+    "lint-staged": "^13.0.3"
   },
   "workspaces": {
     "packages": [

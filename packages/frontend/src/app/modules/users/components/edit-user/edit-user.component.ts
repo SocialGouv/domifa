@@ -12,7 +12,7 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { Observable, of, Subject, Subscription } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { regexp } from "src/app/shared/constants/REGEXP.const";
+
 import {
   FormEmailTakenValidator,
   UsagerLight,
@@ -22,6 +22,7 @@ import { PasswordValidator, userStructureBuilder } from "../../services";
 import { UsersService } from "../../services/users.service";
 import { format } from "date-fns";
 import { PASSWORD_VALIDATOR } from "../../PASSWORD_VALIDATOR.const";
+import { regexp } from "../../../../shared";
 
 @Component({
   selector: "app-edit-user",

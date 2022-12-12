@@ -21,8 +21,6 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 
-import { fadeInOut } from "src/app/shared/animations";
-import { minDateToday } from "src/app/shared/bootstrap-util";
 import { UserStructure, UsagerLight } from "../../../../../_common/model";
 import { UsagerFormModel } from "../../../usager-shared/interfaces/UsagerFormModel";
 import { DocumentService } from "../../../usager-shared/services/document.service";
@@ -34,7 +32,11 @@ import {
   setHours,
   setMinutes,
 } from "date-fns";
-import { getUsagerNomComplet } from "../../../../shared";
+import {
+  fadeInOut,
+  getUsagerNomComplet,
+  minDateToday,
+} from "../../../../shared";
 
 @Component({
   animations: [fadeInOut],
