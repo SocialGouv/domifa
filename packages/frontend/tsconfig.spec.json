@@ -3,13 +3,7 @@
   "compilerOptions": {
     "allowJs": true,
     "outDir": "../out-tsc/spec",
-    "types": [
-      "jest",
-      "node"
-    ]
+    "types": ["jest", "node"]
   },
-  "include": [
-    "**/*.spec.ts",
-    "**/*.d.ts"
-  ]
+  "include": ["**/*.spec.ts", "**/*.d.ts"]
 }

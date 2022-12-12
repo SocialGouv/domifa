@@ -16,7 +16,7 @@ import {
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { of, Subject, Subscription } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
-import { regexp } from "src/app/shared/constants/REGEXP.const";
+
 import {
   FormEmailTakenValidator,
   Structure,
@@ -25,10 +25,14 @@ import {
 import { StructureService } from "../../services/structure.service";
 import { StructureCommonWeb } from "../../services/StructureCommonWeb.type";
 import { structureNameChecker } from "../../services/structureNameChecker.service";
-import { DEPARTEMENTS_LISTE } from "../../../../shared";
-import { PREFERRED_COUNTRIES } from "../../../../shared/constants";
+
 import { anyPhoneValidator } from "../../../shared/phone/mobilePhone.validator";
 import { getFormPhone } from "../../../shared/phone";
+import {
+  PREFERRED_COUNTRIES,
+  DEPARTEMENTS_LISTE,
+  regexp,
+} from "../../../../shared";
 
 @Component({
   selector: "app-structures-form",

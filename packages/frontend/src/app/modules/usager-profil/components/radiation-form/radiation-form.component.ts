@@ -1,4 +1,3 @@
-import { minDateToday } from "src/app/shared/bootstrap-util";
 import {
   Component,
   OnInit,
@@ -22,11 +21,11 @@ import {
   UsagerLight,
 } from "../../../../../_common/model";
 
-import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
-
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
 import { Subscription } from "rxjs";
+import { minDateToday } from "../../../../shared";
+import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 
 @Component({
   selector: "app-radiation-form",
