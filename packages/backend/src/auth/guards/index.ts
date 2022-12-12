@@ -1,4 +1,5 @@
-export * from "./AppUserGuard.guard";
-export * from "./CanGetUserStructure.guard";
-export * from "./usager-access.guard";
-export * from "./interactions.guard";
+//@index('./*', f => `export * from '${f.path}'`)
+export * from './AppUserGuard.guard'
+export * from './CanGetUserStructure.guard'
+export * from './interactions.guard'
+export * from './usager-access.guard'

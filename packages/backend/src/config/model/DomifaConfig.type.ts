@@ -52,27 +52,22 @@ export type DomifaConfig = {
     emailUserGuide: {
       crontime: string; // DOMIFA_CRON_EMAIL_USER_GUIDE_CRONTIME
       delay: DomifaConfigDelay; // DOMIFA_CRON_EMAIL_USER_GUIDE_DELAY
-      autoRunOnStartup: boolean; // DOMIFA_CRON_EMAIL_USER_GUIDE_AUTO_RUN_STARTUP
     };
     emailImportGuide: {
       crontime: string; // DOMIFA_CRON_EMAIL_IMPORT_GUIDE_CRONTIME
       delay: DomifaConfigDelay; // DOMIFA_CRON_EMAIL_IMPORT_GUIDE_DELAY
-      autoRunOnStartup: boolean; // DOMIFA_CRON_EMAIL_IMPORT_GUIDE_AUTO_RUN_STARTUP
     };
     emailConsumer: {
       enableSendImmadiately: boolean; // DOMIFA_CRON_EMAIL_SEND_IMMEDIATELY
       crontime: string; // DOMIFA_CRON_EMAIL_CONSUMER_CRONTIME
-      autoRunOnStartup: boolean; // DOMIFA_CRON_EMAIL_CONSUMER_AUTO_RUN_STARTUP
     };
     smsConsumer: {
       crontime: string; // DOMIFA_CRON_SMS_CONSUMER_CRONTIME
       fetchEndDomCronTime: string; // DOMIFA_CRON_FETCH_END_DOM_CRONTIME
       sendEndDomCronTime: string; // DOMIFA_CRON_SEND_END_DOM_CRONTIME
-      autoRunOnStartup: boolean; // DOMIFA_CRON_SMS_CONSUMER_AUTO_RUN_STARTUP
     };
     monitoringCleaner: {
       crontime: string; // DOMIFA_CRON_MONITORING_CLEANER_CRONTIME
-      autoRunOnStartup: boolean; // DOMIFA_CRON_MONITORING_CLEANER_AUTO_RUN_STARTUP
       delay: DomifaConfigDelay; // DOMIFA_CRON_MONITORING_CLEANER_DELAY
     };
   };
