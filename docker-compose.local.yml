@@ -2,10 +2,11 @@ version: "3.4"
 
 volumes:
   postgres-data:
+  metabase-data:
 
 services:
   postgres:
-    image: postgresai/extended-postgres:11
+    image: postgres:11.18-bullseye
     container_name: domifa-postgres
     volumes:
       - postgres-data:/var/lib/postgresql/data
@@ -116,3 +117,18 @@ services:
       - ./.env
     environment:
       TZ: Europe/Paris
+
+  metabase-app:
+    container_name: domifa-metabase
+    image: metabase/metabase:latest
+    restart: always
+    ports:
+      - 3002:3000
+    volumes:
+      # declare your mount volume /host/dir:/container/dir
+      - metabase-data:/metabase-data
+    environment:
+      MB_DB_FILE: /metabase-data/metabase.db
+      MB_SITE_LOCALE: fr
+    depends_on:
+      - postgres

@@ -46,7 +46,7 @@ if [ "$STOP_CONTAINERS" == "true" ]; then
     echo "###########################################"
     # remove all domifa containers
     (set -x && APP_DIR=$(pwd) docker-compose --project-name domifa --env-file ./.env -f ./docker-compose.local.yml rm)
-    
+
     if [ "$DANGER_DROP_VOLUMES" == "true" ]; then
       echo "###########################################"
       echo "# [DANGER] DROP domifa volumes"
@@ -62,7 +62,7 @@ if [ "$STOP_CONTAINERS" == "true" ]; then
               ;;
       esac
     fi
-    
+
   fi
   exit 0
 fi
