@@ -1,9 +1,9 @@
 import {
-  IsAlpha,
   IsBoolean,
   IsEmpty,
   IsNotEmpty,
   IsString,
+  Matches,
   MaxLength,
   MinLength,
   ValidateIf,
@@ -23,13 +23,14 @@ export class StructureEditSmsDto {
   @MinLength(1)
   @IsNotEmpty()
   @IsString()
-  @IsAlpha()
+  @Matches("^[a-zA-Z ]*$")
   @TrimOrNullTransform()
   public senderName: string;
 
   @ValidateIf((o) => o.enabledByStructure === true)
   @MaxLength(30)
   @MinLength(1)
+  @IsString()
   @IsNotEmpty()
   public senderDetails: string;
 }
