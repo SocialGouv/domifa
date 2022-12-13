@@ -1,3 +1,18 @@
+# [2.110.0](https://github.com/SocialGouv/domifa/compare/v2.109.16...v2.110.0) (2022-12-13)
+
+
+### Bug Fixes
+
+* **config:** suppression de configs inutiles ([77a0bfc](https://github.com/SocialGouv/domifa/commit/77a0bfce9ef93d181337596e6dbc6464e48a2696))
+* **sms:** fix sms filter ([2d0f9b1](https://github.com/SocialGouv/domifa/commit/2d0f9b1fee4510ec9093b39f0bc00dab4a04a204))
+
+
+### Features
+
+* **docs:** mise à jour de la documentation, suppression de fichiers inutiles ([5ad9490](https://github.com/SocialGouv/domifa/commit/5ad9490e48a839403e60edd91a0be4049a186eeb))
+* **general:** ajout d'un hook pour vérifier les fichiers avant commit ([ea85f42](https://github.com/SocialGouv/domifa/commit/ea85f42e2cdb72f8b03daf7de62f3361bf73a373))
+* **tests:** suppression de tests inutiles ([e05584e](https://github.com/SocialGouv/domifa/commit/e05584eaac9b00be5a130358a8a4271f258a093b))
+
 ## [2.109.16](https://github.com/SocialGouv/domifa/compare/v2.109.15...v2.109.16) (2022-12-08)
 
 
