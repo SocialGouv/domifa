@@ -1,4 +1,3 @@
-import { UsagerLight } from "./../../../../../_common/model/usager/UsagerLight.type";
 import {
   Component,
   EventEmitter,
@@ -9,7 +8,11 @@ import {
 } from "@angular/core";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
-import { UsagerNote, UserStructure } from "../../../../../_common/model";
+import {
+  Usager,
+  UsagerNote,
+  UserStructure,
+} from "../../../../../_common/model";
 import { UsagerFormModel } from "../../interfaces";
 import { UsagerNotesService } from "../../services/usager-notes.service";
 import { Subscription } from "rxjs";
@@ -22,7 +25,6 @@ import { Subscription } from "rxjs";
 export class ProfilGeneralNotesComponent implements OnChanges, OnDestroy {
   @Input() public usager!: UsagerFormModel;
   @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
-
   @Input() public me!: UserStructure;
 
   public loading: boolean;
@@ -65,14 +67,15 @@ export class ProfilGeneralNotesComponent implements OnChanges, OnDestroy {
     this.subscription.add(
       this.usagerNotesService
         .archiveNote({
-          noteId: note.id,
+          noteUUID: note.uuid,
           usagerRef: this.usager.ref,
         })
         .subscribe({
-          next: (usager: UsagerLight) => {
+          next: (usager: Usager) => {
             this.filteredNotes = usager.notes.filter(
               (x: UsagerNote) => !x.archived
             );
+
             this.toastService.success("Note archivée avec succès");
             this.usager = new UsagerFormModel(usager);
             this.sortNotes();

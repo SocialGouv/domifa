@@ -7,7 +7,7 @@
   </div>
 
   <div
-    *ngFor="let note of filteredNotes; let i = index"
+    *ngFor="let note of filteredNotes | slice: 0:5; let i = index"
     class="note-historique"
   >
     <div class="d-flex align-items-top">
@@ -17,35 +17,18 @@
         </div>
         <div class="note-separator"></div>
       </div>
-      <div class="d-block">
-        <div class="d-flex">
-          <div class="ms-3">
-            <div class="note-date">
-              {{ note.createdAt | date: "dd/MM/yyyy à HH:mm" }} -
-              {{ note.createdBy.userName }}
-            </div>
-            <p class="font-bold">{{ note.message }}</p>
-          </div>
-          <div
-            *ngIf="displayConfirmArchiveMessageNoteId !== note.id"
-            class="ms-3"
-          >
-            <button
-              title="Supprimer"
-              type="button"
-              (click)="this.displayConfirmArchiveMessageNoteId = note.id"
-              class="btn btn-outline-primary"
-            >
-              <fa-icon [icon]="['fas', 'trash']"></fa-icon>
-            </button>
-          </div>
+
+      <div class="ms-3">
+        <div class="note-date">
+          {{ note.createdAt | date: "dd/MM/yyyy à HH:mm" }} -
+          {{ note.createdBy.userName }}
         </div>
-        <div
-          class="ms-3"
-          *ngIf="displayConfirmArchiveMessageNoteId === note.id"
-        >
+        <p class="font-bold">{{ note.message }}</p>
+
+        <div *ngIf="displayConfirmArchiveMessageNoteId === note.id">
           Êtes-vous sûr de vouloir archiver cette note?
           <button
+            type="button"
             class="btn btn-danger ms-2"
             (click)="confirmArchiveNote(note)"
             [disabled]="loading"
@@ -65,6 +48,16 @@
             Non
           </button>
         </div>
+      </div>
+      <div *ngIf="displayConfirmArchiveMessageNoteId !== note.id" class="ms-3">
+        <button
+          title="Supprimer"
+          type="button"
+          (click)="this.displayConfirmArchiveMessageNoteId = note.id"
+          class="btn btn-outline-primary"
+        >
+          <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+        </button>
       </div>
     </div>
   </div>

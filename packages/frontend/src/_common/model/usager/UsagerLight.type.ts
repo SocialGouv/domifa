@@ -31,6 +31,6 @@ export type UsagerLight = AppEntity &
     | "usagerProfilUrl"
     | "echeanceInfos"
     | "rdvInfos"
-    | "datePremiereDom"
     | "notes"
+    | "datePremiereDom"
   >;

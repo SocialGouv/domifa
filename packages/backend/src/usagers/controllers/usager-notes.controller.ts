@@ -1,3 +1,4 @@
+import { usagerNotesRepository } from "../../database/services/usager/usagerNotesRepository.service";
 import {
   Body,
   Controller,
@@ -15,91 +16,97 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import { usagerRepository } from "../../database";
 
 import { ExpressResponse } from "../../util/express";
 import {
   UsagerLight,
-  UsagerNote,
   UserStructureAuthenticated,
   UserStructureResume,
 } from "../../_common/model";
 import { CreateNoteDto } from "../dto/create-note.dto";
-import { v4 as uuidv4 } from "uuid";
-@ApiTags("note")
+import { usagerRepository } from "../../database";
+
+@ApiTags("usagers-notes")
 @ApiBearerAuth()
-@Controller("note")
+@Controller("usagers-notes")
 @UseGuards(AuthGuard("jwt"))
-export class UsagerNoteController {
+export class UsagerNotesController {
   @Post(":usagerRef")
   @UseGuards(UsagerAccessGuard)
   public async createNote(
     @Body() createNoteDto: CreateNoteDto,
     @CurrentUser() currentUser: UserStructureAuthenticated,
-    @CurrentUsager() currentUsager: UsagerLight,
-    @Res() res: ExpressResponse
+    @CurrentUsager() currentUsager: UsagerLight
   ) {
     const createdBy: UserStructureResume = {
       userId: currentUser.id,
       userName: currentUser.prenom + " " + currentUser.nom,
     };
 
-    const usagerNote: UsagerNote = {
-      id: uuidv4(),
-      archived: false,
-      createdAt: new Date(),
+    await usagerNotesRepository.save({
+      ...createNoteDto,
+      usagerRef: currentUsager.ref,
+      usagerUUID: currentUsager.uuid,
+      structureId: currentUsager.structureId,
       createdBy,
-      message: createNoteDto.message,
-    };
+    });
 
-    const updatedUsager = await usagerRepository.updateOne(
-      {
+    return await usagerRepository.findOneOrFail({
+      where: {
         uuid: currentUsager.uuid,
-        structureId: currentUser.structureId,
       },
-      {
-        notes: currentUsager.notes.concat(usagerNote),
+      relations: {
+        notes: true,
       },
-      {}
-    );
-
-    return res.status(HttpStatus.OK).json(updatedUsager);
+    });
   }
-  @Put(":usagerRef/archive/:noteId")
+
+  @Put(":usagerRef/archive/:noteUUID")
   @UseGuards(UsagerAccessGuard)
   public async archiveNote(
     @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: UsagerLight,
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
-    @Param("noteId", new ParseUUIDPipe()) noteId: string,
+    @Param("noteUUID", new ParseUUIDPipe()) noteUUID: string,
     @Res() res: ExpressResponse
   ) {
+    const note = await usagerNotesRepository.findOneBy({
+      uuid: noteUUID,
+      usagerUUID: currentUsager.uuid,
+    });
+
+    if (!note) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "USAGER_NOTE_NOT_FOUND" });
+    }
+
     const archivedBy: UserStructureResume = {
       userId: currentUser.id,
       userName: currentUser.prenom + " " + currentUser.nom,
     };
 
-    const updatedUsager = await usagerRepository.updateOne(
+    await usagerNotesRepository.update(
       {
-        uuid: currentUsager.uuid,
-        structureId: currentUser.structureId,
+        uuid: note.uuid,
+        usagerUUID: currentUsager.uuid,
       },
       {
-        notes: currentUsager.notes.map((note) => {
-          if (note.id === noteId) {
-            return {
-              ...note,
-              archived: true,
-              archivedAt: new Date(),
-              archivedBy,
-            };
-          }
-          return note;
-        }),
-      },
-      {}
+        archived: true,
+        archivedAt: new Date(),
+        archivedBy,
+      }
     );
 
-    return res.status(HttpStatus.OK).json(updatedUsager);
+    const usager = await usagerRepository.findOneOrFail({
+      where: {
+        uuid: currentUsager.uuid,
+      },
+      relations: {
+        notes: true,
+      },
+    });
+
+    return res.status(HttpStatus.OK).json(usager);
   }
 }

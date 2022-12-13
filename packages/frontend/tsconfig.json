@@ -11,6 +11,8 @@
     "noImplicitThis": true,
     "strictFunctionTypes": true,
     "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "importHelpers": true,
     "lib": ["es2018", "dom"],
     "module": "es2020",

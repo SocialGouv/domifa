@@ -62,10 +62,9 @@ export type Usager = AppEntity & {
   options: UsagerOptions;
   numeroDistribution: string | null;
 
+  notes?: UsagerNote[];
   // Variables de front
   echeanceInfos?: UsagerEcheanceInfos;
   rdvInfos?: UsagerRdvInfos;
   usagerProfilUrl?: string;
-
-  notes: UsagerNote[];
 };

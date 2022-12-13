@@ -1,4 +1,4 @@
-import { Column, Entity, Generated, Index } from "typeorm";
+import { BeforeInsert, Column, Entity, Generated, Index } from "typeorm";
 
 import { TimeZone } from "../../../util/territoires";
 import {
@@ -21,10 +21,10 @@ export class StructureTable
   @Index()
   @Column({ type: "integer", unique: true })
   @Generated("increment")
-  public id: number;
+  id: number;
 
   @Column({ type: "text", nullable: false })
-  public adresse: string;
+  adresse: string;
 
   @Column({
     type: "jsonb",
@@ -38,15 +38,18 @@ export class StructureTable
   @Column({ type: "integer", nullable: true })
   capacite: number;
 
+  @Index()
   @Column({ type: "text", nullable: true })
   codePostal: string;
 
   @Column({ type: "text", nullable: true })
   complementAdresse: string;
 
+  @Index()
   @Column({ type: "text", nullable: false })
   departement: string;
 
+  @Index()
   @Column({ type: "text", nullable: false })
   region: string;
 
@@ -80,7 +83,6 @@ export class StructureTable
   @Column({ type: "text", nullable: false })
   nom: string;
 
-
   @Column({
     type: "jsonb",
     default: '{"numeroBoite": false}',
@@ -99,6 +101,7 @@ export class StructureTable
   @Column({ type: "jsonb" })
   responsable: StructureResponsable;
 
+  @Index()
   @Column({ type: "text", nullable: false })
   structureType: StructureType;
 
@@ -127,6 +130,11 @@ export class StructureTable
       `'{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}'`,
   })
   portailUsager: StructurePortailUsagerParams;
+
+  @BeforeInsert()
+  nameToUpperCase() {
+    this.email = this.email.toLowerCase().trim();
+  }
 
   public constructor(entity?: Partial<StructureTable>) {
     super(entity);

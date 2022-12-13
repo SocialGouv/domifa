@@ -88,7 +88,7 @@ describe("Users Public Controller", () => {
     });
 
     it("✅  Request OK /users/get-password-token", async () => {
-      let responseFail = await supertest(context.app.getHttpServer())
+      const responseFail = await supertest(context.app.getHttpServer())
         .post("/users/get-password-token")
         .send({
           email: "s1-admin@yopmail.com",
@@ -122,7 +122,7 @@ describe("Users Public Controller", () => {
     it("✅ 2. Request OK /users/get-password-token", async () => {
       // 1. Good id and good token
 
-      let responseOk = await supertest(context.app.getHttpServer()).get(
+      const responseOk = await supertest(context.app.getHttpServer()).get(
         "/users/check-password-token/1/" +
           userSecurityDatas.temporaryTokens.token
       );
@@ -166,7 +166,7 @@ describe("Users Public Controller", () => {
     });
 
     it("✅  Request OK /users/reset-password", async () => {
-      let responseOk = await supertest(context.app.getHttpServer())
+      const responseOk = await supertest(context.app.getHttpServer())
         .post("/users/reset-password")
         .send({
           password: "Azerty012345",

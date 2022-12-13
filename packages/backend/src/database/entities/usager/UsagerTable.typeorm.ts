@@ -1,4 +1,12 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne, Unique } from "typeorm";
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  Unique,
+} from "typeorm";
 import {
   Usager,
   UsagerLastInteractions,
@@ -15,6 +23,7 @@ import { UsagerNote } from "../../../_common/model/usager/UsagerNote.type";
 import { StructureTable } from "../structure/StructureTable.typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import { UsagerImport } from "./../../../_common/model/usager/UsagerImport.type";
+import { UsagerNotesTable } from "./UsagerNotesTable.typeorm";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "usager" })
@@ -38,7 +47,6 @@ export class UsagerTable
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   public structureId!: number;
 
-  // ETAT-CIVIL
   @Column({ type: "text", nullable: false })
   public nom!: string;
 
@@ -48,9 +56,11 @@ export class UsagerTable
   @Column({ type: "text", nullable: true })
   public surnom!: string;
 
+  @Index()
   @Column({ type: "text", nullable: false })
   public sexe!: UsagerSexe;
 
+  @Index()
   @Column({ type: "timestamptz", nullable: false })
   public dateNaissance!: Date;
 
@@ -60,14 +70,12 @@ export class UsagerTable
   @Column({ type: "text", nullable: true })
   public langue!: string | null;
 
-  //
-  // INFORMATIONS DE CONTACT
   @Column({ type: "text", nullable: true })
   public email!: string | null;
 
   @Column({
     type: "jsonb",
-    nullable: true,
+    nullable: false,
     default: () => `'{"countryCode": "fr", "numero": ""}'`,
   })
   public telephone!: Telephone;
@@ -90,13 +98,9 @@ export class UsagerTable
   @Column({ type: "jsonb" })
   public historique!: UsagerDecision[];
 
-  //
-  // AYANTS DROITS
   @Column({ type: "jsonb", nullable: true })
   public ayantsDroits!: UsagerAyantDroit[];
 
-  //
-  // INTERACTIONS
   @Column({
     type: "jsonb",
     // default:
@@ -104,8 +108,6 @@ export class UsagerTable
   })
   public lastInteraction!: UsagerLastInteractions;
 
-  //
-  // FORMULAIRE
   @Column({ type: "integer", default: 0 })
   public etapeDemande!: number;
 
@@ -113,6 +115,9 @@ export class UsagerTable
   public rdv!: UsagerRdv | null;
 
   @Column({ type: "jsonb", default: () => "'[]'" })
+  public oldNotes!: UsagerNote[];
+
+  @OneToMany(() => UsagerNotesTable, (note: UsagerNote) => note.usagerUUID)
   public notes!: UsagerNote[];
 
   @Column({
@@ -131,6 +136,7 @@ export class UsagerTable
   })
   public options!: UsagerOptions;
 
+  @Index()
   @Column({ type: "boolean", default: false })
   public migrated!: boolean;
 

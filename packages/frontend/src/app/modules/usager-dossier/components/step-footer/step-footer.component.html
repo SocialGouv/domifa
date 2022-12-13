@@ -1,15 +1,8 @@
-<div
-  id="private_notes"
-  class="container pb-3 d-print-none"
-  *ngIf="me && usager"
->
+<div id="private_notes" class="container pb-3 d-print-none" *ngIf="usager">
   <div class="step_form">
     <h2 class="form-title">Commentaires privés</h2>
     <div class="py-3">
-      <app-profil-general-notes
-        [(usager)]="usager"
-        [me]="me"
-      ></app-profil-general-notes>
+      <app-profil-general-notes [(usager)]="usager"></app-profil-general-notes>
     </div>
     <button
       class="my-3 btn btn-outline-primary d-print-none me-2"

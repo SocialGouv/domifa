@@ -1,4 +1,4 @@
-import { Column, Entity, Index } from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import {
   MessageSms,
   MessageSmsId,
@@ -6,6 +6,7 @@ import {
   MessageSmsReminderMetas,
   MessageSmsStatus,
 } from "../../../_common/model/message-sms";
+import { StructureTable } from "../structure";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
@@ -20,16 +21,20 @@ export class MessageSmsTable
   @Index()
   public usagerRef: number;
 
-  @Column({ type: "integer" })
   @Index()
+  @ManyToOne(() => StructureTable, (structure) => structure.id, {
+    onDelete: "CASCADE",
+  })
+  @Column({ type: "integer", nullable: false })
+  @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   public structureId: number;
 
   // Contenu du message
   @Column({ type: "text" })
   public content: string;
 
-  @Column({ type: "text", default: "TO_SEND" })
   @Index()
+  @Column({ type: "text", default: "TO_SEND" })
   public status: MessageSmsStatus;
 
   @Column({ type: "text" })

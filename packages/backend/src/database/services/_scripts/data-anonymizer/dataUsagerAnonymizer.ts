@@ -89,7 +89,6 @@ async function _anonymizeUsager(usager: Usager) {
     decision: anonymizeUsagerDecision(usager.decision),
     historique,
     ayantsDroits: anonymizeAyantDroits(usager.ayantsDroits),
-    notes: [],
   };
 
   if (Object.keys(attributesToUpdate).length === 0) {
