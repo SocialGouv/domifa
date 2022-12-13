@@ -30,9 +30,9 @@ export class autoMigration1670935375216 implements MigrationInterface {
 
     console.log("[MIGRATION] Remove unused data in interactions");
 
-    // await queryRunner.query(
-    //   `ALTER TABLE "interactions" DROP COLUMN "interactionOutUUIDTest"`
-    // );
+    await queryRunner.query(
+      `ALTER TABLE "interactions" DROP COLUMN "interactionOutUUIDTest"`
+    );
 
     console.log("[MIGRATION] Set default values for jsonb objects");
 
@@ -56,9 +56,9 @@ export class autoMigration1670935375216 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "user_structure_security" DROP CONSTRAINT "FK_0389a8aa8e69b2d17210745d040"`
     );
-    // await queryRunner.query(
-    //   `ALTER TABLE "user_structure_security" DROP CONSTRAINT "UQ_cec1c2a0820383d2a4045b5f902"`
-    // );
+    await queryRunner.query(
+      `ALTER TABLE "user_structure_security" DROP CONSTRAINT "UQ_cec1c2a0820383d2a4045b5f902"`
+    );
     await queryRunner.query(
       `CREATE INDEX "IDX_62204f14a6d17cad41d419d150" ON "structure" ("codePostal") `
     );
@@ -84,18 +84,18 @@ export class autoMigration1670935375216 implements MigrationInterface {
       `CREATE INDEX "IDX_ef9fade8e5a6dac06ef5031986" ON "interactions" ("type") `
     );
 
-    // await queryRunner.query(
-    //   `ALTER TABLE "message_sms" ADD CONSTRAINT "FK_dae89d90feda082fad814da8a48" FOREIGN KEY ("structureId") REFERENCES "structure"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
-    // );
-    // await queryRunner.query(
-    //   `ALTER TABLE "usager_notes" ADD CONSTRAINT "FK_6ca23b363643ae281d2f1eddf2f" FOREIGN KEY ("usagerUUID") REFERENCES "usager"("uuid") ON DELETE CASCADE ON UPDATE NO ACTION`
-    // );
-    // await queryRunner.query(
-    //   `ALTER TABLE "usager_notes" ADD CONSTRAINT "FK_e8b75cd4ebe81d288a6ff7d4115" FOREIGN KEY ("structureId") REFERENCES "structure"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
-    // );
-    // await queryRunner.query(
-    //   `ALTER TABLE "user_structure_security" ADD CONSTRAINT "FK_0389a8aa8e69b2d17210745d040" FOREIGN KEY ("userId") REFERENCES "user_structure"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
-    // );
+    await queryRunner.query(
+      `ALTER TABLE "message_sms" ADD CONSTRAINT "FK_dae89d90feda082fad814da8a48" FOREIGN KEY ("structureId") REFERENCES "structure"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "usager_notes" ADD CONSTRAINT "FK_6ca23b363643ae281d2f1eddf2f" FOREIGN KEY ("usagerUUID") REFERENCES "usager"("uuid") ON DELETE CASCADE ON UPDATE NO ACTION`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "usager_notes" ADD CONSTRAINT "FK_e8b75cd4ebe81d288a6ff7d4115" FOREIGN KEY ("structureId") REFERENCES "structure"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user_structure_security" ADD CONSTRAINT "FK_0389a8aa8e69b2d17210745d040" FOREIGN KEY ("userId") REFERENCES "user_structure"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
@@ -135,9 +135,9 @@ export class autoMigration1670935375216 implements MigrationInterface {
     await queryRunner.query(
       `DROP INDEX "public"."IDX_62204f14a6d17cad41d419d150"`
     );
-    // await queryRunner.query(
-    //   `ALTER TABLE "user_structure_security" ADD CONSTRAINT "UQ_cec1c2a0820383d2a4045b5f902" UNIQUE ("userId")`
-    // );
+    await queryRunner.query(
+      `ALTER TABLE "user_structure_security" ADD CONSTRAINT "UQ_cec1c2a0820383d2a4045b5f902" UNIQUE ("userId")`
+    );
     await queryRunner.query(
       `ALTER TABLE "user_structure_security" ADD CONSTRAINT "FK_0389a8aa8e69b2d17210745d040" FOREIGN KEY ("userId") REFERENCES "user_structure"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
     );
