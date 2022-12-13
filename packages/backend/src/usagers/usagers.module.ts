@@ -10,7 +10,7 @@ import { AgendaController } from "./controllers/agenda.controller";
 import { UsagerDocsController } from "./controllers/usager-docs.controller";
 import { ExportStructureUsagersController } from "./controllers/export-structure-usagers.controller";
 import { ImportController } from "./controllers/import/import.controller";
-import { UsagerNoteController } from "./controllers/usager-note.controller";
+import { UsagerNotesController } from "./controllers/usager-notes.controller";
 import { UsagerStructureDocsController } from "./controllers/usager-structure-docs.controller";
 import { UsagersDecisionController } from "./controllers/usagers-decision.controller";
 import { UsagersController } from "./controllers/usagers.controller";
@@ -25,7 +25,7 @@ import { AppLogsModule } from "../modules/app-logs/app-logs.module";
     UsagersController,
     ImportController,
     AgendaController,
-    UsagerNoteController,
+    UsagerNotesController,
     UsagersDecisionController,
     UsagerStructureDocsController,
     UsagerDocsController,

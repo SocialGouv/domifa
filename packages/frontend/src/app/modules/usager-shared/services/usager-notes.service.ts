@@ -1,49 +1,41 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, tap } from "rxjs";
+import { Observable } from "rxjs";
 import { environment } from "../../../../environments/environment";
-import { UsagerNote, UsagerLight } from "../../../../_common/model";
-import { usagersCache } from "../../../shared";
+import { UsagerNote, Usager } from "../../../../_common/model";
 
 @Injectable({
   providedIn: "root",
 })
 export class UsagerNotesService {
-  public endPointUsagers = environment.apiUrl + "usagers";
+  public endPoint = environment.apiUrl + "usagers-notes";
 
   constructor(private http: HttpClient) {}
+
+  public getUsagerNotes(usagerRef: number): Observable<UsagerNote[]> {
+    return this.http.get<UsagerNote[]>(`${this.endPoint}/${usagerRef}`);
+  }
+
   public createNote({
     note,
     usagerRef,
   }: {
     note: Pick<UsagerNote, "message">;
     usagerRef: number;
-  }): Observable<UsagerLight> {
-    return this.http
-      .post<UsagerLight>(`${environment.apiUrl}note/${usagerRef}`, note)
-      .pipe(
-        tap((usager: UsagerLight) => {
-          usagersCache.updateUsager(usager);
-        })
-      );
+  }): Observable<Usager> {
+    return this.http.post<Usager>(`${this.endPoint}/${usagerRef}`, note);
   }
 
   public archiveNote({
-    noteId,
+    noteUUID,
     usagerRef,
   }: {
-    noteId: string;
+    noteUUID: string;
     usagerRef: number;
-  }): Observable<UsagerLight> {
-    return this.http
-      .put<UsagerLight>(
-        `${environment.apiUrl}note/${usagerRef}/archive/${noteId}`,
-        {}
-      )
-      .pipe(
-        tap((usager: UsagerLight) => {
-          usagersCache.updateUsager(usager);
-        })
-      );
+  }): Observable<Usager> {
+    return this.http.put<Usager>(
+      `${this.endPoint}/${usagerRef}/archive/${noteUUID}`,
+      {}
+    );
   }
 }

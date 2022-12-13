@@ -90,7 +90,7 @@ export const POST_USAGER: {
 
     etapeDemande: 1,
     rdv: null,
-    notes: [],
+
     entretien: {},
     options: {
       npai: { actif: false, dateDebut: null },

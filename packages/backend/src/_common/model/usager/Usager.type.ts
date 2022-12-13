@@ -57,7 +57,8 @@ export type Usager = AppEntity & {
   // INTERACTIONS
   lastInteraction: UsagerLastInteractions;
 
-  notes: UsagerNote[];
+  notes?: UsagerNote[];
+  oldNotes?: UsagerNote[];
 
   options: UsagerOptions;
 

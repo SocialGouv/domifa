@@ -3,7 +3,7 @@ import {
   TransformFnParams,
   TransformOptions,
 } from "class-transformer";
-import escapeHtml from "escape-html";
+
 import striptags from "striptags";
 
 export function StripTagsTransform(
@@ -16,6 +16,6 @@ export function StripTagsTransform(
     if (sourceData.value.trim() === "") {
       return null;
     }
-    return escapeHtml(striptags(sourceData.value));
+    return striptags(sourceData.value).trim();
   }, transformOptions);
 }

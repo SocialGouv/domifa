@@ -19,7 +19,8 @@ export class InteractionsTable
   @Column({ type: "integer", default: 0, nullable: false })
   nbCourrier: number;
 
-  @Column({ type: "text" })
+  @Index()
+  @Column({ type: "text", nullable: false })
   type: InteractionType;
 
   @Index()

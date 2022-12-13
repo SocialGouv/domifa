@@ -1,3 +1,4 @@
+import { usagerRepository } from "./../../database/services/usager/usagerRepository.service";
 import {
   CanActivate,
   ExecutionContext,
@@ -5,33 +6,45 @@ import {
   HttpStatus,
   Injectable,
 } from "@nestjs/common";
-import { usagerLightRepository } from "../../database";
+
 import { appLogger } from "../../util";
 
 @Injectable()
 export class UsagerAccessGuard implements CanActivate {
   public async canActivate(context: ExecutionContext) {
     const r = context.switchToHttp().getRequest();
-    const usagerRef = r.params.usagerRef;
-    const structureId = r.user.structureId;
 
-    if (usagerRef === undefined || structureId === undefined) {
+    if (
+      typeof r.params.usagerRef === "undefined" ||
+      typeof r.user.structureId === "undefined"
+    ) {
       appLogger.error(`[UsagerAccessGuard] invalid usagerRef or structureId`, {
         sentry: true,
         context: {
-          usagerRef,
-          structureId,
+          usagerRef: r.params.usagerRef,
+          structureId: r.user.structureId,
           user: r.user._id,
         },
       });
       throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
     }
-    const usager = await usagerLightRepository.findOne({
-      ref: usagerRef,
-      structureId,
-    });
 
-    if (!usager) {
+    const usagerRef = parseInt(r.params.usagerRef, 10);
+    const structureId = parseInt(r.user.structureId, 10);
+
+    try {
+      const usager = await usagerRepository.findOneOrFail({
+        where: {
+          ref: usagerRef,
+          structureId,
+        },
+        relations: {
+          notes: true,
+        },
+      });
+      r.usager = usager;
+      return r;
+    } catch (e) {
       appLogger.error(`[UsagerAccessGuard] usager not found`, {
         sentry: true,
         context: {
@@ -43,8 +56,5 @@ export class UsagerAccessGuard implements CanActivate {
       });
       throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
     }
-
-    r.usager = usager;
-    return r;
   }
 }

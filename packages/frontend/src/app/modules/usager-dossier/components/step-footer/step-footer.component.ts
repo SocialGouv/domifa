@@ -9,7 +9,6 @@ import {
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
 import { UsagerFormModel } from "./../../../usager-shared/interfaces/UsagerFormModel";
-import { UserStructure } from "src/_common/model";
 
 @Component({
   selector: "app-step-footer",
@@ -17,7 +16,6 @@ import { UserStructure } from "src/_common/model";
   styleUrls: ["./step-footer.component.css"],
 })
 export class StepFooterComponent {
-  public me!: UserStructure | null;
   @Input() public usager!: UsagerFormModel;
   @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
 

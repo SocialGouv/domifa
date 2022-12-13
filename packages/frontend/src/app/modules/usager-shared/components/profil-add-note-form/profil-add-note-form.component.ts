@@ -13,13 +13,12 @@ import {
   Validators,
 } from "@angular/forms";
 import { Subscription } from "rxjs";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
-import { UsagerLight } from "../../../../../_common/model";
-import { noWhiteSpace } from "../../../../shared";
-import { bounce } from "../../../../shared/animations";
+import { noWhiteSpace, bounce } from "../../../../shared";
 import { UsagerFormModel } from "../../interfaces";
 import { UsagerNotesService } from "../../services/usager-notes.service";
+import { CustomToastService } from "../../../shared/services/custom-toast.service";
+import { Usager } from "../../../../../_common/model";
 
 @Component({
   animations: [bounce],
@@ -84,7 +83,7 @@ export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
           usagerRef: this.usager.ref,
         })
         .subscribe({
-          next: (usager: UsagerLight) => {
+          next: (usager: Usager) => {
             this.toastService.success("Note enregistrée avec succès");
             setTimeout(() => {
               this.usagerChange.emit(new UsagerFormModel(usager));

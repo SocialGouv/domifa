@@ -4,7 +4,7 @@ import { ETAPE_DOSSIER_COMPLET } from "../model/usager/_constants";
 
 export const USAGER_REFUS_MOCK: UsagerLight = {
   numeroDistribution: null,
-  notes: [],
+
   decision: {
     orientationDetails: null,
     orientation: null,

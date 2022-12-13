@@ -36,7 +36,7 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
   imports: [CommonModule, FontAwesomeModule],
 })
 export class SharedModule {
-  constructor(private library: FaIconLibrary) {
+  constructor(library: FaIconLibrary) {
     library.addIcons(...FA_ICONS);
   }
 }

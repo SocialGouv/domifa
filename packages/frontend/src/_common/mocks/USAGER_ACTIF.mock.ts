@@ -4,7 +4,7 @@ import { ETAPE_DOSSIER_COMPLET } from "../model/usager/_constants";
 
 export const USAGER_ACTIF_MOCK: UsagerLight = {
   numeroDistribution: null,
-  notes: [],
+
   decision: {
     statut: "VALIDE",
     dateDebut: new Date("2020-02-12T00:00:00.000Z"),

@@ -30,5 +30,4 @@ export type UsagerLight = AppEntity &
     | "langue"
     | "contactByPhone"
     | "datePremiereDom"
-    | "notes"
   >;

@@ -26,8 +26,8 @@ TRUNCATE TABLE public.usager_options_history RESTART IDENTITY CASCADE;
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 11.15 (Debian 11.15-1.pgdg90+1)
--- Dumped by pg_dump version 11.15 (Debian 11.15-1.pgdg90+1)
+-- Dumped from database version 11.18 (Debian 11.18-1.pgdg110+1)
+-- Dumped by pg_dump version 11.18 (Debian 11.18-1.pgdg110+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -73,7 +73,7 @@ e159011b-6648-426d-a772-b3ca4f27a6d5	2021-01-26 08:51:53.846157+01	2022-06-08 00
 -- Data for Name: usager; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.usager (uuid, "createdAt", "updatedAt", version, ref, "customRef", "structureId", nom, prenom, surnom, sexe, "dateNaissance", "villeNaissance", langue, email, "datePremiereDom", "typeDom", decision, historique, "ayantsDroits", "lastInteraction", "etapeDemande", rdv, entretien, options, import, notes, migrated, telephone, "contactByPhone", "numeroDistribution") FROM stdin;
+COPY public.usager (uuid, "createdAt", "updatedAt", version, ref, "customRef", "structureId", nom, prenom, surnom, sexe, "dateNaissance", "villeNaissance", langue, email, "datePremiereDom", "typeDom", decision, historique, "ayantsDroits", "lastInteraction", "etapeDemande", rdv, entretien, options, import, "oldNotes", migrated, telephone, "contactByPhone", "numeroDistribution") FROM stdin;
 e074c416-093a-46fc-ae47-77a3bc111d35	2021-01-27 10:21:49.173276+01	2022-04-28 01:10:19.703978+02	5	3	3	1	Dupont	Fred	fredo	homme	1940-08-07 02:00:00+02	Macon	\N	\N	2019-10-07 20:50:25.552+02	PREMIERE_DOM	{"uuid": "30ababd0-8e2f-4917-9662-9c812d604dda", "motif": "SATURATION", "statut": "REFUS", "userId": 1, "dateFin": "2020-08-09T00:00:00.000Z", "typeDom": "PREMIERE", "userName": "Patrick Roméro", "dateDebut": "2019-09-12T00:00:00.000Z", "orientation": "", "dateDecision": "2019-09-12T00:00:00.000Z", "motifDetails": "", "orientationDetails": ""}	[{"uuid": "30ababd0-8e2f-4917-9662-9c812d604dda", "motif": "SATURATION", "statut": "REFUS", "userId": 1, "dateFin": "2020-08-09T00:00:00.000Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2019-09-12T00:00:00.000Z", "orientation": null, "dateDecision": "2019-09-12T00:00:00.000Z", "motifDetails": null, "orientationDetails": null}]	[]	{"appel": null, "visite": null, "colisIn": 0, "enAttente": false, "courrierIn": 0, "nbCourrier": 0, "courrierOut": null, "recommandeIn": 0, "recommandeOut": null, "dateInteraction": "2021-01-27T09:21:49.237Z"}	5	\N	{"cause": null, "raison": null, "revenus": null, "pourquoi": null, "residence": null, "typeMenage": null, "causeDetail": null, "liencommune": null, "commentaires": null, "raisonDetail": null, "rattachement": null, "domiciliation": null, "revenusDetail": null, "accompagnement": null, "pourquoiDetail": null, "residenceDetail": null, "accompagnementDetail": null}	{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}	\N	[]	t	{"numero": "", "countryCode": "FR"}	f	\N
 4dcdcddc-fad2-4827-aac5-0acf1df7b5bc	2021-01-27 10:21:49.173276+01	2022-04-28 01:10:19.693623+02	6	5	5	1	Derick	Inspecteur	\N	homme	1911-05-24 00:00:00+00	Bergerac	\N	\N	\N	PREMIERE_DOM	{"uuid": "c6aabd3b-7485-4efd-8c09-5080b91709d9", "statut": "ATTENTE_DECISION", "userId": 2, "dateFin": "2021-01-27T09:21:49.242Z", "userName": "Isabelle Juste", "dateDecision": "2019-10-07T19:28:10.777Z", "orientationDetails": null}	[{"uuid": "6f18c8d5-27b7-45c5-882d-e23876a3b1ed", "motif": null, "statut": "INSTRUCTION", "userId": 1, "dateFin": "2020-10-07T18:52:09.797Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2019-10-07T18:52:09.797Z", "orientation": null, "dateDecision": "2019-10-07T18:53:06.510Z", "motifDetails": null, "orientationDetails": null}, {"uuid": "c6aabd3b-7485-4efd-8c09-5080b91709d9", "motif": null, "statut": "ATTENTE_DECISION", "userId": 2, "dateFin": "2021-01-27T09:21:49.242Z", "typeDom": "PREMIERE_DOM", "userName": "Isabelle Juste", "dateDebut": "2019-10-07T19:28:10.777Z", "orientation": null, "dateDecision": "2019-10-07T19:28:10.777Z", "motifDetails": null, "orientationDetails": null}]	[{"nom": "Inspecteur", "lien": "enfant", "prenom": "Gadget", "dateNaissance": "1990-10-12T00:00:00.000Z"}]	{"appel": null, "visite": null, "colisIn": 0, "enAttente": false, "courrierIn": 0, "nbCourrier": 0, "courrierOut": null, "recommandeIn": 0, "recommandeOut": null, "dateInteraction": "2021-01-27T09:21:49.242Z"}	0	{"userId": 2, "dateRdv": "2019-10-07T19:30:02.675Z", "userName": "Juste Isabelle"}	{"cause": "cause5", "revenus": false, "residence": "HEBERGEMENT_TIERS", "causeDetail": null, "liencommune": null, "commentaires": null, "domiciliation": false, "accompagnement": true, "residenceDetail": null, "accompagnementDetail": "CCAS des mureaux"}	{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}	\N	[]	f	{"numero": "", "countryCode": "FR"}	f	\N
 97b7e840-0e93-4bf4-ba7d-0a406aa898f2	2019-11-22 11:33:43+01	2022-07-19 19:05:13.189377+02	535	2	63	1	Karamoko	Maurice	\N	homme	1998-08-07 02:00:00+02	Bouaké, Côte d'Ivoire	\N	domicilie2@yopmail.com	2018-01-11 01:00:00+01	RENOUVELLEMENT	{"uuid": "178ad317-0bd1-41e7-ad87-fd371f166310", "motif": null, "statut": "VALIDE", "userId": 1, "dateFin": "2020-02-12T00:00:00.000Z", "typeDom": "RENOUVELLEMENT", "userName": "Patrick Roméro", "dateDebut": "2019-02-12T00:00:00.000Z", "orientation": "", "dateDecision": "2019-02-12T00:00:00.000Z", "motifDetails": "", "orientationDetails": ""}	[{"uuid": "178ad317-0bd1-41e7-ad87-fd371f166310", "motif": null, "statut": "VALIDE", "userId": 1, "dateFin": "2020-02-12T00:00:00.000Z", "typeDom": "RENOUVELLEMENT", "userName": "Patrick Roméro", "dateDebut": "2019-02-12T00:00:00.000Z", "orientation": null, "dateDecision": "2019-02-12T00:00:00.000Z", "motifDetails": null, "orientationDetails": null}]	[{"nom": "Karamoko", "lien": "CONJOINT", "prenom": "Mauricette", "dateNaissance": "1978-12-20T00:00:00.000Z"}]	{"colisIn": 3, "enAttente": true, "courrierIn": 0, "recommandeIn": 0, "dateInteraction": "2020-12-01T10:00:24.980Z"}	3	\N	{"cause": "ERRANCE", "raison": "AUTRE", "revenus": false, "residence": "DOMICILE_MOBILE", "typeMenage": "COUPLE_AVEC_ENFANT", "causeDetail": null, "liencommune": null, "orientation": true, "commentaires": null, "raisonDetail": null, "rattachement": null, "domiciliation": true, "revenusDetail": null, "accompagnement": true, "residenceDetail": null, "orientationDetail": null, "accompagnementDetail": null}	{"npai": {"actif": false}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [{"nom": "Milani", "prenom": "Marcel", "dateFin": "2022-06-05T00:00:00.000Z", "dateDebut": "2021-10-01T00:00:00.000Z", "dateNaissance": "1983-03-17T00:00:00.000Z"}], "portailUsagerEnabled": true}	\N	[]	t	{"numero": "0606060606", "countryCode": "FR"}	f	\N
@@ -190,6 +190,14 @@ a5b823b9-3ccb-4876-ae8f-1c37cc26cb82	2022-03-17 17:34:17.76764+01	2022-03-17 17:
 
 
 --
+-- Data for Name: usager_notes; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.usager_notes (uuid, "createdAt", "updatedAt", version, id, "usagerUUID", "structureId", "usagerRef", message, archived, "createdBy", "archivedBy", "archivedAt") FROM stdin;
+\.
+
+
+--
 -- Data for Name: usager_options_history; Type: TABLE DATA; Schema: public; Owner: -
 --
 
@@ -269,6 +277,13 @@ SELECT pg_catalog.setval('public.structure_doc_id_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('public.structure_id_seq', 5, true);
+
+
+--
+-- Name: usager_notes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.usager_notes_id_seq', 1, false);
 
 
 --

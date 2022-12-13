@@ -14,7 +14,7 @@ export const usagerLightRepository = {
   findLastFiveCustomRef,
 };
 
-function findDoublons({
+async function findDoublons({
   nom,
   prenom,
   ref,
@@ -25,7 +25,7 @@ function findDoublons({
   ref: number;
   structureId: number;
 }): Promise<UsagerLight[]> {
-  return baseRepository.findManyWithQuery({
+  return await baseRepository.findManyWithQuery({
     select: USAGER_LIGHT_ATTRIBUTES,
     where: `"structureId" = :structureId
       and "ref" <> :usagerRef
@@ -40,7 +40,7 @@ function findDoublons({
   });
 }
 
-function findLastFiveCustomRef({
+async function findLastFiveCustomRef({
   structureId,
   usagerRef,
 }: {
@@ -52,7 +52,7 @@ function findLastFiveCustomRef({
     "ref" | "customRef" | "nom" | "sexe" | "prenom" | "structureId"
   >[]
 > {
-  return baseRepository.findManyWithQuery({
+  return await baseRepository.findManyWithQuery({
     select: ["ref", "customRef", "nom", "sexe", "prenom", "structureId"],
     where: `decision->>'statut' = :statut and "structureId" = :structureId and ref != :usagerRef`,
     params: {
@@ -67,14 +67,14 @@ function findLastFiveCustomRef({
   });
 }
 
-function findNextMeetings({
+async function findNextMeetings({
   userId,
   dateRefNow = new Date(),
 }: {
   userId: number;
   dateRefNow?: Date;
 }): Promise<Pick<Usager, "nom" | "prenom" | "uuid" | "ref" | "rdv">[]> {
-  return baseRepository.findManyWithQuery({
+  return await baseRepository.findManyWithQuery({
     where: `rdv->>'userId' = :userId
       and (rdv->>'dateRdv')::timestamptz > :dateRefNow`,
     params: {

@@ -33,7 +33,6 @@ describe("Usagers Controller", () => {
         imports: [UsersModule, InteractionsModule],
         providers: [
           UsagersService,
-
           UsagerOptionsHistoryService,
           AppLogsService,
         ],

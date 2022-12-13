@@ -2,7 +2,7 @@ import { ETAPE_DOSSIER_COMPLET, UsagerLight } from "../model";
 import { v4 as uuidv4 } from "uuid";
 export const USAGER_REFUS_MOCK: UsagerLight = {
   numeroDistribution: null,
-  notes: [],
+
   decision: {
     uuid: uuidv4(),
     orientationDetails: null,

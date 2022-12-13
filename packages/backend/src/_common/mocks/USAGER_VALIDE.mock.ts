@@ -1,7 +1,6 @@
 import { UsagerLight } from "../model";
 
 export const USAGER_VALIDE_MOCK: UsagerLight = {
-  notes: [],
   numeroDistribution: "",
   uuid: "ee7ef219-b101-422c-8ad4-4d5aedf9caad",
   ref: 6,
