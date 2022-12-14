@@ -5,12 +5,15 @@ describe("stringCleaner", () => {
     expect(stringCleaner.cleanString("Nothing to clean here")).toEqual(
       "Nothing to clean here"
     );
-    expect(stringCleaner.cleanString(undefined)).toEqual(undefined);
+    expect(stringCleaner.cleanString(null)).toEqual("");
+    expect(stringCleaner.cleanString(undefined)).toEqual("");
     expect(stringCleaner.cleanString("undefined")).toEqual("undefined");
   });
   it("stringCleaner.cleanString - clean string", () => {
     expect(
       stringCleaner.cleanString(" Some string       to c#lean ( please, ")
-    ).toEqual("Some string to clean please");
+    ).toEqual(" Some string to clean please ");
+
+    expect(stringCleaner.cleanString("wwwww<<<>>>>>43(é")).toEqual("wwwww43é");
   });
 });
