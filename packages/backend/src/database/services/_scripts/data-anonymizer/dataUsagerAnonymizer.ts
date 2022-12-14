@@ -62,11 +62,6 @@ function isUsagerToAnonymize(x: Usager): unknown {
 }
 
 async function _anonymizeUsager(usager: Usager) {
-  usager.entretien.commentaires = null;
-  usager.entretien.revenusDetail = null;
-  usager.entretien.raisonDetail = null;
-  usager.entretien.orientationDetail = null;
-
   let historique = [];
 
   if (usager.historique) {

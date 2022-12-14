@@ -22,7 +22,7 @@ import { interactionRepository, usagerLightRepository } from "../../database";
 
 import {
   ETAPE_ETAT_CIVIL,
-  UsagerLight,
+  Usager,
   UserStructureAuthenticated,
 } from "../../_common/model";
 import { DecisionDto } from "../dto";
@@ -42,7 +42,7 @@ export class UsagersDecisionController {
   public async setDecision(
     @Body() decision: DecisionDto,
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight,
+    @CurrentUsager() usager: Usager,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ) {
@@ -56,7 +56,7 @@ export class UsagersDecisionController {
   @Get("last-usagers-refs/:usagerRef")
   public async getLastUsagerIds(
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight,
+    @CurrentUsager() usager: Usager,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ) {
@@ -71,7 +71,7 @@ export class UsagersDecisionController {
   @Get("renouvellement/:usagerRef")
   public async renouvellement(
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight,
+    @CurrentUsager() usager: Usager,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ) {
@@ -84,7 +84,7 @@ export class UsagersDecisionController {
   public async deleteRenew(
     @Res() res: Response,
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight,
+    @CurrentUsager() usager: Usager,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ) {

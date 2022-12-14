@@ -1,5 +1,5 @@
-import { usagerRepository, UsagerTable } from "../../database";
-import { USAGER_DEFAULT_OPTIONS } from "../../database/services/usager/constants/USAGER_DEFAULTS.const";
+import { usagerRepository } from "../../database";
+import { Usager } from "../../_common/model";
 
 export const usagersCreator = { findNextUsagerRef, setUsagerDefaultAttributes };
 async function findNextUsagerRef(structureId: number): Promise<number> {
@@ -13,13 +13,33 @@ async function findNextUsagerRef(structureId: number): Promise<number> {
   return nextRef;
 }
 
-function setUsagerDefaultAttributes(usager: UsagerTable) {
-  if (!usager.ayantsDroits) usager.ayantsDroits = [];
-  if (!usager.historique) usager.historique = [];
-  if (!usager.rdv) usager.rdv = null;
-  if (!usager.entretien) usager.entretien = {};
-  if (!usager.options) {
-    usager.options = USAGER_DEFAULT_OPTIONS;
+function setUsagerDefaultAttributes(usager: Usager): void {
+  usager.options = {
+    transfert: {
+      actif: false,
+      nom: null,
+      adresse: null,
+      dateDebut: null,
+      dateFin: null,
+    },
+    procurations: [],
+    npai: {
+      actif: false,
+      dateDebut: null,
+    },
+    portailUsagerEnabled: false,
+  };
+
+  if (!usager.ayantsDroits) {
+    usager.ayantsDroits = [];
+  }
+
+  if (!usager.historique) {
+    usager.historique = [];
+  }
+
+  if (!usager.rdv) {
+    usager.rdv = null;
   }
 
   if (!usager.langue || usager.langue === "") {

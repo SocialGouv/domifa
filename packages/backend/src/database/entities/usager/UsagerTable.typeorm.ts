@@ -1,3 +1,4 @@
+import { UsagerEntretienTable } from "./UsagerEntretienTable.typeorm";
 import {
   Column,
   Entity,
@@ -5,6 +6,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   Unique,
 } from "typeorm";
 import {
@@ -118,19 +120,23 @@ export class UsagerTable
   @OneToMany(() => UsagerNotesTable, (note: UsagerNote) => note.usagerUUID)
   public notes!: UsagerNote[];
 
+  @OneToOne(
+    () => UsagerEntretienTable,
+    (entretien: UsagerEntretien) => entretien.usagerUUID
+  )
+  public entretien!: UsagerEntretien;
+
   @Column({
     type: "jsonb",
-    // default:
-    //   "{ accompagnement: null, accompagnementDetail: null, cause: null, causeDetail: null, commentaires: null, domiciliation: null, liencommune: null, rattachement: null, raison: null, raisonDetail: null, residence: null, residenceDetail: null, revenus: null, revenusDetail: null, typeMenage: null }",
+    nullable: true,
   })
-  public entretien!: UsagerEntretien;
+  public oldEntretien!: UsagerEntretien;
 
   //
   // TRANSFERTS / NPAI / PROCURATION
   @Column({
     type: "jsonb",
-    default: () =>
-      `'{ "transfert":{ "actif":false, "nom":null, "adresse":null, "dateDebut":null, "dateFin":null }, "procurations":[], "npai":{ "actif":false, "dateDebut":null }, "portailUsagerEnabled":false }'`,
+    default: () => `''`,
   })
   public options!: UsagerOptions;
 

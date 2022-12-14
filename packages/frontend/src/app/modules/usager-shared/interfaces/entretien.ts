@@ -1,5 +1,5 @@
-import { UsagerEntretien } from "./../../../../_common/model/usager/entretien/UsagerEntretien.type";
 import {
+  UsagerEntretien,
   UsagerEntretienCause,
   UsagerEntretienLienCommune,
   UsagerEntretienRaisonDemande,
@@ -8,33 +8,33 @@ import {
 } from "../../../../_common/model/usager/entretien";
 
 export class Entretien implements UsagerEntretien {
-  public domiciliation?: boolean | null;
-  public commentaires?: string | null;
+  public domiciliation: boolean | null;
+  public commentaires: string | null;
 
-  public typeMenage?: UsagerEntretienTypeMenage | null;
+  public typeMenage: UsagerEntretienTypeMenage | null;
 
-  public revenus?: boolean | null;
-  public revenusDetail?: string | null;
+  public revenus: boolean | null;
+  public revenusDetail: string | null;
 
-  public orientation?: boolean | null;
-  public orientationDetail?: string | null;
+  public orientation: boolean | null;
+  public orientationDetail: string | null;
 
-  public liencommune?: UsagerEntretienLienCommune | null;
-  public liencommuneDetail?: string | null;
+  public liencommune: UsagerEntretienLienCommune | null;
+  public liencommuneDetail: string | null;
 
-  public residence?: UsagerEntretienResidence | null;
-  public residenceDetail?: string | null;
+  public residence: UsagerEntretienResidence | null;
+  public residenceDetail: string | null;
 
-  public cause?: UsagerEntretienCause | null;
-  public causeDetail?: string | null;
+  public cause: UsagerEntretienCause | null;
+  public causeDetail: string | null;
 
-  public rattachement?: string | null;
+  public rattachement: string | null;
 
-  public raison?: UsagerEntretienRaisonDemande | null;
-  public raisonDetail?: string | null;
+  public raison: UsagerEntretienRaisonDemande | null;
+  public raisonDetail: string | null;
 
-  public accompagnement?: boolean | null;
-  public accompagnementDetail?: string | null;
+  public accompagnement: boolean | null;
+  public accompagnementDetail: string | null;
 
   constructor(entretien?: Partial<UsagerEntretien> | null) {
     this.domiciliation = null;

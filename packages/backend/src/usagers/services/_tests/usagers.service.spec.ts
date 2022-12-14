@@ -57,23 +57,6 @@ describe("UsagersService", () => {
     expect(usager.nom).toEqual(fakeUsagerDto.nom);
     expect(usager.sexe).toEqual(fakeUsagerDto.sexe);
 
-    // UPDATE
-    await service.patch(
-      { uuid: usager.uuid },
-      {
-        nom: "Nouveau nom",
-        prenom: "Nouveau prénom",
-      }
-    );
-
-    const updatedUsager = await usagerRepository.findOneBy({
-      ref: usagerTest.ref,
-      structureId: user.structureId,
-    });
-
-    expect(updatedUsager.nom).toEqual("Nouveau nom");
-    expect(updatedUsager.prenom).toEqual("Nouveau prénom");
-
     await usagerRepository.deleteByCriteria({ uuid: usager.uuid });
 
     const deletedUsager = await usagerRepository.findOneBy({

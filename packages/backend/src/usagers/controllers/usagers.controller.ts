@@ -1,3 +1,4 @@
+import { usagerEntretienRepository } from "./../../database/services/usager/usagerEntretienRepository.service";
 import { usagerDocsRepository } from "./../../database/services/usager/usagerDocsRepository.service";
 
 import { messageSmsRepository } from "./../../database/services/message-sms/messageSmsRepository.service";
@@ -38,6 +39,7 @@ import { dataCompare } from "../../util/dataCompare.service";
 import {
   CerfaDocType,
   ETAPE_DOCUMENTS,
+  Usager,
   UsagerLight,
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
@@ -60,6 +62,7 @@ import pdftk = require("node-pdftk");
 
 import { resolve } from "path";
 import { readFile } from "fs-extra";
+import { ExpressResponse } from "../../util/express";
 
 @Controller("usagers")
 @ApiTags("usagers")
@@ -164,26 +167,26 @@ export class UsagersController {
   public async patchUsager(
     @Body() usagerDto: CreateUsagerDto,
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight
+    @CurrentUsager() currentUsager: Usager
   ) {
     if (!usagerDto.langue || usagerDto.langue === "") {
       usagerDto.langue = null;
     }
 
     if (
-      !usager.customRef &&
+      !currentUsager.customRef &&
       (!usagerDto.customRef || usagerDto.customRef === null)
     ) {
-      usagerDto.customRef = usager.ref.toString();
+      usagerDto.customRef = currentUsager.ref.toString();
     }
 
-    usager = await usagerLightRepository.updateOne(
-      { uuid: usager.uuid },
+    currentUsager = await usagerLightRepository.updateOne(
+      { uuid: currentUsager.uuid },
       usagerDto
     );
 
     await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
-      usager,
+      usager: currentUsager,
       createdBy: {
         userId: user.id,
         userName: user.prenom + " " + user.nom,
@@ -191,7 +194,7 @@ export class UsagersController {
       createdEvent: "update-usager",
     });
 
-    return usager;
+    return currentUsager;
   }
 
   @UseGuards(UsagerAccessGuard)
@@ -202,14 +205,25 @@ export class UsagersController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: UsagerLight
   ) {
-    const usager = await usagerLightRepository.updateOne(
-      { uuid: currentUsager.uuid },
-      {
-        entretien,
-        etapeDemande: ETAPE_DOCUMENTS,
-      }
+    const newEntretien = await usagerEntretienRepository.update(
+      { usagerUUID: currentUsager.uuid },
+      { ...entretien }
     );
 
+    console.log(newEntretien);
+
+    if (currentUsager.decision.statut === "INSTRUCTION") {
+      await usagerRepository.update(
+        { uuid: currentUsager.uuid },
+        {
+          etapeDemande: ETAPE_DOCUMENTS,
+        }
+      );
+    }
+
+    const usager = await usagerRepository.getUsager(currentUsager.uuid);
+
+    console.log(usager);
     await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
       usager,
       createdBy: {
@@ -228,9 +242,11 @@ export class UsagersController {
   public async nextStep(
     @Param("etapeDemande", new ParseIntPipe()) etapeDemande: number,
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
-    @CurrentUsager() usager: UsagerLight
-  ) {
-    return this.usagersService.nextStep({ uuid: usager.uuid }, etapeDemande);
+    @CurrentUsager() currentUsager: UsagerLight
+  ): Promise<Usager> {
+    return usagerRepository.updateOneAndReturn(currentUsager.uuid, {
+      etapeDemande,
+    });
   }
 
   @UseGuards(UsagerAccessGuard)
@@ -240,7 +256,7 @@ export class UsagersController {
     @CurrentUsager() currentUsager: UsagerLight,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
-  ) {
+  ): Promise<Usager> {
     if (currentUsager.options.npai.actif) {
       currentUsager.options.npai.actif = false;
       currentUsager.options.npai.dateDebut = null;
@@ -248,10 +264,10 @@ export class UsagersController {
       currentUsager.options.npai.actif = true;
       currentUsager.options.npai.dateDebut = new Date();
     }
-    return usagerLightRepository.updateOne(
-      { uuid: currentUsager.uuid },
-      { options: currentUsager.options }
-    );
+
+    return usagerRepository.updateOneAndReturn(currentUsager.uuid, {
+      options: currentUsager.options,
+    });
   }
 
   @AllowUserStructureRoles("simple", "responsable", "admin")
@@ -262,13 +278,12 @@ export class UsagersController {
     @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
     @CurrentUser() user: UserStructureAuthenticated
   ): Promise<UsagerLight[]> {
-    const doublons = await usagerLightRepository.findDoublons({
+    return usagerLightRepository.findDoublons({
       nom,
       prenom,
       ref: usagerRef,
       structureId: user.structureId,
     });
-    return doublons;
   }
 
   @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
@@ -277,9 +292,9 @@ export class UsagersController {
   public async delete(
     @CurrentUser() user: UserStructureAuthenticated,
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
-    @CurrentUsager() usager: UsagerLight,
-    @Res() res: Response
-  ) {
+    @CurrentUsager() usager: Usager,
+    @Res() res: ExpressResponse
+  ): Promise<ExpressResponse> {
     // Suppression des Documents
     await usagerDocsRepository.delete({
       usagerRef: usager.ref,
@@ -321,15 +336,18 @@ export class UsagersController {
   public async editPreupdatePortailUsagerOptionsference(
     @Res() res: Response,
     @Body() dto: UpdatePortailUsagerOptionsDto,
-    @CurrentUsager() usager: UsagerLight,
+    @CurrentUsager() usager: Usager,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
     try {
       usager.options.portailUsagerEnabled = dto.portailUsagerEnabled;
-      const updatedUsager = await this.usagersService.patch(
-        { uuid: usager.uuid },
-        { options: usager.options }
+      const updatedUsager = await usagerRepository.updateOneAndReturn(
+        usager.uuid,
+        {
+          options: usager.options,
+        }
       );
+
       if (usager.options.portailUsagerEnabled) {
         const userUsager = await userUsagerRepository.findOneBy({
           usagerUUID: usager.uuid,
@@ -426,8 +444,8 @@ export class UsagersController {
   @Get(":usagerRef")
   public async findOne(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
-    @CurrentUsager() usager: UsagerLight
+    @CurrentUsager() currentUsager: Usager
   ) {
-    return usager;
+    return currentUsager;
   }
 }

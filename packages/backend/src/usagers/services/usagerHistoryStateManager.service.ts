@@ -267,6 +267,7 @@ function buildHistoryState({
       decision.statut === "INSTRUCTION") &&
       (previousState?.isActive ?? false));
 
+  console.log(usager.entretien);
   const state: UsagerHistoryState = {
     uuid: uuidv4(),
     createdAt,

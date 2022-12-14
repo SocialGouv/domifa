@@ -4,7 +4,6 @@ import { FranceRegion } from "../../../util/territoires";
 import {
   Structure,
   Usager,
-  UsagerLight,
   UserStructureAuthenticated,
 } from "../../../_common/model";
 import {
@@ -36,7 +35,7 @@ export const interactionRepository = appTypeormManager
   });
 
 async function updateInteractionAfterDistribution(
-  usager: UsagerLight,
+  usager: Usager,
   interaction: Interactions,
   oppositeType: InteractionType
 ): Promise<void> {

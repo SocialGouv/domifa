@@ -6,14 +6,14 @@ import { UserStructureAuthenticated } from "../../../_common/model";
 import {
   CerfaDocType,
   DateCerfa,
+  Usager,
   UsagerAyantDroit,
   UsagerCerfaFields,
-  UsagerLight,
 } from "../../../_common/model/usager";
 import { generateMotifLabel } from "../generateMotifLabel.service";
 
 export const generateCerfaDatas = (
-  usager: UsagerLight,
+  usager: Usager,
   user: UserStructureAuthenticated,
   typeCerfa: CerfaDocType
 ): UsagerCerfaFields => {
@@ -145,7 +145,7 @@ const resetDate = (): DateCerfa => {
   return { annee: "", heure: "", jour: "", minutes: "", mois: "" };
 };
 
-export const getUsagerRef = (usager: UsagerLight): string => {
+export const getUsagerRef = (usager: Usager): string => {
   let usagerRef = toString(usager.ref);
   if (!isNil(usagerRef)) {
     usagerRef = toString(usager.customRef);
@@ -153,7 +153,7 @@ export const getUsagerRef = (usager: UsagerLight): string => {
   return usagerRef;
 };
 
-export function getAyantsDroitsText(usager: UsagerLight): string {
+export function getAyantsDroitsText(usager: Usager): string {
   let ayantsDroitsTexte = "";
   // Ayants-droits
   if (usager.ayantsDroits.length > 0) {
@@ -177,7 +177,7 @@ export function getAyantsDroitsText(usager: UsagerLight): string {
 
 export function generateAdressForCerfa(
   user: UserStructureAuthenticated,
-  usager: UsagerLight
+  usager: Usager
 ): {
   adresseStructure: string;
   adresseDomicilie: string;

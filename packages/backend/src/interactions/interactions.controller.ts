@@ -27,8 +27,8 @@ import {
 import { interactionRepository } from "../database";
 import {
   UserStructureAuthenticated,
-  UsagerLight,
   Interactions,
+  Usager,
 } from "../_common/model";
 import { InteractionDto } from "./dto";
 import { InteractionsDeletor, interactionsCreator } from "./services";
@@ -48,25 +48,26 @@ export class InteractionsController {
     @Body(new ParseArrayPipe({ items: InteractionDto }))
     interactions: InteractionDto[],
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight
-  ) {
+    @CurrentUsager() currentUsager: Usager
+  ): Promise<Usager> {
     // Parcours des demandes
     for (const interaction of interactions) {
       const created = await interactionsCreator.createInteraction({
         interaction,
-        usager,
+        usager: currentUsager,
         user,
       });
 
-      usager = created.usager;
+      currentUsager = created.usager;
 
       await this.messageSmsService.updateSmsAfterCreation({
         interaction: created.interaction,
         structure: user.structure,
-        usager,
+        usager: currentUsager,
       });
     }
-    return usager;
+
+    return currentUsager;
   }
 
   @Get(":usagerRef")
@@ -74,12 +75,12 @@ export class InteractionsController {
   public async getInteractions(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight
+    @CurrentUsager() currentUsager: Usager
   ) {
     return await interactionRepository.find({
       where: {
         structureId: user.structureId,
-        usagerUUID: usager.uuid,
+        usagerUUID: currentUsager.uuid,
       },
       order: {
         dateInteraction: "DESC",
@@ -94,7 +95,7 @@ export class InteractionsController {
   @Delete(":usagerRef/:interactionUuid")
   public async deleteInteraction(
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight,
+    @CurrentUsager() usager: Usager,
     @Param("interactionUuid", new ParseUUIDPipe()) _interactionUuid: string,
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentInteraction() interaction: Interactions

@@ -26,7 +26,7 @@ import {
 import { usagerAppointmentCreatedEmailSender } from "../../mails/services/templates-renderers";
 import { ExpressResponse } from "../../util/express";
 import {
-  UsagerLight,
+  Usager,
   UserStructureAuthenticated,
   UserStructureProfile,
 } from "../../_common/model";
@@ -66,7 +66,7 @@ export class AgendaController {
   public async postRdv(
     @Body() rdvDto: RdvDto,
     @CurrentUser() currentUser: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight,
+    @CurrentUsager() usager: Usager,
     @Res() res: ExpressResponse
   ) {
     if (rdvDto.isNow) {

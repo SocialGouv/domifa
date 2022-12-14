@@ -12,7 +12,10 @@ const baseRepository = pgRepository.get<UsagerTable, Usager>(UsagerTable);
 export const usagerRepository = myDataSource
   .getRepository<Usager>(UsagerTable)
   .extend({
+    countMigratedUsagers,
     ...baseRepository,
+    getUsager,
+    updateOneAndReturn,
     customCountBy: baseRepository.countBy,
     countAyantsDroits,
     countUsagersByMonth,
@@ -20,11 +23,31 @@ export const usagerRepository = myDataSource
     countUsagers,
   });
 
-function countAyantsDroits(structuresId?: number[]): Promise<number> {
+export async function updateOneAndReturn(
+  uuid: string,
+  partialUpdate: Partial<Usager>
+) {
+  await usagerRepository.updateOne({ uuid }, partialUpdate);
+  return getUsager(uuid);
+}
+
+async function getUsager(uuid: string): Promise<Usager> {
+  return usagerRepository.findOneOrFail({
+    where: {
+      uuid,
+    },
+    relations: {
+      notes: true,
+      entretien: true,
+    },
+  });
+}
+
+async function countAyantsDroits(structuresId?: number[]): Promise<number> {
   return _advancedCount({ countType: "ayant-droit", structuresId });
 }
 
-function countUsagers(structuresId?: number[]): Promise<number> {
+async function countUsagers(structuresId?: number[]): Promise<number> {
   return _advancedCount({ countType: "domicilie", structuresId });
 }
 
@@ -83,4 +106,12 @@ async function countTotalUsagers(structuresId?: number[]): Promise<number> {
   const usagers = await usagerRepository.countUsagers(structuresId);
   const ayantsDroits = await usagerRepository.countAyantsDroits(structuresId);
   return usagers + ayantsDroits;
+}
+
+async function countMigratedUsagers(): Promise<number> {
+  const retour = await myDataSource
+    .getRepository<Usager>(UsagerTable)
+    .countBy({ migrated: false });
+  console.log(retour);
+  return retour;
 }

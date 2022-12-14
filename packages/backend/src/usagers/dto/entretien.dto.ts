@@ -16,7 +16,7 @@ import {
   UsagerEntretienTypeMenage,
 } from "../../_common/model/usager/entretien";
 
-export class EntretienDto implements UsagerEntretien {
+export class EntretienDto implements Partial<UsagerEntretien> {
   @IsOptional()
   public domiciliation!: boolean;
 
