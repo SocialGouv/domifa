@@ -74,6 +74,13 @@ export const USAGER_REFUS_MOCK: UsagerLight = {
     residence: "DOMICILE_MOBILE",
     cause: "EXPULSION",
     commentaires: "Ceci est un commentaire",
+    revenusDetail: null,
+    residenceDetail: null,
+    causeDetail: null,
+    rattachement: null,
+    raisonDetail: null,
+    accompagnement: null,
+    accompagnementDetail: null,
   },
   etapeDemande: ETAPE_DOSSIER_COMPLET,
   historique: [

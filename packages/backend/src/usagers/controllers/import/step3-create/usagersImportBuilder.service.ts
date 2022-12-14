@@ -53,7 +53,9 @@ function buildUsager({
   //
   // Partie ENTRETIEN
   //
-  const entretien: UsagerEntretien = buildEntretien(usagerRow);
+  const entretien: UsagerEntretien = buildEntretien(
+    usagerRow
+  ) as UsagerEntretien;
   const ayantsDroits = buildAyantsDroits(usagerRow);
 
   const customRef = usagerRow.customRef;
@@ -165,8 +167,8 @@ function buildAyantsDroits(usagerRow): UsagerAyantDroit[] {
   });
 }
 
-function buildEntretien(usagerRow): UsagerEntretien {
-  const entretien: UsagerEntretien = {};
+function buildEntretien(usagerRow): Partial<UsagerEntretien> {
+  const entretien: Partial<UsagerEntretien> = {};
 
   entretien.commentaires = usagerRow.commentaires ?? null;
   entretien.domiciliation = usagerRow.domiciliationExistante ?? null;

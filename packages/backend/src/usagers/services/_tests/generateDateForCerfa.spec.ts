@@ -1,12 +1,12 @@
+import MockDate from "mockdate";
 import {
   userStructureRepository,
   structureRepository,
-} from "../../../../database";
-import { UsersModule } from "../../../../users/users.module";
-import { AppTestHelper } from "../../../../util/test";
-import { UserStructureAuthenticated } from "../../../../_common/model";
-import { generateDateForCerfa } from "../generateDateForCerfa.service";
-import MockDate from "mockdate";
+} from "../../../database";
+import { UsersModule } from "../../../users/users.module";
+import { AppTestHelper } from "../../../util/test";
+import { UserStructureAuthenticated } from "../../../_common/model";
+import { generateDateForCerfa } from "../cerfa";
 
 describe("generateDateForCerfa", () => {
   beforeAll(async () => {

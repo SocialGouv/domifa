@@ -1,6 +1,7 @@
 // @index('./*', f => `export * from '${f.path}'`)
 export * from "./constants";
 export * from "./usagerDocsRepository.service";
+export * from "./usagerEntretienRepository.service";
 export * from "./usagerHistoryRepository.service";
 export * from "./usagerHistoryStatsPeriodRepository.service";
 export * from "./usagerLightRepository.service";

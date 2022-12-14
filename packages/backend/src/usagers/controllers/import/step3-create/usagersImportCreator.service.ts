@@ -1,3 +1,4 @@
+import { usagerEntretienRepository } from "./../../../../database/services/usager/usagerEntretienRepository.service";
 import { usagerLightRepository, UsagerTable } from "../../../../database";
 import { usagerHistoryRepository } from "../../../../database/services/usager/usagerHistoryRepository.service";
 
@@ -8,6 +9,7 @@ import { ImportProcessTracker } from "../ImportProcessTracker.type";
 import { UsagersImportUsager } from "../step2-validate-row";
 import { usagersImportBuilder } from "./usagersImportBuilder.service";
 import { v4 as uuidv4 } from "uuid";
+import { UsagerEntretienTable } from "../../../../database/entities/usager/UsagerEntretienTable.typeorm";
 export const usagersImportCreator = {
   createFromImport,
 };
@@ -53,6 +55,17 @@ async function createFromImport({
 
   for (let i = 0; i < usagersToPersist.length; i += 1000) {
     const nextUsagersToCreate = usagersToPersist.slice(i, i + 1000);
+
+    const nextEntretienToSave = nextUsagersToCreate.map((usager) => {
+      const entretien = new UsagerEntretienTable({
+        ...usager.entretien,
+        usagerRef: usager.ref,
+        usagerUUID: usager.uuid,
+        structureId: usager.structureId,
+      });
+      return entretien;
+    });
+
     const nextUsagersHistoryToCreate = nextUsagersToCreate.map((usager) =>
       usagerHistoryStateManager.buildInitialHistoryState({
         isImport: true,
@@ -64,6 +77,9 @@ async function createFromImport({
     );
 
     await (await usagerLightRepository.typeorm()).save(nextUsagersToCreate);
+
+    await usagerEntretienRepository.save(nextEntretienToSave);
+
     await (
       await usagerHistoryRepository.typeorm()
     ).save(nextUsagersHistoryToCreate);

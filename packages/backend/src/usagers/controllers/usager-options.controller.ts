@@ -18,15 +18,20 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import { UsagerLight, UserStructureAuthenticated } from "../../_common/model";
+import {
+  Usager,
+  UsagerLight,
+  UserStructureAuthenticated,
+} from "../../_common/model";
 import { usagerOptionsHistoryRepository } from "../../database/services/usager/usagerOptionsHistoryRepository.service";
 import { AllowUserStructureRoles, CurrentUser } from "../../auth/decorators";
 import { TransfertDto, ProcurationDto } from "../dto";
-import { UsagerOptionsHistoryService, UsagersService } from "../services";
+import { UsagerOptionsHistoryService } from "../services";
 import { ExpressResponse } from "../../util/express";
 import { isEqual } from "lodash";
 
 import sortObj = require("sort-object");
+import { usagerRepository } from "../../database";
 
 @ApiTags("usagers-options")
 @ApiBearerAuth()
@@ -34,8 +39,7 @@ import sortObj = require("sort-object");
 @UseGuards(AuthGuard("jwt"))
 export class UsagerOptionsController {
   constructor(
-    private readonly usagerOptionsHistoryService: UsagerOptionsHistoryService,
-    private readonly usagersService: UsagersService
+    private readonly usagerOptionsHistoryService: UsagerOptionsHistoryService
   ) {}
 
   @UseGuards(UsagerAccessGuard)
@@ -53,10 +57,10 @@ export class UsagerOptionsController {
   @Delete("transfert/:usagerRef")
   public async deleteTransfert(
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight,
+    @CurrentUsager() usager: Usager,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
-  ) {
+  ): Promise<Usager> {
     await this.usagerOptionsHistoryService.createOptionHistory(
       usager,
       user,
@@ -73,10 +77,9 @@ export class UsagerOptionsController {
       dateFin: null,
     };
 
-    return this.usagersService.patch(
-      { uuid: usager.uuid },
-      { options: usager.options }
-    );
+    return usagerRepository.updateOneAndReturn(usager.uuid, {
+      options: usager.options,
+    });
   }
 
   @UseGuards(UsagerAccessGuard)
@@ -85,22 +88,24 @@ export class UsagerOptionsController {
   public async editTransfert(
     @Body() transfertDto: TransfertDto,
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight
+    @CurrentUsager() currentUsager: Usager
   ) {
-    const action = usager.options.transfert.actif ? "EDIT" : "CREATION";
+    const action = currentUsager.options.transfert.actif ? "EDIT" : "CREATION";
 
-    if (usager.options.transfert.actif) {
-      usager.options.transfert.dateDebut = new Date(
-        usager.options.transfert.dateDebut
+    if (currentUsager.options.transfert.actif) {
+      currentUsager.options.transfert.dateDebut = new Date(
+        currentUsager.options.transfert.dateDebut
       );
-      usager.options.transfert.dateFin = new Date(
-        usager.options.transfert.dateFin
+      currentUsager.options.transfert.dateFin = new Date(
+        currentUsager.options.transfert.dateFin
       );
     }
 
-    if (!isEqual(sortObj(usager.options.transfert), sortObj(transfertDto))) {
+    if (
+      !isEqual(sortObj(currentUsager.options.transfert), sortObj(transfertDto))
+    ) {
       await this.usagerOptionsHistoryService.createOptionHistory(
-        usager,
+        currentUsager,
         user,
         action,
         "transfert",
@@ -108,12 +113,11 @@ export class UsagerOptionsController {
       );
     }
 
-    usager.options.transfert = transfertDto;
+    currentUsager.options.transfert = transfertDto;
 
-    return this.usagersService.patch(
-      { uuid: usager.uuid },
-      { options: usager.options }
-    );
+    return await usagerRepository.updateOneAndReturn(currentUsager.uuid, {
+      options: currentUsager.options,
+    });
   }
 
   @UseGuards(UsagerAccessGuard)
@@ -123,10 +127,10 @@ export class UsagerOptionsController {
     @Body(new ParseArrayPipe({ items: ProcurationDto }))
     procurationsDto: ProcurationDto[],
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight,
+    @CurrentUsager() usager: Usager,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
-  ) {
+  ): Promise<Usager> {
     // Initialisation si vide
     if (typeof usager.options.procurations === "undefined") {
       usager.options.procurations = [];
@@ -177,10 +181,9 @@ export class UsagerOptionsController {
 
     usager.options.procurations = procurationsDto;
 
-    return this.usagersService.patch(
-      { uuid: usager.uuid },
-      { options: usager.options }
-    );
+    return usagerRepository.updateOneAndReturn(usager.uuid, {
+      options: usager.options,
+    });
   }
 
   @UseGuards(UsagerAccessGuard)
@@ -190,9 +193,9 @@ export class UsagerOptionsController {
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @Param("index", new ParseIntPipe()) index: number,
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() usager: UsagerLight,
+    @CurrentUsager() usager: Usager,
     @Res() res: ExpressResponse
-  ) {
+  ): Promise<ExpressResponse> {
     if (typeof usager.options.procurations[index] === "undefined") {
       return res
         .status(HttpStatus.BAD_REQUEST)
@@ -209,9 +212,11 @@ export class UsagerOptionsController {
 
     usager.options.procurations.splice(index, 1);
 
-    const updatedUsager = await this.usagersService.patch(
-      { uuid: usager.uuid },
-      { options: usager.options }
+    const updatedUsager = await usagerRepository.updateOneAndReturn(
+      usager.uuid,
+      {
+        options: usager.options,
+      }
     );
 
     return res.status(HttpStatus.OK).json(updatedUsager);

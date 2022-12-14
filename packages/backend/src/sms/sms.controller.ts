@@ -8,7 +8,7 @@ import { CurrentUsager } from "../auth/decorators/current-usager.decorator";
 import { AppUserGuard } from "../auth/guards";
 import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
 import { messageSmsRepository } from "../database";
-import { UsagerLight } from "../_common/model";
+import { Usager } from "../_common/model";
 
 @Controller("sms")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -18,11 +18,11 @@ export class SmsController {
   @AllowUserProfiles("structure")
   @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
   @Get("usager/:usagerRef")
-  public async getUsagerSms(@CurrentUsager() usager: UsagerLight) {
+  public async getUsagerSms(@CurrentUsager() currentUsager: Usager) {
     return messageSmsRepository.find({
       where: {
-        usagerRef: usager.ref,
-        structureId: usager.structureId,
+        usagerRef: currentUsager.ref,
+        structureId: currentUsager.structureId,
       },
       order: {
         createdAt: "DESC",

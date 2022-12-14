@@ -4,7 +4,6 @@ import { ETAPE_DOSSIER_COMPLET } from "../model/usager/_constants";
 
 export const USAGER_ACTIF_MOCK: UsagerLight = {
   numeroDistribution: null,
-
   decision: {
     statut: "VALIDE",
     dateDebut: new Date("2020-02-12T00:00:00.000Z"),
@@ -73,6 +72,13 @@ export const USAGER_ACTIF_MOCK: UsagerLight = {
     residence: "DOMICILE_MOBILE",
     cause: "EXPULSION",
     commentaires: "Ceci est un commentaire",
+    revenusDetail: null,
+    residenceDetail: null,
+    causeDetail: null,
+    rattachement: null,
+    raisonDetail: null,
+    accompagnement: null,
+    accompagnementDetail: null,
   },
   etapeDemande: ETAPE_DOSSIER_COMPLET,
   historique: [

@@ -51,14 +51,7 @@ export class UsagerNotesController {
       createdBy,
     });
 
-    return await usagerRepository.findOneOrFail({
-      where: {
-        uuid: currentUsager.uuid,
-      },
-      relations: {
-        notes: true,
-      },
-    });
+    return await usagerRepository.getUsager(currentUsager.uuid);
   }
 
   @Put(":usagerRef/archive/:noteUUID")
@@ -98,14 +91,7 @@ export class UsagerNotesController {
       }
     );
 
-    const usager = await usagerRepository.findOneOrFail({
-      where: {
-        uuid: currentUsager.uuid,
-      },
-      relations: {
-        notes: true,
-      },
-    });
+    const usager = await usagerRepository.getUsager(currentUsager.uuid);
 
     return res.status(HttpStatus.OK).json(usager);
   }

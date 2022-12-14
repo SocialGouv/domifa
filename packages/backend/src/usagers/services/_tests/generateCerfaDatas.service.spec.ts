@@ -1,187 +1,63 @@
-import { UsagerLight } from "./../../../../_common/model/usager/UsagerLight.type";
+import { usagerRepository } from "../../../database/services/usager/usagerRepository.service";
 import {
   userStructureRepository,
   structureRepository,
-  usagerLightRepository,
-} from "../../../../database";
-import { UsersModule } from "../../../../users/users.module";
-import { AppTestHelper } from "../../../../util/test";
+} from "../../../database";
+import { UsersModule } from "../../../users/users.module";
+import { AppTestHelper } from "../../../util/test";
 import {
   UserStructureAuthenticated,
   Structure,
-} from "../../../../_common/model";
-import { UsagersModule } from "../../../usagers.module";
+  Usager,
+} from "../../../_common/model";
+import { UsagersModule } from "../../usagers.module";
 import {
   getUsagerRef,
   generateCerfaDatas,
   generateAdressForCerfa,
-} from "../generateCerfaDatas.service";
-
-const mockDataUsagerValide = {
-  adresse: "CCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine",
-  adresseOrga1: "1 rue de l'océan\n92600 - Asnieres-sur-seine",
-  agrement: null,
-  anneeDebut: "2019",
-  anneeDecision1A: "2019",
-  anneeDecision1B: "2019",
-  anneeDecision2: "2019",
-  anneeFin: "2020",
-  anneeNaissance1: "1998",
-  anneeNaissance2: "1998",
-  anneePremiereDom: "2018",
-  anneeRdv: "",
-  ayantsDroits: "Karamoko Mauricette né(e) le 20/12/1978",
-  courriel: "domicilie2@yopmail.com",
-  courrielOrga: "ccas.test@yopmail.com",
-  decision: "",
-  entretienAdresse: "1 rue de l'océan\n92600 - Asnieres-sur-seine",
-  entretienAvec: "",
-  heureRdv: "",
-  jourDebut: "12",
-  jourDecision1A: "12",
-  jourDecision1B: "12",
-  jourDecision2: "12",
-  jourFin: "12",
-  jourNaissance1: "07",
-  jourNaissance2: "07",
-  jourPremiereDom: "11",
-  jourRdv: "",
-  lieuNaissance1: "BOUAKÉ, CÔTE D'IVOIRE",
-  lieuNaissance2: "BOUAKÉ, CÔTE D'IVOIRE",
-  minutesRdv: "",
-  moisDebut: "02",
-  moisDecision1A: "02",
-  moisDecision1B: "02",
-  moisDecision2: "02",
-  moisFin: "02",
-  moisNaissance1: "08",
-  moisNaissance2: "08",
-  moisPremiereDom: "01",
-  moisRdv: "",
-  motifRefus: "",
-  nomOrga1: "CCAS DE TEST",
-  nomOrga2: "CCAS DE TEST",
-  noms1: "KARAMOKO",
-  noms2: "KARAMOKO",
-  numeroUsager: "63",
-  orientation: "",
-  prefecture1: "",
-  prefecture2: "",
-  prenoms1: "MAURICE",
-  prenoms2: "MAURICE",
-  rattachement: "",
-  responsable: "JEAN, THOMSON, PDG",
-  sexe1: "2",
-  sexe2: "2",
-  signature1A: "ASNIERES-SUR-SEINE",
-  signature1B: "ASNIERES-SUR-SEINE",
-  signature2: "ASNIERES-SUR-SEINE",
-  telephone: "+33 6 06 06 06 06",
-  telephoneOrga: "+33 6 02 03 04 05",
-  typeDemande: "2",
-};
-
-const mockDataUsagerRefus = {
-  adresse: "CCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine",
-  adresseOrga1: "1 rue de l'océan\n92600 - Asnieres-sur-seine",
-  agrement: null,
-  anneeDebut: "2019",
-  anneeDecision1A: "2019",
-  anneeDecision1B: "2019",
-  anneeDecision2: "2019",
-  anneeFin: "2020",
-  anneeNaissance1: "1940",
-  anneeNaissance2: "1940",
-  anneePremiereDom: "2019",
-  anneeRdv: "",
-  ayantsDroits: "",
-  courriel: "",
-  courrielOrga: "ccas.test@yopmail.com",
-  decision: "2",
-  entretienAdresse: "1 rue de l'océan\n92600 - Asnieres-sur-seine",
-  entretienAvec: "",
-  heureRdv: "",
-  jourDebut: "12",
-  jourDecision1A: "12",
-  jourDecision1B: "12",
-  jourDecision2: "12",
-  jourFin: "09",
-  jourNaissance1: "07",
-  jourNaissance2: "07",
-  jourPremiereDom: "07",
-  jourRdv: "",
-  lieuNaissance1: "MACON",
-  lieuNaissance2: "MACON",
-  minutesRdv: "",
-  moisDebut: "09",
-  moisDecision1A: "09",
-  moisDecision1B: "09",
-  moisDecision2: "09",
-  moisFin: "08",
-  moisNaissance1: "08",
-  moisNaissance2: "08",
-  moisPremiereDom: "10",
-  moisRdv: "",
-  motifRefus: "Nombre maximal domiciliations atteint",
-  nomOrga1: "CCAS DE TEST",
-  nomOrga2: "CCAS DE TEST",
-  noms1: "DUPONT",
-  noms2: "DUPONT",
-  numeroUsager: "3",
-  orientation: "",
-  prefecture1: "",
-  prefecture2: "",
-  prenoms1: "FRED",
-  prenoms2: "FRED",
-  rattachement: "",
-  responsable: "JEAN, THOMSON, PDG",
-  sexe1: "2",
-  sexe2: "2",
-  signature1A: "ASNIERES-SUR-SEINE",
-  signature1B: "ASNIERES-SUR-SEINE",
-  signature2: "ASNIERES-SUR-SEINE",
-  telephone: "",
-  telephoneOrga: "+33 6 02 03 04 05",
-  typeDemande: "1",
-};
+} from "../cerfa/generateCerfaDatas.service";
+import { CERFA_MOCK_USAGER_ACTIF } from "./CERFA_MOCKS.mock";
 
 describe("Cerfa Data utils", () => {
   let user: UserStructureAuthenticated;
-  let usagerValide: UsagerLight;
-  let usagerRefus: UsagerLight;
+  let usagerValide: Usager;
+  let usagerRefus: Usager;
   let structure: Structure;
 
   beforeAll(async () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     await AppTestHelper.bootstrapTestApp({
       imports: [UsagersModule, UsersModule],
     });
     user = await userStructureRepository.findOne({ id: 1 });
+    console.log("opkokop");
     structure = await structureRepository.findOneBy({
       id: 1,
     });
     user.structure = structure;
-
+    console.log(user.structure);
     // Usagers à tester
-    usagerValide = await usagerLightRepository.findOne({
-      ref: 2,
-      structureId: 1,
-    });
-    usagerRefus = await usagerLightRepository.findOne({
-      ref: 3,
-      structureId: 1,
-    });
+    usagerValide = await usagerRepository.getUsager(
+      "97b7e840-0e93-4bf4-ba7d-0a406aa898f2"
+      // usagerRef: 2,
+      // structureId: 1,
+    );
+    console.log(usagerValide);
+    usagerRefus = await usagerRepository.getUsager(
+      "e074c416-093a-46fc-ae47-77a3bc111d35"
+      // usagerRef: 3,
+      // structureId: 1,
+    );
   });
 
   describe("Cerfa : générer les données complètes du Cerfa", () => {
     it("CerfaData() Dossier valide", async () => {
       const data = generateCerfaDatas(usagerValide, user, "attestation");
-      expect(data).toEqual(mockDataUsagerValide);
+      expect(data).toEqual(CERFA_MOCK_USAGER_ACTIF);
     });
 
     it("CerfaData() Dossier refusé", async () => {
       const data = generateCerfaDatas(usagerRefus, user, "attestation");
-      expect(data).toEqual(mockDataUsagerRefus);
+      expect(data).toEqual(CERFA_MOCK_USAGER_ACTIF);
     });
 
     it("CerfaData() test de valeurs vides", async () => {
@@ -301,7 +177,7 @@ describe("Cerfa Data utils", () => {
     });
     it("Usager avec numéro TSA ou boite postale", () => {
       user.structure.adresseCourrier.actif = false;
-      const usagerTsa: UsagerLight = {
+      const usagerTsa: Usager = {
         ...usagerValide,
         numeroDistribution: "TSA 30110",
       };

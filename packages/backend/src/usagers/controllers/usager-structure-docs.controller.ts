@@ -23,7 +23,7 @@ import { structureDocRepository } from "../../database";
 import {
   StructureDoc,
   StructureDocTypesAvailable,
-  UsagerLight,
+  Usager,
   UserStructureAuthenticated,
 } from "../../_common/model";
 import {
@@ -47,7 +47,7 @@ export class UsagerStructureDocsController {
   @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getStructureCustomDoc(
-    @CurrentUsager() usager: UsagerLight,
+    @CurrentUsager() usager: Usager,
     @CurrentUser() user: UserStructureAuthenticated,
     @Param("structureDocUuid", new ParseUUIDPipe()) structureDocUuid: string,
     @Res() res: Response
@@ -113,7 +113,7 @@ export class UsagerStructureDocsController {
   public async getDomifaCustomDoc(
     @Param("docType") docType: StructureDocTypesAvailable,
     @Body() extraUrlParametersFromClient: { [name: string]: string },
-    @CurrentUsager() usager: UsagerLight,
+    @CurrentUsager() usager: Usager,
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {

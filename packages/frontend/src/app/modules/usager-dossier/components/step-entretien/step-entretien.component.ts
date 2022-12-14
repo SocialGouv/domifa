@@ -3,7 +3,11 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { UsagerLight, UserStructure } from "../../../../../_common/model";
+import {
+  Usager,
+  UsagerLight,
+  UserStructure,
+} from "../../../../../_common/model";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { Observable, Subscription } from "rxjs";
@@ -36,7 +40,7 @@ export class StepEntretienComponent implements OnInit, OnDestroy {
 
       this.subscription.add(
         this.usagerDossierService.findOne(id).subscribe({
-          next: (usager: UsagerLight) => {
+          next: (usager: Usager) => {
             this.titleService.setTitle(
               "Entretien avec  " + usager.nom + " " + usager.prenom
             );

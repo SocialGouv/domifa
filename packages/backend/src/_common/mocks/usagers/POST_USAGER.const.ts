@@ -1,9 +1,10 @@
+import { Usager } from "./../../model/usager/Usager.type";
 import { CreateUsagerDto } from "../../../usagers/dto";
-import { UsagerLight } from "../../model/usager/UsagerLight.type";
+
 // Test OK 1
 export const POST_USAGER: {
   payload: CreateUsagerDto;
-  response: UsagerLight;
+  response: Usager;
 } = {
   payload: {
     numeroDistribution: null,
@@ -87,11 +88,31 @@ export const POST_USAGER: {
       recommandeIn: 0,
       enAttente: false,
     },
-
     etapeDemande: 1,
     rdv: null,
-
-    entretien: {},
+    entretien: {
+      uuid: "xx",
+      usagerUUID: "ee7ef219-b101-422c-8ad4-4d5aedf9caad",
+      structureId: 1,
+      domiciliation: null,
+      commentaires: null,
+      typeMenage: null,
+      revenus: null,
+      revenusDetail: null,
+      orientation: null,
+      orientationDetail: null,
+      liencommune: null,
+      liencommuneDetail: null,
+      residence: null,
+      residenceDetail: null,
+      cause: null,
+      causeDetail: null,
+      rattachement: null,
+      raison: null,
+      raisonDetail: null,
+      accompagnement: null,
+      accompagnementDetail: null,
+    },
     options: {
       npai: { actif: false, dateDebut: null },
       transfert: {

@@ -35,13 +35,15 @@ export class UsagerAccessGuard implements CanActivate {
     try {
       const usager = await usagerRepository.findOneOrFail({
         where: {
-          ref: usagerRef,
           structureId,
+          ref: usagerRef,
         },
         relations: {
           notes: true,
+          entretien: true,
         },
       });
+
       r.usager = usager;
       return r;
     } catch (e) {

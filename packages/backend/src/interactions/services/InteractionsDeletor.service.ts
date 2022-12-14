@@ -1,7 +1,6 @@
 import { forwardRef, Inject, Injectable } from "@nestjs/common";
-import { interactionRepository } from "../../database";
+import { interactionRepository, usagerRepository } from "../../database";
 import { MessageSmsService } from "../../sms/services/message-sms.service";
-import { UsagersService } from "../../usagers/services/usagers.service";
 import { Structure, UsagerLight, UserStructure } from "../../_common/model";
 import {
   InteractionEvent,
@@ -15,7 +14,6 @@ import { interactionsTypeManager } from "./interactionsTypeManager.service";
 @Injectable()
 export class InteractionsDeletor {
   constructor(
-    private readonly usagersService: UsagersService,
     @Inject(forwardRef(() => MessageSmsService))
     private readonly smsService: MessageSmsService
   ) {}
@@ -89,10 +87,10 @@ export class InteractionsDeletor {
       if (interaction.type === "npai") {
         usager.options.npai.actif = false;
         usager.options.npai.dateDebut = null;
-        return this.usagersService.patch(
-          { uuid: usager.uuid },
-          { options: usager.options }
-        );
+
+        return usagerRepository.updateOneAndReturn(usager.uuid, {
+          options: usager.options,
+        });
       }
 
       const dateInteractionWithGoodTimeZone = new Date(
@@ -157,13 +155,10 @@ export class InteractionsDeletor {
         created.interaction.dateInteraction
       );
 
-      return this.usagersService.patch(
-        { uuid: usager.uuid },
-        {
-          options: usager.options,
-          lastInteraction: usager.lastInteraction,
-        }
-      );
+      return await usagerRepository.updateOneAndReturn(usager.uuid, {
+        options: usager.options,
+        lastInteraction: usager.lastInteraction,
+      });
     }
 
     return created.usager;

@@ -79,13 +79,13 @@ export class UsagerFormModel {
     text: string;
     color: string;
   };
+  public rdv: Rdv;
 
   // TODO: utile uniquement pour la page profil, à mettre dans un type étendu d'Usager
   public email: string;
   public telephone: Telephone;
   public contactByPhone: boolean;
-  public rdv: Rdv;
-  public entretien: Entretien;
+  public entretien?: Entretien;
   public notes: UsagerNote[];
 
   // Historique des décisions et dernière décision
@@ -215,7 +215,7 @@ export class UsagerFormModel {
           }).length === 0;
       }
 
-      this.entretien = {};
+      this.entretien = null;
       this.langue = null;
       this.villeNaissance = null;
     }

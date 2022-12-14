@@ -1,6 +1,6 @@
-import { UsagerLight } from "../model";
+import { Usager } from "../model";
 
-export const USAGER_VALIDE_MOCK: UsagerLight = {
+export const USAGER_VALIDE_MOCK: Usager = {
   numeroDistribution: "",
   uuid: "ee7ef219-b101-422c-8ad4-4d5aedf9caad",
   ref: 6,
@@ -57,22 +57,26 @@ export const USAGER_VALIDE_MOCK: UsagerLight = {
     userName: "Roméro Patrick",
   },
   entretien: {
+    uuid: "xx",
+    usagerUUID: "ee7ef219-b101-422c-8ad4-4d5aedf9caad",
+    structureId: 1,
     cause: "VIOLENCE",
     raison: "EXERCICE_DROITS",
     revenus: true,
     residence: "HEBERGEMENT_TIERS",
     typeMenage: "FEMME_ISOLE_AVEC_ENFANT",
-    causeDetail: null,
-    liencommune: null,
-    orientation: false,
-    commentaires: null,
-    raisonDetail: null,
-    rattachement: null,
     domiciliation: true,
+    commentaires: null,
     revenusDetail: null,
-    accompagnement: false,
-    residenceDetail: null,
+    orientation: null,
     orientationDetail: null,
+    liencommune: null,
+    liencommuneDetail: null,
+    residenceDetail: null,
+    causeDetail: null,
+    rattachement: null,
+    raisonDetail: null,
+    accompagnement: null,
     accompagnementDetail: null,
   },
   options: {

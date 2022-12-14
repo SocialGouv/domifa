@@ -1,3 +1,4 @@
+import { usagerEntretienRepository } from "./../../database/services/usager/usagerEntretienRepository.service";
 import { Injectable } from "@nestjs/common";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -14,11 +15,11 @@ import {
   ETAPE_ETAT_CIVIL,
   ETAPE_RENDEZ_VOUS,
   Usager,
-  UsagerLight,
   UserStructure,
   UserStructureProfile,
   UsagerTypeDom,
   UsagerDecision,
+  UsagerEntretien,
 } from "../../_common/model";
 import { usagerHistoryStateManager } from "./usagerHistoryStateManager.service";
 import { usagersCreator } from "./usagersCreator.service";
@@ -33,7 +34,7 @@ export class UsagersService {
   public async create(
     usagerDto: CreateUsagerDto,
     user: UserStructureProfile
-  ): Promise<UsagerLight> {
+  ): Promise<Usager> {
     const usager = new UsagerTable(usagerDto);
     const now = new Date();
 
@@ -59,9 +60,15 @@ export class UsagersService {
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
     usager.typeDom = "PREMIERE_DOM";
 
-    const createdUsager = (await usagerLightRepository.save(
-      usager
-    )) as UsagerLight;
+    const createdUsager = await usagerLightRepository.save(usager);
+
+    const entretien: Partial<UsagerEntretien> = {
+      structureId: usager.structureId,
+      usagerUUID: usager.uuid,
+    };
+
+    const usagerEntretien = await usagerEntretienRepository.save(entretien);
+    usager.entretien = usagerEntretien;
 
     const usagerHistory = usagerHistoryStateManager.buildInitialHistoryState({
       isImport: false,
@@ -76,21 +83,10 @@ export class UsagersService {
     return createdUsager;
   }
 
-  public async patch(
-    { uuid }: { uuid: string },
-    update: Partial<UsagerTable>
-  ): Promise<Usager> {
-    return usagerLightRepository.updateOne({ uuid }, update);
-  }
-
-  public async nextStep({ uuid }: { uuid: string }, etapeDemande: number) {
-    return usagerLightRepository.updateOne({ uuid }, { etapeDemande });
-  }
-
   public async renouvellement(
-    usager: UsagerLight,
+    usager: Usager,
     user: Pick<UserStructure, "id" | "nom" | "prenom" | "structure">
-  ): Promise<UsagerLight> {
+  ): Promise<Usager> {
     const now = new Date();
 
     const typeDom: UsagerTypeDom =
@@ -156,9 +152,9 @@ export class UsagersService {
   }
 
   public async setDecision(
-    usager: UsagerLight,
+    usager: Usager,
     decision: DecisionDto
-  ): Promise<UsagerLight> {
+  ): Promise<Usager> {
     // Adaptation de la timeZone
     const now = new Date();
     decision.dateDecision = now;
@@ -203,10 +199,6 @@ export class UsagersService {
     usager.decision = decision as UsagerDecision;
     usager.decision.uuid = uuidv4();
 
-    if (!usager.entretien) {
-      usager.entretien = {};
-    }
-
     usagerVisibleHistoryManager.addDecisionToVisibleHistory({ usager });
 
     await usagerHistoryStateManager.updateHistoryStateFromDecision({
@@ -221,9 +213,7 @@ export class UsagersService {
       {
         lastInteraction: usager.lastInteraction,
         customRef: usager.customRef,
-        entretien: usager.entretien,
         decision: usager.decision,
-        options: usager.options,
         historique: usager.historique,
         etapeDemande: usager.etapeDemande,
         typeDom: usager.typeDom,
@@ -233,10 +223,10 @@ export class UsagersService {
   }
 
   public async setRdv(
-    usager: UsagerLight,
+    usager: Usager,
     rdv: RdvDto,
     user: UserStructureProfile
-  ): Promise<UsagerLight> {
+  ): Promise<Usager> {
     usager.rdv = {
       userId: rdv.userId,
       userName: user.prenom + " " + user.nom,

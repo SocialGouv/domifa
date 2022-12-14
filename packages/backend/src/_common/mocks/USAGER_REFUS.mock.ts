@@ -1,6 +1,6 @@
-import { ETAPE_DOSSIER_COMPLET, UsagerLight } from "../model";
+import { ETAPE_DOSSIER_COMPLET, Usager } from "../model";
 import { v4 as uuidv4 } from "uuid";
-export const USAGER_REFUS_MOCK: UsagerLight = {
+export const USAGER_REFUS_MOCK: Usager = {
   numeroDistribution: null,
 
   decision: {
@@ -15,6 +15,8 @@ export const USAGER_REFUS_MOCK: UsagerLight = {
     motifDetails: "Aucun lien avec la commune",
     userId: 30,
     userName: "Testeur Robin",
+
+    orientation: null,
   },
   lastInteraction: {
     colisIn: 0,
@@ -52,6 +54,9 @@ export const USAGER_REFUS_MOCK: UsagerLight = {
   langue: null,
   email: "domicilie2@yopmail.com",
   entretien: {
+    uuid: "xx",
+    usagerUUID: "ee7ef219-b101-422c-8ad4-4d5aedf9caad",
+    structureId: 1,
     typeMenage: "COUPLE_AVEC_ENFANT",
     domiciliation: false,
     revenus: false,
@@ -63,6 +68,13 @@ export const USAGER_REFUS_MOCK: UsagerLight = {
     residence: "DOMICILE_MOBILE",
     cause: "EXPULSION",
     commentaires: "Ceci est un commentaire",
+    revenusDetail: null,
+    residenceDetail: null,
+    causeDetail: null,
+    rattachement: null,
+    raisonDetail: null,
+    accompagnement: null,
+    accompagnementDetail: null,
   },
   etapeDemande: ETAPE_DOSSIER_COMPLET,
   historique: [
@@ -76,6 +88,9 @@ export const USAGER_REFUS_MOCK: UsagerLight = {
       userId: 30,
       userName: "Testeur Robin",
       typeDom: undefined,
+      orientationDetails: null,
+      orientation: null,
+      motifDetails: "",
     },
   ],
 
