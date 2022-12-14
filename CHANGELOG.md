@@ -1,3 +1,12 @@
+## [2.110.1](https://github.com/SocialGouv/domifa/compare/v2.110.0...v2.110.1) (2022-12-14)
+
+
+### Bug Fixes
+
+* **migration:** add foreign keys ([9f5d30d](https://github.com/SocialGouv/domifa/commit/9f5d30d36006e876bcffbdae7ec793875212824a))
+* **notes:** amélioration des migrations ([ff88f5b](https://github.com/SocialGouv/domifa/commit/ff88f5be8d964697c3d3d1ea77ab2c93f763fba2))
+* **test:** correction d'un test unitaire ([f58a6e6](https://github.com/SocialGouv/domifa/commit/f58a6e6460eeea15d9363769a4cd27fadeb10e64))
+
 # [2.110.0](https://github.com/SocialGouv/domifa/compare/v2.109.16...v2.110.0) (2022-12-13)
 
 
