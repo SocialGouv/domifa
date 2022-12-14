@@ -1,4 +1,12 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne, Unique } from "typeorm";
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  Unique,
+} from "typeorm";
 import {
   UsagerHistory,
   UsagerHistoryImport,
@@ -17,7 +25,7 @@ export class UsagerHistoryTable
 {
   @Index()
   @Column({ type: "uuid", unique: true, update: false })
-  @ManyToOne(() => UsagerTable, (usager) => usager.uuid, {
+  @OneToOne(() => UsagerTable, (usager) => usager.uuid, {
     onDelete: "CASCADE",
   })
   @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })

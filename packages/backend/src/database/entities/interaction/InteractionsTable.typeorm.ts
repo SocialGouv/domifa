@@ -37,6 +37,7 @@ export class InteractionsTable
   @Column({ type: "text", nullable: true })
   content: string;
 
+  @Index()
   @Column({ type: "text", default: "create" })
   event: InteractionEvent;
 

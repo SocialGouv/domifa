@@ -53,7 +53,8 @@ export class StructureTable
   @Column({ type: "text", nullable: false })
   region: string;
 
-  @Column({ type: "text", nullable: false })
+  @Index()
+  @Column({ type: "text", nullable: false, unique: true })
   email: string;
 
   @Column({
