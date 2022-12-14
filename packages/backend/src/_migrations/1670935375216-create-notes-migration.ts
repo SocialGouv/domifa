@@ -35,10 +35,15 @@ export class createNotesMigration1670935375216 implements MigrationInterface {
       console.log("Structure 929 déjà supprimée");
     }
 
-    console.log("[MIGRATION] Remove unused data in interactions");
-    await queryRunner.query(
-      `ALTER TABLE "interactions" DROP COLUMN "interactionOutUUIDTest"`
-    );
+    try {
+      console.log("[MIGRATION] Remove unused data in interactions");
+
+      await queryRunner.query(
+        `ALTER TABLE "interactions" DROP COLUMN "interactionOutUUIDTest"`
+      );
+    } catch (e) {
+      console.log("interactionOutUUIDTest not exists");
+    }
 
     console.log("[MIGRATION] Update phone");
 
@@ -108,18 +113,7 @@ export class createNotesMigration1670935375216 implements MigrationInterface {
     );
 
     await queryRunner.query(
-      `ALTER TABLE "user_structure_security" ADD CONSTRAINT "FK_0389a8aa8e69b2d17210745d040" FOREIGN KEY ("userId") REFERENCES "user_structure"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
-    );
-
-    await queryRunner.query(
-      `ALTER TABLE "structure" ADD CONSTRAINT "UQ_b36e92e49b2a68f8fea64ec8d5b" UNIQUE ("email")`
-    );
-
-    await queryRunner.query(
-      `ALTER TABLE "user_structure_security" DROP CONSTRAINT "FK_0389a8aa8e69b2d17210745d040"`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "user_structure_security" DROP CONSTRAINT "UQ_cec1c2a0820383d2a4045b5f902"`
+      `ALTER TABLE "structure" ADD CONSTRAINT " " UNIQUE ("email")`
     );
   }
 
