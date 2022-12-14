@@ -14,6 +14,7 @@ import { FormatBigNumberPipe } from "./pipes/formatBigNumber.pipe";
 import { UsagerNomCompletPipe } from "./pipes/usager-nom-complet.pipe";
 
 import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
+import { StrCapsAlphaDirective } from "./directives/str-caps-alpha.directive";
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
     FormatBigNumberPipe,
     CustomToastrComponent,
     ReplaceLineBreaks,
+    StrCapsAlphaDirective,
   ],
   exports: [
     ReplaceLineBreaks,
@@ -32,6 +34,7 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
     FormatBigNumberPipe,
     FontAwesomeModule,
     CustomToastrComponent,
+    StrCapsAlphaDirective,
   ],
   imports: [CommonModule, FontAwesomeModule],
 })

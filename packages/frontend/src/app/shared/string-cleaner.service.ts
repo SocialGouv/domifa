@@ -2,10 +2,8 @@
 export const stringCleaner = { cleanString };
 function cleanString(str: string): string {
   if (!str) {
-    return str;
+    return "";
   }
-  return str
-    .trim()
-    .replace(/[&\/\\#,+()$~%.\'\":*?<>{}]/gi, "")
-    .replace(/\s+/g, " ");
+
+  return str.replace(/[&\/\\#,+()_$~%.\'\":*?<>{}]/gi, "").replace(/\s+/g, " ");
 }

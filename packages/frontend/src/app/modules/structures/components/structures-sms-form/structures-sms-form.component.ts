@@ -16,7 +16,6 @@ import { Title } from "@angular/platform-browser";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { StructureCommon } from "../../../../../_common/model";
 
-import { generateSender } from "../../services/generateSender.service";
 import { StructureService } from "../../services/structure.service";
 import { MatomoTracker } from "ngx-matomo";
 import {
@@ -25,6 +24,7 @@ import {
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
+import { generateSender } from "../../services";
 
 @Component({
   selector: "app-structures-sms-form",
@@ -81,9 +81,7 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
           }
 
           if (!this.structure.sms.senderName) {
-            this.structure.sms.senderName = generateSender(
-              this.structure.nom.substring(0, 11)
-            );
+            this.structure.sms.senderName = generateSender(this.structure.nom);
           }
 
           this.initForm();
@@ -107,8 +105,8 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
         this.structure.sms.senderName,
         [
           Validators.required,
-          Validators.maxLength(11),
           noWhiteSpace,
+          Validators.maxLength(11),
           Validators.pattern("^[a-zA-Z ]*$"),
         ],
       ],
@@ -117,18 +115,6 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
         [Validators.required, Validators.maxLength(30), noWhiteSpace],
       ],
     });
-    this.subscription.add(
-      this.structureSmsForm.get("senderName")?.valueChanges.subscribe(() => {
-        this.structureSmsForm
-          .get("senderName")
-          ?.patchValue(
-            generateSender(this.structureSmsForm.get("senderName")?.value),
-            {
-              emitEvent: false,
-            }
-          );
-      })
-    );
   }
 
   public submitStructureSmsForm() {

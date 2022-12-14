@@ -9,6 +9,7 @@ import {
   MESSAGE_SMS_RESPONSE_ERRORS,
 } from "../../_common/model/message-sms";
 import { AxiosError } from "axios";
+import { generateSender } from "./generators";
 
 @Injectable()
 export class MessageSmsSenderService {
@@ -26,7 +27,7 @@ export class MessageSmsSenderService {
       destinataires:
         domifaConfig().sms.phoneNumberRedirectAllTo ||
         message.phoneNumber.replace(/\s/g, ""),
-      expediteur: message.senderName.replace(/^[a-zA-Z ]*$/gi, ""),
+      expediteur: generateSender(message.senderName),
     };
 
     const url =

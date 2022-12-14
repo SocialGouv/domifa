@@ -1,17 +1,8 @@
 export function generateSender(structureName: string): string {
-  let str = removeAccents(structureName);
-  str = str.toUpperCase();
-  // Suppression des caractères spéciaux
-  str = str.replace(/[^\w\s]/gi, "");
-  // Suppression des préprosition
-  str = str.replace(" DE ", " ");
-  str = str.replace(" L ", " ");
-  str = str.replace(" D ", " ");
-  str = str.replace(" A ", " ");
-  str = str.replace(" N ", " ");
-  str = str.substring(0, 11);
-
-  return str;
+  return removeAccents(structureName)
+    .replace(/[^\w\s]/gi, "")
+    .substring(0, 11)
+    .toUpperCase();
 }
 
 function removeAccents(str: string): string {

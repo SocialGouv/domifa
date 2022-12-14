@@ -5,6 +5,7 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToOne,
 } from "typeorm";
 import { StructureTable, UsagerTable } from "..";
 
@@ -24,7 +25,7 @@ export class UserUsagerTable
 
   @Index()
   @Column({ type: "uuid", unique: true })
-  @ManyToOne(() => UsagerTable, (usager) => usager.uuid, {
+  @OneToOne(() => UsagerTable, (usager) => usager.uuid, {
     onDelete: "CASCADE",
   })
   @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })

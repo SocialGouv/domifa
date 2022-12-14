@@ -1,11 +1,11 @@
 import { Directive, ElementRef, HostListener } from "@angular/core";
 
-import { stringCleaner } from "../../../shared/string-cleaner.service";
+import { generateSender } from "../../structures/services";
 
 @Directive({
-  selector: "[appCleanStr]",
+  selector: "[appStrCapsAlpha]",
 })
-export class CleanStrDirective {
+export class StrCapsAlphaDirective {
   public regexStr =
     "^[a-zA-ZÀÁÂÃÄÅàáâãäåÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž 0-9\\'\\-]*$";
 
@@ -23,9 +23,9 @@ export class CleanStrDirective {
 
   public validateFields(event: KeyboardEvent) {
     setTimeout(() => {
-      this.el.nativeElement.value = stringCleaner.cleanString(
-        this.el.nativeElement.value
-      );
+      const value = generateSender(this.el.nativeElement.value);
+
+      this.el.nativeElement.value = value;
       event.preventDefault();
     }, 10);
   }

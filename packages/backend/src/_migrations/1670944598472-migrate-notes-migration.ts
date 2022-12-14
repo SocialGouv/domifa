@@ -1,10 +1,12 @@
-import { usagerRepository } from "./../database/services/usager/usagerRepository.service";
-import { usagerNotesRepository } from "./../database/services/usager/usagerNotesRepository.service";
+import { usagerRepository } from "../database/services/usager/usagerRepository.service";
+import { usagerNotesRepository } from "../database/services/usager/usagerNotesRepository.service";
 import { In, MigrationInterface, QueryRunner } from "typeorm";
 import { UsagerNote } from "../_common/model";
 import { typeOrmSearch, UsagerTable } from "../database";
 
-export class manualMigration1670944598472 implements MigrationInterface {
+export class migrateNotesMigration1670944598472 implements MigrationInterface {
+  name = "migrateNotesMigration1670944598472";
+
   public async up(queryRunner: QueryRunner): Promise<void> {
     const usagers = await queryRunner.query(
       `select uuid, "oldNotes", ref, "structureId" from usager u where "oldNotes" != '[]' and "oldNotes" is not null`

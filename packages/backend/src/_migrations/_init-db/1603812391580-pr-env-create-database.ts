@@ -189,7 +189,7 @@ async function createTables(queryRunner: QueryRunner) {
       "importDate" date NULL,
       "lastLogin" date NULL,
       nom text NOT NULL,
-      "options" jsonb NOT NULL DEFAULT '{"numeroBoite": false}'::jsonb,
+      "options" jsonb NOT NULL,
       responsable jsonb NOT NULL,
       "structureType" text NOT NULL,
       "token" text NULL,
@@ -202,11 +202,7 @@ async function createTables(queryRunner: QueryRunner) {
       CONSTRAINT "PK_a92a6b3dd54efb4ab48b2d6e7c1" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_90ac7986e769d602d218075215c" UNIQUE (id)
     );
-    CREATE INDEX "IDX_30c4985e1148ec42ad6122f0ff" ON public.structure USING btree ("structureType");
-    CREATE INDEX "IDX_62204f14a6d17cad41d419d150" ON public.structure USING btree ("codePostal");
     CREATE INDEX "IDX_90ac7986e769d602d218075215" ON public.structure USING btree (id);
-    CREATE INDEX "IDX_e848a2cfbd611ec5edc18074e2" ON public.structure USING btree (region);
-    CREATE INDEX "IDX_fa4dea9a1ff8deb8fcf47c451e" ON public.structure USING btree (departement);
 
 
     -- public.usager_notes definition
@@ -297,9 +293,9 @@ async function createTables(queryRunner: QueryRunner) {
       "etapeDemande" int4 NOT NULL DEFAULT 0,
       rdv jsonb NULL,
       entretien jsonb NOT NULL,
-      "oldNotes" jsonb NOT NULL DEFAULT '[]'::jsonb,
       "options" jsonb NOT NULL DEFAULT '{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}'::jsonb,
       "import" jsonb NULL,
+      "oldNotes" jsonb NOT NULL DEFAULT '[]'::jsonb,
       migrated bool NOT NULL DEFAULT false,
       telephone jsonb NOT NULL DEFAULT '{"numero": "", "countryCode": "fr"}'::jsonb,
       "contactByPhone" bool NULL DEFAULT false,
@@ -310,9 +306,6 @@ async function createTables(queryRunner: QueryRunner) {
     );
     CREATE INDEX "IDX_8198a25ae40584a38bce1dd4d2" ON public.usager USING btree (ref);
     CREATE INDEX "IDX_a44d882d224e368efdee8eb8c8" ON public.usager USING btree ("structureId");
-    CREATE INDEX "IDX_b4d09870ec6cad2d2d98b7cc3a" ON public.usager USING btree (migrated);
-    CREATE INDEX "IDX_d7abcf8875e8a94abf2dcf041e" ON public.usager USING btree ("dateNaissance");
-    CREATE INDEX "IDX_fef5654bcc6595d885e57d1474" ON public.usager USING btree (sexe);
 
 
     -- public.usager_docs definition
@@ -449,6 +442,7 @@ async function createTables(queryRunner: QueryRunner) {
       "temporaryTokens" jsonb NULL,
       "eventsHistory" jsonb NOT NULL DEFAULT '[]'::jsonb,
       CONSTRAINT "PK_a617f0127221193d06271877ae0" PRIMARY KEY (uuid),
+      CONSTRAINT "FK_0389a8aa8e69b2d17210745d040" FOREIGN KEY ("userId") REFERENCES public.user_structure(id) ON DELETE CASCADE,
       CONSTRAINT "FK_57be1bdd772eb3fea1e201317e6" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE
     );
     CREATE INDEX "IDX_0389a8aa8e69b2d17210745d04" ON public.user_structure_security USING btree ("userId");
@@ -546,7 +540,6 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_1953f5ad67157bada8774f7e24" ON public.interactions USING btree ("structureId");
     CREATE INDEX "IDX_495b59d0dd15e43b262f2da890" ON public.interactions USING btree ("interactionOutUUID");
     CREATE INDEX "IDX_9992157cbe54583ff7002ae4c0" ON public.interactions USING btree ("userId");
-    CREATE INDEX "IDX_ef9fade8e5a6dac06ef5031986" ON public.interactions USING btree (type);
     CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON public.interactions USING btree ("usagerUUID");
     `
   );
