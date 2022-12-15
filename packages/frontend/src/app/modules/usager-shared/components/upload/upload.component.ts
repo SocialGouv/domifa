@@ -1,3 +1,4 @@
+import { UsagerFormModel } from "./../../interfaces/UsagerFormModel";
 import {
   Component,
   EventEmitter,
@@ -14,7 +15,7 @@ import {
 } from "@angular/forms";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { UsagerLight } from "../../../../../_common/model";
+
 import {
   UploadResponseType,
   validateUpload,
@@ -34,7 +35,7 @@ export class UploadComponent implements OnInit, OnDestroy {
   public uploadForm!: FormGroup;
 
   @Output() public getUsagerDocs = new EventEmitter<void>();
-  @Input() public usager!: UsagerLight;
+  @Input() public usager!: UsagerFormModel;
   @Input() public edit!: boolean;
 
   private subscription = new Subscription();

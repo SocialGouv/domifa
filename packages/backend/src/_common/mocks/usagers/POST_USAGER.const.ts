@@ -91,6 +91,7 @@ export const POST_USAGER: {
     etapeDemande: 1,
     rdv: null,
     entretien: {
+      usagerRef: 17,
       uuid: "xx",
       usagerUUID: "ee7ef219-b101-422c-8ad4-4d5aedf9caad",
       structureId: 1,
@@ -127,10 +128,3 @@ export const POST_USAGER: {
     },
   },
 };
-// Test OK 2
-
-// Reponse OK 2
-
-// Test pas OK 1
-
-// Test pas OK 2
