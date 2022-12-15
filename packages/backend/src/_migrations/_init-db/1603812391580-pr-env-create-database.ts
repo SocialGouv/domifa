@@ -295,7 +295,6 @@ async function createTables(queryRunner: QueryRunner) {
       entretien jsonb NOT NULL,
       "options" jsonb NOT NULL DEFAULT '{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}'::jsonb,
       "import" jsonb NULL,
-      "oldNotes" jsonb NOT NULL DEFAULT '[]'::jsonb,
       migrated bool NOT NULL DEFAULT false,
       telephone jsonb NOT NULL DEFAULT '{"numero": "", "countryCode": "fr"}'::jsonb,
       "contactByPhone" bool NULL DEFAULT false,
