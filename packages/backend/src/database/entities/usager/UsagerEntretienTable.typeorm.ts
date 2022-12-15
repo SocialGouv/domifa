@@ -1,4 +1,3 @@
-import { UsagerEntretien } from "./../../../_common/model/usager/entretien/UsagerEntretien.type";
 import {
   Column,
   Entity,
@@ -13,6 +12,7 @@ import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import { StructureTable } from "../structure";
 import { UsagerTable } from "./UsagerTable.typeorm";
 import {
+  UsagerEntretien,
   UsagerEntretienCause,
   UsagerEntretienLienCommune,
   UsagerEntretienRaisonDemande,

@@ -29,19 +29,19 @@ describe("Cerfa Data utils", () => {
       imports: [UsagersModule, UsersModule],
     });
     user = await userStructureRepository.findOne({ id: 1 });
-    console.log("opkokop");
+
     structure = await structureRepository.findOneBy({
       id: 1,
     });
     user.structure = structure;
-    console.log(user.structure);
+
     // Usagers à tester
     usagerValide = await usagerRepository.getUsager(
       "97b7e840-0e93-4bf4-ba7d-0a406aa898f2"
       // usagerRef: 2,
       // structureId: 1,
     );
-    console.log(usagerValide);
+
     usagerRefus = await usagerRepository.getUsager(
       "e074c416-093a-46fc-ae47-77a3bc111d35"
       // usagerRef: 3,

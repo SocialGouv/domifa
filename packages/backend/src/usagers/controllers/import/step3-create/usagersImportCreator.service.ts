@@ -1,15 +1,17 @@
-import { usagerEntretienRepository } from "./../../../../database/services/usager/usagerEntretienRepository.service";
-import { usagerLightRepository, UsagerTable } from "../../../../database";
-import { usagerHistoryRepository } from "../../../../database/services/usager/usagerHistoryRepository.service";
-
-import { UserStructure } from "../../../../_common/model";
-import { usagerHistoryStateManager } from "../../../services/usagerHistoryStateManager.service";
-import { usagersCreator } from "../../../services/usagersCreator.service";
 import { ImportProcessTracker } from "../ImportProcessTracker.type";
 import { UsagersImportUsager } from "../step2-validate-row";
 import { usagersImportBuilder } from "./usagersImportBuilder.service";
 import { v4 as uuidv4 } from "uuid";
-import { UsagerEntretienTable } from "../../../../database/entities/usager/UsagerEntretienTable.typeorm";
+import {
+  UsagerTable,
+  usagerRepository,
+  usagerEntretienRepository,
+  usagerHistoryRepository,
+  UsagerEntretienTable,
+} from "../../../../database";
+import { UserStructure } from "../../../../_common/model";
+import { usagersCreator, usagerHistoryStateManager } from "../../../services";
+
 export const usagersImportCreator = {
   createFromImport,
 };
@@ -76,7 +78,7 @@ async function createFromImport({
       })
     );
 
-    await (await usagerLightRepository.typeorm()).save(nextUsagersToCreate);
+    await (await usagerRepository.typeorm()).save(nextUsagersToCreate);
 
     await usagerEntretienRepository.save(nextEntretienToSave);
 

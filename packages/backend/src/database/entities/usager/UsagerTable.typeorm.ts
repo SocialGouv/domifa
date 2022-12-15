@@ -17,10 +17,11 @@ import {
   UsagerSexe,
   UsagerTypeDom,
   Telephone,
+  UsagerEntretien,
+  UsagerAyantDroit,
+  UsagerDecision,
 } from "../../../_common/model";
-import { UsagerEntretien } from "../../../_common/model/usager/entretien";
-import { UsagerAyantDroit } from "../../../_common/model/usager/UsagerAyantDroit.type";
-import { UsagerDecision } from "../../../_common/model/usager/UsagerDecision.type";
+
 import { UsagerNote } from "../../../_common/model/usager/UsagerNote.type";
 import { StructureTable } from "../structure/StructureTable.typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";

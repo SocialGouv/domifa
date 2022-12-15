@@ -8,7 +8,6 @@ import { InteractionDto } from "../../interactions/dto";
 import {
   MessageSms,
   Usager,
-  UsagerLight,
   Structure,
   StructureSmsParams,
   Interactions,
@@ -79,7 +78,7 @@ export class MessageSmsService {
   }
 
   public async createSmsInteraction(
-    usager: UsagerLight,
+    usager: Usager,
     structure: Pick<Structure, "id" | "sms" | "telephone">,
     interaction: InteractionDto
   ) {
@@ -141,7 +140,7 @@ export class MessageSmsService {
   }: {
     interaction: Interactions;
     structure: Pick<Structure, "id" | "sms" | "telephone">;
-    usager: UsagerLight;
+    usager: Usager;
   }): Promise<void> {
     // 1. Vérifier l'activation des SMS par la structure
     if (

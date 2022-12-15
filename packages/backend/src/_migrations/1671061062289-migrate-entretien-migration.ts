@@ -1,9 +1,10 @@
-import { usagerEntretienRepository } from "./../database/services/usager/usagerEntretienRepository.service";
+import { usagerEntretienRepository } from "../database/services/usager/usagerEntretienRepository.service";
 import { In, MigrationInterface, QueryRunner } from "typeorm";
 import { UsagerEntretien } from "../_common/model";
 import { usagerRepository, typeOrmSearch, UsagerTable } from "../database";
 
-export class manualMigration1670972919865 implements MigrationInterface {
+export class manualMigration1671061062289 implements MigrationInterface {
+  name = "manualMigration1671061062289";
   public async up(queryRunner: QueryRunner): Promise<void> {
     console.log("manualMigration1670972919865");
     const total = await usagerRepository.countMigratedUsagers();

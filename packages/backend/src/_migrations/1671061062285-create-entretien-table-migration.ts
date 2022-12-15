@@ -1,8 +1,10 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { domifaConfig } from "../config";
 
-export class autoMigration1670972783702 implements MigrationInterface {
-  name = "autoMigration1670972783702";
+export class createEntretienMigration1671061062285
+  implements MigrationInterface
+{
+  name = "createEntretienMigration1671061062285";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     if (domifaConfig().envId === "dev" || domifaConfig().envId === "test") {
@@ -16,12 +18,12 @@ export class autoMigration1670972783702 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "usager" ALTER COLUMN "oldEntretien" DROP NOT NULL`
     );
+
     await queryRunner.query(
       `CREATE TABLE "usager_entretien" ("uuid" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "version" integer NOT NULL,  "usagerUUID" uuid NOT NULL, "structureId" integer NOT NULL, "usagerRef" integer NOT NULL, "domiciliation" boolean, "commentaires" text, "typeMenage" text, "revenus" boolean, "revenusDetail" text, "orientation" boolean, "orientationDetail" text, "liencommune" text, "liencommuneDetail" text, "residence" text, "residenceDetail" text, "cause" text, "causeDetail" text, "rattachement" text, "raison" text, "raisonDetail" text, "accompagnement" boolean, "accompagnementDetail" text, CONSTRAINT "PK_1da0e283293a4bb213ffd0ef280" PRIMARY KEY ("uuid"))`
     );
 
     console.log("[MIGRATION] Create indexes pour les entretien");
-
     await queryRunner.query(
       `CREATE INDEX "IDX_aa19c17fc79f4e4a648643096f" ON "usager_entretien" ("usagerUUID") `
     );
@@ -36,14 +38,6 @@ export class autoMigration1670972783702 implements MigrationInterface {
 
     await queryRunner.query(
       `ALTER TABLE "usager_entretien" ADD CONSTRAINT "FK_6193a732dd00abc56e91e92fe48" FOREIGN KEY ("structureId") REFERENCES "structure"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
-    );
-
-    console.log("[MIGRATION] Création d'indexes pour les structures ");
-    await queryRunner.query(
-      `ALTER TABLE "structure" ADD CONSTRAINT "UQ_b36e92e49b2a68f8fea64ec8d5b" UNIQUE ("email")`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "structure" ALTER COLUMN "telephone" SET DEFAULT '{"countryCode": "fr", "numero": ""}'`
     );
 
     console.log("[MIGRATION] Mise à jour de la variable de migration");

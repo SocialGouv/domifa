@@ -10,6 +10,7 @@ export type UsagerEntretien = {
   uuid?: string;
   usagerUUID: string;
   structureId: number;
+  usagerRef: number;
   domiciliation: boolean | null;
   commentaires: string | null;
 

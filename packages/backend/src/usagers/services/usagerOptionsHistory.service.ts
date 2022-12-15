@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 
 import { usagerOptionsHistoryRepository } from "../../database/services";
 import {
-  UsagerLight,
+  Usager,
   UserStructureAuthenticated,
   UsagerOptionsHistoryAction,
   UsagerOptionsHistoryType,
@@ -14,7 +14,7 @@ import {
 @Injectable()
 export class UsagerOptionsHistoryService {
   public async createOptionHistory(
-    usager: UsagerLight,
+    usager: Usager,
     user: UserStructureAuthenticated,
     action: UsagerOptionsHistoryAction,
     type: UsagerOptionsHistoryType,

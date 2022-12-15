@@ -1,11 +1,7 @@
 import { usagerEntretienRepository } from "./../../database/services/usager/usagerEntretienRepository.service";
 import { Injectable } from "@nestjs/common";
 import { v4 as uuidv4 } from "uuid";
-import {
-  usagerLightRepository,
-  usagerRepository,
-  UsagerTable,
-} from "../../database";
+import { usagerRepository, UsagerTable } from "../../database";
 import { usagerHistoryRepository } from "../../database/services/usager/usagerHistoryRepository.service";
 
 import {
@@ -60,11 +56,12 @@ export class UsagersService {
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
     usager.typeDom = "PREMIERE_DOM";
 
-    const createdUsager = await usagerLightRepository.save(usager);
+    const createdUsager = await usagerRepository.save(usager);
 
     const entretien: Partial<UsagerEntretien> = {
       structureId: usager.structureId,
       usagerUUID: usager.uuid,
+      usagerRef: usager.ref,
     };
 
     const usagerEntretien = await usagerEntretienRepository.save(entretien);
@@ -137,18 +134,15 @@ export class UsagersService {
 
     usager.lastInteraction.dateInteraction = now;
 
-    return usagerLightRepository.updateOne(
-      { uuid: usager.uuid },
-      {
-        lastInteraction: usager.lastInteraction,
-        decision: usager.decision,
-        options: usager.options,
-        historique: usager.historique,
-        etapeDemande: usager.etapeDemande,
-        typeDom,
-        rdv: usager.rdv,
-      }
-    );
+    return usagerRepository.updateOneAndReturn(usager.uuid, {
+      lastInteraction: usager.lastInteraction,
+      decision: usager.decision,
+      options: usager.options,
+      historique: usager.historique,
+      etapeDemande: usager.etapeDemande,
+      typeDom,
+      rdv: usager.rdv,
+    });
   }
 
   public async setDecision(
@@ -208,18 +202,15 @@ export class UsagersService {
       historyBeginDate: usager.decision.dateDebut,
     });
 
-    return usagerLightRepository.updateOne(
-      { uuid: usager.uuid },
-      {
-        lastInteraction: usager.lastInteraction,
-        customRef: usager.customRef,
-        decision: usager.decision,
-        historique: usager.historique,
-        etapeDemande: usager.etapeDemande,
-        typeDom: usager.typeDom,
-        datePremiereDom: usager.datePremiereDom,
-      }
-    );
+    return usagerRepository.updateOneAndReturn(usager.uuid, {
+      lastInteraction: usager.lastInteraction,
+      customRef: usager.customRef,
+      decision: usager.decision,
+      historique: usager.historique,
+      etapeDemande: usager.etapeDemande,
+      typeDom: usager.typeDom,
+      datePremiereDom: usager.datePremiereDom,
+    });
   }
 
   public async setRdv(
@@ -240,30 +231,18 @@ export class UsagersService {
       usager.etapeDemande = ETAPE_RENDEZ_VOUS;
     }
 
-    usager = await usagerLightRepository.updateOne(
-      { uuid: usager.uuid },
-      { rdv: usager.rdv, etapeDemande: usager.etapeDemande }
-    );
-
-    return usager;
-  }
-
-  public async getLastFiveCustomRef(
-    structureId: number,
-    usagerRef: number
-  ): Promise<
-    Pick<
-      Usager,
-      "ref" | "customRef" | "nom" | "sexe" | "prenom" | "structureId"
-    >[]
-  > {
-    return usagerLightRepository.findLastFiveCustomRef({
-      structureId,
-      usagerRef,
+    return usagerRepository.updateOneAndReturn(usager.uuid, {
+      rdv: usager.rdv,
+      etapeDemande: usager.etapeDemande,
     });
   }
 
   public async export(structureId: number): Promise<Usager[]> {
-    return usagerRepository.findBy({ structureId });
+    return usagerRepository.find({
+      where: { structureId },
+      relations: {
+        entretien: true,
+      },
+    });
   }
 }

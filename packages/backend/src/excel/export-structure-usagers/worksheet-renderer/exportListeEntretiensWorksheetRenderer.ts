@@ -4,6 +4,7 @@ import {
   ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_RESIDENCE,
   ENTRETIEN_TYPE_MENAGE,
+  Usager,
 } from "../../../_common/model";
 
 import {
@@ -74,7 +75,7 @@ function renderWorksheet({
   }
 
   function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
-    return model.usagers.map((usager) => {
+    return model.usagers.map((usager: Usager) => {
       const row: XlRowModel = {
         values: {
           customRef: usager.customRef,

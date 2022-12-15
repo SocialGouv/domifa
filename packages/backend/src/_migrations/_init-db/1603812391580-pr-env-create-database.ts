@@ -70,7 +70,7 @@ async function createTables(queryRunner: QueryRunner) {
       attachment jsonb NULL,
       email text NOT NULL,
       category text NULL,
-      "name" text NOT NULL,
+      name text NOT NULL,
       "comments" text NULL,
       "structureName" text NULL,
       CONSTRAINT "PK_8e4a4781a01061a482fa33e5f5a" PRIMARY KEY (uuid)
@@ -205,6 +205,44 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_90ac7986e769d602d218075215" ON public.structure USING btree (id);
 
 
+    -- public.usager_entretien definition
+
+    -- Drop table
+
+    -- DROP TABLE public.usager_entretien;
+
+    CREATE UNLOGGED TABLE public.usager_entretien (
+      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "createdAt" timestamptz NOT NULL DEFAULT now(),
+      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "version" int4 NOT NULL,
+      "usagerUUID" uuid NOT NULL,
+      "structureId" int4 NOT NULL,
+      "usagerRef" int4 NOT NULL,
+      domiciliation bool NULL,
+      commentaires text NULL,
+      "typeMenage" text NULL,
+      revenus bool NULL,
+      "revenusDetail" text NULL,
+      orientation bool NULL,
+      "orientationDetail" text NULL,
+      liencommune text NULL,
+      "liencommuneDetail" text NULL,
+      residence text NULL,
+      "residenceDetail" text NULL,
+      cause text NULL,
+      "causeDetail" text NULL,
+      rattachement text NULL,
+      raison text NULL,
+      "raisonDetail" text NULL,
+      accompagnement bool NULL,
+      "accompagnementDetail" text NULL,
+      CONSTRAINT "PK_1da0e283293a4bb213ffd0ef280" PRIMARY KEY (uuid)
+    );
+    CREATE INDEX "IDX_6193a732dd00abc56e91e92fe4" ON public.usager_entretien USING btree ("structureId");
+    CREATE INDEX "IDX_aa19c17fc79f4e4a648643096f" ON public.usager_entretien USING btree ("usagerUUID");
+
+
     -- public.usager_notes definition
 
     -- Drop table
@@ -292,7 +330,7 @@ async function createTables(queryRunner: QueryRunner) {
       "lastInteraction" jsonb NOT NULL,
       "etapeDemande" int4 NOT NULL DEFAULT 0,
       rdv jsonb NULL,
-      entretien jsonb NOT NULL,
+      "oldEntretien" jsonb NULL,
       "options" jsonb NOT NULL DEFAULT '{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}'::jsonb,
       "import" jsonb NULL,
       migrated bool NOT NULL DEFAULT false,
