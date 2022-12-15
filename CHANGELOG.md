@@ -1,3 +1,11 @@
+## [2.110.2](https://github.com/SocialGouv/domifa/compare/v2.110.1...v2.110.2) (2022-12-15)
+
+
+### Bug Fixes
+
+* **migration:** correction des migrations ([3348404](https://github.com/SocialGouv/domifa/commit/33484046f34c31eaf1f8249fcb1b7b79802f108c))
+* **migrations:** update user-security ([f5d0b98](https://github.com/SocialGouv/domifa/commit/f5d0b98b971f6874a6b21d55ef8c748ae93702e4))
+
 ## [2.110.1](https://github.com/SocialGouv/domifa/compare/v2.110.0...v2.110.1) (2022-12-14)
 
 
