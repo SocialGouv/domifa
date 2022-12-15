@@ -1,3 +1,13 @@
+## [2.110.3](https://github.com/SocialGouv/domifa/compare/v2.110.2...v2.110.3) (2022-12-15)
+
+
+### Bug Fixes
+
+* **migration:** correction de la migration qui rétablit les bons expéditeurs ([09644f2](https://github.com/SocialGouv/domifa/commit/09644f27496b4b7a4b98a8098eac93f200b9becb))
+* **migration:** fix migration for dev env ([37c8ba4](https://github.com/SocialGouv/domifa/commit/37c8ba4da53c503e1b72deacb88e988afde66ec4))
+* **sms:** fix expéditeurs ([687d201](https://github.com/SocialGouv/domifa/commit/687d201318d0f81dd1571f4d5158939e5bf86624))
+* **sms:** fix senderName ([3f75eb4](https://github.com/SocialGouv/domifa/commit/3f75eb4fc2a487332c7a84ab8fe15c591127ab91))
+
 ## [2.110.2](https://github.com/SocialGouv/domifa/compare/v2.110.1...v2.110.2) (2022-12-15)
 
 
