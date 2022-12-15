@@ -3,6 +3,7 @@ import {
   IsEmpty,
   IsNotEmpty,
   IsString,
+  IsUppercase,
   Matches,
   MaxLength,
   MinLength,
@@ -23,7 +24,8 @@ export class StructureEditSmsDto {
   @MinLength(1)
   @IsNotEmpty()
   @IsString()
-  @Matches("^[a-zA-Z ]*$")
+  @Matches("^[A-Z ]*$")
+  @IsUppercase()
   @TrimOrNullTransform()
   public senderName: string;
 
