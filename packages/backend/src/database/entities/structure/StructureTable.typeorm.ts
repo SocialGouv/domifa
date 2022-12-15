@@ -120,7 +120,7 @@ export class StructureTable
     default: () =>
       `'{"senderName": null, "senderDetails": null, "enabledByDomifa": true, "enabledByStructure": false}'`,
   })
-  sms: StructureSmsParams;
+  public sms: StructureSmsParams;
 
   @Column({ type: "text", nullable: true })
   timeZone: TimeZone;

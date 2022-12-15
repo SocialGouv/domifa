@@ -11,16 +11,13 @@ export class manualMigration1671115102347 implements MigrationInterface {
     );
 
     for (const structure of structures) {
-      console.log({
-        name: structure.nom,
-        senderName: structure.sms.senderName,
-      });
+      const oldSenderName = structure.sms.senderName;
 
       if (
         structure.sms.senderName === "" ||
         structure.sms.senderName === null
       ) {
-        structure.sms.senderName = generateSender(structure.sms.senderName);
+        structure.sms.senderName = generateSender(structure.nom);
       } else {
         structure.sms.senderName = structure.sms.senderName
           .replace(/[^\w\s]/gi, "")
@@ -28,9 +25,10 @@ export class manualMigration1671115102347 implements MigrationInterface {
           .substring(0, 11)
           .toUpperCase();
       }
-
+      const newSenderName = structure.sms.senderName;
       structure.sms.senderName = structure.sms.senderName.trim();
 
+      console.log({ newSenderName, oldSenderName });
       await structureRepository.update(
         { id: structure.id },
         { sms: structure.sms }
