@@ -9,6 +9,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { SharedModule } from "../../../shared/shared.module";
+import { UsagerFormModel } from "../../interfaces";
 
 import { UploadComponent } from "./upload.component";
 
@@ -37,7 +38,7 @@ describe("UploadComponent", () => {
     fixture = TestBed.createComponent(UploadComponent);
     component = fixture.componentInstance;
 
-    component.usager = USAGER_ACTIF_MOCK;
+    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
   });
 
   it("should create", () => {

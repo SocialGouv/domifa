@@ -57,6 +57,7 @@ export const USAGER_REFUS_MOCK: Usager = {
     uuid: "xx",
     usagerUUID: "ee7ef219-b101-422c-8ad4-4d5aedf9caad",
     structureId: 1,
+    usagerRef: 5,
     typeMenage: "COUPLE_AVEC_ENFANT",
     domiciliation: false,
     revenus: false,

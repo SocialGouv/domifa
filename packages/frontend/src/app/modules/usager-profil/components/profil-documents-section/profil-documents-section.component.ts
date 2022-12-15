@@ -19,7 +19,6 @@ import { getUsagerNomComplet } from "../../../../shared/getUsagerNomComplet";
 })
 export class ProfilDocumentsSectionComponent implements OnInit {
   public me!: UserStructure | null;
-
   public usager!: UsagerFormModel;
 
   constructor(

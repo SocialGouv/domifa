@@ -22,10 +22,12 @@ export class DisplayUsagerDocsComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
   @Input() public editPJ!: boolean;
+
   private subscription = new Subscription();
   public docs: UsagerDoc[];
-  public STRUCTURE_DOC_EXTENSIONS_LABELS = STRUCTURE_DOC_EXTENSIONS_LABELS;
-  public STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;
+  public readonly STRUCTURE_DOC_EXTENSIONS_LABELS =
+    STRUCTURE_DOC_EXTENSIONS_LABELS;
+  public readonly STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;
 
   public loadings: {
     download: number[];

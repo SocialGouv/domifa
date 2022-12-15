@@ -58,6 +58,7 @@ export const USAGER_VALIDE_MOCK: Usager = {
   },
   entretien: {
     uuid: "xx",
+    usagerRef: 6,
     usagerUUID: "ee7ef219-b101-422c-8ad4-4d5aedf9caad",
     structureId: 1,
     cause: "VIOLENCE",
