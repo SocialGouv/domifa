@@ -13,6 +13,7 @@ import { appLogger } from "../../util/AppLogger.service";
 import { StructureCommon } from "../../_common/model";
 import { departementHelper } from "./departement-helper.service";
 import { StructureDto } from "../dto/structure.dto";
+import { generateSender } from "../../sms/services/generators";
 
 export const structureCreatorService = {
   checkStructureCreateArgs,
@@ -98,6 +99,13 @@ async function checkCreationToken({
 
 async function createStructure(structureDto: StructureDto) {
   const createdStructure = new StructureTable(structureDto);
+
+  createdStructure.sms = {
+    senderName: generateSender(createdStructure.nom),
+    senderDetails: generateSender(createdStructure.nom),
+    enabledByDomifa: true,
+    enabledByStructure: false,
+  };
 
   createdStructure.registrationDate = new Date();
   createdStructure.token = crypto.randomBytes(30).toString("hex");
