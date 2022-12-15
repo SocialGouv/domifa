@@ -1,9 +1,14 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { domifaConfig } from "../config";
 
 export class autoMigration1671061062283 implements MigrationInterface {
   name = "autoMigration1671061062283";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
+    if (domifaConfig().envId === "dev" || domifaConfig().envId === "test") {
+      return;
+    }
+
     try {
       await queryRunner.query(
         `ALTER TABLE "user_structure_security" DROP CONSTRAINT "FK_0389a8aa8e69b2d17210745d040"`
