@@ -50,11 +50,13 @@ async function renderWorkbook(model: StructureUsagersExportModel) {
     workbook,
     worksheetIndex: 0,
   });
+
   exportListeEntretiensWorksheetRenderer.renderWorksheet({
     model,
     workbook,
     worksheetIndex: 1,
   });
+
   exportListeCourriersWorksheetRenderer.renderWorksheet({
     model,
     workbook,

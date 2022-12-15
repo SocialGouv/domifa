@@ -26,7 +26,7 @@ export const usagerRepository = myDataSource
 export async function updateOneAndReturn(
   uuid: string,
   partialUpdate: Partial<Usager>
-) {
+): Promise<Usager> {
   await usagerRepository.updateOne({ uuid }, partialUpdate);
   return getUsager(uuid);
 }
@@ -112,6 +112,6 @@ async function countMigratedUsagers(): Promise<number> {
   const retour = await myDataSource
     .getRepository<Usager>(UsagerTable)
     .countBy({ migrated: false });
-  console.log(retour);
+
   return retour;
 }

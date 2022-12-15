@@ -2,9 +2,9 @@ import { UsagerHistoryTable } from "../../database/entities/usager/UsagerHistory
 import { usagerHistoryRepository } from "../../database/services/usager/usagerHistoryRepository.service";
 
 import {
+  Usager,
   UsagerHistory,
   UsagerHistoryState,
-  UsagerLight,
   UserStructureResume,
 } from "../../_common/model";
 import { UsagerHistoryStateCreationEvent } from "../../_common/model/usager/history/UsagerHistoryStateCreationEvent.type";
@@ -36,7 +36,7 @@ function buildInitialHistoryState({
   historyBeginDate = createdAt,
 }: {
   isImport: boolean;
-  usager: UsagerLight;
+  usager: Usager;
   createdAt?: Date;
   createdEvent: UsagerHistoryStateCreationEvent;
   historyBeginDate?: Date;
@@ -75,7 +75,7 @@ async function updateHistoryStateFromDecision({
   createdEvent,
   historyBeginDate = createdAt,
 }: {
-  usager: UsagerLight;
+  usager: Usager;
   createdAt?: Date;
   createdEvent: UsagerHistoryStateCreationEvent;
   historyBeginDate?: Date;
@@ -102,7 +102,7 @@ function buildHistoryFromNewDecision({
   createdEvent,
   historyBeginDate = createdAt,
 }: {
-  usager: UsagerLight;
+  usager: Usager;
   usagerHistory: UsagerHistory;
   createdAt?: Date;
   createdEvent: UsagerHistoryStateCreationEvent;
@@ -178,7 +178,7 @@ async function updateHistoryStateWithoutDecision({
   createdEvent,
   historyBeginDate = createdAt,
 }: {
-  usager: UsagerLight;
+  usager: Usager;
   createdBy: UserStructureResume;
   createdAt?: Date;
   createdEvent: UsagerHistoryStateCreationEvent;
@@ -209,7 +209,7 @@ async function removeLastDecisionFromHistory({
   historyBeginDate = createdAt,
   removedDecisionUUID,
 }: {
-  usager: UsagerLight;
+  usager: Usager;
   createdBy: UserStructureResume;
   createdAt?: Date;
   historyBeginDate?: Date;
@@ -246,7 +246,7 @@ function buildHistoryState({
   createdEvent,
   historyBeginDate,
 }: {
-  usager: UsagerLight;
+  usager: Usager;
   usagerHistory: UsagerHistory;
   createdAt: Date;
   createdBy: UserStructureResume;
@@ -267,7 +267,6 @@ function buildHistoryState({
       decision.statut === "INSTRUCTION") &&
       (previousState?.isActive ?? false));
 
-  console.log(usager.entretien);
   const state: UsagerHistoryState = {
     uuid: uuidv4(),
     createdAt,

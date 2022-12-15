@@ -40,7 +40,6 @@ import {
   CerfaDocType,
   ETAPE_DOCUMENTS,
   Usager,
-  UsagerLight,
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
 } from "../../_common/model";
@@ -180,9 +179,9 @@ export class UsagersController {
       usagerDto.customRef = currentUsager.ref.toString();
     }
 
-    currentUsager = await usagerLightRepository.updateOne(
-      { uuid: currentUsager.uuid },
-      usagerDto
+    currentUsager = await usagerRepository.updateOneAndReturn(
+      currentUsager.uuid,
+      { ...usagerDto }
     );
 
     await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
@@ -203,14 +202,12 @@ export class UsagersController {
   public async setEntretien(
     @Body() entretien: EntretienDto,
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() currentUsager: UsagerLight
+    @CurrentUsager() currentUsager: Usager
   ) {
-    const newEntretien = await usagerEntretienRepository.update(
+    await usagerEntretienRepository.update(
       { usagerUUID: currentUsager.uuid },
       { ...entretien }
     );
-
-    console.log(newEntretien);
 
     if (currentUsager.decision.statut === "INSTRUCTION") {
       await usagerRepository.update(
@@ -223,7 +220,6 @@ export class UsagersController {
 
     const usager = await usagerRepository.getUsager(currentUsager.uuid);
 
-    console.log(usager);
     await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
       usager,
       createdBy: {
@@ -242,7 +238,7 @@ export class UsagersController {
   public async nextStep(
     @Param("etapeDemande", new ParseIntPipe()) etapeDemande: number,
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
-    @CurrentUsager() currentUsager: UsagerLight
+    @CurrentUsager() currentUsager: Usager
   ): Promise<Usager> {
     return usagerRepository.updateOneAndReturn(currentUsager.uuid, {
       etapeDemande,
@@ -253,7 +249,7 @@ export class UsagersController {
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @Get("stop-courrier/:usagerRef")
   public async stopCourrier(
-    @CurrentUsager() currentUsager: UsagerLight,
+    @CurrentUsager() currentUsager: Usager,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ): Promise<Usager> {
@@ -277,7 +273,7 @@ export class UsagersController {
     @Param("prenom") prenom: string,
     @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
     @CurrentUser() user: UserStructureAuthenticated
-  ): Promise<UsagerLight[]> {
+  ): Promise<Usager[]> {
     return usagerLightRepository.findDoublons({
       nom,
       prenom,
@@ -408,7 +404,7 @@ export class UsagersController {
     @Param("typeCerfa") typeCerfa: CerfaDocType,
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() currentUsager: UsagerLight
+    @CurrentUsager() currentUsager: Usager
   ) {
     const pdfForm =
       typeCerfa === "attestation"

@@ -1,4 +1,4 @@
-import { UsagerLight } from "../../_common/model/usager/UsagerLight.type";
+import { Usager } from "../../_common/model/usager/Usager.type";
 import { InteractionsModule } from "../../interactions/interactions.module";
 import { UsersModule } from "../../users/users.module";
 import {
@@ -63,8 +63,8 @@ describe("Usagers Controller", () => {
       expect(response.status).toBe(201);
       expect(response.body).toBeDefined();
 
-      const usager: UsagerLight = response.body;
-      const exceptedResponse: UsagerLight = POST_USAGER.response;
+      const usager: Usager = response.body;
+      const exceptedResponse: Usager = POST_USAGER.response;
 
       // Test des dates
       expect(new Date(usager.decision.dateDebut)).toEqual(new Date());
@@ -120,7 +120,7 @@ describe("Usagers Controller", () => {
       expect(response.status).toBe(201);
       expect(response.body).toBeDefined();
 
-      const usager: UsagerLight = response.body;
+      const usager: Usager = response.body;
 
       // Test des dates
       expect(new Date(usager.decision.dateDebut)).toEqual(new Date());
@@ -154,7 +154,7 @@ describe("Usagers Controller", () => {
   });
 
   describe("> Edition d'un domicilié", () => {
-    let usagerPatch: UsagerLight = null;
+    let usagerPatch: Usager = null;
 
     // Créer le dossier
     beforeAll(async () => {
@@ -203,7 +203,7 @@ describe("Usagers Controller", () => {
 
       expect(response.status).toBe(200);
       expect(response.body).toBeDefined();
-      const updatedUsager: UsagerLight = response.body;
+      const updatedUsager: Usager = response.body;
       expect(updatedUsager.nom).toEqual("Rami");
       expect(updatedUsager.etapeDemande).toEqual(1);
       expect(updatedUsager.telephone.numero).toEqual("0600000001");
@@ -247,7 +247,7 @@ describe("Usagers Controller", () => {
       expect(response.status).toBe(200);
       expect(response.body).toBeDefined();
 
-      const updatedUsager: UsagerLight = response.body;
+      const updatedUsager: Usager = response.body;
       expect(updatedUsager.nom).toEqual("Rami");
       expect(updatedUsager.ref).toEqual(usagerPatch.ref);
       expect(updatedUsager.etapeDemande).toEqual(1);

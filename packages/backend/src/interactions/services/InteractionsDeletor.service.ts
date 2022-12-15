@@ -1,7 +1,12 @@
 import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { interactionRepository, usagerRepository } from "../../database";
 import { MessageSmsService } from "../../sms/services/message-sms.service";
-import { Structure, UsagerLight, UserStructure } from "../../_common/model";
+import {
+  Structure,
+  Usager,
+  UsagerLight,
+  UserStructure,
+} from "../../_common/model";
 import {
   InteractionEvent,
   Interactions,
@@ -25,7 +30,7 @@ export class InteractionsDeletor {
     structure,
   }: {
     interaction: Interactions;
-    usager: UsagerLight;
+    usager: Usager;
     user: Pick<
       UserStructure,
       "id" | "structureId" | "nom" | "prenom" | "structure"

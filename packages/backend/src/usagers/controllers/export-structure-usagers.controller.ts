@@ -14,7 +14,7 @@ import {
 
 import { expressResponseExcelRenderer } from "../../util";
 import {
-  UsagerLight,
+  Usager,
   UserStructure,
   UserStructureAuthenticated,
 } from "../../_common/model";
@@ -72,8 +72,7 @@ export class ExportStructureUsagersController {
       });
 
     for (let i = 0; i < usagers.length; i++) {
-      const usager: UsagerLight = usagers[i];
-
+      const usager: Usager = usagers[i];
       const data = interactionsByUsagerMap.find(
         (x: {
           usagerRef: number;

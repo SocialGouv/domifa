@@ -1,15 +1,11 @@
+import { usagerRepository } from "./../../database/services/usager/usagerRepository.service";
 import { differenceInCalendarDays } from "date-fns";
 import { interactionsTypeManager } from ".";
-import {
-  interactionRepository,
-  InteractionsTable,
-  usagerLightRepository,
-} from "../../database";
+import { interactionRepository, InteractionsTable } from "../../database";
 import {
   Interactions,
   Structure,
   Usager,
-  UsagerLight,
   UserStructure,
 } from "../../_common/model";
 import { InteractionDto } from "../dto";
@@ -25,13 +21,13 @@ async function createInteraction({
   user,
 }: {
   interaction: InteractionDto;
-  usager: UsagerLight;
+  usager: Usager;
   user: Pick<
     UserStructure,
     "id" | "structureId" | "nom" | "prenom" | "structure"
   >;
 }): Promise<{
-  usager: UsagerLight;
+  usager: Usager;
   interaction: Interactions;
 }> {
   const now = new Date();
@@ -165,7 +161,7 @@ async function updateUsagerAfterCreation({
 }: {
   structure: Pick<Structure, "portailUsager">;
   usager: Pick<Usager, "uuid" | "lastInteraction">;
-}): Promise<UsagerLight> {
+}): Promise<Usager> {
   const lastInteraction = usager.lastInteraction;
 
   const lastInteractionCount =
@@ -198,10 +194,8 @@ async function updateUsagerAfterCreation({
     lastInteraction.colisIn > 0 ||
     lastInteraction.recommandeIn > 0;
 
-  const retour = await usagerLightRepository.updateOne(
-    { uuid: usager.uuid },
-    { updatedAt: new Date(), lastInteraction }
-  );
-
-  return retour;
+  return usagerRepository.updateOneAndReturn(usager.uuid, {
+    updatedAt: new Date(),
+    lastInteraction,
+  });
 }

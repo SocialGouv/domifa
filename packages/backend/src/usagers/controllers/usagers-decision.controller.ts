@@ -1,3 +1,4 @@
+import { usagerRepository } from "./../../database/services/usager/usagerRepository.service";
 import {
   Body,
   Controller,
@@ -13,11 +14,7 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-import { AllowUserStructureRoles } from "../../auth/decorators";
-import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
-import { CurrentUser } from "../../auth/decorators/current-user.decorator";
-import { AppUserGuard } from "../../auth/guards";
-import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
+
 import { interactionRepository, usagerLightRepository } from "../../database";
 
 import {
@@ -26,8 +23,13 @@ import {
   UserStructureAuthenticated,
 } from "../../_common/model";
 import { DecisionDto } from "../dto";
-
 import { UsagersService, usagerHistoryStateManager } from "../services";
+import {
+  AllowUserStructureRoles,
+  CurrentUser,
+  CurrentUsager,
+} from "../../auth/decorators";
+import { AppUserGuard, UsagerAccessGuard } from "../../auth/guards";
 
 @Controller("usagers-decision")
 @ApiTags("usagers-decision")
@@ -60,10 +62,10 @@ export class UsagersDecisionController {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ) {
-    return this.usagersService.getLastFiveCustomRef(
-      user.structureId,
-      usager.ref
-    );
+    return usagerLightRepository.findLastFiveCustomRef({
+      structureId: user.structureId,
+      usagerRef: usager.ref,
+    });
   }
 
   @UseGuards(UsagerAccessGuard)
@@ -137,15 +139,13 @@ export class UsagersDecisionController {
       : // Cas extrême, aucune date définie
         usager.decision.dateDecision;
 
-    const result = await usagerLightRepository.updateOne(
-      { uuid: usager.uuid },
-      {
-        lastInteraction: usager.lastInteraction,
-        historique: usager.historique,
-        etapeDemande: usager.etapeDemande,
-        decision: usager.decision,
-      }
-    );
+    const result = await usagerRepository.updateOneAndReturn(usager.uuid, {
+      lastInteraction: usager.lastInteraction,
+      historique: usager.historique,
+      etapeDemande: usager.etapeDemande,
+      decision: usager.decision,
+    });
+
     return res.status(HttpStatus.OK).json(result);
   }
 }

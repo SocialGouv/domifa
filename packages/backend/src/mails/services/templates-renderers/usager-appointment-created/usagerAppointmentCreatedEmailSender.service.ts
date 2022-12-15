@@ -5,7 +5,7 @@ import {
   MessageEmailContent,
   MessageEmailIcalEvent,
 } from "../../../../database";
-import { UsagerLight } from "../../../../_common/model";
+import { Usager } from "../../../../_common/model";
 import {
   DOMIFA_DEFAULT_MAIL_CONFIG,
   mailRecipientsFilter,
@@ -22,7 +22,7 @@ async function sendMail({
   message,
 }: {
   user: AppUserForAdminEmail;
-  usager: UsagerLight;
+  usager: Usager;
   icalEvent: MessageEmailIcalEvent;
   message: string;
 }): Promise<void> {

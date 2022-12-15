@@ -7,7 +7,7 @@ import {
   ENTRETIEN_RESIDENCE,
   ENTRETIEN_TYPE_MENAGE,
   StructureCommon,
-  UsagerLight,
+  Usager,
   USAGER_DECISION_STATUT_LABELS,
 } from "../../_common/model";
 import { StructureCustomDocTags } from "../../_common/model/structure-doc/StructureCustomDocTags.type";
@@ -33,7 +33,7 @@ export function buildCustomDoc({
   date,
   extraParameters = {},
 }: {
-  usager: UsagerLight;
+  usager: Usager;
   structure: StructureCommon;
   date: Date;
   extraParameters?: { [name: string]: string };

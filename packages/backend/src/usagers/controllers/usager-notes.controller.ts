@@ -19,7 +19,7 @@ import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 
 import { ExpressResponse } from "../../util/express";
 import {
-  UsagerLight,
+  Usager,
   UserStructureAuthenticated,
   UserStructureResume,
 } from "../../_common/model";
@@ -36,7 +36,7 @@ export class UsagerNotesController {
   public async createNote(
     @Body() createNoteDto: CreateNoteDto,
     @CurrentUser() currentUser: UserStructureAuthenticated,
-    @CurrentUsager() currentUsager: UsagerLight
+    @CurrentUsager() currentUsager: Usager
   ) {
     const createdBy: UserStructureResume = {
       userId: currentUser.id,
@@ -58,7 +58,7 @@ export class UsagerNotesController {
   @UseGuards(UsagerAccessGuard)
   public async archiveNote(
     @CurrentUser() currentUser: UserStructureAuthenticated,
-    @CurrentUsager() currentUsager: UsagerLight,
+    @CurrentUsager() currentUsager: Usager,
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @Param("noteUUID", new ParseUUIDPipe()) noteUUID: string,
     @Res() res: ExpressResponse
