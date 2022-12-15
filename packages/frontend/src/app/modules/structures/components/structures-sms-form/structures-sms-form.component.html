@@ -120,7 +120,6 @@
                     type="text"
                     class="form-control"
                     id="senderName"
-                    appStrCapsAlpha
                     formControlName="senderName"
                     placeholder="Nom affiché en haut en tant qu'expediteur du message"
                     maxLength="11"
@@ -130,8 +129,7 @@
                     required
                   />
                   <small
-                    >Veuillez n'utiliser que des lettres (11 caractères
-                    maximum)</small
+                    >Veuillez n'utiliser que des lettres (11 maximum)</small
                   >
                   <div
                     *ngIf="submitted && form.senderName.errors"

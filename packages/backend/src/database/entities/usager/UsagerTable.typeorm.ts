@@ -115,9 +115,6 @@ export class UsagerTable
   @Column({ type: "jsonb", nullable: true })
   public rdv!: UsagerRdv | null;
 
-  @Column({ type: "jsonb", default: () => "'[]'" })
-  public oldNotes!: UsagerNote[];
-
   @OneToMany(() => UsagerNotesTable, (note: UsagerNote) => note.usagerUUID)
   public notes!: UsagerNote[];
 

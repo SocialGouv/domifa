@@ -24,7 +24,6 @@ export class StrCapsAlphaDirective {
   public validateFields(event: KeyboardEvent) {
     setTimeout(() => {
       const value = generateSender(this.el.nativeElement.value);
-
       this.el.nativeElement.value = value;
       event.preventDefault();
     }, 10);
