@@ -1,11 +1,4 @@
 import { inject, TestBed } from "@angular/core/testing";
-import {
-  isDefined,
-  isNumber,
-  isToday,
-  padNumber,
-  toInteger,
-} from "../../../shared/bootstrap-util";
 
 import { NgbDateCustomParserFormatter } from "./date-formatter";
 describe("NgbDateCustomParserFormatter", () => {
@@ -26,22 +19,6 @@ describe("NgbDateCustomParserFormatter", () => {
     [NgbDateCustomParserFormatter],
     (service: NgbDateCustomParserFormatter) => {
       expect(service.parse("Toz")).toEqual(null);
-    }
-  ));
-
-  it("Date formatter : invalid state", inject(
-    [NgbDateCustomParserFormatter],
-    () => {
-      expect(isDefined(1)).toBeDefined();
-      expect(isNumber("A")).toBeFalsy();
-      expect(isNumber(1)).toBeTruthy();
-      expect(padNumber(1)).toEqual("01");
-
-      expect(isToday()).toBeFalsy();
-      expect(isToday(new Date())).toBeTruthy();
-      expect(isToday(new Date("2018-10-10"))).toBeFalsy();
-
-      expect(toInteger("10")).toEqual(10);
     }
   ));
 

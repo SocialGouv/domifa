@@ -1,14 +1,17 @@
-import { usagerRepository } from "./../../database/services/usager/usagerRepository.service";
 import { differenceInCalendarDays } from "date-fns";
-import { interactionsTypeManager } from ".";
-import { interactionRepository, InteractionsTable } from "../../database";
 import {
-  Interactions,
-  Structure,
+  interactionRepository,
+  InteractionsTable,
+  usagerRepository,
+} from "../../database";
+import {
   Usager,
   UserStructure,
+  Interactions,
+  Structure,
 } from "../../_common/model";
 import { InteractionDto } from "../dto";
+import { interactionsTypeManager } from "./interactionsTypeManager.service";
 
 export const interactionsCreator = {
   createInteraction,

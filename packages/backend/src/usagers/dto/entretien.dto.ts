@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsIn, IsOptional } from "class-validator";
+import { IsBoolean, IsIn, IsOptional, IsString } from "class-validator";
+import { StripTagsTransform } from "../../_common/decorators";
 import {
   ENTRETIEN_CAUSE_INSTABILITE,
   ENTRETIEN_LIEN_COMMUNE,
@@ -18,9 +19,11 @@ import {
 
 export class EntretienDto implements Partial<UsagerEntretien> {
   @IsOptional()
+  @IsBoolean()
   public domiciliation!: boolean;
 
   @IsOptional()
+  @IsBoolean()
   public revenus!: boolean;
 
   @IsOptional()
@@ -36,6 +39,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   public typeMenage!: UsagerEntretienTypeMenage;
 
   @IsOptional()
+  @IsString()
   public rattachement!: string;
 
   @ApiProperty({
@@ -57,15 +61,22 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   public liencommune!: UsagerEntretienLienCommune;
 
   @IsOptional()
+  @IsString()
+  @StripTagsTransform()
   public liencommuneDetail!: string;
 
   @IsOptional()
+  @IsString()
+  @StripTagsTransform()
   public residenceDetail!: string;
 
   @IsOptional()
+  @IsBoolean()
   public orientation!: boolean;
 
   @IsOptional()
+  @IsString()
+  @StripTagsTransform()
   public orientationDetail!: string;
 
   @ApiProperty({
@@ -82,6 +93,8 @@ export class EntretienDto implements Partial<UsagerEntretien> {
     required: false,
   })
   @IsOptional()
+  @IsString()
+  @StripTagsTransform()
   public causeDetail!: string;
 
   @ApiProperty({
@@ -98,6 +111,8 @@ export class EntretienDto implements Partial<UsagerEntretien> {
     required: false,
   })
   @IsOptional()
+  @IsString()
+  @StripTagsTransform()
   public raisonDetail!: string;
 
   @ApiProperty({
@@ -112,6 +127,8 @@ export class EntretienDto implements Partial<UsagerEntretien> {
     required: false,
   })
   @IsOptional()
+  @IsString()
+  @StripTagsTransform()
   public accompagnementDetail!: string;
 
   @ApiProperty({
@@ -119,5 +136,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
     required: false,
   })
   @IsOptional()
+  @IsString()
+  @StripTagsTransform()
   public commentaires!: string;
 }
