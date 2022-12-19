@@ -6,10 +6,11 @@ import {
   IsIn,
   IsNotEmpty,
   IsOptional,
+  IsString,
   MinLength,
   ValidateIf,
 } from "class-validator";
-import { TrimOrNullTransform } from "../../_common/decorators";
+import { StripTagsTransform } from "../../_common/decorators";
 
 import {
   UsagerDecision,
@@ -92,6 +93,8 @@ export class DecisionDto implements UsagerDecision {
   @ValidateIf((o) => o.typeDom === "REFUS")
   @IsNotEmpty()
   @MinLength(10)
+  @IsString()
+  @StripTagsTransform()
   public orientationDetails!: string;
 
   @ApiProperty({
@@ -100,7 +103,8 @@ export class DecisionDto implements UsagerDecision {
     description: "Id personnalisé",
   })
   @IsOptional()
-  @TrimOrNullTransform()
+  @IsString()
+  @StripTagsTransform()
   public customRef!: string;
 
   @IsEmpty()
@@ -111,6 +115,7 @@ export class DecisionDto implements UsagerDecision {
 
   @IsEmpty()
   public dateDecision!: Date;
+
   @IsEmpty()
   public uuid!: string;
 }

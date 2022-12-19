@@ -166,7 +166,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
     },
     dev: {
       printEnv: configParser.parseBoolean(x, "DOMIFA_PRINT_ENV"),
-      printConfig: configParser.parseBoolean(x, "DOMIFA_PRINT_CONFIG"),
+
       swaggerEnabled: configParser.parseBoolean(x, "DOMIFA_SWAGGER_ENABLE"),
       sentry: {
         enabled:
@@ -221,7 +221,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             defaultValue: "7 days",
           }
         ),
-
       },
       emailImportGuide: {
         crontime: configParser.parseString(
@@ -238,7 +237,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             defaultValue: "7 days",
           }
         ),
-
       },
       emailConsumer: {
         enableSendImmadiately: configParser.parseBoolean(
@@ -253,7 +251,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             defaultValue: CronExpression.EVERY_5_MINUTES, // most of the time, the CRON is not necessary, as the mail consummer is triggered immediately by messageEmailSender
           }
         ),
-
       },
       smsConsumer: {
         crontime: configParser.parseString(
@@ -277,7 +274,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             defaultValue: "0 19 * * *",
           }
         ),
-
       },
       monitoringCleaner: {
         crontime: configParser.parseString(
@@ -356,55 +352,13 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
     },
   };
 
-  const configWithHiddenSensitiveData = hideSensitiveData(config);
   if (config.envId === "local") {
     printEnv(x);
   }
 
-  if (config.dev.printConfig) {
-    // eslint:disable-next-line: no-console
-    console.log(
-      "[domifaConfig] config loaded:",
-      JSON.stringify(configWithHiddenSensitiveData, undefined, 2)
-    );
-  }
   return config;
 }
-function hideSensitiveData(x: DomifaConfig): DomifaConfig {
-  return {
-    ...x,
-    security: {
-      ...x.security,
-      jwtSecret: "***",
-      files: {
-        ...x.security.files,
-        private: "***",
-      },
-    },
-    sms: {
-      ...x.sms,
-      apiKey: "***",
-    },
-    email: {
-      ...x.email,
-      smtp: x.email.smtp
-        ? {
-            ...x.email.smtp,
-            auth: x.email.smtp.auth
-              ? ({
-                  ...x.email.smtp.auth,
-                  pass: "***",
-                } as any)
-              : undefined,
-          }
-        : undefined,
-    },
-    apm: {
-      ...x.apm,
-      token: "***",
-    },
-  };
-}
+
 function parseSecurityConfig(x: Partial<DomifaEnv>): DomifaConfigSecurity {
   return {
     files: {

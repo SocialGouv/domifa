@@ -31,7 +31,6 @@ export type DomifaEnv = {
   DOMIFA_CRON_SEND_END_DOM_CRONTIME: string;
   DOMIFA_CRON_FETCH_END_DOM_CRONTIME: string;
   DOMIFA_PRINT_ENV: string;
-  DOMIFA_PRINT_CONFIG: string;
   DOMIFA_ANONYMIZER_PASSWORD: string;
   POSTGRES_HOST: string;
   POSTGRES_PORT: string;

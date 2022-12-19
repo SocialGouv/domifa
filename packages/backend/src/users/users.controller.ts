@@ -25,8 +25,8 @@ import {
 } from "../database";
 
 import { userAccountCreatedByAdminEmailSender } from "../mails/services/templates-renderers/user-account-created-by-admin";
+import { Response } from "express";
 
-import { ExpressResponse } from "../util/express";
 import {
   UserStructure,
   UserStructureAuthenticated,
@@ -62,7 +62,7 @@ export class UsersController {
   @Get("last-password-update")
   public async getLastPasswordUpdate(
     @CurrentUser() user: UserStructureAuthenticated,
-    @Res() res: ExpressResponse
+    @Res() res: Response
   ) {
     const newUser = await userStructureRepository.findOne<UserStructure>(
       { id: user.id },
@@ -101,7 +101,7 @@ export class UsersController {
     @CurrentUser() userStructureAuth: UserStructureAuthenticated,
     @CurrentChosenUserStructure() chosenUserStructure: UserStructure,
     @Param("userId", new ParseIntPipe()) _userId: number,
-    @Res() res: ExpressResponse
+    @Res() res: Response
   ) {
     await usersDeletor.deleteUser({
       userId: chosenUserStructure.id,
@@ -116,7 +116,7 @@ export class UsersController {
   public async patch(
     @CurrentUser() user: UserStructureAuthenticated,
     @Body() userDto: UserEditDto,
-    @Res() res: ExpressResponse
+    @Res() res: Response
   ) {
     const userToUpdate = await userStructureRepository.updateOne(
       {
@@ -140,7 +140,7 @@ export class UsersController {
   @ApiOperation({ summary: "Ajout d'un utilisateur par un admin" })
   public async registerUser(
     @CurrentUser() user: UserStructureAuthenticated,
-    @Res() res: ExpressResponse,
+    @Res() res: Response,
     @Body() registerUserDto: RegisterUserAdminDto
   ): Promise<any> {
     const userExist = await userStructureRepository.findOne({
@@ -185,7 +185,7 @@ export class UsersController {
   @ApiOperation({ summary: "Edition du mot de passe depuis le compte user" })
   public async editPassword(
     @CurrentUser() user: UserStructureAuthenticated,
-    @Res() res: ExpressResponse,
+    @Res() res: Response,
     @Body() editPasswordDto: EditMyPasswordDto
   ) {
     try {

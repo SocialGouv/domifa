@@ -9,30 +9,12 @@ export function isNumber(value: any): boolean {
   return !isNaN(toInteger(value));
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function isDefined(value: any): boolean {
-  return value !== undefined && value !== null;
-}
-
 export function padNumber(value: number): string {
   if (isNumber(value)) {
     return `0${value}`.slice(-2);
   } else {
     return "";
   }
-}
-
-export function isToday(someDate?: Date): boolean {
-  if (!someDate) {
-    return false;
-  }
-  const today = new Date();
-
-  return (
-    someDate.getDate() === today.getDate() &&
-    someDate.getMonth() === today.getMonth() &&
-    someDate.getFullYear() === today.getFullYear()
-  );
 }
 
 export function formatDateToNgb(date: Date | null): NgbDateStruct | null {

@@ -33,7 +33,7 @@ export const getEcheanceInfos = (usager?: UsagerLight): UsagerEcheanceInfos => {
       const indexOfDate = usager.decision.statut === "ATTENTE_DECISION" ? 2 : 1;
 
       // Fix: certaines donnnées corompus n'ont pas de dateFin
-      if (indexOfDate) {
+      if (indexOfDate && usager.historique.length >= indexOfDate) {
         usagerInfos.dateToDisplay =
           usager.historique[usager.historique.length - indexOfDate]?.dateFin ??
           usager.decision.dateDecision;

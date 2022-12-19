@@ -1,19 +1,16 @@
-import { forwardRef, Inject, Injectable } from "@nestjs/common";
+import { Injectable, Inject, forwardRef } from "@nestjs/common";
 import { interactionRepository, usagerRepository } from "../../database";
 import { MessageSmsService } from "../../sms/services/message-sms.service";
 import {
-  Structure,
-  Usager,
-  UsagerLight,
-  UserStructure,
-} from "../../_common/model";
-import {
-  InteractionEvent,
   Interactions,
+  Usager,
+  UserStructure,
+  Structure,
+  UsagerLight,
+  InteractionEvent,
   INTERACTION_OK_LIST,
-} from "../../_common/model/interaction";
+} from "../../_common/model";
 import { interactionsCreator } from "./interactionsCreator.service";
-
 import { interactionsTypeManager } from "./interactionsTypeManager.service";
 
 @Injectable()

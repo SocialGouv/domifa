@@ -8,6 +8,7 @@ import {
   IsIn,
   IsNotEmpty,
   IsOptional,
+  IsString,
   MaxLength,
   ValidateIf,
   ValidateNested,
@@ -17,6 +18,7 @@ import { UsagerAyantDroitDto } from "./UsagerAyantDroitDto";
 
 import {
   LowerCaseTransform,
+  StripTagsTransform,
   TrimOrNullTransform,
 } from "../../_common/decorators";
 import { TelephoneDto } from "../../_common/dto";
@@ -36,9 +38,10 @@ export class CreateUsagerDto {
     description: "Nom",
     required: true,
   })
+  @IsString()
   @IsNotEmpty()
   @MaxLength(400)
-  @TrimOrNullTransform()
+  @StripTagsTransform()
   public nom: string;
 
   @ApiProperty({
@@ -48,7 +51,8 @@ export class CreateUsagerDto {
   })
   @IsNotEmpty()
   @MaxLength(400)
-  @TrimOrNullTransform()
+  @IsString()
+  @StripTagsTransform()
   public prenom!: string;
 
   @ApiProperty({
@@ -77,7 +81,8 @@ export class CreateUsagerDto {
   })
   @IsNotEmpty()
   @MaxLength(400)
-  @TrimOrNullTransform()
+  @IsString()
+  @StripTagsTransform()
   public villeNaissance!: string;
 
   @ApiProperty({
@@ -86,7 +91,8 @@ export class CreateUsagerDto {
     description: "Langue parlée par l'usager",
   })
   @IsOptional()
-  @TrimOrNullTransform()
+  @IsString()
+  @StripTagsTransform()
   public langue!: string | null;
 
   @ApiProperty({
@@ -95,6 +101,8 @@ export class CreateUsagerDto {
     description: "Id personnalisé",
   })
   @IsOptional()
+  @IsString()
+  @StripTagsTransform()
   @TrimOrNullTransform()
   public customRef!: string;
 
@@ -145,6 +153,7 @@ export class CreateUsagerDto {
   })
   @IsOptional()
   @MaxLength(100)
-  @TrimOrNullTransform()
+  @IsString()
+  @StripTagsTransform()
   public numeroDistribution!: string;
 }

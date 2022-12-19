@@ -1,22 +1,26 @@
-import { usagerRepository } from "../../../database/services/usager/usagerRepository.service";
 import {
   userStructureRepository,
   structureRepository,
 } from "../../../database";
+import { usagerRepository } from "../../../database/services/usager/usagerRepository.service";
 import { UsersModule } from "../../../users/users.module";
 import { AppTestHelper } from "../../../util/test";
 import {
   UserStructureAuthenticated,
-  Structure,
   Usager,
+  Structure,
 } from "../../../_common/model";
 import { UsagersModule } from "../../usagers.module";
 import {
-  getUsagerRef,
   generateCerfaDatas,
+  getUsagerRef,
   generateAdressForCerfa,
-} from "../cerfa/generateCerfaDatas.service";
-import { CERFA_MOCK_USAGER_ACTIF } from "./CERFA_MOCKS.mock";
+} from "../cerfa";
+
+import {
+  CERFA_MOCK_USAGER_ACTIF,
+  CERFA_MOCK_USAGER_REFUS,
+} from "./CERFA_MOCKS.mock";
 
 describe("Cerfa Data utils", () => {
   let user: UserStructureAuthenticated;
@@ -57,7 +61,7 @@ describe("Cerfa Data utils", () => {
 
     it("CerfaData() Dossier refusé", async () => {
       const data = generateCerfaDatas(usagerRefus, user, "attestation");
-      expect(data).toEqual(CERFA_MOCK_USAGER_ACTIF);
+      expect(data).toEqual(CERFA_MOCK_USAGER_REFUS);
     });
 
     it("CerfaData() test de valeurs vides", async () => {
