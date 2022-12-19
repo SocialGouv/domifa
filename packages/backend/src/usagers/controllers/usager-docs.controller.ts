@@ -1,3 +1,4 @@
+import { Usager } from './../../_common/model/usager/Usager.type';
 import { UsagerDocsTable } from "./../../database/entities/usager/UsagerDocsTable.typeorm";
 import { usagerDocsRepository } from "./../../database/services/usager/usagerDocsRepository.service";
 import {
@@ -101,7 +102,7 @@ export class UsagerDocsController {
     @UploadedFile() file: Express.Multer.File,
     @Body() postData: UploadUsagerDocDto,
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() currentUsager: UsagerLight,
+    @CurrentUsager() currentUsager: Usager,
     @Res() res: Response
   ) {
     try {
@@ -141,7 +142,7 @@ export class UsagerDocsController {
     @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
     @Param("docUuid", new ParseUUIDPipe()) docUuid: string,
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() currentUsager: UsagerLight,
+    @CurrentUsager() currentUsager: Usager,
     @Res() res: Response
   ) {
     const doc = await usagerDocsRepository.findOneBy({
@@ -188,7 +189,7 @@ export class UsagerDocsController {
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getUsagerDocuments(
     @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
-    @CurrentUsager() currentUsager: UsagerLight
+    @CurrentUsager() currentUsager: Usager
   ): Promise<UsagerDoc[]> {
     return await usagerDocsRepository.getUsagerDocs(
       usagerRef,
@@ -202,7 +203,7 @@ export class UsagerDocsController {
     @Param("docUuid", new ParseUUIDPipe()) docUuid: string,
     @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
     @Res() res: Response,
-    @CurrentUsager() currentUsager: UsagerLight
+    @CurrentUsager() currentUsager: Usager
   ) {
     const doc = await usagerDocsRepository.findOneBy({
       uuid: docUuid,
@@ -248,68 +249,30 @@ export class UsagerDocsController {
       }
     }
 
-    // Outputs file & path
-    const outputFolder = join(domifaConfig().upload.basePath, "tmp");
-    const outputFilePath = join(outputFolder, doc.path);
-
-    // Création du dossier temporaire de réception des fichiers déchiffrés
-    await ensureDir(outputFolder);
-
-    // Si jamais le fichier décrypté existe déjà, on le supprime
-    await remove(outputFilePath);
-
     // TEMP FIX : Utiliser la deuxième clé d'encryptage générée le 30 juin
     // A supprimer une fois que les fichiers seront de nouveaux regénérés
     const docInfos = await stat(encryptedFilePath);
+    console.log(docInfos);
     const iv =
       docInfos.mtime < new Date("2021-06-30T23:01:01.113Z")
         ? domifaConfig().security.files.ivSecours
         : domifaConfig().security.files.iv;
 
     try {
-      await this.decryptFile(encryptedFilePath, outputFilePath, iv);
-      return res.status(HttpStatus.OK).sendFile(outputFilePath);
+      const key = domifaConfig().security.files.private;
+      const decipher = createDecipheriv("aes-256-cfb", key, iv);
+
+      return createReadStream(encryptedFilePath).pipe(decipher).pipe(res);
     } catch (e) {
+      console.log(e);
       console.log({
         inputFile: await stat(encryptedFilePath),
-        outputFile: await stat(outputFilePath),
       });
-      console.log(e);
+
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "CANNOT_OPEN_FILE" });
     }
-  }
-
-  private async decryptFile(
-    encryptedFilePath: string,
-    outputFilePath: string,
-    iv: string
-  ): Promise<void | Error> {
-    return new Promise((resolve, reject) => {
-      // Clés de chiffrement
-      const key = domifaConfig().security.files.private;
-
-      const decipher = createDecipheriv("aes-256-cfb", key, iv);
-      const input = createReadStream(encryptedFilePath);
-
-      const output = createWriteStream(outputFilePath);
-
-      input.pipe(decipher).pipe(output);
-
-      output.on("error", (error: Error) => {
-        console.log(error);
-        appLogger.error("[FILES] CANNOT_DECRYPT_FILE : " + outputFilePath, {
-          error,
-          sentry: true,
-        });
-        reject(error);
-      });
-
-      output.on("finish", () => {
-        resolve();
-      });
-    });
   }
 
   private async encryptFile(

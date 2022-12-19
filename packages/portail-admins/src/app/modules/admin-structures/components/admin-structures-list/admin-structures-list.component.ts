@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Title } from "@angular/platform-browser";
 import {
   BehaviorSubject,
   combineLatest,
@@ -42,8 +43,11 @@ export class AdminStructuresListComponent implements OnInit, OnDestroy {
     new BehaviorSubject(this.filters);
 
   constructor(
-    private readonly adminStructuresApiClient: AdminStructuresApiClient
-  ) {}
+    private readonly adminStructuresApiClient: AdminStructuresApiClient,
+    private readonly titleService: Title
+  ) {
+    this.titleService.setTitle("Liste des structures");
+  }
 
   public ngOnInit(): void {
     this.subscription.add(

@@ -1,17 +1,18 @@
 import { CustomToastService } from "./../shared/services/custom-toast.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { StructureAdmin } from "../../../_common";
 import { AdminStructuresApiClient } from "../shared/services";
 import { AdminStructuresDeleteApiClient } from "../shared/services/api/admin-structures-delete-api-client.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-structures-confirm",
   styleUrls: ["./structures-confirm.component.css"],
   templateUrl: "./structures-confirm.component.html",
 })
-export class StructuresConfirmComponent implements OnInit {
+export class StructuresConfirmComponent implements OnInit, OnDestroy {
   public successDelete: boolean;
   public confirmDelete: boolean;
 
@@ -27,7 +28,7 @@ export class StructuresConfirmComponent implements OnInit {
   private token!: string;
 
   public type?: "enable" | "delete";
-
+  private subscription = new Subscription();
   constructor(
     private readonly adminStructuresApiClient: AdminStructuresApiClient,
     private readonly adminStructuresDeleteApiClient: AdminStructuresDeleteApiClient,
@@ -52,29 +53,33 @@ export class StructuresConfirmComponent implements OnInit {
     this.token = this.route.snapshot.params.token;
 
     if (this.type === "delete") {
-      this.adminStructuresDeleteApiClient
-        .deleteCheck(this.structureId, this.token)
-        .subscribe({
-          next: (structure: StructureAdmin) => {
-            this.structure = structure;
-            this.confirmDelete = true;
-          },
-          error: () => {
-            this.error = true;
-          },
-        });
+      this.subscription.add(
+        this.adminStructuresDeleteApiClient
+          .deleteCheck(this.structureId, this.token)
+          .subscribe({
+            next: (structure: StructureAdmin) => {
+              this.structure = structure;
+              this.confirmDelete = true;
+            },
+            error: () => {
+              this.error = true;
+            },
+          })
+      );
     } else if (this.type === "enable") {
-      this.adminStructuresApiClient
-        .confirmNewStructure(this.structureId, this.token)
-        .subscribe({
-          next: (structure: StructureAdmin) => {
-            this.structure = structure;
-            this.successEnable = true;
-          },
-          error: () => {
-            this.error = true;
-          },
-        });
+      this.subscription.add(
+        this.adminStructuresApiClient
+          .confirmNewStructure(this.structureId, this.token)
+          .subscribe({
+            next: (structure: StructureAdmin) => {
+              this.structure = structure;
+              this.successEnable = true;
+            },
+            error: () => {
+              this.error = true;
+            },
+          })
+      );
     } else {
       this.router.navigate(["404"]);
       return;
@@ -83,24 +88,30 @@ export class StructuresConfirmComponent implements OnInit {
 
   public confirm() {
     if (!!this.structureName && this.structureName.trim().length !== 0) {
-      this.adminStructuresDeleteApiClient
-        .deleteConfirm({
-          token: this.token,
-          structureName: this.structureName,
-          structureId: this.structureId,
-        })
-        .subscribe({
-          next: () => {
-            this.successDelete = true;
-            this.confirmDelete = false;
-            this.notifService.success("Suppression réussie");
-          },
-          error: () => {
-            this.notifService.error("Le nom saisi est incorrect");
-          },
-        });
+      this.subscription.add(
+        this.adminStructuresDeleteApiClient
+          .deleteConfirm({
+            token: this.token,
+            structureName: this.structureName,
+            structureId: this.structureId,
+          })
+          .subscribe({
+            next: () => {
+              this.successDelete = true;
+              this.confirmDelete = false;
+              this.notifService.success("Suppression réussie");
+            },
+            error: () => {
+              this.notifService.error("Le nom saisi est incorrect");
+            },
+          })
+      );
     } else {
       this.notifService.error("Veuillez renseigner le nom de la structure");
     }
+  }
+
+  public ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

@@ -2,11 +2,16 @@ import { StructureOptionsDto } from "./structure-options.dto";
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams, Type } from "class-transformer";
 import {
+  IsEmail,
+  IsEmpty,
   IsIn,
   IsNotEmpty,
   IsNumber,
   IsOptional,
+  IsString,
+  MaxLength,
   Min,
+  MinLength,
   ValidateNested,
 } from "class-validator";
 import { StructureAdresseCourrierDto, StructureResponsableDto } from ".";
@@ -35,6 +40,7 @@ export class StructureDto {
     required: true,
   })
   @IsNotEmpty()
+  @IsString()
   @Transform(({ value }: TransformFnParams) => {
     return value.trim();
   })
@@ -44,6 +50,7 @@ export class StructureDto {
     type: String,
     required: true,
   })
+  @IsString()
   @IsNotEmpty()
   @TrimOrNullTransform()
   public nom!: string;
@@ -53,6 +60,7 @@ export class StructureDto {
     required: false,
   })
   @IsOptional()
+  @IsString()
   @TrimOrNullTransform()
   public complementAdresse!: string;
 
@@ -70,6 +78,8 @@ export class StructureDto {
     required: true,
   })
   @IsNotEmpty()
+  @IsString()
+  @MaxLength(5)
   public codePostal!: string;
 
   @ApiProperty({
@@ -77,6 +87,7 @@ export class StructureDto {
     required: true,
   })
   @IsNotEmpty()
+  @IsString()
   @TrimOrNullTransform()
   public ville!: string;
 
@@ -84,6 +95,7 @@ export class StructureDto {
     type: String,
   })
   @IsOptional()
+  @IsString()
   @TrimOrNullTransform()
   public agrement!: string;
 
@@ -91,20 +103,17 @@ export class StructureDto {
     type: String,
   })
   @IsOptional()
+  @IsString()
+  @MinLength(2)
+  @MaxLength(5)
   public departement!: string;
-
-  @ApiProperty({
-    type: String,
-    required: false,
-  })
-  @IsOptional()
-  public region!: string;
 
   @ApiProperty({
     type: String,
     required: true,
   })
   @IsNotEmpty()
+  @IsEmail()
   @Transform(({ value }: TransformFnParams) => {
     return value.trim();
   })
@@ -126,7 +135,6 @@ export class StructureDto {
   @IsNotEmpty()
   @ValidateNested()
   @Type(() => StructureResponsableDto)
-  @IsNotEmpty()
   public responsable!: StructureResponsableDto;
 
   @ApiProperty({
@@ -147,6 +155,9 @@ export class StructureDto {
   @IsNotEmpty()
   public options!: StructureOptionsDto;
 
-  @IsOptional()
+  @IsEmpty()
+  public region!: string;
+
+  @IsEmpty()
   public timeZone: TimeZone;
 }
