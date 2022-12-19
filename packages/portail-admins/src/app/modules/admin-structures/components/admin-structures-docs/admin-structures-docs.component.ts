@@ -26,7 +26,6 @@ export class AdminStructuresDocsComponent implements OnInit {
     private structureDocService: StructuresCustomDocsService,
     private toastService: CustomToastService,
     private titleService: Title
-
   ) {
     this.loadings = {
       download: [],

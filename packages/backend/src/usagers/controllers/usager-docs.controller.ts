@@ -1,4 +1,4 @@
-import { Usager } from './../../_common/model/usager/Usager.type';
+import { Usager } from "./../../_common/model/usager/Usager.type";
 import { UsagerDocsTable } from "./../../database/entities/usager/UsagerDocsTable.typeorm";
 import { usagerDocsRepository } from "./../../database/services/usager/usagerDocsRepository.service";
 import {
