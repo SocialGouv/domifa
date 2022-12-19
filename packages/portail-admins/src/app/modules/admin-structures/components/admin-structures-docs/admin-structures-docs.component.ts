@@ -6,6 +6,7 @@ import {
 } from "../../../../../_common/structure-doc";
 import { StructuresCustomDocsService } from "../../services/structures-custom-docs.service";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "app-admin-structures-docs",
@@ -23,13 +24,15 @@ export class AdminStructuresDocsComponent implements OnInit {
 
   constructor(
     private structureDocService: StructuresCustomDocsService,
-    private toastService: CustomToastService
+    private toastService: CustomToastService,
+    private titleService: Title
+
   ) {
     this.loadings = {
       download: [],
       delete: [],
     };
-
+    this.titleService.setTitle("Documents des structures");
     this.structureDocs = [];
   }
 
