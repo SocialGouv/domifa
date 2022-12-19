@@ -90,10 +90,7 @@ async function _anonymizeUsager(usager: Usager) {
     return usager;
   }
 
-  return await usagerRepository.updateOne(
-    { uuid: usager.uuid },
-    attributesToUpdate
-  );
+  return usagerRepository.updateOne({ uuid: usager.uuid }, attributesToUpdate);
 }
 function anonymizeAyantDroits(
   ayantsDroits: UsagerAyantDroit[]

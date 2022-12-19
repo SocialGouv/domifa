@@ -111,7 +111,7 @@ export class UsagerOptionsController {
 
     currentUsager.options.transfert = transfertDto;
 
-    return await usagerRepository.updateOneAndReturn(currentUsager.uuid, {
+    return usagerRepository.updateOneAndReturn(currentUsager.uuid, {
       options: currentUsager.options,
     });
   }

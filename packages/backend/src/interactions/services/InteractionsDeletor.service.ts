@@ -157,7 +157,7 @@ export class InteractionsDeletor {
         created.interaction.dateInteraction
       );
 
-      return await usagerRepository.updateOneAndReturn(usager.uuid, {
+      return usagerRepository.updateOneAndReturn(usager.uuid, {
         options: usager.options,
         lastInteraction: usager.lastInteraction,
       });

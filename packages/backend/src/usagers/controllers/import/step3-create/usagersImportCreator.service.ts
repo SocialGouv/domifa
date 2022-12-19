@@ -59,13 +59,12 @@ async function createFromImport({
     const nextUsagersToCreate = usagersToPersist.slice(i, i + 1000);
 
     const nextEntretienToSave = nextUsagersToCreate.map((usager) => {
-      const entretien = new UsagerEntretienTable({
+      return new UsagerEntretienTable({
         ...usager.entretien,
         usagerRef: usager.ref,
         usagerUUID: usager.uuid,
         structureId: usager.structureId,
       });
-      return entretien;
     });
 
     const nextUsagersHistoryToCreate = nextUsagersToCreate.map((usager) =>
