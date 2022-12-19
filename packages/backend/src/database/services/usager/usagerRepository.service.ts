@@ -109,9 +109,7 @@ async function countTotalUsagers(structuresId?: number[]): Promise<number> {
 }
 
 async function countMigratedUsagers(): Promise<number> {
-  const retour = await myDataSource
+  return myDataSource
     .getRepository<Usager>(UsagerTable)
     .countBy({ migrated: false });
-
-  return retour;
 }
