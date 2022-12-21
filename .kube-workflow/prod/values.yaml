@@ -26,7 +26,7 @@ app-backend-cron:
       cpu: 0.1
       memory: 256Mi
     limits:
-      cpu: 1
+      cpu: 2
       memory: 2Gi
   addVolumes:
     - files
@@ -75,7 +75,7 @@ app-backend:
       memory: 512Mi
     limits:
       cpu: 2
-      memory: 2Gi
+      memory: 4Gi
   envFrom:
     - secretRef:
         name: "{{ .Values.global.pgSecretName }}"
