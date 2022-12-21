@@ -1,3 +1,17 @@
+# [2.111.0](https://github.com/SocialGouv/domifa/compare/v2.110.4...v2.111.0) (2022-12-21)
+
+
+### Bug Fixes
+
+* **admin:** correction d'un bug empêchant la suppression d'un compte ([382c9a0](https://github.com/SocialGouv/domifa/commit/382c9a0be5f1ad0a16a8a82ee1bfab13de42308c))
+* **docs:** correction d'un bug empêchant le téléchargement de documents ([ce745a0](https://github.com/SocialGouv/domifa/commit/ce745a0d0ef4110227e1758581adc412cd62ce52))
+* **k8s:** resources ([cc1ad33](https://github.com/SocialGouv/domifa/commit/cc1ad33eb8f9b92915f9d55c34b98fb239a4af2a))
+
+
+### Features
+
+* **homepage:** ajout d'un lien de redirection vers la page d'accueil de mon-domifa ([ac8c74e](https://github.com/SocialGouv/domifa/commit/ac8c74e8d1ff582e3452834f51ea186be1f33c30))
+
 ## [2.110.4](https://github.com/SocialGouv/domifa/compare/v2.110.3...v2.110.4) (2022-12-19)
 
 
