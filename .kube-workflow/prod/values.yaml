@@ -71,7 +71,7 @@ app-backend:
     - files
   resources:
     requests:
-      cpu: 1
+      cpu: 0.5
       memory: 512Mi
     limits:
       cpu: 2
@@ -114,30 +114,30 @@ app-frontend:
   certSecretName: frontend-crt
   resources:
     requests:
-      cpu: 0.2
-      memory: 256Mi
+      cpu: 0.1
+      memory: 64Mi
     limits:
-      cpu: 1
-      memory: 1Gi
+      cpu: 0.5
+      memory: 512Mi
 
 app-portail-admins:
   host: "admin-domifa.fabrique.social.gouv.fr"
   certSecretName: portail-admins-crt
   resources:
     requests:
-      cpu: 0.2
-      memory: 256Mi
+      cpu: 0.1
+      memory: 64Mi
     limits:
-      cpu: 1
-      memory: 1Gi
+      cpu: 0.5
+      memory: 512Mi
 
 app-portail-usagers:
   host: "mon-domifa.fabrique.social.gouv.fr"
   certSecretName: portail-usagers-crt
   resources:
     requests:
-      cpu: 0.2
-      memory: 256Mi
+      cpu: 0.1
+      memory: 64Mi
     limits:
-      cpu: 1
-      memory: 1Gi
+      cpu: 0.5
+      memory: 512Mi
