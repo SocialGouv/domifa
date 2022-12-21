@@ -1,3 +1,4 @@
+import { ManageUsagersService } from "../../services/manage-usagers.service";
 import {
   Component,
   ElementRef,
@@ -40,7 +41,7 @@ import {
   getRdvInfos,
   getUrlUsagerProfil,
 } from "../../../usager-shared/utils";
-import { UsagerService } from "../../services/usager.service";
+
 import {
   UsagersByStatus,
   usagersByStatusBuilder,
@@ -116,6 +117,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   };
 
   public searchString: string | null;
+
   public filters: UsagersFilterCriteria;
   public filters$: Subject<UsagersFilterCriteria> = new ReplaySubject(1);
 
@@ -133,7 +135,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   public sortLabel = "échéance";
 
   constructor(
-    private readonly usagerService: UsagerService,
+    private readonly usagerService: ManageUsagersService,
     private readonly authService: AuthService,
     private readonly titleService: Title,
     public matomo: MatomoTracker
@@ -201,10 +203,12 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
         })
     );
 
-    this.allUsagers$.subscribe((allUsagers: UsagerLight[]) => {
-      this.allUsagersByStatus = usagersByStatusBuilder.build(allUsagers);
-      this.allUsagersByStatus$.next(this.allUsagersByStatus);
-    });
+    this.subscription.add(
+      this.allUsagers$.subscribe((allUsagers: UsagerLight[]) => {
+        this.allUsagersByStatus = usagersByStatusBuilder.build(allUsagers);
+        this.allUsagersByStatus$.next(this.allUsagersByStatus);
+      })
+    );
 
     const onSearchInputKeyUp$: Observable<string> = fromEvent<KeyboardEvent>(
       this.searchInput.nativeElement,
@@ -337,7 +341,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.filters.searchString = "";
     this.filters$.next(this.filters);
   }
-
   public resetFilters(): void {
     this.filters = new UsagersFilterCriteria();
     this.searchString = null;
@@ -397,7 +400,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     const sortTypeButton: { [key: string]: string } = {
       ID: "Liste_Colonne_ID",
       NAME: "Liste_Colonne_Nom_Prénom",
-      PASSAGE: "Li<ste_Colonne_Passage",
+      PASSAGE: "Liste_Colonne_Passage",
       ECHEANCE: "Liste_Colonne_Échéance",
     };
 
@@ -497,6 +500,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       ...filters,
       statut: undefined,
     };
+
     const filteredUsagers = usagersFilter.filter(allUsagers, {
       criteria: filterCriteria,
     });

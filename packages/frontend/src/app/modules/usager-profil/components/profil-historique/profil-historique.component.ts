@@ -1,5 +1,5 @@
 import { UsagerOptionsService } from "./../../services/usager-options.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
@@ -15,14 +15,15 @@ import {
 import { getUsagerNomComplet } from "../../../../shared/getUsagerNomComplet";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
-import { UsagerService } from "../../../usagers/services/usager.service";
+import { UsagerService } from "../../../usager-shared/services/usagers.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-profil-historique",
   templateUrl: "./profil-historique.component.html",
   styleUrls: ["./profil-historique.component.css"],
 })
-export class ProfilHistoriqueComponent implements OnInit {
+export class ProfilHistoriqueComponent implements OnInit, OnDestroy {
   public me!: UserStructure | null;
   public usager!: UsagerFormModel;
 
@@ -41,7 +42,7 @@ export class ProfilHistoriqueComponent implements OnInit {
     decision: UsagerDecision;
     createdEvent: UsagerHistoryStateCreationEvent;
   }[];
-
+  private subscription = new Subscription();
   constructor(
     private readonly authService: AuthService,
     private readonly usagerService: UsagerService,
@@ -59,46 +60,56 @@ export class ProfilHistoriqueComponent implements OnInit {
   public ngOnInit(): void {
     this.me = this.authService.currentUserValue;
 
-    this.usagerService.findOne(this.route.snapshot.params.id).subscribe({
-      next: (usager: UsagerLight) => {
-        {
-          this.usager = new UsagerFormModel(usager);
-          const name = getUsagerNomComplet(usager);
-          this.titleService.setTitle("Historique de " + name);
+    this.subscription.add(
+      this.usagerService.findOne(this.route.snapshot.params.id).subscribe({
+        next: (usager: UsagerLight) => {
+          {
+            this.usager = new UsagerFormModel(usager);
+            const name = getUsagerNomComplet(usager);
+            this.titleService.setTitle("Historique de " + name);
 
-          this.getHistoriqueOptions();
-        }
-      },
-      error: () => {
-        this.toastService.error("Le dossier recherché n'existe pas");
-        this.router.navigate(["404"]);
-      },
-    });
+            this.getHistoriqueOptions();
+          }
+        },
+        error: () => {
+          this.toastService.error("Le dossier recherché n'existe pas");
+          this.router.navigate(["404"]);
+        },
+      })
+    );
   }
 
   public getHistoriqueOptions(): void {
-    this.usagerOptionsService
-      .findHistory(this.usager.ref)
-      .subscribe((optionsHistorique: UsagerOptionsHistory[]) => {
-        this.transfertHistory = optionsHistorique
-          .filter(
-            (history: UsagerOptionsHistory) => history.type === "transfert"
-          )
-          .sort((a: UsagerOptionsHistory, b: UsagerOptionsHistory) => {
-            return (
-              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-            );
-          });
+    this.subscription.add(
+      this.usagerOptionsService
+        .findHistory(this.usager.ref)
+        .subscribe((optionsHistorique: UsagerOptionsHistory[]) => {
+          this.transfertHistory = optionsHistorique
+            .filter(
+              (history: UsagerOptionsHistory) => history.type === "transfert"
+            )
+            .sort((a: UsagerOptionsHistory, b: UsagerOptionsHistory) => {
+              return (
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
+              );
+            });
 
-        this.procurationHistory = optionsHistorique
-          .filter(
-            (history: UsagerOptionsHistory) => history.type === "procuration"
-          )
-          .sort((a: UsagerOptionsHistory, b: UsagerOptionsHistory) => {
-            return (
-              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-            );
-          });
-      });
+          this.procurationHistory = optionsHistorique
+            .filter(
+              (history: UsagerOptionsHistory) => history.type === "procuration"
+            )
+            .sort((a: UsagerOptionsHistory, b: UsagerOptionsHistory) => {
+              return (
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
+              );
+            });
+        })
+    );
+  }
+
+  public ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

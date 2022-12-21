@@ -28,7 +28,6 @@
               "src/assets/css/main.css",
               "src/assets/css/print.css",
               "src/assets/css/icons.css",
-              "src/assets/css/tailwind/tailwind-letter-spacing.css",
               "src/assets/css/tailwind/tailwind-font-size.css",
               "src/assets/css/tailwind/tailwind-font-weight.css",
               "src/assets/css/tailwind/tailwind-cursor.css",

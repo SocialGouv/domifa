@@ -3,25 +3,21 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
-
 import { RouterTestingModule } from "@angular/router/testing";
-
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
-
-import { JwtInterceptor } from "src/app/interceptors/jwt.interceptor";
-import { ServerErrorInterceptor } from "src/app/interceptors/server-error.interceptor";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-
-import { UsagerService } from "./usager.service";
+import { JwtInterceptor } from "../../../interceptors/jwt.interceptor";
+import { ServerErrorInterceptor } from "../../../interceptors/server-error.interceptor";
+import { AuthService } from "../../shared/services";
+import { SharedModule } from "../../shared/shared.module";
 import {
   UsagerFormModel,
   Entretien,
   Rdv,
 } from "../../usager-shared/interfaces";
-import { SharedModule } from "../../shared/shared.module";
+import { ManageUsagersService } from "./manage-usagers.service";
 
-describe("UsagerService", () => {
-  let service: UsagerService;
+describe("ManageUsagersService", () => {
+  let service: ManageUsagersService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -32,7 +28,7 @@ describe("UsagerService", () => {
         RouterTestingModule,
       ],
       providers: [
-        UsagerService,
+        ManageUsagersService,
         AuthService,
         { provide: APP_BASE_HREF, useValue: "/" },
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
@@ -56,7 +52,7 @@ describe("UsagerService", () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
-    service = TestBed.inject(UsagerService);
+    service = TestBed.inject(ManageUsagersService);
   });
 
   it("should be created", () => {

@@ -8,7 +8,7 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 
-import { of, Subject } from "rxjs";
+import { of, Subject, Subscription } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 import {
   UserStructure,
@@ -41,6 +41,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   public emailExist = false;
 
   private unsubscribe: Subject<void> = new Subject();
+  private subscription = new Subscription();
 
   @Input() public structureRegisterInfos!: {
     etapeInscription: number;
@@ -59,7 +60,6 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
     private readonly titleService: Title
   ) {
     this.user = userStructureBuilder.buildUserStructure({});
-
     this.submitted = false;
     this.loading = false;
     this.success = false;
@@ -105,26 +105,29 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
       );
     } else {
       this.loading = true;
-      this.structureService
-        .create({
-          structure: this.structureRegisterInfos.structure,
-          user: this.userForm.value,
-        })
-        .subscribe({
-          next: () => {
-            this.success = true;
-            this.loading = false;
-            this.toastService.success(
-              "Félicitations, votre compte a été créé avec succès"
-            );
-          },
-          error: () => {
-            this.loading = false;
-            this.toastService.error(
-              "Veuillez vérifier les champs du formulaire"
-            );
-          },
-        });
+
+      this.subscription.add(
+        this.structureService
+          .create({
+            structure: this.structureRegisterInfos.structure,
+            user: this.userForm.value,
+          })
+          .subscribe({
+            next: () => {
+              this.success = true;
+              this.loading = false;
+              this.toastService.success(
+                "Félicitations, votre compte a été créé avec succès"
+              );
+            },
+            error: () => {
+              this.loading = false;
+              this.toastService.error(
+                "Veuillez vérifier les champs du formulaire"
+              );
+            },
+          })
+      );
     }
   }
 

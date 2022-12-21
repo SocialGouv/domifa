@@ -55,12 +55,17 @@
         (click)="goToPrint.emit()"
       >
         <fa-icon
-          title="Impression"
+          aria-hidden="true"
           [icon]="['fas', 'print']"
           *ngIf="!loading"
         ></fa-icon>
 
-        <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true" *ngIf="loading">
+        <fa-icon
+          aria-hidden="true"
+          [icon]="['fas', 'circle-notch']"
+          [spin]="true"
+          *ngIf="loading"
+        >
         </fa-icon>
       </button>
     </th>
@@ -69,12 +74,8 @@
     <tr *ngFor="let usager of usagers; let i = index">
       <td *ngIf="filters.statut==='TOUS'">
         <a [routerLink]="usager.usagerProfilUrl">
-          <div
-            title="Impression"
-            class="label-statut"
-            [class]="usager.statusInfos.color"
-          >
-            <span>{{usager.statusInfos.text }}</span>
+          <div class="label-statut" [class]="usager.statusInfos.color">
+            <span>{{ usager.statusInfos.text }}</span>
           </div>
         </a>
       </td>
@@ -116,12 +117,10 @@
 
       <td scope="row" class="table-name td-name">
         <a [routerLink]="usager.usagerProfilUrl">
-          <div>
-            {{ usager.nom | uppercase }} {{ usager.prenom }}
-            <span *ngIf="usager.surnom && usager.surnom !== null">
-              ({{ usager.surnom }})
-            </span>
-          </div>
+          {{ usager.nom | uppercase }} {{ usager.prenom }}
+          <span *ngIf="usager.surnom && usager.surnom !== null">
+            ({{ usager.surnom }})
+          </span>
         </a>
       </td>
 
@@ -155,6 +154,7 @@
               <div class="distribution-tooltip">
                 <div *ngIf="usager.options.transfert.dateFin > today">
                   <fa-icon
+                    aria-hidden="true"
                     [icon]="['fas', 'share']"
                     class="text-primary me-1"
                   ></fa-icon>
@@ -185,6 +185,7 @@
               >
                 <span *ngIf="procuration.dateFin > today">
                   <fa-icon
+                    aria-hidden="true"
                     [icon]="['fas', 'share']"
                     class="text-primary me-1"
                   ></fa-icon>
@@ -192,6 +193,7 @@
                 </span>
                 <span *ngIf="procuration.dateFin <= today">
                   <fa-icon
+                    aria-hidden="true"
                     [icon]="['fas', 'times']"
                     class="text-danger me-1"
                   ></fa-icon>

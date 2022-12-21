@@ -29,8 +29,11 @@ export type UsagersFilterCriteriaEntretien = "COMING" | "OVERDUE";
 
 export type UsagersFilterCriteriaDernierPassage = "DEUX_MOIS" | "TROIS_MOIS";
 
+export type CriteriaSearchField = "DEFAULT" | "DATE_NAISSANCE" | "PROCURATION";
 export class UsagersFilterCriteria {
   // text search filter
+  // DEFAULT = Nom, prénom du domicilié, nom, prénom d'un des ayant-droits
+  public searchStringField: CriteriaSearchField;
   public searchString: string | null;
   // filters
   public statut: UsagersFilterCriteriaStatut;
@@ -51,6 +54,7 @@ export class UsagersFilterCriteria {
     this.entretien = (search && search.entretien) || null;
     this.echeance = (search && search.echeance) || null;
     this.searchString = (search && search.searchString) || null;
+    this.searchStringField = (search && search.searchStringField) || "DEFAULT";
     this.statut = (search && search.statut) || "VALIDE";
     this.page = (search && search.page) || 0;
 

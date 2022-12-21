@@ -2,7 +2,6 @@ import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
@@ -13,22 +12,23 @@ import { UsagerSharedModule } from "../usager-shared/usager-shared.module";
 import { ManageUsagersTableComponent } from "./components/manage/manage-usagers-table/manage-usagers-table.component";
 import { ManageUsagersComponent } from "./components/manage/manage.component";
 
-import { UsagerService } from "./services/usager.service";
+import { ManageUsagersService } from "./services/manage-usagers.service";
+import { ManageUsagersRoutingModule } from "./manage-usagers-routing.module";
 
 @NgModule({
   declarations: [ManageUsagersComponent, ManageUsagersTableComponent],
-  exports: [],
+
   imports: [
     CommonModule,
     FormsModule,
     UsagerSharedModule,
     HttpClientModule,
     NgbModule,
-    RouterModule.forChild([]),
     SharedModule,
     UsersModule,
+    ManageUsagersRoutingModule,
   ],
-  providers: [UsagerService],
+  providers: [ManageUsagersService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class UsagersModule {}
+export class ManageUsagersModule {}

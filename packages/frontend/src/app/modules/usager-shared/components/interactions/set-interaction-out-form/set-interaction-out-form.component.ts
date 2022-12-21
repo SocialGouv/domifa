@@ -7,18 +7,20 @@ import {
   OnInit,
   Output,
 } from "@angular/core";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
+
 import { BehaviorSubject, Subscription, combineLatest } from "rxjs";
-import { UsagerLight } from "../../../../../../_common/model";
 import {
-  InteractionOutForApi,
+  UsagerLight,
   InteractionOutForm,
-} from "../../../../../../_common/model/interaction";
-import { INTERACTIONS_OUT_AVAILABLE } from "../../../../../../_common/model/interaction/constants";
+  InteractionOutForApi,
+  INTERACTIONS_OUT_AVAILABLE,
+} from "../../../../../../_common/model";
 import { bounce } from "../../../../../shared";
-import { UsagerService } from "../../../../usagers/services/usager.service";
+import { CustomToastService } from "../../../../shared/services";
 import { UsagerFormModel, Interaction } from "../../../interfaces";
+
 import { InteractionService } from "../../../services/interaction.service";
+import { UsagerService } from "../../../services/usagers.service";
 
 @Component({
   animations: [bounce],

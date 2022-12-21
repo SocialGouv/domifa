@@ -3,6 +3,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   QueryList,
@@ -25,6 +26,7 @@ import {
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
+import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import {
@@ -57,11 +59,14 @@ import { UsagerOptionsService } from "../../services/usager-options.service";
   styleUrls: ["./profil-procuration-courrier.css"],
   templateUrl: "./profil-procuration-courrier.html",
 })
-export class UsagersProfilProcurationCourrierComponent implements OnInit {
+export class UsagersProfilProcurationCourrierComponent
+  implements OnInit, OnDestroy
+{
   @Input() public usager!: UsagerFormModel;
   @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
 
   @Input() public me!: UserStructure;
+  private subscription = new Subscription();
 
   @ViewChildren("procurationNom")
   public inputsProcurations!: QueryList<ElementRef>;
@@ -199,21 +204,23 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     );
 
     this.loading = true;
-    this.usagerOptionsService
-      .editProcurations(procurationFormData, this.usager.ref)
-      .subscribe({
-        next: (usager: UsagerLight) => {
-          this.hideForm();
-          this.usager = new UsagerFormModel(usager);
-          this.usagerChange.emit(this.usager);
-          this.toastService.success("Procuration modifiée avec succès");
-          this.matomo.trackEvent("profil", "actions", "edit_procuration", 1);
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error("Impossible d'ajouter la procuration'");
-        },
-      });
+    this.subscription.add(
+      this.usagerOptionsService
+        .editProcurations(procurationFormData, this.usager.ref)
+        .subscribe({
+          next: (usager: UsagerLight) => {
+            this.hideForm();
+            this.usager = new UsagerFormModel(usager);
+            this.usagerChange.emit(this.usager);
+            this.toastService.success("Procuration modifiée avec succès");
+            this.matomo.trackEvent("profil", "actions", "edit_procuration", 1);
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error("Impossible d'ajouter la procuration'");
+          },
+        })
+    );
   }
 
   public openConfirmation(index: number): void {
@@ -230,35 +237,41 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   }
 
   public deleteProcuration(procurationToDelete: number): void {
-    this.usagerOptionsService
-      .deleteProcuration(this.usager.ref, procurationToDelete)
-      .subscribe({
-        next: (usager: UsagerLight) => {
-          this.toastService.success("Procuration supprimée avec succès");
+    this.subscription.add(
+      this.usagerOptionsService
+        .deleteProcuration(this.usager.ref, procurationToDelete)
+        .subscribe({
+          next: (usager: UsagerLight) => {
+            this.toastService.success("Procuration supprimée avec succès");
 
-          setTimeout(() => {
-            this.closeModals();
-            this.hideForm();
-            this.procurationsForm.reset();
-            this.usager = new UsagerFormModel(usager);
-            this.usagerChange.emit(this.usager);
-            this.matomo.trackEvent(
-              "profil",
-              "actions",
-              "delete-procuration",
-              1
-            );
-          }, 500);
-        },
-        error: () => {
-          this.toastService.error("Impossible de supprimer la procuration");
-        },
-      });
+            setTimeout(() => {
+              this.closeModals();
+              this.hideForm();
+              this.procurationsForm.reset();
+              this.usager = new UsagerFormModel(usager);
+              this.usagerChange.emit(this.usager);
+              this.matomo.trackEvent(
+                "profil",
+                "actions",
+                "delete-procuration",
+                1
+              );
+            }, 500);
+          },
+          error: () => {
+            this.toastService.error("Impossible de supprimer la procuration");
+          },
+        })
+    );
   }
 
   public closeModals(): void {
     this.procurationToDelete = null;
     this.submitted = false;
     this.modalService.dismissAll();
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
