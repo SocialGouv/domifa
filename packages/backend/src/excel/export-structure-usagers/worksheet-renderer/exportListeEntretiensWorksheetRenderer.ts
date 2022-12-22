@@ -55,9 +55,10 @@ function renderWorksheet({
       { key: "entretienRevenus" },
       { key: "entretienRevenusDetail" },
       { key: "entretienLiencommune" },
+      { key: "entretienLiencommuneDetail" },
       { key: "typeMenage" },
       { key: "residence" },
-      { key: "entretienResidenceDetails" },
+      { key: "entretienResidenceDetail" },
       { key: "entretienCause" },
       { key: "entretienCauseDetail" },
       { key: "entretienRaison" },
@@ -97,13 +98,12 @@ function renderWorksheet({
             ? usager.entretien.revenusDetail
             : "",
           entretienLiencommune: usager.entretien.liencommune
-            ? usager.entretien.liencommune !== "AUTRE"
-              ? ENTRETIEN_LIEN_COMMUNE[usager.entretien.liencommune]
-              : usager.entretien.liencommuneDetail
+            ? ENTRETIEN_LIEN_COMMUNE[usager.entretien.liencommune]
             : "",
+          entretienLiencommuneDetail: usager.entretien.liencommuneDetail,
           typeMenage: ENTRETIEN_TYPE_MENAGE[usager.entretien.typeMenage],
           residence: ENTRETIEN_RESIDENCE[usager.entretien.residence],
-          entretienResidenceDetails:
+          entretienResidenceDetail:
             usager.entretien.residence === "AUTRE"
               ? usager.entretien.residenceDetail
               : "",
