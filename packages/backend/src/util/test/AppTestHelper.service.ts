@@ -154,7 +154,6 @@ function filterSecurityTests(
   testsDefs: AppTestHttpClientSecurityTestDef[]
 ): AppTestHttpClientSecurityTestDef[] {
   const DOMIFA_FILTER_SEC_TEST = process.env["DOMIFA_FILTER_SEC_TEST"];
-
   const FILTERED_TESTS =
     DOMIFA_FILTER_SEC_TEST?.length > 0
       ? testsDefs.filter((x) => x.label.includes(DOMIFA_FILTER_SEC_TEST))

@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class SearchUsagerDto {
   @ApiProperty({
@@ -7,5 +7,6 @@ export class SearchUsagerDto {
     description: "Nom ou prénom",
   })
   @IsNotEmpty()
+  @IsString()
   public searchString!: string;
 }

@@ -121,6 +121,7 @@ export class UsagersController {
       usagersRadiesTotalCount,
     };
   }
+
   @Post("search-radies")
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   public async searchInRadies(
