@@ -22,17 +22,8 @@
     "target": "esnext",
     // "noImplicitAny": true,
     // "strict": true,
-    "lib": [
-      "es2018.promise"
-    ],
-    "typeRoots": [
-      "node_modules/@types",
-      "../../node_modules/@types"
-    ]
+    "lib": ["es2018.promise"],
+    "typeRoots": ["node_modules/@types", "../../node_modules/@types"]
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "jest.config.js"
-  ]
+  "exclude": ["node_modules", "dist"]
 }

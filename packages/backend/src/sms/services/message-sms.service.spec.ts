@@ -1,4 +1,3 @@
-import { SmsModule } from "./../sms.module";
 import { forwardRef } from "@nestjs/common";
 import {
   userStructureRepository,
@@ -18,10 +17,10 @@ import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { UserStructure, Usager } from "../../_common/model";
 import { MessageSmsService } from "./message-sms.service";
+import { HttpModule } from "@nestjs/axios";
 
 describe("MessageSmsService", () => {
   let context: AppTestContext;
-
   let user: UserStructure;
   let usager: Usager;
   let interactionsDeletor: InteractionsDeletor;
@@ -30,10 +29,10 @@ describe("MessageSmsService", () => {
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       imports: [
+        HttpModule,
         forwardRef(() => InteractionsModule),
         forwardRef(() => UsagersModule),
         forwardRef(() => UsersModule),
-        forwardRef(() => SmsModule),
         forwardRef(() => StructuresModule),
       ],
     });

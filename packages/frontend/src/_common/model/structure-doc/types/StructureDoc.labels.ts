@@ -19,13 +19,13 @@ export const StructureDocLabels: {
   STRUCTURE_ADRESSE: "Adresse de la structure",
   STRUCTURE_COMPLEMENT_ADRESSE: "Complément d'adresse",
   STRUCTURE_VILLE: "Ville de la structure",
-  STRUCTURE_CODE_POSTAL: "Code-postal de la structure",
+  STRUCTURE_CODE_POSTAL: "Code postal de la structure",
 
   // Si courrier différent
   STRUCTURE_COURRIER_ADRESSE: "Adresse de réception du courrier",
 
   STRUCTURE_COURRIER_VILLE: "Ville de réception courrier",
-  STRUCTURE_COURRIER_CODE_POSTAL: "Code-postal de réception courrier",
+  STRUCTURE_COURRIER_CODE_POSTAL: "Code postal de réception courrier",
 
   // USAGER INFOS
   USAGER_REF: "Référence dossier",

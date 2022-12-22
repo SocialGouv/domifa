@@ -5,7 +5,8 @@ import { addDays, subDays } from "date-fns";
 describe("[getEcheanceInfos] Affichage des infos de l'échéance ", () => {
   beforeAll(() => {
     // Date de référence : 12 Février 2020
-    jest.useFakeTimers("modern");
+
+    jest.useFakeTimers();
     jest.setSystemTime(new Date("2020-04-30T00:00:00.000Z"));
   });
 
