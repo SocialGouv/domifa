@@ -9,6 +9,7 @@ export const environment: AppEnvironment = {
   apiUrl: "${DOMIFA_BACKEND_URL}", // https://domifa-api.fabrique.social.gouv.fr/
   // eslint-disable-next-line no-template-curly-in-string
   portailAdminUrl: "${DOMIFA_PORTAIL_ADMINS_URL}",
+  portailUsagersUrl: "${DOMIFA_PORTAIL_USAGERS_URL}",
   production: true,
   // eslint-disable-next-line no-template-curly-in-string
   env: "${DOMIFA_ENV_ID}",

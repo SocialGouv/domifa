@@ -1,5 +1,27 @@
 [
   {
+    "date": "2022-12-22",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Redirection des Domiciliés vers \"Mon DomiFa\"",
+        "message": [
+          "Sur la page de connexion ou lors de l'inscription d'une structure sur DomiFa nous accompagnons les domiciliés vers leur portail dédié. Ajout d'un encart"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Amélioration de votre parcours sur DomiFa",
+        "message": [
+          "Les dosssiers des domiciliés s'affichent plus rapidement",
+          "Ajout de l'information \"Autre lien avec la commune\" dans l'export",
+          "Correctifs sur le téléchargement des fichiers"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2022-12-08",
     "description": "",
     "content": [

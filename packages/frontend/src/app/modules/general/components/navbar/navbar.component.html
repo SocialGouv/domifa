@@ -337,9 +337,9 @@
   <div class="modal-body">
     <div class="py-1 px-3">
       <p>
-        <strong class="text-primary">{{
-          news.date | date : "dd/MM/yyyy"
-        }}</strong>
+        <strong class="text-primary">
+          Mise à jour du {{ news.date | date : "dd/MM/yyyy" }}</strong
+        >
         <span *ngIf="news.description">- {{ news.description }}</span>
       </p>
       <ng-container *ngIf="news?.content">
@@ -355,13 +355,15 @@
           </span>
           &nbsp;
           <strong>{{ content.categorie }}</strong>
-          <p
-            *ngFor="let message of content.message"
-            [innerHTML]="message | nl2br"
-          ></p>
+          <ul class="my-2">
+            <li
+              *ngFor="let message of content.message"
+              [innerHTML]="message | nl2br"
+            ></li>
+          </ul>
         </div>
       </ng-container>
-      <div class="text-center my-2">
+      <div class="text-center my-3">
         <button class="btn btn-primary" (click)="hideNews()">
           Continuer sur Domifa
         </button>

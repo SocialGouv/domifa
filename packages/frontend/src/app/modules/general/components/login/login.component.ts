@@ -13,6 +13,7 @@ import { AuthService } from "../../../shared/services/auth.service";
 import { regexp } from "../../../../shared/constants/REGEXP.const";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { Subscription } from "rxjs";
+import { environment } from "../../../../../environments/environment";
 
 @Component({
   selector: "app-login",
@@ -27,6 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public hidePassword: boolean;
   public loading: boolean;
   private subscription = new Subscription();
+  public portailUsagerUrl = environment.portailUsagersUrl;
 
   constructor(
     private readonly formBuilder: FormBuilder,
