@@ -1,3 +1,15 @@
+# [2.112.0](https://github.com/SocialGouv/domifa/compare/v2.111.2...v2.112.0) (2022-12-22)
+
+
+### Bug Fixes
+
+* suppression d'un élément dans la recherche ([00fffac](https://github.com/SocialGouv/domifa/commit/00fffacfe9b61cfc1a3a5fbb5eb88b5d127f3190))
+
+
+### Features
+
+* **recherche:** ajout de catégories dans la recherche ([4c10cbc](https://github.com/SocialGouv/domifa/commit/4c10cbcfb7466bef0130d6c13818a0f7ab623e39))
+
 ## [2.111.2](https://github.com/SocialGouv/domifa/compare/v2.111.1...v2.111.2) (2022-12-22)
 
 
