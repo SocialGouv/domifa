@@ -1,3 +1,11 @@
+## [2.111.2](https://github.com/SocialGouv/domifa/compare/v2.111.1...v2.111.2) (2022-12-22)
+
+
+### Bug Fixes
+
+* **excel:** ajout d'une colonne pour les entretien ([1a314a5](https://github.com/SocialGouv/domifa/commit/1a314a5894323da431bcbbb32503e6a447d2196e))
+* **labels:** correction de labels et lien vers mon-domifa ([6c53a3a](https://github.com/SocialGouv/domifa/commit/6c53a3ae20f69d55440e9acbfd06d56ae4b3e6c2))
+
 ## [2.111.1](https://github.com/SocialGouv/domifa/compare/v2.111.0...v2.111.1) (2022-12-22)
 
 
