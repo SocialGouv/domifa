@@ -1,3 +1,10 @@
+## [2.111.1](https://github.com/SocialGouv/domifa/compare/v2.111.0...v2.111.1) (2022-12-22)
+
+
+### Bug Fixes
+
+* **general:** correction de typos ([b087fde](https://github.com/SocialGouv/domifa/commit/b087fde5edbe6533eeaa1117a4dab9628d68755f))
+
 # [2.111.0](https://github.com/SocialGouv/domifa/compare/v2.110.4...v2.111.0) (2022-12-21)
 
 
