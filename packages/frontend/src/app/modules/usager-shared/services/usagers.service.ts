@@ -52,7 +52,7 @@ export class UsagerService {
     ref: number,
     usager: UsagerEtatCivilFormData
   ): Observable<UsagerLight> {
-    const response = this.http
+    return this.http
       .patch<UsagerLight>(`${this.endPointUsagers}/${ref}`, usager)
       .pipe(
         tap((newUsager: UsagerLight) => {
@@ -60,6 +60,5 @@ export class UsagerService {
           return newUsager;
         })
       );
-    return response;
   }
 }

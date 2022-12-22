@@ -47,6 +47,7 @@ export class UsagersFilterCriteria {
   // pagination
   public page: number;
   public searchInAyantDroits = true;
+  public searchInProcurations = true;
 
   constructor(search?: Partial<UsagersFilterCriteria> | null) {
     this.interactionType = (search && search.interactionType) || null;

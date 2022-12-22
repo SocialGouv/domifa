@@ -115,7 +115,7 @@
         </a>
       </td>
 
-      <td scope="row" class="table-name td-name">
+      <td class="table-name td-name">
         <a [routerLink]="usager.usagerProfilUrl">
           {{ usager.nom | uppercase }} {{ usager.prenom }}
           <span *ngIf="usager.surnom && usager.surnom !== null">
@@ -184,6 +184,11 @@
             *ngIf="usager.options.procurations.length > 0"
             [ngbTooltip]="procurationActif"
           >
+            <span
+              aria-hidden="true"
+              *ngIf="usager.searchResultProcuration"
+              class="pulse-button"
+            ></span>
             <ng-template #procurationActif>
               <div
                 class="text-start"

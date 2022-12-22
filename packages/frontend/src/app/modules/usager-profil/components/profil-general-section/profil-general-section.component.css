@@ -36,7 +36,7 @@
 }
 
 .label-info {
-  position: relative;
+  display: inline-block;
   padding: 4px 15px;
   margin: 2px auto;
   text-align: center;

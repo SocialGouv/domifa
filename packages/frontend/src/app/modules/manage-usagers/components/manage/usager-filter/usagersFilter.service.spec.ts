@@ -22,6 +22,13 @@ const usagers: UsagerLight[] = [
     decision: {
       statut: "VALIDE",
     },
+
+    options: {
+      procurations: [
+        { nom: "Zazie", prenom: "Koko" },
+        { nom: "Youlo", prenom: "Koko" },
+      ],
+    },
   },
   {
     ref: 2,
@@ -38,6 +45,9 @@ const usagers: UsagerLight[] = [
     decision: {
       statut: "RADIE",
     },
+    options: {
+      procurations: [],
+    },
   },
   {
     ref: 3,
@@ -50,11 +60,18 @@ const usagers: UsagerLight[] = [
     decision: {
       statut: "VALIDE",
     },
+    ayantsDroits: [],
+    options: {
+      procurations: [
+        { nom: "Zazie", prenom: "Koko" },
+        { nom: "Youlo", prenom: "Koko" },
+      ],
+    },
   },
 ] as UsagerLight[];
 
 it("usagersFilter searchString+statut", () => {
-  const results = usagersFilter.filter(usagers as UsagerLight[], {
+  const results = usagersFilter.filter(usagers, {
     criteria: new UsagersFilterCriteria({
       searchString: "mit",
       statut: "VALIDE",

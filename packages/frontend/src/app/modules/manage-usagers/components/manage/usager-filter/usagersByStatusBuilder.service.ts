@@ -7,7 +7,7 @@ export const usagersByStatusBuilder = {
 };
 
 function build(usagers: UsagerLight[]): UsagersByStatus {
-  const byStatus = usagers.reduce(
+  return usagers.reduce(
     (acc: UsagersByStatus, usager: UsagerLight) => {
       if (isStatus(usager, "RADIE")) {
         acc.RADIE.push(usager);
@@ -31,7 +31,6 @@ function build(usagers: UsagerLight[]): UsagersByStatus {
       TOUS: usagers,
     }
   );
-  return byStatus;
 }
 
 function isStatus(usager: UsagerLight, statut: UsagersFilterCriteriaStatut) {

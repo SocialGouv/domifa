@@ -30,6 +30,7 @@ function filter(
       searchString: criteria.searchString,
       searchStringField: criteria.searchStringField,
       searchInAyantDroits: criteria.searchInAyantDroits,
+      searchInProcurations: criteria.searchInProcurations,
     }
   );
 
