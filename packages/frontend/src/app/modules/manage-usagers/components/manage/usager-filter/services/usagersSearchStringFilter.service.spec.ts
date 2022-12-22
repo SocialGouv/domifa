@@ -18,6 +18,9 @@ const usagers = [
         nom: "Smith",
       },
     ],
+    options: {
+      procurations: [{ nom: "Mamadou", prenom: "Sacko" }],
+    },
   },
   {
     ref: 2,
@@ -31,6 +34,13 @@ const usagers = [
         nom: "Smith",
       },
     ],
+
+    options: {
+      procurations: [
+        { nom: "Zazie", prenom: "Koko" },
+        { nom: "Youlo", prenom: "Koko" },
+      ],
+    },
   },
   {
     ref: 3,
@@ -40,6 +50,9 @@ const usagers = [
     email: "claire.meunier@vprovider2.org",
     customRef: "003",
     ayantsDroits: [],
+    options: {
+      procurations: [],
+    },
   },
 ] as UsagerLight[];
 
@@ -48,6 +61,7 @@ it("usagersSearchStringFilter ayantsDroits.prenom", () => {
     searchString: "soph",
     searchInAyantDroits: true,
     searchStringField: "DEFAULT",
+    searchInProcurations: true,
   });
   expect(results.length).toEqual(1);
   expect(results[0].ref).toEqual(1);
@@ -57,22 +71,18 @@ it("usagersSearchStringFilter prenom", () => {
     searchString: "marie",
     searchInAyantDroits: true,
     searchStringField: "DEFAULT",
+    searchInProcurations: true,
   });
   expect(results.length).toEqual(1);
   expect(results[0].ref).toEqual(2);
 });
-// it("usagersSearchStringFilter email", () => {
-//   const results = usagersSearchStringFilter.filter(usagers, {
-//     searchString: "provider1.com",
-//     searchInAyantDroits: true,
-//   });
-//   expect(results.length).toEqual(2);
-// });
+
 it("usagersSearchStringFilter surnom", () => {
   const results = usagersSearchStringFilter.filter(usagers, {
     searchString: "clacla",
     searchInAyantDroits: true,
     searchStringField: "DEFAULT",
+    searchInProcurations: true,
   });
   expect(results.length).toEqual(1);
   expect(results[0].ref).toEqual(3);
@@ -81,8 +91,20 @@ it("usagersSearchStringFilter customRef", () => {
   const results = usagersSearchStringFilter.filter(usagers, {
     searchString: "003",
     searchInAyantDroits: true,
+    searchInProcurations: true,
     searchStringField: "DEFAULT",
   });
   expect(results.length).toEqual(1);
   expect(results[0].ref).toEqual(3);
+});
+
+it("usagersSearchStringFilter procurations", () => {
+  const results = usagersSearchStringFilter.filter(usagers, {
+    searchString: "KoKo",
+    searchInAyantDroits: true,
+    searchInProcurations: true,
+    searchStringField: "DEFAULT",
+  });
+  expect(results.length).toEqual(1);
+  expect(results[0].ref).toEqual(2);
 });

@@ -82,7 +82,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
         return [];
       }
 
-      const allUsagers = data.usagersNonRadies
+      return data.usagersNonRadies
         .concat(data.usagersRadiesFirsts)
         .map((usager) => {
           usager.echeanceInfos = getEcheanceInfos(usager);
@@ -90,7 +90,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
           usager.usagerProfilUrl = getUrlUsagerProfil(usager);
           return usager;
         });
-      return allUsagers;
     })
   );
 
@@ -127,13 +126,12 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     };
   } = {
     DEFAULT: {
-      label: "ID, nom, prénom ou ayant-droit",
-      placeholder:
-        "Recherche par numéro de domicilié, nom, prénom ou ayant-droit",
+      label: "ID, nom, prénom, ayant-droit ou mandataire",
+      placeholder: "Recherche par ID, nom, prénom, ayant-droit ou mandataire",
     },
     DATE_NAISSANCE: {
       label: "Date de naissance",
-      placeholder: "Recherche par date de naissance",
+      placeholder: "Recherche par date de naissance JJ/MM/AAAA",
     },
     PROCURATION: {
       label: "Procuration et mandataire",
@@ -497,12 +495,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.filters$.next(this.filters);
 
     if (event.length > 0) {
-      this.matomo.trackEvent(
-        "MANAGE_FILTERS",
-        event as string,
-        value as string,
-        1
-      );
+      this.matomo.trackEvent("MANAGE_FILTERS", event, value as string, 1);
     }
     this.updateSortLabel();
   }

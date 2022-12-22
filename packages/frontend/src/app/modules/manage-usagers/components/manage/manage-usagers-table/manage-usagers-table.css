@@ -38,6 +38,7 @@ tbody td a:visited {
 
 .manage-usager-ref {
   background-color: white;
+  min-width: 80px;
 }
 
 tbody td:nth-child(2) {
@@ -49,10 +50,6 @@ tbody td:first-child {
   border-radius: 2px 0 0 2px;
   min-width: 50px !important;
   max-width: 120px;
-}
-
-.manage-usager-ref {
-  min-width: 80px;
 }
 
 tbody td:last-child {

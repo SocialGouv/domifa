@@ -17,9 +17,13 @@ function filter(
     searchString,
     searchStringField,
     searchInAyantDroits,
+    searchInProcurations,
   }: Pick<
     UsagersFilterCriteria,
-    "searchString" | "searchInAyantDroits" | "searchStringField"
+    | "searchString"
+    | "searchInAyantDroits"
+    | "searchInProcurations"
+    | "searchStringField"
   >
 ) {
   return search.filter(usagers, {
@@ -35,20 +39,24 @@ function filter(
         attributes = dateNaissance ? [format(dateNaissance, "dd/MM/yyyy")] : [];
 
         return attributes;
-      } else if (searchStringField === "PROCURATION") {
-        const procurationsAttributes = (usager.options.procurations ?? []).map(
-          (procu: UsagerProcuration) => [procu.nom, procu.prenom]
-        );
-        return attributes.concat(...procurationsAttributes);
       }
+
       attributes = [usager.nom, usager.prenom, usager.surnom, usager.customRef];
 
-      if (searchInAyantDroits) {
-        const ayantDroitsAttributes = (usager.ayantsDroits ?? []).map(
-          (ad: UsagerAyantDroit) => [ad.nom, ad.prenom]
-        );
-        return attributes.concat(...ayantDroitsAttributes);
+      if (searchInProcurations) {
+        usager.options.procurations.forEach((procu: UsagerProcuration) => {
+          attributes.push(procu.nom);
+          attributes.push(procu.prenom);
+        });
       }
+
+      if (searchInAyantDroits) {
+        usager.ayantsDroits.forEach((ad: UsagerAyantDroit) => {
+          attributes.push(ad.nom);
+          attributes.push(ad.prenom);
+        });
+      }
+
       return attributes;
     },
   });

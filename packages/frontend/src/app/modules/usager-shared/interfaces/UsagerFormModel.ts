@@ -201,12 +201,20 @@ export class UsagerFormModel {
     if (filterCriteria) {
       if (filterCriteria.searchString && filterCriteria.searchString !== null) {
         // if search does not match without ayant-droits, flag it as "searchResultAyantDroit"
-        // TODO: use it in view
+
         this.searchResultAyantDroit =
-          usagersFilter.filter([usager as UsagerLight], {
+          usagersFilter.filter([usager], {
             criteria: {
               ...filterCriteria,
               searchInAyantDroits: false,
+            },
+          }).length === 0;
+
+        this.searchResultProcuration =
+          usagersFilter.filter([usager], {
+            criteria: {
+              ...filterCriteria,
+              searchInProcurations: false,
             },
           }).length === 0;
       }

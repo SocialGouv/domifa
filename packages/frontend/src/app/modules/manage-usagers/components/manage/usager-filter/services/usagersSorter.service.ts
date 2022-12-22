@@ -68,7 +68,7 @@ function sortBy(
         } else if (sortKey === "ECHEANCE") {
           sortAttributes.push(
             {
-              value: usager?.echeanceInfos?.dateToDisplay as Date,
+              value: usager?.echeanceInfos?.dateToDisplay,
               asc,
             },
             {
@@ -81,7 +81,7 @@ function sortBy(
         } else if (sortKey === "PASSAGE") {
           sortAttributes.push(
             {
-              value: usager.lastInteraction.dateInteraction as Date,
+              value: usager.lastInteraction.dateInteraction,
               asc,
             },
             {
@@ -178,8 +178,7 @@ function parseAsNumberOrString(usager: UsagerLight): string | number {
     return usager.ref;
   }
   if (/^\d+$/.test(usager.customRef)) {
-    const customRefAsNumber = parseInt(usager.customRef, 10);
-    return customRefAsNumber; // sort as number
+    return parseInt(usager.customRef, 10);
   }
   return usager.customRef.trim(); // sort as string
 }

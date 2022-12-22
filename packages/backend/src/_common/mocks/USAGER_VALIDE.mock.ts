@@ -89,7 +89,6 @@ export const USAGER_VALIDE_MOCK: Usager = {
       dateFin: null,
     },
     procurations: [],
-
     npai: {
       actif: false,
       dateDebut: null,
