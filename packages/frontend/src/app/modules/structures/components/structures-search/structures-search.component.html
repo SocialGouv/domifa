@@ -3,7 +3,9 @@
     <div class="col-6">
       <div class="step_form text-center">
         <div class="my-2">
-          <span class="title"> Je suis un.e domicilié.e </span>
+          <span class="title"
+            >Je suis domicilié dans un ccas, un cias ou une association
+          </span>
           <br />
           <br />
           <p>
@@ -15,7 +17,7 @@
             href="https://mon-domifa.fabrique.social.gouv.fr/auth/login"
             rel="noopener noreferrer"
             class="btn btn-primary"
-            >Me connecter à mon domifa</a
+            >Me connecter à Mon DomiFa</a
           >
         </div>
       </div>
@@ -23,7 +25,7 @@
     <div class="col-6">
       <div class="step_form text-center">
         <h1 class="title">
-          Prêt(e) à faciliter la domiciliation ?
+          Je suis un professionnel ou bénévole d’une structure
           <br />
           L’inscription se fait en moins d’une minute !
         </h1>
@@ -37,7 +39,7 @@
           >
             <div class="form-group">
               <label for="structure-search">
-                Quel est le code-postal de votre structure ?
+                Quel est le code postal de votre structure ?
               </label>
 
               <input
@@ -49,7 +51,7 @@
                 }"
                 formControlName="codePostal"
                 maxlength="5"
-                placeholder="Code-postal"
+                placeholder="Code postal"
                 required
               />
               <p *ngIf="f.codePostal.errors" class="invalid-feedback">
@@ -57,7 +59,7 @@
                   [icon]="['fas', 'exclamation-triangle']"
                   class="me-2"
                 ></fa-icon>
-                Code-postal incorrect
+                Code postal incorrect
               </p>
               <br />
               <button [disabled]="loading" class="btn btn-block btn-primary">

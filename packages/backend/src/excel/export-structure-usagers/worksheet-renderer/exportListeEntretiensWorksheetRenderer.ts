@@ -1,6 +1,7 @@
 import { Column, Workbook } from "exceljs";
 import {
   ENTRETIEN_CAUSE_INSTABILITE,
+  ENTRETIEN_LIEN_COMMUNE,
   ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_RESIDENCE,
   ENTRETIEN_TYPE_MENAGE,
@@ -95,7 +96,11 @@ function renderWorksheet({
           entretienRevenusDetail: usager.entretien.revenus
             ? usager.entretien.revenusDetail
             : "",
-          entretienLiencommune: usager.entretien.liencommune || "",
+          entretienLiencommune: usager.entretien.liencommune
+            ? usager.entretien.liencommune !== "AUTRE"
+              ? ENTRETIEN_LIEN_COMMUNE[usager.entretien.liencommune]
+              : usager.entretien.liencommuneDetail
+            : "",
           typeMenage: ENTRETIEN_TYPE_MENAGE[usager.entretien.typeMenage],
           residence: ENTRETIEN_RESIDENCE[usager.entretien.residence],
           entretienResidenceDetails:

@@ -135,15 +135,15 @@
         "type": "new",
         "categorie": "RGPD",
         "message": [
-          "Mises à jour des documents légaux sur Domifa",
-          "Ajout des documents légaux sur le portail usager 'mon Domifa'"
+          "Mises à jour des documents légaux sur DomiFa",
+          "Ajout des documents légaux sur le portail usager 'Mon DomiFa'"
         ]
       },
       {
         "type": "bug",
         "categorie": "Statistiques publiques",
         "message": [
-          "Les statistiques publiques sont maintenant à jour entre la page d'acceuil Domifa et la page 'statistiques'"
+          "Les statistiques publiques sont maintenant à jour entre la page d'acceuil DomiFa et la page 'statistiques'"
         ]
       },
       {

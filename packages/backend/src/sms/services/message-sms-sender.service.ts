@@ -8,7 +8,7 @@ import {
   MessageSmsSendResponse,
   MESSAGE_SMS_RESPONSE_ERRORS,
 } from "../../_common/model/message-sms";
-import { AxiosError } from "axios";
+import { AxiosError } from "@nestjs/terminus/dist/errors/axios.error";
 
 @Injectable()
 export class MessageSmsSenderService {

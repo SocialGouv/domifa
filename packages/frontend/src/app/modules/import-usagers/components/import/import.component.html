@@ -96,7 +96,7 @@
       <h4 class="text-center">Étape 2 : importer le fichier complété</h4>
       <p>
         Une fois le modèle Excel complété, cliquez ci-dessous pour l'importer
-        sur Domifa
+        sur DomiFa
       </p>
       <div
         class="m-auto d-flex flex-column w-50 border border-primary rounded-2 form-label required"
@@ -128,7 +128,7 @@
       <div class="text-center" *ngIf="previewTable">
         <h4 class="text-primary">Votre fichier est prêt à être importé !</h4>
         <strong>{{ previewTable.totalCount }} domiciliés</strong>
-        seront importés sur Domifa
+        seront importés sur DomiFa
       </div>
       <br />
       <form #form [formGroup]="uploadForm" (ngSubmit)="submitFile('confirm')">

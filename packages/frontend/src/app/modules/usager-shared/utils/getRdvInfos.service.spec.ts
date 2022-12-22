@@ -1,15 +1,11 @@
-import {
-  ETAPE_DECISION,
-  ETAPE_RENDEZ_VOUS,
-} from "../../../../_common/model/usager/_constants/ETAPES_DEMANDE.const";
-
-import { USAGER_ACTIF_MOCK } from "../../../../_common/mocks/USAGER_ACTIF.mock";
+import { USAGER_ACTIF_MOCK } from "../../../../_common/mocks";
+import { ETAPE_RENDEZ_VOUS, ETAPE_DECISION } from "../../../../_common/model";
 import { getRdvInfos } from "./getRdvInfos.service";
 
 describe("Création des rendez-vous", () => {
   beforeAll(() => {
+    jest.useFakeTimers();
     // Date de référence : 20 Décembre 2020
-    jest.useFakeTimers("modern");
     jest.setSystemTime(new Date(2020, 11, 20, 19, 20));
   });
 
