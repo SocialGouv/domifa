@@ -8,6 +8,7 @@ import {
 import { Title } from "@angular/platform-browser";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
+import { environment } from "../../../../../environments/environment";
 import { StructureCommon } from "../../../../../_common/model";
 import { StructureService } from "../../services/structure.service";
 
@@ -23,7 +24,10 @@ export class StructuresSearchComponent implements OnInit, OnDestroy {
   public codePostal: string;
   public loading: boolean;
   public codePostalForm!: FormGroup;
+
   private subscription = new Subscription();
+
+  public portailUsagerUrl = environment.portailUsagersUrl;
 
   constructor(
     private readonly structureService: StructureService,
