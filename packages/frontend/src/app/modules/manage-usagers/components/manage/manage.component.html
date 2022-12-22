@@ -12,15 +12,16 @@
           display="dynamic"
         >
           <button ngbDropdownToggle>
-            <span *ngIf="filters.searchStringField === 'DATE_NAISSANCE'"
-              >Date de naissance</span
-            >
-            <span *ngIf="filters.searchStringField === 'DEFAULT'"
-              >ID, nom, prénom ou ayant-droit</span
-            >
-            <span *ngIf="filters.searchStringField === 'PROCURATION'"
-              >Procuration et mandataire</span
-            >
+            <span>
+              <fa-icon
+                [icon]="['fas', 'list']"
+                aria-hidden="true"
+                class="me-2"
+              ></fa-icon>
+              {{
+                SEARCH_STRING_FIELD_LABELS[this.filters.searchStringField].label
+              }}
+            </span>
           </button>
           <div
             ngbDropdownMenu
@@ -75,7 +76,10 @@
             type="text"
             [(ngModel)]="searchString"
             #searchInput
-            placeholder="Recherche par numéro de domicilié, nom, prénom ou ayant-droit"
+            [placeholder]="
+              SEARCH_STRING_FIELD_LABELS[this.filters.searchStringField]
+                .placeholder
+            "
           />
           <button
             type="button"
@@ -437,7 +441,7 @@
               *ngIf="filters.statut === 'TOUS' || filters.statut === 'VALIDE'"
             >
               <button
-                title="Trier par dernier passage ascendant"
+                type="button"
                 (click)="
                   updateFilters({
                     element: 'sortKey',
@@ -447,11 +451,11 @@
                 "
                 ngbDropdownItem
               >
-                Trier par dernier passage
+                <span>Trier par dernier passage</span>
                 <fa-icon [icon]="['fas', 'sort-amount-up']"></fa-icon>
               </button>
               <button
-                title="Trier par dernier passage descendant"
+                type="button"
                 (click)="
                   updateFilters({
                     element: 'sortKey',
@@ -461,12 +465,12 @@
                 "
                 ngbDropdownItem
               >
-                Trier par dernier passage
+                <span> Trier par dernier passage</span>
                 <fa-icon [icon]="['fas', 'sort-amount-down']"></fa-icon>
               </button>
             </ng-container>
             <button
-              [title]="'Trier par ' + getEcheanceLabel() + ' ascendant'"
+              type="button"
               (click)="
                 updateFilters({
                   element: 'sortKey',
@@ -476,11 +480,11 @@
               "
               ngbDropdownItem
             >
-              Trier par {{ getEcheanceLabel() }}
+              <span> Trier par {{ getEcheanceLabel() }}</span>
               <fa-icon [icon]="['fas', 'sort-amount-up']"></fa-icon>
             </button>
             <button
-              [title]="'Trier par ' + getEcheanceLabel() + ' descendant'"
+              type="button"
               (click)="
                 updateFilters({
                   element: 'sortKey',
@@ -508,7 +512,7 @@
               <fa-icon [icon]="['fas', 'sort-amount-up']"></fa-icon>
             </button>
             <button
-              title="Trier par nom descendant"
+              type="button"
               (click)="
                 updateFilters({
                   element: 'sortKey',
@@ -522,7 +526,7 @@
               <fa-icon [icon]="['fas', 'sort-amount-down']"></fa-icon>
             </button>
             <button
-              title="Trier par ID ascendant"
+              type="button"
               (click)="
                 updateFilters({
                   element: 'sortKey',
@@ -536,7 +540,7 @@
               <fa-icon [icon]="['fas', 'sort-amount-up']"></fa-icon>
             </button>
             <button
-              title="Trier par ID descendant"
+              type="button"
               (click)="
                 updateFilters({
                   element: 'sortKey',

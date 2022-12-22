@@ -1,3 +1,4 @@
+import { CriteriaSearchField } from "./usager-filter/UsagersFilterCriteria";
 import { ManageUsagersService } from "../../services/manage-usagers.service";
 import {
   Component,
@@ -117,6 +118,28 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   };
 
   public searchString: string | null;
+  public searchStringFieldLabel: string | null;
+
+  public readonly SEARCH_STRING_FIELD_LABELS: {
+    [key in CriteriaSearchField]: {
+      label: string;
+      placeholder: string;
+    };
+  } = {
+    DEFAULT: {
+      label: "ID, nom, prénom ou ayant-droit",
+      placeholder:
+        "Recherche par numéro de domicilié, nom, prénom ou ayant-droit",
+    },
+    DATE_NAISSANCE: {
+      label: "Date de naissance",
+      placeholder: "Recherche par date de naissance",
+    },
+    PROCURATION: {
+      label: "Procuration et mandataire",
+      placeholder: "Recherche une procuration ou un mandataire",
+    },
+  };
 
   public filters: UsagersFilterCriteria;
   public filters$: Subject<UsagersFilterCriteria> = new ReplaySubject(1);
@@ -148,6 +171,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       RADIE: [],
       TOUS: [],
     };
+
     this.currentUserSubject$ = this.authService.currentUserSubject;
     this.pageSize = 40;
     this.needToPrint = false;

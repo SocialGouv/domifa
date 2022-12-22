@@ -54,6 +54,7 @@ import {
   faUsers,
   faUserSecret,
   faUserShield,
+  faList,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const FA_ICONS: IconDefinition[] = [
@@ -88,6 +89,7 @@ export const FA_ICONS: IconDefinition[] = [
   faPlus,
   faPrint,
   faQuestion,
+  faList,
   faQuestionCircle,
   faQuestionCircle,
   faRedo,

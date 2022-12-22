@@ -134,6 +134,7 @@
               </div>
             </div>
           </ng-template>
+
           <div
             class="label-info label-green"
             *ngIf="usager.ayantsDroits.length > 0"
@@ -143,6 +144,11 @@
               {{ usager.ayantsDroits.length }} ayants-droit
             </div>
             <div *ngIf="usager.ayantsDroits.length === 1">1 ayant-droit</div>
+            <span
+              aria-hidden="true"
+              *ngIf="usager.searchResultAyantDroit"
+              class="pulse-button"
+            ></span>
           </div>
 
           <div
