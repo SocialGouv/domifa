@@ -28,6 +28,7 @@ function filter(
     filteredUsagers,
     {
       searchString: criteria.searchString,
+      searchStringField: criteria.searchStringField,
       searchInAyantDroits: criteria.searchInAyantDroits,
     }
   );
@@ -88,5 +89,6 @@ function filterByCriteria(
         : new Date() > new Date(usager.rdv.dateRdv);
     });
   }
+
   return usagers;
 }

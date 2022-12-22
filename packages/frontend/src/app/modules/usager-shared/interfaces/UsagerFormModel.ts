@@ -22,7 +22,7 @@ import {
 import {
   UsagersFilterCriteria,
   usagersFilter,
-} from "../../usagers/components/manage/usager-filter";
+} from "../../manage-usagers/components/manage/usager-filter";
 import { getEcheanceInfos, getRdvInfos, getUrlUsagerProfil } from "../utils";
 
 export class UsagerFormModel {
@@ -59,21 +59,12 @@ export class UsagerFormModel {
     colisIn: number;
   };
   public totalInteractionsEnAttente: number;
-  // TRANSFERT & PROCUS
+
   public options: Options;
 
-  /***
-   VARIABLES UTILES AU FRONT UNIQUEMENT
-   Recherche : si la requête fait remonté un ayant-droit
-  **/
   public isActif: boolean;
-  public isAyantDroit: boolean;
-
   public echeanceInfos: UsagerEcheanceInfos;
   public rdvInfos: UsagerRdvInfos;
-
-  // Dates à afficher sur le manage, couleur selon le statut
-  public usagerProfilUrl: string;
 
   public statusInfos: {
     text: string;
@@ -81,18 +72,21 @@ export class UsagerFormModel {
   };
   public rdv: Rdv;
 
-  // TODO: utile uniquement pour la page profil, à mettre dans un type étendu d'Usager
+  // TODO: données utiles uniquement pour la page profil, à mettre dans un type étendu d'Usager
   public email: string;
   public telephone: Telephone;
   public contactByPhone: boolean;
   public entretien?: Entretien;
   public notes: UsagerNote[];
-
-  // Historique des décisions et dernière décision
   public historique: Decision[];
-
-  public import: UsagerImport | null;
   public numeroDistribution: string | null;
+  public import: UsagerImport | null;
+
+  // Dates à afficher sur le manage, couleur selon le statut
+  // UNiquement pour la recherche
+  public usagerProfilUrl: string;
+  public searchResultProcuration: boolean;
+  public searchResultAyantDroit: boolean;
 
   constructor(usager?: UsagerLight, filterCriteria?: UsagersFilterCriteria) {
     this.notes = (usager && usager.notes) || [];
@@ -112,7 +106,7 @@ export class UsagerFormModel {
     this.surnom = (usager && usager.surnom) || "";
 
     this.dateNaissance = null;
-    if (usager && usager.dateNaissance !== null) {
+    if (usager && usager.dateNaissance) {
       this.dateNaissance = new Date(usager.dateNaissance);
     }
 
@@ -201,12 +195,14 @@ export class UsagerFormModel {
       this.totalInteractionsEnAttente += this.lastInteraction[interaction];
     });
 
-    this.isAyantDroit = false;
+    this.searchResultAyantDroit = false;
+    this.searchResultProcuration = false;
 
     if (filterCriteria) {
       if (filterCriteria.searchString && filterCriteria.searchString !== null) {
-        // if search does not match without ayant-droits, flag it as "isAyantDroit"
-        this.isAyantDroit =
+        // if search does not match without ayant-droits, flag it as "searchResultAyantDroit"
+        // TODO: use it in view
+        this.searchResultAyantDroit =
           usagersFilter.filter([usager as UsagerLight], {
             criteria: {
               ...filterCriteria,

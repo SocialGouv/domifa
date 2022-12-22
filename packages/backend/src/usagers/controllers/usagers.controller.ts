@@ -9,6 +9,7 @@ import {
   Get,
   HttpStatus,
   Param,
+  ParseBoolPipe,
   ParseIntPipe,
   Patch,
   Post,
@@ -76,10 +77,10 @@ export class UsagersController {
   @Get()
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   public async findAllByStructure(
-    @Query("chargerTousRadies") chargerTousRadiesString: string,
+    @Query("chargerTousRadies", new ParseBoolPipe())
+    chargerTousRadies: boolean,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
-    const chargerTousRadies = chargerTousRadiesString?.toLowerCase() === "true";
     const usagersNonRadies = await usagerLightRepository.findManyWithQuery({
       select: USAGER_LIGHT_ATTRIBUTES,
       where: `"structureId" = :structureId
@@ -120,6 +121,7 @@ export class UsagersController {
       usagersRadiesTotalCount,
     };
   }
+
   @Post("search-radies")
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   public async searchInRadies(

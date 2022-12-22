@@ -127,12 +127,6 @@ export class UsagerTable
   )
   public entretien!: UsagerEntretien;
 
-  @Column({
-    type: "jsonb",
-    nullable: true,
-  })
-  public oldEntretien!: UsagerEntretien;
-
   //
   // TRANSFERTS / NPAI / PROCURATION
   @Column({

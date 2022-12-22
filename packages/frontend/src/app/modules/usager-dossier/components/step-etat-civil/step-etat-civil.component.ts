@@ -8,18 +8,19 @@ import {
   NgbDatepickerI18n,
 } from "@ng-bootstrap/ng-bootstrap";
 
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
-import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
+import { UsagerDossierService } from "../../services/usager-dossier.service";
 import {
   UsagerLight,
   UsagerEtatCivilFormData,
 } from "../../../../../_common/model";
 import { fadeInOut } from "../../../../shared";
-import { CustomToastService } from "../../../shared/services/custom-toast.service";
+import {
+  NgbDateCustomParserFormatter,
+  CustomDatepickerI18n,
+  AuthService,
+  CustomToastService,
+} from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
-
-import { UsagerDossierService } from "../../services/usager-dossier.service";
 
 @Component({
   animations: [fadeInOut],

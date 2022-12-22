@@ -1,6 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
+import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { UserStructure, UsagerLight } from "../../../../../_common/model";
 import { getUsagerNomComplet } from "../../../../shared/getUsagerNomComplet";
@@ -13,9 +14,10 @@ import { UsagerProfilService } from "../../services/usager-profil.service";
   templateUrl: "./profil-courriers.component.html",
   styleUrls: ["./profil-courriers.component.css"],
 })
-export class ProfilCourriersComponent implements OnInit {
-  public me: UserStructure | null;
-  public usager: UsagerFormModel | null;
+export class ProfilCourriersComponent implements OnInit, OnDestroy {
+  public me!: UserStructure | null;
+  public usager!: UsagerFormModel | null;
+  private subscription = new Subscription();
 
   constructor(
     private readonly authService: AuthService,
@@ -31,18 +33,24 @@ export class ProfilCourriersComponent implements OnInit {
 
   public ngOnInit(): void {
     this.me = this.authService.currentUserValue;
-    this.usagerProfilService.findOne(this.route.snapshot.params.id).subscribe(
-      (usager: UsagerLight) => {
-        this.usager = new UsagerFormModel(usager);
+    this.subscription.add(
+      this.usagerProfilService.findOne(this.route.snapshot.params.id).subscribe(
+        (usager: UsagerLight) => {
+          this.usager = new UsagerFormModel(usager);
 
-        this.titleService.setTitle(
-          "Courriers de " + getUsagerNomComplet(usager)
-        );
-      },
-      () => {
-        this.toastService.error("Le dossier recherché n'existe pas");
-        this.router.navigate(["404"]);
-      }
+          this.titleService.setTitle(
+            "Courriers de " + getUsagerNomComplet(usager)
+          );
+        },
+        () => {
+          this.toastService.error("Le dossier recherché n'existe pas");
+          this.router.navigate(["404"]);
+        }
+      )
     );
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, Input } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Subscription } from "rxjs";
 import { UserStructure } from "../../../../../_common/model";
 import { MessageSms } from "../../../../../_common/model/message-sms";
 import { SMS_LABELS } from "../../../../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
@@ -11,26 +12,27 @@ import { UsagerProfilService } from "../../services/usager-profil.service";
   templateUrl: "./profil-historique-sms.component.html",
   styleUrls: ["./profil-historique-sms.component.css"],
 })
-export class ProfilHistoriqueSmsComponent implements AfterViewInit {
+export class ProfilHistoriqueSmsComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
+  private subscription = new Subscription();
 
-  public SMS_LABELS = SMS_LABELS;
-
-  @Input() public messagesList: MessageSms[];
+  public readonly SMS_LABELS = SMS_LABELS;
+  public messagesList: MessageSms[];
 
   constructor(private usagerProfilService: UsagerProfilService) {
-    this.usager = new UsagerFormModel();
     this.messagesList = [];
   }
 
-  public ngAfterViewInit(): void {
-    this.getMySms();
+  public ngOnInit(): void {
+    this.subscription.add(
+      this.usagerProfilService.findMySms(this.usager.ref).subscribe({
+        next: (messages: MessageSms[]) => (this.messagesList = messages),
+      })
+    );
   }
 
-  public getMySms(): void {
-    this.usagerProfilService.findMySms(this.usager.ref).subscribe({
-      next: (messages: MessageSms[]) => (this.messagesList = messages),
-    });
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

@@ -148,9 +148,11 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     };
 
     if (passwordFormValue) {
-      this.userService.resetPassword(this.resetForm.value).subscribe(() => {
-        this.success = true;
-      });
+      this.subscription.add(
+        this.userService.resetPassword(this.resetForm.value).subscribe(() => {
+          this.success = true;
+        })
+      );
     }
   }
 

@@ -1,4 +1,4 @@
-import { UsagersModule } from "./modules/usagers/usagers.module";
+import { ManageUsagersModule } from "./modules/manage-usagers/manage-usagers.module";
 import { LoadingService } from "./modules/shared/services/loading.service";
 
 import { CustomToastService } from "./modules/shared/services/custom-toast.service";
@@ -67,7 +67,7 @@ if (environment.production) {
     MatomoModule,
     NgbModule,
     SharedModule,
-    UsagersModule,
+    ManageUsagersModule,
     CountUpModule,
     UserIdleModule.forRoot({ idle: 3600, timeout: 10, ping: 120 }),
   ],

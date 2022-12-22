@@ -15,10 +15,10 @@ import {
 } from "../../../../../../_common/model/interaction";
 import { INTERACTIONS_IN_AVAILABLE } from "../../../../../../_common/model/interaction/constants";
 import { bounce } from "../../../../../shared";
-import { UsagerService } from "../../../../usagers/services/usager.service";
 import { UsagerFormModel } from "../../../interfaces";
 import { InteractionService } from "../../../services/interaction.service";
 import { Subscription } from "rxjs";
+import { UsagerService } from "../../../services/usagers.service";
 
 @Component({
   animations: [bounce],

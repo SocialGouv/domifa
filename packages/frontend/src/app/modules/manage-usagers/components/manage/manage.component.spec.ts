@@ -63,13 +63,14 @@ describe("ManageUsagersComponent", () => {
       echeance: null,
       interactionType: null,
       entretien: null,
+      searchInAyantDroits: true,
       searchString: null,
+      searchStringField: "DEFAULT",
       page: 0,
       passage: null,
       sortKey: "NAME",
       sortValue: "ascending",
       statut: "VALIDE",
-      searchInAyantDroits: true,
     });
   }));
 

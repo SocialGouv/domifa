@@ -2,22 +2,84 @@
   <div class="container">
     <div class="py-3 px-0 mx-0 row d-flex align-items-center">
       <div class="col-2">
-        <span class="title"> Domiciliés </span>
+        <h1 class="title">Domiciliés</h1>
       </div>
-      <div class="col-6">
+      <div class="col-6 d-flex">
+        <div
+          ngbDropdown
+          *ngIf="!filters.passage"
+          id="dropdownSearchString"
+          display="dynamic"
+        >
+          <button ngbDropdownToggle>
+            <span>
+              <fa-icon
+                [icon]="['fas', 'list']"
+                aria-hidden="true"
+                class="me-2"
+              ></fa-icon>
+              {{
+                SEARCH_STRING_FIELD_LABELS[this.filters.searchStringField].label
+              }}
+            </span>
+          </button>
+          <div
+            ngbDropdownMenu
+            aria-labelledby="dropdownSearchString"
+            class="dropdown-menu"
+          >
+            <button
+              (click)="
+                updateFilters({
+                  element: 'searchStringField',
+                  value: 'DATE_NAISSANCE'
+                })
+              "
+              ngbDropdownItem
+            >
+              Date de naissance
+            </button>
+            <button
+              (click)="
+                updateFilters({
+                  element: 'searchStringField',
+                  value: 'DEFAULT'
+                })
+              "
+              ngbDropdownItem
+            >
+              ID, nom, prénom ou ayant-droit
+            </button>
+            <button
+              (click)="
+                updateFilters({
+                  element: 'searchStringField',
+                  value: 'PROCURATION'
+                })
+              "
+              ngbDropdownItem
+            >
+              Procuration et mandataire
+            </button>
+          </div>
+        </div>
         <div id="searchbar" role="search">
-          <span id="search_icon">
-            <fa-icon
-              title="Rechercher"
-              [icon]="['fas', 'search']"
-              aria-hidden="true"
-            ></fa-icon>
+          <label for="searchInput" class="sr-only"
+            >Rechercher un domicilié</label
+          >
+          <span id="searchIcon">
+            <fa-icon [icon]="['fas', 'search']" aria-hidden="true"></fa-icon>
           </span>
+
           <input
+            id="searchInput"
             type="text"
             [(ngModel)]="searchString"
             #searchInput
-            placeholder="Recherche par numéro de domicilié, nom, prénom ou ayant-droit"
+            [placeholder]="
+              SEARCH_STRING_FIELD_LABELS[this.filters.searchStringField]
+                .placeholder
+            "
           />
           <button
             type="button"
@@ -25,9 +87,9 @@
             *ngIf="searchInput.value?.trim() !== ''"
             (click)="resetSearchBar()"
             class="btn"
-            id="times_icon"
+            id="deleteSearchIcon"
           >
-            <fa-icon title="Annuler" [icon]="['fas', 'times']"></fa-icon>
+            <fa-icon aria-hidden="true" [icon]="['fas', 'times']"></fa-icon>
           </button>
         </div>
       </div>
@@ -150,12 +212,12 @@
             placement="bottom-left"
             class="d-inline-block"
           >
-            <button class="btn" id="dropdownManual" ngbDropdownToggle>
+            <button class="btn" ngbDropdownToggle>
               <span>Dernier passage</span>
             </button>
             <div
               ngbDropdownMenu
-              aria-labelledby="navbarDropdown2"
+              aria-labelledby="dropdownDernierPassage"
               class="dropdown-menu"
             >
               <button
@@ -184,12 +246,15 @@
         >
           <div class="d-inline-block" *ngIf="filters.echeance">
             <button
-              title="Réinitialiser le filtre"
               class="btn selected-btn"
               (click)="updateFilters({ element: 'echeance', value: null })"
             >
               {{ labelsEcheance[filters.echeance] }}
-              <fa-icon [icon]="['fas', 'times']" class="cross"></fa-icon>
+              <fa-icon
+                aria-hidden="true"
+                [icon]="['fas', 'times']"
+                class="cross"
+              ></fa-icon>
             </button>
           </div>
           <div
@@ -200,13 +265,13 @@
             placement="bottom-end"
             class="d-inline-block"
           >
-            <button class="btn" id="dropdownManual" ngbDropdownToggle>
+            <button class="btn" ngbDropdownToggle>
               <span>Échéance de domiciliation</span>
             </button>
 
             <div
               ngbDropdownMenu
-              aria-labelledby="navbarDropdown2"
+              aria-labelledby="dropdownEcheance"
               class="dropdown-menu dropdown-menu-end"
             >
               <button
@@ -258,12 +323,12 @@
             *ngIf="!filters.interactionType"
             class="d-inline-block"
           >
-            <button class="btn" id="dropdownManual" ngbDropdownToggle>
+            <button class="btn" ngbDropdownToggle>
               <span>Courriers à récupérer</span>
             </button>
             <div
               ngbDropdownMenu
-              aria-labelledby="navbarDropdown2"
+              aria-labelledby="dropdownDernierPassage"
               class="dropdown-menu"
             >
               <button
@@ -300,12 +365,12 @@
             *ngIf="!filters.entretien"
             class="d-inline-block"
           >
-            <button class="btn" id="dropdownManual" ngbDropdownToggle>
+            <button class="btn" ngbDropdownToggle>
               <span>Entretien</span>
             </button>
             <div
               ngbDropdownMenu
-              aria-labelledby="navbarDropdown2"
+              aria-labelledby="dropdownDernierPassage"
               class="dropdown-menu"
             >
               <button
@@ -343,35 +408,40 @@
           class="d-inline-block"
         >
           <div id="dropdownSortButton" ngbDropdownToggle>
-            <span *ngIf="filters.sortKey !== 'PASSAGE'">
-              Trier par
-              <strong class="text-primary">{{ sortLabel }}</strong>
+            <span>
+              <ng-container *ngIf="filters.sortKey !== 'PASSAGE'">
+                Trier par
+                <strong class="text-primary">{{ sortLabel }}</strong>
+              </ng-container>
+
+              <ng-container *ngIf="filters.sortKey === 'PASSAGE'">
+                Trier par <strong class="text-primary">dernier passage</strong>
+              </ng-container>
+              <fa-icon
+                *ngIf="filters.sortValue === 'ascending'"
+                [icon]="['fas', 'sort-amount-up']"
+                aria-hidden="true"
+                class="ms-2"
+              ></fa-icon>
+
+              <fa-icon
+                *ngIf="filters.sortValue === 'descending'"
+                [icon]="['fas', 'sort-amount-down']"
+                aria-hidden="true"
+                class="ms-2"
+              ></fa-icon>
             </span>
-
-            <span *ngIf="filters.sortKey === 'PASSAGE'">
-              Trier par <strong class="text-primary">dernier passage</strong>
-            </span>
-
-            <fa-icon
-              *ngIf="filters.sortValue === 'ascending'"
-              [icon]="['fas', 'sort-amount-up']"
-            ></fa-icon>
-
-            <fa-icon
-              *ngIf="filters.sortValue === 'descending'"
-              [icon]="['fas', 'sort-amount-down']"
-            ></fa-icon>
           </div>
           <div
             ngbDropdownMenu
-            aria-labelledby="navbarDropdown2"
+            aria-labelledby="dropdownSort"
             class="dropdown-menu dropdown-menu-end"
           >
             <ng-container
               *ngIf="filters.statut === 'TOUS' || filters.statut === 'VALIDE'"
             >
               <button
-                title="Trier par dernier passage ascendant"
+                type="button"
                 (click)="
                   updateFilters({
                     element: 'sortKey',
@@ -381,11 +451,11 @@
                 "
                 ngbDropdownItem
               >
-                Trier par dernier passage
+                <span>Trier par dernier passage</span>
                 <fa-icon [icon]="['fas', 'sort-amount-up']"></fa-icon>
               </button>
               <button
-                title="Trier par dernier passage descendant"
+                type="button"
                 (click)="
                   updateFilters({
                     element: 'sortKey',
@@ -395,12 +465,12 @@
                 "
                 ngbDropdownItem
               >
-                Trier par dernier passage
+                <span> Trier par dernier passage</span>
                 <fa-icon [icon]="['fas', 'sort-amount-down']"></fa-icon>
               </button>
             </ng-container>
             <button
-              [title]="'Trier par ' + getEcheanceLabel() + ' ascendant'"
+              type="button"
               (click)="
                 updateFilters({
                   element: 'sortKey',
@@ -410,11 +480,11 @@
               "
               ngbDropdownItem
             >
-              Trier par {{ getEcheanceLabel() }}
+              <span> Trier par {{ getEcheanceLabel() }}</span>
               <fa-icon [icon]="['fas', 'sort-amount-up']"></fa-icon>
             </button>
             <button
-              [title]="'Trier par ' + getEcheanceLabel() + ' descendant'"
+              type="button"
               (click)="
                 updateFilters({
                   element: 'sortKey',
@@ -442,7 +512,7 @@
               <fa-icon [icon]="['fas', 'sort-amount-up']"></fa-icon>
             </button>
             <button
-              title="Trier par nom descendant"
+              type="button"
               (click)="
                 updateFilters({
                   element: 'sortKey',
@@ -456,7 +526,7 @@
               <fa-icon [icon]="['fas', 'sort-amount-down']"></fa-icon>
             </button>
             <button
-              title="Trier par ID ascendant"
+              type="button"
               (click)="
                 updateFilters({
                   element: 'sortKey',
@@ -470,7 +540,7 @@
               <fa-icon [icon]="['fas', 'sort-amount-up']"></fa-icon>
             </button>
             <button
-              title="Trier par ID descendant"
+              type="button"
               (click)="
                 updateFilters({
                   element: 'sortKey',
