@@ -70,7 +70,7 @@ async function createTables(queryRunner: QueryRunner) {
       attachment jsonb NULL,
       email text NOT NULL,
       category text NULL,
-      name text NOT NULL,
+      "name" text NOT NULL,
       "comments" text NULL,
       "structureName" text NULL,
       CONSTRAINT "PK_8e4a4781a01061a482fa33e5f5a" PRIMARY KEY (uuid)
@@ -330,7 +330,6 @@ async function createTables(queryRunner: QueryRunner) {
       "lastInteraction" jsonb NOT NULL,
       "etapeDemande" int4 NOT NULL DEFAULT 0,
       rdv jsonb NULL,
-      "oldEntretien" jsonb NULL,
       "options" jsonb NOT NULL DEFAULT '{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}'::jsonb,
       "import" jsonb NULL,
       migrated bool NOT NULL DEFAULT false,

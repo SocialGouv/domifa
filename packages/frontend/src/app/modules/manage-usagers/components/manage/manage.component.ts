@@ -1,3 +1,5 @@
+import { CriteriaSearchField } from "./usager-filter/UsagersFilterCriteria";
+import { ManageUsagersService } from "../../services/manage-usagers.service";
 import {
   Component,
   ElementRef,
@@ -40,7 +42,7 @@ import {
   getRdvInfos,
   getUrlUsagerProfil,
 } from "../../../usager-shared/utils";
-import { UsagerService } from "../../services/usager.service";
+
 import {
   UsagersByStatus,
   usagersByStatusBuilder,
@@ -116,6 +118,29 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   };
 
   public searchString: string | null;
+  public searchStringFieldLabel: string | null;
+
+  public readonly SEARCH_STRING_FIELD_LABELS: {
+    [key in CriteriaSearchField]: {
+      label: string;
+      placeholder: string;
+    };
+  } = {
+    DEFAULT: {
+      label: "ID, nom, prénom ou ayant-droit",
+      placeholder:
+        "Recherche par numéro de domicilié, nom, prénom ou ayant-droit",
+    },
+    DATE_NAISSANCE: {
+      label: "Date de naissance",
+      placeholder: "Recherche par date de naissance",
+    },
+    PROCURATION: {
+      label: "Procuration et mandataire",
+      placeholder: "Recherche une procuration ou un mandataire",
+    },
+  };
+
   public filters: UsagersFilterCriteria;
   public filters$: Subject<UsagersFilterCriteria> = new ReplaySubject(1);
 
@@ -133,7 +158,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   public sortLabel = "échéance";
 
   constructor(
-    private readonly usagerService: UsagerService,
+    private readonly usagerService: ManageUsagersService,
     private readonly authService: AuthService,
     private readonly titleService: Title,
     public matomo: MatomoTracker
@@ -146,6 +171,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       RADIE: [],
       TOUS: [],
     };
+
     this.currentUserSubject$ = this.authService.currentUserSubject;
     this.pageSize = 40;
     this.needToPrint = false;
@@ -201,10 +227,12 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
         })
     );
 
-    this.allUsagers$.subscribe((allUsagers: UsagerLight[]) => {
-      this.allUsagersByStatus = usagersByStatusBuilder.build(allUsagers);
-      this.allUsagersByStatus$.next(this.allUsagersByStatus);
-    });
+    this.subscription.add(
+      this.allUsagers$.subscribe((allUsagers: UsagerLight[]) => {
+        this.allUsagersByStatus = usagersByStatusBuilder.build(allUsagers);
+        this.allUsagersByStatus$.next(this.allUsagersByStatus);
+      })
+    );
 
     const onSearchInputKeyUp$: Observable<string> = fromEvent<KeyboardEvent>(
       this.searchInput.nativeElement,
@@ -337,7 +365,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.filters.searchString = "";
     this.filters$.next(this.filters);
   }
-
   public resetFilters(): void {
     this.filters = new UsagersFilterCriteria();
     this.searchString = null;
@@ -397,7 +424,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     const sortTypeButton: { [key: string]: string } = {
       ID: "Liste_Colonne_ID",
       NAME: "Liste_Colonne_Nom_Prénom",
-      PASSAGE: "Li<ste_Colonne_Passage",
+      PASSAGE: "Liste_Colonne_Passage",
       ECHEANCE: "Liste_Colonne_Échéance",
     };
 
@@ -497,6 +524,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       ...filters,
       statut: undefined,
     };
+
     const filteredUsagers = usagersFilter.filter(allUsagers, {
       criteria: filterCriteria,
     });

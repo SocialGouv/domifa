@@ -27,8 +27,8 @@ import {
 } from "../../../../../_common/model/usager/_constants";
 import { Entretien } from "../../interfaces";
 
-import { EntretienService } from "../../services/entretien.service";
 import { Subscription } from "rxjs";
+import { UsagerService } from "../../services/usagers.service";
 
 @Component({
   selector: "app-entretien-form",
@@ -62,7 +62,7 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly entretienService: EntretienService,
+    private readonly usagerService: UsagerService,
     private readonly toastService: CustomToastService,
     private readonly modalService: NgbModal
   ) {
@@ -113,7 +113,7 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
     }
     this.loading = true;
     this.subscription.add(
-      this.entretienService
+      this.usagerService
         .submitEntretien(this.entretienForm.value, this.usager.ref)
         .subscribe({
           next: (usager: UsagerLight) => {

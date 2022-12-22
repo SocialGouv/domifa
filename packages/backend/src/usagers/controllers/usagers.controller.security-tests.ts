@@ -18,9 +18,12 @@ export const UsagersControllerSecurityTests: AppTestHttpClientSecurityTestDef[] 
     {
       label: `${CONTROLLER}.findAllByStructure`,
       query: async (context: AppTestContext) => ({
-        response: await AppTestHttpClient.get("/usagers", {
-          context,
-        }),
+        response: await AppTestHttpClient.get(
+          "/usagers?chargerTousRadies=false",
+          {
+            context,
+          }
+        ),
         expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
           context.user,
           {

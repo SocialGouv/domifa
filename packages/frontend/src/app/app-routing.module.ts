@@ -15,7 +15,6 @@ import { HomeComponent } from "./modules/general/components/home/home.component"
 import { LoginComponent } from "./modules/general/components/login/login.component";
 import { NewsComponent } from "./modules/general/components/news/news.component";
 import { PlanSiteComponent } from "./modules/general/components/plan-site/plan-site.component";
-import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
 
 export const routes: Routes = [
   {
@@ -47,15 +46,19 @@ export const routes: Routes = [
     component: LoginComponent,
     path: "connexion",
   },
-  {
-    canActivate: [AuthGuard],
-    component: ManageUsagersComponent,
-    path: "manage",
-  },
+
   {
     loadChildren: async () =>
       import("./modules/stats/stats.module").then((m) => m.StatsModule),
     path: "stats",
+  },
+  {
+    canActivate: [AuthGuard],
+    loadChildren: async () =>
+      import("./modules/manage-usagers/manage-usagers.module").then(
+        (m) => m.ManageUsagersModule
+      ),
+    path: "manage",
   },
   {
     canActivate: [AuthGuard, FacteurGuard],

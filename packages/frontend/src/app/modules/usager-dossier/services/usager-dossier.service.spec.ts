@@ -15,10 +15,10 @@ import {
   Entretien,
   Rdv,
 } from "../../usager-shared/interfaces";
-import { UsagerService } from "../../usagers/services/usager.service";
+import { UsagerDossierService } from "./usager-dossier.service";
 
-describe("UsagerService", () => {
-  let service: UsagerService;
+describe("UsagerDossierService", () => {
+  let service: UsagerDossierService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -35,7 +35,7 @@ describe("UsagerService", () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
-    service = TestBed.inject(UsagerService);
+    service = TestBed.inject(UsagerDossierService);
   });
 
   it("should be created", () => {

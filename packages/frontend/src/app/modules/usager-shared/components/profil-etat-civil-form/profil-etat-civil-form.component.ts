@@ -1,3 +1,4 @@
+import { UsagerService } from "./../../services/usagers.service";
 import { EtatCivilParentFormComponent } from "./../etat-civil-parent-form/etat-civil-parent-form.component";
 import { UsagerEtatCivilFormData } from "./../../../../../_common/model/usager/form/UsagerEtatCivilFormData.type";
 import {
@@ -14,7 +15,7 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { UsagerLight } from "../../../../../_common/model";
 
 import { UsagerFormModel } from "../../interfaces";
-import { EtatCivilService } from "../../services/etat-civil.service";
+
 import { AuthService } from "../../../shared/services/auth.service";
 
 @Component({
@@ -34,7 +35,7 @@ export class ProfilEtatCivilFormComponent
     public authService: AuthService,
     public formBuilder: FormBuilder,
     private readonly toastService: CustomToastService,
-    private readonly etatCivilService: EtatCivilService
+    private readonly etatCivilService: UsagerService
   ) {
     super(formBuilder, authService);
   }

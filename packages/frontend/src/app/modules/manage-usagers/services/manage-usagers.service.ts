@@ -11,23 +11,10 @@ import { SearchPageLoadedUsagersData } from "../../../shared/store/AppStoreModel
 @Injectable({
   providedIn: "root",
 })
-export class UsagerService {
+export class ManageUsagersService {
   public endPointUsagers = environment.apiUrl + "usagers";
 
   constructor(private http: HttpClient) {}
-
-  public findOne(usagerRef: number): Observable<UsagerLight> {
-    return this.http
-      .get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`)
-      .pipe(
-        tap((x) => {
-          // update cache
-          usagersCache.updateUsager(x);
-        }),
-        startWith(usagersCache.getSnapshot().usagersByRefMap[usagerRef]), // try to load value from cache
-        filter((x) => !!x) // filter out empty cache value
-      );
-  }
 
   /* Recherche */
   public getSearchPageUsagerData({
