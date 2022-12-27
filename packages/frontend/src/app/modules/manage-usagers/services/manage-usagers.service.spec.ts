@@ -4,7 +4,8 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { MatomoModule } from "ngx-matomo";
+import { MATOMO_INJECTOR_FOR_TESTS } from "../../../../_common/mocks";
 import { JwtInterceptor } from "../../../interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "../../../interceptors/server-error.interceptor";
 import { AuthService } from "../../shared/services";
@@ -26,6 +27,7 @@ describe("ManageUsagersService", () => {
         CommonModule,
         SharedModule,
         RouterTestingModule,
+        MatomoModule.forRoot(MATOMO_INJECTOR_FOR_TESTS),
       ],
       providers: [
         ManageUsagersService,
@@ -36,18 +38,6 @@ describe("ManageUsagersService", () => {
           multi: true,
           provide: HTTP_INTERCEPTORS,
           useClass: ServerErrorInterceptor,
-        },
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
-          },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
-          },
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

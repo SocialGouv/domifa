@@ -10,7 +10,8 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { APP_BASE_HREF } from "@angular/common";
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { MatomoModule } from "ngx-matomo";
+import { MATOMO_INJECTOR_FOR_TESTS } from "../../../../../_common/mocks";
 
 describe("StepDocumentsComponent", () => {
   let component: StepDocumentsComponent;
@@ -23,24 +24,10 @@ describe("StepDocumentsComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-
+        MatomoModule.forRoot(MATOMO_INJECTOR_FOR_TESTS),
         HttpClientTestingModule,
       ],
-      providers: [
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
-          },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
-          },
-        },
-        { provide: APP_BASE_HREF, useValue: "/" },
-      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [StepDocumentsComponent],
     });

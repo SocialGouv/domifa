@@ -6,7 +6,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
+import { MatomoModule } from "ngx-matomo";
 
 import { StepEntretienComponent } from "./step-entretien.component";
 
@@ -20,26 +20,18 @@ describe("StepEntretienComponent", () => {
       imports: [
         RouterTestingModule,
         NgbModule,
-        MatomoModule,
-
+        MatomoModule.forRoot({
+          trackers: [
+            {
+              trackerUrl: "xxx",
+              siteId: 0,
+            },
+          ],
+        }),
         HttpClientTestingModule,
       ],
       declarations: [StepEntretienComponent],
-      providers: [
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
-          },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
-          },
-        },
-        { provide: APP_BASE_HREF, useValue: "/" },
-      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
     });
     fixture = TestBed.createComponent(StepEntretienComponent);
     component = fixture.componentInstance;

@@ -230,8 +230,7 @@ export class UsagersProfilProcurationCourrierComponent
   }
 
   public deleteProcurationForm(i: number): void {
-    (this.form as UntypedFormArray).removeAt(i);
-
+    this.form.removeAt(i);
     if (this.form.length === 0) {
       this.isFormVisible = false;
     }

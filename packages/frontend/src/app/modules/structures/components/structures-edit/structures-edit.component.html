@@ -129,7 +129,11 @@
           </div>
         </div>
         <div class="modal-footer text-center">
-          <button class="btn btn-outline-dark" (click)="closeModals()">
+          <button
+            class="btn btn-outline-dark"
+            type="button"
+            (click)="closeModals()"
+          >
             Annuler
           </button>
           <button
@@ -137,6 +141,7 @@
             *ngIf="!showHardReset"
             (click)="hardReset()"
             [disabled]="loading"
+            type="submit"
           >
             <span *ngIf="!loading">Continuer</span>
 

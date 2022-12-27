@@ -7,9 +7,10 @@ import { CommonModule, APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { MatomoModule } from "ngx-matomo";
 
 import { SharedModule } from "../../../shared/shared.module";
+import { MATOMO_INJECTOR_FOR_TESTS } from "../../../../../_common";
 
 describe("HomeComponent", () => {
   let component: HomeComponent;
@@ -21,25 +22,11 @@ describe("HomeComponent", () => {
       imports: [
         CommonModule,
         SharedModule,
-
+        MatomoModule.forRoot(MATOMO_INJECTOR_FOR_TESTS),
         RouterTestingModule,
         HttpClientTestingModule,
       ],
-      providers: [
-        { provide: APP_BASE_HREF, useValue: "/" },
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
-          },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
-          },
-        },
-      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
 
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();

@@ -4,6 +4,7 @@
   </div>
   <div class="text-end" *ngIf="usager.isActif && !isRole('facteur')">
     <button
+      type="submit"
       class="btn btn-outline-dark"
       *ngIf="!editionInProgress"
       (click)="editionInProgress = true"
@@ -15,6 +16,7 @@
       class="btn btn-outline-dark"
       *ngIf="editionInProgress"
       (click)="editionInProgress = false"
+      type="button"
     >
       <fa-icon icon="pencil-alt" class="me-2"></fa-icon>
       Annuler les modifications

@@ -151,11 +151,13 @@
     </div>
     <div
       class="text-start"
-      *ngFor="let interaction of selectedInteractionsWithContent | slice: 0:30"
+      *ngFor="
+        let interaction of selectedInteractionsWithContent | slice : 0 : 30
+      "
     >
       <ng-container *ngIf="interaction.content">
         <strong
-          >{{ interaction.dateInteraction | date: "dd/MM/yyyy à HH:mm" }}
+          >{{ interaction.dateInteraction | date : "dd/MM/yyyy à HH:mm" }}
         </strong>
         -
         {{ interaction.label }}
@@ -175,6 +177,7 @@
         !interactionFormData.colisOut.selected) ||
       loading
     "
+    type="submit"
     class="btn btn-lg btn-primary me-2"
     (click)="setInteractionForm()"
   >
@@ -184,7 +187,11 @@
       Veuillez patientez...
     </span>
   </button>
-  <button class="btn btn-lg btn-outline-dark" (click)="cancelReception.emit()">
+  <button
+    class="btn btn-lg btn-outline-dark"
+    type="button"
+    (click)="cancelReception.emit()"
+  >
     Annuler
   </button>
 </div>

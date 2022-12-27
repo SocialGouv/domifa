@@ -64,7 +64,17 @@ if (environment.production) {
     ReactiveFormsModule,
     FontAwesomeModule,
     GeneralModule,
-    MatomoModule,
+    MatomoModule.forRoot({
+      trackers: [
+        {
+          trackerUrl: environment.matomo.url,
+          siteId: environment.matomo.siteId,
+        },
+      ],
+      routeTracking: {
+        enable: true,
+      },
+    }),
     NgbModule,
     SharedModule,
     ManageUsagersModule,

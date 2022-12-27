@@ -5,7 +5,6 @@
     </div>
     <div *ngIf="usager.decision.statut !== 'REFUS'">
       <button
-        title="Modifier la procuration"
         (click)="initForm()"
         *ngIf="!isFormVisible "
         class="btn btn-outline-dark ms-2"
@@ -14,7 +13,7 @@
         Modifier les procurations
       </button>
       <button
-        title="Annuler les modifications"
+        type="button"
         *ngIf="isFormVisible"
         (click)="hideForm()"
         class="btn btn-outline-dark ms-2"

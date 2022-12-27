@@ -15,7 +15,6 @@
             <h4>État civil</h4>
             <div *ngIf="usager.isActif && !isRole('facteur')">
               <button
-                title="Modifier les informations"
                 class="btn btn-outline-dark"
                 *ngIf="!editInfos"
                 (click)="editInfos = true"
@@ -25,7 +24,7 @@
               </button>
 
               <button
-                title="Annuler les modifications"
+                type="button"
                 class="btn btn-outline-dark"
                 *ngIf="editInfos"
                 (click)="editInfos = false"
@@ -57,7 +56,7 @@
             </div>
             <div *ngIf="usager.isActif">
               <button
-                title="Modifier l'entretien social"
+                type="submit"
                 class="btn btn-outline-dark"
                 *ngIf="!editEntretien"
                 (click)="openEntretien()"
@@ -66,7 +65,7 @@
                 Modifier l'entretien social
               </button>
               <button
-                title="Annuler les changements"
+                type="button"
                 class="btn btn-outline-dark"
                 *ngIf="editEntretien"
                 (click)="editEntretien = false"

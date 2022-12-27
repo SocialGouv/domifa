@@ -19,7 +19,7 @@
           <strong>{{ usager | usagerNomComplet }}</strong>
           a été envoyée le
           <strong>
-            {{ usager.decision.dateDecision | date: "dd/MM/yyyy à HH:mm" }}.
+            {{ usager.decision.dateDecision | date : "dd/MM/yyyy à HH:mm" }}.
           </strong>
           <br />
           La personne référente dans votre structure est invitée à statuer sur
@@ -71,7 +71,7 @@
 
         <strong>
           {{ usager.decision.userName }}
-          le {{ usager.decision.dateDecision | date: "dd/MM/yyyy à HH:mm" }}
+          le {{ usager.decision.dateDecision | date : "dd/MM/yyyy à HH:mm" }}
         </strong>
       </div>
 
@@ -149,6 +149,7 @@
           <button
             class="btn btn-outline-primary d-print-none"
             *ngIf="editInfos"
+            type="button"
             (click)="editInfos = false"
           >
             <fa-icon [icon]="['fas', 'times']" class="me-2"></fa-icon>
@@ -178,7 +179,7 @@
             </div>
             <div>
               <button
-                title="Modifier"
+                type="button"
                 class="btn btn-outline-primary d-print-none"
                 *ngIf="!editEntretien"
                 (click)="editEntretien = true"
@@ -187,7 +188,7 @@
                 Modifier
               </button>
               <button
-                title="Annuler les changements"
+                type="button"
                 class="btn btn-outline-primary d-print-none"
                 *ngIf="editEntretien"
                 (click)="editEntretien = false"
@@ -218,7 +219,7 @@
         <h4>Pièces jointes</h4>
         <div>
           <button
-            title="Modifier"
+            type="submit"
             class="btn btn-outline-primary d-print-none"
             *ngIf="!editPJ"
             (click)="editPJ = true"
@@ -227,7 +228,7 @@
             Modifier
           </button>
           <button
-            title="Annuler les changements"
+            type="button"
             class="btn btn-outline-primary d-print-none"
             *ngIf="editPJ"
             (click)="editPJ = false"

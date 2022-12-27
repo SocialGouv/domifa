@@ -10,8 +10,8 @@ import { CountUpModule } from "ngx-countup";
 
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterTestingModule } from "@angular/router/testing";
-
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { MatomoModule } from "ngx-matomo";
+import { MATOMO_INJECTOR_FOR_TESTS } from "../../../../../_common/mocks";
 
 describe("HomeComponent", () => {
   let component: HomeComponent;
@@ -26,22 +26,9 @@ describe("HomeComponent", () => {
         RouterTestingModule,
         CountUpModule,
         HttpClientTestingModule,
+        MatomoModule.forRoot(MATOMO_INJECTOR_FOR_TESTS),
       ],
-      providers: [
-        { provide: APP_BASE_HREF, useValue: "/" },
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
-          },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
-          },
-        },
-      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
 
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();

@@ -43,7 +43,7 @@
 
         <ng-container *ngIf="usager.decision.statut === 'REFUS'">
           <button
-            title="Créer une nouvelle demande"
+            type="button"
             (click)="openRenewModal()"
             class="btn btn-white-primary ms-2"
           >
@@ -51,7 +51,7 @@
             Créer une nouvelle demande
           </button>
           <button
-            title="Télécharger le CERFA"
+            type="button"
             class="btn btn-white-primary ms-2"
             (click)="
               getCerfa(
@@ -66,7 +66,7 @@
 
         <ng-container *ngIf="usager.decision.statut === 'RADIE'">
           <button
-            title="Créer une nouvelle demande"
+            type="button"
             class="btn btn-white-primary ms-2"
             (click)="openRenewModal()"
           >
@@ -77,7 +77,7 @@
 
         <ng-container *ngIf="usager.decision.statut === 'VALIDE'">
           <button
-            title="Demande de renouvellement"
+            type="button"
             class="ms-2 btn btn-white-primary ms-2"
             (click)="openRenewModal()"
           >
@@ -85,7 +85,7 @@
             Demande de renouvellement
           </button>
           <button
-            title="Radier le domicilié"
+            type="button"
             (click)="openRadiationModal()"
             class="ms-2 btn btn-white-primary"
           >

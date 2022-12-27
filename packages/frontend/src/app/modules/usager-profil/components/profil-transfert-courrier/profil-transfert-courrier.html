@@ -5,7 +5,6 @@
     </div>
     <div *ngIf="usager.decision.statut !== 'REFUS'">
       <button
-        title="Modifier le transfert"
         type="button"
         *ngIf="!isFormVisible"
         (click)="showForm()"
@@ -16,7 +15,6 @@
       </button>
 
       <button
-        title="Annuler les modifications"
         type="button"
         *ngIf="isFormVisible"
         (click)="hideForm()"
