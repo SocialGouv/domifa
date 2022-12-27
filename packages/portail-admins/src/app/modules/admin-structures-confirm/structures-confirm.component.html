@@ -57,13 +57,24 @@
           <input
             type="text"
             class="form-control"
+            [disabled]="loading"
             [(ngModel)]="structureName"
             id="confirmationDelete"
             placeholder="Entrez le nom de la structure"
           />
           <br />
-          <button class="btn btn-danger" (click)="confirm()">
-            Confirmer la suppression
+          <button
+            class="btn btn-danger"
+            [disabled]="loading"
+            (click)="confirm()"
+          >
+            <span *ngIf="!loading">Confirmer la suppression</span>
+
+            <span *ngIf="loading"
+              ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+              </fa-icon>
+              Suppression en cours...</span
+            >
           </button>
           <br />
           <b class="text-danger">Cette action est irreversible</b>

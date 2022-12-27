@@ -26,6 +26,7 @@ import { Router } from "@angular/router";
 import { SharedModule } from "./modules/shared/shared.module";
 import { CustomToastService } from "./modules/shared/services/custom-toast.service";
 import { GeneralModule } from "./modules/general/general.module";
+import { environment } from "../environments/environment";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -38,7 +39,17 @@ import { GeneralModule } from "./modules/general/general.module";
     FontAwesomeModule,
     FormsModule,
     HttpClientModule,
-    MatomoModule,
+    MatomoModule.forRoot({
+      trackers: [
+        {
+          trackerUrl: environment.matomo.url,
+          siteId: environment.matomo.siteId,
+        },
+      ],
+      routeTracking: {
+        enable: true,
+      },
+    }),
     NgbModule,
     SharedModule,
     ReactiveFormsModule,

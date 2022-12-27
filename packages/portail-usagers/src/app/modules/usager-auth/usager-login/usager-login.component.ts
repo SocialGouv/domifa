@@ -7,9 +7,8 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { MatomoTracker } from "ngx-matomo";
 
-import { environment } from "../../../../environments/environment";
 import type {
   PortailUsagerAuthApiResponse,
   PortailUsagerAuthLoginForm,
@@ -40,11 +39,9 @@ export class UsagerLoginComponent implements OnInit {
     private readonly titleService: Title,
     private readonly authService: UsagerAuthService,
     private readonly toastr: CustomToastService,
-    private readonly matomoInjector: MatomoInjector,
     private readonly usagerAuthService: UsagerAuthService,
     public matomo: MatomoTracker,
   ) {
-    this.matomoInjector.init(environment.matomo.url, environment.matomo.siteId);
     this.hidePassword = true;
     this.hidePasswordNew = true;
     this.loading = false;

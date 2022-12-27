@@ -8,8 +8,9 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { RouterTestingModule } from "@angular/router/testing";
+import { MatomoModule } from "ngx-matomo";
+import { MATOMO_INJECTOR_FOR_TESTS } from "../../../../../_common/mocks";
 
 describe("RegisterUserAdminComponent", () => {
   let component: RegisterUserAdminComponent;
@@ -24,22 +25,9 @@ describe("RegisterUserAdminComponent", () => {
         FormsModule,
         HttpClientTestingModule,
         RouterTestingModule,
+        MatomoModule.forRoot(MATOMO_INJECTOR_FOR_TESTS),
       ],
-      providers: [
-        { provide: APP_BASE_HREF, useValue: "/" },
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
-          },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
-          },
-        },
-      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

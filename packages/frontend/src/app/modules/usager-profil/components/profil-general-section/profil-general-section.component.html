@@ -11,11 +11,11 @@
             class="alert alert-danger"
             *ngIf="usager.decision.statut === 'RADIE'"
           >
-            <div title="Important" class="svg-icon icon-danger"></div>
+            <div aria-hidden="true" class="svg-icon icon-danger"></div>
 
             <div>
               Cette personne a été radiée le
-              {{ usager.decision.dateFin | date: "dd/MM/yyyy" }}
+              {{ usager.decision.dateFin | date : "dd/MM/yyyy" }}
               : {{ usager.decision.motifString }}
             </div>
           </div>
@@ -23,11 +23,11 @@
             class="alert alert-danger"
             *ngIf="usager.decision.statut === 'REFUS'"
           >
-            <div title="Important" class="svg-icon icon-danger"></div>
+            <div aria-hidden="true" class="svg-icon icon-danger"></div>
             <div class="text-danger">
               <b
                 >Demande refusée le
-                {{ usager.decision.dateFin | date: "dd/MM/yyyy" }}</b
+                {{ usager.decision.dateFin | date : "dd/MM/yyyy" }}</b
               >
               <br />
               {{ usager.decision.motifString }}
@@ -102,7 +102,7 @@
             <span>
               La domiciliation expire le
               <strong>
-                {{ usager.echeanceInfos.dateToDisplay | date: "dd/MM/yyyy" }}
+                {{ usager.echeanceInfos.dateToDisplay | date : "dd/MM/yyyy" }}
               </strong>
             </span>
           </div>
@@ -110,11 +110,11 @@
             class="alert alert-danger"
             *ngIf="usager.echeanceInfos.dayBeforeEnd < 0"
           >
-            <div title="Important" class="svg-icon icon-danger"></div>
+            <div aria-hidden="true" class="svg-icon icon-danger"></div>
             <div>
               Domiciliation expirée depuis le
 
-              {{ usager.echeanceInfos.dateToDisplay | date: "dd/MM/yyyy" }}, il
+              {{ usager.echeanceInfos.dateToDisplay | date : "dd/MM/yyyy" }}, il
               y a {{ usager.echeanceInfos.dayBeforeEnd * -1 }} jours
             </div>
           </div>
@@ -147,7 +147,7 @@
             <span
               ><strong>Attention : </strong> le transfert de courrier était
               valable jusqu'au
-              {{ usager.options.transfert.dateFin | date: "dd/MM/yyyy" }}</span
+              {{ usager.options.transfert.dateFin | date : "dd/MM/yyyy" }}</span
             >
           </div>
 
@@ -179,7 +179,7 @@
                     >{{ procuration.nom }} {{ procuration.prenom }}</strong
                   >
                   est active et valable jusqu'au
-                  {{ procuration.dateFin | date: "dd/MM/yyyy" }}
+                  {{ procuration.dateFin | date : "dd/MM/yyyy" }}
                 </span>
               </div>
 
@@ -194,7 +194,7 @@
                     >{{ procuration.nom }} {{ procuration.prenom }}</strong
                   >
                   a expiré le
-                  {{ procuration.dateFin | date: "dd/MM/yyyy" }}
+                  {{ procuration.dateFin | date : "dd/MM/yyyy" }}
                 </span>
               </div>
             </ng-container>
@@ -259,20 +259,20 @@
 
             <div class="col-6 my-1"><span class="label">Échéance</span></div>
             <div class="col-6 my-1">
-              {{ usager.echeanceInfos.dateToDisplay | date: "dd/MM/yyyy" }}
+              {{ usager.echeanceInfos.dateToDisplay | date : "dd/MM/yyyy" }}
             </div>
             <div class="col-6 my-1">
               <span class="label">Dernier passage</span>
             </div>
             <div class="col-6 my-1">
-              {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yyyy" }}
+              {{ usager.lastInteraction.dateInteraction | date : "dd/MM/yyyy" }}
             </div>
 
             <div class="col-6 my-1">
               <span class="label">Première domiciliation</span>
             </div>
             <div class="col-6 my-1">
-              {{ usager.datePremiereDom | date: "dd/MM/yyyy" }}
+              {{ usager.datePremiereDom | date : "dd/MM/yyyy" }}
             </div>
             <div class="col-6 my-1">
               <span class="label">Type de domiciliation</span>

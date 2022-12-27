@@ -153,12 +153,19 @@ export class StructureDocController {
     };
 
     // Ajout du document
-    await structureDocRepository.insert(newDoc);
+    try {
+      await structureDocRepository.insert(newDoc);
 
-    const docs = await structureDocRepository.findBy({
-      structureId: user.structureId,
-    });
-    return res.status(HttpStatus.OK).json(docs);
+      const docs = await structureDocRepository.findBy({
+        structureId: user.structureId,
+      });
+
+      return res.status(HttpStatus.OK).json(docs);
+    } catch (e) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "UPLOAD_FAIL" });
+    }
   }
 
   @Get("")

@@ -88,13 +88,18 @@
 </div>
 
 <div class="modal-footer text-end">
-  <button class="btn btn-lg btn-outline-dark me-2" (click)="cancel.emit()">
+  <button
+    class="btn btn-lg btn-outline-dark me-2"
+    type="button"
+    (click)="cancel.emit()"
+  >
     Annuler
   </button>
   <button
     class="btn btn-lg btn-primary"
     (click)="submitFile()"
     [disabled]="loading"
+    type="submit"
   >
     <span *ngIf="!loading">Ajouter</span>
     <span *ngIf="loading">

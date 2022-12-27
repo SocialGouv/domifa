@@ -9,8 +9,9 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { FaqComponent } from "./faq.component";
 
-import { MatomoInjector, MatomoTracker, MatomoModule } from "ngx-matomo";
+import { MatomoModule } from "ngx-matomo";
 import { RouterTestingModule } from "@angular/router/testing";
+import { MATOMO_INJECTOR_FOR_TESTS } from "../../../../../_common/mocks";
 
 describe("FaqComponent", () => {
   let component: FaqComponent;
@@ -25,22 +26,9 @@ describe("FaqComponent", () => {
         FormsModule,
         HttpClientTestingModule,
         RouterTestingModule,
+        MatomoModule.forRoot(MATOMO_INJECTOR_FOR_TESTS),
       ],
-      providers: [
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
-          },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
-          },
-        },
-        { provide: APP_BASE_HREF, useValue: "/" },
-      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

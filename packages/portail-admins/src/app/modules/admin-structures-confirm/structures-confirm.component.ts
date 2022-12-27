@@ -20,6 +20,7 @@ export class StructuresConfirmComponent implements OnInit, OnDestroy {
 
   public error: boolean;
   public errorDelete: boolean;
+  public loading: boolean;
 
   public structureName: string | null;
   public structure?: StructureAdmin;
@@ -42,6 +43,7 @@ export class StructuresConfirmComponent implements OnInit, OnDestroy {
     this.successEnable = false;
     this.confirmDelete = false;
     this.error = false;
+    this.loading = false;
     this.errorDelete = false;
   }
 
@@ -88,6 +90,7 @@ export class StructuresConfirmComponent implements OnInit, OnDestroy {
 
   public confirm() {
     if (!!this.structureName && this.structureName.trim().length !== 0) {
+      this.loading = true;
       this.subscription.add(
         this.adminStructuresDeleteApiClient
           .deleteConfirm({
@@ -100,8 +103,10 @@ export class StructuresConfirmComponent implements OnInit, OnDestroy {
               this.successDelete = true;
               this.confirmDelete = false;
               this.notifService.success("Suppression réussie");
+              this.loading = false;
             },
             error: () => {
+              this.loading = false;
               this.notifService.error("Le nom saisi est incorrect");
             },
           })

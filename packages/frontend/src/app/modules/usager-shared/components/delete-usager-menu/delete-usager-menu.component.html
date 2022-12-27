@@ -7,7 +7,6 @@
       *ngIf="usager.decision.statut === 'INSTRUCTION' && usager.ref"
     >
       <button
-        title="Supprimer cette demande"
         class="btn btn-danger"
         type="button"
         id="delete-usager"
@@ -19,7 +18,7 @@
       </button>
 
       <button
-        title="Supprimer cette demande"
+        type="button"
         class="btn btn-danger"
         id="delete-usager"
         *ngIf="!hasHistorique"
@@ -37,7 +36,7 @@
       "
     >
       <button
-        title="Supprimer ce domicilié"
+        type="button"
         class="btn btn-danger"
         id="delete-usager"
         (click)="open(deleteConfirmation)"

@@ -7,10 +7,10 @@ import {
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
 import { UserIdleService } from "angular-user-idle";
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { MatomoTracker } from "ngx-matomo";
 import { filter } from "rxjs";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { environment } from "../environments/environment";
+
 import { UserStructure } from "../_common/model";
 import {
   HealthCheckInfo,
@@ -42,14 +42,12 @@ export class AppComponent implements OnInit {
   constructor(
     private readonly healthCheckService: HealthCheckService,
     private readonly authService: AuthService,
-    private readonly matomoInjector: MatomoInjector,
     private readonly router: Router,
     private readonly titleService: Title,
     private readonly userIdleService: UserIdleService,
     public matomo: MatomoTracker,
     private modalService: NgbModal
   ) {
-    this.matomoInjector.init(environment.matomo.url, environment.matomo.siteId);
     this.apiVersion = null;
 
     this.modalOptions = {

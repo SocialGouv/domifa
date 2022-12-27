@@ -4,8 +4,8 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { MatomoModule } from "ngx-matomo";
+import { MATOMO_INJECTOR_FOR_TESTS } from "../../../../_common/mocks";
 
 import { UsagerLoginComponent } from "./usager-login.component";
 
@@ -19,25 +19,12 @@ describe("UsagerLoginComponent", () => {
       imports: [
         HttpClientTestingModule,
         ReactiveFormsModule,
-
+        MatomoModule.forRoot(MATOMO_INJECTOR_FOR_TESTS),
         NgbModule,
         FormsModule,
         RouterTestingModule,
       ],
-      providers: [
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
-          },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
-          },
-        },
-      ],
+      providers: [],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
   });

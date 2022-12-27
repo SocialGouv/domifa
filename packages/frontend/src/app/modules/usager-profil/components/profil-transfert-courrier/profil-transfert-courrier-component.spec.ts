@@ -6,9 +6,12 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
+import { MatomoModule } from "ngx-matomo";
+import {
+  MATOMO_INJECTOR_FOR_TESTS,
+  USAGER_ACTIF_MOCK,
+} from "../../../../../_common/mocks";
 
-import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 import { UsagersProfilTransfertCourrierComponent } from "./profil-transfert-courrier-component";
@@ -23,26 +26,12 @@ describe("UsagersProfilTransfertCourrierComponent", () => {
       imports: [
         FormsModule,
         HttpClientTestingModule,
-        MatomoModule,
         NgbModule,
         ReactiveFormsModule,
+        MatomoModule.forRoot(MATOMO_INJECTOR_FOR_TESTS),
         RouterTestingModule.withRoutes([]),
       ],
-      providers: [
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
-          },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
-          },
-        },
-        { provide: APP_BASE_HREF, useValue: "/" },
-      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 

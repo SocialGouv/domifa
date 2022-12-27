@@ -4,9 +4,12 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { MatomoModule } from "ngx-matomo";
+import {
+  MATOMO_INJECTOR_FOR_TESTS,
+  USAGER_ACTIF_MOCK,
+} from "../../../../../_common/mocks";
 
-import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { UsagerFormModel } from "../../interfaces";
 
 import { ProfilAddNoteFormComponent } from "./profil-add-note-form.component";
@@ -20,26 +23,12 @@ describe("ProfilAddNoteFormComponent", () => {
       declarations: [ProfilAddNoteFormComponent],
       imports: [
         NgbModule,
-
+        MatomoModule.forRoot(MATOMO_INJECTOR_FOR_TESTS),
         HttpClientTestingModule,
         ReactiveFormsModule,
         FormsModule,
       ],
-      providers: [
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
-          },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
-          },
-        },
-        { provide: APP_BASE_HREF, useValue: "/" },
-      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
