@@ -1,3 +1,10 @@
+## [2.112.1](https://github.com/SocialGouv/domifa/compare/v2.112.0...v2.112.1) (2022-12-27)
+
+
+### Bug Fixes
+
+* **frontend:** corrections et suppression de coes inutiles ([0ca86b2](https://github.com/SocialGouv/domifa/commit/0ca86b2770c0d9f162aef5ab8c538d09ef5b894e))
+
 # [2.112.0](https://github.com/SocialGouv/domifa/compare/v2.111.2...v2.112.0) (2022-12-22)
 
 
