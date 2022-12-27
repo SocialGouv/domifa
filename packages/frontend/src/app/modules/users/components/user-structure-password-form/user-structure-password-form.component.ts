@@ -1,5 +1,9 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from "@angular/forms";
 import { PASSWORD_VALIDATOR } from "../../PASSWORD_VALIDATOR.const";
 import { PasswordValidator } from "../../services";
 
@@ -10,7 +14,7 @@ import { PasswordValidator } from "../../services";
 })
 export class UserStructurePasswordFormComponent implements OnInit {
   @Input() public submitted!: boolean;
-  @Input() public parentFormGroup!: FormGroup;
+  @Input() public parentFormGroup!: UntypedFormGroup;
 
   public hidePassword: boolean;
   public hidePasswordConfirmation: boolean;
@@ -49,17 +53,20 @@ export class UserStructurePasswordFormComponent implements OnInit {
 
   // Need for test
   public newPasswordForm() {
-    this.parentFormGroup = new FormGroup(
+    this.parentFormGroup = new UntypedFormGroup(
       {
-        oldPassword: new FormControl(
+        oldPassword: new UntypedFormControl(
           null,
           Validators.compose(PASSWORD_VALIDATOR)
         ),
-        passwordConfirmation: new FormControl(
+        passwordConfirmation: new UntypedFormControl(
           null,
           Validators.compose(PASSWORD_VALIDATOR)
         ),
-        password: new FormControl(null, Validators.compose(PASSWORD_VALIDATOR)),
+        password: new UntypedFormControl(
+          null,
+          Validators.compose(PASSWORD_VALIDATOR)
+        ),
       },
       {
         validators: [PasswordValidator.passwordMatchValidator],

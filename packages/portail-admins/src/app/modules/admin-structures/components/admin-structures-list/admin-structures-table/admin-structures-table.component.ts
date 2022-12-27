@@ -10,8 +10,8 @@ import {
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import {
   AbstractControl,
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { of } from "rxjs";
@@ -50,7 +50,7 @@ export class AdminStructuresTableComponent implements OnInit {
   public currentStructure: AdminStructuresListStructureModel | undefined =
     undefined;
 
-  public newAdminForm!: FormGroup;
+  public newAdminForm!: UntypedFormGroup;
 
   public submitted = false;
 
@@ -63,7 +63,7 @@ export class AdminStructuresTableComponent implements OnInit {
     private readonly adminStructuresExportApiClient: AdminStructuresExportApiClient,
     private readonly toastService: CustomToastService,
     private readonly modalService: NgbModal,
-    private readonly formBuilder: FormBuilder
+    private readonly formBuilder: UntypedFormBuilder
   ) {}
 
   get f(): { [key: string]: AbstractControl } {

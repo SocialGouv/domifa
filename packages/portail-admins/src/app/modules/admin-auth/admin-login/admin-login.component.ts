@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import {
   AbstractControl,
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
@@ -19,9 +19,9 @@ import { AdminAuthService } from "../services/admin-auth.service";
   templateUrl: "./admin-login.component.html",
 })
 export class AdminLoginComponent implements OnInit {
-  public loginForm!: FormGroup;
+  public loginForm!: UntypedFormGroup;
 
-  public userForm!: FormGroup;
+  public userForm!: UntypedFormGroup;
 
   public hidePassword: boolean;
   public loading: boolean;
@@ -29,7 +29,7 @@ export class AdminLoginComponent implements OnInit {
   private redirectToAfterLogin?: string;
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly titleService: Title,

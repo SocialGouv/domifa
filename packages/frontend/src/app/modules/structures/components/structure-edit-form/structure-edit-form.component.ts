@@ -3,9 +3,9 @@ import { COUNTRY_CODES_TIMEZONE } from "./../../../../../_common/model/telephone
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 
@@ -46,7 +46,7 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
 
   public loading = false;
   public submitted = false;
-  public structureForm: FormGroup;
+  public structureForm: UntypedFormGroup;
   public selectedCountryISO: CountryISO = CountryISO.France;
 
   @Input() public structure!: StructureCommon;
@@ -55,10 +55,10 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly structureService: StructureService,
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly toastService: CustomToastService
   ) {
-    this.structureForm = new FormGroup({});
+    this.structureForm = new UntypedFormGroup({});
   }
 
   public get f(): { [key: string]: AbstractControl } {
@@ -106,10 +106,10 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
           adresseRequired,
         ],
       }),
-      telephone: new FormControl(setFormPhone(this.structure.telephone), [
-        Validators.required,
-        anyPhoneValidator,
-      ]),
+      telephone: new UntypedFormControl(
+        setFormPhone(this.structure.telephone),
+        [Validators.required, anyPhoneValidator]
+      ),
       responsable: this.formBuilder.group({
         fonction: [this.structure.responsable.fonction, [Validators.required]],
         nom: [this.structure.responsable.nom, [Validators.required]],

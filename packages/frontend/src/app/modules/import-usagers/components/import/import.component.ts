@@ -9,8 +9,8 @@ import {
 
 import {
   AbstractControl,
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
@@ -31,7 +31,7 @@ import { IMPORT_PREVIEW_COLUMNS } from "./constants/IMPORT_PREVIEW_COLUMNS.const
   templateUrl: "./import.component.html",
 })
 export class ImportComponent implements OnInit, OnDestroy {
-  public uploadForm!: FormGroup;
+  public uploadForm!: UntypedFormGroup;
 
   public showTable: boolean;
 
@@ -49,7 +49,7 @@ export class ImportComponent implements OnInit, OnDestroy {
   private readonly subscription = new Subscription();
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly importUsagersService: ImportUsagersService,
     private readonly loadingService: LoadingService,
     private readonly router: Router,

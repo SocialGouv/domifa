@@ -116,10 +116,8 @@
       }
     }
   },
-  "defaultProject": "domifa",
   "cli": {
     "packageManager": "yarn",
-
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": ["@angular-eslint/schematics"]
   }
 }

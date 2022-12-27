@@ -9,6 +9,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsTimeZone,
   MaxLength,
   Min,
   MinLength,
@@ -158,6 +159,7 @@ export class StructureDto {
   @IsEmpty()
   public region!: string;
 
-  @IsEmpty()
+  @IsOptional()
+  @IsTimeZone()
   public timeZone: TimeZone;
 }

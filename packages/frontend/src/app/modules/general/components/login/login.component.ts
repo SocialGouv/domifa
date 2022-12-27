@@ -2,8 +2,8 @@ import { PASSWORD_VALIDATOR } from "./../../../users/PASSWORD_VALIDATOR.const";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -21,8 +21,8 @@ import { environment } from "../../../../../environments/environment";
   templateUrl: "./login.component.html",
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  public loginForm!: FormGroup;
-  public userForm!: FormGroup;
+  public loginForm!: UntypedFormGroup;
+  public userForm!: UntypedFormGroup;
 
   public returnUrl: string;
   public hidePassword: boolean;
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public portailUsagerUrl = environment.portailUsagersUrl;
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly titleService: Title,

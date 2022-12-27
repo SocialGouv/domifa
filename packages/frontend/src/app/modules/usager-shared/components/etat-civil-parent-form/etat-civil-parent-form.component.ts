@@ -6,12 +6,12 @@ import {
   ViewChildren,
 } from "@angular/core";
 import {
-  FormGroup,
+  UntypedFormGroup,
   AbstractControl,
-  FormArray,
+  UntypedFormArray,
   Validators,
-  FormControl,
-  FormBuilder,
+  UntypedFormControl,
+  UntypedFormBuilder,
 } from "@angular/forms";
 import {
   NgbDateParserFormatter,
@@ -79,7 +79,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
   public mobilePhonePlaceHolder: string;
 
   public usager!: UsagerFormModel;
-  public usagerForm!: FormGroup;
+  public usagerForm!: UntypedFormGroup;
 
   public submitted = false;
   public loading = false;
@@ -98,14 +98,14 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     return this.usagerForm.controls;
   }
 
-  public get ayantsDroits(): FormArray {
-    return this.usagerForm.get("ayantsDroits") as FormArray;
+  public get ayantsDroits(): UntypedFormArray {
+    return this.usagerForm.get("ayantsDroits") as UntypedFormArray;
   }
 
   @ViewChildren("adNom") public inputsAyantDroit!: QueryList<ElementRef>;
 
   constructor(
-    public formBuilder: FormBuilder,
+    public formBuilder: UntypedFormBuilder,
     public authService: AuthService
   ) {
     this.countryCode = null;
@@ -136,7 +136,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
       nom: [this.usager.nom, [Validators.required, noWhiteSpace]],
       numeroDistribution: [this.usager.numeroDistribution],
       contactByPhone: [this.usager.contactByPhone, [Validators.required]],
-      telephone: new FormControl(
+      telephone: new UntypedFormControl(
         setFormPhone(this.usager.telephone),
         this.usager.contactByPhone
           ? [Validators.required, mobilePhoneValidator]
@@ -175,23 +175,26 @@ export class EtatCivilParentFormComponent implements OnDestroy {
   //
   // Gestion des ayant-droits
   public addAyantDroit(ayantDroit: AyantDroit = new AyantDroit()): void {
-    (this.usagerForm.controls.ayantsDroits as FormArray).push(
+    (this.usagerForm.controls.ayantsDroits as UntypedFormArray).push(
       this.newAyantDroit(ayantDroit)
     );
     // this.focusAyantDroit();
   }
 
   public deleteAyantDroit(i: number): void {
-    (this.usagerForm.controls.ayantsDroits as FormArray).removeAt(i);
-    const formAyantDroit = this.usagerForm.controls.ayantsDroits as FormArray;
+    (this.usagerForm.controls.ayantsDroits as UntypedFormArray).removeAt(i);
+    const formAyantDroit = this.usagerForm.controls
+      .ayantsDroits as UntypedFormArray;
     if (formAyantDroit.length === 0) {
       this.usagerForm.controls.ayantsDroitsExist.setValue(false);
     }
   }
 
   public resetAyantDroit(): void {
-    while ((this.usagerForm.controls.ayantsDroits as FormArray).length !== 0) {
-      (this.usagerForm.controls.ayantsDroits as FormArray).removeAt(0);
+    while (
+      (this.usagerForm.controls.ayantsDroits as UntypedFormArray).length !== 0
+    ) {
+      (this.usagerForm.controls.ayantsDroits as UntypedFormArray).removeAt(0);
     }
   }
 

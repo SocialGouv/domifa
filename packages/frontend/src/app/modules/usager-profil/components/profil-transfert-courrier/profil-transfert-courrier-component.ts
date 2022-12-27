@@ -10,8 +10,8 @@ import {
 } from "@angular/core";
 import {
   AbstractControl,
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import {
@@ -70,7 +70,7 @@ export class UsagersProfilTransfertCourrierComponent
   public loading: boolean;
   public submitted: boolean;
 
-  public transfertForm!: FormGroup;
+  public transfertForm!: UntypedFormGroup;
   public minDateToday: NgbDateStruct;
 
   @ViewChild("confirmDelete", { static: true })
@@ -79,7 +79,7 @@ export class UsagersProfilTransfertCourrierComponent
   private subscription = new Subscription();
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly nbgDate: NgbDateCustomParserFormatter,
     private readonly toastService: CustomToastService,
     private readonly usagerOptionsService: UsagerOptionsService,

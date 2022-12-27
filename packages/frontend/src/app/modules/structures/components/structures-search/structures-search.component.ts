@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
@@ -23,7 +23,7 @@ export class StructuresSearchComponent implements OnInit, OnDestroy {
 
   public codePostal: string;
   public loading: boolean;
-  public codePostalForm!: FormGroup;
+  public codePostalForm!: UntypedFormGroup;
 
   private subscription = new Subscription();
 
@@ -31,7 +31,7 @@ export class StructuresSearchComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly structureService: StructureService,
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly toastService: CustomToastService,
     private readonly titleService: Title
   ) {

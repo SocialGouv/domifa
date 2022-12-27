@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit, TemplateRef } from "@angular/core";
 import {
   AbstractControl,
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
@@ -29,11 +29,11 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
 
   public loading: boolean;
 
-  public hardResetForm!: FormGroup;
+  public hardResetForm!: UntypedFormGroup;
   private subscription = new Subscription();
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly structureService: StructureService,
     private readonly toastService: CustomToastService,
     private readonly authService: AuthService,

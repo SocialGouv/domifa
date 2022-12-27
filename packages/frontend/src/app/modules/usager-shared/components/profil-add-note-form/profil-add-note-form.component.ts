@@ -8,8 +8,8 @@ import {
 } from "@angular/core";
 import {
   AbstractControl,
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { Subscription } from "rxjs";
@@ -35,7 +35,7 @@ export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
   @Output()
   public cancel = new EventEmitter();
 
-  public addNoteForm!: FormGroup;
+  public addNoteForm!: UntypedFormGroup;
   public submitted: boolean;
   public loading: boolean;
   private subscription = new Subscription();
@@ -43,7 +43,7 @@ export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
   constructor(
     private readonly usagerNotesService: UsagerNotesService,
     private readonly toastService: CustomToastService,
-    private readonly formBuilder: FormBuilder
+    private readonly formBuilder: UntypedFormBuilder
   ) {
     this.loading = false;
     this.submitted = false;

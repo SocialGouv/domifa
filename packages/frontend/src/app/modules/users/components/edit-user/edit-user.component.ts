@@ -2,9 +2,9 @@ import { noWhiteSpace } from "../../../../shared/validators/whitespace.validator
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
@@ -43,8 +43,8 @@ export class EditUserComponent implements OnInit, OnDestroy {
   public lastPasswordUpdate: string;
   public usagers$: Observable<UsagerLight[]>;
 
-  public passwordForm!: FormGroup;
-  public userForm!: FormGroup;
+  public passwordForm!: UntypedFormGroup;
+  public userForm!: UntypedFormGroup;
 
   public emailExist: boolean;
 
@@ -63,7 +63,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
     private readonly authService: AuthService,
     private readonly userService: UsersService,
     private readonly toastService: CustomToastService,
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly titleService: Title
   ) {
     this.submitted = false;
@@ -116,15 +116,18 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
     this.passwordForm = this.formBuilder.group(
       {
-        oldPassword: new FormControl(
+        oldPassword: new UntypedFormControl(
           null,
           Validators.compose(PASSWORD_VALIDATOR)
         ),
-        passwordConfirmation: new FormControl(
+        passwordConfirmation: new UntypedFormControl(
           null,
           Validators.compose(PASSWORD_VALIDATOR)
         ),
-        password: new FormControl(null, Validators.compose(PASSWORD_VALIDATOR)),
+        password: new UntypedFormControl(
+          null,
+          Validators.compose(PASSWORD_VALIDATOR)
+        ),
       },
       {
         validators: [PasswordValidator.passwordMatchValidator],

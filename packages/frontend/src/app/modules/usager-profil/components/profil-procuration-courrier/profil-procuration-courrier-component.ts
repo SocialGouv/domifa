@@ -12,10 +12,10 @@ import {
   ViewChildren,
 } from "@angular/core";
 import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import {
@@ -75,7 +75,7 @@ export class UsagersProfilProcurationCourrierComponent
   public submitted: boolean;
   public procurationToDelete: number | null; // Index de la procu à supprimer
 
-  public procurationsForm!: FormGroup;
+  public procurationsForm!: UntypedFormGroup;
   public minDateToday: NgbDateStruct;
 
   public minDateNaissance: NgbDateStruct;
@@ -87,7 +87,7 @@ export class UsagersProfilProcurationCourrierComponent
   public confirmDelete!: TemplateRef<NgbModalRef>;
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly nbgDate: NgbDateCustomParserFormatter,
     private readonly toastService: CustomToastService,
     private readonly usagerOptionsService: UsagerOptionsService,
@@ -113,8 +113,8 @@ export class UsagersProfilProcurationCourrierComponent
     });
   }
 
-  public get form(): FormArray {
-    return this.procurationsForm.get("procurations") as FormArray;
+  public get form(): UntypedFormArray {
+    return this.procurationsForm.get("procurations") as UntypedFormArray;
   }
 
   public hideForm(): void {
@@ -126,7 +126,7 @@ export class UsagersProfilProcurationCourrierComponent
   public addProcuration(
     procuration: UsagerProcuration = new UsagerProcuration()
   ): void {
-    (this.procurationsForm.controls.procurations as FormArray).push(
+    (this.procurationsForm.controls.procurations as UntypedFormArray).push(
       this.newProcuration(procuration)
     );
     this.submitted = false;
@@ -149,23 +149,24 @@ export class UsagersProfilProcurationCourrierComponent
   }
 
   public newProcuration(procuration: UsagerOptionsProcuration) {
-    return new FormGroup(
+    return new UntypedFormGroup(
       {
-        nom: new FormControl(procuration.nom, [
+        nom: new UntypedFormControl(procuration.nom, [
           Validators.required,
           noWhiteSpace,
         ]),
-        prenom: new FormControl(procuration.prenom, [
+        prenom: new UntypedFormControl(procuration.prenom, [
           Validators.required,
           noWhiteSpace,
         ]),
-        dateFin: new FormControl(formatDateToNgb(procuration.dateFin), [
+        dateFin: new UntypedFormControl(formatDateToNgb(procuration.dateFin), [
           Validators.required,
         ]),
-        dateDebut: new FormControl(formatDateToNgb(procuration.dateDebut), [
-          Validators.required,
-        ]),
-        dateNaissance: new FormControl(
+        dateDebut: new UntypedFormControl(
+          formatDateToNgb(procuration.dateDebut),
+          [Validators.required]
+        ),
+        dateNaissance: new UntypedFormControl(
           formatDateToNgb(
             procuration.dateNaissance
               ? new Date(procuration.dateNaissance)
@@ -229,7 +230,7 @@ export class UsagersProfilProcurationCourrierComponent
   }
 
   public deleteProcurationForm(i: number): void {
-    (this.form as FormArray).removeAt(i);
+    (this.form as UntypedFormArray).removeAt(i);
 
     if (this.form.length === 0) {
       this.isFormVisible = false;
