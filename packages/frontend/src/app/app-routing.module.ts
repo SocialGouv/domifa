@@ -48,13 +48,13 @@ export const routes: Routes = [
   },
 
   {
-    loadChildren: async () =>
+    loadChildren: () =>
       import("./modules/stats/stats.module").then((m) => m.StatsModule),
     path: "stats",
   },
   {
     canActivate: [AuthGuard],
-    loadChildren: async () =>
+    loadChildren: () =>
       import("./modules/manage-usagers/manage-usagers.module").then(
         (m) => m.ManageUsagersModule
       ),
@@ -62,20 +62,20 @@ export const routes: Routes = [
   },
   {
     canActivate: [AuthGuard, FacteurGuard],
-    loadChildren: async () =>
+    loadChildren: () =>
       import("./modules/import-usagers/import-usagers.module").then(
         (m) => m.ImportUsagersModule
       ),
     path: "import",
   },
   {
-    loadChildren: async () =>
+    loadChildren: () =>
       import("./modules/users/users.module").then((m) => m.UsersModule),
     path: "users",
   },
   {
     canActivate: [AuthGuard, FacteurGuard],
-    loadChildren: async () =>
+    loadChildren: () =>
       import("./modules/usager-dossier/usager-dossier.module").then(
         (m) => m.UsagerDossierModule
       ),
@@ -83,14 +83,14 @@ export const routes: Routes = [
   },
   {
     canActivate: [AuthGuard],
-    loadChildren: async () =>
+    loadChildren: () =>
       import("./modules/usager-profil/usager-profil.module").then(
         (m) => m.UsagerProfilModule
       ),
     path: "profil",
   },
   {
-    loadChildren: async () =>
+    loadChildren: () =>
       import("./modules/structures/structures.module").then(
         (m) => m.StructuresModule
       ),

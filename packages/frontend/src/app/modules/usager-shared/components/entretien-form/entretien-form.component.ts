@@ -10,8 +10,8 @@ import {
   ViewChild,
 } from "@angular/core";
 import {
-  FormGroup,
-  FormBuilder,
+  UntypedFormGroup,
+  UntypedFormBuilder,
   Validators,
   AbstractControl,
 } from "@angular/forms";
@@ -42,7 +42,7 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
   public ENTRETIEN_RAISON_DEMANDE = ENTRETIEN_RAISON_DEMANDE;
   public ENTRETIEN_RESIDENCE = ENTRETIEN_RESIDENCE;
 
-  public entretienForm!: FormGroup;
+  public entretienForm!: UntypedFormGroup;
   private subscription = new Subscription();
 
   @Input() public usager!: UsagerFormModel;
@@ -61,7 +61,7 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
   public entretienVide: Entretien;
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly usagerService: UsagerService,
     private readonly toastService: CustomToastService,
     private readonly modalService: NgbModal

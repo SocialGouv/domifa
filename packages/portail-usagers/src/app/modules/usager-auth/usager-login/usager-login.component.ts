@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import {
   AbstractControl,
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
@@ -25,7 +25,7 @@ import { CustomToastService } from "../../shared/services/custom-toast.service";
   templateUrl: "./usager-login.component.html",
 })
 export class UsagerLoginComponent implements OnInit {
-  public loginForm!: FormGroup;
+  public loginForm!: UntypedFormGroup;
 
   public hidePassword: boolean;
   public hidePasswordNew: boolean;
@@ -35,7 +35,7 @@ export class UsagerLoginComponent implements OnInit {
   public mode: "login-only" | "login-change-password" = "login-only";
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly router: Router,
     private readonly titleService: Title,
     private readonly authService: UsagerAuthService,

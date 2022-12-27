@@ -10,6 +10,7 @@ import {
   faCheckCircle,
   faCircleNotch,
   faDownload,
+  faExclamationCircle,
   faSignInAlt,
   faTimesCircle,
 } from "@fortawesome/free-solid-svg-icons";
@@ -19,6 +20,7 @@ export const FA_ICONS: IconDefinition[] = [
   faEdit,
   faEye,
   faEyeSlash,
+  faExclamationCircle,
   faFileWord,
   faCircleNotch,
   faComment,

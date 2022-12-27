@@ -3,8 +3,8 @@ import { UserStructure } from "./../../../../../_common/model/user-structure/Use
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { validateUpload } from "../../../../shared/upload-validator";
@@ -25,12 +25,12 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
   public success: boolean;
   public loading: boolean;
   private subscription = new Subscription();
-  public contactForm!: FormGroup;
+  public contactForm!: UntypedFormGroup;
 
   public me!: UserStructure | null;
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly generalService: GeneralService,
     private readonly toastService: CustomToastService,
     private readonly authService: AuthService,

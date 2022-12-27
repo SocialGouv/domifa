@@ -8,8 +8,8 @@ import {
 } from "@angular/core";
 import {
   AbstractControl,
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { Subscription } from "rxjs";
@@ -27,7 +27,7 @@ import { StructureDocService } from "../../services/structure-doc.service";
 export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
   public loading = false;
   public submitted = false;
-  public uploadForm!: FormGroup;
+  public uploadForm!: UntypedFormGroup;
 
   @Input() public isCustomDoc!: boolean;
   private subscription = new Subscription();
@@ -39,7 +39,7 @@ export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
   public getAllStructureDocs = new EventEmitter<void>();
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly structureDocService: StructureDocService,
     private readonly toastService: CustomToastService
   ) {}

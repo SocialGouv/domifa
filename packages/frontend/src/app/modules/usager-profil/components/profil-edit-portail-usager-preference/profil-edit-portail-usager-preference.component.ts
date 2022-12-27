@@ -1,5 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from "@angular/forms";
 import fileSaver from "file-saver";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
@@ -24,7 +28,7 @@ export class ProfilEditPortailUsagerPreferenceComponent implements OnInit {
 
   public loading: boolean;
   public submitted: boolean;
-  public form: FormGroup = new FormGroup({});
+  public form: UntypedFormGroup = new UntypedFormGroup({});
 
   public editionInProgress: boolean;
   public loadings: string[] = [];
@@ -36,7 +40,7 @@ export class ProfilEditPortailUsagerPreferenceComponent implements OnInit {
   };
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly toastService: CustomToastService,
     private readonly usagerProfilService: UsagerProfilService,
     private readonly documentService: DocumentService

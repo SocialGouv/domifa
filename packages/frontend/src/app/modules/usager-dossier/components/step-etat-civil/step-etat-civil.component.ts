@@ -1,6 +1,6 @@
 import { EtatCivilParentFormComponent } from "./../../../usager-shared/components/etat-civil-parent-form/etat-civil-parent-form.component";
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
+import { UntypedFormBuilder } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
@@ -40,7 +40,7 @@ export class StepEtatCivilComponent
   public doublons: UsagerLight[];
 
   constructor(
-    public formBuilder: FormBuilder,
+    public formBuilder: UntypedFormBuilder,
     public usagerDossierService: UsagerDossierService,
     public authService: AuthService,
     public route: ActivatedRoute,

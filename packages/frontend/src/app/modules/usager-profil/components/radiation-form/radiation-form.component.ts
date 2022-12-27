@@ -7,8 +7,8 @@ import {
   OnDestroy,
 } from "@angular/core";
 import {
-  FormGroup,
-  FormBuilder,
+  UntypedFormGroup,
+  UntypedFormBuilder,
   AbstractControl,
   Validators,
 } from "@angular/forms";
@@ -40,7 +40,7 @@ export class RadiationFormComponent implements OnInit, OnDestroy {
 
   public submitted: boolean;
   public loading: boolean;
-  public radiationForm!: FormGroup;
+  public radiationForm!: UntypedFormGroup;
 
   public MOTIFS_RADIATION_LABELS = MOTIFS_RADIATION_LABELS;
 
@@ -50,7 +50,7 @@ export class RadiationFormComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly nbgDate: NgbDateCustomParserFormatter,
     private readonly usagerDecisionService: UsagerDecisionService,
     private readonly toastService: CustomToastService

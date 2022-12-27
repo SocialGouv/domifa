@@ -8,8 +8,8 @@ import {
   Output,
 } from "@angular/core";
 import {
-  FormGroup,
-  FormBuilder,
+  UntypedFormGroup,
+  UntypedFormBuilder,
   Validators,
   AbstractControl,
 } from "@angular/forms";
@@ -44,7 +44,7 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
   public submitted: boolean;
   public loading: boolean;
 
-  public refusForm!: FormGroup;
+  public refusForm!: UntypedFormGroup;
 
   public maxDateRefus: NgbDateStruct;
   public minDate: NgbDateStruct;
@@ -52,7 +52,7 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly usagerDecisionService: UsagerDecisionService,
     private readonly router: Router,
     private readonly nbgDate: NgbDateCustomParserFormatter,

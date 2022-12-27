@@ -2,9 +2,9 @@ import { Subscription } from "rxjs";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
@@ -20,8 +20,8 @@ import { PASSWORD_VALIDATOR } from "../../PASSWORD_VALIDATOR.const";
   templateUrl: "./reset-password.component.html",
 })
 export class ResetPasswordComponent implements OnInit, OnDestroy {
-  public emailForm!: FormGroup;
-  public resetForm!: FormGroup;
+  public emailForm!: UntypedFormGroup;
+  public resetForm!: UntypedFormGroup;
 
   public submitted: boolean;
   public success: boolean;
@@ -42,7 +42,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly userService: UsersService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
@@ -102,11 +102,14 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       {
         token: [this.token, Validators.required],
         userId: [this.userId, Validators.required],
-        passwordConfirmation: new FormControl(
+        passwordConfirmation: new UntypedFormControl(
           null,
           Validators.compose(PASSWORD_VALIDATOR)
         ),
-        password: new FormControl(null, Validators.compose(PASSWORD_VALIDATOR)),
+        password: new UntypedFormControl(
+          null,
+          Validators.compose(PASSWORD_VALIDATOR)
+        ),
       },
       {
         validators: [PasswordValidator.passwordMatchValidator],

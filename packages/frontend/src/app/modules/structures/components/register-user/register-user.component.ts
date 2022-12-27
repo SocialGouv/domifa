@@ -1,9 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
@@ -32,7 +32,7 @@ import { StructureService } from "../../services/structure.service";
 })
 export class RegisterUserComponent implements OnInit, OnDestroy {
   public user: UserStructure;
-  public userForm!: FormGroup;
+  public userForm!: UntypedFormGroup;
 
   public submitted: boolean;
   public loading: boolean;
@@ -53,7 +53,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly userService: UsersService,
     private readonly structureService: StructureService,
     private readonly toastService: CustomToastService,
@@ -70,7 +70,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
 
     this.userForm = this.formBuilder.group(
       {
-        passwordConfirmation: new FormControl(
+        passwordConfirmation: new UntypedFormControl(
           null,
           Validators.compose(PASSWORD_VALIDATOR)
         ),
@@ -84,7 +84,10 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
           this.user.nom,
           [Validators.required, Validators.minLength(2), noWhiteSpace],
         ],
-        password: new FormControl(null, Validators.compose(PASSWORD_VALIDATOR)),
+        password: new UntypedFormControl(
+          null,
+          Validators.compose(PASSWORD_VALIDATOR)
+        ),
         prenom: [
           this.user.prenom,
           [Validators.required, Validators.minLength(2), noWhiteSpace],

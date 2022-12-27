@@ -9,7 +9,7 @@ import {
   OnInit,
   Output,
 } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
+import { UntypedFormBuilder } from "@angular/forms";
 
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { UsagerLight } from "../../../../../_common/model";
@@ -33,7 +33,7 @@ export class ProfilEtatCivilFormComponent
 
   constructor(
     public authService: AuthService,
-    public formBuilder: FormBuilder,
+    public formBuilder: UntypedFormBuilder,
     private readonly toastService: CustomToastService,
     private readonly etatCivilService: UsagerService
   ) {

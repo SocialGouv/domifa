@@ -3,8 +3,8 @@ import { CerfaDocType } from "src/_common/model/cerfa";
 import { Component, OnInit } from "@angular/core";
 import {
   AbstractControl,
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   ValidationErrors,
   ValidatorFn,
   Validators,
@@ -50,7 +50,7 @@ import {
   templateUrl: "./step-rdv.component.html",
 })
 export class StepRdvComponent implements OnInit {
-  public rdvForm!: FormGroup;
+  public rdvForm!: UntypedFormGroup;
 
   public usager!: UsagerFormModel;
   public editRdv: boolean;
@@ -69,7 +69,7 @@ export class StepRdvComponent implements OnInit {
   public maxDateRdv: NgbDateStruct;
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly usagerDossierService: UsagerDossierService,
     private readonly documentService: DocumentService,
     private readonly toastService: CustomToastService,

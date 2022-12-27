@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
@@ -33,6 +33,7 @@ import {
   DEPARTEMENTS_LISTE,
   regexp,
 } from "../../../../shared";
+import { departementHelper } from "../../services/departement-helper.service";
 
 @Component({
   selector: "app-structures-form",
@@ -47,7 +48,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
   public success = false;
 
   public loading = false;
-  public structureForm!: FormGroup;
+  public structureForm!: UntypedFormGroup;
   public structure: StructureCommon;
   public DEPARTEMENTS_LISTE = DEPARTEMENTS_LISTE;
   public submitted = false;
@@ -68,7 +69,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly structureService: StructureService,
     private readonly toastService: CustomToastService,
     private readonly titleService: Title
@@ -117,12 +118,8 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
         [Validators.required, Validators.pattern(regexp.email)],
         this.validateEmailNotTaken.bind(this),
       ],
-      options: this.formBuilder.group({
-        numeroBoite: [this.structure.options.numeroBoite, []],
-      }),
-      id: [this.structure.id, [Validators.required]],
       nom: [this.structure.nom, [Validators.required]],
-      telephone: new FormControl(undefined, [
+      telephone: new UntypedFormControl(undefined, [
         Validators.required,
         anyPhoneValidator,
       ]),
@@ -155,6 +152,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
           this.structureForm.get("departement")?.updateValueAndValidity();
         })
     );
+
     this.subscription.add(
       this.structureForm
         .get("adresseCourrier")
@@ -201,13 +199,18 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
       return;
     }
 
+    const departement = departementHelper.getDepartementFromCodePostal(
+      this.structureForm.value.codePostal
+    );
+
     const structureFormValue: Partial<Structure> = {
       ...this.structureForm.value,
+      options: {
+        numeroBoite: false,
+      },
+      departement,
+      telephone: getFormPhone(this.structureForm.value.telephone),
     };
-
-    structureFormValue.telephone = getFormPhone(
-      this.structureForm.value.telephone
-    );
 
     this.subscription.add(
       this.structureService.prePost(structureFormValue).subscribe({

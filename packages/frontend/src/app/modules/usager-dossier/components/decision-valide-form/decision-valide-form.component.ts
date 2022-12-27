@@ -8,8 +8,8 @@ import {
 } from "@angular/core";
 import {
   AbstractControl,
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -38,7 +38,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
   public submitted: boolean;
   public loading: boolean;
 
-  public valideForm!: FormGroup;
+  public valideForm!: UntypedFormGroup;
 
   public minDate: NgbDateStruct;
   public maxDate: NgbDateStruct;
@@ -52,7 +52,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly usagerDecisionService: UsagerDecisionService,
     private readonly router: Router,
     private readonly nbgDate: NgbDateCustomParserFormatter,

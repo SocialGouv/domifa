@@ -22,7 +22,7 @@
     "outDir": "./dist/out-tsc",
     "resolveJsonModule": true,
     "sourceMap": true,
-    "target": "es2017",
+    "target": "es2020",
     "typeRoots": ["node_modules/@types", "../../node_modules/@types"],
     "types": ["jest"]
     // Note: ngx-charts n'est pas prêt pour l'activation de noImplicitAny

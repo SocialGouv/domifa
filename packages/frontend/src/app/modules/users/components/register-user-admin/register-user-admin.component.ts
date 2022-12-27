@@ -9,8 +9,8 @@ import {
 } from "@angular/core";
 import {
   AbstractControl,
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 
@@ -35,7 +35,7 @@ import { noWhiteSpace } from "../../../../shared";
 })
 export class RegisterUserAdminComponent implements OnInit, OnDestroy {
   public user: UserStructure;
-  public userForm!: FormGroup;
+  public userForm!: UntypedFormGroup;
 
   public submitted: boolean;
   public loading: boolean;
@@ -55,7 +55,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly userService: UsersService,
     private readonly toastService: CustomToastService
   ) {

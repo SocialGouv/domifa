@@ -9,8 +9,8 @@ import {
 } from "@angular/core";
 import {
   AbstractControl,
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { Subscription } from "rxjs";
@@ -32,7 +32,7 @@ export class UploadComponent implements OnInit, OnDestroy {
   public loading = false;
 
   public uploadResponse: UploadResponseType;
-  public uploadForm!: FormGroup;
+  public uploadForm!: UntypedFormGroup;
 
   @Output() public getUsagerDocs = new EventEmitter<void>();
   @Input() public usager!: UsagerFormModel;
@@ -41,7 +41,7 @@ export class UploadComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly documentService: DocumentService,
     private readonly toastService: CustomToastService
   ) {
