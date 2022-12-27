@@ -198,7 +198,7 @@ export class UsagerFormModel {
     this.searchResultAyantDroit = false;
     this.searchResultProcuration = false;
 
-    if (filterCriteria) {
+    if (filterCriteria && usager) {
       if (filterCriteria.searchString && filterCriteria.searchString !== null) {
         // if search does not match without ayant-droits, flag it as "searchResultAyantDroit"
 
@@ -219,7 +219,7 @@ export class UsagerFormModel {
           }).length === 0;
       }
 
-      this.entretien = null;
+      this.entretien = undefined;
       this.langue = null;
       this.villeNaissance = null;
     }

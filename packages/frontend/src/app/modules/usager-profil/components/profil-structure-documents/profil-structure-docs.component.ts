@@ -1,6 +1,6 @@
 import { UserStructure } from "./../../../../../_common/model/user-structure/UserStructure.type";
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
-import fileSaver from "file-saver";
+import { saveAs } from "file-saver";
 import {
   StructureDoc,
   StructureDocTypesAvailable,
@@ -95,7 +95,7 @@ export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
             const newBlob = new Blob([blob], {
               type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
             });
-            fileSaver.saveAs(newBlob, docType + ".docx");
+            saveAs(newBlob, docType + ".docx");
 
             this.stopLoading(docType);
           },
@@ -119,7 +119,7 @@ export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
             const extension = STRUCTURE_DOC_EXTENSIONS[structureDoc.filetype];
             const newBlob = new Blob([blob], { type: structureDoc.filetype });
 
-            fileSaver.saveAs(newBlob, structureDoc.label + extension);
+            saveAs(newBlob, structureDoc.label + extension);
             this.stopLoading(structureDoc.uuid);
           },
           error: () => {

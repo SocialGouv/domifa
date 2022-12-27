@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Meta, Title } from "@angular/platform-browser";
-import fileSaver from "file-saver";
+import { saveAs } from "file-saver";
 import { MatomoTracker } from "ngx-matomo";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 
@@ -28,7 +28,7 @@ export class FaqComponent implements OnInit {
   }
 
   public download(url: string, nom: string): void {
-    fileSaver.saveAs(url, nom + ".mp4");
+    saveAs(url, nom + ".mp4");
     setTimeout(() => {
       this.toastService.success("Le téléchargement vient de débuter");
     }, 500);

@@ -14,18 +14,15 @@ import {
   Validators,
 } from "@angular/forms";
 
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { of, Subject, Subscription } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 import {
   FormEmailTakenValidator,
   UserStructure,
 } from "../../../../../_common/model";
-import { fadeInOut } from "../../../../shared/animations";
-import { regexp } from "../../../../shared/constants/REGEXP.const";
-import { userStructureBuilder } from "../../services";
-import { UsersService } from "../../services/users.service";
-import { noWhiteSpace } from "../../../../shared";
+import { fadeInOut, regexp, noWhiteSpace } from "../../../../shared";
+import { CustomToastService } from "../../../shared/services";
+import { UsersService, userStructureBuilder } from "../../services";
 
 @Component({
   animations: [fadeInOut],

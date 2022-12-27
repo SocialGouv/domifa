@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import fileSaver from "file-saver";
+import { saveAs } from "file-saver";
 import {
   STRUCTURE_DOC_ICONS,
   StructureDoc,
@@ -54,7 +54,7 @@ export class AdminStructuresDocsComponent implements OnInit {
         next: (blob: Blob) => {
           const extension = structureDoc.path.split(".")[1];
           const newBlob = new Blob([blob], { type: structureDoc.filetype });
-          fileSaver.saveAs(newBlob, structureDoc.label + "." + extension);
+          saveAs(newBlob, structureDoc.label + "." + extension);
           this.stopLoading("download", structureDoc.uuid);
         },
         error: () => {

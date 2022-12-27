@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import saveAs from "file-saver";
+import { saveAs } from "file-saver";
 
 import { AdminStructuresApiClient } from "../../../shared/services";
 

@@ -10,11 +10,9 @@ import { FA_ICONS } from "./constants/FA_ICONS.const";
 import { CleanStrDirective } from "./directives/clean-str.directive";
 import { DateFrDirective } from "./directives/date-fr.directive";
 
-import { FormatBigNumberPipe } from "./pipes/formatBigNumber.pipe";
-import { UsagerNomCompletPipe } from "./pipes/usager-nom-complet.pipe";
-
 import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
 import { StrCapsAlphaDirective } from "./directives/str-caps-alpha.directive";
+import { UsagerNomCompletPipe, FormatBigNumberPipe } from "./pipes";
 
 @NgModule({
   declarations: [

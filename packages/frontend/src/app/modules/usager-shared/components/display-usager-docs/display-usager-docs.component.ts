@@ -10,7 +10,7 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { STRUCTURE_DOC_ICONS } from "../../../../../_common/model";
 import { UsagerFormModel } from "../../interfaces";
 import { DocumentService } from "../../services/document.service";
-import fileSaver from "file-saver";
+import { saveAs } from "file-saver";
 import { Subscription } from "rxjs";
 
 @Component({
@@ -73,7 +73,7 @@ export class DisplayUsagerDocsComponent implements OnInit, OnDestroy {
             const extension = STRUCTURE_DOC_EXTENSIONS[doc.filetype];
             const newBlob = new Blob([blob], { type: doc.filetype });
 
-            fileSaver.saveAs(
+            saveAs(
               newBlob,
               this.slugLabel(doc.label) +
                 "_" +

@@ -155,7 +155,9 @@ function sortUsagersByCustomRef(
     {
       getSortAttributes: (usager) => [
         {
-          value: usager.customRef?.trim().toLowerCase(),
+          value: usager.customRef
+            ? usager.customRef.trim().toLowerCase()
+            : usager.ref.toString(),
           asc,
         },
         {
