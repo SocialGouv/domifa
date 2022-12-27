@@ -12406,12 +12406,12 @@ ng-lint-staged@^12.0.4:
   resolved "https://registry.yarnpkg.com/ng-lint-staged/-/ng-lint-staged-12.0.4.tgz#01e157632dabcaf6a7b52fa019358ddd8a4063c3"
   integrity sha512-h2XVNEu2fWLSBDEuPB3I2kRd4M85XulRf4Vcei9JQIUe435MwtKJBx+sEJ5IRPhEqb2551yaDCgLhto7bwCejA==
 
-ngx-bootstrap@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.npmjs.org/ngx-bootstrap/-/ngx-bootstrap-8.0.0.tgz"
-  integrity sha512-UjJ/57Pr7ctdI2L113QX1IqJPYtOMrp5Qq/RLvUT1TOwPQWPi9LXTQ/7BtipkptQjer7Fk9yueITH3Y8vD+Dmg==
+ngx-bootstrap@^10.0.0:
+  version "10.2.0"
+  resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-10.2.0.tgz#5ae8b0a3b3f0bec2f0229556f059be57dd602871"
+  integrity sha512-bn5wdvH6QQ2JGu4TgUbozdULBFMxZNPNTgO7dRiosx9FRrFvKcgxkGSgU/xoj+4kP1vgh8zwzaiDfvH/Bfb+Aw==
   dependencies:
-    tslib "^2.0.0"
+    tslib "^2.3.0"
 
 ngx-countup@^13.0.0:
   version "13.1.0"

@@ -45,7 +45,7 @@
     "google-libphonenumber": "^3.2.31",
     "intl-tel-input": "17.0.19",
     "jwt-decode": "^3.1.2",
-    "ngx-bootstrap": "^8.0.0",
+    "ngx-bootstrap": "^10.0.0",
     "ngx-countup": "^13.0.0",
     "ngx-intl-tel-input": "^3.2.0",
     "ngx-matomo": "^0.1.4",
