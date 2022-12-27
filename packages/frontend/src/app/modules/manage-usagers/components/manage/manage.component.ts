@@ -117,7 +117,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   };
 
   public searchString: string | null;
-  public searchStringFieldLabel: string | null;
 
   public readonly SEARCH_STRING_FIELD_LABELS: {
     [key in CriteriaSearchField]: {

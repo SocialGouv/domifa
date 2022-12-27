@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { format } from "date-fns";
-import saveAs from "file-saver";
+import { saveAs } from "file-saver";
 
 import { delay, Observable, tap } from "rxjs";
 import { environment } from "../../../../../environments/environment";

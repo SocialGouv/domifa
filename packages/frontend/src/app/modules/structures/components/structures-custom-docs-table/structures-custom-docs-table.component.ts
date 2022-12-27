@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
-import fileSaver from "file-saver";
+import { saveAs } from "file-saver";
 
 import {
   StructureDoc,
@@ -61,7 +61,7 @@ export class StructuresCustomDocsTableComponent implements OnDestroy {
         next: (blob: Blob) => {
           const extension = structureDoc.path.split(".")[1];
           const newBlob = new Blob([blob], { type: structureDoc.filetype });
-          fileSaver.saveAs(newBlob, structureDoc.label + "." + extension);
+          saveAs(newBlob, structureDoc.label + "." + extension);
           this.stopLoading("download", structureDoc.uuid);
         },
         error: () => {

@@ -1,8 +1,10 @@
+import { noWhiteSpace } from "./../../../../shared/validators/whitespace.validator";
 import { Subscription } from "rxjs";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
-  UntypedFormBuilder,
+  FormBuilder,
+  FormControl,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
@@ -42,7 +44,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private readonly formBuilder: UntypedFormBuilder,
+    private readonly formBuilder: FormBuilder,
     private readonly userService: UsersService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
@@ -92,8 +94,10 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   }
 
   public initEmailForm(): void {
-    this.emailForm = this.formBuilder.group({
-      email: [null, [Validators.email, Validators.required]],
+    this.emailForm = this.formBuilder.group<{ email: FormControl<string> }>({
+      email: new FormControl<string>("", {
+        validators: [Validators.required, Validators.email, noWhiteSpace],
+      }),
     });
   }
 
@@ -106,10 +110,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
           null,
           Validators.compose(PASSWORD_VALIDATOR)
         ),
-        password: new UntypedFormControl(
-          null,
-          Validators.compose(PASSWORD_VALIDATOR)
-        ),
+        password: new FormControl(null, Validators.compose(PASSWORD_VALIDATOR)),
       },
       {
         validators: [PasswordValidator.passwordMatchValidator],

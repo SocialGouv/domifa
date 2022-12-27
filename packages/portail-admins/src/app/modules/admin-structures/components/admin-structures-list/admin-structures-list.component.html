@@ -3,9 +3,9 @@
     <h1 class="text-primary font-weight-bold">
       Structures
       <span *ngIf="!!allStructuresVM && !!filteredStructuresVM"
-        >({{ filteredStructuresVM?.length
-        }}<span *ngIf="allStructuresVM?.length !== filteredStructuresVM?.length"
-          >/{{ allStructuresVM?.length }}</span
+        >({{ filteredStructuresVM.length
+        }}<span *ngIf="allStructuresVM.length !== filteredStructuresVM.length"
+          >/{{ allStructuresVM.length }}</span
         >)</span
       >
     </h1>

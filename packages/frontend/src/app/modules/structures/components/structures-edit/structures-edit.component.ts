@@ -7,7 +7,7 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import fileSaver from "file-saver";
+import { saveAs } from "file-saver";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
@@ -127,7 +127,7 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
             type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
           });
 
-          fileSaver.saveAs(newBlob, "export_domifa" + ".xlsx");
+          saveAs(newBlob, "export_domifa" + ".xlsx");
           setTimeout(() => {
             this.exportLoading = false;
           }, 1000);

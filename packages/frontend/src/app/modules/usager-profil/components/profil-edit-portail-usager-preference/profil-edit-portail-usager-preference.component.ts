@@ -4,7 +4,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import fileSaver from "file-saver";
+import { saveAs } from "file-saver";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   StructureDocTypesAvailable,
@@ -97,7 +97,7 @@ export class ProfilEditPortailUsagerPreferenceComponent implements OnInit {
           const newBlob = new Blob([blob], {
             type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
           });
-          fileSaver.saveAs(newBlob, docType + ".docx");
+          saveAs(newBlob, docType + ".docx");
 
           this.stopLoading(docType);
         },

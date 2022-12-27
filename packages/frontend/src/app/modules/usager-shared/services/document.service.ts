@@ -1,6 +1,6 @@
 import { HttpClient, HttpEvent, HttpEventType } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import fileSaver from "file-saver";
+import { saveAs } from "file-saver";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
@@ -67,10 +67,7 @@ export class DocumentService {
           const newBlob = new Blob([x], { type: "application/pdf" });
           const randomNumber = Math.floor(Math.random() * 100) + 1;
 
-          fileSaver.saveAs(
-            newBlob,
-            `${typeCerfa}_${usagerRef}_${randomNumber}.pdf`
-          );
+          saveAs(newBlob, `${typeCerfa}_${usagerRef}_${randomNumber}.pdf`);
 
           setTimeout(() => {
             this.loadingService.stopLoading();

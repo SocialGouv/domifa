@@ -1,1 +1,2 @@
-export * from "./string-cleaner";
+// @index('./*', f => `export * from '${f.path}'`)
+export * from "./validators";

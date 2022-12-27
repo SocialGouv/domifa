@@ -74,29 +74,31 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.entretienForm = this.formBuilder.group({
-      accompagnement: [
-        this.usager.entretien.accompagnement,
-        [Validators.required],
-      ],
-      accompagnementDetail: [this.usager.entretien.accompagnementDetail, []],
-      cause: [this.usager.entretien.cause, []],
-      causeDetail: [this.usager.entretien.causeDetail, []],
-      commentaires: [this.usager.entretien.commentaires, []],
-      domiciliation: [this.usager.entretien.domiciliation, []],
-      liencommune: [this.usager.entretien.liencommune, []],
-      liencommuneDetail: [this.usager.entretien.liencommuneDetail, []],
-      orientation: [this.usager.entretien.orientation, []],
-      orientationDetail: [this.usager.entretien.orientationDetail, []],
-      rattachement: [this.usager.entretien.rattachement, []],
-      raison: [this.usager.entretien.raison, []],
-      raisonDetail: [this.usager.entretien.raisonDetail, []],
-      residence: [this.usager.entretien.residence, []],
-      residenceDetail: [this.usager.entretien.residenceDetail, []],
-      revenus: [this.usager.entretien.revenus, []],
-      revenusDetail: [this.usager.entretien.revenusDetail, []],
-      typeMenage: [this.usager.entretien.typeMenage, []],
-    });
+    if (this.usager.entretien) {
+      this.entretienForm = this.formBuilder.group({
+        accompagnement: [
+          this.usager.entretien.accompagnement,
+          [Validators.required],
+        ],
+        accompagnementDetail: [this.usager.entretien.accompagnementDetail, []],
+        cause: [this.usager.entretien.cause, []],
+        causeDetail: [this.usager.entretien.causeDetail, []],
+        commentaires: [this.usager.entretien.commentaires, []],
+        domiciliation: [this.usager.entretien.domiciliation, []],
+        liencommune: [this.usager.entretien.liencommune, []],
+        liencommuneDetail: [this.usager.entretien.liencommuneDetail, []],
+        orientation: [this.usager.entretien.orientation, []],
+        orientationDetail: [this.usager.entretien.orientationDetail, []],
+        rattachement: [this.usager.entretien.rattachement, []],
+        raison: [this.usager.entretien.raison, []],
+        raisonDetail: [this.usager.entretien.raisonDetail, []],
+        residence: [this.usager.entretien.residence, []],
+        residenceDetail: [this.usager.entretien.residenceDetail, []],
+        revenus: [this.usager.entretien.revenus, []],
+        revenusDetail: [this.usager.entretien.revenusDetail, []],
+        typeMenage: [this.usager.entretien.typeMenage, []],
+      });
+    }
   }
 
   public closeModal(): void {

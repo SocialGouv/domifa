@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -12,7 +12,7 @@ import { PasswordValidator } from "../../services";
   templateUrl: "./user-structure-password-form.component.html",
   styleUrls: ["./user-structure-password-form.component.css"],
 })
-export class UserStructurePasswordFormComponent implements OnInit {
+export class UserStructurePasswordFormComponent {
   @Input() public submitted!: boolean;
   @Input() public parentFormGroup!: UntypedFormGroup;
 
@@ -28,11 +28,6 @@ export class UserStructurePasswordFormComponent implements OnInit {
     this.hidePasswordConfirmation = true;
     this.password = "";
     this.passwordConfirmation = "";
-  }
-
-  public ngOnInit(): void {
-    this.passwordConfirmation = null;
-    this.password = null;
   }
 
   public setPassword(value: string): void {
@@ -52,7 +47,7 @@ export class UserStructurePasswordFormComponent implements OnInit {
   }
 
   // Need for test
-  public newPasswordForm() {
+  public newPasswordForm(): void {
     this.parentFormGroup = new UntypedFormGroup(
       {
         oldPassword: new UntypedFormControl(

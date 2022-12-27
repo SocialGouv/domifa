@@ -18,12 +18,11 @@ import { Router } from "@angular/router";
 
 import { Subscription } from "rxjs";
 import { UserStructure, UsagersImportMode } from "../../../../../_common/model";
+import { LoadingService } from "../../../shared/services";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
-import { LoadingService } from "../../../shared/services/loading.service";
+import { IMPORT_PREVIEW_COLUMNS } from "../../constants";
 import { ImportUsagersService } from "../../import-usagers.service";
 import { ImportPreviewTable, ImportPreviewRow } from "../../types";
-
-import { IMPORT_PREVIEW_COLUMNS } from "./constants/IMPORT_PREVIEW_COLUMNS.const";
 
 @Component({
   selector: "app-import",
