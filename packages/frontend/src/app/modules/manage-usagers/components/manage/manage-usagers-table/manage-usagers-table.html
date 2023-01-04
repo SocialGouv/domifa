@@ -50,10 +50,11 @@
     <th scope="col" class="text-start d-print-none">ACTIONS RAPIDES</th>
     <th scope="col" class="d-print-none">
       <button
-        aria-label="Imprimer la page"
+        type="button"
         class="btn-sm btn-primary btn"
         (click)="goToPrint.emit()"
       >
+        <span class="visually-hidden">Imprimer la liste</span>
         <fa-icon
           aria-hidden="true"
           [icon]="['fas', 'print']"
@@ -126,6 +127,10 @@
 
       <td>
         <a [routerLink]="usager.usagerProfilUrl">
+          <span class="visually-hidden"
+            >Aller vers la fiche de {{ usager.nom | uppercase }} {{
+            usager.prenom }}</span
+          >
           <ng-template #ayantsDroitsTooltip class="p-4 text-start">
             <div class="distribution-tooltip">
               <div class="p-1" *ngFor="let ayantDroit of usager.ayantsDroits">

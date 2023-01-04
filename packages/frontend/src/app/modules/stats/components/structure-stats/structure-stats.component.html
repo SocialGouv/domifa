@@ -27,21 +27,28 @@
                   aria-hidden="true"
                 ></fa-icon>
 
-                Les statistiques du rapport d’activité 2021 sont disponibles
+                Les statistiques du rapport d’activité {{ lastYear }} sont
+                disponibles
               </div>
               <div class="col-md-4 text-end">
                 <button
                   [disabled]="loading"
-                  title="Télécharger le rapport 2021"
                   class="btn btn-primary"
-                  (click)="export(2021)"
+                  (click)="export(lastYear)"
                 >
                   <span *ngIf="!loading">
-                    <fa-icon [icon]="['fas', 'download']"></fa-icon>
-                    Télécharger le rapport 2021
+                    <fa-icon
+                      [icon]="['fas', 'download']"
+                      aria-hidden="true"
+                    ></fa-icon>
+                    Télécharger le rapport {{ lastYear }}
                   </span>
                   <span *ngIf="loading">
-                    <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+                    <fa-icon
+                      [icon]="['fas', 'circle-notch']"
+                      aria-hidden="true"
+                      [spin]="true"
+                    >
                     </fa-icon>
                     Veuillez patienter...
                   </span>
@@ -178,7 +185,7 @@
         <div class="col-md-12 my-5" *ngIf="stats">
           <h2>
             1. Domiciliés par statut au
-            {{ stats.period.endDateUTC | date: "dd/MM/yyyy":"UTC" }}
+            {{ stats.period.endDateUTC | date : "dd/MM/yyyy" : "UTC" }}
           </h2>
           <strong>Astuce:</strong> pour avoir des statistiques sur une date
           précise, la date de fin sera prise en compte.
@@ -626,8 +633,8 @@
 
           <h2>
             2. Activité du
-            {{ stats.period.startDateUTC | date: "dd/MM/yyyy" }} au
-            {{ stats.period.endDateUTC | date: "dd/MM/yyyy" }}
+            {{ stats.period.startDateUTC | date : "dd/MM/yyyy" }} au
+            {{ stats.period.endDateUTC | date : "dd/MM/yyyy" }}
           </h2>
 
           <div class="rapport-part">
@@ -814,8 +821,8 @@
           <br />
           <h2>
             3. Total des interactions du
-            {{ stats.period.startDateUTC | date: "dd/MM/yyyy" }} au
-            {{ stats.period.endDateUTC | date: "dd/MM/yyyy" }}
+            {{ stats.period.startDateUTC | date : "dd/MM/yyyy" }} au
+            {{ stats.period.endDateUTC | date : "dd/MM/yyyy" }}
           </h2>
           <div>
             <strong>Note: </strong> les statistiques des interactions sont

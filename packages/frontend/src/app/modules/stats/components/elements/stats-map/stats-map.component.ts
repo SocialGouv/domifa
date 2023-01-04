@@ -1,5 +1,4 @@
-import { StatsByLocality } from "./../../../../../../_common/model/stats/StatsByLocality.type";
-import { AfterContentChecked, Component, Input } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import {
   PublicStats,
   STATS_REGIONS_FOR_MAP,
@@ -8,14 +7,11 @@ import {
 import {
   fadeInOut,
   RegionsLabels,
-  REGIONS_DEF,
   REGIONS_ID_SEO,
   REGIONS_LISTE,
   REGIONS_COM,
   REGIONS_DOM_TOM,
   REGIONS_OUTRE_MER,
-  DEPARTEMENTS_COM,
-  RegionDef,
 } from "../../../../../shared";
 
 @Component({
@@ -27,29 +23,27 @@ import {
     "../../public-stats/public-stats.component.css",
   ],
 })
-export class StatsMapComponent implements AfterContentChecked {
+export class StatsMapComponent {
   // Liste des régions
-  public REGIONS_DOM_TOM = REGIONS_DOM_TOM;
-  public REGIONS_COM = REGIONS_COM;
-  public REGIONS_OUTRE_MER = REGIONS_OUTRE_MER;
-  public DEPARTEMENTS_COM = DEPARTEMENTS_COM;
-  public STATS_REGIONS_FOR_MAP = STATS_REGIONS_FOR_MAP;
+  public readonly REGIONS_DOM_TOM = REGIONS_DOM_TOM;
+  public readonly REGIONS_COM = REGIONS_COM;
+  public readonly REGIONS_OUTRE_MER = REGIONS_OUTRE_MER;
+
+  public readonly STATS_REGIONS_FOR_MAP = STATS_REGIONS_FOR_MAP;
 
   // Urls des régions
-  public REGIONS_ID_SEO: RegionsLabels = REGIONS_ID_SEO;
+  public readonly REGIONS_ID_SEO: RegionsLabels = REGIONS_ID_SEO;
 
   // Labels des régions
-  public REGIONS_LABELS: RegionsLabels = REGIONS_LISTE;
+  public readonly REGIONS_LABELS: RegionsLabels = REGIONS_LISTE;
 
   // Région choisie
   public selectedRegion: string | null;
 
   // Statistiques par region
-  public statsRegionsValues: { [key: string]: number };
+  @Input() public statsRegionsValues: { [key: string]: number };
 
   @Input() public publicStats!: PublicStats;
-
-  public statsByRegion!: StatsByLocality;
 
   constructor() {
     this.statsRegionsValues = {};
@@ -59,24 +53,6 @@ export class StatsMapComponent implements AfterContentChecked {
   public selectRegion(regionId: string): void {
     if (this.selectedRegion !== regionId) {
       this.selectedRegion = regionId;
-    }
-  }
-
-  public ngAfterContentChecked(): void {
-    if (typeof this.publicStats?.structuresCountByRegion !== "undefined") {
-      this.statsByRegion = this.publicStats.structuresCountByRegion;
-
-      this.statsRegionsValues = Object.values(REGIONS_DEF).reduce(
-        (acc: { [key: string]: number }, value: RegionDef) => {
-          acc[value.regionCode] = 0;
-          return acc;
-        },
-        {}
-      );
-
-      this.publicStats.structuresCountByRegion.forEach((regionStat) => {
-        this.statsRegionsValues[regionStat.region] = regionStat.count;
-      });
     }
   }
 }

@@ -68,7 +68,7 @@
 /* NOTE: .bg-primary is already defined in bootstrap.css */
 
 .bg-primary-light {
-  background: rgba(65, 100, 245, 0.1);
+  background: #f6f7ff;
 }
 .bg-secondary-light {
   background: rgba(80, 227, 194, 0.1);

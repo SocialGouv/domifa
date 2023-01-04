@@ -349,7 +349,7 @@
         <div *ngIf="filters.statut === 'INSTRUCTION'" class="filter-part">
           <div class="d-inline-block" *ngIf="filters.entretien">
             <button
-              title="Réinitialiser le filtre"
+              aria-label="Réinitialiser le filtre"
               class="btn selected-btn"
               (click)="updateFilters({ element: 'entretien', value: null })"
             >

@@ -17,7 +17,7 @@
         <span>
           Attention, votre domiciliation expire le
           <b>
-            {{ echeanceInfos.dateToDisplay | date: "dd/MM/yyyy" }}
+            {{ echeanceInfos.dateToDisplay | date : "dd/MM/yyyy" }}
           </b>
         </span>
       </div>
@@ -25,7 +25,7 @@
         <div class="svg-icon icon-danger"></div>
         <div>
           Domiciliation expirée depuis le
-          {{ echeanceInfos.dateToDisplay | date: "dd/MM/yyyy" }}, il y a
+          {{ echeanceInfos.dateToDisplay | date : "dd/MM/yyyy" }}, il y a
           {{ echeanceInfos.dayBeforeEnd * -1 }} jours
         </div>
       </div>
@@ -47,11 +47,11 @@
 
           <div class="py-1">
             <b>Échéance: </b>
-            {{ echeanceInfos.dateToDisplay | date: "dd/MM/yyyy" }}
+            {{ echeanceInfos.dateToDisplay | date : "dd/MM/yyyy" }}
           </div>
           <div class="py-1">
             <b>Dernier passage: </b>
-            {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yyyy" }}
+            {{ usager.lastInteraction.dateInteraction | date : "dd/MM/yyyy" }}
           </div>
         </div>
       </div>

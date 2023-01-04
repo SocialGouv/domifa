@@ -152,7 +152,7 @@
     </div>
 
     <div class="py-3 my-4 text-gray border-top">
-      <div class="d-flex flex-column flex-sm-row">
+      <div class="d-flex">
         <a
           href="/assets/files/domifa_declaration-d-accessibilite.pdf"
           target="_blank"
@@ -179,11 +179,7 @@
           CGU
         </a>
         <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
-        <a
-          routerLink="/confidentialite"
-          title="Lire notre politique de confidentialité"
-          routerLinkActive="router-link-active"
-        >
+        <a routerLink="/confidentialite" routerLinkActive="router-link-active">
           Politique de confidentialité
         </a>
         <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
@@ -201,6 +197,14 @@
           (click)="matomo.trackEvent('FOOTER', 'Footer_Stats', 'null', 1)"
         >
           Statistiques
+        </a>
+        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
+        <a
+          [routerLink]="['/stats/impact']"
+          routerLinkActive="router-link-active"
+          (click)="matomo.trackEvent('FOOTER', 'Footer_Impact', 'null', 1)"
+        >
+          Notre impact
         </a>
         <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
         <a
@@ -268,7 +272,6 @@
   <div class="modal-header">
     <h4 class="modal-title" id="modal-title">Centre d'aide DomiFa</h4>
     <button
-      title="Fermer la fenêtre"
       class="btn-close"
       aria-label="Fermer la fenêtre"
       (click)="closeModals()"

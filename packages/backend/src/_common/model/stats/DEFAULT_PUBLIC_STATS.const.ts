@@ -6,7 +6,8 @@ export const DEFAULT_PUBLIC_STATS: PublicStats = {
   usagersCount: 0,
   usagersCountByMonth: [],
   usersCount: 0,
-  interactionsCount: 0,
+  courrierInCount: 0,
+  courrierOutCount: 0,
   structuresCount: 0,
   structuresCountByTypeMap: {
     asso: 0,

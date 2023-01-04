@@ -20,7 +20,7 @@
         <div class="svg-icon icon-distribution"></div>
         <span
           ><b>Attention : </b> le transfert de courrier était valable jusqu'au
-          {{ usager.options.transfert.dateFin | date: "dd/MM/yyyy" }}</span
+          {{ usager.options.transfert.dateFin | date : "dd/MM/yyyy" }}</span
         >
       </div>
 
@@ -47,7 +47,7 @@
               Une procuration au nom de
               <u>{{ procuration.nom }} {{ procuration.prenom }}</u>
               est active et valable jusqu'au
-              {{ procuration.dateFin | date: "dd/MM/yyyy" }}
+              {{ procuration.dateFin | date : "dd/MM/yyyy" }}
             </span>
           </div>
 
@@ -57,7 +57,7 @@
               La procuration au nom de
               <u>{{ procuration.nom }} {{ procuration.prenom }}</u>
               a expiré le
-              {{ procuration.dateFin | date: "dd/MM/yyyy" }}
+              {{ procuration.dateFin | date : "dd/MM/yyyy" }}
             </span>
           </div>
         </ng-container>

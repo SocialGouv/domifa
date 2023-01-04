@@ -8,6 +8,13 @@ import {
   useAnimation,
 } from "@angular/animations";
 
+export const fadeIn = trigger("fadeIn", [
+  transition(":enter", [
+    style({ opacity: 0 }),
+    animate("0.3s ease-in", style({ opacity: 1 })),
+  ]),
+]);
+
 export const fadeInOut = trigger("fadeInOut", [
   transition(":enter", [
     style({ opacity: 0 }),

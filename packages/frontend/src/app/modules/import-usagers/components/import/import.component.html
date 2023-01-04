@@ -85,7 +85,6 @@
         href="/assets/files/modele_import_domifa.xlsx"
         target="_blank"
         rel="noopener noreferrer"
-        title="Télécharger le modèle Excel"
         class="btn btn-outline-primary my-2"
         download
       >
@@ -99,11 +98,11 @@
         sur DomiFa
       </p>
       <div
-        class="m-auto d-flex flex-column w-50 border border-primary rounded-2 form-label required"
+        class="m-auto d-flex w-50 border border-primary rounded-2 form-label required"
         tabindex="0"
       >
         <label for="fileExcel" class="zone-upload">
-          <fa-icon [icon]="['fas', 'download']"></fa-icon>
+          <fa-icon [icon]="['fas', 'download']" aria-hidden="true"></fa-icon>
           <strong>Cliquez ici</strong>
           pour importer le fichier Excel complété
         </label>

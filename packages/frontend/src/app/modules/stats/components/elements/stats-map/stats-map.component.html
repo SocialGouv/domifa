@@ -150,26 +150,3 @@
     </svg>
   </g>
 </div>
-
-<div class="text-start">
-  <h4 class="fw-bold text-primary">Les collectivités d'outre-mer</h4>
-
-  <div class="region-list">
-    <ul>
-      <li
-        class="py-2"
-        *ngFor="let departementCom of DEPARTEMENTS_COM | keyvalue"
-      >
-        <a
-          [routerLink]="['/stats/region/' + departementCom.value.regionId]"
-          class="region-name"
-        >
-          {{ departementCom.value.departmentName }}
-        </a>
-        <span class="text-primary fw-bold">
-          {{ statsRegionsValues[departementCom.value.regionCode] }}
-        </span>
-      </li>
-    </ul>
-  </div>
-</div>

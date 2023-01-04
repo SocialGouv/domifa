@@ -64,7 +64,8 @@ describe("Stats Public Controller", () => {
       usagersCount: 20,
       usersCount: 10,
       structuresCount: 5,
-      interactionsCount: 2,
+      courrierInCount: 5,
+      courrierOutCount: 2,
       structuresCountByRegion: [
         { count: 2, region: "52" },
         { count: 1, region: "03" },
@@ -115,7 +116,8 @@ describe("Stats Public Controller", () => {
       usagersCount: 0,
       usersCount: 5,
       structuresCount: 2,
-      interactionsCount: 0,
+      courrierInCount: 0,
+      courrierOutCount: 0,
       structuresCountByRegion: [
         {
           count: 2,

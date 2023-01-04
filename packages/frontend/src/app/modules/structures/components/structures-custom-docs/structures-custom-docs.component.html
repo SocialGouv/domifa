@@ -28,14 +28,14 @@
     <div class="page-content p-4">
       <div>
         <div class="d-flex justify-content-between align-items-center">
-          <h4>Vos documents pré-remplis</h4>
+          <h2>Vos documents pré-remplis</h2>
           <div *ngIf="me.role === 'admin'">
             <button
-              title="Importer un document pré-rempli"
+              type="button"
               class="btn-outline-primary btn"
               (click)="openUploadCustomDocModal(true)"
             >
-              <fa-icon title="Importer" [icon]="['fas', 'upload']"></fa-icon>
+              <fa-icon aria-hidden="true" [icon]="['fas', 'upload']"></fa-icon>
               Importer un document pré-rempli
             </button>
           </div>
@@ -53,7 +53,6 @@
               informant l'usager de la fin de domiciliation décidée.
               <a
                 href="/assets/files/courrier_radiation.docx"
-                title="Télécharger le modèle"
                 target="_blank"
                 rel="noopener noreferrer"
                 download
@@ -66,7 +65,6 @@
               permettant au domicilié de justifier son adresse.
               <a
                 href="/assets/files/attestation_postale.docx"
-                title="Télécharger le modèle"
                 target="_blank"
                 rel="noopener noreferrer"
                 download
@@ -88,14 +86,13 @@
 
     <div class="page-content my-3 p-4">
       <div class="d-flex justify-content-between align-items-center">
-        <h4>Autres documents</h4>
+        <h2>Autres documents</h2>
         <div *ngIf="me.role === 'admin'">
           <button
-            title="Importer un document"
             class="btn-outline-primary btn"
             (click)="openUploadCustomDocModal(false)"
           >
-            <fa-icon title="Importer" [icon]="['fas', 'upload']"></fa-icon>
+            <fa-icon aria-hidden="true" [icon]="['fas', 'upload']"></fa-icon>
             Importer un document
           </button>
         </div>

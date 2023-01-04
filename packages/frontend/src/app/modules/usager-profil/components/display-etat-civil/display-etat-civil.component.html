@@ -19,7 +19,7 @@
   <div class="col-md-4 reponses">
     <span class="question">Date de naissance</span>
     <span class="valeur">
-      {{ usager.dateNaissance | date: "dd/MM/yyyy" }}
+      {{ usager.dateNaissance | date : "dd/MM/yyyy" }}
     </span>
   </div>
   <div class="col-md-4 reponses">
@@ -69,7 +69,7 @@
 
 <div class="row justify-content-start">
   <div class="col-md-12">
-    <h4>Ayants-droits</h4>
+    <h2>Ayants-droits</h2>
 
     <div class="alert alert-info" *ngIf="usager.ayantsDroits.length === 0">
       Aucun ayant-droit enregistré
@@ -80,7 +80,7 @@
       >{{ ayantDroit.nom | uppercase }} {{ ayantDroit.prenom }}</span
     >
     <span class="valeur" *ngIf="ayantDroit.lien">
-      {{ ayantDroit.dateNaissance | date: "dd/MM/yyyy" }},
+      {{ ayantDroit.dateNaissance | date : "dd/MM/yyyy" }},
       {{ LIEN_PARENTE_LABELS[ayantDroit.lien] }}
     </span>
   </div>

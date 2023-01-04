@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AuthGuard } from "../../guards/auth-guard";
 import { FacteurGuard } from "../../guards/facteur-guard";
+import { ImpactComponent } from "./components/impact/impact.component";
 import { PublicStatsComponent } from "./components/public-stats/public-stats.component";
 import { StatsComponent } from "./components/structure-stats/structure-stats.component";
 
@@ -9,6 +10,10 @@ export const statsRoutes: Routes = [
   {
     path: "",
     component: PublicStatsComponent,
+  },
+  {
+    path: "impact",
+    component: ImpactComponent,
   },
   {
     path: "region/:region",

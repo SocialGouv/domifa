@@ -124,9 +124,7 @@ h2 img {
 div.container > h3 {
   color: red;
 }
-a.btn:hover,
-a.btn:focus {
-  text-decoration: underline;
-  color: var(--bs-primary);
-  outline: 2px solid var(--bs-white);
+
+.btn-light {
+  color: var(--bs-primary) !important;
 }

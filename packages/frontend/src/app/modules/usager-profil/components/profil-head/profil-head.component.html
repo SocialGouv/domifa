@@ -13,6 +13,7 @@
           >
             <fa-icon
               class="text-white"
+              aria-hidden="true"
               [icon]="['fas', 'angle-left']"
             ></fa-icon>
           </a>
@@ -27,7 +28,6 @@
       <div class="px-0 mx-0 text-end" *ngIf="!isRole('facteur')">
         <ng-container *ngIf="usager.decision.statut === 'INSTRUCTION'">
           <a
-            title="Compléter la demande"
             [routerLink]="[
               '/usager/' +
                 usager.ref +
@@ -36,7 +36,11 @@
             ]"
             class="btn btn-white-primary ms-2"
           >
-            <fa-icon [icon]="['fas', 'redo']" class="me-2"></fa-icon>
+            <fa-icon
+              [icon]="['fas', 'redo']"
+              aria-hidden="true"
+              class="me-2"
+            ></fa-icon>
             Compléter la demande
           </a>
         </ng-container>
@@ -47,7 +51,11 @@
             (click)="openRenewModal()"
             class="btn btn-white-primary ms-2"
           >
-            <fa-icon [icon]="['fas', 'redo']" class="me-2"></fa-icon>
+            <fa-icon
+              [icon]="['fas', 'redo']"
+              aria-hidden="true"
+              class="me-2"
+            ></fa-icon>
             Créer une nouvelle demande
           </button>
           <button
@@ -70,7 +78,11 @@
             class="btn btn-white-primary ms-2"
             (click)="openRenewModal()"
           >
-            <fa-icon [icon]="['fas', 'redo']" class="me-2"></fa-icon>
+            <fa-icon
+              [icon]="['fas', 'redo']"
+              aria-hidden="true"
+              class="me-2"
+            ></fa-icon>
             Créer une nouvelle demande
           </button>
         </ng-container>
@@ -81,7 +93,11 @@
             class="ms-2 btn btn-white-primary ms-2"
             (click)="openRenewModal()"
           >
-            <fa-icon [icon]="['fas', 'redo']" class="me-2"></fa-icon>
+            <fa-icon
+              [icon]="['fas', 'redo']"
+              aria-hidden="true"
+              class="me-2"
+            ></fa-icon>
             Demande de renouvellement
           </button>
           <button
@@ -89,7 +105,11 @@
             (click)="openRadiationModal()"
             class="ms-2 btn btn-white-primary"
           >
-            <fa-icon [icon]="['fas', 'times']" class="me-2"></fa-icon>
+            <fa-icon
+              [icon]="['fas', 'times']"
+              aria-hidden="true"
+              class="me-2"
+            ></fa-icon>
             Radier le domicilié
           </button>
         </ng-container>
@@ -191,6 +211,7 @@
 
   <div class="modal-footer">
     <button
+      type="submit"
       class="btn btn-lg btn-primary"
       (click)="renouvellement()"
       [disabled]="loading"
@@ -214,11 +235,20 @@
         </span>
       </ng-container>
       <span *ngIf="loading"
-        ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+        ><fa-icon
+          [icon]="['fas', 'circle-notch']"
+          aria-hidden="true"
+          [spin]="true"
+        >
+        </fa-icon>
         Veuillez patienter...</span
       >
     </button>
-    <button class="btn btn-lg btn-outline-dark" (click)="closeModals()">
+    <button
+      class="btn btn-lg btn-outline-dark"
+      type="button"
+      (click)="closeModals()"
+    >
       Revenir au profil
     </button>
   </div>

@@ -42,11 +42,12 @@
 
             <button
               type="button"
+              aria-label="Ouvrir le calendrier"
               class="input-group-text btn btn-outline-primary d-print-none"
               (click)="dDebut.toggle()"
             >
               <fa-icon
-                title="Calendrier"
+                aria-hidden="true"
                 [icon]="['fas', 'calendar']"
               ></fa-icon>
             </button>

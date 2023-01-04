@@ -1,10 +1,8 @@
 <div class="breadcrumb py-4 m-0" *ngIf="regionId">
   <div class="container">
-    <a routerLink="/" title="S'inscrire"> Accueil </a>
+    <a routerLink="/"> Accueil </a>
     >
-    <a routerLink="/stats" title="S'inscrire">
-      Statistiques et mesure d’impact
-    </a>
+    <a routerLink="/stats"> Statistiques de DomiFa </a>
     > {{ regions[REGIONS_SEO_ID[regionId]] }}
   </div>
 </div>
@@ -13,48 +11,38 @@
   <div class="container px-2 py-3 py-sm-4 d-flex align-items-center">
     <div class="text-start flex-sm-grow-1 pe-5">
       <ng-container *ngIf="!regionId">
-        <h1 class="font-bold">Statistiques et mesure d’impact</h1>
-        <h3 class="fw-normal home-header-subtitle">
-          DomiFa simplifie la domiciliation et la distribution de courrier pour
-          les personnes sans domicile stable
-        </h3>
+        <h1 class="font-bold">Statistiques d'utilisation de DomiFa</h1>
+        <h2 class="fw-normal home-header-subtitle">
+          Découvrez nos chiffres clés sur l'utilisation de DomiFa en France
+        </h2>
       </ng-container>
       <ng-container *ngIf="regionId">
         <h1 class="font-bold">
           Statistiques régionales :
           {{ regions[REGIONS_SEO_ID[regionId]] }}
         </h1>
-        <h3 class="fw-normal home-header-subtitle">
+        <h2 class="fw-normal home-header-subtitle">
           DomiFa simplifie la domiciliation et la distribution de courrier pour
           les personnes sans domicile stable dans la région
           {{ regions[REGIONS_SEO_ID[regionId]] }}
-        </h3>
+        </h2>
       </ng-container>
     </div>
 
     <div class="ps-3 flex-sm-grow-0 flex-lg-grow-0 text-center">
       <div class="w-full text-center">
         <img
-          title="Statistiques publiques"
-          src="../assets/images/stats/stats-head.svg"
+          aria-hidden="true"
+          src="/assets/images/stats/stats-head.svg"
           alt="Statistiques publiques"
         />
       </div>
     </div>
   </div>
 </div>
-<div class="container py-3">
-  <section class="py-4">
-    <h2 class="font-bold text-primary">
-      Notre priorité, l’aide aux domiciliés
-    </h2>
-    <p>
-      Au coeur de notre action, faciliter l’acheminement du courrier aux
-      personnes sans domicile stable
-    </p>
-    <app-stats-charts class="skeleton" [publicStats]="stats"></app-stats-charts>
-  </section>
-  <section class="py-4">
+
+<div class="container">
+  <section class="py-4 my-1">
     <h2 class="font-bold text-primary">
       Nous équipons les structures de domiciliation
     </h2>
@@ -62,82 +50,120 @@
       En lien avec les domiciliés, des structures de domiciliation utilisent
       DomiFa chaque jour pour gérer leur activité
       <br />
-      <a routerLink="/" title="S'inscrire">
-        Vous souhaitez utiliser DomiFa ?
-      </a>
+      <a routerLink="/"> Vous souhaitez utiliser DomiFa ? </a>
     </p>
-    <br />
 
-    <div class="row">
-      <div class="col-md-4 text-center">
-        <div class="p-2 d-flex align-items-top">
-          <div class="me-5">
-            <img
-              src="../assets/images/stats/structures.svg"
-              alt="Nombre de structures"
-            />
+    <div class="stats-charts-container p-4">
+      <div class="row d-flex align-items-center" *ngIf="!stats">
+        <div class="col-md-12 text-center">
+          <div @fadeInOut>
+            <fa-icon
+              [icon]="['fas', 'spinner']"
+              class="spinner"
+              [spin]="true"
+            ></fa-icon>
+            <span class="loading_message"
+              >Chargement en cours, veuillez patienter</span
+            >
           </div>
-          <div>
-            <div class="text-start" *ngIf="stats">
-              <div class="stats-counter skeleton">
-                {{ stats?.structuresCount | formatBigNumber }}
+        </div>
+      </div>
+      <div class="row" *ngIf="stats">
+        <div class="col-7">
+          <div class="d-flex">
+            <div class="p-2 d-flex align-items-top">
+              <div class="me-5">
+                <img
+                  src="/assets/images/stats/structures.svg"
+                  alt="Nombre de structures"
+                  aria-hidden="true"
+                />
               </div>
-              <div class="stats-counter-label">structures</div>
+              <div>
+                <div class="text-start">
+                  <div class="stats-counter">
+                    {{ stats?.structuresCount | formatBigNumber }}
+                  </div>
+                  <div class="stats-counter-label">structures</div>
+                </div>
+                <div class="py-3 text-start" *ngIf="stats">
+                  <ul>
+                    <li
+                      *ngFor="
+                        let structure of stats.structuresCountByTypeMap
+                          | keyvalue
+                      "
+                    >
+                      <span class="sub-stats-number">{{
+                        structure.value | formatBigNumber
+                      }}</span>
+                      <span class="sub-stats-label">
+                        {{ structure.key === "asso" ? "Organisme agrée" : "" }}
+                        {{ structure.key === "ccas" ? "CCAS" : "" }}
+                        {{ structure.key === "cias" ? "CIAS" : "" }}
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
-            <div class="py-3 text-start" *ngIf="stats">
-              <ul>
-                <li
-                  *ngFor="
-                    let structure of stats.structuresCountByTypeMap | keyvalue
-                  "
-                >
-                  <span class="sub-stats-number">{{
-                    structure.value | formatBigNumber
-                  }}</span>
-                  <span class="sub-stats-label">
-                    {{ structure.key === "asso" ? "Organisme agrée" : "" }}
-                    {{ structure.key === "ccas" ? "CCAS" : "" }}
-                    {{ structure.key === "cias" ? "CIAS" : "" }}
-                  </span>
-                </li>
-              </ul>
+
+            <div class="p-2 d-flex align-items-top">
+              <div class="me-5">
+                <img
+                  src="../assets/images/stats/agents.svg"
+                  alt="Nombre d'utilisateurs"
+                />
+              </div>
+              <div class="text-start">
+                <div class="stats-counter">
+                  {{ stats?.usersCount | formatBigNumber }}
+                </div>
+                <div class="stats-counter-label">agents</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-4 text-center">
-        <div class="p-2 d-flex align-items-top">
-          <div class="me-5">
-            <img
-              src="../assets/images/stats/agents.svg"
-              alt="Nombre d'utilisateurs"
-            />
-          </div>
-          <div class="text-start">
-            <div class="stats-counter">
-              {{ stats?.usersCount | formatBigNumber }}
+
+        <div class="col-5">
+          <div class="row">
+            <div class="col">
+              <div>
+                <div class="stats-counter" aria-hidden="true">
+                  <span
+                    [countUp]="stats.courrierInCount"
+                    [options]="countOptions"
+                  ></span>
+                </div>
+                <span> courriers enregistrés </span>
+                <app-impact-line [direction]="'horizontal'"></app-impact-line>
+              </div>
+              <div>
+                <div class="stats-counter" aria-hidden="true">
+                  <span
+                    [countUp]="stats.courrierOutCount"
+                    [options]="countOptions"
+                  ></span>
+                </div>
+                <span> courriers enregistrés </span>
+                <app-impact-line [direction]="'horizontal'"></app-impact-line>
+              </div>
             </div>
-            <div class="stats-counter-label">agents</div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 text-center" *ngIf="!regionId">
-        <div class="p-2 d-flex align-items-top">
-          <div class="me-5">
-            <img
-              src="../assets/images/stats/satisfaction.svg"
-              alt="Enquête de satisfaction"
-            />
-          </div>
-          <div class="text-start">
-            <div class="stats-counter">8,9/10</div>
-            <div class="stats-counter-label py-2">
-              Questionnaire envoyé à nos usagers en avril 2021
+            <div class="col">
+              <div class="text-primary fw-bold">
+                soit
+                <span class="stats-counter">{{ distributionRate }}%</span> de
+                taux d’acheminement
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </section>
+
+  <section class="py-4 my-1">
+    <app-stats-charts class="skeleton" [publicStats]="stats"></app-stats-charts>
   </section>
 
   <section
@@ -148,7 +174,7 @@
   >
     <div class="row">
       <div class="col-md-6">
-        <h4 class="fw-bold text-primary">Structures par département</h4>
+        <h3 class="fw-bold text-primary">Structures par département</h3>
 
         <ul>
           <li
@@ -170,11 +196,17 @@
       </div>
     </div>
   </section>
+
   <section class="py-4" *ngIf="!regionId">
     <h2 class="font-bold text-primary">
       Nous répondons présent partout en France !
     </h2>
-    <p>DomiFa est utilisé dans la majorité des régions Françaises</p>
+    <p>
+      DomiFa est utilisé dans la majorité des régions Françaises.
+      <a routerLink="/stats/impact"
+        >Découvrez les témoignages de nos utilisateurs partout en France</a
+      >
+    </p>
     <br />
     <div class="row d-flex align-items-center" *ngIf="!stats">
       <div class="col-md-12 text-center">
@@ -192,34 +224,64 @@
     </div>
     <div class="row" *ngIf="stats">
       <div class="col-md-6 text-center">
-        <app-stats-map [publicStats]="stats"></app-stats-map>
+        <app-stats-map
+          [statsRegionsValues]="statsRegionsValues"
+          [publicStats]="stats"
+        ></app-stats-map>
       </div>
-      <div class="col-md-4 offset-md-1">
-        <h4 class="fw-bold text-primary">Top des régions</h4>
-        <div class="region-list">
-          <ul>
-            <li
-              class="py-2"
-              *ngFor="let structure of stats?.structuresCountByRegion"
-            >
-              <a
-                [routerLink]="[
-                  '/stats/region/' + REGIONS_ID_SEO[structure.region]
-                ]"
-                class="region-name"
+      <div class="col-md-5 offset-md-1">
+        <section>
+          <h3 class="fw-bold text-primary">Top des régions</h3>
+          <div class="region-list">
+            <ul>
+              <li
+                class="py-2"
+                *ngFor="let structure of stats?.structuresCountByRegion"
               >
-                {{
-                  regions[structure.region]
-                    ? regions[structure.region]
-                    : structure.region
-                }}
-              </a>
-              <span class="text-primary fw-bold">
-                {{ structure.count }}
-              </span>
-            </li>
-          </ul>
-        </div>
+                <a
+                  [routerLink]="[
+                    '/stats/region/' + REGIONS_ID_SEO[structure.region]
+                  ]"
+                  class="region-name"
+                >
+                  {{
+                    regions[structure.region]
+                      ? regions[structure.region]
+                      : structure.region
+                  }}
+                </a>
+                <span class="text-primary fw-bold">
+                  {{ structure.count }}
+                </span>
+              </li>
+            </ul>
+          </div>
+        </section>
+        <section>
+          <div class="text-start">
+            <h4 class="fw-bold text-primary">Les collectivités d'outre-mer</h4>
+            <div class="region-list">
+              <ul>
+                <li
+                  class="py-2"
+                  *ngFor="let departementCom of DEPARTEMENTS_COM | keyvalue"
+                >
+                  <a
+                    [routerLink]="[
+                      '/stats/region/' + departementCom.value.regionId
+                    ]"
+                    class="region-name"
+                  >
+                    {{ departementCom.value.departmentName }}
+                  </a>
+                  <span class="text-primary fw-bold">
+                    {{ statsRegionsValues[departementCom.value.regionCode] }}
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   </section>

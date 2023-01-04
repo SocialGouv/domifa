@@ -28,7 +28,6 @@ describe("StatsMapComponent", () => {
     component.publicStats = DEFAULT_PUBLIC_STATS;
     component.statsRegionsValues = {};
     component.selectedRegion = null;
-    component.statsByRegion = [];
 
     fixture.detectChanges();
   });

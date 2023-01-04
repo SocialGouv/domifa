@@ -1,4 +1,4 @@
-<div id="stats-charts-container" class="py-4" *ngIf="!publicStats">
+<div class="stats-charts-container py-4" *ngIf="!publicStats">
   <div class="row d-flex align-items-center">
     <div class="col-md-12 text-center">
       <div @fadeInOut>
@@ -14,7 +14,7 @@
     </div>
   </div>
 </div>
-<div id="stats-charts-container" class="py-4" *ngIf="publicStats">
+<div class="stats-charts-container py-4" *ngIf="publicStats">
   <div class="row d-flex align-items-center">
     <div class="col-md-3">
       <div class="text-center ps-4 pe-2">
@@ -26,11 +26,11 @@
         >
           <img
             src="/assets/images/stats/courriers.svg"
-            title="Courriers reçus depuis le lancement"
+            aria-hidden="true"
             alt="Courriers reçus depuis le lancement"
           />
           <div class="stats-section-counter text-primary">
-            {{ publicStats?.interactionsCount | formatBigNumber }}
+            {{ publicStats?.courrierOutCount | formatBigNumber }}
           </div>
           <div class="stats-section-label">courriers distribués</div>
         </div>
@@ -42,7 +42,7 @@
         >
           <img
             src="/assets/images/stats/domicilies.svg"
-            title="Domiciliés depuis le lancement"
+            aria-hidden="true"
             alt="Domiciliés depuis le lancement"
           />
           <div class="stats-section-counter text-primary">

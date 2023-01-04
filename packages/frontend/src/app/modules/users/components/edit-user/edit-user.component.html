@@ -13,7 +13,7 @@
     <div class="page-content p-4">
       <div class="row" *ngIf="me.role !== 'facteur'">
         <div class="col-12">
-          <h4>Mes prochains rendez-vous</h4>
+          <h2>Mes prochains rendez-vous</h2>
           <ng-container *ngIf="usagers$ | async as nextMeetings">
             <div class="alert-info alert" *ngIf="nextMeetings.length === 0">
               Aucun rendez-vous prévu
@@ -51,7 +51,7 @@
       </div>
 
       <div class="my-2 d-flex justify-content-between align-items-center">
-        <h4>Informations personnelles</h4>
+        <h2>Informations personnelles</h2>
 
         <button (click)="initUserForm()" class="btn btn-outline-dark">
           <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
@@ -171,13 +171,13 @@
 
       <br /><br />
       <div class="row">
-        <h4 class="col-md-8">Mot de passe</h4>
-        <h4 class="col-md-4 text-end">
+        <h2 class="col-md-8">Mot de passe</h2>
+        <h2 class="col-md-4 text-end">
           <button (click)="initPasswordForm()" class="btn btn-outline-dark">
             <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
             Modifier votre mot de passe
           </button>
-        </h4>
+        </h2>
 
         <div class="col-md-12 text-center" *ngIf="!editPassword">
           {{ lastPasswordUpdate }}

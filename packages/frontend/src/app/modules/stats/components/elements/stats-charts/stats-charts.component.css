@@ -1,9 +1,9 @@
-#stats-charts-container {
+.stats-charts-container {
   background: #f6f7ff;
   border: 1px solid rgba(65, 100, 245, 0.1);
   box-sizing: border-box;
   border-radius: 10px;
-  min-height: 300px;
+  min-height: 200px;
 }
 
 .selected-stats,
