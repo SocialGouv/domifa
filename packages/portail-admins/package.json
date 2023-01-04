@@ -44,7 +44,7 @@
     "zone.js": "~0.12.0"
   },
   "devDependencies": {
-    "@angular-devkit/architect": "^0.1402.10",
+    "@angular-devkit/architect": "^0.1500.0",
     "@angular-devkit/build-angular": "^14.2.10",
     "@angular-devkit/core": "^14.2.10",
     "@angular-devkit/schematics": "^14.2.10",
@@ -61,8 +61,8 @@
     "@types/file-saver": "^2.0.2",
     "@types/jest": "^29.2.4",
     "@types/node": "^18.11.10",
-    "@typescript-eslint/eslint-plugin": "5.47.1",
-    "@typescript-eslint/parser": "5.47.1",
+    "@typescript-eslint/eslint-plugin": "5.48.0",
+    "@typescript-eslint/parser": "5.48.0",
     "eslint": "^8.29.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.23.4",
@@ -74,7 +74,7 @@
     "prettier": "2.8.1",
     "source-map-explorer": "^2.5.2",
     "tslib": "^2.3.0",
-    "typescript": "~4.6.0",
+    "typescript": "~4.9.0",
     "webpack-bundle-analyzer": "^4.4.2"
   },
   "lint-staged": {
