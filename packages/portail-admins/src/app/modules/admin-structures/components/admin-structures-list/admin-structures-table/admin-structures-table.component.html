@@ -101,20 +101,20 @@
       </td>
 
       <td class="col-font-xs">
-        {{ structure.registrationDate | date: "dd/MM/yyyy" }}
+        {{ structure.registrationDate | date : "dd/MM/yyyy" }}
       </td>
       <td class="d-none d-lg-table-cell">
         {{ structure.import ? "✅" : "❌" }}
       </td>
       <td class="col-font-xs d-none d-lg-table-cell">
-        {{ structure.importDate | date: "dd/MM/yyyy" || "Info manquante" }}
+        {{ structure.importDate | date : "dd/MM/yyyy" || "Info manquante" }}
       </td>
       <td class="col-font-xs">{{ structure.usersCount }}</td>
       <td class="col-font-xs">{{ structure.usagersAllCount }}</td>
       <td class="col-font-xs">{{ structure.usagersAyantsDroitsCount }}</td>
       <td class="col-font-xs">{{ structure.usagersValidCount }}</td>
       <td class="col-font-xs">
-        {{ structure.lastLogin | date: "dd/MM/yyyy" || "Info manquante" }}
+        {{ structure.lastLogin | date : "dd/MM/yyyy" || "Info manquante" }}
       </td>
       <td class="col-font-xs">
         {{ structure.regionLabel }}

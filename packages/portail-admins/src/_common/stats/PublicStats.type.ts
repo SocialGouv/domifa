@@ -7,7 +7,8 @@ export type PublicStats = {
   structuresCount: number;
   // Statistiques mensuelles
   interactionsCountByMonth?: StatsByMonth;
-  interactionsCount?: number;
+  courrierInCount: number;
+  courrierOutCount: number;
   usagersCountByMonth?: StatsByMonth;
   // Structures par région
   structuresCountByRegion?: StatsByRegion; // Structures par région

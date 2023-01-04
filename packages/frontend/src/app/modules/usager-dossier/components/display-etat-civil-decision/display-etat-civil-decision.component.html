@@ -7,7 +7,7 @@
     <div class="py-1">
       Né{{ usager.sexe === "homme" ? "" : "e" }} le
       <span class="fw-bold">{{
-        usager.dateNaissance | date: "dd/MM/yyyy"
+        usager.dateNaissance | date : "dd/MM/yyyy"
       }}</span>
       à
       <span class="fw-bold">{{ usager.villeNaissance | titlecase }}</span>
@@ -64,7 +64,7 @@
         >{{ ayantDroit.nom | uppercase }} {{ ayantDroit.prenom }}</span
       >
       <span class="valeur">
-        {{ ayantDroit.dateNaissance | date: "dd/MM/yyyy" }},
+        {{ ayantDroit.dateNaissance | date : "dd/MM/yyyy" }},
         {{ LIEN_PARENTE_LABELS[ayantDroit.lien] }}
       </span>
     </div>

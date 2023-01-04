@@ -9,8 +9,8 @@ import { MetaTag } from "../types";
 })
 export class SeoService {
   constructor(
-    private meta: Meta,
-    private title: Title,
+    private metaService: Meta,
+    private titleService: Title,
     @Inject(DOCUMENT) private doc: Document
   ) {}
 
@@ -18,13 +18,14 @@ export class SeoService {
     title: string,
     description: string,
     follow = false
+    // image: string = null
   ) {
     // Nettoyage des espaces inutiles
     title = title.replace(/\s\s+/g, " ").trim();
     description = description.replace(/\s\s+/g, " ").trim();
 
     // Mise à jour du titre
-    this.title.setTitle(title);
+    this.titleService.setTitle(title);
 
     this.generateMetasTags(title, description, follow);
 
@@ -34,9 +35,14 @@ export class SeoService {
 
   public createLinkForCanonicalURL() {
     const link: HTMLLinkElement = this.doc.createElement("link");
-    link.setAttribute("rel", "canonical");
-    this.doc.head.appendChild(link);
-    link.setAttribute("href", this.doc.URL);
+    let element: HTMLLinkElement =
+      this.doc.querySelector(`link[rel='canonical']`) || null;
+    if (element == null) {
+      element = this.doc.createElement("link") as HTMLLinkElement;
+      this.doc.head.appendChild(link);
+    }
+    element.setAttribute("rel", "canonical");
+    element.setAttribute("href", this.doc.URL);
   }
 
   public generateMetasTags(
@@ -67,7 +73,7 @@ export class SeoService {
 
     // Mise à jour de tous les tags
     tags.forEach((tag: MetaTag) => {
-      this.meta.updateTag(tag);
+      this.metaService.updateTag(tag);
     });
   }
 }

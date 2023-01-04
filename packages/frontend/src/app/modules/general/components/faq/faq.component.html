@@ -6,14 +6,13 @@
       </div>
       <div class="text-end col-5">
         <a
-          title="Télécharger le guide utilisateur"
           href="/assets/files/guide_utilisateur_domifa.pdf"
           target="_blank"
           class="btn btn-white-primary"
           rel="noopener noreferrer"
           download
         >
-          <fa-icon [icon]="['fas', 'download']"></fa-icon>
+          <fa-icon [icon]="['fas', 'download']" aria-hidden="true"></fa-icon>
           Télécharger le guide utilisateur
         </a>
       </div>
@@ -60,35 +59,35 @@
       >
         <ul>
           <li
-            title="Section : La domiciliation"
+            tabindex="0"
             class="btn btn-outline-primary"
             (click)="scrollTo(ladom)"
           >
             La domiciliation
           </li>
           <li
-            title="Section : Le projet DomiFa"
+            tabindex="0"
             class="btn btn-outline-primary"
             (click)="scrollTo(faqdomifa)"
           >
             Le projet DomiFa
           </li>
           <li
-            title="Section : La sécurité des données"
+            tabindex="0"
             class="btn btn-outline-primary"
             (click)="scrollTo(domiciliation)"
           >
             La sécurité des données
           </li>
           <li
-            title="Section : Les fonctionnalités"
+            tabindex="0"
             class="btn btn-outline-primary"
             (click)="scrollTo(features)"
           >
             Les fonctionnalités
           </li>
           <li
-            title="Section : Les tutoriels vidéo"
+            tabindex="0"
             class="btn btn-outline-primary"
             (click)="scrollTo(videos)"
           >

@@ -8,21 +8,25 @@
   <div class="container py-3">
     <div class="page-content p-4">
       <section>
-        <h4>Vos données</h4>
+        <h2>Vos données</h2>
 
         <button
-          title="Exporter tous les domiciliés"
+          type="button"
           (click)="export()"
           [disabled]="exportLoading"
           class="btn btn-outline-primary"
         >
           <span *ngIf="!exportLoading">
-            <fa-icon [icon]="['fas', 'download']" class="me-2"></fa-icon>
+            <fa-icon
+              [icon]="['fas', 'download']"
+              aria-hidden="true"
+              class="me-2"
+            ></fa-icon>
             Exporter tous les domiciliés
           </span>
           <span *ngIf="exportLoading">
             <fa-icon
-              title="Chargement..."
+              aria-hidden="true"
               [icon]="['fas', 'circle-notch']"
               [spin]="true"
             >
@@ -32,12 +36,15 @@
         </button>
         &nbsp;
         <button
-          title="Supprimer tous les domiciliés"
           *ngIf="me.role === 'admin'"
           (click)="open(hardResetConfirmation)"
           class="btn btn-outline-danger"
         >
-          <fa-icon [icon]="['fas', 'trash']" class="me-2"></fa-icon>
+          <fa-icon
+            [icon]="['fas', 'trash']"
+            aria-hidden="true"
+            class="me-2"
+          ></fa-icon>
           Supprimer tous les domiciliés
         </button>
       </section>
@@ -146,7 +153,11 @@
             <span *ngIf="!loading">Continuer</span>
 
             <span *ngIf="loading"
-              ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+              ><fa-icon
+                [icon]="['fas', 'circle-notch']"
+                aria-hidden="true"
+                [spin]="true"
+              >
               </fa-icon>
               Veuillez patienter...</span
             >
@@ -160,7 +171,11 @@
             <span *ngIf="!loading">Confirmer la suppression</span>
 
             <span *ngIf="loading"
-              ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+              ><fa-icon
+                [icon]="['fas', 'circle-notch']"
+                aria-hidden="true"
+                [spin]="true"
+              >
               </fa-icon>
               Veuillez patienter...</span
             >

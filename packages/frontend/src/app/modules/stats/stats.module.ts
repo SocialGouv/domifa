@@ -1,3 +1,4 @@
+import { ImpactComponent } from "./components/impact/impact.component";
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import {
@@ -17,6 +18,8 @@ import { StatsRoutingModule } from "./stats-routing.module";
 import { StatsChartsComponent } from "./components/elements/stats-charts/stats-charts.component";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { StatsMapComponent } from "./components/elements/stats-map/stats-map.component";
+import { ImpactLineComponent } from "./components/elements/impact-line/impact-line.component";
+import { CountUpModule } from "ngx-countup";
 
 @NgModule({
   declarations: [
@@ -24,11 +27,14 @@ import { StatsMapComponent } from "./components/elements/stats-map/stats-map.com
     PublicStatsComponent,
     StatsChartsComponent,
     StatsMapComponent,
+    ImpactLineComponent,
+    ImpactComponent,
   ],
   imports: [
     CommonModule,
     NgbModule,
     NgxChartsModule,
+    CountUpModule,
     SharedModule,
     HttpClientModule,
     FormsModule,

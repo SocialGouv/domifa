@@ -42,7 +42,7 @@
       <td class="align-middle">{{ document.label }}</td>
       <td class="align-middle">{{ document.createdBy }}</td>
       <td>
-        {{ document.createdAt | date: "dd/MM/yyyy" }}
+        {{ document.createdAt | date : "dd/MM/yyyy" }}
       </td>
       <td class="align-middle text-end d-print-none">
         <button
@@ -68,12 +68,17 @@
           aria-label="Supprimer la pièce jointe"
         >
           <span *ngIf="loadings.delete.indexOf(indexDocs) !== -1"
-            ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+            ><fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'circle-notch']"
+              [spin]="true"
+            >
+            </fa-icon>
 
             Patientez...</span
           >
-          <span *ngIf="loadings.delete.indexOf(indexDocs) === -1"
-            ><fa-icon title="Supprimer" [icon]="['fas', 'trash']"></fa-icon>
+          <span *ngIf="loadings.delete.indexOf(indexDocs) === -1">
+            <fa-icon aria-hidden="true" [icon]="['fas', 'trash']"></fa-icon>
             &nbsp; Supprimer</span
           >
         </button>

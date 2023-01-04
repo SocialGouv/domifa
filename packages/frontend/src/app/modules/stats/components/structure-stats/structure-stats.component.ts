@@ -53,7 +53,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public fromDate: NgbDate;
   public toDate: NgbDate | null = null;
-
+  public lastYear = new Date().getFullYear() - 1;
   private me!: UserStructure | null;
 
   private subscription = new Subscription();

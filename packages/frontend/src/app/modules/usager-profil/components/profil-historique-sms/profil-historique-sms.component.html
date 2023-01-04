@@ -11,7 +11,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let sms of messagesList">
-      <td>{{ sms.scheduledDate | date: "dd/MM/yyyy" }} à 19h00</td>
+      <td>{{ sms.scheduledDate | date : "dd/MM/yyyy" }} à 19h00</td>
       <td>{{ SMS_LABELS[sms.smsId] }}</td>
       <td>{{ sms.content }}</td>
     </tr>

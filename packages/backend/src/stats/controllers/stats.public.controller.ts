@@ -48,7 +48,8 @@ export class StatsPublicController {
       usagersCount: 0,
       usagersCountByMonth: [],
       usersCount: 0,
-      interactionsCount: 0,
+      courrierInCount: 0,
+      courrierOutCount: 0,
       structuresCount: 0,
       structuresCountByTypeMap: {
         asso: 0,
@@ -94,7 +95,13 @@ export class StatsPublicController {
       structures
     );
 
-    publicStats.interactionsCount =
+    publicStats.courrierInCount =
+      await this.adminStructuresService.totalInteractions(
+        "courrierIn",
+        structures
+      );
+
+    publicStats.courrierOutCount =
       await this.adminStructuresService.totalInteractions(
         "courrierOut",
         structures

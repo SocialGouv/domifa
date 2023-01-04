@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between align-items-center">
-  <h4>Historique des courriers</h4>
+  <h2>Historique des courriers</h2>
 
   <button
     aria-label="Imprimer les courriers"
@@ -42,7 +42,7 @@
           }"
         >
           <td>
-            {{ interaction.dateInteraction | date: "dd/MM/yyyy à HH:mm" }}
+            {{ interaction.dateInteraction | date : "dd/MM/yyyy à HH:mm" }}
           </td>
           <td>
             <div *ngIf="interaction.event === 'create'">
@@ -64,7 +64,7 @@
               Interaction supprimée le
               {{
                 interaction?.previousValue?.dateInteraction
-                  | date: "dd/MM/yyyy à HH:mm"
+                  | date : "dd/MM/yyyy à HH:mm"
               }}
               par {{ interaction?.previousValue?.userName }}
             </div>

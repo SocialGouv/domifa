@@ -28,16 +28,6 @@
   box-shadow: 0 0 5px 2px rgba(215, 210, 210, 0.3);
 }
 
-.btn-white {
-  background-color: white;
-  border-radius: 6px;
-  transition: all 0.25s;
-}
-
-.btn-white:hover {
-  color: white;
-}
-
 .page-footer {
   width: 100%;
   border-top: 1px solid #e6e6e6;
@@ -50,8 +40,7 @@
 
 .page-footer .menu-breadcrumb {
   color: #1a1a1a;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 0 7px;
 }
 
 #skip-links {

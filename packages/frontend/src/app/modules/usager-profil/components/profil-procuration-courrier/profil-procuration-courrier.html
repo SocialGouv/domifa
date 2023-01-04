@@ -1,15 +1,20 @@
 <div class="d-print-none" *ngIf="usager && me">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <div>
-      <h4>Procurations (5 maximum)</h4>
+      <h2>Procurations (5 maximum)</h2>
     </div>
     <div *ngIf="usager.decision.statut !== 'REFUS'">
       <button
         (click)="initForm()"
+        type="button"
         *ngIf="!isFormVisible "
         class="btn btn-outline-dark ms-2"
       >
-        <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
+        <fa-icon
+          [icon]="['far', 'edit']"
+          aria-hidden="true"
+          class="me-2"
+        ></fa-icon>
         Modifier les procurations
       </button>
       <button
@@ -18,7 +23,11 @@
         (click)="hideForm()"
         class="btn btn-outline-dark ms-2"
       >
-        <fa-icon [icon]="['fas', 'times']" class="me-2"></fa-icon>
+        <fa-icon
+          [icon]="['fas', 'times']"
+          aria-hidden="true"
+          class="me-2"
+        ></fa-icon>
         Annuler les modifications
       </button>
     </div>

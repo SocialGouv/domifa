@@ -6,7 +6,7 @@
 </div>
 
 <div
-  *ngFor="let interaction of interactions | slice: 0:5; let i = index"
+  *ngFor="let interaction of interactions | slice : 0 : 5; let i = index"
   class="interaction-historique"
 >
   <div class="d-flex align-items-top">
@@ -19,7 +19,7 @@
 
     <div class="ms-3">
       <div class="interaction-date">
-        {{ interaction.dateInteraction | date: "dd/MM/yyyy à HH:mm" }}
+        {{ interaction.dateInteraction | date : "dd/MM/yyyy à HH:mm" }}
       </div>
 
       <div class="fw-bold">

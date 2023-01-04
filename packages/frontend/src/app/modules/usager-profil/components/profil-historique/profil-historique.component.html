@@ -11,7 +11,7 @@
     <div class="page-content p-4">
       <div class="row">
         <div class="col-md-12">
-          <h4>Historique des décisions</h4>
+          <h2>Historique des décisions</h2>
           <div class="alert alert-info" *ngIf="usager.historique.length === 0">
             Aucun historique de décision n'est enregistré
           </div>
@@ -28,22 +28,22 @@
             </thead>
             <tbody>
               <tr *ngFor="let histo of usager.historique">
-                <td>{{ histo.dateDecision | date: "dd/MM/yyyy à HH:mm" }}</td>
+                <td>{{ histo.dateDecision | date : "dd/MM/yyyy à HH:mm" }}</td>
                 <td>
                   {{ DECISION_LABELS[histo.statut] }}
                   <span
                     *ngIf="histo.statut === 'REFUS' || histo.statut === 'RADIE'"
                   >
-                    le {{ histo.dateDebut | date: "dd/MM/yyyy" }}
+                    le {{ histo.dateDebut | date : "dd/MM/yyyy" }}
                   </span>
 
                   <span *ngIf="histo.statut === 'VALIDE'">
                     du
                     <strong>
-                      {{ histo.dateDebut | date: "dd/MM/yyyy" }}
+                      {{ histo.dateDebut | date : "dd/MM/yyyy" }}
                     </strong>
                     au
-                    <strong>{{ histo.dateFin | date: "dd/MM/yyyy" }}</strong>
+                    <strong>{{ histo.dateFin | date : "dd/MM/yyyy" }}</strong>
                   </span>
                   <div *ngIf="histo.statut === 'RADIE'">
                     {{ histo.motifString }}
@@ -58,7 +58,7 @@
 
       <div class="row" *ngIf="procurationHistory">
         <div class="col-md-12">
-          <h4>Historique des procurations</h4>
+          <h2>Historique des procurations</h2>
           <div class="alert alert-info" *ngIf="procurationHistory.length === 0">
             Aucun historique de procurations actuellement
           </div>
@@ -81,19 +81,19 @@
             </thead>
             <tbody>
               <tr *ngFor="let procu of procurationHistory">
-                <td>{{ procu.createdAt | date: "dd/MM/yyyy à HH:mm" }}</td>
+                <td>{{ procu.createdAt | date : "dd/MM/yyyy à HH:mm" }}</td>
                 <td>
                   {{ actions[procu.action] }}
                 </td>
                 <td>{{ procu.nom }} {{ procu.prenom }}</td>
-                <td>{{ procu.dateNaissance | date: "dd/MM/yyyy" || "" }}</td>
+                <td>{{ procu.dateNaissance | date : "dd/MM/yyyy" || "" }}</td>
                 <td>
                   <span *ngIf="procu.dateDebut === null">
-                    {{ procu.dateFin | date: "dd/MM/yyyy" }}
+                    {{ procu.dateFin | date : "dd/MM/yyyy" }}
                   </span>
                   <span class="valeur" *ngIf="procu.dateDebut">
-                    Du {{ procu.dateDebut | date: "dd/MM/yyyy" }} au
-                    {{ procu.dateFin | date: "dd/MM/yyyy" }}
+                    Du {{ procu.dateDebut | date : "dd/MM/yyyy" }} au
+                    {{ procu.dateFin | date : "dd/MM/yyyy" }}
                   </span>
                 </td>
                 <td>{{ procu.userName }}</td>
@@ -105,7 +105,7 @@
 
       <div class="row">
         <div class="col-md-12">
-          <h4>Historique des transferts</h4>
+          <h2>Historique des transferts</h2>
           <div class="alert alert-info" *ngIf="transfertHistory.length === 0">
             Aucun historique de transferts de courriers actuellement
           </div>
@@ -125,7 +125,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let transfert of transfertHistory">
-                <td>{{ transfert.createdAt | date: "dd/MM/yyyy à HH:mm" }}</td>
+                <td>{{ transfert.createdAt | date : "dd/MM/yyyy à HH:mm" }}</td>
                 <td>
                   {{ actions[transfert.action] }}
                 </td>
@@ -133,11 +133,11 @@
                 <td>{{ transfert.adresse }}</td>
                 <td>
                   <span *ngIf="transfert.dateDebut === null">
-                    {{ transfert.dateFin | date: "dd/MM/yyyy" }}
+                    {{ transfert.dateFin | date : "dd/MM/yyyy" }}
                   </span>
                   <span class="valeur" *ngIf="transfert.dateDebut">
-                    Du {{ transfert.dateDebut | date: "dd/MM/yyyy" }} au
-                    {{ transfert.dateFin | date: "dd/MM/yyyy" }}
+                    Du {{ transfert.dateDebut | date : "dd/MM/yyyy" }} au
+                    {{ transfert.dateFin | date : "dd/MM/yyyy" }}
                   </span>
                 </td>
                 <td>{{ transfert.userName }}</td>
@@ -155,7 +155,7 @@
         "
       >
         <div class="col-md-12">
-          <h4>Historique des envois de SMS</h4>
+          <h2>Historique des envois de SMS</h2>
 
           <ul class="mb-4">
             <li>
@@ -174,7 +174,7 @@
       </div>
       <div class="row" *ngIf="usager">
         <div class="col-md-12">
-          <h4>Historique des notes</h4>
+          <h2>Historique des notes</h2>
 
           <app-profil-historique-notes
             [usager]="usager"

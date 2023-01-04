@@ -1,0 +1,43 @@
+.bg-impact-second {
+  background-color: #ffd3af;
+}
+
+.vertical-border {
+  .bg-impact-first {
+    background-color: #ffa155;
+    height: 25%;
+  }
+  .bg-impact-second {
+    height: 60%;
+  }
+  .bg-impact-last {
+    height: 15%;
+    background-color: var(--bs-primary);
+  }
+  min-height: 180px;
+  height: 100%;
+  width: 0.75rem;
+  display: block;
+}
+
+.horizontal-border {
+  display: flex;
+  margin: 12px 0;
+  width: 70px;
+  height: 6px;
+
+  .bg-impact-first {
+    background-color: var(--bs-primary);
+    width: 15%;
+    height: 100%;
+  }
+  .bg-impact-second {
+    width: 60%;
+    height: 100%;
+  }
+  .bg-impact-last {
+    background-color: #ffa155;
+    width: 25%;
+    height: 100%;
+  }
+}

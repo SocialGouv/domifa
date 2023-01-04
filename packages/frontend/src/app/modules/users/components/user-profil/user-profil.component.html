@@ -7,7 +7,7 @@
 <div class="content py-3" *ngIf="me">
   <div class="container py-3">
     <div class="page-content p-4">
-      <h4>Membres actifs</h4>
+      <h2>Membres actifs</h2>
 
       <table class="table">
         <caption class="visually-hidden">
@@ -31,23 +31,32 @@
                 </span>
                 <span
                   *ngIf="user.role === 'responsable'"
-                  class="badge bg-secondary"
+                  class="badge text-dark bg-secondary"
                 >
                   Gestionnaire
                 </span>
-                <span *ngIf="user.role === 'simple'" class="badge bg-info">
+                <span
+                  *ngIf="user.role === 'simple'"
+                  class="badge text-dark bg-info"
+                >
                   Instructeur
                 </span>
-                <span *ngIf="user.role === 'facteur'" class="badge bg-warning">
+                <span
+                  *ngIf="user.role === 'facteur'"
+                  class="badge text-dark bg-warning"
+                >
                   Facteur
                 </span>
-                <span *ngIf="!user.verified" class="badge bg-danger">
+                <span *ngIf="!user.verified" class="badge text-dark bg-danger">
                   Non activé
                 </span>
               </span>
             </td>
             <td>{{ user.email }}</td>
             <td>
+              <label class="visually-hidden" for="role_{{ user.id }}"
+                >Rôle de {{ user.nom }} {{ user.prenom }}</label
+              >
               <select
                 [disabled]="loading"
                 *ngIf="me.role === 'admin' && me.id !== user.id"

@@ -11,7 +11,7 @@
           <div
             class="mt-2 mb-4 d-flex justify-content-between align-items-center"
           >
-            <h4>Documents mis à disposition par la structure</h4>
+            <h2>Documents mis à disposition par la structure</h2>
 
             <div *ngIf="usager.isActif || usager.decision.statut === 'REFUS'">
               <button
@@ -48,7 +48,7 @@
 
       <div class="row mb-5">
         <div class="col-md-12">
-          <h4>Documents de l'usager</h4>
+          <h2>Documents de l'usager</h2>
           <app-display-usager-docs
             [me]="me"
             [editPJ]="true"

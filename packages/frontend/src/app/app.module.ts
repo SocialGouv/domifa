@@ -18,7 +18,6 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { CountUpModule } from "ngx-countup";
 import { MatomoModule } from "ngx-matomo";
 
 import { environment } from "src/environments/environment";
@@ -78,7 +77,6 @@ if (environment.production) {
     NgbModule,
     SharedModule,
     ManageUsagersModule,
-    CountUpModule,
     UserIdleModule.forRoot({ idle: 3600, timeout: 10, ping: 120 }),
   ],
   providers: [
