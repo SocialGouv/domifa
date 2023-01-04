@@ -1,3 +1,10 @@
+# [2.113.0](https://github.com/SocialGouv/domifa/compare/v2.112.1...v2.113.0) (2023-01-04)
+
+
+### Features
+
+* **stats:** ajout d'une page dédiée à la mesure d'impact ([f841fea](https://github.com/SocialGouv/domifa/commit/f841fea39130d8f568f1bc2236850938de6e96cd))
+
 ## [2.112.1](https://github.com/SocialGouv/domifa/compare/v2.112.0...v2.112.1) (2022-12-27)
 
 
