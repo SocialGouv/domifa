@@ -79,14 +79,14 @@ export class ProfilEditPortailUsagerPreferenceComponent
     });
   }
 
-  private stopLoading(loadingRef: string) {
+  private stopLoading(loadingRef: string): void {
     const index = this.loadings.indexOf(loadingRef);
     if (index !== -1) {
       this.loadings.splice(index, 1);
     }
   }
 
-  public isRole(role: UserStructureRole) {
+  public isRole(role: UserStructureRole): boolean {
     return this.me?.role === role;
   }
 
@@ -119,7 +119,7 @@ export class ProfilEditPortailUsagerPreferenceComponent
     );
   }
 
-  public submit() {
+  public submit(): void {
     this.submitted = true;
     if (this.form.invalid) {
       this.toastService.error(

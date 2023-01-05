@@ -98,25 +98,25 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   public usagers: UsagerFormModel[] = [];
   public me!: UserStructure | null;
 
-  public labelsDernierPassage: {
+  public readonly labelsDernierPassage: {
     [key in UsagersFilterCriteriaDernierPassage]: string;
   } = {
     DEUX_MOIS: "Dernier passage 2 mois",
     TROIS_MOIS: "Dernier passage 3 mois",
   };
 
-  public labelsEcheance: { [key in UsagersFilterCriteriaEcheance]: string } = {
+  public readonly labelsEcheance: {
+    [key in UsagersFilterCriteriaEcheance]: string;
+  } = {
     DEUX_MOIS: "Fin dans 2 mois",
     DEUX_SEMAINES: "Fin dans 2 semaines",
     DEPASSEE: "Domiciliation expirée",
   };
 
-  public labelsEntretien = {
+  public readonly labelsEntretien = {
     COMING: "à venir",
     OVERDUE: "date dépassée",
   };
-
-  public searchString: string | null;
 
   public readonly SEARCH_STRING_FIELD_LABELS: {
     [key in CriteriaSearchField]: {
@@ -138,6 +138,8 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     },
   };
 
+  public searchString: string | null;
+
   public filters: UsagersFilterCriteria;
   public filters$: Subject<UsagersFilterCriteria> = new ReplaySubject(1);
 
@@ -149,10 +151,11 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   @ViewChild("searchInput", { static: true })
   public searchInput!: ElementRef;
 
-  private subscription = new Subscription();
   public currentUserSubject$: Observable<UserStructure | null>;
 
   public sortLabel = "échéance";
+
+  private subscription = new Subscription();
 
   constructor(
     private readonly usagerService: ManageUsagersService,
@@ -170,28 +173,20 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     };
 
     this.currentUserSubject$ = this.authService.currentUserSubject;
-    this.pageSize = 40;
-    this.needToPrint = false;
-    this.searching = false;
+
     this.loading = false;
     this.nbResults = 0;
-    this.searchString = null;
-    this.filters = new UsagersFilterCriteria();
+    this.needToPrint = false;
+    this.pageSize = 40;
+    this.searching = true;
+    this.usagers = [];
+    this.filters = new UsagersFilterCriteria(this.getFilters());
+    this.searchString = this.filters.searchString;
+    this.filters.page = 0;
+    this.titleService.setTitle("Gérer vos domiciliés");
   }
 
   public ngOnInit(): void {
-    this.usagers = [];
-    this.searching = true;
-    this.nbResults = 0;
-
-    this.filters = new UsagersFilterCriteria(this.getFilters());
-
-    this.currentUserSubject$ = this.authService.currentUserSubject;
-
-    this.titleService.setTitle("Gérer vos domiciliés");
-
-    this.searchString = this.filters.searchString;
-    this.filters.page = 0;
     this.filters$.next(this.filters);
 
     this.scrollTop();
@@ -362,6 +357,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.filters.searchString = "";
     this.filters$.next(this.filters);
   }
+
   public resetFilters(): void {
     this.filters = new UsagersFilterCriteria();
     this.searchString = null;
@@ -508,7 +504,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   }): void {
     this.searching = true;
 
-    localStorage.setItem("filters", JSON.stringify(filters));
+    localStorage.setItem("MANAGE_USAGERS", JSON.stringify(filters));
 
     const allUsagers = allUsagersByStatus[filters.statut];
 
@@ -542,7 +538,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   }
 
   private getFilters(): null | Partial<UsagersFilterCriteria> {
-    const filters = localStorage.getItem("filters");
+    const filters = localStorage.getItem("MANAGE_USAGERS");
     return filters === null ? {} : JSON.parse(filters);
   }
 
