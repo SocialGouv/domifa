@@ -1,3 +1,12 @@
+## [2.113.1](https://github.com/SocialGouv/domifa/compare/v2.113.0...v2.113.1) (2023-01-05)
+
+
+### Bug Fixes
+
+* **doublons:** correction d'un bug sur la vérification des doublons ([7d17756](https://github.com/SocialGouv/domifa/commit/7d1775627e5e019940403c8f6a930edd6240cbfd))
+* **general:** amélioration des performances sur le frontend ([00ee20f](https://github.com/SocialGouv/domifa/commit/00ee20f3950d2eb8074671d522d2dacfd09145d6))
+* **recherche:** correction d'un bug qui supprime les filtres enregistrés ([84069e1](https://github.com/SocialGouv/domifa/commit/84069e1a52e34041e71e4936ce5cdd73f03ecc48))
+
 # [2.113.0](https://github.com/SocialGouv/domifa/compare/v2.112.1...v2.113.0) (2023-01-04)
 
 
