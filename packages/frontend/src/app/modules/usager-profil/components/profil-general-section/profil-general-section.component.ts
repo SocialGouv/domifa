@@ -1,4 +1,10 @@
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
@@ -6,6 +12,7 @@ import {
   NgbModal,
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
+import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   UserStructure,
@@ -40,19 +47,20 @@ import { ProfilGeneralHistoriqueCourriersComponent } from "../profil-general-his
   templateUrl: "./profil-general-section.component.html",
   styleUrls: ["./profil-general-section.component.css"],
 })
-export class ProfilGeneralSectionComponent implements OnInit {
+export class ProfilGeneralSectionComponent implements OnInit, OnDestroy {
   public interactions: Interaction[];
 
-  public actions: {
-    [key: string]: string;
+  public readonly actions = {
+    EDIT: "Modification",
+    DELETE: "Suppression",
+    CREATION: "Création",
   };
 
   public usager!: UsagerFormModel;
-
   public today: Date;
   public me!: UserStructure | null;
 
-  public ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
+  public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
   public minDateNaissance: NgbDateStruct;
   public maxDateNaissance: NgbDateStruct;
 
@@ -74,6 +82,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
   public USAGER_DECISION_STATUT_LABELS = USAGER_DECISION_STATUT_LABELS;
 
   public loadingButtons: string[];
+  private subscription = new Subscription();
 
   constructor(
     private readonly authService: AuthService,
@@ -91,12 +100,6 @@ export class ProfilGeneralSectionComponent implements OnInit {
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date()) as NgbDateStruct;
 
-    this.actions = {
-      EDIT: "Modification",
-      DELETE: "Suppression",
-      CREATION: "Création",
-    };
-
     this.today = new Date();
   }
 
@@ -111,17 +114,20 @@ export class ProfilGeneralSectionComponent implements OnInit {
       this.router.navigate(["/404"]);
       return;
     }
-
-    this.usagerProfilService.findOne(this.route.snapshot.params.id).subscribe(
-      (usager: UsagerLight) => {
-        this.usager = new UsagerFormModel(usager);
-        const name = getUsagerNomComplet(usager);
-        this.titleService.setTitle("Fiche de " + name);
-      },
-      () => {
-        this.toastService.error("Le dossier recherché n'existe pas");
-        this.router.navigate(["404"]);
-      }
+    this.subscription.add(
+      this.usagerProfilService
+        .findOne(this.route.snapshot.params.id)
+        .subscribe({
+          next: (usager: UsagerLight) => {
+            this.usager = new UsagerFormModel(usager);
+            const name = getUsagerNomComplet(usager);
+            this.titleService.setTitle("Fiche de " + name);
+          },
+          error: () => {
+            this.toastService.error("Le dossier recherché n'existe pas");
+            this.router.navigate(["404"]);
+          },
+        })
     );
   }
 
@@ -138,32 +144,37 @@ export class ProfilGeneralSectionComponent implements OnInit {
     }
 
     this.loadingButtons.push(type);
-
-    this.interactionService
-      .setInteractionIn(usagerRef, [interaction])
-      .subscribe({
-        next: (newUsager: UsagerLight) => {
-          this.usager = new UsagerFormModel(newUsager);
-          this.toastService.success(INTERACTIONS_LABELS_SINGULIER[type]);
-          this.updateInteractions();
-          this.stopLoading(type);
-        },
-        error: () => {
-          this.toastService.error("Impossible d'enregistrer cette interaction");
-          this.stopLoading(type);
-        },
-      });
+    this.subscription.add(
+      this.interactionService
+        .setInteractionIn(usagerRef, [interaction])
+        .subscribe({
+          next: (newUsager: UsagerLight) => {
+            this.usager = new UsagerFormModel(newUsager);
+            this.toastService.success(INTERACTIONS_LABELS_SINGULIER[type]);
+            this.updateInteractions();
+            this.stopLoading(type);
+          },
+          error: () => {
+            this.toastService.error(
+              "Impossible d'enregistrer cette interaction"
+            );
+            this.stopLoading(type);
+          },
+        })
+    );
   }
 
   public stopCourrier(): void {
-    this.usagerProfilService.stopCourrier(this.usager.ref).subscribe({
-      next: () => {
-        this.setSingleInteraction(this.usager.ref, "npai");
-      },
-      error: () => {
-        this.toastService.error("Impossible d'enregistrer cette interaction");
-      },
-    });
+    this.subscription.add(
+      this.usagerProfilService.stopCourrier(this.usager.ref).subscribe({
+        next: () => {
+          this.setSingleInteraction(this.usager.ref, "npai");
+        },
+        error: () => {
+          this.toastService.error("Impossible d'enregistrer cette interaction");
+        },
+      })
+    );
   }
 
   public updateInteractions(): void {
@@ -191,5 +202,9 @@ export class ProfilGeneralSectionComponent implements OnInit {
     if (index !== -1) {
       this.loadingButtons.splice(index, 1);
     }
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

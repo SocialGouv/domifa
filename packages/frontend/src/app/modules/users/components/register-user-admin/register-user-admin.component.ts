@@ -89,23 +89,25 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
       );
     } else {
       this.loading = true;
-      this.userService.registerUser(this.userForm.value).subscribe({
-        next: () => {
-          this.loading = false;
-          this.submitted = false;
-          this.getUsers.emit();
-          this.form.nativeElement.reset();
-          this.toastService.success(
-            "Le nouveau compte a été créé avec succès, votre collaborateur vient de recevoir un email pour ajouter son mot de passe."
-          );
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error(
-            "veuillez vérifier les champs marqués en rouge dans le formulaire"
-          );
-        },
-      });
+      this.subscription.add(
+        this.userService.registerUser(this.userForm.value).subscribe({
+          next: () => {
+            this.loading = false;
+            this.submitted = false;
+            this.getUsers.emit();
+            this.form.nativeElement.reset();
+            this.toastService.success(
+              "Le nouveau compte a été créé avec succès, votre collaborateur vient de recevoir un email pour ajouter son mot de passe."
+            );
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error(
+              "veuillez vérifier les champs marqués en rouge dans le formulaire"
+            );
+          },
+        })
+      );
     }
   }
 

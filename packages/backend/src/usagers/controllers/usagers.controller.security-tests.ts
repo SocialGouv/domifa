@@ -1,3 +1,4 @@
+import { HttpStatus } from "@nestjs/common";
 import { AppTestContext, AppTestHttpClient } from "../../util/test";
 import { USER_STRUCTURE_ROLE_ALL } from "../../_common/model";
 import {
@@ -46,6 +47,7 @@ export const UsagersControllerSecurityTests: AppTestHttpClientSecurityTestDef[] 
         expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
           context.user,
           {
+            validExpectedResponseStatus: HttpStatus.CREATED,
             roles: ["simple", "responsable", "admin"],
           }
         ),
