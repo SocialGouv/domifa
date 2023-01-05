@@ -2,6 +2,7 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import {
   Component,
   Input,
+  OnDestroy,
   OnInit,
   TemplateRef,
   ViewChild,
@@ -18,19 +19,20 @@ import {
   Interaction,
 } from "../../../usager-shared/interfaces";
 import { InteractionService } from "../../../usager-shared/services/interaction.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-profil-historique-courriers",
   templateUrl: "./profil-historique-courriers.component.html",
   styleUrls: ["./profil-historique-courriers.component.css"],
 })
-export class ProfilHistoriqueCourriersComponent implements OnInit {
+export class ProfilHistoriqueCourriersComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
 
   public interactions: Interaction[];
   public interactionToDelete: Interaction | null;
-
+  private subscription = new Subscription();
   @ViewChild("deleteInteractionModal", { static: true })
   public deleteInteractionModal!: TemplateRef<NgbModalRef>;
 
@@ -56,37 +58,41 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
   public deleteInteraction() {
     if (this.interactionToDelete) {
       this.loading = true;
-      this.interactionService
-        .delete(this.usager.ref, this.interactionToDelete.uuid)
-        .subscribe({
-          next: (usager: UsagerLight) => {
-            this.usager = new UsagerFormModel(usager);
+      this.subscription.add(
+        this.interactionService
+          .delete(this.usager.ref, this.interactionToDelete.uuid)
+          .subscribe({
+            next: (usager: UsagerLight) => {
+              this.usager = new UsagerFormModel(usager);
 
-            const message =
-              this.interactionToDelete?.event === "create"
-                ? "supprimée"
-                : "restaurée";
+              const message =
+                this.interactionToDelete?.event === "create"
+                  ? "supprimée"
+                  : "restaurée";
 
-            this.toastService.success(`Interaction ${message} avec succès`);
-            this.interactionToDelete = null;
-            this.getInteractions();
-            this.closeModals();
-          },
-          error: () => {
-            this.toastService.error("Impossible de supprimer l'interaction");
-          },
-        });
+              this.toastService.success(`Interaction ${message} avec succès`);
+              this.interactionToDelete = null;
+              this.getInteractions();
+              this.closeModals();
+            },
+            error: () => {
+              this.toastService.error("Impossible de supprimer l'interaction");
+            },
+          })
+      );
     }
   }
 
   private getInteractions() {
-    this.interactionService
-      .getInteractions({
-        usagerRef: this.usager.ref,
-      })
-      .subscribe((interactions: Interaction[]) => {
-        this.interactions = interactions;
-      });
+    this.subscription.add(
+      this.interactionService
+        .getInteractions({
+          usagerRef: this.usager.ref,
+        })
+        .subscribe((interactions: Interaction[]) => {
+          this.interactions = interactions;
+        })
+    );
   }
 
   public openDeleteInteractionModal(restoreOrDelete: InteractionEvent): void {
@@ -105,5 +111,8 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
 
   public goToPrint(): void {
     window.print();
+  }
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

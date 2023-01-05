@@ -1,6 +1,6 @@
 import { RdvForm } from "./../../../../../_common/model/usager/rdv/RdvForm.type";
 import { CerfaDocType } from "src/_common/model/cerfa";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -37,6 +37,7 @@ import {
   getUsagerNomComplet,
   minDateToday,
 } from "../../../../shared";
+import { Subscription } from "rxjs";
 
 @Component({
   animations: [fadeInOut],
@@ -49,7 +50,7 @@ import {
   styleUrls: ["./step-rdv.component.css"],
   templateUrl: "./step-rdv.component.html",
 })
-export class StepRdvComponent implements OnInit {
+export class StepRdvComponent implements OnInit, OnDestroy {
   public rdvForm!: UntypedFormGroup;
 
   public usager!: UsagerFormModel;
@@ -59,6 +60,7 @@ export class StepRdvComponent implements OnInit {
   public agents: UserStructure[] = [];
 
   public rdvIsToday: boolean;
+  private subscription = new Subscription();
 
   /* Config datepickers */
   public dToday = new Date();
@@ -98,29 +100,30 @@ export class StepRdvComponent implements OnInit {
   public ngOnInit(): void {
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
-
-      this.usagerDossierService.findOne(id).subscribe({
-        next: (usager: UsagerLight) => {
-          this.titleService.setTitle(
-            "Rendez-vous de " + getUsagerNomComplet(usager)
-          );
-          this.usager = new UsagerFormModel(usager);
-          this.initForm();
-        },
-        error: () => {
-          this.router.navigate(["404"]);
-        },
-      });
+      this.subscription.add(
+        this.usagerDossierService.findOne(id).subscribe({
+          next: (usager: UsagerLight) => {
+            this.titleService.setTitle(
+              "Rendez-vous de " + getUsagerNomComplet(usager)
+            );
+            this.usager = new UsagerFormModel(usager);
+            this.initForm();
+          },
+          error: () => {
+            this.router.navigate(["404"]);
+          },
+        })
+      );
     } else {
       this.router.navigate(["404"]);
     }
   }
 
-  public getCerfa(typeCerfa: CerfaDocType = "attestation") {
+  public getCerfa(typeCerfa: CerfaDocType = "attestation"): void {
     return this.documentService.attestation(this.usager.ref, typeCerfa);
   }
 
-  public initForm() {
+  public initForm(): void {
     this.rdvForm = this.formBuilder.group({
       heureRdv: [
         this.usager.rdv.heureRdv,
@@ -131,47 +134,50 @@ export class StepRdvComponent implements OnInit {
       userId: [this.usager.rdv.userId, Validators.required],
     });
 
-    this.rdvForm.controls.jourRdv.valueChanges.subscribe(
-      (value: NgbDateStruct) => {
-        let isValueToday = false;
+    this.subscription.add(
+      this.rdvForm.controls.jourRdv.valueChanges.subscribe(
+        (value: NgbDateStruct) => {
+          let isValueToday = false;
 
-        if (!this.r.jourRdv.invalid) {
-          const jourRdv = new Date(this.nbgDate.formatEn(value));
+          if (!this.r.jourRdv.invalid) {
+            const jourRdv = new Date(this.nbgDate.formatEn(value));
 
-          if (differenceInCalendarDays(jourRdv, new Date()) === 0) {
-            isValueToday = true;
+            if (differenceInCalendarDays(jourRdv, new Date()) === 0) {
+              isValueToday = true;
 
-            this.rdvForm.controls.heureRdv.setValue(
-              format(addMinutes(new Date(), 1), "HH:mm"),
-              {
-                onlySelf: true,
-              }
-            );
+              this.rdvForm.controls.heureRdv.setValue(
+                format(addMinutes(new Date(), 1), "HH:mm"),
+                {
+                  onlySelf: true,
+                }
+              );
+            }
           }
+          this.rdvIsToday = isValueToday;
+          this.rdvForm.controls.heureRdv.updateValueAndValidity();
         }
-        this.rdvIsToday = isValueToday;
-        this.rdvForm.controls.heureRdv.updateValueAndValidity();
-      }
+      )
     );
 
     this.rdvForm.controls.jourRdv.setValue(this.usager.rdv.jourRdv);
 
     this.editRdv = this.usager.rdv.userId === null;
+    this.subscription.add(
+      this.usagerDossierService
+        .getAllUsersForAgenda()
+        .subscribe((users: UserStructure[]) => {
+          this.agents = users;
 
-    this.usagerDossierService
-      .getAllUsersForAgenda()
-      .subscribe((users: UserStructure[]) => {
-        this.agents = users;
+          const userIdRdv =
+            this.usager.rdv.userId === null
+              ? this.me?.id
+              : this.usager.rdv.userId;
 
-        const userIdRdv =
-          this.usager.rdv.userId === null
-            ? this.me?.id
-            : this.usager.rdv.userId;
-
-        this.rdvForm.controls.userId.setValue(userIdRdv, {
-          onlySelf: true,
-        });
-      });
+          this.rdvForm.controls.userId.setValue(userIdRdv, {
+            onlySelf: true,
+          });
+        })
+    );
   }
 
   public setValueRdv(value: boolean): void {
@@ -191,18 +197,22 @@ export class StepRdvComponent implements OnInit {
       userId: this.me?.id ?? 0,
     };
 
-    this.usagerDossierService.setRdv(rdvFormValue, this.usager.ref).subscribe({
-      next: (usager: UsagerLight) => {
-        this.loading = false;
-        this.router.navigate(["usager/" + usager.ref + "/edit/entretien"]);
-      },
-      error: () => {
-        this.loading = false;
-        this.toastService.error(
-          "Impossible de réaliser l'entretien maintenant"
-        );
-      },
-    });
+    this.subscription.add(
+      this.usagerDossierService
+        .setRdv(rdvFormValue, this.usager.ref)
+        .subscribe({
+          next: (usager: UsagerLight) => {
+            this.loading = false;
+            this.router.navigate(["usager/" + usager.ref + "/edit/entretien"]);
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error(
+              "Impossible de réaliser l'entretien maintenant"
+            );
+          },
+        })
+    );
   }
 
   public submitRdv(): void {
@@ -231,19 +241,22 @@ export class StepRdvComponent implements OnInit {
       dateRdv,
       userId: this.rdvForm.controls.userId.value,
     };
-
-    this.usagerDossierService.setRdv(rdvFormValue, this.usager.ref).subscribe({
-      next: (usager: UsagerLight) => {
-        this.loading = false;
-        this.editRdv = false;
-        this.toastService.success("Rendez-vous enregistré");
-        this.usager = new UsagerFormModel(usager);
-      },
-      error: () => {
-        this.loading = false;
-        this.toastService.error("Impossible d'enregistrer le rendez-vous");
-      },
-    });
+    this.subscription.add(
+      this.usagerDossierService
+        .setRdv(rdvFormValue, this.usager.ref)
+        .subscribe({
+          next: (usager: UsagerLight) => {
+            this.loading = false;
+            this.editRdv = false;
+            this.toastService.success("Rendez-vous enregistré");
+            this.usager = new UsagerFormModel(usager);
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error("Impossible d'enregistrer le rendez-vous");
+          },
+        })
+    );
   }
 
   private isHourOk(): ValidatorFn {
@@ -261,5 +274,9 @@ export class StepRdvComponent implements OnInit {
 
       return dateRdv < new Date() ? { dateInvalid: true } : null;
     };
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
