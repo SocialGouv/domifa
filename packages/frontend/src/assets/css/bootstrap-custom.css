@@ -59,20 +59,6 @@
   color: #062c33;
 }
 
-.alert-warning {
-  color: black;
-  background-color: #fff9f4;
-  border-color: #ffe1c6;
-}
-
-.alert-warning hr {
-  border-top-color: #ffe1c6;
-}
-
-.alert-warning .alert-link {
-  color: #533f03;
-}
-
 .alert-danger {
   color: black;
   background-color: #fff4f5;

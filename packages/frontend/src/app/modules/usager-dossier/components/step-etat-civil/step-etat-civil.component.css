@@ -5,3 +5,7 @@ label {
 ul {
   list-style-type: none;
 }
+
+.alert {
+  max-width: 850px;
+}

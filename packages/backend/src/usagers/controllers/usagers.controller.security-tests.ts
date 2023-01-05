@@ -33,10 +33,15 @@ export const UsagersControllerSecurityTests: AppTestHttpClientSecurityTestDef[] 
       }),
     },
     {
-      label: `${CONTROLLER}.isDoublon`,
+      label: `${CONTROLLER}.checkDuplicates`,
       query: async (context: AppTestContext) => ({
-        response: await AppTestHttpClient.get("/usagers/doublon/nom/prenom/4", {
+        response: await AppTestHttpClient.post("/usagers/check-duplicates", {
           context,
+          body: {
+            nom: "nom",
+            prenom: "prenom",
+            usagerRef: 4,
+          },
         }),
         expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
           context.user,

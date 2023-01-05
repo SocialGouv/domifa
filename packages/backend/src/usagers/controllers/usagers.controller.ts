@@ -45,6 +45,7 @@ import {
   USER_STRUCTURE_ROLE_ALL,
 } from "../../_common/model";
 import {
+  CheckDuplicateUsagerDto,
   CreateUsagerDto,
   EntretienDto,
   UpdatePortailUsagerOptionsDto,
@@ -269,19 +270,25 @@ export class UsagersController {
   }
 
   @AllowUserStructureRoles("simple", "responsable", "admin")
-  @Get("doublon/:nom/:prenom/:usagerRef")
-  public async isDoublon(
-    @Param("nom") nom: string,
-    @Param("prenom") prenom: string,
-    @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
+  @Post("check-duplicates")
+  public async checkDuplicates(
+    @Body() duplicateUsagerDto: CheckDuplicateUsagerDto,
     @CurrentUser() user: UserStructureAuthenticated
   ): Promise<Usager[]> {
-    return usagerLightRepository.findDoublons({
-      nom,
-      prenom,
-      ref: usagerRef,
-      structureId: user.structureId,
-    });
+    let query = `SELECT nom, prenom, ref, "dateNaissance" FROM usager WHERE "structureId" = $1 and LOWER("nom") = $2 and LOWER("prenom") = $3`;
+
+    const params = [
+      user.structureId,
+      duplicateUsagerDto.nom,
+      duplicateUsagerDto.prenom,
+    ];
+
+    if (duplicateUsagerDto.usagerRef) {
+      query = query + `  and "ref" = $4`;
+      params.push(duplicateUsagerDto.usagerRef);
+    }
+
+    return usagerRepository.query(query, params);
   }
 
   @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)

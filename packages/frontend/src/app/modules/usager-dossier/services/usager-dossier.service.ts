@@ -64,9 +64,14 @@ export class UsagerDossierService {
     );
   }
 
-  public isDoublon(nom: string, prenom: string, usagerRef: number) {
-    return this.http.get<UsagerLight[]>(
-      `${this.endPointUsagers}/doublon/${nom}/${prenom}/${usagerRef}`
+  public isDuplicate(params: {
+    nom: string;
+    prenom: string;
+    usagerRef: number | null;
+  }) {
+    return this.http.post<UsagerLight[]>(
+      `${this.endPointUsagers}/check-duplicates`,
+      params
     );
   }
 

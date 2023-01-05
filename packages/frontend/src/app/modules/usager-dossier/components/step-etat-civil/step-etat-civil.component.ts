@@ -1,5 +1,5 @@
 import { EtatCivilParentFormComponent } from "./../../../usager-shared/components/etat-civil-parent-form/etat-civil-parent-form.component";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { UntypedFormBuilder } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -35,9 +35,9 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 })
 export class StepEtatCivilComponent
   extends EtatCivilParentFormComponent
-  implements OnInit
+  implements OnInit, OnDestroy
 {
-  public doublons: UsagerLight[];
+  public duplicates: UsagerLight[];
 
   constructor(
     public formBuilder: UntypedFormBuilder,
@@ -49,7 +49,7 @@ export class StepEtatCivilComponent
     public titleService: Title
   ) {
     super(formBuilder, authService);
-    this.doublons = [];
+    this.duplicates = [];
   }
 
   public ngOnInit(): void {
@@ -74,32 +74,34 @@ export class StepEtatCivilComponent
     }
   }
 
-  public isDoublon(): boolean {
+  public isDoublon(): void {
     if (
-      this.usagerForm.controls.nom.value !== "" &&
-      this.usagerForm.controls.prenom.value !== "" &&
-      this.usagerForm.controls.nom.value !== null &&
       this.usagerForm.controls.nom.value &&
-      this.usagerForm.controls.prenom.value !== null &&
       this.usagerForm.controls.prenom.value
     ) {
-      this.usagerDossierService
-        .isDoublon(
-          this.usagerForm.controls.nom.value,
-          this.usagerForm.controls.prenom.value,
-          this.usager.ref
-        )
-        .subscribe((usagersDoublon: UsagerLight[]) => {
-          this.doublons = [];
-          if (usagersDoublon.length !== 0) {
-            this.toastService.warning("Un homonyme potentiel a été détecté !");
-            usagersDoublon.forEach((doublon: UsagerLight) => {
-              this.doublons.push(doublon);
-            });
-          }
-        });
+      const params: {
+        nom: string;
+        prenom: string;
+        usagerRef: number | null;
+      } = {
+        nom: this.usagerForm.controls.nom.value,
+        prenom: this.usagerForm.controls.prenom.value,
+        usagerRef: this.usager.ref || null,
+      };
+
+      this.subscription.add(
+        this.usagerDossierService
+          .isDuplicate(params)
+          .subscribe((duplicates: UsagerLight[]) => {
+            this.duplicates = duplicates;
+            if (duplicates.length !== 0) {
+              this.toastService.warning(
+                "Un homonyme potentiel a été détecté !"
+              );
+            }
+          })
+      );
     }
-    return false;
   }
 
   public submitInfos(): void {
@@ -117,18 +119,28 @@ export class StepEtatCivilComponent
       this.usagerForm.value
     );
 
-    this.usagerDossierService
-      .editStepEtatCivil(formValue, this.usager.ref)
-      .subscribe({
-        next: (usager: UsagerLight) => {
-          this.usager = new UsagerFormModel(usager);
-          this.toastService.success("Enregistrement réussi");
-          this.router.navigate(["usager/" + usager.ref + "/edit/rendez-vous"]);
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error("Veuillez vérifier les champs du formulaire");
-        },
-      });
+    this.subscription.add(
+      this.usagerDossierService
+        .editStepEtatCivil(formValue, this.usager.ref)
+        .subscribe({
+          next: (usager: UsagerLight) => {
+            this.usager = new UsagerFormModel(usager);
+            this.toastService.success("Enregistrement réussi");
+            this.router.navigate([
+              "usager/" + usager.ref + "/edit/rendez-vous",
+            ]);
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error(
+              "Veuillez vérifier les champs du formulaire"
+            );
+          },
+        })
+    );
+  }
+
+  public ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

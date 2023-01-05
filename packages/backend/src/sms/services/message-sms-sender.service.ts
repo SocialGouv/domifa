@@ -14,7 +14,14 @@ import { AxiosError } from "@nestjs/terminus/dist/errors/axios.error";
 export class MessageSmsSenderService {
   constructor(private httpService: HttpService) {}
 
-  public async sendSms(message: MessageSms): Promise<MessageSms> {
+  public async sendSms(message: {
+    content: string;
+    phoneNumber: string;
+    senderName: string;
+    structureId: number;
+    uuid: string;
+    errorCount: number;
+  }): Promise<MessageSms> {
     const options: {
       key: string;
       message: string;
@@ -24,8 +31,7 @@ export class MessageSmsSenderService {
       key: domifaConfig().sms.apiKey,
       message: message.content,
       destinataires:
-        domifaConfig().sms.phoneNumberRedirectAllTo ||
-        message.phoneNumber.replace(/\s/g, ""),
+        domifaConfig().sms.phoneNumberRedirectAllTo || message.phoneNumber,
       expediteur: message.senderName,
     };
 
@@ -71,6 +77,7 @@ export class MessageSmsSenderService {
     }
 
     await messageSmsRepository.update({ uuid: message.uuid }, updateSms);
+
     const messageSms = await messageSmsRepository.findOneBy({
       uuid: message.uuid,
     });
@@ -78,7 +85,6 @@ export class MessageSmsSenderService {
     if (updateSms.status === "FAILURE") {
       throw new Error(`Sms error: ${updateSms.errorMessage}`);
     }
-
     return messageSms;
   }
 }

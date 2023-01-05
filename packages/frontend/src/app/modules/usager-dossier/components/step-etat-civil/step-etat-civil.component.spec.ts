@@ -55,7 +55,7 @@ describe("StepEtatCivilComponent", () => {
   });
 
   it("should update header", () => {
-    expect(component.doublons).toEqual([]);
+    expect(component.duplicates).toEqual([]);
 
     expect(component.LIEN_PARENTE_LABELS).toBeDefined();
 
@@ -72,7 +72,7 @@ describe("StepEtatCivilComponent", () => {
     component.usagerForm.controls.nom.setValue("Mamadou");
     component.usagerForm.controls.prenom.setValue("Diallo");
     component.isDoublon();
-    expect(component.doublons).toEqual([]);
+    expect(component.duplicates).toEqual([]);
   }));
 
   it("6. Valid form", () => {

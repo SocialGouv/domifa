@@ -5,7 +5,6 @@ import { domifaConfig } from "../../../config";
 import {
   MonitoringBatchProcessTrigger,
   monitoringBatchProcessSimpleCountRunner,
-  structureRepository,
 } from "../../../database";
 import { messageSmsRepository } from "../../../database/services/message-sms";
 import { appLogger } from "../../../util";
@@ -100,21 +99,39 @@ export class CronSmsInteractionSenderService {
       `[CronSms] [sendSmsInteraction] Start sendSmsInteraction for ${timeZone} at ${new Date().toString()}`
     );
 
-    const structureIds = await structureRepository.getStructureIdsWithSms(
-      timeZone
+    const messagesToSend: {
+      content: string;
+      phoneNumber: string;
+      senderName: string;
+      structureId: number;
+      uuid: string;
+      errorCount: number;
+    }[] = await messageSmsRepository.query(
+      `SELECT
+       m."uuid",
+      "errorCount",
+      "structureId",
+      "content",
+      "phoneNumber",
+      "senderName"
+      FROM message_sms m
+      join structure s on s.id = m."structureId"
+      WHERE m.status = 'TO_SEND' and m."smsId" != 'echeanceDeuxMois' and
+      (s.sms->>'enabledByDomifa')::boolean is true and (s.sms->>'enabledByStructure')::boolean is true AND s."timeZone"=$1`,
+      [timeZone]
     );
 
-    if (!structureIds || structureIds.length === 0) {
+    if (!messagesToSend || messagesToSend.length === 0) {
       appLogger.warn(
-        `[CronSms] [sendSmsInteraction] No structure with SMS for ${timeZone} at ${new Date().toString()}`
+        `[CronSms] [sendSmsInteraction] No SMS to send for ${timeZone} at ${new Date().toString()}`
       );
       return;
     }
 
     appLogger.warn(
       `[CronSms] [sendSmsInteraction] ${
-        structureIds.length
-      } structures with SMS enabled for ${timeZone} at ${new Date().toString()}`
+        messagesToSend.length
+      } SMS to send enabled for ${timeZone} at ${new Date().toString()}`
     );
 
     await monitoringBatchProcessSimpleCountRunner.monitorProcess(
@@ -123,21 +140,18 @@ export class CronSmsInteractionSenderService {
         trigger,
       },
       async ({ monitorTotal, monitorSuccess, monitorError }) => {
-        const messageSmsList =
-          await messageSmsRepository.findInteractionSmsToSend(structureIds);
+        monitorTotal(messagesToSend.length);
 
-        monitorTotal(messageSmsList.length);
-
-        for (let i = 0; i < messageSmsList.length; i++) {
+        for (let i = 0; i < messagesToSend.length; i++) {
           // Mesure de prévention pour ne pas surcharger l'API
-          if (i % 200 === 0) {
+          if (i % 300 === 0) {
             setTimeout(() => {
               appLogger.warn(`[CronSms] ... Wait 10 seconds`);
             }, 10000);
           }
 
           try {
-            await this.messageSmsSenderService.sendSms(messageSmsList[i]);
+            await this.messageSmsSenderService.sendSms(messagesToSend[i]);
             monitorSuccess();
           } catch (err) {
             monitorError(err as Error);

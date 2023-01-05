@@ -8,10 +8,7 @@ import { SmsController } from "./sms.controller";
 import { CronSmsFetchEndDomService } from "./services/senders/cron-sms-fetch-end-dom.service";
 import { MessageSmsSenderService } from "./services/message-sms-sender.service";
 import { MessageSmsService } from "./services/message-sms.service";
-import {
-  CronSmsInteractionSenderService,
-  CronSmsEndDomSenderService,
-} from "./services/senders";
+import { CronSmsInteractionSenderService } from "./services/senders";
 
 @Module({
   controllers: [SmsController],
@@ -20,7 +17,6 @@ import {
     MessageSmsService,
     CronSmsInteractionSenderService,
     CronSmsFetchEndDomService,
-    CronSmsEndDomSenderService,
   ],
   imports: [
     HttpModule,
@@ -33,7 +29,6 @@ import {
     MessageSmsService,
     CronSmsInteractionSenderService,
     CronSmsFetchEndDomService,
-    CronSmsEndDomSenderService,
   ],
 })
 export class SmsModule {}
