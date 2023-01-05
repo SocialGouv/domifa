@@ -91,7 +91,7 @@ export class AuthService {
     this.currentUserSubject.next(null);
     usagersCache.clearCache();
     localStorage.removeItem("currentUser");
-    localStorage.removeItem("filters");
+    localStorage.removeItem("MANAGE_USAGERS");
     // Ajout d'infos pour Sentry
     configureScope((scope) => {
       scope.setTag("structure", "none");
@@ -127,7 +127,6 @@ export class AuthService {
 
   private setUser(user: UserStructure) {
     usagersCache.clearCache();
-    localStorage.removeItem("filters");
     localStorage.setItem("currentUser", JSON.stringify(user));
     this.currentUserSubject.next(user);
     this.userIdleService.startWatching();
