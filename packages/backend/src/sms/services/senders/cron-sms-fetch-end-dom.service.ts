@@ -1,4 +1,5 @@
-import { usagerLightRepository } from "../../../database/services/usager/usagerLightRepository.service";
+import { usagerRepository } from "./../../../database/services/usager/usagerRepository.service";
+
 import { Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
 import { domifaConfig } from "../../../config";
@@ -6,13 +7,26 @@ import { setHours, setMinutes } from "date-fns";
 
 import { appLogger } from "../../../util";
 import { messageSmsRepository } from "../../../database/services/message-sms";
-import { structureRepository } from "../../../database";
+
 import { TimeZone } from "../../../util/territoires";
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 import { getPhoneString } from "../../../util/phone/phoneUtils.service";
+import { PhoneNumberFormat } from "google-libphonenumber";
+import {
+  Telephone,
+  StructureSmsParams,
+  MessageSms,
+} from "../../../_common/model";
+import {
+  MonitoringBatchProcessTrigger,
+  monitoringBatchProcessSimpleCountRunner,
+} from "../../../database";
+import { MessageSmsSenderService } from "../message-sms-sender.service";
 
 @Injectable()
 export class CronSmsFetchEndDomService {
+  constructor(private messageSmsSenderService: MessageSmsSenderService) {}
+
   @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "Europe/Paris",
   })
@@ -96,59 +110,129 @@ export class CronSmsFetchEndDomService {
       `[CronSms] [CronSmsFetchEndDomService] Start cron in ${timeZone} at ${new Date().toString()}`
     );
 
-    const structuresWithSms = await structureRepository.getStructureWithSms(
-      timeZone,
-      ["id", "sms"]
+    const scheduledDate = setMinutes(setHours(new Date(), 19), 0);
+
+    const usagersWithSms: {
+      structureId: number;
+      ref: number;
+      contactByPhone: boolean;
+      telephone: Telephone;
+      sms: StructureSmsParams;
+    }[] = await usagerRepository.query(
+      `SELECT "structureId", "ref", "contactByPhone", u."telephone", s.sms
+        FROM usager u
+        join structure s on s.id = u."structureId"
+        WHERE decision->>'statut' = 'VALIDE'
+        AND "contactByPhone" is true
+        AND to_char((decision->>'dateFin')::timestamptz, 'YYYY-MM-DD') = to_char(current_date + interval '1 month' * 2, 'YYYY-MM-DD')
+        and (s.sms->>'enabledByDomifa')::boolean is true and (s.sms->>'enabledByStructure')::boolean is true AND "timeZone" = $1`,
+      [timeZone]
     );
 
-    if (!structuresWithSms || structuresWithSms.length === 0) {
+    if (usagersWithSms.length === 0) {
       appLogger.warn(
         `[CronSms] [CronSmsFetchEndDomService] No structure with SMS for ${timeZone} at ${new Date().toString()}`
       );
       return;
     }
 
-    const scheduledDate = setMinutes(setHours(new Date(), 19), 0);
+    const smsToSave: MessageSms[] = [];
 
-    appLogger.debug(
-      `[SMS-REMINDER-GEN] ${structuresWithSms.length} structures avec SMS actif`
+    for (const usager of usagersWithSms) {
+      smsToSave.push({
+        usagerRef: usager.ref,
+        structureId: usager.structureId,
+        content: `Bonjour,\n\nVotre domiciliation expire dans 2 mois, nous vous invitons à vous rendre dans votre structure.\n\n${usager.sms.senderDetails}`,
+        senderName: usager.sms.senderName,
+        status: "TO_SEND",
+        smsId: "echeanceDeuxMois",
+        phoneNumber: getPhoneString(usager.telephone, PhoneNumberFormat.E164),
+        scheduledDate,
+        errorCount: 0,
+      });
+    }
+
+    await messageSmsRepository.save(smsToSave);
+
+    appLogger.warn(
+      `[CronSms] [CronSmsFetchEndDomService] End cron in ${timeZone} at ${new Date().toString()}`
     );
 
-    for (const structure of structuresWithSms) {
-      const usagersWithSms = await usagerLightRepository.findManyWithQuery({
-        select: ["structureId", "ref", "contactByPhone", "telephone"],
-        where: `decision->>'statut' = 'VALIDE'
-                AND "structureId" = :structureId
-                AND "contactByPhone" is true
-                AND to_char((decision->>'dateFin')::timestamptz, 'YYYY-MM-DD') = to_char(current_date + interval '1 month' * 2, 'YYYY-MM-DD')`,
-        params: {
-          structureId: structure.id,
-        },
-      });
+    await this.sendSmsEcheance("cron", timeZone);
+  }
 
-      if (usagersWithSms.length === 0) {
-        continue;
-      }
-
-      appLogger.debug(
-        `[CronSms] [CronSmsFetchEndDomService] [${structure.id}] ${usagersWithSms.length} usagers à prévenir par SMS`
+  public async sendSmsEcheance(
+    trigger: MonitoringBatchProcessTrigger,
+    timeZone: TimeZone
+  ) {
+    if (!isCronEnabled() || !domifaConfig().sms.enabled) {
+      appLogger.warn(
+        `[CronSms] [sendSmsEcheance] SMS disabled for ${timeZone} at ${new Date().toString()}`
       );
-
-      for (const usager of usagersWithSms) {
-        await messageSmsRepository.upsertEndDom({
-          usagerRef: usager.ref,
-          structureId: usager.structureId,
-          content: `Bonjour,\n\nVotre domiciliation expire dans 2 mois, nous vous invitons à vous rendre dans votre structure.\n\n${structure.sms.senderDetails}`,
-          smsId: "echeanceDeuxMois",
-          status: "TO_SEND",
-          errorCount: 0,
-          scheduledDate,
-          phoneNumber: getPhoneString(usager.telephone),
-          senderName: structure.sms.senderName,
-        });
-      }
       return;
     }
-    return;
+
+    appLogger.warn(
+      `[CronSms] [sendSmsEcheance] Start sendSmsEcheance for ${timeZone} at ${new Date().toString()}`
+    );
+
+    const messagesToSend: {
+      content: string;
+      phoneNumber: string;
+      senderName: string;
+      structureId: number;
+      uuid: string;
+      errorCount: number;
+    }[] = await messageSmsRepository.query(
+      `SELECT
+       m."uuid",
+      "errorCount",
+      "structureId",
+      "content",
+      "phoneNumber",
+      "senderName" FROM message_sms m
+      join structure s on s.id = m."structureId"
+      WHERE m.status = 'TO_SEND' and m."smsId" = 'echeanceDeuxMois' and
+      (s.sms->>'enabledByDomifa')::boolean is true and (s.sms->>'enabledByStructure')::boolean is true AND s."timeZone"=$1`,
+      [timeZone]
+    );
+
+    if (!messagesToSend || messagesToSend.length === 0) {
+      appLogger.warn(
+        `[CronSms] [sendSmsEcheance] No SMS to send for ${timeZone} at ${new Date().toString()}`
+      );
+      return;
+    }
+
+    appLogger.warn(
+      `[CronSms] [sendSmsEcheance] ${
+        messagesToSend.length
+      } SMS to send enabled for ${timeZone} at ${new Date().toString()}`
+    );
+
+    await monitoringBatchProcessSimpleCountRunner.monitorProcess(
+      {
+        processId: "sms-messages-consumer",
+        trigger,
+      },
+      async ({ monitorTotal, monitorSuccess, monitorError }) => {
+        monitorTotal(messagesToSend.length);
+
+        for (let i = 0; i < messagesToSend.length; i++) {
+          try {
+            await this.messageSmsSenderService.sendSms(messagesToSend[i]);
+            monitorSuccess();
+          } catch (err) {
+            monitorError(err as Error);
+            appLogger.warn(
+              `[CronSms] ERROR in sending SMS : ${JSON.stringify(err)}`,
+              {
+                sentry: true,
+              }
+            );
+          }
+        }
+      }
+    );
   }
 }

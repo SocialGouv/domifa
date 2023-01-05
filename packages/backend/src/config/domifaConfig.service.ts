@@ -267,13 +267,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             defaultValue: "0 0 18 * * *",
           }
         ),
-        sendEndDomCronTime: configParser.parseString(
-          x,
-          "DOMIFA_CRON_SEND_END_DOM_CRONTIME",
-          {
-            defaultValue: "0 19 * * *",
-          }
-        ),
       },
       monitoringCleaner: {
         crontime: configParser.parseString(

@@ -9,36 +9,9 @@ const baseRepository = pgRepository.get<UsagerTable, UsagerLight>(UsagerTable, {
 
 export const usagerLightRepository = {
   ...baseRepository,
-  findDoublons,
   findNextMeetings,
   findLastFiveCustomRef,
 };
-
-async function findDoublons({
-  nom,
-  prenom,
-  ref,
-  structureId,
-}: {
-  nom: string;
-  prenom: string;
-  ref: number;
-  structureId: number;
-}): Promise<UsagerLight[]> {
-  return await baseRepository.findManyWithQuery({
-    select: USAGER_LIGHT_ATTRIBUTES,
-    where: `"structureId" = :structureId
-      and "ref" <> :usagerRef
-      and LOWER("nom") = :nom
-      and LOWER("prenom") = :prenom`,
-    params: {
-      usagerRef: ref,
-      structureId,
-      nom: nom.toLowerCase(),
-      prenom: prenom.toLowerCase(),
-    },
-  });
-}
 
 async function findLastFiveCustomRef({
   structureId,

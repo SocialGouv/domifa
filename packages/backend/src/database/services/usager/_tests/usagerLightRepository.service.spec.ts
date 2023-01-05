@@ -9,37 +9,6 @@ describe("usagerLightRepository", () => {
     await AppTestHelper.tearDownTestConnection();
   });
 
-  it("findDoublons found", async () => {
-    const doublons = await usagerLightRepository.findDoublons({
-      nom: "DUPONT",
-      prenom: "FRED",
-      ref: 4,
-      structureId: 1,
-    });
-    expect(doublons.length).toEqual(1);
-    const doublon = doublons[0];
-    expect(doublon.nom).toEqual("Dupont");
-    expect(doublon.prenom).toEqual("Fred");
-  });
-  it("findDoublons not found (same id)", async () => {
-    const doublons = await usagerLightRepository.findDoublons({
-      nom: "DUPONT",
-      prenom: "FRED",
-      ref: 3,
-      structureId: 1,
-    });
-    expect(doublons.length).toEqual(0);
-  });
-  it("findDoublons NOT found", async () => {
-    const doublons = await usagerLightRepository.findDoublons({
-      nom: "DUPONT",
-      prenom: "Vladimir",
-      ref: 3,
-      structureId: 1,
-    });
-    expect(doublons.length).toEqual(0);
-  });
-
   it("findNextMeetings", async () => {
     const rendezVous = await usagerLightRepository.findNextMeetings({
       userId: 2,

@@ -45,7 +45,6 @@ async function checkHardResetToken({
 }
 
 async function getStructureIdsWithSms(timeZone: TimeZone): Promise<number[]> {
-  // Liste des structures accessibles
   const structures = await structureRepository.findManyWithQuery({
     where: `(sms->>'enabledByDomifa')::boolean is true and (sms->>'enabledByStructure')::boolean is true AND "timeZone" = :timezone`,
     select: ["id"],
@@ -64,7 +63,6 @@ async function getStructureWithSms(
   timeZone: TimeZone,
   select: (keyof StructureTable)[]
 ): Promise<Structure[]> {
-  // Liste des structures accessibles
   return await structureRepository.findManyWithQuery({
     where: `(sms->>'enabledByDomifa')::boolean is true and (sms->>'enabledByStructure')::boolean is true AND "timeZone" = :timezone`,
     select,

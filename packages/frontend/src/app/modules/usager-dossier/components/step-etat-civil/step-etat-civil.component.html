@@ -7,18 +7,21 @@
     <div
       @fadeInOut
       class="d-block text-center mx-auto alert-warning alert"
-      *ngIf="doublons.length > 0"
+      *ngIf="duplicates.length > 0"
     >
       <div class="d-block">
-        Attention, au moins doublon potentiel a été détecté
+        Attention, au moins un doublon potentiel a été détecté
       </div>
       <div class="d-block">
         <ul>
-          <li *ngFor="let doublon of doublons">
-            <a [routerLink]="'/profil/general/' + doublon.ref">
-              <strong>{{ doublon.nom | uppercase }}</strong>
-              {{ doublon.prenom }}</a
-            >, né(e) le {{ doublon.dateNaissance | date : "dd/MM/yyyy" }}
+          <li *ngFor="let duplicate of duplicates">
+            <a
+              target="_blank"
+              [routerLink]="'/profil/general/' + duplicate.ref"
+            >
+              <strong>{{ duplicate.nom | uppercase }}</strong>
+              {{ duplicate.prenom }}</a
+            >, né(e) le {{ duplicate.dateNaissance | date : "dd/MM/yyyy" }}
           </li>
         </ul>
       </div>
