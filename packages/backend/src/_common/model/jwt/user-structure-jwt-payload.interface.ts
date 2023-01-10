@@ -10,5 +10,6 @@ export type UserStructureJwtPayload = UseBaseJwtPayload<
   prenom: string;
   role: UserStructureRole;
   lastLogin: Date;
+  acceptTerms: Date | null;
   structureId: number;
 };

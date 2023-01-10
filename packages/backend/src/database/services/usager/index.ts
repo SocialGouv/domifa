@@ -7,5 +7,4 @@ export * from "./usagerHistoryStatsPeriodRepository.service";
 export * from "./usagerLightRepository.service";
 export * from "./usagerNotesRepository.service";
 export * from "./usagerOptionsHistoryRepository.service";
-export * from "./usagerPortailRepository.service";
 export * from "./usagerRepository.service";

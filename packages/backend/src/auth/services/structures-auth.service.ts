@@ -21,6 +21,7 @@ export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
   "verified",
   "structureId",
   "lastLogin",
+  "acceptTerms",
   "fonction",
   "role",
 ];
@@ -42,6 +43,7 @@ export class StructuresAuthService {
       nom: user.nom,
       prenom: user.prenom,
       role: user.role,
+      acceptTerms: user.acceptTerms,
       structureId: user.structureId,
       isSuperAdminDomifa,
     };

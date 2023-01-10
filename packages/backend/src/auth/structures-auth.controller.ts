@@ -67,6 +67,7 @@ export class StructuresAuthController {
       nom: user.nom,
       prenom: user.prenom,
       role: user.role,
+      acceptTerms: user.acceptTerms,
       structure: user.structure,
       structureId: user.structureId,
     });

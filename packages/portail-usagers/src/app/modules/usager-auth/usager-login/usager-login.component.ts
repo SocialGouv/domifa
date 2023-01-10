@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -17,13 +17,14 @@ import type {
 import { UsagerAuthService } from "../services/usager-auth.service";
 import { PasswordValidator } from "./password-validator.service";
 import { CustomToastService } from "../../shared/services/custom-toast.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-usager-login",
   styleUrls: ["./usager-login.component.css"],
   templateUrl: "./usager-login.component.html",
 })
-export class UsagerLoginComponent implements OnInit {
+export class UsagerLoginComponent implements OnInit, OnDestroy {
   public loginForm!: UntypedFormGroup;
 
   public hidePassword: boolean;
@@ -46,6 +47,11 @@ export class UsagerLoginComponent implements OnInit {
     this.hidePasswordNew = true;
     this.loading = false;
     this.usagerProfile = null;
+  }
+  private subscription = new Subscription();
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   public ngOnInit(): void {
@@ -135,44 +141,46 @@ export class UsagerLoginComponent implements OnInit {
     const loginForm = this.loginForm.value as PortailUsagerAuthLoginForm;
     this.loading = true;
 
-    this.authService.login(loginForm).subscribe({
-      next: (apiAuthResponse: PortailUsagerAuthApiResponse) => {
-        this.toastr.success("Connexion réussie !");
+    this.subscription.add(
+      this.authService.login(loginForm).subscribe({
+        next: (apiAuthResponse: PortailUsagerAuthApiResponse) => {
+          this.toastr.success("Connexion réussie !");
 
-        // SAVE USER & Tokenn
-        this.authService.saveToken(apiAuthResponse);
+          // SAVE USER & Tokenn
+          this.authService.saveToken(apiAuthResponse);
 
-        this.loading = false;
-        this.router.navigate(["/account"]);
+          this.loading = false;
+          this.router.navigate(["/account"]);
 
-        this.matomo.trackEvent(
-          "login-portail-usagers",
-          "login_success",
-          "null",
-          1,
-        );
-      },
-
-      error: (err) => {
-        this.loading = false;
-        if (err?.error?.message === "CHANGE_PASSWORD_REQUIRED") {
-          this.switchToChangePasswordMode();
           this.matomo.trackEvent(
             "login-portail-usagers",
-            "login_success_first_time",
+            "login_success",
             "null",
             1,
           );
-        } else {
-          this.toastr.error("Login et / ou mot de passe incorrect");
-          this.matomo.trackEvent(
-            "login-portail-usagers",
-            "login_error",
-            "null",
-            1,
-          );
-        }
-      },
-    });
+        },
+
+        error: (err) => {
+          this.loading = false;
+          if (err?.error?.message === "CHANGE_PASSWORD_REQUIRED") {
+            this.switchToChangePasswordMode();
+            this.matomo.trackEvent(
+              "login-portail-usagers",
+              "login_success_first_time",
+              "null",
+              1,
+            );
+          } else {
+            this.toastr.error("Login et / ou mot de passe incorrect");
+            this.matomo.trackEvent(
+              "login-portail-usagers",
+              "login_error",
+              "null",
+              1,
+            );
+          }
+        },
+      }),
+    );
   }
 }

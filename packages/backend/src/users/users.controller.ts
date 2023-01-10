@@ -1,3 +1,4 @@
+import { newUserStructureRepository } from "./../database/services/user-structure/userStructureRepository.service";
 import {
   Body,
   Controller,
@@ -55,6 +56,24 @@ export class UsersController {
       structureId: user.structureId,
       verified: true,
     });
+  }
+
+  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+  @ApiOperation({ summary: "Accepter les CGU" })
+  @Get("accept-terms")
+  public async acceptTerms(
+    @CurrentUser() user: UserStructureAuthenticated,
+    @Res() res: Response
+  ) {
+    await newUserStructureRepository.update(
+      {
+        id: user.id,
+      },
+      {
+        acceptTerms: new Date(),
+      }
+    );
+    return res.status(HttpStatus.OK);
   }
 
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)

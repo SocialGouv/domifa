@@ -12,5 +12,6 @@ export type UserStructurePublic = Pick<
   | "verified"
   | "structureId"
   | "fonction"
+  | "acceptTerms"
   | "lastLogin"
 >;
