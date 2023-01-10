@@ -51,6 +51,8 @@ const structureDto: StructureDto = {
   options: {
     numeroBoite: false,
   },
+  acceptCgu: true,
+  readCgu: true,
   timeZone: "Europe/Paris",
 };
 

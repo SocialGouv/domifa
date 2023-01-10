@@ -1,4 +1,4 @@
-import { usagerPortailRepository } from "../../../database";
+import { usagerRepository, USAGER_PORTAIL_ATTRIBUTES } from "../../../database";
 import { PortailUsagerProfile } from "../../../_common/model";
 
 export const portailUsagerProfilBuilder = {
@@ -10,8 +10,11 @@ async function build({
 }: {
   usagerUUID: string;
 }): Promise<PortailUsagerProfile> {
-  const usager = await usagerPortailRepository.findOne({
-    uuid: usagerUUID,
+  const usager = await usagerRepository.findOneOrFail({
+    where: {
+      uuid: usagerUUID,
+    },
+    select: USAGER_PORTAIL_ATTRIBUTES,
   });
 
   const portailUsagerProfile: PortailUsagerProfile = {

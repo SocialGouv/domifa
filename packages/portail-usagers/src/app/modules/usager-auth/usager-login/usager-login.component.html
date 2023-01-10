@@ -50,16 +50,24 @@
               }"
             />
             <div class="input-group-append">
-              <span
+              <button
+                type="button"
                 class="input-group-text"
+                [attr.aria-label]="
+                  (hidePasswordNew ? 'Afficher' : 'Masquer') +
+                  ' ou masquer le mot de passe'
+                "
+                [attr.aria-checked]="!hidePasswordNew"
+                role="switch"
                 (click)="this.hidePasswordNew = !this.hidePasswordNew"
               >
                 <fa-icon
+                  aria-hidden="true"
                   [icon]="
                     hidePasswordNew ? ['far', 'eye'] : ['far', 'eye-slash']
                   "
                 ></fa-icon>
-              </span>
+              </button>
             </div>
           </div>
           <div
@@ -196,16 +204,25 @@
               }"
             />
             <div class="input-group-append">
-              <span
+              <button
+                type="button"
+                class="input-group-text"
+                [attr.aria-label]="
+                  (hidePasswordNew ? 'Afficher' : 'Masquer') +
+                  ' ou masquer le mot de passe'
+                "
+                [attr.aria-checked]="!hidePasswordNew"
+                role="switch"
                 class="input-group-text"
                 (click)="this.hidePasswordNew = !this.hidePasswordNew"
               >
                 <fa-icon
+                  aria-hidden="true"
                   [icon]="
                     hidePasswordNew ? ['far', 'eye'] : ['far', 'eye-slash']
                   "
                 ></fa-icon>
-              </span>
+              </button>
             </div>
           </div>
           <div
@@ -249,14 +266,22 @@
             }"
           />
           <div class="input-group-append">
-            <span
+            <button
+              type="button"
               class="input-group-text"
+              [attr.aria-label]="
+                (hidePassword ? 'Afficher' : 'Masquer') +
+                ' ou masquer le mot de passe'
+              "
+              [attr.aria-checked]="!hidePassword"
+              role="switch"
               (click)="this.hidePassword = !this.hidePassword"
             >
               <fa-icon
+                aria-hidden="true"
                 [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
               ></fa-icon>
-            </span>
+            </button>
           </div>
         </div>
         <div

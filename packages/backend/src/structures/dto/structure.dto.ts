@@ -2,6 +2,8 @@ import { StructureOptionsDto } from "./structure-options.dto";
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams, Type } from "class-transformer";
 import {
+  Equals,
+  IsBoolean,
   IsEmail,
   IsEmpty,
   IsIn,
@@ -162,4 +164,12 @@ export class StructureDto {
   @IsOptional()
   @IsTimeZone()
   public timeZone: TimeZone;
+
+  @IsBoolean()
+  @Equals(true)
+  readCgu: boolean;
+
+  @IsBoolean()
+  @Equals(true)
+  acceptCgu: boolean;
 }

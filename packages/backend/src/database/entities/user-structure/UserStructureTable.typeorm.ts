@@ -66,6 +66,9 @@ export class UserStructureTable
   @Column({ type: "boolean", default: true })
   verified: boolean;
 
+  @Column({ type: "timestamptz", nullable: true })
+  acceptTerms: Date;
+
   @BeforeInsert()
   nameToUpperCase() {
     this.email = this.email.toLowerCase();

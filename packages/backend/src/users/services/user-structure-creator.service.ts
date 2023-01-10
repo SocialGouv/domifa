@@ -19,13 +19,16 @@ async function createUserWithPassword(
   {
     role,
     structureId,
+    firstAccount,
   }: {
     role: UserStructureRole;
     structureId: number;
+    firstAccount?: boolean;
   }
 ): Promise<{ user: UserStructureTable; userSecurity: UserStructureSecurity }> {
   const createdUser = new UserStructureTable(userDto);
   createdUser.structureId = structureId;
+  createdUser.acceptTerms = firstAccount ? new Date() : null;
   createdUser.role = role;
   createdUser.verified = false;
   createdUser.password = await passwordGenerator.generatePasswordHash({
