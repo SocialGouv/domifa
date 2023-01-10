@@ -28,6 +28,7 @@ import { SharedModule } from "../shared/shared.module";
 import { ContactSupportComponent } from "./components/contact-support/contact-support.component";
 import { LoginComponent } from "./components/login/login.component";
 import { PlanSiteComponent } from "./components/plan-site/plan-site.component";
+import { CguResponsableComponent } from "./components/_static/cgu-responsable/cgu-responsable.component";
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { PlanSiteComponent } from "./components/plan-site/plan-site.component";
     ContactSupportComponent,
     LoginComponent,
     PlanSiteComponent,
+    CguResponsableComponent,
   ],
   exports: [LoadingComponent, NotFoundComponent, NavbarComponent],
   imports: [

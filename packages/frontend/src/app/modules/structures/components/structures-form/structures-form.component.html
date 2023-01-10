@@ -525,6 +525,51 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="col-md-12 required">
+          <input
+            type="checkbox"
+            formControlName="readCgu"
+            class="form-check-input me-2"
+            [ngClass]="{
+              'is-invalid': submitted && f.readCgu?.errors
+            }"
+            id="readCgu"
+            required
+          />
+          <label class="form-check-label" for="readCgu"
+            >Je confirme que le responsable de la structure a lu les
+            <a routerLink="/cgu-responsable" target="_blank"
+              >CGU du responsable de structure</a
+            ></label
+          >
+          <p *ngIf="submitted && f.readCgu?.errors" class="invalid-feedback">
+            La lecture des CGU est obligatoire
+          </p>
+        </div>
+        <div class="col-md-12 required">
+          <input
+            type="checkbox"
+            formControlName="acceptCgu"
+            class="form-check-input me-2"
+            [ngClass]="{
+              'is-invalid': submitted && f.acceptCgu?.errors
+            }"
+            id="acceptCgu"
+            required
+          />
+          <label class="form-check-label" for="acceptCgu"
+            >Le responsable de la structure accepte les
+            <a routerLink="/cgu-responsable" target="_blank"
+              >CGU du responsable de structure</a
+            ></label
+          >
+          <p *ngIf="submitted && f.acceptCgu?.errors" class="invalid-feedback">
+            Vous devez accepter les CGU afin de poursuivre l'inscription
+          </p>
+        </div>
+      </div>
+
       <div class="my-3 text-center">
         <button [disabled]="loading" class="btn btn-primary">
           <span *ngIf="loading">

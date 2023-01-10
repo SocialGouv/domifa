@@ -130,6 +130,8 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
       }),
       structureType: [this.structure.structureType, [Validators.required]],
       ville: [this.structure.ville, [Validators.required]],
+      readCgu: [null, [Validators.requiredTrue]],
+      acceptCgu: [null, [Validators.requiredTrue]],
     });
 
     this.subscription.add(

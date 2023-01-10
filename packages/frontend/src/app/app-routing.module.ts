@@ -15,6 +15,7 @@ import { HomeComponent } from "./modules/general/components/home/home.component"
 import { LoginComponent } from "./modules/general/components/login/login.component";
 import { NewsComponent } from "./modules/general/components/news/news.component";
 import { PlanSiteComponent } from "./modules/general/components/plan-site/plan-site.component";
+import { CguResponsableComponent } from "./modules/general/components/_static/cgu-responsable/cgu-responsable.component";
 
 export const routes: Routes = [
   {
@@ -40,6 +41,7 @@ export const routes: Routes = [
   { component: MentionsLegalesComponent, path: "mentions-legales" },
   { component: PolitiqueComponent, path: "confidentialite" },
   { component: CguComponent, path: "cgu" },
+  { component: CguResponsableComponent, path: "cgu-responsable" },
   { component: PlanSiteComponent, path: "plan-site" },
   {
     canActivate: [LoggedGuard],
