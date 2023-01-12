@@ -1,3 +1,19 @@
+# [2.114.0](https://github.com/SocialGouv/domifa/compare/v2.113.1...v2.114.0) (2023-01-12)
+
+
+### Bug Fixes
+
+* **migration:** correction d'une migration bloquante ([0f29f9d](https://github.com/SocialGouv/domifa/commit/0f29f9d7f18b4bc07b4351a98ea3afdb8eddc79d))
+* **user:** mise à jour de la date d'acceptation des CGU ([16e622d](https://github.com/SocialGouv/domifa/commit/16e622da48fddad38dec0ab23f1547b8b1ed69f8))
+* **version:** ajout de la version dans le "/me" ([d65c63f](https://github.com/SocialGouv/domifa/commit/d65c63fbc14f3b17d974028ed0614136daafc731))
+
+
+### Features
+
+* **cgu:** ajout d'une page de CGU pour les responsables ([f13fd13](https://github.com/SocialGouv/domifa/commit/f13fd1334406c7cc08f578f5cda220be8b1bf1df))
+* **cgu:** ajout des CGU lors de la connexion ([00346ce](https://github.com/SocialGouv/domifa/commit/00346cec9a9fbe2e3d41a4f650973121a1b05b23))
+* **portail:** amélioration du RGAA ([cad899c](https://github.com/SocialGouv/domifa/commit/cad899cf8a3b6cb07a65831f48a3af808b64af16))
+
 ## [2.113.1](https://github.com/SocialGouv/domifa/compare/v2.113.0...v2.113.1) (2023-01-05)
 
 
