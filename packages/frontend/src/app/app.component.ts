@@ -1,4 +1,10 @@
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -32,7 +38,7 @@ import DOMIFA_NEWS from "../assets/files/news.json";
   styleUrls: ["./app.component.css"],
   templateUrl: "./app.component.html",
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   public apiVersion: string | null;
   public currentFragment = "";
   public currentUrl = "";
@@ -101,6 +107,8 @@ export class AppComponent implements OnInit {
       "DomiFa, l'outil qui facilite la gestion des structures domiciliatirices"
     );
 
+    this.checkDomifaVersion();
+
     this.currentUrl = this.router.url;
 
     this.authService.isAuth().subscribe({
@@ -127,7 +135,6 @@ export class AppComponent implements OnInit {
     });
 
     if (this.me) {
-      this.runHealthCheckAndAutoReload();
       this.userIdleService.startWatching();
     }
 
@@ -197,25 +204,25 @@ export class AppComponent implements OnInit {
     this.pendingNews = false;
   }
 
-  private runHealthCheckAndAutoReload(): void {
-    this.healthCheckService
-      .getVersion()
-      .subscribe((retour: HealthCheckInfo) => {
-        const newVersion = retour?.info?.version?.info.toString();
-        // Initialisation de la première version
-        if (this.apiVersion === null) {
-          localStorage.setItem("version", newVersion);
-        }
-
-        if (this.apiVersion !== retour?.info?.version?.info) {
-          localStorage.setItem("version", newVersion);
-          this.modalService.dismissAll();
-          this.modalService.open(this.versionModal, this.modalOptions);
-          setTimeout(() => {
-            window.location.reload();
-          }, 10000);
-        }
-      });
+  private checkDomifaVersion(): void {
+    this.subscription.add(
+      this.healthCheckService
+        .getVersion()
+        .subscribe((retour: HealthCheckInfo) => {
+          const newVersion = retour?.info?.version?.info.toString();
+          // Initialisation de la première version
+          if (this.apiVersion === null) {
+            localStorage.setItem("version", newVersion);
+          } else if (this.apiVersion !== retour?.info?.version?.info) {
+            localStorage.setItem("version", newVersion);
+            this.modalService.dismissAll();
+            this.modalService.open(this.versionModal, this.modalOptions);
+            setTimeout(() => {
+              window.location.reload();
+            }, 10000);
+          }
+        })
+    );
   }
 
   public logout(): void {
@@ -239,6 +246,9 @@ export class AppComponent implements OnInit {
           this.toastService.success(
             "Merci, vous pouvez continuer votre navigation"
           );
+          const user = this.authService.currentUserValue;
+          user.acceptTerms = new Date();
+          this.authService.currentUserSubject.next(user);
           this.closeModals();
         },
         error: () => {
@@ -262,5 +272,9 @@ export class AppComponent implements OnInit {
 
   public closeModals(): void {
     this.modalService.dismissAll();
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
