@@ -77,6 +77,7 @@ function sortByAttributes<T>(
   return sortMultiple(items, {
     getSortAttributes: (item: T) => {
       const sortAttributes = attributes.map((attr) => ({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         value: (item as any)[attr.name],
         type: attr.type,
       }));

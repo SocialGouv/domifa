@@ -252,7 +252,7 @@ export class UsagerDocsController {
     // TEMP FIX : Utiliser la deuxième clé d'encryptage générée le 30 juin
     // A supprimer une fois que les fichiers seront de nouveaux regénérés
     const docInfos = await stat(encryptedFilePath);
-    console.log(docInfos);
+
     const iv =
       docInfos.mtime < new Date("2021-06-30T23:01:01.113Z")
         ? domifaConfig().security.files.ivSecours
@@ -264,11 +264,6 @@ export class UsagerDocsController {
 
       return createReadStream(encryptedFilePath).pipe(decipher).pipe(res);
     } catch (e) {
-      console.log(e);
-      console.log({
-        inputFile: await stat(encryptedFilePath),
-      });
-
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "CANNOT_OPEN_FILE" });

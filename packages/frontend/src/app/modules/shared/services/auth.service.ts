@@ -39,6 +39,12 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
+  public acceptTerms(): Observable<UserStructure> {
+    return this.http.get<UserStructure>(
+      `${environment.apiUrl}users/accept-terms`
+    );
+  }
+
   public login(email: string, password: string): Observable<UserStructure> {
     return this.http
       .post<{ access_token: string }>(`${this.endPoint}/login`, {
@@ -71,17 +77,6 @@ export class AuthService {
       }),
       catchError(() => {
         this.currentUserSubject.next(null);
-        return of(false);
-      })
-    );
-  }
-
-  public isDomifa(): Observable<boolean> {
-    return this.http.get<boolean>(`${this.endPoint}/domifa`).pipe(
-      map(() => {
-        return true;
-      }),
-      catchError(() => {
         return of(false);
       })
     );
@@ -126,7 +121,6 @@ export class AuthService {
   }
 
   private setUser(user: UserStructure) {
-    usagersCache.clearCache();
     localStorage.setItem("currentUser", JSON.stringify(user));
     this.currentUserSubject.next(user);
     this.userIdleService.startWatching();

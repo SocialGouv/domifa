@@ -1,4 +1,7 @@
-import { userStructureRepository, UserStructureSecurityRepository } from "..";
+import {
+  newUserStructureRepository,
+  UserStructureSecurityRepository,
+} from "..";
 import { passwordGenerator } from "../../../../util/encoding/passwordGenerator.service";
 import { UserStructure } from "../../../../_common/model";
 import { userStructureSecurityEventHistoryManager } from "./userStructureSecurityEventHistoryManager.service";
@@ -14,15 +17,9 @@ async function checkPassword({
   email: string;
   password: string;
 }): Promise<UserStructure> {
-  const user: UserStructure = await userStructureRepository.findOne(
-    {
-      email: email.toLowerCase(),
-    },
-    {
-      throwErrorIfNotFound: true,
-      select: "ALL",
-    }
-  );
+  const user: UserStructure = await newUserStructureRepository.findOneByOrFail({
+    email: email.toLowerCase(),
+  });
 
   const userSecurity = await UserStructureSecurityRepository.findOneBy({
     userId: user.id,
@@ -65,16 +62,12 @@ async function checkPassword({
     eventType: "login-success",
   });
 
-  await userStructureRepository.updateOne(
-    {
-      id: user.id,
-    },
-    {
-      lastLogin: new Date(),
-    }
+  await newUserStructureRepository.update(
+    { id: user.id },
+    { lastLogin: new Date() }
   );
 
-  return userStructureRepository.findOne({
+  return newUserStructureRepository.findOneBy({
     id: user.id,
   });
 }

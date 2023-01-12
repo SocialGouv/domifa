@@ -46,7 +46,7 @@ import { CguResponsableComponent } from "./components/_static/cgu-responsable/cg
     PlanSiteComponent,
     CguResponsableComponent,
   ],
-  exports: [LoadingComponent, NotFoundComponent, NavbarComponent],
+  exports: [LoadingComponent, NotFoundComponent, NavbarComponent, CguComponent],
   imports: [
     CommonModule,
     HttpClientModule,

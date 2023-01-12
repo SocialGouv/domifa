@@ -58,7 +58,7 @@ describe("UsagerDossierService", () => {
     const rdvFull = new Rdv({
       dateRdv: new Date("December 20, 2035 02:12:00"),
       userId: 10,
-      userName: "Domifa",
+      userName: "DomiFa",
     });
 
     expect(rdvFull).toEqual({
@@ -71,7 +71,7 @@ describe("UsagerDossierService", () => {
         year: 2035,
       },
       userId: 10,
-      userName: "Domifa",
+      userName: "DomiFa",
     });
   });
 });

@@ -1,3 +1,4 @@
+import { ReactiveFormsModule } from "@angular/forms";
 import { UserIdleModule } from "angular-user-idle";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
@@ -17,6 +18,7 @@ describe("AppComponent", () => {
         MatomoModule.forRoot(MATOMO_INJECTOR_FOR_TESTS),
         RouterTestingModule,
         UserIdleModule,
+        ReactiveFormsModule,
       ],
 
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],

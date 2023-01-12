@@ -8,7 +8,7 @@ export const USER_STRUCTURE_MOCK: UserStructure = {
     guide: false,
     import: false,
   },
-
+  acceptTerms: new Date(),
   id: 1,
   nom: "TEST",
   prenom: "TEST",

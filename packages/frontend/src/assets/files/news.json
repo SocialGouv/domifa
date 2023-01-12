@@ -1,5 +1,36 @@
 [
   {
+    "date": "2023-01-10",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Découvrez l'impact de DomiFa 📊",
+        "message": [
+          "Une toute nouvelle page présentant des témoignages d'utilisateurs est en ligne.",
+          "La page de statistiques a été mise à jour avec l'ajout de nouveaux chiffres."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Conditions générales d'utilisation",
+        "message": [
+          "Les CGU ont été mise à jour",
+          "Il faut désormais accepter les CGU pour utiliser DomiFa."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Corrections de bugs sur la recherche et le portail Mon DomiFa",
+        "message": [
+          "L'envoi de SMS de rappel 2 mois avant la fin de domiciliation fonctionne à nouveau.",
+          "Les filtres de recherche sont conservés quand vous changez de page.",
+          "Les utilisateurs du portail voient désormais le numéro de téléphone et email enregistré dans leur dossier."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2022-12-23",
     "description": "",
     "content": [

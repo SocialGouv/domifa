@@ -21,7 +21,7 @@ function buildUserStructure(item?: Partial<UserStructure>): UserStructure {
         ? new StructureCommonWeb(item.structure)
         : new StructureCommonWeb({}),
     lastLogin: item && item.lastLogin ? new Date(item.lastLogin) : null,
-
+    acceptTerms: item && item.acceptTerms ? new Date(item.acceptTerms) : null,
     passwordLastUpdate:
       item && item.passwordLastUpdate
         ? new Date(item.passwordLastUpdate)

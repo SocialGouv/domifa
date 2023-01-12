@@ -31,6 +31,8 @@
 </nav>
 <app-navbar
   id="navigation"
+  [pendingNews]="pendingNews"
+  [me]="me"
   [tabIndex]="currentFragment === 'navigation' ? 1 : -1"
 ></app-navbar>
 
@@ -250,6 +252,84 @@
   </div>
 </footer>
 
+<ng-template #acceptTermsModal let-modal>
+  <div class="modal-header">
+    <span class="modal-title" id="modal-title">
+      Veuillez lire et accepter les CGU
+    </span>
+  </div>
+  <form [formGroup]="acceptTermsForm">
+    <div class="modal-body py-4">
+      <p>
+        Les conditions générales d'utilisation de DomiFa évoluent. <br />Afin de
+        pouvoir continuer à l'utiliser, merci de lire et accepter les nouvelles
+        CGU
+      </p>
+      <div id="cgu-modal">
+        <app-cgu></app-cgu>
+      </div>
+      <div class="row">
+        <div class="col-md-12 required">
+          <input
+            type="checkbox"
+            formControlName="readCgu"
+            class="form-check-input me-2"
+            [ngClass]="{
+              'is-invalid': submitted && f.readCgu?.errors
+            }"
+            id="readCgu"
+            required
+          />
+          <label class="form-check-label" for="readCgu"
+            >Je confirme avoir lu les conditions générales d’utilisation
+          </label>
+          <p *ngIf="submitted && f.readCgu?.errors" class="invalid-feedback">
+            La lecture des CGU est obligatoire
+          </p>
+        </div>
+        <div class="col-md-12 required">
+          <input
+            type="checkbox"
+            formControlName="acceptCgu"
+            class="form-check-input me-2"
+            [ngClass]="{
+              'is-invalid': submitted && f.acceptCgu?.errors
+            }"
+            id="acceptCgu"
+            required
+          />
+          <label class="form-check-label" for="acceptCgu"
+            >J'accepte les conditions générales d’utilisation
+          </label>
+          <p *ngIf="submitted && f.acceptCgu?.errors" class="invalid-feedback">
+            Vous devez accepter les CGU afin de poursuivre l'inscription
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        class="btn btn-lg btn-outline-primary"
+        type="button"
+        (click)="logout()"
+      >
+        Se déconnecter
+      </button>
+      <button
+        class="btn btn-lg btn-primary"
+        type="submit"
+        (click)="submitAcceptTerms()"
+      >
+        <span *ngIf="!loading"> Enregistrer </span>
+        <span *ngIf="loading"
+          ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+          Enregistrement en cours...</span
+        >
+      </button>
+    </div>
+  </form>
+</ng-template>
+
 <ng-template #versionModal let-modal>
   <div class="modal-header">
     <span class="modal-title" id="modal-title">
@@ -257,13 +337,17 @@
     </span>
   </div>
 
-  <div class="modal-body text-center py-4">
+  <div class="modal-body text-center py-2">
     <p>
-      Afin de profiter des nouveautés de DomiFa, vous devez actualiser la page.
+      Afin de profiter des nouveautés de DomiFa, vous devez actualiser la
+      page.<br />
+      La page sera automatiquement actualisée dans 10 secondes.
     </p>
-
-    <button class="btn btn-primary" (click)="refresh()">
-      <fa-icon [icon]="['fas', 'sync']"></fa-icon> Actualiser
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-lg btn-primary" type="submit" (click)="refresh()">
+      <fa-icon aria-hidden="true" [icon]="['fas', 'sync']"></fa-icon> Actualiser
+      la page
     </button>
   </div>
 </ng-template>
@@ -312,5 +396,57 @@
         Contactez-nous via notre formulaire de contact</a
       >
     </p>
+  </div>
+</ng-template>
+
+<ng-template #newsModal let-modal>
+  <div class="modal-header">
+    <span class="modal-title" id="modal-title">
+      🎉 Des nouveautés sont disponibles sur la plateforme
+    </span>
+    <button
+      title="Fermer la fenêtre"
+      class="btn-close"
+      type="button"
+      aria-label="Fermer la fenêtre"
+      (click)="hideNews()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div class="py-1 px-3">
+      <p>
+        <strong class="text-primary">
+          Mise à jour du {{ news.date | date : "dd/MM/yyyy" }}</strong
+        >
+        <span *ngIf="news.description">- {{ news.description }}</span>
+      </p>
+      <ng-container *ngIf="news?.content">
+        <div *ngFor="let content of news.content" class="text-start news">
+          <span
+            class="badge badge-pill"
+            [ngClass]="{
+              'bg-primary': content.type === 'new',
+              'bg-warning': content.type === 'bug'
+            }"
+          >
+            {{ content?.type === "bug" ? "Améliorations" : "Nouveauté" }}
+          </span>
+          &nbsp;
+          <strong>{{ content.categorie }}</strong>
+          <ul class="my-2">
+            <li
+              *ngFor="let message of content.message"
+              [innerHTML]="message | nl2br"
+            ></li>
+          </ul>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-primary btn-lg" (click)="hideNews()">
+      Continuer sur DomiFa
+    </button>
   </div>
 </ng-template>

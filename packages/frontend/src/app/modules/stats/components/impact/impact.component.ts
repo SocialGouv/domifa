@@ -21,7 +21,7 @@ export class ImpactComponent {
     private readonly titleService: Title,
     private readonly seoService: SeoService
   ) {
-    const title = "Mesure d’impact de Domifa";
+    const title = "Mesure d’impact de DomiFa";
     const description =
       "Découvrez les témoignages de nos utilisateurs sur les bénéfices de DomiFa au quotidien";
     this.seoService.updateTitleAndTags(title, description, true);

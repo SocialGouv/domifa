@@ -172,13 +172,11 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     this.updatePlaceHolder(this.usagerForm.value?.telephone?.countryCode);
   }
 
-  //
   // Gestion des ayant-droits
   public addAyantDroit(ayantDroit: AyantDroit = new AyantDroit()): void {
     (this.usagerForm.controls.ayantsDroits as UntypedFormArray).push(
       this.newAyantDroit(ayantDroit)
     );
-    // this.focusAyantDroit();
   }
 
   public deleteAyantDroit(i: number): void {

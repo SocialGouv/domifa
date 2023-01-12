@@ -7,8 +7,8 @@ export const DOMIFA_CUSTOM_DOCS: StructureDoc[] = [
     label: "Attestation postale",
     createdBy: {
       id: 0,
-      nom: "Domifa",
-      prenom: "Domifa",
+      nom: "DomiFa",
+      prenom: "DomiFa",
     },
 
     custom: true,
@@ -22,8 +22,8 @@ export const DOMIFA_CUSTOM_DOCS: StructureDoc[] = [
     label: "Courrier de radiation",
     createdBy: {
       id: 0,
-      nom: "Domifa",
-      prenom: "Domifa",
+      nom: "DomiFa",
+      prenom: "DomiFa",
     },
 
     custom: true,

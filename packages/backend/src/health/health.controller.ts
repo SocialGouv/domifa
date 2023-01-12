@@ -12,7 +12,7 @@ import { PostgresHealthIndicator } from "./postgres-health-indicator.service";
 export class HealthController {
   public version: HealthIndicatorResult = {
     version: {
-      info: domifaConfig().version,
+      info: domifaConfig().version.toString(),
       status: "up",
     },
   };

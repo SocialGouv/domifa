@@ -17,7 +17,6 @@ import { Router } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
 import { MatomoModule } from "ngx-matomo";
 
 import { environment } from "src/environments/environment";

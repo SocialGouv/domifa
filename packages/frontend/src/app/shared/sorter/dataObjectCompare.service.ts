@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { dataCompare, DataComparisonResult } from "./dataCompare.service";
 import { SortableAttribute } from "./SortableAttribute.type";
 import { SortableAttributeType } from "./SortableAttributeType.type";
