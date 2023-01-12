@@ -25,6 +25,7 @@ export type UserStructure = AppEntity & {
   mail: UserStructureMails;
 
   structure: StructureCommon;
+  acceptTerms: Date | null;
 
   access_token?: string; // frontend only
 };

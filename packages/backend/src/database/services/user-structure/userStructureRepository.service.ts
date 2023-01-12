@@ -17,6 +17,7 @@ export const USERS_USER_PROFILE_ATTRIBUTES: (keyof UserStructureTable)[] = [
   "structureId",
   "fonction",
   "role",
+  "acceptTerms",
 ];
 
 export type AppUserForAdminEmail = Pick<

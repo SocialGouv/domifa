@@ -61,19 +61,12 @@ export class UsersController {
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @ApiOperation({ summary: "Accepter les CGU" })
   @Get("accept-terms")
-  public async acceptTerms(
-    @CurrentUser() user: UserStructureAuthenticated,
-    @Res() res: Response
-  ) {
+  public async acceptTerms(@CurrentUser() user: UserStructureAuthenticated) {
     await newUserStructureRepository.update(
-      {
-        id: user.id,
-      },
-      {
-        acceptTerms: new Date(),
-      }
+      { id: user.id },
+      { acceptTerms: new Date() }
     );
-    return res.status(HttpStatus.OK);
+    return true;
   }
 
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)

@@ -65,7 +65,7 @@ describe("ManageUsagersService", () => {
     const rdvFull = new Rdv({
       dateRdv: new Date("December 20, 2033 02:12:00"),
       userId: 10,
-      userName: "Domifa",
+      userName: "DomiFa",
     });
 
     expect(rdvFull).toEqual({
@@ -78,7 +78,7 @@ describe("ManageUsagersService", () => {
         year: 2033,
       },
       userId: 10,
-      userName: "Domifa",
+      userName: "DomiFa",
     });
   });
 
@@ -86,7 +86,7 @@ describe("ManageUsagersService", () => {
     const rdvFull = new Rdv({
       dateRdv: new Date("October 12, 2019 15:05:00"),
       userId: 10,
-      userName: "Domifa",
+      userName: "DomiFa",
     });
     expect(rdvFull).toEqual({
       dateRdv: new Date("October 12, 2019 15:05:00"),
@@ -98,7 +98,7 @@ describe("ManageUsagersService", () => {
         year: 2019,
       },
       userId: 10,
-      userName: "Domifa",
+      userName: "DomiFa",
     });
   });
 });

@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Title } from "@angular/platform-browser";
 import { PortailUsagerProfile } from "../../../../../_common";
 import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.service";
 
@@ -10,8 +11,12 @@ import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.ser
 export class HomeUsagerComponent implements OnInit {
   public usagerProfile!: PortailUsagerProfile | null;
 
-  constructor(private readonly usagerAuthService: UsagerAuthService) {
+  constructor(
+    private readonly usagerAuthService: UsagerAuthService,
+    private readonly titleService: Title,
+  ) {
     this.usagerProfile = null;
+    this.titleService.setTitle("Mon DomiFa");
   }
 
   public ngOnInit(): void {

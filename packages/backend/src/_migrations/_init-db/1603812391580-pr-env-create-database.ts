@@ -452,6 +452,7 @@ async function createTables(queryRunner: QueryRunner) {
       mails jsonb NOT NULL DEFAULT '{"guide": false, "import": false}'::jsonb,
       "passwordLastUpdate" timestamptz NULL,
       verified bool NOT NULL DEFAULT true,
+      "acceptTerms" timestamptz NULL,
       CONSTRAINT "PK_a58dc229068f494a0360b170322" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_22a5c4a3d9b2fb8e4e73fc4ada1" UNIQUE (id),
       CONSTRAINT "UQ_3fa909d0e37c531ebc237703391" UNIQUE (email),
