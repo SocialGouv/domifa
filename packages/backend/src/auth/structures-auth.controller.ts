@@ -11,6 +11,7 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
+import { domifaConfig } from "../config";
 import { userStructureSecurityPasswordChecker } from "../database/services/user-structure/user-structure-security/userStructureSecurityPasswordChecker.service";
 import { StructureLoginDto } from "../users/dto";
 import { ExpressResponse } from "../util/express";
@@ -70,6 +71,7 @@ export class StructuresAuthController {
       acceptTerms: user.acceptTerms,
       structure: user.structure,
       structureId: user.structureId,
+      domifaVersion: domifaConfig().version.toString(),
     });
   }
 }
