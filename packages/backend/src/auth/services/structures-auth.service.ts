@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { differenceInCalendarDays } from "date-fns";
+import { domifaConfig } from "../../config";
 import { structureRepository, userStructureRepository } from "../../database";
 import { appLogger } from "../../util";
 import {
@@ -46,6 +47,7 @@ export class StructuresAuthService {
       acceptTerms: user.acceptTerms,
       structureId: user.structureId,
       isSuperAdminDomifa,
+      domifaVersion: domifaConfig().version.toString(),
     };
 
     return {

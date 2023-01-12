@@ -26,6 +26,7 @@ export type UserStructure = AppEntity & {
 
   structure: StructureCommon;
   acceptTerms: Date | null;
+  domifaVersion?: string;
 
   access_token?: string; // frontend only
 };

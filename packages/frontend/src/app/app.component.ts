@@ -25,10 +25,7 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 
 import { UserStructure } from "../_common/model";
 import { CustomToastService } from "./modules/shared/services";
-import {
-  HealthCheckInfo,
-  HealthCheckService,
-} from "./modules/shared/services/health-check";
+
 import { fadeInOut } from "./shared";
 import DOMIFA_NEWS from "../assets/files/news.json";
 
@@ -68,7 +65,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public newsModal!: TemplateRef<NgbModalRef>;
 
   constructor(
-    private readonly healthCheckService: HealthCheckService,
     private readonly authService: AuthService,
     private readonly router: Router,
     private readonly titleService: Title,
@@ -107,8 +103,6 @@ export class AppComponent implements OnInit, OnDestroy {
       "DomiFa, l'outil qui facilite la gestion des structures domiciliatirices"
     );
 
-    this.checkDomifaVersion();
-
     this.currentUrl = this.router.url;
 
     this.authService.isAuth().subscribe({
@@ -124,6 +118,27 @@ export class AppComponent implements OnInit, OnDestroy {
           if (this.modalService.hasOpenModals()) {
             return;
           }
+          const newVersion = user.domifaVersion;
+          // Initialisation de la première version
+          if (this.apiVersion === null) {
+            this.apiVersion = newVersion;
+            localStorage.setItem("version", newVersion);
+          }
+
+          if (this.apiVersion !== newVersion) {
+            localStorage.setItem("version", newVersion);
+            this.modalService.dismissAll();
+            this.modalService.open(this.versionModal, this.modalOptions);
+            setTimeout(() => {
+              window.location.reload();
+            }, 10000);
+            return;
+          }
+
+          if (this.modalService.hasOpenModals()) {
+            return;
+          }
+
           if (!this.me.acceptTerms) {
             this.openAcceptTermsModal();
           } else {
@@ -202,27 +217,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.modalService.dismissAll();
     localStorage.setItem("news", new Date(DOMIFA_NEWS[0].date).toISOString());
     this.pendingNews = false;
-  }
-
-  private checkDomifaVersion(): void {
-    this.subscription.add(
-      this.healthCheckService
-        .getVersion()
-        .subscribe((retour: HealthCheckInfo) => {
-          const newVersion = retour?.info?.version?.info.toString();
-          // Initialisation de la première version
-          if (this.apiVersion === null) {
-            localStorage.setItem("version", newVersion);
-          } else if (this.apiVersion !== retour?.info?.version?.info) {
-            localStorage.setItem("version", newVersion);
-            this.modalService.dismissAll();
-            this.modalService.open(this.versionModal, this.modalOptions);
-            setTimeout(() => {
-              window.location.reload();
-            }, 10000);
-          }
-        })
-    );
   }
 
   public logout(): void {

@@ -12,4 +12,5 @@ export type UserStructureJwtPayload = UseBaseJwtPayload<
   lastLogin: Date;
   acceptTerms: Date | null;
   structureId: number;
+  domifaVersion: string;
 };

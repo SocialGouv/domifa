@@ -27,7 +27,6 @@ import { JwtInterceptor } from "./interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "./interceptors/server-error.interceptor";
 import { GeneralModule } from "./modules/general/general.module";
 import { AuthService } from "./modules/shared/services/auth.service";
-import { HealthCheckService } from "./modules/shared/services/health-check";
 import { SharedModule } from "./modules/shared/shared.module";
 
 import pkg from "../../package.json";
@@ -82,7 +81,6 @@ if (environment.production) {
     AuthService,
     LoadingService,
     CustomToastService,
-    HealthCheckService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {
       deps: [Router, AuthService],
