@@ -1,3 +1,10 @@
+## [2.114.1](https://github.com/SocialGouv/domifa/compare/v2.114.0...v2.114.1) (2023-01-16)
+
+
+### Bug Fixes
+
+* **deps:** update dependency rimraf to v4 ([da837d2](https://github.com/SocialGouv/domifa/commit/da837d2cf1d8070e73ab1501bd02df4cc8ac4cf6))
+
 # [2.114.0](https://github.com/SocialGouv/domifa/compare/v2.113.1...v2.114.0) (2023-01-12)
 
 
