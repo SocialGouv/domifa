@@ -23,9 +23,13 @@
             <strong>{{ usager.rdv.userName }}</strong>
             <br />
             <br />
-            <button (click)="rdvNow()" class="btn btn-primary">
+            <button (click)="rdvNow()" class="btn btn-primary" type="button">
               <span *ngIf="loading">
-                <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'circle-notch']"
+                  [spin]="true"
+                >
                 </fa-icon>
                 Veuillez patienter...
               </span>
@@ -33,16 +37,25 @@
             </button>
             <br />
             <br />
-            <button (click)="editRdv = true" class="btn btn-outline-primary">
+            <button
+              type="button"
+              (click)="editRdv = true"
+              class="btn btn-outline-primary"
+            >
               Modifier la date du rendez-vous
             </button>
             <br />
             <br />
             <button
+              type="button"
               (click)="getCerfa('demande')"
               class="btn btn-outline-primary"
             >
-              <fa-icon [icon]="['fas', 'download']" class="me-2"></fa-icon>
+              <fa-icon
+                aria-hidden="true"
+                [icon]="['fas', 'download']"
+                class="me-2"
+              ></fa-icon>
               Télécharger l'attestation de Demande
             </button>
             <br />

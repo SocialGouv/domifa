@@ -102,7 +102,11 @@
           class="btn btn-white-primary"
           (click)="matomo.trackEvent('MANAGE', 'click', 'Liste_Création', 1)"
         >
-          <fa-icon [icon]="['fas', 'plus']" class="me-2"></fa-icon>
+          <fa-icon
+            aria-hidden="true"
+            [icon]="['fas', 'plus']"
+            class="me-2"
+          ></fa-icon>
           Créer une demande
         </a>
       </div>
@@ -203,7 +207,11 @@
               (click)="updateFilters({ element: 'passage', value: null })"
             >
               {{ labelsDernierPassage[filters.passage] }}
-              <fa-icon [icon]="['fas', 'times']" class="cross"></fa-icon>
+              <fa-icon
+                aria-hidden="true"
+                [icon]="['fas', 'times']"
+                class="cross"
+              ></fa-icon>
             </button>
           </div>
 
@@ -322,7 +330,11 @@
               "
             >
               Courrier à récupérer
-              <fa-icon [icon]="['fas', 'times']" class="cross"></fa-icon>
+              <fa-icon
+                aria-hidden="true"
+                [icon]="['fas', 'times']"
+                class="cross"
+              ></fa-icon>
             </button>
           </div>
           <div
@@ -366,7 +378,11 @@
               (click)="updateFilters({ element: 'entretien', value: null })"
             >
               Entretien {{ labelsEntretien[filters.entretien] }}
-              <fa-icon [icon]="['fas', 'times']" class="cross"></fa-icon>
+              <fa-icon
+                aria-hidden="true"
+                [icon]="['fas', 'times']"
+                class="cross"
+              ></fa-icon>
             </button>
           </div>
           <div
@@ -456,7 +472,6 @@
             >
               <button
                 type="button"
-                type="button"
                 (click)="
                   updateFilters({
                     element: 'sortKey',
@@ -471,7 +486,6 @@
               </button>
               <button
                 type="button"
-                type="button"
                 (click)="
                   updateFilters({
                     element: 'sortKey',
@@ -482,7 +496,10 @@
                 ngbDropdownItem
               >
                 <span> Trier par dernier passage</span>
-                <fa-icon [icon]="['fas', 'sort-amount-down']"></fa-icon>
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'sort-amount-down']"
+                ></fa-icon>
               </button>
             </ng-container>
             <button
@@ -498,10 +515,12 @@
               ngbDropdownItem
             >
               <span> Trier par {{ getEcheanceLabel() }}</span>
-              <fa-icon [icon]="['fas', 'sort-amount-up']"></fa-icon>
+              <fa-icon
+                aria-hidden="true"
+                [icon]="['fas', 'sort-amount-up']"
+              ></fa-icon>
             </button>
             <button
-              type="button"
               type="button"
               (click)="
                 updateFilters({
@@ -513,7 +532,10 @@
               ngbDropdownItem
             >
               Trier par {{ getEcheanceLabel() }}
-              <fa-icon [icon]="['fas', 'sort-amount-down']"></fa-icon>
+              <fa-icon
+                aria-hidden="true"
+                [icon]="['fas', 'sort-amount-down']"
+              ></fa-icon>
             </button>
             <button
               type="button"
@@ -528,10 +550,12 @@
               ngbDropdownItem
             >
               Trier par nom
-              <fa-icon [icon]="['fas', 'sort-amount-up']"></fa-icon>
+              <fa-icon
+                aria-hidden="true"
+                [icon]="['fas', 'sort-amount-up']"
+              ></fa-icon>
             </button>
             <button
-              type="button"
               type="button"
               (click)="
                 updateFilters({
@@ -543,10 +567,12 @@
               ngbDropdownItem
             >
               Trier par nom
-              <fa-icon [icon]="['fas', 'sort-amount-down']"></fa-icon>
+              <fa-icon
+                aria-hidden="true"
+                [icon]="['fas', 'sort-amount-down']"
+              ></fa-icon>
             </button>
             <button
-              type="button"
               type="button"
               (click)="
                 updateFilters({
@@ -558,7 +584,10 @@
               ngbDropdownItem
             >
               Trier par ID
-              <fa-icon [icon]="['fas', 'sort-amount-up']"></fa-icon>
+              <fa-icon
+                aria-hidden="true"
+                [icon]="['fas', 'sort-amount-up']"
+              ></fa-icon>
             </button>
             <button
               type="button"
@@ -573,7 +602,10 @@
               ngbDropdownItem
             >
               Trier par ID
-              <fa-icon [icon]="['fas', 'sort-amount-down']"></fa-icon>
+              <fa-icon
+                aria-hidden="true"
+                [icon]="['fas', 'sort-amount-down']"
+              ></fa-icon>
             </button>
           </div>
         </div>
@@ -637,7 +669,6 @@
     >
       <div class="my-2">
         <button
-          type="button"
           type="button"
           class="btn btn-white-primary"
           (click)="chargerTousRadies()"

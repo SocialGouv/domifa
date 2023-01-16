@@ -193,6 +193,7 @@ async function createTables(queryRunner: QueryRunner) {
       responsable jsonb NOT NULL,
       "structureType" text NOT NULL,
       "token" text NULL,
+      "acceptTerms" timestamptz NULL,
       verified bool NOT NULL DEFAULT false,
       ville text NULL,
       sms jsonb NOT NULL DEFAULT '{"senderName": null, "senderDetails": null, "enabledByDomifa": true, "enabledByStructure": false}'::jsonb,
