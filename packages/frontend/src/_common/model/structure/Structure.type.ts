@@ -26,6 +26,7 @@ export type Structure = AppEntity & {
   registrationDate: Date;
   importDate: Date;
   lastLogin: Date;
+  acceptTerms: Date | null;
 
   responsable: StructureResponsable;
 

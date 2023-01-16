@@ -121,6 +121,8 @@ async function createStructure(structureDto: StructureDto) {
   createdStructure.timeZone =
     DEPARTEMENTS_MAP[createdStructure.departement].timeZone;
 
+  createdStructure.acceptTerms = new Date();
+
   const structure = await structureRepository.save(createdStructure);
 
   return structure;

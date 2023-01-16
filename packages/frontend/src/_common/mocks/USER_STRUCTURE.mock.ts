@@ -40,6 +40,7 @@ export const USER_STRUCTURE_MOCK: UserStructure = {
     responsable: { nom: "Pompei", prenom: "Roma", fonction: "Directrice" },
     structureType: "asso" as StructureType,
     ville: "Cergy",
+    acceptTerms: new Date(),
     sms: {
       senderName: "DOMIFA",
       senderDetails: "CCAS",

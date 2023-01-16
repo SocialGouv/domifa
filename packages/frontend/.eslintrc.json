@@ -55,8 +55,8 @@
         "@angular-eslint/template/accessibility-table-scope": "error",
         "@angular-eslint/template/no-distracting-elements": "error",
         "@angular-eslint/template/accessibility-role-has-required-aria": "error",
-        "@angular-eslint/template/accessibility-valid-aria": "error"
-        //   "@angular-eslint/template/button-has-type": "error"
+        "@angular-eslint/template/accessibility-valid-aria": "error",
+        "@angular-eslint/template/button-has-type": "error"
       }
     }
   ]

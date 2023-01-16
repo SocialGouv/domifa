@@ -265,8 +265,14 @@
         pouvoir continuer à l'utiliser, merci de lire et accepter les nouvelles
         CGU
       </p>
-      <div id="cgu-modal">
-        <app-cgu></app-cgu>
+      <div id="cgu-modal" *ngIf="me">
+        <app-cgu-responsable
+          *ngIf="
+            me.role === 'admin' && !me.structure.acceptTerms;
+            else elseBlock
+          "
+        ></app-cgu-responsable>
+        <ng-template #elseBlock> <app-cgu></app-cgu></ng-template>
       </div>
       <div class="row">
         <div class="col-md-12 required">
@@ -357,6 +363,7 @@
     <h4 class="modal-title" id="modal-title">Centre d'aide DomiFa</h4>
     <button
       class="btn-close"
+      type="button"
       aria-label="Fermer la fenêtre"
       (click)="closeModals()"
     ></button>
@@ -445,7 +452,7 @@
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-primary btn-lg" (click)="hideNews()">
+    <button class="btn btn-primary btn-lg" (click)="hideNews()" type="submit">
       Continuer sur DomiFa
     </button>
   </div>
