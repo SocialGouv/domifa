@@ -80,7 +80,7 @@
     "pino-std-serializers": "^6.1.0",
     "pizzip": "^3.0.6",
     "reflect-metadata": "^0.1.13",
-    "rimraf": "^3.0.2",
+    "rimraf": "^4.0.0",
     "rxjs": "^7.6.0",
     "sanitize-html": "^2.7.3",
     "sort-object": "^3.0.3",
