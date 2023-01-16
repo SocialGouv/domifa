@@ -140,7 +140,6 @@ export class AppComponent implements OnInit, OnDestroy {
             return;
           }
 
-          console.log(this.me.structure);
           if (!this.me.acceptTerms) {
             this.openAcceptTermsModal();
           } else {
@@ -155,7 +154,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.userIdleService.startWatching();
     }
 
-    // Délai d'inactivité atteint, on déconnecte
+    // Délai d'inactivit é atteint, on déconnecte
     this.userIdleService.onTimeout().subscribe({
       next: () => {
         if (this.authService.currentUserSubject.value !== null) {

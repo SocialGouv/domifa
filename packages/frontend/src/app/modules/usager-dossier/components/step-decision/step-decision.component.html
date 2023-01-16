@@ -26,7 +26,11 @@
           cette demande.
           <br />
           <br />
-          <button (click)="getCerfa('demande')" class="btn btn-primary">
+          <button
+            type="button"
+            (click)="getCerfa('demande')"
+            class="btn btn-primary"
+          >
             <fa-icon [icon]="['fas', 'download']"></fa-icon>
             Télécharger le CERFA de demande
           </button>
@@ -51,7 +55,11 @@
           </h2>
         </div>
         <div class="col-md-6 offset-3">
-          <button (click)="setDecisionAttente()" class="btn btn-primary">
+          <button
+            type="button"
+            (click)="setDecisionAttente()"
+            class="btn btn-primary"
+          >
             <fa-icon [icon]="['far', 'clock']"></fa-icon>
             SOUMETTRE LA DEMANDE
           </button>
@@ -78,7 +86,11 @@
       <div
         class="d-print-none d-flex justify-content-center align-items-center text-center py-2"
       >
-        <button class="me-3 btn btn-success" (click)="open(confirmation)">
+        <button
+          type="button"
+          class="me-3 btn btn-success"
+          (click)="open(confirmation)"
+        >
           <fa-icon [icon]="['fas', 'check']" class="me-2"></fa-icon>
           Accepter le dossier
         </button>
@@ -87,6 +99,7 @@
           title="Refuser le dossier"
           class="me-3 btn btn-danger"
           (click)="open(refus)"
+          type="button"
         >
           <fa-icon [icon]="['fas', 'times']" class="me-2"></fa-icon>
           Refuser le dossier
@@ -97,6 +110,7 @@
           *ngIf="usager.decision.statut !== 'ATTENTE_DECISION'"
           (click)="setDecisionAttente()"
           class="me-3 btn btn-light-primary"
+          type="button"
         >
           <fa-icon [icon]="['far', 'clock']" class="me-2"></fa-icon>
           Soumettre la demande
@@ -140,6 +154,7 @@
           <button
             class="btn btn-outline-primary d-print-none"
             *ngIf="!editInfos"
+            type="button"
             (click)="editInfos = true"
           >
             <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
@@ -252,6 +267,7 @@
         class="d-flex justify-content-center align-items-center my-4 d-print-none"
       >
         <button
+          type="button"
           (click)="getCerfa('demande')"
           class="btn btn-primary d-print-none me-2"
         >
@@ -259,6 +275,7 @@
           Télécharger l'attestation de demande
         </button>
         <button
+          type="button"
           (click)="getCerfa('attestation')"
           class="btn btn-primary d-print-none me-2"
           *ngIf="
@@ -274,7 +291,11 @@
       </div>
     </div>
     <div class="text-center">
-      <button (click)="printPage()" class="d-print-none me-2 btn btn-primary">
+      <button
+        (click)="printPage()"
+        class="d-print-none me-2 btn btn-primary"
+        type="button"
+      >
         <fa-icon [icon]="['fas', 'print']" class="me-2"></fa-icon>
         Imprimer le récapitulatif
       </button>

@@ -15,15 +15,21 @@
 
             <div *ngIf="usager.isActif || usager.decision.statut === 'REFUS'">
               <button
+                type="button"
                 (click)="getCerfa('demande')"
                 *ngIf="usager.decision.statut !== 'REFUS'"
                 class="btn me-2 btn-primary"
               >
-                <fa-icon [icon]="['fas', 'download']" class="me-2"></fa-icon>
+                <fa-icon
+                  [icon]="['fas', 'download']"
+                  aria-hidden="true"
+                  class="me-2"
+                ></fa-icon>
                 Télécharger l'attestation de demande
               </button>
 
               <button
+                type="button"
                 *ngIf="usager.decision.statut !== 'RADIE'"
                 (click)="
                   getCerfa(
@@ -34,7 +40,11 @@
                 "
                 class="btn me-2 btn-primary"
               >
-                <fa-icon [icon]="['fas', 'download']" class="me-2"></fa-icon>
+                <fa-icon
+                  [icon]="['fas', 'download']"
+                  aria-hidden="true"
+                  class="me-2"
+                ></fa-icon>
                 Télécharger le CERFA
               </button>
             </div>
