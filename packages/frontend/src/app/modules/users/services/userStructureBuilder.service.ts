@@ -16,6 +16,7 @@ function buildUserStructure(item?: Partial<UserStructure>): UserStructure {
     role: (item && item.role) || null,
     structureId: (item && item.structureId) || null,
     verified: (item && item.verified) || false,
+    domifaVersion: (item && item.domifaVersion) || null,
     structure:
       item && item.structure
         ? new StructureCommonWeb(item.structure)

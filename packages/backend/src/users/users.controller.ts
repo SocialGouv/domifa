@@ -1,3 +1,4 @@
+import { structureRepository } from "./../database/services/structure/structureRepository.service";
 import { newUserStructureRepository } from "./../database/services/user-structure/userStructureRepository.service";
 import {
   Body,
@@ -66,6 +67,13 @@ export class UsersController {
       { id: user.id },
       { acceptTerms: new Date() }
     );
+
+    if (user.role === "admin" && !user.structure.acceptTerms) {
+      await structureRepository.update(
+        { id: user.structureId },
+        { acceptTerms: new Date() }
+      );
+    }
     return true;
   }
 

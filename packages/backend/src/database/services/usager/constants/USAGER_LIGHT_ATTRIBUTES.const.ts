@@ -23,7 +23,7 @@ export const USAGER_LIGHT_ATTRIBUTES: (keyof UsagerTable)[] = [
   "historique",
   "ayantsDroits",
   //"villeNaissance",
-  // "telephone",
+  "telephone",
   // "langue",
   // "contactByPhone",
 ];

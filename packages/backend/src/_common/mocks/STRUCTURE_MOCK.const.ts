@@ -2,6 +2,7 @@ import { StructureCommon } from "../model";
 
 export const STRUCTURE_MOCK: StructureCommon = {
   id: 1,
+  acceptTerms: new Date(),
   adresse: "1 rue de l'océan",
   adresseCourrier: {
     actif: true,

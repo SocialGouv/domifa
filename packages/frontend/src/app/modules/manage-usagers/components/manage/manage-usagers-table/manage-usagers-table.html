@@ -28,6 +28,7 @@
     >
       Nom prénom
     </th>
+    <th scope="col">Téléphone</th>
     <th scope="col">INFORMATIONS</th>
     <th
       scope="col"
@@ -47,7 +48,8 @@
       <span *ngIf="filters.statut === 'REFUS' ">REFUSÉ LE</span>
       <span *ngIf="filters.statut === 'RADIE' ">RADIÉ LE</span>
     </th>
-    <th scope="col" class="text-start d-print-none">ACTIONS RAPIDES</th>
+    <th scope="col" class="text-start d-print-none">Intéraction</th>
+    <th scope="col" class="text-start d-print-none">Courrier</th>
     <th scope="col" class="d-print-none">
       <button
         type="button"
@@ -125,6 +127,14 @@
         </a>
       </td>
 
+      <td class="table-name">
+        <a [routerLink]="usager.usagerProfilUrl">
+          <span *ngIf="usager.telephone?.numero"
+            >{{ usager.telephone | formatInternationalPhoneNumber }}</span
+          >
+        </a>
+      </td>
+
       <td>
         <a [routerLink]="usager.usagerProfilUrl">
           <span class="visually-hidden"
@@ -176,7 +186,7 @@
 
                 <div *ngIf="usager.options.transfert.dateFin <= today">
                   Transfert expiré le {{ usager.options.transfert.dateFin |
-                  date: "dd/MM/yyyy" }}
+                  date: "dd/MM/yy" }}
                 </div>
               </div>
             </ng-template>
@@ -213,7 +223,7 @@
                     [icon]="['fas', 'times']"
                     class="text-danger me-1"
                   ></fa-icon>
-                  Expirée le {{procuration.dateFin | date: "dd/MM/yyyy" }}: {{
+                  Expirée le {{procuration.dateFin | date: "dd/MM/yy" }}: {{
                   procuration.nom }} {{ procuration.prenom }}
                 </span>
               </div>
@@ -236,7 +246,7 @@
 
       <td *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS' ">
         <a [routerLink]="usager.usagerProfilUrl">
-          {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yyyy" }}
+          {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yy" }}
         </a>
       </td>
 
@@ -248,11 +258,8 @@
             class="statut-signal"
             [class]="usager.echeanceInfos.color"
           ></span>
-          <span
-            *ngIf="usager.echeanceInfos.dateToDisplay"
-            [ngClass]="usager.echeanceInfos.color ? 'fw-bold' : ''"
-          >
-            {{ usager.echeanceInfos.dateToDisplay | date: "dd/MM/yyyy" }}</span
+          <span *ngIf="usager.echeanceInfos.dateToDisplay">
+            {{ usager.echeanceInfos.dateToDisplay | date: "dd/MM/yy" }}</span
           >
         </a>
       </td>
@@ -297,6 +304,14 @@
 
             <span class="icon-appel list-icon"></span>
           </button>
+        </div>
+      </td>
+
+      <td>
+        <div
+          class="interaction-buttons"
+          *ngIf="usager.isActif || (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)"
+        >
           <button
             aria-label="Ajout rapide d'un courrier"
             type="button"
@@ -322,7 +337,6 @@
             (click)="openInteractionInModal(usager)"
           >
             <span class="icon-reception list-icon"></span>
-            <span class="list-icon-label">Réception</span>
           </button>
 
           <ng-template #distributionBox class="p-2 text-start">
@@ -368,7 +382,6 @@
             (click)="openInteractionOutModal(usager)"
           >
             <span class="icon-distribution list-icon"></span>
-            <span class="list-icon-label">Distribuer</span>
             <strong class="notification">
               {{ usager.totalInteractionsEnAttente }}
             </strong>

@@ -14,7 +14,6 @@ table {
 tbody td {
   vertical-align: middle;
   border: none;
-  font-weight: 600;
   font-style: normal;
   padding: 0;
   height: 62px;
@@ -111,7 +110,6 @@ th {
 
 .icones_liste {
   padding: 2px 4px;
-  min-width: 360px;
 }
 
 .interaction-buttons {
@@ -207,4 +205,8 @@ th {
   position: absolute;
   top: -5px;
   right: -14px;
+}
+
+.td-name {
+  font-weight: 600;
 }

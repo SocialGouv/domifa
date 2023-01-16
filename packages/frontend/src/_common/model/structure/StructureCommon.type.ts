@@ -23,4 +23,5 @@ export type StructureCommon = Pick<
   | "adresseCourrier"
   | "sms"
   | "portailUsager"
+  | "acceptTerms"
 >;

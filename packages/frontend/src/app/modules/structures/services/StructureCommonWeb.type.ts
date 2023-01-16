@@ -32,6 +32,7 @@ export class StructureCommonWeb implements StructureCommon {
   public adresseCourrier: StructureAddresseCourrier;
   public sms: StructureSmsParams;
   public portailUsager: StructurePortailUsagerParams;
+  public acceptTerms: Date | null;
 
   constructor(structure?: Partial<StructureCommon>) {
     this.id = (structure && structure.id) || 0;
@@ -49,6 +50,7 @@ export class StructureCommonWeb implements StructureCommon {
     this.codePostal = (structure && structure.codePostal) || "";
     this.region = (structure && structure.region) || "";
     this.agrement = (structure && structure.agrement) || "";
+    this.acceptTerms = (structure && structure.acceptTerms) || null;
     this.telephone = (structure && structure.telephone) || {
       numero: "",
       countryCode: CountryISO.France,

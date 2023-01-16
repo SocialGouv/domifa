@@ -56,6 +56,7 @@ export class AuthService {
           const user = userStructureBuilder.buildUserStructure(
             jwtDecode(token.access_token)
           );
+
           user.access_token = token.access_token;
           this.setUser(user);
           return user;

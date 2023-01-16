@@ -132,6 +132,9 @@ export class StructureTable
   })
   portailUsager: StructurePortailUsagerParams;
 
+  @Column({ type: "timestamptz", nullable: true })
+  acceptTerms: Date;
+
   @BeforeInsert()
   nameToUpperCase() {
     this.email = this.email.toLowerCase().trim();

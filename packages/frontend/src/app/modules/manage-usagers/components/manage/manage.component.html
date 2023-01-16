@@ -11,7 +11,7 @@
           id="dropdownSearchString"
           display="dynamic"
         >
-          <button ngbDropdownToggle>
+          <button type="button" ngbDropdownToggle>
             <span>
               <fa-icon
                 [icon]="['fas', 'list']"
@@ -29,6 +29,7 @@
             class="dropdown-menu"
           >
             <button
+              type="button"
               (click)="
                 updateFilters({
                   element: 'searchStringField',
@@ -40,6 +41,7 @@
               Date de naissance
             </button>
             <button
+              type="button"
               (click)="
                 updateFilters({
                   element: 'searchStringField',
@@ -50,7 +52,7 @@
             >
               {{ SEARCH_STRING_FIELD_LABELS.DEFAULT.label }}
             </button>
-            <!-- <button
+            <!-- <button type="button"
               (click)="
                 updateFilters({
                   element: 'searchStringField',
@@ -195,6 +197,7 @@
         >
           <div class="d-inline-block" *ngIf="filters.passage">
             <button
+              type="button"
               title="Réinitialiser le filtre"
               class="btn selected-btn"
               (click)="updateFilters({ element: 'passage', value: null })"
@@ -212,7 +215,7 @@
             placement="bottom-left"
             class="d-inline-block"
           >
-            <button class="btn" ngbDropdownToggle>
+            <button type="button" class="btn" ngbDropdownToggle>
               <span>Dernier passage</span>
             </button>
             <div
@@ -221,6 +224,7 @@
               class="dropdown-menu"
             >
               <button
+                type="button"
                 (click)="
                   updateFilters({ element: 'passage', value: 'DEUX_MOIS' })
                 "
@@ -229,6 +233,7 @@
                 Plus de 2 mois
               </button>
               <button
+                type="button"
                 (click)="
                   updateFilters({ element: 'passage', value: 'TROIS_MOIS' })
                 "
@@ -246,6 +251,7 @@
         >
           <div class="d-inline-block" *ngIf="filters.echeance">
             <button
+              type="button"
               class="btn selected-btn"
               (click)="updateFilters({ element: 'echeance', value: null })"
             >
@@ -265,7 +271,7 @@
             placement="bottom-end"
             class="d-inline-block"
           >
-            <button class="btn" ngbDropdownToggle>
+            <button type="button" class="btn" ngbDropdownToggle>
               <span>Échéance de domiciliation</span>
             </button>
 
@@ -275,6 +281,7 @@
               class="dropdown-menu dropdown-menu-end"
             >
               <button
+                type="button"
                 (click)="
                   updateFilters({ element: 'echeance', value: 'DEUX_MOIS' })
                 "
@@ -283,6 +290,7 @@
                 Moins de 2 mois
               </button>
               <button
+                type="button"
                 (click)="
                   updateFilters({ element: 'echeance', value: 'DEUX_SEMAINES' })
                 "
@@ -291,6 +299,7 @@
                 Moins de 2 semaines
               </button>
               <button
+                type="button"
                 (click)="
                   updateFilters({ element: 'echeance', value: 'DEPASSEE' })
                 "
@@ -305,6 +314,7 @@
         <div *ngIf="filters.statut !== 'REFUS'" class="filter-part">
           <div class="d-inline-block" *ngIf="filters.interactionType">
             <button
+              type="button"
               title="Réinitialiser le filtre"
               class="btn selected-btn"
               (click)="
@@ -323,7 +333,7 @@
             *ngIf="!filters.interactionType"
             class="d-inline-block"
           >
-            <button class="btn" ngbDropdownToggle>
+            <button type="button" class="btn" ngbDropdownToggle>
               <span>Courriers à récupérer</span>
             </button>
             <div
@@ -332,6 +342,7 @@
               class="dropdown-menu"
             >
               <button
+                type="button"
                 (click)="
                   updateFilters({
                     element: 'interactionType',
@@ -349,6 +360,7 @@
         <div *ngIf="filters.statut === 'INSTRUCTION'" class="filter-part">
           <div class="d-inline-block" *ngIf="filters.entretien">
             <button
+              type="button"
               aria-label="Réinitialiser le filtre"
               class="btn selected-btn"
               (click)="updateFilters({ element: 'entretien', value: null })"
@@ -365,7 +377,7 @@
             *ngIf="!filters.entretien"
             class="d-inline-block"
           >
-            <button class="btn" ngbDropdownToggle>
+            <button type="button" class="btn" ngbDropdownToggle>
               <span>Entretien</span>
             </button>
             <div
@@ -374,6 +386,7 @@
               class="dropdown-menu"
             >
               <button
+                type="button"
                 (click)="
                   updateFilters({
                     element: 'entretien',
@@ -386,6 +399,7 @@
               </button>
 
               <button
+                type="button"
                 (click)="
                   updateFilters({
                     element: 'entretien',
@@ -442,6 +456,7 @@
             >
               <button
                 type="button"
+                type="button"
                 (click)="
                   updateFilters({
                     element: 'sortKey',
@@ -455,6 +470,7 @@
                 <fa-icon [icon]="['fas', 'sort-amount-up']"></fa-icon>
               </button>
               <button
+                type="button"
                 type="button"
                 (click)="
                   updateFilters({
@@ -471,6 +487,7 @@
             </ng-container>
             <button
               type="button"
+              type="button"
               (click)="
                 updateFilters({
                   element: 'sortKey',
@@ -485,6 +502,7 @@
             </button>
             <button
               type="button"
+              type="button"
               (click)="
                 updateFilters({
                   element: 'sortKey',
@@ -498,6 +516,7 @@
               <fa-icon [icon]="['fas', 'sort-amount-down']"></fa-icon>
             </button>
             <button
+              type="button"
               title="Trier par nom ascendant"
               (click)="
                 updateFilters({
@@ -513,6 +532,7 @@
             </button>
             <button
               type="button"
+              type="button"
               (click)="
                 updateFilters({
                   element: 'sortKey',
@@ -527,6 +547,7 @@
             </button>
             <button
               type="button"
+              type="button"
               (click)="
                 updateFilters({
                   element: 'sortKey',
@@ -540,6 +561,7 @@
               <fa-icon [icon]="['fas', 'sort-amount-up']"></fa-icon>
             </button>
             <button
+              type="button"
               type="button"
               (click)="
                 updateFilters({
@@ -570,7 +592,11 @@
         aucun dossier ne correspond à votre recherche
       </span>
 
-      <button (click)="resetFilters()" class="btn btn-outline-dark">
+      <button
+        type="button"
+        (click)="resetFilters()"
+        class="btn btn-outline-dark"
+      >
         Réinitialiser les filtres
       </button>
     </div>
@@ -611,6 +637,7 @@
     >
       <div class="my-2">
         <button
+          type="button"
           type="button"
           class="btn btn-white-primary"
           (click)="chargerTousRadies()"

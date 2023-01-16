@@ -118,6 +118,7 @@ export class AppComponent implements OnInit, OnDestroy {
           if (this.modalService.hasOpenModals()) {
             return;
           }
+
           const newVersion = user.domifaVersion;
           // Initialisation de la première version
           if (this.apiVersion === null) {
@@ -139,6 +140,7 @@ export class AppComponent implements OnInit, OnDestroy {
             return;
           }
 
+          console.log(this.me.structure);
           if (!this.me.acceptTerms) {
             this.openAcceptTermsModal();
           } else {

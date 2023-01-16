@@ -39,6 +39,7 @@ export class StructuresAuthController {
       });
 
       const accessToken = await this.structuresAuthService.login(user);
+
       return res.status(HttpStatus.OK).json(accessToken);
     } catch (err) {
       return res
