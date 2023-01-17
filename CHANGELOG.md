@@ -1,3 +1,16 @@
+# [2.115.0](https://github.com/SocialGouv/domifa/compare/v2.114.1...v2.115.0) (2023-01-17)
+
+
+### Bug Fixes
+
+* **dumps:** mise à jour des dumps de test ([1864b5b](https://github.com/SocialGouv/domifa/commit/1864b5ba22e4d8feb930747b0813b40b5f84adeb))
+* **general:** corrections de design et de responsive ([865e643](https://github.com/SocialGouv/domifa/commit/865e64374dc97b40ed8b4c3366dd24c4dfc8bebf))
+
+
+### Features
+
+* **manage:** ajout du numéro de téléphone dans le manage ([cd46a55](https://github.com/SocialGouv/domifa/commit/cd46a55479b52eb2b4a2a5fab888f69b3180d9df))
+
 ## [2.114.1](https://github.com/SocialGouv/domifa/compare/v2.114.0...v2.114.1) (2023-01-16)
 
 
