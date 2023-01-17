@@ -71,16 +71,6 @@ ul.check-list li::before {
   text-align: center;
 }
 
-#team b {
-  display: block;
-}
-
-#team img {
-  display: block;
-  max-height: 150px;
-  margin-bottom: 20px;
-}
-
 .counter-title {
   font-weight: 500;
   font-size: 1.05rem;

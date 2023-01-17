@@ -1,15 +1,16 @@
 <div class="head-page pt-4 d-print-none">
   <div class="container">
     <div class="py-3 px-0 mx-0 row d-flex align-items-center">
-      <div class="col-2">
+      <div class="col-12 col-md-2">
         <h1 class="title">Domiciliés</h1>
       </div>
-      <div class="col-6 d-flex">
+      <div class="col-12 col-md-6 d-flex">
         <div
           ngbDropdown
           *ngIf="!filters.passage"
           id="dropdownSearchString"
           display="dynamic"
+          class="d-block d-sm-inline-block"
         >
           <button type="button" ngbDropdownToggle>
             <span>
@@ -65,7 +66,7 @@
             </button> -->
           </div>
         </div>
-        <div id="searchbar" role="search">
+        <div id="searchbar" class="d-block d-sm-inline-block" role="search">
           <label for="searchInput" class="sr-only"
             >Rechercher un domicilié</label
           >
@@ -95,7 +96,10 @@
           </button>
         </div>
       </div>
-      <div class="col-4 text-end" *ngIf="currentUserSubject$ | async as me">
+      <div
+        class="col-12 col-md-4 text-end"
+        *ngIf="currentUserSubject$ | async as me"
+      >
         <a
           *ngIf="me.role !== 'facteur'"
           routerLink="/usager/nouveau"
@@ -503,7 +507,6 @@
               </button>
             </ng-container>
             <button
-              type="button"
               type="button"
               (click)="
                 updateFilters({

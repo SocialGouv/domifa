@@ -243,6 +243,10 @@ export class AppComponent implements OnInit, OnDestroy {
           );
           const user = this.authService.currentUserValue;
           user.acceptTerms = new Date();
+          if (user.role === "admin" && !user.structure.acceptTerms) {
+            user.structure.acceptTerms = new Date();
+          }
+          localStorage.setItem("currentUser", JSON.stringify(user));
           this.authService.currentUserSubject.next(user);
           this.closeModals();
         },

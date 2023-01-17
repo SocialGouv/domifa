@@ -25,32 +25,6 @@
           <tr *ngFor="let user of users">
             <td>
               <strong>{{ user.nom }} {{ user.prenom }}</strong>
-              <span class="user-icon">
-                <span *ngIf="user.role === 'admin'" class="badge bg-primary">
-                  Administrateur
-                </span>
-                <span
-                  *ngIf="user.role === 'responsable'"
-                  class="badge text-dark bg-secondary"
-                >
-                  Gestionnaire
-                </span>
-                <span
-                  *ngIf="user.role === 'simple'"
-                  class="badge text-dark bg-info"
-                >
-                  Instructeur
-                </span>
-                <span
-                  *ngIf="user.role === 'facteur'"
-                  class="badge text-dark bg-warning"
-                >
-                  Facteur
-                </span>
-                <span *ngIf="!user.verified" class="badge text-dark bg-danger">
-                  Non activé
-                </span>
-              </span>
             </td>
             <td>{{ user.email }}</td>
             <td>
@@ -87,10 +61,11 @@
       </table>
 
       <button
+        type="button"
         class="btn btn-outline-primary"
         (click)="usersInfos = !usersInfos"
       >
-        <fa-icon [icon]="['fas', 'question']"></fa-icon>
+        <fa-icon aria-hidden="true" [icon]="['fas', 'question']"></fa-icon>
         &nbsp; En savoir plus sur les rôles utilisateurs
       </button>
       <br />
@@ -594,6 +569,7 @@
       Annuler
     </button>
     <button
+      type="submit"
       class="btn btn-lg btn-danger"
       (click)="deleteUser()"
       [disabled]="loading"

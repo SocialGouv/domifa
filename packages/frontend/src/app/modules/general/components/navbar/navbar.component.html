@@ -20,6 +20,7 @@
 
       <div class="mx-2">
         <button
+          type="button"
           class="btn btn-white-primary"
           aria-label="Fermer le message"
           (click)="closeMatomo()"
@@ -42,7 +43,7 @@
           alt="Ministère des Solidarités et de la Santé"
         />
         <a
-          class="navbar-brand ms-4 d-none d-sm-block"
+          class="navbar-brand ms-4"
           aria-label="Retour à l'accueil de DomiFa"
           [routerLink]="['/']"
         >
@@ -51,7 +52,7 @@
             src="../assets/images/logo.svg"
             alt="Accueil"
           />
-          <span id="nom-asso" *ngIf="me">
+          <span class="d-none d-sm-inline-block" id="nom-asso" *ngIf="me">
             {{ me.structure.nom }}
           </span>
         </a>
@@ -123,7 +124,7 @@
                 placement="bottom-end"
                 class="d-inline-block d-xs-none d-sm-none"
               >
-                <button class="btn" ngbDropdownToggle>
+                <button class="btn" ngbDropdownToggle type="button">
                   <img
                     src="../assets/icones/menu.svg "
                     alt="Menu du site"
@@ -189,6 +190,7 @@
                     class="btn btn-outline-primary"
                     data-toggle="dropdown"
                     ngbDropdownToggle
+                    type="button"
                   >
                     Mon compte
                   </button>
