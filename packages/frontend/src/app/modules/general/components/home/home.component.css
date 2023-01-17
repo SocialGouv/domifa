@@ -98,7 +98,9 @@ ul.check-list li::before {
 }
 
 .structure-logo {
-  height: 60px;
+  height: 70px;
+  width: auto;
+  margin: 2rem 1.5rem;
 }
 
 h2 span,
