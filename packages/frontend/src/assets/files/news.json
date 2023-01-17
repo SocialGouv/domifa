@@ -38,10 +38,10 @@
         "type": "new",
         "categorie": "La fonction de recherche évolue 🔎",
         "message": [
-          "- Pour rappel, par défaut, vous pouvez rechercher un domicilié grâce à son ID, son nom et prénom, et le nom et prénom de ses ayants droit",
-          "- Maintenant, avec la fonction de recherche par défaut, retrouvez aussi un domicilié en faisant une recherche avec le nom ou prénom de son mandataire",
-          "- L'autre nouveauté, retrouvez un domicilié en rentrant sa date de naissance en sélectionnant \"date de naissance\" dans la liste de choix à côté de la barre de recherche",
-          "- Enfin, le chargement de la liste des domicilié est beaucoup plus rapide !"
+          "Pour rappel, par défaut, vous pouvez rechercher un domicilié grâce à son ID, son nom et prénom, et le nom et prénom de ses ayants droit",
+          "Maintenant, avec la fonction de recherche par défaut, retrouvez aussi un domicilié en faisant une recherche avec le nom ou prénom de son mandataire",
+          "L'autre nouveauté, retrouvez un domicilié en rentrant sa date de naissance en sélectionnant \"date de naissance\" dans la liste de choix à côté de la barre de recherche",
+          "Enfin, le chargement de la liste des domicilié est beaucoup plus rapide !"
         ]
       },
       {
