@@ -56,9 +56,9 @@
 >
   <div class="container my-2">
     <div class="my-3">Nos partenaires:</div>
-    <div class="d-inline-block text-center">
+    <div class="d-flex flex-wrap justify-content-center align-items-center">
       <a
-        class="m-1"
+        class="m-3"
         href="https://www.fabrique.social.gouv.fr"
         target="_blank"
         rel="noopener noreferrer"
@@ -71,7 +71,7 @@
         />
       </a>
       <a
-        class="m-1"
+        class="m-3"
         href="https://beta.gouv.fr"
         target="_blank"
         rel="noopener noreferrer"
@@ -84,7 +84,7 @@
         />
       </a>
       <a
-        class="m-1"
+        class="m-3"
         href="https://www.gouvernement.fr/france-relance"
         target="_blank"
         rel="noopener noreferrer"
@@ -99,7 +99,7 @@
         />
       </a>
       <a
-        class="m-1"
+        class="m-3"
         href="https://agence-cohesion-territoires.gouv.fr/"
         target="_blank"
         rel="noopener noreferrer"
@@ -125,7 +125,7 @@
         />
       </a>
       <a
-        class="m-1"
+        class="m-3"
         href="https://www.gouvernement.fr/delegation-interministerielle-a-l-hebergement-et-a-l-acces-au-logement"
         target="_blank"
         rel="noopener noreferrer"
@@ -139,7 +139,7 @@
       </a>
 
       <a
-        class="m-1"
+        class="m-3"
         href="https://www.unccas.org"
         target="_blank"
         rel="noopener noreferrer"
@@ -154,7 +154,7 @@
     </div>
 
     <div class="py-3 my-4 text-gray border-top">
-      <div class="d-flex">
+      <div class="d-flex flex-wrap justify-content-center align-items-center">
         <a
           href="/assets/files/domifa_declaration-d-accessibilite.pdf"
           target="_blank"
@@ -162,7 +162,7 @@
           download
           >Accessibilité: non conforme
         </a>
-        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
+        <span class="menu-breadcrumb">|</span>
         <a
           [routerLink]="['/mentions-legales']"
           routerLinkActive="router-link-active"
@@ -172,7 +172,7 @@
         >
           Mentions légales
         </a>
-        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
+        <span class="menu-breadcrumb">|</span>
         <a
           [routerLink]="['/cgu']"
           routerLinkActive="router-link-active"
@@ -180,11 +180,11 @@
         >
           CGU
         </a>
-        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
+        <span class="menu-breadcrumb">|</span>
         <a routerLink="/confidentialite" routerLinkActive="router-link-active">
           Politique de confidentialité
         </a>
-        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
+        <span class="menu-breadcrumb">|</span>
         <a
           [routerLink]="['/news']"
           routerLinkActive="router-link-active"
@@ -192,7 +192,7 @@
         >
           Nouveautés
         </a>
-        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
+        <span class="menu-breadcrumb">|</span>
         <a
           [routerLink]="['/stats']"
           routerLinkActive="router-link-active"
@@ -200,7 +200,7 @@
         >
           Statistiques
         </a>
-        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
+        <span class="menu-breadcrumb">|</span>
         <a
           [routerLink]="['/stats/impact']"
           routerLinkActive="router-link-active"
@@ -208,7 +208,7 @@
         >
           Notre impact
         </a>
-        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
+        <span class="menu-breadcrumb">|</span>
         <a
           [routerLink]="['/faq']"
           routerLinkActive="router-link-active"
@@ -216,7 +216,7 @@
         >
           Foire aux questions
         </a>
-        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
+        <span class="menu-breadcrumb">|</span>
         <a
           [routerLink]="['/contact']"
           routerLinkActive="router-link-active"
@@ -224,7 +224,7 @@
         >
           Contactez-nous
         </a>
-        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
+        <span class="menu-breadcrumb">|</span>
         <a
           routerLink="/plan-site"
           routerLinkActive="router-link-active"
@@ -239,14 +239,13 @@
           href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
           target="_blank"
           rel="noopener noreferrer"
-          >licence etalab-2.0</a
-        >
-        <img
-          src="../../../assets/icones/link-external.png"
-          class="ms-1"
-          style="height: 8px"
-          alt="Lien externe"
-        />
+          >licence etalab-2.0
+          <fa-icon
+            class="ms-2"
+            [icon]="['fas', 'arrow-up-right-from-square']"
+            aria-hidden="true"
+          ></fa-icon
+        ></a>
       </div>
     </div>
   </div>

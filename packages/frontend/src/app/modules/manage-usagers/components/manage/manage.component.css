@@ -73,7 +73,7 @@
   width: 100%;
   min-height: 70vh;
   background-color: white;
-  z-index: 4000;
+  z-index: 2000;
 }
 
 .content-overlay div {

@@ -92,23 +92,22 @@
             </div>
           </div>
         </ng-template>
-        <a [routerLink]="usager.usagerProfilUrl">
-          <div
-            [ngbTooltip]="usager.rdvInfos.display ? rdvInfosTooltip : ''"
-            *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
-            class="label-statut orange-status"
-          >
-            <span>Renouvellement</span>
-          </div>
 
-          <div
-            [ngbTooltip]="usager.rdvInfos.display ? rdvInfosTooltip : ''"
-            *ngIf="usager.typeDom === 'PREMIERE_DOM'"
-            class="label-statut grey-status"
-          >
-            <span>Première demande</span>
-          </div>
-        </a>
+        <div
+          [ngbTooltip]="usager.rdvInfos.display ? rdvInfosTooltip : ''"
+          *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
+          class="label-statut orange-status"
+        >
+          <span>Renouvellement</span>
+        </div>
+
+        <div
+          [ngbTooltip]="usager.rdvInfos.display ? rdvInfosTooltip : ''"
+          *ngIf="usager.typeDom === 'PREMIERE_DOM'"
+          class="label-statut grey-status"
+        >
+          <span>Première demande</span>
+        </div>
       </td>
 
       <td class="text-primary manage-usager-ref">

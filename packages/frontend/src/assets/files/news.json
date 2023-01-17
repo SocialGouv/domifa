@@ -1,8 +1,17 @@
 [
   {
-    "date": "2023-01-10",
+    "date": "2023-01-17",
     "description": "",
     "content": [
+      {
+        "type": "new",
+        "categorie": "Les informations des domiciliés sont plus accessibles depuis la liste",
+        "message": [
+          "Ajout de la colonne \"Téléphone\"",
+          "Modification du design de la liste pour améliorer la lisibilité des informations",
+          "Amélioration de l'accessibilité de la liste des domiciliés"
+        ]
+      },
       {
         "type": "new",
         "categorie": "Découvrez l'impact de DomiFa 📊",
@@ -11,6 +20,7 @@
           "La page de statistiques a été mise à jour avec l'ajout de nouveaux chiffres."
         ]
       },
+
       {
         "type": "new",
         "categorie": "Conditions générales d'utilisation",
@@ -38,10 +48,10 @@
         "type": "new",
         "categorie": "La fonction de recherche évolue 🔎",
         "message": [
-          "- Pour rappel, par défaut, vous pouvez rechercher un domicilié grâce à son ID, son nom et prénom, et le nom et prénom de ses ayants droit",
-          "- Maintenant, avec la fonction de recherche par défaut, retrouvez aussi un domicilié en faisant une recherche avec le nom ou prénom de son mandataire",
-          "- L'autre nouveauté, retrouvez un domicilié en rentrant sa date de naissance en sélectionnant \"date de naissance\" dans la liste de choix à côté de la barre de recherche",
-          "- Enfin, le chargement de la liste des domicilié est beaucoup plus rapide !"
+          "Pour rappel, par défaut, vous pouvez rechercher un domicilié grâce à son ID, son nom et prénom, et le nom et prénom de ses ayants droit",
+          "Maintenant, avec la fonction de recherche par défaut, retrouvez aussi un domicilié en faisant une recherche avec le nom ou prénom de son mandataire",
+          "L'autre nouveauté, retrouvez un domicilié en rentrant sa date de naissance en sélectionnant \"date de naissance\" dans la liste de choix à côté de la barre de recherche",
+          "Enfin, le chargement de la liste des domicilié est beaucoup plus rapide !"
         ]
       },
       {
@@ -69,7 +79,7 @@
         "type": "new",
         "categorie": "DomiFa augmente ses critères d’exigence pour les mots de passe.",
         "message": [
-          "Votre mot de passe doit respecter les règles suivantes :\n- Avoir entre 12 et 150 caractères\n- Au moins 1 chiffre\n- Au moins une lettre en majuscule\n- Au moins une lettre en minuscule (nouveau critère)\n\nSi ce n'est pas le cas, veuillez changer votre mot de passe en cliquant sur \"Mot de passe oublié\" depuis la page de connexion de DomiFa"
+          "Votre mot de passe doit respecter les règles suivantes :\nAvoir entre 12 et 150 caractères\nAu moins 1 chiffre\nAu moins une lettre en majuscule\nAu moins une lettre en minuscule (nouveau critère)\n\nSi ce n'est pas le cas, veuillez changer votre mot de passe en cliquant sur \"Mot de passe oublié\" depuis la page de connexion de DomiFa"
         ]
       }
     ]
