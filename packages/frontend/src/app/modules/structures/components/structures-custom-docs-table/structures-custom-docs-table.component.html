@@ -54,6 +54,7 @@
           </td>
           <td class="align-middle text-end">
             <button
+              type="button"
               (click)="getStructureDoc(document)"
               class="mx-1 my-1 btn btn-primary"
               [disabled]="loadings.download.indexOf(document.uuid) !== -1"

@@ -389,12 +389,58 @@
       </td>
 
       <td class="d-print-none">
-        <a
-          class="svg-icon icon-arrow"
-          [attr.aria-label]="'Aller sur le profil de '+usager.nom + ' ' + usager.prenom"
-          [routerLink]="usager.usagerProfilUrl"
+        <div
+          ngbDropdown
+          class="dropdown-manage-actions"
+          *ngIf="me.role !== 'facteur' "
         >
-        </a>
+          <button
+            type="button"
+            class="btn toggle-actions"
+            ngbDropdownToggle
+            [attr.aria-label]="'Menu pour télécharger un document de '+ usager.nom + ' ' + usager.prenom"
+          >
+            <fa-icon
+              [icon]="['fas','ellipsis-vertical']"
+              aria-hidden="true"
+            ></fa-icon>
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button
+              ngbDropdownItem
+              type="button"
+              (click)="getCerfa(usager.ref,'demande')"
+            >
+              Télécharger le Cerfa d'attestation de demande
+            </button>
+            <button
+              ngbDropdownItem
+              type="button"
+              (click)="getCerfa(usager.ref,'attestation')"
+              *ngIf="usager.decision.statut !== 'REFUS' &&  usager.decision.statut !== 'RADIE'
+            "
+            >
+              Télécharger le Cerfa d'élection de domicile
+            </button>
+            <button
+              *ngIf="usager.decision.statut !== 'REFUS' &&  usager.decision.statut === 'RADIE'
+          "
+              ngbDropdownItem
+              type="button"
+              (click)="getDomifaCustomDoc(usager.ref,'courrier_radiation')"
+            >
+              Télécharger le courrier de radiation
+            </button>
+            <button
+              *ngIf="usager.decision.statut === 'VALIDE'"
+              ngbDropdownItem
+              type="button"
+              (click)="getDomifaCustomDoc(usager.ref,'attestation_postale')"
+            >
+              Télécharger l'attestation postale
+            </button>
+          </div>
+        </div>
       </td>
     </tr>
   </tbody>

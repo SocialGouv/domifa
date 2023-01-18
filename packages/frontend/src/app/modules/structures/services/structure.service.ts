@@ -48,11 +48,20 @@ export class StructureService {
     structure: Partial<Structure>;
     user: Partial<UserStructure>;
   }): Observable<StructureCommon> {
-    return this.http.post(`${this.endPoint}`, dto).pipe(
-      map((response) => {
-        return new StructureCommonWeb(response);
+    return this.http
+      .post(`${this.endPoint}`, {
+        structure: {
+          ...dto.structure,
+          readCgu: true,
+          acceptCgu: true,
+        },
+        user: dto.user,
       })
-    );
+      .pipe(
+        map((response) => {
+          return new StructureCommonWeb(response);
+        })
+      );
   }
 
   public prePost(structure: Partial<Structure>): Observable<StructureCommon> {

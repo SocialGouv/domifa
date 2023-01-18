@@ -16,7 +16,12 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 
-import { UserStructure, UsagerLight } from "../../../../../../_common/model";
+import {
+  UserStructure,
+  UsagerLight,
+  CerfaDocType,
+  StructureDocTypesAvailable,
+} from "../../../../../../_common/model";
 import {
   InteractionType,
   InteractionInForApi,
@@ -32,11 +37,13 @@ import {
   UsagersFilterCriteriaSortValues,
   UsagersFilterCriteriaDernierPassage,
 } from "../usager-filter";
+import { DocumentService } from "../../../../usager-shared/services/document.service";
+import saveAs from "file-saver";
 
 @Component({
   animations: [fadeInOut],
   selector: "app-manage-manage-usagers-table",
-  styleUrls: ["./manage-usagers-table.css"],
+  styleUrls: ["./manage-usagers-table.scss"],
   templateUrl: "./manage-usagers-table.html",
 })
 export class ManageUsagersTableComponent implements OnInit, OnDestroy {
@@ -94,7 +101,8 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
     private readonly interactionService: InteractionService,
     private readonly modalService: NgbModal,
     private readonly toastService: CustomToastService,
-    private readonly matomo: MatomoTracker
+    private readonly matomo: MatomoTracker,
+    private readonly documentService: DocumentService
   ) {
     this.today = new Date();
     this.selectedUsager = null;
@@ -179,6 +187,41 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
       "click",
       "Liste_Icône_Distribution",
       1
+    );
+  }
+
+  public getCerfa(
+    usagerRef: number,
+    typeCerfa: CerfaDocType = "attestation"
+  ): void {
+    return this.documentService.attestation(usagerRef, typeCerfa);
+  }
+
+  public getDomifaCustomDoc(
+    usagerRef: number,
+    docType: StructureDocTypesAvailable
+  ): void {
+    this.subscription.add(
+      this.documentService
+        .getDomifaCustomDoc({
+          usagerId: usagerRef,
+          docType,
+        })
+        .subscribe({
+          next: (blob: Blob) => {
+            const newBlob = new Blob([blob], {
+              type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            });
+            saveAs(newBlob, docType + ".docx");
+            this.stopLoading(docType);
+          },
+          error: () => {
+            this.toastService.error(
+              "Impossible de télécharger le fichier pour l'instant"
+            );
+            this.stopLoading(docType);
+          },
+        })
     );
   }
 
