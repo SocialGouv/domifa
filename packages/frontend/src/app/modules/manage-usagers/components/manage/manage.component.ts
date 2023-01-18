@@ -173,7 +173,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     };
 
     this.currentUserSubject$ = this.authService.currentUserSubject;
-
+    this.me = this.authService.currentUserValue;
     this.loading = false;
     this.nbResults = 0;
     this.needToPrint = false;

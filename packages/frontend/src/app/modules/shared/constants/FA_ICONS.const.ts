@@ -56,10 +56,12 @@ import {
   faUserShield,
   faList,
   faArrowUpRightFromSquare,
+  faEllipsisVertical,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const FA_ICONS: IconDefinition[] = [
   faAngleLeft,
+  faEllipsisVertical,
   faAngleRight,
   faArrowAltCircleRight,
   faArrowDown,

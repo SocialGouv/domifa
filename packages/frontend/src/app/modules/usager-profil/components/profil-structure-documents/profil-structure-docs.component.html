@@ -33,6 +33,7 @@
       </td>
       <td class="align-middle text-end">
         <button
+          type="button"
           (click)="getDomifaCustomDoc('attestation_postale')"
           class="mx-1 my-1 btn btn-primary"
           [disabled]="loadings.indexOf('attestation_postale') !== -1"
@@ -74,6 +75,7 @@
 
       <td class="align-middle text-end">
         <button
+          type="button"
           (click)="getDomifaCustomDoc('courrier_radiation')"
           class="mx-1 my-1 btn btn-primary"
           [disabled]="loadings.indexOf('courrier_radiation') !== -1"
@@ -109,6 +111,7 @@
       </td>
       <td class="align-middle text-end">
         <button
+          type="button"
           (click)="getStructureCustomDoc(document)"
           class="mx-1 my-1 btn btn-primary"
           [disabled]="loadings.indexOf(document.uuid) !== -1"

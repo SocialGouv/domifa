@@ -154,14 +154,15 @@
     </div>
 
     <div class="py-3 my-4 text-gray border-top">
-      <div class="d-flex flex-wrap justify-content-center align-items-center">
+      <div class="my-2">
+        <span class="fw-bold">Cadre juridique</span><br />
         <a
           href="/assets/files/domifa_declaration-d-accessibilite.pdf"
           target="_blank"
           rel="noopener noreferrer"
           download
-          >Accessibilité: non conforme
-        </a>
+          >Accessibilité: non conforme</a
+        >
         <span class="menu-breadcrumb">|</span>
         <a
           [routerLink]="['/mentions-legales']"
@@ -169,70 +170,74 @@
           (click)="
             matomo.trackEvent('FOOTER', 'Footer_Mentions_Légales', 'null', 1)
           "
+          >Mentions légales</a
         >
-          Mentions légales
-        </a>
         <span class="menu-breadcrumb">|</span>
         <a
           [routerLink]="['/cgu']"
           routerLinkActive="router-link-active"
           (click)="matomo.trackEvent('FOOTER', 'Footer_CGU', 'null', 1)"
+          >CGU</a
         >
-          CGU
-        </a>
-        <span class="menu-breadcrumb">|</span>
-        <a routerLink="/confidentialite" routerLinkActive="router-link-active">
-          Politique de confidentialité
-        </a>
         <span class="menu-breadcrumb">|</span>
         <a
-          [routerLink]="['/news']"
+          [routerLink]="['/cgu-responsable']"
           routerLinkActive="router-link-active"
-          (click)="matomo.trackEvent('FOOTER', 'Footer_Nouveautés', 'null', 1)"
+          (click)="
+            matomo.trackEvent('FOOTER', 'Footer_CGU_responsable', 'null', 1)
+          "
+          >CGU du responsable de la structure</a
         >
-          Nouveautés
-        </a>
         <span class="menu-breadcrumb">|</span>
-        <a
-          [routerLink]="['/stats']"
-          routerLinkActive="router-link-active"
-          (click)="matomo.trackEvent('FOOTER', 'Footer_Stats', 'null', 1)"
+        <a routerLink="/confidentialite" routerLinkActive="router-link-active"
+          >Politique de confidentialité</a
         >
-          Statistiques
-        </a>
-        <span class="menu-breadcrumb">|</span>
-        <a
-          [routerLink]="['/stats/impact']"
-          routerLinkActive="router-link-active"
-          (click)="matomo.trackEvent('FOOTER', 'Footer_Impact', 'null', 1)"
-        >
-          Notre impact
-        </a>
-        <span class="menu-breadcrumb">|</span>
-        <a
-          [routerLink]="['/faq']"
-          routerLinkActive="router-link-active"
-          (click)="matomo.trackEvent('FOOTER', 'Footer_Faq', 'null', 1)"
-        >
-          Foire aux questions
-        </a>
-        <span class="menu-breadcrumb">|</span>
-        <a
-          [routerLink]="['/contact']"
-          routerLinkActive="router-link-active"
-          (click)="matomo.trackEvent('FOOTER', 'Footer_Contact', 'null', 1)"
-        >
-          Contactez-nous
-        </a>
         <span class="menu-breadcrumb">|</span>
         <a
           routerLink="/plan-site"
           routerLinkActive="router-link-active"
           (click)="matomo.trackEvent('FOOTER', 'Footer_Contact', 'null', 1)"
+          >Plan du site</a
         >
-          Plan du site
-        </a>
       </div>
+      <div class="my-2">
+        <span class="fw-bold">En savoir plus</span><br />
+        <a
+          [routerLink]="['/news']"
+          routerLinkActive="router-link-active"
+          (click)="matomo.trackEvent('FOOTER', 'Footer_Nouveautés', 'null', 1)"
+          >Nouveautés</a
+        >
+        <span class="menu-breadcrumb">|</span>
+        <a
+          [routerLink]="['/stats']"
+          routerLinkActive="router-link-active"
+          (click)="matomo.trackEvent('FOOTER', 'Footer_Stats', 'null', 1)"
+          >Statistiques</a
+        >
+        <span class="menu-breadcrumb">|</span>
+        <a
+          [routerLink]="['/stats/impact']"
+          routerLinkActive="router-link-active"
+          (click)="matomo.trackEvent('FOOTER', 'Footer_Impact', 'null', 1)"
+          >Notre impact</a
+        >
+        <span class="menu-breadcrumb">|</span>
+        <a
+          [routerLink]="['/faq']"
+          routerLinkActive="router-link-active"
+          (click)="matomo.trackEvent('FOOTER', 'Footer_Faq', 'null', 1)"
+          >Foire aux questions</a
+        >
+        <span class="menu-breadcrumb">|</span>
+        <a
+          [routerLink]="['/contact']"
+          routerLinkActive="router-link-active"
+          (click)="matomo.trackEvent('FOOTER', 'Footer_Contact', 'null', 1)"
+          >Contactez-nous</a
+        >
+      </div>
+
       <div class="my-4 text-gray">
         Sauf mention contraire, tous les textes de ce site sont sous
         <a

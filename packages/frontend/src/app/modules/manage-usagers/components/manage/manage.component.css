@@ -131,9 +131,8 @@
 }
 
 #searchbar {
-  min-width: 320px;
+  min-width: 360px;
   width: 100%;
-  max-width: 1;
   position: relative;
 }
 

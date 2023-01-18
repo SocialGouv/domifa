@@ -96,7 +96,6 @@ export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
               type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
             });
             saveAs(newBlob, docType + ".docx");
-
             this.stopLoading(docType);
           },
           error: () => {
