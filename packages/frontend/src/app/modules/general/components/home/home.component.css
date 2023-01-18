@@ -97,10 +97,10 @@ ul.check-list li::before {
   color: white;
 }
 
-.structure-logo {
-  height: 70px;
+.partenaires img {
+  height: 85px;
   width: auto;
-  margin: 2rem 1.5rem;
+  margin: 1rem;
 }
 
 h2 span,

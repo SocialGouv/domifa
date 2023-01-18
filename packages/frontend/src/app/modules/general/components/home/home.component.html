@@ -287,33 +287,32 @@
       De nombreux organismes domiciliataires utilisent DomiFa : CCAS, CIAS ou
       associations.
     </div>
-    <div class="d-flex flex-wrap justify-content-center align-items-center">
+    <div
+      class="partenaires d-flex flex-wrap justify-content-center align-items-center"
+    >
+      <a
+        href="https://www.samusocial.paris/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          src="../assets/images/home/structure-samu-social-paris.png"
+          alt="Samu Social de Paris"
+        />
+      </a>
       <img
-        class="structure-logo"
-        src="../assets/images/home/structure-samu-social-paris.png"
-        alt="Samu Social de Paris"
-      />
-
-      <img
-        class="structure-logo"
         src="../assets/images/home/structure-ccas-clermont-ferrant.png"
         alt="CCAS Clermont Ferrant"
       />
 
       <img
-        class="structure-logo"
         src="../assets/images/home/structure-ccas-le-havre.png"
         alt="CCAS Le Havre"
       />
 
-      <img
-        class="structure-logo"
-        src="../assets/images/home/structure-aurore.png"
-        alt="Aurore"
-      />
+      <img src="../assets/images/home/structure-aurore.png" alt="Aurore" />
 
       <img
-        class="structure-logo"
         src="../assets/images/home/structure-ccas-annecy.png"
         alt="CCAS d'annecy"
       />
@@ -323,7 +322,7 @@
   <div class="home-header-content bg-primary text-white text-bold d-flex">
     <div class="container px-2 d-flex">
       <div class="mt-sm-0 py-5 py-sm-4 text-start flex-sm-grow-1">
-        <h2 class="font-bold">Gérez vos domiciliations avec DomiFa</h2>
+        <h2 class="font-bold mt-2">Gérez vos domiciliations avec DomiFa</h2>
         <p>
           Découvrez DomiFa en quelques minutes et commencez à instruire des
           demandes de domiciliations.
@@ -336,9 +335,11 @@
           >
             S'inscrire &#8594;
           </a>
+          <br />
+          <br />
           <a
             routerLink="/contact"
-            class="ms-2 text-sm font-bold text-white"
+            class="btn btn-light"
             (click)="matomo.trackEvent('HOME', 'HP_Contact_Équipe', 'null', 1)"
           >
             Contacter l’équipe &#8594;
@@ -357,27 +358,81 @@
       </div>
     </div>
   </div>
-
-  <div class="container px-0 my-3 my-sm-5 d-flex justify-content-between">
-    <a
-      class="me-5"
-      href="https://solidarites-sante.gouv.fr/"
-      target="_blank"
-      title="Ministère des Solidarités et de la Santé"
-    >
-      <img
-        class="ministere-logo-home"
-        src="../assets/images/logo-ministere.svg "
-        alt="Ministère des Solidarités et de la Santé"
-      />
-    </a>
-
+  <div class="my-4 container">
     <div
-      class="flex-sm-grow-1 w-full w-sm-1/2 text-center text-sm-right m-sm-5 mt-5 mt-sm-0"
+      class="partenaires d-flex flex-wrap justify-content-center align-items-center"
     >
-      DomiFa est une solution gratuite et complète de gestion des domiciliations
-      pour les structures domiciliataires (centres d'Action Sociale, communes,
-      organismes agréés).
+      <a
+        href="https://www.fabrique.social.gouv.fr"
+        target="_blank"
+        rel="noopener noreferrer"
+        (click)="matomo.trackEvent('FOOTER', 'Footer_Logo_Fabrique', 'null', 1)"
+      >
+        <img
+          src="../assets/images/footer/partenaire-fabrique-numerique.png"
+          alt="La Fabrique Numérique"
+        />
+      </a>
+      <a
+        href="https://beta.gouv.fr"
+        target="_blank"
+        rel="noopener noreferrer"
+        (click)="matomo.trackEvent('FOOTER', 'Footer_Logo_Beta', 'null', 1)"
+      >
+        <img
+          src="../assets/images/footer/partenaire-beta-gouv.png"
+          alt="Beta Gouv"
+        />
+      </a>
+      <a
+        href="https://www.gouvernement.fr/france-relance"
+        target="_blank"
+        rel="noopener noreferrer"
+        (click)="
+          matomo.trackEvent('FOOTER', 'Footer_Logo_FranceRelance', 'null', 1)
+        "
+      >
+        <img
+          src="../assets/images/footer/logo_francerelance.webp"
+          alt="France Relance soutien DomiFa"
+        />
+      </a>
+      <a
+        href="https://agence-cohesion-territoires.gouv.fr/"
+        target="_blank"
+        rel="noopener noreferrer"
+        (click)="matomo.trackEvent('FOOTER', 'ANCT', 'null', 1)"
+      >
+        <img
+          src="../assets/images/footer/logo_anct.webp"
+          alt="Agence nationale de la cohésion des territoires"
+        />
+      </a>
+      <a
+        (click)="matomo.trackEvent('FOOTER', 'Footer_Logo_DGCS', 'null', 1)"
+        href="https://www.gouvernement.fr/le-ministere-des-solidarites-et-de-la-sante"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img src="../assets/images/footer/logo-dgcs.png" alt="DGCS" />
+      </a>
+      <a
+        href="https://www.gouvernement.fr/delegation-interministerielle-a-l-hebergement-et-a-l-acces-au-logement"
+        target="_blank"
+        rel="noopener noreferrer"
+        (click)="matomo.trackEvent('FOOTER', 'Footer_Logo_DIHAL', 'null', 1)"
+      >
+        <img src="../assets/images/footer/partenaire-dihal.png" alt="DIHAL" />
+      </a>
+
+      <a
+        href="https://www.unccas.org"
+        target="_blank"
+        rel="noopener noreferrer"
+        (click)="matomo.trackEvent('FOOTER', 'Footer_Logo_UNCCAS', 'null', 1)"
+      >
+        <img src="../assets/images/footer/partenaire-unccas.png" alt="UNCCAS" />
+      </a>
     </div>
   </div>
 </div>

@@ -51,206 +51,193 @@
   [tabIndex]="currentFragment === 'footer' ? 1 : -1"
   role="contentinfo"
   id="footer"
-  class="d-print-none page-footer py-4"
+  class="d-print-none page-footer py-3"
   #footer
 >
   <div class="container my-2">
-    <div class="my-3">Nos partenaires:</div>
-    <div class="d-flex flex-wrap justify-content-center align-items-center">
-      <a
-        class="m-3"
-        href="https://www.fabrique.social.gouv.fr"
-        target="_blank"
-        rel="noopener noreferrer"
-        (click)="matomo.trackEvent('FOOTER', 'Footer_Logo_Fabrique', 'null', 1)"
-      >
-        <img
-          class="ministere-logo"
-          src="../assets/images/footer/partenaire-fabrique-numerique.png"
-          alt="La Fabrique Numérique"
-        />
-      </a>
-      <a
-        class="m-3"
-        href="https://beta.gouv.fr"
-        target="_blank"
-        rel="noopener noreferrer"
-        (click)="matomo.trackEvent('FOOTER', 'Footer_Logo_Beta', 'null', 1)"
-      >
-        <img
-          class="ministere-logo"
-          src="../assets/images/footer/partenaire-beta-gouv.png"
-          alt="Beta Gouv"
-        />
-      </a>
-      <a
-        class="m-3"
-        href="https://www.gouvernement.fr/france-relance"
-        target="_blank"
-        rel="noopener noreferrer"
-        (click)="
-          matomo.trackEvent('FOOTER', 'Footer_Logo_FranceRelance', 'null', 1)
-        "
-      >
-        <img
-          class="ministere-logo"
-          src="../assets/images/footer/logo_francerelance.webp"
-          alt="France Relance soutien DomiFa"
-        />
-      </a>
-      <a
-        class="m-3"
-        href="https://agence-cohesion-territoires.gouv.fr/"
-        target="_blank"
-        rel="noopener noreferrer"
-        (click)="matomo.trackEvent('FOOTER', 'ANCT', 'null', 1)"
-      >
-        <img
-          class="ministere-logo"
-          src="../assets/images/footer/logo_anct.webp"
-          alt="Agence nationale de la cohésion des territoires"
-        />
-      </a>
-      <a
-        class="m-1"
-        (click)="matomo.trackEvent('FOOTER', 'Footer_Logo_DGCS', 'null', 1)"
-        href="https://www.gouvernement.fr/le-ministere-des-solidarites-et-de-la-sante"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          class="ministere-logo"
-          src="../assets/images/footer/logo-dgcs.png"
-          alt="DGCS"
-        />
-      </a>
-      <a
-        class="m-3"
-        href="https://www.gouvernement.fr/delegation-interministerielle-a-l-hebergement-et-a-l-acces-au-logement"
-        target="_blank"
-        rel="noopener noreferrer"
-        (click)="matomo.trackEvent('FOOTER', 'Footer_Logo_DIHAL', 'null', 1)"
-      >
-        <img
-          class="ministere-logo"
-          src="../assets/images/footer/partenaire-dihal.png"
-          alt="DIHAL"
-        />
-      </a>
+    <div class="py-3">
+      <div class="row">
+        <div class="col-md-3 my-2">
+          <p class="fw-bold">En savoir plus</p>
+          <ul>
+            <li>
+              <a
+                [routerLink]="['/news']"
+                routerLinkActive="router-link-active"
+                (click)="
+                  matomo.trackEvent('FOOTER', 'Footer_Nouveautés', 'null', 1)
+                "
+                >Nouveautés</a
+              >
+            </li>
 
-      <a
-        class="m-3"
-        href="https://www.unccas.org"
-        target="_blank"
-        rel="noopener noreferrer"
-        (click)="matomo.trackEvent('FOOTER', 'Footer_Logo_UNCCAS', 'null', 1)"
-      >
-        <img
-          class="ministere-logo"
-          src="../assets/images/footer/partenaire-unccas.png"
-          alt="UNCCAS"
-        />
-      </a>
-    </div>
+            <li>
+              <a
+                [routerLink]="['/stats']"
+                routerLinkActive="router-link-active"
+                (click)="matomo.trackEvent('FOOTER', 'Footer_Stats', 'null', 1)"
+                >Statistiques</a
+              >
+            </li>
 
-    <div class="py-3 my-4 text-gray border-top">
-      <div class="my-2">
-        <span class="fw-bold">Cadre juridique</span><br />
-        <a
-          href="/assets/files/domifa_declaration-d-accessibilite.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          download
-          >Accessibilité: non conforme</a
-        >
-        <span class="menu-breadcrumb">|</span>
-        <a
-          [routerLink]="['/mentions-legales']"
-          routerLinkActive="router-link-active"
-          (click)="
-            matomo.trackEvent('FOOTER', 'Footer_Mentions_Légales', 'null', 1)
-          "
-          >Mentions légales</a
-        >
-        <span class="menu-breadcrumb">|</span>
-        <a
-          [routerLink]="['/cgu']"
-          routerLinkActive="router-link-active"
-          (click)="matomo.trackEvent('FOOTER', 'Footer_CGU', 'null', 1)"
-          >CGU</a
-        >
-        <span class="menu-breadcrumb">|</span>
-        <a
-          [routerLink]="['/cgu-responsable']"
-          routerLinkActive="router-link-active"
-          (click)="
-            matomo.trackEvent('FOOTER', 'Footer_CGU_responsable', 'null', 1)
-          "
-          >CGU du responsable de la structure</a
-        >
-        <span class="menu-breadcrumb">|</span>
-        <a routerLink="/confidentialite" routerLinkActive="router-link-active"
-          >Politique de confidentialité</a
-        >
-        <span class="menu-breadcrumb">|</span>
-        <a
-          routerLink="/plan-site"
-          routerLinkActive="router-link-active"
-          (click)="matomo.trackEvent('FOOTER', 'Footer_Contact', 'null', 1)"
-          >Plan du site</a
-        >
-      </div>
-      <div class="my-2">
-        <span class="fw-bold">En savoir plus</span><br />
-        <a
-          [routerLink]="['/news']"
-          routerLinkActive="router-link-active"
-          (click)="matomo.trackEvent('FOOTER', 'Footer_Nouveautés', 'null', 1)"
-          >Nouveautés</a
-        >
-        <span class="menu-breadcrumb">|</span>
-        <a
-          [routerLink]="['/stats']"
-          routerLinkActive="router-link-active"
-          (click)="matomo.trackEvent('FOOTER', 'Footer_Stats', 'null', 1)"
-          >Statistiques</a
-        >
-        <span class="menu-breadcrumb">|</span>
-        <a
-          [routerLink]="['/stats/impact']"
-          routerLinkActive="router-link-active"
-          (click)="matomo.trackEvent('FOOTER', 'Footer_Impact', 'null', 1)"
-          >Notre impact</a
-        >
-        <span class="menu-breadcrumb">|</span>
-        <a
-          [routerLink]="['/faq']"
-          routerLinkActive="router-link-active"
-          (click)="matomo.trackEvent('FOOTER', 'Footer_Faq', 'null', 1)"
-          >Foire aux questions</a
-        >
-        <span class="menu-breadcrumb">|</span>
-        <a
-          [routerLink]="['/contact']"
-          routerLinkActive="router-link-active"
-          (click)="matomo.trackEvent('FOOTER', 'Footer_Contact', 'null', 1)"
-          >Contactez-nous</a
-        >
+            <li>
+              <a
+                [routerLink]="['/stats/impact']"
+                routerLinkActive="router-link-active"
+                (click)="
+                  matomo.trackEvent('FOOTER', 'Footer_Impact', 'null', 1)
+                "
+                >Notre impact</a
+              >
+            </li>
+
+            <li>
+              <a
+                [routerLink]="['/faq']"
+                routerLinkActive="router-link-active"
+                (click)="matomo.trackEvent('FOOTER', 'Footer_Faq', 'null', 1)"
+                >Foire aux questions</a
+              >
+            </li>
+
+            <li>
+              <a
+                [routerLink]="['/contact']"
+                routerLinkActive="router-link-active"
+                (click)="
+                  matomo.trackEvent('FOOTER', 'Footer_Contact', 'null', 1)
+                "
+                >Contactez-nous</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-3 my-2">
+          <p class="fw-bold">Cadre juridique</p>
+          <ul>
+            <li>
+              <a
+                href="/assets/files/domifa_declaration-d-accessibilite.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+                >Accessibilité: non conforme</a
+              >
+            </li>
+
+            <li>
+              <a
+                [routerLink]="['/mentions-legales']"
+                routerLinkActive="router-link-active"
+                (click)="
+                  matomo.trackEvent(
+                    'FOOTER',
+                    'Footer_Mentions_Légales',
+                    'null',
+                    1
+                  )
+                "
+                >Mentions légales</a
+              >
+            </li>
+
+            <li>
+              <a
+                [routerLink]="['/cgu']"
+                routerLinkActive="router-link-active"
+                (click)="matomo.trackEvent('FOOTER', 'Footer_CGU', 'null', 1)"
+                >CGU utilisateur</a
+              >
+            </li>
+
+            <li>
+              <a
+                [routerLink]="['/cgu-responsable']"
+                routerLinkActive="router-link-active"
+                (click)="
+                  matomo.trackEvent(
+                    'FOOTER',
+                    'Footer_CGU_responsable',
+                    'null',
+                    1
+                  )
+                "
+                >CGU du responsable de la structure</a
+              >
+            </li>
+
+            <li>
+              <a
+                routerLink="/confidentialite"
+                routerLinkActive="router-link-active"
+                >Politique de confidentialité</a
+              >
+            </li>
+
+            <li>
+              <a
+                routerLink="/plan-site"
+                routerLinkActive="router-link-active"
+                (click)="
+                  matomo.trackEvent('FOOTER', 'Footer_Contact', 'null', 1)
+                "
+                >Plan du site</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-md-4 my-2">
+          <p class="fw-bold">Nos partenaires</p>
+          <ul>
+            <li *ngFor="let link of partnerLinks">
+              <a [href]="link.path" target="_blank"
+                >{{ link.label }}
+                <fa-icon
+                  class="ms-2"
+                  [icon]="['fas', 'arrow-up-right-from-square']"
+                  aria-hidden="true"
+                ></fa-icon>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-2 my-2">
+          <a
+            href="https://solidarites-sante.gouv.fr/"
+            target="_blank"
+            title="Ministère des Solidarités et de la Santé"
+          >
+            <img
+              class="ministere-logo-home"
+              src="../assets/images/logo-ministere.svg "
+              alt="Ministère des Solidarités et de la Santé"
+            />
+          </a>
+        </div>
       </div>
 
       <div class="my-4 text-gray">
-        Sauf mention contraire, tous les textes de ce site sont sous
-        <a
-          href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
-          target="_blank"
-          rel="noopener noreferrer"
-          >licence etalab-2.0
-          <fa-icon
-            class="ms-2"
-            [icon]="['fas', 'arrow-up-right-from-square']"
-            aria-hidden="true"
-          ></fa-icon
-        ></a>
+        <p>
+          DomiFa est une solution gratuite et complète de gestion des
+          domiciliations pour les structures domiciliataires (centres d'Action
+          Sociale, communes, organismes agréés).
+        </p>
+
+        <p>
+          Sauf mention contraire, tous les textes de ce site sont sous
+          <a
+            href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
+            target="_blank"
+            rel="noopener noreferrer"
+            >licence etalab-2.0
+            <fa-icon
+              class="ms-2"
+              [icon]="['fas', 'arrow-up-right-from-square']"
+              aria-hidden="true"
+            ></fa-icon
+          ></a>
+        </p>
       </div>
     </div>
   </div>

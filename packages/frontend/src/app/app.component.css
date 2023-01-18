@@ -39,13 +39,17 @@
 }
 
 .page-footer img {
-  max-width: 180px;
+  width: 200px;
   height: auto;
 }
 
-.page-footer .menu-breadcrumb {
-  color: #1a1a1a;
-  padding: 0 7px;
+.page-footer ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+.page-footer li {
+  padding: 0.25rem 0;
 }
 
 #skip-links {
