@@ -5,8 +5,13 @@
         <h1 class="title">Paramètres d'envoi de SMS pour votre structure</h1>
       </div>
       <div class="text-end col-5">
-        <button (click)="openTutoModal()" class="btn btn-white-primary me-1">
-          <fa-icon [icon]="['fas', 'info-circle']"></fa-icon> Vidéo explicative
+        <button
+          (click)="openTutoModal()"
+          class="btn btn-white-primary me-1"
+          type="button"
+        >
+          <fa-icon [icon]="['fas', 'info-circle']" aria-hidden="true"></fa-icon>
+          Vidéo explicative
         </button>
         <a
           href="/assets/files/guide_sms.pdf"
@@ -164,13 +169,21 @@
                 </div>
 
                 <div class="col-md-12 my-2 text-center">
-                  <button class="btn btn-primary" [disabled]="loading">
+                  <button
+                    class="btn btn-primary"
+                    type="button"
+                    [disabled]="loading"
+                  >
                     <span *ngIf="!loading">
                       Enregistrer les modifications
                     </span>
 
                     <span *ngIf="loading"
-                      ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+                      ><fa-icon
+                        [icon]="['fas', 'circle-notch']"
+                        [spin]="true"
+                        aria-hidden="true"
+                      >
                       </fa-icon>
                       Veuillez patienter...</span
                     >
@@ -246,7 +259,11 @@
       class="btn-primary btn me-1"
       >Télécharger la vidéo</a
     >
-    <button class="btn btn-outline-primary" (click)="closeTutoModal()">
+    <button
+      type="button"
+      class="btn btn-outline-primary"
+      (click)="closeTutoModal()"
+    >
       Fermer la fenêtre
     </button>
   </div>
