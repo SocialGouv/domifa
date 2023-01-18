@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import { AuthService } from "../../../shared/services/auth.service";
+import { LIENS_PARTENAIRES } from "./LIENS_PARTENAIRES.const";
 
 @Component({
   selector: "app-plan-site",
@@ -48,7 +49,7 @@ export class PlanSiteComponent implements OnInit {
     },
   ];
 
-  public sitemapLinks: {
+  public readonly sitemapLinks: {
     section: string;
     links: {
       label: string;
@@ -81,26 +82,7 @@ export class PlanSiteComponent implements OnInit {
     },
   ];
 
-  public partnerLinks = [
-    {
-      label: "La fabrique numérique",
-      path: "https://www.fabrique.social.gouv.fr/",
-    },
-    { label: "Beta.gouv.fr", path: "https://beta.gouv.fr/" },
-    {
-      label: "France relance",
-      path: "https://www.gouvernement.fr/les-priorites/france-relance",
-    },
-    {
-      label: "Dihal",
-      path: "https://www.gouvernement.fr/delegation-interministerielle-a-l-hebergement-et-a-l-acces-au-logement",
-    },
-    {
-      label: "Ministère des solidarités et de la santé",
-      path: "https://www.gouvernement.fr/le-ministere-des-solidarites-et-de-la-sante",
-    },
-    { label: "UNCCAS", path: "https://www.unccas.org/" },
-  ];
+  public readonly partnerLinks = LIENS_PARTENAIRES;
 
   constructor(private titleService: Title, public authService: AuthService) {}
 

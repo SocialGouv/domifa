@@ -28,6 +28,7 @@ import { CustomToastService } from "./modules/shared/services";
 
 import { fadeInOut } from "./shared";
 import DOMIFA_NEWS from "../assets/files/news.json";
+import { LIENS_PARTENAIRES } from "./modules/general/components/plan-site/LIENS_PARTENAIRES.const";
 
 @Component({
   animations: [fadeInOut],
@@ -63,6 +64,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   @ViewChild("newsModal", { static: true })
   public newsModal!: TemplateRef<NgbModalRef>;
+
+  public readonly partnerLinks = LIENS_PARTENAIRES;
 
   constructor(
     private readonly authService: AuthService,
