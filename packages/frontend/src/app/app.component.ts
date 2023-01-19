@@ -86,11 +86,15 @@ export class AppComponent implements OnInit, OnDestroy {
       backdrop: "static",
       ariaLabelledBy: "modal-title",
     };
+    this.initCguForm();
+    this.me = null;
+  }
+
+  private initCguForm() {
     this.acceptTermsForm = this.formBuilder.group({
       readCgu: [null, [Validators.requiredTrue]],
       acceptCgu: [null, [Validators.requiredTrue]],
     });
-    this.me = null;
   }
 
   public get f(): { [key: string]: AbstractControl } {
