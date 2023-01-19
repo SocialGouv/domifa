@@ -1,3 +1,18 @@
+# [2.116.0](https://github.com/SocialGouv/domifa/compare/v2.115.0...v2.116.0) (2023-01-19)
+
+
+### Bug Fixes
+
+* **news:** mise à jour des news ([54a957a](https://github.com/SocialGouv/domifa/commit/54a957ae4476e05854a4b7f2140a877d3292566d))
+* **rgaa:** correction de boutons ([d4478ef](https://github.com/SocialGouv/domifa/commit/d4478ef0b4f8e73fbb02224641f616ffb5781ec4))
+* lien sur la home ([1160e2c](https://github.com/SocialGouv/domifa/commit/1160e2cf0b94c36a5990c50ce5dc7f39f9ca9bdb))
+
+
+### Features
+
+* **footer:** mise à jour du footer ([df5d4e0](https://github.com/SocialGouv/domifa/commit/df5d4e0326d0176f9ac0b0cce91d06b8d4206472))
+* **manage:** ajout du téléchargement des docs depuis la liste ([08d10fb](https://github.com/SocialGouv/domifa/commit/08d10fb6fab8d631062dc4b991be5b969f30b31f))
+
 # [2.115.0](https://github.com/SocialGouv/domifa/compare/v2.114.1...v2.115.0) (2023-01-17)
 
 
