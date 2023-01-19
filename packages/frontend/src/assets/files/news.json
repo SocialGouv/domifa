@@ -7,6 +7,7 @@
         "type": "new",
         "categorie": "Les informations des domiciliés sont plus accessibles depuis la liste",
         "message": [
+          "Téléchargez depuis la liste des domiciliés l'attestation de demande, le Cerfa d'élection de domicile, l'attestation postale ou encore le courrier de radiation d'un domicilié en cliquant sur les \"...\" de sa ligne",
           "Ajout de la colonne \"Téléphone\"",
           "Modification du design de la liste pour améliorer la lisibilité des informations",
           "Amélioration de l'accessibilité de la liste des domiciliés"
