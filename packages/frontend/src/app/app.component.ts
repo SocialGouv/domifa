@@ -148,6 +148,7 @@ export class AppComponent implements OnInit, OnDestroy {
           }
 
           if (!this.me.acceptTerms) {
+            this.initCguForm();
             this.openAcceptTermsModal();
           } else {
             this.checkNews();
@@ -248,6 +249,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.toastService.success(
             "Merci, vous pouvez continuer votre navigation"
           );
+          this.initCguForm();
           const user = this.authService.currentUserValue;
           user.acceptTerms = new Date();
           if (user.role === "admin" && !user.structure.acceptTerms) {
