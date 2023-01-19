@@ -1,3 +1,11 @@
+## [2.116.1](https://github.com/SocialGouv/domifa/compare/v2.116.0...v2.116.1) (2023-01-19)
+
+
+### Bug Fixes
+
+* affichage des cgu ([ea57511](https://github.com/SocialGouv/domifa/commit/ea57511fbd9958e34348cbb5b4532ffc9e6f3c59))
+* correction de l'affichage de la liste ([7ea67d8](https://github.com/SocialGouv/domifa/commit/7ea67d8e9ae1dde73d6a60e03a7cc54b792684a8))
+
 # [2.116.0](https://github.com/SocialGouv/domifa/compare/v2.115.0...v2.116.0) (2023-01-19)
 
 
