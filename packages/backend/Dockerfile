@@ -27,9 +27,6 @@ RUN yarn build
 # ---------------------------------------------------------
 FROM node:16.19-bullseye
 
-ARG DOMIFA_VERSION
-ENV DOMIFA_VERSION=$DOMIFA_VERSION
-
 # install common tools
 ENV CORE_PACKAGES pdftk
 # sudo bash wget vim git bash-completion xsel rubygems build-essential ruby-dev pdftk
@@ -48,7 +45,9 @@ COPY ./packages/backend/package.json /app
 COPY ./yarn.lock /app
 RUN yarn --production --frozen-lockfile && yarn cache clean
 
+COPY  ./packages/backend/scripts/start /app/scripts/start
+
 COPY --from=builder /app/dist /app/dist
 COPY --from=builder /app/.env.preset /app/.env.preset
 
-ENTRYPOINT ["yarn", "start:prod"]
+CMD ["scripts/start"]
