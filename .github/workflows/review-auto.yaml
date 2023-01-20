@@ -1,9 +1,12 @@
-name: 🚀 Production
+
+
+name: 👓 Review Auto
 on:
-  workflow_dispatch:
   push:
-    tags:
-      - v*
+    branches:
+      - "feat-**"
+      - "fix-**"
+      - "sre/**"
 
 concurrency:
   cancel-in-progress: true
@@ -12,5 +15,5 @@ concurrency:
 jobs:
   kontinuous:
     name: "Deploy on Kubernetes 🐳"
-    uses: socialgouv/workflows/.github/workflows/use-ks-gh-production.yaml@v1
+    uses: socialgouv/workflows/.github/workflows/use-ks-gh-review-auto.yaml@master
     secrets: inherit
