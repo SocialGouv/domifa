@@ -1,0 +1,7 @@
+dependencies:
+  fabrique:
+    import: socialgouv/kontinuous/plugins/fabrique
+environmentPatterns:
+  prod: false
+  dev: '!v*'
+projectName: domifa

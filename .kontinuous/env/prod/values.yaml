@@ -1,0 +1,134 @@
+jobs:
+  runs:
+    build-backend:
+      with:
+        buildArgs: 
+          DOMIFA_BACKEND_URL: "https://domifa-api.{{ .Values.global.domain }}/"
+          DOMIFA_PORTAIL_ADMINS_URL: "https://admin-{{ .Values.global.host }}/"
+          DOMIFA_PORTAIL_USAGERS_URL: "https://mon-{{ .Values.global.host }}/"
+
+    build-frontend:
+      with:
+        buildArgs: 
+          DOMIFA_BACKEND_URL: "https://domifa-api.{{ .Values.global.domain }}/"
+
+    build-portail-admins:
+      with:
+        buildArgs: 
+          DOMIFA_BACKEND_URL: "https://domifa-api.{{ .Values.global.domain }}/"
+          PRODUCTION: "true"
+
+    build-portail-usagers:
+      with:
+        buildArgs: 
+          DOMIFA_BACKEND_URL: "https://domifa-api.{{ .Values.global.domain }}/"
+          PRODUCTION: "true"
+
+#metabase:
+#  enabled: true
+#  ingress:
+#    enabled: false
+#  envFrom:
+#    - secretRef:
+#        name: metabase-pg-user
+#    - configMapRef:
+#        name: metabase-configmap
+
+#oauth2-proxy:
+#  host: "metabase-{{ .Values.global.host }}"
+#  certSecretName: oauth2-proxy-crt
+#  upstream: http://metabase
+#  enabled: true
+#  envFrom:
+#    - secretRef:
+#        name: "oauth2-proxy-sealed-secret"
+#    - configMapRef:
+#        name: oauth2-proxy-configmap
+
+
+backend-cron:
+  addVolumes:
+    - files
+  envFrom:
+    - secretRef:
+        name: "{{ .Values.global.pgSecretName }}"
+    - secretRef:
+        name: backend-sealed-secret
+    - configMapRef:
+        name: backend-configmap
+    - secretRef:
+        name: azure-domifa-volume
+  env:
+    - name: TZ
+      value: Europe/Paris
+    - name: DOMIFA_ENV_ID
+      value: "prod"
+    - name: POSTGRES_HOST
+      value: "$(PGHOST)"
+    - name: POSTGRES_USERNAME
+      value: "$(PGUSER)"
+    - name: POSTGRES_PASSWORD
+      value: "$(PGPASSWORD)"
+    - name: POSTGRES_DATABASE
+      value: "$(PGDATABASE)"
+    - name: DOMIFA_BACKEND_URL
+      value: "https://domifa-api.{{ .Values.global.domain }}/"
+    - name: DOMIFA_FRONTEND_URL
+      value: "https://{{ .Values.global.host }}/"
+    - name: DOMIFA_PORTAIL_USAGERS_URL
+      value: "https://mon-{{ .Values.global.host }}/"
+    - name: DOMIFA_PORTAIL_ADMINS_URL
+      value: "https://admin-{{ .Values.global.host }}/"
+    - name: DOMIFA_CRON_ENABLED
+      value: "true"
+
+backend:
+  host: "domifa-api.{{ .Values.global.domain }}"
+  replicas: 2
+  certSecretName: backend-crt
+  addVolumes:
+    - files
+  envFrom:
+    - secretRef:
+        name: "{{ .Values.global.pgSecretName }}"
+    - secretRef:
+        name: backend-sealed-secret
+    - configMapRef:
+        name: backend-configmap
+    - secretRef:
+        name: azure-domifa-volume
+  env:
+    - name: TZ
+      value: Europe/Paris
+    - name: DOMIFA_ENV_ID
+      value: "prod"
+    - name: POSTGRES_HOST
+      value: "$(PGHOST)"
+    - name: POSTGRES_USERNAME
+      value: "$(PGUSER)"
+    - name: POSTGRES_PASSWORD
+      value: "$(PGPASSWORD)"
+    - name: POSTGRES_DATABASE
+      value: "$(PGDATABASE)"
+    - name: DOMIFA_BACKEND_URL
+      value: "https://domifa-api.{{ .Values.global.domain }}/"
+    - name: DOMIFA_FRONTEND_URL
+      value: "https://{{ .Values.global.host }}/"
+    - name: DOMIFA_PORTAIL_USAGERS_URL
+      value: "https://mon-{{ .Values.global.host }}/"
+    - name: DOMIFA_PORTAIL_ADMINS_URL
+      value: "https://admin-{{ .Values.global.host }}/"
+    - name: DOMIFA_CRON_ENABLED
+      value: "false"
+
+frontend:
+  host: "{{ .Values.global.host }}"
+  certSecretName: frontend-crt
+
+portail-admins:
+  host: "admin-{{ .Values.global.host }}"
+  certSecretName: portail-admins-crt
+
+portail-usagers:
+  host: "mon-{{ .Values.global.host }}"
+  certSecretName: portail-usagers-crt
