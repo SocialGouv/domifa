@@ -58,7 +58,7 @@
               (click)="getStructureDoc(document)"
               class="mx-1 my-1 btn btn-primary"
               [disabled]="loadings.download.indexOf(document.uuid) !== -1"
-              aria-label="Voir la pièce jointe"
+              aria-label="Télécharger la pièce jointe"
             >
               <span *ngIf="loadings.download.indexOf(document.uuid) !== -1"
                 ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">

@@ -477,10 +477,15 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-lg btn-outline-dark" (click)="closeModal()">
+    <button
+      type="button"
+      class="btn btn-lg btn-outline-dark"
+      (click)="closeModal()"
+    >
       Revenir à l'entretien
     </button>
     <button
+      type="submit"
       class="btn btn-lg btn-primary"
       [disabled]="loading"
       (click)="loading = true; nextStep.emit(3); closeModal()"

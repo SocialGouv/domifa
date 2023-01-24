@@ -145,7 +145,12 @@
       <div class="text-center">
         <button type="submit" [disabled]="loading" class="btn btn-primary">
           <span *ngIf="loading">
-            <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+            <fa-icon
+              [icon]="['fas', 'circle-notch']"
+              [spin]="true"
+              aria-hidden="true"
+            >
+            </fa-icon>
             Veuillez patienter...
           </span>
           <span *ngIf="!loading"> Créer mon compte</span>
