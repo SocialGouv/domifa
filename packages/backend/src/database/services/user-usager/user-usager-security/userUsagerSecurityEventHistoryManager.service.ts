@@ -44,57 +44,33 @@ function isAccountLockedForOperation({
   eventsHistory,
   userId,
 }: {
-  operation:
-    | "login"
-    | "validate-account"
-    | "reset-password-request"
-    | "reset-password-confirm"
-    | "change-password";
+  operation: "login" | "validate-account" | "change-password";
   eventsHistory: UserUsagerSecurityEvent[];
   userId: number;
 }) {
+  if (
+    eventsHistory[eventsHistory.length - 1].type ===
+      "change-password-success" ||
+    eventsHistory[eventsHistory.length - 1].type === "reset-password-success"
+  ) {
+    return false;
+  }
+
   const oneDayAgo = subDays(new Date(), 1);
   const eventsRecentHistory = eventsHistory.filter(
     (x) => new Date(x.date) > oneDayAgo
   );
+
   if (
     eventsRecentHistory.length >= USAGER_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT
   ) {
-    if (operation === "login") {
+    if (
+      operation === "login" ||
+      operation === "change-password" ||
+      operation === "validate-account"
+    ) {
       const count = eventsRecentHistory.filter(
-        (x) => x.type === "login-error"
-      ).length;
-      if (count >= USAGER_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT) {
-        logOperationError({ operation, userId });
-        return true;
-      }
-    } else if (operation === "change-password") {
-      const count = eventsRecentHistory.filter(
-        (x) => x.type === "change-password-error"
-      ).length;
-      if (count >= USAGER_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT) {
-        logOperationError({ operation, userId });
-        return true;
-      }
-    } else if (operation === "reset-password-request") {
-      const count = eventsRecentHistory.filter(
-        (x) => x.type === "reset-password-request"
-      ).length;
-      if (count >= USAGER_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT) {
-        logOperationError({ operation, userId });
-        return true;
-      }
-    } else if (operation === "reset-password-confirm") {
-      const count = eventsRecentHistory.filter(
-        (x) => x.type === "reset-password-error"
-      ).length;
-      if (count >= USAGER_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT) {
-        logOperationError({ operation, userId });
-        return true;
-      }
-    } else if (operation === "validate-account") {
-      const count = eventsRecentHistory.filter(
-        (x) => x.type === "validate-account-error"
+        (x) => x.type === operation + "-error"
       ).length;
       if (count >= USAGER_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT) {
         logOperationError({ operation, userId });

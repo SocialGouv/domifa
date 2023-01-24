@@ -45,6 +45,7 @@
               <input
                 type="text"
                 class="form-control"
+                role="search"
                 id="structure-search"
                 [ngClass]="{
                   'is-invalid': f.codePostal.dirty && f.codePostal.errors
@@ -57,14 +58,23 @@
               <p *ngIf="f.codePostal.errors" class="invalid-feedback">
                 <fa-icon
                   [icon]="['fas', 'exclamation-triangle']"
+                  aria-hidden="true"
                   class="me-2"
                 ></fa-icon>
                 Code postal incorrect
               </p>
               <br />
-              <button [disabled]="loading" class="btn btn-block btn-primary">
+              <button
+                [disabled]="loading"
+                type="submit"
+                class="btn btn-block btn-primary"
+              >
                 <span *ngIf="loading">
-                  <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+                  <fa-icon
+                    [icon]="['fas', 'circle-notch']"
+                    aria-hidden="true"
+                    [spin]="true"
+                  >
                   </fa-icon>
                   Veuillez patienter...
                 </span>

@@ -30,12 +30,8 @@ async function checkPassword({
   });
 
   const userSecurity = await userUsagerSecurityRepository.findOne(
-    {
-      userId: user.id,
-    },
-    {
-      throwErrorIfNotFound: true,
-    }
+    { userId: user.id },
+    { throwErrorIfNotFound: true }
   );
 
   if (

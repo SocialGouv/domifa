@@ -47,13 +47,13 @@
             </td>
             <td>
               <button
-                [attr.title]="'Supprimer ' + user.nom + ' ' + user.prenom"
+                [attr.aria-label]="'Supprimer ' + user.nom + ' ' + user.prenom"
                 type="button"
                 *ngIf="me.role === 'admin' && me.id !== user.id"
                 (click)="open(deleteUserConfirmation); selectedUser = user"
                 class="btn btn-outline-danger"
               >
-                <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+                <fa-icon [icon]="['fas', 'trash']" aria-hidden="true"></fa-icon>
               </button>
             </td>
           </tr>
@@ -576,7 +576,12 @@
     >
       <span *ngIf="!loading">Confirmer la suppression</span>
       <span *ngIf="loading">
-        <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+        <fa-icon
+          [icon]="['fas', 'circle-notch']"
+          aria-hidden="true"
+          [spin]="true"
+        >
+        </fa-icon>
         Veuillez patientez...
       </span>
     </button>

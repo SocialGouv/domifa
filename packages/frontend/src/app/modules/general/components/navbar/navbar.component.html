@@ -82,7 +82,11 @@
                     matomoService.trackEvent('HEADER', 'Header_ESP', 'null', 1)
                   "
                 >
-                  <span *ngIf="pendingNews" class="pulse-button"></span>
+                  <span
+                    *ngIf="pendingNews"
+                    class="pulse-button"
+                    aria-hidden="true"
+                  ></span>
                   <span [ngClass]="pendingNews ? 'fw-bold' : ''"
                     >Nouveautés</span
                   >
@@ -112,7 +116,10 @@
                   class="btn text-primary"
                 >
                   Me connecter
-                  <fa-icon [icon]="['fas', 'arrow-right']"></fa-icon>
+                  <fa-icon
+                    [icon]="['fas', 'arrow-right']"
+                    aria-hidden="true"
+                  ></fa-icon>
                 </a>
               </div>
 
@@ -283,7 +290,7 @@
                         me.role === 'admin' &&
                         me.structure?.portailUsager?.enabledByDomifa
                       "
-                      aria-label="Modifer les accès au portail usager"
+                      aria-label="Modifier les accès au portail usager"
                       routerLink="/structures/portail-usager"
                     >
                       <fa-icon aria-hidden="true" icon="user-secret"></fa-icon>
@@ -299,7 +306,8 @@
                       aria-label="Statistiques"
                       routerLink="/stats/rapport-activite"
                     >
-                      <fa-icon [icon]="['far', 'chart-bar']"> </fa-icon>
+                      <fa-icon [icon]="['far', 'chart-bar']" aria-hidden="true">
+                      </fa-icon>
                       Statistiques
                     </a>
                     <a ngbDropdownItem (click)="logout()">

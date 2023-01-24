@@ -223,11 +223,12 @@
 
             <button
               type="button"
+              title="Voir / cacher le mot de passe"
               class="input-group-text"
               (click)="toggleOldPassword()"
             >
               <fa-icon
-                title="Voir / cacher le mot de passe"
+                aria-hidden="true"
                 [icon]="hideOldPassword ? ['far', 'eye'] : ['far', 'eye-slash']"
               ></fa-icon>
             </button>

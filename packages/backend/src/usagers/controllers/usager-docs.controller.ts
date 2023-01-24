@@ -288,7 +288,6 @@ export class UsagerDocsController {
       input.pipe(cipher).pipe(output);
 
       output.on("error", async (error: Error) => {
-        console.log(error);
         appLogger.error("[FILES] CANNOT_ENCRYPT_FILE : " + filePath, {
           sentry: true,
           error,

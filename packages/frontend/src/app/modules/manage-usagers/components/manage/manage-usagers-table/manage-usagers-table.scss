@@ -70,7 +70,6 @@ tbody tr {
 tbody tr:hover {
   background-color: #fff;
   outline: 0;
-
   cursor: pointer;
   box-shadow: 2px 1px 4px rgba(179, 179, 179, 0.5);
 }
@@ -81,14 +80,16 @@ thead th {
   font-size: 0.95rem;
   line-height: 1.1rem;
   color: #3150c0;
-  padding: 10px;
+  padding: 0.5rem 0;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  cursor: pointer;
   transition: all 0.2s ease;
   vertical-align: middle;
 }
 
+.clickable {
+  cursor: pointer;
+}
 thead td,
 th {
   font-size: 1rem;
