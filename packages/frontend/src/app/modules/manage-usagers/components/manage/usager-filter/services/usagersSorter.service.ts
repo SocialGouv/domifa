@@ -24,34 +24,18 @@ function sortBy(
         const sortAttributes: SortableAttribute[] = [];
 
         if (sortKey === "RADIE" || sortKey === "REFUS") {
-          sortAttributes.push(
-            {
-              value: usager.decision?.dateFin as Date,
-              asc,
-            },
-            {
-              value: usager.nom?.toLowerCase(),
-            },
-            {
-              value: usager.prenom?.toLowerCase(),
-            }
-          );
+          sortAttributes.push({
+            value: usager.decision?.dateFin as Date,
+            asc,
+          });
         } else if (
           sortKey === "INSTRUCTION" ||
           sortKey === "ATTENTE_DECISION"
         ) {
-          sortAttributes.push(
-            {
-              value: usager.decision?.dateDecision,
-              asc,
-            },
-            {
-              value: usager.nom?.toLowerCase(),
-            },
-            {
-              value: usager.prenom?.toLowerCase(),
-            }
-          );
+          sortAttributes.push({
+            value: usager.decision?.dateDecision,
+            asc,
+          });
         } else if (sortKey === "VALIDE" || sortKey === "TOUS") {
           sortAttributes.push(
             {
@@ -66,42 +50,29 @@ function sortBy(
             }
           );
         } else if (sortKey === "ECHEANCE") {
-          sortAttributes.push(
-            {
-              value: usager?.echeanceInfos?.dateToDisplay,
-              asc,
-            },
-            {
-              value: usager.nom?.toLowerCase(),
-            },
-            {
-              value: usager.prenom?.toLowerCase(),
-            }
-          );
+          sortAttributes.push({
+            value: usager?.echeanceInfos?.dateToDisplay,
+            asc,
+          });
         } else if (sortKey === "PASSAGE") {
-          sortAttributes.push(
-            {
-              value: usager.lastInteraction.dateInteraction,
-              asc,
-            },
-            {
-              value: usager.nom?.toLowerCase(),
-            },
-            {
-              value: usager.prenom?.toLowerCase(),
-            }
-          );
-        } else if (sortKey === "NAME") {
-          sortAttributes.push(
-            {
-              value: usager.nom?.toLowerCase(),
-              asc,
-            },
-            {
-              value: usager.prenom?.toLowerCase(),
-            }
-          );
+          sortAttributes.push({
+            value: usager.lastInteraction.dateInteraction,
+            asc,
+          });
         }
+        sortAttributes.push(
+          {
+            value: usager.nom?.toLowerCase(),
+            asc,
+          },
+          {
+            value: usager.prenom?.toLowerCase(),
+          },
+          {
+            value: usager.surnom?.toLowerCase(),
+          }
+        );
+
         return sortAttributes;
       },
     });

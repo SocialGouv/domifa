@@ -39,7 +39,7 @@
 <div class="d-print-none" id="help-button-wrapper" *ngIf="me">
   <button type="button" class="btn" id="help-button" (click)="openHelpModal()">
     <span class="sr-only">Besoin d'aide ?</span>
-    <fa-icon [icon]="['fas', 'question']"></fa-icon>
+    <fa-icon [icon]="['fas', 'question']" aria-hidden="true"></fa-icon>
   </button>
 </div>
 
@@ -320,7 +320,12 @@
       >
         <span *ngIf="!loading"> Enregistrer </span>
         <span *ngIf="loading"
-          ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+          ><fa-icon
+            [icon]="['fas', 'circle-notch']"
+            aria-hidden="true"
+            [spin]="true"
+          >
+          </fa-icon>
           Enregistrement en cours...</span
         >
       </button>

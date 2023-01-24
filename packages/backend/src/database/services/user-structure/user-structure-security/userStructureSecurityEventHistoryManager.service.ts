@@ -56,7 +56,12 @@ function isAccountLockedForOperation({
   const eventsRecentHistory = eventsHistory.filter(
     (x) => new Date(x.date) > oneDayAgo
   );
-  if (domifaConfig().envId === "local") {
+
+  if (
+    eventsHistory[eventsHistory.length - 1].type ===
+      "change-password-success" ||
+    eventsHistory[eventsHistory.length - 1].type === "reset-password-success"
+  ) {
     return false;
   }
 

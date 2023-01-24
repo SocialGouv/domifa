@@ -73,15 +73,16 @@
                   <button
                     class="input-group-text"
                     type="button"
+                    role="switch"
+                    [attr.aria-checked]="!hidePassword"
                     [attr.aria-label]="
                       (hidePassword ? 'Afficher' : 'Masquer') +
-                      ' ou masquer le mot de passe'
+                      ' le mot de passe'
                     "
-                    [attr.aria-checked]="!hidePassword"
-                    role="switch"
                     (click)="togglePassword()"
                   >
                     <fa-icon
+                      aria-hidden="true"
                       [icon]="
                         hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']
                       "
@@ -104,7 +105,11 @@
                 >
                   <span *ngIf="!loading"> Connexion </span>
                   <span *ngIf="loading"
-                    ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+                    ><fa-icon
+                      [icon]="['fas', 'circle-notch']"
+                      aria-hidden="true"
+                      [spin]="true"
+                    >
                     </fa-icon>
                     Connexion en cours...</span
                   >

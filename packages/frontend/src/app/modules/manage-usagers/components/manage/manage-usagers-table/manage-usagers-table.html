@@ -11,6 +11,7 @@
       Type de demande
     </th>
     <th
+      class="clickable"
       scope="col"
       (click)="updateFilters.emit({
       element: 'sortKey',
@@ -20,6 +21,7 @@
       ID
     </th>
     <th
+      class="clickable"
       scope="col"
       (click)="updateFilters.emit({
       element: 'sortKey',
@@ -31,6 +33,7 @@
     <th scope="col">Téléphone</th>
     <th scope="col">INFORMATIONS</th>
     <th
+      class="clickable"
       scope="col"
       *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS' "
       (click)="updateFilters.emit({element: 'sortKey', value: 'PASSAGE'})"
@@ -39,6 +42,7 @@
     </th>
 
     <th
+      class="clickable"
       scope="col"
       (click)="updateFilters.emit({element: 'sortKey', value: 'ECHEANCE'})"
     >
