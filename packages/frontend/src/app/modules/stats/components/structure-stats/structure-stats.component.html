@@ -32,6 +32,7 @@
               </div>
               <div class="col-md-4 text-end">
                 <button
+                  type="button"
                   [disabled]="loading"
                   class="btn btn-primary"
                   (click)="export(lastYear)"
@@ -87,11 +88,15 @@
               />
 
               <button
+                type="button"
                 aria-label="Sélectionner une date de début sur le calendrier"
                 class="input-group-text btn btn-outline-primary"
                 (click)="dDebut.toggle()"
               >
-                <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'calendar']"
+                ></fa-icon>
               </button>
             </div>
           </div>
@@ -143,7 +148,8 @@
         <div class="col-6 col-md-3 form-group">
           <div class="input-group">
             <button
-              title="Actualiser les statistiques"
+              type="button"
+              aria-label="Actualiser les statistiques"
               class="btn btn-block btn-primary"
               [disabled]="
                 ca.status === 'INVALID' || cb.status === 'INVALID' || loading
@@ -151,11 +157,19 @@
               (click)="compare()"
             >
               <span *ngIf="!loading">
-                <fa-icon [icon]="['fas', 'sync']" class="me-1"></fa-icon>
+                <fa-icon
+                  [icon]="['fas', 'sync']"
+                  class="me-1"
+                  aria-hidden="true"
+                ></fa-icon>
                 Actualiser les statistiques
               </span>
               <span *ngIf="loading">
-                <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+                <fa-icon
+                  [icon]="['fas', 'circle-notch']"
+                  [spin]="true"
+                  aria-hidden="true"
+                >
                 </fa-icon>
                 Veuillez patienter...
               </span>
@@ -170,11 +184,19 @@
             type="button"
           >
             <span *ngIf="!loading">
-              <fa-icon [icon]="['fas', 'download']" class="me-1"></fa-icon>
+              <fa-icon
+                [icon]="['fas', 'download']"
+                class="me-1"
+                aria-hidden="true"
+              ></fa-icon>
               Exporter les statistiques
             </span>
             <span *ngIf="loading">
-              <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+              <fa-icon
+                [icon]="['fas', 'circle-notch']"
+                [spin]="true"
+                aria-hidden="true"
+              >
               </fa-icon>
               Veuillez patienter...
             </span>

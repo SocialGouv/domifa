@@ -36,6 +36,7 @@
         </button>
         &nbsp;
         <button
+          type="button"
           *ngIf="me.role === 'admin'"
           (click)="open(hardResetConfirmation)"
           class="btn btn-outline-danger"
@@ -163,6 +164,7 @@
             >
           </button>
           <button
+            type="submit"
             class="btn btn-danger"
             *ngIf="showHardReset"
             [disabled]="loading"

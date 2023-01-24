@@ -223,7 +223,12 @@
 
             <button
               type="button"
-              title="Voir / cacher le mot de passe"
+              role="switch"
+              [attr.aria-checked]="!hideOldPassword"
+              [attr.aria-label]="
+                (hideOldPassword ? 'Voir' : 'Masquer') +
+                ' l\'ancien mot de passe'
+              "
               class="input-group-text"
               (click)="toggleOldPassword()"
             >

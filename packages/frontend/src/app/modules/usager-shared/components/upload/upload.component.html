@@ -47,7 +47,11 @@
       </div>
     </div>
     <div class="col-md-2 my-2">
-      <button class="btn btn-primary btn-block mt-4" [disabled]="loading">
+      <button
+        type="submit"
+        class="btn btn-primary btn-block mt-4"
+        [disabled]="loading"
+      >
         <span *ngIf="!loading">Ajouter</span>
         <span *ngIf="loading">
           <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>

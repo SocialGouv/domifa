@@ -23,6 +23,7 @@
       </div>
       <div class="interaction-actions">
         <button
+          type="button"
           (click)="decrement('courrierIn')"
           class="btn btn-primary"
           aria-label="Retirer un courrier"
@@ -32,6 +33,7 @@
         </button>
         <span class="px-1"></span>
         <button
+          type="button"
           class="btn btn-primary"
           aria-label="Ajouter un courrier"
           (click)="increment('courrierIn')"
@@ -55,6 +57,7 @@
       </div>
       <div class="interaction-actions">
         <button
+          type="button"
           (click)="decrement('colisIn')"
           class="btn btn-primary"
           aria-label="Retirer un colis"
@@ -64,6 +67,7 @@
         </button>
         <span class="px-1"></span>
         <button
+          type="button"
           class="btn btn-primary"
           aria-label="Ajouter un colis"
           (click)="increment('colisIn')"
@@ -87,6 +91,7 @@
       </div>
       <div class="interaction-actions">
         <button
+          type="button"
           (click)="decrement('recommandeIn')"
           class="btn btn-primary"
           aria-label="Retirer un avis de passage"
@@ -96,6 +101,7 @@
         </button>
         <span class="px-1"></span>
         <button
+          type="button"
           class="btn btn-primary"
           aria-label="Ajouter un avis de passage"
           (click)="increment('recommandeIn')"
@@ -126,7 +132,6 @@
     type="submit"
     class="btn btn-lg btn-primary mx-1"
     [disabled]="loading"
-    class="btn btn-lg btn-primary me-2"
     (click)="setInteractionForm()"
   >
     <span *ngIf="!loading">Valider</span>

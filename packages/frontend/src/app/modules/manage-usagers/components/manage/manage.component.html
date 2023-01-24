@@ -206,7 +206,7 @@
           <div class="d-inline-block" *ngIf="filters.passage">
             <button
               type="button"
-              title="Réinitialiser le filtre"
+              aria-label="Réinitialiser le filtre"
               class="btn selected-btn"
               (click)="updateFilters({ element: 'passage', value: null })"
             >
