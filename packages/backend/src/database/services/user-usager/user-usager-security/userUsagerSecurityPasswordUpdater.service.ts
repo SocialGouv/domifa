@@ -17,12 +17,8 @@ async function updatePassword({
   newPassword: string;
 }): Promise<UserUsager> {
   const userSecurity = await userUsagerSecurityRepository.findOne(
-    {
-      userId,
-    },
-    {
-      throwErrorIfNotFound: true,
-    }
+    { userId },
+    { throwErrorIfNotFound: true }
   );
 
   if (
@@ -54,13 +50,8 @@ async function updatePassword({
   });
 
   await userUsagerRepository.update(
-    {
-      id: userId,
-    },
-    {
-      password: hash,
-      passwordLastUpdate: new Date(),
-    }
+    { id: userId },
+    { password: hash, passwordLastUpdate: new Date() }
   );
 
   const updatedUser = await userUsagerRepository.findOneBy({

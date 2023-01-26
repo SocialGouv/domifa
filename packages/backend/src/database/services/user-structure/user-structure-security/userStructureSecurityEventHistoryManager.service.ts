@@ -57,12 +57,14 @@ function isAccountLockedForOperation({
     (x) => new Date(x.date) > oneDayAgo
   );
 
-  if (
-    eventsHistory[eventsHistory.length - 1].type ===
-      "change-password-success" ||
-    eventsHistory[eventsHistory.length - 1].type === "reset-password-success"
-  ) {
-    return false;
+  if (eventsHistory.length) {
+    if (
+      eventsHistory[eventsHistory.length - 1].type ===
+        "change-password-success" ||
+      eventsHistory[eventsHistory.length - 1].type === "reset-password-success"
+    ) {
+      return false;
+    }
   }
 
   if (

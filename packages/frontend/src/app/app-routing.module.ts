@@ -2,9 +2,9 @@ import { NgModule } from "@angular/core";
 
 import { ExtraOptions, RouterModule, Routes } from "@angular/router";
 
-import { AuthGuard } from "./guards/auth-guard";
-import { FacteurGuard } from "./guards/facteur-guard";
-import { LoggedGuard } from "./guards/logged-guard";
+import { AuthGuard } from "./guards/auth.guard";
+import { FacteurGuard } from "./guards/facteur.guard";
+import { LoggedGuard } from "./guards/logged.guard";
 import { CguComponent } from "./modules/general/components/_static/cgu/cgu.component";
 import { MentionsLegalesComponent } from "./modules/general/components/_static/mentions-legales/mentions-legales.component";
 import { PolitiqueComponent } from "./modules/general/components/_static/politique/politique.component";

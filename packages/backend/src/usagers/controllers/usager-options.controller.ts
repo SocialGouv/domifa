@@ -159,7 +159,6 @@ export class UsagerOptionsController {
             needCreateHistory = false;
           }
         } else {
-          needCreateHistory = true;
           action = "CREATION";
         }
 

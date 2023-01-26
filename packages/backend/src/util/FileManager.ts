@@ -86,13 +86,11 @@ export function validateUpload(
 }
 
 export function getFileDir(structureId: number, usagerRef: number): string {
-  const dir = join(
+  return join(
     domifaConfig().upload.basePath,
     cleanPath(`${structureId}`),
     cleanPath(`${usagerRef}`)
   );
-
-  return dir;
 }
 
 export function getFilePath(

@@ -47,7 +47,6 @@ function isUsagerToAnonymize(x: { structureId: number }): unknown {
 async function _anonymizeUsagerHistory(usagerHistory: UsagerHistory) {
   const states = usagerHistory.states.map((s) => ({
     ...s,
-    entretien: dataUsagerAnonymizer.anonymizeUsagerEntretien(s.entretien),
     decision: dataUsagerAnonymizer.anonymizeUsagerDecision(s.decision),
     ayantsDroits: dataUsagerAnonymizer.anonymizeAyantDroits(s.ayantsDroits),
   }));

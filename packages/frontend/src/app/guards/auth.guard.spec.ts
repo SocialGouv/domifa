@@ -9,7 +9,7 @@ import {
 } from "@angular/router";
 
 import { AuthService } from "../modules/shared/services/auth.service";
-import { AuthGuard } from "./auth-guard";
+import { AuthGuard } from "./auth.guard";
 
 describe("AuthGuard", () => {
   let authGuard: AuthGuard;

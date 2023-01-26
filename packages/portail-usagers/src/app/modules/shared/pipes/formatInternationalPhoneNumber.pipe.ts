@@ -8,10 +8,8 @@ export class FormatInternationalPhoneNumberPipe implements PipeTransform {
   public phoneUtil: lpn.PhoneNumberUtil = lpn.PhoneNumberUtil.getInstance();
 
   transform(telephone: Telephone): string {
-    if (!telephone) {
-      return "Non renseigné";
-    } else if (!telephone?.numero || !telephone?.countryCode) {
-      return "Non renseigné";
+    if (!telephone?.numero || !telephone?.countryCode) {
+      return "Téléphone non renseigné";
     }
     try {
       const numero = this.phoneUtil.parse(

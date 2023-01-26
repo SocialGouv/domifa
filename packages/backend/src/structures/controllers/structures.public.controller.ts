@@ -1,7 +1,7 @@
+import { structureRepository } from "./../../database/services/structure/structureRepository.service";
 import { CodePostalDto } from "./../dto/code-postal.dto";
 import { Body, Controller, HttpStatus, Post, Res } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { structureLightRepository } from "../../database/services/structure/structureLightRepository.service";
 import { EmailDto } from "../../users/dto/email.dto";
 import { ExpressResponse } from "../../util/express";
 import { StructureWithUserDto } from "../dto/structure-with-user.dto";
@@ -36,7 +36,7 @@ export class StructuresPublicController {
     @Body() emailDto: EmailDto,
     @Res() res: ExpressResponse
   ) {
-    const exist = await structureLightRepository.findOneBy({
+    const exist = await structureRepository.findOneBy({
       email: emailDto.email.toLowerCase(),
     });
 

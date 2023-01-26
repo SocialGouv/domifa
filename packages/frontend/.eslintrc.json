@@ -21,6 +21,7 @@
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
+
       "rules": {
         /**
          * Any TypeScript source code (NOT TEMPLATE) related rules you wish to use/reconfigure over and above the

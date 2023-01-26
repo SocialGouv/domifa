@@ -22,6 +22,7 @@ async function anonymize() {
     await dataStructureAnonymizer.anonymizeStructures();
     await dataUserStructureAnonymizer.anonymizeUsersStructure();
     await dataUserUsagerAnonymizer.anonymizeUsersUsager();
+    await dataUsagerAnonymizer.anonymizeEntretiens();
     await dataUsagerAnonymizer.anonymizeUsagers();
     // await dataUsagerHistoryAnonymizer.anonymizeUsagersHistory({ app });
   } else {

@@ -1,3 +1,4 @@
+import { structureRepository } from "./../../../database/services/structure/structureRepository.service";
 import {
   Controller,
   HttpStatus,
@@ -16,7 +17,6 @@ import { diskStorage } from "multer";
 
 import { CurrentUser } from "../../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../../auth/guards";
-import { structureCommonRepository } from "../../../database";
 import { appLogger } from "../../../util";
 import { ExpressRequest, ExpressResponse } from "../../../util/express";
 import { randomName, validateUpload } from "../../../util/FileManager";
@@ -250,7 +250,7 @@ export class ImportController {
       processTracker,
     });
 
-    await structureCommonRepository.updateOne(
+    await structureRepository.update(
       { id: user.structureId },
       { import: true, importDate: new Date() }
     );

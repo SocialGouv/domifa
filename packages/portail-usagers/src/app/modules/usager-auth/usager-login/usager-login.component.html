@@ -297,14 +297,14 @@
         <button
           *ngIf="this.mode === 'login-change-password'"
           aria-label="Connexion"
-          class="btn me-5"
+          class="btn btn-outline-primary me-5"
           (click)="this.switchToLoginOnly()"
         >
-          <span> Annuler </span>
+          Annuler
         </button>
         <button
           [disabled]="loading || loginForm.invalid"
-          aria-label="Connexion"
+          type="submit"
           class="btn btn-primary"
         >
           <span *ngIf="!loading"> Connexion </span>

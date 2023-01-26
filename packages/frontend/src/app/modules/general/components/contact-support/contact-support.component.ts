@@ -18,12 +18,12 @@ import { Subscription } from "rxjs";
 @Component({
   selector: "app-contact-support",
   templateUrl: "./contact-support.component.html",
-  styleUrls: ["./contact-support.component.css"],
 })
 export class ContactSupportComponent implements OnInit, OnDestroy {
   public submitted: boolean;
   public success: boolean;
   public loading: boolean;
+
   private subscription = new Subscription();
   public contactForm!: UntypedFormGroup;
 

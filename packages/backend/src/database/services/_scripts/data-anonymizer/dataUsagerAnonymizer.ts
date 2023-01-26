@@ -4,18 +4,18 @@ import {
   Usager,
   UsagerAyantDroit,
   UsagerDecision,
-  UsagerEntretien,
 } from "../../../../_common/model";
+import { usagerEntretienRepository } from "../../usager";
 import { usagerRepository } from "../../usager/usagerRepository.service";
 import { dataGenerator } from "./dataGenerator.service";
 import { dataStructureAnonymizer } from "./dataStructureAnonymizer";
 
 export const dataUsagerAnonymizer = {
   anonymizeUsagers,
-  anonymizeUsagerEntretien,
   anonymizeUsagerDecision,
   anonymizeUsagerHistorique,
   anonymizeAyantDroits,
+  anonymizeEntretiens,
 };
 
 async function anonymizeUsagers() {
@@ -80,7 +80,6 @@ async function _anonymizeUsager(usager: Usager) {
     surnom: null,
     dateNaissance: faker.date.birthdate({ min: 18, max: 99 }),
     villeNaissance: dataGenerator.fromList(["Inconnu", dataGenerator.city()]),
-    entretien: anonymizeUsagerEntretien(usager.entretien),
     decision: anonymizeUsagerDecision(usager.decision),
     historique,
     ayantsDroits: anonymizeAyantDroits(usager.ayantsDroits),
@@ -119,16 +118,22 @@ function anonymizeUsagerDecision(decision: UsagerDecision): UsagerDecision {
   };
 }
 
-function anonymizeUsagerEntretien(entretien: UsagerEntretien): UsagerEntretien {
-  return {
-    ...entretien,
-    commentaires: null,
-    revenusDetail: null,
-    orientationDetail: null,
-    liencommuneDetail: null,
-    residenceDetail: null,
-    causeDetail: null,
-    raisonDetail: null,
-    accompagnementDetail: null,
-  };
+async function anonymizeEntretiens() {
+  appLogger.warn(
+    `[dataAnonymizeEntretiens] Nettoyage du contenu des entretiens`
+  );
+
+  await usagerEntretienRepository.update(
+    {},
+    {
+      commentaires: null,
+      revenusDetail: null,
+      orientationDetail: null,
+      liencommuneDetail: null,
+      residenceDetail: null,
+      causeDetail: null,
+      raisonDetail: null,
+      accompagnementDetail: null,
+    }
+  );
 }

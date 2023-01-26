@@ -98,6 +98,9 @@ async function checkCreationToken({
 }
 
 async function createStructure(structureDto: StructureDto) {
+  delete structureDto.readCgu;
+  delete structureDto.acceptCgu;
+
   const createdStructure = new StructureTable(structureDto);
 
   createdStructure.sms = {

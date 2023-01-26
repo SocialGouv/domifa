@@ -14,7 +14,7 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AllowUserStructureRoles } from "../../auth/decorators";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
-import { structureRepository } from "../../database";
+import { structureCommonRepository, structureRepository } from "../../database";
 import { hardResetEmailSender } from "../../mails/services/templates-renderers";
 import { ExpressResponse } from "../../util/express";
 import {
@@ -30,6 +30,8 @@ import { StructuresService } from "../services/structures.service";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 
 import { ParseTokenPipe } from "../../_common/decorators";
+import { DEPARTEMENTS_MAP } from "../../util";
+import { departementHelper } from "../services";
 
 @Controller("structures")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -88,7 +90,23 @@ export class StructuresController {
     @Body() structureDto: StructureDto,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
-    return this.structureService.patch(structureDto, user);
+    delete structureDto.readCgu;
+    delete structureDto.acceptCgu;
+
+    structureDto.departement = departementHelper.getDepartementFromCodePostal(
+      structureDto.codePostal
+    );
+
+    structureDto.region = departementHelper.getRegionCodeFromDepartement(
+      structureDto.departement
+    );
+
+    structureDto.timeZone = DEPARTEMENTS_MAP[structureDto.departement].timeZone;
+
+    return structureCommonRepository.updateOne(
+      { id: user.structureId },
+      structureDto
+    );
   }
 
   @ApiBearerAuth()
