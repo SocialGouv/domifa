@@ -62,7 +62,6 @@ export class StepRdvComponent implements OnInit, OnDestroy {
   public rdvIsToday: boolean;
   private subscription = new Subscription();
 
-  /* Config datepickers */
   public dToday = new Date();
   public loading = false;
   public submitted = false;
@@ -138,7 +137,6 @@ export class StepRdvComponent implements OnInit, OnDestroy {
       this.rdvForm.controls.jourRdv.valueChanges.subscribe(
         (value: NgbDateStruct) => {
           let isValueToday = false;
-
           if (!this.r.jourRdv.invalid) {
             const jourRdv = new Date(this.nbgDate.formatEn(value));
 

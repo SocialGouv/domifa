@@ -13,7 +13,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AllowUserProfiles } from "../../../auth/decorators";
 import { AppUserGuard } from "../../../auth/guards";
-import { structureLightRepository } from "../../../database";
+import { structureRepository } from "../../../database";
 import { deleteStructureEmailSender } from "../../../mails/services/templates-renderers";
 import { structureDeletorService } from "../../../structures/services/structureDeletor.service";
 import { ExpressResponse } from "../../../util/express";
@@ -63,7 +63,7 @@ export class AdminStructuresDeleteController {
     @Param("token", new ParseTokenPipe()) token: string
   ) {
     try {
-      const structure = await structureLightRepository.findOneOrFail({
+      const structure = await structureRepository.findOneOrFail({
         where: {
           token,
           id,
@@ -86,7 +86,7 @@ export class AdminStructuresDeleteController {
     @Res() res: ExpressResponse,
     @Body() structureDeleteDto: ConfirmStructureDeleteDto
   ) {
-    const structure = await structureLightRepository.findOneBy({
+    const structure = await structureRepository.findOneBy({
       token: structureDeleteDto.token,
       nom: structureDeleteDto.structureName,
       id: structureDeleteDto.structureId,

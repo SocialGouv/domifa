@@ -10,7 +10,6 @@ import {
   UserStructure,
 } from "../../../../_common/model";
 import { regexp } from "../../../shared";
-import { MessageSms } from "./../../../../_common/model/message-sms/MessageSms.type";
 import { departementHelper } from "./departement-helper.service";
 import { StructureCommonWeb } from "./StructureCommonWeb.type";
 
@@ -73,11 +72,17 @@ export class StructureService {
   }
 
   public patch(structure: Structure): Observable<StructureCommon> {
-    return this.http.patch(`${this.endPoint}`, structure).pipe(
-      map((response) => {
-        return new StructureCommonWeb(response);
+    return this.http
+      .patch(`${this.endPoint}`, {
+        ...structure,
+        readCgu: true,
+        acceptCgu: true,
       })
-    );
+      .pipe(
+        map((response) => {
+          return new StructureCommonWeb(response);
+        })
+      );
   }
 
   public patchSmsParams(structure: Structure): Observable<StructureCommon> {
@@ -91,11 +96,17 @@ export class StructureService {
   public patchPortailUsagerParams(formData: {
     enabledByStructure: boolean;
     usagerLoginUpdateLastInteraction: boolean;
-  }) {
-    return this.http.patch(
-      environment.apiUrl + "structures/portail-usager/configure-structure",
-      formData
-    );
+  }): Observable<StructureCommon> {
+    return this.http
+      .patch(
+        environment.apiUrl + "structures/portail-usager/configure-structure",
+        formData
+      )
+      .pipe(
+        map((response) => {
+          return new StructureCommonWeb(response);
+        })
+      );
   }
 
   public validateEmail(email: string): Observable<boolean> {
@@ -110,10 +121,6 @@ export class StructureService {
 
   public hardResetConfirm(token: string) {
     return this.http.get(`${this.endPoint}/hard-reset-confirm/${token}`);
-  }
-
-  public continueRegister() {
-    return this.http.get(`${this.endPoint}/continue-register`);
   }
 
   public export() {
@@ -142,9 +149,5 @@ export class StructureService {
 
       return { codepostal: false };
     };
-  }
-
-  public smsTimeline(): Observable<MessageSms[]> {
-    return this.http.get<MessageSms[]>(`${environment.apiUrl}sms/timeline`);
   }
 }

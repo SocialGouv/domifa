@@ -357,6 +357,7 @@ export class UsagersController {
         const userUsager = await userUsagerRepository.findOneBy({
           usagerUUID: usager.uuid,
         });
+
         if (!userUsager) {
           const { login, temporaryPassword } =
             await userUsagerCreator.createUserWithTmpPassword(
@@ -372,11 +373,13 @@ export class UsagersController {
         } else {
           const generateNewPassword =
             dto.portailUsagerEnabled && dto.generateNewPassword;
+
           const { userUsager, temporaryPassword } =
             await userUsagerUpdator.enableUser({
               usagerUUID: usager.uuid,
               generateNewPassword,
             });
+
           await this.appLogsService.create({
             userId: user.id,
             usagerRef: usager.ref,

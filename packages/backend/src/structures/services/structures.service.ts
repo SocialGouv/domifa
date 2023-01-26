@@ -1,40 +1,18 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 
 import { structureCommonRepository, structureRepository } from "../../database";
-import { structureLightRepository } from "../../database/services/structure/structureLightRepository.service";
 import {
   Structure,
   StructureCommon,
   StructureLight,
   UserStructure,
 } from "../../_common/model";
-import { departementHelper } from "./departement-helper.service";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
-import { CodePostalDto, StructureDto } from "../dto";
-import { DEPARTEMENTS_MAP, FranceRegion } from "../../util/territoires";
+import { CodePostalDto } from "../dto";
+import { FranceRegion } from "../../util/territoires";
 
 @Injectable()
 export class StructuresService {
-  public async patch(
-    structureDto: StructureDto,
-    user: Pick<UserStructure, "structureId">
-  ): Promise<StructureCommon> {
-    structureDto.departement = departementHelper.getDepartementFromCodePostal(
-      structureDto.codePostal
-    );
-
-    structureDto.region = departementHelper.getRegionCodeFromDepartement(
-      structureDto.departement
-    );
-
-    structureDto.timeZone = DEPARTEMENTS_MAP[structureDto.departement].timeZone;
-
-    return structureCommonRepository.updateOne(
-      { id: user.structureId },
-      structureDto
-    );
-  }
-
   public async patchSmsParams(
     structureSmsDto: StructureEditSmsDto,
     user: Pick<UserStructure, "structureId" | "structure">
@@ -57,7 +35,7 @@ export class StructuresService {
   }
 
   public async findAllLight(dto: CodePostalDto): Promise<StructureLight[]> {
-    return structureLightRepository.find({
+    return structureRepository.find({
       where: {
         verified: true,
         codePostal: dto.codePostal,

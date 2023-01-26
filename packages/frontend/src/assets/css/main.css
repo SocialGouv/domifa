@@ -89,11 +89,6 @@ table .active {
   font-weight: 600;
 }
 
-orm .card {
-  margin: 15px auto;
-  width: 90%;
-}
-
 .reponses {
   margin-bottom: 15px;
   margin-top: 15px;
@@ -398,6 +393,7 @@ legend {
   display: block;
   margin-bottom: 10px;
 }
+
 .skeleton:empty {
   border-radius: 4px;
   animation: loading 1s infinite linear;

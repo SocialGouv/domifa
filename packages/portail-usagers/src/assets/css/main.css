@@ -98,17 +98,11 @@ html {
   background-color: white;
 }
 
-.section-tab {
-  border-radius: 0;
-  transform: matrix(-1, 0, 0, 1, 0, 0);
-}
-
 .head-page {
   background-color: var(--bs-primary);
   width: 100%;
 }
 
-.head-page .title,
 .head-page h1 {
   font-style: normal;
   font-weight: bold;

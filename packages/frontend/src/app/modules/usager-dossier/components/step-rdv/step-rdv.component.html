@@ -188,7 +188,10 @@
                       class="input-group-text btn btn-outline-primary"
                       (click)="dRdv.toggle()"
                     >
-                      <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+                      <fa-icon
+                        [icon]="['fas', 'calendar']"
+                        aria-hidden="true"
+                      ></fa-icon>
                     </button>
 
                     <p

@@ -1,4 +1,7 @@
-import { userUsagerRepository } from "../../database";
+import {
+  userUsagerRepository,
+  userUsagerSecurityRepository,
+} from "../../database";
 import { UserUsager } from "../../_common/model";
 import { userUsagerLoginPasswordGenerator } from "./user-usager-login-password-generator.service";
 
@@ -42,6 +45,18 @@ async function enableUser({
 
   const updatedUser = await userUsagerRepository.findOneByOrFail({
     usagerUUID,
+  });
+
+  const userSecurity = await userUsagerSecurityRepository.findOne(
+    { userId: updatedUser.id },
+    { throwErrorIfNotFound: true }
+  );
+
+  await userUsagerSecurityRepository.logEvent({
+    userId: updatedUser.id,
+    userSecurity,
+    eventType: "reset-password-success",
+    clearAllEvents: true,
   });
 
   return { userUsager: updatedUser, temporaryPassword };

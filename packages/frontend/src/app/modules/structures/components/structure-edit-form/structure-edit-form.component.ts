@@ -35,7 +35,6 @@ import { structureNameChecker, StructureService } from "../../services";
 @Component({
   selector: "app-structure-edit-form",
   templateUrl: "./structure-edit-form.component.html",
-  styleUrls: ["./structure-edit-form.component.css"],
 })
 export class StructureEditFormComponent implements OnInit, OnDestroy {
   public readonly PhoneNumberFormat = PhoneNumberFormat;

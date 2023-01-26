@@ -16,18 +16,18 @@ import {
   FormEmailTakenValidator,
 } from "../../../../../_common/model";
 import { fadeInOut, noWhiteSpace, regexp } from "../../../../shared";
-
-import { CustomToastService } from "../../../shared/services/custom-toast.service";
+import { CustomToastService } from "../../../shared/services";
 import { PASSWORD_VALIDATOR } from "../../../users/PASSWORD_VALIDATOR.const";
-import { userStructureBuilder } from "../../../users/services";
-import { PasswordValidator } from "../../../users/services/password-validator.service";
-import { UsersService } from "../../../users/services/users.service";
-import { StructureService } from "../../services/structure.service";
+import {
+  UsersService,
+  userStructureBuilder,
+  PasswordValidator,
+} from "../../../users/services";
+import { StructureService } from "../../services";
 
 @Component({
   animations: [fadeInOut],
   selector: "app-register-user",
-  styleUrls: ["./register-user.component.css"],
   templateUrl: "./register-user.component.html",
 })
 export class RegisterUserComponent implements OnInit, OnDestroy {

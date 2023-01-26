@@ -44,16 +44,18 @@ function isAccountLockedForOperation({
   eventsHistory,
   userId,
 }: {
-  operation: "login" | "validate-account" | "change-password";
+  operation: "login" | "change-password";
   eventsHistory: UserUsagerSecurityEvent[];
   userId: number;
 }) {
-  if (
-    eventsHistory[eventsHistory.length - 1].type ===
-      "change-password-success" ||
-    eventsHistory[eventsHistory.length - 1].type === "reset-password-success"
-  ) {
-    return false;
+  if (eventsHistory.length) {
+    if (
+      eventsHistory[eventsHistory.length - 1].type ===
+        "change-password-success" ||
+      eventsHistory[eventsHistory.length - 1].type === "reset-password-success"
+    ) {
+      return false;
+    }
   }
 
   const oneDayAgo = subDays(new Date(), 1);
@@ -64,11 +66,7 @@ function isAccountLockedForOperation({
   if (
     eventsRecentHistory.length >= USAGER_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT
   ) {
-    if (
-      operation === "login" ||
-      operation === "change-password" ||
-      operation === "validate-account"
-    ) {
+    if (operation === "login" || operation === "change-password") {
       const count = eventsRecentHistory.filter(
         (x) => x.type === operation + "-error"
       ).length;
