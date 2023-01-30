@@ -1,8 +1,12 @@
 {
   "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": []
+  },
   "exclude": [
-    "./jest-global-mocks.ts",
-    "./setup-jest.ts",
+    "jest-global-mocks.ts",
+    "setup-jest.ts",
     "**/*.spec.ts",
     "**/*.d.ts"
   ]
