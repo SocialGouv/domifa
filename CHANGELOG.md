@@ -1,3 +1,10 @@
+## [2.116.3](https://github.com/SocialGouv/domifa/compare/v2.116.2...v2.116.3) (2023-01-30)
+
+
+### Bug Fixes
+
+* **frontend:** améliorations minimes ([ad9277a](https://github.com/SocialGouv/domifa/commit/ad9277a9b3d75ac3639bd757cf8909053d49697d))
+
 ## [2.116.2](https://github.com/SocialGouv/domifa/compare/v2.116.1...v2.116.2) (2023-01-30)
 
 
