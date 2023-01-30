@@ -1,5 +1,19 @@
 [
   {
+    "date": "2023-01-30",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Des nouveautés sur Mon DomiFa ! L'accès au portail est facilité",
+        "message": [
+          "Amélioration du courrier d'accès au portail \"Usagers\" avec notamment, l'ajout d'explications et d'un QR code redirigeant l'utilisateur vers le site",
+          "Après plusieurs mauvaises tentatives de connexion l'usager peut bloquer son compte. Celui-ci ne sera plus bloqué dès lors que le mot de passe est réinitialisé"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2023-01-17",
     "description": "",
     "content": [
