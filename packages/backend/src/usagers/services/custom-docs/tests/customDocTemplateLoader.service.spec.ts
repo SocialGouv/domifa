@@ -1,4 +1,4 @@
-import { customDocTemplateLoader } from "./customDocTemplateLoader.service";
+import { customDocTemplateLoader } from "../customDocTemplateLoader.service";
 
 describe("customDocTemplateLoader", () => {
   it("customDocTemplateLoader render ", async () => {

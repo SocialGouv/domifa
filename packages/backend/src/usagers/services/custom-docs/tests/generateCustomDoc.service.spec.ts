@@ -2,13 +2,11 @@ import * as mammoth from "mammoth";
 
 import { readFile, writeFile } from "fs-extra";
 import { join } from "path";
-
-import { domifaConfig } from "../../config";
-import { StructureDocTypesAvailable } from "../../_common/model";
-import { customDocTemplateLoader } from "./customDocTemplateLoader.service";
-import { generateCustomDoc } from "./generateCustomDoc.service";
-import { generatedAttestationMock } from "./mocks/generatedAttestationMock";
-
+import { domifaConfig } from "../../../../config";
+import { StructureDocTypesAvailable } from "../../../../_common/model";
+import { customDocTemplateLoader } from "../customDocTemplateLoader.service";
+import { generateCustomDoc } from "../generateCustomDoc.service";
+import { CUSTOM_DOC_ATTESTATION_POSTALE } from "./CUSTOM_DOC_ATTESTATION_POSTALE.const";
 describe("generateCustomDoc", () => {
   it("1. ATTESTATION POSTALE : generateCustomDoc render attestation_postale", async () => {
     await runDocTypeTest({ docType: "attestation_postale" });
@@ -30,7 +28,7 @@ async function runDocTypeTest({
 
   const generatedDoc: Buffer = await generateCustomDoc(
     content,
-    generatedAttestationMock
+    CUSTOM_DOC_ATTESTATION_POSTALE
   );
 
   // generate html from doc to make it easier to compare
@@ -44,7 +42,7 @@ async function runDocTypeTest({
     // npx jest -- generateCustomDoc.service.spec.ts
     const tmpHtmlPath = join(
       __dirname,
-      "../../_static/custom-docs/test",
+      "../../../../_static/custom-docs/test",
       `${docType}.docx.tmp.html`
     );
     await writeFile(tmpHtmlPath, generatedDocHtml);
@@ -52,7 +50,7 @@ async function runDocTypeTest({
 
   const file = join(
     __dirname,
-    "../../_static/custom-docs/test",
+    "../../../../_static/custom-docs/test",
     `${docType}.docx.ref.html`
   );
 

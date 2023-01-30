@@ -1,7 +1,7 @@
 import { readFile } from "fs-extra";
 import { join, resolve } from "path";
-import { domifaConfig } from "../../config";
-import { StructureDocTypesAvailable } from "../../_common/model";
+import { domifaConfig } from "../../../config";
+import { StructureDocTypesAvailable } from "../../../_common/model";
 
 export const customDocTemplateLoader = {
   loadCustomDocTemplate,
@@ -19,7 +19,7 @@ const TEMPLATES_PATHS: {
 } = Object.keys(TEMPLATES_NAMES).reduce((acc, docType) => {
   acc[docType] = join(
     __dirname,
-    "../../_static/custom-docs/" + TEMPLATES_NAMES[docType]
+    "../../../_static/custom-docs/" + TEMPLATES_NAMES[docType]
   );
   return acc;
 }, {} as { [attr in StructureDocTypesAvailable]: string });

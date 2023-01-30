@@ -1,8 +1,8 @@
 import Docxtemplater from "docxtemplater";
 import PizZip from "pizzip";
 
-import { appLogger } from "../../util";
-import { StructureCustomDocTags } from "../../_common/model/structure-doc/StructureCustomDocTags.type";
+import { appLogger } from "../../../util";
+import { StructureCustomDocTags } from "../../../_common/model/structure-doc/StructureCustomDocTags.type";
 
 export async function generateCustomDoc(
   content: string, // template file content

@@ -78,6 +78,7 @@ function isAccountLockedForOperation({
   }
   return false;
 }
+
 function logOperationError({
   operation,
   userId,
