@@ -54,7 +54,6 @@ export class DocumentService {
       );
   }
 
-  /* Attestation */
   public attestation(usagerRef: number, typeCerfa: string): void {
     this.loadingService.startLoading();
 

@@ -23,9 +23,9 @@ import { Subscription } from "rxjs";
   styleUrls: ["./profil-general-notes.component.css"],
 })
 export class ProfilGeneralNotesComponent implements OnChanges, OnDestroy {
+  @Input() public me!: UserStructure;
   @Input() public usager!: UsagerFormModel;
   @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
-  @Input() public me!: UserStructure;
 
   public loading: boolean;
   public displayConfirmArchiveMessageNoteId: string | null;

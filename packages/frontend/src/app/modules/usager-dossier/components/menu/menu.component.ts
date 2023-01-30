@@ -13,7 +13,7 @@ export class MenuComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
   @Input() public currentStep!: number;
 
-  public etapes = [
+  public readonly etapes = [
     "État civil",
     "Prise de RDV",
     "Entretien",
@@ -21,7 +21,7 @@ export class MenuComponent implements OnInit {
     "Décision finale",
   ];
 
-  public ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
+  public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
 
   constructor(
     private readonly router: Router,

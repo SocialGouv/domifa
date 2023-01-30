@@ -36,10 +36,9 @@ import { Subscription } from "rxjs";
 })
 export class DecisionRefusFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
-
   @Output() public closeModals = new EventEmitter<void>();
 
-  public MOTIFS_REFUS_LABELS = MOTIFS_REFUS_LABELS;
+  public readonly MOTIFS_REFUS_LABELS = MOTIFS_REFUS_LABELS;
 
   public submitted: boolean;
   public loading: boolean;
