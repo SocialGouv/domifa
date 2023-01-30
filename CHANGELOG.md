@@ -1,3 +1,12 @@
+## [2.116.2](https://github.com/SocialGouv/domifa/compare/v2.116.1...v2.116.2) (2023-01-30)
+
+
+### Bug Fixes
+
+* **docs:** mise à jour de l'attestation postale ([6fb3160](https://github.com/SocialGouv/domifa/commit/6fb316072eec86730add1cc802e71ed195789f58))
+* **frontend:** suppression de pages inutiles ([270b63b](https://github.com/SocialGouv/domifa/commit/270b63bbc9f1f4ee4124ddffbc447fdcc5775a10))
+* **rgaa:** correction d'erreurs sur les formulaires ([38c1f8c](https://github.com/SocialGouv/domifa/commit/38c1f8c3d047446f96185a2c1839a86bd1f862d0))
+
 ## [2.116.1](https://github.com/SocialGouv/domifa/compare/v2.116.0...v2.116.1) (2023-01-19)
 
 
