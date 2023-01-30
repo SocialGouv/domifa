@@ -1,5 +1,6 @@
-import { StructureCustomDocTags } from "./../../../_common/model/structure-doc/StructureCustomDocTags.type";
-export const generatedAttestationMock: StructureCustomDocTags = {
+import { StructureCustomDocTags } from "../../../../_common/model/structure-doc/StructureCustomDocTags.type";
+
+export const CUSTOM_DOC_ATTESTATION_POSTALE: StructureCustomDocTags = {
   AYANTS_DROITS_LISTE: "",
   DATE_JOUR: "15/12/2020",
   DATE_JOUR_HEURE: "15/12/2020 à 14:30",

@@ -1,11 +1,14 @@
-import { buildCustomDoc } from ".";
-import { AppTestHelper } from "../../util/test";
-import { STRUCTURE_MOCK } from "../../_common/mocks";
-import { USAGER_REFUS_MOCK, USAGER_VALIDE_MOCK } from "../../_common/mocks";
+import { buildCustomDoc } from "..";
+import { AppTestHelper } from "../../../../util/test";
+import { STRUCTURE_MOCK } from "../../../../_common/mocks";
+import {
+  USAGER_REFUS_MOCK,
+  USAGER_VALIDE_MOCK,
+} from "../../../../_common/mocks";
 
-import { StructureCustomDocTags } from "../../_common/model";
-import { dateFormat, DATE_FORMAT } from "./buildCustomDoc.service";
-import { generatedAttestationMock, generatedRefusMock } from "./mocks";
+import { StructureCustomDocTags } from "../../../../_common/model";
+import { dateFormat, DATE_FORMAT } from "../buildCustomDoc.service";
+import { CUSTOM_DOC_ATTESTATION_POSTALE, CUSTOM_DOC_COURRIER_REFUS } from ".";
 
 describe("buildCustomDoc.service", () => {
   beforeAll(async () => {
@@ -28,7 +31,7 @@ describe("buildCustomDoc.service", () => {
       });
 
       expect(docRadiation).toEqual({
-        ...generatedAttestationMock,
+        ...CUSTOM_DOC_ATTESTATION_POSTALE,
         ...extraParameters,
       });
     });
@@ -43,7 +46,7 @@ describe("buildCustomDoc.service", () => {
         date,
       });
 
-      expect(docActif).toEqual(generatedAttestationMock);
+      expect(docActif).toEqual(CUSTOM_DOC_ATTESTATION_POSTALE);
     });
 
     it("2. CUSTOM DOC - REFUS DE RENOUVELLEMENT", async () => {
@@ -59,7 +62,7 @@ describe("buildCustomDoc.service", () => {
         date,
       });
 
-      expect(docActif).toEqual(generatedRefusMock);
+      expect(docActif).toEqual(CUSTOM_DOC_COURRIER_REFUS);
 
       // Test des numéros de distribution
       const docNumeroDistribution: StructureCustomDocTags = buildCustomDoc({

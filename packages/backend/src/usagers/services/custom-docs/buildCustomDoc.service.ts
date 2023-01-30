@@ -1,25 +1,25 @@
-import { STRUCTURE_TYPE_LABELS } from "./../../_common/model/structure/constants/STRUCTURE_TYPE_LABELS.const";
+import { STRUCTURE_TYPE_LABELS } from "../../../_common/model/structure/constants/STRUCTURE_TYPE_LABELS.const";
 import {
   ENTRETIEN_CAUSE_INSTABILITE,
   ENTRETIEN_RAISON_DEMANDE,
-} from "./../../_common/model/usager/_constants/ENTRETIEN_SECTIONS.const";
+} from "../../../_common/model/usager/_constants/ENTRETIEN_SECTIONS.const";
 import {
   ENTRETIEN_RESIDENCE,
   ENTRETIEN_TYPE_MENAGE,
   StructureCommon,
   Usager,
   USAGER_DECISION_STATUT_LABELS,
-} from "../../_common/model";
-import { StructureCustomDocTags } from "../../_common/model/structure-doc/StructureCustomDocTags.type";
-import { UsagerDecision } from "./../../_common/model/usager/UsagerDecision.type";
-import { generateMotifLabel } from "./../services/generateMotifLabel.service";
+} from "../../../_common/model";
+import { StructureCustomDocTags } from "../../../_common/model/structure-doc/StructureCustomDocTags.type";
+import { UsagerDecision } from "../../../_common/model/usager/UsagerDecision.type";
+import { generateMotifLabel } from "../generateMotifLabel.service";
 
 import { format } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 import { fr } from "date-fns/locale";
-import { TimeZone } from "../../util/territoires";
-import { getPhoneString } from "../../util/phone/phoneUtils.service";
-import { getAyantsDroitsText } from "../services/cerfa";
+import { TimeZone } from "../../../util/territoires";
+import { getPhoneString } from "../../../util/phone/phoneUtils.service";
+import { getAyantsDroitsText } from "../cerfa";
 
 export const DATE_FORMAT = {
   JOUR: "dd/MM/yyyy",

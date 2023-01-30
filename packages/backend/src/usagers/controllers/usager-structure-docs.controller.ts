@@ -30,7 +30,7 @@ import {
   buildCustomDoc,
   customDocTemplateLoader,
   generateCustomDoc,
-} from "../custom-docs";
+} from "../services/custom-docs";
 
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { join } from "path";

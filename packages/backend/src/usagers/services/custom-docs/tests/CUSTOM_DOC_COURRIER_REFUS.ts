@@ -1,7 +1,7 @@
-import { StructureCustomDocTags } from "../../../_common/model";
+import { StructureCustomDocTags } from "../../../../_common/model";
 
 // Courrier pour les personnes radiées
-export const generatedRefusMock: StructureCustomDocTags = {
+export const CUSTOM_DOC_COURRIER_REFUS: StructureCustomDocTags = {
   DATE_JOUR: "15/12/2020",
   DATE_JOUR_HEURE: "15/12/2020 à 14:30",
   DATE_JOUR_LONG: "15 décembre 2020",
