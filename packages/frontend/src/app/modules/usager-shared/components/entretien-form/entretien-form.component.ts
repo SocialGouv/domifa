@@ -36,11 +36,11 @@ import { UsagerService } from "../../services/usagers.service";
   templateUrl: "./entretien-form.component.html",
 })
 export class EntretienFormComponent implements OnInit, OnDestroy {
-  public ENTRETIEN_LIEN_COMMUNE = ENTRETIEN_LIEN_COMMUNE;
-  public ENTRETIEN_TYPE_MENAGE = ENTRETIEN_TYPE_MENAGE;
-  public ENTRETIEN_CAUSE_INSTABILITE = ENTRETIEN_CAUSE_INSTABILITE;
-  public ENTRETIEN_RAISON_DEMANDE = ENTRETIEN_RAISON_DEMANDE;
-  public ENTRETIEN_RESIDENCE = ENTRETIEN_RESIDENCE;
+  public readonly ENTRETIEN_LIEN_COMMUNE = ENTRETIEN_LIEN_COMMUNE;
+  public readonly ENTRETIEN_TYPE_MENAGE = ENTRETIEN_TYPE_MENAGE;
+  public readonly ENTRETIEN_CAUSE_INSTABILITE = ENTRETIEN_CAUSE_INSTABILITE;
+  public readonly ENTRETIEN_RAISON_DEMANDE = ENTRETIEN_RAISON_DEMANDE;
+  public readonly ENTRETIEN_RESIDENCE = ENTRETIEN_RESIDENCE;
 
   public entretienForm!: UntypedFormGroup;
   private subscription = new Subscription();

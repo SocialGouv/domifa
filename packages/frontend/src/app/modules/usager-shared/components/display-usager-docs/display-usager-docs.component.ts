@@ -25,6 +25,7 @@ export class DisplayUsagerDocsComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
   public docs: UsagerDoc[];
+
   public readonly STRUCTURE_DOC_EXTENSIONS_LABELS =
     STRUCTURE_DOC_EXTENSIONS_LABELS;
   public readonly STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;
@@ -49,7 +50,7 @@ export class DisplayUsagerDocsComponent implements OnInit, OnDestroy {
     this.getUsagerDocs();
   }
 
-  public getUsagerDocs() {
+  public getUsagerDocs(): void {
     this.subscription.add(
       this.documentService.getUsagerDocs(this.usager.ref).subscribe({
         next: (docs: UsagerDoc[]) => {

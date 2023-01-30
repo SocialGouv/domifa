@@ -43,7 +43,7 @@ export class ImportComponent implements OnInit, OnDestroy {
 
   public previewTable?: ImportPreviewTable;
   public visibleRows: ImportPreviewRow[];
-  public COL = IMPORT_PREVIEW_COLUMNS;
+  public readonly COL = IMPORT_PREVIEW_COLUMNS;
 
   private readonly subscription = new Subscription();
 

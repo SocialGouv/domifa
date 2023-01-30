@@ -22,7 +22,6 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private readonly authService: AuthService,
-
     public matomoService: MatomoTracker
   ) {
     this.isNavbarCollapsed = false;
@@ -30,7 +29,6 @@ export class NavbarComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    // Affichage de matomo
     this.initMatomo();
   }
 
