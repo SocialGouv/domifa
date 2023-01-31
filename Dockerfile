@@ -1,4 +1,5 @@
 FROM node:16.19-bullseye
+USER node
 
 ENV TZ Europe/Paris
 RUN cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
