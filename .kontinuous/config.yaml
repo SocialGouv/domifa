@@ -1,0 +1,4 @@
+dependencies:
+  fabrique:
+    import: socialgouv/kontinuous/plugins/fabrique
+projectName: domifa

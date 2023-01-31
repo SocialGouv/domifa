@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+set -e
+
+export DOMIFA_VERSION=$(node -e "process.stdout.write(JSON.parse(fs.readFileSync('package.json')).version)")
+exec node dist/run-app.js
