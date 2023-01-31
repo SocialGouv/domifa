@@ -52,13 +52,13 @@
             <div class="input-group-append">
               <button
                 type="button"
+                role="switch"
                 class="input-group-text"
                 [attr.aria-label]="
                   (hidePasswordNew ? 'Afficher' : 'Masquer') +
-                  ' ou masquer le mot de passe'
+                  ' le mot de passe'
                 "
                 [attr.aria-checked]="!hidePasswordNew"
-                role="switch"
                 (click)="this.hidePasswordNew = !this.hidePasswordNew"
               >
                 <fa-icon
@@ -205,14 +205,14 @@
             />
             <div class="input-group-append">
               <button
-                type="button"
                 class="input-group-text"
                 [attr.aria-label]="
                   (hidePasswordNew ? 'Afficher' : 'Masquer') +
-                  ' ou masquer le mot de passe'
+                  ' le mot de passe'
                 "
                 [attr.aria-checked]="!hidePasswordNew"
                 role="switch"
+                type="button"
                 class="input-group-text"
                 (click)="this.hidePasswordNew = !this.hidePasswordNew"
               >

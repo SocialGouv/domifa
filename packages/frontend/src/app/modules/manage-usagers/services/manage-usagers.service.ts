@@ -16,7 +16,6 @@ export class ManageUsagersService {
 
   constructor(private http: HttpClient) {}
 
-  /* Recherche */
   public getSearchPageUsagerData({
     chargerTousRadies,
   }: {

@@ -24,6 +24,7 @@ import {
   faTimes,
   faTrash,
   faUserPlus,
+  faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const FA_ICONS: IconDefinition[] = [
@@ -34,6 +35,7 @@ export const FA_ICONS: IconDefinition[] = [
   faFileWord,
   faCheckCircle,
   faExclamationCircle,
+  faExclamationTriangle,
   faTimesCircle,
   faInfoCircle,
   faUserPlus,
