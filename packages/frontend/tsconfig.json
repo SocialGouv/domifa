@@ -22,12 +22,10 @@
     "outDir": "./dist/out-tsc",
     "resolveJsonModule": true,
     "sourceMap": true,
-    "target": "es2020",
+    "target": "ES2022",
     "typeRoots": ["node_modules/@types", "../../node_modules/@types"],
-    "types": ["jest"]
-    // Note: ngx-charts n'est pas prêt pour l'activation de noImplicitAny
-    // "noImplicitAny": true
-    // "strict": true
+    "types": ["jest"],
+    "useDefineForClassFields": false
   },
   "exclude": ["./node_modules", "./dist"],
   "angularCompilerOptions": {
