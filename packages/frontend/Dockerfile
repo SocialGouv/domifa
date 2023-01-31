@@ -1,4 +1,5 @@
 FROM node:16.19.0 as builder
+USER node
 
 # these variables are needed at build time because we produce a *static* app
 ARG PRODUCTION
