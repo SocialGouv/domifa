@@ -55,7 +55,7 @@ export const routes: Routes = [
     path: "stats",
   },
   {
-    canActivate: [AuthGuard],
+    canLoad: [AuthGuard],
     loadChildren: () =>
       import("./modules/manage-usagers/manage-usagers.module").then(
         (m) => m.ManageUsagersModule
@@ -63,7 +63,7 @@ export const routes: Routes = [
     path: "manage",
   },
   {
-    canActivate: [AuthGuard, FacteurGuard],
+    canLoad: [AuthGuard, FacteurGuard],
     loadChildren: () =>
       import("./modules/import-usagers/import-usagers.module").then(
         (m) => m.ImportUsagersModule
@@ -76,7 +76,7 @@ export const routes: Routes = [
     path: "users",
   },
   {
-    canActivate: [AuthGuard, FacteurGuard],
+    canLoad: [AuthGuard, FacteurGuard],
     loadChildren: () =>
       import("./modules/usager-dossier/usager-dossier.module").then(
         (m) => m.UsagerDossierModule
@@ -84,7 +84,7 @@ export const routes: Routes = [
     path: "usager",
   },
   {
-    canActivate: [AuthGuard],
+    canLoad: [AuthGuard],
     loadChildren: () =>
       import("./modules/usager-profil/usager-profil.module").then(
         (m) => m.UsagerProfilModule

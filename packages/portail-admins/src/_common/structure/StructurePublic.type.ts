@@ -3,7 +3,7 @@ import { StructureType, StructureAddresseCourrier } from ".";
 import { AppEntity } from "../_core";
 
 export type StructurePublic = AppEntity & {
-  id: number; // TODO: à voir si c'est utile
+  id: number;
   adresse: string;
   complementAdresse: string;
   nom: string;

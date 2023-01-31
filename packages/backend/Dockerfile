@@ -1,7 +1,7 @@
 # ---------------------------------------------------------
 # 1) BUILDER IMAGE
 # ---------------------------------------------------------
-FROM node:16.19-bullseye as builder
+FROM node:16.19-bullseye AS builder
 
 ENV TZ Europe/Paris
 

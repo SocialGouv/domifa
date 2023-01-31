@@ -1,4 +1,4 @@
-FROM node:16.19.0 as builder
+FROM node:16.19.0 AS builder
 USER node
 
 # these variables are needed at build time because we produce a *static* app

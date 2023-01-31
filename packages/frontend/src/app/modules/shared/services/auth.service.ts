@@ -30,7 +30,7 @@ export class AuthService {
   ) {
     this.currentUserSubject = new BehaviorSubject<UserStructure | null>(
       localStorage.getItem("currentUser") !== null
-        ? JSON.parse(localStorage.getItem("currentUser") as string)
+        ? JSON.parse(localStorage.getItem("currentUser"))
         : null
     );
   }
