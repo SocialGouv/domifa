@@ -75,7 +75,7 @@ if (environment.production) {
     NgbModule,
     SharedModule,
     ManageUsagersModule,
-    UserIdleModule.forRoot({ idle: 3600, timeout: 10, ping: 120 }),
+    UserIdleModule.forRoot({ idle: 10, timeout: 10, ping: 2 }),
   ],
   providers: [
     AuthService,

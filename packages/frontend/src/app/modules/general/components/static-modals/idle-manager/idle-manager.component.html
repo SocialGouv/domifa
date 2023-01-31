@@ -1,0 +1,30 @@
+<ng-template #idleModal let-modal>
+  <div class="modal-header">
+    <span class="modal-title" id="modal-title">
+      ⏳ Votre session va expirer, vous allez après déconnecter.
+    </span>
+  </div>
+
+  <div class="modal-body text-center py-2">
+    <p>
+      Aucune activité n'a été enregistrée depuis une heure, vous allez être
+      automatiquement déconneté dans 1 minute.<br />
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button
+      class="btn btn-lg btn-primary"
+      type="submit"
+      (click)="cancelLogout()"
+    >
+      Oui, je reste connecté
+    </button>
+    <button
+      class="btn btn-lg btn-outline-primary"
+      type="button"
+      (click)="logout()"
+    >
+      Non, je me déconnecte
+    </button>
+  </div>
+</ng-template>

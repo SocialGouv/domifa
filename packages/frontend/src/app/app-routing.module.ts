@@ -5,9 +5,9 @@ import { ExtraOptions, RouterModule, Routes } from "@angular/router";
 import { AuthGuard } from "./guards/auth.guard";
 import { FacteurGuard } from "./guards/facteur.guard";
 import { LoggedGuard } from "./guards/logged.guard";
-import { CguComponent } from "./modules/general/components/_static/cgu/cgu.component";
-import { MentionsLegalesComponent } from "./modules/general/components/_static/mentions-legales/mentions-legales.component";
-import { PolitiqueComponent } from "./modules/general/components/_static/politique/politique.component";
+import { CguComponent } from "./modules/general/components/static-pages/cgu/cgu.component";
+import { MentionsLegalesComponent } from "./modules/general/components/static-pages/mentions-legales/mentions-legales.component";
+import { PolitiqueComponent } from "./modules/general/components/static-pages/politique/politique.component";
 import { ContactSupportComponent } from "./modules/general/components/contact-support/contact-support.component";
 import { NotFoundComponent } from "./modules/general/components/errors/not-found/not-found.component";
 import { FaqComponent } from "./modules/general/components/faq/faq.component";
@@ -15,7 +15,7 @@ import { HomeComponent } from "./modules/general/components/home/home.component"
 import { LoginComponent } from "./modules/general/components/login/login.component";
 import { NewsComponent } from "./modules/general/components/news/news.component";
 import { PlanSiteComponent } from "./modules/general/components/plan-site/plan-site.component";
-import { CguResponsableComponent } from "./modules/general/components/_static/cgu-responsable/cgu-responsable.component";
+import { CguResponsableComponent } from "./modules/general/components/static-pages/cgu-responsable/cgu-responsable.component";
 
 export const routes: Routes = [
   {

@@ -18,7 +18,6 @@ import {
   NgbModalOptions,
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
-import { UserIdleService } from "angular-user-idle";
 import { MatomoTracker } from "ngx-matomo";
 import { filter, Subscription } from "rxjs";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
@@ -44,9 +43,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public me: UserStructure | null;
 
-  @ViewChild("helpCenter", { static: true })
-  public helpCenter!: TemplateRef<NgbModalRef>;
-
   @ViewChild("versionModal", { static: true })
   public versionModal!: TemplateRef<NgbModalRef>;
 
@@ -71,7 +67,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly authService: AuthService,
     private readonly router: Router,
     private readonly titleService: Title,
-    private readonly userIdleService: UserIdleService,
     private readonly toastService: CustomToastService,
     private readonly formBuilder: FormBuilder,
     private readonly modalService: NgbModal,
@@ -152,29 +147,8 @@ export class AppComponent implements OnInit, OnDestroy {
             this.openAcceptTermsModal();
           } else {
             this.checkNews();
-            this.userIdleService.resetTimer();
           }
         }
-      },
-    });
-
-    if (this.me) {
-      this.userIdleService.startWatching();
-    }
-
-    // Délai d'inactivit é atteint, on déconnecte
-    this.userIdleService.onTimeout().subscribe({
-      next: () => {
-        if (this.authService.currentUserSubject.value !== null) {
-          this.authService.logoutAndRedirect(undefined, true);
-        }
-      },
-    });
-
-    // Lancement du décompte
-    this.userIdleService.onTimerStart().subscribe({
-      next: () => {
-        console.log("Déconnexion dans quelques instants...");
       },
     });
 
@@ -249,6 +223,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.toastService.success(
             "Merci, vous pouvez continuer votre navigation"
           );
+          this.acceptTermsForm.reset();
           this.initCguForm();
           const user = this.authService.currentUserValue;
           user.acceptTerms = new Date();
@@ -272,10 +247,6 @@ export class AppComponent implements OnInit, OnDestroy {
       backdrop: "static",
       keyboard: false,
     });
-  }
-
-  public openHelpModal(): void {
-    this.modalService.open(this.helpCenter, this.modalOptions);
   }
 
   public closeModals(): void {
