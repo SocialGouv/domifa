@@ -16,11 +16,7 @@ export class FormatInternationalPhoneNumberPipe implements PipeTransform {
         telephone.numero,
         telephone.countryCode.toUpperCase(),
       );
-      const internationalPhone = this.phoneUtil.format(
-        numero,
-        lpn.PhoneNumberFormat.INTERNATIONAL,
-      );
-      return internationalPhone;
+      return this.phoneUtil.format(numero, lpn.PhoneNumberFormat.INTERNATIONAL);
     } catch (error) {
       console.warn(error);
       return "Non renseigné";

@@ -1,7 +1,7 @@
 import { buildCustomDoc } from "..";
 import { AppTestHelper } from "../../../../util/test";
-import { STRUCTURE_MOCK } from "../../../../_common/mocks";
 import {
+  STRUCTURE_MOCK,
   USAGER_REFUS_MOCK,
   USAGER_VALIDE_MOCK,
 } from "../../../../_common/mocks";

@@ -8,7 +8,6 @@ import {
 @Component({
   selector: "app-section-options",
   templateUrl: "./section-options.component.html",
-  styleUrls: ["./section-options.component.css"],
 })
 export class SectionOptionsComponent implements OnInit {
   @Input() public usager!: PortailUsagerPublic;

@@ -26,7 +26,6 @@ export class CanGetUserStructureGuard implements CanActivate {
       );
       throw new HttpException("Invalid structureId", HttpStatus.FORBIDDEN);
     }
-    // TODO: remplacer par une jointure
     const chosenUserStructure = await userStructureRepository.findOne(
       {
         id: userId,
