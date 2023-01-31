@@ -58,7 +58,6 @@ import {
 const AUTO_REFRESH_PERIOD = 3600000; // 1h
 @Component({
   animations: [fadeInOut],
-
   selector: "app-manage-usagers",
   styleUrls: ["./manage.component.css"],
   templateUrl: "./manage.component.html",
@@ -292,7 +291,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     );
   }
 
-  public chargerTousRadies() {
+  public chargerTousRadies(): void {
     this.scrollTop();
     this.chargerTousRadies$.next(true);
   }

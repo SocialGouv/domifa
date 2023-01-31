@@ -73,6 +73,7 @@
   </div>
   <div class="modal-footer">
     <button
+      type="submit"
       class="btn btn-lg btn-danger"
       (click)="deleteUsager()"
       [disabled]="loading"
@@ -84,7 +85,11 @@
         Veuillez patienter...</span
       >
     </button>
-    <button class="btn btn-lg btn-outline-dark" (click)="closeModals()">
+    <button
+      class="btn btn-lg btn-outline-dark"
+      type="button"
+      (click)="closeModals()"
+    >
       Revenir au profil
     </button>
   </div>
@@ -110,6 +115,7 @@
   </p>
   <div class="modal-footer">
     <button
+      type="submit"
       class="btn btn-lg btn-danger"
       (click)="deleteRenew()"
       [disabled]="loading"
@@ -121,7 +127,11 @@
         Veuillez patienter...</span
       >
     </button>
-    <button class="btn btn-lg btn-outline-dark" (click)="closeModals()">
+    <button
+      type="button"
+      class="btn btn-lg btn-outline-dark"
+      (click)="closeModals()"
+    >
       Revenir au profil
     </button>
   </div>
