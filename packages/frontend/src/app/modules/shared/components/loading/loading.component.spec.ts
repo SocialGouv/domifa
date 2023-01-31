@@ -1,10 +1,10 @@
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { LoadingComponent } from "./loading.component";
 import { LoadingService } from "../../services/loading.service";
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe("LoadingComponent", () => {
   let component: LoadingComponent;
@@ -14,10 +14,7 @@ describe("LoadingComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [LoadingComponent],
-      imports: [
-        NgbModule,
-        RouterModule.forRoot([], { relativeLinkResolution: "legacy" }),
-      ],
+      imports: [NgbModule, RouterTestingModule],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
