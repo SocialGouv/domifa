@@ -1,3 +1,4 @@
+import { IdleManagerComponent } from "./components/static-modals/idle-manager/idle-manager.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
@@ -11,13 +12,13 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { LoadingComponent } from "../shared/components/loading/loading.component";
 
-import { CguComponent } from "./components/_static/cgu/cgu.component";
+import { CguComponent } from "./components/static-pages/cgu/cgu.component";
 import { NotFoundComponent } from "./components/errors/not-found/not-found.component";
 import { FaqComponent } from "./components/faq/faq.component";
 import { HomeComponent } from "./components/home/home.component";
-import { MentionsLegalesComponent } from "./components/_static/mentions-legales/mentions-legales.component";
+import { MentionsLegalesComponent } from "./components/static-pages/mentions-legales/mentions-legales.component";
 import { NewsComponent } from "./components/news/news.component";
-import { PolitiqueComponent } from "./components/_static/politique/politique.component";
+import { PolitiqueComponent } from "./components/static-pages/politique/politique.component";
 import { GeneralService } from "./services/general.service";
 
 import { NavbarComponent } from "./components/navbar/navbar.component";
@@ -28,7 +29,8 @@ import { SharedModule } from "../shared/shared.module";
 import { ContactSupportComponent } from "./components/contact-support/contact-support.component";
 import { LoginComponent } from "./components/login/login.component";
 import { PlanSiteComponent } from "./components/plan-site/plan-site.component";
-import { CguResponsableComponent } from "./components/_static/cgu-responsable/cgu-responsable.component";
+import { CguResponsableComponent } from "./components/static-pages/cgu-responsable/cgu-responsable.component";
+import { HelpModalComponent } from "./components/static-modals/help-modal/help-modal.component";
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import { CguResponsableComponent } from "./components/_static/cgu-responsable/cg
     LoginComponent,
     PlanSiteComponent,
     CguResponsableComponent,
+    HelpModalComponent,
+    IdleManagerComponent,
   ],
   exports: [
     LoadingComponent,
@@ -52,6 +56,8 @@ import { CguResponsableComponent } from "./components/_static/cgu-responsable/cg
     NavbarComponent,
     CguComponent,
     CguResponsableComponent,
+    HelpModalComponent,
+    IdleManagerComponent,
   ],
   imports: [
     CommonModule,
