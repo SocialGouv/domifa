@@ -18,7 +18,7 @@ import {
   NgbModalOptions,
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoTracker } from "ngx-matomo";
+import { MatomoTracker } from "@ngx-matomo/tracker";
 import { filter, Subscription } from "rxjs";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 

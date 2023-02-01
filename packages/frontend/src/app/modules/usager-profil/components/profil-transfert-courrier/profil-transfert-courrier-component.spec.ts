@@ -6,11 +6,8 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoModule } from "ngx-matomo";
-import {
-  MATOMO_INJECTOR_FOR_TESTS,
-  USAGER_ACTIF_MOCK,
-} from "../../../../../_common/mocks";
+import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks";
+import { MATOMO_INJECTORS } from "../../../../shared";
 
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
@@ -28,8 +25,8 @@ describe("UsagersProfilTransfertCourrierComponent", () => {
         HttpClientTestingModule,
         NgbModule,
         ReactiveFormsModule,
-        MatomoModule.forRoot(MATOMO_INJECTOR_FOR_TESTS),
-        RouterTestingModule.withRoutes([]),
+        ...MATOMO_INJECTORS,
+        RouterTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

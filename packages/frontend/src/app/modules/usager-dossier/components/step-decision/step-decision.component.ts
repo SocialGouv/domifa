@@ -9,7 +9,7 @@ import {
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
 
-import { MatomoTracker } from "ngx-matomo";
+import { MatomoTracker } from "@ngx-matomo/tracker";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";

@@ -5,8 +5,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoModule } from "ngx-matomo";
-import { MATOMO_INJECTOR_FOR_TESTS } from "../../../../../_common/mocks";
+import { MATOMO_INJECTORS } from "../../../../shared";
 
 import { SharedModule } from "../../../shared/shared.module";
 import { StepDecisionComponent } from "./step-decision.component";
@@ -19,13 +18,13 @@ describe("StepDecisionComponent", () => {
     TestBed.configureTestingModule({
       declarations: [StepDecisionComponent],
       imports: [
-        SharedModule,
-        MatomoModule.forRoot(MATOMO_INJECTOR_FOR_TESTS),
-        RouterTestingModule,
-        NgbModule,
-        ReactiveFormsModule,
         FormsModule,
         HttpClientTestingModule,
+        NgbModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+        SharedModule,
+        ...MATOMO_INJECTORS,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

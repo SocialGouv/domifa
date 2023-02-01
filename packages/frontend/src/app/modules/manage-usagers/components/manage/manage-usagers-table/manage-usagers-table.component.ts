@@ -14,7 +14,7 @@ import {
   NgbModalOptions,
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoTracker } from "ngx-matomo";
+import { MatomoTracker } from "@ngx-matomo/tracker";
 
 import {
   UserStructure,

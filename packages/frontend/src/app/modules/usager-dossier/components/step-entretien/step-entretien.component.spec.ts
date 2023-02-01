@@ -6,7 +6,6 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoModule } from "ngx-matomo";
 
 import { StepEntretienComponent } from "./step-entretien.component";
 
@@ -17,19 +16,7 @@ describe("StepEntretienComponent", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
-      imports: [
-        RouterTestingModule,
-        NgbModule,
-        MatomoModule.forRoot({
-          trackers: [
-            {
-              trackerUrl: "xxx",
-              siteId: 0,
-            },
-          ],
-        }),
-        HttpClientTestingModule,
-      ],
+      imports: [RouterTestingModule, NgbModule, HttpClientTestingModule],
       declarations: [StepEntretienComponent],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
     });

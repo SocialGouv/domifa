@@ -2,7 +2,7 @@ import { Subscription } from "rxjs";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { CountUpOptions } from "countup.js";
-import { MatomoTracker } from "ngx-matomo";
+import { MatomoTracker } from "@ngx-matomo/tracker";
 import { HomeStats } from "../../../../../_common/model";
 
 import { GeneralService } from "../../services/general.service";

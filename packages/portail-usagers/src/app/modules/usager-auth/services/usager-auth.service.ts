@@ -10,8 +10,8 @@ import {
   PortailUsagerAuthLoginForm,
   PortailUsagerProfile,
 } from "../../../../_common";
-import { globalConstants } from "../../../shared/utils/global-constants.class";
 import { configureScope } from "@sentry/angular";
+import { globalConstants } from "../../../shared";
 
 const END_POINT_AUTH = environment.apiUrl + "portail-usagers/auth";
 const END_POINT_PROFILE = environment.apiUrl + "portail-usagers/profile";

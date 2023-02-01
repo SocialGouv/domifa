@@ -5,8 +5,6 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoModule } from "ngx-matomo";
-import { MATOMO_INJECTOR_FOR_TESTS } from "../../../../../_common/mocks";
 
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { UsagerFormModel } from "../../interfaces";
@@ -21,7 +19,6 @@ describe("ProfilGeneralNotesComponent", () => {
       declarations: [ProfilGeneralNotesComponent],
       imports: [
         NgbModule,
-        MatomoModule.forRoot(MATOMO_INJECTOR_FOR_TESTS),
         ReactiveFormsModule,
         HttpClientTestingModule,
         RouterTestingModule,

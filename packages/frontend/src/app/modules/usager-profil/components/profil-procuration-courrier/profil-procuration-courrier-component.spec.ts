@@ -6,10 +6,9 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoModule } from "ngx-matomo";
-import { MATOMO_INJECTOR_FOR_TESTS } from "../../../../../_common/mocks";
 
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
+import { MATOMO_INJECTORS } from "../../../../shared";
 import { NotFoundComponent } from "../../../general/components/errors/not-found/not-found.component";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagersProfilProcurationCourrierComponent } from "./profil-procuration-courrier-component";
@@ -26,11 +25,11 @@ describe("UsagersProfilProcurationCourrierComponent", () => {
           { path: "404", component: NotFoundComponent },
         ]),
         CommonModule,
+        NgbModule,
         FormsModule,
         HttpClientTestingModule,
-        MatomoModule.forRoot(MATOMO_INJECTOR_FOR_TESTS),
-        NgbModule,
         ReactiveFormsModule,
+        ...MATOMO_INJECTORS,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
