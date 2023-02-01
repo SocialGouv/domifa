@@ -1,3 +1,11 @@
+## [2.116.4](https://github.com/SocialGouv/domifa/compare/v2.116.3...v2.116.4) (2023-02-01)
+
+
+### Bug Fixes
+
+* **clean-code:** nettoyage de fichiers obsolètes, traitement des alertes SonarCloud ([4d69694](https://github.com/SocialGouv/domifa/commit/4d696941ada14596f49ed0ce257a05def74efc2a))
+* **docker:** ajout d'un user au Dockerfile ([35936a9](https://github.com/SocialGouv/domifa/commit/35936a99b430be5764e57d8fffdd343207335d0c))
+
 ## [2.116.3](https://github.com/SocialGouv/domifa/compare/v2.116.2...v2.116.3) (2023-01-30)
 
 
