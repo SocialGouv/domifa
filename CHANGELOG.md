@@ -1,3 +1,15 @@
+# [2.117.0](https://github.com/SocialGouv/domifa/compare/v2.116.4...v2.117.0) (2023-02-01)
+
+
+### Bug Fixes
+
+* **rgaa:** correction d'affichage d'icône et de label ([553a8c5](https://github.com/SocialGouv/domifa/commit/553a8c55ce107a19182c3a2cb7b8a4c90c8c28a5))
+
+
+### Features
+
+* **users:** ajout d'un délai avant la déconnection automatique ([9e0cfae](https://github.com/SocialGouv/domifa/commit/9e0cfaeb8b6422426607d4e0b34ae89d6e5299b7))
+
 ## [2.116.4](https://github.com/SocialGouv/domifa/compare/v2.116.3...v2.116.4) (2023-02-01)
 
 
