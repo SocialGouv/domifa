@@ -16,7 +16,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { JwtInterceptor } from "./interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "./interceptors/server-error.interceptor";
-import { MatomoModule } from "ngx-matomo";
 
 import { SentryErrorHandler } from "./interceptors/sentry.interceptor";
 
@@ -26,7 +25,6 @@ import { Router } from "@angular/router";
 import { SharedModule } from "./modules/shared/shared.module";
 import { CustomToastService } from "./modules/shared/services/custom-toast.service";
 import { GeneralModule } from "./modules/general/general.module";
-import { environment } from "../environments/environment";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -39,17 +37,6 @@ import { environment } from "../environments/environment";
     FontAwesomeModule,
     FormsModule,
     HttpClientModule,
-    MatomoModule.forRoot({
-      trackers: [
-        {
-          trackerUrl: environment.matomo.url,
-          siteId: environment.matomo.siteId,
-        },
-      ],
-      routeTracking: {
-        enable: true,
-      },
-    }),
     NgbModule,
     SharedModule,
     ReactiveFormsModule,

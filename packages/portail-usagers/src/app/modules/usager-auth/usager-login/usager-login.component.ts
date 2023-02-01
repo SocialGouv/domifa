@@ -7,7 +7,7 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
-import { MatomoTracker } from "ngx-matomo";
+import { MatomoTracker } from "@ngx-matomo/tracker";
 
 import type {
   PortailUsagerAuthApiResponse,

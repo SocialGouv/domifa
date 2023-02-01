@@ -8,11 +8,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { UsagerFormModel } from "../../../interfaces";
 import { SetInteractionInFormComponent } from "./set-interaction-in-form.component";
 import { SharedModule } from "../../../../shared/shared.module";
-import { MatomoModule } from "ngx-matomo";
-import {
-  MATOMO_INJECTOR_FOR_TESTS,
-  USAGER_ACTIF_MOCK,
-} from "../../../../../../_common/mocks";
+import { USAGER_ACTIF_MOCK } from "../../../../../../_common/mocks";
 
 describe("SetInteractionInFormComponent", () => {
   let component: SetInteractionInFormComponent;
@@ -21,13 +17,7 @@ describe("SetInteractionInFormComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SetInteractionInFormComponent],
-      imports: [
-        NgbModule,
-        HttpClientTestingModule,
-        SharedModule,
-        FormsModule,
-        MatomoModule.forRoot(MATOMO_INJECTOR_FOR_TESTS),
-      ],
+      imports: [NgbModule, HttpClientTestingModule, SharedModule, FormsModule],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

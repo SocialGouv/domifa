@@ -5,8 +5,7 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoModule } from "ngx-matomo";
-import { MATOMO_INJECTOR_FOR_TESTS } from "../../../../../_common/mocks";
+import { MATOMO_INJECTORS } from "../../../../shared";
 
 import { StructuresSmsFormComponent } from "./structures-sms-form.component";
 
@@ -21,8 +20,8 @@ describe("StructuresSmsFormComponent", () => {
         ReactiveFormsModule,
         FormsModule,
         HttpClientTestingModule,
-        MatomoModule.forRoot(MATOMO_INJECTOR_FOR_TESTS),
         RouterTestingModule,
+        ...MATOMO_INJECTORS,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

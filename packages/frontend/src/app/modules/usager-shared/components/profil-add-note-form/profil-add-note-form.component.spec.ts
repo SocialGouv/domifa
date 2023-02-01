@@ -4,11 +4,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoModule } from "ngx-matomo";
-import {
-  MATOMO_INJECTOR_FOR_TESTS,
-  USAGER_ACTIF_MOCK,
-} from "../../../../../_common/mocks";
+import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks";
 
 import { UsagerFormModel } from "../../interfaces";
 
@@ -23,7 +19,6 @@ describe("ProfilAddNoteFormComponent", () => {
       declarations: [ProfilAddNoteFormComponent],
       imports: [
         NgbModule,
-        MatomoModule.forRoot(MATOMO_INJECTOR_FOR_TESTS),
         HttpClientTestingModule,
         ReactiveFormsModule,
         FormsModule,

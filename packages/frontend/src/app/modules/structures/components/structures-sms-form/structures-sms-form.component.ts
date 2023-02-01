@@ -17,7 +17,7 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { StructureCommon } from "../../../../../_common/model";
 
 import { StructureService } from "../../services/structure.service";
-import { MatomoTracker } from "ngx-matomo";
+import { MatomoTracker } from "@ngx-matomo/tracker";
 import {
   NgbModal,
   NgbModalOptions,

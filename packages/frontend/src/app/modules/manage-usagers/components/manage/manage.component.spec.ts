@@ -7,8 +7,7 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoModule } from "ngx-matomo";
-import { MATOMO_INJECTOR_FOR_TESTS } from "../../../../../_common/mocks";
+import { MATOMO_INJECTORS } from "../../../../shared";
 
 import { ManageUsagersComponent } from "./manage.component";
 
@@ -21,14 +20,12 @@ describe("ManageUsagersComponent", () => {
     TestBed.configureTestingModule({
       declarations: [ManageUsagersComponent],
       imports: [
-        NgbModule,
-        MatomoModule.forRoot(MATOMO_INJECTOR_FOR_TESTS),
-        RouterTestingModule,
-        NgbModule,
-        ReactiveFormsModule,
         FormsModule,
-        ReactiveFormsModule,
         HttpClientTestingModule,
+        NgbModule,
+        ...MATOMO_INJECTORS,
+        ReactiveFormsModule,
+        RouterTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

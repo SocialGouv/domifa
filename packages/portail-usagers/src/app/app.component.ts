@@ -4,6 +4,7 @@ import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { NavigationEnd, Router } from "@angular/router";
 import { filter } from "rxjs";
+import { MatomoTracker } from "@ngx-matomo/tracker";
 
 @Component({
   selector: "app-root",
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
     private readonly titleService: Title,
     private readonly router: Router,
     private readonly usagerAuthService: UsagerAuthService,
+    private matomoTracker: MatomoTracker,
   ) {
     this.apiVersion = null;
     this.usagerProfile = null;
@@ -26,6 +28,9 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.matomoTracker.setUserId("UserId");
+    this.matomoTracker.setDocumentTitle("ngxMatomo Test");
+
     this.titleService.setTitle(
       "Domifa, l'outil qui facilite la gestion des structures domiciliatirices",
     );

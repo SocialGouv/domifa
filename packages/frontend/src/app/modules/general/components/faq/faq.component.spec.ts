@@ -1,3 +1,4 @@
+import { MATOMO_INJECTORS } from "./../../../../shared/constants/MATOMO_INJECTORS.const";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
@@ -9,9 +10,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { FaqComponent } from "./faq.component";
 
-import { MatomoModule } from "ngx-matomo";
 import { RouterTestingModule } from "@angular/router/testing";
-import { MATOMO_INJECTOR_FOR_TESTS } from "../../../../../_common/mocks";
 
 describe("FaqComponent", () => {
   let component: FaqComponent;
@@ -20,13 +19,12 @@ describe("FaqComponent", () => {
     TestBed.configureTestingModule({
       declarations: [FaqComponent],
       imports: [
-        MatomoModule,
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
         HttpClientTestingModule,
         RouterTestingModule,
-        MatomoModule.forRoot(MATOMO_INJECTOR_FOR_TESTS),
+        ...MATOMO_INJECTORS,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

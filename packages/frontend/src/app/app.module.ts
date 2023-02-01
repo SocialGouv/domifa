@@ -17,7 +17,6 @@ import { Router } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoModule } from "ngx-matomo";
 
 import { environment } from "src/environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
@@ -34,6 +33,7 @@ import pkg from "../../package.json";
 import { UserIdleModule } from "angular-user-idle";
 
 import { createErrorHandler, init } from "@sentry/angular";
+import { MATOMO_INJECTORS } from "./shared";
 
 const disableAnimations =
   !("animate" in document.documentElement) ||
@@ -56,26 +56,15 @@ if (environment.production) {
     BrowserModule,
     BrowserAnimationsModule.withConfig({ disableAnimations }),
     FormsModule,
-    MatomoModule,
     HttpClientModule,
     ReactiveFormsModule,
     FontAwesomeModule,
     GeneralModule,
-    MatomoModule.forRoot({
-      trackers: [
-        {
-          trackerUrl: environment.matomo.url,
-          siteId: environment.matomo.siteId,
-        },
-      ],
-      routeTracking: {
-        enable: true,
-      },
-    }),
     NgbModule,
     SharedModule,
     ManageUsagersModule,
-    UserIdleModule.forRoot({ idle: 10, timeout: 10, ping: 2 }),
+    UserIdleModule.forRoot({ idle: 3600, timeout: 10, ping: 120 }),
+    ...MATOMO_INJECTORS,
   ],
   providers: [
     AuthService,
