@@ -1,5 +1,6 @@
 FROM node:16.19.0 AS builder
-USER node
+
+RUN apt-get update -y && apt-get install gettext-base && rm -rf /var/lib/apt/lists/*
 
 # these variables are needed at build time because we produce a *static* app
 ARG PRODUCTION
@@ -23,9 +24,8 @@ WORKDIR /app
 COPY ./packages/frontend .
 COPY ./yarn.lock .
 
-# replace environment variables
-RUN apt-get update -y && apt-get install gettext-base && rm -rf /var/lib/apt/lists/*
 # index.html for robots
+# replace environment variables
 RUN envsubst < ./src/index.html > ./src/index-env.html
 RUN mv ./src/index-env.html ./src/index.html
 # environment.prod.ts
@@ -37,4 +37,4 @@ RUN yarn build
 
 FROM ghcr.io/socialgouv/docker/nginx4spa:7.3.0
 
-COPY --from=builder /app/dist/domifa /usr/share/nginx/html
+COPY --from=builder --chown=101:101 /app/dist/domifa /usr/share/nginx/html
