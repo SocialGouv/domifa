@@ -1,4 +1,19 @@
+projectName: domifa
 dependencies:
   fabrique:
     import: socialgouv/kontinuous/plugins/fabrique
-projectName: domifa
+    preDeploy:
+      importSecrets:
+        options:
+          secrets:
+            pg-user-devflex:
+              required: true
+            # secret-name:
+              # enabled: true
+              # reload: false
+              # required: false
+              # fromNamespace: <$projectName-ci>
+              # toNamespace: true
+              # toAllNamespace: false
+              # to: azure-pg-admin-user
+              # from: [azure-pg-admin-user]
