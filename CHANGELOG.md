@@ -1,3 +1,10 @@
+## [2.117.2](https://github.com/SocialGouv/domifa/compare/v2.117.1...v2.117.2) (2023-02-03)
+
+
+### Bug Fixes
+
+* Fix broken docker image ([a545f29](https://github.com/SocialGouv/domifa/commit/a545f29b758c1621371d60485ebc37bd61f1caa1))
+
 ## [2.117.1](https://github.com/SocialGouv/domifa/compare/v2.117.0...v2.117.1) (2023-02-03)
 
 
