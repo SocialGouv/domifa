@@ -4,7 +4,7 @@ backend:
     - files
   envFrom:
     - secretRef:
-        name: "{{ .Values.global.pgSecretName }}"
+        name: pg-user-devflex
     - secretRef:
         name: backend-sealed-secret
     - configMapRef:

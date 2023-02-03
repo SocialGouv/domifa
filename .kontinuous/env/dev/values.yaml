@@ -2,7 +2,7 @@ jobs:
   runs:
     build-backend:
       with:
-        buildArgs: 
+        buildArgs:
           DOMIFA_BACKEND_URL: https://api-{{ .Values.global.host }}/
           DOMIFA_PORTAIL_ADMINS_URL: https://admin-{{ .Values.global.host }}/
           DOMIFA_PORTAIL_USAGERS_URL: https://mon-{{ .Values.global.host }}/
@@ -11,12 +11,12 @@ jobs:
     drop-db:
       use: drop-db
       with:
-        pgAdminSecretRefName: azure-pg-admin-user
+        pgAdminSecretRefName: azure-pg-admin-user-devflex
     create-db:
       needs: [drop-db]
       use: create-db
       with:
-        pgAdminSecretRefName: azure-pg-admin-user
+        pgAdminSecretRefName: azure-pg-admin-user-devflex
     seed:
       needs: [backend]
       use: seed-db
@@ -31,4 +31,10 @@ backend:
   volumeMounts:
     - mountPath: /mnt/files
       name: files
-
+  envFrom:
+    - secretRef:
+        name: "pg-user-devflex"
+    - secretRef:
+        name: backend-sealed-secret
+    - configMapRef:
+        name: backend-configmap
