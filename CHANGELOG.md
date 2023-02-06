@@ -1,3 +1,10 @@
+## [2.117.3](https://github.com/SocialGouv/domifa/compare/v2.117.2...v2.117.3) (2023-02-06)
+
+
+### Bug Fixes
+
+* **deps:** update dependency date-fns-tz to v2 ([778a7f8](https://github.com/SocialGouv/domifa/commit/778a7f845f53f12769897544b508f288efc60235))
+
 ## [2.117.2](https://github.com/SocialGouv/domifa/compare/v2.117.1...v2.117.2) (2023-02-03)
 
 
