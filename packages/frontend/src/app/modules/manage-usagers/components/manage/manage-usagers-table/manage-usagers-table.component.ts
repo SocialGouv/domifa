@@ -1,3 +1,4 @@
+import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import {
   Component,
@@ -99,6 +100,7 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly interactionService: InteractionService,
+    private readonly router: Router,
     private readonly modalService: NgbModal,
     private readonly toastService: CustomToastService,
     private readonly matomo: MatomoTracker,
@@ -225,6 +227,9 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
     );
   }
 
+  public goToProfil(usager: UsagerFormModel): void {
+    this.router.navigate([usager.usagerProfilUrl]);
+  }
   public cancelReception() {
     this.modalService.dismissAll();
   }

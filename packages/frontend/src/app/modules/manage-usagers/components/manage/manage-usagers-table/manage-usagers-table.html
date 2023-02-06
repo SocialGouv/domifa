@@ -79,14 +79,13 @@
   </thead>
   <tbody>
     <tr *ngFor="let usager of usagers; let i = index">
-      <td *ngIf="filters.statut==='TOUS'">
-        <a [routerLink]="usager.usagerProfilUrl">
-          <div class="label-statut" [class]="usager.statusInfos.color">
-            <span>{{ usager.statusInfos.text }}</span>
-          </div>
-        </a>
+      <td *ngIf="filters.statut==='TOUS'" (click)="goToProfil(usager)">
+        <span class="px-1 label-statut" [class]="usager.statusInfos.color">
+          {{ usager.statusInfos.text }}</span
+        >
       </td>
       <td
+        (click)="goToProfil(usager)"
         *ngIf="filters.statut ==='ATTENTE_DECISION' || filters.statut ==='INSTRUCTION'"
       >
         <ng-template #rdvInfosTooltip class="p-3 text-center">
@@ -96,32 +95,28 @@
             </div>
           </div>
         </ng-template>
-
-        <div
+        <span
           [ngbTooltip]="usager.rdvInfos.display ? rdvInfosTooltip : ''"
           *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
           class="label-statut orange-status"
+          >Renouvellement</span
         >
-          <span>Renouvellement</span>
-        </div>
 
-        <div
+        <span
           [ngbTooltip]="usager.rdvInfos.display ? rdvInfosTooltip : ''"
           *ngIf="usager.typeDom === 'PREMIERE_DOM'"
           class="label-statut grey-status"
+          >Première demande</span
         >
-          <span>Première demande</span>
-        </div>
       </td>
 
-      <td class="text-primary manage-usager-ref">
-        <a [routerLink]="usager.usagerProfilUrl" class="text-primary">
-          <span *ngIf="usager.customRef">{{ usager.customRef }}</span>
-          <span *ngIf="!usager.customRef ">{{ usager.ref }}</span>
-        </a>
+      <td class="text-primary manage-usager-ref" (click)="goToProfil(usager)">
+        <span class="px-3"
+          >{{ usager.customRef ? usager.customRef : usager.ref }}</span
+        >
       </td>
 
-      <td class="table-name td-name">
+      <td class="table-name td-name" (click)="goToProfil(usager)">
         <a [routerLink]="usager.usagerProfilUrl">
           {{ usager.nom | uppercase }} {{ usager.prenom }}
           <span *ngIf="usager.surnom && usager.surnom !== null">
@@ -131,140 +126,132 @@
       </td>
 
       <td class="table-name">
-        <a [routerLink]="usager.usagerProfilUrl">
-          <span *ngIf="usager.telephone?.numero"
-            >{{ usager.telephone | formatInternationalPhoneNumber }}</span
-          >
+        <a *ngIf="usager.telephone?.numero">
+          <span>{{ usager.telephone | formatInternationalPhoneNumber }}</span>
         </a>
       </td>
 
-      <td>
-        <a [routerLink]="usager.usagerProfilUrl">
-          <span class="visually-hidden"
-            >Aller vers la fiche de {{ usager.nom | uppercase }} {{
-            usager.prenom }}</span
-          >
-          <ng-template #ayantsDroitsTooltip class="p-4 text-start">
+      <td class="clickable" (click)="goToProfil(usager)">
+        <span class="visually-hidden"
+          >Aller vers la fiche de {{ usager.nom | uppercase }} {{ usager.prenom
+          }}</span
+        >
+        <ng-template #ayantsDroitsTooltip class="p-4 text-start">
+          <div class="distribution-tooltip">
+            <div class="p-1" *ngFor="let ayantDroit of usager.ayantsDroits">
+              <strong class="text-primary">{{ayantDroit.nom }}</strong>
+              {{ ayantDroit.prenom}}
+            </div>
+          </div>
+        </ng-template>
+
+        <div
+          class="label-info label-green"
+          *ngIf="usager.ayantsDroits.length > 0"
+          [ngbTooltip]="ayantsDroitsTooltip"
+        >
+          <div *ngIf="usager.ayantsDroits.length > 1">
+            {{ usager.ayantsDroits.length }} ayants-droit
+          </div>
+          <div *ngIf="usager.ayantsDroits.length === 1">1 ayant-droit</div>
+          <span
+            aria-hidden="true"
+            *ngIf="usager.searchResultAyantDroit"
+            class="pulse-button"
+          ></span>
+        </div>
+
+        <div
+          class="label-info label-yellow"
+          *ngIf="usager.options.transfert.actif"
+          [ngbTooltip]="transfertActif"
+        >
+          <ng-template #transfertActif>
             <div class="distribution-tooltip">
-              <div class="p-1" *ngFor="let ayantDroit of usager.ayantsDroits">
-                <strong class="text-primary">{{ayantDroit.nom }}</strong>
-                {{ ayantDroit.prenom}}
+              <div *ngIf="usager.options.transfert.dateFin > today">
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'share']"
+                  class="text-primary me-1"
+                ></fa-icon>
+                Courrier à transférer : {{ usager.options.transfert.nom |
+                titlecase }} {{ usager.options.transfert.adresse | titlecase }}
+              </div>
+
+              <div *ngIf="usager.options.transfert.dateFin <= today">
+                Transfert expiré le {{ usager.options.transfert.dateFin | date:
+                "dd/MM/yy" }}
               </div>
             </div>
           </ng-template>
 
-          <div
-            class="label-info label-green"
-            *ngIf="usager.ayantsDroits.length > 0"
-            [ngbTooltip]="ayantsDroitsTooltip"
-          >
-            <div *ngIf="usager.ayantsDroits.length > 1">
-              {{ usager.ayantsDroits.length }} ayants-droit
-            </div>
-            <div *ngIf="usager.ayantsDroits.length === 1">1 ayant-droit</div>
-            <span
-              aria-hidden="true"
-              *ngIf="usager.searchResultAyantDroit"
-              class="pulse-button"
-            ></span>
-          </div>
+          <div>Transfert</div>
+        </div>
 
-          <div
-            class="label-info label-yellow"
-            *ngIf="usager.options.transfert.actif"
-            [ngbTooltip]="transfertActif"
-          >
-            <ng-template #transfertActif>
-              <div class="distribution-tooltip">
-                <div *ngIf="usager.options.transfert.dateFin > today">
-                  <fa-icon
-                    aria-hidden="true"
-                    [icon]="['fas', 'share']"
-                    class="text-primary me-1"
-                  ></fa-icon>
-                  Courrier à transférer : {{ usager.options.transfert.nom |
-                  titlecase }} {{ usager.options.transfert.adresse | titlecase
-                  }}
-                </div>
-
-                <div *ngIf="usager.options.transfert.dateFin <= today">
-                  Transfert expiré le {{ usager.options.transfert.dateFin |
-                  date: "dd/MM/yy" }}
-                </div>
-              </div>
-            </ng-template>
-
-            <div>Transfert</div>
-          </div>
-
-          <div
-            class="label-info label-yellow"
-            *ngIf="usager.options.procurations.length > 0"
-            [ngbTooltip]="procurationActif"
-          >
-            <span
-              aria-hidden="true"
-              *ngIf="usager.searchResultProcuration"
-              class="pulse-button"
-            ></span>
-            <ng-template #procurationActif>
-              <div
-                class="text-start"
-                *ngFor="let procuration of usager.options.procurations; let i = index"
-              >
-                <span *ngIf="procuration.dateFin > today">
-                  <fa-icon
-                    aria-hidden="true"
-                    [icon]="['fas', 'share']"
-                    class="text-primary me-1"
-                  ></fa-icon>
-                  Active: {{ procuration.nom }} {{ procuration.prenom }}
-                </span>
-                <span *ngIf="procuration.dateFin <= today">
-                  <fa-icon
-                    aria-hidden="true"
-                    [icon]="['fas', 'times']"
-                    class="text-danger me-1"
-                  ></fa-icon>
-                  Expirée le {{procuration.dateFin | date: "dd/MM/yy" }}: {{
-                  procuration.nom }} {{ procuration.prenom }}
-                </span>
-              </div>
-            </ng-template>
-
-            <div>
-              {{ usager.options.procurations.length > 1 ? 'Procurations':
-              'Procuration'}}
-            </div>
-          </div>
-
-          <div
-            *ngIf="usager.options.npai.actif"
-            class="label-info label-danger"
-          >
-            <div>Pli non distribuable</div>
-          </div>
-        </a>
-      </td>
-
-      <td *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS' ">
-        <a [routerLink]="usager.usagerProfilUrl">
-          {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yy" }}
-        </a>
-      </td>
-
-      <td class="statut-date">
-        <a [routerLink]="usager.usagerProfilUrl">
+        <div
+          class="label-info label-yellow"
+          *ngIf="usager.options.procurations.length > 0"
+          [ngbTooltip]="procurationActif"
+        >
           <span
-            [attr.aria-label]="usager.echeanceInfos.color === 'bg-danger' ? 'Moins de 2 semaines ou dépassée' : 'Moins de 2 mois'"
-            *ngIf="usager.isActif"
-            class="statut-signal"
-            [class]="usager.echeanceInfos.color"
+            aria-hidden="true"
+            *ngIf="usager.searchResultProcuration"
+            class="pulse-button"
           ></span>
-          <span *ngIf="usager.echeanceInfos.dateToDisplay">
-            {{ usager.echeanceInfos.dateToDisplay | date: "dd/MM/yy" }}</span
-          >
-        </a>
+          <ng-template #procurationActif>
+            <div
+              class="text-start"
+              *ngFor="let procuration of usager.options.procurations; let i = index"
+            >
+              <span *ngIf="procuration.dateFin > today">
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'share']"
+                  class="text-primary me-1"
+                ></fa-icon>
+                Active: {{ procuration.nom }} {{ procuration.prenom }}
+              </span>
+              <span *ngIf="procuration.dateFin <= today">
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'times']"
+                  class="text-danger me-1"
+                ></fa-icon>
+                Expirée le {{procuration.dateFin | date: "dd/MM/yy" }}: {{
+                procuration.nom }} {{ procuration.prenom }}
+              </span>
+            </div>
+          </ng-template>
+
+          <div>
+            {{ usager.options.procurations.length > 1 ? 'Procurations':
+            'Procuration'}}
+          </div>
+        </div>
+
+        <div *ngIf="usager.options.npai.actif" class="label-info label-danger">
+          <div>Pli non distribuable</div>
+        </div>
+      </td>
+
+      <td
+        *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS' "
+        class="clickable"
+        (click)="goToProfil(usager)"
+      >
+        {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yy" }}
+      </td>
+
+      <td class="statut-date clickable" (click)="goToProfil(usager)">
+        <span
+          [attr.aria-label]="usager.echeanceInfos.color === 'bg-danger' ? 'Moins de 2 semaines ou dépassée' : 'Moins de 2 mois'"
+          *ngIf="usager.isActif"
+          class="statut-signal"
+          [class]="usager.echeanceInfos.color"
+        ></span>
+        <span *ngIf="usager.echeanceInfos.dateToDisplay">
+          {{ usager.echeanceInfos.dateToDisplay | date: "dd/MM/yy" }}</span
+        >
       </td>
 
       <td class="text-start icones_liste d-print-none">
@@ -411,7 +398,7 @@
               aria-hidden="true"
             ></fa-icon>
           </button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <div ngbDropdownMenu>
             <button
               ngbDropdownItem
               type="button"

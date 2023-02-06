@@ -60,10 +60,10 @@ tbody td:last-child {
 }
 
 tbody tr {
-  transition: all 1s;
+  transition: all 0.5s;
   animation-timing-function: cubic-bezier(Ease Out);
   background: #ffffff;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.06);
   border-radius: 2px;
 }
 
@@ -219,7 +219,7 @@ th {
   }
 
   .toggle-actions {
-    color: rgb(70, 70, 70);
+    color: rgb(27, 27, 27);
     font-size: 1.6rem;
   }
 

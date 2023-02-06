@@ -7,10 +7,8 @@ import { CommonModule, APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 
-import { NgxMatomoRouterModule } from "@ngx-matomo/tracker";
-
 import { SharedModule } from "../../../shared/shared.module";
-import { MATOMO_INJECTOR_FOR_TESTS } from "../../../../../_common";
+import { MATOMO_INJECTORS } from "../../../../shared";
 
 describe("HomeComponent", () => {
   let component: HomeComponent;
@@ -22,7 +20,7 @@ describe("HomeComponent", () => {
       imports: [
         CommonModule,
         SharedModule,
-        NgxMatomoRouterModule,
+        ...MATOMO_INJECTORS,
         RouterTestingModule,
         HttpClientTestingModule,
       ],

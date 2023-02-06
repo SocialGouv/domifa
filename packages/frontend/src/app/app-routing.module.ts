@@ -2,8 +2,6 @@ import { NgModule } from "@angular/core";
 
 import { ExtraOptions, RouterModule, Routes } from "@angular/router";
 
-import { AuthGuard } from "./guards/auth.guard";
-import { FacteurGuard } from "./guards/facteur.guard";
 import { LoggedGuard } from "./guards/logged.guard";
 import { CguComponent } from "./modules/general/components/static-pages/cgu/cgu.component";
 import { MentionsLegalesComponent } from "./modules/general/components/static-pages/mentions-legales/mentions-legales.component";
@@ -55,7 +53,6 @@ export const routes: Routes = [
     path: "stats",
   },
   {
-    canLoad: [AuthGuard],
     loadChildren: () =>
       import("./modules/manage-usagers/manage-usagers.module").then(
         (m) => m.ManageUsagersModule
@@ -63,7 +60,6 @@ export const routes: Routes = [
     path: "manage",
   },
   {
-    canLoad: [AuthGuard, FacteurGuard],
     loadChildren: () =>
       import("./modules/import-usagers/import-usagers.module").then(
         (m) => m.ImportUsagersModule
@@ -76,7 +72,6 @@ export const routes: Routes = [
     path: "users",
   },
   {
-    canLoad: [AuthGuard, FacteurGuard],
     loadChildren: () =>
       import("./modules/usager-dossier/usager-dossier.module").then(
         (m) => m.UsagerDossierModule
@@ -84,7 +79,6 @@ export const routes: Routes = [
     path: "usager",
   },
   {
-    canLoad: [AuthGuard],
     loadChildren: () =>
       import("./modules/usager-profil/usager-profil.module").then(
         (m) => m.UsagerProfilModule

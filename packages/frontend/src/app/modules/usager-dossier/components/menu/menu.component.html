@@ -12,14 +12,11 @@
       <button
         [attr.aria-label]="'Aller à l\'étape ' + (i + 1) + ' : ' + etape"
         (click)="goToStep(i)"
+        type="button"
         [disabled]="(usager.ref === 0 || i > usager.etapeDemande) && i > 0"
       >
-        <span
-          *ngIf="currentStep > i"
-          class="step_number step_check"
-          aria-hidden="true"
-        >
-          <fa-icon [icon]="['fas', 'check']"></fa-icon>
+        <span *ngIf="currentStep > i" class="step_number step_check">
+          <fa-icon aria-hidden="true" [icon]="['fas', 'check']"></fa-icon>
         </span>
         <span
           *ngIf="currentStep <= i"
