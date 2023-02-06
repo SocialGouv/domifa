@@ -13,10 +13,7 @@ import { ApmService } from "./apm.service";
 export class ApmInterceptor implements NestInterceptor {
   constructor(private readonly apmService: ApmService) {}
 
-  intercept(
-    _context: ExecutionContext,
-    next: CallHandler
-  ): Observable<Response> {
+  intercept(_context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
       catchError((error) => {
         if (error instanceof HttpException) {

@@ -3,10 +3,9 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { TestBed, waitForAsync } from "@angular/core/testing";
 
 import { RouterTestingModule } from "@angular/router/testing";
-import { NgxMatomoRouterModule } from "@ngx-matomo/tracker";
-import { MATOMO_INJECTOR_FOR_TESTS } from "../_common";
 
 import { AppComponent } from "./app.component";
+import { MATOMO_INJECTORS } from "./shared";
 
 describe("AppComponent", () => {
   beforeEach(waitForAsync(() => {
@@ -14,7 +13,7 @@ describe("AppComponent", () => {
       declarations: [AppComponent],
       imports: [
         HttpClientTestingModule,
-        NgxMatomoRouterModule,
+        ...MATOMO_INJECTORS,
         RouterTestingModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],

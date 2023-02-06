@@ -53,7 +53,6 @@ import { GeneralModule } from "./modules/general/general.module";
     },
     { provide: ErrorHandler, useClass: SentryErrorHandler },
   ],
-
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class AppModule {}
