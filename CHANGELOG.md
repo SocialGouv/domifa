@@ -1,3 +1,10 @@
+## [2.117.4](https://github.com/SocialGouv/domifa/compare/v2.117.3...v2.117.4) (2023-02-07)
+
+
+### Bug Fixes
+
+* **rgaa:** amélioration de l'affichage des domiciliés ([635e23f](https://github.com/SocialGouv/domifa/commit/635e23ffd3a44f724a99b2b54b95ba35dcde1d01))
+
 ## [2.117.3](https://github.com/SocialGouv/domifa/compare/v2.117.2...v2.117.3) (2023-02-06)
 
 
