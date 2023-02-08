@@ -343,6 +343,7 @@
               class="d-flex align-items-center"
             >
               <button
+                type="button"
                 [disabled]="loadingButtons.indexOf('visite') !== -1"
                 aria-label="Ajout d'un passage"
                 ngbTooltip="Ajout d'un passage"
@@ -358,6 +359,7 @@
               </button>
 
               <button
+                type="button"
                 [disabled]="loadingButtons.indexOf('appel') !== -1"
                 aria-label="Ajout d'un appel téléphonique"
                 ngbTooltip="Ajout d'un appel téléphonique"
@@ -377,6 +379,7 @@
 
             <ng-container *ngIf="!usager.options.npai.actif">
               <button
+                type="button"
                 class="btn btn-primary me-2"
                 (click)="openInteractionInModal()"
                 aria-label="Ajout détaillé d'un courrier"
@@ -389,6 +392,7 @@
               </button>
 
               <button
+                type="button"
                 *ngIf="usager.lastInteraction.enAttente"
                 class="btn btn-primary me-2"
                 (click)="openInteractionOutModal()"
@@ -402,6 +406,7 @@
               </button>
 
               <button
+                type="button"
                 class="btn btn-danger me-2"
                 *ngIf="usager.decision.statut === 'RADIE'"
                 [disabled]="loadingButtons.indexOf('npai') !== -1"
@@ -456,10 +461,15 @@
           ></app-profil-general-notes>
 
           <button
+            type="button"
             class="mt-4 btn btn-outline-primary me-2"
             (click)="openAddNoteInModal()"
           >
-            <fa-icon [icon]="['fas', 'plus']" class="me-2"></fa-icon>
+            <fa-icon
+              [icon]="['fas', 'plus']"
+              aria-hidden="true"
+              class="me-2"
+            ></fa-icon>
             Ajouter une note
           </button>
         </div>

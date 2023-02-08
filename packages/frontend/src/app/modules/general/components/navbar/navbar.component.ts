@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input } from "@angular/core";
 
 import { MatomoTracker } from "@ngx-matomo/tracker";
 import { environment } from "../../../../../environments/environment";
@@ -10,7 +10,7 @@ import { AuthService } from "../../../shared/services/auth.service";
   templateUrl: "./navbar.component.html",
   styleUrls: ["./navbar.component.css"],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   public isNavbarCollapsed: boolean;
   public matomoInfo: boolean;
   public today = new Date();
@@ -26,16 +26,12 @@ export class NavbarComponent implements OnInit {
   ) {
     this.isNavbarCollapsed = false;
     this.matomoInfo = false;
-  }
-
-  public ngOnInit(): void {
     this.initMatomo();
   }
 
   public initMatomo(): void {
     const matomo = localStorage.getItem("matomo");
     this.matomoInfo = matomo === "done";
-    this.matomoService.setUserId("0");
   }
 
   public closeMatomo(): void {

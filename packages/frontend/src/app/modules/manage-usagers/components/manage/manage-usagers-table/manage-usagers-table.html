@@ -86,6 +86,7 @@
       </td>
       <td
         (click)="goToProfil(usager)"
+        class="clickable"
         *ngIf="filters.statut ==='ATTENTE_DECISION' || filters.statut ==='INSTRUCTION'"
       >
         <ng-template #rdvInfosTooltip class="p-3 text-center">
@@ -116,7 +117,7 @@
         >
       </td>
 
-      <td class="table-name td-name" (click)="goToProfil(usager)">
+      <td class="clickable table-name td-name" (click)="goToProfil(usager)">
         <a [routerLink]="usager.usagerProfilUrl">
           {{ usager.nom | uppercase }} {{ usager.prenom }}
           <span *ngIf="usager.surnom && usager.surnom !== null">
@@ -125,10 +126,10 @@
         </a>
       </td>
 
-      <td class="table-name">
-        <a *ngIf="usager.telephone?.numero">
-          <span>{{ usager.telephone | formatInternationalPhoneNumber }}</span>
-        </a>
+      <td class="clickable table-name" (click)="goToProfil(usager)">
+        <span *ngIf="usager.telephone?.numero">
+          {{ usager.telephone | formatInternationalPhoneNumber }}</span
+        >
       </td>
 
       <td class="clickable" (click)="goToProfil(usager)">

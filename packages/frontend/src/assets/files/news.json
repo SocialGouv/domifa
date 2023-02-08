@@ -1,5 +1,20 @@
 [
   {
+    "date": "2023-02-13",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Amélioration de l'accessibilité",
+        "message": [
+          "Les lecteurs d'écrans devraient mieux lire les documents téléchargés depuis DomiFa",
+          "Différentes améliorations sur la navigation",
+          "Ajout d'une pop-in vous invitant à rester connecter après un long moment sans activité sur le site"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2023-01-30",
     "description": "",
     "content": [

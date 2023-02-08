@@ -5,15 +5,15 @@
   "author": "Incubateur des Ministères Sociaux <dsi-incubateur@sg.social.gouv.fr> (https://incubateur.social.gouv.fr)",
   "license": "Apache-2.0",
   "scripts": {
+    "analyze": "ng build --configuration=analyze && npx source-map-explorer dist/**/*.js",
+    "build:analyze": "ng build --configuration=analyze",
+    "build": "ng build --configuration=production",
+    "format:fix": "prettier -w .",
+    "format": "prettier -c .",
+    "lint": "ng lint",
     "ng": "ng",
     "start": "ng serve -o --host 0.0.0.0",
-    "build": "ng build --configuration=production",
-    "build:analyze": "ng build --configuration=analyze",
-    "analyze": "ng build --configuration=analyze && npx source-map-explorer dist/**/*.js",
-    "test": "jest",
-    "format": "prettier -c .",
-    "format:fix": "prettier -w .",
-    "lint": "ng lint"
+    "test": "jest"
   },
   "private": true,
   "dependencies": {
