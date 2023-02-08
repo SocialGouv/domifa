@@ -1,9 +1,9 @@
-import { UserStructure } from "src/_common/model";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
+import { PortailUsagerProfile } from "./../../../../../_common/_portail-usager/PortailUsagerProfile.type";
 import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { NgbModalRef, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { UserIdleService } from "angular-user-idle";
 import { Subscription } from "rxjs";
+import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.service";
 
 @Component({
   selector: "app-idle-manager",
@@ -26,13 +26,13 @@ export class IdleManagerComponent implements OnInit {
   constructor(
     private readonly modalService: NgbModal,
     private readonly userIdleService: UserIdleService,
-    private readonly authService: AuthService
+    private readonly authService: UsagerAuthService,
   ) {}
 
   ngOnInit(): void {
     this.subscription.add(
-      this.authService.currentUserSubject.subscribe({
-        next: (user: UserStructure | null) => {
+      this.authService.currentUsagerSubject.subscribe({
+        next: (user: PortailUsagerProfile | null) => {
           if (user && !this.isWatching) {
             this.startWatching();
           }
@@ -41,7 +41,7 @@ export class IdleManagerComponent implements OnInit {
             this.stopWatching();
           }
         },
-      })
+      }),
     );
   }
 

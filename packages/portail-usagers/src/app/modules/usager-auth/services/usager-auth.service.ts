@@ -12,6 +12,7 @@ import {
 } from "../../../../_common";
 import { configureScope } from "@sentry/angular";
 import { globalConstants } from "../../../shared";
+import { UserIdleService } from "angular-user-idle";
 
 const END_POINT_AUTH = environment.apiUrl + "portail-usagers/auth";
 const END_POINT_PROFILE = environment.apiUrl + "portail-usagers/profile";
@@ -28,6 +29,7 @@ export class UsagerAuthService {
   constructor(
     private readonly http: HttpClient,
     private readonly router: Router,
+    private readonly userIdleService: UserIdleService,
     private readonly toastr: CustomToastService,
   ) {
     this.currentUsagerSubject =
@@ -50,12 +52,10 @@ export class UsagerAuthService {
 
     return this.http.get<PortailUsagerProfile>(`${END_POINT_PROFILE}/me`).pipe(
       map((portailUsagerProfile: PortailUsagerProfile) => {
-        // SAVE USER
         this.saveAuthUsager(portailUsagerProfile);
         return true;
       }),
       catchError(() => {
-        // DELETE USER
         this.logout();
         return of(false);
       }),
@@ -69,6 +69,8 @@ export class UsagerAuthService {
   public logout(): void {
     this.currentUsagerSubject.next(null);
     globalConstants.clearStorage();
+    this.userIdleService.stopWatching();
+
     configureScope((scope) => {
       scope.setTag("profil-usager", "none");
       scope.setUser({});

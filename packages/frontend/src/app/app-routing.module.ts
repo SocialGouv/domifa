@@ -14,6 +14,8 @@ import { LoginComponent } from "./modules/general/components/login/login.compone
 import { NewsComponent } from "./modules/general/components/news/news.component";
 import { PlanSiteComponent } from "./modules/general/components/plan-site/plan-site.component";
 import { CguResponsableComponent } from "./modules/general/components/static-pages/cgu-responsable/cgu-responsable.component";
+import { RgaaComponent } from "./modules/general/components/static-pages/rgaa/rgaa.component";
+import { AuthGuard, FacteurGuard } from "./guards";
 
 export const routes: Routes = [
   {
@@ -33,6 +35,7 @@ export const routes: Routes = [
     redirectTo: "users/reset-password/:userId/:token",
   },
   { component: HomeComponent, path: "" },
+  { component: RgaaComponent, path: "accessibilite" },
   { component: FaqComponent, path: "faq" },
   { component: ContactSupportComponent, path: "contact" },
   { component: NewsComponent, path: "news" },
@@ -46,13 +49,13 @@ export const routes: Routes = [
     component: LoginComponent,
     path: "connexion",
   },
-
   {
     loadChildren: () =>
       import("./modules/stats/stats.module").then((m) => m.StatsModule),
     path: "stats",
   },
   {
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import("./modules/manage-usagers/manage-usagers.module").then(
         (m) => m.ManageUsagersModule
@@ -60,6 +63,7 @@ export const routes: Routes = [
     path: "manage",
   },
   {
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import("./modules/import-usagers/import-usagers.module").then(
         (m) => m.ImportUsagersModule
@@ -72,6 +76,7 @@ export const routes: Routes = [
     path: "users",
   },
   {
+    canActivate: [AuthGuard, FacteurGuard],
     loadChildren: () =>
       import("./modules/usager-dossier/usager-dossier.module").then(
         (m) => m.UsagerDossierModule
@@ -79,6 +84,7 @@ export const routes: Routes = [
     path: "usager",
   },
   {
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import("./modules/usager-profil/usager-profil.module").then(
         (m) => m.UsagerProfilModule

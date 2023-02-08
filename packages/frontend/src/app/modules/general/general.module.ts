@@ -31,6 +31,7 @@ import { LoginComponent } from "./components/login/login.component";
 import { PlanSiteComponent } from "./components/plan-site/plan-site.component";
 import { CguResponsableComponent } from "./components/static-pages/cgu-responsable/cgu-responsable.component";
 import { HelpModalComponent } from "./components/static-modals/help-modal/help-modal.component";
+import { RgaaComponent } from "./components/static-pages/rgaa/rgaa.component";
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { HelpModalComponent } from "./components/static-modals/help-modal/help-m
     CguResponsableComponent,
     HelpModalComponent,
     IdleManagerComponent,
+    RgaaComponent,
   ],
   exports: [
     LoadingComponent,

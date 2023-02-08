@@ -3,7 +3,6 @@ import { Injectable } from "@angular/core";
 import { Router, RouterStateSnapshot } from "@angular/router";
 import { configureScope } from "@sentry/angular";
 
-import { UserIdleService } from "angular-user-idle";
 import jwtDecode from "jwt-decode";
 
 import { BehaviorSubject, Observable, of } from "rxjs";
@@ -25,8 +24,7 @@ export class AuthService {
   constructor(
     private readonly http: HttpClient,
     private readonly toastr: CustomToastService,
-    private readonly router: Router,
-    private readonly userIdleService: UserIdleService
+    private readonly router: Router
   ) {
     this.currentUserSubject = new BehaviorSubject<UserStructure | null>(
       localStorage.getItem("currentUser") !== null
@@ -88,12 +86,11 @@ export class AuthService {
     usagersCache.clearCache();
     localStorage.removeItem("currentUser");
     localStorage.removeItem("MANAGE_USAGERS");
-    // Ajout d'infos pour Sentry
     configureScope((scope) => {
       scope.setTag("structure", "none");
       scope.setUser({});
     });
-    this.userIdleService.stopWatching();
+
     this.router.navigate(["/connexion"]);
   }
 
@@ -124,9 +121,7 @@ export class AuthService {
   private setUser(user: UserStructure) {
     localStorage.setItem("currentUser", JSON.stringify(user));
     this.currentUserSubject.next(user);
-    this.userIdleService.startWatching();
 
-    // Ajout d'infos pour Sentry
     configureScope((scope) => {
       scope.setTag("structure", user.structureId?.toString());
       scope.setUser({

@@ -20,17 +20,30 @@ export class AppComponent implements OnInit {
     private readonly titleService: Title,
     private readonly router: Router,
     private readonly usagerAuthService: UsagerAuthService,
-    private matomoTracker: MatomoTracker,
+    private readonly matomoService: MatomoTracker,
   ) {
     this.apiVersion = null;
     this.usagerProfile = null;
     this.title = "Bienvenue sur le portail usager de Domifa";
+    this.isNavbarCollapsed = false;
+    this.matomoInfo = false;
+    this.initMatomo();
+  }
+
+  public isNavbarCollapsed: boolean;
+  public matomoInfo: boolean;
+
+  public initMatomo(): void {
+    const matomo = localStorage.getItem("matomo");
+    this.matomoInfo = matomo === "done";
+  }
+
+  public closeMatomo(): void {
+    this.matomoInfo = true;
+    localStorage.setItem("matomo", "done");
   }
 
   public ngOnInit(): void {
-    this.matomoTracker.setUserId("UserId");
-    this.matomoTracker.setDocumentTitle("ngxMatomo Test");
-
     this.titleService.setTitle(
       "Domifa, l'outil qui facilite la gestion des structures domiciliatirices",
     );
@@ -40,6 +53,7 @@ export class AppComponent implements OnInit {
         this.usagerProfile = usager;
       },
     );
+
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {

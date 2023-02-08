@@ -1,5 +1,38 @@
 <app-custom-toastr></app-custom-toastr>
+<app-idle-manager></app-idle-manager>
 
+<div id="matomo-info" *ngIf="!matomoInfo">
+  <div
+    class="d-print-none d-flex justify-content-center align-items-center"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Avertissement sur la collecte de données"
+  >
+    <p class="my-0">
+      Nous collectons des données anonymisées à des fins statistiques via
+      l'outil français Matomo. Pour tout savoir sur notre utilisation des
+      données, consultez notre
+      <a
+        [routerLink]="['/confidentialite']"
+        routerLinkActive="router-link-active"
+      >
+        politique de confidentialité.
+      </a>
+    </p>
+
+    <div class="mx-2">
+      <button
+        type="button"
+        class="btn btn-white-primary"
+        aria-label="Fermer le message"
+        (click)="closeMatomo()"
+      >
+        Fermer
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+</div>
 <nav class="navbar bg-white">
   <a
     class="navbar-brand"
@@ -26,95 +59,76 @@
 </main>
 
 <footer role="contentinfo" id="footer" class="page-footer content">
-  <div class="container">
-    <div class="my-3">Nos partenaires:</div>
-    <div class="d-inline-block text-center">
+  <div class="my-4 container">
+    <div
+      class="partenaires d-flex flex-wrap justify-content-center align-items-center"
+    >
       <a
-        class="m-1"
         href="https://www.fabrique.social.gouv.fr"
         target="_blank"
         rel="noopener noreferrer"
       >
         <img
-          class="ministere-logo"
           src="../assets/images/footer/partenaire-fabrique-numerique.png"
           alt="La Fabrique Numérique"
         />
       </a>
       <a
-        class="m-1"
         href="https://beta.gouv.fr"
+        title="Beta gouv"
         target="_blank"
         rel="noopener noreferrer"
       >
         <img
-          class="ministere-logo"
           src="../assets/images/footer/partenaire-beta-gouv.png"
           alt="Beta Gouv"
         />
       </a>
       <a
-        class="m-1"
         href="https://www.gouvernement.fr/france-relance"
         target="_blank"
         rel="noopener noreferrer"
       >
         <img
-          class="ministere-logo"
           src="../assets/images/footer/logo_francerelance.webp"
           alt="France Relance soutien DomiFa"
         />
       </a>
       <a
-        class="m-1"
         href="https://agence-cohesion-territoires.gouv.fr/"
         target="_blank"
         rel="noopener noreferrer"
       >
         <img
-          class="ministere-logo"
           src="../assets/images/footer/logo_anct.webp"
           alt="Agence nationale de la cohésion des territoires"
         />
       </a>
       <a
-        class="m-1"
         href="https://www.gouvernement.fr/le-ministere-des-solidarites-et-de-la-sante"
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img
-          class="ministere-logo"
-          src="../assets/images/footer/logo-dgcs.png"
-          alt="DGCS"
-        />
+        <img src="../assets/images/footer/logo-dgcs.png" alt="DGCS" />
       </a>
       <a
-        class="m-1"
         href="https://www.gouvernement.fr/delegation-interministerielle-a-l-hebergement-et-a-l-acces-au-logement"
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img
-          class="ministere-logo"
-          src="../assets/images/footer/partenaire-dihal.png"
-          alt="DIHAL"
-        />
+        <img src="../assets/images/footer/partenaire-dihal.png" alt="DIHAL" />
       </a>
 
       <a
-        class="m-1"
         href="https://www.unccas.org"
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img
-          class="ministere-logo"
-          src="../assets/images/footer/partenaire-unccas.png"
-          alt="UNCCAS"
-        />
+        <img src="../assets/images/footer/partenaire-unccas.png" alt="UNCCAS" />
       </a>
     </div>
+  </div>
+  <div class="container">
     <div class="py-3 my-4 text-gray border-top">
       <div class="d-flex flex-column flex-sm-row">
         <a
@@ -144,19 +158,20 @@
       </div>
     </div>
     <div class="my-4 text-gray">
-      Sauf mention contraire, tous les textes de ce site sont sous
-      <a
-        href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
-        target="_blank"
-        rel="noopener noreferrer"
-        >licence etalab-2.0</a
-      >
-      <img
-        src="../../../assets/icones/link-external.png"
-        class="ms-1"
-        style="height: 8px"
-        alt="Lien externe"
-      />
+      <p>
+        Sauf mention contraire, tous les textes de ce site sont sous
+        <a
+          href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
+          target="_blank"
+          rel="noopener noreferrer"
+          >licence etalab-2.0
+          <fa-icon
+            class="ms-2"
+            [icon]="['fas', 'arrow-up-right-from-square']"
+            aria-hidden="true"
+          ></fa-icon
+        ></a>
+      </p>
     </div>
   </div>
 </footer>

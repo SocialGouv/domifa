@@ -9,6 +9,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { LoginComponent } from "./login.component";
 
 import { RouterTestingModule } from "@angular/router/testing";
+import { MATOMO_INJECTORS } from "../../../../shared";
 
 describe("LoginComponent", () => {
   let component: LoginComponent;
@@ -22,6 +23,7 @@ describe("LoginComponent", () => {
         ReactiveFormsModule,
         FormsModule,
         HttpClientTestingModule,
+        ...MATOMO_INJECTORS,
         RouterTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
