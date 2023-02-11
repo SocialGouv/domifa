@@ -58,7 +58,7 @@
     "docxtemplater": "^3.31.4",
     "dotenv": "^16.0.3",
     "elastic-apm-node": "^3.42.0",
-    "email-templates": "^10.0.0",
+    "email-templates": "^11.0.0",
     "exceljs": "^4.2.1",
     "express": "^4.18.2",
     "fs-extra": "^11.1.0",
