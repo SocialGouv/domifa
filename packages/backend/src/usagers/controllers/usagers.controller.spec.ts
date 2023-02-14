@@ -5,6 +5,7 @@ import {
   AppTestContext,
   AppTestHelper,
   AppTestHttpClient,
+  JEST_FAKE_TIMER,
 } from "../../util/test";
 
 import { UsagersService } from "../services/usagers.service";
@@ -27,19 +28,8 @@ describe("Usagers Controller", () => {
   });
 
   beforeAll(async () => {
-    //Date de référence : 22 Mars 2023
     jest
-      .useFakeTimers({
-        doNotFake: [
-          "nextTick",
-          "setImmediate",
-          "clearImmediate",
-          "setInterval",
-          "clearInterval",
-          "setTimeout",
-          "clearTimeout",
-        ],
-      })
+      .useFakeTimers(JEST_FAKE_TIMER)
       .setSystemTime(new Date("2021-09-23T09:45:30.000Z"));
 
     context = await AppTestHelper.bootstrapTestApp(

@@ -11,7 +11,11 @@ import {
 import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";
-import { AppTestContext, AppTestHelper } from "../../util/test";
+import {
+  AppTestContext,
+  AppTestHelper,
+  JEST_FAKE_TIMER,
+} from "../../util/test";
 import { Usager, UserStructure } from "../../_common/model";
 import { InteractionDto } from "../dto";
 import { InteractionsModule } from "../interactions.module";
@@ -28,17 +32,7 @@ describe("interactionsCreator", () => {
 
   beforeAll(async () => {
     jest
-      .useFakeTimers({
-        doNotFake: [
-          "nextTick",
-          "setImmediate",
-          "clearImmediate",
-          "setInterval",
-          "clearInterval",
-          "setTimeout",
-          "clearTimeout",
-        ],
-      })
+      .useFakeTimers(JEST_FAKE_TIMER)
       .setSystemTime(new Date(MOCKED_NEW_DATE));
 
     context = await AppTestHelper.bootstrapTestApp({

@@ -94,28 +94,21 @@ async function createInteraction({
   }
 
   // Entrants
-  if (direction === "in") {
+  else if (direction === "in") {
     if (typeof interaction.nbCourrier === "undefined") {
       interaction.nbCourrier = 1;
     }
-  }
-
-  // Appels & Visites
-  if (
-    interaction.type === "appel" ||
-    interaction.type === "visite" ||
-    interaction.type === "npai"
-  ) {
-    usager.lastInteraction.dateInteraction = now;
+  } else {
     interaction.nbCourrier = 0;
-  }
-
-  // Connexion au portail
-  if (interaction.type === "loginPortail") {
-    if (user.structure.portailUsager.usagerLoginUpdateLastInteraction) {
+    // Appels & Visites
+    if (
+      interaction.type === "appel" ||
+      interaction.type === "visite" ||
+      (interaction.type === "loginPortail" &&
+        user.structure.portailUsager.usagerLoginUpdateLastInteraction)
+    ) {
       usager.lastInteraction.dateInteraction = now;
     }
-    interaction.nbCourrier = 0;
   }
 
   delete interaction.procurationIndex;
