@@ -1,22 +1,19 @@
 import {
   userStructureRepository,
   structureRepository,
-} from "../../../database";
-import { usagerRepository } from "../../../database/services/usager/usagerRepository.service";
-import { UsersModule } from "../../../users/users.module";
-import { AppTestHelper } from "../../../util/test";
+  usagerRepository,
+} from "../../../../database";
+import { AppTestContext, AppTestHelper } from "../../../../util/test";
 import {
   UserStructureAuthenticated,
   Usager,
   Structure,
-} from "../../../_common/model";
-import { UsagersModule } from "../../usagers.module";
+} from "../../../../_common/model";
 import {
   generateCerfaDatas,
   getUsagerRef,
   generateAdressForCerfa,
-} from "../cerfa";
-
+} from "../generateCerfaDatas.service";
 import {
   CERFA_MOCK_USAGER_ACTIF,
   CERFA_MOCK_USAGER_REFUS,
@@ -27,11 +24,31 @@ describe("Cerfa Data utils", () => {
   let usagerValide: Usager;
   let usagerRefus: Usager;
   let structure: Structure;
+  let context: AppTestContext;
+
+  afterAll(async () => {
+    jest.useRealTimers();
+    await AppTestHelper.tearDownTestApp(context);
+  });
 
   beforeAll(async () => {
-    await AppTestHelper.bootstrapTestApp({
-      imports: [UsagersModule, UsersModule],
-    });
+    context = await AppTestHelper.bootstrapTestApp({});
+
+    //Date de référence : 22 Mars 2023
+    jest
+      .useFakeTimers({
+        doNotFake: [
+          "nextTick",
+          "setImmediate",
+          "clearImmediate",
+          "setInterval",
+          "clearInterval",
+          "setTimeout",
+          "clearTimeout",
+        ],
+      })
+      .setSystemTime(new Date("2023-03-22T20:45:47.433Z"));
+
     user = await userStructureRepository.findOne({ id: 1 });
 
     structure = await structureRepository.findOneBy({
@@ -42,14 +59,10 @@ describe("Cerfa Data utils", () => {
     // Usagers à tester
     usagerValide = await usagerRepository.getUsager(
       "97b7e840-0e93-4bf4-ba7d-0a406aa898f2"
-      // usagerRef: 2,
-      // structureId: 1,
     );
 
     usagerRefus = await usagerRepository.getUsager(
       "e074c416-093a-46fc-ae47-77a3bc111d35"
-      // usagerRef: 3,
-      // structureId: 1,
     );
   });
 

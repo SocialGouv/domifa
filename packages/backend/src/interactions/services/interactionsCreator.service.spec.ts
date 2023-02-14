@@ -1,8 +1,6 @@
 import { SmsModule } from "./../../sms/sms.module";
 import { messageSmsRepository } from "./../../database/services/message-sms/messageSmsRepository.service";
 import { addDays, differenceInHours, subDays } from "date-fns";
-import MockDate from "mockdate";
-
 import { interactionsCreator, InteractionsDeletor } from ".";
 import {
   structureRepository,
@@ -29,8 +27,19 @@ describe("interactionsCreator", () => {
   const MOCKED_LAST_INTERACTION_DATE = new Date("2020-11-21T14:11:28");
 
   beforeAll(async () => {
-    // On défini la valeur que devrait avoir new Date();
-    MockDate.set(MOCKED_NEW_DATE);
+    jest
+      .useFakeTimers({
+        doNotFake: [
+          "nextTick",
+          "setImmediate",
+          "clearImmediate",
+          "setInterval",
+          "clearInterval",
+          "setTimeout",
+          "clearTimeout",
+        ],
+      })
+      .setSystemTime(new Date(MOCKED_NEW_DATE));
 
     context = await AppTestHelper.bootstrapTestApp({
       imports: [
@@ -75,7 +84,8 @@ describe("interactionsCreator", () => {
   });
 
   afterAll(async () => {
-    MockDate.reset();
+    jest.useRealTimers();
+
     user.structure.sms.enabledByDomifa = false;
     user.structure.sms.enabledByStructure = false;
 

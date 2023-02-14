@@ -10,16 +10,34 @@ import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { AdminStructuresModule } from "../../_portail-admin/admin-structures/admin-structures.module";
 import { StatsPublicController } from "./stats.public.controller";
-import MockDate from "mockdate";
 import { domifaConfig } from "../../config";
 
 describe("Stats Public Controller", () => {
   let controller: StatsPublicController;
   let context: AppTestContext;
 
+  afterAll(async () => {
+    jest.useRealTimers();
+    await AppTestHelper.tearDownTestApp(context);
+  });
+
   beforeAll(async () => {
-    MockDate.set(new Date("2022-08-31T09:45:30.000Z"));
+    jest
+      .useFakeTimers({
+        doNotFake: [
+          "nextTick",
+          "setImmediate",
+          "clearImmediate",
+          "setInterval",
+          "clearInterval",
+          "setTimeout",
+          "clearTimeout",
+        ],
+      })
+      .setSystemTime(new Date("2022-08-31T09:45:30.000Z"));
+
     domifaConfig().envId = "test";
+
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [StatsPublicController],
       imports: [
@@ -34,12 +52,6 @@ describe("Stats Public Controller", () => {
     controller = context.module.get<StatsPublicController>(
       StatsPublicController
     );
-  });
-
-  afterAll(async () => {
-    // Reset de new Date()
-    MockDate.reset();
-    await AppTestHelper.tearDownTestApp(context);
   });
 
   it("Stats HomePage", async () => {

@@ -27,7 +27,7 @@ export const generateCerfaDatas = (
   const dateRdv = generateDateForCerfa(usager.rdv.dateRdv, user);
 
   // Dates de la dom
-  const dateDecision = generateDateForCerfa(usager.decision.dateDecision);
+  const dateDecision = generateDateForCerfa(new Date());
   const datePremiereDom = generateDateForCerfa(usager.datePremiereDom);
   let dateDebut = generateDateForCerfa(usager.decision.dateDebut);
   let dateFin = generateDateForCerfa(usager.decision.dateFin);
@@ -42,10 +42,10 @@ export const generateCerfaDatas = (
   }
 
   // Date de naissance
-  const dateNaissance = generateDateForCerfa(usager.dateNaissance);
   usager.villeNaissance = usager.villeNaissance.toUpperCase();
   usager.nom = usager.nom.toUpperCase();
   usager.prenom = usager.prenom.toUpperCase();
+  const dateNaissance = generateDateForCerfa(usager.dateNaissance);
   const sexe = usager.sexe === "femme" ? "1" : "2";
   const courriel = toString(usager.email);
   const responsable = `${user.structure.responsable.nom.toUpperCase()}, ${user.structure.responsable.prenom.toUpperCase()}, ${user.structure.responsable.fonction.toUpperCase()}`;
