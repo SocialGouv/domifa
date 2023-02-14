@@ -7,7 +7,11 @@ import { InteractionsModule } from "../../interactions/interactions.module";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";
-import { AppTestContext, AppTestHelper } from "../../util/test";
+import {
+  AppTestContext,
+  AppTestHelper,
+  JEST_FAKE_TIMER,
+} from "../../util/test";
 import { AdminStructuresModule } from "../../_portail-admin/admin-structures/admin-structures.module";
 import { StatsPublicController } from "./stats.public.controller";
 import { domifaConfig } from "../../config";
@@ -23,17 +27,7 @@ describe("Stats Public Controller", () => {
 
   beforeAll(async () => {
     jest
-      .useFakeTimers({
-        doNotFake: [
-          "nextTick",
-          "setImmediate",
-          "clearImmediate",
-          "setInterval",
-          "clearInterval",
-          "setTimeout",
-          "clearTimeout",
-        ],
-      })
+      .useFakeTimers(JEST_FAKE_TIMER)
       .setSystemTime(new Date("2022-08-31T09:45:30.000Z"));
 
     domifaConfig().envId = "test";

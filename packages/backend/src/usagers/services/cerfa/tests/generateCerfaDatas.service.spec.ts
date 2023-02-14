@@ -3,7 +3,11 @@ import {
   structureRepository,
   usagerRepository,
 } from "../../../../database";
-import { AppTestContext, AppTestHelper } from "../../../../util/test";
+import {
+  AppTestContext,
+  AppTestHelper,
+  JEST_FAKE_TIMER,
+} from "../../../../util/test";
 import {
   UserStructureAuthenticated,
   Usager,
@@ -36,17 +40,7 @@ describe("Cerfa Data utils", () => {
 
     //Date de référence : 22 Mars 2023
     jest
-      .useFakeTimers({
-        doNotFake: [
-          "nextTick",
-          "setImmediate",
-          "clearImmediate",
-          "setInterval",
-          "clearInterval",
-          "setTimeout",
-          "clearTimeout",
-        ],
-      })
+      .useFakeTimers(JEST_FAKE_TIMER)
       .setSystemTime(new Date("2023-03-22T20:45:47.433Z"));
 
     user = await userStructureRepository.findOne({ id: 1 });
