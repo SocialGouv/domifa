@@ -1,3 +1,13 @@
+## [2.119.1](https://github.com/SocialGouv/domifa/compare/v2.119.0...v2.119.1) (2023-02-14)
+
+
+### Bug Fixes
+
+* **cerfa:** 📆 changement de la date d'émission du Cerfa ([a4694af](https://github.com/SocialGouv/domifa/commit/a4694af6376d5020b9b817855ef6bfc3ed513c1a))
+* **general:** mise à jour des dumps ([586c50d](https://github.com/SocialGouv/domifa/commit/586c50deda989fb72290e0a1f52a9d5ec72a0c79))
+* **news:** mise à jour des nouveautés ([df31396](https://github.com/SocialGouv/domifa/commit/df31396a6f62859a4ccb29ba5c8d96c17e1f9eea))
+* **tests:** amélioration des tests unitaires ([8a96958](https://github.com/SocialGouv/domifa/commit/8a96958d1c628126b14a66240bf2b9f360c44e07))
+
 # [2.119.0](https://github.com/SocialGouv/domifa/compare/v2.118.0...v2.119.0) (2023-02-14)
 
 
