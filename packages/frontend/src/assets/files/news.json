@@ -1,6 +1,6 @@
 [
   {
-    "date": "2023-02-14",
+    "date": "2023-02-15",
     "description": "",
     "content": [
       {
@@ -9,15 +9,17 @@
         "message": [
           "Les lecteurs d'écrans devraient mieux lire les documents téléchargés depuis DomiFa",
           "Différentes améliorations sur la navigation",
-          "Ajout d'une pop-in vous invitant à rester connecter après un long moment sans activité sur le site"
+          "Ajout d'une pop-in vous invitant à rester connecter après un long moment sans activité sur le site",
+          "Mise à jour des mentions légales"
         ]
       },
       {
         "type": "new",
-        "categorie": "Mises à jour mineures",
+        "categorie": "Suite à de multiples demandes...",
         "message": [
-          "Mise à jour de la foire aux questions",
-          "Mise à jour des mentions légales"
+          "La date de signature des CERFA d'élection de domicile et d'attestion de demande sont à la date du jour et non plus à la date de début de domiciliation",
+          "Mise à jour de notre FAQ. Nous répondons à vos questions",
+          "Lorsqu'un domicilié est radié \"Ne plus accepter le courrier\" ne met plus à jour la date de dernier passage"
         ]
       }
     ]
