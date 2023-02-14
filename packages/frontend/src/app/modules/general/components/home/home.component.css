@@ -1,3 +1,11 @@
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.45rem;
+}
+
 #home-header .home-header-content h1 {
   font-size: 1.5rem;
   line-height: 1.8rem;
@@ -48,9 +56,11 @@
 .text-gray {
   color: #1a1a1a;
 }
+
 ul.check-list {
   padding: 0;
 }
+
 ul.check-list li {
   list-style: none;
 }
@@ -111,10 +121,6 @@ h2 img {
 h2 img {
   width: 32px;
   height: auto;
-}
-
-div.container > h3 {
-  color: red;
 }
 
 .btn-light {
