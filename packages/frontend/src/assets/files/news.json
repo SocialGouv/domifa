@@ -1,6 +1,6 @@
 [
   {
-    "date": "2023-02-13",
+    "date": "2023-02-14",
     "description": "",
     "content": [
       {
@@ -10,6 +10,14 @@
           "Les lecteurs d'écrans devraient mieux lire les documents téléchargés depuis DomiFa",
           "Différentes améliorations sur la navigation",
           "Ajout d'une pop-in vous invitant à rester connecter après un long moment sans activité sur le site"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Mises à jour mineures",
+        "message": [
+          "Mise à jour de la foire aux questions",
+          "Mise à jour des mentions légales"
         ]
       }
     ]

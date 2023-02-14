@@ -25,22 +25,25 @@
     <div class="page-content p-4">
       <p>
         Si vos questions concernent les sections ci-dessous, merci de vous
-        référer à notre guide utilisateur :
+        référer à notre guide utilisateurr, qui se compose des parties suivantes
+        :
       </p>
 
       <div class="row">
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-4 mb-3">
           <ul>
             <li>Présentation de DomiFa</li>
             <li>L’inscription en ligne</li>
             <li>La création de comptes utilisateurs</li>
+            <li>La création de documents personnalisés</li>
             <li>L’import des données domiciliés</li>
+            <li>Les données des structures</li>
+            <li>L’activation des SMS</li>
+            <li>L’activation du portail domicilié</li>
+            <li>Les statistiques et le rapport d’activité</li>
             <li>La création d’une demande de domiciliation</li>
             <li>La liste des domiciliés</li>
-            <li>La fiche domicilié</li>
-            <li>Les données statistiques</li>
           </ul>
-          <br />
         </div>
       </div>
 
@@ -102,11 +105,15 @@
         <br />
         <h2>La domiciliation</h2>
 
+        <h3>
+          Qui puis-je contacter, en cas de questions métiers sur la
+          domiciliation ?
+        </h3>
         <p>
           Pour comprendre ce qu'est la domiciliation, comment la demander et à
           qui elle s'adresse, nous vous invitons à consulter
           <a
-            href="https://solidarites-sante.gouv.fr/affaires-sociales/lutte-contre-l-exclusion/article/domiciliation-des-personnes-sans-domicile-stable"
+            href="https://solidarites.gouv.fr/domiciliation-des-personnes-sans-domicile-stable"
           >
             cette page du Ministère des Solidarités et de la Santé</a
           >. <br /><br />
@@ -118,11 +125,13 @@
           >
             ici</a
           >. Des informations sur la réglementation sont disponibles
-          <a
-            href="http://circulaire.legifrance.gouv.fr/index.php?action=afficherCirculaire&hit=1&r=43202"
-          >
-            ici</a
-          >.
+          <a href="https://www.legifrance.gouv.fr/circulaire/id/43202"> ici</a>.
+        </p>
+        <p>
+          En cas de questions complémentaires vous pouvez vous rapprocher de
+          votre Direction Départementale de l’Emploi, du Travail et des
+          Solidarités (DDETS) ou de votre Directions régionales de l'économie,
+          de l'emploi, du travail et des solidarités
         </p>
       </div>
       <div id="faq-domifa" class="pt-5" #faqdomifa>
@@ -146,15 +155,9 @@
         </p>
 
         <p>
-          Cette Startup d'État a été lancée en janvier 2019. L’équipe de DomiFa
-          est composée de :
+          Cette Startup d'État a été lancée en janvier 2019 et elle est
+          sponsorisée par la Direction Générale de la Cohésion Sociale (DGCS).
         </p>
-
-        <ul>
-          <li>Céline Le Ru, product owner</li>
-          <li>Yassine Riffi, développeur full-stack</li>
-          <li>Chiraz Herizi, chargée de déploiement</li>
-        </ul>
 
         <h3>Quelle est la finalité du service DomiFa ?</h3>
         <p>
@@ -261,7 +264,9 @@
           son propre traitement à partir des données. Ainsi, par exemple, les
           structures traitent les données en vue d'établir des domiciliations,
           l'équipe DomiFa les utilise pour faciliter le travail des structures,
-          ou pour réaliser des statistiques anonymes.
+          ou pour réaliser des statistiques anonymes. Pour plus de détails, vous
+          pouvez consulter notre
+          <a routerLink="/confidentialite">politique de confidentialité.</a>
         </p>
 
         <h3>En tant que structure dois-je faire une déclaration à la CNIL ?</h3>
@@ -377,8 +382,9 @@
 
         <p>
           L’utilisation de DomiFa n’est pas soumise à la signature d’une
-          convention. L'inscription se fait directement sur notre plateforme.
-          Elle est ensuite validée par un membre de notre équipe.
+          convention. L'inscription se fait directement sur notre plateforme en
+          acceptant les conditions générales d’utilisation. Elle est ensuite
+          validée par un membre de notre équipe.
         </p>
         <h4>La plateforme DomiFa est-elle payante ?</h4>
 
@@ -397,11 +403,15 @@
         <p>
           DomiFa est compatible avec les dernières versions de Chrome, Safari,
           Firefox, Opera et Microsoft Edge.<br />
-          Si vous utilisez Internet Explorer, nous vous recommandons de
-          télécharger un autre navigateur (listé au-dessus) pour une utilisation
-          optimale.
         </p>
-
+        <h4>
+          Comment faire si une structure est composée de plusieurs antennes ?
+        </h4>
+        <p>
+          Il faudra créer autant de comptes structures qu’il y a d’antennes, et
+          veiller à utiliser une adresse mail différente pour chaque structure
+          créée.
+        </p>
         <h3>La gestion des comptes</h3>
         <h4>Existe t-il un nombre d’utilisateurs maximum ?</h4>
         <p>
@@ -428,21 +438,21 @@
         </p>
         <h3>L’import des domiciliés</h3>
 
+        <h4>Est-il possible d’importer mon propre fichier Excel ?</h4>
+        <p>
+          Non. seul le modèle téléchargé sur DomiFa vous permettra d'importer.
+          Pour éviter tout bug, merci de ne pas modifier l'ordre ou le format
+          des colonnes du fichier Excel.
+        </p>
+
         <h4>Comment importer des ID personnalisés pour mes domiciliés ?</h4>
 
         <p>
-          Il vous est possible d’importer un système de numérotation
-          personnalisée pour vos domiciliés. Pour cela, il vous suffit d’ouvrir
-          notre modèle d’import, le remplir avec vos données puis créer une
-          nouvelle colonne à droite de toutes celles demandées. Juste y entrer
-          les numéros voulus pour chaque ligne de domicilié (pas la peine
-          d’ajouter un titre à cette colonne).
-          <br />
-
-          Avant ou après l’import personnalisé, un administrateur doit se rendre
-          sur sa page “Compte”, section “informations de la structure”, cliquer
-          sur “modifier les informations” et enfin activer les identifiants
-          personnalisés en bas de page.
+          Il vous est possible de maintenir le système de numérotation
+          personnalisée pour vos anciens domiciliés en complétant la première
+          colonne du fichier excel d’import. Ensuite, lors de la création sur
+          DomiFa de vos nouveaux domiciliés, vous pourrez définir un nouvel
+          identifiant personnalisé dans la fenêtre d’acceptation du dossier.
         </p>
 
         <h3>Les interactions</h3>
