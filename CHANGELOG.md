@@ -1,3 +1,15 @@
+# [2.118.0](https://github.com/SocialGouv/domifa/compare/v2.117.4...v2.118.0) (2023-02-14)
+
+
+### Bug Fixes
+
+* **idle:** réglage du temps d'inactivité ([0d514c5](https://github.com/SocialGouv/domifa/commit/0d514c54f2c2472cebc1e67165e36d3cbafebcb6))
+
+
+### Features
+
+* **rgaa:** mise à jour des documents pour améliorer l'accessibilité ([039a651](https://github.com/SocialGouv/domifa/commit/039a65161236f1c4006f889a8c043d5652928b27))
+
 ## [2.117.4](https://github.com/SocialGouv/domifa/compare/v2.117.3...v2.117.4) (2023-02-07)
 
 
