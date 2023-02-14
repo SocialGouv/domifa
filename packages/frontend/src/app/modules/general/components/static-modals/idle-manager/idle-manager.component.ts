@@ -71,6 +71,7 @@ export class IdleManagerComponent implements OnInit {
   }
 
   public stopWatching() {
+    this.modalIsOpen = false;
     this.timeIsUp = false;
     this.isWatching = false;
     this.timerStartSubscription.unsubscribe();

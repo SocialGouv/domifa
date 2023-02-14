@@ -41,7 +41,7 @@ import { UserIdleModule } from "angular-user-idle";
     SharedModule,
     ReactiveFormsModule,
     ...MATOMO_INJECTORS,
-    UserIdleModule.forRoot({ idle: 30, timeout: 30, ping: 10 }),
+    UserIdleModule.forRoot({ idle: 3600, timeout: 60, ping: 60 }),
   ],
   providers: [
     UsagerAuthService,
