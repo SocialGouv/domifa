@@ -63,7 +63,7 @@ if (environment.production) {
     NgbModule,
     SharedModule,
     ManageUsagersModule,
-    UserIdleModule.forRoot({ idle: 10, timeout: 10, ping: 10 }),
+    UserIdleModule.forRoot({ idle: 3600, timeout: 60, ping: 60 }),
     ...MATOMO_INJECTORS,
   ],
   providers: [
