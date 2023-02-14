@@ -5,7 +5,7 @@ import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { AppTestContext, AppTestHelper, AppTestHttpClient } from "../util/test";
 import { UsersController } from "./users.controller";
-import { userMock } from "../_common/mocks";
+import { USER_STRUCTURE_MOCK } from "../_common/mocks";
 import { TESTS_USERS_STRUCTURE } from "../_tests";
 import { usersDeletor } from "./services/users-deletor.service";
 
@@ -40,7 +40,7 @@ describe("Users Controller", () => {
     it("should throw 400 when email already exist", async () => {
       const response = await AppTestHttpClient.post("/users/register", {
         context,
-        body: userMock,
+        body: USER_STRUCTURE_MOCK,
       });
 
       expect(response.status).toBe(400);
@@ -51,10 +51,10 @@ describe("Users Controller", () => {
       const response = await AppTestHttpClient.post("/users/register", {
         context,
         body: {
-          ...userMock,
+          ...USER_STRUCTURE_MOCK,
           email: "test@test.com",
           structureId: 1,
-          structure: { ...userMock.structure, id: 1 },
+          structure: { ...USER_STRUCTURE_MOCK.structure, id: 1 },
         },
       });
 

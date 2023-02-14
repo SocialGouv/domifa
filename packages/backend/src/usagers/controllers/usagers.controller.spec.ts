@@ -13,19 +13,34 @@ import { UsagerOptionsHistoryService } from "../services";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 
 import { TESTS_USERS_STRUCTURE } from "../../_tests";
-
-import MockDate from "mockdate";
 import { POST_USAGER } from "../../_common/mocks/usagers";
 
 const ENDPOINT = "/usagers";
 
 describe("Usagers Controller", () => {
   let controller: UsagersController;
-
   let context: AppTestContext;
 
+  afterAll(async () => {
+    jest.useRealTimers();
+    await AppTestHelper.tearDownTestApp(context);
+  });
+
   beforeAll(async () => {
-    MockDate.set("2021-09-23T09:45:30.000Z");
+    //Date de référence : 22 Mars 2023
+    jest
+      .useFakeTimers({
+        doNotFake: [
+          "nextTick",
+          "setImmediate",
+          "clearImmediate",
+          "setInterval",
+          "clearInterval",
+          "setTimeout",
+          "clearTimeout",
+        ],
+      })
+      .setSystemTime(new Date("2021-09-23T09:45:30.000Z"));
 
     context = await AppTestHelper.bootstrapTestApp(
       {
@@ -44,10 +59,6 @@ describe("Usagers Controller", () => {
     await AppTestHelper.authenticateStructure(authInfo, { context });
 
     controller = context.module.get<UsagersController>(UsagersController);
-  });
-
-  afterAll(async () => {
-    await AppTestHelper.tearDownTestApp(context);
   });
 
   it("Start component", async () => {

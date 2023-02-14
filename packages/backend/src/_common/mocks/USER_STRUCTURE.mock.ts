@@ -1,5 +1,5 @@
-import { StructureType, UserStructureRole } from "./../model";
-export const userMock = {
+import { StructureType, UserStructureRole } from "../model";
+export const USER_STRUCTURE_MOCK = {
   password: "xxx",
   email: "s1-admin@yopmail.com",
   id: 1,

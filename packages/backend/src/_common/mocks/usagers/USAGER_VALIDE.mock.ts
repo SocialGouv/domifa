@@ -1,4 +1,4 @@
-import { Usager } from "../model";
+import { Usager } from "../../model";
 
 export const USAGER_VALIDE_MOCK: Usager = {
   numeroDistribution: "",
