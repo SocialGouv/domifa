@@ -1,3 +1,15 @@
+# [2.119.0](https://github.com/SocialGouv/domifa/compare/v2.118.0...v2.119.0) (2023-02-14)
+
+
+### Bug Fixes
+
+* **faq:** 🤔 mise à jour de la FAQ ([eb6f1cc](https://github.com/SocialGouv/domifa/commit/eb6f1cceb692acfe6555eb409a16237496229ba8))
+
+
+### Features
+
+* **mentions:** mise à jour des mentions légales ([d388e09](https://github.com/SocialGouv/domifa/commit/d388e09e01d914717f47ee3980485a7121b984dd))
+
 # [2.118.0](https://github.com/SocialGouv/domifa/compare/v2.117.4...v2.118.0) (2023-02-14)
 
 
