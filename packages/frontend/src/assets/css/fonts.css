@@ -29,33 +29,23 @@
   font-style: italic;
 }
 
-h2,
-.h2 {
-  font-style: normal;
-  font-size: 1.65rem;
-  font-weight: 600;
-}
-
-.page-content h2 {
+h2 {
   font-style: normal;
   font-weight: bold;
-  font-size: 1.35rem;
+  font-size: 1.4rem;
   margin: 1.3rem 0;
 }
 
-h3,
-.h3 {
+h3 {
   font-style: normal;
   font-weight: bold;
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-  margin-top: 1.5rem;
+  font-size: 1.3rem;
+  margin: 1.2rem 0;
 }
 
 h4 {
   font-style: normal;
   font-weight: bold;
-  font-size: 1.3rem;
-  margin-bottom: 1.4rem;
-  margin-top: 1.4rem;
+  font-size: 1.2rem;
+  margin: 1.1rem 0;
 }

@@ -7,3 +7,7 @@ video {
   border-radius: 4px;
   max-width: 98%;
 }
+
+h2 {
+  font-size: 1.6rem;
+}
