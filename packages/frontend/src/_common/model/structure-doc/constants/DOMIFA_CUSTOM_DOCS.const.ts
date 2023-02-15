@@ -10,7 +10,6 @@ export const DOMIFA_CUSTOM_DOCS: StructureDoc[] = [
       nom: "DomiFa",
       prenom: "DomiFa",
     },
-
     custom: true,
     filetype: "application/msword",
     structureId: 0,
@@ -25,7 +24,6 @@ export const DOMIFA_CUSTOM_DOCS: StructureDoc[] = [
       nom: "DomiFa",
       prenom: "DomiFa",
     },
-
     custom: true,
     filetype: "application/msword",
     structureId: 0,

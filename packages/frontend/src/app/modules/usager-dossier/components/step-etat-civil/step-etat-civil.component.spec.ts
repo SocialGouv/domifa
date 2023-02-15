@@ -71,7 +71,7 @@ describe("StepEtatCivilComponent", () => {
   it("7. DOUBLON", waitForAsync(() => {
     component.usagerForm.controls.nom.setValue("Mamadou");
     component.usagerForm.controls.prenom.setValue("Diallo");
-    component.isDoublon();
+    component.isDuplicateName();
     expect(component.duplicates).toEqual([]);
   }));
 
