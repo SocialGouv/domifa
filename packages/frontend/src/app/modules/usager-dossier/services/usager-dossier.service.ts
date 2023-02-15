@@ -64,7 +64,7 @@ export class UsagerDossierService {
     );
   }
 
-  public isDuplicate(params: {
+  public isDuplicateName(params: {
     nom: string;
     prenom: string;
     usagerRef: number | null;

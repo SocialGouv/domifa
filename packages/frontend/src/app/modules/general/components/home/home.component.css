@@ -2,6 +2,16 @@ h2 {
   font-size: 1.5rem;
 }
 
+h2 span,
+h2 img {
+  vertical-align: middle;
+}
+
+h2 img {
+  width: 32px;
+  height: auto;
+}
+
 h3 {
   font-size: 1.45rem;
 }
@@ -14,7 +24,18 @@ h3 {
   font-size: 1rem;
 }
 
+.max-w-150 {
+  max-width: 150px;
+}
+
+.max-w-200 {
+  max-width: 220px;
+}
+
 @media (min-width: 576px) {
+  .max-sm-w-200 {
+    max-width: 200px;
+  }
   #home-header .home-header-content h1 {
     font-size: 1.8rem;
     line-height: 2.1rem;
@@ -113,16 +134,10 @@ ul.check-list li::before {
   margin: 1rem;
 }
 
-h2 span,
-h2 img {
-  vertical-align: middle;
-}
-
-h2 img {
-  width: 32px;
-  height: auto;
-}
-
 .btn-light {
   color: var(--bs-primary) !important;
+}
+
+.bg-secondary-light {
+  background: rgba(80, 227, 194, 0.1);
 }

@@ -56,8 +56,7 @@ export class AgendaController {
   @ApiOperation({ summary: "Liste des rendez-vous à venir" })
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getAll(@CurrentUser() user: UserStructureAuthenticated) {
-    const userId = user.id;
-    return usagerLightRepository.findNextMeetings({ userId });
+    return usagerLightRepository.findNextMeetings({ userId: user.id });
   }
 
   @Post(":usagerRef")

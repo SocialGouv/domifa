@@ -12,7 +12,6 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import {
   StructureDoc,
   UserStructure,
-  STRUCTURE_DOC_ICONS,
   DOMIFA_CUSTOM_DOCS,
 } from "../../../../../_common/model";
 
@@ -25,8 +24,6 @@ import { StructureDocService } from "../../services/structure-doc.service";
   styleUrls: ["./structures-custom-docs.component.css"],
 })
 export class StructuresCustomDocsComponent implements OnInit, OnDestroy {
-  public STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;
-
   // Documents simples
   public structureDocs: StructureDoc[];
   // Documents pré-remplis

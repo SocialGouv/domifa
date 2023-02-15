@@ -23,14 +23,9 @@
       <ng-container *ngFor="let document of structureDocs">
         <tr>
           <td class="align-middle">
-            <span
-              class="doc-icon"
-              [ngClass]="STRUCTURE_DOC_ICONS[document.filetype]"
-            >
-              <fa-icon
-                [icon]="['far', STRUCTURE_DOC_ICONS[document.filetype]]"
-              ></fa-icon>
-            </span>
+            <app-display-table-image
+              [document]="document"
+            ></app-display-table-image>
           </td>
           <td *ngIf="!document.custom">
             {{ document.label }}

@@ -11,10 +11,9 @@
     <div *ngIf="usager.decision.statut === 'ATTENTE_DECISION' && !isAdmin">
       <div class="row">
         <div class="col text-center">
-          <h5>
+          <h2 class="form-title" role="heading">
             <strong>Demande de domiciliation en cours</strong>
-          </h5>
-          <br />
+          </h2>
           La demande d'élection de domicile de
           <strong>{{ usager | usagerNomComplet }}</strong>
           a été envoyée le
@@ -48,7 +47,7 @@
     <div *ngIf="!isAdmin && usager.decision.statut === 'INSTRUCTION'">
       <div class="row">
         <div class="col-md-12 text-center">
-          <h2 class="form-title" role="heading" aria-level="1">
+          <h2 class="form-title" role="heading">
             Le dossier de
             {{ usager.nom }} {{ usager.prenom }}
             est complet
@@ -145,10 +144,10 @@
 
       <div class="row align-items-center">
         <div class="col-6">
-          <h4>État civil</h4>
+          <h3>État civil</h3>
         </div>
         <div class="col-3">
-          <h4 *ngIf="!editInfos">Ayants-droits</h4>
+          <h3 *ngIf="!editInfos">Ayants-droits</h3>
         </div>
         <div class="col-3 text-end">
           <button
@@ -157,7 +156,11 @@
             type="button"
             (click)="editInfos = true"
           >
-            <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
+            <fa-icon
+              [icon]="['far', 'edit']"
+              aria-hidden="true"
+              class="me-2"
+            ></fa-icon>
             Modifier
           </button>
 
@@ -167,7 +170,11 @@
             type="button"
             (click)="editInfos = false"
           >
-            <fa-icon [icon]="['fas', 'times']" class="me-2"></fa-icon>
+            <fa-icon
+              [icon]="['fas', 'times']"
+              aria-hidden="true"
+              class="me-2"
+            ></fa-icon>
             Annuler
           </button>
         </div>
@@ -190,7 +197,7 @@
         <div class="col-md-12">
           <div class="d-flex justify-content-between align-items-center">
             <div>
-              <h4>Entretien social</h4>
+              <h3>Entretien social</h3>
             </div>
             <div>
               <button
@@ -199,7 +206,11 @@
                 *ngIf="!editEntretien"
                 (click)="editEntretien = true"
               >
-                <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
+                <fa-icon
+                  [icon]="['far', 'edit']"
+                  aria-hidden="true"
+                  class="me-2"
+                ></fa-icon>
                 Modifier
               </button>
               <button
@@ -208,7 +219,11 @@
                 *ngIf="editEntretien"
                 (click)="editEntretien = false"
               >
-                <fa-icon [icon]="['fas', 'times']" class="me-2"></fa-icon>
+                <fa-icon
+                  [icon]="['fas', 'times']"
+                  aria-hidden="true"
+                  class="me-2"
+                ></fa-icon>
                 Annuler les changements
               </button>
             </div>
@@ -231,7 +246,7 @@
       <hr />
 
       <div class="d-flex justify-content-between align-items-center">
-        <h4>Pièces jointes</h4>
+        <h3>Pièces jointes</h3>
         <div>
           <button
             type="submit"
@@ -239,7 +254,11 @@
             *ngIf="!editPJ"
             (click)="editPJ = true"
           >
-            <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
+            <fa-icon
+              [icon]="['far', 'edit']"
+              aria-hidden="true"
+              class="me-2"
+            ></fa-icon>
             Modifier
           </button>
           <button
@@ -248,7 +267,11 @@
             *ngIf="editPJ"
             (click)="editPJ = false"
           >
-            <fa-icon [icon]="['fas', 'times']" class="me-2"></fa-icon>
+            <fa-icon
+              [icon]="['fas', 'times']"
+              aria-hidden="true"
+              class="me-2"
+            ></fa-icon>
             Annuler les changements
           </button>
         </div>
@@ -271,7 +294,11 @@
           (click)="getCerfa('demande')"
           class="btn btn-primary d-print-none me-2"
         >
-          <fa-icon [icon]="['fas', 'download']" class="me-2"></fa-icon>
+          <fa-icon
+            [icon]="['fas', 'download']"
+            aria-hidden="true"
+            class="me-2"
+          ></fa-icon>
           Télécharger l'attestation de demande
         </button>
         <button
@@ -285,7 +312,11 @@
             usager.decision.statut !== 'RADIE'
           "
         >
-          <fa-icon [icon]="['fas', 'download']" class="me-2"></fa-icon>
+          <fa-icon
+            [icon]="['fas', 'download']"
+            aria-hidden="true"
+            class="me-2"
+          ></fa-icon>
           Télécharger un CERFA provisoire
         </button>
       </div>

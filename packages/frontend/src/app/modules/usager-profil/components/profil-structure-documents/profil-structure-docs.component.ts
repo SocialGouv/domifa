@@ -5,7 +5,6 @@ import {
   StructureDoc,
   StructureDocTypesAvailable,
   STRUCTURE_DOC_EXTENSIONS,
-  STRUCTURE_DOC_ICONS,
 } from "../../../../../_common/model/structure-doc";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { DocumentService } from "../../../usager-shared/services/document.service";
@@ -28,7 +27,6 @@ export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
   public customStructureDocs: StructureDoc[];
-  public STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;
 
   // Frontend variables
   public loadings: string[];

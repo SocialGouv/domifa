@@ -47,7 +47,7 @@ async function findNextMeetings({
   userId: number;
   dateRefNow?: Date;
 }): Promise<Pick<Usager, "nom" | "prenom" | "uuid" | "ref" | "rdv">[]> {
-  return await baseRepository.findManyWithQuery({
+  return baseRepository.findManyWithQuery({
     where: `rdv->>'userId' = :userId
       and (rdv->>'dateRdv')::timestamptz > :dateRefNow`,
     params: {

@@ -9,11 +9,7 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 
 import { saveAs } from "file-saver";
 
-import {
-  StructureDoc,
-  STRUCTURE_DOC_ICONS,
-  UserStructure,
-} from "../../../../../_common/model";
+import { StructureDoc, UserStructure } from "../../../../../_common/model";
 import { StructureDocService } from "../../services/structure-doc.service";
 import { Subscription } from "rxjs";
 
@@ -23,8 +19,6 @@ import { Subscription } from "rxjs";
   styleUrls: ["./structures-custom-docs-table.component.css"],
 })
 export class StructuresCustomDocsTableComponent implements OnDestroy {
-  public STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;
-
   @Input() public structureDocs!: StructureDoc[];
   @Input() public me!: UserStructure;
   @Input() public title!: string;

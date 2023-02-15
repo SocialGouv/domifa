@@ -270,7 +270,7 @@ export class UsagersController {
   }
 
   @AllowUserStructureRoles("simple", "responsable", "admin")
-  @Post("check-duplicates")
+  @Post("check-duplicates-name")
   public async checkDuplicates(
     @Body() duplicateUsagerDto: CheckDuplicateUsagerDto,
     @CurrentUser() user: UserStructureAuthenticated
