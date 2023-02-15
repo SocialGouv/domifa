@@ -1,13 +1,8 @@
 import { UserStructure } from "./../../../../../_common/model/user-structure/UserStructure.type";
-import {
-  STRUCTURE_DOC_EXTENSIONS,
-  STRUCTURE_DOC_EXTENSIONS_LABELS,
-  UsagerDoc,
-} from "src/_common/model";
+import { STRUCTURE_DOC_EXTENSIONS, UsagerDoc } from "src/_common/model";
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
-import { STRUCTURE_DOC_ICONS } from "../../../../../_common/model";
 import { UsagerFormModel } from "../../interfaces";
 import { DocumentService } from "../../services/document.service";
 import { saveAs } from "file-saver";
@@ -25,10 +20,6 @@ export class DisplayUsagerDocsComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
   public docs: UsagerDoc[];
-
-  public readonly STRUCTURE_DOC_EXTENSIONS_LABELS =
-    STRUCTURE_DOC_EXTENSIONS_LABELS;
-  public readonly STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;
 
   public loadings: {
     download: number[];

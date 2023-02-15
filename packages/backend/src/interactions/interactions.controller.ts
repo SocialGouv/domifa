@@ -58,13 +58,13 @@ export class InteractionsController {
         user,
       });
 
-      currentUsager = created.usager;
-
       await this.messageSmsService.updateSmsAfterCreation({
         interaction: created.interaction,
         structure: user.structure,
-        usager: currentUsager,
+        usager: created.usager,
       });
+
+      currentUsager = created.usager;
     }
 
     return currentUsager;
@@ -77,7 +77,7 @@ export class InteractionsController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager
   ) {
-    return await interactionRepository.find({
+    return interactionRepository.find({
       where: {
         structureId: user.structureId,
         usagerUUID: currentUsager.uuid,

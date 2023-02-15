@@ -3,30 +3,9 @@
 <div class="content" *ngIf="currentUserSubject$ | async as me">
   <div class="container py-3">
     <app-form-menu [usager]="usager" [currentStep]="0"></app-form-menu>
-
-    <div
-      @fadeInOut
-      class="d-block text-center mx-auto alert-warning alert"
-      *ngIf="duplicates.length > 0"
-    >
-      <div class="d-block">
-        Attention, au moins un doublon potentiel a été détecté
-      </div>
-      <div class="d-block">
-        <ul>
-          <li *ngFor="let duplicate of duplicates">
-            <a
-              target="_blank"
-              [routerLink]="'/profil/general/' + duplicate.ref"
-            >
-              <strong>{{ duplicate.nom | uppercase }}</strong>
-              {{ duplicate.prenom }}</a
-            >, né(e) le {{ duplicate.dateNaissance | date : "dd/MM/yyyy" }}
-          </li>
-        </ul>
-      </div>
-    </div>
-
+    <app-display-duplicates-usager
+      [duplicates]="duplicates"
+    ></app-display-duplicates-usager>
     <section
       aria-label="Formulaire d'édition de l'état-civil du demandeur"
       class="step_form"
@@ -74,7 +53,7 @@
                 formControlName="nom"
                 placeholder="Précisez nom de naissance si nécessaire"
                 [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
-                (blur)="isDoublon()"
+                (blur)="isDuplicateName()"
                 required
               />
               <p *ngIf="submitted && f.nom.errors" class="invalid-feedback">
@@ -90,7 +69,7 @@
                 appCleanStr
                 formControlName="prenom"
                 [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
-                (blur)="isDoublon()"
+                (blur)="isDuplicateName()"
                 required
               />
               <p *ngIf="submitted && f.prenom.errors" class="invalid-feedback">

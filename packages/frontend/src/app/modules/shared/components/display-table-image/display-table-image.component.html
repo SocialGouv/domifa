@@ -1,0 +1,10 @@
+<span class="doc-icon" [ngClass]="STRUCTURE_DOC_ICONS[document.filetype]">
+  <fa-icon
+    aria-hidden="true"
+    [icon]="['far', STRUCTURE_DOC_ICONS[document.filetype]]"
+  ></fa-icon>
+</span>
+
+<span class="visually-hidden">
+  {{ STRUCTURE_DOC_EXTENSIONS_LABELS[document.filetype] }}
+</span>

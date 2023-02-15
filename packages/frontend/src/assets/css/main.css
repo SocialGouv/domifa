@@ -47,6 +47,10 @@ ul {
   color: var(--bs-danger) !important;
 }
 
+.bg-primary-light {
+  background: #f6f7ff;
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -360,11 +364,11 @@ legend {
   text-align: center;
   border-radius: 6px;
   display: inline-block;
-  background-color: #eceffe;
+  background-color: #ecefff;
 }
 
 .file-image {
-  color: #ffc031;
+  color: #782f08;
 }
 .file-pdf {
   color: #fe3b31;

@@ -21,6 +21,7 @@ export class UsagerDecisionService {
   public endPointDecision = environment.apiUrl + "usagers-decision";
 
   constructor(private http: HttpClient) {}
+
   public renouvellement(usagerRef: number): Observable<UsagerLight> {
     return this.http
       .get<UsagerLight>(`${this.endPointDecision}/renouvellement/${usagerRef}`)
@@ -41,6 +42,16 @@ export class UsagerDecisionService {
           usagersCache.updateUsager(usager);
         })
       );
+  }
+
+  public isDuplicateCustomRef(
+    ref: number,
+    customRef: string
+  ): Observable<UsagerLight[]> {
+    return this.http.post<UsagerLight[]>(
+      `${this.endPointDecision}/check-duplicates-custom-ref/${ref}`,
+      { customRef }
+    );
   }
 
   public setDecision(

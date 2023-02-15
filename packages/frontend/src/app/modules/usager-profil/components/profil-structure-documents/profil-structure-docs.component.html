@@ -15,16 +15,15 @@
     <!-- Documents de base de DomiFa -->
     <tr *ngIf="usager.isActif && defaultStructureDocs?.attestation_postale">
       <td>
-        <span class="doc-icon file-word">
-          <fa-icon [icon]="['far', 'file-word']"></fa-icon>
-        </span>
+        <app-display-table-image
+          [document]="defaultStructureDocs.attestation_postale"
+        ></app-display-table-image>
       </td>
       <td>Attestation postale</td>
       <td>
         {{ defaultStructureDocs.attestation_postale.createdBy.nom }}
         {{ defaultStructureDocs.attestation_postale.createdBy.prenom }}
       </td>
-
       <td>
         {{
           defaultStructureDocs.attestation_postale.createdAt
@@ -56,9 +55,9 @@
       "
     >
       <td>
-        <span class="doc-icon file-word">
-          <fa-icon [icon]="['far', 'file-word']"></fa-icon>
-        </span>
+        <app-display-table-image
+          [document]="defaultStructureDocs.attestation_postale"
+        ></app-display-table-image>
       </td>
       <td>Courrier de radiation</td>
       <td>
@@ -95,14 +94,9 @@
     <!-- Documents mis en ligne par les structures -->
     <tr *ngFor="let document of customStructureDocs">
       <td>
-        <span
-          class="doc-icon"
-          [ngClass]="STRUCTURE_DOC_ICONS[document.filetype]"
-        >
-          <fa-icon
-            [icon]="['far', STRUCTURE_DOC_ICONS[document.filetype]]"
-          ></fa-icon>
-        </span>
+        <app-display-table-image
+          [document]="defaultStructureDocs.attestation_postale"
+        ></app-display-table-image>
       </td>
       <td>{{ document.label }}</td>
       <td>{{ document.createdBy.nom }} {{ document.createdBy.prenom }}</td>

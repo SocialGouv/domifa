@@ -50,6 +50,8 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     "ref" | "customRef" | "nom" | "prenom" | "sexe" | "structureId"
   >[];
 
+  public duplicates: UsagerLight[];
+
   private subscription = new Subscription();
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
@@ -60,7 +62,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
   ) {
     this.submitted = false;
     this.loading = false;
-
+    this.duplicates = [];
     this.usagersRefs = [];
     this.minDate = { day: 1, month: 1, year: new Date().getFullYear() - 1 };
     this.maxDate = { day: 31, month: 12, year: new Date().getFullYear() + 2 };
@@ -101,6 +103,25 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
             formatDateToNgb(newDateFin)
           );
           this.maxEndDate = this.setDate(subDays(addYears(newDateDebut, 1), 1));
+        }
+      })
+    );
+
+    this.subscription.add(
+      this.valideForm.get("customRef")?.valueChanges.subscribe((value) => {
+        if (value) {
+          this.usagerDecisionService
+            .isDuplicateCustomRef(this.usager.ref, value)
+            .subscribe((duplicates: UsagerLight[]) => {
+              this.duplicates = duplicates;
+              if (duplicates.length !== 0) {
+                this.toastService.warning(
+                  "Un homonyme potentiel a été détecté !"
+                );
+              }
+            });
+        } else {
+          this.duplicates = [];
         }
       })
     );
@@ -172,6 +193,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
         })
     );
   }
+
   private getLastUsagersRefs() {
     this.subscription.add(
       this.usagerDecisionService

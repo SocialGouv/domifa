@@ -1,17 +1,17 @@
 export const STRUCTURE_DOC_EXTENSIONS_LABELS: {
   [key: string]: string;
 } = {
-  "image/jpg": "Image JPEG",
-  "image/jpeg": "Image JPEG",
-  "image/png": "Image PNG",
+  "image/jpg": "Document au format Image JPEG",
+  "image/jpeg": "Document au format Image JPEG",
+  "image/png": "Document au format Image PNG",
   "application/pdf": "Document au format PDF",
-  "application/msword": "Document au format Doc",
+  "application/msword": "Document au format Docx",
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
     "file-word",
-  "application/vnd.oasis.opendocument.text": "Document au format Doc",
+  "application/vnd.oasis.opendocument.text": "Document au format Docx",
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
     "Feuille de calcul",
-  "application/vnd.ms-excel": "Feuille de calcul",
+  "application/vnd.ms-excel": "Feuille de calcul Excel",
 };
 
 export const STRUCTURE_DOC_EXTENSIONS: {

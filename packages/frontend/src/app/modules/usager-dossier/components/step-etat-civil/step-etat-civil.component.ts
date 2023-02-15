@@ -74,7 +74,7 @@ export class StepEtatCivilComponent
     }
   }
 
-  public isDoublon(): void {
+  public isDuplicateName(): void {
     if (
       this.usagerForm.controls.nom.value &&
       this.usagerForm.controls.prenom.value
@@ -91,7 +91,7 @@ export class StepEtatCivilComponent
 
       this.subscription.add(
         this.usagerDossierService
-          .isDuplicate(params)
+          .isDuplicateName(params)
           .subscribe((duplicates: UsagerLight[]) => {
             this.duplicates = duplicates;
             if (duplicates.length !== 0) {

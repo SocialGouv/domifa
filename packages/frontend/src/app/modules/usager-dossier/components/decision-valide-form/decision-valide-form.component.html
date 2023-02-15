@@ -105,7 +105,7 @@
       </div>
       <br />
       <div class="row">
-        <div class="form-group col-md-6">
+        <div class="col-md-6">
           <label for="customRef">Identifiant personnalisé</label>
           <input
             type="text"
@@ -123,6 +123,13 @@
             L'identifiant est incorrect
           </p>
         </div>
+
+        <div class="col-md-12" aria-live="polite" *ngIf="duplicates.length > 0">
+          <app-display-duplicates-usager
+            [duplicates]="duplicates"
+          ></app-display-duplicates-usager>
+        </div>
+
         <div class="col-md-12" *ngIf="usagersRefs.length">
           <div class="my-2">
             Pour votre information, les dernières personnes domiciliées au sein

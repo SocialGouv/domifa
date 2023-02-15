@@ -22,7 +22,7 @@ import {
   Usager,
   UserStructureAuthenticated,
 } from "../../_common/model";
-import { DecisionDto } from "../dto";
+import { CheckDuplicateUsagerRefDto, DecisionDto } from "../dto";
 import { UsagersService, usagerHistoryStateManager } from "../services";
 import {
   AllowUserStructureRoles,
@@ -30,6 +30,7 @@ import {
   CurrentUsager,
 } from "../../auth/decorators";
 import { AppUserGuard, UsagerAccessGuard } from "../../auth/guards";
+import { Not } from "typeorm";
 
 @Controller("usagers-decision")
 @ApiTags("usagers-decision")
@@ -78,6 +79,26 @@ export class UsagersDecisionController {
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ) {
     return this.usagersService.renouvellement(usager, user);
+  }
+
+  @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("responsable", "admin")
+  @Post("check-duplicates-custom-ref/:usagerRef")
+  public async checkDuplicatesUsagerRef(
+    @Body() duplicateUsagerRefDto: CheckDuplicateUsagerRefDto,
+    @CurrentUsager() usager: Usager,
+    @CurrentUser() user: UserStructureAuthenticated,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
+  ): Promise<Usager[]> {
+    return usagerRepository.find({
+      where: {
+        structureId: user.structureId,
+        ref: Not(usager.ref),
+        customRef: duplicateUsagerRefDto.customRef,
+      },
+      select: ["nom", "prenom", "ref", "customRef", "dateNaissance"],
+    });
   }
 
   @UseGuards(UsagerAccessGuard)
