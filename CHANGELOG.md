@@ -1,3 +1,10 @@
+## [2.119.2](https://github.com/SocialGouv/domifa/compare/v2.119.1...v2.119.2) (2023-02-16)
+
+
+### Bug Fixes
+
+* **css:** correction des titres de modal ([1bfd848](https://github.com/SocialGouv/domifa/commit/1bfd84869afcf0bddffc88e28d5c2e373b459c7c))
+
 ## [2.119.1](https://github.com/SocialGouv/domifa/compare/v2.119.0...v2.119.1) (2023-02-14)
 
 
