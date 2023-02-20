@@ -116,7 +116,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
               this.duplicates = duplicates;
               if (duplicates.length !== 0) {
                 this.toastService.warning(
-                  "Un homonyme potentiel a été détecté !"
+                  "Un doublon potentiel a été détecté !"
                 );
               }
             });
