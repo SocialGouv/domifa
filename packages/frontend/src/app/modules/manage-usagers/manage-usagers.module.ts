@@ -9,13 +9,18 @@ import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
 import { UsagerSharedModule } from "../usager-shared/usager-shared.module";
 
-import { ManageUsagersTableComponent } from "./components/manage/manage-usagers-table/manage-usagers-table.component";
-import { ManageUsagersComponent } from "./components/manage/manage.component";
+import { ManageUsagersTableComponent } from "./components/manage-usagers-table/manage-usagers-table.component";
+import { ManageUsagersPageComponent } from "./components/manage-usagers-page/manage-usagers-page.component";
 
 import { ManageUsagersRoutingModule } from "./manage-usagers-routing.module";
+import { ManageDownloadDocsComponent } from "./components/manage-download-docs/manage-download-docs.component";
 
 @NgModule({
-  declarations: [ManageUsagersComponent, ManageUsagersTableComponent],
+  declarations: [
+    ManageUsagersPageComponent,
+    ManageUsagersTableComponent,
+    ManageDownloadDocsComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,

@@ -1,5 +1,5 @@
 import { UsagersFilterCriteria } from ".";
-import { UsagerLight } from "../../../../../../_common/model";
+import { UsagerLight } from "../../../../../_common/model";
 import { usagersFilter } from "./usagersFilter.service";
 
 const usagers: UsagerLight[] = [

@@ -1,4 +1,4 @@
-import { UsagerLight } from "../../../../../../../../_common/model";
+import { UsagerLight } from "../../../../../../../_common/model";
 import { UsagersFilterCriteria } from "../../UsagersFilterCriteria";
 
 export const usagerInteractionTypeChecker = {

@@ -1,5 +1,5 @@
 import { UsagersByStatus, UsagersFilterCriteriaStatut } from ".";
-import { UsagerLight } from "../../../../../../_common/model";
+import { UsagerLight } from "../../../../../_common/model";
 import { usagerStatutChecker } from "./services";
 
 export const usagersByStatusBuilder = {
