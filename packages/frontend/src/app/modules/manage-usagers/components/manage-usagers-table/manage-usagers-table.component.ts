@@ -66,20 +66,13 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
     sortValue?: UsagersFilterCriteriaSortValues;
   }>();
 
-  public modalOptions: NgbModalOptions = {
+  public readonly modalOptions: NgbModalOptions = {
     backdrop: "static",
     keyboard: false,
   };
 
   public today: Date;
   private subscription = new Subscription();
-
-  public labelsDernierPassage: {
-    [key in UsagersFilterCriteriaDernierPassage]: string;
-  } = {
-    DEUX_MOIS: "Dernier passage 2 mois",
-    TROIS_MOIS: "Dernier passage 3 mois",
-  };
 
   public selectedUsager: UsagerFormModel | null;
 
@@ -91,6 +84,12 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
 
   public loadingButtons: string[];
 
+  public readonly labelsDernierPassage: {
+    [key in UsagersFilterCriteriaDernierPassage]: string;
+  } = {
+    DEUX_MOIS: "Dernier passage 2 mois",
+    TROIS_MOIS: "Dernier passage 3 mois",
+  };
   constructor(
     private readonly interactionService: InteractionService,
     private readonly router: Router,

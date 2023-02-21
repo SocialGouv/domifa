@@ -46,11 +46,12 @@
       scope="col"
       (click)="updateFilters.emit({element: 'sortKey', value: 'ECHEANCE'})"
     >
-      <span *ngIf="filters.statut !== 'REFUS' && filters.statut !== 'RADIE'"
-        >ÉCHÉANCE</span
+      <ng-container
+        *ngIf="filters.statut !== 'REFUS' && filters.statut !== 'RADIE'"
+        >ÉCHÉANCE</ng-container
       >
-      <span *ngIf="filters.statut === 'REFUS' ">REFUSÉ LE</span>
-      <span *ngIf="filters.statut === 'RADIE' ">RADIÉ LE</span>
+      <ng-container *ngIf="filters.statut === 'REFUS' ">REFUSÉ LE</ng-container>
+      <ng-container *ngIf="filters.statut === 'RADIE' ">RADIÉ LE</ng-container>
     </th>
     <th scope="col" class="text-start d-print-none">Intéraction</th>
     <th scope="col" class="text-start d-print-none">Courrier</th>
@@ -79,8 +80,12 @@
   </thead>
   <tbody>
     <tr *ngFor="let usager of usagers; let i = index">
-      <td *ngIf="filters.statut==='TOUS'" (click)="goToProfil(usager)">
-        <span class="px-1 label-statut" [class]="usager.statusInfos.color">
+      <td
+        *ngIf="filters.statut==='TOUS'"
+        class="clickable text-center"
+        (click)="goToProfil(usager)"
+      >
+        <span class="label-statut" [class]="usager.statusInfos.color">
           {{ usager.statusInfos.text }}</span
         >
       </td>
@@ -112,9 +117,7 @@
       </td>
 
       <td class="text-primary manage-usager-ref" (click)="goToProfil(usager)">
-        <span class="px-3"
-          >{{ usager.customRef ? usager.customRef : usager.ref }}</span
-        >
+        <span>{{ usager.customRef ? usager.customRef : usager.ref }}</span>
       </td>
 
       <td class="clickable table-name td-name" (click)="goToProfil(usager)">
@@ -381,7 +384,10 @@
       </td>
 
       <td class="d-print-none">
-        <app-manage-download-docs [usager]="usager"></app-manage-download-docs>
+        <app-manage-download-docs
+          [me]="me"
+          [usager]="usager"
+        ></app-manage-download-docs>
       </td>
     </tr>
   </tbody>
