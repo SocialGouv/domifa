@@ -212,13 +212,6 @@ legend {
   color: #ffffff;
 }
 
-.statut-signal {
-  border-radius: 100%;
-  margin-right: 6px;
-  width: 10px;
-  height: 10px;
-}
-
 .statut-label a,
 .statut-label {
   font-style: normal;
@@ -241,14 +234,15 @@ legend {
   font-weight: bold;
 }
 
-.danger-status td:first-child {
-  border-left: 4px solid var(--bs-red) !important;
-}
-.warning-status td:first-child {
-  border-left: 4px solid var(--warning) !important;
+.statut-signal {
+  border-radius: 100%;
+  margin-right: 4px;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
 }
 
-.statut-signal.d-none {
+.statut-signal .d-none {
   display: none;
 }
 
@@ -295,7 +289,7 @@ legend {
 }
 
 .label-statut span {
-  display: block;
+  display: inline-block;
   font-size: 0.85rem;
   font-weight: 400;
 }

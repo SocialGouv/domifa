@@ -22,7 +22,6 @@ tbody td {
 tbody td a {
   width: 100%;
   height: 100%;
-  padding: 4px 11px;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -49,6 +48,7 @@ tbody td:first-child {
   border-radius: 2px 0 0 2px;
   min-width: 50px !important;
   max-width: 120px;
+  padding: 0 0.75rem;
 }
 
 tbody td:last-child {
@@ -195,11 +195,6 @@ th {
 .distribution-tooltip span {
   vertical-align: middle;
   display: inline-block;
-}
-
-.label-statut {
-  display: block;
-  width: 100%;
 }
 
 .pulse-button {
