@@ -362,6 +362,10 @@ function parseSecurityConfig(x: Partial<DomifaEnv>): DomifaConfigSecurity {
         { required: false }
       ),
       private: configParser.parseString(x, "DOMIFA_SECURITY_FILES_PRIVATE"),
+      mainSecret: configParser.parseString(
+        x,
+        "DOMIFA_SECURITY_FILES_MAIN_SECRET"
+      ),
     },
     jwtSecret: configParser.parseString(x, "DOMIFA_SECURITY_JWT_SECRET"),
   };
