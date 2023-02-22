@@ -31,18 +31,6 @@
   align-self: center;
 }
 
-.label-info {
-  display: inline-block;
-  padding: 4px 4px;
-  margin: 2px auto;
-  text-align: center;
-  max-width: 150px;
-}
-
-.label-info div {
-  font-size: 0.9rem !important;
-}
-
 .text-link {
   text-decoration: underline;
   font-weight: bold;

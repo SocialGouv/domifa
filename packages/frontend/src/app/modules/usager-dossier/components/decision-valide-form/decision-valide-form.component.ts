@@ -150,9 +150,6 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
         .isDuplicateCustomRef(this.usager.ref, value)
         .subscribe((duplicates: UsagerLight[]) => {
           this.duplicates = duplicates;
-          if (duplicates.length !== 0) {
-            this.toastService.warning("Un doublon potentiel a été détecté !");
-          }
         })
     );
   }
