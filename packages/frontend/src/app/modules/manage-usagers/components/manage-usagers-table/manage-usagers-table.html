@@ -85,7 +85,7 @@
         class="clickable text-center"
         (click)="goToProfil(usager)"
       >
-        <span class="label-statut" [class]="usager.statusInfos.color">
+        <span class="lable-info" [class]="usager.statusInfos.color">
           {{ usager.statusInfos.text }}</span
         >
       </td>
@@ -101,19 +101,21 @@
             </div>
           </div>
         </ng-template>
-        <span
+        <div
           [ngbTooltip]="usager.rdvInfos.display ? rdvInfosTooltip : ''"
           *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
-          class="label-statut orange-status"
-          >Renouvellement</span
+          class="lable-info orange-status"
         >
+          Renouvellement
+        </div>
 
-        <span
+        <div
           [ngbTooltip]="usager.rdvInfos.display ? rdvInfosTooltip : ''"
           *ngIf="usager.typeDom === 'PREMIERE_DOM'"
-          class="label-statut grey-status"
-          >Première demande</span
+          class="lable-info grey-status"
         >
+          Première demande
+        </div>
       </td>
 
       <td class="text-primary manage-usager-ref" (click)="goToProfil(usager)">

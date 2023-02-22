@@ -280,20 +280,6 @@ legend {
   font-weight: 600;
 }
 
-.label-statut {
-  border-radius: 50px;
-  padding: 4px 15px;
-  margin: 2px auto;
-  text-align: center;
-  max-width: 150px;
-}
-
-.label-statut span {
-  display: inline-block;
-  font-size: 0.85rem;
-  font-weight: 400;
-}
-
 .red-status {
   background-color: #ffe5dd;
   color: #b51515;
@@ -346,10 +332,6 @@ legend {
 .label-yellow {
   background-color: #feedd1;
   color: black;
-}
-
-.text-underline {
-  text-decoration: underline;
 }
 
 .doc-icon {

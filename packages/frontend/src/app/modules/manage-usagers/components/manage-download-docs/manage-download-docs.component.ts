@@ -13,13 +13,13 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 @Component({
   selector: "app-manage-download-docs",
   templateUrl: "./manage-download-docs.component.html",
-  styleUrls: ["./manage-download-docs.component.css"],
+  styleUrls: ["./manage-download-docs.component.scss"],
 })
 export class ManageDownloadDocsComponent implements OnDestroy {
   private subscription = new Subscription();
 
-  @Input() me: UserStructure | null;
-  @Input() usager: UsagerFormModel;
+  @Input() public me: UserStructure | null;
+  @Input() public usager: UsagerFormModel;
 
   constructor(
     private readonly documentService: DocumentService,

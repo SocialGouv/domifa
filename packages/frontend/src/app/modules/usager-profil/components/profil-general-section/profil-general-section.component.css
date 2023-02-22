@@ -31,13 +31,9 @@
   align-self: center;
 }
 
-.label-statut {
-  display: inline-block !important;
-}
-
 .label-info {
   display: inline-block;
-  padding: 4px 15px;
+  padding: 4px 4px;
   margin: 2px auto;
   text-align: center;
   max-width: 150px;
