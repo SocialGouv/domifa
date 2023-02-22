@@ -94,11 +94,6 @@ export class StepEtatCivilComponent
           .isDuplicateName(params)
           .subscribe((duplicates: UsagerLight[]) => {
             this.duplicates = duplicates;
-            if (duplicates.length !== 0) {
-              this.toastService.warning(
-                "Un homonyme potentiel a été détecté !"
-              );
-            }
           })
       );
     }

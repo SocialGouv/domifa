@@ -22,7 +22,6 @@ tbody td {
 tbody td a {
   width: 100%;
   height: 100%;
-  padding: 4px 11px;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -49,6 +48,7 @@ tbody td:first-child {
   border-radius: 2px 0 0 2px;
   min-width: 50px !important;
   max-width: 120px;
+  padding: 0 0.75rem;
 }
 
 tbody td:last-child {
@@ -197,11 +197,6 @@ th {
   display: inline-block;
 }
 
-.label-statut {
-  display: block;
-  width: 100%;
-}
-
 .pulse-button {
   position: absolute;
   top: -5px;
@@ -212,30 +207,18 @@ th {
   font-weight: 600;
 }
 
-.dropdown-manage-actions {
-  padding: 0 !important;
-  .dropdown-menu {
-    padding: 0 !important;
-  }
+.statut-signal {
+  border-radius: 100%;
+  margin-right: 4px;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+}
 
-  .toggle-actions {
-    color: rgb(27, 27, 27);
-    font-size: 1.6rem;
-  }
+.statut-signal .d-none {
+  display: none;
+}
 
-  .dropdown-item {
-    padding: 0.8rem 1rem;
-    cursor: pointer;
-    color: #4a4a4a;
-    min-width: 200px;
-    border-bottom: 1px solid #9b9b9b;
-  }
-
-  .dropdown-item:last-child {
-    border: 0 !important;
-  }
-
-  .dropdown-toggle::after {
-    display: none !important;
-  }
+.statut-signal .statut-date {
+  font-weight: bold;
 }

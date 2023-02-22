@@ -17,29 +17,22 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "@ngx-matomo/tracker";
 
-import {
-  UserStructure,
-  UsagerLight,
-  CerfaDocType,
-  StructureDocTypesAvailable,
-} from "../../../../../../_common/model";
+import { UserStructure, UsagerLight } from "../../../../../_common/model";
 import {
   InteractionType,
   InteractionInForApi,
-} from "../../../../../../_common/model/interaction";
-import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../../_common/model/interaction/constants";
-import { fadeInOut } from "../../../../../shared";
-import { CustomToastService } from "../../../../shared/services/custom-toast.service";
-import { UsagerFormModel } from "../../../../usager-shared/interfaces";
-import { InteractionService } from "../../../../usager-shared/services/interaction.service";
+} from "../../../../../_common/model/interaction";
+import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../_common/model/interaction/constants";
+import { fadeInOut } from "../../../../shared";
+import { CustomToastService } from "../../../shared/services/custom-toast.service";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
+import { InteractionService } from "../../../usager-shared/services/interaction.service";
 
 import {
   UsagersFilterCriteria,
   UsagersFilterCriteriaSortValues,
   UsagersFilterCriteriaDernierPassage,
 } from "../usager-filter";
-import { DocumentService } from "../../../../usager-shared/services/document.service";
-import saveAs from "file-saver";
 
 @Component({
   animations: [fadeInOut],
@@ -73,20 +66,13 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
     sortValue?: UsagersFilterCriteriaSortValues;
   }>();
 
-  public modalOptions: NgbModalOptions = {
+  public readonly modalOptions: NgbModalOptions = {
     backdrop: "static",
     keyboard: false,
   };
 
   public today: Date;
   private subscription = new Subscription();
-
-  public labelsDernierPassage: {
-    [key in UsagersFilterCriteriaDernierPassage]: string;
-  } = {
-    DEUX_MOIS: "Dernier passage 2 mois",
-    TROIS_MOIS: "Dernier passage 3 mois",
-  };
 
   public selectedUsager: UsagerFormModel | null;
 
@@ -98,13 +84,18 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
 
   public loadingButtons: string[];
 
+  public readonly labelsDernierPassage: {
+    [key in UsagersFilterCriteriaDernierPassage]: string;
+  } = {
+    DEUX_MOIS: "Dernier passage 2 mois",
+    TROIS_MOIS: "Dernier passage 3 mois",
+  };
   constructor(
     private readonly interactionService: InteractionService,
     private readonly router: Router,
     private readonly modalService: NgbModal,
     private readonly toastService: CustomToastService,
-    private readonly matomo: MatomoTracker,
-    private readonly documentService: DocumentService
+    private readonly matomo: MatomoTracker
   ) {
     this.today = new Date();
     this.selectedUsager = null;
@@ -192,44 +183,10 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
     );
   }
 
-  public getCerfa(
-    usagerRef: number,
-    typeCerfa: CerfaDocType = "attestation"
-  ): void {
-    return this.documentService.attestation(usagerRef, typeCerfa);
-  }
-
-  public getDomifaCustomDoc(
-    usagerRef: number,
-    docType: StructureDocTypesAvailable
-  ): void {
-    this.subscription.add(
-      this.documentService
-        .getDomifaCustomDoc({
-          usagerId: usagerRef,
-          docType,
-        })
-        .subscribe({
-          next: (blob: Blob) => {
-            const newBlob = new Blob([blob], {
-              type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            });
-            saveAs(newBlob, docType + ".docx");
-            this.stopLoading(docType);
-          },
-          error: () => {
-            this.toastService.error(
-              "Impossible de télécharger le fichier pour l'instant"
-            );
-            this.stopLoading(docType);
-          },
-        })
-    );
-  }
-
   public goToProfil(usager: UsagerFormModel): void {
     this.router.navigate([usager.usagerProfilUrl]);
   }
+
   public cancelReception() {
     this.modalService.dismissAll();
   }

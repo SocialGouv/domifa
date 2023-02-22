@@ -1,4 +1,4 @@
-import { CriteriaSearchField } from "./usager-filter/UsagersFilterCriteria";
+import { CriteriaSearchField } from "../usager-filter/UsagersFilterCriteria";
 import { ManageUsagersService } from "../../services/manage-usagers.service";
 import {
   Component,
@@ -53,16 +53,17 @@ import {
   UsagersFilterCriteriaSortKey,
   UsagersFilterCriteriaSortValues,
   UsagersFilterCriteriaStatut,
-} from "./usager-filter";
+} from "../usager-filter";
 
 const AUTO_REFRESH_PERIOD = 3600000; // 1h
+
 @Component({
   animations: [fadeInOut],
-  selector: "app-manage-usagers",
-  styleUrls: ["./manage.component.css"],
-  templateUrl: "./manage.component.html",
+  selector: "app-manage-usagers-page",
+  styleUrls: ["./manage-usagers-page.component.css"],
+  templateUrl: "./manage-usagers-page.component.html",
 })
-export class ManageUsagersComponent implements OnInit, OnDestroy {
+export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   public searching: boolean;
   public loading: boolean;
 

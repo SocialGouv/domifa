@@ -1,11 +1,8 @@
 import { UsagersFilterCriteria } from "../UsagersFilterCriteria";
 import { format } from "date-fns";
-import {
-  UsagerLight,
-  UsagerAyantDroit,
-} from "../../../../../../../_common/model";
-import { search } from "../../../../../../shared";
-import { UsagerProcuration } from "../../../../../usager-shared/interfaces/UsagerProcuration.interface";
+import { UsagerLight, UsagerAyantDroit } from "../../../../../../_common/model";
+import { search } from "../../../../../shared";
+import { UsagerProcuration } from "../../../../usager-shared/interfaces/UsagerProcuration.interface";
 
 export const usagersSearchStringFilter = {
   filter,

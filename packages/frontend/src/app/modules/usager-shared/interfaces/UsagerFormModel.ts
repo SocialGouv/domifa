@@ -22,7 +22,7 @@ import {
 import {
   UsagersFilterCriteria,
   usagersFilter,
-} from "../../manage-usagers/components/manage/usager-filter";
+} from "../../manage-usagers/components/usager-filter";
 import { getEcheanceInfos, getRdvInfos, getUrlUsagerProfil } from "../utils";
 
 export class UsagerFormModel {

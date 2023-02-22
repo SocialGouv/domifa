@@ -284,10 +284,9 @@ export class UsagersController {
     ];
 
     if (duplicateUsagerDto.usagerRef) {
-      query = query + `  and "ref" = $4`;
+      query = query + `  and "ref" != $4`;
       params.push(duplicateUsagerDto.usagerRef);
     }
-
     return usagerRepository.query(query, params);
   }
 

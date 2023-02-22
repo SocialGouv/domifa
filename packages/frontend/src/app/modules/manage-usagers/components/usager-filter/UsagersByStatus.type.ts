@@ -1,4 +1,4 @@
-import { UsagerLight } from "../../../../../../_common/model";
+import { UsagerLight } from "../../../../../_common/model";
 
 export type UsagersByStatus = {
   INSTRUCTION: UsagerLight[];

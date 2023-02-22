@@ -1,5 +1,5 @@
 <table class="table" *ngIf="usagers.length !== 0" id="table-usagers">
-  <caption class="sr-only">
+  <caption class="visually-hidden text-dark">
     Tableau des domiciliés
   </caption>
   <thead>
@@ -46,11 +46,12 @@
       scope="col"
       (click)="updateFilters.emit({element: 'sortKey', value: 'ECHEANCE'})"
     >
-      <span *ngIf="filters.statut !== 'REFUS' && filters.statut !== 'RADIE'"
-        >ÉCHÉANCE</span
+      <ng-container
+        *ngIf="filters.statut !== 'REFUS' && filters.statut !== 'RADIE'"
+        >ÉCHÉANCE</ng-container
       >
-      <span *ngIf="filters.statut === 'REFUS' ">REFUSÉ LE</span>
-      <span *ngIf="filters.statut === 'RADIE' ">RADIÉ LE</span>
+      <ng-container *ngIf="filters.statut === 'REFUS' ">REFUSÉ LE</ng-container>
+      <ng-container *ngIf="filters.statut === 'RADIE' ">RADIÉ LE</ng-container>
     </th>
     <th scope="col" class="text-start d-print-none">Intéraction</th>
     <th scope="col" class="text-start d-print-none">Courrier</th>
@@ -79,8 +80,12 @@
   </thead>
   <tbody>
     <tr *ngFor="let usager of usagers; let i = index">
-      <td *ngIf="filters.statut==='TOUS'" (click)="goToProfil(usager)">
-        <span class="px-1 label-statut" [class]="usager.statusInfos.color">
+      <td
+        *ngIf="filters.statut==='TOUS'"
+        class="clickable text-center"
+        (click)="goToProfil(usager)"
+      >
+        <span class="label-info" [class]="usager.statusInfos.color">
           {{ usager.statusInfos.text }}</span
         >
       </td>
@@ -96,25 +101,25 @@
             </div>
           </div>
         </ng-template>
-        <span
+        <div
           [ngbTooltip]="usager.rdvInfos.display ? rdvInfosTooltip : ''"
           *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
-          class="label-statut orange-status"
-          >Renouvellement</span
+          class="label-info label-yellow"
         >
+          Renouvellement
+        </div>
 
-        <span
+        <div
           [ngbTooltip]="usager.rdvInfos.display ? rdvInfosTooltip : ''"
           *ngIf="usager.typeDom === 'PREMIERE_DOM'"
-          class="label-statut grey-status"
-          >Première demande</span
+          class="label-info label-grey"
         >
+          Première demande
+        </div>
       </td>
 
       <td class="text-primary manage-usager-ref" (click)="goToProfil(usager)">
-        <span class="px-3"
-          >{{ usager.customRef ? usager.customRef : usager.ref }}</span
-        >
+        <span>{{ usager.customRef ? usager.customRef : usager.ref }}</span>
       </td>
 
       <td class="clickable table-name td-name" (click)="goToProfil(usager)">
@@ -244,12 +249,21 @@
       </td>
 
       <td class="statut-date clickable" (click)="goToProfil(usager)">
-        <span
-          [attr.aria-label]="usager.echeanceInfos.color === 'bg-danger' ? 'Moins de 2 semaines ou dépassée' : 'Moins de 2 mois'"
-          *ngIf="usager.isActif"
-          class="statut-signal"
-          [class]="usager.echeanceInfos.color"
-        ></span>
+        <ng-container *ngIf="usager.isActif">
+          <span class="statut-signal" [class]="usager.echeanceInfos.color">
+          </span>
+          <span
+            class="visually-hidden"
+            *ngIf="usager.echeanceInfos.color === 'bg-danger'"
+            >Moins de 2 mois
+          </span>
+          <span
+            class="visually-hidden"
+            *ngIf="usager.echeanceInfos.color !== 'bg-danger'"
+          >
+            Moins de 2 semaines ou dépassée
+          </span>
+        </ng-container>
         <span *ngIf="usager.echeanceInfos.dateToDisplay">
           {{ usager.echeanceInfos.dateToDisplay | date: "dd/MM/yy" }}</span
         >
@@ -381,60 +395,10 @@
       </td>
 
       <td class="d-print-none">
-        <div
-          ngbDropdown
-          dropdownClass="dropdown-manage-actions"
-          container="body"
-          class="dropdown-manage-actions"
-          *ngIf="me.role !== 'facteur' "
-        >
-          <button
-            type="button"
-            class="btn toggle-actions"
-            ngbDropdownToggle
-            [attr.aria-label]="'Menu pour télécharger un document de '+ usager.nom + ' ' + usager.prenom"
-          >
-            <fa-icon
-              [icon]="['fas','ellipsis-vertical']"
-              aria-hidden="true"
-            ></fa-icon>
-          </button>
-          <div ngbDropdownMenu>
-            <button
-              ngbDropdownItem
-              type="button"
-              (click)="getCerfa(usager.ref,'demande')"
-            >
-              Télécharger le Cerfa d'attestation de demande
-            </button>
-            <button
-              ngbDropdownItem
-              type="button"
-              (click)="getCerfa(usager.ref,'attestation')"
-              *ngIf="usager.decision.statut !== 'REFUS' &&  usager.decision.statut !== 'RADIE'
-            "
-            >
-              Télécharger le Cerfa d'élection de domicile
-            </button>
-            <button
-              *ngIf="usager.decision.statut !== 'REFUS' &&  usager.decision.statut === 'RADIE'
-          "
-              ngbDropdownItem
-              type="button"
-              (click)="getDomifaCustomDoc(usager.ref,'courrier_radiation')"
-            >
-              Télécharger le courrier de radiation
-            </button>
-            <button
-              *ngIf="usager.decision.statut === 'VALIDE'"
-              ngbDropdownItem
-              type="button"
-              (click)="getDomifaCustomDoc(usager.ref,'attestation_postale')"
-            >
-              Télécharger l'attestation postale
-            </button>
-          </div>
-        </div>
+        <app-manage-download-docs
+          [me]="me"
+          [usager]="usager"
+        ></app-manage-download-docs>
       </td>
     </tr>
   </tbody>
