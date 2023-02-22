@@ -130,13 +130,17 @@
   position: relative;
 }
 
-#searchbar {
+#search-bar {
   min-width: 360px;
   width: 100%;
   position: relative;
 }
 
-#searchbar input {
+#search-bar label {
+  color: white;
+}
+
+#search-bar input {
   padding: 10px 10px 10px 40px;
   height: 46px;
   background: #f4f5f7;
@@ -147,17 +151,17 @@
   border-radius: 0 5px 5px 0;
 }
 
-#searchbar input:focus {
+#search-bar input:focus {
   box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
 }
 
-#searchbar input::placeholder {
+#search-bar input::placeholder {
   color: #7e7e7e;
   font-weight: 500;
 }
 
-#searchbar span,
-#searchbar button {
+#search-bar span,
+#search-bar button {
   display: block;
   position: absolute;
   font-size: 18px;

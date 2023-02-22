@@ -1,5 +1,5 @@
 <table class="table" *ngIf="usagers.length !== 0" id="table-usagers">
-  <caption class="sr-only">
+  <caption class="visually-hidden text-dark">
     Tableau des domiciliés
   </caption>
   <thead>
@@ -249,11 +249,9 @@
       </td>
 
       <td class="statut-date clickable" (click)="goToProfil(usager)">
-        <span
-          *ngIf="usager.isActif"
-          class="statut-signal"
-          [class]="usager.echeanceInfos.color"
-        >
+        <ng-container *ngIf="usager.isActif">
+          <span class="statut-signal" [class]="usager.echeanceInfos.color">
+          </span>
           <span
             class="visually-hidden"
             *ngIf="usager.echeanceInfos.color === 'bg-danger'"
@@ -265,7 +263,7 @@
           >
             Moins de 2 semaines ou dépassée
           </span>
-        </span>
+        </ng-container>
         <span *ngIf="usager.echeanceInfos.dateToDisplay">
           {{ usager.echeanceInfos.dateToDisplay | date: "dd/MM/yy" }}</span
         >
