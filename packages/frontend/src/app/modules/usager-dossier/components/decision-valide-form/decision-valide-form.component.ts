@@ -110,16 +110,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.valideForm.get("customRef")?.valueChanges.subscribe((value) => {
         if (value) {
-          this.usagerDecisionService
-            .isDuplicateCustomRef(this.usager.ref, value)
-            .subscribe((duplicates: UsagerLight[]) => {
-              this.duplicates = duplicates;
-              if (duplicates.length !== 0) {
-                this.toastService.warning(
-                  "Un doublon potentiel a été détecté !"
-                );
-              }
-            });
+          this.checkDuplicatesRef(value);
         } else {
           this.duplicates = [];
         }
@@ -148,8 +139,23 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     );
     // Affichage des 5 derniers ids
     this.getLastUsagersRefs();
+
+    // Vérifier les doublons
+    this.checkDuplicatesRef(this.usager.customRef);
   }
 
+  private checkDuplicatesRef(value: string): void {
+    this.subscription.add(
+      this.usagerDecisionService
+        .isDuplicateCustomRef(this.usager.ref, value)
+        .subscribe((duplicates: UsagerLight[]) => {
+          this.duplicates = duplicates;
+          if (duplicates.length !== 0) {
+            this.toastService.warning("Un doublon potentiel a été détecté !");
+          }
+        })
+    );
+  }
   public setDecisionValide() {
     this.submitted = true;
     if (this.valideForm.invalid) {
