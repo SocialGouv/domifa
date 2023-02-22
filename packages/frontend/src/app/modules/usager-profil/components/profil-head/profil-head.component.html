@@ -17,8 +17,6 @@
               [icon]="['fas', 'angle-left']"
             ></fa-icon>
           </a>
-
-          <span class="statut-signal"></span>
           {{ usager | usagerNomComplet }} -
           <strong *ngIf="usager.customRef">{{ usager.customRef }}</strong>
           <strong *ngIf="!usager.customRef">{{ usager.ref }}</strong>

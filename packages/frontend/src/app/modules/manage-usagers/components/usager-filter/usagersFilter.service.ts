@@ -1,4 +1,4 @@
-import { UsagerLight, ETAPE_ENTRETIEN } from "../../../../../../_common/model";
+import { UsagerLight, ETAPE_ENTRETIEN } from "../../../../../_common/model";
 import {
   usagerEcheanceChecker,
   usagerInteractionTypeChecker,

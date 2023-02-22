@@ -70,7 +70,7 @@ export class UsagerDossierService {
     usagerRef: number | null;
   }) {
     return this.http.post<UsagerLight[]>(
-      `${this.endPointUsagers}/check-duplicates`,
+      `${this.endPointUsagers}/check-duplicates-name`,
       params
     );
   }

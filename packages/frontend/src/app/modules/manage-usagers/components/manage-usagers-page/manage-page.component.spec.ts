@@ -9,16 +9,16 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MATOMO_INJECTORS } from "../../../../shared";
 
-import { ManageUsagersComponent } from "./manage.component";
+import { ManageUsagersPageComponent } from "./manage-usagers-page.component";
 
-describe("ManageUsagersComponent", () => {
-  let component: ManageUsagersComponent;
+describe("ManageUsagersPageComponent", () => {
+  let component: ManageUsagersPageComponent;
 
-  let fixture: ComponentFixture<ManageUsagersComponent>;
+  let fixture: ComponentFixture<ManageUsagersPageComponent>;
 
   beforeAll(async () => {
     TestBed.configureTestingModule({
-      declarations: [ManageUsagersComponent],
+      declarations: [ManageUsagersPageComponent],
       imports: [
         FormsModule,
         HttpClientTestingModule,
@@ -31,7 +31,7 @@ describe("ManageUsagersComponent", () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ManageUsagersComponent);
+    fixture = TestBed.createComponent(ManageUsagersPageComponent);
     component = fixture.debugElement.componentInstance;
   });
 

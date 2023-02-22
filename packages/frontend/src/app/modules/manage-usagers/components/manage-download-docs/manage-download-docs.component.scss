@@ -1,0 +1,27 @@
+.dropdown-manage-actions {
+  padding: 0 !important;
+  .dropdown-menu {
+    padding: 0 !important;
+  }
+
+  .toggle-actions {
+    color: rgb(27, 27, 27);
+    font-size: 1.6rem;
+  }
+
+  .dropdown-item {
+    padding: 0.8rem 1rem;
+    cursor: pointer;
+    color: #4a4a4a;
+    min-width: 200px;
+    border-bottom: 1px solid #9b9b9b;
+  }
+
+  .dropdown-item:last-child {
+    border: 0 !important;
+  }
+
+  .dropdown-toggle::after {
+    display: none !important;
+  }
+}

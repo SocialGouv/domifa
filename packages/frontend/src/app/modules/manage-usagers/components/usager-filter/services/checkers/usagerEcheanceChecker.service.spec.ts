@@ -1,4 +1,4 @@
-import { UsagerLight } from "../../../../../../../../_common/model";
+import { UsagerLight } from "../../../../../../../_common/model";
 import { usagerEcheanceChecker } from "./usagerEcheanceChecker.service";
 const dayMs = 24 * 3600 * 1000;
 const weekMs = 7 * dayMs;
