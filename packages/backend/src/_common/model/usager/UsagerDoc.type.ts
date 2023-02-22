@@ -8,4 +8,6 @@ export type UsagerDoc = AppEntity & {
   path: string;
   structureId: number;
   usagerRef: number;
+  encryptionContext?: string;
+  encryptionVersion?: number;
 };

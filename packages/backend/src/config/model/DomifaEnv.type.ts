@@ -3,6 +3,7 @@ export type DomifaEnv = {
   DOMIFA_ENV_PRIORITY: "files" | "process.env";
 
   DOMIFA_SECURITY_FILES_IV: string;
+  DOMIFA_SECURITY_FILES_MAIN_SECRET: string;
   DOMIFA_SECURITY_FILES_IV_SECOURS: string; // TEMP VALUE : supprimer une fois la réencryption réalisée
   DOMIFA_SECURITY_FILES_PRIVATE: string;
   DOMIFA_FRONTEND_URL: string;
