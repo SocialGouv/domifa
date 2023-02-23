@@ -1,3 +1,15 @@
+# [2.120.0](https://github.com/SocialGouv/domifa/compare/v2.119.2...v2.120.0) (2023-02-23)
+
+
+### Bug Fixes
+
+* **design:** amélioration du design des pastilles ([5e91213](https://github.com/SocialGouv/domifa/commit/5e91213159ffd391fe71cbf4a04e06ce56e50ab7))
+
+
+### Features
+
+* **dossier:** ajout de la vérification de doublons sur les ID ([9137199](https://github.com/SocialGouv/domifa/commit/9137199d40a4beb87670fb391c56f69bf1e27d10))
+
 ## [2.119.2](https://github.com/SocialGouv/domifa/compare/v2.119.1...v2.119.2) (2023-02-16)
 
 
