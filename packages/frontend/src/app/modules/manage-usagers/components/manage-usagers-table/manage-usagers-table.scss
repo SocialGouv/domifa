@@ -36,7 +36,7 @@ tbody td a:visited {
 
 .manage-usager-ref {
   background-color: white;
-  min-width: 80px;
+  min-width: 40px;
 }
 
 tbody td:nth-child(2) {
@@ -48,14 +48,14 @@ tbody td:first-child {
   border-radius: 2px 0 0 2px;
   min-width: 50px !important;
   max-width: 120px;
-  padding: 0 0.75rem;
+  padding: 0 0.5rem;
 }
 
 tbody td:last-child {
   background-color: white;
   text-align: right;
   border-radius: 0 2px 2px 0;
-  width: 60px;
+  width: 50px;
   min-width: 0;
 }
 
@@ -78,24 +78,16 @@ thead th {
   font-style: normal;
   font-weight: 600;
   font-size: 0.95rem;
-  line-height: 1.1rem;
   color: #3150c0;
-  padding: 0.5rem 0;
-  letter-spacing: 0.05em;
+  padding: 0.5rem 0.2rem;
   text-transform: uppercase;
+  border: none;
   transition: all 0.2s ease;
   vertical-align: middle;
 }
 
 .clickable {
   cursor: pointer;
-}
-thead td,
-th {
-  font-size: 1rem;
-  border: none !important;
-  padding: 0;
-  vertical-align: bottom;
 }
 
 .table-name a div {
@@ -160,11 +152,11 @@ th {
 }
 
 .list-icon {
-  padding: 16px;
+  padding: 15px;
   box-sizing: border-box;
   background-color: #4164f5;
-  -webkit-mask-size: 75%;
-  mask-size: 75%;
+  -webkit-mask-size: 78%;
+  mask-size: 78%;
 }
 
 .list-icon-label {
