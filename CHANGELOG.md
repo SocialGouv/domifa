@@ -1,3 +1,10 @@
+## [2.120.1](https://github.com/SocialGouv/domifa/compare/v2.120.0...v2.120.1) (2023-02-28)
+
+
+### Bug Fixes
+
+* **style:** amélioration du design pour la liste des domiciliés ([1ee02b2](https://github.com/SocialGouv/domifa/commit/1ee02b2d89bf866d9e1cc5a9e23b6e3ef5b50103))
+
 # [2.120.0](https://github.com/SocialGouv/domifa/compare/v2.119.2...v2.120.0) (2023-02-23)
 
 
