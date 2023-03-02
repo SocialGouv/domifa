@@ -9,19 +9,17 @@ export const dataUsagerHistoryAnonymizer = {
 };
 
 async function anonymizeUsagersHistory() {
-  const usagersHistory = await usagerHistoryRepository.findMany(
-    {},
-    {
-      select: [
-        "uuid",
-        "usagerUUID",
-        "usagerRef",
-        "structureId",
-        "import",
-        "states",
-      ],
-    }
-  );
+  const usagersHistory = await usagerHistoryRepository.find({
+    where: {},
+    select: [
+      "uuid",
+      "usagerUUID",
+      "usagerRef",
+      "structureId",
+      "import",
+      "states",
+    ],
+  });
 
   const usagersHistoryToAnonymize = usagersHistory.filter((x) =>
     isUsagerToAnonymize(x)
@@ -51,7 +49,7 @@ async function _anonymizeUsagerHistory(usagerHistory: UsagerHistory) {
     ayantsDroits: dataUsagerAnonymizer.anonymizeAyantDroits(s.ayantsDroits),
   }));
 
-  return usagerHistoryRepository.updateOne(
+  return usagerHistoryRepository.update(
     { uuid: usagerHistory.uuid },
     { states }
   );

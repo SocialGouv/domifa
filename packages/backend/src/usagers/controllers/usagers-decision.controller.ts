@@ -1,4 +1,6 @@
-import { usagerRepository } from "./../../database/services/usager/usagerRepository.service";
+import { UsagerNote } from "./../../_common/model/usager/UsagerNote.type";
+import { ETAPE_DECISION } from "../../_common/model/usager/_constants/ETAPES_DEMANDE.const";
+import { usagerRepository } from "../../database/services/usager/usagerRepository.service";
 import {
   Body,
   Controller,
@@ -15,7 +17,11 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 
-import { interactionRepository, usagerLightRepository } from "../../database";
+import {
+  interactionRepository,
+  usagerLightRepository,
+  usagerNotesRepository,
+} from "../../database";
 
 import {
   ETAPE_ETAT_CIVIL,
@@ -23,7 +29,11 @@ import {
   UserStructureAuthenticated,
 } from "../../_common/model";
 import { CheckDuplicateUsagerRefDto, DecisionDto } from "../dto";
-import { UsagersService, usagerHistoryStateManager } from "../services";
+import {
+  UsagersService,
+  usagerHistoryStateManager,
+  generateNoteForDecision,
+} from "../services";
 import {
   AllowUserStructureRoles,
   CurrentUser,
@@ -102,47 +112,38 @@ export class UsagersDecisionController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
-  @Delete("renouvellement/:usagerRef")
-  public async deleteRenew(
+  @AllowUserStructureRoles("responsable", "admin")
+  @Delete(":usagerRef")
+  public async deleteLastDecision(
     @Res() res: Response,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: Usager,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ) {
-    if (
-      typeof usager.historique.find(
-        (decision) =>
-          decision.statut === "REFUS" ||
-          decision.statut === "RADIE" ||
-          decision.statut === "VALIDE"
-      ) === "undefined"
-    ) {
+    if (usager.historique.length <= 1) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "CANNOT_DELETE_DECISION" });
     }
 
-    usager.etapeDemande = ETAPE_ETAT_CIVIL;
+    await usagerHistoryStateManager.removeLastDecisionFromHistory({
+      usager,
+      removedDecisionUUID: usager.decision.uuid,
+    });
+
+    usager.etapeDemande =
+      usager.decision.statut === "INSTRUCTION"
+        ? ETAPE_ETAT_CIVIL
+        : ETAPE_DECISION;
+
+    const deletedDecision = usager.historique[usager.historique.length - 1];
 
     // On retire la précédente décision de l'historique
     usager.historique.splice(usager.historique.length - 1, 1);
 
     // On récupère la dernière décision
     usager.decision = usager.historique[usager.historique.length - 1];
-
-    // on garde trace du changement dans l'historique, car il peut y avoir eu aussi d'autres changements entre temps
-    await usagerHistoryStateManager.removeLastDecisionFromHistory({
-      usager,
-      createdBy: {
-        userId: user.id,
-        userName: user.prenom + " " + user.nom,
-      },
-      createdAt: usager.decision.dateDecision,
-      historyBeginDate: usager.decision.dateDebut,
-      removedDecisionUUID: usager.decision.uuid,
-    });
 
     const lastInteractionOk = await interactionRepository.findLastInteractionOk(
       {
@@ -159,6 +160,25 @@ export class UsagersDecisionController {
       ? usager.decision.dateDebut
       : // Cas extrême, aucune date définie
         usager.decision.dateDecision;
+
+    const createdBy = {
+      userId: user.id,
+      userName: user.prenom + " " + user.nom,
+    };
+
+    const newNote: Partial<UsagerNote> = {
+      message: generateNoteForDecision(deletedDecision, createdBy),
+      usagerUUID: usager.uuid,
+      usagerRef: usager.ref,
+      structureId: usager.structureId,
+      createdBy: {
+        userId: user.id,
+        userName: user.prenom + " " + user.nom,
+      },
+      archived: false,
+    };
+
+    await usagerNotesRepository.save(newNote);
 
     const result = await usagerRepository.updateOneAndReturn(usager.uuid, {
       lastInteraction: usager.lastInteraction,

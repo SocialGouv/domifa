@@ -1,52 +1,73 @@
-<div class="container py-5" *ngIf="me && usager">
-  <div
-    class="d-print-none col-md-12 text-center text-danger"
-    *ngIf="me.role === 'admin' || me.role === 'responsable'"
-  >
-    <ng-container
-      *ngIf="usager.decision.statut === 'INSTRUCTION' && usager.ref"
-    >
-      <button
-        class="btn btn-danger"
-        type="button"
-        id="delete-usager"
-        *ngIf="hasHistorique"
-        (click)="open(deleteRenewConfirmation)"
+<ng-container *ngIf="me && usager && isAdmin">
+  <div class="container py-5" *ngIf="context === 'PROFIL'">
+    <div class="d-print-none col-md-12 text-center text-danger">
+      <ng-container
+        *ngIf="usager.decision.statut === 'INSTRUCTION' && usager.ref"
       >
-        <fa-icon [icon]="['fas', 'trash']" class="me-2"></fa-icon>
-        Supprimer cette demande
-      </button>
+        <!-- Si c'est une première demande, on supprime le dossier -->
+        <button
+          class="btn btn-danger"
+          type="button"
+          *ngIf="!isFirstInstruction"
+          (click)="open(deleteDecisionConfirmation)"
+        >
+          <fa-icon
+            [icon]="['fas', 'trash']"
+            aria-hidden="true"
+            class="me-2"
+          ></fa-icon>
+          Supprimer cette demande
+        </button>
 
-      <button
-        type="button"
-        class="btn btn-danger"
-        id="delete-usager"
-        *ngIf="!hasHistorique"
-        (click)="open(deleteConfirmation)"
-      >
-        <fa-icon [icon]="['fas', 'trash']" class="me-2"></fa-icon>
-        Supprimer cette demande
-      </button>
-    </ng-container>
+        <!-- Si ce n'est pas une première demande, on supprime simplement la demande -->
+        <button
+          type="button"
+          class="btn btn-danger"
+          *ngIf="!isFirstInstruction"
+          (click)="open(deleteConfirmation)"
+        >
+          <fa-icon
+            [icon]="['fas', 'trash']"
+            aria-hidden="true"
+            class="me-2"
+          ></fa-icon>
+          Supprimer cette demande
+        </button>
+      </ng-container>
 
-    <ng-container
-      *ngIf="
-        usager.decision.statut !== 'INSTRUCTION' &&
-        usager.decision.statut !== 'ATTENTE_DECISION'
-      "
-    >
-      <button
-        type="button"
-        class="btn btn-danger"
-        id="delete-usager"
-        (click)="open(deleteConfirmation)"
+      <ng-container
+        *ngIf="
+          usager.decision.statut !== 'INSTRUCTION' &&
+          usager.decision.statut !== 'ATTENTE_DECISION'
+        "
       >
-        <fa-icon [icon]="['fas', 'trash']" class="me-2"></fa-icon>
-        Supprimer ce domicilié
-      </button>
-    </ng-container>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="open(deleteConfirmation)"
+        >
+          <fa-icon
+            [icon]="['fas', 'trash']"
+            aria-hidden="true"
+            class="me-2"
+          ></fa-icon>
+          Supprimer ce domicilié
+        </button>
+      </ng-container>
+    </div>
   </div>
-</div>
+
+  <ng-container *ngIf="context === 'HISTORY' && usager.historique.length > 1">
+    <button
+      class="btn btn-danger"
+      type="button"
+      (click)="open(deleteDecisionConfirmation)"
+    >
+      <fa-icon [icon]="['fas', 'trash']" aria-hidden="true"></fa-icon>
+      <span class="visually-hidden">Supprimer cette décision</span>
+    </button>
+  </ng-container>
+</ng-container>
 
 <ng-template #deleteConfirmation let-modal>
   <div class="modal-header bg-danger">
@@ -95,17 +116,32 @@
   </div>
 </ng-template>
 
-<ng-template #deleteRenewConfirmation let-modal>
+<ng-template #deleteDecisionConfirmation let-modal>
   <div class="modal-header bg-danger">
-    <span class="text-white modal-title" id="modal-title">Attention !</span>
+    <span
+      *ngIf="context === 'HISTORY'"
+      class="text-white modal-title"
+      id="modal-title"
+      >Êtes-vous sûr de vouloir supprimer cette décision ?</span
+    >
+    <span
+      *ngIf="context === 'PROFIL'"
+      class="text-white modal-title"
+      id="modal-title"
+      >Attention !</span
+    >
   </div>
-  <p class="modal-body py-3 text-center">
+  <p class="modal-body py-3 text-center" *ngIf="context === 'HISTORY'">
+    Les statistiques seront mises à jour, une note sera ajoutée au dossier et
+    l'usager retournera à son statut précédent :
+    <strong>{{ previousStatus }}</strong>
+  </p>
+  <p class="modal-body py-3 text-center" *ngIf="context === 'PROFIL'">
     Une demande de domiciliation a été créée le <br />
     <strong
       >{{ usager.decision.dateDecision | date : "dd/MM/yyyy à HH:mm" }} par
       {{ usager.decision.userName }}.</strong
     >
-
     <br />
     <br />
     Si vous confirmer la suppression de cette demande, l'usager retrouvera son
@@ -117,13 +153,17 @@
     <button
       type="submit"
       class="btn btn-lg btn-danger"
-      (click)="deleteRenew()"
+      (click)="deleteDecision()"
       [disabled]="loading"
     >
-      <span *ngIf="!loading"> Confirmer la suppression</span>
-
+      <span *ngIf="!loading">Confirmer la suppression</span>
       <span *ngIf="loading"
-        ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+        ><fa-icon
+          [icon]="['fas', 'circle-notch']"
+          [spin]="true"
+          aria-hidden="true"
+        >
+        </fa-icon>
         Veuillez patienter...</span
       >
     </button>

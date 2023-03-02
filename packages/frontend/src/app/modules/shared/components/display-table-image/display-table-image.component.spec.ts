@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { DOMIFA_CUSTOM_DOCS } from "../../../../../_common/model";
 
@@ -10,6 +11,7 @@ describe("DisplayTableImageComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DisplayTableImageComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DisplayTableImageComponent);

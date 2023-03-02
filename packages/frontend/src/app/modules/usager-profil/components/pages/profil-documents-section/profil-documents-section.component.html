@@ -1,0 +1,76 @@
+<div *ngIf="usager && me">
+  <app-profil-head [usager]="usager" [section]="'documents'" [me]="me">
+  </app-profil-head>
+</div>
+
+<div class="content" *ngIf="usager">
+  <div class="container p-0">
+    <div class="page-content px-4 pt-3 pb-5">
+      <div class="row mb-5">
+        <div class="col-md-12">
+          <div
+            class="mt-2 mb-4 d-flex justify-content-between align-items-center"
+          >
+            <h2>Documents mis à disposition par la structure</h2>
+
+            <div *ngIf="usager.isActif || usager.decision.statut === 'REFUS'">
+              <button
+                type="button"
+                (click)="getCerfa('demande')"
+                *ngIf="usager.decision.statut !== 'REFUS'"
+                class="btn me-2 btn-primary"
+              >
+                <fa-icon
+                  [icon]="['fas', 'download']"
+                  aria-hidden="true"
+                  class="me-2"
+                ></fa-icon>
+                Télécharger l'attestation de demande
+              </button>
+
+              <button
+                type="button"
+                *ngIf="usager.decision.statut !== 'RADIE'"
+                (click)="
+                  getCerfa(
+                    usager.decision.statut === 'REFUS'
+                      ? 'demande'
+                      : 'attestation'
+                  )
+                "
+                class="btn me-2 btn-primary"
+              >
+                <fa-icon
+                  [icon]="['fas', 'download']"
+                  aria-hidden="true"
+                  class="me-2"
+                ></fa-icon>
+                Télécharger le CERFA
+              </button>
+            </div>
+          </div>
+          <app-profil-structure-docs
+            [me]="me"
+            [usager]="usager"
+          ></app-profil-structure-docs>
+        </div>
+      </div>
+
+      <div class="row mb-5">
+        <div class="col-md-12">
+          <h2>Documents de l'usager</h2>
+          <app-display-usager-docs
+            [me]="me"
+            [editPJ]="true"
+            [usager]="usager"
+          ></app-display-usager-docs>
+        </div>
+      </div>
+    </div>
+    <app-delete-usager-menu
+      [(usager)]="usager"
+      context="PROFIL"
+      [me]="me"
+    ></app-delete-usager-menu>
+  </div>
+</div>

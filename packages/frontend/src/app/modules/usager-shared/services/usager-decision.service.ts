@@ -32,11 +32,9 @@ export class UsagerDecisionService {
       );
   }
 
-  public deleteRenew(usagerRef: number): Observable<UsagerLight> {
+  public deleteDecision(usagerRef: number): Observable<UsagerLight> {
     return this.http
-      .delete<UsagerLight>(
-        `${this.endPointDecision}/renouvellement/${usagerRef}`
-      )
+      .delete<UsagerLight>(`${this.endPointDecision}/${usagerRef}`)
       .pipe(
         tap((usager: UsagerLight) => {
           usagersCache.updateUsager(usager);
