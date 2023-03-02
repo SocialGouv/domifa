@@ -15,7 +15,6 @@ import {
   UserStructureProfile,
   UsagerTypeDom,
   UsagerDecision,
-  UsagerEntretien,
 } from "../../_common/model";
 import { usagerHistoryStateManager } from "./usagerHistoryStateManager.service";
 import { usagersCreator } from "./usagersCreator.service";
@@ -58,14 +57,11 @@ export class UsagersService {
 
     const createdUsager = await usagerRepository.save(usager);
 
-    const entretien: Partial<UsagerEntretien> = {
+    usager.entretien = await usagerEntretienRepository.save({
       structureId: usager.structureId,
       usagerUUID: usager.uuid,
       usagerRef: usager.ref,
-    };
-
-    const usagerEntretien = await usagerEntretienRepository.save(entretien);
-    usager.entretien = usagerEntretien;
+    });
 
     const usagerHistory = usagerHistoryStateManager.buildInitialHistoryState({
       isImport: false,

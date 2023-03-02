@@ -30,13 +30,15 @@ import { Subscription } from "rxjs";
 })
 export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
+  @Input() public context!: "HISTORY" | "PROFIL";
   @Input() public me!: UserStructure;
   @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
 
   private subscription = new Subscription();
-  public hasHistorique: boolean;
+  public isFirstInstruction: boolean;
   public previousStatus: string;
   public loading: boolean;
+  public isAdmin: boolean;
 
   constructor(
     private readonly router: Router,
@@ -45,22 +47,20 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
     private readonly usagerDecisionService: UsagerDecisionService,
     private readonly toastService: CustomToastService
   ) {
+    this.isAdmin = false;
     this.loading = false;
-    this.hasHistorique = false;
+    this.isFirstInstruction = false;
     this.previousStatus = "";
   }
 
   public ngOnInit(): void {
-    this.hasHistorique =
-      this.usager.decision.statut === "INSTRUCTION" &&
-      typeof this.usager.historique.find(
-        (decision) =>
-          decision.statut === "REFUS" ||
-          decision.statut === "RADIE" ||
-          decision.statut === "VALIDE"
-      ) !== "undefined";
+    this.isAdmin = this.me?.role === "admin" || this.me?.role === "responsable";
 
-    if (this.hasHistorique) {
+    const hasOneHistorique = this.usager.historique.length === 1;
+    this.isFirstInstruction =
+      hasOneHistorique && this.usager.decision.statut === "INSTRUCTION";
+
+    if (this.usager.historique.length > 1) {
       this.getPreviousStatus();
     }
   }
@@ -106,10 +106,10 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
     );
   }
 
-  public deleteRenew(): void {
+  public deleteDecision(): void {
     this.loading = true;
     this.subscription.add(
-      this.usagerDecisionService.deleteRenew(this.usager.ref).subscribe({
+      this.usagerDecisionService.deleteDecision(this.usager.ref).subscribe({
         next: (usager: UsagerLight) => {
           this.toastService.success(
             "Demande de renouvellement supprimée avec succès"

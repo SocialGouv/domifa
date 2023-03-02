@@ -81,9 +81,7 @@ async function createFromImport({
 
     await usagerEntretienRepository.save(nextEntretienToSave);
 
-    await (
-      await usagerHistoryRepository.typeorm()
-    ).save(nextUsagersHistoryToCreate);
+    await usagerHistoryRepository.save(nextUsagersHistoryToCreate);
   }
   processTracker.persist.end = new Date();
   processTracker.persist.duration =

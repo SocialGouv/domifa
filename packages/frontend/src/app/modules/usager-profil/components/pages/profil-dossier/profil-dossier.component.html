@@ -1,0 +1,103 @@
+<app-profil-head
+  *ngIf="usager"
+  [usager]="usager"
+  [section]="'dossier'"
+  [me]="me"
+>
+</app-profil-head>
+
+<div class="content" *ngIf="usager && me">
+  <div class="container p-0">
+    <div class="page-content p-4">
+      <div class="row mb-5">
+        <div class="col-md-12">
+          <div class="d-flex justify-content-between align-items-center">
+            <h2>État civil</h2>
+            <div *ngIf="usager.isActif && !isRole('facteur')">
+              <button
+                class="btn btn-outline-dark"
+                *ngIf="!editInfos"
+                (click)="editInfos = true"
+                type="button"
+              >
+                <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
+                Modifier les informations
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-outline-dark"
+                *ngIf="editInfos"
+                (click)="editInfos = false"
+              >
+                <fa-icon [icon]="['fas', 'times']" class="me-2"></fa-icon>
+                Annuler les modifications
+              </button>
+            </div>
+          </div>
+
+          <app-display-etat-civil
+            *ngIf="!editInfos"
+            [usager]="usager"
+          ></app-display-etat-civil>
+
+          <app-profil-etat-civil-form
+            *ngIf="editInfos"
+            [(usager)]="usager"
+            [(editInfos)]="editInfos"
+          ></app-profil-etat-civil-form>
+        </div>
+      </div>
+
+      <div class="row mb-3" *ngIf="!isRole('facteur')">
+        <div class="col-md-12">
+          <div class="d-flex justify-content-between align-items-center">
+            <h2>Entretien social</h2>
+
+            <div *ngIf="usager.isActif">
+              <button
+                type="submit"
+                class="btn btn-outline-dark"
+                *ngIf="!editEntretien"
+                (click)="openEntretien()"
+              >
+                <fa-icon
+                  [icon]="['far', 'edit']"
+                  aria-hidden="true"
+                  class="me-2"
+                ></fa-icon>
+                Modifier l'entretien social
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-dark"
+                *ngIf="editEntretien"
+                (click)="editEntretien = false"
+              >
+                <fa-icon
+                  [icon]="['fas', 'times']"
+                  aria-hidden="true"
+                  class="me-2"
+                ></fa-icon>
+                Annuler les changements
+              </button>
+            </div>
+          </div>
+          <app-entretien-form
+            *ngIf="editEntretien"
+            [(editEntretien)]="editEntretien"
+            [(usager)]="usager"
+          ></app-entretien-form>
+
+          <app-display-entretien *ngIf="!editEntretien" [usager]="usager">
+          </app-display-entretien>
+        </div>
+      </div>
+    </div>
+    <app-delete-usager-menu
+      context="PROFIL"
+      [(usager)]="usager"
+      [me]="me"
+    ></app-delete-usager-menu>
+  </div>
+</div>

@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { HelpModalComponent } from "./help-modal.component";
@@ -9,6 +10,7 @@ describe("HelpModalComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [HelpModalComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   });
 

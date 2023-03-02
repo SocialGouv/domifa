@@ -10,6 +10,7 @@ import {
 import { UsagerHistoryStateCreationEvent } from "../../_common/model/usager/history/UsagerHistoryStateCreationEvent.type";
 import { v4 as uuidv4 } from "uuid";
 import { endOfDay, startOfDay, subDays } from "date-fns";
+
 export const usagerHistoryStateManager = {
   buildInitialHistoryState,
   buildHistoryState,
@@ -80,7 +81,7 @@ async function updateHistoryStateFromDecision({
   createdEvent: UsagerHistoryStateCreationEvent;
   historyBeginDate?: Date;
 }): Promise<UsagerHistory> {
-  const usagerHistory: UsagerHistory = await usagerHistoryRepository.findOne({
+  const usagerHistory: UsagerHistory = await usagerHistoryRepository.findOneBy({
     usagerUUID: usager.uuid,
   });
 
@@ -184,7 +185,7 @@ async function updateHistoryStateWithoutDecision({
   createdEvent: UsagerHistoryStateCreationEvent;
   historyBeginDate?: Date;
 }): Promise<UsagerHistory> {
-  const usagerHistory: UsagerHistory = await usagerHistoryRepository.findOne({
+  const usagerHistory: UsagerHistory = await usagerHistoryRepository.findOneBy({
     usagerUUID: usager.uuid,
   });
 
@@ -204,18 +205,14 @@ async function updateHistoryStateWithoutDecision({
 
 async function removeLastDecisionFromHistory({
   usager,
-  createdBy,
-  createdAt = new Date(),
-  historyBeginDate = createdAt,
+
   removedDecisionUUID,
 }: {
   usager: Usager;
-  createdBy: UserStructureResume;
-  createdAt?: Date;
-  historyBeginDate?: Date;
+
   removedDecisionUUID: string;
 }): Promise<UsagerHistory> {
-  const usagerHistory: UsagerHistory = await usagerHistoryRepository.findOne({
+  const usagerHistory: UsagerHistory = await usagerHistoryRepository.findOneBy({
     usagerUUID: usager.uuid,
   });
 
@@ -223,19 +220,40 @@ async function removeLastDecisionFromHistory({
     (s) => s.decision?.uuid !== removedDecisionUUID // remove all states related to removed decision
   );
 
-  // add an extra state to keep track of this change, and be sure all attributes are up to date
-  const newHistoryState: UsagerHistoryState = buildHistoryState({
-    usager,
-    usagerHistory,
-    createdAt,
-    createdBy,
-    createdEvent: "delete-decision",
-    historyBeginDate,
+  // Update "entretien" and "ayantsDroits" with the currently stored values
+  const lastDecisionUuid =
+    usagerHistory.states[usagerHistory.states.length - 1].decision.uuid;
+
+  const updatedHistoryStates = usagerHistory.states.map(
+    (state: UsagerHistoryState) => {
+      if (state.decision.uuid === lastDecisionUuid) {
+        state.ayantsDroits = usager.ayantsDroits;
+        state.entretien = {
+          ...usager.entretien,
+          commentaires: null,
+          revenusDetail: null,
+          orientationDetail: null,
+          liencommuneDetail: null,
+          residenceDetail: null,
+          causeDetail: null,
+          rattachement: null,
+          raisonDetail: null,
+          accompagnementDetail: null,
+        };
+        state.historyEndDate = null;
+      }
+      return state;
+    }
+  );
+
+  await usagerHistoryRepository.update(
+    { uuid: usagerHistory.uuid },
+    { states: updatedHistoryStates }
+  );
+
+  return usagerHistoryRepository.findOneBy({
+    uuid: usagerHistory.uuid,
   });
-
-  const newHistory = addNewStateToHistory({ usagerHistory, newHistoryState });
-
-  return usagerHistoryRepository.save(newHistory);
 }
 
 function buildHistoryState({

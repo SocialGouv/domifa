@@ -14,14 +14,10 @@ async function getStats({
   dateUTC: Date;
   structureId: number;
 }): Promise<StructureStatsQuestionsAtDateValidUsagers> {
-  // TODO pas besoin de précalculer usager_tranche, on peut faire comme v_u_age_mineur
-
   // dateUTC est le lendemain à 0:00 UTC, alors que pour l'age, il faut la date du jour
   const dateAgeUTC = subDays(new Date(dateUTC), 1);
 
-  const rawResults = await (
-    await usagerHistoryRepository.typeorm()
-  ).query(
+  const rawResults = await usagerHistoryRepository.query(
     `
     select
     count(distinct uh."usagerUUID") as v_u

@@ -1,12 +1,14 @@
 module.exports = {
   preset: "jest-preset-angular",
   globalSetup: "jest-preset-angular/global-setup",
-  extensionsToTreatAsEsm: [".ts"],
   globals: {
     "ts-jest": {
       tsconfig: "<rootDir>/tsconfig.spec.json",
-      stringifyContentPathRegex: "\\.html$",
+      stringifyContentPathRegex: "\\.(html|svg)$",
     },
+  },
+  transform: {
+    "^.+\\.(ts|js|mjs|html|svg)$": "jest-preset-angular",
   },
   moduleNameMapper: {
     "^src/(.*)$": "<rootDir>/src/$1",

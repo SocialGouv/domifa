@@ -14,9 +14,7 @@ async function getStats({
   endDateUTCExclusive: Date;
   structureId: number;
 }): Promise<StructureStatsQuestionsInPeriodDecisions> {
-  const rawResults = await (
-    await usagerHistoryRepository.typeorm()
-  ).query(
+  const rawResults = await usagerHistoryRepository.query(
     `
     select
     count(state->'uuid') filter (where state->'decision'->>'statut' = 'VALIDE') as u_decision_valide
