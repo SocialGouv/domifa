@@ -199,10 +199,12 @@
                 class="text-success"
                 *ngIf="structure.sms.enabledByDomifa"
                 [icon]="['fas', 'check']"
+                aria-hidden="true"
               ></fa-icon>
               <fa-icon
                 *ngIf="!structure.sms.enabledByDomifa"
                 [icon]="['fas', 'times']"
+                aria-hidden="true"
               ></fa-icon>
               {{ structure.sms.enabledByDomifa ? "Désactiver" : "Activer" }} les
               SMS
@@ -216,8 +218,10 @@
                 class="text-success"
                 *ngIf="structure.portailUsager.enabledByDomifa"
                 [icon]="['fas', 'check']"
+                aria-hidden="true"
               ></fa-icon>
               <fa-icon
+                aria-hidden="true"
                 *ngIf="!structure.portailUsager.enabledByDomifa"
                 [icon]="['fas', 'times']"
               ></fa-icon>
@@ -231,9 +235,9 @@
             <a
               class="cursor-pointer text-danger"
               ngbDropdownItem
-              (click)="deleteStructure(structure.id)"
+              (click)="deleteStructure(structure.uuid)"
             >
-              <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+              <fa-icon [icon]="['fas', 'trash']" aria-hidden="true"></fa-icon>
               Supprimer la structure
             </a>
           </div>

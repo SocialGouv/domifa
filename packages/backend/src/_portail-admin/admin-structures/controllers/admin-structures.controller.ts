@@ -1,3 +1,4 @@
+import { StructureConfirmationDto } from "./../../_dto/StructureConfirmationDto";
 import {
   Controller,
   Get,
@@ -45,7 +46,6 @@ import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
 import { startApmSpan } from "../../../instrumentation";
 import { UsersController } from "../../../users/users.controller";
 import { RegisterUserAdminDto } from "../../../users/dto";
-import { ConfirmStructureCreation } from "../../_dto/ConfirmStructureCreation.dto";
 import { format } from "date-fns";
 import { structureCreatorService } from "../../../structures/services";
 
@@ -176,12 +176,12 @@ export class AdminStructuresController {
   @AllowUserProfiles("super-admin-domifa")
   @Post("confirm-structure-creation")
   public async confirmStructureCreation(
-    @Body() confirmStructureDto: ConfirmStructureCreation,
+    @Body() structureConfirmationDto: StructureConfirmationDto,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
     const structure = await structureCreatorService.checkCreationToken({
-      token: confirmStructureDto.token,
-      structureId: confirmStructureDto.structureId,
+      token: structureConfirmationDto.token,
+      uuid: structureConfirmationDto.uuid,
     });
 
     if (!structure) {

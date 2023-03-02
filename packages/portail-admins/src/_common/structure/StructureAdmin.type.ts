@@ -4,6 +4,7 @@ import { Structure } from "./Structure.type";
 export type StructureAdmin = Pick<
   Structure,
   | "id"
+  | "uuid"
   | "registrationDate"
   | "adresse"
   | "complementAdresse"

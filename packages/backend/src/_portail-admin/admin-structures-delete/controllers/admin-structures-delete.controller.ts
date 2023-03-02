@@ -4,7 +4,7 @@ import {
   Delete,
   HttpStatus,
   Param,
-  ParseIntPipe,
+  ParseUUIDPipe,
   Put,
   Res,
   UseGuards,
@@ -20,7 +20,7 @@ import { ExpressResponse } from "../../../util/express";
 import { ParseTokenPipe } from "../../../_common/decorators";
 
 import { STRUCTURE_LIGHT_ATTRIBUTES } from "../../../_common/model";
-import { ConfirmStructureDeleteDto } from "../../_dto";
+import { StructureConfirmationDto } from "../../_dto";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures-delete")
@@ -29,12 +29,12 @@ import { ConfirmStructureDeleteDto } from "../../_dto";
 export class AdminStructuresDeleteController {
   @AllowUserProfiles("super-admin-domifa")
   @ApiBearerAuth()
-  @Put("send-mail/:id")
+  @Put("send-mail/:uuid")
   public async deleteSendInitialMail(
     @Res() res: ExpressResponse,
-    @Param("id", new ParseIntPipe()) id: number
+    @Param("uuid", new ParseUUIDPipe()) uuid: string
   ) {
-    const structure = await structureDeletorService.generateDeleteToken(id);
+    const structure = await structureDeletorService.generateDeleteToken(uuid);
 
     if (!!structure) {
       return deleteStructureEmailSender.sendMail({ structure }).then(
@@ -56,17 +56,17 @@ export class AdminStructuresDeleteController {
 
   @AllowUserProfiles("super-admin-domifa")
   @ApiBearerAuth()
-  @Put("check-token/:id/:token")
+  @Put("check-token/:uuid/:token")
   public async deleteStructureCheck(
     @Res() res: ExpressResponse,
-    @Param("id", new ParseIntPipe()) id: number,
+    @Param("uuid", new ParseUUIDPipe()) uuid: string,
     @Param("token", new ParseTokenPipe()) token: string
   ) {
     try {
       const structure = await structureRepository.findOneOrFail({
         where: {
           token,
-          id,
+          uuid,
         },
         select: STRUCTURE_LIGHT_ATTRIBUTES,
       });
@@ -84,12 +84,11 @@ export class AdminStructuresDeleteController {
   @Delete("confirm-delete-structure")
   public async deleteStructureConfirm(
     @Res() res: ExpressResponse,
-    @Body() structureDeleteDto: ConfirmStructureDeleteDto
+    @Body() structureConfirmationDto: StructureConfirmationDto
   ) {
     const structure = await structureRepository.findOneBy({
-      token: structureDeleteDto.token,
-      nom: structureDeleteDto.structureName,
-      id: structureDeleteDto.structureId,
+      token: structureConfirmationDto.token,
+      uuid: structureConfirmationDto.uuid,
     });
 
     if (!structure) {

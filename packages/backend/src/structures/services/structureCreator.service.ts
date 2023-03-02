@@ -73,19 +73,20 @@ async function createStructureWithAdminUser(
 }
 
 async function checkCreationToken({
-  structureId,
+  uuid,
   token,
 }: {
-  structureId: number;
+  uuid: string;
   token: string;
 }): Promise<StructureCommon | null> {
   try {
     const structure = await structureRepository.findOneByOrFail({
-      id: structureId,
+      uuid,
       token,
     });
+
     await structureRepository.update(
-      { id: structureId, token },
+      { uuid, token },
       { token: null, verified: true }
     );
 

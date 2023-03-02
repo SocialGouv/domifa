@@ -4,12 +4,11 @@ import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { StructureAdmin } from "../../../_common";
 import { AdminStructuresApiClient } from "../shared/services";
-import { AdminStructuresDeleteApiClient } from "../shared/services/api/admin-structures-delete-api-client.service";
 import { Subscription } from "rxjs";
+import { isHexadecimal, isUUID } from "class-validator";
 
 @Component({
   selector: "app-structures-confirm",
-  styleUrls: ["./structures-confirm.component.css"],
   templateUrl: "./structures-confirm.component.html",
 })
 export class StructuresConfirmComponent implements OnInit, OnDestroy {
@@ -24,15 +23,14 @@ export class StructuresConfirmComponent implements OnInit, OnDestroy {
 
   public structureName: string | null;
   public structure?: StructureAdmin;
-
-  private structureId!: number;
+  private structureUuid!: string;
   private token!: string;
 
   public type?: "enable" | "delete";
   private subscription = new Subscription();
+
   constructor(
     private readonly adminStructuresApiClient: AdminStructuresApiClient,
-    private readonly adminStructuresDeleteApiClient: AdminStructuresDeleteApiClient,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly notifService: CustomToastService,
@@ -51,13 +49,22 @@ export class StructuresConfirmComponent implements OnInit, OnDestroy {
     this.titleService.setTitle("Inscription sur Domifa");
 
     this.type = this.route.snapshot.data.type;
-    this.structureId = parseInt(this.route.snapshot.params.structureId, 10);
-    this.token = this.route.snapshot.params.token;
+
+    if (
+      isUUID(this.route.snapshot.params.structureUuid) &&
+      isHexadecimal(this.route.snapshot.params.token)
+    ) {
+      this.structureUuid = this.route.snapshot.params.structureUuid;
+      this.token = this.route.snapshot.params.token;
+    } else {
+      this.router.navigate(["404"]);
+      return;
+    }
 
     if (this.type === "delete") {
       this.subscription.add(
-        this.adminStructuresDeleteApiClient
-          .deleteCheck(this.structureId, this.token)
+        this.adminStructuresApiClient
+          .deleteCheck(this.structureUuid, this.token)
           .subscribe({
             next: (structure: StructureAdmin) => {
               this.structure = structure;
@@ -71,7 +78,7 @@ export class StructuresConfirmComponent implements OnInit, OnDestroy {
     } else if (this.type === "enable") {
       this.subscription.add(
         this.adminStructuresApiClient
-          .confirmNewStructure(this.structureId, this.token)
+          .confirmNewStructure(this.structureUuid, this.token)
           .subscribe({
             next: (structure: StructureAdmin) => {
               this.structure = structure;
@@ -89,14 +96,19 @@ export class StructuresConfirmComponent implements OnInit, OnDestroy {
   }
 
   public confirm() {
-    if (!!this.structureName && this.structureName.trim().length !== 0) {
+    console.log(this.structureName);
+    console.log(this.structure?.nom);
+    if (
+      !!this.structureName &&
+      this.structureName.trim().length !== 0 &&
+      this.structureName === this.structure?.nom
+    ) {
       this.loading = true;
       this.subscription.add(
-        this.adminStructuresDeleteApiClient
+        this.adminStructuresApiClient
           .deleteConfirm({
             token: this.token,
-            structureName: this.structureName,
-            structureId: this.structureId,
+            uuid: this.structureUuid,
           })
           .subscribe({
             next: () => {
@@ -112,7 +124,7 @@ export class StructuresConfirmComponent implements OnInit, OnDestroy {
           })
       );
     } else {
-      this.notifService.error("Veuillez renseigner le nom de la structure");
+      this.notifService.error("Veuillez vérifier le nom de la structure");
     }
   }
 

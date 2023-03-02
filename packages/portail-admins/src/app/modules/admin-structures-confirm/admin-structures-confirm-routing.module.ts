@@ -4,12 +4,12 @@ import { StructuresConfirmComponent } from "./structures-confirm.component";
 
 const routes: Routes = [
   {
-    path: "delete/:structureId/:token",
+    path: "delete/:structureUuid/:token",
     component: StructuresConfirmComponent,
     data: { type: "delete" },
   },
   {
-    path: "enable/:structureId/:token",
+    path: "enable/:structureUuid/:token",
     component: StructuresConfirmComponent,
     data: { type: "enable" },
   },
