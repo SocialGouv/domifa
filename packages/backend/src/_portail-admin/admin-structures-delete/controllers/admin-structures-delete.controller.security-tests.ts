@@ -19,7 +19,7 @@ export const AdminStructuresDeleteControllerSecurityTests: AppTestHttpClientSecu
       label: `${CONTROLLER}.deleteSendInitialMail`,
       query: async (context: AppTestContext) => ({
         response: await AppTestHttpClient.put(
-          "/admin/structures-delete/send-mail/4444444",
+          "/admin/structures-delete/send-mail/xxxs",
           {
             context,
           }
@@ -36,7 +36,7 @@ export const AdminStructuresDeleteControllerSecurityTests: AppTestHttpClientSecu
       label: `${CONTROLLER}.deleteCheck`,
       query: async (context: AppTestContext) => ({
         response: await AppTestHttpClient.put(
-          "/admin/structures-delete/check-token/1/INVALID-TOKEN",
+          "/admin/structures-delete/check-token/xssxsxs/INVALID-TOKEN",
           {
             context,
           }
@@ -57,9 +57,8 @@ export const AdminStructuresDeleteControllerSecurityTests: AppTestHttpClientSecu
           {
             context,
             body: {
-              id: 4444,
+              uuid: "xxs",
               token: "INVALID-TOKEN",
-              nom: "INVALID_NAME",
             },
           }
         ),

@@ -20,10 +20,11 @@ export const structureDeletorService = {
   deleteStructure,
 };
 
-async function generateDeleteToken(id: number): Promise<Structure> {
+async function generateDeleteToken(uuid: string): Promise<Structure> {
   const token = randomBytes(30).toString("hex");
-  await structureRepository.update({ id }, { token });
-  return structureRepository.findOneBy({ id });
+
+  await structureRepository.update({ uuid }, { token });
+  return structureRepository.findOneBy({ uuid });
 }
 
 async function deleteStructureUsagers({

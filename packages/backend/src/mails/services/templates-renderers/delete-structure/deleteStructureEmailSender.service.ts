@@ -21,7 +21,7 @@ async function sendMail({
   const lienSuppression =
     frontendUrl +
     "structures-confirm/delete/" +
-    structure.id +
+    structure.uuid +
     "/" +
     structure.token;
 

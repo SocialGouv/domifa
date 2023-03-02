@@ -16,14 +16,18 @@ export class StructuresPublicController {
 
   @Post()
   public async postStructure(
-    @Body() structureWithUserDto: StructureWithUserDto
+    @Body() structureWithUserDto: StructureWithUserDto,
+    @Res() res: ExpressResponse
   ) {
-    const structure =
+    try {
       await structureCreatorService.createStructureWithAdminUser(
         structureWithUserDto.structure,
         structureWithUserDto.user
       );
-    return structure;
+      return res.status(HttpStatus.OK).json("OK");
+    } catch (e) {
+      return res.status(HttpStatus.BAD_REQUEST).json("CREATE_STRUCTURE_FAIL");
+    }
   }
 
   @Post("pre-post")

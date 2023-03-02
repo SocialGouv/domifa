@@ -37,6 +37,7 @@
     "@sentry/browser": "^7.36.0",
     "@sentry/tracing": "^7.36.0",
     "bootstrap": "^5.2.0",
+    "class-validator": "^0.14.0",
     "date-fns": "^2.25.0",
     "file-saver": "^2.0.5",
     "redux": "^4.1.0",

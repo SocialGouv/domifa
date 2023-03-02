@@ -15,7 +15,6 @@ import {
   AdminStructuresApiClient,
   AdminStructuresExportApiClient,
 } from "./services";
-import { AdminStructuresDeleteApiClient } from "./services/api/admin-structures-delete-api-client.service";
 
 @NgModule({
   declarations: [
@@ -34,11 +33,7 @@ import { AdminStructuresDeleteApiClient } from "./services/api/admin-structures-
     CustomToastrComponent,
   ],
   imports: [CommonModule, FontAwesomeModule],
-  providers: [
-    AdminStructuresExportApiClient,
-    AdminStructuresApiClient,
-    AdminStructuresDeleteApiClient,
-  ],
+  providers: [AdminStructuresExportApiClient, AdminStructuresApiClient],
 })
 export class SharedModule {
   constructor(private library: FaIconLibrary) {

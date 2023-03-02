@@ -21,6 +21,48 @@ export class AdminStructuresApiClient {
     this.http = http;
   }
 
+  public deleteSendInitialMail(structureUuid: string) {
+    return this.http.put(
+      `${environment.apiUrl}admin/structures-delete/send-mail/${structureUuid}`,
+      {}
+    );
+  }
+
+  public deleteCheck(
+    structureUuid: string,
+    token: string
+  ): Observable<StructureAdmin> {
+    return this.http.put<StructureAdmin>(
+      `${environment.apiUrl}admin/structures-delete/check-token/${structureUuid}/${token}`,
+      {}
+    );
+  }
+
+  public deleteConfirm(data: {
+    uuid: string;
+    token: string;
+  }): Observable<ApiMessage> {
+    return this.http.delete<ApiMessage>(
+      `${environment.apiUrl}admin/structures-delete/confirm-delete-structure`,
+      {
+        body: data,
+      }
+    );
+  }
+
+  public confirmNewStructure(
+    structureUuid: string,
+    token: string
+  ): Observable<StructureAdmin> {
+    return this.http.post<StructureAdmin>(
+      `${BASE_URL}/confirm-structure-creation`,
+      {
+        uuid: structureUuid,
+        token,
+      }
+    );
+  }
+
   public getAdminStructureListData(): Observable<AdminStructureListData> {
     return this.http.get<AdminStructureListData>(BASE_URL).pipe(
       tap((data: AdminStructureListData) => {
@@ -50,6 +92,7 @@ export class AdminStructuresApiClient {
       responseType: "blob",
     });
   }
+
   public enableSms(structureId: number) {
     return this.http.put(`${BASE_URL}/sms/enable/${structureId}`, {});
   }
@@ -58,19 +101,6 @@ export class AdminStructuresApiClient {
     return this.http.put(
       `${BASE_URL}/portail-usager/toggle-enable-domifa/${structureId}`,
       {}
-    );
-  }
-
-  public confirmNewStructure(
-    structureId: number,
-    token: string
-  ): Observable<StructureAdmin> {
-    return this.http.post<StructureAdmin>(
-      `${BASE_URL}/confirm-structure-creation`,
-      {
-        structureId,
-        token,
-      }
     );
   }
 
