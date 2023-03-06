@@ -120,7 +120,13 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
             this.usager = new UsagerFormModel(usager);
             this.usagerChange.emit(this.usager);
             this.loading = false;
-            this.router.navigate(["profil/general/" + this.usager.ref]);
+
+            const redirection =
+              this.usager.decision.statut === "INSTRUCTION"
+                ? "profil/general/" + this.usager.ref
+                : "usager/" + this.usager.ref + "/edit/decision";
+
+            this.router.navigate([redirection]);
           }, 500);
         },
         error: () => {
