@@ -23,7 +23,7 @@
         <button
           type="button"
           class="btn btn-danger"
-          *ngIf="!isFirstInstruction"
+          *ngIf="isFirstInstruction"
           (click)="open(deleteConfirmation)"
         >
           <fa-icon
@@ -61,10 +61,10 @@
     <button
       class="btn btn-danger"
       type="button"
+      title="Supprimer cette décision"
       (click)="open(deleteDecisionConfirmation)"
     >
       <fa-icon [icon]="['fas', 'trash']" aria-hidden="true"></fa-icon>
-      <span class="visually-hidden">Supprimer cette décision</span>
     </button>
   </ng-container>
 </ng-container>

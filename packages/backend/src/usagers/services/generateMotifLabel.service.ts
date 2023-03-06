@@ -41,9 +41,9 @@ export const generateNoteForDecision = (
     USAGER_DECISION_STATUT_LABELS_PROFIL[decision.statut]
   }`;
   const dateDebut = format(new Date(decision.dateDebut), "dd/MM/yyyy");
-  const dateFin = format(new Date(decision.dateFin), "dd/MM/yyyy");
 
   if (decision.statut === "VALIDE") {
+    const dateFin = format(new Date(decision.dateFin), "dd/MM/yyyy");
     strDecision = `${strDecision} du ${dateDebut} au ${dateFin}\n`;
   } else {
     strDecision = `${strDecision} le ${dateDebut}\n`;
