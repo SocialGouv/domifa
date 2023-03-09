@@ -27,6 +27,23 @@ export const AdminStructuresDeleteControllerSecurityTests: AppTestHttpClientSecu
         expectedStatus: expectedResponseStatusBuilder.allowSuperAdminDomifaOnly(
           context.user,
           {
+            validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
+          }
+        ),
+      }),
+    },
+    {
+      label: `${CONTROLLER}.deleteSendInitialMail`,
+      query: async (context: AppTestContext) => ({
+        response: await AppTestHttpClient.put(
+          "/admin/structures-delete/send-mail/59c846d8-0592-4790-a5e2-1daae9b8776e",
+          {
+            context,
+          }
+        ),
+        expectedStatus: expectedResponseStatusBuilder.allowSuperAdminDomifaOnly(
+          context.user,
+          {
             validExpectedResponseStatus: HttpStatus.INTERNAL_SERVER_ERROR,
           }
         ),

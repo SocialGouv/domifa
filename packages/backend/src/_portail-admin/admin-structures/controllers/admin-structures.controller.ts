@@ -204,6 +204,7 @@ export class AdminStructuresController {
     );
 
     await userAccountActivatedEmailSender.sendMail({ user: updatedAdmin });
+
     return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 

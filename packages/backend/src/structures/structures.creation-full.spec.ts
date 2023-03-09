@@ -1,9 +1,5 @@
 import { HttpStatus } from "@nestjs/common";
-import {
-  newUserStructureRepository,
-  structureRepository,
-  userStructureRepository,
-} from "../database";
+import { newUserStructureRepository, structureRepository } from "../database";
 import { InteractionsModule } from "../interactions/interactions.module";
 import { MailsModule } from "../mails/mails.module";
 import { StatsModule } from "../stats/stats.module";
@@ -112,6 +108,7 @@ describe("Stuctures creation full", () => {
     preCreatedStructure?: StructureDto;
     structureId?: number;
     userId?: number;
+    uuid?: string;
   } = {};
 
   it("pre-create structure", async () => {
@@ -121,33 +118,6 @@ describe("Stuctures creation full", () => {
 
   it("create structure + user", async () => {
     // request 2: create structure
-    const { structureId, userId } = await testCreateStructure();
-    localCache.structureId = structureId;
-    localCache.userId = userId;
-  });
-
-  it("confirm structure", async () => {
-    // request 4: confirm structure
-    await testConfirmStructure({
-      structureId: localCache.structureId,
-      userId: localCache.userId,
-    });
-  });
-
-  it("delete structure", async () => {
-    // DELETE
-    const structure = await structureDeletorService.generateDeleteToken(
-      localCache.structureId
-    );
-
-    await adminStructuresDeleteController.deleteStructureConfirm(res, {
-      token: structure.token,
-      structureId: structure.id,
-      structureName: structure.nom,
-    });
-  });
-
-  async function testCreateStructure() {
     const userMail = `admin-structure-${Math.random()}@cias-pessac.yopmail.com`;
     const userDto: UserDto = {
       email: userMail,
@@ -160,31 +130,73 @@ describe("Stuctures creation full", () => {
       user: userDto,
       structure: structureDto,
     };
-    const { structureId, userId } =
-      await structurePublicController.postStructure(structureWithUser);
-    expect(structureId).toBeDefined();
-    expect(userId).toBeDefined();
-    const structure = await structureRepository.findOneBy({
-      id: structureId,
+
+    await structurePublicController.postStructure(structureWithUser, res);
+    const structure = await structureRepository.findOne({
+      where: {
+        email: structureDto.email,
+      },
+      order: {
+        id: "desc",
+      },
     });
+
     expect(structure).toBeDefined();
     expect(structure.nom).toEqual(structureDto.nom);
     expect(structure.lastLogin).toBeNull();
     expect(structure.verified).toBeFalsy();
 
     const user = await newUserStructureRepository.findOneBy({
-      id: userId,
+      structureId: structure.id,
     });
+
     expect(user).toBeDefined();
 
     expect(user.prenom).toEqual(userDto.prenom);
     expect(user.nom).toEqual(userDto.nom);
-    expect(user.structureId).toEqual(structureId);
+    expect(user.structureId).toEqual(structure.id);
     expect(user.email).toEqual(userDto.email);
     expect(user.verified).toBeFalsy();
 
-    return { structureId, userId };
-  }
+    localCache.structureId = structure.id;
+    localCache.uuid = structure.uuid;
+    localCache.userId = user.id;
+  });
+
+  it("confirm structure", async () => {
+    // request 4: confirm structure
+    const structure = await structureRepository.findOneBy({
+      uuid: localCache.uuid,
+    });
+
+    await adminStructuresController.confirmStructureCreation(
+      { token: structure.token, uuid: structure.uuid },
+      res
+    );
+
+    expect(res.status).toHaveBeenCalledTimes(2);
+    expect(res.status).toHaveBeenCalledWith(HttpStatus.OK);
+    expect(res.json).toHaveBeenCalledTimes(2);
+
+    const userConfirmed = await newUserStructureRepository.findOneBy({
+      id: localCache.userId,
+    });
+
+    expect(userConfirmed).toBeDefined();
+    expect(userConfirmed.verified).toBeTruthy();
+  });
+
+  it("delete structure", async () => {
+    // DELETE
+    const structure = await structureDeletorService.generateDeleteToken(
+      localCache.uuid
+    );
+
+    await adminStructuresDeleteController.deleteStructureConfirm(res, {
+      token: structure.token,
+      uuid: structure.uuid,
+    });
+  });
 
   async function testPreCreateStructure() {
     const prePostStructure: StructureDto =
@@ -195,36 +207,5 @@ describe("Stuctures creation full", () => {
       structureDto.adresseCourrier.adresse
     );
     return prePostStructure;
-  }
-
-  async function testConfirmStructure({
-    structureId,
-    userId,
-  }: {
-    structureId: number;
-    userId: number;
-  }) {
-    const structure = await structureRepository.findOneBy({
-      id: structureId,
-    });
-
-    expect(structure).toBeDefined();
-    expect(structure.id).toEqual(structureId);
-    expect(structure.token).toBeDefined();
-
-    await adminStructuresController.confirmStructureCreation(
-      { token: structure.token, structureId: structure.id },
-      res
-    );
-
-    expect(res.status).toHaveBeenCalledTimes(1);
-    expect(res.status).toHaveBeenCalledWith(HttpStatus.OK);
-    expect(res.json).toHaveBeenCalledTimes(1);
-
-    const userConfirmed = await userStructureRepository.findOne({
-      id: userId,
-    });
-    expect(userConfirmed).toBeDefined();
-    expect(userConfirmed.verified).toBeTruthy();
   }
 });

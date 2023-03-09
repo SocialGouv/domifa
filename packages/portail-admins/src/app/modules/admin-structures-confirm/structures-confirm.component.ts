@@ -96,8 +96,6 @@ export class StructuresConfirmComponent implements OnInit, OnDestroy {
   }
 
   public confirm() {
-    console.log(this.structureName);
-    console.log(this.structure?.nom);
     if (
       !!this.structureName &&
       this.structureName.trim().length !== 0 &&

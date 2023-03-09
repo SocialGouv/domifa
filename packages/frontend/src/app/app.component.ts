@@ -223,8 +223,9 @@ export class AppComponent implements OnInit, OnDestroy {
           this.toastService.success(
             "Merci, vous pouvez continuer votre navigation"
           );
-          this.acceptTermsForm.reset();
+
           this.initCguForm();
+
           const user = this.authService.currentUserValue;
           user.acceptTerms = new Date();
           if (user.role === "admin" && !user.structure.acceptTerms) {
@@ -232,6 +233,7 @@ export class AppComponent implements OnInit, OnDestroy {
           }
           localStorage.setItem("currentUser", JSON.stringify(user));
           this.authService.currentUserSubject.next(user);
+
           this.closeModals();
         },
         error: () => {

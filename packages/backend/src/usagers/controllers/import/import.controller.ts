@@ -19,7 +19,10 @@ import { CurrentUser } from "../../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../../auth/guards";
 import { appLogger } from "../../../util";
 import { ExpressRequest, ExpressResponse } from "../../../util/express";
-import { randomName, validateUpload } from "../../../util/FileManager";
+import {
+  randomName,
+  validateUpload,
+} from "../../../util/file-manager/FileManager";
 import {
   COUNTRY_CODES_TIMEZONE,
   UserStructureAuthenticated,
@@ -43,14 +46,12 @@ import { AllowUserStructureRoles } from "../../../auth/decorators";
 import { addYears, endOfDay, startOfYear } from "date-fns";
 import { ensureDir, pathExists, remove } from "fs-extra";
 import { join, resolve } from "path";
+import { FILES_SIZE_LIMIT } from "../../../util/file-manager";
 
 const USAGERS_IMPORT_DIR = join(os.tmpdir(), "domifa", "usagers-imports");
 
 const UsagersImportFileInterceptor = FileInterceptor("file", {
-  limits: {
-    fieldSize: 10 * 1024 * 1024,
-    files: 1,
-  },
+  limits: FILES_SIZE_LIMIT,
   fileFilter: (req: ExpressRequest, file: Express.Multer.File, cb: any) => {
     if (!validateUpload("IMPORT", req, file)) {
       return cb("INCORRECT_FORMAT", false);
@@ -69,7 +70,6 @@ const UsagersImportFileInterceptor = FileInterceptor("file", {
       }
       cb(null, dir);
     },
-
     filename: (_req: ExpressRequest, file: Express.Multer.File, cb: any) => {
       return cb(null, randomName(file));
     },

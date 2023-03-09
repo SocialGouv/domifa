@@ -6,7 +6,7 @@ export * from "./diacritics";
 export * from "./encoding";
 export * from "./express";
 export * from "./expressResponseExcelRenderer.service";
-export * from "./FileManager";
+export * from "./file-manager/FileManager";
 export * from "./sentry";
 export * from "./territoires";
 export * from "./traceCaller";

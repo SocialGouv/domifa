@@ -3,7 +3,9 @@ import {
   IsEmail,
   IsIn,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
+  IsString,
   MaxLength,
   MinLength,
 } from "class-validator";
@@ -18,6 +20,7 @@ export class RegisterUserAdminDto {
   @MinLength(2)
   @MaxLength(100)
   @IsNotEmpty()
+  @IsString()
   @Transform(({ value }: TransformFnParams) => {
     return value.toString().trim();
   })
@@ -30,6 +33,7 @@ export class RegisterUserAdminDto {
   @MinLength(2)
   @MaxLength(100)
   @IsNotEmpty()
+  @IsString()
   @Transform(({ value }: TransformFnParams) => {
     return value.toString().trim();
   })
@@ -53,5 +57,6 @@ export class RegisterUserAdminDto {
   public readonly role!: UserStructureRole;
 
   @IsOptional()
+  @IsNumber()
   public structureId!: number;
 }

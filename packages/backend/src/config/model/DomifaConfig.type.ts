@@ -31,7 +31,6 @@ export type DomifaConfig = {
     basePath: string; // DOMIFA_UPLOADS_FOLDER
   };
   dev: {
-    printEnv: boolean; // DOMIFA_PRINT_ENV
     swaggerEnabled: boolean; // DOMIFA_SWAGGER_ENABLE
     sentry: {
       enabled: boolean; // DOMIFA_SENTRY_ENABLED (default: enabled if SENTRY_DSN is defined)

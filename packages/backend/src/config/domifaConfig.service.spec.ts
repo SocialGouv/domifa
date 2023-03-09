@@ -9,7 +9,6 @@ describe("loadConfig", () => {
       POSTGRES_PASSWORD: "value POSTGRES_PASSWORD",
       POSTGRES_DATABASE: "value POSTGRES_DATABASE",
       DOMIFA_SECURITY_JWT_SECRET: "******************",
-      DOMIFA_PRINT_ENV: "false",
     };
     const env = loadEnvWithPreset({ defaultEnv });
 
@@ -48,8 +47,6 @@ describe("loadConfig", () => {
       POSTGRES_PASSWORD: "value POSTGRES_PASSWORD",
       POSTGRES_DATABASE: "value POSTGRES_DATABASE",
       DOMIFA_SECURITY_JWT_SECRET: "******************",
-      DOMIFA_PRINT_ENV: "false",
-
       ELASTIC_APM_SECRET_TOKEN: "chips",
     };
     const env = loadEnvWithPreset({ defaultEnv });
@@ -108,7 +105,6 @@ describe("loadConfig", () => {
       DOMIFA_SMS_API_KEY: "xxx",
       DOMIFA_SMS_ENABLE: "xxx",
       DOMIFA_PHONE_NUMBER_REDIRECT_ALL_TO: "xxx",
-      DOMIFA_PRINT_ENV: "false",
     };
     const env = loadEnvWithPreset({ defaultEnv });
 

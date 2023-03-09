@@ -165,8 +165,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       basePath: configParser.parseString(x, "DOMIFA_UPLOADS_FOLDER"),
     },
     dev: {
-      printEnv: configParser.parseBoolean(x, "DOMIFA_PRINT_ENV"),
-
       swaggerEnabled: configParser.parseBoolean(x, "DOMIFA_SWAGGER_ENABLE"),
       sentry: {
         enabled:
@@ -345,10 +343,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
     },
   };
 
-  if (config.envId === "local") {
-    printEnv(x);
-  }
-
   return config;
 }
 
@@ -414,15 +408,4 @@ function buildSmtpOptions(
           ),
         },
       };
-}
-
-function printEnv(x: Partial<DomifaEnv>) {
-  const envKeysToLog = Object.keys(x).filter((x) => !x.startsWith("npm_"));
-  envKeysToLog.sort();
-
-  // eslint:disable-next-line: no-console
-  console.log(
-    "[domifaConfig] env:",
-    JSON.stringify(envKeysToLog, undefined, 2)
-  );
 }
