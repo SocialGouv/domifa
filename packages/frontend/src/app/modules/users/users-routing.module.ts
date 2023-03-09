@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
-import { AuthGuard, LoggedGuard } from "../../guards";
+import { AuthGuard, LoggedGuard, ResponsableGuard } from "../../guards";
 import { EditUserComponent } from "./components/edit-user/edit-user.component";
 import { ResetPasswordComponent } from "./components/reset-password/reset-password.component";
 import { UserProfilComponent } from "./components/user-profil/user-profil.component";
@@ -14,7 +14,7 @@ const routes: Routes = [
   },
 
   {
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, ResponsableGuard],
     component: UserProfilComponent,
     path: "comptes",
   },

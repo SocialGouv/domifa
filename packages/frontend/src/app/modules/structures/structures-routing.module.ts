@@ -6,7 +6,6 @@ import {
   AuthGuard,
   CanEditPortailUsagerGuard,
   CanEditSmsGuard,
-  FacteurGuard,
   LoggedGuard,
 } from "../../guards";
 import { StructuresCustomDocsComponent } from "./components/structures-custom-docs/structures-custom-docs.component";
@@ -38,16 +37,13 @@ const routes: Routes = [
     component: StructuresSmsFormComponent,
   },
   {
-    canActivate: [AuthGuard, FacteurGuard],
+    canActivate: [AuthGuard, ResponsableGuard],
     path: "edit",
     component: StructuresEditComponent,
   },
   {
     canActivate: [AuthGuard, AdminGuard, CanEditPortailUsagerGuard],
     path: "portail-usager",
-    data: {
-      title: "Modifier les accès au portail usager",
-    },
     component: StructuresPortailUsagerFormComponent,
   },
 ];

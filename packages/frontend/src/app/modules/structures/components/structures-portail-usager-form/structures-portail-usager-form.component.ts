@@ -5,6 +5,7 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { StructureCommon, UserStructure } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { StructureService } from "../../services/structure.service";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "app-structures-portail-usager-form",
@@ -21,9 +22,11 @@ export class StructuresPortailUsagerFormComponent implements OnInit, OnDestroy {
   constructor(
     private readonly structureService: StructureService,
     private readonly toastService: CustomToastService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly titleService: Title
   ) {
     this.loading = false;
+    this.titleService.setTitle("Modifier le portail Mon DomiFa");
   }
 
   public ngOnInit(): void {
