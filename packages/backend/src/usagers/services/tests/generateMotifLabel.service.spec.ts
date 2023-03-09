@@ -28,13 +28,13 @@ describe("generateMotifLabel", () => {
       "Nombre maximal domiciliations atteint";
 
     expect(generateMotifLabel(USAGER_REFUS_MOCK.decision)).toEqual(
-      "Autre motif : Nombre maximal domiciliations atteint"
+      "Autre motif: Nombre maximal domiciliations atteint"
     );
 
     USAGER_REFUS_MOCK.decision.motifDetails = null;
 
     expect(generateMotifLabel(USAGER_REFUS_MOCK.decision)).toEqual(
-      "Autre motif non précisé"
+      "Autre motif: non précisé"
     );
   });
 });

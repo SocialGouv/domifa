@@ -14,18 +14,23 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
 
 import { domifaConfig } from "../../config";
-import { validateUpload, randomName } from "../../util/FileManager";
+import {
+  validateUpload,
+  randomName,
+} from "../../util/file-manager/FileManager";
 
 import { contactSupportEmailSender } from "../../mails/services/templates-renderers/contact-support";
 import { ExpressRequest, ExpressResponse } from "../../util/express";
 import { ensureDir } from "fs-extra";
 import { join } from "path";
+import { FILES_SIZE_LIMIT } from "../../util/file-manager";
 
 @Controller("contact")
 export class ContactSupportController {
   @Post("")
   @UseInterceptors(
     FileInterceptor("file", {
+      limits: FILES_SIZE_LIMIT,
       fileFilter: (req: ExpressRequest, file: Express.Multer.File, cb: any) => {
         if (!file) {
           cb(null, true);

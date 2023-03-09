@@ -38,6 +38,7 @@ describe("Interactions Controller", () => {
     controller = context.module.get<InteractionsController>(
       InteractionsController
     );
+
     structureAuthService = context.module.get<StructuresAuthService>(
       StructuresAuthService
     );
@@ -52,6 +53,7 @@ describe("Interactions Controller", () => {
       ref: 1,
       structureId: 1,
     });
+
     expect(user).toBeDefined();
   });
 

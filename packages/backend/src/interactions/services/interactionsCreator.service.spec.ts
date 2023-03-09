@@ -305,7 +305,7 @@ describe("interactionsCreator", () => {
       expect(usagerAfterDelete.lastInteraction.dateInteraction).toBeDefined();
     });
 
-    it("Distribution d'un courrier avec procuration ", async () => {
+    it("Distribution d'un courrier avec procuration : la date de dernier passage ne doit PAS être mise à jour ", async () => {
       const lastInteractionDateBefore = "2018-02-01T10:00:00.980Z";
       usager.lastInteraction.dateInteraction = new Date(
         lastInteractionDateBefore
@@ -313,7 +313,7 @@ describe("interactionsCreator", () => {
 
       const interaction: InteractionDto = {
         type: "courrierOut",
-        content: "Test transfert du courrier",
+        content: "Distribution avec procuration, pas de date mise à jour",
         nbCourrier: 10,
         procurationIndex: 0,
         structureId: 1,

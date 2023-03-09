@@ -65,39 +65,33 @@ async function createInteraction({
     // Note métier :
     // La date de dernier passage n'est pas mise à jour si remise à un mandataire
     if (
-      interaction.procurationIndex !== null &&
-      typeof interaction.procurationIndex !== "undefined"
+      typeof interaction.procurationIndex !== "undefined" &&
+      interaction.procurationIndex !== null
     ) {
-      interaction.content =
-        interaction.content +
-        "\nCourrier remis au mandataire : " +
-        usager.options.procurations[interaction.procurationIndex].prenom +
-        " " +
-        usager.options.procurations[
-          interaction.procurationIndex
-        ].nom.toUpperCase();
+      interaction.content = `${
+        interaction.content
+      }\nCourrier remis au mandataire : ${
+        usager.options.procurations[interaction.procurationIndex].prenom
+      } ${usager.options.procurations[
+        interaction.procurationIndex
+      ].nom.toUpperCase()}`;
     } else {
       usager.lastInteraction.dateInteraction = now;
     }
 
-    // Transfert actif: on le précise dans le contenu
-    if (usager.options.transfert.actif) {
-      if (new Date(usager.options.transfert.dateFin) >= now) {
-        interaction.content =
-          interaction.content +
-          "\nCourrier transféré à : " +
-          usager.options.transfert.nom +
-          " - " +
-          usager.options.transfert.adresse.toUpperCase();
-      }
+    if (
+      usager.options.transfert.actif &&
+      new Date(usager.options.transfert.dateFin) >= now
+    ) {
+      interaction.content += `\nCourrier transféré à : ${
+        usager.options.transfert.nom
+      } - ${usager.options.transfert.adresse.toUpperCase()}`;
     }
   }
 
   // Entrants
   else if (direction === "in") {
-    if (typeof interaction.nbCourrier === "undefined") {
-      interaction.nbCourrier = 1;
-    }
+    interaction.nbCourrier = interaction.nbCourrier ?? 1;
   } else {
     interaction.nbCourrier = 0;
     // Appels & Visites
@@ -112,9 +106,7 @@ async function createInteraction({
   }
 
   delete interaction.procurationIndex;
-  if (interaction.content) {
-    interaction.content = interaction.content.trim();
-  }
+  interaction.content = interaction.content?.trim();
 
   const newInteraction: Interactions = {
     ...interaction,
@@ -122,7 +114,7 @@ async function createInteraction({
     usagerRef: usager.ref,
     usagerUUID: usager.uuid,
     userId: user.id,
-    userName: user.prenom + " " + user.nom,
+    userName: `${user.prenom} ${user.nom}`,
     dateInteraction: now,
     interactionOutUUID: null,
     event: "create",

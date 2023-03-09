@@ -11,23 +11,16 @@ export const getRdvInfos = (
     content: "",
   };
 
-  // Aucun rendez-vous enregistré
-  if (!usager || !usager?.rdv) {
-    return rdvDisplay;
-  }
-
-  // Aucune date précisée
-  if (!usager.rdv.dateRdv) {
+  if (!usager?.rdv?.dateRdv) {
     return rdvDisplay;
   }
 
   const dateRdv = new Date(usager.rdv.dateRdv);
 
-  rdvDisplay.content =
-    "RDV le " +
-    format(dateRdv, "dd/MM/yyyy") +
-    " à " +
-    format(dateRdv, "HH:mm");
+  rdvDisplay.content = `RDV le ${format(dateRdv, "dd/MM/yyyy")} à ${format(
+    dateRdv,
+    "HH:mm",
+  )}`;
 
   // Rdv à venir
   if (dateRdv > new Date()) {

@@ -81,6 +81,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^4.0.0",
     "rxjs": "^7.6.0",
+    "sanitize-filename": "^1.6.3",
     "sanitize-html": "^2.7.3",
     "sort-object": "^3.0.3",
     "source-map-support": "^0.5.21",

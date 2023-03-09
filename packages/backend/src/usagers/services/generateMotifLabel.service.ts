@@ -1,9 +1,9 @@
-import { UsagerDecisionMotif } from "./../../_common/model/usager/UsagerDecisionMotif.type";
 import {
   MOTIFS_RADIATION_LABELS,
   MOTIFS_REFUS_LABELS,
   UsagerDecision,
   USAGER_DECISION_STATUT_LABELS_PROFIL,
+  UsagerDecisionMotif,
 } from "../../_common/model";
 import { format } from "date-fns";
 
@@ -12,24 +12,15 @@ export const generateMotifLabel = (decision: UsagerDecision): string => {
     return "";
   }
 
-  let motif = "";
-  if (decision.statut === "REFUS" || decision.statut === "RADIE") {
-    if (decision.motif === "AUTRE") {
-      motif =
-        decision.motifDetails !== "" && decision.motifDetails !== null
-          ? "Autre motif : " + decision.motifDetails
-          : ("Autre motif non précisé" as any);
-    } else {
-      motif =
-        decision.statut === "REFUS"
-          ? MOTIFS_REFUS_LABELS[decision.motif as UsagerDecisionMotif]
-          : (MOTIFS_RADIATION_LABELS[
-              decision.motif as UsagerDecisionMotif
-            ] as any);
-    }
+  if (decision.motif === "AUTRE") {
+    const motifDetails = decision.motifDetails ?? "non précisé";
+    return `Autre motif: ${motifDetails}`;
   }
 
-  return motif;
+  const motifsLabels =
+    decision.statut === "REFUS" ? MOTIFS_REFUS_LABELS : MOTIFS_RADIATION_LABELS;
+
+  return motifsLabels[decision.motif as UsagerDecisionMotif] ?? "";
 };
 
 export const generateNoteForDecision = (decision: UsagerDecision): string => {

@@ -16,8 +16,12 @@ describe("Structure Creator Service", () => {
       "adfbfe24ff6de1f4e7c0011ad05028f5a129ced7f120079d20c4adf21d89";
     await structureRepository.update({ id: structureId }, { token });
 
+    const structureForTest = await structureRepository.findOneBy({
+      id: structureId,
+    });
+
     const structure = await structureCreatorService.checkCreationToken({
-      structureId,
+      uuid: structureForTest.uuid,
       token,
     });
 
@@ -25,7 +29,7 @@ describe("Structure Creator Service", () => {
     expect(structure.id).toEqual(2);
 
     const structure2 = await structureCreatorService.checkCreationToken({
-      structureId,
+      uuid: structureForTest.uuid,
       token,
     });
     expect(structure2).toBeNull(); // token has been clear: ;

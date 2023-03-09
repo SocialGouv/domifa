@@ -17,7 +17,7 @@ export class UsagerLoginDto {
   })
   @IsNotEmpty()
   @IsString()
-  @MinLength(2)
+  @MinLength(6)
   public readonly password!: string;
 
   @ApiProperty({
@@ -25,5 +25,6 @@ export class UsagerLoginDto {
     required: false,
   })
   @IsOptional()
+  @MinLength(8)
   public readonly newPassword?: string;
 }

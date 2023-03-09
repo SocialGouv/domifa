@@ -37,7 +37,7 @@ import {
   getFilePath,
   randomName,
   validateUpload,
-} from "../../util/FileManager";
+} from "../../util/file-manager/FileManager";
 import {
   UsagerDoc,
   UsagerLight,
@@ -57,6 +57,7 @@ import {
 import { join } from "path";
 import { createCipheriv, createDecipheriv } from "crypto";
 import { ExpressRequest } from "../../util/express";
+import { FILES_SIZE_LIMIT } from "../../util/file-manager";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
 @ApiTags("docs")
@@ -70,10 +71,7 @@ export class UsagerDocsController {
   @AllowUserStructureRoles("simple", "responsable", "admin")
   @UseInterceptors(
     FileInterceptor("file", {
-      limits: {
-        fieldSize: 10 * 1024 * 1024,
-        files: 1,
-      },
+      limits: FILES_SIZE_LIMIT,
       fileFilter: (req: ExpressRequest, file: Express.Multer.File, cb: any) => {
         if (!validateUpload("USAGER_DOC", req, file)) {
           throw new HttpException("INCORRECT_FORMAT", HttpStatus.BAD_REQUEST);

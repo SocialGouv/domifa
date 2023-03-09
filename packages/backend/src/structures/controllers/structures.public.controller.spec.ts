@@ -12,6 +12,7 @@ import { StructuresPublicController } from "./structures.public.controller";
 describe("Stuctures Public Controller", () => {
   let context: AppTestContext;
   let controller: StructuresPublicController;
+
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [],
@@ -29,6 +30,7 @@ describe("Stuctures Public Controller", () => {
       StructuresPublicController
     );
   });
+
   afterAll(async () => {
     await AppTestHelper.tearDownTestApp(context);
   });

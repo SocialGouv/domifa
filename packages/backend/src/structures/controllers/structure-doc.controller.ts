@@ -23,7 +23,11 @@ import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { AllowUserStructureRoles } from "../../auth/decorators";
 import { domifaConfig } from "../../config";
-import { deleteFile, randomName, validateUpload } from "../../util/FileManager";
+import {
+  deleteFile,
+  randomName,
+  validateUpload,
+} from "../../util/file-manager/FileManager";
 import { UserStructureAuthenticated } from "../../_common/model";
 import { StructureDoc } from "../../_common/model/structure-doc";
 import { StructureDocDto } from "../dto/structure-doc.dto";
@@ -32,6 +36,7 @@ import { structureDocRepository } from "../../database";
 import { ExpressRequest } from "../../util/express";
 import { join } from "path";
 import { ensureDir, pathExists } from "fs-extra";
+import { FILES_SIZE_LIMIT } from "../../util/file-manager";
 
 @ApiTags("structure-docs")
 @ApiBearerAuth()
@@ -71,10 +76,7 @@ export class StructureDocController {
   @AllowUserStructureRoles("simple", "responsable", "admin")
   @UseInterceptors(
     FileInterceptor("file", {
-      limits: {
-        fieldSize: 10 * 1024 * 1024,
-        files: 1,
-      },
+      limits: FILES_SIZE_LIMIT,
       fileFilter: (
         req: ExpressRequest,
         file: Express.Multer.File,
@@ -83,7 +85,6 @@ export class StructureDocController {
         if (!validateUpload("STRUCTURE_DOC", req, file)) {
           throw new HttpException("INCORRECT_FORMAT", HttpStatus.BAD_REQUEST);
         }
-
         cb(null, true);
       },
       storage: diskStorage({
