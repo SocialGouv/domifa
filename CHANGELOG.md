@@ -1,3 +1,10 @@
+## [2.121.2](https://github.com/SocialGouv/domifa/compare/v2.121.1...v2.121.2) (2023-03-09)
+
+
+### Bug Fixes
+
+* **news:** mise à jour des nouveautés ([8637f8c](https://github.com/SocialGouv/domifa/commit/8637f8c3ef4b4c9deeeb277b42f6df1e4376007e))
+
 ## [2.121.1](https://github.com/SocialGouv/domifa/compare/v2.121.0...v2.121.1) (2023-03-09)
 
 
