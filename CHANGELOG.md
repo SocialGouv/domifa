@@ -1,3 +1,10 @@
+## [2.121.1](https://github.com/SocialGouv/domifa/compare/v2.121.0...v2.121.1) (2023-03-09)
+
+
+### Bug Fixes
+
+* redirection après la suppression ([7c0ccd0](https://github.com/SocialGouv/domifa/commit/7c0ccd03b6a9c932c5b829fb6ddfe6ea8137246e))
+
 # [2.121.0](https://github.com/SocialGouv/domifa/compare/v2.120.1...v2.121.0) (2023-03-09)
 
 
