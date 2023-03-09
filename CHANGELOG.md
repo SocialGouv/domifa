@@ -1,3 +1,16 @@
+# [2.121.0](https://github.com/SocialGouv/domifa/compare/v2.120.1...v2.121.0) (2023-03-09)
+
+
+### Bug Fixes
+
+* **dumps:** mise à jour des dumps de tests, ajout de guards sur les urls ([e539561](https://github.com/SocialGouv/domifa/commit/e5395612ee9c172f67159950c72586e9d98d24c9))
+* **historique:** redirection sur le dossier après la suppression d'un historique ([8e2d882](https://github.com/SocialGouv/domifa/commit/8e2d8820b5338c6f52815d4f1a7a2e50f6252f74))
+
+
+### Features
+
+* **Sécurité:** ajout de règles de sécurité ([be9936a](https://github.com/SocialGouv/domifa/commit/be9936ab75b8678838db44745b19cc68e25d94f4))
+
 ## [2.120.1](https://github.com/SocialGouv/domifa/compare/v2.120.0...v2.120.1) (2023-02-28)
 
 
