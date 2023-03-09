@@ -167,14 +167,11 @@ export class UsagersDecisionController {
     };
 
     const newNote: Partial<UsagerNote> = {
-      message: generateNoteForDecision(deletedDecision, createdBy),
+      message: generateNoteForDecision(deletedDecision),
       usagerUUID: usager.uuid,
       usagerRef: usager.ref,
       structureId: usager.structureId,
-      createdBy: {
-        userId: user.id,
-        userName: user.prenom + " " + user.nom,
-      },
+      createdBy,
       archived: false,
     };
 

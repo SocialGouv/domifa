@@ -1,4 +1,3 @@
-import { UserStructureResume } from "./../../_common/model/user-structure/UserStructureResume.type";
 import { UsagerDecisionMotif } from "./../../_common/model/usager/UsagerDecisionMotif.type";
 import {
   MOTIFS_RADIATION_LABELS,
@@ -33,10 +32,7 @@ export const generateMotifLabel = (decision: UsagerDecision): string => {
   return motif;
 };
 
-export const generateNoteForDecision = (
-  decision: UsagerDecision,
-  createdBy: UserStructureResume
-): string => {
+export const generateNoteForDecision = (decision: UsagerDecision): string => {
   let strDecision = `Suppression de la décision : \n ${
     USAGER_DECISION_STATUT_LABELS_PROFIL[decision.statut]
   }`;
@@ -48,5 +44,5 @@ export const generateNoteForDecision = (
   } else {
     strDecision = `${strDecision} le ${dateDebut}\n`;
   }
-  return `${strDecision}Décision supprimée par ${createdBy.userName}`;
+  return strDecision;
 };

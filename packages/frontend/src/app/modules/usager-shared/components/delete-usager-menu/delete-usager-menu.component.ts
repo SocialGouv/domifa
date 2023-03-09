@@ -123,8 +123,8 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
 
             const redirection =
               this.usager.decision.statut === "INSTRUCTION"
-                ? "profil/general/" + this.usager.ref
-                : "usager/" + this.usager.ref + "/edit/decision";
+                ? "usager/" + this.usager.ref + "/edit/decision"
+                : "profil/general/" + this.usager.ref;
 
             this.router.navigate([redirection]);
           }, 500);
