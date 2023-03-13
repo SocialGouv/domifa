@@ -1,3 +1,10 @@
+## [2.121.3](https://github.com/SocialGouv/domifa/compare/v2.121.2...v2.121.3) (2023-03-13)
+
+
+### Bug Fixes
+
+* **deps:** update dependency zone.js to ~0.13.0 ([e4b7742](https://github.com/SocialGouv/domifa/commit/e4b7742b469ba426ce3fcfe5e6925e7a34291417))
+
 ## [2.121.2](https://github.com/SocialGouv/domifa/compare/v2.121.1...v2.121.2) (2023-03-09)
 
 
