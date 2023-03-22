@@ -10,10 +10,7 @@ import { createReadStream, pathExists, stat } from "fs-extra";
 import { createDecipheriv } from "crypto";
 
 import { pipeline } from "node:stream/promises";
-import {
-  decodeMainSecret,
-  encryptFile,
-} from "@socialgouv/streaming-file-encryption";
+import { encryptFile } from "@socialgouv/streaming-file-encryption";
 import { createWriteStream } from "fs";
 
 @Injectable()
@@ -28,9 +25,25 @@ export class CronMigrateFilesService {
   }
 
   private async getOldFiles() {
+    const TEST_STRUCTURE = 42; // TODO: use specific value here for first tests
+    const totalCount = usagerDocsRepository.count({
+      where: {
+        structureId: TEST_STRUCTURE,
+      },
+    });
+    const unEncryptedCount = usagerDocsRepository.count({
+      where: {
+        encryptionContext: null,
+        structureId: TEST_STRUCTURE,
+      },
+    });
+
+    console.log(`unEncryptedCount: ${unEncryptedCount}/${totalCount}`);
+
     const oldFiles = await usagerDocsRepository.find({
       where: {
         encryptionContext: null,
+        structureId: TEST_STRUCTURE,
       },
       take: 10,
     });
@@ -50,59 +63,92 @@ export class CronMigrateFilesService {
       sourceFileDir,
       usagerDoc.path + ".encrypted"
     );
+
     const sfePath = join(sourceFileDir, usagerDoc.path + ".sfe");
 
-    // Cas 1 : fichiers non chiffrés actuellement
-    // FIX : vieilles données pas encore encryptés
-    if (!(await pathExists(encryptedFilePath))) {
+    if (await pathExists(sfePath)) {
+      // fichier déjà chiffré, DB pas à jour ?
+      console.error(`Fichier ${sfePath} déjà existant`);
+    } else if (await pathExists(encryptedFilePath)) {
+      // fichier déjà chiffré avec ancienne methode
+      // TEMP FIX : Utiliser la deuxième clé d'encryptage générée le 30 juin
+      // A supprimer une fois que les fichiers seront de nouveaux regénérés
+      const docInfos = await stat(encryptedFilePath);
+
+      const iv =
+        docInfos.mtime < new Date("2021-06-30T23:01:01.113Z")
+          ? domifaConfig().security.files.ivSecours
+          : domifaConfig().security.files.iv;
+
+      try {
+        const key = domifaConfig().security.files.private;
+        const decipher = createDecipheriv("aes-256-cfb", key, iv);
+
+        const mainSecret = domifaConfig().security.files.mainSecret;
+
+        const encryptionContext = crypto.randomUUID();
+
+        // dechiffre le fichier actuel, rechiffre avec SFE
+        await pipeline(
+          createReadStream(encryptedFilePath),
+          decipher,
+          encryptFile(mainSecret, encryptionContext),
+          createWriteStream(sfePath)
+        );
+
+        // MAJ DB
+        await usagerDocsRepository.update(
+          {
+            uuid: usagerDoc.uuid,
+          },
+          {
+            encryptionContext,
+            encryptionVersion: 0,
+          }
+        );
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      // fichier jamais chiffré
       const oldFilePath = join(sourceFileDir, usagerDoc.path);
       if (!(await pathExists(oldFilePath))) {
+        // fichier source non trouvé
         appLogger.error("Error reading usager document", {
           sentry: true,
           context: {
             oldFilePath,
           },
         });
+      } else {
+        // chiffrement du fichier en clair avec SFE et mise à jour DB
+
+        try {
+          const mainSecret = domifaConfig().security.files.mainSecret;
+
+          const encryptionContext = crypto.randomUUID();
+
+          // dechiffre le fichier actuel, rechiffre avec SFE
+          await pipeline(
+            createReadStream(oldFilePath),
+            encryptFile(mainSecret, encryptionContext),
+            createWriteStream(sfePath)
+          );
+
+          // MAJ DB
+          await usagerDocsRepository.update(
+            {
+              uuid: usagerDoc.uuid,
+            },
+            {
+              encryptionContext,
+              encryptionVersion: 0,
+            }
+          );
+        } catch (e) {
+          console.error(e);
+        }
       }
     }
-
-    // Cas 2 : cas général, fichiers chiffrés
-
-    // TEMP FIX : Utiliser la deuxième clé d'encryptage générée le 30 juin
-    // A supprimer une fois que les fichiers seront de nouveaux regénérés
-    const docInfos = await stat(encryptedFilePath);
-
-    const iv =
-      docInfos.mtime < new Date("2021-06-30T23:01:01.113Z")
-        ? domifaConfig().security.files.ivSecours
-        : domifaConfig().security.files.iv;
-
-    try {
-      const key = domifaConfig().security.files.private;
-      const decipher = createDecipheriv("aes-256-cfb", key, iv);
-
-      const mainSecret = decodeMainSecret(
-        domifaConfig().security.files.mainSecret
-      );
-
-      const encryptionContext = crypto.randomUUID();
-
-      await pipeline(
-        createReadStream(encryptedFilePath),
-        decipher,
-        encryptFile(mainSecret, encryptionContext),
-        createWriteStream(sfePath)
-      );
-
-      await usagerDocsRepository.update(
-        {
-          uuid: usagerDoc.uuid,
-        },
-        {
-          encryptionContext,
-          encryptionVersion: 0,
-        }
-      );
-    } catch (e) {}
   }
 }
