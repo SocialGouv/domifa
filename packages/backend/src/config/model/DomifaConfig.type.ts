@@ -5,7 +5,7 @@ import { DomifaEnvId } from "./DomifaEnvId.type";
 
 export type DomifaConfigSecurity = {
   files: {
-    mainSecret: string; // DOMIFA_MAIN_SECRET
+    mainSecret: Uint8Array; // DOMIFA_MAIN_SECRET
     iv: string; // DOMIFA_SECURITY_FILES_IV
     ivSecours: string; // DOMIFA_SECURITY_FILES_IV_SECOURS
     private: string; // DOMIFA_SECURITY_FILES_PRIVATE

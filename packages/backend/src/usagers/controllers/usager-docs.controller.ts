@@ -51,14 +51,12 @@ import {
   createWriteStream,
   ensureDir,
   pathExists,
-  stat,
 } from "fs-extra";
 import { join } from "path";
 
 import crypto, { createDecipheriv } from "node:crypto";
 import { ExpressRequest } from "../../util/express";
 import {
-  decodeMainSecret,
   decryptFile,
   encryptFile,
 } from "@socialgouv/streaming-file-encryption";
@@ -241,9 +239,7 @@ export class UsagerDocsController {
       }
 
       try {
-        const mainSecret = decodeMainSecret(
-          domifaConfig().security.files.mainSecret
-        );
+        const mainSecret = domifaConfig().security.files.mainSecret;
         return await pipeline(
           // note: encryptedFilePath should end with .sfe, not .encrypted, to prepare for phase 3.
           createReadStream(encryptedFilePath),
@@ -313,17 +309,24 @@ export class UsagerDocsController {
       usager.ref,
       fileName
     );
+    const fileExist = await pathExists(sourceFilePath);
+    if (!fileExist) {
+      appLogger.error(`Fichier inexistant : ${sourceFilePath}`);
+      return new Error(`Fichier inexistant : ${sourceFilePath}`);
+    }
     try {
-      const mainSecret = decodeMainSecret(
-        domifaConfig().security.files.mainSecret
-      );
+      const mainSecret = domifaConfig().security.files.mainSecret;
       await pipeline(
         createReadStream(sourceFilePath),
         encryptFile(mainSecret, encryptionContext),
         createWriteStream(sourceFilePath + ".sfe")
       );
     } catch (e) {
+      console.error(e);
       appLogger.error("Erreur");
+      return new Error(
+        `Erreur de chiffrement : ${sourceFilePath} ${e.message}`
+      );
     } finally {
       await deleteFile(sourceFilePath);
     }

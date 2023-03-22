@@ -3800,10 +3800,10 @@
     ora "^5.4.1"
     yargs "^17.0.1"
 
-"@socialgouv/streaming-file-encryption@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/streaming-file-encryption/-/streaming-file-encryption-1.0.0.tgz#d22e86de1e84e3fb89165726a2f4300832da15b9"
-  integrity sha512-okz80xxB0Z4PIeNY03rrlDu0uUevhhwfaVC17wJ0XnqE1ZFOSj9zMkzSeKDRuSg301UVAsWiDBXaAYNwO/hNYw==
+"@socialgouv/streaming-file-encryption@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@socialgouv/streaming-file-encryption/-/streaming-file-encryption-1.0.1.tgz#df16829d99c20432b1bcab6dd1c602f2b40590ec"
+  integrity sha512-WR2YnZnHhL/7dvv30xctpLaCq6/4V4F1/2pu6k03/KsJitVee7QAVEv37gIJ/EnIwGVCkNaSTqic6Dd1vD9qoQ==
 
 "@sqltools/formatter@^1.2.2":
   version "1.2.5"

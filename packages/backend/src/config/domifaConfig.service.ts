@@ -1,4 +1,5 @@
 import { CronExpression } from "@nestjs/schedule";
+import { decodeMainSecret } from "@socialgouv/streaming-file-encryption";
 
 import { appLogger } from "../util";
 import { domifaConfigFileLoader } from "./domifaConfigFileLoader.service";
@@ -362,9 +363,8 @@ function parseSecurityConfig(x: Partial<DomifaEnv>): DomifaConfigSecurity {
         { required: false }
       ),
       private: configParser.parseString(x, "DOMIFA_SECURITY_FILES_PRIVATE"),
-      mainSecret: configParser.parseString(
-        x,
-        "DOMIFA_SECURITY_FILES_MAIN_SECRET"
+      mainSecret: decodeMainSecret(
+        configParser.parseString(x, "DOMIFA_SECURITY_FILES_MAIN_SECRET")
       ),
     },
     jwtSecret: configParser.parseString(x, "DOMIFA_SECURITY_JWT_SECRET"),
