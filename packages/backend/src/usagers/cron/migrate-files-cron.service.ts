@@ -25,17 +25,25 @@ export class CronMigrateFilesService {
   }
 
   private async getOldFiles() {
+    const TEST_STRUCTURE = 42; // TODO: use specific value here for first tests
+    const totalCount = usagerDocsRepository.count({
+      where: {
+        structureId: TEST_STRUCTURE,
+      },
+    });
     const unEncryptedCount = usagerDocsRepository.count({
       where: {
         encryptionContext: null,
-        structureId: 42, // TODO: use specific value here for first tests
+        structureId: TEST_STRUCTURE,
       },
     });
-    console.log(`unEncryptedCount: ${unEncryptedCount}`);
+
+    console.log(`unEncryptedCount: ${unEncryptedCount}/${totalCount}`);
+
     const oldFiles = await usagerDocsRepository.find({
       where: {
         encryptionContext: null,
-        structureId: 42, // TODO: use specific value here for first tests
+        structureId: TEST_STRUCTURE,
       },
       take: 10,
     });
