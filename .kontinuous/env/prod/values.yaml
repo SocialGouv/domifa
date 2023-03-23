@@ -2,25 +2,25 @@ jobs:
   runs:
     build-backend:
       with:
-        buildArgs: 
+        buildArgs:
           DOMIFA_BACKEND_URL: "https://domifa-api.{{ .Values.global.domain }}/"
           DOMIFA_PORTAIL_ADMINS_URL: "https://admin-{{ .Values.global.host }}/"
           DOMIFA_PORTAIL_USAGERS_URL: "https://mon-{{ .Values.global.host }}/"
 
     build-frontend:
       with:
-        buildArgs: 
+        buildArgs:
           DOMIFA_BACKEND_URL: "https://domifa-api.{{ .Values.global.domain }}/"
 
     build-portail-admins:
       with:
-        buildArgs: 
+        buildArgs:
           DOMIFA_BACKEND_URL: "https://domifa-api.{{ .Values.global.domain }}/"
           PRODUCTION: "true"
 
     build-portail-usagers:
       with:
-        buildArgs: 
+        buildArgs:
           DOMIFA_BACKEND_URL: "https://domifa-api.{{ .Values.global.domain }}/"
           PRODUCTION: "true"
 
@@ -45,7 +45,6 @@ jobs:
 #    - configMapRef:
 #        name: oauth2-proxy-configmap
 
-
 backend-cron:
   addVolumes:
     - files
@@ -58,6 +57,8 @@ backend-cron:
         name: backend-configmap
     - secretRef:
         name: azure-domifa-volume
+    - secretRef:
+        name: domifa-encryption-key
   env:
     - name: TZ
       value: Europe/Paris
@@ -97,6 +98,8 @@ backend:
         name: backend-configmap
     - secretRef:
         name: azure-domifa-volume
+    - secretRef:
+        name: domifa-encryption-key
   env:
     - name: TZ
       value: Europe/Paris
