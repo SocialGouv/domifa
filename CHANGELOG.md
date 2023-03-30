@@ -1,3 +1,10 @@
+## [2.121.5](https://github.com/SocialGouv/domifa/compare/v2.121.4...v2.121.5) (2023-03-30)
+
+
+### Bug Fixes
+
+* **deps:** update dependency pino-pretty to v10 ([ea21380](https://github.com/SocialGouv/domifa/commit/ea21380f563900eb2f29e163a59008317d26bb56))
+
 ## [2.121.4](https://github.com/SocialGouv/domifa/compare/v2.121.3...v2.121.4) (2023-03-15)
 
 
