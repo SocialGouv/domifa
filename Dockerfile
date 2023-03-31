@@ -1,4 +1,4 @@
-FROM node:16.19-bullseye
+FROM node:16.20-bullseye
 
 
 ENV TZ Europe/Paris

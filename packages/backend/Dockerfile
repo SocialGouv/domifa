@@ -1,7 +1,7 @@
 # ---------------------------------------------------------
 # 1) BUILDER IMAGE
 # ---------------------------------------------------------
-FROM node:16.19-bullseye AS builder
+FROM node:16.20-bullseye AS builder
 
 ENV TZ Europe/Paris
 
@@ -25,7 +25,7 @@ RUN yarn build
 # ---------------------------------------------------------
 # 2) FINAL IMAGE
 # ---------------------------------------------------------
-FROM node:16.19-bullseye
+FROM node:16.20-bullseye
 
 # install common tools
 ENV CORE_PACKAGES pdftk
