@@ -1,3 +1,16 @@
+# [2.122.0](https://github.com/SocialGouv/domifa/compare/v2.121.5...v2.122.0) (2023-04-12)
+
+
+### Bug Fixes
+
+* amélioration des tests unitaire, suppression de code inutile ([2d73fb7](https://github.com/SocialGouv/domifa/commit/2d73fb7cb8c9052996a4c34279a73ca79658000b))
+* **Sécurité:** amélioration des élements de sécu sur l'admin Domifa ([88b334f](https://github.com/SocialGouv/domifa/commit/88b334fef3ff7b4c854d6f160334c6fd2fb39ee2))
+
+
+### Features
+
+* **Décisions:** ajout d'une feature pour supprimer la dernière décision émise ([581b774](https://github.com/SocialGouv/domifa/commit/581b774d1451e3ea1c43fcf93e5949c63387c691))
+
 ## [2.121.5](https://github.com/SocialGouv/domifa/compare/v2.121.4...v2.121.5) (2023-03-30)
 
 
