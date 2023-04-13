@@ -1,4 +1,4 @@
-backend: 
+backend:
   ~chart: app
   ~needs: [build-backend]
   imagePackage: backend
@@ -40,6 +40,8 @@ backend:
       value: "https://admin-{{ .Values.global.host }}/"
     - name: DOMIFA_CRON_ENABLED
       value: "false"
+    - name: NODE_OPTIONS
+      value: "--max-old-space-size=2048"
 
 backend-cron:
   ~chart: app
@@ -122,7 +124,7 @@ jobs:
       with:
         imagePackage: backend
         dockerfile: packages/backend/Dockerfile
-        buildArgs: 
+        buildArgs:
           DOMIFA_ENV_ID: "{{ .Values.global.env }}"
 
     build-frontend:
@@ -130,7 +132,7 @@ jobs:
       with:
         imagePackage: frontend
         dockerfile: packages/frontend/Dockerfile
-        buildArgs: 
+        buildArgs:
           DOMIFA_ENV_ID: "{{ .Values.global.env }}"
           DOMIFA_BACKEND_URL: "https://api-{{ .Values.global.host }}/"
           DOMIFA_PORTAIL_ADMINS_URL: "https://admin-{{ .Values.global.host }}/"
@@ -143,7 +145,7 @@ jobs:
       with:
         imagePackage: portail-admins
         dockerfile: packages/portail-admins/Dockerfile
-        buildArgs: 
+        buildArgs:
           DOMIFA_ENV_ID: "{{ .Values.global.env }}"
           DOMIFA_BACKEND_URL: "https://api-{{ .Values.global.host }}/"
 
@@ -152,7 +154,7 @@ jobs:
       with:
         imagePackage: portail-usagers
         dockerfile: packages/portail-usagers/Dockerfile
-        buildArgs: 
+        buildArgs:
           DOMIFA_ENV_ID: "{{ .Values.global.env }}"
           DOMIFA_BACKEND_URL: "https://api-{{ .Values.global.host }}/"
           DOMIFA_SENTRY_DSN_PORTAIL: "https://904877ea9ec4454aa1be7b629a6ea340@sentry.fabrique.social.gouv.fr/58"
