@@ -1,3 +1,10 @@
+## [2.122.1](https://github.com/SocialGouv/domifa/compare/v2.122.0...v2.122.1) (2023-04-13)
+
+
+### Bug Fixes
+
+* **typeorm:** ajout d'un index sur les interactions ([bc8c657](https://github.com/SocialGouv/domifa/commit/bc8c65741c11d200a753f9126bd24d890f076ea2))
+
 # [2.122.0](https://github.com/SocialGouv/domifa/compare/v2.121.5...v2.122.0) (2023-04-12)
 
 
