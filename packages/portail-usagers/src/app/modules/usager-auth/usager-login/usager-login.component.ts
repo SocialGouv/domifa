@@ -29,6 +29,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
 
   public hidePassword: boolean;
   public hidePasswordNew: boolean;
+  public displayPasswordIndication: boolean;
 
   public loading: boolean;
   public usagerProfile: PortailUsagerProfile | null;
@@ -45,6 +46,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   ) {
     this.hidePassword = true;
     this.hidePasswordNew = true;
+    this.displayPasswordIndication = false;
     this.loading = false;
     this.usagerProfile = null;
   }
@@ -57,15 +59,17 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.titleService.setTitle("Connexion à Domifa");
 
-    this.usagerAuthService.currentUsagerSubject.subscribe(
-      (apiResponse: PortailUsagerProfile | null) => {
-        this.usagerProfile = apiResponse;
-        if (apiResponse !== null) {
-          this.router.navigate(["/account"]);
-        } else {
-          this.initForm();
-        }
-      },
+    this.subscription.add(
+      this.usagerAuthService.currentUsagerSubject.subscribe(
+        (apiResponse: PortailUsagerProfile | null) => {
+          this.usagerProfile = apiResponse;
+          if (apiResponse !== null) {
+            this.router.navigate(["/account"]);
+          } else {
+            this.initForm();
+          }
+        },
+      ),
     );
   }
 
@@ -169,6 +173,10 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
               "login_success_first_time",
               "null",
               1,
+            );
+          } else if (err?.error?.message === "TOO_MANY_ATTEMPTS") {
+            this.toastr.error(
+              "Après plusieurs tentatives de connexion, votre compte est temporairement inaccessible. Tentez de vous reconnecter dans 24h.",
             );
           } else {
             this.toastr.error("Login et / ou mot de passe incorrect");
