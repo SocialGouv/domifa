@@ -13,9 +13,11 @@ export class InteractionsTable
   extends AppTypeormTable<InteractionsTable>
   implements Interactions
 {
+  @Index()
   @Column({ type: "timestamptz" })
   dateInteraction: Date;
 
+  @Index()
   @Column({ type: "integer", default: 0, nullable: false })
   nbCourrier: number;
 

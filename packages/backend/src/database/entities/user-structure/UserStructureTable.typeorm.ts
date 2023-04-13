@@ -57,7 +57,7 @@ export class UserStructureTable
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   structureId: number;
 
-  @Column({ type: "jsonb", default: '{"guide": false, "import": false}' })
+  @Column({ type: "jsonb" })
   mails: UserStructureMails;
 
   @Column({ type: "timestamptz", nullable: true })
