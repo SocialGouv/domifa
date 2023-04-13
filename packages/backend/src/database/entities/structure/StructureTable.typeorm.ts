@@ -86,7 +86,6 @@ export class StructureTable
 
   @Column({
     type: "jsonb",
-    default: '{"numeroBoite": false}',
   })
   options: {
     numeroBoite: boolean;
