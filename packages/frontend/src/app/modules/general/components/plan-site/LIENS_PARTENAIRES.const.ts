@@ -13,7 +13,8 @@ export const LIENS_PARTENAIRES = [
     path: "https://www.gouvernement.fr/delegation-interministerielle-a-l-hebergement-et-a-l-acces-au-logement",
   },
   {
-    label: "Ministère des solidarités et de la santé",
+    label:
+      "Ministère des Solidarités, de l'Autonomie et des Personnes handicapées",
     path: "https://www.gouvernement.fr/le-ministere-des-solidarites-et-de-la-sante",
   },
   { label: "UNCCAS", path: "https://www.unccas.org/" },

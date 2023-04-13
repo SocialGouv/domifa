@@ -10,7 +10,7 @@
   border: 1px solid #e0e0e0;
   background-color: white;
   box-shadow: 0 0 8px 2px rgba(215, 210, 210, 0.4);
-  padding: 0.5rem 0;
+  padding: 0.25rem 0;
 }
 
 .navbar .nav--menu-breadcrumb {
@@ -29,6 +29,11 @@
 
 .navbar .btn {
   margin: 5px;
+}
+
+.home-header-image {
+  width: 140px;
+  height: auto;
 }
 
 #nom-asso {
