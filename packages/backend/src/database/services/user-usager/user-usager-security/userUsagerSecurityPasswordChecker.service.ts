@@ -29,6 +29,10 @@ async function checkPassword({
     },
   });
 
+  if (!user) {
+    throw new Error("WRONG_CREDENTIALS"); // don't give the real cause
+  }
+
   const userSecurity = await userUsagerSecurityRepository.findOne(
     { userId: user.id },
     { throwErrorIfNotFound: true }
@@ -40,7 +44,7 @@ async function checkPassword({
       ...userSecurity,
     })
   ) {
-    throw new Error("WRONG_CREDENTIALS"); // don't give the real cause
+    throw new Error("TOO_MANY_ATTEMPTS");
   }
 
   const isValidPass: boolean = await passwordGenerator.checkPassword({

@@ -23,12 +23,15 @@ async function checkPassword({
     email: email.toLowerCase().trim(),
     ...USER_ADMIN_WHERE,
   });
+  if (!user) {
+    throw new Error("WRONG_CREDENTIALS"); // don't give the real cause
+  }
 
   const userSecurity = await UserStructureSecurityRepository.findOneBy({
     userId: user.id,
   });
 
-  if (!user || !userSecurity) {
+  if (!userSecurity) {
     throw new Error("WRONG_CREDENTIALS"); // don't give the real cause
   }
 

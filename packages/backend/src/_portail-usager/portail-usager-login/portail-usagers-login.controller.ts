@@ -90,7 +90,7 @@ export class PortailUsagersLoginController {
     } catch (err) {
       return res
         .status(HttpStatus.UNAUTHORIZED)
-        .json({ message: "WRONG_CREDENTIALS" });
+        .json({ message: err?.message });
     }
   }
 }
