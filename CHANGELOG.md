@@ -1,3 +1,10 @@
+## [2.122.2](https://github.com/SocialGouv/domifa/compare/v2.122.1...v2.122.2) (2023-04-14)
+
+
+### Bug Fixes
+
+* **chore:** augmentation de la limite mémoire de node ([87d2be0](https://github.com/SocialGouv/domifa/commit/87d2be09fd6c9d8c61bd65ee6063ecbecd75a0dd))
+
 ## [2.122.1](https://github.com/SocialGouv/domifa/compare/v2.122.0...v2.122.1) (2023-04-13)
 
 
