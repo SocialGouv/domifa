@@ -1,5 +1,19 @@
 [
   {
+    "date": "2023-04-17",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Améliorations du portail domicilié",
+        "message": [
+          "Ajout d'un message d'erreur à destination du domicilié en cas de tentatives multiples de connexion avec un mot de passe erroné, afin qu'il se reconnecte 24h après",
+          "Ajout d'un message expliquant au domicilié que la réinitialisation du mot de passe peut être demandée auprès de la structure de domiciliation"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2023-03-10",
     "description": "",
     "content": [
