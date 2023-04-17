@@ -15,7 +15,7 @@ export const LIENS_PARTENAIRES = [
   {
     label:
       "Ministère des Solidarités, de l'Autonomie et des Personnes handicapées",
-    path: "https://www.gouvernement.fr/le-ministere-des-solidarites-et-de-la-sante",
+    path: "https://solidarites.gouv.fr/",
   },
   { label: "UNCCAS", path: "https://www.unccas.org/" },
 ];
