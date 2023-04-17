@@ -1,3 +1,12 @@
+## [2.122.3](https://github.com/SocialGouv/domifa/compare/v2.122.2...v2.122.3) (2023-04-17)
+
+
+### Bug Fixes
+
+* **general:** mise à jour des logos, corrections de fautes et de liens expirés ([296619d](https://github.com/SocialGouv/domifa/commit/296619db91e73fbc23ff577f8d82938e6d01f2cf))
+* **logos:** mise à jour des logos ([eddd872](https://github.com/SocialGouv/domifa/commit/eddd872e61b5eeacb7b88437caf3f28d2d1df507))
+* **portail:** ajout d'indications pour le mot de passe ([104bf11](https://github.com/SocialGouv/domifa/commit/104bf11af92d46cbb3d9106d9f57076eb871ceb7))
+
 ## [2.122.2](https://github.com/SocialGouv/domifa/compare/v2.122.1...v2.122.2) (2023-04-14)
 
 
