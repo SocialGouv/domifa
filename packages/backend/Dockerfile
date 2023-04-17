@@ -1,7 +1,7 @@
 # ---------------------------------------------------------
 # 1) BUILDER IMAGE
 # ---------------------------------------------------------
-FROM node:16.20-bullseye AS builder
+FROM node:16-bullseye AS builder
 
 ENV TZ Europe/Paris
 
@@ -25,7 +25,7 @@ RUN yarn build
 # ---------------------------------------------------------
 # 2) FINAL IMAGE
 # ---------------------------------------------------------
-FROM node:16.20-bullseye
+FROM node:16-bullseye-slim@sha256:df952b00df7b88ff5b8a21ce35d8b6ed586489ef08b903d223ce04a5774205b0
 
 # install common tools
 ENV CORE_PACKAGES pdftk
@@ -34,7 +34,7 @@ ENV CORE_PACKAGES pdftk
 # install via APT
 RUN apt-get update && \
     apt-get install -q -y -o Acquire::Retries=10 $CORE_PACKAGES && \
-# immediately remove temporary files
+    # immediately remove temporary files
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -45,7 +45,7 @@ COPY ./packages/backend/package.json /app
 COPY ./yarn.lock /app
 RUN yarn --production --frozen-lockfile && yarn cache clean
 
-COPY  ./packages/backend/scripts/start /app/scripts/start
+COPY ./packages/backend/scripts/start /app/scripts/start
 
 COPY --from=builder /app/dist /app/dist
 COPY --from=builder /app/.env.preset /app/.env.preset
