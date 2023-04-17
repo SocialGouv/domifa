@@ -1,3 +1,11 @@
+## [2.122.4](https://github.com/SocialGouv/domifa/compare/v2.122.3...v2.122.4) (2023-04-17)
+
+
+### Bug Fixes
+
+* **kontinous:** correction d'un bug dans kontinous ([9cfc50e](https://github.com/SocialGouv/domifa/commit/9cfc50ead5229caeb659e4899bafd201e7f36f13))
+* **news:** mise à jour de packages & news ([505724e](https://github.com/SocialGouv/domifa/commit/505724eb2c2950992f8159135db0378ca8a0aa45))
+
 ## [2.122.3](https://github.com/SocialGouv/domifa/compare/v2.122.2...v2.122.3) (2023-04-17)
 
 
