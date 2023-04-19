@@ -1,0 +1,74 @@
+<div class="modal-header bg-danger">
+  <span class="text-white modal-title" id="modal-title"
+    >Vous êtes sur le point de supprimer {{ refsToDelete.length }}
+    {{ refsToDelete.length > 1 ? "domiciliés" : "domiciliés" }} !</span
+  >
+</div>
+
+<div class="modal-body text-center" *ngIf="refsToDelete.length === 1">
+  <p>
+    Si vous supprimez un domicilié, vous ne pourrez plus retrouver sa fiche !
+    <br />
+    Ce dossier n'apparaitra ni dans les rapports d'activités ni dans la liste
+    des domiciliés.
+  </p>
+
+  <p class="text-danger">
+    <fa-icon
+      [icon]="['fas', 'exclamation-triangle']"
+      aria-hidden="true"
+    ></fa-icon>
+    Toutes les informations liées à ce domicilié disparaitront définitivement.
+  </p>
+  <ul class="fw-bold">
+    <li>Les fichiers uploadés sur DomiFa</li>
+    <li>L'historique de la domiciliation</li>
+    <li>L'historique des interactions</li>
+    <li>Les statistiques</li>
+  </ul>
+</div>
+
+<div class="modal-body text-center" *ngIf="refsToDelete.length > 1">
+  <p *ngIf="">
+    Si vous supprimez ces {{ refsToDelete.length }} domiciliés, vous ne pourrez
+    plus retrouver leur fiche !
+    <br />
+    Ces dossier n'apparaitront ni dans les rapports d'activités ni dans la liste
+    des domiciliés.
+  </p>
+
+  <p class="text-danger">
+    <fa-icon
+      [icon]="['fas', 'exclamation-triangle']"
+      aria-hidden="true"
+    ></fa-icon>
+    Toutes les informations liées à ces domiciliés disparaitront définitivement.
+  </p>
+  <ul class="fw-bold">
+    <li>Les fichiers uploadés sur DomiFa</li>
+    <li>L'historique des domiciliations</li>
+    <li>L'historique des interactions</li>
+    <li>Les statistiques</li>
+  </ul>
+</div>
+<div class="modal-footer">
+  <button
+    type="submit"
+    class="btn btn-lg btn-danger"
+    (click)="deleteUsager()"
+    [disabled]="loading"
+  >
+    <span *ngIf="!loading">Confirmer la suppression</span>
+    <span *ngIf="loading"
+      ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+      Veuillez patienter...</span
+    >
+  </button>
+  <button
+    class="btn btn-lg btn-outline-dark"
+    type="button"
+    (click)="closeModals()"
+  >
+    Revenir au profil
+  </button>
+</div>

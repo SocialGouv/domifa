@@ -18,7 +18,6 @@ import {
 } from "../../../../../_common/model";
 
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
-import { UsagerProfilService } from "../../../usager-profil/services/usager-profil.service";
 import { UsagerDecisionService } from "../../services/usager-decision.service";
 import { Decision } from "../../interfaces";
 import { Subscription } from "rxjs";
@@ -43,7 +42,6 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
   constructor(
     private readonly router: Router,
     private readonly modalService: NgbModal,
-    private readonly usagerProfilService: UsagerProfilService,
     private readonly usagerDecisionService: UsagerDecisionService,
     private readonly toastService: CustomToastService
   ) {
@@ -84,26 +82,6 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
 
   public closeModals(): void {
     this.modalService.dismissAll();
-  }
-
-  public deleteUsager(): void {
-    this.loading = true;
-    this.subscription.add(
-      this.usagerProfilService.delete(this.usager.ref).subscribe({
-        next: () => {
-          this.toastService.success("Usager supprimé avec succès");
-          setTimeout(() => {
-            this.modalService.dismissAll();
-            this.loading = false;
-            this.router.navigate(["/manage"]);
-          }, 1000);
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error("Impossible de supprimer la fiche");
-        },
-      })
-    );
   }
 
   public deleteDecision(): void {

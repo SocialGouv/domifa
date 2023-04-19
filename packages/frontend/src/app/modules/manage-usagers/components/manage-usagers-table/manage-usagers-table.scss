@@ -15,8 +15,13 @@ tbody td {
   vertical-align: middle;
   border: none;
   font-style: normal;
-  padding: 0;
+  padding: 0 0.2rem;
   height: 62px;
+  font-size: 0.95rem;
+}
+
+tbody td span {
+  vertical-align: middle;
 }
 
 tbody td a {
@@ -34,6 +39,12 @@ tbody td a:visited {
   text-decoration: none;
 }
 
+tbody td input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
+}
+
 .manage-usager-ref {
   background-color: white;
   min-width: 40px;
@@ -46,8 +57,6 @@ tbody td:nth-child(2) {
 
 tbody td:first-child {
   border-radius: 2px 0 0 2px;
-  min-width: 50px !important;
-  max-width: 120px;
   padding: 0 0.5rem;
 }
 

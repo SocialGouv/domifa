@@ -29,7 +29,6 @@ import { ProfilHistoriqueComponent } from "./components/pages/profil-historique/
 import { UsagersProfilProcurationCourrierComponent } from "./components/profil-procuration-courrier/profil-procuration-courrier-component";
 import { ProfilStructureDocsComponent } from "./components/profil-structure-documents/profil-structure-docs.component";
 import { UsagersProfilTransfertCourrierComponent } from "./components/profil-transfert-courrier/profil-transfert-courrier-component";
-import { RadiationFormComponent } from "./components/radiation-form/radiation-form.component";
 import { UsagerProfilRoutingModule } from "./usager-profil-routing.module";
 import { BaseUsagerProfilPageComponent } from "./components/pages/base-usager-profil-page/base-usager-profil-page.component";
 
@@ -53,8 +52,7 @@ import { BaseUsagerProfilPageComponent } from "./components/pages/base-usager-pr
     ProfilDocumentsSectionComponent,
     ProfilGeneralHistoriqueCourriersComponent,
     DisplayEtatCivilComponent,
-    // Formulaire de radiation
-    RadiationFormComponent,
+
     BaseUsagerProfilPageComponent,
   ],
   imports: [
