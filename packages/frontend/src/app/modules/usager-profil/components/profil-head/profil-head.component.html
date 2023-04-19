@@ -98,18 +98,11 @@
             ></fa-icon>
             Demande de renouvellement
           </button>
-          <button
-            type="button"
-            (click)="openRadiationModal()"
-            class="ms-2 btn btn-white-primary"
-          >
-            <fa-icon
-              [icon]="['fas', 'times']"
-              aria-hidden="true"
-              class="me-2"
-            ></fa-icon>
-            Radier le domicilié
-          </button>
+
+          <app-decision-radiation-form
+            [usager]="usager"
+            (closeModals)="closeModals()"
+          ></app-decision-radiation-form>
         </ng-container>
       </div>
     </div>
@@ -153,13 +146,6 @@
     </div>
   </div>
 </div>
-
-<ng-template #radiationFormModal let-modal>
-  <app-radiation-form
-    [usager]="usager"
-    (closeModals)="closeModals()"
-  ></app-radiation-form>
-</ng-template>
 
 <ng-template #renewModal let-modal>
   <div class="modal-header bg-primary">

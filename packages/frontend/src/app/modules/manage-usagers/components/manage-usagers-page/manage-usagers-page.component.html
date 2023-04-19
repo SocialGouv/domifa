@@ -203,7 +203,7 @@
           *ngIf="filters.statut === 'TOUS' || filters.statut === 'VALIDE'"
           class="filter-part"
         >
-          <div class="d-inline-block" *ngIf="filters.passage">
+          <div class="d-inline-block my-1" *ngIf="filters.passage">
             <button
               type="button"
               aria-label="Réinitialiser le filtre"
@@ -225,7 +225,7 @@
             id="dropdownDernierPassage"
             display="dynamic"
             placement="bottom-left"
-            class="d-inline-block"
+            class="d-inline-block my-1"
           >
             <button type="button" class="btn" ngbDropdownToggle>
               <span>Dernier passage</span>
@@ -343,7 +343,7 @@
           </div>
           <div
             ngbDropdown
-            id="dropdownDernierPassage"
+            id="dropDownCourrierAttente"
             display="dynamic"
             placement="bottom-left"
             *ngIf="!filters.interactionType"
@@ -354,7 +354,7 @@
             </button>
             <div
               ngbDropdownMenu
-              aria-labelledby="dropdownDernierPassage"
+              aria-labelledby="dropDownCourrierAttente"
               class="dropdown-menu"
             >
               <button
@@ -391,7 +391,7 @@
           </div>
           <div
             ngbDropdown
-            id="dropdownDernierPassage"
+            id="dropDownEntretien"
             display="dynamic"
             placement="bottom-left"
             *ngIf="!filters.entretien"
@@ -402,7 +402,7 @@
             </button>
             <div
               ngbDropdownMenu
-              aria-labelledby="dropdownDernierPassage"
+              aria-labelledby="dropDownEntretien"
               class="dropdown-menu"
             >
               <button
@@ -653,6 +653,7 @@
 
     <div id="table-container">
       <app-manage-manage-usagers-table
+        [selectedRefs]="selectedRefs"
         [usagers]="usagers"
         [me]="me"
         [filters]="filters"

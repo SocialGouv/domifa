@@ -5,6 +5,8 @@ import {
   Input,
   Output,
   OnDestroy,
+  TemplateRef,
+  ViewChild,
 } from "@angular/core";
 import {
   UntypedFormGroup,
@@ -12,7 +14,11 @@ import {
   AbstractControl,
   Validators,
 } from "@angular/forms";
-import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbDateStruct,
+  NgbModal,
+  NgbModalRef,
+} from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
 import {
   MOTIFS_RADIATION_LABELS,
@@ -24,15 +30,15 @@ import {
   NgbDateCustomParserFormatter,
   CustomToastService,
 } from "../../../shared/services";
-import { UsagerFormModel } from "../../../usager-shared/interfaces";
-import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
+import { UsagerFormModel } from "../../interfaces";
+import { UsagerDecisionService } from "../../services/usager-decision.service";
 
 @Component({
-  selector: "app-radiation-form",
-  styleUrls: ["./radiation-form.component.css"],
-  templateUrl: "./radiation-form.component.html",
+  selector: "app-decision-radiation-form",
+
+  templateUrl: "./decision-radiation-form.component.html",
 })
-export class RadiationFormComponent implements OnInit, OnDestroy {
+export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
 
   @Output() public closeModals = new EventEmitter<void>();
@@ -49,7 +55,11 @@ export class RadiationFormComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
+  @ViewChild("decisionRadiationFormModal", { static: true })
+  public decisionRadiationFormModal!: TemplateRef<NgbModalRef>;
+
   constructor(
+    private readonly modalService: NgbModal,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly nbgDate: NgbDateCustomParserFormatter,
     private readonly usagerDecisionService: UsagerDecisionService,
@@ -104,6 +114,10 @@ export class RadiationFormComponent implements OnInit, OnDestroy {
 
       this.setDecision(formDatas);
     }
+  }
+
+  public openRadiationModal(): void {
+    this.modalService.open(this.decisionRadiationFormModal);
   }
 
   public setDecision(formDatas: UsagerDecisionRadiationForm): void {

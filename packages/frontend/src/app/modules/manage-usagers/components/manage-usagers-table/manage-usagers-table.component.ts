@@ -82,7 +82,12 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   @ViewChild("setInteractionOutModal")
   public setInteractionOutModal!: TemplateRef<NgbModalRef>;
 
+  @ViewChild("deleteUsagersModal")
+  public deleteUsagersModal!: TemplateRef<NgbModalRef>;
+
   public loadingButtons: string[];
+
+  @Input() public selectedRefs: number[];
 
   public readonly labelsDernierPassage: {
     [key in UsagersFilterCriteriaDernierPassage]: string;
@@ -101,6 +106,7 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
     this.selectedUsager = null;
     this.loadingButtons = [];
     this.usagers = [];
+    this.selectedRefs = [];
   }
 
   public ngOnInit(): void {
@@ -154,11 +160,24 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
     );
   }
 
+  public toggleSelection(id: number) {
+    const index = this.selectedRefs.indexOf(id);
+    if (index === -1) {
+      this.selectedRefs.push(id);
+    } else {
+      this.selectedRefs.splice(index, 1);
+    }
+  }
+
   private stopLoading(loadingRef: string) {
     const index = this.loadingButtons.indexOf(loadingRef);
     if (index !== -1) {
       this.loadingButtons.splice(index, 1);
     }
+  }
+
+  public openDeleteUsagersModal(): void {
+    this.modalService.open(this.deleteUsagersModal);
   }
 
   public openInteractionInModal(usager: UsagerFormModel) {
