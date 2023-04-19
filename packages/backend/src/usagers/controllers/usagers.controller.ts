@@ -295,7 +295,6 @@ export class UsagersController {
   @Delete(":usagerRef")
   public async delete(
     @CurrentUser() user: UserStructureAuthenticated,
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentUsager() usager: Usager,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
@@ -312,7 +311,7 @@ export class UsagersController {
     });
 
     // Suppression de l'usager
-    await usagerRepository.deleteByCriteria({
+    await usagerRepository.delete({
       ref: usager.ref,
       structureId: user.structureId,
     });

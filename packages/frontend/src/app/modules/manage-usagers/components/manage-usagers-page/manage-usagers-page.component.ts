@@ -54,6 +54,7 @@ import {
   UsagersFilterCriteriaSortValues,
   UsagersFilterCriteriaStatut,
 } from "../usager-filter";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 const AUTO_REFRESH_PERIOD = 3600000; // 1h
 
@@ -156,13 +157,17 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   public sortLabel = "échéance";
 
   private subscription = new Subscription();
-
+  public selectedRefs: number[];
   constructor(
     private readonly usagerService: ManageUsagersService,
     private readonly authService: AuthService,
     private readonly titleService: Title,
+    private readonly modalService: NgbModal,
+
     public matomo: MatomoTracker
   ) {
+    this.selectedRefs = [];
+
     this.allUsagersByStatus = {
       INSTRUCTION: [],
       VALIDE: [],
@@ -503,7 +508,8 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     allUsagersByStatus: UsagersByStatus;
   }): void {
     this.searching = true;
-
+    this.selectedRefs = [];
+    this.modalService.dismissAll();
     localStorage.setItem("MANAGE_USAGERS", JSON.stringify(filters));
 
     const allUsagers = allUsagersByStatus[filters.statut];

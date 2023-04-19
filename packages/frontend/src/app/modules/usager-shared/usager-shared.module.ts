@@ -22,6 +22,8 @@ import { DisplayUsagerDocsComponent } from "./components/display-usager-docs/dis
 import { EtatCivilParentFormComponent } from "./components/etat-civil-parent-form/etat-civil-parent-form.component";
 import { FormatInternationalPhoneNumberPipe } from "./formatInternationalPhoneNumber.pipe";
 import { DisplayDuplicatesUsagerComponent } from "./components/display-duplicates-usager/display-duplicates-usager.component";
+import { DecisionRadiationFormComponent } from "./components/decision-radiation-form/decision-radiation-form.component";
+import { DeleteUsagerComponent } from "./components/delete-usager/delete-usager.component";
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { DisplayDuplicatesUsagerComponent } from "./components/display-duplicate
     FormatInternationalPhoneNumberPipe,
     EtatCivilParentFormComponent,
     DisplayDuplicatesUsagerComponent,
+    DecisionRadiationFormComponent,
+    DeleteUsagerComponent,
   ],
   imports: [
     CommonModule,
@@ -65,6 +69,8 @@ import { DisplayDuplicatesUsagerComponent } from "./components/display-duplicate
     DisplayUsagerDocsComponent,
     FormatInternationalPhoneNumberPipe,
     DisplayDuplicatesUsagerComponent,
+    DeleteUsagerComponent,
+    DecisionRadiationFormComponent,
   ],
 
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -1,5 +1,5 @@
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { SharedModule } from "../../../../modules/shared/shared.module";
+import { SharedModule } from "../../../shared/shared.module";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
@@ -12,22 +12,22 @@ import {
   NgbModule,
 } from "@ng-bootstrap/ng-bootstrap";
 
-import { RadiationFormComponent } from "./radiation-form.component";
+import { DecisionRadiationFormComponent } from "./decision-radiation-form.component";
 
 import { RouterTestingModule } from "@angular/router/testing";
 
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
-import { UsagerFormModel } from "../../../usager-shared/interfaces";
+import { UsagerFormModel } from "../../interfaces";
 
 describe("RadiationFormComponent", () => {
-  let component: RadiationFormComponent;
-  let fixture: ComponentFixture<RadiationFormComponent>;
+  let component: DecisionRadiationFormComponent;
+  let fixture: ComponentFixture<DecisionRadiationFormComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [RadiationFormComponent],
+      declarations: [DecisionRadiationFormComponent],
       imports: [
         FormsModule,
         HttpClientTestingModule,
@@ -50,7 +50,7 @@ describe("RadiationFormComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RadiationFormComponent);
+    fixture = TestBed.createComponent(DecisionRadiationFormComponent);
     component = fixture.componentInstance;
     component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
     fixture.detectChanges();

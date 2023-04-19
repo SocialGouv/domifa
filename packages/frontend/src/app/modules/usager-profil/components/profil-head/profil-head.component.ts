@@ -41,9 +41,6 @@ export class ProfilHeadComponent implements OnDestroy {
   @ViewChild("renewModal", { static: true })
   public renewModal!: TemplateRef<NgbModalRef>;
 
-  @ViewChild("radiationFormModal", { static: true })
-  public radiationFormModal!: TemplateRef<NgbModalRef>;
-
   constructor(
     private readonly modalService: NgbModal,
     private readonly toastService: CustomToastService,
@@ -88,10 +85,6 @@ export class ProfilHeadComponent implements OnDestroy {
 
   public openRenewModal(): void {
     this.modalService.open(this.renewModal);
-  }
-
-  public openRadiationModal(): void {
-    this.modalService.open(this.radiationFormModal);
   }
 
   public getCerfa(typeCerfa: CerfaDocType): void {

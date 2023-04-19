@@ -1,9 +1,29 @@
+<section class="d-flex align-items-center" *ngIf="selectedRefs.length > 0">
+  <div class="me-2">{{ selectedRefs.length }} selectionnés</div>
+  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+    <!-- <button
+      type="button"
+      class="btn btn-sm btn-outline-dark"
+      *ngIf="filters.statut === 'VALIDE'"
+    >
+      Radier les domiciliés
+    </button> -->
+    <button
+      type="button"
+      (click)="openDeleteUsagersModal()"
+      class="btn btn-sm btn-outline-dark"
+    >
+      Supprimer les domiciliés
+    </button>
+  </div>
+</section>
 <table class="table" *ngIf="usagers.length !== 0" id="table-usagers">
   <caption class="visually-hidden text-dark">
     Tableau des domiciliés
   </caption>
   <thead>
-    <th scope="col" *ngIf="filters.statut==='TOUS'">STATUT</th>
+    <th scope="col"></th>
+    <th scope="col" *ngIf="filters.statut ==='TOUS'">STATUT</th>
     <th
       scope="col"
       *ngIf="filters.statut === 'ATTENTE_DECISION' || filters.statut === 'INSTRUCTION'"
@@ -80,17 +100,23 @@
   </thead>
   <tbody>
     <tr *ngFor="let usager of usagers; let i = index">
-      <td
-        *ngIf="filters.statut==='TOUS'"
-        class="clickable text-center"
-        (click)="goToProfil(usager)"
-      >
-        <span class="label-info" [class]="usager.statusInfos.color">
+      <td class="text-start" (click)="toggleSelection(usager.ref)">
+        <input
+          type="checkbox"
+          [attr.aria-label]="'Sélectionner '+ usager.nom + ' ' + usager.prenom"
+          [checked]="selectedRefs.indexOf(usager.ref) !==-1"
+        />
+      </td>
+      <td *ngIf="filters.statut ==='TOUS'" class="clickable text-start">
+        <span
+          class="label-info"
+          (click)="goToProfil(usager)"
+          [class]="usager.statusInfos.color"
+        >
           {{ usager.statusInfos.text }}</span
         >
       </td>
       <td
-        (click)="goToProfil(usager)"
         class="clickable"
         *ngIf="filters.statut ==='ATTENTE_DECISION' || filters.statut ==='INSTRUCTION'"
       >
@@ -102,6 +128,7 @@
           </div>
         </ng-template>
         <div
+          (click)="goToProfil(usager)"
           [ngbTooltip]="usager.rdvInfos.display ? rdvInfosTooltip : ''"
           *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
           class="label-info label-yellow"
@@ -110,6 +137,7 @@
         </div>
 
         <div
+          (click)="goToProfil(usager)"
           [ngbTooltip]="usager.rdvInfos.display ? rdvInfosTooltip : ''"
           *ngIf="usager.typeDom === 'PREMIERE_DOM'"
           class="label-info label-grey"
@@ -118,8 +146,10 @@
         </div>
       </td>
 
-      <td class="text-primary manage-usager-ref" (click)="goToProfil(usager)">
-        <span>{{ usager.customRef ? usager.customRef : usager.ref }}</span>
+      <td class="text-primary manage-usager-ref">
+        <span (click)="goToProfil(usager)"
+          >{{ usager.customRef ? usager.customRef : usager.ref }}</span
+        >
       </td>
 
       <td class="clickable table-name td-name" (click)="goToProfil(usager)">
@@ -417,4 +447,11 @@
     (cancelReception)="cancelReception()"
     (updateUsagerForManage)="updateUsager.emit($event)"
   ></app-set-interaction-out-form>
+</ng-template>
+
+<ng-template #deleteUsagersModal let-modal>
+  <app-delete-usager
+    [refsToDelete]="selectedRefs"
+    [me]="me"
+  ></app-delete-usager>
 </ng-template>
