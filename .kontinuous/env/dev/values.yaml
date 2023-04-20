@@ -31,10 +31,3 @@ backend:
   volumeMounts:
     - mountPath: /mnt/files
       name: files
-  envFrom:
-    - secretRef:
-        name: "pg-user-devflex"
-    - secretRef:
-        name: backend-sealed-secret
-    - configMapRef:
-        name: backend-configmap

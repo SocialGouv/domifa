@@ -117,7 +117,6 @@ portail-usagers:
   containerPort: 8080
 
 jobs:
-  ~chart: jobs
   runs:
     build-backend:
       use: build
