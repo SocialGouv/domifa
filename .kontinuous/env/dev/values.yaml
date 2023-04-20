@@ -31,3 +31,6 @@ backend:
   volumeMounts:
     - mountPath: /mnt/files
       name: files
+
+backend-cron:
+  ~needs: [create-db]
