@@ -8,6 +8,8 @@ dependencies:
           importSecrets:
             options:
               secrets:
+                pg-admin-user:
+                  required: false
                 azure-pg-admin-user-devflex:
                   required: true
                 # secret-name:
