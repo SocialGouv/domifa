@@ -17,6 +17,7 @@ jobs:
       use: create-db
       with:
         pgAdminUserSecretRefName: azure-pg-admin-user-devflex
+        useAzureFlex: true
     seed:
       ~needs: [backend]
       use: seed-db
