@@ -13,18 +13,18 @@ jobs:
       with:
         pgAdminSecretRefName: azure-pg-admin-user-devflex
     create-db:
-      needs: [drop-db]
+      ~needs: [drop-db]
       use: create-db
       with:
         pgAdminSecretRefName: azure-pg-admin-user-devflex
     seed:
-      needs: [backend]
+      ~needs: [backend]
       use: seed-db
       with:
         seedPath: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
 
 backend:
-  needs: [create-db]
+  ~needs: [create-db]
   volumes:
     - name: files
       emptyDir: {}
