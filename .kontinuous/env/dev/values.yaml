@@ -11,12 +11,12 @@ jobs:
     drop-db:
       use: drop-db
       with:
-        pgAdminSecretRefName: azure-pg-admin-user-devflex
+        pgAdminUserSecretRefName: azure-pg-admin-user-devflex
     create-db:
       ~needs: [drop-db]
       use: create-db
       with:
-        pgAdminSecretRefName: azure-pg-admin-user-devflex
+        pgAdminUserSecretRefName: azure-pg-admin-user-devflex
     seed:
       ~needs: [backend]
       use: seed-db
