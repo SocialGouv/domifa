@@ -1,14 +1,13 @@
 .dropdown-toggle {
-  font-size: 1rem;
   font-weight: 600;
   background: #f9f9fc;
   border: 1px solid #cfcfd9;
   box-sizing: border-box;
   border-radius: 5px;
   text-align: left;
-  min-width: 240px;
+  min-width: 200px;
   color: #4a4a4a;
-  padding: 8px 12px;
+  padding: 6px 12px;
   display: flex;
   justify-content: space-between;
   align-content: flex-start;
@@ -131,13 +130,10 @@
 }
 
 #search-bar {
-  min-width: 360px;
-  width: 100%;
+  width: 450px;
+  max-width: 98%;
+  display: inline-block;
   position: relative;
-}
-
-#search-bar label {
-  color: white;
 }
 
 #search-bar input {
@@ -160,6 +156,9 @@
   font-weight: 500;
 }
 
+#search-bar label {
+  color: white;
+}
 #search-bar span,
 #search-bar button {
   display: block;

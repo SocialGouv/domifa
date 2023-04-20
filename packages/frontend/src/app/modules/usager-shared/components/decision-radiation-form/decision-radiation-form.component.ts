@@ -35,11 +35,12 @@ import { Router } from "@angular/router";
 
 @Component({
   selector: "app-decision-radiation-form",
+  styleUrls: ["./decision-radiation-form.component.scss"],
   templateUrl: "./decision-radiation-form.component.html",
 })
 export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
-  @Input() public refsToDelete: number[];
+  @Input() public selectedRefs: number[];
   @Input() public context!: "MANAGE" | "PROFIL";
 
   @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
@@ -70,7 +71,7 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
     this.loading = false;
     this.minDate = { day: 1, month: 1, year: new Date().getFullYear() - 1 };
     this.maxDate = minDateToday;
-    this.refsToDelete = [];
+    this.selectedRefs = [];
   }
 
   public get r(): { [key: string]: AbstractControl } {
@@ -128,9 +129,9 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
 
   public setDecision(formDatas: UsagerDecisionRadiationForm): void {
     this.loading = true;
-    console.log(this.refsToDelete);
+    console.log(this.selectedRefs);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const deleteRequests: Observable<any>[] = this.refsToDelete.map(
+    const deleteRequests: Observable<any>[] = this.selectedRefs.map(
       (ref: number) => {
         return this.usagerDecisionService.setDecision(ref, formDatas);
       }
@@ -139,7 +140,11 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
     this.subscription.add(
       forkJoin(deleteRequests).subscribe({
         next: () => {
-          this.toastService.success("Radiation enregistrée avec succès ! ");
+          const message =
+            this.selectedRefs.length > 1
+              ? "Les dossiers sélectionnés ont été radié"
+              : "Radiation enregistrée avec succès ! ";
+          this.toastService.success(message);
           setTimeout(() => {
             this.modalService.dismissAll();
             this.loading = false;

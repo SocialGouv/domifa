@@ -12,7 +12,7 @@ import { UsagerProfilService } from "../../../usager-profil/services/usager-prof
   styleUrls: ["./delete-usager.component.css"],
 })
 export class DeleteUsagerComponent implements OnDestroy {
-  @Input() public refsToDelete: number[];
+  @Input() public selectedRefs: number[];
   @Input() public context!: "MANAGE" | "PROFIL";
   @Input() public me!: UserStructure;
 
@@ -35,7 +35,7 @@ export class DeleteUsagerComponent implements OnDestroy {
     this.loading = true;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const deleteRequests: Observable<any>[] = this.refsToDelete.map(
+    const deleteRequests: Observable<any>[] = this.selectedRefs.map(
       (ref: number) => {
         return this.usagerProfilService.delete(ref);
       }
