@@ -9,9 +9,9 @@ dependencies:
             options:
               secrets:
                 pg-admin-user:
-                  required: false
+                  required: "false"
                 azure-pg-admin-user-devflex:
-                  required: true
+                  required: "true"
                 # secret-name:
                 # enabled: true
                 # reload: false
