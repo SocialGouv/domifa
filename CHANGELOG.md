@@ -1,3 +1,11 @@
+## [2.122.5](https://github.com/SocialGouv/domifa/compare/v2.122.4...v2.122.5) (2023-04-20)
+
+
+### Bug Fixes
+
+* fix import secrets plugin ([aa17114](https://github.com/SocialGouv/domifa/commit/aa17114e1ccbb631ecf4631b3ba96b9e2777b1b5))
+* import new secret into review namespace ([5a130bb](https://github.com/SocialGouv/domifa/commit/5a130bb333b7be01e4091dd28c76cb588ea348af))
+
 ## [2.122.4](https://github.com/SocialGouv/domifa/compare/v2.122.3...v2.122.4) (2023-04-17)
 
 
