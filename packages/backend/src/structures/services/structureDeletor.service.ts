@@ -51,7 +51,7 @@ async function resetUsagers(structureId: number): Promise<void> {
     structureId,
   });
 
-  await usagerRepository.deleteByCriteria({
+  await usagerRepository.delete({
     structureId,
   });
 

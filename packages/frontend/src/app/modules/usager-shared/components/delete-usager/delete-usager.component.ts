@@ -34,6 +34,7 @@ export class DeleteUsagerComponent implements OnDestroy {
   public deleteUsager(): void {
     this.loading = true;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const deleteRequests: Observable<any>[] = this.refsToDelete.map(
       (ref: number) => {
         return this.usagerProfilService.delete(ref);
@@ -60,6 +61,7 @@ export class DeleteUsagerComponent implements OnDestroy {
       })
     );
   }
+
   public closeModals(): void {
     this.modalService.dismissAll();
   }

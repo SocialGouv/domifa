@@ -1,13 +1,12 @@
 <section class="d-flex align-items-center" *ngIf="selectedRefs.length > 0">
   <div class="me-2">{{ selectedRefs.length }} selectionnés</div>
   <div class="btn-group btn-group-toggle" data-toggle="buttons">
-    <!-- <button
-      type="button"
-      class="btn btn-sm btn-outline-dark"
+    <app-decision-radiation-form
+      [refsToDelete]="selectedRefs"
+      context="MANAGE"
       *ngIf="filters.statut === 'VALIDE'"
-    >
-      Radier les domiciliés
-    </button> -->
+      (closeModals)="closeModals()"
+    ></app-decision-radiation-form>
     <button
       type="button"
       (click)="openDeleteUsagersModal()"
@@ -455,3 +454,7 @@
     [me]="me"
   ></app-delete-usager>
 </ng-template>
+
+<app-decision-radiation-form
+  (closeModals)="closeModals()"
+></app-decision-radiation-form>

@@ -1,10 +1,21 @@
 <button
   type="button"
+  *ngIf="context === 'PROFIL'"
   (click)="openRadiationModal()"
   class="ms-2 btn btn-white-primary"
 >
   <fa-icon [icon]="['fas', 'times']" aria-hidden="true" class="me-2"></fa-icon>
   Radier le domicilié
+</button>
+
+<button
+  type="button"
+  *ngIf="context === 'MANAGE'"
+  (click)="openRadiationModal()"
+  class="btn btn-sm btn-outline-dark"
+>
+  <fa-icon [icon]="['fas', 'times']" aria-hidden="true" class="me-2"></fa-icon>
+  Radier les domiciliés
 </button>
 
 <ng-template #decisionRadiationFormModal let-modal>
@@ -15,7 +26,7 @@
   </div>
 
   <div class="modal-body p-4 text-start">
-    <p>
+    <p *ngIf="refsToDelete.length === 1 && usager">
       Vous souhaitez mettre fin à la domiciliation de
       <strong>
         {{ usager | usagerNomComplet }} né{{
@@ -27,6 +38,18 @@
       <br />
       La radiation peut avoir de lourdes conséquences et laisser une personne
       sans adresse.
+      <br />
+      Elle doit être notifiée par écrit à l’intéressé et motivée, avec mention
+      des voies et délais de recours.
+      <br />
+    </p>
+
+    <p *ngIf="refsToDelete.length > 1">
+      Vous souhaitez mettre fin à la domiciliation de
+      {{ refsToDelete.length }} domiciliés
+      <br />
+      La radiation peut avoir de lourdes conséquences et laisser toutes les
+      personnes sélectionnées sans adresse.
       <br />
       Elle doit être notifiée par écrit à l’intéressé et motivée, avec mention
       des voies et délais de recours.
@@ -151,7 +174,7 @@
     <button
       class="btn btn-lg btn-outline-dark"
       type="button"
-      (click)="closeModals.emit()"
+      (click)="closeModals()"
     >
       Revenir au profil
     </button>

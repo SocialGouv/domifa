@@ -53,6 +53,8 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   @Input()
   public loading!: boolean;
 
+  @Input() public selectedRefs: number[];
+
   @Output()
   public updateUsager = new EventEmitter<UsagerLight>();
 
@@ -86,8 +88,6 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   public deleteUsagersModal!: TemplateRef<NgbModalRef>;
 
   public loadingButtons: string[];
-
-  @Input() public selectedRefs: number[];
 
   public readonly labelsDernierPassage: {
     [key in UsagersFilterCriteriaDernierPassage]: string;

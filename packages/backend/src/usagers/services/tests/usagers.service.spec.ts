@@ -57,7 +57,7 @@ describe("UsagersService", () => {
     expect(usager.nom).toEqual(fakeUsagerDto.nom);
     expect(usager.sexe).toEqual(fakeUsagerDto.sexe);
 
-    await usagerRepository.deleteByCriteria({ uuid: usager.uuid });
+    await usagerRepository.delete({ uuid: usager.uuid });
 
     const deletedUsager = await usagerRepository.findOneBy({
       ref: usagerTest.ref,
