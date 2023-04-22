@@ -1,4 +1,4 @@
-FROM node:16.20.0 AS builder
+FROM node:20.0.0 AS builder
 
 RUN apt-get update -y && apt-get install gettext-base && rm -rf /var/lib/apt/lists/*
 
