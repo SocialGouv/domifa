@@ -148,7 +148,6 @@ export class UsagersService {
     // Adaptation de la timeZone
     const now = new Date();
     decision.dateDecision = now;
-
     usager.etapeDemande = ETAPE_DOSSIER_COMPLET;
 
     if (decision.statut === "ATTENTE_DECISION") {
@@ -188,7 +187,6 @@ export class UsagersService {
 
     usager.decision = decision as UsagerDecision;
     usager.decision.uuid = uuidv4();
-
     usagerVisibleHistoryManager.addDecisionToVisibleHistory({ usager });
 
     await usagerHistoryStateManager.updateHistoryStateFromDecision({

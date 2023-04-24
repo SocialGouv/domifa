@@ -182,13 +182,13 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
             : "",
         typeDom: usager.typeDom,
         decisionDateDebut: asDate(usager.decision.dateDebut),
-        decisionDateFin: asDate(usager.decision.dateFin),
+        decisionDateFin:
+          usager.decision.statut === "RADIE"
+            ? ""
+            : asDate(usager.decision.dateFin),
         datePremiereDom: asDate(usager.datePremiereDom),
-
         decisionUserPremierDom,
-
         decisionUserRenouvellement,
-
         dateLastInteraction: asDate(usager.lastInteraction.dateInteraction),
         ayantsDroitsCount: usager.ayantsDroits.length,
       },

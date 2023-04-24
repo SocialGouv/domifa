@@ -31,7 +31,6 @@ import {
 } from "../../../shared/services";
 import { UsagerFormModel } from "../../interfaces";
 import { UsagerDecisionService } from "../../services/usager-decision.service";
-import { Router } from "@angular/router";
 
 @Component({
   selector: "app-decision-radiation-form",
@@ -61,7 +60,6 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly modalService: NgbModal,
-    private readonly router: Router,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly nbgDate: NgbDateCustomParserFormatter,
     private readonly usagerDecisionService: UsagerDecisionService,
@@ -129,6 +127,11 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
 
   public setDecision(formDatas: UsagerDecisionRadiationForm): void {
     this.loading = true;
+    if (this.usager) {
+      this.selectedRefs = [this.usager.ref];
+    }
+
+    console.log(this.selectedRefs);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const deleteRequests: Observable<any>[] = this.selectedRefs.map(
       (ref: number) => {
@@ -138,7 +141,8 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       forkJoin(deleteRequests).subscribe({
-        next: () => {
+        next: (e) => {
+          console.log(e);
           const message =
             this.selectedRefs.length > 1
               ? "Les dossiers sélectionnés ont été radié"
@@ -147,12 +151,11 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
           setTimeout(() => {
             this.modalService.dismissAll();
             this.loading = false;
-            this.router.navigate(["/manage"]).then(() => {
-              window.location.reload();
-            });
+            window.location.reload();
           }, 1000);
         },
-        error: () => {
+        error: (e) => {
+          console.log(e);
           this.loading = false;
           this.toastService.error("La décision n'a pas pu être enregistrée");
           window.location.reload();
