@@ -54,7 +54,13 @@
           </button>
         </div>
       </div>
-      <div *ngIf="displayConfirmArchiveMessageNoteId !== note.id" class="ms-3">
+      <div
+        *ngIf="
+          displayConfirmArchiveMessageNoteId !== note.id &&
+          me?.role !== 'facteur'
+        "
+        class="ms-3"
+      >
         <button
           title="Supprimer"
           type="button"

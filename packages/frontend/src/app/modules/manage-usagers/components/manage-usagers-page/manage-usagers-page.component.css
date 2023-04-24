@@ -1,17 +1,24 @@
 .dropdown-toggle {
   font-weight: 600;
-  background: #f9f9fc;
-  border: 1px solid #cfcfd9;
   box-sizing: border-box;
   border-radius: 5px;
   text-align: left;
   min-width: 200px;
+  background: #f9f9fc;
   color: #4a4a4a;
+  border: 1px solid #cfcfd9;
   padding: 6px 12px;
   display: flex;
   justify-content: space-between;
   align-content: flex-start;
+  outline: 0;
   align-items: center;
+}
+
+.dropdown-toggle:focus-visible {
+  color: var(--bs-primary) !important;
+  border-color: var(--bs-primary) !important;
+  box-shadow: 0 0 0 0.25rem rgba(var(--bs-btn-focus-shadow-rgb), 0.5);
 }
 
 .dropdown-menu {
@@ -52,6 +59,7 @@
   font-weight: normal !important;
 }
 
+.btn-outline-dark:focus,
 .btn-outline-dark:hover,
 .btn-dark {
   color: white;
@@ -68,11 +76,12 @@
   position: absolute;
   top: 0;
   left: 0;
+  background-size: 100% 200%;
   display: block;
   width: 100%;
-  min-height: 70vh;
-  background-color: white;
-  z-index: 2000;
+  min-height: 80vh;
+  background-image: linear-gradient(to bottom, #f2f2f2, transparent);
+  z-index: 50;
 }
 
 .content-overlay div {
@@ -81,20 +90,16 @@
 }
 
 .spinner {
-  font-size: 4rem;
+  font-size: 5rem;
   color: var(--bs-primary);
-  -webkit-text-stroke-width: 20px;
-  stroke-width: 20px;
-  -webkit-text-stroke-color: white;
-  stroke: white;
-  margin-bottom: 10px;
 }
 
 .content-overlay span {
   width: 300px;
   line-height: 100%;
   color: var(--bs-primary);
-  font-size: 1.05rem;
+  font-size: 1.3rem;
+  font-weight: 600;
 }
 
 #filters .btn fa-icon {
@@ -159,6 +164,7 @@
 #search-bar label {
   color: white;
 }
+
 #search-bar span,
 #search-bar button {
   display: block;

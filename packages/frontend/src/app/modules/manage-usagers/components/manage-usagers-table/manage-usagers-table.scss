@@ -87,6 +87,15 @@ thead th button {
   padding: 0.25rem 0.5rem;
 }
 
+thead th button:not(.btn) {
+  font-size: 0.95rem;
+  color: #3150c0;
+  text-transform: uppercase;
+  border: none;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
 thead th {
   font-style: normal;
   font-weight: 600;
