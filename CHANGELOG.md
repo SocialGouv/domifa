@@ -1,3 +1,10 @@
+## [2.122.7](https://github.com/SocialGouv/domifa/compare/v2.122.6...v2.122.7) (2023-04-25)
+
+
+### Bug Fixes
+
+* **deps:** update dependency nunjucks to v3.2.4 [security] ([2109361](https://github.com/SocialGouv/domifa/commit/210936141aabb6492b745c50eba25d65faa7e0f7))
+
 ## [2.122.6](https://github.com/SocialGouv/domifa/compare/v2.122.5...v2.122.6) (2023-04-24)
 
 
