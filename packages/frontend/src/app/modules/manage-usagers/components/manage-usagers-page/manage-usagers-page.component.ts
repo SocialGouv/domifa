@@ -54,7 +54,6 @@ import {
   UsagersFilterCriteriaSortValues,
   UsagersFilterCriteriaStatut,
 } from "../usager-filter";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 const AUTO_REFRESH_PERIOD = 3600000; // 1h
 
@@ -163,7 +162,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     private readonly usagerService: ManageUsagersService,
     private readonly authService: AuthService,
     private readonly titleService: Title,
-    private readonly modalService: NgbModal,
     public matomo: MatomoTracker
   ) {
     this.selectedRefs = [];
@@ -516,7 +514,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   }): void {
     this.searching = true;
     this.selectedRefs = [];
-    this.modalService.dismissAll();
 
     this.displayCheckboxes = !(
       this.me.role === "facteur" ||
