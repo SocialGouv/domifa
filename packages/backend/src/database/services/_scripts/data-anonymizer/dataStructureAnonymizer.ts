@@ -36,12 +36,6 @@ async function _anonymizeStructure(structure: Pick<Structure, "id" | "email">) {
       countryCode: "fr",
       numero: "0600000000",
     },
-    sms: {
-      enabledByDomifa: false,
-      enabledByStructure: false,
-      senderName: null,
-      senderDetails: null,
-    },
     email: dataEmailAnonymizer.anonymizeEmail({
       prefix: "structure",
       id: structure.id,

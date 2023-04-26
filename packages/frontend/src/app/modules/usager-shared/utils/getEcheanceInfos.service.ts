@@ -21,10 +21,10 @@ export const getEcheanceInfos = (usager?: UsagerLight): UsagerEcheanceInfos => {
     usager.decision.statut === "RADIE" ||
     usager.decision.statut === "REFUS"
   ) {
-    usagerInfos.dateToDisplay = usager.decision.dateFin
-      ? new Date(usager.decision.dateFin)
-      : usager.decision.dateDebut
+    usagerInfos.dateToDisplay = usager.decision.dateDebut
       ? new Date(usager.decision.dateDebut)
+      : usager.decision.dateFin
+      ? new Date(usager.decision.dateFin)
       : null;
   } else {
     if (usager.typeDom === "RENOUVELLEMENT") {

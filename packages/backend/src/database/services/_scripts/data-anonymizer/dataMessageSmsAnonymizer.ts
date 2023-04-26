@@ -1,5 +1,6 @@
 import { appLogger } from "../../../../util";
 import { messageSmsRepository } from "../../message-sms";
+import { faker } from "@faker-js/faker";
 
 export const dataMessageSmsAnonymizer = {
   anonymizeSms,
@@ -28,7 +29,9 @@ async function anonymizeSms() {
   await messageSmsRepository.update(
     {},
     {
-      phoneNumber: "0600000000",
+      phoneNumber: "+33606060606",
+      responseId: "",
+      usagerRef: faker.datatype.number(),
     }
   );
 }

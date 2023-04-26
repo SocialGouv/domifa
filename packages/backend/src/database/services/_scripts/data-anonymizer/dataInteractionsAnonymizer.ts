@@ -5,7 +5,7 @@ import { IsNull, Not } from "typeorm";
 import { typeOrmSearch } from "../..";
 import { InteractionsTable } from "../../..";
 
-export const dataMessagedataInteractionsAnonymizerSmsAnonymizer = {
+export const dateInteractionsAnonymizer = {
   anonymizeInteractions,
 };
 

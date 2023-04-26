@@ -58,10 +58,10 @@ export class UsagersDecisionController {
     @CurrentUsager() usager: Usager,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
-  ) {
+  ): Promise<Usager> {
     decision.userName = user.prenom + " " + user.nom;
     decision.userId = user.id;
-    return await this.usagersService.setDecision(usager, decision);
+    return this.usagersService.setDecision(usager, decision);
   }
 
   @UseGuards(UsagerAccessGuard)
@@ -87,7 +87,7 @@ export class UsagersDecisionController {
     @CurrentUsager() usager: Usager,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
-  ) {
+  ): Promise<Usager> {
     return this.usagersService.renouvellement(usager, user);
   }
 

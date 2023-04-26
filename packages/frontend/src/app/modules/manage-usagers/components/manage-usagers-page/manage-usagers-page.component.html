@@ -1,72 +1,66 @@
 <div class="head-page pt-4 d-print-none">
   <div class="container">
-    <div class="py-3 px-0 mx-0 row d-flex align-items-center">
-      <div class="col-12 col-md-2">
-        <h1 class="title">Domiciliés</h1>
-      </div>
-      <div class="col-12 col-md-6 d-flex">
-        <div
-          ngbDropdown
-          *ngIf="!filters.passage"
-          id="dropdownSearchString"
-          display="dynamic"
-          class="d-block d-sm-inline-block"
-        >
-          <button type="button" ngbDropdownToggle>
-            <span>
-              <fa-icon
-                [icon]="['fas', 'list']"
-                aria-hidden="true"
-                class="me-2"
-              ></fa-icon>
-              {{
-                SEARCH_STRING_FIELD_LABELS[this.filters.searchStringField].label
-              }}
-            </span>
-          </button>
+    <div class="py-2 px-0 mx-0 row justify-content-between align-items-center">
+      <h1 class="title col-12 col-md-2">Domiciliés</h1>
+      <div class="col-12 col-md-8">
+        <div class="align-middle d-inline-block">
           <div
-            ngbDropdownMenu
-            aria-labelledby="dropdownSearchString"
-            class="dropdown-menu"
+            ngbDropdown
+            id="dropdownSearchString"
+            display="dynamic"
+            class="d-inline-block"
+            #dropdownSearchString="ngbDropdown"
           >
             <button
               type="button"
-              (click)="
-                updateFilters({
-                  element: 'searchStringField',
-                  value: 'DATE_NAISSANCE'
-                })
-              "
-              ngbDropdownItem
+              ngbDropdownAnchor
+              (focus)="dropdownSearchString.open()"
             >
-              Date de naissance
+              <span>
+                <fa-icon
+                  [icon]="['fas', 'list']"
+                  aria-hidden="true"
+                  class="me-2"
+                ></fa-icon>
+                {{
+                  SEARCH_STRING_FIELD_LABELS[this.filters.searchStringField]
+                    .label
+                }}
+              </span>
             </button>
-            <button
-              type="button"
-              (click)="
-                updateFilters({
-                  element: 'searchStringField',
-                  value: 'DEFAULT'
-                })
-              "
-              ngbDropdownItem
+            <div
+              ngbDropdownMenu
+              aria-labelledby="dropdownSearchString"
+              class="dropdown-menu"
             >
-              {{ SEARCH_STRING_FIELD_LABELS.DEFAULT.label }}
-            </button>
-            <!-- <button type="button"
-              (click)="
-                updateFilters({
-                  element: 'searchStringField',
-                  value: 'PROCURATION'
-                })
-              "
-              ngbDropdownItem
-            >
-              Procuration et mandataire
-            </button> -->
+              <button
+                type="button"
+                (click)="
+                  updateFilters({
+                    element: 'searchStringField',
+                    value: 'DATE_NAISSANCE'
+                  })
+                "
+                ngbDropdownItem
+              >
+                Date de naissance
+              </button>
+              <button
+                type="button"
+                (click)="
+                  updateFilters({
+                    element: 'searchStringField',
+                    value: 'DEFAULT'
+                  })
+                "
+                ngbDropdownItem
+              >
+                {{ SEARCH_STRING_FIELD_LABELS.DEFAULT.label }}
+              </button>
+            </div>
           </div>
         </div>
-        <div id="search-bar" class="d-block d-sm-inline-block" role="search">
+        <div id="search-bar" role="search" class="align-middle d-inline-block">
           <label for="searchInput" class="visually-hidden"
             >Rechercher un domicilié</label
           >
@@ -96,8 +90,9 @@
           </button>
         </div>
       </div>
+
       <div
-        class="col-12 col-md-4 text-end"
+        class="col-12 col-md-2 text-end"
         *ngIf="currentUserSubject$ | async as me"
       >
         <a
@@ -115,17 +110,18 @@
         </a>
       </div>
     </div>
-
-    <div id="statut-selector" class="mt-3 row">
-      <div
+    <div role="tablist" id="statut-selector" class="mt-3 row">
+      <button
+        type="button"
         class="col"
         [ngClass]="{ 'selected-section': filters.statut === 'TOUS' }"
         (click)="updateFilters({ element: 'statut', value: 'TOUS' })"
       >
-        <span class="statut-cpt"> {{ usagersTotalCount || 0 }} </span>
+        <span class="statut-cpt">{{ usagersTotalCount || 0 }}</span>
         <span class="statut-label"> Tous</span>
-      </div>
-      <div
+      </button>
+      <button
+        type="button"
         class="col"
         [ngClass]="{ 'selected-section': filters.statut === 'VALIDE' }"
         (click)="updateFilters({ element: 'statut', value: 'VALIDE' })"
@@ -134,8 +130,9 @@
           >{{ allUsagersByStatus?.VALIDE.length || 0 }}
         </span>
         <span class="statut-label"> Actifs</span>
-      </div>
-      <div
+      </button>
+      <button
+        type="button"
         class="col"
         [ngClass]="{ 'selected-section': filters.statut === 'INSTRUCTION' }"
         (click)="updateFilters({ element: 'statut', value: 'INSTRUCTION' })"
@@ -144,8 +141,9 @@
           >{{ allUsagersByStatus?.INSTRUCTION.length || 0 }}
         </span>
         <span class="statut-label"> À compléter</span>
-      </div>
-      <div
+      </button>
+      <button
+        type="button"
         class="col"
         [ngClass]="{
           'selected-section': filters.statut === 'ATTENTE_DECISION'
@@ -158,8 +156,9 @@
           >{{ allUsagersByStatus?.ATTENTE_DECISION.length || 0 }}
         </span>
         <span class="statut-label">Attente de décision</span>
-      </div>
-      <div
+      </button>
+      <button
+        type="button"
         class="col"
         [ngClass]="{ 'selected-section': filters.statut === 'REFUS' }"
         (click)="updateFilters({ element: 'statut', value: 'REFUS' })"
@@ -168,15 +167,16 @@
           >{{ allUsagersByStatus?.REFUS.length || 0 }}
         </span>
         <span class="statut-label">Refusés</span>
-      </div>
-      <div
+      </button>
+      <button
+        type="button"
         class="col"
         [ngClass]="{ 'selected-section': filters.statut === 'RADIE' }"
         (click)="updateFilters({ element: 'statut', value: 'RADIE' })"
       >
         <span class="statut-cpt"> {{ usagersRadiesTotalCount || 0 }} </span>
         <span class="statut-label"> Radiés</span>
-      </div>
+      </button>
     </div>
   </div>
 </div>
@@ -225,9 +225,15 @@
             id="dropdownDernierPassage"
             display="dynamic"
             placement="bottom-left"
+            #dropdownDernierPassage="ngbDropdown"
             class="d-inline-block my-1"
           >
-            <button type="button" class="btn" ngbDropdownToggle>
+            <button
+              type="button"
+              class="btn"
+              ngbDropdownAnchor
+              (focus)="dropdownDernierPassage.open()"
+            >
               <span>Dernier passage</span>
             </button>
             <div
@@ -282,8 +288,14 @@
             display="dynamic"
             placement="bottom-end"
             class="d-inline-block"
+            #dropdownEcheance="ngbDropdown"
           >
-            <button type="button" class="btn" ngbDropdownToggle>
+            <button
+              type="button"
+              class="btn"
+              ngbDropdownAnchor
+              (focus)="dropdownEcheance.open()"
+            >
               <span>Échéance de domiciliation</span>
             </button>
 
@@ -348,8 +360,14 @@
             placement="bottom-left"
             *ngIf="!filters.interactionType"
             class="d-inline-block"
+            #dropDownCourrierAttente="ngbDropdown"
           >
-            <button type="button" class="btn" ngbDropdownToggle>
+            <button
+              type="button"
+              class="btn"
+              ngbDropdownAnchor
+              (focus)="dropDownCourrierAttente.open()"
+            >
               <span>Courriers à récupérer</span>
             </button>
             <div
@@ -396,8 +414,14 @@
             placement="bottom-left"
             *ngIf="!filters.entretien"
             class="d-inline-block"
+            #dropDownEntretien="ngbDropdown"
           >
-            <button type="button" class="btn" ngbDropdownToggle>
+            <button
+              type="button"
+              class="btn"
+              ngbDropdownAnchor
+              (focus)="dropDownEntretien.open()"
+            >
               <span>Entretien</span>
             </button>
             <div
@@ -440,8 +464,15 @@
           id="dropdownSort"
           placement="bottom-end"
           class="d-inline-block"
+          #dropdownSort="ngbDropdown"
         >
-          <div id="dropdownSortButton" ngbDropdownToggle>
+          <button
+            type="button"
+            class="btn"
+            id="dropdownSortButton"
+            ngbDropdownAnchor
+            (focus)="dropdownSort.open()"
+          >
             <span>
               <ng-container *ngIf="filters.sortKey !== 'PASSAGE'">
                 Trier par
@@ -449,7 +480,8 @@
               </ng-container>
 
               <ng-container *ngIf="filters.sortKey === 'PASSAGE'">
-                Trier par <strong class="text-primary">dernier passage</strong>
+                Trier par
+                <strong class="text-primary">dernier passage</strong>
               </ng-container>
               <fa-icon
                 *ngIf="filters.sortValue === 'ascending'"
@@ -465,7 +497,8 @@
                 class="ms-2"
               ></fa-icon>
             </span>
-          </div>
+          </button>
+
           <div
             ngbDropdownMenu
             aria-labelledby="dropdownSort"
@@ -638,25 +671,30 @@
     <div
       *ngIf="(searching || loading) && filters.page === 0"
       @fadeInOut
+      role="alert"
+      aria-busy="true"
+      aria-label="Chargement des dossiers..."
       class="text-center content-overlay d-print-none"
     >
-      <div *ngIf="searching || loading" @fadeInOut>
+      <div>
         <fa-icon
           [icon]="['fas', 'spinner']"
           class="spinner"
           [spin]="true"
+          aria-hidden="true"
         ></fa-icon>
         <br />
         <span class="loading_message">Chargement des dossiers...</span>
       </div>
     </div>
 
-    <div id="table-container">
+    <div id="table-container" @fadeInOut>
       <app-manage-manage-usagers-table
         [selectedRefs]="selectedRefs"
         [usagers]="usagers"
         [me]="me"
         [filters]="filters"
+        [displayCheckboxes]="displayCheckboxes"
         (updateUsager)="updateUsager($event)"
         (updateFilters)="updateFilters($event)"
         (goToPrint)="goToPrint()"

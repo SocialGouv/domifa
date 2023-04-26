@@ -37,7 +37,7 @@
           class="input-group-text btn btn-outline-primary d-print-none"
           (click)="dFin.toggle()"
         >
-          <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+          <fa-icon [icon]="['fas', 'calendar']" aria-hidden="true"></fa-icon>
         </button>
       </div>
       <p *ngIf="submitted && r.dateFin.invalid" class="invalid-feedback">
@@ -93,7 +93,7 @@
 
       <div class="form-group required" *ngIf="r.motif.value === 'AUTRE'">
         <label class="form-check-label" for="motifRefusAutre">
-          Autre motif de refus
+          Autre motif de refus (10 caractères minimum)
         </label>
         <input
           type="text"
@@ -104,7 +104,7 @@
           required
         />
         <p *ngIf="submitted && r.motifDetails.errors" class="invalid-feedback">
-          Veuillez précisez la raison (10 caractères minimum)
+          Veuillez précisez la raison
         </p>
       </div>
     </div>

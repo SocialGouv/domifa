@@ -1,28 +1,40 @@
-<section class="d-flex align-items-center" *ngIf="selectedRefs.length > 0">
+<section
+  class="d-flex align-items-center my-2"
+  *ngIf="selectedRefs.length > 0 && displayCheckboxes"
+>
   <div class="me-2">{{ selectedRefs.length }} selectionnés</div>
   <div class="btn-group btn-group-toggle" data-toggle="buttons">
-    <!-- <button
-      type="button"
-      class="btn btn-sm btn-outline-dark"
+    <app-decision-radiation-form
+      [selectedRefs]="selectedRefs"
+      context="MANAGE"
       *ngIf="filters.statut === 'VALIDE'"
-    >
-      Radier les domiciliés
-    </button> -->
+    ></app-decision-radiation-form>
     <button
+      *ngIf="me?.role !== 'simple'"
       type="button"
       (click)="openDeleteUsagersModal()"
       class="btn btn-sm btn-outline-dark"
     >
-      Supprimer les domiciliés
+      Supprimer {{ selectedRefs.length === 1 ? "le domicilié" : "les domiciliés"
+      }}
     </button>
   </div>
 </section>
-<table class="table" *ngIf="usagers.length !== 0" id="table-usagers">
+<table
+  class="table"
+  *ngIf="usagers.length !== 0 && !loading"
+  id="table-usagers"
+>
   <caption class="visually-hidden text-dark">
     Tableau des domiciliés
   </caption>
   <thead>
-    <th scope="col"></th>
+    <th scope="col" *ngIf="displayCheckboxes">
+      <span class="visually-hidden"
+        >Colonne de sélection des dossiers pour les supprimer ou les
+        radier</span
+      >
+    </th>
     <th scope="col" *ngIf="filters.statut ==='TOUS'">STATUT</th>
     <th
       scope="col"
@@ -30,25 +42,23 @@
     >
       Type de demande
     </th>
-    <th
-      class="clickable"
-      scope="col"
-      (click)="updateFilters.emit({
-      element: 'sortKey',
-      value: 'ID'
-    })"
-    >
-      ID
+    <th class="clickable">
+      <button
+        type="button"
+        (click)="updateFilters.emit({  element: 'sortKey',  value: 'ID'})"
+      >
+        <span class="visually-hidden">Trier par</span>
+        ID
+      </button>
     </th>
-    <th
-      class="clickable"
-      scope="col"
-      (click)="updateFilters.emit({
-      element: 'sortKey',
-      value: 'NAME'
-    })"
-    >
-      Nom prénom
+    <th class="clickable">
+      <button
+        type="button"
+        (click)="updateFilters.emit({ element: 'sortKey',  value: 'NAME' })"
+      >
+        <span class="visually-hidden">Trier par</span>
+        Nom prénom
+      </button>
     </th>
     <th scope="col">Téléphone</th>
     <th scope="col">INFORMATIONS</th>
@@ -56,22 +66,33 @@
       class="clickable"
       scope="col"
       *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS' "
-      (click)="updateFilters.emit({element: 'sortKey', value: 'PASSAGE'})"
     >
-      PASSAGE
+      <button
+        type="button"
+        (click)="updateFilters.emit({element: 'sortKey', value: 'PASSAGE'})"
+      >
+        <span class="visually-hidden">Trier par</span>
+        PASSAGE
+      </button>
     </th>
 
-    <th
-      class="clickable"
-      scope="col"
-      (click)="updateFilters.emit({element: 'sortKey', value: 'ECHEANCE'})"
-    >
-      <ng-container
-        *ngIf="filters.statut !== 'REFUS' && filters.statut !== 'RADIE'"
-        >ÉCHÉANCE</ng-container
+    <th class="clickable" scope="col">
+      <button
+        type="button"
+        (click)="updateFilters.emit({element: 'sortKey', value: 'ECHEANCE'})"
       >
-      <ng-container *ngIf="filters.statut === 'REFUS' ">REFUSÉ LE</ng-container>
-      <ng-container *ngIf="filters.statut === 'RADIE' ">RADIÉ LE</ng-container>
+        <span class="visually-hidden">Trier par</span>
+        <ng-container
+          *ngIf="filters.statut !== 'REFUS' && filters.statut !== 'RADIE'"
+          >ÉCHÉANCE</ng-container
+        >
+        <ng-container *ngIf="filters.statut === 'REFUS' "
+          >REFUSÉ LE</ng-container
+        >
+        <ng-container *ngIf="filters.statut === 'RADIE' "
+          >RADIÉ LE</ng-container
+        >
+      </button>
     </th>
     <th scope="col" class="text-start d-print-none">Intéraction</th>
     <th scope="col" class="text-start d-print-none">Courrier</th>
@@ -100,7 +121,11 @@
   </thead>
   <tbody>
     <tr *ngFor="let usager of usagers; let i = index">
-      <td class="text-start" (click)="toggleSelection(usager.ref)">
+      <td
+        class="text-start"
+        (click)="toggleSelection(usager.ref)"
+        *ngIf="displayCheckboxes"
+      >
         <input
           type="checkbox"
           [attr.aria-label]="'Sélectionner '+ usager.nom + ' ' + usager.prenom"
@@ -451,7 +476,7 @@
 
 <ng-template #deleteUsagersModal let-modal>
   <app-delete-usager
-    [refsToDelete]="selectedRefs"
+    [selectedRefs]="selectedRefs"
     [me]="me"
   ></app-delete-usager>
 </ng-template>

@@ -125,14 +125,14 @@
       class="btn btn-lg btn-outline-dark"
       (click)="closeModals()"
     >
-      Revenir au profil
+      Annuler
     </button>
   </div>
 </ng-template>
 
 <ng-template #deleteConfirmation let-modal>
   <app-delete-usager
-    [refsToDelete]="[usager.ref]"
+    [selectedRefs]="[usager.ref]"
     [me]="me"
   ></app-delete-usager>
 </ng-template>

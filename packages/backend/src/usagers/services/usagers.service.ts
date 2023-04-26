@@ -143,52 +143,48 @@ export class UsagersService {
 
   public async setDecision(
     usager: Usager,
-    decision: DecisionDto
+    newDecision: DecisionDto
   ): Promise<Usager> {
-    // Adaptation de la timeZone
     const now = new Date();
-    decision.dateDecision = now;
-
+    newDecision.dateDecision = now;
     usager.etapeDemande = ETAPE_DOSSIER_COMPLET;
 
-    if (decision.statut === "ATTENTE_DECISION") {
+    if (newDecision.statut === "ATTENTE_DECISION") {
       usager.etapeDemande = ETAPE_DECISION;
     }
 
-    if (decision.statut === "REFUS" || decision.statut === "RADIE") {
-      decision.dateFin =
-        decision.dateFin !== undefined && decision.dateFin !== null
-          ? // Fin de la journée pour la date de fin
-            decision.dateFin
+    if (newDecision.statut === "REFUS" || newDecision.statut === "RADIE") {
+      newDecision.dateFin =
+        newDecision.dateFin !== undefined && newDecision.dateFin !== null
+          ? newDecision.dateFin
           : now;
-      decision.dateDebut = decision.dateFin;
+      newDecision.dateDebut = newDecision.dateFin;
     }
 
     // Valide
-    if (decision.statut === "VALIDE") {
+    if (newDecision.statut === "VALIDE") {
       const actualLastInteraction = new Date(
         usager.lastInteraction.dateInteraction
       );
 
       // Si la dom est valide après le dernier passage, on le met à jour
-      if (decision.dateDebut > actualLastInteraction) {
-        usager.lastInteraction.dateInteraction = decision.dateDebut;
+      if (newDecision.dateDebut > actualLastInteraction) {
+        usager.lastInteraction.dateInteraction = newDecision.dateDebut;
       }
 
       // ID personnalisé
-      if (decision.customRef) {
-        usager.customRef = decision.customRef;
+      if (newDecision.customRef) {
+        usager.customRef = newDecision.customRef;
       }
 
       // Date de premiere dom = date de début si aucune autre date n'est spécifiée
       if (!usager.datePremiereDom) {
-        usager.datePremiereDom = decision.dateDebut;
+        usager.datePremiereDom = newDecision.dateDebut;
       }
     }
 
-    usager.decision = decision as UsagerDecision;
+    usager.decision = newDecision as UsagerDecision;
     usager.decision.uuid = uuidv4();
-
     usagerVisibleHistoryManager.addDecisionToVisibleHistory({ usager });
 
     await usagerHistoryStateManager.updateHistoryStateFromDecision({
