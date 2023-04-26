@@ -87,11 +87,13 @@ async function _anonymizeUsager(usager: Usager) {
     decision: anonymizeUsagerDecision(usager.decision),
     historique,
     ayantsDroits: anonymizeAyantDroits(usager.ayantsDroits),
-    rdv: {
-      userId: faker.datatype.number(),
-      userName: faker.name.fullName(),
-      dateRdv: usager?.rdv?.dateRdv ?? null,
-    },
+    rdv: usager?.rdv
+      ? {
+          userId: faker.datatype.number(),
+          userName: faker.name.fullName(),
+          dateRdv: usager?.rdv?.dateRdv ?? null,
+        }
+      : null,
   };
 
   if (Object.keys(attributesToUpdate).length === 0) {
@@ -145,7 +147,7 @@ async function anonymizeEntretiens() {
 async function anonymizeNotes() {
   appLogger.warn(`[anonymizeNotes] Nettoyage du contenu des notes`);
 
-  await usagerNotesRepository.update(
+  return usagerNotesRepository.update(
     {},
     {
       message: faker.lorem.sentence(),
@@ -160,7 +162,7 @@ async function anonymizeNotes() {
 async function anonymizeUsagerDocs() {
   appLogger.warn(`[anonymizeNotes] Nettoyage du contenu des notes`);
 
-  await usagerDocsRepository.update(
+  return usagerDocsRepository.update(
     {},
     {
       label: faker.lorem.sentence(3),
