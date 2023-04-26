@@ -1,3 +1,16 @@
+# [2.123.0](https://github.com/SocialGouv/domifa/compare/v2.122.8...v2.123.0) (2023-04-26)
+
+
+### Bug Fixes
+
+* **anon:** amélioration de l'anonymisation ([be6d2b9](https://github.com/SocialGouv/domifa/commit/be6d2b9a9da9acd75787bc684f7f681a1c2b00b9))
+* **anon:** amélioration de l'anonymisation de la préprod ([ab2dab7](https://github.com/SocialGouv/domifa/commit/ab2dab77f686adf9496bbd063a0f004d8d67b191))
+
+
+### Features
+
+* **domiciliés:** ajout de la gestion de masse pour supprimer les dossiers ([6c4a57e](https://github.com/SocialGouv/domifa/commit/6c4a57e950d264ec7879131b380de427644b93b1))
+
 ## [2.122.8](https://github.com/SocialGouv/domifa/compare/v2.122.7...v2.122.8) (2023-04-26)
 
 
