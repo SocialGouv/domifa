@@ -143,8 +143,8 @@ export class AppComponent implements OnInit, OnDestroy {
           }
 
           if (!this.me.acceptTerms) {
-            this.initCguForm();
             this.openAcceptTermsModal();
+            this.initCguForm();
           } else {
             this.checkNews();
           }
@@ -216,25 +216,17 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     this.loading = true;
+
     this.subscription.add(
       this.authService.acceptTerms().subscribe({
         next: () => {
+          this.submitted = false;
           this.loading = false;
           this.toastService.success(
             "Merci, vous pouvez continuer votre navigation"
           );
-
-          this.initCguForm();
-
-          const user = this.authService.currentUserValue;
-          user.acceptTerms = new Date();
-          if (user.role === "admin" && !user.structure.acceptTerms) {
-            user.structure.acceptTerms = new Date();
-          }
-          localStorage.setItem("currentUser", JSON.stringify(user));
-          this.authService.currentUserSubject.next(user);
-
           this.closeModals();
+          this.refresh();
         },
         error: () => {
           this.loading = false;

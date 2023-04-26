@@ -3,7 +3,11 @@ import { HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbDateParserFormatter,
+  NgbDatepickerI18n,
+  NgbModule,
+} from "@ng-bootstrap/ng-bootstrap";
 import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
 
 import { SharedModule } from "../shared/shared.module";
@@ -24,6 +28,10 @@ import { FormatInternationalPhoneNumberPipe } from "./formatInternationalPhoneNu
 import { DisplayDuplicatesUsagerComponent } from "./components/display-duplicates-usager/display-duplicates-usager.component";
 import { DecisionRadiationFormComponent } from "./components/decision-radiation-form/decision-radiation-form.component";
 import { DeleteUsagerComponent } from "./components/delete-usager/delete-usager.component";
+import {
+  NgbDateCustomParserFormatter,
+  CustomDatepickerI18n,
+} from "../shared/services";
 
 @NgModule({
   declarations: [
@@ -72,7 +80,11 @@ import { DeleteUsagerComponent } from "./components/delete-usager/delete-usager.
     DeleteUsagerComponent,
     DecisionRadiationFormComponent,
   ],
-
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [
+    NgbDateCustomParserFormatter,
+    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
+  ],
 })
 export class UsagerSharedModule {}

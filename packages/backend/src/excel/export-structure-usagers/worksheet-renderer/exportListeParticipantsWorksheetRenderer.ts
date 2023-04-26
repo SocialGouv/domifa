@@ -3,6 +3,7 @@ import { Column, Workbook } from "exceljs";
 import {
   COUNTRY_CODES,
   USAGER_DECISION_STATUT_LABELS,
+  UsagerDecision,
 } from "../../../_common/model";
 import {
   WorksheetRenderer,
@@ -124,6 +125,13 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
 
     let decisionUserPremierDom = "";
     let decisionUserRenouvellement = "";
+    let decisionDateDebut: string | Date =
+      (usager.decision.statut === "INSTRUCTION" ||
+        usager.decision.statut === "ATTENTE_DECISION") &&
+      usager.decision.typeDom === "PREMIERE_DOM"
+        ? ""
+        : asDate(usager.decision.dateDebut);
+    let decisionDateFin = asDate(usager.decision.dateFin);
 
     usager.historique.sort((a, b) => {
       const dateDecisionA = new Date(a.dateDecision);
@@ -147,6 +155,25 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
       }
     }
 
+    if (
+      usager.decision.statut === "RADIE" ||
+      (usager.decision.statut === "REFUS" &&
+        usager.typeDom === "RENOUVELLEMENT")
+    ) {
+      const decisionValidePlusRecente: UsagerDecision = usager.historique
+        .filter((decision) => decision.statut === "VALIDE")
+        .sort(
+          (a, b) =>
+            new Date(b.dateDecision).getTime() -
+            new Date(a.dateDecision).getTime()
+        )[0];
+
+      if (decisionValidePlusRecente) {
+        decisionDateDebut = asDate(decisionValidePlusRecente.dateDebut);
+        decisionDateFin = asDate(usager.decision.dateDecision);
+      }
+    }
+
     const countryCode = usager.telephone?.countryCode
       ? "+" + COUNTRY_CODES[usager.telephone.countryCode.toLowerCase()]
       : "";
@@ -166,29 +193,19 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
         decisionStatut: USAGER_DECISION_STATUT_LABELS[usager.decision.statut],
         decisionMotifRefus:
           usager.decision.statut === "REFUS" ? usager.decision.motif : "",
-
         decisionUserRefus:
           usager.decision.statut === "REFUS" ? usager.decision.userName : "",
-
         decisionMotifRadie:
           usager.decision.statut === "RADIE" ? usager.decision.motif : "",
-
         decisionUserRadie:
           usager.decision.statut === "RADIE" ? usager.decision.userName : "",
-
-        decisionDate:
-          usager.decision.statut === "RADIE"
-            ? asDate(usager.decision.dateDecision)
-            : "",
         typeDom: usager.typeDom,
-        decisionDateDebut: asDate(usager.decision.dateDebut),
-        decisionDateFin: asDate(usager.decision.dateFin),
+        decisionDateDebut,
+        decisionDateFin,
         datePremiereDom: asDate(usager.datePremiereDom),
-
+        decisionDate: asDate(usager.decision.dateDecision),
         decisionUserPremierDom,
-
         decisionUserRenouvellement,
-
         dateLastInteraction: asDate(usager.lastInteraction.dateInteraction),
         ayantsDroitsCount: usager.ayantsDroits.length,
       },

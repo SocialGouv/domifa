@@ -1,5 +1,6 @@
 import { domifaConfig } from "../../../../config";
 import { appLogger } from "../../../../util";
+import { dateInteractionsAnonymizer } from "./dataInteractionsAnonymizer";
 import { dataMessageEmailAnonymizer } from "./dataMessageEmailAnonymizer";
 import { dataMessageSmsAnonymizer } from "./dataMessageSmsAnonymizer";
 import { dataStructureAnonymizer } from "./dataStructureAnonymizer";
@@ -17,13 +18,16 @@ async function anonymize() {
   const envId = domifaConfig().envId;
   if (envId === "dev" || envId === "preprod" || envId === "local") {
     appLogger.warn(`[dataAnonymizer] DB anonymisation ON (env:${envId})`);
+    await dataUsagerAnonymizer.anonymizeUsagers();
+    await dataUsagerAnonymizer.anonymizeNotes();
+    await dataUsagerAnonymizer.anonymizeUsagerDocs();
     await dataMessageEmailAnonymizer.anonymizeEmail();
     await dataMessageSmsAnonymizer.anonymizeSms();
     await dataStructureAnonymizer.anonymizeStructures();
     await dataUserStructureAnonymizer.anonymizeUsersStructure();
     await dataUserUsagerAnonymizer.anonymizeUsersUsager();
     await dataUsagerAnonymizer.anonymizeEntretiens();
-    await dataUsagerAnonymizer.anonymizeUsagers();
+    await dateInteractionsAnonymizer.anonymizeInteractions();
     // await dataUsagerHistoryAnonymizer.anonymizeUsagersHistory({ app });
   } else {
     appLogger.warn(`[dataAnonymizer] DB anonymisation OFF (env:${envId})`);

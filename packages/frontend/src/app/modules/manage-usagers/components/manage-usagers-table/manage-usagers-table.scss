@@ -1,6 +1,6 @@
 table {
   border-collapse: separate;
-  border-spacing: 0 10px;
+  border-spacing: 0 9px;
   margin: 0 auto;
   box-sizing: content-box;
   min-width: 1000px;
@@ -72,7 +72,7 @@ tbody tr {
   transition: all 0.5s;
   animation-timing-function: cubic-bezier(Ease Out);
   background: #ffffff;
-  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: 0 3px 1px rgba(0, 0, 0, 0.06);
   border-radius: 2px;
 }
 
@@ -83,12 +83,25 @@ tbody tr:hover {
   box-shadow: 2px 1px 4px rgba(179, 179, 179, 0.5);
 }
 
+thead th button {
+  padding: 0.25rem 0.5rem;
+}
+
+thead th button:not(.btn) {
+  font-size: 0.95rem;
+  color: #3150c0;
+  text-transform: uppercase;
+  border: none;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
 thead th {
   font-style: normal;
   font-weight: 600;
   font-size: 0.95rem;
   color: #3150c0;
-  padding: 0.5rem 0.2rem;
+  padding: 0.2rem;
   text-transform: uppercase;
   border: none;
   transition: all 0.2s ease;

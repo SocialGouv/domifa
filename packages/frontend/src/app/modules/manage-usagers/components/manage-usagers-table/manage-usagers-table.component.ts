@@ -31,7 +31,6 @@ import { InteractionService } from "../../../usager-shared/services/interaction.
 import {
   UsagersFilterCriteria,
   UsagersFilterCriteriaSortValues,
-  UsagersFilterCriteriaDernierPassage,
 } from "../usager-filter";
 
 @Component({
@@ -52,6 +51,9 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
 
   @Input()
   public loading!: boolean;
+
+  @Input() public selectedRefs: number[];
+  @Input() public displayCheckboxes: boolean;
 
   @Output()
   public updateUsager = new EventEmitter<UsagerLight>();
@@ -87,14 +89,6 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
 
   public loadingButtons: string[];
 
-  @Input() public selectedRefs: number[];
-
-  public readonly labelsDernierPassage: {
-    [key in UsagersFilterCriteriaDernierPassage]: string;
-  } = {
-    DEUX_MOIS: "Dernier passage 2 mois",
-    TROIS_MOIS: "Dernier passage 3 mois",
-  };
   constructor(
     private readonly interactionService: InteractionService,
     private readonly router: Router,
@@ -117,7 +111,6 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
     usager: UsagerFormModel,
     type: InteractionType
   ): void {
-    // Ajout du loading du bouton
     const loadingRef = usager.ref.toString() + "_" + type;
 
     if (this.loadingButtons.indexOf(loadingRef) !== -1) {

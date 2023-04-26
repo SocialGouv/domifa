@@ -27,7 +27,7 @@
             <div class="text-danger">
               <b
                 >Demande refusée le
-                {{ usager.decision.dateFin | date : "dd/MM/yyyy" }}</b
+                {{ usager.echeanceInfos.dateToDisplay | date : "dd/MM/yy" }}</b
               >
               <br />
               {{ usager.decision.motifString }}
@@ -458,6 +458,7 @@
         <div class="col-md-6">
           <h2>Notes</h2>
           <app-profil-general-notes
+            [me]="me"
             [(usager)]="usager"
           ></app-profil-general-notes>
 

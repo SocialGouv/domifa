@@ -74,7 +74,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   public usagersTotalCount = 0;
   public usagersRadiesLoadedCount = 0;
   public usagersRadiesTotalCount = 0;
-
+  public displayCheckboxes: boolean;
   public chargerTousRadies$ = new BehaviorSubject(false);
 
   public allUsagers$ = this.searchPageLoadedUsagersData$.pipe(
@@ -158,15 +158,17 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
   public selectedRefs: number[];
+
   constructor(
     private readonly usagerService: ManageUsagersService,
     private readonly authService: AuthService,
     private readonly titleService: Title,
     private readonly modalService: NgbModal,
-
     public matomo: MatomoTracker
   ) {
     this.selectedRefs = [];
+
+    this.displayCheckboxes = false;
 
     this.allUsagersByStatus = {
       INSTRUCTION: [],
@@ -195,6 +197,11 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     this.filters$.next(this.filters);
 
     this.scrollTop();
+
+    if (!this.me.acceptTerms) {
+      return;
+    }
+
     // reload every hour
     this.subscription.add(
       timer(0, AUTO_REFRESH_PERIOD)
@@ -510,6 +517,12 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     this.searching = true;
     this.selectedRefs = [];
     this.modalService.dismissAll();
+
+    this.displayCheckboxes = !(
+      this.me.role === "facteur" ||
+      (this.me.role === "simple" && this.filters.statut !== "VALIDE")
+    );
+
     localStorage.setItem("MANAGE_USAGERS", JSON.stringify(filters));
 
     const allUsagers = allUsagersByStatus[filters.statut];

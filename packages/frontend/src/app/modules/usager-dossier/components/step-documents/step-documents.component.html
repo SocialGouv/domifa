@@ -28,11 +28,20 @@
           (click)="nextStep(4)"
         >
           <span *ngIf="!loading">
-            Suivant <fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
+            Suivant
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'angle-right']"
+            ></fa-icon>
           </span>
 
           <span *ngIf="loading"
-            ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+            ><fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'circle-notch']"
+              [spin]="true"
+            >
+            </fa-icon>
             Veuillez patienter...</span
           >
         </button>
@@ -42,9 +51,12 @@
           routerLinkActive="router-link-active"
           class="btn btn-block my-3"
         >
-          <u>Continuer plus tard</u>
-
-          <fa-icon class="ms-2" [icon]="['fas', 'angle-right']"></fa-icon>
+          Continuer plus tard
+          <fa-icon
+            class="ms-2"
+            aria-hidden="true"
+            [icon]="['fas', 'angle-right']"
+          ></fa-icon>
         </a>
       </div>
     </div>

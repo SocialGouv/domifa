@@ -28,22 +28,23 @@
             </td>
             <td>{{ user.email }}</td>
             <td>
-              <label class="visually-hidden" for="role_{{ user.id }}"
-                >Rôle de {{ user.nom }} {{ user.prenom }}</label
-              >
-              <select
-                [disabled]="loading"
-                *ngIf="me.role === 'admin' && me.id !== user.id"
-                id="role_{{ user.id }}"
-                [(ngModel)]="user.role"
-                (ngModelChange)="updateRole(user.id, user.role)"
-                class="form-select"
-              >
-                <option value="admin">Administrateur</option>
-                <option value="responsable">Gestionnaire</option>
-                <option value="simple">Instructeur</option>
-                <option value="facteur">Facteur</option>
-              </select>
+              <ng-container *ngIf="me.role === 'admin' && me.id !== user.id">
+                <label class="visually-hidden" for="role_{{ user.id }}"
+                  >Rôle de {{ user.nom }} {{ user.prenom }}</label
+                >
+                <select
+                  [disabled]="loading"
+                  id="role_{{ user.id }}"
+                  [(ngModel)]="user.role"
+                  (ngModelChange)="updateRole(user.id, user.role)"
+                  class="form-select"
+                >
+                  <option value="admin">Administrateur</option>
+                  <option value="responsable">Gestionnaire</option>
+                  <option value="simple">Instructeur</option>
+                  <option value="facteur">Facteur</option>
+                </select>
+              </ng-container>
             </td>
             <td>
               <button

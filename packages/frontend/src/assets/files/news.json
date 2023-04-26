@@ -1,5 +1,25 @@
 [
   {
+    "date": "2023-04-27",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Ajout d'une fonctionnalité pour réaliser des radiations et des suppressions de dossiers en masse",
+        "message": [
+          "Vous pouvez désormais sélectionner de multiples dossiers depuis la liste des domiciliés, afin de les radier ou les supprimer plus rapidement"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Correction dans l'export de données de la date de début de dom pour les dossiers radiés et refusés",
+        "message": [
+          "Lorsqu'un dossier était radié ou refusé, la date de début de dom indiquée correspondait à la date de décision. Cette information est corrigée, et mentionne à présent la date de début de la domiciliation précédente"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2023-04-17",
     "description": "",
     "content": [

@@ -12,14 +12,13 @@ import { UsagerProfilService } from "../../../usager-profil/services/usager-prof
   styleUrls: ["./delete-usager.component.css"],
 })
 export class DeleteUsagerComponent implements OnDestroy {
-  @Input() public refsToDelete: number[];
+  @Input() public selectedRefs: number[];
   @Input() public context!: "MANAGE" | "PROFIL";
   @Input() public me!: UserStructure;
 
   private subscription = new Subscription();
 
   public loading: boolean;
-  public isAdmin: boolean;
 
   constructor(
     private readonly router: Router,
@@ -27,14 +26,14 @@ export class DeleteUsagerComponent implements OnDestroy {
     private readonly usagerProfilService: UsagerProfilService,
     private readonly toastService: CustomToastService
   ) {
-    this.isAdmin = false;
     this.loading = false;
   }
 
   public deleteUsager(): void {
     this.loading = true;
 
-    const deleteRequests: Observable<any>[] = this.refsToDelete.map(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const deleteRequests: Observable<any>[] = this.selectedRefs.map(
       (ref: number) => {
         return this.usagerProfilService.delete(ref);
       }
@@ -43,9 +42,13 @@ export class DeleteUsagerComponent implements OnDestroy {
     this.subscription.add(
       forkJoin(deleteRequests).subscribe({
         next: () => {
-          this.toastService.success("Usager supprimé avec succès");
+          const message =
+            this.selectedRefs.length > 1
+              ? "Les dossiers sélectionnés ont été supprimé avec succès"
+              : "Usager supprimé avec succès";
+          this.toastService.success(message);
+          this.modalService.dismissAll();
           setTimeout(() => {
-            this.modalService.dismissAll();
             this.loading = false;
             this.router.navigate(["/manage"]).then(() => {
               window.location.reload();
@@ -60,6 +63,7 @@ export class DeleteUsagerComponent implements OnDestroy {
       })
     );
   }
+
   public closeModals(): void {
     this.modalService.dismissAll();
   }
