@@ -1,3 +1,10 @@
+## [2.123.1](https://github.com/SocialGouv/domifa/compare/v2.123.0...v2.123.1) (2023-04-27)
+
+
+### Bug Fixes
+
+* **ci:** secret passée en optionnel ([153bafb](https://github.com/SocialGouv/domifa/commit/153bafb629d9e3487fb4b253c580bed04c76cb55))
+
 # [2.123.0](https://github.com/SocialGouv/domifa/compare/v2.122.8...v2.123.0) (2023-04-26)
 
 
