@@ -1,3 +1,10 @@
+## [2.123.2](https://github.com/SocialGouv/domifa/compare/v2.123.1...v2.123.2) (2023-04-27)
+
+
+### Bug Fixes
+
+* ci ([2c4ac80](https://github.com/SocialGouv/domifa/commit/2c4ac80b3a3fc6ce0bcc606b3061eed61832b0b3))
+
 ## [2.123.1](https://github.com/SocialGouv/domifa/compare/v2.123.0...v2.123.1) (2023-04-27)
 
 
