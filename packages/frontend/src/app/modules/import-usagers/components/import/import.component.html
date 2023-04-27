@@ -4,64 +4,6 @@
   </div>
 </div>
 <div class="container pb-2">
-  <div id="steps">
-    <div class="step">
-      <div>
-        <span
-          *ngIf="etapeImport === 'select-file'"
-          [ngClass]="{
-            step_active: etapeImport === 'select-file',
-            step_inactive: etapeImport !== 'select-file'
-          }"
-          class="step_number"
-        >
-          1
-        </span>
-        <span
-          *ngIf="etapeImport !== 'select-file'"
-          class="step_number step_check"
-          (click)="backToEtapeSelectFile()"
-        >
-          <fa-icon [icon]="['fas', 'check']"></fa-icon>
-        </span>
-        <span
-          [ngClass]="{
-            step_text_active: etapeImport === 'select-file',
-            step_text_inactive: etapeImport !== 'select-file'
-          }"
-          class="step_text"
-        >
-          Téléchargement de votre fichier
-        </span>
-      </div>
-      <div className="check_sep">
-        <span class="separateur" ngClass="separateur_inactive"></span>
-      </div>
-    </div>
-    <div class="step">
-      <div>
-        <span
-          [ngClass]="{
-            step_active: etapeImport === 'preview-import',
-            step_inactive: etapeImport !== 'preview-import'
-          }"
-          class="step_number"
-        >
-          2
-        </span>
-        <span
-          [ngClass]="{
-            step_text_active: etapeImport === 'preview-import',
-            step_text_inactive: etapeImport !== 'preview-import'
-          }"
-          class="step_text"
-        >
-          Vérification des données
-        </span>
-      </div>
-    </div>
-  </div>
-
   <div class="text-center" *ngIf="etapeImport === 'select-file'">
     <div class="py-2">
       <h4 class="text-center">Étape 1 : Télécharger et compléter le modèle</h4>

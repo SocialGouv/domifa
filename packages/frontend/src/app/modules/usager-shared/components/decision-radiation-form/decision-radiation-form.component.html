@@ -60,6 +60,12 @@
 
     <form [formGroup]="radiationForm" (ngSubmit)="setDecisionRadiation()">
       <div class="row">
+        <div class="col-md-12">
+          <p>
+            Les champs suivis d'un
+            <span class="fw-bold text-danger">*</span> sont obligatoires
+          </p>
+        </div>
         <div class="col-md-6 form-group required">
           <label for="dateFin">Date de la radiation</label>
           <div class="input-group">

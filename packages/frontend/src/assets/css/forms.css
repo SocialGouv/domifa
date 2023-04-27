@@ -183,7 +183,6 @@ form label {
 }
 
 .step_number {
-  cursor: pointer;
   border-radius: 50%;
   width: 42px;
   height: 42px;
@@ -213,14 +212,12 @@ form label {
   color: #3b3b3b;
   border-color: #3b3b3b;
   background-color: transparent;
-  cursor: not-allowed;
 }
 
 .step_inactive {
   color: #3b3b3b;
   border-color: #3b3b3b;
   background-color: white;
-  cursor: not-allowed;
 }
 
 .step_text_active {
@@ -229,7 +226,6 @@ form label {
 .step_active {
   background-color: var(--bs-blue);
   color: white;
-  cursor: pointer;
 }
 
 .step_check {
@@ -237,7 +233,6 @@ form label {
   background-color: white;
   border-color: var(--bs-success);
   color: var(--bs-success);
-  cursor: pointer;
 }
 
 .separateur {

@@ -4,6 +4,12 @@
   *ngIf="currentUserSubject$ | async as me"
 >
   <div class="row">
+    <div class="col-md-12">
+      <p>
+        Les champs suivis d'un
+        <span class="fw-bold text-danger">*</span> sont obligatoires
+      </p>
+    </div>
     <div class="col-md-4 form-group required">
       <label for="nom">Nom</label>
       <input
