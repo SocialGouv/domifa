@@ -7,7 +7,7 @@
     >
       <div (click)="submitted = false">
         <span *ngIf="etapeInscription > i" class="step_number step_check">
-          <fa-icon [icon]="['fas', 'check']"></fa-icon>
+          <fa-icon [icon]="['fas', 'check']" aria-hidden="true"></fa-icon>
         </span>
         <span
           *ngIf="etapeInscription <= i"
@@ -114,10 +114,11 @@
         </p>
       </fieldset>
 
-      <br />
-      <br />
-
-      <p class="text-center subtitle">
+      <p class="text-left my-3">
+        Les champs suivis d'un
+        <span class="fw-bold text-danger">*</span> sont obligatoires
+      </p>
+      <p class="text-left my-3">
         Veuillez saisir les coordonnées de votre structure, celles-ci
         apparaitront sur le Cerfa d’attestation :
       </p>

@@ -96,6 +96,12 @@
         class="row"
         (ngSubmit)="updateUser()"
       >
+        <div class="col-md-12">
+          <p>
+            Les champs suivis d'un
+            <span class="fw-bold text-danger">*</span> sont obligatoires
+          </p>
+        </div>
         <div class="col-md-4 form-group required">
           <label for="prenom">Prénom</label>
           <input
@@ -206,6 +212,12 @@
         class="row"
         (ngSubmit)="updateMyPassword()"
       >
+        <div class="col-md-12">
+          <p>
+            Les champs suivis d'un
+            <span class="fw-bold text-danger">*</span> sont obligatoires
+          </p>
+        </div>
         <div class="col-md-4 form-group required">
           <label for="oldPassword">Ancien mot de passe</label>
           <div class="input-group">

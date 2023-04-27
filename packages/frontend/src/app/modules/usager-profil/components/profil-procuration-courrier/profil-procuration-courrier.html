@@ -97,6 +97,12 @@
       *ngFor="let procuration of form.controls; let i = index"
     >
       <div [formGroupName]="i" class="row">
+        <div class="col-12">
+          <p>
+            Les champs suivis d'un
+            <span class="fw-bold text-danger">*</span> sont obligatoires
+          </p>
+        </div>
         <div class="col form-group required">
           <label for="procuration_nom_{{i}}">Nom</label>
           <input

@@ -140,7 +140,10 @@
                 L'entretien sera réalisé plus tard, par vous-même ou un autre
                 collaborateur.
               </p>
-
+              <p *ngIf="r.isNow.value === false">
+                Les champs suivis d'un
+                <span class="fw-bold text-danger">*</span> sont obligatoires
+              </p>
               <div class="row text-center" *ngIf="r.isNow.value === false">
                 <div class="form-group col required">
                   <label for="rdvUser">Avec quel collaborateur ?</label>

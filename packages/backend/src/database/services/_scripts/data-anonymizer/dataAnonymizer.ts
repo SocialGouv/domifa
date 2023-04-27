@@ -18,13 +18,13 @@ async function anonymize() {
   const envId = domifaConfig().envId;
   if (envId === "dev" || envId === "preprod" || envId === "local") {
     appLogger.warn(`[dataAnonymizer] DB anonymisation ON (env:${envId})`);
+    await dataStructureAnonymizer.anonymizeStructures();
+    await dataUserStructureAnonymizer.anonymizeUsersStructure();
     await dataUsagerAnonymizer.anonymizeUsagers();
     await dataUsagerAnonymizer.anonymizeNotes();
     await dataUsagerAnonymizer.anonymizeUsagerDocs();
     await dataMessageEmailAnonymizer.anonymizeEmail();
     await dataMessageSmsAnonymizer.anonymizeSms();
-    await dataStructureAnonymizer.anonymizeStructures();
-    await dataUserStructureAnonymizer.anonymizeUsersStructure();
     await dataUserUsagerAnonymizer.anonymizeUsersUsager();
     await dataUsagerAnonymizer.anonymizeEntretiens();
     await dateInteractionsAnonymizer.anonymizeInteractions();

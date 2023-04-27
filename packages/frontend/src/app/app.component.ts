@@ -102,7 +102,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.titleService.setTitle(
-      "DomiFa, l'outil qui facilite la gestion des structures domiciliatirices"
+      "DomiFa, l'outil qui facilite la gestion des structures domiciliatrices"
     );
 
     this.currentUrl = this.router.url;

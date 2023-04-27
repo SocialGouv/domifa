@@ -7,6 +7,12 @@
 <div class="modal-body">
   <form ngNativeValidate [formGroup]="uploadForm" (ngSubmit)="submitFile()">
     <div class="row">
+      <div class="col-md-12">
+        <p>
+          Les champs suivis d'un
+          <span class="fw-bold text-danger">*</span> sont obligatoires
+        </p>
+      </div>
       <div class="col-12 form-group required" *ngIf="isCustomDoc">
         <label for="customDocType">Type de document à enregistrer</label>
         <select

@@ -44,19 +44,21 @@
 
   <div class="step_form" *ngIf="!success">
     <div class="text-center">
-      <div>
-        <h5 class="title">
-          Création du compte administrateur de votre structure sur DomiFa
-        </h5>
-        <p>
-          Attention, les informations que vous allez saisir vous serviront à
-          administrer votre compte DomiFa. Lorsque celui-ci sera validé, vous
-          pourrez alors inviter d'autres collaborateurs de votre structure à
-          créer des comptes pour se connecter à votre compte DomiFa.
-        </p>
-      </div>
+      <h5 class="title">
+        Création du compte administrateur de votre structure sur DomiFa
+      </h5>
+      <p>
+        Attention, les informations que vous allez saisir vous serviront à
+        administrer votre compte DomiFa. Lorsque celui-ci sera validé, vous
+        pourrez alors inviter d'autres collaborateurs de votre structure à créer
+        des comptes pour se connecter à votre compte DomiFa.
+      </p>
     </div>
-    <br />
+
+    <p class="text-left my-3">
+      Les champs suivis d'un
+      <span class="fw-bold text-danger">*</span> sont obligatoires
+    </p>
     <br />
     <form *ngIf="user" [formGroup]="userForm" (ngSubmit)="submitUser()">
       <div class="row">
