@@ -2,6 +2,7 @@
   <h2>Historique des courriers</h2>
 
   <button
+    type="button"
     aria-label="Imprimer les courriers"
     class="btn btn-sm btn-primary d-print-none"
     (click)="goToPrint()"
@@ -73,6 +74,7 @@
           <td class="text-end d-print-none">
             <ng-container *ngIf="i === 0">
               <button
+                type="button"
                 title="Supprimer"
                 aria-label="Supprimer l'interaction"
                 *ngIf="interaction.event === 'create'"
@@ -82,9 +84,14 @@
                 "
                 class="btn btn-danger"
               >
-                <fa-icon [icon]="['fas', 'trash']" class="delete"></fa-icon>
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'trash']"
+                  class="delete"
+                ></fa-icon>
               </button>
               <button
+                type="button"
                 title="Restaurer"
                 aria-label="Restaurer l'interaction"
                 *ngIf="interaction.event === 'delete'"
@@ -94,7 +101,10 @@
                 "
                 class="btn btn-outline-primary"
               >
-                <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'exclamation-triangle']"
+                ></fa-icon>
               </button>
             </ng-container>
           </td>
@@ -140,6 +150,7 @@
 
   <div class="modal-footer">
     <button
+      type="submit"
       class="btn btn-lg btn-danger"
       (click)="deleteInteraction()"
       [disabled]="loading"
@@ -151,7 +162,9 @@
       <span *ngIf="!loading">Confirmer la suppression</span>
     </button>
     <button
+      type="button"
       [disabled]="loading"
+      [attr.aria-disabled]="loading"
       class="btn btn-lg btn-outline-dark"
       (click)="closeModals()"
     >
@@ -196,6 +209,7 @@
 
   <div class="modal-footer">
     <button
+      type="submit"
       [disabled]="loading"
       class="btn btn-lg btn-danger"
       (click)="deleteInteraction()"
@@ -206,7 +220,11 @@
       </span>
       <span *ngIf="!loading">Confirmer la restauration</span>
     </button>
-    <button class="btn btn-lg btn-outline-dark" (click)="closeModals()">
+    <button
+      type="button"
+      class="btn btn-lg btn-outline-dark"
+      (click)="closeModals()"
+    >
       Revenir au profil
     </button>
   </div>

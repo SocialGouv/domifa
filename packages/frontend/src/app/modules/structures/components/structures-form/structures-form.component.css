@@ -1,15 +1,3 @@
-.separateur {
-  min-width: 140px;
-}
-
-.separateur_inactive {
-  min-width: 140px;
-}
-
-.step div {
-  max-width: 120px;
-}
-
 #structureForm div.btn {
   margin: 10px 15px;
   padding: 0;

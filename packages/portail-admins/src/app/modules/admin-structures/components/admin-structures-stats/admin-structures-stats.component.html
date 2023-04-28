@@ -53,21 +53,21 @@
       <div>
         <div class="stats-blocks-container--inline">
           <div>
-            <span class="stats-titre"> UTILISATEURS</span>
+            <span class="stats-titre">UTILISATEURS</span>
           </div>
           <div class="stats-blocks">
             <div>
               <span class="stats-chiffres">{{
                 stats.usersCount | formatBigNumber
               }}</span>
-              <span class="stats-labels"> UTILISATEURS </span>
+              <span class="stats-labels">UTILISATEURS</span>
             </div>
           </div>
         </div>
 
         <div class="stats-blocks-container--inline">
           <div>
-            <span class="stats-titre"> DOCUMENTS</span>
+            <span class="stats-titre">DOCUMENTS</span>
           </div>
           <div class="stats-blocks">
             <div>
@@ -119,8 +119,8 @@
     <div class="col-4">
       <table class="table table-hover">
         <thead>
-          <th>Régions</th>
-          <th>Structures</th>
+          <th scope="col">Régions</th>
+          <th scope="col">Structures</th>
         </thead>
         <tbody>
           <tr *ngFor="let structure of stats.structuresCountByRegion">

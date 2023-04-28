@@ -6,7 +6,7 @@
 <div class="container pb-2">
   <div class="text-center" *ngIf="etapeImport === 'select-file'">
     <div class="py-2">
-      <h4 class="text-center">Étape 1 : Télécharger et compléter le modèle</h4>
+      <h2 class="text-center">Étape 1 : Télécharger et compléter le modèle</h2>
       <p>
         Afin d'importer vos dossiers, vous devez télécharger et compléter le
         fichier Excel ci-dessous.
@@ -39,22 +39,19 @@
       </a>
     </div>
     <div class="pt-2 pb-5">
-      <h4 class="text-center">Étape 2 : importer le fichier complété</h4>
+      <h2 class="text-center">Étape 2 : importer le fichier complété</h2>
       <p>
         Une fois le modèle Excel complété, cliquez ci-dessous pour l'importer
         sur DomiFa
       </p>
-      <div
-        class="m-auto d-flex w-50 border border-primary rounded-2 form-label required"
-        tabindex="0"
-      >
-        <label for="fileExcel" class="zone-upload">
+      <div class="m-auto w-50">
+        <label for="fileExcel" class="form-label">
           <fa-icon [icon]="['fas', 'download']" aria-hidden="true"></fa-icon>
-          <strong>Cliquez ici</strong>
-          pour importer le fichier Excel complété
-        </label>
+          Cliquez ici pour importer le fichier Excel complété</label
+        >
+
         <input
-          class="form-control w-100"
+          class="form-control"
           type="file"
           id="fileExcel"
           name="fileExcel"
@@ -72,7 +69,7 @@
       *ngIf="!uploadForm.invalid && previewTable?.errorsCount === 0"
     >
       <div class="text-center" *ngIf="previewTable">
-        <h4 class="text-primary">Votre fichier est prêt à être importé !</h4>
+        <h2 class="text-primary">Votre fichier est prêt à être importé !</h2>
         <strong>{{ previewTable.totalCount }} domiciliés</strong>
         seront importés sur DomiFa
       </div>
@@ -98,7 +95,7 @@
     </div>
 
     <div *ngIf="previewTable?.errorsCount > 0" class="text-danger">
-      <h4 class="text-danger">Votre fichier ne peut pas être importé !</h4>
+      <h2 class="text-danger">Votre fichier ne peut pas être importé !</h2>
 
       <p>
         Attention : votre fichier contient
@@ -181,32 +178,32 @@
 
           <th scope="col">La personne a-t-elle été orientée ?</th>
           <th scope="col">
-            <u>Seulement si orientation</u><br />
+            <b>Seulement si orientation</b><br />
             Par quelle structure/personne la personne a-t-elle été orientée ?
           </th>
           <th scope="col">La personne a-t-elle déjà une domiciliation ?</th>
           <th scope="col">La personne a-t-elle des revenus ?</th>
           <th scope="col">
-            <u>Seulement si revenus,</u> <br />
+            <b>Seulement si revenus,</b> <br />
             de quelle nature ?
           </th>
           <th scope="col">
             Quel est le lien avec la commune ? (Si CCAS ou CIAS)
           </th>
-          <th scope="col"><u>Si autre lien avec la commune</u>, précisions</th>
+          <th scope="col"><b>Si autre lien avec la commune</b>, précisions</th>
           <th scope="col">Composition du ménage</th>
           <th scope="col">Situation résidentielle</th>
           <th scope="col">
-            <u>Si autre situation résidentielle</u><br />, précisions
+            <b>Si autre situation résidentielle</b><br />, précisions
           </th>
           <th scope="col">Cause instabilité logement</th>
           <th scope="col">
-            <u>Si autre cause d'instabilité</u><br />, précisions
+            <b>Si autre cause d'instabilité</b><br />, précisions
           </th>
           <th scope="col">Accompagnement social</th>
           <th scope="col">Détail de l'accompagnement social</th>
           <th scope="col">Motif principal de la demande</th>
-          <th scope="col"><u>Si autre motif,</u><br />, précisions</th>
+          <th scope="col"><b>Si autre motif,</b><br />, précisions</th>
           <th scope="col">Commentaires</th>
 
           <ng-container

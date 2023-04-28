@@ -4,30 +4,19 @@
   height: 22px;
   text-align: center;
   box-sizing: border-box;
-  background-color: #ffffff;
+  background-color: black;
   -webkit-mask-size: 80% !important;
   mask-size: 80% !important;
 }
 
 .notif-notes {
   position: relative;
-  top: -8px;
-  width: 17px;
-  height: 17px;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 13px;
-  line-height: 16px;
-  background-color: #50e3c2;
+  width: 18px;
+  height: 18px;
+  line-height: 120%;
+  font-size: 0.9rem;
+  background-color: var(--bs-primary);
   border-radius: 50%;
   text-align: center;
-  color: #26353f;
-}
-
-.private-notes-anchor {
-  cursor: pointer;
-}
-
-a {
-  color: white !important;
+  color: white;
 }
