@@ -19,7 +19,8 @@
     <div class="col-md-3">
       <div class="text-center ps-4 pe-2">
         <div class="fw-bold mb-3">Depuis notre lancement</div>
-        <div
+        <button
+          type="button"
           [ngClass]="selectedCharts === 'courriers' ? 'selected-stats' : ''"
           class="stats-section py-4 mb-1"
           (click)="selectChart('courriers')"
@@ -33,9 +34,10 @@
             {{ publicStats?.courrierOutCount | formatBigNumber }}
           </div>
           <div class="stats-section-label">courriers distribués</div>
-        </div>
+        </button>
 
-        <div
+        <button
+          type="button"
           [ngClass]="selectedCharts === 'usagers' ? 'selected-stats' : ''"
           class="stats-section py-4 mt-1"
           (click)="selectChart('usagers')"
@@ -49,7 +51,7 @@
             {{ publicStats?.usagersCount | formatBigNumber }}
           </div>
           <div class="stats-section-label">domiciliés</div>
-        </div>
+        </button>
       </div>
     </div>
     <div class="col-md-9 ps-2 pe-4">

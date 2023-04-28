@@ -42,7 +42,7 @@
     >
       Type de demande
     </th>
-    <th class="clickable">
+    <th scope="col">
       <button
         type="button"
         (click)="updateFilters.emit({  element: 'sortKey',  value: 'ID'})"
@@ -51,7 +51,7 @@
         ID
       </button>
     </th>
-    <th class="clickable">
+    <th scope="col">
       <button
         type="button"
         (click)="updateFilters.emit({ element: 'sortKey',  value: 'NAME' })"
@@ -226,9 +226,19 @@
           class="label-info label-yellow"
           *ngIf="usager.options.transfert.actif"
           [ngbTooltip]="transfertActif"
+          (keydown)="tooltipTransfert.open()"
+          (enter)="tooltipTransfert.open()"
+          tabindex="0"
+          [closeDelay]="2000"
+          #tooltipTransfert="ngbTooltip"
+          aria-describedby="tooltipTransfert"
         >
           <ng-template #transfertActif>
-            <div class="distribution-tooltip">
+            <div
+              class="distribution-tooltip"
+              id="tooltipTransfert"
+              tabindex="0"
+            >
               <div *ngIf="usager.options.transfert.dateFin > today">
                 <fa-icon
                   aria-hidden="true"
@@ -245,7 +255,6 @@
               </div>
             </div>
           </ng-template>
-
           <div>Transfert</div>
         </div>
 

@@ -36,9 +36,6 @@
       <div class="d-flex align-items-center">
         <img
           class="home-header-image"
-          (click)="
-            matomoService.trackEvent('HEADER', 'Header_Logo_DomiFa', 'null', 1)
-          "
           src="../assets/images/logo-ministere.svg "
           alt="Ministère des Solidarités, de l'Autonomie et des Personnes handicapées"
         />
@@ -315,14 +312,14 @@
                       </fa-icon>
                       Statistiques
                     </a>
-                    <a ngbDropdownItem (click)="logout()">
+                    <button type="button" ngbDropdownItem (click)="logout()">
                       <fa-icon
                         aria-hidden="true"
                         [icon]="['fas', 'sign-out-alt']"
                       >
                       </fa-icon>
                       Déconnexion
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>

@@ -115,6 +115,7 @@
         type="button"
         class="col"
         [ngClass]="{ 'selected-section': filters.statut === 'TOUS' }"
+        [attr.aria-selected]="filters.statut === 'TOUS'"
         (click)="updateFilters({ element: 'statut', value: 'TOUS' })"
       >
         <span class="statut-cpt">{{ usagersTotalCount || 0 }}</span>
@@ -124,6 +125,7 @@
         type="button"
         class="col"
         [ngClass]="{ 'selected-section': filters.statut === 'VALIDE' }"
+        [attr.aria-selected]="filters.statut === 'VALIDE'"
         (click)="updateFilters({ element: 'statut', value: 'VALIDE' })"
       >
         <span class="statut-cpt"
@@ -135,6 +137,7 @@
         type="button"
         class="col"
         [ngClass]="{ 'selected-section': filters.statut === 'INSTRUCTION' }"
+        [attr.aria-selected]="filters.statut === 'INSTRUCTION'"
         (click)="updateFilters({ element: 'statut', value: 'INSTRUCTION' })"
       >
         <span class="statut-cpt"
@@ -148,6 +151,7 @@
         [ngClass]="{
           'selected-section': filters.statut === 'ATTENTE_DECISION'
         }"
+        [attr.aria-selected]="filters.statut === 'ATTENTE_DECISION'"
         (click)="
           updateFilters({ element: 'statut', value: 'ATTENTE_DECISION' })
         "
@@ -161,6 +165,7 @@
         type="button"
         class="col"
         [ngClass]="{ 'selected-section': filters.statut === 'REFUS' }"
+        [attr.aria-selected]="filters.statut === 'REFUS'"
         (click)="updateFilters({ element: 'statut', value: 'REFUS' })"
       >
         <span class="statut-cpt"
@@ -172,9 +177,10 @@
         type="button"
         class="col"
         [ngClass]="{ 'selected-section': filters.statut === 'RADIE' }"
+        [attr.aria-selected]="filters.statut === 'RADIE'"
         (click)="updateFilters({ element: 'statut', value: 'RADIE' })"
       >
-        <span class="statut-cpt"> {{ usagersRadiesTotalCount || 0 }} </span>
+        <span class="statut-cpt">{{ usagersRadiesTotalCount || 0 }} </span>
         <span class="statut-label"> Radiés</span>
       </button>
     </div>

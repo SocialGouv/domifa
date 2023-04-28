@@ -19,8 +19,10 @@
         </ng-container>
       </h1>
 
-      <div
-        class="private-notes-anchor text-light d-flex align-items-center"
+      <button
+        aria-label="Naviguer vers les notes"
+        type="button"
+        class="btn btn-white-primary d-flex align-items-center"
         *ngIf="usager.ref"
         (click)="navigateToNotes()"
       >
@@ -29,7 +31,7 @@
         <div class="notif-notes ms-2">
           {{ filteredNotes }}
         </div>
-      </div>
+      </button>
     </div>
   </div>
 </div>

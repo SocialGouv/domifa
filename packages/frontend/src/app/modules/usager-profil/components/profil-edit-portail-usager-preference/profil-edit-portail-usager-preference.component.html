@@ -8,7 +8,11 @@
       *ngIf="!editionInProgress"
       (click)="editionInProgress = true"
     >
-      <fa-icon icon="pencil-alt" class="me-2"></fa-icon>
+      <fa-icon
+        [icon]="['far', 'edit']"
+        aria-hidden="true"
+        class="me-2"
+      ></fa-icon>
       Modifier les préférences
     </button>
     <button
@@ -17,7 +21,11 @@
       (click)="editionInProgress = false"
       type="button"
     >
-      <fa-icon icon="pencil-alt" class="me-2"></fa-icon>
+      <fa-icon
+        [icon]="['far', 'edit']"
+        aria-hidden="true"
+        class="me-2"
+      ></fa-icon>
       Annuler les modifications
     </button>
   </div>
@@ -43,6 +51,7 @@
     <button
       (click)="getDomifaCustomDoc()"
       class="mx-1 my-1 btn btn-primary"
+      type="button"
       [disabled]="loadings.indexOf('acces_espace_domicilie') !== -1"
       aria-label="Télécharger le courrier d'accès au portail usager"
     >
@@ -120,12 +129,16 @@
   <div class="col-md-4 offset-md-4 text-center">
     <button
       type="submit"
-      [disabled]="form.invalid"
+      [disabled]="form.invalid || loading"
       class="btn btn-primary btn-block"
-      [disabled]="loading"
     >
       <span *ngIf="loading"
-        ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+        ><fa-icon
+          [icon]="['fas', 'circle-notch']"
+          aria-hidden="true"
+          [spin]="true"
+        >
+        </fa-icon>
         Veuillez patienter...</span
       >
       <span *ngIf="!loading"> Enregistrer les préférences</span>
