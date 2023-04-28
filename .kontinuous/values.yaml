@@ -94,6 +94,14 @@ frontend:
   imagePackage: frontend
   host: "{{ .Values.global.host }}"
   containerPort: 8080
+  ingress:
+    annotations:
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        more_set_headers "Content-Security-Policy: default-src 'none'; connect-src 'self' https://*.gouv.fr; media-src 'self' https://domifaprod2.blob.core.windows.net/; font-src 'self'; img-src 'self'; prefetch-src 'self' https://*.gouv.fr; script-src 'self' https://*.gouv.fr; frame-src 'self' https://*.gouv.fr; style-src 'self' 'unsafe-inline'";
+        more_set_headers "X-Frame-Options: deny";
+        more_set_headers "X-XSS-Protection: 1; mode=block";
+        more_set_headers "X-Content-Type-Options: nosniff";
+        more_set_headers "Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0'";
   resources:
     requests:
       cpu: 0.2
@@ -107,6 +115,14 @@ portail-admins:
   ~needs: [build-portail-admins]
   imagePackage: portail-admins
   host: "admin-{{ .Values.global.host }}"
+  ingress:
+    annotations:
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        more_set_headers "Content-Security-Policy: default-src 'none'; connect-src 'self' https://*.gouv.fr; font-src 'self'; img-src 'self'; prefetch-src 'self' https://*.gouv.fr; script-src 'self' https://*.gouv.fr; frame-src 'self' https://*.gouv.fr; style-src 'self' 'unsafe-inline'";
+        more_set_headers "X-Frame-Options: deny";
+        more_set_headers "X-XSS-Protection: 1; mode=block";
+        more_set_headers "X-Content-Type-Options: nosniff";
+        more_set_headers "Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0'";
   containerPort: 8080
 
 portail-usagers:
@@ -114,6 +130,14 @@ portail-usagers:
   ~needs: [build-portail-usagers]
   imagePackage: portail-usagers
   host: "mon-{{ .Values.global.host }}"
+  ingress:
+    annotations:
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        more_set_headers "Content-Security-Policy: default-src 'none'; connect-src 'self' https://*.gouv.fr; font-src 'self'; img-src 'self'; prefetch-src 'self' https://*.gouv.fr; script-src 'self' https://*.gouv.fr; frame-src 'self' https://*.gouv.fr; style-src 'self' 'unsafe-inline'";
+        more_set_headers "X-Frame-Options: deny";
+        more_set_headers "X-XSS-Protection: 1; mode=block";
+        more_set_headers "X-Content-Type-Options: nosniff";
+        more_set_headers "Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0'";
   containerPort: 8080
 
 jobs:
