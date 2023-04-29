@@ -1,3 +1,10 @@
+# [2.124.0](https://github.com/SocialGouv/domifa/compare/v2.123.2...v2.124.0) (2023-04-29)
+
+
+### Features
+
+* **nginx:** ajout de headers sécurité et désactivation du cache ([46fe2e4](https://github.com/SocialGouv/domifa/commit/46fe2e45dea906956a2cde643a2d7d35072338aa))
+
 ## [2.123.2](https://github.com/SocialGouv/domifa/compare/v2.123.1...v2.123.2) (2023-04-27)
 
 
