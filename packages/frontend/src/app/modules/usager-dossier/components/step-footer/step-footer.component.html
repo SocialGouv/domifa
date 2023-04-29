@@ -9,7 +9,11 @@
       class="my-3 btn btn-outline-primary d-print-none me-2"
       (click)="openAddNoteInModal()"
     >
-      <fa-icon [icon]="['fas', 'plus']" class="me-2"></fa-icon>
+      <fa-icon
+        [icon]="['fas', 'plus']"
+        aria-hidden="true"
+        class="me-2"
+      ></fa-icon>
       <span>Ajouter une note</span>
     </button>
   </div>

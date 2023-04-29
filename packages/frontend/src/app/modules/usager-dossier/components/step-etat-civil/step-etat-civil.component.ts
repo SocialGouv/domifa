@@ -1,7 +1,6 @@
 import { EtatCivilParentFormComponent } from "./../../../usager-shared/components/etat-civil-parent-form/etat-civil-parent-form.component";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { UntypedFormBuilder } from "@angular/forms";
-import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
   NgbDateParserFormatter,
@@ -45,15 +44,13 @@ export class StepEtatCivilComponent
     public authService: AuthService,
     public route: ActivatedRoute,
     public router: Router,
-    public toastService: CustomToastService,
-    public titleService: Title
+    public toastService: CustomToastService
   ) {
     super(formBuilder, authService);
     this.duplicates = [];
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("État civil du demandeur");
     this.currentUserSubject$ = this.authService.currentUserSubject;
 
     if (this.route.snapshot.params.id) {
@@ -62,6 +59,7 @@ export class StepEtatCivilComponent
       this.usagerDossierService.findOne(id).subscribe({
         next: (usager: UsagerLight) => {
           this.usager = new UsagerFormModel(usager);
+
           this.initForm();
         },
         error: () => {

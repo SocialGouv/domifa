@@ -92,7 +92,10 @@
       <td class="col-font-xs">
         {{ structure.nom }}
         {{ structure.structureType === "ccas" ? " - " + structure.ville : "" }}
-        <span *ngIf="structure.verified === false" class="badge bg-warning">
+        <span
+          *ngIf="structure.verified === false"
+          class="badge bg-warning text-dark"
+        >
           Non validée
         </span>
       </td>

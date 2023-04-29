@@ -15,7 +15,6 @@ import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
 import { UsagerSharedModule } from "../usager-shared/usager-shared.module";
 import { DisplayEtatCivilDecisionComponent } from "./components/display-etat-civil-decision/display-etat-civil-decision.component";
-import { MenuComponent } from "./components/menu/menu.component";
 import { StepDecisionComponent } from "./components/step-decision/step-decision.component";
 import { StepDocumentsComponent } from "./components/step-documents/step-documents.component";
 import { StepEntretienComponent } from "./components/step-entretien/step-entretien.component";
@@ -34,7 +33,6 @@ import { DecisionValideFormComponent } from "./components/decision-valide-form/d
     StepEntretienComponent,
     StepDocumentsComponent,
     StepEtatCivilComponent,
-    MenuComponent,
     DisplayEtatCivilDecisionComponent,
     StepFooterComponent,
     StepHeaderComponent,

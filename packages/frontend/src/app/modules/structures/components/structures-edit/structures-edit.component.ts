@@ -51,7 +51,7 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.me = this.authService.currentUserValue;
-    this.titleService.setTitle("Modifier ma structure");
+    this.titleService.setTitle("Modifier les informations de votre structure");
 
     this.subscription.add(
       this.structureService

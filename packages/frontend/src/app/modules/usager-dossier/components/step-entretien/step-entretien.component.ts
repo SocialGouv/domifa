@@ -1,6 +1,5 @@
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import {
@@ -25,7 +24,6 @@ export class StepEntretienComponent implements OnInit, OnDestroy {
     private readonly usagerDossierService: UsagerDossierService,
     private readonly authService: AuthService,
     private readonly router: Router,
-    private readonly titleService: Title,
     private readonly route: ActivatedRoute,
     private readonly toastr: CustomToastService
   ) {
@@ -41,9 +39,6 @@ export class StepEntretienComponent implements OnInit, OnDestroy {
       this.subscription.add(
         this.usagerDossierService.findOne(id).subscribe({
           next: (usager: Usager) => {
-            this.titleService.setTitle(
-              "Entretien avec  " + usager.nom + " " + usager.prenom
-            );
             this.usager = new UsagerFormModel(usager);
           },
           error: () => {

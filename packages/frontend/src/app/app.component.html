@@ -374,7 +374,7 @@
             class="badge badge-pill"
             [ngClass]="{
               'bg-primary': content.type === 'new',
-              'bg-warning': content.type === 'bug'
+              'bg-warning text-dark': content.type === 'bug'
             }"
           >
             {{ content?.type === "bug" ? "Améliorations" : "Nouveauté" }}

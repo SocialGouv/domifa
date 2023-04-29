@@ -54,10 +54,6 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
   public submitted = false;
 
   public etapeInscription: number;
-  public etapes = [
-    "Enregistrement de la structure",
-    "Création du compte personnel",
-  ];
 
   public structureRegisterInfos: {
     etapeInscription: number;

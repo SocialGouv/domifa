@@ -9,6 +9,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { SharedModule } from "../../../shared/shared.module";
 
 import { StepHeaderComponent } from "./step-header.component";
+import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 describe("StepHeaderComponent", () => {
   let component: StepHeaderComponent;
@@ -34,10 +36,31 @@ describe("StepHeaderComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StepHeaderComponent);
     component = fixture.componentInstance;
+    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
     fixture.detectChanges();
   });
 
   it("should create", () => {
     expect(component).toBeTruthy();
+  });
+
+  it(`ETAPES_FORM_DOM has default value`, () => {
+    expect(component.ETAPES_FORM_DOM).toEqual([
+      `État civil`,
+      `Prise de RDV`,
+      `Entretien`,
+      `Pièces justificatives`,
+      `Décision finale`,
+    ]);
+  });
+
+  it(`ETAPES_DEMANDE_URL has default value`, () => {
+    expect(component.ETAPES_DEMANDE_URL).toEqual([
+      `etat-civil`,
+      `rendez-vous`,
+      `entretien`,
+      `documents`,
+      `decision`,
+    ]);
   });
 });

@@ -116,7 +116,7 @@
 }
 
 .toast-error {
-  background-color: var(--bs-red);
+  background-color: var(--bs-danger);
 }
 
 .toast-info {

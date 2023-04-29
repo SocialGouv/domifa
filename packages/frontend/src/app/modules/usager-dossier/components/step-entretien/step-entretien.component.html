@@ -1,9 +1,11 @@
-<app-step-header *ngIf="usager" [usager]="usager"></app-step-header>
+<app-step-header
+  *ngIf="usager"
+  [usager]="usager"
+  [currentStep]="2"
+></app-step-header>
 
 <div class="content" *ngIf="usager && currentUserSubject$ | async as me">
   <div class="container py-3">
-    <app-form-menu [usager]="usager" [currentStep]="2"></app-form-menu>
-
     <div class="step_form">
       <app-entretien-form
         [usager]="usager"

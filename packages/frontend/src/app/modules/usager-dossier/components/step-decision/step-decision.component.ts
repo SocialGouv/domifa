@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit, TemplateRef } from "@angular/core";
 
-import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
   NgbDateParserFormatter,
@@ -53,7 +52,6 @@ export class StepDecisionComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly toastService: CustomToastService,
     private readonly matomo: MatomoTracker,
-    private readonly titleService: Title,
     private readonly route: ActivatedRoute
   ) {
     this.isAdmin = false;
@@ -76,13 +74,6 @@ export class StepDecisionComponent implements OnInit, OnDestroy {
       this.subscription.add(
         this.usagerDossierService.findOne(id).subscribe({
           next: (usager: UsagerLight) => {
-            this.titleService.setTitle(
-              "Décision sur la domiciliation de " +
-                usager.nom +
-                " " +
-                usager.prenom
-            );
-
             this.usager = new UsagerFormModel(usager);
           },
           error: () => {
