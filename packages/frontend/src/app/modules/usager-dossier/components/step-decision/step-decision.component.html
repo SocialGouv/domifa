@@ -1,13 +1,11 @@
-<app-step-header *ngIf="usager" [usager]="usager"></app-step-header>
+<app-step-header
+  *ngIf="usager"
+  [usager]="usager"
+  [currentStep]="4"
+></app-step-header>
 
 <div class="content" *ngIf="me && usager">
   <div class="container py-3">
-    <app-form-menu
-      *ngIf="usager"
-      [usager]="usager"
-      [currentStep]="4"
-    ></app-form-menu>
-
     <div *ngIf="usager.decision.statut === 'ATTENTE_DECISION' && !isAdmin">
       <div class="row">
         <div class="col text-center">

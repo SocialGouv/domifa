@@ -35,3 +35,78 @@
     </div>
   </div>
 </div>
+<div class="steps" *ngIf="usager">
+  <div class="container">
+    <nav
+      id="steps"
+      aria-label="Navigation entre les étapes du formulaire de demande de domiciliation"
+      role="navigation"
+    >
+      <div
+        class="step"
+        *ngFor="let etape of ETAPES_FORM_DOM; let i = index"
+        id="step{{ i }}"
+      >
+        <button
+          (click)="goToStep(i)"
+          type="button"
+          [attr.aria-disabled]="
+            (usager.ref === 0 || i > usager.etapeDemande) && i > 0
+          "
+        >
+          <span *ngIf="currentStep > i" class="step_number step_check">
+            <span class="visually-hidden"
+              >Naviguer vers l'étape {{ i + 1 }} sur 5 du formulaire. Cette
+              étape a déjà été complétée.
+            </span>
+            <fa-icon aria-hidden="true" [icon]="['fas', 'check']"></fa-icon>
+          </span>
+          <span
+            *ngIf="currentStep <= i"
+            [ngClass]="{
+              step_active: currentStep === i,
+              step_inactive:
+                (usager.ref === 0 || i > usager.etapeDemande) && i > 0
+            }"
+            class="step_number"
+          >
+            <span class="visually-hidden"
+              >Vous êtes sur l'étape {{ i + 1 }} sur 5 du formulaire.
+            </span>
+            <span class="visually-hidden" *ngIf="currentStep === i"
+              >Veuillez compléter ce formulaire pour accéder à la suite</span
+            >
+
+            <span
+              class="visually-hidden"
+              *ngIf="(usager.ref === 0 || i > usager.etapeDemande) && i > 0"
+            >
+              Veuillez compléter les étapes précédentes pour y accéder
+            </span>
+            <span aria-hidden="true">{{ i + 1 }}</span>
+          </span>
+          <span
+            [ngClass]="{
+              step_text_active: currentStep === i,
+              step_text_inactive:
+                usager.ref === 0 || (i > usager.etapeDemande && i > 0)
+            }"
+            class="step_text"
+          >
+            <span aria-hidden="true"> {{ etape }}</span>
+          </span>
+        </button>
+        <div *ngIf="i < 4" [className]="currentStep > i ? 'check_sep' : ''">
+          <span
+            class="separateur"
+            [ngClass]="{
+              step_text_active: currentStep === i,
+              separateur_inactive:
+                (usager.ref === 0 || i > usager.etapeDemande) && i > 0
+            }"
+          ></span>
+        </div>
+      </div>
+    </nav>
+  </div>
+</div>

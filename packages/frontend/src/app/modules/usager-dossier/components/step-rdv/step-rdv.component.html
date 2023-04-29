@@ -1,9 +1,11 @@
-<app-step-header *ngIf="usager" [usager]="usager"></app-step-header>
+<app-step-header
+  *ngIf="usager"
+  [currentStep]="1"
+  [usager]="usager"
+></app-step-header>
 
 <div class="content" *ngIf="me && usager">
   <div class="container py-3">
-    <app-form-menu [usager]="usager" [currentStep]="1"></app-form-menu>
-
     <div class="step_form" *ngIf="!editRdv">
       <div class="row text-center">
         <div class="col">

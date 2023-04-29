@@ -4,7 +4,7 @@
 
 .form-group.required .control-label:after {
   content: "*";
-  color: var(--bs-red);
+  color: var(--bs-danger);
 }
 
 input[type="radio"]:checked + label {
@@ -13,7 +13,7 @@ input[type="radio"]:checked + label {
 
 .form-group.required label:after {
   content: " *";
-  color: var(--bs-red);
+  color: var(--bs-danger);
 }
 
 label {
@@ -31,7 +31,7 @@ form label {
   width: 100%;
   margin-top: 0.25rem;
   font-size: 80%;
-  color: var(--bs-red);
+  color: var(--bs-danger);
 }
 
 .separate-dial-code {

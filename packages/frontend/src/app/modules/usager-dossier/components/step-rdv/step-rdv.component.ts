@@ -9,7 +9,6 @@ import {
   ValidatorFn,
   Validators,
 } from "@angular/forms";
-import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
   NgbDateParserFormatter,
@@ -32,11 +31,7 @@ import {
   setHours,
   setMinutes,
 } from "date-fns";
-import {
-  fadeInOut,
-  getUsagerNomComplet,
-  minDateToday,
-} from "../../../../shared";
+import { fadeInOut, minDateToday } from "../../../../shared";
 import { Subscription } from "rxjs";
 
 @Component({
@@ -77,7 +72,6 @@ export class StepRdvComponent implements OnInit, OnDestroy {
     private readonly authService: AuthService,
     private readonly nbgDate: NgbDateCustomParserFormatter,
     private readonly router: Router,
-    private readonly titleService: Title,
     private readonly route: ActivatedRoute
   ) {
     this.editRdv = true;
@@ -102,9 +96,6 @@ export class StepRdvComponent implements OnInit, OnDestroy {
       this.subscription.add(
         this.usagerDossierService.findOne(id).subscribe({
           next: (usager: UsagerLight) => {
-            this.titleService.setTitle(
-              "Rendez-vous de " + getUsagerNomComplet(usager)
-            );
             this.usager = new UsagerFormModel(usager);
             this.initForm();
           },
