@@ -26,10 +26,10 @@ export class StepHeaderComponent implements OnInit {
   ];
 
   public readonly ETAPES_FORM_DOM_TITRES = [
-    "état-civil du demandeur",
+    "état-civil",
     "prise de rendez-vous",
     "entretien social",
-    "ajout des pièces justificatives",
+    "pièces justificatives",
     "récapitulatif et prise de décision",
   ];
 
@@ -76,8 +76,12 @@ export class StepHeaderComponent implements OnInit {
       title += getUsagerNomComplet(this.usager);
     }
 
-    title += ": " + this.ETAPES_FORM_DOM_TITRES[this.currentStep];
-    console.log(title);
+    title +=
+      ", étape " +
+      (this.currentStep + 1) +
+      " sur 5, " +
+      this.ETAPES_FORM_DOM_TITRES[this.currentStep];
+
     this.titleService.setTitle(title);
   }
 

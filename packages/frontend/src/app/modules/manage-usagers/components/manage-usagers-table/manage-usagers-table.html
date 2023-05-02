@@ -122,6 +122,7 @@
   <tbody>
     <tr *ngFor="let usager of usagers; let i = index">
       <td
+        tabindex="0"
         class="text-start"
         (click)="toggleSelection(usager.ref)"
         *ngIf="displayCheckboxes"
@@ -133,11 +134,7 @@
         />
       </td>
       <td *ngIf="filters.statut ==='TOUS'" class="clickable text-start">
-        <span
-          class="label-info"
-          (click)="goToProfil(usager)"
-          [class]="usager.statusInfos.color"
-        >
+        <span [class]="'label-info ' + usager.statusInfos.color">
           {{ usager.statusInfos.text }}</span
         >
       </td>
@@ -147,7 +144,7 @@
       >
         <ng-template #rdvInfosTooltip class="p-3 text-center">
           <div class="distribution-tooltip">
-            <div class="text-center" [class]="usager.rdvInfos.class">
+            <div [class]="'text-center '+usager.rdvInfos.class">
               {{ usager.rdvInfos.content }}
             </div>
           </div>
@@ -183,6 +180,10 @@
           <span *ngIf="usager.surnom && usager.surnom !== null">
             ({{ usager.surnom }})
           </span>
+          <span class="visually-hidden"
+            >Cliquer ici pour aller sur la fiche de {{ usager.nom | uppercase }}
+            {{ usager.prenom }}</span
+          >
         </a>
       </td>
 
@@ -192,84 +193,24 @@
         >
       </td>
 
-      <td class="clickable" (click)="goToProfil(usager)">
-        <span class="visually-hidden"
-          >Aller vers la fiche de {{ usager.nom | uppercase }} {{ usager.prenom
-          }}</span
-        >
-        <ng-template #ayantsDroitsTooltip class="p-4 text-start">
-          <div class="distribution-tooltip">
-            <div class="p-1" *ngFor="let ayantDroit of usager.ayantsDroits">
-              <strong class="text-primary">{{ayantDroit.nom }}</strong>
-              {{ ayantDroit.prenom}}
-            </div>
-          </div>
-        </ng-template>
-
+      <td class="clickable" tabindex="0" (click)="goToProfil(usager)">
+        <app-display-ayants-droits
+          class="d-inline-block"
+          [usager]="usager"
+        ></app-display-ayants-droits>
         <div
-          class="label-info label-green"
-          *ngIf="usager.ayantsDroits.length > 0"
-          [ngbTooltip]="ayantsDroitsTooltip"
-        >
-          <div *ngIf="usager.ayantsDroits.length > 1">
-            {{ usager.ayantsDroits.length }} ayants-droit
-          </div>
-          <div *ngIf="usager.ayantsDroits.length === 1">1 ayant-droit</div>
-          <span
-            aria-hidden="true"
-            *ngIf="usager.searchResultAyantDroit"
-            class="pulse-button"
-          ></span>
-        </div>
-
-        <div
-          class="label-info label-yellow"
-          *ngIf="usager.options.transfert.actif"
-          [ngbTooltip]="transfertActif"
-          (keydown)="tooltipTransfert.open()"
-          (enter)="tooltipTransfert.open()"
+          class="label-info label-procuration"
           tabindex="0"
-          [closeDelay]="2000"
-          #tooltipTransfert="ngbTooltip"
-          aria-describedby="tooltipTransfert"
-        >
-          <ng-template #transfertActif>
-            <div
-              class="distribution-tooltip"
-              id="tooltipTransfert"
-              tabindex="0"
-            >
-              <div *ngIf="usager.options.transfert.dateFin > today">
-                <fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'share']"
-                  class="text-primary me-1"
-                ></fa-icon>
-                Courrier à transférer : {{ usager.options.transfert.nom |
-                titlecase }} {{ usager.options.transfert.adresse | titlecase }}
-              </div>
-
-              <div *ngIf="usager.options.transfert.dateFin <= today">
-                Transfert expiré le {{ usager.options.transfert.dateFin | date:
-                "dd/MM/yy" }}
-              </div>
-            </div>
-          </ng-template>
-          <div>Transfert</div>
-        </div>
-
-        <div
-          class="label-info label-yellow"
           *ngIf="usager.options.procurations.length > 0"
           [ngbTooltip]="procurationActif"
+          #tooltipProcuration="ngbTooltip"
+          (keydown)="tooltipProcuration.open()"
+          (enter)="tooltipProcuration.open()"
+          [closeDelay]="500"
         >
-          <span
-            aria-hidden="true"
-            *ngIf="usager.searchResultProcuration"
-            class="pulse-button"
-          ></span>
           <ng-template #procurationActif>
             <div
+              tabindex="0"
               class="text-start"
               *ngFor="let procuration of usager.options.procurations; let i = index"
             >
@@ -297,6 +238,45 @@
             {{ usager.options.procurations.length > 1 ? 'Procurations':
             'Procuration'}}
           </div>
+          <span
+            aria-hidden="true"
+            *ngIf="usager.searchResultProcuration"
+            class="pulse-button"
+          ></span>
+        </div>
+        <div
+          class="label-info label-transfert"
+          *ngIf="usager.options.transfert.actif"
+          [ngbTooltip]="transfertActif"
+          (keydown)="tooltipTransfert.open()"
+          (enter)="tooltipTransfert.open()"
+          tabindex="0"
+          [closeDelay]="500"
+          #tooltipTransfert="ngbTooltip"
+        >
+          <ng-template #transfertActif>
+            <div
+              class="distribution-tooltip"
+              id="tooltipTransfertContent{{i}}"
+              tabindex="0"
+            >
+              <div *ngIf="usager.options.transfert.dateFin > today">
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'share']"
+                  class="text-primary me-1"
+                ></fa-icon>
+                Courrier à transférer : {{ usager.options.transfert.nom |
+                titlecase }} {{ usager.options.transfert.adresse | titlecase }}
+              </div>
+
+              <div *ngIf="usager.options.transfert.dateFin <= today">
+                Transfert expiré le {{ usager.options.transfert.dateFin | date:
+                "dd/MM/yy" }}
+              </div>
+            </div>
+          </ng-template>
+          <div>Transfert</div>
         </div>
 
         <div *ngIf="usager.options.npai.actif" class="label-info label-danger">
@@ -307,6 +287,7 @@
       <td
         *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS' "
         class="clickable"
+        tabindex="0"
         (click)="goToProfil(usager)"
       >
         {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yy" }}
@@ -314,8 +295,7 @@
 
       <td class="statut-date clickable" (click)="goToProfil(usager)">
         <ng-container *ngIf="usager.isActif">
-          <span class="statut-signal" [class]="usager.echeanceInfos.color">
-          </span>
+          <span [class]="'statut-signal ' +usager.echeanceInfos.color"> </span>
           <span
             class="visually-hidden"
             *ngIf="usager.echeanceInfos.color === 'bg-danger'"

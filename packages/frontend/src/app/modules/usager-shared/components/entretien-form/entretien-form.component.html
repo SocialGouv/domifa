@@ -13,24 +13,30 @@
       <fieldset>
         <legend class="label">Avez-vous été orienté ?</legend>
         <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="radio"
-            formControlName="orientation"
-            id="orientation_oui"
-            [value]="true"
-          />
-          <label class="form-check-label" for="orientation_oui"> Oui </label>
+          <label class="form-check-label" for="orientation_oui">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="orientation"
+              id="orientation_oui"
+              [value]="true"
+              autocomplete="off"
+            />
+            Oui
+          </label>
         </div>
         <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="radio"
-            formControlName="orientation"
-            id="orientation_non"
-            [value]="false"
-          />
-          <label class="form-check-label" for="orientation_non"> Non </label>
+          <label class="form-check-label" for="orientation_non">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="orientation"
+              id="orientation_non"
+              [value]="false"
+              autocomplete="off"
+            />
+            Non
+          </label>
         </div>
 
         <div *ngIf="e.orientation.value === true" class="my-2 form-group">
@@ -66,26 +72,28 @@
             >
           </legend>
           <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              formControlName="domiciliation"
-              id="domiciliation_oui"
-              [value]="true"
-            />
             <label class="form-check-label" for="domiciliation_oui">
+              <input
+                class="form-check-input"
+                type="radio"
+                formControlName="domiciliation"
+                id="domiciliation_oui"
+                [value]="true"
+                autocomplete="off"
+              />
               Oui
             </label>
           </div>
           <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              formControlName="domiciliation"
-              id="domiciliation_non"
-              [value]="false"
-            />
             <label class="form-check-label" for="domiciliation_non">
+              <input
+                class="form-check-input"
+                type="radio"
+                formControlName="domiciliation"
+                id="domiciliation_non"
+                autocomplete="off"
+                [value]="false"
+              />
               Non
             </label>
           </div>
@@ -99,6 +107,7 @@
               type="radio"
               formControlName="revenus"
               id="revenus_oui"
+              autocomplete="off"
               [value]="true"
             />
             <label class="form-check-label" for="revenus_oui"> Oui </label>
@@ -109,6 +118,7 @@
               type="radio"
               formControlName="revenus"
               id="revenus_non"
+              autocomplete="off"
               [value]="false"
             />
             <label class="form-check-label" for="revenus_non"> Non </label>

@@ -372,7 +372,7 @@
             class="btn btn-outline-primary input-group-text"
             (click)="d.toggle()"
           >
-            <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+            <fa-icon [icon]="['fas', 'calendar']" aria-hidden="true"></fa-icon>
           </button>
 
           <p
@@ -417,7 +417,7 @@
           type="button"
           (click)="deleteAyantDroit(i)"
           class="btn btn-danger"
-          [attr.aria-label]="'Supprimer l\'ayant-droit {{ i }}'"
+          [attr.aria-label]="'Supprimer l\'ayant-droit {{ (i+1) }}'"
         >
           <fa-icon aria-hidden="true" [icon]="['fas', 'trash']"></fa-icon>
         </button>

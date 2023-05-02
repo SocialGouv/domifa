@@ -1,0 +1,31 @@
+<ng-template #ayantsDroitsInfos class="p-4 text-start">
+  <div class="distribution-tooltip" tabindex="0">
+    <div class="p-1" *ngFor="let ayantDroit of usager.ayantsDroits">
+      <strong class="text-primary">{{ ayantDroit.nom }}</strong>
+      {{ ayantDroit.prenom }}
+    </div>
+  </div>
+</ng-template>
+
+<div
+  #tooltipAyantsDroit="ngbTooltip"
+  (keydown)="tooltipAyantsDroit.open()"
+  (enter)="tooltipAyantsDroit.open()"
+  class="label-info label-green"
+  tabindex="0"
+  [closeDelay]="500"
+  *ngIf="usager.ayantsDroits.length > 0"
+  [ngbTooltip]="ayantsDroitsInfos"
+>
+  <div>
+    <span *ngIf="usager.ayantsDroits.length > 1">
+      {{ usager.ayantsDroits.length }} ayants-droit
+    </span>
+    <span *ngIf="usager.ayantsDroits.length === 1">1 ayant-droit</span>
+    <span
+      aria-hidden="true"
+      *ngIf="usager.searchResultAyantDroit"
+      class="pulse-button"
+    ></span>
+  </div>
+</div>

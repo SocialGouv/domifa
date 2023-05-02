@@ -2,13 +2,13 @@
   <div class="container">
     <div class="d-flex justify-content-between align-items-center">
       <h1>
-        <a
-          [routerLink]="['/manage']"
-          aria-label="Revenir à la liste"
-          title="Revenir à la liste"
-          class="px-3"
-        >
-          <fa-icon [icon]="['fas', 'angle-left']"></fa-icon>
+        <a [routerLink]="['/manage']" id="back-manage-btn" class="px-3">
+          <span class="visually-hidden">Revenir à la liste des domiciliés</span>
+          <fa-icon
+            class="text-white"
+            aria-hidden="true"
+            [icon]="['fas', 'angle-left']"
+          ></fa-icon>
         </a>
 
         <span *ngIf="!this.usager.ref">Nouvelle demande</span>
@@ -56,8 +56,8 @@
         >
           <span *ngIf="currentStep > i" class="step_number step_check">
             <span class="visually-hidden"
-              >Naviguer vers l'étape {{ i + 1 }} sur 5 du formulaire. Cette
-              étape a déjà été complétée.
+              >Naviguer vers l'étape {{ i + 1 }} sur 5,
+              {{ ETAPES_FORM_DOM_TITRES[i] }}. Cette étape a déjà été complétée.
             </span>
             <fa-icon aria-hidden="true" [icon]="['fas', 'check']"></fa-icon>
           </span>
@@ -71,12 +71,12 @@
             class="step_number"
           >
             <span class="visually-hidden"
-              >Vous êtes sur l'étape {{ i + 1 }} sur 5 du formulaire.
+              >Étape {{ i + 1 }} sur 5 du formulaire,
+              {{ ETAPES_FORM_DOM_TITRES[i] }}.
             </span>
             <span class="visually-hidden" *ngIf="currentStep === i"
               >Veuillez compléter ce formulaire pour accéder à la suite</span
             >
-
             <span
               class="visually-hidden"
               *ngIf="(usager.ref === 0 || i > usager.etapeDemande) && i > 0"
