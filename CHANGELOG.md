@@ -1,3 +1,17 @@
+# [2.125.0](https://github.com/SocialGouv/domifa/compare/v2.124.0...v2.125.0) (2023-05-02)
+
+
+### Bug Fixes
+
+* **rgaa:** amélioration des titres ([4af28b5](https://github.com/SocialGouv/domifa/commit/4af28b5307e90f53f4754fc9d0a36a724293e0b9))
+
+
+### Features
+
+* **rgaa:** amélioration de l'accessibilité, ajout de 2 lots ([a93f32e](https://github.com/SocialGouv/domifa/commit/a93f32e47b430ba54d22af5de921c80287afcea8))
+* **rgaa:** améliorations de l'accessibilité ([223229b](https://github.com/SocialGouv/domifa/commit/223229be1b036dcd95b1c292bec352b610cd52dd))
+* **rgaa:** améliorations des scores RGAA ([d4b73ff](https://github.com/SocialGouv/domifa/commit/d4b73ffc7b6af0378260f6e8050d89be517fb4a9))
+
 # [2.124.0](https://github.com/SocialGouv/domifa/compare/v2.123.2...v2.124.0) (2023-04-29)
 
 
