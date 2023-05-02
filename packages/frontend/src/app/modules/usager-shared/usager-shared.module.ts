@@ -32,6 +32,7 @@ import {
   NgbDateCustomParserFormatter,
   CustomDatepickerI18n,
 } from "../shared/services";
+import { DisplayAyantsDroitsComponent } from "./components/display-ayants-droits/display-ayants-droits.component";
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import {
     DisplayDuplicatesUsagerComponent,
     DecisionRadiationFormComponent,
     DeleteUsagerComponent,
+    DisplayAyantsDroitsComponent,
   ],
   imports: [
     CommonModule,
@@ -64,6 +66,7 @@ import {
     NgxIntlTelInputModule,
   ],
   exports: [
+    DisplayAyantsDroitsComponent,
     UploadComponent,
     RgpdWarningComponent,
     DisplayEntretienComponent,

@@ -23,6 +23,9 @@
   align-self: center;
 }
 
+.alert a {
+  color: black;
+}
 .alert-warning .svg-icon {
   background-color: #f0870c;
 }
@@ -62,7 +65,7 @@
 .alert-danger {
   color: black;
   background-color: #fff4f5;
-  border-color: #ffcccf;
+  border-color: #ffabb0;
 }
 
 .alert-danger hr {

@@ -311,9 +311,23 @@ legend {
   color: black;
 }
 
+.label-procuration {
+  background-color: #ffdaf7;
+  color: black;
+}
+
+.label-transfert {
+  background-color: #f5e3ff;
+  color: black;
+}
+
 .label-grey {
   background-color: #efefef;
   color: black;
+}
+
+#back-manage-btn {
+  color: white !important;
 }
 
 .doc-icon {

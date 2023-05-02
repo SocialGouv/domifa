@@ -5,12 +5,10 @@
     >
       <div class="px-0 mx-0">
         <h1 class="title">
-          <a
-            [routerLink]="['/manage']"
-            aria-label="Revenir à la liste"
-            title="Revenir à la liste"
-            class="px-3 text-white"
-          >
+          <a [routerLink]="['/manage']" id="back-manage-btn" class="px-3">
+            <span class="visually-hidden"
+              >Revenir à la liste des domiciliés</span
+            >
             <fa-icon
               class="text-white"
               aria-hidden="true"
@@ -110,40 +108,50 @@
 
     <div id="statut-selector" role="navigation" class="mt-4 row">
       <a
-        class="col"
-        [class]="{ 'selected-section': section === 'general' }"
+        [ngClass]="section === 'general' ? 'selected-section col' : 'col'"
         [routerLink]="['/profil/general/' + usager.ref]"
-        ><span class="statut-label"> Vue d'ensemble</span></a
-      >
+        ><span class="statut-label"> Vue d'ensemble</span>
+        <span class="visually-hidden" *ngIf="section === 'general'"
+          >, onglet actif</span
+        >
+      </a>
 
       <a
-        class="col"
-        [class]="{ 'selected-section': section === 'courrier' }"
+        [ngClass]="section === 'courrier' ? 'selected-section col' : 'col'"
         [routerLink]="['/profil/courriers/' + usager.ref]"
-        ><span class="statut-label"> Courriers</span></a
-      >
+        ><span class="statut-label"> Courriers</span>
+        <span class="visually-hidden" *ngIf="section === 'courrier'"
+          >, onglet actif</span
+        >
+      </a>
 
       <a
-        class="col"
-        [class]="{ 'selected-section': section === 'dossier' }"
+        [ngClass]="section === 'dossier' ? 'selected-section col' : 'col'"
         [routerLink]="['/profil/dossier/' + usager.ref]"
-        ><span class="statut-label"> Dossier</span></a
-      >
+        ><span class="statut-label"> Dossier</span>
+        <span class="visually-hidden" *ngIf="section === 'dossier'"
+          >, onglet actif</span
+        >
+      </a>
 
       <a
         class="col"
-        *ngIf="!isRole('facteur')"
-        [class]="{ 'selected-section': section === 'documents' }"
+        [ngClass]="section === 'documents' ? 'selected-section col' : 'col'"
         [routerLink]="['/profil/documents/' + usager.ref]"
-        ><span class="statut-label"> Documents</span></a
-      >
+        ><span class="statut-label"> Documents</span>
+        <span class="visually-hidden" *ngIf="section === 'documents'"
+          >, onglet actif</span
+        >
+      </a>
 
       <a
-        class="col"
-        [class]="{ 'selected-section': section === 'historique' }"
+        [ngClass]="section === 'historique' ? 'selected-section col' : 'col'"
         [routerLink]="['/profil/historique/' + usager.ref]"
-        ><span class="statut-label"> Historique</span></a
-      >
+        ><span class="statut-label"> Historique</span>
+        <span class="visually-hidden" *ngIf="section === 'historique'"
+          >, onglet actif</span
+        >
+      </a>
     </div>
   </div>
 </div>

@@ -349,7 +349,7 @@
             *ngFor="let ayantDroit of ayantsDroits.controls; let i = index"
           >
             <legend>Ayant-droit numéro {{ i + 1 }}</legend>
-            <div [formGroupName]="i" class="row bottom">
+            <div [formGroupName]="i" class="row">
               <div class="col form-group required">
                 <label for="ad_nom_{{ i }}">Nom</label>
                 <input
@@ -359,7 +359,7 @@
                   class="form-control"
                   formControlName="nom"
                   [attr.aria-label]="
-                    'Nom de naissance de l\'ayant-droit ' + i + 1
+                    'Nom de naissance de l\'ayant-droit ' + (i + 1)
                   "
                   [ngClass]="{
                     'is-invalid':
@@ -367,14 +367,14 @@
                   }"
                   required
                 />
-                <div
+                <p
                   *ngIf="
                     submitted && ayantsDroits.controls[i].get('nom')?.errors
                   "
                   class="invalid-feedback"
                 >
                   Le nom est obligatoire
-                </div>
+                </p>
               </div>
               <div class="col form-group required">
                 <label for="ad_prenom_{{ i }}">Prénom</label>
@@ -382,7 +382,7 @@
                   type="text"
                   id="ad_prenom_{{ i }}"
                   class="form-control"
-                  [attr.aria-label]="'Prénom de l\'ayant-droit ' + i + 1"
+                  [attr.aria-label]="'Prénom de l\'ayant-droit ' + (i + 1)"
                   formControlName="prenom"
                   [ngClass]="{
                     'is-invalid':
@@ -408,7 +408,7 @@
                     class="form-control"
                     placeholder="jj/mm/aaaa"
                     [attr.aria-label]="
-                      'Date de naissance de l\'ayant-droit ' + i + 1
+                      'Date de naissance de l\'ayant-droit ' + (i + 1)
                     "
                     [minDate]="minDateNaissance"
                     [maxDate]="maxDateNaissance"
@@ -430,8 +430,7 @@
                     type="button"
                     [attr.aria-label]="
                       'Sélectionner une date de naissance de l\'ayant-droit ' +
-                      i +
-                      1
+                      (i + 1)
                     "
                     class="input-group-text btn btn-outline-primary"
                     (click)="dateAyantDroit.toggle()"
@@ -457,7 +456,7 @@
                   required
                   formControlName="lien"
                   [attr.aria-label]="
-                    'Lien de parenté de l\'ayant-droit ' + i + 1
+                    'Lien de parenté de l\'ayant-droit ' + (i + 1)
                   "
                   [ngClass]="{
                     'is-invalid':
@@ -483,15 +482,18 @@
                 </p>
               </div>
               <div class="col-md-1">
-                <label for="delete-ad-{{ i }}">Action</label>
+                <span>Action</span>
                 <button
                   id="delete-ad-{{ i }}"
                   type="button"
                   (click)="deleteAyantDroit(i)"
-                  class="btn btn-danger"
-                  title="Supprimer l'ayant-droit {{ i }}"
+                  class="btn btn-danger mt-1"
+                  [attr.aria-label]="'Supprimer l\'ayant-droit ' + (i + 1)"
                 >
-                  <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+                  <fa-icon
+                    [icon]="['fas', 'trash']"
+                    aria-hidden="true"
+                  ></fa-icon>
                 </button>
               </div>
             </div>
@@ -501,7 +503,7 @@
             (click)="addAyantDroit()"
             class="btn btn-primary"
           >
-            <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+            <fa-icon [icon]="['fas', 'plus']" aria-hidden="true"></fa-icon>
             Ajouter des ayants droits
           </button>
           <br />

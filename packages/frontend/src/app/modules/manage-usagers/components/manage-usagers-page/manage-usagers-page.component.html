@@ -118,6 +118,9 @@
         [attr.aria-selected]="filters.statut === 'TOUS'"
         (click)="updateFilters({ element: 'statut', value: 'TOUS' })"
       >
+        <span class="visually-hidden" *ngIf="filters.statut === 'TOUS'"
+          >Page active:
+        </span>
         <span class="statut-cpt">{{ usagersTotalCount || 0 }}</span>
         <span class="statut-label"> Tous</span>
       </button>
@@ -128,6 +131,9 @@
         [attr.aria-selected]="filters.statut === 'VALIDE'"
         (click)="updateFilters({ element: 'statut', value: 'VALIDE' })"
       >
+        <span class="visually-hidden" *ngIf="filters.statut === 'VALIDE'"
+          >Page active:
+        </span>
         <span class="statut-cpt"
           >{{ allUsagersByStatus?.VALIDE.length || 0 }}
         </span>
@@ -140,6 +146,9 @@
         [attr.aria-selected]="filters.statut === 'INSTRUCTION'"
         (click)="updateFilters({ element: 'statut', value: 'INSTRUCTION' })"
       >
+        <span class="visually-hidden" *ngIf="filters.statut === 'INSTRUCTION'"
+          >, page active</span
+        >
         <span class="statut-cpt"
           >{{ allUsagersByStatus?.INSTRUCTION.length || 0 }}
         </span>
@@ -160,6 +169,11 @@
           >{{ allUsagersByStatus?.ATTENTE_DECISION.length || 0 }}
         </span>
         <span class="statut-label">Attente de décision</span>
+        <span
+          class="visually-hidden"
+          *ngIf="filters.statut === 'ATTENTE_DECISION'"
+          >Page active:
+        </span>
       </button>
       <button
         type="button"
@@ -168,6 +182,9 @@
         [attr.aria-selected]="filters.statut === 'REFUS'"
         (click)="updateFilters({ element: 'statut', value: 'REFUS' })"
       >
+        <span class="visually-hidden" *ngIf="filters.statut === 'REFUS'"
+          >Page active:
+        </span>
         <span class="statut-cpt"
           >{{ allUsagersByStatus?.REFUS.length || 0 }}
         </span>
@@ -180,6 +197,9 @@
         [attr.aria-selected]="filters.statut === 'RADIE'"
         (click)="updateFilters({ element: 'statut', value: 'RADIE' })"
       >
+        <span class="visually-hidden" *ngIf="filters.statut === 'RADIE'"
+          >Page active:
+        </span>
         <span class="statut-cpt">{{ usagersRadiesTotalCount || 0 }} </span>
         <span class="statut-label"> Radiés</span>
       </button>
