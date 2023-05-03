@@ -1,3 +1,10 @@
+## [2.125.1](https://github.com/SocialGouv/domifa/compare/v2.125.0...v2.125.1) (2023-05-03)
+
+
+### Bug Fixes
+
+* **seo:** indexation des pages sur les moteurs de recherche ([67b077a](https://github.com/SocialGouv/domifa/commit/67b077a3d46a0201040572f3f45e49ba0f32c921))
+
 # [2.125.0](https://github.com/SocialGouv/domifa/compare/v2.124.0...v2.125.0) (2023-05-02)
 
 
