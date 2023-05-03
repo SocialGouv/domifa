@@ -11,6 +11,7 @@ jobs:
       with:
         buildArgs:
           DOMIFA_BACKEND_URL: "https://domifa-api.{{ .Values.global.domain }}/"
+          DOMIFA_FRONTEND_META_ROBOTS: index,follow
 
     build-portail-admins:
       with:
@@ -23,6 +24,7 @@ jobs:
         buildArgs:
           DOMIFA_BACKEND_URL: "https://domifa-api.{{ .Values.global.domain }}/"
           PRODUCTION: "true"
+          DOMIFA_FRONTEND_META_ROBOTS: index,follow
 
 #metabase:
 #  enabled: true

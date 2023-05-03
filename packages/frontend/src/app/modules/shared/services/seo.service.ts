@@ -1,7 +1,6 @@
 import { DOCUMENT } from "@angular/common";
 import { Inject, Injectable } from "@angular/core";
 import { Meta, Title } from "@angular/platform-browser";
-import { environment } from "../../../../environments/environment";
 import { MetaTag } from "../types";
 
 @Injectable({
@@ -14,12 +13,7 @@ export class SeoService {
     @Inject(DOCUMENT) private doc: Document
   ) {}
 
-  public updateTitleAndTags(
-    title: string,
-    description: string,
-    follow = false
-    // image: string = null
-  ) {
+  public updateTitleAndTags(title: string, description: string) {
     // Nettoyage des espaces inutiles
     title = title.replace(/\s\s+/g, " ").trim();
     description = description.replace(/\s\s+/g, " ").trim();
@@ -27,7 +21,7 @@ export class SeoService {
     // Mise à jour du titre
     this.titleService.setTitle(title);
 
-    this.generateMetasTags(title, description, follow);
+    this.generateMetasTags(title, description);
 
     // Mise à jour de la balise canonical
     this.createLinkForCanonicalURL();
@@ -45,20 +39,11 @@ export class SeoService {
     element.setAttribute("href", this.doc.URL);
   }
 
-  public generateMetasTags(
-    title: string,
-    description: string,
-    follow = true
-  ): void {
+  public generateMetasTags(title: string, description: string): void {
     description =
       description.length > 155
         ? description.substring(0, 155) + "..."
         : description;
-
-    const robots =
-      follow && environment.production
-        ? { name: "robots", content: "index, follow" }
-        : { name: "robots", content: "noindex, nofollow" };
 
     const tags: MetaTag[] = [
       { name: "description", content: description },
@@ -68,7 +53,6 @@ export class SeoService {
       { name: "twitter:description", content: description },
       { name: "twitter:url", content: this.doc.URL },
       { name: "og:url", content: this.doc.URL },
-      robots,
     ];
 
     // Mise à jour de tous les tags
