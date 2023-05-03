@@ -88,12 +88,11 @@ export class PublicStatsComponent implements OnInit, OnDestroy {
         "DomiFa simplifie la domiciliation et la distribution de courrier pour les personnes sans domicile stable dans la région " +
         this.regions[REGIONS_SEO_ID[region]];
 
-      this.seoService.updateTitleAndTags(title, description, true);
+      this.seoService.updateTitleAndTags(title, description);
     } else {
       this.seoService.updateTitleAndTags(
         "Statistiques d'utilisation de DomiFa",
-        "DomiFa simplifie la domiciliation partout en France, découvrez nos statistiques.",
-        true
+        "DomiFa simplifie la domiciliation partout en France, découvrez nos statistiques."
       );
       this.subscription.add(
         this.statsService.getPublicStats().subscribe((stats: PublicStats) => {

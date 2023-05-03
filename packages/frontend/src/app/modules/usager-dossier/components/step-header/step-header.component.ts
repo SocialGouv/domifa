@@ -65,7 +65,7 @@ export class StepHeaderComponent implements OnInit {
       return;
     }
 
-    let title = "Création de demande : ";
+    let title = "Création de demande";
 
     if (this.usager.ref !== 0) {
       title =
