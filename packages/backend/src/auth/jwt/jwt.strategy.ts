@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
-import { instrumentWithAPM } from "../../instrumentation";
 import { domifaConfig } from "../../config";
 import {
   CURRENT_JWT_PAYLOAD_VERSION,
@@ -28,7 +27,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       secretOrKey: domifaConfig().security.jwtSecret,
     });
   }
-  @instrumentWithAPM
+
   public async validate(
     payload:
       | UserStructureJwtPayload

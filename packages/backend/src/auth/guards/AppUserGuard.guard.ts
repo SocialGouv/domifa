@@ -1,7 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { addLogContext } from "../../util";
-import { instrumentWithAPM } from "../../instrumentation";
 import {
   UserAuthenticated,
   UserProfile,
@@ -14,7 +13,6 @@ import { authChecker } from "../services";
 export class AppUserGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
-  @instrumentWithAPM
   public canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
     const user = request.user as UserAuthenticated;

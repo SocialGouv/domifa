@@ -1,5 +1,3 @@
-import "./instrumentation";
-
 import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import {
@@ -7,6 +5,17 @@ import {
   SwaggerCustomOptions,
   SwaggerModule,
 } from "@nestjs/swagger";
+
+import * as Sentry from "@sentry/node";
+import {
+  SentrySpanProcessor,
+  SentryPropagator,
+} from "@sentry/opentelemetry-node";
+
+import * as opentelemetry from "@opentelemetry/sdk-node";
+// require("@opentelemetry/api");
+import { getNodeAutoInstrumentations } from "@opentelemetry/auto-instrumentations-node";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-grpc";
 
 import { format } from "date-fns";
 import { DataSource } from "typeorm";
@@ -16,7 +25,6 @@ import { domifaConfig } from "./config";
 import { appTypeormManager } from "./database";
 import { appLogger, setupLog } from "./util";
 import { AppSentryInterceptor } from "./util/sentry";
-import { captureMessage } from "@sentry/node";
 import compression from "compression";
 
 export async function tearDownApplication({
@@ -35,13 +43,44 @@ export async function bootstrapApplication(): Promise<{
   postgresTypeormConnection: DataSource;
 }> {
   try {
+    const postgresTypeormConnection = await appTypeormManager.connect();
+
+    const app = await NestFactory.create(AppModule);
     if (domifaConfig().dev.sentry.enabled) {
-      appLogger.debug(
+      Sentry.init({
+        debug: domifaConfig().dev.sentry.debugModeEnabled,
+        dsn: domifaConfig().dev.sentry.sentryDsn,
+        environment: domifaConfig().envId,
+        tracesSampleRate: 1.0,
+        release: "domifa@" + domifaConfig().version, // default
+        // set the instrumenter to use OpenTelemetry instead of Sentry because of NestJS not being compatible with sentry instrumentation
+        instrumenter: "otel",
+        // logLevels: domifaConfig().dev.sentry.debugModeEnabled
+        //   ? ["log", "error", "warn", "debug", "verbose"] // Verbose,
+        //   : ["log", "error", "warn", "debug"],
+      });
+
+      const sdk = new opentelemetry.NodeSDK({
+        // Existing config
+        traceExporter: new OTLPTraceExporter(),
+        instrumentations: [getNodeAutoInstrumentations()],
+
+        // Sentry config
+        spanProcessor: new SentrySpanProcessor(),
+        textMapPropagator: new SentryPropagator(),
+      });
+
+      sdk.start();
+
+      appLogger.warn(
         `SENTRY DNS enabled: ${domifaConfig().dev.sentry.sentryDsn}`
       );
+      console.log(domifaConfig().dev.sentry.sentryDsn);
+
+      Sentry.captureMessage("test dev");
 
       if (domifaConfig().envId === "prod") {
-        captureMessage(
+        Sentry.captureMessage(
           `[API START] [${domifaConfig().envId}] ${format(
             new Date(),
             "dd/MM/yyyy - HH:mm"
@@ -50,9 +89,6 @@ export async function bootstrapApplication(): Promise<{
       }
     }
 
-    const postgresTypeormConnection = await appTypeormManager.connect();
-
-    const app = await NestFactory.create(AppModule);
     setupLog(app);
 
     if (domifaConfig().dev.sentry.enabled) {
