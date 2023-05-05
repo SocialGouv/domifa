@@ -1,3 +1,4 @@
+import "./open-telemetry";
 import { bootstrapApplication, tearDownApplication } from "./app.bootstrap";
 import { domifaConfig } from "./config";
 import { appTypeormManager } from "./database";
