@@ -25,6 +25,7 @@ function traceCaller(
         (s) =>
           !s.includes("node_modules/pino") &&
           !s.includes("node_modules\\pino") &&
+          !s.includes("node_modules/@opentelemetry") &&
           !s.includes("AppLogger.service.ts") &&
           !s.includes("node_modules/@nestjs/common/services/logger.service.js")
       )
