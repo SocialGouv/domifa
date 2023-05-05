@@ -1,7 +1,6 @@
 import { pino, Logger, SerializedRequest } from "pino";
 import * as pinoSerializers from "pino-std-serializers";
 import traceCaller from "./traceCaller";
-import { apm } from "../instrumentation";
 import { randomUUID } from "crypto";
 import { NextFunction, Request, Response } from "express";
 import { AsyncLocalStorage } from "async_hooks";
@@ -90,7 +89,6 @@ function httpLogger(req: RequestWithId, res: Response, next: NextFunction) {
   const requestLogger = rootLogger.child(
     {
       req,
-      apm: apm.currentTraceIds,
     },
     {
       serializers: {

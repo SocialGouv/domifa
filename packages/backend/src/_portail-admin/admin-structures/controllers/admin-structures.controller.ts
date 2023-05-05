@@ -43,7 +43,6 @@ import {
 import { AdminStructuresService } from "../services";
 import { CurrentUser } from "../../../auth/decorators/current-user.decorator";
 import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
-import { startApmSpan } from "../../../instrumentation";
 import { UsersController } from "../../../users/users.controller";
 import { RegisterUserAdminDto } from "../../../users/dto";
 import { format } from "date-fns";
@@ -83,15 +82,12 @@ export class AdminStructuresController {
       "structureId",
     ];
 
-    const span1 = startApmSpan("userStructureRepository.findMany");
     const users = await userStructureRepository.findMany<
       Omit<StatsExportUser, "structure">
     >(undefined, {
       select: USER_STATS_ATTRIBUTES,
     });
-    if (span1) span1.end();
 
-    const span2 = startApmSpan("user filtering");
     const structuresById = structures.reduce((acc, s) => {
       acc[s.id] = s;
       return acc;
@@ -115,9 +111,7 @@ export class AdminStructuresController {
       }
       return res;
     });
-    if (span2) span2.end();
 
-    const span3 = startApmSpan("generate excel and send");
     const workbook = await statsDeploiementExporter.generateExcelDocument({
       stats,
       users: usersWithStructure,
@@ -133,9 +127,6 @@ export class AdminStructuresController {
       fileName,
       workbook,
     });
-    if (span3) {
-      span3.end();
-    }
   }
 
   @Get("stats")

@@ -1,13 +1,10 @@
-import { ApmModule } from "./instrumentation";
 import { Module } from "@nestjs/common";
 import { ScheduleModule } from "@nestjs/schedule";
 import { TerminusModule } from "@nestjs/terminus";
-import { SentryModule } from "@ntegral/nestjs-sentry";
 
 import { PortailAdminModule } from "./_portail-admin";
 import { PortailUsagerModule } from "./_portail-usager";
 import { AuthModule } from "./auth/auth.module";
-import { domifaConfig } from "./config";
 import { MonitoringModule } from "./database/services/monitoring/monitoring.module";
 import { HealthController } from "./health/health.controller";
 import { PostgresHealthIndicator } from "./health/postgres-health-indicator.service";
@@ -24,16 +21,6 @@ import { ContactSupportModule } from "./modules/contact-support/contact-support.
   controllers: [HealthController],
   exports: [],
   imports: [
-    ApmModule.register(),
-    SentryModule.forRoot({
-      debug: domifaConfig().dev.sentry.debugModeEnabled,
-      dsn: domifaConfig().dev.sentry.sentryDsn,
-      environment: domifaConfig().envId,
-      logLevels: domifaConfig().dev.sentry.debugModeEnabled
-        ? ["log", "error", "warn", "debug", "verbose"] // Verbose,
-        : ["log", "error", "warn", "debug"],
-      release: "domifa@" + domifaConfig().version, // default
-    }),
     AuthModule,
     ScheduleModule.forRoot(),
     TerminusModule,

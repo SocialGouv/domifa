@@ -20,7 +20,6 @@ import {
 } from "../../_common/model";
 import { UsagersService } from "../services/usagers.service";
 
-import { startApmSpan } from "../../instrumentation";
 import { format } from "date-fns";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -36,17 +35,13 @@ export class ExportStructureUsagersController {
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
-    const buildModelSpan = startApmSpan("buildExportModel");
     const model: StructureUsagersExportModel = await this.buildExportModel(
       user
     );
-    if (buildModelSpan) buildModelSpan.end();
 
-    const generateExcelSpan = startApmSpan("generateExcelDocument");
     const workbook = await structureUsagersExporter.generateExcelDocument(
       model
     );
-    if (generateExcelSpan) generateExcelSpan.end();
 
     const fileName = `${format(
       model.exportDate,
