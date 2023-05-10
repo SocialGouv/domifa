@@ -1,3 +1,15 @@
+# [2.126.0](https://github.com/SocialGouv/domifa/compare/v2.125.1...v2.126.0) (2023-05-10)
+
+
+### Bug Fixes
+
+* **metabase:** fix configuration ([6d9919c](https://github.com/SocialGouv/domifa/commit/6d9919c9118f78d990b72e324cc534db2dd8ebb0))
+
+
+### Features
+
+* **metabase:** lancement de metabase ([1c808ff](https://github.com/SocialGouv/domifa/commit/1c808ff68997dc79b943ec56698d57c8afb1bbae))
+
 ## [2.125.1](https://github.com/SocialGouv/domifa/compare/v2.125.0...v2.125.1) (2023-05-03)
 
 
