@@ -27,8 +27,7 @@ export class MessageSmsTable
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   public structureId: number;
 
-  // Contenu du message
-  @Column({ type: "text" })
+  @Column({ type: "text", nullable: false })
   public content: string;
 
   @Index()
@@ -41,7 +40,6 @@ export class MessageSmsTable
   @Column({ type: "text", nullable: true })
   public responseId: string;
 
-  // DATE D'ENVOI PRÉVUE
   @Column({ type: "timestamptz" })
   public scheduledDate: Date;
 
@@ -65,10 +63,11 @@ export class MessageSmsTable
   @Column({ type: "text", nullable: true })
   public errorMessage?: string;
 
-  @Column({ type: "text" })
+  @Index()
+  @Column({ type: "text", nullable: false })
   public phoneNumber: string;
 
-  @Column({ type: "text" })
+  @Column({ type: "text", nullable: false })
   public senderName: string;
 
   public constructor(entity?: Partial<MessageSmsTable>) {

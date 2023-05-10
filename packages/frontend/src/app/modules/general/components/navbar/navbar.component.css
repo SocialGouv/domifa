@@ -50,30 +50,6 @@
   text-align: center;
 }
 
-.dropdown-menu {
-  border-radius: 0;
-  padding: 0;
-  border-color: #9b9b9b;
-}
-
-.dropdown-item {
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  color: #4a4a4a;
-  min-width: 200px;
-  border-bottom: 1px solid #9b9b9b;
-}
-
-.dropdown-item:last-child {
-  border: 0 !important;
-}
-
-.dropdown-item .ng-fa-icon {
-  width: 30px;
-  display: inline-block;
-  vertical-align: middle;
-}
-
 #matomo-info a {
   color: #292929;
   text-decoration: underline;

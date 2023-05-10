@@ -7,7 +7,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
-import { UsagerFormModel } from "../../interfaces";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { ProfilGeneralNotesComponent } from "./profil-general-notes.component";
 
 describe("ProfilGeneralNotesComponent", () => {

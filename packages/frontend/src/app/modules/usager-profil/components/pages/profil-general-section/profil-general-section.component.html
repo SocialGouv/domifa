@@ -435,21 +435,8 @@
           <h2>Notes</h2>
           <app-profil-general-notes
             [me]="me"
-            [(usager)]="usager"
+            [usager]="usager"
           ></app-profil-general-notes>
-
-          <button
-            type="button"
-            class="mt-4 btn btn-outline-primary me-2"
-            (click)="openAddNoteInModal()"
-          >
-            <fa-icon
-              [icon]="['fas', 'plus']"
-              aria-hidden="true"
-              class="me-2"
-            ></fa-icon>
-            Ajouter une note
-          </button>
         </div>
       </div>
     </div>
@@ -460,13 +447,6 @@
     ></app-delete-usager-menu>
   </div>
 </div>
-
-<ng-template #addNoteInModal let-modal>
-  <app-profil-add-note-form
-    [(usager)]="usager"
-    (cancel)="closeModals()"
-  ></app-profil-add-note-form>
-</ng-template>
 
 <ng-template #setInteractionInModal let-modal>
   <app-set-interaction-in-form

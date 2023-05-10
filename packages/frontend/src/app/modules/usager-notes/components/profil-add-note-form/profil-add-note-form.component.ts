@@ -5,6 +5,8 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  TemplateRef,
+  ViewChild,
 } from "@angular/core";
 import {
   AbstractControl,
@@ -15,10 +17,11 @@ import {
 import { Subscription } from "rxjs";
 
 import { noWhiteSpace, bounce } from "../../../../shared";
-import { UsagerFormModel } from "../../interfaces";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerNotesService } from "../../services/usager-notes.service";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { Usager } from "../../../../../_common/model";
+import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   animations: [bounce],
@@ -35,6 +38,12 @@ export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
   @Output()
   public cancel = new EventEmitter();
 
+  @Output()
+  public reloadNotes = new EventEmitter();
+
+  @ViewChild("addNoteInModal", { static: true })
+  public addNoteInModal!: TemplateRef<NgbModalRef>;
+
   public addNoteForm!: UntypedFormGroup;
   public submitted: boolean;
   public loading: boolean;
@@ -42,6 +51,7 @@ export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly usagerNotesService: UsagerNotesService,
+    private readonly modalService: NgbModal,
     private readonly toastService: CustomToastService,
     private readonly formBuilder: UntypedFormBuilder
   ) {
@@ -51,6 +61,10 @@ export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  public openAddNoteInModal(): void {
+    this.modalService.open(this.addNoteInModal);
   }
 
   public ngOnInit(): void {
@@ -85,11 +99,12 @@ export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (usager: Usager) => {
             this.toastService.success("Note enregistrée avec succès");
+            this.loading = false;
+            this.submitted = false;
+            this.cancel.emit();
+
             setTimeout(() => {
               this.usagerChange.emit(new UsagerFormModel(usager));
-              this.loading = false;
-              this.submitted = false;
-              this.cancel.emit();
             }, 500);
           },
           error: () => {

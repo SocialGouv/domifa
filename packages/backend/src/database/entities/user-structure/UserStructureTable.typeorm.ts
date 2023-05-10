@@ -71,9 +71,9 @@ export class UserStructureTable
 
   @BeforeInsert()
   nameToUpperCase() {
-    this.email = this.email.toLowerCase();
-    this.nom = titleCase(this.nom);
-    this.prenom = titleCase(this.prenom);
+    this.email = this.email.toLowerCase().trim();
+    this.nom = titleCase(this.nom).trim();
+    this.prenom = titleCase(this.prenom).trim();
   }
 
   public constructor(entity?: Partial<UserStructureTable>) {

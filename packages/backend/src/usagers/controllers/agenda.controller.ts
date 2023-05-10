@@ -20,7 +20,7 @@ import { domifaConfig } from "../../config";
 import {
   MessageEmailIcalEvent,
   newUserStructureRepository,
-  usagerLightRepository,
+  usagerRepository,
   userStructureRepository,
 } from "../../database";
 import { usagerAppointmentCreatedEmailSender } from "../../mails/services/templates-renderers";
@@ -56,7 +56,7 @@ export class AgendaController {
   @ApiOperation({ summary: "Liste des rendez-vous à venir" })
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getAll(@CurrentUser() user: UserStructureAuthenticated) {
-    return usagerLightRepository.findNextMeetings({ userId: user.id });
+    return usagerRepository.findNextMeetings({ userId: user.id });
   }
 
   @Post(":usagerRef")

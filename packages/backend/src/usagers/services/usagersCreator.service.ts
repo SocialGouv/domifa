@@ -1,5 +1,5 @@
 import { usagerRepository } from "../../database";
-import { Usager } from "../../_common/model";
+import { ETAPE_RENDEZ_VOUS, Usager } from "../../_common/model";
 
 export const usagersCreator = { findNextUsagerRef, setUsagerDefaultAttributes };
 async function findNextUsagerRef(structureId: number): Promise<number> {
@@ -30,6 +30,10 @@ function setUsagerDefaultAttributes(usager: Usager): void {
     portailUsagerEnabled: false,
   };
 
+  usager.etapeDemande = ETAPE_RENDEZ_VOUS;
+  usager.typeDom = "PREMIERE_DOM";
+  usager.pinnedNote = null;
+
   if (!usager.ayantsDroits) {
     usager.ayantsDroits = [];
   }
@@ -46,7 +50,7 @@ function setUsagerDefaultAttributes(usager: Usager): void {
     usager.langue = null;
   }
 
-  if (!usager.lastInteraction)
+  if (!usager.lastInteraction) {
     usager.lastInteraction = {
       dateInteraction: new Date(),
       colisIn: 0,
@@ -54,4 +58,5 @@ function setUsagerDefaultAttributes(usager: Usager): void {
       recommandeIn: 0,
       enAttente: false,
     };
+  }
 }

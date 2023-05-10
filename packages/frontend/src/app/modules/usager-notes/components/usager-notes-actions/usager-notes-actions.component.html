@@ -1,0 +1,83 @@
+<div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
+  <button
+    type="button"
+    class="btn btn-outline-primary me-2"
+    id="dropdownManual"
+    ngbDropdownToggle
+  >
+    Actions
+    <span class="visually-hidden">
+      Supprimer, archiver ou épingler la note du
+      {{ note.createdAt | date : "dd/MM/yyyy à HH:mm" }}
+    </span>
+  </button>
+  <div ngbDropdownMenu aria-labelledby="dropdownManual">
+    <button type="button" (click)="pinNote(note)" ngbDropdownItem>
+      <fa-icon aria-hidden="true" [icon]="['fas', 'thumbtack']"></fa-icon>
+      Épingler la note
+    </button>
+    <button
+      type="button"
+      (click)="noteToDeleteUuid = note.uuid"
+      ngbDropdownItem
+    >
+      <fa-icon aria-hidden="true" [icon]="['fas', 'trash']"></fa-icon>
+      Supprimer la note
+    </button>
+
+    <button
+      type="button"
+      (click)="noteToArchiveUuid = note.uuid"
+      ngbDropdownItem
+    >
+      <fa-icon aria-hidden="true" [icon]="['fas', 'folder-open']"></fa-icon>
+      Archiver la note
+    </button>
+  </div>
+</div>
+
+<ng-template #deleteOrArchiveNoteModal let-modal>
+  <div class="modal-header">
+    <span class="modal-title">
+      {{ choosenAction === "DELETE" ? "Supprimer" : "Archiver" }} une note du
+      dossier de {{ usager.nom }} {{ usager.prenom }}
+    </span>
+  </div>
+
+  <div class="modal-body text-center">
+    <p *ngIf="choosenAction === 'DELETE'">
+      Êtes-vous sûr de vouloir supprimer cette note ? Cette action est
+      définitive, vous ne pourrez plus retrouver la note dans l'historique !
+    </p>
+
+    <p *ngIf="choosenAction === 'ARCHIVE'">
+      Êtes-vous sûr de vouloir d'archiver cette note ?
+    </p>
+  </div>
+  <div class="modal-footer text-end">
+    <button
+      [disabled]="loading"
+      type="submit"
+      (click)="confirmAction()"
+      class="btn btn-lg btn-primary mx-1"
+    >
+      <span *ngIf="!loading">Confirmer</span>
+      <span *ngIf="loading">
+        <fa-icon
+          [icon]="['fas', 'circle-notch']"
+          [spin]="true"
+          aria-hidden="true"
+        ></fa-icon>
+        Veuillez patienter...
+      </span>
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-outline-dark btn-lg me-2"
+      (click)="cancel.emit()"
+    >
+      Annuler
+    </button>
+  </div>
+</ng-template>

@@ -8,7 +8,6 @@ import { AgendaController } from "../agenda.controller";
 
 describe("Agenda Controller", () => {
   let controller: AgendaController;
-
   let context: AppTestContext;
 
   beforeAll(async () => {

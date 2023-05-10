@@ -20,8 +20,6 @@ import { SetInteractionOutFormComponent } from "./components/interactions/set-in
 import { RgpdWarningComponent } from "./components/rgpd-warning/rgpd-warning.component";
 import { UploadComponent } from "./components/upload/upload.component";
 import { ProfilEtatCivilFormComponent } from "./components/profil-etat-civil-form/profil-etat-civil-form.component";
-import { ProfilGeneralNotesComponent } from "./components/profil-general-notes/profil-general-notes.component";
-import { ProfilAddNoteFormComponent } from "./components/profil-add-note-form/profil-add-note-form.component";
 import { DisplayUsagerDocsComponent } from "./components/display-usager-docs/display-usager-docs.component";
 import { EtatCivilParentFormComponent } from "./components/etat-civil-parent-form/etat-civil-parent-form.component";
 import { FormatInternationalPhoneNumberPipe } from "./formatInternationalPhoneNumber.pipe";
@@ -44,8 +42,7 @@ import { DisplayAyantsDroitsComponent } from "./components/display-ayants-droits
     SetInteractionOutFormComponent,
     DisplayEntretienComponent,
     ProfilEtatCivilFormComponent,
-    ProfilGeneralNotesComponent,
-    ProfilAddNoteFormComponent,
+
     DisplayUsagerDocsComponent,
     FormatInternationalPhoneNumberPipe,
     EtatCivilParentFormComponent,
@@ -75,8 +72,7 @@ import { DisplayAyantsDroitsComponent } from "./components/display-ayants-droits
     EntretienFormComponent,
     SetInteractionOutFormComponent,
     ProfilEtatCivilFormComponent,
-    ProfilGeneralNotesComponent,
-    ProfilAddNoteFormComponent,
+
     DisplayUsagerDocsComponent,
     FormatInternationalPhoneNumberPipe,
     DisplayDuplicatesUsagerComponent,

@@ -22,35 +22,9 @@
 }
 
 .dropdown-menu {
-  padding: 0;
-  margin: 0;
   min-width: 100%;
   background: #ffffff;
   border: 1px solid #ececec;
-  border-radius: 5px;
-  box-shadow: 0 0 0 0.25rem rgba(65, 101, 245, 0.077);
-}
-
-.dropdown-item:not(:last-child) {
-  border-bottom: 1px solid #cfcfd9;
-}
-
-.dropdown-item {
-  padding: 10px;
-  color: #4a4a4a;
-  text-align: left;
-  width: 100%;
-}
-
-.dropdown-menu .ng-fa-icon {
-  margin-left: 10px;
-}
-
-#dropdownSort .dropdown-item {
-  justify-content: space-between;
-  align-content: flex-start;
-  align-items: center;
-  display: flex;
 }
 
 .statut-cpt {

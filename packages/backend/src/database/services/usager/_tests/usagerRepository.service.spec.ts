@@ -21,4 +21,12 @@ describe("usagerRepository", () => {
     const result = await usagerRepository.countTotalUsagers();
     expect(result).toBeGreaterThanOrEqual(20);
   });
+
+  it("findNextMeetings", async () => {
+    const rendezVous = await usagerRepository.findNextMeetings({
+      userId: 2,
+      dateRefNow: new Date(Date.UTC(2019, 1, 1)),
+    });
+    expect(rendezVous.length).toEqual(1);
+  });
 });

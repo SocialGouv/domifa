@@ -9,7 +9,7 @@ import {
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import {
-  usagerLightRepository,
+  usagerRepository,
   userUsagerSecurityPasswordChecker,
 } from "../../database";
 import { UsagerLoginDto } from "../../users/dto";
@@ -52,7 +52,7 @@ export class PortailUsagersLoginController {
       const portailUsagerProfile: PortailUsagerProfile =
         await portailUsagerProfilBuilder.build({ usagerUUID: user.usagerUUID });
 
-      const usager = await usagerLightRepository.findOne({
+      const usager = await usagerRepository.findOne({
         uuid: user.usagerUUID,
       });
 

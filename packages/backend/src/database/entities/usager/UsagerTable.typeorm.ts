@@ -79,9 +79,9 @@ export class UsagerTable
   @Column({
     type: "jsonb",
     nullable: false,
-    default: () => `'{"countryCode": "fr", "numero": ""}'`,
+    default: '{"countryCode":"fr", "numero":""}',
   })
-  public telephone!: Telephone;
+  public telephone: Telephone;
 
   @Column({ type: "boolean", nullable: true, default: false })
   public contactByPhone!: boolean;
@@ -107,8 +107,8 @@ export class UsagerTable
 
   @Column({
     type: "jsonb",
-    // default:
-    //   "{ dateInteraction: now(), enAttente: false, courrierIn: 0, recommandeIn: 0, colisIn: 0};",
+    default:
+      '{"dateInteraction":"NOW()", "enAttente":"false", "courrierIn":"0", "recommandeIn":"0", "colisIn":"0"}',
   })
   public lastInteraction!: UsagerLastInteractions;
 
@@ -132,7 +132,7 @@ export class UsagerTable
   @Column({
     type: "jsonb",
     default:
-      '{ "transfert":{ "actif":false, "nom":null, "adresse":null, "dateDebut":null, "dateFin":null }, "procurations":[], "npai":{ "actif":false, "dateDebut":null }, "portailUsagerEnabled":false }',
+      '{"transfert":{"actif":false,"nom":null,"adresse":null,"dateDebut":null,"dateFin":null},"procurations":[],"npai":{"actif":false,"dateDebut":null},"portailUsagerEnabled":false}',
   })
   public options!: UsagerOptions;
 
@@ -142,6 +142,9 @@ export class UsagerTable
 
   @Column({ type: "text", default: null })
   public numeroDistribution!: string | null;
+
+  @Column({ type: "jsonb", default: null, nullable: true })
+  public pinnedNote!: UsagerNote | null;
 
   public constructor(entity?: Partial<UsagerTable>) {
     super(entity);

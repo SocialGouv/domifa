@@ -27,7 +27,7 @@ export type UsagerLight = AppEntity &
     | "villeNaissance"
     | "telephone"
     | "import"
-    | "langue"
+    | "pinnedNote"
     | "contactByPhone"
     | "datePremiereDom"
   >;
