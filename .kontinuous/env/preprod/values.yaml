@@ -23,7 +23,18 @@ portail-usagers:
 
 metabase:
   enabled: true
-  host: "metabase-{{ .Values.global.host }}"
+  ingress:
+    enabled: false
   envFrom:
     - secretRef:
         name: metabase
+
+oauth2-proxy:
+  enabled: true
+  host: "metabase-preprod.dev.fabrique.social.gouv.fr"
+  upstream: http://metabase
+  envFrom:
+    - secretRef:
+        name: oauth2-proxy
+    - configMapRef:
+        name: oauth2-proxy
