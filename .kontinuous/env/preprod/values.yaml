@@ -20,3 +20,12 @@ portail-admins:
 
 portail-usagers:
   host: "mon-{{ .Values.global.host }}"
+
+metabase:
+  enabled: true
+  host: "metabase-{{ .Values.global.host }}"
+  envFrom:
+    - secretRef:
+        name: metabase
+    - configMapRef:
+        name: metabase
