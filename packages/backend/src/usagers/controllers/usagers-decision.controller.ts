@@ -17,11 +17,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 
-import {
-  interactionRepository,
-  usagerLightRepository,
-  usagerNotesRepository,
-} from "../../database";
+import { interactionRepository, usagerNotesRepository } from "../../database";
 
 import {
   ETAPE_ETAT_CIVIL,
@@ -73,7 +69,7 @@ export class UsagersDecisionController {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ) {
-    return usagerLightRepository.findLastFiveCustomRef({
+    return usagerRepository.findLastFiveCustomRef({
       structureId: user.structureId,
       usagerRef: usager.ref,
     });

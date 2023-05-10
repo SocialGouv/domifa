@@ -48,6 +48,9 @@ export class UsagerNotesTable
   @Column({ type: "boolean", nullable: false, default: false })
   public archived: boolean;
 
+  @Column({ type: "boolean", nullable: false, default: false })
+  public pinned: boolean;
+
   @Column({ type: "jsonb", nullable: true })
   public createdBy: UserStructureResume;
 

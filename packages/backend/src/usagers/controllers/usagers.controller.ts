@@ -91,6 +91,7 @@ export class UsagersController {
         structureId: user.structureId,
       },
     });
+
     const orderByLastDecisionDesc: PgRepositoryFindOrder<any> = {};
     orderByLastDecisionDesc[`"decision"->>'dateFin'`] = "DESC";
 
@@ -153,7 +154,6 @@ export class UsagersController {
     return usagersRadies;
   }
 
-  /* FORMULAIRE INFOS */
   @AllowUserStructureRoles("simple", "responsable", "admin")
   @Post()
   public createUsager(

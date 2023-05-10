@@ -39,7 +39,6 @@ export class UsagerAccessGuard implements CanActivate {
           ref: usagerRef,
         },
         relations: {
-          notes: true,
           entretien: true,
         },
       });

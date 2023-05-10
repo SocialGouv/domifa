@@ -39,12 +39,6 @@ import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-u
 export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent {
   public interactions: Interaction[];
 
-  public readonly actions = {
-    EDIT: "Modification",
-    DELETE: "Suppression",
-    CREATION: "Création",
-  };
-
   public today: Date;
 
   public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
@@ -53,9 +47,6 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
 
   @ViewChild("distributionConfirm", { static: true })
   public distributionConfirm!: TemplateRef<NgbModalRef>;
-
-  @ViewChild("addNoteInModal", { static: true })
-  public addNoteInModal!: TemplateRef<NgbModalRef>;
 
   @ViewChild("setInteractionInModal", { static: true })
   public setInteractionInModal!: TemplateRef<NgbModalRef>;
@@ -150,10 +141,6 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
 
   public closeModals(): void {
     this.modalService.dismissAll();
-  }
-
-  public openAddNoteInModal(): void {
-    this.modalService.open(this.addNoteInModal);
   }
 
   public openInteractionInModal(): void {

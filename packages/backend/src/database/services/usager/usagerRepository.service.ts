@@ -1,7 +1,11 @@
 import { myDataSource } from "..";
 
 import { UsagerTable } from "../../entities";
-import { appTypeormManager, pgRepository } from "../_postgres";
+import {
+  PgRepositoryFindOrder,
+  appTypeormManager,
+  pgRepository,
+} from "../_postgres";
 
 import { Usager } from "../../../_common/model";
 import { FranceRegion } from "../../../util/territoires";
@@ -21,6 +25,8 @@ export const usagerRepository = myDataSource
     countUsagersByMonth,
     countTotalUsagers,
     countUsagers,
+    findNextMeetings,
+    findLastFiveCustomRef,
   });
 
 export async function updateOneAndReturn(
@@ -37,7 +43,6 @@ async function getUsager(uuid: string): Promise<Usager> {
       uuid,
     },
     relations: {
-      notes: true,
       entretien: true,
     },
   });
@@ -112,4 +117,52 @@ async function countMigratedUsagers(): Promise<number> {
   return myDataSource
     .getRepository<Usager>(UsagerTable)
     .countBy({ migrated: false });
+}
+
+async function findLastFiveCustomRef({
+  structureId,
+  usagerRef,
+}: {
+  structureId: number;
+  usagerRef: number;
+}): Promise<
+  Pick<
+    Usager,
+    "ref" | "customRef" | "nom" | "sexe" | "prenom" | "structureId"
+  >[]
+> {
+  return await baseRepository.findManyWithQuery({
+    select: ["ref", "customRef", "nom", "sexe", "prenom", "structureId"],
+    where: `decision->>'statut' = :statut and "structureId" = :structureId and ref != :usagerRef`,
+    params: {
+      statut: "VALIDE",
+      structureId,
+      usagerRef,
+    },
+    order: {
+      "(decision->>'dateDecision')::timestamptz": "DESC",
+    } as PgRepositoryFindOrder<any>,
+    maxResults: 5,
+  });
+}
+
+async function findNextMeetings({
+  userId,
+  dateRefNow = new Date(),
+}: {
+  userId: number;
+  dateRefNow?: Date;
+}): Promise<Pick<Usager, "nom" | "prenom" | "uuid" | "ref" | "rdv">[]> {
+  return baseRepository.findManyWithQuery({
+    where: `rdv->>'userId' = :userId
+      and (rdv->>'dateRdv')::timestamptz > :dateRefNow`,
+    params: {
+      userId,
+      dateRefNow,
+    },
+    order: {
+      "(rdv->>'dateRdv')::timestamptz": "DESC",
+    } as PgRepositoryFindOrder<any>,
+    select: ["nom", "prenom", "uuid", "ref", "rdv"],
+  });
 }

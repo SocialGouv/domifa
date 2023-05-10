@@ -50,10 +50,7 @@ export class UsagersService {
     };
 
     usager.historique.push(usager.decision);
-
     usager.structureId = user.structureId;
-    usager.etapeDemande = ETAPE_RENDEZ_VOUS;
-    usager.typeDom = "PREMIERE_DOM";
 
     const createdUsager = await usagerRepository.save(usager);
 

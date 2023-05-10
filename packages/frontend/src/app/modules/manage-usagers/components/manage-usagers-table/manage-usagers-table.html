@@ -150,7 +150,6 @@
           </div>
         </ng-template>
         <div
-          (click)="goToProfil(usager)"
           [ngbTooltip]="usager.rdvInfos.display ? rdvInfosTooltip : ''"
           *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
           class="label-info label-yellow"
@@ -159,7 +158,6 @@
         </div>
 
         <div
-          (click)="goToProfil(usager)"
           [ngbTooltip]="usager.rdvInfos.display ? rdvInfosTooltip : ''"
           *ngIf="usager.typeDom === 'PREMIERE_DOM'"
           class="label-info label-grey"
@@ -174,7 +172,7 @@
         >
       </td>
 
-      <td class="clickable table-name td-name" (click)="goToProfil(usager)">
+      <td class="clickable table-name td-name">
         <a [routerLink]="usager.usagerProfilUrl">
           {{ usager.nom | uppercase }} {{ usager.prenom }}
           <span *ngIf="usager.surnom && usager.surnom !== null">

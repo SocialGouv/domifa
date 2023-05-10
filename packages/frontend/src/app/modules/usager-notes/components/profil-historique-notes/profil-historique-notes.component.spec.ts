@@ -8,7 +8,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
-import { USAGER_ACTIF_MOCK } from "./../../../../../_common/mocks/USAGER_ACTIF.mock";
+import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { ProfilHistoriqueNotesComponent } from "./profil-historique-notes.component";
 
 describe("ProfilHistoriqueNotesComponent", () => {

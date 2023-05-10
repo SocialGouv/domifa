@@ -12,6 +12,8 @@ import {
   faFileWord,
 } from "@fortawesome/free-regular-svg-icons";
 import {
+  faFolderOpen,
+  faThumbTack,
   faAngleLeft,
   faAngleRight,
   faArrowDown,
@@ -72,6 +74,8 @@ export const FA_ICONS: IconDefinition[] = [
   faBars,
   faCalendar,
   faChartBar,
+  faThumbTack,
+  faFolderOpen,
   faCheck,
   faCheckCircle,
   faCircle,

@@ -17,7 +17,12 @@ export class UserUsagerSecurityTable
   @ManyToOne(() => UserUsagerTable, (user) => user.id, {
     onDelete: "CASCADE",
   })
-  @Column({ type: "integer", nullable: false, unique: true, update: false })
+  @Column({
+    type: "integer",
+    nullable: false,
+    unique: true,
+    update: false,
+  })
   @JoinColumn({ name: "userId", referencedColumnName: "id" })
   public userId: number;
 

@@ -496,8 +496,7 @@
             type="button"
             class="btn"
             id="dropdownSortButton"
-            ngbDropdownAnchor
-            (focus)="dropdownSort.open()"
+            ngbDropdownToggle
           >
             <span>
               <ng-container *ngIf="filters.sortKey !== 'PASSAGE'">
@@ -544,8 +543,12 @@
                 "
                 ngbDropdownItem
               >
-                <span>Trier par dernier passage</span>
-                <fa-icon [icon]="['fas', 'sort-amount-up']"></fa-icon>
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'sort-amount-up']"
+                ></fa-icon>
+                <span>Trier par dernier passage</span
+                ><span class="visually-hidden"> ordre croissant</span>
               </button>
               <button
                 type="button"
@@ -558,11 +561,12 @@
                 "
                 ngbDropdownItem
               >
-                <span> Trier par dernier passage</span>
                 <fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'sort-amount-down']"
                 ></fa-icon>
+                <span>Trier par dernier passage</span
+                ><span class="visually-hidden">Ordre décroissant</span>
               </button>
             </ng-container>
             <button
@@ -576,11 +580,12 @@
               "
               ngbDropdownItem
             >
-              <span> Trier par {{ getEcheanceLabel() }}</span>
               <fa-icon
                 aria-hidden="true"
                 [icon]="['fas', 'sort-amount-up']"
               ></fa-icon>
+              <span> Trier par {{ getEcheanceLabel() }}</span
+              ><span class="visually-hidden"> ordre croissant</span>
             </button>
             <button
               type="button"
@@ -593,11 +598,12 @@
               "
               ngbDropdownItem
             >
-              Trier par {{ getEcheanceLabel() }}
               <fa-icon
                 aria-hidden="true"
                 [icon]="['fas', 'sort-amount-down']"
               ></fa-icon>
+              Trier par {{ getEcheanceLabel()
+              }}<span class="visually-hidden">Ordre décroissant</span>
             </button>
             <button
               type="button"
@@ -611,11 +617,11 @@
               "
               ngbDropdownItem
             >
-              Trier par nom
               <fa-icon
                 aria-hidden="true"
                 [icon]="['fas', 'sort-amount-up']"
               ></fa-icon>
+              Trier par nom<span class="visually-hidden"> ordre croissant</span>
             </button>
             <button
               type="button"
@@ -628,11 +634,13 @@
               "
               ngbDropdownItem
             >
-              Trier par nom
               <fa-icon
                 aria-hidden="true"
                 [icon]="['fas', 'sort-amount-down']"
               ></fa-icon>
+              Trier par nom<span class="visually-hidden"
+                >Ordre décroissant</span
+              >
             </button>
             <button
               type="button"
@@ -645,11 +653,11 @@
               "
               ngbDropdownItem
             >
-              Trier par ID
               <fa-icon
                 aria-hidden="true"
                 [icon]="['fas', 'sort-amount-up']"
               ></fa-icon>
+              Trier par ID <span class="visually-hidden"> ordre croissant</span>
             </button>
             <button
               type="button"
@@ -662,11 +670,11 @@
               "
               ngbDropdownItem
             >
-              Trier par ID
               <fa-icon
                 aria-hidden="true"
                 [icon]="['fas', 'sort-amount-down']"
               ></fa-icon>
+              Trier par ID<span class="visually-hidden">Ordre décroissant</span>
             </button>
           </div>
         </div>

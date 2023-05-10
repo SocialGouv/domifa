@@ -39,6 +39,7 @@ export type Usager = AppEntity & {
   etapeDemande: number;
   rdv: UsagerRdv | null;
   entretien: UsagerEntretien;
+  pinnedNote: UsagerNote | null;
 
   // INFOS DOMICILIATION
   typeDom: UsagerTypeDom;

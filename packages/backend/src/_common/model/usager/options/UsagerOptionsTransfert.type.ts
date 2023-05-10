@@ -1,7 +1,7 @@
 export type UsagerOptionsTransfert = {
   actif: boolean;
-  nom: string;
-  adresse: string;
-  dateDebut: Date;
-  dateFin: Date;
+  nom?: string | null;
+  adresse?: string | null;
+  dateDebut?: Date | null;
+  dateFin?: Date | null;
 };

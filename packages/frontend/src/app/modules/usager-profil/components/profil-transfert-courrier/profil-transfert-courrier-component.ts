@@ -60,12 +60,6 @@ export class UsagersProfilTransfertCourrierComponent
 
   @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
 
-  public actions = {
-    EDIT: "Modification",
-    DELETE: "Suppression",
-    CREATION: "Création",
-  };
-
   public isFormVisible: boolean;
   public loading: boolean;
   public submitted: boolean;

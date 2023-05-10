@@ -23,14 +23,14 @@ import { ProfilGeneralHistoriqueCourriersComponent } from "./components/profil-g
 import { ProfilGeneralSectionComponent } from "./components/pages/profil-general-section/profil-general-section.component";
 import { ProfilHeadComponent } from "./components/profil-head/profil-head.component";
 import { ProfilHistoriqueCourriersComponent } from "./components/profil-historique-courriers/profil-historique-courriers.component";
-import { ProfilHistoriqueNotesComponent } from "./components/profil-historique-notes/profil-historique-notes.component";
 import { ProfilHistoriqueSmsComponent } from "./components/profil-historique-sms/profil-historique-sms.component";
-import { ProfilHistoriqueComponent } from "./components/pages/profil-historique/profil-historique.component";
 import { UsagersProfilProcurationCourrierComponent } from "./components/profil-procuration-courrier/profil-procuration-courrier-component";
 import { ProfilStructureDocsComponent } from "./components/profil-structure-documents/profil-structure-docs.component";
 import { UsagersProfilTransfertCourrierComponent } from "./components/profil-transfert-courrier/profil-transfert-courrier-component";
 import { UsagerProfilRoutingModule } from "./usager-profil-routing.module";
 import { BaseUsagerProfilPageComponent } from "./components/pages/base-usager-profil-page/base-usager-profil-page.component";
+import { UsagerNotesModule } from "../usager-notes/usager-notes.module";
+import { ProfilHistoriqueComponent } from "./components/pages/profil-historique/profil-historique.component";
 
 @NgModule({
   declarations: [
@@ -40,7 +40,6 @@ import { BaseUsagerProfilPageComponent } from "./components/pages/base-usager-pr
     ProfilHeadComponent,
     ProfilDossierComponent,
     ProfilHistoriqueComponent,
-    ProfilHistoriqueNotesComponent,
     ProfilHistoriqueSmsComponent,
     // Parts
     UsagersProfilTransfertCourrierComponent,
@@ -59,6 +58,7 @@ import { BaseUsagerProfilPageComponent } from "./components/pages/base-usager-pr
     CommonModule,
     UsagerSharedModule,
     FormsModule,
+    UsagerNotesModule,
     HttpClientModule,
     NgbModule,
     ReactiveFormsModule,

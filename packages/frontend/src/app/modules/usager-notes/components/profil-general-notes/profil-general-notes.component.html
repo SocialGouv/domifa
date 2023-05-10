@@ -1,0 +1,39 @@
+<div *ngIf="usager">
+  <div *ngIf="!notes || notes.length === 0" class="my-2 mx-1 font-italic">
+    Aucune note enregistrée
+  </div>
+
+  <div
+    *ngFor="let note of notes | slice : 0 : 5; let i = index"
+    class="note-historique"
+  >
+    <div class="d-flex justify-content-between align-items-top">
+      <div>
+        <div class="number">
+          <div class="icon-note"></div>
+        </div>
+        <div class="note-separator"></div>
+      </div>
+
+      <div class="flex-grow-1 ms-3">
+        <div class="note-date">
+          {{ note.createdAt | date : "dd/MM/yyyy à HH:mm" }} -
+          {{ note.createdBy.userName }}
+        </div>
+        <p class="font-bold">{{ note.message }}</p>
+      </div>
+      <div *ngIf="me?.role !== 'facteur'" class="ms-3">
+        <app-usager-notes-actions
+          [usager]="usager"
+          [note]="note"
+        ></app-usager-notes-actions>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-profil-add-note-form
+  [(usager)]="usager"
+  (cancel)="closeModals()"
+  (reloadNotes)="reloadNotes()"
+></app-profil-add-note-form>

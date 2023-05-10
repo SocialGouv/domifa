@@ -7,6 +7,7 @@ export type UsagerNote = {
   createdAt: Date;
   createdBy: UserStructureResume;
   archived: boolean;
+  pinned: boolean;
   archivedAt?: Date;
   archivedBy?: UserStructureResume;
 };

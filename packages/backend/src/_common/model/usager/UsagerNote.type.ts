@@ -6,6 +6,7 @@ export type UsagerNote = {
   message: string;
   usagerRef: number;
   usagerUUID: string;
+  pinned: boolean;
   structureId: number;
   createdAt?: Date;
   updatedAt?: Date;

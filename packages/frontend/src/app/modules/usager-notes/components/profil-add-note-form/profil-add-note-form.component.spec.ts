@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks";
 
-import { UsagerFormModel } from "../../interfaces";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 import { ProfilAddNoteFormComponent } from "./profil-add-note-form.component";
 
