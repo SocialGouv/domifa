@@ -31,8 +31,6 @@ export class StepEntretienComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.currentUserSubject$ = this.authService.currentUserSubject;
-
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
 

@@ -1,4 +1,4 @@
-<table *ngIf="usager?.notes.length > 0" class="table table-hover">
+<table *ngIf="notes.length > 0" class="table table-hover">
   <caption class="visually-hidden">
     Notes sur l'usager
   </caption>
@@ -7,73 +7,38 @@
       <th scope="col">Date</th>
       <th scope="col">Message</th>
       <th scope="col">Responsable</th>
-      <th scope="col">Actions</th>
+      <th scope="col" class="text-end">Actions</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let note of usager.notes">
+    <tr *ngFor="let note of notes">
       <td>
         {{ note.createdAt | date : "dd/MM/yyyy à HH:mm" }}
       </td>
       <td>
-        {{ note.message }}
-        <ng-container *ngIf="note.archivedAt">
-          <br />
-          <b
-            >Archivée le {{ note.archivedAt | date : "dd/MM/yyyy à HH:mm" }} par
-            {{ note.archivedBy.userName }}</b
-          ></ng-container
-        >
+        <span *ngIf="note.archivedAt" class="badge badge-pill bg-danger">
+          Archivée le {{ note.archivedAt | date : "dd/MM/yyyy" }} par
+          {{ note.archivedBy.userName }}
+        </span>
+        <span class="badge badge-pill bg-warning text-dark" *ngIf="note.pinned">
+          <fa-icon [icon]="['fas', 'thumb-tack']" aria-hidden="true"></fa-icon>
+          Note épinglée
+        </span>
+        <p class="font-bold text-break">{{ note.message }}</p>
       </td>
       <td>{{ note.createdBy.userName }}</td>
-      <td>
-        <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
-          <button
-            type="button"
-            class="btn btn-outline-primary me-2"
-            id="dropdownManual"
-            ngbDropdownToggle
-          >
-            Actions
-            <span class="visually-hidden">
-              Supprimer, archiver ou épingler la note du
-              {{ note.createdAt | date : "dd/MM/yyyy à HH:mm" }}
-            </span>
-          </button>
-          <div ngbDropdownMenu aria-labelledby="dropdownManual">
-            <button type="button" (click)="pinNote(note)" ngbDropdownItem>
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'thumbtack']"
-              ></fa-icon>
-              Épingler la note
-            </button>
-            <button
-              type="button"
-              (click)="noteToDeleteUuid = note.uuid"
-              ngbDropdownItem
-            >
-              <fa-icon aria-hidden="true" [icon]="['fas', 'trash']"></fa-icon>
-              Supprimer la note
-            </button>
-
-            <button
-              type="button"
-              (click)="noteToArchiveUuid = note.uuid"
-              ngbDropdownItem
-            >
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'folder-open']"
-              ></fa-icon>
-              Archiver la note
-            </button>
-          </div>
+      <td class="text-end">
+        <div *ngIf="me?.role !== 'facteur'" class="ms-3">
+          <app-usager-notes-actions
+            [usager]="usager"
+            [note]="note"
+            (getUsagerNotes)="getUsagerNotes()"
+          ></app-usager-notes-actions>
         </div>
       </td>
     </tr>
   </tbody>
 </table>
-<div *ngIf="usager?.notes.length === 0" class="alert alert-info">
+<div *ngIf="notes.length === 0" class="alert alert-info">
   Aucune note enregistrée actuellement
 </div>

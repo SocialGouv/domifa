@@ -1,13 +1,18 @@
+.badge {
+  font-size: 0.8rem;
+}
+
 .alert {
   position: relative;
   display: flex;
   align-items: left;
   justify-content: left;
+  word-break: break-all;
 }
 
 .alert .svg-icon {
   display: table-cell;
-  margin-right: 10px;
+  margin-right: 1rem;
   width: 35px;
   height: 35px;
   padding: 6px;

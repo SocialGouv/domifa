@@ -1,13 +1,17 @@
 import { UserStructureResume } from "../user-structure/UserStructureResume.type";
 
 export type UsagerNote = {
-  id: string;
-  uuid: string;
+  id: number;
+  uuid?: string;
   message: string;
-  createdAt: Date;
+  usagerRef: number;
+  usagerUUID: string;
+  pinned: boolean;
+  structureId: number;
+  createdAt?: Date;
+  updatedAt?: Date;
   createdBy: UserStructureResume;
   archived: boolean;
-  pinned: boolean;
   archivedAt?: Date;
   archivedBy?: UserStructureResume;
 };

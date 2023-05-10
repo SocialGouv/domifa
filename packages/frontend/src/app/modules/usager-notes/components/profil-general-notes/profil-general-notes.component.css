@@ -29,18 +29,10 @@
   height: 100%;
 }
 
-.note-date {
-  font-style: normal;
-  font-weight: bold;
-  font-size: 0.95rem;
-  color: var(--bs-primary);
-  line-height: 150%;
-}
-
 .note-historique:last-child .note-separator {
   display: none !important;
 }
 
-p {
+* {
   word-break: break-all;
 }

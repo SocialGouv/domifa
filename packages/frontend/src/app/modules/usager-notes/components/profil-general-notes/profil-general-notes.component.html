@@ -17,15 +17,28 @@
 
       <div class="flex-grow-1 ms-3">
         <div class="note-date">
-          {{ note.createdAt | date : "dd/MM/yyyy à HH:mm" }} -
-          {{ note.createdBy.userName }}
+          <span class="text-primary font-bold">
+            {{ note.createdAt | date : "dd/MM/yyyy à HH:mm" }} -
+            {{ note.createdBy.userName }}
+          </span>
+          <span
+            class="badge badge-pill bg-warning text-dark"
+            *ngIf="note.pinned"
+          >
+            <fa-icon
+              [icon]="['fas', 'thumb-tack']"
+              aria-hidden="true"
+            ></fa-icon>
+            Note épinglée
+          </span>
+          <p class="font-bold">{{ note.message }}</p>
         </div>
-        <p class="font-bold">{{ note.message }}</p>
       </div>
       <div *ngIf="me?.role !== 'facteur'" class="ms-3">
         <app-usager-notes-actions
           [usager]="usager"
           [note]="note"
+          (getUsagerNotes)="getUsagerNotes()"
         ></app-usager-notes-actions>
       </div>
     </div>
@@ -35,5 +48,5 @@
 <app-profil-add-note-form
   [(usager)]="usager"
   (cancel)="closeModals()"
-  (reloadNotes)="reloadNotes()"
+  (getUsagerNotes)="getUsagerNotes()"
 ></app-profil-add-note-form>

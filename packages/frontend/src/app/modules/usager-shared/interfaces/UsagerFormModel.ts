@@ -72,12 +72,13 @@ export class UsagerFormModel {
   };
   public rdv: Rdv;
 
+  public pinnedNote: Partial<UsagerNote> | null;
+
   // TODO: données utiles uniquement pour la page profil, à mettre dans un type étendu d'Usager
   public email: string;
   public telephone: Telephone;
   public contactByPhone: boolean;
   public entretien?: Entretien;
-  public notes: UsagerNote[];
   public historique: Decision[];
   public numeroDistribution: string | null;
   public import: UsagerImport | null;
@@ -89,10 +90,7 @@ export class UsagerFormModel {
   public searchResultAyantDroit: boolean;
 
   constructor(usager?: UsagerLight, filterCriteria?: UsagersFilterCriteria) {
-    this.notes = (usager && usager.notes) || [];
-    this.notes.sort((a, b) => {
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-    });
+    this.pinnedNote = (usager && usager.pinnedNote) || null;
 
     this.ref = (usager && usager.ref) || 0;
     this.customRef = (usager && usager.customRef) || null;

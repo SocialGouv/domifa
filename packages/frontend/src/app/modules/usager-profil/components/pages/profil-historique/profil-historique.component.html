@@ -184,8 +184,8 @@
       <div class="row" *ngIf="usager">
         <div class="col-md-12">
           <h2>Historique des notes</h2>
-
           <app-profil-historique-notes
+            [me]="me"
             [usager]="usager"
           ></app-profil-historique-notes>
         </div>

@@ -24,6 +24,7 @@ export const USAGER_ACTIF_MOCK: UsagerLight = {
     recommandeIn: 0,
     dateInteraction: new Date("2020-12-01T14:11:28.167Z"),
   },
+  pinnedNote: null,
   options: {
     transfert: {
       actif: false,

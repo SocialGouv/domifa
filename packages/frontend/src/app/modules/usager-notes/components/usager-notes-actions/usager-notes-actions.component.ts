@@ -7,7 +7,10 @@ import {
   ViewChild,
 } from "@angular/core";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import { UsagerNote, Usager } from "../../../../../_common/model";
+import {
+  DEFAULT_MODAL_OPTIONS,
+  UsagerNote,
+} from "../../../../../_common/model";
 import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerNotesService } from "../../services/usager-notes.service";
@@ -39,8 +42,18 @@ export class UsagerNotesActionsComponent {
   ) {
     this.loading = false;
   }
+
   public cancelArchiveOrDelete(): void {
     this.choosenAction = null;
+    this.modalService.dismissAll();
+  }
+
+  public openActionModal(choosenAction: "DELETE" | "ARCHIVE" | null): void {
+    this.choosenAction = choosenAction;
+    this.modalService.open(
+      this.deleteOrArchiveNoteModal,
+      DEFAULT_MODAL_OPTIONS
+    );
   }
 
   public confirmAction() {
@@ -48,6 +61,7 @@ export class UsagerNotesActionsComponent {
       ? this.confirmDeleteNote()
       : this.confirmArchiveNote();
   }
+
   public confirmDeleteNote(): void {
     this.choosenAction = null;
     this.loading = true;
@@ -60,11 +74,11 @@ export class UsagerNotesActionsComponent {
         })
         .subscribe({
           next: () => {
-            this.toastService.success("Note archivée avec succès");
-            this.loading = false;
+            this.toastService.success("Note supprimée avec succès");
+            this.closeModal();
           },
           error: () => {
-            this.toastService.error("Impossible de télécharger les notes");
+            this.toastService.error("Impossible de supprimer la note");
             this.loading = false;
           },
         })
@@ -81,13 +95,12 @@ export class UsagerNotesActionsComponent {
           usagerRef: this.usager.ref,
         })
         .subscribe({
-          next: (usager: Usager) => {
+          next: () => {
+            this.closeModal();
             this.toastService.success("Note archivée avec succès");
-            this.usager = new UsagerFormModel(usager);
-            this.loading = false;
           },
           error: () => {
-            this.toastService.error("Impossible de télécharger les notes");
+            this.toastService.error("Impossible d'archiver la note");
             this.loading = false;
           },
         })
@@ -104,16 +117,21 @@ export class UsagerNotesActionsComponent {
           usagerRef: this.usager.ref,
         })
         .subscribe({
-          next: (usager: Usager) => {
+          next: () => {
             this.toastService.success("Note épinglée avec succès");
-            this.usager = new UsagerFormModel(usager);
-            this.loading = false;
+            this.closeModal();
           },
           error: () => {
-            this.toastService.error("Impossible de télécharger les notes");
+            this.toastService.error("Impossible d'épingler la note");
             this.loading = false;
           },
         })
     );
+  }
+
+  private closeModal() {
+    this.loading = false;
+    this.getUsagerNotes.emit();
+    this.modalService.dismissAll();
   }
 }
