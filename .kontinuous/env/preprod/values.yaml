@@ -27,5 +27,3 @@ metabase:
   envFrom:
     - secretRef:
         name: metabase
-    - configMapRef:
-        name: metabase

@@ -26,27 +26,6 @@ jobs:
           PRODUCTION: "true"
           DOMIFA_FRONTEND_META_ROBOTS: index,follow
 
-#metabase:
-#  enabled: true
-#  ingress:
-#    enabled: false
-#  envFrom:
-#    - secretRef:
-#        name: metabase-pg-user
-#    - configMapRef:
-#        name: metabase-configmap
-
-#oauth2-proxy:
-#  host: "metabase-{{ .Values.global.host }}"
-#  certSecretName: oauth2-proxy-crt
-#  upstream: http://metabase
-#  enabled: true
-#  envFrom:
-#    - secretRef:
-#        name: "oauth2-proxy-sealed-secret"
-#    - configMapRef:
-#        name: oauth2-proxy-configmap
-
 backend-cron:
   addVolumes:
     - files
