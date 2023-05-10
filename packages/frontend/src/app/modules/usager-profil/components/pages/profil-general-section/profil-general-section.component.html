@@ -7,6 +7,24 @@
       <div class="row">
         <!-- INFOS LIÉS AU STATUT -->
         <div class="col-md-12">
+          <div class="alert alert-info" *ngIf="usager.pinnedNote">
+            <div aria-hidden="true" class="">
+              <fa-icon
+                [icon]="['fas', 'thumb-tack']"
+                aria-hidden="true"
+              ></fa-icon>
+            </div>
+            <span>
+              <b
+                >Note épinglée créer le
+                {{ usager.pinnedNote.createdAt | date : "dd/MM/yyyy à HH:mm" }}
+                par {{ usager.pinnedNote.createdBy.userName }}</b
+              >
+              <br />
+              {{ usager.pinnedNote.message }}
+            </span>
+          </div>
+
           <div
             class="alert alert-danger"
             *ngIf="usager.decision.statut === 'RADIE'"
@@ -79,7 +97,11 @@
                 [routerLink]="['/usager/' + usager.ref + '/edit']"
                 class="btn btn-light"
               >
-                <fa-icon [icon]="['fas', 'redo']" class="me-2"></fa-icon>
+                <fa-icon
+                  [icon]="['fas', 'redo']"
+                  aria-hidden="true"
+                  class="me-2"
+                ></fa-icon>
                 Voir le récapitulatif
               </a>
             </div>

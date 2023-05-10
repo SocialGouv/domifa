@@ -4,6 +4,7 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { UsagerNotesService } from "../../services/usager-notes.service";
 import { BaseUsagerNotesComponent } from "../base-usager-notes/base-usager-notes.component";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { AuthService } from "../../../shared/services";
 
 @Component({
   selector: "app-profil-general-notes",
@@ -14,8 +15,9 @@ export class ProfilGeneralNotesComponent extends BaseUsagerNotesComponent {
   constructor(
     public usagerNotesService: UsagerNotesService,
     public modalService: NgbModal,
-    public toastService: CustomToastService
+    public toastService: CustomToastService,
+    public authService: AuthService
   ) {
-    super(usagerNotesService, modalService, toastService);
+    super(usagerNotesService, modalService, toastService, authService);
   }
 }

@@ -44,7 +44,6 @@ export type Usager = AppEntity & {
   etapeDemande: number;
   rdv: UsagerRdv;
   entretien: UsagerEntretien;
-
   // INFOS DOMICILIATION
   typeDom: UsagerTypeDom;
   datePremiereDom: Date;
@@ -62,7 +61,8 @@ export type Usager = AppEntity & {
   options: UsagerOptions;
   numeroDistribution: string | null;
 
-  notes?: UsagerNote[];
+  pinnedNote: Partial<UsagerNote> | null;
+
   // Variables de front
   echeanceInfos?: UsagerEcheanceInfos;
   rdvInfos?: UsagerRdvInfos;

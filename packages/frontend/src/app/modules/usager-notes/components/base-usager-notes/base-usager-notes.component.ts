@@ -1,12 +1,12 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
-import { Subscription } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { UserStructure, UsagerNote } from "../../../../../_common/model";
 import {
   Order,
   PageOptions,
   PageResults,
 } from "../../../../../_common/model/pagination";
-import { CustomToastService } from "../../../shared/services";
+import { AuthService, CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerNotesService } from "../../services/usager-notes.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -19,20 +19,30 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
   @Input() public me!: UserStructure;
   @Input() public usager!: UsagerFormModel;
-  @Input() public params!: PageOptions;
+  public params!: PageOptions;
 
   public loading: boolean;
   public notes: UsagerNote[];
-
+  public getArchivedNotes = false;
   private subscription = new Subscription();
+
+  public currentUserSubject$: Observable<UserStructure | null>;
 
   constructor(
     public usagerNotesService: UsagerNotesService,
     public modalService: NgbModal,
-    public toastService: CustomToastService
+    public toastService: CustomToastService,
+    public authService: AuthService
   ) {
     this.loading = false;
     this.notes = [];
+    this.params = {
+      order: Order.DESC,
+      page: 1,
+      take: 5,
+    };
+
+    this.currentUserSubject$ = this.authService.currentUserSubject;
   }
 
   ngOnInit(): void {
@@ -42,15 +52,9 @@ export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
   public getUsagerNotes(): void {
     this.loading = true;
 
-    const params = {
-      order: Order.DESC,
-      page: 1,
-      take: 5,
-    };
-
     this.subscription.add(
       this.usagerNotesService
-        .getNotes(this.usager.ref, params, false)
+        .getNotes(this.usager.ref, this.params, this.getArchivedNotes)
         .subscribe({
           next: (notes: PageResults<UsagerNote>) => {
             console.log(notes);
@@ -67,10 +71,6 @@ export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
 
   public closeModals() {
     this.modalService.dismissAll();
-  }
-
-  public reloadNotes() {
-    console.log("");
   }
 
   public ngOnDestroy(): void {

@@ -60,7 +60,7 @@ export const USAGER_REFUS_MOCK: UsagerLight = {
     },
   ],
   datePremiereDom: new Date("2018-01-11T00:00:00.000Z"),
-
+  pinnedNote: null,
   email: "domicilie2@yopmail.com",
   entretien: {
     typeMenage: "COUPLE_AVEC_ENFANT",

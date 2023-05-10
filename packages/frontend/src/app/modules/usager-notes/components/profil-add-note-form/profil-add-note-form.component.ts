@@ -39,7 +39,7 @@ export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
   public cancel = new EventEmitter();
 
   @Output()
-  public reloadNotes = new EventEmitter();
+  public getUsagerNotes = new EventEmitter();
 
   @ViewChild("addNoteInModal", { static: true })
   public addNoteInModal!: TemplateRef<NgbModalRef>;
@@ -101,8 +101,9 @@ export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
             this.toastService.success("Note enregistrée avec succès");
             this.loading = false;
             this.submitted = false;
+            this.addNoteForm.reset();
             this.cancel.emit();
-
+            this.getUsagerNotes.emit();
             setTimeout(() => {
               this.usagerChange.emit(new UsagerFormModel(usager));
             }, 500);

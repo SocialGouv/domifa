@@ -144,14 +144,29 @@ export class UsagerNotesController {
     @Param("noteUUID", new ParseUUIDPipe()) _noteUUID: string,
     @Res() res: ExpressResponse
   ) {
+    const newPinnedStatus = !currentUsagerNote.pinned;
     await usagerNotesRepository.update(
       { usagerUUID: currentUsager.uuid },
       { pinned: false }
     );
 
+    await usagerNotesRepository.update(
+      { uuid: currentUsagerNote.uuid },
+      { pinned: newPinnedStatus }
+    );
+
+    const pinnedNote: Partial<UsagerNote> | null = newPinnedStatus
+      ? {
+          message: currentUsagerNote.message,
+          usagerRef: currentUsagerNote.usagerRef,
+          createdAt: currentUsagerNote.createdAt,
+          createdBy: currentUsagerNote.createdBy,
+        }
+      : null;
+
     await usagerRepository.updateOne(
       { uuid: currentUsager.uuid },
-      { pinnedNote: currentUsagerNote }
+      { pinnedNote }
     );
 
     const usager = await usagerRepository.getUsager(currentUsager.uuid);
@@ -172,6 +187,13 @@ export class UsagerNotesController {
       userId: currentUser.id,
       userName: currentUser.prenom + " " + currentUser.nom,
     };
+
+    if (!currentUsagerNote.archived) {
+      await usagerRepository.updateOne(
+        { uuid: currentUsager.uuid },
+        { pinnedNote: null }
+      );
+    }
 
     await usagerNotesRepository.update(
       {

@@ -39,7 +39,7 @@ export type Usager = AppEntity & {
   etapeDemande: number;
   rdv: UsagerRdv | null;
   entretien: UsagerEntretien;
-  pinnedNote: UsagerNote | null;
+  pinnedNote: Partial<UsagerNote> | null;
 
   // INFOS DOMICILIATION
   typeDom: UsagerTypeDom;
@@ -57,9 +57,6 @@ export type Usager = AppEntity & {
 
   // INTERACTIONS
   lastInteraction: UsagerLastInteractions;
-
-  notes?: UsagerNote[];
-
   options: UsagerOptions;
 
   migrated?: boolean;
