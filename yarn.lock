@@ -4891,10 +4891,10 @@ alce@1.2.0:
     esprima "^1.2.0"
     estraverse "^1.5.0"
 
-angular-user-idle@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/angular-user-idle/-/angular-user-idle-3.0.1.tgz#e8693ad8a7bccfbfeb26b63d96efe1c4d2150ffb"
-  integrity sha512-1AXxu28G+mxfHX/VsqOmQtQtWK7IaUQIvUDUcCWKyxwLQ6lhvYXwyeHloglH5eo36+U0c4sXnLzDOf0V+6KQLw==
+angular-user-idle@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/angular-user-idle/-/angular-user-idle-4.0.0.tgz#fe493ca139be410990bc22cc95fcb4b7de23195c"
+  integrity sha512-W3543QftsrlPWDrxolbILFTHCtw0mOQI6NaLk2qfjWkTpkRTxECdi165iMNAj5ZomnCqJVXlft9azF30OsMHLg==
   dependencies:
     tslib "^2.3.0"
 
