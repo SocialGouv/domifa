@@ -1,3 +1,11 @@
+## [2.126.1](https://github.com/SocialGouv/domifa/compare/v2.126.0...v2.126.1) (2023-05-10)
+
+
+### Bug Fixes
+
+* **google:** ajout d'un lien pour utiliser webmaster tools ([545eb52](https://github.com/SocialGouv/domifa/commit/545eb5213cb36ddfcfc6e25f376efd62f31b6a5a))
+* metabase secrets ([998c9e4](https://github.com/SocialGouv/domifa/commit/998c9e4c6abfdf1ac64578dfcaed24c2b9895485))
+
 # [2.126.0](https://github.com/SocialGouv/domifa/compare/v2.125.1...v2.126.0) (2023-05-10)
 
 
