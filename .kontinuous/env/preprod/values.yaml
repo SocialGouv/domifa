@@ -31,7 +31,7 @@ metabase:
 
 oauth2-proxy:
   enabled: true
-  host: "metabase-preprod.dev.fabrique.social.gouv.fr"
+  host: "metabase-domifa-preprod.dev.fabrique.social.gouv.fr"
   additionalArgs:
     - --skip-auth-route
     - ^/public/.*,^/app/dist/.*,^/api/public/.*,^/api/session/.*,^/app/assets/.*
