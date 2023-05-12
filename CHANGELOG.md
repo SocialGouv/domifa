@@ -1,3 +1,10 @@
+## [2.127.2](https://github.com/SocialGouv/domifa/compare/v2.127.1...v2.127.2) (2023-05-12)
+
+
+### Bug Fixes
+
+* **ci:** fix oauth2 ([1bdccc7](https://github.com/SocialGouv/domifa/commit/1bdccc740161fc525da8059c8be2d2a67294aa6e))
+
 ## [2.127.1](https://github.com/SocialGouv/domifa/compare/v2.127.0...v2.127.1) (2023-05-12)
 
 
