@@ -6,7 +6,14 @@ import {
 
 import * as opentelemetry from "@opentelemetry/sdk-node";
 import "@opentelemetry/api";
-import { getNodeAutoInstrumentations } from "@opentelemetry/auto-instrumentations-node";
+
+// Warning: don't use @opentelemetry/auto-instrumentations-node as it uses far too much memory at the start of the process
+import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
+import { ExpressInstrumentation } from "@opentelemetry/instrumentation-express";
+import { NetInstrumentation } from "@opentelemetry/instrumentation-net";
+import { PgInstrumentation } from "@opentelemetry/instrumentation-pg";
+import { NestInstrumentation } from "@opentelemetry/instrumentation-nestjs-core";
+
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-grpc";
 
 import { domifaConfig } from "./config";
@@ -30,7 +37,14 @@ if (domifaConfig().dev.sentry.enabled) {
   const sdk = new opentelemetry.NodeSDK({
     // Existing config
     traceExporter: new OTLPTraceExporter(),
-    instrumentations: [getNodeAutoInstrumentations()],
+    // instrumentations: [getNodeAutoInstrumentations()],
+    instrumentations: [
+      new HttpInstrumentation(),
+      new ExpressInstrumentation(),
+      new NetInstrumentation(),
+      new PgInstrumentation(),
+      new NestInstrumentation(),
+    ],
 
     // Sentry config
     spanProcessor: new SentrySpanProcessor(),
