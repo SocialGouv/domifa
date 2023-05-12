@@ -1,3 +1,10 @@
+## [2.127.3](https://github.com/SocialGouv/domifa/compare/v2.127.2...v2.127.3) (2023-05-12)
+
+
+### Bug Fixes
+
+* **sentry:** correction de Sentry sur le portail admin ([704e7bb](https://github.com/SocialGouv/domifa/commit/704e7bb22e11dca484c24a4479bd269cf802bdba))
+
 ## [2.127.2](https://github.com/SocialGouv/domifa/compare/v2.127.1...v2.127.2) (2023-05-12)
 
 
