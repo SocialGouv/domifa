@@ -1,3 +1,10 @@
+# [2.127.0](https://github.com/SocialGouv/domifa/compare/v2.126.1...v2.127.0) (2023-05-12)
+
+
+### Features
+
+* **ci:** add oauth2 proxy ([36b55e4](https://github.com/SocialGouv/domifa/commit/36b55e4161b98cbe2d9660a31d3670f5be46d2e8))
+
 ## [2.126.1](https://github.com/SocialGouv/domifa/compare/v2.126.0...v2.126.1) (2023-05-10)
 
 
