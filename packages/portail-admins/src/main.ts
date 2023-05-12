@@ -10,7 +10,7 @@ import { init } from "@sentry/angular";
 if (environment.production) {
   init({
     release: "domifa@" + pkg.version,
-    dsn: "${DOMIFA_SENTRY_DSN_FRONTEND}",
+    dsn: environment.sentryDsnPortailAdmin,
     environment: environment.env,
     tracesSampleRate: 1.0,
   });
