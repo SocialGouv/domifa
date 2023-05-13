@@ -1920,10 +1920,10 @@
     lodash.isundefined "^3.0.1"
     lodash.uniq "^4.5.0"
 
-"@fortawesome/angular-fontawesome@0.12.1":
-  version "0.12.1"
-  resolved "https://registry.yarnpkg.com/@fortawesome/angular-fontawesome/-/angular-fontawesome-0.12.1.tgz#00f0d43563701f2253741b556292ada42a0374b0"
-  integrity sha512-vGGUfmWhsCtC+wUhnLXPeWBod33XKMFERwvD21LTbVBOCwUDUfwcS9nqfTmrULcpFl/bn20REZH/1vSreWd3ZA==
+"@fortawesome/angular-fontawesome@0.13.0":
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/@fortawesome/angular-fontawesome/-/angular-fontawesome-0.13.0.tgz#3e343ff5ea62934cb0309a52bbf732adecf216fc"
+  integrity sha512-gzSPRdveOXNO7NIiMgTyB46aiHG0i98KinnAEqHXi8qzraM/kCcHn/0y3f4MhemX6kftwsFli0IU8RyHmtXlSQ==
   dependencies:
     tslib "^2.4.1"
 
@@ -2644,10 +2644,10 @@
   dependencies:
     tslib "^2.0.0"
 
-"@ngx-matomo/tracker@4.0.1":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@ngx-matomo/tracker/-/tracker-4.0.1.tgz#c844e913080abf4168125218a5872c5ab380eebf"
-  integrity sha512-JFdJOwpkGa8hdGy5MdUw2URI3Z9Ff3wjXrana3Ft8n2Pfr4y5lnKwrd70qcnE10rvRNm2pNR1ryZwsS4o+m4+g==
+"@ngx-matomo/tracker@4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@ngx-matomo/tracker/-/tracker-4.1.0.tgz#b533ae0a98b1308501ae80833cbc4f38836cfa40"
+  integrity sha512-/YA4xsZw3HvPNERxxHUvwu4rjCUlyHDpvTiRg+FGfcLuOknmb6dN3MtA1X89yUq7UatnaOzvu8peresd2Z9/lw==
   dependencies:
     tslib "^2.0.0"
 
