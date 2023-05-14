@@ -34,7 +34,7 @@
     "test": "rimraf dist && ENV_FILE=tests-local jest"
   },
   "dependencies": {
-    "@faker-js/faker": "^7.6.0",
+    "@faker-js/faker": "^8.0.0",
     "@nestjs/axios": "1.0.1",
     "@nestjs/common": "^9.2.0",
     "@nestjs/core": "^9.2.0",
