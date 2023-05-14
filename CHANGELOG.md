@@ -1,3 +1,10 @@
+## [2.127.4](https://github.com/SocialGouv/domifa/compare/v2.127.3...v2.127.4) (2023-05-14)
+
+
+### Bug Fixes
+
+* **oauth:** fix github scope ([b92b1d0](https://github.com/SocialGouv/domifa/commit/b92b1d0927af38a1d872727f30e696174fa40978))
+
 ## [2.127.3](https://github.com/SocialGouv/domifa/compare/v2.127.2...v2.127.3) (2023-05-12)
 
 
