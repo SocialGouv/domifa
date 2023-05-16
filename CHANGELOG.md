@@ -1,3 +1,16 @@
+# [2.129.0](https://github.com/SocialGouv/domifa/compare/v2.128.1...v2.129.0) (2023-05-16)
+
+
+### Bug Fixes
+
+* notes ([390f013](https://github.com/SocialGouv/domifa/commit/390f013828ccc1c9cea09a3f9b062d93518185e0))
+
+
+### Features
+
+* **notes:** affichage des historiques ([673de5f](https://github.com/SocialGouv/domifa/commit/673de5f9e8280958093372633e7f80d48eeb6a9f))
+* **notes:** ajout d'actions dans les notes ([ea49731](https://github.com/SocialGouv/domifa/commit/ea49731e032b4c1555def4b8aeef539c38167465))
+
 ## [2.128.1](https://github.com/SocialGouv/domifa/compare/v2.128.0...v2.128.1) (2023-05-16)
 
 
