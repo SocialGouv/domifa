@@ -183,11 +183,6 @@ export class UsagerNotesController {
     @Param("noteUUID", new ParseUUIDPipe()) _noteUUID: string,
     @Res() res: ExpressResponse
   ) {
-    const archivedBy: UserStructureResume = {
-      userId: currentUser.id,
-      userName: currentUser.prenom + " " + currentUser.nom,
-    };
-
     if (!currentUsagerNote.archived) {
       await usagerRepository.updateOne(
         { uuid: currentUsager.uuid },
@@ -195,16 +190,28 @@ export class UsagerNotesController {
       );
     }
 
+    const updateData: Partial<UsagerNote> = !currentUsagerNote.archived
+      ? {
+          archivedBy: {
+            userId: currentUser.id,
+            userName: currentUser.prenom + " " + currentUser.nom,
+          },
+          archived: true,
+          archivedAt: new Date(),
+          pinned: false,
+        }
+      : {
+          archivedBy: null,
+          archived: false,
+          archivedAt: null,
+        };
+
     await usagerNotesRepository.update(
       {
         uuid: currentUsagerNote.uuid,
         usagerUUID: currentUsager.uuid,
       },
-      {
-        archived: true,
-        archivedAt: new Date(),
-        archivedBy,
-      }
+      updateData
     );
 
     const usager = await usagerRepository.getUsager(currentUsager.uuid);

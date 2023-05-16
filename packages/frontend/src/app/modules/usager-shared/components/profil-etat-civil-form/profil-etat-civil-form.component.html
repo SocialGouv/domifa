@@ -94,7 +94,7 @@
           class="input-group-text btn btn-outline-primary"
           (click)="d.toggle()"
         >
-          <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+          <fa-icon aria-hidden="true" [icon]="['fas', 'calendar']"></fa-icon>
         </button>
 
         <p *ngIf="f.dateNaissance.invalid" class="invalid-feedback">

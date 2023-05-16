@@ -10,6 +10,7 @@ import {
   UsagerOptionsProcuration,
   UsagerOptionsTransfert,
 } from "../../_common/model";
+import { UsagerOptionsHistoryTable } from "../../database";
 
 @Injectable()
 export class UsagerOptionsHistoryService {
@@ -36,6 +37,8 @@ export class UsagerOptionsHistoryService {
       adresse: content?.adresse ?? null,
     };
 
-    return await usagerOptionsHistoryRepository.save(newUsagerOptionsHistory);
+    return await usagerOptionsHistoryRepository.save(
+      new UsagerOptionsHistoryTable(newUsagerOptionsHistory)
+    );
   }
 }

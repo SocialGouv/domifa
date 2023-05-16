@@ -38,11 +38,7 @@ import {
   randomName,
   validateUpload,
 } from "../../util/file-manager/FileManager";
-import {
-  UsagerDoc,
-  UsagerLight,
-  UserStructureAuthenticated,
-} from "../../_common/model";
+import { UsagerDoc, UserStructureAuthenticated } from "../../_common/model";
 
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { UploadUsagerDocDto } from "../dto";
@@ -269,7 +265,7 @@ export class UsagerDocsController {
   }
 
   private async encryptFile(
-    usager: UsagerLight,
+    usager: Usager,
     fileName: string
   ): Promise<void | Error> {
     return new Promise((resolve, reject) => {

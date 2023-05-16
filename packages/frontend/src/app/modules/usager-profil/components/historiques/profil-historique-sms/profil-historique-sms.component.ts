@@ -1,11 +1,12 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
-import { UserStructure } from "../../../../../_common/model";
-import { MessageSms } from "../../../../../_common/model/message-sms";
-import { SMS_LABELS } from "../../../../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
-import { UsagerFormModel } from "../../../usager-shared/interfaces";
-
-import { UsagerProfilService } from "../../services/usager-profil.service";
+import {
+  UserStructure,
+  SMS_LABELS,
+  MessageSms,
+} from "../../../../../../_common/model";
+import { UsagerFormModel } from "../../../../usager-shared/interfaces";
+import { UsagerProfilService } from "../../../services/usager-profil.service";
 
 @Component({
   selector: "app-profil-historique-sms",

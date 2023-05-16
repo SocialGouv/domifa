@@ -131,7 +131,6 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
       this.selectedRefs = [this.usager.ref];
     }
 
-    console.log(this.selectedRefs);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const deleteRequests: Observable<any>[] = this.selectedRefs.map(
       (ref: number) => {

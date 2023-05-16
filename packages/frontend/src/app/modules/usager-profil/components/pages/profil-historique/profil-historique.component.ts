@@ -1,14 +1,13 @@
-import { UsagerOptionsService } from "./../../../services/usager-options.service";
 import { Component } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import {
-  UsagerOptionsHistory,
   UsagerDecision,
   UsagerHistoryStateCreationEvent,
   USAGER_DECISION_STATUT_LABELS_PROFIL,
+  HISTORY_ACTIONS,
 } from "../../../../../../_common/model";
 import { AuthService } from "../../../../shared/services/auth.service";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
@@ -20,19 +19,12 @@ import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-u
   styleUrls: ["./profil-historique.component.css"],
 })
 export class ProfilHistoriqueComponent extends BaseUsagerProfilPageComponent {
-  public transfertHistory: UsagerOptionsHistory[];
-  public procurationHistory: UsagerOptionsHistory[];
-
   public newHistorique: {
     decision: UsagerDecision;
     createdEvent: UsagerHistoryStateCreationEvent;
   }[];
 
-  public readonly actions = {
-    EDIT: "Modification",
-    DELETE: "Suppression",
-    CREATION: "Création",
-  };
+  public readonly HISTORY_ACTIONS = HISTORY_ACTIONS;
 
   public readonly USAGER_DECISION_STATUT_LABELS_PROFIL =
     USAGER_DECISION_STATUT_LABELS_PROFIL;
@@ -43,8 +35,7 @@ export class ProfilHistoriqueComponent extends BaseUsagerProfilPageComponent {
     public titleService: Title,
     public toastService: CustomToastService,
     public route: ActivatedRoute,
-    public router: Router,
-    private readonly usagerOptionsService: UsagerOptionsService
+    public router: Router
   ) {
     super(
       authService,
@@ -54,39 +45,8 @@ export class ProfilHistoriqueComponent extends BaseUsagerProfilPageComponent {
       route,
       router
     );
-    this.transfertHistory = [];
-    this.procurationHistory = [];
+
     this.newHistorique = [];
     this.titlePrefix = "Historique";
-  }
-
-  public getHistoriqueOptions(): void {
-    this.subscription.add(
-      this.usagerOptionsService
-        .findHistory(this.usager.ref)
-        .subscribe((optionsHistorique: UsagerOptionsHistory[]) => {
-          this.transfertHistory = optionsHistorique
-            .filter(
-              (history: UsagerOptionsHistory) => history.type === "transfert"
-            )
-            .sort((a: UsagerOptionsHistory, b: UsagerOptionsHistory) => {
-              return (
-                new Date(b.createdAt).getTime() -
-                new Date(a.createdAt).getTime()
-              );
-            });
-
-          this.procurationHistory = optionsHistorique
-            .filter(
-              (history: UsagerOptionsHistory) => history.type === "procuration"
-            )
-            .sort((a: UsagerOptionsHistory, b: UsagerOptionsHistory) => {
-              return (
-                new Date(b.createdAt).getTime() -
-                new Date(a.createdAt).getTime()
-              );
-            });
-        })
-    );
   }
 }

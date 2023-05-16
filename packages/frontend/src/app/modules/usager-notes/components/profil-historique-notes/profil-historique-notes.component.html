@@ -30,7 +30,7 @@
       <td class="text-end">
         <div *ngIf="me?.role !== 'facteur'" class="ms-3">
           <app-usager-notes-actions
-            [usager]="usager"
+            [(usager)]="usager"
             [note]="note"
             (getUsagerNotes)="getUsagerNotes()"
           ></app-usager-notes-actions>

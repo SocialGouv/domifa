@@ -247,7 +247,7 @@ async function anonymizeOptionsHistory() {
     `[dataUsagerAnonymizer] ${optionsToUpdate} transfert et procuration à nettoyer`
   );
 
-  await usagerOptionsHistoryRepository.updateMany(
+  await usagerOptionsHistoryRepository.update(
     {},
     {
       userName: faker.person.fullName(),

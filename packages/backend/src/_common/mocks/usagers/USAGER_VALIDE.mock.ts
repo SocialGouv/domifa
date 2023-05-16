@@ -15,10 +15,9 @@ export const USAGER_VALIDE_MOCK: Usager = {
   villeNaissance: "Paris",
   langue: null,
   email: "fake-mail@yopmail.com",
-
+  pinnedNote: null,
   telephone: { countryCode: "fr", numero: "0606060606" },
   contactByPhone: false,
-
   typeDom: "PREMIERE_DOM",
   decision: {
     uuid: "2X",
