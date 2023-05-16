@@ -1,3 +1,10 @@
+## [2.128.1](https://github.com/SocialGouv/domifa/compare/v2.128.0...v2.128.1) (2023-05-16)
+
+
+### Bug Fixes
+
+* **stats:** anonymisation de champs supplémentaires pour les stats ([7d71f1c](https://github.com/SocialGouv/domifa/commit/7d71f1c1cb874f3d4f06be2730b2f40451892278))
+
 # [2.128.0](https://github.com/SocialGouv/domifa/compare/v2.127.4...v2.128.0) (2023-05-16)
 
 
