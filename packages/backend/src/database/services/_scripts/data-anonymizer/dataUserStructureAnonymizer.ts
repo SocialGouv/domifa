@@ -22,7 +22,7 @@ type PartialUser = Pick<
 
 async function anonymizeUsersStructure() {
   appLogger.warn(`[ANON] [monitoringBatchProcessRepository] reset tables`);
-  await monitoringBatchProcessRepository.deleteByCriteria({});
+  await monitoringBatchProcessRepository.delete({});
 
   appLogger.warn(`[dataUserAnonymizer] [user-structure] reset security tables`);
 

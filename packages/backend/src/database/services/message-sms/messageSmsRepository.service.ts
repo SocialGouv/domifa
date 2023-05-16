@@ -1,17 +1,10 @@
-import { pgRepository } from "./../_postgres/pgRepository.service";
-
 import { myDataSource } from "..";
 import { MessageSms, InteractionType } from "../../../_common/model";
 import { MessageSmsTable } from "./../../entities/message-sms/MessageSmsTable.typeorm";
 
-const baseRepository = pgRepository.get<MessageSmsTable, MessageSms>(
-  MessageSmsTable
-);
-
 export const messageSmsRepository = myDataSource
   .getRepository<MessageSms>(MessageSmsTable)
   .extend({
-    findOneWithQuery: baseRepository.findOneWithQuery,
     findSmsOnHold,
   });
 

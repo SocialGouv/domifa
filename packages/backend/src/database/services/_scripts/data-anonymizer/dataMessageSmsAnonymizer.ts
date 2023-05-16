@@ -1,6 +1,6 @@
 import { appLogger } from "../../../../util";
 import { messageSmsRepository } from "../../message-sms";
-import { faker } from "@faker-js/faker";
+import { dataGenerator } from "./dataGenerator.service";
 
 export const dataMessageSmsAnonymizer = {
   anonymizeSms,
@@ -31,7 +31,11 @@ async function anonymizeSms() {
     {
       phoneNumber: "+33606060606",
       responseId: "",
-      usagerRef: faker.datatype.number(),
+      content: "",
+      senderName: "",
+      reminderMetas: null,
+      interactionMetas: null,
+      usagerRef: dataGenerator.number(),
     }
   );
 }

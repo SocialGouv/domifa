@@ -4,7 +4,6 @@ import { AppEntity } from "../_core/AppEntity.type";
 
 export type StructureDoc = AppEntity & {
   createdBy: UserStructureCreatedBy;
-  tags: any;
   label: string;
   custom: boolean;
   customDocType?: StructureCustomDocType;

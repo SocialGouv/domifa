@@ -42,7 +42,6 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     findMany,
     updateOne,
     updateMany,
-    deleteByCriteria,
     findOneWithQuery,
     findManyWithQuery,
     _parseCounts,
@@ -370,16 +369,6 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
       return (attributes as (keyof T)[]).map((x) => `"${x as string}"`);
     }
     return attributes as any;
-  }
-
-  async function deleteByCriteria(
-    search: FindOptionsWhere<T>
-  ): Promise<number> {
-    const typeormRepository = await typeorm();
-    const res = await typeormRepository.delete(
-      search as unknown as FindOptionsWhere<T>
-    );
-    return res.affected;
   }
 }
 

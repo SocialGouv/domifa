@@ -6,11 +6,7 @@ import { MonitoringBatchProcessTrigger, typeOrmSearch } from "../..";
 import { domifaConfig } from "../../../config";
 import { adminBatchsErrorReportEmailSender } from "../../../mails/services/templates-renderers";
 import { appLogger } from "../../../util";
-import {
-  MessageEmail,
-  MonitoringBatchProcess,
-  MonitoringBatchProcessId,
-} from "../../entities";
+import { MessageEmail, MonitoringBatchProcessId } from "../../entities";
 import { messageEmailRepository } from "../message-email";
 import { AdminBatchsErrorReportModel } from "./AdminBatchsErrorReportModel.type";
 import { monitoringBatchProcessRepository } from "./monitoringBatchProcessRepository.service";
@@ -104,28 +100,28 @@ async function purgeObsoleteMonitoringBatchProcess({
 }: {
   limitDate: Date;
 }) {
-  const affected = await monitoringBatchProcessRepository.deleteByCriteria(
-    typeOrmSearch<MonitoringBatchProcess>({
-      status: "success",
-      endDate: LessThanOrEqual(limitDate),
-    })
-  );
+  const affected = await monitoringBatchProcessRepository.countBy({
+    status: "success",
+    endDate: LessThanOrEqual(limitDate),
+  });
+  await monitoringBatchProcessRepository.delete({
+    status: "success",
+    endDate: LessThanOrEqual(limitDate),
+  });
   return affected;
 }
 
 async function sendErrorReport(): Promise<boolean> {
-  const monitoringBatchsInError =
-    await monitoringBatchProcessRepository.findMany(
-      {
-        status: "error",
-        alertMailSent: false,
-      },
-      {
-        order: {
-          endDate: "DESC",
-        },
-      }
-    );
+  const monitoringBatchsInError = await monitoringBatchProcessRepository.find({
+    where: {
+      status: "error",
+      alertMailSent: false,
+    },
+    order: {
+      endDate: "DESC",
+    },
+  });
+
   if (monitoringBatchsInError.length) {
     appLogger.error(`Errors detected in last batchs - ${Date.now()}`);
 

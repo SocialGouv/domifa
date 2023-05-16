@@ -1,5 +1,6 @@
 import { interactionRepository } from "./../../interaction/interactionRepository.service";
 import { appLogger } from "../../../../util";
+import { fakerFR as faker } from "@faker-js/faker";
 
 import { IsNull, Not } from "typeorm";
 import { typeOrmSearch } from "../..";
@@ -19,6 +20,10 @@ async function anonymizeInteractions() {
     typeOrmSearch<InteractionsTable>({
       content: Not(IsNull()),
     }),
-    { content: "Random content" }
+    {
+      content: "Random content",
+      previousValue: null,
+      userName: faker.person.fullName(),
+    }
   );
 }

@@ -1,14 +1,17 @@
-import { faker } from "@faker-js/faker";
+import { fakerFR as faker } from "@faker-js/faker";
+
 import { appLogger } from "../../../../util";
 import {
   Usager,
   UsagerAyantDroit,
   UsagerDecision,
+  UsagerOptions,
 } from "../../../../_common/model";
 import {
   usagerDocsRepository,
   usagerEntretienRepository,
   usagerNotesRepository,
+  usagerOptionsHistoryRepository,
 } from "../../usager";
 import { usagerRepository } from "../../usager/usagerRepository.service";
 import { dataGenerator } from "./dataGenerator.service";
@@ -21,6 +24,8 @@ export const dataUsagerAnonymizer = {
   anonymizeEntretiens,
   anonymizeNotes,
   anonymizeUsagerDocs,
+  anonymizeOptions,
+  anonymizeOptionsHistory,
 };
 
 async function anonymizeUsagers() {
@@ -35,6 +40,7 @@ async function anonymizeUsagers() {
       "nom",
       "surnom",
       "rdv",
+      "options",
       "ayantsDroits",
       "datePremiereDom",
       "updatedAt",
@@ -73,6 +79,7 @@ async function _anonymizeUsager(usager: Usager) {
   if (usager.historique) {
     historique = usager.historique.map((h) => anonymizeUsagerDecision(h));
   }
+  const options = anonymizeOptions(usager);
 
   const attributesToUpdate: Partial<Usager> = {
     email: null,
@@ -81,19 +88,28 @@ async function _anonymizeUsager(usager: Usager) {
       countryCode: "fr",
       numero: "",
     },
+
     nom: dataGenerator.lastName(),
-    surnom: null,
+    surnom: usager.surnom ? dataGenerator.lastName() : null,
     villeNaissance: dataGenerator.fromList(["Inconnu", dataGenerator.city()]),
     decision: anonymizeUsagerDecision(usager.decision),
     historique,
     ayantsDroits: anonymizeAyantDroits(usager.ayantsDroits),
+    import: usager?.import
+      ? {
+          date: usager.import.date,
+          userId: dataGenerator.number(),
+          userName: faker.person.fullName(),
+        }
+      : null,
     rdv: usager?.rdv
       ? {
-          userId: faker.datatype.number(),
-          userName: faker.name.fullName(),
+          userId: dataGenerator.number(),
+          userName: faker.person.fullName(),
           dateRdv: usager?.rdv?.dateRdv ?? null,
         }
       : null,
+    options,
   };
 
   if (Object.keys(attributesToUpdate).length === 0) {
@@ -102,6 +118,7 @@ async function _anonymizeUsager(usager: Usager) {
 
   return usagerRepository.updateOne({ uuid: usager.uuid }, attributesToUpdate);
 }
+
 function anonymizeAyantDroits(
   ayantsDroits: UsagerAyantDroit[]
 ): UsagerAyantDroit[] {
@@ -118,9 +135,9 @@ function anonymizeUsagerDecision(decision: UsagerDecision): UsagerDecision {
     ...decision,
     motifDetails: null,
     orientationDetails: null,
-    userName: faker.name.fullName(),
-    userId: faker.datatype.number(),
-    uuid: faker.datatype.uuid(),
+    userName: faker.person.fullName(),
+    userId: dataGenerator.number(),
+    uuid: faker.string.uuid(),
   };
 }
 
@@ -147,13 +164,33 @@ async function anonymizeEntretiens() {
 async function anonymizeNotes() {
   appLogger.warn(`[anonymizeNotes] Nettoyage du contenu des notes`);
 
-  return usagerNotesRepository.update(
-    {},
+  await usagerNotesRepository.update(
     {
-      message: faker.lorem.sentence(),
+      archived: false,
+    },
+    {
+      message: faker.lorem.sentence(5),
       createdBy: {
-        userId: faker.datatype.number(),
-        userName: faker.name.fullName(),
+        userId: dataGenerator.number(),
+        userName: faker.person.fullName(),
+      },
+      archivedBy: null,
+    }
+  );
+
+  await usagerNotesRepository.update(
+    {
+      archived: true,
+    },
+    {
+      message: faker.lorem.sentence(5),
+      createdBy: {
+        userId: dataGenerator.number(),
+        userName: faker.person.fullName(),
+      },
+      archivedBy: {
+        userId: dataGenerator.number(),
+        userName: faker.person.fullName(),
       },
     }
   );
@@ -166,7 +203,56 @@ async function anonymizeUsagerDocs() {
     {},
     {
       label: faker.lorem.sentence(3),
-      createdBy: faker.name.fullName(),
+      createdBy: faker.person.fullName(),
+    }
+  );
+}
+
+function anonymizeOptions(usager: Usager): UsagerOptions {
+  const procurations = (usager.options.procurations ?? []).map((x) => ({
+    nom: dataGenerator.lastName(),
+    prenom: dataGenerator.firstName(),
+    dateNaissance: x.dateNaissance,
+    dateFin: x.dateFin,
+    dateDebut: x.dateDebut,
+  }));
+
+  const transfert = usager.options.transfert
+    ? {
+        actif: true,
+        nom: dataGenerator.lastName(),
+        adresse: faker.location.streetAddress(),
+        dateDebut: usager.options.transfert.dateDebut,
+        dateFin: usager.options.transfert.dateFin,
+      }
+    : {
+        actif: true,
+        nom: null,
+        adresse: null,
+        dateDebut: null,
+        dateFin: null,
+      };
+
+  return {
+    ...usager.options,
+    transfert,
+    procurations,
+  };
+}
+
+async function anonymizeOptionsHistory() {
+  const optionsToUpdate = await usagerOptionsHistoryRepository.count();
+
+  appLogger.warn(
+    `[dataUsagerAnonymizer] ${optionsToUpdate} transfert et procuration à nettoyer`
+  );
+
+  await usagerOptionsHistoryRepository.updateMany(
+    {},
+    {
+      userName: faker.person.fullName(),
+      nom: faker.person.lastName(),
+      prenom: faker.person.firstName(),
     }
   );
 }
