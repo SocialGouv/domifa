@@ -66,6 +66,8 @@ html {
 
 .section-icon {
   width: 40px;
+  font-size: 1.2rem;
+  color: var(--bs-primary);
   padding-left: 5px;
 }
 

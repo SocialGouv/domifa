@@ -12,7 +12,6 @@
 .page-footer {
   width: 100%;
   background-color: white;
-  padding: 1rem;
   border-top: 1px solid #e6e6e6;
 }
 
@@ -41,8 +40,9 @@
   font-size: 0.9rem;
   display: block;
 }
+
 .partenaires img {
-  height: 85px;
+  height: 70px;
   width: auto;
-  margin: 1rem;
+  margin: 0.8rem;
 }

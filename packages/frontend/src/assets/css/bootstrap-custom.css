@@ -26,6 +26,11 @@
 .alert a {
   color: black;
 }
+
+.alert-info .svg-icon {
+  background-color: var(--bs-primary);
+}
+
 .alert-warning .svg-icon {
   background-color: #f0870c;
 }

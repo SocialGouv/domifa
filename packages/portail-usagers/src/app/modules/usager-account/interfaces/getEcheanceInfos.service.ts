@@ -2,7 +2,7 @@ import { PortailUsagerPublic } from "./../../../../_common/_portail-usager/Porta
 import { UsagerEcheanceInfos } from "../../../../_common";
 
 export const getEcheanceInfos = (
-  usager: Partial<PortailUsagerPublic>,
+  usager?: PortailUsagerPublic,
 ): UsagerEcheanceInfos => {
   const usagerInfos: UsagerEcheanceInfos = {
     isActif: false,
@@ -16,47 +16,42 @@ export const getEcheanceInfos = (
   }
 
   // Actuellement actif
-  if (usager.decision.statut === "VALIDE") {
+  if (usager.decision.statut === "VALIDE" && usager.decision.dateFin) {
     usagerInfos.isActif = true;
-    usagerInfos.dateToDisplay = new Date(usager.decision.dateFin as Date);
+    usagerInfos.dateToDisplay = new Date(usager.decision.dateFin);
   } else if (
     usager.decision.statut === "RADIE" ||
     usager.decision.statut === "REFUS"
   ) {
-    usagerInfos.dateToDisplay = usager.decision.dateFin
+    usagerInfos.dateToDisplay = usager.decision.dateDebut
+      ? new Date(usager.decision.dateDebut)
+      : usager.decision.dateFin
       ? new Date(usager.decision.dateFin)
-      : new Date(usager.decision.dateDebut);
-  } else if (usager.typeDom === "RENOUVELLEMENT") {
-    usagerInfos.isActif = true;
+      : null;
+  } else {
+    if (usager.typeDom === "RENOUVELLEMENT") {
+      usagerInfos.isActif = true;
 
-    const indexOfDate =
-      usager.decision.statut === "ATTENTE_DECISION"
-        ? 2
-        : usager.decision.statut === "INSTRUCTION"
-        ? 1
-        : null;
+      const indexOfDate = usager.decision.statut === "ATTENTE_DECISION" ? 2 : 1;
 
-    // Fix: certaines donnnées corompus n'ont pas de dateFinn
-    if (indexOfDate && usager.historique) {
-      if (usager.historique.length) {
-        if (
-          typeof usager.historique[usager.historique.length - indexOfDate]
-            .dateFin !== "undefined"
-        ) {
-          usagerInfos.dateToDisplay = usager.historique[
-            usager.historique.length - indexOfDate
-          ].dateFin as Date;
-        }
+      // Fix: certaines donnnées corompus n'ont pas de dateFin
+      if (indexOfDate && usager.historique.length >= indexOfDate) {
+        usagerInfos.dateToDisplay =
+          usager.historique[usager.historique.length - indexOfDate]?.dateFin ??
+          usager.decision.dateDecision;
+      }
+
+      if (usagerInfos.dateToDisplay) {
+        usagerInfos.dateToDisplay = new Date(usagerInfos.dateToDisplay);
       }
     } else {
-      usagerInfos.dateToDisplay = usager.decision.dateDecision;
+      usagerInfos.isActif = false;
+      usagerInfos.dateToDisplay = null;
     }
+  }
 
-    if (usagerInfos.dateToDisplay) {
-      usagerInfos.dateToDisplay = new Date(usagerInfos.dateToDisplay);
-    }
-  } else {
-    usagerInfos.dateToDisplay = new Date(usager.decision.dateDecision);
+  if (usagerInfos.dateToDisplay && !usagerInfos.dateToDisplay.getTime) {
+    usagerInfos.dateToDisplay = new Date(usagerInfos.dateToDisplay);
   }
 
   if (usagerInfos.isActif && usagerInfos.dateToDisplay) {
@@ -64,6 +59,7 @@ export const getEcheanceInfos = (
     const msPerDay: number = 1000 * 60 * 60 * 24;
     const start: number = today.getTime();
     const end: number = usagerInfos.dateToDisplay.getTime();
+
     const dayBeforeEnd = Math.ceil((end - start) / msPerDay);
 
     usagerInfos.dayBeforeEnd = dayBeforeEnd;

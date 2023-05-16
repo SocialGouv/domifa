@@ -45,7 +45,6 @@
           <div class="input-group">
             <input
               id="password"
-              type="password"
               formControlName="newPassword"
               [type]="!hidePasswordNew ? 'text' : 'password'"
               class="form-control"
@@ -199,7 +198,6 @@
           <div class="input-group">
             <input
               id="new-password-confirm"
-              type="password"
               formControlName="newPasswordConfirm"
               [type]="!hidePasswordNew ? 'text' : 'password'"
               class="form-control"
@@ -224,7 +222,6 @@
                 [attr.aria-checked]="!hidePasswordNew"
                 role="switch"
                 type="button"
-                class="input-group-text"
                 (click)="this.hidePasswordNew = !this.hidePasswordNew"
               >
                 <fa-icon
@@ -265,7 +262,6 @@
         <label class="fw-bold" for="password">Mot de passe</label>
         <div class="input-group">
           <input
-            type="password"
             id="password"
             formControlName="password"
             [type]="!hidePassword ? 'text' : 'password'"
@@ -305,6 +301,7 @@
       </div>
       <div class="mt-5 form-group text-center">
         <button
+          type="button"
           *ngIf="this.mode === 'login-change-password'"
           class="btn btn-outline-primary me-5"
           (click)="this.switchToLoginOnly()"

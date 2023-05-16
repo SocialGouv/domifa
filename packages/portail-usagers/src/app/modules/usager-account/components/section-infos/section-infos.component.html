@@ -1,8 +1,21 @@
 <div *ngIf="usager" class="py-3">
   <h2 class="content section-title">Votre domiciliation</h2>
 
-  <div class="content section-content" id="usager-dossier">
+  <div class="content section-content">
     <div class="py-2">
+      <div
+        class="alert alert-info"
+        *ngIf="
+          usager.decision.statut === 'ATTENTE_DECISION' &&
+          usager.typeDom === 'RENOUVELLEMENT'
+        "
+      >
+        <div aria-hidden="true" class="svg-icon icon-calendar"></div>
+        <div>
+          Votre demande de renouvellement est actuellement en attente d'une
+          décision
+        </div>
+      </div>
       <div
         class="alert"
         [ngClass]="{
@@ -10,21 +23,30 @@
           'alert-warning': echeanceInfos.dayBeforeEnd > 15
         }"
         *ngIf="
-          echeanceInfos.dayBeforeEnd > 0 && echeanceInfos.dayBeforeEnd < 60
+          usager.decision.statut !== 'ATTENTE_DECISION' &&
+          echeanceInfos.dayBeforeEnd > 0 &&
+          echeanceInfos.dayBeforeEnd < 60
         "
       >
         <div class="svg-icon icon-danger"></div>
         <span>
           Attention, votre domiciliation expire le
-          <b>
+          <strong>
             {{ echeanceInfos.dateToDisplay | date : "dd/MM/yyyy" }}
-          </b>
+          </strong>
         </span>
       </div>
-      <div class="alert alert-danger" *ngIf="echeanceInfos.dayBeforeEnd < 0">
-        <div class="svg-icon icon-danger"></div>
+      <div
+        class="alert alert-danger"
+        *ngIf="
+          usager.decision.statut !== 'ATTENTE_DECISION' &&
+          echeanceInfos.dayBeforeEnd < 0
+        "
+      >
+        <div aria-hidden="true" class="svg-icon icon-danger"></div>
         <div>
           Domiciliation expirée depuis le
+
           {{ echeanceInfos.dateToDisplay | date : "dd/MM/yyyy" }}, il y a
           {{ echeanceInfos.dayBeforeEnd * -1 }} jours
         </div>
@@ -33,7 +55,11 @@
 
     <div class="d-flex align-items-top">
       <div class="section-icon">
-        <img src="/assets/icones/profil/dossier.svg" alt="Votre dossier" />
+        <img
+          src="/assets/icones/profil/dossier.svg"
+          aria-hidden="true"
+          alt="Informations sur votre dossier"
+        />
       </div>
       <div>
         <div class="section-subtitle">Votre dossier</div>
@@ -59,7 +85,11 @@
 
     <div class="mt-2 d-flex align-items-top">
       <div class="section-icon">
-        <img src="/assets/icones/profil/informations.svg" alt="Votre dossier" />
+        <img
+          src="/assets/icones/profil/informations.svg"
+          aria-hidden="true"
+          alt="Votre profil"
+        />
       </div>
       <div>
         <div class="section-subtitle">Vos informations</div>
@@ -69,6 +99,33 @@
         </div>
         <div class="py-1 fw-bold">
           {{ usager.email || "Email non renseigné" }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="usager" class="py-3">
+  <h2 class="content section-title">Lien utiles</h2>
+
+  <div class="content section-content">
+    <div class="mt-2 d-flex align-items-center">
+      <div class="section-icon">
+        <fa-icon [icon]="['fas', 'link']" aria-hidden="true"></fa-icon>
+      </div>
+      <div>
+        <div class="py-1 fw-bold">
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://mes-aides.1jeune1solution.beta.gouv.fr/?utm_source=domifa"
+            >Aides 1 jeune 1 solution
+            <fa-icon
+              class="ms-2"
+              [icon]="['fas', 'arrow-up-right-from-square']"
+              aria-hidden="true"
+            ></fa-icon
+          ></a>
         </div>
       </div>
     </div>

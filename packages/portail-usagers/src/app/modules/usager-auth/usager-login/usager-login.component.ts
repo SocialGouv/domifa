@@ -34,6 +34,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   public loading: boolean;
   public usagerProfile: PortailUsagerProfile | null;
   public mode: "login-only" | "login-change-password" = "login-only";
+  private subscription = new Subscription();
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
@@ -50,7 +51,6 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
     this.loading = false;
     this.usagerProfile = null;
   }
-  private subscription = new Subscription();
 
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
