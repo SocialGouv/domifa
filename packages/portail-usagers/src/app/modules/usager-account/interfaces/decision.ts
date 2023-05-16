@@ -31,6 +31,7 @@ export class Decision implements UsagerDecision {
   public userId: number; // UserStructure.id
   public userName: string; // UserStructure.nom / prenom
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(decision?: any) {
     this.uuid = decision?.uuid;
     this.typeDom = decision?.typeDom;

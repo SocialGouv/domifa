@@ -66,6 +66,9 @@
 .alert-info hr {
   border-color: #a4c7ff;
 }
+.alert-info .svg-icon {
+  background-color: var(--bs-primary);
+}
 
 .alert-info .alert-link {
   color: #062c33;

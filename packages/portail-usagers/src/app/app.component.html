@@ -52,13 +52,14 @@
   <router-outlet></router-outlet>
 
   <div *ngIf="usagerProfile" class="py-4 text-center">
-    <button (click)="logout()" class="btn btn-outline-primary">
-      <fa-icon [icon]="['far', 'comment']"></fa-icon> Me déconnecter
+    <button (click)="logout()" class="btn btn-outline-primary" type="button">
+      <fa-icon aria-hidden="true" [icon]="['far', 'comment']"></fa-icon> Me
+      déconnecter
     </button>
   </div>
 </main>
 
-<footer role="contentinfo" id="footer" class="page-footer content">
+<footer role="contentinfo" id="footer" class="page-footer">
   <div class="my-4 container">
     <div
       class="partenaires d-flex flex-wrap justify-content-center align-items-center"
@@ -94,16 +95,7 @@
           alt="France Relance soutien DomiFa"
         />
       </a>
-      <a
-        href="https://agence-cohesion-territoires.gouv.fr/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          src="../assets/images/footer/logo_anct.webp"
-          alt="Agence nationale de la cohésion des territoires"
-        />
-      </a>
+
       <a
         href="https://solidarites.gouv.fr/"
         target="_blank"
@@ -118,7 +110,16 @@
       >
         <img src="../assets/images/footer/partenaire-dihal.png" alt="DIHAL" />
       </a>
-
+      <a
+        href="https://agence-cohesion-territoires.gouv.fr/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          src="../assets/images/footer/logo_anct.webp"
+          alt="Agence nationale de la cohésion des territoires"
+        />
+      </a>
       <a
         href="https://www.unccas.org"
         target="_blank"

@@ -19,11 +19,11 @@
       >
         <div class="svg-icon icon-distribution"></div>
         <span
-          ><b>Attention : </b> le transfert de courrier était valable jusqu'au
+          ><strong>Attention : </strong> le transfert de courrier était valable
+          jusqu'au
           {{ usager.options.transfert.dateFin | date : "dd/MM/yyyy" }}</span
         >
       </div>
-
       <div
         *ngIf="
           usager.options.transfert.dateFin &&
@@ -33,7 +33,7 @@
       >
         <div class="svg-icon icon-distribution"></div>
         <span>
-          Votre courrier est transféré à l'adresse suivante :
+          Le courrier est à transférer à l'adresse suivante :
           {{ usager.options.transfert.nom | titlecase }}
           {{ usager.options.transfert.adresse | titlecase }}
         </span>
@@ -42,20 +42,18 @@
         <ng-container *ngIf="procuration.dateFin">
           <div class="alert alert-warning" *ngIf="procuration.dateFin > today">
             <div class="svg-icon icon-distribution"></div>
-
             <span>
               Une procuration au nom de
-              <u>{{ procuration.nom }} {{ procuration.prenom }}</u>
+              <strong>{{ procuration.nom }} {{ procuration.prenom }}</strong>
               est active et valable jusqu'au
               {{ procuration.dateFin | date : "dd/MM/yyyy" }}
             </span>
           </div>
-
           <div *ngIf="procuration.dateFin <= today" class="alert alert-danger">
             <span title="Calendrier" class="svg-icon icon-calendar"></span>
             <span>
               La procuration au nom de
-              <u>{{ procuration.nom }} {{ procuration.prenom }}</u>
+              <strong>{{ procuration.nom }} {{ procuration.prenom }}</strong>
               a expiré le
               {{ procuration.dateFin | date : "dd/MM/yyyy" }}
             </span>

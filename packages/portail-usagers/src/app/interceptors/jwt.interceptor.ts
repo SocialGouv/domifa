@@ -13,8 +13,10 @@ export class JwtInterceptor implements HttpInterceptor {
   constructor(private authService: UsagerAuthService) {}
 
   intercept(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     request: HttpRequest<any>,
     next: HttpHandler,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Observable<HttpEvent<any>> {
     const token = this.authService.getToken();
 
