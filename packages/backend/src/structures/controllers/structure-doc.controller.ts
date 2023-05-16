@@ -146,7 +146,6 @@ export class StructureDocController {
       displayInPortailUsager: false,
       filetype: file.mimetype,
       path: file.filename,
-      tags: null,
       label: structureDocDto.label,
       custom: structureDocDto.custom,
       structureId: user.structureId,

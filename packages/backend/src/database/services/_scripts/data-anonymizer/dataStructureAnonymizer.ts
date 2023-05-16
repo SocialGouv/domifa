@@ -3,10 +3,14 @@ import { Structure } from "../../../../_common/model";
 import { structureRepository } from "../../structure";
 import { ANONYMIZE_STRUCTURE_ID_EXCEPTIONS } from "./ANONYMIZE_STRUCTURE_ID_EXCEPTIONS.const";
 import { dataEmailAnonymizer } from "./dataEmailAnonymizer";
+import { fakerFR as faker } from "@faker-js/faker";
+import { structureDocRepository } from "../../structure-doc";
+import { dataGenerator } from "./dataGenerator.service";
 
 export const dataStructureAnonymizer = {
   isStructureToAnonymise,
   anonymizeStructures,
+  anonymizeStructureDocs,
 };
 
 function isStructureToAnonymise(structure: Pick<Structure, "id">) {
@@ -14,8 +18,10 @@ function isStructureToAnonymise(structure: Pick<Structure, "id">) {
 }
 
 async function anonymizeStructures() {
-  const structures: Pick<Structure, "id" | "email">[] =
-    await structureRepository.find({ select: { id: true, email: true } });
+  const structures: Pick<Structure, "id" | "email" | "responsable">[] =
+    await structureRepository.find({
+      select: ["id", "email", "responsable"],
+    });
 
   const structuresWithEmailsToAnonymize = structures.filter((x) =>
     isStructureToAnonymise(x)
@@ -30,7 +36,9 @@ async function anonymizeStructures() {
   }
 }
 
-async function _anonymizeStructure(structure: Pick<Structure, "id" | "email">) {
+async function _anonymizeStructure(
+  structure: Pick<Structure, "id" | "email" | "responsable">
+) {
   const attributesToUpdate: Partial<Structure> = {
     telephone: {
       countryCode: "fr",
@@ -40,7 +48,29 @@ async function _anonymizeStructure(structure: Pick<Structure, "id" | "email">) {
       prefix: "structure",
       id: structure.id,
     }),
+    token: null,
+    tokenDelete: null,
+    hardReset: null,
+    responsable: {
+      fonction: structure.responsable.fonction,
+      nom: faker.person.lastName(),
+      prenom: faker.person.firstName(),
+    },
   };
 
   return structureRepository.update({ id: structure.id }, attributesToUpdate);
+}
+
+async function anonymizeStructureDocs() {
+  await structureDocRepository.update(
+    {},
+    {
+      label: faker.lorem.sentence(2),
+      createdBy: {
+        id: dataGenerator.number(),
+        nom: dataGenerator.lastName(),
+        prenom: dataGenerator.firstName(),
+      },
+    }
+  );
 }

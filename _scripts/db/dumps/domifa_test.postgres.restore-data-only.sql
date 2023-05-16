@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 11.19 (Debian 11.19-1.pgdg110+1)
--- Dumped by pg_dump version 11.19 (Debian 11.19-1.pgdg110+1)
+-- Dumped from database version 11.20 (Debian 11.20-1.pgdg110+1)
+-- Dumped by pg_dump version 11.20 (Debian 11.20-1.pgdg110+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -130,7 +130,7 @@ COPY public.monitor_batch_process (uuid, "createdAt", "updatedAt", version, "pro
 -- Data for Name: structure_doc; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.structure_doc (uuid, "createdAt", "updatedAt", version, id, label, "createdBy", tags, custom, filetype, "structureId", path, "customDocType", "displayInPortailUsager") FROM stdin;
+COPY public.structure_doc (uuid, "createdAt", "updatedAt", version, id, label, "createdBy", custom, filetype, "structureId", path, "customDocType", "displayInPortailUsager") FROM stdin;
 \.
 
 

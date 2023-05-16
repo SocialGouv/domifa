@@ -1,6 +1,4 @@
-import { faker } from "@faker-js/faker";
-
-faker.setLocale("fr");
+import { fakerFR as faker } from "@faker-js/faker";
 
 export const dataGenerator = {
   firstName,
@@ -15,36 +13,28 @@ export const dataGenerator = {
 };
 
 function firstName() {
-  return faker.name.firstName();
+  return faker.person.firstName();
 }
 
 function city() {
-  return faker.address.city();
+  return faker.location.city();
 }
 
 function lastName() {
-  return faker.name.lastName();
+  return faker.person.lastName();
 }
 
 function phoneNumber() {
   return faker.phone.number();
 }
 
-function email({
-  firstName,
-  lastName,
-  provider,
-}: {
-  firstName?: string;
-  lastName?: string;
-  provider?: string;
-}) {
-  return faker.internet.email(firstName, lastName, provider);
+function email() {
+  return faker.internet.email();
 }
 
 function fromList<T>(list: T[]): T {
   const length = list.length;
-  const randomIndex = faker.datatype.number({
+  const randomIndex = faker.number.int({
     min: 0,
     max: length - 1,
   });
@@ -63,7 +53,7 @@ function fromListAndRemove<T>(list: T[]): {
       remaining: [],
     };
   }
-  const randomIndex = faker.datatype.number({
+  const randomIndex = faker.number.int({
     min: 0,
     max: length - 1,
   });
@@ -77,17 +67,15 @@ function fromListAndRemove<T>(list: T[]): {
   return res;
 }
 
-function number(options?: {
-  min?: number;
-  max?: number;
-  precision?: number;
-}): number {
-  return faker.datatype.number(options);
+function number(
+  options: { min?: number; max?: number } = { min: 1, max: 100000 }
+): number {
+  return faker.number.int(options);
 }
 
 function boolean(options?: { percentageTrue?: number }): boolean {
   if (options && options.percentageTrue) {
-    return number({ min: 1, max: 100, precision: 1 }) <= options.percentageTrue;
+    return number({ min: 1, max: 100 }) <= options.percentageTrue;
   }
   return faker.datatype.boolean();
 }

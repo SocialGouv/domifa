@@ -47,6 +47,17 @@ async function _anonymizeUsagerHistory(usagerHistory: UsagerHistory) {
     ...s,
     decision: dataUsagerAnonymizer.anonymizeUsagerDecision(s.decision),
     ayantsDroits: dataUsagerAnonymizer.anonymizeAyantDroits(s.ayantsDroits),
+    entretien: {
+      ...s.entretien,
+      commentaires: null,
+      revenusDetail: null,
+      orientationDetail: null,
+      liencommuneDetail: null,
+      residenceDetail: null,
+      causeDetail: null,
+      raisonDetail: null,
+      accompagnementDetail: null,
+    },
   }));
 
   return usagerHistoryRepository.update(

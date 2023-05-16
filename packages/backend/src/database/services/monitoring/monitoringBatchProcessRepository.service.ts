@@ -2,13 +2,9 @@ import {
   MonitoringBatchProcess,
   MonitoringBatchProcessTable,
 } from "../../entities/monitoring";
-import { pgRepository } from "../_postgres";
+import { myDataSource } from "../_postgres";
 
-const baseRepository = pgRepository.get<
-  MonitoringBatchProcessTable,
-  MonitoringBatchProcess
->(MonitoringBatchProcessTable);
-
-export const monitoringBatchProcessRepository = {
-  ...baseRepository,
-};
+export const monitoringBatchProcessRepository =
+  myDataSource.getRepository<MonitoringBatchProcess>(
+    MonitoringBatchProcessTable
+  );

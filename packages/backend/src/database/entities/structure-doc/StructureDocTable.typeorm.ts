@@ -29,11 +29,6 @@ export class StructureDocTable
   @Column({ type: "jsonb", nullable: false })
   createdBy: UserStructureCreatedBy;
 
-  @Column({ type: "jsonb", nullable: true })
-  tags: {
-    [key: string]: string;
-  };
-
   @Column({ type: "boolean", nullable: false, default: false })
   custom!: boolean;
 

@@ -15,9 +15,9 @@ const baseRepository = pgRepository.get<StructureTable, Structure>(
 export const structureRepository = appTypeormManager
   .getRepository<Structure>(StructureTable)
   .extend({
-    findOneWithQuery: baseRepository.findOneWithQuery,
     countBy: baseRepository.countBy,
     count: baseRepository.count,
+    findOneWithQuery: baseRepository.findOneWithQuery,
     findManyWithQuery: baseRepository.findManyWithQuery,
     checkHardResetToken,
     getStructureWithSms,

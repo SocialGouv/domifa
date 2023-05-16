@@ -1,4 +1,5 @@
 import {
+  newUserStructureRepository,
   userStructureRepository,
   UserStructureSecurityRepository,
 } from "../../database";
@@ -14,7 +15,7 @@ const deleteUser = async ({
     userId,
     structureId,
   });
-  await userStructureRepository.deleteByCriteria({
+  await newUserStructureRepository.delete({
     id: userId,
     structureId,
   });
