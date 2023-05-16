@@ -53,7 +53,6 @@ export class BaseUsagerProfilPageComponent implements OnInit, OnDestroy {
   }
 
   public setTitle() {
-    console.log(this.titlePrefix + " de " + getUsagerNomComplet(this.usager));
     this.titleService.setTitle(
       this.titlePrefix + " de " + getUsagerNomComplet(this.usager)
     );

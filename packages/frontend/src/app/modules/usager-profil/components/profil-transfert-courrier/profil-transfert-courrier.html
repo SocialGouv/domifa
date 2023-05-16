@@ -149,7 +149,7 @@
             class="btn input-group-text btn-outline-primary"
             (click)="dateDebut.toggle()"
           >
-            <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+            <fa-icon aria-hidden="true" [icon]="['fas', 'calendar']"></fa-icon>
           </button>
 
           <p *ngIf="submitted && f.dateFin.invalid" class="invalid-feedback">
@@ -169,7 +169,6 @@
             ngbDatepicker
             dateFr
             value
-            [minDate]="minDateToday"
             [ngClass]="{ 'is-invalid':  submitted &&  f.dateFin.errors  }"
             #dateFin="ngbDatepicker"
             maxlength="10"
@@ -182,7 +181,7 @@
             class="btn input-group-text btn-outline-primary"
             (click)="dateFin.toggle()"
           >
-            <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+            <fa-icon aria-hidden="true" [icon]="['fas', 'calendar']"></fa-icon>
           </button>
 
           <div *ngIf="submitted && f.dateFin.errors" class="invalid-feedback">

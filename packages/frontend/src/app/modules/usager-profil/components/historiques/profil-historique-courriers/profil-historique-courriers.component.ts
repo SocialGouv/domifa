@@ -13,12 +13,12 @@ import {
   InteractionEvent,
   UsagerLight,
   UserStructure,
-} from "../../../../../_common/model";
+} from "../../../../../../_common/model";
 import {
   UsagerFormModel,
   Interaction,
-} from "../../../usager-shared/interfaces";
-import { InteractionService } from "../../../usager-shared/services/interaction.service";
+} from "../../../../usager-shared/interfaces";
+import { InteractionService } from "../../../../usager-shared/services/interaction.service";
 import { Subscription } from "rxjs";
 
 @Component({
@@ -33,6 +33,7 @@ export class ProfilHistoriqueCourriersComponent implements OnInit, OnDestroy {
   public interactions: Interaction[];
   public interactionToDelete: Interaction | null;
   private subscription = new Subscription();
+
   @ViewChild("deleteInteractionModal", { static: true })
   public deleteInteractionModal!: TemplateRef<NgbModalRef>;
 

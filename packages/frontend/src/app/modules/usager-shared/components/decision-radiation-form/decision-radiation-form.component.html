@@ -94,7 +94,10 @@
               (click)="dFin.toggle()"
               aria-label="Sélectionner une date de radiation"
             >
-              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+              <fa-icon
+                aria-hidden="true"
+                [icon]="['fas', 'calendar']"
+              ></fa-icon>
             </button>
 
             <p *ngIf="submitted && r.dateFin.invalid" class="invalid-feedback">

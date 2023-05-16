@@ -22,8 +22,7 @@ import { ProfilEditPortailUsagerPreferenceComponent } from "./components/profil-
 import { ProfilGeneralHistoriqueCourriersComponent } from "./components/profil-general-historique-courriers/profil-general-historique-courriers.component";
 import { ProfilGeneralSectionComponent } from "./components/pages/profil-general-section/profil-general-section.component";
 import { ProfilHeadComponent } from "./components/profil-head/profil-head.component";
-import { ProfilHistoriqueCourriersComponent } from "./components/profil-historique-courriers/profil-historique-courriers.component";
-import { ProfilHistoriqueSmsComponent } from "./components/profil-historique-sms/profil-historique-sms.component";
+import { ProfilHistoriqueCourriersComponent } from "./components/historiques/profil-historique-courriers/profil-historique-courriers.component";
 import { UsagersProfilProcurationCourrierComponent } from "./components/profil-procuration-courrier/profil-procuration-courrier-component";
 import { ProfilStructureDocsComponent } from "./components/profil-structure-documents/profil-structure-docs.component";
 import { UsagersProfilTransfertCourrierComponent } from "./components/profil-transfert-courrier/profil-transfert-courrier-component";
@@ -31,6 +30,9 @@ import { UsagerProfilRoutingModule } from "./usager-profil-routing.module";
 import { BaseUsagerProfilPageComponent } from "./components/pages/base-usager-profil-page/base-usager-profil-page.component";
 import { UsagerNotesModule } from "../usager-notes/usager-notes.module";
 import { ProfilHistoriqueComponent } from "./components/pages/profil-historique/profil-historique.component";
+import { ProfilHistoriqueSmsComponent } from "./components/historiques/profil-historique-sms/profil-historique-sms.component";
+import { ProfilHistoriqueProcurationsComponent } from "./components/historiques/profil-historique-procurations/profil-historique-procurations.component";
+import { ProfilHistoriqueTransfertsComponent } from "./components/historiques/profil-historique-transferts/profil-historique-transferts.component";
 
 @NgModule({
   declarations: [
@@ -53,6 +55,9 @@ import { ProfilHistoriqueComponent } from "./components/pages/profil-historique/
     DisplayEtatCivilComponent,
 
     BaseUsagerProfilPageComponent,
+    ProfilHistoriqueProcurationsComponent,
+
+    ProfilHistoriqueTransfertsComponent,
   ],
   imports: [
     CommonModule,

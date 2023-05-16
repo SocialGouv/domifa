@@ -7,6 +7,7 @@ import {
   UsagerOptionsTransfert,
   UsagerLight,
   UsagerOptionsProcuration,
+  UsagerOptionsHistoryType,
 } from "../../../../_common/model";
 
 @Injectable({
@@ -17,9 +18,12 @@ export class UsagerOptionsService {
 
   constructor(private readonly http: HttpClient) {}
 
-  public findHistory(usagerRef: number): Observable<UsagerOptionsHistory[]> {
+  public findHistory(
+    usagerRef: number,
+    typeOfOptions: UsagerOptionsHistoryType
+  ): Observable<UsagerOptionsHistory[]> {
     return this.http.get<UsagerOptionsHistory[]>(
-      `${this.endPoint}historique/${usagerRef}`
+      `${this.endPoint}historique/${usagerRef}/${typeOfOptions}`
     );
   }
 

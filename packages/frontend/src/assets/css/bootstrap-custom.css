@@ -59,13 +59,19 @@
 }
 
 .alert-info {
-  color: #000000;
-  background-color: #e1ecff;
-  border-color: #a4c7ff;
+  color: #084298;
+  background-color: #cfe2ff;
+  border-color: #b6d4fe;
+}
+
+.alert-warning {
+  color: #664d03;
+  background-color: #fff3cd;
+  border-color: #ffecb5;
 }
 
 .alert-info hr {
-  border-color: #a4c7ff;
+  border-color: #b6d4fe;
 }
 
 .alert-info .alert-link {
@@ -73,9 +79,9 @@
 }
 
 .alert-danger {
-  color: black;
-  background-color: #fff4f5;
-  border-color: #ffabb0;
+  color: #842029;
+  background-color: #f8d7da;
+  border-color: #f5c2c7;
 }
 
 .alert-danger hr {

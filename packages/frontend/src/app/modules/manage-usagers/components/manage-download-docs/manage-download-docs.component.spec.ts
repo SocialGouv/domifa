@@ -7,6 +7,7 @@ import {
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 import { ManageDownloadDocsComponent } from "./manage-download-docs.component";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 
 describe("ManageDownloadDocsComponent", () => {
   let component: ManageDownloadDocsComponent;
@@ -16,6 +17,7 @@ describe("ManageDownloadDocsComponent", () => {
     await TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       declarations: [ManageDownloadDocsComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ManageDownloadDocsComponent);

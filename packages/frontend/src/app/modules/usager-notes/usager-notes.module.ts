@@ -8,6 +8,7 @@ import { ProfilHistoriqueNotesComponent } from "./components/profil-historique-n
 import { UsagerNotesActionsComponent } from "./components/usager-notes-actions/usager-notes-actions.component";
 import { SharedModule } from "../shared/shared.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { UsagerSharedModule } from "../usager-shared/usager-shared.module";
 
 @NgModule({
   declarations: [
@@ -24,13 +25,13 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     UsagerNotesActionsComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-
   imports: [
     CommonModule,
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    UsagerSharedModule,
   ],
 })
 export class UsagerNotesModule {}

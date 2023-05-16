@@ -7,7 +7,7 @@ import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
-import { UsagerLight, UserStructureAuthenticated } from "../_common/model";
+import { Usager, UserStructureAuthenticated } from "../_common/model";
 import { InteractionDto } from "./dto";
 import { InteractionsController } from "./interactions.controller";
 
@@ -19,7 +19,7 @@ describe("Interactions Controller", () => {
 
   let context: AppTestContext;
   let user: UserStructureAuthenticated;
-  let usager: UsagerLight;
+  let usager: Usager;
 
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({

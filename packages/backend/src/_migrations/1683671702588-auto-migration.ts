@@ -1,28 +1,27 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { domifaConfig } from "../config";
 
 export class AutoMigration1683671702588 implements MigrationInterface {
   name = "AutoMigration1683671702588";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `ALTER TABLE "usager_notes" ADD "pinned" boolean NOT NULL DEFAULT false`
-    );
-    await queryRunner.query(`ALTER TABLE "usager" ADD "pinnedNote" jsonb`);
-    await queryRunner.query(
-      `ALTER TABLE "structure" ALTER COLUMN "telephone" SET DEFAULT '{"countryCode": "fr", "numero": ""}'`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "usager" ALTER COLUMN "telephone" SET DEFAULT '{"countryCode":"fr", "numero":""}'`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "usager" ALTER COLUMN "lastInteraction" SET DEFAULT '{"dateInteraction":"NOW()", "enAttente":"false", "courrierIn":"0", "recommandeIn":"0", "colisIn":"0"}'`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "usager" ALTER COLUMN "options" SET DEFAULT '{"transfert":{"actif":false,"nom":null,"adresse":null,"dateDebut":null,"dateFin":null},"procurations":[],"npai":{"actif":false,"dateDebut":null},"portailUsagerEnabled":false}'`
-    );
-    await queryRunner.query(
-      `CREATE INDEX "IDX_d9c81cf63a13921c118dfda46b" ON "message_sms" ("phoneNumber") `
-    );
+    if (
+      domifaConfig().envId === "prod" ||
+      domifaConfig().envId === "preprod" ||
+      domifaConfig().envId === "local"
+    ) {
+      await queryRunner.query(
+        `ALTER TABLE "usager_notes" ADD "pinned" boolean NOT NULL DEFAULT false`
+      );
+      await queryRunner.query(`ALTER TABLE "usager" ADD "pinnedNote" jsonb`);
+
+      await queryRunner.query(
+        `ALTER TABLE "usager" ALTER COLUMN "lastInteraction" SET DEFAULT '{"dateInteraction":"NOW()", "enAttente":"false", "courrierIn":"0", "recommandeIn":"0", "colisIn":"0"}'`
+      );
+      await queryRunner.query(
+        `CREATE INDEX "IDX_d9c81cf63a13921c118dfda46b" ON "message_sms" ("phoneNumber") `
+      );
+    }
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

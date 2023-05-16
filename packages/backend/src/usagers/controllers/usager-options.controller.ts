@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Param,
   ParseArrayPipe,
+  ParseEnumPipe,
   ParseIntPipe,
   Post,
   Res,
@@ -18,7 +19,11 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import { Usager, UserStructureAuthenticated } from "../../_common/model";
+import {
+  Usager,
+  UsagerOptionsHistoryTypeEnum,
+  UserStructureAuthenticated,
+} from "../../_common/model";
 import { usagerOptionsHistoryRepository } from "../../database/services/usager/usagerOptionsHistoryRepository.service";
 import { AllowUserStructureRoles, CurrentUser } from "../../auth/decorators";
 import { TransfertDto, ProcurationDto } from "../dto";
@@ -40,10 +45,16 @@ export class UsagerOptionsController {
 
   @UseGuards(UsagerAccessGuard)
   @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
-  @Get("historique/:usagerRef")
-  public async createNote(@CurrentUsager() currentUsager: Usager) {
-    return usagerOptionsHistoryRepository.findMany({
+  @Get("historique/:usagerRef/:type")
+  public async createNote(
+    @CurrentUsager() currentUsager: Usager,
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
+    @Param("type", new ParseEnumPipe(UsagerOptionsHistoryTypeEnum))
+    type: UsagerOptionsHistoryTypeEnum
+  ) {
+    return usagerOptionsHistoryRepository.findBy({
       usagerUUID: currentUsager.uuid,
+      type,
       structureId: currentUsager.structureId,
     });
   }

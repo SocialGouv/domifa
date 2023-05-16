@@ -1,9 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, tap } from "rxjs";
 import { environment } from "../../../../environments/environment";
-import { UsagerNote, Usager } from "../../../../_common/model";
+import { UsagerNote, Usager, UsagerLight } from "../../../../_common/model";
 import { PageOptions, PageResults } from "../../../../_common/model/pagination";
+import { usagersCache } from "../../../shared";
 
 @Injectable({
   providedIn: "root",
@@ -45,10 +46,14 @@ export class UsagerNotesService {
     noteUUID: string;
     usagerRef: number;
   }): Observable<Usager> {
-    return this.http.put<Usager>(
-      `${this.endPoint}/${usagerRef}/archive/${noteUUID}`,
-      {}
-    );
+    return this.http
+      .put<Usager>(`${this.endPoint}/${usagerRef}/archive/${noteUUID}`, {})
+      .pipe(
+        tap((newUsager: UsagerLight) => {
+          usagersCache.updateUsager(newUsager);
+          return newUsager;
+        })
+      );
   }
 
   public pinNote({
@@ -58,10 +63,14 @@ export class UsagerNotesService {
     noteUUID: string;
     usagerRef: number;
   }): Observable<Usager> {
-    return this.http.put<Usager>(
-      `${this.endPoint}/${usagerRef}/pin/${noteUUID}`,
-      {}
-    );
+    return this.http
+      .put<Usager>(`${this.endPoint}/${usagerRef}/pin/${noteUUID}`, {})
+      .pipe(
+        tap((newUsager: UsagerLight) => {
+          usagersCache.updateUsager(newUsager);
+          return newUsager;
+        })
+      );
   }
 
   public deleteNote({
@@ -71,9 +80,13 @@ export class UsagerNotesService {
     noteUUID: string;
     usagerRef: number;
   }): Observable<Usager> {
-    return this.http.delete<Usager>(
-      `${this.endPoint}/${usagerRef}/archive/${noteUUID}`,
-      {}
-    );
+    return this.http
+      .delete<Usager>(`${this.endPoint}/${usagerRef}/${noteUUID}`, {})
+      .pipe(
+        tap((newUsager: UsagerLight) => {
+          usagersCache.updateUsager(newUsager);
+          return newUsager;
+        })
+      );
   }
 }

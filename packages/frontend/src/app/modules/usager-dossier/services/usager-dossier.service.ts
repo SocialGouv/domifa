@@ -49,19 +49,30 @@ export class UsagerDossierService {
 
   // RDV maintenant : on passe l'étape du formulaire
   public setRdv(rdv: RdvForm, usagerRef: number): Observable<UsagerLight> {
-    return this.http.post<UsagerLight>(
-      `${environment.apiUrl}agenda/${usagerRef}`,
-      rdv
-    );
+    return this.http
+      .post<UsagerLight>(`${environment.apiUrl}agenda/${usagerRef}`, rdv)
+      .pipe(
+        tap((newUsager: UsagerLight) => {
+          usagersCache.updateUsager(newUsager);
+          return newUsager;
+        })
+      );
   }
 
   public nextStep(
     usagerRef: number,
     etapeDemande: number
   ): Observable<UsagerLight> {
-    return this.http.get<UsagerLight>(
-      `${this.endPointUsagers}/next-step/${usagerRef}/${etapeDemande}`
-    );
+    return this.http
+      .get<UsagerLight>(
+        `${this.endPointUsagers}/next-step/${usagerRef}/${etapeDemande}`
+      )
+      .pipe(
+        tap((newUsager: UsagerLight) => {
+          usagersCache.updateUsager(newUsager);
+          return newUsager;
+        })
+      );
   }
 
   public isDuplicateName(params: {

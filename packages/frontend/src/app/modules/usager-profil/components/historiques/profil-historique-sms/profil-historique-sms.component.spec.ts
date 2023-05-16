@@ -3,26 +3,25 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { UsagerFormModel } from "../../../usager-shared/interfaces";
+import { ProfilHistoriqueSmsComponent } from "./profil-historique-sms.component";
+import { USAGER_ACTIF_MOCK } from "../../../../../../_common/mocks";
+import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 
-import { ProfilHistoriqueCourriersComponent } from "./profil-historique-courriers.component";
-
-describe("ProfilHistoriqueCourriersComponent", () => {
-  let component: ProfilHistoriqueCourriersComponent;
-  let fixture: ComponentFixture<ProfilHistoriqueCourriersComponent>;
+describe("ProfilHistoriqueSmsComponent", () => {
+  let component: ProfilHistoriqueSmsComponent;
+  let fixture: ComponentFixture<ProfilHistoriqueSmsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ProfilHistoriqueCourriersComponent],
+      declarations: [ProfilHistoriqueSmsComponent],
       imports: [
-        ReactiveFormsModule,
         NgbModule,
+        ReactiveFormsModule,
         FormsModule,
         HttpClientTestingModule,
-        RouterTestingModule,
+        ReactiveFormsModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -30,9 +29,10 @@ describe("ProfilHistoriqueCourriersComponent", () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProfilHistoriqueCourriersComponent);
+    fixture = TestBed.createComponent(ProfilHistoriqueSmsComponent);
     component = fixture.componentInstance;
-    component.usager = new UsagerFormModel();
+    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+
     fixture.detectChanges();
   });
 

@@ -1,4 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from "@angular/core";
 import { Observable, Subscription } from "rxjs";
 import { UserStructure, UsagerNote } from "../../../../../_common/model";
 import {
@@ -19,6 +26,8 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
   @Input() public me!: UserStructure;
   @Input() public usager!: UsagerFormModel;
+  @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
+
   public params!: PageOptions;
 
   public loading: boolean;
@@ -57,7 +66,6 @@ export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
         .getNotes(this.usager.ref, this.params, this.getArchivedNotes)
         .subscribe({
           next: (notes: PageResults<UsagerNote>) => {
-            console.log(notes);
             this.notes = notes.data;
             this.loading = false;
           },
@@ -67,6 +75,10 @@ export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
           },
         })
     );
+  }
+
+  public updateUsager(usager: UsagerFormModel) {
+    this.usagerChange.emit(usager);
   }
 
   public closeModals() {

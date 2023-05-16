@@ -31,6 +31,7 @@ export const POST_USAGER: {
   response: {
     numeroDistribution: null,
     uuid: null,
+    pinnedNote: null,
     createdAt: new Date("2022-05-05T07:15:36.590Z"),
     updatedAt: new Date("2022-05-05T07:15:36.590Z"),
     version: 1,

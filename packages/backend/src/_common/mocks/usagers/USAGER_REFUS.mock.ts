@@ -14,9 +14,9 @@ export const USAGER_REFUS_MOCK: Usager = {
     motifDetails: "Aucun lien avec la commune",
     userId: 30,
     userName: "Testeur Robin",
-
     orientation: null,
   },
+  pinnedNote: null,
   lastInteraction: {
     colisIn: 0,
     courrierIn: 0,

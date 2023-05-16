@@ -90,7 +90,10 @@
               class="input-group-text btn btn-outline-primary d-print-none"
               (click)="dFin.toggle()"
             >
-              <fa-icon [icon]="['fas', 'calendar']"></fa-icon>
+              <fa-icon
+                aria-hidden="true"
+                [icon]="['fas', 'calendar']"
+              ></fa-icon>
             </button>
           </div>
         </div>
