@@ -1,4 +1,4 @@
-import { UserStructure } from "src/_common/model";
+import { DEFAULT_MODAL_OPTIONS, UserStructure } from "src/_common/model";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { NgbModalRef, NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -92,11 +92,7 @@ export class IdleManagerComponent implements OnInit {
 
   public openIdleModal(): void {
     this.closeModals();
-    this.modalService.open(this.idleModal, {
-      centered: true,
-      backdrop: "static",
-      ariaLabelledBy: "modal-title",
-    });
+    this.modalService.open(this.idleModal, DEFAULT_MODAL_OPTIONS);
   }
 
   public closeModals(): void {

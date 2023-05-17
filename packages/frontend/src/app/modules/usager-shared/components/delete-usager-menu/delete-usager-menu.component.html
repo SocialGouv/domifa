@@ -71,16 +71,10 @@
 
 <ng-template #deleteDecisionConfirmation let-modal>
   <div class="modal-header bg-danger">
-    <span
-      *ngIf="context === 'HISTORY'"
-      class="text-white modal-title"
-      id="modal-title"
+    <span *ngIf="context === 'HISTORY'" class="text-white" id="modal-title"
       >Êtes-vous sûr de vouloir supprimer cette décision ?</span
     >
-    <span
-      *ngIf="context === 'PROFIL'"
-      class="text-white modal-title"
-      id="modal-title"
+    <span *ngIf="context === 'PROFIL'" class="text-white" id="modal-title"
       >Attention !</span
     >
   </div>

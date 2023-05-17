@@ -13,16 +13,12 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Event, NavigationEnd, Router } from "@angular/router";
-import {
-  NgbModal,
-  NgbModalOptions,
-  NgbModalRef,
-} from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "@ngx-matomo/tracker";
 import { filter, Subscription } from "rxjs";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 
-import { UserStructure } from "../_common/model";
+import { DEFAULT_MODAL_OPTIONS, UserStructure } from "../_common/model";
 import { CustomToastService } from "./modules/shared/services";
 
 import { fadeInOut } from "./shared";
@@ -39,7 +35,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public apiVersion: string | null;
   public currentFragment = "";
   public currentUrl = "";
-  public modalOptions: NgbModalOptions;
 
   public me: UserStructure | null;
 
@@ -55,6 +50,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public pendingNews: boolean;
 
   private subscription = new Subscription();
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public news: any;
 
@@ -76,13 +72,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.submitted = false;
     this.pendingNews = true;
     this.loading = false;
-    this.modalOptions = {
-      centered: true,
-      backdrop: "static",
-      ariaLabelledBy: "modal-title",
-    };
-    this.initCguForm();
     this.me = null;
+    this.initCguForm();
   }
 
   private initCguForm() {
@@ -131,7 +122,7 @@ export class AppComponent implements OnInit, OnDestroy {
           if (this.apiVersion !== newVersion) {
             localStorage.setItem("version", newVersion);
             this.modalService.dismissAll();
-            this.modalService.open(this.versionModal, this.modalOptions);
+            this.modalService.open(this.versionModal, DEFAULT_MODAL_OPTIONS);
             setTimeout(() => {
               window.location.reload();
             }, 10000);
@@ -192,7 +183,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     if (this.pendingNews) {
       this.news = DOMIFA_NEWS[0];
-      this.modalService.open(this.newsModal, this.modalOptions);
+      this.modalService.open(this.newsModal, DEFAULT_MODAL_OPTIONS);
     }
   }
 

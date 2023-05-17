@@ -14,15 +14,14 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { StructureCommon } from "../../../../../_common/model";
+import {
+  DEFAULT_MODAL_OPTIONS,
+  StructureCommon,
+} from "../../../../../_common/model";
 
 import { StructureService } from "../../services/structure.service";
 import { MatomoTracker } from "@ngx-matomo/tracker";
-import {
-  NgbModal,
-  NgbModalOptions,
-  NgbModalRef,
-} from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
 import { generateSender } from "../../services";
 
@@ -41,7 +40,6 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
   @ViewChild("tutoModal", { static: true })
   public tutoModal!: TemplateRef<NgbModalRef>;
 
-  public modalOptions: NgbModalOptions;
   private subscription = new Subscription();
 
   constructor(
@@ -54,12 +52,6 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
   ) {
     this.loading = false;
     this.submitted = false;
-
-    this.modalOptions = {
-      centered: true,
-      backdrop: "static",
-      ariaLabelledBy: "modal-title",
-    };
   }
 
   public get form(): { [key: string]: AbstractControl } {
@@ -154,7 +146,7 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
   }
 
   public openTutoModal(): void {
-    this.modalService.open(this.tutoModal, this.modalOptions);
+    this.modalService.open(this.tutoModal, DEFAULT_MODAL_OPTIONS);
   }
 
   public closeTutoModal(): void {

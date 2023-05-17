@@ -167,14 +167,28 @@
       </td>
 
       <td class="text-primary manage-usager-ref">
-        <span (click)="goToProfil(usager)"
-          >{{ usager.customRef ? usager.customRef : usager.ref }}</span
+        <span (click)="goToProfil(usager)">
+          {{ usager.customRef ? usager.customRef : usager.ref }}</span
         >
       </td>
 
       <td class="clickable table-name td-name">
         <a [routerLink]="usager.usagerProfilUrl">
-          {{ usager.nom | uppercase }} {{ usager.prenom }}
+          <img
+            *ngIf="usager.pinnedNote"
+            [ngbTooltip]="pinnedNote"
+            #tooltipNote="ngbTooltip"
+            (keydown)="tooltipNote.open()"
+            (enter)="tooltipNote.open()"
+            [closeDelay]="500"
+            tabindex="0"
+            src="/assets/icones/pinned-note.svg"
+            alt="Note épinglée"
+          />
+          <ng-template #pinnedNote>
+            <b>Note épinglée : </b>{{ usager.pinnedNote.message}}
+          </ng-template>
+          <span> {{ usager.nom | uppercase }} {{ usager.prenom }} </span>
           <span *ngIf="usager.surnom && usager.surnom !== null">
             ({{ usager.surnom }})
           </span>
