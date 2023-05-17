@@ -1,3 +1,11 @@
+## [2.129.1](https://github.com/SocialGouv/domifa/compare/v2.129.0...v2.129.1) (2023-05-17)
+
+
+### Bug Fixes
+
+* db for tests ([2c4172c](https://github.com/SocialGouv/domifa/commit/2c4172c0278ec020cba07fec1ef1b87e6d633e2b))
+* **import:** suppression d'une règle bloquante ([77fb249](https://github.com/SocialGouv/domifa/commit/77fb24930014456ac00b85d2d3072f0d1b8ac05e))
+
 # [2.129.0](https://github.com/SocialGouv/domifa/compare/v2.128.1...v2.129.0) (2023-05-16)
 
 
