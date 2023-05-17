@@ -34,7 +34,7 @@
 
 <ng-template #deleteOrArchiveNoteModal let-modal>
   <div class="modal-header">
-    <span class="modal-title">
+    <span id="modal-title">
       {{ choosenAction === "DELETE" ? "Supprimer" : "Archiver" }} une note du
       dossier de {{ usager.nom }} {{ usager.prenom }}
     </span>

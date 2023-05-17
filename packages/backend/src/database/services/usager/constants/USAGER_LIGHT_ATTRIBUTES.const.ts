@@ -14,6 +14,7 @@ export const USAGER_LIGHT_ATTRIBUTES: (keyof UsagerTable)[] = [
   "decision",
   "datePremiereDom",
   "typeDom",
+  "pinnedNote",
   // "entretien",
   "etapeDemande",
   "rdv",

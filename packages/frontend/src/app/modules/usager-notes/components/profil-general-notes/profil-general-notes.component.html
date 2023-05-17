@@ -21,10 +21,7 @@
             {{ note.createdAt | date : "dd/MM/yyyy à HH:mm" }} -
             {{ note.createdBy.userName }}
           </span>
-          <span
-            class="badge badge-pill bg-warning text-dark"
-            *ngIf="note.pinned"
-          >
+          <span class="badge badge-pill bg-primary" *ngIf="note.pinned">
             <fa-icon
               [icon]="['fas', 'thumb-tack']"
               aria-hidden="true"

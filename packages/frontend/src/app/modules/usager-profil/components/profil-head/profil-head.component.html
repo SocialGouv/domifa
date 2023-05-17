@@ -159,7 +159,7 @@
 <ng-template #renewModal let-modal>
   <div class="modal-header bg-primary">
     <span
-      class="text-white modal-title"
+      class="text-white"
       id="modal-title"
       *ngIf="
         usager.decision.statut !== 'RADIE' && usager.decision.statut !== 'REFUS'
@@ -168,7 +168,7 @@
       Demande de renouvellement
     </span>
     <h4
-      class="text-white modal-title"
+      class="text-white"
       id="modal-title"
       *ngIf="
         usager.decision.statut === 'RADIE' || usager.decision.statut === 'REFUS'

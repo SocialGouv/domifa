@@ -1,8 +1,8 @@
 <div class="modal-header">
-  <span class="modal-title" *ngIf="isCustomDoc"
+  <span id="modal-title" *ngIf="isCustomDoc"
     >Télécharger un document pré-rempli
   </span>
-  <span class="modal-title" *ngIf="!isCustomDoc">Télécharger un document</span>
+  <span id="modal-title" *ngIf="!isCustomDoc">Télécharger un document</span>
 </div>
 <div class="modal-body">
   <form ngNativeValidate [formGroup]="uploadForm" (ngSubmit)="submitFile()">

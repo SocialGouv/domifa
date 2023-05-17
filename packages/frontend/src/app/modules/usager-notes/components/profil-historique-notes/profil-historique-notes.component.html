@@ -7,6 +7,7 @@
       <th scope="col">Date</th>
       <th scope="col">Message</th>
       <th scope="col">Responsable</th>
+      <th scope="col">Statut</th>
       <th scope="col" class="text-end">Actions</th>
     </tr>
   </thead>
@@ -16,17 +17,19 @@
         {{ note.createdAt | date : "dd/MM/yyyy à HH:mm" }}
       </td>
       <td>
-        <span *ngIf="note.archivedAt" class="badge badge-pill bg-danger">
-          Archivée le {{ note.archivedAt | date : "dd/MM/yyyy" }} par
-          {{ note.archivedBy.userName }}
+        <p class="font-bold text-break">{{ note.message }}</p>
+      </td>
+
+      <td>{{ note.createdBy.userName }}</td>
+      <td>
+        <span *ngIf="note.archivedAt" class="badge badge-pill bg-warning">
+          Archivée
         </span>
-        <span class="badge badge-pill bg-warning text-dark" *ngIf="note.pinned">
+        <span class="badge badge-pill bg-primary" *ngIf="note.pinned">
           <fa-icon [icon]="['fas', 'thumb-tack']" aria-hidden="true"></fa-icon>
           Note épinglée
         </span>
-        <p class="font-bold text-break">{{ note.message }}</p>
       </td>
-      <td>{{ note.createdBy.userName }}</td>
       <td class="text-end">
         <div *ngIf="me?.role !== 'facteur'" class="ms-3">
           <app-usager-notes-actions
