@@ -1,7 +1,7 @@
 <div *ngIf="usager" class="py-3">
   <div
     *ngIf="
-      usager.options.transfert.actif || usager.options.procurations.length > 0
+      usager.options.transfert?.actif || usager.options.procurations.length > 0
     "
     class="my-2"
   >

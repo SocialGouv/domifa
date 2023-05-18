@@ -19,7 +19,7 @@ export class SectionOptionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.usager.options.transfert?.actif) {
+    if (this.usager?.options.transfert?.actif) {
       this.usager.options.transfert.dateDebut =
         this.usager.options.transfert.dateDebut &&
         this.usager.options.transfert.dateDebut !== null
@@ -33,7 +33,7 @@ export class SectionOptionsComponent implements OnInit {
           : null;
     }
 
-    if (this.usager.options.procurations.length > 0) {
+    if (this.usager?.options?.procurations.length > 0) {
       this.usager.options.procurations = this.usager.options.procurations.map(
         (apiProcuration: UsagerOptionsProcuration) => {
           const procuration: UsagerOptionsProcuration = {

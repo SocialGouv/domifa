@@ -15,7 +15,7 @@ import { getRdvInfos } from "../../interfaces/getRdvInfos.service";
   styleUrls: ["./section-infos.component.css"],
 })
 export class SectionInfosComponent implements OnInit {
-  public USAGER_DECISION_STATUT_LABELS = USAGER_DECISION_STATUT_LABELS;
+  public readonly USAGER_DECISION_STATUT_LABELS = USAGER_DECISION_STATUT_LABELS;
 
   @Input() public usager: PortailUsagerPublic;
 
