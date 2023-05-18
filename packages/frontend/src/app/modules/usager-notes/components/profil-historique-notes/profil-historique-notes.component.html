@@ -22,11 +22,13 @@
 
       <td>{{ note.createdBy.userName }}</td>
       <td>
-        <span *ngIf="note.archivedAt" class="badge badge-pill bg-warning">
-          Archivée
+        <span
+          *ngIf="note.archivedAt"
+          class="badge badge-pill bg-warning text-dark"
+        >
+          Note archivée
         </span>
         <span class="badge badge-pill bg-primary" *ngIf="note.pinned">
-          <fa-icon [icon]="['fas', 'thumb-tack']" aria-hidden="true"></fa-icon>
           Note épinglée
         </span>
       </td>

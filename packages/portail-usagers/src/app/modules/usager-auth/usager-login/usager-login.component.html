@@ -41,10 +41,10 @@
           passe:
         </p>
         <div class="form-group required">
-          <label class="fw-bold" for="password">Nouveau mot de passe</label>
+          <label class="fw-bold" for="newPassword">Nouveau mot de passe</label>
           <div class="input-group">
             <input
-              id="password"
+              id="newPassword"
               formControlName="newPassword"
               [type]="!hidePasswordNew ? 'text' : 'password'"
               class="form-control"
@@ -233,23 +233,23 @@
               </button>
             </div>
           </div>
-          <div
-            *ngIf="f.newPasswordConfirm?.errors"
+
+          <p
+            *ngIf="f.newPasswordConfirm?.errors?.required"
             class="invalid-feedback-custom"
           >
-            <div *ngIf="f.newPasswordConfirm?.errors?.required">
-              Veuillez confirmer le mot de passe
-            </div>
-          </div>
+            Veuillez confirmer le mot de passe
+          </p>
+
           <div *ngIf="!f.newPasswordConfirm?.errors?.required">
-            <div
+            <p
               *ngIf="
                 this.loginForm.hasError('new-password-confim-does-not-match')
               "
               class="invalid-feedback-custom"
             >
               La confirmation doit correspondre au nouveau mot de passe
-            </div>
+            </p>
           </div>
         </div>
       </ng-container>

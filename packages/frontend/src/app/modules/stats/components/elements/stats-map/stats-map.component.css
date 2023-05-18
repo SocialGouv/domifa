@@ -55,7 +55,7 @@ foreignObject {
 
 .map-tooltip {
   font-size: 0.9rem;
-  word-break: break-all;
+  word-break: break-word;
   display: inline-block;
   text-align: left;
   margin: 0 auto;

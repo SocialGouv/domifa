@@ -69,6 +69,7 @@ import { ProfilHistoriqueTransfertsComponent } from "./components/historiques/pr
     ReactiveFormsModule,
     SharedModule,
     UsersModule,
+    UsagerNotesModule,
     UsagerProfilRoutingModule,
     NgxIntlTelInputModule,
   ],
