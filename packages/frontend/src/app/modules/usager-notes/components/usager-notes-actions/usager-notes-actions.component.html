@@ -34,9 +34,17 @@
 
 <ng-template #deleteOrArchiveNoteModal let-modal>
   <div class="modal-header">
-    <span id="modal-title">
-      {{ choosenAction === "DELETE" ? "Supprimer" : "Archiver" }} une note du
-      dossier de {{ usager.nom }} {{ usager.prenom }}
+    <span id="modal-title" *ngIf="choosenAction === 'DELETE'">
+      Supprimer une note du dossier de {{ usager.nom }} {{ usager.prenom }}
+    </span>
+    <span
+      id="modal-title"
+      *ngIf="choosenAction === 'ARCHIVE' && !note.archived"
+    >
+      Archiver une note du dossier de {{ usager.nom }} {{ usager.prenom }}
+    </span>
+    <span id="modal-title" *ngIf="choosenAction === 'ARCHIVE' && note.archived">
+      Désarchiver une note du dossier de {{ usager.nom }} {{ usager.prenom }}
     </span>
   </div>
 
@@ -47,13 +55,14 @@
       >, vous ne pourrez plus retrouver la note dans l'historique !
     </p>
     <p *ngIf="choosenAction === 'ARCHIVE' && !note.archived">
-      Une note archivée n'apparait plus sur la section "Vue d'ensemble" de la
-      fiche. Vous pourrez toujours la consulter dans la page historique
+      Une note archivée n'apparait plus dans la section "Vue d'ensemble" de la
+      fiche. <br />
+      Vous pourrez toujours la consulter dans la page historique
     </p>
     <p *ngIf="choosenAction === 'ARCHIVE' && note.archived">
       Cette note est déjà archivée. Vous êtes sur le point de la retirer des
-      archives. Elle sera de nouveau visible dans la section "Vue d'ensemble" du
-      dossier
+      archives.<br />
+      Elle sera de nouveau visible dans la section "Vue d'ensemble" du dossier
     </p>
   </div>
   <div class="modal-footer text-end">

@@ -89,6 +89,9 @@ export class UsagerNotesActionsComponent {
   public confirmArchiveNote(): void {
     this.loading = true;
 
+    const message = this.note.archived
+      ? "Note désarchivée avec succès"
+      : "Note archivée avec succès";
     this.subscription.add(
       this.usagerNotesService
         .archiveNote({
@@ -98,10 +101,10 @@ export class UsagerNotesActionsComponent {
         .subscribe({
           next: () => {
             this.closeModal();
-            this.toastService.success("Note archivée avec succès");
+            this.toastService.success(message);
           },
           error: () => {
-            this.toastService.error("Impossible d'archiver la note");
+            this.toastService.error("Une erreur est survenue");
             this.loading = false;
           },
         })
@@ -110,6 +113,9 @@ export class UsagerNotesActionsComponent {
 
   public pinNote(note: UsagerNote): void {
     this.loading = true;
+    const message = this.note.pinned
+      ? "Note désépinglée avec succès"
+      : "Note épinglée avec succès";
 
     this.subscription.add(
       this.usagerNotesService
@@ -119,11 +125,11 @@ export class UsagerNotesActionsComponent {
         })
         .subscribe({
           next: () => {
-            this.toastService.success("Note épinglée avec succès");
+            this.toastService.success(message);
             this.closeModal();
           },
           error: () => {
-            this.toastService.error("Impossible d'épingler la note");
+            this.toastService.error("Une erreur est survenue");
             this.loading = false;
           },
         })
