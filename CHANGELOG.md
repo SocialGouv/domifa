@@ -1,3 +1,10 @@
+## [2.129.3](https://github.com/SocialGouv/domifa/compare/v2.129.2...v2.129.3) (2023-05-19)
+
+
+### Bug Fixes
+
+* **notes:** correction des messages ([4c52aa6](https://github.com/SocialGouv/domifa/commit/4c52aa67fa2f495d2321704b820a8484b91a5c09))
+
 ## [2.129.2](https://github.com/SocialGouv/domifa/compare/v2.129.1...v2.129.2) (2023-05-19)
 
 
