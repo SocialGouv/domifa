@@ -1,3 +1,10 @@
+## [2.129.5](https://github.com/SocialGouv/domifa/compare/v2.129.4...v2.129.5) (2023-05-23)
+
+
+### Bug Fixes
+
+* **news:** mise à jour des news pour la mise en prod du 23-05 ([82624c9](https://github.com/SocialGouv/domifa/commit/82624c9bad08e65f7dc001d17b2530f295cb9d28))
+
 ## [2.129.4](https://github.com/SocialGouv/domifa/compare/v2.129.3...v2.129.4) (2023-05-22)
 
 
