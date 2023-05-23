@@ -15,13 +15,12 @@
               ></fa-icon>
             </div>
             <span>
-              <b
-                >Note épinglée créer le
-                {{ usager.pinnedNote.createdAt | date : "dd/MM/yyyy à HH:mm" }}
-                par {{ usager.pinnedNote.createdBy.userName }}</b
-              >
-              <br />
-              {{ usager.pinnedNote.message }}
+              <b>
+                {{ usager.pinnedNote.message }}
+              </b>
+              <br />Note épinglée créée le
+              {{ usager.pinnedNote.createdAt | date : "dd/MM/yyyy à HH:mm" }}
+              par {{ usager.pinnedNote.createdBy.userName }}
             </span>
           </div>
 
