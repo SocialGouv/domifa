@@ -154,7 +154,11 @@
       [disabled]="loading"
     >
       <span *ngIf="loading">
-        <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+        <fa-icon
+          [icon]="['fas', 'circle-notch']"
+          [spin]="true"
+          aria-hidden="true"
+        ></fa-icon>
         Veuillez patienter...
       </span>
       <span *ngIf="!loading">Confirmer la suppression</span>
@@ -211,7 +215,11 @@
       (click)="deleteInteraction()"
     >
       <span *ngIf="loading">
-        <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+        <fa-icon
+          [icon]="['fas', 'circle-notch']"
+          [spin]="true"
+          aria-hidden="true"
+        ></fa-icon>
         Veuillez patienter...
       </span>
       <span *ngIf="!loading">Confirmer la restauration</span>

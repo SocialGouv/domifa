@@ -39,7 +39,11 @@
           aria-label="Voir la pièce jointe"
         >
           <span *ngIf="loadings.indexOf('attestation_postale') !== -1"
-            ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+            ><fa-icon
+              [icon]="['fas', 'circle-notch']"
+              [spin]="true"
+              aria-hidden="true"
+            ></fa-icon>
             Patientez...</span
           >
           <span *ngIf="loadings.indexOf('attestation_postale') === -1"
@@ -81,7 +85,11 @@
           aria-label="Voir la pièce jointe"
         >
           <span *ngIf="loadings.indexOf('courrier_radiation') !== -1"
-            ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+            ><fa-icon
+              [icon]="['fas', 'circle-notch']"
+              [spin]="true"
+              aria-hidden="true"
+            ></fa-icon>
             Patientez...</span
           >
           <span *ngIf="loadings.indexOf('courrier_radiation') === -1"
@@ -112,7 +120,11 @@
           aria-label="Voir la pièce jointe"
         >
           <span *ngIf="loadings.indexOf(document.uuid) !== -1"
-            ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+            ><fa-icon
+              [icon]="['fas', 'circle-notch']"
+              [spin]="true"
+              aria-hidden="true"
+            ></fa-icon>
             Patientez...</span
           >
           <span *ngIf="loadings.indexOf(document.uuid) === -1"

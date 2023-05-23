@@ -15,5 +15,5 @@ export class DisplayTableImageComponent {
   @Input() public document: UsagerDoc | StructureDoc;
   public readonly STRUCTURE_DOC_EXTENSIONS_LABELS =
     STRUCTURE_DOC_EXTENSIONS_LABELS;
-  public STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;
+  public readonly STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;
 }

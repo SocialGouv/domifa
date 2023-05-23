@@ -11,6 +11,7 @@ import { CustomToastService } from "../modules/shared/services/custom-toast.serv
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { AuthService } from "../modules/shared/services/auth.service";
+import { captureException } from "@sentry/angular";
 
 @Injectable({
   providedIn: "root",
@@ -36,6 +37,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
             return throwError(() => "NAVIGATOR_OFFLINE");
           }
           // Erreur inconnue côté front
+          captureException(error.error);
           return throwError(() => error.error);
         }
 
@@ -49,6 +51,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
               this.authService.notAuthorized();
               break;
             default:
+              captureException(error);
               break;
           }
         }

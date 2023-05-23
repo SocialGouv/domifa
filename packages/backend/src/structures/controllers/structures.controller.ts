@@ -11,9 +11,7 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { AllowUserStructureRoles } from "../../auth/decorators";
-import { CurrentUser } from "../../auth/decorators/current-user.decorator";
-import { AppUserGuard } from "../../auth/guards";
+import { AllowUserStructureRoles, CurrentUser } from "../../auth/decorators";
 import { structureCommonRepository, structureRepository } from "../../database";
 import { hardResetEmailSender } from "../../mails/services/templates-renderers";
 import { ExpressResponse } from "../../util/express";
@@ -29,9 +27,11 @@ import { StructureHardResetService } from "../services/structureHardReset.servic
 import { StructuresService } from "../services/structures.service";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 
-import { ParseTokenPipe } from "../../_common/decorators";
+import { ParseHardResetTokenPipe } from "../../_common/decorators";
 import { DEPARTEMENTS_MAP } from "../../util";
 import { departementHelper } from "../services";
+import { faker } from "@faker-js/faker";
+import { AppUserGuard } from "../../auth/guards";
 
 @Controller("structures")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -164,14 +164,11 @@ export class StructuresController {
     @Res() res: ExpressResponse,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
-    const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     const expireAt = new Date();
     expireAt.setDate(expireAt.getDate() + 1);
 
-    let token = "";
-    for (let i = 0; i < 7; i++) {
-      token += charset.charAt(Math.floor(Math.random() * charset.length));
-    }
+    const token = faker.string.alphanumeric(7).toUpperCase();
+
     const hardResetToken = { token, expireAt, userId: user.id };
     const structure = await this.structureHardResetService.hardReset(
       user.structureId,
@@ -197,7 +194,7 @@ export class StructuresController {
   public async hardResetConfirm(
     @Res() res: ExpressResponse,
     @CurrentUser() user: UserStructureAuthenticated,
-    @Param("token", new ParseTokenPipe()) token: string
+    @Param("token", new ParseHardResetTokenPipe()) token: string
   ) {
     const structure = await structureRepository.checkHardResetToken({
       userId: user.id,

@@ -149,7 +149,10 @@
           />
           <div *ngIf="f.email.errors" class="invalid-feedback">
             <div *ngIf="f.email.errors.emailTaken">
-              <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+              <fa-icon
+                aria-hidden="true"
+                [icon]="['fas', 'exclamation-triangle']"
+              ></fa-icon>
               <strong>L'adresse email est déjà utilisée</strong>
             </div>
             <div *ngIf="!f.email.errors.emailTaken">
@@ -164,7 +167,11 @@
             type="button"
             class="btn btn-outline-dark me-2"
           >
-            <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['far', 'edit']"
+              class="me-2"
+            ></fa-icon>
             Annuler
           </button>
 

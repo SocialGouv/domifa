@@ -56,7 +56,11 @@
       aria-label="Télécharger le courrier d'accès au portail usager"
     >
       <span *ngIf="loadings.indexOf('acces_espace_domicilie') !== -1"
-        ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+        ><fa-icon
+          [icon]="['fas', 'circle-notch']"
+          [spin]="true"
+          aria-hidden="true"
+        ></fa-icon>
         Patientez...</span
       >
       <span *ngIf="loadings.indexOf('acces_espace_domicilie') === -1"

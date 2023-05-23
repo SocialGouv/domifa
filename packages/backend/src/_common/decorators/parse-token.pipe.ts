@@ -4,7 +4,7 @@ import { isHexadecimal, isString, minLength } from "class-validator";
 @Injectable()
 export class ParseTokenPipe implements PipeTransform {
   transform(value: any) {
-    if (isString(value) && minLength(value, 5) && isHexadecimal(value)) {
+    if (isString(value) && minLength(value, 60) && isHexadecimal(value)) {
       return value.replace(/\W/g, "");
     }
 
