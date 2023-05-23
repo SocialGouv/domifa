@@ -1,3 +1,10 @@
+## [2.129.6](https://github.com/SocialGouv/domifa/compare/v2.129.5...v2.129.6) (2023-05-23)
+
+
+### Bug Fixes
+
+* **structures:** suppression des dossiers de nouveau fonctionnelle ([5c9d57a](https://github.com/SocialGouv/domifa/commit/5c9d57a763de72c0f944d1ef69ff7550d25bce62))
+
 ## [2.129.5](https://github.com/SocialGouv/domifa/compare/v2.129.4...v2.129.5) (2023-05-23)
 
 
