@@ -1,5 +1,34 @@
 [
   {
+    "date": "2023-05-23",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Portail Domicilié : Accès au simulateur d'Aides Jeunes",
+        "message": [
+          "Les domiciliés peuvent désormais tester le simulateur Aides Jeunes et découvrir les aides auxquelles ils peuvent prétendre"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Du nouveau dans la gestion des notes !",
+        "message": [
+          "Vous pouvez désormais épingler une note au dossier d'un domicilié et être alerté depuis la liste des domiciliés",
+          "Vous pouvez archiver une note dans l'historique d'un dossier ou bien la supprimer définitivement"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Historique des procurations et des transferts",
+        "message": [
+          "L'historique des procurations et des transferts s'affiche de nouveau",
+          "Il est désormais possible de saisir une nouvelle procuration même si une procuration en cours est expirée"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2023-04-27",
     "description": "",
     "content": [
