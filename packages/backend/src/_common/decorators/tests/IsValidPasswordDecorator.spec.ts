@@ -1,4 +1,4 @@
-import { checkPasswordStrength } from "./IsValidPasswordDecorator";
+import { checkPasswordStrength } from "../IsValidPasswordDecorator";
 
 describe("checkPasswordStrength", () => {
   it("Passwords OK", () => {

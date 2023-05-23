@@ -1,8 +1,9 @@
 //@index('./*', f => `export * from '${f.path}'`)
 export * from "./IsValidPasswordDecorator";
 export * from "./LowerCaseDecorator";
+export * from "./parse-hard-reset-token.pipe";
+export * from "./parse-token.pipe";
 export * from "./ParseRegion.pipe";
 export * from "./ParseString.pipe";
-export * from "./ParseToken.pipe";
 export * from "./StripTagsDecorator";
 export * from "./TrimOrNullDecorator";

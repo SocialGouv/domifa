@@ -202,7 +202,11 @@
           <span *ngIf="!loading">Enregistrer le transfert</span>
 
           <span *ngIf="loading"
-            ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+            ><fa-icon
+              [icon]="['fas', 'circle-notch']"
+              [spin]="true"
+              aria-hidden="true"
+            ></fa-icon>
             Veuillez patienter...</span
           >
         </button>
@@ -240,7 +244,11 @@
       <span *ngIf="!loading">Confirmer la suppression</span>
 
       <span *ngIf="loading"
-        ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+        ><fa-icon
+          [icon]="['fas', 'circle-notch']"
+          [spin]="true"
+          aria-hidden="true"
+        ></fa-icon>
         Veuillez patienter...</span
       >
     </button>
