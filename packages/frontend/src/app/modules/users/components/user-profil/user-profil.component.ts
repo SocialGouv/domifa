@@ -76,7 +76,7 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   }
 
   public deleteUser(): void {
-    if (this.selectedUser) {
+    if (this.selectedUser?.id) {
       this.loading = true;
       this.subscription.add(
         this.userService.deleteUser(this.selectedUser.id).subscribe({

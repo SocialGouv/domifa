@@ -1,6 +1,6 @@
 <div class="container my-4">
   <div class="row">
-    <div class="col-6">
+    <div class="col-12 col-md-6">
       <div class="step_form text-center">
         <div class="my-2">
           <span class="title"
@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <div class="col-6">
+    <div class="col-12 col-md-6">
       <div class="step_form text-center">
         <h1 class="title">
           Je suis un professionnel ou bénévole d’une structure
@@ -37,7 +37,7 @@
             (ngSubmit)="submitCodePostal()"
             class="offset-md-2 col-md-8"
           >
-            <div class="form-group">
+            <div class="form-group required">
               <label for="structure-search">
                 Quel est le code postal de votre structure ?
               </label>
@@ -48,7 +48,10 @@
                 role="search"
                 id="structure-search"
                 [ngClass]="{
-                  'is-invalid': f.codePostal.dirty && f.codePostal.errors
+                  'is-invalid':
+                    (f.codePostal.dirty || submitted) && f.codePostal.errors,
+                  'is-valid':
+                    (f.codePostal.dirty || submitted) && !f.codePostal.errors
                 }"
                 formControlName="codePostal"
                 maxlength="5"

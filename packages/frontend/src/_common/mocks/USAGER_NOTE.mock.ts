@@ -12,6 +12,4 @@ export const USAGER_NOTE: UsagerNote = {
   archived: false,
   pinned: true,
   createdBy: { userId: 1, userName: "Utilisateur X" },
-  archivedBy: null,
-  archivedAt: null,
 };

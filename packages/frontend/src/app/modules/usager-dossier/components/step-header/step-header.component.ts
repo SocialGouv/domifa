@@ -1,3 +1,4 @@
+import { UsagerNotesService } from "./../../../usager-notes/services/usager-notes.service";
 import { Component, Input, OnInit } from "@angular/core";
 
 import { UsagerFormModel } from "../../../usager-shared/interfaces/UsagerFormModel";
@@ -6,6 +7,7 @@ import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { getUsagerNomComplet } from "../../../../shared";
 import { CustomToastService } from "../../../shared/services";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-step-header",
@@ -14,7 +16,6 @@ import { CustomToastService } from "../../../shared/services";
 })
 export class StepHeaderComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
-
   @Input() public currentStep!: number;
 
   public readonly ETAPES_FORM_DOM = [
@@ -35,14 +36,16 @@ export class StepHeaderComponent implements OnInit {
 
   public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
 
-  public filteredNotes: number;
+  public nbNotes: number;
+  private subscription = new Subscription();
 
   constructor(
     private readonly router: Router,
     private readonly titleService: Title,
-    private readonly toastService: CustomToastService
+    private readonly toastService: CustomToastService,
+    private readonly usagerNotesService: UsagerNotesService
   ) {
-    this.filteredNotes = 0;
+    this.nbNotes = 0;
   }
 
   public ngOnInit(): void {
@@ -67,7 +70,7 @@ export class StepHeaderComponent implements OnInit {
 
     let title = "Création de demande";
 
-    if (this.usager.ref !== 0) {
+    if (this.usager.uuid) {
       title =
         this.usager.typeDom === "RENOUVELLEMENT"
           ? "Renouvellement de "
@@ -83,6 +86,16 @@ export class StepHeaderComponent implements OnInit {
       this.ETAPES_FORM_DOM_TITRES[this.currentStep];
 
     this.titleService.setTitle(title);
+
+    if (this.usager.uuid) {
+      this.subscription.add(
+        this.usagerNotesService
+          .countNotes(this.usager.ref)
+          .subscribe((nbNotes: number) => {
+            this.nbNotes = nbNotes;
+          })
+      );
+    }
   }
 
   public goToStep(step: number): void {
@@ -93,7 +106,7 @@ export class StepHeaderComponent implements OnInit {
       return;
     }
 
-    if (this.usager.ref) {
+    if (this.usager.uuid) {
       if (step > this.usager.etapeDemande) {
         this.toastService.warning(
           "Pour passer à la suite, vous devez cliquer sur Suivant"

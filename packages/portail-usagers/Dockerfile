@@ -1,4 +1,4 @@
-FROM node:16.20.0 AS builder
+FROM node:18.12.0  AS builder
 
 RUN apt-get update -y && apt-get install gettext-base && rm -rf /var/lib/apt/lists/*
 
@@ -23,7 +23,7 @@ RUN mv ./src/environments/environment.prod-env.ts ./src/environments/environment
 RUN yarn --frozen-lockfile && yarn cache clean
 RUN yarn build
 
-FROM ghcr.io/socialgouv/docker/nginx4spa:7.6.1
+FROM ghcr.io/socialgouv/docker/nginx4spa:8.0.0
 
 COPY --from=builder --chown=101:101 /app/dist/domifa-portail-usagers /usr/share/nginx/html
 

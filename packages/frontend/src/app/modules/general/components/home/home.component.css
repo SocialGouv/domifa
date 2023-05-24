@@ -1,5 +1,5 @@
 h2 {
-  font-size: 1.5rem;
+  font-size: 1.65rem;
 }
 
 h2 span,
@@ -16,62 +16,20 @@ h3 {
   font-size: 1.45rem;
 }
 
-#home-header .home-header-content h1 {
-  font-size: 1.5rem;
-  line-height: 1.8rem;
-}
-#home-header h1 .home-header-subtitle {
-  font-size: 1rem;
+#home-header .home-header-content img {
+  width: 200px;
 }
 
-.max-w-150 {
-  max-width: 150px;
+#home-header .home-header-content h1 {
+  font-size: 2.5rem;
+}
+
+#home-header h1 .home-header-subtitle {
+  font-size: 1.6rem;
 }
 
 .max-w-200 {
-  max-width: 220px;
-}
-
-@media (min-width: 576px) {
-  .max-sm-w-200 {
-    max-width: 200px;
-  }
-  #home-header .home-header-content h1 {
-    font-size: 1.8rem;
-    line-height: 2.1rem;
-  }
-  #home-header h1 .home-header-subtitle {
-    font-size: 1.3rem;
-  }
-}
-@media (min-width: 768px) {
-  #home-header .home-header-content h1 {
-    font-size: 2rem;
-    line-height: 2.2rem;
-  }
-  #home-header h1 .home-header-subtitle {
-    font-size: 1.5rem;
-  }
-}
-
-@media (min-width: 992px) {
-  #home-header .home-header-content h1 {
-    font-size: 2.2rem;
-    line-height: 2.5rem;
-  }
-  #home-header h1 .home-header-subtitle {
-    font-size: 1.4rem;
-  }
-}
-
-@media (min-width: 1200px) {
-  #home-header .home-header-content h1 {
-    font-size: 2.5rem;
-    line-height: 2.8rem;
-  }
-  #home-header h1 .home-header-subtitle {
-    font-size: 1.6rem;
-  }
+  max-width: 260px;
 }
 
 .text-gray {
@@ -93,15 +51,6 @@ ul.check-list li::before {
   color: #4164f5;
 }
 
-.big_number {
-  display: block;
-  font-size: 4.5rem;
-  font-weight: bold;
-  line-height: 4rem;
-  padding: 1rem 0;
-  text-align: center;
-}
-
 .counter-title {
   font-weight: 500;
   font-size: 1.05rem;
@@ -110,22 +59,6 @@ ul.check-list li::before {
 .ministere-logo-home {
   height: 120px;
   width: auto;
-}
-
-@media all and (max-width: 1024px) {
-  h1 {
-    font-weight: 600;
-    font-size: 1.5rem;
-    line-height: 2rem;
-    margin: 0.4rem auto;
-  }
-}
-
-.hero {
-  background-color: var(--bs-primary);
-  padding: 3rem 1rem;
-  text-align: center;
-  color: white;
 }
 
 .partenaires img {
@@ -140,4 +73,20 @@ ul.check-list li::before {
 
 .bg-secondary-light {
   background: rgba(80, 227, 194, 0.1);
+}
+
+@media only screen and (max-width: 600px) {
+  .partenaires img {
+    height: 66px !important;
+    width: auto !important;
+    margin: 0.8rem !important;
+  }
+
+  #home-header .home-header-content h1 {
+    font-size: 1.8rem;
+  }
+
+  #home-header h1 .home-header-subtitle {
+    font-size: 1.2rem;
+  }
 }

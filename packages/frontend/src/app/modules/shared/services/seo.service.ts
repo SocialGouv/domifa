@@ -29,9 +29,9 @@ export class SeoService {
 
   public createLinkForCanonicalURL() {
     const link: HTMLLinkElement = this.doc.createElement("link");
-    let element: HTMLLinkElement =
+    let element: HTMLLinkElement | null =
       this.doc.querySelector(`link[rel='canonical']`) || null;
-    if (element == null) {
+    if (!element) {
       element = this.doc.createElement("link") as HTMLLinkElement;
       this.doc.head.appendChild(link);
     }

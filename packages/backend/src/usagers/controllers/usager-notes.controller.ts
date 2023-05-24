@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpStatus,
   Param,
   ParseBoolPipe,
@@ -171,6 +172,19 @@ export class UsagerNotesController {
 
     const usager = await usagerRepository.getUsager(currentUsager.uuid);
     return res.status(HttpStatus.OK).json(usager);
+  }
+
+  @Get("count/:usagerRef")
+  public async countNotes(
+    @CurrentUser() _currentUser: UserStructureAuthenticated,
+    @CurrentUsager() currentUsager: Usager,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
+  ) {
+    return usagerNotesRepository.countBy({
+      usagerUUID: currentUsager.uuid,
+      archived: false,
+    });
   }
 
   @Put(":usagerRef/archive/:noteUUID")

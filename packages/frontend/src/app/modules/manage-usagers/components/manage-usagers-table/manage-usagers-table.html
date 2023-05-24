@@ -36,12 +36,7 @@
       >
     </th>
     <th scope="col" *ngIf="filters.statut ==='TOUS'">STATUT</th>
-    <th
-      scope="col"
-      *ngIf="filters.statut === 'ATTENTE_DECISION' || filters.statut === 'INSTRUCTION'"
-    >
-      Type de demande
-    </th>
+
     <th scope="col">
       <button
         type="button"
@@ -63,6 +58,13 @@
     </th>
     <th scope="col">Téléphone</th>
     <th scope="col">INFORMATIONS</th>
+
+    <th
+      scope="col"
+      *ngIf="filters.statut === 'ATTENTE_DECISION' || filters.statut === 'INSTRUCTION'"
+    >
+      Type de demande
+    </th>
     <th
       class="clickable"
       scope="col"
@@ -76,7 +78,7 @@
         PASSAGE
       </button>
     </th>
-
+    <th scope="col" *ngIf="filters.statut === 'INSTRUCTION'">Rendez-vous le</th>
     <th class="clickable" scope="col">
       <button
         type="button"
@@ -140,37 +142,11 @@
         >
       </td>
       <td
-        class="clickable"
-        *ngIf="filters.statut ==='ATTENTE_DECISION' || filters.statut ==='INSTRUCTION'"
+        class="text-primary manage-usager-ref"
+        (click)="goToProfil(usager)"
+        tabindex="0"
       >
-        <ng-template #rdvInfosTooltip class="p-3 text-center">
-          <div class="distribution-tooltip">
-            <div [class]="'text-center '+usager.rdvInfos.class">
-              {{ usager.rdvInfos.content }}
-            </div>
-          </div>
-        </ng-template>
-        <div
-          [ngbTooltip]="usager.rdvInfos.display ? rdvInfosTooltip : ''"
-          *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
-          class="label-info label-yellow"
-        >
-          Renouvellement
-        </div>
-
-        <div
-          [ngbTooltip]="usager.rdvInfos.display ? rdvInfosTooltip : ''"
-          *ngIf="usager.typeDom === 'PREMIERE_DOM'"
-          class="label-info label-grey"
-        >
-          Première demande
-        </div>
-      </td>
-
-      <td class="text-primary manage-usager-ref">
-        <span (click)="goToProfil(usager)">
-          {{ usager.customRef ? usager.customRef : usager.ref }}</span
-        >
+        <span> {{ usager.customRef ? usager.customRef : usager.ref }}</span>
       </td>
 
       <td>
@@ -203,12 +179,15 @@
         </a>
       </td>
 
-      <td class="clickable table-name" (click)="goToProfil(usager)">
+      <td
+        class="clickable table-name"
+        tabindex="0"
+        (click)="goToProfil(usager)"
+      >
         <span *ngIf="usager.telephone?.numero">
           {{ usager.telephone | formatInternationalPhoneNumber }}</span
         >
       </td>
-
       <td class="clickable" tabindex="0" (click)="goToProfil(usager)">
         <app-display-ayants-droits
           class="d-inline-block"
@@ -300,6 +279,21 @@
         </div>
       </td>
 
+      <td class="clickable" *ngIf=" filters.statut ==='INSTRUCTION'">
+        <div
+          *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
+          class="label-info label-yellow"
+        >
+          Renouvellement
+        </div>
+        <div
+          *ngIf="usager.typeDom === 'PREMIERE_DOM'"
+          class="label-info label-grey"
+        >
+          Première demande
+        </div>
+      </td>
+
       <td
         *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS' "
         class="clickable"
@@ -308,8 +302,17 @@
       >
         {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yy" }}
       </td>
-
-      <td class="statut-date clickable" (click)="goToProfil(usager)">
+      <td
+        class="clickable"
+        *ngIf="filters.statut ==='ATTENTE_DECISION' || filters.statut ==='INSTRUCTION'"
+      >
+        <span> {{ usager.rdvInfos.content }} </span>
+      </td>
+      <td
+        class="statut-date clickable"
+        tabindex="0"
+        (click)="goToProfil(usager)"
+      >
         <ng-container *ngIf="usager.isActif">
           <span [class]="'statut-signal ' +usager.echeanceInfos.color"> </span>
           <span

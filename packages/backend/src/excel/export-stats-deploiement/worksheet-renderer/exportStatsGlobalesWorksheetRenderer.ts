@@ -108,7 +108,13 @@ function renderWorksheet({
         stats.interactionsCountByStatut["recommandeOut" as InteractionType],
     });
     worksheetRendered.renderCell(i++, "b", {
+      value: stats.interactionsCountByStatut["allVisites" as InteractionType],
+    });
+    worksheetRendered.renderCell(i++, "b", {
       value: stats.interactionsCountByStatut["visite" as InteractionType],
+    });
+    worksheetRendered.renderCell(i++, "b", {
+      value: stats.interactionsCountByStatut["visiteOut" as InteractionType],
     });
     worksheetRendered.renderCell(i++, "b", {
       value: stats.interactionsCountByStatut["loginPortail" as InteractionType],

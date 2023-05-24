@@ -70,7 +70,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
   public PREFERRED_COUNTRIES: CountryISO[] = PREFERRED_COUNTRIES;
   public countryCode: string | null;
 
-  public LIEN_PARENTE_LABELS = LIEN_PARENTE_LABELS;
+  public readonly LIEN_PARENTE_LABELS = LIEN_PARENTE_LABELS;
 
   /* Config datepickers */
   public maxDateNaissance: NgbDateStruct;
@@ -111,7 +111,6 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     this.countryCode = null;
     this.submitted = false;
     this.loading = false;
-    this.usager = new UsagerFormModel();
     this.mobilePhonePlaceHolder = "";
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;

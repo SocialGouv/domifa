@@ -1,5 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { USAGER_ACTIF_MOCK } from "../../../../_common/mocks";
-import { ETAPE_RENDEZ_VOUS, ETAPE_DECISION } from "../../../../_common/model";
+import {
+  ETAPE_RENDEZ_VOUS,
+  ETAPE_DECISION,
+  UsagerRdv,
+  ETAPE_DOSSIER_COMPLET,
+} from "../../../../_common/model";
 import { getRdvInfos } from "./getRdvInfos.service";
 
 describe("Création des rendez-vous", () => {
@@ -9,7 +15,7 @@ describe("Création des rendez-vous", () => {
     jest.setSystemTime(new Date(2020, 11, 20, 19, 20));
   });
 
-  it("Rendez-vous dans le futur", () => {
+  it("Rendez-vous dans le futur : affichage warning", () => {
     const usager = USAGER_ACTIF_MOCK;
     usager.rdv = {
       dateRdv: new Date(2021, 2, 20, 19, 20),
@@ -19,12 +25,12 @@ describe("Création des rendez-vous", () => {
 
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
     expect(getRdvInfos(usager)).toEqual({
-      class: "",
-      content: "RDV le 20/03/2021 à 19:20",
+      class: "warning",
+      content: "20/03/2021 à 19:20",
       display: true,
     });
 
-    usager.rdv = undefined;
+    usager.etapeDemande = ETAPE_DOSSIER_COMPLET;
     expect(getRdvInfos(usager)).toEqual({
       class: "",
       content: "",
@@ -42,16 +48,15 @@ describe("Création des rendez-vous", () => {
 
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
     expect(getRdvInfos(usager)).toEqual({
-      class: "text-danger",
-      content: "RDV le 20/07/2020 à 19:20",
+      class: "danger",
+      content: "20/07/2020 à 19:20",
       display: true,
     });
 
-    // RD
     usager.etapeDemande = ETAPE_DECISION;
     expect(getRdvInfos(usager)).toEqual({
       class: "",
-      content: "RDV le 20/07/2020 à 19:20",
+      content: "",
       display: false,
     });
   });
@@ -65,14 +70,14 @@ describe("Création des rendez-vous", () => {
       display: false,
     });
 
-    usager.rdv.dateRdv = undefined;
+    usager.rdv.dateRdv = null as any as Date;
     expect(getRdvInfos(usager)).toEqual({
       class: "",
       content: "",
       display: false,
     });
 
-    usager.rdv = undefined;
+    usager.rdv = undefined as any as UsagerRdv;
     expect(getRdvInfos(usager)).toEqual({
       class: "",
       content: "",

@@ -11,10 +11,9 @@
           ></fa-icon>
         </a>
 
-        <span *ngIf="!this.usager.ref">Nouvelle demande</span>
-
-        <ng-container *ngIf="this.usager.ref">
-          {{ !this.usager.isActif ? "Première demande" : "Renouvellement" }}
+        <span *ngIf="!usager.uuid">Nouvelle demande</span>
+        <ng-container *ngIf="usager.uuid">
+          {{ !usager.isActif ? "Première demande" : "Renouvellement" }}
           de {{ usager | usagerNomComplet }}
         </ng-container>
       </h1>
@@ -23,13 +22,13 @@
         aria-label="Naviguer vers les notes"
         type="button"
         class="btn btn-white-primary d-flex align-items-center"
-        *ngIf="usager.ref"
+        *ngIf="usager.uuid"
         (click)="navigateToNotes()"
       >
         <div class="icon-note me-2"></div>
         Commentaires privés
         <div class="notif-notes ms-2">
-          {{ filteredNotes }}
+          {{ nbNotes }}
         </div>
       </button>
     </div>

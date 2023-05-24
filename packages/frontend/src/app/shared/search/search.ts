@@ -79,8 +79,8 @@ function match<T>(
       score: 0,
     };
   }
-  const attributes = getAttributes(item, index) ?? [];
-  const cleanAttributes = [].concat(
+  const attributes: string[] = getAttributes(item, index) ?? [];
+  const cleanAttributes: string[] = [].concat(
     ...attributes
       .filter((x) => x !== null && x !== undefined && x.trim().length !== 0)
       .map((x) => searchCore.buildWords(x))
@@ -165,7 +165,7 @@ function filter<T>(
       }
     }
     return acc;
-  }, []);
+  }, [] as T[]);
 }
 
 export const search = {
