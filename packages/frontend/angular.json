@@ -28,12 +28,6 @@
               "src/assets/css/main.css",
               "src/assets/css/print.css",
               "src/assets/css/icons.css",
-              "src/assets/css/tailwind/tailwind-font-size.css",
-              "src/assets/css/tailwind/tailwind-font-weight.css",
-              "src/assets/css/tailwind/tailwind-cursor.css",
-              "src/assets/css/tailwind/tailwind-width-partial.css",
-              "src/assets/css/tailwind/tailwind-table.css",
-              "src/assets/css/tailwind/tailwind-whitespace.css",
               "node_modules/intl-tel-input/build/css/intlTelInput.css"
             ],
             "scripts": [],

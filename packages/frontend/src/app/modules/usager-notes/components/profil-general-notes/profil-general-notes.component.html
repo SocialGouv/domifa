@@ -17,7 +17,7 @@
 
       <div class="flex-grow-1 ms-3">
         <div class="note-date">
-          <span class="text-primary font-bold">
+          <span class="text-primary fw-bold">
             {{ note.createdAt | date : "dd/MM/yyyy à HH:mm" }} -
             {{ note.createdBy.userName }}
           </span>
@@ -28,7 +28,7 @@
             ></fa-icon>
             Note épinglée
           </span>
-          <p class="font-bold">{{ note.message }}</p>
+          <p class="fw-bold">{{ note.message }}</p>
         </div>
       </div>
       <div *ngIf="me?.role !== 'facteur'" class="ms-3">
