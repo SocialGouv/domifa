@@ -50,6 +50,7 @@ async function createTables(queryRunner: QueryRunner) {
       "action" text NOT NULL,
       CONSTRAINT "PK_69f8faf72fa4038748e4e3f3fbe" PRIMARY KEY (uuid)
     );
+    CREATE INDEX "IDX_9643302335674f651c0e867235" ON public.app_log USING btree ("userId");
 
 
     -- public.contact_support definition
@@ -103,39 +104,6 @@ async function createTables(queryRunner: QueryRunner) {
       attachments jsonb NULL,
       CONSTRAINT "PK_6bffd9b803b67cd4e099fc795e1" PRIMARY KEY (uuid)
     );
-
-
-    -- public.message_sms definition
-
-    -- Drop table
-
-    -- DROP TABLE public.message_sms;
-
-    CREATE UNLOGGED TABLE public.message_sms (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
-      "version" int4 NOT NULL,
-      "usagerRef" int4 NOT NULL,
-      "structureId" int4 NOT NULL,
-      "content" text NOT NULL,
-      status text NOT NULL DEFAULT 'TO_SEND'::text,
-      "smsId" text NOT NULL,
-      "scheduledDate" timestamptz NOT NULL,
-      "sendDate" timestamptz NULL,
-      "interactionMetas" jsonb NULL,
-      "reminderMetas" jsonb NULL,
-      "lastUpdate" timestamptz NULL,
-      "errorCount" int4 NOT NULL DEFAULT 0,
-      "errorMessage" text NULL,
-      "responseId" text NULL,
-      "phoneNumber" text NOT NULL,
-      "senderName" text NOT NULL,
-      CONSTRAINT "PK_4d9f00a5bf0f7f424985b156043" PRIMARY KEY (uuid)
-    );
-    CREATE INDEX "IDX_3ff6384b58d9d6c5e66104a3e0" ON public.message_sms USING btree ("usagerRef");
-    CREATE INDEX "IDX_7fd081c7b024fd7837e6d1923c" ON public.message_sms USING btree (status);
-    CREATE INDEX "IDX_dae89d90feda082fad814da8a4" ON public.message_sms USING btree ("structureId");
 
 
     -- public.monitor_batch_process definition
@@ -193,83 +161,58 @@ async function createTables(queryRunner: QueryRunner) {
       responsable jsonb NOT NULL,
       "structureType" text NOT NULL,
       "token" text NULL,
-      "acceptTerms" timestamptz NULL,
       verified bool NOT NULL DEFAULT false,
       ville text NULL,
       sms jsonb NOT NULL DEFAULT '{"senderName": null, "senderDetails": null, "enabledByDomifa": true, "enabledByStructure": false}'::jsonb,
       "portailUsager" jsonb NOT NULL DEFAULT '{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}'::jsonb,
       "timeZone" text NULL,
       telephone jsonb NOT NULL DEFAULT '{"numero": "", "countryCode": "fr"}'::jsonb,
+      "acceptTerms" timestamptz NULL,
       CONSTRAINT "PK_a92a6b3dd54efb4ab48b2d6e7c1" PRIMARY KEY (uuid),
-      CONSTRAINT "UQ_90ac7986e769d602d218075215c" UNIQUE (id)
+      CONSTRAINT "UQ_90ac7986e769d602d218075215c" UNIQUE (id),
+      CONSTRAINT "UQ_b36e92e49b2a68f8fea64ec8d5b" UNIQUE (email)
     );
+    CREATE INDEX "IDX_30c4985e1148ec42ad6122f0ff" ON public.structure USING btree ("structureType");
+    CREATE INDEX "IDX_62204f14a6d17cad41d419d150" ON public.structure USING btree ("codePostal");
     CREATE INDEX "IDX_90ac7986e769d602d218075215" ON public.structure USING btree (id);
+    CREATE INDEX "IDX_b36e92e49b2a68f8fea64ec8d5" ON public.structure USING btree (email);
+    CREATE INDEX "IDX_e848a2cfbd611ec5edc18074e2" ON public.structure USING btree (region);
+    CREATE INDEX "IDX_fa4dea9a1ff8deb8fcf47c451e" ON public.structure USING btree (departement);
 
 
-    -- public.usager_entretien definition
+    -- public.message_sms definition
 
     -- Drop table
 
-    -- DROP TABLE public.usager_entretien;
+    -- DROP TABLE public.message_sms;
 
-    CREATE UNLOGGED TABLE public.usager_entretien (
+    CREATE UNLOGGED TABLE public.message_sms (
       uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
-      "usagerUUID" uuid NOT NULL,
-      "structureId" int4 NOT NULL,
       "usagerRef" int4 NOT NULL,
-      domiciliation bool NULL,
-      commentaires text NULL,
-      "typeMenage" text NULL,
-      revenus bool NULL,
-      "revenusDetail" text NULL,
-      orientation bool NULL,
-      "orientationDetail" text NULL,
-      liencommune text NULL,
-      "liencommuneDetail" text NULL,
-      residence text NULL,
-      "residenceDetail" text NULL,
-      cause text NULL,
-      "causeDetail" text NULL,
-      rattachement text NULL,
-      raison text NULL,
-      "raisonDetail" text NULL,
-      accompagnement bool NULL,
-      "accompagnementDetail" text NULL,
-      CONSTRAINT "PK_1da0e283293a4bb213ffd0ef280" PRIMARY KEY (uuid)
-    );
-    CREATE INDEX "IDX_6193a732dd00abc56e91e92fe4" ON public.usager_entretien USING btree ("structureId");
-    CREATE INDEX "IDX_aa19c17fc79f4e4a648643096f" ON public.usager_entretien USING btree ("usagerUUID");
-
-
-    -- public.usager_notes definition
-
-    -- Drop table
-
-    -- DROP TABLE public.usager_notes;
-
-    CREATE UNLOGGED TABLE public.usager_notes (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
-      "version" int4 NOT NULL,
-      id serial4 NOT NULL,
-      "usagerUUID" uuid NOT NULL,
       "structureId" int4 NOT NULL,
-      "usagerRef" int4 NOT NULL,
-      message text NOT NULL,
-      archived bool NOT NULL DEFAULT false,
-      "createdBy" jsonb NULL,
-      "archivedBy" jsonb NULL,
-      "archivedAt" date NULL,
-      CONSTRAINT "PK_11acb926f75642e9dcdd97e5be1" PRIMARY KEY (uuid),
-      CONSTRAINT "UQ_5d06e43196df8e4b02ceb16bc9a" UNIQUE (id)
+      "content" text NOT NULL,
+      status text NOT NULL DEFAULT 'TO_SEND'::text,
+      "smsId" text NOT NULL,
+      "scheduledDate" timestamptz NOT NULL,
+      "sendDate" timestamptz NULL,
+      "interactionMetas" jsonb NULL,
+      "reminderMetas" jsonb NULL,
+      "lastUpdate" timestamptz NULL,
+      "errorCount" int4 NOT NULL DEFAULT 0,
+      "errorMessage" text NULL,
+      "responseId" text NULL,
+      "phoneNumber" text NOT NULL,
+      "senderName" text NOT NULL,
+      CONSTRAINT "PK_4d9f00a5bf0f7f424985b156043" PRIMARY KEY (uuid),
+      CONSTRAINT "FK_dae89d90feda082fad814da8a48" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE
     );
-    CREATE INDEX "IDX_5d06e43196df8e4b02ceb16bc9" ON public.usager_notes USING btree (id);
-    CREATE INDEX "IDX_6ca23b363643ae281d2f1eddf2" ON public.usager_notes USING btree ("usagerUUID");
-    CREATE INDEX "IDX_e8b75cd4ebe81d288a6ff7d411" ON public.usager_notes USING btree ("structureId");
+    CREATE INDEX "IDX_3ff6384b58d9d6c5e66104a3e0" ON public.message_sms USING btree ("usagerRef");
+    CREATE INDEX "IDX_7fd081c7b024fd7837e6d1923c" ON public.message_sms USING btree (status);
+    CREATE INDEX "IDX_d9c81cf63a13921c118dfda46b" ON public.message_sms USING btree ("phoneNumber");
+    CREATE INDEX "IDX_dae89d90feda082fad814da8a4" ON public.message_sms USING btree ("structureId");
 
 
     -- public.structure_doc definition
@@ -286,7 +229,6 @@ async function createTables(queryRunner: QueryRunner) {
       id serial4 NOT NULL,
       "label" text NOT NULL,
       "createdBy" jsonb NOT NULL,
-      tags jsonb NULL,
       custom bool NOT NULL DEFAULT false,
       filetype text NOT NULL,
       "structureId" int4 NOT NULL,
@@ -328,7 +270,7 @@ async function createTables(queryRunner: QueryRunner) {
       decision jsonb NOT NULL,
       historique jsonb NOT NULL,
       "ayantsDroits" jsonb NULL,
-      "lastInteraction" jsonb NOT NULL,
+      "lastInteraction" jsonb NOT NULL DEFAULT '{"colisIn": "0", "enAttente": "false", "courrierIn": "0", "recommandeIn": "0", "dateInteraction": "NOW()"}'::jsonb,
       "etapeDemande" int4 NOT NULL DEFAULT 0,
       rdv jsonb NULL,
       "options" jsonb NOT NULL DEFAULT '{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}'::jsonb,
@@ -337,12 +279,17 @@ async function createTables(queryRunner: QueryRunner) {
       telephone jsonb NOT NULL DEFAULT '{"numero": "", "countryCode": "fr"}'::jsonb,
       "contactByPhone" bool NULL DEFAULT false,
       "numeroDistribution" text NULL,
+      "pinnedNote" jsonb NULL,
       CONSTRAINT "PK_1bb36e24229bec446a281573612" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_e76056fb098740de66d58a5055a" UNIQUE ("structureId", ref),
       CONSTRAINT "FK_a44d882d224e368efdee8eb8c80" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE
     );
+    CREATE INDEX "IDX_32f34de1c043658f4843e62218" ON public.usager USING btree ("typeDom");
     CREATE INDEX "IDX_8198a25ae40584a38bce1dd4d2" ON public.usager USING btree (ref);
     CREATE INDEX "IDX_a44d882d224e368efdee8eb8c8" ON public.usager USING btree ("structureId");
+    CREATE INDEX "IDX_b4d09870ec6cad2d2d98b7cc3a" ON public.usager USING btree (migrated);
+    CREATE INDEX "IDX_d7abcf8875e8a94abf2dcf041e" ON public.usager USING btree ("dateNaissance");
+    CREATE INDEX "IDX_fef5654bcc6595d885e57d1474" ON public.usager USING btree (sexe);
 
 
     -- public.usager_docs definition
@@ -371,6 +318,48 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_b1db67565e53acec53d5f3aa92" ON public.usager_docs USING btree ("structureId");
 
 
+    -- public.usager_entretien definition
+
+    -- Drop table
+
+    -- DROP TABLE public.usager_entretien;
+
+    CREATE UNLOGGED TABLE public.usager_entretien (
+      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "createdAt" timestamptz NOT NULL DEFAULT now(),
+      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "version" int4 NOT NULL,
+      "usagerUUID" uuid NOT NULL,
+      "structureId" int4 NOT NULL,
+      "usagerRef" int4 NOT NULL,
+      domiciliation bool NULL,
+      commentaires text NULL,
+      "typeMenage" text NULL,
+      revenus bool NULL,
+      "revenusDetail" text NULL,
+      orientation bool NULL,
+      "orientationDetail" text NULL,
+      liencommune text NULL,
+      "liencommuneDetail" text NULL,
+      residence text NULL,
+      "residenceDetail" text NULL,
+      cause text NULL,
+      "causeDetail" text NULL,
+      rattachement text NULL,
+      raison text NULL,
+      "raisonDetail" text NULL,
+      accompagnement bool NULL,
+      "accompagnementDetail" text NULL,
+      CONSTRAINT "PK_1da0e283293a4bb213ffd0ef280" PRIMARY KEY (uuid),
+      CONSTRAINT "UQ_5f4220e5a3e6d2ee1c1bb7fd3d2" UNIQUE ("structureId", "usagerRef"),
+      CONSTRAINT "UQ_aa19c17fc79f4e4a648643096f9" UNIQUE ("usagerUUID"),
+      CONSTRAINT "FK_6193a732dd00abc56e91e92fe48" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE,
+      CONSTRAINT "FK_aa19c17fc79f4e4a648643096f9" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE
+    );
+    CREATE INDEX "IDX_6193a732dd00abc56e91e92fe4" ON public.usager_entretien USING btree ("structureId");
+    CREATE INDEX "IDX_aa19c17fc79f4e4a648643096f" ON public.usager_entretien USING btree ("usagerUUID");
+
+
     -- public.usager_history definition
 
     -- Drop table
@@ -395,6 +384,37 @@ async function createTables(queryRunner: QueryRunner) {
     );
     CREATE INDEX "IDX_36a2e869faca3bb31cbacdf81b" ON public.usager_history USING btree ("structureId");
     CREATE INDEX "IDX_7356ee08f3ac6e3e1c6fe08bd8" ON public.usager_history USING btree ("usagerUUID");
+
+
+    -- public.usager_notes definition
+
+    -- Drop table
+
+    -- DROP TABLE public.usager_notes;
+
+    CREATE UNLOGGED TABLE public.usager_notes (
+      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "createdAt" timestamptz NOT NULL DEFAULT now(),
+      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "version" int4 NOT NULL,
+      id serial4 NOT NULL,
+      "usagerUUID" uuid NOT NULL,
+      "structureId" int4 NOT NULL,
+      "usagerRef" int4 NOT NULL,
+      message text NOT NULL,
+      archived bool NOT NULL DEFAULT false,
+      "createdBy" jsonb NULL,
+      "archivedBy" jsonb NULL,
+      "archivedAt" date NULL,
+      pinned bool NOT NULL DEFAULT false,
+      CONSTRAINT "PK_11acb926f75642e9dcdd97e5be1" PRIMARY KEY (uuid),
+      CONSTRAINT "UQ_5d06e43196df8e4b02ceb16bc9a" UNIQUE (id),
+      CONSTRAINT "FK_6ca23b363643ae281d2f1eddf2f" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE,
+      CONSTRAINT "FK_e8b75cd4ebe81d288a6ff7d4115" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE
+    );
+    CREATE INDEX "IDX_5d06e43196df8e4b02ceb16bc9" ON public.usager_notes USING btree (id);
+    CREATE INDEX "IDX_6ca23b363643ae281d2f1eddf2" ON public.usager_notes USING btree ("usagerUUID");
+    CREATE INDEX "IDX_e8b75cd4ebe81d288a6ff7d411" ON public.usager_notes USING btree ("structureId");
 
 
     -- public.usager_options_history definition
@@ -576,8 +596,12 @@ async function createTables(queryRunner: QueryRunner) {
     );
     CREATE INDEX "IDX_0c5d7e9585c77ff002d4072c3c" ON public.interactions USING btree ("usagerRef");
     CREATE INDEX "IDX_1953f5ad67157bada8774f7e24" ON public.interactions USING btree ("structureId");
+    CREATE INDEX "IDX_3bc72392a39f586374f0f7d577" ON public.interactions USING btree (event);
+    CREATE INDEX "IDX_416154ec3c1e8fe5a96715b855" ON public.interactions USING btree ("nbCourrier");
     CREATE INDEX "IDX_495b59d0dd15e43b262f2da890" ON public.interactions USING btree ("interactionOutUUID");
+    CREATE INDEX "IDX_4a2ef430c9c7a9b4a66db96ec7" ON public.interactions USING btree ("dateInteraction");
     CREATE INDEX "IDX_9992157cbe54583ff7002ae4c0" ON public.interactions USING btree ("userId");
+    CREATE INDEX "IDX_ef9fade8e5a6dac06ef5031986" ON public.interactions USING btree (type);
     CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON public.interactions USING btree ("usagerUUID");
     `
   );
