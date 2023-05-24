@@ -326,21 +326,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         required: smsEnabled,
       }),
     },
-    apm: {
-      serviceName: configParser.parseString(x, "ELASTIC_APM_SERVICE_NAME", {
-        required: false,
-      }),
-      token: configParser.parseString(x, "ELASTIC_APM_SECRET_TOKEN", {
-        required: false,
-      }),
-      url: configParser.parseString(x, "ELASTIC_APM_SERVER_URL", {
-        required: false,
-      }),
-      active: configParser.parseBoolean(x, "ELASTIC_APM_ACTIVE", {
-        required: false,
-        defaultValue: false,
-      }),
-    },
   };
 
   return config;

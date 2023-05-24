@@ -47,7 +47,6 @@ describe("loadConfig", () => {
       POSTGRES_PASSWORD: "value POSTGRES_PASSWORD",
       POSTGRES_DATABASE: "value POSTGRES_DATABASE",
       DOMIFA_SECURITY_JWT_SECRET: "******************",
-      ELASTIC_APM_SECRET_TOKEN: "chips",
     };
     const env = loadEnvWithPreset({ defaultEnv });
     const config = loadConfig(env);
@@ -77,9 +76,6 @@ describe("loadConfig", () => {
     expect(config.email.emailsEnabled).toEqual(false);
 
     expect(config.sms.enabled).toEqual(false);
-
-    expect(config.apm.token).toEqual("chips");
-    expect(config.apm.serviceName).toEqual(undefined);
   });
 
   it("loadConfig PROD (default)", () => {
