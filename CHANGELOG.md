@@ -1,3 +1,17 @@
+## [2.129.7](https://github.com/SocialGouv/domifa/compare/v2.129.6...v2.129.7) (2023-05-24)
+
+
+### Bug Fixes
+
+* **apm:** delete apm ([15ea7f4](https://github.com/SocialGouv/domifa/commit/15ea7f4b41d832209e3fe170d73c20caf55b9bff))
+* add missing needs in dev ([72a3d07](https://github.com/SocialGouv/domifa/commit/72a3d07055ea63629c942612f55337b11b00a757))
+* enable sentry in review env ([d33eb2a](https://github.com/SocialGouv/domifa/commit/d33eb2a97b486bc40a40e2b7b6292c6d17647279))
+* increase startup probe delays ([0258b5c](https://github.com/SocialGouv/domifa/commit/0258b5cfe11dfc62659f737f553962e21ae1931b))
+* move open-telemetry code to preloaded file ([7ff0bc3](https://github.com/SocialGouv/domifa/commit/7ff0bc3fb1973fc1d701a7fa1f07d6c2bc048758))
+* reduce apm memory use ([c706c45](https://github.com/SocialGouv/domifa/commit/c706c45bba875626a06e51223d5d3d1a37eb2057))
+* remove separate module ([b4e976b](https://github.com/SocialGouv/domifa/commit/b4e976be69b8ad5b622b7566e3844ea0461688a8))
+* yarn.lock ([450fc20](https://github.com/SocialGouv/domifa/commit/450fc20ac7423019320ffe45fcc035ea03d8b0ce))
+
 ## [2.129.6](https://github.com/SocialGouv/domifa/compare/v2.129.5...v2.129.6) (2023-05-23)
 
 
