@@ -25,6 +25,7 @@ import { StepFooterComponent } from "./components/step-footer/step-footer.compon
 import { StepHeaderComponent } from "./components/step-header/step-header.component";
 import { DecisionRefusFormComponent } from "./components/decision-refus-form/decision-refus-form.component";
 import { DecisionValideFormComponent } from "./components/decision-valide-form/decision-valide-form.component";
+import { UsagerNotesModule } from "../usager-notes/usager-notes.module";
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { DecisionValideFormComponent } from "./components/decision-valide-form/d
     UsagerDossierRoutingModule,
     UsersModule,
     NgxIntlTelInputModule,
+    UsagerNotesModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

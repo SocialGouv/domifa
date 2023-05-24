@@ -11,13 +11,13 @@
   <div class="container px-2 py-3 py-sm-4 d-flex align-items-center">
     <div class="text-start flex-sm-grow-1 pe-5">
       <ng-container *ngIf="!regionId">
-        <h1 class="font-bold">Statistiques d'utilisation de DomiFa</h1>
+        <h1 class="fw-bold">Statistiques d'utilisation de DomiFa</h1>
         <h2 class="fw-normal home-header-subtitle">
           Découvrez nos chiffres clés sur l'utilisation de DomiFa en France
         </h2>
       </ng-container>
       <ng-container *ngIf="regionId">
-        <h1 class="font-bold">
+        <h1 class="fw-bold">
           Statistiques régionales :
           {{ regions[REGIONS_SEO_ID[regionId]] }}
         </h1>
@@ -33,7 +33,7 @@
 
 <div class="container">
   <section class="py-4 my-1">
-    <h2 class="font-bold text-primary">
+    <h2 class="fw-bold text-primary">
       Nous équipons les structures de domiciliation
     </h2>
     <p>
@@ -190,7 +190,7 @@
   </section>
 
   <section class="py-4" *ngIf="!regionId">
-    <h2 class="font-bold text-primary">
+    <h2 class="fw-bold text-primary">
       Nous répondons présent partout en France !
     </h2>
     <p>
