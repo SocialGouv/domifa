@@ -8,6 +8,9 @@ export const generateMotifLabel = (decision: UsagerDecision): string => {
   if (!decision) {
     return "";
   }
+  if (!decision.motif) {
+    return "";
+  }
 
   if (decision.motif === "AUTRE") {
     const motifDetails = decision.motifDetails ?? "non précisé";

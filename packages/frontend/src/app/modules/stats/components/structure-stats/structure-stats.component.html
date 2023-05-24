@@ -862,13 +862,13 @@
               </caption>
               <tbody>
                 <tr>
-                  <th scope="row">Appel téléphonique</th>
+                  <th scope="row">Appels téléphoniques</th>
                   <td class="stats-table-value">
                     {{ stats.data.interactions.appel }}
                   </td>
                 </tr>
                 <tr>
-                  <th scope="row">Colis enregistré</th>
+                  <th scope="row">Colis enregistrés</th>
                   <td class="stats-table-value">
                     {{ stats.data.interactions.colisIn }}
                   </td>
@@ -880,13 +880,13 @@
                   </td>
                 </tr>
                 <tr>
-                  <th scope="row">Courrier enregistré</th>
+                  <th scope="row">Courriers enregistrés</th>
                   <td class="stats-table-value">
                     {{ stats.data.interactions.courrierIn }}
                   </td>
                 </tr>
                 <tr>
-                  <th scope="row">Courrier remis</th>
+                  <th scope="row">Courriers remis</th>
                   <td class="stats-table-value">
                     {{ stats.data.interactions.courrierOut }}
                   </td>
@@ -904,11 +904,17 @@
                   </td>
                 </tr>
                 <tr>
-                  <th colspan="2" scope="col">Passage enregistré</th>
+                  <th scope="row">Passages enregistrés</th>
+                  <td class="stats-table-value">
+                    {{
+                      stats.data.interactions.visiteOut +
+                        stats.data.interactions.visite
+                    }}
+                  </td>
                 </tr>
                 <tr>
                   <th scope="row" class="soustable">
-                    Passage avec remise de courrier
+                    Passages avec remise de courrier
                   </th>
                   <td class="stats-table-value">
                     {{ stats.data.interactions.visiteOut }}
@@ -916,20 +922,20 @@
                 </tr>
                 <tr>
                   <th scope="row" class="soustable">
-                    Passage sans remise de courrier
+                    Passages sans remise de courrier
                   </th>
                   <td class="stats-table-value">
                     {{ stats.data.interactions.visite }}
                   </td>
                 </tr>
                 <tr>
-                  <th scope="row">Pli non distribuable enregistré</th>
+                  <th scope="row">Plis non distribuables enregistrés</th>
                   <td class="stats-table-value">
                     {{ stats.data.interactions.npai }}
                   </td>
                 </tr>
                 <tr>
-                  <th scope="row">Connexion au portail usager</th>
+                  <th scope="row">Connexions au portail usager</th>
                   <td class="stats-table-value">
                     {{ stats.data.interactions.loginPortail }}
                   </td>

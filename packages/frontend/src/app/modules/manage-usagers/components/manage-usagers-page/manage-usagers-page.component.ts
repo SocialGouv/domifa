@@ -196,7 +196,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
 
     this.scrollTop();
 
-    if (!this.me.acceptTerms) {
+    if (!this.me?.acceptTerms) {
       return;
     }
 
@@ -410,6 +410,9 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     value: UsagersFilterCriteria[T] | null;
     sortValue?: UsagersFilterCriteriaSortValues;
   }): void {
+    if (!element) {
+      return;
+    }
     const statusType: { [key: string]: string } = {
       TOUS: "Liste_Tous",
       VALIDE: "Liste_Actifs",
@@ -516,8 +519,8 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     this.selectedRefs = [];
 
     this.displayCheckboxes = !(
-      this.me.role === "facteur" ||
-      (this.me.role === "simple" && this.filters.statut !== "VALIDE")
+      this.me?.role === "facteur" ||
+      (this.me?.role === "simple" && this.filters.statut !== "VALIDE")
     );
 
     localStorage.setItem("MANAGE_USAGERS", JSON.stringify(filters));

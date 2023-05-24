@@ -1,7 +1,7 @@
 <div *ngIf="usager && me" class="head-page pt-3 d-print-none">
   <div class="container">
     <div
-      class="py-3 px-0 mx-0 d-flex justify-content-between align-items-center"
+      class="py-3 px-0 mx-0 d-md-flex justify-content-between align-items-center"
     >
       <div class="px-0 mx-0">
         <h1 class="title">
@@ -21,7 +21,10 @@
         </h1>
       </div>
 
-      <div class="px-0 mx-0 text-end" *ngIf="!isRole('facteur')">
+      <div
+        class="px-0 mx-0 text-md-end text-sm-center"
+        *ngIf="!isRole('facteur')"
+      >
         <ng-container *ngIf="usager.decision.statut === 'INSTRUCTION'">
           <a
             [routerLink]="[
@@ -30,7 +33,7 @@
                 '/edit/' +
                 ETAPES_DEMANDE_URL[usager.etapeDemande]
             ]"
-            class="btn btn-white-primary ms-2"
+            class="btn my-sm-1 btn-white-primary ms-2"
           >
             <fa-icon
               [icon]="['fas', 'redo']"
@@ -71,7 +74,7 @@
         <ng-container *ngIf="usager.decision.statut === 'RADIE'">
           <button
             type="button"
-            class="btn btn-white-primary ms-2"
+            class="btn my-sm-1 btn-white-primary ms-2"
             (click)="openRenewModal()"
           >
             <fa-icon
@@ -86,7 +89,7 @@
         <ng-container *ngIf="usager.decision.statut === 'VALIDE'">
           <button
             type="button"
-            class="ms-2 btn btn-white-primary ms-2"
+            class="my-sm-1 btn btn-white-primary ms-2"
             (click)="openRenewModal()"
           >
             <fa-icon

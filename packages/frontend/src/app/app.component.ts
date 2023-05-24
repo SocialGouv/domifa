@@ -70,7 +70,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     this.apiVersion = localStorage.getItem("version");
     this.submitted = false;
-    this.pendingNews = true;
+    this.pendingNews = false;
     this.loading = false;
     this.me = null;
     this.initCguForm();
@@ -112,14 +112,12 @@ export class AppComponent implements OnInit, OnDestroy {
             return;
           }
 
-          const newVersion = user.domifaVersion;
+          const newVersion = this.me.domifaVersion;
           // Initialisation de la première version
           if (this.apiVersion === null) {
             this.apiVersion = newVersion;
             localStorage.setItem("version", newVersion);
-          }
-
-          if (this.apiVersion !== newVersion) {
+          } else if (this.apiVersion !== newVersion) {
             localStorage.setItem("version", newVersion);
             this.modalService.dismissAll();
             this.modalService.open(this.versionModal, DEFAULT_MODAL_OPTIONS);

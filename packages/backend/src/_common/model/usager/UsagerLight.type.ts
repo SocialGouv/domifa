@@ -4,6 +4,7 @@ import { Usager } from "./Usager.type";
 export type UsagerLight = AppEntity &
   Pick<
     Usager,
+    | "uuid"
     | "ref"
     | "updatedAt"
     | "customRef"

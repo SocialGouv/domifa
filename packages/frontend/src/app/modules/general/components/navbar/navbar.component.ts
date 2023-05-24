@@ -17,8 +17,8 @@ export class NavbarComponent {
 
   public portailAdminUrl = environment.portailAdminUrl;
 
-  @Input() public pendingNews: boolean;
-  @Input() public me: UserStructure | null;
+  @Input() public pendingNews!: boolean;
+  @Input() public me!: UserStructure | null;
 
   constructor(
     private readonly authService: AuthService,

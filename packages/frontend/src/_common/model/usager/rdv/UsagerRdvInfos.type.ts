@@ -1,5 +1,5 @@
 export type UsagerRdvInfos = {
   display: boolean;
-  class: string;
+  class: "danger" | "warning" | "";
   content: string;
 };

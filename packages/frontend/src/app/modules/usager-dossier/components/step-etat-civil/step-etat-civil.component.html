@@ -161,7 +161,7 @@
                 </p>
               </div>
             </div>
-            <div class="col">
+            <div class="col-md-6 col-12">
               <div class="form-group required">
                 <label for="villeNaissance">Ville de naissance</label>
                 <input
@@ -182,7 +182,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col">
+            <div class="col-md-6 col-12">
               <div
                 class="form-group"
                 [ngClass]="
@@ -232,7 +232,7 @@
                 </p>
               </div>
             </div>
-            <div class="col">
+            <div class="col-md-6 col-12">
               <div class="form-group">
                 <label for="email">Adresse e-mail (Optionnel)</label>
                 <input
@@ -280,7 +280,7 @@
             me.structure.sms.enabledByStructure
           "
         >
-          <div class="col">
+          <div class="col-md-6 col-12">
             <fieldset>
               <legend>
                 Le demandeur souhaite-t-il recevoir des notifications par SMS
@@ -353,7 +353,7 @@
           >
             <legend>Ayant-droit numéro {{ i + 1 }}</legend>
             <div [formGroupName]="i" class="row">
-              <div class="col form-group required">
+              <div class="col-6 col-md-3 form-group required">
                 <label for="ad_nom_{{ i }}">Nom</label>
                 <input
                   #adNom
@@ -379,7 +379,7 @@
                   Le nom est obligatoire
                 </p>
               </div>
-              <div class="col form-group required">
+              <div class="col-6 col-md-3 form-group required">
                 <label for="ad_prenom_{{ i }}">Prénom</label>
                 <input
                   type="text"
@@ -403,7 +403,7 @@
                   Le prénom est obligatoire
                 </p>
               </div>
-              <div class="col form-group required">
+              <div class="col-6 col-md-3 form-group required">
                 <label for="ad_dateNaissance_{{ i }}">Date de naissance</label>
                 <div class="input-group">
                   <input
@@ -455,7 +455,7 @@
                   </p>
                 </div>
               </div>
-              <div class="col form-group required">
+              <div class="col-6 col-md-2 form-group required">
                 <label for="lien_{{ i }}">Lien </label>
                 <select
                   id="lien_{{ i }}"
@@ -487,19 +487,22 @@
                   Veuillez sélectionner un lien de parenté
                 </p>
               </div>
-              <div class="col-md-1">
+              <div class="col-12 col-md-1">
                 <span>Action</span>
                 <button
                   id="delete-ad-{{ i }}"
                   type="button"
                   (click)="deleteAyantDroit(i)"
-                  class="btn btn-danger mt-1"
+                  class="btn btn-danger btn-block my-1 mt-md-1"
                   [attr.aria-label]="'Supprimer l\'ayant-droit ' + (i + 1)"
                 >
                   <fa-icon
                     [icon]="['fas', 'trash']"
                     aria-hidden="true"
                   ></fa-icon>
+                  <span class="d-inline-block d-md-none"
+                    >Supprimer l'ayant-droit {{ i + 1 }}</span
+                  >
                 </button>
               </div>
             </div>
@@ -517,7 +520,7 @@
           <br />
         </ng-container>
 
-        <div class="col-md-4 my-4 offset-md-4 text-center">
+        <div class="col-md-3 my-4 offset-md-4 text-center">
           <button
             [disabled]="loading"
             type="submit"
@@ -538,9 +541,10 @@
     </section>
   </div>
 
-  <app-step-footer *ngIf="usager.ref" [usager]="usager"></app-step-footer>
+  <app-step-footer *ngIf="usager" [usager]="usager"></app-step-footer>
 
   <app-delete-usager-menu
+    *ngIf="usager"
     [me]="me"
     [(usager)]="usager"
     class="my-4"

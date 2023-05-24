@@ -101,6 +101,7 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
     this.loadingButtons = [];
     this.usagers = [];
     this.selectedRefs = [];
+    this.displayCheckboxes = false;
   }
 
   public ngOnInit(): void {

@@ -2,7 +2,7 @@
   type="button"
   *ngIf="context === 'PROFIL'"
   (click)="openRadiationModal()"
-  class="ms-2 btn btn-white-primary"
+  class="ms-2 btn btn-white-primary my-sm-1"
 >
   <fa-icon [icon]="['fas', 'times']" aria-hidden="true" class="me-2"></fa-icon>
   Radier le domicilié
@@ -13,7 +13,7 @@
   *ngIf="context === 'MANAGE'"
   (click)="openRadiationModal()"
   id="radiation-btn-manage"
-  class="btn btn-sm btn-outline-dark"
+  class="btn btn-sm btn-outline-dark my-sm-1"
 >
   Radier {{ selectedRefs.length === 1 ? "le domicilié" : "les domiciliés" }}
 </button>

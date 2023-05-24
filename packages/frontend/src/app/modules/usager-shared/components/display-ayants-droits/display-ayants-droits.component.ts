@@ -7,5 +7,5 @@ import { UsagerFormModel } from "../../interfaces";
   styleUrls: ["./display-ayants-droits.component.css"],
 })
 export class DisplayAyantsDroitsComponent {
-  @Input() public usager: UsagerFormModel;
+  @Input() public usager!: UsagerFormModel;
 }

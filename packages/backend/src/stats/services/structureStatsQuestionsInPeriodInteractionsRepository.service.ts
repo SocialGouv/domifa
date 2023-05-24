@@ -16,6 +16,20 @@ async function getStats({
   endDateUTCExclusive: Date;
   structureId: number;
 }): Promise<StructureStatsQuestionsInPeriodInteractions> {
+  const visiteOut = await interactionRepository.countVisiteOut({
+    dateInteractionBefore: endDateUTCExclusive,
+    dateInteractionAfter: startDateUTC,
+    structureId,
+  });
+  const visite = await countInteractions({
+    dateInteractionBefore: endDateUTCExclusive,
+    dateInteractionAfter: startDateUTC,
+    structureId,
+    interactionType: "visite",
+  });
+
+  const allVisites = visiteOut + visite;
+
   const stats: StructureStatsQuestionsInPeriodInteractions = {
     appel: await countInteractions({
       dateInteractionBefore: endDateUTCExclusive,
@@ -59,17 +73,9 @@ async function getStats({
       structureId,
       interactionType: "recommandeOut",
     }),
-    visite: await countInteractions({
-      dateInteractionBefore: endDateUTCExclusive,
-      dateInteractionAfter: startDateUTC,
-      structureId,
-      interactionType: "visite",
-    }),
-    visiteOut: await interactionRepository.countVisiteOut({
-      dateInteractionBefore: endDateUTCExclusive,
-      dateInteractionAfter: startDateUTC,
-      structureId,
-    }),
+    allVisites,
+    visite,
+    visiteOut,
     npai: await countInteractions({
       dateInteractionBefore: endDateUTCExclusive,
       dateInteractionAfter: startDateUTC,

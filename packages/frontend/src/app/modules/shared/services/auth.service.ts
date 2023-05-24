@@ -26,10 +26,9 @@ export class AuthService {
     private readonly toastr: CustomToastService,
     private readonly router: Router
   ) {
+    const dataStorage = localStorage.getItem("currentUser");
     this.currentUserSubject = new BehaviorSubject<UserStructure | null>(
-      localStorage.getItem("currentUser") !== null
-        ? JSON.parse(localStorage.getItem("currentUser"))
-        : null
+      dataStorage ? JSON.parse(dataStorage) : null
     );
   }
 

@@ -13,8 +13,8 @@ import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-u
   styleUrls: ["./profil-dossier.component.css"],
 })
 export class ProfilDossierComponent extends BaseUsagerProfilPageComponent {
-  public editInfos: boolean;
-  public editEntretien: boolean;
+  public editInfos = false;
+  public editEntretien = false;
 
   constructor(
     public authService: AuthService,

@@ -53,16 +53,22 @@
 
           <div
             class="alert"
-            [ngClass]="usager.rdvInfos.class ? 'alert-danger' : 'alert-warning'"
+            [ngClass]="
+              usager.rdvInfos.class
+                ? 'alert-' + usager.rdvInfos.class
+                : 'alert-info'
+            "
             *ngIf="
               usager.decision.statut === 'INSTRUCTION' && !isRole('facteur')
             "
           >
             <div aria-hidden="true" class="svg-icon icon-calendar"></div>
-            <span [class]="usager.rdvInfos.class">
+            <span>
               Demande de renouvellement actuellement en cours
               {{
-                usager.rdvInfos.display ? ": " + usager.rdvInfos.content : ""
+                usager.rdvInfos.display
+                  ? ": rendez-vous le " + usager.rdvInfos.content
+                  : ""
               }}
 
               <a

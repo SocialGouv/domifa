@@ -9,7 +9,7 @@
       <div class="row mb-5">
         <div class="col-md-12">
           <div
-            class="mt-2 mb-4 d-flex justify-content-between align-items-center"
+            class="mt-2 mb-4 d-md-flex justify-content-between align-items-center"
           >
             <h2>Documents mis à disposition par la structure</h2>
 
@@ -18,7 +18,7 @@
                 type="button"
                 (click)="getCerfa('demande')"
                 *ngIf="usager.decision.statut !== 'REFUS'"
-                class="btn me-2 btn-primary"
+                class="mt-sm-2 btn me-md-2 btn-primary"
               >
                 <fa-icon
                   [icon]="['fas', 'download']"
@@ -38,7 +38,7 @@
                       : 'attestation'
                   )
                 "
-                class="btn me-2 btn-primary"
+                class="mt-sm-2 btn me-md-2 btn-primary"
               >
                 <fa-icon
                   [icon]="['fas', 'download']"
