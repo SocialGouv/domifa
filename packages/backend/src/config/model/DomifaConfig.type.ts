@@ -81,10 +81,4 @@ export type DomifaConfig = {
     phoneNumberRedirectAllTo: string; // DOMIFA_PHONE_NUMBER_REDIRECT_ALL_TO
     apiKey: string; // DOMIFA_SMS_API_KEY
   };
-  apm: {
-    serviceName: string; // ELASTIC_APM_SERVICE_NAME
-    token: string; // ELASTIC_APM_SECRET_TOKEN
-    url: string; // ELASTIC_APM_SERVER_URL
-    active: boolean; // ELASTIC_APM_ACTIVE
-  };
 };
