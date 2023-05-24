@@ -1,12 +1,12 @@
 <div *ngIf="me" class="head-page py-4">
   <div class="container">
     <div class="row">
-      <div class="col-7">
+      <div class="col-md-7 col-12">
         <h1 class="title">
           Paramètres d'accès au portail usager pour votre structure
         </h1>
       </div>
-      <div class="text-end col-5">
+      <div class="text-start text-md-end col-12 col-md-5">
         <a
           title="Télécharger le guide du portail usager"
           href="/assets/files/guide_portail_usagers.pdf"
@@ -15,7 +15,7 @@
           rel="noopener noreferrer"
           download
         >
-          <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+          <fa-icon aria-hidden="true" [icon]="['fas', 'info-circle']"></fa-icon>
           Télécharger le guide
         </a>
       </div>

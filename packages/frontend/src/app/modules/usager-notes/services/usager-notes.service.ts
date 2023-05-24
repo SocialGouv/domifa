@@ -39,6 +39,10 @@ export class UsagerNotesService {
     );
   }
 
+  public countNotes(usagerRef: number): Observable<number> {
+    return this.http.get<number>(`${this.endPoint}/count/${usagerRef}`);
+  }
+
   public archiveNote({
     noteUUID,
     usagerRef,

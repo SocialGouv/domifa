@@ -46,13 +46,14 @@
     </p>
 
     <div class="stats-charts-container p-4">
-      <div class="row d-flex align-items-center" *ngIf="!stats">
+      <div class="row align-items-center" *ngIf="!stats">
         <div class="col-md-12 text-center">
           <div @fadeInOut>
             <fa-icon
               [icon]="['fas', 'spinner']"
               class="spinner"
               [spin]="true"
+              aria-hidden="true"
             ></fa-icon>
             <span class="loading_message"
               >Chargement en cours, veuillez patienter</span
@@ -61,8 +62,8 @@
         </div>
       </div>
       <div class="row" *ngIf="stats">
-        <div class="col-md-7">
-          <div class="d-flex">
+        <div class="col-12 col-md-7">
+          <div class="d-md-flex">
             <div class="p-2 d-flex align-items-top">
               <div class="me-5">
                 <img
@@ -117,9 +118,9 @@
           </div>
         </div>
 
-        <div class="col-md-5">
+        <div class="col-12 col-md-5">
           <div class="row">
-            <div class="col">
+            <div class="my-3 my-md-0 col-12 col-md-6">
               <div>
                 <div class="stats-counter" aria-hidden="true">
                   <span
@@ -137,11 +138,11 @@
                     [options]="countOptions"
                   ></span>
                 </div>
-                <span> courriers distribués </span>
+                <span>courriers distribués</span>
                 <app-impact-line [direction]="'horizontal'"></app-impact-line>
               </div>
             </div>
-            <div class="col">
+            <div class="col-12 col-md-6">
               <div class="text-primary fw-bold">
                 soit
                 <span class="stats-counter">{{ distributionRate }}%</span> de

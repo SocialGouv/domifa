@@ -44,6 +44,12 @@ function renderSection3Interactions(context: {
     value: data.recommandeOut,
   });
   worksheetRendered.renderCell(i++, "c", {
+    value: data.allVisites,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.visiteOut,
+  });
+  worksheetRendered.renderCell(i++, "c", {
     value: data.visite,
   });
   worksheetRendered.renderCell(i++, "c", {

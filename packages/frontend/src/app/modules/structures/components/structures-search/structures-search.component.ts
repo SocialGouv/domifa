@@ -22,6 +22,7 @@ export class StructuresSearchComponent implements OnInit, OnDestroy {
   public searchFailed: boolean;
 
   public codePostal: string;
+  public submitted: boolean;
   public loading: boolean;
   public codePostalForm!: UntypedFormGroup;
 
@@ -36,6 +37,7 @@ export class StructuresSearchComponent implements OnInit, OnDestroy {
     private readonly titleService: Title
   ) {
     this.searchFailed = false;
+    this.submitted = false;
     this.loading = false;
     this.structures = [];
     this.codePostal = "";
@@ -60,6 +62,7 @@ export class StructuresSearchComponent implements OnInit, OnDestroy {
   }
 
   public submitCodePostal(): void {
+    this.submitted = true;
     if (this.codePostalForm.invalid) {
       this.toastService.error(
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
@@ -72,6 +75,7 @@ export class StructuresSearchComponent implements OnInit, OnDestroy {
       this.structureService.find(this.f.codePostal.value).subscribe({
         next: (structures: StructureCommon[]) => {
           this.loading = false;
+          this.submitted = true;
           if (structures.length === 0) {
             this.searchFailed = true;
           } else {

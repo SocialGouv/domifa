@@ -8,6 +8,7 @@ export type StructureStatsQuestionsInPeriodInteractions = {
   recommandeIn: number;
   recommandeOut: number;
   visite: number;
+  allVisites: number;
   visiteOut: number;
   npai: number;
   loginPortail: number;

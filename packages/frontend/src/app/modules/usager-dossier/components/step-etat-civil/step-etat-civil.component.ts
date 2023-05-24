@@ -59,7 +59,6 @@ export class StepEtatCivilComponent
       this.usagerDossierService.findOne(id).subscribe({
         next: (usager: UsagerLight) => {
           this.usager = new UsagerFormModel(usager);
-
           this.initForm();
         },
         error: () => {

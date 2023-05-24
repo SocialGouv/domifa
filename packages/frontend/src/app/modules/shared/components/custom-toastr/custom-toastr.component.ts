@@ -38,6 +38,10 @@ export class CustomToastrComponent implements OnInit, OnDestroy {
     this.customToastSubscription = new Subscription();
   }
 
+  public closeToast(): void {
+    this.customToastService.toast$.next(null);
+  }
+
   public ngOnInit(): void {
     this.customToastSubscription.add(
       this.customToastService.toast$.subscribe((value: CustomToast) => {

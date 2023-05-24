@@ -55,7 +55,9 @@ export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getUsagerNotes();
+    if (this.usager.uuid) {
+      this.getUsagerNotes();
+    }
   }
 
   public getUsagerNotes(): void {
@@ -70,7 +72,7 @@ export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
             this.loading = false;
           },
           error: () => {
-            this.toastService.error("Impossible d'archiver cette note");
+            this.toastService.error("Impossible d'afficher les notes");
             this.loading = false;
           },
         })
