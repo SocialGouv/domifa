@@ -1,3 +1,11 @@
+## [2.129.8](https://github.com/SocialGouv/domifa/compare/v2.129.7...v2.129.8) (2023-05-24)
+
+
+### Bug Fixes
+
+* **css:** suppression de tailwind ([7db286e](https://github.com/SocialGouv/domifa/commit/7db286ebde670a6f93644f62fad3c8435be266fb))
+* **docker:** mise à jour de nginx4spa ([0d2ca89](https://github.com/SocialGouv/domifa/commit/0d2ca89bc6942a8156ca6e8a57a7bf8fcfa6b94a))
+
 ## [2.129.7](https://github.com/SocialGouv/domifa/compare/v2.129.6...v2.129.7) (2023-05-24)
 
 
