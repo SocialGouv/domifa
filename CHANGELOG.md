@@ -1,3 +1,10 @@
+## [2.129.9](https://github.com/SocialGouv/domifa/compare/v2.129.8...v2.129.9) (2023-05-24)
+
+
+### Bug Fixes
+
+* **dump:** correction de la migration créant la DB ([0fb51ee](https://github.com/SocialGouv/domifa/commit/0fb51ee714cbb35c50fac3753147114a1b8e9099))
+
 ## [2.129.8](https://github.com/SocialGouv/domifa/compare/v2.129.7...v2.129.8) (2023-05-24)
 
 
