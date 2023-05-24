@@ -37,9 +37,7 @@ export async function bootstrapApplication(): Promise<{
     setupLog(app);
 
     if (domifaConfig().dev.sentry.enabled) {
-      app.useGlobalInterceptors(
-        new AppSentryInterceptor() // remplace RavenInterceptor qui ne fonctionne plus
-      );
+      app.useGlobalInterceptors(new AppSentryInterceptor());
     }
 
     appHolder.app = app;
