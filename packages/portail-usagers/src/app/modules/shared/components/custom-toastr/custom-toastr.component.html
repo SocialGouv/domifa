@@ -1,5 +1,7 @@
 <ng-container *ngIf="toast">
   <div
+    tabindex="0"
+    (click)="closeToast()"
     @fadeIn
     *ngIf="toast.display"
     id="toast-container"

@@ -4,7 +4,6 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 import { CustomToast } from "../../types/CustomToast.type";
 
-import { transition, style, animate, trigger } from "@angular/animations";
 import { CustomToastClass } from "../../types";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 
@@ -12,14 +11,6 @@ import { IconName } from "@fortawesome/fontawesome-svg-core";
   selector: "app-custom-toastr",
   templateUrl: "./custom-toastr.component.html",
   styleUrls: ["./custom-toastr.component.css"],
-  animations: [
-    trigger("fadeIn", [
-      transition(":enter", [
-        style({ opacity: 0 }),
-        animate("0.3s ease-in", style({ opacity: 1 })),
-      ]),
-    ]),
-  ],
 })
 export class CustomToastrComponent implements OnInit, OnDestroy {
   public toast: CustomToast;
@@ -43,6 +34,11 @@ export class CustomToastrComponent implements OnInit, OnDestroy {
     };
     this.icon = "info-circle";
     this.customToastSubscription = new Subscription();
+  }
+
+  public closeToast(): void {
+    this.toast.display = false;
+    this.customToastService.toast$.next(this.toast);
   }
 
   public ngOnInit(): void {

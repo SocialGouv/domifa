@@ -47,10 +47,10 @@ function renderSection3Interactions(context: {
     value: data.allVisites,
   });
   worksheetRendered.renderCell(i++, "c", {
-    value: data.visiteOut,
+    value: data.visite,
   });
   worksheetRendered.renderCell(i++, "c", {
-    value: data.visite,
+    value: data.visiteOut,
   });
   worksheetRendered.renderCell(i++, "c", {
     value: data.npai,

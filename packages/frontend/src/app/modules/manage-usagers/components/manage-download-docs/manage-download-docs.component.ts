@@ -18,8 +18,8 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 export class ManageDownloadDocsComponent implements OnDestroy {
   private subscription = new Subscription();
 
-  @Input() public me: UserStructure | null;
-  @Input() public usager: UsagerFormModel;
+  @Input() public me!: UserStructure | null;
+  @Input() public usager!: UsagerFormModel;
 
   constructor(
     private readonly documentService: DocumentService,

@@ -27,7 +27,7 @@ import { getEcheanceInfos, getRdvInfos, getUrlUsagerProfil } from "../utils";
 
 export class UsagerFormModel {
   public ref: number;
-  public customRef: string | null;
+  public customRef: string;
   public uuid: string | null;
   public nom: string;
   public prenom: string;
@@ -95,7 +95,7 @@ export class UsagerFormModel {
 
     this.ref = (usager && usager.ref) || 0;
     this.uuid = (usager && usager.uuid) || null;
-    this.customRef = (usager && usager.customRef) || null;
+    this.customRef = (usager && usager.customRef) || "";
 
     this.sexe = (usager && usager.sexe) || "homme";
     this.nom = (usager && usager.nom) || "";

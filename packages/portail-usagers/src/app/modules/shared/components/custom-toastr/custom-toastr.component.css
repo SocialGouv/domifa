@@ -57,7 +57,6 @@
   position: fixed;
   z-index: 999999;
   pointer-events: none;
-  /*overrides*/
 }
 #toast-container * {
   -moz-box-sizing: border-box;
@@ -69,9 +68,9 @@
   position: relative;
   pointer-events: auto;
   overflow: hidden;
-  margin: 0 0 6px;
-  padding: 15px;
-  width: 320px;
+  margin: 0 0.3rem;
+  padding: 1rem;
+  max-width: 380px;
   -moz-border-radius: 6px;
   -webkit-border-radius: 6px;
   border-radius: 6px;
@@ -79,6 +78,7 @@
   -webkit-box-shadow: 0 0 12px #999999;
   box-shadow: 0 0 12px #999999;
   color: #ffffff;
+  width: 92%;
 }
 
 #toast-container > div.rtl {
@@ -128,49 +128,8 @@
   background-color: var(--bs-orange);
 }
 
-/*Responsive Design*/
-@media all and (max-width: 240px) {
-  #toast-container > div {
-    padding: 8px 8px 8px 50px;
-    width: 11em;
-  }
-  #toast-container > div.rtl {
-    padding: 8px 50px 8px 8px;
-  }
-  #toast-container .toast-close-button {
-    right: -0.2em;
-    top: -0.2em;
-  }
-  #toast-container .rtl .toast-close-button {
-    left: -0.2em;
-    right: 0.2em;
-  }
-}
-
 @media all and (min-width: 241px) and (max-width: 480px) {
-  #toast-container > div {
-    padding: 8px 8px 8px 50px;
-    width: 18em;
-  }
-  #toast-container > div.rtl {
-    padding: 8px 50px 8px 8px;
-  }
-  #toast-container .toast-close-button {
-    right: -0.2em;
-    top: -0.2em;
-  }
-  #toast-container .rtl .toast-close-button {
-    left: -0.2em;
-    right: 0.2em;
-  }
-}
-
-@media all and (min-width: 481px) and (max-width: 768px) {
-  #toast-container > div {
-    padding: 15px 15px 15px 50px;
-    width: 25em;
-  }
-  #toast-container > div.rtl {
-    padding: 15px 50px 15px 15px;
+  #toast-container {
+    width: 100%;
   }
 }

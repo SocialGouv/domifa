@@ -39,7 +39,8 @@ export class CustomToastrComponent implements OnInit, OnDestroy {
   }
 
   public closeToast(): void {
-    this.customToastService.toast$.next(null);
+    this.toast.display = false;
+    this.customToastService.toast$.next(this.toast);
   }
 
   public ngOnInit(): void {

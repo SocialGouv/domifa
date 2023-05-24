@@ -19,7 +19,7 @@ import { UsagerProfilService } from "../../../services/usager-profil.service";
 })
 export class BaseUsagerProfilPageComponent implements OnInit, OnDestroy {
   public me!: UserStructure | null;
-  public usager!: UsagerFormModel | null;
+  public usager!: UsagerFormModel;
   public subscription = new Subscription();
   public titlePrefix: string;
   constructor(
@@ -31,7 +31,6 @@ export class BaseUsagerProfilPageComponent implements OnInit, OnDestroy {
     public router: Router
   ) {
     this.me = this.authService.currentUserValue;
-    this.usager = null;
     this.titlePrefix = "";
   }
 

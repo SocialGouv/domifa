@@ -27,6 +27,7 @@ export class DeleteUsagerComponent implements OnDestroy {
     private readonly toastService: CustomToastService
   ) {
     this.loading = false;
+    this.selectedRefs = [];
   }
 
   public deleteUsager(): void {

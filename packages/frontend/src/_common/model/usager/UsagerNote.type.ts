@@ -2,7 +2,7 @@ import { UserStructureResume } from "../user-structure/UserStructureResume.type"
 
 export type UsagerNote = {
   id: number;
-  uuid?: string;
+  uuid: string;
   message: string;
   usagerRef: number;
   usagerUUID: string;

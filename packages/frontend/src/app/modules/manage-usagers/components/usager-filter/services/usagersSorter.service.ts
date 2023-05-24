@@ -51,7 +51,7 @@ function sortBy(
           );
         } else if (sortKey === "ECHEANCE") {
           sortAttributes.push({
-            value: usager?.echeanceInfos?.dateToDisplay,
+            value: usager?.echeanceInfos?.dateToDisplay ?? null,
             asc,
           });
         } else if (sortKey === "PASSAGE") {
@@ -69,7 +69,7 @@ function sortBy(
             value: usager.prenom?.toLowerCase(),
           },
           {
-            value: usager.surnom?.toLowerCase(),
+            value: usager.surnom?.toLowerCase() ?? "",
           }
         );
 

@@ -12,7 +12,7 @@ import {
   styleUrls: ["./display-table-image.component.css"],
 })
 export class DisplayTableImageComponent {
-  @Input() public document: UsagerDoc | StructureDoc;
+  @Input() public document!: UsagerDoc | StructureDoc;
   public readonly STRUCTURE_DOC_EXTENSIONS_LABELS =
     STRUCTURE_DOC_EXTENSIONS_LABELS;
   public readonly STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;

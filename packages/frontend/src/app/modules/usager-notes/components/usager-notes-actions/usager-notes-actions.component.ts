@@ -22,8 +22,8 @@ import { Subscription } from "rxjs";
   styleUrls: ["./usager-notes-actions.component.css"],
 })
 export class UsagerNotesActionsComponent {
-  @Input() public note: UsagerNote;
-  @Input() public usager: UsagerFormModel;
+  @Input() public note!: UsagerNote;
+  @Input() public usager!: UsagerFormModel;
   @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
 
   @Output()
@@ -41,6 +41,7 @@ export class UsagerNotesActionsComponent {
     public modalService: NgbModal,
     public toastService: CustomToastService
   ) {
+    this.choosenAction = null;
     this.loading = false;
   }
 

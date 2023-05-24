@@ -32,7 +32,6 @@ import { UsagerDecisionService } from "../../../usager-shared/services/usager-de
 })
 export class DecisionValideFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
-
   @Output() public closeModals = new EventEmitter<void>();
 
   public submitted: boolean;
