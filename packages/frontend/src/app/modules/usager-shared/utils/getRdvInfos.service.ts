@@ -16,19 +16,16 @@ export const getRdvInfos = (usager?: Partial<UsagerLight>): UsagerRdvInfos => {
 
   const dateRdv = new Date(usager.rdv.dateRdv);
 
-  rdvDisplay.content = `RDV le ${format(dateRdv, "dd/MM/yyyy")} à ${format(
-    dateRdv,
-    "HH:mm"
-  )}`;
-
   // Rdv à venir
-  if (dateRdv > new Date()) {
+  if (usager.etapeDemande && usager.etapeDemande < ETAPE_ENTRETIEN) {
     rdvDisplay.display = true;
-  }
+    rdvDisplay.content = `${format(dateRdv, "dd/MM/yyyy")} à ${format(
+      dateRdv,
+      "HH:mm"
+    )}`;
 
-  if (usager.etapeDemande && usager.etapeDemande <= ETAPE_ENTRETIEN) {
-    rdvDisplay.display = true;
-    rdvDisplay.class = "text-danger";
+    rdvDisplay.class = dateRdv < new Date() ? "danger" : "warning";
+    return rdvDisplay;
   }
 
   return rdvDisplay;
