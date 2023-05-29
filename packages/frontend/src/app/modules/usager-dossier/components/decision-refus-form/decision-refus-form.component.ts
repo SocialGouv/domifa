@@ -103,7 +103,7 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
     const formDatas: UsagerDecisionRefusForm = {
       ...this.refusForm.value,
       dateFin: new Date(
-        this.nbgDate.formatEn(this.refusForm.controls.dateFin.value) as string
+        this.nbgDate.formatEn(this.refusForm.controls.dateFin.value)
       ),
     };
 

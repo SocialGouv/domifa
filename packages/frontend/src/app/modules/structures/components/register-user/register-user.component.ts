@@ -15,7 +15,7 @@ import {
   StructureCommon,
   FormEmailTakenValidator,
 } from "../../../../../_common/model";
-import { fadeInOut, noWhiteSpace, regexp } from "../../../../shared";
+import { fadeInOut, noWhiteSpace } from "../../../../shared";
 import { CustomToastService } from "../../../shared/services";
 import { PASSWORD_VALIDATOR } from "../../../users/PASSWORD_VALIDATOR.const";
 import {
@@ -76,7 +76,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
         ),
         email: [
           this.user.email,
-          [Validators.pattern(regexp.email), Validators.required],
+          [Validators.email, Validators.required],
           this.validateEmailNotTaken.bind(this),
         ],
         fonction: [this.user.fonction, Validators.required],
@@ -137,8 +137,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   public validateEmailNotTaken(
     control: AbstractControl
   ): FormEmailTakenValidator {
-    const testEmail = RegExp(regexp.email).test(control.value);
-    return testEmail
+    return Validators.email(control)
       ? this.userService.validateEmail(control.value).pipe(
           takeUntil(this.unsubscribe),
           map((res: boolean) => {

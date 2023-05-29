@@ -131,6 +131,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
       start: this.start,
       end: this.end,
     };
+
     if (year) {
       period.start = new Date(year.toString() + "-01-01");
       period.end = new Date(year.toString() + "-12-31");

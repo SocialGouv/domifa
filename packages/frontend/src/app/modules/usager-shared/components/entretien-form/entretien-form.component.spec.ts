@@ -21,7 +21,6 @@ describe("EntretienFormComponent", () => {
         NgbModule,
         HttpClientTestingModule,
         RouterTestingModule,
-
         SharedModule,
         ReactiveFormsModule,
         FormsModule,

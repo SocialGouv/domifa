@@ -10,7 +10,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Title } from "@angular/platform-browser";
 
 import { AuthService } from "../../../shared/services/auth.service";
-import { regexp } from "../../../../shared/constants/REGEXP.const";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { Subscription } from "rxjs";
 import { environment } from "../../../../../environments/environment";
@@ -51,7 +50,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public initForm() {
     this.loginForm = this.formBuilder.group({
-      email: ["", [Validators.pattern(regexp.email), Validators.required]],
+      email: ["", [Validators.email, Validators.required]],
       password: ["", Validators.compose(PASSWORD_VALIDATOR)],
     });
   }

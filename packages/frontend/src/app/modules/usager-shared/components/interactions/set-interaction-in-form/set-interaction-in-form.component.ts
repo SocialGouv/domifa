@@ -97,7 +97,7 @@ export class SetInteractionInFormComponent implements OnDestroy {
 
     this.subscription.add(
       this.interactionService
-        .setInteractionIn(this.usager.ref, interactionsToSave)
+        .setInteraction(this.usager.ref, interactionsToSave)
         .subscribe({
           next: () => {
             this.toastService.success("Réception enregistrée avec succès");

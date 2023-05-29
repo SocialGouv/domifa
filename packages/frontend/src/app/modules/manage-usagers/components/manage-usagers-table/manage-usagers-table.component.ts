@@ -137,7 +137,7 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.interactionService
-        .setInteractionIn(usager.ref, [interaction])
+        .setInteraction(usager.ref, [interaction])
         .subscribe({
           next: (newUsager: UsagerLight) => {
             this.updateUsager.emit(newUsager);

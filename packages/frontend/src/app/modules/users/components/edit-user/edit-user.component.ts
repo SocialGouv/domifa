@@ -22,7 +22,6 @@ import { PasswordValidator, userStructureBuilder } from "../../services";
 import { UsersService } from "../../services/users.service";
 import { format } from "date-fns";
 import { PASSWORD_VALIDATOR } from "../../PASSWORD_VALIDATOR.const";
-import { regexp } from "../../../../shared";
 
 @Component({
   selector: "app-edit-user",
@@ -97,7 +96,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
     this.userForm = this.formBuilder.group({
       email: [
         this.me?.email,
-        [Validators.pattern(regexp.email), Validators.required],
+        [Validators.email, Validators.required],
         this.validateEmailNotTaken.bind(this),
       ],
       nom: [
@@ -220,8 +219,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
     if (control.value === this.me?.email) {
       return of(null);
     }
-    const testEmail = RegExp(regexp.email).test(control.value);
-    return testEmail
+    return Validators.email(control)
       ? this.userService.validateEmail(control.value).pipe(
           takeUntil(this.unsubscribe),
           map((res: boolean) => {
