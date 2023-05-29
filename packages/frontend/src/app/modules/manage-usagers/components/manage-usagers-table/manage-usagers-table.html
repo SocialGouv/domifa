@@ -154,8 +154,6 @@
           *ngIf="usager.pinnedNote"
           [ngbTooltip]="pinnedNote"
           #tooltipNote="ngbTooltip"
-          (keydown)="tooltipNote.open()"
-          (enter)="tooltipNote.open()"
           tabindex="0"
           src="/assets/icones/pinned-note.svg"
           alt="Note épinglée"
@@ -198,8 +196,6 @@
           *ngIf="usager.options.procurations.length > 0"
           [ngbTooltip]="procurationActif"
           #tooltipProcuration="ngbTooltip"
-          (keydown)="tooltipProcuration.open()"
-          (enter)="tooltipProcuration.open()"
         >
           <ng-template #procurationActif>
             <div
@@ -229,18 +225,12 @@
             {{ usager.options.procurations.length > 1 ? 'Procurations':
             'Procuration'}}
           </div>
-          <span
-            aria-hidden="true"
-            *ngIf="usager.searchResultProcuration"
-            class="pulse-button"
-          ></span>
+          <div aria-hidden="true" *ngIf="usager.searchResultProcuration"></div>
         </div>
         <div
           class="label-info label-transfert"
           *ngIf="usager.options.transfert.actif"
           [ngbTooltip]="transfertActif"
-          (keydown)="tooltipTransfert.open()"
-          (enter)="tooltipTransfert.open()"
           tabindex="0"
           #tooltipTransfert="ngbTooltip"
         >
@@ -332,7 +322,7 @@
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_visite') !== -1"
             aria-label="Ajout d'un passage"
             ngbTooltip="Ajout d'un passage"
-            class="btn interaction-btn"
+            class="btn interaction-btn btn-light"
             (click)="setSingleInteraction(usager, 'visite')"
           >
             <fa-icon
@@ -348,7 +338,7 @@
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_appel') !== -1"
             aria-label="Ajout d'un appel téléphonique"
             ngbTooltip="Ajout d'un appel téléphonique"
-            class="btn interaction-btn"
+            class="btn interaction-btn btn-light"
             (click)="setSingleInteraction(usager, 'appel')"
           >
             <fa-icon
@@ -372,7 +362,7 @@
             type="button"
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_courrierIn') !== -1"
             ngbTooltip="Ajout rapide d'un courrier"
-            class="btn interaction-btn"
+            class="btn interaction-btn btn-light"
             (click)="setSingleInteraction(usager, 'courrierIn')"
           >
             <fa-icon
@@ -387,7 +377,7 @@
             type="button"
             aria-label="Ajout détaillé d'un courrier"
             ngbTooltip="Ajout détaillé d'un courrier"
-            class="interaction-btn btn"
+            class="interaction-btn btn-light btn"
             (click)="openInteractionInModal(usager)"
           >
             <span class="icon-reception list-icon"></span>
@@ -429,7 +419,7 @@
 
           <button
             *ngIf="usager.lastInteraction.enAttente"
-            class="btn interaction-btn"
+            class="btn interaction-btn btn-light"
             [ngbTooltip]="distributionBox"
             type="button"
             aria-label="Distribuer le courrier"

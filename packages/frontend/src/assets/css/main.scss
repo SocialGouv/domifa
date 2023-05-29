@@ -400,8 +400,6 @@ legend {
 }
 
 .pulse-button {
-  position: relative;
-  display: inline-block;
   width: 10px;
   height: 10px;
   margin-right: 10px;
@@ -414,13 +412,6 @@ legend {
   -moz-animation: pulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
   -ms-animation: pulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
   animation: pulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
-}
-
-.pulse-button:hover {
-  -webkit-animation: none;
-  -moz-animation: none;
-  -ms-animation: none;
-  animation: none;
 }
 
 @-webkit-keyframes pulse {

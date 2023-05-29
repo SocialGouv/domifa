@@ -36,8 +36,8 @@ import {
 @Component({
   animations: [fadeInOut],
   selector: "app-manage-manage-usagers-table",
-  styleUrls: ["./manage-usagers-table.scss"],
   templateUrl: "./manage-usagers-table.html",
+  styleUrls: ["./manage-usagers-table.scss"],
 })
 export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   @Input()

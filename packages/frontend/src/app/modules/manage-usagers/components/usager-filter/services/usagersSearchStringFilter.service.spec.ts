@@ -54,7 +54,7 @@ const usagers = [
       procurations: [],
     },
   },
-] as UsagerLight[];
+] as unknown as UsagerLight[];
 
 it("usagersSearchStringFilter ayantsDroits.prenom", () => {
   const results = usagersSearchStringFilter.filter(usagers, {

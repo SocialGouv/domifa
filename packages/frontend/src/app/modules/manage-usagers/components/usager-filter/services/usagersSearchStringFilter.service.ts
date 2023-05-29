@@ -35,6 +35,15 @@ function filter(
 
         attributes = dateNaissance ? [format(dateNaissance, "dd/MM/yyyy")] : [];
 
+        if (searchInAyantDroits) {
+          usager.ayantsDroits.forEach((ad: UsagerAyantDroit) => {
+            const dateNaissance =
+              typeof ad.dateNaissance === "string"
+                ? new Date(ad.dateNaissance)
+                : null;
+            attributes.push(format(dateNaissance, "dd/MM/yyyy"));
+          });
+        }
         return attributes;
       }
 

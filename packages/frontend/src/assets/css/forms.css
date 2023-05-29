@@ -61,17 +61,6 @@ form label {
   margin-top: 4px;
 }
 
-.input-group-text button {
-  margin: 0 !important;
-  padding: 0 !important;
-  outline: none;
-  border: none;
-}
-
-.input-group-text .btn .ng-fa-icon {
-  margin: 0 !important;
-}
-
 .btn-light-primary {
   background-color: #ffffff;
   color: #4164f5;

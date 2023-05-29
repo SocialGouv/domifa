@@ -59,11 +59,14 @@
                 id="nom"
                 appCleanStr
                 formControlName="nom"
-                placeholder="Précisez nom de naissance si nécessaire"
+                aria-describedby="nom-help"
                 [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
                 (blur)="isDuplicateName()"
                 required
               />
+              <small class="form-text text-muted" id="nom-help"
+                >Précisez nom de naissance si nécessaire</small
+              >
               <p *ngIf="submitted && f.nom.errors" class="invalid-feedback">
                 Le nom du demandeur est obligatoire
               </p>
@@ -221,7 +224,9 @@
                   (countryChange)="updatePlaceHolder($event.iso2)"
                   [selectedCountryISO]="f.telephone.value?.countryCode"
                 ></ngx-intl-tel-input>
-                <small *ngIf="f.contactByPhone.value === false"
+                <small
+                  class="form-text text-muted"
+                  *ngIf="f.contactByPhone.value === false"
                   >Optionnel</small
                 >
                 <p
