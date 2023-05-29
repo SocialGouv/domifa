@@ -156,7 +156,6 @@
           #tooltipNote="ngbTooltip"
           (keydown)="tooltipNote.open()"
           (enter)="tooltipNote.open()"
-          [closeDelay]="500"
           tabindex="0"
           src="/assets/icones/pinned-note.svg"
           alt="Note épinglée"
@@ -201,11 +200,9 @@
           #tooltipProcuration="ngbTooltip"
           (keydown)="tooltipProcuration.open()"
           (enter)="tooltipProcuration.open()"
-          [closeDelay]="500"
         >
           <ng-template #procurationActif>
             <div
-              tabindex="0"
               class="text-start"
               *ngFor="let procuration of usager.options.procurations; let i = index"
             >
@@ -228,7 +225,6 @@
               </span>
             </div>
           </ng-template>
-
           <div>
             {{ usager.options.procurations.length > 1 ? 'Procurations':
             'Procuration'}}
@@ -246,15 +242,10 @@
           (keydown)="tooltipTransfert.open()"
           (enter)="tooltipTransfert.open()"
           tabindex="0"
-          [closeDelay]="500"
           #tooltipTransfert="ngbTooltip"
         >
           <ng-template #transfertActif>
-            <div
-              class="distribution-tooltip"
-              id="tooltipTransfertContent{{i}}"
-              tabindex="0"
-            >
+            <div class="distribution-tooltip" id="tooltipTransfertContent{{i}}">
               <div *ngIf="usager.options.transfert.dateFin > today">
                 <fa-icon
                   aria-hidden="true"
@@ -273,7 +264,6 @@
           </ng-template>
           <div>Transfert</div>
         </div>
-
         <div *ngIf="usager.options.npai.actif" class="label-info label-danger">
           <div>Pli non distribuable</div>
         </div>
@@ -351,10 +341,8 @@
               class="list-icon-disabled"
             >
             </fa-icon>
-
             <span class="icon-passage list-icon"></span>
           </button>
-
           <button
             type="button"
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_appel') !== -1"
@@ -393,7 +381,6 @@
               class="list-icon-disabled"
             >
             </fa-icon>
-
             <span class="icon-courrier list-icon"></span>
           </button>
           <button

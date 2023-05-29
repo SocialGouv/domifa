@@ -1,5 +1,5 @@
 <ng-template #ayantsDroitsInfos class="p-4 text-start">
-  <div class="distribution-tooltip" tabindex="0">
+  <div class="distribution-tooltip">
     <div class="p-1" *ngFor="let ayantDroit of usager.ayantsDroits">
       <strong class="text-primary">{{ ayantDroit.nom }}</strong>
       {{ ayantDroit.prenom }}
@@ -13,7 +13,6 @@
   (enter)="tooltipAyantsDroit.open()"
   class="label-info label-green"
   tabindex="0"
-  [closeDelay]="500"
   *ngIf="usager.ayantsDroits.length > 0"
   [ngbTooltip]="ayantsDroitsInfos"
 >
