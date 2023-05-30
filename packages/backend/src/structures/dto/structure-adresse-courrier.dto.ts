@@ -1,4 +1,10 @@
-import { IsBoolean, IsNotEmpty, IsString, ValidateIf } from "class-validator";
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsPostalCode,
+  IsString,
+  ValidateIf,
+} from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams } from "class-transformer";
 
@@ -42,5 +48,6 @@ export class StructureAdresseCourrierDto {
   @IsString()
   @IsNotEmpty()
   @ValidateIf((o) => o.actif === true)
+  @IsPostalCode("FR")
   public readonly codePostal: string;
 }

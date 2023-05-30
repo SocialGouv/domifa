@@ -141,9 +141,7 @@ function buildHistoryFromNewDecision({
     historyBeginDate,
   });
 
-  const newHistory = addNewStateToHistory({ usagerHistory, newHistoryState });
-
-  return newHistory;
+  return addNewStateToHistory({ usagerHistory, newHistoryState });
 }
 
 function addNewStateToHistory({

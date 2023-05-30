@@ -87,7 +87,7 @@ export class IdleManagerComponent implements OnInit {
 
   public logout(): void {
     this.closeModals();
-    this.authService.logoutAndRedirect(undefined);
+    this.authService.logoutAndRedirect();
   }
 
   public openIdleModal(): void {

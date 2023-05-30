@@ -20,22 +20,9 @@ export class InteractionService {
 
   constructor(private http: HttpClient) {}
 
-  public setInteractionIn(
+  public setInteraction(
     usagerRef: number,
-    interactions: InteractionInForApi[]
-  ): Observable<UsagerLight> {
-    return this.http
-      .post<UsagerLight>(`${this.endPoint}${usagerRef}`, interactions)
-      .pipe(
-        tap((newUsager: UsagerLight) => {
-          usagersCache.updateUsager(newUsager);
-        })
-      );
-  }
-
-  public setInteractionOut(
-    usagerRef: number,
-    interactions: InteractionOutForApi[]
+    interactions: InteractionInForApi[] | InteractionOutForApi[]
   ): Observable<UsagerLight> {
     return this.http
       .post<UsagerLight>(`${this.endPoint}${usagerRef}`, interactions)

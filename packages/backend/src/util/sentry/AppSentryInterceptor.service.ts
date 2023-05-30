@@ -26,7 +26,6 @@ export class AppSentryInterceptor implements NestInterceptor {
             case "http":
               {
                 prefix = "[http]";
-
                 const { req, user } = parseRequest(context);
                 if (req) {
                   logContext.req = logSentryRequest(req);

@@ -9,8 +9,7 @@ async function findNextUsagerRef(structureId: number): Promise<number> {
       structureId,
     },
   });
-  const nextRef = maxRef ? maxRef + 1 : 1;
-  return nextRef;
+  return maxRef ? maxRef + 1 : 1;
 }
 
 function setUsagerDefaultAttributes(usager: Usager): void {

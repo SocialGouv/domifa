@@ -46,7 +46,7 @@ export class DateFrDirective {
     ) {
       return;
     }
-    if ((isNaN(Number(e.key)) && e.key !== "/") || e.keyCode === 32) {
+    if ((isNaN(Number(e.key)) && e.key !== "/") || e.key === " ") {
       e.preventDefault();
     }
 

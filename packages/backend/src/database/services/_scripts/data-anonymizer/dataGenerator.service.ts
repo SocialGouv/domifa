@@ -59,12 +59,10 @@ function fromListAndRemove<T>(list: T[]): {
   });
   const remaining = list.concat([]);
   remaining.splice(randomIndex, 1);
-  const res = {
+  return {
     item: list[randomIndex],
     remaining,
   };
-
-  return res;
 }
 
 function number(

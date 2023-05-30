@@ -735,8 +735,7 @@
       ></app-manage-manage-usagers-table>
     </div>
     <div
-      style="background: white"
-      class="container py-3 px-2"
+      class="container py-3 px-2 text-center"
       *ngIf="
         (filters.statut === 'TOUS' || filters.statut === 'RADIE') &&
         usagersRadiesTotalCount !== usagersRadiesLoadedCount &&
@@ -746,7 +745,7 @@
       <div class="my-2">
         <button
           type="button"
-          class="btn btn-white-primary"
+          class="btn btn-primary"
           (click)="chargerTousRadies()"
         >
           Afficher tous les radiés

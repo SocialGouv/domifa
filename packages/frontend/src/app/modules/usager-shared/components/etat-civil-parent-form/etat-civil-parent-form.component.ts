@@ -44,7 +44,6 @@ import {
   formatDateToNgb,
   noWhiteSpace,
   parseDateFromNgb,
-  regexp,
 } from "../../../../shared";
 import { getFormPhone, setFormPhone } from "../../../shared/phone";
 import { mobilePhoneValidator } from "../../../shared/phone/mobilePhone.validator";
@@ -128,10 +127,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
         [Validators.required],
       ],
       customRef: [this.usager.customRef, []],
-      email: [
-        this.usager.email,
-        [Validators.email, Validators.pattern(regexp.email)],
-      ],
+      email: [this.usager.email, [Validators.email, Validators.email]],
       nom: [this.usager.nom, [Validators.required, noWhiteSpace]],
       numeroDistribution: [this.usager.numeroDistribution],
       contactByPhone: [this.usager.contactByPhone, [Validators.required]],

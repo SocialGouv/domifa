@@ -174,7 +174,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.subscription.add(
       this.interactionService
-        .setInteractionOut(this.usager.ref, interactionsToSave)
+        .setInteraction(this.usager.ref, interactionsToSave)
         .subscribe({
           next: () => {
             this.loading = false;

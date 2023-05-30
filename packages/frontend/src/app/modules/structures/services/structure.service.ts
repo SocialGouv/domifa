@@ -9,7 +9,6 @@ import {
   StructureCommon,
   UserStructure,
 } from "../../../../_common/model";
-import { regexp } from "../../../shared";
 import { departementHelper } from "./departement-helper.service";
 import { StructureCommonWeb } from "./StructureCommonWeb.type";
 
@@ -133,7 +132,7 @@ export class StructureService {
     return function validateCodePostal(control: AbstractControl) {
       const postalCode = control.value;
 
-      const testCode = RegExp(regexp.postcode).test(postalCode);
+      const testCode = RegExp(/^[0-9][0-9AB][0-9]{3}$/).test(postalCode);
       if (testCode) {
         try {
           const departement =

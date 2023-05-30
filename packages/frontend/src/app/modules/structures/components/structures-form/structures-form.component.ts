@@ -28,11 +28,7 @@ import { structureNameChecker } from "../../services/structureNameChecker.servic
 
 import { anyPhoneValidator } from "../../../shared/phone/mobilePhone.validator";
 import { getFormPhone } from "../../../shared/phone";
-import {
-  PREFERRED_COUNTRIES,
-  DEPARTEMENTS_LISTE,
-  regexp,
-} from "../../../../shared";
+import { PREFERRED_COUNTRIES, DEPARTEMENTS_LISTE } from "../../../../shared";
 import { departementHelper } from "../../services/departement-helper.service";
 
 @Component({
@@ -111,7 +107,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
       departement: [this.structure.departement, []],
       email: [
         this.structure.email,
-        [Validators.required, Validators.pattern(regexp.email)],
+        [Validators.required, Validators.email],
         this.validateEmailNotTaken.bind(this),
       ],
       nom: [this.structure.nom, [Validators.required]],
@@ -227,8 +223,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
   public validateEmailNotTaken(
     control: AbstractControl
   ): FormEmailTakenValidator {
-    const testEmail = RegExp(regexp.email).test(control.value);
-    return testEmail
+    return Validators.email(control)
       ? this.structureService.validateEmail(control.value).pipe(
           takeUntil(this.unsubscribe),
           map((res: boolean) => {

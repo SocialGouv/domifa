@@ -32,29 +32,21 @@ export class Decision implements UsagerDecision {
   public userName: string; // UserStructure.nom / prenom
 
   constructor(decision?: UsagerDecision) {
-    this.uuid = decision && decision?.uuid;
-    this.typeDom = (decision && decision.typeDom) || "PREMIERE_DOM";
-    this.dateDebut =
-      decision && decision.dateDebut ? new Date(decision.dateDebut) : null;
-    this.dateFin =
-      decision && decision.dateFin ? new Date(decision.dateFin) : null;
-    this.dateDecision =
-      (decision && new Date(decision.dateDecision)) || new Date();
-
-    this.userName = (decision && decision.userName) || "";
-    this.userId = (decision && decision.userId) || null;
-    this.motifDetails = (decision && decision.motifDetails) || "";
-    this.motif = (decision && decision.motif) || null;
-    this.statut = (decision && decision.statut) || "INSTRUCTION";
-    this.motifString = "";
-
-    this.orientation = (decision && decision.orientation) || null;
-    this.orientationDetails = (decision && decision.orientationDetails) || "";
-
+    this.uuid = decision?.uuid;
+    this.dateDebut = decision?.dateDebut ? new Date(decision.dateDebut) : null;
+    this.dateFin = decision?.dateFin ? new Date(decision.dateFin) : null;
+    this.dateDecision = decision?.dateDecision
+      ? new Date(decision.dateDecision)
+      : new Date();
+    this.typeDom = decision?.typeDom || "PREMIERE_DOM";
+    this.statut = decision?.statut || "INSTRUCTION";
     this.statutLabel = USAGER_DECISION_STATUT_LABELS_PROFIL[this.statut];
-
-    if (decision && decision.statut) {
-      this.motifString = generateMotifLabel(decision);
-    }
+    this.motif = decision?.motif || null;
+    this.motifDetails = decision?.motifDetails || "";
+    this.motifString = decision?.statut ? generateMotifLabel(decision) : "";
+    this.orientation = decision?.orientation || null;
+    this.orientationDetails = decision?.orientationDetails || "";
+    this.userId = decision?.userId || null;
+    this.userName = decision?.userName || "";
   }
 }
