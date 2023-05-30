@@ -13,13 +13,13 @@
   *ngIf="context === 'MANAGE'"
   (click)="openRadiationModal()"
   id="radiation-btn-manage"
-  class="btn btn-sm btn-outline-dark my-sm-1"
+  class="btn btn-sm btn-outline-dark"
 >
   Radier {{ selectedRefs.length === 1 ? "le domicilié" : "les domiciliés" }}
 </button>
 <ng-template #decisionRadiationFormModal let-modal>
   <div class="modal-header bg-danger">
-    <span class="text-white" id="modal-title"> Motivez votre radiation </span>
+    <span class="text-white" id="modal-title">Motivez votre radiation</span>
   </div>
 
   <div class="modal-body p-4 text-start">

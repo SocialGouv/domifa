@@ -12,7 +12,6 @@ import {
 import {
   UntypedFormGroup,
   UntypedFormBuilder,
-  Validators,
   AbstractControl,
 } from "@angular/forms";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
@@ -76,10 +75,7 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     if (this.usager.entretien) {
       this.entretienForm = this.formBuilder.group({
-        accompagnement: [
-          this.usager.entretien.accompagnement,
-          [Validators.required],
-        ],
+        accompagnement: [this.usager.entretien.accompagnement],
         accompagnementDetail: [this.usager.entretien.accompagnementDetail, []],
         cause: [this.usager.entretien.cause, []],
         causeDetail: [this.usager.entretien.causeDetail, []],

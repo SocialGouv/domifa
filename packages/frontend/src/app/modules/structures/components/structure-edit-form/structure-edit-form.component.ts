@@ -19,11 +19,7 @@ import {
 
 import { Structure, StructureCommon } from "../../../../../_common/model";
 
-import {
-  PREFERRED_COUNTRIES,
-  DEPARTEMENTS_LISTE,
-  regexp,
-} from "../../../../shared";
+import { PREFERRED_COUNTRIES, DEPARTEMENTS_LISTE } from "../../../../shared";
 import {
   setFormPhone,
   getFormPhone,
@@ -88,10 +84,7 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
       ],
       complementAdresse: [this.structure.complementAdresse, []],
       departement: [this.structure.departement, assoRequired],
-      email: [
-        this.structure.email,
-        [Validators.required, Validators.pattern(regexp.email)],
-      ],
+      email: [this.structure.email, [Validators.required, Validators.email]],
       nom: [this.structure.nom, [Validators.required]],
       options: this.formBuilder.group({
         numeroBoite: [this.structure.options.numeroBoite, []],
@@ -195,8 +188,7 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
   public validateEmailNotTaken(
     control: AbstractControl
   ): FormEmailTakenValidator {
-    const testEmail = RegExp(regexp.email).test(control.value);
-    return testEmail
+    return Validators.email(control)
       ? this.structureService.validateEmail(control.value).pipe(
           map((res: boolean) => {
             return res === false ? null : { emailTaken: true };

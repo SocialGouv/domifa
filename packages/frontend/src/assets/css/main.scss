@@ -1,7 +1,7 @@
 html,
 body {
   height: 100%;
-  font-family: "Marianne";
+  font-family: "Marianne", sans-serif;
 }
 
 html {
@@ -107,7 +107,6 @@ table .active {
 
 .reponses .valeur {
   display: block;
-  font-weight: bold;
   color: #4a4a4a;
   font-weight: 400;
   word-break: break-word;
@@ -368,28 +367,6 @@ legend {
   margin-bottom: 10px;
 }
 
-.skeleton:empty {
-  border-radius: 4px;
-  animation: loading 1s infinite linear;
-  background: #dedfe1;
-  background-image: -webkit-linear-gradient(
-    to right,
-    #dedfe1 0%,
-    #f2f3f5 20%,
-    #dedfe1 40%,
-    #dedfe1 100%
-  );
-  background-image: linear-gradient(
-    to right,
-    #dedfe1 0%,
-    #f2f3f5 20%,
-    #dedfe1 40%,
-    #dedfe1 100%
-  );
-  width: 100%;
-  background-repeat: no-repeat;
-}
-
 @keyframes loading {
   0% {
     background-position: -100px;
@@ -400,8 +377,6 @@ legend {
 }
 
 .pulse-button {
-  position: relative;
-  display: inline-block;
   width: 10px;
   height: 10px;
   margin-right: 10px;
@@ -414,13 +389,6 @@ legend {
   -moz-animation: pulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
   -ms-animation: pulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
   animation: pulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
-}
-
-.pulse-button:hover {
-  -webkit-animation: none;
-  -moz-animation: none;
-  -ms-animation: none;
-  animation: none;
 }
 
 @-webkit-keyframes pulse {

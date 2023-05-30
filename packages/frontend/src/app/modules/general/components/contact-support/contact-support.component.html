@@ -44,15 +44,18 @@
                 type="text"
                 class="form-control"
                 id="name"
+                aria-describedby="name-help"
                 appCleanStr
                 autocomplete="name"
-                placeholder="2 caractères minimum"
                 formControlName="name"
                 [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
                 [attr.aria-invalid]="submitted && f.name.errors"
                 required
               />
 
+              <small class="form-text text-muted" id="name-help"
+                >2 caractères minimum</small
+              >
               <p *ngIf="submitted && f.name.errors" class="invalid-feedback">
                 Veuillez indiquer votre nom
               </p>
@@ -99,7 +102,7 @@
             <div class="form-group required">
               <label for="content">Votre message</label>
               <textarea
-                placeholder="En cas de souci technique, merci de spécifier le navigateur utilisé (10 caractères minimum)"
+                aria-describedby="content-help"
                 class="form-control"
                 formControlName="content"
                 id="content"
@@ -108,6 +111,10 @@
                 minlength="10"
                 required
               ></textarea>
+              <small class="form-text text-muted" id="content-help"
+                >En cas de souci technique, merci de spécifier le navigateur
+                utilisé (10 caractères minimum)</small
+              >
               <p *ngIf="submitted && f.content.errors" class="invalid-feedback">
                 Veuillez inscrire un message de 10 caractères au minimum
               </p>

@@ -104,7 +104,7 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
     this.loadingButtons.push(type);
     this.subscription.add(
       this.interactionService
-        .setInteractionIn(usagerRef, [interaction])
+        .setInteraction(usagerRef, [interaction])
         .subscribe({
           next: (newUsager: UsagerLight) => {
             this.usager = new UsagerFormModel(newUsager);

@@ -13,11 +13,9 @@ export const getUrlUsagerProfil = (usager?: UsagerLight): string => {
   }
 
   if (decision.statut === "INSTRUCTION") {
-    const url =
-      typeDom === "RENOUVELLEMENT"
-        ? `/profil/general/${ref}`
-        : `/usager/${ref}/edit/${ETAPES_DEMANDE_URL[etapeDemande]}`;
-    return url;
+    return typeDom === "RENOUVELLEMENT"
+      ? `/profil/general/${ref}`
+      : `/usager/${ref}/edit/${ETAPES_DEMANDE_URL[etapeDemande]}`;
   }
 
   return `/profil/general/${ref}`;

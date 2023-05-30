@@ -36,8 +36,8 @@ import {
 @Component({
   animations: [fadeInOut],
   selector: "app-manage-manage-usagers-table",
-  styleUrls: ["./manage-usagers-table.scss"],
   templateUrl: "./manage-usagers-table.html",
+  styleUrls: ["./manage-usagers-table.scss"],
 })
 export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   @Input()
@@ -137,7 +137,7 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.interactionService
-        .setInteractionIn(usager.ref, [interaction])
+        .setInteraction(usager.ref, [interaction])
         .subscribe({
           next: (newUsager: UsagerLight) => {
             this.updateUsager.emit(newUsager);

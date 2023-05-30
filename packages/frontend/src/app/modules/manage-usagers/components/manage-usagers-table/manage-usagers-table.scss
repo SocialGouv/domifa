@@ -148,6 +148,7 @@ thead th {
   margin: 3px;
   padding: 0.1rem 0.2rem;
   position: relative;
+  background-color: white;
 }
 
 .interaction-btn:hover {
@@ -215,12 +216,6 @@ thead th {
 .distribution-tooltip span {
   vertical-align: middle;
   display: inline-block;
-}
-
-.pulse-button {
-  position: absolute;
-  top: -5px;
-  right: -14px;
 }
 
 .td-name {

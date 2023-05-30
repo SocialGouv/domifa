@@ -131,14 +131,14 @@
                     class="form-control"
                     id="senderName"
                     formControlName="senderName"
-                    placeholder="Nom affiché en haut en tant qu'expediteur du message"
+                    aria-describedby="sender-name-help"
                     maxLength="11"
                     [ngClass]="{
                       'is-invalid': submitted && form.senderName.errors
                     }"
                     required
                   />
-                  <small
+                  <small id="sender-name-help"
                     >Veuillez n'utiliser que des lettres (11 maximum)</small
                   >
                   <div
@@ -157,13 +157,13 @@
                     class="form-control"
                     maxLength="30"
                     appCleanStr
+                    aria-describedby="sender-details-help"
                     formControlName="senderDetails"
                     [ngClass]="{
                       'is-invalid': submitted && form.senderDetails.errors
                     }"
-                    placeholder="Cet intitulé apparaitra en signature du SMS"
                   />
-                  <small>30 caractères maximum</small>
+                  <small id="sender-details-help">30 caractères maximum</small>
                   <div
                     *ngIf="submitted && form.senderDetails.errors"
                     class="invalid-feedback"

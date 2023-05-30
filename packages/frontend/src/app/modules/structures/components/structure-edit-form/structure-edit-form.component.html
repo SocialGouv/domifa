@@ -53,11 +53,14 @@
         type="text"
         class="form-control"
         autcomplete="street-address"
+        aria-describedby="adresse-help"
         formControlName="adresse"
         [ngClass]="{ 'is-invalid': submitted && f.adresse.errors }"
-        placeholder="Cette adresse apparaîtra sur le Cerfa"
         required
       />
+      <small class="form-text text-muted" id="adresse-help"
+        >Cette adresse apparaîtra sur le Cerfa</small
+      >
       <p *ngIf="submitted && f.adresse.errors" class="invalid-feedback">
         L'adresse est obligatoire
       </p>
@@ -331,12 +334,11 @@
         class="form-control"
         id="capacite"
         min="0"
-        placeholder="Nombre maxi de domiciliés"
         type="number"
         aria-describedby="capaciteHelp"
         [ngClass]="{ 'is-invalid': submitted && f.capacite.errors }"
       />
-      <small id="capaciteHelp" class="form-text text-muted"> Optionnel </small>
+      <small id="capaciteHelp" class="form-text text-muted">Optionnel</small>
       <p *ngIf="submitted && f.capacite.errors" class="invalid-feedback">
         La capacité doit être supérieur à 0
       </p>

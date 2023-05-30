@@ -12,6 +12,7 @@ import {
   IsOptional,
   IsString,
   IsTimeZone,
+  Matches,
   MaxLength,
   Min,
   MinLength,
@@ -27,6 +28,7 @@ import {
   Telephone,
 } from "../../_common/model";
 import { TelephoneDto } from "../../_common/dto";
+import { ValidationRegexp } from "../../usagers/controllers/import/step2-validate-row";
 
 export class StructureDto {
   @ApiProperty({
@@ -83,6 +85,7 @@ export class StructureDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(5)
+  @Matches(ValidationRegexp.postcode)
   public codePostal!: string;
 
   @ApiProperty({

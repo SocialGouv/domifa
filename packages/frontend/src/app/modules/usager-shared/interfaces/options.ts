@@ -3,6 +3,7 @@ import {
   UsagerOptionsTransfert,
 } from "../../../../_common/model";
 import { UsagerOptions } from "../../../../_common/model/usager/options/UsagerOptions.type";
+import { UsagerProcuration } from "./UsagerProcuration.interface";
 
 export class Options implements UsagerOptions {
   public transfert: UsagerOptionsTransfert = {
@@ -23,63 +24,45 @@ export class Options implements UsagerOptions {
   };
 
   constructor(options?: UsagerOptions) {
+    this.transfert = {
+      actif: false,
+      adresse: null,
+      dateDebut: null,
+      dateFin: null,
+      nom: null,
+    };
+
     this.npai = {
       actif: false,
       dateDebut: null,
     };
 
     if (options) {
-      if (typeof options.transfert !== "undefined") {
-        this.transfert.actif = options.transfert.actif || false;
-        this.transfert.nom = options.transfert.nom || "";
-        this.transfert.adresse = options.transfert.adresse || "";
-
-        this.transfert.dateDebut =
-          options.transfert.dateDebut && options.transfert.dateDebut !== null
-            ? new Date(options.transfert.dateDebut)
-            : null;
-
-        this.transfert.dateFin =
-          options.transfert.dateFin && options.transfert.dateFin !== null
-            ? new Date(options.transfert.dateFin)
-            : null;
+      if (options.transfert) {
+        const { actif, nom, adresse, dateDebut, dateFin } = options.transfert;
+        this.transfert = {
+          actif: actif || false,
+          nom: nom || null,
+          adresse: adresse || null,
+          dateDebut: dateDebut ? new Date(dateDebut) : null,
+          dateFin: dateFin ? new Date(dateFin) : null,
+        };
       }
 
-      if (typeof options.procurations !== "undefined") {
+      if (options.procurations) {
         this.procurations = options.procurations.map(
           (apiProcuration: UsagerOptionsProcuration) => {
-            const procuration: UsagerOptionsProcuration = {
-              nom: null,
-              prenom: null,
-              dateNaissance: null,
-              dateFin: null,
-              dateDebut: null,
-            };
-
-            procuration.nom = apiProcuration?.nom ?? null;
-            procuration.prenom = apiProcuration?.prenom ?? null;
-
-            if (apiProcuration.dateNaissance) {
-              procuration.dateNaissance = new Date(
-                apiProcuration.dateNaissance
-              );
-            }
-            if (apiProcuration.dateFin) {
-              procuration.dateFin = new Date(apiProcuration.dateFin);
-            }
-            if (apiProcuration.dateDebut) {
-              procuration.dateDebut = new Date(apiProcuration.dateDebut);
-            }
-            return procuration;
+            return new UsagerProcuration(apiProcuration);
           }
         );
       }
 
-      if (typeof options.npai !== "undefined") {
-        this.npai.actif = options.npai.actif || false;
-        if (options.npai.dateDebut && options.npai.dateDebut !== null) {
-          this.npai.dateDebut = new Date(options.npai.dateDebut);
-        }
+      if (options.npai) {
+        const { actif, dateDebut } = options.npai;
+        this.npai = {
+          actif: actif || false,
+          dateDebut: dateDebut ? new Date(dateDebut) : null,
+        };
       }
     }
     this.portailUsagerEnabled = options?.portailUsagerEnabled ?? false;

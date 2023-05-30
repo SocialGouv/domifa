@@ -61,10 +61,6 @@
   cursor: pointer;
 }
 
-.interaction-actions button:focus {
-  outline: none;
-}
-
 .interaction-actions button:hover {
   box-shadow: 2px 1px 4px rgb(179 179 179 / 50%);
 }
@@ -97,7 +93,6 @@
 }
 
 .checkbox input {
-  outline: none;
   cursor: pointer;
   width: 35px;
   height: 35px;
