@@ -1,3 +1,11 @@
+## [2.129.10](https://github.com/SocialGouv/domifa/compare/v2.129.9...v2.129.10) (2023-05-30)
+
+
+### Bug Fixes
+
+* **rgaa:** amélioration des boutons ([0b87b0f](https://github.com/SocialGouv/domifa/commit/0b87b0fb0601b652f0b6e3472bf56af7b368d6aa))
+* **rgaa:** correction des tooltip ([dd56f99](https://github.com/SocialGouv/domifa/commit/dd56f993b5f4c7af403188bc20deef7600d467a0))
+
 ## [2.129.9](https://github.com/SocialGouv/domifa/compare/v2.129.8...v2.129.9) (2023-05-24)
 
 
