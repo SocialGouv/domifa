@@ -400,6 +400,7 @@
         class="form-control"
         id="fonction"
         formControlName="fonction"
+        autocomplete="organization-title"
         placeholder="Président.e, Directrice, etc."
         [ngClass]="{
           'is-invalid': submitted && f.responsable.get('fonction').errors

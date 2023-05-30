@@ -452,6 +452,7 @@
               class="form-control"
               id="responsable-nom"
               formControlName="nom"
+              autocomplete="family-name"
               placeholder="Nom d'un.e responsable"
               [ngClass]="{
                 'is-invalid': submitted && f.responsable.get('nom')?.errors
@@ -493,6 +494,7 @@
               class="form-control"
               id="fonction"
               formControlName="fonction"
+              autocomplete="organization-title"
               placeholder="Président.e, Directrice, etc."
               [ngClass]="{
                 'is-invalid': submitted && f.responsable.get('fonction')?.errors
