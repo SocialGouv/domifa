@@ -32,9 +32,11 @@ import { domifaConfig } from "../../config";
 
 import { appLogger } from "../../util";
 import {
+  compressAndResizeImage,
   deleteFile,
   getFileDir,
   getFilePath,
+  getNewFileDir,
   randomName,
   validateUpload,
 } from "../../util/file-manager/FileManager";
@@ -47,12 +49,17 @@ import {
   createWriteStream,
   ensureDir,
   pathExists,
-  remove,
   stat,
 } from "fs-extra";
 import { join } from "path";
-import { createCipheriv, createDecipheriv } from "crypto";
+
+import crypto, { createDecipheriv } from "node:crypto";
 import { ExpressRequest } from "../../util/express";
+import {
+  decryptFile,
+  encryptFile,
+} from "@socialgouv/streaming-file-encryption";
+import { pipeline } from "node:stream/promises";
 import { FILES_SIZE_LIMIT } from "../../util/file-manager";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
@@ -62,7 +69,9 @@ import { FILES_SIZE_LIMIT } from "../../util/file-manager";
 export class UsagerDocsController {
   constructor(private readonly appLogsService: AppLogsService) {}
 
-  @ApiOperation({ summary: "Upload de pièces jointes" })
+  @ApiOperation({
+    summary: "Téléverser des pièces-jointes dans le dossier d'un usager",
+  })
   @Post(":usagerRef")
   @AllowUserStructureRoles("simple", "responsable", "admin")
   @UseInterceptors(
@@ -76,8 +85,10 @@ export class UsagerDocsController {
       },
       storage: diskStorage({
         destination: async (req: any, _file: Express.Multer.File, cb: any) => {
-          const dir = getFileDir(req.user.structureId, req.usager.ref);
-
+          const dir = await getNewFileDir(
+            req.user.structure.uuid,
+            req.usager.uuid
+          );
           await ensureDir(dir);
           cb(null, dir);
         },
@@ -94,19 +105,12 @@ export class UsagerDocsController {
   public async uploadDoc(
     @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
     @UploadedFile() file: Express.Multer.File,
-    @Body() postData: UploadUsagerDocDto,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager,
+    @Body() postData: UploadUsagerDocDto,
     @Res() res: Response
   ) {
-    try {
-      await this.encryptFile(currentUsager, file.filename);
-    } catch (e) {
-      return res
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "CANNOT_ENCRYPT_FILE" });
-    }
-
+    const encryptionContext = crypto.randomUUID();
     const userName = user.prenom + " " + user.nom;
 
     const newDoc: UsagerDocsTable = {
@@ -118,9 +122,17 @@ export class UsagerDocsController {
       usagerRef,
       structureId: currentUsager.structureId,
       usagerUUID: currentUsager.uuid,
-      encryptionContext: null,
-      encryptionVersion: null,
+      encryptionContext,
+      encryptionVersion: 0,
     };
+
+    try {
+      await this.saveEncryptedFile(user, newDoc);
+    } catch (e) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "CANNOT_ENCRYPT_FILE" });
+    }
 
     await usagerDocsRepository.save(newDoc);
 
@@ -152,14 +164,13 @@ export class UsagerDocsController {
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    const filePath = getFilePath(
-      currentUsager.structureId,
-      currentUsager.ref,
+    const filePath = await getFilePath(
+      user.structure.uuid,
+      currentUsager.uuid,
       doc.path
     );
 
     await deleteFile(filePath);
-
     await deleteFile(filePath + ".encrypted");
 
     await usagerDocsRepository.delete({
@@ -199,8 +210,11 @@ export class UsagerDocsController {
     @Param("docUuid", new ParseUUIDPipe()) docUuid: string,
     @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
     @Res() res: Response,
+    @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager
   ) {
+    const mainSecret = domifaConfig().security.files.mainSecret;
+
     const doc = await usagerDocsRepository.findOneBy({
       uuid: docUuid,
       usagerRef,
@@ -213,89 +227,112 @@ export class UsagerDocsController {
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    const sourceFileDir = getFileDir(
+    let sourceFileDir = getFileDir(
       currentUsager.structureId,
       currentUsager.ref
     );
 
-    // Encrypted file source
-    const encryptedFilePath = join(sourceFileDir, doc.path + ".encrypted");
+    if (doc.encryptionContext) {
+      sourceFileDir = await getNewFileDir(user.structure.uuid, doc.usagerUUID);
+      const encryptedFilePath = join(sourceFileDir, doc.path + ".sfe");
 
-    // FIX : vieilles données pas encore encryptés
-    if (!(await pathExists(encryptedFilePath))) {
-      const oldFilePath = join(sourceFileDir, doc.path);
-      if (!(await pathExists(oldFilePath))) {
-        appLogger.error("Error reading usager document", {
-          sentry: true,
-          context: {
-            oldFilePath,
-          },
-        });
-        return res
-          .status(HttpStatus.BAD_REQUEST)
-          .json({ message: "DOC_NOT_FOUND" });
+      if (doc.encryptionVersion !== 0) {
+        throw new Error("Implement main secret rotation logic");
       }
 
       try {
-        await this.encryptFile(currentUsager, doc.path);
+        return await pipeline(
+          // note: encryptedFilePath should end with .sfe, not .encrypted, to prepare for phase 3.
+          createReadStream(encryptedFilePath),
+          decryptFile(mainSecret, doc.encryptionContext),
+          res
+        );
+      } catch (e) {
+        appLogger.error("Erreur");
+      }
+    } else {
+      // Encrypted file source
+      const encryptedFilePath = join(sourceFileDir, doc.path + ".encrypted");
+
+      // FIX : vieilles données pas encore encryptés
+      if (!(await pathExists(encryptedFilePath))) {
+        const oldFilePath = join(sourceFileDir, doc.path);
+        if (!(await pathExists(oldFilePath))) {
+          appLogger.error("Error reading usager document", {
+            sentry: true,
+            context: {
+              oldFilePath,
+            },
+          });
+          return res
+            .status(HttpStatus.BAD_REQUEST)
+            .json({ message: "DOC_NOT_FOUND" });
+        }
+
+        try {
+          await this.saveEncryptedFile(user, doc);
+        } catch (e) {
+          return res
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .json({ message: "CANNOT_OPEN_FILE" });
+        }
+      }
+
+      // TEMP FIX : Utiliser la deuxième clé d'encryptage générée le 30 juin
+      // A supprimer une fois que les fichiers seront de nouveaux regénérés
+      const docInfos = await stat(encryptedFilePath);
+
+      const iv =
+        docInfos.mtime < new Date("2021-06-30T23:01:01.113Z")
+          ? domifaConfig().security.files.ivSecours
+          : domifaConfig().security.files.iv;
+
+      try {
+        const key = domifaConfig().security.files.private;
+        const decipher = createDecipheriv("aes-256-cfb", key, iv);
+
+        return createReadStream(encryptedFilePath).pipe(decipher).pipe(res);
       } catch (e) {
         return res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
           .json({ message: "CANNOT_OPEN_FILE" });
       }
     }
-
-    // TEMP FIX : Utiliser la deuxième clé d'encryptage générée le 30 juin
-    // A supprimer une fois que les fichiers seront de nouveaux regénérés
-    const docInfos = await stat(encryptedFilePath);
-
-    const iv =
-      docInfos.mtime < new Date("2021-06-30T23:01:01.113Z")
-        ? domifaConfig().security.files.ivSecours
-        : domifaConfig().security.files.iv;
-
-    try {
-      const key = domifaConfig().security.files.private;
-      const decipher = createDecipheriv("aes-256-cfb", key, iv);
-
-      return createReadStream(encryptedFilePath).pipe(decipher).pipe(res);
-    } catch (e) {
-      return res
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "CANNOT_OPEN_FILE" });
-    }
   }
 
-  private async encryptFile(
-    usager: Usager,
-    fileName: string
+  private async saveEncryptedFile(
+    user: UserStructureAuthenticated,
+    usagerDoc: UsagerDoc
   ): Promise<void | Error> {
-    return new Promise((resolve, reject) => {
-      const filePath = getFilePath(usager.structureId, usager.ref, fileName);
+    const sourceFilePath = await getFilePath(
+      user.structure.uuid,
+      usagerDoc.usagerUUID,
+      usagerDoc.path
+    );
 
-      const key = domifaConfig().security.files.private;
-      const iv = domifaConfig().security.files.iv;
+    const fileExist = await pathExists(sourceFilePath);
+    if (!fileExist) {
+      appLogger.error(`Fichier inexistant : ${sourceFilePath}`);
+      return new Error(`Fichier inexistant : ${sourceFilePath}`);
+    }
 
-      const cipher = createCipheriv("aes-256-cfb", key, iv);
+    try {
+      const mainSecret = domifaConfig().security.files.mainSecret;
 
-      const input = createReadStream(filePath);
-      const output = createWriteStream(filePath + ".encrypted");
-
-      input.pipe(cipher).pipe(output);
-
-      output.on("error", async (error: Error) => {
-        appLogger.error("[FILES] CANNOT_ENCRYPT_FILE : " + filePath, {
-          sentry: true,
-          error,
-        });
-        await remove(filePath);
-        reject(error);
-      });
-
-      output.on("finish", async () => {
-        await remove(filePath);
-        resolve();
-      });
-    });
+      await pipeline(
+        createReadStream(sourceFilePath),
+        compressAndResizeImage(usagerDoc),
+        encryptFile(mainSecret, usagerDoc.encryptionContext),
+        createWriteStream(sourceFilePath + ".sfe")
+      );
+    } catch (e) {
+      console.error(e);
+      appLogger.error("Erreur");
+      return new Error(
+        `Erreur de chiffrement : ${sourceFilePath} ${e.message}`
+      );
+    } finally {
+      await deleteFile(sourceFilePath);
+    }
   }
 }
