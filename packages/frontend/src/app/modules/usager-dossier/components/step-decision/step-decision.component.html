@@ -28,7 +28,7 @@
             (click)="getCerfa('demande')"
             class="btn btn-primary"
           >
-            <fa-icon [icon]="['fas', 'download']"></fa-icon>
+            <fa-icon [icon]="['fas', 'download']" aria-hidden="true"></fa-icon>
             Télécharger le CERFA de demande
           </button>
           <br />
@@ -42,10 +42,13 @@
       </div>
     </div>
 
-    <div *ngIf="!isAdmin && usager.decision.statut === 'INSTRUCTION'">
-      <div class="row">
+    <div class="step_form">
+      <div
+        class="row"
+        *ngIf="!isAdmin && usager.decision.statut === 'INSTRUCTION'"
+      >
         <div class="col-md-12 text-center">
-          <h2 class="form-title" role="heading">
+          <h2 class="form-title">
             Le dossier de
             {{ usager.nom }} {{ usager.prenom }}
             est complet
@@ -57,97 +60,88 @@
             (click)="setDecisionAttente()"
             class="btn btn-primary"
           >
-            <fa-icon [icon]="['far', 'clock']"></fa-icon>
+            <fa-icon aria-hidden="true" [icon]="['far', 'clock']"></fa-icon>
             SOUMETTRE LA DEMANDE
           </button>
         </div>
       </div>
-    </div>
 
-    <div class="container my-4 text-center" *ngIf="isAdmin">
-      <h2 class="form-title" role="heading" aria-level="1">
-        Le dossier de
-        {{ usager.nom }} {{ usager.prenom }}
-        est complet
-      </h2>
+      <div class="mb-5 text-center" *ngIf="isAdmin">
+        <h2 class="form-title">
+          Le dossier de
+          {{ usager.nom }} {{ usager.prenom }}
+          est complet
+        </h2>
 
-      <div class="pb-4" *ngIf="usager.decision.statut === 'ATTENTE_DECISION'">
-        Ce dossier a été mis en attente d'une décision par
+        <div class="pb-4" *ngIf="usager.decision.statut === 'ATTENTE_DECISION'">
+          Ce dossier a été mis en attente d'une décision par
+          <strong>
+            {{ usager.decision.userName }}
+            le {{ usager.decision.dateDecision | date : "dd/MM/yyyy à HH:mm" }}
+          </strong>
+        </div>
 
-        <strong>
-          {{ usager.decision.userName }}
-          le {{ usager.decision.dateDecision | date : "dd/MM/yyyy à HH:mm" }}
-        </strong>
+        <div class="mb-3 d-grid gap-2 d-md-flex">
+          <button
+            type="button"
+            class="btn-block me-0 me-md-3 my-1 btn btn-success"
+            (click)="open(confirmation)"
+          >
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'check']"
+              class="me-2"
+            ></fa-icon>
+            Accepter le dossier
+          </button>
+
+          <button
+            class="btn-block me-0 me-md-3 my-1 btn btn-danger"
+            (click)="open(refus)"
+            type="button"
+          >
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'times']"
+              class="me-2"
+            ></fa-icon>
+            Refuser le dossier
+          </button>
+
+          <button
+            *ngIf="usager.decision.statut !== 'ATTENTE_DECISION'"
+            (click)="setDecisionAttente()"
+            class="btn-block me-0 my-1 btn btn-outline-dark"
+            type="button"
+          >
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['far', 'clock']"
+              class="me-2"
+            ></fa-icon>
+            Soumettre la demande
+          </button>
+        </div>
       </div>
 
-      <div
-        class="d-print-none d-flex justify-content-center align-items-center text-center py-2"
-      >
-        <button
-          type="button"
-          class="me-3 btn btn-success"
-          (click)="open(confirmation)"
-        >
-          <fa-icon [icon]="['fas', 'check']" class="me-2"></fa-icon>
-          Accepter le dossier
-        </button>
-
-        <button
-          title="Refuser le dossier"
-          class="me-3 btn btn-danger"
-          (click)="open(refus)"
-          type="button"
-        >
-          <fa-icon [icon]="['fas', 'times']" class="me-2"></fa-icon>
-          Refuser le dossier
-        </button>
-
-        <button
-          title="Soumettre la demande"
-          *ngIf="usager.decision.statut !== 'ATTENTE_DECISION'"
-          (click)="setDecisionAttente()"
-          class="me-3 btn btn-light-primary"
-          type="button"
-        >
-          <fa-icon [icon]="['far', 'clock']" class="me-2"></fa-icon>
-          Soumettre la demande
-        </button>
-      </div>
-    </div>
-
-    <div class="step_form">
       <div class="row">
-        <div class="col mb-4">
-          <span *ngIf="usager.typeDom === 'RENOUVELLEMENT'">
-            Dossier
-            <span class="text-primary fw-bold me-3">{{
-              usager.customRef
-            }}</span>
-          </span>
-
-          <span
-            *ngIf="usager.typeDom === 'PREMIERE_DOM'"
-            class="label-info label-yellow"
-          >
-            Première domiciliation
-          </span>
-          <span
-            *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
-            class="label-info label-green"
-          >
-            Renouvellement
-          </span>
-        </div>
-      </div>
-
-      <div class="row align-items-center">
-        <div class="col-6">
+        <div class="col-md-6 col-12">
           <h3>État civil</h3>
+          <app-display-etat-civil-decision
+            *ngIf="!editInfos"
+            [usager]="usager"
+            section="ETAT_CIVIL"
+          ></app-display-etat-civil-decision>
         </div>
-        <div class="col-3">
+        <div class="col-md-4 col-12">
           <h3 *ngIf="!editInfos">Ayants-droits</h3>
+          <app-display-etat-civil-decision
+            *ngIf="!editInfos"
+            [usager]="usager"
+            section="AYANTS_DROIT"
+          ></app-display-etat-civil-decision>
         </div>
-        <div class="col-3 text-end">
+        <div class="col-md-2 col-12 text-end">
           <button
             class="btn btn-outline-primary d-print-none"
             *ngIf="!editInfos"
@@ -178,11 +172,6 @@
           </button>
         </div>
       </div>
-
-      <app-display-etat-civil-decision
-        *ngIf="!editInfos"
-        [usager]="usager"
-      ></app-display-etat-civil-decision>
 
       <app-profil-etat-civil-form
         *ngIf="editInfos"
@@ -287,13 +276,11 @@
 
       <hr />
 
-      <div
-        class="d-flex justify-content-center align-items-center my-4 d-print-none"
-      >
+      <div class="mb-3 d-grid gap-2 d-md-flex">
         <button
           type="button"
           (click)="getCerfa('demande')"
-          class="btn btn-primary d-print-none me-2"
+          class="btn btn-primary d-print-none btn-block me-0 me-md-3 my-1"
         >
           <fa-icon
             [icon]="['fas', 'download']"
@@ -305,7 +292,7 @@
         <button
           type="button"
           (click)="getCerfa('attestation')"
-          class="btn btn-primary d-print-none me-2"
+          class="btn btn-primary d-print-none btn-block me-0 my-1"
           *ngIf="
             me.role !== 'facteur' &&
             me.role !== 'simple' &&
@@ -328,12 +315,15 @@
         class="d-print-none me-2 btn btn-primary"
         type="button"
       >
-        <fa-icon [icon]="['fas', 'print']" class="me-2"></fa-icon>
+        <fa-icon
+          [icon]="['fas', 'print']"
+          aria-hidden="true"
+          class="me-2"
+        ></fa-icon>
         Imprimer le récapitulatif
       </button>
     </div>
   </div>
-
   <app-step-footer [usager]="usager"></app-step-footer>
 </div>
 

@@ -12,7 +12,6 @@ import { of, Subject, Subscription } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 import {
   UserStructure,
-  StructureCommon,
   FormEmailTakenValidator,
 } from "../../../../../_common/model";
 import { fadeInOut, noWhiteSpace } from "../../../../shared";
@@ -24,6 +23,7 @@ import {
   PasswordValidator,
 } from "../../../users/services";
 import { StructureService } from "../../services";
+import { StructureCommon } from "../../types";
 
 @Component({
   animations: [fadeInOut],

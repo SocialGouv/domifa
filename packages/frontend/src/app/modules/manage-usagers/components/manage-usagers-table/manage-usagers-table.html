@@ -153,8 +153,8 @@
         <img
           *ngIf="usager.pinnedNote"
           [ngbTooltip]="pinnedNote"
+          triggers="hover focus"
           #tooltipNote="ngbTooltip"
-          triggers="focus"
           tabindex="0"
           src="/assets/icones/pinned-note.svg"
           alt="Note épinglée"
@@ -196,8 +196,8 @@
           tabindex="0"
           *ngIf="usager.options.procurations.length > 0"
           [ngbTooltip]="procurationActif"
+          triggers="hover focus"
           #tooltipProcuration="ngbTooltip"
-          triggers="focus"
         >
           <ng-template #procurationActif>
             <div
@@ -234,7 +234,7 @@
           *ngIf="usager.options.transfert.actif"
           [ngbTooltip]="transfertActif"
           tabindex="0"
-          triggers="focus"
+          triggers="hover focus"
           #tooltipTransfert="ngbTooltip"
         >
           <ng-template #transfertActif>
@@ -325,6 +325,7 @@
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_visite') !== -1"
             aria-label="Ajout d'un passage"
             ngbTooltip="Ajout d'un passage"
+            triggers="hover focus"
             class="btn interaction-btn btn-light"
             (click)="setSingleInteraction(usager, 'visite')"
           >
@@ -341,6 +342,7 @@
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_appel') !== -1"
             aria-label="Ajout d'un appel téléphonique"
             ngbTooltip="Ajout d'un appel téléphonique"
+            triggers="hover focus"
             class="btn interaction-btn btn-light"
             (click)="setSingleInteraction(usager, 'appel')"
           >
@@ -365,6 +367,7 @@
             type="button"
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_courrierIn') !== -1"
             ngbTooltip="Ajout rapide d'un courrier"
+            triggers="hover focus"
             class="btn interaction-btn btn-light"
             (click)="setSingleInteraction(usager, 'courrierIn')"
           >
@@ -380,7 +383,7 @@
             type="button"
             aria-label="Ajout détaillé d'un courrier"
             ngbTooltip="Ajout détaillé d'un courrier"
-            autoClose="outside"
+            triggers="hover focus"
             class="interaction-btn btn-light btn"
             (click)="openInteractionInModal(usager)"
           >
@@ -426,7 +429,7 @@
             class="btn interaction-btn btn-light"
             [ngbTooltip]="distributionBox"
             type="button"
-            triggers="focus"
+            triggers="hover focus"
             aria-label="Distribuer le courrier"
             (click)="openInteractionOutModal(usager)"
           >

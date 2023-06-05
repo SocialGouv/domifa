@@ -13,17 +13,14 @@ import {
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import {
-  DEFAULT_MODAL_OPTIONS,
-  StructureCommon,
-} from "../../../../../_common/model";
-
-import { StructureService } from "../../services/structure.service";
+import { NgbModalRef, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "@ngx-matomo/tracker";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
-import { generateSender } from "../../services";
+import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
+import { CustomToastService } from "../../../shared/services";
+import { StructureService } from "../../services";
+import { StructureCommon } from "../../types";
+import { generateSender } from "../../utils/generateSender.service";
 
 @Component({
   selector: "app-structures-sms-form",

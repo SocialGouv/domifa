@@ -16,17 +16,24 @@ import {
   PhoneNumberFormat,
   SearchCountryField,
 } from "ngx-intl-tel-input";
-
-import { Structure, StructureCommon } from "../../../../../_common/model";
-
-import { PREFERRED_COUNTRIES, DEPARTEMENTS_LISTE } from "../../../../shared";
+import {
+  PREFERRED_COUNTRIES,
+  DEPARTEMENTS_LISTE,
+  noWhiteSpace,
+} from "../../../../shared";
 import {
   setFormPhone,
-  getFormPhone,
   anyPhoneValidator,
+  getFormPhone,
 } from "../../../shared/phone";
-import { CustomToastService } from "../../../shared/services/custom-toast.service";
-import { structureNameChecker, StructureService } from "../../services";
+import { CustomToastService } from "../../../shared/services";
+import { StructureService } from "../../services";
+import { StructureCommon, Structure } from "../../types";
+import {
+  getPostalCodeValidator,
+  updateComplementAdress,
+  isInvalidStructureName,
+} from "../../utils/structure-validators";
 
 @Component({
   selector: "app-structure-edit-form",
@@ -74,14 +81,7 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
       adresse: [this.structure.adresse, [Validators.required]],
       agrement: [this.structure.agrement, assoRequired],
       capacite: [this.structure.capacite, []],
-      codePostal: [
-        this.structure.codePostal,
-        [
-          Validators.maxLength(5),
-          this.structureService.codePostalValidator(),
-          Validators.required,
-        ],
-      ],
+      codePostal: [this.structure.codePostal, getPostalCodeValidator(true)],
       complementAdresse: [this.structure.complementAdresse, []],
       departement: [this.structure.departement, assoRequired],
       email: [this.structure.email, [Validators.required, Validators.email]],
@@ -95,7 +95,7 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
         ville: [this.structure.adresseCourrier.ville, adresseRequired],
         codePostal: [
           this.structure.adresseCourrier.codePostal,
-          adresseRequired,
+          getPostalCodeValidator(this.structure.adresseCourrier.actif),
         ],
       }),
       telephone: new UntypedFormControl(
@@ -103,48 +103,30 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
         [Validators.required, anyPhoneValidator]
       ),
       responsable: this.formBuilder.group({
-        fonction: [this.structure.responsable.fonction, [Validators.required]],
-        nom: [this.structure.responsable.nom, [Validators.required]],
-        prenom: [this.structure.responsable.prenom, [Validators.required]],
+        fonction: [
+          this.structure.responsable.fonction,
+          [Validators.required, noWhiteSpace],
+        ],
+        nom: [
+          this.structure.responsable.nom,
+          [Validators.required, noWhiteSpace],
+        ],
+        prenom: [
+          this.structure.responsable.prenom,
+          [Validators.required, noWhiteSpace],
+        ],
       }),
 
       ville: [this.structure.ville, [Validators.required]],
     });
 
     this.selectedCountryISO = COUNTRY_CODES_TIMEZONE[this.structure.timeZone];
-
     this.subscription.add(
       this.structureForm
         .get("adresseCourrier")
         ?.get("actif")
         ?.valueChanges.subscribe((value: boolean) => {
-          const isRequired = value === true ? [Validators.required] : null;
-
-          this.structureForm
-            .get("adresseCourrier")
-            ?.get("adresse")
-            ?.setValidators(isRequired);
-          this.structureForm
-            .get("adresseCourrier")
-            ?.get("codePostal")
-            ?.setValidators(isRequired);
-          this.structureForm
-            .get("adresseCourrier")
-            ?.get("ville")
-            ?.setValidators(isRequired);
-
-          this.structureForm
-            .get("adresseCourrier")
-            ?.get("adresse")
-            ?.updateValueAndValidity();
-          this.structureForm
-            .get("adresseCourrier")
-            ?.get("codePostal")
-            ?.updateValueAndValidity();
-          this.structureForm
-            .get("adresseCourrier")
-            ?.get("ville")
-            ?.updateValueAndValidity();
+          updateComplementAdress(this.structureForm, value);
         })
     );
   }
@@ -198,7 +180,7 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
   }
 
   public isInvalidStructureName(structureName: string): boolean {
-    return structureNameChecker.isInvalidStructureName(structureName);
+    return isInvalidStructureName(structureName);
   }
 
   public ngOnDestroy(): void {

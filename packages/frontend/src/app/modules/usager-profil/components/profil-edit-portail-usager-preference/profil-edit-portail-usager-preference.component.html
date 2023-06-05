@@ -64,8 +64,8 @@
         Patientez...</span
       >
       <span *ngIf="loadings.indexOf('acces_espace_domicilie') === -1"
-        ><fa-icon [icon]="['fas', 'download']"></fa-icon> Télécharger le
-        courrier d'accès au portail "Usagers"</span
+        ><fa-icon [icon]="['fas', 'download']" aria-hidden="true"></fa-icon>
+        Télécharger le courrier d'accès au portail "Usagers"</span
       >
     </button>
 
@@ -81,7 +81,6 @@
   *ngIf="editionInProgress"
   [formGroup]="form"
   (ngSubmit)="submit()"
-  autocomplete="off"
 >
   <div class="row">
     <div class="col-md-6">

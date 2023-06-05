@@ -142,7 +142,6 @@ export class ImportComponent implements OnInit, OnDestroy {
               this.previewTable = previewTable;
               this.visibleRows = this.previewTable.rows.slice(0, 50); // show 50 rows max
             } else {
-              // confirm
               this.toastService.success("L'import a eu lieu avec succès");
               this.router.navigate(["/manage"]);
             }

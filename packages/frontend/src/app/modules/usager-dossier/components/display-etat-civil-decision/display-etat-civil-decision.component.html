@@ -1,72 +1,68 @@
-<div class="row" *ngIf="usager">
-  <div class="col-6">
-    <div class="py-1">
-      <span class="fw-bold">{{ usager.prenom }} {{ usager.nom }}</span>
-      ({{ usager.sexe | titlecase }})
-    </div>
-    <div class="py-1">
-      Né{{ usager.sexe === "homme" ? "" : "e" }} le
-      <span class="fw-bold">{{
-        usager.dateNaissance | date : "dd/MM/yyyy"
-      }}</span>
-      à
-      <span class="fw-bold">{{ usager.villeNaissance | titlecase }}</span>
-    </div>
-
-    <div class="py-1">
-      Langue parlée:
-      <span class="valeur" *ngIf="usager.langue">{{
-        languagesAutocomplete.formatter(usager.langue)
-      }}</span>
-      <span class="valeur" *ngIf="!usager.langue">Non renseigné</span>
-    </div>
-    <div class="py-1">
-      <span class="valeur">Numéro de distribution spéciale (BP, TSA, etc)</span>
-      <span>
-        {{ usager.numeroDistribution || "Non renseigné" }}
-      </span>
-    </div>
-
-    <div class="my-4">
-      <div class="py-2 text-primary fw-bold">Contact</div>
-      <div class="py-1">
-        <b>Téléphone:</b>
-        <span class="valeur" *ngIf="usager.telephone.numero">{{
-          usager.telephone | formatInternationalPhoneNumber
-        }}</span>
-        <span class="valeur" *ngIf="!usager.telephone.numero"
-          >Non renseigné</span
-        >
-      </div>
-      <div class="py-1">
-        <b>Adresse e-mail:</b>
-        <span *ngIf="usager.email">
-          {{ usager.email }}
-        </span>
-        <span *ngIf="!usager.email">Non renseigné</span>
-      </div>
-      <div class="py-1">
-        <b>Notifications par SMS activés: </b>
-        <span>
-          {{ usager.contactByPhone ? "oui" : "non" }}
-        </span>
-      </div>
-    </div>
+<div *ngIf="usager && section === 'ETAT_CIVIL'">
+  <div class="py-1">
+    <span class="fw-bold">{{ usager.prenom }} {{ usager.nom }}</span>
+    ({{ usager.sexe | titlecase }})
+  </div>
+  <div class="py-1">
+    Né{{ usager.sexe === "homme" ? "" : "e" }} le
+    <span class="fw-bold">{{
+      usager.dateNaissance | date : "dd/MM/yyyy"
+    }}</span>
+    à
+    <span class="fw-bold">{{ usager.villeNaissance | titlecase }}</span>
   </div>
 
-  <div class="col-6">
-    <div class="font-italic" *ngIf="usager.ayantsDroits.length === 0">
-      Aucun ayant-droit enregistré
-    </div>
+  <div class="py-1">
+    Langue parlée:
+    <span class="valeur" *ngIf="usager.langue">{{
+      languagesAutocomplete.formatter(usager.langue)
+    }}</span>
+    <span class="valeur" *ngIf="!usager.langue">Non renseigné</span>
+  </div>
+  <div class="py-1">
+    <span class="valeur">Numéro de distribution spéciale (BP, TSA, etc):</span>
+    <span>
+      {{ usager.numeroDistribution || "Non renseigné" }}
+    </span>
+  </div>
 
-    <div class="reponses" *ngFor="let ayantDroit of usager.ayantsDroits">
-      <span class="question"
-        >{{ ayantDroit.nom | uppercase }} {{ ayantDroit.prenom }}</span
-      >
-      <span class="valeur">
-        {{ ayantDroit.dateNaissance | date : "dd/MM/yyyy" }},
-        {{ LIEN_PARENTE_LABELS[ayantDroit.lien] }}
+  <div class="my-4">
+    <div class="py-2 text-primary fw-bold">Contact</div>
+    <div class="py-1">
+      <b>Téléphone:</b>
+      <span class="valeur" *ngIf="usager.telephone.numero">{{
+        usager.telephone | formatInternationalPhoneNumber
+      }}</span>
+      <span class="valeur" *ngIf="!usager.telephone.numero">Non renseigné</span>
+    </div>
+    <div class="py-1">
+      <b>Adresse e-mail:</b>
+      <span *ngIf="usager.email">
+        {{ usager.email }}
+      </span>
+      <span *ngIf="!usager.email">Non renseigné</span>
+    </div>
+    <div class="py-1">
+      <b>Notifications par SMS activés: </b>
+      <span>
+        {{ usager.contactByPhone ? "oui" : "non" }}
       </span>
     </div>
+  </div>
+</div>
+
+<div *ngIf="section === 'AYANTS_DROIT'">
+  <div class="font-italic" *ngIf="usager.ayantsDroits.length === 0">
+    Aucun ayant-droit enregistré
+  </div>
+
+  <div class="reponses" *ngFor="let ayantDroit of usager.ayantsDroits">
+    <span class="question"
+      >{{ ayantDroit.nom | uppercase }} {{ ayantDroit.prenom }}</span
+    >
+    <span class="valeur">
+      Né(e) le {{ ayantDroit.dateNaissance | date : "dd/MM/yyyy" }},
+      {{ LIEN_PARENTE_LABELS[ayantDroit.lien] }}
+    </span>
   </div>
 </div>

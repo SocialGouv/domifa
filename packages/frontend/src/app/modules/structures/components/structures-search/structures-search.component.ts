@@ -3,14 +3,14 @@ import {
   AbstractControl,
   UntypedFormBuilder,
   UntypedFormGroup,
-  Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { environment } from "../../../../../environments/environment";
-import { StructureCommon } from "../../../../../_common/model";
 import { StructureService } from "../../services/structure.service";
+import { StructureCommon } from "../../types";
+import { getPostalCodeValidator } from "../../utils/structure-validators";
 
 @Component({
   selector: "app-structures-search",
@@ -50,14 +50,7 @@ export class StructuresSearchComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.titleService.setTitle("Inscrivez-vous sur DomiFa");
     this.codePostalForm = this.formBuilder.group({
-      codePostal: [
-        this.codePostal,
-        [
-          Validators.required,
-          Validators.maxLength(5),
-          this.structureService.codePostalValidator(),
-        ],
-      ],
+      codePostal: [this.codePostal, getPostalCodeValidator(true)],
     });
   }
 

@@ -13,7 +13,7 @@
     <br />
     <span>
       <strong class="text-primary">
-        <fa-icon [icon]="['fas', 'arrow-down']"></fa-icon>
+        <fa-icon aria-hidden="true" [icon]="['fas', 'arrow-down']"></fa-icon>
         &nbsp;
       </strong>
       importer vos domiciliations actuelles
@@ -22,7 +22,7 @@
     <br />
     <span>
       <strong class="text-primary">
-        <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+        <fa-icon aria-hidden="true" [icon]="['fas', 'plus']"></fa-icon>
         &nbsp;
       </strong>
       domicilier de nouvelles personnes
@@ -31,7 +31,7 @@
     <br />
     <span>
       <strong class="text-primary">
-        <fa-icon [icon]="['fas', 'user-plus']"></fa-icon>
+        <fa-icon aria-hidden="true" [icon]="['fas', 'user-plus']"></fa-icon>
         &nbsp;
       </strong>
       créer des comptes pour vos collaborateurs
@@ -71,7 +71,10 @@
             appCleanStr
             autocomplete="family-name"
             formControlName="nom"
-            [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
+            [ngClass]="{
+              'is-invalid': submitted && f.nom.errors,
+              'is-valid': f.nom.dirty && !f.nom.errors
+            }"
             required
           />
           <p *ngIf="submitted && f.nom.errors" class="invalid-feedback">
@@ -87,7 +90,10 @@
             appCleanStr
             autocomplete="given-name"
             formControlName="prenom"
-            [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
+            [ngClass]="{
+              'is-invalid': submitted && f.prenom.errors,
+              'is-valid': f.prenom.dirty && !f.prenom.errors
+            }"
             required
           />
           <p *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
@@ -100,6 +106,7 @@
           <label for="fonction">Fonction</label>
           <input
             type="text"
+            autocomplete="organization-title"
             class="form-control"
             id="fonction"
             formControlName="fonction"
@@ -107,9 +114,9 @@
             [ngClass]="{ 'is-invalid': submitted && f.fonction.errors }"
             required
           />
-          <div *ngIf="submitted && f.fonction.errors" class="invalid-feedback">
+          <p *ngIf="submitted && f.fonction.errors" class="invalid-feedback">
             Votre fonction est obligatoire
-          </div>
+          </p>
         </div>
       </div>
       <div class="row">

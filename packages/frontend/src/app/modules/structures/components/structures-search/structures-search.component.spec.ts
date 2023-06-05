@@ -1,17 +1,11 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-
 import { APP_BASE_HREF } from "@angular/common";
-
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
-import { UsersModule } from "src/app/modules/users/users.module";
-
-import { StructuresSearchComponent } from "./structures-search.component";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { StructuresSearchComponent } from "./structures-search.component";
 
 describe("StructuresSearchComponent", () => {
   let component: StructuresSearchComponent;
@@ -21,7 +15,6 @@ describe("StructuresSearchComponent", () => {
     TestBed.configureTestingModule({
       declarations: [StructuresSearchComponent],
       imports: [
-        UsersModule,
         NgbModule,
         ReactiveFormsModule,
         FormsModule,

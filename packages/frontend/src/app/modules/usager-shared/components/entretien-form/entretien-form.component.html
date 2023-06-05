@@ -19,7 +19,6 @@
               formControlName="orientation"
               id="orientation_oui"
               [value]="true"
-              autocomplete="off"
             />
             Oui
           </label>
@@ -32,7 +31,6 @@
               formControlName="orientation"
               id="orientation_non"
               [value]="false"
-              autocomplete="off"
             />
             Non
           </label>
@@ -54,23 +52,8 @@
 
       <div>
         <fieldset>
-          <legend class="label">
-            Avez-vous déjà une domiciliation ?
-            <fa-icon
-              [icon]="['fas', 'question-circle']"
-              placement="top"
-              aria-hidden="true"
-              tabindex="0"
-              ngbTooltip="Une domiciliation existante n’est pas un motif de refus. Néanmoins, il faut rechercher pourquoi la personne formule une nouvelle demande et l’inviter à choisir quelle domiciliation elle souhaite conserver."
-            >
-            </fa-icon>
-            <span class="visually-hidden"
-              >Une domiciliation existante n’est pas un motif de refus.
-              Néanmoins, il faut rechercher pourquoi la personne formule une
-              nouvelle demande et l’inviter à choisir quelle domiciliation elle
-              souhaite conserver.</span
-            >
-          </legend>
+          <legend class="label">Avez-vous déjà une domiciliation ?</legend>
+
           <div class="form-check form-check-inline">
             <label class="form-check-label" for="domiciliation_oui">
               <input
@@ -79,7 +62,6 @@
                 formControlName="domiciliation"
                 id="domiciliation_oui"
                 [value]="true"
-                autocomplete="off"
               />
               Oui
             </label>
@@ -91,23 +73,28 @@
                 type="radio"
                 formControlName="domiciliation"
                 id="domiciliation_non"
-                autocomplete="off"
                 [value]="false"
               />
               Non
             </label>
           </div>
+          <p>
+            <small class="text-muted"
+              >Une domiciliation existante n’est pas un motif de refus.
+              Néanmoins, il faut rechercher pourquoi la personne formule une
+              nouvelle demande et l’inviter à choisir quelle domiciliation elle
+              souhaite conserver.</small
+            >
+          </p>
         </fieldset>
         <fieldset>
           <legend class="label">Avez-vous des revenus ?</legend>
-
           <div class="form-check form-check-inline">
             <input
               class="form-check-input"
               type="radio"
               formControlName="revenus"
               id="revenus_oui"
-              autocomplete="off"
               [value]="true"
             />
             <label class="form-check-label" for="revenus_oui"> Oui </label>
@@ -118,7 +105,6 @@
               type="radio"
               formControlName="revenus"
               id="revenus_non"
-              autocomplete="off"
               [value]="false"
             />
             <label class="form-check-label" for="revenus_non"> Non </label>
@@ -170,18 +156,18 @@
               Autre lien avec la commune
             </label>
           </div>
+          <div class="form-group" *ngIf="e.liencommune.value === 'AUTRE'">
+            <label class="form-check-label" for="liencommuneDetail">
+              Précisez lien avec la commune
+            </label>
+            <input
+              type="text"
+              id="liencommuneDetail"
+              class="form-control"
+              formControlName="liencommuneDetail"
+            />
+          </div>
         </fieldset>
-        <div class="form-group" *ngIf="e.liencommune.value === 'AUTRE'">
-          <label class="form-check-label" for="liencommuneDetail">
-            Précisez lien avec la commune
-          </label>
-          <input
-            type="text"
-            id="liencommuneDetail"
-            class="form-control"
-            formControlName="liencommuneDetail"
-          />
-        </div>
       </div>
 
       <fieldset class="questions">
@@ -435,7 +421,11 @@
           class="my-4 btn btn-primary btn-block"
         >
           <span *ngIf="!loading">
-            Suivant <fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
+            Suivant
+            <fa-icon
+              [icon]="['fas', 'angle-right']"
+              aria-hidden="true"
+            ></fa-icon>
           </span>
 
           <span *ngIf="loading"

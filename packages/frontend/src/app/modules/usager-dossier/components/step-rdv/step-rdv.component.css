@@ -8,7 +8,6 @@
   transition: all 0.15s;
   border-color: var(--bs-blue);
   box-shadow: 0 1px 6px 0 rgba(124, 124, 124, 0.15);
-  z-index: 900;
 }
 
 .form-check-rdv {

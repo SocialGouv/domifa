@@ -1,6 +1,5 @@
 import { Directive, ElementRef, HostListener } from "@angular/core";
-
-import { generateSender } from "../../structures/services";
+import { generateSender } from "../../structures/utils/generateSender.service";
 
 @Directive({
   selector: "[appStrCapsAlpha]",

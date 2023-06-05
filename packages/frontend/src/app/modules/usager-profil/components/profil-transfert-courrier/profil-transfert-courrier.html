@@ -1,4 +1,4 @@
-<div class="d-print-none" *ngIf="usager && me">
+<div class="d-print-none" *ngIf="usager">
   <div class="d-flex justify-content-between align-items-center">
     <div>
       <h2>Transfert de courrier</h2>
@@ -10,7 +10,11 @@
         (click)="showForm()"
         class="btn btn-outline-dark ms-2"
       >
-        <fa-icon [icon]="['far', 'edit']" class="me-2"></fa-icon>
+        <fa-icon
+          aria-hidden="true"
+          [icon]="['far', 'edit']"
+          class="me-2"
+        ></fa-icon>
         Modifier le transfert
       </button>
 
@@ -20,7 +24,11 @@
         (click)="hideForm()"
         class="btn btn-outline-dark ms-2"
       >
-        <fa-icon [icon]="['fas', 'times']" class="me-2"></fa-icon>
+        <fa-icon
+          aria-hidden="true"
+          [icon]="['fas', 'times']"
+          class="me-2"
+        ></fa-icon>
         Annuler les modifications
       </button>
     </div>
@@ -66,7 +74,7 @@
         aria-label="Supprimer le transfert"
         class="btn btn-danger me-2"
       >
-        <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+        <fa-icon aria-hidden="true" [icon]="['fas', 'trash']"></fa-icon>
       </button>
     </div>
   </div>

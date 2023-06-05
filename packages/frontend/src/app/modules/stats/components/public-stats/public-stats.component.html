@@ -48,7 +48,7 @@
     <div class="stats-charts-container p-4">
       <div class="row align-items-center" *ngIf="!stats">
         <div class="col-md-12 text-center">
-          <div @fadeInOut>
+          <div @fadeInOut aria-live="polite">
             <fa-icon
               [icon]="['fas', 'spinner']"
               class="spinner"
@@ -203,11 +203,12 @@
     <br />
     <div class="row d-flex align-items-center" *ngIf="!stats">
       <div class="col-md-12 text-center">
-        <div @fadeInOut>
+        <div @fadeInOut aria-live="polite">
           <fa-icon
             [icon]="['fas', 'spinner']"
             class="spinner"
             [spin]="true"
+            aria-hidden="true"
           ></fa-icon>
           <span class="loading_message"
             >Chargement en cours, veuillez patienter</span

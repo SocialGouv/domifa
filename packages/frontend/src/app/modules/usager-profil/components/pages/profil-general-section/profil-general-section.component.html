@@ -349,15 +349,18 @@
               <button
                 type="button"
                 [disabled]="loadingButtons.indexOf('visite') !== -1"
+                [attr.aria-disabled]="loadingButtons.indexOf('visite') !== -1"
                 aria-label="Ajout d'un passage"
                 ngbTooltip="Ajout d'un passage"
                 class="btn me-2 btn-primary"
+                triggers="hover focus"
                 (click)="setSingleInteraction(usager.ref, 'visite')"
               >
                 <fa-icon
                   [icon]="['fas', 'circle-notch']"
                   [spin]="true"
                   class="list-icon-disabled"
+                  aria-hidden="true"
                 ></fa-icon>
                 <span class="icon-passage list-icon"></span>
               </button>
@@ -368,11 +371,13 @@
                 aria-label="Ajout d'un appel téléphonique"
                 ngbTooltip="Ajout d'un appel téléphonique"
                 class="btn btn-primary me-2"
+                triggers="hover focus"
                 (click)="setSingleInteraction(usager.ref, 'appel')"
               >
                 <fa-icon
                   class="list-icon-disabled"
                   [icon]="['fas', 'circle-notch']"
+                  aria-hidden="true"
                   [spin]="true"
                 >
                 </fa-icon>

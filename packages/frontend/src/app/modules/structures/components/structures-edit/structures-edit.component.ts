@@ -11,9 +11,10 @@ import { saveAs } from "file-saver";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
-import { StructureCommon, UserStructure } from "../../../../../_common/model";
+import { UserStructure } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { StructureService } from "../../services/structure.service";
+import { StructureCommon } from "../../types";
 
 @Component({
   selector: "app-structures-edit",

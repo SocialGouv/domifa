@@ -87,191 +87,192 @@
 
   <form
     *ngIf="isFormVisible"
-    ngNativeValidate
     [formGroup]="procurationsForm"
     (ngSubmit)="editProcurations()"
     autocomplete="off"
   >
+    <p>
+      Les champs suivis d'un
+      <span class="fw-bold text-danger">*</span> sont obligatoires
+    </p>
+
     <div
       formArrayName="procurations"
       *ngFor="let procuration of form.controls; let i = index"
     >
-      <div [formGroupName]="i" class="row">
-        <div class="col-12">
-          <p>
-            Les champs suivis d'un
-            <span class="fw-bold text-danger">*</span> sont obligatoires
-          </p>
-        </div>
-        <div class="col form-group required">
-          <label for="procuration_nom_{{i}}">Nom</label>
-          <input
-            type="text"
-            class="form-control"
-            id="procuration_nom_{{i}}"
-            formControlName="nom"
-            [ngClass]="{ 'is-invalid': submitted && form.controls[i].get('nom')?.errors }"
-            required
-          />
-          <p
-            *ngIf="submitted && form.controls[i].get('nom')?.errors"
-            class="invalid-feedback"
-          >
-            Le nom est obligatoire
-          </p>
-        </div>
-        <div class="col form-group required">
-          <label for="procuration_prenom_{{i}}">Prénom du mandataire</label>
-          <input
-            type="text"
-            class="form-control"
-            id="procuration_prenom_{{i}}"
-            formControlName="prenom"
-            [ngClass]="{ 'is-invalid': submitted && form.controls[i].get('prenom')?.errors}"
-            required
-          />
-          <p
-            *ngIf="submitted && form.controls[i].get('prenom')?.errors"
-            class="invalid-feedback"
-          >
-            Prénom du mandataire obligatoire
-          </p>
-        </div>
-
-        <div class="col form-group required">
-          <label for="date_naissance_{{i}}">Date de naissance</label>
-          <div class="input-group">
+      <fieldset>
+        <legend>Procuration {{ i + 1 }}</legend>
+        <div [formGroupName]="i" class="row">
+          <div class="col form-group required">
+            <label for="procuration_nom_{{i}}">Nom</label>
             <input
+              type="text"
               class="form-control"
-              placeholder="jj/mm/aaaa"
-              [minDate]="minDateNaissance"
-              [maxDate]="maxDateNaissance"
-              placement="bottom"
-              formControlName="dateNaissance"
-              ngbDatepicker
-              id="date_naissance_{{i}}"
-              dateFr
-              value
-              [ngClass]="{
-              'is-invalid': submitted && form.controls[i].get('dateNaissance')?.errors
-            }"
-              #d="ngbDatepicker"
-              maxlength="10"
+              id="procuration_nom_{{i}}"
+              formControlName="nom"
+              [ngClass]="{ 'is-invalid': submitted && form.controls[i].get('nom')?.errors }"
               required
             />
-
-            <button
-              type="button"
-              aria-label="Sélectionner une date de naissance sur le calendrier"
-              class="input-group-text btn btn-outline-primary"
-              (click)="d.toggle()"
-            >
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'calendar']"
-              ></fa-icon>
-            </button>
-          </div>
-          <p
-            *ngIf="form.controls[i].get('dateNaissance')?.invalid"
-            class="invalid-feedback"
-          >
-            La date de naissance est obligatoire. Exemple : 20/12/1996
-          </p>
-        </div>
-        <div class="col form-group required">
-          <label for="date_debut_{{i}}">Valide du</label>
-          <div class="input-group">
-            <input
-              class="form-control"
-              placeholder="jj/mm/aaaa"
-              placement="bottom"
-              id="date_debut_{{i}}"
-              formControlName="dateDebut"
-              aria-label="Choisir une date de début de validité dans le calendrier"
-              ngbDatepicker
-              dateFr
-              value
-              [ngClass]="{ 'is-invalid':  submitted &&  form.controls[i].get('dateDebut')?.errors  }"
-              #dateDebut="ngbDatepicker"
-              maxlength="10"
-              required
-            />
-            <button
-              type="button"
-              aria-label="Choisir une date de début de validité dans le calendrier"
-              class="btn input-group-text btn-outline-primary"
-              (click)="dateDebut.toggle()"
-            >
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'calendar']"
-              ></fa-icon>
-            </button>
             <p
-              *ngIf="submitted && form.controls[i].get('dateFin')?.invalid"
+              *ngIf="submitted && form.controls[i].get('nom')?.errors"
               class="invalid-feedback"
             >
-              La date de debut est incorrecte
+              Le nom est obligatoire
             </p>
           </div>
-        </div>
-        <div class="col form-group required">
-          <label for="date_fin_{{i}}">Valide jusqu'au</label>
-          <div class="input-group">
+          <div class="col form-group required">
+            <label for="procuration_prenom_{{i}}">Prénom du mandataire</label>
             <input
+              type="text"
               class="form-control"
-              placeholder="jj/mm/aaaa"
-              placement="bottom"
-              id="date_fin_{{i}}"
-              formControlName="dateFin"
-              ngbDatepicker
-              dateFr
-              value
-              [ngClass]="{ 'is-invalid':  submitted &&  form.controls[i].get('dateFin')?.errors  }"
-              #dateFin="ngbDatepicker"
-              maxlength="10"
+              id="procuration_prenom_{{i}}"
+              formControlName="prenom"
+              [ngClass]="{ 'is-invalid': submitted && form.controls[i].get('prenom')?.errors}"
               required
             />
-
-            <button
-              type="button"
-              aria-label="Choisir une date de fin de validité dans le calendrier"
-              class="btn input-group-text btn-outline-primary"
-              (click)="dateFin.toggle()"
-            >
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'calendar']"
-              ></fa-icon>
-            </button>
-
-            <div
-              *ngIf="submitted && form.controls[i].get('dateFin')?.errors"
+            <p
+              *ngIf="submitted && form.controls[i].get('prenom')?.errors"
               class="invalid-feedback"
             >
-              <p *ngIf="form.controls[i].get('dateFin')?.errors?.required">
-                La date de fin est obligatoire
-              </p>
-              <p
-                *ngIf="form.controls[i].get('dateFin')?.errors?.ngbDate || form.controls[i].get('dateFin')?.errors?.endDateAfterBeginDate"
+              Prénom du mandataire obligatoire
+            </p>
+          </div>
+
+          <div class="col form-group required">
+            <label for="date_naissance_{{i}}">Date de naissance</label>
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="jj/mm/aaaa"
+                [minDate]="minDateNaissance"
+                [maxDate]="maxDateNaissance"
+                placement="bottom"
+                formControlName="dateNaissance"
+                ngbDatepicker
+                id="date_naissance_{{i}}"
+                dateFr
+                value
+                [ngClass]="{
+              'is-invalid': submitted && form.controls[i].get('dateNaissance')?.errors
+            }"
+                #d="ngbDatepicker"
+                maxlength="10"
+                required
+              />
+
+              <button
+                type="button"
+                aria-label="Sélectionner une date de naissance sur le calendrier"
+                class="input-group-text btn btn-outline-primary"
+                (click)="d.toggle()"
               >
-                La date de fin est incorrecte
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'calendar']"
+                ></fa-icon>
+              </button>
+            </div>
+            <p
+              *ngIf="form.controls[i].get('dateNaissance')?.invalid"
+              class="invalid-feedback"
+            >
+              La date de naissance est obligatoire. Exemple : 20/12/1996
+            </p>
+          </div>
+          <div class="col form-group required">
+            <label for="date_debut_{{i}}">Valide du</label>
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="jj/mm/aaaa"
+                placement="bottom"
+                id="date_debut_{{i}}"
+                formControlName="dateDebut"
+                aria-label="Choisir une date de début de validité dans le calendrier"
+                ngbDatepicker
+                dateFr
+                value
+                [ngClass]="{ 'is-invalid':  submitted &&  form.controls[i].get('dateDebut')?.errors  }"
+                #dateDebut="ngbDatepicker"
+                maxlength="10"
+                required
+              />
+              <button
+                type="button"
+                aria-label="Choisir une date de début de validité dans le calendrier"
+                class="btn input-group-text btn-outline-primary"
+                (click)="dateDebut.toggle()"
+              >
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'calendar']"
+                ></fa-icon>
+              </button>
+              <p
+                *ngIf="submitted && form.controls[i].get('dateFin')?.invalid"
+                class="invalid-feedback"
+              >
+                La date de debut est incorrecte
               </p>
             </div>
           </div>
+          <div class="col form-group required">
+            <label for="date_fin_{{i}}">Valide jusqu'au</label>
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="jj/mm/aaaa"
+                placement="bottom"
+                id="date_fin_{{i}}"
+                formControlName="dateFin"
+                ngbDatepicker
+                dateFr
+                value
+                [ngClass]="{ 'is-invalid':  submitted &&  form.controls[i].get('dateFin')?.errors  }"
+                #dateFin="ngbDatepicker"
+                maxlength="10"
+                required
+              />
+
+              <button
+                type="button"
+                aria-label="Choisir une date de fin de validité dans le calendrier"
+                class="btn input-group-text btn-outline-primary"
+                (click)="dateFin.toggle()"
+              >
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'calendar']"
+                ></fa-icon>
+              </button>
+
+              <div
+                *ngIf="submitted && form.controls[i].get('dateFin')?.errors"
+                class="invalid-feedback"
+              >
+                <p *ngIf="form.controls[i].get('dateFin')?.errors?.required">
+                  La date de fin est obligatoire
+                </p>
+                <p
+                  *ngIf="form.controls[i].get('dateFin')?.errors?.ngbDate || form.controls[i].get('dateFin')?.errors?.endDateAfterBeginDate"
+                >
+                  La date de fin est incorrecte
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1 mt-4 text-center">
+            <button
+              type="button"
+              (click)="deleteProcurationForm(i)"
+              [attr.aria-label]="'Supprimer la procuration numéro '+ i"
+              class="btn btn-danger"
+            >
+              <fa-icon aria-hidden="true" [icon]="['fas', 'trash']"></fa-icon>
+            </button>
+          </div>
         </div>
-        <div class="col-md-1 mt-4 text-center">
-          <button
-            type="button"
-            (click)="deleteProcurationForm(i)"
-            [attr.aria-label]="'Supprimer la procuration numéro '+ i"
-            class="btn btn-danger"
-          >
-            <fa-icon aria-hidden="true" [icon]="['fas', 'trash']"></fa-icon>
-          </button>
-        </div>
-      </div>
+      </fieldset>
     </div>
     <div class="text-center">
       <button

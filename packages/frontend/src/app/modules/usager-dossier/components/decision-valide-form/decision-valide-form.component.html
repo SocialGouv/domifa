@@ -10,11 +10,7 @@
     Veuillez indiquer la date de début de la domiciliation.
     <br />
     <br />
-    <form
-      [formGroup]="valideForm"
-      (ngSubmit)="setDecisionValide()"
-      autocomplete="off"
-    >
+    <form [formGroup]="valideForm" (ngSubmit)="setDecisionValide()">
       <div class="row">
         <div class="col-md-12">
           <p>
@@ -56,9 +52,9 @@
               ></fa-icon>
             </button>
           </div>
-          <div *ngIf="submitted && v.dateDebut.errors" class="invalid-feedback">
+          <p *ngIf="submitted && v.dateDebut.errors" class="invalid-feedback">
             La date de début de domiciliation est incorrecte
-          </div>
+          </p>
         </div>
         <div class="form-group col-md-6 required">
           <label for="dateFinValide">Date de fin</label>
@@ -98,7 +94,10 @@
         <div class="text-center text-danger col-12">
           <p class="text-center" *ngIf="showDurationWarning">
             <strong class="text-danger warning-end-dom"
-              ><fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+              ><fa-icon
+                aria-hidden="true"
+                [icon]="['fas', 'exclamation-triangle']"
+              ></fa-icon>
               D'après la réglementation, une attestation de domiciliation doit
               être valable pendant un an.</strong
             >

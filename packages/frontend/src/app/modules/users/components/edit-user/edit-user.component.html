@@ -91,7 +91,6 @@
 
       <form
         *ngIf="editUser"
-        ngNativeValidate
         [formGroup]="userForm"
         class="row"
         (ngSubmit)="updateUser()"
@@ -109,19 +108,19 @@
             class="form-control"
             id="prenom"
             appCleanStr
+            autocomplete="given-name"
             formControlName="prenom"
             [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
             required
           />
-          <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
-            <div *ngIf="f.prenom.errors.required">
-              Le prénom est obligatoire
-            </div>
-          </div>
+          <p *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
+            Votre prénom est obligatoire
+          </p>
         </div>
         <div class="col-md-4 form-group required">
           <label for="nom">Nom</label>
           <input
+            autocomplete="family-name"
             type="text"
             class="form-control"
             id="nom"
@@ -130,11 +129,9 @@
             [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
             required
           />
-          <div *ngIf="submitted && f.nom.errors" class="invalid-feedback">
-            <div *ngIf="f.nom.errors.required">
-              Le nom du demandeur est obligatoire
-            </div>
-          </div>
+          <p *ngIf="submitted && f.nom.errors" class="invalid-feedback">
+            Le nom du demandeur est obligatoire
+          </p>
         </div>
         <div class="col-md-4 form-group required">
           <label for="email">Votre adresse email</label>
@@ -142,22 +139,22 @@
             type="email"
             class="form-control"
             id="email"
-            autocomplete="username"
+            autocomplete="email"
             formControlName="email"
             [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
             required
           />
           <div *ngIf="f.email.errors" class="invalid-feedback">
-            <div *ngIf="f.email.errors.emailTaken">
+            <p *ngIf="f.email.errors.emailTaken">
               <fa-icon
                 aria-hidden="true"
                 [icon]="['fas', 'exclamation-triangle']"
               ></fa-icon>
               <strong>L'adresse email est déjà utilisée</strong>
-            </div>
-            <div *ngIf="!f.email.errors.emailTaken">
+            </p>
+            <p *ngIf="!f.email.errors.emailTaken">
               L'adresse Email est incorrecte
-            </div>
+            </p>
           </div>
         </div>
 
@@ -181,7 +178,11 @@
             [disabled]="!userForm.valid || loading"
           >
             <span *ngIf="loading">
-              <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+              <fa-icon
+                [icon]="['fas', 'circle-notch']"
+                [spin]="true"
+                aria-hidden="true"
+              >
               </fa-icon>
               Veuillez patienter...
             </span>

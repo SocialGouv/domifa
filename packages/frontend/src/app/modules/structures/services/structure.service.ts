@@ -1,16 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { AbstractControl } from "@angular/forms";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
-import {
-  Structure,
-  StructureCommon,
-  UserStructure,
-} from "../../../../_common/model";
-import { departementHelper } from "./departement-helper.service";
-import { StructureCommonWeb } from "./StructureCommonWeb.type";
+import { UserStructure } from "../../../../_common/model";
+import { StructureCommon, Structure, StructureCommonWeb } from "../types";
 
 @Injectable({
   providedIn: "root",
@@ -126,27 +120,5 @@ export class StructureService {
     return this.http.get(`${environment.apiUrl}export`, {
       responseType: "blob",
     });
-  }
-
-  public codePostalValidator() {
-    return function validateCodePostal(control: AbstractControl) {
-      const postalCode = control.value;
-
-      const testCode = RegExp(/^[0-9][0-9AB][0-9]{3}$/).test(postalCode);
-      if (testCode) {
-        try {
-          const departement =
-            departementHelper.getDepartementFromCodePostal(postalCode);
-          departementHelper.getRegionCodeFromDepartement(departement);
-        } catch (err) {
-          // eslint-disable-next-line no-console
-          console.error(`Validation error for postalCode "${postalCode}"`, err);
-          return { codepostal: false };
-        }
-        return null;
-      }
-
-      return { codepostal: false };
-    };
   }
 }

@@ -38,7 +38,9 @@
           <ul>
             <li *ngFor="let link of partnerLinks">
               <a [href]="link.path" target="_blank"
-                >{{ link.label }} <fa-icon [icon]="faExternalLinkAlt"> </fa-icon
+                >{{ link.label }}
+                <fa-icon aria-hidden="true" [icon]="faExternalLinkAlt">
+                </fa-icon
               ></a>
             </li>
           </ul>

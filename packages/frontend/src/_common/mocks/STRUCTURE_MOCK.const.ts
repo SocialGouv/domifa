@@ -1,5 +1,5 @@
 import { CountryISO } from "ngx-intl-tel-input";
-import { StructureCommon } from "../model";
+import { StructureCommon } from "../../app/modules/structures/types";
 
 export const STRUCTURE_MOCK: StructureCommon = {
   id: 1,

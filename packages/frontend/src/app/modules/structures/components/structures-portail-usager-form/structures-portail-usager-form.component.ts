@@ -2,10 +2,11 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { StructureCommon, UserStructure } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { StructureService } from "../../services/structure.service";
 import { Title } from "@angular/platform-browser";
+import { UserStructure } from "../../../../../_common/model";
+import { StructureCommon } from "../../types";
 
 @Component({
   selector: "app-structures-portail-usager-form",
