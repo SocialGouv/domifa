@@ -2,7 +2,7 @@
   type="button"
   *ngIf="context === 'PROFIL'"
   (click)="openRadiationModal()"
-  class="ms-2 btn btn-white-primary my-sm-1"
+  class="ms-2 btn btn-white-primary my-md-0 my-1"
 >
   <fa-icon [icon]="['fas', 'times']" aria-hidden="true" class="me-2"></fa-icon>
   Radier le domicilié
@@ -148,32 +148,32 @@
             <p *ngIf="submitted && r.motif.errors" class="invalid-feedback">
               Veuillez choisir un motif de radiation
             </p>
-          </fieldset>
 
-          <div *ngIf="r.motif.value === 'AUTRE'" class="form-group required">
-            <label class="form-check-label" for="motifDetails">
-              Autre motif de radiation
-            </label>
-            <input
-              type="text"
-              class="form-control"
-              id="motifDetails"
-              [ngClass]="{ 'is-invalid': submitted && r.motifDetails.errors }"
-              formControlName="motifDetails"
-              aria-describedby="otherHelpText"
-              required
-            />
-            <small id="otherHelpText" class="form-text text-muted">
-              10 caractères minimum
-            </small>
-            <p
-              *ngIf="submitted && r.motifDetails.errors"
-              class="invalid-feedback"
-            >
-              Veuillez indiquer un autre motif de radiation d'au moins 10
-              caractères
-            </p>
-          </div>
+            <div *ngIf="r.motif.value === 'AUTRE'" class="form-group required">
+              <label class="form-check-label" for="motifDetails">
+                Autre motif de radiation
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="motifDetails"
+                [ngClass]="{ 'is-invalid': submitted && r.motifDetails.errors }"
+                formControlName="motifDetails"
+                aria-describedby="otherHelpText"
+                required
+              />
+              <small id="otherHelpText" class="form-text text-muted">
+                10 caractères minimum
+              </small>
+              <p
+                *ngIf="submitted && r.motifDetails.errors"
+                class="invalid-feedback"
+              >
+                Veuillez indiquer un autre motif de radiation d'au moins 10
+                caractères
+              </p>
+            </div>
+          </fieldset>
         </div>
       </div>
     </form>

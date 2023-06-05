@@ -183,8 +183,8 @@
           <p class="fw-bold">Nos partenaires</p>
           <ul>
             <li *ngFor="let link of partnerLinks">
-              <a [href]="link.path" target="_blank"
-                >{{ link.label }}
+              <a [href]="link.path" target="_blank" rel="noopener noreferrer">
+                {{ link.label }}
                 <fa-icon
                   class="ms-2"
                   [icon]="['fas', 'arrow-up-right-from-square']"

@@ -9,6 +9,7 @@ import { languagesAutocomplete } from "../../../../shared";
 })
 export class DisplayEtatCivilDecisionComponent {
   @Input() public usager!: UsagerFormModel;
+  @Input() public section!: "ETAT_CIVIL" | "AYANTS_DROIT";
 
   public readonly languagesAutocomplete = languagesAutocomplete;
   public readonly LIEN_PARENTE_LABELS = LIEN_PARENTE_LABELS;

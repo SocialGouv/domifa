@@ -1,9 +1,8 @@
 // @index('./*', f => `export * from '${f.path}'`)
-export * from "./_constants";
 export * from "./Structure.type";
-export * from "./StructureAddresseCourrier.type";
-export * from "./StructureAdmin.type";
+export * from "./StructureAddresseCourrier.interface";
 export * from "./StructureCommon.type";
+export * from "./StructureCommonWeb.class";
 export * from "./StructurePortailUsagerParams.type";
 export * from "./StructureResponsable.type";
 export * from "./StructureSmsParams.type";

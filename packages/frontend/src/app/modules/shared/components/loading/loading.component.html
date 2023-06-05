@@ -1,9 +1,10 @@
-<div *ngIf="loading" class="overlay">
+<div *ngIf="loading" class="overlay" aria-live="polite">
   <div @fadeInOut>
     <fa-icon
       [icon]="['fas', 'spinner']"
       class="spinner"
       [spin]="true"
+      aria-hidden="true"
     ></fa-icon>
     <span class="loading_message">Chargement en cours, veuillez patienter</span>
   </div>

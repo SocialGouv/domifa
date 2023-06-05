@@ -1,11 +1,12 @@
 <div class="stats-charts-container py-4" *ngIf="!publicStats">
   <div class="row d-flex align-items-center">
     <div class="col-md-12 text-center">
-      <div @fadeInOut>
+      <div @fadeInOut aria-live="polite">
         <fa-icon
           [icon]="['fas', 'spinner']"
           class="spinner"
           [spin]="true"
+          aria-hidden="true"
         ></fa-icon>
         <span class="loading_message"
           >Chargement en cours, veuillez patienter</span

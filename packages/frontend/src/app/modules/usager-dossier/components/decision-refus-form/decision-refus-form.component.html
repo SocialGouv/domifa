@@ -2,11 +2,7 @@
   <span class="text-white" id="modal-title">Motivez votre refus</span>
 </div>
 <div class="modal-body py-4">
-  <form
-    [formGroup]="refusForm"
-    (ngSubmit)="setDecisionRefus()"
-    autocomplete="off"
-  >
+  <form [formGroup]="refusForm" (ngSubmit)="setDecisionRefus()">
     <div class="col-md-12">
       <p>
         Les champs suivis d'un

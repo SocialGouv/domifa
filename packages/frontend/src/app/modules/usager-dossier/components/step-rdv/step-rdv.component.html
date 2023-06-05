@@ -66,202 +66,216 @@
       </div>
     </div>
 
-    <fieldset class="step_form" *ngIf="editRdv">
-      <legend class="form-title mb-3 text-center">
-        Quand souhaitez-vous réaliser l'entretien de {{ usager.prenom }} ?
-      </legend>
+    <form [formGroup]="rdvForm" (ngSubmit)="submitRdv()">
+      <fieldset class="step_form text-center" *ngIf="editRdv">
+        <legend class="form-title mb-3 text-center">
+          Quand souhaitez-vous réaliser l'entretien de {{ usager.prenom }} ?
+        </legend>
 
-      <form ngNativeValidate [formGroup]="rdvForm" (ngSubmit)="submitRdv()">
-        <div class="text-center">
-          <div
-            class="card my-2"
-            [ngClass]="{
-              card_selected: r.isNow.value === true
-            }"
-          >
-            <div class="card-body" tabindex="0" (click)="setValueRdv(true)">
-              <div class="form-check-rdv mb-2 text-center">
-                <input
-                  class="form-check-input me-2"
-                  type="radio"
-                  formControlName="isNow"
-                  id="rdvNow"
-                  [value]="true"
-                />
-                <label class="form-check-label" for="rdvNow"
-                  >L'entretien a lieu maintenant</label
-                >
-              </div>
-              <p class="card-text">
-                Pas besoin de fixer de date d'entretien ultérieure : l'entretien
-                est réalisé maintenant
-              </p>
-              <div
-                class="col-md-4 offset-md-4 text-center"
-                *ngIf="r.isNow.value === true"
+        <div
+          class="card my-2"
+          [ngClass]="{
+            card_selected: r.isNow.value === true
+          }"
+        >
+          <div class="card-body" tabindex="0" (click)="setValueRdv(true)">
+            <div class="form-check-rdv mb-2 text-center">
+              <input
+                class="form-check-input me-2"
+                type="radio"
+                formControlName="isNow"
+                id="rdvNow"
+                [value]="true"
+              />
+              <label class="form-check-label" for="rdvNow"
+                >L'entretien a lieu maintenant</label
               >
-                <button
-                  [disabled]="loading"
-                  type="submit"
-                  class="btn btn-primary btn-block"
-                >
-                  <span *ngIf="!loading">
-                    Suivant <fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
-                  </span>
-
-                  <span *ngIf="loading"
-                    ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
-                    </fa-icon>
-                    Veuillez patienter...</span
-                  >
-                </button>
-              </div>
             </div>
-          </div>
-
-          <div
-            class="card my-4"
-            [ngClass]="{
-              card_selected: r.isNow.value === false
-            }"
-          >
-            <div class="card-body" tabindex="0" (click)="setValueRdv(false)">
-              <div class="form-check-rdv mb-2 text-center">
-                <input
-                  class="form-check-input me-2"
-                  type="radio"
-                  id="rdv"
-                  [value]="false"
-                  formControlName="isNow"
-                />
-                <label class="form-check-label" for="rdv"
-                  >Fixer une date de rendez-vous</label
-                >
-              </div>
-              <p class="card-text">
-                L'entretien sera réalisé plus tard, par vous-même ou un autre
-                collaborateur.
-              </p>
-              <p *ngIf="r.isNow.value === false">
-                Les champs suivis d'un
-                <span class="fw-bold text-danger">*</span> sont obligatoires
-              </p>
-              <div class="row text-center" *ngIf="r.isNow.value === false">
-                <div class="form-group col required">
-                  <label for="rdvUser">Avec quel collaborateur ?</label>
-                  <select
-                    [ngClass]="{
-                      'is-invalid': r.userId.dirty && r.userId.invalid
-                    }"
-                    id="rdvUser"
-                    formControlName="userId"
-                    class="form-select"
-                    required
-                  >
-                    <option></option>
-                    <option *ngFor="let agent of agents" [ngValue]="agent.id">
-                      {{ agent.nom }} {{ agent.prenom }}
-                    </option>
-                  </select>
-                  <p
-                    *ngIf="r.userId.dirty && r.userId.invalid"
-                    class="text-center invalid-feedback"
-                  >
-                    Veuillez choisir un collaborateur
-                  </p>
-                </div>
-                <div class="form-group col required">
-                  <label for="jourRdv">Date du rendez-vous</label>
-                  <div class="input-group">
-                    <input
-                      class="form-control"
-                      placeholder="jj/mm/aaaa"
-                      [minDate]="minDateToday"
-                      [maxDate]="maxDateRdv"
-                      placement="bottom"
-                      id="jourRdv"
-                      ngbDatepicker
-                      [ngClass]="{ 'is-invalid': r.jourRdv.invalid }"
-                      formControlName="jourRdv"
-                      #dRdv="ngbDatepicker"
-                      required
-                    />
-
-                    <button
-                      type="button"
-                      aria-label="Sélectionner une date de rendez-vous sur le calendrier"
-                      class="input-group-text btn btn-outline-primary"
-                      (click)="dRdv.toggle()"
-                    >
-                      <fa-icon
-                        [icon]="['fas', 'calendar']"
-                        aria-hidden="true"
-                      ></fa-icon>
-                    </button>
-
-                    <p
-                      *ngIf="r.jourRdv.invalid"
-                      class="text-center invalid-feedback"
-                    >
-                      La date est incorrecte
-                    </p>
-                  </div>
-                </div>
-                <div class="form-group col required">
-                  <label for="heureRdv">Heure du rendez-vous</label>
-                  <div class="input-group">
-                    <input
-                      type="time"
-                      class="form-control"
-                      [ngClass]="{
-                        'is-invalid':
-                          r.heureRdv.invalid || r.heureRdv.errors?.dateInvalid
-                      }"
-                      id="heureRdv"
-                      formControlName="heureRdv"
-                      required
-                    />
-                  </div>
-                  <p
-                    *ngIf="r.heureRdv.errors?.required"
-                    class="small form-text text-center text-danger"
-                  >
-                    L'heure est obligatoire
-                  </p>
-                  <p
-                    *ngIf="r.heureRdv.errors?.dateInvalid"
-                    class="small form-text text-center text-danger"
-                  >
-                    L'horaire choisi est incorrect
-                  </p>
-                </div>
-              </div>
-              <div
-                class="col-md-4 offset-md-4 text-center"
-                *ngIf="r.isNow.value === false"
+            <p class="card-text">
+              Pas besoin de fixer de date d'entretien ultérieure : l'entretien
+              est réalisé maintenant
+            </p>
+            <div
+              class="col-md-4 offset-md-4 text-center"
+              *ngIf="r.isNow.value === true"
+            >
+              <button
+                [disabled]="loading"
+                type="submit"
+                class="btn btn-primary btn-block"
               >
-                <br />
-                <button
-                  [disabled]="loading"
-                  type="submit"
-                  class="btn btn-primary btn-block"
-                >
-                  <span *ngIf="!loading">
-                    Suivant <fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
-                  </span>
+                <span *ngIf="!loading">
+                  Suivant
+                  <fa-icon
+                    [icon]="['fas', 'angle-right']"
+                    aria-hidden="true"
+                  ></fa-icon>
+                </span>
 
-                  <span *ngIf="loading"
-                    ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
-                    </fa-icon>
-                    Veuillez patienter...</span
+                <span *ngIf="loading"
+                  ><fa-icon
+                    [icon]="['fas', 'circle-notch']"
+                    [spin]="true"
+                    aria-hidden="true"
                   >
-                </button>
-              </div>
+                  </fa-icon>
+                  Veuillez patienter...</span
+                >
+              </button>
             </div>
           </div>
         </div>
-      </form>
-    </fieldset>
+
+        <div
+          class="card my-4"
+          [ngClass]="{
+            card_selected: r.isNow.value === false
+          }"
+        >
+          <div class="card-body" tabindex="0" (click)="setValueRdv(false)">
+            <div class="form-check-rdv mb-2 text-center">
+              <input
+                class="form-check-input me-2"
+                type="radio"
+                id="rdv"
+                [value]="false"
+                formControlName="isNow"
+              />
+              <label class="form-check-label" for="rdv"
+                >Fixer une date de rendez-vous</label
+              >
+            </div>
+            <p class="card-text">
+              L'entretien sera réalisé plus tard, par vous-même ou un autre
+              collaborateur.
+            </p>
+            <p *ngIf="r.isNow.value === false">
+              Les champs suivis d'un
+              <span class="fw-bold text-danger">*</span> sont obligatoires
+            </p>
+            <div class="row text-center" *ngIf="r.isNow.value === false">
+              <div class="form-group col-12 col-md-4 required">
+                <label for="rdvUser">Avec quel collaborateur ?</label>
+                <select
+                  [ngClass]="{
+                    'is-invalid': r.userId.dirty && r.userId.invalid
+                  }"
+                  id="rdvUser"
+                  formControlName="userId"
+                  class="form-select"
+                  required
+                >
+                  <option></option>
+                  <option *ngFor="let agent of agents" [ngValue]="agent.id">
+                    {{ agent.nom }} {{ agent.prenom }}
+                  </option>
+                </select>
+                <p
+                  *ngIf="r.userId.dirty && r.userId.invalid"
+                  class="text-center invalid-feedback"
+                >
+                  Veuillez choisir un collaborateur
+                </p>
+              </div>
+              <div class="form-group col-12 col-md-4 required">
+                <label for="jourRdv">Date du rendez-vous</label>
+                <div class="input-group">
+                  <input
+                    class="form-control"
+                    placeholder="jj/mm/aaaa"
+                    [minDate]="minDateToday"
+                    [maxDate]="maxDateRdv"
+                    placement="bottom"
+                    id="jourRdv"
+                    ngbDatepicker
+                    [ngClass]="{ 'is-invalid': r.jourRdv.invalid }"
+                    formControlName="jourRdv"
+                    #dRdv="ngbDatepicker"
+                    required
+                  />
+
+                  <button
+                    type="button"
+                    aria-label="Sélectionner une date de rendez-vous sur le calendrier"
+                    class="input-group-text btn btn-outline-primary"
+                    (click)="dRdv.toggle()"
+                  >
+                    <fa-icon
+                      [icon]="['fas', 'calendar']"
+                      aria-hidden="true"
+                    ></fa-icon>
+                  </button>
+
+                  <p
+                    *ngIf="r.jourRdv.invalid"
+                    class="text-center invalid-feedback"
+                  >
+                    La date est incorrecte
+                  </p>
+                </div>
+              </div>
+              <div class="form-group col-12 col-md-4 required">
+                <label for="heureRdv">Heure du rendez-vous</label>
+                <div class="input-group">
+                  <input
+                    type="time"
+                    class="form-control"
+                    [ngClass]="{
+                      'is-invalid':
+                        r.heureRdv.invalid || r.heureRdv.errors?.dateInvalid
+                    }"
+                    id="heureRdv"
+                    formControlName="heureRdv"
+                    required
+                  />
+                </div>
+                <p
+                  *ngIf="r.heureRdv.errors?.required"
+                  class="small form-text text-center text-danger"
+                >
+                  L'heure est obligatoire
+                </p>
+                <p
+                  *ngIf="r.heureRdv.errors?.dateInvalid"
+                  class="small form-text text-center text-danger"
+                >
+                  L'horaire choisi est incorrect
+                </p>
+              </div>
+            </div>
+            <div
+              class="col-md-4 offset-md-4 text-center"
+              *ngIf="r.isNow.value === false"
+            >
+              <br />
+              <button
+                [disabled]="loading"
+                type="submit"
+                class="btn btn-primary btn-block"
+              >
+                <span *ngIf="!loading">
+                  Suivant
+                  <fa-icon
+                    [icon]="['fas', 'angle-right']"
+                    aria-hidden="true"
+                  ></fa-icon>
+                </span>
+
+                <span *ngIf="loading"
+                  ><fa-icon
+                    [icon]="['fas', 'circle-notch']"
+                    [spin]="true"
+                    aria-hidden="true"
+                  >
+                  </fa-icon>
+                  Veuillez patienter...</span
+                >
+              </button>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </form>
 
     <app-step-footer [usager]="usager"></app-step-footer>
 

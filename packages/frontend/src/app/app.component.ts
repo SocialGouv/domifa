@@ -162,7 +162,6 @@ export class AppComponent implements OnInit, OnDestroy {
             mainHeader.focus();
           }
 
-          // Retour au top de la fenêtre
           window.scroll({
             behavior: "smooth",
             left: 0,

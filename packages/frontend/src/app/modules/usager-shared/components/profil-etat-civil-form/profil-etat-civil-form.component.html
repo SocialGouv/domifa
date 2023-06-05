@@ -3,182 +3,200 @@
   (ngSubmit)="updateInfos()"
   *ngIf="currentUserSubject$ | async as me"
 >
-  <div class="row">
-    <div class="col-md-12">
-      <p>
-        Les champs suivis d'un
-        <span class="fw-bold text-danger">*</span> sont obligatoires
-      </p>
-    </div>
-    <div class="col-md-4 form-group required">
-      <label for="nom">Nom</label>
-      <input
-        type="text"
-        class="form-control"
-        id="nom"
-        appCleanStr
-        formControlName="nom"
-        placeholder="Précisez nom de naissance si nécessaire"
-        [ngClass]="{ 'is-invalid': f.nom.errors }"
-        required
-      />
-      <p *ngIf="f.nom.errors" class="invalid-feedback">
-        Le nom du demandeur est obligatoire
-      </p>
-    </div>
-
-    <div class="col-md-4 form-group required">
-      <label for="prenom">Prénom(s)</label>
-      <input
-        type="text"
-        class="form-control"
-        id="prenom"
-        appCleanStr
-        formControlName="prenom"
-        placeholder="Prénom(s) du demandeur"
-        [ngClass]="{ 'is-invalid': f.prenom.errors }"
-        required
-      />
-      <p *ngIf="f.prenom.errors" class="invalid-feedback">
-        Le prénom est obligatoire
-      </p>
-    </div>
-
-    <div class="col-md-4 form-group">
-      <label for="surnom">Nom d'usage / Surnom</label>
-      <input
-        type="text"
-        class="form-control"
-        id="surnom"
-        appCleanStr
-        formControlName="surnom"
-        placeholder="Nom d'usage / Surnom"
-        [ngClass]="{ 'is-invalid': f.surnom.errors }"
-      />
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-4 form-group required">
-      <label for="sexe">Sexe</label>
-      <select formControlName="sexe" id="sexe" class="form-select">
-        <option value="homme">Homme</option>
-        <option value="femme">Femme</option>
-      </select>
-    </div>
-
-    <div class="col-md-4 form-group required">
-      <label for="dateNaissance">Date de naissance</label>
-      <div class="input-group">
+  <fieldset>
+    <p>
+      Les champs suivis d'un
+      <span class="fw-bold text-danger">*</span> sont obligatoires
+    </p>
+    <legend class="visually-hidden">État civil du domicilié</legend>
+    <div class="row">
+      <div class="col-md-4 form-group required">
+        <label for="nom">Nom</label>
         <input
+          type="text"
           class="form-control"
-          placeholder="jj/mm/aaaa"
-          [minDate]="minDateNaissance"
-          [maxDate]="maxDateNaissance"
-          placement="bottom"
-          formControlName="dateNaissance"
-          id="dateNaissance"
-          ngbDatepicker
-          dateFr
-          value
-          [ngClass]="{
-            'is-invalid': submitted && f.dateNaissance.errors
-          }"
-          #d="ngbDatepicker"
-          maxlength="10"
+          id="nom"
+          appCleanStr
+          formControlName="nom"
+          placeholder="Précisez nom de naissance si nécessaire"
+          [ngClass]="{ 'is-invalid': f.nom.errors }"
           required
         />
-
-        <button
-          type="button"
-          aria-label="Sélectionner une date de naissance sur le calendrier"
-          class="input-group-text btn btn-outline-primary"
-          (click)="d.toggle()"
-        >
-          <fa-icon aria-hidden="true" [icon]="['fas', 'calendar']"></fa-icon>
-        </button>
-
-        <p *ngIf="f.dateNaissance.invalid" class="invalid-feedback">
-          La date de naissance est obligatoire. Exemple : 20/12/1996
+        <p *ngIf="f.nom.errors" class="invalid-feedback">
+          Le nom du demandeur est obligatoire
         </p>
       </div>
-    </div>
 
-    <div class="col-md-4 form-group required">
-      <label for="villeNaissance">Ville de naissance</label>
-      <input
-        type="text"
-        class="form-control"
-        id="villeNaissance"
-        formControlName="villeNaissance"
-        placeholder="Ville (préciser le pays si à l'étranger)"
-        [ngClass]="{ 'is-invalid': f.villeNaissance.errors }"
-        required
-      />
-      <div *ngIf="f.villeNaissance.errors" class="invalid-feedback">
-        La ville de naissance est obligatoire
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div
-      class="col-md-4 form-group"
-      [ngClass]="
-        f.contactByPhone.value === true ? 'required form-group' : 'form-group'
-      "
-    >
-      <label for="telephone">Numéro de téléphone (mobile uniquement)</label>
-      <ngx-intl-tel-input
-        [cssClass]="
-          submitted && (f.telephone.errors || f.telephone.invalid)
-            ? 'form-control is-invalid'
-            : 'form-control'
-        "
-        [preferredCountries]="PREFERRED_COUNTRIES"
-        [enableAutoCountrySelect]="false"
-        [enablePlaceholder]="true"
-        [searchCountryFlag]="true"
-        [customPlaceholder]="mobilePhonePlaceHolder"
-        searchCountryPlaceholder="Choisissez votre pays"
-        [searchCountryField]="[
-          SearchCountryField.Iso2,
-          SearchCountryField.Name
-        ]"
-        [selectFirstCountry]="false"
-        [maxLength]="15"
-        [phoneValidation]="true"
-        [separateDialCode]="true"
-        [numberFormat]="PhoneNumberFormat.International"
-        inputId="telephone"
-        name="telephone"
-        formControlName="telephone"
-        (countryChange)="updatePlaceHolder($event.iso2)"
-        [selectedCountryISO]="f.telephone.value?.countryCode"
-      ></ngx-intl-tel-input>
-      <small *ngIf="f.contactByPhone.value === false">Optionnel</small>
-      <p
-        *ngIf="submitted && f.telephone.errors"
-        class="invalid-feedback-custom"
-      >
-        Le numéro de téléphone est incorrect
-      </p>
-    </div>
-    <div class="col-md-4">
-      <div class="form-group">
-        <label for="email">Adresse e-mail (Optionnel)</label>
+      <div class="col-md-4 form-group required">
+        <label for="prenom">Prénom(s)</label>
         <input
-          type="email"
+          type="text"
           class="form-control"
-          id="email"
-          formControlName="email"
-          [ngClass]="{ 'is-invalid': f.email.errors }"
-          placeholder="adresse@mail.com"
+          id="prenom"
+          appCleanStr
+          formControlName="prenom"
+          placeholder="Prénom(s) du demandeur"
+          [ngClass]="{ 'is-invalid': f.prenom.errors }"
+          required
         />
-        <p *ngIf="f.email.errors" class="invalid-feedback">
-          Veuillez saisir une adresse e-mail valide. Par exemple :
-          john.doe@domifa.fr
+        <p *ngIf="f.prenom.errors" class="invalid-feedback">
+          Le prénom est obligatoire
         </p>
       </div>
+
+      <div class="col-md-4 form-group">
+        <label for="surnom">Nom d'usage / Surnom</label>
+        <input
+          type="text"
+          class="form-control"
+          id="surnom"
+          appCleanStr
+          formControlName="surnom"
+          placeholder="Nom d'usage / Surnom"
+          [ngClass]="{ 'is-invalid': f.surnom.errors }"
+        />
+      </div>
     </div>
+    <div class="row">
+      <div class="col-md-4 form-group required">
+        <label for="sexe">Sexe</label>
+        <select formControlName="sexe" id="sexe" class="form-select">
+          <option value="homme">Homme</option>
+          <option value="femme">Femme</option>
+        </select>
+      </div>
+
+      <div class="col-md-4 form-group required">
+        <label for="dateNaissance">Date de naissance</label>
+        <div class="input-group">
+          <input
+            class="form-control"
+            placeholder="jj/mm/aaaa"
+            [minDate]="minDateNaissance"
+            [maxDate]="maxDateNaissance"
+            placement="bottom"
+            formControlName="dateNaissance"
+            id="dateNaissance"
+            ngbDatepicker
+            dateFr
+            value
+            [ngClass]="{
+              'is-invalid': submitted && f.dateNaissance.errors
+            }"
+            #d="ngbDatepicker"
+            maxlength="10"
+            required
+          />
+
+          <button
+            type="button"
+            aria-label="Sélectionner une date de naissance sur le calendrier"
+            class="input-group-text btn btn-outline-primary"
+            (click)="d.toggle()"
+          >
+            <fa-icon aria-hidden="true" [icon]="['fas', 'calendar']"></fa-icon>
+          </button>
+
+          <p *ngIf="f.dateNaissance.invalid" class="invalid-feedback">
+            La date de naissance est obligatoire. Exemple : 20/12/1996
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4 form-group required">
+        <label for="villeNaissance">Ville de naissance</label>
+        <input
+          type="text"
+          class="form-control"
+          id="villeNaissance"
+          formControlName="villeNaissance"
+          placeholder="Ville (préciser le pays si à l'étranger)"
+          [ngClass]="{ 'is-invalid': f.villeNaissance.errors }"
+          required
+        />
+        <div *ngIf="f.villeNaissance.errors" class="invalid-feedback">
+          La ville de naissance est obligatoire
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  <div class="row">
+    <fieldset class="col-md-8 col-12">
+      <legend class="visually-hidden">
+        Informations de contact du domicilié
+      </legend>
+      <div class="row">
+        <div class="col-md-6 col-12">
+          <div
+            class="form-group"
+            [ngClass]="
+              f.contactByPhone.value === true
+                ? 'required form-group'
+                : 'form-group'
+            "
+          >
+            <label for="telephone"
+              >Numéro de téléphone (mobile uniquement)</label
+            >
+            <ngx-intl-tel-input
+              [cssClass]="
+                submitted && (f.telephone.errors || f.telephone.invalid)
+                  ? 'form-control is-invalid'
+                  : 'form-control'
+              "
+              [preferredCountries]="PREFERRED_COUNTRIES"
+              [enableAutoCountrySelect]="false"
+              [enablePlaceholder]="true"
+              [searchCountryFlag]="true"
+              [customPlaceholder]="mobilePhonePlaceHolder"
+              searchCountryPlaceholder="Choisissez votre pays"
+              [searchCountryField]="[
+                SearchCountryField.Iso2,
+                SearchCountryField.Name
+              ]"
+              [selectFirstCountry]="false"
+              [maxLength]="15"
+              [phoneValidation]="true"
+              [separateDialCode]="true"
+              [numberFormat]="PhoneNumberFormat.International"
+              inputId="telephone"
+              name="telephone"
+              formControlName="telephone"
+              (countryChange)="updatePlaceHolder($event.iso2)"
+              [selectedCountryISO]="f.telephone.value?.countryCode"
+            ></ngx-intl-tel-input>
+            <small
+              class="form-text text-muted"
+              *ngIf="f.contactByPhone.value === false"
+              >Optionnel</small
+            >
+            <p
+              *ngIf="submitted && f.telephone.errors"
+              class="invalid-feedback-custom"
+            >
+              Le numéro de téléphone est incorrect
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6 col-12">
+          <div class="form-group">
+            <label for="email">Adresse e-mail (Optionnel)</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              formControlName="email"
+              [ngClass]="{ 'is-invalid': f.email.errors }"
+              placeholder="adresse@mail.com"
+            />
+            <p *ngIf="f.email.errors" class="invalid-feedback">
+              Veuillez saisir une adresse e-mail valide. Par exemple :
+              john.doe@domifa.fr
+            </p>
+          </div>
+        </div>
+      </div>
+    </fieldset>
 
     <div class="col-md-4 form-group">
       <label for="langue">Langue parlée</label>
@@ -277,7 +295,6 @@
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
         <h2>Ayants-droits</h2>
-
         <button
           type="button"
           (click)="addAyantDroit()"
@@ -297,10 +314,11 @@
   <div class="alert alert-info" *ngIf="ayantsDroits.length === 0">
     Aucun ayant-droit enregistré
   </div>
-  <div
+  <fieldset
     formArrayName="ayantsDroits"
     *ngFor="let ayantDroit of ayantsDroits.controls; let i = index"
   >
+    <legend>Ayant-droit numéro {{ i + 1 }}</legend>
     <div [formGroupName]="i" class="row align-items-center">
       <div class="col form-group required">
         <label for="nom_{{ i }}">Nom</label>
@@ -427,7 +445,8 @@
         </button>
       </div>
     </div>
-  </div>
+  </fieldset>
+
   <div class="row">
     <div class="col-4 offset-4 my-3">
       <button

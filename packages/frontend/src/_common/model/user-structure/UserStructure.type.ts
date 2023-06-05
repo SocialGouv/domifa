@@ -1,4 +1,4 @@
-import { StructureCommon } from "../structure";
+import { StructureCommon } from "../../../app/modules/structures/types";
 import { AppEntity } from "../_core/AppEntity.type";
 import { UserStructureMails } from "./UserStructureMails.type";
 import { UserStructureRole } from "./UserStructureRole.type";

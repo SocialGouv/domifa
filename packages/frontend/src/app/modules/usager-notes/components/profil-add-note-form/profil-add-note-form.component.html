@@ -14,7 +14,7 @@
       <span class="text-primary">{{ usager.nom }} {{ usager.prenom }} </span>
     </span>
   </div>
-  <form ngNativeValidate [formGroup]="addNoteForm" (ngSubmit)="submit()">
+  <form [formGroup]="addNoteForm" (ngSubmit)="submit()">
     <div class="modal-body text-center">
       <div class="form-group required">
         <label class="label text-start" for="message"
@@ -27,7 +27,6 @@
           maxlength="1000"
           required
         ></textarea>
-
         <p *ngIf="submitted && f.message.errors" class="invalid-feedback">
           La note saisie est incorrect. 1000 caractères maximum
         </p>

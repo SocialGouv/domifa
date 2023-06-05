@@ -61,12 +61,6 @@ form label {
   margin-top: 4px;
 }
 
-.btn-light-primary {
-  background-color: #ffffff;
-  color: #4164f5;
-  border-radius: 3px;
-}
-
 .btn-white-primary {
   background-color: #ffffff;
   color: #4164f5;
@@ -74,13 +68,24 @@ form label {
   border-radius: 3px;
 }
 
-.btn-light-primary:hover,
-.btn-white-primary:active,
-.btn-white-primary:focus,
 .btn-white-primary:hover {
   background-color: #e7e7e7;
   color: #2444c5;
-  border: 1px solid rgba(65, 100, 245, 0.3);
+  border: 1px solid rgba(65, 100, 245, 0.6);
+}
+
+.btn-close:focus-visible,
+.btn-close:focus {
+  border: 1px solid rgba(65, 100, 245, 1);
+}
+
+.btn-white-primary:active,
+.btn-white-primary:focus-visible,
+.btn-white-primary:focus {
+  background-color: #ffffff !important;
+  border: 1px solid rgba(65, 100, 245, 1);
+  color: #2444c5;
+  box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.7);
 }
 
 .modal-body .form-check label {

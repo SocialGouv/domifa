@@ -68,12 +68,12 @@
       class="form-group"
       *ngIf="!uploadForm.invalid && previewTable?.errorsCount === 0"
     >
-      <div class="text-center" *ngIf="previewTable">
+      <div class="my-2 text-center" *ngIf="previewTable">
         <h2 class="text-primary">Votre fichier est prêt à être importé !</h2>
         <strong>{{ previewTable.totalCount }} domiciliés</strong>
         seront importés sur DomiFa
       </div>
-      <br />
+
       <form #form [formGroup]="uploadForm" (ngSubmit)="submitFile('confirm')">
         <div>
           <input

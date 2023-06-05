@@ -31,6 +31,7 @@ export const departementHelper = {
   getRegionCodeFromDepartement,
   getDepartementFromCodePostal,
 };
+
 function getRegionCodeFromDepartement(departement: string): string {
   if (!departement) {
     throw new Error("Department not set");

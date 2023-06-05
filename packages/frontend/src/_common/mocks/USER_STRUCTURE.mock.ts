@@ -1,5 +1,6 @@
 import { CountryISO } from "ngx-intl-tel-input";
-import { StructureType, UserStructure, UserStructureRole } from "../model";
+import { UserStructure, UserStructureRole } from "../model";
+import { StructureType } from "../../app/modules/structures/types";
 
 export const USER_STRUCTURE_MOCK: UserStructure = {
   password: "xxx",

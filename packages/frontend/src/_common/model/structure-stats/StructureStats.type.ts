@@ -1,4 +1,4 @@
-import { StructureType } from "../structure/StructureType.type";
+import { StructureType } from "../../../app/modules/structures/types";
 import { AppEntity } from "../_core/AppEntity.type";
 
 export type StructureStats = AppEntity & {

@@ -39,7 +39,7 @@
   position: absolute;
   text-decoration: none;
   list-style: none;
-  z-index: 1202;
+  z-index: 1100;
 }
 
 #skip-links li a:focus {

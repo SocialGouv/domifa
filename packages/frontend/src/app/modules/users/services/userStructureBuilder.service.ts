@@ -1,5 +1,5 @@
 import { UserStructure } from "../../../../_common/model";
-import { StructureCommonWeb } from "../../structures/services/StructureCommonWeb.type";
+import { StructureCommonWeb } from "../../structures/types/StructureCommonWeb.class";
 
 export const userStructureBuilder = {
   buildUserStructure,

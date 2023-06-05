@@ -74,7 +74,7 @@
               >
                 <a
                   routerLink="/news"
-                  class="btn text-primary"
+                  class="btn btn-outline-primary"
                   (click)="
                     matomoService.trackEvent('HEADER', 'Header_ESP', 'null', 1)
                   "
@@ -85,11 +85,19 @@
                     aria-hidden="true"
                   ></span>
                   <span [ngClass]="pendingNews ? 'fw-bold' : ''"
-                    >Nouveautés</span
-                  >
+                    >Nouveautés
+                  </span>
+                </a>
+                <a
+                  routerLink="/faq"
+                  class="btn text-primary"
+                  (click)="
+                    matomoService.trackEvent('HEADER', 'Header_ESP', 'null', 1)
+                  "
+                >
+                  <span>En savoir plus </span>
                 </a>
                 <span class="nav--menu-breadcrumb">|</span>
-
                 <a
                   routerLink="/faq"
                   class="btn text-primary"
@@ -165,16 +173,21 @@
               <div class="d-flex">
                 <a
                   routerLink="/news"
-                  class="btn text-primary"
+                  class="btn btn-outline-primary"
                   (click)="
                     matomoService.trackEvent('HEADER', 'Header_ESP', 'null', 1)
                   "
                 >
-                  <span *ngIf="pendingNews" class="pulse-button"></span>
+                  <span
+                    *ngIf="pendingNews"
+                    class="pulse-button"
+                    aria-hidden="true"
+                  ></span>
                   <span [ngClass]="pendingNews ? 'fw-bold' : ''"
-                    >Nouveautés</span
-                  >
+                    >Nouveautés
+                  </span>
                 </a>
+
                 <a
                   class="btn btn-outline-primary"
                   [routerLink]="!me ? ['/'] : ['/manage']"
@@ -284,7 +297,10 @@
                       aria-label="Gestion des SMS"
                       routerLink="/structures/sms"
                     >
-                      <fa-icon [icon]="['fas', 'sms']"></fa-icon>
+                      <fa-icon
+                        aria-hidden="true"
+                        [icon]="['fas', 'sms']"
+                      ></fa-icon>
                       Notifications SMS
                     </a>
                     <a

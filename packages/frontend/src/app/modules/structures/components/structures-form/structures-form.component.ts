@@ -17,19 +17,20 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { of, Subject, Subscription } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 
-import {
-  FormEmailTakenValidator,
-  Structure,
-  StructureCommon,
-} from "../../../../../_common/model";
+import { FormEmailTakenValidator } from "../../../../../_common/model";
 import { StructureService } from "../../services/structure.service";
-import { StructureCommonWeb } from "../../services/StructureCommonWeb.type";
-import { structureNameChecker } from "../../services/structureNameChecker.service";
+import { StructureCommonWeb } from "../../types/StructureCommonWeb.class";
 
 import { anyPhoneValidator } from "../../../shared/phone/mobilePhone.validator";
 import { getFormPhone } from "../../../shared/phone";
 import { PREFERRED_COUNTRIES, DEPARTEMENTS_LISTE } from "../../../../shared";
-import { departementHelper } from "../../services/departement-helper.service";
+import { StructureCommon, Structure } from "../../types";
+import { departementHelper } from "../../utils/departement-helper.service";
+import {
+  getPostalCodeValidator,
+  updateComplementAdress,
+  isInvalidStructureName,
+} from "../../utils/structure-validators";
 
 @Component({
   selector: "app-structures-form",
@@ -49,15 +50,13 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
   public DEPARTEMENTS_LISTE = DEPARTEMENTS_LISTE;
   public submitted = false;
 
-  public etapeInscription: number;
-
   public structureRegisterInfos: {
     etapeInscription: number;
     structure: StructureCommon;
   };
+  public accountExist: boolean;
 
   private unsubscribe: Subject<void> = new Subject();
-  public accountExist: boolean;
   private subscription = new Subscription();
 
   constructor(
@@ -66,8 +65,6 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
     private readonly toastService: CustomToastService,
     private readonly titleService: Title
   ) {
-    this.etapeInscription = 0;
-
     this.structure = new StructureCommonWeb();
 
     this.structureRegisterInfos = {
@@ -86,6 +83,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
     this.titleService.setTitle("Inscrivez votre structure sur DomiFa");
 
     this.structureForm = this.formBuilder.group({
+      codePostal: [this.structure.codePostal, getPostalCodeValidator(true)],
       adresse: [this.structure.adresse, [Validators.required]],
       adresseCourrier: this.formBuilder.group({
         actif: [this.structure.adresseCourrier.actif, []],
@@ -95,14 +93,6 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
       }),
       agrement: [this.structure.agrement, []],
       capacite: [this.structure.capacite, []],
-      codePostal: [
-        this.structure.codePostal,
-        [
-          Validators.required,
-          Validators.maxLength(5),
-          this.structureService.codePostalValidator(),
-        ],
-      ],
       complementAdresse: [this.structure.complementAdresse, []],
       departement: [this.structure.departement, []],
       email: [
@@ -151,34 +141,8 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
       this.structureForm
         .get("adresseCourrier")
         ?.get("actif")
-        ?.valueChanges.subscribe((value) => {
-          const isRequired = value === true ? [Validators.required] : null;
-
-          this.structureForm
-            .get("adresseCourrier")
-            ?.get("adresse")
-            ?.setValidators(isRequired);
-          this.structureForm
-            .get("adresseCourrier")
-            ?.get("codePostal")
-            ?.setValidators(isRequired);
-          this.structureForm
-            .get("adresseCourrier")
-            ?.get("ville")
-            ?.setValidators(isRequired);
-
-          this.structureForm
-            .get("adresseCourrier")
-            ?.get("adresse")
-            ?.updateValueAndValidity();
-          this.structureForm
-            .get("adresseCourrier")
-            ?.get("codePostal")
-            ?.updateValueAndValidity();
-          this.structureForm
-            .get("adresseCourrier")
-            ?.get("ville")
-            ?.updateValueAndValidity();
+        ?.valueChanges.subscribe((value: boolean) => {
+          updateComplementAdress(this.structureForm, value);
         })
     );
   }
@@ -209,9 +173,13 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.structureService.prePost(structureFormValue).subscribe({
         next: (structure: StructureCommon) => {
-          this.etapeInscription = 1;
           this.structureRegisterInfos.etapeInscription = 1;
           this.structureRegisterInfos.structure = structure;
+          window.scroll({
+            behavior: "smooth",
+            left: 0,
+            top: 0,
+          });
         },
         error: () => {
           this.toastService.error("Veuillez vérifier les champs du formulaire");
@@ -234,7 +202,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
   }
 
   public isInvalidStructureName(structureName: string): boolean {
-    return structureNameChecker.isInvalidStructureName(structureName);
+    return isInvalidStructureName(structureName);
   }
 
   public ngOnDestroy(): void {

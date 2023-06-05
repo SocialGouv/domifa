@@ -7,13 +7,12 @@
   (ngSubmit)="submitStrucutre()"
   class="my-2"
 >
+  <p>
+    Les champs suivis d'un
+    <span class="fw-bold text-danger">*</span> sont obligatoires
+  </p>
+
   <div class="row">
-    <div class="col-md-12">
-      <p>
-        Les champs suivis d'un
-        <span class="fw-bold text-danger">*</span> sont obligatoires
-      </p>
-    </div>
     <div class="col-md-12 form-group required">
       <label for="nom">Raison sociale (nom de la structure)</label>
       <input
@@ -34,10 +33,9 @@
         id="help-nom-structure"
         class="font-italic small mt-1"
         [ngClass]="{
-          'color-danger': isInvalidStructureName(f.nom.value)
+          'text-danger': isInvalidStructureName(f.nom.value)
         }"
       >
-        <!-- note: on ne bloque par l'inscription si invalide, mais on affiche le message en rouge -->
         <b
           >Préciser le nom de votre ville / de votre unité locale en cas de
           réseau / de votre association.</b
@@ -46,80 +44,82 @@
         Ex : CCAS du Havre / Croix Rouge de Paris / Association Aurore
       </p>
     </div>
-    <div class="col-md-12 form-group required">
-      <label for="adresse">Adresse de l'organisme domiciliataire</label>
-      <input
-        id="adresse"
-        type="text"
-        class="form-control"
-        autcomplete="street-address"
-        aria-describedby="adresse-help"
-        formControlName="adresse"
-        [ngClass]="{ 'is-invalid': submitted && f.adresse.errors }"
-        required
-      />
-      <small class="form-text text-muted" id="adresse-help"
-        >Cette adresse apparaîtra sur le Cerfa</small
-      >
-      <p *ngIf="submitted && f.adresse.errors" class="invalid-feedback">
-        L'adresse est obligatoire
-      </p>
-    </div>
-
-    <div class="col-md-12 form-group">
-      <label for="complementAdresse">Complément d'adresse</label>
-      <input
-        type="text"
-        class="form-control"
-        id="complementAdresse"
-        formControlName="complementAdresse"
-        placeholder="Lieu-dit, Bâtiment, étage, etc.."
-        [ngClass]="{
-          'is-invalid': submitted && f.complementAdresse.errors
-        }"
-      />
-      <p
-        *ngIf="submitted && f.complementAdresse.errors"
-        class="invalid-feedback"
-      >
-        Veuillez vérifier le complément d'adresse
-      </p>
-    </div>
-    <div class="col-md-6 form-group required">
-      <label for="codePostal">Code postal</label>
-      <input
-        type="text"
-        class="form-control"
-        id="codePostal"
-        maxlength="5"
-        required
-        formControlName="codePostal"
-        [ngClass]="{
-          'is-invalid':
-            (f.codePostal.dirty && f.codePostal.errors) ||
-            (submitted && f.codePostal.errors)
-        }"
-      />
-      <p *ngIf="f.codePostal.errors" class="invalid-feedback">
-        Le code postal est obligatoire
-      </p>
-    </div>
-
-    <div class="col-md-6 form-group required">
-      <label for="ville">Ville</label>
-      <input
-        type="text"
-        class="form-control"
-        id="ville"
-        required
-        formControlName="ville"
-        [ngClass]="{ 'is-invalid': submitted && f.ville.errors }"
-      />
-      <p *ngIf="submitted && f.ville.errors" class="invalid-feedback">
-        La ville est obligatoire
-      </p>
-    </div>
   </div>
+
+  <fieldset>
+    <legend class="visually-hidden">Adresse complète de la structure</legend>
+    <div class="row">
+      <div class="col-md-12 form-group required">
+        <label for="adresse">Adresse de l'organisme domiciliataire</label>
+        <input
+          id="adresse"
+          type="text"
+          class="form-control"
+          formControlName="adresse"
+          autcomplete="street-address"
+          [ngClass]="{ 'is-invalid': submitted && f.adresse.errors }"
+          placeholder="Cette adresse apparaîtra sur le Cerfa"
+          required
+        />
+        <p *ngIf="submitted && f.adresse.errors" class="invalid-feedback">
+          L'adresse est obligatoire
+        </p>
+      </div>
+
+      <div class="col-md-12 form-group">
+        <label for="complementAdresse">Complément d'adresse</label>
+        <input
+          type="text"
+          class="form-control"
+          id="complementAdresse"
+          formControlName="complementAdresse"
+          placeholder="Lieu-dit, Bâtiment, étage, etc.."
+          [ngClass]="{
+            'is-invalid': submitted && f.complementAdresse.errors
+          }"
+        />
+        <p
+          *ngIf="submitted && f.complementAdresse.errors"
+          class="invalid-feedback"
+        >
+          Veuillez vérifier le complément d'adresse
+        </p>
+      </div>
+      <div class="col-md-6 form-group required">
+        <label for="codePostal">Code postal</label>
+        <input
+          type="text"
+          class="form-control"
+          id="codePostal"
+          maxlength="5"
+          formControlName="codePostal"
+          [ngClass]="{
+            'is-invalid':
+              (f.codePostal.dirty && f.codePostal.errors) ||
+              (submitted && f.codePostal.errors)
+          }"
+          required
+        />
+        <p *ngIf="f.codePostal.errors" class="invalid-feedback">
+          Le code postal est obligatoire
+        </p>
+      </div>
+      <div class="col-md-6 form-group required">
+        <label for="ville">Ville</label>
+        <input
+          type="text"
+          class="form-control"
+          id="ville"
+          formControlName="ville"
+          required
+          [ngClass]="{ 'is-invalid': submitted && f.ville.errors }"
+        />
+        <p *ngIf="submitted && f.ville.errors" class="invalid-feedback">
+          La ville est obligatoire
+        </p>
+      </div>
+    </div>
+  </fieldset>
 
   <div formGroupName="adresseCourrier">
     <div class="row">
@@ -140,331 +140,360 @@
       </div>
     </div>
 
-    <div class="row" *ngIf="f.adresseCourrier.get('actif').value === true">
-      <div class="col-md-12 form-group required">
-        <label for="adresse2">Adresse de réception du courrier</label>
-        <input
-          type="text"
-          class="form-control"
-          id="adresse2"
-          formControlName="adresse"
-          placeholder="Numéro et nom de rue, batiment, etc."
-          [ngClass]="{
-            'is-invalid':
-              submitted &&
-              f.adresseCourrier.get('actif').value === true &&
-              f.adresseCourrier.get('adresse').errors
-          }"
-          required
-        />
-        <p
-          *ngIf="
-            submitted &&
-            f.adresseCourrier.get('actif').value === true &&
-            f.adresseCourrier.get('adresse').errors
-          "
-          class="invalid-feedback"
-        >
-          L'adresse de réception est obligatoire
-        </p>
-      </div>
-      <div class="col-md-6 form-group required">
-        <label for="codePostal2">Code postal</label>
-        <input
-          type="text"
-          class="form-control"
-          id="codePostal2"
-          maxlength="5"
-          formControlName="codePostal"
-          [ngClass]="{
-            'is-invalid':
-              submitted &&
-              f.adresseCourrier.get('actif').value === true &&
-              f.adresseCourrier.get('codePostal').errors
-          }"
-          required
-        />
-        <p
-          *ngIf="
-            submitted &&
-            f.adresseCourrier.get('actif').value === true &&
-            f.adresseCourrier.get('codePostal').errors
-          "
-          class="invalid-feedback"
-        >
-          Le code postal est obligatoire
-        </p>
-      </div>
-      <div class="col-md-6 form-group required">
-        <label for="ville2">Ville</label>
-        <input
-          type="text"
-          class="form-control"
-          id="ville2"
-          formControlName="ville"
-          [ngClass]="{
-            'is-invalid':
-              submitted &&
-              f.adresseCourrier.get('actif').value === true &&
-              f.adresseCourrier.get('ville').errors
-          }"
-          required
-        />
-        <p
-          *ngIf="
-            submitted &&
-            f.adresseCourrier.get('actif').value === true &&
-            f.adresseCourrier.get('ville').errors
-          "
-          class="invalid-feedback"
-        >
-          La ville est obligatoire
-        </p>
-      </div>
-    </div>
-  </div>
-  <br />
-  <div class="row">
-    <div class="col-md-6 col-12 form-group required">
-      <label for="phone">Numéro de téléphone</label>
-      <ngx-intl-tel-input
-        [cssClass]="
-          submitted && (f.telephone.errors || f.telephone.invalid)
-            ? 'form-control is-invalid'
-            : 'form-control'
-        "
-        [preferredCountries]="PREFERRED_COUNTRIES"
-        [enableAutoCountrySelect]="false"
-        [enablePlaceholder]="true"
-        [searchCountryFlag]="true"
-        searchCountryPlaceholder="Choisissez votre pays"
-        [searchCountryField]="[
-          SearchCountryField.Iso2,
-          SearchCountryField.Name
-        ]"
-        [selectedCountryISO]="selectedCountryISO"
-        [maxLength]="15"
-        [phoneValidation]="true"
-        [separateDialCode]="true"
-        [inputId]="'phone'"
-        [numberFormat]="PhoneNumberFormat.International"
-        formControlName="telephone"
-      ></ngx-intl-tel-input>
-      <p
-        *ngIf="submitted && (f.telephone.errors || f.telephone.invalid)"
-        class="invalid-feedback-custom"
-      >
-        Veuillez vérifier le numéro de téléphone
-      </p>
-    </div>
-    <div class="col-md-6 col-12 form-group required">
-      <label for="email">Adresse e-mail indiquée sur le Cerfa</label>
-      <input
-        type="email"
-        class="form-control"
-        id="email"
-        formControlName="email"
-        [ngClass]="{
-          'is-invalid':
-            (submitted && f.email.errors) || (f.email.dirty && f.email.errors)
-        }"
-        required
-      />
-      <div *ngIf="f.email.errors" class="invalid-feedback">
-        <p *ngIf="f.email.errors.emailTaken">
-          <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
-          <strong>L'adresse email est déjà utilisée</strong>
-        </p>
-        <p *ngIf="submitted && !f.email.errors.emailTaken">
-          Veuillez vérifier l'adresse email
-        </p>
-      </div>
-    </div>
-  </div>
-  <br />
-  <div class="row" *ngIf="structure.structureType === 'asso'">
-    <div class="col-md-12 text-center">
-      <h3 class="subtitle">Quelles sont ses informations d’agrément ?</h3>
-      <br />
-    </div>
-
-    <div class="col-6 form-group required">
-      <label for="departement">Préfecture ayant délivré l’agrément</label>
-      <select
-        id="departement"
-        required
-        [ngClass]="{ 'is-invalid': submitted && f.departement.errors }"
-        formControlName="departement"
-        class="form-select"
-      >
-        <option></option>
-        <option
-          *ngFor="let departement of DEPARTEMENTS_LISTE | keyvalue"
-          [ngValue]="departement.key"
-        >
-          {{ departement.key }} - {{ departement.value }}
-        </option>
-      </select>
-
-      <p *ngIf="submitted && f.departement.errors" class="invalid-feedback">
-        Veuillez sélectionner un département
-      </p>
-    </div>
-
-    <div class="col-6 form-group required">
-      <label for="agrement">Numéro d'agrément</label>
-      <input
-        formControlName="agrement"
-        class="form-control"
-        required
-        id="agrement"
-        placeholder="Numéro donné par la préfecture"
-        type="text"
-        [ngClass]="{ 'is-invalid': submitted && f.agrement.errors }"
-      />
-      <p *ngIf="submitted && f.agrement.errors" class="invalid-feedback">
-        Veuillez insérer un numéro d'agrément
-      </p>
-    </div>
-
-    <div class="col-6 form-group">
-      <label for="capacite">Capacité d'accueil</label>
-      <input
-        formControlName="capacite"
-        class="form-control"
-        id="capacite"
-        min="0"
-        type="number"
-        aria-describedby="capaciteHelp"
-        [ngClass]="{ 'is-invalid': submitted && f.capacite.errors }"
-      />
-      <small id="capaciteHelp" class="form-text text-muted">Optionnel</small>
-      <p *ngIf="submitted && f.capacite.errors" class="invalid-feedback">
-        La capacité doit être supérieur à 0
-      </p>
-    </div>
-  </div>
-  <br />
-  <div class="col-md-12 text-center">
-    <h4 class="subtitle">Qui est son responsable légal ?</h4>
-    Il s’agit du nom qui apparaîtra sur le Cerfa.
-  </div>
-  <br />
-  <div class="row" formGroupName="responsable">
-    <div class="col-md-6 form-group required">
-      <label for="responsable-nom">Nom</label>
-      <input
-        type="text"
-        autocomplete="family-name"
-        class="form-control"
-        id="responsable-nom"
-        formControlName="nom"
-        placeholder="Nom d'un.e responsable"
-        [ngClass]="{
-          'is-invalid': submitted && f.responsable.get('nom').errors
-        }"
-        required
-      />
-      <p
-        *ngIf="submitted && f.responsable.get('nom').errors"
-        class="invalid-feedback"
-      >
-        Le nom du demandeur est obligatoire
-      </p>
-    </div>
-    <div class="col-md-6 form-group required">
-      <label for="responsable-prenom">Prénom(s)</label>
-      <input
-        type="text"
-        class="form-control"
-        id="responsable-prenom"
-        formControlName="prenom"
-        autocomplete="given-name"
-        placeholder="Prénom(s)"
-        [ngClass]="{
-          'is-invalid': submitted && f.responsable.get('prenom').errors
-        }"
-        required
-      />
-      <p
-        *ngIf="submitted && f.responsable.get('prenom').errors"
-        class="invalid-feedback"
-      >
-        Le prénom est obligatoire
-      </p>
-    </div>
-    <div class="col-md-12 form-group required">
-      <label for="fonction">Fonction</label>
-      <input
-        type="text"
-        class="form-control"
-        id="fonction"
-        formControlName="fonction"
-        placeholder="Président.e, Directrice, etc."
-        [ngClass]="{
-          'is-invalid': submitted && f.responsable.get('fonction').errors
-        }"
-        required
-      />
-      <p
-        *ngIf="submitted && f.responsable.get('fonction').errors"
-        class="invalid-feedback"
-      >
-        Votre fonction est obligatoire
-      </p>
-    </div>
-    <br />
-  </div>
-
-  <br />
-
-  <h3>Paramètres de la structure</h3>
-
-  <div formGroupName="options">
-    <fieldset>
-      <legend class="label">
-        Afficher l'ID des domiciliés dans la section "Adresse Postale" du cerfa
-        d'attestation du domicilié
+    <fieldset
+      *ngIf="f.adresseCourrier.get('actif')?.value === true"
+      class="my-2"
+    >
+      <legend class="visually-hidden">
+        Informations sur l'adresse de réception du courrier
       </legend>
-
-      <div class="form-check form-check-inline">
-        <input
-          class="form-check-input"
-          type="radio"
-          formControlName="numeroBoite"
-          id="numeroBoiteOui"
-          [value]="true"
-        />
-        <label class="form-check-label" for="numeroBoiteOui"> Oui </label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input
-          class="form-check-input"
-          type="radio"
-          formControlName="numeroBoite"
-          id="numeroBoiteNon"
-          [value]="false"
-        />
-        <label class="form-check-label" for="numeroBoiteNon"> Non </label>
+      <div class="row">
+        <div class="col-12 col-md-12 form-group required">
+          <label for="adresse2">Adresse de réception du courrier</label>
+          <input
+            type="text"
+            class="form-control"
+            id="adresse2"
+            formControlName="adresse"
+            autcomplete="street-address"
+            placeholder="Numéro et nom de rue, batiment, etc."
+            [ngClass]="{
+              'is-invalid':
+                submitted &&
+                f.adresseCourrier.get('actif')?.value === true &&
+                f.adresseCourrier.get('adresse')?.errors
+            }"
+            required
+          />
+          <p
+            *ngIf="
+              submitted &&
+              f.adresseCourrier.get('actif')?.value === true &&
+              f.adresseCourrier.get('adresse')?.errors
+            "
+            class="invalid-feedback"
+          >
+            L'adresse de réception est obligatoire
+          </p>
+        </div>
+        <div class="col-12 col-md-6 form-group required">
+          <label for="codePostal2">Code postal</label>
+          <input
+            type="text"
+            class="form-control"
+            id="codePostal2"
+            maxlength="5"
+            formControlName="codePostal"
+            [ngClass]="{
+              'is-invalid':
+                submitted &&
+                f.adresseCourrier.get('actif')?.value === true &&
+                f.adresseCourrier.get('codePostal')?.errors
+            }"
+            required
+          />
+          <p
+            *ngIf="
+              submitted &&
+              f.adresseCourrier.get('actif')?.value === true &&
+              f.adresseCourrier.get('codePostal')?.errors
+            "
+            class="invalid-feedback"
+          >
+            Le code postal est obligatoire
+          </p>
+        </div>
+        <div class="col-12 col-md-6 form-group required">
+          <label for="ville2">Ville</label>
+          <input
+            type="text"
+            class="form-control"
+            id="ville2"
+            formControlName="ville"
+            [ngClass]="{
+              'is-invalid':
+                submitted &&
+                f.adresseCourrier.get('actif')?.value === true &&
+                f.adresseCourrier.get('ville')?.errors
+            }"
+            required
+          />
+          <p
+            *ngIf="
+              submitted &&
+              f.adresseCourrier.get('actif')?.value === true &&
+              f.adresseCourrier.get('ville')?.errors
+            "
+            class="invalid-feedback"
+          >
+            La ville est obligatoire
+          </p>
+        </div>
       </div>
     </fieldset>
+  </div>
+
+  <fieldset class="my-2">
+    <legend class="visually-hidden">
+      Informations de contact de la structure
+    </legend>
 
     <div class="row">
-      <div class="col-md-12 my-2 text-center">
-        <button class="btn btn-primary" [disabled]="loading" type="submit">
-          <span *ngIf="!loading"> Enregistrer les modifications </span>
-
-          <span *ngIf="loading"
-            ><fa-icon
-              [icon]="['fas', 'circle-notch']"
-              [spin]="true"
-              aria-hidden="true"
-            >
-            </fa-icon>
-            Veuillez patienter...</span
-          >
-        </button>
+      <div class="col-md-6 col-12 form-group required">
+        <label for="phone">Numéro de téléphone</label>
+        <ngx-intl-tel-input
+          [cssClass]="
+            submitted && (f.telephone.errors || f.telephone.invalid)
+              ? 'form-control is-invalid'
+              : 'form-control'
+          "
+          [preferredCountries]="PREFERRED_COUNTRIES"
+          [enableAutoCountrySelect]="false"
+          [enablePlaceholder]="true"
+          [searchCountryFlag]="true"
+          searchCountryPlaceholder="Choisissez votre pays"
+          [searchCountryField]="[
+            SearchCountryField.Iso2,
+            SearchCountryField.Name
+          ]"
+          [selectedCountryISO]="CountryISO.France"
+          [selectFirstCountry]="true"
+          [maxLength]="15"
+          [phoneValidation]="true"
+          [separateDialCode]="true"
+          [inputId]="'phone'"
+          [numberFormat]="PhoneNumberFormat.International"
+          formControlName="telephone"
+        ></ngx-intl-tel-input>
+        <p
+          *ngIf="submitted && (f.telephone.errors || f.telephone.invalid)"
+          class="invalid-feedback-custom"
+        >
+          Veuillez vérifier le numéro de téléphone
+        </p>
       </div>
+      <div class="col-md-6 col-12 form-group required">
+        <label for="email">Adresse e-mail indiquée sur le Cerfa</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          formControlName="email"
+          [ngClass]="{
+            'is-invalid':
+              (submitted && f.email.errors) || (f.email.dirty && f.email.errors)
+          }"
+          required
+        />
+        <div *ngIf="f.email.errors" class="invalid-feedback">
+          <p *ngIf="f.email.errors.emailTaken">
+            <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+            <strong>L'adresse email est déjà utilisée</strong>
+          </p>
+          <p *ngIf="!f.email.errors.emailTaken">
+            Veuillez vérifier l'adresse email
+          </p>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset class="my-2" *ngIf="f.structureType.value === 'asso'">
+    <legend class="visually-hidden">
+      Informations sur l'agrément de votre organisme
+    </legend>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h3 class="subtitle">Quelles sont ses informations d’agrément ?</h3>
+        <br />
+      </div>
+
+      <div class="col-6 form-group required">
+        <label for="departement">Préfecture ayant délivré l’agrément</label>
+        <select
+          id="departement"
+          required
+          formControlName="departement"
+          [ngClass]="{
+            'is-invalid': submitted && f.departement.errors
+          }"
+          class="form-select"
+        >
+          <option></option>
+          <option
+            *ngFor="let departement of DEPARTEMENTS_LISTE | keyvalue"
+            [ngValue]="departement.key"
+          >
+            {{ departement.key }} - {{ departement.value }}
+          </option>
+        </select>
+
+        <p *ngIf="submitted && f.departement.errors" class="invalid-feedback">
+          Veuillez sélectionner un département
+        </p>
+      </div>
+
+      <div class="col-6 form-group required">
+        <label for="agrement">Numéro d'agrément</label>
+        <input
+          formControlName="agrement"
+          class="form-control"
+          required
+          id="agrement"
+          placeholder="Numéro donné par la préfecture"
+          type="text"
+          [ngClass]="{ 'is-invalid': submitted && f.agrement.errors }"
+        />
+        <p *ngIf="submitted && f.agrement.errors" class="invalid-feedback">
+          Veuillez insérer un numéro d'agrément
+        </p>
+      </div>
+
+      <div class="col-6 form-group">
+        <label for="capacite">Capacité d'accueil</label>
+        <input
+          formControlName="capacite"
+          class="form-control"
+          id="capacite"
+          min="0"
+          placeholder="Nombre maxi de domiciliés"
+          type="number"
+          aria-describedby="capaciteHelp"
+          [ngClass]="{ 'is-invalid': submitted && f.capacite.errors }"
+        />
+        <small id="capaciteHelp" class="form-text text-muted">
+          Optionnel
+        </small>
+        <div *ngIf="submitted && f.capacite.errors" class="invalid-feedback">
+          La capacité doit être supérieur à 0
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset class="my-2">
+    <div class="text-center">
+      <h2 class="form-title">Qui est son responsable légal ?</h2>
+      <p>Il s’agit du nom qui apparaîtra sur le Cerfa.</p>
+    </div>
+    <legend class="visually-hidden">
+      Informations sur le / la responsable de la structure
+    </legend>
+
+    <div class="row" formGroupName="responsable">
+      <div class="col-md-6 form-group required">
+        <label for="responsable-nom">Nom</label>
+        <input
+          type="text"
+          class="form-control"
+          id="responsable-nom"
+          formControlName="nom"
+          autocomplete="family-name"
+          placeholder="Nom d'un.e responsable"
+          [ngClass]="{
+            'is-invalid': submitted && f.responsable.get('nom')?.errors
+          }"
+          required
+        />
+        <p
+          *ngIf="submitted && f.responsable.get('nom')?.errors"
+          class="invalid-feedback"
+        >
+          Le nom du responsable est obligatoire
+        </p>
+      </div>
+      <div class="col-md-6 form-group required">
+        <label for="responsable-prenom">Prénom(s)</label>
+        <input
+          type="text"
+          class="form-control"
+          id="responsable-prenom"
+          formControlName="prenom"
+          placeholder="Prénom(s)"
+          autocomplete="given-name"
+          [ngClass]="{
+            'is-invalid': submitted && f.responsable.get('prenom')?.errors
+          }"
+          required
+        />
+        <p
+          *ngIf="submitted && f.responsable.get('prenom')?.errors"
+          class="invalid-feedback"
+        >
+          Le prénom du responsable est obligatoire
+        </p>
+      </div>
+      <div class="col-md-12 form-group required">
+        <label for="fonction">Fonction</label>
+        <input
+          type="text"
+          class="form-control"
+          id="fonction"
+          formControlName="fonction"
+          autocomplete="organization-title"
+          placeholder="Président.e, Directrice, etc."
+          [ngClass]="{
+            'is-invalid': submitted && f.responsable.get('fonction')?.errors
+          }"
+          required
+        />
+        <p
+          *ngIf="submitted && f.responsable.get('fonction')?.errors"
+          class="invalid-feedback"
+        >
+          La fonction du responsable est obligatoire
+        </p>
+      </div>
+    </div>
+  </fieldset>
+
+  <div role="group" aria-label="Paramètres de la structure">
+    <h3>Paramètres de la structure</h3>
+    <div formGroupName="options">
+      <fieldset>
+        <legend class="label">
+          Afficher l'ID des domiciliés dans la section "Adresse Postale" du
+          cerfa d'attestation du domicilié
+        </legend>
+
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="numeroBoite"
+            id="numeroBoiteOui"
+            [value]="true"
+          />
+          <label class="form-check-label" for="numeroBoiteOui"> Oui </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="numeroBoite"
+            id="numeroBoiteNon"
+            [value]="false"
+          />
+          <label class="form-check-label" for="numeroBoiteNon"> Non </label>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 my-2 text-center">
+      <button class="btn btn-primary" [disabled]="loading" type="submit">
+        <span *ngIf="!loading"> Enregistrer les modifications </span>
+
+        <span *ngIf="loading"
+          ><fa-icon
+            [icon]="['fas', 'circle-notch']"
+            [spin]="true"
+            aria-hidden="true"
+          >
+          </fa-icon>
+          Veuillez patienter...</span
+        >
+      </button>
     </div>
   </div>
 </form>
