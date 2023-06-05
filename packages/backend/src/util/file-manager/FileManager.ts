@@ -22,6 +22,22 @@ export async function deleteFile(pathFile: string): Promise<void> {
   }
 }
 
+export const compressAndResizeImage = (
+  usagerDoc: Pick<
+    UsagerDoc,
+    "structureId" | "uuid" | "usagerRef" | "path" | "usagerUUID" | "filetype"
+  >
+) => {
+  const format = usagerDoc.filetype === "image/png" ? "png" : "jpeg";
+  return sharp()
+    .resize(3800, 3800, { fit: "inside" })
+    .toFormat(format, {
+      quality: format === "png" ? 9 : 70,
+      progressive: true,
+      compressionLevel: format === "png" ? 9 : undefined,
+    });
+};
+
 export function randomName(file: Express.Multer.File): string {
   const randomValue = randomBytes(16).toString("hex");
   const sanitizedOriginalName = sanitizeFilename(file.originalname);
@@ -57,12 +73,26 @@ export function getFileDir(structureId: number, usagerRef: number): string {
   );
 }
 
-export function getFilePath(
-  structureId: number,
-  usagerRef: number,
+// Les nouveaux fichiers seront stockés dans des dossiers reprenant les uuid et non les ID
+export async function getNewFileDir(
+  structureUUID: string,
+  usagerUUID: string
+): Promise<string> {
+  const dir = join(
+    domifaConfig().upload.basePath,
+    cleanPath(structureUUID),
+    cleanPath(usagerUUID)
+  );
+  await ensureDir(dir);
+  return dir;
+}
+
+export async function getFilePath(
+  structureUUID: string,
+  usagerUUID: string,
   fileName: string
-): string {
-  const dir = getFileDir(structureId, usagerRef);
+): Promise<string> {
+  const dir = await getNewFileDir(structureUUID, usagerUUID);
   return join(dir, fileName);
 }
 
