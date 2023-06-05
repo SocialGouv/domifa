@@ -38,6 +38,8 @@ backend-cron:
         name: backend-configmap
     - secretRef:
         name: azure-domifa-volume
+    - secretRef:
+        name: domifa-encryption-key
   env:
     - name: TZ
       value: Europe/Paris
@@ -77,6 +79,8 @@ backend:
         name: backend-configmap
     - secretRef:
         name: azure-domifa-volume
+    - secretRef:
+        name: domifa-encryption-key
   env:
     - name: TZ
       value: Europe/Paris

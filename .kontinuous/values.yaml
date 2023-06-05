@@ -23,6 +23,8 @@ backend:
         name: backend-sealed-secret
     - configMapRef:
         name: backend-configmap
+    - secretRef:
+        name: domifa-encryption-key
   env:
     - name: TZ
       value: Europe/Paris

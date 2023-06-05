@@ -46,6 +46,7 @@ export type Structure = AppEntity & {
   verified: boolean;
 
   timeZone: TimeZone;
+  migrated?: boolean;
 
   sms: StructureSmsParams;
   portailUsager: StructurePortailUsagerParams;
