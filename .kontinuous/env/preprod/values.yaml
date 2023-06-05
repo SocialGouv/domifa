@@ -11,6 +11,8 @@ backend:
         name: backend-configmap
     - secretRef:
         name: azure-domifa-volume
+    - secretRef:
+        name: domifa-encryption-key
 
 frontend:
   host: "{{ .Values.global.host }}"

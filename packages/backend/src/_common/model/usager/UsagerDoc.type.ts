@@ -5,7 +5,10 @@ export type UsagerDoc = AppEntity & {
   createdBy: string;
   label: string;
   filetype: string;
+  usagerUUID: string;
   path: string;
   structureId: number;
   usagerRef: number;
+  encryptionContext?: string;
+  encryptionVersion?: number;
 };

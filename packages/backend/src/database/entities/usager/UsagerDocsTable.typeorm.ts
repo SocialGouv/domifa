@@ -42,6 +42,12 @@ export class UsagerDocsTable
   @Column({ type: "text", nullable: false })
   public createdBy: string;
 
+  @Column({ type: "text", nullable: true })
+  public encryptionContext: string;
+
+  @Column({ type: "integer", nullable: true })
+  public encryptionVersion: number;
+
   public constructor(entity?: Partial<UsagerDocsTable>) {
     super(entity);
     Object.assign(this, entity);
