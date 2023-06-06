@@ -1,3 +1,15 @@
+# [2.130.0](https://github.com/SocialGouv/domifa/compare/v2.129.10...v2.130.0) (2023-06-06)
+
+
+### Bug Fixes
+
+* **migration:** ajout des élements utiles au passage à SFE ([8ae9988](https://github.com/SocialGouv/domifa/commit/8ae9988026b6aed0765ba00fce0c6c5a83c6ccbe))
+
+
+### Features
+
+* migration des fichiers ([0d3d13b](https://github.com/SocialGouv/domifa/commit/0d3d13bd269c9fff2060003189640a7c695a9843))
+
 ## [2.129.10](https://github.com/SocialGouv/domifa/compare/v2.129.9...v2.129.10) (2023-05-30)
 
 
