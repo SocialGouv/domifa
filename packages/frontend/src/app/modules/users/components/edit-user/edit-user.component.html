@@ -30,7 +30,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let usager of nextMeetings">
+                <tr
+                  *ngFor="let usager of nextMeetings; let i = index"
+                  [attr.aria-rowindex]="i + 1"
+                >
                   <td>
                     Le {{ usager.rdv.dateRdv | date : "dd/MM/yyyy à HH:mm" }}
                   </td>
@@ -38,6 +41,7 @@
                   <td class="text-end">
                     <a
                       [routerLink]="['/usager/' + usager.ref + '/edit']"
+                      ariaCurrentWhenActive="page"
                       routerLinkActive="router-link-active"
                     >
                       Voir la fiche

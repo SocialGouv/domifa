@@ -237,6 +237,8 @@
                     '/stats/region/' + REGIONS_ID_SEO[structure.region]
                   ]"
                   class="region-name"
+                  ariaCurrentWhenActive="page"
+                  routerLinkActive="router-link-active"
                 >
                   {{
                     regions[structure.region]
@@ -267,6 +269,8 @@
                       '/stats/region/' + departementCom.value.regionId
                     ]"
                     class="region-name"
+                    ariaCurrentWhenActive="page"
+                    routerLinkActive="router-link-active"
                   >
                     {{ departementCom.value.departmentName }}
                   </a>

@@ -1,5 +1,14 @@
-<div *ngIf="loading" class="overlay" aria-live="polite">
-  <div @fadeInOut>
+<div
+  *ngIf="loading"
+  class="overlay"
+  id="loading"
+  aria-live="polite"
+  aria-atomic="true"
+  [attr.aria-busy]="loading"
+  role="alert"
+  tabindex="0"
+>
+  <p @fadeInOut>
     <fa-icon
       [icon]="['fas', 'spinner']"
       class="spinner"
@@ -7,5 +16,5 @@
       aria-hidden="true"
     ></fa-icon>
     <span class="loading_message">Chargement en cours, veuillez patienter</span>
-  </div>
+  </p>
 </div>

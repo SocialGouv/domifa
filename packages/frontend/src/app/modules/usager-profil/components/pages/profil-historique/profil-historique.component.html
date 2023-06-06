@@ -28,7 +28,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let histo of usager.historique; let i = index">
+              <tr
+                *ngFor="let histo of usager.historique; let i = index"
+                [attr.aria-rowindex]="i + 1"
+              >
                 <td>{{ histo.dateDecision | date : "dd/MM/yyyy à HH:mm" }}</td>
                 <td>
                   {{ USAGER_DECISION_STATUT_LABELS_PROFIL[histo.statut] }}

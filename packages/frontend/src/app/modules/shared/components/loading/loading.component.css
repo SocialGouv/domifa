@@ -10,7 +10,7 @@
   transition: all 2s;
 }
 
-.overlay div {
+.overlay p {
   position: absolute;
   top: 35%;
   left: 40%;

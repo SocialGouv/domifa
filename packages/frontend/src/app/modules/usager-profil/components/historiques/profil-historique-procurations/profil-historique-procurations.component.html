@@ -19,7 +19,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let procu of procurationHistory">
+        <tr
+          *ngFor="let procu of procurationHistory; let i = index"
+          [attr.aria-rowindex]="i + 1"
+        >
           <td>{{ procu.createdAt | date : "dd/MM/yyyy à HH:mm" }}</td>
           <td>
             {{ HISTORY_ACTIONS[procu.action] }}

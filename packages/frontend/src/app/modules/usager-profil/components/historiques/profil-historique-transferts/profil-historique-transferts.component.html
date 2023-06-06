@@ -19,7 +19,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let transfert of transfertHistory">
+        <tr
+          *ngFor="let transfert of transfertHistory; let i = index"
+          [attr.aria-rowindex]="i + 1"
+        >
           <td>{{ transfert.createdAt | date : "dd/MM/yyyy à HH:mm" }}</td>
           <td>
             {{ HISTORY_ACTIONS[transfert.action] }}

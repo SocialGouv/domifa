@@ -79,6 +79,8 @@
                     ETAPES_DEMANDE_URL[usager.etapeDemande]
                 ]"
                 class="ms-2"
+                ariaCurrentWhenActive="page"
+                routerLinkActive="router-link-active"
               >
                 Compléter la demande
               </a>
@@ -101,6 +103,8 @@
               <a
                 [routerLink]="['/usager/' + usager.ref + '/edit']"
                 class="btn btn-light"
+                ariaCurrentWhenActive="page"
+                routerLinkActive="router-link-active"
               >
                 <fa-icon
                   [icon]="['fas', 'redo']"
@@ -301,6 +305,8 @@
               <a
                 class="text-link"
                 [routerLink]="['/profil/dossier/' + usager.ref]"
+                ariaCurrentWhenActive="page"
+                routerLinkActive="router-link-active"
               >
                 Voir le dossier complet
               </a>
@@ -457,6 +463,8 @@
           <a
             class="text-link"
             [routerLink]="['/profil/courriers/' + usager.ref]"
+            ariaCurrentWhenActive="page"
+            routerLinkActive="router-link-active"
           >
             Voir tout l'historique
           </a>

@@ -7,7 +7,7 @@ export const STRUCTURE_DOC_EXTENSIONS_LABELS: {
   "application/pdf": "Document au format PDF",
   "application/msword": "Document au format Docx",
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-    "file-word",
+    "Document au format Docx",
   "application/vnd.oasis.opendocument.text": "Document au format Docx",
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
     "Feuille de calcul",
