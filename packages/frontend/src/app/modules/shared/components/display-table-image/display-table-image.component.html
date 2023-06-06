@@ -1,4 +1,8 @@
-<span class="doc-icon" [ngClass]="STRUCTURE_DOC_ICONS[document.filetype]">
+<span
+  class="doc-icon"
+  aria-hidden="true"
+  [ngClass]="STRUCTURE_DOC_ICONS[document.filetype]"
+>
   <fa-icon
     aria-hidden="true"
     [icon]="['far', STRUCTURE_DOC_ICONS[document.filetype]]"

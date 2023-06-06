@@ -50,7 +50,11 @@
       <p>
         Si vous ne trouvez pas de réponse dans notre guide, merci de consulter
         les sections ci-dessous ou bien contactez-nous via
-        <a [routerLink]="['/contact']" routerLinkActive="router-link-active">
+        <a
+          [routerLink]="['/contact']"
+          ariaCurrentWhenActive="page"
+          routerLinkActive="router-link-active"
+        >
           notre formulaire de contact.</a
         >
       </p>

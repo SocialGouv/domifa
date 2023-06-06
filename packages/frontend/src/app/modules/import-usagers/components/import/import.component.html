@@ -1,17 +1,47 @@
 <div class="head-page py-4">
   <div class="container">
-    <h1>Importer vos domiciliés sur DomiFa</h1>
+    <div class="row">
+      <div class="col-md-7 col-12">
+        <h1>Importer vos domiciliés sur DomiFa</h1>
+      </div>
+      <div class="text-start text-md-end col-12 col-md-5">
+        <a
+          href="/assets/files/modele_import_domifa.xlsx"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-white-primary me-2"
+          download
+        >
+          <fa-icon
+            [icon]="['far', 'file-excel']"
+            aria-hidden="true"
+            class="me-1"
+          ></fa-icon>
+
+          Télécharger le modèle Excel
+        </a>
+        <a
+          title="Télécharger le document explicatif pour importer vos domiciliés"
+          href="/assets/files/tuto-import.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-white-primary"
+          download
+        >
+          Guide explicatif de l'import
+        </a>
+      </div>
+    </div>
   </div>
 </div>
-<div class="container pb-2">
-  <div class="text-center" *ngIf="etapeImport === 'select-file'">
-    <div class="py-2">
-      <h2 class="text-center">Étape 1 : Télécharger et compléter le modèle</h2>
+
+<div class="content py-3" *ngIf="etapeImport === 'select-file'">
+  <div class="container py-3">
+    <div class="page-content p-4">
+      <h2>Étape 1 : Télécharger et compléter le modèle</h2>
       <p>
         Afin d'importer vos dossiers, vous devez télécharger et compléter le
-        fichier Excel ci-dessous.
-        <br />
-        Vous trouverez toutes les indications dans ce
+        fichier Excel ci-dessous. Vous trouverez toutes les indications dans ce
         <a
           title="Télécharger le document explicatif pour importer vos domiciliés"
           href="/assets/files/tuto-import.pdf"
@@ -22,191 +52,441 @@
       </p>
       <p class="text-danger">
         <strong>Attention:</strong> seul le modèle téléchargé sur DomiFa vous
-        permettra d'importer. <br />
-        Pour éviter tout bug, merci de ne pas modifier l'ordre ou le format des
-        colonnes du fichier Excel
+        permettra d'importer. Pour éviter tout bug, merci de ne pas modifier
+        l'ordre ou le format des colonnes du fichier Excel
       </p>
-    </div>
-    <div id="import-menu">
-      <a
-        href="/assets/files/modele_import_domifa.xlsx"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn btn-outline-primary my-2"
-        download
-      >
-        Télécharger le modèle Excel
-      </a>
-    </div>
-    <div class="pt-2 pb-5">
-      <h2 class="text-center">Étape 2 : importer le fichier complété</h2>
-      <p>
-        Une fois le modèle Excel complété, cliquez ci-dessous pour l'importer
-        sur DomiFa
-      </p>
-      <div class="m-auto w-50">
-        <label for="fileExcel" class="form-label">
-          <fa-icon [icon]="['fas', 'download']" aria-hidden="true"></fa-icon>
-          Cliquez ici pour importer le fichier Excel complété</label
-        >
-        <input
-          class="form-control"
-          type="file"
-          id="fileExcel"
-          name="fileExcel"
-          (change)="onFileChange($event)"
-          multiple="false"
-          accept=".xlsx,.xls"
-          required
-        />
+
+      <div class="pt-2 pb-5">
+        <h2>Étape 2 : importer le fichier complété</h2>
+        <p>
+          Une fois le modèle Excel complété, cliquez ci-dessous pour l'importer
+          sur DomiFa
+        </p>
+        <div>
+          <label for="fileExcel" class="form-label">
+            <fa-icon [icon]="['fas', 'download']" aria-hidden="true"></fa-icon>
+            Cliquez ici pour importer le fichier Excel complété</label
+          >
+          <input
+            class="form-control"
+            type="file"
+            id="fileExcel"
+            name="fileExcel"
+            (change)="onFileChange($event)"
+            multiple="false"
+            accept=".xlsx,.xls"
+            required
+          />
+        </div>
       </div>
     </div>
   </div>
-  <div *ngIf="etapeImport === 'preview-import'" class="text-center">
-    <div
-      class="form-group text-center"
-      *ngIf="!uploadForm.invalid && previewTable?.errorsCount === 0"
-    >
-      <div class="my-2" *ngIf="previewTable">
-        <h2 class="text-primary">Votre fichier est prêt à être importé !</h2>
-
-        <p>
-          <strong>{{ previewTable.totalCount }} domiciliés</strong>
-          seront importés sur DomiFa
-        </p>
-      </div>
-
-      <form #form [formGroup]="uploadForm" (ngSubmit)="submitFile('confirm')">
-        <div>
-          <input
-            type="hidden"
-            name="fileHidden"
-            formControlName="fileInput"
-            required
-          />
-          <button
-            type="submit"
-            class="btn btn-primary"
-            *ngIf="previewTable?.errorsCount === 0"
-          >
-            <fa-icon [icon]="['fas', 'check']" aria-hidden="true"></fa-icon>
-            Cliquez ici pour finaliser l'import
-          </button>
-        </div>
-      </form>
-    </div>
-
-    <div *ngIf="previewTable?.errorsCount > 0" class="text-danger">
-      <h2 class="text-danger">Votre fichier ne peut pas être importé !</h2>
+</div>
+<div *ngIf="etapeImport === 'preview-import'" class="text-center">
+  <div
+    class="form-group text-center"
+    *ngIf="!uploadForm.invalid && previewTable?.errorsCount === 0"
+  >
+    <div class="my-2" *ngIf="previewTable">
+      <h2 class="text-primary">Votre fichier est prêt à être importé !</h2>
 
       <p>
-        Attention : votre fichier contient
-        <strong>{{ previewTable?.errorsCount }}</strong>
-        erreurs
-        <br />
-        Les champs incorrects sont marqués en rouge dans le tableau ci-dessous
-        <br />
-        N'hésitez pas à consulter ce
-        <a
-          title="Télécharger le document explicatif pour importer vos domiciliés"
-          href="/assets/files/tuto-import.pdf"
-          download
-        >
-          document explicatif
-        </a>
-        en cas de souci.
+        <strong>{{ previewTable.totalCount }} domiciliés</strong>
+        seront importés sur DomiFa
       </p>
     </div>
 
-    <button
-      type="button"
-      *ngIf="previewTable?.errorsCount > 0"
-      (click)="backToEtapeSelectFile()"
-      class="btn btn-danger"
-    >
-      Recommencer
-    </button>
-    &nbsp;
+    <form #form [formGroup]="uploadForm" (ngSubmit)="submitFile('confirm')">
+      <div>
+        <input
+          type="hidden"
+          name="fileHidden"
+          formControlName="fileInput"
+          required
+        />
+        <button
+          type="submit"
+          class="btn btn-primary"
+          *ngIf="previewTable?.errorsCount === 0"
+        >
+          <fa-icon [icon]="['fas', 'check']" aria-hidden="true"></fa-icon>
+          Cliquez ici pour finaliser l'import
+        </button>
+      </div>
+    </form>
+  </div>
 
-    <div id="import-table" *ngIf="!uploadForm.invalid">
-      <table class="table table-striped table-hover">
-        <caption class="visually-hidden">
-          Aperçu de l'import
-        </caption>
-        <thead>
-          <th scope="col">#</th>
-          <th scope="col">ID</th>
-          <th scope="col" class="required">Civilité (H/F)</th>
-          <th scope="col" class="required">Nom</th>
-          <th scope="col" class="required">Prénom</th>
-          <th scope="col">Nom d'usage / Surnom</th>
-          <th scope="col" class="required">
+  <div *ngIf="previewTable?.errorsCount > 0" class="text-danger">
+    <h2 class="text-danger">Votre fichier ne peut pas être importé !</h2>
+
+    <p>
+      Attention : votre fichier contient
+      <strong>{{ previewTable?.errorsCount }}</strong>
+      erreurs
+      <br />
+      Les champs incorrects sont marqués en rouge dans le tableau ci-dessous
+      <br />
+      N'hésitez pas à consulter ce
+      <a
+        title="Télécharger le document explicatif pour importer vos domiciliés"
+        href="/assets/files/tuto-import.pdf"
+        download
+      >
+        document explicatif
+      </a>
+      en cas de souci.
+    </p>
+    <p class="text-danger">
+      Note: seules les 50 premières lignes du fichier sont affichées.
+    </p>
+  </div>
+
+  <button
+    type="button"
+    *ngIf="previewTable?.errorsCount > 0"
+    (click)="backToEtapeSelectFile()"
+    class="btn btn-danger"
+  >
+    Recommencer
+  </button>
+  &nbsp;
+
+  <div id="import-table" *ngIf="!uploadForm.invalid">
+    <table class="table table-striped table-hover">
+      <caption class="visually-hidden">
+        Aperçu de l'import
+      </caption>
+      <thead>
+        <th scope="col">#</th>
+        <th scope="col">ID</th>
+        <th scope="col" class="required">Civilité (H/F)</th>
+        <th scope="col" class="required">Nom</th>
+        <th scope="col" class="required">Prénom</th>
+        <th scope="col">Nom d'usage / Surnom</th>
+        <th scope="col" class="required">
+          Date de naissance
+          <br />
+          (jj/mm/aaaa)
+        </th>
+        <th scope="col" class="required">Lieu de naissance</th>
+        <th scope="col">N° Téléphone</th>
+        <th scope="col">Adresse Mail</th>
+
+        <th scope="col" class="required">Statut demande</th>
+        <th scope="col">
+          <strong>Seulement si refus</strong>
+          <br />
+          Motif du refus
+        </th>
+        <th scope="col">
+          <strong>Seulement si radiation</strong>
+          <br />
+          Motif de radiation
+        </th>
+        <th scope="col" class="required">Type de demande</th>
+        <th scope="col" class="required">
+          Date de Début
+          <br />
+          domiciliation actuelle
+        </th>
+        <th scope="col" class="required">
+          Date de fin de domiciliation OU <br />
+          Date de radiation si radié OU <br />
+          Date de refus si refusé
+        </th>
+        <th scope="col">
+          Date de la 1
+          <sup>ère</sup>
+          DOM
+        </th>
+        <th scope="col">Date de dernier passage</th>
+
+        <th scope="col">La personne a-t-elle été orientée ?</th>
+        <th scope="col">
+          <b>Seulement si orientation</b><br />
+          Par quelle structure/personne la personne a-t-elle été orientée ?
+        </th>
+        <th scope="col">La personne a-t-elle déjà une domiciliation ?</th>
+        <th scope="col">La personne a-t-elle des revenus ?</th>
+        <th scope="col">
+          <b>Seulement si revenus,</b> <br />
+          de quelle nature ?
+        </th>
+        <th scope="col">
+          Quel est le lien avec la commune ? (Si CCAS ou CIAS)
+        </th>
+        <th scope="col"><b>Si autre lien avec la commune</b>, précisions</th>
+        <th scope="col">Composition du ménage</th>
+        <th scope="col">Situation résidentielle</th>
+        <th scope="col">
+          <b>Si autre situation résidentielle</b><br />, précisions
+        </th>
+        <th scope="col">Cause instabilité logement</th>
+        <th scope="col">
+          <b>Si autre cause d'instabilité</b><br />, précisions
+        </th>
+        <th scope="col">Accompagnement social</th>
+        <th scope="col">Détail de l'accompagnement social</th>
+        <th scope="col">Motif principal de la demande</th>
+        <th scope="col"><b>Si autre motif,</b><br />, précisions</th>
+        <th scope="col">Commentaires</th>
+
+        <ng-container
+          *ngFor="
+            let ayantDroitColumnIndex of COL.AYANT_DROIT;
+            let rowIndex = index
+          "
+        >
+          <th scope="col">
+            Nom
+            <br />
+            Ayant-droit {{ rowIndex + 1 }}
+          </th>
+          <th scope="col">
+            Prénom
+            <br />
+            Ayant-droit {{ rowIndex + 1 }}
+          </th>
+          <th scope="col">
             Date de naissance
             <br />
-            (jj/mm/aaaa)
+            Ayant-droit {{ rowIndex + 1 }}
           </th>
-          <th scope="col" class="required">Lieu de naissance</th>
-          <th scope="col">N° Téléphone</th>
-          <th scope="col">Adresse Mail</th>
+          <th scope="col">
+            Lien de parenté
+            <br />
+            Ayant-droit {{ rowIndex + 1 }}
+          </th>
+        </ng-container>
+      </thead>
+      <tbody *ngIf="visibleRows">
+        <tr *ngFor="let row of visibleRows; let index = index">
+          <td>
+            <strong>{{ row.rowNumber - 1 }}</strong>
+          </td>
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.CUSTOM_ID]?.isValid
+            }"
+          >
+            {{ row.columns[COL.CUSTOM_ID]?.value }}
+          </td>
 
-          <th scope="col" class="required">Statut demande</th>
-          <th scope="col">
-            <strong>Seulement si refus</strong>
-            <br />
-            Motif du refus
-          </th>
-          <th scope="col">
-            <strong>Seulement si radiation</strong>
-            <br />
-            Motif de radiation
-          </th>
-          <th scope="col" class="required">Type de demande</th>
-          <th scope="col" class="required">
-            Date de Début
-            <br />
-            domiciliation actuelle
-          </th>
-          <th scope="col" class="required">
-            Date de fin de domiciliation OU <br />
-            Date de radiation si radié OU <br />
-            Date de refus si refusé
-          </th>
-          <th scope="col">
-            Date de la 1
-            <sup>ère</sup>
-            DOM
-          </th>
-          <th scope="col">Date de dernier passage</th>
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.CIVILITE]?.isValid
+            }"
+          >
+            {{ row.columns[COL.CIVILITE]?.value }}
+          </td>
 
-          <th scope="col">La personne a-t-elle été orientée ?</th>
-          <th scope="col">
-            <b>Seulement si orientation</b><br />
-            Par quelle structure/personne la personne a-t-elle été orientée ?
-          </th>
-          <th scope="col">La personne a-t-elle déjà une domiciliation ?</th>
-          <th scope="col">La personne a-t-elle des revenus ?</th>
-          <th scope="col">
-            <b>Seulement si revenus,</b> <br />
-            de quelle nature ?
-          </th>
-          <th scope="col">
-            Quel est le lien avec la commune ? (Si CCAS ou CIAS)
-          </th>
-          <th scope="col"><b>Si autre lien avec la commune</b>, précisions</th>
-          <th scope="col">Composition du ménage</th>
-          <th scope="col">Situation résidentielle</th>
-          <th scope="col">
-            <b>Si autre situation résidentielle</b><br />, précisions
-          </th>
-          <th scope="col">Cause instabilité logement</th>
-          <th scope="col">
-            <b>Si autre cause d'instabilité</b><br />, précisions
-          </th>
-          <th scope="col">Accompagnement social</th>
-          <th scope="col">Détail de l'accompagnement social</th>
-          <th scope="col">Motif principal de la demande</th>
-          <th scope="col"><b>Si autre motif,</b><br />, précisions</th>
-          <th scope="col">Commentaires</th>
+          <td [ngClass]="{ 'table-danger': !row.columns[COL.NOM]?.isValid }">
+            {{ row.columns[COL.NOM]?.value }}
+          </td>
+
+          <td [ngClass]="{ 'table-danger': !row.columns[COL.PRENOM]?.isValid }">
+            {{ row.columns[COL.PRENOM]?.value }}
+          </td>
+
+          <td [ngClass]="{ 'table-danger': !row.columns[COL.SURNOM]?.isValid }">
+            {{ row.columns[COL.SURNOM]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.DATE_NAISSANCE]?.isValid
+            }"
+          >
+            {{ row.columns[COL.DATE_NAISSANCE]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.LIEU_NAISSANCE]?.isValid
+            }"
+          >
+            {{ row.columns[COL.LIEU_NAISSANCE]?.value }}
+          </td>
+
+          <td [ngClass]="{ 'table-danger': !row.columns[COL.PHONE]?.isValid }">
+            {{ row.columns[COL.PHONE]?.value }}
+          </td>
+
+          <td [ngClass]="{ 'table-danger': !row.columns[COL.EMAIL]?.isValid }">
+            {{ row.columns[COL.EMAIL]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.STATUT_DOM]?.isValid
+            }"
+          >
+            {{ row.columns[COL.STATUT_DOM]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.MOTIF_REFUS]?.isValid
+            }"
+          >
+            {{ row.columns[COL.MOTIF_REFUS]?.value }}
+          </td>
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.MOTIF_RADIATION]?.isValid
+            }"
+          >
+            {{ row.columns[COL.MOTIF_RADIATION]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.TYPE_DOM]?.isValid
+            }"
+          >
+            {{ row.columns[COL.TYPE_DOM]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.DATE_DEBUT_DOM]?.isValid
+            }"
+          >
+            {{ row.columns[COL.DATE_DEBUT_DOM]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.DATE_FIN_DOM]?.isValid
+            }"
+          >
+            {{ row.columns[COL.DATE_FIN_DOM]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.DATE_PREMIERE_DOM]?.isValid
+            }"
+          >
+            {{ row.columns[COL.DATE_PREMIERE_DOM]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.DATE_DERNIER_PASSAGE]?.isValid
+            }"
+          >
+            {{ row.columns[COL.DATE_DERNIER_PASSAGE]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.ORIENTATION]?.isValid
+            }"
+          >
+            {{ row.columns[COL.ORIENTATION]?.value }}
+          </td>
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.ORIENTATION_DETAILS]?.isValid
+            }"
+          >
+            {{ row.columns[COL.ORIENTATION_DETAILS]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.DOMICILIATION_EXISTANTE]?.isValid
+            }"
+          >
+            {{ row.columns[COL.DOMICILIATION_EXISTANTE]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{ 'table-danger': !row.columns[COL.REVENUS]?.isValid }"
+          >
+            {{ row.columns[COL.REVENUS]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.REVENUS_DETAILS]?.isValid
+            }"
+          >
+            {{ row.columns[COL.REVENUS_DETAILS]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.LIEN_COMMUNE]?.isValid
+            }"
+          >
+            {{ row.columns[COL.LIEN_COMMUNE]?.value }}
+          </td>
+          <td>
+            {{ row.columns[COL.LIEN_COMMUNE_DETAILS]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.COMPOSITION_MENAGE]?.isValid
+            }"
+          >
+            {{ row.columns[COL.COMPOSITION_MENAGE]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.SITUATION_RESIDENTIELLE]?.isValid
+            }"
+          >
+            {{ row.columns[COL.SITUATION_RESIDENTIELLE]?.value }}
+          </td>
+
+          <td>
+            {{ row.columns[COL.SITUATION_DETAILS]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.CAUSE_INSTABILITE]?.isValid
+            }"
+          >
+            {{ row.columns[COL.CAUSE_INSTABILITE]?.value }}
+          </td>
+
+          <td>
+            {{ row.columns[COL.CAUSE_DETAILS]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.ACCOMPAGNEMENT]?.isValid
+            }"
+          >
+            {{ row.columns[COL.ACCOMPAGNEMENT]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.ACCOMPAGNEMENT_DETAILS]?.isValid
+            }"
+          >
+            {{ row.columns[COL.ACCOMPAGNEMENT_DETAILS]?.value }}
+          </td>
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.RAISON_DEMANDE]?.isValid
+            }"
+          >
+            {{ row.columns[COL.RAISON_DEMANDE]?.value }}
+          </td>
+          <td>
+            {{ row.columns[COL.RAISON_DEMANDE_DETAILS]?.value }}
+          </td>
+          <td>
+            {{ row.columns[COL.COMMENTAIRES]?.value }}
+          </td>
 
           <ng-container
             *ngFor="
@@ -214,321 +494,41 @@
               let rowIndex = index
             "
           >
-            <th scope="col">
-              Nom
-              <br />
-              Ayant-droit {{ rowIndex + 1 }}
-            </th>
-            <th scope="col">
-              Prénom
-              <br />
-              Ayant-droit {{ rowIndex + 1 }}
-            </th>
-            <th scope="col">
-              Date de naissance
-              <br />
-              Ayant-droit {{ rowIndex + 1 }}
-            </th>
-            <th scope="col">
-              Lien de parenté
-              <br />
-              Ayant-droit {{ rowIndex + 1 }}
-            </th>
+            <td
+              [ngClass]="{
+                'table-danger':
+                  row.columns[ayantDroitColumnIndex]?.isValid === false
+              }"
+            >
+              {{ row.columns[ayantDroitColumnIndex]?.value }}
+            </td>
+            <td
+              [ngClass]="{
+                'table-danger':
+                  row.columns[ayantDroitColumnIndex + 1]?.isValid === false
+              }"
+            >
+              {{ row.columns[ayantDroitColumnIndex + 1]?.value }}
+            </td>
+            <td
+              [ngClass]="{
+                'table-danger':
+                  row.columns[ayantDroitColumnIndex + 2]?.isValid === false
+              }"
+            >
+              {{ row.columns[ayantDroitColumnIndex + 2]?.value }}
+            </td>
+            <td
+              [ngClass]="{
+                'table-danger':
+                  row.columns[ayantDroitColumnIndex + 3]?.isValid === false
+              }"
+            >
+              {{ row.columns[ayantDroitColumnIndex + 3]?.value }}
+            </td>
           </ng-container>
-        </thead>
-        <tbody *ngIf="visibleRows">
-          <tr *ngFor="let row of visibleRows; let index = index">
-            <td>
-              <strong>{{ row.rowNumber - 1 }}</strong>
-            </td>
-            <td
-              [ngClass]="{
-                'table-danger': !row.columns[COL.CUSTOM_ID]?.isValid
-              }"
-            >
-              {{ row.columns[COL.CUSTOM_ID]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{
-                'table-danger': !row.columns[COL.CIVILITE]?.isValid
-              }"
-            >
-              {{ row.columns[COL.CIVILITE]?.value }}
-            </td>
-
-            <td [ngClass]="{ 'table-danger': !row.columns[COL.NOM]?.isValid }">
-              {{ row.columns[COL.NOM]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{ 'table-danger': !row.columns[COL.PRENOM]?.isValid }"
-            >
-              {{ row.columns[COL.PRENOM]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{ 'table-danger': !row.columns[COL.SURNOM]?.isValid }"
-            >
-              {{ row.columns[COL.SURNOM]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{
-                'table-danger': !row.columns[COL.DATE_NAISSANCE]?.isValid
-              }"
-            >
-              {{ row.columns[COL.DATE_NAISSANCE]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{
-                'table-danger': !row.columns[COL.LIEU_NAISSANCE]?.isValid
-              }"
-            >
-              {{ row.columns[COL.LIEU_NAISSANCE]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{ 'table-danger': !row.columns[COL.PHONE]?.isValid }"
-            >
-              {{ row.columns[COL.PHONE]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{ 'table-danger': !row.columns[COL.EMAIL]?.isValid }"
-            >
-              {{ row.columns[COL.EMAIL]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{
-                'table-danger': !row.columns[COL.STATUT_DOM]?.isValid
-              }"
-            >
-              {{ row.columns[COL.STATUT_DOM]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{
-                'table-danger': !row.columns[COL.MOTIF_REFUS]?.isValid
-              }"
-            >
-              {{ row.columns[COL.MOTIF_REFUS]?.value }}
-            </td>
-            <td
-              [ngClass]="{
-                'table-danger': !row.columns[COL.MOTIF_RADIATION]?.isValid
-              }"
-            >
-              {{ row.columns[COL.MOTIF_RADIATION]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{
-                'table-danger': !row.columns[COL.TYPE_DOM]?.isValid
-              }"
-            >
-              {{ row.columns[COL.TYPE_DOM]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{
-                'table-danger': !row.columns[COL.DATE_DEBUT_DOM]?.isValid
-              }"
-            >
-              {{ row.columns[COL.DATE_DEBUT_DOM]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{
-                'table-danger': !row.columns[COL.DATE_FIN_DOM]?.isValid
-              }"
-            >
-              {{ row.columns[COL.DATE_FIN_DOM]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{
-                'table-danger': !row.columns[COL.DATE_PREMIERE_DOM]?.isValid
-              }"
-            >
-              {{ row.columns[COL.DATE_PREMIERE_DOM]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{
-                'table-danger': !row.columns[COL.DATE_DERNIER_PASSAGE]?.isValid
-              }"
-            >
-              {{ row.columns[COL.DATE_DERNIER_PASSAGE]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{
-                'table-danger': !row.columns[COL.ORIENTATION]?.isValid
-              }"
-            >
-              {{ row.columns[COL.ORIENTATION]?.value }}
-            </td>
-            <td
-              [ngClass]="{
-                'table-danger': !row.columns[COL.ORIENTATION_DETAILS]?.isValid
-              }"
-            >
-              {{ row.columns[COL.ORIENTATION_DETAILS]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{
-                'table-danger':
-                  !row.columns[COL.DOMICILIATION_EXISTANTE]?.isValid
-              }"
-            >
-              {{ row.columns[COL.DOMICILIATION_EXISTANTE]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{ 'table-danger': !row.columns[COL.REVENUS]?.isValid }"
-            >
-              {{ row.columns[COL.REVENUS]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{
-                'table-danger': !row.columns[COL.REVENUS_DETAILS]?.isValid
-              }"
-            >
-              {{ row.columns[COL.REVENUS_DETAILS]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{
-                'table-danger': !row.columns[COL.LIEN_COMMUNE]?.isValid
-              }"
-            >
-              {{ row.columns[COL.LIEN_COMMUNE]?.value }}
-            </td>
-            <td>
-              {{ row.columns[COL.LIEN_COMMUNE_DETAILS]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{
-                'table-danger': !row.columns[COL.COMPOSITION_MENAGE]?.isValid
-              }"
-            >
-              {{ row.columns[COL.COMPOSITION_MENAGE]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{
-                'table-danger':
-                  !row.columns[COL.SITUATION_RESIDENTIELLE]?.isValid
-              }"
-            >
-              {{ row.columns[COL.SITUATION_RESIDENTIELLE]?.value }}
-            </td>
-
-            <td>
-              {{ row.columns[COL.SITUATION_DETAILS]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{
-                'table-danger': !row.columns[COL.CAUSE_INSTABILITE]?.isValid
-              }"
-            >
-              {{ row.columns[COL.CAUSE_INSTABILITE]?.value }}
-            </td>
-
-            <td>
-              {{ row.columns[COL.CAUSE_DETAILS]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{
-                'table-danger': !row.columns[COL.ACCOMPAGNEMENT]?.isValid
-              }"
-            >
-              {{ row.columns[COL.ACCOMPAGNEMENT]?.value }}
-            </td>
-
-            <td
-              [ngClass]="{
-                'table-danger':
-                  !row.columns[COL.ACCOMPAGNEMENT_DETAILS]?.isValid
-              }"
-            >
-              {{ row.columns[COL.ACCOMPAGNEMENT_DETAILS]?.value }}
-            </td>
-            <td
-              [ngClass]="{
-                'table-danger': !row.columns[COL.RAISON_DEMANDE]?.isValid
-              }"
-            >
-              {{ row.columns[COL.RAISON_DEMANDE]?.value }}
-            </td>
-            <td>
-              {{ row.columns[COL.RAISON_DEMANDE_DETAILS]?.value }}
-            </td>
-            <td>
-              {{ row.columns[COL.COMMENTAIRES]?.value }}
-            </td>
-
-            <ng-container
-              *ngFor="
-                let ayantDroitColumnIndex of COL.AYANT_DROIT;
-                let rowIndex = index
-              "
-            >
-              <td
-                [ngClass]="{
-                  'table-danger':
-                    row.columns[ayantDroitColumnIndex]?.isValid === false
-                }"
-              >
-                {{ row.columns[ayantDroitColumnIndex]?.value }}
-              </td>
-              <td
-                [ngClass]="{
-                  'table-danger':
-                    row.columns[ayantDroitColumnIndex + 1]?.isValid === false
-                }"
-              >
-                {{ row.columns[ayantDroitColumnIndex + 1]?.value }}
-              </td>
-              <td
-                [ngClass]="{
-                  'table-danger':
-                    row.columns[ayantDroitColumnIndex + 2]?.isValid === false
-                }"
-              >
-                {{ row.columns[ayantDroitColumnIndex + 2]?.value }}
-              </td>
-              <td
-                [ngClass]="{
-                  'table-danger':
-                    row.columns[ayantDroitColumnIndex + 3]?.isValid === false
-                }"
-              >
-                {{ row.columns[ayantDroitColumnIndex + 3]?.value }}
-              </td>
-            </ng-container>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div
-      *ngIf="
-        visibleRows &&
-        previewTable &&
-        previewTable.isValid &&
-        visibleRows.length !== previewTable.totalCount
-      "
-      class="text-danger"
-    >
-      <p>Note: seules les 50 premières lignes du fichier sont affichées.</p>
-    </div>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

@@ -33,7 +33,10 @@
     </thead>
 
     <tbody>
-      <ng-container *ngFor="let interaction of interactions; let i = index">
+      <ng-container
+        *ngFor="let interaction of interactions; let i = index"
+        [attr.aria-rowindex]="i + 1"
+      >
         <tr
           [ngClass]="{
             'fw-bold':

@@ -12,7 +12,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let note of notes">
+    <tr *ngFor="let note of notes; let i = index" [attr.aria-rowindex]="i + 1">
       <td>
         {{ note.createdAt | date : "dd/MM/yyyy à HH:mm" }}
       </td>

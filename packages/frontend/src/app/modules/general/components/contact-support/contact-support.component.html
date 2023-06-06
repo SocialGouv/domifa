@@ -23,7 +23,10 @@
     <div class="page-content p-4">
       <p>
         Un problème ? Une suggestion ? Avez-vous consulté
-        <a [routerLink]="['/faq']" routerLinkActive="router-link-active"
+        <a
+          [routerLink]="['/faq']"
+          ariaCurrentWhenActive="page"
+          routerLinkActive="router-link-active"
           >notre FAQ</a
         >
         ?

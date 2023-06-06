@@ -5,7 +5,13 @@
     >
       <div class="px-0 mx-0 d-block d-md-flex">
         <h1 class="title">
-          <a [routerLink]="['/manage']" id="back-manage-btn" class="px-3">
+          <a
+            [routerLink]="['/manage']"
+            id="back-manage-btn"
+            ariaCurrentWhenActive="page"
+            routerLinkActive="router-link-active"
+            class="px-3"
+          >
             <span class="visually-hidden"
               >Revenir à la liste des domiciliés</span
             >
@@ -31,6 +37,8 @@
                 '/edit/' +
                 ETAPES_DEMANDE_URL[usager.etapeDemande]
             ]"
+            ariaCurrentWhenActive="page"
+            routerLinkActive="router-link-active"
             class="btn my-1 my-md-0 btn-white-primary ms-2"
           >
             <fa-icon
@@ -111,7 +119,10 @@
       <a
         [ngClass]="section === 'general' ? 'selected-section col' : 'col'"
         [routerLink]="['/profil/general/' + usager.ref]"
-        ><span class="statut-label"> Vue d'ensemble</span>
+        ariaCurrentWhenActive="page"
+        routerLinkActive="router-link-active"
+      >
+        <span class="statut-label"> Vue d'ensemble</span>
         <span class="visually-hidden" *ngIf="section === 'general'"
           >, onglet actif</span
         >
@@ -129,6 +140,8 @@
       <a
         [ngClass]="section === 'dossier' ? 'selected-section col' : 'col'"
         [routerLink]="['/profil/dossier/' + usager.ref]"
+        ariaCurrentWhenActive="page"
+        routerLinkActive="router-link-active"
         ><span class="statut-label"> Dossier</span>
         <span class="visually-hidden" *ngIf="section === 'dossier'"
           >, onglet actif</span
@@ -139,6 +152,8 @@
         class="col"
         [ngClass]="section === 'documents' ? 'selected-section col' : 'col'"
         [routerLink]="['/profil/documents/' + usager.ref]"
+        ariaCurrentWhenActive="page"
+        routerLinkActive="router-link-active"
         ><span class="statut-label"> Documents</span>
         <span class="visually-hidden" *ngIf="section === 'documents'"
           >, onglet actif</span
@@ -148,6 +163,8 @@
       <a
         [ngClass]="section === 'historique' ? 'selected-section col' : 'col'"
         [routerLink]="['/profil/historique/' + usager.ref]"
+        ariaCurrentWhenActive="page"
+        routerLinkActive="router-link-active"
         ><span class="statut-label"> Historique</span>
         <span class="visually-hidden" *ngIf="section === 'historique'"
           >, onglet actif</span

@@ -165,7 +165,11 @@
       </td>
 
       <td class="clickable table-name td-name">
-        <a [routerLink]="usager.usagerProfilUrl">
+        <a
+          [routerLink]="usager.usagerProfilUrl"
+          ariaCurrentWhenActive="page"
+          routerLinkActive="router-link-active"
+        >
           <span> {{ usager.nom | uppercase }} {{ usager.prenom }} </span>
           <span *ngIf="usager.surnom && usager.surnom !== null">
             ({{ usager.surnom }})

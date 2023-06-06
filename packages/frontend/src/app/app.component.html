@@ -6,6 +6,8 @@
   <ul id="skip-links">
     <li>
       <a
+        ariaCurrentWhenActive="page"
+        routerLinkActive="router-link-active"
         class="m-1 btn btn-sm btn-primary"
         [routerLink]="currentUrl"
         fragment="navigation"
@@ -14,6 +16,8 @@
     </li>
     <li>
       <a
+        ariaCurrentWhenActive="page"
+        routerLinkActive="router-link-active"
         class="m-1 btn btn-sm btn-primary"
         [routerLink]="currentUrl"
         fragment="page"
@@ -22,6 +26,8 @@
     </li>
     <li>
       <a
+        ariaCurrentWhenActive="page"
+        routerLinkActive="router-link-active"
         class="m-1 btn btn-sm btn-primary"
         [routerLink]="currentUrl"
         fragment="footer"
@@ -56,7 +62,8 @@
           <ul>
             <li>
               <a
-                [routerLink]="['/news']"
+                routerLink="/news"
+                ariaCurrentWhenActive="page"
                 routerLinkActive="router-link-active"
                 (click)="
                   matomo.trackEvent('FOOTER', 'Footer_Nouveautés', 'null', 1)
@@ -67,7 +74,8 @@
 
             <li>
               <a
-                [routerLink]="['/stats']"
+                routerLink="/stats"
+                ariaCurrentWhenActive="page"
                 routerLinkActive="router-link-active"
                 (click)="matomo.trackEvent('FOOTER', 'Footer_Stats', 'null', 1)"
                 >Statistiques</a
@@ -76,7 +84,8 @@
 
             <li>
               <a
-                [routerLink]="['/stats/impact']"
+                routerLink="/stats/impact"
+                ariaCurrentWhenActive="page"
                 routerLinkActive="router-link-active"
                 (click)="
                   matomo.trackEvent('FOOTER', 'Footer_Impact', 'null', 1)
@@ -87,7 +96,8 @@
 
             <li>
               <a
-                [routerLink]="['/faq']"
+                routerLink="/faq"
+                ariaCurrentWhenActive="page"
                 routerLinkActive="router-link-active"
                 (click)="matomo.trackEvent('FOOTER', 'Footer_Faq', 'null', 1)"
                 >Foire aux questions</a
@@ -96,7 +106,8 @@
 
             <li>
               <a
-                [routerLink]="['/contact']"
+                routerLink="/contact"
+                ariaCurrentWhenActive="page"
                 routerLinkActive="router-link-active"
                 (click)="
                   matomo.trackEvent('FOOTER', 'Footer_Contact', 'null', 1)
@@ -111,7 +122,7 @@
           <ul>
             <li>
               <a
-                [routerLink]="['/accessibilite']"
+                routerLink="/accessibilite"
                 routerLinkActive="router-link-active"
                 >Accessibilité: non conforme
               </a>
@@ -119,7 +130,8 @@
 
             <li>
               <a
-                [routerLink]="['/mentions-legales']"
+                ariaCurrentWhenActive="page"
+                routerLink="/mentions-legales"
                 routerLinkActive="router-link-active"
                 (click)="
                   matomo.trackEvent(
@@ -135,7 +147,8 @@
 
             <li>
               <a
-                [routerLink]="['/cgu']"
+                routerLink="/cgu"
+                ariaCurrentWhenActive="page"
                 routerLinkActive="router-link-active"
                 (click)="matomo.trackEvent('FOOTER', 'Footer_CGU', 'null', 1)"
                 >CGU utilisateur</a
@@ -144,7 +157,8 @@
 
             <li>
               <a
-                [routerLink]="['/cgu-responsable']"
+                routerLink="/cgu-responsable"
+                ariaCurrentWhenActive="page"
                 routerLinkActive="router-link-active"
                 (click)="
                   matomo.trackEvent(
@@ -161,6 +175,7 @@
             <li>
               <a
                 routerLink="/confidentialite"
+                ariaCurrentWhenActive="page"
                 routerLinkActive="router-link-active"
                 >Politique de confidentialité</a
               >
@@ -169,6 +184,7 @@
             <li>
               <a
                 routerLink="/plan-site"
+                ariaCurrentWhenActive="page"
                 routerLinkActive="router-link-active"
                 (click)="
                   matomo.trackEvent('FOOTER', 'Footer_Contact', 'null', 1)

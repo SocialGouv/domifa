@@ -102,7 +102,10 @@
     </tr>
 
     <!-- Documents mis en ligne par les structures -->
-    <tr *ngFor="let document of customStructureDocs">
+    <tr
+      *ngFor="let document of customStructureDocs; let i = index"
+      [attr.aria-rowindex]="i + 1"
+    >
       <td>
         <app-display-table-image
           [document]="defaultStructureDocs.attestation_postale"

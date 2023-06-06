@@ -12,6 +12,7 @@
         données, consultez notre
         <a
           [routerLink]="['/confidentialite']"
+          ariaCurrentWhenActive="page"
           routerLinkActive="router-link-active"
         >
           politique de confidentialité.
@@ -43,6 +44,8 @@
           class="navbar-brand ms-4"
           aria-label="Retour à l'accueil de DomiFa"
           [routerLink]="['/']"
+          ariaCurrentWhenActive="page"
+          routerLinkActive="router-link-active"
         >
           <img
             class="domifa-logo"
@@ -62,9 +65,6 @@
           role="navigation"
           aria-label="Menu principal"
         >
-          <ul #navigation class="navbar-nav me-auto mt-2 mt-lg-0">
-            <li class="nav-item active"></li>
-          </ul>
           <div class="my-2 my-lg-0">
             <!-- MENU SI DECONNECTE - SAUF MOBILE -->
             <ng-container *ngIf="!me">
@@ -73,6 +73,8 @@
                 aria-label="Menu principal"
               >
                 <a
+                  ariaCurrentWhenActive="page"
+                  routerLinkActive="router-link-active"
                   routerLink="/news"
                   class="btn btn-outline-primary"
                   (click)="
@@ -164,6 +166,8 @@
                 <a
                   routerLink="/news"
                   class="btn btn-outline-primary"
+                  ariaCurrentWhenActive="page"
+                  routerLinkActive="router-link-active"
                   (click)="
                     matomoService.trackEvent('HEADER', 'Header_ESP', 'null', 1)
                   "
@@ -181,6 +185,8 @@
                 <a
                   class="btn btn-outline-primary"
                   [routerLink]="!me ? ['/'] : ['/manage']"
+                  ariaCurrentWhenActive="page"
+                  routerLinkActive="router-link-active"
                   (click)="
                     matomoService.trackEvent(
                       'NAVBAR',
@@ -217,6 +223,8 @@
                       target="_blank"
                       aria-label="Administration de DomiFa"
                       rel="noopener noreferrer"
+                      ariaCurrentWhenActive="page"
+                      routerLinkActive="router-link-active"
                     >
                       <fa-icon
                         aria-hidden="true"
@@ -228,6 +236,8 @@
                       ngbDropdownItem
                       aria-label="Gestion de mon compte"
                       routerLink="/users/mon-compte"
+                      ariaCurrentWhenActive="page"
+                      routerLinkActive="router-link-active"
                     >
                       <fa-icon
                         aria-hidden="true"
@@ -240,6 +250,8 @@
                       *ngIf="me.role === 'admin' || me.role === 'responsable'"
                       routerLink="/users/comptes"
                       aria-label="Gestion des utilisateurs"
+                      ariaCurrentWhenActive="page"
+                      routerLinkActive="router-link-active"
                     >
                       <fa-icon aria-hidden="true" [icon]="['fas', 'users']">
                       </fa-icon>
@@ -250,6 +262,8 @@
                       aria-label="Documents de la structure"
                       *ngIf="me.role === 'admin' || me.role === 'responsable'"
                       routerLink="/structures/documents"
+                      ariaCurrentWhenActive="page"
+                      routerLinkActive="router-link-active"
                     >
                       <fa-icon aria-hidden="true" [icon]="['far', 'file-word']">
                       </fa-icon>
@@ -261,6 +275,8 @@
                       *ngIf="me.role !== 'facteur'"
                       routerLink="/import"
                       aria-label="Importer vos domiciliés"
+                      ariaCurrentWhenActive="page"
+                      routerLinkActive="router-link-active"
                     >
                       <fa-icon
                         aria-hidden="true"
@@ -273,6 +289,8 @@
                       aria-label="Modifier ma structure"
                       *ngIf="me.role === 'admin' || me.role === 'responsable'"
                       routerLink="/structures/edit"
+                      ariaCurrentWhenActive="page"
+                      routerLinkActive="router-link-active"
                     >
                       <fa-icon aria-hidden="true" [icon]="['fas', 'home']">
                       </fa-icon>
@@ -301,6 +319,8 @@
                       "
                       aria-label="Modifier les accès au portail usager"
                       routerLink="/structures/portail-usager"
+                      ariaCurrentWhenActive="page"
+                      routerLinkActive="router-link-active"
                     >
                       <fa-icon aria-hidden="true" icon="user-secret"></fa-icon>
                       Portail Usager
@@ -314,6 +334,8 @@
                       "
                       aria-label="Statistiques"
                       routerLink="/stats/rapport-activite"
+                      ariaCurrentWhenActive="page"
+                      routerLinkActive="router-link-active"
                     >
                       <fa-icon [icon]="['far', 'chart-bar']" aria-hidden="true">
                       </fa-icon>
