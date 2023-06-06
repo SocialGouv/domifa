@@ -99,7 +99,6 @@ export class ImportComponent implements OnInit, OnDestroy {
       }
 
       this.etapeImport = "preview-import";
-
       this.showTable = false;
 
       const file = input.files[0];

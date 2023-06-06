@@ -88,26 +88,16 @@
                     >Nouveautés
                   </span>
                 </a>
+
                 <a
                   routerLink="/faq"
-                  class="btn text-primary"
-                  (click)="
-                    matomoService.trackEvent('HEADER', 'Header_ESP', 'null', 1)
-                  "
-                >
-                  <span>En savoir plus </span>
-                </a>
-                <span class="nav--menu-breadcrumb">|</span>
-                <a
-                  routerLink="/faq"
-                  class="btn text-primary"
+                  class="btn btn-outline-primary"
                   (click)="
                     matomoService.trackEvent('HEADER', 'Header_ESP', 'null', 1)
                   "
                 >
                   En savoir plus
                 </a>
-                <span class="nav--menu-breadcrumb">|</span>
                 <a
                   routerLink="/connexion"
                   (click)="
@@ -118,7 +108,7 @@
                       1
                     )
                   "
-                  class="btn text-primary"
+                  class="btn btn-outline-primary"
                 >
                   Me connecter
                   <fa-icon
