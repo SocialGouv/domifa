@@ -168,6 +168,7 @@ async function createTables(queryRunner: QueryRunner) {
       "timeZone" text NULL,
       telephone jsonb NOT NULL DEFAULT '{"numero": "", "countryCode": "fr"}'::jsonb,
       "acceptTerms" timestamptz NULL,
+      migrated bool NOT NULL DEFAULT false,
       CONSTRAINT "PK_a92a6b3dd54efb4ab48b2d6e7c1" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_90ac7986e769d602d218075215c" UNIQUE (id),
       CONSTRAINT "UQ_b36e92e49b2a68f8fea64ec8d5b" UNIQUE (email)
@@ -310,6 +311,8 @@ async function createTables(queryRunner: QueryRunner) {
       "label" text NOT NULL,
       filetype text NOT NULL,
       "createdBy" text NOT NULL,
+      "encryptionContext" text NULL,
+      "encryptionVersion" int4 NULL,
       CONSTRAINT "PK_e7bb21f7a22254259ca123c5caa" PRIMARY KEY (uuid),
       CONSTRAINT "FK_08c4299b8abc6b9f548f2aece20" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE,
       CONSTRAINT "FK_b1db67565e53acec53d5f3aa926" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE

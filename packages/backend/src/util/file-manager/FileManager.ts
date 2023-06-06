@@ -1,4 +1,4 @@
-import { remove } from "fs-extra";
+import { ensureDir, remove } from "fs-extra";
 import { extname, join } from "path";
 import { appLogger } from "..";
 import { domifaConfig } from "../../config";
@@ -7,6 +7,8 @@ import { FILES_MIME_TYPES } from "./FILES_MIME_TYPES.const";
 import { FILES_EXTENSIONS } from "./FILES_EXTENSIONS.const";
 import { randomBytes } from "crypto";
 import sanitizeFilename from "sanitize-filename";
+import sharp from "sharp";
+import { UsagerDoc } from "../../_common/model";
 
 // Suppression effective d'un fichier
 export async function deleteFile(pathFile: string): Promise<void> {
@@ -66,4 +68,34 @@ export function getFilePath(
 
 export function cleanPath(path: string): string {
   return path.replace(/[^a-z0-9]/gi, "");
+}
+
+export const compressAndResizeImage = (
+  usagerDoc: Pick<
+    UsagerDoc,
+    "structureId" | "uuid" | "usagerRef" | "path" | "usagerUUID" | "filetype"
+  >
+) => {
+  const format = usagerDoc.filetype === "image/png" ? "png" : "jpeg";
+  return sharp()
+    .resize(3800, 3800, { fit: "inside" })
+    .toFormat(format, {
+      quality: format === "png" ? 9 : 70,
+      progressive: true,
+      compressionLevel: format === "png" ? 9 : undefined,
+    });
+};
+
+// Les nouveaux fichiers seront stockés dans des dossiers reprenant les uuid et non les ID
+export async function getNewFileDir(
+  structureUUID: string,
+  usagerUUID: string
+): Promise<string> {
+  const dir = join(
+    domifaConfig().upload.basePath,
+    cleanPath(structureUUID),
+    cleanPath(usagerUUID)
+  );
+  await ensureDir(dir);
+  return dir;
 }
