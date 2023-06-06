@@ -118,6 +118,8 @@ export class UsagerDocsController {
       usagerRef,
       structureId: currentUsager.structureId,
       usagerUUID: currentUsager.uuid,
+      encryptionContext: null,
+      encryptionVersion: null,
     };
 
     await usagerDocsRepository.save(newDoc);
