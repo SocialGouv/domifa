@@ -1,3 +1,11 @@
+## [2.130.1](https://github.com/SocialGouv/domifa/compare/v2.130.0...v2.130.1) (2023-06-07)
+
+
+### Bug Fixes
+
+* **rgaa:** ajout de l'index des tableaux ([fa8da2a](https://github.com/SocialGouv/domifa/commit/fa8da2a39e28d1c8b396767e347fe8f9bffa8dba))
+* **rgaa:** autocomplete contact form ([711a1b9](https://github.com/SocialGouv/domifa/commit/711a1b9d577e7f992dad3940fe7bf1fbbcd45a1b))
+
 # [2.130.0](https://github.com/SocialGouv/domifa/compare/v2.129.10...v2.130.0) (2023-06-06)
 
 
