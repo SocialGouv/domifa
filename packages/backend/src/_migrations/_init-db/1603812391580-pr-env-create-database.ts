@@ -168,7 +168,7 @@ async function createTables(queryRunner: QueryRunner) {
       "timeZone" text NULL,
       telephone jsonb NOT NULL DEFAULT '{"numero": "", "countryCode": "fr"}'::jsonb,
       "acceptTerms" timestamptz NULL,
-      migrated bool NOT NULL DEFAULT false,
+      "filesUpdated" bool NOT NULL DEFAULT false,
       CONSTRAINT "PK_a92a6b3dd54efb4ab48b2d6e7c1" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_90ac7986e769d602d218075215c" UNIQUE (id),
       CONSTRAINT "UQ_b36e92e49b2a68f8fea64ec8d5b" UNIQUE (email)
@@ -276,7 +276,7 @@ async function createTables(queryRunner: QueryRunner) {
       rdv jsonb NULL,
       "options" jsonb NOT NULL DEFAULT '{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}'::jsonb,
       "import" jsonb NULL,
-      migrated bool NOT NULL DEFAULT false,
+      "migrated" bool NOT NULL DEFAULT false,
       telephone jsonb NOT NULL DEFAULT '{"numero": "", "countryCode": "fr"}'::jsonb,
       "contactByPhone" bool NULL DEFAULT false,
       "numeroDistribution" text NULL,

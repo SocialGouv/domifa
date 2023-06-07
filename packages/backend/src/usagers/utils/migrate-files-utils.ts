@@ -19,7 +19,7 @@ export const migrateOldFiles = async () => {
     let totalCount = 0;
 
     const structure = await structureRepository.findOneBy({
-      migrated: false,
+      filesUpdated: false,
     });
 
     console.info(
@@ -61,7 +61,7 @@ export const migrateOldFiles = async () => {
     await structureRepository.update(
       { uuid: structure.uuid },
       {
-        migrated: true,
+        filesUpdated: true,
       }
     );
   }
@@ -196,7 +196,7 @@ export const decryptOldFile = async (
 function countMigratedStructures(): Promise<number> {
   return structureRepository.count({
     where: {
-      migrated: false,
+      filesUpdated: false,
     },
   });
 }
