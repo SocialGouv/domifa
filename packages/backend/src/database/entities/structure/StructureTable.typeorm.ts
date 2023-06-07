@@ -73,7 +73,7 @@ export class StructureTable
   import: boolean;
 
   @Column({ type: "bool", default: false })
-  migrated: boolean;
+  filesUpdated: boolean;
 
   @Column({ type: "timestamptz", nullable: false })
   registrationDate: Date;
