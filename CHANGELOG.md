@@ -1,3 +1,10 @@
+## [2.130.4](https://github.com/SocialGouv/domifa/compare/v2.130.3...v2.130.4) (2023-06-07)
+
+
+### Bug Fixes
+
+* **k8s:** use correct secrets in preprod ([725e356](https://github.com/SocialGouv/domifa/commit/725e3565a621eea3bfaf982dbc1de23e056f65ae))
+
 ## [2.130.3](https://github.com/SocialGouv/domifa/compare/v2.130.2...v2.130.3) (2023-06-07)
 
 
