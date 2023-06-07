@@ -2642,10 +2642,10 @@
   dependencies:
     tslib "2.5.0"
 
-"@ng-bootstrap/ng-bootstrap@^14.0.1":
-  version "14.2.0"
-  resolved "https://registry.yarnpkg.com/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-14.2.0.tgz#2371e2c9ec6fd7809c1d7ca99597394df6cde003"
-  integrity sha512-nqEKVXauSontGKqC5WSKpch5TiAGDZB3hluvxkINS0r9LUE6sBQRP3qeYOe7Uwu+UbQcj28NG3qFHhpfnG8KHw==
+"@ng-bootstrap/ng-bootstrap@^15.0.0":
+  version "15.0.1"
+  resolved "https://registry.yarnpkg.com/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-15.0.1.tgz#0f67a7bd4015d3a2387134c97a819a23296655d2"
+  integrity sha512-a86fcS6XPpC/FyZ/nx4oLnTWd/XEe7ZLYjqEU/VIj5RTVPgbC6ieKCeaprIEabFf/k0Jw2j4X4CdiFiE+xfXPA==
   dependencies:
     tslib "^2.3.0"
 

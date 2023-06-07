@@ -30,7 +30,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
-    "@ng-bootstrap/ng-bootstrap": "^14.0.1",
+    "@ng-bootstrap/ng-bootstrap": "^15.0.0",
     "@ngx-matomo/router": "^4.0.1",
     "@ngx-matomo/tracker": "4.0.1",
     "@popperjs/core": "^2.11.4",
