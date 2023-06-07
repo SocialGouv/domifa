@@ -1,3 +1,10 @@
+## [2.130.2](https://github.com/SocialGouv/domifa/compare/v2.130.1...v2.130.2) (2023-06-07)
+
+
+### Bug Fixes
+
+* migration sur la preprod ([1ac39ad](https://github.com/SocialGouv/domifa/commit/1ac39ad65128b4988ba95fcb4accb4b3f2a38b05))
+
 ## [2.130.1](https://github.com/SocialGouv/domifa/compare/v2.130.0...v2.130.1) (2023-06-07)
 
 
