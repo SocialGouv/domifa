@@ -1,7 +1,5 @@
 import "./open-telemetry";
 import { bootstrapApplication, tearDownApplication } from "./app.bootstrap";
-import { domifaConfig } from "./config";
-import { appTypeormManager } from "./database";
 
 import { appLogger } from "./util";
 
@@ -11,11 +9,6 @@ import { appLogger } from "./util";
   try {
     const { app, postgresTypeormConnection } = await bootstrapApplication();
     try {
-      if (domifaConfig().typeorm.runOnStartup) {
-        appLogger.warn(`[Typeorm] RUN MIGRATIONS...`);
-        await appTypeormManager.migrateUp(postgresTypeormConnection);
-        appLogger.warn(`[Typeorm] END MIGRATIONS...`);
-      }
       // in local env, run cron on app startup (non blocking)
       const server = await app.listen(3000);
       server.setTimeout(1000 * 60 * 5);

@@ -15,17 +15,16 @@ export const appTypeormManager = {
 export const myDataSource: DataSource = new DataSource(PG_CONNECT_OPTIONS);
 
 async function migrateUp(connection: DataSource): Promise<Migration[]> {
-  if (domifaConfig().envId !== "local") {
-    if (!isCronEnabled()) {
-      return [];
-    }
+  if (!isCronEnabled()) {
+    return [];
   }
+  appLogger.warn(`\nStart migrations ....`);
 
   const migrations = await connection.runMigrations({
     transaction: "each",
   });
 
-  appLogger.warn(`Migration success: ${migrations.length}`);
+  appLogger.warn(`\nMigration success: ${migrations.length}\n`);
   return migrations;
 }
 
