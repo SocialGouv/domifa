@@ -1,15 +1,19 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { domifaConfig } from "../config";
 
-export class AutoMigration1685997922631 implements MigrationInterface {
-  name = "AutoMigration1685997922631";
+export class AddEncryptionTextMigration1686137674369
+  implements MigrationInterface
+{
+  name = "AddEncryptionTextMigration1686137674369";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
+    console.log("[MIGRATION] Création des éléments encryption");
     if (
       domifaConfig().envId === "local" ||
       domifaConfig().envId === "prod" ||
       domifaConfig().envId === "preprod"
     ) {
+      await queryRunner.query(`ALTER TABLE "structure_doc" DROP COLUMN "tags"`);
       await queryRunner.query(
         `ALTER TABLE "structure" ADD "migrated" boolean NOT NULL DEFAULT false`
       );
@@ -54,5 +58,6 @@ export class AutoMigration1685997922631 implements MigrationInterface {
       `ALTER TABLE "usager_docs" DROP COLUMN "encryptionContext"`
     );
     await queryRunner.query(`ALTER TABLE "structure" DROP COLUMN "migrated"`);
+    await queryRunner.query(`ALTER TABLE "structure_doc" ADD "tags" jsonb`);
   }
 }
