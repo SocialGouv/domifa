@@ -27,6 +27,7 @@ jobs:
           DOMIFA_FRONTEND_META_ROBOTS: index,follow
 
 backend-cron:
+  replicas: 1
   addVolumes:
     - files
   envFrom:
@@ -108,13 +109,16 @@ backend:
       value: "--max-old-space-size=2048"
 
 frontend:
+  replicas: 1
   host: "{{ .Values.global.host }}"
   certSecretName: frontend-crt
 
 portail-admins:
+  replicas: 1
   host: "admin-{{ .Values.global.host }}"
   certSecretName: portail-admins-crt
 
 portail-usagers:
+  replicas: 1
   host: "mon-{{ .Values.global.host }}"
   certSecretName: portail-usagers-crt
