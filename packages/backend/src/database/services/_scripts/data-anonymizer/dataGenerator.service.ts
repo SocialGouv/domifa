@@ -5,7 +5,6 @@ export const dataGenerator = {
   lastName,
   phoneNumber,
   fromList,
-  fromListAndRemove,
   number,
   boolean,
   email,
@@ -40,31 +39,6 @@ function fromList<T>(list: T[]): T {
   });
   return list[randomIndex];
 }
-
-function fromListAndRemove<T>(list: T[]): {
-  item: T;
-  remaining: T[];
-} {
-  const length = list.length;
-
-  if (length === 0) {
-    return {
-      item: undefined,
-      remaining: [],
-    };
-  }
-  const randomIndex = faker.number.int({
-    min: 0,
-    max: length - 1,
-  });
-  const remaining = list.concat([]);
-  remaining.splice(randomIndex, 1);
-  return {
-    item: list[randomIndex],
-    remaining,
-  };
-}
-
 function number(
   options: { min?: number; max?: number } = { min: 1, max: 100000 }
 ): number {

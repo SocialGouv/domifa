@@ -88,10 +88,9 @@ async function _anonymizeUsager(usager: Usager) {
       countryCode: "fr",
       numero: "",
     },
-
     nom: dataGenerator.lastName(),
     surnom: usager.surnom ? dataGenerator.lastName() : null,
-    villeNaissance: dataGenerator.fromList(["Inconnu", dataGenerator.city()]),
+    villeNaissance: dataGenerator.city(),
     decision: anonymizeUsagerDecision(usager.decision),
     historique,
     ayantsDroits: anonymizeAyantDroits(usager.ayantsDroits),
@@ -203,6 +202,9 @@ async function anonymizeUsagerDocs() {
     {},
     {
       label: faker.lorem.sentence(3),
+      path: faker.system.fileName,
+      encryptionContext: null,
+      encryptionVersion: null,
       createdBy: faker.person.fullName(),
     }
   );
@@ -217,21 +219,22 @@ function anonymizeOptions(usager: Usager): UsagerOptions {
     dateDebut: x.dateDebut,
   }));
 
-  const transfert = usager.options.transfert
-    ? {
-        actif: true,
-        nom: dataGenerator.lastName(),
-        adresse: faker.location.streetAddress(),
-        dateDebut: usager.options.transfert.dateDebut,
-        dateFin: usager.options.transfert.dateFin,
-      }
-    : {
-        actif: true,
-        nom: null,
-        adresse: null,
-        dateDebut: null,
-        dateFin: null,
-      };
+  const transfert =
+    usager.options.transfert || usager.options.transfert?.actif
+      ? {
+          actif: true,
+          nom: dataGenerator.lastName(),
+          adresse: faker.location.streetAddress(),
+          dateDebut: usager.options.transfert.dateDebut,
+          dateFin: usager.options.transfert.dateFin,
+        }
+      : {
+          actif: false,
+          nom: null,
+          adresse: null,
+          dateDebut: null,
+          dateFin: null,
+        };
 
   return {
     ...usager.options,
@@ -252,6 +255,7 @@ async function anonymizeOptionsHistory() {
     {
       userName: faker.person.fullName(),
       nom: faker.person.lastName(),
+      adresse: faker.location.streetAddress(),
       prenom: faker.person.firstName(),
     }
   );
