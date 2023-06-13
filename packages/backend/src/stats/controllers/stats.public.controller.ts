@@ -7,7 +7,6 @@ import {
   newUserStructureRepository,
   structureRepository,
   usagerRepository,
-  userStructureRepository,
 } from "../../database";
 import { DEFAULT_PUBLIC_STATS, PublicStats } from "../../_common/model";
 import { AdminStructuresService } from "../../_portail-admin/admin-structures/services";
@@ -87,7 +86,7 @@ export class StatsPublicController {
       publicStats.structuresCountByRegion =
         await this.adminStructuresService.getStructuresCountByRegion();
 
-      publicStats.usersCount = await userStructureRepository.count();
+      publicStats.usersCount = await newUserStructureRepository.count();
     }
 
     // Usagers

@@ -15,7 +15,7 @@ describe("userStructureRepository", () => {
   });
 
   it("count structure users", async () => {
-    const count1 = await userStructureRepository.count({
+    const count1 = await newUserStructureRepository.count({
       where: {
         structureId: 1,
       },
@@ -25,7 +25,7 @@ describe("userStructureRepository", () => {
       TESTS_USERS_STRUCTURE.BY_STRUCTURE_ID[1]?.length ?? 0
     );
 
-    const count2 = await userStructureRepository.count({
+    const count2 = await newUserStructureRepository.count({
       where: {
         structureId: 2,
       },
@@ -35,7 +35,7 @@ describe("userStructureRepository", () => {
       TESTS_USERS_STRUCTURE.BY_STRUCTURE_ID[2]?.length ?? 0
     );
 
-    const countTotal = await userStructureRepository.count();
+    const countTotal = await newUserStructureRepository.count();
     // be sure the count is ok
     expect(countTotal).toEqual(TESTS_USERS_STRUCTURE.ALL.length);
   });

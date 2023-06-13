@@ -109,14 +109,19 @@ export class UsagersController {
 
     const usagersRadiesTotalCount = chargerTousRadies
       ? usagersRadiesFirsts.length
-      : await usagerLightRepository.count({
-          where: `"structureId" = :structureId
-        and "decision"->>'statut' = :statut`,
-          params: {
-            statut: "RADIE",
-            structureId: user.structureId,
-          },
-        });
+      : await usagerRepository
+          .createQueryBuilder()
+          .where(
+            `"structureId" = :structureId and "decision"->>'statut' = :statut`,
+            {
+              statut: "RADIE",
+              structureId: user.structureId,
+            }
+          )
+          .getCount();
+
+    console.log(usagersRadiesTotalCount);
+
     return {
       usagersNonRadies,
       usagersRadiesFirsts,

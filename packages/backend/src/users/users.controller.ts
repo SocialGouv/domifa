@@ -53,7 +53,7 @@ export class UsersController {
   public getUsers(
     @CurrentUser() user: UserStructureAuthenticated
   ): Promise<UserStructureProfile[]> {
-    return userStructureRepository.findMany({
+    return newUserStructureRepository.findBy({
       structureId: user.structureId,
       verified: true,
     });

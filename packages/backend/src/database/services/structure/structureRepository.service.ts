@@ -16,7 +16,6 @@ export const structureRepository = appTypeormManager
   .getRepository<Structure>(StructureTable)
   .extend({
     countBy: baseRepository.countBy,
-    count: baseRepository.count,
     findOneWithQuery: baseRepository.findOneWithQuery,
     findManyWithQuery: baseRepository.findManyWithQuery,
     checkHardResetToken,

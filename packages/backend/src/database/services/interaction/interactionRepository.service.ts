@@ -24,7 +24,6 @@ export const interactionRepository = appTypeormManager
   .extend({
     aggregateAsNumber: baseRepository.aggregateAsNumber,
     findLastInteractionOk,
-    updateMany: baseRepository.updateMany,
     findLastInteractionInWithContent,
     countInteractionsByMonth,
     countPendingInteraction,

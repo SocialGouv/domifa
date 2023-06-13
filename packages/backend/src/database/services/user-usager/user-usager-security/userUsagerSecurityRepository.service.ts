@@ -3,20 +3,14 @@ import {
   UserUsagerSecurityEventType,
 } from "../../../../_common/model";
 import { UserUsagerSecurityTable } from "../../../entities/user-usager/UserUsagerSecurityTable.typeorm";
-import { pgRepository } from "../../_postgres";
+import { myDataSource } from "../../_postgres";
 import { userUsagerSecurityEventHistoryManager } from "./userUsagerSecurityEventHistoryManager.service";
 
-const baseRepository = pgRepository.get<
-  UserUsagerSecurityTable,
-  UserUsagerSecurity
->(UserUsagerSecurityTable);
+export const userUsagerSecurityRepository = myDataSource
+  .getRepository(UserUsagerSecurityTable)
+  .extend({ logEvent });
 
-export const userUsagerSecurityRepository = {
-  ...baseRepository,
-  logEvent,
-};
-
-function logEvent({
+async function logEvent({
   userId,
   userSecurity,
   eventType,
@@ -35,7 +29,7 @@ function logEvent({
       eventsHistory: userSecurity.eventsHistory,
       clearAllEvents,
     });
-  return userUsagerSecurityRepository.updateOne(
+  return userUsagerSecurityRepository.update(
     {
       userId,
     },

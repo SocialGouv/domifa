@@ -33,7 +33,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
 ) {
   return {
     typeorm,
-    count,
+
     aggregateAsNumber,
     max,
     countBy,
@@ -41,7 +41,6 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     findOne,
     findMany,
     updateOne,
-    updateMany,
     findOneWithQuery,
     findManyWithQuery,
     _parseCounts,
@@ -55,30 +54,6 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     entities: E
   ): Promise<E> {
     return (await typeorm()).save(entities as any);
-  }
-
-  async function count(
-    {
-      countAttribute = "uuid",
-      logSql,
-      params,
-      where,
-    }: {
-      where?: string | Partial<T>;
-      countAttribute?: string;
-      logSql?: boolean;
-      params?: { [attr: string]: any };
-    } = {
-      countAttribute: "uuid",
-    }
-  ): Promise<number> {
-    return aggregateAsNumber({
-      expression: `COUNT("${countAttribute}")`,
-      resultAlias: "count",
-      where,
-      logSql,
-      params,
-    });
   }
 
   async function max({
@@ -329,20 +304,6 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     );
 
     return findOne<R>(search, options);
-  }
-
-  async function updateMany<R = DEFAULT_RESULT>(
-    search: FindOptionsWhere<T>,
-    data: Partial<T>,
-    options: PgRepositoryFindOptions<T> = {}
-  ) {
-    const typeormRepository = await typeorm();
-
-    await typeormRepository.update(
-      search as unknown as FindOptionsWhere<T>,
-      data as unknown as QueryDeepPartialEntity<T>
-    );
-    return findMany<R>(search, options);
   }
 
   function _buildSelectAttributes(
