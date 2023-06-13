@@ -7,6 +7,7 @@ import {
   interactionRepository,
   InteractionsTable,
   myDataSource,
+  newUserStructureRepository,
   structureRepository,
   typeOrmSearch,
   usagerRepository,
@@ -51,7 +52,7 @@ export class AdminStructuresService {
 
     const structuresCountByTypeMap = await this.getStructuresCountByTypeMap();
 
-    const usersCount = await userStructureRepository.count();
+    const usersCount = await newUserStructureRepository.count();
 
     const interactionsCountByTypeMap =
       await this.getInteractionsCountByTypeMap();
@@ -141,10 +142,10 @@ export class AdminStructuresService {
   }
 
   public async getStructuresWithSms(): Promise<number> {
-    return await structureRepository.count({
-      where: `sms->>'enabledByStructure' = 'true'`,
-      logSql: true,
-    });
+    return structureRepository
+      .createQueryBuilder()
+      .where(`sms->>'enabledByStructure' = 'true'`)
+      .getCount();
   }
 
   public async getInteractionsCountByTypeMap(): Promise<{
@@ -358,7 +359,7 @@ export class AdminStructuresService {
 
     const structuresCountByType = await this.getStructuresCountByTypeMap();
 
-    const usersCount = await userStructureRepository.count();
+    const usersCount = await newUserStructureRepository.count();
 
     const docsCount = await usagerDocsRepository.count();
 

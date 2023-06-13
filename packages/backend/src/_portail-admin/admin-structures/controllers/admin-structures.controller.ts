@@ -62,7 +62,7 @@ export class AdminStructuresController {
 
   @Get("export")
   @AllowUserProfiles("super-admin-domifa")
-  public async export(@Res() res: ExpressResponse) {
+  public async export(@Res() response: ExpressResponse) {
     const {
       structures,
       stats,
@@ -123,7 +123,7 @@ export class AdminStructuresController {
     )}_export-stats-deploiement.xlsx`;
 
     await expressResponseExcelRenderer.sendExcelWorkbook({
-      res,
+      res: response,
       fileName,
       workbook,
     });

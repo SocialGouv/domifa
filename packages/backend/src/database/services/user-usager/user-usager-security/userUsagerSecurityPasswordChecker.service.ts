@@ -33,10 +33,9 @@ async function checkPassword({
     throw new Error("WRONG_CREDENTIALS"); // don't give the real cause
   }
 
-  const userSecurity = await userUsagerSecurityRepository.findOne(
-    { userId: user.id },
-    { throwErrorIfNotFound: true }
-  );
+  const userSecurity = await userUsagerSecurityRepository.findOneOrFail({
+    where: { userId: user.id },
+  });
 
   if (
     userUsagerSecurityEventHistoryManager.isAccountLockedForOperation({

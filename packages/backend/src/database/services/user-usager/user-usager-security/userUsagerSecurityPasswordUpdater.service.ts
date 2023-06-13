@@ -16,10 +16,9 @@ async function updatePassword({
   oldPassword: string;
   newPassword: string;
 }): Promise<UserUsager> {
-  const userSecurity = await userUsagerSecurityRepository.findOne(
-    { userId },
-    { throwErrorIfNotFound: true }
-  );
+  const userSecurity = await userUsagerSecurityRepository.findOneOrFail({
+    where: { userId },
+  });
 
   if (
     userUsagerSecurityEventHistoryManager.isAccountLockedForOperation({

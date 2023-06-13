@@ -12,7 +12,6 @@ import { StructuresConfirmComponent } from "./structures-confirm.component";
 describe("StructuresConfirmComponent", () => {
   let component: StructuresConfirmComponent;
   let fixture: ComponentFixture<StructuresConfirmComponent>;
-  let activatedRoute: ActivatedRoute;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -48,7 +47,6 @@ describe("StructuresConfirmComponent", () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
-    activatedRoute = TestBed.inject(ActivatedRoute);
   }));
 
   beforeEach(() => {

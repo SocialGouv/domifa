@@ -47,10 +47,9 @@ async function enableUser({
     usagerUUID,
   });
 
-  const userSecurity = await userUsagerSecurityRepository.findOne(
-    { userId: updatedUser.id },
-    { throwErrorIfNotFound: true }
-  );
+  const userSecurity = await userUsagerSecurityRepository.findOneByOrFail({
+    userId: updatedUser.id,
+  });
 
   await userUsagerSecurityRepository.logEvent({
     userId: updatedUser.id,

@@ -33,11 +33,9 @@
     </thead>
 
     <tbody>
-      <ng-container
-        *ngFor="let interaction of interactions; let i = index"
-        [attr.aria-rowindex]="i + 1"
-      >
+      <ng-container *ngFor="let interaction of interactions; let i = index">
         <tr
+          [attr.aria-rowindex]="i + 1"
           [ngClass]="{
             'fw-bold':
               interaction.type === 'courrierOut' ||
