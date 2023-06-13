@@ -1,3 +1,12 @@
+## [2.130.5](https://github.com/SocialGouv/domifa/compare/v2.130.4...v2.130.5) (2023-06-13)
+
+
+### Bug Fixes
+
+* delete 1 replica ([5b6226a](https://github.com/SocialGouv/domifa/commit/5b6226af4e3081d5d103ee22bbbe15dcd4640c4b))
+* delete useless functions ([1cb89e9](https://github.com/SocialGouv/domifa/commit/1cb89e93671605402f7232084b90db6012da0477))
+* **typeorm:** execute migration before app start ([dc5c61c](https://github.com/SocialGouv/domifa/commit/dc5c61c863a118554dae00f2955c72d024a87b21))
+
 ## [2.130.4](https://github.com/SocialGouv/domifa/compare/v2.130.3...v2.130.4) (2023-06-07)
 
 
