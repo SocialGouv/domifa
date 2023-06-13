@@ -33,7 +33,6 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
 ) {
   return {
     typeorm,
-
     aggregateAsNumber,
     max,
     countBy,
