@@ -1,3 +1,10 @@
+## [2.130.6](https://github.com/SocialGouv/domifa/compare/v2.130.5...v2.130.6) (2023-06-13)
+
+
+### Bug Fixes
+
+* css font ([e6a29cf](https://github.com/SocialGouv/domifa/commit/e6a29cf179bd019a560ff452f385873a667bf36a))
+
 ## [2.130.5](https://github.com/SocialGouv/domifa/compare/v2.130.4...v2.130.5) (2023-06-13)
 
 
