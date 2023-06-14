@@ -196,13 +196,12 @@ async function anonymizeNotes() {
 }
 
 async function anonymizeUsagerDocs() {
-  appLogger.warn(`[anonymizeNotes] Nettoyage du contenu des notes`);
+  appLogger.warn(`[anonymizeNotes] Nettoyage du contenu des Documents`);
 
   return usagerDocsRepository.update(
     {},
     {
-      label: faker.lorem.sentence(3),
-      path: faker.system.fileName,
+      label: faker.lorem.sentence(2),
       encryptionContext: null,
       encryptionVersion: null,
       createdBy: faker.person.fullName(),
