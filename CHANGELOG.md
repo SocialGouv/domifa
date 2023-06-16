@@ -1,3 +1,11 @@
+## [2.130.7](https://github.com/SocialGouv/domifa/compare/v2.130.6...v2.130.7) (2023-06-16)
+
+
+### Bug Fixes
+
+* **anon:** correction d'une fonction d'anonymisation ([0b8841b](https://github.com/SocialGouv/domifa/commit/0b8841b98b76a87ed099374c20e99e635a849330))
+* **general:** ajout des fichiers robots.txt ([442f1f9](https://github.com/SocialGouv/domifa/commit/442f1f9159b5122bdc93b673584ce6266a6af4c8))
+
 ## [2.130.6](https://github.com/SocialGouv/domifa/compare/v2.130.5...v2.130.6) (2023-06-13)
 
 
