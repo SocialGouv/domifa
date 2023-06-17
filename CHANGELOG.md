@@ -1,3 +1,10 @@
+## [2.130.8](https://github.com/SocialGouv/domifa/compare/v2.130.7...v2.130.8) (2023-06-17)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @nestjs/mapped-types to v2 ([80b3f3f](https://github.com/SocialGouv/domifa/commit/80b3f3fd3013c7cd0c1e2a2055aff44d189cd008))
+
 ## [2.130.7](https://github.com/SocialGouv/domifa/compare/v2.130.6...v2.130.7) (2023-06-16)
 
 
