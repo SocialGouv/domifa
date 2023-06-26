@@ -1,12 +1,13 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { filter, startWith, tap } from "rxjs/operators";
+import { tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
-import { usagersCache } from "../../../shared/store";
+import { cacheManager } from "../../../shared/store";
 import { SearchPageLoadedUsagersData } from "../../../shared/store/AppStoreModel.type";
+import { Store } from "@ngrx/store";
 
 @Injectable({
   providedIn: "root",
@@ -14,7 +15,7 @@ import { SearchPageLoadedUsagersData } from "../../../shared/store/AppStoreModel
 export class ManageUsagersService {
   public endPointUsagers = environment.apiUrl + "usagers";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private store: Store) {}
 
   public getSearchPageUsagerData({
     chargerTousRadies,
@@ -27,12 +28,12 @@ export class ManageUsagersService {
       )
       .pipe(
         tap((searchPageLoadedUsagersData: SearchPageLoadedUsagersData) => {
-          usagersCache.setSearchPageLoadedUsagersData(
-            searchPageLoadedUsagersData
+          this.store.dispatch(
+            cacheManager.setSearchPageLoadedUsagersData({
+              searchPageLoadedUsagersData,
+            })
           );
-        }),
-        startWith(usagersCache.getSnapshot().searchPageLoadedUsagersData),
-        filter((x) => !!x)
+        })
       );
   }
 
@@ -47,7 +48,7 @@ export class ManageUsagersService {
       })
       .pipe(
         tap((usagers: UsagerLight[]) => {
-          usagersCache.updateUsagers(usagers);
+          this.store.dispatch(cacheManager.updateUsagers({ usagers }));
         })
       );
   }

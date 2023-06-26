@@ -1,10 +1,9 @@
-import { USAGER_ACTIF_MOCK } from "../../../../_common/mocks/USAGER_ACTIF.mock";
+import { USAGER_ACTIF_MOCK } from "../../../../_common/mocks";
 import {
   ETAPE_DOCUMENTS,
   ETAPE_ENTRETIEN,
   ETAPE_ETAT_CIVIL,
-} from "../../../../_common/model/usager/_constants";
-
+} from "../../../../_common/model";
 import { getUrlUsagerProfil } from "./getUrlUsagerProfil.service";
 
 it("getUrlUsagerProfil: redirection vers le profil", () => {

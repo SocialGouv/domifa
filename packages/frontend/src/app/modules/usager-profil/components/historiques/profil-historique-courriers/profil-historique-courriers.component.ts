@@ -11,7 +11,6 @@ import {
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   InteractionEvent,
-  UsagerLight,
   UserStructure,
 } from "../../../../../../_common/model";
 import {
@@ -63,9 +62,7 @@ export class ProfilHistoriqueCourriersComponent implements OnInit, OnDestroy {
         this.interactionService
           .delete(this.usager.ref, this.interactionToDelete.uuid)
           .subscribe({
-            next: (usager: UsagerLight) => {
-              this.usager = new UsagerFormModel(usager);
-
+            next: () => {
               const message =
                 this.interactionToDelete?.event === "create"
                   ? "supprimée"

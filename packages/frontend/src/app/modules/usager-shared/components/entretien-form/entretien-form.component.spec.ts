@@ -9,6 +9,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { SharedModule } from "../../../shared/shared.module";
 import { EntretienFormComponent } from "./entretien-form.component";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("EntretienFormComponent", () => {
   let component: EntretienFormComponent;
@@ -24,6 +26,7 @@ describe("EntretienFormComponent", () => {
         SharedModule,
         ReactiveFormsModule,
         FormsModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

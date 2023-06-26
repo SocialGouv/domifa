@@ -26,6 +26,7 @@ import { StepHeaderComponent } from "./components/step-header/step-header.compon
 import { DecisionRefusFormComponent } from "./components/decision-refus-form/decision-refus-form.component";
 import { DecisionValideFormComponent } from "./components/decision-valide-form/decision-valide-form.component";
 import { UsagerNotesModule } from "../usager-notes/usager-notes.module";
+import { BaseUsagerDossierPageComponent } from "./components/base-usager-dossier-page/base-usager-dossier-page.component";
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { UsagerNotesModule } from "../usager-notes/usager-notes.module";
     // Sous-composants pour les décisions
     DecisionValideFormComponent,
     DecisionRefusFormComponent,
+    BaseUsagerDossierPageComponent,
   ],
   imports: [
     CommonModule,

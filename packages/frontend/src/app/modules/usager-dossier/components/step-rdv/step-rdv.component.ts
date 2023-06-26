@@ -20,8 +20,11 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 
-import { UserStructure, UsagerLight } from "../../../../../_common/model";
-import { UsagerFormModel } from "../../../usager-shared/interfaces/UsagerFormModel";
+import {
+  UserStructure,
+  UsagerLight,
+  Usager,
+} from "../../../../../_common/model";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
 import {
@@ -31,8 +34,12 @@ import {
   setHours,
   setMinutes,
 } from "date-fns";
-import { fadeInOut, minDateToday } from "../../../../shared";
-import { Subscription } from "rxjs";
+import { fadeInOut, minDateToday, selectUsagerByRef } from "../../../../shared";
+
+import { Title } from "@angular/platform-browser";
+import { Store } from "@ngrx/store";
+import { BaseUsagerDossierPageComponent } from "../base-usager-dossier-page/base-usager-dossier-page.component";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 @Component({
   animations: [fadeInOut],
@@ -45,68 +52,78 @@ import { Subscription } from "rxjs";
   styleUrls: ["./step-rdv.component.css"],
   templateUrl: "./step-rdv.component.html",
 })
-export class StepRdvComponent implements OnInit, OnDestroy {
+export class StepRdvComponent
+  extends BaseUsagerDossierPageComponent
+  implements OnInit, OnDestroy
+{
   public rdvForm!: UntypedFormGroup;
-
-  public usager!: UsagerFormModel;
   public editRdv: boolean;
-
-  public me!: UserStructure | null;
   public agents: UserStructure[] = [];
-
   public rdvIsToday: boolean;
-  private subscription = new Subscription();
-
   public dToday = new Date();
-  public loading = false;
-  public submitted = false;
-
   public minDateToday: NgbDateStruct;
   public maxDateRdv: NgbDateStruct;
 
   constructor(
+    public authService: AuthService,
+    public usagerDossierService: UsagerDossierService,
+    public titleService: Title,
+    public toastService: CustomToastService,
+    public route: ActivatedRoute,
+    public router: Router,
+    public store: Store,
     private readonly formBuilder: UntypedFormBuilder,
-    private readonly usagerDossierService: UsagerDossierService,
     private readonly documentService: DocumentService,
-    private readonly toastService: CustomToastService,
-    private readonly authService: AuthService,
-    private readonly nbgDate: NgbDateCustomParserFormatter,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute
+    private readonly nbgDate: NgbDateCustomParserFormatter
   ) {
-    this.editRdv = true;
-    this.rdvIsToday = false;
+    super(
+      authService,
+      usagerDossierService,
+      titleService,
+      toastService,
+      route,
+      router,
+      store
+    );
     this.submitted = false;
+    this.loading = false;
     this.maxDateRdv = {
       day: this.dToday.getDate(),
       month: this.dToday.getMonth() + 1,
       year: this.dToday.getFullYear() + 2,
     };
-    this.me = this.authService.currentUserValue;
     this.minDateToday = minDateToday;
+  }
+
+  public ngOnInit(): void {
+    const id = this.route.snapshot.params.id;
+
+    this.subscription.add(
+      this.store
+        .select(selectUsagerByRef(id))
+        .subscribe((usager: UsagerLight) => {
+          if (usager) {
+            this.usager = new UsagerFormModel(usager);
+            this.initForm();
+          }
+        })
+    );
+
+    this.subscription.add(
+      this.usagerDossierService.findOne(id).subscribe({
+        next: (usager: Usager) => {
+          this.usager = new UsagerFormModel(usager);
+        },
+        error: () => {
+          this.toastService.error("Le dossier recherché n'existe pas");
+          this.router.navigate(["404"]);
+        },
+      })
+    );
   }
 
   public get r(): { [key: string]: AbstractControl } {
     return this.rdvForm.controls;
-  }
-
-  public ngOnInit(): void {
-    if (this.route.snapshot.params.id) {
-      const id = this.route.snapshot.params.id;
-      this.subscription.add(
-        this.usagerDossierService.findOne(id).subscribe({
-          next: (usager: UsagerLight) => {
-            this.usager = new UsagerFormModel(usager);
-            this.initForm();
-          },
-          error: () => {
-            this.router.navigate(["404"]);
-          },
-        })
-      );
-    } else {
-      this.router.navigate(["404"]);
-    }
   }
 
   public getCerfa(typeCerfa: CerfaDocType = "attestation"): void {
@@ -234,11 +251,10 @@ export class StepRdvComponent implements OnInit, OnDestroy {
       this.usagerDossierService
         .setRdv(rdvFormValue, this.usager.ref)
         .subscribe({
-          next: (usager: UsagerLight) => {
+          next: () => {
             this.loading = false;
             this.editRdv = false;
             this.toastService.success("Rendez-vous enregistré");
-            this.usager = new UsagerFormModel(usager);
           },
           error: () => {
             this.loading = false;
@@ -263,9 +279,5 @@ export class StepRdvComponent implements OnInit, OnDestroy {
 
       return dateRdv < new Date() ? { dateInvalid: true } : null;
     };
-  }
-
-  public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }

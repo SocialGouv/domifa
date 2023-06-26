@@ -4,6 +4,8 @@ import { ProfilHistoriqueProcurationsComponent } from "./profil-historique-procu
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { USAGER_ACTIF_MOCK } from "../../../../../../_common/mocks";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../../shared";
 
 describe("ProfilHistoriqueProcurationsComponent", () => {
   let component: ProfilHistoriqueProcurationsComponent;
@@ -12,7 +14,10 @@ describe("ProfilHistoriqueProcurationsComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ProfilHistoriqueProcurationsComponent],
-      imports: [HttpClientTestingModule],
+      imports: [
+        HttpClientTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProfilHistoriqueProcurationsComponent);

@@ -32,16 +32,13 @@ import {
 } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
-import { fadeInOut } from "../../../../shared";
-import { usagersCache } from "../../../../shared/store";
+import {
+  fadeInOut,
+  selectSearchPageLoadedUsagersData,
+} from "../../../../shared";
 import { SearchPageLoadedUsagersData } from "../../../../shared/store/AppStoreModel.type";
 
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
-import {
-  getEcheanceInfos,
-  getRdvInfos,
-  getUrlUsagerProfil,
-} from "../../../usager-shared/utils";
 
 import {
   UsagersByStatus,
@@ -54,6 +51,7 @@ import {
   UsagersFilterCriteriaSortValues,
   UsagersFilterCriteriaStatut,
 } from "../usager-filter";
+import { Store } from "@ngrx/store";
 
 const AUTO_REFRESH_PERIOD = 3600000; // 1h
 
@@ -82,14 +80,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
         return [];
       }
 
-      return data.usagersNonRadies
-        .concat(data.usagersRadiesFirsts)
-        .map((usager) => {
-          usager.echeanceInfos = getEcheanceInfos(usager);
-          usager.rdvInfos = getRdvInfos(usager);
-          usager.usagerProfilUrl = getUrlUsagerProfil(usager);
-          return usager;
-        });
+      return data.usagersNonRadies.concat(data.usagersRadiesFirsts);
     })
   );
 
@@ -162,7 +153,8 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     private readonly usagerService: ManageUsagersService,
     private readonly authService: AuthService,
     private readonly titleService: Title,
-    public matomo: MatomoTracker
+    public matomo: MatomoTracker,
+    public store: Store
   ) {
     this.selectedRefs = [];
 
@@ -192,13 +184,32 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    if (!this.me?.acceptTerms) {
+      return;
+    }
     this.filters$.next(this.filters);
 
     this.scrollTop();
 
-    if (!this.me?.acceptTerms) {
-      return;
-    }
+    this.subscription.add(
+      this.store
+        .select(selectSearchPageLoadedUsagersData())
+        .subscribe(
+          (searchPageLoadedUsagersData: SearchPageLoadedUsagersData) => {
+            this.loading = false;
+
+            this.usagersRadiesTotalCount =
+              searchPageLoadedUsagersData.usagersRadiesTotalCount;
+            this.usagersTotalCount =
+              searchPageLoadedUsagersData.usagersRadiesTotalCount +
+              searchPageLoadedUsagersData.usagersNonRadies.length;
+            this.usagersRadiesLoadedCount =
+              searchPageLoadedUsagersData.usagersRadiesFirsts.length;
+            this.searchPageLoadedUsagersData$.next(searchPageLoadedUsagersData);
+            this.updateSortLabel();
+          }
+        )
+    );
 
     // reload every hour
     this.subscription.add(
@@ -214,19 +225,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
             })
           )
         )
-        .subscribe((searchPageLoadedUsagersData) => {
-          this.loading = false;
-
-          this.usagersRadiesTotalCount =
-            searchPageLoadedUsagersData.usagersRadiesTotalCount;
-          this.usagersTotalCount =
-            searchPageLoadedUsagersData.usagersRadiesTotalCount +
-            searchPageLoadedUsagersData.usagersNonRadies.length;
-          this.usagersRadiesLoadedCount =
-            searchPageLoadedUsagersData.usagersRadiesFirsts.length;
-          this.searchPageLoadedUsagersData$.next(searchPageLoadedUsagersData);
-          this.updateSortLabel();
-        })
+        .subscribe()
     );
 
     this.subscription.add(
@@ -279,9 +278,10 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
           catchError(() => NEVER)
         )
         .subscribe(() => {
-          // update data from cache
-          this.searchPageLoadedUsagersData$.next(
-            usagersCache.getSnapshot().searchPageLoadedUsagersData
+          this.store.select(selectSearchPageLoadedUsagersData()).pipe(
+            map((value) => {
+              this.searchPageLoadedUsagersData$.next(value);
+            })
           );
         })
     );
@@ -326,36 +326,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
       "Liste_Icône_Impression",
       1
     );
-  }
-
-  public updateUsager(usager: UsagerLight): void {
-    const toNext =
-      usager.decision.statut !== "RADIE"
-        ? {
-            ...this.searchPageLoadedUsagersData$.value,
-            usagersNonRadies:
-              this.searchPageLoadedUsagersData$.value.usagersNonRadies.map(
-                (x) => {
-                  if (x.ref === usager.ref) {
-                    return usager;
-                  }
-                  return x;
-                }
-              ),
-          }
-        : {
-            ...this.searchPageLoadedUsagersData$.value,
-            usagersRadiesFirsts:
-              this.searchPageLoadedUsagersData$.value.usagersRadiesFirsts.map(
-                (x) => {
-                  if (x.ref === usager.ref) {
-                    return usager;
-                  }
-                  return x;
-                }
-              ),
-          };
-    this.searchPageLoadedUsagersData$.next(toNext);
   }
 
   public ngOnDestroy(): void {

@@ -2,53 +2,43 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import {
-  Usager,
-  UsagerLight,
-  UserStructure,
-} from "../../../../../_common/model";
+import { UsagerLight } from "../../../../../_common/model";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
-import { Observable, Subscription } from "rxjs";
+import { Subscription } from "rxjs";
+import { BaseUsagerDossierPageComponent } from "../base-usager-dossier-page/base-usager-dossier-page.component";
+import { Title } from "@angular/platform-browser";
+import { Store } from "@ngrx/store";
 
 @Component({
   selector: "app-usager-dossier-step-entretien",
   templateUrl: "./step-entretien.component.html",
 })
-export class StepEntretienComponent implements OnInit, OnDestroy {
+export class StepEntretienComponent
+  extends BaseUsagerDossierPageComponent
+  implements OnInit, OnDestroy
+{
   public usager!: UsagerFormModel;
-  public currentUserSubject$: Observable<UserStructure | null>;
-  private subscription = new Subscription();
+  public subscription = new Subscription();
 
   constructor(
-    private readonly usagerDossierService: UsagerDossierService,
-    private readonly authService: AuthService,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly toastr: CustomToastService
+    public authService: AuthService,
+    public usagerDossierService: UsagerDossierService,
+    public titleService: Title,
+    public toastService: CustomToastService,
+    public route: ActivatedRoute,
+    public router: Router,
+    public store: Store
   ) {
-    this.currentUserSubject$ = this.authService.currentUserSubject;
-  }
-
-  public ngOnInit(): void {
-    if (this.route.snapshot.params.id) {
-      const id = this.route.snapshot.params.id;
-
-      this.subscription.add(
-        this.usagerDossierService.findOne(id).subscribe({
-          next: (usager: Usager) => {
-            this.usager = new UsagerFormModel(usager);
-          },
-          error: () => {
-            this.toastr.error("Le dossier recherché n'existe pas");
-            this.router.navigate(["404"]);
-          },
-        })
-      );
-    } else {
-      this.toastr.error("Le dossier recherché n'existe pas");
-      this.router.navigate(["404"]);
-    }
+    super(
+      authService,
+      usagerDossierService,
+      titleService,
+      toastService,
+      route,
+      router,
+      store
+    );
   }
 
   public nextStep(step: number): void {
@@ -58,13 +48,9 @@ export class StepEntretienComponent implements OnInit, OnDestroy {
           this.router.navigate(["usager/" + usager.ref + "/edit/documents"]);
         },
         error: () => {
-          this.toastr.error("Une erreure inattendue est survenue");
+          this.toastService.error("Une erreure inattendue est survenue");
         },
       })
     );
-  }
-
-  public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }

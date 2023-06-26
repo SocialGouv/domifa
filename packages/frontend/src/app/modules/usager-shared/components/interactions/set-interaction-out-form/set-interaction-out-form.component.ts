@@ -10,7 +10,6 @@ import {
 
 import { BehaviorSubject, Subscription, combineLatest } from "rxjs";
 import {
-  UsagerLight,
   InteractionOutForm,
   InteractionOutForApi,
   INTERACTIONS_OUT_AVAILABLE,
@@ -20,7 +19,6 @@ import { CustomToastService } from "../../../../shared/services";
 import { UsagerFormModel, Interaction } from "../../../interfaces";
 
 import { InteractionService } from "../../../services/interaction.service";
-import { UsagerService } from "../../../services/usagers.service";
 
 @Component({
   animations: [bounce],
@@ -30,12 +28,6 @@ import { UsagerService } from "../../../services/usagers.service";
 })
 export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
-
-  @Output()
-  public usagerChange = new EventEmitter<UsagerFormModel>();
-
-  @Output()
-  public updateUsagerForManage = new EventEmitter<UsagerLight>();
 
   @Output()
   public cancelReception = new EventEmitter<void>();
@@ -57,7 +49,6 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly interactionService: InteractionService,
-    private readonly usagerService: UsagerService,
     private readonly toastService: CustomToastService
   ) {
     this.procurationIndex = null;
@@ -179,8 +170,8 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
           next: () => {
             this.loading = false;
             this.updateInteractions.emit();
+            this.cancelReception.emit();
             this.toastService.success("Distribution effectuée avec succès");
-            this.refreshUsager();
           },
           error: () => {
             this.loading = false;
@@ -188,19 +179,6 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
               "Impossible d'enregistrer cette interaction"
             );
           },
-        })
-    );
-  }
-
-  // Actualiser les données de l'usager
-  public refreshUsager(): void {
-    this.subscription.add(
-      this.usagerService
-        .findOne(this.usager.ref)
-        .subscribe((usager: UsagerLight) => {
-          this.updateUsagerForManage.emit(usager);
-          this.usagerChange.emit(new UsagerFormModel(usager));
-          this.cancelReception.emit();
         })
     );
   }

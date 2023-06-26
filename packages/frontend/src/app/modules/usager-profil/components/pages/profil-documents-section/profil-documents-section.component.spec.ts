@@ -11,6 +11,8 @@ import { ProfilDocumentsSectionComponent } from "./profil-documents-section.comp
 
 import { USAGER_ACTIF_MOCK } from "../../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../../shared";
 
 describe("ProfilDocumentsSectionComponent", () => {
   let component: ProfilDocumentsSectionComponent;
@@ -21,13 +23,13 @@ describe("ProfilDocumentsSectionComponent", () => {
       declarations: [ProfilDocumentsSectionComponent],
       imports: [
         NgbModule,
-
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
         SharedModule,
         HttpClientTestingModule,
         RouterTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

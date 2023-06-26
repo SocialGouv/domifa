@@ -1,12 +1,17 @@
-import { UsagerNotesService } from "./../../../usager-notes/services/usager-notes.service";
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 
-import { UsagerFormModel } from "../../../usager-shared/interfaces/UsagerFormModel";
-import { ETAPES_DEMANDE_URL } from "../../../../../_common/model";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
-import { getUsagerNomComplet } from "../../../../shared";
+import {
+  ETAPES_DEMANDE_URL,
+  ETAPES_FORM_DOM,
+  ETAPES_FORM_DOM_TITRES,
+  UsagerLight,
+} from "../../../../../_common/model";
+import { getUsagerNomComplet, selectUsagerByRef } from "../../../../shared";
 import { CustomToastService } from "../../../shared/services";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
+import { Store } from "@ngrx/store";
 import { Subscription } from "rxjs";
 
 @Component({
@@ -14,26 +19,12 @@ import { Subscription } from "rxjs";
   templateUrl: "./step-header.component.html",
   styleUrls: ["./step-header.component.css"],
 })
-export class StepHeaderComponent implements OnInit {
+export class StepHeaderComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
   @Input() public currentStep!: number;
 
-  public readonly ETAPES_FORM_DOM = [
-    "État civil",
-    "Prise de RDV",
-    "Entretien",
-    "Pièces justificatives",
-    "Décision finale",
-  ];
-
-  public readonly ETAPES_FORM_DOM_TITRES = [
-    "état-civil",
-    "prise de rendez-vous",
-    "entretien social",
-    "pièces justificatives",
-    "récapitulatif et prise de décision",
-  ];
-
+  public readonly ETAPES_FORM_DOM_TITRES = ETAPES_FORM_DOM_TITRES;
+  public readonly ETAPES_FORM_DOM = ETAPES_FORM_DOM;
   public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
 
   public nbNotes: number;
@@ -43,10 +34,8 @@ export class StepHeaderComponent implements OnInit {
     private readonly router: Router,
     private readonly titleService: Title,
     private readonly toastService: CustomToastService,
-    private readonly usagerNotesService: UsagerNotesService
-  ) {
-    this.nbNotes = 0;
-  }
+    private readonly store: Store
+  ) {}
 
   public ngOnInit(): void {
     if (
@@ -83,19 +72,17 @@ export class StepHeaderComponent implements OnInit {
       ", étape " +
       (this.currentStep + 1) +
       " sur 5, " +
-      this.ETAPES_FORM_DOM_TITRES[this.currentStep];
+      ETAPES_FORM_DOM_TITRES[this.currentStep];
 
     this.titleService.setTitle(title);
 
-    if (this.usager.uuid) {
-      this.subscription.add(
-        this.usagerNotesService
-          .countNotes(this.usager.ref)
-          .subscribe((nbNotes: number) => {
-            this.nbNotes = nbNotes;
-          })
-      );
-    }
+    this.subscription.add(
+      this.store
+        .select(selectUsagerByRef(this.usager.ref.toString()))
+        .subscribe((usager: UsagerLight) => {
+          this.nbNotes = usager.nbNotes;
+        })
+    );
   }
 
   public goToStep(step: number): void {
@@ -131,5 +118,9 @@ export class StepHeaderComponent implements OnInit {
         inline: "nearest",
       });
     }
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

@@ -43,7 +43,7 @@
 
           <app-profil-etat-civil-form
             *ngIf="editInfos"
-            [(usager)]="usager"
+            [usager]="usager"
             [(editInfos)]="editInfos"
           ></app-profil-etat-civil-form>
         </div>
@@ -86,7 +86,7 @@
           <app-entretien-form
             *ngIf="editEntretien"
             [(editEntretien)]="editEntretien"
-            [(usager)]="usager"
+            [usager]="usager"
           ></app-entretien-form>
 
           <app-display-entretien *ngIf="!editEntretien" [usager]="usager">
@@ -96,7 +96,7 @@
     </div>
     <app-delete-usager-menu
       context="PROFIL"
-      [(usager)]="usager"
+      [usager]="usager"
       [me]="me"
     ></app-delete-usager-menu>
   </div>

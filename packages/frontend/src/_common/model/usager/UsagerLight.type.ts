@@ -34,4 +34,5 @@ export type UsagerLight = AppEntity &
     | "rdvInfos"
     | "pinnedNote"
     | "datePremiereDom"
+    | "nbNotes"
   >;

@@ -32,6 +32,10 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@ng-bootstrap/ng-bootstrap": "^14.0.1",
+    "@ngrx/effects": "^15.4.0",
+    "@ngrx/entity": "^15.4.0",
+    "@ngrx/store": "^15.4.0",
+    "@ngrx/store-devtools": "^15.4.0",
     "@ngx-matomo/router": "^4.0.1",
     "@ngx-matomo/tracker": "4.0.1",
     "@popperjs/core": "^2.11.4",
@@ -48,7 +52,6 @@
     "ngx-bootstrap": "^10.2.0",
     "ngx-countup": "^13.0.0",
     "ngx-intl-tel-input": "^3.2.0",
-    "redux": "^4.1.0",
     "rxjs": "^7.6.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"

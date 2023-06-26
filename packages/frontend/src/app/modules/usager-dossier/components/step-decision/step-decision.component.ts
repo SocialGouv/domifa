@@ -13,14 +13,14 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
-import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import { CerfaDocType } from "src/_common/model/cerfa";
 
-import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
-import { Subscription } from "rxjs";
+import { BaseUsagerDossierPageComponent } from "../base-usager-dossier-page/base-usager-dossier-page.component";
+import { Title } from "@angular/platform-browser";
+import { Store } from "@ngrx/store";
 
 @Component({
   providers: [
@@ -32,58 +32,44 @@ import { Subscription } from "rxjs";
   styleUrls: ["./step-decision.component.css"],
   templateUrl: "./step-decision.component.html",
 })
-export class StepDecisionComponent implements OnInit, OnDestroy {
-  public usager!: UsagerFormModel;
-  public me!: UserStructure | null;
-
+export class StepDecisionComponent
+  extends BaseUsagerDossierPageComponent
+  implements OnInit, OnDestroy
+{
   public isAdmin: boolean;
   public editInfos: boolean;
   public editEntretien: boolean;
   public editPJ: boolean;
 
-  private subscription = new Subscription();
-
   constructor(
-    private readonly authService: AuthService,
-    private readonly usagerDossierService: UsagerDossierService,
+    public authService: AuthService,
+    public usagerDossierService: UsagerDossierService,
+    public titleService: Title,
+    public toastService: CustomToastService,
+    public route: ActivatedRoute,
+    public router: Router,
+    public store: Store,
     private readonly usagerDecisionService: UsagerDecisionService,
-    private readonly documentService: DocumentService,
     private readonly modalService: NgbModal,
-    private readonly router: Router,
-    private readonly toastService: CustomToastService,
     private readonly matomo: MatomoTracker,
-    private readonly route: ActivatedRoute
+    private readonly documentService: DocumentService
   ) {
+    super(
+      authService,
+      usagerDossierService,
+      titleService,
+      toastService,
+      route,
+      router,
+      store
+    );
     this.isAdmin = false;
     this.editInfos = false;
     this.editEntretien = false;
-
     this.editPJ = false;
-  }
-
-  public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
-  public ngOnInit(): void {
-    this.me = this.authService.currentUserValue;
-    this.isAdmin = this.me?.role === "admin" || this.me?.role === "responsable";
-
-    if (this.route.snapshot.params.id) {
-      const id = this.route.snapshot.params.id;
-      this.subscription.add(
-        this.usagerDossierService.findOne(id).subscribe({
-          next: (usager: UsagerLight) => {
-            this.usager = new UsagerFormModel(usager);
-          },
-          error: () => {
-            this.router.navigate(["404"]);
-          },
-        })
-      );
-    } else {
-      this.router.navigate(["404"]);
-    }
+    this.isAdmin =
+      this.authService.currentUserValue?.role === "admin" ||
+      this.authService.currentUserValue?.role === "responsable";
   }
 
   public setDecisionAttente() {
@@ -91,8 +77,7 @@ export class StepDecisionComponent implements OnInit, OnDestroy {
       this.usagerDecisionService
         .setDecision(this.usager.ref, { statut: "ATTENTE_DECISION" })
         .subscribe({
-          next: (usager: UsagerLight) => {
-            this.usager = new UsagerFormModel(usager);
+          next: () => {
             this.toastService.success("Décision enregistrée avec succès ! ");
           },
           error: () => {

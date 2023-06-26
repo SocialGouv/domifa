@@ -481,7 +481,7 @@
     </div>
     <app-delete-usager-menu
       context="PROFIL"
-      [(usager)]="usager"
+      [usager]="usager"
       [me]="me"
     ></app-delete-usager-menu>
   </div>
@@ -489,7 +489,7 @@
 
 <ng-template #setInteractionInModal let-modal>
   <app-set-interaction-in-form
-    [(usager)]="usager"
+    [usager]="usager"
     (cancelReception)="closeModals()"
     (updateInteractions)="updateInteractions()"
   ></app-set-interaction-in-form>
@@ -497,7 +497,7 @@
 
 <ng-template #setInteractionOutModal let-modal>
   <app-set-interaction-out-form
-    [(usager)]="usager"
+    [usager]="usager"
     (cancelReception)="closeModals()"
     (updateInteractions)="updateInteractions()"
   ></app-set-interaction-out-form>

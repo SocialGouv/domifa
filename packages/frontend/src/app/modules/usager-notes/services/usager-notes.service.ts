@@ -4,7 +4,8 @@ import { Observable, tap } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { UsagerNote, Usager, UsagerLight } from "../../../../_common/model";
 import { PageOptions, PageResults } from "../../../../_common/model/pagination";
-import { usagersCache } from "../../../shared";
+import { cacheManager } from "../../../shared";
+import { Store } from "@ngrx/store";
 
 @Injectable({
   providedIn: "root",
@@ -12,7 +13,7 @@ import { usagersCache } from "../../../shared";
 export class UsagerNotesService {
   public endPoint = environment.apiUrl + "usagers-notes";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, public store: Store) {}
 
   public getUsagerNotes(usagerRef: number): Observable<UsagerNote[]> {
     return this.http.get<UsagerNote[]>(`${this.endPoint}/${usagerRef}`);
@@ -25,22 +26,33 @@ export class UsagerNotesService {
     note: Pick<UsagerNote, "message">;
     usagerRef: number;
   }): Observable<Usager> {
-    return this.http.post<Usager>(`${this.endPoint}/${usagerRef}`, note);
-  }
-
-  public getNotes(
-    usagerRef: number,
-    pageOptions: PageOptions,
-    archived: boolean
-  ): Observable<PageResults<UsagerNote>> {
-    return this.http.post<PageResults<UsagerNote>>(
-      `${this.endPoint}/search/${usagerRef}/${archived}`,
-      pageOptions
+    return this.http.post<Usager>(`${this.endPoint}/${usagerRef}`, note).pipe(
+      tap((newUsager: UsagerLight) => {
+        this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+      })
     );
   }
 
-  public countNotes(usagerRef: number): Observable<number> {
-    return this.http.get<number>(`${this.endPoint}/count/${usagerRef}`);
+  public getNotes(
+    usager: UsagerLight,
+    pageOptions: PageOptions,
+    archived: boolean
+  ): Observable<PageResults<UsagerNote>> {
+    return this.http
+      .post<PageResults<UsagerNote>>(
+        `${this.endPoint}/search/${usager.ref}/${archived}`,
+        pageOptions
+      )
+      .pipe(
+        tap((notes: PageResults<UsagerNote>) => {
+          const newUsager: Usager = {
+            ...usager,
+            nbNotes: notes.meta.itemCount,
+          };
+          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          return notes;
+        })
+      );
   }
 
   public archiveNote({
@@ -53,8 +65,8 @@ export class UsagerNotesService {
     return this.http
       .put<Usager>(`${this.endPoint}/${usagerRef}/archive/${noteUUID}`, {})
       .pipe(
-        tap((newUsager: UsagerLight) => {
-          usagersCache.updateUsager(newUsager);
+        tap((newUsager: Usager) => {
+          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
           return newUsager;
         })
       );
@@ -70,8 +82,8 @@ export class UsagerNotesService {
     return this.http
       .put<Usager>(`${this.endPoint}/${usagerRef}/pin/${noteUUID}`, {})
       .pipe(
-        tap((newUsager: UsagerLight) => {
-          usagersCache.updateUsager(newUsager);
+        tap((newUsager: Usager) => {
+          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
           return newUsager;
         })
       );
@@ -88,7 +100,7 @@ export class UsagerNotesService {
       .delete<Usager>(`${this.endPoint}/${usagerRef}/${noteUUID}`, {})
       .pipe(
         tap((newUsager: UsagerLight) => {
-          usagersCache.updateUsager(newUsager);
+          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
           return newUsager;
         })
       );

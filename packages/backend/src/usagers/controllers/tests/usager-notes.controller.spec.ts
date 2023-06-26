@@ -60,7 +60,7 @@ describe("UsagerNote Controller", () => {
       }
     );
 
-    expect(response.status).toEqual(200);
+    expect(response.status).toEqual(201);
     expect(response.body.data.length).toEqual(1);
     usagerNoteForTest = response.body.data[0];
     expect(usagerNoteForTest.message).toEqual("Test message");

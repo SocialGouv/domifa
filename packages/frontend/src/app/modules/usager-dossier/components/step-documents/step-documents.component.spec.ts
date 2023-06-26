@@ -10,6 +10,9 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { APP_BASE_HREF } from "@angular/common";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
+import { NGRX_PROVIDERS_TESTING } from "../../../../shared/store/tests";
 
 describe("StepDocumentsComponent", () => {
   let component: StepDocumentsComponent;
@@ -23,8 +26,12 @@ describe("StepDocumentsComponent", () => {
         ReactiveFormsModule,
         FormsModule,
         HttpClientTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        { provide: APP_BASE_HREF, useValue: "/" },
+        ...NGRX_PROVIDERS_TESTING,
+      ],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [StepDocumentsComponent],
     });

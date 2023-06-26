@@ -1,12 +1,9 @@
-import { UsagerLight } from "./../../../../../_common/model/usager/UsagerLight.type";
 import { UsagerFormModel } from "./../../interfaces/UsagerFormModel";
 import {
   Component,
-  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
-  Output,
   TemplateRef,
 } from "@angular/core";
 import { Router } from "@angular/router";
@@ -31,7 +28,6 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
   @Input() public context!: "HISTORY" | "PROFIL";
   @Input() public me!: UserStructure;
-  @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
 
   private subscription = new Subscription();
   public isFirstInstruction: boolean;
@@ -88,15 +84,13 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.subscription.add(
       this.usagerDecisionService.deleteDecision(this.usager.ref).subscribe({
-        next: (usager: UsagerLight) => {
+        next: () => {
           this.toastService.success(
             "Demande de renouvellement supprimée avec succès"
           );
 
           setTimeout(() => {
             this.modalService.dismissAll();
-            this.usager = new UsagerFormModel(usager);
-            this.usagerChange.emit(this.usager);
             this.loading = false;
 
             const redirection =

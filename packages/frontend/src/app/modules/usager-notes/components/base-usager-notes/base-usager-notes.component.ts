@@ -1,13 +1,10 @@
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Observable, Subscription, take } from "rxjs";
 import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from "@angular/core";
-import { Observable, Subscription } from "rxjs";
-import { UserStructure, UsagerNote } from "../../../../../_common/model";
+  UserStructure,
+  UsagerNote,
+  UsagerLight,
+} from "../../../../../_common/model";
 import {
   Order,
   PageOptions,
@@ -17,6 +14,8 @@ import { AuthService, CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerNotesService } from "../../services/usager-notes.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Store, select } from "@ngrx/store";
+import { selectUsagerByRef } from "../../../../shared";
 
 @Component({
   selector: "app-base-usager-notes",
@@ -26,7 +25,6 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
   @Input() public me!: UserStructure;
   @Input() public usager!: UsagerFormModel;
-  @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
 
   public params!: PageOptions;
 
@@ -41,7 +39,8 @@ export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
     public usagerNotesService: UsagerNotesService,
     public modalService: NgbModal,
     public toastService: CustomToastService,
-    public authService: AuthService
+    public authService: AuthService,
+    public store: Store
   ) {
     this.loading = false;
     this.notes = [];
@@ -50,37 +49,34 @@ export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
       page: 1,
       take: 5,
     };
-
-    this.currentUserSubject$ = this.authService.currentUserSubject;
   }
 
   ngOnInit(): void {
-    if (this.usager.uuid) {
-      this.getUsagerNotes();
-    }
+    this.getUsagerNotes();
+    this.currentUserSubject$ = this.authService.currentUserSubject;
   }
 
   public getUsagerNotes(): void {
     this.loading = true;
 
-    this.subscription.add(
-      this.usagerNotesService
-        .getNotes(this.usager.ref, this.params, this.getArchivedNotes)
-        .subscribe({
-          next: (notes: PageResults<UsagerNote>) => {
-            this.notes = notes.data;
-            this.loading = false;
-          },
-          error: () => {
-            this.toastService.error("Impossible d'afficher les notes");
-            this.loading = false;
-          },
-        })
-    );
-  }
-
-  public updateUsager(usager: UsagerFormModel) {
-    this.usagerChange.emit(usager);
+    this.store
+      .pipe(select(selectUsagerByRef(this.usager.ref.toString())), take(1))
+      .subscribe((usager: UsagerLight) => {
+        this.subscription.add(
+          this.usagerNotesService
+            .getNotes(usager, this.params, this.getArchivedNotes)
+            .subscribe({
+              next: (notes: PageResults<UsagerNote>) => {
+                this.notes = notes.data;
+                this.loading = false;
+              },
+              error: () => {
+                this.toastService.error("Impossible d'afficher les notes");
+                this.loading = false;
+              },
+            })
+        );
+      });
   }
 
   public closeModals() {

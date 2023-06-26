@@ -1,7 +1,9 @@
 import { format } from "date-fns";
-
-import { UsagerLight, UsagerRdvInfos } from "../../../../_common/model";
-import { ETAPE_ENTRETIEN } from "../../../../_common/model/usager/_constants";
+import {
+  UsagerLight,
+  UsagerRdvInfos,
+  ETAPE_ENTRETIEN,
+} from "../../../../_common/model";
 
 export const getRdvInfos = (usager?: Partial<UsagerLight>): UsagerRdvInfos => {
   const rdvDisplay: UsagerRdvInfos = {

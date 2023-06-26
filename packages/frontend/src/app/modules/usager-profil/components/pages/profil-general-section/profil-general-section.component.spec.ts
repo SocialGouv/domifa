@@ -9,6 +9,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ProfilGeneralSectionComponent } from "./profil-general-section.component";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../../shared";
 
 describe("ProfilGeneralSectionComponent", () => {
   let component: ProfilGeneralSectionComponent;
@@ -22,6 +24,7 @@ describe("ProfilGeneralSectionComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         RouterTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

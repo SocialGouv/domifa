@@ -9,6 +9,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ProfilGeneralHistoriqueCourriersComponent } from "./profil-general-historique-courriers.component";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("ProfilGeneralHistoriqueCourriersComponent", () => {
   let component: ProfilGeneralHistoriqueCourriersComponent;
@@ -22,6 +24,7 @@ describe("ProfilGeneralHistoriqueCourriersComponent", () => {
         ReactiveFormsModule,
         HttpClientTestingModule,
         RouterTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

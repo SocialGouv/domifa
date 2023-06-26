@@ -196,7 +196,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  private getLastUsagersRefs() {
+  private getLastUsagersRefs(): void {
     this.subscription.add(
       this.usagerDecisionService
         .getLastFiveCustomRef(this.usager.ref)

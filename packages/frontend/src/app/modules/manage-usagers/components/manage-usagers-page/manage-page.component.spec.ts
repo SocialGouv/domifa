@@ -7,9 +7,10 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MATOMO_INJECTORS } from "../../../../shared";
+import { MATOMO_INJECTORS, _usagerReducer } from "../../../../shared";
 
 import { ManageUsagersPageComponent } from "./manage-usagers-page.component";
+import { StoreModule } from "@ngrx/store";
 
 describe("ManageUsagersPageComponent", () => {
   let component: ManageUsagersPageComponent;
@@ -26,6 +27,7 @@ describe("ManageUsagersPageComponent", () => {
         ...MATOMO_INJECTORS,
         ReactiveFormsModule,
         RouterTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

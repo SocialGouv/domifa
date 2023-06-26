@@ -11,13 +11,11 @@ import {
   UsagerEcheanceInfos,
   UsagerRdvInfos,
   Telephone,
-} from "../../../../_common/model";
-import { INTERACTIONS_IN_AVAILABLE } from "../../../../_common/model/interaction/constants";
-import {
   ETAPE_ETAT_CIVIL,
-  USAGER_DECISION_STATUT_LABELS,
+  INTERACTIONS_IN_AVAILABLE,
   USAGER_DECISION_STATUT_COLORS,
-} from "../../../../_common/model/usager/_constants";
+  USAGER_DECISION_STATUT_LABELS,
+} from "../../../../_common/model";
 
 import {
   UsagersFilterCriteria,
@@ -83,6 +81,7 @@ export class UsagerFormModel {
   public historique: Decision[];
   public numeroDistribution: string | null;
   public import: UsagerImport | null;
+  public nbNotes?: number = 0;
 
   // Dates à afficher sur le manage, couleur selon le statut
   // UNiquement pour la recherche
@@ -94,6 +93,7 @@ export class UsagerFormModel {
     this.pinnedNote = (usager && usager.pinnedNote) || null;
 
     this.ref = (usager && usager.ref) || 0;
+    this.nbNotes = (usager && usager.nbNotes) || 0;
     this.uuid = (usager && usager.uuid) || null;
     this.customRef = (usager && usager.customRef) || "";
 

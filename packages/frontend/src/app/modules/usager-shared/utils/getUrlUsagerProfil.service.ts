@@ -1,5 +1,4 @@
-import { ETAPES_DEMANDE_URL } from "../../../../_common/model/usager/_constants";
-import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
+import { ETAPES_DEMANDE_URL, UsagerLight } from "../../../../_common/model";
 
 export const getUrlUsagerProfil = (usager?: UsagerLight): string => {
   if (!usager || !usager.decision) {

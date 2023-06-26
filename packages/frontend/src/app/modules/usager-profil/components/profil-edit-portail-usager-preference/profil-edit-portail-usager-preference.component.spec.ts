@@ -11,6 +11,8 @@ import { SharedModule } from "../../../shared/shared.module";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 import { ProfilEditPortailUsagerPreferenceComponent } from "./profil-edit-portail-usager-preference.component";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("ProfilEditPortailUsagerPreferenceComponent", () => {
   let component: ProfilEditPortailUsagerPreferenceComponent;
@@ -26,7 +28,7 @@ describe("ProfilEditPortailUsagerPreferenceComponent", () => {
         ReactiveFormsModule,
         RouterTestingModule,
         SharedModule,
-        SharedModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

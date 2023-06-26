@@ -16,14 +16,14 @@ import {
 } from "@angular/forms";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { UsagerLight } from "../../../../../_common/model";
 import {
-  ENTRETIEN_LIEN_COMMUNE,
-  ENTRETIEN_TYPE_MENAGE,
   ENTRETIEN_CAUSE_INSTABILITE,
+  ENTRETIEN_LIEN_COMMUNE,
   ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_RESIDENCE,
-} from "../../../../../_common/model/usager/_constants";
+  ENTRETIEN_TYPE_MENAGE,
+} from "../../../../../_common/model";
+
 import { Entretien } from "../../interfaces";
 
 import { Subscription } from "rxjs";
@@ -45,7 +45,6 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   @Input() public usager!: UsagerFormModel;
-  @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
 
   @Input() public editEntretien!: boolean;
   @Output() public editEntretienChange = new EventEmitter<boolean>();
@@ -114,8 +113,7 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
       this.usagerService
         .submitEntretien(this.entretienForm.value, this.usager.ref)
         .subscribe({
-          next: (usager: UsagerLight) => {
-            this.usagerChange.emit(new UsagerFormModel(usager));
+          next: () => {
             this.editEntretienChange.emit(false);
             this.nextStep.emit(3);
             this.toastService.success("Enregistrement de l'entretien réussi");

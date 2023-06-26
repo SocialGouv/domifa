@@ -1,18 +1,19 @@
+import { cacheManager } from "./../../../shared/store/ngRxUsagersCache.service";
 import { RdvForm } from "./../../../../_common/model/usager/rdv/RdvForm.type";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { filter, map, startWith, tap } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import {
+  Usager,
   UsagerEtatCivilFormData,
   UsagerLight,
   UserStructure,
 } from "../../../../_common/model";
 
-import { usagersCache } from "../../../shared/store";
-
 import { userStructureBuilder } from "../../users/services";
+import { Store } from "@ngrx/store";
 
 @Injectable({
   providedIn: "root",
@@ -20,29 +21,33 @@ import { userStructureBuilder } from "../../users/services";
 export class UsagerDossierService {
   public endPointUsagers = environment.apiUrl + "usagers";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private store: Store) {}
 
   public editStepEtatCivil(
     usager: UsagerEtatCivilFormData,
     ref: number
   ): Observable<UsagerLight> {
-    // Edition d'une fiche
     if (ref !== 0 && ref !== null) {
       return this.http
         .patch<UsagerLight>(`${this.endPointUsagers}/${ref}`, usager)
         .pipe(
-          tap((newUsager: UsagerLight) => {
-            usagersCache.updateUsager(newUsager);
-            return newUsager;
+          tap({
+            next: (newUsager: UsagerLight) => {
+              this.store.dispatch(
+                cacheManager.updateUsager({ usager: newUsager })
+              );
+              return newUsager;
+            },
           })
         );
     }
 
-    // Création
-    return this.http.post<UsagerLight>(`${this.endPointUsagers}`, usager).pipe(
-      tap((newUsager: UsagerLight) => {
-        usagersCache.createUsager(newUsager);
-        return newUsager;
+    return this.http.post<Usager>(`${this.endPointUsagers}`, usager).pipe(
+      tap({
+        next: (newUsager: UsagerLight) => {
+          this.store.dispatch(cacheManager.addUsager({ usager: newUsager }));
+          return newUsager;
+        },
       })
     );
   }
@@ -52,9 +57,13 @@ export class UsagerDossierService {
     return this.http
       .post<UsagerLight>(`${environment.apiUrl}agenda/${usagerRef}`, rdv)
       .pipe(
-        tap((newUsager: UsagerLight) => {
-          usagersCache.updateUsager(newUsager);
-          return newUsager;
+        tap({
+          next: (newUsager: UsagerLight) => {
+            this.store.dispatch(
+              cacheManager.updateUsager({ usager: newUsager })
+            );
+            return newUsager;
+          },
         })
       );
   }
@@ -69,7 +78,7 @@ export class UsagerDossierService {
       )
       .pipe(
         tap((newUsager: UsagerLight) => {
-          usagersCache.updateUsager(newUsager);
+          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
           return newUsager;
         })
       );
@@ -90,12 +99,9 @@ export class UsagerDossierService {
     return this.http
       .get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`)
       .pipe(
-        tap((x: UsagerLight) =>
-          // update cache
-          usagersCache.updateUsager(x)
-        ),
-        startWith(usagersCache.getSnapshot().usagersByRefMap[usagerRef]), // try to load value from cache
-        filter((x) => !!x) // filter out empty cache value
+        tap((newUsager: UsagerLight) => {
+          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+        })
       );
   }
 

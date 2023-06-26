@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -32,7 +25,6 @@ export class ProfilEditPortailUsagerPreferenceComponent
   implements OnInit, OnDestroy
 {
   @Input() public usager!: UsagerFormModel;
-  @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
   @Input() public me!: UserStructure;
 
   public loading: boolean;
@@ -140,7 +132,7 @@ export class ProfilEditPortailUsagerPreferenceComponent
           },
         })
         .subscribe({
-          next: ({ usager, login, temporaryPassword }) => {
+          next: ({ login, temporaryPassword }) => {
             if (login && temporaryPassword) {
               this.isLoginToDisplay = true;
               this.loginToDisplay = {
@@ -158,8 +150,6 @@ export class ProfilEditPortailUsagerPreferenceComponent
             this.loading = false;
             this.editionInProgress = false;
             this.toastService.success("Enregistrement des préférences réussi");
-            this.usager = new UsagerFormModel(usager);
-            this.usagerChange.emit(this.usager);
           },
           error: () => {
             this.loading = false;

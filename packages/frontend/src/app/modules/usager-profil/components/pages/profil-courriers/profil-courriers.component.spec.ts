@@ -7,6 +7,8 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ProfilCourriersComponent } from "./profil-courriers.component";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../../shared";
 
 describe("ProfilCourriersComponent", () => {
   let component: ProfilCourriersComponent;
@@ -20,6 +22,7 @@ describe("ProfilCourriersComponent", () => {
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
         HttpClientTestingModule,
         RouterTestingModule,
       ],

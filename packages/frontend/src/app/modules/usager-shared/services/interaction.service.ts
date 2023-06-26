@@ -10,7 +10,8 @@ import {
 } from "../../../../_common/model";
 
 import { Interaction } from "../interfaces";
-import { usagersCache } from "../../../shared/store";
+import { Store } from "@ngrx/store";
+import { cacheManager } from "../../../shared";
 
 @Injectable({
   providedIn: "root",
@@ -18,7 +19,7 @@ import { usagersCache } from "../../../shared/store";
 export class InteractionService {
   public endPoint = environment.apiUrl + "interactions/";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private store: Store) {}
 
   public setInteraction(
     usagerRef: number,
@@ -28,7 +29,8 @@ export class InteractionService {
       .post<UsagerLight>(`${this.endPoint}${usagerRef}`, interactions)
       .pipe(
         tap((newUsager: UsagerLight) => {
-          usagersCache.updateUsager(newUsager);
+          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          return newUsager;
         })
       );
   }
@@ -54,8 +56,13 @@ export class InteractionService {
     usagerRef: number,
     interactionUuid: string
   ): Observable<UsagerLight> {
-    return this.http.delete<UsagerLight>(
-      `${this.endPoint}${usagerRef}/${interactionUuid}`
-    );
+    return this.http
+      .delete<UsagerLight>(`${this.endPoint}${usagerRef}/${interactionUuid}`)
+      .pipe(
+        tap((newUsager: UsagerLight) => {
+          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          return newUsager;
+        })
+      );
   }
 }

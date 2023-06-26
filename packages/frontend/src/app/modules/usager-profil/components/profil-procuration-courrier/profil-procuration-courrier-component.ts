@@ -1,11 +1,9 @@
 import {
   Component,
   ElementRef,
-  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
-  Output,
   QueryList,
   TemplateRef,
   ViewChild,
@@ -31,7 +29,6 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import {
   UserStructure,
-  UsagerLight,
   UserStructureRole,
   UsagerOptionsProcuration,
 } from "../../../../../_common/model";
@@ -63,7 +60,6 @@ export class UsagersProfilProcurationCourrierComponent
   implements OnInit, OnDestroy
 {
   @Input() public usager!: UsagerFormModel;
-  @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
 
   @Input() public me!: UserStructure;
   private subscription = new Subscription();
@@ -209,10 +205,9 @@ export class UsagersProfilProcurationCourrierComponent
       this.usagerOptionsService
         .editProcurations(procurationFormData, this.usager.ref)
         .subscribe({
-          next: (usager: UsagerLight) => {
+          next: () => {
             this.hideForm();
-            this.usager = new UsagerFormModel(usager);
-            this.usagerChange.emit(this.usager);
+
             this.toastService.success("Procuration modifiée avec succès");
             this.matomo.trackEvent("profil", "actions", "edit_procuration", 1);
           },
@@ -241,15 +236,14 @@ export class UsagersProfilProcurationCourrierComponent
       this.usagerOptionsService
         .deleteProcuration(this.usager.ref, procurationToDelete)
         .subscribe({
-          next: (usager: UsagerLight) => {
+          next: () => {
             this.toastService.success("Procuration supprimée avec succès");
 
             setTimeout(() => {
               this.closeModals();
               this.hideForm();
               this.procurationsForm.reset();
-              this.usager = new UsagerFormModel(usager);
-              this.usagerChange.emit(this.usager);
+
               this.matomo.trackEvent(
                 "profil",
                 "actions",

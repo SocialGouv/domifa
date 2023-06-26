@@ -1,3 +1,5 @@
-//@index('./*.service.ts', f => `export * from '${f.path}'`)
-export * from "./appStore.service";
-export * from "./usagersCache.service";
+//@index('./*.ts', f => `export * from '${f.path}'`)
+export * from "./AppStoreModel.type";
+export * from "./INITIAL_STATE.const";
+export * from "./ngRxAppStore.service";
+export * from "./ngRxUsagersCache.service";

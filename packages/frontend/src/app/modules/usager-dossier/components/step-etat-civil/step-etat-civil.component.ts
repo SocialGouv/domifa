@@ -11,6 +11,7 @@ import { UsagerDossierService } from "../../services/usager-dossier.service";
 import {
   UsagerLight,
   UsagerEtatCivilFormData,
+  Usager,
 } from "../../../../../_common/model";
 import { fadeInOut } from "../../../../shared";
 import {
@@ -20,6 +21,8 @@ import {
   CustomToastService,
 } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
+
+import { Store } from "@ngrx/store";
 
 @Component({
   animations: [fadeInOut],
@@ -44,7 +47,8 @@ export class StepEtatCivilComponent
     public authService: AuthService,
     public route: ActivatedRoute,
     public router: Router,
-    public toastService: CustomToastService
+    public toastService: CustomToastService,
+    public store: Store
   ) {
     super(formBuilder, authService);
     this.duplicates = [];
@@ -56,15 +60,18 @@ export class StepEtatCivilComponent
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
 
-      this.usagerDossierService.findOne(id).subscribe({
-        next: (usager: UsagerLight) => {
-          this.usager = new UsagerFormModel(usager);
-          this.initForm();
-        },
-        error: () => {
-          this.router.navigate(["404"]);
-        },
-      });
+      this.subscription.add(
+        this.usagerDossierService.findOne(id).subscribe({
+          next: (usager: Usager) => {
+            this.usager = new UsagerFormModel(usager);
+            this.initForm();
+          },
+          error: () => {
+            this.toastService.error("Le dossier recherché n'existe pas");
+            this.router.navigate(["404"]);
+          },
+        })
+      );
     } else {
       this.usager = new UsagerFormModel();
       this.initForm();
@@ -116,7 +123,6 @@ export class StepEtatCivilComponent
         .editStepEtatCivil(formValue, this.usager.ref)
         .subscribe({
           next: (usager: UsagerLight) => {
-            this.usager = new UsagerFormModel(usager);
             this.toastService.success("Enregistrement réussi");
             this.router.navigate([
               "usager/" + usager.ref + "/edit/rendez-vous",
@@ -130,9 +136,5 @@ export class StepEtatCivilComponent
           },
         })
     );
-  }
-
-  public ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 }

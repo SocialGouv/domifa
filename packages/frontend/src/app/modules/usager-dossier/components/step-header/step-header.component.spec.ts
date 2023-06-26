@@ -11,6 +11,8 @@ import { SharedModule } from "../../../shared/shared.module";
 import { StepHeaderComponent } from "./step-header.component";
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("StepHeaderComponent", () => {
   let component: StepHeaderComponent;
@@ -26,6 +28,7 @@ describe("StepHeaderComponent", () => {
         FormsModule,
         SharedModule,
         HttpClientTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
         RouterTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],

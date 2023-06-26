@@ -9,6 +9,8 @@ import {
   USER_STRUCTURE_MOCK,
 } from "../../../../../_common/mocks";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("BaseUsagerNotesComponent", () => {
   let component: BaseUsagerNotesComponent;
@@ -17,7 +19,11 @@ describe("BaseUsagerNotesComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [BaseUsagerNotesComponent],
-      imports: [NgbModule, HttpClientTestingModule],
+      imports: [
+        NgbModule,
+        HttpClientTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 

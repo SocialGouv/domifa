@@ -3,25 +3,21 @@
     <div
       class="py-3 px-0 mx-0 d-md-flex justify-content-between align-items-center"
     >
-      <div class="px-0 mx-0 d-block d-md-flex">
-        <h1 class="title">
-          <a
-            [routerLink]="['/manage']"
-            id="back-manage-btn"
-            ariaCurrentWhenActive="page"
-            routerLinkActive="router-link-active"
-            class="px-3"
-          >
-            <span class="visually-hidden"
-              >Revenir à la liste des domiciliés</span
-            >
-            <fa-icon
-              class="text-white"
-              aria-hidden="true"
-              [icon]="['fas', 'angle-left']"
-            ></fa-icon>
-          </a>
-
+      <div class="px-0 mx-0 d-block d-md-flex align-items-center">
+        <a
+          [routerLink]="['/manage']"
+          ariaCurrentWhenActive="page"
+          routerLinkActive="router-link-active"
+          class="px-3"
+        >
+          <span class="visually-hidden">Revenir à la liste des domiciliés</span>
+          <fa-icon
+            class="fa-2x text-white"
+            aria-hidden="true"
+            [icon]="['fas', 'angle-left']"
+          ></fa-icon>
+        </a>
+        <h1 class="title m-0">
           {{ usager | usagerNomComplet }} -
           <strong *ngIf="usager.customRef">{{ usager.customRef }}</strong>
           <strong *ngIf="!usager.customRef">{{ usager.ref }}</strong>

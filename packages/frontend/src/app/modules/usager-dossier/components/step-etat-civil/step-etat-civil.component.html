@@ -4,7 +4,7 @@
   [currentStep]="0"
 ></app-step-header>
 
-<div class="content" *ngIf="currentUserSubject$ | async as me">
+<div class="content" *ngIf="usager && currentUserSubject$ | async as me">
   <div class="container py-3">
     <app-display-duplicates-usager
       [duplicates]="duplicates"
@@ -563,7 +563,7 @@
   <app-delete-usager-menu
     *ngIf="usager"
     [me]="me"
-    [(usager)]="usager"
+    [usager]="usager"
     class="my-4"
   ></app-delete-usager-menu>
 </div>

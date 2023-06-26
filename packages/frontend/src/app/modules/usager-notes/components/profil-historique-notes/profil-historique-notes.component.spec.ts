@@ -9,6 +9,8 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { ProfilHistoriqueNotesComponent } from "./profil-historique-notes.component";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("ProfilHistoriqueNotesComponent", () => {
   let component: ProfilHistoriqueNotesComponent;
@@ -17,7 +19,12 @@ describe("ProfilHistoriqueNotesComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ProfilHistoriqueNotesComponent],
-      imports: [HttpClientTestingModule, NgbModule, RouterTestingModule],
+      imports: [
+        HttpClientTestingModule,
+        NgbModule,
+        RouterTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
+      ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

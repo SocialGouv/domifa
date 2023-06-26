@@ -8,6 +8,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ProfilHistoriqueSmsComponent } from "./profil-historique-sms.component";
 import { USAGER_ACTIF_MOCK } from "../../../../../../_common/mocks";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../../shared";
 
 describe("ProfilHistoriqueSmsComponent", () => {
   let component: ProfilHistoriqueSmsComponent;
@@ -22,6 +24,7 @@ describe("ProfilHistoriqueSmsComponent", () => {
         FormsModule,
         HttpClientTestingModule,
         ReactiveFormsModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

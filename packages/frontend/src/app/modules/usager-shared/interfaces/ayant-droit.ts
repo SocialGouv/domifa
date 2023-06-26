@@ -1,5 +1,5 @@
-import { AyantDroiLienParent } from "./../../../../_common/model/usager/AyantDroitLienParente.type";
-import { UsagerAyantDroit } from "../../../../_common/model/usager/UsagerAyantDroit.type";
+import { AyantDroiLienParent } from "../../../../_common/model/usager/ayant-droit/AyantDroitLienParente.type";
+import { UsagerAyantDroit } from "../../../../_common/model/usager/ayant-droit/UsagerAyantDroit.type";
 
 export class AyantDroit implements UsagerAyantDroit {
   public dateNaissance: Date | null;

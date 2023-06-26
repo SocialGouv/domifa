@@ -18,6 +18,8 @@ import { SharedModule } from "../../../shared/shared.module";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 import { DecisionValideFormComponent } from "./decision-valide-form.component";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("DecisionValideFormComponent", () => {
   let component: DecisionValideFormComponent;
@@ -30,10 +32,10 @@ describe("DecisionValideFormComponent", () => {
         NgbModule,
         HttpClientTestingModule,
         RouterTestingModule,
-
         SharedModule,
         ReactiveFormsModule,
         FormsModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [
         NgbDateCustomParserFormatter,
