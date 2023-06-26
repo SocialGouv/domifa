@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { AuthService } from "../../../../shared/services/auth.service";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
+import { Store } from "@ngrx/store";
 
 @Component({
   selector: "app-profil-courriers",
@@ -18,7 +19,8 @@ export class ProfilCourriersComponent extends BaseUsagerProfilPageComponent {
     public titleService: Title,
     public toastService: CustomToastService,
     public route: ActivatedRoute,
-    public router: Router
+    public router: Router,
+    public store: Store
   ) {
     super(
       authService,
@@ -26,7 +28,8 @@ export class ProfilCourriersComponent extends BaseUsagerProfilPageComponent {
       titleService,
       toastService,
       route,
-      router
+      router,
+      store
     );
     this.titlePrefix = "Courriers";
   }

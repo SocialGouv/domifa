@@ -10,6 +10,8 @@ import { UsagerFormModel } from "../../../interfaces";
 
 import { SetInteractionOutFormComponent } from "./set-interaction-out-form.component";
 import { FormsModule } from "@angular/forms";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../../shared";
 
 describe("SetInteractionOutFormComponent", () => {
   let component: SetInteractionOutFormComponent;
@@ -18,7 +20,13 @@ describe("SetInteractionOutFormComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SetInteractionOutFormComponent],
-      imports: [NgbModule, HttpClientTestingModule, FormsModule, SharedModule],
+      imports: [
+        NgbModule,
+        HttpClientTestingModule,
+        FormsModule,
+        SharedModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
     }).compileComponents();

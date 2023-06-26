@@ -20,6 +20,8 @@ import { NgbDateCustomParserFormatter } from "../../../shared/services/date-form
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { UsagerFormModel } from "../../interfaces";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("RadiationFormComponent", () => {
   let component: DecisionRadiationFormComponent;
@@ -35,6 +37,7 @@ describe("RadiationFormComponent", () => {
         ReactiveFormsModule,
         RouterTestingModule,
         SharedModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [
         NgbDateCustomParserFormatter,

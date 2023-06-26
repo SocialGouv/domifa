@@ -12,6 +12,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { RouterTestingModule } from "@angular/router/testing";
 import { UsagerFormModel } from "../../interfaces";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("DeleteUsagerMenuComponent", () => {
   let component: DeleteUsagerMenuComponent;
@@ -19,7 +21,12 @@ describe("DeleteUsagerMenuComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, NgbModule, HttpClientTestingModule],
+      imports: [
+        RouterTestingModule,
+        NgbModule,
+        HttpClientTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
+      ],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       declarations: [DeleteUsagerMenuComponent],

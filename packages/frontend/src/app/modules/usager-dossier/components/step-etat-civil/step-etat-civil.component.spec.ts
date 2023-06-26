@@ -10,10 +10,10 @@ import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
 
 import { SharedModule } from "./../../../shared/shared.module";
 import { StepEtatCivilComponent } from "./step-etat-civil.component";
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { JwtInterceptor } from "../../../../interceptors/jwt.interceptor";
-import { ServerErrorInterceptor } from "../../../../interceptors/server-error.interceptor";
 import { AuthService } from "../../../shared/services/auth.service";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
+import { NGRX_PROVIDERS_TESTING } from "../../../../shared/store/tests";
 
 describe("StepEtatCivilComponent", () => {
   let component: StepEtatCivilComponent;
@@ -29,18 +29,16 @@ describe("StepEtatCivilComponent", () => {
         FormsModule,
         SharedModule,
         HttpClientTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
+
         NgxIntlTelInputModule,
       ],
       providers: [
         AuthService,
         { provide: APP_BASE_HREF, useValue: "/" },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        {
-          multi: true,
-          provide: HTTP_INTERCEPTORS,
-          useClass: ServerErrorInterceptor,
-        },
+
         { provide: APP_BASE_HREF, useValue: "/" },
+        ...NGRX_PROVIDERS_TESTING,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -52,13 +50,11 @@ describe("StepEtatCivilComponent", () => {
 
   it("0. Création du compenent", () => {
     expect(component).toBeTruthy();
+    expect(component.duplicates).toEqual([]);
+    expect(component.LIEN_PARENTE_LABELS).toBeDefined();
   });
 
   it("should update header", () => {
-    expect(component.duplicates).toEqual([]);
-
-    expect(component.LIEN_PARENTE_LABELS).toBeDefined();
-
     expect(component.f).toEqual(component.usagerForm.controls);
   });
 

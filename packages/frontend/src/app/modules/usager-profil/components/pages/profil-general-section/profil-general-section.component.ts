@@ -7,29 +7,22 @@ import {
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { UsagerLight } from "../../../../../../_common/model";
-import {
-  InteractionInForApi,
-  InteractionType,
-} from "../../../../../../_common/model/interaction";
-import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../../_common/model/interaction/constants";
+
+import { ProfilGeneralHistoriqueCourriersComponent } from "../../profil-general-historique-courriers/profil-general-historique-courriers.component";
+import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-usager-profil-page.component";
 import {
   ETAPES_DEMANDE_URL,
   USAGER_DECISION_STATUT_LABELS,
-} from "../../../../../../_common/model/usager/_constants";
-import {
-  minDateNaissance,
-  formatDateToNgb,
-} from "../../../../../shared/bootstrap-util";
-import { AuthService } from "../../../../shared/services/auth.service";
-import {
-  Interaction,
-  UsagerFormModel,
-} from "../../../../usager-shared/interfaces";
+  InteractionType,
+  InteractionInForApi,
+  INTERACTIONS_LABELS_SINGULIER,
+} from "../../../../../../_common/model";
+import { minDateNaissance, formatDateToNgb } from "../../../../../shared";
+import { AuthService } from "../../../../shared/services";
+import { Interaction } from "../../../../usager-shared/interfaces";
 import { InteractionService } from "../../../../usager-shared/services/interaction.service";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
-import { ProfilGeneralHistoriqueCourriersComponent } from "../../profil-general-historique-courriers/profil-general-historique-courriers.component";
-import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-usager-profil-page.component";
+import { Store } from "@ngrx/store";
 
 @Component({
   selector: "app-profil-general-section",
@@ -57,7 +50,7 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
   @ViewChild(ProfilGeneralHistoriqueCourriersComponent)
   private profileComponent!: ProfilGeneralHistoriqueCourriersComponent;
 
-  public USAGER_DECISION_STATUT_LABELS = USAGER_DECISION_STATUT_LABELS;
+  public readonly USAGER_DECISION_STATUT_LABELS = USAGER_DECISION_STATUT_LABELS;
 
   public loadingButtons: string[];
 
@@ -68,6 +61,7 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
     public toastService: CustomToastService,
     public route: ActivatedRoute,
     public router: Router,
+    public store: Store,
     private readonly modalService: NgbModal,
     private readonly interactionService: InteractionService
   ) {
@@ -77,7 +71,8 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
       titleService,
       toastService,
       route,
-      router
+      router,
+      store
     );
     this.loadingButtons = [];
     this.interactions = [];
@@ -106,8 +101,7 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
       this.interactionService
         .setInteraction(usagerRef, [interaction])
         .subscribe({
-          next: (newUsager: UsagerLight) => {
-            this.usager = new UsagerFormModel(newUsager);
+          next: () => {
             this.toastService.success(INTERACTIONS_LABELS_SINGULIER[type]);
             this.updateInteractions();
             this.stopLoading(type);

@@ -9,6 +9,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { ProfilGeneralNotesComponent } from "./profil-general-notes.component";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("ProfilGeneralNotesComponent", () => {
   let component: ProfilGeneralNotesComponent;
@@ -20,6 +22,8 @@ describe("ProfilGeneralNotesComponent", () => {
       imports: [
         NgbModule,
         ReactiveFormsModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
+
         HttpClientTestingModule,
         RouterTestingModule,
       ],

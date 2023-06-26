@@ -5,13 +5,20 @@ import { TestBed } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 
 import { ManageUsagersService } from "./manage-usagers.service";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../shared";
 
 describe("ManageUsagersService", () => {
   let service: ManageUsagersService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, CommonModule, RouterTestingModule],
+      imports: [
+        HttpClientTestingModule,
+        CommonModule,
+        RouterTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
     service = TestBed.inject(ManageUsagersService);

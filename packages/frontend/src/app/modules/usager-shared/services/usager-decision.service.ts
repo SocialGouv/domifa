@@ -11,7 +11,8 @@ import {
   UsagerLight,
 } from "../../../../_common/model";
 
-import { usagersCache } from "../../../shared/store";
+import { cacheManager } from "../../../shared/store";
+import { Store } from "@ngrx/store";
 
 @Injectable({
   providedIn: "root",
@@ -20,14 +21,14 @@ export class UsagerDecisionService {
   public endPointUsagers = environment.apiUrl + "usagers";
   public endPointDecision = environment.apiUrl + "usagers-decision";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private store: Store) {}
 
   public renouvellement(usagerRef: number): Observable<UsagerLight> {
     return this.http
       .get<UsagerLight>(`${this.endPointDecision}/renouvellement/${usagerRef}`)
       .pipe(
-        tap((usager: UsagerLight) => {
-          usagersCache.updateUsager(usager);
+        tap((newUsager: UsagerLight) => {
+          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
         })
       );
   }
@@ -36,8 +37,8 @@ export class UsagerDecisionService {
     return this.http
       .delete<UsagerLight>(`${this.endPointDecision}/${usagerRef}`)
       .pipe(
-        tap((usager: UsagerLight) => {
-          usagersCache.updateUsager(usager);
+        tap((newUsager: UsagerLight) => {
+          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
         })
       );
   }
@@ -63,8 +64,8 @@ export class UsagerDecisionService {
     return this.http
       .post<UsagerLight>(`${this.endPointDecision}/${usagerRef}`, decision)
       .pipe(
-        tap((usager: UsagerLight) => {
-          usagersCache.updateUsager(usager);
+        tap((newUsager: UsagerLight) => {
+          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
         })
       );
   }

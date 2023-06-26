@@ -1,34 +1,27 @@
 import { CommonModule, APP_BASE_HREF } from "@angular/common";
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 
-import { JwtInterceptor } from "../../../interceptors/jwt.interceptor";
-import { ServerErrorInterceptor } from "../../../interceptors/server-error.interceptor";
-import { AuthService } from "../../shared/services/auth.service";
 import { UsagerService } from "../../usager-shared/services/usagers.service";
 
 import { UsagerProfilService } from "./usager-profil.service";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../shared";
 
 describe("UsagerProfilService", () => {
   let service: UsagerProfilService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, CommonModule, RouterTestingModule],
-      providers: [
-        UsagerService,
-        AuthService,
-        { provide: APP_BASE_HREF, useValue: "/" },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        {
-          multi: true,
-          provide: HTTP_INTERCEPTORS,
-          useClass: ServerErrorInterceptor,
-        },
+      imports: [
+        HttpClientTestingModule,
+        CommonModule,
+        RouterTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
+      providers: [UsagerService, { provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
     service = TestBed.inject(UsagerProfilService);

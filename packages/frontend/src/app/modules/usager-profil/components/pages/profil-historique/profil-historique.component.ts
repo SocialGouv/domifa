@@ -12,6 +12,7 @@ import {
 import { AuthService } from "../../../../shared/services/auth.service";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
 import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-usager-profil-page.component";
+import { Store } from "@ngrx/store";
 
 @Component({
   selector: "app-profil-historique",
@@ -35,7 +36,8 @@ export class ProfilHistoriqueComponent extends BaseUsagerProfilPageComponent {
     public titleService: Title,
     public toastService: CustomToastService,
     public route: ActivatedRoute,
-    public router: Router
+    public router: Router,
+    public store: Store
   ) {
     super(
       authService,
@@ -43,7 +45,8 @@ export class ProfilHistoriqueComponent extends BaseUsagerProfilPageComponent {
       titleService,
       toastService,
       route,
-      router
+      router,
+      store
     );
 
     this.newHistorique = [];

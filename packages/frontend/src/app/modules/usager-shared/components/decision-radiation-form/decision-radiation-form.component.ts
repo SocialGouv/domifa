@@ -1,9 +1,7 @@
 import {
   Component,
   OnInit,
-  EventEmitter,
   Input,
-  Output,
   OnDestroy,
   TemplateRef,
   ViewChild,
@@ -41,8 +39,6 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
   @Input() public selectedRefs: number[];
   @Input() public context!: "MANAGE" | "PROFIL";
-
-  @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
 
   public submitted: boolean;
   public loading: boolean;
@@ -147,15 +143,10 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
               ? "Les dossiers sélectionnés ont été radié"
               : "Radiation enregistrée avec succès ! ";
           this.toastService.success(message);
-          setTimeout(() => {
-            this.loading = false;
-            window.location.reload();
-          }, 1000);
         },
         error: () => {
           this.loading = false;
           this.toastService.error("La décision n'a pas pu être enregistrée");
-          window.location.reload();
         },
       })
     );

@@ -9,6 +9,8 @@ import { UsagerFormModel } from "../../../interfaces";
 import { SetInteractionInFormComponent } from "./set-interaction-in-form.component";
 import { SharedModule } from "../../../../shared/shared.module";
 import { USAGER_ACTIF_MOCK } from "../../../../../../_common/mocks";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../../shared";
 
 describe("SetInteractionInFormComponent", () => {
   let component: SetInteractionInFormComponent;
@@ -17,7 +19,13 @@ describe("SetInteractionInFormComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SetInteractionInFormComponent],
-      imports: [NgbModule, HttpClientTestingModule, SharedModule, FormsModule],
+      imports: [
+        NgbModule,
+        HttpClientTestingModule,
+        SharedModule,
+        FormsModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
+      ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

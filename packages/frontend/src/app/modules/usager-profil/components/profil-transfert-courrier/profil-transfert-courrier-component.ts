@@ -1,10 +1,8 @@
 import {
   Component,
-  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
-  Output,
   TemplateRef,
   ViewChild,
 } from "@angular/core";
@@ -24,11 +22,7 @@ import {
 import { MatomoTracker } from "@ngx-matomo/tracker";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import {
-  UsagerLight,
-  UserStructure,
-  UserStructureRole,
-} from "../../../../../_common/model";
+import { UserStructure, UserStructureRole } from "../../../../../_common/model";
 import {
   endDateAfterBeginDateValidator,
   noWhiteSpace,
@@ -57,8 +51,6 @@ export class UsagersProfilTransfertCourrierComponent
 {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
-
-  @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
 
   public isFormVisible: boolean;
   public loading: boolean;
@@ -170,11 +162,9 @@ export class UsagersProfilTransfertCourrierComponent
       this.usagerOptionsService
         .editTransfert(formValue, this.usager.ref)
         .subscribe({
-          next: (usager: UsagerLight) => {
+          next: () => {
             this.hideForm();
             this.matomo.trackEvent("profil", "actions", "edit_transfert", 1);
-            this.usager = new UsagerFormModel(usager);
-            this.usagerChange.emit(this.usager);
 
             this.toastService.success("Transfert modifié avec succès");
           },
@@ -204,7 +194,7 @@ export class UsagersProfilTransfertCourrierComponent
 
     this.subscription.add(
       this.usagerOptionsService.deleteTransfert(this.usager.ref).subscribe({
-        next: (usager: UsagerLight) => {
+        next: () => {
           this.toastService.success("Transfert supprimé avec succès");
 
           setTimeout(() => {
@@ -212,8 +202,6 @@ export class UsagersProfilTransfertCourrierComponent
             this.hideForm();
             this.transfertForm.reset();
             this.submitted = false;
-            this.usager = new UsagerFormModel(usager);
-            this.usagerChange.emit(this.usager);
             this.matomo.trackEvent("profil", "actions", "delete_transfert", 1);
           }, 500);
         },

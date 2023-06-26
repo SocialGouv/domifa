@@ -8,7 +8,6 @@ import {
   Output,
 } from "@angular/core";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { UsagerLight } from "../../../../../../_common/model";
 import {
   InteractionIn,
   InteractionInForm,
@@ -18,7 +17,6 @@ import { bounce } from "../../../../../shared";
 import { UsagerFormModel } from "../../../interfaces";
 import { InteractionService } from "../../../services/interaction.service";
 import { Subscription } from "rxjs";
-import { UsagerService } from "../../../services/usagers.service";
 
 @Component({
   animations: [bounce],
@@ -28,11 +26,6 @@ import { UsagerService } from "../../../services/usagers.service";
 })
 export class SetInteractionInFormComponent implements OnDestroy {
   @Input() public usager!: UsagerFormModel;
-  @Output()
-  public usagerChange = new EventEmitter<UsagerFormModel>();
-
-  @Output()
-  public updateUsagerForManage = new EventEmitter<UsagerLight>();
 
   @Output()
   public cancelReception = new EventEmitter<void>();
@@ -48,7 +41,6 @@ export class SetInteractionInFormComponent implements OnDestroy {
 
   constructor(
     private readonly interactionService: InteractionService,
-    private readonly usagerService: UsagerService,
     private readonly toastService: CustomToastService
   ) {
     this.interactionFormData = {
@@ -102,8 +94,9 @@ export class SetInteractionInFormComponent implements OnDestroy {
           next: () => {
             this.toastService.success("Réception enregistrée avec succès");
             setTimeout(() => {
-              this.refreshUsager();
-            }, 1000);
+              this.cancelReception.emit();
+              this.updateInteractions.emit();
+            }, 500);
           },
           error: () => {
             this.toastService.error(
@@ -111,20 +104,6 @@ export class SetInteractionInFormComponent implements OnDestroy {
             );
             this.loading = false;
           },
-        })
-    );
-  }
-
-  // Actualiser les données de l'usager
-  public refreshUsager(): void {
-    this.subscription.add(
-      this.usagerService
-        .findOne(this.usager.ref)
-        .subscribe((usager: UsagerLight) => {
-          this.updateUsagerForManage.emit(usager);
-          this.usagerChange.emit(new UsagerFormModel(usager));
-          this.cancelReception.emit();
-          this.updateInteractions.emit();
         })
     );
   }

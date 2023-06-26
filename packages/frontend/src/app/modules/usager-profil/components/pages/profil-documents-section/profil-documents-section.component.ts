@@ -9,6 +9,7 @@ import { DocumentService } from "../../../../usager-shared/services/document.ser
 
 import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-usager-profil-page.component";
 import { CerfaDocType } from "../../../../../../_common/model";
+import { Store } from "@ngrx/store";
 
 @Component({
   selector: "app-profil-documents-section",
@@ -23,6 +24,7 @@ export class ProfilDocumentsSectionComponent extends BaseUsagerProfilPageCompone
     public toastService: CustomToastService,
     public route: ActivatedRoute,
     public router: Router,
+    public store: Store,
     public documentService: DocumentService
   ) {
     super(
@@ -31,7 +33,8 @@ export class ProfilDocumentsSectionComponent extends BaseUsagerProfilPageCompone
       titleService,
       toastService,
       route,
-      router
+      router,
+      store
     );
     this.titlePrefix = "Documents";
   }

@@ -1,16 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Body,
   Controller,
   Delete,
   Get,
-  HttpStatus,
   Param,
   ParseBoolPipe,
   ParseIntPipe,
   ParseUUIDPipe,
   Post,
   Put,
-  Res,
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
@@ -19,7 +18,6 @@ import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 
-import { ExpressResponse } from "../../util/express";
 import {
   Usager,
   UsagerNote,
@@ -50,8 +48,7 @@ export class UsagerNotesController {
     @CurrentUsager() currentUsager: Usager,
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @Param("archived", new ParseBoolPipe()) archived: boolean,
-    @Body() pageOptionsDto: PageOptionsDto,
-    @Res() res: ExpressResponse
+    @Body() pageOptionsDto: PageOptionsDto
   ) {
     const queryBuilder =
       usagerNotesRepository.createQueryBuilder("usager_notes");
@@ -74,9 +71,7 @@ export class UsagerNotesController {
     const itemCount = await queryBuilder.getCount();
     const { entities } = await queryBuilder.getRawAndEntities();
     const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
-    const result = new PageResultsDto(entities, pageMetaDto);
-
-    return res.status(HttpStatus.OK).json(result);
+    return new PageResultsDto(entities, pageMetaDto);
   }
 
   @Post(":usagerRef")
@@ -84,7 +79,7 @@ export class UsagerNotesController {
     @Body() createNoteDto: CreateNoteDto,
     @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager
-  ) {
+  ): Promise<Usager> {
     const createdBy: UserStructureResume = {
       userId: currentUser.id,
       userName: currentUser.prenom + " " + currentUser.nom,
@@ -97,8 +92,7 @@ export class UsagerNotesController {
       structureId: currentUsager.structureId,
       createdBy,
     });
-
-    return await usagerRepository.getUsager(currentUsager.uuid);
+    return usagerRepository.getUsager(currentUsager.uuid);
   }
 
   @Delete(":usagerRef/:noteUUID")
@@ -108,9 +102,8 @@ export class UsagerNotesController {
     @CurrentUsagerNote() currentUsagerNote: UsagerNote,
     @CurrentUsager() currentUsager: Usager,
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
-    @Param("noteUUID", new ParseUUIDPipe()) _noteUUID: string,
-    @Res() res: ExpressResponse
-  ) {
+    @Param("noteUUID", new ParseUUIDPipe()) _noteUUID: string
+  ): Promise<Usager> {
     if (currentUsagerNote.pinned) {
       await usagerRepository.updateOne(
         { uuid: currentUsager.uuid },
@@ -131,8 +124,7 @@ export class UsagerNotesController {
       })
     );
 
-    const usager = await usagerRepository.getUsager(currentUsager.uuid);
-    return res.status(HttpStatus.OK).json(usager);
+    return usagerRepository.getUsager(currentUsager.uuid);
   }
 
   @Put(":usagerRef/pin/:noteUUID")
@@ -142,9 +134,8 @@ export class UsagerNotesController {
     @CurrentUsagerNote() currentUsagerNote: UsagerNote,
     @CurrentUsager() currentUsager: Usager,
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
-    @Param("noteUUID", new ParseUUIDPipe()) _noteUUID: string,
-    @Res() res: ExpressResponse
-  ) {
+    @Param("noteUUID", new ParseUUIDPipe()) _noteUUID: string
+  ): Promise<Usager> {
     const newPinnedStatus = !currentUsagerNote.pinned;
     await usagerNotesRepository.update(
       { usagerUUID: currentUsager.uuid },
@@ -170,17 +161,15 @@ export class UsagerNotesController {
       { pinnedNote }
     );
 
-    const usager = await usagerRepository.getUsager(currentUsager.uuid);
-    return res.status(HttpStatus.OK).json(usager);
+    return await usagerRepository.getUsager(currentUsager.uuid);
   }
 
   @Get("count/:usagerRef")
   public async countNotes(
     @CurrentUser() _currentUser: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
-  ) {
+  ): Promise<number> {
     return usagerNotesRepository.countBy({
       usagerUUID: currentUsager.uuid,
       archived: false,
@@ -194,9 +183,8 @@ export class UsagerNotesController {
     @CurrentUsagerNote() currentUsagerNote: UsagerNote,
     @CurrentUsager() currentUsager: Usager,
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
-    @Param("noteUUID", new ParseUUIDPipe()) _noteUUID: string,
-    @Res() res: ExpressResponse
-  ) {
+    @Param("noteUUID", new ParseUUIDPipe()) _noteUUID: string
+  ): Promise<Usager> {
     if (!currentUsagerNote.archived) {
       await usagerRepository.updateOne(
         { uuid: currentUsager.uuid },
@@ -228,8 +216,6 @@ export class UsagerNotesController {
       updateData
     );
 
-    const usager = await usagerRepository.getUsager(currentUsager.uuid);
-
-    return res.status(HttpStatus.OK).json(usager);
+    return usagerRepository.getUsager(currentUsager.uuid);
   }
 }

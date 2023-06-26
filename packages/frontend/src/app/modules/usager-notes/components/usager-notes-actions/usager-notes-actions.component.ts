@@ -24,7 +24,6 @@ import { Subscription } from "rxjs";
 export class UsagerNotesActionsComponent {
   @Input() public note!: UsagerNote;
   @Input() public usager!: UsagerFormModel;
-  @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
 
   @Output()
   public getUsagerNotes = new EventEmitter();

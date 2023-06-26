@@ -8,10 +8,11 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
-import { MATOMO_INJECTORS } from "../../../../shared";
+import { MATOMO_INJECTORS, _usagerReducer } from "../../../../shared";
 import { NotFoundComponent } from "../../../general/components/errors/not-found/not-found.component";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagersProfilProcurationCourrierComponent } from "./profil-procuration-courrier-component";
+import { StoreModule } from "@ngrx/store";
 
 describe("UsagersProfilProcurationCourrierComponent", () => {
   let fixture: ComponentFixture<UsagersProfilProcurationCourrierComponent>;
@@ -25,6 +26,8 @@ describe("UsagersProfilProcurationCourrierComponent", () => {
           { path: "404", component: NotFoundComponent },
         ]),
         CommonModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
+
         NgbModule,
         FormsModule,
         HttpClientTestingModule,

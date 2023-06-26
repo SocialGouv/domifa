@@ -67,7 +67,6 @@ export class ProfilHeadComponent implements OnDestroy {
     this.subscription.add(
       this.usagerDecisionService.renouvellement(this.usager.ref).subscribe({
         next: (usager: UsagerLight) => {
-          this.usager = new UsagerFormModel(usager);
           this.closeModals();
           this.toastService.success(
             "Votre demande a été enregistrée. Merci de remplir l'ensemble du dossier"

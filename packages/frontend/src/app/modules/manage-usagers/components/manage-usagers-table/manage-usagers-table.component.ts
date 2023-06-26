@@ -17,7 +17,7 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "@ngx-matomo/tracker";
 
-import { UserStructure, UsagerLight } from "../../../../../_common/model";
+import { UserStructure } from "../../../../../_common/model";
 import {
   InteractionType,
   InteractionInForApi,
@@ -54,9 +54,6 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
 
   @Input() public selectedRefs: number[];
   @Input() public displayCheckboxes: boolean;
-
-  @Output()
-  public updateUsager = new EventEmitter<UsagerLight>();
 
   @Output()
   public goToPrint = new EventEmitter<void>();
@@ -139,8 +136,7 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
       this.interactionService
         .setInteraction(usager.ref, [interaction])
         .subscribe({
-          next: (newUsager: UsagerLight) => {
-            this.updateUsager.emit(newUsager);
+          next: () => {
             this.toastService.success(INTERACTIONS_LABELS_SINGULIER[type]);
             this.stopLoading(loadingRef);
           },

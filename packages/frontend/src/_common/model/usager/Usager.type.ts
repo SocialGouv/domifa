@@ -5,8 +5,8 @@ import {
   UsagerRdvInfos,
 } from "../../../_common/model";
 import { UsagerEntretien } from "./entretien";
-import { UsagerAyantDroit } from "./UsagerAyantDroit.type";
-import { UsagerDecision } from "./decision/UsagerDecision.type";
+import { UsagerAyantDroit } from "./ayant-droit/UsagerAyantDroit.type";
+import { UsagerDecision } from "./decision/types/UsagerDecision.type";
 
 import { UsagerImport } from "./UsagerImport.type";
 import { UsagerLastInteractions } from "./UsagerLastInteractions.type";
@@ -67,4 +67,5 @@ export type Usager = AppEntity & {
   echeanceInfos?: UsagerEcheanceInfos;
   rdvInfos?: UsagerRdvInfos;
   usagerProfilUrl?: string;
+  nbNotes?: number;
 };

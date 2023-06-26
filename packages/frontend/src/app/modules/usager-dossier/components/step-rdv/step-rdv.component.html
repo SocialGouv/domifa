@@ -4,7 +4,7 @@
   [usager]="usager"
 ></app-step-header>
 
-<div class="content" *ngIf="me && usager">
+<div class="content" *ngIf="usager && currentUserSubject$ | async as me">
   <div class="container py-3">
     <div class="step_form" *ngIf="!editRdv">
       <div class="row text-center">
@@ -280,7 +280,7 @@
     <app-step-footer [usager]="usager"></app-step-footer>
 
     <app-delete-usager-menu
-      [(usager)]="usager"
+      [usager]="usager"
       context="PROFIL"
       [me]="me"
     ></app-delete-usager-menu>

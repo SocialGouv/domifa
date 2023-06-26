@@ -12,10 +12,8 @@ import {
 import { UntypedFormBuilder } from "@angular/forms";
 
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { UsagerLight } from "../../../../../_common/model";
 
 import { UsagerFormModel } from "../../interfaces";
-
 import { AuthService } from "../../../shared/services/auth.service";
 
 @Component({
@@ -28,7 +26,7 @@ export class ProfilEtatCivilFormComponent
   implements OnInit, OnDestroy
 {
   @Input() public usager!: UsagerFormModel;
-  @Output() public usagerChange = new EventEmitter<UsagerFormModel>();
+
   @Output() public editInfosChange = new EventEmitter<boolean>();
 
   constructor(
@@ -58,14 +56,14 @@ export class ProfilEtatCivilFormComponent
     const formValue: UsagerEtatCivilFormData = this.getEtatCivilForm(
       this.usagerForm.value
     );
+
     this.subscription.add(
       this.etatCivilService
         .patchEtatCivil(this.usager.ref, formValue)
         .subscribe({
-          next: (usager: UsagerLight) => {
+          next: () => {
             this.editInfosChange.emit(false);
             this.toastService.success("Enregistrement réussi");
-            this.usagerChange.emit(new UsagerFormModel(usager));
             this.submitted = false;
             this.loading = false;
           },

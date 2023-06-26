@@ -9,7 +9,7 @@ import { BehaviorSubject, Observable, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
 import { UserStructure } from "../../../../_common/model";
-import { usagersCache } from "../../../shared";
+import { cacheManager } from "../../../shared";
 import { userStructureBuilder } from "../../users/services";
 import { CustomToastService } from "./custom-toast.service";
 
@@ -82,7 +82,8 @@ export class AuthService {
 
   public logout(): void {
     this.currentUserSubject.next(null);
-    usagersCache.clearCache();
+
+    cacheManager.clearCache();
     localStorage.removeItem("currentUser");
     localStorage.removeItem("MANAGE_USAGERS");
     configureScope((scope) => {

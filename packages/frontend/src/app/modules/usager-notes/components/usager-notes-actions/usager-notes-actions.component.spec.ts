@@ -6,6 +6,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { USAGER_ACTIF_MOCK, USAGER_NOTE } from "../../../../../_common/mocks";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("UsagerNotesActionsComponent", () => {
   let component: UsagerNotesActionsComponent;
@@ -13,7 +15,11 @@ describe("UsagerNotesActionsComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, NgbModule],
+      imports: [
+        HttpClientTestingModule,
+        NgbModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
+      ],
       declarations: [UsagerNotesActionsComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

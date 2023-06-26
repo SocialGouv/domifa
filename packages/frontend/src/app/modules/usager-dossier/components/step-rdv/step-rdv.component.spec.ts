@@ -11,6 +11,8 @@ import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.moc
 import { SharedModule } from "../../../shared/shared.module";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { StepRdvComponent } from "./step-rdv.component";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("StepRdvComponent", () => {
   let component: StepRdvComponent;
@@ -23,10 +25,10 @@ describe("StepRdvComponent", () => {
         NgbModule,
         HttpClientTestingModule,
         RouterTestingModule,
-
         SharedModule,
         ReactiveFormsModule,
         FormsModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -9,6 +9,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { SharedModule } from "../../../shared/shared.module";
 
 import { ProfilHeadComponent } from "./profil-head.component";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("ProfilHeadComponent", () => {
   let component: ProfilHeadComponent;
@@ -25,6 +27,7 @@ describe("ProfilHeadComponent", () => {
         ReactiveFormsModule,
         RouterTestingModule,
         SharedModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

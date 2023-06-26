@@ -20,7 +20,6 @@ import { noWhiteSpace, bounce } from "../../../../shared";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerNotesService } from "../../services/usager-notes.service";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
-import { Usager } from "../../../../../_common/model";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
@@ -31,9 +30,6 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 })
 export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
-
-  @Output()
-  public usagerChange = new EventEmitter<UsagerFormModel>();
 
   @Output()
   public cancel = new EventEmitter();
@@ -97,16 +93,13 @@ export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
           usagerRef: this.usager.ref,
         })
         .subscribe({
-          next: (usager: Usager) => {
+          next: () => {
             this.toastService.success("Note enregistrée avec succès");
             this.loading = false;
             this.submitted = false;
             this.addNoteForm.reset();
             this.cancel.emit();
             this.getUsagerNotes.emit();
-            setTimeout(() => {
-              this.usagerChange.emit(new UsagerFormModel(usager));
-            }, 500);
           },
           error: () => {
             this.loading = false;

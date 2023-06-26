@@ -34,6 +34,8 @@ import { UserIdleModule } from "angular-user-idle";
 
 import { createErrorHandler, init } from "@sentry/angular";
 import { MATOMO_INJECTORS } from "./shared";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "./shared/store/ngRxAppStore.service";
 
 const disableAnimations =
   !("animate" in document.documentElement) ||
@@ -61,6 +63,7 @@ if (environment.production) {
     FontAwesomeModule,
     GeneralModule,
     NgbModule,
+    StoreModule.forRoot({ app: _usagerReducer }),
     SharedModule,
     ManageUsagersModule,
     UserIdleModule.forRoot({ idle: 3600, timeout: 60, ping: 20 }),

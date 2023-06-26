@@ -2,14 +2,15 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
 import { Observable } from "rxjs";
-import { filter, startWith, tap } from "rxjs/operators";
+import { tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import {
   UsagerEtatCivilFormData,
   UsagerLight,
 } from "../../../../_common/model";
-import { usagersCache } from "../../../shared/store";
+import { cacheManager } from "../../../shared/store";
 import { Entretien } from "../interfaces";
+import { Store } from "@ngrx/store";
 
 @Injectable({
   providedIn: "root",
@@ -17,18 +18,15 @@ import { Entretien } from "../interfaces";
 export class UsagerService {
   public endPointUsagers = environment.apiUrl + "usagers";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private store: Store) {}
 
   public findOne(usagerRef: number): Observable<UsagerLight> {
     return this.http
       .get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`)
       .pipe(
-        tap((x: UsagerLight) =>
-          // update cache
-          usagersCache.updateUsager(x)
-        ),
-        startWith(usagersCache.getSnapshot().usagersByRefMap[usagerRef]), // try to load value from cache
-        filter((x) => !!x) // filter out empty cache value
+        tap((newUsager: UsagerLight) => {
+          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+        })
       );
   }
 
@@ -43,7 +41,7 @@ export class UsagerService {
       )
       .pipe(
         tap((newUsager: UsagerLight) => {
-          usagersCache.updateUsager(newUsager);
+          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
           return newUsager;
         })
       );
@@ -56,7 +54,7 @@ export class UsagerService {
       .patch<UsagerLight>(`${this.endPointUsagers}/${ref}`, usager)
       .pipe(
         tap((newUsager: UsagerLight) => {
-          usagersCache.updateUsager(newUsager);
+          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
           return newUsager;
         })
       );

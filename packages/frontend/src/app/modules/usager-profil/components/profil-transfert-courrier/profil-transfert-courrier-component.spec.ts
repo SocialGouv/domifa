@@ -7,11 +7,12 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks";
-import { MATOMO_INJECTORS } from "../../../../shared";
+import { MATOMO_INJECTORS, _usagerReducer } from "../../../../shared";
 
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 import { UsagersProfilTransfertCourrierComponent } from "./profil-transfert-courrier-component";
+import { StoreModule } from "@ngrx/store";
 
 describe("UsagersProfilTransfertCourrierComponent", () => {
   let fixture: ComponentFixture<UsagersProfilTransfertCourrierComponent>;
@@ -26,6 +27,7 @@ describe("UsagersProfilTransfertCourrierComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         ...MATOMO_INJECTORS,
+        StoreModule.forRoot({ app: _usagerReducer }),
         RouterTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
@@ -35,7 +37,6 @@ describe("UsagersProfilTransfertCourrierComponent", () => {
     fixture = TestBed.createComponent(UsagersProfilTransfertCourrierComponent);
     component = fixture.debugElement.componentInstance;
     component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
-    component.ngOnInit();
   }));
 
   it("0. Create component", () => {

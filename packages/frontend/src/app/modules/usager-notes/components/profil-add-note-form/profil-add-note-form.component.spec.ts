@@ -9,6 +9,8 @@ import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 import { ProfilAddNoteFormComponent } from "./profil-add-note-form.component";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("ProfilAddNoteFormComponent", () => {
   let component: ProfilAddNoteFormComponent;
@@ -21,6 +23,7 @@ describe("ProfilAddNoteFormComponent", () => {
         NgbModule,
         HttpClientTestingModule,
         ReactiveFormsModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
         FormsModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],

@@ -4,7 +4,7 @@
   [currentStep]="4"
 ></app-step-header>
 
-<div class="content" *ngIf="me && usager">
+<div class="content" *ngIf="usager && currentUserSubject$ | async as me">
   <div class="container py-3">
     <div *ngIf="usager.decision.statut === 'ATTENTE_DECISION' && !isAdmin">
       <div class="row">
@@ -175,7 +175,7 @@
 
       <app-profil-etat-civil-form
         *ngIf="editInfos"
-        [(usager)]="usager"
+        [usager]="usager"
         [(editInfos)]="editInfos"
       ></app-profil-etat-civil-form>
 
@@ -220,7 +220,7 @@
           <app-entretien-form
             *ngIf="editEntretien"
             [(editEntretien)]="editEntretien"
-            [(usager)]="usager"
+            [usager]="usager"
           ></app-entretien-form>
 
           <app-display-entretien

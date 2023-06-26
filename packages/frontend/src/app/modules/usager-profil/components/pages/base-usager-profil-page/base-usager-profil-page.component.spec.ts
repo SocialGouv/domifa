@@ -7,6 +7,8 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { BaseUsagerProfilPageComponent } from "./base-usager-profil-page.component";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../../shared";
 
 describe("BaseUsagerProfilPageComponent", () => {
   let component: BaseUsagerProfilPageComponent;
@@ -21,6 +23,8 @@ describe("BaseUsagerProfilPageComponent", () => {
         ReactiveFormsModule,
         FormsModule,
         HttpClientTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
+
         RouterTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],

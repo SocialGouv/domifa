@@ -18,6 +18,8 @@ import { SharedModule } from "../../../shared/shared.module";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 import { DecisionRefusFormComponent } from "./decision-refus-form.component";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("DecisionRefusFormComponent", () => {
   let component: DecisionRefusFormComponent;
@@ -30,10 +32,10 @@ describe("DecisionRefusFormComponent", () => {
         NgbModule,
         HttpClientTestingModule,
         RouterTestingModule,
-
         SharedModule,
         FormsModule,
         ReactiveFormsModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [
         NgbDateCustomParserFormatter,

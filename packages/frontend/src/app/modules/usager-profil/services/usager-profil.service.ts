@@ -1,9 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { filter, Observable, startWith, tap } from "rxjs";
+import { Observable, tap } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { MessageSms, UsagerLight } from "../../../../_common/model";
-import { usagersCache } from "../../../shared/store";
+import { Store } from "@ngrx/store";
+import { cacheManager } from "../../../shared";
 
 @Injectable({
   providedIn: "root",
@@ -11,30 +12,26 @@ import { usagersCache } from "../../../shared/store";
 export class UsagerProfilService {
   public endPointUsagers = environment.apiUrl + "usagers";
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient, private store: Store) {}
 
   public findOne(usagerRef: number): Observable<UsagerLight> {
     return this.http
       .get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`)
       .pipe(
-        tap((x: UsagerLight) =>
-          // update cache
-          usagersCache.updateUsager(x)
-        ),
-        startWith(usagersCache.getSnapshot().usagersByRefMap[usagerRef]), // try to load value from cache
-        filter((x) => !!x) // filter out empty cache value
+        tap((newUsager: UsagerLight) => {
+          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+        })
       );
   }
 
   public delete(usagerRef: number) {
     return this.http.delete(`${this.endPointUsagers}/${usagerRef}`).pipe(
       tap(() => {
-        usagersCache.removeUsager({ ref: usagerRef });
+        this.store.dispatch(cacheManager.deleteUsager({ usagerRef }));
       })
     );
   }
 
-  // Mise à jour des préférence de contact
   public updatePortailUsagerOptions({
     usagerRef,
     options,
@@ -49,17 +46,30 @@ export class UsagerProfilService {
     login?: string;
     temporaryPassword?: string;
   }> {
-    return this.http.post<{
-      usager: UsagerLight;
-      login?: string;
-      temporaryPassword?: string;
-    }>(`${this.endPointUsagers}/portail-usager/options/${usagerRef}`, options);
+    return this.http
+      .post<{
+        usager: UsagerLight;
+        login?: string;
+        temporaryPassword?: string;
+      }>(`${this.endPointUsagers}/portail-usager/options/${usagerRef}`, options)
+      .pipe(
+        tap((result: { usager: UsagerLight }) => {
+          this.store.dispatch(
+            cacheManager.updateUsager({ usager: result.usager })
+          );
+        })
+      );
   }
 
+  // Todo: rassembler en une seule requête
   public stopCourrier(usagerRef: number): Observable<UsagerLight> {
-    return this.http.get<UsagerLight>(
-      `${this.endPointUsagers}/stop-courrier/${usagerRef}`
-    );
+    return this.http
+      .get<UsagerLight>(`${this.endPointUsagers}/stop-courrier/${usagerRef}`)
+      .pipe(
+        tap((newUsager: UsagerLight) => {
+          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+        })
+      );
   }
 
   public findMySms(ref: number): Observable<MessageSms[]> {

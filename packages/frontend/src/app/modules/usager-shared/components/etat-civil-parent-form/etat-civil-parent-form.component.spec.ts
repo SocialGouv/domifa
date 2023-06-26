@@ -11,6 +11,8 @@ import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks";
 import { UsagerFormModel } from "../../interfaces";
 
 import { EtatCivilParentFormComponent } from "./etat-civil-parent-form.component";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("EtatCivilParentFormComponent", () => {
   let component: EtatCivilParentFormComponent;
@@ -27,6 +29,7 @@ describe("EtatCivilParentFormComponent", () => {
         HttpClientTestingModule,
         NgxIntlTelInputModule,
         RouterTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],

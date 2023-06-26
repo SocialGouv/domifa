@@ -1,12 +1,11 @@
 import { Component, Input } from "@angular/core";
-
 import {
   ENTRETIEN_LIEN_COMMUNE,
   ENTRETIEN_RESIDENCE,
   ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_TYPE_MENAGE,
   ENTRETIEN_CAUSE_INSTABILITE,
-} from "../../../../../_common/model/usager/_constants";
+} from "../../../../../_common/model";
 import { UsagerFormModel } from "../../interfaces";
 
 @Component({

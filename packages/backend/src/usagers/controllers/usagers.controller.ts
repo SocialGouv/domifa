@@ -120,8 +120,6 @@ export class UsagersController {
           )
           .getCount();
 
-    console.log(usagersRadiesTotalCount);
-
     return {
       usagersNonRadies,
       usagersRadiesFirsts,

@@ -57,7 +57,7 @@
                 <td class="text-end">
                   <app-delete-usager-menu
                     *ngIf="i === 0"
-                    [(usager)]="usager"
+                    [usager]="usager"
                     context="HISTORY"
                     [me]="me"
                   ></app-delete-usager-menu>
@@ -115,7 +115,7 @@
     </div>
 
     <app-delete-usager-menu
-      [(usager)]="usager"
+      [usager]="usager"
       [me]="me"
       context="PROFIL"
     ></app-delete-usager-menu>

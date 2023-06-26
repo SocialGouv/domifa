@@ -12,6 +12,8 @@ import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.moc
 import { UsagerFormModel } from "../../interfaces";
 
 import { ProfilEtatCivilFormComponent } from "./profil-etat-civil-form.component";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("ProfilEtatCivilFormComponent", () => {
   let component: ProfilEtatCivilFormComponent;
@@ -28,6 +30,7 @@ describe("ProfilEtatCivilFormComponent", () => {
         HttpClientTestingModule,
         NgxIntlTelInputModule,
         RouterTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
