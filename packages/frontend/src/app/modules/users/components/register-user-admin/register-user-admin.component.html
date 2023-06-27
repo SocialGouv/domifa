@@ -14,9 +14,16 @@
         appCleanStr
         formControlName="nom"
         [ngClass]="{ 'is-invalid': (f.nom.dirty || submitted) && f.nom.errors }"
+        [attr.aria-describedby]="
+          (f.nom.dirty || submitted) && f.nom.errors ? 'invalid-name' : ''
+        "
         required
       />
-      <p *ngIf="submitted && f.nom.errors" class="invalid-feedback">
+      <p
+        *ngIf="submitted && f.nom.errors"
+        id="invalid-name"
+        class="invalid-feedback"
+      >
         Veuillez vérifier le nom
       </p>
     </div>
@@ -31,9 +38,18 @@
         [ngClass]="{
           'is-invalid': (f.prenom.dirty || submitted) && f.prenom.errors
         }"
+        [attr.aria-describedby]="
+          (f.prenom.dirty || submitted) && f.prenom.errors
+            ? 'invalid-prenom'
+            : ''
+        "
         required
       />
-      <p *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
+      <p
+        *ngIf="submitted && f.prenom.errors"
+        class="invalid-feedback"
+        id="invalid-prenom"
+      >
         Veuillez vérifier le prénom
       </p>
     </div>
@@ -47,9 +63,12 @@
         [ngClass]="{
           'is-invalid': (f.email.dirty || submitted) && f.email.errors
         }"
+        [attr.aria-describedby]="
+          (f.email.dirty || submitted) && f.email.errors ? 'invalid-email' : ''
+        "
         required
       />
-      <div *ngIf="f.email.errors" class="invalid-feedback">
+      <div *ngIf="f.email.errors" class="invalid-feedback" id="invalid-email">
         <p *ngIf="f.email.errors.emailTaken">
           <fa-icon
             aria-hidden="true"
@@ -68,6 +87,9 @@
         [ngClass]="{
           'is-invalid': submitted && f.role.errors
         }"
+        [attr.aria-describedby]="
+          submitted && f.role.errors ? 'invalid-role' : ''
+        "
         class="form-select"
         required
       >
@@ -77,7 +99,11 @@
         <option value="simple">Instructeur</option>
         <option value="facteur">Facteur</option>
       </select>
-      <p *ngIf="submitted && f.role.errors" class="invalid-feedback">
+      <p
+        *ngIf="submitted && f.role.errors"
+        class="invalid-feedback"
+        id="invalid-role"
+      >
         Le rôle est obligatoire
       </p>
     </div>

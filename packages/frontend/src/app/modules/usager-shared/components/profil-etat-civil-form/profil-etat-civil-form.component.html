@@ -114,9 +114,9 @@
           [ngClass]="{ 'is-invalid': f.villeNaissance.errors }"
           required
         />
-        <div *ngIf="f.villeNaissance.errors" class="invalid-feedback">
+        <p *ngIf="f.villeNaissance.errors" class="invalid-feedback">
           La ville de naissance est obligatoire
-        </div>
+        </p>
       </div>
     </div>
   </fieldset>
@@ -403,7 +403,7 @@
             "
             class="invalid-feedback"
           >
-            La date de naissance est obligatoire
+            La date de naissance est obligatoire. Exemple : 20/12/1996
           </p>
         </div>
       </div>

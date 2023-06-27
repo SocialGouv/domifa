@@ -75,9 +75,16 @@
               'is-invalid': submitted && f.nom.errors,
               'is-valid': f.nom.dirty && !f.nom.errors
             }"
+            [attr.aria-describedby]="
+              submitted && f.nom.errors ? 'invalid-name' : ''
+            "
             required
           />
-          <p *ngIf="submitted && f.nom.errors" class="invalid-feedback">
+          <p
+            *ngIf="submitted && f.nom.errors"
+            id="invalid-name"
+            class="invalid-feedback"
+          >
             Veuillez vérifier le nom
           </p>
         </div>
@@ -94,9 +101,16 @@
               'is-invalid': submitted && f.prenom.errors,
               'is-valid': f.prenom.dirty && !f.prenom.errors
             }"
+            [attr.aria-describedby]="
+              submitted && f.prenom.errors ? 'invalid-prenom' : ''
+            "
             required
           />
-          <p *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
+          <p
+            *ngIf="submitted && f.prenom.errors"
+            id="invalid-prenom"
+            class="invalid-feedback"
+          >
             Veuillez vérifier le prénom
           </p>
         </div>
@@ -110,11 +124,22 @@
             class="form-control"
             id="fonction"
             formControlName="fonction"
-            placeholder="Président.e, Directrice, Chef de service, etc."
             [ngClass]="{ 'is-invalid': submitted && f.fonction.errors }"
+            [attr.aria-describedby]="
+              submitted && f.fonction.errors
+                ? 'invalid-fonction'
+                : 'fonction-help'
+            "
             required
           />
-          <p *ngIf="submitted && f.fonction.errors" class="invalid-feedback">
+          <small id="fonction-help"
+            >Président.e, Directrice, Chef de service, etc.</small
+          >
+          <p
+            *ngIf="submitted && f.fonction.errors"
+            id="invalid-fonction"
+            class="invalid-feedback"
+          >
             Votre fonction est obligatoire
           </p>
         </div>
@@ -126,16 +151,27 @@
             type="email"
             class="form-control"
             id="email"
-            autocomplete="email"
             formControlName="email"
             [ngClass]="{
               'is-invalid': (f.email.dirty || submitted) && f.email.errors
             }"
+            [attr.aria-describedby]="
+              (f.email.dirty || submitted) && f.email.errors
+                ? 'invalid-email'
+                : ''
+            "
             required
           />
-          <div *ngIf="f.email.errors" class="invalid-feedback">
+          <div
+            *ngIf="f.email.errors"
+            class="invalid-feedback"
+            id="invalid-email"
+          >
             <p *ngIf="f.email.errors.emailTaken">
-              <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+              <fa-icon
+                aria-hidden="true"
+                [icon]="['fas', 'exclamation-triangle']"
+              ></fa-icon>
               <strong>L'adresse email est déjà utilisée</strong>
             </p>
             <p *ngIf="!f.email.errors.emailTaken">

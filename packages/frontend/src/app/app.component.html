@@ -281,13 +281,20 @@
             [ngClass]="{
               'is-invalid': submitted && f.readCgu?.errors
             }"
+            [attr.aria-describedby]="
+              submitted && f.readCgu.errors ? 'invalid-cgu-read' : ''
+            "
             id="readCgu"
             required
           />
           <label class="form-check-label" for="readCgu"
             >Je confirme avoir lu les conditions générales d’utilisation
           </label>
-          <p *ngIf="submitted && f.readCgu?.errors" class="invalid-feedback">
+          <p
+            *ngIf="submitted && f.readCgu?.errors"
+            class="invalid-feedback"
+            id="invalid-cgu-read"
+          >
             La lecture des CGU est obligatoire
           </p>
         </div>
@@ -299,13 +306,20 @@
             [ngClass]="{
               'is-invalid': submitted && f.acceptCgu?.errors
             }"
+            [attr.aria-describedby]="
+              submitted && f.acceptCgu.errors ? 'invalid-cgu-choice' : ''
+            "
             id="acceptCgu"
             required
           />
           <label class="form-check-label" for="acceptCgu"
             >J'accepte les conditions générales d’utilisation
           </label>
-          <p *ngIf="submitted && f.acceptCgu?.errors" class="invalid-feedback">
+          <p
+            *ngIf="submitted && f.acceptCgu?.errors"
+            class="invalid-feedback"
+            id="invalid-cgu-choice"
+          >
             Vous devez accepter les CGU afin de poursuivre l'inscription
           </p>
         </div>

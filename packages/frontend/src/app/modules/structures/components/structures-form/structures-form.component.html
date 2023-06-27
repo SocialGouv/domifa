@@ -370,7 +370,10 @@
               />
               <div *ngIf="f.email.errors" class="invalid-feedback">
                 <p *ngIf="f.email.errors.emailTaken">
-                  <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+                  <fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'exclamation-triangle']"
+                  ></fa-icon>
                   <strong>L'adresse email est déjà utilisée</strong>
                 </p>
                 <p *ngIf="!f.email.errors.emailTaken">
@@ -457,12 +460,12 @@
               <small id="capaciteHelp" class="form-text text-muted">
                 Optionnel
               </small>
-              <div
+              <p
                 *ngIf="submitted && f.capacite.errors"
                 class="invalid-feedback"
               >
                 La capacité doit être supérieur à 0
-              </div>
+              </p>
             </div>
           </div>
         </fieldset>

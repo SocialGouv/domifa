@@ -218,7 +218,11 @@
                 *ngIf="procuration.dateFin <= today"
                 class="alert alert-danger"
               >
-                <span title="Calendrier" class="svg-icon icon-calendar"></span>
+                <span
+                  title="Calendrier"
+                  class="svg-icon icon-calendar"
+                  aria-hidden="true"
+                ></span>
                 <span>
                   La procuration au nom de
                   <strong
@@ -453,11 +457,11 @@
         <div class="col-md-6 mb-3">
           <h2>Historique des courriers</h2>
 
-          <app-profil-general-historique-courriers
+          <app-profil-genral-historique-courriers
             [usager]="usager"
             [me]="me"
             (updateInteractions)="updateInteractions()"
-          ></app-profil-general-historique-courriers>
+          ></app-profil-genral-historique-courriers>
 
           <br /><br />
           <a
