@@ -1,4 +1,3 @@
-<br />
 <h2 class="title">Modifier les informations de votre structure</h2>
 <form
   *ngIf="structure"
@@ -425,7 +424,11 @@
           id="responsable-nom"
           formControlName="nom"
           autocomplete="family-name"
-          placeholder="Nom d'un.e responsable"
+          [attr.aria-describedby]="
+            submitted && f.responsable.get('nom')?.errors
+              ? 'responsable-nom-errors'
+              : ''
+          "
           [ngClass]="{
             'is-invalid': submitted && f.responsable.get('nom')?.errors
           }"
@@ -434,6 +437,7 @@
         <p
           *ngIf="submitted && f.responsable.get('nom')?.errors"
           class="invalid-feedback"
+          id="responsable-nom-errors"
         >
           Le nom du responsable est obligatoire
         </p>
@@ -445,16 +449,21 @@
           class="form-control"
           id="responsable-prenom"
           formControlName="prenom"
-          placeholder="Prénom(s)"
           autocomplete="given-name"
           [ngClass]="{
             'is-invalid': submitted && f.responsable.get('prenom')?.errors
           }"
+          [attr.aria-describedby]="
+            submitted && f.responsable.get('prenom')?.errors
+              ? 'responsable-prenom-errors'
+              : ''
+          "
           required
         />
         <p
           *ngIf="submitted && f.responsable.get('prenom')?.errors"
           class="invalid-feedback"
+          id="responsable-prenom-errors"
         >
           Le prénom du responsable est obligatoire
         </p>
@@ -467,15 +476,23 @@
           id="fonction"
           formControlName="fonction"
           autocomplete="organization-title"
-          placeholder="Président.e, Directrice, etc."
           [ngClass]="{
             'is-invalid': submitted && f.responsable.get('fonction')?.errors
           }"
+          [attr.aria-describedby]="
+            submitted && f.responsable.get('fonction')?.errors
+              ? 'responsable-fonction-errors'
+              : 'responsable-fonction-description'
+          "
           required
         />
+        <small id="responsable-fonction-description"
+          >Président.e, Directrice, etc.</small
+        >
         <p
           *ngIf="submitted && f.responsable.get('fonction')?.errors"
           class="invalid-feedback"
+          id="responsable-fonction-errors"
         >
           La fonction du responsable est obligatoire
         </p>

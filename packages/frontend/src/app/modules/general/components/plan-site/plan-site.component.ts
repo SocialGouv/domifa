@@ -64,6 +64,7 @@ export class PlanSiteComponent implements OnInit {
         { label: "Contacter l'équipe de DomiFa", path: "/contact" },
         { label: "Foire aux questions", path: "/faq" },
         { label: "Mentions légales de DomiFa", path: "/mentions-legales" },
+        { label: "Déclaration d’accessibilité", path: "/accessibilite" },
         { label: "Conditions d’utilisation de DomiFa", path: "/cgu" },
         {
           label:

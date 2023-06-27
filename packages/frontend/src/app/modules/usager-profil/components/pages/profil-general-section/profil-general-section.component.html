@@ -14,14 +14,14 @@
                 aria-hidden="true"
               ></fa-icon>
             </div>
-            <span>
+            <p>
               <b>
                 {{ usager.pinnedNote.message }}
               </b>
               <br />Note épinglée créée le
               {{ usager.pinnedNote.createdAt | date : "dd/MM/yyyy à HH:mm" }}
               par {{ usager.pinnedNote.createdBy.userName }}
-            </span>
+            </p>
           </div>
 
           <div
@@ -63,7 +63,7 @@
             "
           >
             <div aria-hidden="true" class="svg-icon icon-calendar"></div>
-            <span>
+            <p>
               Demande de renouvellement actuellement en cours
               {{
                 usager.rdvInfos.display
@@ -84,7 +84,7 @@
               >
                 Compléter la demande
               </a>
-            </span>
+            </p>
           </div>
 
           <div
@@ -95,10 +95,10 @@
             "
           >
             <div aria-hidden="true" class="svg-icon icon-calendar"></div>
-            <div>
+            <p>
               Cette demande de renouvellement est actuellement en attente d'une
               décision
-            </div>
+            </p>
             <div>
               <a
                 [routerLink]="['/usager/' + usager.ref + '/edit']"
@@ -130,12 +130,12 @@
             "
           >
             <div class="svg-icon icon-danger"></div>
-            <span>
+            <p>
               La domiciliation expire le
               <strong>
                 {{ usager.echeanceInfos.dateToDisplay | date : "dd/MM/yyyy" }}
               </strong>
-            </span>
+            </p>
           </div>
           <div
             class="alert alert-danger"
@@ -175,11 +175,11 @@
             class="alert alert-danger"
           >
             <div class="svg-icon icon-distribution"></div>
-            <span
-              ><strong>Attention : </strong> le transfert de courrier était
+            <p>
+              <strong>Attention : </strong> le transfert de courrier était
               valable jusqu'au
-              {{ usager.options.transfert.dateFin | date : "dd/MM/yyyy" }}</span
-            >
+              {{ usager.options.transfert.dateFin | date : "dd/MM/yyyy" }}
+            </p>
           </div>
 
           <div
@@ -190,11 +190,11 @@
             class="alert alert-warning"
           >
             <div class="svg-icon icon-distribution"></div>
-            <span>
+            <p>
               Votre courrier est transféré à l'adresse suivante :
               {{ usager.options.transfert.nom | titlecase }}
               {{ usager.options.transfert.adresse | titlecase }}
-            </span>
+            </p>
           </div>
           <ng-container *ngFor="let procuration of usager.options.procurations">
             <ng-container *ngIf="procuration.dateFin">
@@ -204,14 +204,14 @@
               >
                 <div class="svg-icon icon-distribution"></div>
 
-                <span>
+                <p>
                   Une procuration au nom de
                   <strong
                     >{{ procuration.nom }} {{ procuration.prenom }}</strong
                   >
                   est active et valable jusqu'au
                   {{ procuration.dateFin | date : "dd/MM/yyyy" }}
-                </span>
+                </p>
               </div>
 
               <div
@@ -223,14 +223,14 @@
                   class="svg-icon icon-calendar"
                   aria-hidden="true"
                 ></span>
-                <span>
+                <p>
                   La procuration au nom de
                   <strong
                     >{{ procuration.nom }} {{ procuration.prenom }}</strong
                   >
                   a expiré le
                   {{ procuration.dateFin | date : "dd/MM/yyyy" }}
-                </span>
+                </p>
               </div>
             </ng-container>
           </ng-container>
@@ -243,6 +243,7 @@
             <div class="col-12">
               <h2>Dossier</h2>
             </div>
+
             <div class="col-6 my-1 align-self-center">
               <span class="label">Référence dossier</span>
             </div>
@@ -324,26 +325,26 @@
             <div class="interaction-icon-box me-3">
               <div class="interaction-icon icon-courrier"></div>
             </div>
-            <div class="profil-interaction-label">
+            <p>
               <strong>{{ usager.lastInteraction.courrierIn }}</strong> courriers
-            </div>
+            </p>
           </div>
           <div class="profil-interaction my-3">
             <div class="interaction-icon-box me-3">
               <div class="interaction-icon icon-colis"></div>
             </div>
-            <div class="profil-interaction-label">
+            <p>
               <strong>{{ usager.lastInteraction.colisIn }}</strong> colis
-            </div>
+            </p>
           </div>
           <div class="profil-interaction my-3">
             <div class="interaction-icon-box me-3">
               <div class="interaction-icon icon-recommande"></div>
             </div>
-            <div class="profil-interaction-label">
+            <p>
               <strong>{{ usager.lastInteraction.recommandeIn }}</strong> avis de
               passage
-            </div>
+            </p>
           </div>
 
           <ng-container
@@ -400,7 +401,7 @@
                 type="button"
                 class="btn btn-primary me-2"
                 (click)="openInteractionInModal()"
-                aria-label="Ajout détaillé d'un courrier"
+                aria-label="Réception détaillée d'un courrier"
               >
                 <span
                   class="icon-reception list-icon me-2"
@@ -414,7 +415,6 @@
                 *ngIf="usager.lastInteraction.enAttente"
                 class="btn btn-primary me-2"
                 (click)="openInteractionOutModal()"
-                aria-label="Distribuer le courrier"
               >
                 <span
                   class="icon-distribution list-icon me-2"
@@ -431,7 +431,6 @@
                 (click)="
                   stopCourrier(); setSingleInteraction(usager.ref, 'npai')
                 "
-                aria-label="Ne plus accepter le courrier"
               >
                 <fa-icon
                   class="list-icon-disabled"
@@ -457,11 +456,11 @@
         <div class="col-md-6 mb-3">
           <h2>Historique des courriers</h2>
 
-          <app-profil-genral-historique-courriers
+          <app-profil-general-historique-courriers
             [usager]="usager"
             [me]="me"
             (updateInteractions)="updateInteractions()"
-          ></app-profil-genral-historique-courriers>
+          ></app-profil-general-historique-courriers>
 
           <br /><br />
           <a

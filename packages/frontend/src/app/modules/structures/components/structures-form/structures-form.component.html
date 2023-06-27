@@ -146,14 +146,22 @@
                 class="form-control"
                 formControlName="adresse"
                 autcomplete="street-address"
-                [ngClass]="{
-                  'is-invalid': submitted && f.adresse.errors,
-                  'is-valid': f.adresse.dirty && !f.adresse.errors
-                }"
-                placeholder="Cette adresse apparaîtra sur le Cerfa"
+                [ngClass]="{ 'is-invalid': submitted && f.adresse.errors }"
+                [attr.aria-describedby]="
+                  submitted && f.adresse.errors
+                    ? 'address-errors'
+                    : 'address-description'
+                "
                 required
               />
-              <p *ngIf="submitted && f.adresse.errors" class="invalid-feedback">
+              <small id="address-description"
+                >Cette adresse apparaîtra sur le Cerfa</small
+              >
+              <p
+                *ngIf="submitted && f.adresse.errors"
+                class="invalid-feedback"
+                id="address-errors"
+              >
                 L'adresse est obligatoire
               </p>
             </div>
@@ -165,15 +173,22 @@
                 class="form-control"
                 id="complementAdresse"
                 formControlName="complementAdresse"
-                placeholder="Lieu-dit, Bâtiment, étage, etc.."
                 [ngClass]="{
-                  'is-invalid': submitted && f.complementAdresse.errors,
-
+                  'is-invalid': submitted && f.complementAdresse.errors
                 }"
+                [attr.aria-describedby]="
+                  submitted && f.complementAdresse.errors
+                    ? 'invalid-complement'
+                    : 'description-complement'
+                "
               />
+              <small id="description-complement"
+                >Lieu-dit, Bâtiment, étage, etc..</small
+              >
               <p
                 *ngIf="submitted && f.complementAdresse.errors"
                 class="invalid-feedback"
+                id="invalid-complement"
               >
                 Veuillez vérifier le complément d'adresse
               </p>
@@ -189,12 +204,18 @@
                 [ngClass]="{
                   'is-invalid':
                     (f.codePostal.dirty && f.codePostal.errors) ||
-                    (submitted && f.codePostal.errors),
-                  'is-valid': f.codePostal.dirty && !f.codePostal.errors
+                    (submitted && f.codePostal.errors)
                 }"
+                [attr.aria-describedby]="
+                  submitted && f.codePostal.errors ? 'invalid-code-postal' : ''
+                "
                 required
               />
-              <p *ngIf="f.codePostal.errors" class="invalid-feedback">
+              <p
+                *ngIf="f.codePostal.errors"
+                id="invalid-code-postal"
+                class="invalid-feedback"
+              >
                 Le code postal est obligatoire
               </p>
             </div>
@@ -206,12 +227,16 @@
                 id="ville"
                 formControlName="ville"
                 required
-                [ngClass]="{
-                  'is-invalid': submitted && f.ville.errors,
-                  'is-valid': f.ville.dirty && !f.ville.errors
-                }"
+                [ngClass]="{ 'is-invalid': submitted && f.ville.errors }"
+                [attr.aria-describedby]="
+                  submitted && f.ville.errors ? 'invalid-ville' : ''
+                "
               />
-              <p *ngIf="submitted && f.ville.errors" class="invalid-feedback">
+              <p
+                *ngIf="submitted && f.ville.errors"
+                id="invalid-ville"
+                class="invalid-feedback"
+              >
                 La ville est obligatoire
               </p>
             </div>
@@ -478,7 +503,6 @@
           <legend class="visually-hidden">
             Informations sur le / la responsable de la structure
           </legend>
-
           <div class="row" formGroupName="responsable">
             <div class="col-md-6 form-group required">
               <label for="responsable-nom">Nom</label>
@@ -488,11 +512,12 @@
                 id="responsable-nom"
                 formControlName="nom"
                 autocomplete="family-name"
-                placeholder="Nom d'un.e responsable"
+                [attr.aria-describedby]="
+                  submitted && f.responsable.get('nom')?.errors
+                    ? 'responsable-nom-errors'
+                    : ''
+                "
                 [ngClass]="{
-                  'is-valid':
-                    f.responsable.get('nom')?.dirty &&
-                    !f.responsable.get('nom')?.errors,
                   'is-invalid': submitted && f.responsable.get('nom')?.errors
                 }"
                 required
@@ -500,6 +525,7 @@
               <p
                 *ngIf="submitted && f.responsable.get('nom')?.errors"
                 class="invalid-feedback"
+                id="responsable-nom-errors"
               >
                 Le nom du responsable est obligatoire
               </p>
@@ -511,19 +537,21 @@
                 class="form-control"
                 id="responsable-prenom"
                 formControlName="prenom"
-                placeholder="Prénom(s)"
                 autocomplete="given-name"
                 [ngClass]="{
-                  'is-valid':
-                    f.responsable.get('prenom')?.dirty &&
-                    !f.responsable.get('prenom')?.errors,
                   'is-invalid': submitted && f.responsable.get('prenom')?.errors
                 }"
+                [attr.aria-describedby]="
+                  submitted && f.responsable.get('prenom')?.errors
+                    ? 'responsable-prenom-errors'
+                    : ''
+                "
                 required
               />
               <p
                 *ngIf="submitted && f.responsable.get('prenom')?.errors"
                 class="invalid-feedback"
+                id="responsable-prenom-errors"
               >
                 Le prénom du responsable est obligatoire
               </p>
@@ -536,26 +564,30 @@
                 id="fonction"
                 formControlName="fonction"
                 autocomplete="organization-title"
-                placeholder="Président.e, Directrice, etc."
                 [ngClass]="{
-                  'is-valid':
-                    f.responsable.get('fonction')?.dirty &&
-                    !f.responsable.get('fonction')?.errors,
                   'is-invalid':
                     submitted && f.responsable.get('fonction')?.errors
                 }"
+                [attr.aria-describedby]="
+                  submitted && f.responsable.get('fonction')?.errors
+                    ? 'responsable-fonction-errors'
+                    : 'responsable-fonction-description'
+                "
                 required
               />
+              <small id="responsable-fonction-description"
+                >Président.e, Directrice, etc.</small
+              >
               <p
                 *ngIf="submitted && f.responsable.get('fonction')?.errors"
                 class="invalid-feedback"
+                id="responsable-fonction-errors"
               >
                 La fonction du responsable est obligatoire
               </p>
             </div>
           </div>
         </fieldset>
-
         <fieldset class="my-2">
           <legend>Conditions générales d'utilisation de DomiFa</legend>
 
@@ -568,6 +600,9 @@
                 [ngClass]="{
                   'is-invalid': submitted && f.readCgu?.errors
                 }"
+                [attr.aria-describedby]="
+                  submitted && f.readCgu.errors ? 'invalid-cgu-read' : ''
+                "
                 id="readCgu"
                 required
               />
@@ -580,6 +615,7 @@
               <p
                 *ngIf="submitted && f.readCgu?.errors"
                 class="invalid-feedback"
+                id="invalid-cgu-read"
               >
                 La lecture des CGU est obligatoire
               </p>
@@ -592,6 +628,9 @@
                 [ngClass]="{
                   'is-invalid': submitted && f.acceptCgu?.errors
                 }"
+                [attr.aria-describedby]="
+                  submitted && f.acceptCgu.errors ? 'invalid-cgu-choice' : ''
+                "
                 id="acceptCgu"
                 required
               />
@@ -604,6 +643,7 @@
               <p
                 *ngIf="submitted && f.acceptCgu?.errors"
                 class="invalid-feedback"
+                id="invalid-cgu-choice"
               >
                 Vous devez accepter les CGU afin de poursuivre l'inscription
               </p>

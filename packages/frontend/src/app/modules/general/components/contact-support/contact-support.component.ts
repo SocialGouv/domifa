@@ -48,7 +48,7 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Formulaire de contact");
+    this.titleService.setTitle("Contacter l'équipe de DomiFa");
     this.me = this.authService.currentUserValue;
 
     this.meta.updateTag({

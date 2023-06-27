@@ -22,6 +22,7 @@
 }
 
 .alert div,
+.alert p,
 .alert span {
   padding-left: 5px;
   flex-shrink: 1;
@@ -30,6 +31,9 @@
 
 .alert a {
   color: black;
+}
+.alert p {
+  margin: 0 !important;
 }
 
 .alert-info .svg-icon {

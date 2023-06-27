@@ -11,6 +11,6 @@ export class CguComponent implements OnInit {
 
   constructor(private titleService: Title) {}
   public ngOnInit(): void {
-    this.titleService.setTitle("Conditions générales d'utilisation");
+    this.titleService.setTitle("Conditions générales d'utilisation de DomiFa");
   }
 }

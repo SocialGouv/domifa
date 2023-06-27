@@ -18,13 +18,13 @@
     </div>
 
     <div class="ms-3">
-      <div class="interaction-date">
+      <p class="interaction-date">
         {{ interaction.dateInteraction | date : "dd/MM/yyyy à HH:mm" }}
-      </div>
+      </p>
 
-      <div class="fw-bold">
+      <p class="fw-bold">
         {{ interaction.label }}
-      </div>
+      </p>
       <span
         [innerHTML]="interaction.content | nl2br"
         *ngIf="interaction.content"

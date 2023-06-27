@@ -7,6 +7,6 @@ import { Title } from "@angular/platform-browser";
 })
 export class RgaaComponent {
   constructor(private readonly titleService: Title) {
-    this.titleService.setTitle("Déclaration d’accessibilité");
+    this.titleService.setTitle("Déclaration d’accessibilité de DomiFa");
   }
 }

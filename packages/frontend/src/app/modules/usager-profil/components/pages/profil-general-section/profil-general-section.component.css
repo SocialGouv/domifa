@@ -26,9 +26,11 @@
   align-items: flex-start;
 }
 
+.profil-interaction p,
 .profil-interaction div {
   font-size: 1.05rem;
   align-self: center;
+  margin: 0;
 }
 
 .text-link {
