@@ -15,11 +15,15 @@
           formControlName="label"
           id="label"
           [ngClass]="{ 'is-invalid': submitted && u.label.errors }"
-          placeholder="Cerfa signé, impots, carte identité, etc..."
+          [attr.aria-describedby]="
+            submitted && u.label.errors ? 'label-errors' : 'label-description'
+          "
           required
         />
-
-        <p *ngIf="u.label.errors" class="invalid-feedback">
+        <small id="label-description"
+          >Exemple : Cerfa signé, impots, carte identité, etc..</small
+        >
+        <p *ngIf="u.label.errors" id="label-errors" class="invalid-feedback">
           Le nom du document est obligatoire
         </p>
       </div>

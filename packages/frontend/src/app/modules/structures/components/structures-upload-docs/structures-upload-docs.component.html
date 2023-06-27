@@ -46,9 +46,9 @@
           formControlName="label"
           id="label"
           [ngClass]="{ 'is-invalid': submitted && f.label.errors }"
-          placeholder="Règlement intérieur, etc."
           required
         />
+        <small id="label-description">Exemple: règlement intérieur, etc.</small>
         <p *ngIf="submitted && f.label.errors" class="invalid-feedback">
           Le nom du document est obligatoire
         </p>

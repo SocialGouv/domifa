@@ -125,7 +125,6 @@
                 ngbDropdown
                 id="dropdownNotAuthenticatedMenu"
                 display="dynamic"
-                placement="bottom-end"
                 class="d-inline-block d-xs-none d-sm-none"
               >
                 <button
@@ -139,6 +138,7 @@
                     alt="Menu du site"
                     aria-hidden="true"
                   />
+                  Menu du site
                 </button>
                 <div
                   ngbDropdownMenu
@@ -163,25 +163,6 @@
             <!-- MENU CONNECTE -->
             <ng-container *ngIf="me">
               <div class="d-flex">
-                <a
-                  routerLink="/news"
-                  class="btn btn-outline-primary"
-                  ariaCurrentWhenActive="page"
-                  routerLinkActive="router-link-active"
-                  (click)="
-                    matomoService.trackEvent('HEADER', 'Header_ESP', 'null', 1)
-                  "
-                >
-                  <span
-                    *ngIf="pendingNews"
-                    class="pulse-button"
-                    aria-hidden="true"
-                  ></span>
-                  <span [ngClass]="pendingNews ? 'fw-bold' : ''"
-                    >Nouveautés
-                  </span>
-                </a>
-
                 <a
                   class="btn btn-outline-primary"
                   [routerLink]="!me ? ['/'] : ['/manage']"
@@ -216,6 +197,35 @@
                     ngbDropdownMenu
                     aria-labelledby="dropdownAuthenticatedMenu"
                   >
+                    <a
+                      ngbDropdownItem
+                      routerLink="/news"
+                      class="btn btn-outline-primary"
+                      ariaCurrentWhenActive="page"
+                      routerLinkActive="router-link-active"
+                      (click)="
+                        matomoService.trackEvent(
+                          'HEADER',
+                          'Header_ESP',
+                          'null',
+                          1
+                        )
+                      "
+                    >
+                      <fa-icon
+                        aria-hidden="true"
+                        [icon]="['fas', 'rss']"
+                      ></fa-icon>
+
+                      <span [ngClass]="pendingNews ? 'fw-bold' : ''"
+                        >Nouveautés
+                      </span>
+                      <span
+                        *ngIf="pendingNews"
+                        class="pulse-button"
+                        aria-hidden="true"
+                      ></span>
+                    </a>
                     <a
                       *ngIf="me.role === 'admin' && me.structureId === 1"
                       ngbDropdownItem

@@ -119,13 +119,17 @@
             id="customRef"
             maxlength="30"
             formControlName="customRef"
-            aria-describedby="customRefHelp"
             [ngClass]="{ 'is-invalid': v.customRef.errors }"
+            [attr.aria-describedby]="
+              submitted && v.customRef.errors ? 'custom-ref-errors' : ''
+            "
           />
-          <small id="customRefHelp" class="form-text text-muted">
-            Optionnel
-          </small>
-          <p *ngIf="v.customRef.errors" class="invalid-feedback">
+
+          <p
+            *ngIf="v.customRef.errors"
+            id="custom-ref-errors"
+            class="invalid-feedback"
+          >
             L'identifiant est incorrect
           </p>
         </div>

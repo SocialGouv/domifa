@@ -68,7 +68,7 @@ export class BaseUsagerDossierPageComponent implements OnInit, OnDestroy {
 
   public setTitle() {
     this.titleService.setTitle(
-      this.titlePrefix + " de " + getUsagerNomComplet(this.usager)
+      this.titlePrefix + " de " + getUsagerNomComplet(this.usager) + " - DomiFa"
     );
   }
 

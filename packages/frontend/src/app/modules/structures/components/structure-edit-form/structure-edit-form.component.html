@@ -20,7 +20,6 @@
         id="nom"
         autocomplete="organization"
         formControlName="nom"
-        placeholder="Nom"
         [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
         required
         aria-describedby="help-nom-structure"
@@ -188,7 +187,6 @@
             id="adresse2"
             formControlName="adresse"
             autcomplete="street-address"
-            placeholder="Numéro et nom de rue, batiment, etc."
             [ngClass]="{
               'is-invalid':
                 submitted &&
@@ -308,16 +306,25 @@
         <label for="email">Adresse e-mail indiquée sur le Cerfa</label>
         <input
           type="email"
-          class="form-control"
           id="email"
           formControlName="email"
-          [ngClass]="{
-            'is-invalid':
-              (submitted && f.email.errors) || (f.email.dirty && f.email.errors)
-          }"
+          autocomplete="email"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+          [attr.aria-invalid]="submitted && f.email.errors"
+          [attr.aria-describedby]="
+            submitted && f.email.errors ? 'invalid-email' : ''
+          "
           required
         />
-        <div *ngIf="f.email.errors" class="invalid-feedback">
+        <p
+          *ngIf="submitted && f.email.errors"
+          id="invalid-email"
+          class="invalid-feedback"
+        >
+          Veuillez vérifier l'adresse email, format attendu : nom@domaine.fr
+        </p>
+        <div *ngIf="f.email.errors" id="invalid-email" class="invalid-feedback">
           <p *ngIf="f.email.errors.emailTaken">
             <fa-icon
               aria-hidden="true"
@@ -352,9 +359,12 @@
           [ngClass]="{
             'is-invalid': submitted && f.departement.errors
           }"
+          [attr.aria-describedby]="
+            submitted && f.departement.errors ? 'departement-errors' : ''
+          "
           class="form-select"
         >
-          <option></option>
+          <option value=""></option>
           <option
             *ngFor="let departement of DEPARTEMENTS_LISTE | keyvalue"
             [ngValue]="departement.key"
@@ -363,7 +373,11 @@
           </option>
         </select>
 
-        <p *ngIf="submitted && f.departement.errors" class="invalid-feedback">
+        <p
+          *ngIf="submitted && f.departement.errors"
+          id="departement-errors"
+          class="invalid-feedback"
+        >
           Veuillez sélectionner un département
         </p>
       </div>
@@ -375,11 +389,20 @@
           class="form-control"
           required
           id="agrement"
-          placeholder="Numéro donné par la préfecture"
           type="text"
           [ngClass]="{ 'is-invalid': submitted && f.agrement.errors }"
+          [attr.aria-describedby]="
+            submitted && f.agrement.errors
+              ? 'agrement-errors'
+              : 'agrement-description'
+          "
         />
-        <p *ngIf="submitted && f.agrement.errors" class="invalid-feedback">
+        <small id="agrement-description">Numéro donné par la préfecture</small>
+        <p
+          *ngIf="submitted && f.agrement.errors"
+          id="agrement-errors"
+          class="invalid-feedback"
+        >
           Veuillez insérer un numéro d'agrément
         </p>
       </div>
@@ -391,17 +414,20 @@
           class="form-control"
           id="capacite"
           min="0"
-          placeholder="Nombre maxi de domiciliés"
           type="number"
-          aria-describedby="capaciteHelp"
+          [attr.aria-describedby]="
+            submitted && f.capacite.errors ? 'capacite-errors' : ''
+          "
           [ngClass]="{ 'is-invalid': submitted && f.capacite.errors }"
         />
-        <small id="capaciteHelp" class="form-text text-muted">
-          Optionnel
-        </small>
-        <div *ngIf="submitted && f.capacite.errors" class="invalid-feedback">
+
+        <p
+          *ngIf="submitted && f.capacite.errors"
+          id="capacite-errors"
+          class="invalid-feedback"
+        >
           La capacité doit être supérieur à 0
-        </div>
+        </p>
       </div>
     </div>
   </fieldset>

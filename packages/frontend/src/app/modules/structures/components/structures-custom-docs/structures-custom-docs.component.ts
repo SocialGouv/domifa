@@ -52,7 +52,9 @@ export class StructuresCustomDocsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Gestion des documents de la structure");
+    this.titleService.setTitle(
+      "Gestion des documents de la structure - DomiFa"
+    );
     this.me = this.authService.currentUserValue;
     this.getAllStructureDocs();
   }
