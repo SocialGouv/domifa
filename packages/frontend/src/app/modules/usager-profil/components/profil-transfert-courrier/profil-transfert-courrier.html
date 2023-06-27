@@ -126,7 +126,6 @@
           class="form-control"
           id="transfert_adresse"
           formControlName="adresse"
-          placeholder=""
           [ngClass]="{ 'is-invalid': submitted && f.adresse.errors }"
           [attr.aria-describedby]=" submitted && f.adresse.errors   ? 'address-errors'   : 'address-description'"
           required

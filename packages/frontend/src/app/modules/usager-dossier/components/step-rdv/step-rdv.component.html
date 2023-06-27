@@ -6,7 +6,7 @@
 
 <div class="content" *ngIf="usager && currentUserSubject$ | async as me">
   <div class="container py-3">
-    <div class="step_form" *ngIf="!editRdv">
+    <div class="step-form" *ngIf="!editRdv">
       <div class="row text-center">
         <div class="col">
           <h2 class="form-title">
@@ -67,7 +67,7 @@
     </div>
 
     <form [formGroup]="rdvForm" (ngSubmit)="submitRdv()">
-      <fieldset class="step_form text-center" *ngIf="editRdv">
+      <fieldset class="step-form text-center" *ngIf="editRdv">
         <legend class="form-title mb-3 text-center">
           Quand souhaitez-vous réaliser l'entretien de {{ usager.prenom }} ?
         </legend>
@@ -160,6 +160,9 @@
                   [ngClass]="{
                     'is-invalid': r.userId.dirty && r.userId.invalid
                   }"
+                  [attr.aria-describedby]="
+                    submitted && r.userId.errors ? 'invalid-user' : ''
+                  "
                   id="rdvUser"
                   formControlName="userId"
                   class="form-select"
@@ -173,6 +176,7 @@
                 <p
                   *ngIf="r.userId.dirty && r.userId.invalid"
                   class="text-center invalid-feedback"
+                  id="invalid-user"
                 >
                   Veuillez choisir un collaborateur
                 </p>
@@ -191,6 +195,9 @@
                     [ngClass]="{ 'is-invalid': r.jourRdv.invalid }"
                     formControlName="jourRdv"
                     #dRdv="ngbDatepicker"
+                    [attr.aria-describedby]="
+                      submitted && r.jourRdv.errors ? 'invalid-date' : ''
+                    "
                     required
                   />
 
@@ -208,6 +215,7 @@
 
                   <p
                     *ngIf="r.jourRdv.invalid"
+                    id="invalid-date"
                     class="text-center invalid-feedback"
                   >
                     La date est incorrecte
@@ -224,23 +232,28 @@
                       'is-invalid':
                         r.heureRdv.invalid || r.heureRdv.errors?.dateInvalid
                     }"
+                    [attr.aria-describedby]="
+                      submitted && r.heureRdv.errors ? 'invalid-date' : ''
+                    "
                     id="heureRdv"
                     formControlName="heureRdv"
                     required
                   />
                 </div>
-                <p
-                  *ngIf="r.heureRdv.errors?.required"
-                  class="small form-text text-center text-danger"
-                >
-                  L'heure est obligatoire
-                </p>
-                <p
-                  *ngIf="r.heureRdv.errors?.dateInvalid"
-                  class="small form-text text-center text-danger"
-                >
-                  L'horaire choisi est incorrect
-                </p>
+                <div id="invalid-hours">
+                  <p
+                    *ngIf="r.heureRdv.errors?.required"
+                    class="small form-text text-center text-danger"
+                  >
+                    L'heure est obligatoire
+                  </p>
+                  <p
+                    *ngIf="r.heureRdv.errors?.dateInvalid"
+                    class="small form-text text-center text-danger"
+                  >
+                    L'horaire choisi est incorrect
+                  </p>
+                </div>
               </div>
             </div>
             <div

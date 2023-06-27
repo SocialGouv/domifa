@@ -59,6 +59,7 @@ import {
   faList,
   faArrowUpRightFromSquare,
   faEllipsisVertical,
+  faRss,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const FA_ICONS: IconDefinition[] = [
@@ -74,6 +75,7 @@ export const FA_ICONS: IconDefinition[] = [
   faBars,
   faCalendar,
   faChartBar,
+  faRss,
   faThumbTack,
   faFolderOpen,
   faCheck,

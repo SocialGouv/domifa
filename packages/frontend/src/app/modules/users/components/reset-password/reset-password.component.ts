@@ -65,7 +65,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Mot de passe oublié ?");
+    this.titleService.setTitle("Renouveller mon mot de passe DomiFa");
 
     if (this.route.snapshot.params.token) {
       const token = this.route.snapshot.params.token;

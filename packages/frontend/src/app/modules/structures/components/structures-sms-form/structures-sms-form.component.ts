@@ -56,7 +56,7 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Paramétrer les SMS");
+    this.titleService.setTitle("Paramétrer l'envoi des SMS sur DomiFa");
     this.subscription.add(
       this.structureService.findMyStructure().subscribe({
         next: (structure: StructureCommon) => {

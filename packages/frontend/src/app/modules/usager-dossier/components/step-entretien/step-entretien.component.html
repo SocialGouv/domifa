@@ -6,7 +6,7 @@
 
 <div class="content" *ngIf="usager && currentUserSubject$ | async as me">
   <div class="container py-3">
-    <div class="step_form">
+    <div class="step-form">
       <app-entretien-form
         [usager]="usager"
         (nextStep)="nextStep($event)"

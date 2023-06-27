@@ -16,7 +16,7 @@
 <div class="content py-3">
   <div class="container py-3">
     <div
-      class="step_form"
+      class="step-form"
       *ngIf="structureRegisterInfos.etapeInscription === 0 && structureForm"
     >
       <form [formGroup]="structureForm" (ngSubmit)="submitStrucutre()">
@@ -278,7 +278,6 @@
                   id="adresse2"
                   formControlName="adresse"
                   autcomplete="street-address"
-                  placeholder="Numéro et nom de rue, batiment, etc."
                   [ngClass]="{
                     'is-invalid':
                       submitted && f.adresseCourrier.get('adresse')?.errors
@@ -432,9 +431,12 @@
                 [ngClass]="{
                   'is-invalid': submitted && f.departement.errors
                 }"
+                [attr.aria-describedby]="
+                  submitted && f.departement.errors ? 'departement-errors' : ''
+                "
                 class="form-select"
               >
-                <option></option>
+                <option value=""></option>
                 <option
                   *ngFor="let departement of DEPARTEMENTS_LISTE | keyvalue"
                   [ngValue]="departement.key"
@@ -445,6 +447,7 @@
 
               <p
                 *ngIf="submitted && f.departement.errors"
+                id="departement-errors"
                 class="invalid-feedback"
               >
                 Veuillez sélectionner un département
@@ -458,12 +461,20 @@
                 class="form-control"
                 required
                 id="agrement"
-                placeholder="Numéro donné par la préfecture"
                 type="text"
                 [ngClass]="{ 'is-invalid': submitted && f.agrement.errors }"
+                [attr.aria-describedby]="
+                  submitted && f.agrement.errors
+                    ? 'agrement-errors'
+                    : 'agrement-description'
+                "
               />
+              <small id="agrement-description"
+                >Numéro donné par la préfecture</small
+              >
               <p
                 *ngIf="submitted && f.agrement.errors"
+                id="agrement-errors"
                 class="invalid-feedback"
               >
                 Veuillez insérer un numéro d'agrément
@@ -477,16 +488,16 @@
                 class="form-control"
                 id="capacite"
                 min="0"
-                placeholder="Nombre maxi de domiciliés"
                 type="number"
-                aria-describedby="capaciteHelp"
+                [attr.aria-describedby]="
+                  submitted && f.capacite.errors ? 'capacite-errors' : ''
+                "
                 [ngClass]="{ 'is-invalid': submitted && f.capacite.errors }"
               />
-              <small id="capaciteHelp" class="form-text text-muted">
-                Optionnel
-              </small>
+
               <p
                 *ngIf="submitted && f.capacite.errors"
+                id="capacite-errors"
                 class="invalid-feedback"
               >
                 La capacité doit être supérieur à 0

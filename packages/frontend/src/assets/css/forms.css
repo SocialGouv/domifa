@@ -61,6 +61,10 @@ form label {
   margin-top: 4px;
 }
 
+.btn-group {
+  flex-wrap: wrap;
+}
+
 .btn-white-primary {
   background-color: #ffffff;
   color: #4164f5;

@@ -72,7 +72,8 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
       ", étape " +
       (this.currentStep + 1) +
       " sur 5, " +
-      ETAPES_FORM_DOM_TITRES[this.currentStep];
+      ETAPES_FORM_DOM_TITRES[this.currentStep] +
+      " - DomiFa";
 
     this.titleService.setTitle(title);
 

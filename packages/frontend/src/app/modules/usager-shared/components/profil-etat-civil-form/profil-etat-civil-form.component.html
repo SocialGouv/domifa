@@ -18,11 +18,16 @@
           id="nom"
           appCleanStr
           formControlName="nom"
-          placeholder="Précisez nom de naissance si nécessaire"
           [ngClass]="{ 'is-invalid': f.nom.errors }"
+          [attr.aria-describedby]="
+            f.nom.errors ? 'nom-errors' : 'nom-description'
+          "
           required
         />
-        <p *ngIf="f.nom.errors" class="invalid-feedback">
+        <small id="nom-description"
+          >Précisez nom de naissance si nécessaire</small
+        >
+        <p *ngIf="f.nom.errors" id="nom-errors" class="invalid-feedback">
           Le nom du demandeur est obligatoire
         </p>
       </div>
@@ -35,11 +40,11 @@
           id="prenom"
           appCleanStr
           formControlName="prenom"
-          placeholder="Prénom(s) du demandeur"
           [ngClass]="{ 'is-invalid': f.prenom.errors }"
+          [attr.aria-describedby]="f.prenom.errors ? 'prenom-errors' : ''"
           required
         />
-        <p *ngIf="f.prenom.errors" class="invalid-feedback">
+        <p *ngIf="f.prenom.errors" id="prenom-errors" class="invalid-feedback">
           Le prénom est obligatoire
         </p>
       </div>
@@ -52,7 +57,6 @@
           id="surnom"
           appCleanStr
           formControlName="surnom"
-          placeholder="Nom d'usage / Surnom"
           [ngClass]="{ 'is-invalid': f.surnom.errors }"
         />
       </div>
@@ -110,11 +114,20 @@
           class="form-control"
           id="villeNaissance"
           formControlName="villeNaissance"
-          placeholder="Ville (préciser le pays si à l'étranger)"
+          [attr.aria-describedby]="
+            submitted && f.villeNaissance.errors
+              ? 'ville-description'
+              : 'ville-errors'
+          "
           [ngClass]="{ 'is-invalid': f.villeNaissance.errors }"
           required
         />
-        <p *ngIf="f.villeNaissance.errors" class="invalid-feedback">
+        <small id="ville-description">Préciser le pays si à l'étranger</small>
+        <p
+          *ngIf="f.villeNaissance.errors"
+          id="ville-errors"
+          class="invalid-feedback"
+        >
           La ville de naissance est obligatoire
         </p>
       </div>
@@ -165,11 +178,7 @@
               (countryChange)="updatePlaceHolder($event.iso2)"
               [selectedCountryISO]="f.telephone.value?.countryCode"
             ></ngx-intl-tel-input>
-            <small
-              class="form-text text-muted"
-              *ngIf="f.contactByPhone.value === false"
-              >Optionnel</small
-            >
+
             <p
               *ngIf="submitted && f.telephone.errors"
               class="invalid-feedback-custom"
@@ -180,18 +189,23 @@
         </div>
         <div class="col-md-6 col-12">
           <div class="form-group">
-            <label for="email">Adresse e-mail (Optionnel)</label>
+            <label for="email">Adresse e-mail</label>
             <input
               type="email"
               class="form-control"
               id="email"
               formControlName="email"
               [ngClass]="{ 'is-invalid': f.email.errors }"
-              placeholder="adresse@mail.com"
+              [attr.aria-describedby]="
+                submitted && f.email.errors ? 'invalid-email' : ''
+              "
             />
-            <p *ngIf="f.email.errors" class="invalid-feedback">
-              Veuillez saisir une adresse e-mail valide. Par exemple :
-              mail@domaine.fr
+            <p
+              *ngIf="f.email.errors"
+              id="invalid-email"
+              class="invalid-feedback"
+            >
+              Veuillez vérifier l'adresse email, format attendu : nom@domaine.fr
             </p>
           </div>
         </div>
@@ -242,13 +256,22 @@
         class="form-control"
         id="numeroDistribution"
         formControlName="numeroDistribution"
-        placeholder="Exemple : BP 102, TSA 11000"
         [ngClass]="{
           'is-invalid': submitted && f.numeroDistribution.errors
         }"
+        [attr.aria-describedby]="
+          submitted && f.numeroDistribution.errors
+            ? 'numero-errors'
+            : 'numero-description'
+        "
         maxlength="20"
       />
-      <p *ngIf="f.numeroDistribution.errors" class="invalid-feedback">
+      <small id="numero-description">Exemple : BP 102, TSA 11000</small>
+      <p
+        *ngIf="f.numeroDistribution.errors"
+        id="numero-errors"
+        class="invalid-feedback"
+      >
         Le numéro de distribution spéciale est incorrect
       </p>
     </div>
@@ -332,7 +355,6 @@
             'is-invalid':
               submitted && ayantsDroits.controls[i].get('nom')?.errors
           }"
-          placeholder="Nom de l'ayant droit"
           required
         />
         <div
@@ -354,7 +376,6 @@
             'is-invalid':
               submitted && ayantsDroits.controls[i].get('prenom')?.errors
           }"
-          placeholder="Prénom"
           required
         />
         <div

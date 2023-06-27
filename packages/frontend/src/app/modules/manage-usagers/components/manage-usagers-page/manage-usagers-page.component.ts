@@ -180,7 +180,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     this.filters = new UsagersFilterCriteria(this.getFilters());
     this.searchString = this.filters.searchString;
     this.filters.page = 0;
-    this.titleService.setTitle("Gérer vos domiciliés");
+    this.titleService.setTitle("Gérer vos domiciliés - DomiFa");
   }
 
   public ngOnInit(): void {

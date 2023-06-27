@@ -4,7 +4,7 @@
   </div>
 </div>
 
-<div class="step_form my-5" *ngIf="success">
+<div class="step-form my-5" *ngIf="success">
   <div class="text-center">
     <fa-icon
       aria-hidden="true"
@@ -76,7 +76,6 @@
                 class="form-control"
                 id="structureName"
                 appCleanStr
-                [placeholder]="'2 caractères minimum'"
                 formControlName="structureName"
                 [attr.aria-invalid]="submitted && f.structureName.errors"
                 [attr.aria-describedby]="
@@ -94,7 +93,8 @@
                 class="invalid-feedback"
                 id="invalid-structure-name"
               >
-                Veuillez indiquer le nom de votre structure
+                Veuillez indiquer le nom de votre structure (2 caractères
+                minimum)
               </p>
             </div>
             <div class="form-group required">
@@ -104,7 +104,6 @@
                 id="email"
                 formControlName="email"
                 autocomplete="email"
-                placeholder="mon-email@email.com"
                 class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
                 [attr.aria-invalid]="submitted && f.email.errors"

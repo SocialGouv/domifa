@@ -146,9 +146,16 @@
             autocomplete="email"
             formControlName="email"
             [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+            [attr.aria-describedby]="
+              submitted && f.email.errors ? 'invalid-email' : ''
+            "
             required
           />
-          <div *ngIf="f.email.errors" class="invalid-feedback">
+          <div
+            *ngIf="f.email.errors"
+            id="invalid-email"
+            class="invalid-feedback"
+          >
             <p *ngIf="f.email.errors.emailTaken">
               <fa-icon
                 aria-hidden="true"
@@ -157,7 +164,7 @@
               <strong>L'adresse email est déjà utilisée</strong>
             </p>
             <p *ngIf="!f.email.errors.emailTaken">
-              L'adresse Email est incorrecte
+              L'adresse email est incorrecte, format attendu : nom@domaine.fr
             </p>
           </div>
         </div>

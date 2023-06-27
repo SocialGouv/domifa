@@ -52,7 +52,9 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.me = this.authService.currentUserValue;
-    this.titleService.setTitle("Modifier les informations de votre structure");
+    this.titleService.setTitle(
+      "Modifier les informations de votre structure sur DomiFa"
+    );
 
     this.subscription.add(
       this.structureService
