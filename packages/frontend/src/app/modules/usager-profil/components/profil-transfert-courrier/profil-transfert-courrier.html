@@ -100,11 +100,22 @@
           class="form-control"
           id="transfert_nom"
           formControlName="nom"
-          placeholder="Ex: Maison d'arrêt, Hôpital saint-louis, Association ..."
+          [attr.aria-describedby]="
+            submitted && f.nom.errors
+              ? 'nom-errors'
+              : 'nom-description'
+          "
           [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
           required
         />
-        <p *ngIf="submitted && f.nom.errors" class="invalid-feedback">
+        <small id="nom-description">
+          Exemple: Maison d'arrêt, Hôpital saint-louis, etc.
+        </small>
+        <p
+          *ngIf="submitted && f.nom.errors"
+          id="nom-errors"
+          class="invalid-feedback"
+        >
           Le nom de l'établissement est obligatoire
         </p>
       </div>
@@ -115,15 +126,19 @@
           class="form-control"
           id="transfert_adresse"
           formControlName="adresse"
-          placeholder="Numéro, rue, bâtiment, ville, code postal, etc."
+          placeholder=""
           [ngClass]="{ 'is-invalid': submitted && f.adresse.errors }"
-          aria-describedby="transfertHelp"
+          [attr.aria-describedby]=" submitted && f.adresse.errors   ? 'address-errors'   : 'address-description'"
           required
         />
-        <small id="transfertHelp" class="form-text text-muted">
-          10 caractères minimum
+        <small id="transfert-description" class="form-text text-muted">
+          Précisez l'adresse complète, 10 caractères minimum
         </small>
-        <div *ngIf="submitted  && f.adresse.errors" class="invalid-feedback">
+        <div
+          *ngIf="submitted  && f.adresse.errors"
+          id="transfert-errors"
+          class="invalid-feedback"
+        >
           <p *ngIf="f.adresse.errors.minlength">
             L'adresse doit contenir 10 caractères minimum
           </p>

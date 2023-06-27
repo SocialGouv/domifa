@@ -55,9 +55,13 @@
                   class="form-control"
                   [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
                   [attr.aria-invalid]="f.email.dirty && f.email.errors"
+                  [attr.aria-describedby]="
+                    f.email.dirty && f.email.errors ? 'invalid-email' : ''
+                  "
                 />
                 <p
                   *ngIf="f.email.dirty && f.email.errors"
+                  id="invalid-email"
                   class="invalid-feedback"
                 >
                   Veuillez vérifier l'adresse email, format attendu :
@@ -75,6 +79,11 @@
                     class="form-control"
                     autocomplete="current-password"
                     [attr.aria-invalid]="f.password.dirty && f.password.errors"
+                    [attr.aria-describedby]="
+                      f.password.dirty && f.password.errors
+                        ? 'invalid-password'
+                        : ''
+                    "
                     [ngClass]="{
                       'is-invalid': f.password.dirty && f.password.errors
                     }"
@@ -102,6 +111,7 @@
                   <p
                     *ngIf="f.password.dirty && f.password.errors"
                     class="invalid-feedback"
+                    id="invalid-password"
                   >
                     Veuillez vérifier le mot de passe
                   </p>
@@ -111,7 +121,7 @@
                 <button
                   [disabled]="loading"
                   type="submit"
-                  class="btn btn-primary"
+                  class="d-inline-block btn btn-primary mb-3"
                 >
                   <span *ngIf="!loading"> Connexion </span>
                   <span *ngIf="loading"
@@ -124,10 +134,11 @@
                     Connexion en cours...</span
                   >
                 </button>
-
                 <br />
-                <br />
-                <a routerLink="/reset-password" class="btn btn-link">
+                <a
+                  routerLink="/reset-password"
+                  class="d-inline-block btn btn-link"
+                >
                   Mot de passe oublié
                 </a>
               </div>

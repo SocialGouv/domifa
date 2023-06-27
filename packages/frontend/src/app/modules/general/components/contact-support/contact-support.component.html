@@ -47,20 +47,25 @@
                 type="text"
                 class="form-control"
                 id="name"
-                aria-describedby="name-help"
                 appCleanStr
                 autocomplete="name"
                 formControlName="name"
                 [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
                 [attr.aria-invalid]="submitted && f.name.errors"
+                [attr.aria-describedby]="
+                  submitted && f.name.errors ? 'invalid-name' : 'name-help'
+                "
                 required
               />
-
               <small class="form-text text-muted" id="name-help"
                 >2 caractères minimum</small
               >
-              <p *ngIf="submitted && f.name.errors" class="invalid-feedback">
-                Veuillez indiquer votre nom
+              <p
+                *ngIf="submitted && f.name.errors"
+                id="invalid-name"
+                class="invalid-feedback"
+              >
+                Veuillez indiquer votre nom, 2 caractères minimum
               </p>
             </div>
             <div class="form-group required">
@@ -74,6 +79,11 @@
                 [placeholder]="'2 caractères minimum'"
                 formControlName="structureName"
                 [attr.aria-invalid]="submitted && f.structureName.errors"
+                [attr.aria-describedby]="
+                  submitted && f.structureName.errors
+                    ? 'invalid-structure-name'
+                    : ''
+                "
                 [ngClass]="{
                   'is-invalid': submitted && f.structureName.errors
                 }"
@@ -82,6 +92,7 @@
               <p
                 *ngIf="submitted && f.structureName.errors"
                 class="invalid-feedback"
+                id="invalid-structure-name"
               >
                 Veuillez indiquer le nom de votre structure
               </p>
@@ -97,16 +108,28 @@
                 class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
                 [attr.aria-invalid]="submitted && f.email.errors"
+                [attr.aria-describedby]="
+                  submitted && f.email.errors ? 'invalid-email' : ''
+                "
                 required
               />
-              <p *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                Veuillez vérifier l'adresse email
+              <p
+                *ngIf="submitted && f.email.errors"
+                id="invalid-email"
+                class="invalid-feedback"
+              >
+                Veuillez vérifier l'adresse email, format attendu :
+                nom@domaine.fr
               </p>
             </div>
             <div class="form-group required">
               <label for="content">Votre message</label>
               <textarea
-                aria-describedby="content-help"
+                [attr.aria-describedby]="
+                  submitted && f.content.errors
+                    ? 'content-error'
+                    : 'content-help'
+                "
                 class="form-control"
                 formControlName="content"
                 id="content"
@@ -119,7 +142,11 @@
                 >En cas de souci technique, merci de spécifier le navigateur
                 utilisé (10 caractères minimum)</small
               >
-              <p *ngIf="submitted && f.content.errors" class="invalid-feedback">
+              <p
+                *ngIf="submitted && f.content.errors"
+                id="content-error"
+                class="invalid-feedback"
+              >
                 Veuillez inscrire un message de 10 caractères au minimum
               </p>
             </div>
@@ -135,7 +162,9 @@
                 accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .xlsx, .xls"
                 id="file"
                 formControlName="file"
-                aria-describedby="pjHelp"
+                [attr.aria-describedby]="
+                  submitted && f.fileSource.errors ? 'pj-error' : 'pjHelp'
+                "
                 [ngClass]="{
                   'is-invalid': submitted && f.fileSource.errors
                 }"
@@ -148,6 +177,7 @@
               <div
                 *ngIf="submitted && f.fileSource.errors"
                 class="invalid-feedback"
+                id="pj-error"
               >
                 <p *ngIf="f.fileSource.errors.fileType">
                   Format de fichier invalide

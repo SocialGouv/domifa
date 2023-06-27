@@ -58,10 +58,21 @@
           formControlName="adresse"
           autcomplete="street-address"
           [ngClass]="{ 'is-invalid': submitted && f.adresse.errors }"
-          placeholder="Cette adresse apparaîtra sur le Cerfa"
+          [attr.aria-describedby]="
+            submitted && f.adresse.errors
+              ? 'address-errors'
+              : 'address-description'
+          "
           required
         />
-        <p *ngIf="submitted && f.adresse.errors" class="invalid-feedback">
+        <small id="address-description"
+          >Cette adresse apparaîtra sur le Cerfa</small
+        >
+        <p
+          *ngIf="submitted && f.adresse.errors"
+          class="invalid-feedback"
+          id="address-errors"
+        >
           L'adresse est obligatoire
         </p>
       </div>
@@ -73,14 +84,22 @@
           class="form-control"
           id="complementAdresse"
           formControlName="complementAdresse"
-          placeholder="Lieu-dit, Bâtiment, étage, etc.."
           [ngClass]="{
             'is-invalid': submitted && f.complementAdresse.errors
           }"
+          [attr.aria-describedby]="
+            submitted && f.complementAdresse.errors
+              ? 'invalid-complement'
+              : 'description-complement'
+          "
         />
+        <small id="description-complement"
+          >Lieu-dit, Bâtiment, étage, etc..</small
+        >
         <p
           *ngIf="submitted && f.complementAdresse.errors"
           class="invalid-feedback"
+          id="invalid-complement"
         >
           Veuillez vérifier le complément d'adresse
         </p>
@@ -98,9 +117,16 @@
               (f.codePostal.dirty && f.codePostal.errors) ||
               (submitted && f.codePostal.errors)
           }"
+          [attr.aria-describedby]="
+            submitted && f.codePostal.errors ? 'invalid-code-postal' : ''
+          "
           required
         />
-        <p *ngIf="f.codePostal.errors" class="invalid-feedback">
+        <p
+          *ngIf="f.codePostal.errors"
+          id="invalid-code-postal"
+          class="invalid-feedback"
+        >
           Le code postal est obligatoire
         </p>
       </div>
@@ -113,8 +139,15 @@
           formControlName="ville"
           required
           [ngClass]="{ 'is-invalid': submitted && f.ville.errors }"
+          [attr.aria-describedby]="
+            submitted && f.ville.errors ? 'invalid-ville' : ''
+          "
         />
-        <p *ngIf="submitted && f.ville.errors" class="invalid-feedback">
+        <p
+          *ngIf="submitted && f.ville.errors"
+          id="invalid-ville"
+          class="invalid-feedback"
+        >
           La ville est obligatoire
         </p>
       </div>
@@ -287,7 +320,10 @@
         />
         <div *ngIf="f.email.errors" class="invalid-feedback">
           <p *ngIf="f.email.errors.emailTaken">
-            <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'exclamation-triangle']"
+            ></fa-icon>
             <strong>L'adresse email est déjà utilisée</strong>
           </p>
           <p *ngIf="!f.email.errors.emailTaken">
