@@ -40,3 +40,7 @@
 .interaction-historique:last-child .interaction-separator {
   display: none !important;
 }
+
+p {
+  margin: 0;
+}

@@ -26,7 +26,6 @@
                   [icon]="['fas', 'info-circle']"
                   aria-hidden="true"
                 ></fa-icon>
-
                 Les statistiques du rapport d’activité {{ lastYear }} sont
                 disponibles
               </div>
@@ -212,18 +211,19 @@
             1. Domiciliés par statut au
             {{ stats.period.endDateUTC | date : "dd/MM/yyyy" : "UTC" }}
           </h2>
-          <strong>Astuce:</strong> pour avoir des statistiques sur une date
-          précise, la date de fin sera prise en compte.
-
+          <p>
+            <strong>Astuce:</strong> pour avoir des statistiques sur une date
+            précise, la date de fin sera prise en compte.
+          </p>
           <br />
-          <br />
 
-          <strong>Note :</strong> les statistiques des ayants droits et des
-          questions de l'entretien affichent les dernières valeurs à jour sur
-          les fiches domiciliés. <br />Par exemple, si les données de
-          l'entretien ont été modifiées récemment, les statistiques afficheront
-          seulement la dernière information saisie.
-
+          <p>
+            <strong>Note :</strong> les statistiques des ayants droits et des
+            questions de l'entretien affichent les dernières valeurs à jour sur
+            les fiches domiciliés. <br />Par exemple, si les données de
+            l'entretien ont été modifiées récemment, les statistiques
+            afficheront seulement la dernière information saisie.
+          </p>
           <div class="rapport-part">
             <table id="table-stats" class="table table-hover">
               <caption class="visually-hidden">
@@ -849,12 +849,12 @@
             {{ stats.period.startDateUTC | date : "dd/MM/yyyy" }} au
             {{ stats.period.endDateUTC | date : "dd/MM/yyyy" }}
           </h2>
-          <div>
+          <p>
             <strong>Note: </strong> les statistiques des interactions sont
             disponibles à compter de votre date d'utilisation de DomiFa, date à
             partir de laquelle vous avez débuté la saisie des passages, appels,
             et courriers.
-          </div>
+          </p>
           <div class="rapport-part">
             <table class="table table-hover">
               <caption class="visually-hidden">

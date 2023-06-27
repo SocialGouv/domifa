@@ -1,7 +1,7 @@
 <div *ngIf="usager">
-  <div *ngIf="!notes || notes.length === 0" class="my-2 mx-1 font-italic">
+  <p *ngIf="!notes || notes.length === 0" class="my-2 mx-1 font-italic">
     Aucune note enregistrée
-  </div>
+  </p>
 
   <div
     *ngFor="let note of notes | slice : 0 : 5; let i = index"
