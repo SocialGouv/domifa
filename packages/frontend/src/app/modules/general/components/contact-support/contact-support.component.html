@@ -81,7 +81,7 @@
                 [attr.aria-describedby]="
                   submitted && f.structureName.errors
                     ? 'invalid-structure-name'
-                    : ''
+                    : null
                 "
                 [ngClass]="{
                   'is-invalid': submitted && f.structureName.errors
@@ -108,7 +108,7 @@
                 [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
                 [attr.aria-invalid]="submitted && f.email.errors"
                 [attr.aria-describedby]="
-                  submitted && f.email.errors ? 'email-errors' : ''
+                  submitted && f.email.errors ? 'email-errors' : null
                 "
                 required
               />

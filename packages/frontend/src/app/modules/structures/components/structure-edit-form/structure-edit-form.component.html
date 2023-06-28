@@ -240,9 +240,7 @@
                 : null
             "
             [attr.aria-invalid]="
-              submitted &&
-              submitted &&
-              f.adresseCourrier.get('codePostal')?.errors
+              submitted && f.adresseCourrier.get('codePostal')?.errors
             "
             required
           />
@@ -388,7 +386,7 @@
           class="form-select"
           required
         >
-          <option value=""></option>
+          <option [value]="null"></option>
           <option
             *ngFor="let departement of DEPARTEMENTS_LISTE | keyvalue"
             [ngValue]="departement.key"
