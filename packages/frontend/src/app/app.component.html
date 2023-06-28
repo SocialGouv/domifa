@@ -282,7 +282,7 @@
               'is-invalid': submitted && f.readCgu?.errors
             }"
             [attr.aria-describedby]="
-              submitted && f.readCgu.errors ? 'invalid-cgu-read' : ''
+              submitted && f.readCgu.errors ? 'invalid-cgu-read' : null
             "
             id="readCgu"
             required
@@ -307,7 +307,7 @@
               'is-invalid': submitted && f.acceptCgu?.errors
             }"
             [attr.aria-describedby]="
-              submitted && f.acceptCgu.errors ? 'invalid-cgu-choice' : ''
+              submitted && f.acceptCgu.errors ? 'invalid-cgu-choice' : null
             "
             id="acceptCgu"
             required

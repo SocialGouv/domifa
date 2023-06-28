@@ -56,7 +56,7 @@
                   [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
                   [attr.aria-invalid]="f.email.dirty && f.email.errors"
                   [attr.aria-describedby]="
-                    f.email.dirty && f.email.errors ? 'email-errors' : ''
+                    f.email.dirty && f.email.errors ? 'email-errors' : null
                   "
                 />
                 <p
@@ -82,7 +82,7 @@
                     [attr.aria-describedby]="
                       f.password.dirty && f.password.errors
                         ? 'invalid-password'
-                        : ''
+                        : null
                     "
                     [ngClass]="{
                       'is-invalid': f.password.dirty && f.password.errors

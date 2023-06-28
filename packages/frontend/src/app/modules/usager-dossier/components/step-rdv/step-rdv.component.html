@@ -161,7 +161,7 @@
                     'is-invalid': r.userId.dirty && r.userId.invalid
                   }"
                   [attr.aria-describedby]="
-                    submitted && r.userId.errors ? 'invalid-user' : ''
+                    submitted && r.userId.errors ? 'invalid-user' : null
                   "
                   id="rdvUser"
                   formControlName="userId"
@@ -196,7 +196,7 @@
                     formControlName="jourRdv"
                     #dRdv="ngbDatepicker"
                     [attr.aria-describedby]="
-                      submitted && r.jourRdv.errors ? 'invalid-date' : ''
+                      submitted && r.jourRdv.errors ? 'invalid-date' : null
                     "
                     required
                   />
@@ -233,7 +233,7 @@
                         r.heureRdv.invalid || r.heureRdv.errors?.dateInvalid
                     }"
                     [attr.aria-describedby]="
-                      submitted && r.heureRdv.errors ? 'invalid-date' : ''
+                      submitted && r.heureRdv.errors ? 'invalid-date' : null
                     "
                     id="heureRdv"
                     formControlName="heureRdv"

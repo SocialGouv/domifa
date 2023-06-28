@@ -147,8 +147,9 @@
             formControlName="email"
             [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
             [attr.aria-describedby]="
-              submitted && f.email.errors ? 'email-errors' : ''
+              submitted && f.email.errors ? 'email-errors' : null
             "
+            [attr.aria-invalid]="submitted && f.email.errors"
             required
           />
           <div

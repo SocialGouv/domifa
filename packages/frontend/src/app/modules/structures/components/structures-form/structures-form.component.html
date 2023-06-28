@@ -291,10 +291,19 @@
                     'is-invalid':
                       submitted && f.adresseCourrier.get('adresse')?.errors
                   }"
+                  [attr.aria-describedby]="
+                    submitted && f.adresseCourrier.get('adresse')?.errors
+                      ? 'adresse-reception-errors'
+                      : null
+                  "
+                  [attr.aria-invalid]="
+                    submitted && f.adresseCourrier.get('adresse')?.errors
+                  "
                   required
                 />
                 <p
                   *ngIf="submitted && f.adresseCourrier.get('adresse')?.errors"
+                  id="adresse-reception-errors"
                   class="invalid-feedback"
                 >
                   L'adresse de réception est obligatoire
@@ -312,6 +321,16 @@
                     'is-invalid':
                       submitted && f.adresseCourrier.get('codePostal')?.errors
                   }"
+                  [attr.aria-describedby]="
+                    submitted && f.adresseCourrier.get('codePostal')?.errors
+                      ? 'code-postal-reception-errors'
+                      : null
+                  "
+                  [attr.aria-invalid]="
+                    submitted &&
+                    submitted &&
+                    f.adresseCourrier.get('codePostal')?.errors
+                  "
                   required
                 />
                 <p
@@ -319,6 +338,7 @@
                     submitted && f.adresseCourrier.get('codePostal')?.errors
                   "
                   class="invalid-feedback"
+                  id="code-postal-reception-errors"
                 >
                   Le code postal est obligatoire
                 </p>
@@ -334,11 +354,22 @@
                     'is-invalid':
                       submitted && f.adresseCourrier.get('ville')?.errors
                   }"
+                  [attr.aria-describedby]="
+                    submitted && f.adresseCourrier.get('ville')?.errors
+                      ? 'ville-reception-errors'
+                      : null
+                  "
+                  [attr.aria-invalid]="
+                    submitted &&
+                    submitted &&
+                    f.adresseCourrier.get('ville')?.errors
+                  "
                   required
                 />
                 <p
                   *ngIf="submitted && f.adresseCourrier.get('ville')?.errors"
                   class="invalid-feedback"
+                  id="ville-reception-errors"
                 >
                   La ville est obligatoire
                 </p>
@@ -447,17 +478,20 @@
               >
               <select
                 id="departement"
-                required
                 formControlName="departement"
                 [ngClass]="{
                   'is-invalid': submitted && f.departement.errors
                 }"
                 [attr.aria-describedby]="
-                  submitted && f.departement.errors ? 'departement-errors' : ''
+                  submitted && f.departement.errors
+                    ? 'departement-errors'
+                    : null
                 "
+                [attr.aria-invalid]="submitted && f.departement.errors"
                 class="form-select"
+                required
               >
-                <option value=""></option>
+                <option [value]="null"></option>
                 <option
                   *ngFor="let departement of DEPARTEMENTS_LISTE | keyvalue"
                   [ngValue]="departement.key"
@@ -465,7 +499,6 @@
                   {{ departement.key }} - {{ departement.value }}
                 </option>
               </select>
-
               <p
                 *ngIf="submitted && f.departement.errors"
                 id="departement-errors"
@@ -484,6 +517,7 @@
                 id="agrement"
                 type="text"
                 [ngClass]="{ 'is-invalid': submitted && f.agrement.errors }"
+                [attr.aria-invalid]="submitted && f.agrement.errors"
                 [attr.aria-describedby]="
                   submitted && f.agrement.errors
                     ? 'agrement-errors'
@@ -511,8 +545,9 @@
                 min="0"
                 type="number"
                 [attr.aria-describedby]="
-                  submitted && f.capacite.errors ? 'capacite-errors' : ''
+                  submitted && f.capacite.errors ? 'capacite-errors' : null
                 "
+                [attr.aria-invalid]="submitted && f.capacite.errors"
                 [ngClass]="{ 'is-invalid': submitted && f.capacite.errors }"
               />
 
@@ -521,7 +556,7 @@
                 id="capacite-errors"
                 class="invalid-feedback"
               >
-                La capacité doit être supérieur à 0
+                La capacité doit être supérieure à 0
               </p>
             </div>
           </div>
@@ -644,7 +679,7 @@
                   'is-invalid': submitted && f.readCgu?.errors
                 }"
                 [attr.aria-describedby]="
-                  submitted && f.readCgu.errors ? 'invalid-cgu-read' : ''
+                  submitted && f.readCgu.errors ? 'invalid-cgu-read' : null
                 "
                 id="readCgu"
                 required
@@ -672,7 +707,7 @@
                   'is-invalid': submitted && f.acceptCgu?.errors
                 }"
                 [attr.aria-describedby]="
-                  submitted && f.acceptCgu.errors ? 'invalid-cgu-choice' : ''
+                  submitted && f.acceptCgu.errors ? 'invalid-cgu-choice' : null
                 "
                 id="acceptCgu"
                 required

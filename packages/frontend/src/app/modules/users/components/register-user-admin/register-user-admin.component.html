@@ -15,8 +15,9 @@
         formControlName="nom"
         [ngClass]="{ 'is-invalid': (f.nom.dirty || submitted) && f.nom.errors }"
         [attr.aria-describedby]="
-          (f.nom.dirty || submitted) && f.nom.errors ? 'invalid-name' : ''
+          (f.nom.dirty || submitted) && f.nom.errors ? 'invalid-name' : null
         "
+        [attr.aria-invalid]="submitted && f.nom.errors"
         required
       />
       <p
@@ -41,8 +42,9 @@
         [attr.aria-describedby]="
           (f.prenom.dirty || submitted) && f.prenom.errors
             ? 'invalid-prenom'
-            : ''
+            : null
         "
+        [attr.aria-invalid]="submitted && f.prenom.errors"
         required
       />
       <p
@@ -60,11 +62,12 @@
         class="form-control"
         id="email"
         formControlName="email"
+        [attr.aria-invalid]="(f.email.dirty || submitted) && f.email.errors"
         [ngClass]="{
           'is-invalid': (f.email.dirty || submitted) && f.email.errors
         }"
         [attr.aria-describedby]="
-          (f.email.dirty || submitted) && f.email.errors ? 'email-errors' : ''
+          (f.email.dirty || submitted) && f.email.errors ? 'email-errors' : null
         "
         required
       />
@@ -87,13 +90,14 @@
         [ngClass]="{
           'is-invalid': submitted && f.role.errors
         }"
+        [attr.aria-invalid]="submitted && f.role.errors"
         [attr.aria-describedby]="
-          submitted && f.role.errors ? 'invalid-role' : ''
+          submitted && f.role.errors ? 'invalid-role' : null
         "
         class="form-select"
         required
       >
-        <option value=""></option>
+        <option [value]="null"></option>
         <option value="admin">Administrateur</option>
         <option value="responsable">Gestionnaire</option>
         <option value="simple">Instructeur</option>
