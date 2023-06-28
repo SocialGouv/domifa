@@ -71,7 +71,6 @@
           <div class="card p-4">
             <form
               *ngIf="structure"
-              id="structureForm"
               [formGroup]="structureSmsForm"
               (ngSubmit)="submitStructureSmsForm()"
             >
@@ -129,23 +128,29 @@
                     class="form-control"
                     id="senderName"
                     formControlName="senderName"
-                    aria-describedby="sender-name-help"
                     maxLength="11"
                     [ngClass]="{
                       'is-invalid': submitted && form.senderName.errors
                     }"
+                    [attr.aria-invalid]="submitted && form.senderName.errors"
+                    [attr.aria-describedby]="
+                      submitted && form.senderDetails.errors
+                        ? 'sender-name-errors'
+                        : 'sender-name-help'
+                    "
                     required
                     autocapitalize="true"
                   />
                   <small id="sender-name-help"
                     >Veuillez n'utiliser que des lettres (11 maximum)</small
                   >
-                  <div
+                  <p
+                    id="sender-name-errors"
                     *ngIf="submitted && form.senderName.errors"
                     class="invalid-feedback"
                   >
                     Le champs expéditeur est incorrect
-                  </div>
+                  </p>
                 </div>
 
                 <div class="col-md-6 form-group required">
@@ -156,16 +161,22 @@
                     class="form-control"
                     maxLength="30"
                     appCleanStr
-                    aria-describedby="sender-details-help"
                     formControlName="senderDetails"
+                    [attr.aria-invalid]="submitted && form.senderDetails.errors"
                     [ngClass]="{
                       'is-invalid': submitted && form.senderDetails.errors
                     }"
+                    [attr.aria-describedby]="
+                      submitted && form.senderDetails.errors
+                        ? 'sender-details-errors'
+                        : 'sender-details-help'
+                    "
                   />
                   <small id="sender-details-help">30 caractères maximum</small>
                   <p
                     *ngIf="submitted && form.senderDetails.errors"
                     class="invalid-feedback"
+                    id="sender-details-errors"
                   >
                     La signature du message est obligatoire (maximum 30
                     caractères)

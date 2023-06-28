@@ -22,6 +22,7 @@
           [attr.aria-describedby]="
             f.nom.errors ? 'nom-errors' : 'nom-description'
           "
+          [attr.aria-invalid]="f.nom.errors ? true : false"
           required
         />
         <small id="nom-description"
@@ -41,7 +42,8 @@
           appCleanStr
           formControlName="prenom"
           [ngClass]="{ 'is-invalid': f.prenom.errors }"
-          [attr.aria-describedby]="f.prenom.errors ? 'prenom-errors' : ''"
+          [attr.aria-describedby]="f.prenom.errors ? 'prenom-errors' : null"
+          [attr.aria-invalid]="f.prenom.errors ? true : false"
           required
         />
         <p *ngIf="f.prenom.errors" id="prenom-errors" class="invalid-feedback">
@@ -87,6 +89,10 @@
             [ngClass]="{
               'is-invalid': submitted && f.dateNaissance.errors
             }"
+            [attr.aria-describedby]="
+              f.dateNaissance.errors ? 'date-naissance-errors' : null
+            "
+            [attr.aria-invalid]="f.dateNaissance.errors ? true : false"
             #d="ngbDatepicker"
             maxlength="10"
             required
@@ -101,7 +107,11 @@
             <fa-icon aria-hidden="true" [icon]="['fas', 'calendar']"></fa-icon>
           </button>
 
-          <p *ngIf="f.dateNaissance.invalid" class="invalid-feedback">
+          <p
+            id="date-naissance-errors"
+            *ngIf="f.dateNaissance.invalid"
+            class="invalid-feedback"
+          >
             La date de naissance est obligatoire. Exemple : 20/12/1996
           </p>
         </div>
@@ -119,6 +129,7 @@
               ? 'ville-description'
               : 'ville-errors'
           "
+          [attr.aria-invalid]="f.villeNaissance.errors ? true : false"
           [ngClass]="{ 'is-invalid': f.villeNaissance.errors }"
           required
         />
@@ -197,12 +208,13 @@
               formControlName="email"
               [ngClass]="{ 'is-invalid': f.email.errors }"
               [attr.aria-describedby]="
-                submitted && f.email.errors ? 'invalid-email' : ''
+                submitted && f.email.errors ? 'email-errors' : ''
               "
+              [attr.aria-invalid]="f.email.errors"
             />
             <p
               *ngIf="f.email.errors"
-              id="invalid-email"
+              id="email-errors"
               class="invalid-feedback"
             >
               Veuillez vérifier l'adresse email, format attendu : nom@domaine.fr
@@ -259,6 +271,7 @@
         [ngClass]="{
           'is-invalid': submitted && f.numeroDistribution.errors
         }"
+        [attr.aria-invalid]="submitted && f.numeroDistribution.errors"
         [attr.aria-describedby]="
           submitted && f.numeroDistribution.errors
             ? 'numero-errors'
@@ -355,14 +368,24 @@
             'is-invalid':
               submitted && ayantsDroits.controls[i].get('nom')?.errors
           }"
+          [attr.aria-invalid]="
+            submitted && ayantsDroits.controls[i].get('nom')?.errors
+          "
+          [attr.aria-describedby]="
+            submitted && ayantsDroits.controls[i].get('nom')?.errors
+              ? 'nom-ad-errors-' + i
+              : null
+          "
+          [attr.aria-label]="'Nom de naissance de l\'ayant-droit ' + (i + 1)"
           required
         />
-        <div
+        <p
+          [id]="'nom-ad-errors-' + i"
           *ngIf="submitted && ayantsDroits.controls[i].get('nom')?.errors"
           class="invalid-feedback"
         >
           Le nom est obligatoire
-        </div>
+        </p>
       </div>
       <div class="col form-group required">
         <label for="ad_prenom_{{ i }}">Prénom</label>
@@ -376,9 +399,19 @@
             'is-invalid':
               submitted && ayantsDroits.controls[i].get('prenom')?.errors
           }"
+          [attr.aria-invalid]="
+            submitted && ayantsDroits.controls[i].get('prenom')?.errors
+          "
+          [attr.aria-describedby]="
+            submitted && ayantsDroits.controls[i].get('prenom')?.errors
+              ? 'prenom-ad-errors-' + i
+              : null
+          "
+          [attr.aria-label]="'Prénom de l\'ayant-droit ' + (i + 1)"
           required
         />
         <div
+          [id]="'prenom-ad-errors-' + i"
           *ngIf="submitted && ayantsDroits.controls[i].get('prenom')?.errors"
           class="invalid-feedback"
         >
@@ -404,6 +437,15 @@
                 submitted &&
                 ayantsDroits.controls[i].get('dateNaissance')?.errors
             }"
+            [attr.aria-label]="'Date de naissance de l\'ayant-droit ' + (i + 1)"
+            [attr.aria-invalid]="
+              submitted && ayantsDroits.controls[i].get('dateNaissance')?.errors
+            "
+            [attr.aria-describedby]="
+              submitted && ayantsDroits.controls[i].get('dateNaissance')?.errors
+                ? 'dateNaissance-ad-errors-' + i
+                : null
+            "
             #d="ngbDatepicker"
             maxlength="10"
             required
@@ -422,6 +464,7 @@
             *ngIf="
               submitted && ayantsDroits.controls[i].get('dateNaissance')?.errors
             "
+            [id]="'dateNaissance-ad-errors-' + i"
             class="invalid-feedback"
           >
             La date de naissance est obligatoire. Exemple : 20/12/1996
@@ -434,13 +477,22 @@
           formControlName="lien"
           id="lien_{{ i }}"
           class="form-select"
+          [attr.aria-label]="'Lien de parenté de l\'ayant-droit ' + (i + 1)"
+          [attr.aria-invalid]="
+            submitted && ayantsDroits.controls[i].get('lien')?.errors
+          "
+          [attr.aria-describedby]="
+            submitted && ayantsDroits.controls[i].get('lien')?.errors
+              ? 'lien-parente-errors-' + i
+              : null
+          "
           required
           [ngClass]="{
             'is-invalid':
               submitted && ayantsDroits.controls[i].get('lien')?.errors
           }"
         >
-          <option></option>
+          <option [value]="null"></option>
           <option
             *ngFor="let lien of LIEN_PARENTE_LABELS | keyvalue"
             [ngValue]="lien.key"
@@ -449,6 +501,7 @@
           </option>
         </select>
         <p
+          [id]="'lien-parente-errors-' + i"
           *ngIf="submitted && ayantsDroits.controls[i].get('lien')?.errors"
           class="invalid-feedback"
         >

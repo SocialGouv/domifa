@@ -56,12 +56,12 @@
                   [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
                   [attr.aria-invalid]="f.email.dirty && f.email.errors"
                   [attr.aria-describedby]="
-                    f.email.dirty && f.email.errors ? 'invalid-email' : ''
+                    f.email.dirty && f.email.errors ? 'email-errors' : ''
                   "
                 />
                 <p
                   *ngIf="f.email.dirty && f.email.errors"
-                  id="invalid-email"
+                  id="email-errors"
                   class="invalid-feedback"
                 >
                   Veuillez vérifier l'adresse email, format attendu :

@@ -108,13 +108,13 @@
                 [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
                 [attr.aria-invalid]="submitted && f.email.errors"
                 [attr.aria-describedby]="
-                  submitted && f.email.errors ? 'invalid-email' : ''
+                  submitted && f.email.errors ? 'email-errors' : ''
                 "
                 required
               />
               <p
                 *ngIf="submitted && f.email.errors"
-                id="invalid-email"
+                id="email-errors"
                 class="invalid-feedback"
               >
                 Veuillez vérifier l'adresse email, format attendu :
@@ -133,6 +133,7 @@
                 formControlName="content"
                 id="content"
                 [ngClass]="{ 'is-invalid': submitted && f.content.errors }"
+                [attr.aria-invalid]="submitted && f.content.errors"
                 rows="6"
                 minlength="10"
                 required
@@ -161,15 +162,18 @@
                 accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .xlsx, .xls"
                 id="file"
                 formControlName="file"
+                [attr.aria-invalid]="submitted && f.fileSource.errors"
                 [attr.aria-describedby]="
-                  submitted && f.fileSource.errors ? 'pj-error' : 'pjHelp'
+                  submitted && f.fileSource.errors
+                    ? 'pj-error'
+                    : 'file-description'
                 "
                 [ngClass]="{
                   'is-invalid': submitted && f.fileSource.errors
                 }"
                 (change)="onFileChange($event)"
               />
-              <small id="pjHelp" class="form-text text-muted">
+              <small id="file-description" class="form-text text-muted">
                 Formats autorisés .pdf, .docx, .odt, .jpg, ou .png (6mo maxi)
               </small>
 

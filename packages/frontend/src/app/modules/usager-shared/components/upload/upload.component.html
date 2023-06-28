@@ -36,13 +36,13 @@
         id="file"
         accept=".jpg, .jpeg, .png, .pdf"
         formControlName="file"
-        aria-describedby="pjHelp"
+        aria-describedby="file-description"
         [ngClass]="{ 'is-invalid': submitted && u.fileSource.errors }"
         (change)="onFileChange($event)"
         required
       />
 
-      <small id="pjHelp" class="form-text text-muted">
+      <small id="file-description" class="form-text text-muted">
         Formats autorisés .pdf, .jpg, ou .png (6mo maxi)
       </small>
 

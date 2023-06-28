@@ -59,13 +59,25 @@
                   'is-valid':
                     (f.codePostal.dirty || submitted) && !f.codePostal.errors
                 }"
+                [attr.aria-invalid]="
+                  (f.codePostal.dirty || submitted) && f.codePostal.errors
+                "
+                [attr.aria-describedby]="
+                  (f.codePostal.dirty || submitted) && f.codePostal.errors
+                    ? 'code-postal-error'
+                    : null
+                "
                 formControlName="codePostal"
                 minlength="5"
                 maxlength="5"
                 autocomplete="postal-code"
                 required
               />
-              <p *ngIf="f.codePostal.errors" class="invalid-feedback">
+              <p
+                *ngIf="f.codePostal.errors"
+                id="code-postal-error"
+                class="invalid-feedback"
+              >
                 <fa-icon
                   [icon]="['fas', 'exclamation-triangle']"
                   aria-hidden="true"
