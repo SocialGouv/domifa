@@ -105,19 +105,22 @@
               id="nom"
               autocomplete="organization"
               formControlName="nom"
-              placeholder="Nom"
-              [ngClass]="{
-                'is-invalid': submitted && f.nom.errors,
-                'is-valid': f.nom.dirty && !f.nom.errors
-              }"
+              [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
+              [attr.aria-invalid]="submitted && f.adresse.errors"
+              [attr.aria-describedby]="
+                submitted && f.adresse.errors ? 'nom-errors' : 'nom-structure'
+              "
               required
-              aria-describedby="help-nom-structure"
             />
-            <p *ngIf="submitted && f.nom.errors" class="invalid-feedback">
+            <p
+              *ngIf="submitted && f.nom.errors"
+              id="nom-errors"
+              class="invalid-feedback"
+            >
               Le nom de la structure est requis
             </p>
             <p
-              id="help-nom-structure"
+              id="nom-structure-description"
               class="font-italic small mt-1"
               [ngClass]="{
                 'text-danger': isInvalidStructureName(f.nom.value)
@@ -147,6 +150,7 @@
                 formControlName="adresse"
                 autcomplete="street-address"
                 [ngClass]="{ 'is-invalid': submitted && f.adresse.errors }"
+                [attr.aria-invalid]="submitted && f.adresse.errors"
                 [attr.aria-describedby]="
                   submitted && f.adresse.errors
                     ? 'address-errors'
@@ -178,17 +182,18 @@
                 }"
                 [attr.aria-describedby]="
                   submitted && f.complementAdresse.errors
-                    ? 'invalid-complement'
-                    : 'description-complement'
+                    ? 'complement-errors'
+                    : 'complement-description'
                 "
+                [attr.aria-invalid]="submitted && f.complementAdresse.errors"
               />
-              <small id="description-complement"
+              <small id="complement-description"
                 >Lieu-dit, Bâtiment, étage, etc..</small
               >
               <p
                 *ngIf="submitted && f.complementAdresse.errors"
                 class="invalid-feedback"
-                id="invalid-complement"
+                id="complement-errors"
               >
                 Veuillez vérifier le complément d'adresse
               </p>
@@ -207,13 +212,16 @@
                     (submitted && f.codePostal.errors)
                 }"
                 [attr.aria-describedby]="
-                  submitted && f.codePostal.errors ? 'invalid-code-postal' : ''
+                  submitted && f.codePostal.errors
+                    ? 'invalidcode-postal-errors'
+                    : null
                 "
+                [attr.aria-invalid]="submitted && f.codePostal.errors"
                 required
               />
               <p
                 *ngIf="f.codePostal.errors"
-                id="invalid-code-postal"
+                id="code-postal-errors"
                 class="invalid-feedback"
               >
                 Le code postal est obligatoire
@@ -229,12 +237,13 @@
                 required
                 [ngClass]="{ 'is-invalid': submitted && f.ville.errors }"
                 [attr.aria-describedby]="
-                  submitted && f.ville.errors ? 'invalid-ville' : ''
+                  submitted && f.ville.errors ? 'ville-errors' : null
                 "
+                [attr.aria-invalid]="submitted && f.ville.errors"
               />
               <p
                 *ngIf="submitted && f.ville.errors"
-                id="invalid-ville"
+                id="ville-errors"
                 class="invalid-feedback"
               >
                 La ville est obligatoire
@@ -381,18 +390,30 @@
               <label for="email">Adresse e-mail indiquée sur le Cerfa</label>
               <input
                 type="email"
-                class="form-control"
                 id="email"
                 formControlName="email"
-                [ngClass]="{
-                  'is-invalid':
-                    (submitted && f.email.errors) ||
-                    (f.email.dirty && f.email.errors),
-                    'is-valid':      f.email.dirty && !f.email.errors,
-                }"
+                autocomplete="email"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+                [attr.aria-invalid]="submitted && f.email.errors"
+                [attr.aria-describedby]="
+                  submitted && f.email.errors ? 'email-errors' : null
+                "
                 required
               />
-              <div *ngIf="f.email.errors" class="invalid-feedback">
+              <p
+                *ngIf="submitted && f.email.errors"
+                id="email-errors"
+                class="invalid-feedback"
+              >
+                Veuillez vérifier l'adresse email, format attendu :
+                nom@domaine.fr
+              </p>
+              <div
+                *ngIf="f.email.errors"
+                id="email-errors"
+                class="invalid-feedback"
+              >
                 <p *ngIf="f.email.errors.emailTaken">
                   <fa-icon
                     aria-hidden="true"
@@ -514,6 +535,7 @@
           <legend class="visually-hidden">
             Informations sur le / la responsable de la structure
           </legend>
+
           <div class="row" formGroupName="responsable">
             <div class="col-md-6 form-group required">
               <label for="responsable-nom">Nom</label>
@@ -526,11 +548,14 @@
                 [attr.aria-describedby]="
                   submitted && f.responsable.get('nom')?.errors
                     ? 'responsable-nom-errors'
-                    : ''
+                    : null
                 "
                 [ngClass]="{
                   'is-invalid': submitted && f.responsable.get('nom')?.errors
                 }"
+                [attr.aria-invalid]="
+                  submitted && f.responsable.get('nom')?.errors
+                "
                 required
               />
               <p
@@ -552,10 +577,13 @@
                 [ngClass]="{
                   'is-invalid': submitted && f.responsable.get('prenom')?.errors
                 }"
+                [attr.aria-invalid]="
+                  submitted && f.responsable.get('prenom')?.errors
+                "
                 [attr.aria-describedby]="
                   submitted && f.responsable.get('prenom')?.errors
                     ? 'responsable-prenom-errors'
-                    : ''
+                    : null
                 "
                 required
               />
@@ -579,6 +607,9 @@
                   'is-invalid':
                     submitted && f.responsable.get('fonction')?.errors
                 }"
+                [attr.aria-invalid]="
+                  submitted && f.responsable.get('fonction')?.errors
+                "
                 [attr.aria-describedby]="
                   submitted && f.responsable.get('fonction')?.errors
                     ? 'responsable-fonction-errors'
@@ -599,6 +630,7 @@
             </div>
           </div>
         </fieldset>
+
         <fieldset class="my-2">
           <legend>Conditions générales d'utilisation de DomiFa</legend>
 

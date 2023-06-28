@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  QueryList,
-  ViewChildren,
-} from "@angular/core";
+import { Component, OnDestroy } from "@angular/core";
 import {
   UntypedFormGroup,
   AbstractControl,
@@ -100,8 +94,6 @@ export class EtatCivilParentFormComponent implements OnDestroy {
   public get ayantsDroits(): UntypedFormArray {
     return this.usagerForm.get("ayantsDroits") as UntypedFormArray;
   }
-
-  @ViewChildren("adNom") public inputsAyantDroit!: QueryList<ElementRef>;
 
   constructor(
     public formBuilder: UntypedFormBuilder,

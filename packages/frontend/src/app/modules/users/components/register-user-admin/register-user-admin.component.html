@@ -64,11 +64,11 @@
           'is-invalid': (f.email.dirty || submitted) && f.email.errors
         }"
         [attr.aria-describedby]="
-          (f.email.dirty || submitted) && f.email.errors ? 'invalid-email' : ''
+          (f.email.dirty || submitted) && f.email.errors ? 'email-errors' : ''
         "
         required
       />
-      <div *ngIf="f.email.errors" class="invalid-feedback" id="invalid-email">
+      <div *ngIf="f.email.errors" class="invalid-feedback" id="email-errors">
         <p *ngIf="f.email.errors.emailTaken">
           <fa-icon
             aria-hidden="true"

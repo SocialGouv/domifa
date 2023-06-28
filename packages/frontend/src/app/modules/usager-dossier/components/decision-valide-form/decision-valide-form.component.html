@@ -36,6 +36,14 @@
               [ngClass]="{
                 'is-invalid': v.dateDebut.dirty && v.dateDebut.errors
               }"
+              [attr.aria-invalid]="
+                (v.dateDebut.dirty || submitted) && v.dateDebut.errors
+              "
+              [attr.aria-describedby]="
+                (v.dateDebut.dirty || submitted) && v.dateDebut.errors
+                  ? 'date-debut-errors'
+                  : null
+              "
               maxlength="10"
               required
             />
@@ -52,7 +60,12 @@
               ></fa-icon>
             </button>
           </div>
-          <p *ngIf="submitted && v.dateDebut.errors" class="invalid-feedback">
+          <p
+            *ngIf="submitted && v.dateDebut.errors"
+            role="alert"
+            class="invalid-feedback"
+            id="date-debut-errors"
+          >
             La date de début de domiciliation est incorrecte
           </p>
         </div>
@@ -74,6 +87,14 @@
               [ngClass]="{
                 'is-invalid': v.dateFin.dirty && v.dateFin.errors
               }"
+              [attr.aria-invalid]="
+                (v.dateFin.dirty || submitted) && v.dateFin.errors
+              "
+              [attr.aria-describedby]="
+                (v.dateFin.dirty || submitted) && v.dateFin.errors
+                  ? 'date-fin-errors'
+                  : null
+              "
               maxlength="10"
               required
             />
@@ -91,9 +112,9 @@
             </button>
           </div>
         </div>
-        <div class="text-center text-danger col-12">
-          <p class="text-center" *ngIf="showDurationWarning">
-            <strong class="text-danger warning-end-dom"
+        <div class="text-center text-danger col-12" id="date-fin-errors">
+          <p *ngIf="showDurationWarning">
+            <strong class="warning-end-dom"
               ><fa-icon
                 aria-hidden="true"
                 [icon]="['fas', 'exclamation-triangle']"
@@ -104,7 +125,7 @@
           </p>
           <p *ngIf="v.dateDebut.errors">La date de début est incorrecte</p>
           <p *ngIf="v.dateFin.errors">La date de fin est incorrecte</p>
-          <p class="text-danger" *ngIf="v.dateDebut.value > v.dateFin.value">
+          <p *ngIf="v.dateDebut.value > v.dateFin.value">
             La date de fin doit être supérieure à la date de début
           </p>
         </div>
@@ -121,10 +142,9 @@
             formControlName="customRef"
             [ngClass]="{ 'is-invalid': v.customRef.errors }"
             [attr.aria-describedby]="
-              submitted && v.customRef.errors ? 'custom-ref-errors' : ''
+              submitted && v.customRef.errors ? 'custom-ref-errors' : null
             "
           />
-
           <p
             *ngIf="v.customRef.errors"
             id="custom-ref-errors"

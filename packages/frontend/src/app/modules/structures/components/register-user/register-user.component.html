@@ -76,8 +76,9 @@
               'is-valid': f.nom.dirty && !f.nom.errors
             }"
             [attr.aria-describedby]="
-              submitted && f.nom.errors ? 'invalid-name' : ''
+              submitted && f.nom.errors ? 'invalid-name' : null
             "
+            [attr.aria-invalid]="submitted && f.nom.errors"
             required
           />
           <p
@@ -102,8 +103,9 @@
               'is-valid': f.prenom.dirty && !f.prenom.errors
             }"
             [attr.aria-describedby]="
-              submitted && f.prenom.errors ? 'invalid-prenom' : ''
+              submitted && f.prenom.errors ? 'invalid-prenom' : null
             "
+            [attr.aria-invalid]="submitted && f.prenom.errors"
             required
           />
           <p
@@ -125,6 +127,7 @@
             id="fonction"
             formControlName="fonction"
             [ngClass]="{ 'is-invalid': submitted && f.fonction.errors }"
+            [attr.aria-invalid]="submitted && f.fonction.errors"
             [attr.aria-describedby]="
               submitted && f.fonction.errors
                 ? 'invalid-fonction'
@@ -157,15 +160,16 @@
             }"
             [attr.aria-describedby]="
               (f.email.dirty || submitted) && f.email.errors
-                ? 'invalid-email'
-                : ''
+                ? 'email-errors'
+                : null
             "
+            [attr.aria-invalid]="(f.email.dirty || submitted) && f.email.errors"
             required
           />
           <div
             *ngIf="f.email.errors"
             class="invalid-feedback"
-            id="invalid-email"
+            id="email-errors"
           >
             <p *ngIf="f.email.errors.emailTaken">
               <fa-icon

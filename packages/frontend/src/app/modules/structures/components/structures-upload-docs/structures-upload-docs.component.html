@@ -5,7 +5,7 @@
   <span id="modal-title" *ngIf="!isCustomDoc">Télécharger un document</span>
 </div>
 <div class="modal-body">
-  <form ngNativeValidate [formGroup]="uploadForm" (ngSubmit)="submitFile()">
+  <form [formGroup]="uploadForm" (ngSubmit)="submitFile()">
     <div class="row">
       <div class="col-md-12">
         <p>
@@ -17,17 +17,26 @@
         <label for="customDocType">Type de document à enregistrer</label>
         <select
           id="customDocType"
-          required
           formControlName="customDocType"
           class="form-select"
+          [ngClass]="{ 'is-invalid': submitted && f.customDocType.errors }"
+          [attr.aria-describedby]="
+            submitted && f.customDocType.errors ? 'customDocType-errors' : null
+          "
+          [attr.aria-invalid]="submitted && f.customDocType.errors"
+          required
         >
-          <option></option>
+          <option [value]="null"></option>
           <option value="attestation_postale">Attestation postale</option>
           <option value="courrier_radiation">Courrier de radiation</option>
           <option value="autre">Autre document à pré-remplir</option>
         </select>
 
-        <p *ngIf="submitted && f.customDocType.errors" class="invalid-feedback">
+        <p
+          *ngIf="submitted && f.customDocType.errors"
+          role="alert"
+          class="invalid-feedback"
+        >
           Le type de document est obligatoire
         </p>
       </div>
@@ -46,10 +55,19 @@
           formControlName="label"
           id="label"
           [ngClass]="{ 'is-invalid': submitted && f.label.errors }"
+          [attr.aria-describedby]="
+            submitted && f.label.errors ? 'label-errors' : 'label-description'
+          "
+          [attr.aria-invalid]="submitted && f.label.errors"
           required
         />
         <small id="label-description">Exemple: règlement intérieur, etc.</small>
-        <p *ngIf="submitted && f.label.errors" class="invalid-feedback">
+        <p
+          *ngIf="submitted && f.label.errors"
+          id="label-errors"
+          role="alert"
+          class="invalid-feedback"
+        >
           Le nom du document est obligatoire
         </p>
       </div>
@@ -67,19 +85,35 @@
               : '.jpg, .jpeg, .png, .pdf, .doc, .docx, .xlsx, .xls'
           "
           formControlName="file"
-          aria-describedby="pjHelp"
+          name="file"
+          [attr.aria-describedby]="
+            submitted && f.label.errors ? 'file-errors' : 'file-description'
+          "
+          [attr.aria-invalid]="submitted && f.label.errors"
           [ngClass]="{ 'is-invalid': submitted && f.fileSource.errors }"
           (change)="onFileChange($event)"
         />
 
-        <small *ngIf="isCustomDoc" id="pjHelp" class="form-text text-muted">
+        <small
+          *ngIf="isCustomDoc"
+          id="file-description"
+          class="form-text text-muted"
+        >
           Seul les fichiers Word au format .docx sont autorisés
         </small>
-        <small *ngIf="!isCustomDoc" id="pjHelp" class="form-text text-muted">
+        <small
+          *ngIf="!isCustomDoc"
+          id="file-description"
+          class="form-text text-muted"
+        >
           Formats autorisés pdf, docx, xlsx, odt, jpg ou png (6mo maxi)
         </small>
 
-        <div *ngIf="submitted && f.fileSource.errors" class="invalid-feedback">
+        <div
+          *ngIf="submitted && f.fileSource.errors"
+          id="file-errors"
+          class="invalid-feedback"
+        >
           <p *ngIf="f.fileSource.errors.required">
             Vous devez choisir un fichier
           </p>
