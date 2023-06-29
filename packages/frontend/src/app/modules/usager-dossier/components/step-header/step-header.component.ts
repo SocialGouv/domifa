@@ -81,7 +81,7 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
       this.store
         .select(selectUsagerByRef(this.usager.ref.toString()))
         .subscribe((usager: UsagerLight) => {
-          this.nbNotes = usager.nbNotes;
+          this.nbNotes = usager?.nbNotes ?? 0;
         })
     );
   }

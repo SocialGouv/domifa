@@ -1,3 +1,4 @@
+import { noWhiteSpace } from "./../../../../shared/validators/whitespace.validator";
 import { UsagerFormModel } from "./../../../usager-shared/interfaces/UsagerFormModel";
 import {
   Component,
@@ -82,7 +83,11 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
         if (value === "AUTRE") {
           this.refusForm
             .get("motifDetails")
-            ?.setValidators([Validators.required, Validators.minLength(10)]);
+            ?.setValidators([
+              Validators.required,
+              noWhiteSpace,
+              Validators.minLength(10),
+            ]);
         } else {
           this.refusForm.get("motifDetails")?.setValidators(null);
           this.refusForm.get("motifDetails")?.setValue(null);

@@ -1,14 +1,13 @@
 <div class="d-print-none" *ngIf="usager && me">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <div>
-      <h2>Procurations (5 maximum)</h2>
-    </div>
-    <div *ngIf="usager.decision.statut !== 'REFUS'">
+  <div class="my-2 d-flex flex-wrap justify-content-between align-items-center">
+    <h2>Procurations (5 maximum)</h2>
+
+    <ng-container *ngIf="usager.decision.statut !== 'REFUS'">
       <button
         (click)="initForm()"
         type="button"
         *ngIf="!isFormVisible "
-        class="btn btn-outline-dark ms-2"
+        class="btn btn-outline-dark"
       >
         <fa-icon
           [icon]="['far', 'edit']"
@@ -21,7 +20,7 @@
         type="button"
         *ngIf="isFormVisible"
         (click)="hideForm()"
-        class="btn btn-outline-dark ms-2"
+        class="btn btn-outline-dark"
       >
         <fa-icon
           [icon]="['fas', 'times']"
@@ -30,7 +29,7 @@
         ></fa-icon>
         Annuler les modifications
       </button>
-    </div>
+    </ng-container>
   </div>
 
   <div
@@ -79,7 +78,7 @@
           (click)="openConfirmation(i)"
           class="btn btn-danger me-2"
         >
-          <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+          <fa-icon aria-hidden="true" [icon]="['fas', 'trash']"></fa-icon>
         </button>
       </div>
     </div>
@@ -103,42 +102,72 @@
       <fieldset>
         <legend>Procuration {{ i + 1 }}</legend>
         <div [formGroupName]="i" class="row">
-          <div class="col form-group required">
+          <div class="col-12 col-md-2 form-group required">
             <label for="procuration_nom_{{i}}">Nom</label>
             <input
               type="text"
               class="form-control"
               id="procuration_nom_{{i}}"
               formControlName="nom"
-              [ngClass]="{ 'is-invalid': submitted && form.controls[i].get('nom')?.errors }"
+              [ngClass]="{
+                'is-invalid':
+                  (form.controls[i].get('nom')?.dirty || submitted) &&
+                  form.controls[i].get('nom')?.errors
+              }"
+              [attr.aria-describedby]="
+                (form.controls[i].get('nom')?.dirty || submitted) && form.controls[i].get('nom')?.errors
+                  ? 'procu-nom-'+i
+                  : null
+              "
+              [attr.aria-invalid]="
+                (form.controls[i].get('nom')?.dirty || submitted) && form.controls[i].get('nom')?.errors
+                  ? true
+                  : false
+              "
               required
             />
             <p
-              *ngIf="submitted && form.controls[i].get('nom')?.errors"
+              *ngIf="(form.controls[i].get('nom')?.dirty || submitted) && form.controls[i].get('nom')?.errors"
               class="invalid-feedback"
+              [id]="'procu-nom-'+i"
             >
               Le nom est obligatoire
             </p>
           </div>
-          <div class="col form-group required">
+          <div class="col-12 col-md-2 form-group required">
             <label for="procuration_prenom_{{i}}">Prénom du mandataire</label>
             <input
               type="text"
               class="form-control"
               id="procuration_prenom_{{i}}"
               formControlName="prenom"
-              [ngClass]="{ 'is-invalid': submitted && form.controls[i].get('prenom')?.errors}"
+              [ngClass]="{
+                'is-invalid':
+                  (form.controls[i].get('prenom')?.dirty || submitted) &&
+                  form.controls[i].get('prenom')?.errors
+              }"
+              [attr.aria-describedby]="
+                (form.controls[i].get('prenom')?.dirty || submitted) && form.controls[i].get('prenom')?.errors
+                  ? 'procu-prenom-'+i
+                  : null
+              "
+              [attr.aria-invalid]="
+                (form.controls[i].get('prenom')?.dirty || submitted) && form.controls[i].get('prenom')?.errors
+                  ? true
+                  : false
+              "
               required
             />
             <p
-              *ngIf="submitted && form.controls[i].get('prenom')?.errors"
+              *ngIf="(form.controls[i].get('prenom')?.dirty || submitted) && form.controls[i].get('prenom')?.errors"
               class="invalid-feedback"
+              [id]="'procu-prenom-'+i"
             >
               Prénom du mandataire obligatoire
             </p>
           </div>
 
-          <div class="col form-group required">
+          <div class="col-12 col-md-2 form-group required">
             <label for="date_naissance_{{i}}">Date de naissance</label>
             <div class="input-group">
               <input
@@ -153,8 +182,20 @@
                 dateFr
                 value
                 [ngClass]="{
-              'is-invalid': submitted && form.controls[i].get('dateNaissance')?.errors
-            }"
+                  'is-invalid':
+                    (form.controls[i].get('dateNaissance')?.dirty || submitted) &&
+                    form.controls[i].get('dateNaissance')?.errors
+                }"
+                [attr.aria-describedby]="
+                  (form.controls[i].get('dateNaissance')?.dirty || submitted) && form.controls[i].get('dateNaissance')?.errors
+                    ? 'date-naissance-errors-'+i
+                    : null
+                "
+                [attr.aria-invalid]="
+                  (form.controls[i].get('dateNaissance')?.dirty || submitted) && form.controls[i].get('dateNaissance')?.errors
+                    ? true
+                    : false
+                "
                 #d="ngbDatepicker"
                 maxlength="10"
                 required
@@ -179,7 +220,7 @@
               La date de naissance est obligatoire. Exemple : 20/12/1996
             </p>
           </div>
-          <div class="col form-group required">
+          <div class="col-12 col-md-2 form-group required">
             <label for="date_debut_{{i}}">Valide du</label>
             <div class="input-group">
               <input
@@ -188,11 +229,24 @@
                 placement="bottom"
                 id="date_debut_{{i}}"
                 formControlName="dateDebut"
-                aria-label="Choisir une date de début de validité dans le calendrier"
                 ngbDatepicker
                 dateFr
                 value
-                [ngClass]="{ 'is-invalid':  submitted &&  form.controls[i].get('dateDebut')?.errors  }"
+                [ngClass]="{
+                  'is-invalid':
+                    (form.controls[i].get('dateDebut')?.dirty || submitted) &&
+                    form.controls[i].get('dateDebut')?.errors
+                }"
+                [attr.aria-describedby]="
+                  (form.controls[i].get('dateDebut')?.dirty || submitted) && form.controls[i].get('dateDebut')?.errors
+                    ? 'date-naissance-errors-'+i
+                    : null
+                "
+                [attr.aria-invalid]="
+                  (form.controls[i].get('dateDebut')?.dirty || submitted) && form.controls[i].get('dateDebut')?.errors
+                    ? true
+                    : false
+                "
                 #dateDebut="ngbDatepicker"
                 maxlength="10"
                 required
@@ -211,12 +265,13 @@
               <p
                 *ngIf="submitted && form.controls[i].get('dateFin')?.invalid"
                 class="invalid-feedback"
+                [id]="'date-debut-errors-'+i"
               >
                 La date de debut est incorrecte
               </p>
             </div>
           </div>
-          <div class="col form-group required">
+          <div class="col-12 col-md-2 form-group required">
             <label for="date_fin_{{i}}">Valide jusqu'au</label>
             <div class="input-group">
               <input
@@ -228,7 +283,21 @@
                 ngbDatepicker
                 dateFr
                 value
-                [ngClass]="{ 'is-invalid':  submitted &&  form.controls[i].get('dateFin')?.errors  }"
+                [ngClass]="{
+                  'is-invalid':
+                    (form.controls[i].get('dateFin')?.dirty || submitted) &&
+                    form.controls[i].get('dateFin')?.errors
+                }"
+                [attr.aria-describedby]="
+                  (form.controls[i].get('dateFin')?.dirty || submitted) && form.controls[i].get('dateFin')?.errors
+                    ? 'date-naissance-errors-'+i
+                    : null
+                "
+                [attr.aria-invalid]="
+                  (form.controls[i].get('dateFin')?.dirty || submitted) && form.controls[i].get('dateFin')?.errors
+                    ? true
+                    : false
+                "
                 #dateFin="ngbDatepicker"
                 maxlength="10"
                 required
@@ -249,6 +318,7 @@
               <div
                 *ngIf="submitted && form.controls[i].get('dateFin')?.errors"
                 class="invalid-feedback"
+                [id]="'date-fin-errors-'+i"
               >
                 <p *ngIf="form.controls[i].get('dateFin')?.errors?.required">
                   La date de fin est obligatoire
@@ -261,14 +331,16 @@
               </div>
             </div>
           </div>
-          <div class="col-md-1 mt-4 text-center">
+          <div class="col-12 col-md-2 form-group text-center">
+            <span class="label">Action</span>
             <button
               type="button"
               (click)="deleteProcurationForm(i)"
               [attr.aria-label]="'Supprimer la procuration numéro '+ i"
-              class="btn btn-danger"
+              class="btn btn-block btn-danger"
             >
               <fa-icon aria-hidden="true" [icon]="['fas', 'trash']"></fa-icon>
+              Supprimer
             </button>
           </div>
         </div>

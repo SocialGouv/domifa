@@ -89,8 +89,9 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
           },
         })
       );
+    } else {
+      this.initEmailForm();
     }
-    this.initEmailForm();
   }
 
   public initEmailForm(): void {

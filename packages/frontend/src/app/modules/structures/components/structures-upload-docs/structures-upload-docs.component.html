@@ -23,7 +23,9 @@
           [attr.aria-describedby]="
             submitted && f.customDocType.errors ? 'customDocType-errors' : null
           "
-          [attr.aria-invalid]="submitted && f.customDocType.errors"
+          [attr.aria-invalid]="
+            submitted && f.customDocType.errors ? true : false
+          "
           required
         >
           <option [value]="null"></option>
@@ -58,7 +60,7 @@
           [attr.aria-describedby]="
             submitted && f.label.errors ? 'label-errors' : 'label-description'
           "
-          [attr.aria-invalid]="submitted && f.label.errors"
+          [attr.aria-invalid]="submitted && f.label.errors ? true : false"
           required
         />
         <small id="label-description">Exemple: règlement intérieur, etc.</small>
@@ -89,7 +91,7 @@
           [attr.aria-describedby]="
             submitted && f.label.errors ? 'file-errors' : 'file-description'
           "
-          [attr.aria-invalid]="submitted && f.label.errors"
+          [attr.aria-invalid]="submitted && f.label.errors ? true : false"
           [ngClass]="{ 'is-invalid': submitted && f.fileSource.errors }"
           (change)="onFileChange($event)"
         />

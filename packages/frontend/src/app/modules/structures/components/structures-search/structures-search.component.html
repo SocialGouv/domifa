@@ -61,6 +61,8 @@
                 }"
                 [attr.aria-invalid]="
                   (f.codePostal.dirty || submitted) && f.codePostal.errors
+                    ? true
+                    : false
                 "
                 [attr.aria-describedby]="
                   (f.codePostal.dirty || submitted) && f.codePostal.errors

@@ -78,7 +78,6 @@ export class EtatCivilParentFormComponent implements OnDestroy {
   public loading = false;
 
   public languagesAutocomplete = languagesAutocomplete;
-
   public languagesAutocompleteSearch = languagesAutocomplete.typeahead({
     maxResults: 10,
   });

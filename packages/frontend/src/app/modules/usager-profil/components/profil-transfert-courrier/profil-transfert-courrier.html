@@ -1,14 +1,14 @@
 <div class="d-print-none" *ngIf="usager">
-  <div class="d-flex justify-content-between align-items-center">
+  <div class="my-2 d-flex flex-wrap justify-content-between align-items-center">
     <div>
       <h2>Transfert de courrier</h2>
     </div>
-    <div *ngIf="usager.decision.statut !== 'REFUS'">
+    <ng-container *ngIf="usager.decision.statut !== 'REFUS'">
       <button
         type="button"
         *ngIf="!isFormVisible"
         (click)="showForm()"
-        class="btn btn-outline-dark ms-2"
+        class="btn btn-outline-dark"
       >
         <fa-icon
           aria-hidden="true"
@@ -22,7 +22,7 @@
         type="button"
         *ngIf="isFormVisible"
         (click)="hideForm()"
-        class="btn btn-outline-dark ms-2"
+        class="btn btn-outline-dark"
       >
         <fa-icon
           aria-hidden="true"
@@ -31,11 +31,11 @@
         ></fa-icon>
         Annuler les modifications
       </button>
-    </div>
+    </ng-container>
   </div>
 
   <div class="row" *ngIf="!usager.options.transfert.actif && !isFormVisible">
-    <div class="col-md-6 reponses">
+    <div class="col-md-6 col-12 reponses">
       <span class="question"
         >Il n'y a aucun transfert de courrier actuellement.</span
       >
@@ -46,18 +46,18 @@
     *ngIf="usager.options.transfert.actif && !isFormVisible"
     class="row my-3 justify-content-between align-items-center"
   >
-    <div class="col-md-3 reponses">
+    <div class="col-12 col-md-3 reponses">
       <span class="question">Nom de l'établissement</span>
       <span class="valeur">{{ usager.options.transfert.nom }}</span>
     </div>
 
-    <div class="col-md-3 reponses">
+    <div class="col-12 col-md-3 reponses">
       <span class="question">Adresse</span>
       <span class="valeur">{{ usager.options.transfert.adresse }}</span>
     </div>
 
-    <div class="col-md-3 reponses">
-      <span class="question">Actif jusqu'au</span>
+    <div class="col-12 col-md-3 reponses">
+      <span class="question">Période de validité</span>
 
       <span class="valeur" *ngIf="usager.options.transfert.dateDebut === null">
         {{ usager.options.transfert.dateFin | date: 'dd/MM/yyyy' }}
@@ -67,7 +67,7 @@
         usager.options.transfert.dateFin | date: 'dd/MM/yyyy' }}
       </span>
     </div>
-    <div class="col-md-1 text-end">
+    <div class="col-12 col-md-1 text-end">
       <button
         type="button"
         (click)="openConfirmation()"
@@ -93,49 +93,62 @@
           <span class="fw-bold text-danger">*</span> sont obligatoires
         </p>
       </div>
-      <div class="col-3 form-group required">
+      <div class="col-md-4 col-12 form-group required">
         <label for="transfert_nom">Nom de l'établissement</label>
         <input
           type="text"
           class="form-control"
           id="transfert_nom"
+          appCleanStr
+          maxlength="200"
           formControlName="nom"
+          [ngClass]="{
+          'is-invalid': (f.nom.dirty || submitted) && f.nom.errors
+        }"
           [attr.aria-describedby]="
-            submitted && f.nom.errors
-              ? 'nom-errors'
-              : 'nom-description'
-          "
-          [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
+          (f.nom.dirty || submitted) && f.nom.errors
+            ? 'nom-errors'
+            : 'nom-description'
+        "
+          [attr.aria-invalid]="(f.nom.dirty || submitted) && f.nom.errors ? true : false"
           required
         />
-        <small id="nom-description">
+
+        <small id="nom-description" class="form-text text-muted">
           Exemple: Maison d'arrêt, Hôpital saint-louis, etc.
         </small>
         <p
-          *ngIf="submitted && f.nom.errors"
+          *ngIf="(f.nom.dirty || submitted) && f.nom.errors"
           id="nom-errors"
           class="invalid-feedback"
         >
           Le nom de l'établissement est obligatoire
         </p>
       </div>
-      <div class="col-3 form-group required">
+      <div class="col-md-4 col-12 form-group required">
         <label for="transfert_adresse">Adresse de l'établissement</label>
         <input
           type="text"
           class="form-control"
           id="transfert_adresse"
           formControlName="adresse"
-          [ngClass]="{ 'is-invalid': submitted && f.adresse.errors }"
-          [attr.aria-describedby]=" submitted && f.adresse.errors   ? 'address-errors'   : 'address-description'"
+          [ngClass]="{
+            'is-invalid': (f.adresse.dirty || submitted) && f.adresse.errors
+          }"
+          [attr.aria-describedby]="
+            (f.adresse.dirty || submitted) && f.adresse.errors
+              ? 'adresse-errors'
+              : 'adresse-description'
+          "
+          [attr.aria-invalid]="(f.adresse.dirty || submitted) && f.adresse.errors ? true : false"
           required
         />
-        <small id="transfert-description" class="form-text text-muted">
+        <small id="adresse-description" class="form-text text-muted">
           Précisez l'adresse complète, 10 caractères minimum
         </small>
         <div
           *ngIf="submitted  && f.adresse.errors"
-          id="transfert-errors"
+          id="adresse-errors"
           class="invalid-feedback"
         >
           <p *ngIf="f.adresse.errors.minlength">
@@ -146,7 +159,7 @@
           </p>
         </div>
       </div>
-      <div class="col-3 form-group required">
+      <div class="col-md-2 col-12 form-group required">
         <label for="transfertDateDebut">Valide du</label>
         <div class="input-group">
           <input
@@ -155,11 +168,18 @@
             placement="bottom"
             id="transfertDateDebut"
             formControlName="dateDebut"
-            aria-label="Choisir une date de début de validité dans le calendrier"
             ngbDatepicker
             dateFr
             value
-            [ngClass]="{ 'is-invalid':  submitted &&  f.dateDebut.errors  }"
+            [ngClass]="{
+              'is-invalid': (f.dateDebut.dirty || submitted) && f.dateDebut.errors
+            }"
+            [attr.aria-describedby]="
+              (f.dateDebut.dirty || submitted) && f.dateDebut.errors
+                ? 'dateDebut-errors'
+                : null
+            "
+            [attr.aria-invalid]="(f.dateDebut.dirty || submitted) && f.dateDebut.errors ? true : false"
             #dateDebut="ngbDatepicker"
             maxlength="10"
             required
@@ -174,12 +194,16 @@
             <fa-icon aria-hidden="true" [icon]="['fas', 'calendar']"></fa-icon>
           </button>
 
-          <p *ngIf="submitted && f.dateFin.invalid" class="invalid-feedback">
+          <p
+            *ngIf=" (f.dateDebut.dirty || submitted) && f.dateDebut.errors"
+            id="dateDebut-errors"
+            class="invalid-feedback"
+          >
             La date de debut est incorrecte
           </p>
         </div>
       </div>
-      <div class="col-3 form-group required">
+      <div class="col-md-2 col-12 form-group required">
         <label for="transfertDateFin">Valide jusqu'au</label>
         <div class="input-group">
           <input
@@ -191,7 +215,15 @@
             ngbDatepicker
             dateFr
             value
-            [ngClass]="{ 'is-invalid':  submitted &&  f.dateFin.errors  }"
+            [ngClass]="{
+              'is-invalid': (f.dateFin.dirty || submitted) && f.dateFin.errors
+            }"
+            [attr.aria-describedby]="
+              (f.dateFin.dirty || submitted) && f.dateFin.errors
+                ? 'dateFin-errors'
+                : null
+            "
+            [attr.aria-invalid]="(f.dateFin.dirty || submitted) && f.dateFin.errors ? true : false"
             #dateFin="ngbDatepicker"
             maxlength="10"
             required
@@ -206,7 +238,11 @@
             <fa-icon aria-hidden="true" [icon]="['fas', 'calendar']"></fa-icon>
           </button>
 
-          <div *ngIf="submitted && f.dateFin.errors" class="invalid-feedback">
+          <div
+            *ngIf=" (f.dateFin.dirty || submitted) && f.dateFin.errors"
+            id="dateFin-errors"
+            class="invalid-feedback"
+          >
             <p *ngIf="f.dateFin.errors.required">
               La date de fin est obligatoire
             </p>

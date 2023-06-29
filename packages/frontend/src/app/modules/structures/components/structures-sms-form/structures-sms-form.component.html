@@ -7,7 +7,7 @@
       <div class="text-start text-md-end col-12 col-md-5">
         <button
           (click)="openTutoModal()"
-          class="btn btn-white-primary me-1"
+          class="btn btn-white-primary me-1 my-1"
           type="button"
         >
           <fa-icon [icon]="['fas', 'info-circle']" aria-hidden="true"></fa-icon>
@@ -16,7 +16,7 @@
         <a
           href="/assets/files/guide_sms.pdf"
           target="_blank"
-          class="btn btn-white-primary"
+          class="btn btn-white-primary my-1"
           rel="noopener noreferrer"
           download
         >
@@ -30,98 +30,100 @@
 
 <div class="content py-3" *ngIf="structureSmsForm">
   <div class="container py-3">
-    <div class="page-content p-4">
-      <div>
-        <p>
-          <strong>Information importante : </strong> afin que vos domiciliés
-          recoivent des SMS, veuillez compléter les 3 étapes ci-dessous:
-        </p>
-        <ul>
-          <li>1. Activez les SMS via le formulaire ci-dessous</li>
-          <li>
-            2. Complétez le nom de l'expéditeur et la signature des SMS.
-            <b
-              >Seul des lettres peuvent être utilisés pour l'expéditeur, aucun
-              numéro ne doit figurer dans l'expéditeur !</b
-            >
-          </li>
-          <li>
-            3. Dans la section <strong>dossier</strong> des fiches domiciliés,
-            ajoutez un numéro de portable à chaque domicilié
-          </li>
-        </ul>
-        <p>
-          <br />
-          Vous pouvez télécharger un document explicatif sur la mise en place
-          des notifications SMS
-          <a
-            href="/assets/files/guide_sms.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Vous pouvez télécharger un document explicatif sur la mise en place
-            des notifications SMS en cliquant ici "
-            download
+    <div class="page-content p-3">
+      <p>
+        <strong>Information importante : </strong> afin que vos domiciliés
+        recoivent des SMS, veuillez compléter les 3 étapes ci-dessous:
+      </p>
+      <ul>
+        <li>1. Activez les SMS via le formulaire ci-dessous</li>
+        <li>
+          2. Complétez le nom de l'expéditeur et la signature des SMS.
+          <b
+            >Seul des lettres peuvent être utilisés pour l'expéditeur, aucun
+            numéro ne doit figurer dans l'expéditeur !</b
           >
-            en cliquant ici.
-          </a>
-        </p>
-      </div>
-      <div class="row my-4">
-        <div class="col-md-8">
+        </li>
+        <li>
+          3. Dans la section <strong>dossier</strong> des fiches domiciliés,
+          ajoutez un numéro de portable à chaque domicilié
+        </li>
+      </ul>
+      <p>
+        <br />
+        Vous pouvez
+        <a
+          href="/assets/files/guide_sms.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Vous pouvez télécharger un document explicatif sur la mise en place
+          des notifications SMS en cliquant ici "
+          download
+          >télécharger un document explicatif
+        </a>
+        sur la mise en place des notifications SMS.
+      </p>
+
+      <div class="row my-3">
+        <div class="col-12 my-1 col-md-8">
           <div class="card p-4">
             <form
               *ngIf="structure"
               [formGroup]="structureSmsForm"
               (ngSubmit)="submitStructureSmsForm()"
             >
-              <p>
-                Les champs suivis d'un
-                <span class="fw-bold text-danger">*</span> sont obligatoires
-              </p>
+              <div class="row">
+                <p class="col-12">
+                  Les champs suivis d'un
+                  <span class="fw-bold text-danger">*</span> sont obligatoires
+                </p>
+              </div>
+              <fieldset>
+                <div class="row align-items-center">
+                  <legend class="label col-12 col-md-8">
+                    Activer l'envoi de SMS pour vos domiciliés
+                  </legend>
+                  <div class="col-md-4 col-12 text-center text-md-end">
+                    <div class="btn-group btn-group-toggle" role="group">
+                      <label
+                        [ngClass]="
+                          form.enabledByStructure.value === true
+                            ? 'btn btn-primary'
+                            : 'btn btn-outline-primary'
+                        "
+                        for="btnradio1"
+                      >
+                        <input
+                          type="radio"
+                          formControlName="enabledByStructure"
+                          [value]="true"
+                          id="btnradio1"
+                          class="me-2"
+                        /><span>Oui</span></label
+                      >
 
-              <fieldset
-                class="d-flex justify-content-between align-items-center"
-              >
-                <legend class="required label">
-                  Activer l'envoi de SMS pour vos domiciliés
-                </legend>
-
-                <div
-                  class="btn-group"
-                  role="group"
-                  aria-label="Activer l'envoi de SMS pour vos domiciliés"
-                >
-                  <input
-                    type="radio"
-                    formControlName="enabledByStructure"
-                    [value]="true"
-                    class="btn-check"
-                    id="btnradio1"
-                  />
-                  <label class="btn btn-outline-primary" for="btnradio1"
-                    >Oui</label
-                  >
-
-                  <input
-                    type="radio"
-                    formControlName="enabledByStructure"
-                    [value]="false"
-                    class="btn-check"
-                    id="btnradio2"
-                  />
-                  <label
-                    [ngClass]="
-                      form.enabledByStructure.value === false
-                        ? 'btn btn-danger'
-                        : 'btn btn-outline-danger'
-                    "
-                    for="btnradio2"
-                    >Non</label
-                  >
+                      <label
+                        [ngClass]="
+                          form.enabledByStructure.value === false
+                            ? 'btn btn-danger'
+                            : 'btn btn-outline-danger'
+                        "
+                        for="btnradio2"
+                      >
+                        <input
+                          type="radio"
+                          formControlName="enabledByStructure"
+                          [value]="false"
+                          id="btnradio2"
+                          class="me-2"
+                        /><span>Non</span></label
+                      >
+                    </div>
+                  </div>
                 </div>
               </fieldset>
               <div class="row">
-                <div class="col-md-6 form-group required">
+                <div class="col-md-6 col-12 form-group required">
                   <label for="senderName">Expéditeur</label>
                   <input
                     type="text"
@@ -130,30 +132,41 @@
                     formControlName="senderName"
                     maxLength="11"
                     [ngClass]="{
-                      'is-invalid': submitted && form.senderName.errors
+                      'is-invalid':
+                        (submitted || form.senderName.dirty) &&
+                        form.senderName.errors
                     }"
-                    [attr.aria-invalid]="submitted && form.senderName.errors"
+                    [attr.aria-invalid]="
+                      (submitted || form.senderName.dirty) &&
+                      form.senderName.errors
+                        ? true
+                        : false
+                    "
                     [attr.aria-describedby]="
-                      submitted && form.senderDetails.errors
+                      (submitted || form.senderDetails.dirty) &&
+                      form.senderDetails.errors
                         ? 'sender-name-errors'
                         : 'sender-name-help'
                     "
                     required
                     autocapitalize="true"
                   />
-                  <small id="sender-name-help"
+                  <small id="sender-name-help" class="form-text text-muted"
                     >Veuillez n'utiliser que des lettres (11 maximum)</small
                   >
                   <p
                     id="sender-name-errors"
-                    *ngIf="submitted && form.senderName.errors"
+                    *ngIf="
+                      (submitted || form.senderName.dirty) &&
+                      form.senderName.errors
+                    "
                     class="invalid-feedback"
                   >
                     Le champs expéditeur est incorrect
                   </p>
                 </div>
 
-                <div class="col-md-6 form-group required">
+                <div class="col-md-6 col-12 form-group required">
                   <label for="senderDetails">Signature du message</label>
                   <input
                     id="senderDetails"
@@ -162,19 +175,32 @@
                     maxLength="30"
                     appCleanStr
                     formControlName="senderDetails"
-                    [attr.aria-invalid]="submitted && form.senderDetails.errors"
+                    [attr.aria-invalid]="
+                      (submitted || form.senderDetails.dirty) &&
+                      form.senderDetails.errors
+                        ? true
+                        : false
+                    "
                     [ngClass]="{
-                      'is-invalid': submitted && form.senderDetails.errors
+                      'is-invalid':
+                        (submitted || form.senderDetails.dirty) &&
+                        form.senderDetails.errors
                     }"
                     [attr.aria-describedby]="
-                      submitted && form.senderDetails.errors
+                      (submitted || form.senderDetails.dirty) &&
+                      form.senderDetails.errors
                         ? 'sender-details-errors'
                         : 'sender-details-help'
                     "
                   />
-                  <small id="sender-details-help">30 caractères maximum</small>
+                  <small id="sender-details-help" class="form-text text-muted"
+                    >30 caractères maximum</small
+                  >
                   <p
-                    *ngIf="submitted && form.senderDetails.errors"
+                    *ngIf="
+                      (submitted || form.senderDetails.dirty) &&
+                      form.senderDetails.errors
+                    "
                     class="invalid-feedback"
                     id="sender-details-errors"
                   >
@@ -209,14 +235,14 @@
             </form>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-12 my-1 col-md-4">
           <div id="sms-preview">
             <div class="sms-header">
               <span class="left">Messages</span>
-              <div id="sms-contact">{{ form.senderName.value }}</div>
+              <p id="sms-contact">{{ form.senderName.value }}</p>
             </div>
             <div class="messages-wrapper">
-              <div class="message from">
+              <p class="message from">
                 Bonjour,
                 <br />
                 <br />
@@ -224,9 +250,9 @@
                 <br />
                 <br />
                 <strong>{{ form.senderDetails.value }}</strong>
-              </div>
+              </p>
 
-              <div class="message from">
+              <p class="message from">
                 Bonjour,
                 <br />
                 <br />
@@ -235,7 +261,7 @@
                 <br />
                 <br />
                 <strong>{{ form.senderDetails.value }}</strong>
-              </div>
+              </p>
             </div>
           </div>
         </div>

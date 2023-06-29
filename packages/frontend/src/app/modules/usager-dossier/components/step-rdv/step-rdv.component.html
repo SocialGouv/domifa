@@ -96,7 +96,7 @@
               est réalisé maintenant
             </p>
             <div
-              class="col-md-4 offset-md-4 text-center"
+              class="col-12 col-md-4 offset-md-4 text-center"
               *ngIf="r.isNow.value === true"
             >
               <button
@@ -158,10 +158,18 @@
                 <label for="rdvUser">Avec quel collaborateur ?</label>
                 <select
                   [ngClass]="{
-                    'is-invalid': r.userId.dirty && r.userId.invalid
+                    'is-invalid':
+                      (submitted || r.userId.dirty) && r.userId.invalid
                   }"
                   [attr.aria-describedby]="
-                    submitted && r.userId.errors ? 'invalid-user' : null
+                    (submitted || r.userId.dirty) && r.userId.invalid
+                      ? 'user-errors'
+                      : null
+                  "
+                  [attr.aria-invalid]="
+                    (submitted || r.userId.dirty) && r.userId.invalid
+                      ? true
+                      : false
                   "
                   id="rdvUser"
                   formControlName="userId"
@@ -176,7 +184,7 @@
                 <p
                   *ngIf="r.userId.dirty && r.userId.invalid"
                   class="text-center invalid-feedback"
-                  id="invalid-user"
+                  id="user-errors"
                 >
                   Veuillez choisir un collaborateur
                 </p>
@@ -192,11 +200,21 @@
                     placement="bottom"
                     id="jourRdv"
                     ngbDatepicker
-                    [ngClass]="{ 'is-invalid': r.jourRdv.invalid }"
                     formControlName="jourRdv"
                     #dRdv="ngbDatepicker"
+                    [ngClass]="{
+                      'is-invalid':
+                        (submitted || r.jourRdv.dirty) && r.jourRdv.errors
+                    }"
                     [attr.aria-describedby]="
-                      submitted && r.jourRdv.errors ? 'invalid-date' : null
+                      (submitted || r.jourRdv.dirty) && r.jourRdv.errors
+                        ? 'jourRdv-errors'
+                        : null
+                    "
+                    [attr.aria-invalid]="
+                      (submitted || r.jourRdv.dirty) && r.jourRdv.errors
+                        ? true
+                        : false
                     "
                     required
                   />
@@ -215,7 +233,7 @@
 
                   <p
                     *ngIf="r.jourRdv.invalid"
-                    id="invalid-date"
+                    id="jourRdv-errors"
                     class="text-center invalid-feedback"
                   >
                     La date est incorrecte
@@ -230,17 +248,24 @@
                     class="form-control"
                     [ngClass]="{
                       'is-invalid':
-                        r.heureRdv.invalid || r.heureRdv.errors?.dateInvalid
+                        (submitted || r.heureRdv.dirty) && r.heureRdv.errors
                     }"
                     [attr.aria-describedby]="
-                      submitted && r.heureRdv.errors ? 'invalid-date' : null
+                      (submitted || r.heureRdv.dirty) && r.heureRdv.errors
+                        ? 'heureRdv-errors'
+                        : null
+                    "
+                    [attr.aria-invalid]="
+                      (submitted || r.heureRdv.dirty) && r.heureRdv.errors
+                        ? true
+                        : false
                     "
                     id="heureRdv"
                     formControlName="heureRdv"
                     required
                   />
                 </div>
-                <div id="invalid-hours">
+                <div id="heureRdv-errors">
                   <p
                     *ngIf="r.heureRdv.errors?.required"
                     class="small form-text text-center text-danger"
@@ -257,7 +282,7 @@
               </div>
             </div>
             <div
-              class="col-md-4 offset-md-4 text-center"
+              class="col-12 col-md-4 offset-md-4 text-center"
               *ngIf="r.isNow.value === false"
             >
               <br />

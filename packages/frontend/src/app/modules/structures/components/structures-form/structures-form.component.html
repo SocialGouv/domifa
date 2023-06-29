@@ -20,7 +20,7 @@
       *ngIf="structureRegisterInfos.etapeInscription === 0 && structureForm"
     >
       <form [formGroup]="structureForm" (ngSubmit)="submitStrucutre()">
-        <fieldset class="col-md-12 text-center">
+        <fieldset class="text-center">
           <legend>Vous appartenez à quel type de structure</legend>
           <div class="btn-group btn-group-toggle required">
             <label
@@ -105,15 +105,21 @@
               id="nom"
               autocomplete="organization"
               formControlName="nom"
-              [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
-              [attr.aria-invalid]="submitted && f.adresse.errors"
+              [ngClass]="{
+                'is-invalid': (f.nom.dirty || submitted) && f.nom.errors
+              }"
+              [attr.aria-invalid]="
+                (f.adresse.dirty || submitted) && f.nom.errors ? true : false
+              "
               [attr.aria-describedby]="
-                submitted && f.adresse.errors ? 'nom-errors' : 'nom-structure'
+                (f.nom.dirty || submitted) && f.nom.errors
+                  ? 'nom-errors'
+                  : 'nom-structure-description'
               "
               required
             />
             <p
-              *ngIf="submitted && f.nom.errors"
+              *ngIf="(f.nom.dirty || submitted) && f.nom.errors"
               id="nom-errors"
               class="invalid-feedback"
             >
@@ -141,7 +147,7 @@
             Adresse complète de la structure
           </legend>
           <div class="row">
-            <div class="col-md-12 form-group required">
+            <div class="col-12 col-md-12 form-group required">
               <label for="adresse">Adresse de l'organisme domiciliataire</label>
               <input
                 id="adresse"
@@ -149,16 +155,23 @@
                 class="form-control"
                 formControlName="adresse"
                 autcomplete="street-address"
-                [ngClass]="{ 'is-invalid': submitted && f.adresse.errors }"
-                [attr.aria-invalid]="submitted && f.adresse.errors"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.adresse.dirty || submitted) && f.adresse.errors
+                }"
+                [attr.aria-invalid]="
+                  (f.adresse.dirty || submitted) && f.adresse.errors
+                    ? true
+                    : false
+                "
                 [attr.aria-describedby]="
-                  submitted && f.adresse.errors
+                  (f.adresse.dirty || submitted) && f.adresse.errors
                     ? 'address-errors'
                     : 'address-description'
                 "
                 required
               />
-              <small id="address-description"
+              <small id="address-description" class="form-text text-muted"
                 >Cette adresse apparaîtra sur le Cerfa</small
               >
               <p
@@ -178,16 +191,26 @@
                 id="complementAdresse"
                 formControlName="complementAdresse"
                 [ngClass]="{
-                  'is-invalid': submitted && f.complementAdresse.errors
+                  'is-invalid':
+                    (f.complementAdresse.dirty || submitted) &&
+                    f.complementAdresse.errors
+                      ? true
+                      : false
                 }"
                 [attr.aria-describedby]="
-                  submitted && f.complementAdresse.errors
+                  (f.complementAdresse.dirty || submitted) &&
+                  f.complementAdresse.errors
                     ? 'complement-errors'
                     : 'complement-description'
                 "
-                [attr.aria-invalid]="submitted && f.complementAdresse.errors"
+                [attr.aria-invalid]="
+                  (f.complementAdresse.dirty || submitted) &&
+                  f.complementAdresse.errors
+                    ? true
+                    : false
+                "
               />
-              <small id="complement-description"
+              <small id="complement-description" class="form-text text-muted"
                 >Lieu-dit, Bâtiment, étage, etc..</small
               >
               <p
@@ -198,7 +221,7 @@
                 Veuillez vérifier le complément d'adresse
               </p>
             </div>
-            <div class="col-md-6 form-group required">
+            <div class="col-12 col-md-6 form-group required">
               <label for="codePostal">Code postal</label>
               <input
                 type="text"
@@ -208,15 +231,18 @@
                 formControlName="codePostal"
                 [ngClass]="{
                   'is-invalid':
-                    (f.codePostal.dirty && f.codePostal.errors) ||
-                    (submitted && f.codePostal.errors)
+                    (f.codePostal.dirty || submitted) && f.codePostal.errors
                 }"
                 [attr.aria-describedby]="
-                  submitted && f.codePostal.errors
-                    ? 'invalidcode-postal-errors'
+                  (f.codePostal.dirty || submitted) && f.codePostal.errors
+                    ? 'code-postal-errors'
                     : null
                 "
-                [attr.aria-invalid]="submitted && f.codePostal.errors"
+                [attr.aria-invalid]="
+                  (f.codePostal.dirty || submitted) && f.codePostal.errors
+                    ? true
+                    : false
+                "
                 required
               />
               <p
@@ -227,7 +253,7 @@
                 Le code postal est obligatoire
               </p>
             </div>
-            <div class="col-md-6 form-group required">
+            <div class="col-12 col-md-6 form-group required">
               <label for="ville">Ville</label>
               <input
                 type="text"
@@ -235,14 +261,20 @@
                 id="ville"
                 formControlName="ville"
                 required
-                [ngClass]="{ 'is-invalid': submitted && f.ville.errors }"
+                [ngClass]="{
+                  'is-invalid': (f.ville.dirty || submitted) && f.ville.errors
+                }"
                 [attr.aria-describedby]="
-                  submitted && f.ville.errors ? 'ville-errors' : null
+                  (f.ville.dirty || submitted) && f.ville.errors
+                    ? 'ville-errors'
+                    : null
                 "
-                [attr.aria-invalid]="submitted && f.ville.errors"
+                [attr.aria-invalid]="
+                  (f.ville.dirty || submitted) && f.ville.errors ? true : false
+                "
               />
               <p
-                *ngIf="submitted && f.ville.errors"
+                *ngIf="(f.ville.dirty || submitted) && f.ville.errors"
                 id="ville-errors"
                 class="invalid-feedback"
               >
@@ -289,20 +321,28 @@
                   autcomplete="street-address"
                   [ngClass]="{
                     'is-invalid':
-                      submitted && f.adresseCourrier.get('adresse')?.errors
+                      (submitted || f.adresseCourrier.get('adresse')?.dirty) &&
+                      f.adresseCourrier.get('adresse')?.errors
                   }"
                   [attr.aria-describedby]="
-                    submitted && f.adresseCourrier.get('adresse')?.errors
+                    (submitted || f.adresseCourrier.get('adresse')?.dirty) &&
+                    f.adresseCourrier.get('adresse')?.errors
                       ? 'adresse-reception-errors'
                       : null
                   "
                   [attr.aria-invalid]="
-                    submitted && f.adresseCourrier.get('adresse')?.errors
+                    (submitted || f.adresseCourrier.get('adresse')?.dirty) &&
+                    f.adresseCourrier.get('adresse')?.errors
+                      ? true
+                      : false
                   "
                   required
                 />
                 <p
-                  *ngIf="submitted && f.adresseCourrier.get('adresse')?.errors"
+                  *ngIf="
+                    (submitted || f.adresseCourrier.get('adresse')?.dirty) &&
+                    f.adresseCourrier.get('adresse')?.errors
+                  "
                   id="adresse-reception-errors"
                   class="invalid-feedback"
                 >
@@ -319,23 +359,28 @@
                   formControlName="codePostal"
                   [ngClass]="{
                     'is-invalid':
-                      submitted && f.adresseCourrier.get('codePostal')?.errors
+                      (submitted ||
+                        f.adresseCourrier.get('codePostal')?.dirty) &&
+                      f.adresseCourrier.get('codePostal')?.errors
                   }"
                   [attr.aria-describedby]="
-                    submitted && f.adresseCourrier.get('codePostal')?.errors
+                    (submitted || f.adresseCourrier.get('codePostal')?.dirty) &&
+                    f.adresseCourrier.get('codePostal')?.errors
                       ? 'code-postal-reception-errors'
                       : null
                   "
                   [attr.aria-invalid]="
-                    submitted &&
-                    submitted &&
+                    (submitted || f.adresseCourrier.get('codePostal')?.dirty) &&
                     f.adresseCourrier.get('codePostal')?.errors
+                      ? true
+                      : false
                   "
                   required
                 />
                 <p
                   *ngIf="
-                    submitted && f.adresseCourrier.get('codePostal')?.errors
+                    (submitted || f.adresseCourrier.get('codePostal')?.dirty) &&
+                    f.adresseCourrier.get('codePostal')?.errors
                   "
                   class="invalid-feedback"
                   id="code-postal-reception-errors"
@@ -352,22 +397,28 @@
                   formControlName="ville"
                   [ngClass]="{
                     'is-invalid':
-                      submitted && f.adresseCourrier.get('ville')?.errors
+                      (submitted || f.adresseCourrier.get('ville')?.dirty) &&
+                      f.adresseCourrier.get('ville')?.errors
                   }"
                   [attr.aria-describedby]="
-                    submitted && f.adresseCourrier.get('ville')?.errors
+                    (submitted || f.adresseCourrier.get('ville')?.dirty) &&
+                    f.adresseCourrier.get('ville')?.errors
                       ? 'ville-reception-errors'
                       : null
                   "
                   [attr.aria-invalid]="
-                    submitted &&
-                    submitted &&
+                    (submitted || f.adresseCourrier.get('ville')?.dirty) &&
                     f.adresseCourrier.get('ville')?.errors
+                      ? true
+                      : false
                   "
                   required
                 />
                 <p
-                  *ngIf="submitted && f.adresseCourrier.get('ville')?.errors"
+                  *ngIf="
+                    (submitted || f.adresseCourrier.get('ville')?.dirty) &&
+                    f.adresseCourrier.get('ville')?.errors
+                  "
                   class="invalid-feedback"
                   id="ville-reception-errors"
                 >
@@ -425,23 +476,21 @@
                 formControlName="email"
                 autocomplete="email"
                 class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
-                [attr.aria-invalid]="submitted && f.email.errors"
+                [ngClass]="{
+                  'is-invalid': (submitted || f.email.dirty) && f.email.errors
+                }"
+                [attr.aria-invalid]="
+                  (submitted || f.email.dirty) && f.email.errors ? true : false
+                "
                 [attr.aria-describedby]="
-                  submitted && f.email.errors ? 'email-errors' : null
+                  (submitted || f.email.dirty) && f.email.errors
+                    ? 'email-errors'
+                    : null
                 "
                 required
               />
-              <p
-                *ngIf="submitted && f.email.errors"
-                id="email-errors"
-                class="invalid-feedback"
-              >
-                Veuillez vérifier l'adresse email, format attendu :
-                nom@domaine.fr
-              </p>
               <div
-                *ngIf="f.email.errors"
+                *ngIf="(submitted || f.email.dirty) && f.email.errors"
                 id="email-errors"
                 class="invalid-feedback"
               >
@@ -453,7 +502,8 @@
                   <strong>L'adresse email est déjà utilisée</strong>
                 </p>
                 <p *ngIf="!f.email.errors.emailTaken">
-                  Veuillez vérifier l'adresse email
+                  Veuillez vérifier l'adresse email, format attendu :
+                  nom@domaine.fr
                 </p>
               </div>
             </div>
@@ -466,13 +516,13 @@
           </legend>
           <div class="row">
             <div class="col-md-12 text-center">
-              <h3 class="subtitle">
+              <h2 class="subtitle">
                 Quelles sont ses informations d’agrément ?
-              </h3>
+              </h2>
               <br />
             </div>
 
-            <div class="col-6 form-group required">
+            <div class="col-12 col-md-6 form-group required">
               <label for="departement"
                 >Préfecture ayant délivré l’agrément</label
               >
@@ -480,14 +530,19 @@
                 id="departement"
                 formControlName="departement"
                 [ngClass]="{
-                  'is-invalid': submitted && f.departement.errors
+                  'is-invalid':
+                    (submitted || f.departement.dirty) && f.departement.errors
                 }"
                 [attr.aria-describedby]="
-                  submitted && f.departement.errors
+                  (submitted || f.departement.dirty) && f.departement.errors
                     ? 'departement-errors'
                     : null
                 "
-                [attr.aria-invalid]="submitted && f.departement.errors"
+                [attr.aria-invalid]="
+                  (submitted || f.departement.dirty) && f.departement.errors
+                    ? true
+                    : false
+                "
                 class="form-select"
                 required
               >
@@ -500,7 +555,9 @@
                 </option>
               </select>
               <p
-                *ngIf="submitted && f.departement.errors"
+                *ngIf="
+                  (submitted || f.departement.dirty) && f.departement.errors
+                "
                 id="departement-errors"
                 class="invalid-feedback"
               >
@@ -508,7 +565,7 @@
               </p>
             </div>
 
-            <div class="col-6 form-group required">
+            <div class="col-12 col-md-6 form-group required">
               <label for="agrement">Numéro d'agrément</label>
               <input
                 formControlName="agrement"
@@ -516,19 +573,26 @@
                 required
                 id="agrement"
                 type="text"
-                [ngClass]="{ 'is-invalid': submitted && f.agrement.errors }"
-                [attr.aria-invalid]="submitted && f.agrement.errors"
+                [ngClass]="{
+                  'is-invalid':
+                    (submitted || f.agrement.dirty) && f.agrement.errors
+                }"
+                [attr.aria-invalid]="
+                  (submitted || f.agrement.dirty) && f.agrement.errors
+                    ? true
+                    : false
+                "
                 [attr.aria-describedby]="
-                  submitted && f.agrement.errors
+                  (submitted || f.agrement.dirty) && f.agrement.errors
                     ? 'agrement-errors'
                     : 'agrement-description'
                 "
               />
-              <small id="agrement-description"
+              <small id="agrement-description" class="form-text text-muted"
                 >Numéro donné par la préfecture</small
               >
               <p
-                *ngIf="submitted && f.agrement.errors"
+                *ngIf="(submitted || f.agrement.dirty) && f.agrement.errors"
                 id="agrement-errors"
                 class="invalid-feedback"
               >
@@ -536,7 +600,7 @@
               </p>
             </div>
 
-            <div class="col-6 form-group">
+            <div class="col-12 col-md-6 form-group">
               <label for="capacite">Capacité d'accueil</label>
               <input
                 formControlName="capacite"
@@ -545,14 +609,23 @@
                 min="0"
                 type="number"
                 [attr.aria-describedby]="
-                  submitted && f.capacite.errors ? 'capacite-errors' : null
+                  (submitted || f.capacite.dirty) && f.capacite.errors
+                    ? 'capacite-errors'
+                    : null
                 "
-                [attr.aria-invalid]="submitted && f.capacite.errors"
-                [ngClass]="{ 'is-invalid': submitted && f.capacite.errors }"
+                [attr.aria-invalid]="
+                  (submitted || f.capacite.dirty) && f.capacite.errors
+                    ? true
+                    : false
+                "
+                [ngClass]="{
+                  'is-invalid':
+                    (submitted || f.capacite.dirty) && f.capacite.errors
+                }"
               />
 
               <p
-                *ngIf="submitted && f.capacite.errors"
+                *ngIf="(submitted || f.capacite.dirty) && f.capacite.errors"
                 id="capacite-errors"
                 class="invalid-feedback"
               >
@@ -572,7 +645,7 @@
           </legend>
 
           <div class="row" formGroupName="responsable">
-            <div class="col-md-6 form-group required">
+            <div class="col-12 col-md-6 form-group required">
               <label for="responsable-nom">Nom</label>
               <input
                 type="text"
@@ -581,27 +654,36 @@
                 formControlName="nom"
                 autocomplete="family-name"
                 [attr.aria-describedby]="
-                  submitted && f.responsable.get('nom')?.errors
+                  (submitted || f.responsable.get('nom')?.dirty) &&
+                  f.responsable.get('nom')?.errors
                     ? 'responsable-nom-errors'
                     : null
                 "
                 [ngClass]="{
-                  'is-invalid': submitted && f.responsable.get('nom')?.errors
+                  'is-invalid':
+                    (submitted || f.responsable.get('nom')?.dirty) &&
+                    f.responsable.get('nom')?.errors
                 }"
                 [attr.aria-invalid]="
-                  submitted && f.responsable.get('nom')?.errors
+                  (submitted || f.responsable.get('nom')?.dirty) &&
+                  f.responsable.get('nom')?.errors
+                    ? true
+                    : false
                 "
                 required
               />
               <p
-                *ngIf="submitted && f.responsable.get('nom')?.errors"
+                *ngIf="
+                  (submitted || f.responsable.get('nom')?.dirty) &&
+                  f.responsable.get('nom')?.errors
+                "
                 class="invalid-feedback"
                 id="responsable-nom-errors"
               >
                 Le nom du responsable est obligatoire
               </p>
             </div>
-            <div class="col-md-6 form-group required">
+            <div class="col-12 col-md-6 form-group required">
               <label for="responsable-prenom">Prénom(s)</label>
               <input
                 type="text"
@@ -610,27 +692,36 @@
                 formControlName="prenom"
                 autocomplete="given-name"
                 [ngClass]="{
-                  'is-invalid': submitted && f.responsable.get('prenom')?.errors
+                  'is-invalid':
+                    (submitted || f.responsable.get('prenom')?.dirty) &&
+                    f.responsable.get('prenom')?.errors
                 }"
                 [attr.aria-invalid]="
-                  submitted && f.responsable.get('prenom')?.errors
+                  (submitted || f.responsable.get('prenom')?.dirty) &&
+                  f.responsable.get('prenom')?.errors
+                    ? true
+                    : false
                 "
                 [attr.aria-describedby]="
-                  submitted && f.responsable.get('prenom')?.errors
+                  (submitted || f.responsable.get('prenom')?.dirty) &&
+                  f.responsable.get('prenom')?.errors
                     ? 'responsable-prenom-errors'
                     : null
                 "
                 required
               />
               <p
-                *ngIf="submitted && f.responsable.get('prenom')?.errors"
+                *ngIf="
+                  (submitted || f.responsable.get('prenom')?.dirty) &&
+                  f.responsable.get('prenom')?.errors
+                "
                 class="invalid-feedback"
                 id="responsable-prenom-errors"
               >
                 Le prénom du responsable est obligatoire
               </p>
             </div>
-            <div class="col-md-12 form-group required">
+            <div class="col-12 col-md-12 form-group required">
               <label for="fonction">Fonction</label>
               <input
                 type="text"
@@ -640,23 +731,33 @@
                 autocomplete="organization-title"
                 [ngClass]="{
                   'is-invalid':
-                    submitted && f.responsable.get('fonction')?.errors
+                    (submitted || f.responsable.get('fonction')?.dirty) &&
+                    f.responsable.get('fonction')?.errors
                 }"
                 [attr.aria-invalid]="
-                  submitted && f.responsable.get('fonction')?.errors
+                  (submitted || f.responsable.get('fonction')?.dirty) &&
+                  f.responsable.get('fonction')?.errors
+                    ? true
+                    : false
                 "
                 [attr.aria-describedby]="
-                  submitted && f.responsable.get('fonction')?.errors
+                  (submitted || f.responsable.get('fonction')?.dirty) &&
+                  f.responsable.get('fonction')?.errors
                     ? 'responsable-fonction-errors'
                     : 'responsable-fonction-description'
                 "
                 required
               />
-              <small id="responsable-fonction-description"
+              <small
+                id="responsable-fonction-description"
+                class="form-text text-muted"
                 >Président.e, Directrice, etc.</small
               >
               <p
-                *ngIf="submitted && f.responsable.get('fonction')?.errors"
+                *ngIf="
+                  (submitted || f.responsable.get('fonction')?.dirty) &&
+                  f.responsable.get('fonction')?.errors
+                "
                 class="invalid-feedback"
                 id="responsable-fonction-errors"
               >

@@ -10,7 +10,7 @@
 
 <div class="content py-3" *ngIf="me">
   <div class="container py-3">
-    <div class="page-content p-4">
+    <div class="page-content p-3">
       <div class="row" *ngIf="me.role !== 'facteur'">
         <div class="col-12">
           <h2>Mes prochains rendez-vous</h2>
@@ -54,10 +54,13 @@
         </div>
       </div>
 
-      <div class="my-2 d-flex justify-content-between align-items-center">
+      <div
+        class="my-2 d-flex flex-wrap justify-content-between align-items-center"
+      >
         <h2>Informations personnelles</h2>
 
         <button
+          *ngIf="!editUser"
           (click)="initUserForm()"
           class="btn btn-outline-dark"
           type="button"
@@ -68,7 +71,7 @@
             class="me-2"
           ></fa-icon>
 
-          Modifier les informations
+          Modifier vos informations
         </button>
       </div>
 
@@ -105,7 +108,37 @@
             <span class="fw-bold text-danger">*</span> sont obligatoires
           </p>
         </div>
-        <div class="col-md-4 form-group required">
+
+        <div class="col-12 col-md-4 form-group required">
+          <label for="nom">Nom</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nom"
+            appCleanStr
+            autocomplete="family-name"
+            formControlName="nom"
+            [ngClass]="{
+              'is-invalid': (f.nom.dirty || submitted) && f.nom.errors,
+              'is-valid': f.nom.dirty && !f.nom.errors
+            }"
+            [attr.aria-describedby]="
+              (f.nom.dirty || submitted) && f.nom.errors ? 'invalid-name' : null
+            "
+            [attr.aria-invalid]="
+              (f.nom.dirty || submitted) && f.nom.errors ? true : false
+            "
+            required
+          />
+          <p
+            *ngIf="submitted && f.nom.errors"
+            id="invalid-name"
+            class="invalid-feedback"
+          >
+            Veuillez vérifier le nom
+          </p>
+        </div>
+        <div class="col-12 col-md-4 form-group required">
           <label for="prenom">Prénom</label>
           <input
             type="text"
@@ -114,30 +147,28 @@
             appCleanStr
             autocomplete="given-name"
             formControlName="prenom"
-            [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
+            [ngClass]="{
+              'is-invalid':(submitted || f.prenom.dirty) && f.prenom.errors,
+            }"
+            [attr.aria-describedby]="
+              (submitted || f.prenom.dirty) && f.prenom.errors
+                ? 'invalid-prenom'
+                : null
+            "
+            [attr.aria-invalid]="
+              (submitted || f.prenom.dirty) && f.prenom.errors ? true : false
+            "
             required
           />
-          <p *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
-            Votre prénom est obligatoire
+          <p
+            *ngIf="(submitted || f.prenom.dirty) && f.prenom.errors"
+            id="invalid-prenom"
+            class="invalid-feedback"
+          >
+            Veuillez vérifier le prénom
           </p>
         </div>
-        <div class="col-md-4 form-group required">
-          <label for="nom">Nom</label>
-          <input
-            autocomplete="family-name"
-            type="text"
-            class="form-control"
-            id="nom"
-            appCleanStr
-            formControlName="nom"
-            [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
-            required
-          />
-          <p *ngIf="submitted && f.nom.errors" class="invalid-feedback">
-            Le nom du demandeur est obligatoire
-          </p>
-        </div>
-        <div class="col-md-4 form-group required">
+        <div class="col-12 col-md-4 form-group required">
           <label for="email">Votre adresse email</label>
           <input
             type="email"
@@ -145,11 +176,17 @@
             id="email"
             autocomplete="email"
             formControlName="email"
-            [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+            [ngClass]="{
+              'is-invalid': (submitted || f.email.dirty) && f.email.errors
+            }"
             [attr.aria-describedby]="
-              submitted && f.email.errors ? 'email-errors' : null
+              (submitted || f.email.dirty) && f.email.errors
+                ? 'email-errors'
+                : null
             "
-            [attr.aria-invalid]="submitted && f.email.errors"
+            [attr.aria-invalid]="
+              (submitted || f.email.dirty) && f.email.errors ? true : false
+            "
             required
           />
           <div
@@ -170,22 +207,22 @@
           </div>
         </div>
 
-        <div class="col-md-12 text-center">
+        <div class="col-12 col-md-12 text-center">
           <button
             (click)="editUser = false"
             type="button"
-            class="btn btn-outline-dark me-2"
+            class="my-1 btn btn-outline-dark me-2"
           >
             <fa-icon
               aria-hidden="true"
               [icon]="['far', 'edit']"
               class="me-2"
             ></fa-icon>
-            Annuler
+            Annuler les modifications
           </button>
 
           <button
-            class="btn btn-primary"
+            class="my-1 btn btn-primary"
             type="submit"
             [disabled]="!userForm.valid || loading"
           >
@@ -208,6 +245,7 @@
         <h2 class="col-md-8">Mot de passe</h2>
         <h2 class="col-md-4 text-end">
           <button
+            *ngIf="!editPassword"
             (click)="initPasswordForm()"
             type="button"
             class="btn btn-outline-dark"
@@ -281,17 +319,21 @@
           <button
             type="button"
             (click)="editPassword = false"
-            class="btn btn-outline-dark me-2"
+            class="my-1 btn btn-outline-dark me-2"
           >
             <fa-icon
               [icon]="['far', 'edit']"
               aria-hidden="true"
               class="me-2"
             ></fa-icon>
-            Annuler
+            Annuler les modifications
           </button>
 
-          <button class="btn btn-primary" type="submit" [disabled]="loading">
+          <button
+            class="my-1 btn btn-primary"
+            type="submit"
+            [disabled]="loading"
+          >
             <span *ngIf="loading">
               <fa-icon
                 [icon]="['fas', 'circle-notch']"

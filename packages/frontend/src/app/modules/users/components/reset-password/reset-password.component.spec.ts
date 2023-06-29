@@ -29,13 +29,12 @@ describe("ResetPasswordComponent", () => {
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ResetPasswordComponent);
     component = fixture.componentInstance;
+
     fixture.detectChanges();
-  });
+  }));
 
   it("should create", () => {
     expect(component).toBeTruthy();

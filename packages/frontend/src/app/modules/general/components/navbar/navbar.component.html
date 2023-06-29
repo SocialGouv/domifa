@@ -4,9 +4,9 @@
       class="d-print-none d-flex justify-content-center align-items-center"
       role="dialog"
       aria-modal="true"
-      aria-label="Avertissement sur la collecte de données"
     >
       <p class="my-0">
+        <b>Avertissement sur la collecte de données</b><br />
         Nous collectons des données anonymisées à des fins statistiques via
         l'outil français Matomo. Pour tout savoir sur notre utilisation des
         données, consultez notre
@@ -23,16 +23,15 @@
         <button
           type="button"
           class="btn btn-white-primary"
-          aria-label="Fermer le message"
           (click)="closeMatomo()"
         >
-          Fermer
+          Fermer le message
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
     </div>
   </div>
-  <nav class="navbar navbar-expand-lg" id="navbar-site" role="navigation">
+  <nav class="navbar navbar-expand-lg" id="navbar-site">
     <div class="container px-2">
       <div class="d-flex align-items-center">
         <img
@@ -68,10 +67,7 @@
           <div class="my-2 my-lg-0">
             <!-- MENU SI DECONNECTE - SAUF MOBILE -->
             <ng-container *ngIf="!me">
-              <div
-                class="d-none d-xs-inline-block d-sm-inline-block"
-                aria-label="Menu principal"
-              >
+              <div class="d-none d-xs-inline-block d-sm-inline-block">
                 <a
                   ariaCurrentWhenActive="page"
                   routerLinkActive="router-link-active"
@@ -125,11 +121,10 @@
                 ngbDropdown
                 id="dropdownNotAuthenticatedMenu"
                 display="dynamic"
-                class="d-inline-block d-xs-none d-sm-none"
+                class="d-inline-block d-xs-none d-sm-none text-sm-center"
               >
                 <button
-                  class="btn"
-                  aria-label="Menu du site"
+                  class="btn btn-outline-primary"
                   ngbDropdownToggle
                   type="button"
                 >
@@ -198,40 +193,10 @@
                     aria-labelledby="dropdownAuthenticatedMenu"
                   >
                     <a
-                      ngbDropdownItem
-                      routerLink="/news"
-                      class="btn btn-outline-primary"
-                      ariaCurrentWhenActive="page"
-                      routerLinkActive="router-link-active"
-                      (click)="
-                        matomoService.trackEvent(
-                          'HEADER',
-                          'Header_ESP',
-                          'null',
-                          1
-                        )
-                      "
-                    >
-                      <fa-icon
-                        aria-hidden="true"
-                        [icon]="['fas', 'rss']"
-                      ></fa-icon>
-
-                      <span [ngClass]="pendingNews ? 'fw-bold' : ''"
-                        >Nouveautés
-                      </span>
-                      <span
-                        *ngIf="pendingNews"
-                        class="pulse-button"
-                        aria-hidden="true"
-                      ></span>
-                    </a>
-                    <a
                       *ngIf="me.role === 'admin' && me.structureId === 1"
                       ngbDropdownItem
                       [href]="portailAdminUrl"
                       target="_blank"
-                      aria-label="Administration de DomiFa"
                       rel="noopener noreferrer"
                       ariaCurrentWhenActive="page"
                       routerLinkActive="router-link-active"
@@ -244,7 +209,25 @@
                     </a>
                     <a
                       ngbDropdownItem
-                      aria-label="Gestion de mon compte"
+                      routerLink="/news"
+                      ariaCurrentWhenActive="page"
+                      routerLinkActive="router-link-active"
+                    >
+                      <fa-icon
+                        aria-hidden="true"
+                        [icon]="['fas', 'rss']"
+                      ></fa-icon>
+                      <span [ngClass]="pendingNews ? 'fw-bold' : ''"
+                        >Nouveautés
+                      </span>
+                      <span
+                        *ngIf="pendingNews"
+                        class="pulse-button"
+                        aria-hidden="true"
+                      ></span>
+                    </a>
+                    <a
+                      ngbDropdownItem
                       routerLink="/users/mon-compte"
                       ariaCurrentWhenActive="page"
                       routerLinkActive="router-link-active"
@@ -253,23 +236,21 @@
                         aria-hidden="true"
                         [icon]="['fas', 'user']"
                       ></fa-icon>
-                      Compte
+                      Gérer mon compte
                     </a>
                     <a
                       ngbDropdownItem
                       *ngIf="me.role === 'admin' || me.role === 'responsable'"
                       routerLink="/users/comptes"
-                      aria-label="Gestion des utilisateurs"
                       ariaCurrentWhenActive="page"
                       routerLinkActive="router-link-active"
                     >
                       <fa-icon aria-hidden="true" [icon]="['fas', 'users']">
                       </fa-icon>
-                      Utilisateurs</a
+                      Gérer les utilisateurs</a
                     >
                     <a
                       ngbDropdownItem
-                      aria-label="Documents de la structure"
                       *ngIf="me.role === 'admin' || me.role === 'responsable'"
                       routerLink="/structures/documents"
                       ariaCurrentWhenActive="page"
@@ -277,14 +258,13 @@
                     >
                       <fa-icon aria-hidden="true" [icon]="['far', 'file-word']">
                       </fa-icon>
-                      Documents</a
+                      Documents de la structure</a
                     >
 
                     <a
                       ngbDropdownItem
                       *ngIf="me.role !== 'facteur'"
                       routerLink="/import"
-                      aria-label="Importer vos domiciliés"
                       ariaCurrentWhenActive="page"
                       routerLinkActive="router-link-active"
                     >
@@ -292,11 +272,10 @@
                         aria-hidden="true"
                         [icon]="['fas', 'upload']"
                       ></fa-icon>
-                      Importer
+                      Importer vos domiciliés
                     </a>
                     <a
                       ngbDropdownItem
-                      aria-label="Modifier ma structure"
                       *ngIf="me.role === 'admin' || me.role === 'responsable'"
                       routerLink="/structures/edit"
                       ariaCurrentWhenActive="page"
@@ -304,7 +283,7 @@
                     >
                       <fa-icon aria-hidden="true" [icon]="['fas', 'home']">
                       </fa-icon>
-                      Structure
+                      Modifier ma structure
                     </a>
                     <a
                       ngbDropdownItem
@@ -312,14 +291,13 @@
                         me.role === 'admin' &&
                         me.structure?.sms?.enabledByDomifa
                       "
-                      aria-label="Gestion des SMS"
                       routerLink="/structures/sms"
                     >
                       <fa-icon
                         aria-hidden="true"
                         [icon]="['fas', 'sms']"
                       ></fa-icon>
-                      Notifications SMS
+                      Gérer l'envoi des SMS
                     </a>
                     <a
                       ngbDropdownItem
@@ -327,13 +305,12 @@
                         me.role === 'admin' &&
                         me.structure?.portailUsager?.enabledByDomifa
                       "
-                      aria-label="Modifier les accès au portail usager"
                       routerLink="/structures/portail-usager"
                       ariaCurrentWhenActive="page"
                       routerLinkActive="router-link-active"
                     >
                       <fa-icon aria-hidden="true" icon="user-secret"></fa-icon>
-                      Portail Usager
+                      Gérer le portail domiciliés
                     </a>
                     <a
                       ngbDropdownItem
@@ -342,14 +319,13 @@
                         me.role === 'responsable' ||
                         me.role === 'simple'
                       "
-                      aria-label="Statistiques"
                       routerLink="/stats/rapport-activite"
                       ariaCurrentWhenActive="page"
                       routerLinkActive="router-link-active"
                     >
                       <fa-icon [icon]="['far', 'chart-bar']" aria-hidden="true">
                       </fa-icon>
-                      Statistiques
+                      Consulter vos statistiques
                     </a>
                     <button type="button" ngbDropdownItem (click)="logout()">
                       <fa-icon
@@ -357,7 +333,7 @@
                         [icon]="['fas', 'sign-out-alt']"
                       >
                       </fa-icon>
-                      Déconnexion
+                      Me déconnecter
                     </button>
                   </div>
                 </div>

@@ -6,7 +6,7 @@
 
 <div class="content py-3">
   <div class="container py-3">
-    <div id="rapport" class="page-content p-4">
+    <div id="rapport" class="page-content p-3">
       <div class="row">
         <div class="col-md-12">
           <p>
@@ -60,7 +60,7 @@
       </div>
 
       <div class="row">
-        <div class="col-6 col-md-3">
+        <div class="col-12 col-md-3">
           <div class="form-group required">
             <div class="input-group">
               <label for="dateDebutValide" class="control-label">Du </label>
@@ -103,7 +103,7 @@
             Veuillez saisir une date de début valide. Par exemple : 01/01/2021
           </p>
         </div>
-        <div class="col-6 col-md-3">
+        <div class="col-12 col-md-3">
           <div class="form-group">
             <div class="input-group required">
               <label class="control-label" for="dateFinValide"> au </label>
@@ -147,11 +147,10 @@
             Veuillez saisir une date de fin valide. Exemple : 01/01/2021
           </p>
         </div>
-        <div class="col-6 col-md-3 form-group">
+        <div class="col-12 col-md-3 form-group">
           <div class="input-group">
             <button
               type="button"
-              aria-label="Actualiser les statistiques"
               class="btn btn-block btn-primary"
               [disabled]="
                 ca.status === 'INVALID' || cb.status === 'INVALID' || loading
@@ -178,7 +177,7 @@
             </button>
           </div>
         </div>
-        <div class="col-6 col-md-3" *ngIf="start !== null">
+        <div class="col-12 col-md-3" *ngIf="start !== null">
           <button
             (click)="export()"
             [disabled]="loading"

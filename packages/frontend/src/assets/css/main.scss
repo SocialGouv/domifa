@@ -119,23 +119,25 @@ legend {
   display: block;
   font-style: normal;
   font-weight: 600;
-  padding: 6px 0;
+  margin-bottom: 0.5rem;
+  padding: 0;
   font-size: 1rem;
 }
 
 .form-check label {
   font-weight: 300;
-  margin-left: 5px;
+  margin-left: 0.25rem;
 }
 
 .questions {
-  margin: 15px auto;
+  margin: 1rem auto;
 }
 
 .questions .form-check {
   display: inline-block;
-  margin-bottom: 12px;
-  min-width: 345px;
+  margin-bottom: 0.8rem;
+  max-width: 350px;
+  width: 98%;
 }
 
 @keyframes fadeIn {

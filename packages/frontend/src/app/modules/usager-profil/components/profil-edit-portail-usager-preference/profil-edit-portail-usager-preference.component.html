@@ -1,7 +1,10 @@
-<div class="d-flex justify-content-between align-items-center d-print-none">
+<div class="my-2 d-flex flex-wrap justify-content-between align-items-center">
   <h2>Accès au portail usager</h2>
 
-  <div class="text-end" *ngIf="usager.isActif && !isRole('facteur')">
+  <ng-container
+    *ngIf="usager.isActif && !isRole('facteur')"
+    class="d-print-none"
+  >
     <button
       type="submit"
       class="btn btn-outline-dark"
@@ -28,11 +31,11 @@
       ></fa-icon>
       Annuler les modifications
     </button>
-  </div>
+  </ng-container>
 </div>
 
-<div class="row d-print-none" *ngIf="!editionInProgress">
-  <div class="col-md-6 reponses">
+<div class="row" *ngIf="!editionInProgress">
+  <div class="col-12 col-md-6 reponses">
     <span class="question"
       >Le demandeur souhaite-t-il avoir accès au portail usager ?</span
     >
@@ -40,7 +43,7 @@
       {{ usager.options?.portailUsagerEnabled ? "OUI" : "NON" }}
     </span>
   </div>
-  <div *ngIf="isLoginToDisplay" class="col-md-6 reponses">
+  <div *ngIf="isLoginToDisplay" class="col-12 col-md-6 reponses">
     <span class="question">Identifants générés</span>
 
     <p class="mx-1 my-1">

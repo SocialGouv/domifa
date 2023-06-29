@@ -3,7 +3,11 @@ import { AbstractControl, ValidationErrors } from "@angular/forms";
 export const noWhiteSpace = (
   control: AbstractControl
 ): ValidationErrors | null => {
-  const isWhitespace = (control.value || "").trim().length === 0;
+  if (!control?.value) {
+    return { whitespace: true };
+  }
+
+  const isWhitespace = control?.value.toString().trim().length === 0;
   const isValid = !isWhitespace;
   return isValid ? null : { whitespace: true };
 };

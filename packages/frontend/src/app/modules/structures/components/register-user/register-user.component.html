@@ -72,13 +72,15 @@
             autocomplete="family-name"
             formControlName="nom"
             [ngClass]="{
-              'is-invalid': submitted && f.nom.errors,
+              'is-invalid': (f.nom.dirty || submitted) && f.nom.errors,
               'is-valid': f.nom.dirty && !f.nom.errors
             }"
             [attr.aria-describedby]="
-              submitted && f.nom.errors ? 'invalid-name' : null
+              (f.nom.dirty || submitted) && f.nom.errors ? 'invalid-name' : null
             "
-            [attr.aria-invalid]="submitted && f.nom.errors"
+            [attr.aria-invalid]="
+              (f.nom.dirty || submitted) && f.nom.errors ? true : false
+            "
             required
           />
           <p
@@ -99,17 +101,20 @@
             autocomplete="given-name"
             formControlName="prenom"
             [ngClass]="{
-              'is-invalid': submitted && f.prenom.errors,
-              'is-valid': f.prenom.dirty && !f.prenom.errors
+              'is-invalid':(submitted || f.prenom.dirty) && f.prenom.errors,
             }"
             [attr.aria-describedby]="
-              submitted && f.prenom.errors ? 'invalid-prenom' : null
+              (submitted || f.prenom.dirty) && f.prenom.errors
+                ? 'invalid-prenom'
+                : null
             "
-            [attr.aria-invalid]="submitted && f.prenom.errors"
+            [attr.aria-invalid]="
+              (submitted || f.prenom.dirty) && f.prenom.errors ? true : false
+            "
             required
           />
           <p
-            *ngIf="submitted && f.prenom.errors"
+            *ngIf="(submitted || f.prenom.dirty) && f.prenom.errors"
             id="invalid-prenom"
             class="invalid-feedback"
           >
@@ -126,21 +131,28 @@
             class="form-control"
             id="fonction"
             formControlName="fonction"
-            [ngClass]="{ 'is-invalid': submitted && f.fonction.errors }"
-            [attr.aria-invalid]="submitted && f.fonction.errors"
+            [ngClass]="{
+              'is-invalid':
+                (f.fonction.errors || submitted) && f.fonction.errors
+            }"
+            [attr.aria-invalid]="
+              (f.fonction.errors || submitted) && f.fonction.errors
+                ? true
+                : false
+            "
             [attr.aria-describedby]="
-              submitted && f.fonction.errors
-                ? 'invalid-fonction'
-                : 'fonction-help'
+              (f.fonction.errors || submitted) && f.fonction.errors
+                ? 'fonction-error'
+                : 'fonction-description'
             "
             required
           />
-          <small id="fonction-help"
+          <small id="fonction-description"
             >Président.e, Directrice, Chef de service, etc.</small
           >
           <p
             *ngIf="submitted && f.fonction.errors"
-            id="invalid-fonction"
+            id="fonction-error"
             class="invalid-feedback"
           >
             Votre fonction est obligatoire
@@ -163,7 +175,9 @@
                 ? 'email-errors'
                 : null
             "
-            [attr.aria-invalid]="(f.email.dirty || submitted) && f.email.errors"
+            [attr.aria-invalid]="
+              (f.email.dirty || submitted) && f.email.errors ? true : false
+            "
             required
           />
           <div

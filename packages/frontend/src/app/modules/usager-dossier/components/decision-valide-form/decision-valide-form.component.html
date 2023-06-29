@@ -18,7 +18,7 @@
             <span class="fw-bold text-danger">*</span> sont obligatoires
           </p>
         </div>
-        <div class="form-group col-md-6 required">
+        <div class="form-group col-12 col-md-6 required">
           <label for="dateDebutValide">Date de début</label>
           <div class="input-group">
             <input
@@ -34,10 +34,13 @@
               dateFr
               value
               [ngClass]="{
-                'is-invalid': v.dateDebut.dirty && v.dateDebut.errors
+                'is-invalid':
+                  (v.dateDebut.dirty || submitted) && v.dateDebut.errors
               }"
               [attr.aria-invalid]="
                 (v.dateDebut.dirty || submitted) && v.dateDebut.errors
+                  ? true
+                  : false
               "
               [attr.aria-describedby]="
                 (v.dateDebut.dirty || submitted) && v.dateDebut.errors
@@ -61,7 +64,7 @@
             </button>
           </div>
           <p
-            *ngIf="submitted && v.dateDebut.errors"
+            *ngIf="(v.dateDebut.dirty || submitted) && v.dateDebut.errors"
             role="alert"
             class="invalid-feedback"
             id="date-debut-errors"
@@ -69,7 +72,7 @@
             La date de début de domiciliation est incorrecte
           </p>
         </div>
-        <div class="form-group col-md-6 required">
+        <div class="form-group col-12 col-md-6 required">
           <label for="dateFinValide">Date de fin</label>
           <div class="input-group">
             <input
@@ -85,10 +88,12 @@
               id="dateFinValide"
               value
               [ngClass]="{
-                'is-invalid': v.dateFin.dirty && v.dateFin.errors
+                'is-invalid': (v.dateFin.dirty || submitted) && v.dateFin.errors
               }"
               [attr.aria-invalid]="
                 (v.dateFin.dirty || submitted) && v.dateFin.errors
+                  ? true
+                  : false
               "
               [attr.aria-describedby]="
                 (v.dateFin.dirty || submitted) && v.dateFin.errors
@@ -111,23 +116,25 @@
               ></fa-icon>
             </button>
           </div>
-        </div>
-        <div class="text-center text-danger col-12" id="date-fin-errors">
-          <p *ngIf="showDurationWarning">
-            <strong class="warning-end-dom"
-              ><fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'exclamation-triangle']"
-              ></fa-icon>
-              D'après la réglementation, une attestation de domiciliation doit
-              être valable pendant un an.</strong
-            >
-          </p>
-          <p *ngIf="v.dateDebut.errors">La date de début est incorrecte</p>
-          <p *ngIf="v.dateFin.errors">La date de fin est incorrecte</p>
-          <p *ngIf="v.dateDebut.value > v.dateFin.value">
-            La date de fin doit être supérieure à la date de début
-          </p>
+
+          <div class="text-center text-danger col-12" id="date-fin-errors">
+            <p *ngIf="showDurationWarning">
+              <strong class="warning-end-dom"
+                ><fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'exclamation-triangle']"
+                ></fa-icon>
+                D'après la réglementation, une attestation de domiciliation doit
+                être valable pendant un an.</strong
+              >
+            </p>
+            <p *ngIf="v.dateFin.errors">
+              La date de fin est incorrecte. Format attendu: jj/mm/aaaa
+            </p>
+            <p *ngIf="v.dateDebut.value > v.dateFin.value">
+              La date de fin doit être supérieure à la date de début
+            </p>
+          </div>
         </div>
       </div>
       <br />
@@ -141,19 +148,8 @@
             maxlength="30"
             formControlName="customRef"
             [ngClass]="{ 'is-invalid': v.customRef.errors }"
-            [attr.aria-describedby]="
-              submitted && v.customRef.errors ? 'custom-ref-errors' : null
-            "
           />
-          <p
-            *ngIf="v.customRef.errors"
-            id="custom-ref-errors"
-            class="invalid-feedback"
-          >
-            L'identifiant est incorrect
-          </p>
         </div>
-
         <div class="col-md-12" *ngIf="duplicates.length > 0">
           <app-display-duplicates-usager
             [duplicates]="duplicates"
