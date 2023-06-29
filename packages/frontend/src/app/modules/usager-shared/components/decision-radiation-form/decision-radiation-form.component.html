@@ -77,11 +77,21 @@
               id="dateFin"
               formControlName="dateFin"
               #dFin="ngbDatepicker"
+              [ngClass]="{
+                'is-invalid': (r.dateFin.dirty || submitted) && r.dateFin.errors
+              }"
+              [attr.aria-invalid]="
+                (r.dateFin.dirty || submitted) && r.dateFin.errors
+                  ? true
+                  : false
+              "
+              [attr.aria-describedby]="
+                (r.dateFin.dirty || submitted) && r.dateFin.errors
+                  ? 'date-fin-errors'
+                  : null
+              "
               dateFr
               value
-              [ngClass]="{
-                'is-invalid': submitted && r.dateFin.errors
-              }"
               maxlength="10"
               required
             />
@@ -98,8 +108,12 @@
               ></fa-icon>
             </button>
 
-            <p *ngIf="submitted && r.dateFin.invalid" class="invalid-feedback">
-              La date de radiation est incorrecte
+            <p
+              id="date-fin-errors"
+              *ngIf="(r.dateFin.dirty || submitted) && r.dateFin.errors"
+              class="invalid-feedback"
+            >
+              La date de fin est incorrecte. Format attendu: jj/mm/aaaa
             </p>
           </div>
         </div>
@@ -135,7 +149,19 @@
                   class="form-check-input"
                   type="radio"
                   id="motif-autre"
-                  [ngClass]="{ 'is-invalid': submitted && r.motif.errors }"
+                  [ngClass]="{
+                    'is-invalid': (r.motif.dirty || submitted) && r.motif.errors
+                  }"
+                  [attr.aria-invalid]="
+                    (r.motif.dirty || submitted) && r.motif.errors
+                      ? true
+                      : false
+                  "
+                  [attr.aria-describedby]="
+                    (r.motif.dirty || submitted) && r.motif.errors
+                      ? 'motif-errors'
+                      : null
+                  "
                   formControlName="motif"
                   value="AUTRE"
                   required
@@ -145,32 +171,47 @@
                 </label>
               </div>
             </div>
-            <p *ngIf="submitted && r.motif.errors" class="invalid-feedback">
+            <p
+              *ngIf="submitted && r.motif.errors"
+              id="motif-errors"
+              class="invalid-feedback"
+            >
               Veuillez choisir un motif de radiation
             </p>
 
-            <div *ngIf="r.motif.value === 'AUTRE'" class="form-group required">
-              <label class="form-check-label" for="motifDetails">
-                Autre motif de radiation
+            <div class="form-group required" *ngIf="r.motif.value === 'AUTRE'">
+              <label class="form-check-label" for="motifAutre">
+                Autre motif de radiation (10 caractères minimum)
               </label>
               <input
                 type="text"
+                [ngClass]="{
+                  'is-invalid':
+                    (r.motifDetails.dirty || submitted) && r.motifDetails.errors
+                }"
+                [attr.aria-invalid]="
+                  (r.motifDetails.dirty || submitted) && r.motifDetails.errors
+                    ? true
+                    : false
+                "
+                [attr.aria-describedby]="
+                  (r.motifDetails.dirty || submitted) && r.motifDetails.errors
+                    ? 'motifDetails-errors'
+                    : null
+                "
                 class="form-control"
-                id="motifDetails"
-                [ngClass]="{ 'is-invalid': submitted && r.motifDetails.errors }"
+                id="motifAutre"
                 formControlName="motifDetails"
-                aria-describedby="otherHelpText"
                 required
               />
-              <small id="otherHelpText" class="form-text text-muted">
-                10 caractères minimum
-              </small>
               <p
-                *ngIf="submitted && r.motifDetails.errors"
+                *ngIf="
+                  (r.motifDetails.dirty || submitted) && r.motifDetails.errors
+                "
                 class="invalid-feedback"
+                id="motifDetails-errors"
               >
-                Veuillez indiquer un autre motif de radiation d'au moins 10
-                caractères
+                Veuillez précisez le motif
               </p>
             </div>
           </fieldset>

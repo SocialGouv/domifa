@@ -61,6 +61,9 @@ form label {
   margin-top: 4px;
 }
 
+.btn-group * {
+  vertical-align: middle;
+}
 .btn-group {
   flex-wrap: wrap;
 }

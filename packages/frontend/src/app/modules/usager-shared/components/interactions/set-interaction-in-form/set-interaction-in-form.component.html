@@ -16,6 +16,7 @@
           [@bounce]="interactionFormData.courrierIn.nbCourrier"
           *ngIf="interactionFormData.courrierIn.nbCourrier > 0"
           class="interaction-notification"
+          aria-hidden="true"
         >
           {{ interactionFormData.courrierIn.nbCourrier }}
         </div>
@@ -41,7 +42,11 @@
           <span class="icon-plus" aria-hidden="true"></span>
         </button>
       </div>
-      <span class="interaction-label">Courriers</span>
+      <span class="interaction-label"
+        ><span class="visually-hidden">
+          {{ interactionFormData.courrierIn.nbCourrier }}</span
+        >Courriers</span
+      >
     </div>
 
     <div class="interaction-zone p-1 me-4 my-2">

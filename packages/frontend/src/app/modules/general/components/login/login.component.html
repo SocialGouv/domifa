@@ -54,7 +54,9 @@
                   required
                   class="form-control"
                   [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
-                  [attr.aria-invalid]="f.email.dirty && f.email.errors"
+                  [attr.aria-invalid]="
+                    f.email.dirty && f.email.errors ? true : false
+                  "
                   [attr.aria-describedby]="
                     f.email.dirty && f.email.errors ? 'email-errors' : null
                   "
@@ -78,7 +80,9 @@
                     [type]="!hidePassword ? 'text' : 'password'"
                     class="form-control"
                     autocomplete="current-password"
-                    [attr.aria-invalid]="f.password.dirty && f.password.errors"
+                    [attr.aria-invalid]="
+                      f.password.dirty && f.password.errors ? true : false
+                    "
                     [attr.aria-describedby]="
                       f.password.dirty && f.password.errors
                         ? 'invalid-password'

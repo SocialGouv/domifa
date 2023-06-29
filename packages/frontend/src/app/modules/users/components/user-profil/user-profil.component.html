@@ -6,62 +6,66 @@
 
 <div class="content py-3" *ngIf="me">
   <div class="container py-3">
-    <div class="page-content p-4">
+    <div class="page-content p-3">
       <h2>Membres actifs</h2>
-      <table class="table">
-        <caption class="visually-hidden">
-          Liste des membres actifs
-        </caption>
-        <thead>
-          <tr>
-            <th scope="col">Nom prénom</th>
-            <th scope="col">Email</th>
-            <th scope="col">Rôle</th>
-            <th scope="col">Supprimer</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let user of users">
-            <td>
-              <strong>{{ user.nom }} {{ user.prenom }}</strong>
-            </td>
-            <td>{{ user.email }}</td>
-            <td>
-              <ng-container *ngIf="me.role === 'admin' && me.id !== user.id">
-                <label class="visually-hidden" for="role_{{ user.id }}"
-                  >Rôle de {{ user.nom }} {{ user.prenom }}</label
+      <div class="table-responsive">
+        <table class="table">
+          <caption class="visually-hidden">
+            Liste des membres actifs
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Nom prénom</th>
+              <th scope="col">Email</th>
+              <th scope="col">Rôle</th>
+              <th scope="col">Supprimer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users">
+              <td>
+                <strong>{{ user.nom }} {{ user.prenom }}</strong>
+              </td>
+              <td>{{ user.email }}</td>
+              <td>
+                <ng-container *ngIf="me.role === 'admin' && me.id !== user.id">
+                  <label class="visually-hidden" for="role_{{ user.id }}"
+                    >Rôle de {{ user.nom }} {{ user.prenom }}</label
+                  >
+                  <select
+                    [disabled]="loading"
+                    id="role_{{ user.id }}"
+                    [(ngModel)]="user.role"
+                    (ngModelChange)="updateRole(user.id, user.role)"
+                    class="form-select"
+                  >
+                    <option value="admin">Administrateur</option>
+                    <option value="responsable">Gestionnaire</option>
+                    <option value="simple">Instructeur</option>
+                    <option value="facteur">Facteur</option>
+                  </select>
+                </ng-container>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  *ngIf="me.role === 'admin' && me.id !== user.id"
+                  (click)="open(deleteUserConfirmation); selectedUser = user"
+                  class="btn btn-outline-danger"
                 >
-                <select
-                  [disabled]="loading"
-                  id="role_{{ user.id }}"
-                  [(ngModel)]="user.role"
-                  (ngModelChange)="updateRole(user.id, user.role)"
-                  class="form-select"
-                >
-                  <option value="admin">Administrateur</option>
-                  <option value="responsable">Gestionnaire</option>
-                  <option value="simple">Instructeur</option>
-                  <option value="facteur">Facteur</option>
-                </select>
-              </ng-container>
-            </td>
-            <td>
-              <button
-                type="button"
-                *ngIf="me.role === 'admin' && me.id !== user.id"
-                (click)="open(deleteUserConfirmation); selectedUser = user"
-                class="btn btn-outline-danger"
-              >
-                <span class="visually-hidden"
-                  >Supprimer {{ user.nom + " " + user.prenom }}</span
-                >
-                <fa-icon [icon]="['fas', 'trash']" aria-hidden="true"></fa-icon>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
+                  <span class="visually-hidden"
+                    >Supprimer {{ user.nom + " " + user.prenom }}</span
+                  >
+                  <fa-icon
+                    [icon]="['fas', 'trash']"
+                    aria-hidden="true"
+                  ></fa-icon>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <button
         type="button"
         class="btn btn-outline-primary"
@@ -70,483 +74,479 @@
         <fa-icon aria-hidden="true" [icon]="['fas', 'question']"></fa-icon>
         &nbsp; En savoir plus sur les rôles utilisateurs
       </button>
-      <br />
-      <br />
 
-      <div *ngIf="usersInfos">
-        <table class="table table-striped table-hover" id="user-infos">
-          <caption class="visually-hidden">
-            Liste des rôles utilisateurs et des rôles
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Fonctionnalit&eacute;</th>
-              <th scope="col" class="text-center">Facteur</th>
-              <th scope="col" class="text-center">Instructeur</th>
-              <th scope="col" class="text-center">Gestionnaire</th>
-              <th scope="col" class="text-center">Administrateur</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Cr&eacute;ation et suppression d&rsquo;un utilisateur</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-            </tr>
-            <tr>
-              <td>Acc&egrave;s &agrave; la liste des membres actifs</td>
-              <td></td>
-              <td></td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-            </tr>
-            <tr>
-              <td>Changement de r&ocirc;le d&rsquo;un utilisateur</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-            </tr>
-            <tr>
-              <td>Modification des informations de votre structure</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-            </tr>
-            <tr>
-              <td>Ajout documentation interne structure</td>
-              <td></td>
-              <td></td>
-              <td>* Téléchargement seulement</td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-            </tr>
-            <tr>
-              <td>Param&egrave;tres (SMS, ID personnalis&eacute;s etc.)</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-            </tr>
-            <tr>
-              <td>Portail usager</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-            </tr>
-            <tr>
-              <td>Param&egrave;trage des courriers</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Suppression de la liste des usagers li&eacute;e &agrave; votre
-                structure
-              </td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-            </tr>
-            <tr>
-              <td>Export des donn&eacute;es</td>
-              <td></td>
-              <td></td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-            </tr>
-            <tr>
-              <td>Page statistiques de la structure</td>
-              <td></td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-            </tr>
-            <tr>
-              <td>Cr&eacute;ation du dossier d&rsquo;un domicili&eacute;</td>
-              <td></td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Validation ou refus d&rsquo;une demande de domicili&eacute;
-              </td>
-              <td></td>
-              <td></td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Modification de la fiche d&rsquo;un domicili&eacute; :
+      <div class="my-2" *ngIf="usersInfos">
+        <div class="table-responsive">
+          <table class="table" id="user-infos">
+            <caption class="visually-hidden">
+              Liste des rôles utilisateurs et des rôles
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Fonctionnalit&eacute;</th>
+                <th scope="col" class="text-center">Facteur</th>
+                <th scope="col" class="text-center">Instructeur</th>
+                <th scope="col" class="text-center">Gestionnaire</th>
+                <th scope="col" class="text-center">Administrateur</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Cr&eacute;ation et suppression d&rsquo;un utilisateur</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+              </tr>
+              <tr>
+                <td>Acc&egrave;s &agrave; la liste des membres actifs</td>
+                <td></td>
+                <td></td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+              </tr>
+              <tr>
+                <td>Changement de r&ocirc;le d&rsquo;un utilisateur</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+              </tr>
+              <tr>
+                <td>Modification des informations de votre structure</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+              </tr>
+              <tr>
+                <td>Ajout documentation interne structure</td>
+                <td></td>
+                <td></td>
+                <td>* Téléchargement seulement</td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+              </tr>
+              <tr>
+                <td>Param&egrave;tres (SMS, ID personnalis&eacute;s etc.)</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+              </tr>
+              <tr>
+                <td>Portail usager</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+              </tr>
+              <tr>
+                <td>Param&egrave;trage des courriers</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Suppression de la liste des usagers li&eacute;e &agrave; votre
+                  structure
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+              </tr>
+              <tr>
+                <td>Export des donn&eacute;es</td>
+                <td></td>
+                <td></td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+              </tr>
+              <tr>
+                <td>Page statistiques de la structure</td>
+                <td></td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+              </tr>
+              <tr>
+                <td>Cr&eacute;ation du dossier d&rsquo;un domicili&eacute;</td>
+                <td></td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Validation ou refus d&rsquo;une demande de domicili&eacute;
+                </td>
+                <td></td>
+                <td></td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Modification de la fiche d&rsquo;un domicili&eacute; :
 
-                <ul>
-                  <li>&eacute;tat civil*</li>
-                  <li>Ayants-droit*</li>
-                  <li>Notifications SMS*</li>
-                  <li>Portail usager*</li>
-                  <li>Transfert de courrier**</li>
-                  <li>Procurations de courrier**</li>
-                  <li>Entretien</li>
-                  <li>Pi&egrave;ces jointes</li>
-                </ul>
-              </td>
-              <td>
-                <p>* Lecture des informations seulement</p>
-                <p>** Modification et suppression possible</p>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-            </tr>
-            <tr>
-              <td>Ajout/suppression de notes internes</td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-            </tr>
-            <tr>
-              <td>Gestion de la r&eacute;ception des courriers/colis/avis</td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-            </tr>
-            <tr>
-              <td>D&eacute;claration d&rsquo;un passage/appel&nbsp;</td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-            </tr>
-            <tr>
-              <td>Radiation du dossier d&rsquo;un domicili&eacute;</td>
-              <td></td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-            </tr>
-            <tr>
-              <td>Renouvellement du dossier d&rsquo;un domicili&eacute;</td>
-              <td></td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                T&eacute;l&eacute;chargement des pi&egrave;ces jointes
-                li&eacute;es au dossier&nbsp;
-              </td>
-              <td></td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-            </tr>
-            <tr>
-              <td>Suppression du dossier d&rsquo;un domicili&eacute;</td>
-              <td></td>
-              <td></td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-              <td class="bg-success text-white">
-                <span class="visually-hidden">Oui</span
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'check']"
-                ></fa-icon>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <br />
-      <br />
-
-      <div>
-        <div *ngIf="me.role === 'admin'">
-          <app-register-user-admin
-            (getUsers)="getUsers()"
-          ></app-register-user-admin>
+                  <ul>
+                    <li>&eacute;tat civil*</li>
+                    <li>Ayants-droit*</li>
+                    <li>Notifications SMS*</li>
+                    <li>Portail usager*</li>
+                    <li>Transfert de courrier**</li>
+                    <li>Procurations de courrier**</li>
+                    <li>Entretien</li>
+                    <li>Pi&egrave;ces jointes</li>
+                  </ul>
+                </td>
+                <td>
+                  <p>* Lecture des informations seulement</p>
+                  <p>** Modification et suppression possible</p>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+              </tr>
+              <tr>
+                <td>Ajout/suppression de notes internes</td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+              </tr>
+              <tr>
+                <td>Gestion de la r&eacute;ception des courriers/colis/avis</td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+              </tr>
+              <tr>
+                <td>D&eacute;claration d&rsquo;un passage/appel&nbsp;</td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+              </tr>
+              <tr>
+                <td>Radiation du dossier d&rsquo;un domicili&eacute;</td>
+                <td></td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+              </tr>
+              <tr>
+                <td>Renouvellement du dossier d&rsquo;un domicili&eacute;</td>
+                <td></td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  T&eacute;l&eacute;chargement des pi&egrave;ces jointes
+                  li&eacute;es au dossier&nbsp;
+                </td>
+                <td></td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+              </tr>
+              <tr>
+                <td>Suppression du dossier d&rsquo;un domicili&eacute;</td>
+                <td></td>
+                <td></td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+                <td class="bg-success text-white">
+                  <span class="visually-hidden">Oui</span
+                  ><fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'check']"
+                  ></fa-icon>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+      </div>
+
+      <div *ngIf="me.role === 'admin'">
+        <app-register-user-admin
+          (getUsers)="getUsers()"
+        ></app-register-user-admin>
       </div>
     </div>
   </div>

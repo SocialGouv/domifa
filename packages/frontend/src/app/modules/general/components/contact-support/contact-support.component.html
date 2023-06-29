@@ -20,7 +20,7 @@
 
 <div class="content py-3" *ngIf="contactForm && !success">
   <div class="container py-3">
-    <div class="page-content p-4">
+    <div class="page-content p-3">
       <p>
         Un problème ? Une suggestion ? Avez-vous consulté
         <a
@@ -50,18 +50,23 @@
                 appCleanStr
                 autocomplete="name"
                 formControlName="name"
-                [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
-                [attr.aria-invalid]="submitted && f.name.errors"
+                [ngClass]="{ 'is-invalid': f.name.dirty && f.name.errors }"
+                [attr.aria-invalid]="
+                  f.name.dirty && f.name.errors ? true : false
+                "
                 [attr.aria-describedby]="
-                  submitted && f.name.errors ? 'invalid-name' : 'name-help'
+                  f.name.dirty && f.name.errors ? 'invalid-name' : 'name-help'
                 "
                 required
               />
-              <small class="form-text text-muted" id="name-help"
+              <small
+                *ngIf="!f.name.dirty && !f.name.errors"
+                class="form-text text-muted"
+                id="name-help"
                 >2 caractères minimum</small
               >
               <p
-                *ngIf="submitted && f.name.errors"
+                *ngIf="(submitted || f.name.dirty) && f.name.errors"
                 id="invalid-name"
                 class="invalid-feedback"
               >
@@ -77,19 +82,27 @@
                 id="structureName"
                 appCleanStr
                 formControlName="structureName"
-                [attr.aria-invalid]="submitted && f.structureName.errors"
+                [attr.aria-invalid]="
+                  (submitted || f.structureName.dirty) && f.structureName.errors
+                    ? true
+                    : false
+                "
                 [attr.aria-describedby]="
-                  submitted && f.structureName.errors
+                  (submitted || f.structureName.dirty) && f.structureName.errors
                     ? 'invalid-structure-name'
                     : null
                 "
                 [ngClass]="{
-                  'is-invalid': submitted && f.structureName.errors
+                  'is-invalid':
+                    (submitted || f.structureName.dirty) &&
+                    f.structureName.errors
                 }"
                 required
               />
               <p
-                *ngIf="submitted && f.structureName.errors"
+                *ngIf="
+                  (submitted || f.structureName.dirty) && f.structureName.errors
+                "
                 class="invalid-feedback"
                 id="invalid-structure-name"
               >
@@ -105,15 +118,21 @@
                 formControlName="email"
                 autocomplete="email"
                 class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
-                [attr.aria-invalid]="submitted && f.email.errors"
+                [ngClass]="{
+                  'is-invalid': (f.email.dirty || submitted) && f.email.errors
+                }"
+                [attr.aria-invalid]="
+                  (f.email.dirty || submitted) && f.email.errors ? true : false
+                "
                 [attr.aria-describedby]="
-                  submitted && f.email.errors ? 'email-errors' : null
+                  (f.email.dirty || submitted) && f.email.errors
+                    ? 'email-errors'
+                    : null
                 "
                 required
               />
               <p
-                *ngIf="submitted && f.email.errors"
+                *ngIf="(f.email.dirty || submitted) && f.email.errors"
                 id="email-errors"
                 class="invalid-feedback"
               >
@@ -125,15 +144,22 @@
               <label for="content">Votre message</label>
               <textarea
                 [attr.aria-describedby]="
-                  submitted && f.content.errors
+                  (f.content.dirty || submitted) && f.content.errors
                     ? 'content-error'
                     : 'content-help'
                 "
                 class="form-control"
                 formControlName="content"
                 id="content"
-                [ngClass]="{ 'is-invalid': submitted && f.content.errors }"
-                [attr.aria-invalid]="submitted && f.content.errors"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.content.dirty || submitted) && f.content.errors
+                }"
+                [attr.aria-invalid]="
+                  (f.content.dirty || submitted) && f.content.errors
+                    ? true
+                    : false
+                "
                 rows="6"
                 minlength="10"
                 required
@@ -143,7 +169,7 @@
                 utilisé (10 caractères minimum)</small
               >
               <p
-                *ngIf="submitted && f.content.errors"
+                *ngIf="(f.content.dirty || submitted) && f.content.errors"
                 id="content-error"
                 class="invalid-feedback"
               >
@@ -162,14 +188,19 @@
                 accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .xlsx, .xls"
                 id="file"
                 formControlName="file"
-                [attr.aria-invalid]="submitted && f.fileSource.errors"
+                [attr.aria-invalid]="
+                  (f.fileSource.dirty || submitted) && f.fileSource.errors
+                    ? true
+                    : false
+                "
                 [attr.aria-describedby]="
-                  submitted && f.fileSource.errors
+                  (f.fileSource.dirty || submitted) && f.fileSource.errors
                     ? 'pj-error'
                     : 'file-description'
                 "
                 [ngClass]="{
-                  'is-invalid': submitted && f.fileSource.errors
+                  'is-invalid':
+                    (f.fileSource.dirty || submitted) && f.fileSource.errors
                 }"
                 (change)="onFileChange($event)"
               />
@@ -178,7 +209,7 @@
               </small>
 
               <div
-                *ngIf="submitted && f.fileSource.errors"
+                *ngIf="(f.fileSource.dirty || submitted) && f.fileSource.errors"
                 class="invalid-feedback"
                 id="pj-error"
               >

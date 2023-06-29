@@ -13,11 +13,16 @@
         id="nom"
         appCleanStr
         formControlName="nom"
-        [ngClass]="{ 'is-invalid': (f.nom.dirty || submitted) && f.nom.errors }"
+        [ngClass]="{
+          'is-invalid': (f.nom.dirty || submitted) && f.nom.errors,
+          'is-valid': f.nom.dirty && !f.nom.errors
+        }"
         [attr.aria-describedby]="
           (f.nom.dirty || submitted) && f.nom.errors ? 'invalid-name' : null
         "
-        [attr.aria-invalid]="submitted && f.nom.errors"
+        [attr.aria-invalid]="
+          (f.nom.dirty || submitted) && f.nom.errors ? true : false
+        "
         required
       />
       <p
@@ -37,20 +42,22 @@
         appCleanStr
         formControlName="prenom"
         [ngClass]="{
-          'is-invalid': (f.prenom.dirty || submitted) && f.prenom.errors
+          'is-invalid':(submitted || f.prenom.dirty) && f.prenom.errors,
         }"
         [attr.aria-describedby]="
-          (f.prenom.dirty || submitted) && f.prenom.errors
+          (submitted || f.prenom.dirty) && f.prenom.errors
             ? 'invalid-prenom'
             : null
         "
-        [attr.aria-invalid]="submitted && f.prenom.errors"
+        [attr.aria-invalid]="
+          (submitted || f.prenom.dirty) && f.prenom.errors ? true : false
+        "
         required
       />
       <p
-        *ngIf="submitted && f.prenom.errors"
-        class="invalid-feedback"
+        *ngIf="(submitted || f.prenom.dirty) && f.prenom.errors"
         id="invalid-prenom"
+        class="invalid-feedback"
       >
         Veuillez vérifier le prénom
       </p>
@@ -62,7 +69,9 @@
         class="form-control"
         id="email"
         formControlName="email"
-        [attr.aria-invalid]="(f.email.dirty || submitted) && f.email.errors"
+        [attr.aria-invalid]="
+          (f.email.dirty || submitted) && f.email.errors ? true : false
+        "
         [ngClass]="{
           'is-invalid': (f.email.dirty || submitted) && f.email.errors
         }"
@@ -90,7 +99,7 @@
         [ngClass]="{
           'is-invalid': submitted && f.role.errors
         }"
-        [attr.aria-invalid]="submitted && f.role.errors"
+        [attr.aria-invalid]="submitted && f.role.errors ? true : false"
         [attr.aria-describedby]="
           submitted && f.role.errors ? 'invalid-role' : null
         "

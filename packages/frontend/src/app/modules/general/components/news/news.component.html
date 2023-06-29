@@ -6,35 +6,32 @@
 
 <div class="content py-3" *ngIf="DOMIFA_NEWS">
   <div class="container py-3">
-    <div class="page-content p-4">
-      <div class="card my-3 text-start" *ngFor="let news of DOMIFA_NEWS">
-        <p>
-          <strong>{{ news.date | date : "dd/MM/yyyy" }}</strong>
-          <span *ngIf="news.description">- {{ news.description }}</span>
+    <div class="card my-3 text-start" *ngFor="let news of DOMIFA_NEWS">
+      <p>
+        <strong>{{ news.date | date : "dd/MM/yyyy" }}</strong>
+        <span *ngIf="news.description">- {{ news.description }}</span>
+      </p>
+      <ng-container *ngFor="let content of news.content">
+        <p class="text-start news">
+          <span
+            class="badge badge-pill"
+            [ngClass]="{
+              'bg-primary': content.type === 'new',
+              'bg-warning text-dark': content.type === 'bug'
+            }"
+          >
+            {{ content?.type === "bug" ? "Améliorations" : "Nouveauté" }}
+          </span>
+          &nbsp;
+          <strong>{{ content.categorie }}</strong>
         </p>
-        <ng-container *ngIf="news?.content">
-          <div *ngFor="let content of news.content" class="text-start news">
-            <span
-              class="badge badge-pill"
-              [ngClass]="{
-                'bg-primary': content.type === 'new',
-                'bg-warning text-dark': content.type === 'bug'
-              }"
-            >
-              {{ content?.type === "bug" ? "Améliorations" : "Nouveauté" }}
-            </span>
-            &nbsp;
-            <strong>{{ content.categorie }}</strong>
-            <br />
-            <ul>
-              <li
-                *ngFor="let message of content.message"
-                [innerHTML]="message | nl2br"
-              ></li>
-            </ul>
-          </div>
-        </ng-container>
-      </div>
+        <ul>
+          <li
+            *ngFor="let message of content.message"
+            [innerHTML]="message | nl2br"
+          ></li>
+        </ul>
+      </ng-container>
     </div>
   </div>
 </div>

@@ -25,7 +25,7 @@
 
 <div class="content py-3">
   <div class="container py-3">
-    <div class="page-content p-4">
+    <div class="page-content p-3">
       <p class="py-2">
         Une fois que la fonctionnalité d'accès au portail usager au sein de
         votre structure est activée, il vous faudra la valider sur chacune des
@@ -33,106 +33,113 @@
       </p>
 
       <form>
-        <div>
-          <fieldset class="d-flex justify-content-center align-items-center">
-            <legend class="required label me-2">
-              Activer l'accès au portail usager pour vos domiciliés
-            </legend>
-
-            <div class="btn-group" role="group">
-              <input
-                type="radio"
-                [(ngModel)]="structure.portailUsager.enabledByStructure"
-                [value]="true"
-                name="enabledByStructure"
-                class="btn-check"
-                id="enabledByStructure1"
-              />
-              <label
-                [ngClass]="
-                  structure.portailUsager.enabledByStructure === true
-                    ? 'btn btn-primary'
-                    : 'btn btn-outline-primary'
-                "
-                for="enabledByStructure1"
-                >Oui</label
-              >
-
-              <input
-                type="radio"
-                [(ngModel)]="structure.portailUsager.enabledByStructure"
-                [value]="false"
-                name="enabledByStructure"
-                class="btn-check"
-                id="enabledByStructure2"
-              />
-              <label
-                [ngClass]="
-                  structure.portailUsager.enabledByStructure === false
-                    ? 'btn btn-danger'
-                    : 'btn btn-outline-danger'
-                "
-                for="enabledByStructure2"
-                >Non</label
-              >
+        <fieldset>
+          <div class="row align-items-center">
+            <div class="col-12 col-md-8">
+              <legend class="label">
+                Activer l'accès au portail usager pour vos domiciliés
+              </legend>
             </div>
-          </fieldset>
+            <div class="col-md-4 col-12 text-center text-md-end">
+              <div class="btn-group btn-group-toggle" role="group">
+                <label
+                  [ngClass]="
+                    structure.portailUsager.enabledByStructure === true
+                      ? 'btn btn-primary'
+                      : 'btn btn-outline-primary'
+                  "
+                  for="enabledByStructure1"
+                >
+                  <input
+                    type="radio"
+                    [(ngModel)]="structure.portailUsager.enabledByStructure"
+                    [value]="true"
+                    name="enabledByStructure"
+                    id="enabledByStructure1"
+                    class="me-2"
+                  /><span>Oui</span></label
+                >
 
-          <fieldset
-            class="d-flex justify-content-center align-items-center"
-            *ngIf="structure.portailUsager.enabledByStructure === true"
-          >
-            <legend class="label">
-              Mettre à jour la date de dernier passage du domicilié s'il se
-              connecte au portail usager
-            </legend>
-            <div class="btn-group" role="group">
-              <input
-                type="radio"
-                class="btn-check"
-                name="usagerLoginUpdateLastInteractionOui"
-                id="usagerLoginUpdateLastInteractionOui"
-                [(ngModel)]="
-                  structure.portailUsager.usagerLoginUpdateLastInteraction
-                "
-                [value]="true"
-              />
-              <label
-                [ngClass]="
-                  structure.portailUsager.usagerLoginUpdateLastInteraction ===
-                  true
-                    ? 'btn btn-primary'
-                    : 'btn btn-outline-primary'
-                "
-                for="usagerLoginUpdateLastInteractionOui"
-              >
-                Oui
-              </label>
-
-              <input
-                class="btn-check"
-                name="usagerLoginUpdateLastInteractionNon"
-                type="radio"
-                id="usagerLoginUpdateLastInteractionNon"
-                [value]="false"
-                [(ngModel)]="
-                  structure.portailUsager.usagerLoginUpdateLastInteraction
-                "
-              />
-              <label
-                [ngClass]="
-                  structure.portailUsager.usagerLoginUpdateLastInteraction ===
-                  false
-                    ? 'btn btn-danger'
-                    : 'btn btn-outline-danger'
-                "
-                for="usagerLoginUpdateLastInteractionNon"
-              >
-                Non
-              </label>
+                <label
+                  [ngClass]="
+                    structure.portailUsager.enabledByStructure === false
+                      ? 'btn btn-danger'
+                      : 'btn btn-outline-danger'
+                  "
+                  for="enabledByStructure2"
+                >
+                  <input
+                    type="radio"
+                    [(ngModel)]="structure.portailUsager.enabledByStructure"
+                    [value]="false"
+                    name="enabledByStructure"
+                    id="enabledByStructure2"
+                    class="me-2"
+                  /><span>Non</span></label
+                >
+              </div>
             </div>
-          </fieldset>
-        </div>
+          </div>
+        </fieldset>
+
+        <fieldset *ngIf="structure.portailUsager.enabledByStructure === true">
+          <div class="row align-items-center">
+            <div class="col-md-8 col-12">
+              <legend class="label">
+                Mettre à jour la date de dernier passage du domicilié s'il se
+                connecte au portail usager
+              </legend>
+            </div>
+            <div class="col-md-4 col-12 text-center text-md-end">
+              <div class="btn-group btn-group-toggle" role="group">
+                <label
+                  [ngClass]="
+                    structure.portailUsager.usagerLoginUpdateLastInteraction ===
+                    true
+                      ? 'btn btn-primary'
+                      : 'btn btn-outline-primary'
+                  "
+                  for="usagerLoginUpdateLastInteractionOui"
+                >
+                  <input
+                    type="radio"
+                    name="usagerLoginUpdateLastInteractionOui"
+                    id="usagerLoginUpdateLastInteractionOui"
+                    [(ngModel)]="
+                      structure.portailUsager.usagerLoginUpdateLastInteraction
+                    "
+                    [value]="true"
+                    class="me-2"
+                  />
+                  <span>Oui</span>
+                </label>
+
+                <label
+                  [ngClass]="
+                    structure.portailUsager.usagerLoginUpdateLastInteraction ===
+                    false
+                      ? 'btn btn-danger'
+                      : 'btn btn-outline-danger'
+                  "
+                  for="usagerLoginUpdateLastInteractionNon"
+                >
+                  <input
+                    name="usagerLoginUpdateLastInteractionNon"
+                    type="radio"
+                    id="usagerLoginUpdateLastInteractionNon"
+                    [value]="false"
+                    class="me-2"
+                    [(ngModel)]="
+                      structure.portailUsager.usagerLoginUpdateLastInteraction
+                    "
+                  />
+                  <span>Non</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
         <div class="col-md-12 my-2 text-center">
           <button
             class="btn btn-primary"

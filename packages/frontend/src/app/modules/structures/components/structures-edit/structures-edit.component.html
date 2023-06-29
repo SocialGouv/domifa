@@ -6,7 +6,7 @@
 
 <div class="content py-3" *ngIf="me">
   <div class="container py-3">
-    <div class="page-content p-4">
+    <div class="page-content p-3">
       <section>
         <h2>Vos données</h2>
 
@@ -14,7 +14,7 @@
           type="button"
           (click)="export()"
           [disabled]="exportLoading"
-          class="btn btn-outline-primary"
+          class="btn btn-outline-primary my-1"
         >
           <span *ngIf="!exportLoading">
             <fa-icon
@@ -39,7 +39,7 @@
           type="button"
           *ngIf="me.role === 'admin'"
           (click)="open(hardResetConfirmation)"
-          class="btn btn-outline-danger"
+          class="btn btn-outline-danger my-1"
         >
           <fa-icon
             [icon]="['fas', 'trash']"
@@ -51,18 +51,6 @@
       </section>
 
       <section *ngIf="me.role === 'admin'">
-        <h2>Informations de votre structure</h2>
-        <div *ngIf="structure">
-          <strong>{{ structure.nom }}</strong>
-          <br />
-          {{ structure.adresse }}
-          <span *ngIf="structure.complementAdresse">
-            , {{ structure.complementAdresse }}
-            <br />
-          </span>
-          {{ structure.codePostal }}, {{ structure.ville }}
-        </div>
-
         <app-structure-edit-form
           *ngIf="structure"
           [structure]="structure"

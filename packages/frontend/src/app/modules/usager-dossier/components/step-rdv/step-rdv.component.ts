@@ -34,7 +34,12 @@ import {
   setHours,
   setMinutes,
 } from "date-fns";
-import { fadeInOut, minDateToday, selectUsagerByRef } from "../../../../shared";
+import {
+  fadeInOut,
+  minDateToday,
+  noWhiteSpace,
+  selectUsagerByRef,
+} from "../../../../shared";
 
 import { Title } from "@angular/platform-browser";
 import { Store } from "@ngrx/store";
@@ -138,7 +143,7 @@ export class StepRdvComponent
       ],
       isNow: [this.usager.rdv.isNow, []],
       jourRdv: [this.usager.rdv.jourRdv, [Validators.required]],
-      userId: [this.usager.rdv.userId, Validators.required],
+      userId: [this.usager.rdv.userId, [Validators.required, noWhiteSpace]],
     });
 
     this.subscription.add(

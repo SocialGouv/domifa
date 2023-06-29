@@ -10,61 +10,85 @@
     </p>
     <legend class="visually-hidden">État civil du domicilié</legend>
     <div class="row">
-      <div class="col-md-4 form-group required">
+      <div class="col-md-4 col-12 form-group required">
         <label for="nom">Nom</label>
         <input
           type="text"
           class="form-control"
           id="nom"
           appCleanStr
+          maxlength="200"
           formControlName="nom"
-          [ngClass]="{ 'is-invalid': f.nom.errors }"
+          [ngClass]="{
+            'is-invalid': (f.nom.dirty || submitted) && f.nom.errors
+          }"
           [attr.aria-describedby]="
-            f.nom.errors ? 'nom-errors' : 'nom-description'
+            (f.nom.dirty || submitted) && f.nom.errors
+              ? 'nom-errors'
+              : 'nom-description'
           "
-          [attr.aria-invalid]="f.nom.errors ? true : false"
+          [attr.aria-invalid]="
+            (f.nom.dirty || submitted) && f.nom.errors ? true : false
+          "
           required
         />
-        <small id="nom-description"
+        <small id="nom-description" class="form-text text-muted"
           >Précisez nom de naissance si nécessaire</small
         >
-        <p *ngIf="f.nom.errors" id="nom-errors" class="invalid-feedback">
+        <p
+          *ngIf="(f.nom.dirty || submitted) && f.nom.errors"
+          id="nom-errors"
+          class="invalid-feedback"
+        >
           Le nom du demandeur est obligatoire
         </p>
       </div>
 
-      <div class="col-md-4 form-group required">
+      <div class="col-md-4 col-12 form-group required">
         <label for="prenom">Prénom(s)</label>
         <input
           type="text"
           class="form-control"
           id="prenom"
           appCleanStr
+          maxlength="200"
           formControlName="prenom"
-          [ngClass]="{ 'is-invalid': f.prenom.errors }"
-          [attr.aria-describedby]="f.prenom.errors ? 'prenom-errors' : null"
-          [attr.aria-invalid]="f.prenom.errors ? true : false"
+          [ngClass]="{
+            'is-invalid': (f.prenom.dirty || submitted) && f.prenom.errors
+          }"
+          [attr.aria-describedby]="
+            (f.prenom.dirty || submitted) && f.prenom.errors
+              ? 'prenom-errors'
+              : null
+          "
+          [attr.aria-invalid]="
+            (f.prenom.dirty || submitted) && f.prenom.errors ? true : false
+          "
           required
         />
-        <p *ngIf="f.prenom.errors" id="prenom-errors" class="invalid-feedback">
+        <p
+          *ngIf="(f.prenom.dirty || submitted) && f.prenom.errors"
+          id="prenom-errors"
+          class="invalid-feedback"
+        >
           Le prénom est obligatoire
         </p>
       </div>
 
-      <div class="col-md-4 form-group">
+      <div class="col-md-4 col-12 form-group">
         <label for="surnom">Nom d'usage / Surnom</label>
         <input
           type="text"
           class="form-control"
           id="surnom"
           appCleanStr
+          maxlength="100"
           formControlName="surnom"
-          [ngClass]="{ 'is-invalid': f.surnom.errors }"
         />
       </div>
     </div>
     <div class="row">
-      <div class="col-md-4 form-group required">
+      <div class="col-md-4 col-12 form-group required">
         <label for="sexe">Sexe</label>
         <select formControlName="sexe" id="sexe" class="form-select">
           <option value="homme">Homme</option>
@@ -72,7 +96,7 @@
         </select>
       </div>
 
-      <div class="col-md-4 form-group required">
+      <div class="col-md-4 col-12 form-group required">
         <label for="dateNaissance">Date de naissance</label>
         <div class="input-group">
           <input
@@ -87,12 +111,19 @@
             dateFr
             value
             [ngClass]="{
-              'is-invalid': submitted && f.dateNaissance.errors
+              'is-invalid':
+                (f.dateNaissance.dirty || submitted) && f.dateNaissance.errors
             }"
             [attr.aria-describedby]="
-              f.dateNaissance.errors ? 'date-naissance-errors' : null
+              (f.dateNaissance.dirty || submitted) && f.dateNaissance.errors
+                ? 'date-naissance-errors'
+                : null
             "
-            [attr.aria-invalid]="f.dateNaissance.errors ? true : false"
+            [attr.aria-invalid]="
+              (f.dateNaissance.dirty || submitted) && f.dateNaissance.errors
+                ? true
+                : false
+            "
             #d="ngbDatepicker"
             maxlength="10"
             required
@@ -106,10 +137,11 @@
           >
             <fa-icon aria-hidden="true" [icon]="['fas', 'calendar']"></fa-icon>
           </button>
-
           <p
             id="date-naissance-errors"
-            *ngIf="f.dateNaissance.invalid"
+            *ngIf="
+              (f.dateNaissance.dirty || submitted) && f.dateNaissance.errors
+            "
             class="invalid-feedback"
           >
             La date de naissance est obligatoire. Exemple : 20/12/1996
@@ -117,7 +149,7 @@
         </div>
       </div>
 
-      <div class="col-md-4 form-group required">
+      <div class="col-md-4 col-12 form-group required">
         <label for="villeNaissance">Ville de naissance</label>
         <input
           type="text"
@@ -125,17 +157,26 @@
           id="villeNaissance"
           formControlName="villeNaissance"
           [attr.aria-describedby]="
-            submitted && f.villeNaissance.errors
-              ? 'ville-description'
-              : 'ville-errors'
+            (submitted || f.villeNaissance.dirty) && f.villeNaissance.errors
+              ? 'ville-errors'
+              : 'ville-description'
           "
-          [attr.aria-invalid]="f.villeNaissance.errors ? true : false"
-          [ngClass]="{ 'is-invalid': f.villeNaissance.errors }"
+          [attr.aria-invalid]="
+            (submitted || f.villeNaissance.dirty) && f.villeNaissance.errors
+              ? true
+              : false
+          "
+          [ngClass]="{
+            'is-invalid':
+              (submitted || f.villeNaissance.dirty) && f.villeNaissance.errors
+          }"
           required
         />
         <small id="ville-description">Préciser le pays si à l'étranger</small>
         <p
-          *ngIf="f.villeNaissance.errors"
+          *ngIf="
+            (submitted || f.villeNaissance.dirty) && f.villeNaissance.errors
+          "
           id="ville-errors"
           class="invalid-feedback"
         >
@@ -206,14 +247,20 @@
               class="form-control"
               id="email"
               formControlName="email"
-              [ngClass]="{ 'is-invalid': f.email.errors }"
+              [ngClass]="{
+                'is-invalid': (f.email.dirty || submitted) && f.email.errors
+              }"
               [attr.aria-describedby]="
-                submitted && f.email.errors ? 'email-errors' : null
+                (f.email.dirty || submitted) && f.email.errors
+                  ? 'email-errors'
+                  : null
               "
-              [attr.aria-invalid]="f.email.errors"
+              [attr.aria-invalid]="
+                (f.email.dirty || submitted) && f.email.errors ? true : false
+              "
             />
             <p
-              *ngIf="f.email.errors"
+              *ngIf="(f.email.dirty || submitted) && f.email.errors"
               id="email-errors"
               class="invalid-feedback"
             >
@@ -224,27 +271,42 @@
       </div>
     </fieldset>
 
-    <div class="col-md-4 form-group">
+    <div class="col-md-4 col-12 form-group">
       <label for="langue">Langue parlée</label>
       <input
         id="langue"
         type="text"
         class="form-control"
         formControlName="langue"
-        placeholder="Anglais, arabe, chinois, etc"
-        [ngClass]="{ 'is-invalid': f.langue.touched && f.langue.errors }"
+        [attr.aria-describedby]="
+          (f.langue.dirty || submitted) && f.langue.errors
+            ? 'langue-errors'
+            : 'langue-description'
+        "
+        [attr.aria-invalid]="
+          (f.langue.dirty || submitted) && f.langue.errors ? true : false
+        "
+        [ngClass]="{
+          'is-invalid': (f.langue.dirty || submitted) && f.langue.errors
+        }"
         [ngbTypeahead]="languagesAutocompleteSearch"
         [resultFormatter]="languagesAutocomplete.formatter"
         [inputFormatter]="languagesAutocomplete.formatter"
       />
-
-      <p *ngIf="f.langue.touched && f.langue.errors" class="invalid-feedback">
-        La langue saisie est invalide. Veuillez sélectionner une valeure dans la
-        liste de propositions
+      <small id="langue-description" class="form-text text-muted"
+        >Saisissez la langue, puis choisissez un élément dans la liste.
+      </small>
+      <p
+        id="langue-errors"
+        *ngIf="f.langue.touched && f.langue.errors"
+        class="invalid-feedback"
+      >
+        La langue saisie est invalide. Veuillez sélectionner une langue dans la
+        liste des propositions
       </p>
     </div>
 
-    <div class="col-md-4 form-group">
+    <div class="col-md-4 col-12 form-group">
       <label for="customRef">Identifiant personnalisé</label>
       <input
         type="text"
@@ -252,14 +314,10 @@
         id="customRef"
         maxlength="30"
         formControlName="customRef"
-        [ngClass]="{ 'is-invalid': f.customRef.errors }"
       />
-      <p *ngIf="f.customRef.errors" class="invalid-feedback">
-        L'identifiant est incorrect
-      </p>
     </div>
 
-    <div class="col-md-4 form-group">
+    <div class="col-md-4 col-12 form-group">
       <label for="numeroDistribution"
         >Numéro de distribution spéciale (BP, TSA, etc)</label
       >
@@ -268,25 +326,11 @@
         class="form-control"
         id="numeroDistribution"
         formControlName="numeroDistribution"
-        [ngClass]="{
-          'is-invalid': submitted && f.numeroDistribution.errors
-        }"
-        [attr.aria-invalid]="submitted && f.numeroDistribution.errors"
-        [attr.aria-describedby]="
-          submitted && f.numeroDistribution.errors
-            ? 'numero-errors'
-            : 'numero-description'
-        "
         maxlength="20"
       />
-      <small id="numero-description">Exemple : BP 102, TSA 11000</small>
-      <p
-        *ngIf="f.numeroDistribution.errors"
-        id="numero-errors"
-        class="invalid-feedback"
-      >
-        Le numéro de distribution spéciale est incorrect
-      </p>
+      <small id="numero-description" class="form-text text-muted"
+        >Exemple : BP 102, TSA 11000
+      </small>
     </div>
   </div>
 
@@ -302,7 +346,6 @@
           Le demandeur souhaite-t-il recevoir des notifications par SMS (arrivée
           d'un courrier, échéance de domiciliation) ?
         </legend>
-
         <div class="form-check form-check-inline">
           <input
             class="form-check-input"
@@ -311,7 +354,7 @@
             id="sms_oui"
             [value]="true"
           />
-          <label class="form-check-label" for="sms_oui"> Oui </label>
+          <label class="form-check-label" for="sms_oui">Oui</label>
         </div>
         <div class="form-check form-check-inline">
           <input
@@ -321,7 +364,7 @@
             id="sms_non"
             [value]="false"
           />
-          <label class="form-check-label" for="sms_non"> Non </label>
+          <label class="form-check-label" for="sms_non">Non</label>
         </div>
       </fieldset>
     </div>
@@ -355,8 +398,8 @@
     *ngFor="let ayantDroit of ayantsDroits.controls; let i = index"
   >
     <legend>Ayant-droit numéro {{ i + 1 }}</legend>
-    <div [formGroupName]="i" class="row align-items-center">
-      <div class="col form-group required">
+    <div [formGroupName]="i" class="row">
+      <div class="col-12 col-md-3 form-group required">
         <label for="nom_{{ i }}">Nom</label>
         <input
           id="nom_{{ i }}"
@@ -366,13 +409,18 @@
           formControlName="nom"
           [ngClass]="{
             'is-invalid':
-              submitted && ayantsDroits.controls[i].get('nom')?.errors
+              (ayantsDroits.controls[i].get('nom')?.dirty || submitted) &&
+              ayantsDroits.controls[i].get('nom')?.errors
           }"
           [attr.aria-invalid]="
-            submitted && ayantsDroits.controls[i].get('nom')?.errors
+            (ayantsDroits.controls[i].get('nom')?.dirty || submitted) &&
+            ayantsDroits.controls[i].get('nom')?.errors
+              ? true
+              : false
           "
           [attr.aria-describedby]="
-            submitted && ayantsDroits.controls[i].get('nom')?.errors
+            (ayantsDroits.controls[i].get('nom')?.dirty || submitted) &&
+            ayantsDroits.controls[i].get('nom')?.errors
               ? 'nom-ad-errors-' + i
               : null
           "
@@ -381,13 +429,16 @@
         />
         <p
           [id]="'nom-ad-errors-' + i"
-          *ngIf="submitted && ayantsDroits.controls[i].get('nom')?.errors"
+          *ngIf="
+            (ayantsDroits.controls[i].get('nom')?.dirty || submitted) &&
+            ayantsDroits.controls[i].get('nom')?.errors
+          "
           class="invalid-feedback"
         >
           Le nom est obligatoire
         </p>
       </div>
-      <div class="col form-group required">
+      <div class="col-12 col-md-3 form-group required">
         <label for="ad_prenom_{{ i }}">Prénom</label>
         <input
           type="text"
@@ -397,13 +448,18 @@
           formControlName="prenom"
           [ngClass]="{
             'is-invalid':
-              submitted && ayantsDroits.controls[i].get('prenom')?.errors
+              (ayantsDroits.controls[i].get('prenom')?.dirty || submitted) &&
+              ayantsDroits.controls[i].get('prenom')?.errors
           }"
           [attr.aria-invalid]="
-            submitted && ayantsDroits.controls[i].get('prenom')?.errors
+            (ayantsDroits.controls[i].get('prenom')?.dirty || submitted) &&
+            ayantsDroits.controls[i].get('prenom')?.errors
+              ? true
+              : false
           "
           [attr.aria-describedby]="
-            submitted && ayantsDroits.controls[i].get('prenom')?.errors
+            (ayantsDroits.controls[i].get('prenom')?.dirty || submitted) &&
+            ayantsDroits.controls[i].get('prenom')?.errors
               ? 'prenom-ad-errors-' + i
               : null
           "
@@ -412,13 +468,16 @@
         />
         <div
           [id]="'prenom-ad-errors-' + i"
-          *ngIf="submitted && ayantsDroits.controls[i].get('prenom')?.errors"
+          *ngIf="
+            (ayantsDroits.controls[i].get('prenom')?.dirty || submitted) &&
+            ayantsDroits.controls[i].get('prenom')?.errors
+          "
           class="invalid-feedback"
         >
           Le prénom est obligatoire
         </div>
       </div>
-      <div class="col form-group required">
+      <div class="col-12 col-md-3 form-group required">
         <label for="dateNaissance_{{ i }}">Date de naissance</label>
         <div class="input-group">
           <input
@@ -434,15 +493,22 @@
             value
             [ngClass]="{
               'is-invalid':
-                submitted &&
+                (ayantsDroits.controls[i].get('dateNaissance')?.dirty ||
+                  submitted) &&
                 ayantsDroits.controls[i].get('dateNaissance')?.errors
             }"
             [attr.aria-label]="'Date de naissance de l\'ayant-droit ' + (i + 1)"
             [attr.aria-invalid]="
-              submitted && ayantsDroits.controls[i].get('dateNaissance')?.errors
+              (ayantsDroits.controls[i].get('dateNaissance')?.dirty ||
+                submitted) &&
+              ayantsDroits.controls[i].get('dateNaissance')?.errors
+                ? true
+                : false
             "
             [attr.aria-describedby]="
-              submitted && ayantsDroits.controls[i].get('dateNaissance')?.errors
+              (ayantsDroits.controls[i].get('dateNaissance')?.dirty ||
+                submitted) &&
+              ayantsDroits.controls[i].get('dateNaissance')?.errors
                 ? 'dateNaissance-ad-errors-' + i
                 : null
             "
@@ -462,7 +528,9 @@
 
           <p
             *ngIf="
-              submitted && ayantsDroits.controls[i].get('dateNaissance')?.errors
+              (ayantsDroits.controls[i].get('dateNaissance')?.dirty ||
+                submitted) &&
+              ayantsDroits.controls[i].get('dateNaissance')?.errors
             "
             [id]="'dateNaissance-ad-errors-' + i"
             class="invalid-feedback"
@@ -471,7 +539,7 @@
           </p>
         </div>
       </div>
-      <div class="col form-group required">
+      <div class="col-12 col-md-2 form-group required">
         <label for="lien_{{ i }}">Lien</label>
         <select
           formControlName="lien"
@@ -479,18 +547,23 @@
           class="form-select"
           [attr.aria-label]="'Lien de parenté de l\'ayant-droit ' + (i + 1)"
           [attr.aria-invalid]="
-            submitted && ayantsDroits.controls[i].get('lien')?.errors
+            (ayantsDroits.controls[i].get('lien')?.dirty || submitted) &&
+            ayantsDroits.controls[i].get('lien')?.errors
+              ? true
+              : false
           "
           [attr.aria-describedby]="
-            submitted && ayantsDroits.controls[i].get('lien')?.errors
+            (ayantsDroits.controls[i].get('lien')?.dirty || submitted) &&
+            ayantsDroits.controls[i].get('lien')?.errors
               ? 'lien-parente-errors-' + i
               : null
           "
-          required
           [ngClass]="{
             'is-invalid':
-              submitted && ayantsDroits.controls[i].get('lien')?.errors
+              (ayantsDroits.controls[i].get('lien')?.dirty || submitted) &&
+              ayantsDroits.controls[i].get('lien')?.errors
           }"
+          required
         >
           <option [value]="null"></option>
           <option
@@ -502,44 +575,50 @@
         </select>
         <p
           [id]="'lien-parente-errors-' + i"
-          *ngIf="submitted && ayantsDroits.controls[i].get('lien')?.errors"
+          *ngIf="
+            (ayantsDroits.controls[i].get('lien')?.dirty || submitted) &&
+            ayantsDroits.controls[i].get('lien')?.errors
+          "
           class="invalid-feedback"
         >
           Le lien de parenté est obligatoire
         </p>
       </div>
-      <div class="col-md-1">
+      <div class="form-group col-12 col-md-1">
+        <span class="label">Supprimer</span>
         <button
           type="button"
+          id="delete_ad_{{ i }}"
           (click)="deleteAyantDroit(i)"
-          class="btn btn-danger"
+          class="btn btn-block btn-danger"
           [attr.aria-label]="'Supprimer l\'ayant-droit {{ (i+1) }}'"
         >
           <fa-icon aria-hidden="true" [icon]="['fas', 'trash']"></fa-icon>
+          <span class="d-inline-block d-md-none"
+            >Supprimer l'ayant-droit {{ i + 1 }}</span
+          >
         </button>
       </div>
     </div>
   </fieldset>
 
-  <div class="row">
-    <div class="col-4 offset-4 my-3">
-      <button
-        type="submit"
-        class="btn btn-primary btn-block"
-        [disabled]="loading"
-      >
-        <span *ngIf="!loading"> Enregistrer les modifications </span>
+  <div class="d-grid my-4 mx-auto col-md-4 col-12col-12">
+    <button
+      type="submit"
+      class="btn btn-primary btn-block"
+      [disabled]="loading"
+    >
+      <span *ngIf="!loading"> Enregistrer les modifications </span>
 
-        <span *ngIf="loading"
-          ><fa-icon
-            [icon]="['fas', 'circle-notch']"
-            aria-hidden="true"
-            [spin]="true"
-          >
-          </fa-icon>
-          Veuillez patienter...</span
+      <span *ngIf="loading"
+        ><fa-icon
+          [icon]="['fas', 'circle-notch']"
+          aria-hidden="true"
+          [spin]="true"
         >
-      </button>
-    </div>
+        </fa-icon>
+        Veuillez patienter...</span
+      >
+    </button>
   </div>
 </form>
