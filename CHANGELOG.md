@@ -1,3 +1,10 @@
+# [2.131.0](https://github.com/SocialGouv/domifa/compare/v2.130.8...v2.131.0) (2023-07-03)
+
+
+### Features
+
+* **docs:** déplacement des fichiers des structures ([7e55b5d](https://github.com/SocialGouv/domifa/commit/7e55b5d9adcddc0940b72744acb68717f4bf0620))
+
 ## [2.130.8](https://github.com/SocialGouv/domifa/compare/v2.130.7...v2.130.8) (2023-06-17)
 
 
