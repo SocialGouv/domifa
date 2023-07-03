@@ -10,7 +10,7 @@ import { pipeline } from "node:stream/promises";
 import { join } from "path";
 import { domifaConfig } from "../../config";
 import { structureRepository, usagerDocsRepository } from "../../database";
-import { getFileDir, compressAndResizeImage, getNewFileDir } from "../../util";
+import { getFileDir, compressAndResizeImage, getFilePath } from "../../util";
 import { IsNull } from "typeorm";
 import { Structure, UsagerDoc } from "../../_common/model";
 
@@ -83,12 +83,12 @@ export const decryptOldFile = async (
   let sourceFilePath = join(sourceFileDir, usagerDoc.path + ".encrypted");
 
   // Le fichier de sortie ne sera pas au même endroit que la source
-  const outputFileDir = await getNewFileDir(
-    structure.uuid,
-    usagerDoc.usagerUUID
-  );
 
-  const outputFilePathSfe = join(outputFileDir, usagerDoc.path + ".sfe");
+  const outputFilePathSfe = await getFilePath(
+    structure.uuid,
+    usagerDoc.usagerUUID,
+    usagerDoc.path + ".sfe"
+  );
 
   if (await pathExists(outputFilePathSfe)) {
     // fichier déjà chiffré, DB pas à jour ?
@@ -185,10 +185,6 @@ export const decryptOldFile = async (
       );
 
       console.error({ usagerDoc });
-
-      await usagerDocsRepository.delete({
-        uuid: usagerDoc.uuid,
-      });
     }
   }
 };
