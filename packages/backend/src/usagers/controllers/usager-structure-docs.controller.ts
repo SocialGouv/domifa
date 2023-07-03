@@ -28,12 +28,12 @@ import {
 } from "../../_common/model";
 import {
   buildCustomDoc,
+  buildCustomDocPath,
   customDocTemplateLoader,
   generateCustomDoc,
 } from "../services/custom-docs";
 
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
-import { join } from "path";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("usagers-structure-docs")
@@ -65,13 +65,10 @@ export class UsagerStructureDocsController {
 
     // Document statique
     if (!doc.custom) {
-      const output = join(
-        domifaConfig().upload.basePath,
-        `${user.structureId}`,
-        "docs",
-        doc.path
-      );
-
+      const output = buildCustomDocPath({
+        structureId: user.structureId,
+        docPath: doc.path,
+      });
       return res.status(HttpStatus.OK).sendFile(output as string);
     }
 

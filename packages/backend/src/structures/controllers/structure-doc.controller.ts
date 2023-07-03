@@ -22,7 +22,6 @@ import { diskStorage } from "multer";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { AllowUserStructureRoles } from "../../auth/decorators";
-import { domifaConfig } from "../../config";
 import {
   deleteFile,
   randomName,
@@ -34,9 +33,11 @@ import { StructureDocDto } from "../dto/structure-doc.dto";
 
 import { structureDocRepository } from "../../database";
 import { ExpressRequest } from "../../util/express";
-import { join } from "path";
-import { ensureDir, pathExists } from "fs-extra";
 import { FILES_SIZE_LIMIT } from "../../util/file-manager";
+import {
+  buildCustomDocPath,
+  getCustomDocsDir,
+} from "../../usagers/services/custom-docs";
 
 @ApiTags("structure-docs")
 @ApiBearerAuth()
@@ -56,12 +57,10 @@ export class StructureDocController {
         uuid,
       });
 
-      const output = join(
-        domifaConfig().upload.basePath,
-        `${user.structureId}`,
-        "docs",
-        doc.path
-      );
+      const output = buildCustomDocPath({
+        structureId: user.structureId,
+        docPath: doc.path,
+      });
 
       return res.status(HttpStatus.OK).sendFile(output as string);
     } catch (e) {
@@ -93,15 +92,7 @@ export class StructureDocController {
           _file: Express.Multer.File,
           cb: (error: Error | null, success: string) => void
         ) => {
-          const dir = join(
-            domifaConfig().upload.basePath,
-            `${req.user.structureId}`,
-            "docs"
-          );
-
-          if (!(await pathExists(dir))) {
-            await ensureDir(dir);
-          }
+          const dir = await getCustomDocsDir(req.user.structureId);
           cb(null, dir);
         },
 
@@ -189,13 +180,10 @@ export class StructureDocController {
         uuid,
       });
 
-      const pathFile = join(
-        domifaConfig().upload.basePath,
-        `${user.structureId}`,
-        "docs",
-        doc.path
-      );
-
+      const pathFile = buildCustomDocPath({
+        structureId: user.structureId,
+        docPath: doc.path,
+      });
       await deleteFile(pathFile);
 
       await structureDocRepository.delete({

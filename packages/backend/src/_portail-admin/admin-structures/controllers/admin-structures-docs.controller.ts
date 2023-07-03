@@ -10,14 +10,13 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
-import { join } from "path";
 
 import { AllowUserProfiles, CurrentUser } from "../../../auth/decorators";
 import { AppUserGuard } from "../../../auth/guards";
-import { domifaConfig } from "../../../config";
 import { structureDocRepository } from "../../../database";
 import { ExpressResponse } from "../../../util/express";
 import { UserStructureAuthenticated } from "../../../_common/model";
+import { buildCustomDocPath } from "../../../usagers/services/custom-docs";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures-docs")
@@ -42,12 +41,11 @@ export class AdminStructuresDocsController {
       structureId: user.structureId,
       uuid,
     });
-    const output = join(
-      domifaConfig().upload.basePath,
-      `${structureId}`,
-      "docs",
-      doc.path
-    );
+
+    const output = buildCustomDocPath({
+      structureId,
+      docPath: doc.path,
+    });
 
     return res.status(HttpStatus.OK).sendFile(output as string);
   }
