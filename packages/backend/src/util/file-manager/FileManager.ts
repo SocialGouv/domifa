@@ -10,7 +10,6 @@ import sanitizeFilename from "sanitize-filename";
 import sharp from "sharp";
 import { UsagerDoc } from "../../_common/model";
 
-// Suppression effective d'un fichier
 export async function deleteFile(pathFile: string): Promise<void> {
   try {
     await remove(pathFile);
@@ -65,14 +64,6 @@ export function validateUpload(
   return validFileMimeType && validFileExtension;
 }
 
-export function getFileDir(structureId: number, usagerRef: number): string {
-  return join(
-    domifaConfig().upload.basePath,
-    cleanPath(`${structureId}`),
-    cleanPath(`${usagerRef}`)
-  );
-}
-
 export async function getFilePath(
   structureUUID: string,
   usagerUUID: string,
@@ -99,4 +90,16 @@ export async function getNewFileDir(
   );
   await ensureDir(dir);
   return dir;
+}
+
+//
+//
+//
+// @deprecated: remove this function after migration
+export function getFileDir(structureId: number, usagerRef: number): string {
+  return join(
+    domifaConfig().upload.basePath,
+    cleanPath(`${structureId}`),
+    cleanPath(`${usagerRef}`)
+  );
 }

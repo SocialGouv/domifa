@@ -88,7 +88,6 @@ export class UsagerDocsController {
             req.user.structure.uuid,
             req.usager.uuid
           );
-          console.log(dir);
           cb(null, dir);
         },
         filename: (
@@ -163,14 +162,19 @@ export class UsagerDocsController {
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    const filePath = await getFilePath(
-      user.structure.uuid,
-      currentUsager.uuid,
-      doc.path
-    );
+    let filePath = "";
+    if (doc.encryptionContext) {
+      filePath = await getFilePath(
+        user.structure.uuid,
+        currentUsager.uuid,
+        doc.path
+      );
+    } else {
+      const sourceFileDir = getFileDir(doc.structureId, doc.usagerRef);
+      filePath = join(sourceFileDir, doc.path + ".encrypted");
+    }
 
     await deleteFile(filePath);
-    await deleteFile(filePath + ".encrypted");
 
     await usagerDocsRepository.delete({
       uuid: doc.uuid,
@@ -226,14 +230,12 @@ export class UsagerDocsController {
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    let sourceFileDir = getFileDir(
-      currentUsager.structureId,
-      currentUsager.ref
-    );
-
     if (doc.encryptionContext) {
-      sourceFileDir = await getNewFileDir(user.structure.uuid, doc.usagerUUID);
-      const encryptedFilePath = join(sourceFileDir, doc.path + ".sfe");
+      const encryptedFilePath = await getFilePath(
+        user.structure.uuid,
+        doc.usagerUUID,
+        doc.path + ".sfe"
+      );
 
       if (doc.encryptionVersion !== 0) {
         throw new Error("Implement main secret rotation logic");
@@ -250,6 +252,11 @@ export class UsagerDocsController {
         appLogger.error("Erreur");
       }
     } else {
+      // @deprecated: delete this after migration
+      const sourceFileDir = getFileDir(
+        currentUsager.structureId,
+        currentUsager.ref
+      );
       // Encrypted file source
       const encryptedFilePath = join(sourceFileDir, doc.path + ".encrypted");
 
