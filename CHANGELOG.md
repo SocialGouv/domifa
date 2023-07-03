@@ -1,3 +1,16 @@
+## [2.131.1](https://github.com/SocialGouv/domifa/compare/v2.131.0...v2.131.1) (2023-07-03)
+
+
+### Bug Fixes
+
+* **rgaa:** ajout des descriptions de champs ([13610d5](https://github.com/SocialGouv/domifa/commit/13610d5524d640680b20d52f1c4d422a71e73bf7))
+* **rgaa:** amélioration des affichages d'erreur dans les formulaires ([7f699ba](https://github.com/SocialGouv/domifa/commit/7f699ba46660cd0cdcc1bc7a3942f4263c451e23))
+* **rgaa:** amélioration des aria-invalid ([a7c38eb](https://github.com/SocialGouv/domifa/commit/a7c38eba06ef2695247a9260a96d2a60fba4ecca))
+* **rgaa:** amélioration des titres ([384fd7d](https://github.com/SocialGouv/domifa/commit/384fd7d240bd574021f0a63d8d72ded638267ed0))
+* **rgaa:** amélioration du responsive et des formulaires ([1ab76eb](https://github.com/SocialGouv/domifa/commit/1ab76ebdfc591e722a10a5d39e42355ed22eaa90))
+* **rgaa:** correction des balises textuelles ([92cd5e2](https://github.com/SocialGouv/domifa/commit/92cd5e24ac90c6bb4b43bf4b27ce5d1adf6c95ff))
+* **rgaa:** formulaires avec une description ([883a589](https://github.com/SocialGouv/domifa/commit/883a589f031cdc1bc2cca63c5e4b6a428671d08f))
+
 # [2.131.0](https://github.com/SocialGouv/domifa/compare/v2.130.8...v2.131.0) (2023-07-03)
 
 
