@@ -1,6 +1,6 @@
-import { structureRepository } from "../../database";
-import { AppTestHelper } from "../../util/test";
-import { structureCreatorService } from "./structureCreator.service";
+import { structureRepository } from "../../../database";
+import { AppTestHelper } from "../../../util/test";
+import { structureCreatorService } from "../structureCreator.service";
 
 describe("Structure Creator Service", () => {
   beforeAll(async () => {

@@ -15,7 +15,7 @@ import { AllowUserProfiles } from "../../../auth/decorators";
 import { AppUserGuard } from "../../../auth/guards";
 import { structureRepository } from "../../../database";
 import { deleteStructureEmailSender } from "../../../mails/services/templates-renderers";
-import { structureDeletorService } from "../../../structures/services/structureDeletor.service";
+import { structureDeletorService } from "../../../structures/services/structure-deletor.service";
 import { ExpressResponse } from "../../../util/express";
 import { ParseTokenPipe } from "../../../_common/decorators";
 

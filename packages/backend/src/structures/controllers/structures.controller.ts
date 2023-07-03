@@ -22,7 +22,7 @@ import {
 import { StructureDto, StructureEditPortailUsagerDto } from "../dto";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
 
-import { structureDeletorService } from "../services/structureDeletor.service";
+import { structureDeletorService } from "../services/structure-deletor.service";
 import { StructureHardResetService } from "../services/structureHardReset.service";
 import { StructuresService } from "../services/structures.service";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
@@ -215,9 +215,7 @@ export class StructuresController {
         .json({ message: "HARD_RESET_EXPIRED_TOKEN" });
     }
 
-    await structureDeletorService.deleteStructureUsagers({
-      structureId: structure.id,
-    });
+    await structureDeletorService.deleteStructureUsagers(structure);
 
     await this.structureHardResetService.hardResetClean(structure.id);
 
