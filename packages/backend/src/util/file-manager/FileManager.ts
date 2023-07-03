@@ -73,20 +73,6 @@ export function getFileDir(structureId: number, usagerRef: number): string {
   );
 }
 
-// Les nouveaux fichiers seront stockés dans des dossiers reprenant les uuid et non les ID
-export async function getNewFileDir(
-  structureUUID: string,
-  usagerUUID: string
-): Promise<string> {
-  const dir = join(
-    domifaConfig().upload.basePath,
-    cleanPath(structureUUID),
-    cleanPath(usagerUUID)
-  );
-  await ensureDir(dir);
-  return dir;
-}
-
 export async function getFilePath(
   structureUUID: string,
   usagerUUID: string,
@@ -100,22 +86,6 @@ export function cleanPath(path: string): string {
   return path.replace(/[^a-z0-9]/gi, "");
 }
 
-export const compressAndResizeImage = (
-  usagerDoc: Pick<
-    UsagerDoc,
-    "structureId" | "uuid" | "usagerRef" | "path" | "usagerUUID" | "filetype"
-  >
-) => {
-  const format = usagerDoc.filetype === "image/png" ? "png" : "jpeg";
-  return sharp()
-    .resize(3800, 3800, { fit: "inside" })
-    .toFormat(format, {
-      quality: format === "png" ? 9 : 70,
-      progressive: true,
-      compressionLevel: format === "png" ? 9 : undefined,
-    });
-};
-
 // Les nouveaux fichiers seront stockés dans des dossiers reprenant les uuid et non les ID
 export async function getNewFileDir(
   structureUUID: string,
@@ -123,6 +93,7 @@ export async function getNewFileDir(
 ): Promise<string> {
   const dir = join(
     domifaConfig().upload.basePath,
+    "usager-documents",
     cleanPath(structureUUID),
     cleanPath(usagerUUID)
   );

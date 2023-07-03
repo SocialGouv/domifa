@@ -47,7 +47,6 @@ import { UploadUsagerDocDto } from "../dto";
 import {
   createReadStream,
   createWriteStream,
-  ensureDir,
   pathExists,
   stat,
 } from "fs-extra";
@@ -89,7 +88,7 @@ export class UsagerDocsController {
             req.user.structure.uuid,
             req.usager.uuid
           );
-          await ensureDir(dir);
+          console.log(dir);
           cb(null, dir);
         },
         filename: (
@@ -300,6 +299,7 @@ export class UsagerDocsController {
     }
   }
 
+  // encrypt a cleartext file to sfe and delete original
   private async saveEncryptedFile(
     user: UserStructureAuthenticated,
     usagerDoc: UsagerDoc
@@ -318,20 +318,33 @@ export class UsagerDocsController {
 
     try {
       const mainSecret = domifaConfig().security.files.mainSecret;
-
-      await pipeline(
-        createReadStream(sourceFilePath),
-        compressAndResizeImage(usagerDoc),
-        encryptFile(mainSecret, usagerDoc.encryptionContext),
-        createWriteStream(sourceFilePath + ".sfe")
-      );
+      if (
+        usagerDoc.filetype === "image/jpeg" ||
+        usagerDoc.filetype === "image/png"
+      ) {
+        await pipeline(
+          createReadStream(sourceFilePath),
+          compressAndResizeImage(usagerDoc),
+          encryptFile(mainSecret, usagerDoc.encryptionContext),
+          createWriteStream(sourceFilePath + ".sfe")
+        );
+      } else {
+        await pipeline(
+          createReadStream(sourceFilePath),
+          encryptFile(mainSecret, usagerDoc.encryptionContext),
+          createWriteStream(sourceFilePath + ".sfe")
+        );
+      }
     } catch (e) {
       console.error(e);
-      appLogger.error("Erreur");
       return new Error(
         `Erreur de chiffrement : ${sourceFilePath} ${e.message}`
       );
     } finally {
+      await usagerDocsRepository.delete({
+        uuid: usagerDoc.uuid,
+      });
+
       await deleteFile(sourceFilePath);
     }
   }
