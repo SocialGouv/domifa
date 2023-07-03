@@ -1,4 +1,4 @@
-import { departementHelper } from "./departement-helper.service";
+import { departementHelper } from "../departement-helper.service";
 
 describe("Departement helper Service", () => {
   it("common case", () => {

@@ -167,7 +167,7 @@ export class UsagerDocsController {
       filePath = await getFilePath(
         user.structure.uuid,
         currentUsager.uuid,
-        doc.path
+        doc.path + ".sfe"
       );
     } else {
       const sourceFileDir = getFileDir(doc.structureId, doc.usagerRef);

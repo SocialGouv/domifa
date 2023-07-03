@@ -328,10 +328,7 @@ export class UsagersController {
     });
 
     // Suppression des fichiers de l'usager
-    await deleteUsagerFolder({
-      usagerRef: usager.ref,
-      structureId: user.structureId,
-    });
+    await deleteUsagerFolder(user.structure, usager);
 
     return res.status(HttpStatus.OK).json({ message: "DELETE_SUCCESS" });
   }

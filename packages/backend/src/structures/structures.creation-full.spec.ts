@@ -18,7 +18,7 @@ import { StructuresController } from "./controllers/structures.controller";
 import { StructuresPublicController } from "./controllers/structures.public.controller";
 import { StructureWithUserDto } from "./dto/structure-with-user.dto";
 import { StructureDto } from "./dto/structure.dto";
-import { structureDeletorService } from "./services/structureDeletor.service";
+import { structureDeletorService } from "./services/structure-deletor.service";
 import { StructuresModule } from "./structure.module";
 
 const structureDto: StructureDto = {

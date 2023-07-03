@@ -2,32 +2,35 @@ import { rm } from "fs-extra";
 import { join } from "path";
 import { domifaConfig } from "../../config/domifaConfig.service";
 
-import { appLogger } from "../../util";
+import { StructureCommon, Usager } from "../../_common/model";
+import { cleanPath } from "../../util";
 
-export async function deleteUsagerFolder({
-  usagerRef,
-  structureId,
-}: {
-  usagerRef: number;
-  structureId: number;
-}): Promise<void> {
-  const pathFile = join(
+export async function deleteUsagerFolder(
+  structure: StructureCommon,
+  usager: Usager
+): Promise<void> {
+  const oldUsagerFolder = join(
     domifaConfig().upload.basePath,
-    `${structureId}`,
-    `${usagerRef}`
+    `${usager.structureId}`,
+    `${usager.ref}`
   );
 
-  try {
-    await rm(pathFile, {
-      recursive: true,
-      force: true,
-      maxRetries: 2,
-    });
-    appLogger.debug("[FILES] Delete file in folder success " + pathFile);
-  } catch (error) {
-    appLogger.error("[FILES] Cannot delete folder  " + pathFile, {
-      sentry: true,
-      error,
-    });
-  }
+  const newUsagerFolder = join(
+    domifaConfig().upload.basePath,
+    "usager-documents",
+    cleanPath(structure.uuid),
+    cleanPath(usager.uuid)
+  );
+
+  await rm(oldUsagerFolder, {
+    recursive: true,
+    force: true,
+    maxRetries: 2,
+  });
+
+  await rm(newUsagerFolder, {
+    recursive: true,
+    force: true,
+    maxRetries: 2,
+  });
 }
