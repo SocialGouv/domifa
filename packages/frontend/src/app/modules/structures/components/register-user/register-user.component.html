@@ -134,16 +134,15 @@
             id="fonction"
             formControlName="fonction"
             [ngClass]="{
-              'is-invalid':
-                (f.fonction.errors || submitted) && f.fonction.errors
+              'is-invalid': (f.fonction.dirty || submitted) && f.fonction.errors
             }"
             [attr.aria-invalid]="
-              (f.fonction.errors || submitted) && f.fonction.errors
+              (f.fonction.dirty || submitted) && f.fonction.errors
                 ? true
                 : false
             "
             [attr.aria-describedby]="
-              (f.fonction.errors || submitted) && f.fonction.errors
+              (f.fonction.dirty || submitted) && f.fonction.errors
                 ? 'fonction-error'
                 : 'fonction-description'
             "
@@ -153,7 +152,7 @@
             >Président.e, Directrice, Chef de service, etc.</small
           >
           <p
-            *ngIf="submitted && f.fonction.errors"
+            *ngIf="(f.fonction.dirty || submitted) && f.fonction.errors"
             id="fonction-error"
             class="invalid-feedback"
           >
