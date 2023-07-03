@@ -3,8 +3,7 @@
     Distribuer les courriers de
     <span class="text-primary">
       {{ usager | usagerNomComplet }} -
-      <span *ngIf="usager.customRef">{{ usager.customRef }}</span>
-      <span *ngIf="!usager.customRef">{{ usager.ref }}</span>
+      {{ usager.customRef ? usager.customRef : usager.ref }}
     </span>
   </span>
 </div>
