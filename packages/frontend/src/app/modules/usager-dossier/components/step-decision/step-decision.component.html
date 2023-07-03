@@ -12,27 +12,27 @@
           <h2 class="form-title" role="heading">
             <strong>Demande de domiciliation en cours</strong>
           </h2>
-          La demande d'élection de domicile de
-          <strong>{{ usager | usagerNomComplet }}</strong>
-          a été envoyée le
-          <strong>
-            {{ usager.decision.dateDecision | date : "dd/MM/yyyy à HH:mm" }}.
-          </strong>
-          <br />
-          La personne référente dans votre structure est invitée à statuer sur
-          cette demande.
-          <br />
-          <br />
+          <p>
+            La demande d'élection de domicile de
+            <strong>{{ usager | usagerNomComplet }}</strong>
+            a été envoyée le
+            <strong>
+              {{ usager.decision.dateDecision | date : "dd/MM/yyyy à HH:mm" }}.
+            </strong>
+            <br />
+            La personne référente dans votre structure est invitée à statuer sur
+            cette demande.
+          </p>
+
           <button
             type="button"
             (click)="getCerfa('demande')"
-            class="btn btn-primary"
+            class="btn btn-primary my-2"
           >
             <fa-icon [icon]="['fas', 'download']" aria-hidden="true"></fa-icon>
             Télécharger le CERFA de demande
           </button>
-          <br />
-          <br />
+
           <p class="text-center">
             <a routerLink="/manage" routerLinkActive="router-link-active">
               Retour à la liste des domiciliés

@@ -226,16 +226,14 @@
           Pas de convention à signer ! <br />Inscrivez-vous pour essayer DomiFa
           en quelques clics.
         </p>
-        <div>
-          <a
-            routerLink="/structures/inscription"
-            aria-label="S'inscrire à la plateforme DomiFa"
-            (click)="matomo.trackEvent('HOME', 'HP_Inscription1', 'null', 1)"
-            class="text-sm fw-bold text-primary"
-          >
-            S'inscrire &#8594;
-          </a>
-        </div>
+
+        <a
+          routerLink="/structures/inscription"
+          (click)="matomo.trackEvent('HOME', 'HP_Inscription1', 'null', 1)"
+          class="text-sm fw-bold text-primary"
+        >
+          S'inscrire à la plateforme DomiFa &#8594;
+        </a>
       </div>
     </div>
   </div>
@@ -293,12 +291,12 @@
         alt="Image d'illustration coeur"
         class="me-1"
       />
-      <span>Ces structures nous font confiance </span>
+      Ces structures nous font confiance
     </h2>
-    <div class="my-2">
+    <p class="my-2">
       De nombreux organismes domiciliataires utilisent DomiFa : CCAS, CIAS ou
       associations.
-    </div>
+    </p>
     <div
       class="partenaires d-flex flex-wrap justify-content-center align-items-center"
     >

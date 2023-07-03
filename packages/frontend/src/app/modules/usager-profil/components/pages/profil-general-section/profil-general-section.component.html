@@ -18,7 +18,8 @@
               <b>
                 {{ usager.pinnedNote.message }}
               </b>
-              <br />Note épinglée créée le
+              <br />
+              Note épinglée créée le
               {{ usager.pinnedNote.createdAt | date : "dd/MM/yyyy à HH:mm" }}
               par {{ usager.pinnedNote.createdBy.userName }}
             </p>
@@ -29,26 +30,25 @@
             *ngIf="usager.decision.statut === 'RADIE'"
           >
             <div aria-hidden="true" class="svg-icon icon-danger"></div>
-
-            <div>
+            <p>
               Cette personne a été radiée le
               {{ usager.decision.dateFin | date : "dd/MM/yyyy" }}
               : {{ usager.decision.motifString }}
-            </div>
+            </p>
           </div>
           <div
             class="alert alert-danger"
             *ngIf="usager.decision.statut === 'REFUS'"
           >
             <div aria-hidden="true" class="svg-icon icon-danger"></div>
-            <div class="text-danger">
+            <p class="text-danger">
               <b
                 >Demande refusée le
                 {{ usager.echeanceInfos.dateToDisplay | date : "dd/MM/yy" }}</b
               >
               <br />
               {{ usager.decision.motifString }}
-            </div>
+            </p>
           </div>
 
           <div
@@ -401,7 +401,6 @@
                 type="button"
                 class="btn btn-primary me-2"
                 (click)="openInteractionInModal()"
-                aria-label="Réception détaillée d'un courrier"
               >
                 <span
                   class="icon-reception list-icon me-2"
@@ -462,9 +461,8 @@
             (updateInteractions)="updateInteractions()"
           ></app-profil-general-historique-courriers>
 
-          <br /><br />
           <a
-            class="text-link"
+            class="text-link my-4 d-block"
             [routerLink]="['/profil/courriers/' + usager.ref]"
             ariaCurrentWhenActive="page"
             routerLinkActive="router-link-active"

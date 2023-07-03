@@ -50,77 +50,76 @@
         </div>
       </fieldset>
 
-      <div>
-        <fieldset>
-          <legend class="label">Avez-vous déjà une domiciliation ?</legend>
+      <fieldset>
+        <legend class="label">Avez-vous déjà une domiciliation ?</legend>
 
-          <div class="form-check form-check-inline">
-            <label class="form-check-label" for="domiciliation_oui">
-              <input
-                class="form-check-input"
-                type="radio"
-                formControlName="domiciliation"
-                id="domiciliation_oui"
-                [value]="true"
-              />
-              Oui
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <label class="form-check-label" for="domiciliation_non">
-              <input
-                class="form-check-input"
-                type="radio"
-                formControlName="domiciliation"
-                id="domiciliation_non"
-                [value]="false"
-              />
-              Non
-            </label>
-          </div>
-          <p>
-            <small class="form-text text-muted"
-              >Une domiciliation existante n’est pas un motif de refus.
-              Néanmoins, il faut rechercher pourquoi la personne formule une
-              nouvelle demande et l’inviter à choisir quelle domiciliation elle
-              souhaite conserver.</small
-            >
-          </p>
-        </fieldset>
-        <fieldset>
-          <legend class="label">Avez-vous des revenus ?</legend>
-          <div class="form-check form-check-inline">
+        <div class="form-check form-check-inline">
+          <label class="form-check-label" for="domiciliation_oui">
             <input
               class="form-check-input"
               type="radio"
-              formControlName="revenus"
-              id="revenus_oui"
+              formControlName="domiciliation"
+              id="domiciliation_oui"
               [value]="true"
             />
-            <label class="form-check-label" for="revenus_oui"> Oui </label>
-          </div>
-          <div class="form-check form-check-inline">
+            Oui
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <label class="form-check-label" for="domiciliation_non">
             <input
               class="form-check-input"
               type="radio"
-              formControlName="revenus"
-              id="revenus_non"
+              formControlName="domiciliation"
+              id="domiciliation_non"
               [value]="false"
             />
-            <label class="form-check-label" for="revenus_non"> Non </label>
-          </div>
+            Non
+          </label>
+        </div>
+        <p>
+          <small class="form-text text-muted"
+            >Une domiciliation existante n’est pas un motif de refus. Néanmoins,
+            il faut rechercher pourquoi la personne formule une nouvelle demande
+            et l’inviter à choisir quelle domiciliation elle souhaite
+            conserver.</small
+          >
+        </p>
+      </fieldset>
+      <fieldset>
+        <legend class="label">Avez-vous des revenus ?</legend>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="revenus"
+            id="revenus_oui"
+            [value]="true"
+          />
+          <label class="form-check-label" for="revenus_oui"> Oui </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="revenus"
+            id="revenus_non"
+            [value]="false"
+          />
+          <label class="form-check-label" for="revenus_non"> Non </label>
+        </div>
 
-          <div *ngIf="e.revenus.value === true" class="my-2 form-group">
-            <label for="revenusDetail"> De quelle nature ? </label>
-            <textarea
-              class="form-control"
-              formControlName="revenusDetail"
-              name="revenusDetail"
-              id="revenusDetail"
-            ></textarea>
-          </div>
-        </fieldset>
-      </div>
+        <div *ngIf="e.revenus.value === true" class="my-2 form-group">
+          <label for="revenusDetail"> De quelle nature ? </label>
+          <textarea
+            class="form-control"
+            formControlName="revenusDetail"
+            name="revenusDetail"
+            id="revenusDetail"
+          ></textarea>
+        </div>
+      </fieldset>
+
       <div class="questions">
         <fieldset>
           <legend class="label">

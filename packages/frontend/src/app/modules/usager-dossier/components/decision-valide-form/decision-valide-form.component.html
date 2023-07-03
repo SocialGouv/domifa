@@ -4,13 +4,18 @@
 
 <div class="modal-body">
   <div class="col">
-    Vous êtes sur le point de domicilier
-    <strong>{{ usager | usagerNomComplet }}.</strong>
-    <br />
-    Veuillez indiquer la date de début de la domiciliation.
-    <br />
-    <br />
-    <form [formGroup]="valideForm" (ngSubmit)="setDecisionValide()">
+    <p>
+      Vous êtes sur le point de domicilier
+      <strong>{{ usager | usagerNomComplet }}.</strong>
+      <br />
+      Veuillez indiquer la date de début de la domiciliation.
+    </p>
+
+    <form
+      [formGroup]="valideForm"
+      class="my-1"
+      (ngSubmit)="setDecisionValide()"
+    >
       <div class="row">
         <div class="col-md-12">
           <p>
@@ -106,7 +111,7 @@
 
             <button
               type="button"
-              aria-label="Date de début"
+              aria-label="Ouvrir le calendrier"
               class="input-group-text btn btn-outline-primary d-print-none"
               (click)="dFin.toggle()"
             >
@@ -137,8 +142,8 @@
           </div>
         </div>
       </div>
-      <br />
-      <div class="row">
+
+      <div class="row my-2">
         <div class="col-md-6">
           <label for="customRef">Identifiant personnalisé</label>
           <input

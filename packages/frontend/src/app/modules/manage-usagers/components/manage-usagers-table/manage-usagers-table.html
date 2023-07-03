@@ -124,12 +124,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let usager of usagers; let i = index">
-      <td
-        tabindex="0"
-        class="text-start"
-        (click)="toggleSelection(usager.ref)"
-        *ngIf="displayCheckboxes"
-      >
+      <td class="text-start" *ngIf="displayCheckboxes">
         <input
           type="checkbox"
           [attr.aria-label]="'Sélectionner '+ usager.nom + ' ' + usager.prenom"
@@ -329,7 +324,6 @@
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_visite') !== -1"
             aria-label="Ajout d'un passage"
             ngbTooltip="Ajout d'un passage"
-            triggers="hover focus"
             class="btn interaction-btn btn-light"
             (click)="setSingleInteraction(usager, 'visite')"
           >
@@ -346,7 +340,6 @@
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_appel') !== -1"
             aria-label="Ajout d'un appel téléphonique"
             ngbTooltip="Ajout d'un appel téléphonique"
-            triggers="hover focus"
             class="btn interaction-btn btn-light"
             (click)="setSingleInteraction(usager, 'appel')"
           >
@@ -367,11 +360,10 @@
           *ngIf="usager.isActif || (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)"
         >
           <button
-            aria-label="Ajout rapide d'un courrier"
             type="button"
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_courrierIn') !== -1"
+            aria-label="Ajout rapide d'un courrier"
             ngbTooltip="Ajout rapide d'un courrier"
-            triggers="hover focus"
             class="btn interaction-btn btn-light"
             (click)="setSingleInteraction(usager, 'courrierIn')"
           >
@@ -387,7 +379,6 @@
             type="button"
             aria-label="Ajout détaillé d'un courrier"
             ngbTooltip="Ajout détaillé d'un courrier"
-            triggers="hover focus"
             class="interaction-btn btn-light btn"
             (click)="openInteractionInModal(usager)"
           >
@@ -434,7 +425,7 @@
             [ngbTooltip]="distributionBox"
             type="button"
             triggers="hover focus"
-            aria-label="Distribuer le courrier"
+            [attr.aria-label]="'Distribuer '+ usager.totalInteractionsEnAttente+ ' courriers'"
             (click)="openInteractionOutModal(usager)"
           >
             <span class="icon-distribution list-icon"></span>

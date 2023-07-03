@@ -517,7 +517,7 @@
                   [attr.aria-label]="'Prénom de l\'ayant-droit ' + (i + 1)"
                   required
                 />
-                <div
+                <p
                   [id]="'prenom-ad-errors-' + i"
                   *ngIf="
                     (ayantsDroits.controls[i].get('prenom')?.dirty ||
@@ -527,7 +527,7 @@
                   class="invalid-feedback"
                 >
                   Le prénom est obligatoire
-                </div>
+                </p>
               </div>
               <div class="col form-group required">
                 <label for="dateNaissance_{{ i }}">Date de naissance</label>

@@ -26,62 +26,60 @@
 <div class="content py-3" *ngIf="me">
   <div class="container py-3">
     <div class="page-content p-3">
-      <div>
-        <div class="d-flex justify-content-between align-items-center">
-          <h2>Vos documents pré-remplis</h2>
-          <div *ngIf="me.role === 'admin'">
-            <button
-              type="button"
-              class="btn-outline-primary btn"
-              (click)="openUploadCustomDocModal(true)"
-            >
-              <fa-icon aria-hidden="true" [icon]="['fas', 'upload']"></fa-icon>
-              Importer un document pré-rempli
-            </button>
-          </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Vos documents pré-remplis</h2>
+        <div *ngIf="me.role === 'admin'">
+          <button
+            type="button"
+            class="btn-outline-primary btn"
+            (click)="openUploadCustomDocModal(true)"
+          >
+            <fa-icon aria-hidden="true" [icon]="['fas', 'upload']"></fa-icon>
+            Importer un document pré-rempli
+          </button>
         </div>
-        <div class="py-3 mb-3">
-          <p>
-            Ce sont des documents Word (.docx) qui sont automatiquement
-            complétés par des données issues de DomiFa. <br />
-            Par défaut, DomiFa propose 2 documents essentiels au suivi des
-            domiciliés :
-          </p>
-          <ul>
-            <li>
-              <strong>Courrier de radiation :</strong> modèle de courrier
-              informant l'usager de la fin de domiciliation décidée.
-              <a
-                href="/assets/files/courrier_radiation.docx"
-                target="_blank"
-                rel="noopener noreferrer"
-                download
-              >
-                Télécharger le modèle</a
-              >
-            </li>
-            <li>
-              <strong>Attestation postale :</strong> modèle de courrier
-              permettant au domicilié de justifier son adresse.
-              <a
-                href="/assets/files/attestation_postale.docx"
-                target="_blank"
-                rel="noopener noreferrer"
-                download
-              >
-                Télécharger le modèle</a
-              >
-            </li>
-          </ul>
-        </div>
-
-        <app-structures-custom-docs-table
-          [me]="me"
-          (getAllStructureDocs)="getAllStructureDocs()"
-          [structureDocs]="customStructureDocs"
-          [title]="'Liste des documents pré-remplis'"
-        ></app-structures-custom-docs-table>
       </div>
+      <div class="py-3 mb-3">
+        <p>
+          Ce sont des documents Word (.docx) qui sont automatiquement complétés
+          par des données issues de DomiFa. <br />
+          Par défaut, DomiFa propose 2 documents essentiels au suivi des
+          domiciliés :
+        </p>
+        <ul>
+          <li>
+            <strong>Courrier de radiation :</strong> modèle de courrier
+            informant l'usager de la fin de domiciliation décidée.
+            <a
+              href="/assets/files/courrier_radiation.docx"
+              target="_blank"
+              rel="noopener noreferrer"
+              download
+            >
+              Télécharger le modèle</a
+            >
+          </li>
+          <li>
+            <strong>Attestation postale :</strong> modèle de courrier permettant
+            au domicilié de justifier son adresse.
+            <a
+              href="/assets/files/attestation_postale.docx"
+              target="_blank"
+              rel="noopener noreferrer"
+              download
+            >
+              Télécharger le modèle</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <app-structures-custom-docs-table
+        [me]="me"
+        (getAllStructureDocs)="getAllStructureDocs()"
+        [structureDocs]="customStructureDocs"
+        [title]="'Liste des documents pré-remplis'"
+      ></app-structures-custom-docs-table>
     </div>
 
     <div class="page-content my-3 p-4">

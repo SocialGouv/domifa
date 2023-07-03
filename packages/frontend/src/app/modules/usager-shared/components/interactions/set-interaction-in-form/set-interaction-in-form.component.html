@@ -3,8 +3,7 @@
     Nouveaux courriers pour
     <span class="text-primary">
       {{ usager | usagerNomComplet }} -
-      <span *ngIf="usager.customRef">{{ usager.customRef }}</span>
-      <span *ngIf="!usager.customRef">{{ usager.ref }}</span>
+      {{ usager.customRef ? usager.customRef : usager.ref }}
     </span>
   </span>
 </div>
@@ -27,7 +26,7 @@
           type="button"
           (click)="decrement('courrierIn')"
           class="btn btn-primary"
-          aria-label="Retirer un courrier"
+          aria-label="Diminuer le nombre de courriers reçus"
           [disabled]="interactionFormData.courrierIn.nbCourrier === 0"
         >
           <span class="icon-moins" aria-hidden="true"></span>
@@ -36,7 +35,7 @@
         <button
           type="button"
           class="btn btn-primary"
-          aria-label="Ajouter un courrier"
+          aria-label="Augmenter le nombre de courriers reçus"
           (click)="increment('courrierIn')"
         >
           <span class="icon-plus" aria-hidden="true"></span>
@@ -65,7 +64,7 @@
           type="button"
           (click)="decrement('colisIn')"
           class="btn btn-primary"
-          aria-label="Retirer un colis"
+          aria-label="Diminuer le nombre de colis reçus"
           [disabled]="interactionFormData.colisIn.nbCourrier === 0"
         >
           <span class="icon-moins" aria-hidden="true"></span>
@@ -74,7 +73,7 @@
         <button
           type="button"
           class="btn btn-primary"
-          aria-label="Ajouter un colis"
+          aria-label="Augmenter le nombre de colis reçus"
           (click)="increment('colisIn')"
         >
           <span class="icon-plus" aria-hidden="true"></span>
@@ -99,7 +98,7 @@
           type="button"
           (click)="decrement('recommandeIn')"
           class="btn btn-primary"
-          aria-label="Retirer un avis de passage"
+          aria-label="Diminuer le nombre d'avis de passage reçus"
           [disabled]="interactionFormData.recommandeIn.nbCourrier === 0"
         >
           <span class="icon-moins" aria-hidden="true"></span>
@@ -108,7 +107,7 @@
         <button
           type="button"
           class="btn btn-primary"
-          aria-label="Ajouter un avis de passage"
+          aria-label="Augmenter le nombre d'avis de passage reçus"
           (click)="increment('recommandeIn')"
         >
           <span class="icon-plus" aria-hidden="true"></span>
