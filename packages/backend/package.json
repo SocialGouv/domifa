@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "^8.0.1",
-    "@nestjs/axios": "1.0.1",
+    "@nestjs/axios": "3.0.0",
     "@nestjs/common": "^9.2.0",
     "@nestjs/core": "^9.2.0",
     "@nestjs/jwt": "^10.0.1",
