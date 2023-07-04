@@ -13,7 +13,7 @@
         <div class="col-md-12">
           <h2>Historique des décisions</h2>
           <div class="alert alert-info" *ngIf="usager.historique.length === 0">
-            Aucun historique de décision n'est enregistré
+            <p>Aucun historique de décision n'est enregistré</p>
           </div>
           <table *ngIf="usager.historique.length > 0" class="table table-hover">
             <caption class="visually-hidden">

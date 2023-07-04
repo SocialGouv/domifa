@@ -61,67 +61,65 @@
         <div class="modal-header bg-danger text-white">
           <span id="modal-title">Suppression de tous les dossiers</span>
         </div>
-        <div class="modal-body">
-          <div class="p-3">
-            <p>
-              Vous êtes sur le point de
-              <strong>supprimer TOUS LES DOMICILIÉS</strong>
-              de votre structure.
-            </p>
+        <div class="modal-body p-3">
+          <p>
+            Vous êtes sur le point de
+            <strong>supprimer TOUS LES DOMICILIÉS</strong>
+            de votre structure.
+          </p>
 
-            <p *ngIf="structure.portailUsager.enabledByStructure">
-              <strong>Important :</strong> Tous les accès au portail DomiFa
-              dédié aux usagers seront supprimés ! Vos domiciliés ne pourront
-              plus y accéder.
-            </p>
-            <p>
-              Si vous choisissez de continuer, les données suivantes seront
-              supprimées:
-            </p>
+          <p *ngIf="structure.portailUsager.enabledByStructure">
+            <strong>Important :</strong> Tous les accès au portail DomiFa dédié
+            aux usagers seront supprimés ! Vos domiciliés ne pourront plus y
+            accéder.
+          </p>
+          <p>
+            Si vous choisissez de continuer, les données suivantes seront
+            supprimées:
+          </p>
 
-            <ul class="text-start">
-              <li>
-                Tous les dossiers : demandes, domiciliés actifs, radiés, etc.
-              </li>
-              <li>L'historique de toutes les décisions</li>
-              <li>Toutes les interactions (courriers, appels, etc.)</li>
-            </ul>
+          <ul class="text-start">
+            <li>
+              Tous les dossiers : demandes, domiciliés actifs, radiés, etc.
+            </li>
+            <li>L'historique de toutes les décisions</li>
+            <li>Toutes les interactions (courriers, appels, etc.)</li>
+          </ul>
+          <br />
+          <p>
+            <strong>
+              Vous n'aurez aucun moyen de restaurer les dossiers effacés.
+            </strong>
             <br />
-            <p>
-              <strong>
-                Vous n'aurez aucun moyen de restaurer les dossiers effacés.
-              </strong>
-              <br />
-              Pour finaliser cette procédure, cliquez sur "continuer".
-            </p>
-          </div>
-          <div class="p-3" *ngIf="showHardReset">
-            <form
-              [formGroup]="hardResetForm"
-              (ngSubmit)="hardResetConfirm()"
-              class="col-12"
-            >
-              <div class="form-group required">
-                <label for="hard-reset-input"
-                  >Veuillez saisir le code reçu par email</label
-                >
-                <div class="offset-md-2 col-md-8">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="hard-reset-input"
-                    [ngClass]="{
-                      'is-invalid': h.token.dirty && h.token.errors
-                    }"
-                    formControlName="token"
-                    maxlength="7"
-                    minlength="7"
-                    required
-                  />
-                </div>
+            Pour finaliser cette procédure, cliquez sur "continuer".
+          </p>
+        </div>
+        <div class="p-3" *ngIf="showHardReset">
+          <form
+            [formGroup]="hardResetForm"
+            (ngSubmit)="hardResetConfirm()"
+            class="col-12"
+          >
+            <div class="form-group required">
+              <label for="hard-reset-input"
+                >Veuillez saisir le code reçu par email</label
+              >
+              <div class="offset-md-2 col-md-8">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="hard-reset-input"
+                  [ngClass]="{
+                    'is-invalid': h.token.dirty && h.token.errors
+                  }"
+                  formControlName="token"
+                  maxlength="7"
+                  minlength="7"
+                  required
+                />
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
         <div class="modal-footer text-center">
           <button
