@@ -1,10 +1,6 @@
 <div *ngIf="me" class="head-page py-4">
   <div class="container">
-    <div class="row">
-      <div class="col-md-7 col-12">
-        <h1 class="title">Mon compte</h1>
-      </div>
-    </div>
+    <h1 class="title">Mon compte</h1>
   </div>
 </div>
 
@@ -16,7 +12,7 @@
           <h2>Mes prochains rendez-vous</h2>
           <ng-container *ngIf="usagers$ | async as nextMeetings">
             <div class="alert-info alert" *ngIf="nextMeetings.length === 0">
-              Aucun rendez-vous prévu
+              <p>Aucun rendez-vous prévu</p>
             </div>
             <table class="table" *ngIf="nextMeetings.length > 0">
               <caption class="visually-hidden">
@@ -199,7 +195,7 @@
                 aria-hidden="true"
                 [icon]="['fas', 'exclamation-triangle']"
               ></fa-icon>
-              <strong>L'adresse email est déjà utilisée</strong>
+              L'adresse email est déjà utilisée
             </p>
             <p *ngIf="!f.email.errors.emailTaken">
               L'adresse email est incorrecte, format attendu : nom@domaine.fr
@@ -259,7 +255,9 @@
         </h2>
 
         <div class="col-md-12 text-center" *ngIf="!editPassword">
-          {{ lastPasswordUpdate }}
+          <p>
+            {{ lastPasswordUpdate }}
+          </p>
         </div>
       </div>
 

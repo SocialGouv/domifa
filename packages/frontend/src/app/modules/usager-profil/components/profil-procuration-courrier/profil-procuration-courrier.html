@@ -376,12 +376,14 @@
     <span id="modal-title" class="text-white">Confirmer la suppression</span>
   </div>
   <div class="modal-body" *ngIf="procurationToDelete !== null">
-    Êtes-vous sur de vouloir supprimer la procuration au nom de
-    <strong
-      >{{ usager.options.procurations[procurationToDelete].nom }} {{
-      usager.options.procurations[procurationToDelete].prenom }}
-    </strong>
-    ?
+    <p>
+      Êtes-vous sur de vouloir supprimer la procuration au nom de
+      <strong
+        >{{ usager.options.procurations[procurationToDelete].nom }} {{
+        usager.options.procurations[procurationToDelete].prenom }}
+      </strong>
+      ?
+    </p>
   </div>
   <div class="modal-footer">
     <button
