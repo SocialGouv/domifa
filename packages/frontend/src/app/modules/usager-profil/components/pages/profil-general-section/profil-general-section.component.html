@@ -362,7 +362,7 @@
                 [attr.aria-disabled]="loadingButtons.indexOf('visite') !== -1"
                 aria-label="Ajout d'un passage"
                 ngbTooltip="Ajout d'un passage"
-                class="btn me-2 btn-primary"
+                class="my-1 btn me-2 btn-primary"
                 triggers="hover focus"
                 (click)="setSingleInteraction(usager.ref, 'visite')"
               >
@@ -380,7 +380,7 @@
                 [disabled]="loadingButtons.indexOf('appel') !== -1"
                 aria-label="Ajout d'un appel téléphonique"
                 ngbTooltip="Ajout d'un appel téléphonique"
-                class="btn btn-primary me-2"
+                class="my-1 btn btn-primary me-2"
                 triggers="hover focus"
                 (click)="setSingleInteraction(usager.ref, 'appel')"
               >
@@ -398,7 +398,7 @@
             <ng-container *ngIf="!usager.options.npai.actif">
               <button
                 type="button"
-                class="btn btn-primary me-2"
+                class="my-1 btn btn-primary me-2"
                 (click)="openInteractionInModal()"
               >
                 <span
@@ -411,7 +411,7 @@
               <button
                 type="button"
                 *ngIf="usager.lastInteraction.enAttente"
-                class="btn btn-primary me-2"
+                class="my-1 btn btn-primary me-2"
                 (click)="openInteractionOutModal()"
               >
                 <span

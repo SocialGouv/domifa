@@ -121,6 +121,18 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
     }
   }
 
+  public isMobile(): boolean {
+    const userAgent = window.navigator.userAgent;
+    const mobileDevices = [
+      "Android",
+      "iPhone",
+      "Windows Phone",
+      "iPad",
+      "iPod",
+    ];
+
+    return mobileDevices.some((device) => userAgent.includes(device));
+  }
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

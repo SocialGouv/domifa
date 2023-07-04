@@ -115,6 +115,12 @@
   }
 }
 
+@media all and (max-width: 480px) {
+  .head-page {
+    text-align: center;
+  }
+}
+
 small {
   color: #6e6e6e !important;
 }
