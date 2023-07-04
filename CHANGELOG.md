@@ -1,3 +1,13 @@
+## [2.131.2](https://github.com/SocialGouv/domifa/compare/v2.131.1...v2.131.2) (2023-07-04)
+
+
+### Bug Fixes
+
+* **rgaa:** ajout d'un menu sur mobile pour les étapes du formulaire ([38d537f](https://github.com/SocialGouv/domifa/commit/38d537f89240470992d3f56bb625dc78a407a9c4))
+* **rgaa:** ajout de balises p ([8cbe522](https://github.com/SocialGouv/domifa/commit/8cbe5224c4052cf9d114e47148490217be5d2e53))
+* **rgaa:** correction du menu ([b760cdb](https://github.com/SocialGouv/domifa/commit/b760cdbc8caa8bdd6c17a09e0b06838e38cd8914))
+* **rgaa:** mise à jour des titres ([78bb719](https://github.com/SocialGouv/domifa/commit/78bb719b8ec36624a67660e522687502b7c39010))
+
 ## [2.131.1](https://github.com/SocialGouv/domifa/compare/v2.131.0...v2.131.1) (2023-07-03)
 
 
