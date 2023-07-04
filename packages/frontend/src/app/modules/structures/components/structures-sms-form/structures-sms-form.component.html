@@ -32,7 +32,7 @@
   <div class="container py-3">
     <div class="page-content p-3">
       <p>
-        <strong>Information importante : </strong> afin que vos domiciliés
+        <strong>Information importante : </strong> afin que les domiciliés
         recoivent des SMS, veuillez compléter les 3 étapes ci-dessous:
       </p>
       <ul>
@@ -81,7 +81,7 @@
               <fieldset>
                 <div class="row align-items-center">
                   <legend class="label col-12 col-md-8">
-                    Activer l'envoi de SMS pour vos domiciliés
+                    Activer l'envoi de SMS pour les domiciliés
                   </legend>
                   <div class="col-md-4 col-12 text-center text-md-end">
                     <div class="btn-group btn-group-toggle" role="group">
@@ -151,7 +151,7 @@
                     required
                     autocapitalize="true"
                   />
-                  <small id="sender-name-help" class="form-text text-muted"
+                  <small id="sender-name-help"
                     >Veuillez n'utiliser que des lettres (11 maximum)</small
                   >
                   <p
@@ -193,9 +193,7 @@
                         : 'sender-details-help'
                     "
                   />
-                  <small id="sender-details-help" class="form-text text-muted"
-                    >30 caractères maximum</small
-                  >
+                  <small id="sender-details-help">30 caractères maximum</small>
                   <p
                     *ngIf="
                       (submitted || form.senderDetails.dirty) &&

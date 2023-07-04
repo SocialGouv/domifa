@@ -80,7 +80,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Inscrivez votre structure sur DomiFa");
+    this.titleService.setTitle("Inscription d'une structure sur DomiFa");
 
     this.structureForm = this.formBuilder.group({
       codePostal: [this.structure.codePostal, getPostalCodeValidator(true)],

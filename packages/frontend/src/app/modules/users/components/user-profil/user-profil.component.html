@@ -1,6 +1,6 @@
 <div *ngIf="me" class="head-page py-4">
   <div class="container">
-    <h1 class="title">Gestion des utilisateurs</h1>
+    <h1 class="title">Gérer les utilisateurs</h1>
   </div>
 </div>
 
@@ -543,7 +543,7 @@
         </div>
       </div>
 
-      <div *ngIf="me.role === 'admin'">
+      <div *ngIf="me.role === 'admin'" class="my-3">
         <app-register-user-admin
           (getUsers)="getUsers()"
         ></app-register-user-admin>

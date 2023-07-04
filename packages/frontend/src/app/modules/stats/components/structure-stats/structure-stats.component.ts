@@ -112,9 +112,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle(
-      "Rapport d'activité de votre structure sur DomiFa"
-    );
+    this.titleService.setTitle("Rapport d'activité - DomiFa");
     this.me = this.authService.currentUserValue;
   }
 

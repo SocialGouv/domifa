@@ -41,7 +41,7 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Gestion des utilisateurs DomiFa");
+    this.titleService.setTitle("Gérer les utilisateurs de DomiFa");
 
     this.me = this.authService.currentUserValue;
 

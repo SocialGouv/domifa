@@ -29,7 +29,7 @@ export type UsagersFilterCriteriaEntretien = "COMING" | "OVERDUE";
 
 export type UsagersFilterCriteriaDernierPassage = "DEUX_MOIS" | "TROIS_MOIS";
 
-export type CriteriaSearchField = "DEFAULT" | "DATE_NAISSANCE" | "PROCURATION";
+export type CriteriaSearchField = "DEFAULT" | "DATE_NAISSANCE";
 export class UsagersFilterCriteria {
   // text search filter
   // DEFAULT = Nom, prénom du domicilié, nom, prénom d'un des ayant-droits

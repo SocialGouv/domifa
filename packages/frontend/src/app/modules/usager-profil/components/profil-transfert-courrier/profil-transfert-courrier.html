@@ -1,8 +1,7 @@
 <div class="d-print-none" *ngIf="usager">
   <div class="my-2 d-flex flex-wrap justify-content-between align-items-center">
-    <div>
-      <h2>Transfert de courrier</h2>
-    </div>
+    <h2>Transfert de courrier</h2>
+
     <ng-container *ngIf="usager.decision.statut !== 'REFUS'">
       <button
         type="button"
@@ -114,7 +113,7 @@
           required
         />
 
-        <small id="nom-description" class="form-text text-muted">
+        <small id="nom-description">
           Exemple: Maison d'arrêt, Hôpital saint-louis, etc.
         </small>
         <p
@@ -143,7 +142,7 @@
           [attr.aria-invalid]="(f.adresse.dirty || submitted) && f.adresse.errors ? true : false"
           required
         />
-        <small id="adresse-description" class="form-text text-muted">
+        <small id="adresse-description">
           Précisez l'adresse complète, 10 caractères minimum
         </small>
         <div

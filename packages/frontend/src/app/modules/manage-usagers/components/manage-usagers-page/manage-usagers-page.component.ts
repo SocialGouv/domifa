@@ -123,10 +123,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
       label: "Date de naissance",
       placeholder: "Recherche par date de naissance JJ/MM/AAAA",
     },
-    PROCURATION: {
-      label: "Procuration et mandataire",
-      placeholder: "Recherche une procuration ou un mandataire",
-    },
   };
 
   public searchString: string | null;
@@ -180,7 +176,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     this.filters = new UsagersFilterCriteria(this.getFilters());
     this.searchString = this.filters.searchString;
     this.filters.page = 0;
-    this.titleService.setTitle("Gérer vos domiciliés - DomiFa");
+    this.titleService.setTitle("Gestion des domiciliés - DomiFa");
   }
 
   public ngOnInit(): void {

@@ -79,7 +79,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Editer mes informations - DomiFa");
+    this.titleService.setTitle("Gérer mon compte - DomiFa");
 
     this.me = this.authService.currentUserValue;
 

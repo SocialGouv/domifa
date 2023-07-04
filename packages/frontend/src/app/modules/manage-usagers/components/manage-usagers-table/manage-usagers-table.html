@@ -150,13 +150,16 @@
           [ngbTooltip]="pinnedNote"
           triggers="hover focus"
           #tooltipNote="ngbTooltip"
-          tabindex="0"
           src="/assets/icones/pinned-note.svg"
           alt="Note épinglée"
+          aria-hidden="true"
         />
         <ng-template #pinnedNote>
           <b>Note épinglée : </b>{{ usager.pinnedNote.message}}
         </ng-template>
+        <span class="visually-hidden" *ngIf="!usager.pinnedNote"
+          >Aucune note épinglée</span
+        >
       </td>
 
       <td class="clickable table-name td-name">
@@ -192,7 +195,6 @@
         ></app-display-ayants-droits>
         <div
           class="label-info label-procuration"
-          tabindex="0"
           *ngIf="usager.options.procurations.length > 0"
           [ngbTooltip]="procurationActif"
           triggers="hover focus"
@@ -222,11 +224,10 @@
               </span>
             </div>
           </ng-template>
-          <div>
+          <p class="m-0">
             {{ usager.options.procurations.length > 1 ? 'Procurations':
             'Procuration'}}
-          </div>
-          <div aria-hidden="true" *ngIf="usager.searchResultProcuration"></div>
+          </p>
         </div>
         <div
           class="label-info label-transfert"
@@ -254,26 +255,26 @@
               </div>
             </div>
           </ng-template>
-          <div>Transfert</div>
+          <span>Transfert</span>
         </div>
         <div *ngIf="usager.options.npai.actif" class="label-info label-danger">
-          <div>Pli non distribuable</div>
+          <span>Pli non distribuable</span>
         </div>
       </td>
 
-      <td class="clickable" *ngIf=" filters.statut ==='INSTRUCTION'">
-        <div
+      <td *ngIf=" filters.statut ==='INSTRUCTION'">
+        <p
           *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
-          class="label-info label-yellow"
+          class="m-0 label-info label-yellow"
         >
           Renouvellement
-        </div>
-        <div
+        </p>
+        <p
           *ngIf="usager.typeDom === 'PREMIERE_DOM'"
-          class="label-info label-grey"
+          class="m-0 label-info label-grey"
         >
           Première demande
-        </div>
+        </p>
       </td>
 
       <td
@@ -377,8 +378,8 @@
           </button>
           <button
             type="button"
-            aria-label="Ajout détaillé d'un courrier"
-            ngbTooltip="Ajout détaillé d'un courrier"
+            aria-label="Réception de courriers"
+            ngbTooltip="Réception de courriers"
             class="interaction-btn btn-light btn"
             (click)="openInteractionInModal(usager)"
           >

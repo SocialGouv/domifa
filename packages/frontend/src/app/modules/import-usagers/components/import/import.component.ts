@@ -70,7 +70,7 @@ export class ImportComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Importer vos domiciliés sur DomiFa");
+    this.titleService.setTitle("Importer des domiciliés sur DomiFa");
 
     this.uploadForm = this.formBuilder.group({
       fileInput: ["", Validators.required],
