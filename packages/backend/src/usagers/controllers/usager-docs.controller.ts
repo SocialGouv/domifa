@@ -163,6 +163,7 @@ export class UsagerDocsController {
     }
 
     let filePath = "";
+
     if (doc.encryptionContext) {
       filePath = await getFilePath(
         user.structure.uuid,
@@ -216,8 +217,6 @@ export class UsagerDocsController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager
   ) {
-    const mainSecret = domifaConfig().security.files.mainSecret;
-
     const doc = await usagerDocsRepository.findOneBy({
       uuid: docUuid,
       usagerRef,
@@ -231,6 +230,8 @@ export class UsagerDocsController {
     }
 
     if (doc.encryptionContext) {
+      const mainSecret = domifaConfig().security.files.mainSecret;
+
       const encryptedFilePath = await getFilePath(
         user.structure.uuid,
         doc.usagerUUID,
@@ -238,20 +239,27 @@ export class UsagerDocsController {
       );
 
       if (doc.encryptionVersion !== 0) {
-        throw new Error("Implement main secret rotation logic");
+        return res
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: "CANNOT_UPLOAD_FILE_MAIN" });
       }
 
       try {
-        return await pipeline(
+        return pipeline(
           // note: encryptedFilePath should end with .sfe, not .encrypted, to prepare for phase 3.
           createReadStream(encryptedFilePath),
           decryptFile(mainSecret, doc.encryptionContext),
           res
         );
       } catch (e) {
-        appLogger.error("Erreur");
+        return res
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: "CANNOT_UPLOAD_FILE" });
       }
-    } else {
+    }
+
+    // @deprecated
+    else {
       // @deprecated: delete this after migration
       const sourceFileDir = getFileDir(
         currentUsager.structureId,
@@ -343,7 +351,7 @@ export class UsagerDocsController {
         );
       }
     } catch (e) {
-      console.error(e);
+      appLogger.error(e);
       return new Error(
         `Erreur de chiffrement : ${sourceFilePath} ${e.message}`
       );

@@ -33,12 +33,14 @@ function query(method: "post" | "put" | "patch" | "delete") {
       authenticate = true,
       body,
       headers,
+      fields,
       context,
       attachments,
     }: {
       authenticate?: boolean;
       body?: string | object;
       headers?: { [name: string]: string };
+      fields?: { [name: string]: string };
       context: AppTestContext;
       attachments?: { [name: string]: string };
     }
@@ -60,6 +62,11 @@ function query(method: "post" | "put" | "patch" | "delete") {
     if (headers) {
       Object.keys(headers).forEach((key) => {
         req = req.set(key, headers[key]);
+      });
+    }
+    if (fields) {
+      Object.keys(fields).forEach((key) => {
+        req = req.field(key, fields[key]);
       });
     }
     if (attachments) {
