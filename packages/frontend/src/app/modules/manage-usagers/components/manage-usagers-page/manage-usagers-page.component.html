@@ -10,7 +10,6 @@
           <div
             ngbDropdown
             id="dropdownSearchString"
-            display="dynamic"
             class="d-block d-md-inline-block my-1"
             #dropdownSearchString="ngbDropdown"
           >
@@ -256,8 +255,7 @@
             ngbDropdown
             *ngIf="!filters.passage"
             id="dropdownDernierPassage"
-            display="dynamic"
-            placement="bottom-left"
+            placement="bottom"
             #dropdownDernierPassage="ngbDropdown"
             class="d-inline-block my-1"
           >
@@ -313,8 +311,8 @@
             *ngIf="!filters.echeance"
             ngbDropdown
             id="dropdownEcheance"
-            display="dynamic"
-            placement="auto"
+            placement="bottom"
+            class="d-inline-block my-1"
             #dropdownEcheance="ngbDropdown"
           >
             <button type="button" class="btn" ngbDropdownToggle>
@@ -382,8 +380,8 @@
           <div
             ngbDropdown
             id="dropDownCourrierAttente"
-            display="dynamic"
-            placement="bottom-left"
+            placement="bottom"
+            class="d-inline-block my-1"
             *ngIf="!filters.interactionType"
             #dropDownCourrierAttente="ngbDropdown"
           >
@@ -433,7 +431,7 @@
           <div
             ngbDropdown
             id="dropDownEntretien"
-            display="dynamic"
+            placement="bottom"
             *ngIf="!filters.entretien"
             class="d-md-inline-block d-block"
             #dropDownEntretien="ngbDropdown"

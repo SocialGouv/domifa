@@ -24,7 +24,8 @@
 .steps {
   background-color: #f2f2f2;
 }
-.step_number {
+
+.step-number {
   border-radius: 50%;
   width: 42px;
   height: 42px;
@@ -131,4 +132,10 @@
   max-width: 80px;
   vertical-align: top;
   transition: all 0.25s;
+}
+
+@media all and (max-width: 480px) {
+  .step div {
+    max-width: 20px;
+  }
 }
