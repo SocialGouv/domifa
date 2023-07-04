@@ -81,7 +81,7 @@
           "
           required
         />
-        <small id="address-description" class="form-text text-muted"
+        <small id="address-description"
           >Cette adresse apparaîtra sur le Cerfa</small
         >
         <p
@@ -118,7 +118,7 @@
               : false
           "
         />
-        <small id="complement-description" class="form-text text-muted"
+        <small id="complement-description"
           >Lieu-dit, Bâtiment, étage, etc..</small
         >
         <p
@@ -485,9 +485,7 @@
               : 'agrement-description'
           "
         />
-        <small id="agrement-description" class="form-text text-muted"
-          >Numéro donné par la préfecture</small
-        >
+        <small id="agrement-description">Numéro donné par la préfecture</small>
         <p
           *ngIf="(submitted || f.agrement.dirty) && f.agrement.errors"
           id="agrement-errors"
@@ -642,9 +640,7 @@
           "
           required
         />
-        <small
-          id="responsable-fonction-description"
-          class="form-text text-muted"
+        <small id="responsable-fonction-description"
           >Président.e, Directrice, etc.</small
         >
         <p

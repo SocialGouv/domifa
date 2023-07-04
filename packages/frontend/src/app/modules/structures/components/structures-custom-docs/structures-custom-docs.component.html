@@ -27,7 +27,7 @@
   <div class="container py-3">
     <div class="page-content p-3">
       <div class="d-flex justify-content-between align-items-center">
-        <h2>Vos documents pré-remplis</h2>
+        <h2>Documents pré-remplis</h2>
         <div *ngIf="me.role === 'admin'">
           <button
             type="button"
@@ -103,14 +103,13 @@
           règlement intérieur, fiches de suivi, etc.
         </p>
       </div>
-      <div>
-        <app-structures-custom-docs-table
-          [me]="me"
-          (getAllStructureDocs)="getAllStructureDocs()"
-          [structureDocs]="structureDocs"
-          [title]="'Liste des autres documents'"
-        ></app-structures-custom-docs-table>
-      </div>
+
+      <app-structures-custom-docs-table
+        [me]="me"
+        (getAllStructureDocs)="getAllStructureDocs()"
+        [structureDocs]="structureDocs"
+        [title]="'Liste des autres documents'"
+      ></app-structures-custom-docs-table>
     </div>
   </div>
 </div>

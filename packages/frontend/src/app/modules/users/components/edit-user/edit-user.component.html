@@ -55,7 +55,7 @@
       </div>
 
       <div
-        class="my-2 d-flex flex-wrap justify-content-between align-items-center"
+        class="my-4 d-flex flex-wrap justify-content-between align-items-center"
       >
         <h2>Informations personnelles</h2>
 
@@ -71,7 +71,7 @@
             class="me-2"
           ></fa-icon>
 
-          Modifier vos informations
+          Modifier mes informations
         </button>
       </div>
 
@@ -99,7 +99,7 @@
       <form
         *ngIf="editUser"
         [formGroup]="userForm"
-        class="row my-2"
+        class="row"
         (ngSubmit)="updateUser()"
       >
         <div class="col-md-12">
@@ -240,7 +240,7 @@
         </div>
       </form>
 
-      <div class="row">
+      <div class="row my-4">
         <h2 class="col-md-8">Mot de passe</h2>
         <h2 class="col-md-4 text-end">
           <button
@@ -254,7 +254,7 @@
               [icon]="['far', 'edit']"
               class="me-2"
             ></fa-icon>
-            Modifier votre mot de passe
+            Modifier mon mot de passe
           </button>
         </h2>
 

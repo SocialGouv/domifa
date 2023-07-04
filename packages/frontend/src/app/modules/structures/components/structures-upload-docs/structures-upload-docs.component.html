@@ -96,18 +96,10 @@
           (change)="onFileChange($event)"
         />
 
-        <small
-          *ngIf="isCustomDoc"
-          id="file-description"
-          class="form-text text-muted"
-        >
+        <small *ngIf="isCustomDoc" id="file-description">
           Seul les fichiers Word au format .docx sont autorisés
         </small>
-        <small
-          *ngIf="!isCustomDoc"
-          id="file-description"
-          class="form-text text-muted"
-        >
+        <small *ngIf="!isCustomDoc" id="file-description">
           Formats autorisés pdf, docx, xlsx, odt, jpg ou png (6mo maxi)
         </small>
 

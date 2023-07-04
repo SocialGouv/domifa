@@ -44,7 +44,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
   public maxEndDate: NgbDateStruct;
   public showDurationWarning: boolean;
 
-  public usagersRefs: Pick<
+  public duplicateUsagers: Pick<
     UsagerLight,
     "ref" | "customRef" | "nom" | "prenom" | "sexe" | "structureId"
   >[];
@@ -62,7 +62,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     this.submitted = false;
     this.loading = false;
     this.duplicates = [];
-    this.usagersRefs = [];
+    this.duplicateUsagers = [];
     this.minDate = { day: 1, month: 1, year: new Date().getFullYear() - 1 };
     this.maxDate = { day: 31, month: 12, year: new Date().getFullYear() + 2 };
     this.maxEndDate = this.setDate(subDays(addYears(new Date(), 1), 1));
@@ -202,7 +202,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
         .getLastFiveCustomRef(this.usager.ref)
         .subscribe({
           next: (usagers: UsagerLight[]) => {
-            this.usagersRefs = usagers;
+            this.duplicateUsagers = usagers;
           },
         })
     );

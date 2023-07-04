@@ -1,22 +1,21 @@
 <div class="head-page pt-4 d-print-none">
   <div class="container">
-    <div class="py-2 px-0 mx-0 row justify-content-between align-items-center">
-      <h1 class="title col-12 col-md-2">Domiciliés</h1>
-      <div class="col-12 col-md-8">
-        <div class="align-middle d-inline-block">
+    <div class="py-2 px-0 mx-0">
+      <div
+        class="row text-center justify-content-md-between justify-content-center align-items-center"
+      >
+        <h1 class="col-md-2 col-12 title">Domiciliés</h1>
+
+        <div class="col-md-8 col-12 align-items-center">
           <div
             ngbDropdown
             id="dropdownSearchString"
             display="dynamic"
-            class="d-inline-block"
+            class="d-block d-md-inline-block my-1"
             #dropdownSearchString="ngbDropdown"
           >
-            <button
-              type="button"
-              ngbDropdownAnchor
-              (focus)="dropdownSearchString.open()"
-            >
-              <span>
+            <button type="button" ngbDropdownToggle>
+              <span class="overflow-hidden">
                 <fa-icon
                   [icon]="['fas', 'list']"
                   aria-hidden="true"
@@ -59,55 +58,57 @@
               </button>
             </div>
           </div>
-        </div>
-        <div id="search-bar" role="search" class="align-middle d-inline-block">
-          <label for="searchInput" class="visually-hidden"
-            >Rechercher un domicilié</label
-          >
-          <span id="searchIcon">
-            <fa-icon [icon]="['fas', 'search']" aria-hidden="true"></fa-icon>
-          </span>
 
-          <input
-            id="searchInput"
-            type="text"
-            [(ngModel)]="searchString"
-            #searchInput
-            [placeholder]="
-              SEARCH_STRING_FIELD_LABELS[this.filters.searchStringField]
-                .placeholder
-            "
-          />
-          <button
-            type="button"
-            aria-label="Supprimer le texte saisie"
-            *ngIf="searchInput.value?.trim() !== ''"
-            (click)="resetSearchBar()"
-            class="btn"
-            id="deleteSearchIcon"
+          <div
+            class="d-block d-md-inline-block my-1"
+            id="search-bar"
+            role="search"
           >
-            <fa-icon aria-hidden="true" [icon]="['fas', 'times']"></fa-icon>
-          </button>
-        </div>
-      </div>
+            <label for="searchInput" class="visually-hidden"
+              >Rechercher un domicilié</label
+            >
+            <span id="searchIcon">
+              <fa-icon [icon]="['fas', 'search']" aria-hidden="true"></fa-icon>
+            </span>
 
-      <div
-        class="col-12 col-md-2 text-end"
-        *ngIf="currentUserSubject$ | async as me"
-      >
-        <a
-          *ngIf="me.role !== 'facteur'"
-          routerLink="/usager/nouveau"
-          class="btn btn-white-primary btn-block my-1"
-          (click)="matomo.trackEvent('MANAGE', 'click', 'Liste_Création', 1)"
-        >
-          <fa-icon
-            aria-hidden="true"
-            [icon]="['fas', 'plus']"
-            class="me-2"
-          ></fa-icon>
-          Créer une demande
-        </a>
+            <input
+              id="searchInput"
+              type="text"
+              [(ngModel)]="searchString"
+              #searchInput
+              [placeholder]="
+                SEARCH_STRING_FIELD_LABELS[this.filters.searchStringField]
+                  .placeholder
+              "
+            />
+            <button
+              type="button"
+              aria-label="Supprimer le texte saisie"
+              *ngIf="searchInput.value?.trim() !== ''"
+              (click)="resetSearchBar()"
+              class="btn"
+              id="deleteSearchIcon"
+            >
+              <fa-icon aria-hidden="true" [icon]="['fas', 'times']"></fa-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="col-md-2 col-12">
+          <a
+            *ngIf="me.role !== 'facteur'"
+            routerLink="/usager/nouveau"
+            class="btn btn-white-primary btn-block my-1"
+            (click)="matomo.trackEvent('MANAGE', 'click', 'Liste_Création', 1)"
+          >
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'plus']"
+              class="me-2"
+            ></fa-icon>
+            Créer une demande
+          </a>
+        </div>
       </div>
     </div>
     <div role="tablist" id="statut-selector" class="mt-3 row">
@@ -210,8 +211,11 @@
 <div id="filters" class="py-4 d-print-none">
   <div class="container">
     <div class="row d-flex align-items-center">
-      <div class="col-md-9">
-        <div *ngIf="nbResults" class="filter-part">
+      <div class="col-12 col-md-9">
+        <div
+          *ngIf="nbResults"
+          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
+        >
           Filtrer les <span class="text-primary"> {{ nbResults }} </span>
           <ng-container
             *ngIf="
@@ -223,27 +227,30 @@
           </ng-container>
           résultats
         </div>
-        <div *ngIf="!nbResults" class="filter-part">Aucun résultat</div>
-
+        <div
+          *ngIf="!nbResults"
+          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
+        >
+          Aucun résultat
+        </div>
         <div
           *ngIf="filters.statut === 'TOUS' || filters.statut === 'VALIDE'"
-          class="filter-part"
+          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
         >
-          <div class="d-inline-block my-1" *ngIf="filters.passage">
-            <button
-              type="button"
-              aria-label="Réinitialiser le filtre"
-              class="btn selected-btn"
-              (click)="updateFilters({ element: 'passage', value: null })"
-            >
-              {{ labelsDernierPassage[filters.passage] }}
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'times']"
-                class="cross"
-              ></fa-icon>
-            </button>
-          </div>
+          <button
+            *ngIf="filters.passage"
+            type="button"
+            aria-label="Réinitialiser le filtre date de dernier passage"
+            class="btn selected-btn"
+            (click)="updateFilters({ element: 'passage', value: null })"
+          >
+            {{ labelsDernierPassage[filters.passage] }}
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'times']"
+              class="cross"
+            ></fa-icon>
+          </button>
 
           <div
             ngbDropdown
@@ -254,12 +261,7 @@
             #dropdownDernierPassage="ngbDropdown"
             class="d-inline-block my-1"
           >
-            <button
-              type="button"
-              class="btn"
-              ngbDropdownAnchor
-              (focus)="dropdownDernierPassage.open()"
-            >
+            <button type="button" class="btn" ngbDropdownToggle>
               <span>Dernier passage</span>
             </button>
             <div
@@ -291,37 +293,31 @@
 
         <div
           *ngIf="filters.statut === 'TOUS' || filters.statut === 'VALIDE'"
-          class="filter-part text-start"
+          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
         >
-          <div class="d-inline-block" *ngIf="filters.echeance">
-            <button
-              type="button"
-              class="btn selected-btn"
-              (click)="updateFilters({ element: 'echeance', value: null })"
-            >
-              {{ labelsEcheance[filters.echeance] }}
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'times']"
-                class="cross"
-              ></fa-icon>
-            </button>
-          </div>
+          <button
+            type="button"
+            *ngIf="filters.echeance"
+            class="btn selected-btn"
+            (click)="updateFilters({ element: 'echeance', value: null })"
+          >
+            {{ labelsEcheance[filters.echeance] }}
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'times']"
+              class="cross"
+            ></fa-icon>
+          </button>
+
           <div
             *ngIf="!filters.echeance"
             ngbDropdown
             id="dropdownEcheance"
             display="dynamic"
-            placement="bottom-end"
-            class="d-inline-block"
+            placement="auto"
             #dropdownEcheance="ngbDropdown"
           >
-            <button
-              type="button"
-              class="btn"
-              ngbDropdownAnchor
-              (focus)="dropdownEcheance.open()"
-            >
+            <button type="button" class="btn" ngbDropdownToggle>
               <span>Échéance de domiciliation</span>
             </button>
 
@@ -342,7 +338,10 @@
               <button
                 type="button"
                 (click)="
-                  updateFilters({ element: 'echeance', value: 'DEUX_SEMAINES' })
+                  updateFilters({
+                    element: 'echeance',
+                    value: 'DEUX_SEMAINES'
+                  })
                 "
                 ngbDropdownItem
               >
@@ -361,39 +360,34 @@
           </div>
         </div>
 
-        <div *ngIf="filters.statut !== 'REFUS'" class="filter-part">
-          <div class="d-inline-block" *ngIf="filters.interactionType">
-            <button
-              type="button"
-              title="Réinitialiser le filtre"
-              class="btn selected-btn"
-              (click)="
-                updateFilters({ element: 'interactionType', value: null })
-              "
-            >
-              Courrier à récupérer
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'times']"
-                class="cross"
-              ></fa-icon>
-            </button>
-          </div>
+        <div
+          *ngIf="filters.statut !== 'REFUS'"
+          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
+        >
+          <button
+            type="button"
+            title="Réinitialiser le filtre courrier à récupérer"
+            class="btn selected-btn"
+            *ngIf="filters.interactionType"
+            (click)="updateFilters({ element: 'interactionType', value: null })"
+          >
+            Courrier à récupérer
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'times']"
+              class="cross"
+            ></fa-icon>
+          </button>
+
           <div
             ngbDropdown
             id="dropDownCourrierAttente"
             display="dynamic"
             placement="bottom-left"
             *ngIf="!filters.interactionType"
-            class="d-inline-block"
             #dropDownCourrierAttente="ngbDropdown"
           >
-            <button
-              type="button"
-              class="btn"
-              ngbDropdownAnchor
-              (focus)="dropDownCourrierAttente.open()"
-            >
+            <button type="button" class="btn" ngbDropdownToggle>
               <span>Courriers à récupérer</span>
             </button>
             <div
@@ -417,38 +411,35 @@
           </div>
         </div>
 
-        <div *ngIf="filters.statut === 'INSTRUCTION'" class="filter-part">
-          <div class="d-inline-block" *ngIf="filters.entretien">
-            <button
-              type="button"
-              aria-label="Réinitialiser le filtre"
-              class="btn selected-btn"
-              (click)="updateFilters({ element: 'entretien', value: null })"
-            >
-              Entretien {{ labelsEntretien[filters.entretien] }}
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'times']"
-                class="cross"
-              ></fa-icon>
-            </button>
-          </div>
+        <div
+          *ngIf="filters.statut === 'INSTRUCTION'"
+          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
+        >
+          <button
+            type="button"
+            *ngIf="filters.entretien"
+            aria-label="Réinitialiser le filtre"
+            class="btn selected-btn"
+            (click)="updateFilters({ element: 'entretien', value: null })"
+          >
+            Entretien {{ labelsEntretien[filters.entretien] }}
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'times']"
+              class="cross"
+            ></fa-icon>
+          </button>
+
           <div
             ngbDropdown
             id="dropDownEntretien"
             display="dynamic"
-            placement="bottom-left"
             *ngIf="!filters.entretien"
-            class="d-inline-block"
+            class="d-md-inline-block d-block"
             #dropDownEntretien="ngbDropdown"
           >
-            <button
-              type="button"
-              class="btn"
-              ngbDropdownAnchor
-              (focus)="dropDownEntretien.open()"
-            >
-              <span>Entretien</span>
+            <button type="button" class="btn" ngbDropdownToggle>
+              Entretien
             </button>
             <div
               ngbDropdownMenu
@@ -484,14 +475,8 @@
           </div>
         </div>
       </div>
-      <div class="col-md-3 text-end">
-        <div
-          ngbDropdown
-          id="dropdownSort"
-          placement="bottom-end"
-          class="d-inline-block"
-          #dropdownSort="ngbDropdown"
-        >
+      <div class="col-12 col-md-3 text-md-end text-center my-1">
+        <div ngbDropdown id="dropdownSort" #dropdownSort="ngbDropdown">
           <button
             type="button"
             class="btn"
@@ -584,8 +569,8 @@
                 aria-hidden="true"
                 [icon]="['fas', 'sort-amount-up']"
               ></fa-icon>
-              <span> Trier par {{ getEcheanceLabel() }}</span
-              ><span class="visually-hidden"> ordre croissant</span>
+              <span>Trier par {{ getEcheanceLabel() }}</span>
+              <span class="visually-hidden"> ordre croissant</span>
             </button>
             <button
               type="button"
@@ -657,7 +642,8 @@
                 aria-hidden="true"
                 [icon]="['fas', 'sort-amount-up']"
               ></fa-icon>
-              Trier par ID <span class="visually-hidden"> ordre croissant</span>
+              Trier par ID
+              <span class="visually-hidden"> ordre croissant</span>
             </button>
             <button
               type="button"
@@ -686,17 +672,17 @@
   <div class="container">
     <div
       *ngIf="usagers.length === 0 && !searching && !loading"
-      class="my-4 alert alert-warning text-center d-print-none"
+      class="my-4 alert alert-warning flex-wrap text-center justify-content-md-between justify-content-center align-items-center"
     >
-      <span class="me-2">
+      <p class="me-2">
         <strong>Aucun résultat :</strong>
         aucun dossier ne correspond à votre recherche
-      </span>
+      </p>
 
       <button
         type="button"
         (click)="resetFilters()"
-        class="btn btn-outline-dark"
+        class="btn btn-outline-dark my-1 my-md-0"
       >
         Réinitialiser les filtres
       </button>

@@ -252,6 +252,17 @@
                     <a
                       ngbDropdownItem
                       *ngIf="me.role === 'admin' || me.role === 'responsable'"
+                      routerLink="/structures/edit"
+                      ariaCurrentWhenActive="page"
+                      routerLinkActive="router-link-active"
+                    >
+                      <fa-icon aria-hidden="true" [icon]="['fas', 'home']">
+                      </fa-icon>
+                      Informations de la structure
+                    </a>
+                    <a
+                      ngbDropdownItem
+                      *ngIf="me.role === 'admin' || me.role === 'responsable'"
                       routerLink="/structures/documents"
                       ariaCurrentWhenActive="page"
                       routerLinkActive="router-link-active"
@@ -260,31 +271,6 @@
                       </fa-icon>
                       Documents de la structure</a
                     >
-
-                    <a
-                      ngbDropdownItem
-                      *ngIf="me.role !== 'facteur'"
-                      routerLink="/import"
-                      ariaCurrentWhenActive="page"
-                      routerLinkActive="router-link-active"
-                    >
-                      <fa-icon
-                        aria-hidden="true"
-                        [icon]="['fas', 'upload']"
-                      ></fa-icon>
-                      Importer vos domiciliés
-                    </a>
-                    <a
-                      ngbDropdownItem
-                      *ngIf="me.role === 'admin' || me.role === 'responsable'"
-                      routerLink="/structures/edit"
-                      ariaCurrentWhenActive="page"
-                      routerLinkActive="router-link-active"
-                    >
-                      <fa-icon aria-hidden="true" [icon]="['fas', 'home']">
-                      </fa-icon>
-                      Modifier ma structure
-                    </a>
                     <a
                       ngbDropdownItem
                       *ngIf="
@@ -325,7 +311,21 @@
                     >
                       <fa-icon [icon]="['far', 'chart-bar']" aria-hidden="true">
                       </fa-icon>
-                      Consulter vos statistiques
+                      Consulter les statistiques
+                    </a>
+
+                    <a
+                      ngbDropdownItem
+                      *ngIf="me.role !== 'facteur'"
+                      routerLink="/import"
+                      ariaCurrentWhenActive="page"
+                      routerLinkActive="router-link-active"
+                    >
+                      <fa-icon
+                        aria-hidden="true"
+                        [icon]="['fas', 'upload']"
+                      ></fa-icon>
+                      Importer des domiciliés
                     </a>
                     <button type="button" ngbDropdownItem (click)="logout()">
                       <fa-icon

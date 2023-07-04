@@ -71,7 +71,7 @@
               [attr.aria-invalid]="f.nom.errors ? true : false"
               required
             />
-            <small id="nom-description" class="form-text text-muted"
+            <small id="nom-description"
               >Précisez nom de naissance si nécessaire</small
             >
             <p
@@ -147,7 +147,7 @@
               [resultFormatter]="languagesAutocomplete.formatter"
               [inputFormatter]="languagesAutocomplete.formatter"
             />
-            <small id="langue-description" class="form-text text-muted"
+            <small id="langue-description"
               >Saisissez la langue, puis choisissez un élément dans la liste.
             </small>
             <p
@@ -289,7 +289,7 @@
                   [enablePlaceholder]="true"
                   [searchCountryFlag]="true"
                   [customPlaceholder]="mobilePhonePlaceHolder"
-                  searchCountryPlaceholder="Choisissez votre pays"
+                  searchCountryPlaceholder="Choisissez un pays"
                   [searchCountryField]="[
                     SearchCountryField.Iso2,
                     SearchCountryField.Name
@@ -359,9 +359,7 @@
               formControlName="numeroDistribution"
               maxlength="20"
             />
-            <small id="numero-description" class="form-text text-muted"
-              >Exemple : BP 102, TSA 11000</small
-            >
+            <small id="numero-description">Exemple : BP 102, TSA 11000</small>
           </div>
         </div>
 

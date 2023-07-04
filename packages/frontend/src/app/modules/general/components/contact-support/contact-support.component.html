@@ -59,10 +59,7 @@
                 "
                 required
               />
-              <small
-                *ngIf="!f.name.dirty && !f.name.errors"
-                class="form-text text-muted"
-                id="name-help"
+              <small *ngIf="!f.name.dirty && !f.name.errors" id="name-help"
                 >2 caractères minimum</small
               >
               <p
@@ -164,7 +161,7 @@
                 minlength="10"
                 required
               ></textarea>
-              <small class="form-text text-muted" id="content-help"
+              <small id="content-help"
                 >En cas de souci technique, merci de spécifier le navigateur
                 utilisé (10 caractères minimum)</small
               >
@@ -204,7 +201,7 @@
                 }"
                 (change)="onFileChange($event)"
               />
-              <small id="file-description" class="form-text text-muted">
+              <small id="file-description">
                 Formats autorisés .pdf, .docx, .odt, .jpg, ou .png (6mo maxi)
               </small>
 

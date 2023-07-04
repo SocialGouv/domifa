@@ -12,6 +12,7 @@
   justify-content: space-between;
   align-content: flex-start;
   align-items: center;
+  word-break: break-word;
 }
 
 .dropdown-toggle:focus-visible {
@@ -21,7 +22,6 @@
 }
 
 .dropdown-menu {
-  min-width: 100%;
   background: #ffffff;
   border: 1px solid #ececec;
 }
@@ -174,4 +174,18 @@
   min-width: 280px;
   max-width: 100%;
   height: 46px;
+}
+
+@media all and (max-width: 480px) {
+  .dropdown-menu {
+    min-width: 100%;
+    background: #ffffff;
+    border: 1px solid #ececec;
+  }
+
+  #search-bar input,
+  #dropdownSearchString button {
+    border-radius: 6px;
+    width: 100%;
+  }
 }
