@@ -47,7 +47,7 @@
   <div class="container">
     <div *ngIf="isMobile()" class="py-3">
       <label for="form-menu">Étapes du formulaire</label>
-      <select class="form-select" id="form-menu" (change)="goToStep($event)">
+      <select class="form-select" id="form-menu" (change)="changeStep($event)">
         <ng-container *ngFor="let etape of ETAPES_FORM_DOM; let i = index">
           <option [value]="i">
             Étape {{ i + 1 }} sur 5 du formulaire,

@@ -86,6 +86,12 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
     );
   }
 
+  public changeStep(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const value = parseInt(target.value, 10);
+    this.goToStep(value);
+  }
+
   public goToStep(step: number): void {
     if (this.usager.decision.statut === "ATTENTE_DECISION") {
       this.toastService.warning(
