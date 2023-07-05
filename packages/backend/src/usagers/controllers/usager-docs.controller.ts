@@ -187,7 +187,7 @@ export class UsagerDocsController {
     @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
     @CurrentUsager() currentUsager: Usager
   ): Promise<UsagerDoc[]> {
-    return await usagerDocsRepository.getUsagerDocs(
+    return usagerDocsRepository.getUsagerDocs(
       usagerRef,
       currentUsager.structureId
     );

@@ -132,7 +132,7 @@ export class AdminStructuresController {
   @Get("stats")
   @AllowUserProfiles("super-admin-domifa")
   public async stats(): Promise<AdminStructureStatsData> {
-    return await this.adminStructuresService.getStatsDomifaAdminDashboard();
+    return this.adminStructuresService.getStatsDomifaAdminDashboard();
   }
 
   @Get("")

@@ -34,8 +34,8 @@ export class StatsPublicController {
   @Get("public-stats/:regionId?")
   public async getPublicStats(
     @Param("regionId", new ParseRegionPipe()) regionId: FranceRegion
-  ) {
-    return await this.generatePublicStats(regionId);
+  ): Promise<PublicStats> {
+    return this.generatePublicStats(regionId);
   }
 
   private async generatePublicStats(
