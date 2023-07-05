@@ -1,3 +1,10 @@
+## [2.131.4](https://github.com/SocialGouv/domifa/compare/v2.131.3...v2.131.4) (2023-07-05)
+
+
+### Bug Fixes
+
+* **sonarcloud:** mise à jour des règles de sonarcloud ([d23d098](https://github.com/SocialGouv/domifa/commit/d23d098ef4da7bd9aee000ac548ffbccd1539de1))
+
 ## [2.131.3](https://github.com/SocialGouv/domifa/compare/v2.131.2...v2.131.3) (2023-07-05)
 
 
