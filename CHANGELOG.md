@@ -1,3 +1,15 @@
+## [2.131.8](https://github.com/SocialGouv/domifa/compare/v2.131.7...v2.131.8) (2023-07-05)
+
+
+### Bug Fixes
+
+* **ci:** ajout d'un dossier temporaire pour les tests dans la CI ([5acb493](https://github.com/SocialGouv/domifa/commit/5acb49379f9ca4352108172f19111bf983c7ccda))
+* **docs:** add delete structure folder ([195855b](https://github.com/SocialGouv/domifa/commit/195855bd29f6476abc75f46fbb25072d0a382db2))
+* **docs:** ajout de tests unitaires ([ca0f785](https://github.com/SocialGouv/domifa/commit/ca0f7857c5b3a6e5a28300db55f9f72e7ca2755f))
+* **docs:** change destination folder of user's files ([675ff4c](https://github.com/SocialGouv/domifa/commit/675ff4ca945824f64b730489b4bddc3268a9c5dd))
+* **sfe:** ajout des extensons ([36137e5](https://github.com/SocialGouv/domifa/commit/36137e5af26a2eb1e615c8e8e552a152904a12a4))
+* update des scripts ([4c99553](https://github.com/SocialGouv/domifa/commit/4c9955373ab6d68a0955832bcf951cd0764f18d4))
+
 ## [2.131.7](https://github.com/SocialGouv/domifa/compare/v2.131.6...v2.131.7) (2023-07-05)
 
 
