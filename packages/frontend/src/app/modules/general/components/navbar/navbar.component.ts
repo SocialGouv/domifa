@@ -11,7 +11,6 @@ import { AuthService } from "../../../shared/services/auth.service";
   styleUrls: ["./navbar.component.css"],
 })
 export class NavbarComponent {
-  public isNavbarCollapsed: boolean;
   public matomoInfo: boolean;
   public today = new Date();
 
@@ -24,7 +23,6 @@ export class NavbarComponent {
     private readonly authService: AuthService,
     public matomoService: MatomoTracker
   ) {
-    this.isNavbarCollapsed = false;
     this.matomoInfo = false;
     this.initMatomo();
   }
