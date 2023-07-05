@@ -161,7 +161,7 @@ export class UsagerNotesController {
       { pinnedNote }
     );
 
-    return await usagerRepository.getUsager(currentUsager.uuid);
+    return usagerRepository.getUsager(currentUsager.uuid);
   }
 
   @Get("count/:usagerRef")

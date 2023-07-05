@@ -26,7 +26,7 @@ export class AdminStructuresDocsController {
   @Get("all")
   @AllowUserProfiles("super-admin-domifa")
   public async getAllStructureDocs() {
-    return await structureDocRepository.findBy({ custom: true });
+    return structureDocRepository.findBy({ custom: true });
   }
 
   @Get("structure/:structureId/:uuid")
