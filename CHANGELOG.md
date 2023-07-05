@@ -1,3 +1,10 @@
+## [2.131.3](https://github.com/SocialGouv/domifa/compare/v2.131.2...v2.131.3) (2023-07-05)
+
+
+### Bug Fixes
+
+* **rgaa:** amélioration des titres ([8d46b22](https://github.com/SocialGouv/domifa/commit/8d46b22772a159106e9a458f05d7ef27fef95cb1))
+
 ## [2.131.2](https://github.com/SocialGouv/domifa/compare/v2.131.1...v2.131.2) (2023-07-04)
 
 
