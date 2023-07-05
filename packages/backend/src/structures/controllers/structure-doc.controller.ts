@@ -62,7 +62,7 @@ export class StructureDocController {
         docPath: doc.path,
       });
 
-      return res.status(HttpStatus.OK).sendFile(output as string);
+      return res.status(HttpStatus.OK).sendFile(output);
     } catch (e) {
       return res
         .status(HttpStatus.BAD_REQUEST)
