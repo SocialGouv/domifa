@@ -14,38 +14,40 @@
             <div class="alert-info alert" *ngIf="nextMeetings.length === 0">
               <p>Aucun rendez-vous prévu</p>
             </div>
-            <table class="table" *ngIf="nextMeetings.length > 0">
-              <caption class="visually-hidden">
-                Mes prochains rendez-vous
-              </caption>
-              <thead>
-                <tr>
-                  <th scope="col">Date</th>
-                  <th scope="col">Domicilié(e) concerné(e)</th>
-                  <th scope="col"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  *ngFor="let usager of nextMeetings; let i = index"
-                  [attr.aria-rowindex]="i + 1"
-                >
-                  <td>
-                    Le {{ usager.rdv.dateRdv | date : "dd/MM/yyyy à HH:mm" }}
-                  </td>
-                  <td>{{ usager.nom }} {{ usager.prenom }}</td>
-                  <td class="text-end">
-                    <a
-                      [routerLink]="['/usager/' + usager.ref + '/edit']"
-                      ariaCurrentWhenActive="page"
-                      routerLinkActive="router-link-active"
-                    >
-                      Voir la fiche
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="table-responsive">
+              <table class="table" *ngIf="nextMeetings.length > 0">
+                <caption class="visually-hidden">
+                  Mes prochains rendez-vous
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Domicilié(e) concerné(e)</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let usager of nextMeetings; let i = index"
+                    [attr.aria-rowindex]="i + 1"
+                  >
+                    <td>
+                      Le {{ usager.rdv.dateRdv | date : "dd/MM/yyyy à HH:mm" }}
+                    </td>
+                    <td>{{ usager.nom }} {{ usager.prenom }}</td>
+                    <td class="text-end">
+                      <a
+                        [routerLink]="['/usager/' + usager.ref + '/edit']"
+                        ariaCurrentWhenActive="page"
+                        routerLinkActive="router-link-active"
+                      >
+                        Voir la fiche
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </ng-container>
         </div>
       </div>

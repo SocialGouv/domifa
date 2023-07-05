@@ -2,7 +2,7 @@
 <app-loading></app-loading>
 <app-help-modal></app-help-modal>
 <app-idle-manager></app-idle-manager>
-<nav class="fr-container" role="navigation" aria-label="Accès rapide">
+<nav class="fr-container" aria-label="Accès rapide">
   <ul id="skip-links">
     <li>
       <a
@@ -49,7 +49,6 @@
 
 <footer
   [tabIndex]="currentFragment === 'footer' ? 1 : -1"
-  role="contentinfo"
   id="footer"
   class="d-print-none page-footer py-3"
   #footer

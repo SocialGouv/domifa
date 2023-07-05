@@ -5,56 +5,52 @@
 </div>
 
 <div class="content py-3">
-  <div class="container py-3">
+  <div class="container py-2">
     <div id="rapport" class="page-content p-3">
-      <div class="row">
-        <div class="col-md-12">
-          <p>
-            Cet item vous permettra de remplir votre obligation légale et
-            réglementaire (Article L 264-8 et Article D 264-8 du code de
-            l'action sociale et des familles) de transmission annuelle au préfet
-            de département de votre rapport d’activité de domiciliation.
-            <br />
-            <br />Il vous permettra aussi d’assurer le suivi et le pilotage de
-            votre activité.
-          </p>
+      <p>
+        Cet item vous permettra de remplir votre obligation légale et
+        réglementaire (Article L 264-8 et Article D 264-8 du code de l'action
+        sociale et des familles) de transmission annuelle au préfet de
+        département de votre rapport d’activité de domiciliation.
+        <br />
+        <br />Il vous permettra aussi d’assurer le suivi et le pilotage de votre
+        activité.
+      </p>
 
-          <div class="card p-4 my-4">
-            <div class="row d-flex align-items-center">
-              <div class="col-md-8 fw-bold">
+      <div class="card p-4 my-4">
+        <div class="row d-flex align-items-center">
+          <div class="col-md-8 fw-bold">
+            <fa-icon
+              [icon]="['fas', 'info-circle']"
+              aria-hidden="true"
+            ></fa-icon>
+            Les statistiques du rapport d’activité {{ lastYear }} sont
+            disponibles
+          </div>
+          <div class="col-md-4 text-end">
+            <button
+              type="button"
+              [disabled]="loading"
+              class="btn btn-primary"
+              (click)="export(lastYear)"
+            >
+              <span *ngIf="!loading">
                 <fa-icon
-                  [icon]="['fas', 'info-circle']"
+                  [icon]="['fas', 'download']"
                   aria-hidden="true"
                 ></fa-icon>
-                Les statistiques du rapport d’activité {{ lastYear }} sont
-                disponibles
-              </div>
-              <div class="col-md-4 text-end">
-                <button
-                  type="button"
-                  [disabled]="loading"
-                  class="btn btn-primary"
-                  (click)="export(lastYear)"
+                Télécharger le rapport {{ lastYear }}
+              </span>
+              <span *ngIf="loading">
+                <fa-icon
+                  [icon]="['fas', 'circle-notch']"
+                  aria-hidden="true"
+                  [spin]="true"
                 >
-                  <span *ngIf="!loading">
-                    <fa-icon
-                      [icon]="['fas', 'download']"
-                      aria-hidden="true"
-                    ></fa-icon>
-                    Télécharger le rapport {{ lastYear }}
-                  </span>
-                  <span *ngIf="loading">
-                    <fa-icon
-                      [icon]="['fas', 'circle-notch']"
-                      aria-hidden="true"
-                      [spin]="true"
-                    >
-                    </fa-icon>
-                    Veuillez patienter...
-                  </span>
-                </button>
-              </div>
-            </div>
+                </fa-icon>
+                Veuillez patienter...
+              </span>
+            </button>
           </div>
         </div>
       </div>
@@ -212,7 +208,6 @@
             <strong>Astuce:</strong> pour avoir des statistiques sur une date
             précise, la date de fin sera prise en compte.
           </p>
-          <br />
 
           <p>
             <strong>Note :</strong> les statistiques des ayants droits et des
@@ -221,7 +216,8 @@
             l'entretien ont été modifiées récemment, les statistiques
             afficheront seulement la dernière information saisie.
           </p>
-          <div class="rapport-part">
+
+          <div class="card p-2">
             <table id="table-stats" class="table table-hover">
               <caption class="visually-hidden">
                 Tableau des statistiques
@@ -659,7 +655,7 @@
             {{ stats.period.endDateUTC | date : "dd/MM/yyyy" }}
           </h2>
 
-          <div class="rapport-part">
+          <div class="card p-2">
             <table class="table table-hover">
               <caption class="visually-hidden">
                 Tableau des statistiques de l'activité
@@ -840,7 +836,7 @@
               </tbody>
             </table>
           </div>
-          <br />
+
           <h2>
             3. Total des interactions du
             {{ stats.period.startDateUTC | date : "dd/MM/yyyy" }} au
@@ -852,7 +848,7 @@
             partir de laquelle vous avez débuté la saisie des passages, appels,
             et courriers.
           </p>
-          <div class="rapport-part">
+          <div class="card p-2">
             <table class="table table-hover">
               <caption class="visually-hidden">
                 Tableau des statistiques des interactions
