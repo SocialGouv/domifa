@@ -41,7 +41,6 @@ services:
     working_dir: /app/packages/backend
     volumes:
       - $APP_DIR:/app:delegated
-      - $DOCKER_HOST_UPLOADS_FOLDER:/files/:delegated
       - $HOME/.ssh:/home/node/.ssh:ro
       - $HOME/.gitconfig:/home/node/.gitconfig:ro
       - $HOME/.gitignore:/home/node/.gitignore:ro
