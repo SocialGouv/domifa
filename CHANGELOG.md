@@ -1,3 +1,10 @@
+## [2.131.6](https://github.com/SocialGouv/domifa/compare/v2.131.5...v2.131.6) (2023-07-05)
+
+
+### Bug Fixes
+
+* **rgaa:** remise en place du menu ([b5f002b](https://github.com/SocialGouv/domifa/commit/b5f002ba3a0d9db486ddd5dee0d439714e4a4fa8))
+
 ## [2.131.5](https://github.com/SocialGouv/domifa/compare/v2.131.4...v2.131.5) (2023-07-05)
 
 
