@@ -15,56 +15,65 @@
           <div class="alert alert-info" *ngIf="usager.historique.length === 0">
             <p>Aucun historique de décision n'est enregistré</p>
           </div>
-          <table *ngIf="usager.historique.length > 0" class="table table-hover">
-            <caption class="visually-hidden">
-              Historique des décisions
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Type de décision</th>
-                <th scope="col">Responsable</th>
-                <th scope="col" class="text-end">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                *ngFor="let histo of usager.historique; let i = index"
-                [attr.aria-rowindex]="i + 1"
-              >
-                <td>{{ histo.dateDecision | date : "dd/MM/yyyy à HH:mm" }}</td>
-                <td>
-                  {{ USAGER_DECISION_STATUT_LABELS_PROFIL[histo.statut] }}
-                  <span
-                    *ngIf="histo.statut === 'REFUS' || histo.statut === 'RADIE'"
-                  >
-                    le {{ histo.dateDebut | date : "dd/MM/yyyy" }}
-                  </span>
+          <div class="table-responsive">
+            <table
+              *ngIf="usager.historique.length > 0"
+              class="table table-hover"
+            >
+              <caption class="visually-hidden">
+                Historique des décisions
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Type de décision</th>
+                  <th scope="col">Responsable</th>
+                  <th scope="col" class="text-end">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let histo of usager.historique; let i = index"
+                  [attr.aria-rowindex]="i + 1"
+                >
+                  <td>
+                    {{ histo.dateDecision | date : "dd/MM/yyyy à HH:mm" }}
+                  </td>
+                  <td>
+                    {{ USAGER_DECISION_STATUT_LABELS_PROFIL[histo.statut] }}
+                    <span
+                      *ngIf="
+                        histo.statut === 'REFUS' || histo.statut === 'RADIE'
+                      "
+                    >
+                      le {{ histo.dateDebut | date : "dd/MM/yyyy" }}
+                    </span>
 
-                  <span *ngIf="histo.statut === 'VALIDE'">
-                    du
-                    <strong>
-                      {{ histo.dateDebut | date : "dd/MM/yyyy" }}
-                    </strong>
-                    au
-                    <strong>{{ histo.dateFin | date : "dd/MM/yyyy" }}</strong>
-                  </span>
-                  <div *ngIf="histo.statut === 'RADIE'">
-                    {{ histo.motifString }}
-                  </div>
-                </td>
-                <td>{{ histo.userName }}</td>
-                <td class="text-end">
-                  <app-delete-usager-menu
-                    *ngIf="i === 0"
-                    [usager]="usager"
-                    context="HISTORY"
-                    [me]="me"
-                  ></app-delete-usager-menu>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                    <span *ngIf="histo.statut === 'VALIDE'">
+                      du
+                      <strong>
+                        {{ histo.dateDebut | date : "dd/MM/yyyy" }}
+                      </strong>
+                      au
+                      <strong>{{ histo.dateFin | date : "dd/MM/yyyy" }}</strong>
+                    </span>
+                    <div *ngIf="histo.statut === 'RADIE'">
+                      {{ histo.motifString }}
+                    </div>
+                  </td>
+                  <td>{{ histo.userName }}</td>
+                  <td class="text-end">
+                    <app-delete-usager-menu
+                      *ngIf="i === 0"
+                      [usager]="usager"
+                      context="HISTORY"
+                      [me]="me"
+                    ></app-delete-usager-menu>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
