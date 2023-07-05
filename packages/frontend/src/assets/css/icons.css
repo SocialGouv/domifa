@@ -29,8 +29,12 @@
   -webkit-mask-size: 100%;
   mask-size: 100%;
   background-color: white;
-  -webkit-mask: url("../icones/moins.svg") no-repeat center;
-  mask: url("../icones/moins.svg") no-repeat center;
+  -webkit-mask-image: url("../icones/moins.svg");
+  mask-image: url("../icones/moins.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
 }
 
 .icon-danger {

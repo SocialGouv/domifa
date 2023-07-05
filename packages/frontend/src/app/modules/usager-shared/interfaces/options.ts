@@ -6,17 +6,9 @@ import { UsagerOptions } from "../../../../_common/model/usager/options/UsagerOp
 import { UsagerProcuration } from "./UsagerProcuration.interface";
 
 export class Options implements UsagerOptions {
-  public transfert: UsagerOptionsTransfert = {
-    actif: false,
-    adresse: null,
-    dateDebut: null,
-    dateFin: null,
-    nom: null,
-  };
-
+  public transfert: UsagerOptionsTransfert;
   public procurations: UsagerOptionsProcuration[] = [];
-
-  public portailUsagerEnabled: boolean;
+  public portailUsagerEnabled = false;
 
   public npai: {
     actif: boolean;
