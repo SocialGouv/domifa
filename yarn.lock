@@ -2031,10 +2031,10 @@
     lodash.isundefined "^3.0.1"
     lodash.uniq "^4.5.0"
 
-"@fortawesome/angular-fontawesome@0.12.1":
-  version "0.12.1"
-  resolved "https://registry.yarnpkg.com/@fortawesome/angular-fontawesome/-/angular-fontawesome-0.12.1.tgz#00f0d43563701f2253741b556292ada42a0374b0"
-  integrity sha512-vGGUfmWhsCtC+wUhnLXPeWBod33XKMFERwvD21LTbVBOCwUDUfwcS9nqfTmrULcpFl/bn20REZH/1vSreWd3ZA==
+"@fortawesome/angular-fontawesome@0.13.0":
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/@fortawesome/angular-fontawesome/-/angular-fontawesome-0.13.0.tgz#3e343ff5ea62934cb0309a52bbf732adecf216fc"
+  integrity sha512-gzSPRdveOXNO7NIiMgTyB46aiHG0i98KinnAEqHXi8qzraM/kCcHn/0y3f4MhemX6kftwsFli0IU8RyHmtXlSQ==
   dependencies:
     tslib "^2.4.1"
 
@@ -2823,10 +2823,10 @@
   dependencies:
     tslib "^2.0.0"
 
-"@ngx-matomo/tracker@4.0.1":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@ngx-matomo/tracker/-/tracker-4.0.1.tgz#c844e913080abf4168125218a5872c5ab380eebf"
-  integrity sha512-JFdJOwpkGa8hdGy5MdUw2URI3Z9Ff3wjXrana3Ft8n2Pfr4y5lnKwrd70qcnE10rvRNm2pNR1ryZwsS4o+m4+g==
+"@ngx-matomo/tracker@4.1.2":
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@ngx-matomo/tracker/-/tracker-4.1.2.tgz#e94e2103c351f9f1ab7cbba13ae8bf373d59c8e5"
+  integrity sha512-ANL/e6KBqoDptJiKhJULp26EFmSngq78j+JUU8d5mgKgc9HebR6XpoqZ+WxGpxaX+Sutpj2UxvnIO+ZTTgUqVw==
   dependencies:
     tslib "^2.0.0"
 
@@ -6098,7 +6098,12 @@ boolean@3.2.0, boolean@^3.1.4:
   resolved "https://registry.yarnpkg.com/boolean/-/boolean-3.2.0.tgz#9e5294af4e98314494cbb17979fa54ca159f116b"
   integrity sha512-d0II/GO9uf9lfUHH2BQsjxzRJZBdsjgsBiW4BvhWk/3qoKwQFjIDVN19PfX8F2D/r9PCMTtLWjYVCFrpeYUzsw==
 
-bootstrap@5.2.3, bootstrap@^5.2.0:
+bootstrap@5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-5.3.0.tgz#0718a7cc29040ee8dbf1bd652b896f3436a87c29"
+  integrity sha512-UnBV3E3v4STVNQdms6jSGO2CvOkjUMdDAVR2V5N4uCMdaIkaQjbcEAMqRimDHIs4uqBYzDAKCQwCB+97tJgHQw==
+
+bootstrap@^5.2.0:
   version "5.2.3"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-5.2.3.tgz#54739f4414de121b9785c5da3c87b37ff008322b"
   integrity sha512-cEKPM+fwb3cT8NzQZYEu4HilJ3anCrWqh3CHAok1p9jXqMPsPTBhU25fBckEJHJ/p+tTxTFTsFQGM+gaHpi3QQ==
