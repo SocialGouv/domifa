@@ -37,4 +37,4 @@ RUN yarn build
 
 FROM ghcr.io/socialgouv/docker/nginx4spa:8.0.2
 
-COPY --from=builder --chown=101:101 /app/dist/domifa /usr/share/nginx/html
+COPY --from=builder --chown=101:0 /app/dist/domifa /usr/share/nginx/html
