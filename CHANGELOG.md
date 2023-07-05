@@ -1,3 +1,10 @@
+## [2.131.7](https://github.com/SocialGouv/domifa/compare/v2.131.6...v2.131.7) (2023-07-05)
+
+
+### Bug Fixes
+
+* **deps:** ajout d'axios ([2ee075e](https://github.com/SocialGouv/domifa/commit/2ee075e0374608aaa25451eeb4fcb42cab71907e))
+
 ## [2.131.6](https://github.com/SocialGouv/domifa/compare/v2.131.5...v2.131.6) (2023-07-05)
 
 
