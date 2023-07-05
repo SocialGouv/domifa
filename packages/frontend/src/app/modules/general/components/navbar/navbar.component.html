@@ -32,7 +32,9 @@
     </div>
   </div>
   <nav class="navbar navbar-expand-lg" id="navbar-site">
-    <div class="container px-2">
+    <div
+      class="container d-flex justify-content-md-between justify-content-center align-items-center px-2"
+    >
       <div class="d-flex align-items-center">
         <img
           class="home-header-image"
@@ -58,7 +60,6 @@
       </div>
       <div>
         <div
-          [ngbCollapse]="isNavbarCollapsed"
           class="collapse navbar-collapse"
           id="navbarsDefault"
           role="navigation"
@@ -177,7 +178,8 @@
                 <div
                   ngbDropdown
                   id="dropdownAuthenticatedMenu"
-                  placement="bottom"
+                  display="dynamic"
+                  placement="bottom-end"
                 >
                   <button
                     class="btn btn-outline-primary"
@@ -246,8 +248,8 @@
                     >
                       <fa-icon aria-hidden="true" [icon]="['fas', 'users']">
                       </fa-icon>
-                      Gérer les utilisateurs</a
-                    >
+                      Gérer les utilisateurs
+                    </a>
                     <a
                       ngbDropdownItem
                       *ngIf="me.role === 'admin' || me.role === 'responsable'"
@@ -268,8 +270,8 @@
                     >
                       <fa-icon aria-hidden="true" [icon]="['far', 'file-word']">
                       </fa-icon>
-                      Documents de la structure</a
-                    >
+                      Documents de la structure
+                    </a>
                     <a
                       ngbDropdownItem
                       *ngIf="

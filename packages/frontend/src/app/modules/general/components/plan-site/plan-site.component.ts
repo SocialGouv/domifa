@@ -34,20 +34,20 @@ export class PlanSiteComponent implements OnInit {
       section: "Gérer ma structure",
       links: [
         { label: "Documents de la structure", path: "/structures/documents" },
-        { label: "Modifier ma structure", path: "/structures/edit" },
-        { label: "Activer ou désactiver les SMS", path: "/structures/sms" },
+        { label: "Informations de la structure", path: "/structures/edit" },
+        { label: "Gérer l'envoi des SMS", path: "/structures/sms" },
         {
-          label: "Modifier les accès au portail des usagers",
+          label: "Gérer le portail domiciliés",
           path: "/structures/portail-usager",
         },
         { label: "Rapport d'activité", path: "/stats/rapport-activite" },
       ],
     },
     {
-      section: "Gérer mon compte",
+      section: "Compte et utilisateurs",
       links: [
-        { label: "Mon compte", path: "/users/mon-compte" },
-        { label: "Gérer les comptes de ma structure", path: "/users/comptes" },
+        { label: "Gérer mon compte", path: "/users/mon-compte" },
+        { label: "Gérer les utilisateurs", path: "/users/comptes" },
       ],
     },
   ];
@@ -63,7 +63,7 @@ export class PlanSiteComponent implements OnInit {
       section: "Général",
       links: [
         { label: "Accueil", path: "/" },
-        { label: "Se connecter", path: "/connexion" },
+        { label: "Se connecter à DomiFa", path: "/connexion" },
         { label: "Contacter l'équipe de DomiFa", path: "/contact" },
         { label: "Foire aux questions", path: "/faq" },
         { label: "Mentions légales de DomiFa", path: "/mentions-legales" },
@@ -75,7 +75,7 @@ export class PlanSiteComponent implements OnInit {
           path: "/cgu-responsable",
         },
         { label: "Nouveautés", path: "/news" },
-        { label: "Statistiques", path: "/stats" },
+        { label: "Consulter les statistiques de DomiFa", path: "/stats" },
         { label: "Notre impact", path: "/stats/impact" },
         { label: "Créer une structure", path: "/structures/inscription" },
         {
@@ -91,6 +91,6 @@ export class PlanSiteComponent implements OnInit {
   constructor(private titleService: Title, public authService: AuthService) {}
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Plan de site de DomiFa");
+    this.titleService.setTitle("Plan du site de DomiFa");
   }
 }
