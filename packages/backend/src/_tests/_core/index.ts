@@ -1,6 +1,5 @@
-export * from "./AppTestHttpClientSecurityTestDef.type";
+// @index('./*', f => `export * from '${f.path}'`)
+export * from "./constants";
 export * from "./expectedResponseStatusBuilder.service";
 export * from "./securityTestDataBuilder.service";
-export * from "./TESTS_USERS_ADMIN.type";
-export * from "./TESTS_USERS_STRUCTURE.type";
-export * from "./TESTS_USERS_USAGER.type";
+export * from "./types";

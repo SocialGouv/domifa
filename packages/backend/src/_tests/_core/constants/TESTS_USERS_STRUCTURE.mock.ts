@@ -1,11 +1,5 @@
-import { UserStructure, UserStructureRole } from "../../_common/model";
-
-// NOTE: les profils de test sont aussi documentés dans le fichier "31_tests-users.md"
-
-export type TestUserStructure = Pick<
-  UserStructure,
-  "uuid" | "id" | "structureId" | "email" | "role" | "password"
->;
+import { UserStructureRole } from "../../../_common/model";
+import { TestUserStructure } from "../types";
 
 const ALL: TestUserStructure[] = [
   {
