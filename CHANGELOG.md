@@ -1,3 +1,10 @@
+## [2.131.10](https://github.com/SocialGouv/domifa/compare/v2.131.9...v2.131.10) (2023-07-06)
+
+
+### Bug Fixes
+
+* **frontend:** correction d'un bug sur le reset de mot de passe ([fac7b8e](https://github.com/SocialGouv/domifa/commit/fac7b8ee5ccf7b034b047e720f6ae927acd56382))
+
 ## [2.131.9](https://github.com/SocialGouv/domifa/compare/v2.131.8...v2.131.9) (2023-07-06)
 
 
