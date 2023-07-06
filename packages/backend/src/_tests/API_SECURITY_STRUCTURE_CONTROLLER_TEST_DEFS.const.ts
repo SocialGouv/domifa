@@ -14,7 +14,7 @@ import { UserControllerSecurityTests } from "../users/users.controller.security-
 import { UserPublicControllerSecurityTests } from "../users/users.public.controller.security-tests";
 import { AdminStructuresDeleteControllerSecurityTests } from "../_portail-admin/admin-structures-delete/controllers/admin-structures-delete.controller.security-tests";
 import { AdminStructuresControllerSecurityTests } from "../_portail-admin/admin-structures/controllers/admin-structures.controller.security-tests";
-import { AppTestHttpClientSecurityTestDef } from "./_core/AppTestHttpClientSecurityTestDef.type";
+import { AppTestHttpClientSecurityTestDef } from "./_core/types/AppTestHttpClientSecurityTestDef.type";
 import {
   UsagerDocsControllerSecurityTests,
   ExportStructureUsagersControllerSecurityTests,

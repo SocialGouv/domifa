@@ -1,8 +1,6 @@
 import { AppTestContext } from "../../util/test";
-import {
-  TESTS_USERS_STRUCTURE,
-  TestUserStructure,
-} from "./TESTS_USERS_STRUCTURE.type";
+import { TESTS_USERS_STRUCTURE } from "./constants";
+import { TestUserStructure } from "./types";
 
 export const securityTestDataBuilder = {
   getUserStructureId,
