@@ -1,3 +1,10 @@
+## [2.131.9](https://github.com/SocialGouv/domifa/compare/v2.131.8...v2.131.9) (2023-07-06)
+
+
+### Bug Fixes
+
+* **tests:** correction de tests unitaires ([496055e](https://github.com/SocialGouv/domifa/commit/496055e29e069b0442726f9eab545422e55b7313))
+
 ## [2.131.8](https://github.com/SocialGouv/domifa/compare/v2.131.7...v2.131.8) (2023-07-05)
 
 
