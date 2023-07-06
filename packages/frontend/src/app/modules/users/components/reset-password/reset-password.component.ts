@@ -76,6 +76,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
           next: () => {
             this.token = token;
             this.userId = userId;
+
             this.initPasswordForm();
           },
           error: (error) => {

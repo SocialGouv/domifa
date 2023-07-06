@@ -44,6 +44,7 @@ form label {
 
 .indications {
   padding: 5px;
+  text-align: left;
 }
 
 .indications .ng-fa-icon {
