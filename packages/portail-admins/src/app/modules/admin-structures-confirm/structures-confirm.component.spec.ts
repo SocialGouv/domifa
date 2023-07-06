@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { ActivatedRoute, UrlSegment } from "@angular/router";
+import { ActivatedRoute, UrlSegment, convertToParamMap } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { SharedModule } from "../shared/shared.module";
@@ -22,22 +22,19 @@ describe("StructuresConfirmComponent", () => {
         FormsModule,
         SharedModule,
         HttpClientTestingModule,
-        RouterTestingModule,
+        RouterTestingModule.withRoutes([]),
       ],
       providers: [
         { provide: APP_BASE_HREF, useValue: "/" },
+
         {
           provide: ActivatedRoute,
           useValue: {
             snapshot: {
-              params: { token: "ojopkopkpok" },
-              url: [
-                new UrlSegment("structures", {}),
-                new UrlSegment("confirm", {}),
-                new UrlSegment("1", {}),
-                new UrlSegment("qzzjjdizdizjdijzijd", {}),
-                new UrlSegment("1OOPKPOk", {}),
-              ],
+              params: {
+                structureUuid: "ee7ef219-b101-422c-8ad4-4d5aedf9caad",
+                token: "5d8b20a1e1f11",
+              },
               data: {
                 type: "enable",
               },
