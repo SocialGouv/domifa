@@ -10222,10 +10222,10 @@ interpret@^1.0.0:
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.4.0.tgz#665ab8bc4da27a774a40584e812e3e0fa45b1a1e"
   integrity sha512-agE4QfB2Lkp9uICn7BAqoscw4SZP9kTE2hxiFI3jBPmXJfdqiahTbUuKGsMoN2GtqL9AxhYioAcVvgsb1HvRbA==
 
-intl-tel-input@18.1.6:
-  version "18.1.6"
-  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-18.1.6.tgz#6e270ab4fcbe5411db0bb66ed647b823caefa234"
-  integrity sha512-5sxnAYkvqP6rArU8z5mNs3gsr+JuYneABK3wgl4Hwe7l6Bj0S2Fxh9OlVzZtNqoE1eXLVKbZHcAmUGaLbN2PMQ==
+intl-tel-input@18.1.8:
+  version "18.1.8"
+  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-18.1.8.tgz#7ea7f03dae08624a01b608a8a7edef7584bfb2d0"
+  integrity sha512-dPrCYwmjkjJOMw0XfyET+jSvbS+GFh6sOAFV5NpHK+jQXoXz8xsQLAoLmzjGktl2o3QhgBhyLTaNGyN0ZEx3cA==
 
 ip@^2.0.0:
   version "2.0.0"
