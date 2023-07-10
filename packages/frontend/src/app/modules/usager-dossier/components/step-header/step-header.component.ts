@@ -89,6 +89,7 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
   public changeStep(event: Event) {
     const target = event.target as HTMLInputElement;
     const value = parseInt(target.value, 10);
+
     this.goToStep(value);
   }
 
@@ -113,6 +114,10 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
             this.ETAPES_DEMANDE_URL[step],
         ]);
       }
+    } else {
+      this.toastService.warning(
+        "Pour passer à la suite, vous devez cliquer sur Suivant"
+      );
     }
   }
 

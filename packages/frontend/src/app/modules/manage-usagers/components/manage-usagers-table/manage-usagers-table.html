@@ -1,5 +1,5 @@
 <section
-  class="d-flex align-items-center my-2"
+  class="d-flex align-items-center my-2 flex-wrap justify-content-center"
   *ngIf="selectedRefs.length > 0 && displayCheckboxes"
 >
   <div class="me-2">{{ selectedRefs.length }} selectionnés</div>
@@ -124,12 +124,20 @@
   </thead>
   <tbody>
     <tr *ngFor="let usager of usagers; let i = index">
-      <td class="text-start" *ngIf="displayCheckboxes">
-        <input
-          type="checkbox"
-          [attr.aria-label]="'Sélectionner '+ usager.nom + ' ' + usager.prenom"
-          [checked]="selectedRefs.indexOf(usager.ref) !==-1"
-        />
+      <td class="text-start p-0 m-0" *ngIf="displayCheckboxes">
+        <label
+          for="select-{{usager.ref}}"
+          (change)="toggleSelection(usager.ref)"
+        >
+          <span class="d-none">
+            Sélectionner {{ usager | usagerNomComplet }}</span
+          >
+          <input
+            [id]="'select-'+usager.ref"
+            type="checkbox"
+            [checked]="selectedRefs.indexOf(usager.ref) !==-1"
+          />
+        </label>
       </td>
       <td *ngIf="filters.statut ==='TOUS'" class="clickable text-start">
         <span [class]="'label-info ' + usager.statusInfos.color">

@@ -67,7 +67,7 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
 
   public readonly modalOptions: NgbModalOptions = {
     backdrop: "static",
-    keyboard: false,
+    keyboard: true,
   };
 
   public today: Date;
