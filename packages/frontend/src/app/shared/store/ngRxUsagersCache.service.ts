@@ -13,9 +13,9 @@ import {
 export const cacheManager = {
   updateUsagerNotes: createAction(
     "update-usager-notes",
-    props<{ ref: string; notes: number }>()
+    props<{ ref: string; nbNotes: number }>()
   ),
-  clearCache: createAction("[VotreFeature] Reset Data"),
+  clearCache: createAction("clear-cache"),
   addUsager: createAction("add-usager", props<{ usager: Usager }>()),
   updateUsager: createAction("update-usager", props<{ usager: Usager }>()),
   updateUsagers: createAction("update-usagers", props<{ usagers: Usager[] }>()),
@@ -28,9 +28,10 @@ export const cacheManager = {
 };
 
 export const selectUsagerByRef = (usagerRef: string) =>
-  createSelector(cacheManager.getUsagersMap, (appStore: AppStoreModel) => {
-    return appStore.usagersByRefMap[usagerRef];
-  });
+  createSelector(
+    cacheManager.getUsagersMap,
+    (usagersMap) => usagersMap.usagersByRefMap[usagerRef]
+  );
 
 export const selectSearchPageLoadedUsagersData = () =>
   createSelector(

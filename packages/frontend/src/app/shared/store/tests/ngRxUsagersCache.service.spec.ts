@@ -23,6 +23,7 @@ describe("Usager Reducer", () => {
     const action = cacheManager.addUsager({ usager });
 
     store.dispatch(action);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let currentState: any;
 
     store.select(selectSearchPageLoadedUsagersData).subscribe((state) => {
@@ -33,7 +34,10 @@ describe("Usager Reducer", () => {
 
   it("should handle updateUsagerNotes", () => {
     const usagerRef = "123";
-    const action = cacheManager.updateUsagerNotes({ ref: usagerRef, notes: 1 });
+    const action = cacheManager.updateUsagerNotes({
+      ref: usagerRef,
+      nbNotes: 1,
+    });
 
     store.dispatch(action);
   });

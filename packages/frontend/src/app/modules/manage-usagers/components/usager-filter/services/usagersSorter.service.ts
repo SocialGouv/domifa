@@ -56,7 +56,7 @@ function sortBy(
           });
         } else if (sortKey === "PASSAGE") {
           sortAttributes.push({
-            value: usager.lastInteraction.dateInteraction,
+            value: usager?.lastInteraction?.dateInteraction,
             asc,
           });
         }
@@ -70,9 +70,12 @@ function sortBy(
           },
           {
             value: usager.surnom?.toLowerCase() ?? "",
+          },
+          {
+            value: usager?.lastInteraction?.dateInteraction,
+            asc,
           }
         );
-
         return sortAttributes;
       },
     });

@@ -1,8 +1,6 @@
 <div class="head-page py-4 d-print-none" *ngIf="usager">
   <div class="container">
-    <div
-      class="d-flex justify-content-md-between justify-content-center align-items-center"
-    >
+    <div class="px-0 mx-0 d-md-flex justify-content-between align-items-center">
       <div class="px-0 mx-0 d-block d-md-flex align-items-center">
         <a
           [routerLink]="['/manage']"
@@ -30,7 +28,7 @@
       <button
         aria-label="Naviguer vers les notes"
         type="button"
-        class="btn btn-white-primary d-flex align-items-center"
+        class="btn btn-white-primary my-2 my-md-0 mx-auto mx-md-0 d-flex align-items-center"
         *ngIf="usager.uuid"
         (click)="navigateToNotes()"
       >

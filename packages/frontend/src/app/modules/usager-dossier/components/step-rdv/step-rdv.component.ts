@@ -213,6 +213,7 @@ export class StepRdvComponent
         .setRdv(rdvFormValue, this.usager.ref)
         .subscribe({
           next: (usager: UsagerLight) => {
+            this.scrollTop();
             this.loading = false;
             this.router.navigate(["usager/" + usager.ref + "/edit/entretien"]);
           },
@@ -259,6 +260,7 @@ export class StepRdvComponent
           next: () => {
             this.loading = false;
             this.editRdv = false;
+            this.scrollTop();
             this.toastService.success("Rendez-vous enregistré");
           },
           error: () => {
@@ -269,6 +271,13 @@ export class StepRdvComponent
     );
   }
 
+  private scrollTop(): void {
+    window.scroll({
+      behavior: "smooth",
+      left: 0,
+      top: 0,
+    });
+  }
   private isHourOk(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (!this.rdvIsToday) {
