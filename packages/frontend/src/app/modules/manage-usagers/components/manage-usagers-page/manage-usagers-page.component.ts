@@ -49,7 +49,6 @@ import {
   UsagersFilterCriteriaEcheance,
   UsagersFilterCriteriaSortKey,
   UsagersFilterCriteriaSortValues,
-  UsagersFilterCriteriaStatut,
 } from "../usager-filter";
 import { Store } from "@ngrx/store";
 
@@ -379,28 +378,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     if (!element) {
       return;
     }
-    const statusType: { [key: string]: string } = {
-      TOUS: "Liste_Tous",
-      VALIDE: "Liste_Actifs",
-      INSTRUCTION: "Liste_Compléter",
-      ATTENTE_DECISION: "Liste_Attente_Décision",
-      REFUS: "Liste_Refusés",
-      RADIE: "Liste_Radiés",
-    };
-    const eventType: { [key: string]: string } = {
-      passage: "Liste_Filtre_Passage",
-      echeance: "Liste_Filtre_Échéance",
-      interactionType: "Liste_Filtre_Échéance",
-      sortKey: "Liste_Bouton_Tri",
-    };
-    const sortTypeButton: { [key: string]: string } = {
-      ID: "Liste_Colonne_ID",
-      NAME: "Liste_Colonne_Nom_Prénom",
-      PASSAGE: "Liste_Colonne_Passage",
-      ECHEANCE: "Liste_Colonne_Échéance",
-    };
-
-    let event = "";
 
     if (
       element === "interactionType" ||
@@ -409,39 +386,24 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     ) {
       const newValue = this.filters[element] === value ? null : value;
       this.filters[element] = newValue;
-      this.filters.sortKey = "NAME";
-      this.filters.sortValue = "ascending";
-      event = eventType[element];
+      this.setSortKeyAndValue("NAME", "ascending");
     } else if (element === "statut") {
-      event = statusType[value as UsagersFilterCriteriaStatut];
       if (this.filters[element] === value) {
         return;
       }
 
+      this.resetFiltersInStatus();
+
       this.filters[element] = value;
-
-      // Si le tri actuel est lié sur le statut
       if (
-        this.filters.sortKey !== "NAME" &&
-        this.filters.sortKey !== "ID" &&
-        this.filters.sortKey !== "PASSAGE"
+        (this.filters.sortKey !== "NAME" &&
+          this.filters.sortKey !== "ID" &&
+          this.filters.sortKey !== "PASSAGE") ||
+        (value !== "TOUS" && value !== "VALIDE")
       ) {
-        this.filters.sortKey = "NAME";
-      }
-
-      if (value !== "TOUS" && value !== "VALIDE") {
-        this.filters.passage = null;
-        this.filters.echeance = null;
-        this.filters.interactionType = null;
-        this.filters.sortKey = "NAME";
-        this.filters.sortValue = "ascending";
+        this.setSortKeyAndValue("NAME", this.filters.sortValue);
       }
     } else if (element === "sortKey") {
-      if (!sortValue) {
-        event = sortTypeButton[value as UsagersFilterCriteriaSortKey];
-      } else {
-        event = eventType[element];
-      }
       if (
         this.filters.statut === "TOUS" &&
         (value === "VALIDE" || value === "TOUS")
@@ -468,9 +430,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     this.filters.page = 0;
     this.filters$.next(this.filters);
 
-    if (event.length > 0) {
-      this.matomo.trackEvent("MANAGE_FILTERS", event, value as string, 1);
-    }
     this.updateSortLabel();
   }
 
@@ -520,6 +479,21 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
         this.needToPrint = false;
       }, 1500);
     }
+  }
+
+  private resetFiltersInStatus(): void {
+    this.filters.passage = null;
+    this.filters.entretien = null;
+    this.filters.echeance = null;
+    this.filters.interactionType = null;
+  }
+
+  private setSortKeyAndValue(
+    sortKey: UsagersFilterCriteriaSortKey,
+    sortValue: UsagersFilterCriteriaSortValues
+  ): void {
+    this.filters.sortKey = sortKey;
+    this.filters.sortValue = sortValue;
   }
 
   private getFilters(): null | Partial<UsagersFilterCriteria> {

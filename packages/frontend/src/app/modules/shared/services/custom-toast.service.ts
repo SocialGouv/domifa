@@ -40,6 +40,6 @@ export class CustomToastService {
     setTimeout(() => {
       this.toast.display = false;
       this.toast$.next(this.toast);
-    }, 15000);
+    }, 10000);
   }
 }

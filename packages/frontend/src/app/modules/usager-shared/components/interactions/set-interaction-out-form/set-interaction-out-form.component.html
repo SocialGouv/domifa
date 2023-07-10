@@ -11,13 +11,11 @@
   <fieldset>
     <legend>Que souhaitez-vous distribuer ?</legend>
     <div
-      class="my-2 d-flex flex-wrap justify-content-center justify-content-md-start align-items-center"
+      class="d-flex flex-wrap justify-content-center justify-content-md-start"
     >
       <div
-        class="interaction-zone p-1 m-1 mt-4 mx-md-3 my-md-1"
-        [ngClass]="{
-          disabled: interactionFormData.courrierOut.nbCourrier === 0
-        }"
+        class="interaction-zone p-1 my-3 mx-md-3"
+        *ngIf="interactionFormData.courrierOut.nbCourrier > 0"
       >
         <div class="interaction-icon-box">
           <div class="interaction-notification">
@@ -30,7 +28,6 @@
             id="courrier-distribution"
             type="checkbox"
             (click)="toggleSelect('courrierOut')"
-            [disabled]="interactionFormData.courrierOut.nbCourrier === 0"
             [ngModel]="interactionFormData.courrierOut.selected"
           />
           <label for="courrier-distribution" class="interaction-label"
@@ -40,8 +37,8 @@
       </div>
 
       <div
-        class="interaction-zone p-1 m-1 mt-4 mx-md-3 my-md-1"
-        [ngClass]="{ disabled: interactionFormData.colisOut.nbCourrier === 0 }"
+        class="interaction-zone p-1 my-3 mx-md-3"
+        *ngIf="interactionFormData.colisOut.nbCourrier > 0"
       >
         <div class="interaction-icon-box">
           <div class="interaction-notification">
@@ -54,7 +51,6 @@
             id="colis-distribution"
             type="checkbox"
             (click)="toggleSelect('colisOut')"
-            [disabled]="interactionFormData.colisOut.nbCourrier === 0"
             [ngModel]="interactionFormData.colisOut.selected"
           />
           <label for="colis-distribution" class="interaction-label"
@@ -64,10 +60,8 @@
       </div>
 
       <div
-        class="interaction-zone p-1 m-1 mx-md-3 my-md-1"
-        [ngClass]="{
-          disabled: interactionFormData.recommandeOut.nbCourrier === 0
-        }"
+        class="interaction-zone p-1 my-3 mx-md-3"
+        *ngIf="interactionFormData.recommandeOut.nbCourrier > 0"
       >
         <div class="interaction-icon-box">
           <div class="interaction-notification">
@@ -81,7 +75,6 @@
             id="recommande-distribution"
             type="checkbox"
             (click)="toggleSelect('recommandeOut')"
-            [disabled]="interactionFormData.recommandeOut.nbCourrier === 0"
             [ngModel]="interactionFormData.recommandeOut.selected"
           />
           <label for="recommande-distribution" class="interaction-label"

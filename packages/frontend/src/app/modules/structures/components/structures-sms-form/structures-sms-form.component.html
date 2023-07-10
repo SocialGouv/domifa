@@ -1,13 +1,14 @@
 <div class="head-page py-4">
   <div class="container">
-    <div class="row">
-      <div class="col-md-7 col-12">
-        <h1 class="title">Paramètres d'envoi de SMS pour votre structure</h1>
-      </div>
-      <div class="text-start text-md-end col-12 col-md-5">
+    <div
+      class="my-2 d-flex flex-wrap justify-content-between align-items-center"
+    >
+      <h1 class="title">Paramètres d'envoi de SMS pour votre structure</h1>
+
+      <div class="text-start text-md-end col">
         <button
           (click)="openTutoModal()"
-          class="btn btn-white-primary me-1 my-1"
+          class="btn btn-white-primary me-md-1 my-1 my-md-0"
           type="button"
         >
           <fa-icon [icon]="['fas', 'info-circle']" aria-hidden="true"></fa-icon>
@@ -16,7 +17,7 @@
         <a
           href="/assets/files/guide_sms.pdf"
           target="_blank"
-          class="btn btn-white-primary my-1"
+          class="btn btn-white-primary my-1 my-md-0"
           rel="noopener noreferrer"
           download
         >
