@@ -45,11 +45,12 @@ export class UsagerNotesService {
       )
       .pipe(
         tap((notes: PageResults<UsagerNote>) => {
-          const newUsager: Usager = {
-            ...usager,
-            nbNotes: notes.meta.itemCount,
-          };
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          this.store.dispatch(
+            cacheManager.updateUsagerNotes({
+              ref: usager.ref.toString(),
+              nbNotes: notes.meta.itemCount,
+            })
+          );
           return notes;
         })
       );

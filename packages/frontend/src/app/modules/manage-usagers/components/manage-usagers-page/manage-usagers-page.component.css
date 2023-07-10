@@ -108,15 +108,16 @@
 }
 
 #search-bar {
-  width: 450px;
-  max-width: 98%;
+  max-width: 450px;
+  width: 100%;
+  font-size: 0.95rem;
   display: inline-block;
   position: relative;
 }
 
 #search-bar input {
-  padding: 10px 10px 10px 40px;
-  height: 46px;
+  padding: 8px 8px 8px 40px;
+  height: 44px;
   background: #f4f5f7;
   border: none;
   color: #1a191a;
@@ -142,30 +143,30 @@
 #search-bar button {
   display: block;
   position: absolute;
-  font-size: 18px;
+  top: 0;
+  padding: 0.5rem;
+  background: transparent !important;
+  font-size: 1.3rem;
 }
 
 #searchIcon {
   left: 0;
-  top: 0;
-  min-width: 30px;
-  padding: 9px 10px;
   color: #959595;
-  cursor: pointer;
 }
 
 #deleteSearchIcon {
-  top: 1px;
-  background: transparent !important;
+  top: 0;
   right: 2px;
   color: black;
+  cursor: pointer;
 }
+
 #deleteSearchIcon:focus {
   box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.5);
 }
 
 #dropdownSearch {
-  padding: 10px 10px 10px 40px;
+  padding: 8px 8px 8px 40px;
 }
 
 #dropdownSearchString button.dropdown-toggle {
@@ -173,19 +174,17 @@
   border-radius: 5px 0 0 5px;
   min-width: 280px;
   max-width: 100%;
-  height: 46px;
+  height: 44px;
 }
 
 @media all and (max-width: 480px) {
-  .dropdown-menu {
-    min-width: 100%;
-    background: #ffffff;
-    border: 1px solid #ececec;
-  }
-
   #search-bar input,
   #dropdownSearchString button {
-    border-radius: 6px;
+    border-radius: 6px !important;
     width: 100%;
+  }
+  .dropdown-item {
+    font-size: 0.9rem;
+    padding: 0.6rem;
   }
 }

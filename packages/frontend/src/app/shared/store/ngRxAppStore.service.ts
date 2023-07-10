@@ -12,7 +12,6 @@ import { INITIAL_STATE } from "./INITIAL_STATE.const";
 export const _usagerReducer = createReducer(
   INITIAL_STATE,
   on(cacheManager.clearCache, () => INITIAL_STATE),
-
   on(cacheManager.setSearchPageLoadedUsagersData, (state, action) => {
     return {
       ...state,
@@ -32,7 +31,7 @@ export const _usagerReducer = createReducer(
         ...state.usagersByRefMap,
         [action.ref]: {
           ...state.usagersByRefMap[action.ref],
-          nom: action.notes.toString(),
+          nbNotes: action.nbNotes,
         },
       },
     };
@@ -53,6 +52,7 @@ export const _usagerReducer = createReducer(
     }
 
     usagersByRefMap[usager.ref] = { ...usager, nbNotes };
+
     if (state.searchPageLoadedUsagersData) {
       // first delete usager, then add-it, in case decision.status has changed
       const searchPageLoadedUsagersData = addUsagerToStore({

@@ -451,7 +451,7 @@ export class UsagersController {
   public async findOne(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentUsager() currentUsager: Usager
-  ) {
+  ): Promise<Usager> {
     return currentUsager;
   }
 }

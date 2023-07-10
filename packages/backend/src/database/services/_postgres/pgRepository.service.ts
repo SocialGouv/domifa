@@ -326,7 +326,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
         ? undefined // returns all
         : select;
     if (attributes && Array.isArray(attributes)) {
-      return (attributes as (keyof T)[]).map((x) => `"${x as string}"`);
+      return attributes.map((x) => `"${x as string}"`);
     }
     return attributes as any;
   }

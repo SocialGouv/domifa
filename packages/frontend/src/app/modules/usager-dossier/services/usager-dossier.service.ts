@@ -95,14 +95,12 @@ export class UsagerDossierService {
     );
   }
 
-  public findOne(usagerRef: number): Observable<UsagerLight> {
-    return this.http
-      .get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`)
-      .pipe(
-        tap((newUsager: UsagerLight) => {
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
-        })
-      );
+  public findOne(usagerRef: number): Observable<Usager> {
+    return this.http.get<Usager>(`${this.endPointUsagers}/${usagerRef}`).pipe(
+      tap((newUsager: Usager) => {
+        this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+      })
+    );
   }
 
   public getAllUsersForAgenda(): Observable<UserStructure[]> {
