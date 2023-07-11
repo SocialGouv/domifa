@@ -113,53 +113,68 @@
     <div role="tablist" id="statut-selector" class="mt-3 row">
       <button
         type="button"
-        class="col"
+        class="col-md-2 col-6"
         [ngClass]="{ 'selected-section': filters.statut === 'TOUS' }"
         [attr.aria-selected]="filters.statut === 'TOUS'"
+        [attr.aria-label]="
+          'Afficher les ' + allUsagersByStatus.TOUS.length + ' dossiers '
+        "
         (click)="updateFilters({ element: 'statut', value: 'TOUS' })"
       >
-        <span class="visually-hidden" *ngIf="filters.statut === 'TOUS'"
-          >Page active:
-        </span>
         <span class="statut-cpt">{{ usagersTotalCount || 0 }}</span>
         <span class="statut-label"> Tous</span>
+        <span class="visually-hidden" *ngIf="filters.statut === 'TOUS'"
+          >{{ usagersTotalCount || 0 }} dossiers, statut actuellement
+          sélectionné
+        </span>
       </button>
       <button
         type="button"
-        class="col"
+        class="col-md-2 col-6"
         [ngClass]="{ 'selected-section': filters.statut === 'VALIDE' }"
         [attr.aria-selected]="filters.statut === 'VALIDE'"
+        [attr.aria-label]="
+          'Afficher les ' +
+          allUsagersByStatus.VALIDE.length +
+          ' dossiers actifs'
+        "
         (click)="updateFilters({ element: 'statut', value: 'VALIDE' })"
       >
-        <span class="visually-hidden" *ngIf="filters.statut === 'VALIDE'"
-          >Page active:
-        </span>
         <span class="statut-cpt"
           >{{ allUsagersByStatus?.VALIDE.length || 0 }}
         </span>
         <span class="statut-label"> Actifs</span>
+        <span class="visually-hidden" *ngIf="filters.statut === 'VALIDE'"
+          >{{ allUsagersByStatus?.VALIDE.length || 0 }} dossiers, statut
+          actuellement sélectionné
+        </span>
       </button>
       <button
         type="button"
-        class="col"
+        class="col-md-2 col-6"
         [ngClass]="{ 'selected-section': filters.statut === 'INSTRUCTION' }"
         [attr.aria-selected]="filters.statut === 'INSTRUCTION'"
+        [attr.aria-label]="
+          'Afficher les ' + allUsagersByStatus.INSTRUCTION.length + ' dossiers '
+        "
         (click)="updateFilters({ element: 'statut', value: 'INSTRUCTION' })"
       >
-        <span class="visually-hidden" *ngIf="filters.statut === 'INSTRUCTION'"
-          >, page active</span
-        >
         <span class="statut-cpt"
           >{{ allUsagersByStatus?.INSTRUCTION.length || 0 }}
         </span>
-        <span class="statut-label"> À compléter</span>
+        <span class="statut-label">À compléter</span>
       </button>
       <button
         type="button"
-        class="col"
+        class="col-md-2 col-6"
         [ngClass]="{
           'selected-section': filters.statut === 'ATTENTE_DECISION'
         }"
+        [attr.aria-label]="
+          'Afficher les ' +
+          allUsagersByStatus.ATTENTE_DECISION.length +
+          ' dossiers en attente de décision'
+        "
         [attr.aria-selected]="filters.statut === 'ATTENTE_DECISION'"
         (click)="
           updateFilters({ element: 'statut', value: 'ATTENTE_DECISION' })
@@ -169,22 +184,17 @@
           >{{ allUsagersByStatus?.ATTENTE_DECISION.length || 0 }}
         </span>
         <span class="statut-label">Attente de décision</span>
-        <span
-          class="visually-hidden"
-          *ngIf="filters.statut === 'ATTENTE_DECISION'"
-          >Page active:
-        </span>
       </button>
       <button
         type="button"
-        class="col"
+        class="col-md-2 col-6"
         [ngClass]="{ 'selected-section': filters.statut === 'REFUS' }"
+        [attr.aria-label]="
+          'Afficher les ' + allUsagersByStatus.REFUS.length + ' dossiers '
+        "
         [attr.aria-selected]="filters.statut === 'REFUS'"
         (click)="updateFilters({ element: 'statut', value: 'REFUS' })"
       >
-        <span class="visually-hidden" *ngIf="filters.statut === 'REFUS'"
-          >Page active:
-        </span>
         <span class="statut-cpt"
           >{{ allUsagersByStatus?.REFUS.length || 0 }}
         </span>
@@ -192,14 +202,14 @@
       </button>
       <button
         type="button"
-        class="col"
+        class="col-md-2 col-6"
         [ngClass]="{ 'selected-section': filters.statut === 'RADIE' }"
+        [attr.aria-label]="
+          'Afficher les ' + allUsagersByStatus.RADIE.length + ' dossiers '
+        "
         [attr.aria-selected]="filters.statut === 'RADIE'"
         (click)="updateFilters({ element: 'statut', value: 'RADIE' })"
       >
-        <span class="visually-hidden" *ngIf="filters.statut === 'RADIE'"
-          >Page active:
-        </span>
         <span class="statut-cpt">{{ usagersRadiesTotalCount || 0 }} </span>
         <span class="statut-label"> Radiés</span>
       </button>

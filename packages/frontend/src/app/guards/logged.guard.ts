@@ -10,9 +10,9 @@ import { AuthService } from "../modules/shared/services/auth.service";
 @Injectable({ providedIn: "root" })
 export class LoggedGuard implements CanActivate {
   constructor(
-    private router: Router,
-    private authService: AuthService,
-    private toastService: CustomToastService
+    private readonly router: Router,
+    private readonly authService: AuthService,
+    private readonly toastService: CustomToastService
   ) {}
 
   public canActivate(): Observable<boolean> {

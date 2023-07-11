@@ -11,7 +11,7 @@ import { StructureDoc } from "../../../../_common/model";
 export class StructureDocService {
   private endPoint = environment.apiUrl + "structure-docs";
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   public upload(data: FormData): Observable<StructureDoc[]> {
     return this.http.post<StructureDoc[]>(`${this.endPoint}`, data);

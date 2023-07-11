@@ -8,12 +8,12 @@ import { MetaTag } from "../types";
 })
 export class SeoService {
   constructor(
-    private metaService: Meta,
-    private titleService: Title,
+    private readonly metaService: Meta,
+    private readonly titleService: Title,
     @Inject(DOCUMENT) private doc: Document
   ) {}
 
-  public updateTitleAndTags(title: string, description: string) {
+  public updateTitleAndTags(title: string, description: string): void {
     // Nettoyage des espaces inutiles
     title = title.replace(/\s\s+/g, " ").trim();
     description = description.replace(/\s\s+/g, " ").trim();
@@ -27,7 +27,7 @@ export class SeoService {
     this.createLinkForCanonicalURL();
   }
 
-  public createLinkForCanonicalURL() {
+  public createLinkForCanonicalURL(): void {
     const link: HTMLLinkElement = this.doc.createElement("link");
     let element: HTMLLinkElement | null =
       this.doc.querySelector(`link[rel='canonical']`) || null;

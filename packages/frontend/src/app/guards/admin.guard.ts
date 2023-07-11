@@ -8,9 +8,9 @@ import { CustomToastService } from "../modules/shared/services/custom-toast.serv
 @Injectable({ providedIn: "root" })
 export class AdminGuard implements CanActivate {
   constructor(
-    private router: Router,
-    private authService: AuthService,
-    private toastService: CustomToastService
+    private readonly router: Router,
+    private readonly authService: AuthService,
+    private readonly toastService: CustomToastService
   ) {}
 
   public canActivate(): Observable<boolean> | boolean {

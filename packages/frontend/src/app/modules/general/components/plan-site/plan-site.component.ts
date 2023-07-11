@@ -88,7 +88,10 @@ export class PlanSiteComponent implements OnInit {
 
   public readonly partnerLinks = LIENS_PARTENAIRES;
 
-  constructor(private titleService: Title, public authService: AuthService) {}
+  constructor(
+    private readonly titleService: Title,
+    public authService: AuthService
+  ) {}
 
   public ngOnInit(): void {
     this.titleService.setTitle("Plan du site de DomiFa");

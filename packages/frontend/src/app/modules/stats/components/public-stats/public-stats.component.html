@@ -9,7 +9,7 @@
 
 <div class="home-header-content bg-primary py-3 py-md-4 text-white text-bold">
   <div class="container px-2 py-3 py-sm-4 d-flex align-items-center">
-    <div class="text-start flex-sm-grow-1 pe-5">
+    <div class="text-start flex-sm-grow-1 p-1">
       <ng-container *ngIf="!regionId">
         <h1 class="fw-bold">Statistiques d'utilisation de DomiFa</h1>
         <h2 class="fw-normal home-header-subtitle">
@@ -61,95 +61,89 @@
           </div>
         </div>
       </div>
-      <div class="row" *ngIf="stats">
-        <div class="col-12 col-md-7">
-          <div class="d-md-flex">
-            <div class="p-0 p-md-3 d-flex align-items-top">
-              <div class="me-4">
-                <img
-                  src="/assets/images/stats/structures.svg"
-                  alt="Nombre de structures"
-                  aria-hidden="true"
-                />
-              </div>
-              <div>
-                <div class="text-start">
-                  <div class="stats-counter">
-                    {{ stats?.structuresCount | formatBigNumber }}
-                  </div>
-                  <div class="stats-counter-label">structures</div>
-                </div>
-                <div class="py-3 text-start" *ngIf="stats">
-                  <ul>
-                    <li
-                      *ngFor="
-                        let structure of stats.structuresCountByTypeMap
-                          | keyvalue
-                      "
-                    >
-                      <span class="sub-stats-number">{{
-                        structure.value | formatBigNumber
-                      }}</span>
-                      <span class="sub-stats-label">
-                        {{ structure.key === "asso" ? "Organisme agrée" : "" }}
-                        {{ structure.key === "ccas" ? "CCAS" : "" }}
-                        {{ structure.key === "cias" ? "CIAS" : "" }}
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
 
-            <div class="p-0 p-md-3 d-flex align-items-top">
-              <div class="me-4">
-                <img
-                  src="../assets/images/stats/agents.svg"
-                  alt="Nombre d'utilisateurs"
-                  aria-hidden="true"
-                />
+      <div
+        class="d-flex flex-wrap justify-content-between align-items-top"
+        *ngIf="stats"
+      >
+        <div class="p-2 d-flex align-items-top">
+          <div class="me-4">
+            <img
+              src="/assets/images/stats/structures.svg"
+              alt="Nombre de structures"
+              aria-hidden="true"
+            />
+          </div>
+          <div>
+            <div class="text-start">
+              <div class="stats-counter">
+                {{ stats?.structuresCount | formatBigNumber }}
               </div>
-              <div class="text-start">
-                <div class="stats-counter">
-                  {{ stats?.usersCount | formatBigNumber }}
-                </div>
-                <div class="stats-counter-label">agents</div>
-              </div>
+              <div class="stats-counter-label">structures</div>
+            </div>
+            <div class="py-3 text-start" *ngIf="stats">
+              <ul>
+                <li
+                  *ngFor="
+                    let structure of stats.structuresCountByTypeMap | keyvalue
+                  "
+                >
+                  <span class="sub-stats-number">{{
+                    structure.value | formatBigNumber
+                  }}</span>
+                  <span class="sub-stats-label">
+                    {{ structure.key === "asso" ? "Organisme agrée" : "" }}
+                    {{ structure.key === "ccas" ? "CCAS" : "" }}
+                    {{ structure.key === "cias" ? "CIAS" : "" }}
+                  </span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
 
-        <div class="col-12 col-md-5">
-          <div class="row">
-            <div class="my-3 my-md-0 col-12 col-md-6">
-              <div>
-                <div class="stats-counter" aria-hidden="true">
-                  <span
-                    [countUp]="stats.courrierInCount"
-                    [options]="countOptions"
-                  ></span>
-                </div>
-                <span> courriers enregistrés </span>
-                <app-impact-line [direction]="'horizontal'"></app-impact-line>
-              </div>
-              <div>
-                <div class="stats-counter" aria-hidden="true">
-                  <span
-                    [countUp]="stats.courrierOutCount"
-                    [options]="countOptions"
-                  ></span>
-                </div>
-                <span>courriers distribués</span>
-                <app-impact-line [direction]="'horizontal'"></app-impact-line>
-              </div>
+        <div class="p-2 d-flex align-items-top">
+          <div class="me-4">
+            <img
+              src="../assets/images/stats/agents.svg"
+              alt="Nombre d'utilisateurs"
+              aria-hidden="true"
+            />
+          </div>
+          <div class="text-start">
+            <div class="stats-counter">
+              {{ stats?.usersCount | formatBigNumber }}
             </div>
-            <div class="col-12 col-md-6">
-              <div class="text-primary fw-bold">
-                soit
-                <span class="stats-counter">{{ distributionRate }}%</span> de
-                taux d’acheminement
-              </div>
-            </div>
+            <div class="stats-counter-label">agents</div>
+          </div>
+        </div>
+
+        <div class="p-2">
+          <div class="stats-counter" aria-hidden="true">
+            <span
+              [countUp]="stats?.courrierInCount"
+              [options]="countOptions"
+            ></span>
+          </div>
+          <span> courriers enregistrés </span>
+          <app-impact-line [direction]="'horizontal'"></app-impact-line>
+        </div>
+        <div class="p-2">
+          <div class="stats-counter" aria-hidden="true">
+            <span
+              [countUp]="stats.courrierOutCount"
+              [options]="countOptions"
+            ></span>
+          </div>
+          <span>courriers distribués</span>
+          <app-impact-line [direction]="'horizontal'"></app-impact-line>
+        </div>
+
+        <div class="p-2">
+          <div class="text-primary fw-bold">
+            soit
+            <span class="stats-counter">{{ distributionRate }}%</span> de taux
+            d’acheminement
           </div>
         </div>
       </div>
