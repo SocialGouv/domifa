@@ -1,5 +1,5 @@
 <section
-  class="d-flex align-items-center my-2 flex-wrap justify-content-center"
+  class="d-flex align-items-center my-2 flex-wrap justify-content-md-start justify-content-center"
   *ngIf="selectedRefs.length > 0 && displayCheckboxes"
 >
   <div class="me-2">{{ selectedRefs.length }} selectionnés</div>
@@ -209,7 +209,7 @@
           #tooltipProcuration="ngbTooltip"
         >
           <ng-template #procurationActif>
-            <div
+            <p
               class="text-start"
               *ngFor="let procuration of usager.options.procurations; let i = index"
             >
@@ -230,7 +230,7 @@
                 Expirée le {{procuration.dateFin | date: "dd/MM/yy" }}: {{
                 procuration.nom }} {{ procuration.prenom }}
               </span>
-            </div>
+            </p>
           </ng-template>
           <p class="m-0">
             {{ usager.options.procurations.length > 1 ? 'Procurations':
@@ -247,7 +247,7 @@
         >
           <ng-template #transfertActif>
             <div class="distribution-tooltip" id="tooltipTransfertContent{{i}}">
-              <div *ngIf="usager.options.transfert.dateFin > today">
+              <p *ngIf="usager.options.transfert.dateFin > today">
                 <fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'share']"
@@ -255,12 +255,12 @@
                 ></fa-icon>
                 Courrier à transférer : {{ usager.options.transfert.nom |
                 titlecase }} {{ usager.options.transfert.adresse | titlecase }}
-              </div>
+              </p>
 
-              <div *ngIf="usager.options.transfert.dateFin <= today">
+              <p *ngIf="usager.options.transfert.dateFin <= today">
                 Transfert expiré le {{ usager.options.transfert.dateFin | date:
                 "dd/MM/yy" }}
-              </div>
+              </p>
             </div>
           </ng-template>
           <span>Transfert</span>
@@ -270,7 +270,9 @@
         </div>
       </td>
 
-      <td *ngIf=" filters.statut ==='INSTRUCTION'">
+      <td
+        *ngIf="filters.statut === 'ATTENTE_DECISION' ||  filters.statut ==='INSTRUCTION'"
+      >
         <p
           *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
           class="m-0 label-info label-yellow"
@@ -293,11 +295,8 @@
       >
         {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yy" }}
       </td>
-      <td
-        class="clickable"
-        *ngIf="filters.statut ==='ATTENTE_DECISION' || filters.statut ==='INSTRUCTION'"
-      >
-        <span> {{ usager.rdvInfos.content }} </span>
+      <td class="clickable" *ngIf="filters.statut ==='INSTRUCTION'">
+        {{ usager.rdvInfos.content }}
       </td>
       <td
         class="statut-date clickable"
@@ -305,7 +304,7 @@
         (click)="goToProfil(usager)"
       >
         <ng-container *ngIf="usager.isActif">
-          <span [class]="'statut-signal ' +usager.echeanceInfos.color"> </span>
+          <span [class]="'statut-signal ' +usager.echeanceInfos.color"></span>
           <span
             class="visually-hidden"
             *ngIf="usager.echeanceInfos.color === 'bg-danger'"
@@ -333,6 +332,7 @@
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_visite') !== -1"
             aria-label="Ajout d'un passage"
             ngbTooltip="Ajout d'un passage"
+            triggers="hover focus"
             class="btn interaction-btn btn-light"
             (click)="setSingleInteraction(usager, 'visite')"
           >
@@ -349,6 +349,7 @@
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_appel') !== -1"
             aria-label="Ajout d'un appel téléphonique"
             ngbTooltip="Ajout d'un appel téléphonique"
+            triggers="hover focus"
             class="btn interaction-btn btn-light"
             (click)="setSingleInteraction(usager, 'appel')"
           >
@@ -373,6 +374,7 @@
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_courrierIn') !== -1"
             aria-label="Ajout rapide d'un courrier"
             ngbTooltip="Ajout rapide d'un courrier"
+            triggers="hover focus"
             class="btn interaction-btn btn-light"
             (click)="setSingleInteraction(usager, 'courrierIn')"
           >
@@ -388,15 +390,17 @@
             type="button"
             aria-label="Réception de courriers"
             ngbTooltip="Réception de courriers"
+            triggers="hover focus"
             class="interaction-btn btn-light btn"
             (click)="openInteractionInModal(usager)"
           >
             <span class="icon-reception list-icon"></span>
           </button>
 
-          <ng-template #distributionBox class="p-2 text-start">
-            <div class="distribution-tooltip">
-              <div *ngIf="usager.lastInteraction.courrierIn > 0">
+          <ng-template #distributionBox>
+            <div class="distribution-tooltip p-2 text-start">
+              <span>Distribuer les courriers</span>
+              <p class="m-0" *ngIf="usager.lastInteraction.courrierIn > 0">
                 <span class="list-icon icon-courrier"></span>
                 <span>
                   <strong class="text-primary"
@@ -404,9 +408,9 @@
                   >
                   courriers
                 </span>
-              </div>
+              </p>
 
-              <div *ngIf="usager.lastInteraction.recommandeIn > 0">
+              <p class="m-0" *ngIf="usager.lastInteraction.recommandeIn > 0">
                 <span class="list-icon icon-recommande"> </span>
                 <span>
                   <strong class="text-primary"
@@ -414,9 +418,9 @@
                   >
                   avis de passage</span
                 >
-              </div>
+              </p>
 
-              <div *ngIf="usager.lastInteraction.colisIn > 0">
+              <p class="m-0" *ngIf="usager.lastInteraction.colisIn > 0">
                 <span class="list-icon icon-colis"> </span>
                 <span>
                   <strong class="text-primary"
@@ -424,7 +428,7 @@
                   >
                   colis</span
                 >
-              </div>
+              </p>
             </div>
           </ng-template>
 

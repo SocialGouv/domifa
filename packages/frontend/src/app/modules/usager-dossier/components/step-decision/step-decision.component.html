@@ -235,35 +235,34 @@
 
       <div class="d-flex justify-content-between align-items-center">
         <h3>Pièces jointes</h3>
-        <div>
-          <button
-            type="submit"
-            class="btn btn-outline-primary d-print-none"
-            *ngIf="!editPJ"
-            (click)="editPJ = true"
-          >
-            <fa-icon
-              [icon]="['far', 'edit']"
-              aria-hidden="true"
-              class="me-2"
-            ></fa-icon>
-            Modifier
-            <span class="visually-hidden"> les pièces jointes</span>
-          </button>
-          <button
-            type="button"
-            class="btn btn-outline-primary d-print-none"
-            *ngIf="editPJ"
-            (click)="editPJ = false"
-          >
-            <fa-icon
-              [icon]="['fas', 'times']"
-              aria-hidden="true"
-              class="me-2"
-            ></fa-icon>
-            Annuler les changements
-          </button>
-        </div>
+
+        <button
+          type="submit"
+          class="btn btn-outline-primary d-print-none"
+          *ngIf="!editPJ"
+          (click)="editPJ = true"
+        >
+          <fa-icon
+            [icon]="['far', 'edit']"
+            aria-hidden="true"
+            class="me-2"
+          ></fa-icon>
+          Modifier
+          <span class="visually-hidden"> les pièces jointes</span>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary d-print-none"
+          *ngIf="editPJ"
+          (click)="editPJ = false"
+        >
+          <fa-icon
+            [icon]="['fas', 'times']"
+            aria-hidden="true"
+            class="me-2"
+          ></fa-icon>
+          Annuler les changements
+        </button>
       </div>
 
       <div class="mb-5">
