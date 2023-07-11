@@ -119,6 +119,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
             next: () => {
               this.success = true;
               this.loading = false;
+              this.scrollTop();
               this.toastService.success(
                 "Félicitations, votre compte a été créé avec succès"
               );
@@ -132,6 +133,14 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
           })
       );
     }
+  }
+
+  private scrollTop(): void {
+    window.scroll({
+      behavior: "smooth",
+      left: 0,
+      top: 0,
+    });
   }
 
   public validateEmailNotTaken(

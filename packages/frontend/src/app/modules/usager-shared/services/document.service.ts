@@ -20,9 +20,9 @@ export class DocumentService {
   public endPointUsagers = environment.apiUrl + "usagers";
 
   constructor(
-    private http: HttpClient,
-    private loadingService: LoadingService,
-    private toastService: CustomToastService
+    private readonly http: HttpClient,
+    private readonly loadingService: LoadingService,
+    private readonly toastService: CustomToastService
   ) {
     this.endPoint = environment.apiUrl + "docs/";
   }

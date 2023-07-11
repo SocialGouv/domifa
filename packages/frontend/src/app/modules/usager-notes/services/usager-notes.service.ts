@@ -13,7 +13,7 @@ import { Store } from "@ngrx/store";
 export class UsagerNotesService {
   public endPoint = environment.apiUrl + "usagers-notes";
 
-  constructor(private http: HttpClient, public store: Store) {}
+  constructor(private readonly http: HttpClient, public store: Store) {}
 
   public getUsagerNotes(usagerRef: number): Observable<UsagerNote[]> {
     return this.http.get<UsagerNote[]>(`${this.endPoint}/${usagerRef}`);

@@ -11,7 +11,7 @@ import { AuthService } from "../modules/shared/services/auth.service";
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
   public intercept(
     request: HttpRequest<any>,

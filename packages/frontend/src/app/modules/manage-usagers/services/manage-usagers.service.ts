@@ -15,7 +15,10 @@ import { Store } from "@ngrx/store";
 export class ManageUsagersService {
   public endPointUsagers = environment.apiUrl + "usagers";
 
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly store: Store
+  ) {}
 
   public getSearchPageUsagerData({
     chargerTousRadies,

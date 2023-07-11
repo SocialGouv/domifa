@@ -13,7 +13,10 @@ import { AuthService } from "../modules/shared/services/auth.service";
 
 @Injectable({ providedIn: "root" })
 export class AuthGuard implements CanActivate {
-  constructor(public router: Router, private authService: AuthService) {}
+  constructor(
+    public router: Router,
+    private readonly authService: AuthService
+  ) {}
 
   public canActivate(
     _route: ActivatedRouteSnapshot,

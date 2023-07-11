@@ -1,10 +1,12 @@
 .carte {
-  min-width: 400px;
+  min-width: 280px;
+  max-width: 96%;
 }
 
 #carte-metropole {
   min-height: 300px;
-  min-width: 400px;
+  min-width: 300px;
+  max-width: 96%;
 }
 
 path {

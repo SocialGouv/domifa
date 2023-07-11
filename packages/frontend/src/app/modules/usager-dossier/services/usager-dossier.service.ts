@@ -21,7 +21,7 @@ import { Store } from "@ngrx/store";
 export class UsagerDossierService {
   public endPointUsagers = environment.apiUrl + "usagers";
 
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(private readonly http: HttpClient, private store: Store) {}
 
   public editStepEtatCivil(
     usager: UsagerEtatCivilFormData,

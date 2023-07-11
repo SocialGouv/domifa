@@ -18,8 +18,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   public countOptions: CountUpOptions;
 
   constructor(
-    private titleService: Title,
-    private generalService: GeneralService,
+    private readonly titleService: Title,
+    private readonly generalService: GeneralService,
     public matomo: MatomoTracker
   ) {
     this.countOptions = {

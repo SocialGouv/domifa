@@ -76,9 +76,13 @@ export class PublicStatsComponent implements OnInit, OnDestroy {
           .getPublicStats(REGIONS_SEO_ID[region])
           .subscribe((stats: PublicStats) => {
             this.stats = stats;
-            this.distributionRate = Math.ceil(
-              (stats.courrierOutCount / stats.courrierInCount) * 100
-            );
+
+            this.distributionRate =
+              stats?.courrierOutCount && stats?.courrierInCount
+                ? Math.ceil(
+                    (stats.courrierOutCount / stats.courrierInCount) * 100
+                  )
+                : 0;
           })
       );
 
@@ -97,9 +101,14 @@ export class PublicStatsComponent implements OnInit, OnDestroy {
       this.subscription.add(
         this.statsService.getPublicStats().subscribe((stats: PublicStats) => {
           this.stats = stats;
-          this.distributionRate = Math.ceil(
-            (stats.courrierOutCount / stats.courrierInCount) * 100
-          );
+
+          this.distributionRate =
+            stats?.courrierOutCount && stats?.courrierInCount
+              ? Math.ceil(
+                  (stats.courrierOutCount / stats.courrierInCount) * 100
+                )
+              : 0;
+
           this.generateStatsByRegionForMap();
         })
       );
