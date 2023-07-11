@@ -8,12 +8,7 @@ jobs:
           DOMIFA_PORTAIL_USAGERS_URL: https://mon-{{ .Values.global.host }}/
           DOMIFA_FRONTEND_URL: https://{{ .Values.global.host }}/
 
-    drop-db:
-      use: drop-db
-      with:
-        pgAdminUserSecretRefName: azure-pg-admin-user-devflex
     create-db:
-      ~needs: [drop-db]
       use: create-db
       with:
         pgAdminUserSecretRefName: azure-pg-admin-user-devflex
