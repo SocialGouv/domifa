@@ -360,8 +360,6 @@
                 type="button"
                 [disabled]="loadingButtons.indexOf('visite') !== -1"
                 [attr.aria-disabled]="loadingButtons.indexOf('visite') !== -1"
-                aria-label="Ajout d'un passage"
-                ngbTooltip="Ajout d'un passage"
                 class="my-1 btn me-2 btn-primary"
                 triggers="hover focus"
                 (click)="setSingleInteraction(usager.ref, 'visite')"
@@ -372,14 +370,13 @@
                   class="list-icon-disabled"
                   aria-hidden="true"
                 ></fa-icon>
-                <span class="icon-passage list-icon"></span>
+                <span class="icon-passage list-icon me-2"></span>Ajouter un
+                passage
               </button>
 
               <button
                 type="button"
                 [disabled]="loadingButtons.indexOf('appel') !== -1"
-                aria-label="Ajout d'un appel téléphonique"
-                ngbTooltip="Ajout d'un appel téléphonique"
                 class="my-1 btn btn-primary me-2"
                 triggers="hover focus"
                 (click)="setSingleInteraction(usager.ref, 'appel')"
@@ -391,10 +388,11 @@
                   [spin]="true"
                 >
                 </fa-icon>
-                <span class="icon-appel list-icon"></span>
+                <span class="icon-appel list-icon me-2"></span>Ajouter un appel
+                téléphonique
               </button>
             </ng-container>
-
+            <br />
             <ng-container *ngIf="!usager.options.npai.actif">
               <button
                 type="button"
@@ -405,7 +403,7 @@
                   class="icon-reception list-icon me-2"
                   aria-hidden="true"
                 ></span>
-                Réception
+                Ajouter du courrier
               </button>
 
               <button

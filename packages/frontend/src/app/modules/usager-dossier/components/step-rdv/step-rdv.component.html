@@ -66,8 +66,8 @@
       </div>
     </div>
 
-    <form [formGroup]="rdvForm" (ngSubmit)="submitRdv()">
-      <fieldset class="step-form text-center" *ngIf="editRdv">
+    <form [formGroup]="rdvForm" *ngIf="editRdv" (ngSubmit)="submitRdv()">
+      <fieldset class="step-form text-center">
         <legend class="form-title mb-3 text-center">
           Quand souhaitez-vous réaliser l'entretien de {{ usager.prenom }} ?
         </legend>

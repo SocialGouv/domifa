@@ -82,12 +82,13 @@ tbody tr:hover {
   box-shadow: 2px 1px 4px rgba(179, 179, 179, 0.5);
 }
 
-thead th button {
+thead th .btn {
   padding: 0.25rem 0.5rem;
 }
 
 thead th button:not(.btn) {
   font-size: 0.95rem;
+  padding: 0;
   color: #3150c0;
   text-transform: uppercase;
   border: none;
@@ -195,25 +196,27 @@ thead th {
   opacity: 1;
   min-width: 240px;
   font-size: 0.85rem;
-}
 
-.distribution-tooltip .list-icon {
-  box-sizing: border-box;
-  background-color: black;
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-  background-size: 90%;
-}
+  p {
+    margin: 0;
+  }
+  .list-icon {
+    box-sizing: border-box;
+    background-color: black;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    background-size: 90%;
+  }
+  div {
+    margin: 6px 0;
+    text-align: left;
+  }
 
-.distribution-tooltip div {
-  margin: 6px 0;
-  text-align: left;
-}
-
-.distribution-tooltip span {
-  vertical-align: middle;
-  display: inline-block;
+  span {
+    vertical-align: middle;
+    display: inline-block;
+  }
 }
 
 .td-name {

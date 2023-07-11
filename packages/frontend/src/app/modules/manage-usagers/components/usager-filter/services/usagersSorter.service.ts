@@ -72,7 +72,7 @@ function sortBy(
             value: usager.surnom?.toLowerCase() ?? "",
           },
           {
-            value: usager?.lastInteraction?.dateInteraction,
+            value: usager.ref,
             asc,
           }
         );
