@@ -1,3 +1,13 @@
+## [2.131.13](https://github.com/SocialGouv/domifa/compare/v2.131.12...v2.131.13) (2023-07-11)
+
+
+### Bug Fixes
+
+* **ngrx:** correction de 2 bugs sur la mise à jour du cache ([df92087](https://github.com/SocialGouv/domifa/commit/df92087285714a35e446041509744dee2af3b7c9))
+* **rgaa:** ajout des labels sur les boutons ([195ac66](https://github.com/SocialGouv/domifa/commit/195ac664830cc2dc5e29456734ae084af892bc9a))
+* **rgaa:** amélioration du design sur mobile ([cacb437](https://github.com/SocialGouv/domifa/commit/cacb437118c6238af86049953c42710b31c45005))
+* **rgaa:** fin de l'adaptation pour mobile ([259f710](https://github.com/SocialGouv/domifa/commit/259f710928c922f9829663b6aa404d18af67d155))
+
 ## [2.131.12](https://github.com/SocialGouv/domifa/compare/v2.131.11...v2.131.12) (2023-07-08)
 
 
