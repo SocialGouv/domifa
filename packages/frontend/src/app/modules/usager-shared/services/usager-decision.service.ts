@@ -21,7 +21,10 @@ export class UsagerDecisionService {
   public endPointUsagers = environment.apiUrl + "usagers";
   public endPointDecision = environment.apiUrl + "usagers-decision";
 
-  constructor(private readonly http: HttpClient, private store: Store) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly store: Store
+  ) {}
 
   public renouvellement(usagerRef: number): Observable<UsagerLight> {
     return this.http

@@ -8,7 +8,7 @@ import { HomeStats } from "../../../../_common/model/stats/HomeStats.type";
   providedIn: "root",
 })
 export class GeneralService {
-  constructor(public http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   public getHomeStats(): Observable<HomeStats> {
     return this.http.get<HomeStats>(environment.apiUrl + "stats/home");

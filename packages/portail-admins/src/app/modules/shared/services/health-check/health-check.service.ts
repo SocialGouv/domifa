@@ -44,7 +44,7 @@ export class HealthCheckService {
     )
   );
 
-  constructor(public http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
     this.http = http;
     this.check$.subscribe((result) => {
       this.currentStatusCheck$.next(result);

@@ -19,7 +19,10 @@ import { cacheManager } from "../../../shared";
 export class InteractionService {
   public endPoint = environment.apiUrl + "interactions/";
 
-  constructor(private readonly http: HttpClient, private store: Store) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly store: Store
+  ) {}
 
   public setInteraction(
     usagerRef: number,

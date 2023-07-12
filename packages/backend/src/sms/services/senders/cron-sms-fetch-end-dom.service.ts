@@ -25,10 +25,13 @@ import { MessageSmsSenderService } from "../message-sms-sender.service";
 
 @Injectable()
 export class CronSmsFetchEndDomService {
-  constructor(private messageSmsSenderService: MessageSmsSenderService) {}
+  constructor(
+    private readonly messageSmsSenderService: MessageSmsSenderService
+  ) {}
 
   @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "Europe/Paris",
+    disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
   protected async sendSmsEurope() {
     await this.fetchUsagerEndDom("Europe/Paris");
@@ -36,6 +39,7 @@ export class CronSmsFetchEndDomService {
 
   @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "America/Martinique",
+    disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
   protected async sendSmsMartiniqueAndGuadeloupe() {
     await this.fetchUsagerEndDom("America/Guadeloupe");
@@ -44,6 +48,7 @@ export class CronSmsFetchEndDomService {
 
   @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "America/Cayenne",
+    disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
   protected async sendSmsCayenne() {
     await this.fetchUsagerEndDom("America/Cayenne");
@@ -51,6 +56,7 @@ export class CronSmsFetchEndDomService {
 
   @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "Indian/Mayotte",
+    disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
   protected async sendSmsMayotte() {
     await this.fetchUsagerEndDom("Indian/Mayotte");
@@ -58,6 +64,7 @@ export class CronSmsFetchEndDomService {
 
   @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "Pacific/Noumea",
+    disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
   protected async sendSmsNoumea() {
     await this.fetchUsagerEndDom("Pacific/Noumea");
@@ -65,6 +72,7 @@ export class CronSmsFetchEndDomService {
 
   @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "Pacific/Tahiti",
+    disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
   protected async sendSmsTahiti() {
     await this.fetchUsagerEndDom("Pacific/Tahiti");
@@ -72,6 +80,7 @@ export class CronSmsFetchEndDomService {
 
   @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "America/Miquelon",
+    disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
   protected async sendSmsMiquelon() {
     await this.fetchUsagerEndDom("America/Miquelon");
@@ -79,6 +88,7 @@ export class CronSmsFetchEndDomService {
 
   @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "Indian/Maldives",
+    disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
   protected async sendSmsMaldives() {
     await this.fetchUsagerEndDom("Indian/Maldives");
@@ -86,6 +96,7 @@ export class CronSmsFetchEndDomService {
 
   @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "Indian/Reunion",
+    disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
   protected async sendSmsReunion() {
     await this.fetchUsagerEndDom("Indian/Reunion");
@@ -93,6 +104,7 @@ export class CronSmsFetchEndDomService {
 
   @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
     timeZone: "Pacific/Wallis",
+    disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
   protected async sendSmsWallis() {
     await this.fetchUsagerEndDom("Pacific/Wallis");

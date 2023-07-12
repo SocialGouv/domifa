@@ -11,7 +11,7 @@ import { StructureStatsFull } from "../../../../_common/model";
 export class StatsService {
   public baseUrl = environment.apiUrl + "stats/";
 
-  constructor(public http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   public getStats(
     structureId: number,

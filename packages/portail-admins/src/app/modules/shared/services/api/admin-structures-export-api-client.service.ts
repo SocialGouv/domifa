@@ -10,7 +10,7 @@ const BASE_URL = environment.apiUrl + "stats";
 
 @Injectable()
 export class AdminStructuresExportApiClient {
-  constructor(public http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   public exportYearStats({
     structureId,

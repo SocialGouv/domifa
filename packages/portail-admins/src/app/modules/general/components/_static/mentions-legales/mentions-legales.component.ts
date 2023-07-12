@@ -7,7 +7,7 @@ import { Title } from "@angular/platform-browser";
   templateUrl: "./mentions-legales.component.html",
 })
 export class MentionsLegalesComponent implements OnInit {
-  public constructor(private titleService: Title) {}
+  public constructor(private readonly titleService: Title) {}
   public ngOnInit(): void {
     this.titleService.setTitle("Mentions-légales de DomiFa");
   }

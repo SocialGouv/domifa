@@ -18,7 +18,10 @@ import { Store } from "@ngrx/store";
 export class UsagerService {
   public endPointUsagers = environment.apiUrl + "usagers";
 
-  constructor(private readonly http: HttpClient, private store: Store) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly store: Store
+  ) {}
 
   public findOne(usagerRef: number): Observable<UsagerLight> {
     return this.http

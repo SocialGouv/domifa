@@ -24,7 +24,7 @@ import { StructuresAuthService } from "./services/structures-auth.service";
 @Controller("structures/auth")
 @ApiTags("auth")
 export class StructuresAuthController {
-  constructor(private structuresAuthService: StructuresAuthService) {}
+  constructor(private readonly structuresAuthService: StructuresAuthService) {}
 
   @Post("login")
   @HttpCode(HttpStatus.OK)

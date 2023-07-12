@@ -12,7 +12,10 @@ import { UsagerAuthService } from "../modules/usager-auth/services/usager-auth.s
 
 @Injectable({ providedIn: "root" })
 export class AuthGuard implements CanActivate {
-  constructor(public router: Router, private authService: UsagerAuthService) {}
+  constructor(
+    private readonly router: Router,
+    private readonly authService: UsagerAuthService,
+  ) {}
 
   public canActivate(
     _route: ActivatedRouteSnapshot,
