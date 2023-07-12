@@ -89,12 +89,10 @@
           *ngIf="filters.statut !== 'REFUS' && filters.statut !== 'RADIE'"
           >ÉCHÉANCE</ng-container
         >
-        <ng-container *ngIf="filters.statut === 'REFUS' "
+        <ng-container *ngIf="filters.statut === 'REFUS'"
           >REFUSÉ LE</ng-container
         >
-        <ng-container *ngIf="filters.statut === 'RADIE' "
-          >RADIÉ LE</ng-container
-        >
+        <ng-container *ngIf="filters.statut === 'RADIE'">RADIÉ LE</ng-container>
       </button>
     </th>
     <th scope="col" class="text-start d-print-none">Intéraction</th>
@@ -176,14 +174,11 @@
           ariaCurrentWhenActive="page"
           routerLinkActive="router-link-active"
         >
-          <span> {{ usager.nom | uppercase }} {{ usager.prenom }} </span>
+          <span class="visually-hidden">Consulter la fiche de </span>
+          <span>{{ usager.nom | uppercase }} {{ usager.prenom }}</span>
           <span *ngIf="usager.surnom && usager.surnom !== null">
             ({{ usager.surnom }})
           </span>
-          <span class="visually-hidden"
-            >Cliquer ici pour aller sur la fiche de {{ usager.nom | uppercase }}
-            {{ usager.prenom }}</span
-          >
         </a>
       </td>
 

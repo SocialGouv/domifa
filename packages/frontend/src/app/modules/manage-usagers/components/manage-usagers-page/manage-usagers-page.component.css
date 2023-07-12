@@ -177,7 +177,7 @@
   height: 44px;
 }
 
-@media all and (max-width: 480px) {
+@media all and (max-width: 520px) {
   #search-bar input,
   #dropdownSearchString button {
     border-radius: 6px !important;

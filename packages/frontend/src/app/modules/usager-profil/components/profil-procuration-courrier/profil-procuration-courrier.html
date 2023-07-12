@@ -339,16 +339,22 @@
               [attr.aria-label]="'Supprimer la procuration numéro '+ i"
               class="btn btn-block btn-danger"
             >
-              <fa-icon aria-hidden="true" [icon]="['fas', 'trash']"></fa-icon>
+              <fa-icon
+                aria-hidden="true"
+                class="me-1"
+                [icon]="['fas', 'trash']"
+              ></fa-icon>
               Supprimer
             </button>
           </div>
         </div>
       </fieldset>
     </div>
-    <div class="text-center">
+    <div
+      class="my-1 d-grid gap-2 d-md-flex justify-content-center align-items-center"
+    >
       <button
-        class="btn btn-outline-primary me-2"
+        class="btn btn-outline-primary mx-0 my-1 me-md-2"
         type="button"
         (click)="addProcuration()"
         *ngIf="form.controls.length < 5"
@@ -356,7 +362,7 @@
         Ajouter une procuration
       </button>
       <button class="btn btn-primary" [disabled]="loading" type="submit">
-        <span *ngIf="!loading"> Enregistrer les procurations</span>
+        <span *ngIf="!loading">Enregistrer les procurations</span>
         <span *ngIf="loading"
           ><fa-icon
             [icon]="['fas', 'circle-notch']"
