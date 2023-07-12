@@ -40,7 +40,7 @@ import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 @ApiBearerAuth()
 @Controller("usagers-structure-docs")
 export class UsagerStructureDocsController {
-  constructor(private appLogsService: AppLogsService) {}
+  constructor(private readonly appLogsService: AppLogsService) {}
 
   @ApiOperation({ summary: "Télécharger un document pré-rempli" })
   @Get("structure/:usagerRef/:structureDocUuid")

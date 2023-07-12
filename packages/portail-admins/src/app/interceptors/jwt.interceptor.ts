@@ -10,7 +10,7 @@ import { AdminAuthService } from "../modules/admin-auth/services/admin-auth.serv
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  constructor(private authService: AdminAuthService) {}
+  constructor(private readonly authService: AdminAuthService) {}
 
   intercept(
     request: HttpRequest<any>,

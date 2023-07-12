@@ -10,7 +10,7 @@ import { UsagerAuthService } from "../modules/usager-auth/services/usager-auth.s
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  constructor(private authService: UsagerAuthService) {}
+  constructor(private readonly authService: UsagerAuthService) {}
 
   intercept(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

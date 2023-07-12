@@ -10,9 +10,9 @@ import DOMIFA_NEWS from "../../../../../assets/files/news.json";
 })
 export class NewsComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public DOMIFA_NEWS: any = DOMIFA_NEWS;
+  public readonly DOMIFA_NEWS: any = DOMIFA_NEWS;
 
-  public constructor(private seoService: SeoService) {}
+  public constructor(private readonly seoService: SeoService) {}
 
   public ngOnInit(): void {
     this.seoService.updateTitleAndTags(

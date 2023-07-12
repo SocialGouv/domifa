@@ -26,7 +26,7 @@ import { interactionsCreator } from "../../interactions/services";
 @Controller("portail-usagers/auth")
 @ApiTags("auth")
 export class PortailUsagersLoginController {
-  constructor(private usagersAuthService: UsagersAuthService) {}
+  constructor(private readonly usagersAuthService: UsagersAuthService) {}
 
   @Post("login")
   @HttpCode(HttpStatus.OK)

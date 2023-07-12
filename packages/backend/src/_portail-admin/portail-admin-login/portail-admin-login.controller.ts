@@ -21,7 +21,7 @@ import { AdminsAuthService } from "./services";
 @Controller("portail-admins/auth")
 @ApiTags("auth")
 export class PortailAdminLoginController {
-  constructor(private adminsAuthService: AdminsAuthService) {}
+  constructor(private readonly adminsAuthService: AdminsAuthService) {}
 
   @Post("login")
   @HttpCode(HttpStatus.OK)

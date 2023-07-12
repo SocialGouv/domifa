@@ -11,7 +11,10 @@ import { AdminAuthService } from "../modules/admin-auth/services/admin-auth.serv
 
 @Injectable({ providedIn: "root" })
 export class AuthGuard implements CanActivate {
-  constructor(public router: Router, private authService: AdminAuthService) {}
+  constructor(
+    private readonly router: Router,
+    private readonly authService: AdminAuthService
+  ) {}
 
   public canActivate(
     route: ActivatedRouteSnapshot,

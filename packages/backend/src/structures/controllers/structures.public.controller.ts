@@ -12,7 +12,7 @@ import { StructuresService } from "../services/structures.service";
 @Controller("structures")
 @ApiTags("structures")
 export class StructuresPublicController {
-  constructor(private structureService: StructuresService) {}
+  constructor(private readonly structureService: StructuresService) {}
 
   @Post()
   public async postStructure(

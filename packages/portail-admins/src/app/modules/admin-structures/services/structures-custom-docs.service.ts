@@ -10,7 +10,7 @@ import { StructureDoc } from "../../../../_common/structure-doc";
 export class StructuresCustomDocsService {
   private endPoint = environment.apiUrl + "admin/structures-docs";
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   public getAllStructureDocs(): Observable<StructureDoc[]> {
     return this.http.get<StructureDoc[]>(this.endPoint + "/all");

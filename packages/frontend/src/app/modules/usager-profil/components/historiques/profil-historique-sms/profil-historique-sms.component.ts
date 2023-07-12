@@ -21,7 +21,7 @@ export class ProfilHistoriqueSmsComponent implements OnInit, OnDestroy {
   public readonly SMS_LABELS = SMS_LABELS;
   public messagesList: MessageSms[];
 
-  constructor(private usagerProfilService: UsagerProfilService) {
+  constructor(private readonly usagerProfilService: UsagerProfilService) {
     this.messagesList = [];
   }
 
