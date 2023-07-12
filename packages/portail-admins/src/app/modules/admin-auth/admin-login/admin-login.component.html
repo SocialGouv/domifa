@@ -41,11 +41,22 @@
               }"
             />
             <div class="input-group-append">
-              <span class="input-group-text" (click)="toggleShowPassword()">
+              <button
+                class="input-group-text"
+                type="button"
+                type="button"
+                role="switch"
+                [attr.aria-checked]="!hidePassword"
+                [attr.aria-label]="
+                  (hidePassword ? 'Afficher' : 'Masquer') + ' le mot de passe'
+                "
+                (click)="toggleShowPassword()"
+              >
                 <fa-icon
+                  aria-hidden="true"
                   [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
                 ></fa-icon>
-              </span>
+              </button>
             </div>
           </div>
           <p
