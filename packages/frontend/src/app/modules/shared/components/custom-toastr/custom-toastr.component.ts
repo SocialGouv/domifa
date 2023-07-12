@@ -18,7 +18,7 @@ export class CustomToastrComponent implements OnInit, OnDestroy {
   public toast: CustomToast;
   public customToastSubscription: Subscription = new Subscription();
 
-  public toastIcons: { [key in CustomToastClass]: IconName } = {
+  public readonly toastIcons: { [key in CustomToastClass]: IconName } = {
     success: "check-circle",
     warning: "exclamation-circle",
     error: "times-circle",
