@@ -15,7 +15,6 @@ import { UsersService } from "../../services/users.service";
 
 @Component({
   selector: "app-user-profil",
-  styleUrls: ["./user-profil.component.css"],
   templateUrl: "./user-profil.component.html",
 })
 export class UserProfilComponent implements OnInit, OnDestroy {

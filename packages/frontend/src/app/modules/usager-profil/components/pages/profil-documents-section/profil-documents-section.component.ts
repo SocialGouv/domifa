@@ -14,7 +14,6 @@ import { Store } from "@ngrx/store";
 @Component({
   selector: "app-profil-documents-section",
   templateUrl: "./profil-documents-section.component.html",
-  styleUrls: ["./profil-documents-section.component.css"],
 })
 export class ProfilDocumentsSectionComponent extends BaseUsagerProfilPageComponent {
   constructor(

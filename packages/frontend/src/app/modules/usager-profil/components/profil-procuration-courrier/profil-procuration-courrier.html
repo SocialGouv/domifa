@@ -182,9 +182,7 @@
                 dateFr
                 value
                 [ngClass]="{
-                  'is-invalid':
-                    (form.controls[i].get('dateNaissance')?.dirty || submitted) &&
-                    form.controls[i].get('dateNaissance')?.errors
+                  'is-invalid': (form.controls[i].get('dateNaissance')?.dirty || submitted) && form.controls[i].get('dateNaissance')?.errors
                 }"
                 [attr.aria-describedby]="
                   (form.controls[i].get('dateNaissance')?.dirty || submitted) && form.controls[i].get('dateNaissance')?.errors
@@ -212,13 +210,14 @@
                   [icon]="['fas', 'calendar']"
                 ></fa-icon>
               </button>
+              <p
+                [id]="'date-naissance-errors-'+i"
+                *ngIf="(form.controls[i].get('dateNaissance')?.dirty || submitted) && form.controls[i].get('dateNaissance')?.errors"
+                class="invalid-feedback"
+              >
+                La date de naissance est obligatoire. Exemple : 20/12/1996
+              </p>
             </div>
-            <p
-              *ngIf="form.controls[i].get('dateNaissance')?.invalid"
-              class="invalid-feedback"
-            >
-              La date de naissance est obligatoire. Exemple : 20/12/1996
-            </p>
           </div>
           <div class="col-12 col-md-2 form-group required">
             <label for="date_debut_{{i}}">Valide du</label>

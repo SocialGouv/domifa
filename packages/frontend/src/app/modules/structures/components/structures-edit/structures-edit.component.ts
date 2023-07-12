@@ -11,7 +11,10 @@ import { saveAs } from "file-saver";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
-import { UserStructure } from "../../../../../_common/model";
+import {
+  DEFAULT_MODAL_OPTIONS,
+  UserStructure,
+} from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { StructureService } from "../../services/structure.service";
 import { StructureCommon } from "../../types";
@@ -72,7 +75,7 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
   }
 
   public open(content: TemplateRef<NgbModalRef>): void {
-    this.modalService.open(content);
+    this.modalService.open(content, DEFAULT_MODAL_OPTIONS);
   }
 
   public closeModals(): void {

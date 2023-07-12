@@ -11,7 +11,6 @@ import { Subscription } from "rxjs";
 @Component({
   selector: "app-display-usager-docs",
   templateUrl: "./display-usager-docs.component.html",
-  styleUrls: ["./display-usager-docs.component.css"],
 })
 export class DisplayUsagerDocsComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;

@@ -1,7 +1,34 @@
 [
   {
+    "date": "2023-07-12",
+    "description": "Plus d'accessibilité et petites corrections",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Accessibilité",
+        "message": [
+          "Des travaux d'accessibilité sont en cours et DomiFa est désormais responsive et utilisable sur tablette et smartphone."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Détail des entretiens lors d'une demande",
+        "message": [
+          "Les informations saisies dans les entretiens sont bien enregistrées et visibles une fois la demande validée."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Type de demandes dans les dossiers en attente de décision",
+        "message": [
+          "Le type de demande s'affiche de nouveau pour les dossiers qui sont en attente de décision"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2023-05-23",
-    "description": "",
+    "description": "Notes et portail domicilié",
     "content": [
       {
         "type": "new",

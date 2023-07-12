@@ -13,7 +13,6 @@ import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-profil-structure-docs",
-  styleUrls: ["./profil-structure-docs.component.css"],
   templateUrl: "./profil-structure-docs.component.html",
 })
 export class ProfilStructureDocsComponent implements OnInit, OnDestroy {

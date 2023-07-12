@@ -188,7 +188,7 @@
         usager.decision.statut === 'RADIE' || usager.decision.statut === 'REFUS'
       "
     >
-      Nouvelle demande
+      Nouvelle demande de domiciliation
     </span>
   </div>
 
@@ -204,13 +204,12 @@
     </p>
     <p *ngIf="usager.decision.statut === 'RADIE'">
       Si vous commencez une nouvelle demande,
-      <br />
-      <strong> ce dossier ne sera plus comptabilisé parmi les radiés. </strong>
+      <b> ce dossier ne sera plus comptabilisé parmi les radiés. </b>
     </p>
     <p *ngIf="usager.decision.statut === 'REFUS'">
       Si vous créez une nouvelle demande,
       <br />
-      <strong> ce dossier ne sera plus comptabilisé parmi les refusés. </strong>
+      <b> ce dossier ne sera plus comptabilisé parmi les refusés. </b>
     </p>
     <p>
       Afin de le retrouver dans la liste, vous devrez cliquer sur le filtre "À

@@ -11,7 +11,6 @@ import { Store } from "@ngrx/store";
 @Component({
   selector: "app-profil-dossier",
   templateUrl: "./profil-dossier.component.html",
-  styleUrls: ["./profil-dossier.component.css"],
 })
 export class ProfilDossierComponent extends BaseUsagerProfilPageComponent {
   public editInfos = false;

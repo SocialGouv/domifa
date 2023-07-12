@@ -19,6 +19,7 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { Observable, Subscription, forkJoin } from "rxjs";
 import {
+  DEFAULT_MODAL_OPTIONS,
   MOTIFS_RADIATION_LABELS,
   UsagerDecisionRadiationForm,
 } from "../../../../../_common/model";
@@ -118,7 +119,10 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
   }
 
   public openRadiationModal(): void {
-    this.modalService.open(this.decisionRadiationFormModal);
+    this.modalService.open(
+      this.decisionRadiationFormModal,
+      DEFAULT_MODAL_OPTIONS
+    );
   }
 
   public setDecision(formDatas: UsagerDecisionRadiationForm): void {

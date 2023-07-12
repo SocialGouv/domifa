@@ -21,6 +21,7 @@ import { UsagerDossierService } from "../../services/usager-dossier.service";
 import { BaseUsagerDossierPageComponent } from "../base-usager-dossier-page/base-usager-dossier-page.component";
 import { Title } from "@angular/platform-browser";
 import { Store } from "@ngrx/store";
+import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 
 @Component({
   providers: [
@@ -88,7 +89,7 @@ export class StepDecisionComponent
   }
 
   public open(content: TemplateRef<NgbModalRef>) {
-    this.modalService.open(content);
+    this.modalService.open(content, DEFAULT_MODAL_OPTIONS);
   }
 
   public closeModals() {

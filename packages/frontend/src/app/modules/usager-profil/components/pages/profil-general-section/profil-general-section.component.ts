@@ -6,7 +6,6 @@ import {
   NgbModal,
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import { ProfilGeneralHistoriqueCourriersComponent } from "../../profil-general-historique-courriers/profil-general-historique-courriers.component";
 import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-usager-profil-page.component";
@@ -16,9 +15,10 @@ import {
   InteractionType,
   InteractionInForApi,
   INTERACTIONS_LABELS_SINGULIER,
+  DEFAULT_MODAL_OPTIONS,
 } from "../../../../../../_common/model";
 import { minDateNaissance, formatDateToNgb } from "../../../../../shared";
-import { AuthService } from "../../../../shared/services";
+import { AuthService, CustomToastService } from "../../../../shared/services";
 import { Interaction } from "../../../../usager-shared/interfaces";
 import { InteractionService } from "../../../../usager-shared/services/interaction.service";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
@@ -138,11 +138,11 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
   }
 
   public openInteractionInModal(): void {
-    this.modalService.open(this.setInteractionInModal);
+    this.modalService.open(this.setInteractionInModal, DEFAULT_MODAL_OPTIONS);
   }
 
   public openInteractionOutModal(): void {
-    this.modalService.open(this.setInteractionOutModal);
+    this.modalService.open(this.setInteractionOutModal, DEFAULT_MODAL_OPTIONS);
   }
 
   private stopLoading(loadingRef: string) {

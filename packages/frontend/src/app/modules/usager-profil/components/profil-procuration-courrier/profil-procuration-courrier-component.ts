@@ -53,7 +53,6 @@ import { UsagerOptionsService } from "../../services/usager-options.service";
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
   selector: "app-profil-procuration-courrier",
-  styleUrls: ["./profil-procuration-courrier.css"],
   templateUrl: "./profil-procuration-courrier.html",
 })
 export class UsagersProfilProcurationCourrierComponent
