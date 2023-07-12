@@ -1,3 +1,14 @@
+## [2.131.14](https://github.com/SocialGouv/domifa/compare/v2.131.13...v2.131.14) (2023-07-12)
+
+
+### Bug Fixes
+
+* **rgaa:** amélioration des designs ([a12b261](https://github.com/SocialGouv/domifa/commit/a12b261526cde97f5d6fa5ddbdc908fd9f20d918))
+* **rgaa:** amélioration du design de l'admin ([ac4f055](https://github.com/SocialGouv/domifa/commit/ac4f05527e4f90ef9bdd0872d76efc0e08bf4f77))
+* **rgaa:** correction de design pour le responsive ([4944564](https://github.com/SocialGouv/domifa/commit/4944564457462f7cb43b5ca7b67a71ed0a702ae3))
+* **sonarcloud:** correction de remontées SonarCloud ([3b6ddcc](https://github.com/SocialGouv/domifa/commit/3b6ddcca6f92a8188cec901ff9f1319bcdf1aaaa))
+* **sonarcloud:** fix private readonly ([41b01bf](https://github.com/SocialGouv/domifa/commit/41b01bf1c5ecfaeac8b00ed3d8544f428e25a9a2))
+
 ## [2.131.13](https://github.com/SocialGouv/domifa/compare/v2.131.12...v2.131.13) (2023-07-11)
 
 
