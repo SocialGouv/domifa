@@ -19,7 +19,6 @@ import { Subscription } from "rxjs";
 @Component({
   selector: "app-usager-notes-actions",
   templateUrl: "./usager-notes-actions.component.html",
-  styleUrls: ["./usager-notes-actions.component.css"],
 })
 export class UsagerNotesActionsComponent {
   @Input() public note!: UsagerNote;

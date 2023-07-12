@@ -8,7 +8,6 @@ import { Subscription } from "rxjs";
 @Component({
   selector: "app-idle-manager",
   templateUrl: "./idle-manager.component.html",
-  styleUrls: ["./idle-manager.component.css"],
 })
 export class IdleManagerComponent implements OnInit {
   @ViewChild("idleModal", { static: true })

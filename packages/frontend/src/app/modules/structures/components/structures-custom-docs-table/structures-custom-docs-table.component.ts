@@ -16,7 +16,6 @@ import { Subscription } from "rxjs";
 @Component({
   selector: "app-structures-custom-docs-table",
   templateUrl: "./structures-custom-docs-table.component.html",
-  styleUrls: ["./structures-custom-docs-table.component.css"],
 })
 export class StructuresCustomDocsTableComponent implements OnDestroy {
   @Input() public structureDocs!: StructureDoc[];

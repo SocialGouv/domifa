@@ -20,7 +20,6 @@ import { selectUsagerByRef } from "../../../../shared";
 @Component({
   selector: "app-base-usager-notes",
   templateUrl: "./base-usager-notes.component.html",
-  styleUrls: ["./base-usager-notes.component.css"],
 })
 export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
   @Input() public me!: UserStructure;

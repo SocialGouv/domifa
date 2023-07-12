@@ -18,7 +18,6 @@ import { StructureCommon } from "../../types";
 
 @Component({
   selector: "app-structures-edit",
-  styleUrls: ["./structures-edit.component.css"],
   templateUrl: "./structures-edit.component.html",
 })
 export class StructuresEditComponent implements OnInit, OnDestroy {

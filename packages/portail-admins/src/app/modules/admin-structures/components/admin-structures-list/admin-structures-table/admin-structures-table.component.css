@@ -2,32 +2,6 @@
   padding: 2rem 1rem;
 }
 
-#structures-table tr th {
-  font-size: 0.7rem;
-}
-#structures-table tr th.col-font-xs {
-  font-size: 0.6rem;
-}
-#structures-table tr td {
-  font-size: 0.8rem;
-  overflow: hidden;
-}
-@media (min-width: 992px) {
-  #structures-table tr td.col-font-xs {
-    font-size: 0.7rem;
-    font-size: 0.8rem;
-  }
-  #structures-table tr td {
-    font-size: 0.9rem;
-    word-break: break-all;
-  }
-  #structures-table tr th.col-font-xs {
-    font-size: 0.7rem;
-  }
-  #structures-table tr th {
-    font-size: 0.8rem;
-  }
-}
 #structures-table tr th:not(:first-child),
 #structures-table tr td:not(:first-child) {
   max-width: 400px;

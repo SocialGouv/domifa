@@ -21,7 +21,6 @@ import { StructureDocService } from "../../services/structure-doc.service";
 @Component({
   selector: "app-structures-custom-docs",
   templateUrl: "./structures-custom-docs.component.html",
-  styleUrls: ["./structures-custom-docs.component.css"],
 })
 export class StructuresCustomDocsComponent implements OnInit, OnDestroy {
   // Documents simples

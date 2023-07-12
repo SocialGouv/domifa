@@ -10,7 +10,6 @@ import { Store } from "@ngrx/store";
 @Component({
   selector: "app-profil-historique-notes",
   templateUrl: "./profil-historique-notes.component.html",
-  styleUrls: ["./profil-historique-notes.component.css"],
 })
 export class ProfilHistoriqueNotesComponent extends BaseUsagerNotesComponent {
   @Input() public usager!: UsagerFormModel;
