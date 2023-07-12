@@ -79,7 +79,7 @@ export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
   public submit(): void {
     this.submitted = true;
     if (this.addNoteForm.invalid) {
-      this.toastService.warning(
+      this.toastService.error(
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
       return;

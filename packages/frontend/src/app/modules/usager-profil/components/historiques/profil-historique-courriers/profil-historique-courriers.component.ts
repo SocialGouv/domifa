@@ -23,7 +23,6 @@ import { Subscription } from "rxjs";
 @Component({
   selector: "app-profil-historique-courriers",
   templateUrl: "./profil-historique-courriers.component.html",
-  styleUrls: ["./profil-historique-courriers.component.css"],
 })
 export class ProfilHistoriqueCourriersComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;

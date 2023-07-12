@@ -17,7 +17,6 @@ import { Store } from "@ngrx/store";
 @Component({
   selector: "app-profil-historique",
   templateUrl: "./profil-historique.component.html",
-  styleUrls: ["./profil-historique.component.css"],
 })
 export class ProfilHistoriqueComponent extends BaseUsagerProfilPageComponent {
   public newHistorique: {

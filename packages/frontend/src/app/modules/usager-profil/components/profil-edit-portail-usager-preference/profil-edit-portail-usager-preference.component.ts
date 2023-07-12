@@ -19,7 +19,6 @@ import { UsagerProfilService } from "../../services/usager-profil.service";
 @Component({
   selector: "app-profil-edit-portail-usager-preference",
   templateUrl: "./profil-edit-portail-usager-preference.component.html",
-  styleUrls: ["./profil-edit-portail-usager-preference.component.css"],
 })
 export class ProfilEditPortailUsagerPreferenceComponent
   implements OnInit, OnDestroy

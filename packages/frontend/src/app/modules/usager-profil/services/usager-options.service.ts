@@ -18,7 +18,10 @@ import { Store } from "@ngrx/store";
 export class UsagerOptionsService {
   public endPoint = environment.apiUrl + "usagers-options/";
 
-  constructor(private readonly http: HttpClient, private store: Store) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly store: Store
+  ) {}
 
   public findHistory(
     usagerRef: number,

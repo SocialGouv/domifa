@@ -10,6 +10,7 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import {
+  DEFAULT_MODAL_OPTIONS,
   ETAPES_DEMANDE_URL,
   UsagerLight,
   UserStructure,
@@ -83,7 +84,7 @@ export class ProfilHeadComponent implements OnDestroy {
   }
 
   public openRenewModal(): void {
-    this.modalService.open(this.renewModal);
+    this.modalService.open(this.renewModal, DEFAULT_MODAL_OPTIONS);
   }
 
   public getCerfa(typeCerfa: CerfaDocType): void {

@@ -24,7 +24,6 @@ import { DocumentService } from "../../services/document.service";
 
 @Component({
   selector: "app-upload",
-  styleUrls: ["./upload.component.css"],
   templateUrl: "./upload.component.html",
 })
 export class UploadComponent implements OnInit, OnDestroy {

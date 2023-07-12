@@ -10,6 +10,7 @@ import { Router } from "@angular/router";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
 import {
+  DEFAULT_MODAL_OPTIONS,
   USAGER_DECISION_STATUT_LABELS,
   UserStructure,
 } from "../../../../../_common/model";
@@ -73,7 +74,7 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
   }
 
   public open(content: TemplateRef<NgbModalRef>): void {
-    this.modalService.open(content);
+    this.modalService.open(content, DEFAULT_MODAL_OPTIONS);
   }
 
   public closeModals(): void {

@@ -5,7 +5,6 @@ import { LIEN_PARENTE_LABELS } from "../../../../../_common/model";
 @Component({
   selector: "app-display-ayants-droits",
   templateUrl: "./display-ayants-droits.component.html",
-  styleUrls: ["./display-ayants-droits.component.css"],
 })
 export class DisplayAyantsDroitsComponent {
   public readonly LIEN_PARENTE_LABELS = LIEN_PARENTE_LABELS;

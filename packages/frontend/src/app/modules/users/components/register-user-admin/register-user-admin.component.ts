@@ -27,7 +27,6 @@ import { UsersService, userStructureBuilder } from "../../services";
 @Component({
   animations: [fadeInOut],
   selector: "app-register-user-admin",
-  styleUrls: ["./register-user-admin.component.css"],
   templateUrl: "./register-user-admin.component.html",
 })
 export class RegisterUserAdminComponent implements OnInit, OnDestroy {

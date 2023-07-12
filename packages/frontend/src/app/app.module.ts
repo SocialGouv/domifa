@@ -7,6 +7,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import {
   CUSTOM_ELEMENTS_SCHEMA,
   ErrorHandler,
+  LOCALE_ID,
   NgModule,
   NO_ERRORS_SCHEMA,
 } from "@angular/core";
@@ -36,6 +37,8 @@ import { createErrorHandler, init } from "@sentry/angular";
 import { MATOMO_INJECTORS } from "./shared";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "./shared/store/ngRxAppStore.service";
+import { registerLocaleData } from "@angular/common";
+import localeFr from "@angular/common/locales/fr";
 
 const disableAnimations =
   !("animate" in document.documentElement) ||
@@ -50,6 +53,7 @@ if (environment.production) {
   });
 }
 
+registerLocaleData(localeFr, "fr");
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [AppComponent],
@@ -73,6 +77,7 @@ if (environment.production) {
     AuthService,
     LoadingService,
     CustomToastService,
+    { provide: LOCALE_ID, useValue: "fr" },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {
       deps: [Router, AuthService],

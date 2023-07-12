@@ -19,7 +19,6 @@ import { AuthService } from "../../../shared/services/auth.service";
 @Component({
   selector: "app-profil-etat-civil-form",
   templateUrl: "./profil-etat-civil-form.component.html",
-  styleUrls: ["./profil-etat-civil-form.component.css"],
 })
 export class ProfilEtatCivilFormComponent
   extends EtatCivilParentFormComponent

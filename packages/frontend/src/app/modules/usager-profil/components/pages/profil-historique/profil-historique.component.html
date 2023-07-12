@@ -28,7 +28,7 @@
                   <th scope="col">Date</th>
                   <th scope="col">Type de décision</th>
                   <th scope="col">Responsable</th>
-                  <th scope="col" class="text-end">Actions</th>
+                  <th scope="col" class="text-end d-print-none">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -62,7 +62,7 @@
                     </div>
                   </td>
                   <td>{{ histo.userName }}</td>
-                  <td class="text-end">
+                  <td class="text-end d-print-none">
                     <app-delete-usager-menu
                       *ngIf="i === 0"
                       [usager]="usager"
