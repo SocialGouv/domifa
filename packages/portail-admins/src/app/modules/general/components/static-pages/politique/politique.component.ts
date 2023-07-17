@@ -9,6 +9,8 @@ export class PolitiqueComponent implements OnInit {
   public constructor(private readonly titleService: Title) {}
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Politique de confidentialité");
+    this.titleService.setTitle(
+      "Politique de confidentialité du portail Admin DomiFa"
+    );
   }
 }

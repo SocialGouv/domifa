@@ -2,9 +2,9 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AuthGuard } from "./guards/auth-guard";
 import { NotFoundComponent } from "./modules/general/components/not-found/not-found.component";
-import { CguComponent } from "./modules/general/components/_static/cgu/cgu.component";
-import { MentionsLegalesComponent } from "./modules/general/components/_static/mentions-legales/mentions-legales.component";
-import { PolitiqueComponent } from "./modules/general/components/_static/politique/politique.component";
+import { CguComponent } from "./modules/general/components/static-pages/cgu/cgu.component";
+import { MentionsLegalesComponent } from "./modules/general/components/static-pages/mentions-legales/mentions-legales.component";
+import { PolitiqueComponent } from "./modules/general/components/static-pages/politique/politique.component";
 
 const routes: Routes = [
   {
