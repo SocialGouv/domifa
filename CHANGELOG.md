@@ -1,3 +1,10 @@
+## [2.131.16](https://github.com/SocialGouv/domifa/compare/v2.131.15...v2.131.16) (2023-07-17)
+
+
+### Bug Fixes
+
+* **store:** tri par date d'échéance ([7737444](https://github.com/SocialGouv/domifa/commit/7737444da2a8183e33017b354f9ef820b1768438))
+
 ## [2.131.15](https://github.com/SocialGouv/domifa/compare/v2.131.14...v2.131.15) (2023-07-17)
 
 
