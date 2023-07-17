@@ -18,8 +18,9 @@ export const _usagerReducer = createReducer(
       searchPageLoadedUsagersData: action.searchPageLoadedUsagersData,
       usagersByRefMap: action.searchPageLoadedUsagersData.usagersNonRadies
         .concat(action.searchPageLoadedUsagersData.usagersRadiesFirsts)
-        .reduce((acc, u) => {
-          acc[u.ref] = u;
+        .reduce((acc, usager) => {
+          addExtraInformationToUsager(usager);
+          acc[usager.ref] = usager;
           return acc;
         }, {} as { [ref: string]: UsagerLight }),
     };
@@ -51,6 +52,8 @@ export const _usagerReducer = createReducer(
       nbNotes = nbNotesAfterUpdate;
     }
 
+    addExtraInformationToUsager(usager);
+
     usagersByRefMap[usager.ref] = { ...usager, nbNotes };
 
     if (state.searchPageLoadedUsagersData) {
@@ -76,7 +79,6 @@ export const _usagerReducer = createReducer(
       };
     }
   }),
-
   on(cacheManager.updateUsagers, (state, action) => {
     const usagers = action.usagers;
 
@@ -152,9 +154,8 @@ export const _usagerReducer = createReducer(
     const usagersByRefMap = {
       ...state.usagersByRefMap,
     };
-    usager.echeanceInfos = getEcheanceInfos(usager);
-    usager.rdvInfos = getRdvInfos(usager);
-    usager.usagerProfilUrl = getUrlUsagerProfil(usager);
+
+    addExtraInformationToUsager(usager);
     usagersByRefMap[usager.ref] = usager;
 
     if (state.searchPageLoadedUsagersData) {
@@ -240,4 +241,10 @@ function deleteSearchPageLoadedUsagersDataUsager({
     initialData.usagersRadiesFirsts.length;
 
   return searchPageLoadedUsagersData;
+}
+
+function addExtraInformationToUsager(usager: UsagerLight): void {
+  usager.echeanceInfos = getEcheanceInfos(usager);
+  usager.rdvInfos = getRdvInfos(usager);
+  usager.usagerProfilUrl = getUrlUsagerProfil(usager);
 }
