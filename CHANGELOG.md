@@ -1,3 +1,10 @@
+## [2.131.15](https://github.com/SocialGouv/domifa/compare/v2.131.14...v2.131.15) (2023-07-17)
+
+
+### Bug Fixes
+
+* **sonarcloud:** delete unused files ([75b47ff](https://github.com/SocialGouv/domifa/commit/75b47ff945eb35e27eb2617d67ddd9ed6d6bf6c8))
+
 ## [2.131.14](https://github.com/SocialGouv/domifa/compare/v2.131.13...v2.131.14) (2023-07-12)
 
 
