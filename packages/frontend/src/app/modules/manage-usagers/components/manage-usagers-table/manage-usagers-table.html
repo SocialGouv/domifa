@@ -288,7 +288,7 @@
         tabindex="0"
         (click)="goToProfil(usager)"
       >
-        {{ usager.lastInteraction.dateInteraction | date: "dd MMMM yyyy" }}
+        {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yy" }}
       </td>
       <td class="clickable" *ngIf="filters.statut ==='INSTRUCTION'">
         {{ usager.rdvInfos.content }}
@@ -313,7 +313,7 @@
           </span>
         </ng-container>
         <span *ngIf="usager.echeanceInfos.dateToDisplay">
-          {{ usager.echeanceInfos.dateToDisplay | date: "dd MMMM yyyy" }}</span
+          {{ usager.echeanceInfos.dateToDisplay | date: "dd/MM/yy" }}</span
         >
       </td>
 

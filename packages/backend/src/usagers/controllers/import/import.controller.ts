@@ -129,10 +129,9 @@ export class ImportController {
         .json({ message: "EXCEL_FILE_CORRUPTED" });
     }
 
+    let previewTable: ImportPreviewTable;
     const today = endOfDay(new Date());
-
     const nextYear = addYears(endOfDay(new Date()), 1);
-
     const minDate = startOfYear(new Date("1900-01-01"));
 
     const structureId = user.structureId;
@@ -213,7 +212,7 @@ export class ImportController {
         },
       });
 
-      const previewTable: ImportPreviewTable = {
+      previewTable = {
         isValid: false,
         totalCount: importPreviewRows.length,
         errorsCount: importErrors.length,
@@ -232,7 +231,7 @@ export class ImportController {
     }
 
     if (importMode === "preview") {
-      const previewTable: ImportPreviewTable = {
+      previewTable = {
         isValid: true,
         totalCount: importPreviewRows.length,
         errorsCount: importErrors.length,
@@ -266,7 +265,7 @@ export class ImportController {
         2
       )}`
     );
-    const previewTable: ImportPreviewTable = {
+    previewTable = {
       isValid: true,
       totalCount: importPreviewRows.length,
       errorsCount: importErrors.length,

@@ -44,7 +44,7 @@
           }"
         >
           <td>
-            {{ interaction.dateInteraction | date : "dd/MM/yyyy à HH:mm" }}
+            {{ interaction.dateInteraction | date : "dd MMMM yyyy à HH:mm" }}
           </td>
           <td>
             <div *ngIf="interaction.event === 'create'">

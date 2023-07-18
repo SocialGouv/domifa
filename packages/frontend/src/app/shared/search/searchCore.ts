@@ -1,7 +1,7 @@
 import { diacritics } from "./diacritics";
 
 function trim(str: string): string {
-  return str.replace(/^\s+|\s+$/g, "");
+  return str.trim();
 }
 
 function clean(str: string): string {
