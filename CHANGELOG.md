@@ -1,3 +1,11 @@
+## [2.131.17](https://github.com/SocialGouv/domifa/compare/v2.131.16...v2.131.17) (2023-07-18)
+
+
+### Bug Fixes
+
+* **rgaa:** correction de balises div, amélioration des dates ([c7e3935](https://github.com/SocialGouv/domifa/commit/c7e3935b361fee7f621e03f74aa33ea81301cd9e))
+* **sonarcloud:** update config ([92b80d8](https://github.com/SocialGouv/domifa/commit/92b80d8531dfe090460cb1a4833904cbbfeb4ddc))
+
 ## [2.131.16](https://github.com/SocialGouv/domifa/compare/v2.131.15...v2.131.16) (2023-07-17)
 
 
