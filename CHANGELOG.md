@@ -1,3 +1,10 @@
+## [2.131.18](https://github.com/SocialGouv/domifa/compare/v2.131.17...v2.131.18) (2023-07-18)
+
+
+### Bug Fixes
+
+* **sonarcloud:** fix last issues ([0a63d4b](https://github.com/SocialGouv/domifa/commit/0a63d4bc87537bd2d403b195556ca417c63a0e7a))
+
 ## [2.131.17](https://github.com/SocialGouv/domifa/compare/v2.131.16...v2.131.17) (2023-07-18)
 
 
