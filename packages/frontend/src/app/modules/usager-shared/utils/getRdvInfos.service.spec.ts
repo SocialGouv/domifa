@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { USAGER_ACTIF_MOCK } from "../../../../_common/mocks";
 import {
   ETAPE_RENDEZ_VOUS,
@@ -8,13 +7,13 @@ import {
 } from "../../../../_common/model";
 import { getRdvInfos } from "./getRdvInfos.service";
 
-describe("Création des rendez-vous", () => {
-  beforeAll(() => {
-    jest.useFakeTimers();
-    // Date de référence : 20 Décembre 2020
-    jest.setSystemTime(new Date(2020, 11, 20, 19, 20));
-  });
+beforeAll(() => {
+  jest.useFakeTimers();
+  // Date de référence : 20 Décembre 2020
+  jest.setSystemTime(new Date(2020, 11, 20, 19, 20));
+});
 
+describe("Création des rendez-vous", () => {
   it("Rendez-vous dans le futur : affichage warning", () => {
     const usager = USAGER_ACTIF_MOCK;
     usager.rdv = {
@@ -26,7 +25,7 @@ describe("Création des rendez-vous", () => {
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
     expect(getRdvInfos(usager)).toEqual({
       class: "warning",
-      content: "20/03/2021 à 19:20",
+      content: "20 March 2021 à 19:20",
       display: true,
     });
 
@@ -49,7 +48,7 @@ describe("Création des rendez-vous", () => {
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
     expect(getRdvInfos(usager)).toEqual({
       class: "danger",
-      content: "20/07/2020 à 19:20",
+      content: "20 July 2020 à 19:20",
       display: true,
     });
 
@@ -70,14 +69,14 @@ describe("Création des rendez-vous", () => {
       display: false,
     });
 
-    usager.rdv.dateRdv = null as any as Date;
+    usager.rdv.dateRdv = null as Date;
     expect(getRdvInfos(usager)).toEqual({
       class: "",
       content: "",
       display: false,
     });
 
-    usager.rdv = undefined as any as UsagerRdv;
+    usager.rdv = undefined as UsagerRdv;
     expect(getRdvInfos(usager)).toEqual({
       class: "",
       content: "",

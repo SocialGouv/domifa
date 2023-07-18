@@ -104,7 +104,6 @@ async function _anonymizeUserStructure(user: PartialUser) {
   });
 
   if (Object.keys(attributesToUpdate).length === 0) {
-    // appLogger.debug(`[dataUserAnonymizer] nothing to update for "${user._id}"`);
     return user;
   }
 
