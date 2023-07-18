@@ -202,7 +202,7 @@
         <div class="col-md-12 my-5" *ngIf="stats">
           <h2>
             1. Domiciliés par statut au
-            {{ stats.period.endDateUTC | date : "dd/MM/yyyy" : "UTC" }}
+            {{ stats.period.endDateUTC | date : "dd MMMM yyyy" : "UTC" }}
           </h2>
           <p>
             <strong>Astuce:</strong> pour avoir des statistiques sur une date
@@ -651,8 +651,8 @@
 
           <h2>
             2. Activité du
-            {{ stats.period.startDateUTC | date : "dd/MM/yyyy" }} au
-            {{ stats.period.endDateUTC | date : "dd/MM/yyyy" }}
+            {{ stats.period.startDateUTC | date : "dd MMMM yyyy" }} au
+            {{ stats.period.endDateUTC | date : "dd MMMM yyyy" }}
           </h2>
 
           <div class="card p-2">
@@ -839,8 +839,8 @@
 
           <h2>
             3. Total des interactions du
-            {{ stats.period.startDateUTC | date : "dd/MM/yyyy" }} au
-            {{ stats.period.endDateUTC | date : "dd/MM/yyyy" }}
+            {{ stats.period.startDateUTC | date : "dd MMMM yyyy" }} au
+            {{ stats.period.endDateUTC | date : "dd MMMM yyyy" }}
           </h2>
           <p>
             <strong>Note: </strong> les statistiques des interactions sont

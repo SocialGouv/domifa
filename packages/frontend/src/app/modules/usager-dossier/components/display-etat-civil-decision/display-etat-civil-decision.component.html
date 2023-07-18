@@ -1,4 +1,4 @@
-<div *ngIf="usager && section === 'ETAT_CIVIL'">
+<ng-container *ngIf="usager && section === 'ETAT_CIVIL'">
   <div class="py-1">
     <span class="fw-bold">{{ usager.prenom }} {{ usager.nom }}</span>
     ({{ usager.sexe | titlecase }})
@@ -6,7 +6,7 @@
   <div class="py-1">
     Né{{ usager.sexe === "homme" ? "" : "e" }} le
     <span class="fw-bold">{{
-      usager.dateNaissance | date : "dd/MM/yyyy"
+      usager.dateNaissance | date : "dd MMMM yyyy"
     }}</span>
     à
     <span class="fw-bold">{{ usager.villeNaissance | titlecase }}</span>
@@ -49,20 +49,20 @@
       </span>
     </div>
   </div>
-</div>
+</ng-container>
 
-<div *ngIf="section === 'AYANTS_DROIT'">
-  <div class="font-italic" *ngIf="usager.ayantsDroits.length === 0">
+<ng-container *ngIf="section === 'AYANTS_DROIT'">
+  <p class="font-italic" *ngIf="usager.ayantsDroits.length === 0">
     Aucun ayant-droit enregistré
-  </div>
+  </p>
 
-  <div class="reponses" *ngFor="let ayantDroit of usager.ayantsDroits">
+  <p class="reponses" *ngFor="let ayantDroit of usager.ayantsDroits">
     <span class="question"
       >{{ ayantDroit.nom | uppercase }} {{ ayantDroit.prenom }}</span
     >
     <span class="valeur">
-      Né(e) le {{ ayantDroit.dateNaissance | date : "dd/MM/yyyy" }},
+      Né(e) le {{ ayantDroit.dateNaissance | date : "dd MMMM yyyy" }},
       {{ LIEN_PARENTE_LABELS[ayantDroit.lien] }}
     </span>
-  </div>
-</div>
+  </p>
+</ng-container>

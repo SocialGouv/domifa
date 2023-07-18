@@ -47,30 +47,30 @@
       *ngFor="let procuration of usager.options.procurations ; let i = index"
       class="row justify-content-between align-items-center"
     >
-      <div class="col reponses">
+      <p class="col reponses">
         <span class="question">Nom</span>
         <span class="valeur"> {{ procuration.nom | uppercase }} </span>
-      </div>
-      <div class="col reponses">
+      </p>
+      <p class="col reponses">
         <span class="question">Prénom</span>
         <span class="valeur"> {{ procuration.prenom }} </span>
-      </div>
-      <div class="col reponses">
+      </p>
+      <p class="col reponses">
         <span class="question">Date de naissance</span>
         <span class="valeur">
-          {{ procuration.dateNaissance | date: 'dd/MM/yyyy' }}
+          {{ procuration.dateNaissance | date: 'dd MMMM yyyy' }}
         </span>
-      </div>
-      <div class="col reponses">
+      </p>
+      <p class="col reponses">
         <span class="question">Dates de validité</span>
         <span class="valeur" *ngIf="procuration.dateDebut === null">
-          {{ procuration.dateFin | date: 'dd/MM/yyyy' }}
+          {{ procuration.dateFin | date: 'dd MMMM yyyy' }}
         </span>
         <span class="valeur" *ngIf="procuration.dateDebut">
-          Du {{ procuration.dateDebut | date: 'dd/MM/yyyy' }} au {{
-          procuration.dateFin | date: 'dd/MM/yyyy' }}
+          Du {{ procuration.dateDebut | date: 'dd MMMM yyyy' }} au {{
+          procuration.dateFin | date: 'dd MMMM yyyy' }}
         </span>
-      </div>
+      </p>
       <div class="col-1 text-end">
         <button
           aria-label="Supprimer la procuration"

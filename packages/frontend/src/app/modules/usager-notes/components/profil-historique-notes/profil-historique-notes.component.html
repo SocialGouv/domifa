@@ -18,12 +18,11 @@
         [attr.aria-rowindex]="i + 1"
       >
         <td>
-          {{ note.createdAt | date : "dd/MM/yyyy à HH:mm" }}
+          {{ note.createdAt | date : "dd MMMM yyyy à HH:mm" }}
         </td>
         <td>
           <p class="fw-bold text-break">{{ note.message }}</p>
         </td>
-
         <td>{{ note.createdBy.userName }}</td>
         <td>
           <span

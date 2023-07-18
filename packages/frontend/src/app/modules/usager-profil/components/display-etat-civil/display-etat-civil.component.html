@@ -1,70 +1,70 @@
 <div class="row" *ngIf="usager">
-  <div class="col-md-4 reponses">
+  <p class="col-md-4 reponses">
     <span class="question">Nom</span>
     <span class="valeur">{{ usager.nom }}</span>
-  </div>
-  <div class="col-md-4 reponses">
+  </p>
+  <p class="col-md-4 reponses">
     <span class="question">Prénom</span>
     <span class="valeur">{{ usager.prenom }}</span>
-  </div>
-  <div class="col-md-4 reponses">
+  </p>
+  <p class="col-md-4 reponses">
     <span class="question">Nom d'usage / surnom</span>
     <span class="valeur">{{ usager.surnom | titlecase }}</span>
-  </div>
+  </p>
 
-  <div class="col-md-4 reponses">
+  <p class="col-md-4 reponses">
     <span class="question">Sexe</span>
     <span class="valeur">{{ usager.sexe | titlecase }}</span>
-  </div>
-  <div class="col-md-4 reponses">
+  </p>
+  <p class="col-md-4 reponses">
     <span class="question">Date de naissance</span>
     <span class="valeur">
-      {{ usager.dateNaissance | date : "dd/MM/yyyy" }}
+      {{ usager.dateNaissance | date : "dd MMMM yyyy" }}
     </span>
-  </div>
-  <div class="col-md-4 reponses">
+  </p>
+  <p class="col-md-4 reponses">
     <span class="question">Ville de naissance</span>
     <span class="valeur">{{ usager.villeNaissance | titlecase }}</span>
-  </div>
+  </p>
 
-  <div class="col-md-4 reponses">
+  <p class="col-md-4 reponses">
     <span class="question">Numéro de téléphone</span>
     <span class="valeur" *ngIf="usager.telephone.numero">{{
       usager.telephone | formatInternationalPhoneNumber
     }}</span>
     <span class="valeur" *ngIf="!usager.telephone.numero">Non renseigné</span>
-  </div>
-  <div class="col-md-4 reponses">
+  </p>
+  <p class="col-md-4 reponses">
     <span class="question">Adresse email</span>
     <span class="valeur">{{ usager.email || "Non renseigné" }}</span>
-  </div>
+  </p>
 
-  <div class="col-md-4 reponses">
+  <p class="col-md-4 reponses">
     <span class="question">Langue parlée</span>
     <span class="valeur" *ngIf="usager.langue">{{
       languagesAutocomplete.formatter(usager.langue)
     }}</span>
     <span class="valeur" *ngIf="!usager.langue">Non renseigné</span>
-  </div>
-  <div class="col-md-4 reponses">
+  </p>
+  <p class="col-md-4 reponses">
     <span class="question">Identifiant personnalisé</span>
     <span class="valeur">
       {{ usager.customRef || "Non renseigné" }}
     </span>
-  </div>
+  </p>
 
-  <div class="col-md-4 reponses">
+  <p class="col-md-4 reponses">
     <span class="question">Numéro de distribution spéciale (BP, TSA, etc)</span>
     <span class="valeur">
       {{ usager.numeroDistribution || "Non renseigné" }}
     </span>
-  </div>
-  <div class="col-md-4 reponses">
+  </p>
+  <p class="col-md-4 reponses">
     <span class="question"> Notifications par SMS activés</span>
     <span class="valeur">
       {{ usager.contactByPhone ? "OUI" : "NON" }}
     </span>
-  </div>
+  </p>
 </div>
 
 <div class="row justify-content-start">
@@ -74,13 +74,13 @@
       <p>Aucun ayant-droit enregistré</p>
     </div>
   </div>
-  <div class="col-md-4 reponses" *ngFor="let ayantDroit of usager.ayantsDroits">
+  <p class="col-md-4 reponses" *ngFor="let ayantDroit of usager.ayantsDroits">
     <span class="question"
       >{{ ayantDroit.nom | uppercase }} {{ ayantDroit.prenom }}</span
     >
     <span class="valeur" *ngIf="ayantDroit.lien">
-      {{ ayantDroit.dateNaissance | date : "dd/MM/yyyy" }},
+      {{ ayantDroit.dateNaissance | date : "dd MMMM yyyy" }},
       {{ LIEN_PARENTE_LABELS[ayantDroit.lien] }}
     </span>
-  </div>
+  </p>
 </div>

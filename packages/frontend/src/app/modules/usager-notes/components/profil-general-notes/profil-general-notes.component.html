@@ -18,7 +18,7 @@
       <div class="flex-grow-1 ms-3">
         <div class="note-date">
           <span class="text-primary fw-bold">
-            {{ note.createdAt | date : "dd/MM/yyyy à HH:mm" }} -
+            {{ note.createdAt | date : "dd MMMM yyyy à HH:mm" }} -
             {{ note.createdBy.userName }}
           </span>
           <span class="badge badge-pill bg-primary" *ngIf="note.pinned">

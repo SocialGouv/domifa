@@ -17,7 +17,9 @@
             <strong>{{ usager | usagerNomComplet }}</strong>
             a été envoyée le
             <strong>
-              {{ usager.decision.dateDecision | date : "dd/MM/yyyy à HH:mm" }}.
+              {{
+                usager.decision.dateDecision | date : "dd MMMM yyyy à HH:mm"
+              }}.
             </strong>
             <br />
             La personne référente dans votre structure est invitée à statuer sur
@@ -77,7 +79,8 @@
           Ce dossier a été mis en attente d'une décision par
           <strong>
             {{ usager.decision.userName }}
-            le {{ usager.decision.dateDecision | date : "dd/MM/yyyy à HH:mm" }}
+            le
+            {{ usager.decision.dateDecision | date : "dd MMMM yyyy à HH:mm" }}
           </strong>
         </div>
 

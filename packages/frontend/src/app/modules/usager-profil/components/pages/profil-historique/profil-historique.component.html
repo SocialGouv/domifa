@@ -37,7 +37,7 @@
                   [attr.aria-rowindex]="i + 1"
                 >
                   <td>
-                    {{ histo.dateDecision | date : "dd/MM/yyyy à HH:mm" }}
+                    {{ histo.dateDecision | date : "dd MMMM yyyy à HH:mm" }}
                   </td>
                   <td>
                     {{ USAGER_DECISION_STATUT_LABELS_PROFIL[histo.statut] }}
@@ -46,16 +46,18 @@
                         histo.statut === 'REFUS' || histo.statut === 'RADIE'
                       "
                     >
-                      le {{ histo.dateDebut | date : "dd/MM/yyyy" }}
+                      le {{ histo.dateDebut | date : "dd MMMM yyyy" }}
                     </span>
 
                     <span *ngIf="histo.statut === 'VALIDE'">
                       du
                       <strong>
-                        {{ histo.dateDebut | date : "dd/MM/yyyy" }}
+                        {{ histo.dateDebut | date : "dd MMMM yyyy" }}
                       </strong>
                       au
-                      <strong>{{ histo.dateFin | date : "dd/MM/yyyy" }}</strong>
+                      <strong>{{
+                        histo.dateFin | date : "dd MMMM yyyy"
+                      }}</strong>
                     </span>
                     <div *ngIf="histo.statut === 'RADIE'">
                       {{ histo.motifString }}

@@ -13,7 +13,7 @@
         <a target="_blank" [routerLink]="'/profil/general/' + duplicate.ref">
           <strong>{{ duplicate.nom | uppercase }}</strong>
           {{ duplicate.prenom }}</a
-        >, né(e) le {{ duplicate.dateNaissance | date : "dd/MM/yyyy" }}
+        >, né(e) le {{ duplicate.dateNaissance | date : "dd MMMM yyyy" }}
       </li>
     </ul>
   </div>
