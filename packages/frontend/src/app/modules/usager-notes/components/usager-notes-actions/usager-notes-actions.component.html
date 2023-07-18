@@ -1,4 +1,10 @@
-<div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
+<div
+  class="d-inline-block"
+  ngbDropdown
+  container="body"
+  placement="auto"
+  #myDrop="ngbDropdown"
+>
   <button
     type="button"
     class="btn btn-outline-primary me-2"
@@ -11,7 +17,11 @@
       {{ note.createdAt | date : "dd MMMM yyyy à HH:mm" }}
     </span>
   </button>
-  <div ngbDropdownMenu [attr.aria-labelledby]="'dropDownNote' + note.id">
+  <div
+    ngbDropdownMenu
+    [attr.aria-labelledby]="'dropDownNote' + note.id"
+    container="body"
+  >
     <button
       type="button"
       (click)="pinNote(note)"

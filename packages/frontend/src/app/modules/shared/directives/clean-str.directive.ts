@@ -6,9 +6,6 @@ import { stringCleaner } from "../../../shared/string-cleaner.service";
   selector: "[appCleanStr]",
 })
 export class CleanStrDirective {
-  public regexStr =
-    "^[a-zA-ZÀÁÂÃÄÅàáâãäåÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž 0-9\\'\\-]*$";
-
   constructor(private readonly el: ElementRef) {}
 
   @HostListener("keypress", ["$event"])

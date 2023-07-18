@@ -5,19 +5,16 @@ import {
   REGIONS_LISTE,
 } from "../../../../shared/territoires";
 
-import { AdminStructuresListStructureModel } from "../model";
-
 export const structuresListModelBuilder = { buildStructuresViewModel };
 
 function buildStructuresViewModel(structures: StructureAdminForList[]) {
   const structuresVM = structures.map((structure: StructureAdminForList) => {
-    const structureVM: AdminStructuresListStructureModel = {
+    return {
       ...structure,
       structureTypeLabel: STRUCTURE_TYPE_LABELS[structure.structureType],
       regionLabel: getRegionLabel(structure),
       departementLabel: getDepartementLabel(structure),
     };
-    return structureVM;
   });
 
   return structuresVM;

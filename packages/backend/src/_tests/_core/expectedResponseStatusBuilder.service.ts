@@ -13,12 +13,11 @@ function allowSuperAdminDomifaOnly(
     validExpectedResponseStatus = HttpStatus.OK,
   }: { validExpectedResponseStatus?: HttpStatus } = {}
 ): HttpStatus {
-  const expectedResponseStatus = !user
+  return !user
     ? HttpStatus.UNAUTHORIZED
     : user?.profile === "super-admin-domifa"
     ? validExpectedResponseStatus
     : HttpStatus.FORBIDDEN;
-  return expectedResponseStatus;
 }
 function allowStructureOnly(
   user: AppTestAuthProfile,

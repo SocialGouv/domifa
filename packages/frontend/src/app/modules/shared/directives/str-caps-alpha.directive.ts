@@ -5,9 +5,6 @@ import { generateSender } from "../../structures/utils/generateSender.service";
   selector: "[appStrCapsAlpha]",
 })
 export class StrCapsAlphaDirective {
-  public regexStr =
-    "^[a-zA-ZÀÁÂÃÄÅàáâãäåÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž 0-9\\'\\-]*$";
-
   constructor(private readonly el: ElementRef) {}
 
   @HostListener("keypress", ["$event"])

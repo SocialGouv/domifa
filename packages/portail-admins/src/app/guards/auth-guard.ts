@@ -1,10 +1,5 @@
 import { Injectable } from "@angular/core";
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-} from "@angular/router";
+import { CanActivate, Router } from "@angular/router";
 import { Observable, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { AdminAuthService } from "../modules/admin-auth/services/admin-auth.service";
@@ -16,16 +11,13 @@ export class AuthGuard implements CanActivate {
     private readonly authService: AdminAuthService
   ) {}
 
-  public canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> {
+  public canActivate(): Observable<boolean> {
     return this.authService.isAuth().pipe(
       map((isAuth: boolean) => {
         if (!isAuth) {
           const redirectToAfterLogin =
             window.location.pathname + window.location.search;
-          this.authService.logoutAndRedirect(state, {
+          this.authService.logoutAndRedirect({
             redirectToAfterLogin,
           });
           return false;
@@ -33,7 +25,7 @@ export class AuthGuard implements CanActivate {
         return true;
       }),
       catchError(() => {
-        this.authService.logoutAndRedirect(state);
+        this.authService.logoutAndRedirect();
         return of(false);
       })
     );
