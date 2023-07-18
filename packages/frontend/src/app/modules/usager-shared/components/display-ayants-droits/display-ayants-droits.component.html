@@ -3,7 +3,7 @@
     <div class="p-1" *ngFor="let ayantDroit of usager.ayantsDroits">
       <strong class="text-primary">{{ ayantDroit.nom }}</strong>
       {{ ayantDroit.prenom }}, né(e) le
-      {{ ayantDroit.dateNaissance | date : "dd/MM/yyyy" }} ({{
+      {{ ayantDroit.dateNaissance | date : "dd MMMM yyyy" }} ({{
         LIEN_PARENTE_LABELS[ayantDroit.lien]
       }})
     </div>

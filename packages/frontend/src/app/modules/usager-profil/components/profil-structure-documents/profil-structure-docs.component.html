@@ -27,7 +27,7 @@
         <td>
           {{
             defaultStructureDocs.attestation_postale.createdAt
-              | date : "dd/MM/yyyy"
+              | date : "dd MMMM yyyy"
           }}
         </td>
         <td class="align-middle text-end">
@@ -75,7 +75,7 @@
         <td>
           {{
             defaultStructureDocs.courrier_radiation.createdAt
-              | date : "dd/MM/yyyy"
+              | date : "dd MMMM yyyy"
           }}
         </td>
 
@@ -118,7 +118,7 @@
         <td>{{ document.label }}</td>
         <td>{{ document.createdBy.nom }} {{ document.createdBy.prenom }}</td>
         <td>
-          {{ document.createdAt | date : "dd/MM/yyyy" }}
+          {{ document.createdAt | date : "dd MMMM yyyy" }}
         </td>
         <td class="align-middle text-end">
           <button

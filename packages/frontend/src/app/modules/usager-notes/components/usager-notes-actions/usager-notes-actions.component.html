@@ -8,7 +8,7 @@
     Actions
     <span class="visually-hidden">
       Supprimer, archiver ou épingler la note du
-      {{ note.createdAt | date : "dd/MM/yyyy à HH:mm" }}
+      {{ note.createdAt | date : "dd MMMM yyyy à HH:mm" }}
     </span>
   </button>
   <div ngbDropdownMenu [attr.aria-labelledby]="'dropDownNote' + note.id">

@@ -32,7 +32,8 @@
                     [attr.aria-rowindex]="i + 1"
                   >
                     <td>
-                      Le {{ usager.rdv.dateRdv | date : "dd/MM/yyyy à HH:mm" }}
+                      Le
+                      {{ usager.rdv.dateRdv | date : "dd MMMM yyyy à HH:mm" }}
                     </td>
                     <td>{{ usager.nom }} {{ usager.prenom }}</td>
                     <td class="text-end">
@@ -74,24 +75,24 @@
       </div>
 
       <div *ngIf="!editUser" class="row">
-        <div class="col-md-4 reponses">
+        <p class="col-md-4 reponses">
           <span class="question">PRÉNOM</span>
           <span class="valeur">
             {{ me.prenom }}
           </span>
-        </div>
-        <div class="col-md-4 reponses">
+        </p>
+        <p class="col-md-4 reponses">
           <span class="question">NOM</span>
           <span class="valeur">
             {{ me.nom }}
           </span>
-        </div>
-        <div class="col-md-4 reponses">
+        </p>
+        <p class="col-md-4 reponses">
           <span class="question">EMAIL</span>
           <span class="valeur">
             {{ me.email }}
           </span>
-        </div>
+        </p>
       </div>
 
       <form

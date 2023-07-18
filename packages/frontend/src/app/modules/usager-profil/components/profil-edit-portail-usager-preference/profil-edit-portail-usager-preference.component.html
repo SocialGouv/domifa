@@ -35,14 +35,14 @@
 </div>
 
 <div class="row" *ngIf="!editionInProgress">
-  <div class="col-12 col-md-6 reponses">
+  <p class="col-12 col-md-6 reponses">
     <span class="question"
       >Le demandeur souhaite-t-il avoir accès au portail usager ?</span
     >
     <span class="valeur">
       {{ usager.options?.portailUsagerEnabled ? "OUI" : "NON" }}
     </span>
-  </div>
+  </p>
   <div *ngIf="isLoginToDisplay" class="col-12 col-md-6 reponses">
     <span class="question">Identifants générés</span>
 

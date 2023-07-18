@@ -20,7 +20,7 @@
               </b>
               <br />
               Note épinglée créée le
-              {{ usager.pinnedNote.createdAt | date : "dd/MM/yyyy à HH:mm" }}
+              {{ usager.pinnedNote.createdAt | date : "dd MMMM yyyy à HH:mm" }}
               par {{ usager.pinnedNote.createdBy.userName }}
             </p>
           </div>
@@ -32,7 +32,7 @@
             <div aria-hidden="true" class="svg-icon icon-danger"></div>
             <p>
               Cette personne a été radiée le
-              {{ usager.decision.dateFin | date : "dd/MM/yyyy" }}
+              {{ usager.decision.dateFin | date : "dd MMMM yyyy" }}
               : {{ usager.decision.motifString }}
             </p>
           </div>
@@ -44,7 +44,9 @@
             <p class="text-danger">
               <b
                 >Demande refusée le
-                {{ usager.echeanceInfos.dateToDisplay | date : "dd/MM/yy" }}</b
+                {{
+                  usager.echeanceInfos.dateToDisplay | date : "dd MMMM yyyy"
+                }}</b
               >
               <br />
               {{ usager.decision.motifString }}
@@ -133,7 +135,7 @@
             <p>
               La domiciliation expire le
               <strong>
-                {{ usager.echeanceInfos.dateToDisplay | date : "dd/MM/yyyy" }}
+                {{ usager.echeanceInfos.dateToDisplay | date : "dd MMMM yyyy" }}
               </strong>
             </p>
           </div>
@@ -144,8 +146,8 @@
             <div aria-hidden="true" class="svg-icon icon-danger"></div>
             <p>
               Domiciliation expirée depuis le
-              {{ usager.echeanceInfos.dateToDisplay | date : "dd/MM/yyyy" }}, il
-              y a {{ usager.echeanceInfos.dayBeforeEnd * -1 }} jours
+              {{ usager.echeanceInfos.dateToDisplay | date : "dd MMMM yyyy" }},
+              il y a {{ usager.echeanceInfos.dayBeforeEnd * -1 }} jours
             </p>
           </div>
         </div>
@@ -177,7 +179,7 @@
             <p>
               <strong>Attention : </strong> le transfert de courrier était
               valable jusqu'au
-              {{ usager.options.transfert.dateFin | date : "dd/MM/yyyy" }}
+              {{ usager.options.transfert.dateFin | date : "dd MMMM yyyy" }}
             </p>
           </div>
 
@@ -209,7 +211,7 @@
                     >{{ procuration.nom }} {{ procuration.prenom }}</strong
                   >
                   est active et valable jusqu'au
-                  {{ procuration.dateFin | date : "dd/MM/yyyy" }}
+                  {{ procuration.dateFin | date : "dd MMMM yyyy" }}
                 </p>
               </div>
 
@@ -228,7 +230,7 @@
                     >{{ procuration.nom }} {{ procuration.prenom }}</strong
                   >
                   a expiré le
-                  {{ procuration.dateFin | date : "dd/MM/yyyy" }}
+                  {{ procuration.dateFin | date : "dd MMMM yyyy" }}
                 </p>
               </div>
             </ng-container>
@@ -271,20 +273,22 @@
 
             <div class="col-6 my-1"><span class="label">Échéance</span></div>
             <div class="col-6 my-1">
-              {{ usager.echeanceInfos.dateToDisplay | date : "dd/MM/yyyy" }}
+              {{ usager.echeanceInfos.dateToDisplay | date : "dd MMMM yyyy" }}
             </div>
             <div class="col-6 my-1">
               <span class="label">Dernier passage</span>
             </div>
             <div class="col-6 my-1">
-              {{ usager.lastInteraction.dateInteraction | date : "dd/MM/yyyy" }}
+              {{
+                usager.lastInteraction.dateInteraction | date : "dd MMMM yyyy"
+              }}
             </div>
 
             <div class="col-6 my-1">
               <span class="label">Première domiciliation</span>
             </div>
             <div class="col-6 my-1">
-              {{ usager.datePremiereDom | date : "dd/MM/yyyy" }}
+              {{ usager.datePremiereDom | date : "dd MMMM yyyy" }}
             </div>
             <div class="col-6 my-1">
               <span class="label">Type de domiciliation</span>

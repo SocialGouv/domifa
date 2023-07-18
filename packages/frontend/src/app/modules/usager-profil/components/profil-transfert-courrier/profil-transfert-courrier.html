@@ -45,28 +45,28 @@
     *ngIf="usager.options.transfert.actif && !isFormVisible"
     class="row my-3 justify-content-between align-items-center"
   >
-    <div class="col-12 col-md-3 reponses">
+    <p class="col-12 col-md-3 reponses">
       <span class="question">Nom de l'établissement</span>
       <span class="valeur">{{ usager.options.transfert.nom }}</span>
-    </div>
+    </p>
 
-    <div class="col-12 col-md-3 reponses">
+    <p class="col-12 col-md-3 reponses">
       <span class="question">Adresse</span>
       <span class="valeur">{{ usager.options.transfert.adresse }}</span>
-    </div>
+    </p>
 
-    <div class="col-12 col-md-3 reponses">
+    <p class="col-12 col-md-3 reponses">
       <span class="question">Période de validité</span>
 
       <span class="valeur" *ngIf="usager.options.transfert.dateDebut === null">
-        {{ usager.options.transfert.dateFin | date: 'dd/MM/yyyy' }}
+        {{ usager.options.transfert.dateFin | date: 'dd MMMM yyyy' }}
       </span>
       <span class="valeur" *ngIf="usager.options.transfert.dateDebut">
-        Du {{ usager.options.transfert.dateDebut | date: 'dd/MM/yyyy' }} au {{
-        usager.options.transfert.dateFin | date: 'dd/MM/yyyy' }}
+        Du {{ usager.options.transfert.dateDebut | date: 'dd MMMM yyyy' }} au {{
+        usager.options.transfert.dateFin | date: 'dd MMMM yyyy' }}
       </span>
-    </div>
-    <div class="col-12 col-md-1 text-end">
+    </p>
+    <p class="col-12 col-md-1 text-end">
       <button
         type="button"
         (click)="openConfirmation()"
@@ -75,7 +75,7 @@
       >
         <fa-icon aria-hidden="true" [icon]="['fas', 'trash']"></fa-icon>
       </button>
-    </div>
+    </p>
   </div>
 
   <form

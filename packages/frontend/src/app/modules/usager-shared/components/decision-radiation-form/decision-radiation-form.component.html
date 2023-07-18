@@ -29,7 +29,7 @@
         {{ usager | usagerNomComplet }} né{{
           usager.sexe === "homme" ? "" : "e"
         }}
-        le {{ usager.dateNaissance | date : "dd/MM/yyyy" }}.
+        le {{ usager.dateNaissance | date : "dd MMMM yyyy" }}.
       </strong>
       <br />
       <br />

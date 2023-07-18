@@ -222,7 +222,7 @@
                   [icon]="['fas', 'times']"
                   class="text-danger me-1"
                 ></fa-icon>
-                Expirée le {{procuration.dateFin | date: "dd/MM/yy" }}: {{
+                Expirée le {{procuration.dateFin | date: "dd MMMM yyyy" }}: {{
                 procuration.nom }} {{ procuration.prenom }}
               </span>
             </p>
@@ -254,7 +254,7 @@
 
               <p *ngIf="usager.options.transfert.dateFin <= today">
                 Transfert expiré le {{ usager.options.transfert.dateFin | date:
-                "dd/MM/yy" }}
+                "dd MMMM yyyy" }}
               </p>
             </div>
           </ng-template>
@@ -288,7 +288,7 @@
         tabindex="0"
         (click)="goToProfil(usager)"
       >
-        {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yy" }}
+        {{ usager.lastInteraction.dateInteraction | date: "dd MMMM yyyy" }}
       </td>
       <td class="clickable" *ngIf="filters.statut ==='INSTRUCTION'">
         {{ usager.rdvInfos.content }}
@@ -313,7 +313,7 @@
           </span>
         </ng-container>
         <span *ngIf="usager.echeanceInfos.dateToDisplay">
-          {{ usager.echeanceInfos.dateToDisplay | date: "dd/MM/yy" }}</span
+          {{ usager.echeanceInfos.dateToDisplay | date: "dd MMMM yyyy" }}</span
         >
       </td>
 
