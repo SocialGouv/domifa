@@ -1,3 +1,10 @@
+## [2.131.19](https://github.com/SocialGouv/domifa/compare/v2.131.18...v2.131.19) (2023-07-18)
+
+
+### Bug Fixes
+
+* **deepsource:** fix deepsource issues ([12488cf](https://github.com/SocialGouv/domifa/commit/12488cfff2a3d156916570f601d03f7088d8a3e8))
+
 ## [2.131.18](https://github.com/SocialGouv/domifa/compare/v2.131.17...v2.131.18) (2023-07-18)
 
 
