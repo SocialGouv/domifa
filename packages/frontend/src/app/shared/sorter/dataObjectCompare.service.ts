@@ -140,12 +140,10 @@ function compareComparableObjects<T>(
   return attrs1.reduce((comparison, attr1, i) => {
     if (comparison === 0) {
       const isAsc = (globalAsc && attr1.asc) || (!globalAsc && !attr1.asc);
-      const res = dataCompare.compareAttributes<T>(
-        attr1.value,
-        attrs2[i].value,
-        { asc: isAsc, nullFirst }
-      );
-      return res;
+      return dataCompare.compareAttributes<T>(attr1.value, attrs2[i].value, {
+        asc: isAsc,
+        nullFirst,
+      });
     }
     return comparison;
   }, 0 as DataComparisonResult);

@@ -40,7 +40,7 @@ function getTypeormLoggerOptions(
     if (value.trim() === "false") {
       return false;
     }
-    const values = value
+    return value
       .split(",")
       .map((x) => x.trim())
       .reduce((acc, x) => {
@@ -57,7 +57,6 @@ function getTypeormLoggerOptions(
         }
         return acc;
       }, [] as LoggerOptionValues[]);
-    return values;
   }
   return ["warn"]; // default
 }

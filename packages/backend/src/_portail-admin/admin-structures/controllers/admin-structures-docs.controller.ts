@@ -47,6 +47,6 @@ export class AdminStructuresDocsController {
       docPath: doc.path,
     });
 
-    return res.status(HttpStatus.OK).sendFile(output as string);
+    return res.status(HttpStatus.OK).sendFile(output);
   }
 }

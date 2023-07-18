@@ -25,6 +25,7 @@
           formControlName="message"
           id="message"
           maxlength="1000"
+          appCleanStr
           required
         ></textarea>
         <p *ngIf="submitted && f.message.errors" class="invalid-feedback">

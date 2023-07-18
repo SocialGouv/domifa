@@ -309,12 +309,9 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     options: PgRepositoryFindOptions<T> = {}
   ): (keyof T)[] | undefined {
     const select = options.select ? options.select : defaultSelect;
-    const attributes =
-      select === "ALL"
-        ? undefined // returns all
-        : select;
-
-    return attributes;
+    return select === "ALL"
+      ? undefined // returns all
+      : select;
   }
 
   function _buildSelectAttributesQB(

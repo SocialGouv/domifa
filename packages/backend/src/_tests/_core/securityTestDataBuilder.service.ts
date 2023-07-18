@@ -9,22 +9,19 @@ export const securityTestDataBuilder = {
 };
 
 function getUserStructureId(context: AppTestContext): number {
-  const structureId = context.user?.structureId ?? 1; // user structureId (default to "1" if anonymous)
-  return structureId;
+  return context.user?.structureId ?? 1; // user structureId (default to "1" if anonymous)
 }
 
 function getOtherUserSameStructure(context: AppTestContext): TestUserStructure {
   const structureId = getUserStructureId(context);
-  const user = TESTS_USERS_STRUCTURE.BY_STRUCTURE_ID[structureId]?.find(
+  return TESTS_USERS_STRUCTURE.BY_STRUCTURE_ID[structureId]?.find(
     (x) => x.uuid !== context.user?.userUUID
   );
-  return user;
 }
 
 function getUserOtherStructure(context: AppTestContext): TestUserStructure {
   const structureId = getUserStructureId(context);
-  const user = TESTS_USERS_STRUCTURE.ALL.find(
+  return TESTS_USERS_STRUCTURE.ALL.find(
     (x) => x.uuid !== context.user?.userUUID && x.structureId !== structureId
   );
-  return user;
 }

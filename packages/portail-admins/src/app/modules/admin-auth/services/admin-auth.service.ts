@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Router, RouterStateSnapshot } from "@angular/router";
+import { Router } from "@angular/router";
 import { configureScope } from "@sentry/angular";
 
 import { BehaviorSubject, catchError, map, Observable, of } from "rxjs";
@@ -78,14 +78,11 @@ export class AdminAuthService {
     });
   }
 
-  public logoutAndRedirect(
-    state?: RouterStateSnapshot,
-    {
-      redirectToAfterLogin,
-    }: {
-      redirectToAfterLogin?: string;
-    } = {}
-  ): void {
+  public logoutAndRedirect({
+    redirectToAfterLogin,
+  }: {
+    redirectToAfterLogin?: string;
+  } = {}): void {
     this.logout();
     this.router.navigate(["/auth/login"], {
       queryParams: {

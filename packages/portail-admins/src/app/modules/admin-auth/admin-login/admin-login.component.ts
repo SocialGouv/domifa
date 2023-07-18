@@ -15,7 +15,6 @@ import { AdminAuthService } from "../services/admin-auth.service";
 
 @Component({
   selector: "app-admin-login",
-  styleUrls: ["./admin-login.component.css"],
   templateUrl: "./admin-login.component.html",
 })
 export class AdminLoginComponent implements OnInit {

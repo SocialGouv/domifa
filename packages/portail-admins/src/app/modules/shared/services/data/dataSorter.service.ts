@@ -76,11 +76,10 @@ function sortByAttributes<T>(
 ): T[] {
   return sortMultiple(items, {
     getSortAttributes: (item: T) => {
-      const sortAttributes = attributes.map((attr) => ({
+      return attributes.map((attr) => ({
         value: (item as any)[attr.name],
         type: attr.type,
       }));
-      return sortAttributes;
     },
     asc,
     nullFirst,
