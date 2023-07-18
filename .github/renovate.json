@@ -17,45 +17,37 @@
     "supportPolicy": ["lts_latest"]
   },
   "packageRules": [
-     {
-        "depTypeList": [
-           "dependencies"
-        ],
-        "updateTypes": [
-           "minor"
-        ],
-        "groupName": "all minor dependencies",
-        "groupSlug": "all-minor"
-     },
-     {
-        "depTypeList": [
-           "dependencies"
-        ],
-        "updateTypes": [
-           "patch"
-        ],
-        "groupName": "all patch dependencies",
-        "groupSlug": "all-patch"
-     },
-     {
-        "depTypeList": [
-           "devDependencies"
-        ],
-        "updateTypes": [
-           "minor"
-        ],
-        "groupName": "all minor devDependencies",
-        "groupSlug": "all-minor-dev-tools"
-     },
-     {
-        "depTypeList": [
-           "devDependencies"
-        ],
-        "updateTypes": [
-           "patch"
-        ],
-        "groupName": "all patch devDependencies",
-        "groupSlug": "all-patch-dev-tools"
-     }
+    {
+      "packageNames": [
+        "@fortawesome/angular-fontawesome",
+        "bootstrap",
+        "typescript"
+      ],
+      "enabled": false
+    },
+    {
+      "depTypeList": ["dependencies"],
+      "updateTypes": ["minor"],
+      "groupName": "all minor dependencies",
+      "groupSlug": "all-minor"
+    },
+    {
+      "depTypeList": ["dependencies"],
+      "updateTypes": ["patch"],
+      "groupName": "all patch dependencies",
+      "groupSlug": "all-patch"
+    },
+    {
+      "depTypeList": ["devDependencies"],
+      "updateTypes": ["minor"],
+      "groupName": "all minor devDependencies",
+      "groupSlug": "all-minor-dev-tools"
+    },
+    {
+      "depTypeList": ["devDependencies"],
+      "updateTypes": ["patch"],
+      "groupName": "all patch devDependencies",
+      "groupSlug": "all-patch-dev-tools"
+    }
   ]
 }
