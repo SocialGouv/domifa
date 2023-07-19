@@ -1,3 +1,10 @@
+## [2.131.20](https://github.com/SocialGouv/domifa/compare/v2.131.19...v2.131.20) (2023-07-19)
+
+
+### Bug Fixes
+
+* dockerfile ([2ec81c9](https://github.com/SocialGouv/domifa/commit/2ec81c97435e17a8cc8475893e78128a7d9077a3))
+
 ## [2.131.19](https://github.com/SocialGouv/domifa/compare/v2.131.18...v2.131.19) (2023-07-18)
 
 
