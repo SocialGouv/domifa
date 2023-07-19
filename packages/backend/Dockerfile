@@ -1,7 +1,9 @@
+ARG BASE_IMAGE=node:16.20-bookworm-slim@sha256:ffed502c80d7fdea4138e198f4ff5861bcf193796845b16a290a64d04d5473e7
+
 # ---------------------------------------------------------
 # 1) BUILDER IMAGE
 # ---------------------------------------------------------
-FROM node:16.20-bullseye AS builder
+FROM ${BASE_IMAGE} AS builder
 
 ENV TZ Europe/Paris
 
@@ -25,7 +27,7 @@ RUN yarn build
 # ---------------------------------------------------------
 # 2) FINAL IMAGE
 # ---------------------------------------------------------
-FROM node:16.20-bullseye
+FROM ${BASE_IMAGE}
 
 # install common tools
 ENV CORE_PACKAGES pdftk
@@ -34,7 +36,7 @@ ENV CORE_PACKAGES pdftk
 # install via APT
 RUN apt-get update && \
     apt-get install -q -y -o Acquire::Retries=10 $CORE_PACKAGES && \
-# immediately remove temporary files
+    # immediately remove temporary files
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
