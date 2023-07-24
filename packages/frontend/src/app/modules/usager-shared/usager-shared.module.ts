@@ -42,7 +42,6 @@ import { DisplayAyantsDroitsComponent } from "./components/display-ayants-droits
     SetInteractionOutFormComponent,
     DisplayEntretienComponent,
     ProfilEtatCivilFormComponent,
-
     DisplayUsagerDocsComponent,
     FormatInternationalPhoneNumberPipe,
     EtatCivilParentFormComponent,

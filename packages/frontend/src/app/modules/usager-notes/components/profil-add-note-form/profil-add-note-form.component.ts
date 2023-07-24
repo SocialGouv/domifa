@@ -21,6 +21,7 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerNotesService } from "../../services/usager-notes.service";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 
 @Component({
   animations: [bounce],
@@ -60,7 +61,7 @@ export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
   }
 
   public openAddNoteInModal(): void {
-    this.modalService.open(this.addNoteInModal);
+    this.modalService.open(this.addNoteInModal, DEFAULT_MODAL_OPTIONS);
   }
 
   public ngOnInit(): void {

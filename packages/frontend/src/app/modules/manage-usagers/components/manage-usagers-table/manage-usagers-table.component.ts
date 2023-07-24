@@ -10,14 +10,13 @@ import {
   TemplateRef,
   ViewChild,
 } from "@angular/core";
-import {
-  NgbModal,
-  NgbModalOptions,
-  NgbModalRef,
-} from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "@ngx-matomo/tracker";
 
-import { UserStructure } from "../../../../../_common/model";
+import {
+  DEFAULT_MODAL_OPTIONS,
+  UserStructure,
+} from "../../../../../_common/model";
 import {
   InteractionType,
   InteractionInForApi,
@@ -64,11 +63,6 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
     value: UsagersFilterCriteria[keyof UsagersFilterCriteria] | null;
     sortValue?: UsagersFilterCriteriaSortValues;
   }>();
-
-  public readonly modalOptions: NgbModalOptions = {
-    backdrop: "static",
-    keyboard: true,
-  };
 
   public today: Date;
   private subscription = new Subscription();
@@ -167,12 +161,12 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   }
 
   public openDeleteUsagersModal(): void {
-    this.modalService.open(this.deleteUsagersModal);
+    this.modalService.open(this.deleteUsagersModal, DEFAULT_MODAL_OPTIONS);
   }
 
   public openInteractionInModal(usager: UsagerFormModel) {
     this.selectedUsager = usager;
-    this.modalService.open(this.setInteractionInModal, this.modalOptions);
+    this.modalService.open(this.setInteractionInModal, DEFAULT_MODAL_OPTIONS);
     this.matomo.trackEvent(
       "MANAGE_USAGERS",
       "click",
@@ -183,7 +177,7 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
 
   public openInteractionOutModal(usager: UsagerFormModel) {
     this.selectedUsager = usager;
-    this.modalService.open(this.setInteractionOutModal, this.modalOptions);
+    this.modalService.open(this.setInteractionOutModal, DEFAULT_MODAL_OPTIONS);
     this.matomo.trackEvent(
       "MANAGE_USAGERS",
       "click",

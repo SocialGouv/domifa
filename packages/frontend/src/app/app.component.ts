@@ -226,7 +226,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public openAcceptTermsModal(): void {
     this.modalService.open(this.acceptTermsModal, {
-      backdrop: "static",
+      ...DEFAULT_MODAL_OPTIONS,
       keyboard: false,
     });
   }

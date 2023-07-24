@@ -109,7 +109,6 @@ async function monitorProcess(
           endDate: new Date(),
         }
       );
-    // eslint:disable-next-line: no-unsafe-finally
     return monitoringBatchProcessRepository.save(monitoringBatchProcessEntity);
   }
 }

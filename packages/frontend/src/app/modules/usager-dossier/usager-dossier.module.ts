@@ -9,8 +9,8 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
 
-import { NgbDateCustomParserFormatter } from "../shared/services/date-formatter";
-import { CustomDatepickerI18n } from "../shared/services/date-french";
+import { NgbDateCustomParserFormatter } from "../shared/services/date-formatter.service";
+import { CustomDatepickerI18n } from "../shared/services/date-french.service";
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
 import { UsagerSharedModule } from "../usager-shared/usager-shared.module";

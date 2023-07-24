@@ -82,7 +82,6 @@ export class AuthService {
 
   public logout(): void {
     this.currentUserSubject.next(null);
-
     cacheManager.clearCache();
     localStorage.removeItem("currentUser");
     localStorage.removeItem("MANAGE_USAGERS");

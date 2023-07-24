@@ -13,6 +13,7 @@ import {
   StructureDoc,
   UserStructure,
   DOMIFA_CUSTOM_DOCS,
+  DEFAULT_MODAL_OPTIONS,
 } from "../../../../../_common/model";
 
 import { AuthService } from "../../../shared/services/auth.service";
@@ -82,7 +83,7 @@ export class StructuresCustomDocsComponent implements OnInit, OnDestroy {
 
   public openUploadCustomDocModal(isCustomDoc = false): void {
     this.isCustomDoc = isCustomDoc;
-    this.modalService.open(this.uploadCustomDocModal);
+    this.modalService.open(this.uploadCustomDocModal, DEFAULT_MODAL_OPTIONS);
   }
 
   public ngOnDestroy(): void {
