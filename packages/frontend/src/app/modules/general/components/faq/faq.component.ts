@@ -6,7 +6,7 @@ import { CustomToastService } from "../../../shared/services/custom-toast.servic
 
 @Component({
   selector: "app-faq",
-  styleUrls: ["./faq.component.css"],
+  styleUrls: ["./faq.component.scss"],
   templateUrl: "./faq.component.html",
 })
 export class FaqComponent implements OnInit {

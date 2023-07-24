@@ -17,6 +17,7 @@ import {
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
+  DEFAULT_MODAL_OPTIONS,
   ENTRETIEN_CAUSE_INSTABILITE,
   ENTRETIEN_LIEN_COMMUNE,
   ENTRETIEN_RAISON_DEMANDE,
@@ -103,7 +104,10 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
   public submitEntretien(): void {
     if (this.usager.decision.statut === "INSTRUCTION") {
       if (this.isEmptyForm()) {
-        this.modalService.open(this.entretienConfirmation);
+        this.modalService.open(
+          this.entretienConfirmation,
+          DEFAULT_MODAL_OPTIONS
+        );
         this.loading = false;
         return;
       }

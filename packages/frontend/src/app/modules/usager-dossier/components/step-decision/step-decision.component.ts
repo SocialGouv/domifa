@@ -9,10 +9,6 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 
 import { MatomoTracker } from "@ngx-matomo/tracker";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
-import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 import { CerfaDocType } from "src/_common/model/cerfa";
 
 import { DocumentService } from "../../../usager-shared/services/document.service";
@@ -22,6 +18,12 @@ import { BaseUsagerDossierPageComponent } from "../base-usager-dossier-page/base
 import { Title } from "@angular/platform-browser";
 import { Store } from "@ngrx/store";
 import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
+import {
+  NgbDateCustomParserFormatter,
+  CustomDatepickerI18n,
+  AuthService,
+  CustomToastService,
+} from "../../../shared/services";
 
 @Component({
   providers: [
@@ -30,7 +32,6 @@ import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
   selector: "app-step-decision",
-  styleUrls: ["./step-decision.component.css"],
   templateUrl: "./step-decision.component.html",
 })
 export class StepDecisionComponent

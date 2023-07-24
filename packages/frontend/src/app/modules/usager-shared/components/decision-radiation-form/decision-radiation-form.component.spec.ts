@@ -16,8 +16,8 @@ import { DecisionRadiationFormComponent } from "./decision-radiation-form.compon
 
 import { RouterTestingModule } from "@angular/router/testing";
 
-import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
-import { CustomDatepickerI18n } from "../../../shared/services/date-french";
+import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter.service";
+import { CustomDatepickerI18n } from "../../../shared/services/date-french.service";
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { UsagerFormModel } from "../../interfaces";
 import { StoreModule } from "@ngrx/store";

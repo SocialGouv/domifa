@@ -6,6 +6,7 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import {
+  DEFAULT_MODAL_OPTIONS,
   UserStructure,
   UserStructureProfile,
   UserStructureRole,
@@ -97,7 +98,7 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   }
 
   public open(content: TemplateRef<NgbModalRef>): void {
-    this.modalService.open(content);
+    this.modalService.open(content, DEFAULT_MODAL_OPTIONS);
   }
 
   public closeModal(): void {

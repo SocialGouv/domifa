@@ -1,6 +1,6 @@
 import { inject, TestBed } from "@angular/core/testing";
 
-import { NgbDateCustomParserFormatter } from "./date-formatter";
+import { NgbDateCustomParserFormatter } from "./date-formatter.service";
 describe("NgbDateCustomParserFormatter", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({

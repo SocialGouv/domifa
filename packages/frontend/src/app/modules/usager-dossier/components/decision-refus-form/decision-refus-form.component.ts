@@ -1,5 +1,3 @@
-import { noWhiteSpace } from "./../../../../shared/validators/whitespace.validator";
-import { UsagerFormModel } from "./../../../usager-shared/interfaces/UsagerFormModel";
 import {
   Component,
   EventEmitter,
@@ -16,7 +14,6 @@ import {
 } from "@angular/forms";
 import { Router } from "@angular/router";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   MOTIFS_REFUS_LABELS,
   UsagerDecisionRefusForm,
@@ -26,14 +23,18 @@ import {
   formatDateToNgb,
   minDateToday,
 } from "../../../../shared/bootstrap-util";
-import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
 import { Subscription } from "rxjs";
+import { noWhiteSpace } from "../../../../shared";
+import {
+  NgbDateCustomParserFormatter,
+  CustomToastService,
+} from "../../../shared/services";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 @Component({
   selector: "app-decision-refus-form",
   templateUrl: "./decision-refus-form.component.html",
-  styleUrls: ["./decision-refus-form.component.css"],
 })
 export class DecisionRefusFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;

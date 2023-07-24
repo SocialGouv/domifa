@@ -19,12 +19,14 @@ import {
   StructureStatsFull,
   UserStructure,
 } from "../../../../../_common/model";
-import { AuthService } from "../../../shared/services/auth.service";
-import { CustomToastService } from "../../../shared/services/custom-toast.service";
-import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
-import { CustomDatepickerI18n } from "../../../shared/services/date-french";
 import { StatsService } from "../../services/stats.service";
 import { buildExportStructureStatsFileName } from "./services";
+import {
+  NgbDateCustomParserFormatter,
+  CustomDatepickerI18n,
+  CustomToastService,
+  AuthService,
+} from "../../../shared/services";
 
 @Component({
   providers: [

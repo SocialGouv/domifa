@@ -41,11 +41,13 @@ import {
 } from "../../../../shared";
 import { getFormPhone, setFormPhone } from "../../../shared/phone";
 import { mobilePhoneValidator } from "../../../shared/phone/mobilePhone.validator";
-import { AuthService } from "../../../shared/services/auth.service";
-import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
-import { CustomDatepickerI18n } from "../../../shared/services/date-french";
 
 import { AyantDroit, UsagerFormModel } from "../../interfaces";
+import {
+  NgbDateCustomParserFormatter,
+  CustomDatepickerI18n,
+  AuthService,
+} from "../../../shared/services";
 
 @Component({
   selector: "app-etat-civil-parent-form",
@@ -104,7 +106,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     this.mobilePhonePlaceHolder = "";
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
-    this.maxDateNaissance = formatDateToNgb(new Date()) as NgbDateStruct;
+    this.maxDateNaissance = formatDateToNgb(new Date());
     this.currentUserSubject$ = this.authService.currentUserSubject;
   }
 

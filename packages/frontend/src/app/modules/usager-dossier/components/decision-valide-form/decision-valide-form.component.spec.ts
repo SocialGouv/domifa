@@ -12,8 +12,8 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
-import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
-import { CustomDatepickerI18n } from "../../../shared/services/date-french";
+import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter.service";
+import { CustomDatepickerI18n } from "../../../shared/services/date-french.service";
 import { SharedModule } from "../../../shared/shared.module";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 

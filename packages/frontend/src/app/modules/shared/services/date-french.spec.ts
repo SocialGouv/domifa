@@ -1,5 +1,5 @@
 import { inject, TestBed } from "@angular/core/testing";
-import { CustomDatepickerI18n } from "./date-french";
+import { CustomDatepickerI18n } from "./date-french.service";
 
 describe("CustomDatepickerI18n", () => {
   beforeEach(() => {
