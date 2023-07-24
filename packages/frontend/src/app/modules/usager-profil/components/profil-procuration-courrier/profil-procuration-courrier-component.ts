@@ -31,6 +31,7 @@ import {
   UserStructure,
   UserStructureRole,
   UsagerOptionsProcuration,
+  DEFAULT_MODAL_OPTIONS,
 } from "../../../../../_common/model";
 import {
   endDateAfterBeginDateValidator,
@@ -220,7 +221,7 @@ export class UsagersProfilProcurationCourrierComponent
 
   public openConfirmation(index: number): void {
     this.procurationToDelete = index;
-    this.modalService.open(this.confirmDelete);
+    this.modalService.open(this.confirmDelete, DEFAULT_MODAL_OPTIONS);
   }
 
   public deleteProcurationForm(i: number): void {

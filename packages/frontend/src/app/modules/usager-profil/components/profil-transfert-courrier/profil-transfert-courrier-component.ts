@@ -21,7 +21,11 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "@ngx-matomo/tracker";
 import { Subscription } from "rxjs";
-import { UserStructure, UserStructureRole } from "../../../../../_common/model";
+import {
+  DEFAULT_MODAL_OPTIONS,
+  UserStructure,
+  UserStructureRole,
+} from "../../../../../_common/model";
 import {
   endDateAfterBeginDateValidator,
   formatDateToNgb,
@@ -176,7 +180,7 @@ export class UsagersProfilTransfertCourrierComponent
   }
 
   public openConfirmation(): void {
-    this.modalService.open(this.confirmDelete);
+    this.modalService.open(this.confirmDelete, DEFAULT_MODAL_OPTIONS);
   }
 
   public closeModals(): void {

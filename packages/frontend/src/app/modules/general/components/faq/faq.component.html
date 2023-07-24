@@ -20,8 +20,8 @@
   </div>
 </div>
 
-<div class="content py-3">
-  <div class="container py-3">
+<div class="content py-4">
+  <div class="container py-4">
     <div class="page-content p-3">
       <p>
         Si vos questions concernent les sections ci-dessous, merci de vous
@@ -61,54 +61,64 @@
 
       <nav
         role="navigation"
-        arial-label="Sommaire"
+        aria-label="Sommaire de la foire aux questions"
         class="menu-faq text-center mb-5"
       >
-        <ul>
-          <li
-            tabindex="0"
-            class="btn btn-outline-primary"
-            (click)="scrollTo(ladom)"
-          >
-            La domiciliation
+        <ol>
+          <li>
+            <a
+              class="btn btn-outline-primary"
+              routerLink="/faq"
+              fragment="faq-ladom"
+            >
+              La domiciliation
+            </a>
           </li>
-          <li
-            tabindex="0"
-            class="btn btn-outline-primary"
-            (click)="scrollTo(faqdomifa)"
-          >
-            Le projet DomiFa
+          <li>
+            <a
+              class="btn btn-outline-primary"
+              routerLink="/faq"
+              fragment="faq-domifa"
+            >
+              Le projet DomiFa
+            </a>
           </li>
-          <li
-            tabindex="0"
-            class="btn btn-outline-primary"
-            (click)="scrollTo(domiciliation)"
-          >
-            La sécurité des données
+          <li>
+            <a
+              class="btn btn-outline-primary"
+              routerLink="/faq"
+              fragment="faq-domiciliation"
+            >
+              La sécurité des données
+            </a>
           </li>
-          <li
-            tabindex="0"
-            class="btn btn-outline-primary"
-            (click)="scrollTo(features)"
-          >
-            Les fonctionnalités
+          <li>
+            <a
+              class="btn btn-outline-primary"
+              routerLink="/faq"
+              fragment="faq-fonctionnalites"
+            >
+              Les fonctionnalités
+            </a>
           </li>
-          <li
-            tabindex="0"
-            class="btn btn-outline-primary"
-            (click)="scrollTo(videos)"
-          >
-            Les tutoriels vidéo
+          <li>
+            <a
+              class="btn btn-outline-primary"
+              routerLink="/faq"
+              fragment="faq-videos"
+            >
+              Les tutoriels vidéo
+            </a>
           </li>
-        </ul>
+        </ol>
       </nav>
 
-      <div id="faq-ladom" class="mt-3" #ladom>
+      <div id="faq-ladom" class="py-2">
         <h2>La domiciliation</h2>
 
         <h3>
           Qui puis-je contacter, en cas de questions métiers sur la
-          domiciliation ?
+          domiciliation?
         </h3>
         <p>
           Pour comprendre ce qu'est la domiciliation, comment la demander et à
@@ -136,7 +146,7 @@
           de l'emploi, du travail et des solidarités
         </p>
       </div>
-      <div id="faq-domifa" class="pt-5" #faqdomifa>
+      <div id="faq-domifa" class="py-2">
         <h2>Le projet DomiFa</h2>
 
         <h3>Quand et par qui le projet a-t-il été créé ?</h3>
@@ -174,8 +184,7 @@
           agréé (associations, hôpitaux…).
         </p>
       </div>
-
-      <div #domiciliation id="faq-domiciliation" class="py-2">
+      <div id="faq-domiciliation" class="py-2">
         <h2>La sécurité des données</h2>
 
         <h3>DomiFa est-il en conformité avec le RGPD ?</h3>
@@ -369,8 +378,7 @@
           données.
         </p>
       </div>
-
-      <div #features id="faq-fonctionnalites" class="py-3">
+      <div id="faq-fonctionnalites" class="py-2">
         <h2>Les fonctionnalités</h2>
 
         <h3>L’inscription</h3>
@@ -473,8 +481,7 @@
           conserver ou non le registre de signature papier existant.
         </p>
       </div>
-
-      <div #videos id="faq-videos">
+      <div id="faq-videos">
         <h2 class="mt-2">Tutoriels vidéos</h2>
         <p>
           Voici quelques vidéos qui vous aideront à utiliser DomiFa au mieux.

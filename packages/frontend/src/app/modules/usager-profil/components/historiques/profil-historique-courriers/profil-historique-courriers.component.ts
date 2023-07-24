@@ -10,6 +10,7 @@ import {
 
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
+  DEFAULT_MODAL_OPTIONS,
   InteractionEvent,
   UserStructure,
 } from "../../../../../../_common/model";
@@ -96,7 +97,8 @@ export class ProfilHistoriqueCourriersComponent implements OnInit, OnDestroy {
     this.modalService.open(
       restoreOrDelete === "delete"
         ? this.deleteInteractionModal
-        : this.restoreInteractionModal
+        : this.restoreInteractionModal,
+      DEFAULT_MODAL_OPTIONS
     );
   }
 
