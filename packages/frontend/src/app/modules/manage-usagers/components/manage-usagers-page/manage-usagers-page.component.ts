@@ -148,8 +148,8 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     private readonly usagerService: ManageUsagersService,
     private readonly authService: AuthService,
     private readonly titleService: Title,
-    public matomo: MatomoTracker,
-    public store: Store
+    private readonly store: Store,
+    public matomo: MatomoTracker
   ) {
     this.selectedRefs = [];
 
@@ -295,6 +295,8 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
         this.applyFilters({ filters, allUsagersByStatus });
       })
     );
+
+    this.loadTallyScript();
   }
 
   public chargerTousRadies(): void {
@@ -499,6 +501,19 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   private getFilters(): null | Partial<UsagersFilterCriteria> {
     const filters = localStorage.getItem("MANAGE_USAGERS");
     return filters === null ? {} : JSON.parse(filters);
+  }
+
+  private loadTallyScript(): void {
+    if (window["Tally"]) {
+      window["Tally"].openPopup("31k1RO", {
+        layout: "popup",
+        emoji: {
+          text: "👋",
+          animation: "wave",
+        },
+        doNotShowAfterSubmit: true,
+      });
+    }
   }
 
   @HostListener("window:scroll", ["$event"])
