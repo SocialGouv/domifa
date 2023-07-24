@@ -1,3 +1,11 @@
+## [2.132.1](https://github.com/SocialGouv/domifa/compare/v2.132.0...v2.132.1) (2023-07-24)
+
+
+### Bug Fixes
+
+* **sonarcloud:** amélioration des perfs et résultats sonarcloud ([9e73fd5](https://github.com/SocialGouv/domifa/commit/9e73fd5228995f367ca3d372cdfa445ce864b9d9))
+* **sonarcloud:** améliorations pour réduire le score sonarcloud ([5ad4568](https://github.com/SocialGouv/domifa/commit/5ad456826cb4ab8b7741fccbe28ba74557168489))
+
 # [2.132.0](https://github.com/SocialGouv/domifa/compare/v2.131.20...v2.132.0) (2023-07-24)
 
 
