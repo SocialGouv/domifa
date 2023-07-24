@@ -21,20 +21,25 @@ ENV DOMIFA_FRONTEND_META_ROBOTS=$DOMIFA_FRONTEND_META_ROBOTS
 
 WORKDIR /app
 
-COPY ./packages/frontend .
-COPY ./yarn.lock .
+COPY package.json yarn.lock ./
+COPY packages/common ./packages/common
+COPY packages/frontend ./packages/frontend
+
+RUN yarn --frozen-lockfile --prefer-offline --non-interactive && yarn cache clean
+RUN yarn --cwd=packages/common build
 
 # index.html for robots
 # replace environment variables
+WORKDIR /app/packages/frontend
+
 RUN envsubst < ./src/index.html > ./src/index-env.html
 RUN mv ./src/index-env.html ./src/index.html
 # environment.prod.ts
 RUN envsubst < ./src/environments/environment.prod.ts > ./src/environments/environment.prod-env.ts
 RUN mv ./src/environments/environment.prod-env.ts ./src/environments/environment.prod.ts
 
-RUN yarn --frozen-lockfile && yarn cache clean
-RUN yarn build
+RUN yarn build --verbose --configuration=production
 
 FROM ghcr.io/socialgouv/docker/nginx4spa:8.1.0
 
-COPY --from=builder --chown=101:101 /app/dist/domifa /usr/share/nginx/html
+COPY --from=builder --chown=101:101 /app/packages/frontend/dist/domifa /usr/share/nginx/html

@@ -83,7 +83,7 @@ describe("Création des rendez-vous", () => {
       display: false,
     });
 
-    expect(getRdvInfos(undefined)).toEqual({
+    expect(getRdvInfos()).toEqual({
       class: "",
       content: "",
       display: false,
