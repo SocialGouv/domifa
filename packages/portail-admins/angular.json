@@ -33,15 +33,22 @@
               "src/assets/css/icons.css",
               "src/assets/css/forms.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "aot": false,
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": true,
+            "namedChunks": true
           },
           "configurations": {
             "analyze": {
               "sourceMap": true,
-              "namedChunks": true,
               "outputHashing": "all"
             },
             "production": {
+              "sourceMap": false,
               "budgets": [
                 {
                   "type": "initial",
