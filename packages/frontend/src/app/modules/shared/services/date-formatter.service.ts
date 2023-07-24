@@ -49,11 +49,14 @@ export class NgbDateCustomParserFormatter extends NgbDateParserFormatter {
   }
 
   public formatEn(date: NgbDateStruct): string {
-    return date === null
-      ? ""
-      : `${date.year}-${isNumber(date.month) ? padNumber(date.month) : ""}-${
-          isNumber(date.day) ? padNumber(date.day) : ""
-        }`;
+    if (!date) {
+      return "";
+    }
+
+    const month = isNumber(date.month) ? padNumber(date.month) : "";
+    const day = isNumber(date.day) ? padNumber(date.day) : "";
+
+    return `${date.year}-${month}-${day}`;
   }
 
   public isValid(date: NgbDateStruct): boolean {

@@ -36,7 +36,7 @@ export const getPostalCodeValidator = (
 export function codePostalValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const postalCode = control.value;
-    const testCode = RegExp(/^[0-9][0-9AB][0-9]{3}$/).test(postalCode);
+    const testCode = RegExp(/^\d[0-9AB]\d{3}$/).test(postalCode);
     if (testCode) {
       try {
         const departement =

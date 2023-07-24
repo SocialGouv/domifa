@@ -13,7 +13,7 @@ function clean(str: string): string {
 
 function buildWords(searchText: string): string[] {
   const str = searchText ? clean(searchText) : undefined;
-  if (!str || !str.length) {
+  if (!str?.length) {
     return [];
   }
   return str

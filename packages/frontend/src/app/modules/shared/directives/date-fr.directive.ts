@@ -52,7 +52,7 @@ export class DateFrDirective {
 
     if (e.key === "/") {
       if (
-        dateValue.substring(dateValue.length - 1) === "/" ||
+        dateValue.endsWith("/") ||
         (dateValue.length !== 2 && dateValue.length !== 5)
       ) {
         e.preventDefault();
@@ -71,13 +71,20 @@ export class DateFrDirective {
       }
     }
   }
-
   @HostListener("paste", ["$event"])
   public onPaste(event: ClipboardEvent) {
     event.preventDefault();
     const pastedInput: string = event.clipboardData
       ? event.clipboardData.getData("text/plain").replace(/[^0-9/-]+/g, "")
       : "";
-    document.execCommand("insertText", false, pastedInput);
+
+    const focusedElement = document.activeElement as HTMLElement;
+
+    if (
+      focusedElement instanceof HTMLInputElement ||
+      focusedElement instanceof HTMLTextAreaElement
+    ) {
+      focusedElement.value += pastedInput;
+    }
   }
 }

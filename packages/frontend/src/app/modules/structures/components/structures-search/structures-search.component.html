@@ -12,8 +12,6 @@
           <h2 class="title">
             Je suis domicilié dans un CCAS, un CIAS ou une association
           </h2>
-          <br />
-          <br />
           <p>
             Cliquez sur le lien ci-dessous pour savoir si vous avez du courrier
             à récupérer
@@ -85,7 +83,7 @@
                   aria-hidden="true"
                   class="me-2"
                 ></fa-icon>
-                Code postal incorrect
+                Code postal incorrect. Exemple: 75001
               </p>
 
               <button
@@ -115,11 +113,7 @@
           </form>
         </div>
 
-        <div
-          class="text-center"
-          *ngIf="searchFailed && structures.length === 0"
-        >
-          <br />
+        <p class="text-center" *ngIf="searchFailed && structures.length === 0">
           <strong class="text-danger">
             Aucune structure n'est enregistrée dans votre ville.
           </strong>
@@ -140,21 +134,18 @@
               class="me-2"
             ></fa-icon>
           </a>
-        </div>
+        </p>
         <div class="text-center" *ngIf="structures.length > 0">
-          <br />
-          <strong>
+          <p class="fw-bold">
             Si vous appartenez à l’une de ces structures, un membre de celle-ci
             doit vous donner accès :
-          </strong>
-          <div class="card" *ngFor="let structure of structures">
-            <span>
-              <strong class="text-primary">{{ structure.nom }}</strong>
-              <br />
-              {{ structure.adresse }},
-              <i>{{ structure.codePostal }}, {{ structure.ville }}</i>
-            </span>
-          </div>
+          </p>
+          <p class="card p-2 my-2" *ngFor="let structure of structures">
+            <b class="text-primary">{{ structure.nom }}</b>
+
+            {{ structure.adresse }}, {{ structure.codePostal }},
+            {{ structure.ville }}
+          </p>
           <br />
           <p>
             Si votre structure n'est pas dans la liste,

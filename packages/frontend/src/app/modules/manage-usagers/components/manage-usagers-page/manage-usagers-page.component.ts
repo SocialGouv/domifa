@@ -507,6 +507,8 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     if (window["Tally"]) {
       window["Tally"].openPopup("31k1RO", {
         layout: "popup",
+        overlay: true,
+        showOnce: true,
         emoji: {
           text: "👋",
           animation: "wave",

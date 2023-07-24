@@ -76,7 +76,7 @@
             class="invalid-feedback"
             id="date-debut-errors"
           >
-            La date de début de domiciliation est incorrecte
+            La date de debut est incorrecte, exemple: 20/12/1996
           </p>
         </div>
         <div class="form-group col-12 col-md-6 required">
@@ -124,19 +124,20 @@
             </button>
           </div>
 
-          <div class="text-center text-danger col-12" id="date-fin-errors">
-            <p *ngIf="showDurationWarning">
-              <strong class="warning-end-dom"
-                ><fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'exclamation-triangle']"
-                ></fa-icon>
-                D'après la réglementation, une attestation de domiciliation doit
-                être valable pendant un an.</strong
-              >
+          <div
+            class="text-center text-danger invalid-feedback"
+            id="date-fin-errors"
+          >
+            <p *ngIf="showDurationWarning" class="fw-bold">
+              <fa-icon
+                aria-hidden="true"
+                [icon]="['fas', 'exclamation-triangle']"
+              ></fa-icon>
+              D'après la réglementation, une attestation de domiciliation doit
+              être valable pendant un an.
             </p>
             <p *ngIf="v.dateFin.errors">
-              La date de fin est incorrecte. Format attendu: jj/mm/aaaa
+              La date de fin est incorrecte, exemple: 20/12/1996
             </p>
             <p *ngIf="v.dateDebut.value > v.dateFin.value">
               La date de fin doit être supérieure à la date de début

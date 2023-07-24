@@ -266,7 +266,7 @@
                 class="invalid-feedback"
                 [id]="'date-debut-errors-'+i"
               >
-                La date de debut est incorrecte
+                La date de debut est incorrecte. Exemple : 20/12/1996
               </p>
             </div>
           </div>
@@ -320,12 +320,13 @@
                 [id]="'date-fin-errors-'+i"
               >
                 <p *ngIf="form.controls[i].get('dateFin')?.errors?.required">
-                  La date de fin est obligatoire
+                  La date de fin est obligatoire. Exemple : 20/12/1996
                 </p>
                 <p
                   *ngIf="form.controls[i].get('dateFin')?.errors?.ngbDate || form.controls[i].get('dateFin')?.errors?.endDateAfterBeginDate"
                 >
-                  La date de fin est incorrecte
+                  La date de fin est incorrecte, vérifiez la cohérence avec la
+                  date de début
                 </p>
               </div>
             </div>

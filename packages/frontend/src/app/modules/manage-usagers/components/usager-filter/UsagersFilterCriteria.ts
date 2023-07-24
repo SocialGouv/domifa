@@ -50,17 +50,17 @@ export class UsagersFilterCriteria {
   public searchInProcurations = true;
 
   constructor(search?: Partial<UsagersFilterCriteria> | null) {
-    this.interactionType = (search && search.interactionType) || null;
-    this.passage = (search && search.passage) || null;
-    this.entretien = (search && search.entretien) || null;
-    this.echeance = (search && search.echeance) || null;
-    this.searchString = (search && search.searchString) || null;
-    this.searchStringField = (search && search.searchStringField) || "DEFAULT";
-    this.statut = (search && search.statut) || "VALIDE";
-    this.page = (search && search.page) || 0;
+    this.interactionType = search?.interactionType || null;
+    this.passage = search?.passage || null;
+    this.entretien = search?.entretien || null;
+    this.echeance = search?.echeance || null;
+    this.searchString = search?.searchString || null;
+    this.searchStringField = search?.searchStringField || "DEFAULT";
+    this.statut = search?.statut || "VALIDE";
+    this.page = search?.page || 0;
 
-    this.sortKey = (search && search.sortKey) || "NAME";
-    this.sortValue = (search && search.sortValue) || "ascending";
+    this.sortKey = search?.sortKey || "NAME";
+    this.sortValue = search?.sortValue || "ascending";
 
     // Ne pas trier par autre que les nom & ID si on est sur TOUS
     if (this.statut === "TOUS") {

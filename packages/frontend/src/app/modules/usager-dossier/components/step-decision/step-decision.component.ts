@@ -44,13 +44,13 @@ export class StepDecisionComponent
   public editPJ: boolean;
 
   constructor(
-    public authService: AuthService,
-    public usagerDossierService: UsagerDossierService,
-    public titleService: Title,
-    public toastService: CustomToastService,
-    public route: ActivatedRoute,
-    public router: Router,
-    public store: Store,
+    protected readonly authService: AuthService,
+    protected readonly usagerDossierService: UsagerDossierService,
+    protected readonly titleService: Title,
+    protected readonly toastService: CustomToastService,
+    protected readonly route: ActivatedRoute,
+    protected readonly router: Router,
+    protected readonly store: Store,
     private readonly usagerDecisionService: UsagerDecisionService,
     private readonly modalService: NgbModal,
     private readonly matomo: MatomoTracker,

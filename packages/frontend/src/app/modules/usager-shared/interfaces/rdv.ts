@@ -13,12 +13,9 @@ export class Rdv implements UsagerRdv {
 
   constructor(rdv?: UsagerRdv | null) {
     this.isNow = true;
-
     this.userId = rdv?.userId || null;
     this.userName = rdv?.userName || null;
-
     this.dateRdv = rdv?.dateRdv ? new Date(rdv.dateRdv) : new Date();
-
     this.jourRdv = formatDateToNgb(this.dateRdv);
     this.heureRdv = format(this.dateRdv, "HH:mm");
 

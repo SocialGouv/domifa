@@ -14,13 +14,13 @@ import { BaseUsagerDossierPageComponent } from "../base-usager-dossier-page/base
 })
 export class StepDocumentsComponent extends BaseUsagerDossierPageComponent {
   constructor(
-    public authService: AuthService,
-    public usagerDossierService: UsagerDossierService,
-    public titleService: Title,
-    public toastService: CustomToastService,
-    public route: ActivatedRoute,
-    public router: Router,
-    public store: Store
+    protected readonly authService: AuthService,
+    protected readonly usagerDossierService: UsagerDossierService,
+    protected readonly titleService: Title,
+    protected readonly toastService: CustomToastService,
+    protected readonly route: ActivatedRoute,
+    protected readonly router: Router,
+    protected readonly store: Store
   ) {
     super(
       authService,

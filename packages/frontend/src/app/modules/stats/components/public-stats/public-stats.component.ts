@@ -42,7 +42,7 @@ export class PublicStatsComponent implements OnInit, OnDestroy {
     separator: " ",
   };
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   public statsByRegion!: StatsByLocality;
   public statsRegionsValues: { [key: string]: number };
   public distributionRate: number;

@@ -22,7 +22,7 @@ import { Subscription } from "rxjs";
   animations: [bounce],
   selector: "app-set-interaction-in-form",
   templateUrl: "./set-interaction-in-form.component.html",
-  styleUrls: ["./set-interaction-in-form.component.css", "../interactions.css"],
+  styleUrls: ["../interactions.css"],
 })
 export class SetInteractionInFormComponent implements OnDestroy {
   @Input() public usager!: UsagerFormModel;

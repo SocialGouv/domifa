@@ -22,8 +22,6 @@ import {
 } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
-import { Store } from "@ngrx/store";
-
 @Component({
   animations: [fadeInOut],
   providers: [
@@ -43,12 +41,11 @@ export class StepEtatCivilComponent
 
   constructor(
     public formBuilder: UntypedFormBuilder,
-    public usagerDossierService: UsagerDossierService,
     public authService: AuthService,
-    public route: ActivatedRoute,
-    public router: Router,
-    public toastService: CustomToastService,
-    public store: Store
+    private readonly usagerDossierService: UsagerDossierService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly toastService: CustomToastService
   ) {
     super(formBuilder, authService);
     this.duplicates = [];

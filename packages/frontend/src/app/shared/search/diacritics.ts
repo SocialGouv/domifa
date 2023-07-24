@@ -385,10 +385,10 @@ const diacriticsList: {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const diacriticsMap: any = {};
-for (let i = 0; i < diacriticsList.length; i++) {
-  const letters: string[] = diacriticsList[i].letters.split("");
-  for (let j = 0; j < letters.length; j++) {
-    diacriticsMap[letters[j]] = diacriticsList[i].base;
+for (const diacritic of diacriticsList) {
+  const letters: string[] = diacritic.letters.split("");
+  for (const letter of letters) {
+    diacriticsMap[letter] = diacritic.base;
   }
 }
 

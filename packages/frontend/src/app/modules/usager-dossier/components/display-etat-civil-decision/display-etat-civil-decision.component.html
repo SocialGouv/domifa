@@ -1,53 +1,53 @@
 <ng-container *ngIf="usager && section === 'ETAT_CIVIL'">
-  <div class="py-1">
+  <p class="my-2">
     <span class="fw-bold">{{ usager.prenom }} {{ usager.nom }}</span>
     ({{ usager.sexe | titlecase }})
-  </div>
-  <div class="py-1">
+  </p>
+  <p class="my-2">
     Né{{ usager.sexe === "homme" ? "" : "e" }} le
     <span class="fw-bold">{{
       usager.dateNaissance | date : "dd MMMM yyyy"
     }}</span>
     à
     <span class="fw-bold">{{ usager.villeNaissance | titlecase }}</span>
-  </div>
+  </p>
 
-  <div class="py-1">
+  <p class="my-2">
     Langue parlée:
     <span class="valeur" *ngIf="usager.langue">{{
       languagesAutocomplete.formatter(usager.langue)
     }}</span>
     <span class="valeur" *ngIf="!usager.langue">Non renseigné</span>
-  </div>
-  <div class="py-1">
+  </p>
+  <p class="my-2">
     <span class="valeur">Numéro de distribution spéciale (BP, TSA, etc):</span>
     <span>
       {{ usager.numeroDistribution || "Non renseigné" }}
     </span>
-  </div>
+  </p>
 
   <div class="my-4">
     <div class="py-2 text-primary fw-bold">Contact</div>
-    <div class="py-1">
+    <p class="my-2">
       <b>Téléphone:</b>
       <span class="valeur" *ngIf="usager.telephone.numero">{{
         usager.telephone | formatInternationalPhoneNumber
       }}</span>
       <span class="valeur" *ngIf="!usager.telephone.numero">Non renseigné</span>
-    </div>
-    <div class="py-1">
+    </p>
+    <p class="my-2">
       <b>Adresse e-mail:</b>
       <span *ngIf="usager.email">
         {{ usager.email }}
       </span>
       <span *ngIf="!usager.email">Non renseigné</span>
-    </div>
-    <div class="py-1">
+    </p>
+    <p class="my-2">
       <b>Notifications par SMS activés: </b>
       <span>
         {{ usager.contactByPhone ? "oui" : "non" }}
       </span>
-    </div>
+    </p>
   </div>
 </ng-container>
 

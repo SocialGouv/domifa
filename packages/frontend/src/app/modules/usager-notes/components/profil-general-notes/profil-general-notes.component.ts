@@ -14,11 +14,11 @@ import { Store } from "@ngrx/store";
 })
 export class ProfilGeneralNotesComponent extends BaseUsagerNotesComponent {
   constructor(
-    public usagerNotesService: UsagerNotesService,
-    public modalService: NgbModal,
-    public toastService: CustomToastService,
-    public authService: AuthService,
-    public store: Store
+    protected readonly usagerNotesService: UsagerNotesService,
+    protected readonly modalService: NgbModal,
+    protected readonly toastService: CustomToastService,
+    protected readonly authService: AuthService,
+    protected readonly store: Store
   ) {
     super(usagerNotesService, modalService, toastService, authService, store);
   }
