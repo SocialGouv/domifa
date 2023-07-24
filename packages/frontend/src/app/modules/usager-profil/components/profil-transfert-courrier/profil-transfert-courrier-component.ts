@@ -21,20 +21,20 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "@ngx-matomo/tracker";
 import { Subscription } from "rxjs";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { UserStructure, UserStructureRole } from "../../../../../_common/model";
 import {
   endDateAfterBeginDateValidator,
+  formatDateToNgb,
+  minDateToday,
   noWhiteSpace,
 } from "../../../../shared";
 import {
-  formatDateToNgb,
-  minDateToday,
-} from "../../../../shared/bootstrap-util";
-import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
-import { CustomDatepickerI18n } from "../../../shared/services/date-french";
+  NgbDateCustomParserFormatter,
+  CustomDatepickerI18n,
+  CustomToastService,
+} from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
-import { UsagerOptionsService } from "./../../services/usager-options.service";
+import { UsagerOptionsService } from "../../services/usager-options.service";
 
 @Component({
   providers: [

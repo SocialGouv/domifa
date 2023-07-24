@@ -26,7 +26,7 @@ import {
 import { MatomoTracker } from "@ngx-matomo/tracker";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
+import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter.service";
 import {
   UserStructure,
   UserStructureRole,
@@ -42,7 +42,7 @@ import {
   formatDateToNgb,
 } from "../../../../shared/bootstrap-util";
 
-import { CustomDatepickerI18n } from "../../../shared/services/date-french";
+import { CustomDatepickerI18n } from "../../../shared/services/date-french.service";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerProcuration } from "../../../usager-shared/interfaces/UsagerProcuration.interface";
 import { UsagerOptionsService } from "../../services/usager-options.service";

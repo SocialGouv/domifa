@@ -15,10 +15,6 @@ import {
   NgbDatepickerI18n,
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
-import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 
 import {
   UserStructure,
@@ -45,6 +41,12 @@ import { Title } from "@angular/platform-browser";
 import { Store } from "@ngrx/store";
 import { BaseUsagerDossierPageComponent } from "../base-usager-dossier-page/base-usager-dossier-page.component";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
+import {
+  NgbDateCustomParserFormatter,
+  CustomDatepickerI18n,
+  AuthService,
+  CustomToastService,
+} from "../../../shared/services";
 
 @Component({
   animations: [fadeInOut],
