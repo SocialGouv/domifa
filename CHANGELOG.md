@@ -1,3 +1,10 @@
+# [2.132.0](https://github.com/SocialGouv/domifa/compare/v2.131.20...v2.132.0) (2023-07-24)
+
+
+### Features
+
+* **general:** ajout de tally pour récolter des feedbacks ([82be1d2](https://github.com/SocialGouv/domifa/commit/82be1d2e4f9477c6b838eff297420af2ada2ab42))
+
 ## [2.131.20](https://github.com/SocialGouv/domifa/compare/v2.131.19...v2.131.20) (2023-07-19)
 
 
