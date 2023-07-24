@@ -1,24 +1,24 @@
-.page-footer {
+footer {
   width: 100%;
   border-top: 1px solid #e6e6e6;
 }
 
-.page-footer img.ministere-logo {
+footer img.ministere-logo {
   max-height: 110px;
   width: auto;
 }
 
-.page-footer img {
+footer img {
   width: 200px;
   height: auto;
 }
 
-.page-footer ul {
+footer ul {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
-.page-footer li {
+footer li {
   padding: 0.25rem 0;
 }
 

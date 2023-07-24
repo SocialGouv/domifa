@@ -7,13 +7,12 @@ export class AyantDroit implements UsagerAyantDroit {
   public prenom: string;
 
   constructor(ayantDroit?: UsagerAyantDroit) {
-    this.nom = (ayantDroit && ayantDroit.nom) || "";
-    this.prenom = (ayantDroit && ayantDroit.prenom) || "";
-    this.dateNaissance =
-      ayantDroit && ayantDroit.dateNaissance
-        ? new Date(ayantDroit.dateNaissance)
-        : new Date();
+    this.nom = ayantDroit?.nom ?? "";
+    this.prenom = ayantDroit?.prenom ?? "";
+    this.dateNaissance = ayantDroit?.dateNaissance
+      ? new Date(ayantDroit.dateNaissance)
+      : new Date();
 
-    this.lien = (ayantDroit && ayantDroit.lien) || "AUTRE";
+    this.lien = ayantDroit?.lien ?? "AUTRE";
   }
 }

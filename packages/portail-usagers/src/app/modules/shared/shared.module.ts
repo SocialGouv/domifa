@@ -4,7 +4,7 @@ import { NgModule } from "@angular/core";
 import { UsagerNomCompletPipe } from "./pipes/usager-nom-complet.pipe";
 
 import { FormatInternationalPhoneNumberPipe } from "./pipes/formatInternationalPhoneNumber.pipe";
-import { FormatBigNumberPipe } from "./pipes/formatBigNumber.pipe";
+
 import {
   FaIconLibrary,
   FontAwesomeModule,
@@ -16,13 +16,11 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
   declarations: [
     UsagerNomCompletPipe,
     FormatInternationalPhoneNumberPipe,
-    FormatBigNumberPipe,
     CustomToastrComponent,
   ],
   exports: [
     UsagerNomCompletPipe,
     FormatInternationalPhoneNumberPipe,
-    FormatBigNumberPipe,
     CustomToastrComponent,
   ],
   imports: [CommonModule, FontAwesomeModule],

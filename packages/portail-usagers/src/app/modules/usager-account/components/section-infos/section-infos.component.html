@@ -11,10 +11,10 @@
         "
       >
         <div aria-hidden="true" class="svg-icon icon-calendar"></div>
-        <div>
+        <p>
           Votre demande de renouvellement est actuellement en attente d'une
           décision
-        </div>
+        </p>
       </div>
       <div
         class="alert"
@@ -44,12 +44,11 @@
         "
       >
         <div aria-hidden="true" class="svg-icon icon-danger"></div>
-        <div>
+        <p>
           Domiciliation expirée depuis le
-
           {{ echeanceInfos.dateToDisplay | date : "dd/MM/yyyy" }}, il y a
           {{ echeanceInfos.dayBeforeEnd * -1 }} jours
-        </div>
+        </p>
       </div>
     </div>
 

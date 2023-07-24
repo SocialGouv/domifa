@@ -5,12 +5,9 @@ export class UsagerNomCompletPipe implements PipeTransform {
   transform(
     usager: Pick<PortailUsagerPublic, "nom" | "prenom" | "sexe">,
   ): string {
-    const nomComplet = usager
-      ? (usager.sexe === "homme" ? "M. " : "Mme ") +
-        usager.prenom +
-        " " +
-        usager.nom.toUpperCase()
+    const prefix = usager.sexe === "homme" ? "M. " : "Mme ";
+    return usager
+      ? prefix + usager.prenom + " " + usager.nom.toUpperCase()
       : "";
-    return nomComplet;
   }
 }

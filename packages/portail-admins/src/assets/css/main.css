@@ -160,16 +160,16 @@ html {
   display: inline-block;
 }
 
-.page-footer {
+footer {
   width: 100%;
   border-top: 1px solid #e6e6e6;
 }
 
-.page-footer img.ministere-logo {
+footer img.ministere-logo {
   max-height: 100px;
   width: auto;
 }
-.page-footer .menu-breadcrumb {
+footer .menu-breadcrumb {
   color: #1a1a1a;
   padding-left: 10px;
   padding-right: 10px;

@@ -17,6 +17,6 @@ describe("userUsagerLoginPasswordGenerator", () => {
     expect(temporaryPassword).toBeDefined();
     expect(passwordHash).toBeDefined();
     expect(temporaryPassword.length).toEqual(8); // 8-size
-    expect(/^[0-9]+$/.test(temporaryPassword)).toBeTruthy(); // only-numbers
+    expect(/^\d+$/.test(temporaryPassword)).toBeTruthy(); // only-numbers
   });
 });

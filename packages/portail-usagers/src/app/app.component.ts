@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   public title: string;
   public apiVersion: string | null;
   public usagerProfile: PortailUsagerProfile | null;
+  public currentUrl = "";
 
   constructor(
     private readonly titleService: Title,
@@ -55,14 +56,37 @@ export class AppComponent implements OnInit {
     );
 
     this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        // Retour au top de la fenêtre
-        window.scroll({
-          behavior: "smooth",
-          left: 0,
-          top: 0,
-        });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .pipe(filter((e: any) => e instanceof NavigationEnd))
+      .subscribe((ev: Event) => {
+        const event = ev as unknown as NavigationEnd;
+        const splitUrl = event?.url.split("#");
+        this.currentUrl = splitUrl[0];
+
+        const sections = ["page", "footer"];
+        if (typeof splitUrl[1] !== "undefined") {
+          if (sections.indexOf(splitUrl[1]) !== -1) {
+            const fragment = splitUrl[1];
+            const element = document.getElementById(fragment);
+            if (element) {
+              element.tabIndex = -1;
+              element.focus();
+            }
+          }
+        } else {
+          this.currentUrl = event.url.split("#")[0];
+          // Retour au top du curseur
+          const mainHeader = document.getElementById("top-site");
+          if (mainHeader) {
+            mainHeader.focus();
+          }
+
+          window.scroll({
+            behavior: "smooth",
+            left: 0,
+            top: 0,
+          });
+        }
       });
   }
 
