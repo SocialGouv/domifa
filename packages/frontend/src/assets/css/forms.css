@@ -27,6 +27,14 @@ form label {
   font-weight: 600;
 }
 
+textarea.form-control {
+  background: #f9f9fc;
+  border: 1px solid #cfcfd9;
+  box-sizing: border-box;
+  border-radius: 5px;
+  min-height: 100px;
+}
+
 .invalid-feedback-custom {
   width: 100%;
   margin-top: 0.25rem;

@@ -35,11 +35,11 @@ export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
   public currentUserSubject$: Observable<UserStructure | null>;
 
   constructor(
-    public usagerNotesService: UsagerNotesService,
-    public modalService: NgbModal,
-    public toastService: CustomToastService,
-    public authService: AuthService,
-    public store: Store
+    protected readonly usagerNotesService: UsagerNotesService,
+    protected readonly modalService: NgbModal,
+    protected readonly toastService: CustomToastService,
+    protected readonly authService: AuthService,
+    protected readonly store: Store
   ) {
     this.loading = false;
     this.notes = [];

@@ -28,13 +28,13 @@ export class BaseUsagerDossierPageComponent implements OnInit, OnDestroy {
   public loading = false;
 
   constructor(
-    public authService: AuthService,
-    public usagerDossierService: UsagerDossierService,
-    public titleService: Title,
-    public toastService: CustomToastService,
-    public route: ActivatedRoute,
-    public router: Router,
-    public store: Store
+    protected readonly authService: AuthService,
+    protected readonly usagerDossierService: UsagerDossierService,
+    protected readonly titleService: Title,
+    protected readonly toastService: CustomToastService,
+    protected readonly route: ActivatedRoute,
+    protected readonly router: Router,
+    protected readonly store: Store
   ) {
     this.me = this.authService.currentUserValue;
     this.currentUserSubject$ = this.authService.currentUserSubject;

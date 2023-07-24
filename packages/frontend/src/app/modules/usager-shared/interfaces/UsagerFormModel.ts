@@ -73,7 +73,6 @@ export class UsagerFormModel {
 
   public pinnedNote: Partial<UsagerNote> | null;
 
-  // TODO: données utiles uniquement pour la page profil, à mettre dans un type étendu d'Usager
   public email: string;
   public telephone: Telephone;
   public contactByPhone: boolean;
@@ -90,55 +89,50 @@ export class UsagerFormModel {
   public searchResultAyantDroit: boolean;
 
   constructor(usager?: UsagerLight, filterCriteria?: UsagersFilterCriteria) {
-    this.pinnedNote = (usager && usager.pinnedNote) || null;
+    this.pinnedNote = usager?.pinnedNote || null;
+    this.ref = usager?.ref || 0;
+    this.nbNotes = usager?.nbNotes || 0;
+    this.uuid = usager?.uuid || null;
+    this.customRef = usager?.customRef || "";
+    this.sexe = usager?.sexe || "homme";
+    this.nom = usager?.nom || "";
+    this.prenom = usager?.prenom || "";
+    this.langue = usager?.langue || "";
+    this.numeroDistribution = usager?.numeroDistribution || null;
 
-    this.ref = (usager && usager.ref) || 0;
-    this.nbNotes = (usager && usager.nbNotes) || 0;
-    this.uuid = (usager && usager.uuid) || null;
-    this.customRef = (usager && usager.customRef) || "";
+    this.surnom = usager?.surnom || "";
 
-    this.sexe = (usager && usager.sexe) || "homme";
-    this.nom = (usager && usager.nom) || "";
-    this.prenom = (usager && usager.prenom) || "";
-    this.langue = (usager && usager.langue) || "";
-    this.numeroDistribution = (usager && usager.numeroDistribution) || null;
+    this.dateNaissance = usager?.dateNaissance
+      ? new Date(usager.dateNaissance)
+      : null;
 
-    this.surnom = (usager && usager.surnom) || "";
+    this.villeNaissance = usager?.villeNaissance || "";
 
-    this.dateNaissance = null;
-    if (usager && usager.dateNaissance) {
-      this.dateNaissance = new Date(usager.dateNaissance);
-    }
+    this.email = usager?.email || "";
 
-    this.villeNaissance = (usager && usager.villeNaissance) || "";
-
-    this.email = (usager && usager.email) || "";
-
-    this.telephone = (usager && usager.telephone) || {
+    this.telephone = usager?.telephone || {
       countryCode: CountryISO.France,
       numero: "",
     };
 
-    this.structureId = (usager && usager.structureId) || null;
-    this.etapeDemande = (usager && usager.etapeDemande) || ETAPE_ETAT_CIVIL;
+    this.structureId = usager?.structureId || null;
+    this.etapeDemande = usager?.etapeDemande || ETAPE_ETAT_CIVIL;
 
-    this.ayantsDroits = (usager && usager.ayantsDroits) || [];
+    this.ayantsDroits = usager?.ayantsDroits || [];
     this.ayantsDroitsExist = this.ayantsDroits && this.ayantsDroits.length > 0;
 
-    this.typeDom = (usager && usager.typeDom) || "PREMIERE_DOM";
-    this.import = (usager && usager.import) || null;
+    this.typeDom = usager?.typeDom || "PREMIERE_DOM";
+    this.import = usager?.import || null;
 
-    this.datePremiereDom =
-      usager && usager.datePremiereDom !== null
-        ? new Date(usager.datePremiereDom)
-        : null;
+    this.datePremiereDom = usager?.datePremiereDom
+      ? new Date(usager.datePremiereDom)
+      : null;
 
-    this.historique =
-      usager && usager.historique
-        ? usager.historique.map((decision: UsagerDecision) => {
-            return new Decision(decision);
-          })
-        : [];
+    this.historique = usager?.historique
+      ? usager.historique.map((decision: UsagerDecision) => {
+          return new Decision(decision);
+        })
+      : [];
 
     this.historique.sort((a, b) => {
       return b.dateDecision.getTime() - a.dateDecision.getTime();
@@ -152,7 +146,7 @@ export class UsagerFormModel {
       colisIn: 0,
     };
 
-    if (usager && usager.lastInteraction) {
+    if (usager?.lastInteraction) {
       this.lastInteraction = {
         dateInteraction: usager.lastInteraction.dateInteraction
           ? new Date(usager.lastInteraction.dateInteraction)
@@ -164,9 +158,9 @@ export class UsagerFormModel {
       };
     }
 
-    this.contactByPhone = (usager && usager.contactByPhone) || false;
+    this.contactByPhone = usager?.contactByPhone || false;
 
-    this.rdv = new Rdv((usager && usager.rdv) || null);
+    this.rdv = new Rdv(usager?.rdv || null);
     this.entretien = new Entretien(usager?.entretien);
     this.options = new Options(usager?.options);
     this.decision = new Decision(usager?.decision);

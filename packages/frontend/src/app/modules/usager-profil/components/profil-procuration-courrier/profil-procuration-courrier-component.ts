@@ -155,19 +155,18 @@ export class UsagersProfilProcurationCourrierComponent
           Validators.required,
           noWhiteSpace,
         ]),
-        dateFin: new UntypedFormControl(formatDateToNgb(procuration.dateFin), [
-          Validators.required,
-        ]),
+        dateFin: new UntypedFormControl(
+          procuration.dateFin ? formatDateToNgb(procuration.dateFin) : null,
+          [Validators.required]
+        ),
         dateDebut: new UntypedFormControl(
-          formatDateToNgb(procuration.dateDebut),
+          procuration.dateDebut ? formatDateToNgb(procuration.dateDebut) : null,
           [Validators.required]
         ),
         dateNaissance: new UntypedFormControl(
-          formatDateToNgb(
-            procuration.dateNaissance
-              ? new Date(procuration.dateNaissance)
-              : null
-          ),
+          procuration.dateNaissance
+            ? formatDateToNgb(procuration.dateNaissance)
+            : null,
           [Validators.required]
         ),
       },

@@ -58,7 +58,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
   public lastYear = new Date().getFullYear() - 1;
   private me!: UserStructure | null;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   constructor(
     private readonly formatter: NgbDateCustomParserFormatter,
@@ -172,10 +172,10 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public compare(): void {
     this.loading = true;
-    this.start = new Date(this.formatter.formatEn(this.fromDate) as string);
+    this.start = new Date(this.formatter.formatEn(this.fromDate));
     this.end =
       this.toDate !== null
-        ? new Date(this.formatter.formatEn(this.toDate) as string)
+        ? new Date(this.formatter.formatEn(this.toDate))
         : null;
 
     this.subscription.add(

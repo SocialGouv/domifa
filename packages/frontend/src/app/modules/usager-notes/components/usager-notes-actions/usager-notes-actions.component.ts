@@ -35,9 +35,9 @@ export class UsagerNotesActionsComponent {
   public deleteOrArchiveNoteModal!: TemplateRef<NgbModalRef>;
 
   constructor(
-    public usagerNotesService: UsagerNotesService,
-    public modalService: NgbModal,
-    public toastService: CustomToastService
+    private readonly usagerNotesService: UsagerNotesService,
+    private readonly modalService: NgbModal,
+    private readonly toastService: CustomToastService
   ) {
     this.choosenAction = null;
     this.loading = false;
@@ -56,7 +56,7 @@ export class UsagerNotesActionsComponent {
     );
   }
 
-  public confirmAction() {
+  public confirmAction(): void {
     this.choosenAction === "DELETE"
       ? this.confirmDeleteNote()
       : this.confirmArchiveNote();
@@ -135,7 +135,7 @@ export class UsagerNotesActionsComponent {
     );
   }
 
-  private closeModal() {
+  private closeModal(): void {
     this.loading = false;
     this.getUsagerNotes.emit();
     this.modalService.dismissAll();

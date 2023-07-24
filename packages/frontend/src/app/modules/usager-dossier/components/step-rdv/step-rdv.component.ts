@@ -181,10 +181,7 @@ export class StepRdvComponent
         .subscribe((users: UserStructure[]) => {
           this.agents = users;
 
-          const userIdRdv =
-            this.usager.rdv.userId === null
-              ? this.me?.id
-              : this.usager.rdv.userId;
+          const userIdRdv = this.usager.rdv?.userId || this.me?.id;
 
           this.rdvForm.controls.userId.setValue(userIdRdv, {
             onlySelf: true,

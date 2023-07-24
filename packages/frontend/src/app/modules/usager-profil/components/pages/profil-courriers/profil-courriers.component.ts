@@ -13,13 +13,13 @@ import { Store } from "@ngrx/store";
 })
 export class ProfilCourriersComponent extends BaseUsagerProfilPageComponent {
   constructor(
-    public authService: AuthService,
-    public usagerProfilService: UsagerProfilService,
-    public titleService: Title,
-    public toastService: CustomToastService,
-    public route: ActivatedRoute,
-    public router: Router,
-    public store: Store
+    protected readonly authService: AuthService,
+    protected readonly usagerProfilService: UsagerProfilService,
+    protected readonly titleService: Title,
+    protected readonly toastService: CustomToastService,
+    protected readonly route: ActivatedRoute,
+    protected readonly router: Router,
+    protected readonly store: Store
   ) {
     super(
       authService,

@@ -25,7 +25,7 @@ function matchWord({
         if (attr === word) {
           // perfect match
           return score + 50;
-        } else if (attr.indexOf(word) === 0) {
+        } else if (attr.startsWith(word)) {
           // starts with match
           return score + 10;
         } else {
@@ -85,7 +85,7 @@ function match<T>(
       .filter((x) => x !== null && x !== undefined && x.trim().length !== 0)
       .map((x) => searchCore.buildWords(x))
   );
-  if (!cleanAttributes || !cleanAttributes.length) {
+  if (!cleanAttributes?.length) {
     return {
       match: false,
       score: 0,
@@ -143,7 +143,7 @@ function filter<T>(
     maxResults?: number;
   }
 ): T[] {
-  if (!searchText || !searchText.length) {
+  if (!searchText?.length) {
     return items.concat([]);
   }
 

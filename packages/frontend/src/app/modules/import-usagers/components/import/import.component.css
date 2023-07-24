@@ -1,7 +1,11 @@
 #import-table {
   max-height: 50vh;
   overflow: auto;
+  margin: 20px auto;
+  overflow-x: scroll;
+  border: 1px solid #dbdbdb;
 }
+
 #import-table table {
   min-width: 6500px;
 }
@@ -30,12 +34,6 @@
 #import-table tbody tr:nth-of-type(even) th:first-child,
 #import-table tbody tr:nth-of-type(even) td:first-child {
   background-color: white !important;
-}
-
-#import-table {
-  margin: 20px auto;
-  overflow-x: scroll;
-  border: 1px solid #dbdbdb;
 }
 
 #import-table .required:after {

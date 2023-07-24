@@ -29,7 +29,7 @@ function getIndicesOf(
   }
 
   let startIndex = 0;
-  let index;
+  let index: number;
   const indices = [];
 
   while ((index = content.indexOf(word, startIndex)) > -1) {

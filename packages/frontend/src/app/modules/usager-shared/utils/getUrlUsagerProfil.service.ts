@@ -1,7 +1,7 @@
 import { ETAPES_DEMANDE_URL, UsagerLight } from "../../../../_common/model";
 
 export const getUrlUsagerProfil = (usager?: UsagerLight): string => {
-  if (!usager || !usager.decision) {
+  if (!usager?.decision) {
     return "/usager/nouveau";
   }
 

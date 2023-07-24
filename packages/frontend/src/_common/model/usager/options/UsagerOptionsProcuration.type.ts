@@ -3,5 +3,5 @@ export type UsagerOptionsProcuration = {
   prenom: string | null;
   dateFin: Date | null;
   dateDebut: Date | null;
-  dateNaissance: Date | string | null;
+  dateNaissance: Date | null;
 };

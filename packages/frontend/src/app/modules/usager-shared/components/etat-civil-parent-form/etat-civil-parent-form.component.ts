@@ -97,8 +97,8 @@ export class EtatCivilParentFormComponent implements OnDestroy {
   }
 
   constructor(
-    public formBuilder: UntypedFormBuilder,
-    public authService: AuthService
+    protected readonly formBuilder: UntypedFormBuilder,
+    protected readonly authService: AuthService
   ) {
     this.countryCode = null;
     this.submitted = false;
@@ -107,6 +107,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
+
     this.currentUserSubject$ = this.authService.currentUserSubject;
   }
 
@@ -116,7 +117,9 @@ export class EtatCivilParentFormComponent implements OnDestroy {
       langue: [this.usager.langue, languagesAutocomplete.validator],
       ayantsDroitsExist: [this.usager.ayantsDroitsExist, []],
       dateNaissance: [
-        formatDateToNgb(this.usager.dateNaissance),
+        this.usager.dateNaissance
+          ? formatDateToNgb(this.usager.dateNaissance)
+          : null,
         [Validators.required],
       ],
       customRef: [this.usager.customRef, []],
@@ -187,7 +190,9 @@ export class EtatCivilParentFormComponent implements OnDestroy {
   public newAyantDroit(ayantDroit: AyantDroit) {
     return this.formBuilder.group({
       dateNaissance: [
-        formatDateToNgb(ayantDroit.dateNaissance),
+        ayantDroit.dateNaissance
+          ? formatDateToNgb(ayantDroit.dateNaissance)
+          : null,
         [Validators.required],
       ],
       lien: [ayantDroit.lien, Validators.required],

@@ -1,5 +1,4 @@
-import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
-import { UsagerEcheanceInfos } from "./../../../../_common/model/usager/UsagerEcheanceInfos.type";
+import { UsagerLight, UsagerEcheanceInfos } from "../../../../_common/model";
 
 export const getEcheanceInfos = (usager?: UsagerLight): UsagerEcheanceInfos => {
   const usagerInfos: UsagerEcheanceInfos = {
@@ -9,11 +8,10 @@ export const getEcheanceInfos = (usager?: UsagerLight): UsagerEcheanceInfos => {
     color: "d-none",
   };
 
-  if (!usager || typeof usager?.decision === "undefined") {
+  if (!usager || typeof usager.decision === "undefined") {
     return usagerInfos;
   }
 
-  // Actuellement actif
   if (usager.decision.statut === "VALIDE" && usager.decision.dateFin) {
     usagerInfos.isActif = true;
     usagerInfos.dateToDisplay = new Date(usager.decision.dateFin);
@@ -21,30 +19,17 @@ export const getEcheanceInfos = (usager?: UsagerLight): UsagerEcheanceInfos => {
     usager.decision.statut === "RADIE" ||
     usager.decision.statut === "REFUS"
   ) {
-    usagerInfos.dateToDisplay = usager.decision.dateDebut
-      ? new Date(usager.decision.dateDebut)
-      : usager.decision.dateFin
-      ? new Date(usager.decision.dateFin)
-      : null;
-  } else {
-    if (usager.typeDom === "RENOUVELLEMENT") {
-      usagerInfos.isActif = true;
-
-      const indexOfDate = usager.decision.statut === "ATTENTE_DECISION" ? 2 : 1;
-
-      // Fix: certaines donnnées corompus n'ont pas de dateFin
-      if (indexOfDate && usager.historique.length >= indexOfDate) {
-        usagerInfos.dateToDisplay =
-          usager.historique[usager.historique.length - indexOfDate]?.dateFin ??
-          usager.decision.dateDecision;
-      }
-
-      if (usagerInfos.dateToDisplay) {
-        usagerInfos.dateToDisplay = new Date(usagerInfos.dateToDisplay);
-      }
-    } else {
-      usagerInfos.isActif = false;
-      usagerInfos.dateToDisplay = null;
+    usagerInfos.dateToDisplay = new Date(
+      usager.decision.dateDebut || usager.decision.dateFin
+    );
+  } else if (usager.typeDom === "RENOUVELLEMENT") {
+    usagerInfos.isActif = true;
+    const indexOfDate = usager.decision.statut === "ATTENTE_DECISION" ? 2 : 1;
+    if (indexOfDate && usager.historique.length >= indexOfDate) {
+      const decisionDate =
+        usager.historique[usager.historique.length - indexOfDate]?.dateFin ||
+        usager.decision.dateDecision;
+      usagerInfos.dateToDisplay = new Date(decisionDate);
     }
   }
 
@@ -65,7 +50,7 @@ export const getEcheanceInfos = (usager?: UsagerLight): UsagerEcheanceInfos => {
 
   if (usagerInfos.dayBeforeEnd < 15) {
     usagerInfos.color = "bg-danger";
-  } else if (usagerInfos.dayBeforeEnd > 15 && usagerInfos.dayBeforeEnd < 60) {
+  } else if (usagerInfos.dayBeforeEnd < 60) {
     usagerInfos.color = "bg-warning";
   }
 

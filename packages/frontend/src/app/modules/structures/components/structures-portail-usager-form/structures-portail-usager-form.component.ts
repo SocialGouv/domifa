@@ -11,7 +11,6 @@ import { StructureCommon } from "../../types";
 @Component({
   selector: "app-structures-portail-usager-form",
   templateUrl: "./structures-portail-usager-form.component.html",
-  styleUrls: ["./structures-portail-usager-form.component.css"],
 })
 export class StructuresPortailUsagerFormComponent implements OnInit, OnDestroy {
   public me!: UserStructure | null;

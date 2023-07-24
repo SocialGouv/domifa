@@ -30,7 +30,6 @@ describe("StepEtatCivilComponent", () => {
         SharedModule,
         HttpClientTestingModule,
         StoreModule.forRoot({ app: _usagerReducer }),
-
         NgxIntlTelInputModule,
       ],
       providers: [
@@ -48,30 +47,24 @@ describe("StepEtatCivilComponent", () => {
     component.ngOnInit();
   }));
 
-  it("0. Création du compenent", () => {
+  it("Should create component", () => {
     expect(component).toBeTruthy();
     expect(component.duplicates).toEqual([]);
     expect(component.LIEN_PARENTE_LABELS).toBeDefined();
-  });
-
-  it("should update header", () => {
-    expect(component.f).toEqual(component.usagerForm.controls);
-  });
-
-  it("2. Initialisation de l'usager", () => {
     expect(component.usager).toBeTruthy();
     expect(component.usager.entretien).toBeTruthy();
     expect(component.usager.lastInteraction).toBeTruthy();
+    expect(component.f).toEqual(component.usagerForm.controls);
   });
 
-  it("7. DOUBLON", waitForAsync(() => {
+  it("Duplicates", waitForAsync(() => {
     component.usagerForm.controls.nom.setValue("Mamadou");
     component.usagerForm.controls.prenom.setValue("Diallo");
     component.isDuplicateName();
     expect(component.duplicates).toEqual([]);
   }));
 
-  it("6. Valid form", () => {
+  it("Form validation", () => {
     component.usagerForm.controls.nom.setValue("Test nom");
     component.usagerForm.controls.prenom.setValue("Test Prenom");
     component.usagerForm.controls.surnom.setValue("Test Surnom");
@@ -84,7 +77,7 @@ describe("StepEtatCivilComponent", () => {
     expect(component.usagerForm.valid).toBeTruthy();
   });
 
-  it("3. Ayant-droit", () => {
+  it("Ayant-droit", () => {
     component.resetAyantDroit();
     expect(component.usagerForm.controls.ayantsDroits.value).toEqual([]);
 

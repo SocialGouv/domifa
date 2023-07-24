@@ -30,7 +30,6 @@ import {
 @Component({
   selector: "app-decision-valide-form",
   templateUrl: "./decision-valide-form.component.html",
-  styleUrls: ["./decision-valide-form.component.css"],
 })
 export class DecisionValideFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
@@ -38,7 +37,6 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
 
   public submitted: boolean;
   public loading: boolean;
-
   public valideForm!: UntypedFormGroup;
 
   public minDate: NgbDateStruct;
@@ -52,8 +50,8 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
   >[];
 
   public duplicates: UsagerLight[];
-
   private subscription = new Subscription();
+
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
     private readonly usagerDecisionService: UsagerDecisionService,

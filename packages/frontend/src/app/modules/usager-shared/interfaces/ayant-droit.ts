@@ -8,11 +8,11 @@ export class AyantDroit implements UsagerAyantDroit {
   public prenom: string;
 
   constructor(ayantDroit?: UsagerAyantDroit) {
-    this.nom = (ayantDroit && ayantDroit.nom) || "";
-    this.prenom = (ayantDroit && ayantDroit.prenom) || "";
+    this.nom = ayantDroit?.nom || "";
+    this.prenom = ayantDroit?.prenom || "";
     this.dateNaissance = ayantDroit?.dateNaissance
       ? new Date(ayantDroit.dateNaissance)
       : null;
-    this.lien = (ayantDroit && ayantDroit.lien) || null;
+    this.lien = ayantDroit?.lien || null;
   }
 }

@@ -1,4 +1,3 @@
-import { ManageUsagersModule } from "./modules/manage-usagers/manage-usagers.module";
 import { LoadingService } from "./modules/shared/services/loading.service";
 
 import { CustomToastService } from "./modules/shared/services/custom-toast.service";
@@ -69,7 +68,6 @@ registerLocaleData(localeFr, "fr");
     NgbModule,
     StoreModule.forRoot({ app: _usagerReducer }),
     SharedModule,
-    ManageUsagersModule,
     UserIdleModule.forRoot({ idle: 3600, timeout: 60, ping: 20 }),
     ...MATOMO_INJECTORS,
   ],

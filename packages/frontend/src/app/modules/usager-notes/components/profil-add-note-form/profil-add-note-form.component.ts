@@ -27,7 +27,6 @@ import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
   animations: [bounce],
   selector: "app-profil-add-note-form",
   templateUrl: "./profil-add-note-form.component.html",
-  styleUrls: ["./profil-add-note-form.component.css"],
 })
 export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;

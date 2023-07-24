@@ -12,7 +12,7 @@ export const getRdvInfos = (usager?: Partial<UsagerLight>): UsagerRdvInfos => {
     content: "",
   };
 
-  if (!usager || !usager?.rdv?.dateRdv) {
+  if (!usager?.rdv?.dateRdv) {
     return rdvDisplay;
   }
 
