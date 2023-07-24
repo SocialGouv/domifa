@@ -106,7 +106,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     this.mobilePhonePlaceHolder = "";
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
-    this.maxDateNaissance = formatDateToNgb(new Date()) as NgbDateStruct;
+    this.maxDateNaissance = formatDateToNgb(new Date());
     this.currentUserSubject$ = this.authService.currentUserSubject;
   }
 

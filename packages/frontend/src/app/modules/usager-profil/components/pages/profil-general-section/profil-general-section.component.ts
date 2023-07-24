@@ -78,7 +78,7 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
     this.interactions = [];
 
     this.minDateNaissance = minDateNaissance;
-    this.maxDateNaissance = formatDateToNgb(new Date()) as NgbDateStruct;
+    this.maxDateNaissance = formatDateToNgb(new Date());
 
     this.today = new Date();
     this.titlePrefix = "Dossier";

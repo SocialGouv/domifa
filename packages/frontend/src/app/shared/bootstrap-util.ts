@@ -17,10 +17,7 @@ export function padNumber(value: number): string {
   }
 }
 
-export function formatDateToNgb(date: Date | null): NgbDateStruct | null {
-  if (!date) {
-    return null;
-  }
+export function formatDateToNgb(date: Date): NgbDateStruct {
   if (!date.getDate) {
     date = new Date(date);
   }

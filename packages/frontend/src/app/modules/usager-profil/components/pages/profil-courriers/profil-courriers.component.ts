@@ -10,7 +10,6 @@ import { Store } from "@ngrx/store";
 @Component({
   selector: "app-profil-courriers",
   templateUrl: "./profil-courriers.component.html",
-  styleUrls: ["./profil-courriers.component.css"],
 })
 export class ProfilCourriersComponent extends BaseUsagerProfilPageComponent {
   constructor(

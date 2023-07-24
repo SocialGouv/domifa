@@ -12,7 +12,6 @@ import { getRdvInfos } from "../../interfaces/getRdvInfos.service";
 @Component({
   selector: "app-section-infos",
   templateUrl: "./section-infos.component.html",
-  styleUrls: ["./section-infos.component.css"],
 })
 export class SectionInfosComponent implements OnInit {
   public readonly USAGER_DECISION_STATUT_LABELS = USAGER_DECISION_STATUT_LABELS;

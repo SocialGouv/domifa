@@ -32,7 +32,6 @@ import {
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
   selector: "app-step-decision",
-  styleUrls: ["./step-decision.component.css"],
   templateUrl: "./step-decision.component.html",
 })
 export class StepDecisionComponent

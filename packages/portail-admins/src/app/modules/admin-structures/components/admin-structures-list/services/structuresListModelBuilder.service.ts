@@ -8,7 +8,7 @@ import {
 export const structuresListModelBuilder = { buildStructuresViewModel };
 
 function buildStructuresViewModel(structures: StructureAdminForList[]) {
-  const structuresVM = structures.map((structure: StructureAdminForList) => {
+  return structures.map((structure: StructureAdminForList) => {
     return {
       ...structure,
       structureTypeLabel: STRUCTURE_TYPE_LABELS[structure.structureType],
@@ -16,8 +16,6 @@ function buildStructuresViewModel(structures: StructureAdminForList[]) {
       departementLabel: getDepartementLabel(structure),
     };
   });
-
-  return structuresVM;
 }
 
 function getRegionLabel(structure: Pick<Structure, "region">): string {

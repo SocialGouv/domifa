@@ -35,7 +35,6 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 @Component({
   selector: "app-decision-refus-form",
   templateUrl: "./decision-refus-form.component.html",
-  styleUrls: ["./decision-refus-form.component.css"],
 })
 export class DecisionRefusFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
