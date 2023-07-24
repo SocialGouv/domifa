@@ -2,7 +2,7 @@
 <app-loading></app-loading>
 <app-help-modal></app-help-modal>
 <app-idle-manager></app-idle-manager>
-<nav class="fr-container" aria-label="Accès rapide">
+<nav class="fr-container" aria-label="Menu d'accès rapide au contenu">
   <ul id="skip-links">
     <li>
       <a
@@ -36,216 +36,191 @@
     </li>
   </ul>
 </nav>
-<app-navbar
-  id="navigation"
-  [pendingNews]="pendingNews"
-  [me]="me"
-  [tabIndex]="currentFragment === 'navigation' ? 1 : -1"
-></app-navbar>
+<app-navbar [pendingNews]="pendingNews" [me]="me"></app-navbar>
 
-<main id="page" [tabIndex]="currentFragment === 'page' ? 1 : -1">
+<main id="page">
   <router-outlet></router-outlet>
 </main>
 
-<footer
-  [tabIndex]="currentFragment === 'footer' ? 1 : -1"
-  id="footer"
-  class="d-print-none page-footer py-3"
-  #footer
->
-  <div class="container my-2">
-    <div class="py-3">
-      <div class="row">
-        <div class="col-md-3 my-2">
-          <p class="fw-bold">En savoir plus</p>
-          <ul>
-            <li>
-              <a
-                routerLink="/news"
-                ariaCurrentWhenActive="page"
-                routerLinkActive="router-link-active"
-                (click)="
-                  matomo.trackEvent('FOOTER', 'Footer_Nouveautés', 'null', 1)
-                "
-                >Nouveautés</a
-              >
-            </li>
-            <li>
-              <a
-                routerLink="/stats"
-                ariaCurrentWhenActive="page"
-                routerLinkActive="router-link-active"
-                (click)="matomo.trackEvent('FOOTER', 'Footer_Stats', 'null', 1)"
-                >Statistiques</a
-              >
-            </li>
+<footer id="footer" class="d-print-none py-3">
+  <div class="container my-2 py-3">
+    <div class="row">
+      <div class="col-md-3 my-2">
+        <p class="fw-bold">En savoir plus</p>
+        <ul>
+          <li>
+            <a
+              routerLink="/news"
+              ariaCurrentWhenActive="page"
+              routerLinkActive="router-link-active"
+              (click)="
+                matomo.trackEvent('FOOTER', 'Footer_Nouveautés', 'null', 1)
+              "
+              >Nouveautés</a
+            >
+          </li>
+          <li>
+            <a
+              routerLink="/stats"
+              ariaCurrentWhenActive="page"
+              routerLinkActive="router-link-active"
+              (click)="matomo.trackEvent('FOOTER', 'Footer_Stats', 'null', 1)"
+              >Statistiques</a
+            >
+          </li>
 
-            <li>
-              <a
-                routerLink="/stats/impact"
-                ariaCurrentWhenActive="page"
-                routerLinkActive="router-link-active"
-                (click)="
-                  matomo.trackEvent('FOOTER', 'Footer_Impact', 'null', 1)
-                "
-                >Notre impact</a
-              >
-            </li>
+          <li>
+            <a
+              routerLink="/stats/impact"
+              ariaCurrentWhenActive="page"
+              routerLinkActive="router-link-active"
+              (click)="matomo.trackEvent('FOOTER', 'Footer_Impact', 'null', 1)"
+              >Notre impact</a
+            >
+          </li>
 
-            <li>
-              <a
-                routerLink="/faq"
-                ariaCurrentWhenActive="page"
-                routerLinkActive="router-link-active"
-                (click)="matomo.trackEvent('FOOTER', 'Footer_Faq', 'null', 1)"
-                >Foire aux questions</a
-              >
-            </li>
+          <li>
+            <a
+              routerLink="/faq"
+              ariaCurrentWhenActive="page"
+              routerLinkActive="router-link-active"
+              (click)="matomo.trackEvent('FOOTER', 'Footer_Faq', 'null', 1)"
+              >Foire aux questions</a
+            >
+          </li>
 
-            <li>
-              <a
-                routerLink="/contact"
-                ariaCurrentWhenActive="page"
-                routerLinkActive="router-link-active"
-                (click)="
-                  matomo.trackEvent('FOOTER', 'Footer_Contact', 'null', 1)
-                "
-                >Contactez-nous</a
-              >
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-3 my-2">
-          <p class="fw-bold">Cadre juridique</p>
-          <ul>
-            <li>
-              <a
-                routerLink="/accessibilite"
-                routerLinkActive="router-link-active"
-                >Accessibilité: non conforme
-              </a>
-            </li>
+          <li>
+            <a
+              routerLink="/contact"
+              ariaCurrentWhenActive="page"
+              routerLinkActive="router-link-active"
+              (click)="matomo.trackEvent('FOOTER', 'Footer_Contact', 'null', 1)"
+              >Contactez-nous</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-3 my-2">
+        <p class="fw-bold">Cadre juridique</p>
+        <ul>
+          <li>
+            <a routerLink="/accessibilite" routerLinkActive="router-link-active"
+              >Accessibilité: non conforme
+            </a>
+          </li>
 
-            <li>
-              <a
-                ariaCurrentWhenActive="page"
-                routerLink="/mentions-legales"
-                routerLinkActive="router-link-active"
-                (click)="
-                  matomo.trackEvent(
-                    'FOOTER',
-                    'Footer_Mentions_Légales',
-                    'null',
-                    1
-                  )
-                "
-                >Mentions légales</a
-              >
-            </li>
+          <li>
+            <a
+              ariaCurrentWhenActive="page"
+              routerLink="/mentions-legales"
+              routerLinkActive="router-link-active"
+              (click)="
+                matomo.trackEvent(
+                  'FOOTER',
+                  'Footer_Mentions_Légales',
+                  'null',
+                  1
+                )
+              "
+              >Mentions légales</a
+            >
+          </li>
 
-            <li>
-              <a
-                routerLink="/cgu"
-                ariaCurrentWhenActive="page"
-                routerLinkActive="router-link-active"
-                (click)="matomo.trackEvent('FOOTER', 'Footer_CGU', 'null', 1)"
-                >CGU utilisateur</a
-              >
-            </li>
+          <li>
+            <a
+              routerLink="/cgu"
+              ariaCurrentWhenActive="page"
+              routerLinkActive="router-link-active"
+              (click)="matomo.trackEvent('FOOTER', 'Footer_CGU', 'null', 1)"
+              >CGU utilisateur</a
+            >
+          </li>
 
-            <li>
-              <a
-                routerLink="/cgu-responsable"
-                ariaCurrentWhenActive="page"
-                routerLinkActive="router-link-active"
-                (click)="
-                  matomo.trackEvent(
-                    'FOOTER',
-                    'Footer_CGU_responsable',
-                    'null',
-                    1
-                  )
-                "
-                >CGU du responsable de la structure</a
-              >
-            </li>
+          <li>
+            <a
+              routerLink="/cgu-responsable"
+              ariaCurrentWhenActive="page"
+              routerLinkActive="router-link-active"
+              (click)="
+                matomo.trackEvent('FOOTER', 'Footer_CGU_responsable', 'null', 1)
+              "
+              >CGU du responsable de la structure</a
+            >
+          </li>
 
-            <li>
-              <a
-                routerLink="/confidentialite"
-                ariaCurrentWhenActive="page"
-                routerLinkActive="router-link-active"
-                >Politique de confidentialité</a
-              >
-            </li>
+          <li>
+            <a
+              routerLink="/confidentialite"
+              ariaCurrentWhenActive="page"
+              routerLinkActive="router-link-active"
+              >Politique de confidentialité</a
+            >
+          </li>
 
-            <li>
-              <a
-                routerLink="/plan-site"
-                ariaCurrentWhenActive="page"
-                routerLinkActive="router-link-active"
-                (click)="
-                  matomo.trackEvent('FOOTER', 'Footer_Contact', 'null', 1)
-                "
-                >Plan du site</a
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="col-md-4 my-2">
-          <p class="fw-bold">Nos partenaires</p>
-          <ul>
-            <li *ngFor="let link of partnerLinks">
-              <a [href]="link.path" target="_blank" rel="noopener noreferrer">
-                {{ link.label }}
-                <fa-icon
-                  class="ms-2"
-                  [icon]="['fas', 'arrow-up-right-from-square']"
-                  aria-hidden="true"
-                ></fa-icon>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-2 my-2">
-          <a
-            href="https://solidarites.gouv.fr/"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Ministère des Solidarités, de l'Autonomie et des Personnes handicapées"
-          >
-            <img
-              rel="noopener noreferrer"
-              src="../assets/images/logo-ministere.svg"
-              alt="Ministère des Solidarités, de l'Autonomie et des Personnes handicapées"
-            />
-          </a>
-        </div>
+          <li>
+            <a
+              routerLink="/plan-site"
+              ariaCurrentWhenActive="page"
+              routerLinkActive="router-link-active"
+              (click)="matomo.trackEvent('FOOTER', 'Footer_Contact', 'null', 1)"
+              >Plan du site</a
+            >
+          </li>
+        </ul>
       </div>
 
-      <div class="my-4 text-gray">
-        <p>
-          DomiFa est une solution gratuite et complète de gestion des
-          domiciliations pour les structures domiciliataires (centres d'Action
-          Sociale, communes, organismes agréés).
-        </p>
-
-        <p>
-          Sauf mention contraire, tous les textes de ce site sont sous
-          <a
-            href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
-            target="_blank"
-            rel="noopener noreferrer"
-            >licence etalab-2.0
-            <fa-icon
-              class="ms-2"
-              [icon]="['fas', 'arrow-up-right-from-square']"
-              aria-hidden="true"
-            ></fa-icon
-          ></a>
-        </p>
+      <div class="col-md-4 my-2">
+        <p class="fw-bold">Nos partenaires</p>
+        <ul>
+          <li *ngFor="let link of partnerLinks">
+            <a [href]="link.path" target="_blank" rel="noopener noreferrer">
+              {{ link.label }}
+              <fa-icon
+                class="ms-2"
+                [icon]="['fas', 'arrow-up-right-from-square']"
+                aria-hidden="true"
+              ></fa-icon>
+            </a>
+          </li>
+        </ul>
       </div>
+      <div class="col-md-2 my-2">
+        <a
+          href="https://solidarites.gouv.fr/"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Ministère des Solidarités, de l'Autonomie et des Personnes handicapées"
+        >
+          <img
+            rel="noopener noreferrer"
+            src="../assets/images/logo-ministere.svg"
+            alt="Ministère des Solidarités, de l'Autonomie et des Personnes handicapées"
+          />
+        </a>
+      </div>
+    </div>
+
+    <div class="my-4 text-gray">
+      <p>
+        DomiFa est une solution gratuite et complète de gestion des
+        domiciliations pour les structures domiciliataires (centres d'Action
+        Sociale, communes, organismes agréés).
+      </p>
+
+      <p>
+        Sauf mention contraire, tous les textes de ce site sont sous
+        <a
+          href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
+          target="_blank"
+          rel="noopener noreferrer"
+          >licence etalab-2.0
+          <fa-icon
+            class="ms-2"
+            [icon]="['fas', 'arrow-up-right-from-square']"
+            aria-hidden="true"
+          ></fa-icon
+        ></a>
+      </p>
     </div>
   </div>
 </footer>

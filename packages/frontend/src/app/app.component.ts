@@ -33,7 +33,6 @@ import { LIENS_PARTENAIRES } from "./modules/general/components/plan-site/LIENS_
 })
 export class AppComponent implements OnInit, OnDestroy {
   public apiVersion: string | null;
-  public currentFragment = "";
   public currentUrl = "";
 
   public me: UserStructure | null;
@@ -151,8 +150,12 @@ export class AppComponent implements OnInit, OnDestroy {
         const sections = ["navigation", "page", "footer"];
         if (typeof splitUrl[1] !== "undefined") {
           if (sections.indexOf(splitUrl[1]) !== -1) {
-            this.currentFragment = splitUrl[1];
-            document.getElementById("focus")?.focus();
+            const fragment = splitUrl[1];
+            const element = document.getElementById(fragment);
+            if (element) {
+              element.tabIndex = -1;
+              element.focus();
+            }
           }
         } else {
           this.currentUrl = event.url.split("#")[0];

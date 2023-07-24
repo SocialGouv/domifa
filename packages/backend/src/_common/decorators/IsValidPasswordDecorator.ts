@@ -41,7 +41,5 @@ export function checkPasswordStrength(
   if (value.length > 150 || value.length < 12) {
     return false;
   }
-  return new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])[^]{12,}$/).test(
-    value
-  );
+  return new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[^]{12,}$/).test(value);
 }

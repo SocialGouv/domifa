@@ -9,18 +9,43 @@
   border-top: 4px solid var(--bs-primary);
 }
 
-.page-footer {
+#skip-links {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: white;
+}
+
+#skip-links li {
+  padding: 0;
+  width: 100%;
+  position: absolute;
+}
+
+#skip-links li a {
+  left: -999rem;
+  position: absolute;
+  text-decoration: none;
+  list-style: none;
+  z-index: 1100;
+}
+
+#skip-links li a:focus {
+  left: 0;
+}
+
+footer {
   width: 100%;
   background-color: white;
   border-top: 1px solid #e6e6e6;
 }
 
-.page-footer img.ministere-logo {
+footer img.ministere-logo {
   max-height: 100px;
   width: auto;
 }
 
-.page-footer .menu-breadcrumb {
+footer .menu-breadcrumb {
   color: #1a1a1a;
   padding-left: 10px;
   padding-right: 10px;

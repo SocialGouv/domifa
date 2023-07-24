@@ -98,13 +98,13 @@ export const routes: Routes = [
       ),
     path: "structures",
   },
-  // 404 Page
   { component: NotFoundComponent, path: "404" },
   { path: "**", redirectTo: "404" },
 ];
 
 const routerOptions: ExtraOptions = {
   anchorScrolling: "enabled",
+  onSameUrlNavigation: "reload",
 };
 
 @NgModule({

@@ -1,6 +1,29 @@
 <app-custom-toastr></app-custom-toastr>
 <app-idle-manager></app-idle-manager>
-
+<nav class="fr-container" aria-label="Menu d'accès rapide au contenu">
+  <ul id="skip-links">
+    <li>
+      <a
+        ariaCurrentWhenActive="page"
+        routerLinkActive="router-link-active"
+        class="m-1 btn btn-sm btn-primary"
+        [routerLink]="currentUrl"
+        fragment="page"
+        >Aller au contenu</a
+      >
+    </li>
+    <li>
+      <a
+        ariaCurrentWhenActive="page"
+        routerLinkActive="router-link-active"
+        class="m-1 btn btn-sm btn-primary"
+        [routerLink]="currentUrl"
+        fragment="footer"
+        >Aller au pied de page</a
+      >
+    </li>
+  </ul>
+</nav>
 <div id="matomo-info" *ngIf="!matomoInfo">
   <div
     class="d-print-none d-flex justify-content-center align-items-center"
@@ -33,7 +56,7 @@
     </div>
   </div>
 </div>
-<nav class="navbar bg-white">
+<div class="navbar bg-white">
   <a
     class="navbar-brand"
     [routerLink]="usagerProfile ? '/account' : '/auth/login'"
@@ -47,7 +70,7 @@
     />
     <span class="nav-brand">DomiFa facilite votre domiciliation</span>
   </a>
-</nav>
+</div>
 <main id="page">
   <router-outlet></router-outlet>
 
@@ -59,7 +82,7 @@
   </div>
 </main>
 
-<footer role="contentinfo" id="footer" class="page-footer">
+<footer id="footer" class="d-print-none py-4">
   <div class="my-4 container">
     <div
       class="partenaires d-flex flex-wrap justify-content-center align-items-center"
