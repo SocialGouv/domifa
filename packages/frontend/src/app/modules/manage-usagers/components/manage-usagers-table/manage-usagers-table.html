@@ -1,25 +1,55 @@
-<section
-  class="d-flex align-items-center my-2 flex-wrap justify-content-md-start justify-content-center"
-  *ngIf="selectedRefs.length > 0 && displayCheckboxes"
->
-  <div class="me-2">{{ selectedRefs.length }} selectionnés</div>
-  <div class="btn-group btn-group-toggle" data-toggle="buttons">
-    <app-decision-radiation-form
-      [selectedRefs]="selectedRefs"
-      context="MANAGE"
-      *ngIf="filters.statut === 'VALIDE'"
-    ></app-decision-radiation-form>
-    <button
-      *ngIf="me?.role !== 'simple'"
-      type="button"
-      (click)="openDeleteUsagersModal()"
-      class="btn btn-sm btn-outline-dark"
+<section class="row align-items-center my-2 flex-wrap justify-content-between">
+  <div class="col-md-6 col-12">
+    <div
+      class="d-flex align-items-center flex-wrap justify-content-md-start justify-content-center"
+      *ngIf="selectedRefs.length > 0 && displayCheckboxes"
     >
-      Supprimer {{ selectedRefs.length === 1 ? "le domicilié" : "les domiciliés"
-      }}
+      <div class="me-2">{{ selectedRefs.length }} selectionnés</div>
+      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <app-decision-radiation-form
+          [selectedRefs]="selectedRefs"
+          context="MANAGE"
+          *ngIf="filters.statut === 'VALIDE'"
+        ></app-decision-radiation-form>
+        <button
+          type="button"
+          *ngIf="me?.role !== 'simple'"
+          (click)="openDeleteUsagersModal()"
+          class="btn btn-sm btn-outline-dark"
+        >
+          <ng-container *ngIf="selectedRefs.length === 1"
+            >Supprimer le domicilié</ng-container
+          >
+          <ng-container *ngIf="selectedRefs.length > 1"
+            >Supprimer les domiciliés</ng-container
+          >
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-12 text-end">
+    <button
+      type="button"
+      class="btn-sm btn-primary btn"
+      (click)="goToPrint.emit()"
+    >
+      <fa-icon
+        aria-hidden="true"
+        [icon]="['fas', 'print']"
+        *ngIf="!loading"
+      ></fa-icon>
+      <fa-icon
+        aria-hidden="true"
+        [icon]="['fas', 'circle-notch']"
+        [spin]="true"
+        *ngIf="loading"
+      >
+      </fa-icon>
+      Imprimer la liste
     </button>
   </div>
 </section>
+
 <table
   class="table"
   *ngIf="usagers.length !== 0 && !loading"
@@ -40,6 +70,7 @@
     <th scope="col">
       <button
         type="button"
+        [attr.aria-sort]="filters.sortKey ==='ID' ? filters.sortValue : null"
         (click)="updateFilters.emit({  element: 'sortKey',  value: 'ID'})"
       >
         <span class="visually-hidden">Trier par</span>
@@ -50,6 +81,7 @@
     <th scope="col">
       <button
         type="button"
+        [attr.aria-sort]="filters.sortKey ==='NAME' ? filters.sortValue : null"
         (click)="updateFilters.emit({ element: 'sortKey',  value: 'NAME' })"
       >
         <span class="visually-hidden">Trier par</span>
@@ -58,7 +90,6 @@
     </th>
     <th scope="col">Téléphone</th>
     <th scope="col">INFORMATIONS</th>
-
     <th
       scope="col"
       *ngIf="filters.statut === 'ATTENTE_DECISION' || filters.statut === 'INSTRUCTION'"
@@ -72,6 +103,7 @@
     >
       <button
         type="button"
+        [attr.aria-sort]="filters.sortKey ==='PASSAGE' ? filters.sortValue : null"
         (click)="updateFilters.emit({element: 'sortKey', value: 'PASSAGE'})"
       >
         <span class="visually-hidden">Trier par</span>
@@ -82,6 +114,7 @@
     <th class="clickable" scope="col">
       <button
         type="button"
+        [attr.aria-sort]="filters.sortKey ==='ECHEANCE' ? filters.sortValue : null"
         (click)="updateFilters.emit({element: 'sortKey', value: 'ECHEANCE'})"
       >
         <span class="visually-hidden">Trier par</span>
@@ -98,26 +131,7 @@
     <th scope="col" class="text-start d-print-none">Intéraction</th>
     <th scope="col" class="text-start d-print-none">Courrier</th>
     <th scope="col" class="d-print-none">
-      <button
-        type="button"
-        class="btn-sm btn-primary btn"
-        (click)="goToPrint.emit()"
-      >
-        <span class="visually-hidden">Imprimer la liste</span>
-        <fa-icon
-          aria-hidden="true"
-          [icon]="['fas', 'print']"
-          *ngIf="!loading"
-        ></fa-icon>
-
-        <fa-icon
-          aria-hidden="true"
-          [icon]="['fas', 'circle-notch']"
-          [spin]="true"
-          *ngIf="loading"
-        >
-        </fa-icon>
-      </button>
+      <span class="visually-hidden">Actions</span>
     </th>
   </thead>
   <tbody>

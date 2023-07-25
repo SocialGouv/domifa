@@ -220,27 +220,25 @@
   <div class="container">
     <div class="row d-flex align-items-center">
       <div class="col-12 col-md-9">
-        <div
-          *ngIf="nbResults"
+        <p
+          aria-live="polite"
           class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
         >
-          Filtrer les <span class="text-primary"> {{ nbResults }} </span>
-          <ng-container
-            *ngIf="
-              filters.statut === 'RADIE' &&
-              usagersRadiesTotalCount !== usagersRadiesLoadedCount
-            "
-          >
-            premiers
+          <ng-container *ngIf="nbResults">
+            Filtrer les <span class="text-primary"> {{ nbResults }} </span>
+            <ng-container
+              *ngIf="
+                filters.statut === 'RADIE' &&
+                usagersRadiesTotalCount !== usagersRadiesLoadedCount
+              "
+            >
+              premiers
+            </ng-container>
+            résultats
           </ng-container>
-          résultats
-        </div>
-        <div
-          *ngIf="!nbResults"
-          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
-        >
-          Aucun résultat
-        </div>
+          <ng-container *ngIf="!nbResults"> Aucun résultat </ng-container>
+        </p>
+
         <div
           *ngIf="filters.statut === 'TOUS' || filters.statut === 'VALIDE'"
           class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
@@ -249,7 +247,7 @@
             *ngIf="filters.passage"
             type="button"
             aria-label="Réinitialiser le filtre date de dernier passage"
-            class="btn selected-btn"
+            class="btn btn-outline-primary"
             (click)="updateFilters({ element: 'passage', value: null })"
           >
             {{ labelsDernierPassage[filters.passage] }}
@@ -305,7 +303,7 @@
           <button
             type="button"
             *ngIf="filters.echeance"
-            class="btn selected-btn"
+            class="btn btn-outline-primary"
             (click)="updateFilters({ element: 'echeance', value: null })"
           >
             {{ labelsEcheance[filters.echeance] }}
@@ -374,7 +372,7 @@
           <button
             type="button"
             aria-label="Réinitialiser le filtre courrier à récupérer"
-            class="btn selected-btn"
+            class="btn btn-outline-primary"
             *ngIf="filters.interactionType"
             (click)="updateFilters({ element: 'interactionType', value: null })"
           >
@@ -425,8 +423,8 @@
           <button
             type="button"
             *ngIf="filters.entretien"
-            aria-label="Réinitialiser le filtre"
-            class="btn selected-btn"
+            aria-label="Réinitialiser le filtre entretien"
+            class="btn btn-outline-primary"
             (click)="updateFilters({ element: 'entretien', value: null })"
           >
             Entretien {{ labelsEntretien[filters.entretien] }}
