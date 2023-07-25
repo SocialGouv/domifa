@@ -1,6 +1,4 @@
 .dropdown-manage-actions {
-  padding: 0 !important;
-
   .toggle-actions {
     color: rgb(27, 27, 27);
     font-size: 1.6rem;
@@ -9,12 +7,4 @@
   .dropdown-toggle::after {
     display: none !important;
   }
-}
-
-.show .dropdown-toggle,
-.dropdown-toggle:focus,
-.dropdown-toggle:active {
-  color: var(--bs-primary) !important;
-  border-color: var(--bs-primary) !important;
-  box-shadow: 0 0 0 0.25rem rgba(var(--bs-btn-focus-shadow-rgb), 0.5);
 }

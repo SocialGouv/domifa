@@ -27,7 +27,9 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
   public readonly ETAPES_FORM_DOM = ETAPES_FORM_DOM;
   public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
 
-  public nbNotes: number;
+  public nbNotes = 0;
+  public currentUrl = "";
+
   private subscription = new Subscription();
 
   constructor(
@@ -84,9 +86,11 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
           this.nbNotes = usager?.nbNotes ?? 0;
         })
     );
+
+    this.currentUrl = this.router.url;
   }
 
-  public changeStep(event: Event) {
+  public changeStep(event: Event): void {
     const target = event.target as HTMLInputElement;
     const value = parseInt(target.value, 10);
 
@@ -121,17 +125,6 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  public navigateToNotes(): void {
-    const element = document.getElementById("private_notes");
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-        inline: "nearest",
-      });
-    }
-  }
-
   public isMobile(): boolean {
     const userAgent = window.navigator.userAgent;
     const mobileDevices = [
@@ -144,6 +137,7 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
 
     return mobileDevices.some((device) => userAgent.includes(device));
   }
+
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

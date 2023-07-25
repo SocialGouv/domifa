@@ -1,14 +1,12 @@
 <app-custom-toastr></app-custom-toastr>
 <app-loading></app-loading>
-<app-help-modal></app-help-modal>
 <app-idle-manager></app-idle-manager>
-<nav class="fr-container" aria-label="Menu d'accès rapide au contenu">
-  <ul id="skip-links">
+<nav id="skip-links" role="navigation" aria-label="Accès rapide">
+  <ul>
     <li>
       <a
         ariaCurrentWhenActive="page"
         routerLinkActive="router-link-active"
-        class="m-1 btn btn-sm btn-primary"
         [routerLink]="currentUrl"
         fragment="navigation"
         >Aller à la navigation</a
@@ -18,17 +16,24 @@
       <a
         ariaCurrentWhenActive="page"
         routerLinkActive="router-link-active"
-        class="m-1 btn btn-sm btn-primary"
         [routerLink]="currentUrl"
         fragment="page"
         >Aller au contenu</a
+      >
+    </li>
+    <li *ngIf="currentUrl === '/manage'">
+      <a
+        ariaCurrentWhenActive="page"
+        routerLinkActive="router-link-active"
+        [routerLink]="currentUrl"
+        fragment="search-bar"
+        >Aller à la recherche</a
       >
     </li>
     <li>
       <a
         ariaCurrentWhenActive="page"
         routerLinkActive="router-link-active"
-        class="m-1 btn btn-sm btn-primary"
         [routerLink]="currentUrl"
         fragment="footer"
         >Aller au pied de page</a
@@ -36,13 +41,14 @@
     </li>
   </ul>
 </nav>
-<app-navbar [pendingNews]="pendingNews" [me]="me"></app-navbar>
-
+<app-help-modal></app-help-modal>
+<header role="banner">
+  <app-navbar [pendingNews]="pendingNews" [me]="me"></app-navbar>
+</header>
 <main id="page">
   <router-outlet></router-outlet>
 </main>
-
-<footer id="footer" class="d-print-none py-3">
+<footer id="footer" role="contentinfo" class="d-print-none py-3">
   <div class="container my-2 py-3">
     <div class="row">
       <div class="col-md-3 my-2">

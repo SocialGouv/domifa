@@ -21,7 +21,7 @@ describe("Création des rendez-vous", () => {
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
     expect(getRdvInfos(usager)).toEqual({
       class: "",
-      content: "RDV le 20/03/2021 à 19:20",
+      content: "Rendez-vous le 20/03/2021 à 19:20",
       display: true,
     });
   });
@@ -37,7 +37,7 @@ describe("Création des rendez-vous", () => {
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
     expect(getRdvInfos(usager)).toEqual({
       class: "",
-      content: "RDV le 20/07/2020 à 19:20",
+      content: "Rendez-vous le 20/07/2020 à 19:20",
       display: false,
     });
   });

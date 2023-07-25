@@ -25,19 +25,22 @@
           </ng-container>
         </h1>
       </div>
-      <button
-        aria-label="Naviguer vers les notes"
-        type="button"
+
+      <a
+        aria-label="Naviguer vers les commentaires privés"
+        ariaCurrentWhenActive="page"
+        routerLinkActive="router-link-active"
+        [routerLink]="currentUrl"
         class="btn btn-white-primary my-2 my-md-0 mx-auto mx-md-0 d-flex align-items-center"
         *ngIf="usager.uuid"
-        (click)="navigateToNotes()"
+        fragment="notes"
       >
         <div class="icon-note me-2"></div>
         Commentaires privés
         <div class="notif-notes ms-2">
           {{ nbNotes }}
         </div>
-      </button>
+      </a>
     </div>
   </div>
 </div>

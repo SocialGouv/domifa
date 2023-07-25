@@ -4,12 +4,11 @@ import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { NavigationEnd, Router } from "@angular/router";
 import { filter } from "rxjs";
-import { MatomoTracker } from "@ngx-matomo/tracker";
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"],
+  styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnInit {
   public title: string;
@@ -21,7 +20,6 @@ export class AppComponent implements OnInit {
     private readonly titleService: Title,
     private readonly router: Router,
     private readonly usagerAuthService: UsagerAuthService,
-    private readonly matomoService: MatomoTracker,
   ) {
     this.apiVersion = null;
     this.usagerProfile = null;

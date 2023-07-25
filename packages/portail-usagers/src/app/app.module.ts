@@ -1,6 +1,7 @@
 import {
   CUSTOM_ELEMENTS_SCHEMA,
   ErrorHandler,
+  LOCALE_ID,
   NgModule,
   NO_ERRORS_SCHEMA,
 } from "@angular/core";
@@ -26,6 +27,11 @@ import { GeneralModule } from "./modules/general/general.module";
 import { MATOMO_INJECTORS } from "./shared";
 import { UserIdleModule } from "angular-user-idle";
 
+import { registerLocaleData } from "@angular/common";
+import localeFr from "@angular/common/locales/fr";
+
+registerLocaleData(localeFr, "fr");
+
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [AppComponent],
@@ -46,8 +52,8 @@ import { UserIdleModule } from "angular-user-idle";
   providers: [
     UsagerAuthService,
     CustomToastService,
+    { provide: LOCALE_ID, useValue: "fr" },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-
     { provide: ErrorHandler, useClass: SentryErrorHandler },
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],

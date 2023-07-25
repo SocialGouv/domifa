@@ -43,12 +43,6 @@ ul {
   animation-duration: 300ms;
 }
 
-.npai {
-  -webkit-text-stroke-width: 0;
-  stroke-width: 0;
-  color: var(--bs-danger) !important;
-}
-
 .bg-primary-light {
   background: #f6f7ff;
 }
@@ -61,11 +55,6 @@ ul {
   color: var(--bs-primary);
 }
 
-table .active {
-  color: #8393a7;
-  text-decoration: underline;
-}
-
 .step-form {
   background-color: white;
   padding: 1.4rem 1rem;
@@ -76,15 +65,24 @@ table .active {
 }
 
 .tooltip-inner {
-  background: #ffffff;
+  background: #ffffff !important;
   border: 1px solid #e6e6e6;
   color: black;
-  box-shadow: 0 1px 8px rgba(72, 93, 183, 0.1),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.06);
   font-size: 0.9rem !important;
-  max-width: 280px;
+  max-width: 310px;
   font-weight: 600;
-  padding: 8px 14px;
+  padding: 0.5rem 1rem;
+  opacity: 1 !important;
+
+  ul {
+    list-style-type: circle;
+    padding-left: 1.2rem;
+    text-align: left;
+  }
+  li {
+    padding: 0;
+    margin: 0;
+  }
 }
 
 .title {
@@ -205,17 +203,17 @@ legend {
 .head-page {
   background-color: var(--bs-primary);
   width: 100%;
+
+  .title,
+  h1 {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1.7rem;
+    color: #ffffff;
+  }
 }
 
-.head-page .title,
-.head-page h1 {
-  font-style: normal;
-  font-weight: bold;
-  font-size: 1.7rem;
-  color: #ffffff;
-}
-
-.statut-label a,
+.head-page .statut-label a,
 .statut-label {
   font-style: normal;
   font-weight: 600;
@@ -223,41 +221,41 @@ legend {
   letter-spacing: 0;
 }
 
-#statut-selector .col:first-child {
-  border-radius: 5px 0 0 0;
+#statut-selector {
+  box-shadow: 0 1px 3px rgba(50, 66, 124, 0.1);
+
+  .col:first-child {
+    border-radius: 5px 0 0 0;
+  }
+
+  .col:last-child {
+    border-radius: 0 5px 0 0;
+  }
+
+  button,
+  a {
+    padding: 1rem 1.1rem;
+    margin: 0;
+    border: 1px solid transparent;
+    text-align: left;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.25s ease-in-out;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 -1px 2px 0 rgba(65, 100, 245, 0.2);
+  }
+
+  a:focus,
+  button:focus {
+    border-color: var(--bs-primary);
+  }
 }
 
-#statut-selector .col:last-child {
-  border-radius: 0 5px 0 0;
-}
-
-#statut-selector button,
-#statut-selector a {
-  padding: 1rem 1.1rem;
-  margin: 0;
-  outline: none;
-  border: 1px solid transparent;
-  text-align: left;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.25s ease-in-out;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 -1px 2px 0 rgba(65, 100, 245, 0.2);
-}
-
-#statut-selector a:focus,
-#statut-selector button:focus {
-  border-color: var(--bs-primary);
-}
-
-#statut-selector a:hover #statut-selector button:hover,
+#statut-selector a:hover,
+#statut-selector button:hover,
 .selected-section {
   background-color: white !important;
   box-shadow: 0 0 5px rgba(50, 66, 124, 0.1);
-}
-
-#statut-selector {
-  box-shadow: 0 1px 3px rgba(50, 66, 124, 0.1);
 }
 
 .selected-section .statut-label {

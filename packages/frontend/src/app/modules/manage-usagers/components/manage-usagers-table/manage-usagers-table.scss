@@ -143,16 +143,18 @@ thead th {
   justify-content: center;
   border: 1px solid rgba(65, 100, 245, 0.4);
   box-sizing: border-box;
-  border-radius: 3px;
+  border-radius: 4px;
   margin: 3px;
   padding: 0.1rem 0.2rem;
   position: relative;
   background-color: white;
+  transition: all 0.2s;
 }
 
 .interaction-btn:hover {
   color: white;
-  background-color: #4164f5;
+  background-color: var(--bs-primary);
+  box-shadow: 0 0 0 0.25rem rgba(179, 179, 179, 0.5);
 }
 
 .interaction-btn:hover .list-icon {

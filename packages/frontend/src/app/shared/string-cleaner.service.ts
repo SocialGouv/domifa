@@ -5,5 +5,5 @@ function cleanString(str: string): string {
     return "";
   }
 
-  return str.replace(/[&/\\#,+_$~%."*<>{}]/gi, "").replace(/\s+/g, " ");
+  return str.replace(/[\\$~*<>{}]/gi, "").replace(/\s+/g, " ");
 }

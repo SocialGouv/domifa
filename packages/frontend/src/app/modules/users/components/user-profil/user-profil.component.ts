@@ -24,7 +24,7 @@ export class UserProfilComponent implements OnInit, OnDestroy {
 
   public selectedUser: UserStructureProfile | null;
   public loading: boolean;
-  public usersInfos: boolean;
+  public displayUserRightsHelper: boolean;
   private subscription = new Subscription();
 
   constructor(
@@ -37,7 +37,7 @@ export class UserProfilComponent implements OnInit, OnDestroy {
     this.users = [];
     this.loading = false;
     this.selectedUser = null;
-    this.usersInfos = false;
+    this.displayUserRightsHelper = false;
   }
 
   public ngOnInit(): void {

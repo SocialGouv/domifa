@@ -5,7 +5,6 @@
         class="row text-center justify-content-md-between justify-content-center align-items-center"
       >
         <h1 class="col-md-2 col-12 title text-start">Domiciliés</h1>
-
         <div class="col-md-8 col-12 align-items-center">
           <div
             ngbDropdown
@@ -269,7 +268,7 @@
             #dropdownDernierPassage="ngbDropdown"
             class="d-inline-block my-1"
           >
-            <button type="button" class="btn" ngbDropdownToggle>
+            <button type="button" ngbDropdownToggle>
               <span>Dernier passage</span>
             </button>
             <div
@@ -325,7 +324,7 @@
             class="d-inline-block my-1"
             #dropdownEcheance="ngbDropdown"
           >
-            <button type="button" class="btn" ngbDropdownToggle>
+            <button type="button" ngbDropdownToggle>
               <span>Échéance de domiciliation</span>
             </button>
 
@@ -374,7 +373,7 @@
         >
           <button
             type="button"
-            title="Réinitialiser le filtre courrier à récupérer"
+            aria-label="Réinitialiser le filtre courrier à récupérer"
             class="btn selected-btn"
             *ngIf="filters.interactionType"
             (click)="updateFilters({ element: 'interactionType', value: null })"
@@ -395,7 +394,7 @@
             *ngIf="!filters.interactionType"
             #dropDownCourrierAttente="ngbDropdown"
           >
-            <button type="button" class="btn" ngbDropdownToggle>
+            <button type="button" ngbDropdownToggle>
               <span>Courriers à récupérer</span>
             </button>
             <div
@@ -446,9 +445,7 @@
             class="d-inline-block my-1"
             #dropDownEntretien="ngbDropdown"
           >
-            <button type="button" class="btn" ngbDropdownToggle>
-              Entretien
-            </button>
+            <button type="button" ngbDropdownToggle>Entretien</button>
             <div
               ngbDropdownMenu
               aria-labelledby="dropDownEntretien"
@@ -487,7 +484,7 @@
         <div ngbDropdown id="dropdownSort" #dropdownSort="ngbDropdown">
           <button
             type="button"
-            class="btn mx-auto ms-md-auto me-md-0"
+            class="mx-auto ms-md-auto me-md-0"
             id="dropdownSortButton"
             ngbDropdownToggle
           >
