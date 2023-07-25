@@ -16,9 +16,9 @@ export function StripTagsTransform(
     if (sourceData.value.trim() === "") {
       return null;
     }
-    return (sourceData.value = striptags(sourceData.value)
+    return striptags(sourceData.value)
       .replace(/[\\$~*<>{}]/gi, "")
       .replace(/\s+/g, " ")
-      .trim());
+      .trim();
   }, transformOptions);
 }
