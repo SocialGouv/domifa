@@ -1,3 +1,10 @@
+## [2.132.2](https://github.com/SocialGouv/domifa/compare/v2.132.1...v2.132.2) (2023-07-25)
+
+
+### Bug Fixes
+
+* workflow review-auto to v1 ([10636c6](https://github.com/SocialGouv/domifa/commit/10636c600f251d947f689cdf401bd994badbe447))
+
 ## [2.132.1](https://github.com/SocialGouv/domifa/compare/v2.132.0...v2.132.1) (2023-07-24)
 
 
