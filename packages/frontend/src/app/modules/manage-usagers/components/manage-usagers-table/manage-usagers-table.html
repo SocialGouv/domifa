@@ -204,28 +204,30 @@
           #tooltipProcuration="ngbTooltip"
         >
           <ng-template #procurationActif>
-            <p
-              class="text-start"
-              *ngFor="let procuration of usager.options.procurations; let i = index"
-            >
-              <span *ngIf="procuration.dateFin > today">
-                <fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'share']"
-                  class="text-primary me-1"
-                ></fa-icon>
-                Active: {{ procuration.nom }} {{ procuration.prenom }}
-              </span>
-              <span *ngIf="procuration.dateFin <= today">
-                <fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'times']"
-                  class="text-danger me-1"
-                ></fa-icon>
-                Expirée le {{procuration.dateFin | date: "dd MMMM yyyy" }}: {{
-                procuration.nom }} {{ procuration.prenom }}
-              </span>
-            </p>
+            <ul>
+              <li
+                class="text-start"
+                *ngFor="let procuration of usager.options.procurations; let i = index"
+              >
+                <ng-container *ngIf="procuration.dateFin > today">
+                  <fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'share']"
+                    class="text-primary me-1"
+                  ></fa-icon>
+                  Active: {{ procuration.nom }} {{ procuration.prenom }}
+                </ng-container>
+                <ng-container *ngIf="procuration.dateFin <= today">
+                  <fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'times']"
+                    class="text-danger me-1"
+                  ></fa-icon>
+                  Expirée le {{procuration.dateFin | date: "dd MMMM yyyy" }}: {{
+                  procuration.nom }} {{ procuration.prenom }}
+                </ng-container>
+              </li>
+            </ul>
           </ng-template>
           <p class="m-0">
             {{ usager.options.procurations.length > 1 ? 'Procurations':
@@ -325,10 +327,10 @@
           <button
             type="button"
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_visite') !== -1"
-            aria-label="Ajout d'un passage"
+            [attr.aria-label]="'Ajout d\'un passage pour ' +  (usager | usagerNomComplet) "
             ngbTooltip="Ajout d'un passage"
             triggers="hover focus"
-            class="btn interaction-btn btn-light"
+            class="interaction-btn btn-light"
             (click)="setSingleInteraction(usager, 'visite')"
           >
             <fa-icon
@@ -342,10 +344,10 @@
           <button
             type="button"
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_appel') !== -1"
-            aria-label="Ajout d'un appel téléphonique"
+            [attr.aria-label]="'Ajout d\'un appel téléphonique pour ' +  (usager | usagerNomComplet) "
             ngbTooltip="Ajout d'un appel téléphonique"
             triggers="hover focus"
-            class="btn interaction-btn btn-light"
+            class="interaction-btn btn-light"
             (click)="setSingleInteraction(usager, 'appel')"
           >
             <fa-icon
@@ -367,10 +369,10 @@
           <button
             type="button"
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_courrierIn') !== -1"
-            aria-label="Ajout rapide d'un courrier"
-            ngbTooltip="Ajout rapide d'un courrier"
+            [attr.aria-label]="'Ajout d\'un courrier pour ' +  (usager | usagerNomComplet) "
+            ngbTooltip="Ajout d'un courrier"
             triggers="hover focus"
-            class="btn interaction-btn btn-light"
+            class="interaction-btn btn-light"
             (click)="setSingleInteraction(usager, 'courrierIn')"
           >
             <fa-icon
@@ -383,10 +385,10 @@
           </button>
           <button
             type="button"
-            aria-label="Réception de courriers"
-            ngbTooltip="Réception de courriers"
+            [attr.aria-label]="'Réception de courriers, colis ou recommandés pour ' +  (usager | usagerNomComplet)"
+            ngbTooltip="Réception de courriers, colis ou recommandés"
             triggers="hover focus"
-            class="interaction-btn btn-light btn"
+            class="interaction-btn btn-light"
             (click)="openInteractionInModal(usager)"
           >
             <span class="icon-reception list-icon"></span>
@@ -429,11 +431,11 @@
 
           <button
             *ngIf="usager.lastInteraction.enAttente"
-            class="btn interaction-btn btn-light"
+            class="interaction-btn btn-light"
             [ngbTooltip]="distributionBox"
             type="button"
             triggers="hover focus"
-            [attr.aria-label]="'Distribuer '+ usager.totalInteractionsEnAttente+ ' courriers'"
+            [attr.aria-label]="'Distribuer '+ usager.totalInteractionsEnAttente+ ' courriers de ' + (usager | usagerNomComplet)"
             (click)="openInteractionOutModal(usager)"
           >
             <span class="icon-distribution list-icon"></span>

@@ -28,7 +28,7 @@ import { LIENS_PARTENAIRES } from "./modules/general/components/plan-site/LIENS_
 @Component({
   animations: [fadeInOut],
   selector: "app-root",
-  styleUrls: ["./app.component.css"],
+  styleUrls: ["./app.component.scss"],
   templateUrl: "./app.component.html",
 })
 export class AppComponent implements OnInit, OnDestroy {
@@ -147,15 +147,12 @@ export class AppComponent implements OnInit, OnDestroy {
         const splitUrl = event?.url.split("#");
         this.currentUrl = splitUrl[0];
 
-        const sections = ["navigation", "page", "footer"];
         if (typeof splitUrl[1] !== "undefined") {
-          if (sections.indexOf(splitUrl[1]) !== -1) {
-            const fragment = splitUrl[1];
-            const element = document.getElementById(fragment);
-            if (element) {
-              element.tabIndex = -1;
-              element.focus();
-            }
+          const fragment = splitUrl[1];
+          const element = document.getElementById(fragment);
+          if (element) {
+            element.tabIndex = -1;
+            element.focus();
           }
         } else {
           this.currentUrl = event.url.split("#")[0];

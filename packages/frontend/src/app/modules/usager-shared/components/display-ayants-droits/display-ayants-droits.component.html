@@ -1,12 +1,14 @@
-<ng-template #ayantsDroitsInfos class="p-4 text-start">
-  <div class="distribution-tooltip">
-    <div class="p-1" *ngFor="let ayantDroit of usager.ayantsDroits">
-      <strong class="text-primary">{{ ayantDroit.nom }}</strong>
-      {{ ayantDroit.prenom }}, né(e) le
-      {{ ayantDroit.dateNaissance | date : "dd MMMM yyyy" }} ({{
-        LIEN_PARENTE_LABELS[ayantDroit.lien]
-      }})
-    </div>
+<ng-template #ayantsDroitsInfos class="p-4">
+  <div class="distribution-tooltip text-start">
+    <ul>
+      <li class="p-1" *ngFor="let ayantDroit of usager.ayantsDroits">
+        <strong class="text-primary">{{ ayantDroit.nom }}</strong>
+        {{ ayantDroit.prenom }}, né(e) le
+        {{ ayantDroit.dateNaissance | date : "dd MMMM yyyy" }} ({{
+          LIEN_PARENTE_LABELS[ayantDroit.lien]
+        }})
+      </li>
+    </ul>
   </div>
 </ng-template>
 
@@ -15,6 +17,8 @@
   class="label-info label-green"
   *ngIf="usager.ayantsDroits.length > 0"
   [ngbTooltip]="ayantsDroitsInfos"
+  triggers="hover focus"
+  tabindex="0"
 >
   <p class="m-0">
     <span *ngIf="usager.ayantsDroits.length > 1">

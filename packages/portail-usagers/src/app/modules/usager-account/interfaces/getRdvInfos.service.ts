@@ -17,12 +17,11 @@ export const getRdvInfos = (
 
   const dateRdv = new Date(usager.rdv.dateRdv);
 
-  rdvDisplay.content = `RDV le ${format(dateRdv, "dd/MM/yyyy")} à ${format(
+  rdvDisplay.content = `Rendez-vous le ${format(
     dateRdv,
-    "HH:mm",
-  )}`;
+    "dd/MM/yyyy",
+  )} à ${format(dateRdv, "HH:mm")}`;
 
-  // Rdv à venir
   if (dateRdv > new Date()) {
     rdvDisplay.display = true;
   }

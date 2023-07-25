@@ -365,7 +365,6 @@
                 [disabled]="loadingButtons.indexOf('visite') !== -1"
                 [attr.aria-disabled]="loadingButtons.indexOf('visite') !== -1"
                 class="my-1 btn me-2 btn-primary"
-                triggers="hover focus"
                 (click)="setSingleInteraction(usager.ref, 'visite')"
               >
                 <fa-icon
@@ -382,7 +381,6 @@
                 type="button"
                 [disabled]="loadingButtons.indexOf('appel') !== -1"
                 class="my-1 btn btn-primary me-2"
-                triggers="hover focus"
                 (click)="setSingleInteraction(usager.ref, 'appel')"
               >
                 <fa-icon

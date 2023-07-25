@@ -57,7 +57,7 @@ const AUTO_REFRESH_PERIOD = 3600000; // 1h
 @Component({
   animations: [fadeInOut],
   selector: "app-manage-usagers-page",
-  styleUrls: ["./manage-usagers-page.component.css"],
+  styleUrls: ["./manage-usagers-page.component.scss"],
   templateUrl: "./manage-usagers-page.component.html",
 })
 export class ManageUsagersPageComponent implements OnInit, OnDestroy {

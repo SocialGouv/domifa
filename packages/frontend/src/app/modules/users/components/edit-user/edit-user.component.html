@@ -21,9 +21,9 @@
                 </caption>
                 <thead>
                   <tr>
-                    <th scope="col">Date</th>
+                    <th scope="col">Date du rendez-vous</th>
                     <th scope="col">Domicilié(e) concerné(e)</th>
-                    <th scope="col"></th>
+                    <th scope="col">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -42,7 +42,7 @@
                         ariaCurrentWhenActive="page"
                         routerLinkActive="router-link-active"
                       >
-                        Voir la fiche
+                        Voir la fiche du domicilié
                       </a>
                     </td>
                   </tr>
@@ -214,7 +214,7 @@
           >
             <fa-icon
               aria-hidden="true"
-              [icon]="['far', 'edit']"
+              [icon]="['fas', 'times']"
               class="me-2"
             ></fa-icon>
             Annuler les modifications
@@ -322,7 +322,7 @@
             class="my-1 btn btn-outline-dark me-2"
           >
             <fa-icon
-              [icon]="['far', 'edit']"
+              [icon]="['fas', 'times']"
               aria-hidden="true"
               class="me-2"
             ></fa-icon>

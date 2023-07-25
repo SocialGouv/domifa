@@ -1,6 +1,5 @@
 <div *ngIf="usager" class="py-3">
   <h2 class="content section-title">Votre domiciliation</h2>
-
   <div class="content section-content">
     <div class="py-2">
       <div
@@ -32,7 +31,7 @@
         <span>
           Attention, votre domiciliation expire le
           <strong>
-            {{ echeanceInfos.dateToDisplay | date : "dd/MM/yyyy" }}
+            {{ echeanceInfos.dateToDisplay | date : "fullDate" }}
           </strong>
         </span>
       </div>
@@ -46,7 +45,7 @@
         <div aria-hidden="true" class="svg-icon icon-danger"></div>
         <p>
           Domiciliation expirée depuis le
-          {{ echeanceInfos.dateToDisplay | date : "dd/MM/yyyy" }}, il y a
+          {{ echeanceInfos.dateToDisplay | date : "fullDate" }}, il y a
           {{ echeanceInfos.dayBeforeEnd * -1 }} jours
         </p>
       </div>
@@ -61,24 +60,22 @@
         />
       </div>
       <div>
-        <div class="section-subtitle">Votre dossier</div>
-        <div class="py-1">
-          <div class="py-1">
-            <b>Statut</b>:
-            <span class="label-statut">
-              {{ USAGER_DECISION_STATUT_LABELS[usager.decision.statut] }}
-            </span>
-          </div>
+        <h3 class="section-subtitle">Votre dossier</h3>
 
-          <div class="py-1">
-            <b>Échéance: </b>
-            {{ echeanceInfos.dateToDisplay | date : "dd/MM/yyyy" }}
-          </div>
-          <div class="py-1">
-            <b>Dernier passage: </b>
-            {{ usager.lastInteraction.dateInteraction | date : "dd/MM/yyyy" }}
-          </div>
-        </div>
+        <p class="my-2">
+          <b>Statut</b>:
+          <span class="label-statut">
+            {{ USAGER_DECISION_STATUT_LABELS[usager.decision.statut] }}
+          </span>
+        </p>
+        <p class="my-2">
+          <b>Échéance: </b>
+          {{ echeanceInfos.dateToDisplay | date : "fullDate" }}
+        </p>
+        <p class="my-2">
+          <b>Dernier passage: </b>
+          {{ usager.lastInteraction.dateInteraction | date : "fullDate" }}
+        </p>
       </div>
     </div>
 
@@ -91,14 +88,14 @@
         />
       </div>
       <div>
-        <div class="section-subtitle">Vos informations</div>
-        <div class="py-1 fw-bold">{{ usager.prenom }} {{ usager.nom }}</div>
-        <div class="py-1 fw-bold">
+        <h3 class="section-subtitle">Vos informations</h3>
+        <p class="my-2 fw-bold">{{ usager.prenom }} {{ usager.nom }}</p>
+        <p class="my-2 fw-bold">
           {{ usager.telephone | formatInternationalPhoneNumber }}
-        </div>
-        <div class="py-1 fw-bold">
+        </p>
+        <p class="my-2 fw-bold">
           {{ usager.email || "Email non renseigné" }}
-        </div>
+        </p>
       </div>
     </div>
   </div>
@@ -117,7 +114,7 @@
         <fa-icon [icon]="['fas', 'link']" aria-hidden="true"></fa-icon>
       </div>
       <div>
-        <div class="py-1 fw-bold">
+        <p class="py-1 fw-bold">
           <a
             target="_blank"
             rel="noopener noreferrer"
@@ -129,7 +126,7 @@
               aria-hidden="true"
             ></fa-icon
           ></a>
-        </div>
+        </p>
       </div>
     </div>
   </div>

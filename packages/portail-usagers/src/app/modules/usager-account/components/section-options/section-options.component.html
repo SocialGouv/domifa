@@ -5,8 +5,7 @@
     "
     class="my-2"
   >
-    <div class="content section-title">Transfert et procurations</div>
-
+    <h2 class="content section-title">Transfert et procurations</h2>
     <div class="content section-content">
       <!-- TRANSFERT -->
       <div
@@ -21,7 +20,7 @@
         <span
           ><strong>Attention : </strong> le transfert de courrier était valable
           jusqu'au
-          {{ usager.options.transfert.dateFin | date : "dd/MM/yyyy" }}</span
+          {{ usager.options.transfert.dateFin | date : "fullDate" }}</span
         >
       </div>
       <div
@@ -46,16 +45,16 @@
               Une procuration au nom de
               <strong>{{ procuration.nom }} {{ procuration.prenom }}</strong>
               est active et valable jusqu'au
-              {{ procuration.dateFin | date : "dd/MM/yyyy" }}
+              {{ procuration.dateFin | date : "fullDate" }}
             </span>
           </div>
           <div *ngIf="procuration.dateFin <= today" class="alert alert-danger">
-            <span title="Calendrier" class="svg-icon icon-calendar"></span>
+            <span aria-hidden="true" class="svg-icon icon-calendar"></span>
             <span>
               La procuration au nom de
               <strong>{{ procuration.nom }} {{ procuration.prenom }}</strong>
               a expiré le
-              {{ procuration.dateFin | date : "dd/MM/yyyy" }}
+              {{ procuration.dateFin | date : "fullDate" }}
             </span>
           </div>
         </ng-container>

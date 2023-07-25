@@ -67,14 +67,20 @@
       <button
         type="button"
         class="btn btn-outline-primary my-2"
-        (click)="usersInfos = !usersInfos"
+        [attr.aria-expanded]="displayUserRightsHelper"
+        aria-controls="user-infos"
+        (click)="displayUserRightsHelper = !displayUserRightsHelper"
       >
         <fa-icon aria-hidden="true" [icon]="['fas', 'question']"></fa-icon>
         &nbsp; En savoir plus sur les rôles utilisateurs
       </button>
 
-      <div class="my-2 table-responsive" *ngIf="usersInfos">
-        <table class="table" id="user-infos">
+      <div
+        class="my-2 table-responsive"
+        id="user-infos"
+        *ngIf="displayUserRightsHelper"
+      >
+        <table class="table">
           <caption>
             Liste des rôles utilisateurs et des rôles
           </caption>

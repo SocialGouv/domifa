@@ -1,4 +1,4 @@
-<div *ngIf="usagerProfile">
+<ng-container *ngIf="usagerProfile">
   <div class="home-message">
     <h1 class="text-primary fw-bold">
       Bonjour {{ usagerProfile.usager.prenom }}
@@ -9,11 +9,9 @@
       >Bienvenue dans votre espace de suivi de courrier</span
     >
   </div>
-
   <app-section-courriers
     [usager]="usagerProfile.usager"
   ></app-section-courriers>
-
   <app-section-options [usager]="usagerProfile.usager"></app-section-options>
   <app-section-infos [usager]="usagerProfile.usager"></app-section-infos>
-</div>
+</ng-container>

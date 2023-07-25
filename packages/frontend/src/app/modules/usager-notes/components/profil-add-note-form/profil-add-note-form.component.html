@@ -18,8 +18,8 @@
     <div class="modal-body text-center">
       <div class="form-group required">
         <label class="label text-start" for="message"
-          >Contenu de la note (1000 caractères maximum)</label
-        >
+          >Contenu de la note (champs obligatoire)
+        </label>
         <textarea
           class="form-control"
           formControlName="message"
@@ -27,10 +27,36 @@
           maxlength="1000"
           appCleanStr
           required
+          [ngClass]="{
+            'is-invalid': (f.message.dirty || submitted) && f.message.errors
+          }"
+          [attr.aria-describedby]="
+            (f.message.dirty || submitted) && f.message.errors
+              ? 'message-errors'
+              : 'message-informations'
+          "
+          [attr.aria-invalid]="
+            (f.message.dirty || submitted) && f.message.errors ? true : false
+          "
         ></textarea>
-        <p *ngIf="submitted && f.message.errors" class="invalid-feedback">
-          La note saisie est incorrecte. 1000 caractères maximum
-        </p>
+        <div class="text-start">
+          <small
+            class="my-2 text-start"
+            id="message-informations"
+            *ngIf="!f.message.dirty || !f.message.errors"
+          >
+            1000 caractères maximum. Caractères interdits:
+            &#36;&#126;&#42;&lt;&gt;&#123;&#125;
+          </small>
+          <p
+            *ngIf="(submitted || f.message.dirty) && f.message.errors"
+            class="text-start invalid-feedback my-2"
+            id="message-errors"
+          >
+            Veuillez vérifier le contenu de la note saisie. 1000 caractères
+            maximum. Caractères interdits: &#36;&#126;&#42;&lt;&gt;&#123;&#125;
+          </p>
+        </div>
       </div>
       <app-rgpd-warning></app-rgpd-warning>
     </div>

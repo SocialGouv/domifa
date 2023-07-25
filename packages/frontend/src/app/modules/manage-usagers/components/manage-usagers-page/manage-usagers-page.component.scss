@@ -15,17 +15,6 @@
   word-break: break-word;
 }
 
-.dropdown-toggle:focus-visible {
-  color: var(--bs-primary) !important;
-  border-color: var(--bs-primary) !important;
-  box-shadow: 0 0 0 0.25rem rgba(var(--bs-btn-focus-shadow-rgb), 0.5);
-}
-
-.dropdown-menu {
-  background: #ffffff;
-  border: 1px solid #ececec;
-}
-
 .statut-cpt {
   font-style: normal !important;
   margin-right: 10px;
@@ -113,30 +102,30 @@
   font-size: 0.95rem;
   display: inline-block;
   position: relative;
-}
 
-#search-bar input {
-  padding: 8px 8px 8px 40px;
-  height: 44px;
-  background: #f4f5f7;
-  border: none;
-  color: #1a191a;
-  letter-spacing: 0;
-  width: 100%;
-  border-radius: 0 5px 5px 0;
-}
+  input {
+    padding: 8px 8px 8px 40px;
+    height: 44px;
+    background: #f4f5f7;
+    border: none;
+    color: #1a191a;
+    letter-spacing: 0;
+    width: 100%;
+    border-radius: 0 5px 5px 0;
+  }
 
-#search-bar input:focus {
-  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
-}
+  input:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5) !important;
+  }
 
-#search-bar input::placeholder {
-  color: #7e7e7e;
-  font-weight: 500;
-}
+  input::placeholder {
+    color: #7e7e7e;
+    font-weight: 500;
+  }
 
-#search-bar label {
-  color: white;
+  label {
+    color: white;
+  }
 }
 
 #search-bar span,
