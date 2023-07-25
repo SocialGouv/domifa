@@ -13,6 +13,7 @@ import { AuthService } from "../../../shared/services/auth.service";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { Subscription } from "rxjs";
 import { environment } from "../../../../../environments/environment";
+import { EmailValidator } from "../../../../shared";
 
 @Component({
   selector: "app-login",
@@ -50,7 +51,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public initForm() {
     this.loginForm = this.formBuilder.group({
-      email: ["", [Validators.email, Validators.required]],
+      email: ["", [Validators.required, EmailValidator]],
       password: ["", Validators.compose(PASSWORD_VALIDATOR)],
     });
   }

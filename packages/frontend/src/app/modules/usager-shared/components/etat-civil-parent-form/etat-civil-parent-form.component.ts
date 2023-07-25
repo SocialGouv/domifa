@@ -36,11 +36,10 @@ import {
   minDateToday,
   minDateNaissance,
   formatDateToNgb,
-  noWhiteSpace,
+  NoWhiteSpaceValidator,
   parseDateFromNgb,
+  EmailValidator,
 } from "../../../../shared";
-import { getFormPhone, setFormPhone } from "../../../shared/phone";
-import { mobilePhoneValidator } from "../../../shared/phone/mobilePhone.validator";
 
 import { AyantDroit, UsagerFormModel } from "../../interfaces";
 import {
@@ -48,6 +47,11 @@ import {
   CustomDatepickerI18n,
   AuthService,
 } from "../../../shared/services";
+import {
+  getFormPhone,
+  mobilePhoneValidator,
+  setFormPhone,
+} from "../../../shared/phone";
 
 @Component({
   selector: "app-etat-civil-parent-form",
@@ -123,8 +127,8 @@ export class EtatCivilParentFormComponent implements OnDestroy {
         [Validators.required],
       ],
       customRef: [this.usager.customRef, []],
-      email: [this.usager.email, [Validators.email, Validators.email]],
-      nom: [this.usager.nom, [Validators.required, noWhiteSpace]],
+      email: [this.usager.email, [EmailValidator]],
+      nom: [this.usager.nom, [Validators.required, NoWhiteSpaceValidator]],
       numeroDistribution: [this.usager.numeroDistribution],
       contactByPhone: [this.usager.contactByPhone, [Validators.required]],
       telephone: new UntypedFormControl(
@@ -133,12 +137,15 @@ export class EtatCivilParentFormComponent implements OnDestroy {
           ? [Validators.required, mobilePhoneValidator]
           : [mobilePhoneValidator]
       ),
-      prenom: [this.usager.prenom, [Validators.required, noWhiteSpace]],
+      prenom: [
+        this.usager.prenom,
+        [Validators.required, NoWhiteSpaceValidator],
+      ],
       sexe: [this.usager.sexe, Validators.required],
       surnom: [this.usager.surnom],
       villeNaissance: [
         this.usager.villeNaissance,
-        [Validators.required, noWhiteSpace],
+        [Validators.required, NoWhiteSpaceValidator],
       ],
     });
 

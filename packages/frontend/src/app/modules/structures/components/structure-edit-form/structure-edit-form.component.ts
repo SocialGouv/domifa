@@ -9,8 +9,8 @@ import {
   Validators,
 } from "@angular/forms";
 
-import { of, Subscription } from "rxjs";
-import { map } from "rxjs/operators";
+import { Subject, Subscription, of } from "rxjs";
+import { map, takeUntil } from "rxjs/operators";
 import {
   CountryISO,
   PhoneNumberFormat,
@@ -19,7 +19,8 @@ import {
 import {
   PREFERRED_COUNTRIES,
   DEPARTEMENTS_LISTE,
-  noWhiteSpace,
+  NoWhiteSpaceValidator,
+  EmailValidator,
 } from "../../../../shared";
 import {
   setFormPhone,
@@ -34,6 +35,7 @@ import {
   updateComplementAdress,
   isInvalidStructureName,
 } from "../../utils/structure-validators";
+import isEmail from "validator/lib/isEmail";
 
 @Component({
   selector: "app-structure-edit-form",
@@ -54,6 +56,7 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
   @Input() public structure!: StructureCommon;
 
   private subscription = new Subscription();
+  private unsubscribe: Subject<void> = new Subject();
 
   constructor(
     private readonly structureService: StructureService,
@@ -84,7 +87,7 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
       codePostal: [this.structure.codePostal, getPostalCodeValidator(true)],
       complementAdresse: [this.structure.complementAdresse, []],
       departement: [this.structure.departement, assoRequired],
-      email: [this.structure.email, [Validators.required, Validators.email]],
+      email: [this.structure.email, [Validators.required, EmailValidator]],
       nom: [this.structure.nom, [Validators.required]],
       options: this.formBuilder.group({
         numeroBoite: [this.structure.options.numeroBoite, []],
@@ -105,15 +108,15 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
       responsable: this.formBuilder.group({
         fonction: [
           this.structure.responsable.fonction,
-          [Validators.required, noWhiteSpace],
+          [Validators.required, NoWhiteSpaceValidator],
         ],
         nom: [
           this.structure.responsable.nom,
-          [Validators.required, noWhiteSpace],
+          [Validators.required, NoWhiteSpaceValidator],
         ],
         prenom: [
           this.structure.responsable.prenom,
-          [Validators.required, noWhiteSpace],
+          [Validators.required, NoWhiteSpaceValidator],
         ],
       }),
 
@@ -170,8 +173,9 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
   public validateEmailNotTaken(
     control: AbstractControl
   ): FormEmailTakenValidator {
-    return Validators.email(control)
+    return isEmail(control.value)
       ? this.structureService.validateEmail(control.value).pipe(
+          takeUntil(this.unsubscribe),
           map((res: boolean) => {
             return res === false ? null : { emailTaken: true };
           })
@@ -184,6 +188,8 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
     this.subscription.unsubscribe();
   }
 }

@@ -1,4 +1,3 @@
-import { noWhiteSpace } from "../../../../shared/validators/whitespace.validator";
 import {
   Component,
   OnDestroy,
@@ -21,7 +20,7 @@ import { CustomToastService } from "../../../shared/services";
 import { StructureService } from "../../services";
 import { StructureCommon } from "../../types";
 import { generateSender } from "../../utils/generateSender.service";
-
+import { NoWhiteSpaceValidator } from "../../../../shared/validators/no-whitespace.validator";
 @Component({
   selector: "app-structures-sms-form",
   templateUrl: "./structures-sms-form.component.html",
@@ -94,14 +93,14 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
         this.structure.sms.senderName,
         [
           Validators.required,
-          noWhiteSpace,
+          NoWhiteSpaceValidator,
           Validators.maxLength(11),
           Validators.pattern("^[a-zA-Z ]*$"),
         ],
       ],
       senderDetails: [
         this.structure.sms.senderDetails,
-        [Validators.required, Validators.maxLength(30), noWhiteSpace],
+        [Validators.required, Validators.maxLength(30), NoWhiteSpaceValidator],
       ],
     });
   }

@@ -25,7 +25,7 @@ import {
 } from "../../../../shared/bootstrap-util";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
 import { Subscription } from "rxjs";
-import { noWhiteSpace } from "../../../../shared";
+import { NoWhiteSpaceValidator } from "../../../../shared";
 import {
   NgbDateCustomParserFormatter,
   CustomToastService,
@@ -86,7 +86,7 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
             .get("motifDetails")
             ?.setValidators([
               Validators.required,
-              noWhiteSpace,
+              NoWhiteSpaceValidator,
               Validators.minLength(10),
             ]);
         } else {

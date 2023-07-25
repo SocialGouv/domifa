@@ -1,3 +1,4 @@
 //@index('./*', f => `export * from '${f.path}'`)
+export * from "./email.validator";
 export * from "./endDateAfterBeginDate.validator";
-export * from "./whitespace.validator";
+export * from "./no-whitespace.validator";

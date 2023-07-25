@@ -16,7 +16,7 @@ import {
 } from "@angular/forms";
 import { Subscription } from "rxjs";
 
-import { noWhiteSpace, bounce } from "../../../../shared";
+import { NoWhiteSpaceValidator, bounce } from "../../../../shared";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerNotesService } from "../../services/usager-notes.service";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
@@ -67,7 +67,11 @@ export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
     this.addNoteForm = this.formBuilder.group({
       message: [
         null,
-        [Validators.required, noWhiteSpace, Validators.maxLength(1000)],
+        [
+          Validators.required,
+          NoWhiteSpaceValidator,
+          Validators.maxLength(1000),
+        ],
       ],
     });
   }

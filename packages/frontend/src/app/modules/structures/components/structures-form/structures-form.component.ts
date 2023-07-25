@@ -14,7 +14,7 @@ import {
 } from "ngx-intl-tel-input";
 
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { of, Subject, Subscription } from "rxjs";
+import { Subject, Subscription, of } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 
 import { FormEmailTakenValidator } from "../../../../../_common/model";
@@ -23,7 +23,11 @@ import { StructureCommonWeb } from "../../types/StructureCommonWeb.class";
 
 import { anyPhoneValidator } from "../../../shared/phone/mobilePhone.validator";
 import { getFormPhone } from "../../../shared/phone";
-import { PREFERRED_COUNTRIES, DEPARTEMENTS_LISTE } from "../../../../shared";
+import {
+  PREFERRED_COUNTRIES,
+  DEPARTEMENTS_LISTE,
+  EmailValidator,
+} from "../../../../shared";
 import { StructureCommon, Structure } from "../../types";
 import { departementHelper } from "../../utils/departement-helper.service";
 import {
@@ -31,6 +35,7 @@ import {
   updateComplementAdress,
   isInvalidStructureName,
 } from "../../utils/structure-validators";
+import isEmail from "validator/lib/isEmail";
 
 @Component({
   selector: "app-structures-form",
@@ -97,7 +102,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
       departement: [this.structure.departement, []],
       email: [
         this.structure.email,
-        [Validators.required, Validators.email],
+        [Validators.required, EmailValidator],
         this.validateEmailNotTaken.bind(this),
       ],
       nom: [this.structure.nom, [Validators.required]],
@@ -191,7 +196,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
   public validateEmailNotTaken(
     control: AbstractControl
   ): FormEmailTakenValidator {
-    return Validators.email(control)
+    return isEmail(control.value)
       ? this.structureService.validateEmail(control.value).pipe(
           takeUntil(this.unsubscribe),
           map((res: boolean) => {

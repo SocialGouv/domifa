@@ -8,13 +8,17 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 
-import { of, Subject, Subscription } from "rxjs";
+import { Subject, Subscription, of } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 import {
   UserStructure,
   FormEmailTakenValidator,
 } from "../../../../../_common/model";
-import { fadeInOut, noWhiteSpace } from "../../../../shared";
+import {
+  EmailValidator,
+  fadeInOut,
+  NoWhiteSpaceValidator,
+} from "../../../../shared";
 import { CustomToastService } from "../../../shared/services";
 import { PASSWORD_VALIDATOR } from "../../../users/PASSWORD_VALIDATOR.const";
 import {
@@ -24,6 +28,7 @@ import {
 } from "../../../users/services";
 import { StructureService } from "../../services";
 import { StructureCommon } from "../../types";
+import isEmail from "validator/lib/isEmail";
 
 @Component({
   animations: [fadeInOut],
@@ -76,13 +81,13 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
         ),
         email: [
           this.user.email,
-          [Validators.email, Validators.required],
+          [Validators.required, EmailValidator],
           this.validateEmailNotTaken.bind(this),
         ],
         fonction: [this.user.fonction, Validators.required],
         nom: [
           this.user.nom,
-          [Validators.required, Validators.minLength(2), noWhiteSpace],
+          [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
         ],
         password: new UntypedFormControl(
           null,
@@ -90,7 +95,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
         ),
         prenom: [
           this.user.prenom,
-          [Validators.required, Validators.minLength(2), noWhiteSpace],
+          [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
         ],
       },
       {
@@ -146,7 +151,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   public validateEmailNotTaken(
     control: AbstractControl
   ): FormEmailTakenValidator {
-    return Validators.email(control)
+    return isEmail(control.value)
       ? this.userService.validateEmail(control.value).pipe(
           takeUntil(this.unsubscribe),
           map((res: boolean) => {
@@ -159,5 +164,6 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
+    this.subscription.unsubscribe();
   }
 }
