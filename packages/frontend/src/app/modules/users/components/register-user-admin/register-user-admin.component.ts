@@ -1,3 +1,4 @@
+import isEmail from "validator/lib/isEmail";
 import {
   Component,
   ElementRef,
@@ -14,13 +15,17 @@ import {
   Validators,
 } from "@angular/forms";
 
-import { of, Subject, Subscription } from "rxjs";
+import { Subject, Subscription, of } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 import {
   FormEmailTakenValidator,
   UserStructure,
 } from "../../../../../_common/model";
-import { fadeInOut, noWhiteSpace } from "../../../../shared";
+import {
+  EmailValidator,
+  fadeInOut,
+  NoWhiteSpaceValidator,
+} from "../../../../shared";
 import { CustomToastService } from "../../../shared/services";
 import { UsersService, userStructureBuilder } from "../../services";
 
@@ -64,17 +69,17 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
     this.userForm = this.formBuilder.group({
       email: [
         this.user.email,
-        [Validators.email, Validators.required],
+        [Validators.required, EmailValidator],
         this.validateEmailNotTaken.bind(this),
       ],
       nom: [
         this.user.nom,
-        [Validators.required, Validators.minLength(2), noWhiteSpace],
+        [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
       ],
       role: [this.user.role, Validators.required],
       prenom: [
         this.user.prenom,
-        [Validators.required, Validators.minLength(2), noWhiteSpace],
+        [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
       ],
     });
   }
@@ -113,7 +118,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
   public validateEmailNotTaken(
     control: AbstractControl
   ): FormEmailTakenValidator {
-    return Validators.email(control)
+    return isEmail(control.value)
       ? this.userService.validateEmail(control.value).pipe(
           takeUntil(this.unsubscribe),
           map((res: boolean) => {
@@ -125,6 +130,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.unsubscribe.next();
+    this.unsubscribe.complete();
     this.subscription.unsubscribe();
   }
 }

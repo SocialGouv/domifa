@@ -1,4 +1,4 @@
-import { noWhiteSpace } from "../../../../shared/validators/whitespace.validator";
+import isEmail from "validator/lib/isEmail";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
@@ -8,20 +8,23 @@ import {
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { Observable, of, Subject, Subscription } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
 
 import {
   FormEmailTakenValidator,
   UsagerLight,
   UserStructure,
 } from "../../../../../_common/model";
-import { PasswordValidator, userStructureBuilder } from "../../services";
-import { UsersService } from "../../services/users.service";
+import {
+  PasswordValidator,
+  UsersService,
+  userStructureBuilder,
+} from "../../services";
 import { format } from "date-fns";
 import { PASSWORD_VALIDATOR } from "../../PASSWORD_VALIDATOR.const";
+import { EmailValidator, NoWhiteSpaceValidator } from "../../../../shared";
+import { AuthService, CustomToastService } from "../../../shared/services";
 
 @Component({
   selector: "app-edit-user",
@@ -95,16 +98,16 @@ export class EditUserComponent implements OnInit, OnDestroy {
     this.userForm = this.formBuilder.group({
       email: [
         this.me?.email,
-        [Validators.email, Validators.required],
+        [Validators.required, EmailValidator],
         this.validateEmailNotTaken.bind(this),
       ],
       nom: [
         this.me?.nom,
-        [Validators.required, Validators.minLength(2), noWhiteSpace],
+        [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
       ],
       prenom: [
         this.me?.prenom,
-        [Validators.required, Validators.minLength(2), noWhiteSpace],
+        [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
       ],
     });
   }
@@ -215,10 +218,11 @@ export class EditUserComponent implements OnInit, OnDestroy {
   public validateEmailNotTaken(
     control: AbstractControl
   ): FormEmailTakenValidator {
-    if (control.value === this.me?.email) {
+    if (control?.value === this.me?.email) {
       return of(null);
     }
-    return Validators.email(control)
+
+    return isEmail(control.value)
       ? this.userService.validateEmail(control.value).pipe(
           takeUntil(this.unsubscribe),
           map((res: boolean) => {

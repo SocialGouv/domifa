@@ -35,7 +35,7 @@ import {
 } from "../../../../../_common/model";
 import {
   endDateAfterBeginDateValidator,
-  noWhiteSpace,
+  NoWhiteSpaceValidator,
 } from "../../../../shared";
 import {
   minDateToday,
@@ -149,11 +149,11 @@ export class UsagersProfilProcurationCourrierComponent
       {
         nom: new UntypedFormControl(procuration.nom, [
           Validators.required,
-          noWhiteSpace,
+          NoWhiteSpaceValidator,
         ]),
         prenom: new UntypedFormControl(procuration.prenom, [
           Validators.required,
-          noWhiteSpace,
+          NoWhiteSpaceValidator,
         ]),
         dateFin: new UntypedFormControl(
           procuration.dateFin ? formatDateToNgb(procuration.dateFin) : null,

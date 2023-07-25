@@ -30,7 +30,7 @@ import {
   endDateAfterBeginDateValidator,
   formatDateToNgb,
   minDateToday,
-  noWhiteSpace,
+  NoWhiteSpaceValidator,
 } from "../../../../shared";
 import {
   NgbDateCustomParserFormatter,
@@ -115,11 +115,15 @@ export class UsagersProfilTransfertCourrierComponent
       {
         nom: [
           this.usager.options.transfert.nom,
-          [Validators.required, noWhiteSpace],
+          [Validators.required, NoWhiteSpaceValidator],
         ],
         adresse: [
           this.usager.options.transfert.adresse,
-          [Validators.required, Validators.minLength(10), noWhiteSpace],
+          [
+            Validators.required,
+            Validators.minLength(10),
+            NoWhiteSpaceValidator,
+          ],
         ],
         dateFin: [
           this.usager.options.transfert.dateFin

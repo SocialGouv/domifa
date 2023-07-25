@@ -33,7 +33,7 @@ import {
 import {
   fadeInOut,
   minDateToday,
-  noWhiteSpace,
+  NoWhiteSpaceValidator,
   selectUsagerByRef,
 } from "../../../../shared";
 
@@ -145,7 +145,10 @@ export class StepRdvComponent
       ],
       isNow: [this.usager.rdv.isNow, []],
       jourRdv: [this.usager.rdv.jourRdv, [Validators.required]],
-      userId: [this.usager.rdv.userId, [Validators.required, noWhiteSpace]],
+      userId: [
+        this.usager.rdv.userId,
+        [Validators.required, NoWhiteSpaceValidator],
+      ],
     });
 
     this.subscription.add(

@@ -1,4 +1,4 @@
-import { noWhiteSpace } from "./../../../../shared/validators/whitespace.validator";
+import { NoWhiteSpaceValidator } from "../../../../shared/validators/no-whitespace.validator";
 import { Subscription } from "rxjs";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
@@ -15,6 +15,7 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
 import { PASSWORD_VALIDATOR } from "../../PASSWORD_VALIDATOR.const";
+import { EmailValidator } from "../../../../shared";
 
 @Component({
   selector: "app-reset-password",
@@ -98,7 +99,11 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   public initEmailForm(): void {
     this.emailForm = this.formBuilder.group<{ email: FormControl<string> }>({
       email: new FormControl<string>("", {
-        validators: [Validators.required, Validators.email, noWhiteSpace],
+        validators: [
+          Validators.required,
+          EmailValidator,
+          NoWhiteSpaceValidator,
+        ],
       }),
     });
   }

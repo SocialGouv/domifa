@@ -1,6 +1,6 @@
 import { AbstractControl, ValidationErrors } from "@angular/forms";
 
-export const noWhiteSpace = (
+export const NoWhiteSpaceValidator = (
   control: AbstractControl
 ): ValidationErrors | null => {
   if (!control?.value) {

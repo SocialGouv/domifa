@@ -7,12 +7,15 @@ import {
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { validateUpload } from "../../../../shared/upload-validator";
-import { CustomToastService } from "../../../shared/services/custom-toast.service";
 
+import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { AuthService } from "../../../shared/services/auth.service";
 import { Title, Meta } from "@angular/platform-browser";
-import { noWhiteSpace } from "../../../../shared";
+import {
+  EmailValidator,
+  NoWhiteSpaceValidator,
+  validateUpload,
+} from "../../../../shared";
 import { Subscription } from "rxjs";
 
 @Component({
@@ -74,19 +77,19 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
     this.contactForm = this.formBuilder.group({
       content: [
         "",
-        [Validators.required, Validators.minLength(10), noWhiteSpace],
+        [Validators.required, Validators.minLength(10), NoWhiteSpaceValidator],
       ],
-      email: [email || null, [Validators.required, Validators.email]],
+      email: [email, [Validators.required, EmailValidator]],
       file: [""],
       fileSource: ["", [validateUpload("STRUCTURE_DOC", false)]],
       name: [
         name,
-        [Validators.required, Validators.minLength(2), noWhiteSpace],
+        [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
       ],
       structureId: [structureId, []],
       structureName: [
         structureName,
-        [Validators.required, Validators.minLength(2), noWhiteSpace],
+        [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
       ],
       userId: [userId, []],
     });
