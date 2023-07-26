@@ -1,3 +1,19 @@
+# [2.133.0](https://github.com/SocialGouv/domifa/compare/v2.132.2...v2.133.0) (2023-07-26)
+
+
+### Bug Fixes
+
+* **rgaa:** amélioration des cartes et des emplacements d'éléments ([e052ed1](https://github.com/SocialGouv/domifa/commit/e052ed1c723e9540915d5bcd0a3ae410cfdf4842))
+* **rgaa:** amélioration des liens d'accès rapide et des focus ([7ca56a1](https://github.com/SocialGouv/domifa/commit/7ca56a138b7b54792aba2fce7e353769a686b265))
+* **rgaa:** amélioration des tableaux ([bb309a0](https://github.com/SocialGouv/domifa/commit/bb309a0aa66639980254e2ffe9a41316a9628c8e))
+* **rgaa:** mise à jour des liens d'accès rapides ([70a0c85](https://github.com/SocialGouv/domifa/commit/70a0c85ebb81e069bf98611df5d90d8351c70aaa))
+* **sonarcloud:** fix sonarcloud ([39dbb23](https://github.com/SocialGouv/domifa/commit/39dbb231e91da8f3e32ef403d99a6b611e68985a))
+
+
+### Features
+
+* **email:** mise à jour de la fonction de vérification des emails ([09d1950](https://github.com/SocialGouv/domifa/commit/09d1950edc386cbec568a7283cc5c9e36ecfa458))
+
 ## [2.132.2](https://github.com/SocialGouv/domifa/compare/v2.132.1...v2.132.2) (2023-07-25)
 
 
