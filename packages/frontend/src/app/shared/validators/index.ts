@@ -2,3 +2,4 @@
 export * from "./email.validator";
 export * from "./endDateAfterBeginDate.validator";
 export * from "./no-whitespace.validator";
+export * from "./upload-validator";
