@@ -175,15 +175,12 @@
           </button>
         </div>
       </div>
-
       <app-profil-etat-civil-form
         *ngIf="editInfos"
         [usager]="usager"
         [(editInfos)]="editInfos"
       ></app-profil-etat-civil-form>
-
       <hr />
-
       <div class="row">
         <div class="col-md-12">
           <div class="d-flex justify-content-between align-items-center">
@@ -233,9 +230,7 @@
           </app-display-entretien>
         </div>
       </div>
-
       <hr />
-
       <div class="d-flex justify-content-between align-items-center">
         <h3>Pièces jointes</h3>
 
@@ -267,16 +262,13 @@
           Annuler les modifications
         </button>
       </div>
-
       <div class="mb-5">
         <app-display-usager-docs
           [editPJ]="editPJ"
           [usager]="usager"
         ></app-display-usager-docs>
       </div>
-
       <hr />
-
       <div class="mb-3 d-grid gap-2 d-md-flex">
         <button
           type="button"

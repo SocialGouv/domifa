@@ -71,7 +71,7 @@
     </a>
   </div>
 </header>
-<main id="page">
+<main role="main" id="page">
   <router-outlet></router-outlet>
   <div *ngIf="usagerProfile" class="py-4 text-center">
     <button (click)="logout()" class="btn btn-outline-primary" type="button">

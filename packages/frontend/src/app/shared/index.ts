@@ -9,5 +9,4 @@ export * from "./sorter";
 export * from "./store";
 export * from "./string-cleaner.service";
 export * from "./territoires";
-export * from "./upload-validator";
 export * from "./validators";

@@ -26,7 +26,6 @@ svg {
 
 .region-hover {
   fill: #f2f2f2;
-  cursor: pointer;
 }
 
 foreignObject:hover .map-number {
@@ -47,6 +46,7 @@ foreignObject {
   text-align: center;
   width: 32px;
   height: 32px;
+  display: block;
   line-height: 1.6rem;
   font-size: 0.9rem;
   margin: 8% auto;

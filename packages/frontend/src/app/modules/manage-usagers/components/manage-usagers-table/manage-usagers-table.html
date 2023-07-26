@@ -141,7 +141,7 @@
           for="select-{{usager.ref}}"
           (change)="toggleSelection(usager.ref)"
         >
-          <span class="d-none">
+          <span class="visually-hidden">
             Sélectionner {{ usager | usagerNomComplet }}</span
           >
           <input
@@ -204,8 +204,16 @@
         <span *ngIf="usager.telephone?.numero">
           {{ usager.telephone | formatInternationalPhoneNumber }}</span
         >
+        <span class="visually-hidden" *ngIf="!usager.telephone?.numero"
+          >Téléphone non renseigné</span
+        >
       </td>
       <td class="clickable" tabindex="0" (click)="goToProfil(usager)">
+        <span
+          class="visually-hidden"
+          *ngIf="!usager.options.npai.actif && usager.options.procurations.length === 0 && !usager.options.transfert.actif && usager.ayantsDroits.length===0"
+          >Aucune information particulière</span
+        >
         <app-display-ayants-droits
           class="d-inline-block"
           [usager]="usager"

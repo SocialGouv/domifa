@@ -16,11 +16,8 @@ import {
 import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
-import {
-  UploadResponseType,
-  validateUpload,
-} from "../../../../shared/upload-validator";
 import { DocumentService } from "../../services/document.service";
+import { UploadResponseType, validateUpload } from "../../../../shared";
 
 @Component({
   selector: "app-upload",

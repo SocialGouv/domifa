@@ -31,7 +31,12 @@
       </div>
     </div>
   </div>
-  <nav class="navbar navbar-expand-lg" id="navbar-site">
+  <nav
+    role="navigation"
+    class="navbar navbar-expand-lg"
+    id="navbar-site"
+    aria-label="Navigation principale"
+  >
     <div
       class="container d-flex justify-content-md-between justify-content-center align-items-center px-2"
     >
@@ -59,12 +64,7 @@
         </a>
       </div>
       <div>
-        <div
-          class="navbar-collapse"
-          id="navbarsDefault"
-          role="navigation"
-          aria-label="Menu principal"
-        >
+        <div class="navbar-collapse" id="navbarsDefault">
           <div class="my-2 my-lg-0">
             <!-- MENU SI DECONNECTE - SAUF MOBILE -->
             <ng-container *ngIf="!me">

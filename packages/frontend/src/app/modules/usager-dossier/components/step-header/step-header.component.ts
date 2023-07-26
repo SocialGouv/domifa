@@ -134,7 +134,6 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
       "iPad",
       "iPod",
     ];
-
     return mobileDevices.some((device) => userAgent.includes(device));
   }
 

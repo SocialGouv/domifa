@@ -14,10 +14,9 @@ import {
 } from "@angular/forms";
 import { Subscription } from "rxjs";
 
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-
-import { validateUpload } from "../../../../shared/upload-validator";
 import { StructureDocService } from "../../services/structure-doc.service";
+import { validateUpload } from "../../../../shared";
+import { CustomToastService } from "../../../shared/services";
 
 @Component({
   selector: "app-structures-upload-docs",

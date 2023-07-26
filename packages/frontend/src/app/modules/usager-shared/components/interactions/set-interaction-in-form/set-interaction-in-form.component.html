@@ -16,8 +16,10 @@
           *ngIf="interactionFormData.courrierIn.nbCourrier > 0"
           class="interaction-notification"
           aria-hidden="true"
+          aria-live="polite"
         >
           {{ interactionFormData.courrierIn.nbCourrier }}
+          <span class="visually-hidden"> courriers</span>
         </div>
         <div class="interaction-icon icon-courrier"></div>
       </div>
@@ -41,11 +43,7 @@
           <span class="icon-plus" aria-hidden="true"></span>
         </button>
       </div>
-      <span class="interaction-label" aria-live="polite"
-        ><span class="visually-hidden">
-          {{ interactionFormData.courrierIn.nbCourrier }}</span
-        >Courriers</span
-      >
+      <span class="interaction-label">Courriers</span>
     </div>
 
     <div class="interaction-zone p-1 mx-md-2 mx-auto my-2">
@@ -54,8 +52,10 @@
           [@bounce]="interactionFormData.colisIn.nbCourrier"
           *ngIf="interactionFormData.colisIn.nbCourrier > 0"
           class="interaction-notification"
+          aria-live="polite"
         >
           {{ interactionFormData.colisIn.nbCourrier }}
+          <span class="visually-hidden"> colis</span>
         </div>
         <div class="interaction-icon icon-colis"></div>
       </div>
@@ -91,6 +91,7 @@
           aria-live="polite"
         >
           {{ interactionFormData.recommandeIn.nbCourrier }}
+          <span class="visually-hidden">recommandés</span>
         </div>
         <div class="interaction-icon icon-recommande"></div>
       </div>

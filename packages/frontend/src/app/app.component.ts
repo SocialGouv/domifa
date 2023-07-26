@@ -155,10 +155,10 @@ export class AppComponent implements OnInit, OnDestroy {
             element.focus();
           }
         } else {
-          this.currentUrl = event.url.split("#")[0];
-          // Retour au top du curseur
+          this.currentUrl = event.url;
           const mainHeader = document.getElementById("top-site");
           if (mainHeader) {
+            mainHeader.tabIndex = -1;
             mainHeader.focus();
           }
 
