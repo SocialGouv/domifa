@@ -140,7 +140,7 @@ export class UsagersController {
     orderByLastDecisionDesc[`"decision"->>'dateFin'`] = "DESC";
 
     const search = dataCompare.cleanString(searchString);
-    const usagersRadies = await usagerLightRepository.findManyWithQuery({
+    return await usagerLightRepository.findManyWithQuery({
       select: USAGER_LIGHT_ATTRIBUTES,
       where: `"structureId" = :structureId
         and "decision"->>'statut' = :statut
@@ -153,8 +153,6 @@ export class UsagersController {
       maxResults: 10,
       order: orderByLastDecisionDesc,
     });
-
-    return usagersRadies;
   }
 
   @AllowUserStructureRoles("simple", "responsable", "admin")

@@ -20,7 +20,6 @@ import { CustomToastService } from "../../../shared/services";
 
 @Component({
   selector: "app-structures-upload-docs",
-  styleUrls: ["./structures-upload-docs.component.css"],
   templateUrl: "./structures-upload-docs.component.html",
 })
 export class StructuresUploadDocsComponent implements OnInit, OnDestroy {

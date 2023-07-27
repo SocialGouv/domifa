@@ -127,7 +127,5 @@ async function createStructure(structureDto: StructureDto) {
 
   createdStructure.acceptTerms = new Date();
 
-  const structure = await structureRepository.save(createdStructure);
-
-  return structure;
+  return await structureRepository.save(createdStructure);
 }

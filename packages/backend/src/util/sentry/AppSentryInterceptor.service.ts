@@ -22,23 +22,19 @@ export class AppSentryInterceptor implements NestInterceptor {
           let prefix: string;
           const logContext: Record<string, any> = {};
 
-          switch (context.getType()) {
-            case "http":
-              {
-                prefix = "[http]";
-                const { req, user } = parseRequest(context);
-                if (req) {
-                  logContext.req = logSentryRequest(req);
-                }
-                if (user) {
-                  logContext.user = logSentryUser(user);
-                }
-              }
-              break;
-            default: {
-              prefix = "[core]";
+          if (context.getType() === "http") {
+            prefix = "[http]";
+            const { req, user } = parseRequest(context);
+            if (req) {
+              logContext.req = logSentryRequest(req);
             }
+            if (user) {
+              logContext.user = logSentryUser(user);
+            }
+          } else {
+            prefix = "[core]";
           }
+
           appLogger.error(
             `${prefix} ${
               err.message ?? "unexpected error"
