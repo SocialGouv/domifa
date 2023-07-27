@@ -44,15 +44,12 @@ function getBaseDirectionalType({
 
   const direction = optionalDirection ?? getDirection({ type });
 
-  const baseType =
-    direction === "in" || direction === "out"
-      ? (type.substring(
-          0,
-          len - direction.length
-        ) as InteractionBaseDirectionalType)
-      : undefined;
-
-  return baseType;
+  return direction === "in" || direction === "out"
+    ? (type.substring(
+        0,
+        len - direction.length
+      ) as InteractionBaseDirectionalType)
+    : undefined;
 }
 
 function getDirection({

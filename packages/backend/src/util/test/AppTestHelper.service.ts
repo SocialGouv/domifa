@@ -69,13 +69,12 @@ async function tearDownTestApp({ module }: AppTestContext): Promise<void> {
 }
 
 async function bootstrapTestConnection(): Promise<DataSource> {
-  const postgresTypeormConnection = await appTypeormManager.connect({
+  return await appTypeormManager.connect({
     reuseConnexion: true,
     overrideConfig: {
       poolMaxConnections: 1,
     },
   });
-  return postgresTypeormConnection;
 }
 
 async function authenticateStructure(
@@ -154,9 +153,7 @@ function filterSecurityTests(
   testsDefs: AppTestHttpClientSecurityTestDef[]
 ): AppTestHttpClientSecurityTestDef[] {
   const DOMIFA_FILTER_SEC_TEST = process.env["DOMIFA_FILTER_SEC_TEST"];
-  const FILTERED_TESTS =
-    DOMIFA_FILTER_SEC_TEST?.length > 0
-      ? testsDefs.filter((x) => x.label.includes(DOMIFA_FILTER_SEC_TEST))
-      : testsDefs;
-  return FILTERED_TESTS;
+  return DOMIFA_FILTER_SEC_TEST?.length > 0
+    ? testsDefs.filter((x) => x.label.includes(DOMIFA_FILTER_SEC_TEST))
+    : testsDefs;
 }

@@ -128,6 +128,7 @@ portail-admins:
       nginx.ingress.kubernetes.io/configuration-snippet: |
         more_set_headers "Content-Security-Policy: default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr; font-src 'self'; img-src 'self' data:; script-src 'self' https://*.gouv.fr 'unsafe-inline'; frame-src 'self' https://*.gouv.fr; style-src 'self' 'unsafe-inline'";
         more_set_headers "X-Frame-Options: deny";
+        more_set_headers "X-Robots-Tag: noindex, nofollow, nosnippet, noarchive";
         more_set_headers "X-XSS-Protection: 1; mode=block";
         more_set_headers "X-Content-Type-Options: nosniff";
         more_set_headers "Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0'";
