@@ -1,15 +1,6 @@
 {
   "enabled": true,
-  "extends": [
-    "config:base",
-    "docker:enableMajor",
-    ":maintainLockFilesMonthly",
-    ":masterIssue",
-    ":preserveSemverRanges",
-    ":prHourlyLimit4",
-    ":semanticCommits",
-    ":timezone(Europe/Paris)"
-  ],
+  "extends": ["github>SocialGouv/renovate-config:light"],
   "schedule": "every weekend",
   "separateMinorPatch": true,
   "masterIssueAutoclose": true,
@@ -24,30 +15,6 @@
         "typescript"
       ],
       "enabled": false
-    },
-    {
-      "depTypeList": ["dependencies"],
-      "updateTypes": ["minor"],
-      "groupName": "all minor dependencies",
-      "groupSlug": "all-minor"
-    },
-    {
-      "depTypeList": ["dependencies"],
-      "updateTypes": ["patch"],
-      "groupName": "all patch dependencies",
-      "groupSlug": "all-patch"
-    },
-    {
-      "depTypeList": ["devDependencies"],
-      "updateTypes": ["minor"],
-      "groupName": "all minor devDependencies",
-      "groupSlug": "all-minor-dev-tools"
-    },
-    {
-      "depTypeList": ["devDependencies"],
-      "updateTypes": ["patch"],
-      "groupName": "all patch devDependencies",
-      "groupSlug": "all-patch-dev-tools"
     }
   ]
 }
