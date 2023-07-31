@@ -31,6 +31,7 @@ import {
   CustomDatepickerI18n,
 } from "../shared/services";
 import { DisplayAyantsDroitsComponent } from "./components/display-ayants-droits/display-ayants-droits.component";
+import { TooltipDirective } from "./directives/usager-tooltip.directive";
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { DisplayAyantsDroitsComponent } from "./components/display-ayants-droits
     DecisionRadiationFormComponent,
     DeleteUsagerComponent,
     DisplayAyantsDroitsComponent,
+    TooltipDirective,
   ],
   imports: [
     CommonModule,
@@ -71,12 +73,12 @@ import { DisplayAyantsDroitsComponent } from "./components/display-ayants-droits
     EntretienFormComponent,
     SetInteractionOutFormComponent,
     ProfilEtatCivilFormComponent,
-
     DisplayUsagerDocsComponent,
     FormatInternationalPhoneNumberPipe,
     DisplayDuplicatesUsagerComponent,
     DeleteUsagerComponent,
     DecisionRadiationFormComponent,
+    TooltipDirective,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

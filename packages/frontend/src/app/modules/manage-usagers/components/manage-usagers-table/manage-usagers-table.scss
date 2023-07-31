@@ -195,13 +195,6 @@ thead th {
 }
 
 .distribution-tooltip {
-  opacity: 1;
-  min-width: 240px;
-  font-size: 0.85rem;
-
-  p {
-    margin: 0;
-  }
   .list-icon {
     box-sizing: border-box;
     background-color: black;
@@ -209,10 +202,6 @@ thead th {
     height: 20px;
     margin-right: 10px;
     background-size: 90%;
-  }
-  div {
-    margin: 6px 0;
-    text-align: left;
   }
 
   span {

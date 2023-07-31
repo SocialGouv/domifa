@@ -64,7 +64,6 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
     sortValue?: UsagersFilterCriteriaSortValues;
   }>();
 
-  public today: Date;
   private subscription = new Subscription();
 
   public selectedUsager: UsagerFormModel | null;
@@ -87,7 +86,6 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
     private readonly toastService: CustomToastService,
     private readonly matomo: MatomoTracker
   ) {
-    this.today = new Date();
     this.selectedUsager = null;
     this.loadingButtons = [];
     this.usagers = [];
