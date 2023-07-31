@@ -208,87 +208,9 @@
           >Téléphone non renseigné</span
         >
       </td>
-      <td class="clickable" tabindex="0" (click)="goToProfil(usager)">
-        <span
-          class="visually-hidden"
-          *ngIf="!usager.options.npai.actif && usager.options.procurations.length === 0 && !usager.options.transfert.actif && usager.ayantsDroits.length===0"
-          >Aucune information particulière</span
-        >
-        <app-display-ayants-droits
-          class="d-inline-block"
-          [usager]="usager"
-        ></app-display-ayants-droits>
-        <div
-          class="label-info label-procuration"
-          *ngIf="usager.options.procurations.length > 0"
-          [ngbTooltip]="procurationActif"
-          triggers="hover focus"
-          #tooltipProcuration="ngbTooltip"
-        >
-          <ng-template #procurationActif>
-            <ul>
-              <li
-                class="text-start"
-                *ngFor="let procuration of usager.options.procurations; let i = index"
-              >
-                <ng-container *ngIf="procuration.dateFin > today">
-                  <fa-icon
-                    aria-hidden="true"
-                    [icon]="['fas', 'share']"
-                    class="text-primary me-1"
-                  ></fa-icon>
-                  Active: {{ procuration.nom }} {{ procuration.prenom }}
-                </ng-container>
-                <ng-container *ngIf="procuration.dateFin <= today">
-                  <fa-icon
-                    aria-hidden="true"
-                    [icon]="['fas', 'times']"
-                    class="text-danger me-1"
-                  ></fa-icon>
-                  Expirée le {{procuration.dateFin | date: "dd MMMM yyyy" }}: {{
-                  procuration.nom }} {{ procuration.prenom }}
-                </ng-container>
-              </li>
-            </ul>
-          </ng-template>
-          <p class="m-0">
-            {{ usager.options.procurations.length > 1 ? 'Procurations':
-            'Procuration'}}
-          </p>
-        </div>
-        <div
-          class="label-info label-transfert"
-          *ngIf="usager.options.transfert.actif"
-          [ngbTooltip]="transfertActif"
-          tabindex="0"
-          triggers="hover focus"
-          #tooltipTransfert="ngbTooltip"
-        >
-          <ng-template #transfertActif>
-            <div class="distribution-tooltip" id="tooltipTransfertContent{{i}}">
-              <p *ngIf="usager.options.transfert.dateFin > today">
-                <fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'share']"
-                  class="text-primary me-1"
-                ></fa-icon>
-                Courrier à transférer : {{ usager.options.transfert.nom |
-                titlecase }} {{ usager.options.transfert.adresse | titlecase }}
-              </p>
-
-              <p *ngIf="usager.options.transfert.dateFin <= today">
-                Transfert expiré le {{ usager.options.transfert.dateFin | date:
-                "dd MMMM yyyy" }}
-              </p>
-            </div>
-          </ng-template>
-          <span>Transfert</span>
-        </div>
-        <div *ngIf="usager.options.npai.actif" class="label-info label-danger">
-          <span>Pli non distribuable</span>
-        </div>
+      <td>
+        <app-column-informations [usager]="usager"></app-column-informations>
       </td>
-
       <td
         *ngIf="filters.statut === 'ATTENTE_DECISION' ||  filters.statut ==='INSTRUCTION'"
       >
@@ -350,8 +272,6 @@
             type="button"
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_visite') !== -1"
             [attr.aria-label]="'Ajout d\'un passage pour ' +  (usager | usagerNomComplet) "
-            ngbTooltip="Ajout d'un passage"
-            triggers="hover focus"
             class="interaction-btn btn-light"
             (click)="setSingleInteraction(usager, 'visite')"
           >
@@ -367,8 +287,6 @@
             type="button"
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_appel') !== -1"
             [attr.aria-label]="'Ajout d\'un appel téléphonique pour ' +  (usager | usagerNomComplet) "
-            ngbTooltip="Ajout d'un appel téléphonique"
-            triggers="hover focus"
             class="interaction-btn btn-light"
             (click)="setSingleInteraction(usager, 'appel')"
           >
@@ -390,10 +308,13 @@
         >
           <button
             type="button"
+            triggers="manual"
+            [autoClose]="false"
+            [ngbTooltip]="courrierTooltip"
+            [appTooltip]="tooltipCourrierIn"
+            #tooltipCourrierIn="ngbTooltip"
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_courrierIn') !== -1"
             [attr.aria-label]="'Ajout d\'un courrier pour ' +  (usager | usagerNomComplet) "
-            ngbTooltip="Ajout d'un courrier"
-            triggers="hover focus"
             class="interaction-btn btn-light"
             (click)="setSingleInteraction(usager, 'courrierIn')"
           >
@@ -403,22 +324,52 @@
               class="list-icon-disabled"
             >
             </fa-icon>
-            <span class="icon-courrier list-icon"></span>
+            <span aria-hidden="true" class="icon-courrier list-icon"></span>
           </button>
+          <ng-template #courrierTooltip>
+            <p>Ajout d'un courrier pour {{ usager | usagerNomComplet }}</p>
+          </ng-template>
           <button
             type="button"
             [attr.aria-label]="'Réception de courriers, colis ou recommandés pour ' +  (usager | usagerNomComplet)"
-            ngbTooltip="Réception de courriers, colis ou recommandés"
-            triggers="hover focus"
+            [ngbTooltip]="receptionBox"
+            [appTooltip]="tooltipReception"
+            #tooltipReception="ngbTooltip"
+            triggers="manual"
+            [autoClose]="false"
             class="interaction-btn btn-light"
             (click)="openInteractionInModal(usager)"
           >
-            <span class="icon-reception list-icon"></span>
+            <span aria-hidden="true" class="icon-reception list-icon"></span>
+          </button>
+          <ng-template #receptionBox>
+            <p>
+              Réception de courriers, colis ou recommandés pour {{ usager |
+              usagerNomComplet }}
+            </p>
+          </ng-template>
+
+          <button
+            *ngIf="usager.lastInteraction.enAttente"
+            class="interaction-btn btn-light"
+            type="button"
+            triggers="manual"
+            [autoClose]="false"
+            [ngbTooltip]="distributionBox"
+            [appTooltip]="tooltipDistribution"
+            #tooltipDistribution="ngbTooltip"
+            [attr.aria-label]="'Distribuer '+ usager.totalInteractionsEnAttente+ ' courriers de ' + (usager | usagerNomComplet)"
+            (click)="openInteractionOutModal(usager)"
+          >
+            <span class="icon-distribution list-icon"></span>
+            <strong class="notification">
+              {{ usager.totalInteractionsEnAttente }}
+            </strong>
           </button>
 
           <ng-template #distributionBox>
-            <div class="distribution-tooltip p-2 text-start">
-              <span>Distribuer les courriers</span>
+            <div class="distribution-tooltip text-start">
+              <p class="fw-bold">Distribuer les courriers</p>
               <p class="m-0" *ngIf="usager.lastInteraction.courrierIn > 0">
                 <span class="list-icon icon-courrier"></span>
                 <span>
@@ -450,21 +401,6 @@
               </p>
             </div>
           </ng-template>
-
-          <button
-            *ngIf="usager.lastInteraction.enAttente"
-            class="interaction-btn btn-light"
-            [ngbTooltip]="distributionBox"
-            type="button"
-            triggers="hover focus"
-            [attr.aria-label]="'Distribuer '+ usager.totalInteractionsEnAttente+ ' courriers de ' + (usager | usagerNomComplet)"
-            (click)="openInteractionOutModal(usager)"
-          >
-            <span class="icon-distribution list-icon"></span>
-            <strong class="notification">
-              {{ usager.totalInteractionsEnAttente }}
-            </strong>
-          </button>
         </div>
       </td>
 

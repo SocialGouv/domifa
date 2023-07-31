@@ -14,12 +14,14 @@ import { ManageUsagersPageComponent } from "./components/manage-usagers-page/man
 
 import { ManageUsagersRoutingModule } from "./manage-usagers-routing.module";
 import { ManageDownloadDocsComponent } from "./components/manage-download-docs/manage-download-docs.component";
+import { ColumnInformationsComponent } from "./components/column-informations/column-informations.component";
 
 @NgModule({
   declarations: [
     ManageUsagersPageComponent,
     ManageUsagersTableComponent,
     ManageDownloadDocsComponent,
+    ColumnInformationsComponent,
   ],
   imports: [
     CommonModule,

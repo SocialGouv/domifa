@@ -8,6 +8,5 @@ import { LIEN_PARENTE_LABELS } from "../../../../../_common/model";
 })
 export class DisplayAyantsDroitsComponent {
   public readonly LIEN_PARENTE_LABELS = LIEN_PARENTE_LABELS;
-
   @Input() public usager!: UsagerFormModel;
 }

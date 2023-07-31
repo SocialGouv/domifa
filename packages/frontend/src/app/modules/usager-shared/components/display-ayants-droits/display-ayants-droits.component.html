@@ -1,5 +1,27 @@
+<div
+  #tooltipAyantsDroit="ngbTooltip"
+  class="label-info label-green"
+  *ngIf="usager.ayantsDroits.length > 0"
+  [ngbTooltip]="ayantsDroitsInfos"
+  triggers="manual"
+  tabindex="0"
+  [autoClose]="false"
+  [appTooltip]="tooltipAyantsDroit"
+>
+  <p class="m-0">
+    <span *ngIf="usager.ayantsDroits.length > 1">
+      {{ usager.ayantsDroits.length }} ayants-droit
+    </span>
+    <span *ngIf="usager.ayantsDroits.length === 1">1 ayant-droit</span>
+  </p>
+</div>
+
 <ng-template #ayantsDroitsInfos class="p-4">
-  <div class="distribution-tooltip text-start">
+  <div
+    class="distribution-tooltip text-start"
+    tabindex="0"
+    [ngbTooltip]="ayantsDroitsInfos"
+  >
     <ul>
       <li class="p-1" *ngFor="let ayantDroit of usager.ayantsDroits">
         <strong class="text-primary">{{ ayantDroit.nom }}</strong>
@@ -11,19 +33,3 @@
     </ul>
   </div>
 </ng-template>
-
-<div
-  #tooltipAyantsDroit="ngbTooltip"
-  class="label-info label-green"
-  *ngIf="usager.ayantsDroits.length > 0"
-  [ngbTooltip]="ayantsDroitsInfos"
-  triggers="hover focus"
-  tabindex="0"
->
-  <p class="m-0">
-    <span *ngIf="usager.ayantsDroits.length > 1">
-      {{ usager.ayantsDroits.length }} ayants-droit
-    </span>
-    <span *ngIf="usager.ayantsDroits.length === 1">1 ayant-droit</span>
-  </p>
-</div>

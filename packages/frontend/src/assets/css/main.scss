@@ -47,10 +47,6 @@ ul {
   background: #f6f7ff;
 }
 
-.pointer {
-  cursor: pointer;
-}
-
 .active {
   color: var(--bs-primary);
 }
@@ -64,15 +60,22 @@ ul {
   border-radius: 5px;
 }
 
+.tooltip.show {
+  opacity: 1 !important;
+}
+
 .tooltip-inner {
   background: #ffffff !important;
   border: 1px solid #e6e6e6;
   color: black;
-  font-size: 0.9rem !important;
   max-width: 310px;
   font-weight: 600;
   padding: 0.5rem 1rem;
-  opacity: 1 !important;
+
+  p {
+    margin: 0;
+    padding: 0.3rem 0.2rem;
+  }
 
   ul {
     list-style-type: circle;
@@ -283,6 +286,7 @@ legend {
   margin-top: 2px;
   margin-bottom: 2px;
   text-align: center;
+  cursor: normal;
   display: inline-block;
   font-size: 0.875rem;
   position: relative;
