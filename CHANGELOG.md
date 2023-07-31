@@ -1,3 +1,10 @@
+## [2.133.2](https://github.com/SocialGouv/domifa/compare/v2.133.1...v2.133.2) (2023-07-31)
+
+
+### Bug Fixes
+
+* **renovate:** enable renovate config ([09796fb](https://github.com/SocialGouv/domifa/commit/09796fb29b366242561322967daa9f13dd1c33b7))
+
 ## [2.133.1](https://github.com/SocialGouv/domifa/compare/v2.133.0...v2.133.1) (2023-07-27)
 
 
