@@ -6,6 +6,6 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
   templateUrl: "./column-informations.component.html",
 })
 export class ColumnInformationsComponent {
-  @Input() public usager: UsagerFormModel;
+  @Input() public usager!: UsagerFormModel;
   public today = new Date();
 }

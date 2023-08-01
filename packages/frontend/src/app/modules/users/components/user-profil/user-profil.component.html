@@ -32,6 +32,7 @@
                   >
                   <select
                     [disabled]="loading"
+                    [attr.aria-busy]="loading ? true : false"
                     id="role_{{ user.id }}"
                     [(ngModel)]="user.role"
                     (ngModelChange)="updateRole(user.id, user.role)"
@@ -303,6 +304,7 @@
       class="btn btn-lg btn-danger"
       (click)="deleteUser()"
       [disabled]="loading"
+      [attr.aria-busy]="loading ? true : false"
     >
       <span *ngIf="!loading">Confirmer la suppression</span>
       <span *ngIf="loading">

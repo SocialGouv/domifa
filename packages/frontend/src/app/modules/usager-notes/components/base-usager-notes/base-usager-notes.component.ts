@@ -48,11 +48,11 @@ export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
       page: 1,
       take: 5,
     };
+    this.currentUserSubject$ = this.authService.currentUserSubject;
   }
 
   ngOnInit(): void {
     this.getUsagerNotes();
-    this.currentUserSubject$ = this.authService.currentUserSubject;
   }
 
   public getUsagerNotes(): void {

@@ -396,6 +396,7 @@
         *ngIf="editEntretien"
         class="btn btn-primary btn-block"
         [disabled]="loading"
+        [attr.aria-busy]="loading ? true : false"
       >
         <span *ngIf="!loading"> Enregistrer les modifications </span>
 
@@ -414,6 +415,7 @@
       >
         <button
           [disabled]="loading"
+          [attr.aria-busy]="loading ? true : false"
           type="submit"
           class="my-4 btn btn-primary btn-block"
         >
@@ -450,7 +452,9 @@
 
 <ng-template #entretienConfirmation let-modal>
   <div class="modal-header bg-primary">
-    <span class="text-white" id="modal-title">Attention !</span>
+    <span class="text-white" id="modal-title"
+      >L’entretien préalable est obligatoire !</span
+    >
   </div>
   <div class="modal-body">
     <p>
@@ -479,6 +483,7 @@
       type="submit"
       class="btn btn-lg btn-primary"
       [disabled]="loading"
+      [attr.aria-busy]="loading ? true : false"
       (click)="loading = true; nextStep.emit(3); closeModal()"
     >
       <span *ngIf="!loading">Continuer sans entretien</span>

@@ -35,8 +35,8 @@ import { TooltipDirective } from "./usager-tooltip.directive";
     </ng-template>`,
 })
 class TestComponent {
-  @ViewChild("tooltipTwo") public tooltipTwo: NgbTooltip;
-  @ViewChild("tooltipOne") public tooltipOne: NgbTooltip;
+  @ViewChild("tooltipTwo") public tooltipTwo!: NgbTooltip;
+  @ViewChild("tooltipOne") public tooltipOne!: NgbTooltip;
 }
 
 describe("TooltipDirective", () => {

@@ -1,5 +1,9 @@
-<app-profil-head [usager]="usager" [section]="'general'" [me]="me">
-</app-profil-head>
+<app-profil-head
+  [usager]="usager"
+  [section]="'general'"
+  *ngIf="me"
+  [me]="me"
+></app-profil-head>
 
 <div class="content" *ngIf="usager && me">
   <div class="container p-0">
@@ -21,7 +25,7 @@
               <br />
               Note épinglée créée le
               {{ usager.pinnedNote.createdAt | date : "dd MMMM yyyy à HH:mm" }}
-              par {{ usager.pinnedNote.createdBy.userName }}
+              par {{ usager.pinnedNote.createdBy?.userName }}
             </p>
           </div>
 

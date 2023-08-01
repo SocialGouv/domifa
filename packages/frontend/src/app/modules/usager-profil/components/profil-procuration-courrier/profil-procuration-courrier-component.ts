@@ -206,7 +206,6 @@ export class UsagersProfilProcurationCourrierComponent
         .subscribe({
           next: () => {
             this.hideForm();
-
             this.toastService.success("Procuration modifiée avec succès");
             this.matomo.trackEvent("profil", "actions", "edit_procuration", 1);
           },

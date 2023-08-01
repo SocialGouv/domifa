@@ -78,6 +78,7 @@
   <div class="modal-footer text-end">
     <button
       [disabled]="loading"
+      [attr.aria-busy]="loading ? true : false"
       type="submit"
       (click)="confirmAction()"
       class="btn btn-lg btn-danger mx-1"
@@ -92,7 +93,6 @@
         Veuillez patienter...
       </span>
     </button>
-
     <button
       type="button"
       class="btn btn-outline-dark btn-lg me-2"

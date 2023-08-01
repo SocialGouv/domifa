@@ -19,9 +19,9 @@ export const getEcheanceInfos = (usager?: UsagerLight): UsagerEcheanceInfos => {
     usager.decision.statut === "RADIE" ||
     usager.decision.statut === "REFUS"
   ) {
-    usagerInfos.dateToDisplay = new Date(
-      usager.decision.dateDebut || usager.decision.dateFin
-    );
+    usagerInfos.dateToDisplay = usager.decision.dateDebut
+      ? new Date(usager.decision.dateDebut)
+      : new Date(usager.decision.dateFin);
   } else if (usager.typeDom === "RENOUVELLEMENT") {
     usagerInfos.isActif = true;
     const indexOfDate = usager.decision.statut === "ATTENTE_DECISION" ? 2 : 1;

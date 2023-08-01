@@ -829,7 +829,12 @@
         </fieldset>
 
         <div class="my-3 text-center">
-          <button type="submit" [disabled]="loading" class="btn btn-primary">
+          <button
+            type="submit"
+            [disabled]="loading"
+            [attr.aria-busy]="loading ? true : false"
+            class="btn btn-primary"
+          >
             <span *ngIf="loading">
               <fa-icon
                 aria-hidden="true"

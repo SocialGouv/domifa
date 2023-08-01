@@ -79,8 +79,11 @@ function match<T>(
       score: 0,
     };
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const initArray: any = [];
   const attributes: string[] = getAttributes(item, index) ?? [];
-  const cleanAttributes: string[] = [].concat(
+  const cleanAttributes: string[] = initArray.concat(
     ...attributes
       .filter((x) => x !== null && x !== undefined && x.trim().length !== 0)
       .map((x) => searchCore.buildWords(x))
@@ -139,7 +142,7 @@ function filter<T>(
     maxResults,
   }: {
     getAttributes: (item: T, index?: number) => string[];
-    searchText: string;
+    searchText: string | null;
     maxResults?: number;
   }
 ): T[] {

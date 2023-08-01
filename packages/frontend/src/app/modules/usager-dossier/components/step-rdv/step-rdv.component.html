@@ -101,6 +101,7 @@
             >
               <button
                 [disabled]="loading"
+                [attr.aria-busy]="loading ? true : false"
                 type="submit"
                 class="btn btn-primary btn-block"
               >
@@ -288,6 +289,7 @@
               <br />
               <button
                 [disabled]="loading"
+                [attr.aria-busy]="loading ? true : false"
                 type="submit"
                 class="btn btn-primary btn-block"
               >

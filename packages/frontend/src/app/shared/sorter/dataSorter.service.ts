@@ -25,10 +25,6 @@ function sortMultiple<T>(
 ): T[] {
   const globalAsc = asc !== false;
 
-  if (nullFirst === undefined) {
-    nullFirst = false;
-  }
-
   const sortableItems: DataComparableObject<T>[] = items.map((item) => ({
     item,
     attributes: dataObjectCompare.buildCompareAttributes(
@@ -39,7 +35,10 @@ function sortMultiple<T>(
 
   return sortableItems
     .sort((a, b) =>
-      dataObjectCompare.compareComparableObjects(a, b, { nullFirst, globalAsc })
+      dataObjectCompare.compareComparableObjects(a, b, {
+        nullFirst: nullFirst ?? false,
+        globalAsc,
+      })
     )
     .map((x) => x.item);
 }

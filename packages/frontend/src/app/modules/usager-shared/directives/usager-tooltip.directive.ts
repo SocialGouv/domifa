@@ -7,7 +7,7 @@ import { TooltipControlService } from "../services/tooltip-control.service";
   selector: "[appTooltip]",
 })
 export class TooltipDirective implements OnDestroy {
-  @Input("appTooltip") public tooltip: NgbTooltip;
+  @Input("appTooltip") public tooltip!: NgbTooltip;
   public mouseIsInsideTooltipContent = false;
   private readonly subscription: Subscription;
 

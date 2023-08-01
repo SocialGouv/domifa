@@ -146,6 +146,7 @@
             type="submit"
             (click)="submitStructureSmsForm()"
             [disabled]="loading"
+            [attr.aria-busy]="loading ? true : false"
           >
             <span *ngIf="!loading"> Enregistrer les modifications </span>
 
