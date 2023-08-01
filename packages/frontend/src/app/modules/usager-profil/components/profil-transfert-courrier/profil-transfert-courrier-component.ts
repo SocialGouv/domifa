@@ -1,5 +1,7 @@
 import {
+  ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
   OnDestroy,
   OnInit,
@@ -65,6 +67,9 @@ export class UsagersProfilTransfertCourrierComponent
   @ViewChild("confirmDelete", { static: true })
   public confirmDelete!: TemplateRef<NgbModalRef>;
 
+  @ViewChild("transfertName")
+  public firstInput!: ElementRef;
+
   private subscription = new Subscription();
 
   constructor(
@@ -73,7 +78,8 @@ export class UsagersProfilTransfertCourrierComponent
     private readonly toastService: CustomToastService,
     private readonly usagerOptionsService: UsagerOptionsService,
     private readonly matomo: MatomoTracker,
-    private readonly modalService: NgbModal
+    private readonly modalService: NgbModal,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {
     this.isFormVisible = false;
     this.loading = false;
@@ -97,6 +103,11 @@ export class UsagersProfilTransfertCourrierComponent
     this.isFormVisible = true;
     this.initForm();
     this.transfertForm.reset(this.transfertForm.value);
+    this.changeDetectorRef.detectChanges();
+    const elementToFocus = this.firstInput?.nativeElement;
+    if (elementToFocus) {
+      elementToFocus.focus();
+    }
   }
 
   public hideForm(): void {

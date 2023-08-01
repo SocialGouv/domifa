@@ -1,4 +1,11 @@
-import { Component, OnDestroy } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnDestroy,
+  QueryList,
+  ViewChildren,
+} from "@angular/core";
 import {
   UntypedFormGroup,
   AbstractControl,
@@ -92,6 +99,9 @@ export class EtatCivilParentFormComponent implements OnDestroy {
 
   public currentUserSubject$: Observable<UserStructure | null>;
 
+  @ViewChildren("adName")
+  public firstInputs!: QueryList<ElementRef>;
+
   public get f(): { [key: string]: AbstractControl } {
     return this.usagerForm.controls;
   }
@@ -102,7 +112,8 @@ export class EtatCivilParentFormComponent implements OnDestroy {
 
   constructor(
     protected readonly formBuilder: UntypedFormBuilder,
-    protected readonly authService: AuthService
+    protected readonly authService: AuthService,
+    protected readonly changeDetectorRef: ChangeDetectorRef
   ) {
     this.countryCode = null;
     this.submitted = false;
@@ -151,7 +162,9 @@ export class EtatCivilParentFormComponent implements OnDestroy {
 
     // Ajout des ayant-droit
     for (const ayantDroit of this.usager.ayantsDroits) {
-      this.addAyantDroit(ayantDroit);
+      (this.usagerForm.controls.ayantsDroits as UntypedFormArray).push(
+        this.newAyantDroit(ayantDroit)
+      );
     }
 
     this.subscription.add(
@@ -175,6 +188,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     (this.usagerForm.controls.ayantsDroits as UntypedFormArray).push(
       this.newAyantDroit(ayantDroit)
     );
+    this.changeFocus(this.ayantsDroits.controls.length - 1);
   }
 
   public deleteAyantDroit(i: number): void {
@@ -183,6 +197,8 @@ export class EtatCivilParentFormComponent implements OnDestroy {
       .ayantsDroits as UntypedFormArray;
     if (formAyantDroit.length === 0) {
       this.usagerForm.controls.ayantsDroitsExist.setValue(false);
+    } else {
+      i === 0 ? this.changeFocus(0) : this.changeFocus(i - 1);
     }
   }
 
@@ -270,6 +286,13 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     return datas;
   }
 
+  public changeFocus(index: number) {
+    this.changeDetectorRef.detectChanges();
+    const elementToFocus = this.firstInputs.toArray()[index]?.nativeElement;
+    if (elementToFocus) {
+      elementToFocus.focus();
+    }
+  }
   public ngOnDestroy() {
     this.subscription.unsubscribe();
   }

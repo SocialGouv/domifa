@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
@@ -10,9 +11,10 @@ import {
   ViewChildren,
 } from "@angular/core";
 import {
+  FormControl,
+  FormGroup,
   UntypedFormArray,
   UntypedFormBuilder,
-  UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
@@ -60,27 +62,27 @@ export class UsagersProfilProcurationCourrierComponent
   implements OnInit, OnDestroy
 {
   @Input() public usager!: UsagerFormModel;
-
   @Input() public me!: UserStructure;
-  private subscription = new Subscription();
 
-  @ViewChildren("procurationNom")
-  public inputsProcurations!: QueryList<ElementRef>;
+  private readonly subscription = new Subscription();
 
   public isFormVisible: boolean;
   public submitted: boolean;
   public procurationToDelete: number | null; // Index de la procu à supprimer
 
   public procurationsForm!: UntypedFormGroup;
-  public minDateToday: NgbDateStruct;
 
+  public minDateToday: NgbDateStruct;
   public minDateNaissance: NgbDateStruct;
   public maxDateNaissance: NgbDateStruct;
 
-  public loading = false;
+  public loading: boolean;
 
-  @ViewChild("confirmDelete", { static: true })
-  public confirmDelete!: TemplateRef<NgbModalRef>;
+  @ViewChild("confirmDeleteModal", { static: true })
+  public confirmDeleteModal!: TemplateRef<NgbModalRef>;
+
+  @ViewChildren("procurationName")
+  public firstInputs!: QueryList<ElementRef>;
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
@@ -88,15 +90,16 @@ export class UsagersProfilProcurationCourrierComponent
     private readonly toastService: CustomToastService,
     private readonly usagerOptionsService: UsagerOptionsService,
     private readonly matomo: MatomoTracker,
-    private readonly modalService: NgbModal
+    private readonly modalService: NgbModal,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {
-    this.hideForm();
     this.submitted = false;
+    this.loading = false;
     this.isFormVisible = false;
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
-    this.procurationToDelete = null;
     this.maxDateNaissance = minDateToday;
+    this.procurationToDelete = null;
   }
 
   public isRole(role: UserStructureRole): boolean {
@@ -107,6 +110,7 @@ export class UsagersProfilProcurationCourrierComponent
     this.procurationsForm = this.formBuilder.group({
       procurations: this.formBuilder.array([]),
     });
+    this.initForm();
   }
 
   public get form(): UntypedFormArray {
@@ -117,24 +121,31 @@ export class UsagersProfilProcurationCourrierComponent
     this.submitted = false;
     this.loading = false;
     this.isFormVisible = false;
+    this.procurationsForm.reset();
+  }
+
+  public openForm() {
+    this.isFormVisible = true;
+    this.changeFocus(0);
   }
 
   public addProcuration(
     procuration: UsagerProcuration = new UsagerProcuration()
   ): void {
-    (this.procurationsForm.controls.procurations as UntypedFormArray).push(
-      this.newProcuration(procuration)
-    );
     this.submitted = false;
+    this.form.push(this.newProcuration(procuration));
+    this.changeFocus(this.form.length - 1);
+  }
+
+  public changeFocus(index: number) {
+    this.changeDetectorRef.detectChanges();
+    const elementToFocus = this.firstInputs.toArray()[index]?.nativeElement;
+    if (elementToFocus) {
+      elementToFocus.focus();
+    }
   }
 
   public initForm(): void {
-    this.isFormVisible = true;
-
-    this.procurationsForm = this.formBuilder.group({
-      procurations: this.formBuilder.array([]),
-    });
-
     if (this.usager.options.procurations.length > 0) {
       for (const procuration of this.usager.options.procurations) {
         this.addProcuration(procuration);
@@ -145,25 +156,25 @@ export class UsagersProfilProcurationCourrierComponent
   }
 
   public newProcuration(procuration: UsagerOptionsProcuration) {
-    return new UntypedFormGroup(
+    return new FormGroup(
       {
-        nom: new UntypedFormControl(procuration.nom, [
+        nom: new FormControl<string>(procuration.nom, [
           Validators.required,
           NoWhiteSpaceValidator,
         ]),
-        prenom: new UntypedFormControl(procuration.prenom, [
+        prenom: new FormControl<string>(procuration.prenom, [
           Validators.required,
           NoWhiteSpaceValidator,
         ]),
-        dateFin: new UntypedFormControl(
+        dateFin: new FormControl<NgbDateStruct>(
           procuration.dateFin ? formatDateToNgb(procuration.dateFin) : null,
           [Validators.required]
         ),
-        dateDebut: new UntypedFormControl(
+        dateDebut: new FormControl<NgbDateStruct>(
           procuration.dateDebut ? formatDateToNgb(procuration.dateDebut) : null,
           [Validators.required]
         ),
-        dateNaissance: new UntypedFormControl(
+        dateNaissance: new FormControl<NgbDateStruct>(
           procuration.dateNaissance
             ? formatDateToNgb(procuration.dateNaissance)
             : null,
@@ -219,13 +230,15 @@ export class UsagersProfilProcurationCourrierComponent
 
   public openConfirmation(index: number): void {
     this.procurationToDelete = index;
-    this.modalService.open(this.confirmDelete, DEFAULT_MODAL_OPTIONS);
+    this.modalService.open(this.confirmDeleteModal, DEFAULT_MODAL_OPTIONS);
   }
 
   public deleteProcurationForm(i: number): void {
     this.form.removeAt(i);
     if (this.form.length === 0) {
-      this.isFormVisible = false;
+      this.addProcuration();
+    } else {
+      this.changeFocus(this.form.length - 1);
     }
   }
 
@@ -236,19 +249,15 @@ export class UsagersProfilProcurationCourrierComponent
         .subscribe({
           next: () => {
             this.toastService.success("Procuration supprimée avec succès");
+            this.hideForm();
+            this.closeModals();
 
-            setTimeout(() => {
-              this.closeModals();
-              this.hideForm();
-              this.procurationsForm.reset();
-
-              this.matomo.trackEvent(
-                "profil",
-                "actions",
-                "delete-procuration",
-                1
-              );
-            }, 500);
+            this.matomo.trackEvent(
+              "profil",
+              "actions",
+              "delete-procuration",
+              1
+            );
           },
           error: () => {
             this.toastService.error("Impossible de supprimer la procuration");

@@ -85,57 +85,59 @@
     </div>
   </fieldset>
 
-  <div class="text-start my-3" *ngIf="usager.options.procurations.length > 0">
-    <fieldset>
-      <legend>A qui est distribué le courrier ?</legend>
-      <div class="row align-items-top">
+  <fieldset
+    class="text-start my-3"
+    *ngIf="usager.options.procurations.length > 0"
+  >
+    <legend>A qui est distribué le courrier ?</legend>
+    <div class="row align-items-top">
+      <div class="col-md-6 my-2">
+        <div class="interaction-icon-box">
+          <div class="fw-bold">Domicilié</div>
+          <div class="mb-1">
+            <label for="distribution-domicilie"
+              >{{ usager.nom | uppercase }} {{ usager.prenom }}</label
+            >
+          </div>
+        </div>
+        <div class="interaction-actions checkbox">
+          <input
+            name="procuration"
+            id="distribution-domicilie"
+            type="radio"
+            checked
+            [attr.aria-checked]="procurationIndex === null"
+            (click)="toggleProcurationIndex(null)"
+          />
+        </div>
+      </div>
+      <ng-container
+        *ngFor="let procuration of usager.options.procurations; let i = index"
+      >
         <div class="col-md-6 my-2">
           <div class="interaction-icon-box">
-            <div class="fw-bold">Domicilié</div>
+            <div class="fw-bold">Mandataire</div>
             <div class="mb-1">
-              <label for="distribution-domicilie"
-                >{{ usager.nom | uppercase }} {{ usager.prenom }}</label
-              >
+              <label for="distribution-mandataire-{{ i }}">
+                {{ procuration.nom | uppercase }}
+                {{ procuration.prenom }}
+              </label>
             </div>
           </div>
           <div class="interaction-actions checkbox">
             <input
               name="procuration"
-              id="distribution-domicilie"
+              id="distribution-mandataire-{{ i }}"
               type="radio"
-              checked
-              [attr.aria-checked]="procurationIndex === null"
-              (click)="toggleProcurationIndex(null)"
+              [attr.aria-checked]="procurationIndex === i"
+              (click)="toggleProcurationIndex(i)"
             />
           </div>
         </div>
-        <ng-container
-          *ngFor="let procuration of usager.options.procurations; let i = index"
-        >
-          <div class="col-md-6 my-2">
-            <div class="interaction-icon-box">
-              <div class="fw-bold">Mandataire</div>
-              <div class="mb-1">
-                <label for="distribution-mandataire-{{ i }}">
-                  {{ procuration.nom | uppercase }}
-                  {{ procuration.prenom }}
-                </label>
-              </div>
-            </div>
-            <div class="interaction-actions checkbox">
-              <input
-                name="procuration"
-                id="distribution-mandataire-{{ i }}"
-                type="radio"
-                [attr.aria-checked]="procurationIndex === i"
-                (click)="toggleProcurationIndex(i)"
-              />
-            </div>
-          </div>
-        </ng-container>
-      </div>
-    </fieldset>
-  </div>
+      </ng-container>
+    </div>
+  </fieldset>
+
   <div
     class="interaction-icon-box text-start px-3 py-3 my-3"
     *ngIf="this.selectedInteractionsWithContent.length !== 0"

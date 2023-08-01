@@ -1,5 +1,5 @@
 import { EtatCivilParentFormComponent } from "./../../../usager-shared/components/etat-civil-parent-form/etat-civil-parent-form.component";
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
 import { UntypedFormBuilder } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
@@ -40,14 +40,15 @@ export class StepEtatCivilComponent
   public duplicates: UsagerLight[];
 
   constructor(
-    public formBuilder: UntypedFormBuilder,
     public authService: AuthService,
+    public formBuilder: UntypedFormBuilder,
+    public changeDetectorRef: ChangeDetectorRef,
     private readonly usagerDossierService: UsagerDossierService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly toastService: CustomToastService
   ) {
-    super(formBuilder, authService);
+    super(formBuilder, authService, changeDetectorRef);
     this.duplicates = [];
   }
 

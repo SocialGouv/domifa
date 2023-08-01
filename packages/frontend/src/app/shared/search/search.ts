@@ -80,10 +80,8 @@ function match<T>(
     };
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const initArray: any = [];
   const attributes: string[] = getAttributes(item, index) ?? [];
-  const cleanAttributes: string[] = initArray.concat(
+  const cleanAttributes: string[] = [].concat(
     ...attributes
       .filter((x) => x !== null && x !== undefined && x.trim().length !== 0)
       .map((x) => searchCore.buildWords(x))
