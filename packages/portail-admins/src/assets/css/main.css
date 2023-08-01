@@ -179,3 +179,7 @@ footer .menu-breadcrumb {
   background-color: var(--bs-primary);
   width: 100%;
 }
+
+caption {
+  color: black;
+}

@@ -1,6 +1,6 @@
 <div class="container my-5">
   <div class="text-center py-2">
-    <h5 class="title">Espace d'administration</h5>
+    <h1 class="title">Espace d'administration</h1>
   </div>
   <div class="row justify-content-center align-items-center">
     <form
@@ -14,6 +14,8 @@
           <input
             type="email"
             formControlName="email"
+            id="email"
+            name="email"
             placeholder="Votre identifiant"
             class="form-control"
             [ngClass]="{
@@ -32,6 +34,8 @@
             <input
               type="password"
               formControlName="password"
+              id="password"
+              name="password"
               [type]="!hidePassword ? 'text' : 'password'"
               class="form-control"
               placeholder="Mot de passe"
@@ -74,7 +78,12 @@
         >
           <span *ngIf="!loading">Connexion </span>
           <span *ngIf="loading"
-            ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"> </fa-icon>
+            ><fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'circle-notch']"
+              [spin]="true"
+            >
+            </fa-icon>
             Connexion en cours...</span
           >
         </button>
