@@ -1,3 +1,16 @@
+# [2.134.0](https://github.com/SocialGouv/domifa/compare/v2.133.2...v2.134.0) (2023-08-01)
+
+
+### Bug Fixes
+
+* **rgaa:** ajout de aria-busy ([2e99d38](https://github.com/SocialGouv/domifa/commit/2e99d380ed7fd28a91cae9864a7379ed1f8dc7a5))
+* **rgaa:** amélioration du focus ([a8b83ce](https://github.com/SocialGouv/domifa/commit/a8b83ce499aed11212c4b5f3d5f2ec5ccf7d1014))
+
+
+### Features
+
+* **rgaa:** ajout du survol des tooltips ([5de5f17](https://github.com/SocialGouv/domifa/commit/5de5f17485fd39589e08288de55afb9e0cf65dfa))
+
 ## [2.133.2](https://github.com/SocialGouv/domifa/compare/v2.133.1...v2.133.2) (2023-07-31)
 
 
