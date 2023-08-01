@@ -24,7 +24,6 @@ describe("ManageUsagersPageComponent", () => {
         FormsModule,
         HttpClientTestingModule,
         NgbModule,
-
         ReactiveFormsModule,
         RouterTestingModule,
         StoreModule.forRoot({ app: _usagerReducer }),
