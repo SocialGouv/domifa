@@ -61,6 +61,7 @@
         type="submit"
         class="btn btn-primary btn-block mt-4"
         [disabled]="loading"
+        [attr.aria-busy]="loading ? true : false"
       >
         <span *ngIf="!loading">Ajouter</span>
         <span *ngIf="loading">

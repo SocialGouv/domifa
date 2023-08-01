@@ -36,7 +36,7 @@ export class UsagersFilterCriteria {
   public searchStringField: CriteriaSearchField;
   public searchString: string | null;
   // filters
-  public statut?: UsagersFilterCriteriaStatut;
+  public statut: UsagersFilterCriteriaStatut | null;
   public echeance: UsagersFilterCriteriaEcheance | null;
   public interactionType: "courrierIn" | null;
   public passage: UsagersFilterCriteriaDernierPassage | null;

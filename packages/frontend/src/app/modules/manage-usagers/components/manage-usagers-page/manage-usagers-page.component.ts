@@ -65,7 +65,11 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   public loading: boolean;
 
   public searchPageLoadedUsagersData$ =
-    new BehaviorSubject<SearchPageLoadedUsagersData>(undefined);
+    new BehaviorSubject<SearchPageLoadedUsagersData>({
+      usagersNonRadies: [],
+      usagersRadiesFirsts: [],
+      usagersRadiesTotalCount: 0,
+    });
 
   public usagersTotalCount = 0;
   public usagersRadiesLoadedCount = 0;
@@ -456,7 +460,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
 
     const filterCriteria: UsagersFilterCriteria = {
       ...filters,
-      statut: undefined,
+      statut: null,
     };
 
     const filteredUsagers = usagersFilter.filter(allUsagers, {
@@ -504,8 +508,10 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   }
 
   private loadTallyScript(): void {
-    if (window["Tally"]) {
-      window["Tally"].openPopup("31k1RO", {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const tally: any = window["Tally" as unknown as any];
+    if (tally) {
+      tally.openPopup("31k1RO", {
         layout: "popup",
         overlay: true,
         showOnce: true,

@@ -94,6 +94,8 @@ export class StepRdvComponent
     );
     this.submitted = false;
     this.loading = false;
+    this.editRdv = false;
+    this.rdvIsToday = false;
     this.maxDateRdv = {
       day: this.dToday.getDate(),
       month: this.dToday.getMonth() + 1,

@@ -254,7 +254,12 @@
         </div>
       </div>
       <div class="col-12 text-center">
-        <button class="btn btn-primary" type="submit" [disabled]="loading">
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="loading"
+          [attr.aria-busy]="loading ? true : false"
+        >
           <ng-container *ngIf="!loading">Enregistrer le transfert</ng-container>
           <ng-container *ngIf="loading"
             ><fa-icon
@@ -296,6 +301,7 @@
       class="btn btn-lg btn-danger"
       (click)="deleteTransfert()"
       [disabled]="loading"
+      [attr.aria-busy]="loading ? true : false"
       type="submit"
     >
       <span *ngIf="!loading">Confirmer la suppression</span>

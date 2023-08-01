@@ -36,9 +36,9 @@
     class="row"
     *ngIf="usager.options.procurations.length === 0  && !isFormVisible"
   >
-    <div class="col-md-6 reponses">
+    <p class="col-md-6 reponses">
       <span class="question">Il n'y a aucune procuration actuellement.</span>
-    </div>
+    </p>
   </div>
   <ng-container
     *ngIf="usager.options.procurations.length > 0  && !isFormVisible"
@@ -361,7 +361,12 @@
       >
         Ajouter une procuration
       </button>
-      <button class="btn btn-primary" [disabled]="loading" type="submit">
+      <button
+        class="btn btn-primary"
+        [disabled]="loading"
+        [attr.aria-busy]="loading ? true : false"
+        type="submit"
+      >
         <span *ngIf="!loading">Enregistrer les procurations</span>
         <span *ngIf="loading"
           ><fa-icon
@@ -377,11 +382,13 @@
   </form>
 </div>
 
-<ng-template #confirmDelete let-modal>
+<ng-template #confirmDelete let-modal *ngIf="procurationToDelete ">
   <div class="modal-header bg-danger">
-    <span id="modal-title" class="text-white">Confirmer la suppression</span>
+    <span id="modal-title" class="text-white"
+      >Confirmer la suppression de la procuration</span
+    >
   </div>
-  <div class="modal-body" *ngIf="procurationToDelete !== null">
+  <div class="modal-body">
     <p>
       Êtes-vous sur de vouloir supprimer la procuration au nom de
       <strong
@@ -399,14 +406,23 @@
     >
       Revenir au profil
     </button>
-
     <button
-      type="submit"
-      *ngIf="procurationToDelete !== null"
       class="btn btn-lg btn-danger"
       (click)="deleteProcuration(procurationToDelete)"
+      [disabled]="loading"
+      [attr.aria-busy]="loading ? true : false"
+      type="submit"
     >
-      Confirmer la suppression
+      <span *ngIf="!loading"> Confirmer la suppression </span>
+      <span *ngIf="loading"
+        ><fa-icon
+          [icon]="['fas', 'circle-notch']"
+          aria-hidden="true"
+          [spin]="true"
+        >
+        </fa-icon>
+        Veuillez patienter...</span
+      >
     </button>
   </div>
 </ng-template>

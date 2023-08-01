@@ -219,7 +219,12 @@
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" [disabled]="loading">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="loading"
+              [attr.aria-busy]="loading ? true : false"
+            >
               <span *ngIf="loading">
                 <fa-icon
                   [icon]="['fas', 'circle-notch']"

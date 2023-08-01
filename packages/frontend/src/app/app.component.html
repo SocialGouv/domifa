@@ -258,7 +258,7 @@
             formControlName="readCgu"
             class="form-check-input me-2"
             [ngClass]="{
-              'is-invalid': submitted && f.readCgu?.errors
+              'is-invalid': submitted && f.readCgu.errors
             }"
             [attr.aria-describedby]="
               submitted && f.readCgu.errors ? 'invalid-cgu-read' : null
@@ -283,7 +283,7 @@
             formControlName="acceptCgu"
             class="form-check-input me-2"
             [ngClass]="{
-              'is-invalid': submitted && f.acceptCgu?.errors
+              'is-invalid': submitted && f.acceptCgu.errors
             }"
             [attr.aria-describedby]="
               submitted && f.acceptCgu.errors ? 'invalid-cgu-choice' : null
@@ -316,6 +316,8 @@
         class="btn btn-lg btn-primary"
         type="submit"
         (click)="submitAcceptTerms()"
+        [disabled]="loading"
+        [attr.aria-busy]="loading ? true : false"
       >
         <span *ngIf="!loading"> Enregistrer </span>
         <span *ngIf="loading"

@@ -41,6 +41,7 @@
     class="btn btn-lg btn-danger"
     (click)="deleteUsager()"
     [disabled]="loading"
+    [attr.aria-busy]="loading ? true : false"
   >
     <span *ngIf="!loading">Confirmer la suppression</span>
     <span *ngIf="loading"

@@ -123,7 +123,12 @@
       </p>
     </div>
     <div class="col-12 text-center">
-      <button class="btn btn-primary" type="submit" [disabled]="loading">
+      <button
+        class="btn btn-primary"
+        type="submit"
+        [disabled]="loading"
+        [attr.aria-busy]="loading ? true : false"
+      >
         <span *ngIf="loading">
           <fa-icon
             [icon]="['fas', 'circle-notch']"

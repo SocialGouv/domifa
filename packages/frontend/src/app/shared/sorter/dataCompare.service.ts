@@ -28,21 +28,12 @@ function compareNullValues<T>(
   b: T,
   { nullFirst }: { nullFirst?: boolean }
 ): DataComparisonResult {
-  if (a == null && b == null) {
+  if (a === null && b === null) {
     return 0;
-  } else if (a == null && b != null) {
-    if (nullFirst) {
-      return -1;
-    } else {
-      return 1;
-    }
+  } else if (a === null && b !== null) {
+    return nullFirst ? -1 : 1;
   } else if (a != null && b == null) {
-    if (nullFirst) {
-      return 1;
-    } else {
-      return -1;
-    }
-  } else {
-    return undefined;
+    return nullFirst ? 1 : -1;
   }
+  return undefined;
 }

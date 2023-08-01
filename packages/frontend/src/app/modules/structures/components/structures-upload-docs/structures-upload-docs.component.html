@@ -133,6 +133,7 @@
     class="btn btn-lg btn-primary"
     (click)="submitFile()"
     [disabled]="loading"
+    [attr.aria-busy]="loading ? true : false"
     type="submit"
   >
     <span *ngIf="!loading">Ajouter</span>

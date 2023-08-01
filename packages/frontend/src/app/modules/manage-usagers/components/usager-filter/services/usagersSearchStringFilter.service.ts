@@ -41,7 +41,9 @@ function filter(
               typeof ad.dateNaissance === "string"
                 ? new Date(ad.dateNaissance)
                 : null;
-            attributes.push(format(dateNaissanceAd, "dd/MM/yyyy"));
+            if (dateNaissanceAd) {
+              attributes.push(format(dateNaissanceAd, "dd/MM/yyyy"));
+            }
           });
         }
         return attributes;

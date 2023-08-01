@@ -175,7 +175,7 @@
           aria-hidden="true"
         />
         <ng-template #pinnedNote>
-          <b>Note épinglée : </b>{{ usager.pinnedNote.message}}
+          <b>Note épinglée : </b>{{ usager.pinnedNote?.message}}
         </ng-template>
         <span class="visually-hidden" *ngIf="!usager.pinnedNote"
           >Aucune note épinglée</span
@@ -416,6 +416,7 @@
 
 <ng-template #setInteractionInModal let-modal>
   <app-set-interaction-in-form
+    *ngIf="selectedUsager"
     [usager]="selectedUsager"
     (cancelReception)="cancelReception()"
   ></app-set-interaction-in-form>
@@ -423,6 +424,7 @@
 
 <ng-template #setInteractionOutModal let-modal>
   <app-set-interaction-out-form
+    *ngIf="selectedUsager"
     [usager]="selectedUsager"
     (cancelReception)="cancelReception()"
   ></app-set-interaction-out-form>
@@ -432,5 +434,6 @@
   <app-delete-usager
     [selectedRefs]="selectedRefs"
     [me]="me"
+    *ngIf="me"
   ></app-delete-usager>
 </ng-template>

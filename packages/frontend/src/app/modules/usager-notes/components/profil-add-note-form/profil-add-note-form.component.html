@@ -63,6 +63,7 @@
     <div class="modal-footer text-end">
       <button
         [disabled]="loading"
+        [attr.aria-busy]="loading ? true : false"
         type="submit"
         class="btn btn-lg btn-primary mx-1"
       >
