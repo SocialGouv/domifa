@@ -33,6 +33,7 @@
                 class="form-check-input"
                 type="radio"
                 formControlName="sexe"
+                name="sexe"
                 id="homme"
                 value="homme"
               />
@@ -43,6 +44,7 @@
                 class="form-check-input"
                 type="radio"
                 formControlName="sexe"
+                name="sexe"
                 id="femme"
                 value="femme"
               />
@@ -60,6 +62,7 @@
               appCleanStr
               maxlength="200"
               formControlName="nom"
+              name="nom"
               [ngClass]="{
                 'is-invalid': (f.nom.dirty || submitted) && f.nom.errors
               }"
@@ -91,6 +94,7 @@
               appCleanStr
               maxlength="200"
               formControlName="prenom"
+              name="prenom"
               [ngClass]="{
                 'is-invalid': (f.prenom.dirty || submitted) && f.prenom.errors
               }"
@@ -123,6 +127,7 @@
               appCleanStr
               maxlength="100"
               formControlName="surnom"
+              name="surnom"
             />
           </div>
           <div class="col-md-6 col-12 form-group">
@@ -132,6 +137,7 @@
               type="text"
               class="form-control"
               formControlName="langue"
+              name="langue"
               [attr.aria-describedby]="
                 (f.langue.dirty || submitted) && f.langue.errors
                   ? 'langue-errors'
@@ -171,6 +177,7 @@
                 [maxDate]="maxDateNaissance"
                 placement="auto"
                 formControlName="dateNaissance"
+                name="dateNaissance"
                 id="dateNaissance"
                 ngbDatepicker
                 dateFr
@@ -225,6 +232,7 @@
                 class="form-control"
                 id="villeNaissance"
                 formControlName="villeNaissance"
+                name="villeNaissance"
                 [attr.aria-describedby]="
                   (submitted || f.villeNaissance.dirty) &&
                   f.villeNaissance.errors
@@ -321,6 +329,7 @@
                   class="form-control"
                   id="email"
                   formControlName="email"
+                  name="email"
                   [ngClass]="{
                     'is-invalid': (f.email.dirty || submitted) && f.email.errors
                   }"
@@ -357,6 +366,7 @@
               class="form-control"
               id="numeroDistribution"
               formControlName="numeroDistribution"
+              name="numeroDistribution"
               maxlength="20"
             />
             <small id="numero-description">Exemple : BP 102, TSA 11000</small>
@@ -382,6 +392,7 @@
                   class="form-check-input"
                   type="radio"
                   formControlName="contactByPhone"
+                  name="contactByPhone"
                   id="sms_oui"
                   [value]="true"
                 />
@@ -392,6 +403,7 @@
                   class="form-check-input"
                   type="radio"
                   formControlName="contactByPhone"
+                  name="contactByPhone"
                   id="sms_non"
                   [value]="false"
                 />
@@ -410,6 +422,7 @@
                   class="form-check-input"
                   type="radio"
                   formControlName="ayantsDroitsExist"
+                  name="ayantsDroitsExist"
                   id="ayantsDroits_oui"
                   [value]="true"
                   (click)="addAyantDroit()"
@@ -424,6 +437,7 @@
                   type="radio"
                   (click)="resetAyantDroit()"
                   formControlName="ayantsDroitsExist"
+                  name="ayantsDroitsExist"
                   id="ayantsDroits_non"
                   [value]="false"
                 />
@@ -451,6 +465,7 @@
                   appCleanStr
                   class="form-control"
                   formControlName="nom"
+                  name="nom"
                   [ngClass]="{
                     'is-invalid':
                       (ayantsDroits.controls[i].get('nom')?.dirty ||
@@ -493,6 +508,7 @@
                   class="form-control"
                   appCleanStr
                   formControlName="prenom"
+                  name="prenom"
                   [ngClass]="{
                     'is-invalid':
                       (ayantsDroits.controls[i].get('prenom')?.dirty ||
@@ -539,6 +555,7 @@
                     [maxDate]="maxDateNaissance"
                     placement="auto"
                     formControlName="dateNaissance"
+                    name="dateNaissance"
                     ngbDatepicker
                     dateFr
                     value
@@ -599,6 +616,7 @@
                 <label for="lien_{{ i }}">Lien</label>
                 <select
                   formControlName="lien"
+                  name="lien"
                   id="lien_{{ i }}"
                   class="form-select"
                   [attr.aria-label]="

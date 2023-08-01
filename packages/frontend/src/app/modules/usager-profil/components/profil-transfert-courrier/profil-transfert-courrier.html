@@ -102,6 +102,7 @@
           appCleanStr
           maxlength="200"
           formControlName="nom"
+          name="nom"
           [ngClass]="{
           'is-invalid': (f.nom.dirty || submitted) && f.nom.errors
         }"
@@ -132,6 +133,7 @@
           class="form-control"
           id="transfert_adresse"
           formControlName="adresse"
+          name="adresse"
           [ngClass]="{
             'is-invalid': (f.adresse.dirty || submitted) && f.adresse.errors
           }"
@@ -168,6 +170,7 @@
             placement="auto"
             id="transfertDateDebut"
             formControlName="dateDebut"
+            name="dateDebut"
             ngbDatepicker
             dateFr
             value
@@ -212,6 +215,7 @@
             placement="auto"
             id="transfertDateFin"
             formControlName="dateFin"
+            name="dateFin"
             ngbDatepicker
             dateFr
             value

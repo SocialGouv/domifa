@@ -97,6 +97,7 @@
                         <input
                           type="radio"
                           formControlName="enabledByStructure"
+                          name="enabledByStructure"
                           [value]="true"
                           id="btnradio1"
                           class="me-2"
@@ -114,6 +115,7 @@
                         <input
                           type="radio"
                           formControlName="enabledByStructure"
+                          name="enabledByStructure"
                           [value]="false"
                           id="btnradio2"
                           class="me-2"
@@ -131,6 +133,7 @@
                     class="form-control"
                     id="senderName"
                     formControlName="senderName"
+                    name="senderName"
                     maxLength="11"
                     [ngClass]="{
                       'is-invalid':
@@ -176,6 +179,7 @@
                     maxLength="30"
                     appCleanStr
                     formControlName="senderDetails"
+                    name="senderDetails"
                     [attr.aria-invalid]="
                       (submitted || form.senderDetails.dirty) &&
                       form.senderDetails.errors

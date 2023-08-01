@@ -76,6 +76,7 @@
               ngbDatepicker
               id="dateFin"
               formControlName="dateFin"
+              name="dateFin"
               #dFin="ngbDatepicker"
               [ngClass]="{
                 'is-invalid': (r.dateFin.dirty || submitted) && r.dateFin.errors
@@ -134,6 +135,7 @@
                 type="radio"
                 [ngClass]="{ 'is-invalid': submitted && r.motif.errors }"
                 formControlName="motif"
+                name="motif"
                 id="{{ motif.key }}"
                 value="{{ motif.key }}"
                 required
@@ -163,6 +165,7 @@
                       : null
                   "
                   formControlName="motif"
+                  name="motif"
                   value="AUTRE"
                   required
                 />
@@ -202,6 +205,7 @@
                 class="form-control"
                 id="motifAutre"
                 formControlName="motifDetails"
+                name="motifDetails"
                 required
               />
               <p

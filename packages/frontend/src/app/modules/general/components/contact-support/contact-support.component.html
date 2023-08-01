@@ -39,8 +39,12 @@
       <div class="row justify-content-center">
         <div class="col-md-8 col-lg-8 col-sm-12">
           <form [formGroup]="contactForm" (ngSubmit)="sendContactMessage()">
-            <input formControlName="userId" type="hidden" />
-            <input formControlName="structureId" type="hidden" />
+            <input formControlName="userId" name="userId" type="hidden" />
+            <input
+              formControlName="structureId"
+              name="structureId"
+              type="hidden"
+            />
             <div class="form-group required">
               <label for="name">Votre nom</label>
               <input
@@ -50,6 +54,7 @@
                 appCleanStr
                 autocomplete="name"
                 formControlName="name"
+                name="name"
                 [ngClass]="{ 'is-invalid': f.name.dirty && f.name.errors }"
                 [attr.aria-invalid]="
                   f.name.dirty && f.name.errors ? true : false
@@ -79,6 +84,7 @@
                 id="structureName"
                 appCleanStr
                 formControlName="structureName"
+                name="structureName"
                 [attr.aria-invalid]="
                   (submitted || f.structureName.dirty) && f.structureName.errors
                     ? true
@@ -113,6 +119,7 @@
                 type="email"
                 id="email"
                 formControlName="email"
+                name="email"
                 autocomplete="email"
                 class="form-control"
                 [ngClass]="{
@@ -147,6 +154,7 @@
                 "
                 class="form-control"
                 formControlName="content"
+                name="content"
                 id="content"
                 [ngClass]="{
                   'is-invalid':
@@ -185,6 +193,7 @@
                 accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .xlsx, .xls"
                 id="file"
                 formControlName="file"
+                name="file"
                 [attr.aria-invalid]="
                   (f.fileSource.dirty || submitted) && f.fileSource.errors
                     ? true

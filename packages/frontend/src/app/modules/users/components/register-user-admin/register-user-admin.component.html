@@ -13,6 +13,7 @@
         id="nom"
         appCleanStr
         formControlName="nom"
+        name="nom"
         [ngClass]="{
           'is-invalid': (f.nom.dirty || submitted) && f.nom.errors,
           'is-valid': f.nom.dirty && !f.nom.errors
@@ -41,6 +42,7 @@
         id="prenom"
         appCleanStr
         formControlName="prenom"
+        name="prenom"
         [ngClass]="{
           'is-invalid':(submitted || f.prenom.dirty) && f.prenom.errors,
         }"
@@ -69,6 +71,7 @@
         class="form-control"
         id="email"
         formControlName="email"
+        name="email"
         [attr.aria-invalid]="
           (f.email.dirty || submitted) && f.email.errors ? true : false
         "
@@ -98,6 +101,7 @@
       <select
         id="role"
         formControlName="role"
+        name="role"
         [ngClass]="{
           'is-invalid': submitted && f.role.errors
         }"

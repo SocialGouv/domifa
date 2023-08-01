@@ -9,7 +9,6 @@ import {
   ViewChild,
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { MatomoTracker } from "@ngx-matomo/tracker";
 
 import {
   BehaviorSubject,
@@ -45,8 +44,6 @@ import {
   usagersByStatusBuilder,
   usagersFilter,
   UsagersFilterCriteria,
-  UsagersFilterCriteriaDernierPassage,
-  UsagersFilterCriteriaEcheance,
   UsagersFilterCriteriaSortKey,
   UsagersFilterCriteriaSortValues,
 } from "../usager-filter";
@@ -74,6 +71,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   public usagersTotalCount = 0;
   public usagersRadiesLoadedCount = 0;
   public usagersRadiesTotalCount = 0;
+
   public displayCheckboxes: boolean;
   public chargerTousRadies$ = new BehaviorSubject(false);
 
@@ -91,26 +89,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   public allUsagersByStatus: UsagersByStatus;
   public usagers: UsagerFormModel[] = [];
   public me!: UserStructure | null;
-
-  public readonly labelsDernierPassage: {
-    [key in UsagersFilterCriteriaDernierPassage]: string;
-  } = {
-    DEUX_MOIS: "Dernier passage 2 mois",
-    TROIS_MOIS: "Dernier passage 3 mois",
-  };
-
-  public readonly labelsEcheance: {
-    [key in UsagersFilterCriteriaEcheance]: string;
-  } = {
-    DEUX_MOIS: "Fin dans 2 mois",
-    DEUX_SEMAINES: "Fin dans 2 semaines",
-    DEPASSEE: "Domiciliation expirée",
-  };
-
-  public readonly labelsEntretien = {
-    COMING: "à venir",
-    OVERDUE: "date dépassée",
-  };
 
   public readonly SEARCH_STRING_FIELD_LABELS: {
     [key in CriteriaSearchField]: {
@@ -143,8 +121,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
 
   public currentUserSubject$: Observable<UserStructure | null>;
 
-  public sortLabel = "échéance";
-
   private subscription = new Subscription();
   public selectedRefs: number[];
 
@@ -152,8 +128,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     private readonly usagerService: ManageUsagersService,
     private readonly authService: AuthService,
     private readonly titleService: Title,
-    private readonly store: Store,
-    public matomo: MatomoTracker
+    private readonly store: Store
   ) {
     this.selectedRefs = [];
 
@@ -173,7 +148,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     this.loading = false;
     this.nbResults = 0;
     this.needToPrint = false;
-    this.pageSize = 40;
+    this.pageSize = 50;
     this.searching = true;
     this.usagers = [];
     this.filters = new UsagersFilterCriteria(this.getFilters());
@@ -205,7 +180,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
             this.usagersRadiesLoadedCount =
               searchPageLoadedUsagersData.usagersRadiesFirsts.length;
             this.searchPageLoadedUsagersData$.next(searchPageLoadedUsagersData);
-            this.updateSortLabel();
           }
         )
     );
@@ -321,12 +295,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     this.filters.page = 0;
     this.needToPrint = true;
     this.filters$.next(this.filters);
-    this.matomo.trackEvent(
-      "MANAGE_USAGERS",
-      "click",
-      "Liste_Icône_Impression",
-      1
-    );
   }
 
   public ngOnDestroy(): void {
@@ -343,33 +311,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     this.filters = new UsagersFilterCriteria();
     this.searchString = null;
     this.filters$.next(this.filters);
-  }
-
-  public getEcheanceLabel(): "radiation" | "refus" | "échéance" {
-    if (this.filters.statut === "RADIE") {
-      return "radiation";
-    } else if (this.filters.statut === "REFUS") {
-      return "refus";
-    } else {
-      return "échéance";
-    }
-  }
-
-  private updateSortLabel() {
-    const LABELS_SORT: { [key: string]: string } = {
-      NAME: "nom",
-      ATTENTE_DECISION: "demande effectuée le",
-      ECHEANCE: this.getEcheanceLabel(),
-      INSTRUCTION: "dossier débuté le",
-      RADIE: "radié le ",
-      REFUS: "date de refus",
-      TOUS: "fin de domiciliation",
-      VALIDE: "fin de domiciliation",
-      PASSAGE: "date de dernier passage",
-      ID: "ID",
-    };
-
-    this.sortLabel = LABELS_SORT[this.filters.sortKey];
   }
 
   public updateFilters<T extends keyof UsagersFilterCriteria>({
@@ -419,12 +360,14 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
 
       // Tri issu des en-tête de tableau
       if (!sortValue) {
-        sortValue =
-          value === this.filters.sortKey
-            ? this.filters.sortValue === "ascending"
-              ? "descending"
-              : "ascending"
-            : "ascending";
+        const isCurrentSortKey = value === this.filters.sortKey;
+        const isAscendingSort = this.filters.sortValue === "ascending";
+
+        if (isCurrentSortKey) {
+          sortValue = isAscendingSort ? "descending" : "ascending";
+        } else {
+          sortValue = "ascending";
+        }
       }
 
       this.filters.sortValue = sortValue;
@@ -435,8 +378,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
 
     this.filters.page = 0;
     this.filters$.next(this.filters);
-
-    this.updateSortLabel();
   }
 
   public applyFilters({

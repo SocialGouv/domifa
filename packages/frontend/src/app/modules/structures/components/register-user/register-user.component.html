@@ -73,6 +73,7 @@
             appCleanStr
             autocomplete="family-name"
             formControlName="nom"
+            name="nom"
             [ngClass]="{
               'is-invalid': (f.nom.dirty || submitted) && f.nom.errors,
               'is-valid': f.nom.dirty && !f.nom.errors
@@ -102,6 +103,7 @@
             appCleanStr
             autocomplete="given-name"
             formControlName="prenom"
+            name="prenom"
             [ngClass]="{
               'is-invalid':(submitted || f.prenom.dirty) && f.prenom.errors,
             }"
@@ -133,6 +135,7 @@
             class="form-control"
             id="fonction"
             formControlName="fonction"
+            name="fonction"
             [ngClass]="{
               'is-invalid': (f.fonction.dirty || submitted) && f.fonction.errors
             }"
@@ -168,6 +171,7 @@
             class="form-control"
             id="email"
             formControlName="email"
+            name="email"
             [ngClass]="{
               'is-invalid': (f.email.dirty || submitted) && f.email.errors
             }"
