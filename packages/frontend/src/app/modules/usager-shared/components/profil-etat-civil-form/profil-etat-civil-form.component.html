@@ -19,6 +19,7 @@
           appCleanStr
           maxlength="200"
           formControlName="nom"
+          name="nom"
           [ngClass]="{
             'is-invalid': (f.nom.dirty || submitted) && f.nom.errors
           }"
@@ -53,6 +54,7 @@
           appCleanStr
           maxlength="200"
           formControlName="prenom"
+          name="prenom"
           [ngClass]="{
             'is-invalid': (f.prenom.dirty || submitted) && f.prenom.errors
           }"
@@ -84,13 +86,19 @@
           appCleanStr
           maxlength="100"
           formControlName="surnom"
+          name="surnom"
         />
       </div>
     </div>
     <div class="row">
       <div class="col-md-4 col-12 form-group required">
         <label for="sexe">Sexe</label>
-        <select formControlName="sexe" id="sexe" class="form-select">
+        <select
+          formControlName="sexe"
+          name="sexe"
+          id="sexe"
+          class="form-select"
+        >
           <option value="homme">Homme</option>
           <option value="femme">Femme</option>
         </select>
@@ -106,6 +114,7 @@
             [maxDate]="maxDateNaissance"
             placement="auto"
             formControlName="dateNaissance"
+            name="dateNaissance"
             id="dateNaissance"
             ngbDatepicker
             dateFr
@@ -156,6 +165,7 @@
           class="form-control"
           id="villeNaissance"
           formControlName="villeNaissance"
+          name="villeNaissance"
           [attr.aria-describedby]="
             (submitted || f.villeNaissance.dirty) && f.villeNaissance.errors
               ? 'ville-errors'
@@ -225,8 +235,8 @@
               [separateDialCode]="true"
               [numberFormat]="PhoneNumberFormat.International"
               inputId="telephone"
-              name="telephone"
               formControlName="telephone"
+              name="telephone"
               (countryChange)="updatePlaceHolder($event.iso2)"
               [selectedCountryISO]="f.telephone.value?.countryCode"
             ></ngx-intl-tel-input>
@@ -247,6 +257,7 @@
               class="form-control"
               id="email"
               formControlName="email"
+              name="email"
               [ngClass]="{
                 'is-invalid': (f.email.dirty || submitted) && f.email.errors
               }"
@@ -278,6 +289,7 @@
         type="text"
         class="form-control"
         formControlName="langue"
+        name="langue"
         [attr.aria-describedby]="
           (f.langue.dirty || submitted) && f.langue.errors
             ? 'langue-errors'
@@ -314,6 +326,7 @@
         id="customRef"
         maxlength="30"
         formControlName="customRef"
+        name="customRef"
       />
     </div>
 
@@ -326,6 +339,7 @@
         class="form-control"
         id="numeroDistribution"
         formControlName="numeroDistribution"
+        name="numeroDistribution"
         maxlength="20"
       />
       <small id="numero-description">Exemple : BP 102, TSA 11000 </small>
@@ -349,6 +363,7 @@
             class="form-check-input"
             type="radio"
             formControlName="contactByPhone"
+            name="contactByPhone"
             id="sms_oui"
             [value]="true"
           />
@@ -359,6 +374,7 @@
             class="form-check-input"
             type="radio"
             formControlName="contactByPhone"
+            name="contactByPhone"
             id="sms_non"
             [value]="false"
           />
@@ -405,6 +421,7 @@
           appCleanStr
           class="form-control"
           formControlName="nom"
+          name="nom"
           [ngClass]="{
             'is-invalid':
               (ayantsDroits.controls[i].get('nom')?.dirty || submitted) &&
@@ -444,6 +461,7 @@
           class="form-control"
           appCleanStr
           formControlName="prenom"
+          name="prenom"
           [ngClass]="{
             'is-invalid':
               (ayantsDroits.controls[i].get('prenom')?.dirty || submitted) &&
@@ -486,6 +504,7 @@
             [maxDate]="maxDateNaissance"
             placement="auto"
             formControlName="dateNaissance"
+            name="dateNaissance"
             ngbDatepicker
             dateFr
             value
@@ -541,6 +560,7 @@
         <label for="lien_{{ i }}">Lien</label>
         <select
           formControlName="lien"
+          name="lien"
           id="lien_{{ i }}"
           class="form-select"
           [attr.aria-label]="'Lien de parenté de l\'ayant-droit ' + (i + 1)"

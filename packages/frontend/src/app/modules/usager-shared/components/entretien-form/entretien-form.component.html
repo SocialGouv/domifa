@@ -17,6 +17,7 @@
               class="form-check-input"
               type="radio"
               formControlName="orientation"
+              name="orientation"
               id="orientation_oui"
               [value]="true"
             />
@@ -29,6 +30,7 @@
               class="form-check-input"
               type="radio"
               formControlName="orientation"
+              name="orientation"
               id="orientation_non"
               [value]="false"
             />
@@ -45,6 +47,7 @@
             type="text"
             class="form-control"
             formControlName="orientationDetail"
+            name="orientationDetail"
             id="orientationDetail"
           />
         </div>
@@ -59,6 +62,7 @@
               class="form-check-input"
               type="radio"
               formControlName="domiciliation"
+              name="domiciliation"
               id="domiciliation_oui"
               [value]="true"
             />
@@ -71,6 +75,7 @@
               class="form-check-input"
               type="radio"
               formControlName="domiciliation"
+              name="domiciliation"
               id="domiciliation_non"
               [value]="false"
             />
@@ -93,6 +98,7 @@
             class="form-check-input"
             type="radio"
             formControlName="revenus"
+            name="revenus"
             id="revenus_oui"
             [value]="true"
           />
@@ -103,6 +109,7 @@
             class="form-check-input"
             type="radio"
             formControlName="revenus"
+            name="revenus"
             id="revenus_non"
             [value]="false"
           />
@@ -135,6 +142,7 @@
                 class="form-check-input"
                 type="radio"
                 formControlName="liencommune"
+                name="liencommune"
                 id="{{ liencommune.key }}"
                 value="{{ liencommune.key }}"
               />
@@ -148,6 +156,7 @@
               class="form-check-input"
               type="radio"
               formControlName="liencommune"
+              name="liencommune"
               id="liencommune_autre"
               value="AUTRE"
             />
@@ -164,6 +173,7 @@
               id="liencommuneDetail"
               class="form-control"
               formControlName="liencommuneDetail"
+              name="liencommuneDetail"
             />
           </div>
         </fieldset>
@@ -181,6 +191,7 @@
             class="form-check-input"
             type="radio"
             formControlName="typeMenage"
+            name="typeMenage"
             id="{{ typeMenage.key }}"
             value="{{ typeMenage.key }}"
           />
@@ -200,6 +211,7 @@
               class="form-check-input"
               type="radio"
               formControlName="residence"
+              name="residence"
               id="{{ residence.key }}"
               value="{{ residence.key }}"
             />
@@ -213,6 +225,7 @@
             class="form-check-input"
             type="radio"
             formControlName="residence"
+            name="residence"
             id="residenceAutre"
             value="AUTRE"
           />
@@ -230,6 +243,7 @@
             id="residenceDetail"
             class="form-control"
             formControlName="residenceDetail"
+            name="residenceDetail"
           />
         </div>
       </fieldset>
@@ -247,6 +261,7 @@
               class="form-check-input"
               type="radio"
               formControlName="cause"
+              name="cause"
               id="{{ cause.key }}"
               value="{{ cause.key }}"
             />
@@ -260,6 +275,7 @@
             class="form-check-input"
             type="radio"
             formControlName="cause"
+            name="cause"
             id="causeAutre"
             value="AUTRE"
           />
@@ -277,6 +293,7 @@
             id="causeDetail"
             class="form-control"
             formControlName="causeDetail"
+            name="causeDetail"
           />
         </div>
       </fieldset>
@@ -293,6 +310,7 @@
               class="form-check-input"
               type="radio"
               formControlName="raison"
+              name="raison"
               id="{{ raison.key }}"
               value="{{ raison.key }}"
             />
@@ -306,6 +324,7 @@
             class="form-check-input"
             type="radio"
             formControlName="raison"
+            name="raison"
             id="raisonAutre"
             value="AUTRE"
           />
@@ -322,6 +341,7 @@
             class="form-control"
             id="raisonDetail"
             formControlName="raisonDetail"
+            name="raisonDetail"
           />
         </div>
       </fieldset>
@@ -335,6 +355,7 @@
             class="form-check-input"
             type="radio"
             formControlName="accompagnement"
+            name="accompagnement"
             id="accompagnement_oui"
             [value]="true"
           />
@@ -345,6 +366,7 @@
             class="form-check-input"
             type="radio"
             formControlName="accompagnement"
+            name="accompagnement"
             id="accompagnement_non"
             [value]="false"
           />
@@ -358,6 +380,7 @@
             id="accompagnementDetail"
             class="form-control"
             formControlName="accompagnementDetail"
+            name="accompagnementDetail"
           />
         </div>
       </fieldset>
@@ -372,6 +395,7 @@
             type="text"
             class="form-control"
             formControlName="rattachement"
+            name="rattachement"
             id="rattachement"
           />
         </div>
@@ -382,6 +406,7 @@
         class="form-control"
         rows="6"
         formControlName="commentaires"
+        name="commentaires"
         id="commentaires"
         aria-describedby="commentairesHelp"
       ></textarea>

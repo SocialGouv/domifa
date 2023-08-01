@@ -1,0 +1,375 @@
+<div id="filters" class="py-4 d-print-none">
+  <div class="container">
+    <div class="row d-flex align-items-center">
+      <div class="col-12 col-md-9">
+        <p
+          aria-live="polite"
+          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
+        >
+          <ng-container *ngIf="nbResults">
+            Filtrer les <span class="text-primary"> {{ nbResults }} </span>
+            <ng-container
+              *ngIf="
+                filters.statut === 'RADIE' &&
+                usagersRadiesTotalCount !== usagersRadiesLoadedCount
+              "
+            >
+              premiers
+            </ng-container>
+            résultats
+          </ng-container>
+          <ng-container *ngIf="!nbResults"> Aucun résultat </ng-container>
+        </p>
+
+        <div
+          *ngIf="filters.statut === 'TOUS' || filters.statut === 'VALIDE'"
+          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
+        >
+          <button
+            *ngIf="filters.passage"
+            type="button"
+            aria-label="Réinitialiser le filtre date de dernier passage"
+            class="btn btn-outline-primary"
+            (click)="updateFilters.emit({ element: 'passage', value: null })"
+          >
+            {{ labelsDernierPassage[filters.passage] }}
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'times']"
+              class="cross"
+            ></fa-icon>
+          </button>
+
+          <div
+            ngbDropdown
+            *ngIf="!filters.passage"
+            id="dropdownDernierPassage"
+            placement="bottom"
+            #dropdownDernierPassage="ngbDropdown"
+            class="d-inline-block my-1"
+          >
+            <button type="button" ngbDropdownToggle>
+              <span>Dernier passage</span>
+            </button>
+            <div
+              ngbDropdownMenu
+              aria-labelledby="dropdownDernierPassage"
+              class="dropdown-menu"
+            >
+              <button
+                type="button"
+                (click)="
+                  updateFilters.emit({ element: 'passage', value: 'DEUX_MOIS' })
+                "
+                ngbDropdownItem
+              >
+                Plus de 2 mois
+              </button>
+              <button
+                type="button"
+                (click)="
+                  updateFilters.emit({
+                    element: 'passage',
+                    value: 'TROIS_MOIS'
+                  })
+                "
+                ngbDropdownItem
+              >
+                Plus de 3 mois
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div
+          *ngIf="filters.statut === 'TOUS' || filters.statut === 'VALIDE'"
+          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
+        >
+          <button
+            type="button"
+            *ngIf="filters.echeance"
+            class="btn btn-outline-primary"
+            (click)="updateFilters.emit({ element: 'echeance', value: null })"
+          >
+            {{ labelsEcheance[filters.echeance] }}
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'times']"
+              class="cross"
+            ></fa-icon>
+          </button>
+
+          <div
+            *ngIf="!filters.echeance"
+            ngbDropdown
+            id="dropdownEcheance"
+            placement="bottom"
+            class="d-inline-block my-1"
+            #dropdownEcheance="ngbDropdown"
+          >
+            <button type="button" ngbDropdownToggle>
+              <span>Échéance de domiciliation</span>
+            </button>
+
+            <div
+              ngbDropdownMenu
+              aria-labelledby="dropdownEcheance"
+              class="dropdown-menu dropdown-menu-end"
+            >
+              <button
+                type="button"
+                (click)="
+                  updateFilters.emit({
+                    element: 'echeance',
+                    value: 'DEUX_MOIS'
+                  })
+                "
+                ngbDropdownItem
+              >
+                Moins de 2 mois
+              </button>
+              <button
+                type="button"
+                (click)="
+                  updateFilters.emit({
+                    element: 'echeance',
+                    value: 'DEUX_SEMAINES'
+                  })
+                "
+                ngbDropdownItem
+              >
+                Moins de 2 semaines
+              </button>
+              <button
+                type="button"
+                (click)="
+                  updateFilters.emit({ element: 'echeance', value: 'DEPASSEE' })
+                "
+                ngbDropdownItem
+              >
+                Dépassée
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div
+          *ngIf="filters.statut !== 'REFUS'"
+          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
+        >
+          <button
+            type="button"
+            aria-label="Réinitialiser le filtre courrier à récupérer"
+            class="btn btn-outline-primary"
+            *ngIf="filters.interactionType"
+            (click)="
+              updateFilters.emit({ element: 'interactionType', value: null })
+            "
+          >
+            Courrier à récupérer
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'times']"
+              class="cross"
+            ></fa-icon>
+          </button>
+
+          <div
+            ngbDropdown
+            id="dropDownCourrierAttente"
+            placement="bottom"
+            class="d-inline-block my-1"
+            *ngIf="!filters.interactionType"
+            #dropDownCourrierAttente="ngbDropdown"
+          >
+            <button type="button" ngbDropdownToggle>
+              <span>Courriers à récupérer</span>
+            </button>
+            <div
+              ngbDropdownMenu
+              aria-labelledby="dropDownCourrierAttente"
+              class="dropdown-menu"
+            >
+              <button
+                type="button"
+                (click)="
+                  updateFilters.emit({
+                    element: 'interactionType',
+                    value: 'courrierIn'
+                  })
+                "
+                ngbDropdownItem
+              >
+                Courrier à récupérer
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div
+          *ngIf="filters.statut === 'INSTRUCTION'"
+          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
+        >
+          <button
+            type="button"
+            *ngIf="filters.entretien"
+            aria-label="Réinitialiser le filtre entretien"
+            class="btn btn-outline-primary"
+            (click)="updateFilters.emit({ element: 'entretien', value: null })"
+          >
+            Entretien {{ labelsEntretien[filters.entretien] }}
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'times']"
+              class="cross"
+            ></fa-icon>
+          </button>
+
+          <div
+            ngbDropdown
+            id="dropDownEntretien"
+            placement="bottom"
+            *ngIf="!filters.entretien"
+            class="d-inline-block my-1"
+            #dropDownEntretien="ngbDropdown"
+          >
+            <button type="button" ngbDropdownToggle>Entretien</button>
+            <div
+              ngbDropdownMenu
+              aria-labelledby="dropDownEntretien"
+              class="dropdown-menu"
+            >
+              <button
+                type="button"
+                (click)="
+                  updateFilters.emit({
+                    element: 'entretien',
+                    value: 'COMING'
+                  })
+                "
+                ngbDropdownItem
+              >
+                À venir
+              </button>
+
+              <button
+                type="button"
+                (click)="
+                  updateFilters.emit({
+                    element: 'entretien',
+                    value: 'OVERDUE'
+                  })
+                "
+                ngbDropdownItem
+              >
+                Date dépassée
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-3 text-md-end text-center my-1">
+        <div
+          ngbDropdown
+          id="dropdownSort"
+          role="listbox"
+          #dropdownSort="ngbDropdown"
+        >
+          <button
+            type="button"
+            class="mx-auto ms-md-auto me-md-0"
+            id="dropdownSortButton"
+            ngbDropdownToggle
+            aria-label="Trier les éléments"
+            aria-haspopup="listbox"
+            [attr.aria-expanded]="dropdownSort.isOpen()"
+          >
+            <span>
+              <ng-container *ngIf="filters.sortKey !== 'PASSAGE'">
+                Trier par
+                <strong class="text-primary">{{ sortLabel }}</strong>
+              </ng-container>
+              <ng-container *ngIf="filters.sortKey === 'PASSAGE'">
+                Trier par
+                <strong class="text-primary">dernier passage</strong>
+              </ng-container>
+              <fa-icon
+                *ngIf="filters.sortValue === 'ascending'"
+                [icon]="['fas', 'sort-amount-up']"
+                aria-hidden="true"
+                class="ms-2"
+              ></fa-icon>
+
+              <fa-icon
+                *ngIf="filters.sortValue === 'descending'"
+                [icon]="['fas', 'sort-amount-down']"
+                aria-hidden="true"
+                class="ms-2"
+              ></fa-icon>
+            </span>
+          </button>
+
+          <div
+            ngbDropdownMenu
+            aria-labelledby="dropdownSort"
+            class="dropdown-menu dropdown-menu-end"
+          >
+            <ng-container *ngFor="let option of sortMenuItems">
+              <button
+                type="button"
+                (click)="
+                  updateFilters.emit({
+                    element: 'sortKey',
+                    value: option.id,
+                    sortValue: 'ascending'
+                  })
+                "
+                ngbDropdownItem
+                role="option"
+                [attr.aria-selected]="
+                  filters.sortKey === option.id &&
+                  filters.sortValue === 'ascending'
+                    ? true
+                    : false
+                "
+              >
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'sort-amount-up']"
+                ></fa-icon>
+                <span>Trier par {{ option.label }}</span>
+                <span class="visually-hidden">, ordre croissant</span>
+              </button>
+
+              <button
+                type="button"
+                (click)="
+                  updateFilters.emit({
+                    element: 'sortKey',
+                    value: option.id,
+                    sortValue: 'descending'
+                  })
+                "
+                ngbDropdownItem
+                role="option"
+                [attr.aria-selected]="
+                  filters.sortKey === option.id &&
+                  filters.sortValue === 'descending'
+                    ? true
+                    : false
+                "
+              >
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'sort-amount-down']"
+                ></fa-icon>
+                <span>Trier par {{ option.label }}</span>
+                <span class="visually-hidden">, ordre décroissant</span>
+              </button>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

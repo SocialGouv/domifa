@@ -16,12 +16,15 @@ import { ManageUsagersRoutingModule } from "./manage-usagers-routing.module";
 import { ManageDownloadDocsComponent } from "./components/manage-download-docs/manage-download-docs.component";
 import { ColumnInformationsComponent } from "./components/column-informations/column-informations.component";
 
+import { ManageFiltersComponent } from "./components/manage-filters/manage-filters.component";
+
 @NgModule({
   declarations: [
     ManageUsagersPageComponent,
     ManageUsagersTableComponent,
     ManageDownloadDocsComponent,
     ColumnInformationsComponent,
+    ManageFiltersComponent,
   ],
   imports: [
     CommonModule,

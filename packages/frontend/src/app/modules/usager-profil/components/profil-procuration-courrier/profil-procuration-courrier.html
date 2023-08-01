@@ -116,6 +116,7 @@
               class="form-control"
               id="procuration_nom_{{i}}"
               formControlName="nom"
+              name="nom"
               [ngClass]="{
                 'is-invalid':
                   (form.controls[i].get('nom')?.dirty || submitted) &&
@@ -148,6 +149,7 @@
               class="form-control"
               id="procuration_prenom_{{i}}"
               formControlName="prenom"
+              name="prenom"
               [ngClass]="{
                 'is-invalid':
                   (form.controls[i].get('prenom')?.dirty || submitted) &&
@@ -184,6 +186,7 @@
                 [maxDate]="maxDateNaissance"
                 placement="auto"
                 formControlName="dateNaissance"
+                name="dateNaissance"
                 ngbDatepicker
                 id="date_naissance_{{i}}"
                 dateFr
@@ -235,6 +238,7 @@
                 placement="auto"
                 id="date_debut_{{i}}"
                 formControlName="dateDebut"
+                name="dateDebut"
                 ngbDatepicker
                 dateFr
                 value
@@ -286,6 +290,7 @@
                 placement="auto"
                 id="date_fin_{{i}}"
                 formControlName="dateFin"
+                name="dateFin"
                 ngbDatepicker
                 dateFr
                 value

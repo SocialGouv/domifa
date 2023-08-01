@@ -84,6 +84,7 @@
                 class="form-check-input me-2"
                 type="radio"
                 formControlName="isNow"
+                name="isNow"
                 id="rdvNow"
                 [value]="true"
               />
@@ -141,6 +142,7 @@
                 id="rdv"
                 [value]="false"
                 formControlName="isNow"
+                name="isNow"
               />
               <label class="form-check-label" for="rdv"
                 >Fixer une date de rendez-vous</label
@@ -174,6 +176,7 @@
                   "
                   id="rdvUser"
                   formControlName="userId"
+                  name="userId"
                   class="form-select"
                   required
                 >
@@ -202,6 +205,7 @@
                     id="jourRdv"
                     ngbDatepicker
                     formControlName="jourRdv"
+                    name="jourRdv"
                     #dRdv="ngbDatepicker"
                     [ngClass]="{
                       'is-invalid':
@@ -263,6 +267,7 @@
                     "
                     id="heureRdv"
                     formControlName="heureRdv"
+                    name="heureRdv"
                     required
                   />
                 </div>

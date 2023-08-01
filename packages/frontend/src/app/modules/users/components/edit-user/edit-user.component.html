@@ -117,6 +117,7 @@
             appCleanStr
             autocomplete="family-name"
             formControlName="nom"
+            name="nom"
             [ngClass]="{
               'is-invalid': (f.nom.dirty || submitted) && f.nom.errors,
               'is-valid': f.nom.dirty && !f.nom.errors
@@ -146,6 +147,7 @@
             appCleanStr
             autocomplete="given-name"
             formControlName="prenom"
+            name="prenom"
             [ngClass]="{
               'is-invalid':(submitted || f.prenom.dirty) && f.prenom.errors,
             }"
@@ -175,6 +177,7 @@
             id="email"
             autocomplete="email"
             formControlName="email"
+            name="email"
             [ngClass]="{
               'is-invalid': (submitted || f.email.dirty) && f.email.errors
             }"
@@ -287,6 +290,7 @@
               }"
               id="oldPassword"
               formControlName="oldPassword"
+              name="oldPassword"
               autocomplete="current-password"
               required
             />

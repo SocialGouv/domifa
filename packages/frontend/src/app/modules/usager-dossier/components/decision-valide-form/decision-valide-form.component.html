@@ -37,6 +37,7 @@
               ngbDatepicker
               id="dateDebutValide"
               formControlName="dateDebut"
+              name="dateDebut"
               #dDebut="ngbDatepicker"
               dateFr
               value
@@ -90,6 +91,7 @@
               placement="auto"
               ngbDatepicker
               formControlName="dateFin"
+              name="dateFin"
               #dFin="ngbDatepicker"
               dateFr
               id="dateFinValide"
@@ -155,6 +157,7 @@
             id="customRef"
             maxlength="30"
             formControlName="customRef"
+            name="customRef"
             [ngClass]="{ 'is-invalid': v.customRef.errors }"
           />
         </div>

@@ -24,6 +24,7 @@
           ngbDatepicker
           id="dateFinRefus"
           formControlName="dateFin"
+          name="dateFin"
           #dFin="ngbDatepicker"
           dateFr
           value
@@ -87,6 +88,7 @@
               type="radio"
               id="motif-refus-{{ motif.key }}"
               formControlName="motif"
+              name="motif"
               value="{{ motif.key }}"
             />
             <label class="form-check-label" for="motif-refus-{{ motif.key }}">
@@ -102,6 +104,7 @@
               type="radio"
               id="motif-autre"
               formControlName="motif"
+              name="motif"
               value="AUTRE"
             />
             <label class="form-check-label" for="motif-autre">
@@ -133,6 +136,7 @@
             class="form-control"
             id="motifRefusAutre"
             formControlName="motifDetails"
+            name="motifDetails"
             required
           />
           <p
@@ -166,6 +170,7 @@
             type="radio"
             id="orientationRefusCcas"
             formControlName="orientation"
+            name="orientation"
             [ngClass]="{
               'is-invalid':
                 (r.orientation.dirty || submitted) && r.orientation.errors
@@ -192,6 +197,7 @@
             type="radio"
             id="orientationRefusCias"
             formControlName="orientation"
+            name="orientation"
             [ngClass]="{
               'is-invalid':
                 (r.orientation.dirty || submitted) && r.orientation.errors
@@ -219,6 +225,7 @@
               type="radio"
               id="orientationRefusAsso"
               formControlName="orientation"
+              name="orientation"
               [ngClass]="{
                 'is-invalid':
                   (r.orientation.dirty || submitted) && r.orientation.errors
@@ -249,6 +256,7 @@
               type="radio"
               id="otherOrientation"
               formControlName="orientation"
+              name="orientation"
               value="other"
             />
             <label class="form-check-label" for="otherOrientation">Autre</label>
@@ -290,6 +298,7 @@
               : null
           "
           formControlName="orientationDetails"
+          name="orientationDetails"
           id="orientationRefusDetails"
           required
         />
