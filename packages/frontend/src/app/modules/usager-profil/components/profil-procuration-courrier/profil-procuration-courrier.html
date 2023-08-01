@@ -1,12 +1,11 @@
 <div class="d-print-none" *ngIf="usager && me">
   <div class="my-2 d-flex flex-wrap justify-content-between align-items-center">
     <h2>Procurations (5 maximum)</h2>
-
     <ng-container *ngIf="usager.decision.statut !== 'REFUS'">
       <button
-        (click)="initForm()"
+        (click)="openForm()"
         type="button"
-        *ngIf="!isFormVisible "
+        *ngIf="!isFormVisible"
         class="btn btn-outline-dark"
       >
         <fa-icon
@@ -31,7 +30,6 @@
       </button>
     </ng-container>
   </div>
-
   <div
     class="row"
     *ngIf="usager.options.procurations.length === 0  && !isFormVisible"
@@ -84,17 +82,25 @@
     </div>
   </ng-container>
 
+  <p
+    class="alert alert-info"
+    *ngIf="isFormVisible && form.controls.length ===0 "
+  >
+    Aucune procuration n'est saisie, veuillez cliquer sur "Ajouter une
+    procuration" pour en créer une. Si vous souhaitez confirmer la suppression
+    de toutes les procurations, cliquez sur "Enregistrer les procurations"
+  </p>
   <form
     *ngIf="isFormVisible"
     [formGroup]="procurationsForm"
     (ngSubmit)="editProcurations()"
     autocomplete="off"
+    #formProcurations
   >
     <p>
       Les champs suivis d'un
       <span class="fw-bold text-danger">*</span> sont obligatoires
     </p>
-
     <div
       formArrayName="procurations"
       *ngFor="let procuration of form.controls; let i = index"
@@ -105,6 +111,7 @@
           <div class="col-12 col-md-2 form-group required">
             <label for="procuration_nom_{{i}}">Nom</label>
             <input
+              #procurationName
               type="text"
               class="form-control"
               id="procuration_nom_{{i}}"
@@ -313,7 +320,6 @@
                   [icon]="['fas', 'calendar']"
                 ></fa-icon>
               </button>
-
               <div
                 *ngIf="submitted && form.controls[i].get('dateFin')?.errors"
                 class="invalid-feedback"
@@ -359,6 +365,11 @@
         (click)="addProcuration()"
         *ngIf="form.controls.length < 5"
       >
+        <fa-icon
+          [icon]="['fas', 'plus']"
+          class="me-2"
+          aria-hidden="true"
+        ></fa-icon>
         Ajouter une procuration
       </button>
       <button
@@ -367,7 +378,14 @@
         [attr.aria-busy]="loading ? true : false"
         type="submit"
       >
-        <span *ngIf="!loading">Enregistrer les procurations</span>
+        <span *ngIf="!loading">
+          <fa-icon
+            [icon]="['fas', 'check']"
+            class="me-2"
+            aria-hidden="true"
+          ></fa-icon
+          >Enregistrer les procurations</span
+        >
         <span *ngIf="loading"
           ><fa-icon
             [icon]="['fas', 'circle-notch']"
@@ -382,7 +400,7 @@
   </form>
 </div>
 
-<ng-template #confirmDelete let-modal *ngIf="procurationToDelete ">
+<ng-template #confirmDeleteModal let-modal>
   <div class="modal-header bg-danger">
     <span id="modal-title" class="text-white"
       >Confirmer la suppression de la procuration</span
@@ -413,7 +431,7 @@
       [attr.aria-busy]="loading ? true : false"
       type="submit"
     >
-      <span *ngIf="!loading"> Confirmer la suppression </span>
+      <span *ngIf="!loading">Confirmer la suppression</span>
       <span *ngIf="loading"
         ><fa-icon
           [icon]="['fas', 'circle-notch']"

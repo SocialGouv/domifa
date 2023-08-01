@@ -12,12 +12,12 @@ export class Decision implements UsagerDecision {
   public uuid?: string;
   public dateDebut: Date | null;
   public dateFin: Date | null;
-  public dateDecision: Date; // Now()
+  public dateDecision: Date;
 
   public typeDom: UsagerTypeDom;
   public statut: UsagerDecisionStatut;
   public statutLabel: string;
-  // Motif de refus ou radiation
+
   public motif: UsagerDecisionMotif | null;
   public motifDetails: string;
 

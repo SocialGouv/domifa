@@ -1,7 +1,7 @@
 export type UsagerOptionsProcuration = {
   nom: string | null;
   prenom: string | null;
-  dateFin: Date | null;
-  dateDebut: Date | null;
-  dateNaissance: Date | null;
+  dateFin: Date;
+  dateDebut: Date;
+  dateNaissance: Date;
 };

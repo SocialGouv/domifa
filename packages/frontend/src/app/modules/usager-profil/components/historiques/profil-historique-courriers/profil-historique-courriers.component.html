@@ -3,11 +3,15 @@
 
   <button
     type="button"
-    aria-label="Imprimer les courriers"
     class="btn btn-sm btn-primary d-print-none"
     (click)="goToPrint()"
   >
-    <fa-icon [icon]="['fas', 'print']" aria-hidden="true"></fa-icon>
+    <fa-icon
+      [icon]="['fas', 'print']"
+      class="me-2"
+      aria-hidden="true"
+    ></fa-icon>
+    Imprimer les courriers
   </button>
 </div>
 

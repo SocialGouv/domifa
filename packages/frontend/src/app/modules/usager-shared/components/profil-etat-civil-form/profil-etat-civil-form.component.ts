@@ -2,6 +2,7 @@ import { UsagerService } from "./../../services/usagers.service";
 import { EtatCivilParentFormComponent } from "./../etat-civil-parent-form/etat-civil-parent-form.component";
 import { UsagerEtatCivilFormData } from "./../../../../../_common/model/usager/form/UsagerEtatCivilFormData.type";
 import {
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -25,16 +26,16 @@ export class ProfilEtatCivilFormComponent
   implements OnInit, OnDestroy
 {
   @Input() public usager!: UsagerFormModel;
-
   @Output() public editInfosChange = new EventEmitter<boolean>();
 
   constructor(
     public authService: AuthService,
     public formBuilder: UntypedFormBuilder,
+    public changeDetectorRef: ChangeDetectorRef,
     private readonly toastService: CustomToastService,
     private readonly etatCivilService: UsagerService
   ) {
-    super(formBuilder, authService);
+    super(formBuilder, authService, changeDetectorRef);
   }
 
   public ngOnInit(): void {
