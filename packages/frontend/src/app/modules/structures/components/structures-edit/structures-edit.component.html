@@ -135,7 +135,7 @@
             *ngIf="!showHardReset"
             (click)="hardReset()"
             [disabled]="loading"
-            [attr.aria-busy]="loading ? true : false"
+            [attr.aria-busy]="loading"
             type="submit"
           >
             <span *ngIf="!loading">Continuer</span>
@@ -155,7 +155,7 @@
             class="btn btn-danger"
             *ngIf="showHardReset"
             [disabled]="loading"
-            [attr.aria-busy]="loading ? true : false"
+            [attr.aria-busy]="loading"
             (click)="hardResetConfirm()"
           >
             <span *ngIf="!loading">Confirmer la suppression</span>

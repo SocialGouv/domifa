@@ -263,7 +263,7 @@
           class="btn btn-primary"
           type="submit"
           [disabled]="loading"
-          [attr.aria-busy]="loading ? true : false"
+          [attr.aria-busy]="loading"
         >
           <ng-container *ngIf="!loading">Enregistrer le transfert</ng-container>
           <ng-container *ngIf="loading"
@@ -306,7 +306,7 @@
       class="btn btn-lg btn-danger"
       (click)="deleteTransfert()"
       [disabled]="loading"
-      [attr.aria-busy]="loading ? true : false"
+      [attr.aria-busy]="loading"
       type="submit"
     >
       <span *ngIf="!loading">Confirmer la suppression</span>

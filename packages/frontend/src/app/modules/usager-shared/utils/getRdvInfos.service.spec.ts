@@ -25,7 +25,7 @@ describe("Création des rendez-vous", () => {
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
     expect(getRdvInfos(usager)).toEqual({
       class: "warning",
-      content: "20 March 2021 à 19:20",
+      content: "20 mars 2021 à 19:20",
       display: true,
     });
 
@@ -48,7 +48,7 @@ describe("Création des rendez-vous", () => {
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
     expect(getRdvInfos(usager)).toEqual({
       class: "danger",
-      content: "20 July 2020 à 19:20",
+      content: "20 juillet 2020 à 19:20",
       display: true,
     });
 
@@ -83,7 +83,7 @@ describe("Création des rendez-vous", () => {
       display: false,
     });
 
-    expect(getRdvInfos(undefined)).toEqual({
+    expect(getRdvInfos()).toEqual({
       class: "",
       content: "",
       display: false,

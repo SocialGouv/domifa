@@ -15,7 +15,6 @@
           [@bounce]="interactionFormData.courrierIn.nbCourrier"
           *ngIf="interactionFormData.courrierIn.nbCourrier > 0"
           class="interaction-notification"
-          aria-hidden="true"
           aria-live="polite"
         >
           {{ interactionFormData.courrierIn.nbCourrier }}
@@ -139,7 +138,7 @@
     type="submit"
     class="btn btn-lg btn-primary mx-1"
     [disabled]="loading"
-    [attr.aria-busy]="loading ? true : false"
+    [attr.aria-busy]="loading"
     (click)="setInteractionForm()"
   >
     <span *ngIf="!loading">Valider</span>

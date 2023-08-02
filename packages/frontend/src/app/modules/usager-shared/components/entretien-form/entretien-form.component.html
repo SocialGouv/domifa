@@ -421,7 +421,7 @@
         *ngIf="editEntretien"
         class="btn btn-primary btn-block"
         [disabled]="loading"
-        [attr.aria-busy]="loading ? true : false"
+        [attr.aria-busy]="loading"
       >
         <span *ngIf="!loading"> Enregistrer les modifications </span>
 
@@ -440,7 +440,7 @@
       >
         <button
           [disabled]="loading"
-          [attr.aria-busy]="loading ? true : false"
+          [attr.aria-busy]="loading"
           type="submit"
           class="my-4 btn btn-primary btn-block"
         >
@@ -508,7 +508,7 @@
       type="submit"
       class="btn btn-lg btn-primary"
       [disabled]="loading"
-      [attr.aria-busy]="loading ? true : false"
+      [attr.aria-busy]="loading"
       (click)="loading = true; nextStep.emit(3); closeModal()"
     >
       <span *ngIf="!loading">Continuer sans entretien</span>

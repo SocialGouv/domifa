@@ -28,7 +28,13 @@
             class="d-block d-md-inline-block my-1"
             #dropdownSearchString="ngbDropdown"
           >
-            <button type="button" ngbDropdownToggle>
+            <button
+              type="button"
+              aria-label="Type de donnée recherchée"
+              aria-haspopup="listbox"
+              [attr.aria-expanded]="dropdownSearchString.isOpen()"
+              ngbDropdownToggle
+            >
               <span class="overflow-hidden">
                 <fa-icon
                   [icon]="['fas', 'list']"
@@ -45,6 +51,7 @@
               ngbDropdownMenu
               aria-labelledby="dropdownSearchString"
               class="dropdown-menu"
+              role="listbox"
             >
               <button
                 type="button"
@@ -53,6 +60,10 @@
                     element: 'searchStringField',
                     value: 'DATE_NAISSANCE'
                   })
+                "
+                role="option"
+                [attr.aria-selected]="
+                  filters.searchStringField === 'DATE_NAISSANCE'
                 "
                 ngbDropdownItem
               >
@@ -66,6 +77,8 @@
                     value: 'DEFAULT'
                   })
                 "
+                role="option"
+                [attr.aria-selected]="filters.searchStringField === 'DEFAULT'"
                 ngbDropdownItem
               >
                 {{ SEARCH_STRING_FIELD_LABELS.DEFAULT.label }}
