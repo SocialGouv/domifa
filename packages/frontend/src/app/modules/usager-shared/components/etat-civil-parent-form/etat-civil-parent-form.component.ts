@@ -20,7 +20,6 @@ import {
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
 import { endOfDay } from "date-fns";
-
 import {
   SearchCountryField,
   CountryISO,

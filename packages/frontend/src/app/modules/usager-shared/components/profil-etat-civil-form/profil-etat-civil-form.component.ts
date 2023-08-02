@@ -2,13 +2,16 @@ import { UsagerService } from "./../../services/usagers.service";
 import { EtatCivilParentFormComponent } from "./../etat-civil-parent-form/etat-civil-parent-form.component";
 import { UsagerEtatCivilFormData } from "./../../../../../_common/model/usager/form/UsagerEtatCivilFormData.type";
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
 } from "@angular/core";
 import { UntypedFormBuilder } from "@angular/forms";
 
@@ -23,8 +26,11 @@ import { AuthService } from "../../../shared/services/auth.service";
 })
 export class ProfilEtatCivilFormComponent
   extends EtatCivilParentFormComponent
-  implements OnInit, OnDestroy
+  implements OnInit, OnDestroy, AfterViewInit
 {
+  @ViewChild("firstInput")
+  public firstInput!: ElementRef;
+
   @Input() public usager!: UsagerFormModel;
   @Output() public editInfosChange = new EventEmitter<boolean>();
 
@@ -40,6 +46,14 @@ export class ProfilEtatCivilFormComponent
 
   public ngOnInit(): void {
     this.initForm();
+  }
+
+  public ngAfterViewInit(): void {
+    this.changeDetectorRef.detectChanges();
+    const elementToFocus = this.firstInput?.nativeElement;
+    if (elementToFocus) {
+      elementToFocus.focus();
+    }
   }
 
   public updateInfos(): void {

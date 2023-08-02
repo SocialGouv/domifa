@@ -19,31 +19,33 @@
     }}
   </p>
   <ng-template #procurationActif>
-    <ul>
-      <li
-        class="text-start"
-        *ngFor="let procuration of usager.options.procurations"
-      >
-        <ng-container *ngIf="procuration.dateFin > today">
-          <fa-icon
-            aria-hidden="true"
-            [icon]="['fas', 'share']"
-            class="text-primary me-1"
-          ></fa-icon>
-          Active: {{ procuration.nom }} {{ procuration.prenom }}
-        </ng-container>
-        <ng-container *ngIf="procuration.dateFin <= today">
-          <fa-icon
-            aria-hidden="true"
-            [icon]="['fas', 'times']"
-            class="text-danger me-1"
-          ></fa-icon>
-          Procuration au nom de {{ procuration.nom }}
-          {{ procuration.prenom }} expirée le
-          {{ procuration.dateFin | date : "dd MMMM yyyy" }}:
-        </ng-container>
-      </li>
-    </ul>
+    <div tabindex="0">
+      <ul>
+        <li
+          class="text-start"
+          *ngFor="let procuration of usager.options.procurations"
+        >
+          <ng-container *ngIf="procuration.dateFin > today">
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'share']"
+              class="text-primary me-1"
+            ></fa-icon>
+            Active: {{ procuration.nom }} {{ procuration.prenom }}
+          </ng-container>
+          <ng-container *ngIf="procuration.dateFin <= today">
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'times']"
+              class="text-danger me-1"
+            ></fa-icon>
+            Procuration au nom de {{ procuration.nom }}
+            {{ procuration.prenom }} expirée le
+            {{ procuration.dateFin | date : "dd MMMM yyyy" }}:
+          </ng-container>
+        </li>
+      </ul>
+    </div>
   </ng-template>
 </div>
 

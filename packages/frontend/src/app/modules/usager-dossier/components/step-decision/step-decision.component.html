@@ -6,192 +6,50 @@
 
 <div class="content" *ngIf="usager && currentUserSubject$ | async as me">
   <div class="container py-3">
-    <div *ngIf="usager.decision.statut === 'ATTENTE_DECISION' && !isAdmin">
-      <div class="row">
-        <div class="col text-center">
-          <h2 class="form-title">
-            <strong>Demande de domiciliation en cours</strong>
-          </h2>
-          <p>
-            La demande d'élection de domicile de
-            <strong>{{ usager | usagerNomComplet }}</strong>
-            a été envoyée le
-            <strong>
-              {{
-                usager.decision.dateDecision | date : "dd MMMM yyyy à HH:mm"
-              }}.
-            </strong>
-            <br />
-            La personne référente dans votre structure est invitée à statuer sur
-            cette demande.
-          </p>
-
-          <button
-            type="button"
-            (click)="getCerfa('demande')"
-            class="btn btn-primary my-2"
-          >
-            <fa-icon [icon]="['fas', 'download']" aria-hidden="true"></fa-icon>
-            Télécharger le CERFA de demande
-          </button>
-
-          <p class="text-center">
-            <a routerLink="/manage" routerLinkActive="router-link-active">
-              Retour à la liste des domiciliés
-            </a>
-          </p>
-        </div>
-      </div>
-    </div>
-
     <div class="step-form">
-      <div
-        class="row"
-        *ngIf="!isAdmin && usager.decision.statut === 'INSTRUCTION'"
+      <h2 class="form-title">
+        Le dossier de
+        {{ usager.nom }} {{ usager.prenom }}
+        est complet
+      </h2>
+
+      <p
+        class="py-2 text-center"
+        *ngIf="usager.decision.statut === 'ATTENTE_DECISION'"
       >
-        <div class="col-md-12 text-center">
-          <h2 class="form-title">
-            Le dossier de
-            {{ usager.nom }} {{ usager.prenom }}
-            est complet
-          </h2>
-        </div>
-        <div class="col-md-6 offset-3">
-          <button
-            type="button"
-            (click)="setDecisionAttente()"
-            class="btn btn-primary"
-          >
-            <fa-icon aria-hidden="true" [icon]="['far', 'clock']"></fa-icon>
-            SOUMETTRE LA DEMANDE
-          </button>
-        </div>
-      </div>
-
-      <div class="mb-5 text-center" *ngIf="isAdmin">
-        <h2 class="form-title">
-          Le dossier de
-          {{ usager.nom }} {{ usager.prenom }}
-          est complet
-        </h2>
-
-        <div class="pb-4" *ngIf="usager.decision.statut === 'ATTENTE_DECISION'">
-          Ce dossier a été mis en attente d'une décision par
-          <strong>
-            {{ usager.decision.userName }}
-            le
-            {{ usager.decision.dateDecision | date : "dd MMMM yyyy à HH:mm" }}
-          </strong>
-        </div>
-
-        <div class="mb-3 d-grid gap-2 d-md-flex">
-          <button
-            type="button"
-            class="btn-block me-0 me-md-3 my-1 btn btn-success"
-            (click)="open(confirmation)"
-          >
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'check']"
-              class="me-2"
-            ></fa-icon>
-            Accepter le dossier
-          </button>
-
-          <button
-            class="btn-block me-0 me-md-3 my-1 btn btn-danger"
-            (click)="open(refus)"
-            type="button"
-          >
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'times']"
-              class="me-2"
-            ></fa-icon>
-            Refuser le dossier
-          </button>
-
-          <button
-            *ngIf="usager.decision.statut !== 'ATTENTE_DECISION'"
-            (click)="setDecisionAttente()"
-            class="btn-block me-0 my-1 btn btn-outline-dark"
-            type="button"
-          >
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['far', 'clock']"
-              class="me-2"
-            ></fa-icon>
-            Soumettre la demande
-          </button>
-        </div>
-      </div>
+        Ce dossier a été mis en attente d'une décision par
+        <strong>
+          {{ usager.decision.userName }}
+          le
+          {{ usager.decision.dateDecision | date : "dd MMMM yyyy à HH:mm" }}
+        </strong>
+      </p>
 
       <div class="row">
-        <div class="col-md-6 col-12">
-          <h3>État civil</h3>
-          <app-display-etat-civil-decision
-            *ngIf="!editInfos"
-            [usager]="usager"
-            section="ETAT_CIVIL"
-          ></app-display-etat-civil-decision>
-        </div>
-        <div class="col-md-4 col-12">
-          <h3 *ngIf="!editInfos">Ayants-droits</h3>
-          <app-display-etat-civil-decision
-            *ngIf="!editInfos"
-            [usager]="usager"
-            section="AYANTS_DROIT"
-          ></app-display-etat-civil-decision>
-        </div>
-        <div class="col-md-2 col-12 text-end">
-          <button
-            class="btn btn-outline-primary d-print-none"
-            *ngIf="!editInfos"
-            type="button"
-            (click)="editInfos = true"
-          >
-            <fa-icon
-              [icon]="['far', 'edit']"
-              aria-hidden="true"
-              class="me-2"
-            ></fa-icon>
-            Modifier
-            <span class="visually-hidden">l'état-civil et et ayant-droits</span>
-          </button>
-
-          <button
-            class="btn btn-outline-primary d-print-none"
-            *ngIf="editInfos"
-            type="button"
-            (click)="editInfos = false"
-          >
-            <fa-icon
-              [icon]="['fas', 'times']"
-              aria-hidden="true"
-              class="me-2"
-            ></fa-icon>
-            Annuler
-          </button>
-        </div>
-      </div>
-      <app-profil-etat-civil-form
-        *ngIf="editInfos"
-        [usager]="usager"
-        [(editInfos)]="editInfos"
-      ></app-profil-etat-civil-form>
-      <hr />
-      <div class="row">
-        <div class="col-md-12">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3>Entretien social</h3>
-
-            <div>
+        <div class="col-12 order-2">
+          <div class="row">
+            <div class="col-md-6 col-12">
+              <h3>État civil</h3>
+              <app-display-etat-civil-decision
+                *ngIf="!editInfos"
+                [usager]="usager"
+                section="ETAT_CIVIL"
+              ></app-display-etat-civil-decision>
+            </div>
+            <div class="col-md-4 col-12">
+              <h3 *ngIf="!editInfos">Ayants-droits</h3>
+              <app-display-etat-civil-decision
+                *ngIf="!editInfos"
+                [usager]="usager"
+                section="AYANTS_DROIT"
+              ></app-display-etat-civil-decision>
+            </div>
+            <div class="col-md-2 col-12 text-end">
               <button
-                type="button"
                 class="btn btn-outline-primary d-print-none"
-                *ngIf="!editEntretien"
-                (click)="editEntretien = true"
+                *ngIf="!editInfos"
+                type="button"
+                (click)="editInfos = true"
               >
                 <fa-icon
                   [icon]="['far', 'edit']"
@@ -199,137 +57,269 @@
                   class="me-2"
                 ></fa-icon>
                 Modifier
-                <span class="visually-hidden"> l'entretien</span>
+                <span class="visually-hidden"
+                  >l'état-civil et et ayant-droits</span
+                >
               </button>
+
               <button
-                type="button"
                 class="btn btn-outline-primary d-print-none"
-                *ngIf="editEntretien"
-                (click)="editEntretien = false"
+                *ngIf="editInfos"
+                type="button"
+                (click)="editInfos = false"
               >
                 <fa-icon
                   [icon]="['fas', 'times']"
                   aria-hidden="true"
                   class="me-2"
                 ></fa-icon>
-                Annuler les modifications
+                Annuler
               </button>
             </div>
           </div>
-          <app-entretien-form
-            *ngIf="editEntretien"
-            [(editEntretien)]="editEntretien"
+          <app-profil-etat-civil-form
+            *ngIf="editInfos"
             [usager]="usager"
-          ></app-entretien-form>
+            [(editInfos)]="editInfos"
+          ></app-profil-etat-civil-form>
+          <hr />
+          <div class="row">
+            <div class="col-md-12">
+              <div class="d-flex justify-content-between align-items-center">
+                <h3>Entretien social</h3>
 
-          <app-display-entretien
-            *ngIf="!editEntretien"
-            [usager]="usager"
-            [structure]="me.structure"
+                <div>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary d-print-none"
+                    *ngIf="!editEntretien"
+                    (click)="editEntretien = true"
+                  >
+                    <fa-icon
+                      [icon]="['far', 'edit']"
+                      aria-hidden="true"
+                      class="me-2"
+                    ></fa-icon>
+                    Modifier
+                    <span class="visually-hidden"> l'entretien</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary d-print-none"
+                    *ngIf="editEntretien"
+                    (click)="editEntretien = false"
+                  >
+                    <fa-icon
+                      [icon]="['fas', 'times']"
+                      aria-hidden="true"
+                      class="me-2"
+                    ></fa-icon>
+                    Annuler les modifications
+                  </button>
+                </div>
+              </div>
+              <app-entretien-form
+                *ngIf="editEntretien"
+                [(editEntretien)]="editEntretien"
+                [usager]="usager"
+              ></app-entretien-form>
+
+              <app-display-entretien
+                *ngIf="!editEntretien"
+                [usager]="usager"
+                [structure]="me.structure"
+              >
+              </app-display-entretien>
+            </div>
+          </div>
+          <hr />
+          <div class="d-flex justify-content-between align-items-center">
+            <h3>Pièces jointes</h3>
+
+            <button
+              type="submit"
+              class="btn btn-outline-primary d-print-none"
+              *ngIf="!editPJ"
+              (click)="editPJ = true"
+            >
+              <fa-icon
+                [icon]="['far', 'edit']"
+                aria-hidden="true"
+                class="me-2"
+              ></fa-icon>
+              Modifier
+              <span class="visually-hidden"> les pièces jointes</span>
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-primary d-print-none"
+              *ngIf="editPJ"
+              (click)="editPJ = false"
+            >
+              <fa-icon
+                [icon]="['fas', 'times']"
+                aria-hidden="true"
+                class="me-2"
+              ></fa-icon>
+              Annuler les modifications
+            </button>
+          </div>
+          <div class="mb-5">
+            <app-display-usager-docs
+              [editPJ]="editPJ"
+              [usager]="usager"
+            ></app-display-usager-docs>
+          </div>
+          <hr />
+          <div class="mb-3 d-grid gap-2 d-md-flex">
+            <button
+              type="button"
+              (click)="getCerfa('demande')"
+              class="btn btn-primary d-print-none btn-block me-0 me-md-3 my-1"
+            >
+              <fa-icon
+                [icon]="['fas', 'download']"
+                aria-hidden="true"
+                class="me-2"
+              ></fa-icon>
+              Télécharger l'attestation de demande
+            </button>
+            <button
+              type="button"
+              (click)="getCerfa('attestation')"
+              class="btn btn-primary d-print-none btn-block me-0 my-1"
+              *ngIf="
+                me.role !== 'facteur' &&
+                me.role !== 'simple' &&
+                usager.decision.statut !== 'REFUS' &&
+                usager.decision.statut !== 'RADIE'
+              "
+            >
+              <fa-icon
+                [icon]="['fas', 'download']"
+                aria-hidden="true"
+                class="me-2"
+              ></fa-icon>
+              Télécharger un CERFA provisoire
+            </button>
+          </div>
+          <div class="text-center">
+            <button
+              (click)="printPage()"
+              class="d-print-none me-2 btn btn-primary"
+              type="button"
+            >
+              <fa-icon
+                [icon]="['fas', 'print']"
+                aria-hidden="true"
+                class="me-2"
+              ></fa-icon>
+              Imprimer le récapitulatif
+            </button>
+          </div>
+        </div>
+
+        <div class="col-12 order-1">
+          <div
+            *ngIf="usager.decision.statut === 'ATTENTE_DECISION' && !isAdmin"
           >
-          </app-display-entretien>
+            <h2 class="form-title">Demande de domiciliation en cours</h2>
+            <p>
+              La demande d'élection de domicile de
+              <strong>{{ usager | usagerNomComplet }}</strong>
+              a été envoyée le
+              <strong>
+                {{
+                  usager.decision.dateDecision | date : "dd MMMM yyyy à HH:mm"
+                }}.
+              </strong>
+              <br />
+              La personne référente dans votre structure est invitée à statuer
+              sur cette demande.
+            </p>
+          </div>
+          <div
+            class="row"
+            *ngIf="!isAdmin && usager.decision.statut === 'INSTRUCTION'"
+          >
+            <div class="col-md-12 text-center">
+              <h2 class="form-title">
+                Le dossier de
+                {{ usager.nom }} {{ usager.prenom }}
+                est complet
+              </h2>
+            </div>
+            <div class="col-md-6 offset-3">
+              <button
+                type="button"
+                (click)="setDecisionAttente()"
+                class="btn btn-primary"
+              >
+                <fa-icon aria-hidden="true" [icon]="['far', 'clock']"></fa-icon>
+                SOUMETTRE LA DEMANDE
+              </button>
+            </div>
+          </div>
+          <div class="mb-5 text-center" *ngIf="isAdmin">
+            <div class="mb-3 d-grid gap-2 d-md-flex">
+              <button
+                type="button"
+                class="btn-block me-0 me-md-3 my-1 btn btn-success"
+                (click)="open(confirmation)"
+              >
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'check']"
+                  class="me-2"
+                ></fa-icon>
+                Accepter le dossier
+              </button>
+
+              <button
+                class="btn-block me-0 me-md-3 my-1 btn btn-danger"
+                (click)="open(refus)"
+                type="button"
+              >
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'times']"
+                  class="me-2"
+                ></fa-icon>
+                Refuser le dossier
+              </button>
+
+              <button
+                *ngIf="usager.decision.statut !== 'ATTENTE_DECISION'"
+                (click)="setDecisionAttente()"
+                class="btn-block me-0 my-1 btn btn-outline-dark"
+                type="button"
+              >
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['far', 'clock']"
+                  class="me-2"
+                ></fa-icon>
+                Soumettre la demande
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-      <hr />
-      <div class="d-flex justify-content-between align-items-center">
-        <h3>Pièces jointes</h3>
-
-        <button
-          type="submit"
-          class="btn btn-outline-primary d-print-none"
-          *ngIf="!editPJ"
-          (click)="editPJ = true"
-        >
-          <fa-icon
-            [icon]="['far', 'edit']"
-            aria-hidden="true"
-            class="me-2"
-          ></fa-icon>
-          Modifier
-          <span class="visually-hidden"> les pièces jointes</span>
-        </button>
-        <button
-          type="button"
-          class="btn btn-outline-primary d-print-none"
-          *ngIf="editPJ"
-          (click)="editPJ = false"
-        >
-          <fa-icon
-            [icon]="['fas', 'times']"
-            aria-hidden="true"
-            class="me-2"
-          ></fa-icon>
-          Annuler les modifications
-        </button>
-      </div>
-      <div class="mb-5">
-        <app-display-usager-docs
-          [editPJ]="editPJ"
-          [usager]="usager"
-        ></app-display-usager-docs>
-      </div>
-      <hr />
-      <div class="mb-3 d-grid gap-2 d-md-flex">
-        <button
-          type="button"
-          (click)="getCerfa('demande')"
-          class="btn btn-primary d-print-none btn-block me-0 me-md-3 my-1"
-        >
-          <fa-icon
-            [icon]="['fas', 'download']"
-            aria-hidden="true"
-            class="me-2"
-          ></fa-icon>
-          Télécharger l'attestation de demande
-        </button>
-        <button
-          type="button"
-          (click)="getCerfa('attestation')"
-          class="btn btn-primary d-print-none btn-block me-0 my-1"
-          *ngIf="
-            me.role !== 'facteur' &&
-            me.role !== 'simple' &&
-            usager.decision.statut !== 'REFUS' &&
-            usager.decision.statut !== 'RADIE'
-          "
-        >
-          <fa-icon
-            [icon]="['fas', 'download']"
-            aria-hidden="true"
-            class="me-2"
-          ></fa-icon>
-          Télécharger un CERFA provisoire
-        </button>
-      </div>
     </div>
-    <div class="text-center">
-      <button
-        (click)="printPage()"
-        class="d-print-none me-2 btn btn-primary"
-        type="button"
-      >
-        <fa-icon
-          [icon]="['fas', 'print']"
-          aria-hidden="true"
-          class="me-2"
-        ></fa-icon>
-        Imprimer le récapitulatif
-      </button>
-    </div>
+    <app-step-footer [usager]="usager"></app-step-footer>
   </div>
-  <app-step-footer [usager]="usager"></app-step-footer>
+
+  <ng-template #refus let-modal>
+    <app-decision-refus-form
+      [usager]="usager"
+      (closeModals)="closeModals()"
+    ></app-decision-refus-form>
+  </ng-template>
+
+  <ng-template #confirmation let-modal>
+    <app-decision-valide-form
+      [usager]="usager"
+      (closeModals)="closeModals()"
+    ></app-decision-valide-form>
+  </ng-template>
 </div>
-
-<ng-template #refus let-modal>
-  <app-decision-refus-form
-    [usager]="usager"
-    (closeModals)="closeModals()"
-  ></app-decision-refus-form>
-</ng-template>
-
-<ng-template #confirmation let-modal>
-  <app-decision-valide-form
-    [usager]="usager"
-    (closeModals)="closeModals()"
-  ></app-decision-valide-form>
-</ng-template>

@@ -1,8 +1,7 @@
-<div *ngIf="usager">
-  <p *ngIf="!notes || notes.length === 0" class="my-2 mx-1 font-italic">
-    Aucune note enregistrée
-  </p>
-
+<ng-container *ngIf="usager">
+  <div *ngIf="!notes?.length" class="alert alert-info">
+    <p>Aucune note enregistrée actuellement</p>
+  </div>
   <div
     *ngFor="let note of notes | slice : 0 : 5; let i = index"
     class="note-historique"
@@ -12,7 +11,7 @@
         <div class="number">
           <div class="icon-note"></div>
         </div>
-        <div class="note-separator"></div>
+        <div class="note-separator" *ngIf="i < 5 && i < notes.length - 1"></div>
       </div>
 
       <div class="flex-grow-1 ms-3">
@@ -40,7 +39,7 @@
       </div>
     </div>
   </div>
-</div>
+</ng-container>
 
 <app-profil-add-note-form
   [usager]="usager"
