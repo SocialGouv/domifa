@@ -58,6 +58,7 @@
             type="text"
             class="form-control"
             [disabled]="loading"
+            [attr.aria-busy]="loading"
             [(ngModel)]="structureName"
             id="confirmationDelete"
             placeholder="Entrez le nom de la structure"
@@ -66,6 +67,7 @@
           <button
             class="btn btn-danger"
             [disabled]="loading"
+            [attr.aria-busy]="loading"
             (click)="confirm()"
           >
             <span *ngIf="!loading">Confirmer la suppression</span>

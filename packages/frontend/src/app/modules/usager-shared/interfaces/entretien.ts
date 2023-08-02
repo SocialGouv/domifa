@@ -28,23 +28,26 @@ export class Entretien implements UsagerEntretien {
   public accompagnementDetail: string | null;
 
   constructor(entretien?: Partial<UsagerEntretien> | null) {
-    this.domiciliation = entretien?.domiciliation || null;
-    this.commentaires = entretien?.commentaires || null;
-    this.typeMenage = entretien?.typeMenage || null;
-    this.revenus = entretien?.revenus || null;
-    this.revenusDetail = entretien?.revenusDetail || null;
-    this.orientation = entretien?.orientation || null;
-    this.orientationDetail = entretien?.orientationDetail || null;
-    this.liencommune = entretien?.liencommune || null;
-    this.liencommuneDetail = entretien?.liencommuneDetail || null;
-    this.residence = entretien?.residence || null;
-    this.residenceDetail = entretien?.residenceDetail || null;
+    this.accompagnement =
+      entretien?.accompagnement !== null ? entretien?.accompagnement : null;
+    this.accompagnementDetail = entretien?.accompagnementDetail || null;
     this.cause = entretien?.cause || null;
     this.causeDetail = entretien?.causeDetail || null;
-    this.rattachement = entretien?.rattachement || null;
+    this.commentaires = entretien?.commentaires || null;
+    this.domiciliation =
+      entretien?.domiciliation !== null ? entretien.domiciliation : null;
+    this.liencommune = entretien?.liencommune || null;
+    this.liencommuneDetail = entretien?.liencommuneDetail || null;
+    this.orientation =
+      entretien?.orientation !== null ? entretien.orientation : null;
+    this.orientationDetail = entretien?.orientationDetail || null;
     this.raison = entretien?.raison || null;
     this.raisonDetail = entretien?.raisonDetail || null;
-    this.accompagnement = entretien?.accompagnement || null;
-    this.accompagnementDetail = entretien?.accompagnementDetail || null;
+    this.rattachement = entretien?.rattachement || null;
+    this.residence = entretien?.residence || null;
+    this.residenceDetail = entretien?.residenceDetail || null;
+    this.revenus = entretien?.revenus !== null ? entretien.revenus : null;
+    this.revenusDetail = entretien?.revenusDetail || null;
+    this.typeMenage = entretien?.typeMenage || null;
   }
 }

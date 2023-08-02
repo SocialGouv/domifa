@@ -223,7 +223,7 @@
       class="btn btn-lg btn-primary"
       (click)="renouvellement()"
       [disabled]="loading"
-      [attr.aria-busy]="loading ? true : false"
+      [attr.aria-busy]="loading"
     >
       <ng-container *ngIf="!loading">
         <span

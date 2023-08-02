@@ -39,7 +39,6 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   public selectedInteractionsWithContent: Interaction[] = [];
 
   public interactionFormData: InteractionOutForm;
-
   public interactionFormData$: BehaviorSubject<InteractionOutForm>;
 
   public procurationIndex: number | null; // Mandataire = true / domicilié = false

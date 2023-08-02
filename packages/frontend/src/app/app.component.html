@@ -319,7 +319,7 @@
         type="submit"
         (click)="submitAcceptTerms()"
         [disabled]="loading"
-        [attr.aria-busy]="loading ? true : false"
+        [attr.aria-busy]="loading"
       >
         <span *ngIf="!loading"> Enregistrer </span>
         <span *ngIf="loading"

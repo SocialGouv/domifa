@@ -156,7 +156,7 @@
       class="btn btn-lg btn-danger"
       (click)="deleteInteraction()"
       [disabled]="loading"
-      [attr.aria-busy]="loading ? true : false"
+      [attr.aria-busy]="loading"
     >
       <span *ngIf="loading">
         <fa-icon
@@ -171,7 +171,7 @@
     <button
       type="button"
       [disabled]="loading"
-      [attr.aria-busy]="loading ? true : false"
+      [attr.aria-busy]="loading"
       [attr.aria-disabled]="loading"
       class="btn btn-lg btn-outline-dark"
       (click)="closeModals()"
@@ -217,7 +217,7 @@
     <button
       type="submit"
       [disabled]="loading"
-      [attr.aria-busy]="loading ? true : false"
+      [attr.aria-busy]="loading"
       class="btn btn-lg btn-danger"
       (click)="deleteInteraction()"
     >

@@ -31,7 +31,7 @@
             <button
               type="button"
               [disabled]="loading"
-              [attr.aria-busy]="loading ? true : false"
+              [attr.aria-busy]="loading"
               class="btn btn-primary"
               (click)="export(lastYear)"
             >
@@ -176,7 +176,7 @@
           <button
             (click)="export()"
             [disabled]="loading"
-            [attr.aria-busy]="loading ? true : false"
+            [attr.aria-busy]="loading"
             class="btn btn-block btn-primary"
             type="button"
           >

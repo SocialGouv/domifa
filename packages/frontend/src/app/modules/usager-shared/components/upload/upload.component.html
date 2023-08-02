@@ -1,4 +1,4 @@
-<form ngNativeValidate [formGroup]="uploadForm" (ngSubmit)="submitFile()">
+<form [formGroup]="uploadForm" (ngSubmit)="submitFile()">
   <div class="row">
     <div class="col-md-12 col-12">
       <p>
@@ -63,7 +63,7 @@
         type="submit"
         class="btn btn-primary btn-block mt-4"
         [disabled]="loading"
-        [attr.aria-busy]="loading ? true : false"
+        [attr.aria-busy]="loading"
       >
         <span *ngIf="!loading">Ajouter</span>
         <span *ngIf="loading">
@@ -77,21 +77,19 @@
       </button>
     </div>
 
-    <div class="col-md-12">
-      <div *ngIf="uploadResponse">
-        <div *ngIf="uploadResponse.status === 'error'">
-          {{ uploadResponse.message }}
-        </div>
-        <div *ngIf="uploadResponse.status === 'progress'">
-          <ngb-progressbar
-            type="success"
-            [striped]="true"
-            [animated]="true"
-            [value]="uploadResponse.message"
-          >
-            {{ uploadResponse.message }} %
-          </ngb-progressbar>
-        </div>
+    <div class="col-md-12" *ngIf="uploadResponse">
+      <p *ngIf="uploadResponse.status === 'error'">
+        {{ uploadResponse.message }}
+      </p>
+      <div *ngIf="uploadResponse.status === 'progress'">
+        <ngb-progressbar
+          type="success"
+          [striped]="true"
+          [animated]="true"
+          [value]="uploadResponse.message"
+        >
+          {{ uploadResponse.message }} %
+        </ngb-progressbar>
       </div>
     </div>
   </div>

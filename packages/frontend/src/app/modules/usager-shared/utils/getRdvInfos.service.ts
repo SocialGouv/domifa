@@ -1,3 +1,4 @@
+import fr from "date-fns/locale/fr";
 import { format } from "date-fns";
 import {
   UsagerLight,
@@ -21,10 +22,9 @@ export const getRdvInfos = (usager?: Partial<UsagerLight>): UsagerRdvInfos => {
   // Rdv à venir
   if (usager.etapeDemande && usager.etapeDemande < ETAPE_ENTRETIEN) {
     rdvDisplay.display = true;
-    rdvDisplay.content = `${format(dateRdv, "dd MMMM yyyy")} à ${format(
-      dateRdv,
-      "HH:mm"
-    )}`;
+    rdvDisplay.content = `${format(dateRdv, "dd MMMM yyyy", {
+      locale: fr,
+    })} à ${format(dateRdv, "HH:mm")}`;
 
     rdvDisplay.class = dateRdv < new Date() ? "danger" : "warning";
     return rdvDisplay;

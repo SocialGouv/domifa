@@ -34,8 +34,8 @@ export class SetInteractionInFormComponent implements OnDestroy {
   public updateInteractions = new EventEmitter<void>();
 
   private subscription = new Subscription();
-  public interactionFormData: InteractionInForm;
 
+  public interactionFormData: InteractionInForm;
   public content: string | null;
   public loading = false;
 
