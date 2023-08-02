@@ -29,10 +29,10 @@
   height: 100%;
 }
 
-.note-historique:last-child .note-separator {
-  display: none !important;
-}
-
 * {
   word-break: break-word;
+}
+
+.note-historique:last-child .note-separator {
+  display: none !important;
 }

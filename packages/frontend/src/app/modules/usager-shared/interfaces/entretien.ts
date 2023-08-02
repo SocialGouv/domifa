@@ -29,24 +29,31 @@ export class Entretien implements UsagerEntretien {
 
   constructor(entretien?: Partial<UsagerEntretien> | null) {
     this.accompagnement =
-      entretien?.accompagnement !== null ? entretien?.accompagnement : null;
+      typeof entretien?.accompagnement !== "undefined"
+        ? entretien?.accompagnement
+        : null;
     this.accompagnementDetail = entretien?.accompagnementDetail || null;
     this.cause = entretien?.cause || null;
     this.causeDetail = entretien?.causeDetail || null;
     this.commentaires = entretien?.commentaires || null;
     this.domiciliation =
-      entretien?.domiciliation !== null ? entretien.domiciliation : null;
+      typeof entretien?.domiciliation !== "undefined"
+        ? entretien?.domiciliation
+        : null;
     this.liencommune = entretien?.liencommune || null;
     this.liencommuneDetail = entretien?.liencommuneDetail || null;
     this.orientation =
-      entretien?.orientation !== null ? entretien.orientation : null;
+      typeof entretien?.orientation !== "undefined"
+        ? entretien?.orientation
+        : null;
     this.orientationDetail = entretien?.orientationDetail || null;
     this.raison = entretien?.raison || null;
     this.raisonDetail = entretien?.raisonDetail || null;
     this.rattachement = entretien?.rattachement || null;
     this.residence = entretien?.residence || null;
     this.residenceDetail = entretien?.residenceDetail || null;
-    this.revenus = entretien?.revenus !== null ? entretien.revenus : null;
+    this.revenus =
+      typeof entretien?.revenus !== "undefined" ? entretien?.revenus : null;
     this.revenusDetail = entretien?.revenusDetail || null;
     this.typeMenage = entretien?.typeMenage || null;
   }
