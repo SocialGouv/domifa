@@ -1,3 +1,13 @@
+## [2.134.1](https://github.com/SocialGouv/domifa/compare/v2.134.0...v2.134.1) (2023-08-07)
+
+
+### Bug Fixes
+
+* écran décision ([12f4c9f](https://github.com/SocialGouv/domifa/commit/12f4c9f0b6b43dbb3077f2a02c0bfed604af7b7b))
+* **rgaa:** ajout de listbox ([f6bfacd](https://github.com/SocialGouv/domifa/commit/f6bfacd100e32348d7c056733ed6b02374c03a45))
+* **rgaa:** ajout des name aux inputs et un role listbox ([7910dfe](https://github.com/SocialGouv/domifa/commit/7910dfeda296f28d2a1f5607cb647eb4151d7317))
+* **rgaa:** correction de l'admin domifa ([100f054](https://github.com/SocialGouv/domifa/commit/100f054abebb75dbd826d79f3eb390eb863d6641))
+
 # [2.134.0](https://github.com/SocialGouv/domifa/compare/v2.133.2...v2.134.0) (2023-08-01)
 
 
