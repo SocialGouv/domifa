@@ -22,34 +22,33 @@
     </li>
   </ul>
 </nav>
-<header role="banner">
+<header id="page-header" role="banner">
   <div id="matomo-info" *ngIf="!matomoInfo">
     <div
       class="d-print-none d-flex justify-content-center align-items-center"
       role="dialog"
       aria-modal="true"
-      aria-label="Avertissement sur la collecte de données"
     >
-      <p class="my-0">
+      <p class="my-0 text-start">
+        <b>Avertissement sur la collecte de données</b><br />
         Nous collectons des données anonymisées à des fins statistiques via
         l'outil français Matomo. Pour tout savoir sur notre utilisation des
         données, consultez notre
         <a
           [routerLink]="['/confidentialite']"
+          ariaCurrentWhenActive="page"
           routerLinkActive="router-link-active"
         >
           politique de confidentialité.
         </a>
       </p>
-
       <div class="mx-2">
         <button
           type="button"
           class="btn btn-white-primary"
-          aria-label="Fermer le message"
           (click)="closeMatomo()"
         >
-          Fermer
+          Fermer le message
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -80,106 +79,91 @@
     </button>
   </div>
 </main>
-<footer id="footer" role="contentinfo" class="d-print-none py-4">
-  <div class="my-4 container">
-    <div
-      class="partenaires d-flex flex-wrap justify-content-center align-items-center"
-    >
-      <a
-        href="https://www.fabrique.social.gouv.fr"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          src="../assets/images/footer/partenaire-fabrique-numerique.png"
-          alt="La Fabrique Numérique"
-        />
-      </a>
-      <a
-        href="https://beta.gouv.fr"
-        title="Beta gouv"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          src="../assets/images/footer/partenaire-beta-gouv.png"
-          alt="Beta Gouv"
-        />
-      </a>
-      <a
-        href="https://www.gouvernement.fr/france-relance"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          src="../assets/images/footer/logo_francerelance.webp"
-          alt="France Relance soutien DomiFa"
-        />
-      </a>
+<footer id="footer" role="contentinfo" class="d-print-none py-3">
+  <div class="container my-2 py-3">
+    <div class="row">
+      <div class="col-12 col-md-4 my-2">
+        <p class="fw-bold">Cadre juridique</p>
+        <ul>
+          <li>
+            <a routerLink="/accessibilite" routerLinkActive="router-link-active"
+              >Accessibilité: non conforme
+            </a>
+          </li>
 
-      <a
-        href="https://solidarites.gouv.fr/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img src="../assets/images/footer/logo-dgcs.jpg" alt="DGCS" />
-      </a>
-      <a
-        href="https://www.gouvernement.fr/delegation-interministerielle-a-l-hebergement-et-a-l-acces-au-logement"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img src="../assets/images/footer/partenaire-dihal.png" alt="DIHAL" />
-      </a>
-      <a
-        href="https://agence-cohesion-territoires.gouv.fr/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          src="../assets/images/footer/logo_anct.webp"
-          alt="Agence nationale de la cohésion des territoires"
-        />
-      </a>
-      <a
-        href="https://www.unccas.org"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img src="../assets/images/footer/partenaire-unccas.jpg" alt="UNCCAS" />
-      </a>
-    </div>
-  </div>
-  <div class="container">
-    <div class="py-3 my-4 text-gray border-top">
-      <div class="d-flex flex-column flex-sm-row">
+          <li>
+            <a
+              ariaCurrentWhenActive="page"
+              routerLink="/mentions-legales"
+              routerLinkActive="router-link-active"
+              >Mentions légales</a
+            >
+          </li>
+          <li>
+            <a
+              routerLink="/cgu"
+              ariaCurrentWhenActive="page"
+              routerLinkActive="router-link-active"
+              >CGU</a
+            >
+          </li>
+          <li>
+            <a
+              routerLink="/confidentialite"
+              ariaCurrentWhenActive="page"
+              routerLinkActive="router-link-active"
+              >Politique de confidentialité</a
+            >
+          </li>
+          <li>
+            <a
+              routerLink="/plan-site"
+              ariaCurrentWhenActive="page"
+              routerLinkActive="router-link-active"
+              >Plan du site</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-12 col-md-4 my-2">
+        <p class="fw-bold">Nos partenaires</p>
+        <ul>
+          <li *ngFor="let link of partnerLinks">
+            <a [href]="link.path" target="_blank" rel="noopener noreferrer">
+              {{ link.label }}
+              <fa-icon
+                class="ms-2"
+                [icon]="['fas', 'arrow-up-right-from-square']"
+                aria-hidden="true"
+              ></fa-icon>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-12 col-md-4 my-2">
         <a
-          [routerLink]="['/accessibilite']"
-          routerLinkActive="router-link-active"
-          >Accessibilité: non conforme
-        </a>
-        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
-        <a
-          [routerLink]="['/mentions-legales']"
-          routerLinkActive="router-link-active"
+          href="https://solidarites.gouv.fr/"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Ministère des Solidarités, de l'Autonomie et des Personnes handicapées"
         >
-          Mentions légales
-        </a>
-        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
-        <a [routerLink]="['/cgu']" routerLinkActive="router-link-active">
-          CGU
-        </a>
-        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
-        <a
-          routerLink="/confidentialite"
-          title="Lire notre politique de confidentialité"
-          routerLinkActive="router-link-active"
-        >
-          Politique de confidentialité
+          <img
+            rel="noopener noreferrer"
+            src="../assets/images/logo-ministere.svg"
+            alt="Ministère des Solidarités, de l'Autonomie et des Personnes handicapées"
+          />
         </a>
       </div>
     </div>
+
     <div class="my-4 text-gray">
+      <p>
+        DomiFa est une solution gratuite et complète de gestion des
+        domiciliations pour les structures domiciliataires (centres d'Action
+        Sociale, communes, organismes agréés).
+      </p>
+
       <p>
         Sauf mention contraire, tous les textes de ce site sont sous
         <a

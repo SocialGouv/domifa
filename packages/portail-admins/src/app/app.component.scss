@@ -1,0 +1,56 @@
+.nav-brand {
+  font-weight: 600;
+  font-size: 1.3rem;
+  text-align: center;
+  color: #000000;
+}
+
+.navbar {
+  border-top: 4px solid var(--primary);
+}
+
+#skip-links {
+  width: 100%;
+  padding: 0.25rem 0;
+  background-color: white;
+  position: absolute;
+  top: 0;
+  transform: translateY(-100%);
+
+  li {
+    display: inline-block;
+    list-style-type: none;
+  }
+
+  a {
+    display: block;
+    padding: 1rem 2rem;
+  }
+}
+
+#skip-links:focus-within {
+  position: relative;
+  transform: translateY(0%);
+}
+
+footer {
+  width: 100%;
+  border-top: 1px solid #e6e6e6;
+
+  img {
+    width: 200px;
+    height: auto;
+  }
+  img.ministere-logo {
+    max-height: 110px;
+    width: auto;
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+  li {
+    padding: 0.25rem 0;
+  }
+}

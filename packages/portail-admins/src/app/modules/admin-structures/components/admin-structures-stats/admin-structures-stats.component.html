@@ -3,6 +3,27 @@
     <h1>Statistiques de déploiement</h1>
   </div>
 </div>
+<div
+  class="overlay"
+  aria-live="polite"
+  aria-atomic="true"
+  [attr.aria-busy]="true"
+  *ngIf="adminProfile && !stats"
+  role="alert"
+>
+  <p @fadeInOut>
+    <fa-icon
+      [icon]="['fas', 'spinner']"
+      class="spinner"
+      [spin]="true"
+      aria-hidden="true"
+    ></fa-icon>
+    <span class="loading_message"
+      >Chargement en cours, veuillez patienter...</span
+    >
+  </p>
+</div>
+
 <div id="stats" class="my-5" *ngIf="adminProfile && stats">
   <div class="row">
     <div class="col-12 col-md-8">
@@ -20,11 +41,9 @@
 
         <ng-container *ngFor="let decisionStatut of stats.usagersCountByStatut">
           <div>
-            <span
-              class="stats-chiffres"
-              [ngClass]="statutClass[decisionStatut.status]"
-              >{{ decisionStatut.count }}</span
-            >
+            <span class="stats-chiffres bg-white">{{
+              decisionStatut.count
+            }}</span>
             <span class="stats-labels">
               {{ decisionStatut.label }}
             </span>
@@ -123,7 +142,7 @@
     </div>
     <div class="col-12 col-md-4">
       <table class="table table-hover">
-        <caption>
+        <caption class="visually-hidden">
           Tableau statistiques régions
         </caption>
         <thead>

@@ -4,6 +4,7 @@ import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { NavigationEnd, Router } from "@angular/router";
 import { filter } from "rxjs";
+import { LIENS_PARTENAIRES } from "./modules/general/components/_static/plan-site/LIENS_PARTENAIRES.const";
 
 @Component({
   selector: "app-root",
@@ -15,6 +16,7 @@ export class AppComponent implements OnInit {
   public apiVersion: string | null;
   public usagerProfile: PortailUsagerProfile | null;
   public currentUrl = "";
+  public readonly partnerLinks = LIENS_PARTENAIRES;
 
   constructor(
     private readonly titleService: Title,

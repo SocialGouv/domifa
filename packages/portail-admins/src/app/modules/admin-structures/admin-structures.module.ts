@@ -11,6 +11,7 @@ import { AdminStructuresStatsComponent } from "./components";
 import { AdminStructuresDocsComponent } from "./components/admin-structures-docs/admin-structures-docs.component";
 import { AdminStructuresListComponent } from "./components/admin-structures-list/admin-structures-list.component";
 import { AdminStructuresTableComponent } from "./components/admin-structures-list/admin-structures-table/admin-structures-table.component";
+import { AdminStructuresExportComponent } from "./components/admin-structures-export";
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { AdminStructuresTableComponent } from "./components/admin-structures-lis
     AdminStructuresStatsComponent,
     AdminStructuresTableComponent,
     AdminStructuresDocsComponent,
+    AdminStructuresExportComponent,
   ],
   imports: [
     CommonModule,

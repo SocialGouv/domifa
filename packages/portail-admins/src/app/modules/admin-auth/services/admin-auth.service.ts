@@ -64,7 +64,7 @@ export class AdminAuthService {
   }
 
   public get currentUserValue(): PortailAdminProfile | null {
-    return this.currentAdminSubject.value || null;
+    return this.currentAdminSubject?.value ?? null;
   }
 
   public logout(): void {
@@ -116,7 +116,7 @@ export class AdminAuthService {
 
     // Sentry
     configureScope((scope) => {
-      scope.setTag("auth-admin-ref", authAdminProfile.toString());
+      scope.setTag("auth-admin-ref", JSON.stringify(authAdminProfile));
       scope.setUser({
         username:
           "AuthAdmin " +

@@ -8,6 +8,7 @@ import { AuthGuard } from "./guards/auth-guard";
 import { CguComponent } from "./modules/general/components/_static/cgu/cgu.component";
 import { MentionsLegalesComponent } from "./modules/general/components/_static/mentions-legales/mentions-legales.component";
 import { PolitiqueComponent } from "./modules/general/components/_static/politique/politique.component";
+import { PlanSiteComponent } from "./modules/general/components/_static/plan-site/plan-site.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "/auth/login", pathMatch: "full" },
@@ -26,6 +27,7 @@ const routes: Routes = [
         (m) => m.UsagerAccountModule,
       ),
   },
+  { path: "plan-site", component: PlanSiteComponent },
   { path: "accessibilite", component: RgaaComponent },
   { path: "mentions-legales", component: MentionsLegalesComponent },
   { path: "confidentialite", component: PolitiqueComponent },

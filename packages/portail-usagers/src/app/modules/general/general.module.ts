@@ -18,6 +18,7 @@ import { PolitiqueComponent } from "./components/_static/politique/politique.com
 import { CguComponent } from "./components/_static/cgu/cgu.component";
 import { RgaaComponent } from "./components/_static/rgaa/rgaa.component";
 import { IdleManagerComponent } from "./components/idle-manager/idle-manager.component";
+import { PlanSiteComponent } from "./components/_static/plan-site/plan-site.component";
 
 @NgModule({
   declarations: [
@@ -25,10 +26,11 @@ import { IdleManagerComponent } from "./components/idle-manager/idle-manager.com
     MentionsLegalesComponent,
     NotFoundComponent,
     CguComponent,
+    PlanSiteComponent,
     PolitiqueComponent,
     RgaaComponent,
   ],
-  exports: [NotFoundComponent, IdleManagerComponent],
+  exports: [NotFoundComponent, IdleManagerComponent, PlanSiteComponent],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -38,7 +40,7 @@ import { IdleManagerComponent } from "./components/idle-manager/idle-manager.com
     SharedModule,
     NgbModule,
   ],
-  providers: [],
+
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class GeneralModule {}
