@@ -8,6 +8,27 @@
 .navbar {
   border-top: 4px solid var(--bs-primary);
 }
+footer {
+  width: 100%;
+  border-top: 1px solid #e6e6e6;
+
+  img {
+    width: 200px;
+    height: auto;
+  }
+  img.ministere-logo {
+    max-height: 110px;
+    width: auto;
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+  li {
+    padding: 0.25rem 0;
+  }
+}
 
 #skip-links {
   width: 100%;
@@ -31,23 +52,6 @@
 #skip-links:focus-within {
   position: relative;
   transform: translateY(0%);
-}
-
-footer {
-  width: 100%;
-  background-color: white;
-  border-top: 1px solid #e6e6e6;
-}
-
-footer img.ministere-logo {
-  max-height: 100px;
-  width: auto;
-}
-
-footer .menu-breadcrumb {
-  color: #1a1a1a;
-  padding-left: 10px;
-  padding-right: 10px;
 }
 
 #matomo-info a {

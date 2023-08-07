@@ -5,6 +5,7 @@ import { NotFoundComponent } from "./modules/general/components/not-found/not-fo
 import { CguComponent } from "./modules/general/components/static-pages/cgu/cgu.component";
 import { MentionsLegalesComponent } from "./modules/general/components/static-pages/mentions-legales/mentions-legales.component";
 import { PolitiqueComponent } from "./modules/general/components/static-pages/politique/politique.component";
+import { PlanSiteComponent } from "./modules/general/components/static-pages/plan-site/plan-site.component";
 
 const routes: Routes = [
   {
@@ -33,6 +34,7 @@ const routes: Routes = [
   },
   { path: "", redirectTo: "/structures", pathMatch: "full" },
   { path: "mentions-legales", component: MentionsLegalesComponent },
+  { path: "plan-site", component: PlanSiteComponent },
   { path: "confidentialite", component: PolitiqueComponent },
   { path: "cgu", component: CguComponent },
   { path: "404", component: NotFoundComponent },

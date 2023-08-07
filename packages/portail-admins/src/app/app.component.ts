@@ -4,33 +4,31 @@ import { NavigationEnd, Router } from "@angular/router";
 import { filter } from "rxjs";
 import { PortailAdminProfile } from "./../_common/_portail-admin/PortailAdminProfile.type";
 import { AdminAuthService } from "./modules/admin-auth/services/admin-auth.service";
+import { LIENS_PARTENAIRES } from "./modules/general/components/static-pages/plan-site/LIENS_PARTENAIRES.const";
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"],
+  styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnInit {
-  public title: string;
-  public apiVersion: string | null;
   public adminProfile: PortailAdminProfile | null;
+  public readonly partnerLinks = LIENS_PARTENAIRES;
+  public currentUrl = "";
 
   constructor(
     private readonly router: Router,
     private readonly titleService: Title,
     private readonly adminAuthService: AdminAuthService
   ) {
-    this.apiVersion = null;
     this.adminProfile = null;
-    this.title = "Bienvenue sur le portail admin de DomiFa";
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle(
-      "DomiFa, l'outil qui facilite la gestion des structures domiciliatirices"
-    );
+    this.currentUrl = this.router.url;
 
-    this.adminAuthService.isAuth().subscribe();
+    this.titleService.setTitle("Bienvenue sur le portail admin de DomiFa");
+
     this.adminAuthService.currentAdminSubject.subscribe(
       (admin: PortailAdminProfile | null) => {
         this.adminProfile = admin;
@@ -38,14 +36,33 @@ export class AppComponent implements OnInit {
     );
 
     this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        // Retour au top de la fenêtre
-        window.scroll({
-          behavior: "smooth",
-          left: 0,
-          top: 0,
-        });
+      .pipe(filter((e: any) => e instanceof NavigationEnd))
+      .subscribe((ev: Event) => {
+        const event = ev as unknown as NavigationEnd;
+        const splitUrl = event?.url.split("#");
+        this.currentUrl = splitUrl[0];
+
+        if (typeof splitUrl[1] !== "undefined") {
+          const fragment = splitUrl[1];
+          const element = document.getElementById(fragment);
+          if (element) {
+            element.tabIndex = -1;
+            element.focus();
+          }
+        } else {
+          this.currentUrl = event.url;
+          const mainHeader = document.getElementById("top-site");
+          if (mainHeader) {
+            mainHeader.tabIndex = -1;
+            mainHeader.focus();
+          }
+
+          window.scroll({
+            behavior: "smooth",
+            left: 0,
+            top: 0,
+          });
+        }
       });
   }
 

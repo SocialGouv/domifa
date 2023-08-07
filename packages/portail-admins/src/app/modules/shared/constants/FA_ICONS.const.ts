@@ -25,6 +25,7 @@ import {
   faTrash,
   faUserPlus,
   faExclamationTriangle,
+  faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const FA_ICONS: IconDefinition[] = [
@@ -52,4 +53,5 @@ export const FA_ICONS: IconDefinition[] = [
   faChartBar,
   faSignOutAlt,
   faSearch,
+  faSpinner,
 ];

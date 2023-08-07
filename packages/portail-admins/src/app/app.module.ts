@@ -19,6 +19,7 @@ import { SentryErrorHandler } from "./interceptors/sentry.interceptor";
 import { ServerErrorInterceptor } from "./interceptors/server-error.interceptor";
 import { AdminAuthService } from "./modules/admin-auth/services/admin-auth.service";
 import { CustomToastService } from "./modules/shared/services/custom-toast.service";
+import { GeneralModule } from "./modules/general/general.module";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -26,6 +27,7 @@ import { CustomToastService } from "./modules/shared/services/custom-toast.servi
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
+    GeneralModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,

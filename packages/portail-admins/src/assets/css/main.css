@@ -10,6 +10,10 @@ html {
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+caption {
+  color: black !important;
+}
+
 #page {
   min-height: 60vh;
   background-color: #f9f9fc;
@@ -178,8 +182,4 @@ footer .menu-breadcrumb {
 .head-page {
   background-color: var(--bs-primary);
   width: 100%;
-}
-
-caption {
-  color: black;
 }

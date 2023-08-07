@@ -14,7 +14,7 @@ import { Title } from "@angular/platform-browser";
   styleUrls: ["./admin-structures-docs.component.css"],
 })
 export class AdminStructuresDocsComponent implements OnInit {
-  public STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;
+  public readonly STRUCTURE_DOC_ICONS = STRUCTURE_DOC_ICONS;
   public structureDocs: StructureDoc[];
   // Frontend variables
   public loadings: {
@@ -23,9 +23,9 @@ export class AdminStructuresDocsComponent implements OnInit {
   };
 
   constructor(
-    private structureDocService: StructuresCustomDocsService,
-    private toastService: CustomToastService,
-    private titleService: Title
+    private readonly structureDocService: StructuresCustomDocsService,
+    private readonly toastService: CustomToastService,
+    private readonly titleService: Title
   ) {
     this.loadings = {
       download: [],

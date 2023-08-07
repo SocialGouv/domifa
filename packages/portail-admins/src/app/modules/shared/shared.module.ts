@@ -4,7 +4,6 @@ import {
   FaIconLibrary,
   FontAwesomeModule,
 } from "@fortawesome/angular-fontawesome";
-import { AdminStructuresExportComponent } from "../general/components/admin-structures-export";
 import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
 import { FA_ICONS } from "./constants/FA_ICONS.const";
 
@@ -21,14 +20,12 @@ import {
     AdminNomCompletPipe,
     FormatPhoneNumberPipe,
     FormatBigNumberPipe,
-    AdminStructuresExportComponent,
     CustomToastrComponent,
   ],
   exports: [
     AdminNomCompletPipe,
     FormatPhoneNumberPipe,
     FormatBigNumberPipe,
-    AdminStructuresExportComponent,
     FontAwesomeModule,
     CustomToastrComponent,
   ],

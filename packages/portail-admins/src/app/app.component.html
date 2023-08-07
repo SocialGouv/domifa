@@ -1,202 +1,212 @@
 <app-custom-toastr></app-custom-toastr>
+<nav id="skip-links" role="navigation" aria-label="Accès rapide">
+  <ul>
+    <li>
+      <a
+        ariaCurrentWhenActive="page"
+        routerLinkActive="router-link-active"
+        [routerLink]="currentUrl"
+        fragment="navigation"
+        >Aller à la navigation</a
+      >
+    </li>
+    <li>
+      <a
+        ariaCurrentWhenActive="page"
+        routerLinkActive="router-link-active"
+        [routerLink]="currentUrl"
+        fragment="page"
+        >Aller au contenu</a
+      >
+    </li>
+    <li *ngIf="currentUrl === '/manage'">
+      <a
+        ariaCurrentWhenActive="page"
+        routerLinkActive="router-link-active"
+        [routerLink]="currentUrl"
+        fragment="search-bar"
+        >Aller à la recherche</a
+      >
+    </li>
+    <li>
+      <a
+        ariaCurrentWhenActive="page"
+        routerLinkActive="router-link-active"
+        [routerLink]="currentUrl"
+        fragment="footer"
+        >Aller au pied de page</a
+      >
+    </li>
+  </ul>
+</nav>
 
-<nav class="navbar bg-white" style="position: sticky; top: 0; z-index: 1000">
-  <a class="navbar-brand" routerLink="/">
-    <img
-      src="../assets/images/logo-mini.svg"
-      width="30"
-      height="30"
-      class="d-inline-block align-top"
-      alt=""
-    />
-    <span class="nav-brand">Domifa</span>
-  </a>
-  <div *ngIf="adminProfile">
-    <span>
-      <app-admin-structures-export></app-admin-structures-export>
-    </span>
-    <a class="ms-2 btn btn-outline-primary" [routerLink]="['/structures']">
-      <fa-icon
-        [icon]="['fas', 'list-alt']"
-        aria-hidden="true"
-        class="me-2"
-      ></fa-icon>
-      Structures
+<header id="page-header" role="banner">
+  <nav
+    class="navbar bg-white"
+    role="navigation"
+    aria-label="Navigation principale"
+    style="position: sticky; top: 0; z-index: 1000"
+  >
+    <a class="navbar-brand" routerLink="/">
+      <img
+        src="../assets/images/logo-mini.svg"
+        width="30"
+        height="30"
+        class="d-inline-block align-top"
+        alt=""
+      />
+      <span class="nav-brand">Domifa</span>
     </a>
+    <div *ngIf="adminProfile">
+      <span>
+        <app-admin-structures-export></app-admin-structures-export>
+      </span>
+      <a class="ms-2 btn btn-outline-primary" [routerLink]="['/structures']">
+        <fa-icon
+          [icon]="['fas', 'list-alt']"
+          aria-hidden="true"
+          class="me-2"
+        ></fa-icon>
+        Structures
+      </a>
 
-    <div
-      ngbDropdown
-      id="dropdownAuthenticatedMenu"
-      display="dynamic"
-      placement="bottom-right"
-      class="ms-2 me-2 d-inline-block bg-white"
-    >
-      <button class="btn btn-outline-primary" ngbDropdownToggle>Menu</button>
-      <div ngbDropdownMenu aria-labelledby="dropdownAuthenticatedMenu">
-        <a ngbDropdownItem [routerLink]="['/structures/stats']">
-          <fa-icon
-            aria-hidden="true"
-            [icon]="['fas', 'chart-bar']"
-            class="me-2"
-          ></fa-icon>
-          Stats
-        </a>
-        <a ngbDropdownItem [routerLink]="['/structures/custom-docs']">
-          <fa-icon
-            aria-hidden="true"
-            [icon]="['far', 'file-word']"
-            class="me-2"
-          ></fa-icon>
-          Documents des structures
-        </a>
-        <a ngbDropdownItem (click)="logout()" class="cursor-pointer">
-          <fa-icon aria-hidden="true" [icon]="['fas', 'sign-out-alt']">
-          </fa-icon>
-          Déconnexion
-        </a>
+      <div
+        ngbDropdown
+        id="dropdownAuthenticatedMenu"
+        display="dynamic"
+        placement="bottom-right"
+        class="ms-2 me-2 d-inline-block bg-white"
+      >
+        <button class="btn btn-outline-primary" ngbDropdownToggle>Menu</button>
+        <div ngbDropdownMenu aria-labelledby="dropdownAuthenticatedMenu">
+          <a ngbDropdownItem [routerLink]="['/structures/stats']">
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'chart-bar']"
+              class="me-2"
+            ></fa-icon>
+            Stats
+          </a>
+          <a ngbDropdownItem [routerLink]="['/structures/custom-docs']">
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['far', 'file-word']"
+              class="me-2"
+            ></fa-icon>
+            Documents des structures
+          </a>
+          <a ngbDropdownItem (click)="logout()" class="cursor-pointer">
+            <fa-icon aria-hidden="true" [icon]="['fas', 'sign-out-alt']">
+            </fa-icon>
+            Déconnexion
+          </a>
+        </div>
       </div>
     </div>
-  </div>
-</nav>
-<div id="page">
+  </nav>
+</header>
+<main role="main" id="page">
   <router-outlet></router-outlet>
-</div>
+</main>
+<footer id="footer" role="contentinfo" class="d-print-none py-3">
+  <div class="container my-2 py-3">
+    <div class="row">
+      <div class="col-12 col-md-4 my-2">
+        <p class="fw-bold">Cadre juridique</p>
+        <ul>
+          <li>
+            <a routerLink="/accessibilite" routerLinkActive="router-link-active"
+              >Accessibilité: non conforme
+            </a>
+          </li>
 
-<footer id="footer" class="d-print-none py-4">
-  <div class="container">
-    <div class="my-3">Nos partenaires:</div>
-    <div class="d-inline-block text-center">
-      <a
-        class="m-1"
-        href="https://www.fabrique.social.gouv.fr"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          class="ministere-logo"
-          src="../assets/images/footer/partenaire-fabrique-numerique.png"
-          alt="La Fabrique Numérique"
-        />
-      </a>
-      <a
-        class="m-1"
-        href="https://beta.gouv.fr"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          class="ministere-logo"
-          src="../assets/images/footer/partenaire-beta-gouv.png"
-          alt="Beta Gouv"
-        />
-      </a>
-      <a
-        class="m-1"
-        href="https://www.gouvernement.fr/france-relance"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          class="ministere-logo"
-          src="../assets/images/footer/logo_francerelance.webp"
-          alt="France Relance soutien DomiFa"
-        />
-      </a>
-      <a
-        class="m-1"
-        href="https://agence-cohesion-territoires.gouv.fr/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          class="ministere-logo"
-          src="../assets/images/footer/logo_anct.webp"
-          alt="Agence nationale de la cohésion des territoires"
-        />
-      </a>
-      <a
-        class="m-1"
-        href="https://solidarites.gouv.fr/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          class="ministere-logo"
-          src="../assets/images/footer/logo-dgcs.jpg"
-          alt="DGCS"
-        />
-      </a>
-      <a
-        class="m-1"
-        href="https://www.gouvernement.fr/delegation-interministerielle-a-l-hebergement-et-a-l-acces-au-logement"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          class="ministere-logo"
-          src="../assets/images/footer/partenaire-dihal.png"
-          alt="DIHAL"
-        />
-      </a>
+          <li>
+            <a
+              ariaCurrentWhenActive="page"
+              routerLink="/mentions-legales"
+              routerLinkActive="router-link-active"
+              >Mentions légales</a
+            >
+          </li>
+          <li>
+            <a
+              routerLink="/cgu"
+              ariaCurrentWhenActive="page"
+              routerLinkActive="router-link-active"
+              >CGU</a
+            >
+          </li>
+          <li>
+            <a
+              routerLink="/confidentialite"
+              ariaCurrentWhenActive="page"
+              routerLinkActive="router-link-active"
+              >Politique de confidentialité</a
+            >
+          </li>
+          <li>
+            <a
+              routerLink="/plan-site"
+              ariaCurrentWhenActive="page"
+              routerLinkActive="router-link-active"
+              >Plan du site</a
+            >
+          </li>
+        </ul>
+      </div>
 
-      <a
-        class="m-1"
-        href="https://www.unccas.org"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          class="ministere-logo"
-          src="../assets/images/footer/partenaire-unccas.jpg"
-          alt="UNCCAS"
-        />
-      </a>
-    </div>
-
-    <div class="py-3 my-4 text-gray border-top">
-      <div class="d-flex flex-column flex-sm-row">
+      <div class="col-12 col-md-4 my-2">
+        <p class="fw-bold">Nos partenaires</p>
+        <ul>
+          <li *ngFor="let link of partnerLinks">
+            <a [href]="link.path" target="_blank" rel="noopener noreferrer">
+              {{ link.label }}
+              <fa-icon
+                class="ms-2"
+                [icon]="['fas', 'arrow-up-right-from-square']"
+                aria-hidden="true"
+              ></fa-icon>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-12 col-md-4 my-2">
         <a
-          href="/assets/files/domifa_declaration-d-accessibilite.pdf"
+          href="https://solidarites.gouv.fr/"
           target="_blank"
           rel="noopener noreferrer"
-          download
-          >Accessibilité: non conforme
-        </a>
-        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
-        <a
-          [routerLink]="['/mentions-legales']"
-          routerLinkActive="router-link-active"
+          title="Ministère des Solidarités, de l'Autonomie et des Personnes handicapées"
         >
-          Mentions légales
-        </a>
-        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
-        <a [routerLink]="['/cgu']" routerLinkActive="router-link-active">
-          CGU
-        </a>
-        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
-        <a
-          routerLink="/confidentialite"
-          title="Lire notre politique de confidentialité"
-          routerLinkActive="router-link-active"
-        >
-          Politique de confidentialité
+          <img
+            rel="noopener noreferrer"
+            src="../assets/images/logo-ministere.svg"
+            alt="Ministère des Solidarités, de l'Autonomie et des Personnes handicapées"
+          />
         </a>
       </div>
-      <div class="my-4 text-gray">
+    </div>
+
+    <div class="my-4 text-gray">
+      <p>
+        DomiFa est une solution gratuite et complète de gestion des
+        domiciliations pour les structures domiciliataires (centres d'Action
+        Sociale, communes, organismes agréés).
+      </p>
+
+      <p>
         Sauf mention contraire, tous les textes de ce site sont sous
         <a
           href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
           target="_blank"
           rel="noopener noreferrer"
-          >licence etalab-2.0</a
-        >
-        <img
-          src="../../../assets/icones/link-external.png"
-          class="ms-1"
-          style="height: 8px"
-          alt="Lien externe"
-        />
-      </div>
+          >licence etalab-2.0
+          <fa-icon
+            class="ms-2"
+            [icon]="['fas', 'arrow-up-right-from-square']"
+            aria-hidden="true"
+          ></fa-icon
+        ></a>
+      </p>
     </div>
   </div>
 </footer>

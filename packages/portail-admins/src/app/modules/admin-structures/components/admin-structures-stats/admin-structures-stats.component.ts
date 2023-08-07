@@ -30,18 +30,10 @@ export class AdminStructuresStatsComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  public REGIONS_LISTE = REGIONS_LISTE;
-  public DASHBOARD_STATUS_LABELS = DASHBOARD_STATUS_LABELS;
-  public INTERACTIONS_LABELS_PLURIEL = INTERACTIONS_LABELS_PLURIEL;
-  public STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
-
-  public statutClass = {
-    ATTENTE_DECISION: "text-warning",
-    INSTRUCTION: "text-primary",
-    RADIE: "text-danger",
-    REFUS: "text-danger",
-    VALIDE: "text-secondary",
-  };
+  public readonly REGIONS_LISTE = REGIONS_LISTE;
+  public readonly DASHBOARD_STATUS_LABELS = DASHBOARD_STATUS_LABELS;
+  public readonly INTERACTIONS_LABELS_PLURIEL = INTERACTIONS_LABELS_PLURIEL;
+  public readonly STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
 
   public languagesAutocomplete = languagesAutocomplete;
 
@@ -60,6 +52,7 @@ export class AdminStructuresStatsComponent implements OnInit, OnDestroy {
         }
       )
     );
+
     this.subscription.add(
       this.adminStructuresApiClient
         .getStatsDomifaAdminDashboard()
