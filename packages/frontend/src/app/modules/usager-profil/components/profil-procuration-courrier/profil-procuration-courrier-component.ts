@@ -68,7 +68,7 @@ export class UsagersProfilProcurationCourrierComponent
 
   public isFormVisible: boolean;
   public submitted: boolean;
-  public procurationToDelete: number | null; // Index de la procu à supprimer
+  public procurationToDelete: number;
 
   public procurationsForm!: UntypedFormGroup;
 
@@ -99,7 +99,7 @@ export class UsagersProfilProcurationCourrierComponent
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = minDateToday;
-    this.procurationToDelete = null;
+    this.procurationToDelete = 0;
   }
 
   public isRole(role: UserStructureRole): boolean {
@@ -267,7 +267,7 @@ export class UsagersProfilProcurationCourrierComponent
   }
 
   public closeModals(): void {
-    this.procurationToDelete = null;
+    this.procurationToDelete = 0;
     this.submitted = false;
     this.modalService.dismissAll();
   }

@@ -220,15 +220,17 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
     usagerRef: number
   ) {
     setTimeout(() => {
-      const usagerElement = document.getElementById(
+      let usagerElement = document.getElementById(
         `${interactionType}-${usagerRef}`
       );
 
       if (usagerElement) {
         usagerElement.focus();
       } else if (interactionType === "distribution") {
-        const usagerElement = document.getElementById(`reception-${usagerRef}`);
-        usagerElement.focus();
+        usagerElement = document.getElementById(`reception-${usagerRef}`);
+        if (usagerElement) {
+          usagerElement.focus();
+        }
       }
     }, 0);
   }

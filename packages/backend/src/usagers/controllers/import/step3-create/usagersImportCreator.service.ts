@@ -39,10 +39,9 @@ async function createFromImport({
     usager.ref = nextRef++;
     usagersCreator.setUsagerDefaultAttributes(usager);
 
-    usager.customRef =
-      data.customRef && data.customRef.trim()
-        ? data.customRef.trim()
-        : `${usager.ref}`;
+    usager.customRef = data?.customRef
+      ? data.customRef.trim()
+      : `${usager.ref}`;
     return usager;
   });
 

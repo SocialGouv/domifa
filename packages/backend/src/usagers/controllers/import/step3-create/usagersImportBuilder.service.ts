@@ -69,11 +69,9 @@ function buildUsager({
     ? usagerRow.datePremiereDom
     : null;
   let dateDecision = null;
-
   let dernierPassage = null;
 
   const dateFin = usagerRow.dateFinDom;
-
   let dateDebut = usagerRow.dateDebutDom;
 
   if (usagerRow.statutDom === "REFUS" || usagerRow.statutDom === "RADIE") {
@@ -90,11 +88,9 @@ function buildUsager({
   }
 
   if (usagerRow.statutDom === "VALIDE") {
-    dernierPassage =
-      usagerRow.dateDernierPassage !== null &&
-      typeof usagerRow.dateDernierPassage !== "undefined"
-        ? setHours(new Date(usagerRow.dateDernierPassage), 19)
-        : now;
+    dernierPassage = usagerRow?.dateDernierPassage
+      ? setHours(new Date(usagerRow.dateDernierPassage), 19)
+      : now;
 
     dateDecision = usagerRow.dateDebutDom;
     // Valide uniquement avec date de début
