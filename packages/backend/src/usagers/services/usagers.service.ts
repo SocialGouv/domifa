@@ -34,7 +34,7 @@ export class UsagersService {
     const now = new Date();
 
     usagersCreator.setUsagerDefaultAttributes(usager);
-
+    usager.etapeDemande = ETAPE_RENDEZ_VOUS;
     usager.ref = await usagersCreator.findNextUsagerRef(user.structureId);
     usager.customRef = `${usager.ref}`;
 
@@ -151,10 +151,7 @@ export class UsagersService {
     }
 
     if (newDecision.statut === "REFUS" || newDecision.statut === "RADIE") {
-      newDecision.dateFin =
-        newDecision.dateFin !== undefined && newDecision.dateFin !== null
-          ? newDecision.dateFin
-          : now;
+      newDecision.dateFin = newDecision?.dateFin ? newDecision.dateFin : now;
       newDecision.dateDebut = newDecision.dateFin;
     }
 

@@ -1,5 +1,5 @@
 import { usagerRepository } from "../../database";
-import { ETAPE_RENDEZ_VOUS, Usager } from "../../_common/model";
+import { Usager } from "../../_common/model";
 
 export const usagersCreator = { findNextUsagerRef, setUsagerDefaultAttributes };
 async function findNextUsagerRef(structureId: number): Promise<number> {
@@ -29,8 +29,7 @@ function setUsagerDefaultAttributes(usager: Usager): void {
     portailUsagerEnabled: false,
   };
 
-  usager.etapeDemande = ETAPE_RENDEZ_VOUS;
-  usager.typeDom = "PREMIERE_DOM";
+  usager.typeDom = usager?.typeDom ?? "PREMIERE_DOM";
   usager.pinnedNote = null;
 
   if (!usager.ayantsDroits) {
