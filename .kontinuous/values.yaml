@@ -10,7 +10,7 @@ backend:
       cpu: 0.2
       memory: 256Mi
     limits: # exports need a lot of CPU/RAM ATM
-      cpu: 2.5
+      cpu: 3
       memory: 3Gi
   startupProbe:
     initialDelaySeconds: 30
