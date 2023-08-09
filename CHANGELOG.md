@@ -1,3 +1,12 @@
+## [2.134.3](https://github.com/SocialGouv/domifa/compare/v2.134.2...v2.134.3) (2023-08-09)
+
+
+### Bug Fixes
+
+* **import:** correction de l'import ([35eb599](https://github.com/SocialGouv/domifa/commit/35eb5993b37855bdcf98104d635690026fffd584))
+* **rgaa:** amélioration du focus ([3769aa9](https://github.com/SocialGouv/domifa/commit/3769aa9f2393c2559e025f9c2eacde34b31a915c))
+* **rgaa:** amélioration du portail usager ([cee2fb5](https://github.com/SocialGouv/domifa/commit/cee2fb53d562863a85d4fb20006b6e35b6211771))
+
 ## [2.134.2](https://github.com/SocialGouv/domifa/compare/v2.134.1...v2.134.2) (2023-08-09)
 
 
