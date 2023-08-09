@@ -1,3 +1,10 @@
+## [2.134.5](https://github.com/SocialGouv/domifa/compare/v2.134.4...v2.134.5) (2023-08-09)
+
+
+### Bug Fixes
+
+* update opentelemetry ([2d7dd6e](https://github.com/SocialGouv/domifa/commit/2d7dd6ef80bb6367bd99a500d7f7eb453250e644))
+
 ## [2.134.4](https://github.com/SocialGouv/domifa/compare/v2.134.3...v2.134.4) (2023-08-09)
 
 
