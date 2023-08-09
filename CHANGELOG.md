@@ -1,3 +1,10 @@
+## [2.134.2](https://github.com/SocialGouv/domifa/compare/v2.134.1...v2.134.2) (2023-08-09)
+
+
+### Bug Fixes
+
+* **k8s:** more resources ([997d58a](https://github.com/SocialGouv/domifa/commit/997d58a9645058c93047ffbc5c39ac7bedd8314e))
+
 ## [2.134.1](https://github.com/SocialGouv/domifa/compare/v2.134.0...v2.134.1) (2023-08-07)
 
 
