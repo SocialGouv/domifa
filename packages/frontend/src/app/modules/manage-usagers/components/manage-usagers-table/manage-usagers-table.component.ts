@@ -78,6 +78,7 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   public deleteUsagersModal!: TemplateRef<NgbModalRef>;
 
   public loadingButtons: string[];
+  private lastModalRef: NgbModalRef | null = null;
 
   constructor(
     private readonly interactionService: InteractionService,
@@ -131,12 +132,14 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
           next: () => {
             this.toastService.success(INTERACTIONS_LABELS_SINGULIER[type]);
             this.stopLoading(loadingRef);
+            this.setFocusOnElement(type, usager.ref);
           },
           error: () => {
             this.toastService.error(
               "Impossible d'enregistrer cette interaction"
             );
             this.stopLoading(loadingRef);
+            this.setFocusOnElement(type, usager.ref);
           },
         })
     );
@@ -159,12 +162,18 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   }
 
   public openDeleteUsagersModal(): void {
-    this.modalService.open(this.deleteUsagersModal, DEFAULT_MODAL_OPTIONS);
+    this.lastModalRef = this.modalService.open(
+      this.deleteUsagersModal,
+      DEFAULT_MODAL_OPTIONS
+    );
   }
 
   public openInteractionInModal(usager: UsagerFormModel) {
     this.selectedUsager = usager;
-    this.modalService.open(this.setInteractionInModal, DEFAULT_MODAL_OPTIONS);
+    this.lastModalRef = this.modalService.open(
+      this.setInteractionInModal,
+      DEFAULT_MODAL_OPTIONS
+    );
     this.matomo.trackEvent(
       "MANAGE_USAGERS",
       "click",
@@ -175,7 +184,10 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
 
   public openInteractionOutModal(usager: UsagerFormModel) {
     this.selectedUsager = usager;
-    this.modalService.open(this.setInteractionOutModal, DEFAULT_MODAL_OPTIONS);
+    this.lastModalRef = this.modalService.open(
+      this.setInteractionOutModal,
+      DEFAULT_MODAL_OPTIONS
+    );
     this.matomo.trackEvent(
       "MANAGE_USAGERS",
       "click",
@@ -188,8 +200,37 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
     this.router.navigate([usager.usagerProfilUrl]);
   }
 
-  public cancelReception() {
+  public cancelReception(
+    interactionType: InteractionType | "distribution" | "reception",
+    usagerRef: number
+  ) {
     this.modalService.dismissAll();
+    this.lastModalRef.result.then(
+      () => {
+        this.setFocusOnElement(interactionType, usagerRef);
+      },
+      () => {
+        this.setFocusOnElement(interactionType, usagerRef);
+      }
+    );
+  }
+
+  private setFocusOnElement(
+    interactionType: InteractionType | "distribution" | "reception",
+    usagerRef: number
+  ) {
+    setTimeout(() => {
+      const usagerElement = document.getElementById(
+        `${interactionType}-${usagerRef}`
+      );
+
+      if (usagerElement) {
+        usagerElement.focus();
+      } else if (interactionType === "distribution") {
+        const usagerElement = document.getElementById(`reception-${usagerRef}`);
+        usagerElement.focus();
+      }
+    }, 0);
   }
 
   public ngOnDestroy(): void {

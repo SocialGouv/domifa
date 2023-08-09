@@ -270,7 +270,9 @@
         >
           <button
             type="button"
+            [id]="'visite-'+usager.ref"
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_visite') !== -1"
+            [attr.aria-busy]="loadingButtons.indexOf(usager.ref.toString() + '_visite') !== -1"
             [attr.aria-label]="'Ajout d\'un passage pour ' +  (usager | usagerNomComplet) "
             class="interaction-btn btn-light"
             (click)="setSingleInteraction(usager, 'visite')"
@@ -285,7 +287,9 @@
           </button>
           <button
             type="button"
+            [id]="'appel-'+usager.ref"
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_appel') !== -1"
+            [attr.aria-busy]="loadingButtons.indexOf(usager.ref.toString() + '_appel') !== -1"
             [attr.aria-label]="'Ajout d\'un appel téléphonique pour ' +  (usager | usagerNomComplet) "
             class="interaction-btn btn-light"
             (click)="setSingleInteraction(usager, 'appel')"
@@ -313,7 +317,9 @@
             [ngbTooltip]="courrierTooltip"
             [appTooltip]="tooltipCourrierIn"
             #tooltipCourrierIn="ngbTooltip"
+            [id]="'courrierIn-'+usager.ref"
             [disabled]="loadingButtons.indexOf(usager.ref.toString() + '_courrierIn') !== -1"
+            [attr.aria-busy]="loadingButtons.indexOf(usager.ref.toString() + '_courrierIn') !== -1"
             [attr.aria-label]="'Ajout d\'un courrier pour ' +  (usager | usagerNomComplet) "
             class="interaction-btn btn-light"
             (click)="setSingleInteraction(usager, 'courrierIn')"
@@ -337,6 +343,7 @@
             #tooltipReception="ngbTooltip"
             triggers="manual"
             [autoClose]="false"
+            [id]="'reception-'+usager.ref"
             class="interaction-btn btn-light"
             (click)="openInteractionInModal(usager)"
           >
@@ -355,6 +362,7 @@
             type="button"
             triggers="manual"
             [autoClose]="false"
+            [id]="'distribution-'+usager.ref"
             [ngbTooltip]="distributionBox"
             [appTooltip]="tooltipDistribution"
             #tooltipDistribution="ngbTooltip"
@@ -418,7 +426,7 @@
   <app-set-interaction-in-form
     *ngIf="selectedUsager"
     [usager]="selectedUsager"
-    (cancelReception)="cancelReception()"
+    (cancelReception)="cancelReception('reception', selectedUsager.ref)"
   ></app-set-interaction-in-form>
 </ng-template>
 
@@ -426,7 +434,7 @@
   <app-set-interaction-out-form
     *ngIf="selectedUsager"
     [usager]="selectedUsager"
-    (cancelReception)="cancelReception()"
+    (cancelReception)="cancelReception('distribution', selectedUsager.ref)"
   ></app-set-interaction-out-form>
 </ng-template>
 
