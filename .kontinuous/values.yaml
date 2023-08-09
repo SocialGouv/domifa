@@ -9,12 +9,16 @@ backend:
     requests:
       cpu: 0.2
       memory: 256Mi
-    limits:
-      cpu: 1.5
-      memory: 2Gi
+    limits: # exports need a lot of CPU/RAM ATM
+      cpu: 2.5
+      memory: 3Gi
   startupProbe:
     initialDelaySeconds: 30
     failureThreshold: 50
+    periodSeconds: 10
+  livenessProbe:
+    initialDelaySeconds: 30
+    failureThreshold: 20
     periodSeconds: 10
   envFrom:
     - secretRef:
