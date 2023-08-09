@@ -93,10 +93,8 @@ export class SetInteractionInFormComponent implements OnDestroy {
         .subscribe({
           next: () => {
             this.toastService.success("Réception enregistrée avec succès");
-            setTimeout(() => {
-              this.cancelReception.emit();
-              this.updateInteractions.emit();
-            }, 500);
+            this.cancelReception.emit();
+            this.updateInteractions.emit();
           },
           error: () => {
             this.toastService.error(

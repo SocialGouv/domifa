@@ -1,5 +1,12 @@
 import isEmail from "validator/lib/isEmail";
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -60,12 +67,16 @@ export class EditUserComponent implements OnInit, OnDestroy {
     return this.passwordForm.controls;
   }
 
+  @ViewChild("userName")
+  public firstInput!: ElementRef;
+
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UsersService,
     private readonly toastService: CustomToastService,
     private readonly formBuilder: UntypedFormBuilder,
-    private readonly titleService: Title
+    private readonly titleService: Title,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {
     this.submitted = false;
     this.editPassword = false;
@@ -110,6 +121,12 @@ export class EditUserComponent implements OnInit, OnDestroy {
         [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
       ],
     });
+
+    this.changeDetectorRef.detectChanges();
+    const elementToFocus = this.firstInput?.nativeElement;
+    if (elementToFocus) {
+      elementToFocus.focus();
+    }
   }
 
   public initPasswordForm(): void {
