@@ -105,12 +105,11 @@ function buildHistoryFromNewDecision({
   createdEvent: UsagerHistoryStateCreationEvent;
   historyBeginDate?: Date;
 }) {
-  const decision = usager.decision;
-  if (!decision.typeDom) {
-    decision.typeDom = usager.typeDom;
+  if (!usager.decision.typeDom) {
+    usager.decision.typeDom = usager.typeDom;
   }
-  if (!decision.dateDebut) {
-    decision.dateDebut = decision.dateDecision;
+  if (!usager.decision.dateDebut) {
+    usager.decision.dateDebut = usager.decision.dateDecision;
   }
 
   if (!usagerHistory) {
