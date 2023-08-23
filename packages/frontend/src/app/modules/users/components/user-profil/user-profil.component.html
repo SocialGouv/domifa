@@ -26,16 +26,19 @@
               <td class="fw-bold">{{ user.nom }} {{ user.prenom }}</td>
               <td>{{ user.email }}</td>
               <td>
-                <ng-container *ngIf="me.role === 'admin' && me.id !== user.id">
-                  <label class="visually-hidden" for="role_{{ user.id }}"
+                {{ me.uuid }}
+                <ng-container
+                  *ngIf="me.role === 'admin' && me.uuid !== user.uuid"
+                >
+                  <label class="visually-hidden" for="role_{{ user.uuid }}"
                     >Rôle de {{ user.nom }} {{ user.prenom }}</label
                   >
                   <select
                     [disabled]="loading"
                     [attr.aria-busy]="loading"
-                    id="role_{{ user.id }}"
+                    id="role-{{ user.uuid }}"
                     [(ngModel)]="user.role"
-                    (ngModelChange)="updateRole(user.id, user.role)"
+                    (ngModelChange)="updateRole(user.uuid, user.role)"
                     class="form-select"
                   >
                     <option value="admin">Administrateur</option>
@@ -48,7 +51,7 @@
               <td>
                 <button
                   type="button"
-                  *ngIf="me.role === 'admin' && me.id !== user.id"
+                  *ngIf="me.role === 'admin' && me.uuid !== user.uuid"
                   (click)="open(deleteUserConfirmation); selectedUser = user"
                   class="btn btn-danger"
                   [attr.aria-label]="

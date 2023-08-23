@@ -5,6 +5,7 @@ import { UserStructureRole } from "./UserStructureRole.type";
 
 export type UserStructure = AppEntity & {
   id: number | null;
+  uuid: string | null;
 
   prenom: string | null;
   nom: string | null;

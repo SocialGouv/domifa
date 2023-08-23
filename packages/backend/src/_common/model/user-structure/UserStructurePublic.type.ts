@@ -4,6 +4,7 @@ import { UserStructure } from "./UserStructure.type";
 export type UserStructurePublic = Pick<
   UserStructure,
   | "id"
+  | "uuid"
   | "createdAt"
   | "email"
   | "nom"
@@ -11,7 +12,6 @@ export type UserStructurePublic = Pick<
   | "role"
   | "verified"
   | "structureId"
-  | "fonction"
   | "acceptTerms"
   | "lastLogin"
 >;

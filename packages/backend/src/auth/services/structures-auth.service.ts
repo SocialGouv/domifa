@@ -15,6 +15,7 @@ import {
 import { isDomifaAdmin } from "./auth-checker.service";
 
 export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
+  "uuid",
   "id",
   "prenom",
   "nom",
@@ -23,7 +24,6 @@ export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
   "structureId",
   "lastLogin",
   "acceptTerms",
-  "fonction",
   "role",
 ];
 

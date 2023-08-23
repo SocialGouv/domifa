@@ -81,6 +81,27 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_d92188af7573662f6be7199eda" ON public.contact_support USING btree (status);
 
 
+    -- public.expired_token definition
+
+    -- Drop table
+
+    -- DROP TABLE public.expired_token;
+
+    CREATE UNLOGGED TABLE public.expired_token (
+      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "createdAt" timestamptz NOT NULL DEFAULT now(),
+      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "version" int4 NOT NULL,
+      "userId" int4 NOT NULL,
+      "structureId" int4 NOT NULL,
+      "token" text NOT NULL,
+      "userProfile" text NOT NULL,
+      CONSTRAINT "PK_3086dda63f863ce61659708e8e7" PRIMARY KEY (uuid)
+    );
+    CREATE INDEX "IDX_4252acc4e242ad123a5d7b0625" ON public.expired_token USING btree ("structureId");
+    CREATE INDEX "IDX_728480a55bd9e5daa2a89d8de0" ON public.expired_token USING btree ("userId");
+
+
     -- public.message_email definition
 
     -- Drop table
@@ -104,7 +125,6 @@ async function createTables(queryRunner: QueryRunner) {
       attachments jsonb NULL,
       CONSTRAINT "PK_6bffd9b803b67cd4e099fc795e1" PRIMARY KEY (uuid)
     );
-
 
     -- public.monitor_batch_process definition
 
@@ -276,7 +296,7 @@ async function createTables(queryRunner: QueryRunner) {
       rdv jsonb NULL,
       "options" jsonb NOT NULL DEFAULT '{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}'::jsonb,
       "import" jsonb NULL,
-      "migrated" bool NOT NULL DEFAULT false,
+      migrated bool NOT NULL DEFAULT false,
       telephone jsonb NOT NULL DEFAULT '{"numero": "", "countryCode": "fr"}'::jsonb,
       "contactByPhone" bool NULL DEFAULT false,
       "numeroDistribution" text NULL,

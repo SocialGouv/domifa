@@ -1,4 +1,7 @@
-import { userStructureRepository, UserStructureSecurityRepository } from "..";
+import {
+  userStructureRepository,
+  UserStructureSecurityRepository,
+} from "../../user-structure";
 import { passwordGenerator } from "../../../../util/encoding/passwordGenerator.service";
 import { UserStructure } from "../../../../_common/model";
 import { userStructureSecurityEventHistoryManager } from "./userStructureSecurityEventHistoryManager.service";

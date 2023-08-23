@@ -5,7 +5,7 @@ import { configureScope } from "@sentry/angular";
 
 import jwtDecode from "jwt-decode";
 
-import { BehaviorSubject, Observable, of } from "rxjs";
+import { BehaviorSubject, Observable, firstValueFrom, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
 import { UserStructure } from "../../../../_common/model";
@@ -80,7 +80,11 @@ export class AuthService {
     );
   }
 
-  public logout(): void {
+  public async logout(): Promise<void> {
+    if (this.currentUserValue?.access_token) {
+      await firstValueFrom(this.http.get(`${this.endPoint}/logout`));
+    }
+
     this.currentUserSubject.next(null);
     cacheManager.clearCache();
     localStorage.removeItem("currentUser");
@@ -89,7 +93,6 @@ export class AuthService {
       scope.setTag("structure", "none");
       scope.setUser({});
     });
-
     this.router.navigate(["/connexion"]);
   }
 
@@ -108,13 +111,6 @@ export class AuthService {
     } else {
       this.router.navigate(["/connexion"]);
     }
-  }
-
-  public notAuthorized(): void {
-    this.toastr.error(
-      "Action interdite : vous n'êtes pas autorisé à accéder à cette page"
-    );
-    this.router.navigate(["/"]);
   }
 
   private setUser(user: UserStructure) {
