@@ -7,7 +7,7 @@ import {
   Get,
   HttpStatus,
   Param,
-  ParseIntPipe,
+  ParseUUIDPipe,
   Patch,
   Post,
   Res,
@@ -53,9 +53,21 @@ export class UsersController {
   public getUsers(
     @CurrentUser() user: UserStructureAuthenticated
   ): Promise<UserStructureProfile[]> {
-    return newUserStructureRepository.findBy({
-      structureId: user.structureId,
-      verified: true,
+    return newUserStructureRepository.find({
+      where: {
+        structureId: user.structureId,
+        verified: true,
+      },
+      select: {
+        uuid: true,
+        role: true,
+        nom: true,
+        prenom: true,
+        email: true,
+      },
+      order: {
+        nom: "ASC",
+      },
     });
   }
 
@@ -96,11 +108,11 @@ export class UsersController {
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Editer le rôle d'un utilisateur" })
   @UseGuards(CanGetUserStructureGuard)
-  @Patch("update-role/:userId")
+  @Patch("update-role/:userUuid")
   public async updateRole(
     @Body() updateRoleDto: UpdateRoleDto,
     @CurrentUser() userStructureAuth: UserStructureAuthenticated,
-    @Param("userId", new ParseIntPipe()) _userId: number,
+    @Param("userUuid", new ParseUUIDPipe()) _userUuid: string,
     @CurrentChosenUserStructure() chosenUserStructure: UserStructure
   ): Promise<UserStructureProfile> {
     return userStructureRepository.updateOne(
@@ -116,11 +128,11 @@ export class UsersController {
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Supprimer un utilisateur" })
   @UseGuards(CanGetUserStructureGuard)
-  @Delete(":userId")
+  @Delete(":userUuid")
   public async delete(
     @CurrentUser() userStructureAuth: UserStructureAuthenticated,
     @CurrentChosenUserStructure() chosenUserStructure: UserStructure,
-    @Param("userId", new ParseIntPipe()) _userId: number,
+    @Param("userUuid", new ParseUUIDPipe()) _userUuid: string,
     @Res() res: Response
   ) {
     await usersDeletor.deleteUser({

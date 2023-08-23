@@ -3,7 +3,7 @@ import {
   UserStructureProfile,
   UserStructureSecurity,
 } from "../../../../_common/model";
-import { userStructureRepository } from "../userStructureRepository.service";
+import { userStructureRepository } from "../../user-structure/userStructureRepository.service";
 import { userStructureSecurityEventHistoryManager } from "./userStructureSecurityEventHistoryManager.service";
 import { UserStructureSecurityRepository } from "./userStructureSecurityRepository.service";
 

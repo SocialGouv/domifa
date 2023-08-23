@@ -17,7 +17,11 @@ import { StructuresAuthController } from "./structures-auth.controller";
     UsagersAuthService,
   ],
   imports: [
-    PassportModule.register({ defaultStrategy: "jwt" }),
+    PassportModule.register({
+      defaultStrategy: "jwt",
+      session: false,
+      passReqToCallback: true,
+    }),
     forwardRef(() =>
       JwtModule.register({
         secret: domifaConfig().security.jwtSecret,

@@ -8,12 +8,13 @@ import {
   UserStructureRole,
 } from "../../_common/model";
 import { authChecker } from "../services";
+import { expiredTokenRepositiory } from "../../database";
 
 @Injectable()
 export class AppUserGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
-  public canActivate(context: ExecutionContext): boolean {
+  public async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const user = request.user as UserAuthenticated;
 
@@ -50,8 +51,13 @@ export class AppUserGuard implements CanActivate {
           user._userProfile === "structure" &&
           allowUserStructureRoles?.length
         ) {
+          const isBlacklisted = await expiredTokenRepositiory.findOneBy({
+            token: request.headers.authorization,
+          });
+
           // check structure user roles
           return (
+            !isBlacklisted &&
             authChecker.checkProfile(user, "structure") &&
             authChecker.checkRole(
               user as UserStructureAuthenticated,

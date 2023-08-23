@@ -8,27 +8,32 @@ import {
 } from "@nestjs/common";
 
 import { appLogger } from "../../util";
+import { isUUID } from "class-validator";
 
 @Injectable()
 export class CanGetUserStructureGuard implements CanActivate {
   public async canActivate(context: ExecutionContext) {
     const r = context.switchToHttp().getRequest();
-    const userId = r.params.userId;
+    const userUuid = r.params.userUuid;
     const structureId = r.user.structureId;
 
-    if (userId === undefined || structureId === undefined) {
+    if (
+      userUuid === undefined ||
+      structureId === undefined ||
+      !isUUID(userUuid)
+    ) {
       appLogger.error(
         `[CanGetUserStructureGuard] invalid user.Uuid or structureId`,
         {
           sentry: true,
-          context: { "user.Uuid": userId, structureId, user: r.user._id },
+          context: { "user.Uuid": userUuid, structureId, user: r.user._id },
         }
       );
       throw new HttpException("Invalid structureId", HttpStatus.FORBIDDEN);
     }
     const chosenUserStructure = await userStructureRepository.findOne(
       {
-        id: userId,
+        uuid: userUuid,
         structureId,
       },
       {
@@ -42,7 +47,12 @@ export class CanGetUserStructureGuard implements CanActivate {
         `[CanGetUserStructureGuard] chosenUserStructure not found`,
         {
           sentry: true,
-          context: { userId, structureId, user: r.user._id, role: r.user.role },
+          context: {
+            userUuid,
+            structureId,
+            user: r.user._id,
+            role: r.user.role,
+          },
         }
       );
       throw new HttpException("Invalid structureId", HttpStatus.FORBIDDEN);

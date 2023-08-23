@@ -21,14 +21,6 @@ export class UsersService {
 
   constructor(private readonly http: HttpClient) {}
 
-  public getUser(id: number): Observable<UserStructure> {
-    return this.http.get(`${this.endPoint}/${id}`).pipe(
-      map((response) => {
-        return userStructureBuilder.buildUserStructure(response);
-      })
-    );
-  }
-
   public validateEmail(email: string): Observable<boolean> {
     return this.http.post<boolean>(`${this.endPoint}/validate-email`, {
       email,
@@ -56,11 +48,11 @@ export class UsersService {
   }
 
   public updateRole(
-    id: number,
+    uuid: string,
     role: UserStructureRole
   ): Observable<UserStructureProfile> {
     return this.http
-      .patch(`${this.endPoint}/update-role/${id}`, {
+      .patch(`${this.endPoint}/update-role/${uuid}`, {
         role,
       })
       .pipe(
@@ -70,8 +62,8 @@ export class UsersService {
       );
   }
 
-  public deleteUser(id: number): Observable<ApiMessage> {
-    return this.http.delete<ApiMessage>(`${this.endPoint}/${id}`);
+  public deleteUser(uuid: string): Observable<ApiMessage> {
+    return this.http.delete<ApiMessage>(`${this.endPoint}/${uuid}`);
   }
 
   public getPasswordToken(data: string) {

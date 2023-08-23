@@ -1,2 +1,2 @@
-export * from "./user-structure-security";
+export * from "../app-logs/user-structure-security";
 export * from "./userStructureRepository.service";

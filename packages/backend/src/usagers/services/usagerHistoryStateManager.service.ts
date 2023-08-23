@@ -289,9 +289,7 @@ function buildHistoryState({
     createdBy,
     createdEvent,
     isActive,
-    historyBeginDate: getHistoryBeginDate(
-      historyBeginDate ? historyBeginDate : createdAt
-    ),
+    historyBeginDate: getHistoryBeginDate(historyBeginDate ?? createdAt),
     historyEndDate: undefined,
     decision,
     typeDom: usager.typeDom,

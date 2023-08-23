@@ -7,6 +7,7 @@ export const userStructureBuilder = {
 
 function buildUserStructure(item?: Partial<UserStructure>): UserStructure {
   const user: Partial<UserStructure> = {
+    uuid: item?.uuid || "",
     email: item?.email || "",
     fonction: item?.fonction || null,
     id: item?.id || null,

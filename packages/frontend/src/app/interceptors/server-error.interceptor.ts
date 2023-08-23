@@ -7,7 +7,7 @@ import {
   HttpRequest,
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { CustomToastService } from "../modules/shared/services/custom-toast.service";
+
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { AuthService } from "../modules/shared/services/auth.service";
@@ -17,10 +17,7 @@ import { captureException } from "@sentry/angular";
   providedIn: "root",
 })
 export class ServerErrorInterceptor implements HttpInterceptor {
-  constructor(
-    private readonly toastr: CustomToastService,
-    private readonly authService: AuthService
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   public intercept(
     request: HttpRequest<any>,
@@ -28,31 +25,14 @@ export class ServerErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
-        // Erreur côté navigateur
         if (error.error instanceof ErrorEvent) {
-          if (!navigator.onLine) {
-            this.toastr.error(
-              "Vous êtes actuellement hors-ligne. Veuillez vérifier votre connexion internet"
-            );
-            return throwError(() => "NAVIGATOR_OFFLINE");
-          }
-          // Erreur inconnue côté front
           captureException(error.error);
           return throwError(() => error.error);
-        }
-
-        // Erreur issue de l'API
-        if (error instanceof HttpErrorResponse) {
-          switch (error.status) {
-            case 401:
-              this.authService.logoutAndRedirect(undefined, true);
-              break;
-            case 403:
-              this.authService.notAuthorized();
-              break;
-            default:
-              captureException(error);
-              break;
+        } else if (error instanceof HttpErrorResponse) {
+          if (error.status === 401 || error.status === 403) {
+            this.authService.logoutAndRedirect(undefined, true);
+          } else {
+            captureException(error);
           }
         }
         return throwError(() => error);

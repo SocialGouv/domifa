@@ -18,7 +18,7 @@ let _domifaConfig: DomifaConfig;
 
 export const domifaConfig = (env?: Partial<DomifaEnv>) => {
   if (!_domifaConfig) {
-    _domifaConfig = loadConfig(env ? env : loadEnvWithPreset());
+    _domifaConfig = loadConfig(env ?? loadEnvWithPreset());
   }
   return _domifaConfig;
 };
@@ -122,7 +122,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       frontendUrl,
       backendUrl,
     },
-
     security: parseSecurityConfig(x),
     postgres: {
       host: configParser.parseString(x, "POSTGRES_HOST", {
@@ -313,7 +312,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       ),
       smtp: smtpOptions,
     },
-
     sms: {
       enabled: smsEnabled,
       phoneNumberRedirectAllTo: configParser.parseString(

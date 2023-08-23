@@ -33,6 +33,14 @@ COPY public.contact_support (uuid, "createdAt", "updatedAt", version, "userId", 
 
 
 --
+-- Data for Name: expired_token; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.expired_token (uuid, "createdAt", "updatedAt", version, "userId", "structureId", token, "userProfile") FROM stdin;
+\.
+
+
+--
 -- Data for Name: structure; Type: TABLE DATA; Schema: public; Owner: -
 --
 

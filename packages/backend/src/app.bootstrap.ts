@@ -63,6 +63,7 @@ export async function bootstrapApplication(): Promise<{
     }
 
     app.use(compression());
+    app.getHttpAdapter().getInstance().disable("x-powered-by");
 
     configureSwagger(app);
 

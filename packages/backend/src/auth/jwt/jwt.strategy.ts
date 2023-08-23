@@ -43,6 +43,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       // revoke old payloads (= force to logout)
       return false;
     }
+
     if (payload?._userProfile === "super-admin-domifa") {
       return this.adminsAuthService.validateUserAdmin(
         payload as UserAdminJwtPayload

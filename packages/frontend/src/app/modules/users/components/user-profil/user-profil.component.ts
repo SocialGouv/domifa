@@ -50,10 +50,10 @@ export class UserProfilComponent implements OnInit, OnDestroy {
     }
   }
 
-  public updateRole(id: number, role: UserStructureRole): void {
+  public updateRole(uuid: string, role: UserStructureRole): void {
     this.loading = true;
     this.subscription.add(
-      this.userService.updateRole(id, role).subscribe({
+      this.userService.updateRole(uuid, role).subscribe({
         next: (user: UserStructureProfile) => {
           this.getUsers();
 
@@ -76,10 +76,10 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   }
 
   public deleteUser(): void {
-    if (this.selectedUser?.id) {
+    if (this.selectedUser?.uuid) {
       this.loading = true;
       this.subscription.add(
-        this.userService.deleteUser(this.selectedUser.id).subscribe({
+        this.userService.deleteUser(this.selectedUser.uuid).subscribe({
           next: () => {
             this.toastService.success("Utilisateur supprimé avec succès");
 

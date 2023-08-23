@@ -4,6 +4,7 @@ import { StructureType } from "../../app/modules/structures/types";
 
 export const USER_STRUCTURE_MOCK: UserStructure = {
   password: "xxx",
+  uuid: "xxx",
   email: "s1-admin@yopmail.com",
   mail: {
     guide: false,

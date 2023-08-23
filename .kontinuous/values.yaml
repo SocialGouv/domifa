@@ -117,7 +117,6 @@ frontend:
       nginx.ingress.kubernetes.io/configuration-snippet: |
         more_set_headers "Content-Security-Policy: default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr ; media-src 'self' https://domifaprod2.blob.core.windows.net/ https://tally.so/; font-src 'self'; img-src 'self' https://tally.so/ data:; script-src 'self' 'unsafe-inline' https://*.gouv.fr https://tally.so/ https://tally.so/widgets/embed.js ; frame-src 'self' https://*.gouv.fr  https://tally.so/ ; style-src 'self' 'unsafe-inline'";
         more_set_headers "X-Frame-Options: deny";
-        more_set_headers "X-XSS-Protection: 1; mode=block";
         more_set_headers "X-Content-Type-Options: nosniff";
         more_set_headers "Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0'";
   resources:
@@ -139,7 +138,6 @@ portail-admins:
         more_set_headers "Content-Security-Policy: default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr; font-src 'self'; img-src 'self' data:; script-src 'self' https://*.gouv.fr 'unsafe-inline'; frame-src 'self' https://*.gouv.fr; style-src 'self' 'unsafe-inline'";
         more_set_headers "X-Frame-Options: deny";
         more_set_headers "X-Robots-Tag: noindex, nofollow, nosnippet, noarchive";
-        more_set_headers "X-XSS-Protection: 1; mode=block";
         more_set_headers "X-Content-Type-Options: nosniff";
         more_set_headers "Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0'";
   containerPort: 8080
@@ -154,7 +152,6 @@ portail-usagers:
       nginx.ingress.kubernetes.io/configuration-snippet: |
         more_set_headers "Content-Security-Policy: default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr; font-src 'self'; img-src 'self' data:; script-src 'self' https://*.gouv.fr 'unsafe-inline'; frame-src 'self' https://*.gouv.fr; style-src 'self' 'unsafe-inline'";
         more_set_headers "X-Frame-Options: deny";
-        more_set_headers "X-XSS-Protection: 1; mode=block";
         more_set_headers "X-Content-Type-Options: nosniff";
         more_set_headers "Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0'";
   containerPort: 8080
