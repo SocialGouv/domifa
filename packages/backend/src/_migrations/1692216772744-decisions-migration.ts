@@ -8,7 +8,14 @@ import {
   UsagerHistory,
   UsagerHistoryState,
 } from "../_common/model";
-import { addYears, endOfDay, isValid, parse, startOfDay } from "date-fns";
+import {
+  addYears,
+  endOfDay,
+  isValid,
+  parse,
+  startOfDay,
+  subDays,
+} from "date-fns";
 import { v4 as uuidv4 } from "uuid";
 import {
   UsagerHistoryTable,
@@ -83,7 +90,6 @@ export class ManualMigration1692216772744 implements MigrationInterface {
 
           select: [
             "ref",
-
             "rdv",
             "ayantsDroits",
             "uuid",
@@ -154,21 +160,14 @@ export class ManualMigration1692216772744 implements MigrationInterface {
             etapeDemande: usager.etapeDemande,
             entretien: {
               domiciliation: null,
-              commentaires: null,
               typeMenage: null,
               revenus: null,
-              revenusDetail: null,
               orientation: null,
-              orientationDetail: null,
               liencommune: null,
-              liencommuneDetail: null,
               residence: null,
-              residenceDetail: null,
               cause: null,
-              causeDetail: null,
               rattachement: null,
               raison: null,
-              raisonDetail: null,
               accompagnement: null,
               accompagnementDetail: null,
             } as UsagerEntretien,
@@ -176,25 +175,28 @@ export class ManualMigration1692216772744 implements MigrationInterface {
             rdv: usager.rdv,
           };
 
-          usagerHistory.states.push(state);
-        }
-
-        console.log(usagerHistory.states);
-
-        if (usagerHistory) {
-          throw new Error("kpok");
+          usagerHistory.states = [
+            ...usagerHistory.states.map((s, i) => {
+              if (i === usagerHistory.states.length - 1) {
+                // finish previous history state
+                s.historyEndDate = endOfDay(
+                  subDays(new Date(state.historyBeginDate), 1)
+                );
+              }
+              return s;
+            }),
+            state,
+          ];
         }
 
         console.log(
           "Mise à jour de " +
             usager.ref +
-            " " +
-            usager.nom +
             " - " +
             usager.historique.length +
             " decisions"
         );
-
+        await usagerHistoryRepository.save(usagerHistory);
         await usagerRepository.updateOne(
           {
             uuid: usager.uuid,
@@ -206,9 +208,8 @@ export class ManualMigration1692216772744 implements MigrationInterface {
   }
 
   public getDate = (dateString: string): Date => {
-    const parsedDate = endOfDay(parse(dateString, "yyyyMMdd", new Date()));
+    const parsedDate = startOfDay(parse(dateString, "yyyyMMdd", new Date()));
     if (!isValid(parsedDate)) {
-      console.log(dateString);
       throw new Error("CANNOT ADD DATE " + dateString);
     }
     return parsedDate;

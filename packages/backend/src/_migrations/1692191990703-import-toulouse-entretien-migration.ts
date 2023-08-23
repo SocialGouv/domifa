@@ -1,10 +1,10 @@
-import { MigrationInterface } from "typeorm";
+import { MigrationInterface, QueryRunner } from "typeorm";
 import { usagerEntretienRepository, usagerRepository } from "../database";
 
 const STRUCTURE_ID = 1;
 
 export class ManualMigration1692191990703 implements MigrationInterface {
-  public async up(): Promise<void> {
+  public async up(queryRunner: QueryRunner): Promise<void> {
     console.log("3️⃣ Création des entretiens commencée");
 
     const usagers = await usagerRepository.find({
@@ -36,6 +36,10 @@ export class ManualMigration1692191990703 implements MigrationInterface {
     }
 
     await usagerEntretienRepository.save(usagersToSave);
+    const test = await queryRunner.query(
+      `SELECT COUNT (*) FROM usager_entretien where "structureId" = 1`
+    );
+    console.log(test);
     console.log("3️⃣ ✅ Création des entretiens commencée");
   }
 

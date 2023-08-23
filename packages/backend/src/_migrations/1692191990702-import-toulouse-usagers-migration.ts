@@ -12,7 +12,7 @@ import { usagersCreator } from "../usagers/services";
 import { TUsager } from "./tmp-toulouse/TUsager.interface";
 import { domifaConfig } from "../config";
 import { readFile } from "fs-extra";
-import { differenceInCalendarDays, isValid, parse } from "date-fns";
+import { differenceInCalendarDays, isValid, parse, startOfDay } from "date-fns";
 import { resetUsagers } from "../structures/services";
 
 const STRUCTURE_ID = 1;
@@ -76,9 +76,9 @@ export class ManualMigration1692191990702 implements MigrationInterface {
       }
 
       const statut = usagerToulouse.valide === 1 ? "VALIDE" : "RADIE";
-      let dateDebut: Date = new Date();
-      let dateFin: Date = new Date();
-      let dateDecision: Date = new Date();
+      let dateDebut: Date;
+      let dateFin: Date;
+      let dateDecision: Date;
 
       if (statut === "RADIE") {
         if (usagerToulouse.au) {
@@ -137,11 +137,13 @@ export class ManualMigration1692191990702 implements MigrationInterface {
           uuid: uuidv4(),
           dateDecision,
           statut,
-          userName: "DOMIFA",
+          userName: "DomiFa",
           userId: 1200,
           dateFin,
           dateDebut,
           typeDom,
+          motif: usagerToulouse.valide !== 1 ? "AUTRE" : null,
+          motifDetails: usagerToulouse.valide !== 1 ? "Non renseigné" : null,
         },
       };
 
@@ -184,9 +186,8 @@ export class ManualMigration1692191990702 implements MigrationInterface {
   };
 
   public getDate = (dateString: string): Date => {
-    const parsedDate = parse(dateString, "yyyyMMdd", new Date());
+    const parsedDate = startOfDay(parse(dateString, "yyyyMMdd", new Date()));
     if (!isValid(parsedDate)) {
-      console.log(dateString);
       throw new Error("CANNOT ADD DATE " + dateString);
     }
     return parsedDate;
