@@ -37,7 +37,10 @@ export const UserControllerSecurityTests: AppTestHttpClientSecurityTestDef[] = [
 
       return {
         response: await AppTestHttpClient.patch(
-          `/users/update-role/${otherUserSameStructure?.id ?? 5}`,
+          `/users/update-role/${
+            otherUserSameStructure?.uuid ??
+            "ee7ef219-b101-422c-8ad4-4d5aedf9caad"
+          }`,
           {
             context,
             body: {
@@ -62,7 +65,9 @@ export const UserControllerSecurityTests: AppTestHttpClientSecurityTestDef[] = [
 
       return {
         response: await AppTestHttpClient.patch(
-          `/users/update-role/${userOtherStructure?.id ?? 5}`,
+          `/users/update-role/${
+            userOtherStructure?.uuid ?? "ee7ef219-b101-422c-8ad4-4d5aedf9caad"
+          }`,
           {
             context,
             body: {
