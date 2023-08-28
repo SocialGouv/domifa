@@ -77,8 +77,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         .subscribe({
           next: () => {
             this.loading = false;
-
-            return this.returnUrl !== "/"
+            this.returnUrl !== "/"
               ? this.router.navigateByUrl(this.returnUrl)
               : this.router.navigate(["/manage"]);
           },
