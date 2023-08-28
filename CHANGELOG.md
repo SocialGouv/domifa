@@ -1,3 +1,14 @@
+## [2.134.6](https://github.com/SocialGouv/domifa/compare/v2.134.5...v2.134.6) (2023-08-28)
+
+
+### Bug Fixes
+
+* **api:** migration désactivée ([f23c5db](https://github.com/SocialGouv/domifa/commit/f23c5db6f2f8cad137a5905705be3fcd37b2b5e2))
+* **export:** retour de l'export dans l'admin ([15f27cb](https://github.com/SocialGouv/domifa/commit/15f27cbbeac346f95aab58222af3758cfefc8d3e))
+* **renovate:** fix config ([27a08be](https://github.com/SocialGouv/domifa/commit/27a08be4c22a9261a9d68059149041190cf32169))
+* **security:** fix issues ([7bd84ee](https://github.com/SocialGouv/domifa/commit/7bd84ee5ed9c58255931bcdc22e979ab9ff3ae41))
+* **tests:** correction des tests sur les utilisateurs ([ad963c6](https://github.com/SocialGouv/domifa/commit/ad963c6d861b0f70dfde070ee72df98d05abdf97))
+
 ## [2.134.5](https://github.com/SocialGouv/domifa/compare/v2.134.4...v2.134.5) (2023-08-09)
 
 
