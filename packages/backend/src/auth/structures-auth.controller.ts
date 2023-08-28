@@ -55,7 +55,7 @@ export class StructuresAuthController {
   @AllowUserProfiles("structure")
   @ApiOperation({ summary: "Déconnexion" })
   @Get("logout")
-  public async acceptTerms(
+  public async logout(
     @Req() req: ExpressRequest,
     @CurrentUser() user: UserStructureAuthenticated
   ) {

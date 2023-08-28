@@ -26,7 +26,6 @@
               <td class="fw-bold">{{ user.nom }} {{ user.prenom }}</td>
               <td>{{ user.email }}</td>
               <td>
-                {{ me.uuid }}
                 <ng-container
                   *ngIf="me.role === 'admin' && me.uuid !== user.uuid"
                 >
