@@ -49,7 +49,6 @@ export class StructuresAuthService {
       isSuperAdminDomifa,
       domifaVersion: domifaConfig().version.toString(),
     };
-
     return {
       access_token: this.jwtService.sign(payload),
     };

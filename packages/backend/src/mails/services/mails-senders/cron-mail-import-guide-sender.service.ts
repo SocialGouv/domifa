@@ -90,13 +90,11 @@ export class CronMailImportGuideSenderService {
       structuresIds.push(structure.id);
     }
 
-    const users = await cronMailsRepository.findUsersToSendCronMail({
+    return await cronMailsRepository.findUsersToSendCronMail({
       minCreationDate,
       maxCreationDate,
       structuresIds,
       mailType: "import",
     });
-
-    return users;
   }
 }

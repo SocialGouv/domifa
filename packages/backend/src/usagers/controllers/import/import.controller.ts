@@ -52,26 +52,40 @@ const USAGERS_IMPORT_DIR = join(os.tmpdir(), "domifa", "usagers-imports");
 
 const UsagersImportFileInterceptor = FileInterceptor("file", {
   limits: FILES_SIZE_LIMIT,
-  fileFilter: (req: ExpressRequest, file: Express.Multer.File, cb: any) => {
+  fileFilter: (
+    req: ExpressRequest,
+    file: Express.Multer.File,
+    callback: (error: Error | null, acceptFile: boolean) => void
+  ) => {
     if (!validateUpload("IMPORT", req, file)) {
-      return cb("INCORRECT_FORMAT", false);
+      return callback(new Error("INCORRECT_FORMAT"), false);
     }
-    cb(null, true);
+    callback(null, true);
   },
   storage: diskStorage({
-    destination: async (
+    destination: (
       _req: ExpressRequest,
       _file: Express.Multer.File,
-      cb: any
+      callback: (error: Error | null, destination: string) => void
     ) => {
-      const dir = USAGERS_IMPORT_DIR;
-      if (!(await pathExists(dir))) {
-        await ensureDir(dir);
-      }
-      cb(null, dir);
+      (async () => {
+        try {
+          const dir = USAGERS_IMPORT_DIR;
+          if (!(await pathExists(dir))) {
+            await ensureDir(dir);
+          }
+          callback(null, dir);
+        } catch (error) {
+          callback(error, "");
+        }
+      })();
     },
-    filename: (_req: ExpressRequest, file: Express.Multer.File, cb: any) => {
-      return cb(null, randomName(file));
+    filename: (
+      _req: ExpressRequest,
+      file: Express.Multer.File,
+      callback: (error: Error | null, destination: string) => void
+    ) => {
+      return callback(null, randomName(file));
     },
   }),
 });

@@ -67,11 +67,10 @@ async function _findUsersToSendMailGuide() {
   });
 
   const minCreationDate: Date = subDays(maxCreationDate, 14);
-  const users = await cronMailsRepository.findUsersToSendCronMail({
+  return await cronMailsRepository.findUsersToSendCronMail({
     minCreationDate,
     maxCreationDate,
     structuresIds: undefined,
     mailType: "guide",
   });
-  return users;
 }

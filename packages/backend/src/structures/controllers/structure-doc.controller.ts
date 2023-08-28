@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpException,
   HttpStatus,
   Param,
   ParseUUIDPipe,
@@ -79,29 +78,32 @@ export class StructureDocController {
       fileFilter: (
         req: ExpressRequest,
         file: Express.Multer.File,
-        cb: (error: any | null, success: boolean) => void
+        callback: (error: Error | null, acceptFile: boolean) => void
       ) => {
         if (!validateUpload("STRUCTURE_DOC", req, file)) {
-          throw new HttpException("INCORRECT_FORMAT", HttpStatus.BAD_REQUEST);
+          callback(new Error("INCORRECT_FORMAT"), false);
         }
-        cb(null, true);
+        callback(null, true);
       },
       storage: diskStorage({
-        destination: async (
-          req: any,
+        destination: (
+          req: ExpressRequest,
           _file: Express.Multer.File,
-          cb: (error: Error | null, success: string) => void
+          callback: (error: Error | null, destination: string) => void
         ) => {
-          const dir = await getCustomDocsDir(req.user.structureId);
-          cb(null, dir);
+          (async () => {
+            const user = req.user as UserStructureAuthenticated;
+            const dir = await getCustomDocsDir(user.structureId);
+            callback(null, dir);
+          })();
         },
 
         filename: (
           _req: ExpressRequest,
           file: Express.Multer.File,
-          cb: any
+          callback: (error: Error | null, destination: string) => void
         ) => {
-          return cb(null, randomName(file));
+          return callback(null, randomName(file));
         },
       }),
     })

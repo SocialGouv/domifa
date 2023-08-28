@@ -121,6 +121,4 @@ async function checkResetPasswordToken({
     });
     throw new Error("Error");
   }
-
-  return;
 }
