@@ -39,17 +39,24 @@ export class BaseUsagerProfilPageComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     const id = this.route.snapshot.params.id;
     this.subscription.add(
-      this.store
-        .select(selectUsagerByRef(id))
-        .subscribe((usager: UsagerLight) => {
+      this.store.select(selectUsagerByRef(id)).subscribe({
+        next: (usager: UsagerLight) => {
           if (usager) {
             this.usager = new UsagerFormModel(usager);
             this.setTitle();
           }
-        })
+        },
+      })
     );
 
-    this.subscription.add(this.usagerProfilService.findOne(id).subscribe());
+    this.subscription.add(
+      this.usagerProfilService.findOne(id).subscribe({
+        error: () => {
+          this.toastService.error("Le dossier recherché n'existe pas");
+          this.router.navigate(["404"]);
+        },
+      })
+    );
   }
 
   public setTitle() {
