@@ -109,8 +109,31 @@ export class StructuresAuthService {
       appLogger.debug("[TRACK BUG] " + JSON.stringify(user));
     }
 
-    const structure: StructureCommon = await structureRepository.findOneBy({
-      id: user.structureId,
+    const structure: StructureCommon = await structureRepository.findOne({
+      where: { id: user.structureId },
+      select: [
+        "uuid",
+        "updatedAt",
+        "id",
+        "adresse",
+        "adresseCourrier",
+        "agrement",
+        "capacite",
+        "codePostal",
+        "complementAdresse",
+        "departement",
+        "region",
+        "email",
+        "nom",
+        "options",
+        "telephone",
+        "responsable",
+        "structureType",
+        "ville",
+        "sms",
+        "portailUsager",
+        "acceptTerms",
+      ],
     });
 
     return {

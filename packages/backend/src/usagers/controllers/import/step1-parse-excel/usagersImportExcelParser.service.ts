@@ -65,9 +65,9 @@ function parseValue(xlCell: ExcelJS.Cell): Date | boolean | number | string {
     xlCell.type === ExcelJS.ValueType.Hyperlink ||
     xlCell.type === ExcelJS.ValueType.RichText
   ) {
-    const parsedText: ExcelJS.CellRichTextValue = JSON.parse(
-      JSON.stringify(xlCell.text)
-    );
+    const parsedText: ExcelJS.CellRichTextValue = xlCell.text
+      ? JSON.parse(JSON.stringify(xlCell.text))
+      : "";
 
     return parsedText?.richText
       ? cleanString(parsedText?.richText[0].text)
