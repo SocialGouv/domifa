@@ -14,6 +14,7 @@ import {
   AdminStructuresApiClient,
   AdminStructuresExportApiClient,
 } from "./services";
+import { AdminStructuresExportComponent } from "./components/admin-structures-export";
 
 @NgModule({
   declarations: [
@@ -21,12 +22,14 @@ import {
     FormatPhoneNumberPipe,
     FormatBigNumberPipe,
     CustomToastrComponent,
+    AdminStructuresExportComponent,
   ],
   exports: [
     AdminNomCompletPipe,
     FormatPhoneNumberPipe,
     FormatBigNumberPipe,
     FontAwesomeModule,
+    AdminStructuresExportComponent,
     CustomToastrComponent,
   ],
   imports: [CommonModule, FontAwesomeModule],

@@ -58,9 +58,7 @@
       <span class="nav-brand">Domifa</span>
     </a>
     <div *ngIf="adminProfile">
-      <span>
-        <app-admin-structures-export></app-admin-structures-export>
-      </span>
+      <app-admin-structures-export></app-admin-structures-export>
       <a class="ms-2 btn btn-outline-primary" [routerLink]="['/structures']">
         <fa-icon
           [icon]="['fas', 'list-alt']"

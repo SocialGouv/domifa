@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
 import { saveAs } from "file-saver";
 
-import { AdminStructuresApiClient } from "../../../shared/services";
+import { AdminStructuresApiClient } from "../../services";
 
-import { CustomToastService } from "../../../shared/services/custom-toast.service";
+import { CustomToastService } from "../../services/custom-toast.service";
 
 @Component({
   selector: "app-admin-structures-export",
