@@ -38,7 +38,7 @@ import { UsagersService } from "../services/usagers.service";
 @Controller("agenda")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class AgendaController {
-  constructor(private usagersService: UsagersService) {}
+  constructor(private readonly usagersService: UsagersService) {}
 
   @Get("users")
   @ApiOperation({ summary: "Liste des utilisateurs pour l'agenda" })

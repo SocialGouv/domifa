@@ -6,7 +6,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpException,
   HttpStatus,
   Param,
   ParseIntPipe,
@@ -76,26 +75,32 @@ export class UsagerDocsController {
   @UseInterceptors(
     FileInterceptor("file", {
       limits: FILES_SIZE_LIMIT,
-      fileFilter: (req: ExpressRequest, file: Express.Multer.File, cb: any) => {
+      fileFilter: (
+        req: ExpressRequest,
+        file: Express.Multer.File,
+        callback: (error: Error | null, acceptFile: boolean) => void
+      ) => {
         if (!validateUpload("USAGER_DOC", req, file)) {
-          throw new HttpException("INCORRECT_FORMAT", HttpStatus.BAD_REQUEST);
+          callback(new Error("INCORRECT_FORMAT"), false);
         }
-        cb(null, true);
+        callback(null, true);
       },
       storage: diskStorage({
-        destination: async (req: any, _file: Express.Multer.File, cb: any) => {
-          const dir = await getNewFileDir(
-            req.user.structure.uuid,
-            req.usager.uuid
-          );
-          cb(null, dir);
+        destination: (req: any, _file: Express.Multer.File, cb: any) => {
+          (async () => {
+            const dir = await getNewFileDir(
+              req.user.structure.uuid,
+              req.usager.uuid
+            );
+            cb(null, dir);
+          })();
         },
         filename: (
           _req: ExpressRequest,
           file: Express.Multer.File,
-          cb: any
+          callback: (error: Error | null, destination: string) => void
         ) => {
-          return cb(null, randomName(file));
+          return callback(null, randomName(file));
         },
       }),
     })

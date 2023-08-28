@@ -47,7 +47,7 @@ async function createStructureWithAdminUser(
     email: userDto.email,
   });
 
-  if (!!existingUser) {
+  if (!existingUser) {
     throw new HttpException("EMAIL_EXIST", HttpStatus.BAD_REQUEST);
   }
 
@@ -127,5 +127,5 @@ async function createStructure(structureDto: StructureDto) {
 
   createdStructure.acceptTerms = new Date();
 
-  return await structureRepository.save(createdStructure);
+  return structureRepository.save(createdStructure);
 }

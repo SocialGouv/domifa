@@ -31,31 +31,37 @@ export class ContactSupportController {
   @UseInterceptors(
     FileInterceptor("file", {
       limits: FILES_SIZE_LIMIT,
-      fileFilter: (req: ExpressRequest, file: Express.Multer.File, cb: any) => {
+      fileFilter: (
+        req: ExpressRequest,
+        file: Express.Multer.File,
+        callback: (error: Error | null, acceptFile: boolean) => void
+      ) => {
         if (!file) {
-          cb(null, true);
+          callback(null, true);
         }
         if (!validateUpload("STRUCTURE_DOC", req, file)) {
-          return cb("INCORRECT_FORMAT", false);
+          callback(new Error("INCORRECT_FORMAT"), false);
         }
-        return cb(null, true);
+        callback(null, true);
       },
       storage: diskStorage({
-        destination: async (
+        destination: (
           _req: ExpressRequest,
           _file: Express.Multer.File,
-          cb: any
+          callback: (error: Error | null, destination: string) => void
         ) => {
-          const dir = join(domifaConfig().upload.basePath, "contact-support");
-          await ensureDir(dir);
-          cb(null, dir);
+          (async () => {
+            const dir = join(domifaConfig().upload.basePath, "contact-support");
+            await ensureDir(dir);
+            callback(null, dir);
+          })();
         },
         filename: (
           _req: ExpressRequest,
           file: Express.Multer.File,
-          cb: any
+          callback: (error: Error | null, destination: string) => void
         ) => {
-          return cb(null, randomName(file));
+          callback(null, randomName(file));
         },
       }),
     })

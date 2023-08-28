@@ -66,8 +66,8 @@ export class ExportStructureUsagersController {
         structureId: user.structureId,
       });
 
-    for (let i = 0; i < usagers.length; i++) {
-      const usager: Usager = usagers[i];
+    for (const element of usagers) {
+      const usager: Usager = element;
       const data = interactionsByUsagerMap.find(
         (x: {
           usagerRef: number;

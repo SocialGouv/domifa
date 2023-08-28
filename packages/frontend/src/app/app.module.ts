@@ -13,7 +13,7 @@ import {
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { Router } from "@angular/router";
+
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -78,15 +78,14 @@ registerLocaleData(localeFr, "fr");
     { provide: LOCALE_ID, useValue: "fr" },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {
-      deps: [Router, AuthService],
+      useClass: ServerErrorInterceptor,
       multi: true,
       provide: HTTP_INTERCEPTORS,
-      useClass: ServerErrorInterceptor,
     },
     {
       provide: ErrorHandler,
       useValue: createErrorHandler({
-        showDialog: environment.production ? false : true,
+        showDialog: !environment?.production,
       }),
     },
   ],

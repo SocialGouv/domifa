@@ -13,7 +13,9 @@ import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 
 @Injectable()
 export class CronSmsInteractionSenderService {
-  constructor(private messageSmsSenderService: MessageSmsSenderService) {}
+  constructor(
+    private readonly messageSmsSenderService: MessageSmsSenderService
+  ) {}
 
   @Cron(domifaConfig().cron.smsConsumer.crontime, {
     timeZone: "Europe/Paris",
