@@ -1,4 +1,3 @@
-import { userStructureRepository } from "../../database/services/user-structure/userStructureRepository.service";
 import {
   CanActivate,
   ExecutionContext,
@@ -9,6 +8,7 @@ import {
 
 import { appLogger } from "../../util";
 import { isUUID } from "class-validator";
+import { newUserStructureRepository } from "../../database";
 
 @Injectable()
 export class CanGetUserStructureGuard implements CanActivate {
@@ -31,16 +31,10 @@ export class CanGetUserStructureGuard implements CanActivate {
       );
       throw new HttpException("Invalid structureId", HttpStatus.FORBIDDEN);
     }
-    const chosenUserStructure = await userStructureRepository.findOne(
-      {
-        uuid: userUuid,
-        structureId,
-      },
-      {
-        select: "ALL",
-        throwErrorIfNotFound: false,
-      }
-    );
+    const chosenUserStructure = await newUserStructureRepository.findOneBy({
+      uuid: userUuid,
+      structureId,
+    });
 
     if (!chosenUserStructure) {
       appLogger.error(

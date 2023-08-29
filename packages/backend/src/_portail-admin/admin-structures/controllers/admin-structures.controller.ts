@@ -17,8 +17,8 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AllowUserProfiles } from "../../../auth/decorators";
 import { AppUserGuard } from "../../../auth/guards";
 import {
+  newUserStructureRepository,
   structureRepository,
-  userStructureRepository,
   UserStructureTable,
 } from "../../../database";
 import {
@@ -82,9 +82,8 @@ export class AdminStructuresController {
       "structureId",
     ];
 
-    const users = await userStructureRepository.findMany<
-      Omit<StatsExportUser, "structure">
-    >(undefined, {
+    const users = await newUserStructureRepository.find({
+      where: {},
       select: USER_STATS_ATTRIBUTES,
     });
 
@@ -181,12 +180,12 @@ export class AdminStructuresController {
         .json({ message: "STRUCTURE_TOKEN_INVALID" });
     }
 
-    const admin = await userStructureRepository.findOne({
+    const admin = await newUserStructureRepository.findOneBy({
       role: "admin",
       structureId: structure.id,
     });
 
-    const updatedAdmin = await userStructureRepository.updateOne(
+    await newUserStructureRepository.update(
       {
         id: admin.id,
         structureId: structure.id,
@@ -194,6 +193,10 @@ export class AdminStructuresController {
       { verified: true }
     );
 
+    const updatedAdmin = await newUserStructureRepository.findOneBy({
+      id: admin.id,
+      structureId: structure.id,
+    });
     await userAccountActivatedEmailSender.sendMail({ user: updatedAdmin });
 
     return res.status(HttpStatus.OK).json({ message: "OK" });

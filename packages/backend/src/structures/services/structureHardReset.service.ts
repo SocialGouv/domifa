@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { structureCommonRepository } from "../../database";
+import { structureCommonRepository, structureRepository } from "../../database";
 
 @Injectable()
 export class StructureHardResetService {
@@ -13,8 +13,8 @@ export class StructureHardResetService {
     return structureCommonRepository.updateOne({ id }, { hardReset: token });
   }
 
-  public async hardResetClean(structureId: number) {
-    return structureCommonRepository.updateOne(
+  public async hardResetClean(structureId: number): Promise<void> {
+    await structureRepository.update(
       { id: structureId },
       {
         hardReset: {

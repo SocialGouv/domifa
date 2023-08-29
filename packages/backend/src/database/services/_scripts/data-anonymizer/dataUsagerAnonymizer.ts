@@ -88,6 +88,7 @@ async function _anonymizeUsager(usager: Usager) {
       countryCode: "fr",
       numero: "",
     },
+    pinnedNote: null,
     nom: dataGenerator.lastName(),
     surnom: usager.surnom ? dataGenerator.lastName() : null,
     villeNaissance: dataGenerator.city(),

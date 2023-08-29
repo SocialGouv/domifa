@@ -1,9 +1,9 @@
 import { AppTestHelper } from "../../../../util/test";
-import { UserStructureSecurityRepository } from "./userStructureSecurityRepository.service";
+import { userStructureSecurityRepository } from "./userStructureSecurityRepository.service";
 
 import { userStructureSecurityResetPasswordInitiator } from "./userStructureSecurityResetPasswordInitiator.service";
 
-describe("UserStructureSecurityRepository", () => {
+describe("userStructureSecurityRepository", () => {
   beforeAll(async () => {
     await AppTestHelper.bootstrapTestConnection();
   });
@@ -20,7 +20,7 @@ describe("UserStructureSecurityRepository", () => {
       );
 
     const userSecurity2 =
-      await UserStructureSecurityRepository.findOneByTokenAttribute(
+      await userStructureSecurityRepository.findOneByTokenAttribute(
         userSecurity.temporaryTokens.token
       );
     expect(userSecurity2).toBeDefined();

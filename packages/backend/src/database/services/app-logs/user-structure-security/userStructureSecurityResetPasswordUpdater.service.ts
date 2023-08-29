@@ -3,9 +3,9 @@ import {
   UserStructureProfile,
   UserStructureSecurity,
 } from "../../../../_common/model";
-import { userStructureRepository } from "../../user-structure/userStructureRepository.service";
+import { newUserStructureRepository } from "../../user-structure/userStructureRepository.service";
 import { userStructureSecurityEventHistoryManager } from "./userStructureSecurityEventHistoryManager.service";
-import { UserStructureSecurityRepository } from "./userStructureSecurityRepository.service";
+import { userStructureSecurityRepository } from "./userStructureSecurityRepository.service";
 
 export const userStructureSecurityResetPasswordUpdater = {
   checkResetPasswordToken,
@@ -24,7 +24,7 @@ async function confirmResetPassword({
   user: UserStructureProfile;
   userSecurity: UserStructureSecurity;
 }> {
-  let userSecurity = await UserStructureSecurityRepository.findOneByOrFail({
+  let userSecurity = await userStructureSecurityRepository.findOneByOrFail({
     userId,
   });
 
@@ -43,7 +43,7 @@ async function confirmResetPassword({
     new Date(userSecurity.temporaryTokens.validity) < new Date()
   ) {
     // update event history
-    await UserStructureSecurityRepository.logEvent({
+    await userStructureSecurityRepository.logEvent({
       userId,
       userSecurity,
       eventType: "reset-password-error",
@@ -54,7 +54,7 @@ async function confirmResetPassword({
     password: newPassword,
   });
 
-  const user: UserStructureProfile = await userStructureRepository.updateOne(
+  await newUserStructureRepository.update(
     {
       id: userId,
     },
@@ -63,8 +63,13 @@ async function confirmResetPassword({
       passwordLastUpdate: new Date(),
     }
   );
+  const user: UserStructureProfile = await newUserStructureRepository.findOneBy(
+    {
+      id: userId,
+    }
+  );
 
-  await UserStructureSecurityRepository.logEvent({
+  await userStructureSecurityRepository.logEvent({
     userId,
     userSecurity,
     eventType: "reset-password-success",
@@ -74,7 +79,7 @@ async function confirmResetPassword({
     },
   });
 
-  userSecurity = await UserStructureSecurityRepository.findOne({
+  userSecurity = await userStructureSecurityRepository.findOne({
     where: {
       userId: user.id,
     },
@@ -96,7 +101,7 @@ async function checkResetPasswordToken({
   userId: number;
   token: string;
 }): Promise<void> {
-  const userSecurity = await UserStructureSecurityRepository.findOneByOrFail({
+  const userSecurity = await userStructureSecurityRepository.findOneByOrFail({
     userId,
   });
   if (
@@ -114,7 +119,7 @@ async function checkResetPasswordToken({
     new Date(userSecurity.temporaryTokens.validity) < new Date()
   ) {
     // update event history
-    await UserStructureSecurityRepository.logEvent({
+    await userStructureSecurityRepository.logEvent({
       userId,
       userSecurity,
       eventType: "reset-password-error",

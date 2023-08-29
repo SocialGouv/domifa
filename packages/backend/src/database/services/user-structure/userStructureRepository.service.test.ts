@@ -1,11 +1,8 @@
 import { AppTestHelper } from "../../../util/test";
 import { TESTS_USERS_STRUCTURE } from "../../../_tests";
-import {
-  newUserStructureRepository,
-  userStructureRepository,
-} from "./userStructureRepository.service";
+import { newUserStructureRepository } from "./userStructureRepository.service";
 
-describe("userStructureRepository", () => {
+describe("newUserStructureRepository", () => {
   beforeAll(async () => {
     await AppTestHelper.bootstrapTestConnection();
   });
@@ -52,7 +49,7 @@ describe("userStructureRepository", () => {
   });
 
   it("findOne returns matching user", async () => {
-    const user1 = await userStructureRepository.findOne({
+    const user1 = await newUserStructureRepository.findOneBy({
       id: 1,
     });
     expect(user1).toBeDefined();
@@ -62,30 +59,17 @@ describe("userStructureRepository", () => {
   });
 
   it("findOne returns matching user", async () => {
-    const user1 = await userStructureRepository.findOne({
+    const user1 = await newUserStructureRepository.findOneBy({
       id: 1,
     });
     expect(user1).toBeDefined();
     expect(user1.id).toEqual(1);
-    const user2 = await userStructureRepository.updateOne(
-      {
-        id: 1,
-      },
-      {
-        nom: "test name",
-      }
-    );
+    await newUserStructureRepository.update({ id: 1 }, { nom: "test name" });
 
+    const user2 = await newUserStructureRepository.findOneBy({ id: 1 });
     expect(user2).toBeDefined();
     expect(user2.nom).toEqual("test name");
     // restore original name
-    await userStructureRepository.updateOne(
-      {
-        id: 1,
-      },
-      {
-        nom: user1.nom,
-      }
-    );
+    await newUserStructureRepository.update({ id: 1 }, { nom: user1.nom });
   });
 });

@@ -1,6 +1,6 @@
 import {
-  userStructureRepository,
-  UserStructureSecurityRepository,
+  newUserStructureRepository,
+  userStructureSecurityRepository,
   userStructureSecurityResetPasswordInitiator,
   UserStructureTable,
 } from "../../database";
@@ -35,7 +35,7 @@ async function createUserWithPassword(
     password: createdUser.password,
   });
   createdUser.passwordLastUpdate = new Date();
-  const user = await userStructureRepository.save(createdUser);
+  const user = await newUserStructureRepository.save(createdUser);
 
   const userSecurityAttributes: UserStructureSecurity = {
     userId: user.id,
@@ -44,7 +44,7 @@ async function createUserWithPassword(
     temporaryTokens: undefined,
   };
 
-  const userSecurity = await UserStructureSecurityRepository.save(
+  const userSecurity = await userStructureSecurityRepository.save(
     userSecurityAttributes
   );
   return { user, userSecurity };
@@ -58,7 +58,7 @@ async function createUserWithTmpToken(
   createdUser.verified = true;
   createdUser.password = await passwordGenerator.generateRandomPasswordHash();
 
-  const user = await userStructureRepository.save(createdUser);
+  const user = await newUserStructureRepository.save(createdUser);
 
   const userSecurityAttributes: UserStructureSecurity = {
     userId: user.id,
@@ -72,7 +72,7 @@ async function createUserWithTmpToken(
     eventsHistory: [],
   };
 
-  const userSecurity = await UserStructureSecurityRepository.save(
+  const userSecurity = await userStructureSecurityRepository.save(
     userSecurityAttributes
   );
   return { user, userSecurity };

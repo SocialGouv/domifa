@@ -1,10 +1,10 @@
+import { userStructureRepository } from "..";
 import { UserStructure, UserStructureRole } from "../../../_common/model";
 import { UserStructureTable } from "../../entities";
 import {
   appTypeormManager,
   postgresQueryBuilder,
 } from "../../services/_postgres";
-import { userStructureRepository } from "../user-structure/userStructureRepository.service";
 
 export type CronMailType = "guide" | "import";
 
@@ -58,7 +58,7 @@ async function findUsersToSendCronMail({
     minCreationDateString,
     mailType,
   };
-  if (structuresIds && structuresIds.length) {
+  if (structuresIds?.length) {
     whereClausesAnd.push(`"structureId" = ANY(:structuresIds)`);
     params.structuresIds = structuresIds;
   }

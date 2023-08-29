@@ -16,7 +16,7 @@ function isEmailToAnonymize(email: string): boolean {
 }
 
 function isAnonymizedEmail(email: string): boolean {
-  return email && email.includes(`@${ANONYMOUS_EMAIL_DOMAIN}`);
+  return email?.includes(`@${ANONYMOUS_EMAIL_DOMAIN}`);
 }
 
 function anonymizeEmail({

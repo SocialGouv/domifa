@@ -1,9 +1,9 @@
 import {
   userAdminRepository,
-  userStructureRepository,
   userStructureSecurityEventHistoryManager,
-  UserStructureSecurityRepository,
+  userStructureSecurityRepository,
   USER_ADMIN_WHERE,
+  newUserStructureRepository,
 } from "../..";
 import { passwordGenerator } from "../../../../util/encoding/passwordGenerator.service";
 import { PortailAdminUser } from "../../../../_common/model";
@@ -27,7 +27,7 @@ async function checkPassword({
     throw new Error("WRONG_CREDENTIALS"); // don't give the real cause
   }
 
-  const userSecurity = await UserStructureSecurityRepository.findOneBy({
+  const userSecurity = await userStructureSecurityRepository.findOneBy({
     userId: user.id,
   });
 
@@ -50,7 +50,7 @@ async function checkPassword({
   });
 
   if (!isValidPass) {
-    await UserStructureSecurityRepository.logEvent({
+    await userStructureSecurityRepository.logEvent({
       userId: user.id,
       userSecurity,
       eventType: "login-error",
@@ -62,15 +62,15 @@ async function checkPassword({
     throw new Error("ACCOUNT_NOT_ACTIVATED");
   }
 
-  await UserStructureSecurityRepository.logEvent({
+  await userStructureSecurityRepository.logEvent({
     userId: user.id,
     userSecurity,
     eventType: "login-success",
   });
 
-  await userStructureRepository.updateOne(
+  await newUserStructureRepository.update(
     { id: user.id },
     { lastLogin: new Date() }
   );
-  return userStructureRepository.findOne({ id: user.id });
+  return newUserStructureRepository.findOneBy({ id: user.id });
 }

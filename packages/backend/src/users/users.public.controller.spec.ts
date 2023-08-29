@@ -2,7 +2,7 @@ import { UserStructureSecurity } from "./../_common/model/user-structure/UserStr
 import { HttpModule } from "@nestjs/axios";
 import { HttpStatus } from "@nestjs/common";
 import supertest from "supertest";
-import { UserStructureSecurityRepository } from "../database";
+import { userStructureSecurityRepository } from "../database";
 import { MailsModule } from "../mails/mails.module";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
@@ -24,7 +24,7 @@ describe("Users Public Controller", () => {
       UsersPublicController
     );
 
-    userSecurityDatas = await UserStructureSecurityRepository.findOneBy({
+    userSecurityDatas = await userStructureSecurityRepository.findOneBy({
       userId: 1,
     });
   });
@@ -97,7 +97,7 @@ describe("Users Public Controller", () => {
       expect(responseFail.status).toBe(HttpStatus.OK);
 
       // s1-admin@yopmail.com  = userId 1
-      userSecurityDatas = await UserStructureSecurityRepository.findOneBy({
+      userSecurityDatas = await userStructureSecurityRepository.findOneBy({
         userId: 1,
       });
       expect(userSecurityDatas.temporaryTokens).toBeDefined();

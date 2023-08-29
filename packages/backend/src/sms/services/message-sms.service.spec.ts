@@ -1,9 +1,9 @@
 import { forwardRef } from "@nestjs/common";
 import {
-  userStructureRepository,
   structureRepository,
   usagerRepository,
   messageSmsRepository,
+  newUserStructureRepository,
 } from "../../database";
 import { InteractionDto } from "../../interactions/dto";
 import { InteractionsModule } from "../../interactions/interactions.module";
@@ -42,7 +42,9 @@ describe("MessageSmsService", () => {
     interactionsDeletor =
       context.module.get<InteractionsDeletor>(InteractionsDeletor);
 
-    user = await userStructureRepository.findOne({ id: 1 });
+    user = await newUserStructureRepository.findOneBy({
+      id: 1,
+    });
     user.structure = await structureRepository.findOneBy({ id: 1 });
 
     usager = await usagerRepository.findOneBy({
