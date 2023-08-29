@@ -126,6 +126,7 @@ async function createTables(queryRunner: QueryRunner) {
       CONSTRAINT "PK_6bffd9b803b67cd4e099fc795e1" PRIMARY KEY (uuid)
     );
 
+
     -- public.monitor_batch_process definition
 
     -- Drop table

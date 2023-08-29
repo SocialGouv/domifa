@@ -36,7 +36,7 @@ export class AdminStructuresDeleteController {
   ) {
     const structure = await structureDeletorService.generateDeleteToken(uuid);
 
-    if (!!structure) {
+    if (structure) {
       return deleteStructureEmailSender.sendMail({ structure }).then(
         () => {
           return res.status(HttpStatus.OK).json({ message: "OK" });

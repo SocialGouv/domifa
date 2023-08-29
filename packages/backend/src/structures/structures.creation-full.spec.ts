@@ -118,7 +118,8 @@ describe("Stuctures creation full", () => {
 
   it("create structure + user", async () => {
     // request 2: create structure
-    const userMail = `admin-structure-${Math.random()}@cias-pessac.yopmail.com`;
+    const randomNumber = Math.floor(Math.random() * 100) + 1;
+    const userMail = `admin-structure-${randomNumber}@cias-pessac.yopmail.com`;
     const userDto: UserDto = {
       email: userMail,
       nom: "Smith",
