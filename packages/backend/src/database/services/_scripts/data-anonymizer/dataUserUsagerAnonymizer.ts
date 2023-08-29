@@ -1,6 +1,6 @@
 import { hash } from "bcryptjs";
 import {
-  UserStructureSecurityRepository,
+  userStructureSecurityRepository,
   userUsagerRepository,
 } from "../../..";
 import { domifaConfig } from "../../../../config";
@@ -12,7 +12,7 @@ export const dataUserUsagerAnonymizer = {
 
 async function anonymizeUsersUsager(): Promise<void> {
   appLogger.warn(`[dataUserAnonymizer] [user-usager] update of security table`);
-  await UserStructureSecurityRepository.update(
+  await userStructureSecurityRepository.update(
     {},
     {
       temporaryTokens: null,

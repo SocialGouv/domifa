@@ -410,12 +410,7 @@ export class AdminStructuresService {
         whereCondition.structureId = In(structuresId) as any;
       }
 
-      return interactionRepository.aggregateAsNumber({
-        alias: "interactions",
-        expression: "SUM(interactions.nbCourrier)",
-        resultAlias: "sum",
-        where: whereCondition,
-      });
+      return interactionRepository.sum("nbCourrier", whereCondition);
     }
   }
 

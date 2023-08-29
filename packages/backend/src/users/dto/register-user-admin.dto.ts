@@ -11,6 +11,7 @@ import {
 } from "class-validator";
 import { UserStructureRole } from "../../_common/model";
 import { Transform, TransformFnParams } from "class-transformer";
+import { LowerCaseTransform } from "../../_common/decorators";
 
 export class RegisterUserAdminDto {
   @ApiProperty({
@@ -45,6 +46,7 @@ export class RegisterUserAdminDto {
   })
   @IsNotEmpty()
   @IsEmail()
+  @LowerCaseTransform()
   public readonly email!: string;
 
   @ApiProperty({

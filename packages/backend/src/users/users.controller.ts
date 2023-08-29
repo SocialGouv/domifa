@@ -1,5 +1,3 @@
-import { structureRepository } from "./../database/services/structure/structureRepository.service";
-import { newUserStructureRepository } from "./../database/services/user-structure/userStructureRepository.service";
 import {
   Body,
   Controller,
@@ -22,7 +20,8 @@ import { CurrentUser } from "../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../auth/guards";
 import { CanGetUserStructureGuard } from "../auth/guards/CanGetUserStructure.guard";
 import {
-  userStructureRepository,
+  newUserStructureRepository,
+  structureRepository,
   userStructureSecurityPasswordUpdater,
 } from "../database";
 
@@ -96,10 +95,10 @@ export class UsersController {
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
-    const newUser = await userStructureRepository.findOne<UserStructure>(
-      { id: user.id },
-      { select: ["passwordLastUpdate"] }
-    );
+    const newUser = await newUserStructureRepository.findOne({
+      where: { id: user.id },
+      select: ["passwordLastUpdate"],
+    });
 
     return res.status(HttpStatus.OK).json(newUser?.passwordLastUpdate ?? null);
   }
@@ -115,13 +114,16 @@ export class UsersController {
     @Param("userUuid", new ParseUUIDPipe()) _userUuid: string,
     @CurrentChosenUserStructure() chosenUserStructure: UserStructure
   ): Promise<UserStructureProfile> {
-    return userStructureRepository.updateOne(
+    await newUserStructureRepository.update(
       {
         uuid: chosenUserStructure.uuid,
         structureId: userStructureAuth.structureId,
       },
       { role: updateRoleDto.role }
     );
+    return await newUserStructureRepository.findOneBy({
+      uuid: chosenUserStructure.uuid,
+    });
   }
 
   @AllowUserStructureRoles("admin")
@@ -150,7 +152,7 @@ export class UsersController {
     @Body() userDto: UserEditDto,
     @Res() res: Response
   ) {
-    const userToUpdate = await userStructureRepository.updateOne(
+    await newUserStructureRepository.update(
       {
         id: user.id,
         structureId: user.structureId,
@@ -158,11 +160,11 @@ export class UsersController {
       userDto
     );
 
-    if (!userToUpdate) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "USER_EDIT_FAIL" });
-    }
+    const userToUpdate = await newUserStructureRepository.findOne({
+      where: { id: user.id },
+      select: { uuid: true, role: true, nom: true, prenom: true, email: true },
+    });
+
     return res.status(HttpStatus.OK).json(userToUpdate);
   }
 
@@ -175,7 +177,7 @@ export class UsersController {
     @Res() res: Response,
     @Body() registerUserDto: RegisterUserAdminDto
   ): Promise<any> {
-    const userExist = await userStructureRepository.findOne({
+    const userExist = await newUserStructureRepository.findOneBy({
       email: registerUserDto.email.toLowerCase(),
     });
 

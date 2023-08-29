@@ -32,7 +32,7 @@ async function migrateDown(
   connection: DataSource,
   downMaxCount?: number
 ): Promise<void> {
-  const count = downMaxCount ? downMaxCount : connection.migrations.length;
+  const count = downMaxCount || connection.migrations.length;
 
   appLogger.warn(`REVERT ${count} migrations`);
 

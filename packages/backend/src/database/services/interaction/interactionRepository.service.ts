@@ -13,16 +13,11 @@ import {
   INTERACTION_OK_LIST,
 } from "../../../_common/model/interaction";
 import { InteractionsTable } from "../../entities";
-import { appTypeormManager, pgRepository, typeOrmSearch } from "../_postgres";
-
-const baseRepository = pgRepository.get<InteractionsTable, Interactions>(
-  InteractionsTable
-);
+import { appTypeormManager } from "../_postgres";
 
 export const interactionRepository = appTypeormManager
   .getRepository<Interactions>(InteractionsTable)
   .extend({
-    aggregateAsNumber: baseRepository.aggregateAsNumber,
     findLastInteractionOk,
     findLastInteractionInWithContent,
     countInteractionsByMonth,
@@ -54,22 +49,17 @@ async function findLastInteractionOk({
   usager: Pick<Usager, "ref">;
   event: InteractionEvent;
 }): Promise<Interactions> {
-  const lastInteractions = await baseRepository.findMany(
-    typeOrmSearch<InteractionsTable>({
+  const lastInteractions = await interactionRepository.findOne({
+    where: {
       structureId: user.structureId,
       usagerRef: usager.ref,
       type: In(INTERACTION_OK_LIST),
       event,
-    }),
-    {
-      order: {
-        dateInteraction: "DESC",
-      },
-      maxResults: 1,
-    }
-  );
+    },
+    order: { dateInteraction: "DESC" },
+  });
 
-  return lastInteractions?.length > 0 ? lastInteractions[0] : undefined;
+  return lastInteractions ?? undefined;
 }
 
 async function findLastInteractionInWithContent({
@@ -81,21 +71,17 @@ async function findLastInteractionInWithContent({
   usager: Pick<Usager, "ref">;
   oppositeType: InteractionType;
 }): Promise<Interactions> {
-  const lastInteractions = await baseRepository.findMany(
-    typeOrmSearch<InteractionsTable>({
+  const lastInteractions = await interactionRepository.findOne({
+    where: {
       structureId: user.structureId,
       usagerRef: usager.ref,
       type: oppositeType,
       event: "create",
-    }),
-    {
-      order: {
-        dateInteraction: "DESC",
-      },
-      maxResults: 1,
-    }
-  );
-  return lastInteractions?.length > 0 ? lastInteractions[0] : undefined;
+    },
+    order: { dateInteraction: "DESC" },
+  });
+
+  return lastInteractions ?? undefined;
 }
 
 async function countPendingInteraction({

@@ -1,4 +1,4 @@
-// @index('./*', f => `export * from '${f.path}'`)
+// @index('./*.service.ts', f => `export * from '${f.path}'`)
 export * from "./userStructureSecurityEventHistoryManager.service";
 export * from "./userStructureSecurityPasswordChecker.service";
 export * from "./userStructureSecurityPasswordUpdater.service";

@@ -15,6 +15,7 @@ import {
   UserStructureProfile,
   UsagerTypeDom,
   UsagerDecision,
+  UserStructureAuthenticated,
 } from "../../_common/model";
 import { usagerHistoryStateManager } from "./usagerHistoryStateManager.service";
 import { usagersCreator } from "./usagersCreator.service";
@@ -202,7 +203,7 @@ export class UsagersService {
   public async setRdv(
     usager: Usager,
     rdv: RdvDto,
-    user: UserStructureProfile
+    user: Pick<UserStructureAuthenticated, "id" | "prenom" | "nom" | "email">
   ): Promise<Usager> {
     usager.rdv = {
       userId: rdv.userId,

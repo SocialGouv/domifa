@@ -21,7 +21,6 @@ import {
   MessageEmailIcalEvent,
   newUserStructureRepository,
   usagerRepository,
-  userStructureRepository,
 } from "../../database";
 import { usagerAppointmentCreatedEmailSender } from "../../mails/services/templates-renderers";
 import { ExpressResponse } from "../../util/express";
@@ -78,11 +77,17 @@ export class AgendaController {
       return res.status(HttpStatus.OK).json(updatedUsagerNow);
     }
 
-    const user: UserStructureAuthenticated =
+    const user: Pick<
+      UserStructureAuthenticated,
+      "id" | "prenom" | "nom" | "email"
+    > =
       currentUser.id !== rdvDto.userId
-        ? await userStructureRepository.findOne({
-            id: rdvDto.userId,
-            structureId: currentUser.structureId,
+        ? await newUserStructureRepository.findOne({
+            where: {
+              id: rdvDto.userId,
+              structureId: currentUser.structureId,
+            },
+            select: ["prenom", "nom", "email", "id"],
           })
         : currentUser;
 
@@ -110,8 +115,8 @@ export class AgendaController {
       description: "Entretien demande de domiciliation",
       start: [annee, mois, jour, heure, minutes],
       organizer: {
-        name: currentUser.prenom + " " + currentUser.nom,
-        email: currentUser.email,
+        name: user.prenom + " " + user.nom,
+        email: user.email,
       },
       startInputType: "local",
       duration: { minutes: 30 },

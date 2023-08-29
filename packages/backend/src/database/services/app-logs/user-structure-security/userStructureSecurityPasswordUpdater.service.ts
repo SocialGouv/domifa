@@ -1,9 +1,8 @@
 import {
-  userStructureRepository,
-  UserStructureSecurityRepository,
+  newUserStructureRepository,
+  userStructureSecurityRepository,
 } from "../../user-structure";
 import { passwordGenerator } from "../../../../util/encoding/passwordGenerator.service";
-import { UserStructure } from "../../../../_common/model";
 import { userStructureSecurityEventHistoryManager } from "./userStructureSecurityEventHistoryManager.service";
 
 export const userStructureSecurityPasswordUpdater = {
@@ -19,7 +18,7 @@ async function updatePassword({
   oldPassword: string;
   newPassword: string;
 }): Promise<void> {
-  const userSecurity = await UserStructureSecurityRepository.findOneByOrFail({
+  const userSecurity = await userStructureSecurityRepository.findOneByOrFail({
     userId,
   });
 
@@ -31,15 +30,9 @@ async function updatePassword({
   ) {
     throw new Error("Error");
   }
-  const user = await userStructureRepository.findOne<UserStructure>(
-    {
-      id: userId,
-    },
-    {
-      select: "ALL",
-      throwErrorIfNotFound: true,
-    }
-  );
+  const user = await newUserStructureRepository.findOneByOrFail({
+    id: userId,
+  });
 
   const isValidPass: boolean = await passwordGenerator.checkPassword({
     password: oldPassword,
@@ -47,7 +40,7 @@ async function updatePassword({
   });
 
   if (!isValidPass) {
-    await UserStructureSecurityRepository.logEvent({
+    await userStructureSecurityRepository.logEvent({
       userId,
       userSecurity,
       eventType: "change-password-error",
@@ -59,7 +52,7 @@ async function updatePassword({
     password: newPassword,
   });
 
-  await userStructureRepository.updateOne(
+  await newUserStructureRepository.update(
     {
       id: userId,
     },
@@ -69,7 +62,8 @@ async function updatePassword({
       verified: true, // Suite à une création de compte, le mot de passe est réinitialisé, on valide le compte
     }
   );
-  await UserStructureSecurityRepository.logEvent({
+
+  await userStructureSecurityRepository.logEvent({
     userId,
     userSecurity,
     eventType: "change-password-success",

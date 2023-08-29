@@ -1,6 +1,3 @@
-import { UsagerNote } from "./../../_common/model/usager/UsagerNote.type";
-import { ETAPE_DECISION } from "../../_common/model/usager/_constants/ETAPES_DEMANDE.const";
-import { usagerRepository } from "../../database/services/usager/usagerRepository.service";
 import {
   Body,
   Controller,
@@ -17,11 +14,17 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 
-import { interactionRepository, usagerNotesRepository } from "../../database";
+import {
+  interactionRepository,
+  usagerNotesRepository,
+  usagerRepository,
+} from "../../database";
 
 import {
+  ETAPE_DECISION,
   ETAPE_ETAT_CIVIL,
   Usager,
+  UsagerNote,
   UserStructureAuthenticated,
 } from "../../_common/model";
 import { CheckDuplicateUsagerRefDto, DecisionDto } from "../dto";

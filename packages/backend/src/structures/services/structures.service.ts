@@ -1,12 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 
-import { structureCommonRepository, structureRepository } from "../../database";
-import {
-  Structure,
-  StructureCommon,
-  StructureLight,
-  UserStructure,
-} from "../../_common/model";
+import { structureRepository } from "../../database";
+import { Structure, StructureLight, UserStructure } from "../../_common/model";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
 import { CodePostalDto } from "../dto";
 import { FranceRegion } from "../../util/territoires";
@@ -16,8 +11,8 @@ export class StructuresService {
   public async patchSmsParams(
     structureSmsDto: StructureEditSmsDto,
     user: Pick<UserStructure, "structureId" | "structure">
-  ): Promise<StructureCommon> {
-    return structureCommonRepository.updateOne(
+  ): Promise<void> {
+    await structureRepository.update(
       { id: user.structureId },
       { sms: structureSmsDto }
     );

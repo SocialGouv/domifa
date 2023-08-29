@@ -1,11 +1,10 @@
 import { hash } from "bcryptjs";
-import { monitoringBatchProcessRepository, UserStructureTable } from "../../..";
+import { UserStructureTable } from "../../..";
 import { domifaConfig } from "../../../../config";
 import { appLogger } from "../../../../util";
 import {
   newUserStructureRepository,
-  userStructureRepository,
-  UserStructureSecurityRepository,
+  userStructureSecurityRepository,
 } from "../../user-structure";
 import { dataEmailAnonymizer } from "./dataEmailAnonymizer";
 import { dataGenerator } from "./dataGenerator.service";
@@ -21,18 +20,19 @@ type PartialUser = Pick<
 >;
 
 async function anonymizeUsersStructure() {
-  appLogger.warn(`[ANON] [monitoringBatchProcessRepository] reset tables`);
-  await monitoringBatchProcessRepository.delete({});
-
   appLogger.warn(`[dataUserAnonymizer] [user-structure] reset security tables`);
 
-  await UserStructureSecurityRepository.update(
-    {},
-    {
-      temporaryTokens: null,
-      eventsHistory: [],
-    }
-  );
+  try {
+    await userStructureSecurityRepository.update(
+      {},
+      {
+        temporaryTokens: null,
+        eventsHistory: [],
+      }
+    );
+  } catch (e) {
+    console.log(e);
+  }
 
   // Anonymisation de tous les mots de passe
   const passwordNonEncrypted = domifaConfig().dev.anonymizer.password;
@@ -48,12 +48,10 @@ async function anonymizeUsersStructure() {
     .where(`"structureId" > 1`)
     .execute();
 
-  const users = await userStructureRepository.findMany<PartialUser>(
-    {},
-    {
-      select: ["id", "structureId", "email", "role"],
-    }
-  );
+  const users = await newUserStructureRepository.find({
+    where: {},
+    select: ["id", "structureId", "email", "role"],
+  });
 
   // ignore domifa team tests users from anonymization
   const usersToAnonymise = users.filter((user) =>
@@ -107,5 +105,5 @@ async function _anonymizeUserStructure(user: PartialUser) {
     return user;
   }
 
-  return userStructureRepository.updateOne({ id: user.id }, attributesToUpdate);
+  return newUserStructureRepository.update({ id: user.id }, attributesToUpdate);
 }

@@ -1,5 +1,3 @@
-import { TimeZone } from "./../../../util/territoires/types/TimeZone.type";
-
 import {
   Structure,
   StructureCommon,
@@ -17,10 +15,7 @@ export const structureRepository = appTypeormManager
   .extend({
     countBy: baseRepository.countBy,
     findOneWithQuery: baseRepository.findOneWithQuery,
-    findManyWithQuery: baseRepository.findManyWithQuery,
     checkHardResetToken,
-    getStructureWithSms,
-    getStructureIdsWithSms,
   });
 
 async function checkHardResetToken({
@@ -40,33 +35,5 @@ async function checkHardResetToken({
     select,
     where: `"hardReset" @> '{"token": "${token}", "userId": ${userId}}'`,
     params: [],
-  });
-}
-
-async function getStructureIdsWithSms(timeZone: TimeZone): Promise<number[]> {
-  const structures = await structureRepository.findManyWithQuery({
-    where: `(sms->>'enabledByDomifa')::boolean is true and (sms->>'enabledByStructure')::boolean is true AND "timeZone" = :timezone`,
-    select: ["id"],
-    params: {
-      timezone: timeZone,
-    },
-  });
-
-  return structures.reduce((acc: number[], value: StructureCommon) => {
-    acc.push(value.id);
-    return acc;
-  }, []);
-}
-
-async function getStructureWithSms(
-  timeZone: TimeZone,
-  select: (keyof StructureTable)[]
-): Promise<Structure[]> {
-  return await structureRepository.findManyWithQuery({
-    where: `(sms->>'enabledByDomifa')::boolean is true and (sms->>'enabledByStructure')::boolean is true AND "timeZone" = :timezone`,
-    select,
-    params: {
-      timezone: timeZone,
-    },
   });
 }

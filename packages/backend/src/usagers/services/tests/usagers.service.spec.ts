@@ -1,13 +1,14 @@
 import { forwardRef } from "@nestjs/common";
 import {
-  userStructureRepository,
   structureRepository,
   usagerRepository,
+  newUserStructureRepository,
 } from "../../../database";
 import { UsersModule } from "../../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../../util/test";
 import { CreateUsagerDto } from "../../dto";
 import { UsagersService } from "../usagers.service";
+import { UserStructure } from "../../../_common/model";
 
 describe("UsagersService", () => {
   let service: UsagersService;
@@ -40,8 +41,9 @@ describe("UsagersService", () => {
   });
 
   it("0. Create / Read / Update / Delete", async () => {
-    // CREATE
-    const user = await userStructureRepository.findOne({ id: 1 });
+    const user = (await newUserStructureRepository.findOneBy({
+      id: 1,
+    })) as UserStructure;
     user.structure = await structureRepository.findOneBy({ id: 5 });
 
     const usagerTest = await service.create(fakeUsagerDto, user);

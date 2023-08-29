@@ -1,4 +1,4 @@
-import { UserStructureSecurityRepository } from "../../database";
+import { userStructureSecurityRepository } from "../../database";
 import { passwordGenerator } from "../../util/encoding/passwordGenerator.service";
 import { AppTestHelper } from "../../util/test";
 import { UserStructureRole } from "../../_common/model";
@@ -78,7 +78,7 @@ describe("userStructureCreator", () => {
     expect(userSecurity.temporaryTokens.token).toBeDefined();
     expect(userSecurity.temporaryTokens.validity).toBeDefined();
     const useSecurityByToken =
-      await UserStructureSecurityRepository.findOneByTokenAttribute(
+      await userStructureSecurityRepository.findOneByTokenAttribute(
         userSecurity.temporaryTokens.token
       );
     expect(useSecurityByToken).toBeDefined();

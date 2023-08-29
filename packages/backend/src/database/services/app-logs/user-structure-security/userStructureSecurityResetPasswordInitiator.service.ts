@@ -8,9 +8,9 @@ import {
   UserStructureTokens,
   UserStructureTokenType,
 } from "../../../../_common/model";
-import { userStructureRepository } from "../../user-structure/userStructureRepository.service";
+import { newUserStructureRepository } from "../../user-structure";
 import { userStructureSecurityEventHistoryManager } from "./userStructureSecurityEventHistoryManager.service";
-import { UserStructureSecurityRepository } from "./userStructureSecurityRepository.service";
+import { userStructureSecurityRepository } from "./userStructureSecurityRepository.service";
 
 export const userStructureSecurityResetPasswordInitiator = {
   buildResetPasswordLink,
@@ -37,16 +37,12 @@ async function generateResetPasswordToken({
   user: UserStructureProfile;
   userSecurity: UserStructureSecurity;
 }> {
-  const user: UserStructureProfile = await userStructureRepository.findOne(
-    {
+  const user: UserStructureProfile =
+    await newUserStructureRepository.findOneByOrFail({
       email: email.toLowerCase(),
-    },
-    {
-      throwErrorIfNotFound: true,
-    }
-  );
+    });
 
-  let userSecurity = await UserStructureSecurityRepository.findOneByOrFail({
+  let userSecurity = await userStructureSecurityRepository.findOneByOrFail({
     userId: user.id,
   });
 
@@ -63,7 +59,7 @@ async function generateResetPasswordToken({
     type: "reset-password",
   });
 
-  await UserStructureSecurityRepository.logEvent({
+  await userStructureSecurityRepository.logEvent({
     userId: user.id,
     userSecurity,
     eventType: "reset-password-request",
@@ -72,7 +68,7 @@ async function generateResetPasswordToken({
     },
   });
 
-  userSecurity = await UserStructureSecurityRepository.findOne({
+  userSecurity = await userStructureSecurityRepository.findOne({
     where: {
       userId: user.id,
     },

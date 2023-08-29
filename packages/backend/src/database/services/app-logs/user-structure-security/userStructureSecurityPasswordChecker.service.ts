@@ -1,6 +1,6 @@
 import {
   newUserStructureRepository,
-  UserStructureSecurityRepository,
+  userStructureSecurityRepository,
 } from "../../user-structure";
 import { passwordGenerator } from "../../../../util/encoding/passwordGenerator.service";
 import { UserStructure } from "../../../../_common/model";
@@ -21,7 +21,7 @@ async function checkPassword({
     email: email.toLowerCase(),
   });
 
-  const userSecurity = await UserStructureSecurityRepository.findOneBy({
+  const userSecurity = await userStructureSecurityRepository.findOneBy({
     userId: user.id,
   });
 
@@ -44,7 +44,7 @@ async function checkPassword({
   });
 
   if (!isValidPass) {
-    await UserStructureSecurityRepository.logEvent({
+    await userStructureSecurityRepository.logEvent({
       userId: user.id,
       userSecurity,
       eventType: "login-error",
@@ -56,7 +56,7 @@ async function checkPassword({
     throw new Error("ACCOUNT_NOT_ACTIVATED");
   }
 
-  await UserStructureSecurityRepository.logEvent({
+  await userStructureSecurityRepository.logEvent({
     userId: user.id,
     userSecurity,
     eventType: "login-success",
