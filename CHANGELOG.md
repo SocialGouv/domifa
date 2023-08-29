@@ -1,3 +1,10 @@
+## [2.134.8](https://github.com/SocialGouv/domifa/compare/v2.134.7...v2.134.8) (2023-08-29)
+
+
+### Bug Fixes
+
+* **perfs:** augmentation des ressources ([98b4b69](https://github.com/SocialGouv/domifa/commit/98b4b69e8e5050e6e69fee4e9f3d9e6cf00493cf))
+
 ## [2.134.7](https://github.com/SocialGouv/domifa/compare/v2.134.6...v2.134.7) (2023-08-29)
 
 
