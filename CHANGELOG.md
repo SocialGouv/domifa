@@ -1,3 +1,13 @@
+## [2.134.7](https://github.com/SocialGouv/domifa/compare/v2.134.6...v2.134.7) (2023-08-29)
+
+
+### Bug Fixes
+
+* **frontend:** ajout d'une 404 pour les dossiers inexistants ([43db491](https://github.com/SocialGouv/domifa/commit/43db4917829f372a7ec5b3618de85d42527c1641))
+* **import:** correction de l'import sur les champs email ([8aca799](https://github.com/SocialGouv/domifa/commit/8aca799239fba9b317d7048ac97730e7b2522dbf))
+* **tests:** mise à jour des tests ([12b5981](https://github.com/SocialGouv/domifa/commit/12b5981173574c0e84710efd19eaf11ec18cb1b0))
+* **types:** mise à jour de types ([5b6e9a9](https://github.com/SocialGouv/domifa/commit/5b6e9a9f50265fd337e0fc660dca5c6cdd00a506))
+
 ## [2.134.6](https://github.com/SocialGouv/domifa/compare/v2.134.5...v2.134.6) (2023-08-28)
 
 
