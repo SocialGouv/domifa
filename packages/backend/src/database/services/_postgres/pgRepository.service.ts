@@ -1,14 +1,11 @@
 import {
-  DeepPartial,
   EntityTarget,
   FindOptionsWhere,
   ObjectLiteral,
   SelectQueryBuilder,
 } from "typeorm";
-import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { appLogger } from "../../../util";
 import { myDataSource } from "./appTypeormManager.service";
-import { PgRepositoryFindOptions } from "./PgRepositoryFindOptions.type";
 
 export const pgRepository = {
   get,
@@ -20,60 +17,20 @@ export function typeOrmSearch<T>(
   return search as unknown as FindOptionsWhere<T>;
 }
 
-function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
-  entityTarget: EntityTarget<T>,
-  {
-    defaultSelect = "ALL",
-  }: {
-    defaultSelect?: (keyof T)[] | "ALL";
-  } = {
-    defaultSelect: "ALL",
-  }
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function get<T, _DEFAULT_RESULT extends Partial<T> | number = T>(
+  entityTarget: EntityTarget<T>
 ) {
   return {
     typeorm,
     aggregateAsNumber,
-    max,
     countBy,
-    save,
-    findOne,
-    findMany,
-    updateOne,
 
     _parseCounts,
   };
 
   async function typeorm() {
     return myDataSource.getRepository(entityTarget);
-  }
-
-  async function save<E extends DeepPartial<T> | DeepPartial<T>[]>(
-    entities: E
-  ): Promise<E> {
-    return (await typeorm()).save(entities as any);
-  }
-
-  async function max({
-    maxAttribute,
-    logSql = false,
-    params = {},
-    where,
-    alias,
-  }: {
-    where?: string | Partial<T>;
-    maxAttribute: string;
-    logSql?: boolean;
-    params?: { [attr: string]: any };
-    alias?: string;
-  }): Promise<number> {
-    return aggregateAsNumber({
-      alias,
-      expression: `MAX("${maxAttribute}")`,
-      resultAlias: "max",
-      where,
-      logSql,
-      params,
-    });
   }
 
   async function aggregateAsNumber({
@@ -178,76 +135,13 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     try {
       const results = await qb.getRawMany();
       return _parseCounts<T, CountBy>(results, {
-        label: countByAlias ? countByAlias : (countBy as string),
+        label: countByAlias || (countBy as string),
         nullLabel,
       });
     } catch (err) {
       printQueryError<T>(qb);
       throw err;
     }
-  }
-
-  async function findOne<R = DEFAULT_RESULT>(
-    search?: FindOptionsWhere<T>,
-    options: PgRepositoryFindOptions<T> = {}
-  ): Promise<R> {
-    const typeormRepository = await typeorm();
-
-    const res = await typeormRepository.findOne({
-      select: _buildSelectAttributes(options),
-      where: search,
-      order: options.order,
-    });
-    if (!res && options.throwErrorIfNotFound) {
-      appLogger.warn("[pgRepository.findOne] search not found", {
-        sentry: true,
-        context: {
-          search,
-        },
-      });
-      throw new Error("Not found");
-    }
-    return res as unknown as R;
-  }
-
-  async function findMany<R = DEFAULT_RESULT>(
-    search: FindOptionsWhere<T>,
-    options: PgRepositoryFindOptions<T> = {}
-  ): Promise<R[]> {
-    const typeormRepository = await typeorm();
-
-    const res = await typeormRepository.find({
-      select: _buildSelectAttributes(options),
-      where: search,
-      order: options.order,
-      skip: options.skip,
-      take: options.maxResults,
-    });
-    return res as unknown as R[];
-  }
-
-  async function updateOne<R = DEFAULT_RESULT>(
-    search: FindOptionsWhere<T>,
-    data: Partial<T>,
-    options: PgRepositoryFindOptions<T> = {}
-  ) {
-    const typeormRepository = await typeorm();
-
-    await typeormRepository.update(
-      search as unknown as FindOptionsWhere<T>,
-      data as unknown as QueryDeepPartialEntity<T>
-    );
-
-    return findOne<R>(search, options);
-  }
-
-  function _buildSelectAttributes(
-    options: PgRepositoryFindOptions<T> = {}
-  ): (keyof T)[] | undefined {
-    const select = options.select ? options.select : defaultSelect;
-    return select === "ALL"
-      ? undefined // returns all
-      : select;
   }
 }
 

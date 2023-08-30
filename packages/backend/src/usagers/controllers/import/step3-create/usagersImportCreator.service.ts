@@ -76,7 +76,7 @@ async function createFromImport({
       })
     );
 
-    await (await usagerRepository.typeorm()).save(nextUsagersToCreate);
+    await usagerRepository.save(nextUsagersToCreate);
 
     await usagerEntretienRepository.save(nextEntretienToSave);
 

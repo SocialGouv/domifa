@@ -116,7 +116,7 @@ async function _anonymizeUsager(usager: Usager) {
     return usager;
   }
 
-  return usagerRepository.updateOne({ uuid: usager.uuid }, attributesToUpdate);
+  return usagerRepository.updateOneAndReturn(usager.uuid, attributesToUpdate);
 }
 
 function anonymizeAyantDroits(

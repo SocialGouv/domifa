@@ -3,13 +3,14 @@ import { Usager } from "../../_common/model";
 
 export const usagersCreator = { findNextUsagerRef, setUsagerDefaultAttributes };
 async function findNextUsagerRef(structureId: number): Promise<number> {
-  const maxRef = await usagerRepository.max({
-    maxAttribute: "ref",
+  const usager = await usagerRepository.findOne({
     where: {
       structureId,
     },
+    order: { ref: "DESC" },
+    select: ["ref"],
   });
-  return maxRef ? maxRef + 1 : 1;
+  return usager?.ref ? usager?.ref + 1 : 1;
 }
 
 function setUsagerDefaultAttributes(usager: Usager): void {

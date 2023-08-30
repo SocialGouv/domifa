@@ -61,22 +61,21 @@ describe("interactionsCreator", () => {
       structureId: 1,
     });
 
+    usager = await usagerRepository.findOneBy({
+      ref: 2,
+      structureId: 1,
+    });
+
     // Reset les courriers
-    usager = await usagerRepository.updateOne(
-      {
-        ref: 2,
-        structureId: 1,
+    usager = await usagerRepository.updateOneAndReturn(usager.uuid, {
+      lastInteraction: {
+        dateInteraction: new Date(MOCKED_LAST_INTERACTION_DATE),
+        enAttente: false,
+        courrierIn: 0,
+        recommandeIn: 0,
+        colisIn: 0,
       },
-      {
-        lastInteraction: {
-          dateInteraction: new Date(MOCKED_LAST_INTERACTION_DATE),
-          enAttente: false,
-          courrierIn: 0,
-          recommandeIn: 0,
-          colisIn: 0,
-        },
-      }
-    );
+    });
   });
 
   afterAll(async () => {
