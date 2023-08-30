@@ -14,7 +14,6 @@ export const structureRepository = myDataSource
   .getRepository<Structure>(StructureTable)
   .extend({
     countBy: baseRepository.countBy,
-
     async checkHardResetToken({
       userId,
       token,

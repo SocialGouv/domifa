@@ -19,17 +19,13 @@ type PartialUser = Pick<
 async function anonymizeUsersStructure() {
   appLogger.warn(`[dataUserAnonymizer] [user-structure] reset security tables`);
 
-  try {
-    await userStructureSecurityRepository.update(
-      {},
-      {
-        temporaryTokens: null,
-        eventsHistory: [],
-      }
-    );
-  } catch (e) {
-    console.log(e);
-  }
+  await userStructureSecurityRepository.update(
+    {},
+    {
+      temporaryTokens: null,
+      eventsHistory: [],
+    }
+  );
 
   // Anonymisation de tous les mots de passe
   const passwordNonEncrypted = domifaConfig().dev.anonymizer.password;

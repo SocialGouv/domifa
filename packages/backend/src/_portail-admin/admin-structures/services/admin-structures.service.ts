@@ -74,7 +74,7 @@ export class AdminStructuresService {
     return stats;
   }
   public async getAdminStructuresListData(): Promise<AdminStructureListData> {
-    const structures = await structureRepository.find({});
+    const structures = await structureRepository.find();
 
     const structuresIds = structures.map((s) => s.id);
 
@@ -164,9 +164,9 @@ export class AdminStructuresService {
   > {
     return userStructureRepository
       .createQueryBuilder()
-      .select("structureId")
+      .select(`"structureId"`)
       .addSelect("COUNT(*)", "count")
-      .groupBy("structureId")
+      .groupBy(`"structureId"`)
       .getRawMany();
   }
 
