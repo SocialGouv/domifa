@@ -27,8 +27,4 @@ export type AdminStructureStatsData = {
   usagersAyantsDroitsCountByStructureMap: {
     [structureId: string]: number;
   };
-  usagersCountByLanguage: {
-    langue: string;
-    count: number;
-  }[];
 };

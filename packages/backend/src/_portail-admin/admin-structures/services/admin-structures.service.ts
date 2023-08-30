@@ -51,12 +51,11 @@ export class AdminStructuresService {
     const usagersDocumentsCount = await usagerDocsRepository.count();
 
     const usagersCountByStatutMap = await this.getUsagersCountByStatutMap();
-    const usagersCountByLanguage = await this.getUsagersCountByLanguage();
+
     const structuresCountBySmsEnabled = await this.getStructuresWithSms();
     const structuresCount = await structureRepository.count();
 
     const stats: AdminStructureStatsData = {
-      // structures,
       structuresCount,
       usagersValidCountByStructureMap,
       usagersAyantsDroitsCountByStructureMap,
@@ -68,7 +67,6 @@ export class AdminStructuresService {
       interactionsCountByTypeMap,
       usagersDocumentsCount,
       usagersCountByStatutMap,
-      usagersCountByLanguage,
     };
 
     return stats;
@@ -229,14 +227,6 @@ export class AdminStructuresService {
       order: { count: "DESC", countBy: "ASC" },
       escapeAttributes: false,
     }) as any;
-  }
-
-  public async getUsagersCountByLanguage() {
-    return usagerRepository.countBy({
-      countBy: "langue",
-      order: { count: "DESC", countBy: "ASC" },
-      nullLabel: "NON_RENSEIGNE",
-    });
   }
 
   public async getStructuresCountByRegion(): Promise<
@@ -513,15 +503,9 @@ export class AdminStructuresService {
       }
     );
 
-    sumToReduce.reduce(
-      (acc, x) => {
-        listOfStructures[x.structureId] = x.count;
-        return acc;
-      },
-      {} as {
-        [structureId: string]: number;
-      }
-    );
+    sumToReduce.forEach((x) => {
+      listOfStructures[x.structureId] = x.count;
+    });
 
     return listOfStructures;
   }

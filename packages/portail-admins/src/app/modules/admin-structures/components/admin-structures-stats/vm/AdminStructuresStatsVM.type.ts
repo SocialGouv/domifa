@@ -37,8 +37,4 @@ export type AdminStructuresStatsVM = {
   usagersAllCountByStructureMap: {
     [structureId: string]: number;
   };
-  usagersCountByLanguage: {
-    langue: string;
-    count: number;
-  }[];
 };
