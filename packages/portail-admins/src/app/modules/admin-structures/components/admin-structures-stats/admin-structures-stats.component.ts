@@ -12,7 +12,6 @@ import {
 } from "../../../../../_common/usager/constants";
 import { AdminAuthService } from "../../../admin-auth/services/admin-auth.service";
 
-import { languagesAutocomplete } from "../../../shared/languages";
 import { AdminStructuresApiClient } from "../../../shared/services";
 import { REGIONS_LISTE } from "../../../shared/territoires";
 import { AdminStructuresStatsVM, adminStructuresStatsVmBuilder } from "./vm";
@@ -35,8 +34,6 @@ export class AdminStructuresStatsComponent implements OnInit, OnDestroy {
   public readonly INTERACTIONS_LABELS_PLURIEL = INTERACTIONS_LABELS_PLURIEL;
   public readonly STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
 
-  public languagesAutocomplete = languagesAutocomplete;
-
   constructor(
     private readonly adminAuthService: AdminAuthService,
     private readonly adminStructuresApiClient: AdminStructuresApiClient
@@ -58,7 +55,6 @@ export class AdminStructuresStatsComponent implements OnInit, OnDestroy {
         .getStatsDomifaAdminDashboard()
         .subscribe((data: AdminStructureStatsData) => {
           this.data = data;
-          // build VM
           this.stats = adminStructuresStatsVmBuilder.buildViewModel(data);
         })
     );

@@ -117,28 +117,6 @@
           </span>
         </div>
       </div>
-
-      <br />
-      <br />
-      <span class="stats-titre">LANGUES</span>
-      <div class="stats-blocks">
-        <div *ngFor="let usagersLanguageCount of stats.usagersCountByLanguage">
-          <span class="stats-chiffres">{{
-            usagersLanguageCount.count | formatBigNumber
-          }}</span>
-          <span
-            class="stats-labels"
-            *ngIf="usagersLanguageCount.langue !== 'NON_RENSEIGNE'"
-          >
-            {{ languagesAutocomplete.formatter(usagersLanguageCount.langue) }}
-          </span>
-          <span
-            class="stats-labels"
-            *ngIf="usagersLanguageCount.langue === 'NON_RENSEIGNE'"
-            >Non renseigné</span
-          >
-        </div>
-      </div>
     </div>
     <div class="col-12 col-md-4">
       <table class="table table-hover">
