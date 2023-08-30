@@ -20,7 +20,7 @@ import { CurrentUser } from "../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../auth/guards";
 import { CanGetUserStructureGuard } from "../auth/guards/CanGetUserStructure.guard";
 import {
-  newUserStructureRepository,
+  userStructureRepository,
   structureRepository,
   userStructureSecurityPasswordUpdater,
 } from "../database";
@@ -52,7 +52,7 @@ export class UsersController {
   public getUsers(
     @CurrentUser() user: UserStructureAuthenticated
   ): Promise<UserStructureProfile[]> {
-    return newUserStructureRepository.find({
+    return userStructureRepository.find({
       where: {
         structureId: user.structureId,
         verified: true,
@@ -74,7 +74,7 @@ export class UsersController {
   @ApiOperation({ summary: "Accepter les CGU" })
   @Get("accept-terms")
   public async acceptTerms(@CurrentUser() user: UserStructureAuthenticated) {
-    await newUserStructureRepository.update(
+    await userStructureRepository.update(
       { id: user.id },
       { acceptTerms: new Date() }
     );
@@ -95,7 +95,7 @@ export class UsersController {
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
-    const newUser = await newUserStructureRepository.findOne({
+    const newUser = await userStructureRepository.findOne({
       where: { id: user.id },
       select: ["passwordLastUpdate"],
     });
@@ -114,14 +114,14 @@ export class UsersController {
     @Param("userUuid", new ParseUUIDPipe()) _userUuid: string,
     @CurrentChosenUserStructure() chosenUserStructure: UserStructure
   ): Promise<UserStructureProfile> {
-    await newUserStructureRepository.update(
+    await userStructureRepository.update(
       {
         uuid: chosenUserStructure.uuid,
         structureId: userStructureAuth.structureId,
       },
       { role: updateRoleDto.role }
     );
-    return await newUserStructureRepository.findOneBy({
+    return userStructureRepository.findOneBy({
       uuid: chosenUserStructure.uuid,
     });
   }
@@ -152,7 +152,7 @@ export class UsersController {
     @Body() userDto: UserEditDto,
     @Res() res: Response
   ) {
-    await newUserStructureRepository.update(
+    await userStructureRepository.update(
       {
         id: user.id,
         structureId: user.structureId,
@@ -160,7 +160,7 @@ export class UsersController {
       userDto
     );
 
-    const userToUpdate = await newUserStructureRepository.findOne({
+    const userToUpdate = await userStructureRepository.findOne({
       where: { id: user.id },
       select: { uuid: true, role: true, nom: true, prenom: true, email: true },
     });
@@ -177,7 +177,7 @@ export class UsersController {
     @Res() res: Response,
     @Body() registerUserDto: RegisterUserAdminDto
   ): Promise<any> {
-    const userExist = await newUserStructureRepository.findOneBy({
+    const userExist = await userStructureRepository.findOneBy({
       email: registerUserDto.email.toLowerCase(),
     });
 

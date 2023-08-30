@@ -10,7 +10,7 @@ import {
 } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import {
-  newUserStructureRepository,
+  userStructureRepository,
   userStructureSecurityResetPasswordInitiator,
   userStructureSecurityResetPasswordUpdater,
 } from "../database";
@@ -29,7 +29,7 @@ export class UsersPublicController {
     @Body() emailDto: EmailDto,
     @Res() res: ExpressResponse
   ) {
-    const existUser = await newUserStructureRepository.findOne({
+    const existUser = await userStructureRepository.findOne({
       where: {
         email: emailDto.email.toLowerCase(),
       },

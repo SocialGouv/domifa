@@ -1,8 +1,7 @@
 import { userStructureRepository } from "..";
 import { UserStructure, UserStructureRole } from "../../../_common/model";
-import { UserStructureTable } from "../../entities";
 import {
-  appTypeormManager,
+  joinSelectFields,
   postgresQueryBuilder,
 } from "../../services/_postgres";
 
@@ -28,7 +27,7 @@ async function updateMailFlag({
       WHERE id=${userId};
     ;`;
 
-  return await appTypeormManager.getRepository(UserStructureTable).query(query);
+  return userStructureRepository.query(query);
 }
 
 async function findUsersToSendCronMail({
@@ -69,14 +68,9 @@ async function findUsersToSendCronMail({
     params.roles = roles;
   }
 
-  const users: Pick<
-    UserStructure,
-    "id" | "email" | "nom" | "prenom" | "role"
-  >[] = await userStructureRepository.findManyWithQuery({
-    select: ["id", "email", "nom", "prenom", "role"],
-    where: whereClausesAnd.join(" AND "),
-    params,
-  });
-
-  return users;
+  return userStructureRepository
+    .createQueryBuilder()
+    .where(whereClausesAnd.join(" AND "), params)
+    .select(joinSelectFields(["id", "email", "nom", "prenom", "role"]))
+    .getRawMany();
 }

@@ -1,13 +1,11 @@
 import { PG_CONNECT_OPTIONS } from "./PG_CONNECT_OPTIONS.const";
-import { DataSource, EntityTarget, Migration } from "typeorm";
+import { DataSource, Migration } from "typeorm";
 import { domifaConfig, DomifaConfigPostgres } from "../../../config";
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 import { appLogger } from "../../../util";
 
 export const appTypeormManager = {
   connect,
-  getRepository,
-  getConnection,
   migrateUp,
   migrateDown,
 };
@@ -86,12 +84,4 @@ async function connect(
     appLogger.error("Error connecting to postgres");
     throw err;
   }
-}
-
-function getRepository<Entity>(entityTarget: EntityTarget<Entity>) {
-  return myDataSource.getRepository(entityTarget);
-}
-
-function getConnection(): DataSource {
-  return myDataSource;
 }

@@ -1,5 +1,5 @@
 import { HttpStatus } from "@nestjs/common";
-import { newUserStructureRepository, structureRepository } from "../database";
+import { userStructureRepository, structureRepository } from "../database";
 import { InteractionsModule } from "../interactions/interactions.module";
 import { MailsModule } from "../mails/mails.module";
 import { StatsModule } from "../stats/stats.module";
@@ -147,7 +147,7 @@ describe("Stuctures creation full", () => {
     expect(structure.lastLogin).toBeNull();
     expect(structure.verified).toBeFalsy();
 
-    const user = await newUserStructureRepository.findOneBy({
+    const user = await userStructureRepository.findOneBy({
       structureId: structure.id,
     });
 
@@ -179,7 +179,7 @@ describe("Stuctures creation full", () => {
     expect(res.status).toHaveBeenCalledWith(HttpStatus.OK);
     expect(res.json).toHaveBeenCalledTimes(2);
 
-    const userConfirmed = await newUserStructureRepository.findOneBy({
+    const userConfirmed = await userStructureRepository.findOneBy({
       id: localCache.userId,
     });
 

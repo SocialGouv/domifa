@@ -47,12 +47,14 @@ async function buildStatsInPeriod({
       dateUTC: endDateUTCExclusive,
       structureId: structure.id,
     });
+
   const decisions =
     await structureStatsQuestionsInPeriodDecisionsRepository.getStats({
       startDateUTC,
       endDateUTCExclusive,
       structureId: structure.id,
     });
+
   const interactions =
     await structureStatsQuestionsInPeriodInteractionsRepository.getStats({
       startDateUTC,

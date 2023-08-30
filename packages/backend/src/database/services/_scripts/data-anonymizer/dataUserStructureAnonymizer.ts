@@ -1,11 +1,8 @@
 import { hash } from "bcryptjs";
-import { UserStructureTable } from "../../..";
+import { UserStructureTable, userStructureSecurityRepository } from "../../..";
 import { domifaConfig } from "../../../../config";
 import { appLogger } from "../../../../util";
-import {
-  newUserStructureRepository,
-  userStructureSecurityRepository,
-} from "../../user-structure";
+import { userStructureRepository } from "../../user-structure";
 import { dataEmailAnonymizer } from "./dataEmailAnonymizer";
 import { dataGenerator } from "./dataGenerator.service";
 import { dataStructureAnonymizer } from "./dataStructureAnonymizer";
@@ -41,14 +38,14 @@ async function anonymizeUsersStructure() {
     : "";
 
   appLogger.warn(`[ANON] [userStructure] reset passwords`);
-  await newUserStructureRepository
+  await userStructureRepository
     .createQueryBuilder("structures")
     .update()
     .set({ password })
     .where(`"structureId" > 1`)
     .execute();
 
-  const users = await newUserStructureRepository.find({
+  const users = await userStructureRepository.find({
     where: {},
     select: ["id", "structureId", "email", "role"],
   });
@@ -105,5 +102,5 @@ async function _anonymizeUserStructure(user: PartialUser) {
     return user;
   }
 
-  return newUserStructureRepository.update({ id: user.id }, attributesToUpdate);
+  return userStructureRepository.update({ id: user.id }, attributesToUpdate);
 }

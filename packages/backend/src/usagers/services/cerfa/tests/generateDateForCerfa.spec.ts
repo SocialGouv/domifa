@@ -1,6 +1,6 @@
 import {
   structureRepository,
-  newUserStructureRepository,
+  userStructureRepository,
 } from "../../../../database";
 import {
   AppTestContext,
@@ -53,7 +53,7 @@ describe("generateDateForCerfa", () => {
   });
 
   it("[TIMEZONE] Date au format America/Cayenne -4h (heure d'hiver)", async () => {
-    const user = (await newUserStructureRepository.findOneBy({
+    const user = (await userStructureRepository.findOneBy({
       id: 11,
     })) as unknown as UserStructureAuthenticated;
     const structure = await structureRepository.findOneBy({

@@ -1,11 +1,7 @@
 import { myDataSource } from "..";
 
 import { UsagerTable } from "../../entities";
-import {
-  PgRepositoryFindOrder,
-  appTypeormManager,
-  pgRepository,
-} from "../_postgres";
+import { joinSelectFields, pgRepository } from "../_postgres";
 
 import { Usager } from "../../../_common/model";
 import { FranceRegion } from "../../../util/territoires";
@@ -33,7 +29,7 @@ export async function updateOneAndReturn(
   uuid: string,
   partialUpdate: Partial<Usager>
 ): Promise<Usager> {
-  await usagerRepository.updateOne({ uuid }, partialUpdate);
+  await usagerRepository.update({ uuid }, partialUpdate);
   return getUsager(uuid);
 }
 
@@ -68,7 +64,7 @@ async function countUsagersByMonth(regionId?: FranceRegion) {
     where.push(regionId);
   }
   query = query + ` GROUP BY 1`;
-  return appTypeormManager.getRepository(UsagerTable).query(query, where);
+  return usagerRepository.query(query, where);
 }
 
 function _advancedCount({
@@ -131,19 +127,29 @@ async function findLastFiveCustomRef({
     "ref" | "customRef" | "nom" | "sexe" | "prenom" | "structureId"
   >[]
 > {
-  return await baseRepository.findManyWithQuery({
-    select: ["ref", "customRef", "nom", "sexe", "prenom", "structureId"],
-    where: `decision->>'statut' = :statut and "structureId" = :structureId and ref != :usagerRef`,
-    params: {
-      statut: "VALIDE",
-      structureId,
-      usagerRef,
-    },
-    order: {
-      "(decision->>'dateDecision')::timestamptz": "DESC",
-    } as PgRepositoryFindOrder<any>,
-    maxResults: 5,
-  });
+  return usagerRepository
+    .createQueryBuilder("usager")
+    .select(
+      joinSelectFields([
+        "ref",
+        "customRef",
+        "nom",
+        "sexe",
+        "prenom",
+        "structureId",
+      ])
+    )
+    .where(
+      `decision->>'statut' = :statut and "structureId" = :structureId and ref != :usagerRef`,
+      {
+        statut: "VALIDE",
+        structureId,
+        usagerRef,
+      }
+    )
+    .orderBy({ "(decision->>'dateDecision')::timestamptz": "DESC" })
+    .limit(5)
+    .getRawMany();
 }
 
 async function findNextMeetings({
@@ -153,16 +159,19 @@ async function findNextMeetings({
   userId: number;
   dateRefNow?: Date;
 }): Promise<Pick<Usager, "nom" | "prenom" | "uuid" | "ref" | "rdv">[]> {
-  return baseRepository.findManyWithQuery({
-    where: `rdv->>'userId' = :userId
-      and (rdv->>'dateRdv')::timestamptz > :dateRefNow`,
-    params: {
-      userId,
-      dateRefNow,
-    },
-    order: {
+  return usagerRepository
+    .createQueryBuilder("usager")
+    .select(joinSelectFields(["nom", "prenom", "uuid", "ref", "rdv"]))
+    .where(
+      `rdv->>'userId' = :userId and (rdv->>'dateRdv')::timestamptz > :dateRefNow`,
+      {
+        userId,
+        dateRefNow,
+      }
+    )
+    .orderBy({
       "(rdv->>'dateRdv')::timestamptz": "DESC",
-    } as PgRepositoryFindOrder<any>,
-    select: ["nom", "prenom", "uuid", "ref", "rdv"],
-  });
+    })
+    .limit(5)
+    .getRawMany();
 }

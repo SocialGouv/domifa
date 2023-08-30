@@ -19,7 +19,7 @@ import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
 import {
   MessageEmailIcalEvent,
-  newUserStructureRepository,
+  userStructureRepository,
   usagerRepository,
 } from "../../database";
 import { usagerAppointmentCreatedEmailSender } from "../../mails/services/templates-renderers";
@@ -45,7 +45,7 @@ export class AgendaController {
   public getAllUsersForAgenda(
     @CurrentUser() currentUser: UserStructureAuthenticated
   ): Promise<UserStructureProfile[]> {
-    return newUserStructureRepository.findVerifiedStructureUsersByRoles({
+    return userStructureRepository.findVerifiedStructureUsersByRoles({
       structureId: currentUser.structureId,
       roles: ["admin", "simple", "responsable"],
     });
@@ -82,7 +82,7 @@ export class AgendaController {
       "id" | "prenom" | "nom" | "email"
     > =
       currentUser.id !== rdvDto.userId
-        ? await newUserStructureRepository.findOne({
+        ? await userStructureRepository.findOne({
             where: {
               id: rdvDto.userId,
               structureId: currentUser.structureId,

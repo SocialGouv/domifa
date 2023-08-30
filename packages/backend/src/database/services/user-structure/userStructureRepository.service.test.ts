@@ -1,8 +1,8 @@
 import { AppTestHelper } from "../../../util/test";
 import { TESTS_USERS_STRUCTURE } from "../../../_tests";
-import { newUserStructureRepository } from "./userStructureRepository.service";
+import { userStructureRepository } from "./userStructureRepository.service";
 
-describe("newUserStructureRepository", () => {
+describe("userStructureRepository", () => {
   beforeAll(async () => {
     await AppTestHelper.bootstrapTestConnection();
   });
@@ -12,7 +12,7 @@ describe("newUserStructureRepository", () => {
   });
 
   it("count structure users", async () => {
-    const count1 = await newUserStructureRepository.count({
+    const count1 = await userStructureRepository.count({
       where: {
         structureId: 1,
       },
@@ -22,7 +22,7 @@ describe("newUserStructureRepository", () => {
       TESTS_USERS_STRUCTURE.BY_STRUCTURE_ID[1]?.length ?? 0
     );
 
-    const count2 = await newUserStructureRepository.count({
+    const count2 = await userStructureRepository.count({
       where: {
         structureId: 2,
       },
@@ -32,13 +32,13 @@ describe("newUserStructureRepository", () => {
       TESTS_USERS_STRUCTURE.BY_STRUCTURE_ID[2]?.length ?? 0
     );
 
-    const countTotal = await newUserStructureRepository.count();
+    const countTotal = await userStructureRepository.count();
     // be sure the count is ok
     expect(countTotal).toEqual(TESTS_USERS_STRUCTURE.ALL.length);
   });
   it("findVerifiedStructureUsersByRoles returns matching users", async () => {
     const users =
-      await newUserStructureRepository.findVerifiedStructureUsersByRoles({
+      await userStructureRepository.findVerifiedStructureUsersByRoles({
         structureId: 1,
         roles: ["admin", "simple", "responsable"],
       });
@@ -49,7 +49,7 @@ describe("newUserStructureRepository", () => {
   });
 
   it("findOne returns matching user", async () => {
-    const user1 = await newUserStructureRepository.findOneBy({
+    const user1 = await userStructureRepository.findOneBy({
       id: 1,
     });
     expect(user1).toBeDefined();
@@ -59,17 +59,17 @@ describe("newUserStructureRepository", () => {
   });
 
   it("findOne returns matching user", async () => {
-    const user1 = await newUserStructureRepository.findOneBy({
+    const user1 = await userStructureRepository.findOneBy({
       id: 1,
     });
     expect(user1).toBeDefined();
     expect(user1.id).toEqual(1);
-    await newUserStructureRepository.update({ id: 1 }, { nom: "test name" });
+    await userStructureRepository.update({ id: 1 }, { nom: "test name" });
 
-    const user2 = await newUserStructureRepository.findOneBy({ id: 1 });
+    const user2 = await userStructureRepository.findOneBy({ id: 1 });
     expect(user2).toBeDefined();
     expect(user2.nom).toEqual("test name");
     // restore original name
-    await newUserStructureRepository.update({ id: 1 }, { nom: user1.nom });
+    await userStructureRepository.update({ id: 1 }, { nom: user1.nom });
   });
 });

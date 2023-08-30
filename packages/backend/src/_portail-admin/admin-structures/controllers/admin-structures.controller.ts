@@ -17,7 +17,7 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AllowUserProfiles } from "../../../auth/decorators";
 import { AppUserGuard } from "../../../auth/guards";
 import {
-  newUserStructureRepository,
+  userStructureRepository,
   structureRepository,
   UserStructureTable,
 } from "../../../database";
@@ -82,7 +82,7 @@ export class AdminStructuresController {
       "structureId",
     ];
 
-    const users = await newUserStructureRepository.find({
+    const users = await userStructureRepository.find({
       where: {},
       select: USER_STATS_ATTRIBUTES,
     });
@@ -180,12 +180,12 @@ export class AdminStructuresController {
         .json({ message: "STRUCTURE_TOKEN_INVALID" });
     }
 
-    const admin = await newUserStructureRepository.findOneBy({
+    const admin = await userStructureRepository.findOneBy({
       role: "admin",
       structureId: structure.id,
     });
 
-    await newUserStructureRepository.update(
+    await userStructureRepository.update(
       {
         id: admin.id,
         structureId: structure.id,
@@ -193,7 +193,7 @@ export class AdminStructuresController {
       { verified: true }
     );
 
-    const updatedAdmin = await newUserStructureRepository.findOneBy({
+    const updatedAdmin = await userStructureRepository.findOneBy({
       id: admin.id,
       structureId: structure.id,
     });

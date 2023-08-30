@@ -1,5 +1,5 @@
 import {
-  newUserStructureRepository,
+  userStructureRepository,
   userStructureSecurityRepository,
 } from "../../database";
 
@@ -14,14 +14,14 @@ const deleteUser = async ({
     userId,
     structureId,
   });
-  await newUserStructureRepository.delete({
+  await userStructureRepository.delete({
     id: userId,
     structureId,
   });
 };
 
 const deleteUserByEmail = async (email: string) => {
-  const user = await newUserStructureRepository.findOneBy({ email });
+  const user = await userStructureRepository.findOneBy({ email });
   if (user) {
     await deleteUser({ userId: user.id, structureId: user.structureId });
   }

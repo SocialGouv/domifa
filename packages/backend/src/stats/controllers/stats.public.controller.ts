@@ -4,7 +4,7 @@ import { HomeStats } from "./../../_common/model/stats/HomeStats.type";
 import { Controller, Get, Param } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import {
-  newUserStructureRepository,
+  userStructureRepository,
   structureRepository,
   usagerRepository,
 } from "../../database";
@@ -77,7 +77,7 @@ export class StatsPublicController {
       publicStats.structuresCount = structures.length;
 
       publicStats.usersCount =
-        await newUserStructureRepository.countUsersByRegionId({ regionId });
+        await userStructureRepository.countUsersByRegionId({ regionId });
     }
     // Stats nationales
     else {
@@ -86,7 +86,7 @@ export class StatsPublicController {
       publicStats.structuresCountByRegion =
         await this.adminStructuresService.getStructuresCountByRegion();
 
-      publicStats.usersCount = await newUserStructureRepository.count();
+      publicStats.usersCount = await userStructureRepository.count();
     }
 
     // Usagers

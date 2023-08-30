@@ -5,12 +5,10 @@ import { concatMap, debounceTime } from "rxjs/operators";
 import { LessThanOrEqual } from "typeorm";
 import { domifaConfig } from "../../../config";
 import {
-  MessageEmail,
   MessageEmailContent,
   messageEmailRepository,
   monitoringBatchProcessSimpleCountRunner,
   MonitoringBatchProcessTrigger,
-  typeOrmSearch,
 } from "../../../database";
 import { appLogger } from "../../../util";
 import { messageEmailConsummerTrigger } from "./message-email-consumer-trigger.service";
@@ -51,12 +49,10 @@ export class MessageEmailConsummer {
       },
       async ({ monitorTotal, monitorSuccess, monitorError }) => {
         const now = new Date();
-        const messageEmails = await messageEmailRepository.findBy(
-          typeOrmSearch<MessageEmail>({
-            status: "pending",
-            nextScheduledDate: LessThanOrEqual(now),
-          })
-        );
+        const messageEmails = await messageEmailRepository.findBy({
+          status: "pending",
+          nextScheduledDate: LessThanOrEqual(now),
+        });
 
         appLogger.debug(`${messageEmails.length} mails à traiter`);
         monitorTotal(messageEmails.length);

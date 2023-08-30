@@ -8,7 +8,7 @@ import {
 
 import { appLogger } from "../../util";
 import { isUUID } from "class-validator";
-import { newUserStructureRepository } from "../../database";
+import { userStructureRepository } from "../../database";
 
 @Injectable()
 export class CanGetUserStructureGuard implements CanActivate {
@@ -31,7 +31,7 @@ export class CanGetUserStructureGuard implements CanActivate {
       );
       throw new HttpException("Invalid structureId", HttpStatus.FORBIDDEN);
     }
-    const chosenUserStructure = await newUserStructureRepository.findOneBy({
+    const chosenUserStructure = await userStructureRepository.findOneBy({
       uuid: userUuid,
       structureId,
     });

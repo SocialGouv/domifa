@@ -47,7 +47,8 @@ export const PG_CONNECT_OPTIONS: PostgresConnectionOptions = {
   },
   type: "postgres",
   synchronize: false,
-  migrationsRun: true, // don't auto-run migrations
+  cache: true,
+  migrationsRun: true,
   host: domifaConfig().postgres.host,
   port: domifaConfig().postgres.port,
   username: domifaConfig().postgres.username,

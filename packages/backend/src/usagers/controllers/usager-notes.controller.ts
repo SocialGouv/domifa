@@ -105,7 +105,7 @@ export class UsagerNotesController {
     @Param("noteUUID", new ParseUUIDPipe()) _noteUUID: string
   ): Promise<Usager> {
     if (currentUsagerNote.pinned) {
-      await usagerRepository.updateOne(
+      await usagerRepository.update(
         { uuid: currentUsager.uuid },
         { pinnedNote: null }
       );
@@ -156,10 +156,7 @@ export class UsagerNotesController {
         }
       : null;
 
-    await usagerRepository.updateOne(
-      { uuid: currentUsager.uuid },
-      { pinnedNote }
-    );
+    await usagerRepository.update({ uuid: currentUsager.uuid }, { pinnedNote });
 
     return usagerRepository.getUsager(currentUsager.uuid);
   }
@@ -186,7 +183,7 @@ export class UsagerNotesController {
     @Param("noteUUID", new ParseUUIDPipe()) _noteUUID: string
   ): Promise<Usager> {
     if (!currentUsagerNote.archived) {
-      await usagerRepository.updateOne(
+      await usagerRepository.update(
         { uuid: currentUsager.uuid },
         { pinnedNote: null }
       );

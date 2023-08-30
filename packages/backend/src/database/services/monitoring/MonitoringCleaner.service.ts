@@ -2,11 +2,11 @@ import { Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
 import { LessThanOrEqual } from "typeorm";
 import { monitoringBatchProcessSimpleCountRunner } from ".";
-import { MonitoringBatchProcessTrigger, typeOrmSearch } from "../..";
+import { MonitoringBatchProcessTrigger } from "../..";
 import { domifaConfig } from "../../../config";
 import { adminBatchsErrorReportEmailSender } from "../../../mails/services/templates-renderers";
 import { appLogger } from "../../../util";
-import { MessageEmail, MonitoringBatchProcessId } from "../../entities";
+import { MonitoringBatchProcessId } from "../../entities";
 import { messageEmailRepository } from "../message-email";
 import { AdminBatchsErrorReportModel } from "./AdminBatchsErrorReportModel.type";
 import { monitoringBatchProcessRepository } from "./monitoringBatchProcessRepository.service";
@@ -86,12 +86,10 @@ async function purgeObsoleteMessageEmailProcess({
 }: {
   limitDate: Date;
 }) {
-  const res = await messageEmailRepository.delete(
-    typeOrmSearch<MessageEmail>({
-      status: "sent",
-      sendDate: LessThanOrEqual(limitDate),
-    })
-  );
+  const res = await messageEmailRepository.delete({
+    status: "sent",
+    sendDate: LessThanOrEqual(limitDate),
+  });
   return res.affected;
 }
 

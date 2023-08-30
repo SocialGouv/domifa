@@ -8,7 +8,7 @@ import {
   UserStructureTokens,
   UserStructureTokenType,
 } from "../../../../_common/model";
-import { newUserStructureRepository } from "../../user-structure";
+import { userStructureRepository } from "../../user-structure";
 import { userStructureSecurityEventHistoryManager } from "./userStructureSecurityEventHistoryManager.service";
 import { userStructureSecurityRepository } from "./userStructureSecurityRepository.service";
 
@@ -38,7 +38,7 @@ async function generateResetPasswordToken({
   userSecurity: UserStructureSecurity;
 }> {
   const user: UserStructureProfile =
-    await newUserStructureRepository.findOneByOrFail({
+    await userStructureRepository.findOneByOrFail({
       email: email.toLowerCase(),
     });
 

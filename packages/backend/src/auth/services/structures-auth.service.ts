@@ -2,10 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { differenceInCalendarDays } from "date-fns";
 import { domifaConfig } from "../../config";
-import {
-  newUserStructureRepository,
-  structureRepository,
-} from "../../database";
+import { userStructureRepository, structureRepository } from "../../database";
 import { appLogger } from "../../util";
 import {
   CURRENT_JWT_PAYLOAD_VERSION,
@@ -88,7 +85,7 @@ export class StructuresAuthService {
 
     // Mise à jour une seule fois par jour
     if (differenceInCalendarDays(authUserLastLogin, new Date()) < 0) {
-      await newUserStructureRepository.update(
+      await userStructureRepository.update(
         { id: authUser.id, structureId: authUser.structureId },
         { lastLogin: new Date() }
       );
@@ -102,7 +99,7 @@ export class StructuresAuthService {
       "_userId" | "_userProfile" | "isSuperAdminDomifa"
     >
   ): Promise<UserStructureAuthenticated> {
-    const user = await newUserStructureRepository.findOne({
+    const user = await userStructureRepository.findOne({
       where: { id: payload._userId },
       select: APP_USER_PUBLIC_ATTRIBUTES,
     });

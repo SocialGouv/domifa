@@ -21,6 +21,7 @@ async function getStats({
     dateInteractionAfter: startDateUTC,
     structureId,
   });
+
   const visite = await countInteractions({
     dateInteractionBefore: endDateUTCExclusive,
     dateInteractionAfter: startDateUTC,
@@ -120,21 +121,16 @@ async function countInteractions({
         ) as unknown as Date,
       },
     });
-  } else {
-    const { sum } = await interactionRepository
-      .createQueryBuilder("interactions")
-      .select("SUM(interactions.nbCourrier)", "sum")
-      .where({
-        structureId,
-        type: interactionType,
-        event: "create",
-        dateInteraction: Between(
-          dateInteractionAfter,
-          dateInteractionBefore
-        ) as unknown as Date,
-      })
-      .getRawOne();
-
-    return sum ? parseInt(sum, 10) : 0;
   }
+  return (
+    (await interactionRepository.sum("nbCourrier", {
+      structureId,
+      type: interactionType,
+      event: "create",
+      dateInteraction: Between(
+        dateInteractionAfter,
+        dateInteractionBefore
+      ) as unknown as Date,
+    })) ?? 0
+  );
 }

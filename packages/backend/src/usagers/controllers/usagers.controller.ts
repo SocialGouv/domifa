@@ -27,11 +27,10 @@ import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import {
-  PgRepositoryFindOrder,
-  usagerLightRepository,
   usagerRepository,
   USAGER_LIGHT_ATTRIBUTES,
   userUsagerRepository,
+  joinSelectFields,
 } from "../../database";
 
 import { userUsagerCreator, userUsagerUpdator } from "../../users/services";
@@ -82,30 +81,31 @@ export class UsagersController {
     chargerTousRadies: boolean,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
-    const usagersNonRadies = await usagerLightRepository.findManyWithQuery({
-      select: USAGER_LIGHT_ATTRIBUTES,
-      where: `"structureId" = :structureId
-        and "decision"->>'statut' <> :statut`,
-      params: {
-        statut: "RADIE",
-        structureId: user.structureId,
-      },
-    });
+    const usagersNonRadies = await usagerRepository
+      .createQueryBuilder()
+      .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
+      .where(
+        `"structureId" = :structureId and "decision"->>'statut' != :statut`,
+        {
+          statut: "RADIE",
+          structureId: user.structureId,
+        }
+      )
+      .getRawMany();
 
-    const orderByLastDecisionDesc: PgRepositoryFindOrder<any> = {};
-    orderByLastDecisionDesc[`"decision"->>'dateFin'`] = "DESC";
-
-    const usagersRadiesFirsts = await usagerLightRepository.findManyWithQuery({
-      select: USAGER_LIGHT_ATTRIBUTES,
-      where: `"structureId" = :structureId
-        and "decision"->>'statut' = :statut`,
-      params: {
-        statut: "RADIE",
-        structureId: user.structureId,
-      },
-      maxResults: chargerTousRadies ? undefined : 50,
-      order: orderByLastDecisionDesc,
-    });
+    const usagersRadiesFirsts = await usagerRepository
+      .createQueryBuilder()
+      .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
+      .where(
+        `"structureId" = :structureId and "decision"->>'statut' = :statut`,
+        {
+          statut: "RADIE",
+          structureId: user.structureId,
+        }
+      )
+      .limit(chargerTousRadies ? undefined : 50)
+      .orderBy({ "decision->>'dateFin'": "DESC" })
+      .getRawMany();
 
     const usagersRadiesTotalCount = chargerTousRadies
       ? usagersRadiesFirsts.length
@@ -136,23 +136,23 @@ export class UsagersController {
     if (!searchString || searchString.trim().length < 3) {
       return [];
     }
-    const orderByLastDecisionDesc: PgRepositoryFindOrder<any> = {};
-    orderByLastDecisionDesc[`"decision"->>'dateFin'`] = "DESC";
 
     const search = dataCompare.cleanString(searchString);
-    return await usagerLightRepository.findManyWithQuery({
-      select: USAGER_LIGHT_ATTRIBUTES,
-      where: `"structureId" = :structureId
-        and "decision"->>'statut' = :statut
-        and LOWER(coalesce("nom", '') || ' ' || coalesce("prenom", '')) LIKE :search`,
-      params: {
-        statut: "RADIE",
-        structureId: user.structureId,
-        search: `%${search}%`,
-      },
-      maxResults: 10,
-      order: orderByLastDecisionDesc,
-    });
+
+    return usagerRepository
+      .createQueryBuilder()
+      .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
+      .where(
+        `"structureId" = :structureId and "decision"->>'statut' = :statut and LOWER(coalesce("nom", '') || ' ' || coalesce("prenom", '')) LIKE :search`,
+        {
+          statut: "RADIE",
+          structureId: user.structureId,
+          search: `%${search}%`,
+        }
+      )
+      .limit(10)
+      .orderBy({ "decision->>'dateFin'": "DESC" })
+      .getRawMany();
   }
 
   @AllowUserStructureRoles("simple", "responsable", "admin")

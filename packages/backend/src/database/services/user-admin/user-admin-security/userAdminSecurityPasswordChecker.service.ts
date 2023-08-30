@@ -1,12 +1,11 @@
 import {
-  userAdminRepository,
+  userStructureRepository,
   userStructureSecurityEventHistoryManager,
   userStructureSecurityRepository,
-  USER_ADMIN_WHERE,
-  newUserStructureRepository,
 } from "../..";
 import { passwordGenerator } from "../../../../util/encoding/passwordGenerator.service";
 import { PortailAdminUser } from "../../../../_common/model";
+import { USER_ADMIN_WHERE } from "../userAdminRepository.service";
 
 export const userAdminSecurityPasswordChecker = {
   checkPassword,
@@ -19,7 +18,7 @@ async function checkPassword({
   email: string;
   password: string;
 }): Promise<PortailAdminUser> {
-  const user: PortailAdminUser = await userAdminRepository.findOneBy({
+  const user: PortailAdminUser = await userStructureRepository.findOneBy({
     email: email.toLowerCase().trim(),
     ...USER_ADMIN_WHERE,
   });
@@ -68,9 +67,10 @@ async function checkPassword({
     eventType: "login-success",
   });
 
-  await newUserStructureRepository.update(
+  await userStructureRepository.update(
     { id: user.id },
     { lastLogin: new Date() }
   );
-  return newUserStructureRepository.findOneBy({ id: user.id });
+
+  return userStructureRepository.findOneBy({ id: user.id });
 }

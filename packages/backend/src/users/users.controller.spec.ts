@@ -17,13 +17,10 @@ describe("Users Controller", () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [UsersController],
       imports: [MailsModule, StructuresModule, UsagersModule, HttpModule],
-      providers: [],
     });
 
     const authInfo = TESTS_USERS_STRUCTURE.BY_EMAIL["s1-admin@yopmail.com"];
-
     await AppTestHelper.authenticateStructure(authInfo, { context });
-
     controller = context.module.get<UsersController>(UsersController);
   });
 
@@ -32,11 +29,11 @@ describe("Users Controller", () => {
     await AppTestHelper.tearDownTestApp(context);
   });
 
-  it("should be defined", async () => {
-    expect(controller).toBeDefined();
-  });
+  describe("> Register user", () => {
+    it("should be defined", async () => {
+      expect(controller).toBeDefined();
+    });
 
-  describe("> Register un user structure", () => {
     it("should throw 400 when email already exist", async () => {
       const response = await AppTestHttpClient.post("/users/register", {
         context,

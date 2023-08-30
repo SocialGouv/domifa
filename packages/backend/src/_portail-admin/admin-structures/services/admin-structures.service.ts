@@ -1,18 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import { startOfMonth, subMonths, subYears } from "date-fns";
-import { In, Repository } from "typeorm";
+import { In } from "typeorm";
 
 import {
-  appTypeormManager,
   interactionRepository,
   InteractionsTable,
-  myDataSource,
-  newUserStructureRepository,
+  userStructureRepository,
   structureRepository,
   typeOrmSearch,
   usagerRepository,
   UsagerTable,
-  userStructureRepository,
 } from "../../../database";
 import { usagerDocsRepository } from "../../../database/services/usager/usagerDocsRepository.service";
 import { StatsDeploiementExportModel } from "../../../excel/export-stats-deploiement";
@@ -31,12 +28,6 @@ import {
 
 @Injectable()
 export class AdminStructuresService {
-  private interactionRepository: Repository<InteractionsTable>;
-
-  constructor() {
-    this.interactionRepository = myDataSource.getRepository(InteractionsTable);
-  }
-
   public async getStatsDomifaAdminDashboard(): Promise<AdminStructureStatsData> {
     const structures = await structureRepository.find({});
 
@@ -52,7 +43,7 @@ export class AdminStructuresService {
 
     const structuresCountByTypeMap = await this.getStructuresCountByTypeMap();
 
-    const usersCount = await newUserStructureRepository.count();
+    const usersCount = await userStructureRepository.count();
 
     const interactionsCountByTypeMap =
       await this.getInteractionsCountByTypeMap();
@@ -171,14 +162,14 @@ export class AdminStructuresService {
       count: number;
     }[]
   > {
-    return userStructureRepository.countBy({
-      countBy: "structureId",
-      order: {
-        count: "DESC",
-        countBy: "ASC",
-      },
-    });
+    return userStructureRepository
+      .createQueryBuilder()
+      .select("structureId")
+      .addSelect("COUNT(*)", "count")
+      .groupBy("structureId")
+      .getRawMany();
   }
+
   public async getUsagersValideCountByStructure(): Promise<
     {
       structureId: number;
@@ -217,11 +208,9 @@ export class AdminStructuresService {
       count: number;
     }[]
   > {
-    const results = await appTypeormManager
-      .getRepository(UsagerTable)
-      .query(
-        `select "structureId", sum(jsonb_array_length("ayantsDroits")) as count from usager u group by "structureId" `
-      );
+    const results = await usagerRepository.query(
+      `select "structureId", sum(jsonb_array_length("ayantsDroits")) as count from usager u group by "structureId" `
+    );
 
     return usagerRepository._parseCounts<UsagerTable, "structureId">(results, {
       label: "count",
@@ -359,7 +348,7 @@ export class AdminStructuresService {
 
     const structuresCountByType = await this.getStructuresCountByTypeMap();
 
-    const usersCount = await newUserStructureRepository.count();
+    const usersCount = await userStructureRepository.count();
 
     const docsCount = await usagerDocsRepository.count();
 
@@ -386,32 +375,30 @@ export class AdminStructuresService {
     interactionType: InteractionType,
     structuresId?: number[]
   ): Promise<number> {
-    {
-      if (
-        interactionType === "appel" ||
-        interactionType === "visite" ||
-        interactionType === "loginPortail" ||
-        interactionType === "npai"
-      ) {
-        return this.interactionRepository.count({
-          where: {
-            type: interactionType,
-            event: "create",
-          },
-        });
-      }
-
-      const whereCondition: Partial<InteractionsTable> = {
-        type: interactionType,
-        event: "create",
-      };
-
-      if (structuresId) {
-        whereCondition.structureId = In(structuresId) as any;
-      }
-
-      return interactionRepository.sum("nbCourrier", whereCondition);
+    if (
+      interactionType === "appel" ||
+      interactionType === "visite" ||
+      interactionType === "loginPortail" ||
+      interactionType === "npai"
+    ) {
+      return interactionRepository.count({
+        where: {
+          type: interactionType,
+          event: "create",
+        },
+      });
     }
+
+    const whereCondition: Partial<InteractionsTable> = {
+      type: interactionType,
+      event: "create",
+    };
+
+    if (structuresId) {
+      whereCondition.structureId = In(structuresId) as any;
+    }
+
+    return (await interactionRepository.sum("nbCourrier", whereCondition)) ?? 0;
   }
 
   private async getUsagersCountByStructureMaps(structuresIds: number[]) {
