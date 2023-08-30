@@ -4,36 +4,33 @@ import {
   STRUCTURE_COMMON_ATTRIBUTES,
 } from "../../../_common/model";
 import { StructureTable } from "../../entities";
-import { appTypeormManager, pgRepository } from "../_postgres";
+import { joinSelectFields, myDataSource, pgRepository } from "../_postgres";
 
 const baseRepository = pgRepository.get<StructureTable, Structure>(
   StructureTable
 );
 
-export const structureRepository = appTypeormManager
+export const structureRepository = myDataSource
   .getRepository<Structure>(StructureTable)
   .extend({
     countBy: baseRepository.countBy,
-    findOneWithQuery: baseRepository.findOneWithQuery,
-    checkHardResetToken,
-  });
 
-async function checkHardResetToken({
-  userId,
-  token,
-}: {
-  userId: number;
-  token: string;
-}): Promise<StructureCommon & Pick<Structure, "hardReset">> {
-  const select: (keyof StructureCommon & Pick<Structure, "hardReset">)[] = (
-    STRUCTURE_COMMON_ATTRIBUTES as any[]
-  ).concat(["hardReset"]);
+    async checkHardResetToken({
+      userId,
+      token,
+    }: {
+      userId: number;
+      token: string;
+    }): Promise<StructureCommon & Pick<Structure, "hardReset">> {
+      const select: (keyof StructureCommon & Pick<Structure, "hardReset">)[] = (
+        STRUCTURE_COMMON_ATTRIBUTES as any[]
+      ).concat(["hardReset"]);
 
-  return structureRepository.findOneWithQuery<
-    StructureCommon & Pick<Structure, "hardReset">
-  >({
-    select,
-    where: `"hardReset" @> '{"token": "${token}", "userId": ${userId}}'`,
-    params: [],
+      return this.createQueryBuilder()
+        .select(joinSelectFields(select))
+        .where(`"hardReset" @> :hardReset`, {
+          hardReset: JSON.stringify({ token, userId }),
+        })
+        .getRawOne();
+    },
   });
-}

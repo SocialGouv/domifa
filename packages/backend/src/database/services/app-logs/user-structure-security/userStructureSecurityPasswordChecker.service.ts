@@ -1,10 +1,8 @@
-import {
-  newUserStructureRepository,
-  userStructureSecurityRepository,
-} from "../../user-structure";
+import { userStructureRepository } from "../../user-structure";
 import { passwordGenerator } from "../../../../util/encoding/passwordGenerator.service";
 import { UserStructure } from "../../../../_common/model";
 import { userStructureSecurityEventHistoryManager } from "./userStructureSecurityEventHistoryManager.service";
+import { userStructureSecurityRepository } from "./userStructureSecurityRepository.service";
 
 export const userStructureSecurityPasswordChecker = {
   checkPassword,
@@ -17,7 +15,7 @@ async function checkPassword({
   email: string;
   password: string;
 }): Promise<UserStructure> {
-  const user: UserStructure = await newUserStructureRepository.findOneByOrFail({
+  const user: UserStructure = await userStructureRepository.findOneByOrFail({
     email: email.toLowerCase(),
   });
 
@@ -62,12 +60,12 @@ async function checkPassword({
     eventType: "login-success",
   });
 
-  await newUserStructureRepository.update(
+  await userStructureRepository.update(
     { id: user.id },
     { lastLogin: new Date() }
   );
 
-  return newUserStructureRepository.findOneBy({
+  return userStructureRepository.findOneBy({
     id: user.id,
   });
 }

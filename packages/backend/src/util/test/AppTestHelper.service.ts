@@ -33,8 +33,6 @@ async function bootstrapTestApp(
   metadata: ModuleMetadata,
   initApp: { initApp?: boolean } = { initApp: false }
 ): Promise<AppTestContext> {
-  // re-use shared connection created in jest.setup.ts
-
   await bootstrapTestConnection();
 
   const module = await Test.createTestingModule(metadata).compile();

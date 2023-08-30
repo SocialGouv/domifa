@@ -1,7 +1,7 @@
 import {
   structureRepository,
   usagerRepository,
-  newUserStructureRepository,
+  userStructureRepository,
 } from "../../../../database";
 import {
   AppTestContext,
@@ -43,7 +43,7 @@ describe("Cerfa Data utils", () => {
       .useFakeTimers(JEST_FAKE_TIMER)
       .setSystemTime(new Date("2023-03-22T20:45:47.433Z"));
 
-    user = (await newUserStructureRepository.findOneBy({
+    user = (await userStructureRepository.findOneBy({
       id: 1,
     })) as any as UserStructureAuthenticated;
     structure = await structureRepository.findOneBy({

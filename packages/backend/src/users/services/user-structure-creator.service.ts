@@ -1,5 +1,5 @@
 import {
-  newUserStructureRepository,
+  userStructureRepository,
   userStructureSecurityRepository,
   userStructureSecurityResetPasswordInitiator,
   UserStructureTable,
@@ -35,7 +35,7 @@ async function createUserWithPassword(
     password: createdUser.password,
   });
   createdUser.passwordLastUpdate = new Date();
-  const user = await newUserStructureRepository.save(createdUser);
+  const user = await userStructureRepository.save(createdUser);
 
   const userSecurityAttributes: UserStructureSecurity = {
     userId: user.id,
@@ -58,7 +58,7 @@ async function createUserWithTmpToken(
   createdUser.verified = true;
   createdUser.password = await passwordGenerator.generateRandomPasswordHash();
 
-  const user = await newUserStructureRepository.save(createdUser);
+  const user = await userStructureRepository.save(createdUser);
 
   const userSecurityAttributes: UserStructureSecurity = {
     userId: user.id,

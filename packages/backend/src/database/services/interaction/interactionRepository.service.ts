@@ -13,9 +13,9 @@ import {
   INTERACTION_OK_LIST,
 } from "../../../_common/model/interaction";
 import { InteractionsTable } from "../../entities";
-import { appTypeormManager } from "../_postgres";
+import { myDataSource } from "../_postgres";
 
-export const interactionRepository = appTypeormManager
+export const interactionRepository = myDataSource
   .getRepository<Interactions>(InteractionsTable)
   .extend({
     findLastInteractionOk,
@@ -192,7 +192,7 @@ async function countInteractionsByMonth(
   }
 
   query = query + ` GROUP BY 1`;
-  return appTypeormManager.getRepository(InteractionsTable).query(query, where);
+  return interactionRepository.query(query, where);
 }
 
 async function countVisiteOut({
@@ -219,13 +219,11 @@ async function countVisiteOut({
     FROM visite_out_counts_by_minute
   `;
 
-  const res = await appTypeormManager
-    .getRepository(InteractionsTable)
-    .query(query, [
-      structureId,
-      dateInteractionAfter.toDateString(),
-      dateInteractionBefore.toDateString(),
-    ]);
+  const res = await interactionRepository.query(query, [
+    structureId,
+    dateInteractionAfter.toDateString(),
+    dateInteractionBefore.toDateString(),
+  ]);
 
   if (res.length > 0) {
     return res[0].visiteOut ? parseInt(res[0].visiteOut, 10) : 0;

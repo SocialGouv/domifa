@@ -1,9 +1,7 @@
-import {
-  newUserStructureRepository,
-  userStructureSecurityRepository,
-} from "../../user-structure";
+import { userStructureRepository } from "../../user-structure";
 import { passwordGenerator } from "../../../../util/encoding/passwordGenerator.service";
 import { userStructureSecurityEventHistoryManager } from "./userStructureSecurityEventHistoryManager.service";
+import { userStructureSecurityRepository } from "./userStructureSecurityRepository.service";
 
 export const userStructureSecurityPasswordUpdater = {
   updatePassword,
@@ -30,7 +28,7 @@ async function updatePassword({
   ) {
     throw new Error("Error");
   }
-  const user = await newUserStructureRepository.findOneByOrFail({
+  const user = await userStructureRepository.findOneByOrFail({
     id: userId,
   });
 
@@ -52,7 +50,7 @@ async function updatePassword({
     password: newPassword,
   });
 
-  await newUserStructureRepository.update(
+  await userStructureRepository.update(
     {
       id: userId,
     },

@@ -6,7 +6,7 @@ import {
   structureRepository,
   usagerRepository,
   interactionRepository,
-  newUserStructureRepository,
+  userStructureRepository,
 } from "../../database";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
@@ -48,7 +48,7 @@ describe("interactionsCreator", () => {
     interactionsDeletor =
       context.module.get<InteractionsDeletor>(InteractionsDeletor);
 
-    user = await newUserStructureRepository.findOneBy({
+    user = await userStructureRepository.findOneBy({
       id: 1,
     });
     user.structure = await structureRepository.findOneBy({ id: 1 });
@@ -371,7 +371,7 @@ describe("interactionsCreator", () => {
 
   describe("4. Tests des timezones", () => {
     it("Récupération d'un courrier en Guyanne (-4 heures)", async () => {
-      user = await newUserStructureRepository.findOneBy({ id: 11 });
+      user = await userStructureRepository.findOneBy({ id: 11 });
       user.structure = await structureRepository.findOneBy({ id: 5 });
       usager = await usagerRepository.findOneBy({
         ref: 1,

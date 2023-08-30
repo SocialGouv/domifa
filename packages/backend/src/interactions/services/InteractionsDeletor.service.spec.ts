@@ -1,6 +1,6 @@
 import { InteractionsDeletor, interactionsCreator } from ".";
 import {
-  newUserStructureRepository,
+  userStructureRepository,
   structureRepository,
   usagerRepository,
 } from "../../database";
@@ -33,7 +33,7 @@ describe("InteractionsDeletor", () => {
     interactionsDeletor =
       context.module.get<InteractionsDeletor>(InteractionsDeletor);
 
-    user = await newUserStructureRepository.findOneBy({
+    user = await userStructureRepository.findOneBy({
       id: 1,
     });
     usager = await usagerRepository.findOneBy({

@@ -3,7 +3,7 @@ import {
   UserStructureProfile,
   UserStructureSecurity,
 } from "../../../../_common/model";
-import { newUserStructureRepository } from "../../user-structure/userStructureRepository.service";
+import { userStructureRepository } from "../../user-structure/userStructureRepository.service";
 import { userStructureSecurityEventHistoryManager } from "./userStructureSecurityEventHistoryManager.service";
 import { userStructureSecurityRepository } from "./userStructureSecurityRepository.service";
 
@@ -54,7 +54,7 @@ async function confirmResetPassword({
     password: newPassword,
   });
 
-  await newUserStructureRepository.update(
+  await userStructureRepository.update(
     {
       id: userId,
     },
@@ -63,11 +63,9 @@ async function confirmResetPassword({
       passwordLastUpdate: new Date(),
     }
   );
-  const user: UserStructureProfile = await newUserStructureRepository.findOneBy(
-    {
-      id: userId,
-    }
-  );
+  const user: UserStructureProfile = await userStructureRepository.findOneBy({
+    id: userId,
+  });
 
   await userStructureSecurityRepository.logEvent({
     userId,

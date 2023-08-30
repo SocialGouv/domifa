@@ -2,7 +2,7 @@ import { DEPARTEMENTS_MAP } from "./../../util/territoires/constants/REGIONS_DEP
 import { HttpException, HttpStatus } from "@nestjs/common";
 import * as crypto from "crypto";
 import {
-  newUserStructureRepository,
+  userStructureRepository,
   structureRepository,
   StructureTable,
 } from "../../database";
@@ -43,7 +43,7 @@ async function createStructureWithAdminUser(
   structureDto: StructureDto,
   userDto: UserDto
 ): Promise<{ structureId: number; userId: number }> {
-  const existingUser = await newUserStructureRepository.findOneBy({
+  const existingUser = await userStructureRepository.findOneBy({
     email: userDto.email,
   });
 

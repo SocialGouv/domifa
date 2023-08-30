@@ -3,7 +3,7 @@ import {
   structureRepository,
   usagerRepository,
   messageSmsRepository,
-  newUserStructureRepository,
+  userStructureRepository,
 } from "../../database";
 import { InteractionDto } from "../../interactions/dto";
 import { InteractionsModule } from "../../interactions/interactions.module";
@@ -42,7 +42,7 @@ describe("MessageSmsService", () => {
     interactionsDeletor =
       context.module.get<InteractionsDeletor>(InteractionsDeletor);
 
-    user = await newUserStructureRepository.findOneBy({
+    user = await userStructureRepository.findOneBy({
       id: 1,
     });
     user.structure = await structureRepository.findOneBy({ id: 1 });
@@ -78,7 +78,7 @@ describe("MessageSmsService", () => {
         { sms: user.structure.sms }
       );
 
-      await usagerRepository.updateOne(
+      await usagerRepository.update(
         {
           ref: 2,
           structureId: 1,
