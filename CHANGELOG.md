@@ -1,3 +1,14 @@
+## [2.134.9](https://github.com/SocialGouv/domifa/compare/v2.134.8...v2.134.9) (2023-08-30)
+
+
+### Bug Fixes
+
+* **admin:** suppression de stats inutiles ([8b676b8](https://github.com/SocialGouv/domifa/commit/8b676b8e2f2185cbe9311880627759d414463b32))
+* **anon:** amélioration de l'anonymisation ([33ab3a1](https://github.com/SocialGouv/domifa/commit/33ab3a125e865e2cc7350c22d0b43168655d6c2e))
+* **typeorm:** mise à jour d'une requête suite à la bascule sur les repositories ([73c3ffc](https://github.com/SocialGouv/domifa/commit/73c3ffce2fff77d85518a3f4a94864c081a668f6))
+* **typeorm:** mise à jour des repositories ([3949a0e](https://github.com/SocialGouv/domifa/commit/3949a0ed322bc7b3d64bdec763e6c0b027f79b15))
+* **typeorm:** suppression de code inutile ([b0e451b](https://github.com/SocialGouv/domifa/commit/b0e451b26438c90ae37891b5f6e47cddb40ed4fd))
+
 ## [2.134.8](https://github.com/SocialGouv/domifa/compare/v2.134.7...v2.134.8) (2023-08-29)
 
 
