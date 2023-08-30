@@ -52,7 +52,7 @@ export class PortailUsagersLoginController {
       const portailUsagerProfile: PortailUsagerProfile =
         await portailUsagerProfilBuilder.build({ usagerUUID: user.usagerUUID });
 
-      const usager = await usagerRepository.findOne({
+      const usager = await usagerRepository.findOneBy({
         uuid: user.usagerUUID,
       });
 

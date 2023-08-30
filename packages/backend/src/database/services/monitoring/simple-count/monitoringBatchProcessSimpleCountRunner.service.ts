@@ -109,6 +109,6 @@ async function monitorProcess(
           endDate: new Date(),
         }
       );
-    return monitoringBatchProcessRepository.save(monitoringBatchProcessEntity);
+    await monitoringBatchProcessRepository.save(monitoringBatchProcessEntity);
   }
 }

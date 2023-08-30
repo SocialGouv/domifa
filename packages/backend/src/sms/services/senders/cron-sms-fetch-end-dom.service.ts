@@ -230,9 +230,9 @@ export class CronSmsFetchEndDomService {
       async ({ monitorTotal, monitorSuccess, monitorError }) => {
         monitorTotal(messagesToSend.length);
 
-        for (let i = 0; i < messagesToSend.length; i++) {
+        for (const element of messagesToSend) {
           try {
-            await this.messageSmsSenderService.sendSms(messagesToSend[i]);
+            await this.messageSmsSenderService.sendSms(element);
             monitorSuccess();
           } catch (err) {
             monitorError(err as Error);

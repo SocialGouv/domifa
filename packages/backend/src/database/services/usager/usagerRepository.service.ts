@@ -13,7 +13,9 @@ export const usagerRepository = myDataSource
   .getRepository<Usager>(UsagerTable)
   .extend({
     countMigratedUsagers,
-    ...baseRepository,
+    aggregateAsNumber: baseRepository.aggregateAsNumber,
+    _parseCounts: baseRepository._parseCounts,
+    countBy: baseRepository.countBy,
     getUsager,
     updateOneAndReturn,
     customCountBy: baseRepository.countBy,

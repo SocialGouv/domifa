@@ -12,7 +12,7 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AllowUserStructureRoles, CurrentUser } from "../../auth/decorators";
-import { structureCommonRepository, structureRepository } from "../../database";
+import { structureRepository } from "../../database";
 import { hardResetEmailSender } from "../../mails/services/templates-renderers";
 import { ExpressResponse } from "../../util/express";
 import {
@@ -102,11 +102,9 @@ export class StructuresController {
     );
 
     structureDto.timeZone = DEPARTEMENTS_MAP[structureDto.departement].timeZone;
+    await structureRepository.update({ id: user.structureId }, structureDto);
 
-    return structureCommonRepository.updateOne(
-      { id: user.structureId },
-      structureDto
-    );
+    return structureRepository.findOneBy({ id: user.structureId });
   }
 
   @ApiBearerAuth()

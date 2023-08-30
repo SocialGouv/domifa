@@ -1,5 +1,3 @@
-import { Usager } from "../../../_common/model/usager/Usager.type";
-import { InteractionsModule } from "../../../interactions/interactions.module";
 import { UsersModule } from "../../../users/users.module";
 import {
   AppTestContext,
@@ -8,13 +6,14 @@ import {
   JEST_FAKE_TIMER,
 } from "../../../util/test";
 
-import { UsagersService } from "../../services/usagers.service";
 import { UsagersController } from "../usagers.controller";
-import { UsagerOptionsHistoryService } from "../../services";
-import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
 
+import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
+import { POST_USAGER } from "../../../_common/mocks";
+import { Usager } from "../../../_common/model";
 import { TESTS_USERS_STRUCTURE } from "../../../_tests";
-import { POST_USAGER } from "../../../_common/mocks/usagers";
+import { InteractionsModule } from "../../../interactions/interactions.module";
+import { UsagersService, UsagerOptionsHistoryService } from "../../services";
 
 const ENDPOINT = "/usagers";
 
