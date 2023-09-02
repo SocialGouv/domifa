@@ -35,6 +35,6 @@ RUN mv ./src/environments/environment.prod-env.ts ./src/environments/environment
 RUN yarn --frozen-lockfile && yarn cache clean
 RUN yarn build
 
-FROM ghcr.io/socialgouv/docker/nginx4spa:8.1.0
+FROM ghcr.io/socialgouv/docker/nginx4spa:8.2.0
 
 COPY --from=builder --chown=101:101 /app/dist/domifa /usr/share/nginx/html
