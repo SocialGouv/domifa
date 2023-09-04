@@ -100,7 +100,7 @@ export class UsagerDocsController {
           file: Express.Multer.File,
           callback: (error: Error | null, destination: string) => void
         ) => {
-          return callback(null, randomName(file));
+          callback(null, randomName(file));
         },
       }),
     })

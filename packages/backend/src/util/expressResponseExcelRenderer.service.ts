@@ -22,7 +22,7 @@ async function sendExcelWorkbook({
   await workbook.xlsx
     .write(res)
     .then(() => {
-      res.end();
+      return res.end();
     })
     .catch((err) => {
       appLogger.error("Unexpected export error", err);

@@ -59,17 +59,6 @@ async function resetUsagers(structure: StructureLight): Promise<void> {
 }
 
 async function deleteStructureDocuments(structure: StructureLight) {
-  const structureDocsPath = join(
-    domifaConfig().upload.basePath,
-    "structure-documents",
-    `${structure.id}`
-  );
-  await rm(structureDocsPath, {
-    recursive: true,
-    force: true,
-    maxRetries: 2,
-  });
-
   const oldUsagerFolder = join(
     domifaConfig().upload.basePath,
     `${structure.id}`
