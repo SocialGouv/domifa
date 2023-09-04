@@ -1,3 +1,11 @@
+## [2.134.11](https://github.com/SocialGouv/domifa/compare/v2.134.10...v2.134.11) (2023-09-04)
+
+
+### Bug Fixes
+
+* **api:** amélioration des DTO ([b46db82](https://github.com/SocialGouv/domifa/commit/b46db82a5c698b5a46ee886b3645ac76c3b2dac4))
+* **frontend:** amélioration des linters, correction d'un bug sur Safari ([8bb8184](https://github.com/SocialGouv/domifa/commit/8bb81843d1ef16d1fc0dc06c79abf25bc08abf4e))
+
 ## [2.134.10](https://github.com/SocialGouv/domifa/compare/v2.134.9...v2.134.10) (2023-09-03)
 
 
