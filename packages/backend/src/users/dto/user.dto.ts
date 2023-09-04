@@ -3,6 +3,7 @@ import {
   IsEmail,
   IsEmpty,
   IsNotEmpty,
+  IsString,
   MaxLength,
   MinLength,
 } from "class-validator";
@@ -13,6 +14,7 @@ export class UserDto {
   @MinLength(2)
   @MaxLength(100)
   @IsNotEmpty()
+  @IsString()
   @Transform(({ value }: TransformFnParams) => {
     return value.toString().trim();
   })
@@ -21,6 +23,7 @@ export class UserDto {
   @MinLength(2)
   @MaxLength(100)
   @IsNotEmpty()
+  @IsString()
   @Transform(({ value }: TransformFnParams) => {
     return value.toString().trim();
   })
