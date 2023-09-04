@@ -20,7 +20,8 @@
         "plugin:@typescript-eslint/recommended",
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates",
-        "plugin:prettier/recommended" // <--- here we inherit from the recommended setup from eslint-plugin-prettier for TS
+        "plugin:no-lookahead-lookbehind-regexp/recommended",
+        "prettier"
       ],
       "rules": {
         /**

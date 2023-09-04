@@ -19,13 +19,17 @@
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:no-lookahead-lookbehind-regexp/recommended",
+
+        "prettier"
       ],
       "rules": {
         /**
          * Any TypeScript source code (NOT TEMPLATE) related rules you wish to use/reconfigure over and above the
          * recommended set provided by the @angular-eslint project would go here.
          */
+        "@typescript-eslint/no-explicit-any": "off",
         "@angular-eslint/directive-selector": [
           "error",
           {

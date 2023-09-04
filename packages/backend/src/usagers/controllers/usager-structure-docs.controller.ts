@@ -69,6 +69,7 @@ export class UsagerStructureDocsController {
         structureId: user.structureId,
         docPath: doc.path,
       });
+
       return res.status(HttpStatus.OK).sendFile(output);
     }
 

@@ -39,8 +39,7 @@ export function buildCustomDoc({
   extraParameters?: { [name: string]: string };
 }): StructureCustomDocTags {
   // Adresse courrier active
-  const isDifferentAddress =
-    structure.adresseCourrier !== null && structure.adresseCourrier?.actif;
+  const isDifferentAddress = structure.adresseCourrier?.actif;
   // Adresse
   let adresseStructure = ucFirst(structure.adresse);
 

@@ -8,13 +8,13 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
 import { FA_ICONS } from "./constants/FA_ICONS.const";
 
 import { AdminNomCompletPipe } from "./pipes/admin-nom-complet.pipe";
-import { FormatBigNumberPipe } from "./pipes/formatBigNumber.pipe";
-import { FormatPhoneNumberPipe } from "./pipes/formatPhoneNumber.pipe";
+
 import {
   AdminStructuresApiClient,
   AdminStructuresExportApiClient,
 } from "./services";
 import { AdminStructuresExportComponent } from "./components/admin-structures-export";
+import { FormatPhoneNumberPipe, FormatBigNumberPipe } from "./pipes";
 
 @NgModule({
   declarations: [
