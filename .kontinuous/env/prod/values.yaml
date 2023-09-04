@@ -30,6 +30,13 @@ backend-cron:
   replicas: 1
   addVolumes:
     - files
+  resources:
+    requests:
+      cpu: 0.5
+      memory: 1Gi
+    limits:
+      cpu: 3
+      memory: 3Gi
   envFrom:
     - secretRef:
         name: "{{ .Values.global.pgSecretName }}"
@@ -68,13 +75,13 @@ backend-cron:
 backend:
   host: "domifa-api.{{ .Values.global.domain }}"
   autoscale:
-    minReplicas: 2
-    maxReplicas: 6
+    minReplicas: 3
+    maxReplicas: 8
     enabled: true
   resources:
     requests:
-      cpu: 0.5
-      memory: 1Gi
+      cpu: 1
+      memory: 2Gi
     limits: # exports need a lot of CPU/RAM ATM
       cpu: 3
       memory: 3Gi
