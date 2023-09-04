@@ -1,6 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams } from "class-transformer";
-import { IsEmail, IsNotEmpty, MaxLength, MinLength } from "class-validator";
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  MaxLength,
+  MinLength,
+} from "class-validator";
 
 export class UserEditDto {
   @ApiProperty({
@@ -10,6 +16,7 @@ export class UserEditDto {
   @MinLength(2)
   @MaxLength(100)
   @IsNotEmpty()
+  @IsString()
   @Transform(({ value }: TransformFnParams) => {
     return value.toString().trim();
   })
@@ -22,6 +29,7 @@ export class UserEditDto {
   @MinLength(2)
   @MaxLength(100)
   @IsNotEmpty()
+  @IsString()
   @Transform(({ value }: TransformFnParams) => {
     return value.toString().trim();
   })
