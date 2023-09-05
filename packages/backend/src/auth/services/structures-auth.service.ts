@@ -132,6 +132,7 @@ export class StructuresAuthService {
         "sms",
         "portailUsager",
         "acceptTerms",
+        "timeZone",
       ],
     });
 
