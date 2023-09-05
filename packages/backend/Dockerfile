@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=node:16.20-bookworm-slim@sha256:ffed502c80d7fdea4138e198f4ff5861bcf193796845b16a290a64d04d5473e7
+ARG BASE_IMAGE=node:16.20-bookworm-slim@sha256:87ef44895f8c27a2d3c450a7d1c92f0df24c40e45c32176f88364a00149d6c59
 
 # ---------------------------------------------------------
 # 1) BUILDER IMAGE
