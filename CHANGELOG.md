@@ -1,3 +1,10 @@
+## [2.134.15](https://github.com/SocialGouv/domifa/compare/v2.134.14...v2.134.15) (2023-09-05)
+
+
+### Bug Fixes
+
+* **docs:** suppression de l'ancien système de gestion de fichiers ([f53acca](https://github.com/SocialGouv/domifa/commit/f53accafcd2c4115872d528435c66d526ceab2a2))
+
 ## [2.134.14](https://github.com/SocialGouv/domifa/compare/v2.134.13...v2.134.14) (2023-09-05)
 
 
