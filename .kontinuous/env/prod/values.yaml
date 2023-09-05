@@ -32,11 +32,11 @@ backend-cron:
     - files
   resources:
     requests:
-      cpu: 0.5
-      memory: 1Gi
+      cpu: 0.2
+      memory: 256Mi
     limits:
-      cpu: 3
-      memory: 3Gi
+      cpu: 1
+      memory: 1Gi
   envFrom:
     - secretRef:
         name: "{{ .Values.global.pgSecretName }}"
