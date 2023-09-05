@@ -1,3 +1,10 @@
+## [2.134.13](https://github.com/SocialGouv/domifa/compare/v2.134.12...v2.134.13) (2023-09-05)
+
+
+### Bug Fixes
+
+* **cerfa:** correction d'un bug sur les dates ([3bd0a11](https://github.com/SocialGouv/domifa/commit/3bd0a113ec931ff5d15bbbebec22759c360ab827))
+
 ## [2.134.12](https://github.com/SocialGouv/domifa/compare/v2.134.11...v2.134.12) (2023-09-05)
 
 
