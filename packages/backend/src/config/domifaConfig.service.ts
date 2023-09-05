@@ -332,18 +332,9 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
 
 function parseSecurityConfig(x: Partial<DomifaEnv>): DomifaConfigSecurity {
   return {
-    files: {
-      iv: configParser.parseString(x, "DOMIFA_SECURITY_FILES_IV"),
-      ivSecours: configParser.parseString(
-        x,
-        "DOMIFA_SECURITY_FILES_IV_SECOURS",
-        { required: false }
-      ),
-      private: configParser.parseString(x, "DOMIFA_SECURITY_FILES_PRIVATE"),
-      mainSecret: decodeMainSecret(
-        configParser.parseString(x, "DOMIFA_SECURITY_FILES_MAIN_SECRET")
-      ),
-    },
+    mainSecret: decodeMainSecret(
+      configParser.parseString(x, "DOMIFA_SECURITY_FILES_MAIN_SECRET")
+    ),
     jwtSecret: configParser.parseString(x, "DOMIFA_SECURITY_JWT_SECRET"),
   };
 }

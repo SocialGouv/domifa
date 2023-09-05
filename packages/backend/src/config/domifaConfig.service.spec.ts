@@ -22,9 +22,6 @@ describe("loadConfig", () => {
     expect(config.apps.backendUrl).toBeDefined();
     expect(config.apps.portailUsagersUrl).toBeDefined();
 
-    expect(config.security.files.iv).toBeDefined();
-    expect(config.security.files.private).toBeDefined();
-
     expect(config.postgres.host).toBeDefined();
     expect(config.postgres.port).toBeDefined();
     expect(config.postgres.logging).toEqual(["warn"]);
@@ -57,9 +54,6 @@ describe("loadConfig", () => {
     expect(config.apps.frontendUrl).toBeDefined();
     expect(config.apps.backendUrl).toBeDefined();
     expect(config.apps.portailUsagersUrl).toBeDefined();
-
-    expect(config.security.files.iv).toBeDefined();
-    expect(config.security.files.private).toBeDefined();
 
     expect(config.postgres.host).toBeDefined();
     expect(config.postgres.port).toBeDefined();
@@ -107,9 +101,6 @@ describe("loadConfig", () => {
     const config = loadConfig(env);
 
     expect(config.envId).toEqual("prod");
-
-    expect(config.security.files.iv).toBeDefined();
-    expect(config.security.files.private).toBeDefined();
 
     expect(config.postgres.host).toBeDefined();
     expect(config.postgres.port).toBeDefined();

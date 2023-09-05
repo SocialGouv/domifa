@@ -4,12 +4,7 @@ import { DomifaConfigPostgres } from "./DomifaConfigPostgres.type";
 import { DomifaEnvId } from "./DomifaEnvId.type";
 
 export type DomifaConfigSecurity = {
-  files: {
-    mainSecret: Uint8Array; // DOMIFA_SECURITY_FILES_MAIN_SECRET
-    iv: string; // DOMIFA_SECURITY_FILES_IV
-    ivSecours: string; // DOMIFA_SECURITY_FILES_IV_SECOURS
-    private: string; // DOMIFA_SECURITY_FILES_PRIVATE
-  };
+  mainSecret: Uint8Array; // DOMIFA_SECURITY_FILES_MAIN_SECRET
   jwtSecret: string; // DOMIFA_SECURITY_JWT_SECRET
 };
 
