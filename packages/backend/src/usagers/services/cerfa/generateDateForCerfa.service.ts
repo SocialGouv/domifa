@@ -3,7 +3,7 @@ import { DateCerfa, UserStructureAuthenticated } from "../../../_common/model";
 
 export function generateDateForCerfa(
   date: Date | string | null,
-  user?: UserStructureAuthenticated // Pour les RDV uniquement
+  user?: UserStructureAuthenticated
 ): DateCerfa {
   let annee = "";
   let heure = "";

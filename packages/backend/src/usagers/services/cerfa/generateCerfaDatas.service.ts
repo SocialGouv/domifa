@@ -19,15 +19,13 @@ export const generateCerfaDatas = (
 ): UsagerCerfaFields => {
   const usagerRef = getUsagerRef(usager);
 
-  // Rendez-vous et entretien
   if (isNil(usager.rdv)) {
     usager.rdv = { userId: null, dateRdv: null, userName: null };
   }
   const entretienAvec = toString(usager.rdv.userName).toUpperCase();
   const dateRdv = generateDateForCerfa(usager.rdv.dateRdv, user);
 
-  // Dates de la dom
-  const dateDecision = generateDateForCerfa(new Date());
+  const dateOfDocument = generateDateForCerfa(new Date());
   const datePremiereDom = generateDateForCerfa(usager.datePremiereDom);
   let dateDebut = generateDateForCerfa(usager.decision.dateDebut);
   let dateFin = generateDateForCerfa(usager.decision.dateFin);
@@ -70,9 +68,9 @@ export const generateCerfaDatas = (
     adresseOrga1: adresseStructure,
     agrement: user.structure.agrement,
     anneeDebut: dateDebut.annee,
-    anneeDecision1A: dateDecision.annee,
-    anneeDecision1B: dateDecision.annee,
-    anneeDecision2: dateDecision.annee,
+    anneeDecision1A: dateOfDocument.annee,
+    anneeDecision1B: dateOfDocument.annee,
+    anneeDecision2: dateOfDocument.annee,
     anneeFin: dateFin.annee,
     anneeNaissance1: dateNaissance.annee,
     anneeNaissance2: dateNaissance.annee,
@@ -86,9 +84,9 @@ export const generateCerfaDatas = (
     entretienAvec,
     heureRdv: dateRdv.heure,
     jourDebut: dateDebut.jour,
-    jourDecision1A: dateDecision.jour,
-    jourDecision1B: dateDecision.jour,
-    jourDecision2: dateDecision.jour,
+    jourDecision1A: dateOfDocument.jour,
+    jourDecision1B: dateOfDocument.jour,
+    jourDecision2: dateOfDocument.jour,
     jourFin: dateFin.jour,
     jourNaissance1: dateNaissance.jour,
     jourNaissance2: dateNaissance.jour,
@@ -98,9 +96,9 @@ export const generateCerfaDatas = (
     lieuNaissance2: usager.villeNaissance,
     minutesRdv: dateRdv.minutes,
     moisDebut: dateDebut.mois,
-    moisDecision1A: dateDecision.mois,
-    moisDecision1B: dateDecision.mois,
-    moisDecision2: dateDecision.mois,
+    moisDecision1A: dateOfDocument.mois,
+    moisDecision1B: dateOfDocument.mois,
+    moisDecision2: dateOfDocument.mois,
     moisFin: dateFin.mois,
     moisNaissance1: dateNaissance.mois,
     moisNaissance2: dateNaissance.mois,
