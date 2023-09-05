@@ -147,8 +147,8 @@ COPY public.structure_doc (uuid, "createdAt", "updatedAt", version, id, label, "
 --
 
 COPY public.usager_docs (uuid, "createdAt", "updatedAt", version, "usagerUUID", "structureId", "usagerRef", path, label, filetype, "createdBy", "encryptionContext", "encryptionVersion") FROM stdin;
-2eb5e74d-4b25-4aa6-ad2a-7d963ae66072	2019-10-07 20:51:31.578+02	2022-06-28 22:52:59.282479+02	1	860ffa4c-88c4-4e1c-ad42-5a05cdf39830	1	1	373144a3d9d0b3f4c84bd527a5cff880.jpg	CNI	image/jpeg	Patrick Roméro	\N	\N
-a77729a9-1b28-4090-bda8-760590bff982	2019-10-07 20:53:32.922+02	2022-06-28 22:52:59.28757+02	1	4dcdcddc-fad2-4827-aac5-0acf1df7b5bc	1	5	8242ba1bc7f3c3971f761b6a347fc1c4.jpg	Carte identité	image/jpeg	Patrick Roméro	\N	\N
+2eb5e74d-4b25-4aa6-ad2a-7d963ae66072	2019-10-07 20:51:31.578+02	2022-06-28 22:52:59.282479+02	1	860ffa4c-88c4-4e1c-ad42-5a05cdf39830	1	1	373144a3d9d0b3f4c84bd527a5cff880.jpg	CNI	image/jpeg	Patrick Roméro	ffe17c48-7a1a-42c9-8494-0b72ca8b3686	0
+a77729a9-1b28-4090-bda8-760590bff982	2019-10-07 20:53:32.922+02	2022-06-28 22:52:59.28757+02	1	4dcdcddc-fad2-4827-aac5-0acf1df7b5bc	1	5	8242ba1bc7f3c3971f761b6a347fc1c4.jpg	Carte identité	image/jpeg	Patrick Roméro	ffe17c48-7a1a-42c9-8494-0b72ca8b3686	0
 \.
 
 
@@ -230,7 +230,7 @@ f6b20e00-77e7-46e6-b48d-8cca69161042	2020-11-17 14:32:22.193+01	2021-12-06 16:26
 d19ece1f-d32b-498c-9427-eb12b1251163	2020-11-17 14:26:29.482634+01	2020-11-17 14:26:29.490297+01	2	s3-facteur@yopmail.com	\N	4	\N	Test	$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u	Facteur	facteur	3	{"guide": false, "import": false}	\N	t	\N
 b0140303-79e3-436c-9c41-1eaefeeaed6e	2020-11-17 14:23:20.248011+01	2022-03-09 00:20:21.36073+01	9	s1-gestionnaire@yopmail.com	\N	3	2022-03-09 00:20:21.356+01	Smith	$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u	Peter	responsable	1	{"guide": false, "import": false}	\N	t	\N
 343b62db-6c85-4896-b994-18c8c89b710f	2022-03-17 17:25:53.798318+01	2022-03-23 22:08:39.505536+01	36	s5-admin@yopmail.com	\N	11	2022-03-23 22:08:39.502+01	Pali	$2a$10$/Jn6nqdRG.f.OVDphuCbCeCDCy34sKBucgkLmqL2lSwzjSuexFgX.	Mauricette	admin	5	{"guide": false, "import": false}	2022-03-17 17:25:53.78+01	t	\N
-da01f451-9c4f-4f6c-98bb-c635277e33e7	2020-11-17 14:18:47.658346+01	2023-06-07 15:26:32.903173+02	389	s1-admin@yopmail.com	\N	1	2023-06-07 15:26:32.894+02	Roméro	$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u	Patrick	admin	1	{"guide": false, "import": false}	\N	t	2023-02-14 18:33:51.261+01
+da01f451-9c4f-4f6c-98bb-c635277e33e7	2020-11-17 14:18:47.658346+01	2023-09-05 23:50:23.454502+02	390	s1-admin@yopmail.com	\N	1	2023-09-05 23:50:23.453+02	Roméro	$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u	Patrick	admin	1	{"guide": false, "import": false}	\N	t	2023-02-14 18:33:51.261+01
 \.
 
 

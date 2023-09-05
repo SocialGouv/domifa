@@ -64,12 +64,12 @@ export function validateUpload(
   return validFileMimeType && validFileExtension;
 }
 
-export async function getFilePath(
+export async function getUsagerFilePath(
   structureUUID: string,
   usagerUUID: string,
   fileName: string
 ): Promise<string> {
-  const dir = await getNewFileDir(structureUUID, usagerUUID);
+  const dir = await getUsagerFilesDir(structureUUID, usagerUUID);
   return join(dir, fileName);
 }
 
@@ -78,7 +78,7 @@ export function cleanPath(path: string): string {
 }
 
 // Les nouveaux fichiers seront stockés dans des dossiers reprenant les uuid et non les ID
-export async function getNewFileDir(
+export async function getUsagerFilesDir(
   structureUUID: string,
   usagerUUID: string
 ): Promise<string> {
@@ -90,16 +90,4 @@ export async function getNewFileDir(
   );
   await ensureDir(dir);
   return dir;
-}
-
-//
-//
-//
-// @deprecated: remove this function after migration
-export function getFileDir(structureId: number, usagerRef: number): string {
-  return join(
-    domifaConfig().upload.basePath,
-    cleanPath(`${structureId}`),
-    cleanPath(`${usagerRef}`)
-  );
 }

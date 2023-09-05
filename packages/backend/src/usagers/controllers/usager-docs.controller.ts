@@ -33,9 +33,8 @@ import { appLogger } from "../../util";
 import {
   compressAndResizeImage,
   deleteFile,
-  getFileDir,
-  getFilePath,
-  getNewFileDir,
+  getUsagerFilePath,
+  getUsagerFilesDir,
   randomName,
   validateUpload,
 } from "../../util/file-manager/FileManager";
@@ -43,15 +42,9 @@ import { UsagerDoc, UserStructureAuthenticated } from "../../_common/model";
 
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { UploadUsagerDocDto } from "../dto";
-import {
-  createReadStream,
-  createWriteStream,
-  pathExists,
-  stat,
-} from "fs-extra";
-import { join } from "path";
+import { createReadStream, createWriteStream, pathExists } from "fs-extra";
 
-import crypto, { createDecipheriv } from "node:crypto";
+import crypto from "node:crypto";
 import { ExpressRequest } from "../../util/express";
 import {
   decryptFile,
@@ -86,13 +79,17 @@ export class UsagerDocsController {
         callback(null, true);
       },
       storage: diskStorage({
-        destination: (req: any, _file: Express.Multer.File, cb: any) => {
+        destination: (
+          req: any,
+          _file: Express.Multer.File,
+          callback: (error: Error | null, destination: string) => void
+        ) => {
           (async () => {
-            const dir = await getNewFileDir(
+            const dir = await getUsagerFilesDir(
               req.user.structure.uuid,
               req.usager.uuid
             );
-            cb(null, dir);
+            callback(null, dir);
           })();
         },
         filename: (
@@ -167,18 +164,11 @@ export class UsagerDocsController {
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    let filePath = "";
-
-    if (doc.encryptionContext) {
-      filePath = await getFilePath(
-        user.structure.uuid,
-        currentUsager.uuid,
-        doc.path + ".sfe"
-      );
-    } else {
-      const sourceFileDir = getFileDir(doc.structureId, doc.usagerRef);
-      filePath = join(sourceFileDir, doc.path + ".encrypted");
-    }
+    const filePath = await getUsagerFilePath(
+      user.structure.uuid,
+      currentUsager.uuid,
+      doc.path + ".sfe"
+    );
 
     await deleteFile(filePath);
 
@@ -228,94 +218,31 @@ export class UsagerDocsController {
       structureId: currentUsager.structureId,
     });
 
-    if (!doc) {
+    if (!doc?.encryptionContext || doc?.encryptionVersion !== 0) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    if (doc.encryptionContext) {
-      const mainSecret = domifaConfig().security.files.mainSecret;
+    const mainSecret = domifaConfig().security.mainSecret;
 
-      const encryptedFilePath = await getFilePath(
-        user.structure.uuid,
-        doc.usagerUUID,
-        doc.path + ".sfe"
+    const encryptedFilePath = await getUsagerFilePath(
+      user.structure.uuid,
+      doc.usagerUUID,
+      doc.path + ".sfe"
+    );
+
+    try {
+      return pipeline(
+        // note: encryptedFilePath should end with .sfe, not .encrypted, to prepare for phase 3.
+        createReadStream(encryptedFilePath),
+        decryptFile(mainSecret, doc.encryptionContext),
+        res
       );
-
-      if (doc.encryptionVersion !== 0) {
-        return res
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: "CANNOT_UPLOAD_FILE_MAIN" });
-      }
-
-      try {
-        return pipeline(
-          // note: encryptedFilePath should end with .sfe, not .encrypted, to prepare for phase 3.
-          createReadStream(encryptedFilePath),
-          decryptFile(mainSecret, doc.encryptionContext),
-          res
-        );
-      } catch (e) {
-        return res
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: "CANNOT_UPLOAD_FILE" });
-      }
-    }
-
-    // @deprecated
-    else {
-      // @deprecated: delete this after migration
-      const sourceFileDir = getFileDir(
-        currentUsager.structureId,
-        currentUsager.ref
-      );
-      // Encrypted file source
-      const encryptedFilePath = join(sourceFileDir, doc.path + ".encrypted");
-
-      // FIX : vieilles données pas encore encryptés
-      if (!(await pathExists(encryptedFilePath))) {
-        const oldFilePath = join(sourceFileDir, doc.path);
-        if (!(await pathExists(oldFilePath))) {
-          appLogger.error("Error reading usager document", {
-            sentry: true,
-            context: {
-              oldFilePath,
-            },
-          });
-          return res
-            .status(HttpStatus.BAD_REQUEST)
-            .json({ message: "DOC_NOT_FOUND" });
-        }
-
-        try {
-          await this.saveEncryptedFile(user, doc);
-        } catch (e) {
-          return res
-            .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .json({ message: "CANNOT_OPEN_FILE" });
-        }
-      }
-
-      // TEMP FIX : Utiliser la deuxième clé d'encryptage générée le 30 juin
-      // A supprimer une fois que les fichiers seront de nouveaux regénérés
-      const docInfos = await stat(encryptedFilePath);
-
-      const iv =
-        docInfos.mtime < new Date("2021-06-30T23:01:01.113Z")
-          ? domifaConfig().security.files.ivSecours
-          : domifaConfig().security.files.iv;
-
-      try {
-        const key = domifaConfig().security.files.private;
-        const decipher = createDecipheriv("aes-256-cfb", key, iv);
-
-        return createReadStream(encryptedFilePath).pipe(decipher).pipe(res);
-      } catch (e) {
-        return res
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: "CANNOT_OPEN_FILE" });
-      }
+    } catch (e) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "CANNOT_UPLOAD_FILE" });
     }
   }
 
@@ -324,7 +251,7 @@ export class UsagerDocsController {
     user: UserStructureAuthenticated,
     usagerDoc: UsagerDoc
   ): Promise<void | Error> {
-    const sourceFilePath = await getFilePath(
+    const sourceFilePath = await getUsagerFilePath(
       user.structure.uuid,
       usagerDoc.usagerUUID,
       usagerDoc.path
@@ -337,7 +264,7 @@ export class UsagerDocsController {
     }
 
     try {
-      const mainSecret = domifaConfig().security.files.mainSecret;
+      const mainSecret = domifaConfig().security.mainSecret;
       if (
         usagerDoc.filetype === "image/jpeg" ||
         usagerDoc.filetype === "image/png"
