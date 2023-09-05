@@ -1,3 +1,10 @@
+## [2.134.12](https://github.com/SocialGouv/domifa/compare/v2.134.11...v2.134.12) (2023-09-05)
+
+
+### Bug Fixes
+
+* **api:** ajout de ressources et d'un replica sur le backend ([4f58287](https://github.com/SocialGouv/domifa/commit/4f58287b0a5f4b096e1324967c8a5f97a15d6385))
+
 ## [2.134.11](https://github.com/SocialGouv/domifa/compare/v2.134.10...v2.134.11) (2023-09-04)
 
 
