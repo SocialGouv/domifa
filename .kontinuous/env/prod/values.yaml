@@ -81,7 +81,7 @@ backend:
   resources:
     requests:
       cpu: 1
-      memory: 2Gi
+      memory: 1Gi
     limits: # exports need a lot of CPU/RAM ATM
       cpu: 3
       memory: 3Gi
