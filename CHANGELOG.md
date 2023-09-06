@@ -1,3 +1,10 @@
+# [2.135.0](https://github.com/SocialGouv/domifa/compare/v2.134.15...v2.135.0) (2023-09-06)
+
+
+### Features
+
+* **import:** migration pour activer les SMS de Bordeaux ([f11e1f2](https://github.com/SocialGouv/domifa/commit/f11e1f2a5bed0e027a76f256f117934abcfa4d2c))
+
 ## [2.134.15](https://github.com/SocialGouv/domifa/compare/v2.134.14...v2.134.15) (2023-09-05)
 
 
