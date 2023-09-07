@@ -1,3 +1,10 @@
+## [2.135.1](https://github.com/SocialGouv/domifa/compare/v2.135.0...v2.135.1) (2023-09-07)
+
+
+### Bug Fixes
+
+* **migrations:** séparation des migrations et suppression des transactions ([a033be7](https://github.com/SocialGouv/domifa/commit/a033be71b403cbb6df6e02e7e2321ebcb8f9d83c))
+
 # [2.135.0](https://github.com/SocialGouv/domifa/compare/v2.134.15...v2.135.0) (2023-09-06)
 
 
