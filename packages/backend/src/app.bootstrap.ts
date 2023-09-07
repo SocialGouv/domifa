@@ -71,7 +71,7 @@ export async function bootstrapApplication(): Promise<{
       new ValidationPipe({
         whitelist: true,
         stopAtFirstError: true,
-        enableDebugMessages: domifaConfig().envId !== "local",
+        enableDebugMessages: true,
         disableErrorMessages: domifaConfig().envId !== "local",
       })
     );
