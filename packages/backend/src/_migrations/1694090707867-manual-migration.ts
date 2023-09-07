@@ -3,28 +3,39 @@ import { userUsagerCreator } from "../users/services";
 import { format } from "date-fns";
 import { getPhoneString } from "../util/phone";
 import { join } from "path";
-import { ensureDir, writeFile } from "fs-extra";
+import { appendFile, ensureDir } from "fs-extra";
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { domifaConfig } from "../config";
 import { userStructureRepository, usagerRepository } from "../database";
 
-export class ManualMigration1694090707865 implements MigrationInterface {
+const serializeUserUsager = (newUserUsager: any) => {
+  const {
+    ref,
+    customRef,
+    nom,
+    prenom,
+    dateNaissance,
+    telephone,
+    login,
+    temporaryPassword,
+  } = newUserUsager;
+
+  return `${ref}\t${customRef}\t${nom}\t${prenom}\t${dateNaissance}\t${telephone}\t${login}\t${temporaryPassword}`;
+};
+
+export class ManualMigration1694090707866 implements MigrationInterface {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async up(_queryRunner: QueryRunner): Promise<void> {
     const message = "[MIGRATION] [BORDEAUX] ";
     await ensureDir(join(domifaConfig().upload.basePath, "tmp-bordeaux"));
-    console.log(message + "Activation des comptes usagers de bordeaux");
 
-    let jsonToExport: {
-      ref: number;
-      telephone: string;
-      nom: string;
-      prenom: string;
-      login: string;
-      temporaryPassword: string;
-      customRef: string;
-      dateNaissance: string;
-    }[] = [];
+    const fileName = join(
+      domifaConfig().upload.basePath,
+      "tmp-bordeaux",
+      "comptes-bordeaux"
+    );
+
+    console.log(message + "Activation des comptes usagers de bordeaux");
 
     const user: UserStructureProfile = await userStructureRepository.findOneBy({
       role: "admin",
@@ -65,7 +76,6 @@ export class ManualMigration1694090707865 implements MigrationInterface {
         login,
         temporaryPassword,
       };
-      jsonToExport.push(newUserUsager);
 
       const options: UsagerOptions = {
         ...usager.options,
@@ -73,28 +83,14 @@ export class ManualMigration1694090707865 implements MigrationInterface {
       };
 
       await usagerRepository.update({ uuid: usager.uuid }, { options });
+      await appendFile(fileName, serializeUserUsager(newUserUsager) + "\n");
 
       cpt++;
-      if (cpt % 500 === 0) {
-        const fileName = join(
-          domifaConfig().upload.basePath,
-          "tmp-bordeaux",
-          "export_bordeaux" + Date.now() + ".json"
-        );
-        await writeFile(fileName, JSON.stringify(jsonToExport));
-        jsonToExport = [];
-        console.log(message + " écriture du fichier " + fileName);
+      if (cpt % 200 === 0) {
         console.log(message + cpt + "/" + usagers.length + " comptes créés");
       }
     }
-    const fileName = join(
-      domifaConfig().upload.basePath,
-      "tmp-bordeaux",
-      "export_bordeaux" + Date.now() + ".json"
-    );
-    await writeFile(fileName, JSON.stringify(jsonToExport));
 
-    console.log(message + " écriture du fichier " + fileName);
     console.log(message + cpt + "/" + usagers.length + " comptes créés");
   }
 
