@@ -15,7 +15,6 @@
     "db:dev:create": "typeorm-ts-node-commonjs migration:create ./src/_migrations/manual-migration",
     "db:prod:data-anonymize": "node dist/run-data-anonymization.js ",
     "db:prod:migrate-down:last": "node dist/run-migrate-down-last.js",
-    "db:prod:migrate-up": "node dist/run-migrate-up.js",
     "db:test:migrate-down:last": "ENV_FILE=tests-local npx ts-node -r tsconfig-paths/register --transpile-only src/run-migrate-down-last.ts",
     "db:test:migrate-redo": "ENV_FILE=tests-local npx ts-node -r tsconfig-paths/register --transpile-only src/run-migrate-up-redo.ts",
     "db:test:migrate-up": "ENV_FILE=tests-local npx ts-node -r tsconfig-paths/register --transpile-only src/run-migrate-up.ts",
