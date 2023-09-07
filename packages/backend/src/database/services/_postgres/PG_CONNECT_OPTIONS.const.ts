@@ -4,6 +4,10 @@ import { appLogger } from "../../../util";
 import { CustomTypeOrmLogger } from "../../../util/CustomTypeOrmLogger";
 
 const isTypescriptMode = __filename.split(".").pop() === "ts"; // if current file extension is "ts": use src/*.ts files, eles use dist/*.js files
+const executeMigrations =
+  domifaConfig().envId === "preprod" ||
+  domifaConfig().envId === "prod" ||
+  domifaConfig().envId === "local";
 
 let connectOptionsPaths: Pick<
   PostgresConnectionOptions,
@@ -48,7 +52,8 @@ export const PG_CONNECT_OPTIONS: PostgresConnectionOptions = {
   type: "postgres",
   synchronize: false,
   cache: true,
-  migrationsRun: true,
+  migrationsTransactionMode: "none",
+  migrationsRun: executeMigrations,
   host: domifaConfig().postgres.host,
   port: domifaConfig().postgres.port,
   username: domifaConfig().postgres.username,
