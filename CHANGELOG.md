@@ -1,3 +1,10 @@
+## [2.135.2](https://github.com/SocialGouv/domifa/compare/v2.135.1...v2.135.2) (2023-09-07)
+
+
+### Bug Fixes
+
+* **migration:** correction de la migration de création de comptes de Bordeaux ([b839ecf](https://github.com/SocialGouv/domifa/commit/b839ecf64a033ea11da0182c3ee5eb83b1dae521))
+
 ## [2.135.1](https://github.com/SocialGouv/domifa/compare/v2.135.0...v2.135.1) (2023-09-07)
 
 
