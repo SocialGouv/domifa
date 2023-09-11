@@ -1,3 +1,10 @@
+# [2.136.0](https://github.com/SocialGouv/domifa/compare/v2.135.4...v2.136.0) (2023-09-11)
+
+
+### Features
+
+* **rgaa:** ajout de la déclaration d'accessibilité ([ea27355](https://github.com/SocialGouv/domifa/commit/ea27355b4e9836b808c7eb9d24e8d9578f66abaf))
+
 ## [2.135.4](https://github.com/SocialGouv/domifa/compare/v2.135.3...v2.135.4) (2023-09-11)
 
 
