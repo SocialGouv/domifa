@@ -45,7 +45,7 @@ oauth2-proxy:
   host: "metabase-domifa-preprod.dev.fabrique.social.gouv.fr"
   additionalArgs:
     - --skip-auth-route
-    - ^/public/.*,^/app/dist/.*,^/api/public/.*,^/api/session/.*,^/app/assets/.*
+    - ^/public/.*,^/app/dist/.*,^/api/public/.*,^/api/session/.*,^/app/assets/.*,^/api/geojson/.*
   upstream: http://metabase
   envFrom:
     - secretRef:
