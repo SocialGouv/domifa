@@ -35,8 +35,17 @@ export const generateCerfaDatas = (
     (usager.decision.statut === "INSTRUCTION" ||
       usager.decision.statut === "ATTENTE_DECISION")
   ) {
-    dateDebut = resetDate();
-    dateFin = resetDate();
+    if (
+      typeof usager.historique[usager.historique.length - 1] !== "undefined"
+    ) {
+      const lastDecision = usager.historique[usager.historique.length - 1];
+
+      dateDebut = generateDateForCerfa(lastDecision.dateDebut);
+      dateFin = generateDateForCerfa(lastDecision.dateFin);
+    } else {
+      dateDebut = resetDate();
+      dateFin = resetDate();
+    }
   }
 
   // Date de naissance
