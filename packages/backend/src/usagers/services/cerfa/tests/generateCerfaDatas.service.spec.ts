@@ -23,7 +23,7 @@ import {
   CERFA_MOCK_USAGER_REFUS,
 } from "./CERFA_MOCKS.mock";
 
-describe("Cerfa Data utils", () => {
+describe("Générer les données des Cerfa", () => {
   let user: UserStructureAuthenticated;
   let usagerValide: Usager;
   let usagerRefus: Usager;
@@ -46,8 +46,9 @@ describe("Cerfa Data utils", () => {
     user = (await userStructureRepository.findOneBy({
       id: 1,
     })) as any as UserStructureAuthenticated;
+
     structure = await structureRepository.findOneBy({
-      id: 1,
+      id: user.structureId,
     });
     user.structure = structure;
 
@@ -61,7 +62,7 @@ describe("Cerfa Data utils", () => {
     );
   });
 
-  describe("Cerfa : générer les données complètes du Cerfa", () => {
+  describe("Générer les données complètes du Cerfa", () => {
     it("CerfaData() Dossier valide", async () => {
       const data = generateCerfaDatas(usagerValide, user, "attestation");
       expect(data).toEqual(CERFA_MOCK_USAGER_ACTIF);
@@ -71,8 +72,10 @@ describe("Cerfa Data utils", () => {
       const data = generateCerfaDatas(usagerRefus, user, "attestation");
       expect(data).toEqual(CERFA_MOCK_USAGER_REFUS);
     });
+  });
 
-    it("CerfaData() test de valeurs vides", async () => {
+  describe("Générer des données par défaut si elles sont vides", () => {
+    it("", async () => {
       usagerValide.entretien.rattachement = null;
       usagerRefus.telephone = null;
       user.structure.telephone = { countryCode: "fr", numero: "" };
@@ -82,11 +85,28 @@ describe("Cerfa Data utils", () => {
       expect(data.telephone).toEqual("");
       expect(data.telephoneOrga).toEqual("");
     });
+  });
 
-    it("CerfaData() si dossier est en INSTRUCTION alors dateDebut et dateFin doivent être vide", async () => {
+  describe("Dates de la domiciliation sur le Cerfa", () => {
+    it("Dates de la précédente domiciliation pour un dossier en cours de renouvellement", async () => {
       usagerValide.decision.statut = "INSTRUCTION";
       const data = generateCerfaDatas(usagerValide, user, "attestation");
 
+      expect(data.jourDebut).toEqual("12");
+      expect(data.moisDebut).toEqual("02");
+      expect(data.anneeDebut).toEqual("2019");
+      expect(data.jourFin).toEqual("12");
+      expect(data.moisFin).toEqual("02");
+      expect(data.anneeFin).toEqual("2020");
+    });
+    it("Dates vides pour un dossier encore en cours d'instruction et sans historique", async () => {
+      usagerValide.decision.statut = "INSTRUCTION";
+      const data = generateCerfaDatas(
+        { ...usagerValide, historique: [] },
+        user,
+        "attestation"
+      );
+
       expect(data.jourDebut).toEqual("");
       expect(data.moisDebut).toEqual("");
       expect(data.anneeDebut).toEqual("");
@@ -95,42 +115,42 @@ describe("Cerfa Data utils", () => {
       expect(data.anneeFin).toEqual("");
     });
 
-    it("CerfaData() si dossier est en ATTENTE_DECISION alors dateDebut et dateFin doivent être vide", async () => {
+    it("Dates vides pour un Cerfa en attente de décision et sans historique", async () => {
       usagerValide.decision.statut = "ATTENTE_DECISION";
-      const data = generateCerfaDatas(usagerValide, user, "attestation");
-
+      const data = generateCerfaDatas(
+        { ...usagerValide, historique: [] },
+        user,
+        "attestation"
+      );
       expect(data.jourDebut).toEqual("");
       expect(data.moisDebut).toEqual("");
       expect(data.anneeDebut).toEqual("");
       expect(data.jourFin).toEqual("");
       expect(data.moisFin).toEqual("");
       expect(data.anneeFin).toEqual("");
-    });
-
-    it("CerfaData() si dossier est en ATTENTE_DECISION alors dateDebut et dateFin doivent être vide", async () => {
-      usagerValide.decision.statut = "ATTENTE_DECISION";
-      user.structure.structureType = "asso";
-      const data = generateCerfaDatas(usagerValide, user, "attestation");
-
-      expect(data.prefecture2).toEqual("92");
-      expect(data.prefecture1).toEqual("92");
     });
   });
 
-  describe("Cerfa : getUsagerRef", () => {
-    it("getUsagerRef() should return ref in string", () => {
+  describe("Générer le bon ID", () => {
+    it("Aucun ID personnalisé, on affiche l'ID numérique", () => {
       const usagerRef = getUsagerRef(usagerValide);
       expect(usagerRef).toEqual("63");
     });
 
-    it("getUsagerRef() should return customRef if it's not nil", () => {
+    it("ID personnalisé, on affiche celui-ci", () => {
       usagerValide.customRef = "toto";
       const usagerRef = getUsagerRef(usagerValide);
       expect(usagerRef).toEqual("toto");
     });
   });
 
-  describe("generateAdressForCerfa", () => {
+  describe("Test des données liées à l'adresse ", () => {
+    it("Affichage de la préfecture dans le Cerfa", async () => {
+      user.structure.structureType = "asso";
+      const data = generateCerfaDatas(usagerValide, user, "attestation");
+      expect(data.prefecture2).toEqual("92");
+      expect(data.prefecture1).toEqual("92");
+    });
     it("Afficher l'ID du domicilié dans l'adresse", () => {
       user.structure.options.numeroBoite = true;
       const { adresseDomicilie } = generateAdressForCerfa(user, usagerValide);
@@ -178,7 +198,6 @@ describe("Cerfa Data utils", () => {
       expect(adresseDomicilie).toEqual(
         "CCAS de Test\nAdresse de courrier\n75010 - Paris 10eme"
       );
-      // Ici, l'adresse de la structure ne doit pas changer
       expect(adresseStructure).toEqual(
         "1 rue de l'océan\n92600 - Asnieres-sur-seine"
       );
