@@ -1,4 +1,4 @@
-FROM node:16.20-bullseye
+FROM node:18.17.1-bookworm
 
 
 ENV TZ Europe/Paris
