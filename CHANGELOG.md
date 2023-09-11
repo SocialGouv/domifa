@@ -1,3 +1,10 @@
+## [2.135.4](https://github.com/SocialGouv/domifa/compare/v2.135.3...v2.135.4) (2023-09-11)
+
+
+### Bug Fixes
+
+* **metabase:** allow geojson api calls ([21105a9](https://github.com/SocialGouv/domifa/commit/21105a952c6ea13caeea4cd53f7187faaf4a5c72))
+
 ## [2.135.3](https://github.com/SocialGouv/domifa/compare/v2.135.2...v2.135.3) (2023-09-08)
 
 
