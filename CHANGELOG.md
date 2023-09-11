@@ -1,3 +1,10 @@
+## [2.136.1](https://github.com/SocialGouv/domifa/compare/v2.136.0...v2.136.1) (2023-09-11)
+
+
+### Bug Fixes
+
+* **cerfa:** ajout des dates de la précédente domiciliation ([33fdbe9](https://github.com/SocialGouv/domifa/commit/33fdbe922ea5138783468a116ad87d2dbe2986b1))
+
 # [2.136.0](https://github.com/SocialGouv/domifa/compare/v2.135.4...v2.136.0) (2023-09-11)
 
 
