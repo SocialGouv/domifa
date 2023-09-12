@@ -1,3 +1,11 @@
+## [2.136.2](https://github.com/SocialGouv/domifa/compare/v2.136.1...v2.136.2) (2023-09-12)
+
+
+### Bug Fixes
+
+* **rgaa:** mise à jour des menus ([fdb2c74](https://github.com/SocialGouv/domifa/commit/fdb2c74d014ae74ec863d43d8d0e1bc4deca5d8d))
+* **typeorm:** update migration flag ([8fd7c36](https://github.com/SocialGouv/domifa/commit/8fd7c36a25ae679dad29ca13e64e6e668c03ef96))
+
 ## [2.136.1](https://github.com/SocialGouv/domifa/compare/v2.136.0...v2.136.1) (2023-09-11)
 
 
