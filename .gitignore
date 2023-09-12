@@ -6,15 +6,6 @@ coverage
 optional/e2e/runners/puppeteer/output
 *.code-workspace
 .secrets.yaml
-.yarn/*
-!.yarn/cache
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
-.pnp.*
-.yarn
 ~$*.xlsx
 
 yarn-error.log
@@ -22,3 +13,11 @@ yarn-error.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Yarn Berry
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

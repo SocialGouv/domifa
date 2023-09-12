@@ -58,6 +58,11 @@ backend:
       value: "false"
     - name: NODE_OPTIONS
       value: "--max-old-space-size=2048"
+  securityContext:
+    fsGroup: 1000
+    runAsUser: 1000
+    runAsGroup: 1000
+
 
 backend-cron:
   ~chart: app
@@ -106,6 +111,11 @@ backend-cron:
     - name: DOMIFA_CRON_ENABLED
       value: "true"
 
+  securityContext:
+    fsGroup: 1000
+    runAsUser: 1000
+    runAsGroup: 1000
+
 frontend:
   ~chart: app
   ~needs: [build-frontend]
@@ -127,6 +137,11 @@ frontend:
       cpu: 1
       memory: 1Gi
 
+  securityContext:
+    fsGroup: 101
+    runAsUser: 101
+    runAsGroup: 101
+
 portail-admins:
   ~chart: app
   ~needs: [build-portail-admins]
@@ -141,6 +156,10 @@ portail-admins:
         more_set_headers "X-Content-Type-Options: nosniff";
         more_set_headers "Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0'";
   containerPort: 8080
+  securityContext:
+    fsGroup: 101
+    runAsUser: 101
+    runAsGroup: 101
 
 portail-usagers:
   ~chart: app
@@ -155,6 +174,10 @@ portail-usagers:
         more_set_headers "X-Content-Type-Options: nosniff";
         more_set_headers "Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0'";
   containerPort: 8080
+  securityContext:
+    fsGroup: 101
+    runAsUser: 101
+    runAsGroup: 101
 
 jobs:
   runs:

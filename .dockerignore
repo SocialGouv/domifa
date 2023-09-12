@@ -6,3 +6,12 @@
 **/packages/portail-usagers/dist
 **/packages/portail-admins/dist
 **/coverage
+**/Dockerfile
+.dockerignore
+Dockerfile
+.github
+.kontinuous
+.releaserc.yml
+.sonarcloud.properties
+sonar-project.properties
+LICENSE
