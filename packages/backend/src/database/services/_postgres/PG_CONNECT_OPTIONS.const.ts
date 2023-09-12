@@ -2,13 +2,8 @@ import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConne
 import { domifaConfig } from "../../../config";
 import { appLogger } from "../../../util";
 import { CustomTypeOrmLogger } from "../../../util/CustomTypeOrmLogger";
-import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 
 const isTypescriptMode = __filename.split(".").pop() === "ts"; // if current file extension is "ts": use src/*.ts files, eles use dist/*.js files
-const executeMigrations =
-  ((domifaConfig().envId === "preprod" || domifaConfig().envId === "prod") &&
-    isCronEnabled()) ||
-  domifaConfig().envId === "local";
 
 let connectOptionsPaths: Pick<
   PostgresConnectionOptions,
@@ -53,7 +48,7 @@ export const PG_CONNECT_OPTIONS: PostgresConnectionOptions = {
   type: "postgres",
   synchronize: false,
   migrationsTransactionMode: "each",
-  migrationsRun: executeMigrations,
+  migrationsRun: true,
   host: domifaConfig().postgres.host,
   port: domifaConfig().postgres.port,
   username: domifaConfig().postgres.username,
