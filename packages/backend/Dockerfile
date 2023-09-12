@@ -17,7 +17,7 @@ COPY ./packages/backend /app/packages/backend
 RUN yarn workspace @domifa/backend build
 
 RUN yarn workspaces focus @domifa/backend --production && yarn cache clean
-RUN mkdir packages/backend/node_modules
+RUN mkdir -p packages/backend/node_modules
 
 FROM node:${NODE_VERSION}
 
