@@ -36,7 +36,7 @@ jobs:
         run: cp ./packages/backend/.env.backend.test.local.example.env ./packages/backend/.env
 
       - name: Install backend dependencies
-        run: yarn workspace @domifa/backend install --frozen-lockfile --prefer-offline
+        run: yarn workspaces focus @domifa/backend
 
       - name: Create Postgres service
         run: docker-compose -f ./docker-compose.tests.yml up --build --detach
@@ -77,7 +77,7 @@ jobs:
         uses: c-hive/gha-yarn-cache@v2
 
       - name: Install front-end dependencies
-        run: yarn workspace @domifa/frontend install --frozen-lockfile --prefer-offline
+        run: yarn workspaces focus @domifa/frontend
 
       - name: Run front-end tests
         run: yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
@@ -106,7 +106,7 @@ jobs:
         uses: c-hive/gha-yarn-cache@v2
 
       - name: Install dependencies
-        run: yarn workspace @domifa/portail-usagers install --frozen-lockfile --prefer-offline
+        run: yarn workspaces focus @domifa/portail-usagers
 
       - name: Run front-end tests
         run: yarn workspace @domifa/portail-usagers test --coverage --detectOpenHandles --forceExit
@@ -135,7 +135,7 @@ jobs:
         uses: c-hive/gha-yarn-cache@v2
 
       - name: Install dependencies
-        run: yarn workspace @domifa/portail-admins install --frozen-lockfile --prefer-offline
+        run: yarn workspaces focus @domifa/portail-admins
 
       - name: Run front-end tests
         run: yarn workspace @domifa/portail-admins test --coverage --detectOpenHandles --forceExit
