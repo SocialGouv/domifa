@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=node:18.17.1-bookworm-slim
+ARG BASE_IMAGE=node:18.17.1-bookworm
 
 # ---------------------------------------------------------
 # 1) BUILDER IMAGE
