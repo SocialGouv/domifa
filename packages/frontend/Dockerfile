@@ -8,7 +8,7 @@ COPY yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn
 RUN yarn fetch workspaces focus @domifa/frontend
 
-COPY ./packages/frontend .
+COPY ./packages/frontend ./packages/frontend
 
 # these variables are needed at build time because we produce a *static* app
 ARG PRODUCTION
@@ -29,16 +29,16 @@ ENV DOMIFA_FRONTEND_META_ROBOTS=$DOMIFA_FRONTEND_META_ROBOTS
 
 # index.html for robots
 # replace environment variables
-RUN envsubst < ./src/index.html > ./src/index-env.html
-RUN mv ./src/index-env.html ./src/index.html
+RUN envsubst < ./packages/frontend/src/index.html > ./packages/frontend/src/index-env.html
+RUN mv ./packages/frontend/src/index-env.html ./packages/frontend/src/index.html
 # environment.prod.ts
-RUN envsubst < ./src/environments/environment.prod.ts > ./src/environments/environment.prod-env.ts
-RUN mv ./src/environments/environment.prod-env.ts ./src/environments/environment.prod.ts
+RUN envsubst < ./packages/frontend/src/environments/environment.prod.ts > ./packages/frontend/src/environments/environment.prod-env.ts
+RUN mv ./packages/frontend/src/environments/environment.prod-env.ts ./packages/frontend/src/environments/environment.prod.ts
 
-RUN yarn build
+RUN yarn workspace @domifa/frontend build
 
 RUN yarn workspaces focus @domifa/frontend --production && yarn cache clean
 
 FROM ghcr.io/socialgouv/docker/nginx4spa:8.2.0
 
-COPY --from=builder --chown=101:101 /app/dist/domifa /usr/share/nginx/html
+COPY --from=builder --chown=101:101 /app/packages/frontend/dist/domifa /usr/share/nginx/html

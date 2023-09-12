@@ -1,6 +1,6 @@
-ARG BASE_IMAGE=node:16.20-bookworm-slim@sha256:ffed502c80d7fdea4138e198f4ff5861bcf193796845b16a290a64d04d5473e7
+ARG NODE_VERSION=16.20-bookworm-slim@sha256:ffed502c80d7fdea4138e198f4ff5861bcf193796845b16a290a64d04d5473e7
 
-FROM ${BASE_IMAGE} AS builder
+FROM node:${NODE_VERSION} AS builder
 
 ENV TZ Europe/Paris
 
@@ -12,14 +12,14 @@ COPY yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn
 RUN yarn fetch workspaces focus @domifa/backend
 
-COPY ./packages/backend /app
+COPY ./packages/backend /app/packages/backend
 
-RUN yarn build
+RUN yarn workspace @domifa/backend build
 
 RUN yarn workspaces focus @domifa/backend --production && yarn cache clean
+RUN mkdir packages/backend/node_modules
 
-
-FROM ${BASE_IMAGE}
+FROM node:${NODE_VERSION}
 
 ENV CORE_PACKAGES pdftk
 # sudo bash wget vim git bash-completion xsel rubygems build-essential ruby-dev pdftk
@@ -35,7 +35,8 @@ WORKDIR /app
 
 COPY  ./packages/backend/scripts/start /app/scripts/start
 COPY --from=builder /app/node_modules /app/node_modules
-COPY --from=builder /app/dist /app/dist
-COPY --from=builder /app/.env.preset /app/.env.preset
+COPY --from=builder /app/packages/backend/node_modules /app/packages/backend/node_modules
+COPY --from=builder /app/packages/backend/dist /app/packages/backend/
+COPY --from=builder /app/packages/backend/.env.preset /app/packages/backend/.env.preset
 
 CMD ["scripts/start"]
