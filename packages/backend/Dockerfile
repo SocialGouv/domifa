@@ -12,6 +12,8 @@ COPY yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn
 RUN yarn fetch workspaces focus @domifa/backend
 
+COPY ./packages/backend /app
+
 RUN yarn build
 
 RUN yarn workspaces focus @domifa/backend --production && yarn cache clean
