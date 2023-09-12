@@ -13,8 +13,6 @@ import {
   Usager,
   UsagerLastInteractions,
   UsagerOptions,
-  UsagerRdv,
-  UsagerSexe,
   UsagerTypeDom,
   Telephone,
   UsagerEntretien,
@@ -27,6 +25,7 @@ import { StructureTable } from "../structure/StructureTable.typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import { UsagerImport } from "./../../../_common/model/usager/UsagerImport.type";
 import { UsagerNotesTable } from "./UsagerNotesTable.typeorm";
+import { UsagerRdv, UsagerSexe } from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "usager" })

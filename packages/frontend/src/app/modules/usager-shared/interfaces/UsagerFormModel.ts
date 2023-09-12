@@ -2,7 +2,6 @@ import { CountryISO } from "ngx-intl-tel-input";
 import { Entretien, Rdv, Decision, Options } from ".";
 import {
   UsagerLight,
-  UsagerSexe,
   UsagerNote,
   UsagerAyantDroit,
   UsagerDecision,
@@ -22,6 +21,7 @@ import {
   usagersFilter,
 } from "../../manage-usagers/components/usager-filter";
 import { getEcheanceInfos, getRdvInfos, getUrlUsagerProfil } from "../utils";
+import { UsagerSexe } from "@domifa/common";
 
 export class UsagerFormModel {
   public ref: number;

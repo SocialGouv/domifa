@@ -33,6 +33,7 @@
     "test": "rimraf dist && ENV_FILE=tests-local jest"
   },
   "dependencies": {
+    "@domifa/common": "1.0.1",
     "@faker-js/faker": "^8.0.1",
     "@nestjs/axios": "^3.0.0",
     "@nestjs/common": "^10.0.5",
@@ -64,8 +65,8 @@
     "class-transformer": "0.5.1",
     "class-validator": "^0.14.0",
     "compression": "^1.7.4",
-    "date-fns": "^2.25.0",
     "date-fns-tz": "^2.0.0",
+    "date-fns": "^2.25.0",
     "docxtemplater": "^3.37.12",
     "dotenv": "^16.0.3",
     "email-templates": "^10.0.0",
@@ -81,12 +82,12 @@
     "node-pdftk": "^2.1.3",
     "nodemailer": "^6.9.1",
     "nunjucks": "^3.2.3",
-    "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
+    "passport": "^0.6.0",
     "pg": "^8.7.1",
-    "pino": "^8.7.0",
     "pino-pretty": "^10.0.1",
     "pino-std-serializers": "^6.1.0",
+    "pino": "^8.7.0",
     "pizzip": "^3.0.6",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^5.0.0",
@@ -101,8 +102,8 @@
     "typeorm": "^0.3.9",
     "uuid": "^9.0.0",
     "xlsx": "^0.18.5",
-    "yup": "^0.32.9",
-    "yup-phone": "^1.3.2"
+    "yup-phone": "^1.3.2",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.1.1",

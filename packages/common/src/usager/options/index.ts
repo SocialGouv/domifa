@@ -1,4 +1,4 @@
-//@index('./*', f => `export * from '${f.path}'`)
+// @index('./*', f => `export * from '${f.path}'`)
 export * from "./UsagerOptions.type";
 export * from "./UsagerOptionsHistory.type";
 export * from "./UsagerOptionsHistoryAction.type";

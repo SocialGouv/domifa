@@ -1,4 +1,5 @@
-import { UsagerAyantDroit, UsagerSexe } from "..";
+import { UsagerSexe } from "@domifa/common";
+import { UsagerAyantDroit } from "..";
 import { Telephone } from "../../telephone";
 
 export type UsagerEtatCivilFormData = {

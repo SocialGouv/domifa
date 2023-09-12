@@ -17,6 +17,7 @@
   },
   "private": true,
   "dependencies": {
+    "@domifa/common": "1.0.1",
     "@angular/animations": "^15.1.3",
     "@angular/cdk": "^15.1.3",
     "@angular/common": "^15.1.3",

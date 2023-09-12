@@ -13,9 +13,8 @@ import { UsagerLastInteractions } from "./UsagerLastInteractions.type";
 import { UsagerNote } from "./UsagerNote.type";
 import { UsagerOptions } from "./options/UsagerOptions.type";
 
-import { UsagerRdv } from "./rdv/UsagerRdv.type";
-import { UsagerSexe } from "./UsagerSexe.type";
 import { UsagerTypeDom } from "./UsagerTypeDom.type";
+import { UsagerRdv, UsagerSexe } from "@domifa/common";
 
 export type Usager = AppEntity & {
   ref: number; // unique par structure
