@@ -50,6 +50,6 @@ COPY --from=builder /app/packages/backend/dist /app/packages/backend/dist
 COPY --from=builder /app/packages/backend/.env.preset /app/packages/backend/.env.preset
 COPY --from=builder /app/packages/backend/package.json /app/packages/backend/
 COPY --from=builder /app/packages/backend/src/excel/_templates /app/packages/backend/dist/excel/
-COPY --from=builder /app/packages/backend/src/_static /app/packages/backend/dist/
+COPY --from=builder /app/packages/backend/src/_static /app/packages/backend/dist/_static/
 
 CMD ["packages/backend/scripts/start"]

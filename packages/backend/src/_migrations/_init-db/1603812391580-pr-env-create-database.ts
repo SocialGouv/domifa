@@ -7,11 +7,7 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
   name = "createDatabaseMigration1603812391580";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    if (
-      domifaConfig().envId === "prod" ||
-      domifaConfig().envId === "preprod" ||
-      domifaConfig().envId === "local"
-    ) {
+    if (domifaConfig().envId === "prod" || domifaConfig().envId === "preprod") {
       return;
     }
     appLogger.warn("CREATION DB ....");
@@ -125,21 +121,6 @@ async function createTables(queryRunner: QueryRunner) {
       attachments jsonb NULL,
       CONSTRAINT "PK_6bffd9b803b67cd4e099fc795e1" PRIMARY KEY (uuid)
     );
-
-
-    -- public.migrations definition
-
-    -- Drop table
-
-    -- DROP TABLE public.migrations;
-
-    CREATE UNLOGGED TABLE public.migrations (
-      id serial4 NOT NULL,
-      "timestamp" int8 NOT NULL,
-      "name" varchar NOT NULL,
-      CONSTRAINT "PK_8c82d7f526340ab734260ea46be" PRIMARY KEY (id)
-    );
-
 
     -- public.monitor_batch_process definition
 
