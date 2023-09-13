@@ -25,6 +25,8 @@ tools:
 
 # Overall technical stack
 stack:
+  common:
+    - Typescript
   frontend:
     - Angular 13
     - Typescript
