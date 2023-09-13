@@ -1,6 +1,6 @@
 ARG NODE_VERSION=16.20-bookworm-slim@sha256:ffed502c80d7fdea4138e198f4ff5861bcf193796845b16a290a64d04d5473e7
 
-FROM node:${NODE_VERSION} AS builder
+FROM node:${NODE_VERSION} AS deps
 
 ENV TZ Europe/Paris
 
@@ -10,9 +10,13 @@ WORKDIR /app
 
 COPY yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn
-RUN yarn fetch workspaces focus @domifa/common
-RUN yarn workspace @domifa/common build
 RUN yarn fetch workspaces focus @domifa/backend
+
+FROM deps as builder-common
+RUN yarn workspace @domifa/common build
+
+FROM deps as builder
+COPY --from=builder-common /app/packages/common ./packages/common
 
 COPY ./packages/backend /app/packages/backend
 
