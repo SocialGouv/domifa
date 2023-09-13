@@ -1,3 +1,21 @@
+# [2.137.0](https://github.com/SocialGouv/domifa/compare/v2.136.3...v2.137.0) (2023-09-13)
+
+
+### Bug Fixes
+
+* backend ([a06d7d1](https://github.com/SocialGouv/domifa/commit/a06d7d1305872624538f7a7c161bf3395ca6462b))
+* backend .env ([ef80e66](https://github.com/SocialGouv/domifa/commit/ef80e665fe0c9ba62faea71eef8d9b64d90e93b7))
+* missing common package ([6e07e88](https://github.com/SocialGouv/domifa/commit/6e07e88a49ac89f5da6c8d4089150d10145abfc6))
+* missing dir ([491f255](https://github.com/SocialGouv/domifa/commit/491f2555ee9f05bf9e3ca1efc2c027603ef9bcd7))
+* upper AS ([e4609d9](https://github.com/SocialGouv/domifa/commit/e4609d982e65c734e43d6ca44801293dcfa094d7))
+* workspace deps graph ([8534eb2](https://github.com/SocialGouv/domifa/commit/8534eb2fbf9db939675227112a7a2e18ba625739))
+
+
+### Features
+
+* **common:** création d'un package common ([d44085a](https://github.com/SocialGouv/domifa/commit/d44085a36d4a0bb2b91edf6a72be2eb8a2f841b9))
+* **common:** migration des entretiens et décisions dans common ([5f77502](https://github.com/SocialGouv/domifa/commit/5f77502b326ba5b4ff8b55f72643c13e5b2a23e7))
+
 ## [2.136.3](https://github.com/SocialGouv/domifa/compare/v2.136.2...v2.136.3) (2023-09-12)
 
 
