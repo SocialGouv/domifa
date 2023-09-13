@@ -44,8 +44,6 @@ RUN mv ./packages/frontend/src/environments/environment.prod-env.ts ./packages/f
 
 RUN yarn workspace @domifa/frontend build
 
-RUN yarn workspaces focus @domifa/frontend --production && yarn cache clean
-
 FROM ghcr.io/socialgouv/docker/nginx4spa:8.2.0
 
 COPY --from=builder --chown=101:101 /app/packages/frontend/dist/domifa /usr/share/nginx/html
