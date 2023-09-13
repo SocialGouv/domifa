@@ -12,10 +12,10 @@ COPY yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn
 RUN yarn fetch workspaces focus @domifa/backend
 
-FROM deps as builder-common
+FROM deps AS builder-common
 RUN yarn workspace @domifa/common build
 
-FROM deps as builder
+FROM deps AS builder
 COPY --from=builder-common /app/packages/common ./packages/common
 
 COPY ./packages/backend /app/packages/backend
