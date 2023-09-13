@@ -1,3 +1,10 @@
+## [2.137.1](https://github.com/SocialGouv/domifa/compare/v2.137.0...v2.137.1) (2023-09-13)
+
+
+### Bug Fixes
+
+* **frontend:** affichage des alertes doublons ([1262abd](https://github.com/SocialGouv/domifa/commit/1262abd0470a2ee9998ec0175956abeec10ab2dd))
+
 # [2.137.0](https://github.com/SocialGouv/domifa/compare/v2.136.3...v2.137.0) (2023-09-13)
 
 
