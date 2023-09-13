@@ -13,6 +13,7 @@ COPY .yarn .yarn
 RUN yarn fetch workspaces focus @domifa/backend
 
 FROM deps AS builder-common
+COPY ./packages/common ./packages/common
 RUN yarn workspace @domifa/common build
 
 FROM deps AS builder
