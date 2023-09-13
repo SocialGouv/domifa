@@ -10,7 +10,7 @@ export const domifaConfigFileLoader = {
 
 function loadEnvFile(envFileName: string): Partial<DomifaEnv> {
   const envFilePath = join(__dirname, "../../", envFileName);
-
+  console.log(envFilePath);
   // On laisse l'usage sync, car ce fichir n'est loadé qu'une fois
   if (!existsSync(envFilePath)) {
     // eslint:disable-next-line: no-console

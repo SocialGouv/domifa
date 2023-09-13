@@ -4,7 +4,7 @@ import { appLogger } from "../../util";
 
 // IMPORTANT: utilisé sur les branches PR pour initialiser la bdd au démarrage du serveur avec une base vide
 export class CreateDatabase1603812391580 implements MigrationInterface {
-  name = "autoMigration1603812391580";
+  name = "createDatabaseMigration1603812391580";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     if (
@@ -124,6 +124,20 @@ async function createTables(queryRunner: QueryRunner) {
       "sendDetails" jsonb NULL,
       attachments jsonb NULL,
       CONSTRAINT "PK_6bffd9b803b67cd4e099fc795e1" PRIMARY KEY (uuid)
+    );
+
+
+    -- public.migrations definition
+
+    -- Drop table
+
+    -- DROP TABLE public.migrations;
+
+    CREATE UNLOGGED TABLE public.migrations (
+      id serial4 NOT NULL,
+      "timestamp" int8 NOT NULL,
+      "name" varchar NOT NULL,
+      CONSTRAINT "PK_8c82d7f526340ab734260ea46be" PRIMARY KEY (id)
     );
 
 

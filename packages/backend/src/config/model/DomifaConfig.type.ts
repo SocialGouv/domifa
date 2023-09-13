@@ -21,7 +21,6 @@ export type DomifaConfig = {
   postgres: DomifaConfigPostgres;
   typeorm: {
     runOnStartup: boolean; // DOMIFA_TYPEORM_RUN_ON_STARTUP
-    createDatabase: boolean; // DOMIFA_TYPEORM_CREATE_DATABASE
   };
   upload: {
     basePath: string; // DOMIFA_UPLOADS_FOLDER
