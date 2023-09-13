@@ -167,14 +167,14 @@
           ></app-display-duplicates-usager>
         </div>
 
-        <div class="col-md-12" *ngIf="duplicateUsagers.length">
+        <div class="col-md-12" *ngIf="lastDomiciled.length">
           <p class="my-2">
             Pour votre information, les dernières personnes domiciliées au sein
             de votre structure ont pour identifiant :
           </p>
 
           <ul>
-            <li *ngFor="let duplicateUsager of duplicateUsagers">
+            <li *ngFor="let duplicateUsager of lastDomiciled">
               <strong>
                 {{ duplicateUsager | usagerNomComplet }}
               </strong>

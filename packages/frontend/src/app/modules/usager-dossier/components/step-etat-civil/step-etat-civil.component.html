@@ -63,6 +63,7 @@
               maxlength="200"
               formControlName="nom"
               name="nom"
+              (blur)="isDuplicateName()"
               [ngClass]="{
                 'is-invalid': (f.nom.dirty || submitted) && f.nom.errors
               }"
@@ -92,6 +93,7 @@
               class="form-control"
               id="prenom"
               appCleanStr
+              (blur)="isDuplicateName()"
               maxlength="200"
               formControlName="prenom"
               name="prenom"
