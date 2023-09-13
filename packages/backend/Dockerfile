@@ -38,7 +38,7 @@ RUN apt-get update && \
 
 USER 1000
 
-WORKDIR /app/packages/backend
+WORKDIR /app
 
 COPY  ./packages/backend/scripts/start /app/packages/backend/scripts/start
 COPY --from=builder /app/node_modules /app/node_modules
@@ -47,4 +47,4 @@ COPY --from=builder /app/packages/backend/dist /app/packages/backend/dist
 COPY --from=builder /app/packages/backend/.env.preset /app/packages/backend/.env.preset
 COPY --from=builder /app/packages/backend/package.json /app/packages/backend/
 
-CMD ["scripts/start"]
+CMD ["packages/backend/scripts/start"]
