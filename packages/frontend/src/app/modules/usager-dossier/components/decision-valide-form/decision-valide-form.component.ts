@@ -44,7 +44,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
   public maxEndDate: NgbDateStruct;
   public showDurationWarning: boolean;
 
-  public duplicateUsagers: Pick<
+  public lastDomiciled: Pick<
     UsagerLight,
     "ref" | "customRef" | "nom" | "prenom" | "sexe" | "structureId"
   >[];
@@ -62,7 +62,8 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     this.submitted = false;
     this.loading = false;
     this.duplicates = [];
-    this.duplicateUsagers = [];
+    this.lastDomiciled = [];
+
     this.minDate = { day: 1, month: 1, year: new Date().getFullYear() - 1 };
     this.maxDate = { day: 31, month: 12, year: new Date().getFullYear() + 2 };
     this.maxEndDate = this.setDate(subDays(addYears(new Date(), 1), 1));
@@ -136,10 +137,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
         }
       })
     );
-    // Affichage des 5 derniers ids
-    this.getLastUsagersRefs();
-
-    // Vérifier les doublons
+    this.getLastDomiciled();
     this.checkDuplicatesRef(this.usager.customRef);
   }
 
@@ -196,13 +194,13 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  private getLastUsagersRefs(): void {
+  private getLastDomiciled(): void {
     this.subscription.add(
       this.usagerDecisionService
         .getLastFiveCustomRef(this.usager.ref)
         .subscribe({
           next: (usagers: UsagerLight[]) => {
-            this.duplicateUsagers = usagers;
+            this.lastDomiciled = usagers;
           },
         })
     );
