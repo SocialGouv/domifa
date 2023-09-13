@@ -15,14 +15,12 @@ if (isTypescriptMode) {
   connectOptionsPaths = {
     migrations: [`src/_migrations/**/*.ts`],
     entities: ["src/database/entities/**/*Table.typeorm.ts"],
-    subscribers: ["src/**/*Subscriber.typeorm.ts"],
   };
 } else {
   appLogger.warn(`[appTypeormManager] Running in javascript DIST mode`);
   connectOptionsPaths = {
-    migrations: [`_migrations/**/*.js`],
-    entities: ["database/entities/**/*Table.typeorm.js"],
-    subscribers: ["**/*Subscriber.typeorm.js"],
+    migrations: [`dist/_migrations/**/*.js`],
+    entities: ["dist/database/entities/**/*Table.typeorm.js"],
   };
 }
 
