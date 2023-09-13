@@ -1,4 +1,5 @@
-import { UsagerLight, ETAPE_ENTRETIEN } from "../../../../../_common/model";
+import { ETAPE_ENTRETIEN } from "@domifa/common";
+import { UsagerLight } from "../../../../../_common/model";
 import {
   usagerEcheanceChecker,
   usagerInteractionTypeChecker,

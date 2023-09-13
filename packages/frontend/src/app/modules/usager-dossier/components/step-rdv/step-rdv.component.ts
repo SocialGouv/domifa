@@ -1,5 +1,3 @@
-import { RdvForm } from "./../../../../../_common/model/usager/rdv/RdvForm.type";
-import { CerfaDocType } from "src/_common/model/cerfa";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
@@ -20,6 +18,7 @@ import {
   UserStructure,
   UsagerLight,
   Usager,
+  RdvForm,
 } from "../../../../../_common/model";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
@@ -47,6 +46,7 @@ import {
   AuthService,
   CustomToastService,
 } from "../../../shared/services";
+import { CerfaDocType } from "@domifa/common";
 
 @Component({
   animations: [fadeInOut],

@@ -1,4 +1,4 @@
-import { AyantDroiLienParent } from "./AyantDroitLienParente.type";
+import { AyantDroiLienParent } from "@domifa/common";
 
 export type UsagerAyantDroit = {
   nom: string;

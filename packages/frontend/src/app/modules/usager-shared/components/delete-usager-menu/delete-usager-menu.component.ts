@@ -11,7 +11,6 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
 import {
   DEFAULT_MODAL_OPTIONS,
-  USAGER_DECISION_STATUT_LABELS,
   UserStructure,
 } from "../../../../../_common/model";
 
@@ -19,6 +18,7 @@ import { CustomToastService } from "../../../shared/services/custom-toast.servic
 import { UsagerDecisionService } from "../../services/usager-decision.service";
 import { Decision } from "../../interfaces";
 import { Subscription } from "rxjs";
+import { USAGER_DECISION_STATUT_LABELS } from "@domifa/common";
 
 @Component({
   styleUrls: ["./delete-usager-menu.component.css"],

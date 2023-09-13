@@ -1,9 +1,8 @@
-import { UsagerDecisionStatut } from ".";
-import { UsagerDecisionMotif } from "./UsagerDecisionMotif.type";
+import { UsagerDecisionMotif, UsagerDecisionStatut } from "@domifa/common";
 
-export type UsagerDecisionRadiationForm = {
+export interface UsagerDecisionRadiationForm {
   statut: UsagerDecisionStatut;
   motif: UsagerDecisionMotif;
   motifDetails?: string;
   dateFin: Date;
-};
+}

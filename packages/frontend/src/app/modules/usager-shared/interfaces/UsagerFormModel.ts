@@ -2,19 +2,13 @@ import { CountryISO } from "ngx-intl-tel-input";
 import { Entretien, Rdv, Decision, Options } from ".";
 import {
   UsagerLight,
-  UsagerSexe,
   UsagerNote,
-  UsagerAyantDroit,
   UsagerDecision,
-  UsagerTypeDom,
   UsagerImport,
   UsagerEcheanceInfos,
   UsagerRdvInfos,
   Telephone,
-  ETAPE_ETAT_CIVIL,
   INTERACTIONS_IN_AVAILABLE,
-  USAGER_DECISION_STATUT_COLORS,
-  USAGER_DECISION_STATUT_LABELS,
 } from "../../../../_common/model";
 
 import {
@@ -22,6 +16,14 @@ import {
   usagersFilter,
 } from "../../manage-usagers/components/usager-filter";
 import { getEcheanceInfos, getRdvInfos, getUrlUsagerProfil } from "../utils";
+import {
+  ETAPE_ETAT_CIVIL,
+  USAGER_DECISION_STATUT_COLORS,
+  USAGER_DECISION_STATUT_LABELS,
+  UsagerSexe,
+  UsagerTypeDom,
+  UsagerAyantDroit,
+} from "@domifa/common";
 
 export class UsagerFormModel {
   public ref: number;

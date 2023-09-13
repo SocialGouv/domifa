@@ -1,5 +1,5 @@
+import { AyantDroiLienParent } from "@domifa/common";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
-import { AyantDroiLienParent } from "..";
 
 export type UsagerFormAyantDroit = {
   dateNaissance: NgbDateStruct;

@@ -4,11 +4,10 @@ import {
   UsagerDecision,
   UsagerLastInteractions,
   UsagerOptions,
-  UsagerRdv,
-  UsagerSexe,
   UsagerTypeDom,
 } from "..";
 import { AppEntity } from "../_core";
+import { UsagerRdv, UsagerSexe } from "@domifa/common";
 
 export type PortailUsagerPublic = AppEntity & {
   customRef: string; // valeur par défaut: 'ref'

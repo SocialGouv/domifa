@@ -23,8 +23,8 @@ import {
   StatsByMonth,
   StructureAdmin,
   StructureType,
-  UsagerDecisionStatut,
 } from "../../../_common/model";
+import { UsagerDecisionStatut } from "@domifa/common";
 
 @Injectable()
 export class AdminStructuresService {

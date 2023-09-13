@@ -13,7 +13,7 @@ import {
   ValidateIf,
   ValidateNested,
 } from "class-validator";
-import { UsagerAyantDroit, UsagerSexe, Telephone } from "../../_common/model";
+import { Telephone } from "../../_common/model";
 import { UsagerAyantDroitDto } from "./UsagerAyantDroitDto";
 
 import {
@@ -22,6 +22,7 @@ import {
   TrimOrNullTransform,
 } from "../../_common/decorators";
 import { TelephoneDto } from "../../_common/dto";
+import { UsagerAyantDroit, UsagerSexe } from "@domifa/common";
 
 export class CreateUsagerDto {
   @ApiProperty({

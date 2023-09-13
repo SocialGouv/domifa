@@ -1,11 +1,11 @@
 import {
-  UsagerEntretien,
   UsagerEntretienCause,
   UsagerEntretienLienCommune,
   UsagerEntretienRaisonDemande,
   UsagerEntretienResidence,
   UsagerEntretienTypeMenage,
-} from "../../../../_common/model/usager/entretien";
+} from "@domifa/common";
+import { UsagerEntretien } from "../../../../_common/model";
 
 export class Entretien implements UsagerEntretien {
   public domiciliation: boolean | null;

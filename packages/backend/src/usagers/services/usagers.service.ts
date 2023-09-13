@@ -5,11 +5,6 @@ import { usagerRepository, UsagerTable } from "../../database";
 import { usagerHistoryRepository } from "../../database/services/usager/usagerHistoryRepository.service";
 
 import {
-  ETAPE_DECISION,
-  ETAPE_DOSSIER_COMPLET,
-  ETAPE_ENTRETIEN,
-  ETAPE_ETAT_CIVIL,
-  ETAPE_RENDEZ_VOUS,
   Usager,
   UserStructure,
   UserStructureProfile,
@@ -24,6 +19,13 @@ import { usagerVisibleHistoryManager } from "./usagerVisibleHistoryManager.servi
 import { CreateUsagerDto, DecisionDto, RdvDto } from "../dto";
 
 import { subMinutes } from "date-fns";
+import {
+  ETAPE_RENDEZ_VOUS,
+  ETAPE_ETAT_CIVIL,
+  ETAPE_DOSSIER_COMPLET,
+  ETAPE_DECISION,
+  ETAPE_ENTRETIEN,
+} from "@domifa/common";
 
 @Injectable()
 export class UsagersService {

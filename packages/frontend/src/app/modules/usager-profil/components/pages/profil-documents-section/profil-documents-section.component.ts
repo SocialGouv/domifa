@@ -8,8 +8,8 @@ import { UsagerProfilService } from "../../../services/usager-profil.service";
 import { DocumentService } from "../../../../usager-shared/services/document.service";
 
 import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-usager-profil-page.component";
-import { CerfaDocType } from "../../../../../../_common/model";
 import { Store } from "@ngrx/store";
+import { CerfaDocType } from "@domifa/common";
 
 @Component({
   selector: "app-profil-documents-section",

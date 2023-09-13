@@ -5,7 +5,7 @@ import {
   ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_TYPE_MENAGE,
   ENTRETIEN_CAUSE_INSTABILITE,
-} from "../../../../../_common/model";
+} from "@domifa/common";
 import { UsagerFormModel } from "../../interfaces";
 
 @Component({

@@ -1,7 +1,7 @@
-import { UsagerRdv } from "../../../../_common/model/usager/rdv/UsagerRdv.type";
 import { formatDateToNgb } from "../../../shared/bootstrap-util";
 import { differenceInCalendarDays, format } from "date-fns";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { UsagerRdv } from "@domifa/common";
 
 export class Rdv implements UsagerRdv {
   public dateRdv: Date;

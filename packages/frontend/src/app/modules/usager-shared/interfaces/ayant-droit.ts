@@ -1,5 +1,4 @@
-import { AyantDroiLienParent } from "../../../../_common/model/usager/ayant-droit/AyantDroitLienParente.type";
-import { UsagerAyantDroit } from "../../../../_common/model/usager/ayant-droit/UsagerAyantDroit.type";
+import { AyantDroiLienParent, UsagerAyantDroit } from "@domifa/common";
 
 export class AyantDroit implements UsagerAyantDroit {
   public dateNaissance: Date | null;

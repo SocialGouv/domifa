@@ -1,11 +1,12 @@
-import { UsagerDecisionStatut } from ".";
-import { UsagerDecisionMotif } from "./UsagerDecisionMotif.type";
-import { UsagerDecisionOrientation } from "./UsagerDecisionOrientation.type";
+import {
+  UsagerDecisionStatut,
+  UsagerDecisionMotif,
+  UsagerDecisionOrientation,
+} from "@domifa/common";
 
 export type UsagerDecisionRefusForm = {
   dateDebut: Date;
   dateFin: Date;
-
   statut: UsagerDecisionStatut;
   motif: UsagerDecisionMotif;
   motifDetails?: string;

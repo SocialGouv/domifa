@@ -5,8 +5,9 @@ import {
   ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_RESIDENCE,
   ENTRETIEN_TYPE_MENAGE,
-  Usager,
-} from "../../../_common/model";
+} from "@domifa/common";
+
+import { Usager } from "../../../_common/model";
 
 import {
   WorksheetRenderer,

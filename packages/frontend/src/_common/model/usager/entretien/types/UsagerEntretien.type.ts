@@ -4,7 +4,7 @@ import {
   UsagerEntretienCause,
   UsagerEntretienRaisonDemande,
   UsagerEntretienTypeMenage,
-} from "..";
+} from "@domifa/common";
 
 export type UsagerEntretien = {
   domiciliation: boolean | null;

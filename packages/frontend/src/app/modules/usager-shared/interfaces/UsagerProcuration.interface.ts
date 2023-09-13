@@ -1,4 +1,4 @@
-import { UsagerOptionsProcuration } from "../../../../_common/model";
+import { UsagerOptionsProcuration } from "@domifa/common";
 
 export class UsagerProcuration implements UsagerOptionsProcuration {
   public nom: string;

@@ -3,7 +3,7 @@ import {
   ETAPE_DOCUMENTS,
   ETAPE_ENTRETIEN,
   ETAPE_ETAT_CIVIL,
-} from "../../../../_common/model";
+} from "@domifa/common";
 import { getUrlUsagerProfil } from "./getUrlUsagerProfil.service";
 
 it("getUrlUsagerProfil: redirection vers le profil", () => {

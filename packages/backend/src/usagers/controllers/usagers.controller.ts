@@ -37,8 +37,6 @@ import { userUsagerCreator, userUsagerUpdator } from "../../users/services";
 import { appLogger } from "../../util";
 import { dataCompare } from "../../util/dataCompare.service";
 import {
-  CerfaDocType,
-  ETAPE_DOCUMENTS,
   Usager,
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
@@ -63,6 +61,7 @@ import pdftk = require("node-pdftk");
 import { resolve } from "path";
 import { readFile } from "fs-extra";
 import { ExpressResponse } from "../../util/express";
+import { ETAPE_DOCUMENTS, CerfaDocType } from "@domifa/common";
 
 @Controller("usagers")
 @ApiTags("usagers")

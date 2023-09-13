@@ -15,7 +15,6 @@ import {
 import { Router } from "@angular/router";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import {
-  MOTIFS_REFUS_LABELS,
   UsagerDecisionRefusForm,
   UsagerLight,
 } from "../../../../../_common/model";
@@ -31,6 +30,7 @@ import {
   CustomToastService,
 } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
+import { MOTIFS_REFUS_LABELS } from "@domifa/common";
 
 @Component({
   selector: "app-decision-refus-form",

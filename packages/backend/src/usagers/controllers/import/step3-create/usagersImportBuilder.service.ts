@@ -1,16 +1,20 @@
 import { setHours } from "date-fns";
 
 import {
-  ETAPE_DOSSIER_COMPLET,
   Usager,
   UsagerAyantDroit,
   UsagerDecision,
   UserStructure,
 } from "../../../../_common/model";
-import { UsagerEntretien } from "../../../../_common/model/usager/entretien";
+
 import { v4 as uuidv4 } from "uuid";
-import { UsagerDecisionMotif } from "../../../../_common/model/usager/UsagerDecisionMotif.type";
+
 import { UsagersImportUsager } from "../step2-validate-row/schema";
+import {
+  UsagerDecisionMotif,
+  UsagerEntretien,
+  ETAPE_DOSSIER_COMPLET,
+} from "@domifa/common";
 
 export const usagersImportBuilder = {
   buildUsagers,

@@ -28,10 +28,8 @@ import {
 import { Observable, Subscription } from "rxjs";
 
 import {
-  LIEN_PARENTE_LABELS,
   Telephone,
   PHONE_PLACEHOLDERS,
-  UsagerAyantDroit,
   UsagerEtatCivilFormData,
   UsagerFormAyantDroit,
   UserStructure,
@@ -58,6 +56,7 @@ import {
   mobilePhoneValidator,
   setFormPhone,
 } from "../../../shared/phone";
+import { LIEN_PARENTE_LABELS, UsagerAyantDroit } from "@domifa/common";
 
 @Component({
   selector: "app-etat-civil-parent-form",

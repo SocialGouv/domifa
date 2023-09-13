@@ -4,7 +4,7 @@ import {
   ETAPE_DECISION,
   UsagerRdv,
   ETAPE_DOSSIER_COMPLET,
-} from "../../../../_common/model";
+} from "@domifa/common";
 import { getRdvInfos } from "./getRdvInfos.service";
 
 beforeAll(() => {

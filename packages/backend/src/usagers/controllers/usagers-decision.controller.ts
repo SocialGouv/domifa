@@ -21,8 +21,6 @@ import {
 } from "../../database";
 
 import {
-  ETAPE_DECISION,
-  ETAPE_ETAT_CIVIL,
   Usager,
   UsagerNote,
   UserStructureAuthenticated,
@@ -40,6 +38,7 @@ import {
 } from "../../auth/decorators";
 import { AppUserGuard, UsagerAccessGuard } from "../../auth/guards";
 import { Not } from "typeorm";
+import { ETAPE_ETAT_CIVIL, ETAPE_DECISION } from "@domifa/common";
 
 @Controller("usagers-decision")
 @ApiTags("usagers-decision")

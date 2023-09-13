@@ -1,4 +1,4 @@
-import { UsagerDecisionStatut } from ".";
+import { UsagerDecisionStatut } from "@domifa/common";
 
 export type UsagerDecisionValideForm = {
   dateDebut: Date;

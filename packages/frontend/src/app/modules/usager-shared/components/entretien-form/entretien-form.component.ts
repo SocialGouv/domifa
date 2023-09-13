@@ -16,14 +16,14 @@ import {
 } from "@angular/forms";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
+import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 import {
-  DEFAULT_MODAL_OPTIONS,
   ENTRETIEN_CAUSE_INSTABILITE,
   ENTRETIEN_LIEN_COMMUNE,
   ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_RESIDENCE,
   ENTRETIEN_TYPE_MENAGE,
-} from "../../../../../_common/model";
+} from "@domifa/common";
 
 import { Entretien } from "../../interfaces";
 
