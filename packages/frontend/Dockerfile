@@ -6,6 +6,8 @@ WORKDIR /app
 
 COPY yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn
+RUN yarn fetch workspaces focus @domifa/common
+RUN yarn workspace @domifa/common build
 RUN yarn fetch workspaces focus @domifa/frontend
 
 COPY ./packages/frontend ./packages/frontend

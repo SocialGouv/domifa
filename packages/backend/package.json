@@ -33,6 +33,7 @@
     "test": "rimraf dist && ENV_FILE=tests-local jest"
   },
   "dependencies": {
+    "@domifa/common": "workspace:^",
     "@faker-js/faker": "^8.0.1",
     "@nestjs/axios": "^3.0.0",
     "@nestjs/common": "^10.0.5",
@@ -55,8 +56,8 @@
     "@opentelemetry/instrumentation-pg": "^0.35.1",
     "@opentelemetry/sdk-node": "^0.41.0",
     "@opentelemetry/semantic-conventions": "^1.12.0",
-    "@sentry/node": "^7.48.0",
-    "@sentry/opentelemetry-node": "^7.48.0",
+    "@sentry/node": "^7.69.0",
+    "@sentry/opentelemetry-node": "^7.69.0",
     "@socialgouv/streaming-file-encryption": "^1.1.0",
     "@types/source-map-support": "^0.5.4",
     "axios": "^1.4.0",
@@ -67,7 +68,7 @@
     "date-fns": "^2.25.0",
     "date-fns-tz": "^2.0.0",
     "docxtemplater": "^3.37.12",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.3.1",
     "email-templates": "^10.0.0",
     "exceljs": "^4.2.1",
     "express": "^4.18.2",
@@ -106,7 +107,7 @@
   },
   "devDependencies": {
     "@nestjs/cli": "^10.1.1",
-    "@socialgouv/eslint-config-typescript": "^1.119.0",
+    "@socialgouv/eslint-config-typescript": "^1.131.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/compression": "^1.7.0",
     "@types/cron": "^2.0.0",

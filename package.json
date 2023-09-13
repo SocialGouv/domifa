@@ -14,10 +14,11 @@
     "prepare": "husky install"
   },
   "devDependencies": {
+    "@babel/runtime": "^7.22.15",
     "@commitlint/cli": "^17.7.1",
-    "@commitlint/config-conventional": "^17.2.0",
-    "@socialgouv/sre-secrets": "^1.13.9",
-    "husky": "^8.0.1",
+    "@commitlint/config-conventional": "^17.7.0",
+    "@socialgouv/sre-secrets": "^1.14.5",
+    "husky": "^8.0.3",
     "lerna": "^6.0.0",
     "lint-staged": "^14.0.0"
   },
@@ -26,6 +27,7 @@
       "packages/*"
     ],
     "nohoist": [
+      "**/@babel/runtime",
       "**/typeorm",
       "**/bootstrap",
       "**/@angular/*",

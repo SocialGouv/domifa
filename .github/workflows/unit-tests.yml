@@ -35,6 +35,12 @@ jobs:
       - name: Create backend .env file
         run: cp ./packages/backend/.env.backend.test.local.example.env ./packages/backend/.env
 
+      - name: Install common dependencies
+        run: yarn workspaces focus @domifa/common
+
+      - name: Install common dependencies
+        run: yarn workspace @domifa/common build
+
       - name: Install backend dependencies
         run: yarn workspaces focus @domifa/backend
 
@@ -76,6 +82,12 @@ jobs:
       - name: Set up Yarn cache
         uses: c-hive/gha-yarn-cache@v2
 
+      - name: Install common dependencies
+        run: yarn workspaces focus @domifa/common
+
+      - name: Install common dependencies
+        run: yarn workspace @domifa/common build
+
       - name: Install front-end dependencies
         run: yarn workspaces focus @domifa/frontend
 
@@ -104,6 +116,10 @@ jobs:
 
       - name: Set up Yarn cache
         uses: c-hive/gha-yarn-cache@v2
+
+      - name: Install dependencies
+        run: |
+          yarn --immutable
 
       - name: Install dependencies
         run: yarn workspaces focus @domifa/portail-usagers

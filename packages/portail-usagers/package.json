@@ -34,7 +34,7 @@
     "@ngx-matomo/router": "^4.0.1",
     "@ngx-matomo/tracker": "4.0.1",
     "@popperjs/core": "^2.11.4",
-    "@sentry/angular": "^7.36.0",
+    "@sentry/angular": "^7.69.0",
     "angular-user-idle": "^4.0.0",
     "bootstrap": "5.2.3",
     "date-fns": "^2.25.0",
