@@ -153,13 +153,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           defaultValue: true,
         }
       ),
-      createDatabase: configParser.parseBoolean(
-        x,
-        "DOMIFA_TYPEORM_CREATE_DATABASE",
-        {
-          defaultValue: false,
-        }
-      ),
     },
     upload: {
       basePath: configParser.parseString(x, "DOMIFA_UPLOADS_FOLDER"),

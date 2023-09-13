@@ -11,30 +11,16 @@ let connectOptionsPaths: Pick<
 >;
 
 if (isTypescriptMode) {
-  if (domifaConfig().envId !== "test") {
-    appLogger.warn(`[appTypeormManager] Running in typescript DEV mode`);
-  }
+  appLogger.warn(`[appTypeormManager] Running in typescript DEV mode`);
   connectOptionsPaths = {
-    migrations: domifaConfig().typeorm.createDatabase
-      ? [`src/_migrations/**/*.ts`]
-      : [
-          `src/_migrations/**/*.ts`,
-          `src/_migrations_exclude-from-create_db/**/*.ts`,
-        ],
+    migrations: [`src/_migrations/**/*.ts`],
     entities: ["src/database/entities/**/*Table.typeorm.ts"],
     subscribers: ["src/**/*Subscriber.typeorm.ts"],
   };
 } else {
-  if (domifaConfig().envId !== "test") {
-    appLogger.warn(`[appTypeormManager] Running in javascript DIST mode`);
-  }
+  appLogger.warn(`[appTypeormManager] Running in javascript DIST mode`);
   connectOptionsPaths = {
-    migrations: domifaConfig().typeorm.createDatabase
-      ? [`dist/_migrations/**/*.js`]
-      : [
-          `dist/_migrations/**/*.js`,
-          `dist/_migrations_exclude-from-create_db/**/*.js`,
-        ],
+    migrations: [`dist/_migrations/**/*.js`],
     entities: ["dist/database/entities/**/*Table.typeorm.js"],
     subscribers: ["dist/**/*Subscriber.typeorm.js"],
   };
@@ -48,7 +34,7 @@ export const PG_CONNECT_OPTIONS: PostgresConnectionOptions = {
   type: "postgres",
   synchronize: false,
   migrationsTransactionMode: "each",
-  migrationsRun: true,
+  migrationsRun: domifaConfig().envId !== "test",
   host: domifaConfig().postgres.host,
   port: domifaConfig().postgres.port,
   username: domifaConfig().postgres.username,
