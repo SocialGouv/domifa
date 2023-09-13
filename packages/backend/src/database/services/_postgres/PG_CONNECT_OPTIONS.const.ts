@@ -20,9 +20,9 @@ if (isTypescriptMode) {
 } else {
   appLogger.warn(`[appTypeormManager] Running in javascript DIST mode`);
   connectOptionsPaths = {
-    migrations: [`dist/_migrations/**/*.js`],
-    entities: ["dist/database/entities/**/*Table.typeorm.js"],
-    subscribers: ["dist/**/*Subscriber.typeorm.js"],
+    migrations: [`_migrations/**/*.js`],
+    entities: ["database/entities/**/*Table.typeorm.js"],
+    subscribers: ["**/*Subscriber.typeorm.js"],
   };
 }
 
