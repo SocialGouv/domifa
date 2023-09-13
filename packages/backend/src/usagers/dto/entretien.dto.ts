@@ -7,15 +7,13 @@ import {
   ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_RESIDENCE,
   ENTRETIEN_TYPE_MENAGE,
-} from "../../_common/model";
-import {
   UsagerEntretien,
   UsagerEntretienCause,
   UsagerEntretienLienCommune,
   UsagerEntretienRaisonDemande,
   UsagerEntretienResidence,
   UsagerEntretienTypeMenage,
-} from "../../_common/model/usager/entretien";
+} from "@domifa/common";
 
 export class EntretienDto implements Partial<UsagerEntretien> {
   @IsOptional()

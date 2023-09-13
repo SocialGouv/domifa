@@ -1,10 +1,10 @@
 import {
-  MOTIFS_RADIATION_LABELS,
   MOTIFS_REFUS_LABELS,
-  UsagerDecision,
+  MOTIFS_RADIATION_LABELS,
   USAGER_DECISION_STATUT_LABELS_PROFIL,
   UsagerDecisionMotif,
-} from "../../_common/model";
+} from "@domifa/common";
+import { UsagerDecision } from "../../_common/model";
 import { format } from "date-fns";
 
 export const generateMotifLabel = (decision: UsagerDecision): string => {

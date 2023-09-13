@@ -20,8 +20,8 @@ import {
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
-import { CerfaDocType } from "src/_common/model/cerfa";
 import { Subscription } from "rxjs";
+import { CerfaDocType } from "@domifa/common";
 
 @Component({
   selector: "app-profil-head",

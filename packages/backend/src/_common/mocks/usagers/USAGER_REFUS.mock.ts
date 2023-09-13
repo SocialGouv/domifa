@@ -1,4 +1,5 @@
-import { ETAPE_DOSSIER_COMPLET, Usager } from "../../model";
+import { ETAPE_DOSSIER_COMPLET } from "@domifa/common";
+import { Usager } from "../../model";
 import { v4 as uuidv4 } from "uuid";
 export const USAGER_REFUS_MOCK: Usager = {
   numeroDistribution: null,

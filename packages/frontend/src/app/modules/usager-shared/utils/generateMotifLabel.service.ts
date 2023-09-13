@@ -1,8 +1,5 @@
-import {
-  UsagerDecision,
-  MOTIFS_REFUS_LABELS,
-  MOTIFS_RADIATION_LABELS,
-} from "../../../../_common/model";
+import { MOTIFS_REFUS_LABELS, MOTIFS_RADIATION_LABELS } from "@domifa/common";
+import { UsagerDecision } from "../../../../_common/model";
 
 export const generateMotifLabel = (decision: UsagerDecision): string => {
   if (!decision) {

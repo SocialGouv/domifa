@@ -6,11 +6,13 @@ import {
   UsagerOptionsHistory,
   UsagerOptionsTransfert,
   UsagerLight,
-  UsagerOptionsProcuration,
-  UsagerOptionsHistoryType,
 } from "../../../../_common/model";
 import { cacheManager } from "../../../shared";
 import { Store } from "@ngrx/store";
+import {
+  UsagerOptionsHistoryType,
+  UsagerOptionsProcuration,
+} from "@domifa/common";
 
 @Injectable({
   providedIn: "root",

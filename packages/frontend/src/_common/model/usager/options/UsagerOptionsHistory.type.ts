@@ -1,6 +1,8 @@
-import { AppEntity } from "../../_core";
-import { UsagerOptionsHistoryAction } from "./UsagerOptionsHistoryAction.type";
-import { UsagerOptionsHistoryType } from "./UsagerOptionsHistoryType.type";
+import {
+  AppEntity,
+  UsagerOptionsHistoryAction,
+  UsagerOptionsHistoryType,
+} from "@domifa/common";
 
 export type UsagerOptionsHistory = AppEntity & {
   usagerUUID: string;

@@ -32,7 +32,6 @@ import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/da
 import {
   UserStructure,
   UserStructureRole,
-  UsagerOptionsProcuration,
   DEFAULT_MODAL_OPTIONS,
 } from "../../../../../_common/model";
 import {
@@ -49,6 +48,7 @@ import { CustomDatepickerI18n } from "../../../shared/services/date-french.servi
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerProcuration } from "../../../usager-shared/interfaces/UsagerProcuration.interface";
 import { UsagerOptionsService } from "../../services/usager-options.service";
+import { UsagerOptionsProcuration } from "@domifa/common";
 @Component({
   providers: [
     NgbDateCustomParserFormatter,

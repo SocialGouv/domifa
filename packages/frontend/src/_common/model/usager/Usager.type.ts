@@ -5,7 +5,7 @@ import {
   UsagerRdvInfos,
 } from "../../../_common/model";
 import { UsagerEntretien } from "./entretien";
-import { UsagerAyantDroit } from "./ayant-droit/UsagerAyantDroit.type";
+
 import { UsagerDecision } from "./decision/types/UsagerDecision.type";
 
 import { UsagerImport } from "./UsagerImport.type";
@@ -13,9 +13,12 @@ import { UsagerLastInteractions } from "./UsagerLastInteractions.type";
 import { UsagerNote } from "./UsagerNote.type";
 import { UsagerOptions } from "./options/UsagerOptions.type";
 
-import { UsagerRdv } from "./rdv/UsagerRdv.type";
-import { UsagerSexe } from "./UsagerSexe.type";
-import { UsagerTypeDom } from "./UsagerTypeDom.type";
+import {
+  UsagerAyantDroit,
+  UsagerRdv,
+  UsagerSexe,
+  UsagerTypeDom,
+} from "@domifa/common";
 
 export type Usager = AppEntity & {
   ref: number; // unique par structure

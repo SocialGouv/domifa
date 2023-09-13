@@ -1,5 +1,5 @@
+import { UsagerOptionsProcuration } from "@domifa/common";
 import {
-  UsagerOptionsProcuration,
   UsagerOptionsTransfert,
   UsagerOptions,
 } from "../../../../_common/model";

@@ -9,7 +9,8 @@ import {
   MOTIFS_RADIATION_LABELS_MAP,
   MOTIFS_REFUS_LABELS_MAP,
   UsagerDecisionStatut,
-} from "../../../../../_common/model";
+} from "@domifa/common";
+
 import {
   booleanOuiNon,
   dateUtcSchema,

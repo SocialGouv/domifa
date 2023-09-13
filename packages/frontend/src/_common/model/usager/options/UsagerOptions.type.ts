@@ -1,4 +1,4 @@
-import { UsagerOptionsProcuration } from "./UsagerOptionsProcuration.type";
+import { UsagerOptionsProcuration } from "@domifa/common";
 import { UsagerOptionsTransfert } from "./UsagerOptionsTransfert.type";
 
 export type UsagerOptions = {

@@ -1,6 +1,8 @@
-import { UsagerDecisionMotif } from "./UsagerDecisionMotif.type";
-import { UsagerDecisionOrientation } from "./UsagerDecisionOrientation.type";
-import { UsagerDecisionStatut } from "./UsagerDecisionStatut.type";
+import {
+  UsagerDecisionStatut,
+  UsagerDecisionMotif,
+  UsagerDecisionOrientation,
+} from "@domifa/common";
 import { UsagerTypeDom } from "./UsagerTypeDom.type";
 
 export type UsagerDecision = {

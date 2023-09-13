@@ -1,11 +1,11 @@
 import {
-  UsagerDecision,
+  USAGER_DECISION_STATUT_LABELS_PROFIL,
   UsagerTypeDom,
   UsagerDecisionStatut,
   UsagerDecisionMotif,
   UsagerDecisionOrientation,
-  USAGER_DECISION_STATUT_LABELS_PROFIL,
-} from "../../../../_common/model";
+} from "@domifa/common";
+import { UsagerDecision } from "../../../../_common/model";
 import { generateMotifLabel } from "../utils";
 
 export class Decision implements UsagerDecision {

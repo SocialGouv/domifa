@@ -11,7 +11,6 @@ import { ProfilGeneralHistoriqueCourriersComponent } from "../../profil-general-
 import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-usager-profil-page.component";
 import {
   ETAPES_DEMANDE_URL,
-  USAGER_DECISION_STATUT_LABELS,
   InteractionType,
   InteractionInForApi,
   INTERACTIONS_LABELS_SINGULIER,
@@ -23,6 +22,7 @@ import { Interaction } from "../../../../usager-shared/interfaces";
 import { InteractionService } from "../../../../usager-shared/services/interaction.service";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
 import { Store } from "@ngrx/store";
+import { USAGER_DECISION_STATUT_LABELS } from "@domifa/common";
 
 @Component({
   selector: "app-profil-general-section",

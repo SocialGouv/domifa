@@ -6,13 +6,13 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import {
   UsagerDecision,
   UsagerHistoryStateCreationEvent,
-  USAGER_DECISION_STATUT_LABELS_PROFIL,
   HISTORY_ACTIONS,
 } from "../../../../../../_common/model";
 import { AuthService } from "../../../../shared/services/auth.service";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
 import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-usager-profil-page.component";
 import { Store } from "@ngrx/store";
+import { USAGER_DECISION_STATUT_LABELS_PROFIL } from "@domifa/common";
 
 @Component({
   selector: "app-profil-historique",

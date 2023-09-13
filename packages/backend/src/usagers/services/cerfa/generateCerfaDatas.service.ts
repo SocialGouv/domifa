@@ -4,13 +4,13 @@ import { generateDateForCerfa } from ".";
 import { getPhoneString } from "../../../util/phone/phoneUtils.service";
 import { UserStructureAuthenticated } from "../../../_common/model";
 import {
-  CerfaDocType,
   DateCerfa,
   Usager,
   UsagerAyantDroit,
   UsagerCerfaFields,
 } from "../../../_common/model/usager";
 import { generateMotifLabel } from "../generateMotifLabel.service";
+import { CerfaDocType } from "@domifa/common";
 
 export const generateCerfaDatas = (
   usager: Usager,

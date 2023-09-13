@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { UsagerFormModel } from "../../interfaces";
-import { LIEN_PARENTE_LABELS } from "../../../../../_common/model";
+import { LIEN_PARENTE_LABELS } from "@domifa/common";
 
 @Component({
   selector: "app-display-ayants-droits",

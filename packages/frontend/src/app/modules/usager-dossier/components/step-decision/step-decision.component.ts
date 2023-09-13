@@ -9,7 +9,6 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 
 import { MatomoTracker } from "@ngx-matomo/tracker";
-import { CerfaDocType } from "src/_common/model/cerfa";
 
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
@@ -24,6 +23,7 @@ import {
   AuthService,
   CustomToastService,
 } from "../../../shared/services";
+import { CerfaDocType } from "@domifa/common";
 
 @Component({
   providers: [

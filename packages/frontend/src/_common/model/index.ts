@@ -1,9 +1,9 @@
 //@index('./*', f => `export * from '${f.path}'`)
 export * from "./_core";
 export * from "./_general";
-export * from "./cerfa";
 export * from "./interaction";
 export * from "./message-sms";
+export * from "./pagination";
 export * from "./stats";
 export * from "./structure-doc";
 export * from "./structure-stats";

@@ -1,10 +1,7 @@
 import fr from "date-fns/locale/fr";
 import { format } from "date-fns";
-import {
-  UsagerLight,
-  UsagerRdvInfos,
-  ETAPE_ENTRETIEN,
-} from "../../../../_common/model";
+import { UsagerLight, UsagerRdvInfos } from "../../../../_common/model";
+import { ETAPE_ENTRETIEN } from "@domifa/common";
 
 export const getRdvInfos = (usager?: Partial<UsagerLight>): UsagerRdvInfos => {
   const rdvDisplay: UsagerRdvInfos = {

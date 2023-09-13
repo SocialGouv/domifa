@@ -20,7 +20,6 @@ import {
 import { Observable, Subscription, forkJoin } from "rxjs";
 import {
   DEFAULT_MODAL_OPTIONS,
-  MOTIFS_RADIATION_LABELS,
   UsagerDecisionRadiationForm,
 } from "../../../../../_common/model";
 import { minDateToday } from "../../../../shared";
@@ -30,6 +29,7 @@ import {
 } from "../../../shared/services";
 import { UsagerFormModel } from "../../interfaces";
 import { UsagerDecisionService } from "../../services/usager-decision.service";
+import { MOTIFS_RADIATION_LABELS } from "@domifa/common";
 
 @Component({
   selector: "app-decision-radiation-form",

@@ -11,15 +11,16 @@ import {
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import { StructureTable } from "../structure";
 import { UsagerTable } from "./UsagerTable.typeorm";
-import {
-  UsagerEntretien,
-  UsagerEntretienCause,
-  UsagerEntretienLienCommune,
-  UsagerEntretienRaisonDemande,
-  UsagerEntretienResidence,
-  UsagerEntretienTypeMenage,
-} from "../../../_common/model";
+
 import { UsagerNotesTable } from "./UsagerNotesTable.typeorm";
+import {
+  UsagerEntretienTypeMenage,
+  UsagerEntretienLienCommune,
+  UsagerEntretienResidence,
+  UsagerEntretienCause,
+  UsagerEntretienRaisonDemande,
+  UsagerEntretien,
+} from "@domifa/common";
 
 @Unique(["structureId", "usagerRef"])
 @Entity({ name: "usager_entretien" })
