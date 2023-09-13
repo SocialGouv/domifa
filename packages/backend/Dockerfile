@@ -24,7 +24,7 @@ COPY ./packages/backend /app/packages/backend
 RUN yarn workspace @domifa/backend build
 
 RUN yarn workspaces focus @domifa/backend --production && yarn cache clean
-RUN mkdir -p packages/backend/node_modules
+RUN mkdir -p packages/backend/node_modules && mkdir -p packages/common/node_modules
 
 FROM node:${NODE_VERSION}
 
@@ -42,6 +42,9 @@ WORKDIR /app
 
 COPY  ./packages/backend/scripts/start /app/packages/backend/scripts/start
 COPY --from=builder /app/node_modules /app/node_modules
+COPY --from=builder /app/packages/common/node_modules /app/packages/common/node_modules
+COPY --from=builder /app/packages/common/dist /app/packages/common/dist
+COPY --from=builder /app/packages/common/package.json /app/packages/common/
 COPY --from=builder /app/packages/backend/node_modules /app/packages/backend/node_modules
 COPY --from=builder /app/packages/backend/dist /app/packages/backend/dist
 COPY --from=builder /app/packages/backend/.env.preset /app/packages/backend/.env.preset
