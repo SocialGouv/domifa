@@ -17,7 +17,7 @@ function loadEnvFile(envFileName: string): Partial<DomifaEnv> {
     console.warn(`[configService] Env file ${envFilePath} not found: ignoring`);
     return {} as unknown as Partial<DomifaEnv>;
   } else {
-    const { error, parsed } = dotenv.config({ path: envFileName });
+    const { error, parsed } = dotenv.config({ path: envFilePath });
     if (error) {
       // eslint:disable-next-line: no-console
       console.error(`[configService] Error loading env file ${envFilePath}`, {
