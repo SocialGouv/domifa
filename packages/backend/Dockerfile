@@ -50,4 +50,5 @@ COPY --from=builder --chown=1000:1000 /app/packages/backend/dist /app/packages/b
 COPY --from=builder --chown=1000:1000 /app/packages/backend/.env.preset /app/packages/backend/.env.preset
 COPY --from=builder --chown=1000:1000 /app/packages/backend/package.json /app/packages/backend/
 
+
 CMD ["packages/backend/scripts/start"]

@@ -15,14 +15,14 @@ if (isTypescriptMode) {
   connectOptionsPaths = {
     migrations: [`src/_migrations/**/*.ts`],
     entities: ["src/database/entities/**/*Table.typeorm.ts"],
-    subscribers: ["src/**/*Subscriber.typeorm.ts"],
   };
 } else {
   appLogger.warn(`[appTypeormManager] Running in javascript DIST mode`);
   connectOptionsPaths = {
-    migrations: [`dist/_migrations/**/*.js`],
-    entities: ["dist/database/entities/**/*Table.typeorm.js"],
-    subscribers: ["dist/**/*Subscriber.typeorm.js"],
+    migrations: ["/app/packages/backend/dist/_migrations/**/*.js"],
+    entities: [
+      "/app/packages/backend/dist/database/entities/**/*Table.typeorm.js",
+    ],
   };
 }
 
@@ -50,3 +50,4 @@ export const PG_CONNECT_OPTIONS: PostgresConnectionOptions = {
   ...connectOptionsPaths,
   maxQueryExecutionTime: 1000,
 };
+console.log(PG_CONNECT_OPTIONS);
