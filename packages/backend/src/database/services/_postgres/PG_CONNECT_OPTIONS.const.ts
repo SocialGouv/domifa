@@ -50,4 +50,3 @@ export const PG_CONNECT_OPTIONS: PostgresConnectionOptions = {
   ...connectOptionsPaths,
   maxQueryExecutionTime: 1000,
 };
-console.log(PG_CONNECT_OPTIONS);
