@@ -126,21 +126,6 @@ async function createTables(queryRunner: QueryRunner) {
       CONSTRAINT "PK_6bffd9b803b67cd4e099fc795e1" PRIMARY KEY (uuid)
     );
 
-
-    -- public.migrations definition
-
-    -- Drop table
-
-    -- DROP TABLE public.migrations;
-
-    CREATE UNLOGGED TABLE public.migrations (
-      id serial4 NOT NULL,
-      "timestamp" int8 NOT NULL,
-      "name" varchar NOT NULL,
-      CONSTRAINT "PK_8c82d7f526340ab734260ea46be" PRIMARY KEY (id)
-    );
-
-
     -- public.monitor_batch_process definition
 
     -- Drop table
