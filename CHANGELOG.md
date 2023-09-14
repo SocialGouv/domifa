@@ -1,3 +1,11 @@
+## [2.137.2](https://github.com/SocialGouv/domifa/compare/v2.137.1...v2.137.2) (2023-09-14)
+
+
+### Bug Fixes
+
+* backend perms ([23e791d](https://github.com/SocialGouv/domifa/commit/23e791d2f2def3cb257338aedda5aceed2b77080))
+* perms ([82622f2](https://github.com/SocialGouv/domifa/commit/82622f2494819d2c1525ece76f35ff8b8b29eacd))
+
 ## [2.137.1](https://github.com/SocialGouv/domifa/compare/v2.137.0...v2.137.1) (2023-09-13)
 
 
