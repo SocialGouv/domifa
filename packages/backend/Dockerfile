@@ -41,13 +41,13 @@ USER 1000
 WORKDIR /app
 
 COPY  ./packages/backend/scripts/start /app/packages/backend/scripts/start
-COPY --from=builder /app/node_modules /app/node_modules
-COPY --from=builder /app/packages/common/node_modules /app/packages/common/node_modules
-COPY --from=builder /app/packages/common/dist /app/packages/common/dist
-COPY --from=builder /app/packages/common/package.json /app/packages/common/
-COPY --from=builder /app/packages/backend/node_modules /app/packages/backend/node_modules
-COPY --from=builder /app/packages/backend/dist /app/packages/backend/dist
-COPY --from=builder /app/packages/backend/.env.preset /app/packages/backend/.env.preset
-COPY --from=builder /app/packages/backend/package.json /app/packages/backend/
+COPY --from=builder --chown=1000:1000 /app/node_modules /app/node_modules
+COPY --from=builder --chown=1000:1000 /app/packages/common/node_modules /app/packages/common/node_modules
+COPY --from=builder --chown=1000:1000 /app/packages/common/dist /app/packages/common/dist
+COPY --from=builder --chown=1000:1000 /app/packages/common/package.json /app/packages/common/
+COPY --from=builder --chown=1000:1000 /app/packages/backend/node_modules /app/packages/backend/node_modules
+COPY --from=builder --chown=1000:1000 /app/packages/backend/dist /app/packages/backend/dist
+COPY --from=builder --chown=1000:1000 /app/packages/backend/.env.preset /app/packages/backend/.env.preset
+COPY --from=builder --chown=1000:1000 /app/packages/backend/package.json /app/packages/backend/
 
 CMD ["packages/backend/scripts/start"]
