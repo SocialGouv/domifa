@@ -1,3 +1,15 @@
+## [2.137.3](https://github.com/SocialGouv/domifa/compare/v2.137.2...v2.137.3) (2023-09-14)
+
+
+### Bug Fixes
+
+* correction des droits ([d3de947](https://github.com/SocialGouv/domifa/commit/d3de947185a7b92b8f356ef3002f2236be4086f0))
+* delete console.log ([95edb03](https://github.com/SocialGouv/domifa/commit/95edb038fb88e196efc254fbdcecf6a0f27efb98))
+* **excel:** ajout du bon dossier dans le dockerfile ([5228179](https://github.com/SocialGouv/domifa/commit/5228179c379d98ba7758ce0688110f9df404110a))
+* **typeorm:** adaptation des chemins suite à la migration ([2fb478a](https://github.com/SocialGouv/domifa/commit/2fb478a69b15c2a5019979e0c7bae2081bb110ff))
+* **typeorm:** correction de la migration des envs de dev ([6931bf4](https://github.com/SocialGouv/domifa/commit/6931bf48b0793e51186c73fb12923deb16c427cf))
+* deactivate clean drop db ([e08d74c](https://github.com/SocialGouv/domifa/commit/e08d74c5517dc9968cfce58348134402b64be0d4))
+
 ## [2.137.2](https://github.com/SocialGouv/domifa/compare/v2.137.1...v2.137.2) (2023-09-14)
 
 
