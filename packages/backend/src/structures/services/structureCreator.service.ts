@@ -10,10 +10,11 @@ import { newStructureEmailSender } from "../../mails/services/templates-renderer
 import { UserDto } from "../../users/dto/user.dto";
 import { userStructureCreator } from "../../users/services/user-structure-creator.service";
 import { appLogger } from "../../util/AppLogger.service";
-import { StructureCommon } from "../../_common/model";
+import { Structure, StructureCommon } from "../../_common/model";
 import { departementHelper } from "./departement-helper.service";
 import { StructureDto } from "../dto/structure.dto";
 import { generateSender } from "../../sms/services/generators";
+import { getLocation } from "./location.service";
 
 export const structureCreatorService = {
   checkStructureCreateArgs,
@@ -102,7 +103,7 @@ async function createStructure(structureDto: StructureDto) {
   delete structureDto.readCgu;
   delete structureDto.acceptCgu;
 
-  const createdStructure = new StructureTable(structureDto);
+  const createdStructure: Structure = new StructureTable(structureDto);
 
   createdStructure.sms = {
     senderName: generateSender(createdStructure.nom),
@@ -110,6 +111,19 @@ async function createStructure(structureDto: StructureDto) {
     enabledByDomifa: true,
     enabledByStructure: false,
   };
+
+  let address = createdStructure.adresse;
+  let position: any = await getLocation(address, createdStructure.codePostal);
+
+  if (!position) {
+    address = createdStructure.adresse + ", " + createdStructure.ville;
+    position = await getLocation(address);
+  }
+
+  if (position) {
+    createdStructure.longitude = position.coordinates[0];
+    createdStructure.latitude = position.coordinates[1];
+  }
 
   createdStructure.registrationDate = new Date();
   createdStructure.token = crypto.randomBytes(30).toString("hex");

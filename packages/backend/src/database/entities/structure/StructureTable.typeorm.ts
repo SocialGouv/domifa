@@ -137,6 +137,12 @@ export class StructureTable
   @Column({ type: "timestamptz", nullable: true })
   acceptTerms: Date;
 
+  @Column({ type: "float", nullable: true })
+  latitude: number;
+
+  @Column({ type: "float", nullable: true })
+  longitude: number;
+
   @BeforeInsert()
   nameToUpperCase() {
     this.email = this.email.toLowerCase().trim();

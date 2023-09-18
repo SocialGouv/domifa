@@ -17,6 +17,7 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
     appLogger.warn("CREATION DB ....");
 
     await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
+    await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "postgis"`);
 
     await createTables(queryRunner);
 
