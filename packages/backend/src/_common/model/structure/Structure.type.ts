@@ -50,4 +50,7 @@ export type Structure = AppEntity & {
 
   sms: StructureSmsParams;
   portailUsager: StructurePortailUsagerParams;
+
+  latitude: number;
+  longitude: number;
 };
