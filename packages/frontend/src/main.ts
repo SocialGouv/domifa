@@ -10,4 +10,4 @@ if (environment.production) {
 
 platformBrowserDynamic()
   .bootstrapModule(AppModule)
-  /* eslint-disable */ .catch((err) => console.error(err)); /* eslint-enable */
+  .catch((err) => console.error(err));
