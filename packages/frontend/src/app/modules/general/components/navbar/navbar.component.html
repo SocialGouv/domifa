@@ -10,11 +10,7 @@
         Nous collectons des données anonymisées à des fins statistiques via
         l'outil français Matomo. Pour tout savoir sur notre utilisation des
         données, consultez notre
-        <a
-          [routerLink]="['/confidentialite']"
-          ariaCurrentWhenActive="page"
-          routerLinkActive="router-link-active"
-        >
+        <a [routerLink]="['/confidentialite']" ariaCurrentWhenActive="page">
           politique de confidentialité.
         </a>
       </p>
@@ -51,7 +47,6 @@
           aria-label="Retour à l'accueil de DomiFa"
           [routerLink]="['/']"
           ariaCurrentWhenActive="page"
-          routerLinkActive="router-link-active"
         >
           <img
             class="domifa-logo"
@@ -71,7 +66,6 @@
               <div class="d-none d-xs-inline-block d-sm-inline-block">
                 <a
                   ariaCurrentWhenActive="page"
-                  routerLinkActive="router-link-active"
                   routerLink="/news"
                   class="btn btn-outline-primary"
                   (click)="
@@ -163,7 +157,6 @@
                   class="btn btn-outline-primary"
                   [routerLink]="!me ? ['/'] : ['/manage']"
                   ariaCurrentWhenActive="page"
-                  routerLinkActive="router-link-active"
                   (click)="
                     matomoService.trackEvent(
                       'NAVBAR',
@@ -200,7 +193,6 @@
                       target="_blank"
                       rel="noopener noreferrer"
                       ariaCurrentWhenActive="page"
-                      routerLinkActive="router-link-active"
                     >
                       <fa-icon
                         aria-hidden="true"
@@ -212,7 +204,6 @@
                       ngbDropdownItem
                       routerLink="/news"
                       ariaCurrentWhenActive="page"
-                      routerLinkActive="router-link-active"
                     >
                       <fa-icon
                         aria-hidden="true"
@@ -231,7 +222,6 @@
                       ngbDropdownItem
                       routerLink="/users/mon-compte"
                       ariaCurrentWhenActive="page"
-                      routerLinkActive="router-link-active"
                     >
                       <fa-icon
                         aria-hidden="true"
@@ -244,7 +234,6 @@
                       *ngIf="me.role === 'admin' || me.role === 'responsable'"
                       routerLink="/users/comptes"
                       ariaCurrentWhenActive="page"
-                      routerLinkActive="router-link-active"
                     >
                       <fa-icon aria-hidden="true" [icon]="['fas', 'users']">
                       </fa-icon>
@@ -255,7 +244,6 @@
                       *ngIf="me.role === 'admin' || me.role === 'responsable'"
                       routerLink="/structures/edit"
                       ariaCurrentWhenActive="page"
-                      routerLinkActive="router-link-active"
                     >
                       <fa-icon aria-hidden="true" [icon]="['fas', 'home']">
                       </fa-icon>
@@ -266,7 +254,6 @@
                       *ngIf="me.role === 'admin' || me.role === 'responsable'"
                       routerLink="/structures/documents"
                       ariaCurrentWhenActive="page"
-                      routerLinkActive="router-link-active"
                     >
                       <fa-icon aria-hidden="true" [icon]="['far', 'file-word']">
                       </fa-icon>
@@ -294,7 +281,6 @@
                       "
                       routerLink="/structures/portail-usager"
                       ariaCurrentWhenActive="page"
-                      routerLinkActive="router-link-active"
                     >
                       <fa-icon aria-hidden="true" icon="user-secret"></fa-icon>
                       Gérer le portail domiciliés
@@ -308,7 +294,6 @@
                       "
                       routerLink="/stats/rapport-activite"
                       ariaCurrentWhenActive="page"
-                      routerLinkActive="router-link-active"
                     >
                       <fa-icon [icon]="['far', 'chart-bar']" aria-hidden="true">
                       </fa-icon>
@@ -320,7 +305,6 @@
                       *ngIf="me.role !== 'facteur'"
                       routerLink="/import"
                       ariaCurrentWhenActive="page"
-                      routerLinkActive="router-link-active"
                     >
                       <fa-icon
                         aria-hidden="true"

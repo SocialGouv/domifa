@@ -6,25 +6,19 @@
     <li>
       <a
         ariaCurrentWhenActive="page"
-        routerLinkActive="router-link-active"
         [routerLink]="currentUrl"
         fragment="navigation"
         >Aller à la navigation</a
       >
     </li>
     <li>
-      <a
-        ariaCurrentWhenActive="page"
-        routerLinkActive="router-link-active"
-        [routerLink]="currentUrl"
-        fragment="page"
+      <a ariaCurrentWhenActive="page" [routerLink]="currentUrl" fragment="page"
         >Aller au contenu</a
       >
     </li>
     <li *ngIf="currentUrl === '/manage'">
       <a
         ariaCurrentWhenActive="page"
-        routerLinkActive="router-link-active"
         [routerLink]="currentUrl"
         fragment="search-bar"
         >Aller à la recherche</a
@@ -33,7 +27,6 @@
     <li>
       <a
         ariaCurrentWhenActive="page"
-        routerLinkActive="router-link-active"
         [routerLink]="currentUrl"
         fragment="footer"
         >Aller au pied de page</a
@@ -58,7 +51,6 @@
             <a
               routerLink="/news"
               ariaCurrentWhenActive="page"
-              routerLinkActive="router-link-active"
               (click)="
                 matomo.trackEvent('FOOTER', 'Footer_Nouveautés', 'null', 1)
               "
@@ -69,7 +61,6 @@
             <a
               routerLink="/stats"
               ariaCurrentWhenActive="page"
-              routerLinkActive="router-link-active"
               (click)="matomo.trackEvent('FOOTER', 'Footer_Stats', 'null', 1)"
               >Statistiques</a
             >
@@ -79,7 +70,6 @@
             <a
               routerLink="/stats/impact"
               ariaCurrentWhenActive="page"
-              routerLinkActive="router-link-active"
               (click)="matomo.trackEvent('FOOTER', 'Footer_Impact', 'null', 1)"
               >Notre impact</a
             >
@@ -89,7 +79,6 @@
             <a
               routerLink="/faq"
               ariaCurrentWhenActive="page"
-              routerLinkActive="router-link-active"
               (click)="matomo.trackEvent('FOOTER', 'Footer_Faq', 'null', 1)"
               >Foire aux questions</a
             >
@@ -99,7 +88,6 @@
             <a
               routerLink="/contact"
               ariaCurrentWhenActive="page"
-              routerLinkActive="router-link-active"
               (click)="matomo.trackEvent('FOOTER', 'Footer_Contact', 'null', 1)"
               >Contactez-nous</a
             >
@@ -110,7 +98,7 @@
         <p class="fw-bold">Cadre juridique</p>
         <ul>
           <li>
-            <a routerLink="/accessibilite" routerLinkActive="router-link-active"
+            <a routerLink="/accessibilite"
               >Accessibilité: partiellement conforme
             </a>
           </li>
@@ -119,7 +107,6 @@
             <a
               ariaCurrentWhenActive="page"
               routerLink="/mentions-legales"
-              routerLinkActive="router-link-active"
               (click)="
                 matomo.trackEvent(
                   'FOOTER',
@@ -136,7 +123,6 @@
             <a
               routerLink="/cgu"
               ariaCurrentWhenActive="page"
-              routerLinkActive="router-link-active"
               (click)="matomo.trackEvent('FOOTER', 'Footer_CGU', 'null', 1)"
               >CGU utilisateur</a
             >
@@ -146,7 +132,6 @@
             <a
               routerLink="/cgu-responsable"
               ariaCurrentWhenActive="page"
-              routerLinkActive="router-link-active"
               (click)="
                 matomo.trackEvent('FOOTER', 'Footer_CGU_responsable', 'null', 1)
               "
@@ -155,10 +140,7 @@
           </li>
 
           <li>
-            <a
-              routerLink="/confidentialite"
-              ariaCurrentWhenActive="page"
-              routerLinkActive="router-link-active"
+            <a routerLink="/confidentialite" ariaCurrentWhenActive="page"
               >Politique de confidentialité</a
             >
           </li>
@@ -167,7 +149,6 @@
             <a
               routerLink="/plan-site"
               ariaCurrentWhenActive="page"
-              routerLinkActive="router-link-active"
               (click)="matomo.trackEvent('FOOTER', 'Footer_Contact', 'null', 1)"
               >Plan du site</a
             >
@@ -183,7 +164,7 @@
               {{ link.label }}
               <fa-icon
                 class="ms-2"
-                [icon]="['fas', 'arrow-up-right-from-square']"
+                [icon]="['fas', 'up-right-from-square']"
                 aria-hidden="true"
               ></fa-icon>
             </a>
@@ -222,7 +203,7 @@
           >licence etalab-2.0
           <fa-icon
             class="ms-2"
-            [icon]="['fas', 'arrow-up-right-from-square']"
+            [icon]="['fas', 'up-right-from-square']"
             aria-hidden="true"
           ></fa-icon
         ></a>
