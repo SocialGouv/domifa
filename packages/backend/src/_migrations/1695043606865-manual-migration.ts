@@ -1,10 +1,13 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-import { structureRepository } from "../database";
+import { EXECUTE_MIGRATIONS, structureRepository } from "../database";
 import { getLocation } from "../structures/services/location.service";
 
 export class ManualMigration1695043606865 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
+    if (!EXECUTE_MIGRATIONS) {
+      return;
+    }
     const structuresCount = await queryRunner.query(
       "SELECT COUNT(uuid) FROM structure where latitude is null"
     );
