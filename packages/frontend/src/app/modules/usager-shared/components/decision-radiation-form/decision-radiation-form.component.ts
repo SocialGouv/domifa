@@ -12,17 +12,14 @@ import {
   AbstractControl,
   Validators,
 } from "@angular/forms";
-import {
-  NgbDateStruct,
-  NgbModal,
-  NgbModalRef,
-} from "@ng-bootstrap/ng-bootstrap";
-import { Observable, Subscription, forkJoin } from "rxjs";
+import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { Subscription, concatMap, from, toArray } from "rxjs";
 import {
   DEFAULT_MODAL_OPTIONS,
   UsagerDecisionRadiationForm,
+  UsagerLight,
 } from "../../../../../_common/model";
-import { minDateToday } from "../../../../shared";
+import { cacheManager, minDateToday } from "../../../../shared";
 import {
   NgbDateCustomParserFormatter,
   CustomToastService,
@@ -30,6 +27,7 @@ import {
 import { UsagerFormModel } from "../../interfaces";
 import { UsagerDecisionService } from "../../services/usager-decision.service";
 import { MOTIFS_RADIATION_LABELS } from "@domifa/common";
+import { Store } from "@ngrx/store";
 
 @Component({
   selector: "app-decision-radiation-form",
@@ -47,8 +45,13 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
 
   public readonly MOTIFS_RADIATION_LABELS = MOTIFS_RADIATION_LABELS;
 
-  public minDate: NgbDateStruct;
-  public maxDate: NgbDateStruct;
+  public readonly minDate = {
+    day: 1,
+    month: 1,
+    year: new Date().getFullYear() - 1,
+  };
+
+  public readonly maxDate = minDateToday;
 
   private subscription = new Subscription();
 
@@ -60,12 +63,11 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
     private readonly formBuilder: UntypedFormBuilder,
     private readonly nbgDate: NgbDateCustomParserFormatter,
     private readonly usagerDecisionService: UsagerDecisionService,
-    private readonly toastService: CustomToastService
+    private readonly toastService: CustomToastService,
+    private readonly store: Store
   ) {
     this.submitted = false;
     this.loading = false;
-    this.minDate = { day: 1, month: 1, year: new Date().getFullYear() - 1 };
-    this.maxDate = minDateToday;
     this.selectedRefs = [];
   }
 
@@ -131,28 +133,30 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
       this.selectedRefs = [this.usager.ref];
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const deleteRequests: Observable<any>[] = this.selectedRefs.map(
-      (ref: number) => {
-        return this.usagerDecisionService.setDecision(ref, formDatas);
-      }
-    );
-
     this.subscription.add(
-      forkJoin(deleteRequests).subscribe({
-        next: () => {
-          this.modalService.dismissAll();
-          const message =
-            this.selectedRefs.length > 1
-              ? "Les dossiers sélectionnés ont été radié"
-              : "Radiation enregistrée avec succès ! ";
-          this.toastService.success(message);
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error("La décision n'a pas pu être enregistrée");
-        },
-      })
+      from(this.selectedRefs)
+        .pipe(
+          concatMap((ref: number) =>
+            this.usagerDecisionService.setDecision(ref, formDatas, false)
+          ),
+          toArray()
+        )
+        .subscribe({
+          next: (usagers: UsagerLight[]) => {
+            const message =
+              this.selectedRefs.length > 1
+                ? "Les dossiers sélectionnés ont été radié"
+                : "Radiation enregistrée avec succès ! ";
+            this.toastService.success(message);
+            this.loading = false;
+            this.store.dispatch(cacheManager.updateUsagers({ usagers }));
+            this.modalService.dismissAll();
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error("La décision n'a pas pu être enregistrée");
+          },
+        })
     );
   }
 

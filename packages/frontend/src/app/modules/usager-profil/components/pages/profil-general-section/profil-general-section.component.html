@@ -47,10 +47,13 @@
             <div aria-hidden="true" class="svg-icon icon-danger"></div>
             <p class="text-danger">
               <b
-                >Demande refusée le
-                {{
-                  usager.echeanceInfos.dateToDisplay | date : "dd MMMM yyyy"
-                }}</b
+                >Demande refusée
+                <ng-container *ngIf="usager?.echeanceInfos?.dateToDisplay">
+                  le
+                  {{
+                    usager?.echeanceInfos?.dateToDisplay | date : "dd MMMM yyyy"
+                  }}</ng-container
+                ></b
               >
               <br />
               {{ usager.decision.motifString }}
@@ -65,7 +68,7 @@
                 : 'alert-info'
             "
             *ngIf="
-              usager.decision.statut === 'INSTRUCTION' && !isRole('facteur')
+              usager.decision.statut === 'INSTRUCTION' && me.role !== 'facteur'
             "
           >
             <div aria-hidden="true" class="svg-icon icon-calendar"></div>
@@ -86,7 +89,6 @@
                 ]"
                 class="ms-2"
                 ariaCurrentWhenActive="page"
-                routerLinkActive="router-link-active"
               >
                 Compléter la demande
               </a>
@@ -110,7 +112,6 @@
                 [routerLink]="['/usager/' + usager.ref + '/edit']"
                 class="btn btn-light"
                 ariaCurrentWhenActive="page"
-                routerLinkActive="router-link-active"
               >
                 <fa-icon
                   [icon]="['fas', 'redo']"
@@ -139,7 +140,9 @@
             <p>
               La domiciliation expire le
               <strong>
-                {{ usager.echeanceInfos.dateToDisplay | date : "dd MMMM yyyy" }}
+                {{
+                  usager?.echeanceInfos?.dateToDisplay | date : "dd MMMM yyyy"
+                }}
               </strong>
             </p>
           </div>
@@ -150,8 +153,9 @@
             <div aria-hidden="true" class="svg-icon icon-danger"></div>
             <p>
               Domiciliation expirée depuis le
-              {{ usager.echeanceInfos.dateToDisplay | date : "dd MMMM yyyy" }},
-              il y a {{ usager.echeanceInfos.dayBeforeEnd * -1 }} jours
+              {{
+                usager?.echeanceInfos?.dateToDisplay | date : "dd MMMM yyyy"
+              }}, il y a {{ usager.echeanceInfos.dayBeforeEnd * -1 }} jours
             </p>
           </div>
         </div>
@@ -273,7 +277,7 @@
 
             <div class="col-6 my-1"><span class="label">Échéance</span></div>
             <div class="col-6 my-1">
-              {{ usager.echeanceInfos.dateToDisplay | date : "dd MMMM yyyy" }}
+              {{ usager?.echeanceInfos?.dateToDisplay | date : "dd MMMM yyyy" }}
             </div>
             <div class="col-6 my-1">
               <span class="label">Dernier passage</span>
@@ -314,7 +318,6 @@
                 class="text-link"
                 [routerLink]="['/profil/dossier/' + usager.ref]"
                 ariaCurrentWhenActive="page"
-                routerLinkActive="router-link-active"
               >
                 Voir le dossier complet
               </a>
@@ -352,12 +355,12 @@
 
           <ng-container
             *ngIf="
-              usager.isActif ||
+              usager.echeanceInfos.isActif ||
               (usager.decision.statut === 'RADIE' && !usager.options.npai.actif)
             "
           >
             <ng-container
-              *ngIf="usager.isActif"
+              *ngIf="usager.echeanceInfos.isActif"
               class="d-flex align-items-center"
             >
               <button
@@ -464,7 +467,6 @@
             class="text-link my-4 d-block"
             [routerLink]="['/profil/courriers/' + usager.ref]"
             ariaCurrentWhenActive="page"
-            routerLinkActive="router-link-active"
           >
             Voir tout l'historique
           </a>

@@ -1,134 +1,130 @@
-table {
+#table-usagers {
   border-collapse: separate;
   border-spacing: 0 9px;
   margin: 0 auto;
   box-sizing: content-box;
   min-width: 1000px;
-}
-
-#table-usagers {
   width: 100%;
   max-width: 2000px;
-}
 
-tbody td {
-  vertical-align: middle;
-  border: none;
-  font-style: normal;
-  padding: 0 0.2rem;
-  height: 62px;
-  font-size: 0.95rem;
-}
+  tbody td {
+    vertical-align: middle;
+    border: none;
+    font-style: normal;
+    padding: 0 0.2rem;
+    height: 62px;
+    font-size: 0.95rem;
+  }
 
-tbody td span {
-  vertical-align: middle;
-}
+  tbody td span {
+    vertical-align: middle;
+  }
 
-tbody td a {
-  width: 100%;
-  height: 100%;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  color: black;
-}
+  tbody td a {
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: black;
+  }
 
-tbody td a:hover,
-tbody td a:active,
-tbody td a:visited {
-  text-decoration: none;
-}
+  tbody td a:hover,
+  tbody td a:active,
+  tbody td a:visited {
+    text-decoration: none;
+  }
 
-tbody td input[type="checkbox"] {
-  width: 14px;
-  height: 14px;
-  vertical-align: middle;
-}
+  tbody td input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+  }
 
-.manage-usager-ref {
-  background-color: white;
-  min-width: 40px;
-}
+  .manage-usager-ref {
+    background-color: white;
+    min-width: 40px;
+  }
 
-tbody td:nth-child(2) {
-  max-width: 350px;
-  word-break: break-word;
-}
+  tbody td:nth-child(2) {
+    max-width: 350px;
+    word-break: break-word;
+  }
 
-tbody td:first-child {
-  border-radius: 2px 0 0 2px;
-  padding: 0 0.5rem;
-}
+  tbody td:first-child {
+    border-radius: 2px 0 0 2px;
+    padding: 0 0.5rem;
+  }
 
-tbody td:last-child {
-  background-color: white;
-  text-align: right;
-  border-radius: 0 2px 2px 0;
-  width: 50px;
-  min-width: 0;
-}
+  tbody td:last-child {
+    background-color: white;
+    text-align: right;
+    border-radius: 0 2px 2px 0;
+    width: 50px;
+    min-width: 0;
+  }
 
-tbody tr {
-  transition: all 0.5s;
-  animation-timing-function: cubic-bezier(Ease Out);
-  background: #ffffff;
-  box-shadow: 0 3px 1px rgba(0, 0, 0, 0.06);
-  border-radius: 2px;
-}
+  tbody tr {
+    transition: all 0.5s;
+    animation-timing-function: cubic-bezier(Ease Out);
+    background: #ffffff;
+    box-shadow: 0 3px 1px rgba(0, 0, 0, 0.06);
+    border-radius: 2px;
+  }
 
-tbody tr:hover {
-  background-color: #fff;
-  cursor: pointer;
-  box-shadow: 2px 1px 4px rgba(179, 179, 179, 0.5);
-}
+  tbody tr:hover {
+    background-color: #fff;
+    cursor: pointer;
+    box-shadow: 2px 1px 4px rgba(179, 179, 179, 0.5);
+  }
 
-thead th .btn {
-  padding: 0.25rem 0.5rem;
-}
+  thead th .btn {
+    padding: 0.25rem 0.5rem;
+  }
 
-thead th button:not(.btn) {
-  font-size: 0.95rem;
-  padding: 0;
-  color: #3150c0;
-  text-transform: uppercase;
-  border: none;
-  font-weight: 600;
-  vertical-align: middle;
-}
+  thead th button:not(.btn) {
+    font-size: 0.95rem;
+    padding: 0;
+    color: #3150c0;
+    text-transform: uppercase;
+    border: none;
+    font-weight: 600;
+    vertical-align: middle;
+  }
 
-thead th {
-  font-style: normal;
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: #3150c0;
-  padding: 0.2rem;
-  text-transform: uppercase;
-  border: none;
-  transition: all 0.2s ease;
-  vertical-align: middle;
+  thead th {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #3150c0;
+    padding: 0.2rem;
+    text-transform: uppercase;
+    border: none;
+    transition: all 0.2s ease;
+    vertical-align: middle;
+  }
+  .table-name img {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .table-name a div {
+    width: 210px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .table-name {
+    max-width: 300px;
+  }
 }
 
 .clickable {
   cursor: pointer;
 }
 
-.table-name img {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.table-name a div {
-  width: 210px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.table-name {
-  max-width: 300px;
-}
-
-.icones_liste {
+.list-interaction-icons {
   padding: 2px 4px;
 }
 

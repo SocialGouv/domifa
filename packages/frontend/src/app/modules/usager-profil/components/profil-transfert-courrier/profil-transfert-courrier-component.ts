@@ -26,7 +26,6 @@ import { Subscription } from "rxjs";
 import {
   DEFAULT_MODAL_OPTIONS,
   UserStructure,
-  UserStructureRole,
 } from "../../../../../_common/model";
 import {
   endDateAfterBeginDateValidator,
@@ -115,10 +114,6 @@ export class UsagersProfilTransfertCourrierComponent
     this.loading = false;
     this.isFormVisible = false;
     this.transfertForm.reset(this.transfertForm.value);
-  }
-
-  public isRole(role: UserStructureRole): boolean {
-    return this.me.role === role;
   }
 
   public initForm(): void {

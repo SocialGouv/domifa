@@ -1,10 +1,13 @@
 import { UsagerLight } from "../../../_common/model";
 
-export type SearchPageLoadedUsagersData = {
-  usagersNonRadies: UsagerLight[];
-  usagersRadiesFirsts: UsagerLight[];
+export interface SearchPageLoadedUsagersData {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  usagersNonRadies: any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  usagersRadiesFirsts: any[];
   usagersRadiesTotalCount: number;
-};
+  dataLoaded: boolean;
+}
 
 export type AppStoreModel = {
   searchPageLoadedUsagersData?: SearchPageLoadedUsagersData;

@@ -1,12 +1,9 @@
 <div
   #tooltipAyantsDroit="ngbTooltip"
+  [ngbTooltip]="ayantsDroitsInfos"
   class="label-info label-green"
   *ngIf="usager.ayantsDroits.length > 0"
-  [ngbTooltip]="ayantsDroitsInfos"
-  triggers="manual"
   tabindex="0"
-  [autoClose]="false"
-  [appTooltip]="tooltipAyantsDroit"
 >
   <p class="m-0">
     <span *ngIf="usager.ayantsDroits.length > 1">

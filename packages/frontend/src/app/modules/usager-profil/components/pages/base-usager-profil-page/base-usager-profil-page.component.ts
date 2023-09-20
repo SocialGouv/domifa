@@ -2,11 +2,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
-import {
-  UsagerLight,
-  UserStructure,
-  UserStructureRole,
-} from "../../../../../../_common/model";
+import { UsagerLight, UserStructure } from "../../../../../../_common/model";
 import { getUsagerNomComplet, selectUsagerByRef } from "../../../../../shared";
 import { AuthService, CustomToastService } from "../../../../shared/services";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
@@ -67,9 +63,5 @@ export class BaseUsagerProfilPageComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
-  }
-
-  public isRole(role: UserStructureRole): boolean {
-    return this.me?.role === role;
   }
 }

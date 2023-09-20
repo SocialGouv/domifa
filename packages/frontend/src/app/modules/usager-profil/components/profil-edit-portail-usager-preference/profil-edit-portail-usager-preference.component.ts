@@ -10,7 +10,6 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import {
   StructureDocTypesAvailable,
   UserStructure,
-  UserStructureRole,
 } from "../../../../../_common/model";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { DocumentService } from "../../../usager-shared/services/document.service";
@@ -75,10 +74,6 @@ export class ProfilEditPortailUsagerPreferenceComponent
     if (index !== -1) {
       this.loadings.splice(index, 1);
     }
-  }
-
-  public isRole(role: UserStructureRole): boolean {
-    return this.me?.role === role;
   }
 
   public getDomifaCustomDoc(): void {

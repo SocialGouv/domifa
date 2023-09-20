@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import {
   HISTORY_ACTIONS,
   UsagerOptionsHistory,
@@ -12,7 +12,9 @@ import { UsagerOptionsService } from "../../../services/usager-options.service";
   selector: "app-profil-historique-procurations",
   templateUrl: "./profil-historique-procurations.component.html",
 })
-export class ProfilHistoriqueProcurationsComponent implements OnInit {
+export class ProfilHistoriqueProcurationsComponent
+  implements OnInit, OnDestroy
+{
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
   private subscription = new Subscription();
@@ -32,5 +34,9 @@ export class ProfilHistoriqueProcurationsComponent implements OnInit {
           this.procurationHistory = optionsHistorique;
         })
     );
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

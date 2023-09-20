@@ -87,6 +87,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
 
   public submitted = false;
   public loading = false;
+  public ayantsDroitsExist = false;
 
   public languagesAutocomplete = languagesAutocomplete;
   public languagesAutocompleteSearch = languagesAutocomplete.typeahead({
@@ -125,10 +126,12 @@ export class EtatCivilParentFormComponent implements OnDestroy {
   }
 
   public initForm(): void {
+    this.ayantsDroitsExist = this.usager.ayantsDroits?.length > 0;
+
     this.usagerForm = this.formBuilder.group({
       ayantsDroits: this.formBuilder.array([]),
       langue: [this.usager.langue, languagesAutocomplete.validator],
-      ayantsDroitsExist: [this.usager.ayantsDroitsExist, []],
+      ayantsDroitsExist: [this.ayantsDroitsExist, []],
       dateNaissance: [
         this.usager.dateNaissance
           ? formatDateToNgb(this.usager.dateNaissance)

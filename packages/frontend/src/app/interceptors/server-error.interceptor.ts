@@ -38,7 +38,6 @@ export class ServerErrorInterceptor implements HttpInterceptor {
             );
             return throwError(() => "NAVIGATOR_OFFLINE");
           }
-          captureException(error.error);
           return throwError(() => error.error);
         } else if (error instanceof HttpErrorResponse) {
           if (error.status === 401 || error.status === 403) {

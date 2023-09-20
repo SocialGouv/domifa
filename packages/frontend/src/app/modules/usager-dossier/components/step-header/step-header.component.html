@@ -5,9 +5,8 @@
         <a
           [routerLink]="['/manage']"
           ariaCurrentWhenActive="page"
-          routerLinkActive="router-link-active"
           class="px-3"
-          *ngIf="!isMobile()"
+          *ngIf="!isMobile"
           aria-label="Revenir à la liste des domiciliés"
           title="Revenir à la liste des domiciliés"
         >
@@ -20,7 +19,11 @@
         <h1 class="m-0">
           <span *ngIf="!usager.uuid">Nouvelle demande</span>
           <ng-container *ngIf="usager.uuid">
-            {{ !usager.isActif ? "Première demande" : "Renouvellement" }}
+            {{
+              !usager.echeanceInfos.isActif
+                ? "Première demande"
+                : "Renouvellement"
+            }}
             de {{ usager | usagerNomComplet }}
           </ng-container>
         </h1>
@@ -29,7 +32,6 @@
       <a
         aria-label="Naviguer vers les commentaires privés"
         ariaCurrentWhenActive="page"
-        routerLinkActive="router-link-active"
         [routerLink]="currentUrl"
         class="btn btn-white-primary my-2 my-md-0 mx-auto mx-md-0 d-flex align-items-center"
         *ngIf="usager.uuid"

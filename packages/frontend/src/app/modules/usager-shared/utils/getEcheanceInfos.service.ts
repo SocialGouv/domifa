@@ -8,7 +8,12 @@ export const getEcheanceInfos = (usager?: UsagerLight): UsagerEcheanceInfos => {
     color: "d-none",
   };
 
-  if (!usager || typeof usager.decision === "undefined") {
+  if (
+    !usager?.decision ||
+    (!usager?.decision?.dateDebut &&
+      !usager?.decision?.dateFin &&
+      !usager?.decision?.dateDecision)
+  ) {
     return usagerInfos;
   }
 

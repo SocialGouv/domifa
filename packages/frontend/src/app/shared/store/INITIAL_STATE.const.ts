@@ -5,6 +5,7 @@ export const INITIAL_STATE: AppStoreModel = {
     usagersNonRadies: [],
     usagersRadiesFirsts: [],
     usagersRadiesTotalCount: 0,
+    dataLoaded: false,
   },
   usagersByRefMap: {},
 };

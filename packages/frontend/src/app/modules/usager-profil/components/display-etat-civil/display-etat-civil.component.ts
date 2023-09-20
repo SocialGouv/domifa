@@ -1,5 +1,5 @@
 import { UsagerFormModel } from "./../../../usager-shared/interfaces/UsagerFormModel";
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { languagesAutocomplete } from "../../../../shared";
 import { LIEN_PARENTE_LABELS } from "@domifa/common";
 
@@ -7,9 +7,13 @@ import { LIEN_PARENTE_LABELS } from "@domifa/common";
   selector: "app-display-etat-civil",
   templateUrl: "./display-etat-civil.component.html",
 })
-export class DisplayEtatCivilComponent {
+export class DisplayEtatCivilComponent implements OnInit {
   @Input() public usager!: UsagerFormModel;
-
-  public readonly languagesAutocomplete = languagesAutocomplete;
   public readonly LIEN_PARENTE_LABELS = LIEN_PARENTE_LABELS;
+
+  public langue = "";
+
+  ngOnInit(): void {
+    this.langue = languagesAutocomplete.formatter(this.usager.langue);
+  }
 }

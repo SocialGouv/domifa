@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 import {
   UserStructure,
@@ -12,7 +12,7 @@ import { UsagerOptionsService } from "../../../services/usager-options.service";
   selector: "app-profil-historique-transferts",
   templateUrl: "./profil-historique-transferts.component.html",
 })
-export class ProfilHistoriqueTransfertsComponent implements OnInit {
+export class ProfilHistoriqueTransfertsComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
   private subscription = new Subscription();
@@ -32,5 +32,8 @@ export class ProfilHistoriqueTransfertsComponent implements OnInit {
           this.transfertHistory = optionsHistorique;
         })
     );
+  }
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

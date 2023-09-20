@@ -2,6 +2,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   Output,
   TemplateRef,
   ViewChild,
@@ -20,7 +21,7 @@ import { Subscription } from "rxjs";
   selector: "app-usager-notes-actions",
   templateUrl: "./usager-notes-actions.component.html",
 })
-export class UsagerNotesActionsComponent {
+export class UsagerNotesActionsComponent implements OnDestroy {
   @Input() public note!: UsagerNote;
   @Input() public usager!: UsagerFormModel;
 
@@ -139,5 +140,9 @@ export class UsagerNotesActionsComponent {
     this.loading = false;
     this.getUsagerNotes.emit();
     this.modalService.dismissAll();
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

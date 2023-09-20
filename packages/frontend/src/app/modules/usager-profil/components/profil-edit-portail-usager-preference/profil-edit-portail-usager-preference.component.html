@@ -2,7 +2,7 @@
   <h2>Accès au portail usager</h2>
 
   <ng-container
-    *ngIf="usager.isActif && !isRole('facteur')"
+    *ngIf="usager.echeanceInfos.isActif && me.role !== 'facteur'"
     class="d-print-none"
   >
     <button

@@ -31,7 +31,6 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter.service";
 import {
   UserStructure,
-  UserStructureRole,
   DEFAULT_MODAL_OPTIONS,
 } from "../../../../../_common/model";
 import {
@@ -100,10 +99,6 @@ export class UsagersProfilProcurationCourrierComponent
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = minDateToday;
     this.procurationToDelete = 0;
-  }
-
-  public isRole(role: UserStructureRole): boolean {
-    return this.me?.role === role;
   }
 
   public ngOnInit(): void {
