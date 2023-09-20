@@ -40,6 +40,14 @@
             "namedChunks": true
           },
           "configurations": {
+            "development": {
+              "optimization": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": false
+            },
             "analyze": {
               "optimization": true,
               "outputHashing": "all",
@@ -81,7 +89,7 @@
               ]
             }
           },
-          "defaultConfiguration": ""
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
