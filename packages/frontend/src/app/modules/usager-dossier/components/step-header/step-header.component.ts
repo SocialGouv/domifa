@@ -31,13 +31,16 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
   public currentUrl = "";
 
   private subscription = new Subscription();
+  public isMobile: boolean = false;
 
   constructor(
     private readonly router: Router,
     private readonly titleService: Title,
     private readonly toastService: CustomToastService,
     private readonly store: Store
-  ) {}
+  ) {
+    this.isMobile = this.checkIfIsMobile();
+  }
 
   public ngOnInit(): void {
     if (
@@ -125,7 +128,11 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  public isMobile(): boolean {
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  private checkIfIsMobile(): boolean {
     const userAgent = window.navigator.userAgent;
     const mobileDevices = [
       "Android",
@@ -135,9 +142,5 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
       "iPod",
     ];
     return mobileDevices.some((device) => userAgent.includes(device));
-  }
-
-  public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }

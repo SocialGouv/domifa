@@ -1,8 +1,16 @@
-import { UserStructure } from "./../../../../../_common/model/user-structure/UserStructure.type";
-import { Component, Input, OnDestroy } from "@angular/core";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+} from "@angular/core";
 import saveAs from "file-saver";
 import { Subscription } from "rxjs";
-import { StructureDocTypesAvailable } from "../../../../../_common/model";
+import {
+  StructureDocTypesAvailable,
+  UserStructure,
+} from "../../../../../_common/model";
 import { CustomToastService } from "../../../shared/services";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
@@ -12,17 +20,21 @@ import { CerfaDocType } from "@domifa/common";
   selector: "app-manage-download-docs",
   templateUrl: "./manage-download-docs.component.html",
   styleUrls: ["./manage-download-docs.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManageDownloadDocsComponent implements OnDestroy {
   private subscription = new Subscription();
 
-  @Input() public me!: UserStructure | null;
+  public me!: UserStructure | null;
   @Input() public usager!: UsagerFormModel;
 
   constructor(
     private readonly documentService: DocumentService,
-    private readonly toastService: CustomToastService
-  ) {}
+    private readonly toastService: CustomToastService,
+    private readonly authService: AuthService
+  ) {
+    this.me = this.authService.currentUserValue;
+  }
 
   public getCerfa(
     usagerRef: number,

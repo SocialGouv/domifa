@@ -17,9 +17,13 @@ export const cacheManager = {
   ),
   clearCache: createAction("clear-cache"),
   addUsager: createAction("add-usager", props<{ usager: Usager }>()),
-  updateUsager: createAction("update-usager", props<{ usager: Usager }>()),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  updateUsager: createAction("update-usager", props<{ usager: any }>()),
   updateUsagers: createAction("update-usagers", props<{ usagers: Usager[] }>()),
-  deleteUsager: createAction("delete-usager", props<{ usagerRef: number }>()),
+  deleteUsagers: createAction(
+    "delete-usagers",
+    props<{ usagerRefs: number[] }>()
+  ),
   setSearchPageLoadedUsagersData: createAction(
     "set-search-page-usagers",
     props<{ searchPageLoadedUsagersData: SearchPageLoadedUsagersData }>()

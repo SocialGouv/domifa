@@ -25,6 +25,7 @@ import {
   catchError,
   debounceTime,
   distinctUntilChanged,
+  filter,
   map,
   switchMap,
   tap,
@@ -47,7 +48,7 @@ import {
   UsagersFilterCriteriaSortKey,
   UsagersFilterCriteriaSortValues,
 } from "../usager-filter";
-import { Store } from "@ngrx/store";
+import { select, Store } from "@ngrx/store";
 
 const AUTO_REFRESH_PERIOD = 3600000; // 1h
 
@@ -66,6 +67,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
       usagersNonRadies: [],
       usagersRadiesFirsts: [],
       usagersRadiesTotalCount: 0,
+      dataLoaded: false,
     });
 
   public usagersTotalCount = 0;
@@ -80,7 +82,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
       if (!data) {
         return [];
       }
-
       return data.usagersNonRadies.concat(data.usagersRadiesFirsts);
     })
   );
@@ -119,8 +120,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   @ViewChild("searchInput", { static: true })
   public searchInput!: ElementRef;
 
-  public currentUserSubject$: Observable<UserStructure | null>;
-
   private subscription = new Subscription();
   public selectedRefs: number[];
 
@@ -131,7 +130,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     private readonly store: Store
   ) {
     this.selectedRefs = [];
-
     this.displayCheckboxes = false;
 
     this.allUsagersByStatus = {
@@ -143,16 +141,16 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
       TOUS: [],
     };
 
-    this.currentUserSubject$ = this.authService.currentUserSubject;
     this.me = this.authService.currentUserValue;
     this.loading = false;
     this.nbResults = 0;
     this.needToPrint = false;
-    this.pageSize = 50;
     this.searching = true;
     this.usagers = [];
     this.filters = new UsagersFilterCriteria(this.getFilters());
+
     this.searchString = this.filters.searchString;
+    this.pageSize = 50;
     this.filters.page = 0;
     this.titleService.setTitle("Gestion des domiciliés - DomiFa");
   }
@@ -161,30 +159,8 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     if (!this.me?.acceptTerms) {
       return;
     }
-    this.filters$.next(this.filters);
 
-    this.scrollTop();
-
-    this.subscription.add(
-      this.store
-        .select(selectSearchPageLoadedUsagersData())
-        .subscribe(
-          (searchPageLoadedUsagersData: SearchPageLoadedUsagersData) => {
-            this.loading = false;
-
-            this.usagersRadiesTotalCount =
-              searchPageLoadedUsagersData.usagersRadiesTotalCount;
-            this.usagersTotalCount =
-              searchPageLoadedUsagersData.usagersRadiesTotalCount +
-              searchPageLoadedUsagersData.usagersNonRadies.length;
-            this.usagersRadiesLoadedCount =
-              searchPageLoadedUsagersData.usagersRadiesFirsts.length;
-            this.searchPageLoadedUsagersData$.next(searchPageLoadedUsagersData);
-          }
-        )
-    );
-
-    // reload every hour
+    // 1. We load data from API
     this.subscription.add(
       timer(0, AUTO_REFRESH_PERIOD)
         .pipe(
@@ -199,6 +175,29 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
           )
         )
         .subscribe()
+    );
+
+    // 2. Subscribe to ngRx store
+    this.subscription.add(
+      this.store
+        .pipe(
+          select(selectSearchPageLoadedUsagersData()),
+          filter((state: SearchPageLoadedUsagersData) => state.dataLoaded)
+        )
+        .subscribe(
+          (searchPageLoadedUsagersData: SearchPageLoadedUsagersData) => {
+            this.usagersRadiesTotalCount =
+              searchPageLoadedUsagersData.usagersRadiesTotalCount;
+            this.usagersTotalCount =
+              searchPageLoadedUsagersData.usagersRadiesTotalCount +
+              searchPageLoadedUsagersData.usagersNonRadies.length;
+            this.usagersRadiesLoadedCount =
+              searchPageLoadedUsagersData.usagersRadiesFirsts.length;
+            this.searchPageLoadedUsagersData$.next(searchPageLoadedUsagersData);
+            this.loading = false;
+            this.filters$.next(this.filters);
+          }
+        )
     );
 
     this.subscription.add(
@@ -260,21 +259,12 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      combineLatest([
-        this.filters$.pipe(
-          tap((filters: UsagersFilterCriteria) => {
-            if (filters.page === 0) {
-              this.scrollTop();
-            }
-          })
-        ),
-        this.allUsagersByStatus$,
-      ]).subscribe(([filters, allUsagersByStatus]) => {
-        this.applyFilters({ filters, allUsagersByStatus });
-      })
+      combineLatest([this.filters$, this.allUsagersByStatus$]).subscribe(
+        ([filters, allUsagersByStatus]) => {
+          this.applyFilters({ filters, allUsagersByStatus });
+        }
+      )
     );
-
-    // this.loadTallyScript();
   }
 
   public chargerTousRadies(): void {
@@ -397,27 +387,26 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
 
     localStorage.setItem("MANAGE_USAGERS", JSON.stringify(filters));
 
-    const allUsagers = allUsagersByStatus[filters.statut];
-
     const filterCriteria: UsagersFilterCriteria = {
       ...filters,
       statut: null,
     };
 
-    const filteredUsagers = usagersFilter.filter(allUsagers, {
-      criteria: filterCriteria,
-    });
+    const filteredUsagers = usagersFilter.filter(
+      allUsagersByStatus[filters.statut],
+      {
+        criteria: filterCriteria,
+      }
+    );
 
     this.nbResults = filteredUsagers.length;
-
-    this.usagers = filteredUsagers
-      .slice(
-        0,
-        filters.page === 0 ? this.pageSize : filters.page * this.pageSize
-      )
-      .map((item: UsagerLight) => new UsagerFormModel(item, filters));
+    this.usagers = filteredUsagers.slice(
+      0,
+      filters.page === 0 ? this.pageSize : filters.page * this.pageSize
+    ) as UsagerFormModel[];
 
     this.searching = false;
+    this.loading = false;
 
     // Impression: on attend la fin de la générationde la liste
     if (this.needToPrint) {

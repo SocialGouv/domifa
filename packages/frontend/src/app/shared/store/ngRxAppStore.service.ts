@@ -1,13 +1,21 @@
 import { createReducer, on } from "@ngrx/store";
-import { UsagerLight } from "../../../_common/model";
+import { INTERACTIONS_IN_AVAILABLE, UsagerLight } from "../../../_common/model";
 import { SearchPageLoadedUsagersData } from "./AppStoreModel.type";
 import { cacheManager } from "./ngRxUsagersCache.service";
+import { INITIAL_STATE } from "./INITIAL_STATE.const";
+import {
+  USAGER_DECISION_STATUT_LABELS,
+  USAGER_DECISION_STATUT_COLORS,
+} from "@domifa/common";
 import {
   getEcheanceInfos,
   getRdvInfos,
   getUrlUsagerProfil,
 } from "../../modules/usager-shared/utils";
-import { INITIAL_STATE } from "./INITIAL_STATE.const";
+import {
+  Options,
+  UsagerFormModel,
+} from "../../modules/usager-shared/interfaces";
 
 export const _usagerReducer = createReducer(
   INITIAL_STATE,
@@ -15,11 +23,11 @@ export const _usagerReducer = createReducer(
   on(cacheManager.setSearchPageLoadedUsagersData, (state, action) => {
     return {
       ...state,
+      dataLoaded: true,
       searchPageLoadedUsagersData: action.searchPageLoadedUsagersData,
       usagersByRefMap: action.searchPageLoadedUsagersData.usagersNonRadies
         .concat(action.searchPageLoadedUsagersData.usagersRadiesFirsts)
         .reduce((acc, usager) => {
-          addExtraInformationToUsager(usager);
           acc[usager.ref] = usager;
           return acc;
         }, {} as { [ref: string]: UsagerLight }),
@@ -52,32 +60,24 @@ export const _usagerReducer = createReducer(
       nbNotes = nbNotesAfterUpdate;
     }
 
-    addExtraInformationToUsager(usager);
+    usagersByRefMap[usager.ref] = {
+      ...(new UsagerFormModel(usager) as UsagerLight),
+      nbNotes,
+    };
 
-    usagersByRefMap[usager.ref] = { ...usager, nbNotes };
+    const searchPageLoadedUsagersData = addUsagerToStore({
+      initialData: deleteSearchPageLoadedUsagersDataUsager({
+        initialData: state.searchPageLoadedUsagersData,
+        usagerRef: usager.ref,
+      }),
+      usager: usagersByRefMap[usager.ref],
+    });
 
-    if (state.searchPageLoadedUsagersData) {
-      // first delete usager, then add-it, in case decision.status has changed
-      const searchPageLoadedUsagersData = addUsagerToStore({
-        initialData: deleteSearchPageLoadedUsagersDataUsager({
-          initialData: state.searchPageLoadedUsagersData,
-          attributes: ["ref"],
-          usagerRef: usager.ref,
-        }),
-        usager,
-      });
-
-      return {
-        ...state,
-        usagersByRefMap,
-        searchPageLoadedUsagersData,
-      };
-    } else {
-      return {
-        ...state,
-        usagersByRefMap,
-      };
-    }
+    return {
+      ...state,
+      usagersByRefMap,
+      searchPageLoadedUsagersData,
+    };
   }),
   on(cacheManager.updateUsagers, (state, action) => {
     const usagers = action.usagers;
@@ -88,66 +88,51 @@ export const _usagerReducer = createReducer(
     };
 
     usagers.forEach((usager) => {
-      usagersByRefMap[usager.ref] = usager;
+      usagersByRefMap[usager.ref] = new UsagerFormModel(usager) as UsagerLight;
     });
 
-    if (state.searchPageLoadedUsagersData) {
-      // first delete usager, then add-it, in case decision.status has changed
-      let searchPageLoadedUsagersData = state.searchPageLoadedUsagersData;
+    let searchPageLoadedUsagersData = state.searchPageLoadedUsagersData;
 
-      usagers.forEach((usager) => {
-        searchPageLoadedUsagersData = addUsagerToStore({
-          initialData: deleteSearchPageLoadedUsagersDataUsager({
-            initialData: searchPageLoadedUsagersData,
-            attributes: ["ref"],
-            usagerRef: usager.ref,
-          }),
-          usager,
-        });
+    usagers.forEach((usager) => {
+      searchPageLoadedUsagersData = addUsagerToStore({
+        initialData: deleteSearchPageLoadedUsagersDataUsager({
+          initialData: searchPageLoadedUsagersData,
+          usagerRef: usager.ref,
+        }),
+        usager,
       });
+    });
 
-      return {
-        ...state,
-        usagersByRefMap,
-        searchPageLoadedUsagersData,
-      };
-    } else {
-      return {
-        ...state,
-        usagersByRefMap,
-      };
-    }
+    return {
+      ...state,
+      usagersByRefMap,
+      searchPageLoadedUsagersData,
+    };
   }),
-  on(cacheManager.deleteUsager, (state, action) => {
-    const attributes = Object.keys(action.usagerRef);
-
+  on(cacheManager.deleteUsagers, (state, action) => {
     const usagersByRefMap = {
       ...state.usagersByRefMap,
     };
 
-    if (usagersByRefMap) {
-      delete usagersByRefMap[action.usagerRef];
+    let searchPageLoadedUsagersData = state.searchPageLoadedUsagersData;
+    for (const usagerRef of action.usagerRefs) {
+      if (usagersByRefMap) {
+        delete usagersByRefMap[usagerRef];
+      }
+
+      if (state.searchPageLoadedUsagersData) {
+        searchPageLoadedUsagersData = deleteSearchPageLoadedUsagersDataUsager({
+          initialData: searchPageLoadedUsagersData,
+          usagerRef: usagerRef,
+        });
+      }
     }
 
-    if (state.searchPageLoadedUsagersData) {
-      // list data loaded
-      const searchPageLoadedUsagersData =
-        deleteSearchPageLoadedUsagersDataUsager({
-          initialData: state.searchPageLoadedUsagersData,
-          attributes,
-          usagerRef: action.usagerRef,
-        });
-      return {
-        ...state,
-        usagersByRefMap,
-        searchPageLoadedUsagersData,
-      };
-    } else {
-      return {
-        ...state,
-        usagersByRefMap,
-      };
-    }
+    return {
+      ...state,
+      usagersByRefMap,
+      searchPageLoadedUsagersData,
+    };
   }),
   on(cacheManager.addUsager, (state, action) => {
     const usager = { ...action.usager };
@@ -155,26 +140,18 @@ export const _usagerReducer = createReducer(
       ...state.usagersByRefMap,
     };
 
-    addExtraInformationToUsager(usager);
-    usagersByRefMap[usager.ref] = usager;
+    usagersByRefMap[usager.ref] = setUsagerInformations(usager);
 
-    if (state.searchPageLoadedUsagersData) {
-      // list data loaded
-      const searchPageLoadedUsagersData = addUsagerToStore({
-        initialData: state.searchPageLoadedUsagersData,
-        usager,
-      });
-      return {
-        ...state,
-        usagersByRefMap,
-        searchPageLoadedUsagersData,
-      };
-    } else {
-      return {
-        ...state,
-        usagersByRefMap,
-      };
-    }
+    // list data loaded
+    const searchPageLoadedUsagersData = addUsagerToStore({
+      initialData: state.searchPageLoadedUsagersData,
+      usager,
+    });
+    return {
+      ...state,
+      usagersByRefMap,
+      searchPageLoadedUsagersData,
+    };
   })
 );
 
@@ -215,11 +192,9 @@ function addUsagerToStore({
 
 function deleteSearchPageLoadedUsagersDataUsager({
   initialData,
-  attributes,
   usagerRef,
 }: {
   initialData: SearchPageLoadedUsagersData;
-  attributes: string[];
   usagerRef: number;
 }): SearchPageLoadedUsagersData {
   const searchPageLoadedUsagersData = {
@@ -227,13 +202,13 @@ function deleteSearchPageLoadedUsagersDataUsager({
   };
 
   searchPageLoadedUsagersData.usagersNonRadies =
-    searchPageLoadedUsagersData.usagersNonRadies.filter((u: UsagerLight) =>
-      attributes.some(() => usagerRef !== u.ref)
+    searchPageLoadedUsagersData.usagersNonRadies.filter(
+      (u: UsagerLight) => usagerRef !== u.ref
     );
 
   searchPageLoadedUsagersData.usagersRadiesFirsts =
-    searchPageLoadedUsagersData.usagersRadiesFirsts.filter((u: UsagerLight) =>
-      attributes.some(() => usagerRef !== u.ref)
+    searchPageLoadedUsagersData.usagersRadiesFirsts.filter(
+      (u: UsagerLight) => usagerRef !== u.ref
     );
 
   searchPageLoadedUsagersData.usagersRadiesTotalCount +=
@@ -242,9 +217,28 @@ function deleteSearchPageLoadedUsagersDataUsager({
 
   return searchPageLoadedUsagersData;
 }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const setUsagerInformations = (usager: UsagerLight): any => {
+  let totalInteractionsEnAttente = 0;
+  if (usager.lastInteraction) {
+    INTERACTIONS_IN_AVAILABLE.forEach((interaction) => {
+      totalInteractionsEnAttente += usager.lastInteraction[interaction];
+    });
+  }
 
-function addExtraInformationToUsager(usager: UsagerLight): void {
-  usager.echeanceInfos = getEcheanceInfos(usager);
-  usager.rdvInfos = getRdvInfos(usager);
-  usager.usagerProfilUrl = getUrlUsagerProfil(usager);
-}
+  return {
+    ...usager,
+    statusInfos: {
+      text: USAGER_DECISION_STATUT_LABELS[usager?.decision?.statut],
+      color: USAGER_DECISION_STATUT_COLORS[usager?.decision?.statut],
+    },
+    echeanceInfos: getEcheanceInfos(usager),
+    rdvInfos: getRdvInfos(usager),
+    usagerProfilUrl: getUrlUsagerProfil(usager),
+    totalInteractionsEnAttente,
+    historique: [],
+    options: new Options(usager.options),
+    rdv: null,
+    entretien: null,
+  };
+};

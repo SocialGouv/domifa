@@ -13,7 +13,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngIf="usager.isActif && defaultStructureDocs?.attestation_postale">
+      <tr
+        *ngIf="
+          usager.echeanceInfos.isActif &&
+          defaultStructureDocs?.attestation_postale
+        "
+      >
         <td>
           <app-display-table-image
             [document]="defaultStructureDocs.attestation_postale"

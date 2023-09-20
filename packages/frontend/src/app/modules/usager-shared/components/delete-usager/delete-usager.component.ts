@@ -1,10 +1,11 @@
 import { Component, Input, OnDestroy } from "@angular/core";
-import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { Observable, Subscription, forkJoin } from "rxjs";
+import { Subscription, concatMap, from, toArray } from "rxjs";
 import { UserStructure } from "../../../../../_common/model";
 import { CustomToastService } from "../../../shared/services";
 import { UsagerProfilService } from "../../../usager-profil/services/usager-profil.service";
+import { Store } from "@ngrx/store";
+import { cacheManager } from "../../../../shared";
 
 @Component({
   selector: "app-delete-usager",
@@ -21,10 +22,10 @@ export class DeleteUsagerComponent implements OnDestroy {
   public loading: boolean;
 
   constructor(
-    private readonly router: Router,
     private readonly modalService: NgbModal,
     private readonly usagerProfilService: UsagerProfilService,
-    private readonly toastService: CustomToastService
+    private readonly toastService: CustomToastService,
+    private readonly store: Store
   ) {
     this.loading = false;
     this.selectedRefs = [];
@@ -33,35 +34,31 @@ export class DeleteUsagerComponent implements OnDestroy {
   public deleteUsager(): void {
     this.loading = true;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const deleteRequests: Observable<any>[] = this.selectedRefs.map(
-      (ref: number) => {
-        return this.usagerProfilService.delete(ref);
-      }
-    );
-
     this.subscription.add(
-      forkJoin(deleteRequests).subscribe({
-        next: () => {
-          const message =
-            this.selectedRefs.length > 1
-              ? "Les dossiers sélectionnés ont été supprimé avec succès"
-              : "Usager supprimé avec succès";
-          this.toastService.success(message);
-          this.modalService.dismissAll();
-          setTimeout(() => {
+      from(this.selectedRefs)
+        .pipe(
+          concatMap((ref: number) => this.usagerProfilService.delete(ref)),
+          toArray()
+        )
+        .subscribe({
+          next: () => {
+            const message =
+              this.selectedRefs.length > 1
+                ? "Les dossiers sélectionnés ont été supprimé avec succès"
+                : "Usager supprimé avec succès";
+            this.toastService.success(message);
             this.loading = false;
-            this.router.navigate(["/manage"]).then(() => {
-              window.location.reload();
-            });
-          }, 1000);
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error("Impossible de supprimer la fiche");
-          window.location.reload();
-        },
-      })
+            this.store.dispatch(
+              cacheManager.deleteUsagers({ usagerRefs: this.selectedRefs })
+            );
+            this.modalService.dismissAll();
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error("Impossible de supprimer la fiche");
+            window.location.reload();
+          },
+        })
     );
   }
 

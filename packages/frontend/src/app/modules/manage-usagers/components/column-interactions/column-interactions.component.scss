@@ -1,0 +1,97 @@
+.clickable {
+  cursor: pointer;
+}
+
+.list-interaction-icons {
+  padding: 2px 4px;
+}
+
+.interaction-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.interaction-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(65, 100, 245, 0.4);
+  box-sizing: border-box;
+  border-radius: 4px;
+  margin: 3px;
+  padding: 0.1rem 0.2rem;
+  position: relative;
+  background-color: white;
+  transition: all 0.2s;
+}
+
+.interaction-btn:hover {
+  color: white;
+  background-color: var(--bs-primary);
+  box-shadow: 0 0 0 0.25rem rgba(179, 179, 179, 0.5);
+}
+
+.interaction-btn:hover .list-icon {
+  background-color: white;
+}
+
+.interaction-btn:not(:disabled) .list-icon-disabled {
+  display: none;
+}
+
+.interaction-btn:disabled .list-icon {
+  display: none;
+}
+
+.interaction-btn:disabled {
+  border: 1px solid rgba(122, 122, 122, 1);
+  position: relative;
+  font-size: 1.2rem;
+  box-sizing: border-box;
+  cursor: progress;
+}
+
+.list-icon-disabled {
+  padding: 0.25rem 0.5rem;
+}
+
+.list-icon {
+  padding: 15px;
+  box-sizing: border-box;
+  background-color: #4164f5;
+  -webkit-mask-size: 78%;
+  mask-size: 78%;
+}
+
+.list-icon-label {
+  font-size: 0.85rem;
+  padding: 0 4px;
+}
+
+.distribution-tooltip {
+  .list-icon {
+    box-sizing: border-box;
+    background-color: black;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    background-size: 90%;
+  }
+
+  span {
+    vertical-align: middle;
+    display: inline-block;
+  }
+}
+
+.td-name {
+  font-weight: 600;
+}
+
+.statut-signal {
+  border-radius: 100%;
+  margin-right: 4px;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+}

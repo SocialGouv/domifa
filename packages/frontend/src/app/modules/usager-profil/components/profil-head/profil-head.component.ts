@@ -14,7 +14,6 @@ import {
   ETAPES_DEMANDE_URL,
   UsagerLight,
   UserStructure,
-  UserStructureRole,
 } from "../../../../../_common/model";
 
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
@@ -56,10 +55,6 @@ export class ProfilHeadComponent implements OnDestroy {
   public closeModals(): void {
     this.loading = false;
     this.modalService.dismissAll();
-  }
-
-  public isRole(role: UserStructureRole): boolean {
-    return this.me.role === role;
   }
 
   public renouvellement(): void {

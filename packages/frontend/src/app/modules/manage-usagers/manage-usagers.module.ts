@@ -17,6 +17,7 @@ import { ManageDownloadDocsComponent } from "./components/manage-download-docs/m
 import { ColumnInformationsComponent } from "./components/column-informations/column-informations.component";
 
 import { ManageFiltersComponent } from "./components/manage-filters/manage-filters.component";
+import { ColumnInteractionsComponent } from "./components/column-interactions/column-interactions.component";
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ManageFiltersComponent } from "./components/manage-filters/manage-filte
     ManageDownloadDocsComponent,
     ColumnInformationsComponent,
     ManageFiltersComponent,
+    ColumnInteractionsComponent,
   ],
   imports: [
     CommonModule,

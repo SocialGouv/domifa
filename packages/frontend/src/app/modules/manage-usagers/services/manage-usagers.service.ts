@@ -5,7 +5,7 @@ import { tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
-import { cacheManager } from "../../../shared/store";
+import { cacheManager, setUsagerInformations } from "../../../shared/store";
 import { SearchPageLoadedUsagersData } from "../../../shared/store/AppStoreModel.type";
 import { Store } from "@ngrx/store";
 
@@ -31,6 +31,16 @@ export class ManageUsagersService {
       )
       .pipe(
         tap((searchPageLoadedUsagersData: SearchPageLoadedUsagersData) => {
+          searchPageLoadedUsagersData.dataLoaded = true;
+          searchPageLoadedUsagersData.usagersRadiesFirsts =
+            searchPageLoadedUsagersData.usagersRadiesFirsts.map(
+              (usager: UsagerLight) => setUsagerInformations(usager)
+            );
+          searchPageLoadedUsagersData.usagersNonRadies =
+            searchPageLoadedUsagersData.usagersNonRadies.map(
+              (usager: UsagerLight) => setUsagerInformations(usager)
+            );
+
           this.store.dispatch(
             cacheManager.setSearchPageLoadedUsagersData({
               searchPageLoadedUsagersData,

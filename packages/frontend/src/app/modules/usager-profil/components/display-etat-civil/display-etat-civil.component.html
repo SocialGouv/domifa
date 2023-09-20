@@ -41,9 +41,7 @@
 
   <p class="col-md-4 reponses">
     <span class="question">Langue parlée</span>
-    <span class="valeur" *ngIf="usager.langue">{{
-      languagesAutocomplete.formatter(usager.langue)
-    }}</span>
+    <span class="valeur" *ngIf="usager.langue">{{ langue }}</span>
     <span class="valeur" *ngIf="!usager.langue">Non renseigné</span>
   </p>
   <p class="col-md-4 reponses">

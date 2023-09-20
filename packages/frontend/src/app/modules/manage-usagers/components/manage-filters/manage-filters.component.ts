@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -17,6 +18,7 @@ import { Subject, ReplaySubject, Subscription } from "rxjs";
   selector: "app-manage-filters",
   templateUrl: "./manage-filters.component.html",
   styleUrls: ["../manage-usagers-page/manage-usagers-page.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManageFiltersComponent implements OnInit, OnDestroy {
   @Input() public filters: UsagersFilterCriteria;

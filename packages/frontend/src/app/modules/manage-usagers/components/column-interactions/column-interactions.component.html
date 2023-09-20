@@ -1,0 +1,168 @@
+<ng-container *ngIf="template === 'small-buttons' && usager">
+  <div
+    class="interaction-buttons"
+    *ngIf="
+      usager?.echeanceInfos?.isActif ||
+      (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)
+    "
+  >
+    <button
+      type="button"
+      [id]="'visite-' + usager.ref"
+      [disabled]="isInteractionLoading.visite"
+      [attr.aria-busy]="isInteractionLoading.visite"
+      [attr.aria-label]="
+        'Ajout d\'un passage pour ' + (usager | usagerNomComplet)
+      "
+      class="interaction-btn btn-light"
+      (click)="setSingleInteraction(usager, 'visite')"
+    >
+      <fa-icon
+        [icon]="['fas', 'circle-notch']"
+        [spin]="true"
+        class="list-icon-disabled"
+      >
+      </fa-icon>
+      <span class="icon-passage list-icon"></span>
+    </button>
+    <button
+      type="button"
+      [id]="'appel-' + usager.ref"
+      [disabled]="isInteractionLoading.appel"
+      [attr.aria-busy]="isInteractionLoading.appel"
+      [attr.aria-label]="
+        'Ajout d\'un appel téléphonique pour ' + (usager | usagerNomComplet)
+      "
+      class="interaction-btn btn-light"
+      (click)="setSingleInteraction(usager, 'appel')"
+    >
+      <fa-icon
+        [icon]="['fas', 'circle-notch']"
+        [spin]="true"
+        class="list-icon-disabled"
+      >
+      </fa-icon>
+      <span class="icon-appel list-icon"></span>
+    </button>
+  </div>
+</ng-container>
+<ng-container *ngIf="template === 'big-buttons' && usager">
+  <div
+    class="interaction-buttons"
+    *ngIf="
+      usager?.echeanceInfos?.isActif ||
+      (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)
+    "
+  >
+    <button
+      type="button"
+      [id]="'courrierIn-' + usager.ref"
+      [disabled]="isInteractionLoading.courrierIn"
+      [attr.aria-busy]="isInteractionLoading.courrierIn"
+      [attr.aria-label]="
+        'Ajout d\'un courrier pour ' + (usager | usagerNomComplet)
+      "
+      class="interaction-btn btn-light"
+      (click)="setSingleInteraction(usager, 'courrierIn')"
+    >
+      <fa-icon
+        [icon]="['fas', 'circle-notch']"
+        [spin]="true"
+        class="list-icon-disabled"
+      >
+      </fa-icon>
+      <span aria-hidden="true" class="icon-courrier list-icon"></span>
+    </button>
+    <ng-template #courrierTooltip>
+      <p>Ajout d'un courrier pour {{ usager | usagerNomComplet }}</p>
+    </ng-template>
+    <button
+      type="button"
+      [attr.aria-label]="
+        'Réception de courriers, colis ou recommandés pour ' +
+        (usager | usagerNomComplet)
+      "
+      [id]="'reception-' + usager.ref"
+      class="interaction-btn btn-light"
+      (click)="openInteractionInModal()"
+    >
+      <span aria-hidden="true" class="icon-reception list-icon"></span>
+    </button>
+    <ng-template #receptionBox>
+      <p>
+        Réception de courriers, colis ou recommandés pour
+        {{ usager | usagerNomComplet }}
+      </p>
+    </ng-template>
+
+    <button
+      *ngIf="usager.lastInteraction.enAttente"
+      class="interaction-btn btn-light"
+      type="button"
+      [id]="'distribution-' + usager.ref"
+      [attr.aria-label]="
+        'Distribuer ' +
+        usager.totalInteractionsEnAttente +
+        ' courriers de ' +
+        (usager | usagerNomComplet)
+      "
+      (click)="openInteractionOutModal()"
+    >
+      <span class="icon-distribution list-icon"></span>
+      <strong class="notification">
+        {{ usager.totalInteractionsEnAttente }}
+      </strong>
+    </button>
+
+    <ng-template #distributionBox>
+      <div class="distribution-tooltip text-start">
+        <p class="fw-bold">Distribuer les courriers</p>
+        <p class="m-0" *ngIf="usager.lastInteraction.courrierIn > 0">
+          <span class="list-icon icon-courrier"></span>
+          <span>
+            <strong class="text-primary">{{
+              usager.lastInteraction.courrierIn
+            }}</strong>
+            courriers
+          </span>
+        </p>
+
+        <p class="m-0" *ngIf="usager.lastInteraction.recommandeIn > 0">
+          <span class="list-icon icon-recommande"> </span>
+          <span>
+            <strong class="text-primary">{{
+              usager.lastInteraction.recommandeIn
+            }}</strong>
+            avis de passage</span
+          >
+        </p>
+
+        <p class="m-0" *ngIf="usager.lastInteraction.colisIn > 0">
+          <span class="list-icon icon-colis"> </span>
+          <span>
+            <strong class="text-primary">{{
+              usager.lastInteraction.colisIn
+            }}</strong>
+            colis</span
+          >
+        </p>
+      </div>
+    </ng-template>
+  </div>
+</ng-container>
+
+<ng-template #setInteractionInModal let-modal>
+  <app-set-interaction-in-form
+    *ngIf="usager"
+    [usager]="usager"
+    (cancelReception)="cancelReception('reception', usager.ref)"
+  ></app-set-interaction-in-form>
+</ng-template>
+
+<ng-template #setInteractionOutModal let-modal>
+  <app-set-interaction-out-form
+    *ngIf="usager"
+    [usager]="usager"
+    (cancelReception)="cancelReception('distribution', usager.ref)"
+  ></app-set-interaction-out-form>
+</ng-template>

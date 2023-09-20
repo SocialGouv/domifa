@@ -90,4 +90,8 @@ export class ProfilEtatCivilFormComponent
         })
     );
   }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 }

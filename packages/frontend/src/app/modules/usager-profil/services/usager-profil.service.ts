@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, tap } from "rxjs";
 import { environment } from "../../../../environments/environment";
-import { MessageSms, UsagerLight } from "../../../../_common/model";
+import { ApiMessage, MessageSms, UsagerLight } from "../../../../_common/model";
 import { Store } from "@ngrx/store";
 import { cacheManager } from "../../../shared";
 
@@ -27,12 +27,8 @@ export class UsagerProfilService {
       );
   }
 
-  public delete(usagerRef: number) {
-    return this.http.delete(`${this.endPointUsagers}/${usagerRef}`).pipe(
-      tap(() => {
-        this.store.dispatch(cacheManager.deleteUsager({ usagerRef }));
-      })
-    );
+  public delete(usagerRef: number): Observable<ApiMessage> {
+    return this.http.delete<ApiMessage>(`${this.endPointUsagers}/${usagerRef}`);
   }
 
   public updatePortailUsagerOptions({

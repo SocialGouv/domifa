@@ -62,13 +62,18 @@ export class UsagerDecisionService {
       | UsagerDecisionRadiationForm
       | UsagerDecisionRefusForm
       | UsagerDecisionValideForm
-      | { statut: "ATTENTE_DECISION" }
+      | { statut: "ATTENTE_DECISION" },
+    updateStore: boolean = true
   ): Observable<UsagerLight> {
     return this.http
       .post<UsagerLight>(`${this.endPointDecision}/${usagerRef}`, decision)
       .pipe(
         tap((newUsager: UsagerLight) => {
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          if (updateStore) {
+            this.store.dispatch(
+              cacheManager.updateUsager({ usager: newUsager })
+            );
+          }
         })
       );
   }

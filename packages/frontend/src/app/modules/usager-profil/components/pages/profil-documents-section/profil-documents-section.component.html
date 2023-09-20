@@ -13,7 +13,12 @@
           >
             <h2>Documents mis à disposition par la structure</h2>
 
-            <div *ngIf="usager.isActif || usager.decision.statut === 'REFUS'">
+            <div
+              *ngIf="
+                usager.echeanceInfos.isActif ||
+                usager.decision.statut === 'REFUS'
+              "
+            >
               <button
                 type="button"
                 (click)="getCerfa('demande')"

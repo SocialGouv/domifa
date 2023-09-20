@@ -2,7 +2,6 @@ import { Component } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { UserStructureRole } from "../../../../../../_common/model";
 import { AuthService } from "../../../../shared/services/auth.service";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
 import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-usager-profil-page.component";
@@ -39,9 +38,5 @@ export class ProfilDossierComponent extends BaseUsagerProfilPageComponent {
 
   public openEntretien(): void {
     this.editEntretien = !this.editEntretien;
-  }
-
-  public isRole(role: UserStructureRole): boolean {
-    return this.me?.role === role;
   }
 }

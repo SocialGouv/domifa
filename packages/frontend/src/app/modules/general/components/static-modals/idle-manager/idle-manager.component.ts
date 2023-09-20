@@ -1,6 +1,12 @@
 import { DEFAULT_MODAL_OPTIONS, UserStructure } from "src/_common/model";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
 import { NgbModalRef, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { UserIdleService } from "angular-user-idle";
 import { Subscription } from "rxjs";
@@ -9,7 +15,7 @@ import { Subscription } from "rxjs";
   selector: "app-idle-manager",
   templateUrl: "./idle-manager.component.html",
 })
-export class IdleManagerComponent implements OnInit {
+export class IdleManagerComponent implements OnInit, OnDestroy {
   @ViewChild("idleModal", { static: true })
   public idleModal!: TemplateRef<NgbModalRef>;
   public timerCount = 0;
@@ -96,5 +102,8 @@ export class IdleManagerComponent implements OnInit {
 
   public closeModals(): void {
     this.modalService.dismissAll();
+  }
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
