@@ -190,6 +190,8 @@ async function createTables(queryRunner: QueryRunner) {
       telephone jsonb NOT NULL DEFAULT '{"numero": "", "countryCode": "fr"}'::jsonb,
       "acceptTerms" timestamptz NULL,
       "filesUpdated" bool NOT NULL DEFAULT false,
+      latitude float8 NULL,
+      longitude float8 NULL,
       CONSTRAINT "PK_a92a6b3dd54efb4ab48b2d6e7c1" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_90ac7986e769d602d218075215c" UNIQUE (id),
       CONSTRAINT "UQ_b36e92e49b2a68f8fea64ec8d5b" UNIQUE (email)
