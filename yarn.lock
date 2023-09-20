@@ -2280,7 +2280,6 @@ __metadata:
     "@types/pdfkit": ^0.12.9
     "@types/pino": ^7.0.5
     "@types/pizzip": ^3.0.1
-    "@types/proj4": ^2.5.2
     "@types/rimraf": ^4.0.5
     "@types/sanitize-html": ^2.6.2
     "@types/source-map-support": ^0.5.4
@@ -2326,7 +2325,6 @@ __metadata:
     pino-std-serializers: ^6.1.0
     pizzip: ^3.0.6
     prettier: ^2.7.1
-    proj4: ^2.9.0
     reflect-metadata: ^0.1.13
     rimraf: ^5.0.0
     rxjs: ^7.6.0
@@ -6506,13 +6504,6 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 3ccab3d4d0f971f5447874102e64859ac4cddbc928b5820f0358fa9c06421840a282e0c60ba947efcfcf1570299e04e7a46bcbcb98b9c5a04ab1b99b0aef0bda
-  languageName: node
-  linkType: hard
-
-"@types/proj4@npm:^2.5.2":
-  version: 2.5.2
-  resolution: "@types/proj4@npm:2.5.2"
-  checksum: f70fb89fe1e234faa164b57095624e054ead1b14653b1eb04e1aa50489ae9a6a30c90518efe571d53f5fcc12a25bee61e8cf8d9cc79b5a01586d051bdad4a992
   languageName: node
   linkType: hard
 
@@ -16834,13 +16825,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mgrs@npm:1.0.0":
-  version: 1.0.0
-  resolution: "mgrs@npm:1.0.0"
-  checksum: 98b9fa3caff9986868344567996f8dcc833f939c2e140507a00e2ce9a96ef7eaeb81933a749222a2b7bcbc1a4bb6ada6120dda3a5b6af6d72ae332d8990956b9
-  languageName: node
-  linkType: hard
-
 "micromatch@npm:4.0.5, micromatch@npm:^4.0.2, micromatch@npm:^4.0.4":
   version: 4.0.5
   resolution: "micromatch@npm:4.0.5"
@@ -19658,16 +19642,6 @@ __metadata:
   version: 0.11.10
   resolution: "process@npm:0.11.10"
   checksum: bfcce49814f7d172a6e6a14d5fa3ac92cc3d0c3b9feb1279774708a719e19acd673995226351a082a9ae99978254e320ccda4240ddc474ba31a76c79491ca7c3
-  languageName: node
-  linkType: hard
-
-"proj4@npm:^2.9.0":
-  version: 2.9.0
-  resolution: "proj4@npm:2.9.0"
-  dependencies:
-    mgrs: 1.0.0
-    wkt-parser: ^1.3.1
-  checksum: b907be4821ddfabf779e57cd008ec062aa2ed033525c867c820b98492291871ef8a7a45cd2ee939f3bcb53cb89142b18a50af55d4e2748af272e62a194e49aa7
   languageName: node
   linkType: hard
 
@@ -24061,13 +24035,6 @@ __metadata:
     assert-never: ^1.2.1
     babel-walk: 3.0.0-canary-5
   checksum: a00fe87b736e434bd8b9d3e62ddcd664bde7d3990a011a0f1bdeb499db0d6c28e6d2ef921dcc47650b8d436eee55459bcae8fab4ce1ed89f4926ddda407ab755
-  languageName: node
-  linkType: hard
-
-"wkt-parser@npm:^1.3.1":
-  version: 1.3.3
-  resolution: "wkt-parser@npm:1.3.3"
-  checksum: b001a7e8b83c1af66f4a1bc56d5041858191b13a530af20d80dda80de92ed672bec30c3528893480ad3ef03edf845e8e9962c79c77eae860530c99afd59ff94c
   languageName: node
   linkType: hard
 
