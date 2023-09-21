@@ -1,3 +1,17 @@
+# [2.138.0](https://github.com/SocialGouv/domifa/compare/v2.137.3...v2.138.0) (2023-09-21)
+
+
+### Bug Fixes
+
+* yarn.lock ([03dcad5](https://github.com/SocialGouv/domifa/commit/03dcad51de2a32793a50e82f1ee56009f252b110))
+* **api:** add latitude longitude to test dump ([3cb6bd7](https://github.com/SocialGouv/domifa/commit/3cb6bd7090c843fcbf88f634781a21e04ad24e15))
+* **api:** add location to structures ([3d7c970](https://github.com/SocialGouv/domifa/commit/3d7c970f47d48facd8f60e3122826b4f739cb01f))
+
+
+### Features
+
+* **location:** add location of places ([2754e74](https://github.com/SocialGouv/domifa/commit/2754e74d6e171502d4f0f21535a90b22c845f846))
+
 ## [2.137.3](https://github.com/SocialGouv/domifa/compare/v2.137.2...v2.137.3) (2023-09-14)
 
 
