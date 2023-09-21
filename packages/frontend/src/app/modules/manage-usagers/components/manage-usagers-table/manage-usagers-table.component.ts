@@ -88,6 +88,10 @@ export class ManageUsagersTableComponent implements OnDestroy {
     this.router.navigate([usager.usagerProfilUrl]);
   }
 
+  public refTrackBy(_index: number, item: UsagerFormModel) {
+    return item.ref;
+  }
+
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
