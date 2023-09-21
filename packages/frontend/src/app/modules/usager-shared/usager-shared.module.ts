@@ -31,7 +31,6 @@ import {
   CustomDatepickerI18n,
 } from "../shared/services";
 import { DisplayAyantsDroitsComponent } from "./components/display-ayants-droits/display-ayants-droits.component";
-import { TooltipDirective } from "./directives/usager-tooltip.directive";
 
 @NgModule({
   declarations: [
@@ -50,7 +49,6 @@ import { TooltipDirective } from "./directives/usager-tooltip.directive";
     DecisionRadiationFormComponent,
     DeleteUsagerComponent,
     DisplayAyantsDroitsComponent,
-    TooltipDirective,
   ],
   imports: [
     CommonModule,
@@ -78,7 +76,6 @@ import { TooltipDirective } from "./directives/usager-tooltip.directive";
     DisplayDuplicatesUsagerComponent,
     DeleteUsagerComponent,
     DecisionRadiationFormComponent,
-    TooltipDirective,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

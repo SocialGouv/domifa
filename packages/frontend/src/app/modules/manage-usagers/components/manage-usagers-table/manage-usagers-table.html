@@ -135,7 +135,7 @@
     </th>
   </thead>
   <tbody>
-    <tr *ngFor="let usager of usagers; let i = index; ">
+    <tr *ngFor="let usager of usagers; let i = index; trackBy: refTrackBy">
       <td class="text-start p-0 m-0" *ngIf="displayCheckboxes">
         <label
           for="select-{{ usager.ref }}"
