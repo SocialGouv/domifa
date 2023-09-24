@@ -80,11 +80,14 @@ export class AuthService {
     );
   }
 
-  public async logout(): Promise<void> {
+  public logoutFromBackend = async () => {
     if (this.currentUserValue?.access_token) {
       await firstValueFrom(this.http.get(`${this.endPoint}/logout`));
     }
+    this.logout();
+  };
 
+  public async logout(): Promise<void> {
     this.currentUserSubject.next(null);
     cacheManager.clearCache();
     localStorage.removeItem("currentUser");

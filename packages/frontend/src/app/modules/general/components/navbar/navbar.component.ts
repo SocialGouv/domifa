@@ -38,6 +38,6 @@ export class NavbarComponent {
   }
 
   public logout(): void {
-    this.authService.logout();
+    this.authService.logoutFromBackend();
   }
 }
