@@ -1,3 +1,13 @@
+## [2.138.1](https://github.com/SocialGouv/domifa/compare/v2.138.0...v2.138.1) (2023-09-24)
+
+
+### Bug Fixes
+
+* **angular:** fix unit tests, add eslint rules ([765c88b](https://github.com/SocialGouv/domifa/commit/765c88be0ba880b530607987f2dc9b01e89206d0))
+* **frontend:** add trackBy to ngFor ([7dc0865](https://github.com/SocialGouv/domifa/commit/7dc086544d69b7c71bf2e231ae6a8a6fa4481b7a))
+* **frontend:** delete useless directive ([300e7b0](https://github.com/SocialGouv/domifa/commit/300e7b011b88fe3045fbc9bea1c0ca7f9e64ce33))
+* **frontend:** enforce manage's performance ([90a6615](https://github.com/SocialGouv/domifa/commit/90a66155f7dc401ee25d1f2e710f746bb5ad94cc))
+
 # [2.138.0](https://github.com/SocialGouv/domifa/compare/v2.137.3...v2.138.0) (2023-09-21)
 
 
