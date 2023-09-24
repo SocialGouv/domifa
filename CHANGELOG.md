@@ -1,3 +1,10 @@
+## [2.138.2](https://github.com/SocialGouv/domifa/compare/v2.138.1...v2.138.2) (2023-09-24)
+
+
+### Bug Fixes
+
+* **auth:** delete auto logout ([b287c0d](https://github.com/SocialGouv/domifa/commit/b287c0d41150f4869e329300f76df0062f6a2478))
+
 ## [2.138.1](https://github.com/SocialGouv/domifa/compare/v2.138.0...v2.138.1) (2023-09-24)
 
 
