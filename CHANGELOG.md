@@ -1,3 +1,10 @@
+# [2.139.0](https://github.com/SocialGouv/domifa/compare/v2.138.2...v2.139.0) (2023-09-25)
+
+
+### Features
+
+* **frontend:** add sortable columns in user's table ([7a55899](https://github.com/SocialGouv/domifa/commit/7a55899b5548c0b3d8fc2a720c68d9a045d31f04))
+
 ## [2.138.2](https://github.com/SocialGouv/domifa/compare/v2.138.1...v2.138.2) (2023-09-24)
 
 
