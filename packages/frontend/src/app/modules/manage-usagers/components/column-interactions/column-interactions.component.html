@@ -14,6 +14,7 @@
       [attr.aria-label]="
         'Ajout d\'un passage pour ' + (usager | usagerNomComplet)
       "
+      [ngbTooltip]="'Ajout d\'un passage pour ' + (usager | usagerNomComplet)"
       class="interaction-btn btn-light"
       (click)="setSingleInteraction(usager, 'visite')"
     >
@@ -31,6 +32,9 @@
       [disabled]="isInteractionLoading.appel"
       [attr.aria-busy]="isInteractionLoading.appel"
       [attr.aria-label]="
+        'Ajout d\'un appel téléphonique pour ' + (usager | usagerNomComplet)
+      "
+      [ngbTooltip]="
         'Ajout d\'un appel téléphonique pour ' + (usager | usagerNomComplet)
       "
       class="interaction-btn btn-light"
@@ -64,6 +68,7 @@
       "
       class="interaction-btn btn-light"
       (click)="setSingleInteraction(usager, 'courrierIn')"
+      [ngbTooltip]="courrierTooltip"
     >
       <fa-icon
         [icon]="['fas', 'circle-notch']"
@@ -84,6 +89,7 @@
       "
       [id]="'reception-' + usager.ref"
       class="interaction-btn btn-light"
+      [ngbTooltip]="receptionBox"
       (click)="openInteractionInModal()"
     >
       <span aria-hidden="true" class="icon-reception list-icon"></span>
@@ -106,6 +112,7 @@
         ' courriers de ' +
         (usager | usagerNomComplet)
       "
+      [ngbTooltip]="distributionBox"
       (click)="openInteractionOutModal()"
     >
       <span class="icon-distribution list-icon"></span>

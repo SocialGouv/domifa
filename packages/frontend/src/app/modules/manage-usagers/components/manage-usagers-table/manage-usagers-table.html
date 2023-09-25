@@ -253,10 +253,6 @@
           {{ usager.echeanceInfos?.dateToDisplay | date : "dd/MM/yy" }}
         </span>
       </td>
-
-      <td class="clickable" *ngIf="filters.statut === 'INSTRUCTION'">
-        {{ usager?.rdvInfos?.content }}
-      </td>
       <td class="text-start list-interaction-icons d-print-none">
         <app-manage-usagers-interactions
           [usager]="usager"

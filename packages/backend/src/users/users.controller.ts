@@ -55,7 +55,6 @@ export class UsersController {
     return userStructureRepository.find({
       where: {
         structureId: user.structureId,
-        verified: true,
       },
       select: {
         uuid: true,
@@ -63,6 +62,8 @@ export class UsersController {
         nom: true,
         prenom: true,
         email: true,
+        createdAt: true,
+        lastLogin: true,
       },
       order: {
         nom: "ASC",

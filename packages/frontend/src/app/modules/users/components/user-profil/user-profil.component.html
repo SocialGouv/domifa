@@ -7,24 +7,88 @@
 <div class="content py-3" *ngIf="me">
   <div class="container py-3">
     <div class="page-content p-3">
-      <h2>Membres actifs</h2>
+      <h2>Utilisateurs enregistrés: {{ users.length }} utilisateurs</h2>
       <div class="table-responsive">
-        <table class="table">
+        <table class="table" [attr.aria-rowcount]="users.length">
           <caption class="visually-hidden">
-            Liste des membres actifs
+            Liste des utilisateurs enregistrés
           </caption>
           <thead>
             <tr>
-              <th scope="col">Nom prénom</th>
-              <th scope="col">Email</th>
-              <th scope="col">Rôle</th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="nom"
+                  [sortValue]="sortValue"
+                  [currentKey]="currentKey"
+                  (sortArray)="sortArray($event)"
+                  columnName="Nom prénom"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="email"
+                  [sortValue]="sortValue"
+                  [currentKey]="currentKey"
+                  (sortArray)="sortArray($event)"
+                  columnName="Email"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="createdAt"
+                  [sortValue]="sortValue"
+                  [currentKey]="currentKey"
+                  (sortArray)="sortArray($event)"
+                  columnName="Date d'inscription"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="lastLogin"
+                  [sortValue]="sortValue"
+                  [currentKey]="currentKey"
+                  (sortArray)="sortArray($event)"
+                  columnName="Statut"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="role"
+                  [sortValue]="sortValue"
+                  [currentKey]="currentKey"
+                  (sortArray)="sortArray($event)"
+                  columnName="Rôle"
+                >
+                </app-table-head-sort>
+              </th>
               <th scope="col">Supprimer</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let user of users">
+            <tr
+              *ngFor="let user of users; let i = index; trackBy: userIdTrackBy"
+              [attr.aria-rowindex]="i + 1"
+            >
               <td class="fw-bold">{{ user.nom }} {{ user.prenom }}</td>
               <td>{{ user.email }}</td>
+              <td>{{ user.createdAt | date : "d MMMM y" }}</td>
+              <td>
+                {{
+                  user.verified
+                    ? " ✅ Compte actif"
+                    : " ❌ Inactif depuis plus de 2 mois"
+                }}
+                <p *ngIf="!user.verified && user.lastLogin">
+                  Dernière connexion le {{ user.lastLogin | date : "d MMMM y" }}
+                </p>
+                <p class="fw-bold" *ngIf="!user.verified && !user.lastLogin">
+                  Compte jamais utilisé
+                </p>
+              </td>
               <td>
                 <ng-container
                   *ngIf="me.role === 'admin' && me.uuid !== user.uuid"
