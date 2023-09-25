@@ -64,6 +64,7 @@ export class UsersController {
         email: true,
         createdAt: true,
         lastLogin: true,
+        verified: true,
       },
       order: {
         nom: "ASC",
