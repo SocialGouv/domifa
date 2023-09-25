@@ -39,7 +39,7 @@ async function generateResetPasswordToken({
 }> {
   const user: UserStructureProfile =
     await userStructureRepository.findOneByOrFail({
-      email: email.toLowerCase(),
+      email,
     });
 
   let userSecurity = await userStructureSecurityRepository.findOneByOrFail({

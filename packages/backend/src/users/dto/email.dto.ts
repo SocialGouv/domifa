@@ -1,5 +1,6 @@
 import { IsEmail, IsNotEmpty } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
+import { LowerCaseTransform } from "../../_common/decorators";
 
 export class EmailDto {
   @ApiProperty({
@@ -8,5 +9,6 @@ export class EmailDto {
   })
   @IsNotEmpty()
   @IsEmail()
+  @LowerCaseTransform()
   public readonly email!: string;
 }
