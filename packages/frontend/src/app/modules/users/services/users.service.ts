@@ -36,30 +36,19 @@ export class UsersService {
   }
 
   public getUsers(): Observable<UserStructureProfile[]> {
-    return this.http.get(`${this.endPoint}`).pipe(
-      map((response) => {
-        return Array.isArray(response)
-          ? response.map((item) =>
-              userStructureBuilder.buildUserStructure(item)
-            )
-          : [userStructureBuilder.buildUserStructure(response)];
-      })
-    );
+    return this.http.get<UserStructureProfile[]>(`${this.endPoint}`);
   }
 
   public updateRole(
     uuid: string,
     role: UserStructureRole
   ): Observable<UserStructureProfile> {
-    return this.http
-      .patch(`${this.endPoint}/update-role/${uuid}`, {
+    return this.http.patch<UserStructureProfile>(
+      `${this.endPoint}/update-role/${uuid}`,
+      {
         role,
-      })
-      .pipe(
-        map((response) => {
-          return userStructureBuilder.buildUserStructure(response);
-        })
-      );
+      }
+    );
   }
 
   public deleteUser(uuid: string): Observable<ApiMessage> {

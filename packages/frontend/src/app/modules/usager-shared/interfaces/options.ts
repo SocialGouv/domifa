@@ -32,9 +32,9 @@ export class Options implements UsagerOptions {
     if (options?.transfert) {
       const { actif, nom, adresse, dateDebut, dateFin } = options.transfert;
       this.transfert = {
-        actif: actif || false,
-        nom: nom || null,
-        adresse: adresse || null,
+        actif: actif ?? false,
+        nom: nom ?? null,
+        adresse: adresse ?? null,
         dateDebut: dateDebut ? new Date(dateDebut) : null,
         dateFin: dateFin ? new Date(dateFin) : null,
       };
