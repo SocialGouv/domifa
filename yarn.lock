@@ -2233,7 +2233,7 @@ __metadata:
   resolution: "@domifa/backend@workspace:packages/backend"
   dependencies:
     "@domifa/common": "workspace:^"
-    "@faker-js/faker": ^8.0.1
+    "@faker-js/faker": ^8.1.0
     "@nestjs/axios": ^3.0.0
     "@nestjs/cli": ^10.1.1
     "@nestjs/common": ^10.0.5
@@ -2260,14 +2260,14 @@ __metadata:
     "@sentry/opentelemetry-node": ^7.69.0
     "@socialgouv/eslint-config-typescript": ^1.131.0
     "@socialgouv/streaming-file-encryption": ^1.1.0
-    "@types/bcryptjs": ^2.4.2
-    "@types/compression": ^1.7.0
-    "@types/cron": ^2.0.0
+    "@types/bcryptjs": ^2.4.4
+    "@types/compression": ^1.7.3
+    "@types/cron": ^2.0.1
     "@types/dotenv": ^8.2.0
-    "@types/email-templates": ^10.0.0
+    "@types/email-templates": ^10.0.2
     "@types/express": 4.17.18
-    "@types/faker": ^6.0.0
-    "@types/fs-extra": ^11.0.0
+    "@types/faker": ^6.6.8
+    "@types/fs-extra": ^11.0.2
     "@types/geojson": ^7946.0.10
     "@types/jest": ^29.2.4
     "@types/lodash.isequal": ^4.5.6
@@ -2284,7 +2284,7 @@ __metadata:
     "@types/sanitize-html": ^2.6.2
     "@types/source-map-support": ^0.5.4
     "@types/supertest": ^2.0.12
-    "@types/uuid": ^9.0.0
+    "@types/uuid": ^9.0.4
     "@typescript-eslint/eslint-plugin": ^6.0.0
     "@typescript-eslint/parser": ^6.0.0
     axios: ^1.4.0
@@ -2297,17 +2297,17 @@ __metadata:
     docxtemplater: ^3.37.12
     dotenv: ^16.3.1
     email-templates: ^10.0.0
-    eslint: ^8.48.0
+    eslint: ^8.50.0
     eslint-config-prettier: ^9.0.0
     eslint-plugin-import: ^2.28.1
     eslint-plugin-prettier: ^5.0.0
-    eslint-plugin-promise: ^6.0.0
+    eslint-plugin-promise: ^6.1.1
     exceljs: ^4.2.1
     express: ^4.18.2
-    fs-extra: ^11.1.0
+    fs-extra: ^11.1.1
     google-libphonenumber: ^3.2.31
     ics: ^2.41.0
-    jest: ^29.3.1
+    jest: ^29.7.0
     lint-staged: ^14.0.0
     lodash.isequal: ^4.5.0
     mammoth: ^1.4.17
@@ -2324,26 +2324,26 @@ __metadata:
     pino-pretty: ^10.0.1
     pino-std-serializers: ^6.1.0
     pizzip: ^3.0.6
-    prettier: ^2.7.1
+    prettier: ^2.8.8
     reflect-metadata: ^0.1.13
     rimraf: ^5.0.0
     rxjs: ^7.6.0
     sanitize-filename: ^1.6.3
-    sanitize-html: ^2.7.3
+    sanitize-html: ^2.11.0
     sharp: ^0.32.1
     sort-object: ^3.0.3
     source-map-support: ^0.5.21
     striptags: ^3.2.0
-    supertest: ^6.3.2
+    supertest: ^6.3.3
     swagger-ui-express: ^5.0.0
-    timezone-mock: ^1.3.4
-    ts-jest: ^29.0.3
+    timezone-mock: ^1.3.6
+    ts-jest: ^29.1.1
     ts-node: 10.9.1
     ts-node-dev: ^2.0.0
     tsconfig-paths: ^4.0.0
-    typeorm: ^0.3.9
+    typeorm: ^0.3.17
     typescript: 4.9.5
-    uuid: ^9.0.0
+    uuid: ^9.0.1
     xlsx: ^0.18.5
     yup: ^0.32.9
     yup-phone: ^1.3.2
@@ -2964,13 +2964,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:8.49.0":
-  version: 8.49.0
-  resolution: "@eslint/js@npm:8.49.0"
-  checksum: a6601807c8aeeefe866926ad92ed98007c034a735af20ff709009e39ad1337474243d47908500a3bde04e37bfba16bcf1d3452417f962e1345bc8756edd6b830
-  languageName: node
-  linkType: hard
-
 "@eslint/js@npm:8.50.0":
   version: 8.50.0
   resolution: "@eslint/js@npm:8.50.0"
@@ -2978,10 +2971,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@faker-js/faker@npm:^8.0.1":
-  version: 8.0.2
-  resolution: "@faker-js/faker@npm:8.0.2"
-  checksum: cf73daf9a50397eb0b3f04a7ef3fbb6f54acc026b167707136a7e58a517fd805a46c9e8c5f017f3022f104a4ff984765daaeee2cb98b3c34646db05c2acad441
+"@faker-js/faker@npm:^8.1.0":
+  version: 8.1.0
+  resolution: "@faker-js/faker@npm:8.1.0"
+  checksum: 76036cbad2f0735fe2a2834bb3e16233e7c1aa4998cf90dbd097631465f3fcd4e7022c901f80b6de1c25b47154880f06916609a81dacb039a25f9cb000a3ab4e
   languageName: node
   linkType: hard
 
@@ -5707,10 +5700,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/bcryptjs@npm:^2.4.2":
-  version: 2.4.3
-  resolution: "@types/bcryptjs@npm:2.4.3"
-  checksum: bf1b0a468a186b43a142ea75f26e52e6ecf1c4240404d9ef7973de2ef0b8d0072ebc0f8d3c84f45fa4bf2570f0770e58f565a9184eb9af3be436dbd4ca4881aa
+"@types/bcryptjs@npm:^2.4.4":
+  version: 2.4.4
+  resolution: "@types/bcryptjs@npm:2.4.4"
+  checksum: 7c8a50e0dec58bd391bf65b41c1422ac61c5f71d5adaa9a002c10368b64f4b1a9a0628f29b43dfd1fa0353b671b2cb1c11e27c5658877527ebad6d3c3f50e2b2
   languageName: node
   linkType: hard
 
@@ -5733,7 +5726,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/compression@npm:^1.7.0":
+"@types/compression@npm:^1.7.3":
   version: 1.7.3
   resolution: "@types/compression@npm:1.7.3"
   dependencies:
@@ -5768,12 +5761,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/cron@npm:^2.0.0":
-  version: 2.4.0
-  resolution: "@types/cron@npm:2.4.0"
+"@types/cron@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@types/cron@npm:2.0.1"
   dependencies:
-    cron: "*"
-  checksum: c763e99a757ea76aee435948c25e0bdaf32ec44c69603088c73e8832df6b121e87932709925fe3e94777833ca30845c31df1167be54c330cf458d348059b9ffc
+    "@types/luxon": "*"
+    "@types/node": "*"
+  checksum: 4268c784750a1373036b4de95cd1f35ab4fa5227c1639302eedb25a35900d7805271e33b557ad7ccccd6d1829944963df25cd0d9d0d603abf3bcdf148b69ea5d
   languageName: node
   linkType: hard
 
@@ -6058,14 +6052,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/email-templates@npm:^10.0.0":
-  version: 10.0.1
-  resolution: "@types/email-templates@npm:10.0.1"
+"@types/email-templates@npm:^10.0.2":
+  version: 10.0.2
+  resolution: "@types/email-templates@npm:10.0.2"
   dependencies:
     "@types/html-to-text": "*"
     "@types/nodemailer": "*"
     juice: ^8.0.0
-  checksum: 1a82161ef3817bfc5f5ae491ff4ec414d44d9130db560836696db682de5cda9a386c5ef7ce6817c59fb74cef6d070d6be3645d3bc721808bddf0d0f65a59d9e6
+  checksum: 69cc1a0cc887e1ab7c50fa41d9592e23ff9f6e9990806fa6d4dd66395f8658e191dce86551de843ebe1734996155c770ed91a665bbeb28225aa3080142324ed3
   languageName: node
   linkType: hard
 
@@ -6139,12 +6133,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/faker@npm:^6.0.0":
-  version: 6.6.9
-  resolution: "@types/faker@npm:6.6.9"
+"@types/faker@npm:^6.6.8":
+  version: 6.6.8
+  resolution: "@types/faker@npm:6.6.8"
   dependencies:
     faker: "*"
-  checksum: 8fb069b6f2bf2cefec42a214395f49695b881d70e651a215a61c2fa7494bb173d1a598c895882ff89df3702ab51c49c23433b3d4bcfd8323cf4f608ed9fb6ce8
+  checksum: 21267dcb169acc9e424018d692c8eb60ff97c5d81d2c02de8f68f3a1f0397d7b7e28117c8b089760cb278ccb313c0d6c28b5a5673bcd56dc81a92e864f31f19d
   languageName: node
   linkType: hard
 
@@ -6155,13 +6149,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/fs-extra@npm:^11.0.0":
-  version: 11.0.1
-  resolution: "@types/fs-extra@npm:11.0.1"
+"@types/fs-extra@npm:^11.0.2":
+  version: 11.0.2
+  resolution: "@types/fs-extra@npm:11.0.2"
   dependencies:
     "@types/jsonfile": "*"
     "@types/node": "*"
-  checksum: 3e930346e5d84f419deb8ced1c582beef8cb20d0bd8a0eb145a37d75bab0572a1895f0e48a0d681d386b3a58b9a992b2d2acecc464bcaec2548f53ea00718651
+  checksum: 5b3e30343ee62d2e393e1029355f13f64bab6f3416226e22492483f99da840e2e53ca22cbfa4ac3749f2f83f7086d19c009005c8fa175da01df0fae59c2d73e1
   languageName: node
   linkType: hard
 
@@ -6319,6 +6313,13 @@ __metadata:
   version: 4.0.2
   resolution: "@types/long@npm:4.0.2"
   checksum: d16cde7240d834cf44ba1eaec49e78ae3180e724cd667052b194a372f350d024cba8dd3f37b0864931683dab09ca935d52f0c4c1687178af5ada9fc85b0635f4
+  languageName: node
+  linkType: hard
+
+"@types/luxon@npm:*":
+  version: 3.3.2
+  resolution: "@types/luxon@npm:3.3.2"
+  checksum: b9111132720eae0269538872a5a496b29587ecfc8edc3b0ff7d269aa93a5ff00a131b23d1e9d1f12ec39f2c779ad21bd8d9f90b122c85a182771aabde7f676b8
   languageName: node
   linkType: hard
 
@@ -6662,10 +6663,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/uuid@npm:^9.0.0":
-  version: 9.0.3
-  resolution: "@types/uuid@npm:9.0.3"
-  checksum: 3dde198defd71c067dd14b3050a8fe6d1ead5fe94ec318472e2c30a399d13f18941fe66cffabdcac7267177c9de2f975fdee6f0cc87cde610a2578e1ce4cc3af
+"@types/uuid@npm:^9.0.4":
+  version: 9.0.4
+  resolution: "@types/uuid@npm:9.0.4"
+  checksum: 356e2504456eaebbc43a5af5ca6c07d71f5ae5520b5767cb1c62cd0ec55475fc4ee3d16a2874f4a5fce78e40e8583025afd3a7d9ba41f82939de310665f53f0e
   languageName: node
   linkType: hard
 
@@ -10081,7 +10082,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cron@npm:*, cron@npm:2.4.0":
+"cron@npm:2.4.0":
   version: 2.4.0
   resolution: "cron@npm:2.4.0"
   dependencies:
@@ -11846,7 +11847,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-promise@npm:^6.0.0, eslint-plugin-promise@npm:^6.1.1":
+"eslint-plugin-promise@npm:^6.1.1":
   version: 6.1.1
   resolution: "eslint-plugin-promise@npm:6.1.1"
   peerDependencies:
@@ -11925,53 +11926,6 @@ __metadata:
   version: 3.4.3
   resolution: "eslint-visitor-keys@npm:3.4.3"
   checksum: 36e9ef87fca698b6fd7ca5ca35d7b2b6eeaaf106572e2f7fd31c12d3bfdaccdb587bba6d3621067e5aece31c8c3a348b93922ab8f7b2cbc6aaab5e1d89040c60
-  languageName: node
-  linkType: hard
-
-"eslint@npm:^8.48.0":
-  version: 8.49.0
-  resolution: "eslint@npm:8.49.0"
-  dependencies:
-    "@eslint-community/eslint-utils": ^4.2.0
-    "@eslint-community/regexpp": ^4.6.1
-    "@eslint/eslintrc": ^2.1.2
-    "@eslint/js": 8.49.0
-    "@humanwhocodes/config-array": ^0.11.11
-    "@humanwhocodes/module-importer": ^1.0.1
-    "@nodelib/fs.walk": ^1.2.8
-    ajv: ^6.12.4
-    chalk: ^4.0.0
-    cross-spawn: ^7.0.2
-    debug: ^4.3.2
-    doctrine: ^3.0.0
-    escape-string-regexp: ^4.0.0
-    eslint-scope: ^7.2.2
-    eslint-visitor-keys: ^3.4.3
-    espree: ^9.6.1
-    esquery: ^1.4.2
-    esutils: ^2.0.2
-    fast-deep-equal: ^3.1.3
-    file-entry-cache: ^6.0.1
-    find-up: ^5.0.0
-    glob-parent: ^6.0.2
-    globals: ^13.19.0
-    graphemer: ^1.4.0
-    ignore: ^5.2.0
-    imurmurhash: ^0.1.4
-    is-glob: ^4.0.0
-    is-path-inside: ^3.0.3
-    js-yaml: ^4.1.0
-    json-stable-stringify-without-jsonify: ^1.0.1
-    levn: ^0.4.1
-    lodash.merge: ^4.6.2
-    minimatch: ^3.1.2
-    natural-compare: ^1.4.0
-    optionator: ^0.9.3
-    strip-ansi: ^6.0.1
-    text-table: ^0.2.0
-  bin:
-    eslint: bin/eslint.js
-  checksum: 4dfe257e1e42da2f9da872b05aaaf99b0f5aa022c1a91eee8f2af1ab72651b596366320c575ccd4e0469f7b4c97aff5bb85ae3323ebd6a293c3faef4028b0d81
   languageName: node
   linkType: hard
 
@@ -12845,7 +12799,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fs-extra@npm:^11.0.0, fs-extra@npm:^11.1.0":
+"fs-extra@npm:^11.0.0, fs-extra@npm:^11.1.0, fs-extra@npm:^11.1.1":
   version: 11.1.1
   resolution: "fs-extra@npm:11.1.1"
   dependencies:
@@ -15415,7 +15369,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest@npm:^29.3.1, jest@npm:^29.7.0":
+"jest@npm:^29.7.0":
   version: 29.7.0
   resolution: "jest@npm:29.7.0"
   dependencies:
@@ -19582,7 +19536,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:2.8.8, prettier@npm:^2.7.1":
+"prettier@npm:2.8.8, prettier@npm:^2.8.8":
   version: 2.8.8
   resolution: "prettier@npm:2.8.8"
   bin:
@@ -20893,7 +20847,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sanitize-html@npm:^2.7.3":
+"sanitize-html@npm:^2.11.0":
   version: 2.11.0
   resolution: "sanitize-html@npm:2.11.0"
   dependencies:
@@ -22108,7 +22062,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supertest@npm:^6.3.2":
+"supertest@npm:^6.3.3":
   version: 6.3.3
   resolution: "supertest@npm:6.3.3"
   dependencies:
@@ -22468,7 +22422,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"timezone-mock@npm:^1.3.4":
+"timezone-mock@npm:^1.3.6":
   version: 1.3.6
   resolution: "timezone-mock@npm:1.3.6"
   checksum: 865d8bc67681d7967aeab1ffa4eca1d3217180a85c32d12b485f7d12f427e70f10804882faaa4c699a001247eefc1f6d55c6af9adb61a0c12a54256567d632e4
@@ -22676,7 +22630,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^29.0.0, ts-jest@npm:^29.0.3, ts-jest@npm:^29.1.1":
+"ts-jest@npm:^29.0.0, ts-jest@npm:^29.1.1":
   version: 29.1.1
   resolution: "ts-jest@npm:29.1.1"
   dependencies:
@@ -23037,7 +22991,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typeorm@npm:^0.3.9":
+"typeorm@npm:^0.3.17":
   version: 0.3.17
   resolution: "typeorm@npm:0.3.17"
   dependencies:
@@ -23497,6 +23451,15 @@ __metadata:
   bin:
     uuid: ./bin/uuid
   checksum: 58de2feed61c59060b40f8203c0e4ed7fd6f99d42534a499f1741218a1dd0c129f4aa1de797bcf822c8ea5da7e4137aa3673431a96dae729047f7aca7b27866f
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^9.0.1":
+  version: 9.0.1
+  resolution: "uuid@npm:9.0.1"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 39931f6da74e307f51c0fb463dc2462807531dc80760a9bff1e35af4316131b4fc3203d16da60ae33f07fdca5b56f3f1dd662da0c99fea9aaeab2004780cc5f4
   languageName: node
   linkType: hard
 
