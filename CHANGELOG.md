@@ -1,3 +1,10 @@
+## [2.140.3](https://github.com/SocialGouv/domifa/compare/v2.140.2...v2.140.3) (2023-09-26)
+
+
+### Bug Fixes
+
+* **migrations:** delete useless migrations ([9fd887e](https://github.com/SocialGouv/domifa/commit/9fd887e14f3d70587b98275b88b874d04deb986c))
+
 ## [2.140.2](https://github.com/SocialGouv/domifa/compare/v2.140.1...v2.140.2) (2023-09-26)
 
 
