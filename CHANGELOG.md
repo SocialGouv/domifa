@@ -1,3 +1,10 @@
+## [2.140.1](https://github.com/SocialGouv/domifa/compare/v2.140.0...v2.140.1) (2023-09-26)
+
+
+### Bug Fixes
+
+* **import:** add rules for import ([13c65e5](https://github.com/SocialGouv/domifa/commit/13c65e59753ffca8be637d72cf5c9537f6f19261))
+
 # [2.140.0](https://github.com/SocialGouv/domifa/compare/v2.139.0...v2.140.0) (2023-09-26)
 
 
