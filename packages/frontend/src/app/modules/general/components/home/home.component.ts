@@ -3,9 +3,10 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { CountUpOptions } from "countup.js";
 import { MatomoTracker } from "@ngx-matomo/tracker";
-import { HomeStats } from "../../../../../_common/model";
+import { HomeStats, UserStructure } from "../../../../../_common/model";
 
 import { GeneralService } from "../../services/general.service";
+import { AuthService } from "../../../shared/services";
 
 @Component({
   selector: "app-home",
@@ -16,10 +17,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   public stats: HomeStats;
   private subscription = new Subscription();
   public countOptions: CountUpOptions;
+  public me!: UserStructure | null;
 
   constructor(
     private readonly titleService: Title,
     private readonly generalService: GeneralService,
+    private readonly authService: AuthService,
     public matomo: MatomoTracker
   ) {
     this.countOptions = {
@@ -43,6 +46,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.stats = stats;
       })
     );
+    this.me = this.authService.currentUserValue;
   }
   public ngOnDestroy() {
     this.subscription.unsubscribe();

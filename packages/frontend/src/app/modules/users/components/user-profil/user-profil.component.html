@@ -77,23 +77,20 @@
               <td>{{ user.email }}</td>
               <td>{{ user.createdAt | date : "d MMMM y" }}</td>
               <td>
-                {{
-                  user.verified
-                    ? " ✅ Compte actif"
-                    : " ❌ Inactif depuis plus de 2 mois"
-                }}
+                <p *ngIf="user.verified">✅ Compte actif</p>
                 <p *ngIf="!user.verified && user.lastLogin">
-                  Dernière connexion le {{ user.lastLogin | date : "d MMMM y" }}
+                  ❌ Inactif depuis plus de 2 mois<br />Dernière connexion le
+                  {{ user.lastLogin | date : "d MMMM y" }}
                 </p>
                 <p class="fw-bold" *ngIf="!user.verified && !user.lastLogin">
-                  Compte jamais utilisé
+                  ❌ Compte jamais utilisé
                 </p>
               </td>
               <td>
                 <ng-container
                   *ngIf="me.role === 'admin' && me.uuid !== user.uuid"
                 >
-                  <label class="visually-hidden" for="role_{{ user.uuid }}"
+                  <label class="visually-hidden" for="role-{{ user.uuid }}"
                     >Rôle de {{ user.nom }} {{ user.prenom }}</label
                   >
                   <select

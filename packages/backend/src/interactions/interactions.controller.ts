@@ -50,7 +50,6 @@ export class InteractionsController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager
   ): Promise<Usager> {
-    // Parcours des demandes
     for (const interaction of interactions) {
       const created = await interactionsCreator.createInteraction({
         interaction,
@@ -85,6 +84,16 @@ export class InteractionsController {
       order: {
         dateInteraction: "DESC",
       },
+      select: [
+        "type",
+        "dateInteraction",
+        "event",
+        "content",
+        "nbCourrier",
+        "previousValue",
+        "userName",
+        "uuid",
+      ],
       skip: 0,
       take: 50,
     });
