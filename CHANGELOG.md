@@ -1,3 +1,16 @@
+# [2.140.0](https://github.com/SocialGouv/domifa/compare/v2.139.0...v2.140.0) (2023-09-26)
+
+
+### Bug Fixes
+
+* **perfs:** delete useless functions, add select to big queries ([8c43dd2](https://github.com/SocialGouv/domifa/commit/8c43dd2cc933e52c3129ebd2595c6fc64bf790c0))
+* **users:** lowercase all emails ([b26a3ec](https://github.com/SocialGouv/domifa/commit/b26a3ec7516cad0518b771e82e7478082329dde3))
+
+
+### Features
+
+* **users:** add sortable table for users ([d1de80a](https://github.com/SocialGouv/domifa/commit/d1de80aacefa34df8e037631e3db757dc2fec633))
+
 # [2.139.0](https://github.com/SocialGouv/domifa/compare/v2.138.2...v2.139.0) (2023-09-25)
 
 
