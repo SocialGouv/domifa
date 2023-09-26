@@ -1,3 +1,10 @@
+## [2.140.2](https://github.com/SocialGouv/domifa/compare/v2.140.1...v2.140.2) (2023-09-26)
+
+
+### Bug Fixes
+
+* **structures:** add position to structures ([806fdc3](https://github.com/SocialGouv/domifa/commit/806fdc32e40bcdd3b27a408bfe24b067f43432d0))
+
 ## [2.140.1](https://github.com/SocialGouv/domifa/compare/v2.140.0...v2.140.1) (2023-09-26)
 
 
