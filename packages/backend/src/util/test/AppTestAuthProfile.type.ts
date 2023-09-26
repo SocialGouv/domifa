@@ -1,4 +1,5 @@
-import { UserProfile, UserStructureRole } from "../../_common/model";
+import { UserStructureRole } from "@domifa/common";
+import { UserProfile } from "../../_common/model";
 
 export type AppTestAuthProfile = {
   profile: UserProfile;

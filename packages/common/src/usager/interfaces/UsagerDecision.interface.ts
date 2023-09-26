@@ -1,7 +1,7 @@
-import { UsagerDecisionMotif } from "./UsagerDecisionMotif.type";
-import { UsagerDecisionOrientation } from "./UsagerDecisionOrientation.type";
-import { UsagerDecisionStatut } from "./UsagerDecisionStatut.type";
-import { UsagerTypeDom } from "./UsagerTypeDom.type";
+import { type UsagerDecisionMotif } from "../types/UsagerDecisionMotif.type";
+import { type UsagerDecisionOrientation } from "../types/UsagerDecisionOrientation.type";
+import { type UsagerDecisionStatut } from "../types/UsagerDecisionStatut.type";
+import { type UsagerTypeDom } from "../types/UsagerTypeDom.type";
 
 export interface UsagerDecision {
   uuid: string; // permet d'identifier une décision en cas de suppression de l'historique

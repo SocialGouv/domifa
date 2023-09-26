@@ -1,4 +1,4 @@
-import { UsagerDecisionStatut } from "..";
+import { type UsagerDecisionStatut } from "..";
 
 export const USAGER_DECISION_STATUT_COLORS: {
   [key in UsagerDecisionStatut]: string;

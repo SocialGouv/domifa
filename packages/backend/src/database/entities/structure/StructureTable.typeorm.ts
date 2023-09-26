@@ -5,12 +5,12 @@ import {
   Structure,
   StructurePortailUsagerParams,
   StructureResponsable,
-  StructureType,
   Telephone,
 } from "../../../_common/model";
 import { StructureAddresseCourrier } from "../../../_common/model/structure/StructureAddresseCourrier.type";
 import { StructureSmsParams } from "../../../_common/model/structure/StructureSmsParams.type";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
+import { StructureType } from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "structure" })

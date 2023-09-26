@@ -7,7 +7,6 @@ export * from "./UserStructureMails.type";
 export * from "./UserStructureProfile.type";
 export * from "./UserStructurePublic.type";
 export * from "./UserStructureResume.type";
-export * from "./UserStructureRole.type";
 export * from "./UserStructureSecurity.type";
 export * from "./UserStructureSecurityEvent.type";
 export * from "./UserStructureSecurityEventType.type";

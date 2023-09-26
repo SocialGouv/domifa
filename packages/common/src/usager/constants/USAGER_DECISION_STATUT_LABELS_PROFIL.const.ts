@@ -1,4 +1,4 @@
-import { UsagerDecisionStatut } from "..";
+import { type UsagerDecisionStatut } from "..";
 
 /* DÉCISIONS */
 export const USAGER_DECISION_STATUT_LABELS_PROFIL: {

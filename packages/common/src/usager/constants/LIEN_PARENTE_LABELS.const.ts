@@ -1,4 +1,4 @@
-import { AyantDroiLienParent } from "../AyantDroitLienParente.type";
+import { type AyantDroiLienParent } from "../types/AyantDroitLienParente.type";
 
 export const LIEN_PARENTE_LABELS: { [key in AyantDroiLienParent]: string } = {
   AUTRE: "Autre personne à la charge du domicilié",

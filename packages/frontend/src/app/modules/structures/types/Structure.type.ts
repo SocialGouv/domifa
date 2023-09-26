@@ -1,10 +1,10 @@
+import { StructureType } from "@domifa/common";
 import { AppEntity, Telephone } from "../../../../_common/model";
 import { TimeZone } from "../../../../app/shared/territoires/types/TimeZone.type";
 import { StructureAddresseCourrier } from "./StructureAddresseCourrier.interface";
 import { StructurePortailUsagerParams } from "./StructurePortailUsagerParams.type";
 import { StructureResponsable } from "./StructureResponsable.type";
 import { StructureSmsParams } from "./StructureSmsParams.type";
-import { StructureType } from "./StructureType.type";
 
 export type Structure = AppEntity & {
   id: number;

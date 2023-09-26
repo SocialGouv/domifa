@@ -9,12 +9,9 @@ import {
 } from "typeorm";
 import { titleCase } from "typeorm/util/StringUtils";
 import { StructureTable } from "..";
-import {
-  UserStructure,
-  UserStructureMails,
-  UserStructureRole,
-} from "../../../_common/model";
+import { UserStructure, UserStructureMails } from "../../../_common/model";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
+import { UserStructureRole } from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "user_structure" })

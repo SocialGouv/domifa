@@ -4,8 +4,8 @@ import { StructureAddresseCourrier } from "./StructureAddresseCourrier.type";
 import { StructurePortailUsagerParams } from "./StructurePortailUsagerParams.type";
 import { StructureResponsable } from "./StructureResponsable.type";
 import { StructureSmsParams } from "./StructureSmsParams.type";
-import { StructureType } from "./StructureType.type";
 import { Telephone } from "../telephone/Telephone.type";
+import { StructureType } from "@domifa/common";
 
 export type Structure = AppEntity & {
   id: number;

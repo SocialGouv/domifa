@@ -1,6 +1,5 @@
-import { StructureType } from "../..";
+import { StructureType } from "@domifa/common";
 
-/* TYPE DE STRUCTURE */
 export const STRUCTURE_TYPE_LABELS: { [key in StructureType]: string } = {
   asso: "Organisme agrée",
   ccas: "CCAS",

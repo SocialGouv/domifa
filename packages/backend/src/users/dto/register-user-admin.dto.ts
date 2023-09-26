@@ -9,9 +9,9 @@ import {
   MaxLength,
   MinLength,
 } from "class-validator";
-import { UserStructureRole } from "../../_common/model";
 import { Transform, TransformFnParams } from "class-transformer";
 import { LowerCaseTransform } from "../../_common/decorators";
+import { UserStructureRole } from "@domifa/common";
 
 export class RegisterUserAdminDto {
   @ApiProperty({

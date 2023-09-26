@@ -1,6 +1,6 @@
 import { HttpStatus } from "@nestjs/common";
 import { AppTestAuthProfile } from "../../util/test";
-import { UserStructureRole } from "../../_common/model";
+import { UserStructureRole } from "@domifa/common";
 
 export const expectedResponseStatusBuilder = {
   allowAnonymous,

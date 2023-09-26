@@ -1,6 +1,6 @@
-import { AppEntity } from "../_core";
+import { type AppEntity } from "../../_core";
 
-export type UsagerDoc = AppEntity & {
+export interface UsagerDoc extends AppEntity {
   createdAt?: Date;
   createdBy: string;
   label: string;
@@ -11,4 +11,4 @@ export type UsagerDoc = AppEntity & {
   usagerRef: number;
   encryptionContext?: string;
   encryptionVersion?: number;
-};
+}

@@ -1,5 +1,5 @@
-import { UsagerOptionsProcuration } from "./UsagerOptionsProcuration.type";
-import { UsagerOptionsTransfert } from "./UsagerOptionsTransfert.type";
+import { type UsagerOptionsProcuration } from "./UsagerOptionsProcuration.type";
+import { type UsagerOptionsTransfert } from "./UsagerOptionsTransfert.type";
 
 export interface UsagerOptions {
   transfert: UsagerOptionsTransfert;
