@@ -1,4 +1,4 @@
-import { UserStructureRole } from "../../../_common/model";
+import { UserStructureRole } from "@domifa/common";
 import { TestUserStructure } from "../types";
 
 const ALL: TestUserStructure[] = [

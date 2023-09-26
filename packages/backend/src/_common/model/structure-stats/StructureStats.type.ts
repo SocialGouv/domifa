@@ -1,4 +1,4 @@
-import { StructureType } from "../structure/StructureType.type";
+import { StructureType } from "@domifa/common";
 import { AppEntity } from "../_core/AppEntity.type";
 
 export type StructureStats = AppEntity & {

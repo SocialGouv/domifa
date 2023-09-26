@@ -1,4 +1,4 @@
-import { UsagerDecisionMotif } from "..";
+import { type UsagerDecisionMotif } from "..";
 
 export const MOTIFS_RADIATION_LABELS: {
   [key in UsagerDecisionMotif]?: string;

@@ -5,9 +5,10 @@ import {
   UserStructureTable,
 } from "../../database";
 import { passwordGenerator } from "../../util/encoding/passwordGenerator.service";
-import { UserStructureRole, UserStructureSecurity } from "../../_common/model";
+import { UserStructureSecurity } from "../../_common/model";
 import { RegisterUserAdminDto } from "../dto/register-user-admin.dto";
 import { UserDto } from "../dto/user.dto";
+import { UserStructureRole } from "@domifa/common";
 
 export const userStructureCreator = {
   createUserWithPassword,

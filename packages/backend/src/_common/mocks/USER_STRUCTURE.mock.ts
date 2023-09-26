@@ -1,4 +1,5 @@
-import { StructureType, UserStructureRole } from "../model";
+import { UserStructureRole, StructureType } from "@domifa/common";
+
 export const USER_STRUCTURE_MOCK = {
   password: "xxx",
   email: "s1-admin@yopmail.com",

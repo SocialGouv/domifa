@@ -12,4 +12,3 @@ export * from "./StructureLight.type";
 export * from "./StructurePortailUsagerParams.type";
 export * from "./StructureResponsable.type";
 export * from "./StructureSmsParams.type";
-export * from "./StructureType.type";

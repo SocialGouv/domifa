@@ -1,10 +1,10 @@
 import {
-  UsagerEntretienLienCommune,
-  UsagerEntretienResidence,
-  UsagerEntretienCause,
-  UsagerEntretienRaisonDemande,
-  UsagerEntretienTypeMenage,
-} from ".";
+  type UsagerEntretienLienCommune,
+  type UsagerEntretienResidence,
+  type UsagerEntretienCause,
+  type UsagerEntretienRaisonDemande,
+  type UsagerEntretienTypeMenage,
+} from "../entretien";
 
 export interface UsagerEntretien {
   uuid?: string;

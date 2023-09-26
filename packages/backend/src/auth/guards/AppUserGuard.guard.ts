@@ -5,10 +5,10 @@ import {
   UserAuthenticated,
   UserProfile,
   UserStructureAuthenticated,
-  UserStructureRole,
 } from "../../_common/model";
 import { authChecker } from "../services";
 import { expiredTokenRepositiory } from "../../database";
+import { UserStructureRole } from "@domifa/common";
 
 @Injectable()
 export class AppUserGuard implements CanActivate {

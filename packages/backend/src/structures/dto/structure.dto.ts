@@ -22,13 +22,10 @@ import { StructureAdresseCourrierDto, StructureResponsableDto } from ".";
 import { TimeZone } from "../../util/territoires";
 import { TrimOrNullTransform } from "../../_common/decorators";
 
-import {
-  StructureType,
-  STRUCTURE_TYPE_MAP,
-  Telephone,
-} from "../../_common/model";
+import { STRUCTURE_TYPE_MAP, Telephone } from "../../_common/model";
 import { TelephoneDto } from "../../_common/dto";
 import { ValidationRegexp } from "../../usagers/controllers/import/step2-validate-row";
+import { StructureType } from "@domifa/common";
 
 export class StructureDto {
   @ApiProperty({

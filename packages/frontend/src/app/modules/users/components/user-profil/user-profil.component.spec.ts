@@ -16,7 +16,6 @@ describe("UserProfilComponent", () => {
       declarations: [UserProfilComponent],
       imports: [
         RouterTestingModule,
-
         HttpClientTestingModule,
         ReactiveFormsModule,
         FormsModule,

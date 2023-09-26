@@ -2,7 +2,7 @@ import { SeoService } from "./../../../shared/services/seo.service";
 import { PublicStats } from "./../../../../../_common/model/stats/PublicStats.type";
 import { StatsService } from "./../../services/stats.service";
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { STRUCTURE_TYPE_LABELS } from "../../../structures/constants/STRUCTURE_TYPE_LABELS.const";
+
 import {
   DEPARTEMENTS_METROPOLE,
   RegionsLabels,
@@ -18,6 +18,7 @@ import {
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { StatsByLocality } from "../../../../../_common/model";
+import { STRUCTURE_TYPE_LABELS } from "@domifa/common";
 
 @Component({
   animations: [fadeInOut],

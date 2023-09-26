@@ -1,4 +1,4 @@
-import { AyantDroiLienParent } from "./AyantDroitLienParente.type";
+import { type AyantDroiLienParent } from "../types/AyantDroitLienParente.type";
 
 export interface UsagerAyantDroit {
   nom: string;

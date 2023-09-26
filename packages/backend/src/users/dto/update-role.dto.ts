@@ -1,4 +1,4 @@
-import { UserStructureRole } from "./../../_common/model/user-structure/UserStructureRole.type";
+import { UserStructureRole } from "@domifa/common";
 import { IsIn, IsNotEmpty } from "class-validator";
 
 export class UpdateRoleDto {

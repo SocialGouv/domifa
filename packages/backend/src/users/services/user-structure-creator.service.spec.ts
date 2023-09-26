@@ -1,7 +1,7 @@
+import { UserStructureRole } from "@domifa/common";
 import { userStructureSecurityRepository } from "../../database";
 import { passwordGenerator } from "../../util/encoding/passwordGenerator.service";
 import { AppTestHelper } from "../../util/test";
-import { UserStructureRole } from "../../_common/model";
 import { RegisterUserAdminDto } from "../dto/register-user-admin.dto";
 import { UserDto } from "../dto/user.dto";
 import { userStructureCreator } from "./user-structure-creator.service";

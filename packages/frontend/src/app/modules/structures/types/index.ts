@@ -6,4 +6,3 @@ export * from "./StructureCommonWeb.class";
 export * from "./StructurePortailUsagerParams.type";
 export * from "./StructureResponsable.type";
 export * from "./StructureSmsParams.type";
-export * from "./StructureType.type";
