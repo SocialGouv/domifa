@@ -41,19 +41,19 @@ export const UsagersImportUsagerSchema = yup
     typeDom: typeDomSchema.required(),
     dateDebutDom: dateUtcSchema()
       .min(yup.ref("$minDate"))
-      // .max(yup.ref("$today"))
+      .max(yup.ref("$nextYear"))
       .when("statutDom", {
         is: (statutDom: UsagerDecisionStatut) => statutDom === "VALIDE",
         then: dateUtcSchema().required(),
       }),
     dateFinDom: dateUtcSchema()
       .min(yup.ref("$minDate"))
-      // .max(yup.ref("$nextYear"))
+      .max(yup.ref("$nextYear"))
       .when("statutDom", {
         is: (statutDom: UsagerDecisionStatut) => statutDom === "VALIDE",
         then: dateUtcSchema()
           .min(yup.ref("dateDebutDom"))
-          // .max(yup.ref("$nextYear"))
+          .max(yup.ref("$nextYear"))
           .required(),
       }),
     datePremiereDom: dateUtcSchema()

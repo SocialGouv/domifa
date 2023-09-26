@@ -1,5 +1,40 @@
 [
   {
+    "date": "2023-09-26",
+    "description": "DomiFa fait sa rentrée !",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Accessibilité",
+        "message": [
+          "Suite aux travaux menés cet été, la plateforme DomiFa est en conformité RGAA à plus de 85%.",
+          "La déclaration d'accessibilité est en ligne sur la page suivante : https://domifa.fabrique.social.gouv.fr/accessibilite"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Gestion des utilisateurs DomiFa",
+        "message": [
+          "Il est désormais possible de gérer la liste des utilisateurs d'une structure grâce à l'ajout de tris (ordre alphabétique, date d'inscription, etc.)"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Ralentissements pour les structures ayant plus de 1000 dossiers",
+        "message": [
+          "Des travaux ont été réalisés pour réduire les temps de chargement et supprimer les ralentissements qui impactaient les structures possédant plus de 1000 dossiers"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Message d'alerte en cas d'homonymes",
+        "message": [
+          "La pop-up d'alerte en cas de création d'un dossier homonyme apparait de nouveau lors de l'étape 'État-civil' du formulaire de demande de domiciliation"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2023-07-12",
     "description": "Plus d'accessibilité et petites corrections",
     "content": [
