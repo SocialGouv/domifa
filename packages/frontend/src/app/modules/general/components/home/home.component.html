@@ -8,7 +8,7 @@
             pour les personnes sans domicile stable
           </span>
         </h1>
-        <div id="content" class="mt-4 mt-md-2 mt-lg-4">
+        <div id="content" *ngIf="!me" class="mt-4 mt-md-2 mt-lg-4">
           <a
             routerLink="/structures/inscription"
             class="btn btn-white-primary"
@@ -348,6 +348,7 @@
         </p>
         <div class="mt-2 mt-lg-4">
           <a
+            *ngIf="!me"
             routerLink="/structures/inscription"
             class="btn btn-white-primary"
             (click)="matomo.trackEvent('HOME', 'HP_Inscription2', 'null', 1)"

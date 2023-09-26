@@ -211,7 +211,7 @@ async function anonymizeUsagerDocs() {
 }
 
 function anonymizeOptions(usager: Usager): UsagerOptions {
-  const procurations = (usager.options.procurations ?? []).map((x) => ({
+  const procurations = (usager.options?.procurations ?? []).map((x) => ({
     nom: dataGenerator.lastName(),
     prenom: dataGenerator.firstName(),
     dateNaissance: x.dateNaissance,
@@ -219,22 +219,21 @@ function anonymizeOptions(usager: Usager): UsagerOptions {
     dateDebut: x.dateDebut,
   }));
 
-  const transfert =
-    usager.options.transfert || usager.options.transfert?.actif
-      ? {
-          actif: true,
-          nom: dataGenerator.lastName(),
-          adresse: faker.location.streetAddress(),
-          dateDebut: usager.options.transfert.dateDebut,
-          dateFin: usager.options.transfert.dateFin,
-        }
-      : {
-          actif: false,
-          nom: null,
-          adresse: null,
-          dateDebut: null,
-          dateFin: null,
-        };
+  const transfert = usager.options.transfert?.actif
+    ? {
+        actif: true,
+        nom: dataGenerator.lastName(),
+        adresse: faker.location.streetAddress(),
+        dateDebut: usager.options.transfert.dateDebut,
+        dateFin: usager.options.transfert.dateFin,
+      }
+    : {
+        actif: false,
+        nom: null,
+        adresse: null,
+        dateDebut: null,
+        dateFin: null,
+      };
 
   return {
     ...usager.options,

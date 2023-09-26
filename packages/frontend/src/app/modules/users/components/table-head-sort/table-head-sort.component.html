@@ -2,6 +2,7 @@
   type="button"
   [ngClass]="sortKey === currentKey ? 'text-primary' : ''"
   class="btn"
+  [attr.aria-sort]="sortKey === currentKey ? sortValue : null"
   (click)="sortArray.emit(sortKey)"
 >
   <span class="visually-hidden">Trier par</span>

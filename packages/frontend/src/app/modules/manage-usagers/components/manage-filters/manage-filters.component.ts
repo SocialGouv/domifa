@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -18,7 +17,6 @@ import { Subject, ReplaySubject, Subscription } from "rxjs";
   selector: "app-manage-filters",
   templateUrl: "./manage-filters.component.html",
   styleUrls: ["../manage-usagers-page/manage-usagers-page.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManageFiltersComponent implements OnInit, OnDestroy {
   @Input() public filters: UsagersFilterCriteria;
@@ -74,9 +72,8 @@ export class ManageFiltersComponent implements OnInit, OnDestroy {
       return "radiation";
     } else if (this.filters?.statut === "REFUS") {
       return "refus";
-    } else {
-      return "échéance";
     }
+    return "échéance";
   }
 
   public getSortKeys() {
@@ -93,7 +90,7 @@ export class ManageFiltersComponent implements OnInit, OnDestroy {
     return sortElements;
   }
 
-  private updateSortLabel() {
+  private updateSortLabel(): void {
     const LABELS_SORT: { [key: string]: string } = {
       NAME: "nom",
       ATTENTE_DECISION: "demande effectuée le",
