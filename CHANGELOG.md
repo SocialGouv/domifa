@@ -1,3 +1,11 @@
+## [2.140.4](https://github.com/SocialGouv/domifa/compare/v2.140.3...v2.140.4) (2023-09-27)
+
+
+### Bug Fixes
+
+* **manage:** add optionnal chaining ([12c9bd7](https://github.com/SocialGouv/domifa/commit/12c9bd76cd480a3f9fda64e29707a9b4b552a7ba))
+* **nginx:** delete useless headers ([95fe66a](https://github.com/SocialGouv/domifa/commit/95fe66ad27a87bf60a1c8125389cf188a1c4f055))
+
 ## [2.140.3](https://github.com/SocialGouv/domifa/compare/v2.140.2...v2.140.3) (2023-09-26)
 
 
