@@ -63,7 +63,6 @@ backend:
     runAsUser: 1000
     runAsGroup: 1000
 
-
 backend-cron:
   ~chart: app
   ~needs: [build-backend]
@@ -128,7 +127,7 @@ frontend:
         more_set_headers "Content-Security-Policy: default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr ; media-src 'self' https://domifaprod2.blob.core.windows.net/ https://tally.so/; font-src 'self'; img-src 'self' https://tally.so/ data:; script-src 'self' 'unsafe-inline' https://*.gouv.fr https://tally.so/ https://tally.so/widgets/embed.js ; frame-src 'self' https://*.gouv.fr  https://tally.so/ ; style-src 'self' 'unsafe-inline'";
         more_set_headers "X-Frame-Options: deny";
         more_set_headers "X-Content-Type-Options: nosniff";
-        more_set_headers "Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0'";
+        more_set_headers "Cache-Control: no-store";
   resources:
     requests:
       cpu: 0.2
@@ -154,7 +153,7 @@ portail-admins:
         more_set_headers "X-Frame-Options: deny";
         more_set_headers "X-Robots-Tag: noindex, nofollow, nosnippet, noarchive";
         more_set_headers "X-Content-Type-Options: nosniff";
-        more_set_headers "Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0'";
+        more_set_headers "Cache-Control: no-store";
   containerPort: 8080
   securityContext:
     fsGroup: 101
@@ -172,7 +171,7 @@ portail-usagers:
         more_set_headers "Content-Security-Policy: default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr; font-src 'self'; img-src 'self' data:; script-src 'self' https://*.gouv.fr 'unsafe-inline'; frame-src 'self' https://*.gouv.fr; style-src 'self' 'unsafe-inline'";
         more_set_headers "X-Frame-Options: deny";
         more_set_headers "X-Content-Type-Options: nosniff";
-        more_set_headers "Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0'";
+        more_set_headers "Cache-Control: no-store";
   containerPort: 8080
   securityContext:
     fsGroup: 101
@@ -222,7 +221,6 @@ jobs:
           DOMIFA_BACKEND_URL: "https://api-{{ .Values.global.host }}/"
           DOMIFA_SENTRY_DSN_PORTAIL: "https://904877ea9ec4454aa1be7b629a6ea340@sentry.fabrique.social.gouv.fr/58"
           DOMIFA_FRONTEND_META_ROBOTS: noindex,nofollow
-
 
 deactivate:
   jobs-deactivate:
