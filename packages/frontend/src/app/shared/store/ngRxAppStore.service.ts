@@ -12,10 +12,7 @@ import {
   getRdvInfos,
   getUrlUsagerProfil,
 } from "../../modules/usager-shared/utils";
-import {
-  Options,
-  UsagerFormModel,
-} from "../../modules/usager-shared/interfaces";
+import { Options } from "../../modules/usager-shared/interfaces";
 
 export const _usagerReducer = createReducer(
   INITIAL_STATE,
@@ -61,7 +58,7 @@ export const _usagerReducer = createReducer(
     }
 
     usagersByRefMap[usager.ref] = {
-      ...(new UsagerFormModel(usager) as UsagerLight),
+      ...setUsagerInformations(usager),
       nbNotes,
     };
 
@@ -88,7 +85,7 @@ export const _usagerReducer = createReducer(
     };
 
     usagers.forEach((usager) => {
-      usagersByRefMap[usager.ref] = new UsagerFormModel(usager) as UsagerLight;
+      usagersByRefMap[usager.ref] = setUsagerInformations(usager);
     });
 
     let searchPageLoadedUsagersData = state.searchPageLoadedUsagersData;

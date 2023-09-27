@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { tap } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
@@ -30,7 +30,7 @@ export class ManageUsagersService {
         `${environment.apiUrl}usagers/?chargerTousRadies=${chargerTousRadies}`
       )
       .pipe(
-        tap((searchPageLoadedUsagersData: SearchPageLoadedUsagersData) => {
+        map((searchPageLoadedUsagersData: SearchPageLoadedUsagersData) => {
           searchPageLoadedUsagersData.dataLoaded = true;
           searchPageLoadedUsagersData.usagersRadiesFirsts =
             searchPageLoadedUsagersData.usagersRadiesFirsts.map(
@@ -40,7 +40,9 @@ export class ManageUsagersService {
             searchPageLoadedUsagersData.usagersNonRadies.map(
               (usager: UsagerLight) => setUsagerInformations(usager)
             );
-
+          return searchPageLoadedUsagersData;
+        }),
+        tap((searchPageLoadedUsagersData: SearchPageLoadedUsagersData) => {
           this.store.dispatch(
             cacheManager.setSearchPageLoadedUsagersData({
               searchPageLoadedUsagersData,
@@ -60,8 +62,17 @@ export class ManageUsagersService {
         searchString,
       })
       .pipe(
+        map((usagers: UsagerLight[]) =>
+          usagers.map((usager: UsagerLight) => setUsagerInformations(usager))
+        ),
         tap((usagers: UsagerLight[]) => {
-          this.store.dispatch(cacheManager.updateUsagers({ usagers }));
+          this.store.dispatch(
+            cacheManager.updateUsagers({
+              usagers: usagers.map((usager: UsagerLight) =>
+                setUsagerInformations(usager)
+              ),
+            })
+          );
         })
       );
   }
