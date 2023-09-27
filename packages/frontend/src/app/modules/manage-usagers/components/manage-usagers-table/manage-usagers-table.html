@@ -236,7 +236,9 @@
         (click)="goToProfil(usager)"
       >
         <ng-container *ngIf="usager?.echeanceInfos?.isActif">
-          <span [class]="'statut-signal ' + usager.echeanceInfos.color"></span>
+          <span
+            [class]="'statut-signal ' + usager?.echeanceInfos?.color"
+          ></span>
           <span
             class="visually-hidden"
             *ngIf="usager?.echeanceInfos.color === 'bg-danger'"
@@ -249,7 +251,7 @@
             Moins de 2 semaines ou dépassée
           </span>
         </ng-container>
-        <span *ngIf="usager.echeanceInfos.dateToDisplay">
+        <span *ngIf="usager?.echeanceInfos?.dateToDisplay">
           {{ usager.echeanceInfos?.dateToDisplay | date : "dd/MM/yy" }}
         </span>
       </td>

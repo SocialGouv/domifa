@@ -20,7 +20,7 @@
           <span *ngIf="!usager.uuid">Nouvelle demande</span>
           <ng-container *ngIf="usager.uuid">
             {{
-              !usager.echeanceInfos.isActif
+              !usager?.echeanceInfos?.isActif
                 ? "Première demande"
                 : "Renouvellement"
             }}
