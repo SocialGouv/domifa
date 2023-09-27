@@ -102,7 +102,7 @@ export class UsagersController {
           structureId: user.structureId,
         }
       )
-      .limit(chargerTousRadies ? undefined : 50)
+      .limit(chargerTousRadies ? undefined : 60)
       .orderBy({ "decision->>'dateFin'": "DESC" })
       .getRawMany();
 
