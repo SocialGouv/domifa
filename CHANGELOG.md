@@ -1,3 +1,10 @@
+## [2.140.5](https://github.com/SocialGouv/domifa/compare/v2.140.4...v2.140.5) (2023-09-27)
+
+
+### Bug Fixes
+
+* **manage:** add extra informations for remote usagers ([73afc0c](https://github.com/SocialGouv/domifa/commit/73afc0c86cb5627801832b55451975db362eb178))
+
 ## [2.140.4](https://github.com/SocialGouv/domifa/compare/v2.140.3...v2.140.4) (2023-09-27)
 
 
