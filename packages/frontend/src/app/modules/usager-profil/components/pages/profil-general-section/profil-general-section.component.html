@@ -128,12 +128,12 @@
           <div
             class="alert"
             [ngClass]="{
-              'alert-danger': usager.echeanceInfos.dayBeforeEnd <= 15,
-              'alert-warning': usager.echeanceInfos.dayBeforeEnd > 15
+              'alert-danger': usager?.echeanceInfos?.dayBeforeEnd <= 15,
+              'alert-warning': usager?.echeanceInfos?.dayBeforeEnd > 15
             }"
             *ngIf="
-              usager.echeanceInfos.dayBeforeEnd > 0 &&
-              usager.echeanceInfos.dayBeforeEnd < 60
+              usager?.echeanceInfos?.dayBeforeEnd > 0 &&
+              usager?.echeanceInfos?.dayBeforeEnd < 60
             "
           >
             <div class="svg-icon icon-danger"></div>
@@ -148,14 +148,14 @@
           </div>
           <div
             class="alert alert-danger"
-            *ngIf="usager.echeanceInfos.dayBeforeEnd < 0"
+            *ngIf="usager?.echeanceInfos?.dayBeforeEnd < 0"
           >
             <div aria-hidden="true" class="svg-icon icon-danger"></div>
             <p>
               Domiciliation expirée depuis le
               {{
                 usager?.echeanceInfos?.dateToDisplay | date : "dd MMMM yyyy"
-              }}, il y a {{ usager.echeanceInfos.dayBeforeEnd * -1 }} jours
+              }}, il y a {{ usager?.echeanceInfos?.dayBeforeEnd * -1 }} jours
             </p>
           </div>
         </div>
@@ -355,12 +355,12 @@
 
           <ng-container
             *ngIf="
-              usager.echeanceInfos.isActif ||
+              usager?.echeanceInfos?.isActif ||
               (usager.decision.statut === 'RADIE' && !usager.options.npai.actif)
             "
           >
             <ng-container
-              *ngIf="usager.echeanceInfos.isActif"
+              *ngIf="usager?.echeanceInfos?.isActif"
               class="d-flex align-items-center"
             >
               <button

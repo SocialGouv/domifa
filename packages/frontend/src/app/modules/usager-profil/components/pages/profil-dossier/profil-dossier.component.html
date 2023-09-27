@@ -16,7 +16,7 @@
           >
             <h2>État civil</h2>
             <ng-container
-              *ngIf="usager.echeanceInfos.isActif && me.role !== 'facteur'"
+              *ngIf="usager?.echeanceInfos?.isActif && me.role !== 'facteur'"
               class="d-print-none"
             >
               <button
@@ -62,7 +62,7 @@
             <h2>Entretien social</h2>
 
             <ng-container
-              *ngIf="usager.echeanceInfos.isActif"
+              *ngIf="usager?.echeanceInfos?.isActif"
               class="d-print-none"
             >
               <button
