@@ -165,19 +165,17 @@ function addUsagerToStore({
 
   const isRadie = usager.decision?.statut === "RADIE";
 
+  const usagersNonRadies = isRadie
+    ? searchPageLoadedUsagersData.usagersNonRadies
+    : searchPageLoadedUsagersData.usagersNonRadies.concat([usager]);
   searchPageLoadedUsagersData.usagersNonRadies =
-    searchPageLoadedUsagersData.usagersNonRadies
-      ? isRadie
-        ? searchPageLoadedUsagersData.usagersNonRadies
-        : searchPageLoadedUsagersData.usagersNonRadies.concat([usager])
-      : [];
+    searchPageLoadedUsagersData.usagersNonRadies ? usagersNonRadies : [];
 
+  const usagersRadiesFirsts = !isRadie
+    ? searchPageLoadedUsagersData.usagersRadiesFirsts
+    : searchPageLoadedUsagersData.usagersRadiesFirsts.concat([usager]);
   searchPageLoadedUsagersData.usagersRadiesFirsts =
-    searchPageLoadedUsagersData.usagersRadiesFirsts
-      ? !isRadie
-        ? searchPageLoadedUsagersData.usagersRadiesFirsts
-        : searchPageLoadedUsagersData.usagersRadiesFirsts.concat([usager])
-      : [];
+    searchPageLoadedUsagersData.usagersRadiesFirsts ? usagersRadiesFirsts : [];
 
   searchPageLoadedUsagersData.usagersRadiesTotalCount =
     searchPageLoadedUsagersData.usagersRadiesTotalCount +
