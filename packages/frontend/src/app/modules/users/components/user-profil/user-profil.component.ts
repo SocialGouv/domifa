@@ -136,8 +136,12 @@ export class UserProfilComponent implements OnInit, OnDestroy {
       const valA = a[this.currentKey];
 
       const valB = b[this.currentKey];
-      let comparison = 0;
 
+      if (valA === null) {
+        return -1;
+      }
+
+      let comparison = 0;
       if (valA === valB) {
         return 0;
       } else if (typeof valA === "string") {

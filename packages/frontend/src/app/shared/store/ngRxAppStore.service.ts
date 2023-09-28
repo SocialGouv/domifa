@@ -12,7 +12,10 @@ import {
   getRdvInfos,
   getUrlUsagerProfil,
 } from "../../modules/usager-shared/utils";
-import { Options } from "../../modules/usager-shared/interfaces";
+import {
+  Options,
+  UsagerFormModel,
+} from "../../modules/usager-shared/interfaces";
 
 export const _usagerReducer = createReducer(
   INITIAL_STATE,
@@ -43,7 +46,7 @@ export const _usagerReducer = createReducer(
     };
   }),
   on(cacheManager.updateUsager, (state, action) => {
-    const usager = action.usager;
+    const usager = new UsagerFormModel(action.usager) as UsagerLight;
 
     // always update map
     const usagersByRefMap = {
@@ -58,7 +61,7 @@ export const _usagerReducer = createReducer(
     }
 
     usagersByRefMap[usager.ref] = {
-      ...setUsagerInformations(usager),
+      ...usager,
       nbNotes,
     };
 
@@ -85,7 +88,7 @@ export const _usagerReducer = createReducer(
     };
 
     usagers.forEach((usager) => {
-      usagersByRefMap[usager.ref] = setUsagerInformations(usager);
+      usagersByRefMap[usager.ref] = new UsagerFormModel(usager) as UsagerLight;
     });
 
     let searchPageLoadedUsagersData = state.searchPageLoadedUsagersData;

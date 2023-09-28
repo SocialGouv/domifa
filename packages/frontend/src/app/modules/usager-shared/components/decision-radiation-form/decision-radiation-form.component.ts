@@ -149,7 +149,13 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
                 : "Radiation enregistrée avec succès ! ";
             this.toastService.success(message);
             this.loading = false;
-            this.store.dispatch(cacheManager.updateUsagers({ usagers }));
+            if (usagers.length === 1) {
+              this.store.dispatch(
+                cacheManager.updateUsager({ usager: usagers[0] })
+              );
+            } else {
+              this.store.dispatch(cacheManager.updateUsagers({ usagers }));
+            }
             this.modalService.dismissAll();
           },
           error: () => {

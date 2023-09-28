@@ -4,7 +4,7 @@ import {
   createSelector,
   props,
 } from "@ngrx/store";
-import { Usager } from "../../../_common/model";
+import { Usager, UsagerLight } from "../../../_common/model";
 import {
   AppStoreModel,
   SearchPageLoadedUsagersData,
@@ -18,7 +18,10 @@ export const cacheManager = {
   clearCache: createAction("clear-cache"),
   addUsager: createAction("add-usager", props<{ usager: Usager }>()),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  updateUsager: createAction("update-usager", props<{ usager: any }>()),
+  updateUsager: createAction(
+    "update-usager",
+    props<{ usager: Usager | UsagerLight }>()
+  ),
   updateUsagers: createAction("update-usagers", props<{ usagers: Usager[] }>()),
   deleteUsagers: createAction(
     "delete-usagers",
