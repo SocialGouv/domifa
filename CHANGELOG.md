@@ -1,3 +1,13 @@
+## [2.140.6](https://github.com/SocialGouv/domifa/compare/v2.140.5...v2.140.6) (2023-09-28)
+
+
+### Bug Fixes
+
+* upgrade version ([5dd58c2](https://github.com/SocialGouv/domifa/commit/5dd58c21322d9bb4884e01dd90175fbb3e6eb306))
+* **backend:** enable migration in dev mode ([2a8b3ec](https://github.com/SocialGouv/domifa/commit/2a8b3ecd2c5684153024bbce389d0556acd13e83))
+* **frontend:** fix birth date in table ([b81fba5](https://github.com/SocialGouv/domifa/commit/b81fba5fca54f5e2ce6c6fe16f26186ff000982a))
+* **manage:** display history ([9a5d5a1](https://github.com/SocialGouv/domifa/commit/9a5d5a113a4ab3b1c22f470e6cb2e87d24226e5e))
+
 ## [2.140.5](https://github.com/SocialGouv/domifa/compare/v2.140.4...v2.140.5) (2023-09-27)
 
 
