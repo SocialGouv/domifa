@@ -9,7 +9,7 @@ export const USAGER_LIGHT_ATTRIBUTES: (keyof UsagerTable)[] = [
   "prenom",
   "surnom",
   // "sexe",
-  // "dateNaissance",
+  "dateNaissance",
   // "email",
   "decision",
   // "datePremiereDom",

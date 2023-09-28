@@ -32,7 +32,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/architect@npm:0.1502.9, @angular-devkit/architect@npm:^0.1502.0":
+"@angular-devkit/architect@npm:0.1502.9, @angular-devkit/architect@npm:^0.1502.9":
   version: 0.1502.9
   resolution: "@angular-devkit/architect@npm:0.1502.9"
   dependencies:
@@ -42,7 +42,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/build-angular@npm:^15.1.3":
+"@angular-devkit/build-angular@npm:^15.2.9":
   version: 15.2.9
   resolution: "@angular-devkit/build-angular@npm:15.2.9"
   dependencies:
@@ -165,7 +165,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/core@npm:15.2.9, @angular-devkit/core@npm:^15.1.3":
+"@angular-devkit/core@npm:15.2.9, @angular-devkit/core@npm:^15.2.9":
   version: 15.2.9
   resolution: "@angular-devkit/core@npm:15.2.9"
   dependencies:
@@ -246,7 +246,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/schematics@npm:15.2.9, @angular-devkit/schematics@npm:^15.1.3":
+"@angular-devkit/schematics@npm:15.2.9, @angular-devkit/schematics@npm:^15.2.9":
   version: 15.2.9
   resolution: "@angular-devkit/schematics@npm:15.2.9"
   dependencies:
@@ -373,7 +373,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/animations@npm:^15.1.3":
+"@angular/animations@npm:^15.2.9":
   version: 15.2.9
   resolution: "@angular/animations@npm:15.2.9"
   dependencies:
@@ -384,7 +384,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/cdk@npm:^15.1.3":
+"@angular/cdk@npm:^15.2.9":
   version: 15.2.9
   resolution: "@angular/cdk@npm:15.2.9"
   dependencies:
@@ -429,7 +429,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/common@npm:^15.1.3":
+"@angular/common@npm:^15.2.9":
   version: 15.2.9
   resolution: "@angular/common@npm:15.2.9"
   dependencies:
@@ -441,7 +441,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/compiler-cli@npm:^15.1.3":
+"@angular/compiler-cli@npm:^15.2.9":
   version: 15.2.9
   resolution: "@angular/compiler-cli@npm:15.2.9"
   dependencies:
@@ -466,7 +466,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/compiler@npm:^15.1.3":
+"@angular/compiler@npm:^15.2.9":
   version: 15.2.9
   resolution: "@angular/compiler@npm:15.2.9"
   dependencies:
@@ -480,7 +480,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/core@npm:^15.1.3":
+"@angular/core@npm:^15.2.9":
   version: 15.2.9
   resolution: "@angular/core@npm:15.2.9"
   dependencies:
@@ -492,7 +492,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/forms@npm:^15.1.3":
+"@angular/forms@npm:^15.2.9":
   version: 15.2.9
   resolution: "@angular/forms@npm:15.2.9"
   dependencies:
@@ -506,14 +506,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/language-service@npm:^15.1.3":
+"@angular/language-service@npm:^15.2.9":
   version: 15.2.9
   resolution: "@angular/language-service@npm:15.2.9"
   checksum: 718572b0dfed2185b0db1d74608a9c697d4b38bf70d6ec40779b76c23c79b5637fcfa70ea5edc7ec8f102caaeebb43c86b551beed0d55fc12695142e227a2d83
   languageName: node
   linkType: hard
 
-"@angular/localize@npm:^15.1.3":
+"@angular/localize@npm:^15.2.9":
   version: 15.2.9
   resolution: "@angular/localize@npm:15.2.9"
   dependencies:
@@ -531,7 +531,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/platform-browser-dynamic@npm:^15.1.3":
+"@angular/platform-browser-dynamic@npm:^15.2.9":
   version: 15.2.9
   resolution: "@angular/platform-browser-dynamic@npm:15.2.9"
   dependencies:
@@ -545,7 +545,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/platform-browser@npm:^15.1.3":
+"@angular/platform-browser@npm:^15.2.9":
   version: 15.2.9
   resolution: "@angular/platform-browser@npm:15.2.9"
   dependencies:
@@ -561,7 +561,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/router@npm:^15.1.3":
+"@angular/router@npm:^15.2.9":
   version: 15.2.9
   resolution: "@angular/router@npm:15.2.9"
   dependencies:
@@ -2247,17 +2247,17 @@ __metadata:
     "@nestjs/terminus": ^10.0.1
     "@nestjs/testing": ^10.0.5
     "@ntegral/nestjs-sentry": ^4.0.0
-    "@opentelemetry/api": ^1.4.1
-    "@opentelemetry/core": ^1.12.0
-    "@opentelemetry/instrumentation-express": ^0.32.2
-    "@opentelemetry/instrumentation-http": ^0.41.0
-    "@opentelemetry/instrumentation-nestjs-core": ^0.32.2
-    "@opentelemetry/instrumentation-net": ^0.31.2
-    "@opentelemetry/instrumentation-pg": ^0.35.1
-    "@opentelemetry/sdk-node": ^0.41.0
-    "@opentelemetry/semantic-conventions": ^1.12.0
-    "@sentry/node": ^7.69.0
-    "@sentry/opentelemetry-node": ^7.69.0
+    "@opentelemetry/api": ^1.6.0
+    "@opentelemetry/core": ^1.17.0
+    "@opentelemetry/instrumentation-express": ^0.32.4
+    "@opentelemetry/instrumentation-http": ^0.41.2
+    "@opentelemetry/instrumentation-nestjs-core": ^0.32.5
+    "@opentelemetry/instrumentation-net": ^0.31.4
+    "@opentelemetry/instrumentation-pg": ^0.35.3
+    "@opentelemetry/sdk-node": ^0.41.2
+    "@opentelemetry/semantic-conventions": ^1.17.0
+    "@sentry/node": ^7.72.0
+    "@sentry/opentelemetry-node": ^7.72.0
     "@socialgouv/eslint-config-typescript": ^1.131.0
     "@socialgouv/streaming-file-encryption": ^1.1.0
     "@types/bcryptjs": ^2.4.4
@@ -2292,7 +2292,7 @@ __metadata:
     class-transformer: 0.5.1
     class-validator: ^0.14.0
     compression: ^1.7.4
-    date-fns: ^2.25.0
+    date-fns: ^2.30.0
     date-fns-tz: ^2.0.0
     docxtemplater: ^3.37.12
     dotenv: ^16.3.1
@@ -2308,7 +2308,7 @@ __metadata:
     google-libphonenumber: ^3.2.31
     ics: ^2.41.0
     jest: ^29.7.0
-    lint-staged: ^14.0.0
+    lint-staged: ^14.0.1
     lodash.isequal: ^4.5.0
     mammoth: ^1.4.17
     moment: ^2.29.3
@@ -2368,7 +2368,7 @@ __metadata:
     eslint-plugin-promise: ^6.1.1
     jest: ^29.7.0
     license-check-and-add: ^4.0.5
-    lint-staged: ^14.0.0
+    lint-staged: ^14.0.1
     prettier: 2.8.8
     rimraf: ^5.0.0
     ts-jest: ^29.1.1
@@ -2380,28 +2380,28 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domifa/frontend@workspace:packages/frontend"
   dependencies:
-    "@angular-devkit/architect": ^0.1502.0
-    "@angular-devkit/build-angular": ^15.1.3
-    "@angular-devkit/core": ^15.1.3
-    "@angular-devkit/schematics": ^15.1.3
+    "@angular-devkit/architect": ^0.1502.9
+    "@angular-devkit/build-angular": ^15.2.9
+    "@angular-devkit/core": ^15.2.9
+    "@angular-devkit/schematics": ^15.2.9
     "@angular-eslint/builder": 15.2.1
     "@angular-eslint/eslint-plugin": 15.2.1
     "@angular-eslint/eslint-plugin-template": 15.2.1
     "@angular-eslint/schematics": 15.2.1
     "@angular-eslint/template-parser": 15.2.1
-    "@angular/animations": ^15.1.3
-    "@angular/cdk": ^15.1.3
+    "@angular/animations": ^15.2.9
+    "@angular/cdk": ^15.2.9
     "@angular/cli": 15.2.9
-    "@angular/common": ^15.1.3
-    "@angular/compiler": ^15.1.3
-    "@angular/compiler-cli": ^15.1.3
-    "@angular/core": ^15.1.3
-    "@angular/forms": ^15.1.3
-    "@angular/language-service": ^15.1.3
-    "@angular/localize": ^15.1.3
-    "@angular/platform-browser": ^15.1.3
-    "@angular/platform-browser-dynamic": ^15.1.3
-    "@angular/router": ^15.1.3
+    "@angular/common": ^15.2.9
+    "@angular/compiler": ^15.2.9
+    "@angular/compiler-cli": ^15.2.9
+    "@angular/core": ^15.2.9
+    "@angular/forms": ^15.2.9
+    "@angular/language-service": ^15.2.9
+    "@angular/localize": ^15.2.9
+    "@angular/platform-browser": ^15.2.9
+    "@angular/platform-browser-dynamic": ^15.2.9
+    "@angular/router": ^15.2.9
     "@domifa/common": "workspace:^"
     "@fortawesome/angular-fontawesome": 0.12.1
     "@fortawesome/fontawesome-svg-core": ^6.2.1
@@ -2415,9 +2415,9 @@ __metadata:
     "@ngx-matomo/router": ^4.0.1
     "@ngx-matomo/tracker": 4.0.1
     "@popperjs/core": ^2.11.8
-    "@schematics/angular": ^15.1.3
+    "@schematics/angular": ^15.2.9
     "@schematics/update": ^0.1102.12
-    "@sentry/angular": ^7.69.0
+    "@sentry/angular": ^7.72.0
     "@swimlane/ngx-charts": ^20.4.1
     "@types/file-saver": ^2.0.5
     "@types/google-libphonenumber": ^7.4.23
@@ -2427,7 +2427,7 @@ __metadata:
     "@typescript-eslint/parser": 6.5.0
     angular-user-idle: ^4.0.0
     bootstrap: ^5.2.0
-    date-fns: ^2.24.0
+    date-fns: ^2.30.0
     eslint: ^8.50.0
     eslint-config-standard-with-typescript: ^39.1.0
     eslint-plugin-import: ^2.28.1
@@ -2438,9 +2438,9 @@ __metadata:
     google-libphonenumber: ^3.2.31
     intl-tel-input: 18.1.8
     jest: ^29.7.0
-    jest-preset-angular: ^13.0.0
+    jest-preset-angular: ^13.1.2
     jwt-decode: ^3.1.2
-    lint-staged: ^14.0.0
+    lint-staged: ^14.0.1
     ng-lint-staged: ^12.0.4
     ngx-bootstrap: ^10.2.0
     ngx-countup: ^13.0.0
@@ -2461,28 +2461,28 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domifa/portail-admins@workspace:packages/portail-admins"
   dependencies:
-    "@angular-devkit/architect": ^0.1502.0
-    "@angular-devkit/build-angular": ^15.1.3
-    "@angular-devkit/core": ^15.1.3
-    "@angular-devkit/schematics": ^15.1.3
+    "@angular-devkit/architect": ^0.1502.9
+    "@angular-devkit/build-angular": ^15.2.9
+    "@angular-devkit/core": ^15.2.9
+    "@angular-devkit/schematics": ^15.2.9
     "@angular-eslint/builder": 15.2.1
     "@angular-eslint/eslint-plugin": 15.2.1
     "@angular-eslint/eslint-plugin-template": 15.2.1
     "@angular-eslint/schematics": 15.2.1
     "@angular-eslint/template-parser": 15.2.1
-    "@angular/animations": ^15.1.3
-    "@angular/cdk": ^15.1.3
+    "@angular/animations": ^15.2.9
+    "@angular/cdk": ^15.2.9
     "@angular/cli": 15.2.9
-    "@angular/common": ^15.1.3
-    "@angular/compiler": ^15.1.3
-    "@angular/compiler-cli": ^15.1.3
-    "@angular/core": ^15.1.3
-    "@angular/forms": ^15.1.3
-    "@angular/language-service": ^15.1.3
-    "@angular/localize": ^15.1.3
-    "@angular/platform-browser": ^15.1.3
-    "@angular/platform-browser-dynamic": ^15.1.3
-    "@angular/router": ^15.1.3
+    "@angular/common": ^15.2.9
+    "@angular/compiler": ^15.2.9
+    "@angular/compiler-cli": ^15.2.9
+    "@angular/core": ^15.2.9
+    "@angular/forms": ^15.2.9
+    "@angular/language-service": ^15.2.9
+    "@angular/localize": ^15.2.9
+    "@angular/platform-browser": ^15.2.9
+    "@angular/platform-browser-dynamic": ^15.2.9
+    "@angular/router": ^15.2.9
     "@fortawesome/angular-fontawesome": 0.12.1
     "@fortawesome/fontawesome-svg-core": ^6.2.1
     "@fortawesome/free-regular-svg-icons": ^6.2.1
@@ -2490,9 +2490,9 @@ __metadata:
     "@ng-bootstrap/ng-bootstrap": ^14.0.1
     "@popperjs/core": ^2.11.8
     "@schematics/update": ^0.1102.12
-    "@sentry/angular": ^7.69.0
-    "@sentry/browser": ^7.69.0
-    "@sentry/tracing": ^7.69.0
+    "@sentry/angular": ^7.72.0
+    "@sentry/browser": ^7.72.0
+    "@sentry/tracing": ^7.72.0
     "@types/d3": ^7.4.1
     "@types/file-saver": ^2.0.5
     "@types/jest": ^29.2.4
@@ -2501,7 +2501,7 @@ __metadata:
     "@typescript-eslint/parser": 6.5.0
     bootstrap: ^5.2.0
     class-validator: ^0.14.0
-    date-fns: ^2.25.0
+    date-fns: ^2.30.0
     eslint: ^8.50.0
     eslint-config-prettier: ^9.0.0
     eslint-plugin-import: ^2.28.1
@@ -2509,8 +2509,8 @@ __metadata:
     eslint-plugin-prettier: ^5.0.0
     file-saver: ^2.0.5
     jest: ^29.7.0
-    jest-preset-angular: ^13.0.0
-    lint-staged: ^14.0.0
+    jest-preset-angular: ^13.1.2
+    lint-staged: ^14.0.1
     ng-lint-staged: ^12.0.4
     prettier: 2.8.8
     redux: ^4.1.0
@@ -2527,27 +2527,27 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domifa/portail-usagers@workspace:packages/portail-usagers"
   dependencies:
-    "@angular-devkit/architect": ^0.1502.0
-    "@angular-devkit/build-angular": ^15.1.3
-    "@angular-devkit/core": ^15.1.3
-    "@angular-devkit/schematics": ^15.1.3
+    "@angular-devkit/architect": ^0.1502.9
+    "@angular-devkit/build-angular": ^15.2.9
+    "@angular-devkit/core": ^15.2.9
+    "@angular-devkit/schematics": ^15.2.9
     "@angular-eslint/builder": 15.2.1
     "@angular-eslint/eslint-plugin": 15.2.1
     "@angular-eslint/eslint-plugin-template": 15.2.1
     "@angular-eslint/schematics": 15.2.1
     "@angular-eslint/template-parser": 15.2.1
-    "@angular/animations": ^15.1.3
+    "@angular/animations": ^15.2.9
     "@angular/cli": 15.2.9
-    "@angular/common": ^15.1.3
-    "@angular/compiler": ^15.1.3
-    "@angular/compiler-cli": ^15.1.3
-    "@angular/core": ^15.1.3
-    "@angular/forms": ^15.1.3
-    "@angular/language-service": ^15.1.3
-    "@angular/localize": ^15.1.3
-    "@angular/platform-browser": ^15.1.3
-    "@angular/platform-browser-dynamic": ^15.1.3
-    "@angular/router": ^15.1.3
+    "@angular/common": ^15.2.9
+    "@angular/compiler": ^15.2.9
+    "@angular/compiler-cli": ^15.2.9
+    "@angular/core": ^15.2.9
+    "@angular/forms": ^15.2.9
+    "@angular/language-service": ^15.2.9
+    "@angular/localize": ^15.2.9
+    "@angular/platform-browser": ^15.2.9
+    "@angular/platform-browser-dynamic": ^15.2.9
+    "@angular/router": ^15.2.9
     "@fortawesome/angular-fontawesome": 0.12.1
     "@fortawesome/fontawesome-svg-core": ^6.2.1
     "@fortawesome/free-regular-svg-icons": ^6.2.1
@@ -2556,7 +2556,7 @@ __metadata:
     "@ngx-matomo/router": ^4.0.1
     "@ngx-matomo/tracker": 4.0.1
     "@popperjs/core": ^2.11.8
-    "@sentry/angular": ^7.69.0
+    "@sentry/angular": ^7.72.0
     "@types/google-libphonenumber": ^7.4.23
     "@types/jest": ^29.2.4
     "@types/node": ^20.3.3
@@ -2564,7 +2564,7 @@ __metadata:
     "@typescript-eslint/parser": 6.5.0
     angular-user-idle: ^4.0.0
     bootstrap: 5.2.3
-    date-fns: ^2.25.0
+    date-fns: ^2.30.0
     eslint: ^8.50.0
     eslint-config-standard-with-typescript: ^39.1.0
     eslint-plugin-import: ^2.28.1
@@ -2573,8 +2573,8 @@ __metadata:
     eslint-plugin-prettier: ^5.0.0
     google-libphonenumber: ^3.2.31
     jest: ^29.7.0
-    jest-preset-angular: ^13.0.0
-    lint-staged: ^14.0.0
+    jest-preset-angular: ^13.1.2
+    lint-staged: ^14.0.1
     ng-lint-staged: ^12.0.4
     prettier: 2.8.8
     rxjs: ^7.6.0
@@ -4794,10 +4794,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/api@npm:^1.0.0, @opentelemetry/api@npm:^1.4.1":
+"@opentelemetry/api@npm:^1.0.0":
   version: 1.4.1
   resolution: "@opentelemetry/api@npm:1.4.1"
   checksum: e783c40d1a518abf9c4c5d65223237c1392cd9a6c53ac6e2c3ef0c05ff7266e3dfc4fd9874316dae0dcb7a97950878deb513bcbadfaad653d48f0215f2a0911b
+  languageName: node
+  linkType: hard
+
+"@opentelemetry/api@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "@opentelemetry/api@npm:1.6.0"
+  checksum: 3283b78b62a39f6568eaa050ac7045fcca747679e255874f6d2107cb8e1a3b2e10bfbf553c3e82a72500fb5fdca49dc07a5fe27fd6980debac24506cca638859
   languageName: node
   linkType: hard
 
@@ -4810,7 +4817,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/core@npm:1.15.2, @opentelemetry/core@npm:^1.12.0, @opentelemetry/core@npm:^1.8.0":
+"@opentelemetry/core@npm:1.15.2, @opentelemetry/core@npm:^1.8.0":
   version: 1.15.2
   resolution: "@opentelemetry/core@npm:1.15.2"
   dependencies:
@@ -4818,6 +4825,17 @@ __metadata:
   peerDependencies:
     "@opentelemetry/api": ">=1.0.0 <1.5.0"
   checksum: 0040d1952b13d1cf5c7f428f9b061806023e2d08acd716e9aa72caa0c4bca99059ac4ddfbecebc4f3b993c576b834d4bcf0914586d0020719a1b1c428461a16a
+  languageName: node
+  linkType: hard
+
+"@opentelemetry/core@npm:^1.17.0":
+  version: 1.17.0
+  resolution: "@opentelemetry/core@npm:1.17.0"
+  dependencies:
+    "@opentelemetry/semantic-conventions": 1.17.0
+  peerDependencies:
+    "@opentelemetry/api": ">=1.0.0 <1.7.0"
+  checksum: 8f66bc47f2b9cae429830c91840515d6d70793c27fa139e661a7ae05c503d4a7244b5d52e3526cd32401a5a662775bb04546ca1e3ec20dc7124e6d0bb901f176
   languageName: node
   linkType: hard
 
@@ -4896,7 +4914,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/instrumentation-express@npm:^0.32.2":
+"@opentelemetry/instrumentation-express@npm:^0.32.4":
   version: 0.32.4
   resolution: "@opentelemetry/instrumentation-express@npm:0.32.4"
   dependencies:
@@ -4910,7 +4928,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/instrumentation-http@npm:^0.41.0":
+"@opentelemetry/instrumentation-http@npm:^0.41.2":
   version: 0.41.2
   resolution: "@opentelemetry/instrumentation-http@npm:0.41.2"
   dependencies:
@@ -4924,7 +4942,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/instrumentation-nestjs-core@npm:^0.32.2":
+"@opentelemetry/instrumentation-nestjs-core@npm:^0.32.5":
   version: 0.32.5
   resolution: "@opentelemetry/instrumentation-nestjs-core@npm:0.32.5"
   dependencies:
@@ -4936,7 +4954,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/instrumentation-net@npm:^0.31.2":
+"@opentelemetry/instrumentation-net@npm:^0.31.4":
   version: 0.31.4
   resolution: "@opentelemetry/instrumentation-net@npm:0.31.4"
   dependencies:
@@ -4948,7 +4966,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/instrumentation-pg@npm:^0.35.1":
+"@opentelemetry/instrumentation-pg@npm:^0.35.3":
   version: 0.35.3
   resolution: "@opentelemetry/instrumentation-pg@npm:0.35.3"
   dependencies:
@@ -5107,7 +5125,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/sdk-node@npm:^0.41.0":
+"@opentelemetry/sdk-node@npm:^0.41.2":
   version: 0.41.2
   resolution: "@opentelemetry/sdk-node@npm:0.41.2"
   dependencies:
@@ -5160,10 +5178,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/semantic-conventions@npm:1.15.2, @opentelemetry/semantic-conventions@npm:^1.0.0, @opentelemetry/semantic-conventions@npm:^1.12.0":
+"@opentelemetry/semantic-conventions@npm:1.15.2, @opentelemetry/semantic-conventions@npm:^1.0.0":
   version: 1.15.2
   resolution: "@opentelemetry/semantic-conventions@npm:1.15.2"
   checksum: 6de4f8ffa277af18351dff19b821f04438bd4f3917f84816f0bf1577a810424d11ba5f15dca9739a17812a996eeb251048fc7d61b0eef9dc39beb9d4304f57e2
+  languageName: node
+  linkType: hard
+
+"@opentelemetry/semantic-conventions@npm:1.17.0, @opentelemetry/semantic-conventions@npm:^1.17.0":
+  version: 1.17.0
+  resolution: "@opentelemetry/semantic-conventions@npm:1.17.0"
+  checksum: 3cb99118b3720aed37fa71d9b6c38847a481d5287653275477d30126de9e548f63a302efbd8a2086a747442880598bbde95ef17f8016dce45b85798696f12be4
   languageName: node
   linkType: hard
 
@@ -5286,7 +5311,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@schematics/angular@npm:15.2.9, @schematics/angular@npm:^15.1.3":
+"@schematics/angular@npm:15.2.9, @schematics/angular@npm:^15.2.9":
   version: 15.2.9
   resolution: "@schematics/angular@npm:15.2.9"
   dependencies:
@@ -5333,126 +5358,126 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry-internal/tracing@npm:7.69.0":
-  version: 7.69.0
-  resolution: "@sentry-internal/tracing@npm:7.69.0"
+"@sentry-internal/tracing@npm:7.72.0":
+  version: 7.72.0
+  resolution: "@sentry-internal/tracing@npm:7.72.0"
   dependencies:
-    "@sentry/core": 7.69.0
-    "@sentry/types": 7.69.0
-    "@sentry/utils": 7.69.0
+    "@sentry/core": 7.72.0
+    "@sentry/types": 7.72.0
+    "@sentry/utils": 7.72.0
     tslib: ^2.4.1 || ^1.9.3
-  checksum: 3ccb7e7d008dd39ed2bb9a02fcd7ae6161a8355451891db25020d8068357254a430e697c4f72c4d1d747754585ca0f610cea6798d51b6a791ae2c73ee399b58e
+  checksum: 10917f9bad458ed4e53aac45a3b96906f155de34f02c74128671d4eba1d9029d4adb17463471564c3920c2f29a0950ac320a11a9f58ccba356bf4b8c4fc3576b
   languageName: node
   linkType: hard
 
-"@sentry/angular@npm:^7.69.0":
-  version: 7.69.0
-  resolution: "@sentry/angular@npm:7.69.0"
+"@sentry/angular@npm:^7.72.0":
+  version: 7.72.0
+  resolution: "@sentry/angular@npm:7.72.0"
   dependencies:
-    "@sentry/browser": 7.69.0
-    "@sentry/types": 7.69.0
-    "@sentry/utils": 7.69.0
+    "@sentry/browser": 7.72.0
+    "@sentry/types": 7.72.0
+    "@sentry/utils": 7.72.0
     tslib: ^2.4.1
   peerDependencies:
     "@angular/common": ">= 10.x <= 15.x"
     "@angular/core": ">= 10.x <= 15.x"
     "@angular/router": ">= 10.x <= 15.x"
     rxjs: ^6.5.5 || ^7.x
-  checksum: 39d17e625f539f5b54127e651684682bcb5af03f0f75b5b6b815abd984c4e27383c404781171d7ed42ebfb51fa72dec715e7c09d3fe4269c7295b2d5ec6ecc4c
+  checksum: f6a2e5f517e4bdf7ae8c961660973e3a8687ab6a7710bf4f220813accbeb7ffca2291e5213ebcd9f696506a2f12237347a15f849c3b1560e0e56170c4fbd551d
   languageName: node
   linkType: hard
 
-"@sentry/browser@npm:7.69.0, @sentry/browser@npm:^7.69.0":
-  version: 7.69.0
-  resolution: "@sentry/browser@npm:7.69.0"
+"@sentry/browser@npm:7.72.0, @sentry/browser@npm:^7.72.0":
+  version: 7.72.0
+  resolution: "@sentry/browser@npm:7.72.0"
   dependencies:
-    "@sentry-internal/tracing": 7.69.0
-    "@sentry/core": 7.69.0
-    "@sentry/replay": 7.69.0
-    "@sentry/types": 7.69.0
-    "@sentry/utils": 7.69.0
+    "@sentry-internal/tracing": 7.72.0
+    "@sentry/core": 7.72.0
+    "@sentry/replay": 7.72.0
+    "@sentry/types": 7.72.0
+    "@sentry/utils": 7.72.0
     tslib: ^2.4.1 || ^1.9.3
-  checksum: 8b5460c1733628ecb1dee16228f0e055fcf7787f97ce85554a5fddd7dbdf787a6be0f61c8180756144139ec3bb6a0647e95f82772e601353f1fc64e32d5fda91
+  checksum: 2fc1d4d94d47250f6bddab029f9079879617a5a2e614fe04a1b104361cc30f87987286268d92e7e9bc252560960c6839dbc0d68545b8a4456bdb1ca9415b5d3b
   languageName: node
   linkType: hard
 
-"@sentry/core@npm:7.69.0":
-  version: 7.69.0
-  resolution: "@sentry/core@npm:7.69.0"
+"@sentry/core@npm:7.72.0":
+  version: 7.72.0
+  resolution: "@sentry/core@npm:7.72.0"
   dependencies:
-    "@sentry/types": 7.69.0
-    "@sentry/utils": 7.69.0
+    "@sentry/types": 7.72.0
+    "@sentry/utils": 7.72.0
     tslib: ^2.4.1 || ^1.9.3
-  checksum: b24ec3121dd899dc53edaf1ca984f6df4fab3cd9dc1756b2037729c61e33df47ad4b94abb0dc24fc2dfb6099396a3e9df7f13d0e4673184c93e5932dcfb9a8e1
+  checksum: e85473d0d9eaa45960937fe354a374d2508ea2bc3f61b65a1567f64ee765e04e08c56638b032071be7aa951149ab57787722a8590e3e90d74a4a93937e8e97f7
   languageName: node
   linkType: hard
 
-"@sentry/node@npm:^7.69.0":
-  version: 7.69.0
-  resolution: "@sentry/node@npm:7.69.0"
+"@sentry/node@npm:^7.72.0":
+  version: 7.72.0
+  resolution: "@sentry/node@npm:7.72.0"
   dependencies:
-    "@sentry-internal/tracing": 7.69.0
-    "@sentry/core": 7.69.0
-    "@sentry/types": 7.69.0
-    "@sentry/utils": 7.69.0
-    cookie: ^0.4.1
+    "@sentry-internal/tracing": 7.72.0
+    "@sentry/core": 7.72.0
+    "@sentry/types": 7.72.0
+    "@sentry/utils": 7.72.0
+    cookie: ^0.5.0
     https-proxy-agent: ^5.0.0
     lru_map: ^0.3.3
     tslib: ^2.4.1 || ^1.9.3
-  checksum: 97210ced968a3d968fd9d93e67e1f3c9613b99b223f87fad944e6e94db40ebc10a7c339c848e0529c5ded69f94f1f689b4a6df1da4df1aad6663a752ac591d03
+  checksum: b1a44ff05457c3941896a072cf66c108add0da87668fb28fcda8425558efbaaa2be0c36d4c9dfd4c54e2928b3f7f4f68589f48a6946064b434dda4008746331d
   languageName: node
   linkType: hard
 
-"@sentry/opentelemetry-node@npm:^7.69.0":
-  version: 7.69.0
-  resolution: "@sentry/opentelemetry-node@npm:7.69.0"
+"@sentry/opentelemetry-node@npm:^7.72.0":
+  version: 7.72.0
+  resolution: "@sentry/opentelemetry-node@npm:7.72.0"
   dependencies:
-    "@sentry/core": 7.69.0
-    "@sentry/types": 7.69.0
-    "@sentry/utils": 7.69.0
+    "@sentry/core": 7.72.0
+    "@sentry/types": 7.72.0
+    "@sentry/utils": 7.72.0
   peerDependencies:
     "@opentelemetry/api": 1.x
     "@opentelemetry/core": 1.x
     "@opentelemetry/sdk-trace-base": 1.x
     "@opentelemetry/semantic-conventions": 1.x
-  checksum: 13f182726d065858fded6bb51c333f0ea2efa7642e543c589feb94008c6aad335d6b977cc95ca040a334b6e6b25675ba1d82432285ed95971a925050787e16a7
+  checksum: 4fa5ca888d0e11ae1c6b72c83d60be6f8dec0e58366c37ea6f6eaaadb0eace5e2067b9ba3ebd246bb091791dfacfef0f2a3992a3e8877a4253775934dcf6b8bb
   languageName: node
   linkType: hard
 
-"@sentry/replay@npm:7.69.0":
-  version: 7.69.0
-  resolution: "@sentry/replay@npm:7.69.0"
+"@sentry/replay@npm:7.72.0":
+  version: 7.72.0
+  resolution: "@sentry/replay@npm:7.72.0"
   dependencies:
-    "@sentry/core": 7.69.0
-    "@sentry/types": 7.69.0
-    "@sentry/utils": 7.69.0
-  checksum: 47d9ccfd6a619ef1640a2649fccce7a0824e52e12c84759d40c569416ad65886e50bd30c3b789c6fe9d121060e3e55f4344925470dfd9db12ac678703b005f72
+    "@sentry/core": 7.72.0
+    "@sentry/types": 7.72.0
+    "@sentry/utils": 7.72.0
+  checksum: c38e48177c89fd573bb225b64d80b44bd17916da173acf3de9b90460918a37ca6b20ce0dac101db25849c97626f61b77d4d754287ac8a13aaabe62a30c74f8aa
   languageName: node
   linkType: hard
 
-"@sentry/tracing@npm:^7.69.0":
-  version: 7.69.0
-  resolution: "@sentry/tracing@npm:7.69.0"
+"@sentry/tracing@npm:^7.72.0":
+  version: 7.72.0
+  resolution: "@sentry/tracing@npm:7.72.0"
   dependencies:
-    "@sentry-internal/tracing": 7.69.0
-  checksum: 04a0b0f3b07a1f3859c3eae583d36a5ed268cf25a22d25e6878088cb6fd48dba073a632241c3db8d50ddb79043ad9fe6ecdc66d57df0f14a5e70d0239b327eb9
+    "@sentry-internal/tracing": 7.72.0
+  checksum: 604baec3419bde774e0dada1b454509b6ce16ca30f9ad624622092177d2a08a936d0085bf5588999b64260e7eb57c8706dde0555e48627ec778e8dfe15195079
   languageName: node
   linkType: hard
 
-"@sentry/types@npm:7.69.0":
-  version: 7.69.0
-  resolution: "@sentry/types@npm:7.69.0"
-  checksum: aaa40a43cab358e10c2566d62966eff61925fb2605c146967bf9eb8acb4a883d4ca7c8a5eee1915271da08f27ddf1ed7dc520a8617f229ce70c7d00557173cc4
+"@sentry/types@npm:7.72.0":
+  version: 7.72.0
+  resolution: "@sentry/types@npm:7.72.0"
+  checksum: 1122ef5c8715305224c8e6c878782c28a04d008a1cb9ee0fa33b9178dd1155e834195da7f737fe8f550e75ef9b360786c614b7b222f86446a0d390a2a973202d
   languageName: node
   linkType: hard
 
-"@sentry/utils@npm:7.69.0":
-  version: 7.69.0
-  resolution: "@sentry/utils@npm:7.69.0"
+"@sentry/utils@npm:7.72.0":
+  version: 7.72.0
+  resolution: "@sentry/utils@npm:7.72.0"
   dependencies:
-    "@sentry/types": 7.69.0
+    "@sentry/types": 7.72.0
     tslib: ^2.4.1 || ^1.9.3
-  checksum: 8c18b6a1c5a869d608ff9cdb4534b29c5c85a06660647d8d8dfd67460be985d44a88f1ec4335174d40f147fecaa2e952b78747e83b6ed2f654e93248744fa291
+  checksum: 0cd88bb7b6f8349b303d8f91fe3ad260c7c91a6e23e378051b726f46a60f1dcbaaf13657b2e6d85fe959e5ba24f40e74e54192b00414feaac2922374845f438a
   languageName: node
   linkType: hard
 
@@ -9889,17 +9914,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cookie@npm:0.5.0":
+"cookie@npm:0.5.0, cookie@npm:^0.5.0":
   version: 0.5.0
   resolution: "cookie@npm:0.5.0"
   checksum: 1f4bd2ca5765f8c9689a7e8954183f5332139eb72b6ff783d8947032ec1fdf43109852c178e21a953a30c0dd42257828185be01b49d1eb1a67fd054ca588a180
-  languageName: node
-  linkType: hard
-
-"cookie@npm:^0.4.1":
-  version: 0.4.2
-  resolution: "cookie@npm:0.4.2"
-  checksum: a00833c998bedf8e787b4c342defe5fa419abd96b32f4464f718b91022586b8f1bafbddd499288e75c037642493c83083da426c6a9080d309e3bd90fd11baa9b
   languageName: node
   linkType: hard
 
@@ -10419,7 +10437,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.24.0, date-fns@npm:^2.25.0, date-fns@npm:^2.29.3":
+"date-fns@npm:^2.29.3, date-fns@npm:^2.30.0":
   version: 2.30.0
   resolution: "date-fns@npm:2.30.0"
   dependencies:
@@ -10904,7 +10922,7 @@ __metadata:
     "@socialgouv/sre-secrets": ^1.14.5
     husky: ^8.0.3
     lerna: ^6.0.0
-    lint-staged: ^14.0.0
+    lint-staged: ^14.0.1
   languageName: unknown
   linkType: soft
 
@@ -15156,9 +15174,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-preset-angular@npm:^13.0.0":
-  version: 13.1.1
-  resolution: "jest-preset-angular@npm:13.1.1"
+"jest-preset-angular@npm:^13.1.2":
+  version: 13.1.2
+  resolution: "jest-preset-angular@npm:13.1.2"
   dependencies:
     bs-logger: ^0.2.6
     esbuild: ">=0.13.8"
@@ -15177,7 +15195,7 @@ __metadata:
   dependenciesMeta:
     esbuild:
       optional: true
-  checksum: 3341867cb1234bf76f33acb030fd8a26b9ba4f9b60d33e94bccb2e2c2ae1f483bd9c49e9bcebfaa0aa7ac058c0c91c8afb9af08a2f47a719a36c44183dde83d8
+  checksum: f6fd85b99b9fac58527723aa2ad5c4ccc3f0a3f6ed83bfb71af43f46e2cf0404516b3e7f0f4b41ab76763a774682b30b4416a60754de1b82e68134b4d5dc45e8
   languageName: node
   linkType: hard
 
@@ -16068,7 +16086,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^14.0.0":
+"lint-staged@npm:^14.0.1":
   version: 14.0.1
   resolution: "lint-staged@npm:14.0.1"
   dependencies:
