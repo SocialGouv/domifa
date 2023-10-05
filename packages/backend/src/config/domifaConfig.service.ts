@@ -318,8 +318,21 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         required: smsEnabled,
       }),
     },
+    openDataApps: {
+      soliguideUrl: configParser.parseString(x, "SOLIGUIDE_URL", {
+        required: false,
+      }),
+      soliguideToken: configParser.parseString(x, "SOLIGUIDE_TOKEN", {
+        required: false,
+      }),
+      dataInclusionUrl: configParser.parseString(x, "DATA_INCLUSION_URL", {
+        required: false,
+      }),
+      dataInclusionToken: configParser.parseString(x, "DATA_INCLUSION_TOKEN", {
+        required: false,
+      }),
+    },
   };
-
   return config;
 }
 

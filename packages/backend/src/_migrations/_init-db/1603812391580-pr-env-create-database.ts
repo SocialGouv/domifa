@@ -150,6 +150,55 @@ async function createTables(queryRunner: QueryRunner) {
     );
 
 
+    -- public.open_data_places definition
+
+    -- Drop table
+
+    -- DROP TABLE public.open_data_places;
+
+    CREATE UNLOGGED TABLE public.open_data_places (
+      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "createdAt" timestamptz NOT NULL DEFAULT now(),
+      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "version" int4 NOT NULL,
+      nom text NOT NULL,
+      adresse text NOT NULL,
+      "complementAdresse" text NULL,
+      ville text NULL,
+      "codePostal" text NULL,
+      departement text NOT NULL,
+      region text NOT NULL,
+      latitude numeric(10, 7) NOT NULL,
+      longitude numeric(10, 7) NOT NULL,
+      "source" text NOT NULL,
+      "uniqueId" text NOT NULL,
+      software text NULL,
+      "structureId" int4 NULL,
+      CONSTRAINT "PK_f80b64cfb42753deacd8bf6d78d" PRIMARY KEY (uuid)
+    );
+    CREATE INDEX "IDX_0408f9f2c0defbdc5e44f467a3" ON public.open_data_places USING btree (departement);
+    CREATE INDEX "IDX_6e030c1cdb3fa54d0d735cdc6b" ON public.open_data_places USING btree (region);
+    CREATE INDEX "IDX_d10ac71fca9180b787ef468659" ON public.open_data_places USING btree ("structureId");
+    CREATE INDEX "IDX_d85d3252e11effca2f6b652fde" ON public.open_data_places USING btree ("codePostal");
+
+
+    -- public.spatial_ref_sys definition
+
+    -- Drop table
+
+    -- DROP TABLE public.spatial_ref_sys;
+
+    CREATE UNLOGGED TABLE public.spatial_ref_sys (
+      srid int4 NOT NULL,
+      auth_name varchar(256) NULL,
+      auth_srid int4 NULL,
+      srtext varchar(2048) NULL,
+      proj4text varchar(2048) NULL,
+      CONSTRAINT spatial_ref_sys_pkey PRIMARY KEY (srid),
+      CONSTRAINT spatial_ref_sys_srid_check CHECK (((srid > 0) AND (srid <= 998999)))
+    );
+
+
     -- public."structure" definition
 
     -- Drop table

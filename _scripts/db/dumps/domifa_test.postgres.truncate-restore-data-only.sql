@@ -28,8 +28,8 @@ TRUNCATE TABLE public.usager_options_history RESTART IDENTITY CASCADE;
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 11.20 (Debian 11.20-1.pgdg110+1)
--- Dumped by pg_dump version 11.20 (Debian 11.20-1.pgdg110+1)
+-- Dumped from database version 14.9 (Debian 14.9-1.pgdg110+1)
+-- Dumped by pg_dump version 14.9 (Debian 14.9-1.pgdg110+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -72,11 +72,11 @@ COPY public.expired_token (uuid, "createdAt", "updatedAt", version, "userId", "s
 --
 
 COPY public.structure (uuid, "createdAt", "updatedAt", version, id, adresse, "adresseCourrier", agrement, capacite, "codePostal", "complementAdresse", departement, region, email, "hardReset", "tokenDelete", import, "registrationDate", "importDate", "lastLogin", nom, options, responsable, "structureType", token, verified, ville, sms, "portailUsager", "timeZone", telephone, "acceptTerms", "filesUpdated", latitude, longitude) FROM stdin;
-610966c4-ab91-43c0-88da-483ae23d0af2	2021-02-01 17:12:30.65884+01	2023-09-21 01:07:30.382578+02	10	4	rue de l'import	{"actif": false, "ville": "", "adresse": "", "codePostal": ""}	123	\N	44000		44	52	test.import@yopmail.com	\N	\N	f	2021-02-01 17:12:30.655+01	\N	\N	Structure de Test d'import	{"numeroBoite": false}	{"nom": "Test", "prenom": "Import", "fonction": "Testeur"}	asso		t	Nantes	{"senderName": "STRUCTURE D", "senderDetails": "STRUCTURE D", "enabledByDomifa": true, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}	Europe/Paris	{"numero": "0101010101", "countryCode": "fr"}	\N	f	47.2139730000000029	-1.53692300000000004
-412f6962-fc6e-4e48-b0a6-a37d6eebbc67	2021-01-26 08:51:53.846157+01	2023-09-21 01:07:30.469467+02	368	1	1 rue de l'océan	\N	\N	\N	92600	\N	92	11	ccas.test@yopmail.com	\N		f	2020-11-17 14:30:23.692+01	\N	2023-06-07	CCAS de Test	{"numeroBoite": false}	{"nom": "Jean", "prenom": "Thomson", "fonction": "PDG"}	ccas	adfbfe24ff6de1f4e7c0011ad05028f5a129ced7f120079d20c4adf21d89	t	Asnieres-sur-seine	{"senderName": "CCAS DE TES", "senderDetails": "CCAS DE TES", "enabledByDomifa": true, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": true, "usagerLoginUpdateLastInteraction": false}	Europe/Paris	{"numero": "0602030405", "countryCode": "fr"}	2023-02-14 18:33:51.265+01	f	48.9037590000000009	2.28374599999999983
-943d3acc-2f9c-4bb4-9419-4194bbdfd624	2022-03-17 17:25:53.666507+01	2023-09-21 01:07:30.533736+02	37	5	24, avenue Louis PASTEUR	{"actif": false, "ville": null, "adresse": null, "codePostal": ""}		\N	97300	\N	973	03	ccas-cayenne@yopmail.com	\N	\N	f	2022-03-17 17:25:53.646+01	\N	2022-03-23	CCAS de Cayenne	{"numeroBoite": false}	{"nom": "Pali", "prenom": "Mauricette", "fonction": "Directrice"}	cias		t	Cayenne	{"senderName": "CCAS DE CAY", "senderDetails": "CCAS DE CAY", "enabledByDomifa": true, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}	America/Cayenne	{"numero": "0101010101", "countryCode": "gf"}	\N	f	4.94345400000000001	-52.3244579999999999
-1d1ed6f0-7674-474a-908b-d0bd8c6389cb	2021-01-26 08:51:53.846157+01	2023-09-21 01:07:30.634994+02	6	3	1 rue du test de l'organise agréé	\N	1234	80	44000	\N	44	52	structure@yopmail.com	{"token": "6V0XR2S", "userId": 3}		t	2020-11-17 14:34:35.821+01	\N	2021-12-06	Organisme agréé de Test	{"numeroBoite": false}	{"nom": "Calvez", "prenom": "Simon", "fonction": "Directeur"}	asso	b8e2e05b767ac984f0f4b8a222062b07268f46265525f98d83e4b518b343	f	Nantes	{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}	Europe/Paris	{"numero": "0506070809", "countryCode": "fr"}	\N	f	47.2181929999999994	-1.56136800000000009
-e159011b-6648-426d-a772-b3ca4f27a6d5	2021-01-26 08:51:53.846157+01	2023-09-21 01:07:30.718487+02	4	2	2 rue du test	\N	\N	\N	33600	\N	33	75	cias.test@yopmail.com	\N		f	2020-11-17 14:32:21.959+01	\N	2020-11-17	CIAS de Test	{"numeroBoite": false}	{"nom": "Anna", "prenom": "Dupond", "fonction": "PDG"}	cias	b1ca3193633282c675257f1b05771a7605a4aa1c5ba231b3545564bfa33a	f	Pessac	{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}	Europe/Paris	{"numero": "0102030405", "countryCode": "fr"}	\N	f	44.8176020000000008	-0.612956999999999974
+610966c4-ab91-43c0-88da-483ae23d0af2	2021-02-01 17:12:30.65884+01	2023-09-21 01:07:30.382578+02	10	4	rue de l'import	{"actif": false, "ville": "", "adresse": "", "codePostal": ""}	123	\N	44000		44	52	test.import@yopmail.com	\N	\N	f	2021-02-01 17:12:30.655+01	\N	\N	Structure de Test d'import	{"numeroBoite": false}	{"nom": "Test", "prenom": "Import", "fonction": "Testeur"}	asso		t	Nantes	{"senderName": "STRUCTURE D", "senderDetails": "STRUCTURE D", "enabledByDomifa": true, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}	Europe/Paris	{"numero": "0101010101", "countryCode": "fr"}	\N	f	47.213973	-1.536923
+412f6962-fc6e-4e48-b0a6-a37d6eebbc67	2021-01-26 08:51:53.846157+01	2023-09-21 01:07:30.469467+02	368	1	1 rue de l'océan	\N	\N	\N	92600	\N	92	11	ccas.test@yopmail.com	\N		f	2020-11-17 14:30:23.692+01	\N	2023-06-07	CCAS de Test	{"numeroBoite": false}	{"nom": "Jean", "prenom": "Thomson", "fonction": "PDG"}	ccas	adfbfe24ff6de1f4e7c0011ad05028f5a129ced7f120079d20c4adf21d89	t	Asnieres-sur-seine	{"senderName": "CCAS DE TES", "senderDetails": "CCAS DE TES", "enabledByDomifa": true, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": true, "usagerLoginUpdateLastInteraction": false}	Europe/Paris	{"numero": "0602030405", "countryCode": "fr"}	2023-02-14 18:33:51.265+01	f	48.903759	2.283746
+943d3acc-2f9c-4bb4-9419-4194bbdfd624	2022-03-17 17:25:53.666507+01	2023-09-21 01:07:30.533736+02	37	5	24, avenue Louis PASTEUR	{"actif": false, "ville": null, "adresse": null, "codePostal": ""}		\N	97300	\N	973	03	ccas-cayenne@yopmail.com	\N	\N	f	2022-03-17 17:25:53.646+01	\N	2022-03-23	CCAS de Cayenne	{"numeroBoite": false}	{"nom": "Pali", "prenom": "Mauricette", "fonction": "Directrice"}	cias		t	Cayenne	{"senderName": "CCAS DE CAY", "senderDetails": "CCAS DE CAY", "enabledByDomifa": true, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}	America/Cayenne	{"numero": "0101010101", "countryCode": "gf"}	\N	f	4.943454	-52.324458
+1d1ed6f0-7674-474a-908b-d0bd8c6389cb	2021-01-26 08:51:53.846157+01	2023-09-21 01:07:30.634994+02	6	3	1 rue du test de l'organise agréé	\N	1234	80	44000	\N	44	52	structure@yopmail.com	{"token": "6V0XR2S", "userId": 3}		t	2020-11-17 14:34:35.821+01	\N	2021-12-06	Organisme agréé de Test	{"numeroBoite": false}	{"nom": "Calvez", "prenom": "Simon", "fonction": "Directeur"}	asso	b8e2e05b767ac984f0f4b8a222062b07268f46265525f98d83e4b518b343	f	Nantes	{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}	Europe/Paris	{"numero": "0506070809", "countryCode": "fr"}	\N	f	47.218193	-1.561368
+e159011b-6648-426d-a772-b3ca4f27a6d5	2021-01-26 08:51:53.846157+01	2023-09-21 01:07:30.718487+02	4	2	2 rue du test	\N	\N	\N	33600	\N	33	75	cias.test@yopmail.com	\N		f	2020-11-17 14:32:21.959+01	\N	2020-11-17	CIAS de Test	{"numeroBoite": false}	{"nom": "Anna", "prenom": "Dupond", "fonction": "PDG"}	cias	b1ca3193633282c675257f1b05771a7605a4aa1c5ba231b3545564bfa33a	f	Pessac	{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}	Europe/Paris	{"numero": "0102030405", "countryCode": "fr"}	\N	f	44.817602	-0.612957
 \.
 
 
@@ -158,6 +158,22 @@ COPY public.message_sms (uuid, "createdAt", "updatedAt", version, "usagerRef", "
 --
 
 COPY public.monitor_batch_process (uuid, "createdAt", "updatedAt", version, "processId", "beginDate", "endDate", trigger, status, details, "errorMessage", "alertMailSent") FROM stdin;
+\.
+
+
+--
+-- Data for Name: open_data_places; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.open_data_places (uuid, "createdAt", "updatedAt", version, nom, adresse, "complementAdresse", ville, "codePostal", departement, region, latitude, longitude, source, "uniqueId", software, "structureId") FROM stdin;
+\.
+
+
+--
+-- Data for Name: spatial_ref_sys; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.spatial_ref_sys (srid, auth_name, auth_srid, srtext, proj4text) FROM stdin;
 \.
 
 

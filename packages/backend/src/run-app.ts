@@ -2,6 +2,10 @@ import "./open-telemetry";
 import { bootstrapApplication, tearDownApplication } from "./app.bootstrap";
 
 import { appLogger } from "./util";
+import { loadSoliguideData } from "./open-data-places/load-soliguide";
+import { loadDomifaData } from "./open-data-places/load-domifa";
+import { domifaConfig } from "./config";
+import { loadDataInclusionData } from "./open-data-places/load-data-inclusion";
 
 (async () => {
   appLogger.warn(`[${__filename}] Starting app...`);
@@ -13,6 +17,13 @@ import { appLogger } from "./util";
       const server = await app.listen(3000);
       server.setTimeout(1000 * 60 * 5);
       appLogger.warn(`[${__filename}] Application listening on port 3000`);
+
+      if (domifaConfig().envId === "local") {
+        await loadDomifaData();
+        await loadDataInclusionData("CCAS");
+        await loadDataInclusionData("CIAS");
+        await loadSoliguideData();
+      }
     } catch (error) {
       const err = error as Error;
       appLogger.error(`[${__filename}] Error running application`, {

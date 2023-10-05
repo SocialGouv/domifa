@@ -56,4 +56,8 @@ export type DomifaEnv = {
   DOMIFA_SMS_API_KEY: string;
   DOMIFA_ENV_PRESET_PARENT: string;
   DOMIFA_PHONE_NUMBER_REDIRECT_ALL_TO: string;
+  SOLIGUIDE_URL: string;
+  SOLIGUIDE_TOKEN: string;
+  DATA_INCLUSION_URL: string;
+  DATA_INCLUSION_TOKEN: string;
 };
