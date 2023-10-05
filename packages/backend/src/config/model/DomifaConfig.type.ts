@@ -76,4 +76,10 @@ export type DomifaConfig = {
     phoneNumberRedirectAllTo: string; // DOMIFA_PHONE_NUMBER_REDIRECT_ALL_TO
     apiKey: string; // DOMIFA_SMS_API_KEY
   };
+  openDataApps: {
+    soliguideUrl: string;
+    soliguideToken: string;
+    dataInclusionUrl: string;
+    dataInclusionToken: string;
+  };
 };
