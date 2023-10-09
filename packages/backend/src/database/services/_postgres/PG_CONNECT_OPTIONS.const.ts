@@ -34,7 +34,9 @@ export const PG_CONNECT_OPTIONS: PostgresConnectionOptions = {
   type: "postgres",
   synchronize: false,
   migrationsTransactionMode: "each",
-  migrationsRun: domifaConfig().envId !== "test" && domifaConfig().cron.enable,
+  migrationsRun:
+    (domifaConfig().envId !== "test" && domifaConfig().cron.enable) ||
+    domifaConfig().envId === "local",
   host: domifaConfig().postgres.host,
   port: domifaConfig().postgres.port,
   username: domifaConfig().postgres.username,

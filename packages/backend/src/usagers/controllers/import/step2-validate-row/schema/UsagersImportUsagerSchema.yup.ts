@@ -49,6 +49,7 @@ export const UsagersImportUsagerSchema = yup
     dateFinDom: dateUtcSchema()
       .min(yup.ref("$minDate"))
       .max(yup.ref("$nextYear"))
+      .required()
       .when("statutDom", {
         is: (statutDom: UsagerDecisionStatut) => statutDom === "VALIDE",
         then: dateUtcSchema()
