@@ -36,11 +36,9 @@ export const loadDomifaData = async () => {
       });
 
       if (!domifaPlace) {
-        console.log("Place not exists: " + place.nom);
-
         domifaPlace = await openDataPlaceRepository.save(
           new OpenDataPlaceTable({
-            nom: place.nom,
+            nom: place.nom.trim(),
             adresse: cleanAddress(place.adresse),
             codePostal: place.codePostal,
             ville: cleanCity(place.ville),
@@ -56,7 +54,7 @@ export const loadDomifaData = async () => {
         );
       }
     }
-    appLogger.info("Import domifa complete");
+    appLogger.info("Import domifa complete ✅");
   } catch (e) {
     console.log(e);
     console.error("[IMPORT] Something happen");

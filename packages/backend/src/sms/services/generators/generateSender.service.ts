@@ -6,7 +6,7 @@ export function generateSender(structureName: string): string {
     .trim();
 }
 
-function removeAccents(str: string): string {
+export function removeAccents(str: string): string {
   const accentMappings = [
     { regex: /[ÀÁÂÃÄÅ]/g, replacement: "A" },
     { regex: /[àáâãäå]/g, replacement: "a" },
