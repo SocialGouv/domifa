@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 
-import { MatomoTracker } from "@ngx-matomo/tracker";
+import { MatomoTracker } from "ngx-matomo-client";
 import { environment } from "../../../../../environments/environment";
 import { UserStructure } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";

@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
   ) {
     this.apiVersion = null;
     this.usagerProfile = null;
-    this.title = "Bienvenue sur le portail usager de Domifa";
+    this.title = "Bienvenue sur le portail usager de DomiFa";
     this.isNavbarCollapsed = false;
     this.matomoInfo = false;
     this.initMatomo();
@@ -46,7 +46,7 @@ export class AppComponent implements OnInit {
 
   public ngOnInit(): void {
     this.titleService.setTitle(
-      "Domifa, l'outil qui facilite la gestion des structures domiciliatirices",
+      "Mon DomiFa, l'outil qui facilite la gestion des structures domiciliatirices",
     );
 
     this.usagerAuthService.currentUsagerSubject.subscribe(

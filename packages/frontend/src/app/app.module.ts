@@ -69,7 +69,7 @@ registerLocaleData(localeFr, "fr");
     StoreModule.forRoot({ app: _usagerReducer }),
     SharedModule,
     UserIdleModule.forRoot({ idle: 3600, timeout: 60, ping: 20 }),
-    ...MATOMO_INJECTORS,
+    MATOMO_INJECTORS,
   ],
   providers: [
     AuthService,

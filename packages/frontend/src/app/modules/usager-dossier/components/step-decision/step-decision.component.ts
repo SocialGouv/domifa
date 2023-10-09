@@ -8,7 +8,7 @@ import {
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
 
-import { MatomoTracker } from "@ngx-matomo/tracker";
+import { MatomoTracker } from "ngx-matomo-client";
 
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
