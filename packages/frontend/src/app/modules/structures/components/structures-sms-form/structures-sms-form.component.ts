@@ -13,7 +13,7 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { NgbModalRef, NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoTracker } from "@ngx-matomo/tracker";
+import { MatomoTracker } from "ngx-matomo-client";
 import { Subscription } from "rxjs";
 import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 import { CustomToastService } from "../../../shared/services";

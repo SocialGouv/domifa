@@ -21,7 +21,7 @@ import {
   NgbModal,
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoTracker } from "@ngx-matomo/tracker";
+import { MatomoTracker } from "ngx-matomo-client";
 import { Subscription } from "rxjs";
 import {
   DEFAULT_MODAL_OPTIONS,

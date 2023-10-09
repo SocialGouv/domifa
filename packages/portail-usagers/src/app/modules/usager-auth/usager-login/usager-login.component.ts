@@ -7,7 +7,6 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
-import { MatomoTracker } from "@ngx-matomo/tracker";
 
 import type {
   PortailUsagerAuthApiResponse,
@@ -18,6 +17,7 @@ import { UsagerAuthService } from "../services/usager-auth.service";
 import { PasswordValidator } from "./password-validator.service";
 import { CustomToastService } from "../../shared/services/custom-toast.service";
 import { Subscription } from "rxjs";
+import { MatomoTracker } from "ngx-matomo-client";
 
 @Component({
   selector: "app-usager-login",
@@ -57,7 +57,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Connexion à Domifa");
+    this.titleService.setTitle("Connexion à DomiFa");
 
     this.subscription.add(
       this.usagerAuthService.currentUsagerSubject.subscribe(

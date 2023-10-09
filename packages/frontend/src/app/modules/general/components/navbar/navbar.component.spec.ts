@@ -22,7 +22,7 @@ describe("NavbarComponent", () => {
         CommonModule,
         SharedModule,
         RouterTestingModule,
-        ...MATOMO_INJECTORS,
+        MATOMO_INJECTORS,
         HttpClientTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],

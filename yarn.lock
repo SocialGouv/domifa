@@ -2440,8 +2440,6 @@ __metadata:
     "@ngrx/entity": ^15.4.0
     "@ngrx/store": ^15.4.0
     "@ngrx/store-devtools": ^15.4.0
-    "@ngx-matomo/router": ^4.0.1
-    "@ngx-matomo/tracker": 4.0.1
     "@popperjs/core": ^2.11.8
     "@schematics/angular": ^15.2.9
     "@schematics/update": ^0.1102.12
@@ -2473,6 +2471,7 @@ __metadata:
     ngx-bootstrap: ^10.2.0
     ngx-countup: ^13.0.0
     ngx-intl-tel-input: ^3.2.0
+    ngx-matomo-client: ^5.0.4
     prettier: 2.8.8
     rxjs: ^7.6.0
     source-map-explorer: ^2.5.3
@@ -2581,8 +2580,6 @@ __metadata:
     "@fortawesome/free-regular-svg-icons": ^6.2.1
     "@fortawesome/free-solid-svg-icons": ^6.2.1
     "@ng-bootstrap/ng-bootstrap": ^14.0.1
-    "@ngx-matomo/router": ^4.0.1
-    "@ngx-matomo/tracker": 4.0.1
     "@popperjs/core": ^2.11.8
     "@sentry/angular": ^7.72.0
     "@types/google-libphonenumber": ^7.4.23
@@ -2604,6 +2601,7 @@ __metadata:
     jest-preset-angular: ^13.1.2
     lint-staged: ^14.0.1
     ng-lint-staged: ^12.0.4
+    ngx-matomo-client: ^5.0.4
     prettier: 2.8.8
     rxjs: ^7.6.0
     source-map-explorer: ^2.5.3
@@ -4166,32 +4164,6 @@ __metadata:
     typescript: ">=4.8.2 <5.0"
     webpack: ^5.54.0
   checksum: 052820c90a8e9db83cb5e6f81a4559d47574a77f34ec61d574cbe86813e3ad7f04862129f40def92e401e138ded87ef2a11f3c865abaf993ef5bd1265fc5301c
-  languageName: node
-  linkType: hard
-
-"@ngx-matomo/router@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "@ngx-matomo/router@npm:4.0.1"
-  dependencies:
-    tslib: ^2.0.0
-  peerDependencies:
-    "@angular/common": ^15.0.0
-    "@angular/core": ^15.0.0
-    "@angular/router": ^15.0.0
-    "@ngx-matomo/tracker": 4.0.1
-  checksum: f673b143fcd4f9de0e5157a934fde6fe7aa78044e12d7cfb6299267e67fe5f0424630e1a4055f83abd128dd4d50487509e7600704b792ff294edd86c721291fe
-  languageName: node
-  linkType: hard
-
-"@ngx-matomo/tracker@npm:4.0.1":
-  version: 4.0.1
-  resolution: "@ngx-matomo/tracker@npm:4.0.1"
-  dependencies:
-    tslib: ^2.0.0
-  peerDependencies:
-    "@angular/common": ^15.0.0
-    "@angular/core": ^15.0.0
-  checksum: f8ca95d621af67b9976fb6c01c7393d9f79363f1a45c5a7c7cc0ad92d712203c2f463ec0caa85adf02d1c6548bfe1216fbf4eb8d77b658d5bd0b1e51d7c72f99
   languageName: node
   linkType: hard
 
@@ -17464,6 +17436,18 @@ __metadata:
     intl-tel-input: ^17.0.3
     ngx-bootstrap: ^6.0.0
   checksum: 4316e475ee4d37ecf144eeb7040aef2d3b5f508f59eebdc5f576208ebed7622b818d1850167386a7676119ab171b2f185ee00b6b3eca90dc1effe4d1c332b296
+  languageName: node
+  linkType: hard
+
+"ngx-matomo-client@npm:^5.0.4":
+  version: 5.0.4
+  resolution: "ngx-matomo-client@npm:5.0.4"
+  dependencies:
+    tslib: ^2.3.0
+  peerDependencies:
+    "@angular/common": ^15.0.0 || ^16.0.0
+    "@angular/core": ^15.0.0 || ^16.0.0
+  checksum: b1efe6167a13e8ef232c789086d64163d4d1b0dfdb1ed00edcc363835d1b6123d7788d046c4dbfdaa1940d4d2702f90d40dc6afe594f38c75fcae50b61330a6e
   languageName: node
   linkType: hard
 
