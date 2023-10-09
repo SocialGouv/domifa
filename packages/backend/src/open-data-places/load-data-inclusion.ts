@@ -72,7 +72,7 @@ const getFromDataInclusion = async (structureType: "CCAS" | "CIAS") => {
 
           dataInclusionPlace = await openDataPlaceRepository.save(
             new OpenDataPlaceTable({
-              nom: place.nom,
+              nom: place.nom.trim(),
               adresse: cleanAddress(place?.adresse),
               codePostal: place.code_postal,
               ville: cleanCity(place?.commune),
@@ -95,7 +95,6 @@ const getFromDataInclusion = async (structureType: "CCAS" | "CIAS") => {
           );
 
         if (placeExist) {
-          console.log(placeExist);
           await openDataPlaceRepository.update(
             { uuid: dataInclusionPlace.uuid },
             { structureId: placeExist.structureId }
@@ -106,9 +105,9 @@ const getFromDataInclusion = async (structureType: "CCAS" | "CIAS") => {
 
     if (datInclusionData.length >= 500) {
       appLogger.warn(
-        "Import DataInclusion data " +
+        "Import 'data-inclusion' data N°" +
           page +
-          " iteraction: " +
+          " : " +
           datInclusionData.length * page +
           "/" +
           nbResults
@@ -116,7 +115,7 @@ const getFromDataInclusion = async (structureType: "CCAS" | "CIAS") => {
       page++;
       await getFromDataInclusion(structureType);
     } else {
-      appLogger.info("END OF MIGRATION");
+      appLogger.info("Import of data-inclusion done ✅");
     }
   } catch (e) {
     console.log(e);

@@ -20,7 +20,6 @@ export class AutoMigration1696369714284 implements MigrationInterface {
     await queryRunner.query(
       `CREATE INDEX "IDX_d10ac71fca9180b787ef468659" ON "open_data_places" ("structureId") `
     );
-
     await queryRunner.query(
       `ALTER TABLE "open_data_places" ADD CONSTRAINT "FK_d10ac71fca9180b787ef468659e" FOREIGN KEY ("structureId") REFERENCES "structure"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
     );

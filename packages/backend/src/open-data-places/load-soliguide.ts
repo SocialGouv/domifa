@@ -95,9 +95,9 @@ const getFromSoliguide = async () => {
 
     if (soliguideData.length >= 50) {
       appLogger.warn(
-        "Import Soliguide data " +
+        "Import 'soliguide' data page N°" +
           page +
-          " iteraction: " +
+          " : " +
           soliguideData.length * page +
           "/" +
           nbResults
@@ -105,10 +105,10 @@ const getFromSoliguide = async () => {
       page++;
       await getFromSoliguide();
     } else {
-      appLogger.info("END OF MIGRATION");
+      appLogger.info("Import 'soliguide' data done ✅");
     }
   } catch (e) {
     console.log(e);
-    console.error("[IMPORT] Something happen");
+    console.error("[IMPORT] Something happen during soliguide import");
   }
 };
