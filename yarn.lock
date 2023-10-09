@@ -32,7 +32,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/architect@npm:0.1502.9, @angular-devkit/architect@npm:^0.1502.9":
+"@angular-devkit/architect@npm:0.1502.10, @angular-devkit/architect@npm:^0.1502.9":
+  version: 0.1502.10
+  resolution: "@angular-devkit/architect@npm:0.1502.10"
+  dependencies:
+    "@angular-devkit/core": 15.2.10
+    rxjs: 6.6.7
+  checksum: a71b673c92b1450cce139a29f2ef9f23ccf344e09d7c269723eb690223adcd932f62313e0a508cbc2582cd60122ce26686d2f06f6410e9392101c007cfdc5540
+  languageName: node
+  linkType: hard
+
+"@angular-devkit/architect@npm:0.1502.9":
   version: 0.1502.9
   resolution: "@angular-devkit/architect@npm:0.1502.9"
   dependencies:
@@ -165,7 +175,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/core@npm:15.2.9, @angular-devkit/core@npm:^15.2.9":
+"@angular-devkit/core@npm:15.2.10, @angular-devkit/core@npm:^15.2.9":
+  version: 15.2.10
+  resolution: "@angular-devkit/core@npm:15.2.10"
+  dependencies:
+    ajv: 8.12.0
+    ajv-formats: 2.1.1
+    jsonc-parser: 3.2.0
+    rxjs: 6.6.7
+    source-map: 0.7.4
+  peerDependencies:
+    chokidar: ^3.5.2
+  peerDependenciesMeta:
+    chokidar:
+      optional: true
+  checksum: a7a8715d31ccdda74dd15fe7c8c1d06e3cb4adb5749c208fbac9dec93760ca8b54ea13a2c94446f577ab92a635f8f110043717c41fa0a712edd5c45494bde83b
+  languageName: node
+  linkType: hard
+
+"@angular-devkit/core@npm:15.2.9":
   version: 15.2.9
   resolution: "@angular-devkit/core@npm:15.2.9"
   dependencies:
@@ -246,16 +274,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/schematics@npm:15.2.9, @angular-devkit/schematics@npm:^15.2.9":
-  version: 15.2.9
-  resolution: "@angular-devkit/schematics@npm:15.2.9"
+"@angular-devkit/schematics@npm:15.2.10, @angular-devkit/schematics@npm:^15.2.9":
+  version: 15.2.10
+  resolution: "@angular-devkit/schematics@npm:15.2.10"
   dependencies:
-    "@angular-devkit/core": 15.2.9
+    "@angular-devkit/core": 15.2.10
     jsonc-parser: 3.2.0
     magic-string: 0.29.0
     ora: 5.4.1
     rxjs: 6.6.7
-  checksum: 17052e713e96c13f17e92f0568de613786926fba93ed5aa28409426cf874b1f340eb85c4b7c404ef933667448cb8f2e9ff999184fdc3f65dc123916a32e4fd9a
+  checksum: c2149edd49488de95ac443b7c3547700a108f22ee47ce2da1d912b7fa1fe70131d4b5d39117099a7f398f95feaf350c6d3b52b807434a076fe5e34a685a5d215
   languageName: node
   linkType: hard
 
@@ -401,14 +429,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/cli@npm:15.2.9":
-  version: 15.2.9
-  resolution: "@angular/cli@npm:15.2.9"
+"@angular/cli@npm:15.2.10":
+  version: 15.2.10
+  resolution: "@angular/cli@npm:15.2.10"
   dependencies:
-    "@angular-devkit/architect": 0.1502.9
-    "@angular-devkit/core": 15.2.9
-    "@angular-devkit/schematics": 15.2.9
-    "@schematics/angular": 15.2.9
+    "@angular-devkit/architect": 0.1502.10
+    "@angular-devkit/core": 15.2.10
+    "@angular-devkit/schematics": 15.2.10
+    "@schematics/angular": 15.2.10
     "@yarnpkg/lockfile": 1.1.0
     ansi-colors: 4.1.3
     ini: 3.0.1
@@ -425,7 +453,7 @@ __metadata:
     yargs: 17.6.2
   bin:
     ng: bin/ng.js
-  checksum: 6e24a3178e4c00969e6d8e12c4c10a2c6eddc68d3bea73901ea14157ba0aecca554b6eca24fdac48a909eaf61f9b8c5c8d682845a232ed3d69dc205a9330f9d2
+  checksum: 9d691a142d4854bc49cc31e4428afd4ebd7d059dfc6dc7e8eba12f8679e6af20bc2e5656ff04c2fa3dca707f06e2774b34a3ccde5eb41d476d2a207873732c7b
   languageName: node
   linkType: hard
 
@@ -2391,7 +2419,7 @@ __metadata:
     "@angular-eslint/template-parser": 15.2.1
     "@angular/animations": ^15.2.9
     "@angular/cdk": ^15.2.9
-    "@angular/cli": 15.2.9
+    "@angular/cli": 15.2.10
     "@angular/common": ^15.2.9
     "@angular/compiler": ^15.2.9
     "@angular/compiler-cli": ^15.2.9
@@ -2472,7 +2500,7 @@ __metadata:
     "@angular-eslint/template-parser": 15.2.1
     "@angular/animations": ^15.2.9
     "@angular/cdk": ^15.2.9
-    "@angular/cli": 15.2.9
+    "@angular/cli": 15.2.10
     "@angular/common": ^15.2.9
     "@angular/compiler": ^15.2.9
     "@angular/compiler-cli": ^15.2.9
@@ -2537,7 +2565,7 @@ __metadata:
     "@angular-eslint/schematics": 15.2.1
     "@angular-eslint/template-parser": 15.2.1
     "@angular/animations": ^15.2.9
-    "@angular/cli": 15.2.9
+    "@angular/cli": 15.2.10
     "@angular/common": ^15.2.9
     "@angular/compiler": ^15.2.9
     "@angular/compiler-cli": ^15.2.9
@@ -4794,14 +4822,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/api@npm:^1.0.0":
-  version: 1.4.1
-  resolution: "@opentelemetry/api@npm:1.4.1"
-  checksum: e783c40d1a518abf9c4c5d65223237c1392cd9a6c53ac6e2c3ef0c05ff7266e3dfc4fd9874316dae0dcb7a97950878deb513bcbadfaad653d48f0215f2a0911b
-  languageName: node
-  linkType: hard
-
-"@opentelemetry/api@npm:^1.6.0":
+"@opentelemetry/api@npm:^1.0.0, @opentelemetry/api@npm:^1.6.0":
   version: 1.6.0
   resolution: "@opentelemetry/api@npm:1.6.0"
   checksum: 3283b78b62a39f6568eaa050ac7045fcca747679e255874f6d2107cb8e1a3b2e10bfbf553c3e82a72500fb5fdca49dc07a5fe27fd6980debac24506cca638859
@@ -4817,7 +4838,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/core@npm:1.15.2, @opentelemetry/core@npm:^1.8.0":
+"@opentelemetry/core@npm:1.15.2":
   version: 1.15.2
   resolution: "@opentelemetry/core@npm:1.15.2"
   dependencies:
@@ -4828,7 +4849,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/core@npm:^1.17.0":
+"@opentelemetry/core@npm:^1.17.0, @opentelemetry/core@npm:^1.8.0":
   version: 1.17.0
   resolution: "@opentelemetry/core@npm:1.17.0"
   dependencies:
@@ -5178,14 +5199,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/semantic-conventions@npm:1.15.2, @opentelemetry/semantic-conventions@npm:^1.0.0":
+"@opentelemetry/semantic-conventions@npm:1.15.2":
   version: 1.15.2
   resolution: "@opentelemetry/semantic-conventions@npm:1.15.2"
   checksum: 6de4f8ffa277af18351dff19b821f04438bd4f3917f84816f0bf1577a810424d11ba5f15dca9739a17812a996eeb251048fc7d61b0eef9dc39beb9d4304f57e2
   languageName: node
   linkType: hard
 
-"@opentelemetry/semantic-conventions@npm:1.17.0, @opentelemetry/semantic-conventions@npm:^1.17.0":
+"@opentelemetry/semantic-conventions@npm:1.17.0, @opentelemetry/semantic-conventions@npm:^1.0.0, @opentelemetry/semantic-conventions@npm:^1.17.0":
   version: 1.17.0
   resolution: "@opentelemetry/semantic-conventions@npm:1.17.0"
   checksum: 3cb99118b3720aed37fa71d9b6c38847a481d5287653275477d30126de9e548f63a302efbd8a2086a747442880598bbde95ef17f8016dce45b85798696f12be4
@@ -5311,14 +5332,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@schematics/angular@npm:15.2.9, @schematics/angular@npm:^15.2.9":
-  version: 15.2.9
-  resolution: "@schematics/angular@npm:15.2.9"
+"@schematics/angular@npm:15.2.10, @schematics/angular@npm:^15.2.9":
+  version: 15.2.10
+  resolution: "@schematics/angular@npm:15.2.10"
   dependencies:
-    "@angular-devkit/core": 15.2.9
-    "@angular-devkit/schematics": 15.2.9
+    "@angular-devkit/core": 15.2.10
+    "@angular-devkit/schematics": 15.2.10
     jsonc-parser: 3.2.0
-  checksum: 03e95407a1154e6ce30b65551e6beca1cec6461c1491462902eb0cc1020c593c1b728fb27cd5bcac8be6baa46690f22acbc2b8cb6cde9508d8d66f979aa8c8fb
+  checksum: ed77344a743f3cce00c522af3098a47912faac19248095c22ba2397abe6f7df2ce8ae6f217dd4a9c84909afa97b29e59d94325d18c0b54b8cee001d3677d0935
   languageName: node
   linkType: hard
 
@@ -13086,14 +13107,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"get-tsconfig@npm:^4.5.0":
-  version: 4.5.0
-  resolution: "get-tsconfig@npm:4.5.0"
-  checksum: 687ee2bd69a5a07db2e2edeb4d6c41c3debb38f6281a66beb643e3f5b520252e27fcbbb5702bdd9a5f05dcf8c1d2e0150a4d8a960ad75cbdea74e06a51e91b02
-  languageName: node
-  linkType: hard
-
-"get-tsconfig@npm:^4.7.0":
+"get-tsconfig@npm:^4.5.0, get-tsconfig@npm:^4.7.0":
   version: 4.7.2
   resolution: "get-tsconfig@npm:4.7.2"
   dependencies:
@@ -23454,7 +23468,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:9.0.0, uuid@npm:^9.0.0":
+"uuid@npm:9.0.0":
   version: 9.0.0
   resolution: "uuid@npm:9.0.0"
   bin:
@@ -23472,7 +23486,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:^9.0.1":
+"uuid@npm:^9.0.0, uuid@npm:^9.0.1":
   version: 9.0.1
   resolution: "uuid@npm:9.0.1"
   bin:
