@@ -1,3 +1,10 @@
+## [2.140.8](https://github.com/SocialGouv/domifa/compare/v2.140.7...v2.140.8) (2023-10-10)
+
+
+### Bug Fixes
+
+* **bordeaux:** add 'npai'' ([5343c5f](https://github.com/SocialGouv/domifa/commit/5343c5f6f86e3d5b56675d5af59f9beb213c093a))
+
 ## [2.140.7](https://github.com/SocialGouv/domifa/compare/v2.140.6...v2.140.7) (2023-10-10)
 
 
