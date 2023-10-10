@@ -1,3 +1,11 @@
+## [2.140.7](https://github.com/SocialGouv/domifa/compare/v2.140.6...v2.140.7) (2023-10-10)
+
+
+### Bug Fixes
+
+* **import:** fix import 'RADIE' and 'REFUS' ([c17c246](https://github.com/SocialGouv/domifa/commit/c17c24603997365c34f82fae7fd9c51ca2734944))
+* **matomo:** delete useless data for matomo ([70c69cf](https://github.com/SocialGouv/domifa/commit/70c69cf1bd8954148ed142befa12048295085c2d))
+
 ## [2.140.6](https://github.com/SocialGouv/domifa/compare/v2.140.5...v2.140.6) (2023-09-28)
 
 
