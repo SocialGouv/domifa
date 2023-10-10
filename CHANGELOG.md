@@ -1,3 +1,18 @@
+# [2.141.0](https://github.com/SocialGouv/domifa/compare/v2.140.8...v2.141.0) (2023-10-10)
+
+
+### Bug Fixes
+
+* **api:** delete table creation 'spatial' ([b314db7](https://github.com/SocialGouv/domifa/commit/b314db776e7e9b0423209b07eb6e17ffda0046d3))
+* **api:** fix migrations ([7fb2e4d](https://github.com/SocialGouv/domifa/commit/7fb2e4d1a95b8f2d4c84c4e73bb5be7e09cc9c62))
+* **open-data:** clean addresses and generate new latitude ([6de5179](https://github.com/SocialGouv/domifa/commit/6de51799dc1bc833c7a448838b1b04e8db53944b))
+* **open-data:** normalize city ([1591d12](https://github.com/SocialGouv/domifa/commit/1591d124d7a2fede34cb2ad7a53682631e284a8e))
+
+
+### Features
+
+* **data:** add soliguide & data-inclusion dataset ([cb2d3cb](https://github.com/SocialGouv/domifa/commit/cb2d3cb423ae21c25ca350a2814f93101b45a8f8))
+
 ## [2.140.8](https://github.com/SocialGouv/domifa/compare/v2.140.7...v2.140.8) (2023-10-10)
 
 
