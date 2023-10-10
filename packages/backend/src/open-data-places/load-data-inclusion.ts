@@ -8,8 +8,7 @@ import {
 import { OpenDataPlaceTable } from "../database/entities/open-data-place";
 import { openDataPlaceRepository } from "../database/services/place";
 import { departementHelper } from "../structures/services";
-import { appLogger } from "../util";
-import { cleanAddress, cleanCity } from "./cleanAddress";
+import { appLogger, cleanAddress, cleanCity } from "../util";
 
 let page = 1;
 let nbResults = 0;

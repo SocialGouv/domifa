@@ -5,7 +5,6 @@ import { appLogger } from "./util";
 import { loadSoliguideData } from "./open-data-places/load-soliguide";
 import { loadDomifaData } from "./open-data-places/load-domifa";
 import { domifaConfig } from "./config";
-import { loadDataInclusionData } from "./open-data-places/load-data-inclusion";
 
 (async () => {
   appLogger.warn(`[${__filename}] Starting app...`);
@@ -20,9 +19,9 @@ import { loadDataInclusionData } from "./open-data-places/load-data-inclusion";
 
       if (domifaConfig().envId === "local") {
         await loadDomifaData();
-        await loadDataInclusionData("CCAS");
-        await loadDataInclusionData("CIAS");
         await loadSoliguideData();
+        // await loadDataInclusionData("CCAS");
+        // await loadDataInclusionData("CIAS");
       }
     } catch (error) {
       const err = error as Error;

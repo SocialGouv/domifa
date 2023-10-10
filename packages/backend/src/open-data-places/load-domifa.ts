@@ -4,8 +4,7 @@ import { openDataPlaceRepository } from "../database/services/place/open-data-pl
 import { structureRepository } from "../database";
 
 import { IsNull, Not } from "typeorm";
-import { appLogger } from "../util";
-import { cleanAddress, cleanCity } from "./cleanAddress";
+import { appLogger, cleanAddress, cleanCity } from "../util";
 
 export const loadDomifaData = async () => {
   appLogger.info("Import DomiFa start 🏃‍♂️... ");
