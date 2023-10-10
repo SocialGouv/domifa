@@ -4,8 +4,8 @@ import { OpenDataPlaceTable } from "../database/entities/open-data-place";
 import { SoliguidePlace } from "./interfaces/SoliguidePlace.interface";
 import { departementHelper } from "../structures/services";
 import { openDataPlaceRepository } from "../database/services/place/open-data-place-repository";
-import { appLogger } from "../util";
-import { cleanAddress, cleanCity } from "./cleanAddress";
+import { appLogger, cleanAddress, cleanCity } from "../util";
+
 import { OpenDataPlace } from "./interfaces/OpenDataPlace.interface";
 
 let page = 1;
