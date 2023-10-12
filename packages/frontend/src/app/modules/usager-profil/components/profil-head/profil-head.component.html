@@ -142,13 +142,20 @@
           >, onglet actif</span
         >
       </a>
-
       <a
         class="col"
         [ngClass]="section === 'documents' ? 'selected-section col' : 'col'"
-        [routerLink]="['/profil/documents/' + usager.ref]"
+        [routerLink]="
+          me.role !== 'facteur' ? ['/profil/documents/' + usager.ref] : null
+        "
+        (click)="goToDocuments()"
         ariaCurrentWhenActive="page"
-        ><span class="statut-label"> Documents</span>
+        ><span class="statut-label"
+          >Documents<span *ngIf="me.role === 'facteur'"
+            >, accès restreint</span
+          ></span
+        >
+
         <span class="visually-hidden" *ngIf="section === 'documents'"
           >, onglet actif</span
         >
