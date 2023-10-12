@@ -57,6 +57,14 @@ export class ProfilHeadComponent implements OnDestroy {
     this.modalService.dismissAll();
   }
 
+  public goToDocuments(): void {
+    if (this.me.role === "facteur") {
+      this.toastService.warning(
+        "Vos droits ne vous permettent pas d'accéder à cette page"
+      );
+    }
+  }
+
   public renouvellement(): void {
     this.loading = true;
 

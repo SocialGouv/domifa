@@ -13,7 +13,7 @@ import { generateMotifLabel } from "../generateMotifLabel.service";
 import { CerfaDocType } from "@domifa/common";
 import { isNil } from "lodash";
 
-export const generateCerfaDatas = (
+export const generateCerfaData = (
   usager: Usager,
   user: UserStructureAuthenticated,
   typeCerfa: CerfaDocType

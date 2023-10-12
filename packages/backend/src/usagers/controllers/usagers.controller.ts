@@ -54,7 +54,7 @@ import {
   UsagersService,
 } from "../services";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
-import { generateCerfaDatas } from "../services/cerfa";
+import { generateCerfaData } from "../services/cerfa";
 
 import pdftk = require("node-pdftk");
 
@@ -418,7 +418,7 @@ export class UsagersController {
         ? "../../_static/static-docs/attestation.pdf"
         : "../../_static/static-docs/demande.pdf";
 
-    const pdfInfos = generateCerfaDatas(currentUsager, user, typeCerfa);
+    const pdfInfos = generateCerfaData(currentUsager, user, typeCerfa);
 
     const filePath = await readFile(resolve(__dirname, pdfForm));
 
