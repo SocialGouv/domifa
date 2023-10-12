@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { addYears, format, subDays } from "date-fns";
 import { generateDateForCerfa } from ".";
 
 import { getPhoneString } from "../../../util/phone/phoneUtils.service";
@@ -11,6 +11,7 @@ import {
 } from "../../../_common/model/usager";
 import { generateMotifLabel } from "../generateMotifLabel.service";
 import { CerfaDocType } from "@domifa/common";
+import { isNil } from "lodash";
 
 export const generateCerfaDatas = (
   usager: Usager,
@@ -35,11 +36,16 @@ export const generateCerfaDatas = (
     (usager.decision.statut === "INSTRUCTION" ||
       usager.decision.statut === "ATTENTE_DECISION")
   ) {
-    if (
-      typeof usager.historique[usager.historique.length - 1] !== "undefined"
-    ) {
-      const lastDecision = usager.historique[usager.historique.length - 1];
+    const index =
+      usager.decision.statut === "INSTRUCTION"
+        ? usager.historique.length - 2
+        : usager.historique.length - 3;
 
+    if (usager.typeDom === "PREMIERE_DOM") {
+      dateDebut = generateDateForCerfa(new Date());
+      dateFin = generateDateForCerfa(subDays(addYears(new Date(), 1), 1));
+    } else if (typeof usager.historique[index] !== "undefined") {
+      const lastDecision = usager.historique[usager.historique.length - 2];
       dateDebut = generateDateForCerfa(lastDecision.dateDebut);
       dateFin = generateDateForCerfa(lastDecision.dateFin);
     } else {
@@ -48,7 +54,6 @@ export const generateCerfaDatas = (
     }
   }
 
-  // Date de naissance
   usager.villeNaissance = usager.villeNaissance.toUpperCase();
   usager.nom = usager.nom.toUpperCase();
   usager.prenom = usager.prenom.toUpperCase();
@@ -57,7 +62,6 @@ export const generateCerfaDatas = (
   const courriel = toString(usager.email);
   const responsable = `${user.structure.responsable.nom.toUpperCase()}, ${user.structure.responsable.prenom.toUpperCase()}, ${user.structure.responsable.fonction.toUpperCase()}`;
 
-  // Adresse de courrier
   const { adresseDomicilie, adresseStructure } = generateAdressForCerfa(
     user,
     usager
@@ -138,10 +142,6 @@ export const generateCerfaDatas = (
     typeDemande: usager.typeDom === "RENOUVELLEMENT" ? "2" : "1",
   };
   return pdfInfos;
-};
-
-const isNil = (value: any): boolean => {
-  return value === null || typeof value === "undefined";
 };
 
 const toString = (value: any): string => {
