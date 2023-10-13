@@ -1,3 +1,12 @@
+## [2.141.1](https://github.com/SocialGouv/domifa/compare/v2.141.0...v2.141.1) (2023-10-13)
+
+
+### Bug Fixes
+
+* **cerfa:** fix cerfa date ([ef32474](https://github.com/SocialGouv/domifa/commit/ef324746695553b2d54afc056e5bcadec90f7481))
+* **cerfa:** fix date of Cerfa ([1b703cf](https://github.com/SocialGouv/domifa/commit/1b703cfc37f1e5093e336badaa80de60c5c54a9f))
+* **migrations:** delete useless migrations ([c24c241](https://github.com/SocialGouv/domifa/commit/c24c241cf7c274c142be6dc19f38e7f2eeeb85a7))
+
 # [2.141.0](https://github.com/SocialGouv/domifa/compare/v2.140.8...v2.141.0) (2023-10-10)
 
 
