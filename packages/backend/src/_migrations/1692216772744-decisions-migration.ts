@@ -4,7 +4,6 @@ import { domifaConfig } from "../config";
 import {
   Usager,
   UsagerDecision,
-  UsagerEntretien,
   UsagerHistory,
   UsagerHistoryState,
 } from "../_common/model";
@@ -24,8 +23,8 @@ import {
   usagerHistoryRepository,
   usagerRepository,
 } from "../database";
-
-const STRUCTURE_ID = 1;
+import { UsagerEntretien } from "@domifa/common";
+import { TOULOUSE_STRUCTURE_ID } from "./tmp-toulouse/TOULOUSE_STRUCTURE_ID.const";
 
 export class ManualMigration1692216772744 implements MigrationInterface {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -34,7 +33,9 @@ export class ManualMigration1692216772744 implements MigrationInterface {
     console.log("Lancement de la migration d'import des decisions");
     console.log("");
 
-    await usagerHistoryRepository.delete({ structureId: STRUCTURE_ID });
+    await usagerHistoryRepository.delete({
+      structureId: TOULOUSE_STRUCTURE_ID,
+    });
     const decisionJson = await readFile(
       `${domifaConfig().upload.basePath}toulouse/decisions.json`,
       "utf-8"
@@ -129,7 +130,7 @@ export class ManualMigration1692216772744 implements MigrationInterface {
         const usagerHistory: UsagerHistory = new UsagerHistoryTable({
           usagerUUID: usager.uuid,
           usagerRef: usager.ref,
-          structureId: STRUCTURE_ID,
+          structureId: TOULOUSE_STRUCTURE_ID,
           import: null,
           states: [],
         });
@@ -197,7 +198,7 @@ export class ManualMigration1692216772744 implements MigrationInterface {
             " decisions"
         );
         await usagerHistoryRepository.save(usagerHistory);
-        await usagerRepository.updateOne(
+        await usagerRepository.update(
           {
             uuid: usager.uuid,
           },
